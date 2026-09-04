@@ -14,17 +14,10 @@
 import type { Env } from '../../../../_types';
 import { requireAuth } from '../../../../lib/jwt';
 import { getDraft, updateDraftStatus } from '../../../../lib/ai-drafts/store';
-import { redactedInternalError } from '../../../../lib/api-errors';
+import { redactedInternalError, jsonResponse } from '../../../../lib/api-errors';
 import type { AiDraftStatus } from '../../../../../src/shared/ai-drafts';
 
 const ENDPOINT = 'admin.ai-drafts.status';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 const ALLOWED: Record<AiDraftStatus, AiDraftStatus[]> = {
   pending_review: ['needs_revision', 'rejected'],
@@ -63,18 +56,18 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   const id = String(params.id || '');
-  if (!id) return json({ error: 'Missing draft id' }, 400);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Draft storage not configured.' }, 503);
+  if (!id) return jsonResponse({ error: 'Missing draft id' }, 400);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Draft storage not configured.' }, 503);
 
   let body: unknown;
-  try { body = await request.json(); } catch { return json({ error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
   // A non-object body carries no readable `status`, which is exactly the
   // "missing status" case below — same 400, same message as before.
   const payload: Record<string, unknown> = isPlainObject(body) ? body : {};
 
   const next = parseSettableStatus(payload.status);
   if (!next) {
-    return json({ error: 'status must be pending_review | needs_revision | rejected' }, 400);
+    return jsonResponse({ error: 'status must be pending_review | needs_revision | rejected' }, 400);
   }
 
   const note = typeof payload.note === 'string' ? payload.note.trim().slice(0, 2000) : undefined;
@@ -85,13 +78,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
   // stable, redacted JSON contract.
   try {
     const current = await getDraft(env, id);
-    if (!current) return json({ error: 'Draft not found' }, 404);
+    if (!current) return jsonResponse({ error: 'Draft not found' }, 404);
     const allowed = ALLOWED[current.status] || [];
     if (next !== current.status && !allowed.includes(next)) {
-      return json({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
+      return jsonResponse({ error: `Transition not allowed: ${current.status} → ${next}` }, 409);
     }
     const updated = await updateDraftStatus(env, id, next, auth.email, note);
-    return json({ draft: updated });
+    return jsonResponse({ draft: updated });
   } catch (e) {
     // Never echo the thrown value: it can carry D1 SQL, provider text, file
     // paths or binding names. The caller gets a closed-list token plus the

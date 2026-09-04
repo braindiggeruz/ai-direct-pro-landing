@@ -22,6 +22,8 @@ import { writeAudit } from '../../lib/indexnow/audit';
 
 import { swallow } from '../../lib/observability';
 
+import { jsonResponse } from '../../lib/api-errors';
+
 const SITE_HOST = 'gptbot.uz';
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow';
 // Standard root-level keyLocation. The static file already lives in
@@ -37,29 +39,22 @@ interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
 }
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
-
 export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
 
   const key = env.INDEXNOW_KEY;
   if (!key || !/^[A-Za-z0-9-]{8,64}$/.test(key)) {
-    return json({
+    return jsonResponse({
       ok: false,
       error: 'INDEXNOW_KEY env binding not configured. Set it in Cloudflare Pages → Settings → Environment to the same value as the public key file at /<key>.txt.',
     }, 400);
   }
 
   let body: { urls?: unknown };
-  try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ ok: false, error: 'Invalid JSON body' }, 400); }
   const rawUrls = Array.isArray(body.urls) ? body.urls.filter((u): u is string => typeof u === 'string') : [];
-  if (rawUrls.length === 0) return json({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
+  if (rawUrls.length === 0) return jsonResponse({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
 
   // Recompute the booster report so we validate against the **current** content.
   // This is one extra GH subrequest but it is the only way to guarantee the
@@ -82,7 +77,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   const { safe, rejected } = filterSafeForIndexNow(rawUrls, report.items);
 
   if (safe.length === 0) {
-    return json({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
+    return jsonResponse({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
   }
 
   // Verify the key file is reachable. We do a HEAD; if it 404s we ABORT
@@ -91,13 +86,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   try {
     const keyProbe = await fetch(keyLocation, { method: 'HEAD' });
     if (keyProbe.status !== 200) {
-      return json({
+      return jsonResponse({
         ok: false,
         error: `Key file at ${keyLocation} returned HTTP ${keyProbe.status}. Verify public/${key}.txt is committed and deployed.`,
       }, 400);
     }
   } catch (e) {
-    return json({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
+    return jsonResponse({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
   }
 
   // Submit. IndexNow accepts up to 10k URLs; we cap at 1k in the validator.
@@ -139,10 +134,10 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   ).catch(swallow('seo-indexnow'));
 
   if (networkError) {
-    return json({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
+    return jsonResponse({ ok: false, error: `IndexNow fetch failed: ${networkError}`, submitted: safe.length, rejected, batchId }, 502);
   }
 
-  return json({
+  return jsonResponse({
     ok,
     submitted: safe.length,
     safeUrls: safe,

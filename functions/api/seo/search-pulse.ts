@@ -4,30 +4,22 @@
 // GET is a dry preview; POST performs the audited one-click run.
 
 import { requireAuth } from '../../lib/jwt';
+import { jsonResponse } from '../../lib/api-errors';
+
 import {
   previewSearchPulse,
   runSearchPulse,
   type SearchPulseEnv,
 } from '../../lib/search-pulse/service';
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-    },
-  });
-}
-
 export const onRequestGet: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
-  return json(await previewSearchPulse(env));
+  return jsonResponse(await previewSearchPulse(env));
 };
 
 export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
-  return json(await runSearchPulse(env, auth.email));
+  return jsonResponse(await runSearchPulse(env, auth.email));
 };

@@ -13,15 +13,8 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
 import { listDrafts } from '../../../lib/ai-drafts/store';
-import { redactedInternalError } from '../../../lib/api-errors';
+import { redactedInternalError, jsonResponse } from '../../../lib/api-errors';
 import type { AiDraftStatus } from '../../../../src/shared/ai-drafts';
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 export const onRequestOptions: PagesFunction<Env> = async ({ request }) => {
   const origin = request.headers.get('Origin');
@@ -42,14 +35,14 @@ export const onRequestOptions: PagesFunction<Env> = async ({ request }) => {
 // 410 rather than 404: the route existed, it is deliberately withdrawn, and a
 // permanent status stops any surviving external caller from retrying.
 export const onRequestPost: PagesFunction<Env> = async () =>
-  json({ error: 'Gone', detail: 'External draft ingestion was retired. Drafts are produced by the first-party automation pipeline only.' }, 410);
+  jsonResponse({ error: 'Gone', detail: 'External draft ingestion was retired. Drafts are produced by the first-party automation pipeline only.' }, 410);
 
 // -- GET = admin list (JWT auth) -------------------------------------------
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
   if (!env.GPTBOT_DRAFTS_DB) {
-    return json({ drafts: [], error: 'Draft storage not configured.' }, 200);
+    return jsonResponse({ drafts: [], error: 'Draft storage not configured.' }, 200);
   }
   const url = new URL(request.url);
   const status = (url.searchParams.get('status') || 'all') as AiDraftStatus | 'all';
@@ -58,7 +51,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const limit = Number(url.searchParams.get('limit') || '100');
   try {
     const drafts = await listDrafts(env, { status, locale, source, limit });
-    return json({ drafts });
+    return jsonResponse({ drafts });
   } catch (e) {
     return redactedInternalError('admin.ai-drafts.list', e);
   }

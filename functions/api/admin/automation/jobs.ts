@@ -1,5 +1,7 @@
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
+import { jsonResponse } from '../../../lib/api-errors';
+
 import {
   getAutomationJobForTenant,
   AutomationValidationError,
@@ -13,36 +15,26 @@ import {
 const BODY_LIMIT = 4_096;
 const INPUT_KEYS = ['idempotency_key', 'job_type', 'request_ref'];
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-    },
-  });
-}
-
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
-  if (!isFirstPartyAutomationEnabled(env)) return json({ error: 'Not Found' }, 404);
+  if (!isFirstPartyAutomationEnabled(env)) return jsonResponse({ error: 'Not Found' }, 404);
   if (!env.GPTBOT_DRAFTS_DB || !env.AUTOMATION_QUEUE) {
-    return json({ error: 'Automation runtime not configured.' }, 503);
+    return jsonResponse({ error: 'Automation runtime not configured.' }, 503);
   }
   const length = Number(request.headers.get('Content-Length') ?? 0);
   if (Number.isFinite(length) && length > BODY_LIMIT) {
-    return json({ error: 'Payload too large.' }, 413);
+    return jsonResponse({ error: 'Payload too large.' }, 413);
   }
   const raw = await request.text();
   if (new TextEncoder().encode(raw).byteLength > BODY_LIMIT) {
-    return json({ error: 'Payload too large.' }, 413);
+    return jsonResponse({ error: 'Payload too large.' }, 413);
   }
   let body: Record<string, unknown>;
   try {
     body = JSON.parse(raw) as Record<string, unknown>;
   } catch {
-    return json({ error: 'Invalid JSON body.' }, 400);
+    return jsonResponse({ error: 'Invalid JSON body.' }, 400);
   }
   if (
     !body
@@ -54,14 +46,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     || typeof body.idempotency_key !== 'string'
     || typeof body.request_ref !== 'string'
   ) {
-    return json({ error: 'Invalid automation request.' }, 400);
+    return jsonResponse({ error: 'Invalid automation request.' }, 400);
   }
   try {
     const result = await enqueueSeoDraftGeneration(env, {
       idempotencyKey: body.idempotency_key,
       requestRef: body.request_ref,
     });
-    return json({
+    return jsonResponse({
       accepted: true,
       duplicate: result.outcome === 'duplicate',
       job_id: result.job.jobId,
@@ -72,25 +64,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }, 202);
   } catch (error) {
     if (error instanceof AutomationValidationError) {
-      return json({ error: 'Invalid automation request.' }, 400);
+      return jsonResponse({ error: 'Invalid automation request.' }, 400);
     }
-    return json({ error: 'Automation enqueue failed.' }, 503);
+    return jsonResponse({ error: 'Automation enqueue failed.' }, 503);
   }
 };
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
   if (auth instanceof Response) return auth;
-  if (!isFirstPartyAutomationEnabled(env)) return json({ error: 'Not Found' }, 404);
-  if (!env.GPTBOT_DRAFTS_DB) return json({ error: 'Not Found' }, 404);
+  if (!isFirstPartyAutomationEnabled(env)) return jsonResponse({ error: 'Not Found' }, 404);
+  if (!env.GPTBOT_DRAFTS_DB) return jsonResponse({ error: 'Not Found' }, 404);
   const jobId = new URL(request.url).searchParams.get('job_id') ?? '';
   const job = await getAutomationJobForTenant(
     env.GPTBOT_DRAFTS_DB,
     SEO_AUTOMATION_TENANT,
     jobId,
   );
-  if (!job) return json({ error: 'Not Found' }, 404);
-  return json({
+  if (!job) return jsonResponse({ error: 'Not Found' }, 404);
+  return jsonResponse({
     job_id: job.jobId,
     job_type: job.jobType,
     status: job.status,

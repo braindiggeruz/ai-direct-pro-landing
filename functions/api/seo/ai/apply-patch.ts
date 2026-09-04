@@ -34,12 +34,7 @@ import type {
 } from '../../../../src/shared/ai-seo';
 import { CLUSTERS } from '../../../../src/shared/booster';
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -47,14 +42,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   let body: { patch?: AiSeoPatch; approvedFieldIds?: unknown };
   try { body = await request.json() as { patch?: AiSeoPatch; approvedFieldIds?: unknown }; }
-  catch { return json({ error: 'Invalid JSON body' }, 400); }
+  catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
 
   const patch = body?.patch;
   const approvedIds: string[] = Array.isArray(body?.approvedFieldIds)
     ? (body.approvedFieldIds as unknown[]).filter((x): x is string => typeof x === 'string')
     : [];
-  if (!patch || typeof patch !== 'object') return json({ error: 'patch missing' }, 400);
-  if (approvedIds.length === 0) return json({ error: 'approvedFieldIds is empty' }, 400);
+  if (!patch || typeof patch !== 'object') return jsonResponse({ error: 'patch missing' }, 400);
+  if (approvedIds.length === 0) return jsonResponse({ error: 'approvedFieldIds is empty' }, 400);
 
   // Re-validate against current content.
   const all = await readContentBulk(env);
@@ -69,7 +64,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     } catch { /* skip */ }
   }
   const src = pages.find((p) => p.url === patch.url) || blog.find((b) => b.url === patch.url);
-  if (!src) return json({ error: 'URL no longer in content store' }, 409);
+  if (!src) return jsonResponse({ error: 'URL no longer in content store' }, 409);
 
   const kind: 'page' | 'blog' = (src as Page).pageType !== undefined ? 'page' : 'blog';
   const pageType = kind === 'page' ? (src as Page).pageType : 'blog';
@@ -115,12 +110,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   );
 
   if (!out.acceptable) {
-    return json({ ok: false, error: 'patch no longer acceptable', validation: out }, 409);
+    return jsonResponse({ ok: false, error: 'patch no longer acceptable', validation: out }, 409);
   }
 
   const approvedFields = out.fields.filter((f) => approvedIds.includes(f.id) && !f.blocked);
   if (approvedFields.length === 0) {
-    return json({ ok: false, error: 'no approvable fields among approvedFieldIds' }, 400);
+    return jsonResponse({ ok: false, error: 'no approvable fields among approvedFieldIds' }, 400);
   }
 
   const applied: Partial<Record<AiPatchFieldKey, unknown>> = {};
@@ -141,5 +136,5 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   await appendRun(env, run);
 
-  return json({ ok: true, run, appliedFieldCount: approvedFields.length });
+  return jsonResponse({ ok: true, run, appliedFieldCount: approvedFields.length });
 };

@@ -11,15 +11,7 @@ import {
 } from '../../../lib/search-pulse/service';
 import type { SearchPulseRunResult } from '../../../../src/shared/search-pulse';
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-    },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 function bearer(request: Request): string | null {
   const header = request.headers.get('Authorization') || request.headers.get('authorization');
@@ -53,11 +45,11 @@ export function searchPulseFailureCode(error: unknown): string {
 
 export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
-    return json({ ok: false, error: 'CRON_SECRET is not configured.' }, 503);
+    return jsonResponse({ ok: false, error: 'CRON_SECRET is not configured.' }, 503);
   }
   const token = bearer(request);
   if (!cronSecretMatches(token, env.CRON_SECRET)) {
-    return json({ ok: false, error: 'Unauthorized.' }, 401);
+    return jsonResponse({ ok: false, error: 'Unauthorized.' }, 401);
   }
 
   let result: SearchPulseRunResult;
@@ -66,7 +58,7 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
   } catch (error) {
     const code = searchPulseFailureCode(error);
     console.error('Scheduled Search Pulse failed', { code });
-    return json({
+    return jsonResponse({
       ok: false,
       error: 'search_pulse_failed',
       code,
@@ -77,7 +69,7 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
   // discovering the accurate sitemap and the response carries a visible
   // `gscConfigured: false` state for the workflow warning.
   const status = scheduledSearchPulseStatus(result);
-  return json({
+  return jsonResponse({
     ...result,
     scheduled: true,
     source: 'github-actions',
@@ -85,4 +77,4 @@ export const onRequestPost: PagesFunction<SearchPulseEnv> = async ({ request, en
 };
 
 export const onRequestGet: PagesFunction<Env> = async () =>
-  json({ ok: false, error: 'Method Not Allowed' }, 405);
+  jsonResponse({ ok: false, error: 'Method Not Allowed' }, 405);

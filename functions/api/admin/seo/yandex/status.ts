@@ -12,12 +12,7 @@ import type { YandexStatusResponse } from '../../../../lib/yandex/types';
 
 import { swallow } from '../../../../lib/observability';
 
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../../lib/api-errors';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const auth = await requireAuth(request, env);
@@ -32,5 +27,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     cache_present: rows > 0,
     last_call_at: last,
   };
-  return json(out);
+  return jsonResponse(out);
 };

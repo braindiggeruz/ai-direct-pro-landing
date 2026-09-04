@@ -17,12 +17,7 @@ import { constantTimeEqual } from '../../../lib/ai-drafts/store';
 import { getSchedule, shouldRunOnDate } from '../../../lib/seo-autopilot/schedule';
 import { startSeoAutopilotJobDirect } from '../../../lib/seo-autopilot/direct-launch';
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 function extractBearer(req: Request): string | null {
   const h = req.headers.get('Authorization') || req.headers.get('authorization');
@@ -33,18 +28,18 @@ function extractBearer(req: Request): string | null {
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!env.CRON_SECRET) {
-    return json({ error: 'Cron not configured (CRON_SECRET missing).' }, 503);
+    return jsonResponse({ error: 'Cron not configured (CRON_SECRET missing).' }, 503);
   }
   const token = extractBearer(request);
-  if (!token) return json({ error: 'Missing Authorization bearer token' }, 401);
-  if (!constantTimeEqual(token, env.CRON_SECRET)) return json({ error: 'Invalid Authorization token' }, 401);
+  if (!token) return jsonResponse({ error: 'Missing Authorization bearer token' }, 401);
+  if (!constantTimeEqual(token, env.CRON_SECRET)) return jsonResponse({ error: 'Invalid Authorization token' }, 401);
 
   const schedule = await getSchedule(env);
   const today = new Date();
   if (!shouldRunOnDate(schedule, today)) {
     // Not a failure — the cron worker fires twice a week and we filter
     // server-side. Returning 200 keeps GitHub Actions green.
-    return json({
+    return jsonResponse({
       success: true,
       skipped: true,
       reason: `schedule.mode='${schedule.mode}' — no run scheduled for today (UTC weekday ${today.getUTCDay()}).`,
@@ -70,7 +65,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     // Overlap blocked is NOT an outright failure — return 200 so cron
     // logs don't go red for "already running".
     if (result.reason === 'overlap_blocked') {
-      return json({
+      return jsonResponse({
         success: true,
         skipped: true,
         reason: result.message,
@@ -78,14 +73,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         schedule_mode: schedule.mode,
       });
     }
-    return json({ error: result.message, reason: result.reason }, result.http);
+    return jsonResponse({ error: result.message, reason: result.reason }, result.http);
   }
 
   // The launcher awaits the run, so the cron caller gets the final state
   // (completed | failed) in the same HTTP response.
   const job = result.job;
   const isSuccess = job.status === 'completed' && !!job.draft_id;
-  return json(
+  return jsonResponse(
     {
       success: isSuccess,
       accepted: true,
@@ -114,4 +109,4 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 };
 
 export const onRequestGet: PagesFunction<Env> = async () =>
-  json({ error: 'Method Not Allowed' }, 405);
+  jsonResponse({ error: 'Method Not Allowed' }, 405);

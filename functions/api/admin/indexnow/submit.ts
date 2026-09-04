@@ -41,6 +41,8 @@ import { runChunkedSubmit, INDEXNOW_ENDPOINT, type IndexNowKind, type PerUrlResu
 
 import { swallow } from '../../../lib/observability';
 
+import { jsonResponse } from '../../../lib/api-errors';
+
 const SITE_HOST = 'gptbot.uz';
 const SITE_URL = `https://${SITE_HOST}`;
 // Cap per-click submission. With the chunked engine (chunkSize=8,
@@ -52,13 +54,6 @@ const COOL_DOWN_MS = 24 * 60 * 60 * 1000;
 
 interface IndexNowEnv extends Env {
   INDEXNOW_KEY?: string;
-}
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
 }
 
 const FORBIDDEN_PREFIXES: readonly string[] = ['/admin-tools', '/api/', '/assets/', '/content/'];
@@ -114,16 +109,16 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   const key = env.INDEXNOW_KEY;
   if (!key || !/^[A-Za-z0-9-]{8,64}$/.test(key)) {
-    return json({
+    return jsonResponse({
       ok: false,
       error: 'INDEXNOW_KEY env binding not configured. Set it in Cloudflare Pages → Settings → Environment.',
     }, 400);
   }
 
   let body: { urls?: unknown; force?: unknown };
-  try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid JSON body' }, 400); }
+  try { body = await request.json(); } catch { return jsonResponse({ ok: false, error: 'Invalid JSON body' }, 400); }
   const rawUrls = Array.isArray(body.urls) ? body.urls.filter((u): u is string => typeof u === 'string') : [];
-  if (rawUrls.length === 0) return json({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
+  if (rawUrls.length === 0) return jsonResponse({ ok: false, error: 'urls must be a non-empty string[]' }, 400);
   // `force: true` lets the operator re-submit URLs that are still in the
   // 24h cool-down window. Used by the per-row "повторить" action when an
   // operator wants to push a specific URL again before cool-down expires.
@@ -131,7 +126,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   const { safe, rejected } = lightValidate(rawUrls);
   if (safe.length === 0) {
-    return json({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
+    return jsonResponse({ ok: false, error: 'No safe URLs to submit after validation.', rejected }, 400);
   }
 
   // Verify the key file is reachable once per call. HEAD is enough; we
@@ -140,13 +135,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
   try {
     const probe = await fetch(keyLocation, { method: 'HEAD' });
     if (probe.status !== 200) {
-      return json({
+      return jsonResponse({
         ok: false,
         error: `Key file at ${keyLocation} returned HTTP ${probe.status}. Verify public/${key}.txt is committed and deployed.`,
       }, 400);
     }
   } catch (e) {
-    return json({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
+    return jsonResponse({ ok: false, error: `Key file probe failed: ${(e as Error).message}` }, 502);
   }
 
   // 24-hour cool-down lookup. Only count rows with upstream_ok=1 —
@@ -199,7 +194,7 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
 
   // Aggregate response. Operators see the totals + per-URL list in UI.
   const overallOk = result.succeeded > 0 && result.failed === 0 && result.rateLimited === 0;
-  return json({
+  return jsonResponse({
     ok: overallOk,
     submitted: safe.length,
     succeeded: result.succeeded,

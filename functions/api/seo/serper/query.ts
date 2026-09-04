@@ -18,6 +18,8 @@ import type {
 } from '../../../../src/shared/serp';
 import { callSerper } from '../../../lib/serper/client';
 import { buildDigest, digestWithinCap } from '../../../lib/serper/digest';
+import { jsonResponse } from '../../../lib/api-errors';
+
 import {
   appendRun,
   buildRunLog,
@@ -25,13 +27,6 @@ import {
   getCached,
   putCached,
 } from '../../../lib/serper/store';
-
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
 
 function defaults(req: SerperQueryRequest): { gl: string; hl: string; num: number } {
   return {
@@ -47,16 +42,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   let body: SerperQueryRequest;
   try { body = (await request.json()) as SerperQueryRequest; }
-  catch { return json({ ok: false, error: 'invalid JSON body' }, 400); }
+  catch { return jsonResponse({ ok: false, error: 'invalid JSON body' }, 400); }
 
   if (!body || typeof body.q !== 'string' || body.q.trim().length < 2) {
-    return json({ ok: false, error: 'q required (min 2 chars)' }, 400);
+    return jsonResponse({ ok: false, error: 'q required (min 2 chars)' }, 400);
   }
   if (body.locale !== 'ru' && body.locale !== 'uz') {
-    return json({ ok: false, error: 'locale must be ru or uz' }, 400);
+    return jsonResponse({ ok: false, error: 'locale must be ru or uz' }, 400);
   }
   if (!env.SERPER_API_KEY) {
-    return json({ ok: false, error: 'SERPER_API_KEY not configured' }, 503);
+    return jsonResponse({ ok: false, error: 'SERPER_API_KEY not configured' }, 503);
   }
 
   const q = body.q.trim();
@@ -74,7 +69,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         rankFound: digest.rankSpotCheck.found, rankPosition: digest.rankSpotCheck.position,
       }));
       const out: SerperQueryResult = { ok: true, snapshot: cached, digest, cached: true, cacheStatus: 'hit' };
-      return json(out);
+      return jsonResponse(out);
     }
   }
 
@@ -95,7 +90,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       rankFound: digest.rankSpotCheck.found, rankPosition: digest.rankSpotCheck.position,
     }));
     const out: SerperQueryResult = { ok: true, snapshot, digest, cached: false, cacheStatus: body.forceRefresh ? 'forced' : 'miss' };
-    return json(out);
+    return jsonResponse(out);
   } catch (e) {
     const error = (e as Error).message || 'Serper call failed';
     await appendRun(env, buildRunLog({
@@ -103,6 +98,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       forUrl: null, status: 'error', cached: false, snapshot: null,
       rankFound: false, error,
     }));
-    return json({ ok: false, error }, 502);
+    return jsonResponse({ ok: false, error }, 502);
   }
 };

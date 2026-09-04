@@ -24,6 +24,8 @@ import { readContentBulk } from '../../../lib/github';
 import type { Page, BlogArticle } from '../../../../src/shared/types';
 import { readLatestPerUrl } from '../../../lib/indexnow/audit';
 
+import { jsonResponse } from '../../../lib/api-errors';
+
 interface IndexNowRecentItem {
   url: string;
   locale: 'ru' | 'uz';
@@ -34,13 +36,6 @@ interface IndexNowRecentItem {
   last_submitted_at: string | null;
   last_status: number | null;
   last_ok: boolean;
-}
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
 }
 
 const SITE_HOST = 'gptbot.uz';
@@ -113,7 +108,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       return aTs - bTs;
     });
 
-    return json({ ok: true, total: filtered.length, days, items: filtered });
+    return jsonResponse({ ok: true, total: filtered.length, days, items: filtered });
   } catch (e) {
     // 2026-06-24 — never let GitHub/D1 transients return a generic
     // Cloudflare 500 page (custom domain replaces the body with
@@ -122,7 +117,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     // "Не удалось загрузить: 500".
     const err = e as Error;
     console.error(`[indexnow.recent] ${err?.message || String(e)}`);
-    return json({
+    return jsonResponse({
       ok: false,
       total: 0,
       items: [],

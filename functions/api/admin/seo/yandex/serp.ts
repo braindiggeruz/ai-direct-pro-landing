@@ -17,12 +17,7 @@ import type { YandexSearchType } from '../../../../lib/yandex/types';
 
 import { swallow } from '../../../../lib/observability';
 
-function json(d: unknown, status = 200): Response {
-  return new Response(JSON.stringify(d), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../../lib/api-errors';
 
 const VALID_SEARCH_TYPES: YandexSearchType[] = [
   'SEARCH_TYPE_RU', 'SEARCH_TYPE_UZ', 'SEARCH_TYPE_KK', 'SEARCH_TYPE_BE', 'SEARCH_TYPE_TR',
@@ -33,17 +28,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (auth instanceof Response) return auth;
 
   if (!isYandexConfigured(env)) {
-    return json({ ok: false, error: 'YANDEX_SEARCH_API_KEY not configured' }, 503);
+    return jsonResponse({ ok: false, error: 'YANDEX_SEARCH_API_KEY not configured' }, 503);
   }
 
   let body: { query?: unknown; locale?: unknown; searchType?: unknown; region?: unknown; forceRefresh?: unknown };
   try { body = (await request.json()) as Record<string, unknown>; }
-  catch { return json({ ok: false, error: 'invalid JSON body' }, 400); }
+  catch { return jsonResponse({ ok: false, error: 'invalid JSON body' }, 400); }
 
   const query = typeof body.query === 'string' ? body.query.trim() : '';
-  if (query.length < 2) return json({ ok: false, error: 'query required (min 2 chars)' }, 400);
+  if (query.length < 2) return jsonResponse({ ok: false, error: 'query required (min 2 chars)' }, 400);
   const locale = body.locale === 'uz' ? 'uz' : body.locale === 'ru' ? 'ru' : null;
-  if (!locale) return json({ ok: false, error: 'locale must be ru or uz' }, 400);
+  if (!locale) return jsonResponse({ ok: false, error: 'locale must be ru or uz' }, 400);
   const searchType: YandexSearchType =
     typeof body.searchType === 'string' && VALID_SEARCH_TYPES.includes(body.searchType as YandexSearchType)
       ? (body.searchType as YandexSearchType)
@@ -54,13 +49,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const cacheKey = makeCacheKey({ query, locale, search_type: searchType, region });
   if (!forceRefresh) {
     const cached = await readCached(env, cacheKey);
-    if (cached) return json({ ok: true, snapshot: cached, cached: true });
+    if (cached) return jsonResponse({ ok: true, snapshot: cached, cached: true });
   }
 
   const r = await callYandexSearch(env, { query, locale, searchType, region });
   if (!r.ok) {
-    return json({ ok: false, error: r.error, http_status: r.http_status }, r.http_status === 401 || r.http_status === 403 ? 502 : 502);
+    return jsonResponse({ ok: false, error: r.error, http_status: r.http_status }, r.http_status === 401 || r.http_status === 403 ? 502 : 502);
   }
   await writeCached(env, cacheKey, r.snapshot).catch(swallow('seo-yandex-serp'));
-  return json({ ok: true, snapshot: r.snapshot, cached: false, duration_ms: r.duration_ms });
+  return jsonResponse({ ok: true, snapshot: r.snapshot, cached: false, duration_ms: r.duration_ms });
 };

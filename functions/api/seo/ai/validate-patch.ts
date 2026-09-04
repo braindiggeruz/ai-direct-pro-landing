@@ -27,12 +27,7 @@ import type {
 } from '../../../../src/shared/ai-seo';
 import { CLUSTERS } from '../../../../src/shared/booster';
 
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
-  });
-}
+import { jsonResponse } from '../../../lib/api-errors';
 
 function pickClusterFor(url: string, kind: 'page' | 'blog', blog: BlogArticle[]): string | undefined {
   for (const c of CLUSTERS) {
@@ -99,14 +94,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   let body: { candidate?: AiSeoPatchCandidate };
   try { body = await request.json() as { candidate?: AiSeoPatchCandidate }; }
-  catch { return json({ error: 'Invalid JSON body' }, 400); }
+  catch { return jsonResponse({ error: 'Invalid JSON body' }, 400); }
 
   const candidate = body?.candidate;
-  if (!candidate || typeof candidate !== 'object') return json({ error: 'candidate missing' }, 400);
-  if (typeof candidate.url !== 'string' || !candidate.url.startsWith('/')) return json({ error: 'candidate.url invalid' }, 400);
-  if (candidate.locale !== 'ru' && candidate.locale !== 'uz') return json({ error: 'candidate.locale invalid' }, 400);
-  if (!Array.isArray(candidate.fields)) return json({ error: 'candidate.fields must be array' }, 400);
-  if (candidate.fields.length > 12) return json({ error: 'too many fields (max 12)' }, 400);
+  if (!candidate || typeof candidate !== 'object') return jsonResponse({ error: 'candidate missing' }, 400);
+  if (typeof candidate.url !== 'string' || !candidate.url.startsWith('/')) return jsonResponse({ error: 'candidate.url invalid' }, 400);
+  if (candidate.locale !== 'ru' && candidate.locale !== 'uz') return jsonResponse({ error: 'candidate.locale invalid' }, 400);
+  if (!Array.isArray(candidate.fields)) return jsonResponse({ error: 'candidate.fields must be array' }, 400);
+  if (candidate.fields.length > 12) return jsonResponse({ error: 'too many fields (max 12)' }, 400);
 
   const all = await readContentBulk(env);
   const pages: Page[] = [];
@@ -134,7 +129,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       // rawText is intentionally NOT echoed back from the server.
       rawText: undefined,
     };
-    return json({ patch });
+    return jsonResponse({ patch });
   }
   const { ctx, isMoneyPage } = built;
   const out = validatePatch(candidate, ctx, { isMoneyPage });
@@ -153,5 +148,5 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     globalWarnings: out.globalWarnings,
     acceptable: out.acceptable,
   };
-  return json({ patch });
+  return jsonResponse({ patch });
 };
