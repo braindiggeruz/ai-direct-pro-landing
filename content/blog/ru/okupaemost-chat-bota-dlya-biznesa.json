@@ -187,6 +187,12 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/skolko-zarabatyvaet-biznes-s-ai-botom-realnye-tsifry/",
+      "anchor": "Сколько зарабатывает бизнес с AI-ботом: честный разбор на цифрах",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Окупаемость чат-бота: как считать ROI и срок возврата",

@@ -212,6 +212,18 @@
       "anchor": "разработка Telegram Mini App",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot/",
+      "anchor": "Кейс Deutschexperte: учебный центр, Telegram-бот и поток заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-haier-shop-internet-magazin-telegram/",
+      "anchor": "Кейс Haier Shop: магазин техники с Telegram-ботом и аналитикой заявок",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Кейс Cake City: сайт, каталог, Telegram-бот и CRM для кондитерской сети | GPTBot",

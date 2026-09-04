@@ -187,6 +187,18 @@
       "anchor": "Telegram-бот для бизнеса",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-internet-magazina-ot-zayavki-do-oplaty-payme/",
+      "anchor": "AI-бот для интернет-магазина в Узбекистане: от заявки до оплаты через Payme",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-logistiki-i-dostavki-razgruzka-dispetchera/",
+      "anchor": "AI-бот для логистики и доставки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-бот для интернет-магазина: каталог, выбор, доставка",

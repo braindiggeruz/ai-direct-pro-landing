@@ -169,6 +169,12 @@
       "anchor": "автоматизировать прием заявок в учебном центре",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/blog/stsenariy-ai-bota-za-1-den-poshagovo/",
+      "anchor": "Как написать сценарий AI-бота самому за 1 день: пошаговый план",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Как внедрить AI-бота в учебный центр: Полное руководство",

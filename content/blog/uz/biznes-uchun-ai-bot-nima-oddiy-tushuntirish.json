@@ -189,6 +189,12 @@
       "anchor": "ChatGPT’dan O‘zbekistonda foydalanish",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-bot-bilan-biznes-qancha-topadi-haqiqiy-raqamlar/",
+      "anchor": "AI-bot bilan biznes qancha topadi: raqamlar bilan halol tahlil",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Biznes uchun AI-bot nima: oddiy tushuntirish",

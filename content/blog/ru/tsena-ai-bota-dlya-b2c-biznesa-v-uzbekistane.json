@@ -214,6 +214,42 @@
     {
       "target": "/ru/stoimost-chat-bota/",
       "anchor": "Стоимость чат-бота для бизнеса"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-logistiki-i-dostavki-razgruzka-dispetchera/",
+      "anchor": "AI-бот для логистики и доставки: как снять с диспетчера рутину",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/",
+      "anchor": "Технические аспекты разработки и интеграции AI-ботов",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+      "anchor": "AI-боты для автоматизации поддержки клиентов в сфере e-commerce Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/",
+      "anchor": "Технические особенности AI-ботов: как они работают в бизнесе Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/telegram-bot-dlya-biznesa-tashkent/",
+      "anchor": "AI-боты: Революция в бизнесе Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/stsenariy-ai-bota-za-1-den-poshagovo/",
+      "anchor": "Сценарий AI-бота за 1 день: пошаговая инструкция",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-бот для B2C-бизнеса: цены и тарифы в Узбекистане. Расчет",

@@ -167,6 +167,12 @@
       "anchor": "Полезные статьи для владельцев бизнеса",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/",
+      "anchor": "Технические особенности AI-ботов: как они работают в бизнесе Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Как использовать AI-бота для салона красоты в Узбекистане",

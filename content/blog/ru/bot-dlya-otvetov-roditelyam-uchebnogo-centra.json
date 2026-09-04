@@ -176,6 +176,24 @@
       "anchor": "чат-бот для Instagram",
       "type": "contextual",
       "locale": "ru"
+    },
+    {
+      "target": "/ru/blog/chat-bot-dlya-biznesa-tashkent/",
+      "anchor": "AI и графический дизайн: Новая эра для креативщиков Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/",
+      "anchor": "Технические аспекты разработки и интеграции AI-ботов",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+      "anchor": "AI-боты для автоматизации поддержки клиентов в сфере e-commerce Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-бот для учебных центров: примеры использования",

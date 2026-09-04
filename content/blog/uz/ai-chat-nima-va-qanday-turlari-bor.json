@@ -182,6 +182,12 @@
       "anchor": "SMM kanal sifatida qanday ishlaydi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+      "anchor": "AI-bot ssenariysi 1 kunda: bosqichma-bosqich yo'riqnoma",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-chat nima: turlari, vazifalari va tanlash mezonlari",

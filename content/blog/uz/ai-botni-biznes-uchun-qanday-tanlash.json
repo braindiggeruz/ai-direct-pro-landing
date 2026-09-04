@@ -339,6 +339,18 @@
     {
       "target": "/uz/avtosalon-uchun-ai-bot/",
       "anchor": "Avtosalon uchun AI-bot"
+    },
+    {
+      "target": "/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+      "anchor": "AI-bot ssenariysini o'zingiz 1 kunda qanday yozasiz: bosqichma-bosqich reja",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+      "anchor": "O'zbekistonda qurilish kompaniyasi uchun AI-bot: arizalarni yo'qotishni to'xtating",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI botni biznes uchun qanday tanlash: ishga tushirish chek-listi",

@@ -188,6 +188,18 @@
       "anchor": "разница между ChatGPT и AI-ботом",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/skolko-zarabatyvaet-biznes-s-ai-botom-realnye-tsifry/",
+      "anchor": "Сколько зарабатывает бизнес с AI-ботом: честный разбор на цифрах",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/telegram-bot-dlya-biznesa-tashkent/",
+      "anchor": "AI-боты: Революция в бизнесе Узбекистана",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Что такое AI-бот для бизнеса: простое объяснение",

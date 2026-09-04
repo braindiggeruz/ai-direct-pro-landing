@@ -903,6 +903,12 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/telegram-bot-biznes-tsena-tashkent/",
+      "anchor": "Основы разработки AI-ботов: Понимание принципов",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Стоимость Telegram-бота в Ташкенте: этапы и функции",

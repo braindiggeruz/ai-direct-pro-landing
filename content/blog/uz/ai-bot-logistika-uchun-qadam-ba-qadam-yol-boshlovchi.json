@@ -250,6 +250,18 @@
     {
       "target": "/uz/horeca-uchun-ai-bot/",
       "anchor": "HoReCa uchun AI-bot"
+    },
+    {
+      "target": "/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+      "anchor": "O'zbekistonda qurilish kompaniyasi uchun AI-bot: arizalarni yo'qotishni to'xtating",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/yetkazib-berish-va-logistika-uchun-ai-bot-dispetcher-yuki/",
+      "anchor": "Yetkazib berish va logistika uchun AI-bot: dispetcherdan rutinani olish",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Logistika jarayonlarini Telegram AI-boti bilan",

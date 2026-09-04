@@ -200,6 +200,12 @@
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/yetkazib-berish-va-logistika-uchun-ai-bot-dispetcher-yuki/",
+      "anchor": "Yetkazib berish va logistika uchun AI-bot: dispetcherdan rutinani olish",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Go‘zallik saloni uchun AI-bot: yozilish va eslatmalar",

@@ -848,6 +848,12 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-stroitelnoy-kompanii-obrabotka-zayavok/",
+      "anchor": "AI-бот для строительной компании в Узбекистане: как перестать терять заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Telegram-бот для заявок: приём и передача в CRM",

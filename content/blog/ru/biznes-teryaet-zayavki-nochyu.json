@@ -596,6 +596,12 @@
       "anchor": "GPT-бот для обработки обращений",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-bot-dlya-stroitelnoy-kompanii-obrabotka-zayavok/",
+      "anchor": "AI-бот для строительной компании: обработка заявок",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Бизнес теряет заявки ночью: как посчитать потери",

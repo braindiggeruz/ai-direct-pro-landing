@@ -209,6 +209,18 @@
       "anchor": "локальное SEO в Ташкенте",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot/",
+      "anchor": "Кейс Deutschexperte: учебный центр, Telegram-бот и поток заявок",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-haier-shop-internet-magazin-telegram/",
+      "anchor": "Кейс Haier Shop: магазин техники с Telegram-ботом и аналитикой заявок",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Кейс Graver Studio: сайт на Next.js, SEO-архитектура RU/UZ и реклама для B2B | GPTBot",

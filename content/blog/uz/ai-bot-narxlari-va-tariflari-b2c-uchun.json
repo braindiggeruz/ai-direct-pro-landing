@@ -173,6 +173,12 @@
       "anchor": "Instagram Direct avtomatizatsiyasi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha/",
+      "anchor": "O'zbekistonda internet-do'kon uchun AI-bot: arizadan Payme orqali to'lovgacha",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "B2C uchun AI-bot narxlari va tariflari: Har qadamda aniqlik",

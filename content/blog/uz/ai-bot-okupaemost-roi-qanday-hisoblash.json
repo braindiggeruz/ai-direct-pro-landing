@@ -184,6 +184,12 @@
       "anchor": "GPTBot.uz AI yechimlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-bot-bilan-biznes-qancha-topadi-haqiqiy-raqamlar/",
+      "anchor": "AI-bot bilan biznes qancha topadi: raqamlar bilan halol tahlil",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "AI-bot o‘zini qancha vaqtda oqlaydi: ROI ni qanday hisoblash",
