@@ -129,6 +129,74 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "HoReCa uchun AI bot qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "p",
+      "text": "Muassasaga odatda «Biznes» paketi yetadi: stol band qilish, menyu va ish vaqti bilimlar bazasida, bron administratorga yoki CRM’ga uzatiladi."
+    },
+    {
+      "type": "h3",
+      "text": "Restoran va kafelar uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, stol band qilish ssenariysi, menyu va ish vaqti bo‘yicha javoblar",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, menyu va zal bo‘yicha bilimlar bazasi, UZ + RU, CRM’ga uzatish",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Menyu, narxlar va ish grafigini bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa kanallar va paketlar bilan solishtirish uchun {t}ni oching.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalini"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z ishlab chiqarishi va yetkazib berishi bor muassasada bu qanday qurilgani {c} da yozilgan (rus tilida).",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "Cake City tarmog‘i keysi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Telegram’da demo so‘rash",
       "href": "https://t.me/XGame_changerx"
@@ -171,7 +239,7 @@
     },
     {
       "q": "Restoran uchun bot qancha turadi?",
-      "a": "Narx funksiyalarga bog‘liq: stol broni menyu va to‘lovli yetkazib berish buyurtmalaridan arzonroq. Muassasangizga qarab hisoblaymiz — Telegram’ga yozing."
+      "a": "Stol broni bilan «Start» paketi — 1 990 000 so‘mdan, menyu bilimlar bazasida va CRM’ga uzatish bilan «Biznes» — 3 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Bot yetkazib berish uchun to‘lovni qabul qiladimi?",
@@ -212,6 +280,13 @@
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Cake City: bron, buyurtma va yetkazib berish",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -221,7 +296,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Bronlar — administratorga"
+  ]
 }

@@ -10,15 +10,9 @@
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
   "keywords": [
     "biznes uchun AI botni qanday tanlash",
-    "biznes uchun AI bot",
-    "biznes uchun GPT bot",
-    "biznes uchun Telegram bot",
-    "biznes uchun chat-bot",
-    "arizalarni avtomatlashtirish",
-    "ariza qabul qiluvchi bot",
-    "biznes uchun AI menejer",
-    "AI bot O‘zbekiston",
-    "chat bot Toshkent"
+    "AI bot tanlash mezonlari",
+    "AI bot va oddiy Telegram bot farqi",
+    "AI botni tanlashda xatolar"
   ],
   "intro": "Maqolada biznesga AI botni qanday tanlashni ko‘rib chiqamiz: qaysi ssenariylarni tayyorlash kerak, qaysi xatolardan saqlanish kerak, Telegram botni va arizalarni menejerga uzatishni qanday sozlash kerak.",
   "body": [
@@ -363,7 +357,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -371,7 +365,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-09-04",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

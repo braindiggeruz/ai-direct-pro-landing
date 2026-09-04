@@ -147,6 +147,22 @@ function L(a: { locale?: string }): typeof STRINGS.ru {
   return a.locale === 'uz' ? STRINGS.uz : STRINGS.ru;
 }
 
+// A tariff table is the step between reading and enquiring, and nothing in the
+// analytics reported reaching one. Tables are authored as generic `table`
+// blocks, so the price ones are recognised from their header row and marked
+// with data-pricing-table; scripts/analytics-snippet.ts observes that attribute
+// and fires pricing_view once per document.
+//
+// The boundary matters: "Сценарий" contains the letters of "цена", so a bare
+// substring test marked comparison tables as price tables. A price word must
+// start the cell or follow a non-letter.
+const PRICING_HEADER_RE =
+  /(^|[^\p{L}])(цен[аыу]|стоимост|тариф|прайс|бюджет|narx|tarif|byudjet|price|pricing)/iu;
+
+function isPricingTable(headers: string[]): boolean {
+  return headers.some((h) => PRICING_HEADER_RE.test(h || ''));
+}
+
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
     case 'h2': return `<h2${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
@@ -170,7 +186,8 @@ function renderBlock(b: BodyBlock): string {
       const rows = b.rows || [];
       const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
       const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
-      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"><table class="w-full">${thead}${tbody}</table></div>`;
+      const pricingAttr = isPricingTable(headers) ? ' data-pricing-table' : '';
+      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"${pricingAttr}><table class="w-full">${thead}${tbody}</table></div>`;
     }
     case 'image':
     case 'figure': {
@@ -286,6 +303,30 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 }
 
+// The Uzbek ChatGPT cluster is where the organic traffic actually lands:
+// /uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/ alone is one of the two
+// highest-traffic URLs on the site. Commercial landings have carried a mobile
+// sticky contact bar since GA4 showed every recorded conversion arriving from
+// mobile; articles carried none, so the pages taking the most visits offered no
+// route to the business at all.
+//
+// Scoped by the topicCluster the content already declares, not by a slug guess,
+// and rendered with the same markup, classes, contact values and tracking
+// attributes as the bar in scripts/prerender.ts — same `.sticky-cta` rule in
+// src/index.css, same data-testids, same phone and Telegram destinations.
+const UZ_CHATGPT_CLUSTERS = new Set(['chatgpt-uzbek-tilida', 'chatgpt-ozbekistonda']);
+
+function showsStickyCta(a: BlogArticle): boolean {
+  return a.locale === 'uz' && UZ_CHATGPT_CLUSTERS.has(a.topicCluster || '');
+}
+
+function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
+  if (!showsStickyCta(a)) return '';
+  const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
+  const telegramHref = global.telegram || global.defaultCTA.href;
+  return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',target_url:'phone_contact',cta_zone:'sticky_bar'});" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'telegram',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',cta_zone:'sticky_bar'});" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
+}
+
 function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null): string {
   const fullUrl = `${global.siteUrl}${a.url}`;
   const ogTitle = a.ogTitle || a.title;
@@ -319,13 +360,22 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null
   const hasAlternatePair = Boolean(hrefRu && hrefUz);
   const altRu = hasAlternatePair ? hrefRu : '';
   const altUz = hasAlternatePair ? hrefUz : '';
-  const xDefaultHref = hasAlternatePair ? hrefRu : '';
+  // Same rule as scripts/prerender.ts: the Russian member is the default, and
+  // an article may override it with `hreflangXDefault` when its demand is
+  // Uzbek. The override is honoured only when it is one of the two declared
+  // alternates, so x-default can never leave the annotated set.
+  const xDefaultRaw = (a as { hreflangXDefault?: string }).hreflangXDefault || '';
+  const xDefaultOverride = xDefaultRaw
+    ? (xDefaultRaw.startsWith('http') ? xDefaultRaw : `${global.siteUrl}${xDefaultRaw}`)
+    : '';
+  const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
+  const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
 
   return `<!doctype html>
 <html lang="${lang}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,2500);}else{w.addEventListener('load',function(){setTimeout(idleLoad,2500)});}setTimeout(idleLoad,8000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(a.title)}</title>
@@ -355,14 +405,16 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 <link rel="preload" href="/assets/fonts/geist-${lang === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 <link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />
-<link rel="icon" type="image/png" href="/assets/landing/2.png" />
+<!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
+     illustration that used to be served here. See scripts/prerender.ts. -->
+<link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased">
+<body class="bg-bg-base text-white antialiased${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
@@ -414,11 +466,12 @@ ${METRIKA_NOSCRIPT}
         ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'blog',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
+      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
 </footer>
+${renderStickyCta(a, global)}
 </body>
 </html>
 `;
@@ -473,7 +526,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <html lang="${locale}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,2500);}else{w.addEventListener('load',function(){setTimeout(idleLoad,2500)});}setTimeout(idleLoad,8000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(t.blogIndexTitle)}</title>
@@ -501,7 +554,9 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <link rel="preload" href="/assets/fonts/geist-${locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${global.siteUrl}/llms.txt" />
 <link rel="alternate" type="text/markdown" href="${global.siteUrl}/llms.txt" title="LLM-friendly summary (llms.txt)" />
-<link rel="icon" type="image/png" href="/assets/landing/2.png" />
+<!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
+     illustration that used to be served here. See scripts/prerender.ts. -->
+<link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>

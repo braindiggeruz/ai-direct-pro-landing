@@ -8,7 +8,6 @@
   "secondaryKeywords": [
     "digital-agentlik Toshkent",
     "biznesni avtomatlashtirish O‘zbekistonda",
-    "biznes uchun AI-botlar",
     "Telegram-bot ishlab chiqish"
   ],
   "searchIntent": "navigational",
@@ -31,7 +30,10 @@
   "ctaSecondaryLabel": "GPTBot.uz yechimlarini ko‘rish",
   "ctaSecondaryHref": "/",
   "bodyBlocks": [
-    { "type": "p", "text": "Boss Digital — bu Toshkentdagi digital-agentlik: saytlar, AI- va Telegram-botlar va CRM integratsiyalari; GPTBot.uz — uning AI-yo‘nalishi." },
+    {
+      "type": "p",
+      "text": "Boss Digital — bu Toshkentdagi digital-agentlik: saytlar, AI- va Telegram-botlar va CRM integratsiyalari; GPTBot.uz — uning AI-yo‘nalishi."
+    },
     {
       "type": "h2",
       "text": "Boss Digital haqida"

@@ -5,6 +5,10 @@
 // CREATE TABLE IF NOT EXISTS here on first use so the feature works the
 // moment the D1 binding is present — with or without a manual migration.
 // Memoised per isolate so it runs at most once per warm worker.
+//
+// gpt_handoffs and gpt_rate_limits were added by the chat -> Telegram
+// bridge and have no row in 0008; they exist only through this bootstrap
+// until a migration catches up, which is exactly what this pattern is for.
 
 const DDL: string[] = [
   `CREATE TABLE IF NOT EXISTS users (
@@ -93,12 +97,45 @@ const DDL: string[] = [
     created_at TEXT NOT NULL,
     updated_at TEXT
   )`,
+  // ── Web → Telegram handoff ────────────────────────────────────────────
+  // One row per minted handoff token. The token itself is NEVER stored: only
+  // its SHA-256, so a dump of this table cannot be replayed as a /start
+  // payload. Single use is enforced by the conditional UPDATE in handoff.ts
+  // (claimed_at IS NULL), and `expires_at` bounds how long an unclaimed link
+  // is worth anything.
+  `CREATE TABLE IF NOT EXISTS gpt_handoffs (
+    token_hash TEXT PRIMARY KEY,
+    session_id TEXT,
+    locale TEXT NOT NULL DEFAULT 'ru',
+    page_url TEXT,
+    intent TEXT,
+    created_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    claimed_at TEXT,
+    claimed_by TEXT
+  )`,
+  // ── Anti-abuse counters ───────────────────────────────────────────────
+  // Fixed-window counters for the public, unauthenticated POST surfaces
+  // (/api/gpt/lead, /api/gpt/handoff) and for the owner's own alert volume.
+  // `subject` is a hashed IP or the literal 'owner' — never a raw address.
+  `CREATE TABLE IF NOT EXISTS gpt_rate_limits (
+    action TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    window_start TEXT NOT NULL,
+    count INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (action, subject, window_start)
+  )`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_sessions_hashed_ip ON gpt_sessions (hashed_ip)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_messages_session ON gpt_messages (session_id)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_usage_date_ip ON gpt_usage_daily (date_utc, hashed_ip)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_usage_date_user ON gpt_usage_daily (date_utc, user_id)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_subscriptions_user ON gpt_subscriptions (user_id, status)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_leads_created ON gpt_leads (created_at, source)`,
+  // Duplicate suppression on /api/gpt/lead reads by contact within a window;
+  // without this index that read is a full scan of every lead ever captured.
+  `CREATE INDEX IF NOT EXISTS idx_gpt_leads_contact ON gpt_leads (contact_value, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_session ON gpt_handoffs (session_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_expires ON gpt_handoffs (expires_at)`,
 ];
 
 const _bootstrapped = new WeakMap<D1Database, Promise<void>>();

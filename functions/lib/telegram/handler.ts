@@ -24,6 +24,7 @@ import {
 } from './analysis';
 import { analysisFromStored, formatAnalysisReport, formatVerificationQuestions } from './analysis-report';
 import { logJavobMessageReceived } from './platform-events';
+import { claimWebHandoff, isWebHandoffPayload, notifyOwnerOfArrival, type ArrivalIdentity } from './web-handoff';
 
 interface Deps {
   env: Env;
@@ -32,7 +33,10 @@ interface Deps {
   tg: TelegramClient;
 }
 
-interface TgFrom { id: number; language_code?: string; is_bot?: boolean }
+// `username` / `first_name` are used in exactly one place: the owner's alert
+// when somebody arrives from the website, so he can answer a person rather
+// than a number. They are never written to an analytics row.
+interface TgFrom { id: number; language_code?: string; is_bot?: boolean; username?: string; first_name?: string }
 interface TgMedia {
   file_id: string;
   file_unique_id?: string;
@@ -104,7 +108,7 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
   const pseudo = await S.pseudoUser(from.id, cfg.hashSalt);
   const text = (msg.text || '').trim();
 
-  if (text.startsWith('/')) return await handleCommand(deps, chatId, from.id, locale, text, pseudo);
+  if (text.startsWith('/')) return await handleCommand(deps, chatId, from, locale, text, pseudo);
 
   const media = msg.voice || msg.audio;
   if (media) return await handleVoiceMessage(deps, chatId, from.id, locale, pseudo, media, msg.audio ? 'audio' : 'voice', updateId);
@@ -300,13 +304,19 @@ async function handleVoiceMessage(
   }, `gen:${updateId}`);
 }
 
-async function handleCommand(deps: Deps, chatId: number, userId: number, locale: Locale, text: string, pseudo: string): Promise<void> {
+async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: Locale, text: string, pseudo: string): Promise<void> {
   const { db, tg } = deps;
+  const userId = from.id;
   const cmd = text.split(/\s+/)[0].toLowerCase().replace(/@.*$/, '');
   const payload = text.slice(cmd.length).trim();
 
   switch (cmd) {
     case '/start': {
+      // A payload minted by the website's AI chat. Anything else — including
+      // a stale, replayed or invented `w_…` — falls through to the ordinary
+      // greeting below, because a link that no longer works is not something
+      // the person can do anything about.
+      if (isWebHandoffPayload(payload) && (await handleWebHandoffStart(deps, chatId, from, pseudo, payload))) return;
       const source = /^(site_ru|site_uz|share|direct)$/.test(payload) ? payload : 'direct';
       await S.logEvent(db, 'javob_bot_start', pseudo, { locale, source });
       await tg.sendMessage(chatId, C.START[locale]);
@@ -339,6 +349,57 @@ async function handleCommand(deps: Deps, chatId: number, userId: number, locale:
     default:
       await tg.sendMessage(chatId, C.HELP[locale]);
   }
+}
+
+/**
+ * `/start w_<token>` — a conversation handed over from the AI chat on the site.
+ *
+ * Returns false for every payload that does not redeem (unknown, expired,
+ * already claimed, D1 unavailable), and the caller then greets exactly as it
+ * did before this path existed. Returning true means the person has been
+ * greeted here, in the language their web session was in.
+ *
+ * The greeting goes out before the owner is told: the person is waiting, the
+ * owner is not. Both run inside the webhook's waitUntil, so neither delays
+ * Telegram's 200.
+ */
+async function handleWebHandoffStart(
+  deps: Deps,
+  chatId: number,
+  from: TgFrom,
+  pseudo: string,
+  payload: string,
+): Promise<boolean> {
+  const { db, env, tg } = deps;
+  const identity: ArrivalIdentity = {
+    userId: from.id,
+    ...(from.username ? { username: from.username } : {}),
+    ...(from.first_name ? { firstName: from.first_name } : {}),
+    pseudo,
+  };
+
+  const arrival = await claimWebHandoff(db, payload, identity);
+  if (!arrival) return false;
+
+  // The site knows which language this person was reading in; that beats the
+  // Telegram client's language_code. The language keyboard still follows, so
+  // one tap undoes it if the guess is wrong.
+  const locale = arrival.locale;
+  await S.setLocale(db, from.id, locale);
+  await S.logEvent(db, 'javob_bot_start', pseudo, { locale, source: 'web_handoff' });
+  await S.logEvent(db, 'javob_handoff_claimed', pseudo, { locale, site_messages: arrival.messageCount });
+
+  await tg.sendMessage(chatId, C.HANDOFF_WELCOME[locale]);
+  await tg.sendMessage(chatId, C.CHOOSE_LANG[locale], { keyboard: C.langKeyboard() });
+
+  // Never allowed to cost the person their greeting, and it has already been
+  // sent by now anyway.
+  try {
+    await notifyOwnerOfArrival(env, db, arrival, identity);
+  } catch (e) {
+    console.error(`tg.handoff: owner notify threw ${(e as Error).name}`);
+  }
+  return true;
 }
 
 // ── Reply generation ───────────────────────────────────────────────────────

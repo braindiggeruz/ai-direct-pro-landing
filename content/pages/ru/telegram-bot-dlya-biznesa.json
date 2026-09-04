@@ -141,6 +141,17 @@
       "text": "Стоимость зависит от набора функций: простой бот для заявок дешевле, чем бот-магазин с каталогом, оплатой и рассылками. Интеграция с CRM считается отдельно. Напишите в Telegram — обсудим функции и смету под ваш бизнес."
     },
     {
+      "type": "linkp",
+      "text": "Что получается, когда Telegram-бот перестаёт быть отдельной игрушкой и становится частью платформы, показано в {c}.",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "проекте Cake City"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Запросить Telegram-бот",
       "href": "https://t.me/XGame_changerx"
@@ -262,6 +273,13 @@
       "anchor": "чат-боты по всему Узбекистану",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Cake City: Telegram-бот внутри платформы",
+      "locale": "ru",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -271,7 +289,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-08-31"
+  "updatedAt": "2026-09-04"
 }

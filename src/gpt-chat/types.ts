@@ -7,6 +7,8 @@ export interface ChatMessage {
   model?: string | null;
   /** transient UI state for the pending assistant turn */
   pending?: boolean;
+  /** transient: the answer is still arriving token by token */
+  streaming?: boolean;
   error?: boolean;
 }
 

@@ -161,6 +161,13 @@
       "text": "Смета зависит не от количества красивых экранов, а от ролей, статусов, интеграций и правил, которые должны работать без ошибок. Простая запись с готовым расписанием заметно легче каталога с остатками, оплатой, бонусами и личным кабинетом. После короткого разбора мы отделяем обязательную первую версию от следующих этапов и описываем критерии приёмки. Так бизнес понимает, за что платит, и не финансирует функции, ценность которых ещё не проверена."
     },
     {
+      "type": "linkp",
+      "text": "Mini App редко живёт отдельно от сайта и CRM. Как связка выглядит на практике, показано в {c}.",
+      "links": [
+        { "token": "c", "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/", "anchor": "кейсе Cake City" }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Получить разбор сценария Telegram Mini App",
       "href": "https://t.me/XGame_changerx"
@@ -179,10 +186,11 @@
     { "target": "/ru/blog/telegram-bot-ili-mini-app/", "anchor": "Сравнить Telegram-бот и Mini App", "locale": "ru", "type": "contextual" },
     { "target": "/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/", "anchor": "Как оценить стоимость Mini App", "locale": "ru", "type": "contextual" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Разработка Telegram-ботов", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "Интеграция с CRM", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "anchor": "Интеграция с CRM", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/", "anchor": "Cake City: Mini App, бот и CRM в одной платформе", "locale": "ru", "type": "contextual", "reason": "Published case study — evidence next to the commercial decision." }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
   "createdAt": "2026-08-04T00:00:00.000Z",
-  "updatedAt": "2026-08-23T00:00:00.000Z",
-  "lastReviewedAt": "2026-08-23T00:00:00.000Z"
+  "updatedAt": "2026-09-04T00:00:00.000Z",
+  "lastReviewedAt": "2026-09-04T00:00:00.000Z"
 }

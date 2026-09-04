@@ -32,10 +32,13 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
-    { "type": "p", "text": "Yurist uchun AI-bot — bu konsultatsiyaga arizalarni 24/7 qabul qiladigan, savol turini aniqlaydigan va kontaktni yuristga uzatadigan yordamchi." },
     {
       "type": "p",
-      "text": "Qisqacha: yurist uchun AI bot mijoz murojaatini saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va konsultatsiya narxi bo‘yicha tipik savollarga javob beradi, uchrashuvga yozadi va arizalarni 24/7 yig‘adi. Bot yuridik xulosa bermaydi, balki qaynoq lid tayyorlab yuristga uzatadi. Telegram, Instagram Direct va WhatsApp’da rus va o‘zbek tilida ishlaydi. Narxi — 3 mln so‘mdan. Yangilandi: 2026 iyun."
+      "text": "Yurist uchun AI-bot — bu konsultatsiyaga arizalarni 24/7 qabul qiladigan, savol turini aniqlaydigan va kontaktni yuristga uzatadigan yordamchi."
+    },
+    {
+      "type": "p",
+      "text": "Qisqacha: yurist uchun AI bot mijoz murojaatini saralaydi (savol turi, shoshilinchlik, kontakt), xizmatlar va konsultatsiya narxi bo‘yicha tipik savollarga javob beradi, uchrashuvga yozadi va arizalarni 24/7 yig‘adi. Bot yuridik xulosa bermaydi, balki qaynoq lid tayyorlab yuristga uzatadi. Telegram, Instagram Direct va WhatsApp’da rus va o‘zbek tilida ishlaydi. «Start» tarifi — 1 990 000 so‘mdan. Yangilandi: 2026 iyun."
     },
     {
       "type": "h2",
@@ -71,11 +74,60 @@
     },
     {
       "type": "h2",
-      "text": "Yurist uchun AI bot qancha turadi"
+      "text": "Yurist uchun AI bot qancha turadi",
+      "id": "price"
     },
     {
       "type": "p",
-      "text": "Bitta kanal uchun bazaviy bot — 3 mln so‘mdan, ko‘p kanalli GPT-bot — 7 mln so‘mdan, CRM, mavzular bo‘yicha yo‘naltirish va tahlilli yechim — 15 mln so‘mdan. Aniq smetani brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida."
+      "text": "Amaliyotga odatda «Biznes» paketi yetadi: murojaatni saralash, tipik savollarga javob va konsultatsiyaga yozish."
+    },
+    {
+      "type": "h3",
+      "text": "Yuristlar va yuridik kompaniyalar uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, murojaatni saralash, tipik savollarga javob, yuristga uzatish",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, xizmatlar va hujjatlar bo‘yicha bilimlar bazasi, UZ + RU, CRM’ga uzatish",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Xizmatlar, narxlar va hujjatlar ro‘yxatini bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Qolgan kanallar bo‘yicha paketlar va smeta hisobi tartibi {t}da.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "tariflar jadvalida"
+        }
+      ]
     },
     {
       "type": "cta",
@@ -102,7 +154,7 @@
     },
     {
       "q": "Yurist uchun bot qancha turadi?",
-      "a": "Bazaviy bot — 3 mln so‘mdan, ko‘p kanalli GPT-bot — 7 mln so‘mdan, CRM va yo‘naltirishli yechim — 15 mln so‘mdan. Aniq narxni brifdan keyin hisoblaymiz."
+      "a": "«Start» paketi — 1 990 000 so‘mdan, ikki kanal va CRM’ga uzatish bilan «Biznes» — 3 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Qanchalik tez ishga tushadi?",
@@ -154,7 +206,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Murojaatlar — sizning CRM’ingizda"
+  ]
 }

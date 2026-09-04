@@ -5,7 +5,10 @@ type Payload = Record<string, unknown>;
 const SAFE_KEYS = new Set([
   'route', 'lang', 'locale', 'tool', 'templateId', 'roleId', 'status', 'source',
   'from', 'where', 'mode', 'channel', 'presetId', 'plan', 'reason', 'code',
-  'model', 'surface', 'messageNumber', 'anonymous', 'chipId',
+  'model', 'surface', 'messageNumber', 'anonymous', 'chipId', 'method',
+  // Funnel metadata only: which staged offer, which intent slug, and whether
+  // the Telegram link carried the web session. Never anything a visitor typed.
+  'stage', 'intent', 'withSession',
 ]);
 const onceKeys = new Set<string>();
 
@@ -91,4 +94,32 @@ export const EV = {
   telegramClicked: 'telegram_clicked',
   telegramCtaClicked: 'telegram_cta_clicked',
   websiteTelegramClicked: 'website_telegram_clicked',
+  // Lead funnel of the free chat (2026-09). Until now the only measured thing
+  // between "answer received" and "enquiry" was nothing at all.
+  generateLead: 'generate_lead',
+  paywallViewed: 'paywall_viewed',
+  leadFormOpened: 'lead_form_opened',
+  leadFormFailed: 'lead_form_failed',
+  // The staged offer (stages 2-4 of the funnel). `stage` is 'b2b' | 'hourly'
+  // | 'daily'; offerViewed fires once per stage per page view, so a re-render
+  // or a scroll never inflates the denominator of the two routes out.
+  offerViewed: 'offer_viewed',
+  offerDismissed: 'offer_dismissed',
+  /** The Telegram route actually taken, with `withSession` telling us whether
+   *  the minted link carried the web conversation or fell back to the handle. */
+  telegramHandoffClicked: 'telegram_handoff_clicked',
 } as const;
+
+/**
+ * GA4 `generate_lead`, plus the legacy PascalCase twin for dashboard
+ * continuity.
+ *
+ * Call it ONLY after the backend acknowledged the lead — a submit click is not
+ * a lead (tests/seo-analytics-privacy.test.ts holds the site's analytics to
+ * that rule). `method` says which surface produced the lead; nothing the
+ * visitor typed is ever passed in.
+ */
+export function trackLeadSubmitted(method: string, data: Payload = {}): void {
+  track(EV.generateLead, { ...data, method });
+  track(EV.leadSubmitted, { ...data, method });
+}

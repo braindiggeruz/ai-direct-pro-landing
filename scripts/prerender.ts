@@ -173,6 +173,22 @@ function uniqueHeadingId(raw: string, seen: Map<string, number>): string {
   return n === 1 ? base : `${base}-${n}`;
 }
 
+// A tariff table is the step between reading and enquiring, and nothing in the
+// analytics reported reaching one. Tables are authored as generic `table`
+// blocks, so the price ones are recognised from their header row and marked
+// with data-pricing-table; scripts/analytics-snippet.ts observes that attribute
+// and fires pricing_view once per document.
+//
+// The boundary matters: "Сценарий" contains the letters of "цена", so a bare
+// substring test marked comparison tables as price tables. A price word must
+// start the cell or follow a non-letter.
+const PRICING_HEADER_RE =
+  /(^|[^\p{L}])(цен[аыу]|стоимост|тариф|прайс|бюджет|narx|tarif|byudjet|price|pricing)/iu;
+
+function isPricingTable(headers: string[]): boolean {
+  return headers.some((h) => PRICING_HEADER_RE.test(h || ''));
+}
+
 function renderBlocks(blocks: BodyBlock[]): string {
   const seen = new Map<string, number>();
   return blocks.map((b) => renderBlock(b, seen)).join('\n');
@@ -244,7 +260,8 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       const rows = b.rows || [];
       const thead = headers.length ? `<thead><tr>${headers.map(h => `<th class="px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-white/10">${escapeText(h)}</th>`).join('')}</tr></thead>` : '';
       const tbody = `<tbody>${rows.map((row, ri) => `<tr class="${ri % 2 === 0 ? 'bg-white/[0.02]' : ''} hover:bg-white/[0.05] transition-colors">${row.map(cell => `<td class="px-4 py-3 text-white/80 text-sm border-b border-white/5">${escapeText(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
-      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"><table class="w-full">${thead}${tbody}</table></div>`;
+      const pricingAttr = isPricingTable(headers) ? ' data-pricing-table' : '';
+      return `<div class="overflow-x-auto my-8 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-cyan/60" role="region" aria-label="Таблица данных — прокрутите горизонтально при необходимости" tabindex="0"${pricingAttr}><table class="w-full">${thead}${tbody}</table></div>`;
     }
     default: return '';
   }
@@ -651,6 +668,20 @@ const DIGITAL_COMMAND_STYLES = `<style>
   @media(prefers-reduced-motion:no-preference){.dc-live:before{animation:dc-pulse 2.2s ease-in-out infinite}.dc-signal{animation:dc-float 5s ease-in-out infinite}.dc-signal-b{animation-delay:-1.5s}.dc-signal-c{animation-delay:-3s}@keyframes dc-pulse{50%{opacity:.35;transform:scale(.75)}}@keyframes dc-float{50%{transform:translateY(-8px)}}}
 </style>`;
 
+// Per-page x-default overrides, keyed by page URL. See renderPage() for the
+// resolution order; a page JSON may also carry `hreflangXDefault`, which wins.
+//
+// /uz/gpt-uzbek-tilida/ is the single highest-traffic URL on the site and the
+// demand behind it is Uzbek-language: "chatgpt uzbek tilida", "chatgptga
+// qanday kirish". Both members of the pair declared x-default =
+// https://gptbot.uz/ru/gpt-chat/, which offers a Russian document to a searcher
+// whose language the cluster could not match. Only this one pair is flipped;
+// every other pair keeps the Russian default.
+const X_DEFAULT_BY_URL: Record<string, string> = {
+  '/uz/gpt-uzbek-tilida/': '/uz/gpt-uzbek-tilida/',
+  '/ru/gpt-chat/': '/uz/gpt-uzbek-tilida/',
+};
+
 function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
@@ -676,7 +707,23 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
   const hasAlternatePair = Boolean(hrefRu && hrefUz);
   const altRu = hasAlternatePair ? hrefRu : '';
   const altUz = hasAlternatePair ? hrefUz : '';
-  const xDefaultHref = hasAlternatePair ? hrefRu : '';
+  // x-default names the URL to serve a searcher whose language matches none of
+  // the declared alternates. The Russian member is the right global default for
+  // a Tashkent studio that sells in Russian, and it was applied unconditionally
+  // — including to the pair whose entire query set is Uzbek. Resolution order:
+  //   1. `hreflangXDefault` on the page JSON (site-relative or absolute)
+  //   2. X_DEFAULT_BY_URL below
+  //   3. the Russian member of the pair (unchanged for every other page)
+  // The override is honoured only when it is itself one of the two declared
+  // alternates: an x-default outside the set annotates nothing.
+  const xDefaultRaw = (page as { hreflangXDefault?: string }).hreflangXDefault
+    || X_DEFAULT_BY_URL[page.url]
+    || '';
+  const xDefaultOverride = xDefaultRaw
+    ? (xDefaultRaw.startsWith('http') ? xDefaultRaw : `${global.siteUrl}${xDefaultRaw}`)
+    : '';
+  const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
+  const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
 
   // Freshness layer: prefer lastReviewedAt (human-curated) over updatedAt
   // (auto-touched by every admin save). Falls back gracefully to nothing if
@@ -740,7 +787,7 @@ function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHre
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,2500);}else{w.addEventListener('load',function(){setTimeout(idleLoad,2500)});}setTimeout(idleLoad,8000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
+<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />
 <title>${escapeText(page.title)}</title>
@@ -770,7 +817,13 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 ${LLM_MARKDOWN_URLS.has(page.url)
   ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(page.url)}index.html.md" />`
   : `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />`}
-<link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/png'}" href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/2.png'}" />
+<!-- Favicon. The market variant keeps its own 289-byte SVG; every other page
+     used /assets/landing/2.png, a 75 834-byte 512x341 landing ILLUSTRATION on a
+     white ground that was never an icon, on 284 of 289 pages for an audience
+     that is 73 % mobile. logo-sq-80.webp is the same mark, square, 1 140 bytes.
+     /favicon.svg is deliberately not used: it is the purple mark from the
+     original scaffold commit, not GPTBot artwork. -->
+<link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/webp'}"${marketVariant ? '' : ' sizes="80x80"'} href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/logo-sq-80.webp'}" />
 ${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 

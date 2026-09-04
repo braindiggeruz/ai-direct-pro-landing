@@ -10,7 +10,7 @@
   "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
   "keywords": [
     "AI-bot nima",
-    "biznes uchun AI-bot",
+    "biznes uchun AI-bot nima",
     "AI-bot qanday ishlaydi",
     "AI-bot oddiy tilda",
     "AI-bot O‘zbekiston",
@@ -207,7 +207,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -216,5 +216,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-27T00:00:00.000Z"
+  "updatedAt": "2026-09-04"
 }

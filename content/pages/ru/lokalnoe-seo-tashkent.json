@@ -211,6 +211,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Как трёхуровневая структура — money pages, продуктовые страницы, блог — собирается на живом проекте, разобрано в {c}.",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+          "anchor": "кейсе Graver Studio"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Получить аудит локальной видимости",
       "href": "https://t.me/XGame_changerx"
@@ -279,6 +290,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "anchor": "Кейс Graver Studio: SEO-архитектура RU/UZ",
+      "locale": "ru",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -289,6 +307,6 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-04T00:00:00.000Z",
-  "updatedAt": "2026-08-23T00:00:00.000Z",
-  "lastReviewedAt": "2026-08-23T00:00:00.000Z"
+  "updatedAt": "2026-09-04",
+  "lastReviewedAt": "2026-09-04"
 }

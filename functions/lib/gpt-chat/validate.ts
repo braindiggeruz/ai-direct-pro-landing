@@ -30,6 +30,15 @@ export interface LeadInput {
   needType?: string;
   sessionId?: string;
   consent?: boolean;
+  /**
+   * A SECOND, separate consent: may the conversation itself be forwarded to
+   * the studio along with the contact? Absent or false means the owner's
+   * Telegram alert carries the contact only. It is deliberately not implied
+   * by `consent`, because the sentence next to that box promises one thing
+   * (we may contact you) and this promises another (we may read what you
+   * wrote). Only the lead form's own consent line may set it.
+   */
+  shareConversation?: boolean;
   utm?: Record<string, unknown>;
   pageUrl?: string;
 }
@@ -47,7 +56,30 @@ export interface LeadValidation {
     sessionId: string | null;
     utmJson: string | null;
     pageUrl: string | null;
+    shareConversation: boolean;
   };
+}
+
+/**
+ * Keep the stored page to a same-site PATH. A full URL from an untrusted body
+ * can carry a query string with personal data into a database row and from
+ * there into a Telegram message, and an absolute off-site URL in an owner
+ * alert is a link the owner might tap. Anything else becomes null.
+ */
+export function normalizePagePath(v: unknown): string | null {
+  const raw = clean(v);
+  if (!raw) return null;
+  let path = raw;
+  if (/^https?:\/\//i.test(path)) {
+    try {
+      path = new URL(path).pathname;
+    } catch {
+      return null;
+    }
+  }
+  path = path.split('?')[0].split('#')[0];
+  if (!path.startsWith('/') || path.startsWith('//')) return null;
+  return path.slice(0, 200);
 }
 
 /**
@@ -84,7 +116,8 @@ export function validateLead(input: LeadInput): LeadValidation {
       intent: clean(input.intent) || clean(input.needType),
       sessionId: clean(input.sessionId),
       utmJson: input.utm && typeof input.utm === 'object' ? JSON.stringify(input.utm).slice(0, 2000) : null,
-      pageUrl: clean(input.pageUrl),
+      pageUrl: normalizePagePath(input.pageUrl),
+      shareConversation: input.shareConversation === true,
     },
   };
 }

@@ -46,6 +46,9 @@ export interface ChatStrings {
   expandMenu: string;
   b2bLine: string;
   telegramCta: string;
+  /** Label used when the link goes to the studio's own Telegram, not the bot. */
+  contactTelegram: string;
+  dismissOffer: string;
   remaining: (n: number) => string;
   lowWarning: (n: number) => string;
   charsLeft: (n: number) => string;
@@ -66,10 +69,20 @@ export interface ChatStrings {
   paywallBenefits: string[];
   plusManualNote: string;
   leadName: string;
+  leadNameOptional: string;
+  leadNamePlaceholder: string;
   leadContact: string;
+  leadContactPlaceholder: string;
+  leadContactHint: string;
+  leadContactError: string;
   leadConsent: string;
+  leadConsentError: string;
+  leadPrivacy: string;
   leadSubmit: string;
+  leadSending: string;
   leadSuccess: string;
+  leadSuccessNext: string;
+  leadSuccessTelegram: string;
   leadIntro: string;
   leadValidation: string;
   leadError: string;
@@ -94,6 +107,22 @@ export interface ChatStrings {
   b2bDiscuss: string;
   b2bSiteChat: string;
   b2bTelegram: string;
+  // Staged commercial offer (funnel stages 2-4): one card, three moments.
+  offerBadge: string;
+  offerBody: string;
+  capTelegramCta: string;
+  capTelegramNote: string;
+  capLeadCta: string;
+  telegramContextNote: string;
+  hourlyTitle: string;
+  hourlyBody: string;
+  hourlyRetry: string;
+  hourlyRetryHint: string;
+  dailyBody: string;
+  leadIntroCap: string;
+  leadConsentDetail: string;
+  answeredBy: string;
+  writing: string;
 }
 
 const RU: ChatStrings = {
@@ -130,6 +159,8 @@ const RU: ChatStrings = {
   expandMenu: 'Развернуть меню',
   b2bLine: 'Нужен AI-бот для сайта или Telegram?',
   telegramCta: 'Открыть в Telegram',
+  contactTelegram: 'Написать нам в Telegram',
+  dismissOffer: 'Скрыть предложение',
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
   lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
   charsLeft: (n) => `${n} символов до лимита`,
@@ -165,14 +196,24 @@ const RU: ChatStrings = {
   paywallCta: 'Оставить заявку на Plus',
   paywallBenefits: ['Планируется больше сообщений', 'История после запуска аккаунтов', 'Все шаблоны', 'Приоритетная поддержка'],
   plusManualNote: 'Оплата скоро будет доступна. Оставьте заявку — подключим тариф вручную.',
-  leadName: 'Ваше имя',
+  leadName: 'Имя',
+  leadNameOptional: 'необязательно',
+  leadNamePlaceholder: 'Как к вам обращаться',
   leadContact: 'Телефон или Telegram',
+  leadContactPlaceholder: '+998 90 123 45 67 или @username',
+  leadContactHint: 'Ответим на этот же контакт. Ничего другого мы не собираем.',
+  leadContactError: 'Укажите номер в формате +998 90 123 45 67 или Telegram-логин @username.',
   leadConsent: 'Согласен на обработку данных для связи',
+  leadConsentError: 'Отметьте согласие — без него мы не сохраняем контакт.',
+  leadPrivacy: 'Политика конфиденциальности',
   leadSubmit: 'Оставить заявку',
-  leadSuccess: 'Заявка принята — мы свяжемся с вами.',
+  leadSending: 'Отправляем…',
+  leadSuccess: 'Заявка принята.',
+  leadSuccessNext: 'Свяжемся в рабочее время: пн–пт, 09:00–18:00.',
+  leadSuccessTelegram: 'Если нужно быстрее — напишите нам в Telegram.',
   leadIntro: 'Нужен такой AI-чат на сайт, в Telegram или CRM? Оставьте контакт.',
   leadValidation: 'Укажите контакт и подтвердите согласие на обработку данных.',
-  leadError: 'Не удалось отправить форму. Попробуйте ещё раз или напишите нам в Telegram.',
+  leadError: 'Не удалось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.',
   newChat: 'Новый чат',
   history: 'История',
   loginToSave: 'Гостевая история хранится только в этом браузере. Аккаунты и синхронизация между устройствами появятся позже.',
@@ -194,6 +235,21 @@ const RU: ChatStrings = {
   b2bDiscuss: 'Обсудить внедрение',
   b2bSiteChat: 'AI-чат для сайта',
   b2bTelegram: 'Telegram-бот для бизнеса',
+  offerBadge: 'Для бизнеса',
+  offerBody: 'Этот же бот может отвечать вашим клиентам — в Telegram или прямо на вашем сайте.',
+  capTelegramCta: 'Продолжить в Telegram',
+  capTelegramNote: 'У нашего Telegram-бота свой отдельный дневной лимит бесплатных сообщений — он тоже не безлимитный.',
+  capLeadCta: 'Оставить контакт',
+  telegramContextNote: 'В Telegram продолжится этот же разговор — бот увидит, о чём вы спрашивали здесь.',
+  hourlyTitle: 'Часовой лимит исчерпан',
+  hourlyBody: 'Бесплатный чат на сайте считает сообщения по часам. Дневной лимит ещё не закончился — продолжите в Telegram сейчас или вернитесь сюда позже.',
+  hourlyRetry: 'Попробовать снова',
+  hourlyRetryHint: 'Если час уже прошёл',
+  dailyBody: 'Дневной бесплатный лимит на сайте исчерпан. Продолжить можно в нашем Telegram-боте — или оставьте контакт, и мы свяжемся.',
+  leadIntroCap: 'Оставьте контакт — свяжемся и ответим на вопросы.',
+  leadConsentDetail: 'Отправляем имя, контакт, номер сессии чата и адрес страницы. Текст переписки не передаётся.',
+  answeredBy: 'Ответила модель',
+  writing: 'Пишет ответ…',
 };
 
 const UZ: ChatStrings = {
@@ -230,6 +286,8 @@ const UZ: ChatStrings = {
   expandMenu: 'Menyuni yoyish',
   b2bLine: 'Sayt yoki Telegram uchun AI-bot kerakmi?',
   telegramCta: 'Telegramda ochish',
+  contactTelegram: 'Telegramda bizga yozing',
+  dismissOffer: 'Taklifni yopish',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
@@ -265,14 +323,24 @@ const UZ: ChatStrings = {
   paywallCta: 'Plus uchun ariza',
   paywallBenefits: ['Ko‘proq xabar rejalashtirilgan', 'Akkauntdan keyin chat tarixi', 'Barcha shablonlar', 'Ustuvor yordam'],
   plusManualNote: 'To‘lov tez orada. Ariza qoldiring — tarifni qo‘lda ulaymiz.',
-  leadName: 'Ismingiz',
+  leadName: 'Ism',
+  leadNameOptional: 'ixtiyoriy',
+  leadNamePlaceholder: 'Sizga qanday murojaat qilaylik',
   leadContact: 'Telefon yoki Telegram',
+  leadContactPlaceholder: '+998 90 123 45 67 yoki @username',
+  leadContactHint: 'Shu kontaktga javob beramiz. Boshqa ma’lumot yig‘maymiz.',
+  leadContactError: 'Raqamni +998 90 123 45 67 ko‘rinishida yoki @username Telegram-loginini kiriting.',
   leadConsent: 'Bog‘lanish uchun ma’lumotlarni qayta ishlashga roziman',
+  leadConsentError: 'Rozilikni belgilang — usiz kontaktni saqlamaymiz.',
+  leadPrivacy: 'Maxfiylik siyosati',
   leadSubmit: 'Ariza qoldirish',
-  leadSuccess: 'Ariza qabul qilindi — tez orada bog‘lanamiz.',
+  leadSending: 'Yuborilmoqda…',
+  leadSuccess: 'Ariza qabul qilindi.',
+  leadSuccessNext: 'Ish vaqtida bog‘lanamiz: dushanba–juma, 09:00–18:00.',
+  leadSuccessTelegram: 'Tezroq kerak bo‘lsa — Telegramda yozing.',
   leadIntro: 'Shunday AI-chat sayt, Telegram yoki CRM uchun kerakmi? Kontakt qoldiring.',
   leadValidation: 'Kontaktni kiriting va ma’lumotlarni qayta ishlashga rozilik bering.',
-  leadError: 'Forma yuborilmadi. Yana urinib ko‘ring yoki Telegram orqali yozing.',
+  leadError: 'Ariza yuborilmadi. Yana urinib ko‘ring yoki Telegramda yozing.',
   newChat: 'Yangi chat',
   history: 'Tarix',
   loginToSave: 'Mehmon tarixi faqat shu brauzerda saqlanadi. Akkaunt va qurilmalararo sinxronlash keyinroq ishga tushadi.',
@@ -294,6 +362,21 @@ const UZ: ChatStrings = {
   b2bDiscuss: 'Joriy etishni muhokama qilish',
   b2bSiteChat: 'Sayt uchun AI-chat',
   b2bTelegram: 'Biznes uchun Telegram-bot',
+  offerBadge: 'Biznes uchun',
+  offerBody: 'Xuddi shu bot sizning mijozlaringizga ham javob bera oladi — Telegramda yoki saytingizda.',
+  capTelegramCta: 'Telegramda davom ettirish',
+  capTelegramNote: 'Telegram-botimizning o‘z alohida kunlik bepul limiti bor — u ham cheksiz emas.',
+  capLeadCta: 'Kontakt qoldirish',
+  telegramContextNote: 'Telegramda shu suhbat davom etadi — bot bu yerda nima so‘raganingizni ko‘radi.',
+  hourlyTitle: 'Soatlik limit tugadi',
+  hourlyBody: 'Saytdagi bepul chat xabarlarni soat bo‘yicha hisoblaydi. Kunlik limit hali tugagani yo‘q — hozir Telegramda davom ettiring yoki keyinroq shu yerga qayting.',
+  hourlyRetry: 'Qayta urinib ko‘rish',
+  hourlyRetryHint: 'Agar bir soat o‘tgan bo‘lsa',
+  dailyBody: 'Saytdagi kunlik bepul limit tugadi. Telegram-botimizda davom ettirishingiz mumkin — yoki kontakt qoldiring, o‘zimiz bog‘lanamiz.',
+  leadIntroCap: 'Kontakt qoldiring — bog‘lanamiz va savollaringizga javob beramiz.',
+  leadConsentDetail: 'Ism, kontakt, chat sessiyasi raqami va sahifa manzili yuboriladi. Yozishmalar matni uzatilmaydi.',
+  answeredBy: 'Javob bergan model',
+  writing: 'Javob yozilmoqda…',
 };
 
 export function strings(locale: Locale): ChatStrings {

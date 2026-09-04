@@ -150,6 +150,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Bu qatorlar tayyor loyihada qanday ko‘rinishini {c} da ko‘rish mumkin: sayt, katalog, Telegram bot, Mini App va CRM — nima aynan topshirilgani ro‘yxati bilan (material rus tilida).",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "Cake City keysi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Tariflar va nima kiradi"
     },
@@ -312,6 +323,13 @@
       "anchor": "B2C biznes uchun AI bot narxlari",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Cake City keysi: konditer tarmog‘i platformasi",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -321,9 +339,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-03",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-09-03",
+  "updatedAt": "2026-09-04",
   "heroTrust": [
     "Boshlang‘ich narx ≠ to‘liq loyiha",
     "To‘lovdan oldin scope",

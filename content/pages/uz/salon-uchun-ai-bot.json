@@ -127,6 +127,63 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Salon uchun AI bot qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "p",
+      "text": "Salonga odatda «Biznes» paketi yetadi: ustalar va xizmatlar bo‘yicha yozuv, tashrifni eslatish va yozuvni administratorga yoki CRM’ga uzatish."
+    },
+    {
+      "type": "h3",
+      "text": "Go‘zallik salonlari uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, xizmatga yozilish ssenariysi, tipik savollarga javob, administratorga uzatish",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, xizmat, usta va narxlar bo‘yicha bilimlar bazasi, eslatmalar, CRM",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Xizmatlar, narxlar va ustalar jadvalini bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Barcha kanallar bo‘yicha to‘liq jadval {t}da; o‘sha yerda smeta nimadan tashkil topishi ham yozilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Salon uchun bot olish",
       "href": "https://t.me/XGame_changerx"
@@ -169,7 +226,7 @@
     },
     {
       "q": "Salon uchun bot qancha turadi?",
-      "a": "Narx ustalar, xizmatlar va kanallar soniga bog‘liq. Instagram va Telegram orqali oddiy yozuv kamroq turadi. Salongizga qarab hisoblaymiz — Telegram’ga yozing."
+      "a": "«Start» paketi — 1 990 000 so‘mdan, ustalar bo‘yicha yozuv, eslatmalar va CRM bilan «Biznes» — 3 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Yakuniy summa usta, xizmat va kanallar soniga bog‘liq. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Bot takroriy yozuvni eslatadimi?",
@@ -219,7 +276,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Yozuvlar — sizning CRM’ingizda"
+  ]
 }

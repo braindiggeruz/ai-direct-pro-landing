@@ -5,7 +5,7 @@ import type { AiToolId } from '../templates';
 import type { RoleId } from '../roles';
 import { RoleSelector } from './RoleSelector';
 import { track, EV } from '../analytics';
-import { TELEGRAM_CONFIGURED, telegramDeepLink } from '../../lib/telegram';
+import { telegramContact } from '../contact';
 
 const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
   { id: 'chat', ru: 'Chat', uz: 'Chat', icon: 'M4 5h16v11H9l-5 4V5z' },
@@ -46,6 +46,7 @@ function SidebarBody({
   onNavigateAway?: () => void;
 }) {
   const uz = locale === 'uz';
+  const tg = telegramContact(locale);
   const links = [
     { key: 'guide', href: uz ? '/uz/gpt-chat-qollanma/' : '/ru/gpt-chat-guide/', label: t.guideLink, event: null },
     { key: 'pricing', href: uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/', label: t.pricingLink, event: 'pricing' },
@@ -108,24 +109,26 @@ function SidebarBody({
         {/* AI role */}
         {showLabels && <RoleSelector locale={locale} value={role} onChange={onRoleChange} disabled={busy} />}
 
-        {/* Telegram assistant CTA — compact, hidden when username unset */}
-        {showLabels && TELEGRAM_CONFIGURED && (
+        {/* Telegram CTA — the assistant bot when its username is configured,
+            the studio's own verified contact when it is not. It used to vanish
+            entirely, which left the chat with no route to a human. */}
+        {showLabels && (
           <a
-            href={telegramDeepLink(locale)}
+            href={tg.href}
             target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => { track(EV.telegramCtaClicked, { source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); track(EV.websiteTelegramClicked, { source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); }}
+            rel="nofollow noopener noreferrer"
+            onClick={() => { track(EV.telegramCtaClicked, { from: 'sidebar', channel: tg.channel, source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); track(EV.websiteTelegramClicked, { source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); }}
             data-testid="sidebar-telegram"
             className="mt-auto flex min-h-11 items-center gap-2 rounded-xl border border-brand-cyan/25 bg-brand-cyan/[0.06] px-3 text-[13px] font-medium text-brand-cyan hover:bg-brand-cyan/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 4L2 11l6 2 2 6 3-4 5 4 4-15z" /></svg>
-            {t.telegramCta}
+            {tg.channel === 'bot' ? t.telegramCta : t.contactTelegram}
           </a>
         )}
 
         {/* Links */}
         {showLabels && (
-          <nav aria-label={t.sidebarLinks} className={TELEGRAM_CONFIGURED ? 'mt-3' : 'mt-auto'}>
+          <nav aria-label={t.sidebarLinks} className="mt-3">
             <p className="mb-2 px-1 text-[11px] font-semibold uppercase tracking-wider text-white/35">{t.sidebarLinks}</p>
             <ul className="space-y-0.5">
               {links.map((l) => (

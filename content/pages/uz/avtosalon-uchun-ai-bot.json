@@ -32,10 +32,13 @@
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
-    { "type": "p", "text": "Avtosalon uchun AI-bot — bu mijozni byudjet va model bo‘yicha baholaydigan, test-drayvga yozadigan va arizani menejerga uzatadigan virtual menejer." },
     {
       "type": "p",
-      "text": "Qisqacha: avtosalon uchun AI bot avtomobil sotib olish arizalarini 24/7 qabul qiladi va saralaydi, model, komplektatsiya, narx, kredit va treyd-in bo‘yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig‘adi va qaynoq lidlarni menejerga uzatadi. Telegram, Instagram Direct va WhatsApp’da rus va o‘zbek tilida ishlaydi. Bir necha kunda ishga tushadi, narxi — 3 mln so‘mdan. Yangilandi: 2026 iyun."
+      "text": "Avtosalon uchun AI-bot — bu mijozni byudjet va model bo‘yicha baholaydigan, test-drayvga yozadigan va arizani menejerga uzatadigan virtual menejer."
+    },
+    {
+      "type": "p",
+      "text": "Qisqacha: avtosalon uchun AI bot avtomobil sotib olish arizalarini 24/7 qabul qiladi va saralaydi, model, komplektatsiya, narx, kredit va treyd-in bo‘yicha javob beradi, test-drayv va avtoservisga yozadi, kontaktlarni yig‘adi va qaynoq lidlarni menejerga uzatadi. Telegram, Instagram Direct va WhatsApp’da rus va o‘zbek tilida ishlaydi. 7 kundan ishga tushadi, «Start» tarifi — 1 990 000 so‘mdan. Yangilandi: 2026 iyun."
     },
     {
       "type": "h2",
@@ -71,11 +74,66 @@
     },
     {
       "type": "h2",
-      "text": "Avtosalon uchun AI bot qancha turadi"
+      "text": "Avtosalon uchun AI bot qancha turadi",
+      "id": "price"
     },
     {
       "type": "p",
-      "text": "Bitta kanal uchun bazaviy bot — 3 mln so‘mdan, ko‘p kanalli GPT-bot — 7 mln so‘mdan, CRM, treyd-in baholash va tahlilli yechim — 15 mln so‘mdan. Aniq smetani qisqa brifdan keyin qayd etamiz. Batafsil — chat-bot narxi sahifasida."
+      "text": "Salonga ko‘pincha «Biznes» paketi kerak; test-drayv va servisga yozuv uchta kanalda va manbalar analitikasi bilan kerak bo‘lsa — «Pro»."
+    },
+    {
+      "type": "h3",
+      "text": "Avtosalon va avtoservislar uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, avtomobil arizasini saralash, model va mavjudlik bo‘yicha javoblar, menejerga uzatish",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, model, narx va treyd-in bo‘yicha bilimlar bazasi, UZ + RU, CRM",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Pro",
+          "Uchta kanal, test-drayv va servisga yozuv, tarqatma, manbalar bo‘yicha analitika",
+          "21 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Modellar, narxlar va treyd-in shartlarini bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Qolgan paketlar va smeta hisobi tartibi {t}da.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "to‘liq tariflar jadvalida"
+        }
+      ]
     },
     {
       "type": "cta",
@@ -102,7 +160,7 @@
     },
     {
       "q": "Avtosalon uchun bot qancha turadi?",
-      "a": "Bazaviy bot — 3 mln so‘mdan, ko‘p kanalli GPT-bot — 7 mln so‘mdan, CRM va tahlilli yechim — 15 mln so‘mdan. Aniq narxni brifdan keyin hisoblaymiz."
+      "a": "«Start» paketi — 1 990 000 so‘mdan, «Biznes» — 3 900 000 so‘mdan, uchta kanalda test-drayvga yozuv va analitika bilan «Pro» — 6 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Qanchalik tez ishga tushadi?",
@@ -154,7 +212,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Arizalar — sizning CRM’ingizda"
+  ]
 }

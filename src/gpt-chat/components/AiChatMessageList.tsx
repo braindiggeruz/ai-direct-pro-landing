@@ -1,10 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { ChatMessage } from '../types';
 import type { ChatStrings } from '../i18n';
 import { renderMarkdown } from '../markdown';
 import { track, EV } from '../analytics';
 
 export type AnswerAction = 'shorter' | 'instagram' | 'uzbek' | 'bot';
+
+/**
+ * Which model produced an answer, shown verbatim minus the routing suffix.
+ * The chain mixes vendors and they do not all answer alike — a person
+ * comparing two answers deserves to know they came from different models.
+ * Never renamed or prettified into something the provider did not call it.
+ */
+function modelLabel(model: string): string {
+  return model.replace(/:free$/, '');
+}
 
 function MessageActions({ content, isLast, busy, onRetry, onAnswerAction, t }: { content: string; isLast: boolean; busy?: boolean; onRetry?: () => void; onAnswerAction?: (action: AnswerAction, content: string) => void; t: ChatStrings }) {
   const [copied, setCopied] = useState(false);
@@ -67,12 +77,16 @@ export function AiChatMessageList({
   busy,
   onRetry,
   onAnswerAction,
+  scrollRef,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
   busy?: boolean;
   onRetry?: () => void;
   onAnswerAction?: (action: AnswerAction, content: string) => void;
+  /** The scrolling viewport, so following the stream can be stopped when the
+   *  reader has scrolled up to re-read something. */
+  scrollRef?: RefObject<HTMLElement | null>;
 }) {
   const endRef = useRef<HTMLDivElement>(null);
   const lastAssistant = (() => {
@@ -80,10 +94,29 @@ export function AiChatMessageList({
     return -1;
   })();
 
-  // Auto-scroll to the latest message.
+  // Whether the reader is parked at the bottom. Deliberately updated from the
+  // scroll event and NOT from the content change: appending text grows
+  // scrollHeight without moving the reader, so measuring after a render would
+  // read as "scrolled up" and the view would stop following its own stream.
+  const stickRef = useRef(true);
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [messages]);
+    const viewport = scrollRef?.current;
+    if (!viewport) return;
+    const onScroll = () => {
+      stickRef.current = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight <= 160;
+    };
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    return () => viewport.removeEventListener('scroll', onScroll);
+  }, [scrollRef]);
+
+  // Follow the newest message — but never yank the viewport back down while
+  // someone has scrolled up to re-read an answer. Instant, not smooth: a
+  // smooth scroll restarted on every frame of arriving text never lands, and
+  // on a low-end phone that reads as stutter.
+  useEffect(() => {
+    if (scrollRef?.current && !stickRef.current) return;
+    endRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+  }, [messages, scrollRef]);
 
   return (
     // ym-hide-content: the transcript is user prompts and model answers. It is
@@ -93,6 +126,11 @@ export function AiChatMessageList({
       {messages.map((m, i) => (
         <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
           <div
+            // A live region that re-reads the whole growing answer on every
+            // frame is unusable with a screen reader. The answer is announced
+            // once, when it is finished and this subtree stops being 'off'.
+            aria-live={m.streaming ? 'off' : undefined}
+            aria-busy={m.streaming || undefined}
             className={
               m.role === 'user'
                 ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]'
@@ -109,7 +147,25 @@ export function AiChatMessageList({
             ) : m.role === 'assistant' && !m.error ? (
               <>
                 <div className="leading-relaxed break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
-                <MessageActions content={m.content} isLast={i === lastAssistant} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} t={t} />
+                {m.streaming ? (
+                  // While the answer is arriving: a caret instead of the action
+                  // row. Mounting six buttons under text that grows every frame
+                  // makes the answer jump under the reader's eyes on a slow
+                  // phone — and none of them can be used yet anyway.
+                  <p className="mt-2 flex items-center gap-2 text-[12px] text-white/35">
+                    <span className="inline-block h-3.5 w-[2px] rounded-full bg-brand-cyan motion-safe:animate-pulse" aria-hidden="true" />
+                    {t.writing}
+                  </p>
+                ) : (
+                  <>
+                    <MessageActions content={m.content} isLast={i === lastAssistant} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} t={t} />
+                    {m.model && (
+                      <p className="mt-1.5 truncate text-[11px] text-white/25" title={m.model}>
+                        {t.answeredBy}: {modelLabel(m.model)}
+                      </p>
+                    )}
+                  </>
+                )}
               </>
             ) : m.role === 'assistant' && m.error ? (
               <>

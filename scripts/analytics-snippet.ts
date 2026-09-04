@@ -11,6 +11,8 @@
 //   - SEO funnel events on prerendered landings: seo_landing_view,
 //     service_cta_click, telegram_open_attempt, language_switch
 //   - contact_click when a visitor activates the studio's Telegram contact
+//   - phone_click when a visitor activates any phone link on the page
+//   - pricing_view the first time a tariff table enters the viewport
 //
 // Contact semantics. A Telegram link click is observable; a sent message, a
 // received request and a qualified lead are not. Google defines generate_lead
@@ -21,7 +23,10 @@
 //
 // Privacy: every event carries page path, page title, a truncated CTA label and
 // the public destination URL. No form values, phone, email, message text or
-// visitor-supplied identifier reaches the dataLayer.
+// visitor-supplied identifier reaches the dataLayer. The phone event is the one
+// place where a destination would BE a contact detail, so it does not send the
+// destination at all - it sends the constant 'phone_contact', which is what the
+// hand-written onclick handlers in the prerender templates already send.
 //
 // Keep this file dependency-free; both prerender.ts and prerender-blog.ts
 // import it.
@@ -60,8 +65,17 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
   // one after load, and a ceiling counted from this snippet, so a slow load
   // event cannot carry the measurement away with it. loadGtag is idempotent,
   // so both of them firing costs nothing.
-  if(document.readyState==='complete'){setTimeout(idleLoad,2500);}else{window.addEventListener('load',function(){setTimeout(idleLoad,2500)});}
-  setTimeout(idleLoad,8000);
+  //
+  // 2026-09-04: tightened from 2500/8000 to 1000/3000. GA4 was still recording
+  // only 72 % of the clicks Search Console reports for the same pages and the
+  // same days, and the gap is the same shape as the one the 32 s fallback made:
+  // a visit that ends before the tag exists is a visit GA4 never sees. The
+  // interaction gate is untouched - a visitor who scrolls or taps still loads
+  // the tag first, and requestIdleCallback still keeps the parse off the
+  // critical path. What changes is only how long a passive visit is allowed to
+  // go unmeasured.
+  if(document.readyState==='complete'){setTimeout(idleLoad,1000);}else{window.addEventListener('load',function(){setTimeout(idleLoad,1000)});}
+  setTimeout(idleLoad,3000);
   var last = location.pathname;
   function fire(){ if(window.gtag){ gtag('event','page_view',{page_path:location.pathname,page_title:document.title}); } }
   ['pushState','replaceState'].forEach(function(m){
@@ -90,6 +104,35 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
       page_kind: isArticle ? 'article' : 'landing'
     });
   }
+  // Reaching the price is the step between reading and enquiring, and nothing
+  // reported it. The prerender templates mark every tariff table with
+  // data-pricing-table; this fires once per document the first time one of them
+  // is actually on screen, then stops observing. It measures the document, not
+  // the person: no scroll depth, no dwell time, no identifier.
+  function watchPricing(){
+    var tables = document.querySelectorAll('[data-pricing-table]');
+    if (!tables.length || !('IntersectionObserver' in window)) return;
+    var fired = false;
+    var io = new IntersectionObserver(function(entries){
+      for (var i=0;i<entries.length;i++){
+        if (!entries[i].isIntersecting) continue;
+        if (fired) return;
+        fired = true;
+        io.disconnect();
+        gtag('event','pricing_view',{
+          page_path: location.pathname,
+          page_title: document.title,
+          locale: seoLocale,
+          page_kind: isArticle ? 'article' : 'landing',
+          service_slug: serviceSlug
+        });
+        return;
+      }
+    }, {threshold: 0.25});
+    for (var t=0;t<tables.length;t++) io.observe(tables[t]);
+  }
+  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', watchPricing);
+  else watchPricing();
   document.addEventListener('click', function(e){
     var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
     if(!el || !window.gtag) return;
@@ -136,6 +179,26 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         target_url: href,
         contact_kind: 'contact',
         contact_method: 'telegram'
+      });
+    }
+    // The phone half of the same decision. Until now only the two hand-written
+    // onclick attributes in the prerender templates reported a call, so every
+    // other phone link on the site was silent. The scheme is assembled from
+    // pieces on purpose: this block must never contain a phone destination in
+    // any form, and target_url stays the constant those inline handlers already
+    // send, so the number itself never reaches a payload.
+    var phoneScheme = 'tel' + ':';
+    if (href.slice(0, phoneScheme.length).toLowerCase() === phoneScheme) {
+      gtag('event','phone_click',{
+        page_path: location.pathname,
+        locale: seoLocale,
+        page_kind: isArticle ? 'article' : 'landing',
+        service_slug: serviceSlug,
+        cta_text: label,
+        cta_zone: ctaZone(el),
+        target_url: 'phone_contact',
+        contact_kind: 'contact',
+        contact_method: 'phone'
       });
     }
     // Any CTA on a service landing that leads off-page or to another service.

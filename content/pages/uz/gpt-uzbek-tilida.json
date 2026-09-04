@@ -17,8 +17,7 @@
     "bepul ai chat",
     "sun’iy intellekt chat",
     "chatgpt uz",
-    "chatgpt uzbek tilida online",
-    "chatgpt kirish uzbek tilida"
+    "chatgpt uzbek tilida online"
   ],
   "searchIntent": "transactional",
   "h1": "ChatGPT o‘zbek tilida online",
@@ -35,9 +34,9 @@
   "breadcrumbLabel": "O‘zbek tilida AI chat",
   "heroTitle": "O‘zbek tilida AI chat online",
   "heroSubtitle": "Matn yozing, tarjima qiling, reja tuzing — o‘zbekcha, ro‘yxatsiz va bepul.",
-  "ctaPrimaryLabel": "Tariflar",
+  "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
-  "ctaSecondaryLabel": "Biznes uchun AI-bot buyurtma qilish",
+  "ctaSecondaryLabel": "Telegramda vazifani aytish",
   "ctaSecondaryHref": "https://t.me/XGame_changerx",
   "bodyBlocks": [
     {
@@ -113,6 +112,36 @@
           "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
           "anchor": "ChatGPTni xavfsiz yuklash"
         }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "shu-sahifadagi-chat",
+      "text": "Shu sahifadagi AI chat: shartlari"
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi chat bepul va ro‘yxatdan o‘tish talab qilmaydi: brauzerni ochib, savolni o‘zbekcha yoki ruscha yozasiz. Cheksiz emas — kunlik va soatlik limit bor. Limitga yetganda chat buni o‘zi aytadi va qachon yangilanishini ko‘rsatadi; sahifada raqam yozmaymiz, chunki limit sozlamalari o‘zgarishi mumkin va chatdagi ko‘rsatkich har doim haqiqiy holatni aks ettiradi."
+    },
+    {
+      "type": "linkp",
+      "text": "Soatlik limit tugasa, suhbatni Telegramda davom ettirish mumkin: {javob} botining o‘z alohida bepul kunlik limiti bor. U ham cheksiz emas — amaldagi shartlar shu sahifada halol yozilgan.",
+      "links": [
+        {
+          "token": "javob",
+          "target": "/uz/javob/",
+          "anchor": "GPTBot Javob"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ro‘yxatdan o‘tish, karta va telefon raqami so‘ralmaydi.",
+        "Javob so‘rov tilida keladi: o‘zbekcha yozsangiz — o‘zbekcha, ruscha yozsangiz — ruscha.",
+        "Kunlik va soatlik limit bor; ular tugaganda chat buni aniq aytadi.",
+        "To‘lovli tarif hali ishga tushirilmagan — soxta balans yoki soxta «Pro» tugmasi ko‘rsatilmaydi.",
+        "Suhbat tarixi brauzeringizda qoladi; maxfiy ma’lumotni baribir yozmang."
       ]
     },
     {
@@ -379,9 +408,34 @@
       "text": "AI chat bilan tanishdingiz. Endi {marketing} asoslarini o‘rganing — biznesingizga foydasi tegadi.",
       "links": [
         {
-          "token": "link",
+          "token": "marketing",
           "target": "/uz/blog/marketing-nima/",
           "anchor": "marketing"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "biznes-uchun",
+      "text": "Bu chat sizning mijozlaringizga ham javob bera oladi"
+    },
+    {
+      "type": "p",
+      "text": "Shu yerda o‘zingiz sinab ko‘rgan narsa — bitta odam uchun ishlaydigan chat. Xuddi shu texnologiyani biznesingizga qo‘yish mumkin: sizning narxlaringiz, xizmatlaringiz va ish vaqtingiz asosida javob beradigan, arizani esa CRM yoki Telegramingizga uzatadigan bot. Farqi shundaki, u sizning bilimlar bazangizda ishlaydi va javoblari nazorat qilinadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Ikki yo‘l bor. Tez yo‘l — {tg} yozing va vazifangizni ayting. Sekinroq, lekin aniqroq yo‘l — avval {narx} ko‘ring: paketlar, muddat va nima kirishi ochiq yozilgan, shundan keyin gaplashish osonroq.",
+      "links": [
+        {
+          "token": "tg",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegramda"
+        },
+        {
+          "token": "narx",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "biznes uchun AI-bot narxlarini"
         }
       ]
     },
@@ -404,7 +458,7 @@
   "faq": [
     {
       "q": "AI-chatdan bepul foydalanish mumkinmi?",
-      "a": "Kirish va limitlar amaldagi tarifga bog‘liq. Ishni boshlashdan oldin chat sahifasidagi shartlarni tekshiring; limitlar o‘zgarishi mumkin."
+      "a": "Ha. Shu sahifadagi chat bepul va ro‘yxatdan o‘tishsiz ishlaydi. Cheksiz emas: kunlik va soatlik limit bor va limitga yetganda chat buni o‘zi aytadi. To‘lovli tarif hali ishga tushirilmagan."
     },
     {
       "q": "Maxfiy ma’lumot yuborish mumkinmi?",
@@ -416,7 +470,7 @@
     },
     {
       "q": "Chat qaysi tillarda ishlaydi?",
-      "a": "Interfeys va so‘rovlar o‘zbek hamda rus tillarini qo‘llaydi; sifat so‘rov aniqligi va vazifa murakkabligiga bog‘liq."
+      "a": "O‘zbek va rus tilida. Javob so‘rov tilida keladi: savolni o‘zbekcha yozsangiz, javob ham o‘zbekcha bo‘ladi. Sifat so‘rov aniqligi va vazifa murakkabligiga bog‘liq."
     },
     {
       "q": "ChatGPTni o‘zbek tilida yuklash kerakmi?",
@@ -449,6 +503,14 @@
     {
       "q": "AI chatga shaxsiy ma’lumot yozsa bo‘ladimi?",
       "a": "Yo‘q. Parol, karta raqami, tibbiy tashxis va mijozlar bazasini yubormang. Ish jarayonida aniq ma’lumot o‘rniga umumlashtirilgan tavsif ishlating."
+    },
+    {
+      "q": "Limit tugasa nima bo‘ladi?",
+      "a": "Chat qachon yangilanishini ko‘rsatadi. Kutmaslik uchun suhbatni Telegramdagi GPTBot Javob botida davom ettirish mumkin — uning o‘z alohida bepul kunlik limiti bor, u ham cheksiz emas."
+    },
+    {
+      "q": "Xuddi shunday chatni o‘z biznesim uchun qo‘yish mumkinmi?",
+      "a": "Ha. Bu shaxsiy chat emas, sizning narxlaringiz va xizmatlaringiz bo‘yicha javob beradigan, arizani CRM yoki Telegramingizga uzatadigan alohida bot bo‘ladi. Paketlar va muddatlar «Biznes uchun AI bot» sahifasida ochiq yozilgan."
     }
   ],
   "internalLinks": [
@@ -589,7 +651,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-09-01",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-09-01"
+  "updatedAt": "2026-09-04"
 }

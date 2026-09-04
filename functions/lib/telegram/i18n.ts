@@ -124,6 +124,24 @@ export const GROUP_NOTICE: Record<Locale, string> = {
   uz: 'MVP’da GPTBot shaxsiy chatda ishlaydi. Botga to‘g‘ridan-to‘g‘ri yozing.',
 };
 
+/**
+ * First message after `/start w_…` — a claimed handoff from the web chat.
+ *
+ * Three jobs, in order: say this is the same conversation continuing, so the
+ * tap did what it promised; say what is actually different here (the bot has
+ * its own separate daily allowance — separate, NOT unlimited); and say plainly
+ * that the site conversation itself was not carried over, so nobody waits for
+ * the bot to "remember" something it was never given.
+ *
+ * It names nothing the person did not say here: no page, no session, no
+ * transcript. The payload is public, so a greeting that quoted stored context
+ * would hand it to whoever typed the link.
+ */
+export const HANDOFF_WELCOME: Record<Locale, string> = {
+  ru: 'Продолжаем разговор с сайта gptbot.uz.\n\nЗдесь, в Telegram, у бота свой отдельный дневной лимит — так что можно продолжить прямо сейчас, не дожидаясь, пока обновится лимит на сайте.\n\nПереписку с сайта я сюда не переношу. Напишите вопрос своими словами или перешлите любое сообщение — подготовлю ответ. Голосовые тоже понимаю.',
+  uz: 'gptbot.uz saytidagi suhbatni davom ettiramiz.\n\nTelegramda botning alohida kunlik limiti bor — shuning uchun saytdagi limit yangilanishini kutmasdan, hoziroq davom ettirish mumkin.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Savolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
+};
+
 const PRICING_URL: Record<Locale, string> = {
   ru: 'https://gptbot.uz/ru/tarify-ai-chat/',
   uz: 'https://gptbot.uz/uz/chat-bot-narxi/',

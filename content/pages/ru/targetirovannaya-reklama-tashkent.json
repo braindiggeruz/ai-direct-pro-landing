@@ -549,6 +549,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Реклама работает заметно лучше, когда за ней стоит подготовленный сайт. Как это выглядело в B2B-проекте, показано в {c}.",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+          "anchor": "кейсе Graver Studio"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Обсудить таргетированную рекламу",
       "href": "https://t.me/XGame_changerx"
@@ -671,6 +682,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "anchor": "Graver Studio: креативы и посадочные страницы",
+      "locale": "ru",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -681,7 +699,7 @@
     "WebPage",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-03",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-08-20",
-  "updatedAt": "2026-09-03"
+  "updatedAt": "2026-09-04"
 }

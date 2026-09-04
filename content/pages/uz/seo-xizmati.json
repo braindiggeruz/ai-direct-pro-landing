@@ -500,6 +500,17 @@
       "text": "Birinchi suhbat va ish hajmini baholash bepul. Suhbatdan keyin nima qilinishi va u qancha turishini yozma ko‘rinishda beramiz."
     },
     {
+      "type": "linkp",
+      "text": "Uch bosqichli tuzilma — money page, mahsulot sahifalari va blog — jonli loyihada qanday yig‘ilishi {c} da tahlil qilingan (material rus tilida).",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+          "anchor": "Graver Studio keysi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Saytingizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
       "href": "https://t.me/XGame_changerx"
@@ -601,6 +612,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "anchor": "Graver Studio keysi: RU/UZ SEO arxitekturasi",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -610,9 +628,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-03",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-03",
+  "updatedAt": "2026-09-04",
   "heroTrust": [
     "Audit 990 000 so‘mdan",
     "Oyiga 2 490 000 so‘mdan",

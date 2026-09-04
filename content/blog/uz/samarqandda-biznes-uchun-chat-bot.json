@@ -9,11 +9,10 @@
   "topicCluster": "chat-bot-v-samarkande",
   "targetMoneyPage": "/uz/samarqandda-chat-bot/",
   "keywords": [
-    "Samarqandda biznes uchun chat-bot",
-    "chat-bot Samarqand",
-    "Samarqandda chat-bot ishlab chiqish",
-    "Samarqand AI bot biznes uchun",
-    "Samarqandda chat-bot buyurtma"
+    "Samarqandda qaysi biznesga chat-bot mos",
+    "Samarqandda bot qaysi tilda ishlashi kerak",
+    "Samarqandda qaysi kanaldan boshlash kerak",
+    "chat-bot Samarqand"
   ],
   "intro": "Samarqandda chat-bot mijozlarga Telegram, Instagram va WhatsAppda darrov javob beradi, ariza yig‘adi va rus hamda o‘zbek tilida ishlaydi. U kechqurun, dam olish kunlari va turistik mavsumda oqim keskin oshganda arizalarni yopadi.",
   "body": [
@@ -186,7 +185,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-06-26",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -194,6 +193,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-09-04",
   "createdAt": "2026-06-26T00:00:00.000Z"
 }

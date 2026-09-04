@@ -16,13 +16,33 @@ import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../
 
 type AnyEnv = Parameters<typeof resolveConfig>[0];
 
+// The previous version of this test pinned the three free slugs by name. When
+// OpenRouter retired all three in August 2026 the chat answered provider_error
+// in production for weeks and this test stayed green, because a retired slug is
+// still the string it always was. Assert the SHAPE the fallback chain must keep
+// — free tier, three distinct vendors, no duplicates — and leave the identity of
+// the models to tests/openrouter-model-catalogue.test.ts, which checks them
+// against the live catalogue.
 test('resolveConfig applies defaults from the strategic report', () => {
   const cfg = resolveConfig({} as AnyEnv);
-  assert.equal(cfg.freeModel, 'nvidia/nemotron-3-nano-30b-a3b:free');
   assert.equal(cfg.freeDailyLimit, 15);
   assert.equal(cfg.freeHourlyLimit, 5);
   assert.equal(cfg.maxInputChars, 3000);
-  assert.deepEqual(cfg.freeFallbacks, ['qwen/qwen3-235b-a22b-2507:free', 'deepseek/deepseek-chat-v3-0324:free']);
+
+  const freeChain = [cfg.freeModel, ...cfg.freeFallbacks];
+  assert.equal(freeChain.length, 3, 'the free chain must keep two fallbacks behind the primary');
+  assert.equal(new Set(freeChain).size, 3, 'no model may appear twice in the chain');
+  for (const model of freeChain) {
+    assert.match(model, /^[a-z0-9-]+\/[a-z0-9._-]+:free$/, `${model} must be a free-tier OpenRouter slug`);
+  }
+  const vendors = freeChain.map((m) => m.split('/')[0]);
+  assert.equal(new Set(vendors).size, 3, `one vendor outage must not empty the chain: ${vendors.join(', ')}`);
+
+  const paidChain = [cfg.paidModel, ...cfg.paidFallbacks];
+  assert.equal(paidChain.length, 3, 'the paid chain must keep two fallbacks behind the primary');
+  for (const model of paidChain) {
+    assert.doesNotMatch(model, /:free$/, `${model} is a free slug sitting in the paid chain`);
+  }
 });
 
 test('resolveConfig parses env overrides + comma lists', () => {

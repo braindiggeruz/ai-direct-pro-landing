@@ -8,7 +8,7 @@
   "h1":"ChatGPT va AI-bot biznes uchun: qaysi yechimni tanlash kerak?",
   "topicCluster":"chatgpt-uzbek-tilida",
   "targetMoneyPage":"/uz/biznes-uchun-ai-bot/",
-  "keywords":["chatgpt biznes uchun","ai bot biznes uchun","chat gpt uzbek biznes","sun’iy intellekt biznes","telegram ai bot"],
+  "keywords":["chatgpt biznes uchun","chatgpt va ai-bot farqi","chat gpt uzbek biznes","sun’iy intellekt biznes","telegram ai bot"],
   "intro":"Xodimning shaxsiy AI chatda matn tayyorlashi bilan mijozlarga sayt yoki Telegramda avtomatik javob beradigan biznes-bot bir xil yechim emas. Birinchisi individual yordamchi, ikkinchisi esa bilim bazasi, qoidalar, integratsiya, nazorat va mas’ul jarayonga ulanadi.",
   "body":[
     {"type":"figure","src":"/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp","srcSet":"/assets/blog/chat-gpt-uzbek-biznes-uchun-480.webp 480w, /assets/blog/chat-gpt-uzbek-biznes-uchun-800.webp 800w, /assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp 1200w","sizes":"(max-width: 768px) 100vw, 768px","alt":"O‘zbekiston biznesida AI chat va avtomatlashtirilgan bot jarayonini rejalashtirish","width":1200,"height":630,"loading":"eager","caption":"Biznes-bot faqat javob yozmaydi: u qoidalar, kanal, CRM va mas’ul xodim bilan bir jarayonda ishlaydi."},
@@ -67,9 +67,9 @@
   "canonical":"https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "hreflangUz":"/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "robotsIndex":true,"robotsFollow":true,"author":"GPTBot Team",
-  "datePublished":"2026-07-27","dateModified":"2026-07-30",
+  "datePublished":"2026-07-27","dateModified":"2026-09-04",
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
-  "createdAt":"2026-07-27T00:00:00.000Z","updatedAt":"2026-07-30T00:00:00.000Z",
+  "createdAt":"2026-07-27T00:00:00.000Z","updatedAt":"2026-09-04T00:00:00.000Z",
   "sources":[
     {"title":"OpenAI Help Center — What is ChatGPT?","url":"https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq","note":"ChatGPTning umumiy imkoniyatlari va javoblarni tekshirish zarurati; 2026-07-30 kuni tekshirildi."}
   ]

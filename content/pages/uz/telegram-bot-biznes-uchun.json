@@ -179,6 +179,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Telegram bot alohida o‘yinchoq bo‘lib qolmay, platformaning bir qismiga aylanganda nima bo‘lishi {c} da ko‘rsatilgan (rus tilida).",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "Cake City loyihasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Telegram bot so‘rash",
       "href": "https://t.me/XGame_changerx"
@@ -282,6 +293,13 @@
       "anchor": "Biznes uchun AI botlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Cake City: platforma ichidagi Telegram bot",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -291,9 +309,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-03",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-09-03",
+  "updatedAt": "2026-09-04",
   "heroTrust": [
     "990 000 so‘mdan",
     "3 kundan",

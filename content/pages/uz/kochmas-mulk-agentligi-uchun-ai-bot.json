@@ -33,7 +33,10 @@
   "ctaSecondaryLabel": "Saralash ssenariysi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "Ko‘chmas mulk agentligi uchun AI-bot — bu mijozni byudjet va tuman bo‘yicha baholaydigan hamda ko‘rikka yozadigan virtual menejer." },
+    {
+      "type": "p",
+      "text": "Ko‘chmas mulk agentligi uchun AI-bot — bu mijozni byudjet va tuman bo‘yicha baholaydigan hamda ko‘rikka yozadigan virtual menejer."
+    },
     {
       "type": "h2",
       "text": "Ko‘chmas mulk agentligi uchun AI bot nima qiladi"
@@ -161,6 +164,69 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Ko‘chmas mulk agentligi uchun AI bot qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "p",
+      "text": "Agentlikka ko‘pincha «Biznes» paketi kerak; uchta kanalda ishlab, arizalarni rieltorlar bo‘yicha yo‘naltirish kerak bo‘lsa — «Pro»."
+    },
+    {
+      "type": "h3",
+      "text": "Ko‘chmas mulk agentliklari uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, xaridor yoki ijarachini saralash, kontakt yig‘ish, rieltorga uzatish",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, obyektlar va shartlar bo‘yicha bilimlar bazasi, UZ + RU, CRM’ga uzatish",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Pro",
+          "Uchta kanal, arizalarni rieltorlar bo‘yicha yo‘naltirish, tarqatma, analitika",
+          "21 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Obyektlar, narxlar va shartlarni bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Barcha paketlarni solishtirish va ishga tushirishdan oldin smetada nima qayd etilishi {t}da.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot tariflari jadvalida"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Agentlik uchun AI botni muhokama qilish",
       "href": "https://t.me/XGame_changerx"
@@ -214,7 +280,7 @@
     },
     {
       "q": "Ko‘chmas mulk agentligi uchun bot qancha turadi?",
-      "a": "Narx kanallar soniga, CRM bilan integratsiya chuqurligiga va saralash ssenariysiga bog‘liq. Telegram’ga yozing — ariza oqimingizni ko‘rib chiqamiz va shaxsiy smeta yuboramiz: https://t.me/XGame_changerx."
+      "a": "«Start» paketi — 1 990 000 so‘mdan, «Biznes» — 3 900 000 so‘mdan, uchta kanal va arizalarni rieltorlar bo‘yicha yo‘naltirish bilan «Pro» — 6 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Bot o‘zbek tilini tushunadimi?",
@@ -294,7 +360,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-24",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-06-24T00:00:00Z"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Arizalar — sizning CRM’ingizda"
+  ]
 }

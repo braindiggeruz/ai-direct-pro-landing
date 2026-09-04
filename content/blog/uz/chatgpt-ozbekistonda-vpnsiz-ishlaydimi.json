@@ -397,7 +397,7 @@
       "text": "Biznesingizni rivojlantirishni xohlaysizmi? {marketing} haqida bilib oling.",
       "links": [
         {
-          "token": "link",
+          "token": "marketing",
           "target": "/uz/blog/marketing-nima/",
           "anchor": "marketing"
         }

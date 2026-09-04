@@ -31,7 +31,10 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "Do‘kon uchun AI-bot — bu mahsulot tanlash, buyurtma rasmiylashtirish va yetkazish holatiga 24/7 javob beradigan virtual konsultant." },
+    {
+      "type": "p",
+      "text": "Do‘kon uchun AI-bot — bu mahsulot tanlash, buyurtma rasmiylashtirish va yetkazish holatiga 24/7 javob beradigan virtual konsultant."
+    },
     {
       "type": "h2",
       "text": "do‘kon uchun AI bot nima qiladi"
@@ -129,6 +132,80 @@
       ]
     },
     {
+      "type": "h2",
+      "text": "Do‘kon uchun AI bot qancha turadi",
+      "id": "price"
+    },
+    {
+      "type": "p",
+      "text": "Do‘konga ko‘pincha «Biznes» paketi kerak; bot katalogni olib borishi, to‘lovni qabul qilishi va tarqatma yuborishi kerak bo‘lsa — «Pro»."
+    },
+    {
+      "type": "h3",
+      "text": "Internet-do‘konlar uchun tariflar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta kanal, maslahat va buyurtma ssenariysi, mavjudlik va yetkazib berish bo‘yicha javoblar",
+          "7 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Telegram + Instagram, tovarlar va yetkazib berish bo‘yicha bilimlar bazasi, UZ + RU, CRM’ga uzatish",
+          "14 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "Pro",
+          "Uchta kanal, to‘lovni qabul qilish, xaridorlar bazasiga tarqatma, buyurtmalar analitikasi",
+          "21 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Assortiment, narxlar va yetkazib berish shartlarini bazada yangilash, javoblarni nazorat qilish",
+          "har oy",
+          "490 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Smeta qanday hisoblanishi va har bir paketga nima kirishi {t}da ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "t",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "to‘liq tariflar jadvali"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Katalog, bot va buyurtma rasmiylashtirish bitta konturda — {c} da tahlil qilingan: narxlar sayt, bot va Mini App orasida farq qilmaydi (rus tilida).",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "Cake City keysida"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Do‘kon uchun bot buyurtma qilish",
       "href": "https://t.me/XGame_changerx"
@@ -171,7 +248,7 @@
     },
     {
       "q": "Internet-do‘kon uchun bot qancha turadi?",
-      "a": "Narx katalog, kanallar soni va integratsiyalarga bog‘liq. Telegram va Instagram orqali maslahat va buyurtma qabuli kamroq turadi. Do‘koningizga qarab hisoblaymiz — Telegram’ga yozing."
+      "a": "«Start» paketi — 1 990 000 so‘mdan, «Biznes» — 3 900 000 so‘mdan, katalog, to‘lov va tarqatma bilan «Pro» — 6 900 000 so‘mdan, qo‘llab-quvvatlash — oyiga 490 000 so‘mdan. Aniq smetani brifdan keyin qayd etamiz — «dan» narxi faqat paket tarkibiga tegishli."
     },
     {
       "q": "Bot mahsulot katalogini ko‘rsata oladimi?",
@@ -219,6 +296,13 @@
       "locale": "uz",
       "type": "contextual",
       "reason": "Website development is the adjacent commercial service for this topic."
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Cake City keysi: katalog va buyurtmalar",
+      "locale": "uz",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -228,7 +312,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-04",
+  "heroTrust": [
+    "1 990 000 so‘mdan",
+    "7 kundan",
+    "UZ + RU",
+    "Buyurtmalar — sizning CRM’ingizda"
+  ]
 }

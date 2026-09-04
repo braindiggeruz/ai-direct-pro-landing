@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-08-26",
+  "updatedAt": "2026-09-04",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -396,6 +396,85 @@
       "gscNote": "Checked over 2026-07-29..2026-08-24 with country=Uzbekistan. For exact «seo продвижение сайтов», only the commercial page appears: 7 impressions at position 24.29; the explainer has no Uzbekistan row. Globally the explainer receives 65 low-position impressions at 68.68 while the service page keeps the stronger position 24.29 on 7 impressions. The existing metadata and bidirectional body links already separate intent, so neither title was changed.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-08-25"
+    },
+    {
+      "id": "C18-uz-chatgpt-login-vs-access",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+        "owns": "open ChatGPT from Uzbekistan: is it available, is a VPN needed, and the access route itself — the head terms «chatgpt kirish» and «chatgpt ochish»",
+        "mustNotTarget": [
+          "chatgpt login",
+          "chatgpt sign up",
+          "chatgpt ro‘yxatdan o‘tish",
+          "chatgpt login kodi kelmadi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "owns": "sign in to an existing or new ChatGPT account: official domain, Log in versus Sign up, the login code not arriving, clone-site safety",
+        "mustNotTarget": [
+          "chatgpt kirish",
+          "chat gpt kirish",
+          "chatgpt ga kirish",
+          "chatgpt ochish",
+          "chatgpt o‘zbekistonda"
+        ]
+      },
+      "gscNote": "The cluster measured 2 832 impressions and 7 clicks over 28 days to 2026-09-04, split across four Uzbek URLs. Two of them — this pair — declared the identical keyword set («chatgpt kirish», «chatgpt ga kirish», «chatgpt ochish») and both led their title with «kirish», so Google had to choose between two of our own pages on every access query.",
+      "observedOwnerNote": "The head terms were awarded to the VPN/availability article because it is the only URL in the cluster with a recorded position for them: pair C11 measured it at 6.85 for «chatgpt ochish» on 2026-08-24, and C11 had already designated it the access owner. The dedicated login article carried no recorded position and was retargeted rather than the other way round; its title, H1, description and keywords were rewritten to the account/login sub-intent on 2026-09-04. No redirect was created — both pages answer a real and now distinct question. The two remaining URLs in the cluster are already fenced: the download article by C11, and the product page /uz/gpt-uzbek-tilida/, which dropped «chatgpt kirish uzbek tilida» on 2026-09-04.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-09-04"
+    },
+    {
+      "id": "C19-uz-biznes-uchun-ai-bot",
+      "commercial": {
+        "url": "/uz/biznes-uchun-ai-bot/",
+        "owns": "order an AI bot for a business — the money page, and the sole owner of the head phrase «biznes uchun AI bot» and its variants",
+        "mustNotTarget": [
+          "biznes uchun AI-bot nima",
+          "biznes uchun AI botni qanday tanlash",
+          "AI-bot nima"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+        "owns": "what a business AI bot is, in plain Uzbek: definition, how it works, when it is not needed",
+        "mustNotTarget": [
+          "biznes uchun AI bot",
+          "biznes uchun AI-bot",
+          "biznes uchun AI botlar",
+          "O‘zbekistonda biznes uchun AI bot",
+          "biznes uchun GPT bot"
+        ]
+      },
+      "gscNote": "The largest Uzbek commercial phrase on the site measured 0 clicks over 28 days to 2026-09-04 while twelve Uzbek URLs declared it or a near-identical variant. The exact string «O‘zbekistonda biznes uchun AI bot» was declared by two URLs and «biznes uchun GPT bot» by three; the money page, the homepage, the agency page and four blog articles were all pointing at the same query.",
+      "observedOwnerNote": "On 2026-09-04 the head phrase was left with the money page only. Removed elsewhere: /uz/ dropped «O‘zbekistonda biznes uchun AI bot» and «biznes uchun GPT bot» (see architecture decision A2); /uz/boss-digital/ dropped «biznes uchun AI-botlar»; /uz/blog/ai-botni-biznes-uchun-qanday-tanlash/ was cut from ten declared keywords to four selection-intent ones; /uz/blog/chat-gpt-uzbek-biznes-uchun/ dropped «ai bot biznes uchun»; /uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/ dropped «biznes uchun chat bot». Deliberately left alone because their phrase is genuinely distinct: /uz/chat-bot-biznes-uchun/ («biznes uchun chat-bot»), /uz/gpt-bot-biznes-uchun/ («GPT bot biznes uchun»), /uz/sharhlar/ («biznes uchun AI-bot keyslari»), and the geo-modified /uz/ozbekiston-boylab-chat-bot/, /uz/samarqandda-chat-bot/ and their blog twins. No page was unpublished and no redirect was created.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-09-04"
+    },
+    {
+      "id": "C20-uz-samarqand-chat-bot",
+      "commercial": {
+        "url": "/uz/samarqandda-chat-bot/",
+        "owns": "order a chat bot in Samarkand — the commercial page, and the owner of «Samarqandda biznes uchun chat-bot» and «Samarqandda chat-bot ishlab chiqish»",
+        "mustNotTarget": [
+          "Samarqandda qaysi biznesga chat-bot mos",
+          "Samarqandda bot qaysi tilda ishlashi kerak"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+        "owns": "choosing for Samarkand: which niche a bot fits, which language it must answer in, which channel to start from",
+        "mustNotTarget": [
+          "Samarqandda biznes uchun chat-bot",
+          "Samarqandda chat-bot ishlab chiqish",
+          "Samarqand AI bot biznes uchun",
+          "Samarqandda chat-bot buyurtma"
+        ]
+      },
+      "gscNote": "Found on 2026-09-04 while de-duplicating the «biznes uchun ai bot» family. The two URLs declared two byte-identical keyword strings — «Samarqandda biznes uchun chat-bot» and «Samarqandda chat-bot ishlab chiqish» — and link to each other, so both were competing for the same Samarkand query with no measured winner.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-09-04"
     }
   ],
   "architectureDecisions": [
@@ -413,6 +492,14 @@
       "decidedAt": "2026-08-22",
       "evidence": "Live SERPs pulled 2026-08-22 for location 2860, after the keyword volumes looked attractive on paper. landing page (320/mo, competition 0.35): the result set is dribbble, unbounce, canva, figma, behance, onepagelove, landingfolio, Wikipedia, Cambridge Dictionary, wix and semrush, plus a knowledge panel and an AI Overview — English-language definition, design inspiration and page builders, with no Uzbek or Tashkent player anywhere in the top nineteen. veb dasturlash (50/mo, competition 0.04): Wikipedia, texnoman, mustaqilish.uz, Scribd, dasturlash.uz, proweb.uz «Dasturlash kurslari Toshkentda», myblog, a Phoenix Publication journal article, a gamma.app deck, an Instagram course ad and two YouTube lessons — people learning to code, not people commissioning a website. marketing strategiyasi (140/mo, competition 0.12): dora.uz and whatif.uz blog posts, Wikipedia twice, four academic journals, Scribd, prezi, researchgate and a knowledge panel — explainer and academic, not a service SERP.",
       "note": "None of the three justifies a page or a keyword claim. /uz/sayt-yaratish/ must not claim landing page or veb dasturlash, and no page may claim marketing strategiyasi. Recorded so a later pass does not rediscover the volumes and build for them. This sits alongside the same 2026-08-22 rejections already written into the seo-uz cluster note: raqamli marketing (110/mo at CPC 12.95, academic SERP), reklama agentligi and reklama xizmati (outdoor advertising and directories, plus a local pack), targetolog and target reklama (vacancies, courses and Russian-language theory), telegram ads (6600/mo but platform-navigational with no Uzbek result in the top fourteen) and biznesni rivojlantirish (owned end to end by Biznesni Rivojlantirish Banki)."
+    },
+    {
+      "id": "A2-uz-homepage-role",
+      "url": "/uz/",
+      "decision": "CATEGORY_OVERVIEW",
+      "decidedAt": "2026-09-04",
+      "evidence": "The Uzbek homepage declared «biznes uchun AI botlar» as its primary keyword and «O‘zbekistonda biznes uchun AI bot» plus «biznes uchun GPT bot» as secondaries — the same strings as the money page /uz/biznes-uchun-ai-bot/, which is the page that carries the published tariff table. The cluster earned 0 clicks in the 28 days to 2026-09-04 while both URLs chased the same phrase.",
+      "note": "The homepage keeps its title, its H1 and its plural category framing «biznes uchun AI botlar»: it is the brand and category entry point, and removing that would cost more than the overlap does. What it gives up is the exact money phrase — the two singular duplicates were removed on 2026-09-04. It deliberately owns no cluster, and no future work may give it a keyword that /uz/biznes-uchun-ai-bot/ declares."
     }
   ]
 }

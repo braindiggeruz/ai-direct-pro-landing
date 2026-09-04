@@ -3,14 +3,17 @@ import type { ChatMessage, MountConfig } from '../types';
 import { strings } from '../i18n';
 import { createSession, fetchTurnstileConfig, sendChatStream } from '../api';
 import type { ChatApiResponse } from '../types';
-import { loadHistory, saveHistory, loadSessionId, saveSessionId, loadRemaining, saveRemaining } from '../storage';
+import {
+  loadHistory, saveHistory, loadSessionId, saveSessionId, loadRemaining, saveRemaining,
+  loadOfferDismissed, saveOfferDismissed,
+} from '../storage';
 import { track, trackOnce, EV } from '../analytics';
 import { AiChatMessageList } from './AiChatMessageList';
 import type { AnswerAction } from './AiChatMessageList';
 import { AiChatInput } from './AiChatInput';
 import { AiPromptChips } from './AiPromptChips';
 import { AiUsageBadge } from './AiUsageBadge';
-import { AiPaywallCard } from './AiPaywallCard';
+import { AiOfferCard } from './AiOfferCard';
 import { AiSidebar } from './AiSidebar';
 import { PromptTemplateGrid } from './PromptTemplateGrid';
 import { ImagePromptTool } from './ImagePromptTool';
@@ -20,7 +23,15 @@ import type { AiToolId, PromptTemplate } from '../templates';
 import type { PromptChip } from '../i18n';
 
 const MAX_INPUT = 3000;
-const B2B_AFTER = 3; // show the B2B line after this many assistant answers
+const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
+
+/**
+ * Which cap was hit. 'hourly' is a pause of at most an hour with the day's
+ * allowance still unspent; 'daily' is over until tomorrow. The two must not be
+ * confused: treating an hourly pause as a daily one locks a willing visitor
+ * out for the rest of the day.
+ */
+type LimitReason = 'hourly' | 'daily';
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
@@ -33,7 +44,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [remaining, setRemaining] = useState<number>(() => loadRemaining(config.locale));
   const [busy, setBusy] = useState(false);
   const [limitReached, setLimitReached] = useState(() => loadRemaining(config.locale) === 0);
-  const [b2bDismissed, setB2bDismissed] = useState(false);
+  // Only a daily cap is remembered across a reload: an hourly one is never
+  // persisted, so a returning visitor is not walled for a limit that expired.
+  const [limitReason, setLimitReason] = useState<LimitReason>('daily');
+  const [offerDismissed, setOfferDismissed] = useState(() => loadOfferDismissed(config.locale));
   const [activeTool, setActiveTool] = useState<AiToolId>('chat');
   const [role, setRole] = useState<RoleId>('general');
   const [collapsed, setCollapsed] = useState(false);
@@ -44,6 +58,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [turnstileServerError, setTurnstileServerError] = useState<string | null>(null);
   const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const retryFocusRef = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
 
@@ -123,7 +139,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         track(EV.answerReceived, { model: res.modelUsed });
         track(EV.aiResponseSuccess, { model: res.modelUsed, messageNumber });
       } else if (res.code === 'limit_reached') {
-        setLimitReached(true); setRemaining(0); saveRemaining(0, config.locale); setMessages(base); track(EV.limitReached, { reason: res.reason, status: 'blocked' }); track(EV.limitReachedProduct, { reason: res.reason, status: 'blocked' });
+        const reason: LimitReason = res.reason === 'hourly' ? 'hourly' : 'daily';
+        setLimitReason(reason);
+        setLimitReached(true);
+        // An hourly pause is not the end of the day, so the day counter is
+        // left alone — writing 0 here would wall the visitor until midnight.
+        if (reason === 'daily') { setRemaining(0); saveRemaining(0, config.locale); }
+        setMessages(base);
+        track(EV.limitReached, { reason, status: 'blocked' });
+        track(EV.limitReachedProduct, { reason, status: 'blocked' });
         track(EV.aiResponseError, { code: 'limit_reached', messageNumber });
       } else if (res.code === 'turnstile_failed' || res.code === 'turnstile_unavailable') {
         setMessages(history);
@@ -144,6 +168,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const controller = new AbortController();
     abortRef.current = controller;
     let acc = '';
+    // One React render per animation frame, not one per token. A fast model
+    // emits deltas far quicker than a cheap phone can lay out markdown, and
+    // rendering each one is how a stream turns into stutter.
+    let frame = 0;
+    const raf = typeof requestAnimationFrame === 'function';
+    const paint = () => {
+      frame = 0;
+      setMessages([...base, { role: 'assistant', content: acc, streaming: true }]);
+    };
+    const stopPainting = () => {
+      if (frame && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame);
+      frame = 0;
+    };
     const outcome = await sendChatStream(
       config.apiBase,
       {
@@ -157,12 +194,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         onMeta: (m) => { if (m.sessionId && m.sessionId !== sid) { setSessionId(m.sessionId); saveSessionId(m.sessionId, config.locale); } },
         onDelta: (text) => {
           acc += text;
-          setMessages([...base, { role: 'assistant', content: acc }]);
+          if (!raf) { paint(); return; }
+          if (!frame) frame = requestAnimationFrame(paint);
         },
       },
       controller.signal,
     );
     abortRef.current = null;
+    // A frame queued by the last delta would otherwise land after the final
+    // state below and put the message back into its streaming form.
+    stopPainting();
 
     if (outcome.mode === 'json') {
       handleJson(outcome.res);
@@ -252,7 +293,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (busy) return;
     persist([]);
     setInput('');
-    setB2bDismissed(false);
+    // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
+    // pitch the same person again.
     startedRef.current = false;
     track(EV.newChat, { status: 'cleared' });
     focusInput();
@@ -268,7 +310,28 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     }
   };
 
-  const showB2B = assistantCount >= B2B_AFTER && !b2bDismissed && !limitReached;
+  const onDismissOffer = () => {
+    setOfferDismissed(true);
+    saveOfferDismissed(config.locale);
+  };
+
+  // The hourly window may already have passed while the card was on screen.
+  // Nothing local can know when, so the honest move is to let the person try:
+  // the server either answers or says 'limit_reached' again.
+  const onLimitRetry = () => {
+    retryFocusRef.current = true;
+    setLimitReached(false);
+  };
+
+  // The composer does not exist yet at the moment of the click — it replaces
+  // the cap card on the next render — so focus has to wait for it.
+  useEffect(() => {
+    if (limitReached || !retryFocusRef.current) return;
+    retryFocusRef.current = false;
+    inputRef.current?.focus();
+  }, [limitReached]);
+
+  const showOffer = assistantCount >= B2B_AFTER && !offerDismissed && !limitReached;
   const toolCopy: Record<Exclude<AiToolId, 'chat' | 'images'>, { title: string; body: string }> = uz
     ? {
         smm: { title: 'AI SMM kabinet', body: 'Instagram va Telegram uchun post, stories, reklama va kontent reja.' },
@@ -302,7 +365,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // ym-hide-content: Webvisor is enabled on counter 111312750. Everything the
     // console renders is a prompt, an answer or a saved conversation title, so
     // the whole console is masked in the session recording.
-    <div className="flex h-full min-h-0 bg-bg-base text-white ym-hide-content" data-testid="ai-console">
+    // colorScheme dark: the console is a dark surface whatever the OS theme is,
+    // and without this the UA paints checkboxes, scrollbars and autofill in
+    // light-mode colours on top of it.
+    <div
+      className="flex h-full min-h-0 bg-bg-base text-white ym-hide-content"
+      style={{ colorScheme: 'dark' }}
+      data-testid="ai-console"
+    >
       <AiSidebar
         locale={config.locale}
         t={t}
@@ -330,8 +400,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          <span className="font-display text-[15px] text-white lg:hidden">{t.brand}</span>
-          <div className="ml-auto flex items-center gap-2">
+          <span className="truncate whitespace-nowrap font-display text-[15px] text-white lg:hidden">{t.brand}</span>
+          <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
             <AiUsageBadge remaining={remaining} t={t} />
             <nav className="flex items-center overflow-hidden rounded-xl bg-white/[0.04] text-[11px]" aria-label={uz ? 'Til' : 'Язык'}>
               {([
@@ -356,7 +426,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         </header>
 
         {/* Messages area */}
-        <div className="min-h-0 flex-1 overflow-y-auto">
+        <div ref={viewportRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <div className="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
             {toolPanel}
             {empty && activeTool === 'chat' ? (
@@ -368,21 +438,20 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 </div>
               </div>
             ) : (
-              <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} />
+              <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} scrollRef={viewportRef} />
             )}
-            {showB2B && (
-              <p className="mt-6 flex items-center justify-center gap-2 text-center text-[13px] text-white/40" data-testid="ai-b2b-line">
-                <a
-                  href="https://t.me/XGame_changerx"
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  onClick={() => { track(EV.b2bCtaClicked, { from: 'chat_line' }); track(EV.telegramClicked, { from: 'chat_line' }); track(EV.telegramClick, { from: 'chat_line' }); }}
-                  className="hover:text-brand-cyan underline underline-offset-4"
-                >
-                  {t.b2bLine}
-                </a>
-                <button type="button" onClick={() => setB2bDismissed(true)} aria-label="✕" title="✕" className="grid h-8 w-8 place-items-center rounded-lg text-white/30 hover:text-white hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">✕</button>
-              </p>
+            {/* Stage 2 of the funnel: one offer, after the chat has already
+                been useful, closable and gone for the day once closed. */}
+            {showOffer && (
+              <AiOfferCard
+                t={t}
+                locale={config.locale}
+                apiBase={config.apiBase}
+                sessionId={sessionId}
+                stage="b2b"
+                pricingHref={pricingHref}
+                onDismiss={onDismissOffer}
+              />
             )}
           </div>
         </div>
@@ -391,7 +460,20 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         <div className="shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
             {limitReached ? (
-              <div className="py-3"><AiPaywallCard t={t} apiBase={config.apiBase} sessionId={sessionId} pricingHref={pricingHref} /></div>
+              // Stages 3 and 4: the same card, told apart by which cap was hit.
+              // Telegram leads, because it is a real continuation rather than
+              // a consolation link.
+              <div className="py-3">
+                <AiOfferCard
+                  t={t}
+                  locale={config.locale}
+                  apiBase={config.apiBase}
+                  sessionId={sessionId}
+                  stage={limitReason}
+                  pricingHref={pricingHref}
+                  onRetry={limitReason === 'hourly' ? onLimitRetry : undefined}
+                />
+              </div>
             ) : (
               <>
                 {remaining >= 0 && remaining <= 2 && (

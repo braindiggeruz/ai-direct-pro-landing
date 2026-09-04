@@ -318,7 +318,7 @@
       "text": "ChatGPT bilan marketing qilishni o‘rganmoqchimisiz? Avval {marketing} nima ekanini tushunib oling.",
       "links": [
         {
-          "token": "link",
+          "token": "marketing",
           "target": "/uz/blog/marketing-nima/",
           "anchor": "marketing"
         }
@@ -329,7 +329,7 @@
       "text": "Ijtimoiy tarmoqlarda reklama qilishni rejalashtiryapsizmi? {SMM} nima ekanini bilib oling.",
       "links": [
         {
-          "token": "link",
+          "token": "SMM",
           "target": "/uz/blog/smm-nima/",
           "anchor": "SMM"
         }

@@ -3,18 +3,18 @@
   "locale": "uz",
   "slug": "chatgptga-qanday-kirish-mumkin",
   "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-  "title": "ChatGPT kirish: O‘zbekistonda qanday ochish va login qilish",
-  "description": "ChatGPT kirish bo‘yicha qisqa qo‘llanma: rasmiy sayt, login, ro‘yxatdan o‘tish, VPN kerakmi, xatolar va xavfsizlik. O‘zbekiston uchun 2026 javobi.",
-  "h1": "ChatGPTga qanday kirish mumkin: O‘zbekiston uchun qo‘llanma",
+  "title": "ChatGPT login: rasmiy sayt, ro‘yxatdan o‘tish va xatolar",
+  "description": "ChatGPT login va Sign up: rasmiy domenni tekshirish, hisob ochish, kod kelmasa nima qilish, klon saytlardan saqlanish. O‘zbekiston uchun 2026 qo‘llanmasi.",
+  "h1": "ChatGPT login va ro‘yxatdan o‘tish: rasmiy sayt va keng tarqalgan xatolar",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
-    "chatgpt kirish",
-    "chat gpt kirish",
-    "chatgpt ga kirish",
-    "chatgpt ochish",
     "chatgpt login",
-    "chatgpt o‘zbekistonda"
+    "chatgpt sign up",
+    "chatgpt ro‘yxatdan o‘tish",
+    "chatgpt login kodi kelmadi",
+    "chatgpt rasmiy sayt",
+    "chatgpt hisob xavfsizligi"
   ],
   "intro": "ChatGPTga kirish uchun brauzerda chatgpt.com manzilini oching va Log in yoki Sign up tugmasini bosing. 2026-yil holatiga ko‘ra O‘zbekiston OpenAI qo‘llab-quvvatlaydigan mamlakatlar ro‘yxatida, shuning uchun odatiy kirish uchun VPN shart emas. Eng muhimi — rasmiy domenni tekshirish va parol yoki karta ma’lumotini klon saytlarga bermaslik.",
   "body": [
@@ -361,8 +361,8 @@
       "priority": 2
     }
   ],
-  "ogTitle": "ChatGPT kirish: O‘zbekistonda login va ochish yo‘li",
-  "ogDescription": "ChatGPTga kirish, login, ro‘yxatdan o‘tish, VPN va xatolar bo‘yicha O‘zbekiston uchun 2026 qo‘llanma.",
+  "ogTitle": "ChatGPT login: rasmiy sayt, ro‘yxatdan o‘tish va xatolar",
+  "ogDescription": "ChatGPT login va Sign up: rasmiy domenni tekshirish, hisob ochish, kod kelmasa nima qilish, klon saytlardan saqlanish. O‘zbekiston uchun 2026 qo‘llanmasi.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
   "hreflangUz": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
@@ -370,7 +370,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-09-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -395,6 +395,6 @@
       "note": "Ma’lumotlarni yuborish va maxfiylik bo‘yicha rasmiy tushuntirish."
     }
   ],
-  "updatedAt": "2026-09-01",
+  "updatedAt": "2026-09-04",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

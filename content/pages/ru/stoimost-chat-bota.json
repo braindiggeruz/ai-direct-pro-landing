@@ -161,6 +161,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Как эти строки выглядят в собранном проекте — в {c}: сайт, каталог, Telegram-бот, Mini App и CRM для сети кондитерских в Ташкенте, с перечнем того, что именно сдано.",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "anchor": "разборе проекта Cake City"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Тарифы и что входит"
     },
@@ -365,6 +376,13 @@
       "anchor": "рассчитать стоимость Telegram-бота",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "anchor": "Кейс Cake City: платформа для кондитерской",
+      "locale": "ru",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -374,9 +392,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-03",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-09-03",
+  "updatedAt": "2026-09-04",
   "heroTrust": [
     "Стартовая цена ≠ полный проект",
     "Scope до оплаты",

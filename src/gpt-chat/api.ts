@@ -134,6 +134,8 @@ export interface LeadPayload {
   name?: string;
   phone?: string;
   telegram?: string;
+  /** 'phone' | 'telegram' — how the operator should reach the person. */
+  contactType?: string;
   contactValue?: string;
   intent?: string;
   sessionId?: string | null;
@@ -143,11 +145,22 @@ export interface LeadPayload {
   utm?: Record<string, string>;
 }
 
-export async function sendLead(apiBase: string, payload: LeadPayload): Promise<{ ok: boolean }> {
+export interface LeadResult {
+  ok: boolean;
+  /** 'network' | 'invalid_lead' | 'store_failed' | 'bad_json' | … */
+  code?: string;
+}
+
+// The endpoint answers 200 with { ok:false, code } for a rejected or unstored
+// lead, so a truthy response is not success. The server's own message is never
+// returned: like every other failure in this island the UI shows curated copy.
+export async function sendLead(apiBase: string, payload: LeadPayload): Promise<LeadResult> {
   try {
-    return await postJson<{ ok: boolean }>(`${apiBase}/api/gpt/lead`, payload);
+    const res = await postJson<{ ok?: unknown; code?: unknown }>(`${apiBase}/api/gpt/lead`, payload);
+    if (res.ok === true) return { ok: true };
+    return { ok: false, code: typeof res.code === 'string' ? res.code : 'rejected' };
   } catch {
-    return { ok: false };
+    return { ok: false, code: 'network' };
   }
 }
 

@@ -293,6 +293,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Пример сайта, который делался сразу под поиск и заявки, а не «чтобы был», — {c}: CMS, money pages на двух языках, блог и CRM.",
+      "links": [
+        {
+          "token": "c",
+          "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+          "anchor": "кейс Graver Studio"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Рассчитать стоимость сайта",
       "href": "https://t.me/XGame_changerx"
@@ -479,6 +490,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "anchor": "Graver Studio: сайт под поиск и заявки",
+      "locale": "ru",
+      "type": "contextual",
+      "reason": "Published case study — evidence next to the commercial decision."
     }
   ],
   "schemaTypes": [
@@ -488,7 +506,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-10",
+  "lastReviewedAt": "2026-09-04",
   "createdAt": "2026-07-10T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-04"
 }

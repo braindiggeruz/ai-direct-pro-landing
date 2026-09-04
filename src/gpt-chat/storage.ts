@@ -5,6 +5,7 @@ import type { ChatMessage, Locale } from './types';
 const SID_KEY = 'gptchat_sid';
 const HIST_KEY = 'gptchat_history';
 const REMAINING_KEY = 'gptchat_remaining';
+const OFFER_KEY = 'gptchat_offer_dismissed';
 
 function localeKey(base: string, locale: Locale): string {
   return `${base}_${locale}`;
@@ -52,6 +53,27 @@ export function saveRemaining(remaining: number, locale: Locale): void {
   if (!Number.isInteger(remaining) || remaining < 0) return;
   try {
     localStorage.setItem(localeKey(REMAINING_KEY, locale), JSON.stringify({ value: remaining, date: new Date().toISOString().slice(0, 10) }));
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * "Dismissed the commercial offer" survives a reload for the rest of the day.
+ * Re-pitching someone on every page load is exactly the nagging the funnel is
+ * meant to avoid; a day later is a new visit and a fair second ask.
+ */
+export function loadOfferDismissed(locale: Locale): boolean {
+  try {
+    return localStorage.getItem(localeKey(OFFER_KEY, locale)) === new Date().toISOString().slice(0, 10);
+  } catch {
+    return false;
+  }
+}
+
+export function saveOfferDismissed(locale: Locale): void {
+  try {
+    localStorage.setItem(localeKey(OFFER_KEY, locale), new Date().toISOString().slice(0, 10));
   } catch {
     /* noop */
   }

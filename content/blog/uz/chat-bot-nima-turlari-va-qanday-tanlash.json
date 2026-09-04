@@ -13,7 +13,6 @@
     "chat-bot turlari",
     "chatbot",
     "chat bot qanday ishlaydi",
-    "biznes uchun chat bot",
     "chat bot tanlash"
   ],
   "intro": "Chat-bot — bu messenjerda, saytda yoki ilovada inson bilan yozishma olib boradigan dastur: savollarga javob beradi, buyruqlarni bajaradi va ma’lumot yig‘adi. Ushbu qo‘llanmada — ta’rif, chat-botlarning asosiy turlari va tanlash uchun amaliy mezonlar.",
@@ -192,7 +191,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-04",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -201,5 +200,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-27T00:00:00.000Z"
+  "updatedAt": "2026-09-04"
 }
