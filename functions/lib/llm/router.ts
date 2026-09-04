@@ -100,7 +100,7 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
       });
 
       if (r.ok) {
-        await recordSuccess(env, cand.provider, cand.model).catch(() => undefined);
+        await recordSuccess(env, cand.provider, cand.model).catch((e) => { console.error("llm-router: persist failed", e); });
         const success: LlmCallSuccess = {
           ok: true,
           content: r.content,
@@ -117,13 +117,13 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
             attempts,
           },
         };
-        if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, success).catch(() => undefined);
-        await recordUsage(env, input.feature, success, input.idempotencyKey).catch(() => undefined);
+        if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, success).catch((e) => { console.error("llm-router: persist failed", e); });
+        await recordUsage(env, input.feature, success, input.idempotencyKey).catch((e) => { console.error("llm-router: persist failed", e); });
         return success;
       }
 
       // Record failure regardless of retry decision.
-      await recordFailure(env, cand.provider, cand.model, r.error_class).catch(() => undefined);
+      await recordFailure(env, cand.provider, cand.model, r.error_class).catch((e) => { console.error("llm-router: persist failed", e); });
       lastFailure = {
         error: r.error,
         cls: r.error_class,
@@ -169,8 +169,8 @@ export async function routeLlmCall(env: Env, input: LlmCallInput): Promise<LlmCa
         attempts,
       },
     };
-    if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, failure).catch(() => undefined);
-    await recordUsage(env, input.feature, failure, input.idempotencyKey).catch(() => undefined);
+    if (input.idempotencyKey) await writeIdempotent(env, input.idempotencyKey, input.feature, failure).catch((e) => { console.error("llm-router: persist failed", e); });
+    await recordUsage(env, input.feature, failure, input.idempotencyKey).catch((e) => { console.error("llm-router: persist failed", e); });
     return failure;
   };
 

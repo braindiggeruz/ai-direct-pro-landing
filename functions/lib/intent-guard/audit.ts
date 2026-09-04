@@ -81,7 +81,7 @@ export async function saveAnalysis(env: Env, input: SaveAnalysisInput): Promise<
       risk_level: input.risk_level,
       intent_key: input.intent_key,
       top_conflicts: input.conflicts.slice(0, 5).map((c) => ({ id: c.id, source_type: c.source_type, score: c.similarity.score })),
-    }).catch(() => undefined);
+    }).catch((e) => { console.error("intent-guard-audit: DB operation failed", e); });
   }
   return id;
 }

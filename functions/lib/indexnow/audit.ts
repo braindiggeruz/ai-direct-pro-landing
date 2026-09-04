@@ -44,10 +44,10 @@ async function ensureTable(db: D1Database): Promise<void> {
        duration_ms INTEGER NOT NULL DEFAULT 0,
        error TEXT
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_url ON indexnow_submissions(url)').catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_submitted_at ON indexnow_submissions(submitted_at DESC)').catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_batch_id ON indexnow_submissions(batch_id)').catch(() => undefined);
+  ).catch((e) => { console.error("indexnow-audit: DB operation failed", e); });
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_url ON indexnow_submissions(url)').catch((e) => { console.error("indexnow-audit: DB operation failed", e); });
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_submitted_at ON indexnow_submissions(submitted_at DESC)').catch((e) => { console.error("indexnow-audit: DB operation failed", e); });
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_batch_id ON indexnow_submissions(batch_id)').catch((e) => { console.error("indexnow-audit: DB operation failed", e); });
 }
 
 export async function writeAudit(
@@ -85,7 +85,7 @@ export async function writeAudit(
         (r.error || null)?.toString().slice(0, 480) ?? null,
       ),
     ))
-    .catch(() => undefined);
+    .catch((e) => { console.error("indexnow-audit: DB operation failed", e); });
 }
 
 /**
