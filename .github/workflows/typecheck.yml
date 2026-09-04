@@ -1,0 +1,65 @@
+name: Typecheck
+
+# The root tsconfig only references tsconfig.app.json and tsconfig.node.json.
+# tsconfig.functions.json was written but never referenced by anything, so
+# `tsc -b` reported success while functions/** was never compiled at all.
+#
+# That hole had a price: a regex rename turned `await request.json()` into
+# `await request.jsonResponse()` across 18 endpoints, `tsc -b` stayed green,
+# and the only thing standing between that and production was a manual read of
+# the diff. `tsc -p tsconfig.functions.json` catches it in one second with
+# TS2339. This workflow makes running it somebody's job rather than a favour.
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/typecheck.yml'
+      - 'functions/**'
+      - 'src/**'
+      - 'apps/**'
+      - 'tsconfig*.json'
+      - 'package.json'
+  push:
+    branches: ['main']
+    paths:
+      - '.github/workflows/typecheck.yml'
+      - 'functions/**'
+      - 'src/**'
+      - 'apps/**'
+      - 'tsconfig*.json'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: typecheck-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches "packageManager": "yarn@1.22.22" in package.json. There is
+          # no package-lock.json, so `npm ci` would fail here.
+          node-version: '24'
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile
+
+      - name: App + node
+        run: npx tsc -b
+
+      - name: Pages Functions
+        # Deployed as-is to Cloudflare; a type error here is a broken endpoint,
+        # not a build warning.
+        run: npx tsc -p tsconfig.functions.json --noEmit --pretty false
+
+      - name: Lead radar
+        run: npx tsc -p tsconfig.lead-radar.json --noEmit --pretty false
