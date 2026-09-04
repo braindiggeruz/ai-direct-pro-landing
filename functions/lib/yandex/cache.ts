@@ -26,8 +26,8 @@ async function ensureTable(db: D1Database): Promise<void> {
        cached_at_ms   INTEGER NOT NULL,
        expires_at_ms  INTEGER NOT NULL
      )`.replace(/\s+/g, ' '),
-  ).catch(() => undefined);
-  await db.exec('CREATE INDEX IF NOT EXISTS idx_yandex_serp_expires ON yandex_serp_cache(expires_at_ms)').catch(() => undefined);
+  ).catch((e) => { console.error('yandex-cache: ensureTable failed', e); });
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_yandex_serp_expires ON yandex_serp_cache(expires_at_ms)').catch((e) => { console.error('yandex-cache: createIndex failed', e); });
 }
 
 export function makeCacheKey(input: { query: string; locale: 'ru' | 'uz'; search_type: string; region?: number | null }): string {

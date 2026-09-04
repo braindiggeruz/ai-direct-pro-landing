@@ -247,7 +247,12 @@ export const onRequestPost: PagesFunction<TgEnv> = async ({ request, env }) => {
   }
 
   let upd: TgUpdate;
-  try { upd = await request.json() as TgUpdate; } catch { return new Response('ok', { status: 200 }); }
+  try {
+    upd = await request.json() as TgUpdate;
+  } catch (e) {
+    console.error('telegram-webhook: failed to parse JSON body', e);
+    return new Response('ok', { status: 200 });
+  }
 
   try {
     // Callback (inline buttons)
