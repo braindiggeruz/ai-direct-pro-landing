@@ -1,4 +1,4 @@
-// Adds CORS + connection-stabilising headers globally.
+// Adds CORS + connection-stabilising + security headers globally.
 //
 // - CORS: the admin and the landing are both served from the same
 //   Cloudflare Pages project, so cross-origin is rarely needed — but
@@ -162,10 +162,18 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
       headers.delete('Access-Control-Allow-Headers');
     }
   } else {
-    headers.set('Access-Control-Allow-Origin', '*');
-    headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    const origin = request.headers.get('Origin');
+    if (origin) {
+      headers.set('Access-Control-Allow-Origin', origin);
+      headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      headers.append('Vary', 'Origin');
+    }
   }
   headers.set('Alt-Svc', 'clear');
+  // Security headers for every response (not only API routes).
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('X-Frame-Options', 'DENY');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   // Pin HTTPS for 1 year (no preload — owner controls preload submission).
   headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   if (isLoginPage) {

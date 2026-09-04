@@ -6,8 +6,7 @@
 //   GITHUB_REPO             e.g. "ai-direct-pro-landing"
 //   GITHUB_BRANCH           e.g. "main"
 //   ADMIN_EMAIL             single-user admin email
-//   ADMIN_PASSWORD_HASH     PBKDF2-SHA256 PHC string. Preferred.
-//   ADMIN_PASSWORD          fallback plain password (DEV ONLY, do NOT set in prod).
+//   ADMIN_PASSWORD_HASH     PBKDF2-SHA256 PHC string (required in production).
 //   JWT_SECRET              random >=32-char string for HS256 signing
 //   TURNSTILE_SECRET_KEY    optional. Server side. Enforced for GPT Chat when set.
 //   TURNSTILE_SITE_KEY      optional. Public. Exposed by /api/auth/config to the SPAs.
@@ -34,7 +33,6 @@ export interface Env extends FirecrawlEnvironment {
   GITHUB_BRANCH: string;
   ADMIN_EMAIL: string;
   ADMIN_PASSWORD_HASH?: string;
-  ADMIN_PASSWORD?: string;
   JWT_SECRET: string;
   TURNSTILE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;

@@ -36,13 +36,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return json({ error: 'Invalid credentials' }, 401);
   }
 
-  // Password check: prefer hash, fall back to plain (dev only)
-  let ok = false;
-  if (env.ADMIN_PASSWORD_HASH) {
-    ok = await verifyPassword(password, env.ADMIN_PASSWORD_HASH);
-  } else if (env.ADMIN_PASSWORD) {
-    ok = password === env.ADMIN_PASSWORD;
-  }
+  // Password check: hash only. Plain-text fallback removed 2026-09-04.
+  const ok = env.ADMIN_PASSWORD_HASH
+    ? await verifyPassword(password, env.ADMIN_PASSWORD_HASH)
+    : false;
   if (!ok) {
     const r = await registerFailure(env, key);
     if (r.lockedFor > 0) {

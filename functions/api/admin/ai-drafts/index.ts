@@ -23,16 +23,20 @@ function json(data: unknown, status = 200): Response {
   });
 }
 
-export const onRequestOptions: PagesFunction<Env> = async () =>
-  new Response(null, {
+export const onRequestOptions: PagesFunction<Env> = async ({ request }) => {
+  const origin = request.headers.get('Origin');
+  const allowed = origin === new URL(request.url).origin;
+  return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': allowed ? origin! : '',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '86400',
+      ...(allowed ? { Vary: 'Origin' } : {}),
     },
   });
+};
 
 // -- POST = retired external ingest ----------------------------------------
 // 410 rather than 404: the route existed, it is deliberately withdrawn, and a
