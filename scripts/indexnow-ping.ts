@@ -12,6 +12,7 @@
 // Spec: https://www.indexnow.org/documentation
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash, randomUUID } from 'node:crypto';
 
 const KEY = process.env.INDEXNOW_KEY;
 if (!KEY) {
@@ -57,6 +58,22 @@ const res = await fetch(ENDPOINT, {
 
 console.log(`[indexnow-ping] HTTP ${res.status} ${res.statusText}`);
 const body = await res.text();
+const submittedAt = new Date().toISOString();
+const batchId = `manual_${Date.now()}_${randomUUID().slice(0, 8)}`;
+const receiptDir = path.join(ROOT, 'reports', 'indexnow-receipts');
+const receiptPath = path.join(receiptDir, `${submittedAt.replace(/[:.]/g, '-')}_${batchId}.json`);
+fs.mkdirSync(receiptDir, { recursive: true });
+fs.writeFileSync(receiptPath, `${JSON.stringify({
+  batchId,
+  submittedAt,
+  endpoint: ENDPOINT,
+  httpStatus: res.status,
+  ok: res.ok,
+  urlCount: urls.length,
+  sitemapSha256: createHash('sha256').update(xml).digest('hex'),
+  responseExcerpt: body.slice(0, 500),
+}, null, 2)}\n`, 'utf8');
+console.log(`[indexnow-ping] Receipt: ${path.relative(ROOT, receiptPath)}`);
 if (body) console.log('[indexnow-ping] Response:', body.slice(0, 500));
 if (res.status >= 400) {
   console.error('[indexnow-ping] Non-2xx response. See https://www.indexnow.org/documentation for status codes.');

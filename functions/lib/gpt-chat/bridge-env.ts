@@ -40,6 +40,12 @@ export interface BridgeEnvExtras {
   GPT_LEAD_MAX_PER_HOUR?: string;
   /** Public. Leads accepted per hashed IP per day. Default 20. */
   GPT_LEAD_MAX_PER_DAY?: string;
+  /** Public. Leads accepted across all visitors per hour. Default 30. */
+  GPT_LEAD_GLOBAL_MAX_PER_HOUR?: string;
+  /** Public. Require Turnstile after this many hourly attempts from one IP. */
+  GPT_LEAD_TURNSTILE_AFTER?: string;
+  /** Public. Handoff rows minted across all visitors per hour. Default 100. */
+  GPT_HANDOFF_GLOBAL_MAX_PER_HOUR?: string;
   /** Public. Owner alerts delivered per hour across ALL visitors. Default 30. */
   GPT_OWNER_NOTIFY_MAX_PER_HOUR?: string;
 }
@@ -61,6 +67,12 @@ export interface BridgeLimits {
   leadPerDay: number;
   /** Handoff links minted for one hashed IP per hour. */
   handoffPerHour: number;
+  /** Leads accepted globally per hour, bounding distributed floods. */
+  leadGlobalPerHour: number;
+  /** Per-IP attempt count after which a configured Turnstile is mandatory. */
+  leadTurnstileAfter: number;
+  /** Handoff rows minted globally per hour, bounding distributed floods. */
+  handoffGlobalPerHour: number;
   /** Owner alerts pushed per hour across every visitor combined. */
   ownerAlertsPerHour: number;
   /** A repeat of the same contact inside this window is one lead, not two. */
@@ -78,6 +90,9 @@ export function resolveBridgeLimits(env: BridgeEnvExtras): BridgeLimits {
     leadPerHour: boundedNum(env.GPT_LEAD_MAX_PER_HOUR, 5, 1, 50),
     leadPerDay: boundedNum(env.GPT_LEAD_MAX_PER_DAY, 20, 1, 200),
     handoffPerHour: boundedNum(env.GPT_HANDOFF_MAX_PER_HOUR, 20, 1, 200),
+    leadGlobalPerHour: boundedNum(env.GPT_LEAD_GLOBAL_MAX_PER_HOUR, 30, 1, 500),
+    leadTurnstileAfter: boundedNum(env.GPT_LEAD_TURNSTILE_AFTER, 2, 1, 20),
+    handoffGlobalPerHour: boundedNum(env.GPT_HANDOFF_GLOBAL_MAX_PER_HOUR, 100, 1, 1000),
     ownerAlertsPerHour: boundedNum(env.GPT_OWNER_NOTIFY_MAX_PER_HOUR, 30, 1, 300),
     duplicateWindowMs: 60 * 60 * 1000,
   };

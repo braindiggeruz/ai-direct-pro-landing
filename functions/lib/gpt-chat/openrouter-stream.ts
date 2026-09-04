@@ -5,7 +5,7 @@
 import type { Env } from '../../_types';
 import type { ChatMessage } from './prompt';
 import type { GptChatConfig } from './config';
-import { buildChatBody } from './openrouter-chat';
+import { buildChatBody, classifyFailureStatus } from './openrouter-chat';
 
 const ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -23,6 +23,7 @@ export async function chatStreamStart(
 ): Promise<StreamStart> {
   if (!env.OPENROUTER_API_KEY) return { ok: false, errorCode: 'no_key' };
   let lastCode = 'provider_error';
+  let everyCandidateUnavailable = chain.length > 0;
   for (const model of chain) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -45,7 +46,8 @@ export async function chatStreamStart(
       });
       if (!res.ok || !res.body) {
         clearTimeout(timer);
-        lastCode = res.status === 429 ? 'rate_limit' : 'provider_error';
+        lastCode = classifyFailureStatus(res.status);
+        if (lastCode !== 'model_unavailable') everyCandidateUnavailable = false;
         continue;
       }
       // Keep the timeout armed for the WHOLE stream: a stalled upstream is
@@ -59,9 +61,13 @@ export async function chatStreamStart(
     } catch (e) {
       clearTimeout(timer);
       lastCode = (e as Error).name === 'AbortError' ? 'timeout' : 'provider_error';
+      everyCandidateUnavailable = false;
     }
   }
-  return { ok: false, errorCode: lastCode };
+  return {
+    ok: false,
+    errorCode: everyCandidateUnavailable ? 'model_unavailable' : lastCode,
+  };
 }
 
 export interface SseEvent {

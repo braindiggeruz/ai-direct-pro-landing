@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import type { ChatStrings } from '../i18n';
 import type { Locale } from '../types';
-import { sendLead } from '../api';
+import { fetchTurnstileConfig, sendLead } from '../api';
 import { EV, track, trackLeadSubmitted } from '../analytics';
 import { parseContact, telegramContact } from '../contact';
+import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
 export type LeadMethod = 'offer_b2b' | 'hourly_limit' | 'daily_limit';
@@ -48,6 +49,11 @@ export function AiLeadForm({
   const [consentError, setConsentError] = useState(false);
   const uid = useId();
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  const requestIdRef = useRef<string | null>(null);
+  const turnstileRef = useRef<TurnstileChallengeHandle>(null);
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileRequired, setTurnstileRequired] = useState(false);
   const tg = telegramContact(locale);
   const privacyHref = locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/';
   const telegramLink =
@@ -67,7 +73,7 @@ export function AiLeadForm({
     event.preventDefault();
     if (status === 'sending') return;
     const parsed = parseContact(contact);
-    if (!parsed || !consent) {
+    if (!parsed || !consent || (turnstileRequired && !turnstileToken)) {
       setContactError(!parsed);
       setConsentError(!consent);
       return;
@@ -75,7 +81,10 @@ export function AiLeadForm({
     setContactError(false);
     setConsentError(false);
     setStatus('sending');
+    requestIdRef.current ??= `lead_${crypto.randomUUID().replace(/-/g, '')}`;
     const res = await sendLead(apiBase, {
+      requestId: requestIdRef.current,
+      turnstileToken: turnstileToken || undefined,
       name: name.trim() || undefined,
       contactType: parsed.type,
       contactValue: parsed.value,
@@ -91,6 +100,19 @@ export function AiLeadForm({
       setStatus('sent');
       trackLeadSubmitted(method, { mode: parsed.type, intent, locale });
     } else {
+      if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
+        setTurnstileRequired(true);
+        setTurnstileToken(null);
+        turnstileRef.current?.reset();
+        try {
+          const config = await fetchTurnstileConfig(apiBase);
+          setTurnstileSiteKey(config.siteKey);
+        } catch {
+          setTurnstileSiteKey(null);
+        }
+        setStatus('idle');
+        return;
+      }
       setStatus('failed');
       track(EV.leadFormFailed, { method, intent, code: res.code, locale });
     }
@@ -188,6 +210,24 @@ export function AiLeadForm({
       <p className="mt-2 pl-8 text-[12px] leading-relaxed text-white/35">{t.leadConsentDetail}</p>
       {consentError && (
         <p role="alert" className="mt-1.5 text-[12px] leading-relaxed text-red-300">{t.leadConsentError}</p>
+      )}
+
+      {turnstileRequired && turnstileSiteKey && (
+        <div className="mt-4">
+          <TurnstileChallenge
+            ref={turnstileRef}
+            siteKey={turnstileSiteKey}
+            action="gpt_lead"
+            loadingText={t.turnstileLoading}
+            promptText={t.turnstilePrompt}
+            verifiedText={t.turnstileVerified}
+            errorText={t.turnstileError}
+            onTokenChange={setTurnstileToken}
+          />
+        </div>
+      )}
+      {turnstileRequired && !turnstileSiteKey && (
+        <p role="alert" className="mt-3 text-[13px] text-red-200">{t.turnstileError}</p>
       )}
 
       <button

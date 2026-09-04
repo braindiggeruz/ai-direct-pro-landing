@@ -20,7 +20,7 @@
 import type { Env } from '../../../_types';
 import { resolveConfig } from '../../../lib/gpt-chat/config';
 import { ensureSchema } from '../../../lib/gpt-chat/schema';
-import { json, fail, readJson } from '../../../lib/gpt-chat/http';
+import { json, fail, readJsonLimited } from '../../../lib/gpt-chat/http';
 import { hashIp, getClientIp } from '../../../lib/gpt-chat/hash';
 import { normalizePagePath, normLocale } from '../../../lib/gpt-chat/validate';
 import { resolveBridgeLimits, type BridgeEnv } from '../../../lib/gpt-chat/bridge-env';
@@ -42,7 +42,13 @@ function fallbackLink(botUsername: string, locale: 'ru' | 'uz'): string {
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   const bridgeEnv = env as BridgeEnv;
   const handoff = resolveHandoffConfig(bridgeEnv);
-  const body = (await readJson<HandoffBody>(request)) || {};
+  const parsed = await readJsonLimited<HandoffBody>(request, 8 * 1024);
+  if (!parsed.ok) {
+    return parsed.code === 'payload_too_large'
+      ? fail('payload_too_large', 'Request body is too large', 413)
+      : fail('bad_json', 'Invalid JSON body');
+  }
+  const body = parsed.value;
   const locale = normLocale(body.locale);
 
   if (!handoff.configured) {
@@ -84,7 +90,15 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // Minting is cheap but it writes a row, so it is capped. Being over the cap
   // must not cut somebody off from the only route to a human, so the answer is
   // a working link without context — not a refusal.
+  if (gate.degraded) return unlinked('rate_limit_unavailable');
   if (!gate.allowed) return unlinked('rate_limited');
+
+  const globalGate = await consumeRateLimit(db, 'handoff_global', 'all', {
+    limit: limits.handoffGlobalPerHour,
+    windowMs: HOUR_MS,
+  });
+  if (globalGate.degraded) return unlinked('rate_limit_unavailable');
+  if (!globalGate.allowed) return unlinked('global_rate_limited');
 
   const sessionId = typeof body.sessionId === 'string' && body.sessionId ? body.sessionId.slice(0, 64) : null;
   const intent = typeof body.intent === 'string' ? body.intent.trim().slice(0, 60) || null : null;

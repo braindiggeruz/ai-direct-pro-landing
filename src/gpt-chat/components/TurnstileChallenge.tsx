@@ -12,10 +12,11 @@ interface TurnstileChallengeProps {
   verifiedText: string;
   errorText: string;
   onTokenChange: (token: string | null) => void;
+  action?: 'gpt_chat' | 'gpt_lead';
 }
 
 export const TurnstileChallenge = forwardRef<TurnstileChallengeHandle, TurnstileChallengeProps>(
-  function TurnstileChallenge({ siteKey, loadingText, promptText, verifiedText, errorText, onTokenChange }, ref) {
+  function TurnstileChallenge({ siteKey, loadingText, promptText, verifiedText, errorText, onTokenChange, action = 'gpt_chat' }, ref) {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const [status, setStatus] = useState<'loading' | 'prompt' | 'verified' | 'error'>('loading');
@@ -41,7 +42,7 @@ export const TurnstileChallenge = forwardRef<TurnstileChallengeHandle, Turnstile
           api = loadedApi;
           widgetIdRef.current = loadedApi.render(containerRef.current, {
             sitekey: siteKey,
-            action: 'gpt_chat',
+            action,
             theme: 'dark',
             size: responsiveTurnstileSize(),
             callback: (token) => {
@@ -71,7 +72,7 @@ export const TurnstileChallenge = forwardRef<TurnstileChallengeHandle, Turnstile
         if (api && widgetIdRef.current) api.remove(widgetIdRef.current);
         widgetIdRef.current = null;
       };
-    }, [onTokenChange, siteKey]);
+    }, [action, onTokenChange, siteKey]);
 
     const statusText = status === 'loading'
       ? loadingText

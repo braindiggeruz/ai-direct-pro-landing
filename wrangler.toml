@@ -171,10 +171,9 @@ OPENROUTER_MODEL_PAID_FALLBACKS = "meta-llama/llama-3.3-70b-instruct,deepseek/de
 # With BOTH unset the endpoint logs once per isolate, skips the send, and still
 # stores the lead and answers ok. A missing notification never costs a lead.
 #
-# The bot username is public configuration, not a secret: it is the verified
-# live handle already published in content (t.me/gptbot_javob_bot), and it is
-# the bot whose /start this bridge's tokens are redeemed against. Empty here
-# would make the chat hide the Telegram route entirely.
+# The bot username is public configuration, not a secret. Keep this equal to
+# the public fallback in src/lib/telegram.ts; tests pin the two sides so the
+# website cannot mint a token for one bot and send the person to another.
 GPT_HANDOFF_BOT_USERNAME = "gptbotuz_bot"
 # Handoff link lifetime. Long enough that somebody without Telegram installed
 # can come back to it; the token is single-use and opaque either way.
@@ -187,6 +186,9 @@ GPT_HANDOFF_TTL_MINUTES = "1440"
 GPT_LEAD_MAX_PER_HOUR = "5"
 GPT_LEAD_MAX_PER_DAY = "20"
 GPT_HANDOFF_MAX_PER_HOUR = "20"
+GPT_LEAD_GLOBAL_MAX_PER_HOUR = "30"
+GPT_HANDOFF_GLOBAL_MAX_PER_HOUR = "100"
+GPT_LEAD_TURNSTILE_AFTER = "2"
 # Global ceiling on owner alerts per hour, across all visitors combined. Past
 # it the leads are still stored and the owner is told once that it went quiet.
 GPT_OWNER_NOTIFY_MAX_PER_HOUR = "30"

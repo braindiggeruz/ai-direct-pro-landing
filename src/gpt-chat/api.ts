@@ -131,6 +131,9 @@ export async function sendChatStream(
 }
 
 export interface LeadPayload {
+  /** Stable across retries so one browser action produces one durable lead. */
+  requestId: string;
+  turnstileToken?: string;
   name?: string;
   phone?: string;
   telegram?: string;

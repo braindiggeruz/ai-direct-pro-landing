@@ -26,6 +26,20 @@ interface ChatBody {
   stream?: boolean;
 }
 
+function publicProviderCode(code: string | undefined): string {
+  return code === 'no_key' || code === 'rate_limit' || code === 'model_unavailable' || code === 'timeout'
+    ? code
+    : 'provider_error';
+}
+
+function providerMessage(code: string | undefined): string {
+  if (code === 'no_key') return 'AI-чат временно не настроен. Попробуйте позже.';
+  if (code === 'rate_limit') return 'Сейчас много запросов. Попробуйте ещё раз через минуту.';
+  if (code === 'model_unavailable') return 'Модели AI-чата обновляются. Попробуйте ещё раз немного позже.';
+  if (code === 'timeout') return 'Ответ занял слишком много времени. Попробуйте ещё раз.';
+  return 'Не удалось получить ответ. Попробуйте переформулировать или повторить.';
+}
+
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   const cfg = resolveConfig(env);
   const body = await readJson<ChatBody>(request);
@@ -97,14 +111,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   if (wantStream) {
     const start = await chatStreamStart(env, cfg, modelChain(cfg, plan), messages);
     if (!start.ok) {
-      const friendly =
-        start.errorCode === 'no_key'
-          ? 'AI-чат временно не настроен. Попробуйте позже.'
-          : start.errorCode === 'rate_limit'
-            ? 'Сейчас много запросов. Попробуйте ещё раз через минуту.'
-            : 'Не удалось получить ответ. Попробуйте переформулировать или повторить.';
       // Plain JSON (not SSE) — the client falls back on Content-Type.
-      return json({ ok: false, code: 'provider_error', message: friendly, sessionId });
+      return json({
+        ok: false,
+        code: publicProviderCode(start.errorCode),
+        message: providerMessage(start.errorCode),
+        sessionId,
+      });
     }
 
     const encoder = new TextEncoder();
@@ -180,14 +193,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   const result = await chatComplete(env, cfg, modelChain(cfg, plan), messages);
 
   if (!result.ok) {
-    const friendly =
-      result.errorCode === 'no_key'
-        ? 'AI-чат временно не настроен. Попробуйте позже.'
-        : result.errorCode === 'rate_limit'
-          ? 'Сейчас много запросов. Попробуйте ещё раз через минуту.'
-          : 'Не удалось получить ответ. Попробуйте переформулировать или повторить.';
     // 200 with ok:false so the client renders an error state, not a crash.
-    return json({ ok: false, code: 'provider_error', message: friendly, sessionId });
+    return json({
+      ok: false,
+      code: publicProviderCode(result.errorCode),
+      message: providerMessage(result.errorCode),
+      sessionId,
+    });
   }
 
   const answer = result.content!;

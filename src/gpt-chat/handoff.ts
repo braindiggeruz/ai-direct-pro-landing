@@ -45,6 +45,18 @@ export interface MintedHandoff {
 }
 
 /**
+ * Only a server-minted bot deep link can transfer the conversation. A
+ * prefilled message to a personal account cannot execute the bot's `/start`
+ * claim flow, so it must never be labelled as carrying session context.
+ */
+export function resolveHandoffLink(locale: Locale, minted: MintedHandoff | null): HandoffLink {
+  if (minted?.linked && minted.payload) {
+    return { href: minted.href, channel: 'bot', withSession: true };
+  }
+  return { href: studioTelegramLink(locale), channel: 'studio', withSession: false };
+}
+
+/**
  * Ask the backend for a deep link to the assistant bot.
  * Resolves to null whenever anything at all is off — an unconfigured bot, a
  * transport failure, a link that is not a Telegram URL. The caller then keeps
@@ -96,11 +108,7 @@ export function useTelegramHandoff(
   locale: Locale,
   source: HandoffSource,
 ): HandoffLink {
-  const [link, setLink] = useState<HandoffLink>(() => ({
-    href: studioTelegramLink(locale),
-    channel: 'studio',
-    withSession: false,
-  }));
+  const [link, setLink] = useState<HandoffLink>(() => resolveHandoffLink(locale, null));
   const requested = useRef('');
 
   useEffect(() => {
@@ -111,15 +119,7 @@ export function useTelegramHandoff(
     const pageUrl = typeof location === 'undefined' ? undefined : location.pathname;
     void mintTelegramLink(apiBase, { sessionId, locale, source, pageUrl }).then((minted) => {
       if (cancelled) return;
-      // The mint is used for its reference code, not its bot deep link: these
-      // CTAs go to the owner's own Telegram, because the person clicking wants
-      // a human who can quote a price. Without a code the plain contact stands.
-      if (!minted || !minted.payload) return;
-      setLink({
-        href: studioTelegramLink(locale, minted.payload),
-        channel: 'studio',
-        withSession: minted.linked,
-      });
+      setLink(resolveHandoffLink(locale, minted));
     });
     return () => { cancelled = true; };
   }, [apiBase, sessionId, locale, source]);

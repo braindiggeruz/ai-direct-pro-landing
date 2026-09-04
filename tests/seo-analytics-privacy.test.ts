@@ -276,6 +276,22 @@ test('a Telegram click never fabricates GA4 generate_lead', () => {
   }
 });
 
+test('contact clicks have one owner: templates do not emit a second inline event', () => {
+  const sources = [
+    'scripts/prerender.ts',
+    'scripts/prerender-blog.ts',
+    'src/components/StickyCTA.tsx',
+    'src/components/Footer.tsx',
+  ];
+  for (const source of sources) {
+    const text = fs.readFileSync(path.join(process.cwd(), source), 'utf8');
+    assert.ok(
+      !text.includes("track('contact_click'") && !text.includes("gtag('event','contact_click'"),
+      `${source} emits contact_click outside the shared delegated listener`,
+    );
+  }
+});
+
 test('no analytics payload carries a phone number or an email address', () => {
   for (const source of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) {
     assert.doesNotMatch(source, /\+998\s?\d/, 'a phone number is hard-coded into an analytics payload');

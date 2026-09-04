@@ -31,6 +31,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   const url = new URL(request.url);
   const isMarketApi = url.pathname.startsWith('/api/market/v1/');
   const isLeadRadarApi = url.pathname.startsWith('/api/admin/lead-radar');
+  const isGptApi = url.pathname.startsWith('/api/gpt/');
 
   // GSC fix: strip ?lang= query-parameter variants.
   // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
@@ -123,6 +124,28 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
         },
       });
     }
+    if (isGptApi) {
+      const origin = request.headers.get('Origin');
+      if (origin !== url.origin) {
+        return new Response(null, {
+          status: 403,
+          headers: { 'Cache-Control': 'no-store', 'Alt-Svc': 'clear', Vary: 'Origin' },
+        });
+      }
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Max-Age': '600',
+          'Cache-Control': 'no-store',
+          'Alt-Svc': 'clear',
+          Vary: 'Origin',
+        },
+      });
+    }
     return new Response(null, {
       status: 204,
       headers: {
@@ -161,6 +184,19 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
       headers.delete('Access-Control-Allow-Origin');
       headers.delete('Access-Control-Allow-Headers');
     }
+  } else if (isGptApi) {
+    const origin = request.headers.get('Origin');
+    if (origin === url.origin) {
+      headers.set('Access-Control-Allow-Origin', origin);
+      headers.set('Access-Control-Allow-Credentials', 'true');
+      headers.append('Vary', 'Origin');
+    } else {
+      headers.delete('Access-Control-Allow-Origin');
+      headers.delete('Access-Control-Allow-Headers');
+      headers.delete('Access-Control-Allow-Credentials');
+    }
+    headers.set('Cache-Control', 'no-store');
+    headers.set('Cross-Origin-Resource-Policy', 'same-origin');
   } else {
     const origin = request.headers.get('Origin');
     if (origin) {

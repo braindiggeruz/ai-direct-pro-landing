@@ -89,6 +89,55 @@ export async function writeAudit(
 }
 
 /**
+ * Evidence-grade variant used by the manual admin submitter. Unlike the
+ * historical best-effort helper, this rejects when the D1 receipt cannot be
+ * persisted so the response can state that fact explicitly.
+ */
+export async function writeAuditStrict(
+  env: Env,
+  rows: Parameters<typeof writeAudit>[1],
+): Promise<void> {
+  const db = env.GPTBOT_DRAFTS_DB;
+  if (!db) throw new Error('indexnow_audit_store_unavailable');
+  if (rows.length === 0) return;
+  await db.exec(
+    `CREATE TABLE IF NOT EXISTS indexnow_submissions (
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       submitted_at TEXT NOT NULL,
+       actor_email TEXT NOT NULL,
+       url TEXT NOT NULL,
+       upstream_status INTEGER NOT NULL,
+       upstream_ok INTEGER NOT NULL DEFAULT 0,
+       batch_id TEXT NOT NULL,
+       duration_ms INTEGER NOT NULL DEFAULT 0,
+       error TEXT
+     )`.replace(/\s+/g, ' '),
+  );
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_url ON indexnow_submissions(url)');
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_submitted_at ON indexnow_submissions(submitted_at DESC)');
+  await db.exec('CREATE INDEX IF NOT EXISTS idx_indexnow_batch_id ON indexnow_submissions(batch_id)');
+  const stmt = db.prepare(
+    `INSERT INTO indexnow_submissions
+       (submitted_at, actor_email, url, upstream_status, upstream_ok, batch_id, duration_ms, error)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+  );
+  const results = await db.batch(rows.map((row) => stmt.bind(
+    row.submitted_at,
+    row.actor_email.slice(0, 120),
+    row.url.slice(0, 800),
+    row.upstream_status,
+    row.upstream_ok ? 1 : 0,
+    row.batch_id,
+    row.duration_ms,
+    (row.error || null)?.toString().slice(0, 480) ?? null,
+  )));
+  if (results.length !== rows.length
+    || results.some((result) => (result as { success?: boolean }).success === false)) {
+    throw new Error('indexnow_audit_incomplete');
+  }
+}
+
+/**
  * Returns the most recent submission row per URL (latest submitted_at).
  * Used by /api/admin/indexnow/recent to badge each candidate URL with
  * its last submission status.

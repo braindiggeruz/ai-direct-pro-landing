@@ -25,6 +25,21 @@ export async function readJson<T = Record<string, unknown>>(request: Request): P
   }
 }
 
+export async function readJsonLimited<T>(
+  request: Request,
+  maxBytes: number,
+): Promise<{ ok: true; value: T } | { ok: false; code: 'bad_json' | 'payload_too_large' }> {
+  const declared = Number(request.headers.get('content-length') || '0');
+  if (Number.isFinite(declared) && declared > maxBytes) return { ok: false, code: 'payload_too_large' };
+  try {
+    const raw = await request.text();
+    if (new TextEncoder().encode(raw).byteLength > maxBytes) return { ok: false, code: 'payload_too_large' };
+    return { ok: true, value: JSON.parse(raw) as T };
+  } catch {
+    return { ok: false, code: 'bad_json' };
+  }
+}
+
 export function genId(prefix: string): string {
   return `${prefix}_${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`;
 }

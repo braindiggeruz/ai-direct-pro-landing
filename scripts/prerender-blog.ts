@@ -324,7 +324,7 @@ function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
   if (!showsStickyCta(a)) return '';
   const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
   const telegramHref = global.telegram || global.defaultCTA.href;
-  return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',target_url:'phone_contact',cta_zone:'sticky_bar'});" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'telegram',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',cta_zone:'sticky_bar'});" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
+  return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
 }
 
 function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null): string {
@@ -466,7 +466,7 @@ ${METRIKA_NOSCRIPT}
         ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${a.locale}',page_kind:'article',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
+      <a href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
     </div>
   </div>
@@ -598,7 +598,7 @@ ${METRIKA_NOSCRIPT}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
-      <a href="tel:+998505870720" onclick="window.gtag&&window.gtag('event','contact_click',{contact_method:'phone',contact_kind:'contact',locale:'${locale}',page_kind:'blog_index',target_url:'phone_contact',cta_zone:'footer'});" class="hover:text-white">+998 50 587 07 20</a>
+      <a href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
     </div>
   </div>

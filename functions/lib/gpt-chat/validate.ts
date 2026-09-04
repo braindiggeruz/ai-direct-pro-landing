@@ -1,5 +1,6 @@
 // Input validation for the AI-chat endpoints. Pure — unit-tested.
 import type { Locale } from '../../../src/shared/types';
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min';
 
 export function normLocale(v: unknown): Locale {
   return v === 'uz' ? 'uz' : 'ru';
@@ -41,6 +42,10 @@ export interface LeadInput {
   shareConversation?: boolean;
   utm?: Record<string, unknown>;
   pageUrl?: string;
+  /** Client-generated idempotency key. Stable across safe retries. */
+  requestId?: string;
+  /** Single-use challenge token, verified and discarded at the edge. */
+  turnstileToken?: string;
 }
 
 export interface LeadValidation {
@@ -57,7 +62,48 @@ export interface LeadValidation {
     utmJson: string | null;
     pageUrl: string | null;
     shareConversation: boolean;
+    requestId: string | null;
   };
+}
+
+const TELEGRAM_HANDLE_RE = /^[A-Za-z][A-Za-z0-9_]{4,31}$/;
+const EMAIL_RE = /^[^\s@]{1,64}@[^\s@.]{1,190}\.[^\s@]{2,63}$/;
+const REQUEST_ID_RE = /^[A-Za-z0-9_-]{16,80}$/;
+
+function normalizePhone(raw: string | null): string | null {
+  if (!raw) return null;
+  const compact = raw.replace(/^tel:/i, '').replace(/\u00a0/g, ' ').trim();
+  const digits = compact.replace(/\D/g, '');
+  const withCountry = digits.length === 9
+    ? `+998${digits}`
+    : digits.length === 12 && digits.startsWith('998')
+      ? `+${digits}`
+      : compact;
+  const parsed = parsePhoneNumberFromString(withCountry, 'UZ');
+  return parsed?.isValid() ? parsed.number : null;
+}
+
+function normalizeTelegram(raw: string | null): string | null {
+  if (!raw) return null;
+  const handle = raw
+    .replace(/^https?:\/\//i, '')
+    .replace(/^t\.me\//i, '')
+    .replace(/^@/, '')
+    .trim();
+  return TELEGRAM_HANDLE_RE.test(handle) ? `@${handle}` : null;
+}
+
+function normalizeEmail(raw: string | null): string | null {
+  if (!raw) return null;
+  const value = raw.toLowerCase();
+  return value.length <= 254 && EMAIL_RE.test(value) ? value : null;
+}
+
+function normalizeTypedContact(type: string, raw: string | null): string | null {
+  if (type === 'phone') return normalizePhone(raw);
+  if (type === 'telegram') return normalizeTelegram(raw);
+  if (type === 'email') return normalizeEmail(raw);
+  return null;
 }
 
 /**
@@ -91,19 +137,38 @@ export function validateLead(input: LeadInput): LeadValidation {
   if (!input || typeof input !== 'object') return { ok: false, error: 'invalid body' };
   if (input.consent !== true) return { ok: false, error: 'consent required' };
 
-  const phone = clean(input.phone);
-  const telegram = clean(input.telegram);
-  const email = clean(input.email);
+  const rawPhone = clean(input.phone);
+  const rawTelegram = clean(input.telegram);
+  const rawEmail = clean(input.email);
+  const phone = normalizePhone(rawPhone);
+  const telegram = normalizeTelegram(rawTelegram);
+  const email = normalizeEmail(rawEmail);
   let contactType = clean(input.contactType) || '';
-  let contactValue = clean(input.contactValue) || '';
+  const explicit = clean(input.contactValue);
+  let contactValue: string | null = null;
 
-  if (!contactValue) {
+  if (explicit) {
+    if (contactType) {
+      contactValue = normalizeTypedContact(contactType, explicit);
+      if (!contactValue) return { ok: false, error: 'contact does not match contactType' };
+    } else {
+      const candidates = [
+        ['phone', normalizePhone(explicit)],
+        ['telegram', normalizeTelegram(explicit)],
+        ['email', normalizeEmail(explicit)],
+      ] as const;
+      const detected = candidates.find(([, value]) => !!value);
+      if (detected) [contactType, contactValue] = detected;
+    }
+  } else {
     if (phone) { contactType = 'phone'; contactValue = phone; }
     else if (telegram) { contactType = 'telegram'; contactValue = telegram; }
     else if (email) { contactType = 'email'; contactValue = email; }
   }
   if (!contactValue) return { ok: false, error: 'at least one contact is required' };
-  if (contactValue.length > 200) return { ok: false, error: 'contact too long' };
+
+  const requestId = clean(input.requestId);
+  if (requestId && !REQUEST_ID_RE.test(requestId)) return { ok: false, error: 'invalid requestId' };
 
   return {
     ok: true,
@@ -118,6 +183,7 @@ export function validateLead(input: LeadInput): LeadValidation {
       utmJson: input.utm && typeof input.utm === 'object' ? JSON.stringify(input.utm).slice(0, 2000) : null,
       pageUrl: normalizePagePath(input.pageUrl),
       shareConversation: input.shareConversation === true,
+      requestId,
     },
   };
 }

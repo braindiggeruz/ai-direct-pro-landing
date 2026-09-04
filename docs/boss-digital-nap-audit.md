@@ -1,9 +1,11 @@
 # Boss Digital — NAP Audit (Name / Address / Phone)
 
-Дата аудита: 2026-07-02
-Источник истины: действующая карточка Boss Digital в Google Maps
+Дата аудита: 2026-07-02. Последнее уточнение владельца: 2026-09-04.
+Источник истины для адреса сайта: подтверждённый владельцем канонический адрес
+`Yahyo Gulyamov ko‘chasi 35`. Карточка Boss Digital в Google Maps
 (https://maps.google.com/?cid=15658123710081809529, feature id `/g/11vkhm8nth`,
-plus code `87PC+GW Tashkent`). Карточка проверена публично 2026-07-02.
+plus code `87PC+GW Tashkent`) проверялась публично 2026-07-02; её данные ниже — снимок
+на эту дату и требуют обновления владельцем, если карточка по-прежнему показывает старый адрес.
 
 Страницы: `/boss-digital/` (RU, canonical) и `/uz/boss-digital/` (UZ, hreflang-пара).
 Schema: узел `ProfessionalService`/`Organization` `@id=https://gptbot.uz/boss-digital/#boss-digital`.
@@ -12,7 +14,7 @@ Schema: узел `ProfessionalService`/`Organization` `@id=https://gptbot.uz/bos
 |---|---|---|---|---|---|
 | Название | Boss Digital | Boss Digital | `name: Boss Digital` | ✅ Совпадает | — |
 | Категория | Маркетинговое агентство (Marketing agency, gcid:marketing_agency) | «маркетинговое агентство / digital-агентство» | `@type: ProfessionalService, Organization` | ✅ Согласовано | Не менять основную категорию карточки без владельца |
-| Адрес | Kichik Xalqa Yo'li 57, Tashkent, Узбекистан | Kichik Xalqa Yo'li 57, Ташкент, Узбекистан | `streetAddress: Kichik Xalqa Yo'li 57, addressLocality: Tashkent, addressCountry: UZ` | ✅ Совпадает | — |
+| Адрес | Иной адрес (снимок 2026-07-02; не использовать как актуальный) | Yahyo Gulyamov ko‘chasi 35, Ташкент, Узбекистан | `streetAddress: Yahyo Gulyamov ko‘chasi 35, addressLocality: Tashkent, addressCountry: UZ` | ❌ Расхождение с прежним снимком | Владелец: обновить адрес в Google Business Profile на `Yahyo Gulyamov ko‘chasi 35`, если там ещё указан старый |
 | Телефон | +998 93 122 00 60 (в карточке) | +998 50 587 07 20 (актуальный, подтверждён владельцем) | `telephone: +998505870720` (E.164) | ❌ Расхождение | Владелец: обновить телефон в карточке Google на +998 50 587 07 20 |
 | Город | Ташкент | Ташкент | `addressLocality: Tashkent` | ✅ Совпадает | — |
 | Часы работы | Подтверждено частично: чт 10:00–19:00; «откроется в 10:00 (пт)». Полная неделя в ограниченном виде карточки не видна | «10:00–19:00 (актуальный график — в карточке Google)» + ссылка на карточку | `openingHours` НЕ добавлен (неполное подтверждение) | ⚠️ Частично | Владелец: подтвердить график на всю неделю; после подтверждения можно добавить openingHoursSpecification |
@@ -24,11 +26,11 @@ Schema: узел `ProfessionalService`/`Organization` `@id=https://gptbot.uz/bos
 
 ## Выводы
 
-1. Ключевые NAP-поля (название, адрес, телефон, город, категория) на странице и в schema
-   полностью совпадают с действующей карточкой Google.
-2. Единственное критическое расхождение — поле **website** в карточке указывает на
-   `canonical.uz`. После успешного deployment и smoke-теста владелец должен обновить его на
-   `https://gptbot.uz/boss-digital/` через официальный интерфейс Google Business Profile.
+1. Адрес на страницах, в общем профиле сайта и schema унифицирован по подтверждённому
+   владельцем значению: `Yahyo Gulyamov ko‘chasi 35`.
+2. В снимке Google Business Profile от 2026-07-02 оставались прежний адрес, прежний телефон
+   и сайт `canonical.uz`. После успешного deployment и smoke-теста владелец должен проверить
+   карточку и обновить эти поля через официальный интерфейс Google Business Profile.
 3. Часы работы подтверждены частично (чт 10:00–19:00, открытие в пт 10:00). На странице график
    указан со ссылкой на карточку; в JSON-LD `openingHours` сознательно не добавлен, чтобы не
    публиковать неподтверждённые данные.

@@ -110,7 +110,7 @@ test('validateLead: consent + at least one contact required', () => {
   assert.equal(ok.ok, true);
   assert.equal(ok.value?.contactType, 'phone');
   assert.equal(ok.value?.name, 'Ali');
-  const tg = validateLead({ consent: true, telegram: '@ali' });
+  const tg = validateLead({ consent: true, telegram: '@alisher' });
   assert.equal(tg.value?.contactType, 'telegram');
 });
 

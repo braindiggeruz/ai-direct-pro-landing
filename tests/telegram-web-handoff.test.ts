@@ -91,7 +91,7 @@ async function mint(
   over: { locale?: 'ru' | 'uz'; sessionId?: string | null; pageUrl?: string | null; intent?: string | null; ttlMinutes?: string; now?: Date } = {},
 ): Promise<string> {
   const cfg = resolveHandoffConfig({
-    GPT_HANDOFF_BOT_USERNAME: 'gptbot_javob_bot',
+    GPT_HANDOFF_BOT_USERNAME: 'gptbotuz_bot',
     ...(over.ttlMinutes ? { GPT_HANDOFF_TTL_MINUTES: over.ttlMinutes } : {}),
   } as never);
   const minted = await mintHandoff(

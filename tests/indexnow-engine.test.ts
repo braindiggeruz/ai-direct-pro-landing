@@ -11,6 +11,8 @@ import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { runChunkedSubmit, __testing__ } from '../functions/lib/indexnow/submit-engine.ts';
+import { writeAuditStrict } from '../functions/lib/indexnow/audit.ts';
+import { SqliteD1 } from './helpers/sqlite-d1.ts';
 
 const { parseRetryAfter } = __testing__;
 
@@ -275,4 +277,36 @@ describe('runChunkedSubmit', () => {
     // 1 initial + 2 retries = 3 attempts.
     assert.equal(calls, 3);
   });
+});
+
+test('strict IndexNow audit persists every receipt or rejects explicitly', async () => {
+  await assert.rejects(
+    writeAuditStrict({} as never, [{
+      submitted_at: '2026-09-04T12:00:00.000Z',
+      actor_email: 'owner@gptbot.uz',
+      url: 'https://gptbot.uz/ru/',
+      upstream_status: 200,
+      upstream_ok: true,
+      batch_id: 'batch_fixture',
+      duration_ms: 42,
+    }]),
+    /indexnow_audit_store_unavailable/,
+  );
+
+  const db = new SqliteD1();
+  await writeAuditStrict({ GPTBOT_DRAFTS_DB: db.asD1() } as never, [{
+    submitted_at: '2026-09-04T12:00:00.000Z',
+    actor_email: 'owner@gptbot.uz',
+    url: 'https://gptbot.uz/ru/',
+    upstream_status: 202,
+    upstream_ok: true,
+    batch_id: 'batch_fixture',
+    duration_ms: 42,
+  }]);
+  assert.deepEqual(db.rows('SELECT url, upstream_status, upstream_ok, batch_id FROM indexnow_submissions').map((row) => ({ ...row })), [{
+    url: 'https://gptbot.uz/ru/',
+    upstream_status: 202,
+    upstream_ok: 1,
+    batch_id: 'batch_fixture',
+  }]);
 });

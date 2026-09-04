@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import type { AppContext } from '../context.js';
 import { resolveUser } from '../context.js';
-import { assertOrigin } from '../auth.js';
+import { assertOrigin, isInternalGatewayRequest } from '../auth.js';
 import { detectIntent } from '../prompt.js';
 
 const Body = z.object({
@@ -11,7 +11,7 @@ const Body = z.object({
   phone: z.string().max(60).optional(),
   telegram: z.string().max(120).optional(),
   email: z.string().max(200).optional(),
-  contactType: z.string().max(40).optional(),
+  contactType: z.enum(['phone', 'telegram', 'email']).optional(),
   contactValue: z.string().max(200).optional(),
   needType: z.string().max(60).optional(),
   lastUserMessage: z.string().max(4000).optional(),
@@ -23,6 +23,9 @@ const Body = z.object({
 
 export function leadRoutes(app: FastifyInstance, ctx: AppContext) {
   app.post('/v1/gpt/lead', async (req, reply) => {
+    if (!isInternalGatewayRequest(req, ctx.cfg)) {
+      return reply.code(401).send({ ok: false, code: 'gateway_auth' });
+    }
     if (!assertOrigin(req, ctx.cfg)) return reply.code(403).send({ ok: false, code: 'origin' });
     const parsed = Body.safeParse(req.body ?? {});
     if (!parsed.success) return reply.code(400).send({ ok: false, code: 'invalid_lead', message: 'consent + контакт обязательны' });
@@ -31,7 +34,13 @@ export function leadRoutes(app: FastifyInstance, ctx: AppContext) {
     // Require at least one contact.
     const contactValue = d.contactValue || d.phone || d.telegram || d.email;
     if (!contactValue) return reply.code(400).send({ ok: false, code: 'no_contact' });
-    const contactType = d.contactType || (d.phone ? 'phone' : d.telegram ? 'telegram' : d.email ? 'email' : 'unknown');
+    const contactType = d.contactType || (d.phone ? 'phone' : d.telegram ? 'telegram' : d.email ? 'email' : null);
+    if (!contactType) return reply.code(400).send({ ok: false, code: 'invalid_contact' });
+
+    // The Cloudflare/D1 endpoint is the canonical public ingress. This route
+    // stays private for controlled migrations and must never claim success
+    // when its durable store is disabled.
+    if (!ctx.store.enabled) return reply.code(503).send({ ok: false, code: 'store_unavailable' });
 
     const user = await resolveUser(ctx, req);
     const intent = d.needType ? d.needType : detectIntent(d.lastUserMessage);
@@ -53,7 +62,8 @@ export function leadRoutes(app: FastifyInstance, ctx: AppContext) {
       utm_json: d.utm ?? {},
       status: 'new',
     });
+    if (!id) return reply.code(503).send({ ok: false, code: 'store_failed' });
     await ctx.store.event('GPTChatLeadSubmitted', d.sessionId ?? null, user?.id ?? null, { intent });
-    return reply.send({ ok: !!id || !ctx.store.enabled, id, intent });
+    return reply.send({ ok: true, id, intent });
   });
 }

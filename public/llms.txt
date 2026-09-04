@@ -24,7 +24,7 @@
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram https://t.me/XGame_changerx |
 | Phone (public, click-to-call) | +998 50 587 07 20 — tel:+998505870720 |
-| Studio address | Yahyo Gulyamov ko'chasi 35, Toshkent, Uzbekistan |
+| Studio address | Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan |
 | Working hours | Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5) |
 | Public email | none published |
 | Domain | https://gptbot.uz |
@@ -260,7 +260,7 @@ Medium form (one paragraph):
 - Phone (public, click-to-call): +998 50 587 07 20 — tel:+998505870720
 - Telegram (preferred operator channel): https://t.me/XGame_changerx
 - Website: https://gptbot.uz/
-- Studio address: Yahyo Gulyamov ko'chasi 35, Toshkent, Uzbekistan
+- Studio address: Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan
 - Working hours: Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5)
 
 The phone number is published site-wide and is the preferred contact for

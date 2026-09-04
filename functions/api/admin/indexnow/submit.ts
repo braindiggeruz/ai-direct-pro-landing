@@ -36,7 +36,7 @@
 
 import type { Env } from '../../../_types';
 import { requireAuth } from '../../../lib/jwt';
-import { writeAudit, readLatestPerUrl } from '../../../lib/indexnow/audit';
+import { writeAuditStrict, readLatestPerUrl } from '../../../lib/indexnow/audit';
 import { runChunkedSubmit, INDEXNOW_ENDPOINT, type IndexNowKind, type PerUrlResult, type ChunkResult } from '../../../lib/indexnow/submit-engine';
 
 import { swallow } from '../../../lib/observability';
@@ -190,7 +190,13 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     duration_ms: durationMs,
     error: r.kind === 'ok' ? null : [kindForAudit(r.kind), r.error].filter(Boolean).join(': ').slice(0, 480),
   }));
-  await writeAudit(env, auditRows).catch(swallow('indexnow-submit'));
+  let auditPersisted = true;
+  try {
+    await writeAuditStrict(env, auditRows);
+  } catch (error) {
+    auditPersisted = false;
+    swallow('indexnow-submit')(error);
+  }
 
   // Aggregate response. Operators see the totals + per-URL list in UI.
   const overallOk = result.succeeded > 0 && result.failed === 0 && result.rateLimited === 0;
@@ -214,5 +220,6 @@ export const onRequestPost: PagesFunction<IndexNowEnv> = async ({ request, env }
     perUrl: result.perUrl,
     budgetExhausted: result.budgetExhausted,
     endpoint: INDEXNOW_ENDPOINT,
+    auditPersisted,
   }, 200);
 };

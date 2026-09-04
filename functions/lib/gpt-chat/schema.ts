@@ -65,6 +65,7 @@ const DDL: string[] = [
   )`,
   `CREATE TABLE IF NOT EXISTS gpt_leads (
     id TEXT PRIMARY KEY,
+    request_id TEXT,
     session_id TEXT,
     user_id TEXT,
     contact_type TEXT,
@@ -77,6 +78,19 @@ const DDL: string[] = [
     source TEXT,
     page_url TEXT,
     created_at TEXT NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS gpt_lead_outbox (
+    id TEXT PRIMARY KEY,
+    lead_id TEXT NOT NULL UNIQUE,
+    locale TEXT NOT NULL DEFAULT 'ru',
+    share_conversation INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'pending',
+    attempt_count INTEGER NOT NULL DEFAULT 0,
+    available_at TEXT NOT NULL,
+    delivered_at TEXT,
+    last_error_code TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
   )`,
   `CREATE TABLE IF NOT EXISTS gpt_events (
     id TEXT PRIMARY KEY,
@@ -134,6 +148,7 @@ const DDL: string[] = [
   // Duplicate suppression on /api/gpt/lead reads by contact within a window;
   // without this index that read is a full scan of every lead ever captured.
   `CREATE INDEX IF NOT EXISTS idx_gpt_leads_contact ON gpt_leads (contact_value, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_lead_outbox_pending ON gpt_lead_outbox (status, available_at, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_session ON gpt_handoffs (session_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_expires ON gpt_handoffs (expires_at)`,
 ];
@@ -147,6 +162,11 @@ export function ensureSchema(db: D1Database): Promise<void> {
       for (const stmt of DDL) {
         await db.prepare(stmt).run();
       }
+      const leadColumns = await db.prepare("PRAGMA table_info('gpt_leads')").all<{ name: string }>();
+      if (!(leadColumns.results ?? []).some((column) => column.name === 'request_id')) {
+        await db.prepare('ALTER TABLE gpt_leads ADD COLUMN request_id TEXT').run();
+      }
+      await db.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_gpt_leads_request ON gpt_leads (request_id)').run();
     })().catch((e) => {
       // Reset so a transient failure can be retried on the next request.
       _bootstrapped.delete(db);

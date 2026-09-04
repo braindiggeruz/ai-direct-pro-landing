@@ -14,7 +14,8 @@
 import type { Locale } from '../gpt-chat/types';
 
 const DEFAULT_BOT_USERNAME = 'gptbotuz_bot';
-const RAW = (import.meta.env.VITE_TELEGRAM_BOT_USERNAME as string | undefined) || DEFAULT_BOT_USERNAME;
+const BUILD_ENV = import.meta.env as { VITE_TELEGRAM_BOT_USERNAME?: string } | undefined;
+const RAW = BUILD_ENV?.VITE_TELEGRAM_BOT_USERNAME || DEFAULT_BOT_USERNAME;
 export const TELEGRAM_BOT_USERNAME = RAW.replace(/^@/, '').trim();
 export const TELEGRAM_CONFIGURED = TELEGRAM_BOT_USERNAME.length > 0;
 

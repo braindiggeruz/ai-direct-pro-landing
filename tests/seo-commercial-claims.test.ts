@@ -81,3 +81,31 @@ test('Uzbek internet advertising hub exposes commercial body bridges and funnel 
   assert.match(text, /Kontakt.*malakali|Kontakt bosilishi malakali/i);
   assert.match(text, /yuborilgan ariza.*sotuv/i);
 });
+
+test('public NAP uses the owner-confirmed canonical address everywhere', () => {
+  const canonicalStreet = 'Yahyo Gulyamov ko‘chasi 35';
+  const files: string[] = [];
+  const visit = (relativePath: string) => {
+    const absolutePath = path.join(ROOT, relativePath);
+    for (const entry of fs.readdirSync(absolutePath, { withFileTypes: true })) {
+      const child = path.join(relativePath, entry.name);
+      if (entry.isDirectory()) visit(child);
+      else if (/\.(?:json|tsx?|txt|md)$/i.test(entry.name)) files.push(child);
+    }
+  };
+  for (const root of ['content', 'src', 'public']) visit(root);
+
+  for (const file of files) {
+    const text = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    assert.doesNotMatch(text, /Kichik Xalqa Yo[‘']li 57|Yahyo Gulyamov ko'chasi 35/, `${file} contains a stale or non-canonical address variant`);
+  }
+
+  const site = read('content/global/site.json');
+  assert.equal(site.streetAddress, canonicalStreet);
+  assert.equal(site.address, `${canonicalStreet}, Toshkent, Uzbekistan`);
+  for (const file of ['content/pages/ru/boss-digital.json', 'content/pages/uz/boss-digital.json']) {
+    const text = serialized(file);
+    assert.match(text, new RegExp(canonicalStreet));
+    assert.doesNotMatch(text, /Kichik Xalqa Yo[‘']li 57/);
+  }
+});

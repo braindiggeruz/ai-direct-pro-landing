@@ -45,7 +45,6 @@ export default function StickyCTA({ t, ctaUrl, lang }: { t: Dict; ctaUrl: string
           data-testid="sticky-call-btn"
           href={PHONE_HREF}
           tabIndex={show ? 0 : -1}
-          onClick={() => track('contact_click', { contact_method: 'phone', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: 'phone_contact', cta_zone: 'sticky_bar' })}
           className="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm"
         >
           {callLabel}

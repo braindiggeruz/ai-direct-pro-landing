@@ -48,7 +48,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
   const lSitemap = 'Sitemap';
   const lDemo = t.nav.cta;
   const phoneLabel = isUz ? 'Qo‘ng‘iroq qilish: +998 50 587 07 20' : 'Позвонить: +998 50 587 07 20';
-  const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko'chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko'chasi 35, Ташкент";
+  const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko‘chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko‘chasi 35, Ташкент";
   return (
     <footer id="contacts" data-testid="site-footer" className="relative pt-16 pb-32 sm:pb-12 border-t border-white/5 bg-bg-base/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -155,7 +155,6 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
                   href="tel:+998505870720"
                   data-testid="footer-phone"
                   className="text-white/65 hover:text-brand-cyan transition"
-                  onClick={() => track('contact_click', { contact_method: 'phone', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: 'phone_contact', cta_zone: 'footer' })}
                 >
                   {phoneLabel}
                 </a>

@@ -123,6 +123,31 @@ test('chat with a valid gateway secret passes auth and continues into the route'
   assert.equal(body.code, 'provider_error');
 });
 
+test('legacy lead route is private and never reports success without durable storage', async () => {
+  const leadBody = {
+    contactType: 'telegram',
+    contactValue: '@audit_fixture',
+    consent: true,
+    locale: 'ru',
+  };
+  const anonymous = await post('/v1/gpt/lead', { payload: leadBody });
+  assert.equal(anonymous.statusCode, 401);
+  assert.equal(anonymous.json().code, 'gateway_auth');
+
+  const wrong = await post('/v1/gpt/lead', {
+    headers: { 'x-internal-secret': `${GATEWAY_SECRET}-wrong` },
+    payload: leadBody,
+  });
+  assert.equal(wrong.statusCode, 401);
+
+  const internal = await post('/v1/gpt/lead', {
+    headers: { 'x-internal-secret': GATEWAY_SECRET },
+    payload: leadBody,
+  });
+  assert.equal(internal.statusCode, 503);
+  assert.equal(internal.json().code, 'store_unavailable');
+});
+
 // ── 4-5. The secret never leaves the process ──────────────────────────────
 test('the internal secret never appears in any response body or header', async () => {
   const responses = await Promise.all([

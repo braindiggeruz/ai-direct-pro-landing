@@ -28,26 +28,12 @@ export function telegramContact(locale: Locale): TelegramTarget {
     : { href: STUDIO_TELEGRAM_URL, channel: 'studio' };
 }
 
-/**
- * The owner's own Telegram, with the first message already written.
- *
- * This is the route the chat's commercial CTAs take: the person who clicks
- * "write to us" wants a human, and the bot cannot quote a price or agree to
- * anything. A personal chat has no /start payload, so the only way to carry the
- * conversation across is the prefilled text — `ref` is the opaque handoff code
- * minted by POST /api/gpt/handoff, which the operator can look up to see which
- * web conversation this person is continuing.
- *
- * The code is deliberately visible rather than hidden: the visitor is sending
- * this message from their own account, and nothing should travel with it that
- * they cannot read first.
- */
-export function studioTelegramLink(locale: Locale, ref?: string | null): string {
+/** The owner's Telegram is the honest fallback when a bot handoff cannot mint. */
+export function studioTelegramLink(locale: Locale): string {
   const greeting = locale === 'uz'
     ? 'Assalomu alaykum! Saytdagi AI-chatdan yozyapman.'
     : 'Здравствуйте! Пишу из AI-чата на сайте.';
-  const text = ref ? `${greeting}\n${locale === 'uz' ? 'Kod' : 'Код'}: ${ref}` : greeting;
-  return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(text)}`;
+  return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(greeting)}`;
 }
 
 export interface ParsedContact {

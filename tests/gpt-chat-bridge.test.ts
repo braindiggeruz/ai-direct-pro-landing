@@ -37,6 +37,7 @@ import {
 import { consumeRateLimit, peekRateLimit, windowStart, HOUR_MS } from '../functions/lib/gpt-chat/rate-limit';
 import { resolveBridgeLimits, type BridgeEnv } from '../functions/lib/gpt-chat/bridge-env';
 import { normalizePagePath, validateLead } from '../functions/lib/gpt-chat/validate';
+import { drainLeadOutbox } from '../functions/lib/gpt-chat/lead-outbox';
 import { onRequestPost as leadPost } from '../functions/api/gpt/lead';
 import { onRequestPost as handoffPost } from '../functions/api/gpt/handoff/index';
 import { onRequestPost as claimPost } from '../functions/api/gpt/handoff/claim';
@@ -103,7 +104,7 @@ function stubTelegram(options: { fail?: number; hold?: boolean } = {}): Stub {
 const NOTIFY_ENV = {
   GPT_NOTIFY_BOT_TOKEN: 'test-bot-token-never-logged',
   GPT_NOTIFY_CHAT_ID: '4242',
-  GPT_HANDOFF_BOT_USERNAME: 'gptbot_javob_bot',
+  GPT_HANDOFF_BOT_USERNAME: 'gptbotuz_bot',
   GPT_HASH_SALT: 'salt',
 };
 
@@ -146,7 +147,7 @@ test('handoff payload obeys Telegram: [A-Za-z0-9_-], at most 64 chars', async ()
   assert.match(minted.payload, START_PAYLOAD_RE);
   assert.ok(minted.payload.length <= 64, 'payload must fit the /start limit');
   assert.match(minted.payload, /^w_[0-9a-f]{32}$/);
-  assert.equal(minted.deepLink, `https://t.me/gptbot_javob_bot?start=${minted.payload}`);
+  assert.equal(minted.deepLink, `https://t.me/gptbotuz_bot?start=${minted.payload}`);
 });
 
 test('the session id is never the payload, and the raw token is never stored', async () => {
@@ -423,6 +424,25 @@ test('shareConversation is a separate opt-in and defaults to off', () => {
   );
 });
 
+test('lead contacts are type-checked and normalized on the server', () => {
+  assert.equal(validateLead({ consent: true, contactType: 'phone', contactValue: 'not-a-phone' }).ok, false);
+  assert.equal(validateLead({ consent: true, contactType: 'telegram', contactValue: '@ab' }).ok, false);
+  assert.equal(validateLead({ consent: true, contactType: 'email', contactValue: 'not-an-email' }).ok, false);
+  assert.equal(
+    validateLead({ consent: true, contactType: 'phone', contactValue: '90 123 45 67' }).value?.contactValue,
+    '+998901234567',
+  );
+  assert.equal(
+    validateLead({ consent: true, contactValue: 'https://t.me/Alisher_1' }).value?.contactValue,
+    '@Alisher_1',
+  );
+  assert.equal(
+    validateLead({ consent: true, contactType: 'email', contactValue: 'ALI@Example.COM' }).value?.contactValue,
+    'ali@example.com',
+  );
+  assert.equal(validateLead({ consent: true, phone: '901234567', requestId: 'short' }).ok, false);
+});
+
 test('the stored page is a same-site path with no query string', () => {
   assert.equal(normalizePagePath('/uz/gpt-uzbek-tilida/?utm_source=x&phone=998901234567'), '/uz/gpt-uzbek-tilida/');
   assert.equal(normalizePagePath('https://gptbot.uz/ru/blog/?q=secret'), '/ru/blog/');
@@ -632,6 +652,135 @@ test('an invalid lead is refused before anything is stored or sent', async () =>
   }
 });
 
+test('missing durable storage is explicit failure, never a false accepted lead', async () => {
+  const { ctx } = context(null, { consent: true, phone: '901234567' });
+  const res = await leadPost(ctx as never);
+  assert.equal(res.status, 503);
+  assert.equal(((await res.json()) as { code: string }).code, 'store_unavailable');
+});
+
+test('one request id creates one lead, one outbox row and one owner alert', async () => {
+  const db = await database();
+  const stub = stubTelegram();
+  try {
+    const payload = {
+      requestId: 'lead_request_1234567890',
+      consent: true,
+      phone: '90 123 45 67',
+      locale: 'ru',
+    };
+    const first = context(db, payload);
+    const firstBody = await (await leadPost(first.ctx as never)).json() as { id: string };
+    await first.settle();
+    const retry = context(db, { ...payload, phone: '+998901234567' });
+    const retryBody = await (await leadPost(retry.ctx as never)).json() as { id: string; idempotent: boolean };
+    await retry.settle();
+    assert.equal(retryBody.id, firstBody.id);
+    assert.equal(retryBody.idempotent, true);
+    assert.equal(db.value('SELECT COUNT(*) FROM gpt_leads'), 1);
+    assert.equal(db.value('SELECT COUNT(*) FROM gpt_lead_outbox'), 1);
+    assert.equal(stub.calls.length, 1);
+  } finally {
+    stub.restore();
+  }
+});
+
+test('failed owner delivery stays durable and succeeds on a later drain', async () => {
+  _resetNotifyWarning();
+  const db = await database();
+  const failed = stubTelegram({ fail: 403 });
+  const error = console.error;
+  console.error = () => {};
+  try {
+    const first = context(db, { consent: true, telegram: '@alisher', locale: 'uz' });
+    await leadPost(first.ctx as never);
+    await first.settle();
+    assert.equal(db.value('SELECT status FROM gpt_lead_outbox'), 'failed');
+  } finally {
+    failed.restore();
+    console.error = error;
+  }
+
+  const delivered = stubTelegram();
+  try {
+    const later = new Date(Date.now() + 2 * HOUR_MS);
+    const result = await drainLeadOutbox(NOTIFY_ENV as BridgeEnv, db.asD1(), 30, 10, later);
+    assert.equal(result.sent, 1);
+    assert.equal(db.value('SELECT status FROM gpt_lead_outbox'), 'sent');
+    assert.ok(db.value('SELECT delivered_at FROM gpt_lead_outbox'));
+    assert.equal(delivered.calls.length, 1);
+  } finally {
+    delivered.restore();
+  }
+});
+
+test('the global lead ceiling also bounds a distributed-style contact flood', async () => {
+  const db = await database();
+  const stub = stubTelegram();
+  try {
+    const statuses: number[] = [];
+    for (let i = 0; i < 3; i += 1) {
+      const next = context(
+        db,
+        { consent: true, phone: `90123456${i}`, locale: 'ru' },
+        { GPT_LEAD_MAX_PER_HOUR: '50', GPT_LEAD_GLOBAL_MAX_PER_HOUR: '2' },
+      );
+      const response = await leadPost(next.ctx as never);
+      statuses.push(response.status);
+      await next.settle();
+    }
+    assert.deepEqual(statuses, [200, 200, 429]);
+    assert.equal(db.value('SELECT COUNT(*) FROM gpt_leads'), 2);
+  } finally {
+    stub.restore();
+  }
+});
+
+test('a suspicious repeat requires a valid lead-scoped Turnstile token', async () => {
+  _resetNotifyWarning();
+  const db = await database();
+  const quietEnv = {
+    TURNSTILE_SECRET_KEY: 'turnstile-secret',
+    GPT_LEAD_TURNSTILE_AFTER: '1',
+    GPT_NOTIFY_BOT_TOKEN: undefined,
+    GPT_NOTIFY_CHAT_ID: undefined,
+  };
+  const warn = console.warn;
+  console.warn = () => {};
+  try {
+    const first = context(db, { consent: true, phone: '901234560' }, quietEnv);
+    assert.equal((await leadPost(first.ctx as never)).status, 200);
+    await first.settle();
+
+    const challenged = context(db, { consent: true, phone: '901234561' }, quietEnv);
+    const denied = await leadPost(challenged.ctx as never);
+    assert.equal(denied.status, 403);
+    assert.equal(((await denied.json()) as { code: string }).code, 'turnstile_required');
+
+    const previous = globalThis.fetch;
+    let siteverifyCalls = 0;
+    globalThis.fetch = async (input) => {
+      assert.equal(String(input), 'https://challenges.cloudflare.com/turnstile/v0/siteverify');
+      siteverifyCalls += 1;
+      return Response.json({ success: true, action: 'gpt_lead', hostname: 'gptbot.uz' });
+    };
+    try {
+      const verified = context(db, {
+        consent: true,
+        phone: '901234561',
+        turnstileToken: 'valid-token',
+      }, quietEnv);
+      assert.equal((await leadPost(verified.ctx as never)).status, 200);
+      await verified.settle();
+      assert.equal(siteverifyCalls, 1);
+    } finally {
+      globalThis.fetch = previous;
+    }
+  } finally {
+    console.warn = warn;
+  }
+});
+
 // ── the handoff endpoints ───────────────────────────────────────────────────
 
 test('POST /api/gpt/handoff returns a finished link the browser could not build', async () => {
@@ -641,7 +790,7 @@ test('POST /api/gpt/handoff returns a finished link the browser could not build'
   const body = await res.json() as { linked: boolean; deepLink: string; payload: string; expiresAt: string };
   assert.equal(body.linked, true);
   assert.match(body.payload, /^w_[0-9a-f]{32}$/);
-  assert.equal(body.deepLink, `https://t.me/gptbot_javob_bot?start=${body.payload}`);
+  assert.equal(body.deepLink, `https://t.me/gptbotuz_bot?start=${body.payload}`);
   assert.ok(Date.parse(body.expiresAt) > Date.now());
   assert.equal(db.value('SELECT page_url FROM gpt_handoffs'), '/uz/');
 });
@@ -660,7 +809,7 @@ test('without storage the person still reaches the bot, just without context', a
   const body = await (await handoffPost(ctx as never)).json() as { linked: boolean; deepLink: string; reason: string };
   assert.equal(body.linked, false);
   assert.equal(body.reason, 'storage_unavailable');
-  assert.equal(body.deepLink, 'https://t.me/gptbot_javob_bot?start=site_uz');
+  assert.equal(body.deepLink, 'https://t.me/gptbotuz_bot?start=site_uz');
 });
 
 test('minting is capped per IP, and being capped still returns a working link', async () => {

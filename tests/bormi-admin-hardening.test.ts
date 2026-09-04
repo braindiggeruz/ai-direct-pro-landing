@@ -219,8 +219,8 @@ test('hardening: the panel builds into dist/admin, and the order that requires',
   assert.match(scripts.scripts['build:admin'], /npm --prefix apps\/bormi-admin run build/);
   assert.match(
     scripts.scripts['build:cf'],
-    /generate-llm-markdown\.ts && npm run build:admin$/,
-    'the Cloudflare build must package Admin after the root build clears dist',
+    /generate-llm-markdown\.ts && npm run build:admin && npm run release:pages:stamp$/,
+    'the Cloudflare build must package Admin after the root build clears dist, then stamp the complete artifact',
   );
   const release = await source('docs/admin/BORMI_ADMIN_V1_PRODUCTION_RELEASE.md');
   assert.match(release, /npm run build[\s\S]{0,400}npm run build:admin/);
