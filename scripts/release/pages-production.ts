@@ -160,13 +160,50 @@ async function checkProduction(root: string): Promise<string> {
   return current;
 }
 
+/**
+ * Explain a held lock well enough to decide whether it is stale without
+ * spelunking. Breaking the lock automatically is deliberately not offered:
+ * two operators uploading at once is the failure this protects against, and a
+ * heuristic that guesses wrong does more damage than a message that asks.
+ */
+function describeLock(lockPath: string): string {
+  const header = `Another guarded Pages deployment holds the shared lock: ${lockPath}`;
+  let detail: string;
+  try {
+    const stat = fs.statSync(lockPath);
+    const ageSeconds = Math.round((Date.now() - stat.mtimeMs) / 1000);
+    detail = ` Lock age ${ageSeconds}s.`;
+    if (stat.size > 0) {
+      const holder = JSON.parse(fs.readFileSync(lockPath, 'utf8')) as { pid?: number; startedAt?: string };
+      if (typeof holder.pid === 'number') {
+        let alive = 'not a live process';
+        try { process.kill(holder.pid, 0); alive = 'still running'; } catch { /* exited or not ours */ }
+        detail += ` Holder pid ${holder.pid} (${alive}), started ${holder.startedAt ?? 'unknown'}.`;
+      }
+    } else {
+      detail += ' The lock is empty, so it predates holder tracking.';
+    }
+  } catch {
+    return `${header} The lock file could not be read; investigate before retrying.`;
+  }
+  return `${header}.${detail} If nothing is deploying, the previous run was killed and leaked it — remove the file, then redeploy.`;
+}
+
 async function deploy(root: string, release: PagesRelease): Promise<void> {
   // All git worktrees share this lock. It protects cooperating deployment
   // commands, not an unrelated raw Wrangler upload or an external CI system.
   const lockPath = path.join(path.resolve(root, git(root, ['rev-parse', '--git-common-dir'])), 'gptbot-pages-production.lock');
   let lock: number;
-  try { lock = fs.openSync(lockPath, 'wx'); }
-  catch { throw new Error('Another guarded Pages deployment holds the shared lock. Investigate before retrying.'); }
+  try {
+    lock = fs.openSync(lockPath, 'wx');
+    // Record the holder. An empty 0-byte file tells the next run nothing: a
+    // deploy killed mid-upload (sandbox SIGTERM, dropped terminal) skips the
+    // finally block and leaks the lock, and the next run then reports a
+    // conflict with a process that no longer exists.
+    fs.writeSync(lock, JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }));
+  } catch {
+    throw new Error(describeLock(lockPath));
+  }
   try {
     await checkProduction(root);
     const cli = path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js');
