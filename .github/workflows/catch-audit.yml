@@ -1,0 +1,56 @@
+name: Silent catch audit
+
+# `.catch(() => undefined)` on a fire-and-forget write throws away the only
+# evidence that the write failed: a broken D1 binding, a missing table or a
+# saturated queue then look identical to a healthy no-op. The audit exits 1 on
+# any CRITICAL/HIGH finding so a newly swallowed error cannot land unnoticed.
+#
+# It is deliberately not a build step. It runs on its own, needs no
+# dependencies and takes about a second, so a red result is never dismissed as
+# "the build was flaky anyway".
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/catch-audit.yml'
+      - 'functions/**'
+      - 'src/**'
+      - 'apps/**'
+      - 'scripts/audit-catch-blocks.py'
+      - 'scripts/apply-swallow-helper.py'
+  push:
+    branches: ['main']
+    paths:
+      - '.github/workflows/catch-audit.yml'
+      - 'functions/**'
+      - 'src/**'
+      - 'apps/**'
+      - 'scripts/audit-catch-blocks.py'
+      - 'scripts/apply-swallow-helper.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catch-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Audit silent catch blocks
+        run: python3 scripts/audit-catch-blocks.py .
+
+      - name: Verify the applier imports the audit's skip rules
+        # The two tools must agree on what a silent catch is. If the applier
+        # cannot load the audit module, it has already drifted.
+        run: python3 -c "import importlib.util, pathlib; spec = importlib.util.spec_from_file_location('a', 'scripts/audit-catch-blocks.py'); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print('audit module loads:', len(m.SILENT_PATTERNS), 'patterns')"

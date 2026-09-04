@@ -11,6 +11,7 @@
     "build:fast": "vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/prerender-home.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts && tsx scripts/generate-llm-markdown.ts",
     "build:cf": "tsx scripts/seo-audit.ts && vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/prerender-home.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts && tsx scripts/generate-llm-markdown.ts && npm run build:admin",
     "lint": "eslint .",
+    "audit:catch": "python3 scripts/audit-catch-blocks.py .",
     "build:admin": "npm --prefix apps/bormi-admin ci && npm --prefix apps/bormi-admin run build",
     "build:production": "npm run build:fast && npm --prefix apps/bormi-admin run build && npm run release:pages:stamp",
     "release:pages:stamp": "tsx scripts/release/pages-production.ts stamp",

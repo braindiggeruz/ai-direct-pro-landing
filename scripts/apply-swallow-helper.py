@@ -19,14 +19,34 @@ Skips the same cases `scripts/audit-catch-blocks.py` skips, so the two agree:
   - `lib/observability.ts` itself, and `*.test.ts`.
 
 Idempotent: a line that already calls `swallow(` is left alone.
+
+The skip rules are *imported* from `scripts/audit-catch-blocks.py` rather than
+copied. They were copied once, drifted, and the drift made the two tools
+disagree about what a silent catch is — which is how an audit that reports 112
+findings and an applier that instruments 74 can both be telling the truth.
 """
 from __future__ import annotations
 
+import importlib.util
 import os
 import re
 import sys
+from pathlib import Path
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "functions")
+
+
+def _load_audit_rules():
+    """Load the audit module as the single source of truth for skip rules."""
+    spec = importlib.util.spec_from_file_location(
+        "audit_catch_blocks", Path(__file__).with_name("audit-catch-blocks.py")
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_AUDIT = _load_audit_rules()
 
 # (regex, replacement-fallback or None for "no argument")
 VARIANTS: list[tuple[str, str | None]] = [
@@ -39,14 +59,12 @@ VARIANTS: list[tuple[str, str | None]] = [
     (r'\.catch\s*\(\s*\(\s*\)\s*=>\s*""\s*\)', "''"),
 ]
 
-CANCEL_CALLS = ("reader.cancel(", ".body.cancel(")
-
-BODY_PARSE = re.compile(
-    r"request\.json\(|readOwnerBody\(|readMarketJson\(|readJson\(|readBody\("
-    r"|\.json\(\s*\)|\.text\(\s*\)|\.formData\(\s*\)|new Request\("
-)
-
-SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build"}
+# Imported from the audit: what counts as "throws by design", what counts as a
+# handled body-parse null, and which trees/files are not live code.
+DESIGNED_THROW = _AUDIT.DESIGNED_THROW
+BODY_PARSE = _AUDIT.BODY_PARSE
+SKIP_DIRS = _AUDIT.SKIP_DIRS
+SKIP_FILES = _AUDIT.SKIP_FILES
 
 
 def scope_for(rel_path: str) -> str:
@@ -96,7 +114,7 @@ def process(path: str, rel: str) -> int:
             continue
         if line.lstrip().startswith(("//", "*", "/*")):
             continue
-        if any(c in line for c in CANCEL_CALLS):
+        if DESIGNED_THROW.search(line):
             continue
         # A `.catch(` can close a statement opened several lines above.
         statement = "\n".join(lines[max(0, index - 6): index + 1])
@@ -124,6 +142,8 @@ def main() -> int:
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for name in sorted(filenames):
             if not name.endswith(".ts") or name.endswith(".test.ts"):
+                continue
+            if name in SKIP_FILES:
                 continue
             rel = os.path.relpath(os.path.join(dirpath, name), ROOT).replace("\\", "/")
             if rel == "lib/observability.ts":

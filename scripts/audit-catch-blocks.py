@@ -8,9 +8,20 @@ Finds patterns that swallow an error without leaving any trace:
 
 NOT reported (these are deliberate and fine):
   - `.catch(swallow('scope'))` — logs via lib/observability.ts
-  - `.catch(() => undefined)` attached to `reader.cancel()` / `body.cancel()`:
-    cancelling an already-released stream throws by design, so logging it is
-    pure noise.
+  - `.catch(() => undefined)` attached to `reader.cancel()` / `body.cancel()`
+    / `abort()` / `audioContext.close()`: releasing an already-released stream,
+    aborting on purpose and closing a closed audio context all throw by design,
+    so logging them is pure noise.
+  - `scripts/analytics-metrika.ts` and `scripts/analytics-snippet.ts`: injected
+    browser snippets. Yandex Metrika is legitimately absent (blocked, not
+    loaded yet, privacy mode) on a large share of pageviews; logging there
+    writes to *the visitor's* console and cannot reach `wrangler tail`.
+
+Skipped trees:
+  - `gptbot-audit/**` — a frozen copy of the whole project from 2026-07-15
+    (1224 tracked files, nested inside itself). It is eslint-ignored, nothing
+    imports it and Pages deploys only the root `functions/`, so it is dead
+    weight: auditing it produced 112 findings that describe no running code.
 
 Severity is heuristic, from the file path:
   CRITICAL  API endpoints, auth, payments
@@ -44,8 +55,12 @@ CATCH_NO_LOG = re.compile(
     r"catch\s*\(\s*\w+\s*\)\s*\{([^{}\n]*)\}", re.MULTILINE
 )
 
-# Cancelling an already-released stream throws by design.
-CANCEL_CALLS = ("reader.cancel(", ".body.cancel(")
+# These throw by design on a healthy path: releasing an already-released
+# stream, aborting on purpose, closing an already-closed audio context.
+DESIGNED_THROW = re.compile(
+    r"reader\.cancel\(|\.body\.cancel\(|aborted\.catch\(|\.abort\(\)\.catch\("
+    r"|audioContext\??\.close\(\)"
+)
 
 # `.catch(() => null)` is idiomatic for "unparseable body" — the caller then
 # validates the null and answers 400. That is a handled path, not a swallowed
@@ -81,22 +96,32 @@ SEVERITY_RULES: list[tuple[str, str]] = [
     (r"^tests?/", "LOW"),
 ]
 
-SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build", ".git"}
+SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build", ".git", "gptbot-audit"}
+
+# Client-side snippets injected into the page. See the module docstring: their
+# console is the visitor's console, not `wrangler tail`.
+SKIP_FILES = {"analytics-metrika.ts", "analytics-snippet.ts"}
 
 
 def get_severity(rel_path: str, root_name: str) -> str:
     """Match severity rules against a repo-root-relative-ish path.
 
-    The rules are written with the `functions/` prefix because that is how the
-    paths look when the audit runs from the repo root. When it is pointed at a
-    subdirectory (`scripts/audit-catch-blocks.py functions`) the relative paths
-    lose that prefix and every rule would silently miss — which is exactly the
-    false-negative that made an earlier revision of this script report zero.
+    Two shapes have to work, because the rules are written both ways:
+      - run from the repo root  -> `functions/api/x.ts`, `tests/x.ts`
+      - run from a subdirectory -> `api/x.ts`                (root `functions`)
+
+    The `^`-anchored rules (`^tests?/`) only match the first shape, the
+    `functions/`-prefixed rules only match the second. Trying both candidates
+    keeps the anchors honest: without this, a root-level run classified every
+    test as MEDIUM, which is one severity away from a CI gate that never fires.
     """
-    candidate = rel_path if rel_path.startswith(root_name + "/") else f"{root_name}/{rel_path}"
+    candidates = [rel_path]
+    if not rel_path.startswith(root_name + "/"):
+        candidates.append(f"{root_name}/{rel_path}")
     for pattern, sev in SEVERITY_RULES:
-        if re.search(pattern, candidate):
-            return sev
+        for candidate in candidates:
+            if re.search(pattern, candidate):
+                return sev
     return "MEDIUM"
 
 
@@ -132,6 +157,8 @@ def find_silent_catches(root: Path) -> dict[str, list[dict]]:
     for path in root.rglob("*.ts"):
         if SKIP_DIRS & set(path.parts):
             continue
+        if path.name in SKIP_FILES:
+            continue
         rel = path.relative_to(root).as_posix()
         text = path.read_text(encoding="utf-8", errors="replace")
         lines = text.split("\n")
@@ -141,7 +168,7 @@ def find_silent_catches(root: Path) -> dict[str, list[dict]]:
             for match in re.finditer(pattern, text):
                 lineno = text[: match.start()].count("\n") + 1
                 line = lines[lineno - 1] if lineno <= len(lines) else ""
-                if any(c in line for c in CANCEL_CALLS):
+                if DESIGNED_THROW.search(line):
                     continue
                 if has_logging(line):
                     continue
