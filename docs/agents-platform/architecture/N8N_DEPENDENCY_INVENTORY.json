@@ -20,7 +20,7 @@
     {
       "path": "gptbot-audit/**",
       "classification": "legacy",
-      "reason": "Tracked duplicate audit snapshots, including one nested duplicate, are not canonical runtime."
+      "reason": "Removed on 2026-09-04 with owner approval (1224 files, 15 MB). The rule stays as a guard: if an audit tree is ever re-introduced it must be classified here rather than silently shipped."
     },
     {
       "path": "gptbot.uz-audit/**",
@@ -662,11 +662,11 @@
       "data_written_read": "duplicate code/docs",
       "auth_mechanism_name": "not applicable",
       "production_critical": false,
-      "status": "legacy",
+      "status": "dead",
       "production_activity": "dead",
-      "replacement_candidate": "owner-approved future cleanup outside this task",
-      "migration_risk": "low",
-      "evidence": "Duplicate audit snapshots are tracked but not deployed by the root build; they are not canonical runtime."
+      "replacement_candidate": "none — removed on 2026-09-04 with owner approval",
+      "migration_risk": "none",
+      "evidence": "Removed from git on 2026-09-04 with owner approval: 1224 tracked files, 15 MB, a frozen copy of the project from 2026-07-15 nested inside itself. Nothing imported it and Pages deploys only the root functions/, so no runtime path changed. Kept as an audit record; the credential-path guard it used to carry now lives in FORBIDDEN_PATHS."
     },
     {
       "id": "untracked-user-audit",

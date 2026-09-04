@@ -243,8 +243,11 @@ Open operational items:
   generic. `secret_scanning_non_provider_patterns` через API на текущем плане
   не включается — PATCH принимается, статус остаётся `disabled`. Нужен GHAS
   либо репозиторный gate (последнее уже сделано).
-- `gptbot-audit/` целиком (мусор Bolt с дубликатами дерева) — решение об
-  удалении по-прежнему за владельцем; в R0.3 удалены только credential-файлы.
+- `gptbot-audit/` целиком (мусор Bolt с дубликатами дерева) — **удалено
+  2026-09-04** по отмашке владельца: 1224 tracked-файла, 15 МБ, замороженная
+  копия проекта от 2026-07-15 с вложенным дублем. В R0.3 до этого были удалены
+  только credential-файлы; страховка от их возврата осталась в `FORBIDDEN_PATHS`
+  (release-preflight) и в фикстурах secret-scan.
 
 ## R0.1 checkpoint
 
@@ -308,7 +311,7 @@ scripts/{apply-research,seo-audit,tech-audit,test-control-center-sync}.ts (+unus
 Характер: unused vars, no-useless-escape, prefer-const, no-this-alias. Продукт не ломают. НЕ относится к GPTBot Agents.
 
 ## Прочий подтверждённый долг
-- `gptbot-audit/` + вложенный дубль — мусор Bolt в git; решение об удалении за владельцем.
+- ~~`gptbot-audit/` + вложенный дубль — мусор Bolt в git~~ — удалено 2026-09-04 (1224 файла, 15 МБ).
 - `.emergent/`, `memory/PRD.md`, `test_result.md`, `test_reports/` — скаффолдинг Emergent (июнь), мёртвый.
 - Lead-бот: state в памяти isolate (заморожен; паттерн ЗАПРЕЩЁН для новых модулей).
 - Retention-cleanup только opportunistic (нет cron). Cron-Worker появится этапом платформы (нужен Clinic; Sotuvchi v0 живёт без него).

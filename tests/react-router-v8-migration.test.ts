@@ -30,7 +30,7 @@ function runtimeSource(): string {
   ], {
     cwd: ROOT,
     absolute: true,
-    ignore: ['node_modules/**', 'dist/**', 'gptbot.uz-audit/**', 'gptbot-audit/**'],
+    ignore: ['node_modules/**', 'dist/**', 'gptbot.uz-audit/**'],
   });
   return files.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
 }

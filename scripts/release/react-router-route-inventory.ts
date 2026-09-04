@@ -109,7 +109,7 @@ function hasRuntimeMarker(pattern: RegExp): boolean {
   ], {
     cwd: ROOT,
     absolute: true,
-    ignore: ['gptbot.uz-audit/**', 'gptbot-audit/**', 'node_modules/**', 'dist/**'],
+    ignore: ['gptbot.uz-audit/**', 'node_modules/**', 'dist/**'],
   });
   return files.some((file) => pattern.test(fs.readFileSync(file, 'utf8')));
 }

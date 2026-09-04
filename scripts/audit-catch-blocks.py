@@ -17,12 +17,6 @@ NOT reported (these are deliberate and fine):
     loaded yet, privacy mode) on a large share of pageviews; logging there
     writes to *the visitor's* console and cannot reach `wrangler tail`.
 
-Skipped trees:
-  - `gptbot-audit/**` — a frozen copy of the whole project from 2026-07-15
-    (1224 tracked files, nested inside itself). It is eslint-ignored, nothing
-    imports it and Pages deploys only the root `functions/`, so it is dead
-    weight: auditing it produced 112 findings that describe no running code.
-
 Severity is heuristic, from the file path:
   CRITICAL  API endpoints, auth, payments
   HIGH      core libraries, database, external integrations
@@ -96,7 +90,7 @@ SEVERITY_RULES: list[tuple[str, str]] = [
     (r"^tests?/", "LOW"),
 ]
 
-SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build", ".git", "gptbot-audit"}
+SKIP_DIRS = {"node_modules", ".wrangler", "dist", "build", ".git"}
 
 # Client-side snippets injected into the page. See the module docstring: their
 # console is the visitor's console, not `wrangler tail`.

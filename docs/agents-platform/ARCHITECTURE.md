@@ -236,7 +236,7 @@ Telegram-адаптер оборачивает существующий `client.
 - **Переместить (без переписывания)**: `lib/telegram/client.ts` → `channels/telegram/api.ts` (Javob импортирует по новому пути — единственная правка Javob); `lib/llm/*` → `platform/ai/drivers/*`; `lib/gpt-chat/http.ts` → `platform/http`; `hash.ts` → `platform/identity/pseudo.ts` (реэкспорт-shim'ы на старых путях, чтобы Javob/чат не менять массово).
 - **Объединить**: три AI-обвязки → platform/ai (Javob/чат переключаются на неё во вторую очередь, через shim).
 - **Разделить**: `lib/telegram/*` остаётся ТОЛЬКО Javob-доменом (переименовать в `lib/javob/` — отложить до спокойного окна, сейчас алиасом).
-- **Удалить**: ничего работающего; кандидаты в отдельный janitor-коммит: `gptbot-audit/**`, `.emergent/`, `memory/PRD.md`, `test_result.md`, мёртвые Smart-Forward экспорты.
+- **Удалить**: ничего работающего; кандидаты в отдельный janitor-коммит: ~~`gptbot-audit/**`~~ (удалено 2026-09-04), `.emergent/`, `memory/PRD.md`, `test_result.md`, мёртвые Smart-Forward экспорты.
 - **Оставить как есть**: scripts/, content/, src/gpt-chat/, api/ (существующие).
 
 ## 16. План миграции (существующие продукты → платформа)
@@ -269,7 +269,7 @@ Telegram-адаптер оборачивает существующий `client.
 4. Migration 0013: orgs/memberships/identities/contacts (никем не используется до P2 — безопасно).
 5. Cron-Worker skeleton (пинг internal-endpoint, пока no-op).
 6. platform/ai интерфейс поверх существующих реализаций (shim-режим).
-7. Janitor: удаление gptbot-audit/.emergent мусора (отдельный коммит, по твоей отмашке).
+7. Janitor: удаление gptbot-audit/.emergent мусора (отдельный коммит, по твоей отмашке). `gptbot-audit/**` удалено 2026-09-04 (1224 файла, 15 МБ); `.emergent/` по-прежнему ждёт отмашки.
 
 ---
 **Резюме CTO:** платформа = существующий монолит, которому мы даём внутренние границы: домены-сервисы в `platform/`, агенты-декларации в `agents/`, каналы-адаптеры в `channels/`. Sotuvchi строится сразу НА платформе и тем самым её доказывает; Javob и чат мигрируют strangler'ом без остановки. Через год Dentist — это 5–7 файлов и одна строка в registry.

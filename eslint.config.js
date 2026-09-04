@@ -11,7 +11,6 @@ export default defineConfig([
     '.wrangler/**',
     '.agents/**',
     '.claude/**',
-    'gptbot-audit/**',
   ]),
   {
     files: ['**/*.{ts,tsx}'],
