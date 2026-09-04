@@ -123,7 +123,16 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
   <footer>
     <p>GPTBot · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')}</p>
-    <p><a href="${escapeHtml(global.telegram || '#')}" rel="noopener noreferrer">Telegram</a></p>
+    <!-- NAP: the phone belongs here too, same as the real footer and the sticky
+         bar. This shell is the no-JS / crawler view of the homepage, so it is
+         the only NAP a crawler that does not execute JavaScript will ever see.
+         No gtag handler on purpose: this block is only visible when JavaScript
+         is unavailable, so any onclick here would be dead code. -->
+    <p>
+      <a data-testid="footer-call-cta" href="tel:+998505870720">+998 50 587 07 20</a>
+      ·
+      <a href="${escapeHtml(global.telegram || '#')}" rel="noopener noreferrer">Telegram</a>
+    </p>
   </footer>
 </div>`;
 }
