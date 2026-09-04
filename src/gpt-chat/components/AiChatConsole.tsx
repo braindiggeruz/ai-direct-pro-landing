@@ -13,6 +13,7 @@ import type { AnswerAction } from './AiChatMessageList';
 import { AiChatInput } from './AiChatInput';
 import { AiPromptChips } from './AiPromptChips';
 import { AiUsageBadge } from './AiUsageBadge';
+import { AiQuotaThread } from './AiQuotaThread';
 import { AiOfferCard } from './AiOfferCard';
 import { AiSidebar } from './AiSidebar';
 import { PromptTemplateGrid } from './PromptTemplateGrid';
@@ -23,6 +24,11 @@ import type { AiToolId, PromptTemplate } from '../templates';
 import type { PromptChip } from '../i18n';
 
 const MAX_INPUT = 3000;
+// Segments in the quota thread. Mirrors GPT_FREE_DAILY_LIMIT in wrangler.toml
+// (the server reports what is left, never the size of the allowance). The
+// thread hides itself rather than lying if the two drift apart.
+const FREE_DAILY_SEGMENTS = 15;
+
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
 
 /**
@@ -425,17 +431,31 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           </div>
         </header>
 
+        {/* The free allowance as a thread, so the cap is watched rather than
+            sprung. FREE_DAILY_SEGMENTS mirrors GPT_FREE_DAILY_LIMIT; the
+            component hides itself if the two ever drift apart. */}
+        <AiQuotaThread remaining={remaining} total={FREE_DAILY_SEGMENTS} t={t} />
+
         {/* Messages area */}
         <div ref={viewportRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <div className="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
             {toolPanel}
             {empty && activeTool === 'chat' ? (
-              <div className="flex min-h-[45vh] flex-col items-center justify-center text-center">
+              // The resting screen is the first thing ~89% of this site's search
+              // traffic sees. It used to centre a title, a hint and four chips
+              // in 45vh of empty dark, which left the product looking like a
+              // demo. The height is now what the content needs, and the space
+              // under the chips carries the terms instead of nothing: free, no
+              // signup, fifteen messages a day — stated once, before anyone
+              // invests a question in it.
+              <div className="flex min-h-[32vh] flex-col items-center justify-center py-6 text-center">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/30">{t.brand}</p>
                 <h2 className="h-display mb-2 text-[22px] leading-tight text-white sm:text-[26px]">{t.emptyTitle}</h2>
                 <p className="mb-6 max-w-sm text-[15px] leading-relaxed text-white/50">{t.emptyHint}</p>
                 <div className="w-full max-w-md">
                   <AiPromptChips chips={t.chips} onPick={onChipPick} disabled={busy || limitReached} label={t.emptyPrompt} />
                 </div>
+                <p className="mt-6 text-[12px] leading-relaxed text-white/35">{t.emptyMeta}</p>
               </div>
             ) : (
               <AiChatMessageList messages={messages} t={t} busy={busy} onRetry={onRetry} onAnswerAction={onAnswerAction} scrollRef={viewportRef} />
@@ -477,8 +497,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             ) : (
               <>
                 {remaining >= 0 && remaining <= 2 && (
-                  <div className="mb-2 flex items-center gap-2 rounded-2xl bg-amber-300/[0.05] px-4 py-2.5 text-[12px] text-amber-200/80" role="status">
-                    <span aria-hidden="true">⚡</span>
+                  // Saffron, the one warm colour in this palette, and the same
+                  // one the quota thread turns above — so the warning and the
+                  // thread read as one fact stated twice, not two alerts. The
+                  // emoji that used to sit here said nothing the colour and the
+                  // sentence did not already say.
+                  <div className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron" role="status">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron" aria-hidden="true" />
                     <span>{t.lowWarning(remaining)}</span>
                     <a href={pricingHref} onClick={() => { track(EV.viewPricing, { from: 'low_limit' }); track(EV.upgradeClick, { from: 'low_limit' }); track(EV.pricingClicked, { from: 'low_limit' }); }} className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline">{t.paywallCta}</a>
                   </div>

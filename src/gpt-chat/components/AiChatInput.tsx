@@ -48,7 +48,12 @@ export function AiChatInput({
     <div className="mt-4 sticky bottom-0 z-10 pb-[env(safe-area-inset-bottom)]">
       <div
         aria-busy={busy}
-        className="flex items-end gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-2 pl-3.5 transition-colors focus-within:border-brand-cyan/40"
+        // The composer is the one control this whole screen exists for, so it
+        // sits on its own raised surface rather than dissolving into the page,
+        // and the focus state moves the border AND the ring — on an OLED phone
+        // in daylight a 10%-white hairline changing to 40% cyan is not a
+        // perceivable state change on its own.
+        className="flex items-end gap-2 rounded-2xl border border-white/10 bg-bg-elevated/80 p-2 pl-3.5 shadow-card backdrop-blur-sm transition-colors focus-within:border-brand-cyan/50 focus-within:ring-1 focus-within:ring-brand-cyan/25"
       >
         <textarea
           ref={ref}
@@ -77,7 +82,7 @@ export function AiChatInput({
             onClick={onSend}
             disabled={disabled || !value.trim()}
             aria-label={t.send}
-            className="shrink-0 grid place-items-center w-11 h-11 rounded-xl bg-grad-cta text-[#04101A] disabled:opacity-30 transition-opacity"
+            className="shrink-0 grid place-items-center w-11 h-11 rounded-xl bg-grad-cta text-[#04101A] transition-all hover:brightness-110 active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-25 disabled:hover:brightness-100 motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M4 12l16-8-6 8 6 8-16-8z" fill="currentColor" />

@@ -56,6 +56,8 @@ export interface ChatStrings {
   emptyHint: string;
   tryFree: string;
   emptyPrompt: string;
+  /** The honest terms, stated once on the resting screen. */
+  emptyMeta: string;
   feedbackUp: string;
   feedbackDown: string;
   feedbackThanks: string;
@@ -168,6 +170,7 @@ const RU: ChatStrings = {
   emptyHint: 'Напишите вопрос или выберите пример.',
   tryFree: 'Попробовать бесплатно',
   emptyPrompt: 'Что хотите сделать?',
+  emptyMeta: 'Бесплатно, без регистрации — 15 сообщений в день.',
   feedbackUp: 'Полезно',
   feedbackDown: 'Бесполезно',
   feedbackThanks: 'Спасибо за отзыв',
@@ -237,10 +240,10 @@ const RU: ChatStrings = {
   b2bTelegram: 'Telegram-бот для бизнеса',
   offerBadge: 'Для бизнеса',
   offerBody: 'Этот же бот может отвечать вашим клиентам — в Telegram или прямо на вашем сайте.',
-  capTelegramCta: 'Продолжить в Telegram',
-  capTelegramNote: 'У нашего Telegram-бота свой отдельный дневной лимит бесплатных сообщений — он тоже не безлимитный.',
+  capTelegramCta: 'Написать нам в Telegram',
+  capTelegramNote: 'Ответит человек из студии, обычно в рабочее время. Бесплатные сообщения в чате вернутся завтра.',
   capLeadCta: 'Оставить контакт',
-  telegramContextNote: 'В Telegram продолжится этот же разговор — бот увидит, о чём вы спрашивали здесь.',
+  telegramContextNote: 'К сообщению добавится короткий код этого разговора — по нему мы поймём, о чём вы спрашивали здесь.',
   hourlyTitle: 'Часовой лимит исчерпан',
   hourlyBody: 'Бесплатный чат на сайте считает сообщения по часам. Дневной лимит ещё не закончился — продолжите в Telegram сейчас или вернитесь сюда позже.',
   hourlyRetry: 'Попробовать снова',
@@ -295,6 +298,7 @@ const UZ: ChatStrings = {
   emptyHint: 'Savolingizni yozing yoki misolni tanlang.',
   tryFree: 'Bepul sinab ko‘rish',
   emptyPrompt: 'Nima qilmoqchisiz?',
+  emptyMeta: 'Bepul, ro‘yxatdan o‘tmasdan — kuniga 15 ta xabar.',
   feedbackUp: 'Foydali',
   feedbackDown: 'Foydasiz',
   feedbackThanks: 'Fikr uchun rahmat',
@@ -364,10 +368,10 @@ const UZ: ChatStrings = {
   b2bTelegram: 'Biznes uchun Telegram-bot',
   offerBadge: 'Biznes uchun',
   offerBody: 'Xuddi shu bot sizning mijozlaringizga ham javob bera oladi — Telegramda yoki saytingizda.',
-  capTelegramCta: 'Telegramda davom ettirish',
-  capTelegramNote: 'Telegram-botimizning o‘z alohida kunlik bepul limiti bor — u ham cheksiz emas.',
+  capTelegramCta: 'Telegramda yozish',
+  capTelegramNote: 'Studiyadan odam javob beradi, odatda ish vaqtida. Chatdagi bepul xabarlar ertaga qaytadi.',
   capLeadCta: 'Kontakt qoldirish',
-  telegramContextNote: 'Telegramda shu suhbat davom etadi — bot bu yerda nima so‘raganingizni ko‘radi.',
+  telegramContextNote: 'Xabarga shu suhbatning qisqa kodi qo‘shiladi — shu orqali nima so‘raganingizni tushunamiz.',
   hourlyTitle: 'Soatlik limit tugadi',
   hourlyBody: 'Saytdagi bepul chat xabarlarni soat bo‘yicha hisoblaydi. Kunlik limit hali tugagani yo‘q — hozir Telegramda davom ettiring yoki keyinroq shu yerga qayting.',
   hourlyRetry: 'Qayta urinib ko‘rish',

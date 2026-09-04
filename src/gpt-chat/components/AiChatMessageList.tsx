@@ -136,7 +136,13 @@ export function AiChatMessageList({
                 ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]'
                 : m.error
                   ? 'max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200'
-                  : 'w-full text-[15px] break-words [overflow-wrap:anywhere]'
+                    // Answers are the only long-form reading on this surface, so
+                  // they get reading type rather than UI type: a larger size, a
+                  // looser line, and a measure capped near 68 characters. At the
+                  // container's full 760px an answer ran to about 95 characters
+                  // per line, which is where the eye starts losing its place on
+                  // the return sweep.
+                  : 'w-full max-w-[68ch] text-[16.5px] leading-[1.62] break-words [overflow-wrap:anywhere]'
             }
           >
             {m.pending ? (
@@ -146,7 +152,7 @@ export function AiChatMessageList({
               </span>
             ) : m.role === 'assistant' && !m.error ? (
               <>
-                <div className="leading-relaxed break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
+                <div className="leading-[1.62] break-words [overflow-wrap:anywhere]" dangerouslySetInnerHTML={{ __html: renderMarkdown(m.content) }} />
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action
                   // row. Mounting six buttons under text that grows every frame

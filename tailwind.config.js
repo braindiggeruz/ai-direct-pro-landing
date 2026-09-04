@@ -13,6 +13,11 @@ export default {
           blue: '#229ED9',
           cyan: '#2FE6D1',
           violet: '#6E3BFF',
+          // Warm counterweight to the cool brand pair, drawn from Uzbek majolica
+          // glaze. Reserved for one meaning only: the free allowance running
+          // out. Nothing else on the site is this colour, so it never has to
+          // compete for the reader's attention with an ordinary accent.
+          saffron: '#E8A33D',
         },
         border: 'var(--border)',
         ring: 'var(--ring)',

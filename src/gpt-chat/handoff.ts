@@ -15,7 +15,7 @@
 // never dead and never claims context it does not have.
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from './types';
-import { telegramContact, type TelegramTarget } from './contact';
+import { studioTelegramLink, type TelegramTarget } from './contact';
 
 /** Which surface asked for the link. Sent as the handoff `intent`. */
 export type HandoffSource = 'offer' | 'hourly_limit' | 'daily_limit';
@@ -40,6 +40,8 @@ function isTelegramUrl(value: string): boolean {
 export interface MintedHandoff {
   href: string;
   linked: boolean;
+  /** Opaque reference for the minted conversation, e.g. w_<32 hex>. */
+  payload: string | null;
 }
 
 /**
@@ -68,10 +70,11 @@ export async function mintTelegramLink(
       signal: controller.signal,
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { ok?: unknown; linked?: unknown; deepLink?: unknown };
+    const data = (await res.json()) as { ok?: unknown; linked?: unknown; deepLink?: unknown; payload?: unknown };
     if (data.ok !== true) return null;
     if (typeof data.deepLink !== 'string' || !isTelegramUrl(data.deepLink)) return null;
-    return { href: data.deepLink, linked: data.linked === true };
+    const payload = typeof data.payload === 'string' && /^w_[0-9a-f]{8,64}$/.test(data.payload) ? data.payload : null;
+    return { href: data.deepLink, linked: data.linked === true, payload };
   } catch {
     return null;
   } finally {
@@ -93,7 +96,11 @@ export function useTelegramHandoff(
   locale: Locale,
   source: HandoffSource,
 ): HandoffLink {
-  const [link, setLink] = useState<HandoffLink>(() => ({ ...telegramContact(locale), withSession: false }));
+  const [link, setLink] = useState<HandoffLink>(() => ({
+    href: studioTelegramLink(locale),
+    channel: 'studio',
+    withSession: false,
+  }));
   const requested = useRef('');
 
   useEffect(() => {
@@ -104,9 +111,15 @@ export function useTelegramHandoff(
     const pageUrl = typeof location === 'undefined' ? undefined : location.pathname;
     void mintTelegramLink(apiBase, { sessionId, locale, source, pageUrl }).then((minted) => {
       if (cancelled) return;
-      // No link, or a bot that is not configured: keep the studio contact.
-      if (!minted) return;
-      setLink({ href: minted.href, channel: 'bot', withSession: minted.linked });
+      // The mint is used for its reference code, not its bot deep link: these
+      // CTAs go to the owner's own Telegram, because the person clicking wants
+      // a human who can quote a price. Without a code the plain contact stands.
+      if (!minted || !minted.payload) return;
+      setLink({
+        href: studioTelegramLink(locale, minted.payload),
+        channel: 'studio',
+        withSession: minted.linked,
+      });
     });
     return () => { cancelled = true; };
   }, [apiBase, sessionId, locale, source]);
