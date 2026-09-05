@@ -538,7 +538,10 @@ test('metrika: the chat mount point is masked, so React cannot unmask it', async
 
 test('metrika: the chat textarea and both contact fields disable key recording', async () => {
   const input = await source('src/gpt-chat/components/AiChatInput.tsx');
-  assert.match(input, /<textarea[\s\S]*?ym-disable-keys[\s\S]*?\/>/);
+  assert.match(input, /<(?:textarea|InputGroupTextarea)\b[\s\S]*?ym-disable-keys[\s\S]*?\/>/);
+  // shadcn must forward the privacy marker through both wrappers to the DOM.
+  assert.match(await source('src/components/ui/input-group.tsx'), /function InputGroupTextarea[\s\S]*?<Textarea[\s\S]*?\{\.\.\.props\}/);
+  assert.match(await source('src/components/ui/textarea.tsx'), /<textarea[\s\S]*?\{\.\.\.props\}/);
   const calculator = await source('src/calculator/CalculatorApp.tsx');
   // Counted inside className only — the file also names the class in comments.
   assert.equal(

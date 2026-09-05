@@ -1,0 +1,79 @@
+[
+  {
+    "path": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/chatgpt-talabalar-uchun/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  },
+  {
+    "path": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "status": 200,
+    "title": true,
+    "description": true,
+    "canonical": true,
+    "robots": true,
+    "h1": true,
+    "schema": true,
+    "articleBody": true
+  }
+]

@@ -587,5 +587,11 @@
     "release_commit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
     "deployment_id": "82836535-df1c-4728-a1a3-8a81d9086c6b",
     "authenticated_owner_canary": true
+  },
+  "chat_ui_article_release_20260905": {
+    "status": "verified_locally_ready_for_authorized_deployment",
+    "baseline": "68410c2",
+    "handoff": "docs/gpt-chat/UI_ARTICLE_RELEASE_2026-09-05.md",
+    "scope": "shadcn UI and seven contextual article entries; no consumer billing activation"
   }
 }

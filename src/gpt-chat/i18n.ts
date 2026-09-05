@@ -18,6 +18,17 @@ export interface PromptChip {
 }
 
 export interface ChatStrings {
+  premium: {
+    eyebrow: string; welcome: string; welcomeAccent: string; intro: string; trust: string;
+    account: string; title: string; price: string; benefits: string; login: string; loginConsent: string; loginFailed: string; refunded: string;
+    unavailable: string; logout: string; close: string; check: string; terms: string; manual: string;
+    active: string; expires: string; remaining: string; renew: string; refund: string; refundPending: string;
+    failed: string; pending: string; cancelled: string; expired: string; test: string;
+    copyFailed: string; partial: string; simpler: string; translate: string; continue: string;
+    historyNote: string; savedChats: string; noHistory: string; newChatHint: string; actionCost: string;
+    answerReady: string; monthlyLimit: string; pause: string; offer: string;
+    scheduled:string; receipt:string; refundReceipt:string; contextTooLarge:string;
+  };
   brand: string;
   online: string;
   inputPlaceholder: string;
@@ -128,6 +139,22 @@ export interface ChatStrings {
 }
 
 const RU: ChatStrings = {
+  premium: {
+    refunded:'Платёжная система подтвердила возврат. Доступ по этому платежу отключён.',
+    scheduled:'Следующий период уже оплачен. Начало',receipt:'Фискальный чек',refundReceipt:'Чек возврата',contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
+    answerReady:'Ответ готов.',monthlyLimit:'Сообщения этого оплаченного периода закончились. Следующий пакет доступен с начала нового периода.',pause:'Сейчас действует ограничение частоты. Повторите позже — остаток сообщений сохранён.',offer:'Пользуетесь часто? Plus: 300 сообщений за 20 000 сум в месяц.',
+    eyebrow:'ВАШ AI-ПОМОЩНИК',welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',
+    intro:'Написать, перевести или разобраться в теме. Просто спросите на русском или узбекском.',
+    trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'Мой тариф',title:'Больше пространства для вопросов',price:'20 000 сум / месяц',
+    benefits:'300 ответов за оплаченный месяц. До 20 в час и 50 в день. Резервные модели при сбоях. Доступ с разных устройств через Telegram.',
+    loginFailed:'Вход не завершён. Попробуйте войти через Telegram ещё раз.',login:'Войти через Telegram',loginConsent:'Согласен на создание аккаунта по идентификатору Telegram. Не запрашиваем телефон, имя и доступ к переписке.',
+    unavailable:'Оплата пока не подключена. Бесплатный чат доступен.',logout:'Выйти',close:'Закрыть',check:'Проверить статус',terms:'Принимаю условия подписки и возврата',
+    manual:'Без автосписаний. Продление оплачиваете сами.',active:'Plus активен',expires:'Оплачен до',remaining:'ответов осталось в этом периоде',renew:'Период скоро закончится. Можно оплатить следующий месяц.',
+    refund:'Запросить возврат',refundPending:'Запрос на возврат принят. Доступ сохраняется до решения.',failed:'Статус не получен. Если уже платили, проверьте статус перед повторной оплатой.',
+    pending:'Ожидаем подтверждение оплаты. Возврат с платёжной страницы сам по себе не подтверждает платёж.',cancelled:'Платёж отменён. При списании обратитесь в поддержку провайдера.',expired:'Оплаченный период закончился.',test:'Тестовый режим: реальные деньги не списываются.',
+    copyFailed:'Копирование недоступно. Выделите текст и скопируйте вручную.',partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',simpler:'Объяснить проще',translate:'Перевести на узбекский',continue:'Продолжить',
+    historyNote:'История доступна в этом браузере и не синхронизируется. Подписка действует на всех устройствах после входа.',savedChats:'Ваши разговоры',noHistory:'Сохранённых разговоров пока нет.',newChatHint:'Начать новую тему',actionCost:'Продолжение, перевод и упрощение используют по одному сообщению.',
+  },
   brand: 'GPTBot AI',
   online: 'Online',
   inputPlaceholder: 'Напишите сообщение…',
@@ -146,7 +173,7 @@ const RU: ChatStrings = {
   pricingLink: 'Тарифы',
   chips: [
     { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
-    { id: 'translate', label: 'Перевести на Uzbek Latin', insert: 'Переведи на Uzbek Latin, естественно для аудитории Узбекистана: ' },
+    { id: 'translate', label: 'На узбекский', insert: 'Переведи на узбекский латиницей, естественно для аудитории Узбекистана: ' },
     { id: 'offer', label: 'Придумать оффер', insert: 'Придумай 3 варианта рекламного оффера. Продукт: ' },
     { id: 'explain', label: 'Объяснить тему', insert: 'Объясни простыми словами: ' },
   ],
@@ -164,7 +191,7 @@ const RU: ChatStrings = {
   contactTelegram: 'Написать нам в Telegram',
   dismissOffer: 'Скрыть предложение',
   remaining: (n) => `Осталось ${n} сообщений сегодня`,
-  lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня. Дальше — тариф Plus.`,
+  lowWarning: (n) => `Осталось ${n} ${n === 1 ? 'сообщение' : 'сообщения'} на сегодня.`,
   charsLeft: (n) => `${n} символов до лимита`,
   emptyTitle: 'Чем помочь сегодня?',
   emptyHint: 'Напишите вопрос или выберите пример.',
@@ -256,6 +283,22 @@ const RU: ChatStrings = {
 };
 
 const UZ: ChatStrings = {
+  premium: {
+    refunded:'To‘lov tizimi pulni qaytarishni tasdiqladi. Shu to‘lov bo‘yicha obuna o‘chirildi.',
+    scheduled:'Keyingi davr uchun to‘langan. Boshlanish sanasi',receipt:'Fiskal chek',refundReceipt:'Pulni qaytarish cheki',contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
+    answerReady:'Javob tayyor.',monthlyLimit:'Bu davr uchun xabarlar tugadi. Yangi to‘plam keyingi davr boshlanganda ochiladi.',pause:'Hozircha so‘rovlar soni cheklangan. Keyinroq qayta urining — qolgan xabarlaringiz saqlanadi.',offer:'Tez-tez foydalanasizmi? Plus: oyiga 20 000 so‘mga 300 ta xabar.',
+    eyebrow:'SIZNING AI YORDAMCHINGIZ',welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',
+    intro:'Matn yozish, tarjima qilish yoki mavzuni tushunish. O‘zbekcha yoki ruscha so‘rang.',
+    trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'Mening tarifim',title:'Savollaringiz uchun ko‘proq imkoniyat',price:'Oyiga 20 000 so‘m',
+    benefits:'To‘langan oy davomida 300 ta javob. Soatiga 20 ta, kuniga 50 tagacha. Model ishlamasa, zaxira modelga o‘tamiz. Telegram orqali boshqa qurilmada ham foydalanasiz.',
+    loginFailed:'Kirish yakunlanmadi. Telegram orqali yana kirib ko‘ring.',login:'Telegram orqali kirish',loginConsent:'Telegram identifikatori orqali akkaunt yaratishga roziman. Telefon, ism va yozishmalarga ruxsat so‘ramaymiz.',
+    unavailable:'To‘lov hali ulanmagan. Bepul chatdan foydalanishingiz mumkin.',logout:'Chiqish',close:'Yopish',check:'Holatni tekshirish',terms:'Obuna va pulni qaytarish shartlariga roziman',
+    manual:'Avtomatik yechib olish yo‘q. Keyingi oy uchun o‘zingiz to‘laysiz.',active:'Plus faol',expires:'Amal qilish muddati',remaining:'ta javob shu davr uchun qoldi',renew:'Muddat tugashiga oz qoldi. Keyingi oy uchun to‘lashingiz mumkin.',
+    refund:'Pulni qaytarishni so‘rash',refundPending:'So‘rovingiz qabul qilindi. Qaror chiqquncha xizmatdan foydalanasiz.',failed:'Holatni aniqlab bo‘lmadi. To‘lagan bo‘lsangiz, yana to‘lashdan oldin holatni tekshiring.',
+    pending:'To‘lov tasdig‘ini kutyapmiz. To‘lov sahifasidan qaytish to‘lov amalga oshganini bildirmaydi.',cancelled:'To‘lov bekor qilindi. Pul yechilgan bo‘lsa, to‘lov xizmati yordam markaziga murojaat qiling.',expired:'To‘langan muddat tugadi.',test:'Sinov rejimi: haqiqiy pul yechilmaydi.',
+    copyFailed:'Nusxalab bo‘lmadi. Matnni belgilab, qo‘lda nusxalang.',partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',simpler:'Oddiyroq tushuntir',translate:'Rus tiliga tarjima',continue:'Davom ettir',
+    historyNote:'Tarix shu brauzerda ko‘rinadi va sinxronlanmaydi. Obuna akkauntga kirgan barcha qurilmalarda ishlaydi.',savedChats:'Suhbatlaringiz',noHistory:'Hozircha saqlangan suhbat yo‘q.',newChatHint:'Yangi mavzu boshlash',actionCost:'Davom ettirish, tarjima va soddalashtirish uchun bittadan xabar sarflanadi.',
+  },
   brand: 'GPTBot AI',
   online: 'Online',
   inputPlaceholder: 'Xabar yozing…',
@@ -292,7 +335,7 @@ const UZ: ChatStrings = {
   contactTelegram: 'Telegramda bizga yozing',
   dismissOffer: 'Taklifni yopish',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
-  lowWarning: (n) => `Bugun ${n} ta xabar qoldi. Keyin — Plus tarifi.`,
+  lowWarning: (n) => `Bugun ${n} ta xabar qoldi.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
   emptyTitle: 'Bugun sizga qanday yordam beray?',
   emptyHint: 'Savolingizni yozing yoki misolni tanlang.',

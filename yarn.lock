@@ -3305,3 +3305,8 @@ libphonenumber-js@1.13.12:
   version "1.13.12"
   resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.13.12.tgz#ba5371e954cb07c0498de97afa312d25e93e2241"
   integrity sha512-uLVeV1c9OTk6qkdqnj+mpMD+ZdnZ0szVyWu58HwMmpwkHA1gCEkyjd3veZQXDnuw9KEwSRjcc9B1pS9XKIN1fA==
+
+"@shadcn/react@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/@shadcn/react/-/react-0.3.1.tgz#2bef85067964719f67e8061d84e615c841d0fb88"
+  integrity sha512-2gOR0HDMtWeRsCZfNDaU0YDFdgH3zsDQ6lz67Fv/y/qjY9y+R8kJqAn6q56phqv7/zHi0wqURjntrNO9zL7vnQ==

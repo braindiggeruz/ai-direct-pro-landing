@@ -1,3 +1,5 @@
+import { renderChatEntry, CHAT_ENTRY_TRACKING } from './chat-entry-cta';
+import { chatEntryForArticle, chatEntryHref } from '../src/shared/chat-entry';
 // scripts/prerender-blog.ts
 //
 // Build-time blog prerender. Reads /content/blog/**/*.json (BlogArticle
@@ -316,6 +318,8 @@ function showsStickyCta(a: BlogArticle): boolean {
 
 function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
   if (!showsStickyCta(a)) return '';
+  const entry = chatEntryForArticle(a.url);
+  if (entry) return `<div class="sticky-cta lg:hidden article-chat-sticky"><a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">AI-chatni ochish <span aria-hidden="true">↗</span></a></div>`;
   const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
   const telegramHref = global.telegram || global.defaultCTA.href;
   return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
@@ -335,6 +339,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string): str
     a.robotsFollow ? 'follow' : 'nofollow',
     'max-image-preview:large',
   ].join(', ');
+  const entry = chatEntryForArticle(a.url);
   const blogIndexHref = `/${lang}/blog/`;
   const authorProfileHref = lang === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
 
@@ -417,7 +422,7 @@ ${METRIKA_NOSCRIPT}
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(a.cta?.href || global.defaultCTA.href)}" data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(entry ? chatEntryHref(entry) : a.cta?.href || global.defaultCTA.href)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
       </a>
     </nav>
@@ -441,11 +446,11 @@ ${METRIKA_NOSCRIPT}
       ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
     </div>
     <div class="prose-invert">
-      ${(a.body || []).map(renderBlock).join('\n')}
+      ${(a.body || []).map((block, index) => renderBlock(block) + (index === Math.min(1, (a.body || []).length - 1) ? renderChatEntry(a.url) : '')).join('\n')}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(a.cta.href)}"${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
+  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(entry && a.cta.href === '/uz/gpt-uzbek-tilida/' ? chatEntryHref(entry) : a.cta.href)}" ${entry && a.cta.href === '/uz/gpt-uzbek-tilida/' ? `data-chat-entry="${entry.id}"` : ''}${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
   ${renderSources(a)}
   ${renderInternalLinks(a)}
@@ -466,6 +471,7 @@ ${METRIKA_NOSCRIPT}
   </div>
 </footer>
 ${renderStickyCta(a, global)}
+${chatEntryForArticle(a.url) ? CHAT_ENTRY_TRACKING : ''}
 </body>
 </html>
 `;

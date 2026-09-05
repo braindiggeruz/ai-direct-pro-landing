@@ -1,8 +1,8 @@
 // Shared types for the AI-chat island.
-export type Locale = 'ru' | 'uz';
+export type Locale = "ru" | "uz";
 
 export interface ChatMessage {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   model?: string | null;
   /** transient UI state for the pending assistant turn */
@@ -10,6 +10,7 @@ export interface ChatMessage {
   /** transient: the answer is still arriving token by token */
   streaming?: boolean;
   error?: boolean;
+  partial?: boolean;
 }
 
 export interface MountConfig {

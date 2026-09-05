@@ -1,0 +1,92 @@
+[
+  {
+    "width": 360,
+    "id": "download",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 360,
+    "id": "login",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 360,
+    "id": "essay",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 393,
+    "id": "download",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 393,
+    "id": "login",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 393,
+    "id": "essay",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 1440,
+    "id": "download",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 1440,
+    "id": "login",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  },
+  {
+    "width": 1440,
+    "id": "essay",
+    "canonical": true,
+    "noOverflow": true,
+    "prefilled": true,
+    "noAutoSend": true,
+    "returnLink": true,
+    "attribution": true
+  }
+]

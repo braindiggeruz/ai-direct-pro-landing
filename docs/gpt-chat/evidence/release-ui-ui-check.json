@@ -1,0 +1,70 @@
+[
+  {
+    "locale": "uz",
+    "width": 360,
+    "documentWidth": 360,
+    "inputBottom": 755.5,
+    "viewportHeight": 851,
+    "menu": "pass",
+    "account": "pass",
+    "errors": []
+  },
+  {
+    "locale": "ru",
+    "width": 360,
+    "documentWidth": 360,
+    "inputBottom": 755.5,
+    "viewportHeight": 851,
+    "menu": "pass",
+    "account": "pass",
+    "errors": []
+  },
+  {
+    "locale": "uz",
+    "width": 393,
+    "documentWidth": 393,
+    "inputBottom": 755.5,
+    "viewportHeight": 851,
+    "menu": "pass",
+    "account": "pass",
+    "errors": []
+  },
+  {
+    "locale": "ru",
+    "width": 393,
+    "documentWidth": 393,
+    "inputBottom": 755.5,
+    "viewportHeight": 851,
+    "menu": "pass",
+    "account": "pass",
+    "errors": []
+  },
+  {
+    "transcript": {
+      "width": 393,
+      "items": 2,
+      "scrollHeight": 947,
+      "clientHeight": 619
+    }
+  },
+  {
+    "locale": "uz",
+    "width": 1440,
+    "documentWidth": 1440,
+    "inputBottom": 863,
+    "viewportHeight": 960,
+    "menu": "desktop",
+    "account": "pass",
+    "errors": []
+  },
+  {
+    "locale": "ru",
+    "width": 1440,
+    "documentWidth": 1440,
+    "inputBottom": 863,
+    "viewportHeight": 960,
+    "menu": "desktop",
+    "account": "pass",
+    "errors": []
+  }
+]

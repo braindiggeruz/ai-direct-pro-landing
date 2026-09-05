@@ -1,5 +1,9 @@
 # GPTBot AEO video incident closure — 2026-09-05
 
+## Chat UI and article entry release
+
+Owner authorized deployment on 2026-09-05. Latest-main UI release adds the reviewed shadcn chat and seven contextual article entry paths. 540 tests, 12 release/config tests, typecheck, lint and mobile/desktop browser checks pass; seven article SEO/content baselines are preserved. Payment controls remain explicitly upcoming; no billing backend, schema, variables or bot changes. Guarded deployment and public readback are the remaining release step. Details: `docs/gpt-chat/UI_ARTICLE_RELEASE_2026-09-05.md`. Existing AEO acceptance records below are preserved.
+
 ## Public CSS hotfix — owner-authorized release
 
 Completed: runtime `ed473b193bfc77f4b078eff9d31d15fd4a9ef50b` deployed as `3c4c3059-4903-41c6-a853-0e51e3f393e5` after merging the newer AEO runtime f9a8457 and docs d186b11. Full `build:cf`, release guard, public manifest/CSS HTTP checks and RU/UZ mobile/desktop browser checks passed. Bindings and existing variables are preserved. Evidence and exact boundaries: `docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md`.

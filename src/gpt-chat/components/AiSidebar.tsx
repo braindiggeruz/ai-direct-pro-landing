@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 import type { Locale } from '../types';
 import type { ChatStrings } from '../i18n';
 import type { AiToolId } from '../templates';
@@ -158,27 +160,6 @@ function SidebarBody({
 
 export function AiSidebar(props: SidebarProps) {
   const { collapsed, onToggleCollapsed, mobileOpen, onCloseMobile, t } = props;
-  const panelRef = useRef<HTMLDivElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
-
-  // Drawer: Escape closes; Tab is trapped inside the panel.
-  useEffect(() => {
-    if (!mobileOpen) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onCloseMobile(); return; }
-      if (e.key !== 'Tab' || !panelRef.current) return;
-      const focusables = panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [mobileOpen, onCloseMobile]);
-
   return (
     <>
       {/* Desktop sidebar */}
@@ -195,24 +176,19 @@ export function AiSidebar(props: SidebarProps) {
         </button>
       </aside>
 
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={t.sidebarLinks}>
-          <button type="button" aria-label={t.menuClose} onClick={onCloseMobile} className="absolute inset-0 bg-black/60" />
-          <div ref={panelRef} className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-[#0a0f1a] shadow-2xl shadow-black/60">
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={onCloseMobile}
-              aria-label={t.menuClose}
-              className="absolute right-2 top-2 z-10 grid h-11 w-11 place-items-center rounded-xl text-white/50 hover:text-white hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
-            >
-              ✕
-            </button>
-            <SidebarBody {...props} inDrawer collapsed={false} onNavigateAway={onCloseMobile} />
-          </div>
-        </div>
-      )}
+      <Dialog open={mobileOpen} onOpenChange={(open) => { if (!open) onCloseMobile(); }}>
+        <DialogContent className="gpt-premium gpt-sidebar-dialog ym-hide-content" showCloseButton={false}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            document.querySelector<HTMLButtonElement>('[data-testid="ai-menu-button"]')?.focus();
+          }}>
+          <DialogTitle className="sr-only">{t.sidebarLinks}</DialogTitle>
+          <DialogDescription className="sr-only">{t.sidebarTools}</DialogDescription>
+          <Button type="button" variant="ghost" size="icon-lg" className="gpt-sidebar-close"
+            onClick={onCloseMobile} aria-label={t.menuClose}><X data-icon="inline-start" /></Button>
+          <SidebarBody {...props} inDrawer collapsed={false} onNavigateAway={onCloseMobile} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

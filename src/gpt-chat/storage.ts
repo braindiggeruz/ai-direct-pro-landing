@@ -1,11 +1,11 @@
 // localStorage persistence for the anonymous chat session + history.
 // Fails silently in private mode / storage-disabled browsers.
-import type { ChatMessage, Locale } from './types';
+import type { ChatMessage, Locale } from "./types";
 
-const SID_KEY = 'gptchat_sid';
-const HIST_KEY = 'gptchat_history';
-const REMAINING_KEY = 'gptchat_remaining';
-const OFFER_KEY = 'gptchat_offer_dismissed';
+const SID_KEY = "gptchat_sid";
+const HIST_KEY = "gptchat_history";
+const REMAINING_KEY = "gptchat_remaining";
+const OFFER_KEY = "gptchat_offer_dismissed";
 
 function localeKey(base: string, locale: Locale): string {
   return `${base}_${locale}`;
@@ -13,7 +13,10 @@ function localeKey(base: string, locale: Locale): string {
 
 export function loadSessionId(locale: Locale): string | null {
   try {
-    return localStorage.getItem(localeKey(SID_KEY, locale)) ?? (locale === 'ru' ? localStorage.getItem(SID_KEY) : null);
+    return (
+      localStorage.getItem(localeKey(SID_KEY, locale)) ??
+      (locale === "ru" ? localStorage.getItem(SID_KEY) : null)
+    );
   } catch {
     return null;
   }
@@ -30,7 +33,7 @@ export function saveSessionId(id: string, locale: Locale): void {
 export function clearSessionId(locale: Locale): void {
   try {
     localStorage.removeItem(localeKey(SID_KEY, locale));
-    if (locale === 'ru') localStorage.removeItem(SID_KEY);
+    if (locale === "ru") localStorage.removeItem(SID_KEY);
   } catch {
     /* noop */
   }
@@ -52,7 +55,13 @@ export function loadRemaining(locale: Locale): number {
 export function saveRemaining(remaining: number, locale: Locale): void {
   if (!Number.isInteger(remaining) || remaining < 0) return;
   try {
-    localStorage.setItem(localeKey(REMAINING_KEY, locale), JSON.stringify({ value: remaining, date: new Date().toISOString().slice(0, 10) }));
+    localStorage.setItem(
+      localeKey(REMAINING_KEY, locale),
+      JSON.stringify({
+        value: remaining,
+        date: new Date().toISOString().slice(0, 10),
+      }),
+    );
   } catch {
     /* noop */
   }
@@ -65,7 +74,10 @@ export function saveRemaining(remaining: number, locale: Locale): void {
  */
 export function loadOfferDismissed(locale: Locale): boolean {
   try {
-    return localStorage.getItem(localeKey(OFFER_KEY, locale)) === new Date().toISOString().slice(0, 10);
+    return (
+      localStorage.getItem(localeKey(OFFER_KEY, locale)) ===
+      new Date().toISOString().slice(0, 10)
+    );
   } catch {
     return false;
   }
@@ -73,7 +85,10 @@ export function loadOfferDismissed(locale: Locale): boolean {
 
 export function saveOfferDismissed(locale: Locale): void {
   try {
-    localStorage.setItem(localeKey(OFFER_KEY, locale), new Date().toISOString().slice(0, 10));
+    localStorage.setItem(
+      localeKey(OFFER_KEY, locale),
+      new Date().toISOString().slice(0, 10),
+    );
   } catch {
     /* noop */
   }
@@ -81,14 +96,26 @@ export function saveOfferDismissed(locale: Locale): void {
 
 export function loadHistory(locale: Locale): ChatMessage[] {
   try {
-    const raw = localStorage.getItem(localeKey(HIST_KEY, locale)) ?? (locale === 'ru' ? localStorage.getItem(HIST_KEY) : null);
+    const raw =
+      localStorage.getItem(localeKey(HIST_KEY, locale)) ??
+      (locale === "ru" ? localStorage.getItem(HIST_KEY) : null);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
     return parsed
-      .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+      .filter(
+        (m) =>
+          m &&
+          (m.role === "user" || m.role === "assistant") &&
+          typeof m.content === "string",
+      )
       .slice(-40)
-      .map((m) => ({ role: m.role, content: m.content, model: m.model ?? null }));
+      .map((m) => ({
+        role: m.role,
+        content: m.content.slice(0, 100_000),
+        model: typeof m.model === "string" ? m.model : null,
+        partial: m.partial === true,
+      }));
   } catch {
     return [];
   }
@@ -98,7 +125,12 @@ export function saveHistory(messages: ChatMessage[], locale: Locale): void {
   try {
     const clean = messages
       .filter((m) => !m.pending && !m.error)
-      .map((m) => ({ role: m.role, content: m.content, model: m.model ?? null }))
+      .map((m) => ({
+        role: m.role,
+        content: m.content,
+        model: m.model ?? null,
+        partial: m.partial === true,
+      }))
       .slice(-40);
     localStorage.setItem(localeKey(HIST_KEY, locale), JSON.stringify(clean));
   } catch {
@@ -109,8 +141,75 @@ export function saveHistory(messages: ChatMessage[], locale: Locale): void {
 export function clearHistory(locale: Locale): void {
   try {
     localStorage.removeItem(localeKey(HIST_KEY, locale));
-    if (locale === 'ru') localStorage.removeItem(HIST_KEY);
+    if (locale === "ru") localStorage.removeItem(HIST_KEY);
   } catch {
     /* noop */
   }
+}
+
+export interface SavedChat {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  savedAt: number;
+}
+export function loadChats(locale: Locale): SavedChat[] {
+  try {
+    const value = JSON.parse(
+      localStorage.getItem(`gptchat_dialogs_${locale}`) || "[]",
+    );
+    return Array.isArray(value)
+      ? value
+          .filter(
+            (c) =>
+              c &&
+              typeof c.id === "string" &&
+              typeof c.title === "string" &&
+              Array.isArray(c.messages),
+          )
+          .slice(0, 10)
+          .map((c) => ({
+            ...c,
+            title: c.title.slice(0, 80),
+            messages: c.messages
+              .filter(
+                (m: ChatMessage) =>
+                  m &&
+                  (m.role === "user" || m.role === "assistant") &&
+                  typeof m.content === "string",
+              )
+              .slice(-40)
+              .map((m: ChatMessage) => ({
+                role: m.role,
+                content: m.content.slice(0, 100_000),
+                model: typeof m.model === "string" ? m.model : null,
+                partial: m.partial === true,
+              })),
+          }))
+      : [];
+  } catch {
+    return [];
+  }
+}
+export function archiveChat(
+  messages: ChatMessage[],
+  locale: Locale,
+): SavedChat[] {
+  const clean = messages
+    .filter((m) => !m.pending && !m.error && !m.streaming)
+    .slice(-40);
+  if (!clean.length) return loadChats(locale);
+  const chat: SavedChat = {
+    id: crypto.randomUUID(),
+    title: (clean.find((m) => m.role === "user")?.content || "…").slice(0, 80),
+    messages: clean,
+    savedAt: Date.now(),
+  };
+  const next = [chat, ...loadChats(locale)].slice(0, 10);
+  try {
+    localStorage.setItem(`gptchat_dialogs_${locale}`, JSON.stringify(next));
+  } catch {
+    /* history remains visible if storage is full */
+  }
+  return next;
 }
