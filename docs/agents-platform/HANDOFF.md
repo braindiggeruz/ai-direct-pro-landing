@@ -2,6 +2,8 @@
 
 ## 1. Current state
 
+Incident repair in progress after the owner reproduced a failed run. Authenticated production diagnosis confirms GitHub PAT HTTP 401 and a Workers-incompatible `redirect: error` in observation transport. Existing Git credential validated against the exact repository GraphQL content query; Pages GITHUB_TOKEN replaced through secret stdin, awaiting redeploy. Worker transport now uses manual redirects and rejects non-2xx before parsing. Stored terminal failures retain safe reason/questions and allow a fresh operation on the next click. No migration needed. New actual workerd regression test proves provider delivery and redirect refusal. Authenticated repair acceptance remains pending until the new runtime is live.
+
 Deployed runtime commit `c123678a1a033c381f6c84379caf8d1cab3b93a2`, Pages deployment `5f778f21-71dd-4df1-969e-45f74212e9e8`, project `ai-direct-pro-landing`. Main received the runtime commit. Public-domain manifest and AEO asset hashes match the local release. Owner explicitly authorized commit/push/deploy in this task. Subsequent documentation-only commit does not change the deployed runtime.
 
 ## 2. Delivered behavior
@@ -26,11 +28,11 @@ Only AEO runtime and two plaintext AEO vars added; all previous vars/secrets typ
 
 ## 7. Remaining uncertainty
 
-Owner's Chrome session is not available through the connected browser tool. Authenticated analysis/review/provider canary remains unverified, rather than inferred from 200/401 status. The user's earlier screenshot showed GitHub/audit loading errors; this release does not claim those pre-existing authenticated errors resolved. Follow up with actual authenticated HTTP status before changing GitHub credentials. Manual screen reader, real browser zoom and human usability pilot remain pending; detailed roadmap gaps are in the UX report.
+Owner logged into the connected IAB tab. Before repair, GitHub health showed PAT rejected (401); three real free-model operations failed in about 0.14 seconds. Actual workerd reproduction confirmed unsupported redirect mode before any outbound request. Post-repair real workflows still require verification. Manual screen reader, real browser zoom and human usability pilot remain pending.
 
 ## 8. Next action
 
-Owner opens AEO Studio, hard-refreshes the previous tab if necessary, runs one content analysis and one selected free model. Verify actual content/results, history and review readback. Do not treat configuration presence as a successful model response.
+Deploy the checked repair with the existing release authorization, then use the already authenticated IAB tab for content analysis, saved review/undo and real free-model answers. Verify actual results and history. Never treat configuration presence as a successful model response.
 
 ## 9. Acceptance boundary
 

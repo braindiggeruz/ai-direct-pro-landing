@@ -198,9 +198,24 @@ export const onRequestPost: PagesFunction<AeoEnv> = async ({
         : await observe(questions[0], model!, env.OPENROUTER_API_KEY!);
     await store.finish(ORG, id, result, "ok" in result && !result.ok);
     return json(await store.find(ORG, key));
-  } catch {
-    if (reserved)
-      await store.finish(ORG, id, null, true).catch(() => undefined);
+  } catch (error) {
+    if (reserved) {
+      const githubAuth = error instanceof Error && /GitHub graphql failed: (401|403)\b/.test(error.message);
+      const failure = {
+        code: githubAuth ? "content_auth" : "run_failed",
+        message: githubAuth
+          ? "Нет доступа к контенту GitHub. Администратору нужно восстановить серверный токен; затем запустите проверку заново."
+          : "Не удалось завершить проверку. Вопросы сохранены; попробуйте новый запуск.",
+        questions,
+        locale: body.locale as "ru" | "uz",
+      };
+      try {
+        await store.finish(ORG, id, null, true, failure);
+        // A persisted terminal failure is a known operation outcome. The client can
+        // start a fresh operation; only uncertain transport failures retain its key.
+        return json(await store.find(ORG, key));
+      } catch { /* storage outcome is unknown: preserve the key for recovery */ }
+    }
     return json(
       {
         error:

@@ -9,14 +9,14 @@ interface Row {
   request_hash: string;
 }
 function decode(row: Row): AeoRun {
+  const stored = row.result_json ? JSON.parse(row.result_json) : null;
   return {
     id: row.id,
     kind: row.kind,
     status: row.status,
     created_at: row.created_at,
-    result: row.result_json
-      ? (JSON.parse(row.result_json) as AeoRun["result"])
-      : null,
+    result: stored?._failure ? null : stored,
+    ...(stored?._failure ? { failure: stored._failure } : {}),
   };
 }
 export class AeoStore {
@@ -163,6 +163,7 @@ export class AeoStore {
     id: string,
     result: AeoRun["result"],
     failed = false,
+    failure?: AeoRun["failure"],
   ): Promise<void> {
     await this.db
       .prepare(
@@ -170,7 +171,7 @@ export class AeoStore {
       )
       .bind(
         failed ? "failed" : "completed",
-        JSON.stringify(result),
+        JSON.stringify(failure ? { _failure: failure } : result),
         new Date().toISOString(),
         orgId,
         id,

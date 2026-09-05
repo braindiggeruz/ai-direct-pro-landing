@@ -171,6 +171,13 @@ export default function AeoWorkspace() {
   function openRun(run: AeoRun) {
     setActive(run);
     setTab(run.kind === "analysis" ? "review" : "answers");
+    if (run.kind === "analysis" && run.status === "failed") {
+      setCompose(true);
+      if (run.failure) {
+        setQuestions(run.failure.questions.join("\n"));
+        setLocale(run.failure.locale);
+      }
+    }
     if (isAnalysis(run)) {
       setLocale(run.result.locale);
       setQuestions(run.result.findings.map((f) => f.question).join("\n"));
@@ -393,8 +400,9 @@ export default function AeoWorkspace() {
                     Какие вопросы задают ваши клиенты?
                   </h2>
                   <p className="aeo-muted">
-                    Найдём страницы и фрагменты ответов. Анализ не вызывает AI и
-                    не меняет сайт.
+                    Проверяем только опубликованные страницы gptbot.uz. Чтобы
+                    узнать, кого рекомендуют модели по любому запросу, откройте
+                    «Ответы нейросетей».
                   </p>
                 </div>
                 {analysis && (
@@ -510,8 +518,7 @@ export default function AeoWorkspace() {
           )}
           {active?.status === "failed" && (
             <p className="aeo-error" role="alert">
-              Разбор не завершён. Вопросы сохранены; откройте форму и выполните
-              новый запуск.
+              {active.failure?.message || "Разбор не завершён. Проверьте вопросы в форме и выполните новый запуск."}
             </p>
           )}
           {analysis && active && (
@@ -710,8 +717,9 @@ export default function AeoWorkspace() {
             .filter(
               (run) =>
                 (historyLocale === "all" ||
-                  (isAnalysis(run) && run.result.locale === historyLocale)) &&
-                JSON.stringify(run.result)
+                  (isAnalysis(run) && run.result.locale === historyLocale) ||
+                  run.failure?.locale === historyLocale) &&
+                JSON.stringify(run.failure || run.result)
                   .toLowerCase()
                   .includes(historySearch.toLowerCase()),
             )
@@ -734,7 +742,7 @@ export default function AeoWorkspace() {
                       ? run.result.findings[0]?.question
                       : run.result && "question" in run.result
                         ? run.result.question
-                        : "Запуск без результата"}
+                        : run.failure?.questions[0] || "Запуск без результата"}
                   </h3>
                   {isAnalysis(run) && (
                     <p className="aeo-muted">

@@ -31,6 +31,7 @@ export interface AeoRun {
   status: "running" | "completed" | "failed";
   created_at: string;
   result: AeoAnalysis | AeoObservation | null;
+  failure?: { code: string; message: string; questions: string[]; locale: "ru" | "uz" };
 }
 export interface AeoObservation {
   requestedModel?: string;

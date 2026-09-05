@@ -135,6 +135,18 @@ test('authorized analysis API persists, returns the same operation on retry and 
     const workspace = await (onRequestGet as (ctx: unknown) => Promise<Response>)({ env, request: new Request('https://gptbot.uz/api/admin/aeo', { headers: { Authorization: `Bearer ${token}` } }) });
     assert.equal((await workspace.json() as { runs: unknown[] }).runs.length, 1);
     assert.equal(calls, 1, 'history does not reload GitHub or call an AI provider');
+    globalThis.fetch = async () => { calls++; return new Response('fixture-secret-must-not-leak', { status: 401 }); };
+    const failed = await (await send('Что включает SEO продвижение сайта?', 'fixture-failure-key-01')).json() as { id: string; status: string; failure: { code: string; questions: string[] } };
+    assert.equal(failed.status, 'failed');
+    assert.equal(failed.failure.code, 'content_auth');
+    assert.deepEqual(failed.failure.questions, ['Что включает SEO продвижение сайта?']);
+    assert.ok(!JSON.stringify(failed).includes('fixture-secret'));
+    const repeated = await (await send('Что включает SEO продвижение сайта?', 'fixture-failure-key-01')).json() as { id: string };
+    assert.equal(repeated.id, failed.id);
+    assert.equal(calls, 2, 'terminal retry retrieves stored failure without reusing provider quota');
+    const recovered = await send('Что включает SEO продвижение сайта?', 'fixture-new-key-00001');
+    assert.notEqual((await recovered.json() as { id: string }).id, failed.id, 'explicit new attempt can run after a terminal failure');
+    assert.equal(calls, 3);
   } finally { globalThis.fetch = originalFetch; sqlite.close(); }
 });
 

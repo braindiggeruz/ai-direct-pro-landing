@@ -1,6 +1,7 @@
 import type { AeoObservation } from "../../../src/shared/aeo";
 import { createAiFacade } from "../ai/facade";
 import { AiPolicyResolver } from "../ai/policy";
+import { AiError } from "../ai/errors";
 
 export function allowedModel(model: string | undefined): string | null {
   return model && /^[a-z0-9-]+\/[a-z0-9._-]+:free$/i.test(model) ? model : null;
@@ -53,9 +54,10 @@ export async function observe(
               {
                 method: "POST",
                 signal: request.signal,
-                redirect: "error",
+                // Workers implements only manual/follow. Never forward credentials to a redirect.
+                redirect: "manual",
                 headers: {
-                  Authorization: `Bearer ${key}`,
+                  Authorization: `Bearer ${key.trim()}`,
                   "Content-Type": "application/json",
                   "HTTP-Referer": "https://gptbot.uz",
                 },
@@ -170,9 +172,10 @@ export async function observe(
       ? 1
       : 0;
     return result;
-  } catch {
-    result.error ||=
-      "Провайдер недоступен или превысил время ожидания. Повтор не выполнялся.";
+  } catch (error) {
+    result.error ||= error instanceof AiError && error.code === "timeout"
+      ? "Модель не ответила за 25 секунд. Можно повторить запрос вручную."
+      : "Не удалось получить ответ модели. Повторите запрос или выберите другую модель.";
     return result;
   }
 }
