@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-05T08:15:21.477333+00:00",
-  "commit": "f9a8457b13ee313f769290ac1df59826c1d14f78",
-  "deploymentId": "be459480-0b03-4430-ba55-c730487adcf8",
+  "checkedAt": "2026-09-05T09:33:44.395992+00:00",
+  "commit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
+  "deploymentId": "82836535-df1c-4728-a1a3-8a81d9086c6b",
   "manifestMatches": true,
   "aeoAssetMatches": true,
-  "aeoAsset": "AdminRoot-BygmKoIh.js",
+  "aeoAsset": "AdminRoot-oe_eb1Yc.js",
   "bindingsPreserved": {
     "d1_databases": true,
     "kv_namespaces": true,
@@ -66,5 +66,6 @@
   "authenticatedOwnerCanary": true,
   "realProviderCanary": true,
   "ownerCanaryEvidence": "owner-canary-2026-09-05.json",
-  "providerCanaryRuntimeCommit": "37706036171f28d1f7bd002c922ada87d5d3f9d7"
+  "providerCanaryRuntimeCommit": "37706036171f28d1f7bd002c922ada87d5d3f9d7",
+  "historyCanaryEvidence": "history-follow-up.json"
 }

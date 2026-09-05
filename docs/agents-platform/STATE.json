@@ -1,5 +1,12 @@
 {
-  "public_css_hotfix_20260905": {"status":"deployed_and_public_browser_verified","release_commit":"ed473b193bfc77f4b078eff9d31d15fd4a9ef50b","deployment_id":"3c4c3059-4903-41c6-a853-0e51e3f393e5","baseline":"37706036171f28d1f7bd002c922ada87d5d3f9d7","handoff":"docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md","scope":"public stylesheet selection and release guard; excludes premium billing"},
+  "public_css_hotfix_20260905": {
+    "status": "deployed_and_public_browser_verified",
+    "release_commit": "ed473b193bfc77f4b078eff9d31d15fd4a9ef50b",
+    "deployment_id": "3c4c3059-4903-41c6-a853-0e51e3f393e5",
+    "baseline": "37706036171f28d1f7bd002c922ada87d5d3f9d7",
+    "handoff": "docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md",
+    "scope": "public stylesheet selection and release guard; excludes premium billing"
+  },
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",
@@ -15,9 +22,9 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "AEO history, locale and recovered-result verification",
-  "stage_status": "validated_release_pending",
-  "last_completed_stage": "AEO incident repair with authenticated content, review and three-model canaries",
-  "next_stage": "Guarded release and live history canary",
+  "stage_status": "complete",
+  "last_completed_stage": "AEO history locale, empty-state and recovered-result repair",
+  "next_stage": "Optional owner usability feedback",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -287,7 +294,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "d186b1172bbeed4699d756d50abfd06cb30bead4",
+  "last_commit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -560,7 +567,7 @@
   },
   "aeo_production_candidate": {
     "date": "2026-09-05",
-    "status": "validated_release_pending",
+    "status": "complete",
     "branch": "feature/aeo-production-20260905",
     "baseline": "432eab906383b137474bb67bb95b57268aa93cca",
     "handoff": "docs/aeo/PRODUCTION-HANDOFF.md",
@@ -568,7 +575,7 @@
     "deployed": true,
     "remote_migration_applied": true,
     "real_model_canary": true,
-    "next_stage": "Guarded release and live history canary",
+    "next_stage": "Optional owner usability feedback",
     "ux_report": "docs/aeo/UX-IMPLEMENTATION-2026-09-05.md",
     "models": "All three configured free models completed real production canaries; see owner-canary-2026-09-05.json",
     "migration_files": [
@@ -577,8 +584,8 @@
     ],
     "human_usability_pilot": false,
     "release_authorization": "Owner explicitly authorized commit, push and production deployment in this task on 2026-09-05",
-    "release_commit": "f9a8457b13ee313f769290ac1df59826c1d14f78",
-    "deployment_id": "be459480-0b03-4430-ba55-c730487adcf8",
+    "release_commit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
+    "deployment_id": "82836535-df1c-4728-a1a3-8a81d9086c6b",
     "authenticated_owner_canary": true
   }
 }

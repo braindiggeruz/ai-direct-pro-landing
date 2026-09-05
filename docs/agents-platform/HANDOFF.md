@@ -8,7 +8,7 @@ The owner authorized committing and publishing the mobile CSS repair on 2026-09-
 
 ## 1. Current state
 
-Owner requested continued verification. History language filtering, question-only search, empty-state recovery and settled-result export are repaired. New model runs persist the selected request locale; legacy unknown locales are labelled, never guessed or backfilled. Current checkpoint: 32 targeted tests, both typechecks and scoped lint passed; release pending. Latest verified runtime f9a8457b13ee313f769290ac1df59826c1d14f78, deployment be459480-0b03-4430-ba55-c730487adcf8. Earlier three-model canaries remain in owner-canary-2026-09-05.json; provider request settings are unchanged.
+Owner requested continued verification. History language filtering, question-only search, empty-state recovery and settled-result export are repaired. New model runs persist the selected request locale; legacy unknown locales are labelled, never guessed or backfilled. Current checkpoint: released and verified. Latest verified runtime 2e4458c1421b19eabf53e7d1175595d8aa5bd9d8, deployment 82836535-df1c-4728-a1a3-8a81d9086c6b. Earlier three-model canaries remain in owner-canary-2026-09-05.json; provider request settings are unchanged.
 
 ## 2. Confirmed defects and fixes
 
@@ -36,7 +36,7 @@ Only minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free and dots-st
 
 ## 8. Next action
 
-Deploy this history patch with the guarded Pages runner, then verify one real Uzbek request, history filters and empty-state reset in the owner browser.
+No required work remains in this continuation; see history-follow-up.json for the live locale/filter canary.
 
 ## 9. Acceptance boundary
 

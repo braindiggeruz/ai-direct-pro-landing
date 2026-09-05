@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-05",
+  "runtimeCommit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
+  "deploymentId": "82836535-df1c-4728-a1a3-8a81d9086c6b",
+  "historyEmptyStateAndReset": true,
+  "legacyLocaleExplicitlyUnknown": true,
+  "historyAndSelectedLocaleSurviveReload": true,
+  "mobileForm": { "viewport": 390, "documentWidth": 375, "languageControlHeight": 45 },
+  "liveModelCanary": {
+    "runId": "c71c7e1e-318f-4f94-a37b-226b46c4b4ca",
+    "model": "minimax/minimax-m3:free",
+    "locale": "uz",
+    "status": "completed",
+    "finishReason": "stop",
+    "characters": 518,
+    "selectedLocaleVerifiedInD1": true,
+    "visibleUnderUzHistoryFilter": true,
+    "paidFallback": false
+  },
+  "validation": {
+    "aeoAndReleaseTests": "32 passed before reconciliation",
+    "mergedStylesheetAndReleaseTests": "12 passed; 6 overlap with previous run",
+    "appTypecheck": true,
+    "functionsTypecheck": true,
+    "scopedLint": true,
+    "buildCf": true,
+    "combinedPublicStylesheetRepairPreserved": true,
+    "manifestAndAssetHashesMatch": true,
+    "productionBindingsPreserved": true,
+    "settledExportResult": "Regression-tested with an accepted request resolving to its completed observation; no production fault injected"
+  }
+}
