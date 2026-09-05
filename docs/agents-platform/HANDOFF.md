@@ -1,5 +1,9 @@
 # GPTBot AEO incident repair — 2026-09-05
 
+## Public CSS hotfix — owner-authorized release
+
+The owner authorized committing and publishing the mobile CSS repair on 2026-09-05. The release checkout `F:/Claude/gptbot-mobile-css-hotfix-20260905` includes production `37706036171f28d1f7bd002c922ada87d5d3f9d7` and changes only public stylesheet selection and its release guard/tests. Prerender now follows Vite entry styles instead of alphabetically selecting AdminRoot CSS. The previous baseline passed 537 full tests and built-artifact mobile checks; the current production lineage is being rebuilt and checked before guarded publication. New premium chat/billing WIP is excluded. AEO acceptance boundaries below remain unchanged. See `docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md` for release verification.
+
 ## 1. Current state
 
 Video follow-up: owner recording 12:45:48 shows one successful MiniMax answer and NVIDIA/Dots generic incomplete errors, plus distracting narrow independently-scrolled columns and legacy analysis recommendations still visible below a warning. Current patch raises response budget 1200 to 4096 tokens, disables optional reasoning only for the three catalogue-verified models, bounds timeout at 35 seconds, records safe finish/token metadata and preserves explicitly partial final text without promoting it to a complete observation. Reading mode displays one wide answer with per-model status buttons and optional side-by-side comparison. Legacy analysis recommendations are hidden pending recheck. Browser access is now restored through the official bundled node_repl browser runtime; owner session remains authenticated. Final provider canaries follow deployment.

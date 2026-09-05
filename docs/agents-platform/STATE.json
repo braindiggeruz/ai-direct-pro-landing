@@ -1,4 +1,5 @@
 {
+  "public_css_hotfix_20260905": {"status":"owner_authorized_release_preparation","baseline":"37706036171f28d1f7bd002c922ada87d5d3f9d7","handoff":"docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md","scope":"public stylesheet selection and release guard; excludes premium billing"},
   "project": "gptbot-agents",
   "lead_radar_telegram_release": {
     "date": "2026-08-27",

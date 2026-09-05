@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { assertPublicStylesheets } from '../site-stylesheets';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -122,6 +123,7 @@ export function inspectArtifact(dist: string, commit: string): PagesRelease {
     }
     probes.push(file);
   }
+  assertPublicStylesheets(dist, files.map(file => file.path));
   return { schema: 1, commit, artifactSha256: hash(JSON.stringify(files)), fileCount: files.length,
     features: REQUIRED_FEATURES.map(([id]) => id), probes };
 }
