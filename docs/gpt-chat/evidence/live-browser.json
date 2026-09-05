@@ -1,0 +1,68 @@
+[
+  {
+    "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "width": 360,
+    "documentWidth": 360,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://gptbot.uz/ru/gpt-chat/",
+    "width": 360,
+    "documentWidth": 360,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "width": 393,
+    "documentWidth": 393,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://gptbot.uz/ru/gpt-chat/",
+    "width": 393,
+    "documentWidth": 393,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "width": 1366,
+    "documentWidth": 1366,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://gptbot.uz/ru/gpt-chat/",
+    "width": 1366,
+    "documentWidth": 1366,
+    "background": "rgb(5, 7, 13)",
+    "inputBottom": 807.5,
+    "styles": [
+      "/assets/index-CbmAZsTW.css"
+    ],
+    "errors": []
+  }
+]

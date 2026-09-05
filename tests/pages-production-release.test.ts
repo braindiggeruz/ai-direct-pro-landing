@@ -26,6 +26,10 @@ function fixture(t: { after: (fn: () => void) => void }): string {
   fs.writeFileSync(path.join(dist, 'admin/index.html'), '<div id="root"></div>');
   fs.writeFileSync(path.join(dist, 'uz/internet-reklama-toshkent/index.html'), 'Reklama xizmatlari');
   fs.writeFileSync(path.join(dist, 'ru/internet-reklama-tashkent/index.html'), 'Услуги продвижения');
+  fs.writeFileSync(path.join(dist, 'assets/index-fixture.css'), 'body{margin:0}');
+  for (const filename of ['index.html', 'uz/internet-reklama-toshkent/index.html', 'ru/internet-reklama-tashkent/index.html']) {
+    fs.appendFileSync(path.join(dist, filename), '<link rel="stylesheet" href="/assets/index-fixture.css">');
+  }
   return dist;
 }
 
@@ -61,6 +65,13 @@ test('stamp binds the entire artifact to its reviewed source commit', (t) => {
   assert.throws(() => verifyStampedArtifact(dist, 'b'.repeat(40)), /stale/);
   fs.writeFileSync(path.join(dist, 'extra.html'), 'another worktree build');
   assert.throws(() => verifyStampedArtifact(dist, head), /stale/);
+});
+
+test('release rejects public HTML with admin CSS even when every asset returns 200', t => {
+  const dist = fixture(t);
+  fs.writeFileSync(path.join(dist, 'assets/AdminRoot-fixture.css'), 'button{color:white}');
+  fs.writeFileSync(path.join(dist, 'uz/internet-reklama-toshkent/index.html'), 'Reklama xizmatlari<link rel="stylesheet" href="/assets/AdminRoot-fixture.css">');
+  assert.throws(() => inspectArtifact(dist, head), /Missing site stylesheet in public page/);
 });
 
 test('top-level Lead Radar still composes directory, account and readiness controls', () => {

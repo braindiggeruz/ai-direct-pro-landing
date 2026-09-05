@@ -1,0 +1,57 @@
+{
+  "cssContentType": [
+    "text/css; charset=utf-8"
+  ],
+  "cssStatus": 200,
+  "manifestMatches": true,
+  "commit": "ed473b193bfc77f4b078eff9d31d15fd4a9ef50b",
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "css": [
+        "/assets/index-CbmAZsTW.css"
+      ]
+    },
+    {
+      "route": "/uz/gpt-uzbek-tilida/",
+      "status": 200,
+      "css": [
+        "/assets/index-CbmAZsTW.css"
+      ]
+    },
+    {
+      "route": "/ru/gpt-chat/",
+      "status": 200,
+      "css": [
+        "/assets/index-CbmAZsTW.css"
+      ]
+    },
+    {
+      "route": "/ru/blog/",
+      "status": 200,
+      "css": [
+        "/assets/index-CbmAZsTW.css"
+      ]
+    },
+    {
+      "route": "/ru/blog/seo-audit-sayta-chek-list/",
+      "status": 200,
+      "css": [
+        "/assets/index-CbmAZsTW.css"
+      ]
+    },
+    {
+      "route": "/admin/",
+      "status": 200,
+      "css": [
+        "/admin/assets/index-BOamqxkt.css"
+      ]
+    },
+    {
+      "route": "/api/auth/config",
+      "status": 200,
+      "css": []
+    }
+  ]
+}

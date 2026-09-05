@@ -15,6 +15,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
+import { renderSiteStylesheets } from './site-stylesheets';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -86,13 +87,6 @@ function loadGlobal(): GlobalSEO {
 function loadArticles(): BlogArticle[] {
   const files = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
   return files.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')) as BlogArticle);
-}
-
-function findCssAsset(): string | null {
-  const assetsDir = path.join(DIST_DIR, 'assets');
-  if (!fs.existsSync(assetsDir)) return null;
-  const f = fs.readdirSync(assetsDir).find((x) => x.endsWith('.css'));
-  return f ? `/assets/${f}` : null;
 }
 
 function escapeHtml(s: string): string {
@@ -327,7 +321,7 @@ function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
   return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
 }
 
-function renderArticle(a: BlogArticle, global: GlobalSEO, cssHref: string | null): string {
+function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string): string {
   const fullUrl = `${global.siteUrl}${a.url}`;
   const ogTitle = a.ogTitle || a.title;
   const ogDesc = a.ogDescription || a.description;
@@ -408,7 +402,7 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
-${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
+${cssLinks}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
 ${ANALYTICS_HEAD}
@@ -477,7 +471,7 @@ ${renderStickyCta(a, global)}
 `;
 }
 
-function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: GlobalSEO, cssHref: string | null): string {
+function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: GlobalSEO, cssLinks: string): string {
   const t = STRINGS[locale];
   const ogLocale = locale === 'uz' ? 'uz_UZ' : 'ru_RU';
   const indexUrl = `${global.siteUrl}/${locale}/blog/`;
@@ -557,7 +551,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
-${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
+${cssLinks}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>
 ${ANALYTICS_HEAD}
@@ -612,12 +606,12 @@ async function main() {
   const global = loadGlobal();
   const articles = loadArticles();
   const published = articles.filter((a) => a.status === 'published' && a.robotsIndex !== false);
-  const cssHref = findCssAsset();
+  const cssLinks = renderSiteStylesheets(DIST_DIR);
   let written = 0;
   for (const a of published) {
     const outPath = path.join(DIST_DIR, a.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderArticle(a, global, cssHref), 'utf-8');
+    fs.writeFileSync(outPath, renderArticle(a, global, cssLinks), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
@@ -628,7 +622,7 @@ async function main() {
     const sorted = [...localeArticles].sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''));
     const indexPath = path.join(DIST_DIR, locale, 'blog', 'index.html');
     fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-    fs.writeFileSync(indexPath, renderBlogIndex(sorted, locale, global, cssHref), 'utf-8');
+    fs.writeFileSync(indexPath, renderBlogIndex(sorted, locale, global, cssLinks), 'utf-8');
     console.log(`  + dist/${locale}/blog/index.html (${localeArticles.length} cards)`);
   }
   console.log(`Prerendered ${written} article(s), skipped ${articles.length - published.length} draft(s).`);

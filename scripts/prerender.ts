@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
+import { renderSiteStylesheets } from './site-stylesheets';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -107,13 +108,6 @@ function loadPublishedArticles(): BlogArticle[] {
   return files
     .map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')) as BlogArticle)
     .filter((a) => a.status === 'published' && a.robotsIndex !== false);
-}
-
-function findCssAsset(): string | null {
-  const assetsDir = path.join(DIST_DIR, 'assets');
-  if (!fs.existsSync(assetsDir)) return null;
-  const file = fs.readdirSync(assetsDir).find((f) => f.endsWith('.css'));
-  return file ? `/assets/${file}` : null;
 }
 
 function findJsAsset(): string | null {
@@ -682,7 +676,7 @@ const X_DEFAULT_BY_URL: Record<string, string> = {
   '/ru/gpt-chat/': '/uz/gpt-uzbek-tilida/',
 };
 
-function renderPage(page: Page, global: GlobalSEO, cssHref: string | null, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -824,7 +818,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
      /favicon.svg is deliberately not used: it is the purple mark from the
      original scaffold commit, not GPTBot artwork. -->
 <link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/webp'}"${marketVariant ? '' : ' sizes="80x80"'} href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/logo-sq-80.webp'}" />
-${cssHref ? `<link rel="stylesheet" href="${cssHref}" />` : ''}
+${cssLinks}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
@@ -936,7 +930,7 @@ async function main() {
   const global = loadGlobal();
   const pages = loadPages();
   const articles = loadPublishedArticles();
-  const cssHref = findCssAsset();
+  const cssLinks = renderSiteStylesheets(DIST_DIR);
   const jsHref = findJsAsset();
   const chatHref = findChatAsset();
   const calculatorHref = findCalculatorAsset();
@@ -945,7 +939,7 @@ async function main() {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderPage(page, global, cssHref, jsHref, articles, chatHref, calculatorHref), 'utf-8');
+    fs.writeFileSync(outPath, renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
