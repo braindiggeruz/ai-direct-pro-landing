@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-09-05T06:55:27.680822+00:00",
+  "commit": "c123678a1a033c381f6c84379caf8d1cab3b93a2",
+  "deploymentId": "5f778f21-71dd-4df1-969e-45f74212e9e8",
+  "manifestMatches": true,
+  "aeoAssetMatches": true,
+  "aeoAsset": "AdminRoot-Ur9VQ2u5.js",
+  "bindingsPreserved": {
+    "d1_databases": true,
+    "kv_namespaces": true,
+    "r2_buckets": true,
+    "services": true,
+    "queue_producers": true,
+    "ai_bindings": true
+  },
+  "existingVariablesPreserved": true,
+  "measurementEnabled": "true",
+  "models": [
+    "minimax/minimax-m3:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "dots-studio/dots-3-note-preview:free"
+  ],
+  "routes": {
+    "/": {
+      "status": 200,
+      "robots": null,
+      "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+    },
+    "/ru/internet-reklama-tashkent/": {
+      "status": 200,
+      "robots": null,
+      "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+    },
+    "/uz/internet-reklama-toshkent/": {
+      "status": 200,
+      "robots": null,
+      "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+    },
+    "/admin/": {
+      "status": 200,
+      "robots": "noindex, nofollow, noarchive, nosnippet",
+      "cache": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    "/admin-tools/aeo": {
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "no-store"
+    },
+    "/api/admin/aeo": {
+      "status": 401
+    },
+    "/api/admin/aeo/review?runId=canary": {
+      "status": 401
+    },
+    "/api/auth/config": {
+      "status": 200,
+      "robots": null,
+      "cache": "no-store"
+    },
+    "/sitemap-priority.xml": {
+      "status": 200,
+      "robots": null,
+      "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300"
+    }
+  },
+  "authenticatedOwnerCanary": false,
+  "realProviderCanary": false
+}

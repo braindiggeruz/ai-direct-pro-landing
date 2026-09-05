@@ -11,3 +11,7 @@ Only additive AEO migrations 0062 and 0063 were applied and recorded in d1_migra
 Three free model IDs verified present with zero prompt/completion pricing in the current provider catalogue: minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free, dots-studio/dots-3-note-preview:free. AEO uses existing secret binding and strict zero-price routing. No paid model or web-search setting enabled. Actual provider canary pending.
 
 Code commit, deployment result and live verification will be recorded after release. Validation logs remain outside Git at F:/Claude/aeo-production-20260905/aeo-release-*.log.
+
+## Result
+
+Runtime commit c123678a1a033c381f6c84379caf8d1cab3b93a2; deployment 5f778f21-71dd-4df1-969e-45f74212e9e8. Full build and guarded deploy succeeded. Public-domain manifest and AEO asset hash match. All previous bindings/plaintext vars/secret types preserved. Live root, RU/UZ advertising pages, existing admin and AEO route return 200; both anonymous AEO APIs return 401. Owner-authenticated workflow and real provider response remain unverified. See evidence/production-release.json.

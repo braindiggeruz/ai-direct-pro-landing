@@ -1,100 +1,49 @@
-> RELEASE UPDATE 2026-09-05: owner explicitly authorized commit/push/deploy. Migrations 0062/0063 applied after private backup. Live release verification is now the active stage; earlier authorization gates below are historical. See PRODUCTION-RELEASE-2026-09-05.md in docs/aeo.
+# GPTBot AEO Studio production handoff - 2026-09-05
 
-# GPTBot AEO Studio — кандидат выпуска, 2026-09-05
+## 1. Current state
 
-## 1. Состояние
+Deployed runtime commit `c123678a1a033c381f6c84379caf8d1cab3b93a2`, Pages deployment `5f778f21-71dd-4df1-969e-45f74212e9e8`, project `ai-direct-pro-landing`. Main received the runtime commit. Public-domain manifest and AEO asset hashes match the local release. Owner explicitly authorized commit/push/deploy in this task. Subsequent documentation-only commit does not change the deployed runtime.
 
-Реализовано в `F:/Claude/gptbot-aeo-20260905`, ветка `feature/aeo-production-20260905`, база `432eab906383b137474bb67bb95b57268aa93cca`. Работа ещё не закоммичена и не опубликована. Remote main и live manifest повторно совпали с этой базой 5 сентября. Локальный AEO: `F:/Claude/aeo-production-20260905`, база `031fd44e7535a9e80cdd72b4a207789b47c28640`.
+## 2. Delivered behavior
 
-Следующий этап — разрешение владельца на commit/push/release, затем выпуск проверенного кандидата и production canary. Исходный запрет «Не коммить и не пушь без отдельной инструкции владельца» сохранён. Build stamp ожидает разрешённого коммита; это не ошибка приложения и не повод обходить release gate.
+`https://gptbot.uz/admin-tools/aeo` and sidebar AEO Studio. RU/UZ content analysis, separate saved review decisions, drafts, undo, priority/filter/history, editor context, responsive UX. Three server-allowlisted free model answers with exact text, citations, independent errors and idempotent retry. No automatic content publication.
 
-Последняя UX-итерация, сравнение до трёх моделей, review API, миграция 0063 и оставшиеся проверки описаны в [UX-IMPLEMENTATION-2026-09-05.md](UX-IMPLEMENTATION-2026-09-05.md). Проверка main/live выше относится к этапу до UX-итерации; production после неё не перепроверялся.
+## 3. Source and reports
 
-## 2. Что сделано
+Worktree `F:/Claude/gptbot-aeo-20260905`, branch `feature/aeo-production-20260905`. Core: `functions/platform/aeo`, `functions/api/admin/aeo`, `src/admin/pages/AeoWorkspace.tsx`, `src/admin/components/Aeo*.tsx`, shared types/editor patch. Reports: `docs/aeo/UX-IMPLEMENTATION-2026-09-05.md`, `PRODUCTION-RELEASE-2026-09-05.md`, `evidence/production-release.json`. Original platform handoff retained in `docs/aeo/PREVIOUS-PLATFORM-HANDOFF.md`.
 
-Встроен защищённый `/admin-tools/aeo` в текущую админку GPTBot: RU/UZ, вопросы, анализ опубликованного контента, ссылки на исходные факты, editor deep link, экспорт, история, empty/loading/error/retry states. Экспорт импортируется локальным AEO в проверяемые предложения. Для заполненного FAQ предлагается отдельный раздел, исходный контент не меняется при анализе/импорте.
+## 4. Architecture and configuration
 
-AI-наблюдения подготовлены, но выключены по умолчанию. Никаких реальных model calls в этой работе. Наблюдение API не называется выдачей ChatGPT или Google и всегда имеет verdict `insufficient`. Это внутренний рабочий кабинет, не готовая клиентская SaaS-регистрация.
+Existing modular monolith, JWT, D1 binding, GitHub content reader and AI facade. Internal org is server-owned. `AEO_MEASUREMENTS_ENABLED=true`; models: minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free, dots-studio/dots-3-note-preview:free. Existing OPENROUTER_API_KEY secret binding preserved. Strict zero-price routing, one bounded attempt, no search/fallback. Catalogue presence is verified; provider responses are not.
 
-## 3. Изменённые файлы
+## 5. Production changes
 
-- `src/admin/pages/AeoWorkspace.tsx`, `aeo.css`: интерфейс, 44 px targets, focus, reduced motion, mobile layout.
-- `src/admin/AdminApp.tsx`, `routes.ts`, `components/Sidebar.tsx`, `lib/api.ts`: существующая оболочка, маршрутизация и API client.
-- `src/shared/aeo.ts`: типы анализа, предложений, observation и истории.
-- `functions/api/admin/aeo/index.ts`: JWT boundary, server-owned org, body limits, idempotency и endpoint orchestration.
-- `functions/platform/aeo/analysis.ts`: детерминированный выбор страницы и точных источников; project frozen policy; hash LF-normalized content.
-- `functions/platform/aeo/observation.ts`: существующий AI facade с отдельной free policy/driver, фиксированный provider host, no redirects, 25 s, одна попытка, лимит ответа 200 KB; данные провайдера не превращаются в publishable copy.
-- `functions/platform/aeo/store.ts`, `schema.ts`, `migrations/0062_aeo_workspace.sql`: org-scoped history, atomic caps, additive schema, timeout recovery и retention.
-- `tests/aeo-workspace.test.ts`: негативные проверки, настоящий SQLite и API orchestration с подменой только GitHub/provider транспорта.
-- `scripts/aeo-ui-evidence.ts`, `scripts/aeo-content-smoke.ts`, `docs/aeo/evidence/`: воспроизводимые локальные проверки.
+Only AEO runtime and two plaintext AEO vars added; all previous vars/secrets types and D1/KV/R2/service/queue/AI bindings verified preserved. Additive migrations 0062/0063 applied and ledger entries read back. No existing operational rows edited. No Telegram sends, business transactions, paid provider calls or content saves.
 
-## 4. Архитектура и настройка
+## 6. Validation
 
-Modular monolith сохранён. AEO использует существующие JWT, GitHub reader, AI facade и `GPTBOT_DRAFTS_DB`. Python writer остаётся локальным инструментом review/apply. Публикация работает через прежний процесс GPTBot.
+27/27 AEO and Pages release/config tests. Prior app/functions typecheck, scoped lint, Worker compile and six-width local browser suite passed. Full build:cf exit 0, 914-file stamp. Guarded deployment exit 0. Live root, RU/UZ advertising pages, /admin/, AEO route, auth config and priority sitemap return 200. AEO route is no-store/noindex; anonymous AEO and review API return 401. AEO asset AdminRoot-Ur9VQ2u5.js matches SHA256 and contains nav-aeo/AEO Studio. No authenticated production model call was made.
 
-GET и POST `/api/admin/aeo` требуют admin/platform owner. `support_readonly` и anonymous отклоняются. Org фиксирован сервером как `gptbot-internal`; клиентский org не принимается. Store принимает org первым параметром; тест org B не видит org A.
+## 7. Remaining uncertainty
 
-Запуск требует `Idempotency-Key` длиной 16–80 символов; повтор того же payload возвращает прежнюю операцию, другой payload с этим ключом — 409. Лимиты: analysis 100/day, measurement 30/day, UTC. Неуспешная попытка сохраняется в истории/квоте. Running старше 5 минут помечается failed при обновлении кабинета; история старше 90 дней удаляется для текущего org при чтении. Это lazy cleanup, cron не добавлялся.
+Owner's Chrome session is not available through the connected browser tool. Authenticated analysis/review/provider canary remains unverified, rather than inferred from 200/401 status. The user's earlier screenshot showed GitHub/audit loading errors; this release does not claim those pre-existing authenticated errors resolved. Follow up with actual authenticated HTTP status before changing GitHub credentials. Manual screen reader, real browser zoom and human usability pilot remain pending; detailed roadmap gaps are in the UX report.
 
-Для включения AI нужны серверный secret `OPENROUTER_API_KEY`, `AEO_MEASUREMENTS_ENABLED=true` и `AEO_MEASUREMENT_MODELS` — список до трёх разрешённых `provider/model:free` через запятую. `AEO_MEASUREMENT_MODEL` остаётся legacy fallback. Браузер выбирает только из серверного allowlist. Доступность зависит от аккаунта и актуального каталога; модели пока не подключены. Provider routing: `allow_fallbacks=false`, нулевые `max_price` prompt/completion/request, `plugins=[]`; см. [OpenRouter provider selection](https://openrouter.ai/docs/guides/routing/provider-selection).
+## 8. Next action
 
-## 5. Границы выполненного
+Owner opens AEO Studio, hard-refreshes the previous tab if necessary, runs one content analysis and one selected free model. Verify actual content/results, history and review readback. Do not treat configuration presence as a successful model response.
 
-Production D1, Pages settings, credentials, live content, Telegram, Railway и webhooks не менялись. Локальные UI/API fixtures не доказывают live-auth, D1 binding или доступность OpenRouter. Автоматическая WCAG-проверка не заменяет ручную проверку screen reader. Семантическая релевантность — эвристика с источниками и review, не гарантия полного ответа.
+## 9. Acceptance boundary
 
-Полный список 22 исправлений локального движка: `F:/Claude/aeo-production-20260905/seo-audit/PRODUCTION-READINESS-2026-09-05.md`.
+Deployment and public asset verification complete. Full authenticated production workflow and provider availability not yet confirmed. Do not call the entire system 100% verified. Saved briefs and model observations cannot become public content without the existing explicit editor/publish workflow.
 
-## 6. Проверки
+## 10. Reproduction
 
-- `node --import tsx --test tests/aeo-workspace.test.ts tests/aeo-review.test.ts` — 16/16 pass.
-- `npx tsc -b --pretty false` — pass; `npx tsc -p tsconfig.functions.json --noEmit --pretty false` — pass.
-- Scoped ESLint для всех изменённых TS/TSX файлов — pass.
-- `node --import tsx scripts/aeo-ui-evidence.ts` — 1440/1366/1024/768/390/320 px; 0 overflow, 0 page errors, 0 axe violations в AEO scope. Решение/reload/undo/бриф/editor round trip и два ответа; дополнительные failure/retry сценарии — в UX-отчёте.
-- `node --import tsx scripts/aeo-content-smoke.ts` — 185 RU и 100 UZ опубликованных страниц, пять вопросов. Сайт и чат-бот не смешиваются при поиске цен; intro и URL вне языкового префикса обрабатываются.
-- RU export → Python import → dry run на двух настоящих статьях с 8 FAQ — pass; вопрос без фактов пропущен; content diff пустой.
-- `npm run build:cf` — SEO audit, Vite, все prerender/generation и Bormi admin pass. В конце exit 1: `Uncommitted runtime files: commit the reviewed build inputs before production deployment.` Stamp не получен, deployment artifact не считается готовым.
-- Worker compile и secret scan проверяются отдельно; сводные результаты в `evidence/validation.json`.
+`node --import tsx --test tests/aeo-workspace.test.ts tests/aeo-review.test.ts tests/pages-production-release.test.ts tests/pages-config-parity.test.ts`; `npm run build:cf`; guarded `scripts/release/pages-production.ts deploy`. Logs: `F:/Claude/aeo-production-20260905/aeo-release-*.log`. Release runner obtains existing Wrangler OAuth in process memory and never prints credentials.
 
-Логи команд находятся локально в `F:/Claude/aeo-production-20260905/*.log` и не добавляются в Git. Скриншоты содержат только синтетические fixture-данные. Артефакт `current-content-analysis.json` содержит анализ публичного локального контента, не live-provider data.
+## 11. Backup and release risks
 
-## 7. Известные проблемы и внешние gates
-
-Известных воспроизводимых ошибок в проверенных сценариях AEO после исправлений нет. Это не утверждение об отсутствии всех ошибок во всём GPTBot. Общий legacy lint и не затронутые продуктовые suites не объявляются зелёными.
-
-Release gate: исходное разрешение не включает commit/push/deploy; production stamp требует чистого закоммиченного runtime дерева. AI model/account availability и реальный authenticated canary пока не проверены. Старые отчёты не конвертируются автоматически в валидный эксперимент.
-
-## 8. Следующая задача
-
-После явного разрешения владельца выпустить этот кандидат и провести production canary с проверкой readback. До разрешения доступны review и локальные проверки; не запускать remote migrations и provider canary.
-
-## 9. Acceptance выпуска
-
-1. Сверить live manifest и origin/main, сохранить актуальные WIP других worktree. При новой базе согласовать/слить изменения и повторить затронутые проверки.
-2. Сделать адресные коммиты только перечисленных AEO/GPTBot изменений, обновив handoff/state с фактическими SHA. Не добавлять node_modules, runtime state, secrets и dist.
-3. Перед изменением D1 получить разрешённый backup с проверкой целостности. Не запускать все pending migrations вслепую. Таблицы 0062 и 0063 аддитивные, bootstrap идемпотентен; ledger согласовать с реальной схемой.
-4. `npm run build:cf` должен завершиться exit 0 со stamp. Выпускать штатным release script и авторитетным `wrangler.toml` в проект `ai-direct-pro-landing`, не старым `build:fast`.
-5. Live `gptbot-release.json` соответствует выпущенному SHA; `/admin-tools/aeo` открывается после штатной авторизации; anonymous API получает 401, support — 403.
-6. Один контролируемый analysis возвращает актуальные RU/UZ источники, сохраняется в D1 history; повтор с тем же ключом не создаёт второй запуск. Проверить editor link, export и mobile.
-7. При разрешённом включении модели один AI-canary: bounded request, понятный error либо observation, расход квоты один, ключ не попадает в клиент/логи, цитаты безопасно отображаются. Недоступность модели не мешает content analysis.
-8. Read-only canary основных GPTBot/админки/Bormi и сохранность существующих release features. Не выполнять Telegram send/бизнес-транзакции.
-
-## 10. Команды для старта
-
-```powershell
-cd F:\Claude\gptbot-aeo-20260905
-git status --short
-git log -1 --oneline
-git ls-remote origin refs/heads/main
-$env:NODE_OPTIONS='--max-old-space-size=1400'
-node --import tsx --test tests/aeo-workspace.test.ts
-npx tsc -b
-npx tsc -p tsconfig.functions.json --noEmit --pretty false
-```
-
-## 11. Риски
-
-Не публиковать устаревший checkout поверх новой production-версии. Не включать paid/web-search модели и не выдавать model API evidence за AIO. Не обещать рост позиций/выручки. Не обходить frozen policy и provenance. Не удалять junction `node_modules` рекурсивно: он связан с исходным worktree.
+Private backup `F:/Claude/aeo-production-20260905/_implementation/production-release/d1-before.sql`, SHA256 8c1ce37aa546171a4415217adae9c4a3a55f11e6b0145323b7821c6a27db5a0d. A local restore requires ignoring an excerpt CHECK constraint, while live D1 reports zero invalid excerpts; full restore structural integrity is ok. Record this export/SQLite discrepancy, do not claim full strict restore passed. AEO only adds tables. Never commit this backup or credential state. Preserve the node_modules junction.
 
 ## 12. Rollback
 
-До выпуска достаточно оставить кандидат в отдельной ветке; исходные checkout сохранены. После разрешённого выпуска вернуть предыдущий проверенный Pages deployment или revert только AEO-коммит и выпустить штатно. Сначала выключить `AEO_MEASUREMENTS_ENABLED`; новую D1 таблицу сохранить, не делать DROP и не терять историю. Контентные apply выполняются отдельно и откатываются локальным checksum-guarded `python -m aeo recover --id ID --rollback --apply`, если файл не менялся независимо.
+Prior known deployment 109137c6-6aae-4d08-bd27-a748ce863462, runtime 432eab906383b137474bb67bb95b57268aa93cca. Use reviewed Cloudflare rollback or revert AEO runtime and deploy through the same guard. Disable AEO_MEASUREMENTS_ENABLED first if provider problems arise. Retain aeo_runs/aeo_reviews and migration ledger; do not DROP evidence or overwrite unrelated content.
