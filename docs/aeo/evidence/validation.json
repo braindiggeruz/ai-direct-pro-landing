@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-05T06:39:18.867061+00:00",
+  "scope": "local candidate only",
+  "productionChanged": false,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "python": {
+    "passed": 250,
+    "failed": 0,
+    "selftest": "pass",
+    "scope": "Prior 250-test pass; Python unchanged in UX iteration; all candidate runtime hashes reverified"
+  },
+  "webTests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "typecheck": {
+    "app": "pass",
+    "functions": "pass"
+  },
+  "scopedLint": "pass",
+  "secretScans": {
+    "aeo": {
+      "clean": true,
+      "files": 328
+    },
+    "gptbot": {
+      "clean": true,
+      "files": 2665
+    }
+  },
+  "workerCompilation": "pass",
+  "buildCf": {
+    "exitCode": 1,
+    "seoVitePrerenderGeneration": "pass",
+    "bormiAdmin": "pass",
+    "releaseStamp": "blocked: uncommitted runtime inputs"
+  },
+  "browser": {
+    "source": "real local route handlers + SQLite; external providers are fixtures",
+    "production": false,
+    "evidence": [
+      {
+        "width": 1440,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0,
+        "partialModelFailure": true,
+        "uncertainRetryProviderCalls": 1,
+        "unsavedBriefRestored": true,
+        "keyboardFocus": true,
+        "halfWidthZoomEquivalent": true
+      },
+      {
+        "width": 1366,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0
+      },
+      {
+        "width": 1024,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0
+      },
+      {
+        "width": 768,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0
+      },
+      {
+        "width": 390,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0
+      },
+      {
+        "width": 320,
+        "reviewAxe": 0,
+        "answersAxe": 0,
+        "consoleErrors": 0,
+        "overflow": false,
+        "reviewPersisted": true,
+        "undo": true,
+        "editorRoundTrip": true,
+        "modelResponses": 2,
+        "publishedContentWrites": 0
+      }
+    ]
+  },
+  "realContent": {
+    "ruPublishedPages": 185,
+    "uzPublishedPages": 100,
+    "questions": 5,
+    "groundedImportPreviews": 2,
+    "contentWrites": 0
+  },
+  "externalCanaries": {
+    "liveAuth": false,
+    "productionD1": false,
+    "modelProvider": false
+  },
+  "iteration": "ux-v2",
+  "finalAppVite": "pass after final UI edits",
+  "humanUsabilityPilot": false,
+  "realProviderCanary": false,
+  "manualScreenReaderAndBrowserZoom": "not performed; half-width CSS viewport and keyboard focus checked",
+  "newMigrations": [
+    "0063_aeo_reviews.sql"
+  ],
+  "uxReport": "docs/aeo/UX-IMPLEMENTATION-2026-09-05.md"
+}

@@ -1,0 +1,25 @@
+{
+  "mode": "real local content, dry run only",
+  "proposals": [
+    {
+      "url": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+      "kind": "add_block",
+      "wouldApply": true,
+      "sourceUnchanged": true,
+      "sha256": "2ed46c65fd3af7fe5bcebb7eb2c2d23a5e50a003581accaa5736a45e521d6791"
+    },
+    {
+      "url": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+      "kind": "add_block",
+      "wouldApply": true,
+      "sourceUnchanged": true,
+      "sha256": "5ffcb4cd0e4cb334f64f82f8b2e83d3d711b379ecdc9b90dd5c5681bec7785d7"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "37b57dab0540a821904ad847",
+      "reason": "no grounded review proposal"
+    }
+  ]
+}

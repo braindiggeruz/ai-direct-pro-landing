@@ -1,0 +1,125 @@
+{
+  "source": "local checkout",
+  "ru": {
+    "schemaVersion": 1,
+    "createdAt": "2026-09-05T05:22:52.444Z",
+    "locale": "ru",
+    "sourceKind": "manual",
+    "contentHash": "68c586516a7274e5c36322a34472f3db59ec42eec8cde792aa34e1aaa29e60ef",
+    "pages": 185,
+    "findings": [
+      {
+        "id": "3f485a6ee64602f1db00a292",
+        "question": "Сколько стоит разработка сайта?",
+        "status": "review",
+        "score": 0.8799999999999999,
+        "url": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+        "title": "Сколько стоит разработка сайта в Ташкенте в 2026 году",
+        "file": "content/blog/ru/skolko-stoit-razrabotka-sayta-v-tashkente.json",
+        "slug": "skolko-stoit-razrabotka-sayta-v-tashkente",
+        "sourceHash": "5836bf728fe7f2ccaec996fbf869f6dc918cefed6d1abfb8fa752c4795f5c2e9",
+        "evidence": [
+          {
+            "path": "intro",
+            "text": "По открытым предложениям веб-студий на конец июля 2026 года стартовая стоимость разработки сайта в Ташкенте начинается примерно от 1,5–5 млн сум за простой лендинг, от 6–12 млн сум за корпоративный сайт и от 10–25 млн сум за интернет-магазин. Это не средняя цена рынка и не оферта GPTBot.uz: итоговая смета зависит от структуры, дизайна, текстов, языков, интеграций, SEO и правил поддержки. Ниже — способ сравнить предложения без ложной экономии."
+          },
+          {
+            "path": "body[3].text",
+            "text": "В открытых предложениях ташкентских студий на 30 июля 2026 года встречаются разные стартовые условия: от 1,5 млн сум за базовую разработку, 3–5 млн сум за лендинг, 6–12 млн сум за корпоративный сайт и 10–25 млн сум за интернет-магазин. Верхняя граница легко растёт, если нужны личный кабинет, каталог со сложными фильтрами, онлайн-оплата, интеграция с учётом или две полноценные языковые версии."
+          }
+        ],
+        "answer": "По открытым предложениям веб-студий на конец июля 2026 года стартовая стоимость разработки сайта в Ташкенте начинается примерно от 1,5–5 млн сум за простой лендинг, от 6–12 млн сум за корпоративный сайт и от 10–25 млн сум за интернет-магазин. Это не средняя цена рынка и не оферта GPTBot.uz: итоговая смета зависит от структуры, дизайна, текстов, языков, интеграций, SEO и правил поддержки. Ниже — способ сравнить предложения без ложной экономии. В открытых предложениях ташкентских студий на 30 июля 2026 года встречаются разные стартовые условия: от 1,5 млн сум за базовую разработку, 3–5 млн сум за лендинг, 6–12 млн сум за корпоративный сайт и 10–25 млн сум за интернет-магазин. Верхняя граница легко растёт, если нужны личный кабинет, каталог со сложными фильтрами, онлайн-оплата, интеграция с учётом или две полноценные языковые версии.",
+        "reason": "Найден ответ в исходном контенте. Проверьте, полностью ли он отвечает на вопрос."
+      },
+      {
+        "id": "036f831a94c938a0ced67409",
+        "question": "Как продвигать сайт в Google?",
+        "status": "review",
+        "score": 0.7857142857142857,
+        "url": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+        "title": "Как продвигать сайт в Google в Узбекистане",
+        "file": "content/blog/ru/prodvizhenie-sayta-v-google-uzbekistan.json",
+        "slug": "prodvizhenie-sayta-v-google-uzbekistan",
+        "sourceHash": "657b5b5407e2cedc470836a8d52e9102483d2e383876d7cf4973d07063718c81",
+        "evidence": [
+          {
+            "path": "intro",
+            "text": "Продвижение сайта в Google в Узбекистане начинается не с повторения ключевой фразы, а с доступности страниц для робота, точного соответствия поисковому намерению и понятного пути до заявки. Ниже приведён практический план для локального бизнеса: от Search Console и индексации до русской и узбекской версий, внутренних ссылок и оценки реального результата."
+          }
+        ],
+        "answer": "Продвижение сайта в Google в Узбекистане начинается не с повторения ключевой фразы, а с доступности страниц для робота, точного соответствия поисковому намерению и понятного пути до заявки. Ниже приведён практический план для локального бизнеса: от Search Console и индексации до русской и узбекской версий, внутренних ссылок и оценки реального результата.",
+        "reason": "Найден ответ в исходном контенте. Проверьте, полностью ли он отвечает на вопрос."
+      },
+      {
+        "id": "37b57dab0540a821904ad847",
+        "question": "Какие сроки SEO продвижения сайта?",
+        "status": "review",
+        "score": 0.48529411764705876,
+        "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "title": "SEO-продвижение сайтов в Ташкенте для заявок и продаж",
+        "file": "content/pages/ru/seo-prodvizhenie-saytov-tashkent.json",
+        "slug": "seo-prodvizhenie-saytov-tashkent",
+        "sourceHash": "306b45374ca50ae1cff0305615402e313ab39b1157bd197aae7480a4ee228637",
+        "evidence": [],
+        "answer": null,
+        "reason": "Страница подходит по теме, но подтверждённого ответа пока нет."
+      }
+    ]
+  },
+  "uz": {
+    "schemaVersion": 1,
+    "createdAt": "2026-09-05T05:22:52.487Z",
+    "locale": "uz",
+    "sourceKind": "manual",
+    "contentHash": "a70164d8c7272b12864f1f47984152dbde0aca6c6f41a8d3e9d783d58bed0c92",
+    "pages": 100,
+    "findings": [
+      {
+        "id": "eee32f5ed5fedc00ca71fd5e",
+        "question": "Sayt yaratish qancha turadi?",
+        "status": "review",
+        "score": 0.8666666666666666,
+        "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+        "title": "Sayt yaratish narxi Toshkent 2026: smetalar",
+        "file": "content/blog/uz/sayt-yaratish-narxi-toshkent-2026.json",
+        "slug": "sayt-yaratish-narxi-toshkent-2026",
+        "sourceHash": "474de96206eb658a08059f7b26098dd4493526f2fd0b4fbcefbd69a4b634642c",
+        "evidence": [
+          {
+            "path": "body[2].text",
+            "text": "2026 yilda Toshkentda biznes uchun sayt 2 dan 15 million so'mgacha turadi. Yetti barobar farq dizaynda emas, ishlar tarkibida: shablondagi landing va to'lov hamda CRM bilan internet-do'kon — bu turli loyihalar. Quyida turlar bo'yicha aniq taqsimot."
+          },
+          {
+            "path": "faq[0].a",
+            "text": "2 dan 15 million so'mgacha. Shablondagi landing — 2–4 million, 5–10 sahifali korporativ sayt — 4–8 million, katalog va to'lov bilan internet-do'kon — 8–15 million. Arizalarni qayta ishlash uchun AI-bot bilan sayt — 12 million so'mdan. Narxga odatda domen (.uz yiliga 80 000 so'm), xosting (oyiga 50–300 ming) va kontent kirmaydi."
+          }
+        ],
+        "answer": "2026 yilda Toshkentda biznes uchun sayt 2 dan 15 million so'mgacha turadi. Yetti barobar farq dizaynda emas, ishlar tarkibida: shablondagi landing va to'lov hamda CRM bilan internet-do'kon — bu turli loyihalar. Quyida turlar bo'yicha aniq taqsimot. 2 dan 15 million so'mgacha. Shablondagi landing — 2–4 million, 5–10 sahifali korporativ sayt — 4–8 million, katalog va to'lov bilan internet-do'kon — 8–15 million. Arizalarni qayta ishlash uchun AI-bot bilan sayt — 12 million so'mdan. Narxga odatda domen (.uz yiliga 80 000 so'm), xosting (oyiga 50–300 ming) va kontent kirmaydi.",
+        "reason": "Найден ответ в исходном контенте. Проверьте, полностью ли он отвечает на вопрос."
+      },
+      {
+        "id": "98af7e8ddf81d23bcd4591bb",
+        "question": "SEO nima?",
+        "status": "review",
+        "score": 0.7153846153846154,
+        "url": "/uz/seo-xizmati/",
+        "title": "Toshkentda SEO xizmati",
+        "file": "content/pages/uz/seo-xizmati.json",
+        "slug": "seo-xizmati",
+        "sourceHash": "99ee34d0d9fc0a97753ad62019d91a949a954de729e9143a476c63ff323ec1d9",
+        "evidence": [
+          {
+            "path": "bodyBlocks[2].text",
+            "text": "SEO — bu saytni Google qidiruvida odam allaqachon izlayotgan so‘rovlar bo‘yicha ko‘rinadigan qilish. Reklamadan farqi shundaki, siz har bosish uchun to‘lamaysiz: sahifa bir marta to‘g‘ri qurilsa, u oylar davomida murojaat keltirib turadi. Kamchiligi ham bor — natija darhol chiqmaydi va u doimiy ish talab qiladi."
+          },
+          {
+            "path": "bodyBlocks[21].text",
+            "text": "Muhim nuqta: bu blok har doim ham chiqavermaydi. «Xizmat» shaklidagi so‘rovlarda — masalan, seo xizmati — odatda faqat oddiy natijalar bo‘ladi, «agentlik» shaklidagi so‘rovlarda esa xarita bloki paydo bo‘ladi. Strategiyani shunga qarab tuzamiz."
+          }
+        ],
+        "answer": "SEO — bu saytni Google qidiruvida odam allaqachon izlayotgan so‘rovlar bo‘yicha ko‘rinadigan qilish. Reklamadan farqi shundaki, siz har bosish uchun to‘lamaysiz: sahifa bir marta to‘g‘ri qurilsa, u oylar davomida murojaat keltirib turadi. Kamchiligi ham bor — natija darhol chiqmaydi va u doimiy ish talab qiladi. Muhim nuqta: bu blok har doim ham chiqavermaydi. «Xizmat» shaklidagi so‘rovlarda — masalan, seo xizmati — odatda faqat oddiy natijalar bo‘ladi, «agentlik» shaklidagi so‘rovlarda esa xarita bloki paydo bo‘ladi. Strategiyani shunga qarab tuzamiz.",
+        "reason": "Найден ответ в исходном контенте. Проверьте, полностью ли он отвечает на вопрос."
+      }
+    ]
+  }
+}

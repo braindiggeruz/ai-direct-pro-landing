@@ -9,6 +9,7 @@ export const ADMIN_ROUTE_PATHS = {
   drafts: 'ai-drafts',
   draftDetail: 'ai-drafts/:id',
   seoAutopilot: 'seo-autopilot',
+  aeo: 'aeo',
   leadRadar: 'lead-radar',
   signalRadar: 'signal-radar',
   internalLinks: 'internal-links',

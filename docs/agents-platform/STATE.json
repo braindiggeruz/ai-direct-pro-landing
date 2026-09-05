@@ -13,10 +13,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
-  "stage_status": "complete",
+  "current_stage": "AEO Studio owner-authorized production release",
+  "stage_status": "release_authorized_in_progress",
   "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
-  "next_stage": "Native Telegram owner canary for voice (RU, UZ, microphone-denied) plus the outstanding v8 launch canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
+  "next_stage": "Deploy reviewed AEO commit, then verify live admin and API",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -251,7 +251,10 @@
     "headers": "Permissions-Policy microphone=() changed to microphone=(self); camera, geolocation, payment and USB stay denied; CSP unchanged",
     "bundle_delta": "buyer JS 271.01 to 289.37 kB (gzip 84.25 to 89.56); CSS 25.01 to 30.08 kB (gzip 6.12 to 6.95); HTML and lazy seller chunk unchanged",
     "evidence": "docs/agents-platform/mini-app/implementation/BORMI_VOICE_SEARCH_RELEASE.md",
-    "decisions": ["D-040", "D-041"],
+    "decisions": [
+      "D-040",
+      "D-041"
+    ],
     "next_gate": "native Telegram voice canary in @BormiMarketBot in RU and UZ plus one microphone-denied run (release record section 11). The code is deployed and the flag is on; do not describe voice search as confirmed working on a real device before that canary passes."
   },
   "gptbot_market_mini_app": {
@@ -283,7 +286,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "198170fc312285ae24b2a45442fcf98a7f1968a1",
+  "last_commit": "432eab906383b137474bb67bb95b57268aa93cca",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -539,5 +542,39 @@
       "severity": "low",
       "summary": "F:\\Claude\\gptbot-bormi-api-fix junctions its root node_modules to the clean-20260801 worktree but has no apps/gpt-backend/node_modules of its own, so tests/web-security-hardening.test.ts and tests/gpt-backend-security.test.ts abort on an unresolvable @supabase/supabase-js import and read as failures. `npm ci` in apps/gpt-backend fixes it (13/13 and 30/30). Run it before quoting a full-corpus number from this worktree."
     }
-  ]
+  ],
+  "aeo_previous_stage": {
+    "current_stage": "Bormi voice search merged to main and deployed at 4367850; native Telegram owner canary outstanding",
+    "stage_status": "complete",
+    "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
+    "next_stage": "Native Telegram owner canary for voice (RU, UZ, microphone-denied) plus the outstanding v8 launch canary, then R1 Store Pilot #1 owner evidence and explicit one-store authorization",
+    "last_commit": "198170fc312285ae24b2a45442fcf98a7f1968a1",
+    "baseline": {
+      "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; production build exit 0 (223 sitemap entries, 109 articles and 111 pages prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
+      "tests": "full repository 925/925 across 36 suites, 0 failures. P3.1 owner-control-center 69/69; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
+      "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
+      "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
+      "security": "scripts/scan-secrets.ts clean over 2630 files; git diff --check clean; git fsck --full exit 0 with only unreachable dangling objects and no corruption; built browser assets contain no credential value. P3.1 authentication, authorization, legacy-admin boundary, tenant isolation, audit safety, idempotency, migration safety, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
+    }
+  },
+  "aeo_production_candidate": {
+    "date": "2026-09-05",
+    "status": "release_authorized",
+    "branch": "feature/aeo-production-20260905",
+    "baseline": "432eab906383b137474bb67bb95b57268aa93cca",
+    "handoff": "docs/aeo/PRODUCTION-HANDOFF.md",
+    "previous_handoff": "docs/aeo/PREVIOUS-PLATFORM-HANDOFF.md",
+    "deployed": false,
+    "remote_migration_applied": true,
+    "real_model_canary": false,
+    "next_stage": "Owner-authorized commit and release of AEO Studio followed by authenticated production canary",
+    "ux_report": "docs/aeo/UX-IMPLEMENTATION-2026-09-05.md",
+    "models": "Three configured server-allowlisted free models; live provider canary pending",
+    "migration_files": [
+      "0062_aeo_workspace.sql",
+      "0063_aeo_reviews.sql"
+    ],
+    "human_usability_pilot": false,
+    "release_authorization": "Owner explicitly authorized commit, push and production deployment in this task on 2026-09-05"
+  }
 }

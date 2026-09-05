@@ -1,3 +1,4 @@
+import type { AeoWorkspace, AeoRun, AeoReview, AeoReviewInput, AeoReviewWorkspace } from '../../shared/aeo';
 import { parseRetryAfter, withLeadRadarReadRecovery } from './request-recovery';
 import type { LeadRadarCrawlerJobSummary, LeadRadarCrawlerStatus } from '../../shared/lead-radar-crawler';
 
@@ -28,6 +29,9 @@ export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 export function setToken(t: string | null): void {
+  if (!t || t !== localStorage.getItem(TOKEN_KEY)) {
+    try { for (const key of Object.keys(sessionStorage)) if (key.startsWith('aeo:')) sessionStorage.removeItem(key); } catch { /* Storage may be unavailable. */ }
+  }
   if (t) localStorage.setItem(TOKEN_KEY, t);
   else localStorage.removeItem(TOKEN_KEY);
 }
@@ -226,6 +230,11 @@ function uploadLeadRadarTelegramCampaignImage<T>(
 }
 
 export const api = {
+  aeoWorkspace: () => request<AeoWorkspace>('GET', '/api/admin/aeo'),
+  aeoReviews: (runId: string) => request<AeoReviewWorkspace>('GET', `/api/admin/aeo/review?runId=${encodeURIComponent(runId)}`),
+  aeoReview: (body: AeoReviewInput, key: string) => request<AeoReview>('POST', '/api/admin/aeo/review', body, {headers:{'Idempotency-Key':key}}),
+  aeoRun: (body: { kind: 'analysis' | 'measurement'; questions: string[]; locale: 'ru' | 'uz'; model?: string }, key: string) =>
+    request<AeoRun>('POST', '/api/admin/aeo', body, { timeoutMs: 45_000, headers: { 'Idempotency-Key': key } }),
   leadRadarCrawlerStatus: (companyId: string, signal?: AbortSignal) =>
     request<LeadRadarCrawlerStatus>('GET', `/api/admin/lead-radar/crawler/status?companyId=${encodeURIComponent(companyId)}`,
       undefined, { signal, timeoutMs: 15_000 }),

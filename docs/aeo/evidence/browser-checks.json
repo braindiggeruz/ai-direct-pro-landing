@@ -1,0 +1,34 @@
+{
+  "source": "local fixtures",
+  "productionChecked": false,
+  "measurements": [
+    {
+      "width": 1440,
+      "horizontalOverflow": false,
+      "launches": 1,
+      "consoleErrors": 0,
+      "axeViolations": 0
+    },
+    {
+      "width": 768,
+      "horizontalOverflow": false,
+      "launches": 1,
+      "consoleErrors": 0,
+      "axeViolations": 0
+    },
+    {
+      "width": 390,
+      "horizontalOverflow": false,
+      "launches": 1,
+      "consoleErrors": 0,
+      "axeViolations": 0
+    },
+    {
+      "width": 320,
+      "horizontalOverflow": false,
+      "launches": 1,
+      "consoleErrors": 0,
+      "axeViolations": 0
+    }
+  ]
+}

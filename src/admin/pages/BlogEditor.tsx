@@ -7,6 +7,7 @@ import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
 import { AiDraftBanner } from '../components/AiDraftBanner';
+import { AeoEditorContext } from '../components/AeoEditorContext';
 import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
 import { Save, Trash2, ExternalLink, Plus, X, ChevronLeft, Upload, Copy, Sparkles } from 'lucide-react';
 import type { BlogArticle, Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType, Locale } from '../../shared/types';
@@ -411,6 +412,7 @@ export default function BlogEditor() {
         </Card>
       )}
 
+      <AeoEditorContext document={a as unknown as Record<string,unknown>} onApply={patch=>setA(p=>({...p,...patch} as BlogArticle))}/>
       <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 
       {/* Intent Guard for the article currently in the editor.

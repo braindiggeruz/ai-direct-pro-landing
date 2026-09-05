@@ -1,0 +1,83 @@
+{
+  "source": "real local route handlers + SQLite; external providers are fixtures",
+  "production": false,
+  "evidence": [
+    {
+      "width": 1440,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0,
+      "partialModelFailure": true,
+      "uncertainRetryProviderCalls": 1,
+      "unsavedBriefRestored": true,
+      "keyboardFocus": true,
+      "halfWidthZoomEquivalent": true
+    },
+    {
+      "width": 1366,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0
+    },
+    {
+      "width": 1024,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0
+    },
+    {
+      "width": 768,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0
+    },
+    {
+      "width": 390,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0
+    },
+    {
+      "width": 320,
+      "reviewAxe": 0,
+      "answersAxe": 0,
+      "consoleErrors": 0,
+      "overflow": false,
+      "reviewPersisted": true,
+      "undo": true,
+      "editorRoundTrip": true,
+      "modelResponses": 2,
+      "publishedContentWrites": 0
+    }
+  ]
+}

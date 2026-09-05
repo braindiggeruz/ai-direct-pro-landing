@@ -4,6 +4,7 @@ import { api } from '../lib/api';
 import { Badge, Button, Card, Input, Label, ScoreBadge, Select, Textarea } from '../components/ui';
 import { SerpPreview } from '../components/SerpPreview';
 import { AiDraftBanner } from '../components/AiDraftBanner';
+import { AeoEditorContext } from '../components/AeoEditorContext';
 import { useAiDraftBridge } from '../hooks/useAiDraftBridge';
 import { Save, Trash2, ExternalLink, Plus, X, AlertCircle, ChevronLeft, Sparkles, Upload, Wand2 } from 'lucide-react';
 import type { Page, FaqItem, BodyBlock, InternalLink as InternalLinkT, SchemaType } from '../../shared/types';
@@ -164,6 +165,7 @@ export default function PageEditor() {
       {toast && <div data-testid="toast-success" className="bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 rounded-lg p-3 text-sm">{toast}</div>}
       {err && <div data-testid="toast-error" className="bg-red-500/15 border border-red-500/30 text-red-300 rounded-lg p-3 text-sm">{err}</div>}
 
+      <AeoEditorContext document={page as unknown as Record<string,unknown>} onApply={patch=>setPage(p=>({...p,...patch} as Page))}/>
       <AiDraftBanner state={aiDraft} onApply={applyAiDraft} />
 
       <AiFillPanel page={page} onApply={(patch) => setPage((p) => ({ ...p, ...patch }))} />

@@ -123,6 +123,9 @@ queue = "gptbot-automation"
 # automation status surfaces are live; the Worker reads its own copy from
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
 [vars]
+# Owner-authorized AEO release: explicit free-only model comparison, no web search.
+AEO_MEASUREMENTS_ENABLED = "true"
+AEO_MEASUREMENT_MODELS = "minimax/minimax-m3:free,nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free"
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
 BUNZY_DEFAULT_LOCALE = "ru"
 

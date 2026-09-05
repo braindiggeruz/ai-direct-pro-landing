@@ -1,3 +1,4 @@
+import AeoWorkspace from './pages/AeoWorkspace';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Login from './pages/Login';
@@ -55,6 +56,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
   const session = useContext(AdminSessionContext);
   const [publishing, setPublishing] = useState(false);
   const [signalBadge, setSignalBadge] = useState<number>(0);
@@ -84,7 +86,7 @@ function Shell({ children }: { children: React.ReactNode }) {
     setPublishing(false);
   };
   return (
-    <div className="flex min-h-screen bg-bg-base text-white">
+    <div className={`flex min-h-screen bg-bg-base text-white ${location.pathname.startsWith("/admin-tools/aeo") ? "aeo-shell" : ""}`}>
       <a
         href="#admin-main-content"
         className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-lg bg-brand-cyan px-4 py-3 font-semibold text-black shadow-lg transition-transform focus:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white motion-reduce:transition-none"
@@ -116,6 +118,7 @@ export default function AdminApp() {
         <Route path={ADMIN_ROUTE_PATHS.blogEdit} element={<RequireAuth><Shell><BlogEditor/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.drafts} element={<RequireAuth><Shell><AiDraftsList/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.draftDetail} element={<RequireAuth><Shell><AiDraftDetail/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.aeo} element={<RequireAuth><Shell><AeoWorkspace/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.seoAutopilot} element={<RequireAuth><Shell><SeoAutopilotControlCenter/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.leadRadar} element={<RequireAuth><Shell><LeadRadar/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.signalRadar} element={<RequireAuth><Shell><SignalRadar/></Shell></RequireAuth>} />

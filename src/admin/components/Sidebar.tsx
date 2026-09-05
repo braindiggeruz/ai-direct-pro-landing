@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar, Radio } from 'lucide-react';
+import { Search, LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar, Radio } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 
@@ -54,6 +54,7 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
     {
       title: t.nav.group_seo,
       items: [
+        { to: '/admin-tools/aeo', label: 'AEO Studio', icon: Search, testId: 'nav-aeo' },
         { to: '/admin-tools/seo-autopilot', label: t.nav.seo_autopilot, icon: PlayCircle, testId: 'nav-seo-autopilot' },
         { to: '/admin-tools/internal-links', label: t.nav.internal_links, icon: Link2, testId: 'nav-internal-links' },
         { to: '/admin-tools/seo-booster', label: t.nav.seo_booster, icon: Gauge, testId: 'nav-seo-booster' },
@@ -108,7 +109,7 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
         ))}
       </nav>
       <div className="p-3 border-t border-white/5 space-y-2">
-        {onPublish && (
+        {onPublish && !loc.pathname.startsWith('/admin-tools/aeo') && (
           <button data-testid="publish-to-github-btn" onClick={onPublish}
             aria-label={t.nav.publish_github}
             title={t.nav.publish_github}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-05T05:42:27.669397+00:00",
+  "scope": "local candidate only",
+  "productionChanged": false,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "python": {
+    "passed": 250,
+    "failed": 0,
+    "selftest": "pass"
+  },
+  "webTests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "typecheck": {
+    "app": "pass",
+    "functions": "pass"
+  },
+  "scopedLint": "pass",
+  "secretScans": {
+    "aeo": {
+      "clean": true,
+      "files": 328
+    },
+    "gptbot": {
+      "clean": true,
+      "files": 2637
+    }
+  },
+  "workerCompilation": "pass",
+  "buildCf": {
+    "exitCode": 1,
+    "seoVitePrerenderGeneration": "pass",
+    "bormiAdmin": "pass",
+    "releaseStamp": "blocked: uncommitted runtime inputs"
+  },
+  "browser": {
+    "source": "local fixtures",
+    "productionChecked": false,
+    "measurements": [
+      {
+        "width": 1440,
+        "horizontalOverflow": false,
+        "launches": 1,
+        "consoleErrors": 0,
+        "axeViolations": 0
+      },
+      {
+        "width": 768,
+        "horizontalOverflow": false,
+        "launches": 1,
+        "consoleErrors": 0,
+        "axeViolations": 0
+      },
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "launches": 1,
+        "consoleErrors": 0,
+        "axeViolations": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "launches": 1,
+        "consoleErrors": 0,
+        "axeViolations": 0
+      }
+    ]
+  },
+  "realContent": {
+    "ruPublishedPages": 185,
+    "uzPublishedPages": 100,
+    "questions": 5,
+    "groundedImportPreviews": 2,
+    "contentWrites": 0
+  },
+  "externalCanaries": {
+    "liveAuth": false,
+    "productionD1": false,
+    "modelProvider": false
+  }
+}

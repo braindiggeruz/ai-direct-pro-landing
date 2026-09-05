@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "uncommitted": true,
+  "repositories": {
+    "aeo": {
+      "root": "F:\\Claude\\aeo-production-20260905",
+      "baseline": "031fd44e7535a9e80cdd72b4a207789b47c28640",
+      "runtimeFiles": [
+        {
+          "path": "seo-audit/aeo/__main__.py",
+          "sha256": "7c647a38ec62cb5c96c55320c4e05a0a4fb54ec7ba4560fdb9587fd06fe75f3c"
+        },
+        {
+          "path": "seo-audit/aeo/briefs.py",
+          "sha256": "c7d2fc72360a7b996567f35d2c4dec82f3f2e3a974f36ed2b874e6ee012e0241"
+        },
+        {
+          "path": "seo-audit/aeo/config.py",
+          "sha256": "1f59003b0d39a58ba40872e01fbf1a70c432325ae6314c407e79012ea746abac"
+        },
+        {
+          "path": "seo-audit/aeo/credentials.py",
+          "sha256": "585cea9c3b295204e434df4f48e7756b65eb0e11b6df8852e34dce4147a4fd03"
+        },
+        {
+          "path": "seo-audit/aeo/gaps.py",
+          "sha256": "a0e1ea3f3ddd56a7d44f2323e9cddaf412eb025a1b04500120c947fa232e1a95"
+        },
+        {
+          "path": "seo-audit/aeo/measure.py",
+          "sha256": "75e0f50ca2cb6574cfccdd8380f32410934b6d9049147f36cca724ddeb3ed23f"
+        },
+        {
+          "path": "seo-audit/aeo/models.py",
+          "sha256": "d2fb08014f1d5c2e6e3844af4915a741d07a2a9f136906e62b19cc2f10810602"
+        },
+        {
+          "path": "seo-audit/aeo/passages.py",
+          "sha256": "fb82f1884d9a9109268d1149f5bf9c6744d23b336e0e14f1fb13c3092181bffc"
+        },
+        {
+          "path": "seo-audit/aeo/patches.py",
+          "sha256": "cbf154dca64c25f960175d5c4b6acba66bd4e74ebef0e7db7bb662358bdceb29"
+        },
+        {
+          "path": "seo-audit/aeo/paths.py",
+          "sha256": "9bc38f454cc64c6a015d6493055003d3efa6adb184637aeb7d22fccd3fa125e0"
+        },
+        {
+          "path": "seo-audit/aeo/providers/brave_scrape.py",
+          "sha256": "475107ca487ab943387d6c813520ffe0177e913dc78cf9222008ffc3d68fe621"
+        },
+        {
+          "path": "seo-audit/aeo/providers/gemini.py",
+          "sha256": "37445982984a852974f49f53e6b8603ed073355d5abf3f8b990a3456f357d459"
+        },
+        {
+          "path": "seo-audit/aeo/providers/glm.py",
+          "sha256": "1b798dd1964cde30d03d682c6268cfcf112eefebe783aa3fa93bfea61d00225e"
+        },
+        {
+          "path": "seo-audit/aeo/providers/openrouter.py",
+          "sha256": "c1d061981462dfd80a8b4d890dd6a200cdd6e108e523c7b4c1fd875628fc46ab"
+        },
+        {
+          "path": "seo-audit/aeo/providers/registry.py",
+          "sha256": "c4c005080767ea8d27b02acdc11ffeaa1f18f430371a8413e39628bb8ce1d000"
+        },
+        {
+          "path": "seo-audit/aeo/providers/transport.py",
+          "sha256": "edf08423c22a6a46060ba526a9b03ff06f6f98d7493a6febf9d9fbbdb9de3925"
+        },
+        {
+          "path": "seo-audit/aeo/recovery.py",
+          "sha256": "0c406d4f694af210f1e6325fa05cf66b461459a146ef6d329f48a48ef0e114b2"
+        },
+        {
+          "path": "seo-audit/aeo/safety.py",
+          "sha256": "1af9584be14e1b8a642a44e9455f680a48dca5e1c678ce03b01e4c1bebc0c921"
+        },
+        {
+          "path": "seo-audit/aeo/state.py",
+          "sha256": "f92076349c9e97e69007aa40ac8220432819755684224c89babb7e33017a3052"
+        },
+        {
+          "path": "seo-audit/aeo/workspace.py",
+          "sha256": "44265831d25edc9b4bfc0fd6a110b1214fac38d3f7bbf7bd9b3cd83b79d65fd9"
+        },
+        {
+          "path": "seo-audit/scripts/apply_briefs.py",
+          "sha256": "ec62909828e2c2c0b4e61b2384337cf77dfe717c80b4d419788837de369bef57"
+        },
+        {
+          "path": "seo-audit/scripts/serp/serp_worker.mjs",
+          "sha256": "c8677f6f41838bbb32344e3ac1fb1e8bd963128b37d8f015d52f2768886d624b"
+        },
+        {
+          "path": "seo-audit/tests/test_aeo_e2e.py",
+          "sha256": "00581c306fb376eade833e4530b0af20039b422ad7d9f28977f4c2e4294bf9e5"
+        },
+        {
+          "path": "seo-audit/tests/test_production_safety.py",
+          "sha256": "1f4da27ba1e601203361454bbca5c6072055e0895fd18e40c5160e9bcb441ca4"
+        }
+      ]
+    },
+    "gptbot": {
+      "root": "F:\\Claude\\gptbot-aeo-20260905",
+      "baseline": "432eab906383b137474bb67bb95b57268aa93cca",
+      "runtimeFiles": [
+        {
+          "path": "functions/api/admin/aeo/index.ts",
+          "sha256": "00a02cc314987e1c91cf41f843dc43c9b03494e21ce57f18f22d5613258d1c4d"
+        },
+        {
+          "path": "functions/api/admin/aeo/review.ts",
+          "sha256": "afb92714b629562c1523700ee776e2fe63da6b45debeb51b4616307734ced391"
+        },
+        {
+          "path": "functions/platform/aeo/analysis.ts",
+          "sha256": "cc03db7404c5a8ff6bb7ae50bf7aa6c9d59b18d9e8463a2213c5dbf1b7de1746"
+        },
+        {
+          "path": "functions/platform/aeo/observation.ts",
+          "sha256": "9f0b200ddff37b5667a1354a4e6a41010d464bfe7bf20fdbb414181de576ebcb"
+        },
+        {
+          "path": "functions/platform/aeo/schema.ts",
+          "sha256": "4a2c261c8cb707bed3aae772d816c4fd813626a683f87cea20d080f17cc26314"
+        },
+        {
+          "path": "functions/platform/aeo/store.ts",
+          "sha256": "f55d2686d4d344039ae27a2c87d8fabddfa2133717aabecd329b65bf3925919b"
+        },
+        {
+          "path": "migrations/0062_aeo_workspace.sql",
+          "sha256": "d31d0bf85405c5b164437a8fa0c919c1595486263154485d99bd793888b1e1bb"
+        },
+        {
+          "path": "migrations/0063_aeo_reviews.sql",
+          "sha256": "622d9019106d4b222fb47ed2de9b5565c38c333a53a681a81e57af60d1b411f7"
+        },
+        {
+          "path": "scripts/aeo-content-smoke.ts",
+          "sha256": "aaec2abd461942658f506a6a04d552a05f18f208b0ee2abb3223aa869d7d2630"
+        },
+        {
+          "path": "scripts/aeo-ui-evidence.ts",
+          "sha256": "009c78485aebcf818af6d7b06b78496fd11c12df17c38f7bda2ed60be2edb730"
+        },
+        {
+          "path": "scripts/aeo-ux-evidence.ts",
+          "sha256": "4ca97244f57876ead703c06ce8e96804e5034e4335f67eec22d256c9384e3924"
+        },
+        {
+          "path": "src/admin/AdminApp.tsx",
+          "sha256": "9f522d21a3bee5c73de21b5f695fd5f8ce03fecaab88d7ff855d4a74ac977f21"
+        },
+        {
+          "path": "src/admin/components/AeoAnswers.tsx",
+          "sha256": "9d476da79a9309fd8bd227440f1089db1ae4327f218f0c0ecee608747f8d5c28"
+        },
+        {
+          "path": "src/admin/components/AeoEditorContext.tsx",
+          "sha256": "78b1002d5643b03604770db480fcb61e550d277fece67ae68ffc514b9dfd9d18"
+        },
+        {
+          "path": "src/admin/components/AeoReviewPanel.tsx",
+          "sha256": "d907c3de0dc229877df4796e203118b905e642d724a28003af49c3d60bc45b49"
+        },
+        {
+          "path": "src/admin/components/Sidebar.tsx",
+          "sha256": "e6a993d7ff67de5627d9977062914efdcb445f4b4b4ed9799020a5bf81e24401"
+        },
+        {
+          "path": "src/admin/lib/aeo-session.ts",
+          "sha256": "db4af7d18e55ef71754ee39b3377b9ee635cee868d1b7d22ec819c9a1264852c"
+        },
+        {
+          "path": "src/admin/lib/api.ts",
+          "sha256": "f2f366b2418a9916b9f64b3abeba3b29e31bac8d2c7e35371645f9796facf50d"
+        },
+        {
+          "path": "src/admin/pages/AeoWorkspace.tsx",
+          "sha256": "b26467759c7d11f7379b39b52e683737c976512b259abcdcfc2206fd460525f7"
+        },
+        {
+          "path": "src/admin/pages/BlogEditor.tsx",
+          "sha256": "7493cf013ae0cc6da8f99af5c310f04c001bbcb1c8d4828fc39165d44b762432"
+        },
+        {
+          "path": "src/admin/pages/PageEditor.tsx",
+          "sha256": "8ecc74a9fbb3be21815a3d9463aa1df6db194989151cf1c271cd8f59dcf608be"
+        },
+        {
+          "path": "src/admin/pages/aeo.css",
+          "sha256": "d3a4607812d2722d3ced1ca604a6ef28c2f2c0c7fb6db77684fcd91bd927917d"
+        },
+        {
+          "path": "src/admin/routes.ts",
+          "sha256": "a0017497daf9fb9e635cc49437f8448347807663975e98cfb732e2e0bdeb7ac4"
+        },
+        {
+          "path": "src/shared/aeo-editor.ts",
+          "sha256": "02b21d753e4e1a212033dedd4383f0783bc0a1793e08425d941bcc9b90ce1bdf"
+        },
+        {
+          "path": "src/shared/aeo.ts",
+          "sha256": "1499b98cbd78940c42a751d4960abdd26c28c69e62cf75fdea2bfd6708838d66"
+        },
+        {
+          "path": "tests/aeo-review.test.ts",
+          "sha256": "a07c4fd8ac4021ecfeefd662e97a95912d96458ceef472def0750f66b84b3d50"
+        },
+        {
+          "path": "tests/aeo-workspace.test.ts",
+          "sha256": "51a1e42fa2d6dccd268f78a1e793e32427da1287441e3365d08818a3b42d14fc"
+        }
+      ]
+    }
+  },
+  "checkedAt": "2026-09-05T06:38:54.216564+00:00",
+  "iteration": "ux-v2"
+}

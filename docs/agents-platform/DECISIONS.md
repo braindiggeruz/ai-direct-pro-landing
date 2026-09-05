@@ -1346,3 +1346,13 @@ this release. The previous production deployment is the immediate rollback.
 **Why.** This keeps product packaging independently reversible and prevents a
 visual/UX release from silently activating a commercial pilot. Store Pilot #1
 is a separate, explicit owner-authorized production mutation.
+
+
+## D-AEO-001 — reviewed content analysis and observational evidence (2026-09-05)
+
+AEO lives in the existing modular monolith and admin-tools shell. It reuses JWT, GitHub content reads, GPTBOT_DRAFTS_DB and the platform AI facade. The server owns the internal org scope; no client tenant is introduced. Analysis is deterministic and returns exact source text with content hashes. Model output is isolated evidence, never publishable content or a claim of ChatGPT/Google visibility. Measurement is disabled until a specific free model and existing secret binding are configured; a single bounded attempt has no fallback or search plugins. Content writes remain a separate reviewed local CAS/transaction pipeline. Additive D1 schema, idempotency, quotas and retention are tested locally; release and production canary require owner authorization.
+
+
+## D-AEO-002 - 2026-09-05: review workflow and model answers
+
+Keep immutable analysis separate from org-scoped versioned review decisions. Carry saved briefs into the existing editor as local form patches; no automatic publication. Compare up to three server-allowlisted free models with independent errors and idempotent recovery. Display exact answers, actual model and source provenance; literal brand mention is not endorsement. Additive migration 0063 and repeatable bootstrap. Fixture evidence is not a live provider or usability result. See docs/aeo/UX-IMPLEMENTATION-2026-09-05.md.
