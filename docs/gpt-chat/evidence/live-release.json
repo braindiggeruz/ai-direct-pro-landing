@@ -1,0 +1,34 @@
+{
+  "commit": "efea33aa9c4d44d3fdd2bcc215402a93631a83c7",
+  "artifactSha256": "1d581a80ffa6077a9df72b31bacfe254699e82a9c48b21ac1c29606b0e81f119",
+  "manifest": true,
+  "checks": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/ru/gpt-chat/",
+      "status": 200
+    },
+    {
+      "path": "/uz/gpt-uzbek-tilida/",
+      "status": 200
+    },
+    {
+      "path": "/admin/",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/config",
+      "status": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200
+    }
+  ],
+  "sheets": [
+    "/assets/index-7KFRiDh-.css"
+  ]
+}

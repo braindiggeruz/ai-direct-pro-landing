@@ -2,7 +2,7 @@
 
 ## Chat UI and article entry release
 
-Owner authorized deployment on 2026-09-05. Latest-main UI release adds the reviewed shadcn chat and seven contextual article entry paths. 540 tests, 12 release/config tests, typecheck, lint and mobile/desktop browser checks pass; seven article SEO/content baselines are preserved. Payment controls remain explicitly upcoming; no billing backend, schema, variables or bot changes. Guarded deployment and public readback are the remaining release step. Details: `docs/gpt-chat/UI_ARTICLE_RELEASE_2026-09-05.md`. Existing AEO acceptance records below are preserved.
+Owner authorized deployment on 2026-09-05. Latest-main UI release adds the reviewed shadcn chat and seven contextual article entry paths. 540 tests, 12 release/config tests, typecheck, lint and mobile/desktop browser checks pass; seven article SEO/content baselines are preserved. Payment controls remain explicitly upcoming; no billing backend, schema, variables or bot changes. Published runtime efea33aa9c4d44d3fdd2bcc215402a93631a83c7 as acc1704b-f543-4b94-b15f-01cf43ebdaaf. Live manifest/assets, six public routes and nine real-domain article/chat browser flows passed; bindings and existing variables preserved. Details: `docs/gpt-chat/UI_ARTICLE_RELEASE_2026-09-05.md`. Existing AEO acceptance records below are preserved.
 
 ## Public CSS hotfix — owner-authorized release
 

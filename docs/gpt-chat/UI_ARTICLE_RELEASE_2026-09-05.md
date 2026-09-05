@@ -1,6 +1,6 @@
 # Chat UI and article entry release — 2026-09-05
 
-Status: reviewed locally, owner-authorized production release pending guarded upload and live readback.
+Status: deployed and verified on https://gptbot.uz. Runtime efea33aa9c4d44d3fdd2bcc215402a93631a83c7, deployment acc1704b-f543-4b94-b15f-01cf43ebdaaf. Existing bindings and variables preserved.
 
 ## Scope
 
@@ -31,3 +31,7 @@ The owner's screenshot shows page views, not search queries or proof of organic 
 ## Rollback and continuation
 
 Use the guarded Pages release flow; preserve the latest production ancestry and full public/admin artifact. Revert only this runtime commit on top of the then-current main and rebuild to roll back. Never deploy the older premium worktree wholesale. Payment integration remains a separate release after merchant configuration and schema reconciliation.
+
+## Production readback
+
+Final build:cf completed and stamped 914 artifact files. Live manifest and artifact SHA match. Root, RU/UZ chat, admin, auth config and sitemap return 200; main stylesheet returns 200 and contains the new chat rules. Nine real-domain article -> chat -> article flows at 360/393/1440 px passed, including prompt fit, no automatic send, canonical, return link and safe source attribution. See live-release.json and live-article-chat-flow.json. No real payment or provider-response canary was performed.
