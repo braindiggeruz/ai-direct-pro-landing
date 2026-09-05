@@ -2,7 +2,7 @@
 
 ## 1. Current state
 
-Owner-authorized incident repair. Three real free models completed successfully in the authenticated owner browser; D1 confirms final stop, nonempty answers and zero reasoning tokens. Latest verified runtime 37706036171f28d1f7bd002c922ada87d5d3f9d7, deployment 909e5d1f-16de-4261-8e87-4fc5f46102ef. Current checkpoint: final_ui_polish_validated_release_pending. The final UI-only polish does not alter the provider request path.
+Owner-authorized incident repair. Three real free models completed successfully in the authenticated owner browser; D1 confirms final stop, nonempty answers and zero reasoning tokens. Latest verified runtime f9a8457b13ee313f769290ac1df59826c1d14f78, deployment be459480-0b03-4430-ba55-c730487adcf8. Current checkpoint: complete. The final UI-only polish does not alter the provider request path.
 
 ## 2. Confirmed defects and fixes
 
@@ -30,7 +30,7 @@ Only minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free and dots-st
 
 ## 8. Next action
 
-Deploy final UI polish through the guarded Pages runner and read back the production asset; then update this receipt. Do not reintroduce the historical unavailable-browser blocker: official bundled node_repl runtime and authenticated owner session are working.
+No required incident work remains after final release verification. Human usability feedback is optional follow-up. Do not reintroduce the historical unavailable-browser blocker: official bundled node_repl runtime and authenticated owner session are working.
 
 ## 9. Acceptance boundary
 

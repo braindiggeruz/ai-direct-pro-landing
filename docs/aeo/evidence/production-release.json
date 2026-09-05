@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-05T07:59:37.524987+00:00",
-  "commit": "37706036171f28d1f7bd002c922ada87d5d3f9d7",
-  "deploymentId": "909e5d1f-16de-4261-8e87-4fc5f46102ef",
+  "checkedAt": "2026-09-05T08:15:21.477333+00:00",
+  "commit": "f9a8457b13ee313f769290ac1df59826c1d14f78",
+  "deploymentId": "be459480-0b03-4430-ba55-c730487adcf8",
   "manifestMatches": true,
   "aeoAssetMatches": true,
-  "aeoAsset": "AdminRoot-D9triwVE.js",
+  "aeoAsset": "AdminRoot-BygmKoIh.js",
   "bindingsPreserved": {
     "d1_databases": true,
     "kv_namespaces": true,
@@ -63,6 +63,8 @@
       "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300"
     }
   },
-  "authenticatedOwnerCanary": false,
-  "realProviderCanary": false
+  "authenticatedOwnerCanary": true,
+  "realProviderCanary": true,
+  "ownerCanaryEvidence": "owner-canary-2026-09-05.json",
+  "providerCanaryRuntimeCommit": "37706036171f28d1f7bd002c922ada87d5d3f9d7"
 }
