@@ -20,6 +20,7 @@ import type {
   AeoReviewWorkspace,
 } from "../../shared/aeo";
 import { api } from "../lib/api";
+import { modelName } from "../lib/aeo-models";
 import {
   downloadAeo,
   questionLines,
@@ -749,7 +750,9 @@ export default function AeoWorkspace() {
                   <span className="aeo-caption">
                     {run.kind === "analysis"
                       ? "Разбор контента"
-                      : "Ответ модели"}{" "}
+                      : run.result && "model" in run.result
+                        ? modelName(run.result.requestedModel || run.result.model)
+                        : "Ответ модели"}{" "}
                     · {new Date(run.created_at).toLocaleString("ru-RU")} ·{" "}
                     {run.status === "completed"
                       ? "Готово"

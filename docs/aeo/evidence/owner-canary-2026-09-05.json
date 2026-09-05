@@ -1,0 +1,49 @@
+{
+  "runtimeCommit": "37706036171f28d1f7bd002c922ada87d5d3f9d7",
+  "observedAt": "2026-09-05T07:59:58Z",
+  "transport": "Authenticated owner browser, real zero-price OpenRouter calls, D1 readback",
+  "models": [
+    {
+      "model": "minimax/minimax-m3:free",
+      "runId": "17f341cf-6133-44ba-bf49-983ffe94332e",
+      "status": "completed",
+      "finishReason": "stop",
+      "completionTokens": 542,
+      "reasoningTokens": 0,
+      "characters": 1437
+    },
+    {
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "runId": "40cd6baf-edb0-4100-877e-49e2cebc08a3",
+      "status": "completed",
+      "finishReason": "stop",
+      "completionTokens": 1066,
+      "reasoningTokens": 0,
+      "characters": 2922
+    },
+    {
+      "model": "dots-studio/dots-3-note-preview:free",
+      "runId": "f9356e6a-ef1f-4eb6-99dc-62b22e0c117b",
+      "status": "completed",
+      "finishReason": "stop",
+      "completionTokens": 526,
+      "reasoningTokens": 0,
+      "characters": 1459
+    }
+  ],
+  "analysisRunId": "1ecbe668-bc78-4396-a1ef-bca20a9ecf8f",
+  "analyzerVersion": 2,
+  "publishedRuPages": 185,
+  "cakeQuery": "no_target",
+  "seoQuery": "/ru/blog/seo-audit-sayta-chek-list/",
+  "reviewPersistenceAndUndoRunId": "992fbc15-30ae-42de-9740-3f9ccc77ca60",
+  "historySurvivesReload": true,
+  "legacyIncorrectRecommendationsHidden": true,
+  "responsiveWidthsWithoutHorizontalOverflow": [
+    390,
+    1440
+  ],
+  "readAndCompareModes": true,
+  "publishedContentWritten": false,
+  "remainingBoundary": "Provider availability is point-in-time; responses are ungrounded. Manual screen reader and human usability pilot not performed."
+}
