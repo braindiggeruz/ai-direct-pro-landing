@@ -1,49 +1,49 @@
-# GPTBot AEO Studio production handoff - 2026-09-05
+# GPTBot AEO video incident closure — 2026-09-05
 
 ## 1. Current state
 
-Deployed runtime commit `c123678a1a033c381f6c84379caf8d1cab3b93a2`, Pages deployment `5f778f21-71dd-4df1-969e-45f74212e9e8`, project `ai-direct-pro-landing`. Main received the runtime commit. Public-domain manifest and AEO asset hashes match the local release. Owner explicitly authorized commit/push/deploy in this task. Subsequent documentation-only commit does not change the deployed runtime.
+Owner-authorized incident repair. Three real free models completed successfully in the authenticated owner browser; D1 confirms final stop, nonempty answers and zero reasoning tokens. Latest verified runtime f9a8457b13ee313f769290ac1df59826c1d14f78, deployment be459480-0b03-4430-ba55-c730487adcf8. Current checkpoint: complete. The final UI-only polish does not alter the provider request path.
 
-## 2. Delivered behavior
+## 2. Confirmed defects and fixes
 
-`https://gptbot.uz/admin-tools/aeo` and sidebar AEO Studio. RU/UZ content analysis, separate saved review decisions, drafts, undo, priority/filter/history, editor context, responsive UX. Three server-allowlisted free model answers with exact text, citations, independent errors and idempotent retry. No automatic content publication.
+Invalid server GitHub PAT caused content/audit HTTP 401; validated existing repository credential rotated through stdin. Workers rejected redirect=error before outbound HTTP; manual redirect plus explicit refusal fixes transport. Matching purchase/geography words produced a false cake-to-agency recommendation; analyzerVersion 2 requires subject evidence and returns no_target. Legacy recommendation panels are hidden pending recheck. The video showed NVIDIA/Dots incomplete responses: 4096-token budget, optional reasoning disabled for the three verified models and 35-second timeout now produce complete real responses. Historical provider finish reasons were unavailable, so their exact truncation cause is not asserted.
 
-## 3. Source and reports
+## 3. Source and scope
 
-Worktree `F:/Claude/gptbot-aeo-20260905`, branch `feature/aeo-production-20260905`. Core: `functions/platform/aeo`, `functions/api/admin/aeo`, `src/admin/pages/AeoWorkspace.tsx`, `src/admin/components/Aeo*.tsx`, shared types/editor patch. Reports: `docs/aeo/UX-IMPLEMENTATION-2026-09-05.md`, `PRODUCTION-RELEASE-2026-09-05.md`, `evidence/production-release.json`. Original platform handoff retained in `docs/aeo/PREVIOUS-PLATFORM-HANDOFF.md`.
+F:/Claude/gptbot-aeo-20260905, branch feature/aeo-production-20260905. Existing monolith, JWT, internal org and D1. Core functions/platform/aeo, functions/api/admin/aeo, src/admin/pages/AeoWorkspace.tsx, components/AeoAnswers.tsx, shared types. Historical platform context is preserved in docs/aeo/PREVIOUS-PLATFORM-HANDOFF.md. No unrelated platform changes.
 
-## 4. Architecture and configuration
+## 4. Delivered UX
 
-Existing modular monolith, JWT, D1 binding, GitHub content reader and AI facade. Internal org is server-owned. `AEO_MEASUREMENTS_ENABLED=true`; models: minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free, dots-studio/dots-3-note-preview:free. Existing OPENROUTER_API_KEY secret binding preserved. Strict zero-price routing, one bounded attempt, no search/fallback. Catalogue presence is verified; provider responses are not.
+Explicit Content gptbot.uz versus model-answer modes. Wide single-answer reading with per-model status selectors, optional comparison, natural page scrolling. Exact source text remains available; safe Markdown display uses escaped React nodes, no raw HTML. History identifies each model. Loading models no longer shows a false configuration failure. Partial final answers remain explicitly incomplete; reasoning text is never displayed or persisted. Errors have safe causes and bounded manual retry.
 
-## 5. Production changes
+## 5. Live evidence
 
-Only AEO runtime and two plaintext AEO vars added; all previous vars/secrets types and D1/KV/R2/service/queue/AI bindings verified preserved. Additive migrations 0062/0063 applied and ledger entries read back. No existing operational rows edited. No Telegram sends, business transactions, paid provider calls or content saves.
+docs/aeo/evidence/owner-canary-2026-09-05.json contains exact run IDs. MiniMax 1437 characters, NVIDIA 2922, Dots 1459: completed, finishReason stop, reasoningTokens 0. Analysis 1ecbe668-bc78-4396-a1ef-bca20a9ecf8f loads 185 RU pages: cake has no target, SEO selects the SEO-audit checklist. Prior run 992fbc15-30ae-42de-9740-3f9ccc77ca60 confirms accepted decision survives reload and undo. History restores all three answers; old 12:30 analysis shows only recheck notice. No public Save/Publish.
 
 ## 6. Validation
 
-27/27 AEO and Pages release/config tests. Prior app/functions typecheck, scoped lint, Worker compile and six-width local browser suite passed. Full build:cf exit 0, 914-file stamp. Guarded deployment exit 0. Live root, RU/UZ advertising pages, /admin/, AEO route, auth config and priority sitemap return 200. AEO route is no-store/noindex; anonymous AEO and review API return 401. AEO asset AdminRoot-Ur9VQ2u5.js matches SHA256 and contains nav-aeo/AEO Studio. No authenticated production model call was made.
+29 AEO and Pages release/config tests passed; actual workerd test verifies outbound transport and redirect refusal. App/functions typechecks and scoped lint passed. Production build includes main and admin and 914-file stamp. Release receipt records manifest, asset SHA, routes and preserved bindings. Browser read/compare and model switching passed at 390 and 1440 px without horizontal overflow. Latest UI-only changes receive app typecheck, scoped lint and the same targeted suites before release.
 
-## 7. Remaining uncertainty
+## 7. Provider contract
 
-Owner's Chrome session is not available through the connected browser tool. Authenticated analysis/review/provider canary remains unverified, rather than inferred from 200/401 status. The user's earlier screenshot showed GitHub/audit loading errors; this release does not claim those pre-existing authenticated errors resolved. Follow up with actual authenticated HTTP status before changing GitHub credentials. Manual screen reader, real browser zoom and human usability pilot remain pending; detailed roadmap gaps are in the UX report.
+Only minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free and dots-studio/dots-3-note-preview:free are configured. Max price zero, plugins empty, paid fallback disabled, one attempt, 35 seconds. Optional reasoning disabled only for these verified models. OPENROUTER_API_KEY remains private. API observations are ungrounded and can contain inaccurate businesses/addresses; UI explicitly labels that distinction. Real success is point-in-time, not an availability guarantee.
 
 ## 8. Next action
 
-Owner opens AEO Studio, hard-refreshes the previous tab if necessary, runs one content analysis and one selected free model. Verify actual content/results, history and review readback. Do not treat configuration presence as a successful model response.
+No required incident work remains after final release verification. Human usability feedback is optional follow-up. Do not reintroduce the historical unavailable-browser blocker: official bundled node_repl runtime and authenticated owner session are working.
 
 ## 9. Acceptance boundary
 
-Deployment and public asset verification complete. Full authenticated production workflow and provider availability not yet confirmed. Do not call the entire system 100% verified. Saved briefs and model observations cannot become public content without the existing explicit editor/publish workflow.
+Analysis, saved review/reload/undo, all three real model answers and responsive reading are verified. Manual screen-reader audit, exhaustive human usability pilot and continuous external-provider availability are not claimed. Free API answers are not the consumer ChatGPT/Gemini search interface. This service never automatically publishes observations or briefs.
 
 ## 10. Reproduction
 
-`node --import tsx --test tests/aeo-workspace.test.ts tests/aeo-review.test.ts tests/pages-production-release.test.ts tests/pages-config-parity.test.ts`; `npm run build:cf`; guarded `scripts/release/pages-production.ts deploy`. Logs: `F:/Claude/aeo-production-20260905/aeo-release-*.log`. Release runner obtains existing Wrangler OAuth in process memory and never prints credentials.
+node --import tsx --test tests/aeo-workspace.test.ts tests/aeo-review.test.ts tests/aeo-workers.test.ts tests/pages-production-release.test.ts tests/pages-config-parity.test.ts; app/functions tsc; scoped eslint; npm run build:cf; guarded scripts/release/pages-production.ts deploy. Private helper F:/Claude/aeo-production-20260905/_implementation/release-runner.py obtains existing Wrangler OAuth in memory. Browser session access only via the bundled browser runtime; no token extraction.
 
-## 11. Backup and release risks
+## 11. Backup and mutation boundary
 
-Private backup `F:/Claude/aeo-production-20260905/_implementation/production-release/d1-before.sql`, SHA256 8c1ce37aa546171a4415217adae9c4a3a55f11e6b0145323b7821c6a27db5a0d. A local restore requires ignoring an excerpt CHECK constraint, while live D1 reports zero invalid excerpts; full restore structural integrity is ok. Record this export/SQLite discrepancy, do not claim full strict restore passed. AEO only adds tables. Never commit this backup or credential state. Preserve the node_modules junction.
+No new migration in this repair. Existing additive migrations 0062/0063 retained. Private d1-before.sql SHA256 8c1ce37aa546171a4415217adae9c4a3a55f11e6b0145323b7821c6a27db5a0d. Local structural restore requires ignoring an excerpt CHECK due to export/SQLite discrepancy; live invalid excerpt count zero. Never commit backup/credentials. Preserve node_modules junction. No paid calls, Telegram sends, financial operations or public content saves.
 
-## 12. Rollback
+## 12. Release and rollback
 
-Prior known deployment 109137c6-6aae-4d08-bd27-a748ce863462, runtime 432eab906383b137474bb67bb95b57268aa93cca. Use reviewed Cloudflare rollback or revert AEO runtime and deploy through the same guard. Disable AEO_MEASUREMENTS_ENABLED first if provider problems arise. Retain aeo_runs/aeo_reviews and migration ledger; do not DROP evidence or overwrite unrelated content.
+Owner explicitly authorized push/deploy. Pages ai-direct-pro-landing; auto deploy disabled. Use guarded upload, preserve production vars and D1/KV/R2/service/queue/AI bindings. Rollback UI polish to 3770603 / 909e5d1f if needed; this baseline has all three successful provider canaries. Do not revert the validated GitHub credential or drop AEO tables. Older c123678 reintroduces the provider transport defect.

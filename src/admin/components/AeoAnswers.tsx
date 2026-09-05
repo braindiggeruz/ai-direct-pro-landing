@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import type { AeoObservation, AeoRun, AeoWorkspace } from "../../shared/aeo";
 import { api } from "../lib/api";
+import { modelName } from "../lib/aeo-models";
 import {
   downloadAeo,
   readAeoSession,
@@ -48,19 +49,16 @@ type Card = {
   pending: boolean;
   key: string;
 };
-const modelName = (model: string) => ({
-  "minimax/minimax-m3:free": "MiniMax M3",
-  "nvidia/nemotron-3-super-120b-a12b:free": "NVIDIA Nemotron 3 Super",
-  "dots-studio/dots-3-note-preview:free": "Dots 3 Note",
-}[model] || model.replace(/:free$/, ""));
 function AnswerText({ text }: { text: string }) {
   const [raw, setRaw] = useState(false);
   const inline = (line: string) =>
     line
-      .split(/(\*\*[^*]+\*\*)/g)
+      .split(/(\*\*[^*]+\*\*|`[^`]+`)/g)
       .map((part, i) =>
         part.startsWith("**") ? (
           <strong key={i}>{part.slice(2, -2)}</strong>
+        ) : part.startsWith("`") ? (
+          <code key={i}>{part.slice(1, -1)}</code>
         ) : (
           part
         ),
@@ -74,8 +72,12 @@ function AnswerText({ text }: { text: string }) {
           text
             .split("\n")
             .map((line, i) =>
-              /^#{1,3}\s/.test(line) ? (
-                <h4 key={i}>{inline(line.replace(/^#{1,3}\s/, ""))}</h4>
+              !line.trim() ? null : /^\s*([-*_])(?:\s*\1){2,}\s*$/.test(line) ? (
+                <hr key={i} />
+              ) : /^#{1,6}\s/.test(line) ? (
+                <h4 key={i}>{inline(line.replace(/^#{1,6}\s/, ""))}</h4>
+              ) : /^>\s/.test(line) ? (
+                <blockquote key={i}>{inline(line.slice(2))}</blockquote>
               ) : (
                 <p key={i}>{inline(line) || "\u00a0"}</p>
               ),
@@ -282,7 +284,7 @@ export function AeoAnswers({
               ))}
             </div>
           </fieldset>
-          {!workspace?.measurement.available && (
+          {workspace && !workspace.measurement.available && (
             <div className="aeo-callout">
               <strong>Подключение моделей ещё не настроено</strong>
               <p>
@@ -293,9 +295,9 @@ export function AeoAnswers({
           )}
           <div className="aeo-form-footer">
             <span className="aeo-muted">
-              Без веб-поиска · {selected.length}{" "}
+              {!workspace ? "Загружаем модели и лимиты…" : <>Без веб-поиска · {selected.length}{" "}
               {selected.length === 1 ? "запрос" : "запроса"} к API · осталось{" "}
-              {remaining} сегодня
+              {remaining} сегодня</>}
             </span>
             <button
               className="aeo-primary"

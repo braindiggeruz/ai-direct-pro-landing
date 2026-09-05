@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-05T07:38:41.779850+00:00",
-  "commit": "2b440c8a07da26f8ae4694a92a2070596a943e8b",
-  "deploymentId": "72b29cf1-7f27-4025-b8c3-82a9570b4a3b",
+  "checkedAt": "2026-09-05T08:15:21.477333+00:00",
+  "commit": "f9a8457b13ee313f769290ac1df59826c1d14f78",
+  "deploymentId": "be459480-0b03-4430-ba55-c730487adcf8",
   "manifestMatches": true,
   "aeoAssetMatches": true,
-  "aeoAsset": "AdminRoot-CdpxtJhP.js",
+  "aeoAsset": "AdminRoot-BygmKoIh.js",
   "bindingsPreserved": {
     "d1_databases": true,
     "kv_namespaces": true,
@@ -63,23 +63,8 @@
       "cache": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300"
     }
   },
-  "authenticatedOwnerCanary": false,
-  "realProviderCanary": false,
-  "priorRuntimeOwnerWorkflow": {
-    "commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
-    "runId": "992fbc15-30ae-42de-9740-3f9ccc77ca60",
-    "publishedRuPages": 185,
-    "analysisCompleted": true,
-    "reviewSaved": true,
-    "reviewRestoredAfterReload": true,
-    "reviewUndone": true,
-    "publicContentSaved": false
-  },
-  "localInventoryRegression": {
-    "ruPages": 185,
-    "uzPages": 100,
-    "cakeQuery": "no_target",
-    "seoAuditUrl": "/ru/blog/seo-audit-sayta-chek-list/"
-  },
-  "acceptanceBlocker": "Browser-control tool unavailable after owner power interruption; no post-repair model run or analyzerVersion 2 operation recorded at 07:38 UTC. Owner has an authenticated open AEO tab."
+  "authenticatedOwnerCanary": true,
+  "realProviderCanary": true,
+  "ownerCanaryEvidence": "owner-canary-2026-09-05.json",
+  "providerCanaryRuntimeCommit": "37706036171f28d1f7bd002c922ada87d5d3f9d7"
 }

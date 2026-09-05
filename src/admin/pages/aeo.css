@@ -902,6 +902,16 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.aeo-answer-text blockquote {
+  margin: 16px 0;
+  padding-left: 16px;
+  border-left: 2px solid #9fe8c5;
+}
+.aeo-answer-text hr {
+  border: 0;
+  border-top: 1px solid #2b3c44;
+  margin: 20px 0;
+}
 .aeo-workspace .aeo-mobile-back {
   display: none;
 }
