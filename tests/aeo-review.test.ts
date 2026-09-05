@@ -320,16 +320,17 @@ test("model choice is a server allowlist and distinct models have distinct opera
       400,
     );
     assert.equal(calls, 0);
-    assert.equal(
-      (await send("demo/one:free", "fixture-model-key-01")).status,
-      200,
-    );
+    const first = await send("demo/one:free", "fixture-model-key-01");
+    assert.equal(first.status, 200);
+    const firstRun = await first.json() as { result: { locale: string } };
+    assert.equal(firstRun.result.locale, "ru");
     assert.equal(
       (await send("demo/two:free", "fixture-model-key-02")).status,
       200,
     );
     assert.equal(calls, 2);
-    await send("demo/one:free", "fixture-model-key-01");
+    const replay = await send("demo/one:free", "fixture-model-key-01");
+    assert.deepEqual(await replay.json(), firstRun);
     assert.equal(calls, 2);
   } finally {
     globalThis.fetch = fetch;

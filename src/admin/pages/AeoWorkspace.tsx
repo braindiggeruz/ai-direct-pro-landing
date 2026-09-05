@@ -21,6 +21,7 @@ import type {
 } from "../../shared/aeo";
 import { api } from "../lib/api";
 import { modelName } from "../lib/aeo-models";
+import { aeoRunLocale, filterAeoHistory } from "../../shared/aeo-history";
 import {
   downloadAeo,
   questionLines,
@@ -76,6 +77,7 @@ export default function AeoWorkspace() {
   const [order, setOrder] = useState("questions");
   const [historySearch, setHistorySearch] = useState("");
   const [historyLocale, setHistoryLocale] = useState("all");
+  const historyRuns = filterAeoHistory(workspace?.runs || [], historySearch, historyLocale);
   const mounted = useRef(true);
   const booted = useRef(false);
   const requestKey = useRef<{ body: string; key: string } | null>(null);
@@ -187,8 +189,10 @@ export default function AeoWorkspace() {
       setDetail(false);
       setFilter("all");
       setSearch("");
-    } else if (run.result && "question" in run.result)
+    } else if (run.result && "question" in run.result) {
       setAiQuestion(run.result.question);
+      if (run.result.locale) setLocale(run.result.locale);
+    }
   }
   async function analyze(source?: AeoAnalysis) {
     const parsed = questionLines(source ? source.findings.map((f) => f.question).join("\n") : questions);
@@ -379,11 +383,12 @@ export default function AeoWorkspace() {
       )}
       {tab === "answers" && (
         <AeoAnswers
+          onLocaleChange={setLocale}
           key={`${aiQuestion}-${active?.kind === "measurement" ? active.id : ""}`}
           workspace={workspace}
           initialQuestion={aiQuestion}
           initialRun={active?.kind === "measurement" ? active : undefined}
-          locale={analysis?.locale || locale}
+          locale={locale}
           onRefresh={refresh}
           onBack={analysis ? () => setTab("review") : undefined}
         />
@@ -732,19 +737,10 @@ export default function AeoWorkspace() {
               <option value="all">Все языки</option>
               <option value="ru">Русский</option>
               <option value="uz">O‘zbekcha</option>
+              <option value="unknown">Язык не сохранён</option>
             </select>
           </div>
-          {workspace?.runs
-            .filter(
-              (run) =>
-                (historyLocale === "all" ||
-                  (isAnalysis(run) && run.result.locale === historyLocale) ||
-                  run.failure?.locale === historyLocale) &&
-                JSON.stringify(run.failure || run.result)
-                  .toLowerCase()
-                  .includes(historySearch.toLowerCase()),
-            )
-            .map((run) => (
+          {historyRuns.map((run) => (
               <div className="aeo-history-row" key={run.id}>
                 <div>
                   <span className="aeo-caption">
@@ -771,9 +767,12 @@ export default function AeoWorkspace() {
                     <p className="aeo-muted">
                       {run.result.locale.toUpperCase()} ·{" "}
                       {run.result.findings.length} вопросов · Разобрано{" "}
-                      {workspace.reviewCounts?.[run.id] || 0}
+                      {workspace?.reviewCounts?.[run.id] || 0}
                     </p>
                   )}
+                  {run.kind === "measurement" && <p className="aeo-muted">
+                    {aeoRunLocale(run) === "unknown" ? "Язык не сохранён в старом запуске" : aeoRunLocale(run) === "ru" ? "Русский" : "O‘zbekcha"}
+                  </p>}
                 </div>
                 <div className="aeo-history-actions">
                   <button
@@ -802,6 +801,12 @@ export default function AeoWorkspace() {
             <p className="aeo-padding">
               Начните с вопросов или получите первый ответ модели.
             </p>
+          )}
+          {!!workspace?.runs.length && !historyRuns.length && (
+            <div className="aeo-padding" role="status">
+              <p>По этим условиям ничего не найдено. Измените запрос или язык.</p>
+              <button className="aeo-secondary" onClick={() => { setHistorySearch(""); setHistoryLocale("all"); }}>Сбросить фильтры</button>
+            </div>
           )}
         </section>
       )}

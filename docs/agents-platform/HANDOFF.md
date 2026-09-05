@@ -2,7 +2,7 @@
 
 ## 1. Current state
 
-Owner-authorized incident repair. Three real free models completed successfully in the authenticated owner browser; D1 confirms final stop, nonempty answers and zero reasoning tokens. Latest verified runtime f9a8457b13ee313f769290ac1df59826c1d14f78, deployment be459480-0b03-4430-ba55-c730487adcf8. Current checkpoint: complete. The final UI-only polish does not alter the provider request path.
+Owner requested continued verification. History language filtering, question-only search, empty-state recovery and settled-result export are repaired. New model runs persist the selected request locale; legacy unknown locales are labelled, never guessed or backfilled. Current checkpoint: 32 targeted tests, both typechecks and scoped lint passed; release pending. Latest verified runtime f9a8457b13ee313f769290ac1df59826c1d14f78, deployment be459480-0b03-4430-ba55-c730487adcf8. Earlier three-model canaries remain in owner-canary-2026-09-05.json; provider request settings are unchanged.
 
 ## 2. Confirmed defects and fixes
 
@@ -22,7 +22,7 @@ docs/aeo/evidence/owner-canary-2026-09-05.json contains exact run IDs. MiniMax 1
 
 ## 6. Validation
 
-29 AEO and Pages release/config tests passed; actual workerd test verifies outbound transport and redirect refusal. App/functions typechecks and scoped lint passed. Production build includes main and admin and 914-file stamp. Release receipt records manifest, asset SHA, routes and preserved bindings. Browser read/compare and model switching passed at 390 and 1440 px without horizontal overflow. Latest UI-only changes receive app typecheck, scoped lint and the same targeted suites before release.
+32 AEO and Pages release/config tests passed; actual workerd test verifies outbound transport and redirect refusal. App/functions typechecks and scoped lint passed. Production build includes main and admin and 914-file stamp. Release receipt records manifest, asset SHA, routes and preserved bindings. Browser read/compare and model switching passed at 390 and 1440 px without horizontal overflow. Latest UI-only changes receive app typecheck, scoped lint and the same targeted suites before release.
 
 ## 7. Provider contract
 
@@ -30,7 +30,7 @@ Only minimax/minimax-m3:free, nvidia/nemotron-3-super-120b-a12b:free and dots-st
 
 ## 8. Next action
 
-No required incident work remains after final release verification. Human usability feedback is optional follow-up. Do not reintroduce the historical unavailable-browser blocker: official bundled node_repl runtime and authenticated owner session are working.
+Deploy this history patch with the guarded Pages runner, then verify one real Uzbek request, history filters and empty-state reset in the owner browser.
 
 ## 9. Acceptance boundary
 

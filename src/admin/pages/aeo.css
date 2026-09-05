@@ -604,6 +604,10 @@
   display: block;
   margin-bottom: 8px;
 }
+.aeo-ai-compose > select {
+  margin-bottom: 18px;
+  width: min(100%, 260px);
+}
 .aeo-ai-compose fieldset {
   border: 0;
   padding: 0;

@@ -10,6 +10,7 @@ import {
 import type { AeoObservation, AeoRun, AeoWorkspace } from "../../shared/aeo";
 import { api } from "../lib/api";
 import { modelName } from "../lib/aeo-models";
+import { resolveAeoRun } from "../../shared/aeo-history";
 import {
   downloadAeo,
   readAeoSession,
@@ -95,6 +96,7 @@ export function AeoAnswers({
   initialQuestion = "",
   initialRun,
   locale,
+  onLocaleChange,
   onRefresh,
   onBack,
 }: {
@@ -102,6 +104,7 @@ export function AeoAnswers({
   initialQuestion?: string;
   initialRun?: AeoRun;
   locale: "ru" | "uz";
+  onLocaleChange?: (locale: "ru" | "uz") => void;
   onRefresh: () => Promise<void>;
   onBack?: () => void;
 }) {
@@ -213,12 +216,13 @@ export function AeoAnswers({
       ) || [];
   const seenModels = new Set<string>();
   const history = allHistory.filter((run) => {
-    const model = (run.result as AeoObservation | null)?.model || run.id;
+    const observation = run.result as AeoObservation | null;
+    const model = observation?.requestedModel || observation?.model || run.id;
     if (seenModels.has(model)) return false;
     seenModels.add(model);
     return true;
   });
-  const visible = cards.length
+  const savedCards = cards.length
     ? cards
     : history.map((run) => ({
         model:
@@ -230,6 +234,7 @@ export function AeoAnswers({
         pending: false,
         key: run.id,
       }));
+  const visible = savedCards.map((card) => ({ ...card, run: resolveAeoRun(card.run, workspace?.runs || []) }));
   const firstReady = visible.find((c) => (c.run?.result as AeoObservation | null)?.ok)?.model || visible[0]?.model;
   const selectedModel = visible.some((c) => c.model === readingModel) ? readingModel : firstReady;
   return (
@@ -250,6 +255,11 @@ export function AeoAnswers({
       </div>
       {composing ? (
         <div className="aeo-panel aeo-ai-compose">
+          <label htmlFor="aeo-ai-locale">Язык запроса</label>
+          <select id="aeo-ai-locale" value={locale} disabled={busy || !onLocaleChange} onChange={(event) => onLocaleChange?.(event.target.value as "ru" | "uz")}>
+            <option value="ru">Русский</option>
+            <option value="uz">O‘zbekcha</option>
+          </select>
           <label htmlFor="aeo-ai-query">Ваш запрос</label>
           <textarea
             id="aeo-ai-query"
@@ -364,8 +374,7 @@ export function AeoAnswers({
           <div className="aeo-answer-toolbar">
             <div className="aeo-model-tabs" aria-label="Ответы моделей">
               {visible.map((card) => {
-                const current = card.run?.status === "running"
-                  ? workspace?.runs.find((r) => r.id === card.run?.id) || card.run : card.run;
+                const current = card.run;
                 const observation = current?.result as AeoObservation | null;
                 const pending = card.pending || current?.status === "running";
                 const status = pending ? "Отвечает…" : observation?.ok ? "Ответ получен" : observation?.partial ? "Частичный ответ" : "Ответ не получен";
@@ -384,11 +393,7 @@ export function AeoAnswers({
           <div className="aeo-answer-grid" data-layout={layout}>
             {visible.map((card, i) => {
               if (layout === "read" && card.model !== selectedModel) return null;
-              const run =
-                card.run?.status === "running"
-                  ? workspace?.runs.find((r) => r.id === card.run?.id) ||
-                    card.run
-                  : card.run;
+              const run = card.run;
               const observation = run?.result as AeoObservation | null;
               const links = observation?.ok
                 ? observationLinks(observation)

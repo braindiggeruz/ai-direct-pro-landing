@@ -195,7 +195,7 @@ export const onRequestPost: PagesFunction<AeoEnv> = async ({
             questions,
             body.locale as "ru" | "uz",
           )
-        : await observe(questions[0], model!, env.OPENROUTER_API_KEY!);
+        : { ...await observe(questions[0], model!, env.OPENROUTER_API_KEY!), locale: body.locale as "ru" | "uz" };
     await store.finish(ORG, id, result, "ok" in result && !result.ok);
     return json(await store.find(ORG, key));
   } catch (error) {
