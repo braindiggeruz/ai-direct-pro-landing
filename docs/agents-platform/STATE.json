@@ -13,10 +13,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AEO incident fixes deployed; final owner model canary pending",
-  "stage_status": "repair_deployed_model_canary_pending",
+  "current_stage": "AEO video follow-up: response budget, partial evidence and readable model results",
+  "stage_status": "provider_response_patch_checked_locally",
   "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
-  "next_stage": "Verify refreshed analyzerVersion 2 run and real free-model answers in the owner session",
+  "next_stage": "Deploy response and readability patch, then exercise all models in restored owner browser",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

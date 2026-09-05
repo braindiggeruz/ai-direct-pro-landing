@@ -7,7 +7,7 @@ test('actual Workers runtime reaches provider, preserves output, and refuses cre
   const bundle = await build({
     stdin: {
       contents: `import { observe } from './functions/platform/aeo/observation';
-        export default { async fetch() { return Response.json(await observe('Where can I buy cake?', 'provider/model:free', ' fixture-key ')); } };`,
+        export default { async fetch() { return Response.json(await observe('Where can I buy cake?', 'nvidia/nemotron-3-super-120b-a12b:free', ' fixture-key ')); } };`,
       resolveDir: process.cwd(),
     },
     bundle: true, format: 'esm', platform: 'browser', write: false,
@@ -21,8 +21,10 @@ test('actual Workers runtime reaches provider, preserves output, and refuses cre
       calls++;
       assert.equal(request.url, 'https://openrouter.ai/api/v1/chat/completions');
       assert.equal(request.headers.get('Authorization'), 'Bearer fixture-key');
-      const body = await request.json() as { provider: { max_price: unknown }; model: string };
-      assert.equal(body.model, 'provider/model:free');
+      const body = await request.json() as { provider: { max_price: unknown }; model: string; reasoning: unknown; max_tokens: number };
+      assert.equal(body.model, 'nvidia/nemotron-3-super-120b-a12b:free');
+      assert.deepEqual(body.reasoning, { enabled: false, exclude: true });
+      assert.equal(body.max_tokens, 4096);
       assert.deepEqual(body.provider.max_price, { prompt: 0, completion: 0, request: 0 });
       return redirect
         ? new Response(null, { status: 302, headers: { Location: 'https://untrusted.test/' } })

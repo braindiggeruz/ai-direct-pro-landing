@@ -527,19 +527,25 @@ export default function AeoWorkspace() {
               {active.failure?.message || "Разбор не завершён. Проверьте вопросы в форме и выполните новый запуск."}
             </p>
           )}
-          {analysis && active && (
+          {analysis && active && analysis.analyzerVersion !== 2 && (
+            <section className="aeo-panel aeo-empty" role="status">
+              <RefreshCw size={28} />
+              <h2>Этот разбор нужно обновить</h2>
+              <p>Прежняя версия могла ошибочно подбирать страницы по общим словам. Старые рекомендации скрыты, чтобы не вводить вас в заблуждение. Вопросы сохранены.</p>
+              <button className="aeo-primary" disabled={busy} onClick={() => void analyze(analysis)}>
+                {busy ? "Проверяем…" : "Проверить заново"}
+              </button>
+              <button className="aeo-secondary" onClick={() => {
+                setAiQuestion(analysis.findings[0]?.question || "");
+                setTab("answers");
+              }}>Посмотреть ответы нейросетей</button>
+            </section>
+          )}
+          {analysis && active && analysis.analyzerVersion === 2 && (
             <section
               className="aeo-results"
               aria-labelledby="aeo-results-title"
             >
-              {analysis.analyzerVersion !== 2 && (
-                <div className="aeo-callout" role="status">
-                  <p>Это сохранённый разбор прежней версии. Алгоритм подбора страниц исправлен — обновите результат.</p>
-                  <button className="aeo-primary" disabled={busy} onClick={() => void analyze(analysis)}>
-                    {busy ? "Проверяем…" : "Проверить заново"}
-                  </button>
-                </div>
-              )}
               <div className="aeo-section-heading">
                 <div>
                   <h2 ref={resultRef} tabIndex={-1} id="aeo-results-title">

@@ -96,6 +96,23 @@ test('provider transport is bounded, uses free model only, rejects malformed/tru
   assert.equal(calls, 1); assert.equal(failed.visibility, null); assert.ok(!JSON.stringify(failed).includes('secret-test-key'));
   const truncated = await observe('SEO?', 'provider/model:free', 'key', async () => Response.json({ choices: [{ finish_reason: 'length', message: { content: 'partial' } }] }));
   assert.equal(truncated.ok, false);
+  assert.equal(truncated.partial, true);
+  assert.equal(truncated.text, 'partial');
+  assert.equal(truncated.visibility, null);
+  assert.equal(truncated.errorCode, 'output_limit');
+  const reasoningOnly = await observe('SEO?', 'nvidia/nemotron-3-super-120b-a12b:free', 'key', async (_url, init) => {
+    const request = JSON.parse(String(init?.body));
+    assert.deepEqual(request.reasoning, { enabled: false, exclude: true });
+    assert.equal(request.max_tokens, 4096);
+    return Response.json({ usage: { completion_tokens: 4096, completion_tokens_details: { reasoning_tokens: 4096 } }, choices: [{ finish_reason: 'length', message: { content: '', reasoning: 'private-reasoning-not-for-ui' } }] });
+  });
+  assert.equal(reasoningOnly.reasoningTokens, 4096);
+  assert.equal(reasoningOnly.errorCode, 'output_limit');
+  assert.equal(reasoningOnly.text, '');
+  assert.ok(!JSON.stringify(reasoningOnly).includes('private-reasoning'));
+  const providerError = await observe('SEO?', 'provider/model:free', 'key', async () => Response.json({ error: { code: 503, message: 'credential-must-not-leak' } }));
+  assert.equal(providerError.errorCode, 'provider_error');
+  assert.ok(!JSON.stringify(providerError).includes('credential-must-not-leak'));
   const oversized = await observe('SEO?', 'provider/model:free', 'key', async () => new Response('x'.repeat(200001)));
   assert.equal(oversized.ok, false); assert.equal(oversized.visibility, null);
   const empty = await observe('SEO?', 'provider/model:free', 'key', async () => Response.json({ choices: [{ finish_reason: 'stop', message: { content: ' ' } }] }));

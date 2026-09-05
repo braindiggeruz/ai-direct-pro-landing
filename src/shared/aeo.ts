@@ -35,6 +35,11 @@ export interface AeoRun {
   failure?: { code: string; message: string; questions: string[]; locale: "ru" | "uz" };
 }
 export interface AeoObservation {
+  partial?: boolean;
+  errorCode?: "output_limit" | "empty_answer" | "invalid_answer" | "provider_error";
+  finishReason?: string;
+  completionTokens?: number;
+  reasoningTokens?: number;
   requestedModel?: string;
   question: string;
   provider: string;

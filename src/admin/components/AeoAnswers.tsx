@@ -48,6 +48,11 @@ type Card = {
   pending: boolean;
   key: string;
 };
+const modelName = (model: string) => ({
+  "minimax/minimax-m3:free": "MiniMax M3",
+  "nvidia/nemotron-3-super-120b-a12b:free": "NVIDIA Nemotron 3 Super",
+  "dots-studio/dots-3-note-preview:free": "Dots 3 Note",
+}[model] || model.replace(/:free$/, ""));
 function AnswerText({ text }: { text: string }) {
   const [raw, setRaw] = useState(false);
   const inline = (line: string) =>
@@ -113,6 +118,8 @@ export function AeoAnswers({
   const [composing, setComposing] = useState(!initialRun);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [layout, setLayout] = useState<"read" | "compare">("read");
+  const [readingModel, setReadingModel] = useState<string | null>(null);
   const gate = useRef(false);
   const mounted = useRef(true);
   useEffect(() => {
@@ -221,6 +228,8 @@ export function AeoAnswers({
         pending: false,
         key: run.id,
       }));
+  const firstReady = visible.find((c) => (c.run?.result as AeoObservation | null)?.ok)?.model || visible[0]?.model;
+  const selectedModel = visible.some((c) => c.model === readingModel) ? readingModel : firstReady;
   return (
     <section className="aeo-answers" aria-labelledby="aeo-answers-title">
       {onBack && (
@@ -268,7 +277,7 @@ export function AeoAnswers({
                       )
                     }
                   />
-                  <span>{model}</span>
+                  <span title={model}>{modelName(model)}</span>
                 </label>
               ))}
             </div>
@@ -350,8 +359,29 @@ export function AeoAnswers({
               Экспорт ответов
             </button>
           </div>
-          <div className="aeo-answer-grid">
+          <div className="aeo-answer-toolbar">
+            <div className="aeo-model-tabs" aria-label="Ответы моделей">
+              {visible.map((card) => {
+                const current = card.run?.status === "running"
+                  ? workspace?.runs.find((r) => r.id === card.run?.id) || card.run : card.run;
+                const observation = current?.result as AeoObservation | null;
+                const pending = card.pending || current?.status === "running";
+                const status = pending ? "Отвечает…" : observation?.ok ? "Ответ получен" : observation?.partial ? "Частичный ответ" : "Ответ не получен";
+                return <button key={card.model} className="aeo-secondary"
+                  aria-pressed={layout === "read" && card.model === selectedModel}
+                  onClick={() => { setReadingModel(card.model); setLayout("read"); }}>
+                  <strong>{modelName(card.model)}</strong>
+                  <span className={observation?.ok ? "aeo-answer-ready" : "aeo-muted"}>{status}</span>
+                </button>;
+              })}
+            </div>
+            <button className="aeo-link-button" aria-pressed={layout === "compare"} onClick={() => setLayout(layout === "compare" ? "read" : "compare")}>
+              {layout === "compare" ? "Читать по одному" : "Сравнить рядом"}
+            </button>
+          </div>
+          <div className="aeo-answer-grid" data-layout={layout}>
             {visible.map((card, i) => {
+              if (layout === "read" && card.model !== selectedModel) return null;
               const run =
                 card.run?.status === "running"
                   ? workspace?.runs.find((r) => r.id === card.run?.id) ||
@@ -376,8 +406,9 @@ export function AeoAnswers({
                       <MessageSquare size={20} />
                     </span>
                     <div>
-                      <h3>{observation?.model || card.model}</h3>
+                      <h3>{modelName(observation?.model || card.model)}</h3>
                       <p className="aeo-muted">API модели · без веб-поиска</p>
+                      <details className="aeo-caption"><summary>Точная модель</summary>{observation?.model || card.model}</details>
                       {observation?.model &&
                         observation.model !== card.model && (
                           <p className="aeo-caption">Запрошено: {card.model}</p>
@@ -453,12 +484,18 @@ export function AeoAnswers({
                         {observation?.error ||
                           "Ответ не получен. Посмотрите историю или выполните новый запуск."}
                       </p>
+                      {observation?.partial && observation.text && (
+                        <>
+                          <p className="aeo-callout">Это только часть ответа. Модель не завершила его; выводы и упоминания по нему не подсчитываются.</p>
+                          <AnswerText text={observation.text} />
+                        </>
+                      )}
                       <button
                         className="aeo-secondary"
                         disabled={busy || remaining < 1}
                         onClick={() => void ask({ ...card, run: run || null })}
                       >
-                        Новый запрос к этой модели
+                        Повторить запрос
                       </button>
                     </div>
                   )}

@@ -3,6 +3,14 @@ import { createAiFacade } from "../ai/facade";
 import { AiPolicyResolver } from "../ai/policy";
 import { AiError } from "../ai/errors";
 
+// These configured models advertise optional reasoning in the provider catalogue.
+// Keep unknown future models on their own defaults instead of disabling mandatory thinking.
+const DIRECT_ANSWER_MODELS = new Set([
+  "minimax/minimax-m3:free",
+  "nvidia/nemotron-3-super-120b-a12b:free",
+  "dots-studio/dots-3-note-preview:free",
+]);
+
 export function allowedModel(model: string | undefined): string | null {
   return model && /^[a-z0-9-]+\/[a-z0-9._-]+:free$/i.test(model) ? model : null;
 }
@@ -40,9 +48,9 @@ export async function observe(
           tier: "free",
           routes: [{ driver: "aeo-observation", model }],
           maxAttempts: 1,
-          timeoutMs: 25_000,
+          timeoutMs: 35_000,
           temperature: 0,
-          maxTokens: 1200,
+          maxTokens: 4096,
         },
       ]),
       drivers: [
@@ -69,6 +77,9 @@ export async function observe(
                     max_price: { prompt: 0, completion: 0, request: 0 },
                   },
                   max_tokens: request.maxTokens,
+                  reasoning: DIRECT_ANSWER_MODELS.has(model)
+                    ? { enabled: false, exclude: true }
+                    : { exclude: true },
                   temperature: request.temperature,
                   messages: request.messages,
                 }),
@@ -114,6 +125,8 @@ export async function observe(
     );
     const body = JSON.parse(response.text) as {
       model?: string;
+      error?: { code?: unknown };
+      usage?: { completion_tokens?: unknown; completion_tokens_details?: { reasoning_tokens?: unknown } };
       choices?: {
         finish_reason?: string;
         message?: {
@@ -126,6 +139,19 @@ export async function observe(
       }[];
     };
     const choice = body.choices?.[0];
+    result.finishReason = ["stop", "length", "content_filter", "tool_calls", "error"].includes(choice?.finish_reason || "")
+      ? choice!.finish_reason : "unknown";
+    const completionTokens = body.usage?.completion_tokens;
+    const reasoningTokens = body.usage?.completion_tokens_details?.reasoning_tokens;
+    if (typeof completionTokens === "number" && Number.isInteger(completionTokens) && completionTokens >= 0)
+      result.completionTokens = completionTokens;
+    if (typeof reasoningTokens === "number" && Number.isInteger(reasoningTokens) && reasoningTokens >= 0)
+      result.reasoningTokens = reasoningTokens;
+    if (body.error) {
+      result.errorCode = "provider_error";
+      result.error = "Провайдер прервал генерацию. Можно повторить запрос или выбрать другую модель.";
+      return result;
+    }
     if (
       !choice?.message ||
       typeof choice.message.content !== "string" ||
@@ -133,7 +159,19 @@ export async function observe(
       choice.message.content.length > 12000 ||
       choice.finish_reason !== "stop"
     ) {
-      result.error = "Неполный или некорректный ответ провайдера.";
+      const text = typeof choice?.message?.content === "string" ? choice.message.content : "";
+      result.errorCode = choice?.finish_reason === "length" ? "output_limit" : !text.trim() ? "empty_answer" : "invalid_answer";
+      // Retain only final-answer text, never private reasoning. Partial output is
+      // visibly incomplete and cannot contribute to visibility/mention metrics.
+      if (choice?.finish_reason === "length" && text.trim()) {
+        result.text = text.slice(0, 12000);
+        result.partial = true;
+      }
+      result.error = result.errorCode === "output_limit"
+        ? "Модель достигла лимита ответа. Попробуйте более короткий запрос или другую модель."
+        : result.errorCode === "empty_answer"
+          ? "Модель завершила генерацию без текста ответа. Попробуйте другую модель или повторите позже."
+          : "Ответ модели имеет неподдерживаемый формат. Попробуйте другую модель.";
       return result;
     }
     result.text = choice.message.content.slice(0, 12000);
@@ -174,7 +212,7 @@ export async function observe(
     return result;
   } catch (error) {
     result.error ||= error instanceof AiError && error.code === "timeout"
-      ? "Модель не ответила за 25 секунд. Можно повторить запрос вручную."
+      ? "Модель не ответила за 35 секунд. Можно повторить запрос вручную."
       : "Не удалось получить ответ модели. Повторите запрос или выберите другую модель.";
     return result;
   }

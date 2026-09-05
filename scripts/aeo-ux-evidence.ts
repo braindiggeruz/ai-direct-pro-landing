@@ -299,6 +299,8 @@ try {
       .getByRole("button", { name: "Получить ответы", exact: true })
       .click();
     await page.getByText("GPTBot упомянут в тексте", { exact: true }).waitFor();
+    assert.equal(await page.locator(".aeo-answer-card").count(), 1, "reading mode shows one wide answer");
+    await page.getByRole("button", { name: "Сравнить рядом", exact: true }).click();
     await page
       .getByText("GPTBot не найден в тексте этого ответа", { exact: true })
       .waitFor();
@@ -336,6 +338,7 @@ try {
       await page
         .getByText("GPTBot упомянут в тексте", { exact: true })
         .waitFor();
+      await page.getByRole("button", { name: "Сравнить рядом", exact: true }).click();
       await page.getByLabel("Ваш запрос").fill("Тест частичного сбоя моделей");
       failModel = "demo/orion:free";
       await page
@@ -346,7 +349,7 @@ try {
         .waitFor();
       await page
         .getByRole("button", {
-          name: "Новый запрос к этой модели",
+          name: "Повторить запрос",
           exact: true,
         })
         .click();
@@ -360,7 +363,7 @@ try {
         .getByLabel("Ваш запрос")
         .fill("Тест потерянного ответа без повторного вызова");
       await page
-        .getByRole("checkbox", { name: "demo/orion:free", exact: true })
+        .getByRole("checkbox", { name: "demo/orion", exact: true })
         .uncheck();
       const callsBeforeLoss = providerCalls;
       loseResponse = true;

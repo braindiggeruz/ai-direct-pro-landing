@@ -646,6 +646,16 @@
   overflow: hidden;
   padding: 22px;
 }
+.aeo-answer-grid[data-layout="read"] {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 960px;
+}
+.aeo-answer-toolbar { margin: 18px 0; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.aeo-model-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.aeo-model-tabs button { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.aeo-model-tabs button[aria-pressed="true"] { border-color: var(--aeo-accent); background: #19372d; }
+.aeo-model-tabs span { font-size: 12px; }
+.aeo-answer-ready { color: var(--aeo-accent); }
 .aeo-answer-heading {
   display: flex;
   gap: 12px;
@@ -692,8 +702,8 @@
   overflow-wrap: anywhere;
   line-height: 1.8;
   font-size: 15px;
-  max-height: 650px;
-  overflow: auto;
+  max-height: none;
+  overflow: visible;
   padding-right: 4px;
 }
 .aeo-answer-sources {

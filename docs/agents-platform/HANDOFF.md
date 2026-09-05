@@ -2,6 +2,8 @@
 
 ## 1. Current state
 
+Video follow-up: owner recording 12:45:48 shows one successful MiniMax answer and NVIDIA/Dots generic incomplete errors, plus distracting narrow independently-scrolled columns and legacy analysis recommendations still visible below a warning. Current patch raises response budget 1200 to 4096 tokens, disables optional reasoning only for the three catalogue-verified models, bounds timeout at 35 seconds, records safe finish/token metadata and preserves explicitly partial final text without promoting it to a complete observation. Reading mode displays one wide answer with per-model status buttons and optional side-by-side comparison. Legacy analysis recommendations are hidden pending recheck. Browser access is now restored through the official bundled node_repl browser runtime; owner session remains authenticated. Final provider canaries follow deployment.
+
 Runtime 2b440c8a07da26f8ae4694a92a2070596a943e8b is live in Pages deployment 72b29cf1-7f27-4025-b8c3-82a9570b4a3b; deploy exited 0, custom-domain manifest and AdminRoot-CdpxtJhP.js SHA match. Subject matching, explicit mode labels and legacy-analysis recheck are deployed. Authenticated content analysis and review persistence/undo were verified on the immediately preceding repair runtime; the latest analyzerVersion 2 and real-model owner canaries remain pending.
 
 ## 2. Confirmed root causes
