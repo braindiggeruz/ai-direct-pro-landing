@@ -89,6 +89,8 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
     )
       return json({ error: "Разбор не найден." }, 404);
     const analysis = run.result as AeoAnalysis;
+    if (input && ["accepted", "draft"].includes(input.status) && analysis.analyzerVersion !== 2)
+      return json({ error: "Этот разбор создан прежним алгоритмом. Сначала нажмите «Проверить заново» в AEO." }, 409);
     const reviews = await store.reviews(ORG, runId);
     const files = await readContentBulk(env);
     const freshness: AeoReviewWorkspace["freshness"] = {};

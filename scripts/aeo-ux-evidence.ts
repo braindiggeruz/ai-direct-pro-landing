@@ -325,7 +325,7 @@ try {
       fullPage: true,
     });
     await page
-      .getByRole("button", { name: "Разбор вопросов", exact: true })
+      .getByRole("button", { name: "Контент gptbot.uz", exact: true })
       .click();
     await page.getByText("Разобрано 1 из 3", { exact: true }).waitFor();
     if (width === 1440) {
@@ -382,7 +382,7 @@ try {
         "uncertain response retries same operation",
       );
       await page
-        .getByRole("button", { name: "Разбор вопросов", exact: true })
+        .getByRole("button", { name: "Контент gptbot.uz", exact: true })
         .click();
       await page
         .getByRole("button", { name: "Изменить бриф", exact: true })

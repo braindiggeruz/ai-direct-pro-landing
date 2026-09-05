@@ -108,6 +108,9 @@ export function AeoReviewPanel({
         {finding.question}
       </h2>
       <p className="aeo-muted">{finding.reason}</p>
+      <button className="aeo-secondary" onClick={onAnswers}>
+        Посмотреть ответы нейросетей <ArrowRight size={16} />
+      </button>
       {stale && (
         <p className="aeo-callout" role="status">
           Источник изменился. Повторите анализ перед сохранением решения.
@@ -359,9 +362,6 @@ export function AeoReviewPanel({
         ))}
       </details>
       <div className="aeo-detail-footer">
-        <button className="aeo-secondary" onClick={onAnswers}>
-          Посмотреть ответы нейросетей <ArrowRight size={16} />
-        </button>
         {editor && !dirty && (
           <Link className="aeo-link-button" to={editor}>
             Открыть страницу в редакторе

@@ -189,14 +189,14 @@ export default function AeoWorkspace() {
     } else if (run.result && "question" in run.result)
       setAiQuestion(run.result.question);
   }
-  async function analyze() {
-    const parsed = questionLines(questions);
+  async function analyze(source?: AeoAnalysis) {
+    const parsed = questionLines(source ? source.findings.map((f) => f.question).join("\n") : questions);
     if (pending.current || !parsed.questions.length || parsed.errors.length)
       return;
     const body = {
       kind: "analysis" as const,
       questions: parsed.questions,
-      locale,
+      locale: source?.locale || locale,
     };
     const encoded = JSON.stringify(body);
     if (requestKey.current?.body !== encoded)
@@ -322,7 +322,7 @@ export default function AeoWorkspace() {
           onClick={() => setTab("review")}
         >
           <FileSearch size={17} />
-          Разбор вопросов
+          Контент gptbot.uz
         </button>
         <button
           aria-current={tab === "answers" ? "page" : undefined}
@@ -404,6 +404,12 @@ export default function AeoWorkspace() {
                     узнать, кого рекомендуют модели по любому запросу, откройте
                     «Ответы нейросетей».
                   </p>
+                  <button className="aeo-link-button" onClick={() => {
+                    setAiQuestion(parsed.questions[0] || "");
+                    setTab("answers");
+                  }}>
+                    <MessageSquare size={17} /> Узнать, что отвечают нейросети
+                  </button>
                 </div>
                 {analysis && (
                   <button
@@ -526,6 +532,14 @@ export default function AeoWorkspace() {
               className="aeo-results"
               aria-labelledby="aeo-results-title"
             >
+              {analysis.analyzerVersion !== 2 && (
+                <div className="aeo-callout" role="status">
+                  <p>Это сохранённый разбор прежней версии. Алгоритм подбора страниц исправлен — обновите результат.</p>
+                  <button className="aeo-primary" disabled={busy} onClick={() => void analyze(analysis)}>
+                    {busy ? "Проверяем…" : "Проверить заново"}
+                  </button>
+                </div>
+              )}
               <div className="aeo-section-heading">
                 <div>
                   <h2 ref={resultRef} tabIndex={-1} id="aeo-results-title">

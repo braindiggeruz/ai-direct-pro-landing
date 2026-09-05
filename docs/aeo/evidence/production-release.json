@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-05T06:55:27.680822+00:00",
-  "commit": "c123678a1a033c381f6c84379caf8d1cab3b93a2",
-  "deploymentId": "5f778f21-71dd-4df1-969e-45f74212e9e8",
+  "checkedAt": "2026-09-05T07:21:26.396949+00:00",
+  "commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
+  "deploymentId": "ce9f1547-2358-46f6-9b80-d334cb0902be",
   "manifestMatches": true,
   "aeoAssetMatches": true,
-  "aeoAsset": "AdminRoot-Ur9VQ2u5.js",
+  "aeoAsset": "AdminRoot-iOpwr3o0.js",
   "bindingsPreserved": {
     "d1_databases": true,
     "kv_namespaces": true,

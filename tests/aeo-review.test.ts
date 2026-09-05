@@ -255,6 +255,12 @@ test("review API requires auth, persists decisions, rejects stale source, cross-
     );
     raw = raw + " ";
     assert.equal((await invoke({ ...input, revision: 1 })).status, 409);
+    await store.reserve("gptbot-internal", "legacy", "legacy-key", "legacy-hash", "analysis", 10);
+    await store.finish("gptbot-internal", "legacy", { ...analysis, analyzerVersion: undefined });
+    assert.equal((await invoke(undefined, token, "legacy")).status, 200, "old history remains readable");
+    const legacy = await invoke({ ...input, runId: "legacy" });
+    assert.equal(legacy.status, 409, "old algorithm results require reanalysis before acceptance");
+    assert.match(await legacy.text(), /Проверить заново/);
   } finally {
     globalThis.fetch = fetch;
     adapter.sqlite.close();

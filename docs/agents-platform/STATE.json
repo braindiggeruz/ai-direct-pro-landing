@@ -13,10 +13,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AEO incident repair: GitHub authentication and Workers observation transport",
-  "stage_status": "repair_verified_locally_live_acceptance_pending",
+  "current_stage": "AEO incident repair: authenticated analysis restored; subject matching and live model canary",
+  "stage_status": "analysis_review_undo_verified_live",
   "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
-  "next_stage": "Deploy AEO incident repair and verify the authenticated owner workflow",
+  "next_stage": "Deploy AEO subject-matching correction and finish live free-model canary",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -286,7 +286,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "c123678a1a033c381f6c84379caf8d1cab3b93a2",
+  "last_commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -559,7 +559,7 @@
   },
   "aeo_production_candidate": {
     "date": "2026-09-05",
-    "status": "deployed_public_readback_verified",
+    "status": "analysis_review_undo_verified_live",
     "branch": "feature/aeo-production-20260905",
     "baseline": "432eab906383b137474bb67bb95b57268aa93cca",
     "handoff": "docs/aeo/PRODUCTION-HANDOFF.md",
@@ -567,17 +567,17 @@
     "deployed": true,
     "remote_migration_applied": true,
     "real_model_canary": false,
-    "next_stage": "Authenticated owner workflow and model response canary",
+    "next_stage": "Deploy subject/version/UX patch and verify real model answers",
     "ux_report": "docs/aeo/UX-IMPLEMENTATION-2026-09-05.md",
-    "models": "Three free models configured in production; actual provider response not yet verified",
+    "models": "Workers transport repaired; real post-repair provider response pending",
     "migration_files": [
       "0062_aeo_workspace.sql",
       "0063_aeo_reviews.sql"
     ],
     "human_usability_pilot": false,
     "release_authorization": "Owner explicitly authorized commit, push and production deployment in this task on 2026-09-05",
-    "release_commit": "c123678a1a033c381f6c84379caf8d1cab3b93a2",
-    "deployment_id": "5f778f21-71dd-4df1-969e-45f74212e9e8",
-    "authenticated_owner_canary": false
+    "release_commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
+    "deployment_id": "ce9f1547-2358-46f6-9b80-d334cb0902be",
+    "authenticated_owner_canary": true
   }
 }

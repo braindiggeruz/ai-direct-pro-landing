@@ -31,6 +31,15 @@ test('frozen content policy prevents an actionable proposal', async () => {
   const result = await analyzeContent({ ...content, 'content/seo/demand-policy.json': JSON.stringify({ frozenClusters: [{ keywordPatterns: ['SEO'] }] }) }, ['SEO продвижение сайта?'], 'ru');
   assert.equal(result.findings[0].status, 'frozen');
 });
+
+test('purchase wording and geography cannot substitute for the requested subject', async () => {
+  const agency = { 'content/blog/ru/agency.json': JSON.stringify({ status: 'published', locale: 'ru', url: '/ru/blog/agency/', h1: 'Как выбрать digital-агентство в Ташкенте и не купить красивые отчёты', body: [], faq: [] }) };
+  const unrelated = await analyzeContent(agency, ['купить торт в ташкенте'], 'ru');
+  assert.equal(unrelated.findings[0].status, 'no_target');
+  const cake = { 'content/pages/ru/cake.json': JSON.stringify({ status: 'published', locale: 'ru', url: '/ru/cake/', h1: 'Купить торт в Ташкенте', bodyBlocks: [], faq: [] }) };
+  const relevant = await analyzeContent({ ...agency, ...cake }, ['купить торт в ташкенте'], 'ru');
+  assert.equal(relevant.findings[0].url, '/ru/cake/');
+});
 test('malformed published content fails closed', async () => {
   await assert.rejects(analyzeContent({ ...content, 'content/pages/ru/bad.json': '{' }, ['SEO?'], 'ru'));
 });

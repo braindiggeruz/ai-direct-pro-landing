@@ -58,6 +58,9 @@ function overlap(question: string, text: string): number {
     p = tokens(text);
   return q.size ? [...q].filter((t) => p.has(t)).length / q.size : 0;
 }
+const TARGET_CONTEXT = tokens(
+  "купить заказать найти выбрать ташкент узбекистан toshkent tashkent uzbekistan o‘zbekiston sotib olish buy order find choose",
+);
 function questionIntent(
   text: string,
 ): "timing" | "price" | "definition" | "other" {
@@ -72,6 +75,10 @@ function targetScore(question: string, data: Record<string, unknown>): number {
   const q = tokens(question),
     p = tokens(title);
   if (!q.size || !p.size) return 0;
+  // Purchase verbs and shared geography are context, not the subject. A cake
+  // query must not attach to an agency article just because both say "buy"/"Tashkent".
+  const subjects = [...q].filter((word) => !TARGET_CONTEXT.has(word));
+  if (subjects.length && !subjects.some((word) => p.has(word))) return 0;
   const intersection = [...q].filter((t) => p.has(t)).length;
   const jaccard = intersection / new Set([...q, ...p]).size;
   const phrase = [...tokens(heading)].join(" ").includes([...q].join(" "));
@@ -256,7 +263,7 @@ export async function analyzeContent(
       answer,
       reason:
         status === "no_target"
-          ? "Релевантная страница не найдена. Нужен контентный бриф."
+          ? "На gptbot.uz не найдена страница по теме запроса. Можно посмотреть ответы нейросетей или подготовить бриф, если эта тема нужна вашему сайту."
           : status === "frozen"
             ? "Кластер ограничен политикой контента. Требуется отдельное решение владельца."
             : status === "covered"
@@ -268,6 +275,7 @@ export async function analyzeContent(
   }
   return {
     schemaVersion: 1,
+    analyzerVersion: 2,
     createdAt: new Date().toISOString(),
     locale,
     sourceKind: "manual",

@@ -18,6 +18,7 @@ export interface AeoFinding {
 }
 export interface AeoAnalysis {
   schemaVersion: 1;
+  analyzerVersion?: 2;
   createdAt: string;
   locale: "ru" | "uz";
   sourceKind: "manual";
