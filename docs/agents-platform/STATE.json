@@ -13,10 +13,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AEO incident repair: authenticated analysis restored; subject matching and live model canary",
-  "stage_status": "analysis_review_undo_verified_live",
+  "current_stage": "AEO incident fixes deployed; final owner model canary pending",
+  "stage_status": "repair_deployed_model_canary_pending",
   "last_completed_stage": "Owner-authorized exact-SHA release of Bormi grounded voice search to root/BFF and the static Mini App",
-  "next_stage": "Deploy AEO subject-matching correction and finish live free-model canary",
+  "next_stage": "Verify refreshed analyzerVersion 2 run and real free-model answers in the owner session",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -286,7 +286,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
+  "last_commit": "2b440c8a07da26f8ae4694a92a2070596a943e8b",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -559,7 +559,7 @@
   },
   "aeo_production_candidate": {
     "date": "2026-09-05",
-    "status": "analysis_review_undo_verified_live",
+    "status": "repair_deployed_model_canary_pending",
     "branch": "feature/aeo-production-20260905",
     "baseline": "432eab906383b137474bb67bb95b57268aa93cca",
     "handoff": "docs/aeo/PRODUCTION-HANDOFF.md",
@@ -567,7 +567,7 @@
     "deployed": true,
     "remote_migration_applied": true,
     "real_model_canary": false,
-    "next_stage": "Deploy subject/version/UX patch and verify real model answers",
+    "next_stage": "Verify refreshed analyzerVersion 2 run and real free-model answers in the owner session",
     "ux_report": "docs/aeo/UX-IMPLEMENTATION-2026-09-05.md",
     "models": "Workers transport repaired; real post-repair provider response pending",
     "migration_files": [
@@ -576,8 +576,8 @@
     ],
     "human_usability_pilot": false,
     "release_authorization": "Owner explicitly authorized commit, push and production deployment in this task on 2026-09-05",
-    "release_commit": "3227e6d65a82f338b9acc312f14c38f9780b13ea",
-    "deployment_id": "ce9f1547-2358-46f6-9b80-d334cb0902be",
+    "release_commit": "2b440c8a07da26f8ae4694a92a2070596a943e8b",
+    "deployment_id": "72b29cf1-7f27-4025-b8c3-82a9570b4a3b",
     "authenticated_owner_canary": true
   }
 }

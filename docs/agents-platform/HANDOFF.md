@@ -2,7 +2,7 @@
 
 ## 1. Current state
 
-Runtime 3227e6d65a82f338b9acc312f14c38f9780b13ea is live in Pages deployment ce9f1547-2358-46f6-9b80-d334cb0902be. Authenticated content analysis and review persistence/undo are verified. Subject matching, explicit mode labels and legacy-analysis recheck are the next checked patch, awaiting deployment.
+Runtime 2b440c8a07da26f8ae4694a92a2070596a943e8b is live in Pages deployment 72b29cf1-7f27-4025-b8c3-82a9570b4a3b; deploy exited 0, custom-domain manifest and AdminRoot-CdpxtJhP.js SHA match. Subject matching, explicit mode labels and legacy-analysis recheck are deployed. Authenticated content analysis and review persistence/undo were verified on the immediately preceding repair runtime; the latest analyzerVersion 2 and real-model owner canaries remain pending.
 
 ## 2. Confirmed root causes
 
@@ -14,7 +14,7 @@ Worktree F:/Claude/gptbot-aeo-20260905, branch feature/aeo-production-20260905. 
 
 ## 4. Delivered behavior
 
-Cloudflare-compatible credential-safe provider transport. Failed analyses retain safe reasons and questions; persisted terminal outcomes let the next click start a fresh operation, while uncertain network outcomes retain the operation key. Content form explains its gptbot.uz-only scope. Next patch labels the tab Контент gptbot.uz, puts model answers next to the question, adds analyzerVersion=2 and a recheck action for old analyses. Old analyses remain readable; new acceptance/draft writes require reanalysis.
+Cloudflare-compatible credential-safe provider transport. Failed analyses retain safe reasons and questions; persisted terminal outcomes let the next click start a fresh operation, while uncertain network outcomes retain the operation key. Content form explains its gptbot.uz-only scope. The deployed patch labels the tab Контент gptbot.uz, puts model answers next to the question, adds analyzerVersion=2 and a recheck action for old analyses. Old analyses remain readable; new acceptance/draft writes require reanalysis.
 
 ## 5. Production evidence
 
@@ -22,7 +22,7 @@ Run 992fbc15-30ae-42de-9740-3f9ccc77ca60 loaded 185 published RU pages, found th
 
 ## 6. Validation
 
-18 AEO tests including real workerd outbound transport and redirect refusal, positive/negative cake-topic fixtures, D1 isolation/idempotency/CAS and stale source validation. Eleven Pages release/config tests passed. App/functions typechecks and scoped lint passed for runtime 3227e6d; the next patch repeats applicable checks. Full local inventory: 185 RU and 100 UZ; cake query returns no_target and RU SEO-audit query selects /ru/blog/seo-audit-sayta-chek-list/. No model response is fabricated by those tests; external transports in tests are fixtures.
+29 total tests: 18 AEO tests including real workerd outbound transport and redirect refusal, positive/negative cake-topic fixtures, D1 isolation/idempotency/CAS and stale source validation. Eleven Pages release/config tests passed. App/functions typechecks and scoped lint passed for runtime 3227e6d; the final patch passed both typechecks and scoped lint. Full local inventory: 185 RU and 100 UZ; cake query returns no_target and RU SEO-audit query selects /ru/blog/seo-audit-sayta-chek-list/. No model response is fabricated by those tests; external transports in tests are fixtures.
 
 ## 7. Live model verification boundary
 
@@ -30,7 +30,7 @@ Owner logged into IAB and approved continued work. After the owner's power inter
 
 ## 8. Next action
 
-Deploy the subject/version/UX patch through the existing Pages guard, verify domain manifest and asset hashes, then finish actual free-model canary and confirm the corrected cake analysis in production. Use the owner session if the browser tool becomes available; do not extract session tokens through filesystem or page evaluation. A real provider HTTP rejection must be diagnosed from its safe status, not hidden behind a generic completion claim.
+Deployment and domain readback are complete. Finish actual free-model canary and confirm the corrected cake analysis in production after refreshing the browser and clicking Проверить заново. Use the owner session if the browser tool becomes available; do not extract session tokens through filesystem or page evaluation. A real provider HTTP rejection must be diagnosed from its safe status, not hidden behind a generic completion claim.
 
 ## 9. Acceptance boundary
 
