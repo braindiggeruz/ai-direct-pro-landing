@@ -2,6 +2,8 @@
 
 ## Public CSS hotfix — owner-authorized release
 
+Completed: runtime `ed473b193bfc77f4b078eff9d31d15fd4a9ef50b` deployed as `3c4c3059-4903-41c6-a853-0e51e3f393e5` after merging the newer AEO runtime f9a8457 and docs d186b11. Full `build:cf`, release guard, public manifest/CSS HTTP checks and RU/UZ mobile/desktop browser checks passed. Bindings and existing variables are preserved. Evidence and exact boundaries: `docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md`.
+
 The owner authorized committing and publishing the mobile CSS repair on 2026-09-05. The release checkout `F:/Claude/gptbot-mobile-css-hotfix-20260905` includes production `37706036171f28d1f7bd002c922ada87d5d3f9d7` and changes only public stylesheet selection and its release guard/tests. Prerender now follows Vite entry styles instead of alphabetically selecting AdminRoot CSS. The previous baseline passed 537 full tests and built-artifact mobile checks; the current production lineage is being rebuilt and checked before guarded publication. New premium chat/billing WIP is excluded. AEO acceptance boundaries below remain unchanged. See `docs/gpt-chat/MOBILE_CSS_RELEASE_2026-09-05.md` for release verification.
 
 ## 1. Current state
