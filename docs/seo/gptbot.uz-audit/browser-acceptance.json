@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-06",
+  "runtimeCommit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
+  "method": "Main CUA session: actual link clicks, screenshots inspected and rendered DOM geometry read. No alternate browser automation.",
+  "viewport": { "width": 375, "height": 812, "pageScrollWidth": 360, "verticalScrollbarExplainsWidthDifference": true },
+  "finalPreviewHeaders": [
+    { "path": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/", "primaryButtonHeight": 44, "horizontalOverflow": false },
+    { "path": "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "primaryButtonHeight": 44, "horizontalOverflow": false }
+  ],
+  "productionFlows": [
+    { "article": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/", "chat": "/ru/gpt-chat/#entry=payment-ru", "editableCuratedDraft": true, "correctReturnLink": true, "draftNotAutoSubmitted": true },
+    { "article": "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "chat": "/ru/gpt-chat/#entry=compare-ru", "editableCuratedDraft": true, "correctReturnLink": true, "draftNotAutoSubmitted": true },
+    { "article": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/", "chat": "/uz/gpt-uzbek-tilida/#entry=download", "editableCuratedDraft": true, "correctReturnLink": true, "draftNotAutoSubmitted": true, "liveHeaderHeight": 44 }
+  ],
+  "freshCanary": { "locale": "ru", "syntheticQuestion": "Проверка работы: сколько будет 2 + 2? Ответь только числом.", "answer": "4", "status": "Ответ готов.", "modelShown": "minimax/minimax-m3", "newCanariesThisAcceptance": 1 },
+  "historyCaveat": "The UZ screenshot includes a successful question from an earlier session; it is not counted as a fresh canary in this release acceptance.",
+  "viewportOverrideReset": true,
+  "screenshots": "Inspected inline in the tool conversation; no PNG export claimed",
+  "limitations": "Prior candidate desktop checks are in findings/visual.md. No real payment or uptime benchmark was performed."
+}

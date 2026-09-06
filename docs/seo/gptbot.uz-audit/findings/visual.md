@@ -76,3 +76,7 @@ The parent engineer reports a rebuilt candidate with smaller mobile branding, a 
   "finalRebuildRecheck": {"status":"blocked","reason":"CUA browser unavailable; discovery returned no browsers"}
 }
 ```
+
+## Final main-session acceptance after recovery and publication
+
+The main CUA session recovered although the specialist session remained unavailable. Main inspected final preview UZ download and RU comparison screenshots and measured both primary header controls at 44px. At viewport 375 by 812, document scrollWidth was 360 (vertical scrollbar), with no horizontal overflow. Production payment/comparison/download links were clicked and the correct Russian/Russian/Uzbek curated drafts and return URLs were observed without automatic submission. Main also inspected the live mobile UZ article and chat screenshots. One fresh Russian canary returned 4 and showed minimax/minimax-m3. A prior UZ answer visible in history was not counted as a new canary. Temporary viewport override was reset. Structured evidence: ../browser-acceptance.json. These main-session observations supersede the temporary availability limitation above; no exported PNG or new desktop run is claimed.

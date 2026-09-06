@@ -18,7 +18,7 @@ The observed service-page clicks are much smaller: SMM 2, website development 1,
 | Internal links | 12 unpublished target URLs generated 24 broken links across 18 source pages |
 | Canonical form | 20 article canonicals were relative but resolved to the correct target; normalized to absolute URLs |
 | Protected traffic pages | Original ten-page capture retained; seven contracts unchanged; three narrowly reviewed changes documented in candidate-verification.json |
-| Mobile and desktop | Candidate article/chat/pricing flows checked at 375×812 and 1920×1080. Latest small header spacing changes await repeat browser check because CUA disconnected |
+| Mobile and desktop | Candidate article/chat/pricing flows checked at 375×812 and 1920×1080. Final header changes and production RU/RU/UZ flows subsequently checked in the main CUA session; no horizontal page overflow |
 | Search Console | Fresh page data and redirect-validation status checked in authenticated browser; exact evidence in search-console-actions.json |
 | GA4 | Earlier same-day authenticated evidence retained in ../evidence/2026-09-06/search-analytics.json; no revenue or session-success rate inferred from event totals |
 | Performance / authority | No current field CWV dataset, lab performance score or backlink profile measured. No aggregate SEO score assigned |
@@ -56,3 +56,9 @@ Google recommends helpful content and crawlable contextual links; neither a word
 ## Pre-release verification
 
 560/560 full tests pass, application TypeScript and scoped ESLint pass, secret scan clean (2,789 files). Local preview build and candidate checks pass. Full production/admin build and publication remain recorded by the separate deployment receipt.
+
+## Published result
+
+Runtime `dd7c91d9bed33efb1e39792b2ace49d367d282f1` was deployed as `6b57a629-0e47-4b17-addd-729d9a2fa183`. Guarded build contains 914 files; deployment preserved existing bindings and variables. The live manifest matches the built artifact `61e3ebaf9973afe4c727548e9a9986d5916078ae5382598fa94ea3251fc03891`. All 288 live HTML contracts match the reviewed build, all ten protected contracts pass, all 12 dead draft destinations are absent from links, and eight directly referenced CSS/JS asset hashes match. Admin and auth configuration return HTTP 200.
+
+Main CUA verified final mobile RU comparison/payment and UZ download entries, editable drafts and correct return paths. A fresh Russian question asking 2 + 2 returned 4 with minimax/minimax-m3 shown in the published UI. This is one successful canary, not an uptime measurement. Original article intent and existing SEO routes are retained; ranking effects are not yet measurable. Google redirect validation remains Started. Full evidence: deployment.json, live-verification.json and browser-acceptance.json.

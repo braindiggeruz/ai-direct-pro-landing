@@ -1,0 +1,1786 @@
+{
+  "verifiedAt": "2026-09-06T04:42:35.173Z",
+  "runtimeCommit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
+  "artifactSha256": "61e3ebaf9973afe4c727548e9a9986d5916078ae5382598fa94ea3251fc03891",
+  "manifestMatchesBuild": true,
+  "fileCount": 914,
+  "sitemapUrlSetUnchanged": true,
+  "pagesChecked": 288,
+  "protectedContractsPassed": 10,
+  "brokenDraftTargetsAbsent": 12,
+  "assets": [
+    {
+      "pathname": "/assets/index-omulOrk7.js",
+      "status": 200,
+      "sha256": "5e23b8307aaacf318721f70f385fd6608165d3aa0aa64a798af7e09274318181"
+    },
+    {
+      "pathname": "/assets/rolldown-runtime-CXHxssQy.js",
+      "status": 200,
+      "sha256": "5cc960457405f4677d7f7e3eee166ceabd1608df13bc972f15a76135eccb1e28"
+    },
+    {
+      "pathname": "/assets/vendor-ruVXwF7t.js",
+      "status": 200,
+      "sha256": "cace5dbf27a88ccc8a72204711798671a1d82a0d5bdd3332ebcad0439bced5df"
+    },
+    {
+      "pathname": "/assets/cta-BtNNgAct.js",
+      "status": 200,
+      "sha256": "4728283a42d5e2052a679b494a81f57543cb9dc229fd61582348e04d65198cdb"
+    },
+    {
+      "pathname": "/assets/utils-CMee_fF1.js",
+      "status": 200,
+      "sha256": "0417b66732dc7b8e6fe7a23287c1fde434a843c0bb024f0b3bc27e369307e680"
+    },
+    {
+      "pathname": "/assets/index-Cjf7a7m6.css",
+      "status": 200,
+      "sha256": "ae3b1a6387d32bb610c11ff4c74e28a015440ce792f0568e690a9b76da7d1c49"
+    },
+    {
+      "pathname": "/assets/gpt-chat-hv6JNF94.js",
+      "status": 200,
+      "sha256": "2c85cbc981723fa7ea66107e67c219e03af1521bd69b9dd0d9b3176cc0202ee5"
+    },
+    {
+      "pathname": "/assets/telegram-cost-calculator-D33IdYfb.js",
+      "status": 200,
+      "sha256": "14786e4607af0b78ceff91dd6922497cc76326170fb97e14e7f641e448da95cd"
+    }
+  ],
+  "adminHttp200": true,
+  "authConfigHttp200": true,
+  "scope": "Raw live HTML contracts and asset bytes, concurrency five. This does not replace interactive browser acceptance or payment tests.",
+  "pages": [
+    {
+      "pathname": "/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/boss-digital/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-avtosalona/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-dostavki-edy/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-fitnes-kluba/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-horeca/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-kliniki/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-magazina/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-nishi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-salona-krasoty/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-sayta/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-dlya-yurista/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-ili-menedzher/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-chat-dlya-sayta/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-menedzher-dlya-instagram/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/ai-prodavec/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/avtomatizatsiya-prodazh/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/avtomatizatsiya-zayavok/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/avtor-boris-gerasimov/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-menedzher-dlya-instagram/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ai-prodavec-i-otdel-prodazh/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/audit-kartochki-kompanii-na-kartah/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/biznes-teryaet-zayavki-nochyu/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/bot-dlya-zayavok/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-bot-dlya-biznesa-v-samarkande/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-bot-dlya-sayta/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-gpt-na-russkom/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-gpt-online/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-marketing-kit/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-seo-prodvizhenie/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/etapy-razrabotki-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/gpt-bot-vs-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/hosting-dlya-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-provesti-audit-digital-marketinga/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-sozdat-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/marketingovye-terminy-slovar/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/plan-digital-marketinga-na-90-dney/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/razrabotka-chat-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/seo-audit-sayta-chek-list/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/seo-ili-google-ads-chto-vybrat/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-crm-ili-menedzher/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-dlya-zayavok/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-ili-mini-app/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-na-python/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/telegram-mini-app-chto-eto/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/blog/zakazat-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/chat-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/chat-bot-po-uzbekistanu/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/chat-bot-v-samarkande/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/digital-marketing-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/digital-strategiya-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gde-polzovatsya-gpt-besplatno/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-bot-ili-obychnyy-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-chat-guide/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/ru/gpt-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-dlya-ucheby/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-na-russkom/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-v-marketinge-smm/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/gpt-vs-chatgpt-sravnenie/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/instagram-direct-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/internet-reklama-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/javob/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/kak-sdelat-ai-bota-telegram-instagram/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/komanda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/kontekstnaya-reklama-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/lokalnoe-seo-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/market-doverie/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/marketingovyi-audit-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/o-kompanii/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/okupaemost-chat-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/otzyvy/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/performance-marketing-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/pochemu-biznes-teryaet-zayavki/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/politika-konfidentsialnosti/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/promty-gpt-chatgpt-50-primerov/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/razrabotka-saytov-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/razrabotka-telegram-bota-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/sayt-dlya-zayavok/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/sayt-s-ai-botom/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/smm-prodvizhenie-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/sotuvchi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/sozdanie-sayta-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/stoimost-chat-bota/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/targetirovannaya-reklama-tashkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/tarify-ai-chat/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/telegram-ads-uzbekistan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/telegram-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/ru/whatsapp-bot-dlya-biznesa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/ai-bot-yoki-menejer/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/ai-sotuvchi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/arizalarni-avtomatlashtirish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/avtosalon-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/biz-haqimizda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/biznes-nega-arizalarni-yoqotadi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/biznes-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-talabalar-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/marketing-nima/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/smm-nima/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/target-reklama-nima/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/telegram-bot-crm-yoki-menejer/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/boss-digital/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/chat-bot-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/chat-bot-narxi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/dokon-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/fitnes-klub-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-bot-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-chat-qollanma/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-telegram-instagram-ideya/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida-ai-chat/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": true
+    },
+    {
+      "pathname": "/uz/horeca-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/instagram-bot-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/instagram-uchun-ai-menejer/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/internet-reklama-toshkent/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/jamoa/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/javob/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/klinika-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/market-ishonch/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/maxfiylik-siyosati/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/muallif-boris-gerasimov/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/oquv-markazi-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/ozbekiston-boylab-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/salon-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/samarqandda-chat-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/savdoni-avtomatlashtirish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/sayt-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/sayt-yaratish/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/seo-xizmati/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/sharhlar/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/smm-xizmatlari/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/sotuvchi/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/suniy-intellekt/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/telegram-bot-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/telegram-reklama/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/whatsapp-bot-biznes-uchun/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/yetkazib-berish-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    },
+    {
+      "pathname": "/uz/yurist-uchun-ai-bot/",
+      "status": 200,
+      "matchesBuiltContract": true,
+      "protected": false
+    }
+  ]
+}

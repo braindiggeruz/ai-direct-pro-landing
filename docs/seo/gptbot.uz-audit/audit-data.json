@@ -4,11 +4,52 @@
   "site": "https://gptbot.uz",
   "overallScore": null,
   "scoreReason": "No comprehensive field performance, backlink or external reputation dataset; do not invent an aggregate score",
-  "coverage": { "sitemapPages": 288, "http200Pages": 288, "assetsChecked": 139, "http200Assets": 139, "protectedPages": 10 },
-  "confirmedBeforeFix": { "brokenRelatedTargets": 12, "brokenRelatedEdges": 24, "affectedSourcePages": 18, "relativeCanonicals": 20, "emptyStreamCountedSuccessful": true },
-  "candidateAfterFix": { "sitemapPages": 288, "brokenDraftTargetsLinked": 0, "allCanonicalsAbsoluteSelf": true, "unchangedProtectedContracts": 7, "reviewedProtectedChanges": 3, "curatedChatEntries": 9 },
+  "coverage": {
+    "sitemapPages": 288,
+    "http200Pages": 288,
+    "assetsChecked": 139,
+    "http200Assets": 139,
+    "protectedPages": 10
+  },
+  "confirmedBeforeFix": {
+    "brokenRelatedTargets": 12,
+    "brokenRelatedEdges": 24,
+    "affectedSourcePages": 18,
+    "relativeCanonicals": 20,
+    "emptyStreamCountedSuccessful": true
+  },
+  "candidateAfterFix": {
+    "sitemapPages": 288,
+    "brokenDraftTargetsLinked": 0,
+    "allCanonicalsAbsoluteSelf": true,
+    "unchangedProtectedContracts": 7,
+    "reviewedProtectedChanges": 3,
+    "curatedChatEntries": 9
+  },
   "billingLaunched": false,
   "causalTrafficOrRevenueUpliftMeasured": false,
-  "evidence": ["technical/summary.json", "candidate-verification.json", "search-console-actions.json", "findings/technical.md", "findings/commercial.md", "findings/analytics.md", "findings/visual.md"],
-  "publicationStatus": "pending guarded release"
+  "evidence": [
+    "technical/summary.json",
+    "candidate-verification.json",
+    "search-console-actions.json",
+    "findings/technical.md",
+    "findings/commercial.md",
+    "findings/analytics.md",
+    "findings/visual.md",
+    "deployment.json",
+    "live-verification.json",
+    "browser-acceptance.json"
+  ],
+  "publicationStatus": "deployed_and_live_verified",
+  "releaseCommit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
+  "deploymentId": "6b57a629-0e47-4b17-addd-729d9a2fa183",
+  "postRelease": {
+    "pagesPassed": 288,
+    "protectedContractsPassed": 10,
+    "assetHashesPassed": 8,
+    "manifestMatchesBuild": true,
+    "bindingsPreserved": true,
+    "variablesPreserved": true,
+    "liveChatCanary": "One fresh Russian question 2 + 2 returned 4; minimax/minimax-m3 shown by UI"
+  }
 }
