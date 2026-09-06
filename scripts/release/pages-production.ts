@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { assertPublicStylesheets } from '../site-stylesheets';
+import { assertSeoProtection } from '../seo-protection';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -238,6 +239,7 @@ async function main(): Promise<void> {
   }
   const commit = git(ROOT, ['rev-parse', 'HEAD']);
   const dist = path.join(ROOT, 'dist');
+  assertSeoProtection(dist);
   assertCleanRuntime(ROOT);
   if (mode === 'stamp') {
     const release = inspectArtifact(dist, commit);

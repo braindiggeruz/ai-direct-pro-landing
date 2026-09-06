@@ -1,0 +1,58 @@
+{
+  "observedOn": "2026-09-06",
+  "method": "Authenticated GSC and GA4 browser reports; manually transcribed aggregate/table excerpts, not a complete CSV export or a joined query/page dataset",
+  "gsc": {
+    "property": "sc-domain:gptbot.uz", "searchType": "web", "countryFilter": null, "deviceFilter": null,
+    "current": { "start": "2026-08-07", "end": "2026-09-03", "clicks": 385, "impressions": 31531, "ctrDisplayed": "1.2%", "averagePosition": 11.7 },
+    "previous": { "label": "Previous 28 days", "clicks": 36, "impressions": 2548, "ctrDisplayed": "1.4%", "averagePosition": 28.6 },
+    "threeMonths": { "start": "2026-06-04", "end": "2026-09-03", "clicks": 430, "impressionsRounded": 34600, "averagePosition": 13 },
+    "pageColumns": ["path", "clicks", "previousClicks", "impressions", "previousImpressions", "averagePosition"],
+    "topPages": [
+      ["/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",127,2,9912,440,6.4],
+      ["/uz/gpt-uzbek-tilida/",61,1,5788,102,7],
+      ["/ru/gpt-chat/",44,3,2232,124,5.6],
+      ["/ru/blog/chatgpt-i-claude-v-uzbekistane/",36,13,563,214,4.1],
+      ["/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",28,5,231,31,3.6],
+      ["/uz/blog/chatgptga-qanday-kirish-mumkin/",20,0,4252,0,6.7],
+      ["/uz/blog/chatgpt-uzbek-tilida-promptlar/",9,1,300,15,6.3],
+      ["/",9,6,81,53,14.6],
+      ["/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",7,0,1848,3,8.5],
+      ["/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",4,0,74,10,4.4]
+    ],
+    "queryColumns": ["query", "clicks", "impressions", "averagePosition"],
+    "queryExcerpt": [
+      ["chatgpt yuklab olish uzbek tilida",80,5921,5.9],
+      ["chatgpt kirish",19,5431,7.4],
+      ["chatgpt ilovasini yuklab olish",16,1149,6.4],
+      ["chatgpt yuklab olish",14,1401,7.5],
+      ["chatgpt ochish",6,794,6.9],
+      ["chatgpt uzbek tilida online",6,476,6.2],
+      ["chatgpt uz",6,439,5.5],
+      ["chatgpt uzbekcha online",5,437,5.4],
+      ["chatgpt uzbek tilida gaplashish",4,359,7.9],
+      ["chatgpt uzbekcha bepul",4,300,5.9]
+    ],
+    "verifiedQueryPageExcerpt": {
+      "exactQuery": "chatgpt yuklab olish uzbek tilida",
+      "columns": ["path", "clicks", "impressions", "averagePosition"],
+      "pages": [["/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",78,5920,5.9],["/uz/gpt-uzbek-tilida/",2,13,18.1],["/uz/blog/chatgptga-qanday-kirish-mumkin/",0,7,9]],
+      "note": "Exact-query filter followed by Pages tab; page aggregation can differ from property/query totals"
+    },
+    "deviceColumns": ["device", "clicks", "previousClicks", "impressions", "averagePosition"],
+    "devices": [["mobile",273,18,24261,8.4],["desktop",108,17,7051,23],["tablet",4,1,219,7.4]],
+    "countryExcerpt": [{"country":"Uzbekistan","clicks":307,"previousClicks":23,"impressions":24919,"averagePosition":7.3},{"country":"Russia","clicks":41,"previousClicks":8,"impressions":2847,"averagePosition":22.9}],
+    "indexOverview": { "indexed": 262, "notIndexed": 78, "note": "Reasons not yet inspected; exclusions are not automatically defects" },
+    "coreWebVitals": "Insufficient field data for both mobile and desktop"
+  },
+  "ga4": {
+    "propertyId": "540129731",
+    "eventColumns": ["event", "eventCount", "totalUsers"],
+    "last28Days": { "start":"2026-08-09", "end":"2026-09-05", "events":[["chat_opened",324,239],["message_sent",368,142],["ai_response_success",119,53],["ai_response_error",242,97],["generate_lead",14,9],["article_chat_click",3,2]] },
+    "last7Days": { "start":"2026-08-30", "end":"2026-09-05", "activeUsers":301, "sessions":337, "views":485, "events":[["chat_opened",170,126],["message_sent",185,73],["ai_response_success",39,17],["ai_response_error",143,58],["generate_lead",3,2],["article_chat_click",3,2]], "homeSourceCard": { "googleOrganicSessions":149, "composerNotSetSessions":8 } },
+    "yesterday": { "date":"2026-09-05", "events":[["chat_opened",34,23],["message_sent",23,9],["ai_response_success",21,9],["ai_response_error",3,2],["article_chat_click",3,2]] },
+    "generateLeadIsKeyEvent": true,
+    "keyEventEvidence": "The generate_lead action menu offers to stop marking it as a key event. No setting was changed.",
+    "limitations": "Event totals are not a session-cohort funnel or a failure rate; success/error users overlap, repeat attempts exist, and recent data can be revised. Internal QA traffic may be included. The source=composer attribution anomaly is a hypothesis pending transport-level verification."
+  },
+  "liveCanary": { "date":"2026-09-06", "path":"/uz/gpt-uzbek-tilida/", "method":"Actual browser submit through the published UI after security validation", "prompt":"Salom! 2 + 2 nechaga teng? Faqat son bilan javob bering.", "answer":"4", "displayedModel":"minimax/minimax-m3", "result":"success", "limitation":"One diagnostic request; not an uptime or cohort success rate" }
+}

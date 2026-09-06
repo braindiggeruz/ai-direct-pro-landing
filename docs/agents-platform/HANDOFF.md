@@ -1,5 +1,11 @@
 # GPTBot AEO video incident closure — 2026-09-05
 
+## SEO foundation — 2026-09-06
+
+Owner explicitly authorized execution of the SEO roadmap. Authenticated browser reports now provide fresh GSC and GA4 data: 385 versus 36 search clicks in successive 28-day periods; the top six pages contribute 82.1%. Ten live page contracts were captured and their HTML/CSS verified. `scripts/seo-protection.ts` now gates the existing Pages stamp/check/deploy CLI against accidental metadata, text and internal-link regressions. Three new behavioral tests and 30 existing release/privacy tests pass; application TypeScript and scoped ESLint pass. The guard test is included in `npm test`. Full evidence, limitations and next measurement work: `docs/seo/SEO_FOUNDATION_2026-09-06.md`. This stage changes release tooling, not public page content. Existing AEO, UI and billing boundaries below are preserved.
+
+GA4 `generate_lead` is already a key event. Weekly error totals are largely historical: September 5 has 21 successes and 3 errors; one actual published-UI canary on September 6 succeeds. Do not claim a measured session success rate or that all errors are fixed. Attribution source=composer remains an unconfirmed transport hypothesis. Next: complete query/page and session-cohort analysis before retargeting current leaders. Do not auto-refresh the SEO baseline merely to pass a release.
+
 ## Chat UI and article entry release
 
 Owner authorized deployment on 2026-09-05. Latest-main UI release adds the reviewed shadcn chat and seven contextual article entry paths. 540 tests, 12 release/config tests, typecheck, lint and mobile/desktop browser checks pass; seven article SEO/content baselines are preserved. Payment controls remain explicitly upcoming; no billing backend, schema, variables or bot changes. Published runtime efea33aa9c4d44d3fdd2bcc215402a93631a83c7 as acc1704b-f543-4b94-b15f-01cf43ebdaaf. Live manifest/assets, six public routes and nine real-domain article/chat browser flows passed; bindings and existing variables preserved. Details: `docs/gpt-chat/UI_ARTICLE_RELEASE_2026-09-05.md`. Existing AEO acceptance records below are preserved.
