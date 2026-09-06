@@ -1,6 +1,9 @@
 {
   "consumer_billing_readiness_20260906": {
-    "status": "candidate_verified_release_pending",
+    "status": "first_release_deployed_final_privacy_copy_verification_pending",
+    "release_commit": "48e1d2064dfe7389d58e4024b9e19b62bbfe19e3",
+    "deployment_id": "586d1812-8cae-4102-ba58-a42a64e5851d",
+    "migration": "0064 applied and registered; 14 new tables verified empty before release",
     "baseline_commit": "70a734c",
     "scope": "Selective consumer billing integration, account privacy, atomic quotas, bounded model routing and SEO truth corrections",
     "handoff": "docs/readiness/2026-09-06/EXECUTION-RU.md",
@@ -8,7 +11,7 @@
     "verification": "597 tests; app and Functions typechecks; scoped lint; local mobile synthetic invoice-to-access-to-answer-to-logout flow; backup exported before migration",
     "external_dependencies": ["Telegram Login client configuration", "Click/Payme merchant credentials and acceptance", "Approved RU/UZ terms and fiscal settings"],
     "payments_enabled": false,
-    "next_step": "Full release build, guarded additive migration and deployment, then live verification; keep checkout disabled"
+    "next_step": "Release clarified local-history wording, verify final live manifest/assets/SEO and free chat; keep checkout disabled"
   },
   "seo_revenue_20260906": {
     "status": "deployed_and_live_verified",
