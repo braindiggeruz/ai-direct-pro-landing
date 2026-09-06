@@ -1,0 +1,62 @@
+{
+  "category": "Technical SEO",
+  "score": 88,
+  "scoreType": "editorial_readiness_not_google_metric",
+  "capturedAt": "2026-09-06T04:13:00.301Z",
+  "coverage": {
+    "sitemapPages": 288,
+    "sitemapHealthy": 288,
+    "sitemapsValidated": 3,
+    "additionalResources": 158,
+    "healthyAssets": 139,
+    "brokenLinkTargets": 12,
+    "brokenLinkEdges": 24,
+    "relativeCanonicals": 20,
+    "hreflangPages": 150,
+    "staleAlternateClusters": 1
+  },
+  "findings": [
+    {
+      "id": "TECH-001",
+      "severity": "high",
+      "status": "confirmed",
+      "title": "Published related cards link to unpublished draft articles",
+      "affectedUrlCount": 12,
+      "sourceEdgeCount": 24,
+      "evidence": "technical/broken-links.json",
+      "source": "scripts/prerender-blog.ts:222",
+      "acceptance": "No related-card404, misleadinganchor or selflink; deliberate review of one protected source"
+    },
+    {
+      "id": "TECH-002",
+      "severity": "medium",
+      "status": "confirmed",
+      "title": "One hreflang cluster references a301-consolidated article",
+      "evidence": "technical/pages.json",
+      "source": "content/blog/uz/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam.json:200",
+      "acceptance": "HTML+sitemap reciprocal direct200 equivalent alternates only"
+    },
+    {
+      "id": "TECH-003",
+      "severity": "low",
+      "status": "confirmed_best_practice",
+      "title": "20root-relative canonicals currently resolve correctly",
+      "source": "scripts/prerender-blog.ts:383",
+      "acceptance": "AbsoluteHTTPS canonical attributes with identical resolved targets"
+    },
+    {
+      "id": "TECH-004",
+      "severity": "low",
+      "status": "confirmed",
+      "title": "Seven linked legacy URLs intentionally redirect",
+      "evidence": "technical/resources.json",
+      "acceptance": "Directcanonical internal links where equivalent; retain public301s"
+    }
+  ],
+  "limitations": [
+    "No fieldCoreWebVitals or labmeasurement",
+    "No Google-selectedcanonical verification in this audit",
+    "No realIndexNow submission",
+    "Binary resource bytes are decoded lengths, nottransfer sizes"
+  ]
+}

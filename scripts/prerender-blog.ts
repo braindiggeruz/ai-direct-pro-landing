@@ -1,5 +1,6 @@
 import { renderChatEntry, CHAT_ENTRY_TRACKING } from './chat-entry-cta';
 import { chatEntryForArticle, chatEntryHref } from '../src/shared/chat-entry';
+import { publishedRelatedLinks } from './blog-related-links';
 // scripts/prerender-blog.ts
 //
 // Build-time blog prerender. Reads /content/blog/**/*.json (BlogArticle
@@ -218,9 +219,10 @@ function renderFaq(faq: FaqItem[], a: BlogArticle): string {
   return `<section data-testid="article-faq" class="mt-16"><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeText(L(a).faqHeading)}</h2>${items}</section>`;
 }
 
-function renderInternalLinks(a: BlogArticle): string {
-  if (!a.internalLinks?.length) return '';
-  const items = a.internalLinks.map((l) => `
+function renderInternalLinks(a: BlogArticle, publishedArticleUrls: ReadonlySet<string>): string {
+  const links = publishedRelatedLinks(a.internalLinks || [], publishedArticleUrls);
+  if (!links.length) return '';
+  const items = links.map((l) => `
     <a href="${escapeHtml(l.target)}" data-testid="article-related-link" class="link-card group flex items-start gap-3">
       <span class="mt-0.5 shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-md bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan group-hover:bg-brand-cyan/20 transition-colors">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -313,19 +315,19 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
 const UZ_CHATGPT_CLUSTERS = new Set(['chatgpt-uzbek-tilida', 'chatgpt-ozbekistonda']);
 
 function showsStickyCta(a: BlogArticle): boolean {
-  return a.locale === 'uz' && UZ_CHATGPT_CLUSTERS.has(a.topicCluster || '');
+  return Boolean(chatEntryForArticle(a.url)) || a.locale === 'uz' && UZ_CHATGPT_CLUSTERS.has(a.topicCluster || '');
 }
 
 function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
   if (!showsStickyCta(a)) return '';
   const entry = chatEntryForArticle(a.url);
-  if (entry) return `<div class="sticky-cta lg:hidden article-chat-sticky"><a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">AI-chatni ochish <span aria-hidden="true">↗</span></a></div>`;
+  if (entry) return `<div class="sticky-cta lg:hidden article-chat-sticky"><a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">${entry.locale === 'ru' ? 'Открыть AI-чат' : 'AI-chatni ochish'} <span aria-hidden="true">↗</span></a></div>`;
   const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
   const telegramHref = global.telegram || global.defaultCTA.href;
   return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
 }
 
-function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string): string {
+function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publishedArticleUrls: ReadonlySet<string>): string {
   const fullUrl = `${global.siteUrl}${a.url}`;
   const ogTitle = a.ogTitle || a.title;
   const ogDesc = a.ogDescription || a.description;
@@ -340,6 +342,8 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string): str
     'max-image-preview:large',
   ].join(', ');
   const entry = chatEntryForArticle(a.url);
+  const headerCtaHref = entry ? chatEntryHref(entry) : a.cta?.href || global.defaultCTA.href;
+  const endChatEntry = entry && a.cta && ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(a.cta.href) ? entry : undefined;
   const blogIndexHref = `/${lang}/blog/`;
   const authorProfileHref = lang === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
 
@@ -380,7 +384,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string): str
 <title>${escapeText(a.title)}</title>
 <meta name="description" content="${escapeHtml(a.description)}" />
 <meta name="robots" content="${robotsContent}" />
-<link rel="canonical" href="${escapeHtml(a.canonical || fullUrl)}" />
+<link rel="canonical" href="${escapeHtml(new URL(a.canonical || a.url, global.siteUrl).href)}" />
 ${altRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(altRu)}" />` : ''}
 ${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}
 ${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
@@ -419,11 +423,11 @@ ${METRIKA_HEAD}
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-    <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
-    <nav class="flex gap-3 text-sm items-center">
+    <a href="/" class="font-display text-lg sm:text-xl text-white shrink-0">${escapeHtml(global.siteName)}</a>
+    <nav class="flex gap-2 sm:gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(entry ? chatEntryHref(entry) : a.cta?.href || global.defaultCTA.href)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${(a.cta?.href || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
-        ${escapeHtml(a.cta?.label || global.defaultCTA.label)}
+      <a href="${escapeHtml(headerCtaHref)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${headerCtaHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-3 sm:px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center text-center">
+        ${escapeHtml(entry?.locale === 'ru' ? 'Открыть AI-чат' : a.cta?.label || global.defaultCTA.label)}
       </a>
     </nav>
   </div>
@@ -450,10 +454,10 @@ ${METRIKA_NOSCRIPT}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(entry && a.cta.href === '/uz/gpt-uzbek-tilida/' ? chatEntryHref(entry) : a.cta.href)}" ${entry && a.cta.href === '/uz/gpt-uzbek-tilida/' ? `data-chat-entry="${entry.id}"` : ''}${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(a.cta.label)}</a></div>` : ''}
+  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(endChatEntry ? chatEntryHref(endChatEntry) : a.cta.href)}" ${endChatEntry ? `data-chat-entry="${endChatEntry.id}"` : ''}${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(endChatEntry?.locale === 'ru' ? 'Открыть AI-чат на русском' : a.cta.label)}</a></div>` : ''}
   ${renderFaq(a.faq || [], a)}
   ${renderSources(a)}
-  ${renderInternalLinks(a)}
+  ${renderInternalLinks(a, publishedArticleUrls)}
 </main>
 
 <footer class="border-t border-white/5 mt-20 py-10">
@@ -612,12 +616,13 @@ async function main() {
   const global = loadGlobal();
   const articles = loadArticles();
   const published = articles.filter((a) => a.status === 'published' && a.robotsIndex !== false);
+  const publishedArticleUrls = new Set(published.map(a => a.url));
   const cssLinks = renderSiteStylesheets(DIST_DIR);
   let written = 0;
   for (const a of published) {
     const outPath = path.join(DIST_DIR, a.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderArticle(a, global, cssLinks), 'utf-8');
+    fs.writeFileSync(outPath, renderArticle(a, global, cssLinks, publishedArticleUrls), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }

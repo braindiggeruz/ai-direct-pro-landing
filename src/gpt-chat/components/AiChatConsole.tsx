@@ -1,4 +1,4 @@
-import { chatEntryFromHash } from '../../shared/chat-entry';
+import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles, ShieldCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -66,8 +66,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [messages, setMessages] = useState<ChatMessage[]>(() =>
     loadHistory(config.locale),
   );
-  const [entry] = useState(() => config.locale === 'uz' ? chatEntryFromHash(window.location.hash) : undefined);
-  const entryMeta = entry ? { source: '/uz/blog/' + entry.slug + '/', intent: entry.id } : {};
+  const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
+  const entryMeta = entry ? { source: chatEntryArticleHref(entry), intent: entry.id } : {};
   const [input, setInput] = useState(() => entry?.prompt || '');
   const [savedChats, setSavedChats] = useState(() => loadChats(config.locale));
   const [paid, setPaid] = useState(false);
@@ -391,7 +391,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         ]);
       else setMessages(base);
       track(EV.generationStopped, { locale: config.locale, messageNumber });
-    } else if (acc) {
+    } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
       persist([
         ...base,
@@ -973,7 +973,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     {turnstileServerError}
                   </p>
                 )}
-                {entry && <div className="gpt-entry-context"><a href={'/uz/blog/' + entry.slug + '/'}>← Maqolaga qaytish</a><span>Savolni tahrirlab yuboring</span></div>}
+                {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
                 <AiChatInput
                   value={input}
                   onChange={setInput}

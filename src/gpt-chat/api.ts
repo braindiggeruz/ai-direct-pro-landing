@@ -81,6 +81,7 @@ export async function sendChatStream(
   signal: AbortSignal,
 ): Promise<StreamOutcome> {
   let gotText = false;
+  let hasAnswerText = false;
   try {
     const res = await fetch(`${apiBase}/api/gpt/chat`, {
       method: 'POST',
@@ -117,8 +118,16 @@ export async function sendChatStream(
         try {
           const ev = JSON.parse(line.slice(6)) as { type: string; text?: string; sessionId?: string; model?: string; remaining?: number; modelUsed?: string; code?: string };
           if (ev.type === 'meta') cb.onMeta?.({ sessionId: ev.sessionId, model: ev.model });
-          else if (ev.type === 'delta' && ev.text) { gotText = true; cb.onDelta(ev.text); }
-          else if (ev.type === 'done') outcome = { mode: 'stream', ok: true, remaining: ev.remaining, modelUsed: ev.modelUsed, gotText };
+          else if (ev.type === 'delta' && ev.text) {
+            gotText = true;
+            hasAnswerText ||= ev.text.trim().length > 0;
+            cb.onDelta(ev.text);
+          }
+          // A terminal event confirms completion, not that an answer exists.
+          // Empty completions must not render blank replies or count as success.
+          else if (ev.type === 'done') outcome = hasAnswerText
+            ? { mode: 'stream', ok: true, remaining: ev.remaining, modelUsed: ev.modelUsed, gotText }
+            : { mode: 'stream', ok: false, code: 'empty_response', gotText };
           else if (ev.type === 'error') outcome = { mode: 'stream', ok: false, code: ev.code || 'provider_error', gotText };
         } catch { /* skip malformed line */ }
       }

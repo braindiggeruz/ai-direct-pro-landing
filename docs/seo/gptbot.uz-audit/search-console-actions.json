@@ -1,0 +1,23 @@
+{
+  "observedDate": "2026-09-06",
+  "source": "Authenticated Google Search Console UI, sc-domain:gptbot.uz",
+  "performancePeriod": { "from": "2026-08-07", "to": "2026-09-03", "clicks": 385, "impressions": 31531, "ctrPercent": 1.2, "averagePosition": 11.7 },
+  "commercialPages": [
+    { "path": "/ru/smm-prodvizhenie-tashkent/", "clicks": 2, "impressions": 49, "averagePosition": 36.5 },
+    { "path": "/ru/razrabotka-saytov-tashkent/", "clicks": 1, "impressions": 54, "averagePosition": 51.7 },
+    { "path": "/uz/biznes-uchun-ai-bot/", "clicks": 1, "impressions": 14, "averagePosition": 8.7 },
+    { "path": "/ru/seo-prodvizhenie-saytov-tashkent/", "clicks": 0, "impressions": 154, "averagePosition": 29.1 }
+  ],
+  "redirectValidation": {
+    "action": "Validate fix submitted",
+    "statusReadback": "Started",
+    "startDateReadback": "06.09.2026",
+    "urls": [
+      "https://gptbot.uz/ru/internet-reklama-tashkent",
+      "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie",
+      "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente"
+    ],
+    "currentHttpChains": [[308, 200], [308, 200], [308, 200]],
+    "completed": false
+  }
+}

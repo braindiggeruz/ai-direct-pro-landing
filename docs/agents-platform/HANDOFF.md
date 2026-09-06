@@ -1,5 +1,13 @@
 # GPTBot AEO video incident closure — 2026-09-05
 
+## SEO and conversion repairs — 2026-09-06
+
+Owner authorized autonomous inspection, fixes and publication. Candidate removes 24 links to 12 unpublished targets, normalizes 20 relative canonicals without changing destinations, adds two curated Russian article-to-chat flows, rejects empty streaming completions as errors, and corrects consumer/SEO pricing contradictions. The protected Russian comparison article also receives verified provider-fact corrections with 15 official references and exactly two reviewed H2 changes. Search titles, H1, descriptions, canonical destinations, hreflang and robots of all ten protected pages remain unchanged. Seven entire protected contracts remain identical; the three exceptions are explicitly reviewed against the immutable original live snapshot. No billing launch, provider configuration, migration, bot or AEO change.
+
+Main report and implementation/validation evidence: `docs/seo/gptbot.uz-audit/`. New candidate baseline: `docs/seo/evidence/2026-09-06/reviewed-protected-pages.json`; original `protected-pages.json` was not overwritten. A factual body correction is recorded openly, not disguised as additive-only preservation. Three GSC redirect errors now resolve 308 to 200; Google fix validation was requested and reads Started. Main search period remains August 7–September 3: 385 clicks, with 82.1% from six mostly informational/chat URLs; this is pre-release growth, not causal uplift. Revenue is unverified and consumer Plus remains unavailable.
+
+Candidate local flows passed mobile/desktop checks. CUA disconnected before the final small header-spacing recheck; the visual report preserves that limitation. Full release build, guard, explicit upload and live receipt are next; do not infer a deployment from this candidate checkpoint. Existing unrelated platform/AEO records below are retained.
+
 ## SEO foundation — 2026-09-06
 
 Final verification: 543/543 full tests, clean secret scan, full build:cf with public/admin and 914-file stamp, 10/10 protected contracts and production lineage check pass. Code f80fdf85132e979704fbcf0956a3740db61ced46 is verified in origin/main. Cloudflare auto-deploy is confirmed disabled; no production upload was performed because this change protects the release workflow. Public runtime remains efea33a. The report records remaining analytics investigations separately from this completed implementation.

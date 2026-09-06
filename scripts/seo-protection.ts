@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { stylesheetHrefs } from './site-stylesheets';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-export const BASELINE = 'docs/seo/evidence/2026-09-06/protected-pages.json';
+// The original live capture remains immutable. This revision contains only the
+// three reviewed navigation changes and the provider-fact correction documented
+// alongside the snapshot. Search metadata and the other seven pages are unchanged.
+export const BASELINE = 'docs/seo/evidence/2026-09-06/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

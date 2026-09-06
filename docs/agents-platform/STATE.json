@@ -1,4 +1,15 @@
 {
+  "seo_revenue_20260906": {
+    "status": "candidate_verified_release_pending",
+    "baseline_commit": "2c1cfda14a4e918e6ab6eba2841bd02ad4506e79",
+    "previous_public_runtime": "efea33aa9c4d44d3fdd2bcc215402a93631a83c7",
+    "scope": "Broken related links, RU article-to-chat entry, truthful pricing/provider facts, empty stream response handling and reviewed protected SEO contracts",
+    "handoff": "docs/seo/gptbot.uz-audit/FULL-AUDIT-REPORT.md",
+    "next_step": "Full guarded production build and upload; record actual release identifiers and live acceptance in a follow-up receipt",
+    "gsc_redirect_validation": "Started on 2026-09-06, not yet completed",
+    "billing": "Plus remains unavailable; no merchant credentials, payment launch or database change",
+    "verification": "560/560 full tests; app TypeScript, scoped ESLint and secret scan pass; 288 candidate canonical/link checks and ten protected contracts verified"
+  },
   "seo_protection_20260906": {
     "status": "complete_pushed_to_main_public_runtime_unchanged",
     "code_commit": "f80fdf85132e979704fbcf0956a3740db61ced46",

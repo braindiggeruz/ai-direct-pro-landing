@@ -3,6 +3,13 @@ import { chatEntryForArticle, chatEntryHref } from '../src/shared/chat-entry';
 export function renderChatEntry(url: string): string {
   const entry = chatEntryForArticle(url);
   if (!entry) return '';
+  if (entry.locale === 'ru') return `<aside class="article-chat-entry" aria-label="GPTBot AI-chat" data-testid="article-chat-entry">
+    <span class="article-chat-kicker">GPTBot AI · На русском</span>
+    <strong>${entry.title}</strong>
+    <p>GPTBot — самостоятельный AI-сервис, не продукт OpenAI. Можно попробовать без установки и регистрации в пределах бесплатного лимита.</p>
+    <a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">Открыть AI-чат <span aria-hidden="true">↗</span></a>
+    <small>${entry.id === 'payment-ru' ? 'Это не подписка ChatGPT Plus и не способ её оплаты. ' : ''}Пример вопроса можно изменить. Вы отправляете его сами.</small>
+  </aside>`;
   return `<aside class="article-chat-entry" aria-label="GPTBot AI-chat" data-testid="article-chat-entry">
     <span class="article-chat-kicker">GPTBot AI · O‘zbek tilida</span>
     <strong>${entry.title}</strong>
@@ -13,4 +20,4 @@ export function renderChatEntry(url: string): string {
 }
 
 // A normal link remains usable without JS. Event data comes only from our rendered attributes.
-export const CHAT_ENTRY_TRACKING = `<script data-tag="chat-entry">document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-chat-entry]');if(!a)return;var p={source:location.pathname,intent:a.dataset.chatEntry,surface:'article',locale:'uz'};if(typeof window.gtag==='function')window.gtag('event','article_chat_click',p);else(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:'article_chat_click'},p));});</script>`;
+export const CHAT_ENTRY_TRACKING = `<script data-tag="chat-entry">document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-chat-entry]');if(!a)return;var p={source:location.pathname,intent:a.dataset.chatEntry,surface:'article',locale:document.documentElement.lang==='ru'?'ru':'uz'};if(typeof window.gtag==='function')window.gtag('event','article_chat_click',p);else(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:'article_chat_click'},p));});</script>`;

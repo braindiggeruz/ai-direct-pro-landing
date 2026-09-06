@@ -1,0 +1,774 @@
+{
+  "capturedAt": "2026-09-06T04:13:00.301Z",
+  "scope": "Raw HTTP source; max concurrency 5 and one-second delay between batches",
+  "sitemapCounts": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "count": 288,
+      "status": 200
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-new.xml",
+      "count": 5,
+      "status": 200
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-priority.xml",
+      "count": 17,
+      "status": 200
+    }
+  ],
+  "pages": 288,
+  "resources": 158,
+  "badPages": [
+    {
+      "url": "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/"
+      ],
+      "h1": [
+        "Агентство или биржа фриланса: где дешевле на самом деле"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/"
+      ],
+      "h1": [
+        "Google Ads или Яндекс Директ в Узбекистане: что выбрать в 2026 году"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/"
+      ],
+      "h1": [
+        "Как проверить подрядчика до оплаты: чеклист"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/"
+      ],
+      "h1": [
+        "Рекламный бюджет: сколько процентов от оборота тратить бизнесу"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/"
+      ],
+      "h1": [
+        "Сколько стоит интернет-магазин в Ташкенте в 2026 году"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/"
+      ],
+      "h1": [
+        "Сколько стоит интернет-реклама в Узбекистане: цены 2026"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/"
+      ],
+      "h1": [
+        "Сколько стоит контекстная реклама в Ташкенте в 2026 году"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/"
+      ],
+      "h1": [
+        "Сколько стоит поддержка сайта в месяц в Узбекистане"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/"
+      ],
+      "h1": [
+        "Сколько стоит SEO-продвижение сайта в Узбекистане в 2026 году"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/"
+      ],
+      "h1": [
+        "Сколько стоит SMM и ведение Instagram в Узбекистане в 2026 году"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+      ],
+      "h1": [
+        "Сколько стоит создать сайт в Ташкенте: сметы 2026"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "status": 200,
+      "canonical": [
+        "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+      ],
+      "h1": [
+        "Telegram Ads в Узбекистане: сколько стоит и как запустить"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/"
+      ],
+      "h1": [
+        "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/internet-dokon-yaratish-narxi-toshkent/"
+      ],
+      "h1": [
+        "Toshkentda internet do'kon yaratish narxi 2026: qancha turadi"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/internet-reklama-narxi-ozbekiston-2026/"
+      ],
+      "h1": [
+        "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/kontekst-reklama-narxi-toshkent-2026/"
+      ],
+      "h1": [
+        "Toshkentda kontekst reklama narxi 2026: qancha turadi"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/"
+      ],
+      "h1": [
+        "Reklama byudjeti qancha bo'lishi kerak: hisoblash tartibi"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+      ],
+      "h1": [
+        "Sayt yaratish narxi Toshkent 2026: smetalar"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/"
+      ],
+      "h1": [
+        "O'zbekistonda SEO xizmati narxi 2026: qancha turadi"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "canonical": [
+        "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/"
+      ],
+      "h1": [
+        "O'zbekistonda SMM xizmati narxi 2026: qancha turadi"
+      ]
+    }
+  ],
+  "badResources": [
+    {
+      "url": "https://gptbot.uz/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa29bee5d2241-WAW",
+        "connection": "keep-alive",
+        "content-length": "39",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:24 GMT",
+        "location": "/ru/ai-bot-dlya-biznesa/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=N4TE3vr20snHxklNQrCtpK5SLqGzktZrSB6s4TPgWIu7gGhyW4boPxsF9YsHGH9imw%2B%2Fh4frQoN9nPwqClNtIZej%2Fgo1mZHcjTAlt89MjANJ%2FtFfTIIbrhvvkpE%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 69,
+      "bytes": 39,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-tashkent/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa29bea4b6da8-WAW",
+        "connection": "keep-alive",
+        "content-length": "62",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:24 GMT",
+        "location": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ElFMCnyVEysaYTK7Ac4XxnCBm%2BAorRki3Jh6LFluof3VVQsu%2Fmy3f5lsLM86VXefBH%2FvvnndPNPGQPgSGLJJJUVvTe459uT5TkfBBLKJl7iV%2BVPNCIzgkVXu1yQ%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 70,
+      "bytes": 62,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-ot-zayavki-do-oplaty-payme/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa29bed62eeb3-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:24 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zgY%2BdwRnxC41ggvyPLNH3ytXP7jzDBOfZjQZgKorEM1rgkn7iSAy%2FlYmOps3bW76yv%2BQEQY2APNmnddmGfAVbHB6kLU09Ibzwh%2FWc8Pld75WPik0iFXlFTNRCT0%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 78,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-logistiki-i-dostavki-razgruzka-dispetchera/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa29bea1ab8f5-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:24 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=vqkEEbd45swLBDmcZhLvTnuFXluo7JofqEHzlt91zeJuopbkRrLx9ZyHrDzfooBBXQNRNbwW0xsEcFyxbPZNPfSYcaryzUKwMT81KIQOnRGkdRuoOnyej98G%2BWs%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 78,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/stsenariy-ai-bota-za-1-den-poshagovo/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa29bea0ba1a4-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:24 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Q6b3W53lahv8Jg8cGgm%2F1LGxuAwnDWCAxSxARyXlNG15%2FMo6j2dZUzQXPAEsLoWIKTWKAHsifyAtECSSBgB6tRUrMQm7H7Ly6axL2f7MkJwZ1llKRtrMZWM79Gs%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 82,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-bot-biznes-tsena-tashkent/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a2bd8b2241-WAW",
+        "connection": "keep-alive",
+        "content-length": "45",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:25 GMT",
+        "location": "/ru/telegram-bot-dlya-biznesa/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=XhYjCQWUz1kWbYh0js2FGEJb5q%2Bz77N4JuxRtlrk5UW9pJ2rMip3XKMVkuk4YxqynmN1n71A76NECDTCrIufgvoPz77yfYukh8Q9mhVKr%2Fx1mm%2BUb88Pa6qMKEI%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 69,
+      "bytes": 45,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chat-bot-na-russkom-i-uzbekskom-yazyke/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a2b8d5b8f5-WAW",
+        "connection": "keep-alive",
+        "content-length": "41",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:25 GMT",
+        "location": "/ru/chat-bot-dlya-biznesa/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=4SIxxLf2IR5PWUAARf2od1TU6HMZGfTWrb8bY0lgrwh81glay%2F%2FUO6x5eygbdl2qOlpS6jYUD9k4eoOobi0SgzydaSDeQCRR0q%2FY1DFgMwJdyTYYtgszGEdToL0%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 71,
+      "bytes": 41,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kak-podklyuchit-telegram-bot-k-crm/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a2bde26da8-WAW",
+        "connection": "keep-alive",
+        "content-length": "48",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:25 GMT",
+        "location": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=GyMPgxMWC0w2gLd26e0uJzgWPhm3nSlUJx8t7eE18vCeB%2BN5mqzM1Ar1att0XW8iQFle1a0y7usws4lR6XJtOXH0v9FfyblTPyw2eEhtoWju%2FYjpR%2F6qjZ5p5QE%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 72,
+      "bytes": 48,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-stroitelnoy-kompanii-obrabotka-zayavok/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a2bae3eeb3-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:25 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=o4WzwfqL%2BNFznwdFNoq7SMYsMq8wgz%2FylCmhw7gbbW8iP5ejywmSOg4MA30BDfuK8dmb%2BqDgj12bI%2Fz75OzEiJ4Gjh5ReWGIBVKQKtdPQ47MNfCkQ8osN5thGq0%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 79,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-zarabatyvaet-biznes-s-ai-botom-realnye-tsifry/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a2b826a1a4-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:25 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Q6Akq%2BkA40poVuouZR8I1uysohJBVMd5uve%2BKmbgy4mzdufC4pBcYdcyWN0uC34pfCN1YDngxeXYL5FTP34%2FAIwY8jnB7N1Aob%2BAI81bqslfBBtSyTy6KktN1VQ%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 81,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa-tashkent/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a988ceeeb3-WAW",
+        "connection": "keep-alive",
+        "content-length": "45",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:26 GMT",
+        "location": "/ru/telegram-bot-dlya-biznesa/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=3wnh6SiVlHyV5d1rRLSC6fChG073Bfdlj716qnU65Cl8yeShd34LBgMmdvytXZftt33ZVOuqg4PWRWQRYaJbYwMHMESZhKGeS8DCeucJ2PgStnzqQ0Gc6Q2MrZs%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 71,
+      "bytes": 45,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/razrabotka-ai-bota-v-tashkente-cena/",
+      "status": 301,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a98edeb8f5-WAW",
+        "connection": "keep-alive",
+        "content-length": "62",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/plain;charset=UTF-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:26 GMT",
+        "location": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=bObEztPmWGeq2%2FZ%2F4SzthZ4Vmkrv2LyZXuHhcHTdcpGIp46hUOkf2Z3IGSBhG9LGHlmLENISDR78Cl7ixieCn2YE0EeR4%2F21LJmHbw%2BdA2LTZv%2BsFmjg4bXwZBk%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 70,
+      "bytes": 62,
+      "isHtml": false
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/keys-haier-shop-internet-magazin-telegram/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a98c072241-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:26 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=9qas8ki%2BEDrcqf0sZo2bFZSGAjRnS1y9LnrviCteQMPyOetaAaoqglbALZih00HyRdnf0Y4c5m5y1lSdGpyMzNvUugZ9kBEKJ4SaeD9Mil8web0M1ImPyjVk%2BQA%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 77,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/keys-deutschexperte-uchebnyy-tsentr-telegram-bot/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a988c86da8-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:26 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=JZtZ9kWF9wIhsSb0SQxLbEAsxRhD79m%2FXvnURIcm9fer3jCxig0s8UnM8MHiu0YDuOsLkV3quOG9GS8Qjzw9LhtdAF2LBaYeHN2o0sfHBFCCpmea08n%2BRT%2F%2FzXM%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 79,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/qurilish-kompaniyasi-uchun-ai-bot-arizalarni-qayta-ishlash/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2a98dfba1a4-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:26 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=dlVoMUqgk5wljjVwQeCS%2FzhewUgpSNhgSRUQGUTn2azYKLTs884yOyip%2FFN3Rdud6W8FAZ%2FQtpICaKcn%2Fvaj0EEPAfkWKCjCbH1nS14KKgcZ3GMjJKu9A175ym4%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 82,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2b06be82241-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:27 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=YlEMfFMzGB%2FEaV7h2unpdkHSi5VsJiHeovppnDDMJPhzZ1ldBV4tscwUEOkokRzs%2FwjgOsWfWV4JZxCjbtUu9VrJalAiTEmS5d6GA5vbPb3670EEMMp5LWR%2BGuw%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 76,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/yetkazib-berish-va-logistika-uchun-ai-bot-dispetcher-yuki/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2b06f33eeb3-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:27 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Eu%2BIjsJHLTyPwO0nxtwHDMmNMjTHsWsZNrymcIAQZki5cfT5Wv96RnS%2BtKOzLp10llu5tmsDbMEbv7KGIB7hxkXskp8ReTzm49ZjdfmKjWHoF4b6l4lMNCE3O9c%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 79,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-dokon-uchun-ai-bot-arizadan-payme-tolovigacha/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2b06d43b8f5-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:27 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=OqOaPlTKWvr2U3bXIcqoJ8uLKp1gxapLdo5UqFzGLe1J4HaKFPbHizNpAb%2FbLdTGEzo0AeLT24ukVdRipjX2wed7DCUw1i46tnyaMbzxKCczUptsRKU%2FL2hpAnU%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 78,
+      "bytes": 1826,
+      "isHtml": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-bot-bilan-biznes-qancha-topadi-haqiqiy-raqamlar/",
+      "status": 404,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "cache-control": "no-store",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a36aa2b06c006da8-WAW",
+        "connection": "keep-alive",
+        "content-encoding": "br",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sun, 06 Sep 2026 04:12:27 GMT",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "permissions-policy": "geolocation=(), microphone=(), camera=(), payment=()",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zcG26G7xc7tn3Qi%2B59GZQFH7y5xEqv%2B6gj7YJpGa1AJWRGtIz%2FbZtLan6XXmaxMvDQGG4A4GoezPPo2HYz6%2F89jBd5MjA99an0MqZv6ZcTMkuSR9nTCb5m7y0VY%3D\"}]}",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "accept-encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "ms": 79,
+      "bytes": 1826,
+      "isHtml": true
+    }
+  ],
+  "missingViewport": [],
+  "noStyles": [],
+  "jsonldParseErrors": []
+}

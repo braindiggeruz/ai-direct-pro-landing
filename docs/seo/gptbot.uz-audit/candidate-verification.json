@@ -1,0 +1,79 @@
+{
+  "verifiedAt": "2026-09-06T04:33:31.123Z",
+  "protectedPages": 10,
+  "unchangedProtectedPages": 7,
+  "reviewedChanges": [
+    {
+      "path": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "reason": "Add same-language chat entry and correct verified provider/payment facts; retain search metadata and section order. Exact changes and official sources: findings/commercial.md",
+      "originalArticleBodyIdentical": false,
+      "factualCorrection": true
+    },
+    {
+      "path": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "reason": "Add independent Russian chat entry and correct CTA language; official payment guide remains intact",
+      "originalArticleBodyIdentical": true,
+      "factualCorrection": false
+    },
+    {
+      "path": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "reason": "Remove one related card leading to an unpublished article (verified HTTP 404)",
+      "originalArticleBodyIdentical": true,
+      "factualCorrection": false
+    }
+  ],
+  "sitemapUrls": 288,
+  "articlesChecked": 163,
+  "brokenTargetsAbsentFromAllPages": 12,
+  "allCanonicalsAbsoluteAndSelf": true,
+  "gscRedirectErrorsNowResolve": [
+    [
+      {
+        "url": "https://gptbot.uz/ru/internet-reklama-tashkent",
+        "status": 308,
+        "location": "/ru/internet-reklama-tashkent/"
+      },
+      {
+        "url": "https://gptbot.uz/ru/internet-reklama-tashkent/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    [
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie",
+        "status": 308,
+        "location": "/ru/blog/chto-takoe-seo-prodvizhenie/"
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    [
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente",
+        "status": 308,
+        "location": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/"
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+        "status": 200,
+        "location": null
+      }
+    ]
+  ]
+}

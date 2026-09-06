@@ -1,0 +1,173 @@
+# robots.txt — GPTBot.uz
+# Generated from src/shared/robots-policy.ts. Do not edit directly.
+#
+# Policy (2026-06-25): MAXIMUM AI VISIBILITY — owner explicitly OPENED all AI
+#   grounding/training + answer crawlers (GPTBot, ClaudeBot, Google-Extended,
+#   Applebot-Extended, meta-externalagent, Bytespider, CCBot, Amazonbot, etc.)
+#   so GPTBot.uz is ingested, cited and surfaced across every AI assistant and
+#   answer engine. Traditional search engines are allowed via the wildcard.
+#   Only /admin/, /admin-tools/ and /api/ are off-limits for all bots.
+#
+# Served via functions/robots.txt.ts to bypass the Cloudflare Free-plan
+# managed robots.txt AI-block (which cannot be disabled via API on Free).
+
+# ── AI answer / search engines ──
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: MistralAI-User
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Cohere-AI
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: YouBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: PhindBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Applebot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+# ── AI grounding / training engines (opened for max AI reach) ──
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Diffbot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Timpibot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+User-agent: Omgilibot
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+# ── Traditional search + remaining crawlers ──
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin-tools/
+Disallow: /api/
+
+# Sitemap (canonical, indexable URLs only).
+Sitemap: https://gptbot.uz/sitemap.xml
+Sitemap: https://gptbot.uz/sitemap-new.xml
+Sitemap: https://gptbot.uz/sitemap-priority.xml
+
+# AI / LLM grounding manifest (https://llmstxt.org).
+# X-LLM-Grounding: https://gptbot.uz/llms.txt

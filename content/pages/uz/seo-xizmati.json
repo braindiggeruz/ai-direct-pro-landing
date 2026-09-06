@@ -440,7 +440,7 @@
     },
     {
       "type": "p",
-      "text": "Bizda tayyor narxlar ro‘yxati yo‘q, chunki ikki sayt bir xil bo‘lmaydi. Narx ish hajmiga qarab hisoblanadi va u quyidagilarga bog‘liq."
+      "text": "Quyida har bir paket tarkibi uchun boshlang‘ich narxlar keltirilgan. Yakuniy smeta saytingizning holati va kelishilgan ish hajmiga qarab aniqlanadi."
     },
     {
       "type": "h3",
@@ -628,9 +628,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-04",
+  "lastReviewedAt": "2026-09-06",
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-04",
+  "updatedAt": "2026-09-06",
   "heroTrust": [
     "Audit 990 000 so‘mdan",
     "Oyiga 2 490 000 so‘mdan",
