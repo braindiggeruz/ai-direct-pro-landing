@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-06T10:45:54.551Z",
+  "restoredBackupSha256": "a10cedc26fd4ae6aa286ff59b16980045599872ad22356ad48352e702c5d7b21",
+  "oldTableCountsPreserved": true,
+  "oldTables": 147,
+  "newTables": [
+    "gpt_payment_consents",
+    "gpt_accounts",
+    "gpt_auth_sessions",
+    "gpt_auth_challenges",
+    "gpt_payment_orders",
+    "gpt_payment_journal",
+    "gpt_access_periods",
+    "gpt_billing_outbox",
+    "gpt_turn_reservations",
+    "gpt_model_health",
+    "gpt_model_attempts",
+    "gpt_service_alerts",
+    "gpt_fiscal_receipts",
+    "gpt_billing_ops"
+  ],
+  "migrationReplaySafe": true,
+  "quickCheckBeforeAndAfter": [
+    {
+      "quick_check": "CHECK constraint failed in lead_radar_signal_posts"
+    }
+  ],
+  "legacyConstraintValidation": "Foreign keys and CHECK disabled only while importing existing export; CHECK restored before billing migration. Existing violations unchanged",
+  "productionModified": false
+}

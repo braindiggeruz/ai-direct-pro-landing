@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-06T10:55:52.348Z",
+  "counts": {
+    "accounts": 0,
+    "orders": 0,
+    "periods": 0,
+    "paidAttempts": 0,
+    "completedTurns": 1,
+    "reservedTurns": 0
+  },
+  "containsOnlyAggregateCounts": true,
+  "paidAccessStillDisabled": true
+}

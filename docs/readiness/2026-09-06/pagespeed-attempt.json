@@ -1,0 +1,18 @@
+{
+  "method": "Google PageSpeed Insights API, mobile, unauthenticated",
+  "checkedAt": "2026-09-06T10:50:51.0718268Z",
+  "results": [
+    {
+      "httpStatus": 429,
+      "score": null,
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "status": "unavailable"
+    },
+    {
+      "httpStatus": 429,
+      "score": null,
+      "url": "https://gptbot.uz/ru/gpt-chat/",
+      "status": "unavailable"
+    }
+  ]
+}

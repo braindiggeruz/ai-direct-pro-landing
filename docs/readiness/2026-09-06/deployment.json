@@ -1,0 +1,9 @@
+{
+  "commit": "644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5",
+  "deploymentId": "6907261a-5483-4418-8f1b-9a4b075bbe8f",
+  "bindingsPreserved": true,
+  "existingVariablesPreserved": true,
+  "reviewedVariableChanges": [],
+  "previousDeployment": "586d1812-8cae-4102-ba58-a42a64e5851d",
+  "previousCommit": "48e1d2064dfe7389d58e4024b9e19b62bbfe19e3"
+}

@@ -1,0 +1,11 @@
+{
+  "commit": "48e1d2064dfe7389d58e4024b9e19b62bbfe19e3",
+  "deploymentId": "586d1812-8cae-4102-ba58-a42a64e5851d",
+  "bindingsPreserved": true,
+  "existingVariablesPreserved": true,
+  "reviewedVariableChanges": [
+    "OPENROUTER_MODEL_PAID_FALLBACKS"
+  ],
+  "previousDeployment": "6b57a629-0e47-4b17-addd-729d9a2fa183",
+  "previousCommit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1"
+}

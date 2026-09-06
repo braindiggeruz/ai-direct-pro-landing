@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-06T10:46:52.086Z",
+  "databaseId": "97ef0372-d937-406f-8871-755368d9afff",
+  "migration": "0064_gpt_consumer_billing.sql",
+  "sha256": "1097c7acf0ed81c05c63a4edf4098823ffe2f7ffe83b4b0480b5777853a426da",
+  "backupSha256": "a10cedc26fd4ae6aa286ff59b16980045599872ad22356ad48352e702c5d7b21",
+  "tablesVerified": 14,
+  "empty": {
+    "orders": 0,
+    "periods": 0,
+    "accounts": 0
+  },
+  "registered": true,
+  "paymentsEnabled": false
+}

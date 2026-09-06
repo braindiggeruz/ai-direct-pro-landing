@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-06",
+  "localOrigin": "http://localhost:4179",
+  "viewport": { "width": 360, "height": 800 },
+  "syntheticOnly": true,
+  "realTelegramLoginTested": false,
+  "realPaymentTested": false,
+  "checks": [
+    "Guest account dialog renders, payment controls require sign-in and terms",
+    "Synthetic user obtains one pending Payme invoice",
+    "Synthetic callback grants 300 answers and a calendar-month end date",
+    "One completed mock answer changes allowance from 300 to 299",
+    "Table scroll, code, composer and answer actions render at mobile width",
+    "Pending renewal offers continuation through the same payment rather than a second provider",
+    "Logout removes Plus and the previous account's conversation from visible UI"
+  ],
+  "liveChecks": {
+    "runtimeCommit": "644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5",
+    "viewport": { "width": 393, "height": 851 },
+    "freshUzCanary": "7 + 5 -> 12, completed, minimax/minimax-m3",
+    "oldHistoryNotCountedAsFreshCanary": true,
+    "ruUzUpcomingBillingTruth": true,
+    "activeCheckoutControlsAbsent": true,
+    "ruDialogHorizontalOverflow": false,
+    "serverProcessingCopyVisible": true,
+    "viewportResetAfterTest": true
+  }
+}

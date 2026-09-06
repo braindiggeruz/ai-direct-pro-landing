@@ -1,0 +1,44 @@
+[
+  {
+    "status": 400,
+    "noStore": "no-store",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/gpt/subscribe",
+    "body": "{\"ok\":false,\"code\":\"bad_request\",\"message\":\"Invalid request\"}"
+  },
+  {
+    "status": 503,
+    "noStore": "no-store",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/gpt/auth/start",
+    "body": "{\"ok\":false,\"code\":\"not_configured\",\"message\":\"Unavailable\"}"
+  },
+  {
+    "status": 403,
+    "noStore": "no-store, must-revalidate, no-cache",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/internal/gpt-billing-maintenance",
+    "body": "{\"ok\":false,\"code\":\"forbidden\",\"message\":\"Forbidden\"}"
+  },
+  {
+    "status": 410,
+    "noStore": "no-store, must-revalidate, no-cache",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/payments/webhook",
+    "body": "{\"ok\":false,\"code\":\"provider_endpoint_required\",\"message\":\"Use the provider-specific endpoint\"}"
+  },
+  {
+    "status": 200,
+    "noStore": "no-store, must-revalidate, no-cache",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/payments/click",
+    "body": "{\"error\":-1,\"error_note\":\"SIGN CHECK FAILED!\"}"
+  },
+  {
+    "status": 200,
+    "noStore": "no-store, must-revalidate, no-cache",
+    "robots": "noindex, nofollow, noarchive",
+    "path": "/api/payments/payme",
+    "body": "{\"id\":null,\"error\":{\"code\":-32504,\"message\":{\"ru\":\"Платёж не подтверждён. Проверьте статус или обратитесь в поддержку.\",\"uz\":\"To‘lov tasdiqlanmadi. Holatini tekshiring yoki yordam xizmatiga murojaat qiling.\",\"en\":\"Payment not confirmed. Check status or contact support.\"},\"data\":null}}"
+  }
+]

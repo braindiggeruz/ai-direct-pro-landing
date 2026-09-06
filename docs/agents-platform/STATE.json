@@ -1,17 +1,18 @@
 {
   "consumer_billing_readiness_20260906": {
-    "status": "first_release_deployed_final_privacy_copy_verification_pending",
-    "release_commit": "48e1d2064dfe7389d58e4024b9e19b62bbfe19e3",
-    "deployment_id": "586d1812-8cae-4102-ba58-a42a64e5851d",
+    "status": "readiness_deployed_and_live_verified_merchant_launch_pending",
+    "release_commit": "644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5",
+    "last_commit": "644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5",
+    "deployment_id": "6907261a-5483-4418-8f1b-9a4b075bbe8f",
     "migration": "0064 applied and registered; 14 new tables verified empty before release",
     "baseline_commit": "70a734c",
     "scope": "Selective consumer billing integration, account privacy, atomic quotas, bounded model routing and SEO truth corrections",
     "handoff": "docs/readiness/2026-09-06/EXECUTION-RU.md",
     "roadmap": "docs/readiness/2026-09-06/ROADMAP-RU.md",
-    "verification": "597 tests; app and Functions typechecks; scoped lint; local mobile synthetic invoice-to-access-to-answer-to-logout flow; backup exported before migration",
+    "verification": "598/598 full tests, app/Functions TypeScript, scoped lint, clean secret scan, 914-file build:cf, 288 live HTML contracts, 10 protected contracts, 8 asset hashes, actual mobile UZ 7+5=12 canary; live D1 1 completed turn and 0 paid attempts/orders/accounts/periods",
     "external_dependencies": ["Telegram Login client configuration", "Click/Payme merchant credentials and acceptance", "Approved RU/UZ terms and fiscal settings"],
     "payments_enabled": false,
-    "next_step": "Release clarified local-history wording, verify final live manifest/assets/SEO and free chat; keep checkout disabled"
+    "next_step": "Configure Telegram Login and approved RU/UZ terms, receive merchant sandbox credentials and complete acceptance; keep checkout disabled until then. CWV remains unmeasured after PSI HTTP429; legacy constraint findings documented separately."
   },
   "seo_revenue_20260906": {
     "status": "deployed_and_live_verified",
