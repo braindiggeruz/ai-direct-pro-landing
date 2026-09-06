@@ -1,0 +1,307 @@
+{
+  "preparedAt": "2026-09-06T04:55:59.889Z",
+  "source": "Published release compared with retained pre-release crawl; content/metadata changes and two updated chat routes. Cosmetic header-only changes excluded.",
+  "count": 50,
+  "changed": [
+    {
+      "url": "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/gpt-chat/",
+      "reasons": [
+        "chat functionality updated"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/ru/tarify-ai-chat/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "reasons": [
+        "canonical"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "reasons": [
+        "chat functionality updated"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/seo-xizmati/",
+      "reasons": [
+        "rendered content changed"
+      ]
+    }
+  ]
+}

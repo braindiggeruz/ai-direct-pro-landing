@@ -75,3 +75,7 @@ No new migration in this repair. Existing additive migrations 0062/0063 retained
 ## 12. Release and rollback
 
 Owner explicitly authorized push/deploy. Pages ai-direct-pro-landing; auto deploy disabled. Use guarded upload, preserve production vars and D1/KV/R2/service/queue/AI bindings. Rollback UI polish to 3770603 / 909e5d1f if needed; this baseline has all three successful provider canaries. Do not revert the validated GitHub credential or drop AEO tables. Older c123678 reintroduces the provider transport defect.
+
+## IndexNow notification — 2026-09-06
+
+Owner requested IndexNow submission after the SEO release. Exactly 50 changed canonical HTTP-200/indexable URLs were verified and submitted in one batch at 2026-09-06T04:56:01.654Z. IndexNow returned HTTP 200, confirming receipt, not indexing. Root key file matched the configured public key; no key is included in the receipt. AI search crawler policy permits public pages; llms.txt, llms-full.txt and sitemap return HTTP 200. No actual AI crawler visit or citation was confirmed. Evidence: docs/seo/gptbot.uz-audit/indexnow-receipt.json, indexnow-scope.json and ai-crawl-access.json. No runtime changes or repeat deployment. Google operates separately from IndexNow.

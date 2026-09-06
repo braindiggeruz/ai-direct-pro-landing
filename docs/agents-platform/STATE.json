@@ -12,7 +12,14 @@
     "release_commit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
     "deployment_id": "6b57a629-0e47-4b17-addd-729d9a2fa183",
     "artifact_sha256": "61e3ebaf9973afe4c727548e9a9986d5916078ae5382598fa94ea3251fc03891",
-    "last_commit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1"
+    "last_commit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
+    "indexnow": {
+      "submittedAt": "2026-09-06T04:56:01.654Z",
+      "urlCount": 50,
+      "httpStatus": 200,
+      "indexingConfirmed": false,
+      "receipt": "docs/seo/gptbot.uz-audit/indexnow-receipt.json"
+    }
   },
   "seo_protection_20260906": {
     "status": "complete_pushed_to_main_public_runtime_unchanged",

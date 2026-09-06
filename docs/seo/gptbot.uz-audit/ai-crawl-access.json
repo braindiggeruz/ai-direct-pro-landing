@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-09-06T04:56:57.859Z",
+  "robotsStatus": 200,
+  "robotsSha256": "5733f980d750a357f016bd7fd013e070899fed9b21de05b0b4f46d3f8abbffe2",
+  "policyAllowsPublicPaths": {
+    "OAI-SearchBot": true,
+    "ChatGPT-User": true,
+    "PerplexityBot": true,
+    "Claude-SearchBot": true,
+    "Google-Extended": true,
+    "GPTBot": true
+  },
+  "files": [
+    {
+      "path": "/llms.txt",
+      "status": 200
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200
+    }
+  ],
+  "actualBotVisitOrCitationConfirmed": false
+}
