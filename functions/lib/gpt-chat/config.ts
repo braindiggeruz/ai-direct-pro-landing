@@ -67,15 +67,14 @@ export function resolveConfig(env: Env): GptChatConfig {
     freeFallbacks: list(env.OPENROUTER_MODEL_FREE_FALLBACKS).length
       ? list(env.OPENROUTER_MODEL_FREE_FALLBACKS)
       : ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free'],
-    // Paid chain re-checked against the same catalogue response on 2026-09-04:
-    // all three slugs are still served, so they stay as they are.
+    // Economic paid alternatives; every request also enforces a provider price cap.
     paidModel: env.OPENROUTER_MODEL_PAID || 'mistralai/mistral-small-3.2-24b-instruct',
     paidFallbacks: list(env.OPENROUTER_MODEL_PAID_FALLBACKS).length
       ? list(env.OPENROUTER_MODEL_PAID_FALLBACKS)
-      : ['meta-llama/llama-3.3-70b-instruct', 'deepseek/deepseek-chat'],
+      : ['meta-llama/llama-3.3-70b-instruct', 'minimax/minimax-m3:free'],
     freeDailyLimit: num(env.GPT_FREE_DAILY_LIMIT, 15),
     freeHourlyLimit: num(env.GPT_FREE_HOURLY_LIMIT, 5),
-    paidMonthlyLimit: num(env.GPT_PAID_MONTHLY_LIMIT, 600),
+    paidMonthlyLimit: Math.min(num(env.GPT_PAID_MONTHLY_LIMIT, 300), 300),
     maxInputChars: num(env.GPT_MAX_INPUT_CHARS, 3000),
     maxHistoryTurns: 10, // server-side history window cap (per report)
     hashSalt: env.GPT_HASH_SALT || '',
@@ -86,5 +85,5 @@ export function resolveConfig(env: Env): GptChatConfig {
 export function modelChain(cfg: GptChatConfig, tier: 'free' | 'paid'): string[] {
   return tier === 'paid'
     ? [cfg.paidModel, ...cfg.paidFallbacks]
-    : [cfg.freeModel, ...cfg.freeFallbacks];
+    : [cfg.freeModel, ...cfg.freeFallbacks].filter((model) => model.endsWith(':free'));
 }

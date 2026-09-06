@@ -128,6 +128,20 @@ function radarActions(actions: NextBestAction[]): NextBestAction[] {
   return actions.filter((a) => a.category === 'radar');
 }
 
+test('missing FAQ is a low-priority editorial review, not a ranking or rich-result promise', () => {
+  const actions = buildNextBestActions(baseInput({
+    audit: { missingFaq: 4, missingCanonical: 1 } as NonNullable<BuildInput['audit']>,
+  }));
+  const faq = actions.find((item) => item.id === 'audit-missing-faq');
+  assert.ok(faq);
+  assert.equal(faq.risk, 'low');
+  assert.ok(actions.findIndex((item) => item.id === 'audit-missing-canonical')
+    < actions.findIndex((item) => item.id === faq.id));
+  assert.doesNotMatch(`${faq.reason} ${faq.effect}`, /rich|FAQPage|10[–-]30|4\+/i);
+  assert.match(faq.reason, /только там/);
+  assert.match(faq.effect, /не гарантирует/);
+});
+
 test('hot demand produces a radar action that leads the queue', () => {
   const actions = buildNextBestActions(baseInput({
     signal: { installed: true, leadsNew: 3 },

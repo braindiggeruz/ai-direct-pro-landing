@@ -1,4 +1,5 @@
 import type { Env } from '../functions/_types';
+import { runGptBillingMaintenance } from './gpt-billing-maintenance';
 import { configuredLeadRadarSources } from '../functions/platform/lead-radar/discovery-sources';
 import { createFreeContactAcquisitionDependencies } from '../functions/platform/lead-radar/free-acquisition';
 import { FirecrawlStore } from '../functions/platform/lead-radar/firecrawl-store';
@@ -93,6 +94,8 @@ type AutomationWorkerQueueMessage =
   | SignalChatHarvestQueueMessage;
 
 interface AutomationWorkerEnv extends Env {
+  GPT_BILLING_MAINTENANCE_ENABLED?: string;
+  GPT_BILLING_MAINTENANCE_SECRET?: string;
   GPTBOT_DRAFTS_DB: D1Database;
   AUTOMATION_QUEUE: Queue<AutomationWorkerQueueMessage>;
   AUTOMATION_DLQ: Queue<AutomationWorkerQueueMessage>;
@@ -333,6 +336,7 @@ export default {
     env: AutomationWorkerEnv,
   ): Promise<void> {
     const retentionNow = new Date();
+    await runGptBillingMaintenance(env);
     try {
       const firecrawlStore = new FirecrawlStore(env.GPTBOT_DRAFTS_DB);
       if (await firecrawlStore.available()) await firecrawlStore.purgeResults(retentionNow.toISOString());

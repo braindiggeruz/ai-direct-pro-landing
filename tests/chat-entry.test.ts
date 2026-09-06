@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import ts from 'typescript';
 import { CHAT_ENTRIES, chatEntryForArticle, chatEntryFromHash, chatEntryHref, chatEntryArticleHref } from '../src/shared/chat-entry';
 import { renderChatEntry } from '../scripts/chat-entry-cta';
 
@@ -42,9 +43,27 @@ test('arbitrary prompts, external return URLs and unknown IDs are never consumed
   assert.equal(renderChatEntry('/'), '');
 });
 
-test('UI release cannot call unfinished payment endpoints or reset the production free session', () => {
+test('account readiness never auto-starts checkout or login, and New Chat preserves the free session and quota', () => {
   const panel = readFileSync('src/gpt-chat/components/AiAccountPanel.tsx', 'utf8');
-  assert.doesNotMatch(panel, /fetch\(|\/api\/gpt\//);
+  const source = ts.createSourceFile('panel.tsx', panel, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  let effects = 0;
+  function visit(node: ts.Node) {
+    if (ts.isCallExpression(node) && node.expression.getText(source) === 'useEffect') {
+      effects++;
+      const inspect = (child: ts.Node) => {
+        if (ts.isCallExpression(child)) assert.doesNotMatch(child.expression.getText(source), /^(pay|post|location\.(assign|replace))$/, 'Effects may refresh status but must not create payment/login actions');
+        ts.forEachChild(child, inspect);
+      };
+      if (node.arguments[0]) inspect(node.arguments[0]);
+    }
+    ts.forEachChild(node, visit);
+  }
+  visit(source);
+  assert.ok(effects > 0, 'Account status refresh effects were actually inspected');
+  assert.match(panel, /canStartCheckout\(data, locale\)/);
+  assert.match(panel, /termsVersion: data\.termsVersion/);
   const console = readFileSync('src/gpt-chat/components/AiChatConsole.tsx', 'utf8');
-  assert.doesNotMatch(console, /clearSessionId|setSessionId\(null\)/);
+  const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));
+  assert.ok(newChat.includes('archiveChat'), 'New Chat archives the current conversation');
+  assert.doesNotMatch(newChat, /clearSessionId|setSessionId|saveRemaining|setRemaining/, 'New Chat cannot reset server session or quota');
 });

@@ -5,11 +5,12 @@
 // env-driven model fallback chain: primary → fallbacks. On rate-limit /
 // 5xx / timeout it advances to the next model; on success it returns
 // immediately. The OPENROUTER_API_KEY never leaves the server.
-import type { Env } from '../../_types';
-import type { ChatMessage } from './prompt';
-import type { GptChatConfig } from './config';
+import type { Env } from "../../_types";
+import type { ChatMessage } from "./prompt";
+import type { GptChatConfig } from "./config";
+import { availableModels, modelFailed } from "./model-health-store";
 
-const ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
+const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 
 export interface ChatResult {
   ok: boolean;
@@ -31,12 +32,25 @@ interface ORResp {
 }
 
 /** Build the request body once; only `model` changes across the chain. */
-export function buildChatBody(model: string, messages: ChatMessage[], maxTokens: number) {
+export function buildChatBody(
+  model: string,
+  messages: ChatMessage[],
+  maxTokens: number,
+) {
   return {
     model,
     messages,
     temperature: 0.6,
     max_tokens: maxTokens,
+    // USD per million tokens. A retired free model must never silently become
+    // a paid request; premium fallbacks must stay within the tariff envelope.
+    provider: {
+      // Our three-attempt budget is the only retry layer.
+      allow_fallbacks: false,
+      max_price: model.endsWith(":free")
+        ? { prompt: 0, completion: 0, request: 0 }
+        : { prompt: 0.1, completion: 0.32, request: 0 },
+    },
     // Penalties curb degenerate loops (small free models repeating a line).
     frequency_penalty: 0.5,
     presence_penalty: 0.3,
@@ -56,9 +70,11 @@ export function buildChatBody(model: string, messages: ChatMessage[], maxTokens:
  * 429 stays transient (retry works) and 5xx stays a provider fault.
  */
 export function classifyFailureStatus(status: number): string {
-  if (status === 400 || status === 404) return 'model_unavailable';
-  if (status === 429) return 'rate_limit';
-  return 'provider_error';
+  if (status === 400 || status === 403 || status === 404)
+    return "model_unavailable";
+  if (status === 429) return "rate_limit";
+  if (status === 401 || status === 402) return "account_unavailable";
+  return "provider_error";
 }
 
 async function callOne(
@@ -68,23 +84,28 @@ async function callOne(
   messages: ChatMessage[],
   maxTokens: number,
   timeoutMs: number,
+  signal?: AbortSignal,
 ): Promise<ChatResult> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(ENDPOINT, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': cfg.siteUrl,
-        'X-Title': 'GPTBot.uz AI Chat',
+        "Content-Type": "application/json",
+        "HTTP-Referer": cfg.siteUrl,
+        "X-Title": "GPTBot.uz AI Chat",
       },
       body: JSON.stringify(buildChatBody(model, messages, maxTokens)),
-      signal: controller.signal,
+      signal: signal
+        ? AbortSignal.any([controller.signal, signal])
+        : controller.signal,
     });
-    clearTimeout(timer);
-    if (!res.ok) return { ok: false, errorCode: classifyFailureStatus(res.status) };
+    if (!res.ok) {
+      await res.body?.cancel();
+      return { ok: false, errorCode: classifyFailureStatus(res.status) };
+    }
     const data = (await res.json()) as ORResp;
     // OpenRouter also reports upstream failures INSIDE a 200 envelope — an
     // overloaded vendor came back as HTTP 200 carrying error.code 502 during
@@ -95,11 +116,14 @@ async function callOne(
       const code = Number(data.error.code);
       return {
         ok: false,
-        errorCode: Number.isFinite(code) && code > 0 ? classifyFailureStatus(code) : 'provider_error',
+        errorCode:
+          Number.isFinite(code) && code > 0
+            ? classifyFailureStatus(code)
+            : "provider_error",
       };
     }
     const content = data.choices?.[0]?.message?.content?.trim();
-    if (!content) return { ok: false, errorCode: 'empty' };
+    if (!content) return { ok: false, errorCode: "empty" };
     return {
       ok: true,
       content,
@@ -108,8 +132,13 @@ async function callOne(
       outputTokens: data.usage?.completion_tokens,
     };
   } catch (e) {
+    return {
+      ok: false,
+      errorCode:
+        (e as Error).name === "AbortError" ? "timeout" : "provider_error",
+    };
+  } finally {
     clearTimeout(timer);
-    return { ok: false, errorCode: (e as Error).name === 'AbortError' ? 'timeout' : 'provider_error' };
   }
 }
 
@@ -131,19 +160,46 @@ export async function chatComplete(
   messages: ChatMessage[],
   maxTokens = 900,
   timeoutMs = 45_000,
+  signal?: AbortSignal,
+  admitAttempt?: () => Promise<boolean>,
 ): Promise<ChatResult> {
-  if (!env.OPENROUTER_API_KEY) return { ok: false, errorCode: 'no_key' };
-  let last: ChatResult = { ok: false, errorCode: 'provider_error' };
+  if (!env.OPENROUTER_API_KEY) return { ok: false, errorCode: "no_key" };
+  let last: ChatResult = { ok: false, errorCode: "provider_error" };
   let everyCandidateUnavailable = chain.length > 0;
-  for (const model of chain) {
-    last = await callOne(env, cfg, model, messages, maxTokens, timeoutMs);
+  const candidates = await availableModels(env.GPTBOT_DRAFTS_DB, chain);
+  if (!candidates.length) return { ok: false, errorCode: "rate_limit" };
+  const deadline = Date.now() + timeoutMs;
+  for (const model of candidates) {
+    if (signal?.aborted) return { ok: false, errorCode: "aborted" };
+    if (admitAttempt && !(await admitAttempt()))
+      return { ok: false, errorCode: "budget_exhausted" };
+    if (Date.now() >= deadline) return { ok: false, errorCode: "timeout" };
+    last = await callOne(
+      env,
+      cfg,
+      model,
+      messages,
+      maxTokens,
+      Math.min(15_000, deadline - Date.now()),
+      signal,
+    );
+    if (signal?.aborted) return { ok: false, errorCode: "aborted" };
     if (last.ok) return last;
-    if (last.errorCode !== 'model_unavailable') everyCandidateUnavailable = false;
+    await modelFailed(
+      env.GPTBOT_DRAFTS_DB,
+      last.errorCode === "account_unavailable" ? "*" : model,
+      last.errorCode || "provider_error",
+    );
+    if (last.errorCode === "account_unavailable") return last;
+    if (last.errorCode !== "model_unavailable")
+      everyCandidateUnavailable = false;
     // Keep walking on every failure class: a hard failure on one model may
     // still resolve on the next vendor, so we continue.
   }
   // A single live candidate anywhere in the chain means the configuration is
   // fine and the last candidate's own code is the honest answer. Only when the
   // chain is unavailable end to end do we promote the diagnosis.
-  return everyCandidateUnavailable ? { ok: false, errorCode: 'model_unavailable' } : last;
+  return everyCandidateUnavailable
+    ? { ok: false, errorCode: "model_unavailable" }
+    : last;
 }

@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-06T10:35:46.997Z",
+  "databaseId": "97ef0372-d937-406f-8871-755368d9afff",
+  "backup": "F:/Claude/gptbot-production-backups/consumer-billing-2026-09-06T10-35-37-634Z/before-0064.sql",
+  "bytes": 27282337,
+  "sha256": "a10cedc26fd4ae6aa286ff59b16980045599872ad22356ad48352e702c5d7b21",
+  "tables": [
+    "d1_migrations",
+    "gpt_events",
+    "gpt_handoffs",
+    "gpt_lead_outbox",
+    "gpt_leads",
+    "gpt_messages",
+    "gpt_rate_limits",
+    "gpt_sessions",
+    "gpt_subscriptions",
+    "gpt_usage_daily"
+  ],
+  "migrationApplied": false
+}

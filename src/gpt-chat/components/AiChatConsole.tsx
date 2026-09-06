@@ -63,27 +63,25 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const businessHref = uz
     ? "/uz/biznes-uchun-ai-bot/"
     : "/ru/gpt-dlya-biznesa/";
-  const [messages, setMessages] = useState<ChatMessage[]>(() =>
-    loadHistory(config.locale),
-  );
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [storageScope, setStorageScope] = useState<string | undefined>();
+  const [accountReady, setAccountReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+  const [billingAvailable, setBillingAvailable] = useState(false);
+  const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
   const entryMeta = entry ? { source: chatEntryArticleHref(entry), intent: entry.id } : {};
   const [input, setInput] = useState(() => entry?.prompt || '');
-  const [savedChats, setSavedChats] = useState(() => loadChats(config.locale));
+  const [savedChats, setSavedChats] = useState<ReturnType<typeof loadChats>>([]);
   const [paid, setPaid] = useState(false);
   const [accountRefresh, setAccountRefresh] = useState(0);
   const [accountOpen, setAccountOpen] = useState(0);
   const accountIdentityRef = useRef<string | null>(null);
-  const [sessionId, setSessionId] = useState<string | null>(() =>
-    loadSessionId(config.locale),
-  );
-  const [remaining, setRemaining] = useState<number>(() =>
-    loadRemaining(config.locale),
-  );
+  const establishedIdentityRef = useRef<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState(-1);
   const [busy, setBusy] = useState(false);
-  const [limitReached, setLimitReached] = useState(
-    () => loadRemaining(config.locale) === 0,
-  );
+  const [limitReached, setLimitReached] = useState(false);
   // Only a daily cap is remembered across a reload: an hourly one is never
   // persisted, so a returning visitor is not walled for a limit that expired.
   const [limitReason, setLimitReason] = useState<LimitReason>("daily");
@@ -108,20 +106,35 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const retryFocusRef = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
-  const onAccount = useCallback((account: AccountView) => {
-    setPaid(!!account.access);
-    const identity =
-      account.access?.order_id || (account.user ? "account" : "guest");
+  const onAccount = useCallback((account: AccountView | null) => {
+    const identity = account ? (account.user?.storageKey || "guest") : null;
+    const scope = account?.user?.storageKey;
     if (accountIdentityRef.current !== identity) {
-      if (accountIdentityRef.current !== null || account.user) {
-        setLimitReached(false);
-        setRemaining(account.access?.remaining ?? -1);
-      }
+      identityGeneration.current++;
+      abortRef.current?.abort();
+      setBusy(false);
+      setMessages(account ? loadHistory(config.locale, scope) : []);
+      setSavedChats(account ? loadChats(config.locale, scope) : []);
+      // Auth redirects revoke session cookies. Never restore an old account's
+      // session reference on a new identity; quota stays authoritative on server.
+      const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
+      setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+      if (account) establishedIdentityRef.current = identity;
+      setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
+      if (accountIdentityRef.current !== null) setInput("");
+      startedRef.current = false;
       accountIdentityRef.current = identity;
     }
-    if (account.user && typeof account.remaining === "number")
-      setRemaining(account.remaining);
-  }, []);
+    setStorageScope(scope);
+    setAccountReady(!!account);
+    setSignedIn(!!account?.user);
+    setPaid(!!account?.access && account.access.ends_at > Date.now());
+    setBillingAvailable(!!account?.mode && !!account.providers.length);
+    const quota = account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining(config.locale) : -1);
+    setRemaining(quota);
+    setLimitReached(quota === 0);
+    if (account?.access && quota === 0) setLimitReason("monthly");
+  }, [config.locale]);
 
   const focusInput = () => {
     inputRef.current?.focus();
@@ -136,10 +149,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     trackOnce(EV.pageView, { locale: config.locale });
     trackOnce(EV.visitChat, { locale: config.locale });
-    trackOnce(EV.chatOpened, { locale: config.locale, anonymous: true, ...entryMeta });
-  // Entry stays fixed for this navigation; editing the draft never changes attribution.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [config.locale]);
+
+  useEffect(() => {
+    if (accountReady) trackOnce(EV.chatOpened, { locale: config.locale, anonymous: !signedIn, ...entryMeta });
+  // Entry is fixed for this navigation; no prompt text enters analytics.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountReady, signedIn, config.locale]);
 
   useEffect(() => {
     let cancelled = false;
@@ -166,14 +183,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const empty = messages.length === 0;
   const turnstileReady =
     turnstileConfig?.required === false || !!turnstileToken;
-  const sendDisabled = busy || limitReached || !turnstileReady;
+  const sendDisabled = busy || limitReached || !turnstileReady || !accountReady;
 
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
+    const generation = identityGeneration.current;
     const id = await createSession(config.apiBase, config.locale);
+    if (generation !== identityGeneration.current) return null;
     if (id) {
       setSessionId(id);
-      saveSessionId(id, config.locale);
+      saveSessionId(id, config.locale, storageScope);
       track(EV.sessionStarted, { status: "created" });
     }
     return id;
@@ -181,7 +200,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const persist = (next: ChatMessage[]) => {
     setMessages(next);
-    saveHistory(next, config.locale);
+    saveHistory(next, config.locale, storageScope);
   };
 
   const doSend = async (
@@ -205,7 +224,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         roleId: role,
       });
     }
+    const generation = identityGeneration.current;
     const sid = await ensureSession();
+    if (generation !== identityGeneration.current) return;
     const history = messages.filter((m) => !m.pending && !m.error);
     const withUser: ChatMessage[] = [
       ...history,
@@ -225,7 +246,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       ...entryMeta,
       messageNumber,
       locale: config.locale,
-      anonymous: true,
+      anonymous: !signedIn,
     });
 
     const requestMessage = applyRole(trimmed, role, config.locale).slice(
@@ -245,14 +266,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
     const base = withUser.filter((m) => !m.pending);
     const handleJson = (res: ChatApiResponse) => {
+      if (generation !== identityGeneration.current) return;
       if (res.ok && res.answer) {
         if (typeof res.remaining === "number" && res.remaining >= 0) {
           setRemaining(res.remaining);
-          saveRemaining(res.remaining, config.locale);
+          saveRemaining(res.remaining, config.locale, storageScope);
         }
         if (res.sessionId && res.sessionId !== sid) {
           setSessionId(res.sessionId);
-          saveSessionId(res.sessionId, config.locale);
+          saveSessionId(res.sessionId, config.locale, storageScope);
         }
         persist([
           ...base,
@@ -276,7 +298,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // An hourly pause is not the end of the day, so the day counter is
         // left alone — writing 0 here would wall the visitor until midnight.
         if (typeof res.remaining === "number") setRemaining(res.remaining);
-        if (reason === "daily" && !paid) saveRemaining(0, config.locale);
+        if (reason === "daily" && !paid) saveRemaining(0, config.locale, storageScope);
         setMessages(base);
         track(EV.limitReached, { reason, status: "blocked" });
         track(EV.limitReachedProduct, { reason, status: "blocked" });
@@ -320,6 +342,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     let frame = 0;
     const raf = typeof requestAnimationFrame === "function";
     const paint = () => {
+      if (generation !== identityGeneration.current) return;
       frame = 0;
       setMessages([
         ...base,
@@ -347,13 +370,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       },
       {
         onMeta: (m) => {
+          if (generation !== identityGeneration.current) return;
           answeringModel = m.model || null;
           if (m.sessionId && m.sessionId !== sid) {
             setSessionId(m.sessionId);
-            saveSessionId(m.sessionId, config.locale);
+            saveSessionId(m.sessionId, config.locale, storageScope);
           }
         },
         onDelta: (text) => {
+          if (generation !== identityGeneration.current) return;
           acc += text;
           if (!raf) {
             paint();
@@ -364,6 +389,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       },
       controller.signal,
     );
+    if (generation !== identityGeneration.current) { stopPainting(); return; }
     abortRef.current = null;
     // A frame queued by the last delta would otherwise land after the final
     // state below and put the message back into its streaming form.
@@ -374,7 +400,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } else if (outcome.ok) {
       if (typeof outcome.remaining === "number" && outcome.remaining >= 0) {
         setRemaining(outcome.remaining);
-        saveRemaining(outcome.remaining, config.locale);
+        saveRemaining(outcome.remaining, config.locale, storageScope);
       }
       persist([
         ...base,
@@ -503,8 +529,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // "New chat": clears the visible conversation + stored history, but keeps
   // the server session and remaining quota — limits must survive a reset.
   const onNewChat = () => {
-    if (busy) return;
-    setSavedChats(archiveChat(messages, config.locale));
+    if (busy || !accountReady) return;
+    setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
     setInput("");
     // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
@@ -531,7 +557,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const onDismissOffer = () => {
     setOfferDismissed(true);
-    saveOfferDismissed(config.locale);
+    saveOfferDismissed(config.locale, storageScope);
   };
 
   // The hourly window may already have passed while the card was on screen.
@@ -770,7 +796,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     key={chat.id}
                     disabled={busy}
                     onClick={() => {
-                      setSavedChats(archiveChat(messages, config.locale));
+                      setSavedChats(archiveChat(messages, config.locale, storageScope));
                       persist(chat.messages);
                       setInput("");
                     }}
@@ -851,6 +877,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               />
             )}
             {!paid &&
+              billingAvailable &&
               !limitReached &&
               assistantCount >= 10 &&
               remaining > 2 && (
@@ -876,6 +903,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {/* Composer */}
         <div className="gpt-composer shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
+            {!accountReady && <p role="status" className="gpt-panel-note">{uz ? "Akkaunt holatini tekshiring." : "Проверьте состояние аккаунта."} <button type="button" className="gpt-text-button" onClick={() => { setAccountOpen(n => n + 1); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
             {limitReached ? (
               // Stages 3 and 4: the same card, told apart by which cap was hit.
               // Telegram leads, because it is a real continuation rather than
@@ -886,7 +914,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     ? t.premium.monthlyLimit
                     : limitReason === "hourly" || paid
                       ? t.premium.pause
-                      : t.premium.offer}
+                      : (billingAvailable ? t.premium.offer : t.premium.unavailable)}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <button

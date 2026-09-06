@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-09-06T10:09:13.277Z",
+  "deployment": "6b57a629-0e47-4b17-addd-729d9a2fa183",
+  "commit": "dd7c91d9bed33efb1e39792b2ace49d367d282f1",
+  "variablesPresent": {
+    "RAILWAY_GPT_API_URL": false,
+    "GPTBOT_INTERNAL_API_SECRET": true,
+    "OPENROUTER_API_KEY": true,
+    "GPT_BILLING_MODE": false,
+    "GPT_BILLING_LIVE_READY": false,
+    "GPT_TELEGRAM_CLIENT_ID": false,
+    "GPT_TELEGRAM_CLIENT_SECRET": false,
+    "GPT_IDENTITY_SECRET": false,
+    "GPT_PAYME_MERCHANT_ID": false,
+    "GPT_PAYME_KEY": false,
+    "GPT_PAYME_TEST_KEY": false,
+    "GPT_CLICK_SERVICE_ID": false,
+    "GPT_CLICK_SECRET": false,
+    "GPT_CLICK_MERCHANT_ID": false,
+    "GPT_NOTIFY_BOT_TOKEN": false,
+    "GPT_NOTIFY_CHAT_ID": true,
+    "GPT_BILLING_MAINTENANCE_SECRET": false,
+    "GPT_BILLING_TERMS_RU": false,
+    "GPT_BILLING_TERMS_UZ": false
+  },
+  "configurationValuesNotExposed": true,
+  "valuesOrAuthenticationNotProven": true
+}

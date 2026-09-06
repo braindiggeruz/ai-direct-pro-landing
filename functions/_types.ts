@@ -236,7 +236,7 @@ export interface Env extends FirecrawlEnvironment {
   // Anti-abuse quotas. Strings (env vars are strings); parsed with defaults.
   GPT_FREE_DAILY_LIMIT?: string;   // default 15
   GPT_FREE_HOURLY_LIMIT?: string;  // default 5
-  GPT_PAID_MONTHLY_LIMIT?: string; // default 600
+  GPT_PAID_MONTHLY_LIMIT?: string; // maximum 300; access periods snapshot their allowance
   GPT_MAX_INPUT_CHARS?: string;    // default 3000
   // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
   // If unset, hashing still runs with an empty salt (weaker; set in prod).

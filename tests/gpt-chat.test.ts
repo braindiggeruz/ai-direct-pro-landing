@@ -40,9 +40,11 @@ test('resolveConfig applies defaults from the strategic report', () => {
 
   const paidChain = [cfg.paidModel, ...cfg.paidFallbacks];
   assert.equal(paidChain.length, 3, 'the paid chain must keep two fallbacks behind the primary');
-  for (const model of paidChain) {
-    assert.doesNotMatch(model, /:free$/, `${model} is a free slug sitting in the paid chain`);
-  }
+  assert.doesNotMatch(paidChain[0], /:free$/, 'paid access prefers its configured paid primary');
+  assert.equal(new Set(paidChain).size, 3);
+  assert.equal(cfg.paidMonthlyLimit, 300);
+  assert.equal(resolveConfig({ GPT_PAID_MONTHLY_LIMIT: '99999' } as AnyEnv).paidMonthlyLimit, 300);
+  for (const model of paidChain) assert.ok(buildChatBody(model, [], 900).provider.max_price.completion <= 0.32);
 });
 
 test('resolveConfig parses env overrides + comma lists', () => {

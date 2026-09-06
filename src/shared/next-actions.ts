@@ -249,10 +249,10 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
       const n = a.missingFaq;
       out.push(action({
         title: `${n} ${pluralRu(n, PAGE_FORMS)} без блока FAQ`,
-        reason: 'FAQ-блоки открывают rich-результаты (FAQPage) и дают внутренние якоря для long-tail.',
-        effect: 'Money-страница с 4+ FAQ обычно ранжируется по 10–30 дополнительным long-tail запросам.',
-        risk: 'medium',
-        weight: 760,
+        reason: 'Проверьте, остаются ли у посетителей вопросы об условиях, ограничениях и следующем шаге. Добавляйте FAQ только там, где он помогает ответить на них.',
+        effect: 'Понятные ответы помогают оценить предложение. Количество FAQ не гарантирует рост позиций или дополнительные поисковые запросы.',
+        risk: 'low',
+        weight: 400,
         action_label: 'Открыть «Страницы»',
         action_path: '/admin-tools/pages',
         category: 'content',
@@ -263,8 +263,8 @@ export function buildNextBestActions(input: BuildInput): NextBestAction[] {
       const total = (a.missingTitle ?? 0) + (a.missingDescription ?? 0) + (a.missingH1 ?? 0);
       out.push(action({
         title: `${total} ${pluralRu(total, ['незаполненное SEO-поле', 'незаполненных SEO-поля', 'незаполненных SEO-полей'])} (title/description/H1)`,
-        reason: 'Без этих полей страницы не могут ранжироваться ни по одному запросу.',
-        effect: 'После заполнения страницы сразу получают право на индексацию.',
+        reason: 'Пропуски затрудняют понимание темы страницы и подготовку понятного поискового сниппета.',
+        effect: 'Проверьте уникальность и точность title, description и H1. Их заполнение не гарантирует индексацию или позиции.',
         risk: 'high',
         weight: 850,
         action_label: 'Открыть «Страницы»',

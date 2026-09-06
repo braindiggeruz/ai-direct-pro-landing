@@ -1,4 +1,15 @@
 {
+  "consumer_billing_readiness_20260906": {
+    "status": "candidate_verified_release_pending",
+    "baseline_commit": "70a734c",
+    "scope": "Selective consumer billing integration, account privacy, atomic quotas, bounded model routing and SEO truth corrections",
+    "handoff": "docs/readiness/2026-09-06/EXECUTION-RU.md",
+    "roadmap": "docs/readiness/2026-09-06/ROADMAP-RU.md",
+    "verification": "597 tests; app and Functions typechecks; scoped lint; local mobile synthetic invoice-to-access-to-answer-to-logout flow; backup exported before migration",
+    "external_dependencies": ["Telegram Login client configuration", "Click/Payme merchant credentials and acceptance", "Approved RU/UZ terms and fiscal settings"],
+    "payments_enabled": false,
+    "next_step": "Full release build, guarded additive migration and deployment, then live verification; keep checkout disabled"
+  },
   "seo_revenue_20260906": {
     "status": "deployed_and_live_verified",
     "baseline_commit": "2c1cfda14a4e918e6ab6eba2841bd02ad4506e79",

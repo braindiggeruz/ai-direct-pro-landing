@@ -1,47 +1,49 @@
 // localStorage persistence for the anonymous chat session + history.
 // Fails silently in private mode / storage-disabled browsers.
 import type { ChatMessage, Locale } from "./types";
+import { isOpaqueStorageKey } from "./types";
 
 const SID_KEY = "gptchat_sid";
 const HIST_KEY = "gptchat_history";
 const REMAINING_KEY = "gptchat_remaining";
 const OFFER_KEY = "gptchat_offer_dismissed";
 
-function localeKey(base: string, locale: Locale): string {
-  return `${base}_${locale}`;
+function localeKey(base: string, locale: Locale, scope?: string): string {
+  if (scope !== undefined && !isOpaqueStorageKey(scope)) throw new Error("Invalid account storage scope");
+  return scope ? `${base}_account_${scope}_${locale}` : `${base}_${locale}`;
 }
 
-export function loadSessionId(locale: Locale): string | null {
+export function loadSessionId(locale: Locale, scope?: string): string | null {
   try {
     return (
-      localStorage.getItem(localeKey(SID_KEY, locale)) ??
-      (locale === "ru" ? localStorage.getItem(SID_KEY) : null)
+      localStorage.getItem(localeKey(SID_KEY, locale, scope)) ??
+      (!scope && locale === "ru" ? localStorage.getItem(SID_KEY) : null)
     );
   } catch {
     return null;
   }
 }
 
-export function saveSessionId(id: string, locale: Locale): void {
+export function saveSessionId(id: string, locale: Locale, scope?: string): void {
   try {
-    localStorage.setItem(localeKey(SID_KEY, locale), id);
+    localStorage.setItem(localeKey(SID_KEY, locale, scope), id);
   } catch {
     /* noop */
   }
 }
 
-export function clearSessionId(locale: Locale): void {
+export function clearSessionId(locale: Locale, scope?: string): void {
   try {
-    localStorage.removeItem(localeKey(SID_KEY, locale));
-    if (locale === "ru") localStorage.removeItem(SID_KEY);
+    localStorage.removeItem(localeKey(SID_KEY, locale, scope));
+    if (!scope && locale === "ru") localStorage.removeItem(SID_KEY);
   } catch {
     /* noop */
   }
 }
 
-export function loadRemaining(locale: Locale): number {
+export function loadRemaining(locale: Locale, scope?: string): number {
   try {
-    const raw = localStorage.getItem(localeKey(REMAINING_KEY, locale));
+    const raw = localStorage.getItem(localeKey(REMAINING_KEY, locale, scope));
     if (raw === null) return -1;
     const parsed = JSON.parse(raw) as { value?: unknown; date?: unknown };
     if (parsed.date !== new Date().toISOString().slice(0, 10)) return -1;
@@ -52,11 +54,11 @@ export function loadRemaining(locale: Locale): number {
   }
 }
 
-export function saveRemaining(remaining: number, locale: Locale): void {
+export function saveRemaining(remaining: number, locale: Locale, scope?: string): void {
   if (!Number.isInteger(remaining) || remaining < 0) return;
   try {
     localStorage.setItem(
-      localeKey(REMAINING_KEY, locale),
+      localeKey(REMAINING_KEY, locale, scope),
       JSON.stringify({
         value: remaining,
         date: new Date().toISOString().slice(0, 10),
@@ -72,10 +74,10 @@ export function saveRemaining(remaining: number, locale: Locale): void {
  * Re-pitching someone on every page load is exactly the nagging the funnel is
  * meant to avoid; a day later is a new visit and a fair second ask.
  */
-export function loadOfferDismissed(locale: Locale): boolean {
+export function loadOfferDismissed(locale: Locale, scope?: string): boolean {
   try {
     return (
-      localStorage.getItem(localeKey(OFFER_KEY, locale)) ===
+      localStorage.getItem(localeKey(OFFER_KEY, locale, scope)) ===
       new Date().toISOString().slice(0, 10)
     );
   } catch {
@@ -83,10 +85,10 @@ export function loadOfferDismissed(locale: Locale): boolean {
   }
 }
 
-export function saveOfferDismissed(locale: Locale): void {
+export function saveOfferDismissed(locale: Locale, scope?: string): void {
   try {
     localStorage.setItem(
-      localeKey(OFFER_KEY, locale),
+      localeKey(OFFER_KEY, locale, scope),
       new Date().toISOString().slice(0, 10),
     );
   } catch {
@@ -94,11 +96,11 @@ export function saveOfferDismissed(locale: Locale): void {
   }
 }
 
-export function loadHistory(locale: Locale): ChatMessage[] {
+export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
   try {
     const raw =
-      localStorage.getItem(localeKey(HIST_KEY, locale)) ??
-      (locale === "ru" ? localStorage.getItem(HIST_KEY) : null);
+      localStorage.getItem(localeKey(HIST_KEY, locale, scope)) ??
+      (!scope && locale === "ru" ? localStorage.getItem(HIST_KEY) : null);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
@@ -121,7 +123,7 @@ export function loadHistory(locale: Locale): ChatMessage[] {
   }
 }
 
-export function saveHistory(messages: ChatMessage[], locale: Locale): void {
+export function saveHistory(messages: ChatMessage[], locale: Locale, scope?: string): void {
   try {
     const clean = messages
       .filter((m) => !m.pending && !m.error)
@@ -132,16 +134,16 @@ export function saveHistory(messages: ChatMessage[], locale: Locale): void {
         partial: m.partial === true,
       }))
       .slice(-40);
-    localStorage.setItem(localeKey(HIST_KEY, locale), JSON.stringify(clean));
+    localStorage.setItem(localeKey(HIST_KEY, locale, scope), JSON.stringify(clean));
   } catch {
     /* noop */
   }
 }
 
-export function clearHistory(locale: Locale): void {
+export function clearHistory(locale: Locale, scope?: string): void {
   try {
-    localStorage.removeItem(localeKey(HIST_KEY, locale));
-    if (locale === "ru") localStorage.removeItem(HIST_KEY);
+    localStorage.removeItem(localeKey(HIST_KEY, locale, scope));
+    if (!scope && locale === "ru") localStorage.removeItem(HIST_KEY);
   } catch {
     /* noop */
   }
@@ -153,10 +155,10 @@ export interface SavedChat {
   messages: ChatMessage[];
   savedAt: number;
 }
-export function loadChats(locale: Locale): SavedChat[] {
+export function loadChats(locale: Locale, scope?: string): SavedChat[] {
   try {
     const value = JSON.parse(
-      localStorage.getItem(`gptchat_dialogs_${locale}`) || "[]",
+      localStorage.getItem(localeKey("gptchat_dialogs", locale, scope)) || "[]",
     );
     return Array.isArray(value)
       ? value
@@ -194,20 +196,21 @@ export function loadChats(locale: Locale): SavedChat[] {
 export function archiveChat(
   messages: ChatMessage[],
   locale: Locale,
+  scope?: string,
 ): SavedChat[] {
   const clean = messages
     .filter((m) => !m.pending && !m.error && !m.streaming)
     .slice(-40);
-  if (!clean.length) return loadChats(locale);
+  if (!clean.length) return loadChats(locale, scope);
   const chat: SavedChat = {
     id: crypto.randomUUID(),
     title: (clean.find((m) => m.role === "user")?.content || "…").slice(0, 80),
     messages: clean,
     savedAt: Date.now(),
   };
-  const next = [chat, ...loadChats(locale)].slice(0, 10);
+  const next = [chat, ...loadChats(locale, scope)].slice(0, 10);
   try {
-    localStorage.setItem(`gptchat_dialogs_${locale}`, JSON.stringify(next));
+    localStorage.setItem(localeKey("gptchat_dialogs", locale, scope), JSON.stringify(next));
   } catch {
     /* history remains visible if storage is full */
   }

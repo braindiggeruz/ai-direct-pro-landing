@@ -1,5 +1,9 @@
 # GPTBot AEO video incident closure — 2026-09-05
 
+## Consumer billing readiness — 2026-09-06
+
+Owner explicitly requested roadmap followed immediately by autonomous execution. Current candidate selectively integrates the previously isolated consumer billing modules into the latest release checkout, preserving current SEO/article/mobile/AEO changes. Account history isolation, current versioned terms, pending checkout recovery, noindex/no-store API, fail-closed atomic admission, bounded model costs and meaningful-stream settlement were added or corrected. 597 tests, app/Functions TypeScript and scoped lint pass. Mobile local rehearsal proved synthetic pending → confirmation → 300 allowance → answer → 299 and logout hiding account history. New migration is 0064; existing AEO 0062/0063 are untouched. Production backup exported and hashed; migration/full guarded release still pending at this commit. Payments stay disabled because merchant credentials, Telegram Login and approved terms are absent. Roadmap, results, connection contract and evidence: `docs/readiness/2026-09-06/`. Older product records below are historical; do not infer current deployment from this candidate checkpoint.
+
 ## SEO and conversion repairs — 2026-09-06
 
 **Released and verified:** runtime `dd7c91d9bed33efb1e39792b2ace49d367d282f1`, deployment `6b57a629-0e47-4b17-addd-729d9a2fa183`. Full build:cf 914 files; 560 tests and 15 release checks pass. All 288 live contracts, ten protected pages and eight referenced asset hashes match; bindings and existing variables preserved. Main CUA recovered and verified final mobile entry flows; one fresh Russian canary returned 4. Final evidence: `docs/seo/gptbot.uz-audit/live-verification.json` and `browser-acceptance.json`. Candidate-stage notes below describe the earlier checkpoint, not an outstanding release.

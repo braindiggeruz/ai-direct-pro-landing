@@ -1,58 +1,95 @@
-// POST /api/gpt/subscribe — begin (or defer) a plan checkout.
-// MVP: records a payment_attempt and returns manual mode unless a provider
-// is fully wired. NEVER fabricates an active subscription.
-import type { Env } from '../../_types';
-import { ensureSchema } from '../../lib/gpt-chat/schema';
-import { json, fail, readJson, genId } from '../../lib/gpt-chat/http';
-import { createCheckout, activeProvider } from '../../lib/gpt-chat/payments';
-import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
-
-interface SubBody {
-  plan?: string; // 'plus' | 'business'
-  sessionId?: string;
-}
-
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  const g = await proxyToRailway(env, request, '/v1/gpt/subscribe');
-  if (g.proxied && g.response) return relay(g.response);
-
-  const body = (await readJson<SubBody>(request)) || {};
-  const plan = body.plan === 'business' ? 'business' : 'plus';
-  const db = env.GPTBOT_DRAFTS_DB;
-  const attemptId = genId('pay');
-  const nowIso = new Date().toISOString();
-  const provider = activeProvider(env);
-
-  const checkout = await createCheckout(env, plan, attemptId);
-
-  if (db) {
-    try {
-      await ensureSchema(db);
-      await db
-        .prepare(
-          `INSERT INTO payment_attempts (id, user_id, provider, provider_checkout_id, amount, currency, status, created_at, updated_at)
-           VALUES (?,?,?,?,?,?,?,?,?)`,
-        )
-        .bind(
-          attemptId, null, provider || 'manual', null,
-          plan === 'plus' ? 5 : null, 'USD',
-          checkout.mode === 'checkout' ? 'created' : 'manual_pending', nowIso, nowIso,
-        )
-        .run();
-    } catch {
-      /* best-effort — still return the checkout decision */
-    }
+import {
+  BILLING_ORG,
+  billingMode,
+  providerReady,
+  termsUrl,
+  termsVersion,
+  type BillingEnv,
+} from "../../lib/gpt-chat/billing-config";
+import { BillingStore } from "../../lib/gpt-chat/billing-store";
+import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import { IdentityStore, sameOrigin } from "../../lib/gpt-chat/identity-store";
+import { ensureSchema } from "../../lib/gpt-chat/schema";
+import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
+import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
+export const onRequestPost: PagesFunction<BillingEnv> = async ({
+  request,
+  env,
+}) => {
+  if (!sameOrigin(request)) return fail("forbidden", "Forbidden", 403);
+  const body = await readJsonLimited<{
+    provider?: string;
+    requestId?: string;
+    locale?: string;
+    acceptTerms?: boolean;
+    termsVersion?: string;
+  }>(request, 2048);
+  if (!body.ok || !body.value) return fail("bad_request", "Invalid request");
+  const p = body.value;
+  if (
+    (p.provider !== "payme" && p.provider !== "click") ||
+    !/^[a-zA-Z0-9_-]{16,80}$/.test(p.requestId || "") ||
+    p.acceptTerms !== true
+  )
+    return fail("bad_request", "Invalid request");
+  if (!providerReady(env, p.provider) || !env.GPTBOT_DRAFTS_DB)
+    return json({ ok: false, mode: "manual", code: "not_configured" }, 503);
+  const locale = p.locale === 'uz' ? 'uz' : 'ru';
+  const version = termsVersion(env);
+  const terms = termsUrl(locale === 'uz' ? env.GPT_BILLING_TERMS_UZ : env.GPT_BILLING_TERMS_RU);
+  if (!version || !terms || p.termsVersion !== version)
+    return fail('terms_changed', 'Review the current terms before paying', 409);
+  try {
+    const db = env.GPTBOT_DRAFTS_DB;
+    await ensureSchema(db);
+    await ensureBillingSchema(db);
+    const user = await new IdentityStore(db, BILLING_ORG).user(request);
+    if (!user) return fail("login_required", "Login required", 401);
+    const rate = await consumeRateLimit(db, "checkout", user, {
+      limit: 10,
+      windowMs: HOUR_MS,
+    });
+    if (!rate.allowed || rate.degraded)
+      return fail("try_later", "Try later", 429);
+    const row = await new BillingStore(db, BILLING_ORG).createOrder(
+      user,
+      p.provider,
+      billingMode(env)!,
+      p.requestId!,
+      Date.now(),
+      { version, url: terms, locale },
+    );
+    if (
+      (row.state !== "pending" && row.state !== "prepared") ||
+      row.expires_at <= Date.now()
+    )
+      return json({ ok: true, mode: "status", attemptId: row.id });
+    const returnUrl = `${new URL(request.url).origin}${p.locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}`;
+    // Test mode never produces a live checkout URL. Sandbox callbacks and the
+    // local protocol rehearsal exercise the same ledger without moving money.
+    if (row.mode === "test")
+      return json({
+        ok: true,
+        mode: "test",
+        attemptId: row.id,
+        amount: row.amount,
+        currency: row.currency,
+      });
+    const url =
+      p.provider === "payme"
+        ? `https://checkout.paycom.uz/${btoa(`m=${env.GPT_PAYME_MERCHANT_ID};ac.order_id=${row.id};a=${row.amount};l=${p.locale === "uz" ? "uz" : "ru"};c=${returnUrl}`)}`
+        : `https://my.click.uz/services/pay/?${new URLSearchParams({ service_id: env.GPT_CLICK_SERVICE_ID!, merchant_id: env.GPT_CLICK_MERCHANT_ID!, amount: "20000.00", transaction_param: row.id, return_url: returnUrl })}`;
+    return json({
+      ok: true,
+      mode: "checkout",
+      checkoutUrl: url,
+      attemptId: row.id,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.message === 'terms_changed')
+      return fail('terms_changed', 'An existing invoice uses different terms; check its status first', 409);
+    return fail("checkout_unavailable", "Check status before retrying", 503);
   }
-
-  return json({
-    ok: true,
-    mode: checkout.mode,
-    plan,
-    provider: checkout.provider || null,
-    checkoutUrl: checkout.checkoutUrl ?? null,
-    message: checkout.message,
-    attemptId,
-  });
 };
-
-export const onRequest: PagesFunction<Env> = async () => fail('method_not_allowed', 'Use POST', 405);
+export const onRequest: PagesFunction<BillingEnv> = async () =>
+  fail("method_not_allowed", "Use POST", 405);

@@ -51,7 +51,7 @@ function SidebarBody({
   const tg = telegramContact(locale);
   const links = [
     { key: 'guide', href: uz ? '/uz/gpt-chat-qollanma/' : '/ru/gpt-chat-guide/', label: t.guideLink, event: null },
-    { key: 'pricing', href: uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/', label: t.pricingLink, event: 'pricing' },
+    { key: 'pricing', href: uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/', label: uz ? 'Biznes bot narxlari' : t.pricingLink, event: 'pricing' },
     { key: 'business', href: uz ? '/uz/biznes-uchun-ai-bot/' : '/ru/gpt-dlya-biznesa/', label: t.businessLink, event: 'business' },
     { key: 'about', href: uz ? '/uz/biz-haqimizda/' : '/ru/o-kompanii/', label: t.aboutLink, event: null },
   ];
