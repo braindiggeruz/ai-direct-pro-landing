@@ -1,6 +1,8 @@
 {
   "seo_protection_20260906": {
-    "status": "implemented_543_tests_passed_build_verification_next",
+    "status": "complete_pushed_to_main_public_runtime_unchanged",
+    "code_commit": "f80fdf85132e979704fbcf0956a3740db61ced46",
+    "verification": "543 tests, 33 targeted checks, app TypeScript, scoped ESLint, secret scan, full build:cf (914 files), ten protected contracts and check-production pass",
     "baseline_commit": "4b140e1",
     "public_runtime_unchanged": "efea33aa9c4d44d3fdd2bcc215402a93631a83c7",
     "protected_pages": 10,

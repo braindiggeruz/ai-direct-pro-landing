@@ -54,4 +54,6 @@ node --import tsx --test tests/seo-protection.test.ts
 
 ## Проверки реализации
 
-Полный `npm test`: 543/543. Отдельный набор release/privacy/protection: 33/33. App TypeScript и scoped ESLint — без ошибок; secret scan — чисто, 2 764 файла. Существующий артефакт проходит новую проверку: 10/10 SEO-контрактов совпадают с production. Полная контрольная сборка выполняется после фиксации исходников, как требует release guard.
+Полный `npm test`: 543/543. Отдельный набор release/privacy/protection: 33/33. App TypeScript и scoped ESLint — без ошибок; secret scan — чисто, 2 764 файла. Полная `npm run build:cf` успешно пересобрала public и admin: 914 файлов. Новый guard при stamp пропустил все десять контрактов; метаданные, тексты и ссылки совпали с живым снимком. `check-production` также прошёл.
+
+Код `f80fdf85132e979704fbcf0956a3740db61ced46` отправлен в `origin/main`; SHA проверен через `git ls-remote`. Cloudflare production auto-deploy прочитан через API: false. Действующий сайт не перепубликовывался: runtime `efea33aa9c4d44d3fdd2bcc215402a93631a83c7`, deployment `acc1704b-f543-4b94-b15f-01cf43ebdaaf`. Это завершённое внедрение защиты в рабочий процесс следующих релизов, а не новый дизайн или контентный релиз. При необходимости отката отменять только изменения защиты обычным revert поверх актуальной ветки; не откатывать сайт на устаревший checkout.
