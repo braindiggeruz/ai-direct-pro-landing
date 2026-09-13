@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "verified_at": "2026-09-14T04:56:29.3812327+05:00",
+  "status": "deployed_and_live_verified",
+  "production": {
+    "project": "ai-direct-pro-landing",
+    "url": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+    "release_commit": "bb931b955aedf232a05bebdcf8c3c70492bf0e75",
+    "deployment_id": "ec5e4911-9e1e-4a9b-b7ee-6864e1ba3fe7",
+    "deployment_url": "https://ec5e4911.ai-direct-pro-landing.pages.dev"
+  },
+  "artifact": {
+    "file_count": 918,
+    "sha256": "95703b896e9c0032e6c001005c096776388cbbe8aef5b940491b99999ee06b48",
+    "manifest_status": 200,
+    "manifest_commit_matches": true
+  },
+  "validation": {
+    "full_tests": "602/602",
+    "typecheck": "app, Functions and Lead Radar pass",
+    "secret_scan": "clean, 2809 files",
+    "protected_seo": "10/10 unchanged",
+    "build": "build:cf pass, 122 pages, 164 articles, 289 sitemap URLs",
+    "live_browser": "desktop article title, H1, hero, body, FAQ, sources and footer rendered",
+    "payment_config_public": false
+  },
+  "article": {
+    "status": 200,
+    "title": "AI-агент или чат-бот: что выбрать бизнесу в 2026",
+    "h1": "AI-агент или чат-бот: что выбрать бизнесу в Узбекистане",
+    "canonical": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+    "article_schema": true,
+    "faqpage_schema": true,
+    "hero_present": true,
+    "address_present": "Yahyo Gulyamov ko‘chasi 35"
+  },
+  "images": [
+    { "width": 1200, "status": 200, "content_type": "image/webp", "sha256_matches_local": true },
+    { "width": 800, "status": 200, "content_type": "image/webp", "sha256_matches_local": true },
+    { "width": 480, "status": 200, "content_type": "image/webp", "sha256_matches_local": true }
+  ],
+  "discovery": {
+    "homepage_status": 200,
+    "homepage_links_article": true,
+    "sitemap_status": 200,
+    "sitemap_url_count": 289,
+    "priority_sitemap_status": 200,
+    "priority_sitemap_url_count": 18,
+    "article_in_both_sitemaps": true,
+    "robots_references_both_sitemaps": true,
+    "indexing_confirmed": false
+  },
+  "runtime_configuration": {
+    "variable_count": 36,
+    "secret_count": 35,
+    "secret_names_unchanged": true,
+    "public_binding": "GPTBOT_RUNTIME_CONFIG_JSON",
+    "public_values_packed": 56,
+    "packed_utf8_bytes": 2565,
+    "packed_values_match_previous_production": true,
+    "bindings_unchanged": [
+      "LOGIN_ATTEMPTS KV",
+      "GPTBOT_DRAFTS_DB D1",
+      "LEAD_RADAR_CAMPAIGN_MEDIA R2",
+      "MARKET_MEDIA R2",
+      "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE",
+      "AUTOMATION_QUEUE",
+      "AI"
+    ],
+    "smart_placement_unchanged": true,
+    "market_cors_preflight_status": 204,
+    "market_unauthenticated_status": 401
+  },
+  "mutations_excluded": [
+    "database migration",
+    "payment activation",
+    "Telegram send",
+    "paid API call",
+    "provider configuration change"
+  ]
+}

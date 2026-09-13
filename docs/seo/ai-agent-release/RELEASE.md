@@ -24,4 +24,17 @@ Evidence: `candidate-verification.json`. Reviewed baseline: `../evidence/2026-09
 
 ## Release state
 
-Candidate reviewed and owner-authorized. Production deployment and live verification are pending.
+Deployed and live-verified on 2026-09-14.
+
+- Runtime commit: `bb931b955aedf232a05bebdcf8c3c70492bf0e75`.
+- Cloudflare Pages deployment: `ec5e4911-9e1e-4a9b-b7ee-6864e1ba3fe7`.
+- Release artifact: 918 files, SHA-256 `95703b896e9c0032e6c001005c096776388cbbe8aef5b940491b99999ee06b48`.
+- Full suite: 602/602; application, Functions and Lead Radar typechecks pass; secret scan is clean.
+- Protected SEO contracts: 10/10 unchanged against the reviewed 2026-09-14 baseline.
+- The article, canonical, Article and FAQPage schemas, homepage link, three responsive WebP assets, both sitemaps, robots.txt and admin cache/indexing headers passed custom-domain readback.
+- The full sitemap contains 289 canonical URLs; the additive priority sitemap contains 18 and includes the new article.
+- Payment configuration remains absent from the public auth contract. No migration, provider call, payment action or Telegram send occurred.
+
+The first direct upload attempt exposed a pre-existing Workers Free limit breach: 56 public text settings plus 35 secrets exceeded Cloudflare's 64-variable ceiling. Public settings are now delivered as one 2,565-byte text JSON binding and hydrated through an explicit 56-key allowlist. The final project has 36 variables (35 unchanged secrets plus one public config binding). D1, KV, both R2 buckets, Service, Queue, AI and Smart Placement are byte-equivalent to the pre-release configuration. A live CORS/auth canary returned the expected 204 preflight and 401 unauthenticated response.
+
+Evidence: `live-verification.json`. The private pre/post Cloudflare configuration snapshots remain outside Git. Publication and sitemap inclusion do not guarantee Google indexing; submit the priority sitemap and inspect the article URL in Google Search Console.

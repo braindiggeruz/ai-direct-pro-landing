@@ -1,17 +1,22 @@
 {
   "seo_ai_agent_article_20260914": {
-    "status": "candidate_reviewed_release_authorized",
+    "status": "deployed_and_live_verified",
     "article_commit": "b27c8ad22a3cf6b1dfbc14210721fe732d9f6c56",
-    "state_commit": "HEAD",
+    "release_commit": "bb931b955aedf232a05bebdcf8c3c70492bf0e75",
+    "deployment_id": "ec5e4911-9e1e-4a9b-b7ee-6864e1ba3fe7",
+    "artifact_sha256": "95703b896e9c0032e6c001005c096776388cbbe8aef5b940491b99999ee06b48",
+    "artifact_files": 918,
     "branch": "seo/ai-agent-article-20260913",
     "scope": "One Russian comparison article about chatbot, deterministic workflow and AI agent; contextual links, intent ownership, priority sitemap entry, responsive blog header correction and an immutable reviewed SEO baseline revision",
     "production_url": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
-    "current_live_status": 404,
+    "current_live_status": 200,
     "baseline": "docs/seo/evidence/2026-09-14/reviewed-protected-pages.json",
-    "evidence": "docs/seo/ai-agent-release/candidate-verification.json",
-    "verification": "The current ten protected production contracts match the previous reviewed baseline. The candidate changes only homepage internalLinks and bodyTextSha256, adds exactly /ru/blog/ai-agent-ili-chat-bot/, removes no link and changes no protected title, H1, description, canonical, robots or hreflang.",
+    "evidence": "docs/seo/ai-agent-release/live-verification.json",
+    "verification": "602/602 tests, three TypeScript projects, secret scan, 918-file build, protected SEO 10/10 and custom-domain browser/readback pass. Article canonical, Article and FAQPage schemas, homepage link, three image hashes, 289-URL main sitemap and 18-URL priority sitemap are live. Production has 35 unchanged secrets plus one packed public config; D1, KV, R2, Service, Queue, AI and Smart Placement match the pre-release snapshot.",
     "deployment_authorization": "Owner explicitly requested push and production deployment on 2026-09-14",
-    "next_step": "Commit the reviewed baseline revision, run the complete guarded build and tests, fast-forward origin/main, deploy through scripts/release/pages-production.ts, then verify the custom-domain manifest, article, assets and sitemaps."
+    "payments_enabled": false,
+    "indexing_confirmed": false,
+    "next_step": "Submit https://gptbot.uz/sitemap-priority.xml and inspect https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/ in Google Search Console; deployment and sitemap inclusion do not guarantee indexing."
   },
   "consumer_billing_readiness_20260906": {
     "status": "readiness_deployed_and_live_verified_merchant_launch_pending",
