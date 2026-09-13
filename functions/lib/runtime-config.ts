@@ -72,6 +72,7 @@ export type RuntimeConfig = Partial<Record<RuntimeConfigKey, string>>;
 
 export interface RuntimeConfigCarrier {
   GPTBOT_RUNTIME_CONFIG?: unknown;
+  GPTBOT_RUNTIME_CONFIG_JSON?: unknown;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -79,11 +80,21 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function hydrateRuntimeConfig<T extends RuntimeConfigCarrier>(env: T): T {
-  if (!isRecord(env.GPTBOT_RUNTIME_CONFIG)) return env;
+  let config: Record<string, unknown> | null = null;
+  if (typeof env.GPTBOT_RUNTIME_CONFIG_JSON === 'string') {
+    try {
+      const parsed: unknown = JSON.parse(env.GPTBOT_RUNTIME_CONFIG_JSON);
+      if (isRecord(parsed)) config = parsed;
+    } catch {
+      // Invalid configuration fails closed: no public feature flag is enabled.
+    }
+  }
+  if (!config && isRecord(env.GPTBOT_RUNTIME_CONFIG)) config = env.GPTBOT_RUNTIME_CONFIG;
+  if (!config) return env;
 
   const target = env as RuntimeConfigCarrier & Record<string, unknown>;
   for (const key of RUNTIME_CONFIG_KEYS) {
-    const value = env.GPTBOT_RUNTIME_CONFIG[key];
+    const value = config[key];
     if (typeof value === 'string' && target[key] === undefined) target[key] = value;
   }
   return env;

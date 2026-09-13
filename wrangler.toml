@@ -122,10 +122,16 @@ queue = "gptbot-automation"
 # Pages reads this to decide whether the owner-only replay endpoint and the
 # automation status surfaces are live; the Worker reads its own copy from
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
-# One JSON binding replaces 56 individual public-text bindings. Cloudflare
+# One text binding replaces 56 individual public-text bindings. Cloudflare
 # counts both secrets and text variables toward the Workers Free limit of 64;
-# this table serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
+# this JSON serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
 # functions/_middleware.ts expands only its explicit allowlist at request time.
+[vars]
+GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"minimax/minimax-m3:free,nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"minimax/minimax-m3:free","OPENROUTER_MODEL_FREE_FALLBACKS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","OPENROUTER_MODEL_PAID":"mistralai/mistral-small-3.2-24b-instruct","OPENROUTER_MODEL_PAID_FALLBACKS":"meta-llama/llama-3.3-70b-instruct,minimax/minimax-m3:free","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"true","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true"}'''
+
+# Wrangler understands the nested object below for local typing and future
+# runtimes. Pages Direct Upload currently persists the text binding above; the
+# parity test pins both representations byte-for-byte so they cannot drift.
 [vars.GPTBOT_RUNTIME_CONFIG]
 # Owner-authorized AEO release: explicit free-only model comparison, no web search.
 AEO_MEASUREMENTS_ENABLED = "true"

@@ -26,6 +26,7 @@ export interface Env extends FirecrawlEnvironment {
   // below the Workers Free 64-variable limit. Global middleware hydrates the
   // allowlisted legacy properties before any route executes.
   GPTBOT_RUNTIME_CONFIG?: Record<string, string>;
+  GPTBOT_RUNTIME_CONFIG_JSON?: string;
   // Bunzy publishes and retracts public articles through a signed webhook.
   // The HMAC secret is a Cloudflare secret_text binding; never place it in
   // wrangler.toml. Locale is public configuration and defaults to Russian.

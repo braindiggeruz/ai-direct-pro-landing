@@ -18,19 +18,22 @@ function wranglerRuntimeConfig(): Record<string, string> {
 test('the packed public runtime config is complete and stays within one Cloudflare variable', () => {
   const config = wranglerRuntimeConfig();
   assert.deepEqual(Object.keys(config).sort(), [...RUNTIME_CONFIG_KEYS].sort());
-  assert.ok(Buffer.byteLength(JSON.stringify(config), 'utf8') <= 5 * 1024);
 
   const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
-  assert.equal(/^\[vars\]\s*$/mu.test(source), false);
+  const packed = /GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)?.[1];
+  assert.ok(packed, 'the deployable text binding is missing');
+  assert.ok(Buffer.byteLength(packed, 'utf8') <= 5 * 1024);
+  assert.deepEqual(JSON.parse(packed), config);
+  assert.equal((source.match(/^\[vars\]\s*$/gmu) ?? []).length, 1);
 });
 
 test('runtime config hydrates only allowlisted missing values', () => {
   const env = {
-    GPTBOT_RUNTIME_CONFIG: {
+    GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify({
       AEO_MEASUREMENTS_ENABLED: 'true',
       BUNZY_DEFAULT_LOCALE: 'ru',
       JWT_SECRET: 'must-not-be-promoted',
-    },
+    }),
     BUNZY_DEFAULT_LOCALE: 'uz',
   };
 
@@ -42,7 +45,7 @@ test('runtime config hydrates only allowlisted missing values', () => {
 });
 
 test('global middleware hydrates the same env object before downstream routes run', async () => {
-  const env = { GPTBOT_RUNTIME_CONFIG: { MARKET_MINI_APP_ENABLED: 'true' } };
+  const env = { GPTBOT_RUNTIME_CONFIG_JSON: '{"MARKET_MINI_APP_ENABLED":"true"}' };
   let downstreamValue: unknown;
   const response = await middleware({
     request: new Request('https://gptbot.uz/api/example'),
@@ -55,4 +58,14 @@ test('global middleware hydrates the same env object before downstream routes ru
 
   assert.equal(response.status, 200);
   assert.equal(downstreamValue, 'true');
+});
+
+test('invalid packed text fails closed and the typed-object fallback remains supported', () => {
+  const invalid = { GPTBOT_RUNTIME_CONFIG_JSON: '{broken' };
+  hydrateRuntimeConfig(invalid);
+  assert.equal((invalid as Record<string, unknown>).MARKET_MINI_APP_ENABLED, undefined);
+
+  const fallback = { GPTBOT_RUNTIME_CONFIG: { MARKET_MINI_APP_ENABLED: 'true' } };
+  hydrateRuntimeConfig(fallback);
+  assert.equal((fallback as Record<string, unknown>).MARKET_MINI_APP_ENABLED, 'true');
 });
