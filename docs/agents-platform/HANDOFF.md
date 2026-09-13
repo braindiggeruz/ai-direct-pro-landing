@@ -1,5 +1,13 @@
 # GPTBot AEO video incident closure — 2026-09-05
 
+## AI-agent comparison article — authorized release, 2026-09-14
+
+The owner explicitly requested push and production deployment. Candidate article commit `b27c8ad22a3cf6b1dfbc14210721fe732d9f6c56` adds `/ru/blog/ai-agent-ili-chat-bot/`, three responsive WebP images, contextual incoming links, an intent-manifest boundary and an additive priority-sitemap entry. The URL currently returns HTTP 404 because no upload has occurred yet.
+
+The protected SEO gate stopped the first build because the existing homepage blog shell gained the new article. `docs/seo/ai-agent-release/verify-candidate.mjs` compared all ten current live protected contracts with the previous reviewed baseline and proved that the candidate changes only `/` fields `internalLinks` and `bodyTextSha256`. Exactly one canonical internal URL is added, no link is removed, and the inserted visible text is only the article title. Protected title, H1, description, canonical, robots and hreflang remain unchanged. The immutable successor is `docs/seo/evidence/2026-09-14/reviewed-protected-pages.json`; the September 6 evidence is not overwritten.
+
+Next: commit this reviewed release evidence, run the guarded build/tests/secret scan, fast-forward `origin/main`, deploy the exact stamped commit to Cloudflare Pages project `ai-direct-pro-landing`, and verify `gptbot-release.json`, the article HTML, image assets, `sitemap.xml` and `sitemap-priority.xml` on `https://gptbot.uz`. No database migration, payment change, Telegram action, provider configuration or paid API call belongs to this release.
+
 ## Consumer billing readiness — 2026-09-06
 
 **Final release verified:** runtime `644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5`, deployment `6907261a-5483-4418-8f1b-9a4b075bbe8f`, artifact `a801903c1c78c5e610097cb2670cbbdd1755b490c20a4672374dc786025f14cf`. 598/598 full tests; 914-file build:cf; 288 live contracts, ten protected pages and eight CSS/JS hashes match. Production mobile UZ fresh 7+5 canary returned 12, final RU/UZ upcoming/payment-disabled and privacy wording verified. D1 readback has one completed free turn and zero reserved turns, paid attempts, accounts, orders or periods. Migration 0064 registered, 14 tables verified. All bindings/secret types preserved. Prepared worker maintenance hook was not separately deployed. Actual merchant/Telegram Login/terms acceptance remains external; no payment launch. Read `docs/readiness/2026-09-06/EXECUTION-RU.md` for receipts, legacy restore constraint limitations and PSI429. Candidate paragraphs below are superseded by this final receipt, not unfinished release steps.

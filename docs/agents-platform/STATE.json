@@ -1,4 +1,18 @@
 {
+  "seo_ai_agent_article_20260914": {
+    "status": "candidate_reviewed_release_authorized",
+    "article_commit": "b27c8ad22a3cf6b1dfbc14210721fe732d9f6c56",
+    "state_commit": "HEAD",
+    "branch": "seo/ai-agent-article-20260913",
+    "scope": "One Russian comparison article about chatbot, deterministic workflow and AI agent; contextual links, intent ownership, priority sitemap entry, responsive blog header correction and an immutable reviewed SEO baseline revision",
+    "production_url": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+    "current_live_status": 404,
+    "baseline": "docs/seo/evidence/2026-09-14/reviewed-protected-pages.json",
+    "evidence": "docs/seo/ai-agent-release/candidate-verification.json",
+    "verification": "The current ten protected production contracts match the previous reviewed baseline. The candidate changes only homepage internalLinks and bodyTextSha256, adds exactly /ru/blog/ai-agent-ili-chat-bot/, removes no link and changes no protected title, H1, description, canonical, robots or hreflang.",
+    "deployment_authorization": "Owner explicitly requested push and production deployment on 2026-09-14",
+    "next_step": "Commit the reviewed baseline revision, run the complete guarded build and tests, fast-forward origin/main, deploy through scripts/release/pages-production.ts, then verify the custom-domain manifest, article, assets and sitemaps."
+  },
   "consumer_billing_readiness_20260906": {
     "status": "readiness_deployed_and_live_verified_merchant_launch_pending",
     "release_commit": "644a94a3cd0da5f1f7ef487d5649ef72f8fe7ee5",

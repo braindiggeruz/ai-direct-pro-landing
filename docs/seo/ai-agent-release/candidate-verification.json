@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-09-13T23:26:06.496Z",
+  "candidateCommit": "b27c8ad22a3cf6b1dfbc14210721fe732d9f6c56",
+  "previousBaseline": "docs/seo/evidence/2026-09-06/reviewed-protected-pages.json",
+  "nextBaseline": "docs/seo/evidence/2026-09-14/reviewed-protected-pages.json",
+  "liveProtectedPagesUnchanged": 10,
+  "candidateProtectedPages": 10,
+  "reviewedChange": {
+    "path": "/",
+    "fields": [
+      "bodyTextSha256",
+      "internalLinks"
+    ],
+    "reason": "Publish one reviewed AI-agent comparison article and expose its canonical URL through the existing homepage blog link shell; no title, H1, description, canonical, robots or hreflang change.",
+    "addedInternalLinks": [
+      "/ru/blog/ai-agent-ili-chat-bot/"
+    ],
+    "removedInternalLinks": [],
+    "insertedBodyText": "AI-агент или чат-бот: что выбрать бизнесу в 2026"
+  },
+  "article": {
+    "pathname": "/ru/blog/ai-agent-ili-chat-bot/",
+    "canonical": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+    "h1": "AI-агент или чат-бот: что выбрать бизнесу в Узбекистане",
+    "articleSchema": true,
+    "faqSchema": true,
+    "heroImage": "/assets/blog/ai-agent-ili-chat-bot-1200.webp"
+  }
+}

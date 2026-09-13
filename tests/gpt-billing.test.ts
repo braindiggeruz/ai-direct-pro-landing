@@ -380,6 +380,6 @@ test("migration and runtime billing schema match", () => {
   const migration = readFileSync(
     new URL("../migrations/0064_gpt_consumer_billing.sql", import.meta.url),
     "utf8",
-  );
+  ).replace(/\r\n/g, "\n");
   for (const ddl of BILLING_DDL) assert.ok(migration.includes(ddl + ";"));
 });

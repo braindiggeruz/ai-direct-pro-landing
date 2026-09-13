@@ -190,16 +190,23 @@ test('priority sitemap contains only the current canonical reindex queue', () =>
     'https://gptbot.uz/uz/smm-xizmatlari/',
     'https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/',
     'https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/',
+    'https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/',
   ];
   const xml = read('public/sitemap-priority.xml');
   const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(locations, expected);
   assert.equal(new Set(locations).size, expected.length);
-  assert.equal((xml.match(/<lastmod>2026-09-04<\/lastmod>/g) ?? []).length, expected.length);
+  assert.equal((xml.match(/<lastmod>2026-09-04<\/lastmod>/g) ?? []).length, expected.length - 1);
+  assert.equal((xml.match(/<lastmod>2026-09-13<\/lastmod>/g) ?? []).length, 1);
 
   const pageFiles = fs.readdirSync(path.join(ROOT, 'content', 'pages'), { recursive: true })
-    .filter((file) => typeof file === 'string' && file.endsWith('.json')) as string[];
-  const published = new Set(pageFiles.map((file) => JSON.parse(read(path.join('content', 'pages', file))) as { status: string; url: string; robotsIndex?: boolean })
+    .filter((file) => typeof file === 'string' && file.endsWith('.json'))
+    .map((file) => path.join('content', 'pages', file as string));
+  const articleFiles = fs.readdirSync(path.join(ROOT, 'content', 'blog'), { recursive: true })
+    .filter((file) => typeof file === 'string' && file.endsWith('.json'))
+    .map((file) => path.join('content', 'blog', file as string));
+  const published = new Set([...pageFiles, ...articleFiles]
+    .map((file) => JSON.parse(read(file)) as { status: string; url: string; robotsIndex?: boolean })
     .filter((page) => page.status === 'published' && page.robotsIndex !== false)
     .map((page) => page.url));
   const redirectSources = new Set((JSON.parse(read('content/seo/redirects.json')) as Array<{ from: string }>).map((item) => item.from));

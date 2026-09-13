@@ -5,10 +5,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { stylesheetHrefs } from './site-stylesheets';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-// The original live capture remains immutable. This revision contains only the
-// three reviewed navigation changes and the provider-fact correction documented
-// alongside the snapshot. Search metadata and the other seven pages are unchanged.
-export const BASELINE = 'docs/seo/evidence/2026-09-06/reviewed-protected-pages.json';
+// Every reviewed revision keeps its predecessor immutable. The 2026-09-14
+// revision adds only the new AI-agent article link/text card on the homepage;
+// search metadata and the other nine protected pages remain unchanged.
+export const BASELINE = 'docs/seo/evidence/2026-09-14/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
