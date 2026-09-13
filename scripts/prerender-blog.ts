@@ -422,10 +422,10 @@ ${METRIKA_HEAD}
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
     <a href="/" class="font-display text-lg sm:text-xl text-white shrink-0">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-2 sm:gap-3 text-sm items-center">
-      <a href="${blogIndexHref}" data-testid="header-blog" class="text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
+      <a href="${blogIndexHref}" data-testid="header-blog" class="hidden sm:inline text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(headerCtaHref)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${headerCtaHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-3 sm:px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center text-center">
         ${escapeHtml(entry?.locale === 'ru' ? 'Открыть AI-чат' : a.cta?.label || global.defaultCTA.label)}
       </a>
@@ -572,10 +572,10 @@ ${METRIKA_HEAD}
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
     <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
-      <a href="/${locale}/blog/" data-testid="header-blog-active" class="text-brand-cyan">${escapeHtml(t.blog)}</a>
+      <a href="/${locale}/blog/" data-testid="header-blog-active" class="hidden sm:inline text-brand-cyan">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(global.defaultCTA.label)}</a>
     </nav>
   </div>

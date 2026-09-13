@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-09-04",
+  "updatedAt": "2026-09-13",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -475,6 +475,32 @@
       "gscNote": "Found on 2026-09-04 while de-duplicating the «biznes uchun ai bot» family. The two URLs declared two byte-identical keyword strings — «Samarqandda biznes uchun chat-bot» and «Samarqandda chat-bot ishlab chiqish» — and link to each other, so both were competing for the same Samarkand query with no measured winner.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-09-04"
+    },
+    {
+      "id": "C21-ru-ai-agent-vs-chatbot",
+      "commercial": {
+        "url": "/ru/ai-bot-dlya-biznesa/",
+        "owns": "order an AI bot for customer conversations and lead automation in Uzbekistan",
+        "mustNotTarget": [
+          "AI-агент или чат-бот",
+          "чем AI-агент отличается от чат-бота",
+          "workflow или AI-агент"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/ai-agent-ili-chat-bot/",
+        "owns": "compare a chatbot, deterministic workflow and AI agent by autonomy, tools, operational risk and human approval",
+        "mustNotTarget": [
+          "AI-бот для бизнеса",
+          "ИИ-бот для бизнеса",
+          "AI-менеджер 24/7",
+          "заказать AI-бота"
+        ]
+      },
+      "gscNote": "No current keyword-volume or GSC query export was available on 2026-09-13, so traffic potential remains UNMEASURED. A live Russian SERP review found fresh comparison articles published from April to September 2026, while site-restricted searches for GPTBot.uz returned no AI-agent article. The URL is an evidence-led topic-gap test, not a traffic forecast.",
+      "observedOwnerNote": "The existing money page keeps the transactional AI-bot family. The new article owns only the comparison question and explicitly introduces workflow as the safer middle layer. The older /ru/blog/gpt-bot-vs-chat-bot/ remains an architecture article about combining scripted dialogue, RAG and GPT; it does not declare AI-agent comparison keywords.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-09-13"
     }
   ],
   "architectureDecisions": [

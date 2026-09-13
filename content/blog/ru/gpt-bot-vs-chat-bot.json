@@ -138,6 +138,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Когда система должна сама выбирать инструменты и менять данные во внешних сервисах, появляется другая архитектурная граница. Её разбирает материал {agentComparison}.",
+      "links": [
+        {
+          "token": "agentComparison",
+          "target": "/ru/blog/ai-agent-ili-chat-bot/",
+          "anchor": "AI-агент или чат-бот"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Обсудить, что подойдёт вашему бизнесу",
       "href": "https://t.me/XGame_changerx"
@@ -217,6 +228,13 @@
       "anchor": "Как подключить ChatGPT к Telegram-боту",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/ai-agent-ili-chat-bot/",
+      "anchor": "AI-агент или чат-бот: что выбрать",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "Гибридный чат-бот: сценарии, база знаний и GPT",
@@ -228,7 +246,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-05-30",
-  "dateModified": "2026-07-30",
+  "dateModified": "2026-09-13",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -236,7 +254,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-30T00:00:00.000Z",
+  "updatedAt": "2026-09-13T00:00:00.000Z",
   "createdAt": "2026-05-25T00:00:00Z",
   "hreflangUz": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
   "sources": [

@@ -86,6 +86,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Если системе нужно не только отвечать, но и выбирать действия во внешних сервисах, сравните {agentComparison}. Там отдельно разобраны чат-бот, фиксированный workflow и AI-агент.",
+      "links": [
+        {
+          "token": "agentComparison",
+          "target": "/ru/blog/ai-agent-ili-chat-bot/",
+          "anchor": "AI-агента и чат-бота"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Какие задачи AI-бот решает в бизнесе"
     },
@@ -177,6 +188,13 @@
       "priority": 2
     },
     {
+      "target": "/ru/blog/ai-agent-ili-chat-bot/",
+      "anchor": "AI-агент, чат-бот или workflow",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
       "target": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
       "anchor": "окупаемость чат-бота",
       "locale": "ru",
@@ -212,7 +230,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-03",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-13",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -221,5 +239,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-03T00:00:00Z",
-  "updatedAt": "2026-07-27T00:00:00.000Z"
+  "updatedAt": "2026-09-13T00:00:00.000Z"
 }
