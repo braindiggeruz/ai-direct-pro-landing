@@ -16,6 +16,7 @@
 //   Note: we intentionally do NOT clear "cookies" — that would log out
 //   an already-authenticated admin.
 import type { Env } from './_types';
+import { hydrateRuntimeConfig } from './lib/runtime-config';
 
 function marketCorsOrigin(request: Request, env: Env): string | null {
   const origin = request.headers.get('Origin');
@@ -28,6 +29,7 @@ function marketCorsOrigin(request: Request, env: Env): string | null {
 }
 
 export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
+  hydrateRuntimeConfig(env);
   const url = new URL(request.url);
   const isMarketApi = url.pathname.startsWith('/api/market/v1/');
   const isLeadRadarApi = url.pathname.startsWith('/api/admin/lead-radar');

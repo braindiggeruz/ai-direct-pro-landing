@@ -122,7 +122,11 @@ queue = "gptbot-automation"
 # Pages reads this to decide whether the owner-only replay endpoint and the
 # automation status surfaces are live; the Worker reads its own copy from
 # wrangler.automation.toml. Both fail closed when it is not exactly "true".
-[vars]
+# One JSON binding replaces 56 individual public-text bindings. Cloudflare
+# counts both secrets and text variables toward the Workers Free limit of 64;
+# this table serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
+# functions/_middleware.ts expands only its explicit allowlist at request time.
+[vars.GPTBOT_RUNTIME_CONFIG]
 # Owner-authorized AEO release: explicit free-only model comparison, no web search.
 AEO_MEASUREMENTS_ENABLED = "true"
 AEO_MEASUREMENT_MODELS = "minimax/minimax-m3:free,nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free"

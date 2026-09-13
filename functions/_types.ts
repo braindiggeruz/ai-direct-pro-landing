@@ -22,6 +22,10 @@
 import type { FirecrawlEnvironment } from './platform/lead-radar/firecrawl-client';
 
 export interface Env extends FirecrawlEnvironment {
+  // Public flags and tuning values are packed into one JSON binding to stay
+  // below the Workers Free 64-variable limit. Global middleware hydrates the
+  // allowlisted legacy properties before any route executes.
+  GPTBOT_RUNTIME_CONFIG?: Record<string, string>;
   // Bunzy publishes and retracts public articles through a signed webhook.
   // The HMAC secret is a Cloudflare secret_text binding; never place it in
   // wrangler.toml. Locale is public configuration and defaults to Russian.

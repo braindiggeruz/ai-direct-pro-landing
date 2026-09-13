@@ -24,9 +24,10 @@ import path from 'node:path';
 const config = fs.readFileSync(path.join(process.cwd(), 'wrangler.toml'), 'utf8');
 
 const varsBlock = (): string => {
-  const at = config.indexOf('\n[vars]');
-  assert.notEqual(at, -1, 'wrangler.toml has no [vars] table');
-  const rest = config.slice(at + '\n[vars]'.length);
+  const header = '\n[vars.GPTBOT_RUNTIME_CONFIG]';
+  const at = config.indexOf(header);
+  assert.notEqual(at, -1, 'wrangler.toml has no packed GPTBOT_RUNTIME_CONFIG table');
+  const rest = config.slice(at + header.length);
   const next = rest.search(/\n\[/);
   return next === -1 ? rest : rest.slice(0, next);
 };
