@@ -1,0 +1,10 @@
+{
+  "batchId": "manual_1789721555046_df6e6af7",
+  "submittedAt": "2026-09-18T08:52:35.044Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "httpStatus": 200,
+  "ok": true,
+  "urlCount": 288,
+  "sitemapSha256": "54a0bba30c9071828e12ac59fa7fa3b6242d71e079b43cc50e356bd15a96a1d1",
+  "responseExcerpt": ""
+}

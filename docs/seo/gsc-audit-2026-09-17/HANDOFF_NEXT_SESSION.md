@@ -260,3 +260,17 @@ F:\Claude\GPTBOT_GSC_AUDIT_HANDOFF_2026-09-18.docx   этот документ �
 ```
 
 Первый шаг следующей сессии: раздел 1, пункты 1–5. Затем — раздел 9 (решения владельца) и раздел 7A.
+
+
+---
+
+## 11. Релиз fire-your-seo-agency 18.09 (вечер) — что изменилось для следующей сессии
+
+Полный отчёт: [RELEASE_2026-09-18_FYSA.md](RELEASE_2026-09-18_FYSA.md); аудит и roadmap F01–F12: [FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md](FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md). Production = commit `3100583` (ветка `seo/fire-your-seo-agency-2026-09-18`, `main` доведён fast-forward).
+
+- **Бренд теперь «GPTBot.uz» везде** (og:site_name, суффикс title `| GPTBot.uz`, h1/title главной, подписи, подвал); «GPTBot» — только `alternateName`. Правило в `AGENTS.md` §2. Новые title/description пишем с суффиксом `| GPTBot.uz` и в пределах title ≤ 65, description ≤ 160.
+- **Защищённые лидеры**: BASELINE = `docs/seo/evidence/2026-09-18-fysa/reviewed-protected-pages.json` (у 9 лидеров изменился только body-текст из-за бренда, у `/` — title/h1/description). Любая правка лидера — новая ревизия через `seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts --suffix <slug> --reason "<path>=<текст>"`.
+- **Offer в Service** генерируется из первого чипа `heroTrust` с ценой (`scripts/service-offers.ts`); чтобы страница получила Offer, цена должна быть видна в чипе. Не добавлять `Offer` в `schemaTypes` контента (гейт `seo-page-integrity`).
+- **Md-двойники** — список в `scripts/llm-pages.ts` (RU 10, UZ 8, статьи 7); `llms.txt` обязан перечислять ровно их (тест `seo-link-graph`). Добавил twin — добавь строку в `public/llms.txt`.
+- **RSS**: `scripts/generate-feed.ts` в `build`/`build:fast`/`build:cf`; фиды `/ru/blog/feed.xml`, `/uz/blog/feed.xml`.
+- **Открыто для владельца**: вычитка 8 узбекских мета-строк (таблица в RELEASE_…_FYSA), NAP и имя «GPTBot.uz» в Golden Pages / Google / Яндекс, F10 Вебмастеры, F11 e-mail, LLMO-проверка и O/X-baseline цитирований до 30.09, контрольные точки 02.10 и ≈ 22.10.
