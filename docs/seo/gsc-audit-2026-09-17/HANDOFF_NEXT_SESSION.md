@@ -266,10 +266,10 @@ F:\Claude\GPTBOT_GSC_AUDIT_HANDOFF_2026-09-18.docx   этот документ �
 
 ## 11. Релиз fire-your-seo-agency 18.09 (вечер) — что изменилось для следующей сессии
 
-Полный отчёт: [RELEASE_2026-09-18_FYSA.md](RELEASE_2026-09-18_FYSA.md); аудит и roadmap F01–F12: [FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md](FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md). Production = commit `3100583` (ветка `seo/fire-your-seo-agency-2026-09-18`, `main` доведён fast-forward).
+Полный отчёт: [RELEASE_2026-09-18_FYSA.md](RELEASE_2026-09-18_FYSA.md); аудит и roadmap F01–F12: [FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md](FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md). Production = commit `308cf787` (`3100583` — основной релиз, `308cf787` — follow-up после полной проверки деплоя: индексы блога и CTA чата тоже «GPTBot.uz»; ветка `seo/fire-your-seo-agency-2026-09-18`, `main` доведён fast-forward).
 
 - **Бренд теперь «GPTBot.uz» везде** (og:site_name, суффикс title `| GPTBot.uz`, h1/title главной, подписи, подвал); «GPTBot» — только `alternateName`. Правило в `AGENTS.md` §2. Новые title/description пишем с суффиксом `| GPTBot.uz` и в пределах title ≤ 65, description ≤ 160.
-- **Защищённые лидеры**: BASELINE = `docs/seo/evidence/2026-09-18-fysa/reviewed-protected-pages.json` (у 9 лидеров изменился только body-текст из-за бренда, у `/` — title/h1/description). Любая правка лидера — новая ревизия через `seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts --suffix <slug> --reason "<path>=<текст>"`.
+- **Защищённые лидеры**: BASELINE = `docs/seo/evidence/2026-09-18-fysa-2/reviewed-protected-pages.json` (у 9 лидеров изменился только body-текст из-за бренда, у `/` — title/h1/description). Любая правка лидера — новая ревизия через `seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts --suffix <slug> --reason "<path>=<текст>"`.
 - **Offer в Service** генерируется из первого чипа `heroTrust` с ценой (`scripts/service-offers.ts`); чтобы страница получила Offer, цена должна быть видна в чипе. Не добавлять `Offer` в `schemaTypes` контента (гейт `seo-page-integrity`).
 - **Md-двойники** — список в `scripts/llm-pages.ts` (RU 10, UZ 8, статьи 7); `llms.txt` обязан перечислять ровно их (тест `seo-link-graph`). Добавил twin — добавь строку в `public/llms.txt`.
 - **RSS**: `scripts/generate-feed.ts` в `build`/`build:fast`/`build:cf`; фиды `/ru/blog/feed.xml`, `/uz/blog/feed.xml`.

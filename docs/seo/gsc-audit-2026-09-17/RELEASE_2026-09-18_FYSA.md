@@ -117,3 +117,26 @@ HTML на домене отдаётся с `cf-cache-status: DYNAMIC` — ста
 3. До 30.09: LLMO-проверка без браузинга и O/X-baseline цитирований (шаблоны в аудите, разделы 3.2 и 3.8).
 4. 02.10 и ≈ 22.10: контрольные точки из таблицы выше; при падении CTR брендового запроса или лидеров — откат title/h1 главной (`index.html`, `src/i18n.ts`, `scripts/prerender-home.ts`) одним коммитом, baseline-цепочка хранит предыдущую ревизию.
 5. Остальное по roadmap аудита (Phase 2 intent-страницы, F04 первоисточник, Yandex-лейн 4.1–4.4).
+
+## Дополнение: полная проверка деплоя и follow-up 308cf787
+
+По команде владельца «проверь, чтобы все улучшения были корректно задеплоены» выполнен полный обход живого домена без JS (скрипт-верификатор: 288 URL sitemap, 25 md-двойников, 2 фида, llms-файлы, React-бандл главной, origin pages.dev).
+
+**Подтверждено на 3100583:** 288/288 → 200, noindex 0, self-canonical 288, h1 = 1 везде, JSON-LD парсится без ошибок; `og:site_name` = GPTBot.uz на всех страницах с og-блоком; ни одного title с хвостом «| GPTBot»; live title = title в content на 288/288; Organization (`#org`) с `alternateName: GPTBot` и Яндекс Картами в `sameAs` на 282 страницах; WebSite «GPTBot.uz» на 280; подпись «Проверено командой GPTBot.uz» на 94 страницах; React-бандл главной содержит новый h1 и не содержит «GPTBot — »; Offer ровно на 34 страницах = 34 страницы с чипом цены, `minPrice` совпадает с чипом на всех, помесячные — SMM RU/UZ; title > 65 — 0, description > 160 — только два защищённых лидера; 24 переписанных документа live = content; 10 лидеров: title/h1/description/canonical как в baseline (главная — с «GPTBot.uz —»); 25 twins → 200 `text/markdown` + `noindex` + H1 + FAQ, ссылка `text/markdown` верна на всех 282 HTML-страницах; все 112 URL из llms.txt/llms-full.txt → 200; фиды RU/UZ — валидный RSS 2.0, 50 записей, все из sitemap, `atom:link self`; RSS-ссылка на каждой странице; origin pages.dev = тот же манифест.
+
+**Найдено и исправлено (follow-up, commit `308cf787`, deployment `https://68dfa99f.ai-direct-pro-landing.pages.dev`, `deployed_and_verified`):**
+
+| Где | Было | Стало |
+|---|---|---|
+| `/ru/blog/`, `/uz/blog/` | title «Блог GPTBot — … \| GPTBot», h1 «Блог GPTBot» / «GPTBot blogi», без `og:site_name` (строки захардкожены в `scripts/prerender-blog.ts`) | «Блог GPTBot.uz — AI-боты и автоматизация заявок» (46) / «GPTBot.uz blogi — …», h1 «Блог GPTBot.uz» / «GPTBot.uz blogi», `og:site_name` добавлен |
+| CTA-блок AI-чата в статьях (`scripts/chat-entry-cta.ts`) | «GPTBot — самостоятельный AI-сервис, не продукт OpenAI» / «GPTBot — mustaqil AI-xizmat» | «GPTBot.uz — …» в обеих локалях; заголовок входа на статье об оплате — «Попробуйте GPTBot.uz» |
+| Инструменты контента | `apply-research.ts` подставлял суффикс «\| GPTBot», `apply-blog.ts` — автора «GPTBot Team» | «\| GPTBot.uz», «GPTBot.uz Team» |
+| Baseline лидеров | `2026-09-18-fysa` | `2026-09-18-fysa-2`: у шести статей-лидеров изменился только body-текст (CTA-блок) |
+
+Не трогал: `scripts/seed-pages.ts` (историческая посевная выборка, не рендерится), продуктовое имя «GPTBot AI» в кикере чата и в UI чата (это название продукта, не бренда сайта), строки UI инструмента AEO.
+
+Ложные срабатывания первого прогона (не дефекты): шесть таймаутов при 8 потоках — повторный обход 288/288 → 200; узел Boss Digital на `/boss-digital/` (отдельная сущность рядом с `#org`); две RSS-ссылки на главной (RU + UZ — так и задумано); хвостовая пунктуация в URL из текста llms.
+
+IndexNow повторно не отправлялся: полный список из 288 URL ушёл в 08:52 UTC того же дня, изменённые follow-up страницы в него входят.
+
+**Повторный полный обход после follow-up (production = `308cf787`): все проверки пройдены** — 288/288 → 200, `og:site_name` = GPTBot.uz на 282/282 HTML-страницах (включая индексы блога), title с хвостом «| GPTBot» — 0, Offer 34/34, twins 25/25, фиды 2/2, лидеры без изменений title/h1/description/canonical, origin = домен. Отчёт и скрипт-верификатор: [`docs/seo/evidence/2026-09-18-fysa-2/live-verification-report.md`](../evidence/2026-09-18-fysa-2/live-verification-report.md), [`verify_live.py`](../evidence/2026-09-18-fysa-2/verify_live.py) — повторять после каждого релиза (`python verify_live.py`, ожидаемый commit в константе `EXPECTED`).
