@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "target-reklama-nima",
   "url": "/uz/blog/target-reklama-nima/",
-  "title": "Target reklama nima: O‘zbekistonda qanday ishlaydi",
-  "description": "Target reklama nima, kontekst reklamadan nimasi bilan farq qiladi: auditoriya, kreativ, byudjet va o‘lchash. O‘zbekiston uchun amaliy cheklovlar va tez-tez uchraydigan xatolar.",
+  "title": "Target nima: target reklama O‘zbekistonda qanday ishlaydi",
+  "description": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Kontekstdan farqi, byudjet, kreativ va o‘lchash — amaliy qo‘llanma.",
   "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
   "topicCluster": "internet-reklama",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -275,7 +275,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-09-18",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -289,6 +289,6 @@
       "url": "https://www.facebook.com/business/ads"
     }
   ],
-  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "updatedAt": "2026-09-18",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

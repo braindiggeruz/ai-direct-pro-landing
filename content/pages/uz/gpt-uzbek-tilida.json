@@ -53,6 +53,10 @@
       "text": "Muhim aniqlik: GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. «ChatGPT» nomi ushbu sahifada foydalanuvchi izlaydigan texnologiya va xizmat turini tushuntirish uchun ishlatiladi. AI xato qilishi mumkin — muhim faktlarni birlamchi manbadan tekshiring. Parol, karta raqami, hujjat va boshqa maxfiy ma’lumotlarni kiritmang."
     },
     {
+      "type": "p",
+      "text": "«Chachipiti», «jaji piti», «chat jipiti» yoki «жажипити» — bularning bari ChatGPT nomining og‘zaki o‘zbekcha yozilishlari. Shu sahifadagi AI chat ham o‘zbek tilida javob beradi, ro‘yxatdan o‘tish va VPN talab qilmaydi: savolingizni shu sahifadagi chatga yozing."
+    },
+    {
       "type": "linkp",
       "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
       "links": [
@@ -516,6 +520,10 @@
     {
       "q": "Xuddi shunday chatni o‘z biznesim uchun qo‘yish mumkinmi?",
       "a": "Ha. Bu shaxsiy chat emas, sizning narxlaringiz va xizmatlaringiz bo‘yicha javob beradigan, arizani CRM yoki Telegramingizga uzatadigan alohida bot bo‘ladi. Paketlar va muddatlar «Biznes uchun AI bot» sahifasida ochiq yozilgan."
+    },
+    {
+      "q": "«Jaji piti» yoki «chachipiti» — bu nima?",
+      "a": "Bu ChatGPT nomining og‘zaki o‘zbekcha yozilishlari: chachipiti, jaji piti, chat jipiti, жажипити. Rasmiy ChatGPT — chatgpt.com sayti va ilovasi. Shu sahifada esa o‘zbek tilida bepul, ro‘yxatsiz ishlaydigan mustaqil AI chat bor."
     }
   ],
   "internalLinks": [

@@ -137,7 +137,9 @@ def crawl_one(url: str, sm: dict | None) -> dict:
     rec["h2_count"] = len(rec["h2"])
     rec["h3_count"] = len(soup.find_all("h3"))
     rec["faq_heading"] = any(re.search(r"faq|вопрос|savol", h, re.I) for h in rec["h2"])
-    imgs = soup.find_all("img")
+    # Tracking pixels (Yandex Metrika / Meta) legitimately carry alt="" — not content images.
+    imgs = [i for i in soup.find_all("img")
+            if not any(h in (i.get("src") or "") for h in ("mc.yandex.ru/watch", "facebook.com/tr"))]
     rec["img_count"] = len(imgs)
     rec["img_missing_alt"] = sum(1 for i in imgs if not (i.get("alt") or "").strip())
     internal, external = set(), set()

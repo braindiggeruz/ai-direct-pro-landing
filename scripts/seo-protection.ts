@@ -5,12 +5,13 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { stylesheetHrefs } from './site-stylesheets';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-// Every reviewed revision keeps its predecessor immutable. The 2026-09-18-home-cluster
-// revision (GSC audit 2026-09-17, T13) changes only the hreflang set of the homepage:
-// / is now the ru member and the x-default, /uz/ the uz member, and /ru/ canonicalises
-// to /. Title, H1, description, canonical, robots, links and text of all ten pages are
-// identical to the 2026-09-18 revision (wave 1 snippets of the kirish cluster).
-export const BASELINE = 'docs/seo/evidence/2026-09-18-home-cluster/reviewed-protected-pages.json';
+// Every reviewed revision keeps its predecessor immutable. The 2026-09-18-release
+// revision (release of the GSC audit 2026-09-17 work) adds the spoken-spelling
+// paragraph and FAQ entry on the Uzbek chat page (X01) and reflects renamed
+// money-page H1 / article titles in the homepage link shell. Title, H1,
+// description, canonical, robots and hreflang of all ten pages are identical to
+// the 2026-09-18-home-cluster revision.
+export const BASELINE = 'docs/seo/evidence/2026-09-18-release/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

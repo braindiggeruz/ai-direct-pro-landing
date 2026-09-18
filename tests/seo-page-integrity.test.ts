@@ -16,7 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
-import { HOME_HREFLANG } from '../src/shared/site-config';
+import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
 import type { BlogArticle, BodyBlock, Page } from '../src/shared/types';
 
 const ROOT = process.cwd();
@@ -127,6 +127,11 @@ test('every indexable document is canonical to its own URL', () => {
   for (const doc of indexable) {
     const canonical = doc.canonical || '';
     assert.ok(canonical.length > 0, `${doc.url} has no canonical`);
+    if (doc.url === '/ru/') {
+      // /ru/ deliberately canonicalises to the homepage (HOME_HREFLANG, gsc-audit-2026-09-17 T13).
+      assert.equal(canonical, `${SITE_URL}${HOME_HREFLANG.ru}`, `${doc.url} must canonicalise to the homepage`);
+      continue;
+    }
     assert.ok(
       canonical.endsWith(doc.url),
       `${doc.url} points its canonical at ${canonical}`,

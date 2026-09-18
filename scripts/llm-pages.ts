@@ -1,5 +1,5 @@
-// Curated list of RU service/money pages that get a clean Markdown twin
-// (dist/ru/<slug>/index.html.md) for LLM agents, plus a <link rel="alternate"
+// Curated list of RU and UZ service/money pages that get a clean Markdown twin
+// (dist/<locale>/<slug>/index.html.md) for LLM agents, plus a <link rel="alternate"
 // type="text/markdown"> in the prerendered HTML head.
 //
 // Kept small and hand-curated on purpose: only high-value service pages an AI
@@ -19,7 +19,24 @@ export const LLM_MARKDOWN_SLUGS_RU: string[] = [
   'ai-bot-s-crm-amocrm-bitrix24',
 ];
 
-/** URL path (with leading /ru/ and trailing slash) → true if it has a Markdown twin. */
-export const LLM_MARKDOWN_URLS: ReadonlySet<string> = new Set(
-  LLM_MARKDOWN_SLUGS_RU.map((s) => `/ru/${s}/`),
-);
+/**
+ * Curated Uzbek commercial hubs and the Uzbek AI chat page (gsc-audit-2026-09-17
+ * X22): the Uzbek segment converts (all organic key events in the 28 days to
+ * 2026-09-15 came from /uz/ pages) but had no Markdown twins for AI agents.
+ */
+export const LLM_MARKDOWN_SLUGS_UZ: string[] = [
+  'sayt-yaratish',
+  'smm-xizmatlari',
+  'seo-xizmati',
+  'telegram-reklama',
+  'internet-reklama-toshkent',
+  'biznes-uchun-ai-bot',
+  'telegram-bot-biznes-uchun',
+  'gpt-uzbek-tilida',
+];
+
+/** URL path (with locale prefix and trailing slash) → true if it has a Markdown twin. */
+export const LLM_MARKDOWN_URLS: ReadonlySet<string> = new Set([
+  ...LLM_MARKDOWN_SLUGS_RU.map((s) => `/ru/${s}/`),
+  ...LLM_MARKDOWN_SLUGS_UZ.map((s) => `/uz/${s}/`),
+]);
