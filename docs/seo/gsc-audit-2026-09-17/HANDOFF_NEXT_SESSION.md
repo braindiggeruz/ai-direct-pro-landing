@@ -1,16 +1,45 @@
 # HANDOFF — GSC-аудит и SEO-план GPTBot.uz (сессия 2026-09-17/18 → следующая сессия)
 
-Дата передачи: 2026-09-18. Автор: Claude (Senior Technical SEO / Data / Fullstack) по заданию владельца braindigger.uz@gmail.com. Язык работы — русский. Документ самодостаточен: агент следующей сессии может начать с раздела 1 и продолжить без чтения этой переписки.
+Дата передачи: 2026-09-18 (обновлено в конце сессии 2026-09-18 — см. раздел 0). Автор: Claude (Senior Technical SEO / Data / Fullstack) по заданию владельца braindigger.uz@gmail.com. Язык работы — русский. Документ самодостаточен: агент следующей сессии может начать с раздела 1 и продолжить без чтения этой переписки.
+
+---
+
+## 0. Статус после сессии 2026-09-18 (читать первым; при противоречии с разделами ниже — верен этот раздел)
+
+Владелец 18.09 ответил на вопросы раздела 9: применить волну 1 «по максимуму, автономно»; T06 — удалить статические sitemap; T13 — «/ = ru + x-default, /ru/ → canonical на /»; сырые выгрузки — коммитить. Деплой, push, действия в GSC и DNS **не выполнялись**.
+
+**Ветки в worktree `F:\Claude\gptbot-gsc-audit-20260917`** (локальные, не запушены; база `origin/main` a16f7988; в конце сессии HEAD — `seo/t13-home-cluster-hreflang`, `git status` чист кроме `.serena/`):
+
+| Ветка | Коммиты | Что внутри | Проверено |
+|---|---|---|---|
+| `seo/wave1-kirish-cluster` | 2c484e7d `docs(seo)` — отчёты, CSV, графики, скрипты, raw (11 МБ); e8c21192 `feat(seo): wave 1` | T01–T05; пара C18 в `content/seo/intent-manifest.json` развёрнута (login-статья владеет «kirish/ochish», VPNsiz — «ishlaydimi/vpnsiz»); baseline `docs/seo/evidence/2026-09-18/reviewed-protected-pages.json` (5 записей, включая `/` — главная перечисляет UZ-статьи по title) | `npm run build` (18 правил `_redirects`, lastmod четырёх страниц 2026-09-18), `seo-protection.ts check` 10/10, `npm test` 602/602, typecheck, lint |
+| `seo/t06-sitemap-single-source` (от wave1) | d0975143 `fix(seo)` | удалены `public/sitemap-new.xml` и `public/sitemap-priority.xml`; `src/shared/robots-policy.ts`, `public/robots.txt`, `scripts/generate-robots.ts` — только `/sitemap.xml`; тест `gsc-indexation-hygiene` переписан; `docs/agents-platform/STATE.json` | build (`robots.txt` — одна строка `Sitemap:`), 602/602, 10/10 |
+| `seo/t13-home-cluster-hreflang` (от wave1) | 3ecae342 `feat(seo)` | `HOME_HREFLANG` в `src/shared/site-config.ts`; `index.html`: hreflang ru → `/`, uz → `/uz/`, x-default → `/`; `content/pages/ru/hub.json`: canonical `https://gptbot.uz/`, без alternates, вне sitemap (288 URL); `content/pages/uz/hub.json`: hreflangRu → `/`, hreflangXDefault → `/`; `src/shared/audit.ts` HOME_NODE; новый тест `tests/home-hreflang-cluster.test.ts` (в `npm test`); манифест — решение A3; baseline `docs/seo/evidence/2026-09-18-home-cluster/`; helper `make_baseline_revision.ts` получил `--suffix/--allow/--reason` | build (head-теги `/`, `/ru/`, `/uz/` как задумано), 606/606, 10/10, typecheck, lint |
+
+Отличия от первой версии патчей: title T01/T03 сокращены до 64 символов (`ChatGPT kirish (login): rasmiy sayt, ochish va ro‘yxatdan o‘tish`; `ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat`); keywords: «chatgpt bepul kirish» убран из статьи входа (остаётся у UZ-чата), «ochish»-варианты и регистровые дубли — из VPNsiz-статьи; без разворота C18 тест `seo-intent-manifest` падает. Файлы `patches/*.diff` перегенерированы из фактического diff (`git diff origin/main`), описание — `patches/README.md`, раздел «Применено 2026-09-18».
+
+**Что делать дальше (по порядку):**
+
+1. **Вычитка узбекских текстов носителем** (обязательна до релиза): `content/blog/uz/chatgptga-qanday-kirish-mumkin.json` (title, h1, description, intro, раздел «ChatGPT ochish: 3 qadam»), `content/blog/uz/chatgpt-ozbekistonda-vpnsiz-ishlaydimi.json` (title, h1, description, первый H2 и абзац под ним), `content/pages/uz/gpt-uzbek-tilida.json` (title, description, heroSubtitle, первый абзац). Правки — в ветку wave1 тем же процессом: `npm run build` → `node --import tsx seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts --write --date <дата> --suffix proofread` → `BASELINE` в `scripts/seo-protection.ts` → `check` → `npm test`.
+2. **Релиз волны 1** — только по команде владельца: `git checkout seo/wave1-kirish-cluster` → `npm run release:pages:check` → `npm run deploy:pages:production`. Push ветки на GitHub — тоже по команде. Если `origin/main` ушёл вперёд — `git rebase origin/main` (без force, ветка не запушена) и повторить проверки.
+3. **День 0–5 после релиза:** `curl -sI https://gptbot.uz/ru/gpt-vs-chatgpt-sravnesie/` → 301; новые title через `curl -s <url> | grep -o '<title>[^<]*'`; через 3–5 дней URL Inspection четырёх страниц (батч по 3) → даты краула в `docs/seo/gsc-audit-2026-09-17/checks/wave1-crawl-dates.md` (папку создать).
+4. **T06** — отдельным релизом через 1–2 недели после волны 1 (ветка `seo/t06-sitemap-single-source`). После релиза владелец удаляет в GSC submissions `sitemap-new.xml` и `sitemap-priority.xml`: файлы отдадут 404 намеренно — редирект на `/sitemap.xml` запрещён audit-гейтом (`redirect-target-missing`).
+5. **T13** — после подтверждения краула волны 1 (ветка `seo/t13-home-cluster-hreflang`). Контроль через 28 дней: «gptbot» приземляется на `/`, `/ru/` в GSC — «Alternate page with proper canonical tag». T06 и T13 можно слить в один релиз: файлы не пересекаются; `BASELINE` и `docs/seo/evidence` берутся из T13.
+6. **Измерение (раздел 7D)** — с первой пятницы после релиза; база сравнения — `csv/`, `summary.json` в этом каталоге (окно 18.08–14.09).
+
+**Не сделано, осознанно:** T07 (ручной Request indexing — владелец в GSC); T08 (уникализация двух RU-страниц «not indexed» — нужен новый контент); T09, E1, E2, T11, T12 (страницы-лидеры кластера — только после вердикта по волне 1); T10 (нужны факты кейсов Cake City/Graver и цены); T14–T19 (P3, месяцы 2–3); QW-8 (узбекский текст без вычитки).
+
+**Открытые вопросы владельца:** нужен ли прямой OAuth к Search Console API (client_secret.json + подтверждение в браузере); факты кейсов и цены для T10/B1; кто вычитывает узбекский; когда push и релиз.
 
 ---
 
 ## 1. Первые 10 минут новой сессии (чек-лист)
 
-1. Открыть проект: `F:\Claude\gptbot-gsc-audit-20260917` (git worktree, ветка `seo/gsc-audit-20260917`, база `origin/main` a16f7988). Если сессия запущена без папки — вызвать change_directory на этот путь. Не работать в других клонах `F:\Claude\gptbot-*` (устаревшие).
-2. `git status --short` — ожидаемо только три untracked: `docs/seo/gsc-audit-2026-09-17/`, `seo-audit/`, `.serena/` (последнюю в коммит не включать). Tracked-файлы должны быть чистыми. Если есть новые коммиты в `origin/main` — `git fetch` и сравнить, но не ребейзить без нужды.
-3. Прочитать в этом порядке: `docs/seo/gsc-audit-2026-09-17/README.md` → `FINAL_REPORT.md` → `SEO_ROADMAP_FULL.md` → `patches/README.md` → `EMERGING_KEYWORDS.md`. Остальное — по мере необходимости.
-4. Проверить доступ к GSC: `cd seo-audit/gsc-2026-09-17/scripts && python gsc_pull.py probe`. Ожидаемый вывод: `siteUrl: sc-domain:gptbot.uz`, `lastFinalDate` ≥ 2026-09-14. Если ошибка токена — см. раздел 4.
-5. Уточнить у владельца статус решений из раздела 9 (что одобрено). Пока нет одобрения — не применять патчи к tracked-файлам, не деплоить.
+1. Открыть проект `F:\Claude\gptbot-gsc-audit-20260917` (worktree; ожидаемый HEAD — `seo/t13-home-cluster-hreflang`, три ветки `git branch --list 'seo/*'`). `git status --short` — только `.serena/`. `git fetch` и сравнить `origin/main` с a16f7988; если main ушёл вперёд — ребейзить ветки только по команде владельца.
+2. Прочитать раздел 0, затем `patches/README.md` (раздел «Применено 2026-09-18»), `QUICK_WINS.md`, `MEASUREMENT_PLAN.md`; остальное — по мере необходимости.
+3. Окружение: `node_modules` уже установлены (`corepack yarn install --frozen-lockfile`; `yarn` не в PATH); для полного `npm test` нужен `npm ci` внутри `apps/gpt-backend` (тоже сделано). Python не открывает пути вида `/f/...` — передавать `F:/...`.
+4. GSC: `cd seo-audit/gsc-2026-09-17/scripts && python gsc_pull.py probe` (18.09: `lastFinalDate` 2026-09-15). Если ошибка токена — раздел 4.
+5. Спросить владельца: сделана ли вычитка UZ-текстов; был ли релиз волны 1 и когда — от этого зависит, продолжать с пункта 1, 2 или 3–5 раздела 0.
 
 ---
 
@@ -61,7 +90,7 @@ python charts.py                               # 13 PNG
 
 ---
 
-## 5. Что сделано (артефакты)
+## 5. Что сделано (артефакты) — на момент аудита; текущее состояние веток см. раздел 0
 
 Все в `F:\Claude\gptbot-gsc-audit-20260917`, не закоммичено.
 
@@ -98,7 +127,7 @@ python charts.py                               # 13 PNG
 
 ## 7. Статус задач и что делать дальше (по порядку)
 
-### A. Волна 1 — готова к применению после одобрения владельца
+### A. Волна 1 — ПРИМЕНЕНА 18.09 в ветке `seo/wave1-kirish-cluster` (см. раздел 0); ниже — исходный план
 
 Патчи `docs/seo/gsc-audit-2026-09-17/patches/` (сгенерированы `make_wave1_patches.py`, `git apply --check` пройден 18.09 на a16f7988):
 
@@ -194,7 +223,7 @@ git apply docs/seo/gsc-audit-2026-09-17/patches/T04-ru-chat-link-to-uz.diff
 
 ---
 
-## 9. Открытые решения владельца (спросить в начале сессии)
+## 9. Открытые решения владельца — решения от 18.09 записаны в разделе 0; ниже исходный список
 
 1. Одобрить применение волны 1 (T01–T05) и релиз? Кто вычитывает узбекские тексты?
 2. Sitemap: удалить статические `sitemap-new.xml` / `sitemap-priority.xml` (и их submissions в GSC) или генерировать с lastmod?
