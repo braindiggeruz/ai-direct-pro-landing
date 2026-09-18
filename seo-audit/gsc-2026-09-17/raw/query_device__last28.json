@@ -1,0 +1,13020 @@
+{
+ "dataset": "query_device__last28",
+ "pulledAt": "2026-09-17T13:55:21+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-08-18",
+ "endDate": "2026-09-14",
+ "dimensions": [
+  "query",
+  "device"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 2,
+ "rowCount": 1300,
+ "rows": [
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 140,
+   "impressions": 9096,
+   "ctr": 0.015391380826737027,
+   "position": 4.673153034300792
+  },
+  {
+   "keys": [
+    "chatgpt kirish",
+    "MOBILE"
+   ],
+   "clicks": 69,
+   "impressions": 21475,
+   "ctr": 0.0032130384167636788,
+   "position": 7.354691501746217
+  },
+  {
+   "keys": [
+    "chatgpt ilovasini yuklab olish",
+    "MOBILE"
+   ],
+   "clicks": 51,
+   "impressions": 1838,
+   "ctr": 0.027747551686615888,
+   "position": 5.70348204570185
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish",
+    "MOBILE"
+   ],
+   "clicks": 42,
+   "impressions": 3128,
+   "ctr": 0.013427109974424553,
+   "position": 6.78420716112532
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 34,
+   "impressions": 447,
+   "ctr": 0.07606263982102908,
+   "position": 4.72930648769575
+  },
+  {
+   "keys": [
+    "chatgpt ochish",
+    "MOBILE"
+   ],
+   "clicks": 19,
+   "impressions": 3076,
+   "ctr": 0.006176853055916775,
+   "position": 6.072821846553966
+  },
+  {
+   "keys": [
+    "chatgpt bepul kirish",
+    "MOBILE"
+   ],
+   "clicks": 11,
+   "impressions": 2135,
+   "ctr": 0.005152224824355972,
+   "position": 8.450585480093677
+  },
+  {
+   "keys": [
+    "chatgpt kirish",
+    "DESKTOP"
+   ],
+   "clicks": 11,
+   "impressions": 2995,
+   "ctr": 0.003672787979966611,
+   "position": 7.470784641068447
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha bepul",
+    "MOBILE"
+   ],
+   "clicks": 9,
+   "impressions": 926,
+   "ctr": 0.009719222462203024,
+   "position": 5.345572354211663
+  },
+  {
+   "keys": [
+    "chatgpt uz",
+    "MOBILE"
+   ],
+   "clicks": 8,
+   "impressions": 456,
+   "ctr": 0.017543859649122806,
+   "position": 5.267543859649122
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online",
+    "MOBILE"
+   ],
+   "clicks": 8,
+   "impressions": 690,
+   "ctr": 0.011594202898550725,
+   "position": 5.9
+  },
+  {
+   "keys": [
+    "chat gpt yuklash",
+    "MOBILE"
+   ],
+   "clicks": 7,
+   "impressions": 572,
+   "ctr": 0.012237762237762238,
+   "position": 7.129370629370629
+  },
+  {
+   "keys": [
+    "chatgpt kirish uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 7,
+   "impressions": 1975,
+   "ctr": 0.0035443037974683543,
+   "position": 5.9270886075949365
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha online",
+    "MOBILE"
+   ],
+   "clicks": 7,
+   "impressions": 1008,
+   "ctr": 0.006944444444444444,
+   "position": 5.069444444444445
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha",
+    "MOBILE"
+   ],
+   "clicks": 6,
+   "impressions": 832,
+   "ctr": 0.007211538461538462,
+   "position": 6.243990384615385
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish",
+    "DESKTOP"
+   ],
+   "clicks": 6,
+   "impressions": 569,
+   "ctr": 0.01054481546572935,
+   "position": 8.659050966608085
+  },
+  {
+   "keys": [
+    "chat gpt uzbekcha",
+    "MOBILE"
+   ],
+   "clicks": 5,
+   "impressions": 159,
+   "ctr": 0.031446540880503145,
+   "position": 5.7924528301886795
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida gaplashish",
+    "MOBILE"
+   ],
+   "clicks": 5,
+   "impressions": 630,
+   "ctr": 0.007936507936507936,
+   "position": 7.06984126984127
+  },
+  {
+   "keys": [
+    "chatgpt uz",
+    "DESKTOP"
+   ],
+   "clicks": 4,
+   "impressions": 227,
+   "ctr": 0.01762114537444934,
+   "position": 4.753303964757709
+  },
+  {
+   "keys": [
+    "gptbot",
+    "MOBILE"
+   ],
+   "clicks": 4,
+   "impressions": 4,
+   "ctr": 1,
+   "position": 1
+  },
+  {
+   "keys": [
+    "jaji piti online",
+    "MOBILE"
+   ],
+   "clicks": 4,
+   "impressions": 646,
+   "ctr": 0.006191950464396285,
+   "position": 6.979876160990712
+  },
+  {
+   "keys": [
+    "как оплатить чат gpt в узбекистане",
+    "MOBILE"
+   ],
+   "clicks": 4,
+   "impressions": 13,
+   "ctr": 0.3076923076923077,
+   "position": 1.3076923076923077
+  },
+  {
+   "keys": [
+    "чат джипити узбекча",
+    "MOBILE"
+   ],
+   "clicks": 4,
+   "impressions": 35,
+   "ctr": 0.11428571428571428,
+   "position": 6.085714285714285
+  },
+  {
+   "keys": [
+    "chatgpt ilovasini yuklab olish",
+    "DESKTOP"
+   ],
+   "clicks": 3,
+   "impressions": 67,
+   "ctr": 0.04477611940298507,
+   "position": 6.208955223880597
+  },
+  {
+   "keys": [
+    "chatgpt kirish login",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 109,
+   "ctr": 0.027522935779816515,
+   "position": 6.165137614678899
+  },
+  {
+   "keys": [
+    "chatgpt tarjima",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 307,
+   "ctr": 0.009771986970684038,
+   "position": 6.423452768729642
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha скачать",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 313,
+   "ctr": 0.009584664536741214,
+   "position": 8.654952076677317
+  },
+  {
+   "keys": [
+    "chatgpt uzbekistan",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 141,
+   "ctr": 0.02127659574468085,
+   "position": 4.666666666666666
+  },
+  {
+   "keys": [
+    "chatgpt yuklash apk",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 64,
+   "ctr": 0.046875,
+   "position": 7.03125
+  },
+  {
+   "keys": [
+    "чат гпт узбекча",
+    "MOBILE"
+   ],
+   "clicks": 3,
+   "impressions": 146,
+   "ctr": 0.02054794520547945,
+   "position": 5.575342465753424
+  },
+  {
+   "keys": [
+    "chat gpt uzb",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 40,
+   "ctr": 0.05,
+   "position": 4.35
+  },
+  {
+   "keys": [
+    "chatgpt bepul",
+    "DESKTOP"
+   ],
+   "clicks": 2,
+   "impressions": 53,
+   "ctr": 0.03773584905660377,
+   "position": 6.6415094339622645
+  },
+  {
+   "keys": [
+    "chatgpt bepul",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 187,
+   "ctr": 0.0106951871657754,
+   "position": 6.197860962566845
+  },
+  {
+   "keys": [
+    "chatgpt ochish",
+    "DESKTOP"
+   ],
+   "clicks": 2,
+   "impressions": 136,
+   "ctr": 0.014705882352941176,
+   "position": 5.985294117647059
+  },
+  {
+   "keys": [
+    "chatgpt online uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 2,
+   "impressions": 11,
+   "ctr": 0.18181818181818182,
+   "position": 6.636363636363637
+  },
+  {
+   "keys": [
+    "chatgpt ozbekcha",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 209,
+   "ctr": 0.009569377990430622,
+   "position": 5.91866028708134
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 99,
+   "ctr": 0.020202020202020204,
+   "position": 6.747474747474747
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbekcha",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 117,
+   "ctr": 0.017094017094017096,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt skachat uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 125,
+   "ctr": 0.016,
+   "position": 7.064
+  },
+  {
+   "keys": [
+    "chatgpt uzb",
+    "MOBILE"
+   ],
+   "clicks": 2,
+   "impressions": 90,
+   "ctr": 0.022222222222222223,
+   "position": 5.088888888888889
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "TABLET"
+   ],
+   "clicks": 2,
+   "impressions": 61,
+   "ctr": 0.03278688524590164,
+   "position": 4.590163934426229
+  },
+  {
+   "keys": [
+    "chatgpt на узбекском",
+    "DESKTOP"
+   ],
+   "clicks": 2,
+   "impressions": 23,
+   "ctr": 0.08695652173913043,
+   "position": 3.869565217391304
+  },
+  {
+   "keys": [
+    "gptbot",
+    "DESKTOP"
+   ],
+   "clicks": 2,
+   "impressions": 3,
+   "ctr": 0.6666666666666666,
+   "position": 1
+  },
+  {
+   "keys": [
+    "bepul chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 14,
+   "ctr": 0.07142857142857142,
+   "position": 6.642857142857143
+  },
+  {
+   "keys": [
+    "chat gpt 4 uzbekistan",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 78,
+   "ctr": 0.01282051282051282,
+   "position": 6.512820512820513
+  },
+  {
+   "keys": [
+    "chat gpt uchun prompt",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 11,
+   "ctr": 0.09090909090909091,
+   "position": 3.4545454545454546
+  },
+  {
+   "keys": [
+    "chat gpt uz",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 48,
+   "ctr": 0.020833333333333332,
+   "position": 4.770833333333334
+  },
+  {
+   "keys": [
+    "chatgpt bepul versiyasi",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 3,
+   "ctr": 0.3333333333333333,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt bepul versiyasi",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 15,
+   "ctr": 0.06666666666666667,
+   "position": 7.8
+  },
+  {
+   "keys": [
+    "chatgpt ilovasi",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 44,
+   "ctr": 0.022727272727272728,
+   "position": 6.4772727272727275
+  },
+  {
+   "keys": [
+    "chatgpt kirish uzbek tilida",
+    "TABLET"
+   ],
+   "clicks": 1,
+   "impressions": 9,
+   "ctr": 0.1111111111111111,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt o'rnatish",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 35,
+   "ctr": 0.02857142857142857,
+   "position": 5.4
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 37,
+   "ctr": 0.02702702702702703,
+   "position": 6.945945945945946
+  },
+  {
+   "keys": [
+    "chatgpt ochish",
+    "TABLET"
+   ],
+   "clicks": 1,
+   "impressions": 25,
+   "ctr": 0.04,
+   "position": 5.72
+  },
+  {
+   "keys": [
+    "chatgpt ochish uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 460,
+   "ctr": 0.002173913043478261,
+   "position": 6.15
+  },
+  {
+   "keys": [
+    "chatgpt tarjimon",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 13,
+   "ctr": 0.07692307692307693,
+   "position": 7.538461538461538
+  },
+  {
+   "keys": [
+    "chatgpt uchun prompt",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 39,
+   "ctr": 0.02564102564102564,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 242,
+   "ctr": 0.004132231404958678,
+   "position": 6.545454545454546
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida gaplashish",
+    "TABLET"
+   ],
+   "clicks": 1,
+   "impressions": 2,
+   "ctr": 0.5,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha tarjimon",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 53,
+   "ctr": 0.018867924528301886,
+   "position": 4.754716981132075
+  },
+  {
+   "keys": [
+    "chatgpt yozish",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 60,
+   "ctr": 0.016666666666666666,
+   "position": 9.316666666666666
+  },
+  {
+   "keys": [
+    "chatgpt yuklash",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 103,
+   "ctr": 0.009708737864077669,
+   "position": 7.271844660194175
+  },
+  {
+   "keys": [
+    "chatgpt yuklash uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 4,
+   "ctr": 0.25,
+   "position": 4
+  },
+  {
+   "keys": [
+    "chatgpt скачать uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 7,
+   "ctr": 0.14285714285714285,
+   "position": 6.428571428571429
+  },
+  {
+   "keys": [
+    "chatgpt узбекистан",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgptga kirish",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 57,
+   "ctr": 0.017543859649122806,
+   "position": 3.6140350877192984
+  },
+  {
+   "keys": [
+    "chpjt",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 3
+  },
+  {
+   "keys": [
+    "как оплатить чат gpt в узбекистане",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 9,
+   "ctr": 0.1111111111111111,
+   "position": 1.1111111111111112
+  },
+  {
+   "keys": [
+    "как поговорить с ии",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 2,
+   "ctr": 0.5,
+   "position": 14.5
+  },
+  {
+   "keys": [
+    "прайс смм специалиста",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 4
+  },
+  {
+   "keys": [
+    "разработка сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 11,
+   "ctr": 0.09090909090909091,
+   "position": 41.09090909090909
+  },
+  {
+   "keys": [
+    "чат гпт узб",
+    "DESKTOP"
+   ],
+   "clicks": 1,
+   "impressions": 5,
+   "ctr": 0.2,
+   "position": 3.4
+  },
+  {
+   "keys": [
+    "чат гпт узб",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 15,
+   "ctr": 0.06666666666666667,
+   "position": 3.3333333333333335
+  },
+  {
+   "keys": [
+    "чат гпт узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 3,
+   "ctr": 0.3333333333333333,
+   "position": 4.666666666666666
+  },
+  {
+   "keys": [
+    "чат джипити узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 27,
+   "ctr": 0.037037037037037035,
+   "position": 7.62962962962963
+  },
+  {
+   "keys": [
+    "чати пити узбекча",
+    "MOBILE"
+   ],
+   "clicks": 1,
+   "impressions": 37,
+   "ctr": 0.02702702702702703,
+   "position": 7.054054054054054
+  },
+  {
+   "keys": [
+    "\"elama\"",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "1",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "@cb_survey_a2026_bot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai manager",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 22.666666666666668
+  },
+  {
+   "keys": [
+    "ai боты для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 86.57142857142857
+  },
+  {
+   "keys": [
+    "ai консультант для сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "ai менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 32.45454545454545
+  },
+  {
+   "keys": [
+    "ai менеджер",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "ai менеджеры",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 24.333333333333332
+  },
+  {
+   "keys": [
+    "ai обработка заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 67.5
+  },
+  {
+   "keys": [
+    "ai продавец",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "ai продавец",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "ai11179",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 3.3333333333333335
+  },
+  {
+   "keys": [
+    "ai60670",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "ai62911",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67014",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.666666666666667
+  },
+  {
+   "keys": [
+    "ai67024",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "ai67039",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "ai67050",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67067",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "ai67069",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4.5
+  },
+  {
+   "keys": [
+    "ai67076",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "ai67089",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67090",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "ai67109",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67189",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67226",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67545",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67622",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "ai67623",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "ai67628",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "ai67901",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67903",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67905",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67963",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67963",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67990",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67991",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67997",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai68339",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "ai97547",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "al chat что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "al chat что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10.5
+  },
+  {
+   "keys": [
+    "ammocrm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "arzon sifatli veb sayt yaratish xizmati",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "audit digital marketing",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "bepul sayt yaratish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "bitrich ai bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "boss digital",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "bot direct instagram",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "botlar",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "cajgbt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "cakecity",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chach gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.25
+  },
+  {
+   "keys": [
+    "chachi piti uzb",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 7.384615384615385
+  },
+  {
+   "keys": [
+    "chachi piti uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chachipiti online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chachipiti oʻzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chachipiti oʻzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 157,
+   "ctr": 0,
+   "position": 8.280254777070063
+  },
+  {
+   "keys": [
+    "chachipiti yuklash",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chaji piti",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chaji piti",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.333333333333333
+  },
+  {
+   "keys": [
+    "chaji piti online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chaji piti online",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 39,
+   "ctr": 0,
+   "position": 5.641025641025641
+  },
+  {
+   "keys": [
+    "chaji piti uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 8.25
+  },
+  {
+   "keys": [
+    "chap dpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chap jtp",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "chat chipiti online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 6.1
+  },
+  {
+   "keys": [
+    "chat chipiti online",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 6.37037037037037
+  },
+  {
+   "keys": [
+    "chat gibit",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 3.5
+  },
+  {
+   "keys": [
+    "chat gpt 4 uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chat gpt 4 uzbekistan",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 6.857142857142857
+  },
+  {
+   "keys": [
+    "chat gpt kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 8.25
+  },
+  {
+   "keys": [
+    "chat gpt kirish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 38,
+   "ctr": 0,
+   "position": 8.078947368421051
+  },
+  {
+   "keys": [
+    "chat gpt kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chat gpt kodlari",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "chat gpt ozbekcha",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 3.625
+  },
+  {
+   "keys": [
+    "chat gpt oʻrnatish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chat gpt oʻzbekcha",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 7.625
+  },
+  {
+   "keys": [
+    "chat gpt promtlar",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 2.6
+  },
+  {
+   "keys": [
+    "chat gpt uchun prompt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "chat gpt uz",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 4.272727272727273
+  },
+  {
+   "keys": [
+    "chat gpt uzb",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 4.166666666666666
+  },
+  {
+   "keys": [
+    "chat gpt uzbek",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chat gpt uzbek",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 5.166666666666667
+  },
+  {
+   "keys": [
+    "chat gpt uzbek",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 4.6
+  },
+  {
+   "keys": [
+    "chat gpt uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.666666666666667
+  },
+  {
+   "keys": [
+    "chat gpt uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 41,
+   "ctr": 0,
+   "position": 5.2682926829268295
+  },
+  {
+   "keys": [
+    "chat gpt uzbekcha",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 9.789473684210526
+  },
+  {
+   "keys": [
+    "chat gpt uzbekcha",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chat gpt yuklab olish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
+    "chat gpt yuklab olish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 6.818181818181818
+  },
+  {
+   "keys": [
+    "chat gpt yuklash",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 38,
+   "ctr": 0,
+   "position": 8.210526315789473
+  },
+  {
+   "keys": [
+    "chat gpt yuklash",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "chat gpt боты телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "chat gpt на узбекском языке",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chat gpt расшифровка",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chat gpt расшифровка",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chat ptgt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chat uzbek",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 5.4
+  },
+  {
+   "keys": [
+    "chatbot crm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "chatbot crm",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "chatbot for crm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "chatbot versus chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "chatbot vs gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "chatga bitta",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 3.5
+  },
+  {
+   "keys": [
+    "chatgpt 4 uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "chatgpt 4 uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 110,
+   "ctr": 0,
+   "position": 9.10909090909091
+  },
+  {
+   "keys": [
+    "chatgpt 4 uzbek tilida skachat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt bepul",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt bepul kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 66,
+   "ctr": 0,
+   "position": 7.53030303030303
+  },
+  {
+   "keys": [
+    "chatgpt bepul kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 8.4
+  },
+  {
+   "keys": [
+    "chatgpt bilan gaplashish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt bilan gaplashish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt biznes",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt ga kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.333333333333332
+  },
+  {
+   "keys": [
+    "chatgpt ga kirish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 118,
+   "ctr": 0,
+   "position": 7.97457627118644
+  },
+  {
+   "keys": [
+    "chatgpt ga kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt ga yozish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt ga yozish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 8.285714285714285
+  },
+  {
+   "keys": [
+    "chatgpt gaplashish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt ilovasi",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "chatgpt ilovasini yuklab olish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 25,
+   "ctr": 0,
+   "position": 5.8
+  },
+  {
+   "keys": [
+    "chatgpt ishlatish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 171,
+   "ctr": 0,
+   "position": 7.16374269005848
+  },
+  {
+   "keys": [
+    "chatgpt kirish login",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt kirish login",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "chatgpt kirish uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 5.766666666666667
+  },
+  {
+   "keys": [
+    "chatgpt o",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "chatgpt o rnatish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 5.111111111111111
+  },
+  {
+   "keys": [
+    "chatgpt o zbekcha tarjimon",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt o'rnatish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 7.961538461538462
+  },
+  {
+   "keys": [
+    "chatgpt o'zbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt o'zbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 8.333333333333332
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 68,
+   "ctr": 0,
+   "position": 6.382352941176471
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha tarjimon",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha tarjimon",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 9.454545454545455
+  },
+  {
+   "keys": [
+    "chatgpt ochish uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 6.555555555555555
+  },
+  {
+   "keys": [
+    "chatgpt ochish uzbek tilida",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt onlayn",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 4.833333333333334
+  },
+  {
+   "keys": [
+    "chatgpt online",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt online chat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "chatgpt online kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chatgpt online kirish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 116,
+   "ctr": 0,
+   "position": 5.362068965517241
+  },
+  {
+   "keys": [
+    "chatgpt online kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt online uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 6.583333333333333
+  },
+  {
+   "keys": [
+    "chatgpt ozbekcha",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 48,
+   "ctr": 0,
+   "position": 6.208333333333333
+  },
+  {
+   "keys": [
+    "chatgpt oʻrnatish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt oʻrnatish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 8.631578947368421
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 7.714285714285714
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbekcha",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbekcha tarjimon",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 25,
+   "ctr": 0,
+   "position": 6.04
+  },
+  {
+   "keys": [
+    "chatgpt plus price uzbekistan",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "chatgpt promptlari",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chatgpt savol javob",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 3.6666666666666665
+  },
+  {
+   "keys": [
+    "chatgpt sayt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt sayt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "chatgpt saytiga kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt saytiga kirish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 5.285714285714286
+  },
+  {
+   "keys": [
+    "chatgpt skachat qilish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt skachat qilish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 36,
+   "ctr": 0,
+   "position": 8.722222222222221
+  },
+  {
+   "keys": [
+    "chatgpt skachat uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 7.333333333333333
+  },
+  {
+   "keys": [
+    "chatgpt tarjima",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt tarjima",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "chatgpt tarjimon",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "chatgpt tekin versiyasi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt uchun prompt",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt uz",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "chatgpt uzb",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 4.285714285714286
+  },
+  {
+   "keys": [
+    "chatgpt uzb",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chatgpt uzbek",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 5.166666666666667
+  },
+  {
+   "keys": [
+    "chatgpt uzbek",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 96,
+   "ctr": 0,
+   "position": 6.6875
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 41,
+   "ctr": 0,
+   "position": 6.7560975609756095
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida gaplashish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 6.133333333333334
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 5.857142857142857
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.333333333333333
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online ko rish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online ko rish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 7.285714285714286
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida skachat",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 7.545454545454546
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida skachat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 89,
+   "ctr": 0,
+   "position": 7.685393258426966
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 142,
+   "ctr": 0,
+   "position": 6.105633802816901
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 6.6
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha bepul",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 4.733333333333333
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha bepul",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 5.090909090909091
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 57,
+   "ctr": 0,
+   "position": 5.385964912280702
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha online",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha tarjimon",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha tarjimon",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha скачать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 7.75
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha скачать",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt uzbekistan",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 20,
+   "ctr": 0,
+   "position": 4.95
+  },
+  {
+   "keys": [
+    "chatgpt yo",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chatgpt yozish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 181,
+   "ctr": 0,
+   "position": 8.745856353591162
+  },
+  {
+   "keys": [
+    "chatgpt yozish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 6.228571428571429
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish kompyuter uchun",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 37,
+   "ctr": 0,
+   "position": 7.648648648648648
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish kompyuter uchun",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 93,
+   "ctr": 0,
+   "position": 7.021505376344086
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish kompyuter uchun",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "chatgpt yuklash",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt yuklash",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "chatgpt yuklash apk",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt yuklash uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "chatgpt õzbekcha",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 47,
+   "ctr": 0,
+   "position": 7.127659574468085
+  },
+  {
+   "keys": [
+    "chatgpt õzbekcha",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt на узбекском",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 43,
+   "ctr": 0,
+   "position": 4.767441860465116
+  },
+  {
+   "keys": [
+    "chatgpt онлайн",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "chatgpt онлайн",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "chatgpt оплата",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt скачать uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 67,
+   "ctr": 0,
+   "position": 7.044776119402985
+  },
+  {
+   "keys": [
+    "chatgpt скачать uzbek tilida",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt узбек тилида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 7.714285714285714
+  },
+  {
+   "keys": [
+    "chatgpt узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 28,
+   "ctr": 0,
+   "position": 7.25
+  },
+  {
+   "keys": [
+    "chatgpt узбекистан",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "chatgpt узбекча",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt узбекча",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 92,
+   "ctr": 0,
+   "position": 6.641304347826087
+  },
+  {
+   "keys": [
+    "chatgpt узбекча",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt.uz",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 5.2631578947368425
+  },
+  {
+   "keys": [
+    "chatgpt.uz",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 4.866666666666667
+  },
+  {
+   "keys": [
+    "chatgptga",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgptga",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 5.904761904761905
+  },
+  {
+   "keys": [
+    "chatgptga kirish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 4.166666666666666
+  },
+  {
+   "keys": [
+    "chatgptga kirish",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgptni",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 4.857142857142858
+  },
+  {
+   "keys": [
+    "chati piti online",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 8.8
+  },
+  {
+   "keys": [
+    "chpt yuklab olish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 33,
+   "ctr": 0,
+   "position": 7.2727272727272725
+  },
+  {
+   "keys": [
+    "cjattp",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "cjhatg",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "claude uzbekistan",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "click bot telegram",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "click ochish humo",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 8.8
+  },
+  {
+   "keys": [
+    "click telegram bot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "click telegram bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "cnat gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "cnat gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "cpa cpl",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "cpa cpl",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "cpa cpl traffic",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 92.5
+  },
+  {
+   "keys": [
+    "cpc and cpa",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "cpc c3",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "cpc cpa cpl cpm cpi cps ecpc ecpm cr ctr",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "cpc cpl",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "cpc cpm cpa",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "cpc cpm meaning",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "cpc vs cpl",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "cpc что это такое в рекламе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "cpl cpm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "cpm ctr cpc cpl cpa",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "crm chatbot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "crm with chatbot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "crm with chatbot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "ctr cpl",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "digital агентство",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "digital услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "direct nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "direct nima degani",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "domen nomi *.som bilan tugatilsa, qaysi tashkilot yoki muassasaga tegishli bo’ladi?",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "google ads and seo",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gp[t",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "gpat gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "gpt automation petrixbot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "gpt bot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.333333333333333
+  },
+  {
+   "keys": [
+    "gpt bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 2.875
+  },
+  {
+   "keys": [
+    "gpt chat на русском языке",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "gpt vs chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "gpt для учебы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "gpt для учебы",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "gpt на русском онлайн",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "gpt написать текст",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "gpt оплата",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "gpt расшифровка",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "gpt расшифровка",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "gpt чат онлайн",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "gptplanet com отзывы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "instachi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "instagram chi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "instagram direct nima",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "instagram direct nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 28,
+   "ctr": 0,
+   "position": 6.928571428571429
+  },
+  {
+   "keys": [
+    "instagramda direct nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 8.09090909090909
+  },
+  {
+   "keys": [
+    "instagramda eng ko'p obunachi kimda",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "instagramda eng ko'p obunachi kimda",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "internet reklama",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "jaji piti",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 4.2
+  },
+  {
+   "keys": [
+    "jaji piti bot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "jaji piti bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 5.647058823529412
+  },
+  {
+   "keys": [
+    "jaji piti online",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 7.043478260869565
+  },
+  {
+   "keys": [
+    "jaji piti online",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "jajipiti",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "jatgbt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "jatgbt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "jipi chat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "jtp чат",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 6.285714285714286
+  },
+  {
+   "keys": [
+    "jtp чат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 5.8
+  },
+  {
+   "keys": [
+    "lchat hpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "lead что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "lid это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "lid это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "marketing",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 45.25
+  },
+  {
+   "keys": [
+    "marketing",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "marketing haqida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 55
+  },
+  {
+   "keys": [
+    "marketing kit",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "marketing nima",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 17.4
+  },
+  {
+   "keys": [
+    "marketing nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "marketing nima uchun kerak",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "marketing nma",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "mini app",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "nachat gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 3.6
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 19.914285714285715
+  },
+  {
+   "keys": [
+    "oddiy so'rov uzbek tilida",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10.75
+  },
+  {
+   "keys": [
+    "oddiy so'rov uzbek tilida",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "onlayn chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 5.4375
+  },
+  {
+   "keys": [
+    "onlayn chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 69,
+   "ctr": 0,
+   "position": 6.304347826086956
+  },
+  {
+   "keys": [
+    "onlayn chatgpt",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "online",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "online chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "open ai это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "payme click",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "payme telegram",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "payme telegram bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 8.166666666666668
+  },
+  {
+   "keys": [
+    "performance marketing",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "python telegram bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 34.333333333333336
+  },
+  {
+   "keys": [
+    "qayerdan yuklab olsam buladi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "salon bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "savollarga javoblar beruvchi bot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 8.346153846153847
+  },
+  {
+   "keys": [
+    "sayt tayyorlash",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "sayt tuzish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "sayt yaratish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "sayt yaratish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "sayt yaratish narxi",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "sayt yaratish xizmati",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 73.33333333333333
+  },
+  {
+   "keys": [
+    "sayt yaratish xizmati",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "seo smm продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "seo xizmati",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 14.5
+  },
+  {
+   "keys": [
+    "seo xizmati",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "seo аудит пример",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 95
+  },
+  {
+   "keys": [
+    "seo аудит сайта цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "seo аудит сайта чек лист",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "seo аудит чек лист",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "seo в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 45.63636363636363
+  },
+  {
+   "keys": [
+    "seo данные это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 84.5
+  },
+  {
+   "keys": [
+    "seo компания",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "seo оптимизация в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "seo оптимизация сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18.333333333333332
+  },
+  {
+   "keys": [
+    "seo оптимизация сайтов в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 76.5
+  },
+  {
+   "keys": [
+    "seo оптимизация ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "seo оптимизация ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "seo продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 170,
+   "ctr": 0,
+   "position": 60.241176470588236
+  },
+  {
+   "keys": [
+    "seo продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 58,
+   "ctr": 0,
+   "position": 60.39655172413793
+  },
+  {
+   "keys": [
+    "seo продвижение seo маркетинг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "seo продвижение в поиске",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "seo продвижение в сети",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "seo продвижение в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "seo продвижение в ташкенте",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "seo продвижение выгодная цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "seo продвижение запросы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "seo продвижение информационного сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "seo продвижение как работает",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "seo продвижение компании",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "seo продвижение компании цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "seo продвижение недорого",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "seo продвижение поисковиках",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "seo продвижение проекта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "seo продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "seo продвижение сайта в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "seo продвижение сайта заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 16.5
+  },
+  {
+   "keys": [
+    "seo продвижение сайта недорого",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "seo продвижение сайта цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 17.666666666666668
+  },
+  {
+   "keys": [
+    "seo продвижение сайта цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "seo продвижение сайта что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "seo продвижение сайта что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 68.125
+  },
+  {
+   "keys": [
+    "seo продвижение сайта что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "seo продвижение сайта это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 70.33333333333333
+  },
+  {
+   "keys": [
+    "seo продвижение сайта это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 63.77777777777778
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 72,
+   "ctr": 0,
+   "position": 54.94444444444444
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 36,
+   "ctr": 0,
+   "position": 53.72222222222222
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов в поиске",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "seo продвижение сети сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "seo продвижение ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 33.5
+  },
+  {
+   "keys": [
+    "seo продвижение услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "seo продвижение цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 10.5
+  },
+  {
+   "keys": [
+    "seo продвижение цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "seo продвижение цена в месяц",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "seo продвижение цены",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "seo продвижение что входит",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "seo продвижение что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "seo продвижение что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 62.76923076923077
+  },
+  {
+   "keys": [
+    "seo продвижение что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 75.5
+  },
+  {
+   "keys": [
+    "seo продвижение это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 66.8695652173913
+  },
+  {
+   "keys": [
+    "seo продвижение это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 57.095238095238095
+  },
+  {
+   "keys": [
+    "seo продвижение это простым языком",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "seo продвижение это что",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 65.66666666666667
+  },
+  {
+   "keys": [
+    "seo продвижению",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "seo продвижению",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "seo продвижения",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "seo продвижения это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "seo раскрутка",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 31.333333333333332
+  },
+  {
+   "keys": [
+    "seo раскрутка сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "seo раскрутка сайта заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "seo раскрутка сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "seo раскрутка сайтов недорого",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "seo сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "seo ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 28,
+   "ctr": 0,
+   "position": 37.107142857142854
+  },
+  {
+   "keys": [
+    "seo ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 54.5
+  },
+  {
+   "keys": [
+    "seo услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "seo чек лист",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88.5
+  },
+  {
+   "keys": [
+    "shu haqda maʼlumot",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "smm",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "smm mutaxassisi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "smm nima",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 43.25
+  },
+  {
+   "keys": [
+    "smm nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "smm tashkent",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "smm xizmati",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "smm xizmati",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "smm xizmatlari",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "smm xizmatlari",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "smm маркетинг в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 80.33333333333333
+  },
+  {
+   "keys": [
+    "smm на русском",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "smm на русском",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "smm под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "smm продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "smm продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 16.666666666666664
+  },
+  {
+   "keys": [
+    "smm продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "smm продвижение цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 20.5
+  },
+  {
+   "keys": [
+    "smm продвижение что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "smm продвижение это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 20.444444444444443
+  },
+  {
+   "keys": [
+    "smm продвижение это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "smm специалист стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "smm специалист цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "smm стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "smm таргетированная реклама",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "smm ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "smm услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 34.888888888888886
+  },
+  {
+   "keys": [
+    "smm услуги",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "smm услуги стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "smm услуги цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "smm цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "smm что входит",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "spam papkasi",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "target nima",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "target nima",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 6.75
+  },
+  {
+   "keys": [
+    "target reklama",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "telegram ads узбекистан",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "telegram ads узбекистан",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "telegram ads цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "telegram asd",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 2.666666666666667
+  },
+  {
+   "keys": [
+    "telegram asd",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "telegram bot api python",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 44.5
+  },
+  {
+   "keys": [
+    "telegram bot buyurtma o'zbekiston",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "telegram bot buyurtma o'zbekiston",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 9.88888888888889
+  },
+  {
+   "keys": [
+    "telegram mini app",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 57.666666666666664
+  },
+  {
+   "keys": [
+    "toshkentda chat bot yaratish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "toshkentda chat bot yaratish",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 76.83333333333333
+  },
+  {
+   "keys": [
+    "userbox бот стоимость",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "uzb",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "uzb chat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "uzbek chat",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "uzbek chat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 6.857142857142857
+  },
+  {
+   "keys": [
+    "uzbekcha chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "uzbekcha chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 6.75
+  },
+  {
+   "keys": [
+    "veb-sayt yaratish",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 55
+  },
+  {
+   "keys": [
+    "versus chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "vs chat gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "vs chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "what does gpt stand for in chat gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "what gpt stands for in chat gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "whatsapp бот для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 37.375
+  },
+  {
+   "keys": [
+    "whatsapp чат бот для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 38.2
+  },
+  {
+   "keys": [
+    "xnj nfrjt kbl",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "zayavka reklama",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "zayavka reklama",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 3.75
+  },
+  {
+   "keys": [
+    "а в узбекистане",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "а в узбекистане?",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "а узбекистан",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "автоматизация заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 11.666666666666666
+  },
+  {
+   "keys": [
+    "автоматизация заявок",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "автоматизация обработки заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 61.55555555555556
+  },
+  {
+   "keys": [
+    "автоматизация ответов в инстаграм ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "автоматизация приема заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "автоматизация приема заявок",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "автоматизация продаж",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "автоматизация продаж",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 16.8
+  },
+  {
+   "keys": [
+    "автоматизация продаж crm",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "автоматизация продаж в мессенджерах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "автоматизация продаж ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 28.75
+  },
+  {
+   "keys": [
+    "автоматизация продаж с помощью ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "автоматизация продажи товаров",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 20.5
+  },
+  {
+   "keys": [
+    "автоматизация продажи товаров",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "автоматизировать продажи",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "автоматическая обработка заявок ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88.5
+  },
+  {
+   "keys": [
+    "аи менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "аи менеджер",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "ай менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 23.214285714285715
+  },
+  {
+   "keys": [
+    "ай менеджер",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 29.25
+  },
+  {
+   "keys": [
+    "арендовать сервер для бота",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "аудит digital маркетинга",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 9.117647058823529
+  },
+  {
+   "keys": [
+    "аудит digital маркетинга",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "аудит воронки продаж",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 68
+  },
+  {
+   "keys": [
+    "аудит воронки продаж",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "аудит сайта пример",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "аудит сайта пример",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 98
+  },
+  {
+   "keys": [
+    "аудит сайта чек лист",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 66.47826086956522
+  },
+  {
+   "keys": [
+    "аудит сайта чек лист",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "аудит сайта чек лист",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 67.33333333333333
+  },
+  {
+   "keys": [
+    "биржа посевов в телеграме",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "борис герасимов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "бот для записи на прием",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "бот для записи на услуги",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 52,
+   "ctr": 0,
+   "position": 21.115384615384617
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "бот для покупки в интернет магазине",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "боты для продвижения сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 96.83333333333333
+  },
+  {
+   "keys": [
+    "біржа реклама в телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "біржа реклами telegram",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 55
+  },
+  {
+   "keys": [
+    "біржа реклами в telegram",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 54.666666666666664
+  },
+  {
+   "keys": [
+    "біржа реклами в телеграм каналах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 53.5
+  },
+  {
+   "keys": [
+    "біржа реклами для телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "біржа реклами у телеграм каналах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 47.6
+  },
+  {
+   "keys": [
+    "біржа реклами у телеграмі",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 60.8
+  },
+  {
+   "keys": [
+    "біржі реклами в телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "біржі реклами у тг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 52.4
+  },
+  {
+   "keys": [
+    "біржі реклами у телеграмі",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 37.6
+  },
+  {
+   "keys": [
+    "в ташкенте",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "в чатах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "в чем заключается продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 72.75
+  },
+  {
+   "keys": [
+    "ватсап бот для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 36.5
+  },
+  {
+   "keys": [
+    "ватсап бот для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 36.888888888888886
+  },
+  {
+   "keys": [
+    "ватсап бот для бизнеса бесплатно",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 23.75
+  },
+  {
+   "keys": [
+    "вебмастер продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "ведение инстаграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "ведение инстаграм заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "ведение социальных сетей стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ведение социальных сетей цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "ведение соцсетей",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "ведение соцсетей под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ведение соцсетей стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "ведение соцсетей цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "виды лидов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 36.22222222222222
+  },
+  {
+   "keys": [
+    "виды лидов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "влияет медленное размещение описание сайта на продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "все о продвижении сайта в сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 86.5
+  },
+  {
+   "keys": [
+    "гарантированные лиды для рекламы что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 20,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "где директ в инстаграме через компьютер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "генерация заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "голосовой бот для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "голосовой чат с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "гпт для учебы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 30.75
+  },
+  {
+   "keys": [
+    "гпт для учебы",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "гпт чат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "гугл бизнес сайт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "дай ссылку на чат gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "джіпічат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "дигитална стратегия за бизнес",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 74.66666666666667
+  },
+  {
+   "keys": [
+    "диджитал агентство",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 31.75
+  },
+  {
+   "keys": [
+    "диджитал агентство",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "директ бот",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 36.44444444444444
+  },
+  {
+   "keys": [
+    "договор на оказание услуг смм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "доработка продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "есть ли монетизация инстаграм в узбекистане",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "жажи пити",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "жажи пити узбекча",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 4.714285714285714
+  },
+  {
+   "keys": [
+    "жажипити",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 5.833333333333333
+  },
+  {
+   "keys": [
+    "жажипити",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 33,
+   "ctr": 0,
+   "position": 3.090909090909091
+  },
+  {
+   "keys": [
+    "жипичат",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "жипичат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "заказать seo продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 71.33333333333333
+  },
+  {
+   "keys": [
+    "заказать seo продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "заказать поисковое продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "заказать рекламу в интернете",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "заказать сайт для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "заказать таргет",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "заказать таргет рекламу",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "заказать таргетинг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "заказать таргетинговую рекламу",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "заказать телеграм бота",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "ии агент продавец",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 99
+  },
+  {
+   "keys": [
+    "ии бот для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 101
+  },
+  {
+   "keys": [
+    "ии боты для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 87
+  },
+  {
+   "keys": [
+    "ии для обработки заявок",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 89.75
+  },
+  {
+   "keys": [
+    "ии менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 56.75
+  },
+  {
+   "keys": [
+    "ии менеджер",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 33.333333333333336
+  },
+  {
+   "keys": [
+    "ии на узбекском языке",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ии на узбекском языке",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "ии общение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "ии продавец",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "ии с которым можно общаться",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "ии с которым можно поговорить",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "ии чат для сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "интернет маркетинг оплата за лиды",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 37.5
+  },
+  {
+   "keys": [
+    "интернет маркетинг оплата за лиды",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 38.5
+  },
+  {
+   "keys": [
+    "интернет маркетинг ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "интернет продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 26.8
+  },
+  {
+   "keys": [
+    "интернет продвижение сайтов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "интернет реклама в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "искусственный интеллект для общения",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "искусственный интеллект на узбекском языке",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "искусственный интеллект онлайн чат",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "искусственный интеллект с которым можно поговорить",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "как задать вопрос искусственному интеллекту",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "как им пользоваться",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "как найти диалог с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "как общаться с искусственным интеллектом",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "как объяснить чату gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "как оплатить",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "как определить продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 89.33333333333333
+  },
+  {
+   "keys": [
+    "как перевести чат gpt на русский",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "как перевести чат gpt на русский",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "как переводится лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "как получать заявки из нейросетей",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88.5
+  },
+  {
+   "keys": [
+    "как пользоваться gpt бесплатно",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "как пользоваться gpt бесплатно",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "как пообщаться с ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "как пообщаться с искусственным интеллектом",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 54.5
+  },
+  {
+   "keys": [
+    "как пообщаться с искусственным интеллектом",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "как пообщаться с нейросетью",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "как принимать оплату в телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "как принимать платежи в телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "как происходит сео продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 60.57142857142857
+  },
+  {
+   "keys": [
+    "как работает seo продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 76.70833333333333
+  },
+  {
+   "keys": [
+    "как работает seo продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 31,
+   "ctr": 0,
+   "position": 69.58064516129032
+  },
+  {
+   "keys": [
+    "как работает ии менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 46.75
+  },
+  {
+   "keys": [
+    "как работает продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 62.6
+  },
+  {
+   "keys": [
+    "как работает сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 20,
+   "ctr": 0,
+   "position": 77.65
+  },
+  {
+   "keys": [
+    "как работает сео продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 59.04761904761905
+  },
+  {
+   "keys": [
+    "как расшифровывается gpt chat",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10.5
+  },
+  {
+   "keys": [
+    "как расшифровывается gpt chat",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "как расшифровывается лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "как расшифровывается чат gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "как связаться с искусственным интеллектом",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "как сделать онлайн запись в телеграмме",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "как создать маркетинг кит",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "какие бывают лиды",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "какие есть ии чаты",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 49
+  },
+  {
+   "keys": [
+    "какие есть чаты ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 97.66666666666667
+  },
+  {
+   "keys": [
+    "какие есть чаты с искусственным интеллектом",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "капитал банк узбекистан",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "качественный лид это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "квалификация лида",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "квалификация лидов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "классификация лидов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "контекстная реклама стоимость в месяц",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "контекстная реклама ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 52.333333333333336
+  },
+  {
+   "keys": [
+    "контекстная реклама ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "контекстная реклама цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "контент сайта продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "кто такой лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 32.83333333333333
+  },
+  {
+   "keys": [
+    "кто такой лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 26.4
+  },
+  {
+   "keys": [
+    "купить рекламу в интернете",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "леды это в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "лендинг или интернет магазин что лучше",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "лендинг или интернет-магазин",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 30.75
+  },
+  {
+   "keys": [
+    "лендинг интернет магазин",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "лендинг интернет-магазин",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 21.333333333333332
+  },
+  {
+   "keys": [
+    "лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 41,
+   "ctr": 0,
+   "position": 30.975609756097562
+  },
+  {
+   "keys": [
+    "лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 24.772727272727273
+  },
+  {
+   "keys": [
+    "лид аббревиатура",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "лид аббревиатура",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "лид в контекстной рекламе это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 42.63636363636363
+  },
+  {
+   "keys": [
+    "лид в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 16.75
+  },
+  {
+   "keys": [
+    "лид в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 10.6
+  },
+  {
+   "keys": [
+    "лид в маркетинге это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "лид в продажах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "лид в продажах это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "лид в продажах это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "лид в рекламе это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 25.583333333333332
+  },
+  {
+   "keys": [
+    "лид в рекламе это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 19.333333333333332
+  },
+  {
+   "keys": [
+    "лид в статье это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "лид в таргете это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 33.333333333333336
+  },
+  {
+   "keys": [
+    "лид в таргете это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "лид инстаграм что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "лид как переводится",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 20.1
+  },
+  {
+   "keys": [
+    "лид как расшифровывается",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "лид маркетинг",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "лид менеджер кто это простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "лид определение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "лид определение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "лид про",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "лид расшифровка",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 24.363636363636363
+  },
+  {
+   "keys": [
+    "лид расшифровка",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "лид реклама",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 24.5
+  },
+  {
+   "keys": [
+    "лид реклама",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "лид что значит",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 28.6
+  },
+  {
+   "keys": [
+    "лид что такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 30.083333333333332
+  },
+  {
+   "keys": [
+    "лид что такое",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "лид что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 27.25
+  },
+  {
+   "keys": [
+    "лид что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "лид что это такое",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "лид что это такое в продажах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 44.42857142857143
+  },
+  {
+   "keys": [
+    "лид это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 58,
+   "ctr": 0,
+   "position": 27.551724137931036
+  },
+  {
+   "keys": [
+    "лид это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 41,
+   "ctr": 0,
+   "position": 20.048780487804876
+  },
+  {
+   "keys": [
+    "лид это в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 28.166666666666668
+  },
+  {
+   "keys": [
+    "лид это в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "лид это в продажах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 28.666666666666668
+  },
+  {
+   "keys": [
+    "лид это в продажах простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "лид это в рекламе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "лид это в рекламе",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 23.6
+  },
+  {
+   "keys": [
+    "лид это простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 28.5
+  },
+  {
+   "keys": [
+    "лид это простыми словами",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 23.11111111111111
+  },
+  {
+   "keys": [
+    "лид это что",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "лид єто",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "лидам",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "лиды",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "лиды в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "лиды в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "лиды в маркетинге что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "лиды в маркетинге это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "лиды в маркетинге это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 13.5
+  },
+  {
+   "keys": [
+    "лиды в продажах что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "лиды в продажах это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "лиды в рекламе это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "лиды маркетинг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 32.2
+  },
+  {
+   "keys": [
+    "лиды что такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 22.666666666666668
+  },
+  {
+   "keys": [
+    "лиды что такое",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 26.571428571428573
+  },
+  {
+   "keys": [
+    "лиды что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 36.4
+  },
+  {
+   "keys": [
+    "лиды что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "лиды что это такое",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "лиды что это такое кредиты",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 42.5
+  },
+  {
+   "keys": [
+    "лиды это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 31.22222222222222
+  },
+  {
+   "keys": [
+    "лиды это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 30.166666666666668
+  },
+  {
+   "keys": [
+    "лиды это в продажах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "лиды это википедия",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "лиды это простыми",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "лиды это простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 29.75
+  },
+  {
+   "keys": [
+    "лиды это простыми словами",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "лиды это что",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 29.25
+  },
+  {
+   "keys": [
+    "лиды это что в продажах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "лиды это что такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "лиды это что такое",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 28.666666666666668
+  },
+  {
+   "keys": [
+    "лід це",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "маркетинг кит",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "маркетинг кит",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "маркетинг кит компании",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 28.333333333333332
+  },
+  {
+   "keys": [
+    "маркетинг кит компании",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "маркетинг кит купить",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "маркетинг кит шаблоны",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "маркетинг киты",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "маркетинг под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "маркетинг-кит бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "маркетинг-кит компании",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "маркетинговая терминология",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "маркетинговые лиды",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 36.6
+  },
+  {
+   "keys": [
+    "маркетинговые слова",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 24.666666666666668
+  },
+  {
+   "keys": [
+    "маркетинговые термины",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "маркетинговый словарь",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "маркетинговый словарь",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 19.666666666666668
+  },
+  {
+   "keys": [
+    "маркетинговый словарь терминов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "медицинский ии бот",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "менеджер ии что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 30.5
+  },
+  {
+   "keys": [
+    "менеджер ии это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "монетизация инстаграм в узбекистане",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "монетизация инстаграм в узбекистане",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.25
+  },
+  {
+   "keys": [
+    "нужно сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "обработка входящих заявок в инстаграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "обработка лидов это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "обработка лидов это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "обсудить с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "общатся с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "общаться с ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 49
+  },
+  {
+   "keys": [
+    "общаться с искусственным интеллектом",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "общение с ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 51.5
+  },
+  {
+   "keys": [
+    "общение с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 85
+  },
+  {
+   "keys": [
+    "общение с искусственным интеллектом",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 37.666666666666664
+  },
+  {
+   "keys": [
+    "оказание смм услуг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "онлайн",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "онлайн chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "оплата chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "оплата за лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 86.25
+  },
+  {
+   "keys": [
+    "оплатить chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "оплатить chatgpt plus",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "оптимизация сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "основные маркетинговые термины",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 27.6
+  },
+  {
+   "keys": [
+    "основные термины маркетинга",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "от gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "пакет услуг smm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "поговорить с ии на русском",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "подбери ссылки",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "поддержка telegram",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "поддержка и продвижение сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "поддержка телеграмм бот",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "подписка гпт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "подписка чат gpt цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "поисковая оптимизация сайта цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "поисковая оптимизация стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "поисковое продвижение веб сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайта seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайта недорого",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайта сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайта это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайтов в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 46.5
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайтов это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 69.5
+  },
+  {
+   "keys": [
+    "поисковое продвижение это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "пообщаться с ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "пообщаться с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "пообщаться с ии",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "пообщаться с искусственным интеллектом",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "прайс лист смм специалиста",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "прайс лист смм специалиста",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "продажа лидов это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 45.6
+  },
+  {
+   "keys": [
+    "продвижение seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 25,
+   "ctr": 0,
+   "position": 63.68
+  },
+  {
+   "keys": [
+    "продвижение seo",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 66.34782608695652
+  },
+  {
+   "keys": [
+    "продвижение seo",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "продвижение web сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "продвижение бизнеса цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "продвижение в социальных сетях это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "продвижение веб сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 26.333333333333332
+  },
+  {
+   "keys": [
+    "продвижение закрытого сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "продвижение и раскрутка сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "продвижение интернет сайтов продвижение веб сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "продвижение новых сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "продвижение по лидам это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "продвижение по поисковым запросам",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 57.125
+  },
+  {
+   "keys": [
+    "продвижение по сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 77.16666666666667
+  },
+  {
+   "keys": [
+    "продвижение помощью seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "продвижение с оплатой за лиды",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "продвижение с оплатой за лиды",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 50.666666666666664
+  },
+  {
+   "keys": [
+    "продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 34.5
+  },
+  {
+   "keys": [
+    "продвижение сайта",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 51.714285714285715
+  },
+  {
+   "keys": [
+    "продвижение сайта seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 56.96153846153846
+  },
+  {
+   "keys": [
+    "продвижение сайта seo",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 60.857142857142854
+  },
+  {
+   "keys": [
+    "продвижение сайта seo",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 58.5
+  },
+  {
+   "keys": [
+    "продвижение сайта seodrum",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 43.8125
+  },
+  {
+   "keys": [
+    "продвижение сайта в интернете",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "продвижение сайта в сети",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "продвижение сайта в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 44.666666666666664
+  },
+  {
+   "keys": [
+    "продвижение сайта заявка",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27.5
+  },
+  {
+   "keys": [
+    "продвижение сайта информация",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "продвижение сайта информация",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "продвижение сайта ип",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "продвижение сайта как это делается",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 61.5
+  },
+  {
+   "keys": [
+    "продвижение сайта конкретному запросу",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "продвижение сайта объявлениями",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 31.666666666666668
+  },
+  {
+   "keys": [
+    "продвижение сайта описание",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 66.63636363636364
+  },
+  {
+   "keys": [
+    "продвижение сайта по лидам что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 48.5
+  },
+  {
+   "keys": [
+    "продвижение сайта по лидам что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 48.25
+  },
+  {
+   "keys": [
+    "продвижение сайта по позициям это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "продвижение сайта по позициям это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "продвижение сайта по сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 59.148148148148145
+  },
+  {
+   "keys": [
+    "продвижение сайта по факту выведенных слов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 57.470588235294116
+  },
+  {
+   "keys": [
+    "продвижение сайта предприятия",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "продвижение сайта сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 63.166666666666664
+  },
+  {
+   "keys": [
+    "продвижение сайта статьями заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "продвижение сайта ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 42.5
+  },
+  {
+   "keys": [
+    "продвижение сайта топ стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "продвижение сайта услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "продвижение сайта фирмы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "продвижение сайта цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 14.8
+  },
+  {
+   "keys": [
+    "продвижение сайта цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 47.25
+  },
+  {
+   "keys": [
+    "продвижение сайта что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 85
+  },
+  {
+   "keys": [
+    "продвижение сайта что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 68.8125
+  },
+  {
+   "keys": [
+    "продвижение сайта это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 91.66666666666667
+  },
+  {
+   "keys": [
+    "продвижение сайта это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 67.35714285714286
+  },
+  {
+   "keys": [
+    "продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 87,
+   "ctr": 0,
+   "position": 51.367816091954026
+  },
+  {
+   "keys": [
+    "продвижение сайтов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 60.6875
+  },
+  {
+   "keys": [
+    "продвижение сайтов seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 62.708333333333336
+  },
+  {
+   "keys": [
+    "продвижение сайтов без предоплаты",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 33.5
+  },
+  {
+   "keys": [
+    "продвижение сайтов в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "продвижение сайтов включает",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 74.29411764705883
+  },
+  {
+   "keys": [
+    "продвижение сайтов за деньги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "продвижение сайтов зачем",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "продвижение сайтов как это делается",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 66.76190476190476
+  },
+  {
+   "keys": [
+    "продвижение сайтов от профессионалов по сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "продвижение сайтов по позициям",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 21.25
+  },
+  {
+   "keys": [
+    "продвижение сайтов про",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "продвижение сайтов сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 20,
+   "ctr": 0,
+   "position": 73.3
+  },
+  {
+   "keys": [
+    "продвижение сайтов сервиса поисковое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 24.5
+  },
+  {
+   "keys": [
+    "продвижение сайтов сети интернет",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "продвижение сайтов тарифы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "продвижение сайтов услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "продвижение сайтов это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 79.6
+  },
+  {
+   "keys": [
+    "продвижение через seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "продвижение+сайта+seo",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "продвижению сайта работающее",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "продвижения сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 53.5
+  },
+  {
+   "keys": [
+    "продвижения сайтов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "продвижения сео",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "продвижения сео",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 93
+  },
+  {
+   "keys": [
+    "процент рекламы телеграм от общего рынка рекламы узбекистан",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 8.807692307692307
+  },
+  {
+   "keys": [
+    "пщтп",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "работа с текстом гпт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "разговор с ии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "разговор с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "разработка digital стратегии",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "разработка веб сайтов в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "разработка маркетинг кита",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "разработка маркетинг кита",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "разработка сайта под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 34.25
+  },
+  {
+   "keys": [
+    "разработка сайта под ключ цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "разработка сайта цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "разработка сайтов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "разработка сайтов в ташкенте",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 109
+  },
+  {
+   "keys": [
+    "разработка сайтов в ташкенте цены",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 60.5
+  },
+  {
+   "keys": [
+    "разработка сайтов в ташкенте цены",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "разработка сайтов под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "разработка сайтов ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 41.57142857142857
+  },
+  {
+   "keys": [
+    "разработчики сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "раскрутка по лидам",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "раскрутка по лидам",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 30.4
+  },
+  {
+   "keys": [
+    "раскрутка сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "раскрутка телеграм канала ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 37.5
+  },
+  {
+   "keys": [
+    "раскрутка цена seo продвижение услуга",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "расшифровка gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "расшифровка smm",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "реклама в телеграм біржа каналів",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 48.333333333333336
+  },
+  {
+   "keys": [
+    "реклама в телеграм каналах біржа",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 56.8
+  },
+  {
+   "keys": [
+    "реклама у телеграм біржа",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 42.5
+  },
+  {
+   "keys": [
+    "реклама у телеграм каналах біржа",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 52.6
+  },
+  {
+   "keys": [
+    "реклама у телеграмі біржа",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 24.666666666666668
+  },
+  {
+   "keys": [
+    "рекламное поисковое продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "рекламное продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "робот для записи клиентов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18.666666666666668
+  },
+  {
+   "keys": [
+    "робот для записи на прием",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 25.944444444444443
+  },
+  {
+   "keys": [
+    "робот для записи пациентов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "робот для продвижения сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "робот для продвижения сайта бесплатно",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 76.66666666666667
+  },
+  {
+   "keys": [
+    "сайт под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "сайты под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "сайты под ключ",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "сделать маркетинг кит",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "сео оптимизация сайта стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 49
+  },
+  {
+   "keys": [
+    "сео оптимизация сайта цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 36,
+   "ctr": 0,
+   "position": 59.22222222222222
+  },
+  {
+   "keys": [
+    "сео продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 58.583333333333336
+  },
+  {
+   "keys": [
+    "сео продвижение",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "сео продвижение в поиске",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 26.166666666666668
+  },
+  {
+   "keys": [
+    "сео продвижение дешево",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "сео продвижение интернет магазина цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "сео продвижение информационного сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "сео продвижение как делать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "сео продвижение сайта недорого",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "сео продвижение сайта что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "сео продвижение сайта что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 77.25
+  },
+  {
+   "keys": [
+    "сео продвижение сайта это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 87.4
+  },
+  {
+   "keys": [
+    "сео продвижение сайта это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 64.63636363636363
+  },
+  {
+   "keys": [
+    "сео продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 50.666666666666664
+  },
+  {
+   "keys": [
+    "сео продвижение сайтов что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 64.66666666666666
+  },
+  {
+   "keys": [
+    "сео продвижение цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "сео продвижение цены",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "сео продвижение что это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 82.85714285714286
+  },
+  {
+   "keys": [
+    "сео продвижение что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 65.375
+  },
+  {
+   "keys": [
+    "сео продвижение что это такое",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "сео продвижение это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 69.23076923076923
+  },
+  {
+   "keys": [
+    "сео продвижение это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 63.625
+  },
+  {
+   "keys": [
+    "сео продвижение это простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "сео продвижение это что",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "сео ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 84.5
+  },
+  {
+   "keys": [
+    "сколько платит апгрейд за рекламу",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "сколько стоит бот",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "сколько стоит бот",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "сколько стоит лиды для салона красоты",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 26.428571428571427
+  },
+  {
+   "keys": [
+    "сколько стоит оптимизация сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "сколько стоит разработка сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "сколько стоит сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "сколько стоит сео продвижение в месяц",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "сколько стоит создание чат бота",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "сколько стоит таргет",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "словарь в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "словарь маркетинга",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "словарь маркетинговых терминов",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 18.571428571428573
+  },
+  {
+   "keys": [
+    "словарь терминов маркетинг",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "словарь терминов по маркетингу",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "смм агентство ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "смм агентство ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 63.42857142857143
+  },
+  {
+   "keys": [
+    "смм в ташкенте",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "смм под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "смм под ключ",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "смм продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 11.555555555555555
+  },
+  {
+   "keys": [
+    "смм продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 11.285714285714286
+  },
+  {
+   "keys": [
+    "смм продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "смм продвижение цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "смм продвижение цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "смм продвижение это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "смм продвижение это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "смм расшифровка",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "смм расшифровка на русском",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "смм специалист услуги",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "смм стоимость",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "смм ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "смм ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 74.5
+  },
+  {
+   "keys": [
+    "смм ташкент цены",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "смм услуги",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "смм услуги",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "создание маркетинг кита",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "создание сайта для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25.5
+  },
+  {
+   "keys": [
+    "создание сайта для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 25.333333333333332
+  },
+  {
+   "keys": [
+    "создание сайта под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "создание сайтов для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 151
+  },
+  {
+   "keys": [
+    "создание сайтов интернет реклама продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "создание сайтов под ключ",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "создание сайтов под ключ",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "создание телеграм ботов узбекистан",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 42.5
+  },
+  {
+   "keys": [
+    "создать маркетинг кит",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "средняя стоимость лида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "средняя цена за лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "срфепзеюсщь",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "стоимость seo продвижения",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4.5
+  },
+  {
+   "keys": [
+    "стоимость лида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "стоимость лида в контекстной рекламе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "стоимость лида в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 28.666666666666668
+  },
+  {
+   "keys": [
+    "стоимость лида в таргетированной рекламе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 48.5
+  },
+  {
+   "keys": [
+    "стоимость лида это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "стоимость лидов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 34.666666666666664
+  },
+  {
+   "keys": [
+    "стоимость маркетинговых услуг",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "стоимость продвижения",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "стоимость продвижения сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "стоимость сео продвижения в месяц",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "стр п чат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "таргет нима",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 7.857142857142857
+  },
+  {
+   "keys": [
+    "таргет нима",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 8.4375
+  },
+  {
+   "keys": [
+    "таргет реклама заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "таргетированная реклама заказать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "таргетированная реклама цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "тарифи чат джпт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 55
+  },
+  {
+   "keys": [
+    "телеграм адс цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "телеграм адс цена",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "телеграм бот помощник в учебе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "телеграм біржі реклами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "термин лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "термин лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "терминология маркетинга",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "термины в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "термины используемые в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "термины маркетинга и рекламы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "термины маркетинга и рекламы",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "термины по маркетингу",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "технический аудит сайта чек лист",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "топ seo продвижение цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 1.5
+  },
+  {
+   "keys": [
+    "узбекистане",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "узбекистондачи",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "умный чат для сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "условия использования мини приложений телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "услуги digital агентства",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "услуги seo продвижения",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "услуги smm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "услуги smm продвижения",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "услуги smm специалиста",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "услуги в рамках smm",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 36.55555555555556
+  },
+  {
+   "keys": [
+    "услуги интернет маркетинг узбукистан",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 57.333333333333336
+  },
+  {
+   "keys": [
+    "услуги оптимизации сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "услуги продвижения сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "услуги смарт сегментации",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 85
+  },
+  {
+   "keys": [
+    "услуги смм",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "услуги смм продвижения",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "услуги смм специалиста",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 75,
+   "ctr": 0,
+   "position": 9.346666666666666
+  },
+  {
+   "keys": [
+    "услуги смм специалиста",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "услуги смм специалиста",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "услуги смм специалиста что входит",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 21.666666666666668
+  },
+  {
+   "keys": [
+    "услуги смм что это",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "услуги смм-продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "услуги специалиста smm",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "услуги таргетированной рекламы",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "услуги таргетолога",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "услуги таргетолога цена",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "хостинг бота телеграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хостинг для ботов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "хостинг для тг бота",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 84.5
+  },
+  {
+   "keys": [
+    "хостинг для телеграм бота",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хостинг телеграм бота",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хочу поговорить с ии",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хочу поговорить с искусственным интеллектом",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.333333333333333
+  },
+  {
+   "keys": [
+    "хочу пообщаться с искусственным интеллектом",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "цена за лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 54.5
+  },
+  {
+   "keys": [
+    "цена за лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 55
+  },
+  {
+   "keys": [
+    "цена лида это",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 81.5
+  },
+  {
+   "keys": [
+    "цены на seo продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 64.33333333333334
+  },
+  {
+   "keys": [
+    "цены на сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "чажи пит",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 5.294117647058823
+  },
+  {
+   "keys": [
+    "чат gpt",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "чат gpt как расшифровывается",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "чат gpt на русском бесплатно",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "чат gpt онлайн официальный сайт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "чат gpt узбек тилида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат gpt узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "чат jpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "чат ugb",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "чат upt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "чат бот директ инстаграм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "чат бот для бизнеса бишкек",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "чат бот на заказ ташкент",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "чат бот на заказ ташкент",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 46.291666666666664
+  },
+  {
+   "keys": [
+    "чат гпж",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат гпт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "чат гпт на узбекском",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 3.8333333333333335
+  },
+  {
+   "keys": [
+    "чат гпт на узбекском",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 38,
+   "ctr": 0,
+   "position": 4.921052631578947
+  },
+  {
+   "keys": [
+    "чат гпт онлайн",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "чат гпт узбек тилида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "чат гпт узбекча",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 5.769230769230769
+  },
+  {
+   "keys": [
+    "чат гпт узбекча",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.75
+  },
+  {
+   "keys": [
+    "чат джипити узбек тилида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 7.9714285714285715
+  },
+  {
+   "keys": [
+    "чат джипити узбекча",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "чат дибити",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 4.666666666666666
+  },
+  {
+   "keys": [
+    "чат ж пити",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "чат жип",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "чат жлт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "чат жпп",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "чат жпс",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат жпт узбекча",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 43,
+   "ctr": 0,
+   "position": 6.8604651162790695
+  },
+  {
+   "keys": [
+    "чат жпт узбекча",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 5.75
+  },
+  {
+   "keys": [
+    "чат искусственный интеллект на русском",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "чат нат",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "чат нбт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат озе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат опт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат опт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 6.105263157894737
+  },
+  {
+   "keys": [
+    "чат опт",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "чат прт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "чат прт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "чат типити",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "чат чп",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "чат эпт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "чат эпт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат юрт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "чат-бот майстер для бізнесу",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 85.26666666666667
+  },
+  {
+   "keys": [
+    "чат-бот майстер для бізнесу",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 86.21428571428571
+  },
+  {
+   "keys": [
+    "чат-бот мастер для бизнеса",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 37,
+   "ctr": 0,
+   "position": 55.945945945945944
+  },
+  {
+   "keys": [
+    "чат-бот мастер для бизнеса",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 60.542857142857144
+  },
+  {
+   "keys": [
+    "чат-бот мастер для бизнеса",
+    "TABLET"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "чатг гпт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "чатгпт онлайн",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "чатгпт онлайн",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 5.714285714285714
+  },
+  {
+   "keys": [
+    "чати пити онлайн",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "чати пити узбекча",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 7.4
+  },
+  {
+   "keys": [
+    "чать",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 7.125
+  },
+  {
+   "keys": [
+    "чать",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "чачи пити сайт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "чачи пити узбек тилида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 7.722222222222222
+  },
+  {
+   "keys": [
+    "чачи пити узбек тилида",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 7.75
+  },
+  {
+   "keys": [
+    "чачи пити узбекча",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 8.857142857142858
+  },
+  {
+   "keys": [
+    "чек лист аудита сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 65.25
+  },
+  {
+   "keys": [
+    "чек лист продвижения сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 94.5
+  },
+  {
+   "keys": [
+    "чем cpl отличается от cpa",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "чем отличается ии от чата gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "чем сделка отличается от лида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 12.375
+  },
+  {
+   "keys": [
+    "чем ты отличаешься от чата gpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "чем ты отличаешься от чата gpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "чжбт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "чоат гпт",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "что входит в сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 74.75
+  },
+  {
+   "keys": [
+    "что входит в услуги смм",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 21.666666666666668
+  },
+  {
+   "keys": [
+    "что делать если не принимают заявку в xrp38",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "что значит seo продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "что значит лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "что значит лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 30.5
+  },
+  {
+   "keys": [
+    "что значит лид в инстаграме",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "что значит лид в инстаграме в переписке",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "что значит лиды",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "что значит пометка лид в инстаграм",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "что значит продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 55.1875
+  },
+  {
+   "keys": [
+    "что значит сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 77.14285714285714
+  },
+  {
+   "keys": [
+    "что означает gpt в chatgpt",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.333333333333332
+  },
+  {
+   "keys": [
+    "что означает gpt в chatgpt",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9.333333333333334
+  },
+  {
+   "keys": [
+    "что означает лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "что означает лид в инстаграме",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "что такое lead",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "что такое seo продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 38,
+   "ctr": 0,
+   "position": 73.3157894736842
+  },
+  {
+   "keys": [
+    "что такое seo продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 65.0952380952381
+  },
+  {
+   "keys": [
+    "что такое seo продвижение простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 84.22222222222223
+  },
+  {
+   "keys": [
+    "что такое seo продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "что такое seo продвижение сайта",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 61.5
+  },
+  {
+   "keys": [
+    "что такое seo продвижение сайтов",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "что такое smm продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "что такое smm продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "что такое ии-менеджер",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "что такое лид",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 30.285714285714285
+  },
+  {
+   "keys": [
+    "что такое лид",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 27.307692307692307
+  },
+  {
+   "keys": [
+    "что такое лид в инстаграм",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "что такое лид в коммерческом предложении",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 21.41176470588235
+  },
+  {
+   "keys": [
+    "что такое лид в коммерческом предложении",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "что такое лид в коммерческом предложении сдо ржд",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 38.588235294117645
+  },
+  {
+   "keys": [
+    "что такое лид в коммерческом предложении сдо ржд",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "что такое лид в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 20.666666666666668
+  },
+  {
+   "keys": [
+    "что такое лид в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "что такое лид в продажах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "что такое лид в продажах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "что такое лид в продажах простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 28.571428571428573
+  },
+  {
+   "keys": [
+    "что такое лид в рекламе",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 17
+  },
+  {
+   "keys": [
+    "что такое лиды",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 25.125
+  },
+  {
+   "keys": [
+    "что такое лиды",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 16.25
+  },
+  {
+   "keys": [
+    "что такое лиды в арбитраже",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "что такое лиды в инстаграмме",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 29.4
+  },
+  {
+   "keys": [
+    "что такое лиды в интернет маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "что такое лиды в интернете",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "что такое лиды в маркетинге",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 29.90909090909091
+  },
+  {
+   "keys": [
+    "что такое лиды в маркетинге",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 24.25
+  },
+  {
+   "keys": [
+    "что такое лиды в продажах",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 27.8
+  },
+  {
+   "keys": [
+    "что такое лиды в продажах",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 29.25
+  },
+  {
+   "keys": [
+    "что такое лиды в продажах простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "что такое лиды в продажах простыми словами",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "что такое лиды в рекламе",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "что такое лиды в рекламе",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "что такое лиды в смм",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 28.625
+  },
+  {
+   "keys": [
+    "что такое лиды и зачем нужны",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 36.5
+  },
+  {
+   "keys": [
+    "что такое лиды простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "что такое лиды простыми словами",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 26.75
+  },
+  {
+   "keys": [
+    "что такое продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "что такое продвижение сайта",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 59.07692307692308
+  },
+  {
+   "keys": [
+    "что такое сео продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 46,
+   "ctr": 0,
+   "position": 64.95652173913044
+  },
+  {
+   "keys": [
+    "что такое сео продвижение",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 64.73333333333333
+  },
+  {
+   "keys": [
+    "что такое сео продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "что такое сео продвижение сайта",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 59.666666666666664
+  },
+  {
+   "keys": [
+    "что такое смм продвижение",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "что такое смм продвижение сайта",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "что такое стоимость лида",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 42.25
+  },
+  {
+   "keys": [
+    "что такое чат gpt простыми словами",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "что такое чат-бот",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "что такое чат-бот простыми словами",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "що таке лід",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "що таке лід в маркетингу",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "я в узбекистане",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 1.5
+  },
+  {
+   "keys": [
+    "яатгпт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.75
+  },
+  {
+   "keys": [
+    "яндекс плюс узбекистан цена 2026",
+    "DESKTOP"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "япт джпт",
+    "MOBILE"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  }
+ ]
+}

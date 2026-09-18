@@ -1,0 +1,5330 @@
+{
+ "dataset": "query_page__prev28",
+ "pulledAt": "2026-09-17T13:55:12+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-07-21",
+ "endDate": "2026-08-17",
+ "dimensions": [
+  "query",
+  "page"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 1,
+ "rowCount": 531,
+ "rows": [
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 11,
+   "impressions": 1876,
+   "ctr": 0.005863539445628998,
+   "position": 8.195628997867804
+  },
+  {
+   "keys": [
+    "chatgpt ilovasini yuklab olish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 3,
+   "impressions": 310,
+   "ctr": 0.00967741935483871,
+   "position": 7.2709677419354835
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 2,
+   "impressions": 130,
+   "ctr": 0.015384615384615385,
+   "position": 4.7846153846153845
+  },
+  {
+   "keys": [
+    "gptbot",
+    "https://gptbot.uz/"
+   ],
+   "clicks": 2,
+   "impressions": 2,
+   "ctr": 1,
+   "position": 1.5
+  },
+  {
+   "keys": [
+    "chachpti",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt ochish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 1,
+   "impressions": 94,
+   "ctr": 0.010638297872340425,
+   "position": 9.202127659574469
+  },
+  {
+   "keys": [
+    "chatgpt uzbekistan",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 1,
+   "impressions": 6,
+   "ctr": 0.16666666666666666,
+   "position": 7.166666666666667
+  },
+  {
+   "keys": [
+    "chatgpt на узбекском",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 1,
+   "impressions": 15,
+   "ctr": 0.06666666666666667,
+   "position": 7.466666666666667
+  },
+  {
+   "keys": [
+    "gptbot",
+    "https://gptbot.uz/uz/"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 3
+  },
+  {
+   "keys": [
+    "общение с ии",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 11
+  },
+  {
+   "keys": [
+    "чат гпт узбек тилида",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 4
+  },
+  {
+   "keys": [
+    "чат жпт узбекча",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 1,
+   "impressions": 24,
+   "ctr": 0.041666666666666664,
+   "position": 6.75
+  },
+  {
+   "keys": [
+    "1chatgpt.ru",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai бот для сайта",
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 89.4
+  },
+  {
+   "keys": [
+    "ai боты для бизнеса",
+    "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 84.66666666666667
+  },
+  {
+   "keys": [
+    "ai боты для бизнеса",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "ai боты для бизнеса",
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "ai менеджер",
+    "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "ai менеджер",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 38.8
+  },
+  {
+   "keys": [
+    "ai обработка заявок",
+    "https://gptbot.uz/ru/ai-chat-dlya-sayta-polzovatel-zayavki/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 87
+  },
+  {
+   "keys": [
+    "ai обработка заявок",
+    "https://gptbot.uz/ru/avtomatizatsiya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "ai обработка заявок",
+    "https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 65.5
+  },
+  {
+   "keys": [
+    "ai обработка заявок",
+    "https://gptbot.uz/ru/sayt-s-ai-botom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "ai продавец",
+    "https://gptbot.uz/ru/ai-prodavec/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 37.5
+  },
+  {
+   "keys": [
+    "ai61845",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "ai61853",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "ai66925",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67069",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67189",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67256",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "ai67258",
+    "https://gptbot.uz/ru/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai67279",
+    "https://gptbot.uz/ru/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67506",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67623",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "ai67628",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "ai67864",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67969",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "ai67976",
+    "https://gptbot.uz/ru/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "ai67990",
+    "https://gptbot.uz/ru/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "ai85506",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "api python telegram",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "arzon sifatli veb sayt yaratish xizmati",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "bot direct instagram",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "bot direct instagram",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chadgpt на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "chat gpt uchun prompt",
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chat gpt uz",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 6.033333333333333
+  },
+  {
+   "keys": [
+    "chat gpt uz",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7.75
+  },
+  {
+   "keys": [
+    "chat gpt uzb",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 6.8
+  },
+  {
+   "keys": [
+    "chat gpt uzbek",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chat gpt uzbek",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 6.166666666666667
+  },
+  {
+   "keys": [
+    "chat gpt uzbek tilida",
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 9.88888888888889
+  },
+  {
+   "keys": [
+    "chat gpt uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "chat gpt yuklab olish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 8.88888888888889
+  },
+  {
+   "keys": [
+    "chat gpt yuklash",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "chat gpt боты телеграм",
+    "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "chat gpt на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 85
+  },
+  {
+   "keys": [
+    "chat gpt на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-online/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "chat gpt по русски",
+    "https://gptbot.uz/ru/blog/chat-gpt-online/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "chat на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "chatbot crm",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "chatgpt kirish uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 8.4375
+  },
+  {
+   "keys": [
+    "chatgpt o'rnatish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 6.25
+  },
+  {
+   "keys": [
+    "chatgpt o'zbek tilida",
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9.333333333333334
+  },
+  {
+   "keys": [
+    "chatgpt o'zbekcha",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 6.769230769230769
+  },
+  {
+   "keys": [
+    "chatgpt ochish",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "chatgpt ochish uzbek tilida",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt ochish uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt online uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 6.214285714285714
+  },
+  {
+   "keys": [
+    "chatgpt oʻzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "chatgpt tarjima",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "chatgpt telegram bot",
+    "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "chatgpt uchun prompt",
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 4.5
+  },
+  {
+   "keys": [
+    "chatgpt uz",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 106,
+   "ctr": 0,
+   "position": 5.60377358490566
+  },
+  {
+   "keys": [
+    "chatgpt uz",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "chatgpt uzb",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 4.769230769230769
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 8.714285714285715
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida gaplashish",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 43,
+   "ctr": 0,
+   "position": 6.930232558139535
+  },
+  {
+   "keys": [
+    "chatgpt uzbek tilida online ko rish",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha online",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "chatgpt uzbekcha online",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "chatgpt uzbekistan",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "chatgpt vs chatgpt",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "chatgpt vs gpt",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish kompyuter uchun",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 8.571428571428571
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "chatgpt yuklab olish uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21.5
+  },
+  {
+   "keys": [
+    "chatgpt на узбекском",
+    "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "chatgpt узбекистан",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt узбекистан",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "chatgpt.uz",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 32,
+   "ctr": 0,
+   "position": 4.375
+  },
+  {
+   "keys": [
+    "chatgptni",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "chpt yuklab olish",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "claude play uz",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "click bot telegram",
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "click telegram bot",
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "click telegram bot",
+    "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "cpa cpc",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "cpa cpl traffic",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 97.33333333333333
+  },
+  {
+   "keys": [
+    "cpc and cpl",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "cpc ccc",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "cpc что это такое в рекламе",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "cpl cpc",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "cpm vs cpc vs cpa",
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 82.5
+  },
+  {
+   "keys": [
+    "crm chatbot",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 33.75
+  },
+  {
+   "keys": [
+    "crm with chatbot",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "difference between chatgpt and gpt",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "digital boss",
+    "https://gptbot.uz/boss-digital/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "digital marketing ташкент",
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 64.5
+  },
+  {
+   "keys": [
+    "digital агентство",
+    "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "digital маркетинговое агентство",
+    "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "digital стратегия",
+    "https://gptbot.uz/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "direct перевод инстаграм",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10.5
+  },
+  {
+   "keys": [
+    "gpt bot",
+    "https://gptbot.uz/uz/gpt-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "gpt chat на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 48.5
+  },
+  {
+   "keys": [
+    "gpt chat на русском языке",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "gpt для учебы",
+    "https://gptbot.uz/ru/gpt-dlya-ucheby/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 38.25
+  },
+  {
+   "keys": [
+    "gpt на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "gpt нейросеть онлайн",
+    "https://gptbot.uz/ru/blog/chat-gpt-online/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "gptbot",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gptbots",
+    "https://gptbot.uz/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "ii chat",
+    "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "instagram direct nima",
+    "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 9.454545454545455
+  },
+  {
+   "keys": [
+    "instagram direct nima",
+    "https://gptbot.uz/uz/instagram-uchun-ai-menejer/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "instagramda direct nima",
+    "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "instagramda direct nima",
+    "https://gptbot.uz/uz/instagram-uchun-ai-menejer/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "mini app",
+    "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/ru/gpt-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/ru/gpt-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/ru/o-kompanii/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/uz/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 93
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/uz/biznes-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 51
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "o'zbekistonda biznes uchun ai bot",
+    "https://gptbot.uz/uz/sayt-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "oddiy so'rov uzbek tilida",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 12.2
+  },
+  {
+   "keys": [
+    "payme telegram",
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "payme telegram bot",
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 20.5
+  },
+  {
+   "keys": [
+    "payme telegram bot",
+    "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "payme telegram bot",
+    "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "python bot telegram",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 47.5
+  },
+  {
+   "keys": [
+    "python telegram bot",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "python telegram bot api",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "python telegram bot примеры",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "python tg bot",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "python-telegram-bot",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "razrabotka",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "savdoni avtomatlashtirish",
+    "https://gptbot.uz/uz/savdoni-avtomatlashtirish/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "sayt ochish",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 38
+  },
+  {
+   "keys": [
+    "sayt tayyorlash",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "sayt tayyorlash xizmati",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "sayt yaratish",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 77.5
+  },
+  {
+   "keys": [
+    "sayt yaratish xizmati",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 72.75
+  },
+  {
+   "keys": [
+    "seo аудит пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 91.33333333333333
+  },
+  {
+   "keys": [
+    "seo аудит сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 85
+  },
+  {
+   "keys": [
+    "seo аудит сайта пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "seo аудит сайта чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "seo аудит чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 85.4
+  },
+  {
+   "keys": [
+    "seo оптимизация сайтов в ташкенте",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 76.5
+  },
+  {
+   "keys": [
+    "seo поисковое продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 79.57142857142857
+  },
+  {
+   "keys": [
+    "seo продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 73
+  },
+  {
+   "keys": [
+    "seo продвижение в поиске",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 73.77777777777777
+  },
+  {
+   "keys": [
+    "seo продвижение запросы",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "seo продвижение интернет магазина цена",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "seo продвижение раскрутка сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "seo продвижение раскрутка сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 95
+  },
+  {
+   "keys": [
+    "seo продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 68.5
+  },
+  {
+   "keys": [
+    "seo продвижение сайта в ташкенте",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "seo продвижение сайта что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 68.66666666666667
+  },
+  {
+   "keys": [
+    "seo продвижение сайта что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "seo продвижение сайта это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62.333333333333336
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 46,
+   "ctr": 0,
+   "position": 73.19565217391305
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов стоимость",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "seo продвижение сайтов это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "seo продвижение ташкент",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "seo продвижение что входит",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "seo продвижение что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "seo продвижение что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "seo продвижение это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 65.71428571428571
+  },
+  {
+   "keys": [
+    "seo продвижение это что",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 68.66666666666667
+  },
+  {
+   "keys": [
+    "seo продвижению",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 72.5
+  },
+  {
+   "keys": [
+    "seo продвижения",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "seo продвижения это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "seo ташкент",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 75.5
+  },
+  {
+   "keys": [
+    "seo услуги что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "seo услуги что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "seo услуги это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "seo чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 94.5
+  },
+  {
+   "keys": [
+    "seo чеклист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "smm продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 23.375
+  },
+  {
+   "keys": [
+    "smm продвижение что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "smm продвижение что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "smm продвижение это",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 32.8
+  },
+  {
+   "keys": [
+    "smm услуги",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 21.666666666666668
+  },
+  {
+   "keys": [
+    "telegram api python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "telegram bot api python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 46.588235294117645
+  },
+  {
+   "keys": [
+    "telegram bot python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "telegram bot/python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "telegram mini app",
+    "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "telegram mini apps",
+    "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "telegram бот на python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "veb-sayt yaratish",
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "web разработка под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "whatsapp бот для бизнеса",
+    "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 36.714285714285715
+  },
+  {
+   "keys": [
+    "whatsapp чат бот для бизнеса",
+    "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 43.285714285714285
+  },
+  {
+   "keys": [
+    "а узбекистан?",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "автоматизация ответов в инстаграм ии",
+    "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "автоматизация приема заявок",
+    "https://gptbot.uz/ru/avtomatizatsiya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 49
+  },
+  {
+   "keys": [
+    "автоматизация продаж",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "автоматизация продаж в мессенджерах",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "автоматизация продаж в чате",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 17.5
+  },
+  {
+   "keys": [
+    "автоматизация продаж ии",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "автоматизация продажи товаров",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 27.5
+  },
+  {
+   "keys": [
+    "аи менеджер",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 40.5
+  },
+  {
+   "keys": [
+    "ай менеджер",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 28.5
+  },
+  {
+   "keys": [
+    "аудит digital маркетинга",
+    "https://gptbot.uz/ru/blog/kak-provesti-audit-digital-marketinga/"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 18.555555555555557
+  },
+  {
+   "keys": [
+    "аудит сайта пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 93.83333333333333
+  },
+  {
+   "keys": [
+    "аудит сайта пример отчета",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "аудит сайта примеры",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "аудит сайта чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 52,
+   "ctr": 0,
+   "position": 82.40384615384616
+  },
+  {
+   "keys": [
+    "бесплатный бот",
+    "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "библиотека python telegram bot",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "бизнес сайт под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "бот telegram python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "бот для заявок",
+    "https://gptbot.uz/ru/blog/bot-dlya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 48.333333333333336
+  },
+  {
+   "keys": [
+    "бот для обработки заявок",
+    "https://gptbot.uz/ru/blog/bot-dlya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "бот для покупки в интернет магазине",
+    "https://gptbot.uz/ru/ai-bot-dlya-magazina/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "бот на python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "бот телеграмм на питоне",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "в узбекистане",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "в узбекистане ?",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "ватсап бот для бизнеса бесплатно",
+    "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "веб разработка под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "все о продвижении сайта в сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "где моя переписка с ии",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "голосовой бот для бизнеса",
+    "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "голосовые ии боты для бизнеса",
+    "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "гпт для учебы",
+    "https://gptbot.uz/ru/gpt-dlya-ucheby/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 36.333333333333336
+  },
+  {
+   "keys": [
+    "диджитал агентство",
+    "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "директ бот",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "директ бот",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 86.5
+  },
+  {
+   "keys": [
+    "директ на компе инстаграм",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 70.5
+  },
+  {
+   "keys": [
+    "доработать сайт",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "заказать сайт под ключ",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 60
+  },
+  {
+   "keys": [
+    "заказать сео продвижение",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "изготовить сайт под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "ии бот для бизнеса",
+    "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "ии бот для бизнеса",
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "ии бот для продаж",
+    "https://gptbot.uz/ru/blog/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 92.5
+  },
+  {
+   "keys": [
+    "ии бот для продаж",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "ии боты для бизнеса",
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "ии для обработки заявок",
+    "https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "ии для салона красоты",
+    "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 72.22222222222223
+  },
+  {
+   "keys": [
+    "ии для салона красоты",
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 49.27272727272727
+  },
+  {
+   "keys": [
+    "ии и чат джипити разница",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "ии консультант для сайта",
+    "https://gptbot.uz/ru/ai-chat-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 99
+  },
+  {
+   "keys": [
+    "ии менеджер",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "ии чат бот для бизнеса",
+    "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "ии чат для сайта",
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "интернет маркетинг ташкент",
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 33.25
+  },
+  {
+   "keys": [
+    "интернет продвижение сайтов",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "как написать телеграм бот",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "как переводится лид",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "как подключить openai к telegram-боту",
+    "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29.5
+  },
+  {
+   "keys": [
+    "как происходит сео продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 64.33333333333334
+  },
+  {
+   "keys": [
+    "как работает seo продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 86.66666666666667
+  },
+  {
+   "keys": [
+    "как работает seo продвижение сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 69.5
+  },
+  {
+   "keys": [
+    "как работает ии менеджер",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "как работает сео продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "как работает сео продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 63.666666666666664
+  },
+  {
+   "keys": [
+    "как сделать бот для сайта",
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 68.14285714285714
+  },
+  {
+   "keys": [
+    "как сделать бота в телеграм",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "как сделать телеграм бота на питоне",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "как создать telegram bot",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "как создать бота в телеграм",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "как создать бота в телеграмме python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "как создать маркетинг кит",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "как создать своего телеграм бота",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 98
+  },
+  {
+   "keys": [
+    "как создать телеграм бот",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 97
+  },
+  {
+   "keys": [
+    "как создать телеграм бота",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 92.33333333333333
+  },
+  {
+   "keys": [
+    "какие услуги оказывает smm специалист",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "ключ разработка сайта цена",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "кто такой лид",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 32.75
+  },
+  {
+   "keys": [
+    "лид",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 38.8
+  },
+  {
+   "keys": [
+    "лид в контекстной рекламе это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "лид в маркетинге это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 23.666666666666668
+  },
+  {
+   "keys": [
+    "лид в рекламе это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 41.4
+  },
+  {
+   "keys": [
+    "лид в таргете это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 40.5
+  },
+  {
+   "keys": [
+    "лид как переводится",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "лид расшифровка",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 25.4
+  },
+  {
+   "keys": [
+    "лид реклама",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 26.5
+  },
+  {
+   "keys": [
+    "лид что значит",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 30.5
+  },
+  {
+   "keys": [
+    "лид что такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 36.5
+  },
+  {
+   "keys": [
+    "лид что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "лид это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 34.6
+  },
+  {
+   "keys": [
+    "лид это в маркетинге",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 36.285714285714285
+  },
+  {
+   "keys": [
+    "лид это в продажах",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "лид это в продажах простыми словами",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "лид это в рекламе",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 37.5
+  },
+  {
+   "keys": [
+    "лид это простыми словами",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 29.666666666666668
+  },
+  {
+   "keys": [
+    "лид єто",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "лидам",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "лиды для фотографа",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "лиды цена",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "лиды что такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "лиды это",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "лучшие хостинги для телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "маркетинг кит",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 39
+  },
+  {
+   "keys": [
+    "маркетинг кит цена",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "маркетинг кит это",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "маркетинг киты",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 36.45454545454545
+  },
+  {
+   "keys": [
+    "маркетинг под ключ",
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "маркетинг термины",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "маркетинговая терминология",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "маркетинговые термины",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 50.5
+  },
+  {
+   "keys": [
+    "маркетинговый словарь",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "менеджер ии",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "менеджер ии что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "обработка входящих заявок в инстаграм",
+    "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18.666666666666668
+  },
+  {
+   "keys": [
+    "обработка входящих заявок в инстаграм",
+    "https://gptbot.uz/ru/avtomatizatsiya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "обработка входящих заявок в инстаграм",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 16.5
+  },
+  {
+   "keys": [
+    "общение с искусственным интеллектом",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "оптимизация сайта стоимость",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "поисковое продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "поисковое продвижение seo это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 76.5
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайта это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайтов в ташкенте",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 81.5
+  },
+  {
+   "keys": [
+    "поисковое продвижение сайтов это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 73.5
+  },
+  {
+   "keys": [
+    "поисковое продвижение создание сайтов",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "поисковое продвижение цена",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "поисковый аудит сайта пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "прайс лист смм специалиста",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "прайс лист сммщика",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62.333333333333336
+  },
+  {
+   "keys": [
+    "прием заказов круглосуточно",
+    "https://gptbot.uz/ru/ai-bot-dlya-dostavki-edy/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "прием и обработка заявок",
+    "https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "пример seo аудита",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 99
+  },
+  {
+   "keys": [
+    "пример аудита сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 97
+  },
+  {
+   "keys": [
+    "продвижение seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 78.78260869565217
+  },
+  {
+   "keys": [
+    "продвижение в seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "продвижение в сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "продвижение в социальных сетях это",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "продвижение по поисковым запросам",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 88.4
+  },
+  {
+   "keys": [
+    "продвижение по сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 80.88888888888889
+  },
+  {
+   "keys": [
+    "продвижение раскрутка сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 71.66666666666667
+  },
+  {
+   "keys": [
+    "продвижение сайта",
+    "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18.333333333333332
+  },
+  {
+   "keys": [
+    "продвижение сайта",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "продвижение сайта seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 72.73684210526316
+  },
+  {
+   "keys": [
+    "продвижение сайта в ташкенте",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "продвижение сайта информация",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "продвижение сайта как это делается",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "продвижение сайта конкретному запросу",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "продвижение сайта описание",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "продвижение сайта по сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 78.72222222222223
+  },
+  {
+   "keys": [
+    "продвижение сайта по факту выведенных слов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "продвижение сайта сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 70.88888888888889
+  },
+  {
+   "keys": [
+    "продвижение сайта ссылками что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "продвижение сайта стоимость цена",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "продвижение сайта ташкент",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 89.5
+  },
+  {
+   "keys": [
+    "продвижение сайта цена",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "продвижение сайта что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 77.6
+  },
+  {
+   "keys": [
+    "продвижение сайта это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "продвижение сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 70.41666666666667
+  },
+  {
+   "keys": [
+    "продвижение сайтов",
+    "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "продвижение сайтов",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 26.8
+  },
+  {
+   "keys": [
+    "продвижение сайтов seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 69.77777777777777
+  },
+  {
+   "keys": [
+    "продвижение сайтов включает",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 86.66666666666667
+  },
+  {
+   "keys": [
+    "продвижение сайтов зачем",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "продвижение сайтов как это делается",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 65.33333333333333
+  },
+  {
+   "keys": [
+    "продвижение сайтов сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 78.33333333333333
+  },
+  {
+   "keys": [
+    "продвижение сео",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "продвижение через seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 79.5
+  },
+  {
+   "keys": [
+    "разработать сайт под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "разработка ai чат-бота",
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "разработка digital стратегии",
+    "https://gptbot.uz/ru/digital-strategiya-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 16.5
+  },
+  {
+   "keys": [
+    "разработка авторских сайтов под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "разработка ботов для бизнеса",
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "разработка маркетинг кита",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "разработка под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "разработка портала стоимость",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "разработка продающих сайтов под ключ",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "разработка сайта под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 88.57142857142857
+  },
+  {
+   "keys": [
+    "разработка сайта под ключ",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 86.11111111111111
+  },
+  {
+   "keys": [
+    "разработка сайта узбекистан",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 68.11111111111111
+  },
+  {
+   "keys": [
+    "разработка сайтов",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 88.3
+  },
+  {
+   "keys": [
+    "разработка сайтов в ташкенте",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "разработка сайтов ташкент",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 72.81818181818181
+  },
+  {
+   "keys": [
+    "разработка сайтов узбекистан",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 73
+  },
+  {
+   "keys": [
+    "разработка телеграм бота узбекистан",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 129
+  },
+  {
+   "keys": [
+    "разработка уникальных сайтов на заказ под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "разработка чат бота для бизнеса",
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "разработка чат ботов для бизнеса",
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/boss-digital/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 81.5
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 37
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "разработка чат ботов ташкент",
+    "https://gptbot.uz/ru/stoimost-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "расценки на создание сайта",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "робот для продвижения сайта",
+    "https://gptbot.uz/ru/blog/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 78.33333333333333
+  },
+  {
+   "keys": [
+    "робот для продвижения сайта бесплатно",
+    "https://gptbot.uz/ru/blog/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 76.66666666666667
+  },
+  {
+   "keys": [
+    "сайт для бизнеса",
+    "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 27.41176470588235
+  },
+  {
+   "keys": [
+    "сайт для компании",
+    "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "сео аудит пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "сео продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "сео продвижение в поиске",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "сео продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 80.5
+  },
+  {
+   "keys": [
+    "сео продвижение сайта seo",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "сео продвижение сайта что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "сео продвижение сайта что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 68
+  },
+  {
+   "keys": [
+    "сео продвижение сайта это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "сео продвижение сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 78.85714285714286
+  },
+  {
+   "keys": [
+    "сео продвижение сайтов что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "сео продвижение сайтов это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 65.5
+  },
+  {
+   "keys": [
+    "сео продвижение что это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62.666666666666664
+  },
+  {
+   "keys": [
+    "сео продвижение что это такое",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 70.2
+  },
+  {
+   "keys": [
+    "сео продвижение это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 66.5
+  },
+  {
+   "keys": [
+    "сео продвижение это что",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 61
+  },
+  {
+   "keys": [
+    "сео ташкент",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "сео услуги это",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "сервер для телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "сколько стоит бот",
+    "https://gptbot.uz/ru/stoimost-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "сколько стоит лид",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 22
+  },
+  {
+   "keys": [
+    "сколько стоит продвижение сайта",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "сколько стоит разработка сайта под ключ",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "сколько стоит сайт",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "словарь маркетинга",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "словарь маркетинговых терминов",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "словарь по маркетингу",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "словарь терминов по маркетингу",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "смм под ключ",
+    "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "смм продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "смм продвижение это",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 42.666666666666664
+  },
+  {
+   "keys": [
+    "создание бота телеграм",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 92.5
+  },
+  {
+   "keys": [
+    "создание маркетинг кита",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "создание сайта для бизнеса",
+    "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 22.666666666666668
+  },
+  {
+   "keys": [
+    "создание сайта под ключ",
+    "https://gptbot.uz/ru/razrabotka-sayta-pod-klyuch/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 95.33333333333333
+  },
+  {
+   "keys": [
+    "создание сайта под ключ цена",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "создание сайтов в ташкенте",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "создание сайтов ташкент",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "создание сайтов цена",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "создание телеграм ботов узбекистан",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "создание телеграм ботов узбекистан",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "создать бота в телеграм",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "создать телеграм бот",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "создать телеграм бота",
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "средняя цена лида",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "стоимость модернизации сайта",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "стоимость поискового продвижения сайта",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 12
+  },
+  {
+   "keys": [
+    "стоимость продвижения",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "стоимость разработки портала",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 14.5
+  },
+  {
+   "keys": [
+    "стоимость создания сайта",
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "телеграм бот python",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "телеграм бот на питоне",
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "терминология маркетинга",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "термины в маркетинге",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "термины используемые в маркетинге",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 26
+  },
+  {
+   "keys": [
+    "термины маркетинга и рекламы",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "термины по маркетингу",
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "технический аудит сайта пример",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "технический аудит сайта чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "топ хостингов для телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 73
+  },
+  {
+   "keys": [
+    "узбек ча",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "умный чат для сайта",
+    "https://gptbot.uz/ru/ai-chat-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "услуги smm",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "услуги smm",
+    "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 37
+  },
+  {
+   "keys": [
+    "услуги в рамках smm",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 46.5
+  },
+  {
+   "keys": [
+    "услуги интернет маркетинг узбукистан",
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "услуги смм специалиста",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "хост телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "хостинг для тг бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 84
+  },
+  {
+   "keys": [
+    "хостинг для телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62.333333333333336
+  },
+  {
+   "keys": [
+    "хостинг телеграм бота",
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хочу поговорить с искусственным интеллектом",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "хочу пообщаться с искусственным интеллектом",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "цены на seo продвижение",
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "чат бот для бизнеса бишкек",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "чат бот с интеграцией crm",
+    "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "чат гпт на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 65.5
+  },
+  {
+   "keys": [
+    "чат гпт на русском языке",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "чат гпт на узбекском",
+    "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 5.818181818181818
+  },
+  {
+   "keys": [
+    "чат гпт на узбекском",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 5.875
+  },
+  {
+   "keys": [
+    "чат гпт узб",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 4.166666666666666
+  },
+  {
+   "keys": [
+    "чат джипити узбек тилида",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 6.833333333333333
+  },
+  {
+   "keys": [
+    "чат искусственный интеллект на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 73.66666666666667
+  },
+  {
+   "keys": [
+    "чат-бот майстер для бізнесу",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 91.66666666666667
+  },
+  {
+   "keys": [
+    "чат-бот мастер для бизнеса",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 26,
+   "ctr": 0,
+   "position": 64.11538461538461
+  },
+  {
+   "keys": [
+    "чат-бот это",
+    "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 95
+  },
+  {
+   "keys": [
+    "чатгпт на русском",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "чать",
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "чек лист seo аудита",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "чек лист аудит сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 82.5
+  },
+  {
+   "keys": [
+    "чек лист аудита сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 85.4
+  },
+  {
+   "keys": [
+    "чек лист продвижения сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "чек лист сео оптимизации",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 90
+  },
+  {
+   "keys": [
+    "чек лист технический аудит сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "чек лист технического аудита сайта",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 84.4
+  },
+  {
+   "keys": [
+    "чем сделка отличается от лида",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "что входит в seo продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "что входит в смм продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19.5
+  },
+  {
+   "keys": [
+    "что входит в услуги смм",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "что значит продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "что значит сео продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 86.66666666666667
+  },
+  {
+   "keys": [
+    "что такое seo продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 68
+  },
+  {
+   "keys": [
+    "что такое seo продвижение простыми словами",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "что такое seo продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 68
+  },
+  {
+   "keys": [
+    "что такое seo продвижение сайтов",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "что такое smm продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25
+  },
+  {
+   "keys": [
+    "что такое квалификация лидов",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "что такое лид",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 31.2
+  },
+  {
+   "keys": [
+    "что такое лид в коммерческом предложении сдо ржд",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "что такое лид в маркетинге",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 23
+  },
+  {
+   "keys": [
+    "что такое лид простыми словами",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "что такое лиды в арбитраже",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "что такое лиды в маркетинге",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 32.57142857142857
+  },
+  {
+   "keys": [
+    "что такое лиды в продажах",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "что такое маркетинг кит",
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "что такое продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 70.25
+  },
+  {
+   "keys": [
+    "что такое сео продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 77.8
+  },
+  {
+   "keys": [
+    "что такое смм продвижение",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 37.666666666666664
+  },
+  {
+   "keys": [
+    "что такое смм продвижение сайта",
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 23.666666666666668
+  },
+  {
+   "keys": [
+    "что такое чат-бот простыми словами",
+    "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 93
+  },
+  {
+   "keys": [
+    "юзабилити аудит сайта чек лист",
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 87.5
+  },
+  {
+   "keys": [
+    "як зробити бот для сайту",
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 48.6
+  }
+ ]
+}

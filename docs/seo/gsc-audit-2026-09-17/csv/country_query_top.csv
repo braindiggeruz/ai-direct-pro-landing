@@ -1,0 +1,207 @@
+﻿query,country,clicks,impressions,ctr,position,topic,topic_group,language,intent,is_brand,is_local,is_commercial_modifier,position_bucket
+chatgpt kirish,kaz,0,29,0.0,7.482758620689655,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,kaz,1,15,0.0666666666666666,5.933333333333334,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chpt yuklab olish,kaz,0,8,0.0,8.125,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chat gpt uzb,kaz,0,7,0.0,3.857142857142857,chatgpt_online,chatgpt_product,uz,transactional,False,True,False,4-10
+chatgpt ilovasini yuklab olish,kaz,0,7,0.0,6.857142857142857,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha,kaz,0,7,0.0,5.285714285714286,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha online,kaz,0,7,0.0,4.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt yuklab olish,kaz,0,5,0.0,6.6,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+чат джипити узбекча,kaz,0,5,0.0,8.8,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+процент рекламы телеграм от общего рынка рекламы узбекистан,kaz,0,4,0.0,8.75,telegram_ads,services_marketing,ru,commercial,False,True,False,4-10
+chatgpt kirish uzbek tilida,kaz,0,3,0.0,5.666666666666667,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ga yozish,kaz,0,2,0.0,9.5,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt ochish,kaz,0,2,0.0,8.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt online kirish,kaz,0,2,0.0,5.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ozbekcha,kaz,0,2,0.0,6.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt узбек тилида,kaz,0,2,0.0,7.5,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+jaji piti online,kaz,0,2,0.0,8.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+генерация заявок,kaz,0,2,0.0,25.0,other,other,ru,unknown,False,False,False,21-50
+лид как расшифровывается,kaz,0,2,0.0,1.0,leads_automation,services_bots,ru,informational,False,False,False,1-3
+лид расшифровка,kaz,0,2,0.0,1.0,leads_automation,services_bots,ru,commercial_investigation,False,False,False,1-3
+продвижение с оплатой за лиды,kaz,0,2,0.0,55.0,leads_automation,services_bots,ru,commercial_investigation,False,False,False,51+
+сео продвижение сайтов что это,kaz,0,2,0.0,68.0,seo,services_web,ru,informational,False,False,False,51+
+сео продвижение что это такое,kaz,0,2,0.0,63.0,seo,services_web,ru,informational,False,False,False,51+
+чачи пити узбекча,kaz,0,2,0.0,10.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+ai консультант для сайта,kaz,0,1,0.0,18.0,webdev,services_web,ru,commercial_investigation,False,False,False,11-20
+bitrich ai bot,kaz,0,1,0.0,9.0,chatbot_dev,services_bots,en,commercial_investigation,False,False,False,4-10
+cakecity,kaz,0,1,0.0,10.0,other,other,neutral,unknown,False,False,False,4-10
+chat gpt yuklash,kaz,0,1,0.0,7.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt 4 uzbek tilida,kaz,0,1,0.0,10.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbek tilida gaplashish,kaz,0,1,0.0,6.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt kirish,kgz,0,38,0.0,8.131578947368421,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,kgz,0,28,0.0,4.571428571428571,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish,kgz,0,17,0.0,7.705882352941177,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+чат гпт узбекча,kgz,0,15,0.0,5.533333333333333,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha online,kgz,0,11,0.0,4.454545454545455,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt на узбекском,kgz,1,10,0.1,2.8,chatgpt_online,chatgpt_product,ru,transactional,False,False,False,1-3
+chatgpt ochish,kgz,0,5,0.0,5.6,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+чат гпт на узбекском,kgz,0,5,0.0,2.4,chatgpt_online,chatgpt_product,ru,transactional,False,False,False,1-3
+chatgpt ga kirish,kgz,0,4,0.0,7.75,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha,kgz,0,4,0.0,3.25,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+чат джипити узбекча,kgz,1,3,0.3333333333333333,3.6666666666666665,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt uzbekcha,kgz,0,3,0.0,5.333333333333333,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt kirish uzbek tilida,kgz,0,3,0.0,6.666666666666667,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+лид это,kgz,0,3,0.0,7.333333333333333,leads_automation,services_bots,ru,informational,False,False,False,4-10
+чат гпт узб,kgz,1,2,0.5,1.5,chatgpt_online,chatgpt_product,uz,transactional,False,True,False,1-3
+chat gpt uchun prompt,kgz,0,2,0.0,7.0,chatgpt_prompts,chatgpt_product,uz,informational,False,False,False,4-10
+chatgpt uzb,kgz,0,2,0.0,3.0,chatgpt_online,chatgpt_product,uz,transactional,False,True,False,1-3
+bepul chatgpt,kgz,0,1,0.0,7.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt yuklash,kgz,0,1,0.0,7.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt bepul kirish,kgz,0,1,0.0,7.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ilovasini yuklab olish,kgz,0,1,0.0,5.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt online kirish,kgz,0,1,0.0,4.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt skachat qilish,kgz,0,1,0.0,8.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt tarjima,kgz,0,1,0.0,9.0,chatgpt_translate,chatgpt_product,uz,informational,False,False,False,4-10
+chatgpt uz,kgz,0,1,0.0,4.0,chatgpt_online,chatgpt_product,neutral,transactional,False,True,False,4-10
+chatgpt uzbek tilida,kgz,0,1,0.0,7.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha bepul,kgz,0,1,0.0,5.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha скачать,kgz,0,1,0.0,7.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+jaji piti online,kgz,0,1,0.0,6.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+аудит сайта чек лист,kgz,0,1,0.0,81.0,seo,services_web,ru,informational,False,False,False,51+
+chatgpt kirish,rus,7,608,0.0115131578947368,6.975328947368421,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,rus,22,566,0.03886925795053,5.863957597173145,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ilovasini yuklab olish,rus,22,354,0.0621468926553672,6.870056497175141,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish,rus,6,263,0.0228136882129277,6.262357414448669,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ochish,rus,3,196,0.0153061224489795,6.127551020408164,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt bepul kirish,rus,0,158,0.0,7.651898734177215,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+лид это,rus,0,65,0.0,27.43076923076923,leads_automation,services_bots,ru,informational,False,False,False,21-50
+chatgpt kirish uzbek tilida,rus,0,49,0.0,5.877551020408164,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+бот для инстаграм директ,rus,0,48,0.0,21.45833333333333,instagram_bots,services_bots,ru,commercial_investigation,False,False,False,21-50
+лид,rus,0,45,0.0,32.68888888888889,leads_automation,services_bots,ru,commercial_investigation,False,False,False,21-50
+chat gpt yuklash,rus,3,40,0.075,7.55,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+лид это в рекламе,rus,0,28,0.0,24.357142857142858,leads_automation,services_bots,ru,informational,False,False,False,21-50
+что такое seo продвижение,rus,0,28,0.0,83.75,seo,services_web,ru,informational,False,False,False,51+
+chatgpt uzbekcha online,rus,2,27,0.074074074074074,4.148148148148149,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt uzbekcha,rus,4,26,0.1538461538461538,5.384615384615385,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt skachat uzbek tilida,rus,0,26,0.0,6.038461538461538,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha bepul,rus,0,25,0.0,5.04,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+как работает seo продвижение,rus,0,23,0.0,77.47826086956522,seo,services_web,ru,informational,False,False,False,51+
+чат гпт узбекча,rus,0,23,0.0,4.478260869565217,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+чат джипити узбекча,rus,3,21,0.1428571428571428,5.380952380952381,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+что такое сео продвижение,rus,0,21,0.0,80.04761904761905,seo,services_web,ru,informational,False,False,False,51+
+гарантированные лиды для рекламы что это,rus,0,20,0.0,39.0,leads_automation,services_bots,ru,informational,False,False,False,21-50
+что такое лид в коммерческом предложении,rus,0,19,0.0,21.68421052631579,leads_automation,services_bots,ru,informational,False,False,False,21-50
+что такое лид в коммерческом предложении сдо ржд,rus,0,19,0.0,39.578947368421055,leads_automation,services_bots,ru,informational,False,False,False,21-50
+ай менеджер,rus,0,18,0.0,24.55555555555556,other,other,ru,unknown,False,False,False,21-50
+ватсап бот для бизнеса,rus,0,18,0.0,36.61111111111112,whatsapp_bots,services_bots,ru,commercial_investigation,False,False,False,21-50
+как работает сео продвижение,rus,0,18,0.0,82.33333333333333,seo,services_web,ru,informational,False,False,False,51+
+робот для записи на прием,rus,0,18,0.0,25.944444444444443,chatbot_dev,services_bots,ru,commercial_investigation,False,False,False,21-50
+что такое seo продвижение простыми словами,rus,0,18,0.0,84.22222222222223,seo,services_web,ru,informational,False,False,False,51+
+chatgpt uzbekcha,rus,0,16,0.0,6.0625,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt kirish,tjk,1,31,0.032258064516129,6.774193548387097,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,tjk,0,26,0.0,5.884615384615385,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha скачать,tjk,0,25,0.0,7.6,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish,tjk,0,21,0.0,6.9523809523809526,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ochish,tjk,1,20,0.05,5.25,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ilovasini yuklab olish,tjk,0,12,0.0,6.833333333333333,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt kirish uzbek tilida,tjk,0,6,0.0,7.666666666666667,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha,tjk,0,6,0.0,6.333333333333333,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha online,tjk,0,6,0.0,8.5,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt uzbekcha,tjk,1,4,0.25,5.25,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt yuklash,tjk,0,3,0.0,7.666666666666667,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uz,tjk,0,3,0.0,6.333333333333333,chatgpt_online,chatgpt_product,neutral,transactional,False,True,False,4-10
+чати пити узбекча,tjk,0,2,0.0,9.0,other,other,uz,unknown,False,False,False,4-10
+jaji piti online,tjk,1,1,1.0,7.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+cakecity,tjk,0,1,0.0,4.0,other,other,neutral,unknown,False,False,False,4-10
+chatgpt kirish login,tjk,0,1,0.0,7.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ochish uzbek tilida,tjk,0,1,0.0,6.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt oʻzbekcha,tjk,0,1,0.0,6.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbek,tjk,0,1,0.0,4.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbek tilida skachat,tjk,0,1,0.0,7.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha bepul,tjk,0,1,0.0,5.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt на узбекском,tjk,0,1,0.0,3.0,chatgpt_online,chatgpt_product,ru,transactional,False,False,False,1-3
+услуги смм специалиста,tjk,0,1,0.0,7.0,smm,services_marketing,ru,commercial,False,False,True,4-10
+чат гпт на узбекском,tjk,0,1,0.0,5.0,chatgpt_online,chatgpt_product,ru,transactional,False,False,False,4-10
+чат гпт узбекча,tjk,0,1,0.0,3.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,1-3
+чачи пити узбекча,tjk,0,1,0.0,8.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+чат-бот мастер для бизнеса,ukr,0,73,0.0,58.45205479452055,chatbot_dev,services_bots,ru,commercial_investigation,False,False,False,51+
+что такое сео продвижение,ukr,0,40,0.0,56.95,seo,services_web,ru,informational,False,False,False,51+
+чат-бот майстер для бізнесу,ukr,0,29,0.0,85.72413793103448,irrelevant_ukr,irrelevant,ukr,unknown,False,False,False,51+
+что такое seo продвижение,ukr,0,29,0.0,58.44827586206897,seo,services_web,ru,informational,False,False,False,51+
+seo продвижение это,ukr,0,27,0.0,58.07407407407408,seo,services_web,ru,informational,False,False,False,51+
+как происходит сео продвижение сайта,ukr,0,21,0.0,60.57142857142857,seo,services_web,ru,informational,False,False,False,51+
+как работает seo продвижение сайтов,ukr,0,21,0.0,61.47619047619048,seo,services_web,ru,informational,False,False,False,51+
+как работает сео продвижение сайта,ukr,0,21,0.0,59.04761904761905,seo,services_web,ru,informational,False,False,False,51+
+продвижение сайтов как это делается,ukr,0,21,0.0,66.76190476190476,seo,services_web,ru,informational,False,False,False,51+
+продвижение сайта по факту выведенных слов,ukr,0,17,0.0,57.47058823529412,seo,services_web,ru,commercial_investigation,False,False,False,51+
+продвижение сайтов включает,ukr,0,17,0.0,74.29411764705883,seo,services_web,ru,informational,False,False,False,51+
+продвижение сайта seodrum,ukr,0,16,0.0,43.8125,seo,services_web,ru,commercial_investigation,False,False,False,21-50
+что значит продвижение сайта,ukr,0,16,0.0,55.1875,seo,services_web,ru,informational,False,False,False,51+
+сео продвижение это,ukr,0,14,0.0,57.5,seo,services_web,ru,informational,False,False,False,51+
+что такое продвижение сайта,ukr,0,14,0.0,59.42857142857143,seo,services_web,ru,informational,False,False,False,51+
+seo продвижение что это,ukr,0,13,0.0,58.15384615384615,seo,services_web,ru,informational,False,False,False,51+
+лид это,ukr,0,13,0.0,26.23076923076923,leads_automation,services_bots,ru,informational,False,False,False,21-50
+продвижение сайта описание,ukr,0,11,0.0,66.63636363636364,seo,services_web,ru,commercial_investigation,False,False,False,51+
+лид реклама,ukr,0,10,0.0,24.7,leads_automation,services_bots,ru,commercial_investigation,False,False,False,21-50
+сео продвижение что это,ukr,0,10,0.0,58.4,seo,services_web,ru,informational,False,False,False,51+
+seo продвижение сайта это,ukr,0,9,0.0,60.11111111111112,seo,services_web,ru,informational,False,False,False,51+
+автоматизация обработки заявок,ukr,0,9,0.0,61.55555555555556,leads_automation,services_bots,ru,commercial_investigation,False,False,False,51+
+автоматизация приема заявок,ukr,0,9,0.0,39.888888888888886,leads_automation,services_bots,ru,commercial_investigation,False,False,False,21-50
+лид,ukr,0,9,0.0,25.77777777777778,leads_automation,services_bots,ru,commercial_investigation,False,False,False,21-50
+продвижение сайта как это делается,ukr,0,9,0.0,60.333333333333336,seo,services_web,ru,informational,False,False,False,51+
+сео продвижение сайта это,ukr,0,9,0.0,59.55555555555556,seo,services_web,ru,informational,False,False,False,51+
+что такое лид,ukr,0,9,0.0,27.33333333333333,leads_automation,services_bots,ru,informational,False,False,False,21-50
+в чем заключается продвижение сайта,ukr,0,8,0.0,72.75,seo,services_web,ru,commercial_investigation,False,False,False,51+
+продвижение сайта что это,ukr,0,8,0.0,62.0,seo,services_web,ru,informational,False,False,False,51+
+продвижение сайта это,ukr,0,8,0.0,61.375,seo,services_web,ru,informational,False,False,False,51+
+seo продвижение,usa,0,52,0.0,67.76923076923077,seo,services_web,ru,commercial_investigation,False,False,False,51+
+chatgpt kirish uzbek tilida,usa,0,4,0.0,7.5,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish,usa,0,4,0.0,8.5,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+продвижение сайта по сео,usa,0,3,0.0,54.66666666666666,seo,services_web,ru,commercial_investigation,False,False,False,51+
+chatgpt uzbekcha bepul,usa,0,2,0.0,7.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,usa,0,2,0.0,5.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+seo продвижение сайта что это,usa,0,2,0.0,82.0,seo,services_web,ru,informational,False,False,False,51+
+продвижение по сео,usa,0,2,0.0,81.5,seo,services_web,ru,commercial_investigation,False,False,False,51+
+продвижение сайта сео,usa,0,2,0.0,51.5,seo,services_web,ru,commercial_investigation,False,False,False,51+
+продвижение сайтов сео,usa,0,2,0.0,69.0,seo,services_web,ru,commercial_investigation,False,False,False,51+
+чем ты отличаешься от чата gpt,usa,0,2,0.0,10.0,chatgpt_online,chatgpt_product,ru,transactional,False,False,False,4-10
+chatgpt uzbekcha online,usa,1,1,1.0,1.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,1-3
+"""elama""",usa,0,1,0.0,25.0,other,other,neutral,unknown,False,False,False,21-50
+chat gpt ozbekcha,usa,0,1,0.0,5.0,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt ilovasini yuklab olish,usa,0,1,0.0,6.0,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt kirish,usa,0,1,0.0,4.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+internet reklama,usa,0,1,0.0,18.0,digital_marketing,services_marketing,neutral,commercial_investigation,False,False,False,11-20
+marketing haqida,usa,0,1,0.0,55.0,digital_marketing,services_marketing,uz,commercial_investigation,False,False,False,51+
+seo продвижение это,usa,0,1,0.0,85.0,seo,services_web,ru,informational,False,False,False,51+
+seo продвижению,usa,0,1,0.0,56.0,seo,services_web,ru,commercial_investigation,False,False,False,51+
+seo продвижения,usa,0,1,0.0,57.0,seo,services_web,ru,commercial_investigation,False,False,False,51+
+what does gpt stand for in chat gpt,usa,0,1,0.0,7.0,chatgpt_online,chatgpt_product,en,transactional,False,False,False,4-10
+what gpt stands for in chat gpt,usa,0,1,0.0,6.0,chatgpt_online,chatgpt_product,en,transactional,False,False,False,4-10
+whatsapp бот для бизнеса,usa,0,1,0.0,36.0,whatsapp_bots,services_bots,ru,commercial_investigation,False,False,False,21-50
+аудит digital маркетинга,usa,0,1,0.0,8.0,digital_marketing,services_marketing,ru,commercial_investigation,False,False,False,4-10
+голосовой чат с ии,usa,0,1,0.0,24.0,ai_general,ai_informational,ru,informational,False,False,False,21-50
+менеджер ии это,usa,0,1,0.0,11.0,ai_general,ai_informational,ru,informational,False,False,False,11-20
+поисковое продвижение сайтов в ташкенте,usa,0,1,0.0,52.0,seo,services_web,ru,commercial,False,True,False,51+
+продвижение+сайта+seo,usa,0,1,0.0,75.0,seo,services_web,ru,commercial_investigation,False,False,False,51+
+сео продвижение,usa,0,1,0.0,59.0,seo,services_web,ru,commercial_investigation,False,False,False,51+
+chatgpt kirish,uzb,70,23753,0.0029469961689049,7.376373510714436,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish uzbek tilida,uzb,146,8864,0.016471119133574,4.594652527075812,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish,uzb,39,3372,0.0115658362989323,7.120996441281139,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ochish,uzb,18,2996,0.0060080106809078,6.065086782376502,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt bepul kirish,uzb,11,2030,0.0054187192118226,8.493103448275862,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt kirish uzbek tilida,uzb,8,1934,0.0041365046535677,5.914684591520166,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ilovasini yuklab olish,uzb,32,1541,0.0207657365347177,5.434133679428943,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbekcha online,uzb,4,1012,0.0039525691699604,5.117588932806324,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha,uzb,4,944,0.0042372881355932,6.25,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekcha bepul,uzb,9,935,0.0096256684491978,5.33048128342246,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbek tilida online,uzb,8,690,0.0115942028985507,5.908695652173913,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uz,uzb,10,665,0.0150375939849624,5.121804511278196,chatgpt_online,chatgpt_product,neutral,transactional,False,True,False,4-10
+jaji piti online,uzb,3,659,0.0045523520485584,6.95144157814871,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbek tilida gaplashish,uzb,6,646,0.0092879256965944,7.0510835913312695,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chat gpt yuklash,uzb,4,568,0.0070422535211267,7.165492957746479,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ochish uzbek tilida,uzb,1,470,0.002127659574468,6.157446808510638,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt tarjima,uzb,3,332,0.0090361445783132,6.466867469879518,chatgpt_translate,chatgpt_product,uz,informational,False,False,False,4-10
+chatgpt uzbekcha скачать,uzb,2,290,0.0068965517241379,8.741379310344827,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt uzbek tilida,uzb,1,278,0.0035971223021582,6.600719424460432,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt ozbekcha,uzb,1,243,0.0041152263374485,5.938271604938271,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt yozish,uzb,1,242,0.0041322314049586,8.896694214876032,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt bepul,uzb,4,241,0.0165975103734439,6.294605809128631,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chachipiti oʻzbek tilida,uzb,0,161,0.0,8.298136645962732,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt uzbekistan,uzb,2,152,0.0131578947368421,4.776315789473684,chatgpt_online,chatgpt_product,en,transactional,False,True,False,4-10
+chat gpt uzbekcha,uzb,0,143,0.0,5.867132867132868,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+чат гпт узбекча,uzb,3,134,0.0223880597014925,5.858208955223881,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10
+chatgpt online kirish,uzb,0,130,0.0,5.253846153846154,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt yuklab olish kompyuter uchun,uzb,0,124,0.0,7.201612903225806,chatgpt_download,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt ga kirish,uzb,0,118,0.0,8.0,chatgpt_login,chatgpt_product,uz,navigational,False,False,False,4-10
+chatgpt oʻzbekcha,uzb,2,117,0.017094017094017,7.0085470085470085,chatgpt_online,chatgpt_product,uz,transactional,False,False,False,4-10

@@ -1,0 +1,210 @@
+{
+ "dataset": "query_page__prev90",
+ "pulledAt": "2026-09-17T13:55:16+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-03-19",
+ "endDate": "2026-06-16",
+ "dimensions": [
+  "query",
+  "page"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 1,
+ "rowCount": 19,
+ "rows": [
+  {
+   "keys": [
+    "ai instagram manager",
+    "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "ai боты для бизнеса",
+    "https://gptbot.uz/ru/gpt-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 97.25
+  },
+  {
+   "keys": [
+    "ai продавец",
+    "https://gptbot.uz/ru/ai-prodavec/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "gptbot",
+    "https://gptbot.uz/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.333333333333332
+  },
+  {
+   "keys": [
+    "gptbot",
+    "https://gptbot.uz/ru/gpt-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "instagram direct nima",
+    "https://gptbot.uz/uz/instagram-uchun-ai-menejer/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "sotuvchi ai",
+    "https://gptbot.uz/uz/ai-sotuvchi/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "автоматизация заявок",
+    "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 93.4
+  },
+  {
+   "keys": [
+    "автоматизация продажи товаров",
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 85.5
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 14.5
+  },
+  {
+   "keys": [
+    "бот для инстаграм директ",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "директ бот",
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 77
+  },
+  {
+   "keys": [
+    "ии бот для бизнеса",
+    "https://gptbot.uz/ru/ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "как обрабатывать заявки",
+    "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "менеджер в инстаграм",
+    "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 54
+  },
+  {
+   "keys": [
+    "чат боти для бізнесу",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "чат-бот для бизнеса",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 51
+  },
+  {
+   "keys": [
+    "чат-бот мастер для бизнеса",
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "чем отличается система, аналогичная gpt, на национальной платформе искусственного интеллекта от обычного чат-бота?",
+    "https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  }
+ ]
+}

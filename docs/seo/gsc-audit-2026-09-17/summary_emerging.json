@@ -1,0 +1,1505 @@
+{
+ "window": {
+  "start": "2026-06-17",
+  "end": "2026-09-14"
+ },
+ "queries_in_window": 1200,
+ "segments": {
+  "new_28d": 58,
+  "visible_no_clicks": 48,
+  "new_14d": 22,
+  "rising": 17
+ },
+ "segment_totals": {
+  "new_14d": {
+   "impressions_28d": 1105,
+   "clicks_28d": 10
+  },
+  "new_28d": {
+   "impressions_28d": 32692,
+   "clicks_28d": 148
+  },
+  "rising": {
+   "impressions_28d": 14996,
+   "clicks_28d": 164
+  },
+  "visible_no_clicks": {
+   "impressions_28d": 2008,
+   "clicks_28d": 0
+  }
+ },
+ "new_14d_top": [
+  {
+   "query": "chatgpt yozish",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-01",
+   "last14_impressions": 243,
+   "last14_clicks": 1,
+   "last14_position": 8.89,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt bepul",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-01",
+   "last14_impressions": 241,
+   "last14_clicks": 4,
+   "last14_position": 6.29,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt ga kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-09-01",
+   "last14_impressions": 122,
+   "last14_clicks": 0,
+   "last14_position": 7.99,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgptga kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 64,
+   "last14_clicks": 1,
+   "last14_position": 3.66,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt õzbekcha",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 48,
+   "last14_clicks": 0,
+   "last14_position": 7.12,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chat gpt kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 43,
+   "last14_clicks": 0,
+   "last14_position": 8.09,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chaji piti online",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-07",
+   "last14_impressions": 43,
+   "last14_clicks": 0,
+   "last14_position": 5.86,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "жажипити",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 39,
+   "last14_clicks": 0,
+   "last14_position": 3.51,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt skachat qilish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 37,
+   "last14_clicks": 0,
+   "last14_position": 8.7,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt oʻzbekcha tarjimon",
+   "topic": "chatgpt_translate",
+   "language": "uz",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 25,
+   "last14_clicks": 0,
+   "last14_position": 6.04,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "таргет нима",
+   "topic": "digital_marketing",
+   "language": "uz",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 23,
+   "last14_clicks": 0,
+   "last14_position": 8.26,
+   "top_page_28d": "https://gptbot.uz/uz/blog/target-reklama-nima/"
+  },
+  {
+   "query": "chatgptga",
+   "topic": "chatgpt_online",
+   "language": "neutral",
+   "first_seen": "2026-09-04",
+   "last14_impressions": 22,
+   "last14_clicks": 0,
+   "last14_position": 6.05,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt oʻrnatish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 21,
+   "last14_clicks": 0,
+   "last14_position": 8.57,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "jaji piti bot",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-05",
+   "last14_impressions": 20,
+   "last14_clicks": 0,
+   "last14_position": 5.75,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt bepul versiyasi",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-01",
+   "last14_impressions": 18,
+   "last14_clicks": 2,
+   "last14_position": 7.83,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "чатгпт онлайн",
+   "topic": "chatgpt_online",
+   "language": "ru",
+   "first_seen": "2026-09-03",
+   "last14_impressions": 18,
+   "last14_clicks": 0,
+   "last14_position": 5.89,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt tarjimon",
+   "topic": "chatgpt_translate",
+   "language": "uz",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 17,
+   "last14_clicks": 1,
+   "last14_position": 7.76,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "bepul chatgpt",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-04",
+   "last14_impressions": 14,
+   "last14_clicks": 1,
+   "last14_position": 6.64,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "чачи пити узбекча",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 14,
+   "last14_clicks": 0,
+   "last14_position": 8.86,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chachi piti uzb",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-09-10",
+   "last14_impressions": 13,
+   "last14_clicks": 0,
+   "last14_position": 7.38,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt saytiga kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-09-09",
+   "last14_impressions": 10,
+   "last14_clicks": 0,
+   "last14_position": 5.5,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "джіпічат",
+   "topic": "other",
+   "language": "ru",
+   "first_seen": "2026-09-02",
+   "last14_impressions": 10,
+   "last14_clicks": 0,
+   "last14_position": 8.5,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+  }
+ ],
+ "new_28d_top": [
+  {
+   "query": "chatgpt kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-08-18",
+   "last28_impressions": 24641,
+   "last28_clicks": 80,
+   "last14_position": 7.28,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt bepul kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-08-24",
+   "last28_impressions": 2206,
+   "last28_clicks": 11,
+   "last14_position": 8.29,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbekcha",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-23",
+   "last28_impressions": 984,
+   "last28_clicks": 6,
+   "last14_position": 6.08,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbekcha bepul",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-24",
+   "last28_impressions": 967,
+   "last28_clicks": 9,
+   "last14_position": 5.13,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "jaji piti online",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-27",
+   "last28_impressions": 670,
+   "last28_clicks": 4,
+   "last14_position": 6.97,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt uzbekcha скачать",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-26",
+   "last28_impressions": 327,
+   "last28_clicks": 3,
+   "last14_position": 8.69,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt ozbekcha",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-18",
+   "last28_impressions": 257,
+   "last28_clicks": 2,
+   "last14_position": 5.83,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chat gpt uzbekcha",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-23",
+   "last28_impressions": 180,
+   "last28_clicks": 5,
+   "last14_position": 5.68,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "чат гпт узбекча",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-20",
+   "last28_impressions": 176,
+   "last28_clicks": 3,
+   "last14_position": 5.68,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chachipiti oʻzbek tilida",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-18",
+   "last28_impressions": 161,
+   "last28_clicks": 0,
+   "last14_position": 8.32,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt skachat uzbek tilida",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-24",
+   "last28_impressions": 137,
+   "last28_clicks": 2,
+   "last14_position": 6.96,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt online kirish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-08-24",
+   "last28_impressions": 136,
+   "last28_clicks": 0,
+   "last14_position": 5.22,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt oʻzbekcha",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-25",
+   "last28_impressions": 118,
+   "last28_clicks": 2,
+   "last14_position": 6.94,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt yuklash",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-29",
+   "last28_impressions": 117,
+   "last28_clicks": 1,
+   "last14_position": 7.3,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt kirish login",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "first_seen": "2026-08-27",
+   "last28_impressions": 115,
+   "last28_clicks": 3,
+   "last14_position": 6.18,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt 4 uzbek tilida",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-20",
+   "last28_impressions": 112,
+   "last28_clicks": 0,
+   "last14_position": 9.07,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbek",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-23",
+   "last28_impressions": 102,
+   "last28_clicks": 0,
+   "last14_position": 6.68,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbek tilida skachat",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-26",
+   "last28_impressions": 100,
+   "last28_clicks": 0,
+   "last14_position": 7.68,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt узбекча",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-23",
+   "last28_impressions": 99,
+   "last28_clicks": 0,
+   "last14_position": 6.56,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "onlayn chatgpt",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "first_seen": "2026-08-24",
+   "last28_impressions": 87,
+   "last28_clicks": 0,
+   "last14_position": 6.44,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chat gpt 4 uzbekistan",
+   "topic": "chatgpt_online",
+   "language": "en",
+   "first_seen": "2026-08-20",
+   "last28_impressions": 85,
+   "last28_clicks": 1,
+   "last14_position": 7.22,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt скачать uzbek tilida",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-28",
+   "last28_impressions": 75,
+   "last28_clicks": 1,
+   "last14_position": 7.05,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt yuklash apk",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-29",
+   "last28_impressions": 65,
+   "last28_clicks": 3,
+   "last14_position": 6.96,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt uzbekcha tarjimon",
+   "topic": "chatgpt_translate",
+   "language": "uz",
+   "first_seen": "2026-08-28",
+   "last28_impressions": 57,
+   "last28_clicks": 1,
+   "last14_position": 4.37,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt ilovasi",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "first_seen": "2026-08-29",
+   "last28_impressions": 46,
+   "last28_clicks": 1,
+   "last14_position": 6.48,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  }
+ ],
+ "rising_top": [
+  {
+   "query": "chatgpt yuklab olish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "prev14_impressions": 772,
+   "last14_impressions": 2960,
+   "impressions_change_14_pct": 283.4,
+   "last14_clicks": 42,
+   "last14_position": 6.86,
+   "position_change_14": -0.98,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt ochish",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "prev14_impressions": 362,
+   "last14_impressions": 2875,
+   "impressions_change_14_pct": 694.2,
+   "last14_clicks": 20,
+   "last14_position": 5.86,
+   "position_change_14": -1.87,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt kirish uzbek tilida",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "prev14_impressions": 360,
+   "last14_impressions": 1654,
+   "impressions_change_14_pct": 359.4,
+   "last14_clicks": 8,
+   "last14_position": 5.71,
+   "position_change_14": -1.18,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt ilovasini yuklab olish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "prev14_impressions": 613,
+   "last14_impressions": 1317,
+   "impressions_change_14_pct": 114.8,
+   "last14_clicks": 45,
+   "last14_position": 5.25,
+   "position_change_14": -1.49,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt uzbekcha online",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "prev14_impressions": 276,
+   "last14_impressions": 803,
+   "impressions_change_14_pct": 190.9,
+   "last14_clicks": 3,
+   "last14_position": 4.75,
+   "position_change_14": -1.3,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chat gpt yuklash",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "prev14_impressions": 89,
+   "last14_impressions": 524,
+   "impressions_change_14_pct": 488.8,
+   "last14_clicks": 7,
+   "last14_position": 6.94,
+   "position_change_14": -1.71,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt uzbek tilida gaplashish",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "prev14_impressions": 189,
+   "last14_impressions": 458,
+   "impressions_change_14_pct": 142.3,
+   "last14_clicks": 4,
+   "last14_position": 6.7,
+   "position_change_14": -1.2,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt ochish uzbek tilida",
+   "topic": "chatgpt_login",
+   "language": "uz",
+   "prev14_impressions": 37,
+   "last14_impressions": 434,
+   "impressions_change_14_pct": 1073.0,
+   "last14_clicks": 0,
+   "last14_position": 6.11,
+   "position_change_14": -0.59,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt tarjima",
+   "topic": "chatgpt_translate",
+   "language": "uz",
+   "prev14_impressions": 62,
+   "last14_impressions": 275,
+   "impressions_change_14_pct": 343.5,
+   "last14_clicks": 3,
+   "last14_position": 6.53,
+   "position_change_14": 0.26,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbek tilida",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "prev14_impressions": 86,
+   "last14_impressions": 198,
+   "impressions_change_14_pct": 130.2,
+   "last14_clicks": 1,
+   "last14_position": 6.28,
+   "position_change_14": -0.98,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbekistan",
+   "topic": "chatgpt_online",
+   "language": "en",
+   "prev14_impressions": 50,
+   "last14_impressions": 111,
+   "impressions_change_14_pct": 122.0,
+   "last14_clicks": 3,
+   "last14_position": 4.11,
+   "position_change_14": -1.91,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt yuklab olish kompyuter uchun",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "prev14_impressions": 35,
+   "last14_impressions": 97,
+   "impressions_change_14_pct": 177.1,
+   "last14_clicks": 0,
+   "last14_position": 7.09,
+   "position_change_14": -0.42,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt oʻzbek tilida",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "prev14_impressions": 35,
+   "last14_impressions": 71,
+   "impressions_change_14_pct": 102.9,
+   "last14_clicks": 1,
+   "last14_position": 6.38,
+   "position_change_14": -1.31,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chat gpt uz",
+   "topic": "chatgpt_online",
+   "language": "en",
+   "prev14_impressions": 16,
+   "last14_impressions": 54,
+   "impressions_change_14_pct": 237.5,
+   "last14_clicks": 1,
+   "last14_position": 4.5,
+   "position_change_14": -0.5,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "чат-бот мастер для бизнеса",
+   "topic": "chatbot_dev",
+   "language": "ru",
+   "prev14_impressions": 20,
+   "last14_impressions": 53,
+   "impressions_change_14_pct": 165.0,
+   "last14_clicks": 0,
+   "last14_position": 57.3,
+   "position_change_14": -4.2,
+   "top_page_28d": "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+  },
+  {
+   "query": "chatgpt o'rnatish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "prev14_impressions": 16,
+   "last14_impressions": 45,
+   "impressions_change_14_pct": 181.2,
+   "last14_clicks": 1,
+   "last14_position": 5.93,
+   "position_change_14": -2.13,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt.uz",
+   "topic": "chatgpt_online",
+   "language": "neutral",
+   "prev14_impressions": 15,
+   "last14_impressions": 34,
+   "impressions_change_14_pct": 126.7,
+   "last14_clicks": 0,
+   "last14_position": 4.91,
+   "position_change_14": -0.36,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  }
+ ],
+ "visible_no_clicks_top": [
+  {
+   "query": "seo продвижение",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 228,
+   "last14_position": 57.85,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "seo продвижение сайтов",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 109,
+   "last14_position": 55.52,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "продвижение сайтов",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 103,
+   "last14_position": 54.77,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "лид это",
+   "topic": "leads_automation",
+   "language": "ru",
+   "last28_impressions": 99,
+   "last14_position": 25.95,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+  },
+  {
+   "query": "услуги смм специалиста",
+   "topic": "smm",
+   "language": "ru",
+   "last28_impressions": 78,
+   "last14_position": 8.71,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+  },
+  {
+   "query": "лид",
+   "topic": "leads_automation",
+   "language": "ru",
+   "last28_impressions": 63,
+   "last14_position": 29.67,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+  },
+  {
+   "query": "что такое сео продвижение",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 61,
+   "last14_position": 72.11,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "что такое seo продвижение",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 59,
+   "last14_position": 76.89,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "бот для инстаграм директ",
+   "topic": "instagram_bots",
+   "language": "ru",
+   "last28_impressions": 54,
+   "last14_position": 18.73,
+   "top_page_28d": "https://gptbot.uz/ru/instagram-direct-bot/"
+  },
+  {
+   "query": "чат жпт узбекча",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "last28_impressions": 51,
+   "last14_position": 6.77,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "продвижение сайта seo",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 49,
+   "last14_position": 58.94,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "продвижение seo",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 49,
+   "last14_position": 64.25,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "сео продвижение",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 49,
+   "last14_position": 53.73,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "seo продвижение это",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 44,
+   "last14_position": 58.54,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "chat gpt uzbek tilida",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "last28_impressions": 44,
+   "last14_position": 4.93,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "чат гпт на узбекском",
+   "topic": "chatgpt_online",
+   "language": "ru",
+   "last28_impressions": 44,
+   "last14_position": 4.42,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "o'zbekistonda biznes uchun ai bot",
+   "topic": "chatbot_dev",
+   "language": "uz",
+   "last28_impressions": 40,
+   "last14_position": 19.8,
+   "top_page_28d": "https://gptbot.uz/uz/"
+  },
+  {
+   "query": "аудит сайта чек лист",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 35,
+   "last14_position": NaN,
+   "top_page_28d": "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+  },
+  {
+   "query": "chat gpt uzbek",
+   "topic": "chatgpt_online",
+   "language": "uz",
+   "last28_impressions": 34,
+   "last14_position": 4.88,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chpt yuklab olish",
+   "topic": "chatgpt_download",
+   "language": "uz",
+   "last28_impressions": 33,
+   "last14_position": 6.67,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "как работает seo продвижение сайтов",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 31,
+   "last14_position": 68.54,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+  },
+  {
+   "query": "seo ташкент",
+   "topic": "seo",
+   "language": "ru",
+   "last28_impressions": 30,
+   "last14_position": 34.71,
+   "top_page_28d": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+  },
+  {
+   "query": "лид это в рекламе",
+   "topic": "leads_automation",
+   "language": "ru",
+   "last28_impressions": 29,
+   "last14_position": 24.44,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+  },
+  {
+   "query": "чат-бот майстер для бізнесу",
+   "topic": "irrelevant_ukr",
+   "language": "ukr",
+   "last28_impressions": 29,
+   "last14_position": 80.08,
+   "top_page_28d": "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+  },
+  {
+   "query": "instagram direct nima",
+   "topic": "instagram_bots",
+   "language": "uz",
+   "last28_impressions": 29,
+   "last14_position": 8.33,
+   "top_page_28d": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+  }
+ ],
+ "striking_distance_relevant": [
+  {
+   "query": "chatgpt kirish",
+   "segment": "new_28d",
+   "topic": "chatgpt_login",
+   "last14_impressions": 23309,
+   "last14_clicks": 78,
+   "last14_position": 7.28,
+   "emerging_score": 21.84,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chatgpt uzbekcha",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 820,
+   "last14_clicks": 5,
+   "last14_position": 6.08,
+   "emerging_score": 17.49,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbekcha online",
+   "segment": "rising",
+   "topic": "chatgpt_online",
+   "last14_impressions": 803,
+   "last14_clicks": 3,
+   "last14_position": 4.75,
+   "emerging_score": 17.43,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt uzbekcha bepul",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 789,
+   "last14_clicks": 7,
+   "last14_position": 5.13,
+   "emerging_score": 17.39,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt yuklab olish",
+   "segment": "rising",
+   "topic": "chatgpt_download",
+   "last14_impressions": 2960,
+   "last14_clicks": 42,
+   "last14_position": 6.86,
+   "emerging_score": 17.36,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt ochish",
+   "segment": "rising",
+   "topic": "chatgpt_login",
+   "last14_impressions": 2875,
+   "last14_clicks": 20,
+   "last14_position": 5.86,
+   "emerging_score": 17.29,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "jaji piti online",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 669,
+   "last14_clicks": 4,
+   "last14_position": 6.97,
+   "emerging_score": 16.96,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt bepul kirish",
+   "segment": "new_28d",
+   "topic": "chatgpt_login",
+   "last14_impressions": 1919,
+   "last14_clicks": 9,
+   "last14_position": 8.29,
+   "emerging_score": 16.42,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt kirish uzbek tilida",
+   "segment": "rising",
+   "topic": "chatgpt_login",
+   "last14_impressions": 1654,
+   "last14_clicks": 8,
+   "last14_position": 5.71,
+   "emerging_score": 16.09,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt uzbek tilida gaplashish",
+   "segment": "rising",
+   "topic": "chatgpt_online",
+   "last14_impressions": 458,
+   "last14_clicks": 4,
+   "last14_position": 6.7,
+   "emerging_score": 15.97,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt ilovasini yuklab olish",
+   "segment": "rising",
+   "topic": "chatgpt_download",
+   "last14_impressions": 1317,
+   "last14_clicks": 45,
+   "last14_position": 5.25,
+   "emerging_score": 15.6,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt yozish",
+   "segment": "new_14d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 243,
+   "last14_clicks": 1,
+   "last14_position": 8.89,
+   "emerging_score": 14.32,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt bepul",
+   "segment": "new_14d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 241,
+   "last14_clicks": 4,
+   "last14_position": 6.29,
+   "emerging_score": 14.3,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "savollarga javoblar beruvchi bot",
+   "segment": "new_28d",
+   "topic": "chatbot_dev",
+   "last14_impressions": 24,
+   "last14_clicks": 0,
+   "last14_position": 8.38,
+   "emerging_score": 13.98,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/"
+  },
+  {
+   "query": "chatgpt ozbekcha",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 208,
+   "last14_clicks": 1,
+   "last14_position": 5.83,
+   "emerging_score": 13.92,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "услуги смм специалиста",
+   "segment": "visible_no_clicks",
+   "topic": "smm",
+   "last14_impressions": 34,
+   "last14_clicks": 0,
+   "last14_position": 8.71,
+   "emerging_score": 13.9,
+   "top_page_28d": "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+  },
+  {
+   "query": "chatgpt uzbek tilida",
+   "segment": "rising",
+   "topic": "chatgpt_online",
+   "last14_impressions": 198,
+   "last14_clicks": 1,
+   "last14_position": 6.28,
+   "emerging_score": 13.79,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chat gpt yuklash",
+   "segment": "rising",
+   "topic": "chatgpt_download",
+   "last14_impressions": 524,
+   "last14_clicks": 7,
+   "last14_position": 6.94,
+   "emerging_score": 13.6,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+  },
+  {
+   "query": "chatgpt ochish uzbek tilida",
+   "segment": "rising",
+   "topic": "chatgpt_login",
+   "last14_impressions": 434,
+   "last14_clicks": 0,
+   "last14_position": 6.11,
+   "emerging_score": 13.19,
+   "top_page_28d": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+  },
+  {
+   "query": "chachipiti oʻzbek tilida",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 136,
+   "last14_clicks": 0,
+   "last14_position": 8.32,
+   "emerging_score": 12.82,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chat gpt uzbekcha",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 128,
+   "last14_clicks": 4,
+   "last14_position": 5.68,
+   "emerging_score": 12.66,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "процент рекламы телеграм от общего рынка рекламы узбекистан",
+   "segment": "new_28d",
+   "topic": "telegram_ads",
+   "last14_impressions": 24,
+   "last14_clicks": 0,
+   "last14_position": 8.75,
+   "emerging_score": 12.58,
+   "top_page_28d": "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+  },
+  {
+   "query": "chatgpt uzbekcha скачать",
+   "segment": "new_28d",
+   "topic": "chatgpt_download",
+   "last14_impressions": 320,
+   "last14_clicks": 3,
+   "last14_position": 8.69,
+   "emerging_score": 12.53,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt uzbekistan",
+   "segment": "rising",
+   "topic": "chatgpt_online",
+   "last14_impressions": 111,
+   "last14_clicks": 3,
+   "last14_position": 4.11,
+   "emerging_score": 12.3,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "чат гпт узбекча",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 108,
+   "last14_clicks": 1,
+   "last14_position": 5.68,
+   "emerging_score": 12.22,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt oʻzbekcha",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 108,
+   "last14_clicks": 2,
+   "last14_position": 6.94,
+   "emerging_score": 12.22,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt 4 uzbek tilida",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 104,
+   "last14_clicks": 0,
+   "last14_position": 9.07,
+   "emerging_score": 12.13,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "chatgpt узбекча",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 98,
+   "last14_clicks": 0,
+   "last14_position": 6.56,
+   "emerging_score": 11.97,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  },
+  {
+   "query": "chatgpt uzbek",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 88,
+   "last14_clicks": 0,
+   "last14_position": 6.68,
+   "emerging_score": 11.7,
+   "top_page_28d": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  },
+  {
+   "query": "onlayn chatgpt",
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "last14_impressions": 71,
+   "last14_clicks": 0,
+   "last14_position": 6.44,
+   "emerging_score": 11.14,
+   "top_page_28d": "https://gptbot.uz/ru/gpt-chat/"
+  }
+ ],
+ "by_cluster": [
+  {
+   "segment": "new_14d",
+   "topic": "chatgpt_online",
+   "queries": 12,
+   "impressions_14d": 733,
+   "impressions_28d": 733,
+   "clicks_28d": 8,
+   "avg_position_14d": 6.7
+  },
+  {
+   "segment": "new_14d",
+   "topic": "chatgpt_login",
+   "queries": 4,
+   "impressions_14d": 239,
+   "impressions_28d": 239,
+   "clicks_28d": 1,
+   "avg_position_14d": 6.3
+  },
+  {
+   "segment": "new_14d",
+   "topic": "chatgpt_download",
+   "queries": 2,
+   "impressions_14d": 58,
+   "impressions_28d": 58,
+   "clicks_28d": 0,
+   "avg_position_14d": 8.6
+  },
+  {
+   "segment": "new_14d",
+   "topic": "chatgpt_translate",
+   "queries": 2,
+   "impressions_14d": 42,
+   "impressions_28d": 42,
+   "clicks_28d": 1,
+   "avg_position_14d": 6.9
+  },
+  {
+   "segment": "new_14d",
+   "topic": "digital_marketing",
+   "queries": 1,
+   "impressions_14d": 23,
+   "impressions_28d": 23,
+   "clicks_28d": 0,
+   "avg_position_14d": 8.3
+  },
+  {
+   "segment": "new_14d",
+   "topic": "other",
+   "queries": 1,
+   "impressions_14d": 10,
+   "impressions_28d": 10,
+   "clicks_28d": 0,
+   "avg_position_14d": 8.5
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatgpt_login",
+   "queries": 4,
+   "impressions_14d": 25463,
+   "impressions_28d": 27098,
+   "clicks_28d": 94,
+   "avg_position_14d": 6.7
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatgpt_online",
+   "queries": 21,
+   "impressions_14d": 3507,
+   "impressions_28d": 4217,
+   "clicks_28d": 36,
+   "avg_position_14d": 6.6
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatgpt_download",
+   "queries": 7,
+   "impressions_14d": 798,
+   "impressions_28d": 867,
+   "clicks_28d": 11,
+   "avg_position_14d": 7.3
+  },
+  {
+   "segment": "new_28d",
+   "topic": "leads_automation",
+   "queries": 9,
+   "impressions_14d": 52,
+   "impressions_28d": 125,
+   "clicks_28d": 0,
+   "avg_position_14d": 38.3
+  },
+  {
+   "segment": "new_28d",
+   "topic": "other",
+   "queries": 4,
+   "impressions_14d": 49,
+   "impressions_28d": 86,
+   "clicks_28d": 1,
+   "avg_position_14d": 6.5
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatgpt_translate",
+   "queries": 2,
+   "impressions_14d": 52,
+   "impressions_28d": 80,
+   "clicks_28d": 1,
+   "avg_position_14d": 6.8
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatbot_dev",
+   "queries": 3,
+   "impressions_14d": 45,
+   "impressions_28d": 69,
+   "clicks_28d": 0,
+   "avg_position_14d": 27.0
+  },
+  {
+   "segment": "new_28d",
+   "topic": "seo",
+   "queries": 3,
+   "impressions_14d": 23,
+   "impressions_28d": 50,
+   "clicks_28d": 0,
+   "avg_position_14d": 51.2
+  },
+  {
+   "segment": "new_28d",
+   "topic": "telegram_ads",
+   "queries": 1,
+   "impressions_14d": 24,
+   "impressions_28d": 26,
+   "clicks_28d": 0,
+   "avg_position_14d": 8.8
+  },
+  {
+   "segment": "new_28d",
+   "topic": "whatsapp_bots",
+   "queries": 1,
+   "impressions_14d": 12,
+   "impressions_28d": 23,
+   "clicks_28d": 0,
+   "avg_position_14d": 37.3
+  },
+  {
+   "segment": "new_28d",
+   "topic": "chatgpt_payment",
+   "queries": 1,
+   "impressions_14d": 8,
+   "impressions_28d": 22,
+   "clicks_28d": 5,
+   "avg_position_14d": 1.1
+  },
+  {
+   "segment": "new_28d",
+   "topic": "telegram_bots",
+   "queries": 1,
+   "impressions_14d": 7,
+   "impressions_28d": 19,
+   "clicks_28d": 0,
+   "avg_position_14d": 12.6
+  },
+  {
+   "segment": "new_28d",
+   "topic": "digital_marketing",
+   "queries": 1,
+   "impressions_14d": 3,
+   "impressions_28d": 10,
+   "clicks_28d": 0,
+   "avg_position_14d": 47.3
+  },
+  {
+   "segment": "rising",
+   "topic": "chatgpt_download",
+   "queries": 5,
+   "impressions_14d": 4943,
+   "impressions_28d": 6468,
+   "clicks_28d": 110,
+   "avg_position_14d": 6.4
+  },
+  {
+   "segment": "rising",
+   "topic": "chatgpt_login",
+   "queries": 3,
+   "impressions_14d": 4963,
+   "impressions_28d": 5722,
+   "clicks_28d": 31,
+   "avg_position_14d": 5.9
+  },
+  {
+   "segment": "rising",
+   "topic": "chatgpt_online",
+   "queries": 7,
+   "impressions_14d": 1729,
+   "impressions_28d": 2396,
+   "clicks_28d": 20,
+   "avg_position_14d": 5.4
+  },
+  {
+   "segment": "rising",
+   "topic": "chatgpt_translate",
+   "queries": 1,
+   "impressions_14d": 275,
+   "impressions_28d": 337,
+   "clicks_28d": 3,
+   "avg_position_14d": 6.5
+  },
+  {
+   "segment": "rising",
+   "topic": "chatbot_dev",
+   "queries": 1,
+   "impressions_14d": 53,
+   "impressions_28d": 73,
+   "clicks_28d": 0,
+   "avg_position_14d": 57.3
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "seo",
+   "queries": 26,
+   "impressions_14d": 418,
+   "impressions_28d": 1168,
+   "clicks_28d": 0,
+   "avg_position_14d": 63.2
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "leads_automation",
+   "queries": 9,
+   "impressions_14d": 145,
+   "impressions_28d": 334,
+   "clicks_28d": 0,
+   "avg_position_14d": 29.6
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "chatgpt_online",
+   "queries": 5,
+   "impressions_14d": 102,
+   "impressions_28d": 195,
+   "clicks_28d": 0,
+   "avg_position_14d": 5.5
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "instagram_bots",
+   "queries": 2,
+   "impressions_14d": 36,
+   "impressions_28d": 83,
+   "clicks_28d": 0,
+   "avg_position_14d": 13.5
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "smm",
+   "queries": 1,
+   "impressions_14d": 34,
+   "impressions_28d": 78,
+   "clicks_28d": 0,
+   "avg_position_14d": 8.7
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "chatbot_dev",
+   "queries": 2,
+   "impressions_14d": 28,
+   "impressions_28d": 63,
+   "clicks_28d": 0,
+   "avg_position_14d": 31.9
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "chatgpt_download",
+   "queries": 2,
+   "impressions_14d": 42,
+   "impressions_28d": 58,
+   "clicks_28d": 0,
+   "avg_position_14d": 6.7
+  },
+  {
+   "segment": "visible_no_clicks",
+   "topic": "irrelevant_ukr",
+   "queries": 1,
+   "impressions_14d": 13,
+   "impressions_28d": 29,
+   "clicks_28d": 0,
+   "avg_position_14d": 80.1
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "dataset": "searchAppearance__last90",
+ "pulledAt": "2026-09-17T13:54:49+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-06-17",
+ "endDate": "2026-09-14",
+ "dimensions": [
+  "searchAppearance"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 1,
+ "rowCount": 0,
+ "rows": []
+}

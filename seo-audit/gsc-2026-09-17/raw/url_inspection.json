@@ -1,0 +1,866 @@
+{
+ "source": "Google Search Console URL Inspection API via OpenSEO MCP inspect_urls (read-only), property sc-domain:gptbot.uz",
+ "inspectedAt": "2026-09-17/18",
+ "note": "Sampled priority URLs only (quota-conscious). googleCanonicalMatches = Google-selected canonical equals user-declared canonical. inSitemapPerGoogle lists sitemaps Google associates with the URL (empty = Google does not currently associate a sitemap even if the URL is in sitemap.xml).",
+ "results": [
+  {
+   "url": "https://gptbot.uz/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-06T22:30:30Z",
+   "googleCanonical": "https://gptbot.uz/",
+   "userCanonical": "https://gptbot.uz/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/?lang=uz",
+    "https://www.gptbot.uz/",
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+    "http://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-10T12:44:13Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-04T11:35:30Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "userCanonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-new.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/gpt-chat/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-14T02:10:26Z",
+   "googleCanonical": "https://gptbot.uz/ru/gpt-chat/",
+   "userCanonical": "https://gptbot.uz/ru/gpt-chat/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-13T08:49:07Z",
+   "googleCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+   "userCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "https://gptbot.uz/ru/gpt-chat/",
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnesie/",
+   "verdict": "NEUTRAL",
+   "coverageState": "URL is unknown to Google",
+   "indexingState": "INDEXING_STATE_UNSPECIFIED",
+   "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "lastCrawlTime": null,
+   "googleCanonical": null,
+   "userCanonical": null,
+   "googleCanonicalMatches": null,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [],
+   "crawledAs": null,
+   "richResults": null,
+   "liveHttpStatus": 404
+  },
+  {
+   "url": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T18:45:12Z",
+   "googleCanonical": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+   "userCanonical": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://www.gptbot.uz/ru/ai-bot-dlya-biznesa/",
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/stoimost-chat-bota/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-07T17:18:42Z",
+   "googleCanonical": "https://gptbot.uz/ru/stoimost-chat-bota/",
+   "userCanonical": "https://gptbot.uz/ru/stoimost-chat-bota/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/uz/chat-bot-narxi/",
+    "https://www.gptbot.uz/uz/chat-bot-narxi/",
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-04T11:35:28Z",
+   "googleCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+   "userCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/ru/stoimost-chat-bota/",
+    "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
+    "https://www.gptbot.uz/uz/chat-bot-narxi/",
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/gpt-bot-dlya-biznesa/",
+   "verdict": "NEUTRAL",
+   "coverageState": "Page with redirect",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T18:45:12Z",
+   "googleCanonical": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+   "userCanonical": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+    "https://www.gptbot.uz/ru/gpt-bot-dlya-biznesa/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null,
+   "liveHttpStatus": 301
+  },
+  {
+   "url": "https://gptbot.uz/ru/telegram-bot-uzbekistan/",
+   "verdict": "NEUTRAL",
+   "coverageState": "Not found (404)",
+   "indexingState": "INDEXING_STATE_UNSPECIFIED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "NOT_FOUND",
+   "lastCrawlTime": "2026-08-23T23:09:34Z",
+   "googleCanonical": null,
+   "userCanonical": null,
+   "googleCanonicalMatches": null,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null,
+   "liveHttpStatus": 301,
+   "liveRedirectTo": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+   "note": "Google last saw 404 on 2026-08-23; the live URL now 301s (redirect added later). Needs recrawl to clear."
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/",
+   "verdict": "NEUTRAL",
+   "coverageState": "Page with redirect",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-04T23:54:25Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/",
+   "userCanonical": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null,
+   "liveHttpStatus": 301
+  },
+  {
+   "url": "https://gptbot.uz/ru/ai-bot-dlya-nishi/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-06T02:45:15Z",
+   "googleCanonical": "https://gptbot.uz/ru/ai-bot-dlya-nishi/",
+   "userCanonical": "https://gptbot.uz/ru/ai-bot-dlya-nishi/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://www.gptbot.uz/ru/ai-bot-dlya-nishi/",
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed but zero impressions in 16 months"
+  },
+  {
+   "url": "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+   "verdict": "NEUTRAL",
+   "coverageState": "Crawled - currently not indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-07-13T11:23:32Z",
+   "googleCanonical": "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+   "userCanonical": "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null
+  },
+  {
+   "url": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-05T10:55:59Z",
+   "googleCanonical": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+   "userCanonical": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://www.gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+    "https://gptbot.uz/?lang=ru",
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed but zero impressions in 16 months"
+  },
+  {
+   "url": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-03T02:22:09Z",
+   "googleCanonical": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+   "userCanonical": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/uz/seo-xizmati/",
+    "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-03T17:40:40Z",
+   "googleCanonical": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+   "userCanonical": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-priority.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/sayt-yaratish/",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-07T11:49:36Z",
+   "googleCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+   "userCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/uz/smm-xizmatlari/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-31T11:09:13Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "userCanonical": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/ru/gpt-bot-dlya-biznesa/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T19:39:42Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "userCanonical": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T18:47:34Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-04T11:33:29Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+   "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T19:23:35Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+   "userCanonical": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-13T10:46:46Z",
+   "googleCanonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+   "userCanonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-09T05:06:13Z",
+   "googleCanonical": "https://gptbot.uz/ru/",
+   "userCanonical": "https://gptbot.uz/ru/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gpt-bot.gitbook.io/gpt-bot",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+    "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/",
+    "https://gptbot.uz/ru/ai-bot-dlya-biznesa/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-04T21:22:30Z",
+   "googleCanonical": "https://gptbot.uz/uz/",
+   "userCanonical": "https://gptbot.uz/uz/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+    "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+    "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/boss-digital/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-31T02:16:06Z",
+   "googleCanonical": "https://gptbot.uz/boss-digital/",
+   "userCanonical": "https://gptbot.uz/boss-digital/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-priority.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/boss-digital/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-05T08:45:30Z",
+   "googleCanonical": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+   "userCanonical": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://www.gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-03T02:18:07Z",
+   "googleCanonical": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+   "userCanonical": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-16T14:18:52Z",
+   "googleCanonical": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+   "userCanonical": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-priority.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/telegram-reklama/",
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/uz/suniy-intellekt/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-02T09:11:23Z",
+   "googleCanonical": "https://gptbot.uz/uz/suniy-intellekt/",
+   "userCanonical": "https://gptbot.uz/uz/suniy-intellekt/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-new.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-20T12:03:31Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+   "userCanonical": "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-14T04:55:53Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+   "userCanonical": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-priority.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "published 2026-09-13/14; indexed within a day; zero impressions so far is expected"
+  },
+  {
+   "url": "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+   "verdict": "NEUTRAL",
+   "coverageState": "Crawled - currently not indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-07-13T11:23:33Z",
+   "googleCanonical": "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+   "userCanonical": "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [],
+   "referringUrls": [
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": null,
+   "note": "indexed=no; zero impressions in 16 months; second RU explainer page not indexed since 13 Jul (see promty page)"
+  },
+  {
+   "url": "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-23T15:43:24Z",
+   "googleCanonical": "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+   "userCanonical": "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/",
+    "https://www.gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+    "https://www.gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed but zero impressions in 16 months"
+  },
+  {
+   "url": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-07-13T11:23:31Z",
+   "googleCanonical": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+   "userCanonical": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/",
+    "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
+    "https://gptbot.uz/sitemap.xml"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed but zero impressions in 16 months; last crawl 13 Jul"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-02T18:53:40Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+   "userCanonical": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed; published 2 Sep; zero impressions so far"
+  },
+  {
+   "url": "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-21T01:56:53Z",
+   "googleCanonical": "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+   "userCanonical": "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/ru/lokalnoe-seo-tashkent/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed but zero impressions in 16 months"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-02T15:34:15Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+   "userCanonical": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed; published 2 Sep; zero impressions so far"
+  },
+  {
+   "url": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-02T19:23:37Z",
+   "googleCanonical": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+   "userCanonical": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap-new.xml",
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "indexed; published 1 Sep; zero impressions so far"
+  },
+  {
+   "url": "https://gptbot.uz/uz/maxfiylik-siyosati/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-08-24T01:48:46Z",
+   "googleCanonical": "https://gptbot.uz/uz/maxfiylik-siyosati/",
+   "userCanonical": "https://gptbot.uz/uz/maxfiylik-siyosati/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://gptbot.uz/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS",
+   "note": "privacy policy; indexed; no search demand expected"
+  },
+  {
+   "url": "https://gptbot.uz/ru/instagram-direct-bot/",
+   "verdict": "PASS",
+   "coverageState": "Submitted and indexed",
+   "indexingState": "INDEXING_ALLOWED",
+   "robotsTxtState": "ALLOWED",
+   "pageFetchState": "SUCCESSFUL",
+   "lastCrawlTime": "2026-09-06T07:29:06Z",
+   "googleCanonical": "https://gptbot.uz/ru/instagram-direct-bot/",
+   "userCanonical": "https://gptbot.uz/ru/instagram-direct-bot/",
+   "googleCanonicalMatches": true,
+   "inSitemapPerGoogle": [
+    "sitemap.xml"
+   ],
+   "referringUrls": [
+    "https://www.gptbot.uz/ru/instagram-direct-bot/",
+    "https://gptbot.uz/",
+    "https://www.gptbot.uz/uz/instagram-bot-biznes-uchun/"
+   ],
+   "crawledAs": "MOBILE",
+   "richResults": "Breadcrumbs PASS"
+  }
+ ]
+}

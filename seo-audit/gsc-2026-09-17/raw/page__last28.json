@@ -1,0 +1,2449 @@
+{
+ "dataset": "page__last28",
+ "pulledAt": "2026-09-17T13:54:39+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-08-18",
+ "endDate": "2026-09-14",
+ "dimensions": [
+  "page"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 1,
+ "rowCount": 270,
+ "rows": [
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+   ],
+   "clicks": 337,
+   "impressions": 19110,
+   "ctr": 0.01763474620617478,
+   "position": 5.606802721088435
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+   ],
+   "clicks": 119,
+   "impressions": 14130,
+   "ctr": 0.008421797593772117,
+   "position": 6.794904458598726
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-chat/"
+   ],
+   "clicks": 117,
+   "impressions": 5512,
+   "ctr": 0.02122641509433962,
+   "position": 5.671625544267053
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+   ],
+   "clicks": 95,
+   "impressions": 25244,
+   "ctr": 0.0037632704801140865,
+   "position": 7.164276659800349
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/"
+   ],
+   "clicks": 46,
+   "impressions": 386,
+   "ctr": 0.11917098445595854,
+   "position": 3.9041450777202074
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+   ],
+   "clicks": 38,
+   "impressions": 706,
+   "ctr": 0.053824362606232294,
+   "position": 3.855524079320113
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+   ],
+   "clicks": 14,
+   "impressions": 478,
+   "ctr": 0.029288702928870293,
+   "position": 6.169456066945607
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/"
+   ],
+   "clicks": 12,
+   "impressions": 105,
+   "ctr": 0.11428571428571428,
+   "position": 11.314285714285715
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+   ],
+   "clicks": 7,
+   "impressions": 2246,
+   "ctr": 0.003116651825467498,
+   "position": 8.422974176313446
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "clicks": 4,
+   "impressions": 843,
+   "ctr": 0.004744958481613286,
+   "position": 6.816132858837485
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+   ],
+   "clicks": 4,
+   "impressions": 95,
+   "ctr": 0.042105263157894736,
+   "position": 4.5473684210526315
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/boss-digital/"
+   ],
+   "clicks": 3,
+   "impressions": 26,
+   "ctr": 0.11538461538461539,
+   "position": 33.19230769230769
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/"
+   ],
+   "clicks": 3,
+   "impressions": 134,
+   "ctr": 0.022388059701492536,
+   "position": 12.223880597014926
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/"
+   ],
+   "clicks": 3,
+   "impressions": 40,
+   "ctr": 0.075,
+   "position": 19.075
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 3,
+   "impressions": 21,
+   "ctr": 0.14285714285714285,
+   "position": 22.857142857142858
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+   ],
+   "clicks": 3,
+   "impressions": 155,
+   "ctr": 0.01935483870967742,
+   "position": 19.019354838709678
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/"
+   ],
+   "clicks": 3,
+   "impressions": 98,
+   "ctr": 0.030612244897959183,
+   "position": 6.775510204081633
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+   ],
+   "clicks": 2,
+   "impressions": 246,
+   "ctr": 0.008130081300813009,
+   "position": 9.325203252032521
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-gpt-online/"
+   ],
+   "clicks": 2,
+   "impressions": 68,
+   "ctr": 0.029411764705882353,
+   "position": 12.205882352941176
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/"
+   ],
+   "clicks": 2,
+   "impressions": 63,
+   "ctr": 0.031746031746031744,
+   "position": 9.317460317460318
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+   ],
+   "clicks": 2,
+   "impressions": 107,
+   "ctr": 0.018691588785046728,
+   "position": 6.757009345794392
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/"
+   ],
+   "clicks": 2,
+   "impressions": 34,
+   "ctr": 0.058823529411764705,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-chat-guide/"
+   ],
+   "clicks": 2,
+   "impressions": 12,
+   "ctr": 0.16666666666666666,
+   "position": 5.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/"
+   ],
+   "clicks": 2,
+   "impressions": 80,
+   "ctr": 0.025,
+   "position": 30.1375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/stoimost-chat-bota/"
+   ],
+   "clicks": 2,
+   "impressions": 71,
+   "ctr": 0.028169014084507043,
+   "position": 16.028169014084508
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/"
+   ],
+   "clicks": 2,
+   "impressions": 108,
+   "ctr": 0.018518518518518517,
+   "position": 4.712962962962963
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/"
+   ],
+   "clicks": 2,
+   "impressions": 2,
+   "ctr": 1,
+   "position": 3
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/ozbekiston-boylab-chat-bot/"
+   ],
+   "clicks": 2,
+   "impressions": 12,
+   "ctr": 0.16666666666666666,
+   "position": 19.166666666666668
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-agentstva-nedvizhimosti/"
+   ],
+   "clicks": 1,
+   "impressions": 8,
+   "ctr": 0.125,
+   "position": 4
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-prodavec/"
+   ],
+   "clicks": 1,
+   "impressions": 9,
+   "ctr": 0.1111111111111111,
+   "position": 12.88888888888889
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/"
+   ],
+   "clicks": 1,
+   "impressions": 30,
+   "ctr": 0.03333333333333333,
+   "position": 7.933333333333334
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/"
+   ],
+   "clicks": 1,
+   "impressions": 12,
+   "ctr": 0.08333333333333333,
+   "position": 7.833333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/bot-dlya-zayavok/"
+   ],
+   "clicks": 1,
+   "impressions": 15,
+   "ctr": 0.06666666666666667,
+   "position": 13.533333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+   ],
+   "clicks": 1,
+   "impressions": 176,
+   "ctr": 0.005681818181818182,
+   "position": 15.772727272727273
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/google-maps-yandex-2gis-dlya-biznesa/"
+   ],
+   "clicks": 1,
+   "impressions": 14,
+   "ctr": 0.07142857142857142,
+   "position": 11
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/"
+   ],
+   "clicks": 1,
+   "impressions": 12,
+   "ctr": 0.08333333333333333,
+   "position": 5.833333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/plan-digital-marketinga-na-90-dney/"
+   ],
+   "clicks": 1,
+   "impressions": 20,
+   "ctr": 0.05,
+   "position": 10.3
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+   ],
+   "clicks": 1,
+   "impressions": 15,
+   "ctr": 0.06666666666666667,
+   "position": 21.333333333333332
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/"
+   ],
+   "clicks": 1,
+   "impressions": 11,
+   "ctr": 0.09090909090909091,
+   "position": 3.727272727272727
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/"
+   ],
+   "clicks": 1,
+   "impressions": 78,
+   "ctr": 0.01282051282051282,
+   "position": 7.230769230769231
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-na-russkom/"
+   ],
+   "clicks": 1,
+   "impressions": 22,
+   "ctr": 0.045454545454545456,
+   "position": 6.454545454545454
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnesie/"
+   ],
+   "clicks": 1,
+   "impressions": 1,
+   "ctr": 1,
+   "position": 1
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/"
+   ],
+   "clicks": 1,
+   "impressions": 58,
+   "ctr": 0.017241379310344827,
+   "position": 16.93103448275862
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/o-kompanii/"
+   ],
+   "clicks": 1,
+   "impressions": 8,
+   "ctr": 0.125,
+   "position": 25.625
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+   ],
+   "clicks": 1,
+   "impressions": 48,
+   "ctr": 0.020833333333333332,
+   "position": 43.625
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+   ],
+   "clicks": 1,
+   "impressions": 222,
+   "ctr": 0.0045045045045045045,
+   "position": 30.396396396396398
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+   ],
+   "clicks": 1,
+   "impressions": 74,
+   "ctr": 0.013513513513513514,
+   "position": 12.864864864864865
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/"
+   ],
+   "clicks": 1,
+   "impressions": 42,
+   "ctr": 0.023809523809523808,
+   "position": 10.166666666666666
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/biznes-uchun-ai-bot/"
+   ],
+   "clicks": 1,
+   "impressions": 16,
+   "ctr": 0.0625,
+   "position": 7.4375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/"
+   ],
+   "clicks": 1,
+   "impressions": 3,
+   "ctr": 0.3333333333333333,
+   "position": 15
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/"
+   ],
+   "clicks": 1,
+   "impressions": 9,
+   "ctr": 0.1111111111111111,
+   "position": 4.777777777777778
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/"
+   ],
+   "clicks": 1,
+   "impressions": 18,
+   "ctr": 0.05555555555555555,
+   "position": 8.38888888888889
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/"
+   ],
+   "clicks": 1,
+   "impressions": 21,
+   "ctr": 0.047619047619047616,
+   "position": 7.904761904761905
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/"
+   ],
+   "clicks": 1,
+   "impressions": 22,
+   "ctr": 0.045454545454545456,
+   "position": 8.59090909090909
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+   ],
+   "clicks": 1,
+   "impressions": 11,
+   "ctr": 0.09090909090909091,
+   "position": 6.7272727272727275
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/instagram-uchun-ai-menejer/"
+   ],
+   "clicks": 1,
+   "impressions": 27,
+   "ctr": 0.037037037037037035,
+   "position": 6.074074074074074
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 58.714285714285715
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-dostavki-edy/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 6.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-fitnes-kluba/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-horeca/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-kliniki/"
+   ],
+   "clicks": 0,
+   "impressions": 32,
+   "ctr": 0,
+   "position": 18.875
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-magazina/"
+   ],
+   "clicks": 0,
+   "impressions": 20,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 8.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 4.6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-dlya-yurista/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 3.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/"
+   ],
+   "clicks": 0,
+   "impressions": 107,
+   "ctr": 0,
+   "position": 7.616822429906542
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-chat-dlya-sayta-polzovatel-zayavki/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 30.3
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/ai-chat-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 21.357142857142858
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 50,
+   "ctr": 0,
+   "position": 29.86
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/avtomatizatsiya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 50,
+   "ctr": 0,
+   "position": 38.9
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/avtor-boris-gerasimov/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/"
+   ],
+   "clicks": 0,
+   "impressions": 33,
+   "ctr": 0,
+   "position": 67.66666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 25.09090909090909
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/agentstvo-ili-frilanser-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 93.63636363636364
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 24.333333333333332
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 31.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10.333333333333334
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 61,
+   "ctr": 0,
+   "position": 10.311475409836065
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 13.095238095238095
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ai-prodavec-i-otdel-prodazh/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 47.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/audit-kartochki-kompanii-na-kartah/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/"
+   ],
+   "clicks": 0,
+   "impressions": 25,
+   "ctr": 0,
+   "position": 46.88
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 8.866666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 91
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-kliniki-s-filiakami/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta-kak-dobavit-i-skolko-stoit/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 20.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 77.7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 85,
+   "ctr": 0,
+   "position": 25.294117647058822
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+   ],
+   "clicks": 0,
+   "impressions": 1047,
+   "ctr": 0,
+   "position": 26.38013371537727
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+   ],
+   "clicks": 0,
+   "impressions": 36,
+   "ctr": 0,
+   "position": 28.13888888888889
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 1497,
+   "ctr": 0,
+   "position": 62.484301937207746
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+   ],
+   "clicks": 0,
+   "impressions": 112,
+   "ctr": 0,
+   "position": 15.026785714285714
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+   ],
+   "clicks": 0,
+   "impressions": 51,
+   "ctr": 0,
+   "position": 54.80392156862745
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 62,
+   "ctr": 0,
+   "position": 5.741935483870968
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/etapy-razrabotki-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 7.4
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 23.181818181818183
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 9.454545454545455
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 149
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 29,
+   "ctr": 0,
+   "position": 29.17241379310345
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+   ],
+   "clicks": 0,
+   "impressions": 42,
+   "ctr": 0,
+   "position": 22.904761904761905
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-provesti-audit-digital-marketinga/"
+   ],
+   "clicks": 0,
+   "impressions": 25,
+   "ctr": 0,
+   "position": 17.48
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 18.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 26.333333333333332
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 23.444444444444443
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/luchshie-gpt-dlya-biznesa-uzbekistana/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+   ],
+   "clicks": 0,
+   "impressions": 55,
+   "ctr": 0,
+   "position": 21.163636363636364
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 5.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/"
+   ],
+   "clicks": 0,
+   "impressions": 84,
+   "ctr": 0,
+   "position": 6.630952380952381
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/pochemu-sayt-ne-prinosit-zayavki/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/podderzhka-telegram-bota-posle-zapuska/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 10.333333333333334
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 23.125
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 4.666666666666666
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+   ],
+   "clicks": 0,
+   "impressions": 55,
+   "ctr": 0,
+   "position": 72.52727272727273
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/seo-ili-google-ads-chto-vybrat/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 4.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 6.375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 25.846153846153847
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 33.80952380952381
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 14.368421052631579
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 56,
+   "ctr": 0,
+   "position": 7.785714285714286
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 10.75
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/stoimost-digital-marketinga-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 15.545454545454545
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+   ],
+   "clicks": 0,
+   "impressions": 47,
+   "ctr": 0,
+   "position": 26.106382978723403
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 49
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 13
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-ads-ili-posevy-v-kanalah/"
+   ],
+   "clicks": 0,
+   "impressions": 85,
+   "ctr": 0,
+   "position": 40.38823529411765
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 5.133333333333334
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-crm-ili-menedzher/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 17.692307692307693
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 8.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+   ],
+   "clicks": 0,
+   "impressions": 27,
+   "ctr": 0,
+   "position": 21.74074074074074
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 22.705882352941178
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/testirovanie-telegram-bota-pered-zapuskom/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 9.142857142857142
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 56.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 7.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/blog/zakazat-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 37
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 111,
+   "ctr": 0,
+   "position": 65.45945945945945
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/chat-bot-po-uzbekistanu/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 21.166666666666668
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/chat-bot-v-samarkande/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/digital-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 45.9375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/digital-strategiya-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 48.8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/"
+   ],
+   "clicks": 0,
+   "impressions": 79,
+   "ctr": 0,
+   "position": 7.177215189873418
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-dlya-biznesa-v-uzbekistane/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 37.166666666666664
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 41
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-dlya-ucheby/"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 23.863636363636363
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/gpt-v-marketinge-smm/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/instagram-direct-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 92,
+   "ctr": 0,
+   "position": 15.315217391304348
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/internet-reklama-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 42,
+   "ctr": 0,
+   "position": 6.190476190476191
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/javob/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 6.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/kak-sdelat-ai-bota-telegram-instagram/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 21.153846153846153
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 22,
+   "ctr": 0,
+   "position": 8.272727272727273
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/komanda/"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 24.375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 38.88235294117647
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/lokalnoe-seo-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 15.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/market-doverie/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/marketingovyi-audit-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/okupaemost-chat-bota/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/otzyvy/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 8.7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/performance-marketing-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 75.53333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 15
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/sayt-dlya-zayavok/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 8.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/sayt-s-ai-botom/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 46
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/sotuvchi/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 51
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/"
+   ],
+   "clicks": 0,
+   "impressions": 44,
+   "ctr": 0,
+   "position": 11.704545454545455
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/tarify-ai-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 6.384615384615385
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/"
+   ],
+   "clicks": 0,
+   "impressions": 65,
+   "ctr": 0,
+   "position": 29.6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/"
+   ],
+   "clicks": 0,
+   "impressions": 29,
+   "ctr": 0,
+   "position": 7.517241379310345
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/ai-bot-yoki-menejer/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/ai-sotuvchi/"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 6.076923076923077
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/biz-haqimizda/"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 20.6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8.666666666666668
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 3
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7.75
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 10.642857142857142
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/biznes-uchun-qanday-sayt-kerak/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 62.666666666666664
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuter-ga-yuklab-olish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/domen-va-hosting-qanday-tanlanadi/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 7.166666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.333333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 7.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+   ],
+   "clicks": 0,
+   "impressions": 71,
+   "ctr": 0,
+   "position": 7.71830985915493
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 27.8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 5.583333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/marketing-nima/"
+   ],
+   "clicks": 0,
+   "impressions": 23,
+   "ctr": 0,
+   "position": 21.47826086956522
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/samarqandda-biznes-uchun-chat-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.75
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 16.666666666666664
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/smm-nima/"
+   ],
+   "clicks": 0,
+   "impressions": 24,
+   "ctr": 0,
+   "position": 35.208333333333336
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/"
+   ],
+   "clicks": 0,
+   "impressions": 43,
+   "ctr": 0,
+   "position": 5.6976744186046515
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/target-reklama-nima/"
+   ],
+   "clicks": 0,
+   "impressions": 70,
+   "ctr": 0,
+   "position": 6.928571428571429
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.333333333333333
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32.5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/boss-digital/"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 13.142857142857142
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/chat-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 6.8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/chat-bot-narxi/"
+   ],
+   "clicks": 0,
+   "impressions": 18,
+   "ctr": 0,
+   "position": 24.833333333333332
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/dokon-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 5.25
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/fitnes-klub-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 46,
+   "ctr": 0,
+   "position": 11.673913043478262
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 5.666666666666667
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-chat-qollanma/"
+   ],
+   "clicks": 0,
+   "impressions": 21,
+   "ctr": 0,
+   "position": 5.238095238095238
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/"
+   ],
+   "clicks": 0,
+   "impressions": 97,
+   "ctr": 0,
+   "position": 7.804123711340206
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/horeca-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 3.3333333333333335
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/instagram-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 15,
+   "ctr": 0,
+   "position": 4.6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/internet-reklama-toshkent/"
+   ],
+   "clicks": 0,
+   "impressions": 11,
+   "ctr": 0,
+   "position": 8.272727272727273
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/javob/"
+   ],
+   "clicks": 0,
+   "impressions": 66,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/klinika-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/market-ishonch/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/muallif-boris-gerasimov/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/salon-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/samarqandda-chat-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/savdoni-avtomatlashtirish/"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 5.2
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/sayt-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/sayt-yaratish/"
+   ],
+   "clicks": 0,
+   "impressions": 32,
+   "ctr": 0,
+   "position": 42.125
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/seo-xizmati/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/sharhlar/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/smm-xizmatlari/"
+   ],
+   "clicks": 0,
+   "impressions": 34,
+   "ctr": 0,
+   "position": 21.558823529411764
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/sotuvchi/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 4.666666666666666
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/suniy-intellekt/"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 18.333333333333332
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/telegram-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 32,
+   "ctr": 0,
+   "position": 13.9375
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/telegram-reklama/"
+   ],
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0,
+   "position": 7.684210526315789
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 15.666666666666666
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/yetkazib-berish-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "https://gptbot.uz/uz/yurist-uchun-ai-bot/"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5
+  }
+ ]
+}

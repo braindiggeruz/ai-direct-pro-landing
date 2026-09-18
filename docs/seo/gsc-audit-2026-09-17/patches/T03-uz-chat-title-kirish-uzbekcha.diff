@@ -1,0 +1,58 @@
+diff --git a/content/pages/uz/gpt-uzbek-tilida.json b/content/pages/uz/gpt-uzbek-tilida.json
+index b2d665ea..7391eeed 100644
+--- a/content/pages/uz/gpt-uzbek-tilida.json
++++ b/content/pages/uz/gpt-uzbek-tilida.json
+@@ -17,23 +17,28 @@
+     "bepul ai chat",
+     "sun’iy intellekt chat",
+     "chatgpt uz",
+-    "chatgpt uzbek tilida online"
++    "chatgpt uzbek tilida online",
++    "chatgpt bepul kirish",
++    "chatgpt kirish uzbek tilida",
++    "chatgpt o'zbekcha",
++    "chatgpt 4 uzbek tilida",
++    "chatgpt uzbek"
+   ],
+   "searchIntent": "transactional",
+   "h1": "ChatGPT o‘zbek tilida online",
+-  "title": "ChatGPT o‘zbek tilida online — bepul, ro‘yxatsiz, VPNsiz",
+-  "description": "ChatGPT o‘zbek tilida: bepul AI chat brauzerda, ro‘yxatdan o‘tmasdan. Kirish — bir necha soniyada, javob o‘zbekcha, telefon va kompyuterda ishlaydi.",
++  "title": "ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat",
++  "description": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan, VPNsiz. Savol bering — javob o‘zbek tilida, telefon va kompyuterda ishlaydi.",
+   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+   "hreflangRu": "/ru/gpt-chat/",
+   "hreflangUz": "/uz/gpt-uzbek-tilida/",
+-  "ogTitle": "ChatGPT o‘zbek tilida online — bepul, ro‘yxatsiz, VPNsiz",
+-  "ogDescription": "ChatGPT o‘zbek tilida: bepul AI chat brauzerda, ro‘yxatdan o‘tmasdan. Kirish — bir necha soniyada, javob o‘zbekcha, telefon va kompyuterda ishlaydi.",
++  "ogTitle": "ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat",
++  "ogDescription": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan, VPNsiz. Savol bering — javob o‘zbek tilida, telefon va kompyuterda ishlaydi.",
+   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+   "robotsIndex": true,
+   "robotsFollow": true,
+   "breadcrumbLabel": "O‘zbek tilida AI chat",
+   "heroTitle": "O‘zbek tilida AI chat online",
+-  "heroSubtitle": "Matn yozing, tarjima qiling, reja tuzing — o‘zbekcha, ro‘yxatsiz va bepul.",
++  "heroSubtitle": "ChatGPT uzbekcha: bepul kirish, ro‘yxatsiz — matn, tarjima, reja va savollar o‘zbek tilida.",
+   "ctaPrimaryLabel": "AI-bot narxlari",
+   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
+   "ctaSecondaryLabel": "Telegramda vazifani aytish",
+@@ -41,7 +46,7 @@
+   "bodyBlocks": [
+     {
+       "type": "p",
+-      "text": "GPTBot.uz AI-chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn yordamchi. Chat GPT uzbek tilida yoki «chatgpt uzbek tilida onlayn» deb qidirgan foydalanuvchi shu sahifada brauzer orqali savol berishi mumkin: alohida APK yoki dastur yuklash shart emas. AI matn yozadi va tahrirlaydi, tarjima, konspekt, reja, reklama g‘oyasi va mijozga javob qoralamasini tayyorlashga yordam beradi."
++      "text": "GPTBot.uz AI-chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn yordamchi. «ChatGPT uzbekcha», «chatgpt o‘zbekcha online» yoki «chatgpt uzbek tilida» deb qidirgan foydalanuvchi shu sahifada bepul kirib, brauzer orqali savol berishi mumkin: alohida APK yoki dastur yuklash shart emas. AI matn yozadi va tahrirlaydi, tarjima, konspekt, reja, reklama g‘oyasi va mijozga javob qoralamasini tayyorlashga yordam beradi."
+     },
+     {
+       "type": "p",
+@@ -651,7 +656,7 @@
+       ]
+     }
+   ],
+-  "lastReviewedAt": "2026-09-04",
++  "lastReviewedAt": "2026-09-18",
+   "createdAt": "2026-07-11T00:00:00Z",
+-  "updatedAt": "2026-09-04"
++  "updatedAt": "2026-09-18"
+ }

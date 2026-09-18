@@ -1,0 +1,26 @@
+diff --git a/content/seo/redirects.json b/content/seo/redirects.json
+index e55ab72d..fdf5e9cd 100644
+--- a/content/seo/redirects.json
++++ b/content/seo/redirects.json
+@@ -126,5 +126,21 @@
+     "statusCode": 301,
+     "reason": "GSC 404 legacy unprefixed GPT chat URL. Consolidate into the published Russian product canonical.",
+     "createdAt": "2026-08-31"
++  },
++  {
++    "id": "gsc-typo-gpt-vs-chatgpt-sravnesie",
++    "from": "/ru/gpt-vs-chatgpt-sravnesie/",
++    "to": "/ru/gpt-vs-chatgpt-sravnenie/",
++    "statusCode": 301,
++    "reason": "GSC shows 1 click on a typo URL (sravnesie); live 404. Consolidate into the published comparison page (gsc-audit-2026-09-17).",
++    "createdAt": "2026-09-18"
++  },
++  {
++    "id": "gsc-legacy-uz-kompyuter-ga-yuklab-olish",
++    "from": "/uz/blog/chatgpt-telefon-va-kompyuter-ga-yuklab-olish/",
++    "to": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
++    "statusCode": 301,
++    "reason": "GSC shows impressions on a slug variant (kompyuter-ga); live 404. Consolidate into the published Uzbek download guide (gsc-audit-2026-09-17).",
++    "createdAt": "2026-09-18"
+   }
+ ]

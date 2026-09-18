@@ -1,0 +1,46 @@
+{
+ "dataset": "device__last28",
+ "pulledAt": "2026-09-17T13:54:40+00:00",
+ "source": "Google Search Console Search Analytics via OpenSEO MCP get_search_console_performance",
+ "siteUrl": "sc-domain:gptbot.uz",
+ "searchType": "web",
+ "dataState": "final",
+ "startDate": "2026-08-18",
+ "endDate": "2026-09-14",
+ "dimensions": [
+  "device"
+ ],
+ "filters": [],
+ "rowLimitPerCall": 1000,
+ "callsMade": 1,
+ "rowCount": 3,
+ "rows": [
+  {
+   "keys": [
+    "MOBILE"
+   ],
+   "clicks": 648,
+   "impressions": 62393,
+   "ctr": 0.010385780456140914,
+   "position": 7.149744362348341
+  },
+  {
+   "keys": [
+    "DESKTOP"
+   ],
+   "clicks": 189,
+   "impressions": 12126,
+   "ctr": 0.015586343394359228,
+   "position": 16.37497938314366
+  },
+  {
+   "keys": [
+    "TABLET"
+   ],
+   "clicks": 6,
+   "impressions": 502,
+   "ctr": 0.01195219123505976,
+   "position": 7.412350597609562
+  }
+ ]
+}
