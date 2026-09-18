@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-09-13",
+  "updatedAt": "2026-09-18",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -309,7 +309,7 @@
       },
       "informational": {
         "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-        "owns": "open ChatGPT from Uzbekistan, sign in and understand whether a VPN is required",
+        "owns": "whether ChatGPT is available from Uzbekistan and whether a VPN is required; the sign-in route itself («chatgpt kirish», «chatgpt ochish») is owned by /uz/blog/chatgptga-qanday-kirish-mumkin/ since 2026-09-18 (pair C18)",
         "mustNotTarget": ["chatgpt ilovasini yuklab olish", "chatgpt yuklab olish uzbek tilida"]
       },
       "gscNote": "A 24-hour Google Search Console sample reviewed on 2026-08-20 showed 399 visible impressions across Uzbek ChatGPT download, access and online-use variants. The strongest uncovered phrase was «chatgpt yuklab olish uzbek tilida», while «chatgpt ochish» formed a separate access intent.",
@@ -401,8 +401,12 @@
       "id": "C18-uz-chatgpt-login-vs-access",
       "commercial": {
         "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-        "owns": "open ChatGPT from Uzbekistan: is it available, is a VPN needed, and the access route itself — the head terms «chatgpt kirish» and «chatgpt ochish»",
+        "owns": "whether ChatGPT is available in Uzbekistan, whether a VPN is needed, the official route and card payment — «chatgpt o‘zbekistonda ishlaydimi», «chatgpt vpnsiz», «chatgpt uzbekistan»",
         "mustNotTarget": [
+          "chatgpt kirish",
+          "chat gpt kirish",
+          "chatgpt ga kirish",
+          "chatgpt ochish",
           "chatgpt login",
           "chatgpt sign up",
           "chatgpt ro‘yxatdan o‘tish",
@@ -411,19 +415,18 @@
       },
       "informational": {
         "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-        "owns": "sign in to an existing or new ChatGPT account: official domain, Log in versus Sign up, the login code not arriving, clone-site safety",
+        "owns": "sign in to or open ChatGPT — the head terms «chatgpt kirish» and «chatgpt ochish» — plus Log in versus Sign up, the official domain, the login code not arriving and clone-site safety",
         "mustNotTarget": [
-          "chatgpt kirish",
-          "chat gpt kirish",
-          "chatgpt ga kirish",
-          "chatgpt ochish",
-          "chatgpt o‘zbekistonda"
+          "chatgpt o‘zbekistonda",
+          "chatgpt o'zbekistonda ishlaydimi",
+          "chatgpt vpnsiz",
+          "chatgpt uzbekistan"
         ]
       },
-      "gscNote": "The cluster measured 2 832 impressions and 7 clicks over 28 days to 2026-09-04, split across four Uzbek URLs. Two of them — this pair — declared the identical keyword set («chatgpt kirish», «chatgpt ga kirish», «chatgpt ochish») and both led their title with «kirish», so Google had to choose between two of our own pages on every access query.",
-      "observedOwnerNote": "The head terms were awarded to the VPN/availability article because it is the only URL in the cluster with a recorded position for them: pair C11 measured it at 6.85 for «chatgpt ochish» on 2026-08-24, and C11 had already designated it the access owner. The dedicated login article carried no recorded position and was retargeted rather than the other way round; its title, H1, description and keywords were rewritten to the account/login sub-intent on 2026-09-04. No redirect was created — both pages answer a real and now distinct question. The two remaining URLs in the cluster are already fenced: the download article by C11, and the product page /uz/gpt-uzbek-tilida/, which dropped «chatgpt kirish uzbek tilida» on 2026-09-04.",
+      "gscNote": "GSC audit 2026-09-17 (28 days to 2026-09-14): «chatgpt kirish» 24 641 impressions / 80 clicks / CTR 0.32% / position 7.4, routed by Google to the login article; the VPN/availability article collected 2 246 impressions / 7 clicks / CTR 0.31% / position 8.4 with «kirish» leading its title; «chatgpt ochish» (3 365 impressions over 90 days) was split between the login and download articles. The 2026-09-04 fence awarded the head terms to the VPN article, but the measured routing went the other way, so the fence was reversed on 2026-09-18 (docs/seo/gsc-audit-2026-09-17/QUICK_WINS.md QW-1 and QW-2, CANNIBALIZATION.md).",
+      "observedOwnerNote": "Ownership follows the measured routing. On 2026-09-18 the login article took «kirish (login)» into its title, H1, description and intro and gained an «ochish» section; the VPN/availability article dropped «kirish» from title, H1, description and keywords and now answers «ishlaydimi / VPN kerakmi», linking to the login article for sign-in. No redirect; both pages answer distinct questions. Success after 28 full days from the recrawl: CTR of «chatgpt kirish» ≥ 0.6% at position 6–9 and login-article share of ochish/kirish queries ≥ 80%; the title is rolled back if CTR < 0.3% two weeks running (QUICK_WINS.md). The download article stays fenced by C11; /uz/gpt-uzbek-tilida/ owns the product-page variants «chatgpt bepul kirish» and «chatgpt kirish uzbek tilida», not the bare head term.",
       "decision": "DIFFERENTIATE",
-      "decidedAt": "2026-09-04"
+      "decidedAt": "2026-09-18"
     },
     {
       "id": "C19-uz-biznes-uchun-ai-bot",

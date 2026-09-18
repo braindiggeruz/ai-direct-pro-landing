@@ -3,19 +3,18 @@
   "locale": "uz",
   "slug": "chatgpt-ozbekistonda-vpnsiz-ishlaydimi",
   "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-  "title": "ChatGPT’ga kirish O‘zbekistonda: 4 qadamda, VPNsiz",
-  "description": "ChatGPT’ga kirish: to‘g‘ridan-to‘g‘ri chatgpt.com orqali, VPN va qo‘shimcha dastursiz. 4 qadam, hisob ochish, o‘zbek tilida yozish, keng tarqalgan xatolar va yechimlari.",
-  "h1": "ChatGPT O‘zbekistonda: VPNsiz ochish va kirish",
+  "title": "ChatGPT O‘zbekistonda ishlaydimi? VPNsiz va rasmiy usul (2026)",
+  "description": "ChatGPT O‘zbekistonda rasman ishlaydimi, VPN kerakmi, OpenAI ro‘yxatda bormi, kartadan to‘lash mumkinmi — 2026 holati bo‘yicha tekshirilgan javoblar va manbalar.",
+  "h1": "ChatGPT O‘zbekistonda: ishlaydimi, VPN kerakmi va rasmiy usul",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
+    "chatgpt o'zbekistonda ishlaydimi",
+    "chatgpt vpnsiz",
+    "chatgpt uzbekistan",
+    "openai o'zbekiston",
     "ChatGPT O‘zbekistonda",
-    "ChatGPT Uzbekistan",
-    "ChatGPT VPNsiz",
     "ChatGPT o‘zbek tilida",
-    "ChatGPT ga kirish",
-    "ChatGPT ochish",
-    "ChatGPT kirish",
     "O‘zbekistonda AI chat",
     "ChatGPT alternativalari",
     "AI chat o‘zbekcha"
@@ -36,11 +35,11 @@
     {
       "type": "h2",
       "id": "kirish-qadamlar",
-      "text": "ChatGPT’ga kirish: 4 qadam"
+      "text": "Qisqa javob: ishlaydi, VPN shart emas"
     },
     {
       "type": "p",
-      "text": "Agar sizga «ChatGPT’ga qanday kirish mumkin» degan savolning o‘zi kerak bo‘lsa, javob shu — quyidagi to‘rt qadam yetarli, jarayon ikki daqiqadan oshmaydi."
+      "text": "Ha, ChatGPT O‘zbekistonda rasman ishlaydi: chatgpt.com brauzerda ochiladi, ilova Play Market va App Store’da mavjud, VPN odatiy kirish uchun kerak emas. Login, ro‘yxatdan o‘tish va xatolar bo‘yicha alohida qo‘llanma — «ChatGPT kirish» maqolasida."
     },
     {
       "type": "list",
@@ -495,7 +494,7 @@
   "internalLinks": [
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPTga qanday kirish mumkin",
+      "anchor": "ChatGPT’ga kirish",
       "locale": "uz",
       "type": "contextual",
       "priority": 1
@@ -576,8 +575,8 @@
       "priority": 3
     }
   ],
-  "ogTitle": "ChatGPT’ga kirish O‘zbekistonda: 4 qadamda, VPNsiz",
-  "ogDescription": "ChatGPT’ga kirish: to‘g‘ridan-to‘g‘ri chatgpt.com orqali, VPN va qo‘shimcha dastursiz. 4 qadam, hisob ochish, o‘zbek tilida yozish, keng tarqalgan xatolar va yechimlari.",
+  "ogTitle": "ChatGPT O‘zbekistonda ishlaydimi? VPNsiz va rasmiy usul (2026)",
+  "ogDescription": "ChatGPT O‘zbekistonda rasman ishlaydimi, VPN kerakmi, OpenAI ro‘yxatda bormi, kartadan to‘lash mumkinmi — 2026 holati bo‘yicha tekshirilgan javoblar va manbalar.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
   "hreflangUz": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
@@ -585,7 +584,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-26",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-09-18",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -593,7 +592,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-09-01",
+  "updatedAt": "2026-09-18",
   "createdAt": "2026-07-26T00:00:00.000Z",
   "sources": [
     {

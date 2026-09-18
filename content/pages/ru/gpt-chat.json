@@ -17,23 +17,34 @@
   "searchIntent": "informational",
   "h1": "Chat GPT онлайн в Узбекистане",
   "title": "ChatGPT онлайн бесплатно в Узбекистане — без регистрации",
-  "description": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русский и узбекский AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно.",
+  "description": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русскоязычный AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно. Есть узбекская версия.",
   "canonical": "https://gptbot.uz/ru/gpt-chat/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "ogTitle": "ChatGPT онлайн бесплатно в Узбекистане — без регистрации",
-  "ogDescription": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русский и узбекский AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно.",
+  "ogDescription": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русскоязычный AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно. Есть узбекская версия.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "AI-чат онлайн",
   "heroTitle": "Chat GPT онлайн в Узбекистане",
-  "heroSubtitle": "Пишите по-русски или по-узбекски: текст, перевод, учёба и работа — без установки.",
+  "heroSubtitle": "Пишите по-русски: текст, перевод, учёба и работа — без установки. ChatGPT o‘zbek tilida — на узбекской версии.",
   "ctaPrimaryLabel": "Тарифы на AI-ботов",
   "ctaPrimaryHref": "/ru/stoimost-chat-bota/",
   "ctaSecondaryLabel": "Рассказать задачу в Telegram",
   "ctaSecondaryHref": "https://t.me/XGame_changerx",
   "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "O‘zbek tilida kerakmi? {uzchat} — o‘sha chat, javoblar o‘zbekcha.",
+      "links": [
+        {
+          "token": "uzchat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish"
+        }
+      ]
+    },
     {
       "type": "p",
       "text": "GPTBot.uz — независимый AI-чат онлайн для пользователей из Узбекистана. Он помогает писать и редактировать тексты, объяснять темы, готовить планы, переводы и варианты ответа клиенту. Чат работает в браузере; доступный бесплатный лимит и актуальные условия показаны в интерфейсе сервиса."
@@ -369,7 +380,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-09-04",
+  "lastReviewedAt": "2026-09-18",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-09-04"
+  "updatedAt": "2026-09-18"
 }
