@@ -19,6 +19,7 @@ Property `sc-domain:gptbot.uz`, финальные данные 2026-05-21 … 2
 | [DATA_LIMITATIONS.md](DATA_LIMITATIONS.md) | все | что недоступно и почему |
 | [EMERGING_KEYWORDS.md](EMERGING_KEYWORDS.md) | SEO | запросы, по которым показы только начались: новые 14/28 дней, растущие, видимые без кликов |
 | [SEO_ROADMAP_FULL.md](SEO_ROADMAP_FULL.md) | владелец | полный roadmap на 6 месяцев по фазам с KPI |
+| [ROADMAP_EXTENDED_2026-09-18.md](ROADMAP_EXTENDED_2026-09-18.md) | владелец | расширенный roadmap 18.09 по свежим GSC + GA4: узбекский коммерческий слой, GBP и авторитет, конверсионный путь, техгигиена, измерение (X01–X22) |
 | [patches/](patches/README.md) | разработчик | готовые diff-патчи волны 1 (T01–T05), проверены `git apply --check` |
 | `csv/` | все | 49 таблиц, включая `recommended_actions.csv`, `queries_emerging.csv` |
 | `charts/` | все | 13 PNG |
