@@ -6,9 +6,9 @@
 
 ## 0. Статус после сессии 2026-09-18 (читать первым; при противоречии с разделами ниже — верен этот раздел)
 
-Владелец 18.09 ответил на вопросы раздела 9: применить волну 1 «по максимуму, автономно»; T06 — удалить статические sitemap; T13 — «/ = ru + x-default, /ru/ → canonical на /»; сырые выгрузки — коммитить. Деплой, push, действия в GSC и DNS **не выполнялись**.
+Владелец 18.09 ответил на вопросы раздела 9: применить волну 1 «по максимуму, автономно»; T06 — удалить статические sitemap; T13 — «/ = ru + x-default, /ru/ → canonical на /»; сырые выгрузки — коммитить. Затем владелец приказал «сделать всё по roadmap и сразу деплоить»: **всё ниже задеплоено 18.09** (runtime-коммит 679a2853, ветка `seo/release-2026-09-18` = wave1 + T06 + T13 + X01/X07/X08/X17/X22), `origin/main` доведён до этого коммита, IndexNow отправлен. Подробности и живая верификация — `RELEASE_2026-09-18.md`. Действия в GSC и DNS не выполнялись (ручные, у владельца).
 
-**Ветки в worktree `F:\Claude\gptbot-gsc-audit-20260917`** (локальные, не запушены; база `origin/main` a16f7988; в конце сессии HEAD — `seo/t13-home-cluster-hreflang`, `git status` чист кроме `.serena/`):
+**Ветки в worktree `F:\Claude\gptbot-gsc-audit-20260917`** (все запушены в origin; `origin/main` = 679a2853; HEAD в конце сессии — `seo/release-2026-09-18`, `git status` чист кроме `.serena/`):
 
 | Ветка | Коммиты | Что внутри | Проверено |
 |---|---|---|---|
@@ -17,6 +17,8 @@
 | `seo/t13-home-cluster-hreflang` (от wave1) | один коммит `feat(seo): one Russian home` (хэш меняется при rebase — `git log -1 seo/t13-home-cluster-hreflang`) | `HOME_HREFLANG` в `src/shared/site-config.ts`; `index.html`: hreflang ru → `/`, uz → `/uz/`, x-default → `/`; `content/pages/ru/hub.json`: canonical `https://gptbot.uz/`, без alternates, вне sitemap (288 URL); `content/pages/uz/hub.json`: hreflangRu → `/`, hreflangXDefault → `/`; `src/shared/audit.ts` HOME_NODE; новый тест `tests/home-hreflang-cluster.test.ts` (в `npm test`); манифест — решение A3; baseline `docs/seo/evidence/2026-09-18-home-cluster/`; helper `make_baseline_revision.ts` получил `--suffix/--allow/--reason` | build (head-теги `/`, `/ru/`, `/uz/` как задумано), 606/606, 10/10, typecheck, lint |
 
 Отличия от первой версии патчей: title T01/T03 сокращены до 64 символов (`ChatGPT kirish (login): rasmiy sayt, ochish va ro‘yxatdan o‘tish`; `ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat`); keywords: «chatgpt bepul kirish» убран из статьи входа (остаётся у UZ-чата), «ochish»-варианты и регистровые дубли — из VPNsiz-статьи; без разворота C18 тест `seo-intent-manifest` падает. Файлы `patches/*.diff` перегенерированы из фактического diff (`git diff origin/main`), описание — `patches/README.md`, раздел «Применено 2026-09-18».
+
+**Состояние после релиза 18.09:** пункты 1–5 ниже частично выполнены — релиз состоялся без вычитки (по решению владельца), T06 и T13 ушли в тот же релиз. Актуальный список следующих шагов — раздел «Что дальше» в `RELEASE_2026-09-18.md`; ниже — исходный план для истории.
 
 **Что делать дальше (по порядку):**
 
