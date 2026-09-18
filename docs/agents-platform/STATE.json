@@ -16,7 +16,7 @@
     "deployment_authorization": "Owner explicitly requested push and production deployment on 2026-09-14",
     "payments_enabled": false,
     "indexing_confirmed": false,
-    "next_step": "Submit https://gptbot.uz/sitemap-priority.xml and inspect https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/ in Google Search Console; deployment and sitemap inclusion do not guarantee indexing."
+    "next_step": "sitemap-priority.xml was retired on 2026-09-18 (single generated sitemap.xml, see docs/seo/gsc-audit-2026-09-17/); inspect https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/ in Google Search Console; deployment and sitemap inclusion do not guarantee indexing."
   },
   "consumer_billing_readiness_20260906": {
     "status": "readiness_deployed_and_live_verified_merchant_launch_pending",

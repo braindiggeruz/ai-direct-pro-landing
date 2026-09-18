@@ -5,5 +5,3 @@ Disallow: /admin-tools/
 Disallow: /api/
 
 Sitemap: https://gptbot.uz/sitemap.xml
-Sitemap: https://gptbot.uz/sitemap-new.xml
-Sitemap: https://gptbot.uz/sitemap-priority.xml
