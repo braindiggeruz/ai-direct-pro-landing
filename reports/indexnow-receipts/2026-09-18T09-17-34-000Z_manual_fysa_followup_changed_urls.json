@@ -1,0 +1,21 @@
+{
+  "submittedAt": "2026-09-18T09:17:34.000Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_release_2026-09-18_fysa_followup_308cf787_changed_urls",
+  "count": 11,
+  "urls": [
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+  ],
+  "responseExcerpt": ""
+}
