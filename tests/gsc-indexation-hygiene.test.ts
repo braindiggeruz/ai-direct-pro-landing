@@ -171,54 +171,21 @@ test('the Telegram country legacy URL consolidates into a geographically explici
   assert.equal(page.robotsIndex, true);
 });
 
-test('priority sitemap contains only the current canonical reindex queue', () => {
-  const expected = [
-    'https://gptbot.uz/',
-    'https://gptbot.uz/boss-digital/',
-    'https://gptbot.uz/uz/boss-digital/',
-    'https://gptbot.uz/ru/internet-reklama-tashkent/',
-    'https://gptbot.uz/uz/internet-reklama-toshkent/',
-    'https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/',
-    'https://gptbot.uz/uz/seo-xizmati/',
-    'https://gptbot.uz/ru/razrabotka-saytov-tashkent/',
-    'https://gptbot.uz/uz/sayt-yaratish/',
-    'https://gptbot.uz/ru/gpt-dlya-biznesa/',
-    'https://gptbot.uz/uz/biznes-uchun-ai-bot/',
-    'https://gptbot.uz/ru/telegram-ads-uzbekistan/',
-    'https://gptbot.uz/uz/telegram-reklama/',
-    'https://gptbot.uz/ru/smm-prodvizhenie-tashkent/',
-    'https://gptbot.uz/uz/smm-xizmatlari/',
-    'https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/',
-    'https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/',
-    'https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/',
-  ];
-  const xml = read('public/sitemap-priority.xml');
-  const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(locations, expected);
-  assert.equal(new Set(locations).size, expected.length);
-  assert.equal((xml.match(/<lastmod>2026-09-04<\/lastmod>/g) ?? []).length, expected.length - 1);
-  assert.equal((xml.match(/<lastmod>2026-09-13<\/lastmod>/g) ?? []).length, 1);
-
-  const pageFiles = fs.readdirSync(path.join(ROOT, 'content', 'pages'), { recursive: true })
-    .filter((file) => typeof file === 'string' && file.endsWith('.json'))
-    .map((file) => path.join('content', 'pages', file as string));
-  const articleFiles = fs.readdirSync(path.join(ROOT, 'content', 'blog'), { recursive: true })
-    .filter((file) => typeof file === 'string' && file.endsWith('.json'))
-    .map((file) => path.join('content', 'blog', file as string));
-  const published = new Set([...pageFiles, ...articleFiles]
-    .map((file) => JSON.parse(read(file)) as { status: string; url: string; robotsIndex?: boolean })
-    .filter((page) => page.status === 'published' && page.robotsIndex !== false)
-    .map((page) => page.url));
-  const redirectSources = new Set((JSON.parse(read('content/seo/redirects.json')) as Array<{ from: string }>).map((item) => item.from));
-
-  for (const location of locations) {
-    const url = new URL(location);
-    assert.equal(url.origin, 'https://gptbot.uz');
-    assert.equal(url.search, '');
-    assert.equal(url.hash, '');
-    assert.ok(url.pathname === '/' || published.has(url.pathname), `${url.pathname} is not a published page`);
-    assert.ok(!redirectSources.has(url.pathname), `${url.pathname} is a redirect source`);
+test('one generated sitemap is the only sitemap advertised', () => {
+  // gsc-audit-2026-09-17 T06: the two static files drifted from content (no lastmod,
+  // stale dates) and split Google's sitemap association across three files.
+  for (const retired of ['public/sitemap-new.xml', 'public/sitemap-priority.xml']) {
+    assert.ok(!fs.existsSync(path.join(ROOT, retired)), `${retired} must stay retired`);
   }
-  assert.match(read('public/robots.txt'), /Sitemap: https:\/\/gptbot\.uz\/sitemap-priority\.xml/);
-  assert.match(read('src/shared/robots-policy.ts'), /sitemap-priority\.xml/);
+  for (const file of ['public/robots.txt', 'src/shared/robots-policy.ts']) {
+    const text = read(file);
+    assert.doesNotMatch(text, /sitemap-(new|priority)\.xml/, `${file} still advertises a retired sitemap`);
+    assert.equal((text.match(/^Sitemap: /gm) ?? []).length, 1, `${file} must advertise exactly one sitemap`);
+  }
+  assert.doesNotMatch(read('scripts/generate-robots.ts'), /sitemap-priority\.xml/);
+  // No redirect for the retired files: the audit only allows redirect targets that are
+  // served pages, and a removed sitemap URL is simply dropped by Search Console once
+  // the owner deletes its submission.
+  const redirects = JSON.parse(read('content/seo/redirects.json')) as Array<{ from: string }>;
+  assert.equal(redirects.some((item) => /^\/sitemap-(new|priority)\.xml$/.test(item.from)), false);
 });
