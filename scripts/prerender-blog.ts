@@ -107,10 +107,10 @@ function escapeText(s: string): string {
 const STRINGS = {
   ru: {
     blog: 'Блог',
-    blogTitle: 'Блог GPTBot',
-    blogIndexTitle: 'Блог GPTBot — AI-боты и автоматизация заявок | GPTBot',
+    blogTitle: 'Блог GPTBot.uz',
+    blogIndexTitle: 'Блог GPTBot.uz — AI-боты и автоматизация заявок',
     blogIndexDesc: 'Статьи о AI-ботах, GPT-консультантах, автоматизации заявок и продаж в Telegram и Instagram. Подходит малому и среднему бизнесу в Узбекистане.',
-    blogIndexOgTitle: 'Блог GPTBot — AI-боты и автоматизация заявок',
+    blogIndexOgTitle: 'Блог GPTBot.uz — AI-боты и автоматизация заявок',
     blogIndexOgDesc: 'Статьи о AI-ботах и автоматизации заявок в Telegram и Instagram для бизнеса в Узбекистане.',
     blogIndexH1Subtitle: 'Реальные сценарии, ограничения и шаги внедрения AI-ботов для бизнеса в Узбекистане. Без обещаний топ-3 и без выдуманных кейсов.',
     faqHeading: 'Частые вопросы',
@@ -124,10 +124,10 @@ const STRINGS = {
   },
   uz: {
     blog: 'Blog',
-    blogTitle: 'GPTBot blogi',
-    blogIndexTitle: 'GPTBot blogi — AI botlar va arizalar avtomatlashtirish',
+    blogTitle: 'GPTBot.uz blogi',
+    blogIndexTitle: 'GPTBot.uz blogi — AI botlar va arizalar avtomatlashtirish',
     blogIndexDesc: 'O\u2018zbekistondagi biznes uchun AI-botlar, GPT-konsultantlar, Telegram va Instagram orqali arizalar va savdoni avtomatlashtirish haqida maqolalar.',
-    blogIndexOgTitle: 'GPTBot blogi — AI botlar va arizalar avtomatlashtirish',
+    blogIndexOgTitle: 'GPTBot.uz blogi — AI botlar va arizalar avtomatlashtirish',
     blogIndexOgDesc: 'O\u2018zbekistondagi biznes uchun Telegram va Instagram orqali AI-botlar va arizalarni avtomatlashtirish haqida maqolalar.',
     blogIndexH1Subtitle: 'O\u2018zbekistondagi biznes uchun AI-botlarni joriy etishning amaliy ssenariylari, cheklovlari va qadamlari. Yolg\u2018on top-3 va\u2019dalarsiz, soxta keyssiz.',
     faqHeading: 'Tez-tez beriladigan savollar',
@@ -546,6 +546,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <link rel="alternate" hreflang="x-default" href="${global.siteUrl}/ru/blog/" />
 
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content="${escapeHtml(global.siteName)}" />
 <meta property="og:locale" content="${ogLocale}" />
 <meta property="og:url" content="${indexUrl}" />
 <meta property="og:title" content="${escapeHtml(t.blogIndexOgTitle)}" />

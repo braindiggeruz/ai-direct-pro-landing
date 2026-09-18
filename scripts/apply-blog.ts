@@ -214,7 +214,7 @@ for (const a of articles) {
     hreflangRu: url,
     robotsIndex: true,
     robotsFollow: true,
-    author: 'GPTBot Team',
+    author: 'GPTBot.uz Team',
     datePublished: today,
     dateModified: today,
     schemaTypes: ['Organization', 'WebSite', 'BreadcrumbList', 'Article', 'FAQPage'],

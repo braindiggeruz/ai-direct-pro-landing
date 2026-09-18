@@ -6,14 +6,14 @@ export function renderChatEntry(url: string): string {
   if (entry.locale === 'ru') return `<aside class="article-chat-entry" aria-label="GPTBot AI-chat" data-testid="article-chat-entry">
     <span class="article-chat-kicker">GPTBot AI · На русском</span>
     <strong>${entry.title}</strong>
-    <p>GPTBot — самостоятельный AI-сервис, не продукт OpenAI. Можно попробовать без установки и регистрации в пределах бесплатного лимита.</p>
+    <p>GPTBot.uz — самостоятельный AI-сервис, не продукт OpenAI. Можно попробовать без установки и регистрации в пределах бесплатного лимита.</p>
     <a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">Открыть AI-чат <span aria-hidden="true">↗</span></a>
     <small>${entry.id === 'payment-ru' ? 'Это не подписка ChatGPT Plus и не способ её оплаты. ' : ''}Пример вопроса можно изменить. Вы отправляете его сами.</small>
   </aside>`;
   return `<aside class="article-chat-entry" aria-label="GPTBot AI-chat" data-testid="article-chat-entry">
     <span class="article-chat-kicker">GPTBot AI · O‘zbek tilida</span>
     <strong>${entry.title}</strong>
-    <p>GPTBot — mustaqil AI-xizmat. O‘rnatish va ro‘yxatdan o‘tish shart emas. Bepul limit doirasida foydalaning.</p>
+    <p>GPTBot.uz — mustaqil AI-xizmat. O‘rnatish va ro‘yxatdan o‘tish shart emas. Bepul limit doirasida foydalaning.</p>
     <a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">AI-chatni ochish <span aria-hidden="true">↗</span></a>
     <small>Savol namunasi tayyor bo‘ladi. Uni tahrirlab, o‘zingiz yuborasiz.</small>
   </aside>`;

@@ -127,7 +127,7 @@ function buildBody(r: ResearchEntry, locale: 'ru' | 'uz'): BodyBlock[] {
 // Normalize title to 45–65, description to 120–160.
 function fitTitle(t: string): string {
   let s = t.trim();
-  if (s.length < 45) s = `${s} | GPTBot`.trim();
+  if (s.length < 45) s = `${s} | GPTBot.uz`.trim();
   if (s.length < 45) s = `${s} — Telegram + Instagram 24/7`.trim();
   if (s.length > 65) s = s.slice(0, 65).replace(/[\s—–|-]+$/, '');
   return s;

@@ -12,7 +12,7 @@ const UZ_CHAT_ENTRIES = [
 export const CHAT_ENTRIES = [
   ...UZ_CHAT_ENTRIES.map(entry => ({ ...entry, locale: 'uz' as const })),
   { locale: 'ru', id: 'compare-ru', slug: 'chatgpt-i-claude-v-uzbekistane', title: 'Попробуйте AI на своей задаче', prompt: 'Помоги понять, как AI может помочь с моей задачей. Сначала спроси, что я хочу сделать.' },
-  { locale: 'ru', id: 'payment-ru', slug: 'kak-oplatit-chatgpt-v-uzbekistane', title: 'Нужен AI для задачи? Попробуйте GPTBot', prompt: 'Помоги составить короткий деловой текст. Сначала спроси, для кого он нужен и что я хочу сказать.' },
+  { locale: 'ru', id: 'payment-ru', slug: 'kak-oplatit-chatgpt-v-uzbekistane', title: 'Нужен AI для задачи? Попробуйте GPTBot.uz', prompt: 'Помоги составить короткий деловой текст. Сначала спроси, для кого он нужен и что я хочу сказать.' },
 ] as const;
 
 export function chatEntryArticleHref(entry: typeof CHAT_ENTRIES[number]) {

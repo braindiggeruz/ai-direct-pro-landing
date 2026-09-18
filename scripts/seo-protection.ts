@@ -9,10 +9,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // revision (fire-your-seo-agency audit, F01) writes the brand as GPTBot.uz on
 // every page: header wordmark, author byline, footer NAP line, and on the
 // homepage also title, H1 and description («GPTBot — …» → «GPTBot.uz — …»).
-// Canonical, robots, hreflang and internal links of all ten pages are identical
-// to the 2026-09-18-release revision; the nine leaders keep their title, H1 and
-// description.
-export const BASELINE = 'docs/seo/evidence/2026-09-18-fysa/reviewed-protected-pages.json';
+// The 2026-09-18-fysa-2 revision renames the brand in the article chat-entry
+// block on six leaders (body text only). Canonical, robots, hreflang and
+// internal links of all ten pages are identical to the 2026-09-18-release
+// revision; the nine leaders keep their title, H1 and description.
+export const BASELINE = 'docs/seo/evidence/2026-09-18-fysa-2/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
