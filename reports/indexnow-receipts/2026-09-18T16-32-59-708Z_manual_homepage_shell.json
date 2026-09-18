@@ -1,0 +1,11 @@
+{
+  "submittedAt": "2026-09-18T16:32:59.708Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_homepage_shell_changed_url",
+  "count": 1,
+  "urls": [
+    "https://gptbot.uz/"
+  ],
+  "responseExcerpt": ""
+}
