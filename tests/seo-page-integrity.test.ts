@@ -16,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
+import { HOME_HREFLANG } from '../src/shared/site-config';
 import type { BlogArticle, BodyBlock, Page } from '../src/shared/types';
 
 const ROOT = process.cwd();
@@ -169,6 +170,11 @@ test('a declared hreflang counterpart exists, is indexable and is reciprocal', (
     const self = doc.locale === 'ru' ? ru : uz;
     const other = doc.locale === 'ru' ? uz : ru;
     assert.equal(self, doc.url, `${doc.url} declares its own hreflang side as ${self}`);
+    if (other === HOME_HREFLANG.ru) {
+      // "/" has no content file: it is the Russian member of the homepage set (HOME_HREFLANG).
+      assert.equal(doc.url, HOME_HREFLANG.uz, `${doc.url} declares "/" as its Russian counterpart; only ${HOME_HREFLANG.uz} may`);
+      continue;
+    }
     const counterpart = byUrl.get(other);
     assert.ok(counterpart, `${doc.url} declares hreflang counterpart ${other}, which does not exist`);
     assert.notEqual(counterpart.robotsIndex, false, `${doc.url} pairs with noindex ${other}`);

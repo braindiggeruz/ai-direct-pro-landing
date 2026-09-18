@@ -15,9 +15,9 @@
   "h1": "AI-боты для бизнеса в Узбекистане",
   "title": "AI-боты для бизнеса в Узбекистане | GPTBot.uz",
   "description": "AI-боты для бизнеса в Узбекистане: Telegram, Instagram Direct и WhatsApp. Отвечаем клиентам 24/7 на русском и узбекском, собираем заявки и передаём менеджеру.",
-  "canonical": "https://gptbot.uz/ru/",
-  "hreflangRu": "/ru/",
-  "hreflangUz": "/uz/",
+  "canonical": "https://gptbot.uz/",
+  "hreflangRu": "",
+  "hreflangUz": "",
   "ogTitle": "AI-боты для бизнеса в Узбекистане — GPTBot.uz",
   "ogDescription": "Telegram, Instagram Direct и WhatsApp боты, которые отвечают клиентам 24/7 на русском и узбекском и передают заявки менеджеру.",
   "robotsIndex": true,
@@ -191,7 +191,7 @@
     { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
-  "lastReviewedAt": "2026-07-01",
-  "updatedAt": "2026-07-01",
+  "lastReviewedAt": "2026-09-18",
+  "updatedAt": "2026-09-18",
   "createdAt": "2026-07-01"
 }

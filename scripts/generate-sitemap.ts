@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, BlogArticle } from '../src/shared/types';
-import { SITE_URL } from '../src/shared/site-config';
+import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -14,7 +14,10 @@ const DIST_DIR = path.join(ROOT, 'dist');
 
 const pageFiles = fg.sync('pages/**/*.json', { cwd: CONTENT_DIR, absolute: true });
 const pages: Page[] = pageFiles.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')));
-const eligible = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false);
+// A page whose canonical points elsewhere (today only /ru/ → /) is not a sitemap
+// URL: the sitemap lists canonical URLs only.
+const selfCanonical = (p: Page): boolean => !p.canonical || p.canonical === p.url || p.canonical === `${SITE_URL}${p.url}`;
+const eligible = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && selfCanonical(p));
 
 const blogFiles = fg.sync('blog/**/*.json', { cwd: CONTENT_DIR, absolute: true });
 const articles: BlogArticle[] = blogFiles.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')));
@@ -71,13 +74,11 @@ if (ruArticles.length > 0) blogIndexAlternates.ru = '/ru/blog/';
 if (uzArticles.length > 0) blogIndexAlternates.uz = '/uz/blog/';
 
 const entries: Entry[] = [
-  // Homepage. We deliberately do NOT emit hreflang alternates here:
-  //  • There is no separate /uz/ landing today — emitting hreflang="uz"
-  //    pointing to /?lang=uz creates a phantom URL Google can't use.
-  //  • The homepage IS the RU entry, but emitting hreflang="ru" → "/"
-  //    is redundant with the canonical/self-referential URL.
-  // When a real /uz/ landing ships, add reciprocal RU↔UZ pair here.
-  { url: '/', lastmod: latestSiteChange },
+  // Homepage: the Russian member and the x-default of the homepage hreflang set.
+  // /ru/ canonicalises to "/" and is filtered out above (selfCanonical), so
+  // exactly one URL claims ru; /uz/ declares the reciprocal pair through its own
+  // hreflangRu/hreflangUz fields (HOME_HREFLANG, gsc-audit-2026-09-17 T13).
+  { url: '/', lastmod: latestSiteChange, alternates: { ru: HOME_HREFLANG.ru, uz: HOME_HREFLANG.uz } },
   // Blog indexes — emit one per locale that has at least one published article.
   // When both locales have articles, the RU index also advertises its UZ pair
   // (and vice versa) for hreflang reciprocity.

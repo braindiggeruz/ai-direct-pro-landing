@@ -9,7 +9,10 @@
  *
  *   node --import tsx seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts            # dry run
  *   node --import tsx seo-audit/gsc-2026-09-17/scripts/make_baseline_revision.ts --write    # write revision
- *   options: --date YYYY-MM-DD (default: today, local), --dist <dir> (default: ./dist)
+ *   options: --date YYYY-MM-DD (default: today, local), --dist <dir> (default: ./dist),
+ *            --suffix <slug> (evidence dir becomes <date>-<slug>), --allow <field,field>
+ *            (permit canonical/robots/googlebot/hreflang changes after review),
+ *            --reason "<path>=<text>" (add or override a REASONS entry; repeatable)
  *
  * Dry run prints which protected pages differ from the current BASELINE and in which fields.
  * --write creates docs/seo/evidence/<date>/reviewed-protected-pages.json (never overwrites),
@@ -57,6 +60,15 @@ const REASONS: Record<string, string> = {
 const args = process.argv.slice(2);
 const opt = (name: string) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
 const write = args.includes('--write');
+const suffix = opt('--suffix') ?? '';
+if (suffix && !/^[a-z0-9-]+$/.test(suffix)) throw new Error(`Bad --suffix: ${suffix}`);
+const allowed = new Set((opt('--allow') ?? '').split(',').filter(Boolean));
+for (let i = 0; i < args.length; i++) {
+  if (args[i] !== '--reason') continue;
+  const [p, ...rest] = (args[i + 1] ?? '').split('=');
+  if (!p || !rest.length) throw new Error('--reason expects "<path>=<text>"');
+  REASONS[p] = rest.join('=');
+}
 const today = new Date();
 const date = opt('--date') ?? `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error(`Bad --date: ${date}`);
@@ -94,8 +106,8 @@ for (const prev of previous.pages) {
   if (!reason) unexpected.push(`${prev.pathname}: ${fields.join(', ')}`);
 
   const change: ReviewedChange = { path: prev.pathname, fields, reason: reason ?? 'UNREVIEWED' };
-  for (const key of ['title', 'h1', 'description'] as const) {
-    if (fields.includes(key)) change[`${key}Before`] = prev.contract[key]; change[`${key}After`] = contract[key];
+  for (const key of ['title', 'h1', 'description', 'canonical', 'hreflang'] as const) {
+    if (fields.includes(key)) { change[`${key}Before`] = prev.contract[key]; change[`${key}After`] = contract[key]; }
   }
   if (fields.includes('internalLinks')) {
     const before = new Set(prev.contract.internalLinks); const after = new Set(contract.internalLinks);
@@ -106,7 +118,7 @@ for (const prev of previous.pages) {
     change.bodyTextCharsBefore = prev.bodyText.length; change.bodyTextCharsAfter = bodyText.length;
   }
   for (const key of ['canonical', 'robots', 'googlebot', 'hreflang'] as const) {
-    if (fields.includes(key)) throw new Error(`${prev.pathname}: ${key} changed — not allowed in wave 1 (owner rule: canonical/hreflang untouched).`);
+    if (fields.includes(key) && !allowed.has(key)) throw new Error(`${prev.pathname}: ${key} changed — refused unless reviewed and passed via --allow ${key}.`);
   }
   changes.push(change);
   nextPages.push({ pathname: prev.pathname, contract, bodyText });
@@ -126,9 +138,9 @@ if (unexpected.length) {
 } else if (!changes.length) {
   console.log('No protected page differs from the baseline; nothing to revise.');
 } else if (!write) {
-  console.log(`\nDry run. Re-run with --write to create docs/seo/evidence/${date}/reviewed-protected-pages.json`);
+  console.log(`\nDry run. Re-run with --write to create docs/seo/evidence/${suffix ? `${date}-${suffix}` : date}/reviewed-protected-pages.json`);
 } else {
-  const target = path.join(ROOT, 'docs', 'seo', 'evidence', date, 'reviewed-protected-pages.json');
+  const target = path.join(ROOT, 'docs', 'seo', 'evidence', suffix ? `${date}-${suffix}` : date, 'reviewed-protected-pages.json');
   if (fs.existsSync(target)) throw new Error(`Refusing to overwrite existing evidence: ${target}`);
   const snapshot: Snapshot = {
     schema: 1,

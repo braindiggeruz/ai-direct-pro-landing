@@ -529,6 +529,14 @@
       "decidedAt": "2026-09-04",
       "evidence": "The Uzbek homepage declared «biznes uchun AI botlar» as its primary keyword and «O‘zbekistonda biznes uchun AI bot» plus «biznes uchun GPT bot» as secondaries — the same strings as the money page /uz/biznes-uchun-ai-bot/, which is the page that carries the published tariff table. The cluster earned 0 clicks in the 28 days to 2026-09-04 while both URLs chased the same phrase.",
       "note": "The homepage keeps its title, its H1 and its plural category framing «biznes uchun AI botlar»: it is the brand and category entry point, and removing that would cost more than the overlap does. What it gives up is the exact money phrase — the two singular duplicates were removed on 2026-09-04. It deliberately owns no cluster, and no future work may give it a keyword that /uz/biznes-uchun-ai-bot/ declares."
+    },
+    {
+      "id": "A3-home-cluster-canonical",
+      "url": "/",
+      "decision": "SINGLE_RUSSIAN_HOME",
+      "decidedAt": "2026-09-18",
+      "evidence": "GSC audit 2026-09-17 (docs/seo/gsc-audit-2026-09-17/TECHNICAL_SEO.md, CANNIBALIZATION.md): the brand query «gptbot» and its variants were split between / and /ru/ — two Russian documents with the same intent, / carrying only canonical + x-default and /ru/ carrying the ru/uz pair with /uz/. Google had two candidates for every Russian brand or category query and no hreflang cluster that included the real homepage.",
+      "note": "One Russian home. / is the ru member and the x-default of the homepage hreflang set (src/shared/site-config.ts HOME_HREFLANG); /uz/ is the uz member and points back; /ru/ keeps its content and stays indexable but canonicalises to / and declares no alternates, and it is no longer listed in the sitemap. No redirect and no title, H1 or description change on either page. Re-check after 28 days: the brand query lands on / only and /ru/ reports «Alternate page with proper canonical tag» in Search Console."
     }
   ]
 }

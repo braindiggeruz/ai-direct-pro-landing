@@ -14,8 +14,9 @@
   "title": "Biznes uchun AI botlar O‘zbekistonda | GPTBot.uz",
   "description": "O‘zbekistonda biznes uchun AI botlar: Telegram, Instagram Direct va WhatsApp. Mijozlarga 24/7 rus va o‘zbek tilida javob berib, arizani menejerga uzatamiz.",
   "canonical": "https://gptbot.uz/uz/",
-  "hreflangRu": "/ru/",
+  "hreflangRu": "/",
   "hreflangUz": "/uz/",
+  "hreflangXDefault": "/",
   "ogTitle": "O‘zbekistonda biznes uchun AI botlar — GPTBot.uz",
   "ogDescription": "Telegram, Instagram Direct va WhatsApp botlar mijozlarga 24/7 javob beradi va arizani menejerga uzatadi.",
   "robotsIndex": true,
@@ -376,7 +377,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-01",
-  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "lastReviewedAt": "2026-09-18",
+  "updatedAt": "2026-09-18",
   "createdAt": "2026-07-01"
 }

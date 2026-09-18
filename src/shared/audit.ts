@@ -17,12 +17,23 @@ import type {
   LinkGraphNode,
   Redirect,
 } from './types';
+import { HOME_HREFLANG } from './site-config';
 
 /**
  * Routes the app serves that have no file under content/pages/**.
  * Without these, every link to the homepage or a blog index reads as broken.
  */
 export const STATIC_ROUTES = ['/', '/ru/blog/', '/uz/blog/'] as const;
+
+/**
+ * `/` has no file under content/pages/** but it is the Russian member and the
+ * x-default of the homepage hreflang set (HOME_HREFLANG), so /uz/ may declare it
+ * as a counterpart and the audit must see it point back.
+ */
+export const HOME_NODE: LinkGraphNode = {
+  url: HOME_HREFLANG.ru, locale: 'ru', status: 'published', robotsIndex: true,
+  hreflangRu: HOME_HREFLANG.ru, hreflangUz: HOME_HREFLANG.uz,
+};
 
 export const RULES = {
   titleMin: 45,
@@ -152,7 +163,7 @@ export function auditPage(
 ): PageAuditResult {
   const issues: AuditIssue[] = [];
   const { allPages = [], global, knownUrls, redirects = [] } = ctx;
-  const hreflangNodes = ctx.hreflangNodes || allPages;
+  const hreflangNodes = ctx.hreflangNodes || [HOME_NODE, ...allPages];
 
   // --- MOJIBAKE CHECK (CRITICAL) ---------------------------------------------
   // If any user-visible string contains mojibake, treat the page as broken:
@@ -233,9 +244,9 @@ export function auditPage(
   if (!page.canonical) {
     issues.push({ level: 'error', rule: 'missing-canonical', field: 'canonical', message: 'Canonical is empty.' });
   } else if (allPages.length && !page.canonical.endsWith(page.url) && page.canonical !== page.url) {
-    // canonical must either self-reference or point to a real page
+    // canonical must either self-reference or point to a real page (or a static route such as `/`)
     const canonicalSlug = page.canonical.replace(/^https?:\/\/[^/]+/, '');
-    const found = allPages.find((p) => p.url === canonicalSlug);
+    const found = allPages.find((p) => p.url === canonicalSlug) || (STATIC_ROUTES as readonly string[]).includes(canonicalSlug);
     if (!found) {
       issues.push({ level: 'warning', rule: 'canonical-target-missing', field: 'canonical',
         message: `Canonical target "${canonicalSlug}" does not match any known page.` });
@@ -357,7 +368,7 @@ export function auditPage(
 export function buildCockpit(pages: Page[], global?: GlobalSEO, ctx: AuditContext = {}): CockpitStats {
   const knownUrls = buildKnownUrls(pages, ctx);
   const redirects = ctx.redirects || [];
-  const hreflangNodes: LinkGraphNode[] = [...pages, ...(ctx.blog || [])];
+  const hreflangNodes: LinkGraphNode[] = [HOME_NODE, ...pages, ...(ctx.blog || [])];
   const results = pages.map((p) => auditPage(p, { allPages: pages, global, knownUrls, hreflangNodes, redirects }));
 
   const counts = {

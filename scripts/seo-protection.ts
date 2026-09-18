@@ -5,13 +5,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { stylesheetHrefs } from './site-stylesheets';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-// Every reviewed revision keeps its predecessor immutable. The 2026-09-18
-// revision is wave 1 of the GSC audit 2026-09-17 (docs/seo/gsc-audit-2026-09-17/
-// QUICK_WINS.md QW-1..QW-4): new title/H1/description/intro on the UZ login and
-// VPNsiz articles, title/description/first paragraph on the UZ chat, a link to
-// the UZ chat on the RU chat, and the homepage article list reflecting the two
-// renamed titles. Canonical, robots and hreflang are unchanged on all ten pages.
-export const BASELINE = 'docs/seo/evidence/2026-09-18/reviewed-protected-pages.json';
+// Every reviewed revision keeps its predecessor immutable. The 2026-09-18-home-cluster
+// revision (GSC audit 2026-09-17, T13) changes only the hreflang set of the homepage:
+// / is now the ru member and the x-default, /uz/ the uz member, and /ru/ canonicalises
+// to /. Title, H1, description, canonical, robots, links and text of all ten pages are
+// identical to the 2026-09-18 revision (wave 1 snippets of the kirish cluster).
+export const BASELINE = 'docs/seo/evidence/2026-09-18-home-cluster/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

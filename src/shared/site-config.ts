@@ -52,6 +52,16 @@ export const HREFLANG_PAIRS: Array<[string, string]> = [
   ['/ru/ai-bot-dlya-magazina/', '/uz/dokon-uchun-ai-bot/'],
 ];
 
+/**
+ * The homepage hreflang set (gsc-audit-2026-09-17 T13, decided 2026-09-18).
+ * `/` is the Russian entry and the x-default; `/uz/` is the Uzbek entry.
+ * `/ru/` canonicalises to `/` and declares no alternates, so exactly one URL
+ * claims `ru` and the brand query «gptbot» is no longer split between two
+ * Russian homes. index.html, content/pages/{ru,uz}/hub.json, the sitemap
+ * generator, the audit and the tests all read this one definition.
+ */
+export const HOME_HREFLANG = { ru: '/', uz: '/uz/', xDefault: '/' } as const;
+
 /** Curated anchor text library for internal-link suggestions. */
 export const ANCHORS = {
   ru: [

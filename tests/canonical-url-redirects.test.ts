@@ -43,7 +43,7 @@ test('fallback sitemap exposes canonical locale URLs only', () => {
 
   assert.doesNotMatch(sitemap, /https:\/\/www\.gptbot\.uz/);
   assert.doesNotMatch(sitemap, /\?lang=/);
-  assert.match(sitemap, /hreflang="ru" href="https:\/\/gptbot\.uz\/ru\/"/);
+  assert.match(sitemap, /hreflang="ru" href="https:\/\/gptbot\.uz\/"/);
   assert.match(sitemap, /hreflang="uz" href="https:\/\/gptbot\.uz\/uz\/"/);
 });
 
