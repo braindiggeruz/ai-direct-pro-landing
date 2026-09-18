@@ -18,8 +18,9 @@
 //     publisher reference.
 //
 //   * No fake fields. We never emit founder, foundingDate, employee
-//     counts, aggregate ratings, prices, or anything not literally
-//     present on the public site.
+//     counts, aggregate ratings, or anything not literally present on
+//     the public site. A Service carries an Offer only when the page shows
+//     the same starting price in its hero trust chips (scripts/service-offers.ts).
 //
 // Output is JSON-serialisable plain objects; the caller embeds them
 // inside <script type="application/ld+json">.
@@ -33,14 +34,20 @@ const TASHKENT_TIMEZONE = 'Asia/Tashkent';
 const LANGUAGE_NAMES: Record<string, string> = { ru: 'Russian', uz: 'Uzbek', en: 'English' };
 
 export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> {
-  // NOTE: inLanguage, legalName, alternateName, slogan and knowsAbout are
-  // intentionally NOT emitted — they are not valid Organization properties
-  // (inLanguage/slogan/knowsAbout) or are redundant (legalName/alternateName
-  // duplicating name), and SEMrush marks them as invalid structured data.
+  // NOTE: inLanguage, legalName, slogan and knowsAbout are intentionally NOT
+  // emitted — they are not valid Organization properties (inLanguage/slogan/
+  // knowsAbout) or duplicate name (legalName), and SEMrush marks them as
+  // invalid structured data. alternateName IS emitted: the brand is written
+  // "GPTBot.uz" everywhere on the site (og:site_name, title suffix, bylines),
+  // and the short legal form "GPTBot" collides with the name of OpenAI's
+  // crawler, so the alias tells search and AI engines that both spellings
+  // mean this one entity (fire-your-seo-agency audit 2026-09-18, F01).
   const org: Record<string, unknown> = {
     '@type': ['Organization', 'ProfessionalService'],
     '@id': `${global.siteUrl}/#org`,
     name: global.organizationName,
+    ...(global.organizationLegalName && global.organizationLegalName !== global.organizationName
+      ? { alternateName: global.organizationLegalName } : {}),
     url: `${global.siteUrl}/`,
     // logo must be an ImageObject with url + width/height to validate.
     logo: {
@@ -85,8 +92,12 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   };
   if (global.phone) org.telephone = global.phone;
 
-  // sameAs — every confirmed external profile.
-  if (global.sameAs && global.sameAs.length > 0) org.sameAs = global.sameAs;
+  // sameAs — every confirmed external profile of the studio: social/code
+  // profiles shared with the author node plus the studio's own map and
+  // directory cards (content/global/site.json businessProfiles).
+  const sameAs = [...(global.sameAs ?? []), ...(global.businessProfiles ?? [])]
+    .filter((url, index, all) => url && all.indexOf(url) === index);
+  if (sameAs.length > 0) org.sameAs = sameAs;
 
   // openingHoursSpecification — office hours Mon–Fri 09:00–18:00,
   // declared on the Organization/ProfessionalService entity so that
@@ -155,8 +166,8 @@ export function buildAuthorPersonLd(global: GlobalSEO): Record<string, unknown> 
 }
 
 export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
-  const alternateName = [global.organizationName, 'gptbot.uz']
-    .filter((name, index, all) => name && name !== global.siteName && all.indexOf(name) === index);
+  const alternateName = [global.organizationLegalName, global.organizationName, 'gptbot.uz']
+    .filter((name, index, all): name is string => Boolean(name) && name !== global.siteName && all.indexOf(name) === index);
   return {
     '@type': 'WebSite',
     '@id': `${global.siteUrl}/#site`,
@@ -189,6 +200,8 @@ export function buildServiceLd(input: {
   serviceType: string;
   dateModified?: string;
   locale?: 'ru' | 'uz';
+  /** Offer derived from the page's visible price chip (scripts/service-offers.ts); omitted when the page shows no price. */
+  offers?: Record<string, unknown>;
 }): Record<string, unknown> {
   const areaServed = (input.global.areaServed && input.global.areaServed.length > 0
     ? input.global.areaServed
@@ -206,6 +219,7 @@ export function buildServiceLd(input: {
     url: `${input.global.siteUrl}${input.url}`,
     inLanguage: input.locale || 'ru',
     ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+    ...(input.offers ? { offers: input.offers } : {}),
     // Bot itself is available 24/7. Declared against the Service so AI
     // engines can answer "is it 24/7?" with a structured value.
     hoursAvailable: [

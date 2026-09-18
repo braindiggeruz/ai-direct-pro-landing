@@ -3,7 +3,7 @@
   "locale": "ru",
   "slug": "kak-podklyuchit-chatgpt-k-telegram-botu",
   "url": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
-  "title": "Как подключить ChatGPT к Telegram-боту | GPTBot",
+  "title": "Как подключить ChatGPT к Telegram-боту | GPTBot.uz",
   "description": "Как подключить ChatGPT к Telegram-боту через OpenAI API: архитектура, ключи, Responses API, база знаний, память, лимиты, безопасность и запуск.",
   "h1": "Как подключить ChatGPT к Telegram-боту: схема и запуск",
   "topicCluster": "telegram-bot-development",

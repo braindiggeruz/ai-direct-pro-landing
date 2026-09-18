@@ -35,8 +35,26 @@ export const LLM_MARKDOWN_SLUGS_UZ: string[] = [
   'gpt-uzbek-tilida',
 ];
 
+/**
+ * Blog articles that carry most of the organic traffic (the protected leaders
+ * of scripts/seo-protection.ts). The Uzbek ChatGPT cluster alone brought about
+ * 81 % of clicks in the 28 days to 2026-09-14, yet had no Markdown twin and no
+ * entry in llms.txt (fire-your-seo-agency audit 2026-09-18, F03). Full URL
+ * paths, because blog articles live under /<locale>/blog/<slug>/.
+ */
+export const LLM_MARKDOWN_BLOG_URLS: string[] = [
+  '/uz/blog/chatgptga-qanday-kirish-mumkin/',
+  '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
+  '/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/',
+  '/uz/blog/chatgpt-uzbek-tilida-promptlar/',
+  '/uz/blog/ai-chat-nima-va-qanday-turlari-bor/',
+  '/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/',
+  '/ru/blog/chatgpt-i-claude-v-uzbekistane/',
+];
+
 /** URL path (with locale prefix and trailing slash) → true if it has a Markdown twin. */
 export const LLM_MARKDOWN_URLS: ReadonlySet<string> = new Set([
   ...LLM_MARKDOWN_SLUGS_RU.map((s) => `/ru/${s}/`),
   ...LLM_MARKDOWN_SLUGS_UZ.map((s) => `/uz/${s}/`),
+  ...LLM_MARKDOWN_BLOG_URLS,
 ]);

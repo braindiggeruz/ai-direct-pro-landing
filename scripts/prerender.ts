@@ -13,6 +13,7 @@ import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/sha
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
+import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -370,6 +371,9 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   }));
 
   if (types.has('Service') || page.pageType === 'money') {
+    // The Offer repeats the starting price the visitor sees in the hero trust
+    // chips ("От 1 990 000 сум"); pages without a visible price get no Offer.
+    const visibleOffer = offerFromTrustChips(page.heroTrust);
     graph.push(buildServiceLd({
       global,
       url: page.url,
@@ -378,6 +382,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       serviceType: page.primaryKeyword,
       dateModified: dateModifiedIso,
       locale: page.locale === 'uz' ? 'uz' : 'ru',
+      offers: visibleOffer ? buildOfferLd(visibleOffer, fullUrl) : undefined,
     }));
   }
   if (types.has('Article')) {
@@ -808,6 +813,7 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
 <link rel="preload" href="/assets/fonts/geist-${page.locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
+<link rel="alternate" type="application/rss+xml" title="${page.locale === 'uz' ? 'GPTBot.uz blogi' : 'Блог GPTBot.uz'}" href="${escapeHtml(global.siteUrl)}/${page.locale === 'uz' ? 'uz' : 'ru'}/blog/feed.xml" />
 ${LLM_MARKDOWN_URLS.has(page.url)
   ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(page.url)}index.html.md" />`
   : `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />`}

@@ -36,6 +36,10 @@ knowledge-схема, workflows, prompts, i18n; регистрация одно�
 - НЕ выводить пользовательские тексты/PII в события и логи (паттерн: pseudo-ключи + SAFE-поля).
 - НЕ смешивать рефакторинг ядра и продуктовую фичу в одном коммите.
 - НЕ push без разрешения владельца. Deploy = push в main (CF Pages авто) — только по команде.
+- Бренд пишется **«GPTBot.uz»** везде, где он виден поисковику или модели: `og:site_name`, суффикс
+  title (`| GPTBot.uz`), h1 главной, подписи «Проверено командой», llms.txt. «GPTBot» без `.uz` —
+  только `organizationLegalName`/`alternateName` в JSON-LD (коллизия с краулером OpenAI GPTBot;
+  решение fire-your-seo-agency F01, 2026-09-18).
 
 ## 3. Tenant isolation (закон)
 Любая таблица данных агентов имеет `org_id`. Любой repository-метод принимает `orgId` первым

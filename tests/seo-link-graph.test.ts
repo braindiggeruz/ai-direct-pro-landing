@@ -200,12 +200,23 @@ test('every redirect target is served and is not itself a redirect source', () =
   }
 });
 
-test('every curated LLM markdown twin still has a published page behind it', () => {
-  const published = new Set(pages.filter((p) => p.status === 'published').map((p) => p.url));
+test('every curated LLM markdown twin still has a published, indexable document behind it', () => {
+  const published = new Set([...pages, ...blog]
+    .filter((d) => d.status === 'published' && d.robotsIndex !== false)
+    .map((d) => d.url));
 
   for (const url of LLM_MARKDOWN_URLS) {
-    assert.ok(published.has(url), `${url} has a markdown twin but no published page`);
+    assert.ok(published.has(url), `${url} has a markdown twin but no published document`);
   }
+});
+
+// llms.txt is hand-written and advertises the twins by URL. A twin that is
+// listed but not generated is a 404 an AI agent will remember; a twin that is
+// generated but not listed is invisible. The two sets must be identical.
+test('llms.txt advertises exactly the markdown twins the build generates', () => {
+  const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8');
+  const advertised = [...llms.matchAll(/https:\/\/gptbot\.uz(\/[^\s)]*?\/)index\.html\.md/g)].map((m) => m[1]);
+  assert.deepEqual([...new Set(advertised)].sort(), [...LLM_MARKDOWN_URLS].sort());
 });
 
 test('no redirect source is still published as a page', () => {

@@ -3,7 +3,7 @@
   "locale": "uz",
   "slug": "agentlik-frilanser-yoki-birja-ozbekiston",
   "url": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
-  "title": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak (2026)",
+  "title": "Agentlik, frilanser yoki birja: kimga buyurtma berish (2026)",
   "description": "Uchta sxema aniq raqamlar bilan: birja $100–400, frilanser $300–800, agentlik 2–15 mln so'm. Qaysi vazifada birja yaxshiroq, qaysida shartnoma kerak.",
   "h1": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak",
   "topicCluster": "tanlash",
@@ -310,7 +310,7 @@
       "priority": 5
     }
   ],
-  "ogTitle": "Agentlik, frilanser yoki birja: O'zbekistonda kimga buyurtma berish kerak (2026)",
+  "ogTitle": "Agentlik, frilanser yoki birja: kimga buyurtma berish (2026)",
   "ogDescription": "Uchta sxema aniq raqamlar bilan: birja $100–400, frilanser $300–800, agentlik 2–15 mln so'm.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
@@ -320,7 +320,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-02",
+  "dateModified": "2026-09-18",
   "schemaTypes": [
     "Article",
     "FAQPage",

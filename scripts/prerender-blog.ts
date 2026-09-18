@@ -22,6 +22,7 @@ import { renderSiteStylesheets } from './site-stylesheets';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
+import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -407,7 +408,10 @@ ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
 <link rel="preload" href="/assets/fonts/geist-${lang === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
-<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />
+<link rel="alternate" type="application/rss+xml" title="${lang === 'uz' ? 'GPTBot.uz blogi' : 'Блог GPTBot.uz'}" href="${escapeHtml(global.siteUrl)}/${lang === 'uz' ? 'uz' : 'ru'}/blog/feed.xml" />
+${LLM_MARKDOWN_URLS.has(a.url)
+  ? `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}${escapeHtml(a.url)}index.html.md" />`
+  : `<link rel="alternate" type="text/markdown" href="${escapeHtml(global.siteUrl)}/llms.txt" title="LLM-friendly summary (llms.txt)" />`}
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
@@ -557,6 +561,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 
 <link rel="preload" href="/assets/fonts/geist-${locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="llms" href="${global.siteUrl}/llms.txt" />
+<link rel="alternate" type="application/rss+xml" title="${locale === 'uz' ? 'GPTBot.uz blogi' : 'Блог GPTBot.uz'}" href="${global.siteUrl}/${locale}/blog/feed.xml" />
 <link rel="alternate" type="text/markdown" href="${global.siteUrl}/llms.txt" title="LLM-friendly summary (llms.txt)" />
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->

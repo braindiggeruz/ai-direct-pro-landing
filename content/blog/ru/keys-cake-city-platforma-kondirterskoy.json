@@ -3,8 +3,8 @@
   "locale": "ru",
   "slug": "keys-cake-city-platforma-kondirterskoy",
   "url": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
-  "title": "Кейс Cake City: сайт, каталог, Telegram-бот и CRM для кондитерской сети | GPTBot",
-  "description": "Как для кондитерской Cake City (Гулистан, Сырдарьинская область) построена единая платформа: многоязычный сайт cakecity.uz, каталог с заявкой на заказ, Telegram-бот, Mini App, админка и учёт доставки.",
+  "title": "Кейс Cake City: сайт, Telegram-бот и CRM для кондитерской",
+  "description": "Как для кондитерской Cake City (Гулистан) построена платформа: сайт cakecity.uz, каталог с заявкой на заказ, Telegram-бот, Mini App, админка и учёт доставки.",
   "h1": "Кейс Cake City: одна платформа для сайта, заказов, Telegram-бота и доставки",
   "intro": "Cake City — кондитерская сеть в Гулистане (Сырдарьинская область) с торговыми точками, корпоративными продажами и доставкой. Задача проекта — убрать разрыв между сайтом, заявками из мессенджеров и работой доставки: заказ должен попадать в одну систему, а не в переписку менеджера. Ниже — что построено, на чём работает и что измеряется.",
   "targetMoneyPage": "/ru/razrabotka-telegram-bota-tashkent/",
@@ -226,8 +226,8 @@
       "type": "contextual"
     }
   ],
-  "ogTitle": "Кейс Cake City: сайт, каталог, Telegram-бот и CRM для кондитерской сети | GPTBot",
-  "ogDescription": "Как для кондитерской Cake City (Гулистан, Сырдарьинская область) построена единая платформа: многоязычный сайт cakecity.uz, каталог с заявкой на заказ, Telegram-бот, Mini App, админка и учёт доставки.",
+  "ogTitle": "Кейс Cake City: сайт, Telegram-бот и CRM для кондитерской",
+  "ogDescription": "Как для кондитерской Cake City (Гулистан) построена платформа: сайт cakecity.uz, каталог с заявкой на заказ, Telegram-бот, Mini App, админка и учёт доставки.",
   "ogImage": "https://gptbot.uz/assets/blog/keys-cake-city-platforma-kondirterskoy-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/",
   "robotsIndex": true,
@@ -239,7 +239,7 @@
     "FAQPage"
   ],
   "datePublished": "2026-09-03",
-  "dateModified": "2026-09-03",
+  "dateModified": "2026-09-18",
   "updatedAt": "2026-09-03T00:00:00.000Z",
   "createdAt": "2026-09-03T00:00:00.000Z"
 }

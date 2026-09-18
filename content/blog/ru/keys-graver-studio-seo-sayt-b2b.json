@@ -3,8 +3,8 @@
   "locale": "ru",
   "slug": "keys-graver-studio-seo-sayt-b2b",
   "url": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
-  "title": "Кейс Graver Studio: сайт на Next.js, SEO-архитектура RU/UZ и реклама для B2B | GPTBot",
-  "description": "Как для студии лазерной гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура money pages на русском и узбекском, продуктовые страницы, блог из 139 материалов, CRM и рекламные креативы.",
+  "title": "Кейс Graver Studio: сайт, SEO RU/UZ и реклама для B2B",
+  "description": "Как для студии гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура RU/UZ, продуктовые страницы, блог из 139 материалов, CRM и креативы.",
   "h1": "Кейс Graver Studio: SEO-архитектура, сайт и реклама для B2B-подарков",
   "intro": "Graver Studio (graver-studio.uz) — лазерная гравировка и брендирование подарков для бизнеса в Ташкенте: корпоративные подарки, welcome-паки, VIP-наборы, сувениры с логотипом. Клиент B2B, цикл сделки длинный, а спрос сезонный. Задача — сделать сайт, который сам приводит корпоративных заказчиков из поиска, и подключить к нему рекламу и CRM.",
   "targetMoneyPage": "/ru/seo-prodvizhenie-saytov-tashkent/",
@@ -223,8 +223,8 @@
       "type": "contextual"
     }
   ],
-  "ogTitle": "Кейс Graver Studio: сайт на Next.js, SEO-архитектура RU/UZ и реклама для B2B | GPTBot",
-  "ogDescription": "Как для студии лазерной гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура money pages на русском и узбекском, продуктовые страницы, блог из 139 материалов, CRM и рекламные креативы.",
+  "ogTitle": "Кейс Graver Studio: сайт, SEO RU/UZ и реклама для B2B",
+  "ogDescription": "Как для студии гравировки Graver Studio (Ташкент) собраны сайт с CMS, SEO-структура RU/UZ, продуктовые страницы, блог из 139 материалов, CRM и креативы.",
   "ogImage": "https://gptbot.uz/assets/blog/keys-graver-studio-seo-sayt-b2b-1200.webp",
   "canonical": "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/",
   "robotsIndex": true,
@@ -236,7 +236,7 @@
     "FAQPage"
   ],
   "datePublished": "2026-09-03",
-  "dateModified": "2026-09-03",
+  "dateModified": "2026-09-18",
   "updatedAt": "2026-09-03T00:00:00.000Z",
   "createdAt": "2026-09-03T00:00:00.000Z"
 }

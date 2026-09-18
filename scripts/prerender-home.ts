@@ -83,7 +83,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
   return `
 <div data-seo-shell="homepage" data-testid="seo-shell">
   <header>
-    <a href="/">GPTBot</a>
+    <a href="/">GPTBot.uz</a>
     <nav aria-label="Primary">
       <a href="/ru/ai-bot-dlya-biznesa/">Решения</a>
       <a href="/ru/ai-bot-dlya-kliniki/">Ниши</a>
@@ -93,7 +93,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
   </header>
 
   <main>
-    <h1>GPTBot — AI-бот для бизнеса в Узбекистане, который не теряет заявки</h1>
+    <h1>GPTBot.uz — AI-бот для бизнеса в Узбекистане, который не теряет заявки</h1>
     <p>AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя и телефон, передаёт горячие заявки вашему менеджеру. Демо под вашу нишу.</p>
 
     <p><a href="${escapeHtml(cta.href)}" rel="noopener noreferrer">${escapeText(cta.label)}</a></p>
@@ -111,18 +111,18 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
     <section aria-label="Biznes uchun yechimlar (UZ)" lang="uz">
       <h2>Biznes uchun yechimlar — O&#8216;zbekiston</h2>
-      <p>O&#8216;zbek tilida: <a href="/uz/blog/" hreflang="uz">GPTBot blogi (UZ)</a></p>
+      <p>O&#8216;zbek tilida: <a href="/uz/blog/" hreflang="uz">GPTBot.uz blogi (UZ)</a></p>
       <ul>${moneyListUz}</ul>
     </section>
 
-    <section aria-label="GPTBot blogi (UZ)" lang="uz">
-      <h2>GPTBot blogi — o&#8216;zbek tilida</h2>
+    <section aria-label="GPTBot.uz blogi (UZ)" lang="uz">
+      <h2>GPTBot.uz blogi — o&#8216;zbek tilida</h2>
       <ul>${blogListUz}</ul>
     </section>
   </main>
 
   <footer>
-    <p>GPTBot · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')}</p>
+    <p>GPTBot.uz · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')}</p>
     <!-- NAP: the phone belongs here too, same as the real footer and the sticky
          bar. This shell is the no-JS / crawler view of the homepage, so it is
          the only NAP a crawler that does not execute JavaScript will ever see.

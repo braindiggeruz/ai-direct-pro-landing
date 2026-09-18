@@ -233,6 +233,11 @@ export interface GlobalSEO {
   /** Geographic regions the organisation serves — drives Organization.areaServed. */
   areaServed?: Array<{ type: 'Country' | 'City' | 'State' | 'AdministrativeArea'; name: string }>;
   sameAs: string[];
+  /**
+   * Business directory / map cards of the studio itself (not of the author).
+   * Merged into Organization.sameAs only; Person.sameAs keeps `sameAs`.
+   */
+  businessProfiles?: string[];
   defaultCTA: { label: string; href: string };
   /** Geo coordinates for the published address — drives Organization.geo. */
   geo?: { latitude: number; longitude: number };

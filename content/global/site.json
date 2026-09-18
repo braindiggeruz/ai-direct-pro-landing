@@ -1,7 +1,7 @@
 {
-  "siteName": "GPTBot",
+  "siteName": "GPTBot.uz",
   "siteUrl": "https://gptbot.uz",
-  "titleTemplate": "%s | GPTBot",
+  "titleTemplate": "%s | GPTBot.uz",
   "defaultDescription": "AI/GPT-менеджер для Instagram и Telegram в Узбекистане. Отвечает клиентам 24/7, собирает контакты и передаёт горячие заявки менеджеру.",
   "defaultOgImage": "https://gptbot.uz/assets/landing/og.jpg",
   "organizationName": "GPTBot.uz",
@@ -82,6 +82,9 @@
   "sameAs": [
     "https://t.me/XGame_changerx",
     "https://github.com/braindiggeruz"
+  ],
+  "businessProfiles": [
+    "https://yandex.ru/maps/org/109235624736"
   ],
   "defaultCTA": {
     "label": "Запустить демо в Telegram",

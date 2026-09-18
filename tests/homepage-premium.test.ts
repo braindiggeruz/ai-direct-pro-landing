@@ -59,7 +59,7 @@ test('generated homepage images are descriptive, responsive and lightweight', ()
 
 test('homepage SEO intent and share image remain explicit', () => {
   const html = read('index.html');
-  assert.match(html, /GPTBot — AI-бот для бизнеса в Узбекистане/);
+  assert.match(html, /GPTBot\.uz — AI-бот для бизнеса в Узбекистане/);
   assert.match(html, /rel="canonical" href="https:\/\/gptbot\.uz\/"/);
   assert.match(html, /max-image-preview:large/);
   assert.match(html, /premium\/gptbot-ai-bot-business-og\.jpg/);

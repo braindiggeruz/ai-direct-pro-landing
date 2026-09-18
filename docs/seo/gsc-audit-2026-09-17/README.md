@@ -21,6 +21,8 @@ Property `sc-domain:gptbot.uz`, финальные данные 2026-05-21 … 2
 | [SEO_ROADMAP_FULL.md](SEO_ROADMAP_FULL.md) | владелец | полный roadmap на 6 месяцев по фазам с KPI |
 | [ROADMAP_EXTENDED_2026-09-18.md](ROADMAP_EXTENDED_2026-09-18.md) | владелец | расширенный roadmap 18.09 по свежим GSC + GA4: узбекский коммерческий слой, GBP и авторитет, конверсионный путь, техгигиена, измерение (X01–X22) |
 | [RELEASE_2026-09-18.md](RELEASE_2026-09-18.md) | все | что ушло в production 18.09 (commit 679a2853), проверки, живая верификация, остаток по кэшу sitemap, что дальше |
+| [FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md](FIRE_YOUR_SEO_AGENCY_AUDIT_2026-09-18.md) | владелец, SEO | аудит по методике fire-your-seo-agency (SEO · AEO · GEO · LLMO · Yandex): скоркард, доказательства curl, baseline, находки F01–F12 сверх T/X, roadmap по фазам, даты замеров |
+| [RELEASE_2026-09-18_FYSA.md](RELEASE_2026-09-18_FYSA.md) | все | второй релиз 18.09: единый бренд GPTBot.uz, Offer в Service, UZ-лидеры в llms.txt и md-двойники, RSS, мета 24 страниц; before/after, curl-проверки, даты замеров, что не сделано |
 | [patches/](patches/README.md) | разработчик | готовые diff-патчи волны 1 (T01–T05), проверены `git apply --check` |
 | `csv/` | все | 49 таблиц, включая `recommended_actions.csv`, `queries_emerging.csv` |
 | `charts/` | все | 13 PNG |

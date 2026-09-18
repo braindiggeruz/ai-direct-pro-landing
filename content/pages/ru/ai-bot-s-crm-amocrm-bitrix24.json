@@ -15,8 +15,8 @@
   ],
   "searchIntent": "commercial",
   "h1": "AI-бот с интеграцией AmoCRM и Bitrix24",
-  "title": "AI-бот с AmoCRM и Bitrix24: передача лидов | GPTBot",
-  "description": "AI-бот собирает согласованные данные в мессенджере и передаёт лид в AmoCRM или Bitrix24. Scope включает поля, дедупликацию, повторы, мониторинг и восстановление.",
+  "title": "AI-бот с AmoCRM и Bitrix24: передача лидов | GPTBot.uz",
+  "description": "AI-бот собирает согласованные данные в мессенджере и передаёт лид в AmoCRM или Bitrix24. Scope: поля, дедупликация, повторы, мониторинг и восстановление.",
   "canonical": "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
   "hreflangRu": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
   "hreflangUz": "/uz/amocrm-bitrix24-bilan-ai-bot/",
@@ -376,9 +376,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-18",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-18",
   "heroTrust": [
     "Поля и статусы до старта",
     "Идемпотентная передача",

@@ -15,8 +15,8 @@
   ],
   "searchIntent": "commercial",
   "h1": "AmoCRM va Bitrix24 bilan integratsiyalashgan AI bot",
-  "title": "AmoCRM va Bitrix24 bilan AI-bot: lid uzatish | GPTBot",
-  "description": "AI-bot messenjerda kelishilgan ma’lumotni yig‘ib, lidni AmoCRM yoki Bitrix24’ga uzatadi. Scope maydon, deduplikatsiya, qayta urinish, monitoring va tiklashni belgilaydi.",
+  "title": "AmoCRM va Bitrix24 bilan AI-bot: lid uzatish | GPTBot.uz",
+  "description": "AI-bot messenjerda kelishilgan ma’lumotni yig‘ib, lidni AmoCRM yoki Bitrix24’ga uzatadi. Scope: maydonlar, deduplikatsiya, qayta urinish, monitoring va tiklash.",
   "canonical": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
   "hreflangRu": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
   "hreflangUz": "/uz/amocrm-bitrix24-bilan-ai-bot/",
@@ -372,9 +372,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-18",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-18",
   "heroTrust": [
     "Maydon va status oldindan",
     "Idempotent uzatish",

@@ -275,6 +275,13 @@ headers.push('  Content-Type: text/plain; charset=utf-8');
 headers.push('/llms-full.txt');
 headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
+// RSS feeds of the two blogs (scripts/generate-feed.ts): a real feed media
+// type so readers and crawlers parse them, short cache so new articles show.
+for (const locale of ['ru', 'uz']) {
+  headers.push(`/${locale}/blog/feed.xml`);
+  headers.push('  Cache-Control: public, max-age=300');
+  headers.push('  Content-Type: application/rss+xml; charset=utf-8');
+}
 // Markdown twins for LLM agents: correct content-type + noindex so search
 // engines never treat them as duplicate HTML pages (anti-cannibalisation).
 headers.push('/*.md');
