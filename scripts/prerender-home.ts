@@ -22,6 +22,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, BlogArticle, GlobalSEO } from '../src/shared/types';
+import { i18n } from '../src/i18n';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -46,6 +47,43 @@ function escapeText(s: string): string {
 
 function load<T>(glob: string): T[] {
   return fg.sync(glob, { cwd: CONTENT_DIR, absolute: true }).map((f) => JSON.parse(fs.readFileSync(f, 'utf-8'))) as T[];
+}
+
+// The Russian homepage copy the visitor actually reads. The shell must never
+// claim anything the mounted React landing does not say, so every string below
+// comes from src/i18n.ts — the same single source the components render.
+const RU = i18n.ru;
+
+// Hero visual, mirroring src/components/PremiumImage.tsx byte for byte in the
+// candidate it selects: same widths, same `sizes`, same eager/high hints. A
+// crawler that does not execute JavaScript saw no <img> at all until now — and
+// <link rel="preload" as="image"> in index.html had no element to hand its
+// bytes to. Identical srcset + sizes means the browser resolves the shell copy
+// and the React copy to one URL, so a real visitor still downloads it once.
+const HERO_NAME = 'ai-sales-assistant-workspace';
+const HERO_WIDTHS = [480, 800, 1280, 1536] as const;
+const HERO_SIZES = '(max-width: 1024px) 90vw, 40vw';
+const HERO_ALT =
+  'AI-бот GPTBot квалифицирует обращения из Instagram и Telegram и передаёт заявку менеджеру';
+
+function heroSrcSet(extension: 'avif' | 'webp'): string {
+  return HERO_WIDTHS.map((w) => `/assets/landing/premium/${HERO_NAME}-${w}.${extension} ${w}w`).join(', ');
+}
+
+function heroPicture(): string {
+  return `<picture>
+      <source type="image/avif" srcset="${escapeHtml(heroSrcSet('avif'))}" sizes="${escapeHtml(HERO_SIZES)}" />
+      <source type="image/webp" srcset="${escapeHtml(heroSrcSet('webp'))}" sizes="${escapeHtml(HERO_SIZES)}" />
+      <img src="/assets/landing/premium/${HERO_NAME}-800.webp" srcset="${escapeHtml(heroSrcSet('webp'))}" sizes="${escapeHtml(HERO_SIZES)}" alt="${escapeHtml(HERO_ALT)}" width="1536" height="960" loading="eager" decoding="sync" fetchpriority="high" />
+    </picture>`;
+}
+
+function list(items: readonly string[]): string {
+  return `<ul>${items.map((i) => `<li>${escapeText(i)}</li>`).join('')}</ul>`;
+}
+
+function definitions(items: readonly { t: string; d: string }[]): string {
+  return `<dl>${items.map((i) => `<dt>${escapeText(i.t)}</dt><dd>${escapeText(i.d)}</dd>`).join('')}</dl>`;
 }
 
 function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): string {
@@ -96,7 +134,34 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     <h1>GPTBot.uz — AI-бот для бизнеса в Узбекистане, который не теряет заявки</h1>
     <p>AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя и телефон, передаёт горячие заявки вашему менеджеру. Демо под вашу нишу.</p>
 
+    ${heroPicture()}
+
+    ${list(RU.hero.bullets)}
+
     <p><a href="${escapeHtml(cta.href)}" rel="noopener noreferrer">${escapeText(cta.label)}</a></p>
+
+    <section aria-label="Проблема">
+      <h2>${escapeText(RU.pain.h)}</h2>
+      <p>${escapeText(RU.pain.t)}</p>
+      ${list(RU.pain.cards)}
+    </section>
+
+    <section aria-label="Решение">
+      <h2>${escapeText(RU.solution.h)}</h2>
+      <p>${escapeText(RU.solution.t)}</p>
+      ${definitions(RU.solution.benefits)}
+    </section>
+
+    <section aria-label="Как это работает">
+      <h2>${escapeText(RU.how.h)}</h2>
+      <ol>${RU.how.steps.map((s) => `<li><strong>${escapeText(s.t)}</strong> — ${escapeText(s.d)}</li>`).join('')}</ol>
+    </section>
+
+    <section aria-label="Ниши">
+      <h2>${escapeText(RU.niches.h)}</h2>
+      <p>${escapeText(RU.niches.sub)}</p>
+      ${list(RU.niches.items)}
+    </section>
 
     <section aria-label="Решения">
       <h2>AI-бот для бизнеса — решения по нишам</h2>
@@ -118,6 +183,11 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     <section aria-label="GPTBot.uz blogi (UZ)" lang="uz">
       <h2>GPTBot.uz blogi — o&#8216;zbek tilida</h2>
       <ul>${blogListUz}</ul>
+    </section>
+
+    <section id="faq" aria-label="${escapeHtml(RU.faq.h)}">
+      <h2>${escapeText(RU.faq.h)}</h2>
+      ${RU.faq.items.map((f) => `<h3>${escapeText(f.q)}</h3><p>${escapeText(f.a)}</p>`).join('\n      ')}
     </section>
   </main>
 
@@ -161,6 +231,13 @@ async function main(): Promise<void> {
   //    @graph (Organization+ProfessionalService, WebSite, WebPage, Service).
   //    Keeps @id stable across every page so AI/search engines collapse the
   //    triples into a single canonical entity.
+  // The homepage declares its share image in index.html, not in content JSON,
+  // so WebPage.primaryImageOfPage used to fall back to global.defaultOgImage
+  // (/assets/landing/og.jpg) and name a different picture than the og:image
+  // meta tag on the same URL. Two representative images for one document is a
+  // contradiction a crawler has to resolve by guessing. Read the value that is
+  // actually delivered instead; the global default stays as the fallback.
+  const declaredOgImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
   const homeAuthor = buildAuthorPersonLd(global);
   const richGraph: Record<string, unknown>[] = [
     buildOrganizationLd(global),
@@ -172,7 +249,7 @@ async function main(): Promise<void> {
       name: global.siteName,
       description: global.defaultDescription,
       locale: 'ru',
-      primaryImage: global.defaultOgImage,
+      primaryImage: declaredOgImage || global.defaultOgImage,
     }),
     buildServiceLd({
       global,
@@ -182,6 +259,23 @@ async function main(): Promise<void> {
       serviceType: 'AI-бот для бизнеса',
       locale: 'ru',
     }),
+    // FAQPage. Every landing page has carried one; the homepage — the most
+    // linked and most cited document on the domain — did not, because its
+    // questions live in the React <FAQ> component and never reached the raw
+    // HTML. The five pairs below are the exact strings the visitor reads
+    // (src/i18n.ts faq.items, rendered by src/components/FAQ.tsx) and are now
+    // also in the crawler shell above, so the markup and the visible text say
+    // the same thing.
+    {
+      '@type': 'FAQPage',
+      '@id': `${global.siteUrl}/#faq`,
+      inLanguage: 'ru',
+      mainEntity: RU.faq.items.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
   ];
   const richLdScript = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': richGraph })}</script>`;
   // Match the exact block emitted by /index.html — start at the marker
