@@ -179,8 +179,32 @@ Sitemap written with 288 entries (121 pages + 164 articles),
 | `scripts/generate-sitemap.ts` | namespace `image`, `imagesOf()` по собранному HTML, счётчики в логе |
 | `tests/homepage-crawler-shell.test.ts` | новый: 5 проверок контракта оболочки и sitemap |
 | `package.json` | новый тест добавлен в `npm test` |
+| `scripts/seo-protection.ts` | `BASELINE` → ревизия `2026-09-18-home-shell` |
+| `docs/seo/evidence/2026-09-18-home-shell/` | новая ревизия защищённого baseline |
 
 Ни один файл в `content/` не тронут: тексты страниц не менялись.
+
+### 3.1 Ревизия защищённого baseline (добавлено после первого коммита)
+
+Главная `/` входит в десятку защищённых страниц. Коммит `fe6ae5ec` изменил её
+`bodyTextSha256`, но новую ревизию baseline не записал — `npx tsx scripts/seo-protection.ts check`
+это поймал:
+
+```
+Protected SEO changed. Review the actual diff and evidence before updating the baseline:
+/: bodyTextSha256
+```
+
+Ревизия `2026-09-18-home-shell` записана по той же схеме, что `-fysa` и `-fysa-2`: предшественник
+неизменен, изменённое поле названо с причиной. Проверка на локальной сборке:
+
+```
+Reviewed change: / bodyTextSha256, 15 059 → 17 241 chars. Nine leaders byte-identical.
+Protected SEO: 10/10 unchanged.
+```
+
+Изменилось ровно одно поле на одной странице. Title, H1, description, canonical, robots, hreflang
+и набор внутренних ссылок главной не тронуты; девять лидеров побайтово идентичны.
 
 ---
 

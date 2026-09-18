@@ -13,7 +13,15 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // block on six leaders (body text only). Canonical, robots, hreflang and
 // internal links of all ten pages are identical to the 2026-09-18-release
 // revision; the nine leaders keep their title, H1 and description.
-export const BASELINE = 'docs/seo/evidence/2026-09-18-fysa-2/reviewed-protected-pages.json';
+// The 2026-09-18-home-shell revision changes one field on one page: the
+// homepage body text (15 059 → 17 241 characters). scripts/prerender-home.ts
+// now writes the hero <picture>, the pain / solution / how / niches copy and
+// the five FAQ pairs into the crawler shell, so a crawler that does not run
+// JavaScript reads what a visitor sees; every string comes from src/i18n.ts,
+// which the React landing renders. The nine leaders are byte-identical, and
+// the homepage keeps its title, H1, description, canonical, robots, hreflang
+// and internal-link set.
+export const BASELINE = 'docs/seo/evidence/2026-09-18-home-shell/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
