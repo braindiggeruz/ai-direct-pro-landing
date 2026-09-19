@@ -28,6 +28,22 @@
       "text": "Sun’iy intellekt mavzu bo‘yicha reja taklif qiladi, dalil topishga yo‘naltiradi, matn tuzilishini tekshiradi va uslubiy xatolarni ko‘rsatadi. U fikrni «o‘ylab topmaydi» — u siz bergan yo‘nalish bo‘yicha variantlar taklif qiladi. Shuning uchun eng yaxshi natija AI va muallif hamkorligida chiqadi."
     },
     {
+      "type": "linkp",
+      "text": "Ishni boshlashdan oldin AI chatning o‘zi ochiq bo‘lishi kerak. Agar hali kirmagan bo‘lsangiz, {acc} qo‘llanmasiga qarang; ilovani telefon yoki kompyuterga o‘rnatish {dl} sahifasida tushuntirilgan.",
+      "links": [
+        {
+          "token": "acc",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT’ga qanday kirish"
+        },
+        {
+          "token": "dl",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPT yuklab olish"
+        }
+      ]
+    },
+    {
       "type": "table",
       "headers": [
         "Bosqich",

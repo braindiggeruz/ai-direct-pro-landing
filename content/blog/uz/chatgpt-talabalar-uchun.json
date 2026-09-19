@@ -93,6 +93,22 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Bularning hammasi uchun avval hisobga kirish kerak. O‘zbekistondan ChatGPT’ga qanday kirish mumkinligi {acc} sahifasida qadam-baqadam yozilgan, telefonga yoki kompyuterga o‘rnatish esa {dl} bo‘yicha qo‘llanmada.",
+      "links": [
+        {
+          "token": "acc",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT’ga kirish"
+        },
+        {
+          "token": "dl",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPT yuklab olish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "prompt",
       "text": "O‘qish uchun tayyor promptlar"
