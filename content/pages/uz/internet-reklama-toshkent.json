@@ -7,21 +7,23 @@
   "primaryKeyword": "internet reklama toshkent",
   "secondaryKeywords": [
     "internetda reklama",
+    "reklama berish",
+    "toshkentda reklama berish",
     "reklama xizmati toshkent",
     "google ads toshkent",
-    "instagram reklama",
+    "instagramda reklama berish",
     "telegram reklama",
-    "biznes uchun reklama"
+    "reklama berish narxi"
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda internet reklama — ariza va savdolar uchun",
   "title": "Toshkentda internet reklama — arizalar uchun | GPTBot.uz",
-  "description": "Toshkentda internet reklama: Google Ads, Meta/Instagram, Telegram, qo‘nish sahifasi, AI bot, CRM va tahlil. Dastlabki hisob-kitob bepul.",
+  "description": "Toshkentda internet reklama berish: Google Ads, Meta/Instagram, Telegram. Minimal byudjetlar, qo‘nish sahifasi, AI bot, CRM va tahlil. Dastlabki hisob-kitob bepul.",
   "canonical": "https://gptbot.uz/uz/internet-reklama-toshkent/",
   "hreflangRu": "/ru/internet-reklama-tashkent/",
   "hreflangUz": "/uz/internet-reklama-toshkent/",
   "ogTitle": "Toshkentda internet reklama | GPTBot.uz",
-  "ogDescription": "Internet reklamani yagona tizim sifatida yo‘lga qo‘yamiz: auditoriya, e’lonlar, qo‘nish sahifasi, AI bot, CRM, Telegram va arizalar tahlili.",
+  "ogDescription": "Toshkentda internet reklama berish: Google Ads, Meta/Instagram, Telegram. Minimal byudjetlar, qo‘nish sahifasi, AI bot, CRM va tahlil. Dastlabki hisob-kitob bepul.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -45,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Internet reklama — mahsulot yoki xizmatni raqamli kanallar orqali targ‘ib qilish: Google, ijtimoiy tarmoqlar, Telegram va boshqa maydonchalar. Lekin reklamaning o‘zi biznes vazifasini yechmaydi. Muhimi — foydalanuvchi klikdan keyin qayerga tushishi, qanday taklifni ko‘rishi, javobni qancha tez olishi va ariza menejerga qanday yetib borishi."
+      "text": "Internet reklama — mahsulot yoki xizmatni raqamli kanallar orqali targ‘ib qilish: Google, Instagram, Facebook va Telegram. Toshkentda reklama berish uchun har bir kanalning o‘z kabineti va o‘z minimal byudjeti bor, shuning uchun kanal vazifaga qarab tanlanadi."
     },
     {
       "type": "h2",
@@ -187,6 +189,48 @@
     },
     {
       "type": "h2",
+      "text": "Reklama berish uchun minimal byudjet qancha"
+    },
+    {
+      "type": "p",
+      "text": "Har bir platformaning o‘z chegarasi bor. Quyidagi raqamlar — platformalarning rasmiy minimumlari, ya’ni kampaniyani umuman ishga tushirish uchun kerak bo‘lgan eng kichik summa. Ular ishlaydigan byudjet emas: real sarf soha, raqobat va maqsadga qarab belgilanadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kanal",
+        "Platforma minimumi",
+        "Qachon mos keladi"
+      ],
+      "rows": [
+        [
+          "Meta Ads (Instagram, Facebook)",
+          "Kuniga $1 dan — ko‘rsatishlar bo‘yicha kampaniya uchun",
+          "Talabni shakllantirish, vizual mahsulot, keng auditoriya"
+        ],
+        [
+          "Telegram Ads",
+          "Minimal CPM 0,1 Toncoin",
+          "Tez yozishuv, bot orqali ariza, ochiq kanallar auditoriyasi"
+        ],
+        [
+          "Google Ads",
+          "Rasmiy minimal byudjet yo‘q — kunlik limitni o‘zingiz belgilaysiz",
+          "Mavjud talabni ushlash: odam allaqachon qidirmoqda"
+        ],
+        [
+          "Kanalda joylashtirish",
+          "Narxni kanal egasi belgilaydi",
+          "Aniq nisha, tayyor auditoriya, bir martalik e’lon"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Amalda minimal chegaradan boshlash kam hollarda ma’noga ega: kuniga $1 bilan algoritm auditoriyani o‘rganish uchun yetarli ma’lumot to‘plamaydi. Byudjet «qancha pul bor»dan emas, «bitta ariza qancha turishi mumkin»dan hisoblanadi."
+    },
+    {
+      "type": "h2",
       "text": "Narx va smeta qanday shakllanadi"
     },
     {
@@ -294,8 +338,12 @@
       "a": "Ba’zan traefikni Telegram, Instagram Direct yoki formaga yo‘naltirish mumkin, lekin barqaror reklama uchun qo‘nish sahifasi yoki ariza uchun sayt bo‘lgani yaxshi."
     },
     {
+      "q": "Toshkentda reklama berish narxi qancha?",
+      "a": "Platforma minimumlari quyidagicha: Meta Ads — kuniga $1 dan, Telegram Ads — minimal CPM 0,1 Toncoin, Google Ads — rasmiy minimal byudjet talab qilmaydi. Bu ishga tushirish chegarasi, natija beradigan byudjet emas: real summa bitta ariza uchun ruxsat etilgan narxdan hisoblanadi."
+    },
+    {
       "q": "Internet reklama qancha turadi?",
-      "a": "Narx jamoa ishi, media byudjet, kreativlar, qo‘nish sahifasi, analitika, CRM va tashqi servislar bo‘yicha alohida hisoblanadi. Aniq smeta uchun kanal, maqsad, geografiya, tillar va test hajmi brifda belgilanadi."
+      "a": "Ikki qism bor. Birinchisi — platformaga to‘g‘ridan-to‘g‘ri to‘lanadigan media byudjet: Meta kabinetida kuniga $1 dan, Telegram Ads’da minimal CPM 0,1 Toncoin, Google Ads’da rasmiy minimal chegara yo‘q. Ikkinchisi — jamoa ishi: kreativlar, qo‘nish sahifasi, analitika va CRM. Aniq smeta uchun kanal, maqsad, geografiya va test hajmi brifda belgilanadi."
     },
     {
       "q": "Reklama samaradorligi qanday o‘lchanadi?",
@@ -411,7 +459,24 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-09-01T00:00:00.000Z"
+  "updatedAt": "2026-09-19T03:23:46.149Z",
+  "sources": [
+    {
+      "title": "Meta Business Help — Minimum budgets",
+      "url": "https://www.facebook.com/business/help/201828586525529",
+      "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
+    },
+    {
+      "title": "Telegram Ad Platform — Getting Started",
+      "url": "https://ads.telegram.org/getting-started",
+      "note": "Minimal CPM 0,1 Toncoin. 2026-09-19 da tekshirildi."
+    },
+    {
+      "title": "Google Ads Help — Budgets",
+      "url": "https://support.google.com/google-ads/answer/6385083",
+      "note": "Kunlik byudjetni reklama beruvchi belgilaydi; majburiy minimal chegara yo‘q. 2026-09-19 da tekshirildi."
+    }
+  ]
 }

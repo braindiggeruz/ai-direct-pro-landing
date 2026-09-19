@@ -4,7 +4,7 @@
   "slug": "internet-reklama-narxi-ozbekiston-2026",
   "url": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
   "title": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
-  "description": "Kanallar bo‘yicha narxlar: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
+  "description": "Reklama berish narxi kanallar bo‘yicha: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
   "h1": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
   "topicCluster": "reklama-narxi",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -13,7 +13,10 @@
     "reklama narxi O'zbekiston",
     "kontekst reklama narxi",
     "internet reklama Toshkent narxi",
-    "reklama byudjeti O'zbekiston"
+    "reklama byudjeti O'zbekiston",
+    "reklama berish narxi",
+    "internetda reklama berish narxi",
+    "reklama narxi qancha"
   ],
   "intro": "O'zbekiston bozori bo'yicha aniq raqamlar: har bir kanal qancha turadi, smeta nimadan yig'iladi va biznes qayerda ortiqcha to'laydi. Barcha narxlar pudratchi ishi bilan birga, faqat reklama byudjeti bilan emas.",
   "body": [
@@ -240,6 +243,10 @@
       "a": "Pudratchi ishi bilan birga oyiga 2 dan 8 million so'mgacha. Bitta kanalni test rejimida $150–200 reklama byudjeti va $120–300 yuritish ishi bilan boshlash mumkin. Oyiga 2 million so'mdan pastda faqat gipotezalarni sinash mumkin, barqaror arizalar oqimini emas."
     },
     {
+      "q": "Reklama berish narxi qancha?",
+      "a": "Toshkentdagi kichik biznes uchun 2026 yilda internet-reklama byudjeti pudratchi ishi bilan birga oyiga 2 dan 8 million so‘mgacha chiqadi. Platforma chegaralari esa ancha past: Meta Ads kuniga $1 dan, Telegram Ads minimal CPM 0,1 Toncoin, Google Ads majburiy minimal byudjet talab qilmaydi. Chegaradan boshlash mumkin, lekin natija beradigan summa bitta ariza uchun ruxsat etilgan narxdan hisoblanadi."
+    },
+    {
       "q": "Kontekstli reklama arzonmi yoki Instagram target?",
       "a": "Xizmatlar uchun (yuristlar, klinikalar, ta'mirlash, ta'lim) kontekst arzonroq — foydalanuvchi allaqachon xizmatni qidiryapti, bosish narxi $0,15–0,80. Tovarlar va b2c uchun target arzonroq — bosish $0,20–1,00, lekin qamrov kengroq. Bosish narxini emas, ariza narxini hisoblash kerak."
     },
@@ -316,7 +323,7 @@
     }
   ],
   "ogTitle": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
-  "ogDescription": "Kanallar bo‘yicha narxlar: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
+  "ogDescription": "Reklama berish narxi kanallar bo‘yicha: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
   "hreflangRu": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
@@ -325,12 +332,12 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-19",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-19T03:24:10.878Z"
 }

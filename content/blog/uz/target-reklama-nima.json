@@ -4,7 +4,7 @@
   "slug": "target-reklama-nima",
   "url": "/uz/blog/target-reklama-nima/",
   "title": "Target nima: target reklama O‘zbekistonda qanday ishlaydi",
-  "description": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Kontekstdan farqi, byudjet, kreativ va o‘lchash — amaliy qo‘llanma.",
+  "description": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Target yoqish narxi kuniga $1 minimal byudjetdan boshlanadi. Kontekstdan farqi, targetolog kim va o‘lchash.",
   "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
   "topicCluster": "internet-reklama",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -13,7 +13,10 @@
     "target reklama nima",
     "targetlangan reklama",
     "target va kontekst farqi",
-    "target reklama O‘zbekiston"
+    "target reklama O‘zbekiston",
+    "target yoqish narxi",
+    "targetolog kim",
+    "instagramda target yoqish"
   ],
   "intro": "Target reklama — e’lonni allaqachon tayyor bo‘lgan odamga emas, balki siz belgilagan xususiyatlarga mos keladigan auditoriyaga ko‘rsatish usuli. Kontekst reklama esa qidiruvdagi so‘rovga javob beradi. Farq shu: kontekst mavjud talabni ushlaydi, target esa talabni shakllantiradi. Quyida ikkalasi qanday tanlanadi, byudjet qanday rejalashtiriladi va qaysi ko‘rsatkichlar haqiqatan muhim.",
   "body": [
@@ -172,6 +175,36 @@
     },
     {
       "type": "h2",
+      "text": "Target yoqish narxi: minimal byudjet qancha"
+    },
+    {
+      "type": "p",
+      "text": "Target yoqish narxi Meta kabinetida kuniga $1 minimal byudjetdan boshlanadi — bu ko‘rsatishlar bo‘yicha hisoblanadigan kampaniya uchun platformaning eng past chegarasi. Amalda bu chegara sinov uchun juda kichik: bir kunda auditoriya yetarli ma’lumot to‘plamaydi va optimallashtirish ishlamaydi. Shuning uchun sinov bosqichi odatda bir necha kunga rejalashtiriladi va kundalik byudjet bitta ariza uchun ruxsat etilgan narxdan kelib chiqib belgilanadi."
+    },
+    {
+      "type": "p",
+      "text": "Instagramda target yoqish alohida byudjet talab qilmaydi: Instagram va Facebook bitta Meta kabineti orqali boshqariladi, shuning uchun minimal chegara ham bir xil bo‘ladi. Farq faqat joylashuvda — lenta, stories yoki Reels."
+    },
+    {
+      "type": "h2",
+      "text": "Targetolog kim va u nima qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Targetolog — ijtimoiy tarmoqlarda pullik reklamani sozlaydigan va yuritadigan mutaxassis. U auditoriya parametrlarini tanlaydi, kreativ variantlarini sinaydi, byudjetni taqsimlaydi va natijani o‘lchaydi. Targetolog kontent yozmaydi va sotuvni o‘zi yopmaydi — uning javobgarligi e’londan manzilga qadar bo‘lgan yo‘lda."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Auditoriya segmentlarini tuzadi va ularni alohida sinaydi.",
+        "Kreativ va matn variantlarini tayyorlaydi hamda almashtirib turadi.",
+        "Byudjetni ishlayotgan segmentga qayta taqsimlaydi.",
+        "Bitta ariza narxini kuzatadi va chegaradan oshganda kampaniyani to‘xtatadi.",
+        "Natijani hisobot ko‘rinishida beradi: sarf, ariza soni va ariza narxi."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "xatolar",
       "text": "O‘zbekistonda tez-tez uchraydigan xatolar"
     },
@@ -218,7 +251,7 @@
     },
     {
       "q": "Target reklama uchun qancha byudjet kerak?",
-      "a": "Aniq raqam soha va raqobatga bog‘liq. To‘g‘ri hisob teskari: avval bitta ariza uchun ruxsat etilgan narx hisoblanadi, keyin shu chegaradan byudjet rejalashtiriladi."
+      "a": "Platforma chegarasi — Meta kabinetida kuniga $1, bu ko‘rsatishlar bo‘yicha kampaniya uchun minimal byudjet. Lekin ishlaydigan raqam boshqacha hisoblanadi: avval bitta ariza uchun ruxsat etilgan narx aniqlanadi (o‘rtacha chek va marjadan), keyin shu chegaradan kundalik byudjet rejalashtiriladi. Aniq summa soha va raqobatga bog‘liq."
     },
     {
       "q": "Target reklama qancha vaqtda natija beradi?",
@@ -227,6 +260,18 @@
     {
       "q": "Nima uchun ariza ko‘p, sotuv kam?",
       "a": "Demak kreativ juda keng va’da bergan yoki auditoriya noto‘g‘ri tanlangan. Ariza narxi emas, sotuvga aylanish foizi asosiy ko‘rsatkich bo‘lishi kerak."
+    },
+    {
+      "q": "Targetolog kim?",
+      "a": "Targetolog — ijtimoiy tarmoqlarda pullik reklamani sozlaydigan va yuritadigan mutaxassis: auditoriyani tanlaydi, kreativlarni sinaydi, byudjetni taqsimlaydi va bitta ariza narxini kuzatadi. U kontent yozuvchi yoki sotuvchi emas."
+    },
+    {
+      "q": "Instagramda target yoqish qancha turadi?",
+      "a": "Instagram Meta kabineti orqali ishlaydi, shuning uchun minimal byudjet ham bir xil — kuniga $1 dan. Real sarf esa auditoriya hajmi, raqobat va tanlangan maqsadga bog‘liq: bir xil byudjetda turli sohalarda ariza narxi bir necha barobar farq qilishi mumkin."
+    },
+    {
+      "q": "Target yoqish uchun targetolog shartmi?",
+      "a": "Shart emas — kabinetni o‘zingiz ham yoqishingiz mumkin. Lekin sinovsiz boshlangan kampaniya odatda byudjetni auditoriya segmentini aniqlashga sarflaydi. Agar oylik byudjet kichik bo‘lsa, avval bitta segment va bitta kreativ bilan sinab ko‘rish arzonroq chiqadi."
     }
   ],
   "cta": {
@@ -267,7 +312,7 @@
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",
-  "ogDescription": "Target reklama qanday ishlaydi, auditoriya va kreativ qanday tanlanadi, qaysi ko‘rsatkichlar muhim. O‘zbekiston uchun amaliy xatolar ro‘yxati.",
+  "ogDescription": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Target yoqish narxi kuniga $1 minimal byudjetdan boshlanadi. Kontekstdan farqi, targetolog kim va o‘lchash.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
   "hreflangUz": "/uz/blog/target-reklama-nima/",
@@ -275,7 +320,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-19",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -285,10 +330,15 @@
   ],
   "sources": [
     {
-      "title": "Meta Business — рекламные объявления",
+      "title": "Meta Business — Advertising",
       "url": "https://www.facebook.com/business/ads"
+    },
+    {
+      "title": "Meta Business Help — Minimum budgets",
+      "url": "https://www.facebook.com/business/help/201828586525529",
+      "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-09-19T03:22:57.018Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

@@ -15,12 +15,12 @@
   "searchIntent": "commercial",
   "h1": "Telegram reklama — O‘zbekistonda biznes uchun",
   "title": "Telegram reklama narxi va ishga tushirish | GPTBot.uz",
-  "description": "Telegram reklama narxi: rasmiy minimal CPM, media byudjet, platforma talablari, bot yoki sayt va arizalarni o‘lchash.",
+  "description": "Telegramda reklama berish narxi: rasmiy Telegram Ads minimal CPM 0,1 Toncoin, media byudjet, kanalda joylashtirish, platforma talablari va arizalarni o‘lchash.",
   "canonical": "https://gptbot.uz/uz/telegram-reklama/",
   "hreflangRu": "/ru/telegram-ads-uzbekistan/",
   "hreflangUz": "/uz/telegram-reklama/",
   "ogTitle": "Telegram reklama xizmati O‘zbekistanda | GPTBot.uz",
-  "ogDescription": "Rasmiy Telegram Ads va kanal e’lonlari. Bosishdan keyin nima bo‘lishini ham quramiz: bot, ariza, menejer.",
+  "ogDescription": "Telegramda reklama berish narxi: rasmiy Telegram Ads minimal CPM 0,1 Toncoin, media byudjet, kanalda joylashtirish, platforma talablari va arizalarni o‘lchash.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -92,7 +92,7 @@
     },
     {
       "type": "p",
-      "text": "O‘zbekistonda Telegram — kundalik aloqa vositasi. Shuning uchun bu yerdagi reklama boshqa platformalarga qaraganda boshqacha ishlaydi: odam e’lonni ko‘radi va o‘sha zahoti yozishi mumkin, chunki suhbat oynasi allaqachon ochiq."
+      "text": "O‘zbekistonda Telegram — kundalik aloqa vositasi. Shuning uchun telegramda reklama berish boshqa platformalarga qaraganda boshqacha ishlaydi: odam e’lonni ko‘radi va o‘sha zahoti yozishi mumkin, chunki suhbat oynasi allaqachon ochiq."
     },
     {
       "type": "p",
@@ -173,11 +173,11 @@
     {
       "type": "h2",
       "id": "qancha",
-      "text": "Telegram Ads narxi qanday hisoblanadi"
+      "text": "Telegramda reklama berish narxi qanday hisoblanadi"
     },
     {
       "type": "p",
-      "text": "Telegram Ads uchun yagona paket narxi yo‘q: e’lonlar CPM auksionida qatnashadi, reklama beruvchi esa aniq e’lon stavkasi va byudjetini belgilaydi. Platforma media byudjeti sozlash, yuritish, manzil va analitika xizmatidan alohida to‘lanadi."
+      "text": "Telegramda reklama berish narxi rasmiy kabinetda 0,1 Toncoin minimal CPM’dan boshlanadi — bu Telegram Ads yo‘riqnomasida ko‘rsatilgan eng past stavka. Yagona paket narxi yo‘q: e’lonlar CPM auksionida qatnashadi, reklama beruvchi esa aniq e’lon stavkasi va byudjetini o‘zi belgilaydi. Platforma media byudjeti sozlash, yuritish, manzil va analitika xizmatidan alohida to‘lanadi."
     },
     {
       "type": "linkp",
@@ -488,8 +488,12 @@
   ],
   "faq": [
     {
+      "q": "Telegramda reklama berish narxi qancha?",
+      "a": "Rasmiy Telegram Ads kabinetida minimal CPM 0,1 Toncoin — bu platforma yo‘riqnomasidagi eng past stavka, ya’ni 1000 ko‘rsatish uchun to‘lanadigan eng kichik summa. Kanalda joylashtirish narxini kanal egasi belgilaydi va u obunachilar soni hamda ko‘rishlarga qarab farq qiladi. Xizmat narxi esa ish hajmiga bog‘liq; dastlabki baholash bepul."
+    },
+    {
       "q": "Telegram reklama narxi qancha?",
-      "a": "Ikki xil xarajat bor: reklama byudjeti va xizmat narxi. Byudjetni siz belgilaysiz va u platformaga to‘g‘ridan-to‘g‘ri to‘lanadi. Xizmat narxi esa ish hajmiga bog‘liq — suhbat va dastlabki baholash bepul."
+      "a": "Ikki xil xarajat bor: reklama byudjeti va xizmat narxi. Byudjet platformaga to‘g‘ridan-to‘g‘ri to‘lanadi va rasmiy minimal CPM 0,1 Toncoin’dan boshlanadi. Xizmat narxi ish hajmiga bog‘liq — suhbat va dastlabki baholash bepul."
     },
     {
       "q": "Telegram reklama qancha turadi?",
@@ -612,7 +616,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-08-31"
+  "updatedAt": "2026-09-19T03:21:56.567Z"
 }
