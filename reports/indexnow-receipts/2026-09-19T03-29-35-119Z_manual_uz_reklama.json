@@ -1,0 +1,14 @@
+{
+  "submittedAt": "2026-09-19T03:29:35.119Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_uz_reklama_pages",
+  "count": 4,
+  "urls": [
+    "https://gptbot.uz/uz/telegram-reklama/",
+    "https://gptbot.uz/uz/blog/target-reklama-nima/",
+    "https://gptbot.uz/uz/internet-reklama-toshkent/",
+    "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/"
+  ],
+  "responseExcerpt": ""
+}
