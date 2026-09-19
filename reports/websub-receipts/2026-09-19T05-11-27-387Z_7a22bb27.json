@@ -1,0 +1,18 @@
+{
+  "submittedAt": "2026-09-19T05:11:27.387Z",
+  "hub": "https://pubsubhubbub.appspot.com/",
+  "results": [
+    {
+      "feed": "https://gptbot.uz/ru/blog/feed.xml",
+      "status": 204,
+      "ok": true,
+      "body": ""
+    },
+    {
+      "feed": "https://gptbot.uz/uz/blog/feed.xml",
+      "status": 204,
+      "ok": true,
+      "body": ""
+    }
+  ]
+}
