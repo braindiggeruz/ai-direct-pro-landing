@@ -1,0 +1,18 @@
+{
+  "submittedAt": "2026-09-19T04:47:19.448Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_internal_relink_sources",
+  "count": 8,
+  "urls": [
+    "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/"
+  ],
+  "responseExcerpt": ""
+}
