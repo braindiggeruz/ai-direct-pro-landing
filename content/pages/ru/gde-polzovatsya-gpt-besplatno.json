@@ -112,7 +112,7 @@
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-07-12",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-07-12T00:00:00Z",
   "updatedAt": "2026-07-12"
 }

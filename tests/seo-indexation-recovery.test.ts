@@ -52,7 +52,13 @@ test('the surviving how-to owns the migrated five-part prompt method', () => {
   const text = JSON.stringify(guide).toLowerCase();
 
   assert.equal(guide.status, 'published');
-  assert.equal(guide.dateModified, '2026-08-25');
+  // The guide absorbed the retired page on 2026-08-25 and may legitimately be
+  // edited again after that; what must not happen is the date moving backwards,
+  // which would mean the consolidated version was replaced by an older one.
+  assert.ok(
+    String(guide.dateModified) >= '2026-08-25',
+    `the consolidated guide predates the merge: ${String(guide.dateModified)}`,
+  );
   for (const element of ['роль', 'задача', 'контекст', 'формат', 'ограничения']) {
     assert.ok(text.includes(element), `the consolidated guide is missing: ${element}`);
   }
