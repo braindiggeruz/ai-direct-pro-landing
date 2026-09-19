@@ -14,7 +14,10 @@
     "biznes uchun sayt",
     "kompaniya uchun sayt",
     "internet do‘kon yaratish",
-    "landing page yaratish"
+    "landing page yaratish",
+    "sayt tayyorlash",
+    "veb-sayt yaratish",
+    "sayt tayyorlash xizmati"
   ],
   "searchIntent": "commercial",
   "h1": "Sayt yaratish xizmati — biznesingizga ariza keltiradigan sayt",
@@ -92,7 +95,7 @@
     },
     {
       "type": "p",
-      "text": "Sayt yaratish — bu shunchaki chiroyli sahifa chizish emas. Biznes uchun sayt bitta vazifani bajarishi kerak: odam saytga kirsin, nima taklif qilinayotganini tushunsin va bog‘lanish uchun harakat qilsin. Shuning uchun biz ishni dizayndan emas, sayt qanday ariza keltirishidan boshlaymiz."
+      "text": "Sayt yaratish — bu shunchaki chiroyli sahifa chizish emas. Bu xizmat turli nom bilan qidiriladi: sayt tayyorlash, veb-sayt yaratish, sayt tuzish yoki sayt ochish — natija bitta. Biznes uchun sayt bitta vazifani bajarishi kerak: odam saytga kirsin, nima taklif qilinayotganini tushunsin va bog‘lanish uchun harakat qilsin. Shuning uchun biz ishni dizayndan emas, sayt qanday ariza keltirishidan boshlaymiz."
     },
     {
       "type": "p",
@@ -530,6 +533,10 @@
   ],
   "faq": [
     {
+      "q": "Sayt tayyorlash va sayt yaratish — bir xil xizmatmi?",
+      "a": "Ha, bu bir xil ish turli nom bilan: sayt tayyorlash, veb-sayt yaratish, sayt tuzish va sayt ochish — hammasi bitta natijani bildiradi. Narx nomga emas, sayt turiga bog‘liq: landing 2 990 000 so‘mdan, korporativ sayt 6 900 000 dan, internet-do‘kon 14 900 000 dan boshlanadi."
+    },
+    {
       "q": "Sayt yaratish qancha vaqt oladi?",
       "a": "Aniq muddat texnik topshiriq tayyor bo‘lgandan keyin aytiladi. U sahifalar soni, dizayn murakkabligi va integratsiyalarga bog‘liq. Landing korporativ saytdan tez ishga tushadi, internet do‘kon esa eng ko‘p vaqt oladi."
     },
@@ -718,9 +725,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-09-19T03:41:15.419Z",
   "heroTrust": [
     "Landing 2 990 000 so‘mdan",
     "7 kundan",

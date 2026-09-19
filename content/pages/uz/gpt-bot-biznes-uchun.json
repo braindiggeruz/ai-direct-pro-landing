@@ -9,16 +9,19 @@
     "AI-chatbot biznes",
     "GPT chatbot",
     "24/7 javob bot",
-    "tabiiy til bot"
+    "tabiiy til bot",
+    "savollarga javoblar beruvchi bot",
+    "savollarga javob beradigan bot",
+    "gpt bot"
   ],
   "searchIntent": "commercial",
   "h1": "Biznes uchun GPT bot: aqlli 24/7 javob beruvchi",
   "title": "GPT bot biznes uchun — aqlli AI-chatbot 24/7 | GPTBot.uz",
-  "description": "GPT bot tabiiy tilni tushunadi va oddiy tugmali botdan farqli o‘laroq nostandart savollarga javob beradi. 24/7 muloqot va arizalarni CRM’ga uzatish.",
+  "description": "Savollarga javoblar beruvchi bot: GPT bot tabiiy tilni tushunadi va oddiy tugmali botdan farqli o‘laroq nostandart savollarga javob beradi.",
   "canonical": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
   "hreflangUz": "/uz/gpt-bot-biznes-uchun/",
   "ogTitle": "GPT bot biznes uchun — aqlli AI-chatbot 24/7 | GPTBot.uz",
-  "ogDescription": "GPT bot biznes uchun tabiiy tilni tushunadi, mijozlar bilan Telegram va Instagram’da 24/7 muloqot qiladi va lidlarni menejerga uzatadi.",
+  "ogDescription": "Savollarga javoblar beruvchi bot: GPT bot tabiiy tilni tushunadi va oddiy tugmali botdan farqli o‘laroq nostandart savollarga javob beradi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -32,7 +35,7 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Biznes uchun GPT-bot — bu til modeli asosidagi AI-chatbot: mijozning erkin savolini tushunadi va messenjerlarda arizalarni yig‘adi."
+      "text": "Biznes uchun GPT-bot — bu savollarga javoblar beruvchi bot: til modeli asosidagi AI-chatbot mijozning erkin savolini tushunadi va messenjerlarda arizalarni yig‘adi."
     },
     {
       "type": "h2",
@@ -143,6 +146,10 @@
   ],
   "faq": [
     {
+      "q": "Savollarga javoblar beruvchi bot qanday ishlaydi?",
+      "a": "Bunday bot savolni kalit so‘z bo‘yicha emas, ma’no bo‘yicha tushunadi. Siz unga biznes haqidagi ma’lumotni berasiz — narxlar, xizmatlar, ish vaqti, yetkazib berish shartlari — va u shu doiradagi erkin savollarga javob beradi. Doiradan tashqaridagi savolda bot javobni o‘ylab topmaydi, balki menejerga uzatadi."
+    },
+    {
       "q": "GPT bot oddiy chat-botdan nimasi bilan farq qiladi?",
       "a": "Oddiy bot tugmalar va qattiq ssenariy bo‘yicha ishlaydi. GPT bot tabiiy tilni tushunadi va ssenariydan tashqari savollarga javob beradi, muloqot kontekstini saqlaydi. Bu tashlab ketilgan yozishmalarni kamaytiradi va konversiyani oshiradi."
     },
@@ -230,7 +237,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-19T03:41:15.405Z"
 }

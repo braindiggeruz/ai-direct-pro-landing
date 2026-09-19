@@ -13,7 +13,8 @@
     "marketing va reklama farqi",
     "marketing turlari",
     "biznes uchun marketing",
-    "marketing qanday ishlaydi"
+    "marketing qanday ishlaydi",
+    "marketing nima uchun kerak"
   ],
   "intro": "Qisqa javob: marketing — bu mahsulotni kimga, qanday va qayerda taklif qilishni aniqlab, mijozgacha yetkazish ishi. Reklama esa uning bir qismi, hammasi emas. Aynan shu farqni bilmaslik tufayli ko‘p biznes «marketing qildim» deb faqat reklamaga pul sarflaydi va natijani tushunmaydi. Quyida marketing nimalardan iboratligini, qaysi kanallar borligini va kichik biznes qaysi biridan boshlashi kerakligini oddiy tilda ko‘rib chiqamiz.",
   "body": [
@@ -29,6 +30,14 @@
     {
       "type": "p",
       "text": "Shuning uchun marketing faqat pul sarflash emas. U ko‘pincha pulsiz qarorlardan boshlanadi: kimga murojaat qilishni aniqlashtirish, taklifni tushunarli qilib yozish, narx mantiqini oydinlashtirish va odam murojaat qilgach unga tez javob berish."
+    },
+    {
+      "type": "h2",
+      "text": "Marketing nima uchun kerak"
+    },
+    {
+      "type": "p",
+      "text": "Marketing nima uchun kerak degan savolga eng qisqa javob: u mahsulotni kimga va qanday so‘z bilan taklif qilishni aniqlaydi. Marketingsiz biznes hamma bilan bir xil gaplashadi va shuning uchun hech kimga tegmaydi. Marketing bilan esa taklif aniq odamga, uning aniq muammosi bo‘yicha va u tushunadigan tilda yetib boradi — natijada bir xil byudjetda ariza soni farq qiladi."
     },
     {
       "type": "h2",
@@ -300,6 +309,10 @@
     {
       "q": "Raqamli marketing nima?",
       "a": "Bu marketingning onlayn kanallar orqali amalga oshiriladigan qismi: qidiruv, ijtimoiy tarmoqlar, pullik reklama, sayt va xat yuborish. Tamoyillar an’anaviy marketing bilan bir xil, faqat kanal va o‘lchov usuli boshqacha."
+    },
+    {
+      "q": "Marketing nima uchun kerak?",
+      "a": "Marketing mahsulotni kimga, qaysi kanal orqali va qanday so‘z bilan taklif qilishni aniqlaydi. Usiz reklama byudjeti tasodifiy auditoriyaga sarflanadi: ko‘rsatish bor, ariza yo‘q. Kichik biznes uchun bu ayniqsa muhim, chunki byudjet cheklangan va xato qimmatga tushadi."
     }
   ],
   "cta": {
@@ -365,7 +378,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-22",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-09-19",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -374,5 +387,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-01"
+  "updatedAt": "2026-09-19T03:41:15.421Z"
 }

@@ -9,7 +9,9 @@
     "AI savdo bo‘yicha yordamchi",
     "GPT sotuvchi",
     "AI sotuv menejeri",
-    "O‘zbekistonda AI sotuvchi"
+    "O‘zbekistonda AI sotuvchi",
+    "sotuvchi ai",
+    "ai sotuvchi bot"
   ],
   "searchIntent": "commercial",
   "h1": "AI-sotuvchi — mijoz bilan birinchi suhbatni olib boruvchi yordamchi",
@@ -31,7 +33,10 @@
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
-    { "type": "p", "text": "AI-sotuvchi — bu mijozni xaridga yetaklaydigan GPT-konsultant: mahsulot bo‘yicha javob beradi, tavsiya qiladi va arizani sotuv bo‘limiga uzatadi." },
+    {
+      "type": "p",
+      "text": "AI-sotuvchi — bu mijozni xaridga yetaklaydigan GPT-konsultant: mahsulot bo‘yicha javob beradi, tavsiya qiladi va arizani sotuv bo‘limiga uzatadi. Bu xizmat ba’zan \"sotuvchi AI\" yoki \"AI sotuvchi bot\" deb ham ataladi — gap bitta narsa haqida: mijoz bilan yozishib, uni xaridga yetaklaydigan dasturiy yordamchi."
+    },
     {
       "type": "h2",
       "text": "AI-sotuvchi nima qiladi"
@@ -222,7 +227,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-19",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-19T03:41:15.416Z"
 }
