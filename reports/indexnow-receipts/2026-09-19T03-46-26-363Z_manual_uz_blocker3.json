@@ -1,0 +1,15 @@
+{
+  "submittedAt": "2026-09-19T03:46:26.363Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_uz_blocker3_pages",
+  "count": 5,
+  "urls": [
+    "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+    "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
+    "https://gptbot.uz/uz/ai-sotuvchi/",
+    "https://gptbot.uz/uz/sayt-yaratish/",
+    "https://gptbot.uz/uz/blog/marketing-nima/"
+  ],
+  "responseExcerpt": ""
+}
