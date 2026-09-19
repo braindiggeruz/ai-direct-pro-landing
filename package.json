@@ -81,7 +81,8 @@
     "test:secret-scan": "node --import tsx --test tests/secret-scan.test.ts",
     "test:seo-commercial-claims": "node --import tsx --test tests/seo-commercial-claims.test.ts",
     "test:gsc-indexation": "node --import tsx --test tests/gsc-indexation-hygiene.test.ts",
-    "test:site-styles": "node --import tsx --test tests/site-stylesheets.test.ts tests/pages-production-release.test.ts"
+    "test:site-styles": "node --import tsx --test tests/site-stylesheets.test.ts tests/pages-production-release.test.ts",
+    "websub:ping": "tsx scripts/websub-ping.ts"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",

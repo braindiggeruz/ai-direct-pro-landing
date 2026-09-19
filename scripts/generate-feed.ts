@@ -17,6 +17,14 @@ const CONTENT_DIR = path.join(ROOT, 'content');
 const DIST_DIR = path.join(ROOT, 'dist');
 
 export const FEED_ITEM_LIMIT = 50;
+
+// Declaring a hub lets subscribers be pushed an update instead of polling for
+// one. Publishing the link is half of WebSub; scripts/websub-ping.ts is the
+// other half and must run after a deploy, or the hub never learns there is
+// something to fetch. The hub is Google-operated and free; whether Google
+// Search itself acts on it is not documented, so this is a cheap extra channel,
+// not a replacement for the sitemap or Search Console.
+export const WEBSUB_HUB = 'https://pubsubhubbub.appspot.com/';
 export type FeedLocale = 'ru' | 'uz';
 
 const CHANNEL: Record<FeedLocale, { title: string; description: string; language: string }> = {
@@ -58,12 +66,18 @@ export function buildFeed(articles: BlogArticle[], locale: FeedLocale, global: P
   const body = items.map((a) => {
     const link = `${global.siteUrl}${a.url}`;
     const pubDate = rfc822(a.datePublished);
+    // RSS alone cannot say "this item changed": title, link and description stay
+    // identical when an article is edited, so a consumer diffing the feed sees
+    // nothing. atom:updated carries the edit date, which is what makes an update
+    // (not just a new post) visible to the hub's subscribers.
+    const updated = a.dateModified && a.dateModified !== a.datePublished ? a.dateModified : null;
     return [
       '    <item>',
       `      <title>${escapeXml(a.title)}</title>`,
       `      <link>${escapeXml(link)}</link>`,
       `      <guid isPermaLink="true">${escapeXml(link)}</guid>`,
       pubDate ? `      <pubDate>${pubDate}</pubDate>` : '',
+      updated ? `      <atom:updated>${escapeXml(`${updated}T00:00:00Z`)}</atom:updated>` : '',
       `      <description>${escapeXml(a.description)}</description>`,
       '    </item>',
     ].filter(Boolean).join('\n');
@@ -77,6 +91,7 @@ export function buildFeed(articles: BlogArticle[], locale: FeedLocale, global: P
     `    <description>${escapeXml(channel.description)}</description>`,
     `    <language>${channel.language}</language>`,
     `    <atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml" />`,
+    `    <atom:link href="${escapeXml(WEBSUB_HUB)}" rel="hub" />`,
     lastBuild ? `    <lastBuildDate>${lastBuild}</lastBuildDate>` : '',
     body,
     '  </channel>',

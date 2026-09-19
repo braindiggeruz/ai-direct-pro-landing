@@ -44,6 +44,18 @@ test('the feed is RSS 2.0 with a self link, permalinks, RFC 822 dates and escape
   assert.ok(!xml.includes('<Bots>'));
 });
 
+test('the feed declares a WebSub hub and marks edited items with atom:updated', () => {
+  const edited = buildFeed([article({ datePublished: '2026-09-01', dateModified: '2026-09-19' })], 'ru', SITE);
+  assert.match(edited, /<atom:link href="https:\/\/pubsubhubbub\.appspot\.com\/" rel="hub" \/>/);
+  assert.match(edited, /<atom:updated>2026-09-19T00:00:00Z<\/atom:updated>/);
+
+  // An item that was never edited must not claim an update, otherwise every
+  // ping looks like a change and subscribers learn to ignore the feed.
+  const untouched = buildFeed([article({ datePublished: '2026-09-01', dateModified: '2026-09-01' })], 'ru', SITE);
+  assert.ok(!untouched.includes('<atom:updated>'));
+  assert.ok(!buildFeed([article({ datePublished: '2026-09-01' })], 'ru', SITE).includes('<atom:updated>'));
+});
+
 test('the feed is capped at the newest items', () => {
   const many = Array.from({ length: FEED_ITEM_LIMIT + 5 }, (_, i) =>
     article({ url: `/ru/blog/a${i}/`, title: `A${i}`, datePublished: `2026-01-${String((i % 28) + 1).padStart(2, '0')}` }));
