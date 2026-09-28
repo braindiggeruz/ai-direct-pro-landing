@@ -1,6 +1,6 @@
 {
   "advertising_seo_20260928": {
-    "status": "third_pass_complete_release_authorized",
+    "status": "third_pass_deployed",
     "branch": "seo/advertising-conversion-20260928",
     "baseline_commit": "8b5ac313634035b6830e50951edcbe76e77a4259",
     "first_pass_commit": "cc969d80",
@@ -27,7 +27,7 @@
     "websub": "reports/websub-receipts/2026-09-28T17-24-46-848Z_07e7cffe.json: both blog feeds HTTP 204",
     "gsc_request_indexing": "Rejected on 2026-09-28 with the daily quota message; retry the ten priority URLs listed in REPORT-RU on 2026-09-29",
     "indexing_confirmed": false,
-    "third_pass": "Homepage <main> section linking 11 RU advertising/marketing landings and 5 UZ pages (7 UZ cards in UZ mode); blog index \"recently updated\" list; expanded /ru/blog/chto-takoe-lid-v-marketinge/ (examples, MQL/SQL, lead in advertising, lead magnet, 4 FAQ); Cyrillic FAQ on /uz/blog/target-reklama-nima/; early hub link in the internet advertising price article; chat office hours Mon-Sat 10-19; 2 more guard tests. Article titles in the homepage shell were left unchanged to keep protected text 10/10. seo/top3-pricing-cases reviewed: nothing to port."
+    "third_pass": "Homepage <main> section linking 11 RU advertising/marketing landings and 5 UZ pages (7 UZ cards in UZ mode); blog index \"recently updated\" list; expanded /ru/blog/chto-takoe-lid-v-marketinge/ (examples, MQL/SQL, lead in advertising, lead magnet, 4 FAQ); Cyrillic FAQ on /uz/blog/target-reklama-nima/; early hub link in the internet advertising price article; chat office hours Mon-Sat 10-19; 2 more guard tests. Article titles in the homepage shell were left unchanged to keep protected text 10/10. seo/top3-pricing-cases reviewed: nothing to port. Four GSC 404 URLs now 301 to same-intent published pages (content/seo/redirects.json, 22 rules). GSC on 2026-09-28: sitemap.xml resubmitted; new validation started for the \"Redirect error\" group; request-indexing quota exhausted for the day."
   },
   "seo_ai_agent_article_20260914": {
     "status": "deployed_and_live_verified",

@@ -1,0 +1,17 @@
+{
+  "submittedAt": "2026-09-28T18:21:02.372Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_seo_third_pass_changed_urls",
+  "releaseCommit": "d4f48ab7768a1a33a0aaaaf5b2852b7c224352e6",
+  "count": 6,
+  "urls": [
+    "https://gptbot.uz/",
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/",
+    "https://gptbot.uz/uz/blog/target-reklama-nima/",
+    "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/"
+  ],
+  "responseExcerpt": ""
+}

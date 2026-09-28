@@ -156,6 +156,17 @@ Telegram: условия посредника больше не представ
 - **Часы (B09).** Сообщение чата после заявки: «пн–сб, 10:00–19:00» вместо «пн–пт, 09:00–18:00» — так же, как в JSON-LD, на странице Boss Digital и в профилях.
 - **Регрессии.** `tests/seo-content-guards.test.ts` — ещё 2 теста: главная ссылается из `<main>` на все 12 посадочных из аудита (только на опубликованные URL); блок «Недавно обновлено» стоит над сеткой.
 
+- **404 из отчёта «Страницы» GSC.** Четыре URL, которые Google всё ещё сканирует и получает 404, перенаправлены 301 на опубликованные страницы с тем же интентом (`content/seo/redirects.json`): `/ru/instagram-bot/` → `/ru/instagram-direct-bot/`; `/ru/blog/ai-bot-ili-operator-chto-vybrat-biznesu/` → `/ru/ai-bot-ili-menedzher/`; `/ru/blog/kak-podgotovit-biznes-k-vnedreniyu-gpt-bota/` → `/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/`; `/ru/blog/skolko-stoit-telegram-bot-dlya-biznesa-uzbekistan/` → `/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/`. Служебные `/cabinet`, `/api`, `/auth` и т. п. остаются 404 с noindex — так требует `tests/gsc-indexation-hygiene.test.ts`.
+
+### Ускорение переобхода Google (28.09.2026)
+
+- Релиз `d4f48ab7` (deployment `077a52c9`): защищённые 10/10 побайтно равны артефакту; IndexNow — 6 изменённых URL, HTTP 200 (`reports/indexnow-receipts/2026-09-28T18-21-02-372Z_manual_seo_third_pass.json`); WebSub 204/204.
+- Search Console → «Файлы Sitemap»: `https://gptbot.uz/sitemap.xml` отправлен повторно, дата отправки 28.09.2026, статус «Успешно», 288 URL.
+- Search Console → «Страницы» → «Ошибка переадресации» (4 URL): все четыре сейчас перенаправляются в один шаг (301/308 → 200); запущена новая проверка исправления, дата начала 28.09.2026 — Google повторно просканирует эти URL.
+- «Просканирована, но не проиндексирована» (6): это `sitemap.xml`, два `feed.xml` и три старые GPT-страницы — не наши правки, проверка не запускалась.
+- «Запросить индексирование» в URL Inspection: дневная квота исчерпана 28.09; приоритетный список — в разделе «Публикация».
+- Google не принимает IndexNow, а ping-эндпоинт sitemap отключён Google в 2023 году. Indexing API официально только для JobPosting и BroadcastEvent — для обычных страниц не используется.
+
 ### Сознательно не сделано
 
 - **Title статей из shell главной не меняются.** SEO-shell главной выводит `title` статей блога, поэтому смена title любой такой статьи меняет защищённый текст `/`. Попытка сменить title статей про лид и SMM-специалиста была отменена после сигнала `seo-protection`; эталон не переписывался.

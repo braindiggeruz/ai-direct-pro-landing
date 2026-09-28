@@ -142,5 +142,37 @@
     "statusCode": 301,
     "reason": "GSC shows impressions on a slug variant (kompyuter-ga); live 404. Consolidate into the published Uzbek download guide (gsc-audit-2026-09-17).",
     "createdAt": "2026-09-18"
+  },
+  {
+    "id": "gsc-404-ru-instagram-bot",
+    "from": "/ru/instagram-bot/",
+    "to": "/ru/instagram-direct-bot/",
+    "statusCode": 301,
+    "reason": "GSC Page indexing lists the legacy URL as 404 (last crawl 2026-07-02, also via www). Same intent as the published Instagram Direct bot page (advertising audit follow-up 2026-09-28).",
+    "createdAt": "2026-09-28"
+  },
+  {
+    "id": "gsc-404-ru-blog-ai-bot-ili-operator",
+    "from": "/ru/blog/ai-bot-ili-operator-chto-vybrat-biznesu/",
+    "to": "/ru/ai-bot-ili-menedzher/",
+    "statusCode": 301,
+    "reason": "GSC Page indexing lists the removed article as 404 (last crawl 2026-06-26). The published comparison page answers the same bot-versus-staff question (advertising audit follow-up 2026-09-28).",
+    "createdAt": "2026-09-28"
+  },
+  {
+    "id": "gsc-404-ru-blog-kak-podgotovit-vnedreniyu",
+    "from": "/ru/blog/kak-podgotovit-biznes-k-vnedreniyu-gpt-bota/",
+    "to": "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+    "statusCode": 301,
+    "reason": "GSC Page indexing lists the slug variant as 404 (last crawl 2026-06-24). The published article covers the same preparation checklist (advertising audit follow-up 2026-09-28).",
+    "createdAt": "2026-09-28"
+  },
+  {
+    "id": "gsc-404-ru-blog-skolko-stoit-telegram-bot",
+    "from": "/ru/blog/skolko-stoit-telegram-bot-dlya-biznesa-uzbekistan/",
+    "to": "/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+    "statusCode": 301,
+    "reason": "GSC Page indexing lists the slug variant as 404 (last crawl 2026-06-22). The published article answers the same Telegram bot price question for Uzbekistan (advertising audit follow-up 2026-09-28).",
+    "createdAt": "2026-09-28"
   }
 ]
