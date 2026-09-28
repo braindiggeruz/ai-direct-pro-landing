@@ -16,7 +16,8 @@
     "target reklama O‘zbekiston",
     "target yoqish narxi",
     "targetolog kim",
-    "instagramda target yoqish"
+    "instagramda target yoqish",
+    "таргет нима"
   ],
   "intro": "Target reklama — e’lonni allaqachon tayyor bo‘lgan odamga emas, balki siz belgilagan xususiyatlarga mos keladigan auditoriyaga ko‘rsatish usuli. Kontekst reklama esa qidiruvdagi so‘rovga javob beradi. Farq shu: kontekst mavjud talabni ushlaydi, target esa talabni shakllantiradi. Quyida ikkalasi qanday tanlanadi, byudjet qanday rejalashtiriladi va qaysi ko‘rsatkichlar haqiqatan muhim.",
   "body": [
@@ -255,6 +256,10 @@
     {
       "q": "Target nima, oddiy qilib aytganda?",
       "a": "Bu e’lonni aniq belgilangan auditoriyaga ko‘rsatish: yosh, hudud, qiziqish va xatti-harakat bo‘yicha. Qidiruvdagi so‘rovga emas, foydalanuvchi xususiyatlariga tayanadi."
+    },
+    {
+      "q": "Таргет нима?",
+      "a": "Таргет — ижтимоий тармоқларда эълонни ёши, ҳудуди ва қизиқишларига кўра сиз танлаган аудиторияга кўрсатиш усули. Контекст реклама эса қидирувдаги сўровга жавоб беради: таргет талабни шакллантиради, контекст мавжуд талабни ушлайди."
     },
     {
       "q": "Target va kontekst reklama farqi nimada?",

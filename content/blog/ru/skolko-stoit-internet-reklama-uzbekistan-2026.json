@@ -102,8 +102,13 @@
     },
     {
       "type": "linkp",
-      "text": "Состав опубликован на страницах {context}, {target}, {smm} и {telegram}. Сравнивайте цену вместе с объёмом, а не как среднюю по рынку.",
+      "text": "Как выбираем каналы и считаем смету целиком — на странице {hub}. Состав по каналам опубликован на страницах {context}, {target}, {smm} и {telegram}. Сравнивайте цену вместе с объёмом, а не как среднюю по рынку.",
       "links": [
+        {
+          "token": "hub",
+          "target": "/ru/internet-reklama-tashkent/",
+          "anchor": "интернет-реклама в Ташкенте"
+        },
         {
           "token": "context",
           "target": "/ru/kontekstnaya-reklama-tashkent/",

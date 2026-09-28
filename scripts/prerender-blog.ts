@@ -116,6 +116,7 @@ const STRINGS = {
     faqHeading: 'Частые вопросы',
     relatedHeading: 'Смотрите также',
     updated: 'Обновлено',
+    recentlyUpdated: 'Недавно обновлено',
     published: 'Опубликовано',
     author: 'Автор',
     sourcesHeading: 'Первичные источники',
@@ -133,6 +134,7 @@ const STRINGS = {
     faqHeading: 'Tez-tez beriladigan savollar',
     relatedHeading: 'Shuningdek o\u2018qing',
     updated: 'Yangilangan',
+    recentlyUpdated: 'Yaqinda yangilangan',
     published: 'Nashr etilgan',
     author: 'Muallif',
     sourcesHeading: 'Birlamchi manbalar',
@@ -499,6 +501,22 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
     </a>
   `).join('');
 
+  // Articles revised after publication, newest revision first. The grid below is
+  // ordered by publication date, so a substantive update of an older article
+  // would otherwise stay buried; this list surfaces it at the top of the index.
+  const day = (value?: string) => (value ? new Date(value).toISOString().slice(0, 10) : '');
+  const recentlyUpdated = articles
+    .filter((a) => a.dateModified && a.datePublished && day(a.dateModified) > day(a.datePublished))
+    .sort((x, y) => day(y.dateModified).localeCompare(day(x.dateModified)))
+    .slice(0, 8);
+  const updatedSection = recentlyUpdated.length === 0 ? '' : `
+  <section data-testid="blog-recently-updated" aria-labelledby="blog-recently-updated-heading" class="mb-12">
+    <h2 id="blog-recently-updated-heading" class="font-display text-2xl text-white mb-4">${escapeHtml(t.recentlyUpdated)}</h2>
+    <ul class="grid md:grid-cols-2 gap-x-8 gap-y-3 text-sm">
+      ${recentlyUpdated.map((a) => `<li><a href="${escapeHtml(a.url)}" class="text-white/85 hover:text-brand-cyan transition-colors">${escapeText(a.h1)}</a> <span class="text-white/45 whitespace-nowrap">· ${escapeHtml(t.updated)} <time datetime="${day(a.dateModified)}">${day(a.dateModified)}</time></span></li>`).join('')}
+    </ul>
+  </section>`;
+
   const ldGraph: Record<string, unknown>[] = [
     buildOrganizationLd(global),
     buildWebSiteLd(global),
@@ -594,7 +612,7 @@ ${METRIKA_NOSCRIPT}
     <span class="text-white/70">${escapeHtml(t.blog)}</span>
   </nav>
   <h1 data-testid="blog-h1" class="font-display text-4xl sm:text-5xl text-white mb-4">${escapeText(t.blogTitle)}</h1>
-  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">${escapeText(t.blogIndexH1Subtitle)}</p>
+  <p data-testid="blog-subtitle" class="text-white/70 mb-12 max-w-2xl">${escapeText(t.blogIndexH1Subtitle)}</p>${updatedSection}
   <section data-testid="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     ${cards}
   </section>

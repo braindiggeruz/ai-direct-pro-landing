@@ -243,7 +243,7 @@ export interface GlobalSEO {
   defaultCTA: { label: string; href: string };
   /** Geo coordinates for the published address — drives Organization.geo. */
   geo?: { latitude: number; longitude: number };
-  /** Office hours string (e.g. "Mo-Fr 09:00-18:00") for reference. */
+  /** Office hours string (e.g. "Mo-Sa 10:00-19:00") for reference. */
   openingHours?: string;
   /** Price range indicator for the Organization entity. */
   priceRange?: string;

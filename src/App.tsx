@@ -15,6 +15,7 @@ const SolutionsGrid = lazy(() => import('./components/SolutionsGrid'));
 const DemoChat = lazy(() => import('./components/DemoChat'));
 const Niches = lazy(() => import('./components/Niches'));
 const Offer = lazy(() => import('./components/Offer'));
+const PromotionServices = lazy(() => import('./components/PromotionServices'));
 const BlogTeaser = lazy(() => import('./components/BlogTeaser'));
 const FAQ = lazy(() => import('./components/FAQ'));
 const FinalCTA = lazy(() => import('./components/FinalCTA'));
@@ -172,6 +173,7 @@ export default function App() {
           <DemoChat t={t} ctaUrl={ctaUrl} />
           <Niches t={t} lang={lang} />
           <Offer t={t} ctaUrl={ctaUrl} />
+          <PromotionServices lang={lang} />
           <BlogTeaser t={t} lang={lang} />
           <FAQ t={t} />
           <FinalCTA t={t} ctaUrl={ctaUrl} />

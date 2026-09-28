@@ -121,3 +121,25 @@ test('only bots declare 24/7 availability; team services follow office hours', (
   const helpers = fs.readFileSync('scripts/jsonld-helpers.ts', 'utf8');
   assert.match(helpers, /opens: '10:00',\s*closes: '19:00'/);
 });
+
+test('the homepage main content links every advertising landing in both languages', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.match(app, /<main id="main-content">[\s\S]*<PromotionServices lang=\{lang\} \/>[\s\S]*<\/main>/);
+  const block = fs.readFileSync('src/components/PromotionServices.tsx', 'utf8');
+  const published = new Set(pageFiles.map(file => read<Page>(file)).filter(page => page.status === 'published').map(page => page.url));
+  const linked = [...block.matchAll(/href: '([^'#]+)(?:#[a-z-]+)?'/g)].map(match => match[1]);
+  for (const url of linked) assert.ok(published.has(url), `homepage links ${url}, which is not a published page`);
+  for (const url of [
+    '/ru/internet-reklama-tashkent/', '/ru/kontekstnaya-reklama-tashkent/', '/ru/targetirovannaya-reklama-tashkent/',
+    '/ru/telegram-ads-uzbekistan/', '/ru/smm-prodvizhenie-tashkent/', '/ru/marketingovyi-audit-tashkent/',
+    '/ru/performance-marketing-tashkent/', '/ru/digital-marketing-tashkent/', '/ru/digital-strategiya-dlya-biznesa/',
+    '/uz/internet-reklama-toshkent/', '/uz/telegram-reklama/', '/uz/smm-xizmatlari/',
+  ]) assert.ok(linked.includes(url), `homepage does not link ${url}`);
+});
+
+test('the blog index surfaces revised articles above the publication-date grid', () => {
+  const source = fs.readFileSync('scripts/prerender-blog.ts', 'utf8');
+  assert.match(source, /data-testid="blog-recently-updated"/);
+  assert.match(source, /day\(a\.dateModified\) > day\(a\.datePublished\)/);
+  assert.ok(source.indexOf('${updatedSection}') < source.indexOf('data-testid="blog-grid"'), 'recently updated list must precede the grid');
+});
