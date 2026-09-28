@@ -6,6 +6,10 @@ Preserve existing URLs, titles, H1, canonical, publication dates and the ten pro
 
 Reuse the existing prerenderer with an optional compactHero flag on two advertising pages, preserving the full H1 and other pages' layout. A brief with a source URL is a manual contact aid, not automatic attribution. Keep contact_click separate from acknowledged and qualified leads; do not fabricate generate_lead. No new API, schema, provider or production mutation. Release is separate from local preparation. Evidence: docs/seo/advertising-2026-09-28/REPORT-RU.md.
 
+## D-SEO-ADS-20260928B — one sourced fact set, honest availability, guarded content
+
+Money pages cite only primary platform sources; reseller conditions (eLama, 25.02.2025) live in the Telegram Ads article, labelled as a provider condition with its source, never as a platform rule. Published tariffs are repeated verbatim on the RU and UZ hubs; no new prices are invented. Services delivered by the team declare the organisation hours (Mon-Sat 10:00-19:00) and no 24/7 hoursAvailable; only bot services keep it. A landing never hands its own main query to another URL as anchor text, except a consolidation link to the URL that owns the same query and the traffic-protected GPT cluster. Absolute links to https://gptbot.uz are internal. tests/seo-content-guards.test.ts enforces raw-token, empty-CTA, anchor, Telegram-threshold, hub-tariff and availability rules. Evidence: docs/seo/advertising-2026-09-28/REPORT-RU.md, section «Второй проход».
+
 ## D-041 — voice search is AI for hearing only; understanding stays deterministic (2026-08-02)
 
 **Decision.** The only model in the Bormi voice path is speech-to-text.

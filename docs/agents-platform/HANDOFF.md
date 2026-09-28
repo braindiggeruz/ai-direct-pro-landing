@@ -1,46 +1,44 @@
-# Рекламное SEO — локальный спринт 2026-09-28
+# Рекламное SEO — полный фикс по аудиту 2026-09-28
 
 ## 1. Состояние
-Ветка `seo/advertising-conversion-20260928`, база HEAD до работы `8b5ac313`. Этап реализован локально. Push/deploy отсутствуют. Существующий untracked `.serena/` сохранён вне коммита.
+Ветка `seo/advertising-conversion-20260928`: первый проход `cc969d80` и второй проход (этот коммит) поверх `8b5ac313` = origin/main. Владелец 28.09.2026 прямо поручил полный фикс, автономную работу и немедленный деплой. После коммита: fast-forward main, push, `build:production`, `deploy:pages:production`, live-проверка, коммит-квитанция. Untracked `.serena/` не включать.
 
 ## 2. Что сделано
-Пять посадочных и десять статей RU/UZ: согласованные тарифы, удаление неподтверждённых обещаний, три коротких брифа, два opt-in компактных hero без сокращения H1. В общий test script добавлено 8 регрессий.
+Второй проход закрывает автономные пункты независимого аудита: один проверенный набор порогов Telegram Ads, опубликованные тарифы на RU/UZ-хабах, сырые `{token}` и CTA без адреса по всему блогу, недоказанные статистики в статьях о сайтах, заявках и подрядчиках, 17 анкоров, compactHero ещё на 5 RU-лендингах, часы Пн–Сб 10–19 в Organization и отказ от 24/7 `hoursAvailable` для услуг команды, preload латиницы на RU, внутренние абсолютные CTA без nofollow, ссылки футера главной, guard-тест.
 
 ## 3. Изменённые файлы
-Список и смысл — `docs/seo/advertising-2026-09-28/REPORT-RU.md`. 15 JSON, `scripts/prerender.ts`, `src/shared/types.ts`, `tests/advertising-seo-content.test.ts`, `package.json`, документация. В папке отчёта — локальный HTML-check, шаблон фактуры кейса и пустой обезличенный журнал лидов.
+46 content JSON (статьи и лендинги RU/UZ, `content/global/site.json`), `scripts/prerender.ts`, `scripts/jsonld-helpers.ts`, `src/components/Footer.tsx`, `tests/seo-content-guards.test.ts`, `docs/seo/advertising-2026-09-28/REPORT-RU.md`, STATE, DECISIONS, этот handoff. Подробности — REPORT-RU, раздел «Второй проход».
 
 ## 4. Архитектурные решения
-D-SEO-ADS-20260928: существующие URL и рендереры, opt-in компактность, клик не равен полученной заявке. Новых API, миграций или внешних сервисов нет.
+D-SEO-ADS-20260928B: money-страницы только с первичными источниками, условия посредника — в статье с источником; тарифы повторяются без новых цен; `hoursAvailable` только у ботов; анкор не отдаёт главный запрос страницы чужому URL. Новых API, миграций, зависимостей и внешних сервисов нет.
 
 ## 5. Что сознательно не сделано
-Нет push/deploy, переиндексации, новых посадочных, выдуманного кейса, серверной формы, изменений ботов/БД/оплат/аналитических настроек. Весь восьминедельный roadmap не завершён.
+Латинская подпись автора в UZ-статьях (изменила бы защищённые UZ-страницы), GPT-кластер, новые посадочные, выдуманный кейс, серверная форма, изменения ботов/БД/оплат/аналитических настроек. Пункты владельца: материалы рекламного кейса, NAP и Google Business Profile, журнал реальных обращений, экспорт GA4, подтверждение цен.
 
 ## 6. Проверки
-- `npm run build`: exit 0; после hero — повторные prerender, `tsc -b`, scoped ESLint, exit 0.
-- 11 профильных test files: 105/105.
-- `npx tsx scripts/seo-protection.ts check`: 10/10, baseline не менялся.
-- Локальный HTTP/HTML: 15/15, CSS и FAQ JSON-LD; sitemap 288, lastmod изменённых 2026-09-28.
-- `npm run scan:secrets`: clean; `git diff --check`: exit 0.
-- CUA: 320/390/1280 px, без горизонтального overflow; якорь брифа и основная кнопка проверены.
-- Полный declared suite: два падения Lead Radar, не называть весь suite зелёным.
+- `npx tsc -b`: 0; scoped ESLint изменённых TS/TSX: 0.
+- 36 SEO/контент/релиз test files по одному: 35 зелёных; `react-router-v8-migration` — 3 старых падения счётчиков маршрутов/sitemap (долг задокументирован в STATE, маршруты не менялись).
+- `seo-audit.ts`: 0 critical, 0 broken, 0 orphan. `build:fast`: exit 0, sitemap 288.
+- `seo-protection.ts check`: 10/10. `scan:secrets`: clean (3085). `git diff --check`: pass.
+- Локальный браузер: CTA в первом экране 1366×768 на 6 RU-лендингах; футер главной рисует новые ссылки.
 
 ## 7. Известные проблемы
-Две неизменённые фикстуры lead-radar.test.ts от 24.08 просрочены относительно 30-дневного TTL на текущую дату. Изолированный запуск воспроизводит оба падения; диагностический Date.now=25.08 даёт 2/2. Код TTL и фикстуры не менялись. Прежние warnings: admin chunk >500 KB и некритический hreflang-сигнал. Нет независимой носительской редактуры UZ и разрешённых метрик рекламного кейса.
+Две фикстуры `lead-radar.test.ts` просрочены по 30-дневному TTL; три счётчика `react-router-v8-migration` устарели. Оба долга не связаны с этой работой. Диск C: машины владельца во время работы заполнился до 0 ГБ (крупные файлы `.codex`); очищены только регенерируемые кэши node/tsx/jiti, временные файлы релиза переведены на F:.
 
 ## 8. Следующая задача
-Публикация кандидата после отдельного разрешения владельца на push/deploy, свежей сверки remote/live и решения по известному тестовому долгу.
+Guarded production release этого коммита: `build:production`, `deploy:pages:production`, live-проверка изменённых URL, protected 10/10, `gptbot-release.json`, sitemap lastmod; затем запрос переобхода ключевых URL и коммит-квитанция.
 
 ## 9. Acceptance следующего этапа
-Полный production artifact с admin, штатные Pages-гейты, 15 live URL с canonical/FAQ/CSS/lastmod, protected 10/10 и подтверждённая версия production. Деплой не подтверждает индексацию или рост лидов.
+Production `gptbot-release.json` указывает на коммит релиза; live HTML изменённых URL содержит новые таблицы, анкоры и разметку; protected 10/10; sitemap 288. Деплой не подтверждает индексацию или рост обращений.
 
 ## 10. Команды для старта
-`git status --short`; `git log -3 --oneline`; `git ls-remote origin HEAD refs/heads/main`. Затем STATE, этот handoff и REPORT-RU. `npm run build`; `npx tsx scripts/seo-protection.ts check`; `node --import tsx --test tests/advertising-seo-content.test.ts`.
+`git status --short`; `git log -3 --oneline`; `git ls-remote origin refs/heads/main`. Затем STATE, этот handoff и REPORT-RU. `npx tsx scripts/seo-protection.ts check`; `node --import tsx --test tests/seo-content-guards.test.ts`.
 
 ## 11. Риски
-Не включать .serena/. Не трогать устаревший main другого checkout. Не выкладывать текущий dist без admin/release build. Не ослаблять TTL ради тестов. Шаблон Telegram — не автоматическая атрибуция.
+Не включать `.serena/`. Не выкладывать dist без admin/release build. Не ослаблять TTL и счётчики ради зелёного прогона. Не публиковать цифры посредника на money-страницах. Шаблон Telegram — не автоматическая атрибуция.
 
 ## 12. Rollback
-Обычный revert только scoped commit рекламного спринта после проверки новых изменений. Миграций и внешних побочных эффектов нет.
+`git revert` коммита второго прохода (и при необходимости `cc969d80`) с повторным guarded release. Миграций, настроек, секретов и внешних побочных эффектов нет.
 
 ---
 

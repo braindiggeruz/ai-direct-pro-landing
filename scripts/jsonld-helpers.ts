@@ -99,14 +99,15 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
     .filter((url, index, all) => url && all.indexOf(url) === index);
   if (sameAs.length > 0) org.sameAs = sameAs;
 
-  // openingHoursSpecification — office hours Mon–Fri 09:00–18:00,
-  // declared on the Organization/ProfessionalService entity so that
-  // Google Business Profile and Knowledge Graph can reconcile the hours.
+  // openingHoursSpecification — office hours Mon–Sat 10:00–19:00, the same
+  // hours the owner publishes on the Google Business Profile, 2GIS, Golden
+  // Pages, PC.uz and /boss-digital/ (checked 2026-09-28). One value everywhere
+  // lets Google reconcile the entity instead of seeing conflicting hours.
   org.openingHoursSpecification = {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '09:00',
-    closes: '18:00',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '10:00',
+    closes: '19:00',
   };
 
   // geo — latitude/longitude for the published street address.
@@ -202,6 +203,8 @@ export function buildServiceLd(input: {
   locale?: 'ru' | 'uz';
   /** Offer derived from the page's visible price chip (scripts/service-offers.ts); omitted when the page shows no price. */
   offers?: Record<string, unknown>;
+  /** False for services delivered by people in office hours (advertising, SEO, websites); only bots answer 24/7. */
+  alwaysAvailable?: boolean;
 }): Record<string, unknown> {
   const areaServed = (input.global.areaServed && input.global.areaServed.length > 0
     ? input.global.areaServed
@@ -220,16 +223,20 @@ export function buildServiceLd(input: {
     inLanguage: input.locale || 'ru',
     ...(input.dateModified ? { dateModified: input.dateModified } : {}),
     ...(input.offers ? { offers: input.offers } : {}),
-    // Bot itself is available 24/7. Declared against the Service so AI
-    // engines can answer "is it 24/7?" with a structured value.
-    hoursAvailable: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        opens: '00:00',
-        closes: '23:59',
-      },
-    ],
+    // A bot is available 24/7. Declared against the Service so AI engines can
+    // answer "is it 24/7?" with a structured value. Services delivered by the
+    // team (advertising, SEO, websites) follow the organisation's office hours
+    // and must not claim round-the-clock availability.
+    ...(input.alwaysAvailable === false ? {} : {
+      hoursAvailable: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '00:00',
+          closes: '23:59',
+        },
+      ],
+    }),
   };
 }
 

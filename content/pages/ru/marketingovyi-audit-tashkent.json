@@ -42,6 +42,7 @@
     "План внедрения"
   ],
   "designVariant": "digital-command-center",
+  "compactHero": true,
   "growthTool": "audit-heatmap",
   "commandCenter": {
     "kicker": "Funnel diagnostics · Tashkent",
@@ -485,7 +486,7 @@
     },
     {
       "target": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
-      "anchor": "маркетинговый аудит",
+      "anchor": "расчёт рекламного бюджета от цели",
       "locale": "ru",
       "type": "contextual",
       "priority": 9
@@ -498,7 +499,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-20",
+  "lastReviewedAt": "2026-09-28",
   "createdAt": "2026-07-30",
-  "updatedAt": "2026-08-20"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

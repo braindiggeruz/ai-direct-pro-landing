@@ -43,9 +43,10 @@
     "RU + UZ",
     "Контент + реклама",
     "Direct отвечает AI-бот",
-    "Кейс: Graver Studio"
+    "Медиабюджет отдельно"
   ],
   "designVariant": "digital-command-center",
+  "compactHero": true,
   "commandCenter": {
     "kicker": "Social content · Tashkent",
     "status": "Content trust system",
@@ -353,7 +354,7 @@
         {
           "token": "c0",
           "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
-          "anchor": "кейс Graver Studio: сайт, SEO-архитектура RU/UZ и реклама для B2B"
+          "anchor": "кейс Graver Studio: сайт и SEO-архитектура для B2B"
         }
       ]
     },
@@ -629,7 +630,7 @@
     },
     {
       "target": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
-      "anchor": "кейс Graver Studio: сайт, SEO-архитектура RU/UZ и реклама для B2B",
+      "anchor": "кейс Graver Studio: сайт и SEO-архитектура для B2B",
       "locale": "ru",
       "type": "contextual"
     }

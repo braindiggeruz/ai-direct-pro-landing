@@ -35,7 +35,34 @@ const PROMOTION_LINKS = [
   { ru: '/ru/smm-prodvizhenie-tashkent/', uz: '/uz/smm-xizmatlari/', ruLabel: 'SMM-продвижение', uzLabel: 'SMM xizmatlari' },
   { ru: '/ru/telegram-ads-uzbekistan/', uz: '/uz/telegram-reklama/', ruLabel: 'Telegram Ads', uzLabel: 'Telegram reklama' },
   { ru: '/ru/seo-prodvizhenie-saytov-tashkent/', uz: '/uz/seo-xizmati/', ruLabel: 'SEO-продвижение', uzLabel: 'SEO xizmati' },
+  { ru: '/ru/marketingovyi-audit-tashkent/', uz: undefined, ruLabel: 'Аудит рекламы', uzLabel: 'Reklama auditi' },
 ];
+
+// The homepage switches language on the client, so its rendered DOM only links
+// the pages of the current language. These plain links let crawlers and readers
+// reach the other-language advertising pages from the strongest page of the site.
+const OTHER_LANG_PROMOTION = {
+  ru: {
+    title: 'O‘zbek tilida',
+    hreflang: 'uz',
+    links: [
+      { href: '/uz/', label: 'GPTBot.uz — bosh sahifa' },
+      { href: '/uz/internet-reklama-toshkent/', label: 'Internet reklama Toshkentda' },
+      { href: '/uz/telegram-reklama/', label: 'Telegram reklama narxi' },
+      { href: '/uz/smm-xizmatlari/', label: 'SMM xizmatlari' },
+    ],
+  },
+  uz: {
+    title: 'На русском',
+    hreflang: 'ru',
+    links: [
+      { href: '/ru/internet-reklama-tashkent/', label: 'Интернет-реклама в Ташкенте' },
+      { href: '/ru/targetirovannaya-reklama-tashkent/', label: 'Таргетированная реклама' },
+      { href: '/ru/kontekstnaya-reklama-tashkent/', label: 'Контекстная реклама' },
+      { href: '/ru/telegram-ads-uzbekistan/', label: 'Telegram Ads' },
+    ],
+  },
+} as const;
 
 export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUrl: string }) {
   const isUz = lang === 'uz';
@@ -133,6 +160,22 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
                   </li>
                 );
               })}
+            </ul>
+            <p className="text-white/45 text-xs uppercase tracking-wider mt-5 mb-2">{OTHER_LANG_PROMOTION[isUz ? 'uz' : 'ru'].title}</p>
+            <ul className="space-y-2 text-sm" data-testid="footer-other-lang-promotion">
+              {OTHER_LANG_PROMOTION[isUz ? 'uz' : 'ru'].links.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    hrefLang={OTHER_LANG_PROMOTION[isUz ? 'uz' : 'ru'].hreflang}
+                    lang={OTHER_LANG_PROMOTION[isUz ? 'uz' : 'ru'].hreflang}
+                    className="text-white/55 hover:text-brand-cyan transition"
+                    onClick={() => track('click_footer_link', { href: l.href })}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

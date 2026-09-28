@@ -11,9 +11,7 @@
     "toshkentda reklama berish",
     "reklama xizmati toshkent",
     "google ads toshkent",
-    "instagramda reklama berish",
-    "telegram reklama",
-    "reklama berish narxi"
+    "instagramda reklama berish"
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda internet reklama — ariza va savdolar uchun",
@@ -105,6 +103,74 @@
           "anchor": "SEO xizmati"
         }
       ]
+    },
+    {
+      "type": "h2",
+      "id": "target",
+      "text": "Instagram va Facebook target: sozlash narxi va tarkibi"
+    },
+    {
+      "type": "p",
+      "text": "Target — mutaxassis ishi: auditoriyalar, kreativlar, qo‘nish sahifasi va murojaatgacha bo‘lgan yo‘l. Ishga tushirish bir martalik ish, yuritish esa oylik. Reklama byudjeti tarifga kirmaydi va platformaga alohida to‘lanadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Ishga tushirish",
+          "Auditoriyalar, kreativlar, qo‘nish sahifasi, UTM va maqsadlar, dastlabki 2 hafta yuritish; hajm smetada qayd etiladi",
+          "bir martalik",
+          "1 990 000 dan"
+        ],
+        [
+          "Yuritish",
+          "Stavka va auditoriyalarni optimallashtirish, kreativ testlari, ariza narxi bo‘yicha hisobot (reklama byudjeti alohida)",
+          "oyiga",
+          "1 490 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kontekst",
+      "text": "Google Ads kontekst reklama: sozlash narxi va tarkibi"
+    },
+    {
+      "type": "p",
+      "text": "Kontekst reklama mahsulotni allaqachon qidirayotgan odamni ushlaydi. Ishga tushirishda kalit so‘zlar, minus so‘zlar, e’lonlar va maqsadlar tayyorlanadi; yuritishda stavkalar va so‘rovlar optimallashtiriladi. Reklama byudjeti tarifga kirmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Ishga tushirish",
+          "Kalit so‘zlar va minus so‘zlar, e’lonlar, qo‘nish sahifasi, UTM va maqsadlar, dastlabki 2 hafta yuritish",
+          "bir martalik",
+          "1 990 000 dan"
+        ],
+        [
+          "Yuritish",
+          "Stavka va so‘rovlarni optimallashtirish, e’lon testlari, ariza narxi bo‘yicha hisobot (reklama byudjeti alohida)",
+          "oyiga",
+          "1 490 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ikkinchi reklama kanali, CRM integratsiyasi va tashqi servislar alohida kelishiladi. Muddat kirish huquqlari va materiallar olingandan keyin boshlanadi; arizalar soni va o‘zini oqlash kafolatlanmaydi."
     },
     {
       "type": "h2",
@@ -338,6 +404,14 @@
       "a": "Ba’zan traefikni Telegram, Instagram Direct yoki formaga yo‘naltirish mumkin, lekin barqaror reklama uchun qo‘nish sahifasi yoki ariza uchun sayt bo‘lgani yaxshi."
     },
     {
+      "q": "Instagram target sozlash narxi qancha?",
+      "a": "Ishga tushirish 1 990 000 so‘mdan (bir martalik), yuritish oyiga 1 490 000 so‘mdan. Reklama byudjeti tarifga kirmaydi va platformaga alohida to‘lanadi."
+    },
+    {
+      "q": "Google Ads sozlash narxi qancha?",
+      "a": "Kontekst reklamani ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Klik uchun byudjet alohida va kalit so‘zlar raqobatiga bog‘liq."
+    },
+    {
       "q": "Toshkentda reklama berish narxi qancha?",
       "a": "Platforma minimumlari quyidagicha: Meta Ads — kuniga $1 dan, Telegram Ads — minimal CPM 0,1 Toncoin, Google Ads — rasmiy minimal byudjet talab qilmaydi. Bu ishga tushirish chegarasi, natija beradigan byudjet emas: real summa bitta ariza uchun ruxsat etilgan narxdan hisoblanadi."
     },
@@ -399,7 +473,7 @@
     },
     {
       "target": "/uz/sharhlar/",
-      "anchor": "mijozlar sharhlari va keyslar",
+      "anchor": "GPTBot.uz joriy etish ssenariylari",
       "locale": "uz",
       "type": "contextual"
     },
@@ -439,7 +513,7 @@
     },
     {
       "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
-      "anchor": "internet reklama narxi",
+      "anchor": "SMM xizmati narxi 2026",
       "locale": "uz",
       "type": "contextual",
       "priority": 9
@@ -459,9 +533,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-19",
+  "lastReviewedAt": "2026-09-28",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-09-19T03:23:46.149Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
   "sources": [
     {
       "title": "Meta Business Help — Minimum budgets",

@@ -206,8 +206,12 @@
   ],
   "faq": [
     {
-      "q": "Internet-reklama qancha turadi?",
+      "q": "O‘zbekistonda internet-reklama qancha turadi?",
       "a": "GPTBot.uz’da kontekst yoki target ishga tushirish 1 990 000 so‘mdan bir martalik, yuritish oyiga 1 490 000 so‘mdan. Media byudjet va qo‘shimcha vazifalar alohida."
+    },
+    {
+      "q": "Reklama berish narxi qancha?",
+      "a": "Narx ikki qismdan iborat. Jamoa ishi: kontekst yoki targetni ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, SMM oyiga 2 490 000 so‘mdan; Telegram Ads — brif bo‘yicha smeta. Reklama byudjeti platformaga alohida to‘lanadi va kanal, raqobat hamda maqsadga bog‘liq."
     },
     {
       "q": "Reklama byudjeti tarifga kiradimi?",
@@ -272,14 +276,14 @@
     },
     {
       "target": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
-      "anchor": "internet reklama narxi",
+      "anchor": "Toshkentda kontekst reklama narxi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9
     },
     {
       "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
-      "anchor": "reklama narxlari",
+      "anchor": "SMM xizmati narxi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9

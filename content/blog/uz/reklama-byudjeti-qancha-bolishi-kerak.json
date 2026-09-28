@@ -61,6 +61,10 @@
       "text": "Media byudjet, jamoa ishi, materiallar va o‘lchash alohida rejalashtiriladi. Faqat platforma pulini hisoblasangiz, mijoz jalb qilish xarajati past ko‘rinadi. Ma’lumot bo‘lmasa, kutiladigan CPL’ni o‘ylab topish emas, cheklangan test sarfini kelishish kerak."
     },
     {
+      "type": "p",
+      "text": "Foiz kerak bo‘lsa, mo‘ljal: Gartner CMO Spend Survey 2026 so‘roviga ko‘ra (AQSh, Buyuk Britaniya va Yevropadagi 401 marketing rahbari, asosan yillik tushumi 1 mlrd dollardan yuqori kompaniyalar) butun marketing byudjeti o‘rtacha tushumning 7,8 foizini tashkil etgan, 2025-yilda — 7,7 foiz. Bu jamoa, texnologiya va reklamani qo‘shib hisoblangan butun marketing va boshqa bozordagi yirik biznes ma’lumoti — O‘zbekistondagi kichik biznes uchun norma emas. Bu ulushni boshlang‘ich summa sifatida emas, maqsaddan qilingan hisobni tekshirish uchun ishlating."
+    },
+    {
       "type": "h2",
       "id": "jadval",
       "text": "Biznes bosqichida nimaga qarash kerak"
@@ -207,14 +211,14 @@
   "faq": [
     {
       "q": "Aylanmadan reklamaga qancha foiz ajratish kerak?",
-      "a": "Universal norma yo‘q. Maqsad, konversiya, ruxsat etilgan mijoz narxi va to‘liq xarajat hisoblanadi; aylanma ulushi qo‘shimcha tekshiruv."
+      "a": "Universal norma yo‘q. Yirik kompaniyalar uchun mo‘ljal: Gartner 2026 so‘rovida butun marketing byudjeti o‘rtacha tushumning 7,8 foizini tashkil etgan — bu AQSh va Yevropadagi tushumi 1 mlrd dollardan yuqori kompaniyalar, ulushga jamoa va texnologiyalar ham kiradi. O‘z biznesingiz uchun avval maqsad, konversiya, ruxsat etilgan mijoz narxi va to‘liq xarajat hisoblanadi; aylanma ulushi tekshiruv uchun ishlatiladi."
     },
     {
       "q": "Reklama byudjeti qanday hisoblanadi?",
       "a": "Mijozlar / maqsadli murojaatdan mijozga konversiya × media CPL. Jamoa, material va servis xarajatlari alohida qo‘shiladi."
     },
     {
-      "q": "Kichik biznesga qancha byudjet kerak?",
+      "q": "O‘zbekistonda kichik biznesga qancha reklama byudjeti kerak?",
       "a": "Iqtisod, talab va tayyorlikka bog‘liq. Ma’lumot bo‘lmasa, ariza kafolatisiz gipotezani tekshirish limiti kelishiladi."
     },
     {
@@ -288,5 +292,12 @@
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "sources": [
+    {
+      "title": "Gartner 2026 CMO Spend Survey",
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2026-05-11-gartner-2026-cmo-spend-survey-finds-cmos-allocate-15-point-3-percent-of-marketing-budgets-to-ai-but-only-30-percent-are-ready-to-scale-ai-capabilities",
+      "note": "O‘rtacha marketing byudjeti 2026-yilda tushumning 7,8% (2025-yilda 7,7%); 401 marketing rahbari, Shimoliy Amerika, Buyuk Britaniya va Yevropa, asosan tushumi 1 mlrd dollardan yuqori kompaniyalar. 28.09.2026 da tekshirildi."
+    }
+  ]
 }

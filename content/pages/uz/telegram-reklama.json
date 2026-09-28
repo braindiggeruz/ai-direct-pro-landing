@@ -270,6 +270,40 @@
       "text": "Barcha kirish yo‘llari uchun bitta universal depozit yoki boshlang‘ich summa yo‘q. Aniq kabinet yoki provayder sharti platformaning o‘z talabidan farq qilishi mumkin va smetada alohida ko‘rsatiladi."
     },
     {
+      "type": "table",
+      "headers": [
+        "Kirish yo‘li",
+        "Kirish chegarasi",
+        "Manba va tekshiruv"
+      ],
+      "rows": [
+        [
+          "Toncoin’dagi rasmiy kabinet",
+          "Minimal CPM 0,1 TON — 1000 ko‘rsatish uchun stavka, loyiha byudjeti emas",
+          "Telegram Ads yo‘riqnomasi, 28.09.2026 da tekshirildi"
+        ],
+        [
+          "O‘zbekiston uchun reseller kabineti",
+          "Minimal byudjet, to‘ldirish komissiyasi va boshlash sharti vositachining shartnomasida belgilanadi",
+          "Vositachi shartlari, to‘lovdan oldin tekshiriladi"
+        ],
+        [
+          "Telegram bilan to‘g‘ridan-to‘g‘ri shartnoma",
+          "Platforma bilan shartnoma bo‘yicha yirik depozit; shartlar individual",
+          "Platforma bilan shartnoma"
+        ],
+        [
+          "Kanalda post joylashtirish",
+          "Platforma chegarasi yo‘q: sinov byudjeti tanlangan postlar narxiga teng",
+          "Kanal egasi yoki birja narxi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Vositachi chegaralari — aniq provayder sharti, butun platforma qoidasi emas: ular o‘zgaradi va to‘lovdan oldin tekshiriladi. Toncoin kursi o‘zgarib turadi, shuning uchun so‘mdagi minimal CPM qat’iy emas. Jamoa ishi va media byudjet smetada alohida qatorlar."
+    },
+    {
       "type": "h2",
       "id": "talablar",
       "text": "Platforma talablari"
@@ -620,7 +654,7 @@
     },
     {
       "target": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
-      "anchor": "Telegram reklama",
+      "anchor": "Toshkentda kontekst reklama narxi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9
@@ -630,7 +664,7 @@
     {
       "title": "Telegram Ad Platform — Getting Started",
       "url": "https://ads.telegram.org/getting-started",
-      "note": "Minimal CPM 0,1 Toncoin, CPM auksioni, e’lon byudjeti va ochiq kanallar. 2026-08-31 da tekshirildi."
+      "note": "Minimal CPM 0,1 Toncoin, CPM auksioni, e’lon byudjeti va ochiq kanallar. 2026-09-28 da tekshirildi."
     },
     {
       "title": "Telegram Ad Platform — Terms of Service",

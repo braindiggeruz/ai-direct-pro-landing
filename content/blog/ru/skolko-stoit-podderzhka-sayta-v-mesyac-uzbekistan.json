@@ -172,7 +172,8 @@
     },
     {
       "type": "cta",
-      "text": "Обсудить задачу"
+      "text": "Обсудить задачу",
+      "href": "/ru/razrabotka-saytov-tashkent/"
     }
   ],
   "faq": [
@@ -252,12 +253,12 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-02",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

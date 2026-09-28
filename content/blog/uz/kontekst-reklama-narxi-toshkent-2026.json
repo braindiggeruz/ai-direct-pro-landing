@@ -202,19 +202,19 @@
       "a": "GPTBot.uz’da ishga tushirish bir martalik 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida; yakuniy smeta hajmga bog‘liq."
     },
     {
-      "q": "Google Ads sozlash qancha?",
+      "q": "Toshkentda Google Ads sozlash qancha turadi?",
       "a": "Boshlang‘ich ishga tushirish 1 990 000 so‘mdan. Kampaniya, til, sahifa soni va hodisalar to‘lovdan oldin kelishiladi."
     },
     {
-      "q": "Qancha minimal byudjet natija beradi?",
+      "q": "Kontekst reklama uchun minimal byudjet qancha?",
       "a": "Natijani kafolatlaydigan universal summa yo‘q. Talab, iqtisod va tayyorlikka qarab chegaralangan sinov kelishiladi."
     },
     {
-      "q": "Google Ads yoki Yandex Direct arzonroqmi?",
+      "q": "O‘zbekistonda Google Ads yoki Yandex Direct arzonroqmi?",
       "a": "Maqsadli murojaatlar bo‘yicha solishtiriladigan sinov javob beradi. Past CPC arzon mijozni isbotlamaydi."
     },
     {
-      "q": "Klik narxi qancha?",
+      "q": "O‘zbekistonda klik narxi qancha?",
       "a": "Aniq so‘rovlar, hudud va kabinet prognozi tekshiriladi. Haqiqiy CPC joylashtirish natijasidan ma’lum bo‘ladi."
     },
     {
@@ -264,7 +264,7 @@
     },
     {
       "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
-      "anchor": "kontekst reklama narxi",
+      "anchor": "reklama byudjeti qanday hisoblanadi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9

@@ -42,7 +42,7 @@
     },
     {
       "type": "p",
-      "text": "Mijoz Direct yoki Telegram’ga yozganda, u deyarli hech qachon faqat sizga yozmaydi. Bir vaqtning o‘zida u bir nechta o‘xshash raqobatchilar profillarini ochadi va hammaga yozadi. Kim tezroq javob bersa — o‘sha dialogni davom ettiradi. Bir soatlik kechikish degani — 50–70% holatda mijoz allaqachon raqobatchi bilan gaplashayotgani yoki boshqa ishlarga o‘tib ketgani."
+      "text": "Mijoz Direct yoki Telegram’ga yozganda, u deyarli hech qachon faqat sizga yozmaydi. Bir vaqtning o‘zida u bir nechta o‘xshash raqobatchilar profillarini ochadi va hammaga yozadi. Kim tezroq javob bersa — o‘sha dialogni davom ettiradi. Bir soatlik kechikishda mijoz ko‘pincha allaqachon raqobatchi bilan gaplashayotgan yoki boshqa ishlarga o‘tib ketgan bo‘ladi."
     },
     {
       "type": "p",
@@ -114,7 +114,7 @@
     },
     {
       "type": "p",
-      "text": "Bu tipik yo‘qotishlarning 80%ini yopadigan asosiy qadamlar to‘plami. Keyingisi — aniq nisha uchun tafsilotlar: klinika, salon, do‘kon, o‘qitish — va ular individual sozlanadi, \"qutida\" sotib olinmaydi."
+      "text": "Bu tipik yo‘qotishlarning katta qismini yopadigan asosiy qadamlar to‘plami. Keyingisi — aniq nisha uchun tafsilotlar: klinika, salon, do‘kon, o‘qitish — va ular individual sozlanadi, \"qutida\" sotib olinmaydi."
     },
     {
       "type": "cta",
@@ -146,7 +146,7 @@
     },
     {
       "q": "AI bot sotuvchini almashtira oladimi?",
-      "a": "Yo‘q. Botning maqsadi — birinchi kontakt va kvalifikatsiyani yopish. Sotishni baribir odam olib boradi. AI menejerdan rutinaning 60–80%ini olib tashlaydi va unga faqat iliq mijozlarni qoldiradi."
+      "a": "Yo‘q. Botning maqsadi — birinchi kontakt va kvalifikatsiyani yopish. Sotishni baribir odam olib boradi. AI menejerdan takrorlanadigan savollarni oladi va unga suhbatga tayyor mijozlarni uzatadi."
     },
     {
       "q": "Kuniga atigi 2–3 ariza bo‘lsa, menga avtomatlashtirish kerakmi?",
@@ -241,7 +241,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -249,6 +249,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z"
 }

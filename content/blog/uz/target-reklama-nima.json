@@ -30,6 +30,17 @@
       "text": "Target (targetlangan reklama) — ijtimoiy tarmoq va platformalarda foydalanuvchiga uning yoshi, hududi, qiziqishlari va xatti-harakati bo‘yicha ko‘rsatiladigan e’lon. Foydalanuvchi mahsulotni qidirmayotgan bo‘lishi mumkin, lekin e’lon uning lentasida paydo bo‘ladi. Shu sababli target yangi mahsulot va yangi auditoriya uchun, kontekst esa shakllangan talab uchun kuchliroq."
     },
     {
+      "type": "linkp",
+      "text": "Instagram va Facebook’da targetni mutaxassis sozlashi kerak bo‘lsa, tarkib va narx — {target} bo‘limida.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/internet-reklama-toshkent/#target",
+          "anchor": "Instagram target sozlash narxi va tarkibi"
+        }
+      ]
+    },
+    {
       "type": "table",
       "headers": [
         "Belgi",
@@ -102,7 +113,7 @@
     },
     {
       "type": "p",
-      "text": "Targetda kreativ auditoriyadan ham muhimroq bo‘ladi: odam e’lonni qidirmagan, shuning uchun birinchi ikki soniya hal qiladi. Bitta aniq va’da, bitta aniq keyingi qadam. «Eng yaxshi», «arzon», «tez» kabi asossiz so‘zlar ishlamaydi — aniq raqam va aniq natiya ishlaydi."
+      "text": "Targetda kreativ auditoriyadan ham muhimroq bo‘ladi: odam e’lonni qidirmagan, shuning uchun birinchi ikki soniya hal qiladi. Bitta aniq va’da, bitta aniq keyingi qadam. «Eng yaxshi», «arzon», «tez» kabi asossiz so‘zlar ishlamaydi — aniq raqam va aniq natija ishlaydi."
     },
     {
       "type": "list",
@@ -320,7 +331,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-19",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -339,6 +350,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-09-19T03:22:57.018Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

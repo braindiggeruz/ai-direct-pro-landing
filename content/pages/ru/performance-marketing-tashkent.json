@@ -433,7 +433,7 @@
     },
     {
       "target": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
-      "anchor": "performance-маркетинг",
+      "anchor": "сколько тратить на рекламу от оборота",
       "locale": "ru",
       "type": "contextual",
       "priority": 9
@@ -446,7 +446,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-08-31",
+  "lastReviewedAt": "2026-09-28",
   "createdAt": "2026-07-30",
-  "updatedAt": "2026-08-31"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

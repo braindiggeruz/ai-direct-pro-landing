@@ -69,21 +69,21 @@
       "rows": [
         [
           "Kirish narxi",
-          "5 000 so'mdan",
-          "$100–500",
-          "2 mln so'mdan"
+          "Eng past",
+          "O‘rtacha",
+          "Yuqoriroq, lekin shartnoma va javobgarlik bilan"
         ],
         [
-          "Sayt narxi (Toshkent)",
-          "$100–400",
-          "$300–800",
-          "2–15 mln so'm"
+          "Sayt narxi",
+          "Fayl uchun to‘lov",
+          "Ish hajmi bo‘yicha",
+          "Bosqichlar bo‘yicha smeta"
         ],
         [
-          "Reklama yuritish/oy",
-          "$50–200",
-          "$150–350",
-          "$200–600"
+          "Reklama yuritish",
+          "Ijrochiga to‘lov va sizning vaqtingiz",
+          "Ijrochiga to‘lov va nazorat",
+          "Jamoaga to‘lov; boshqaruv va hisobot agentlikda"
         ],
         [
           "Ish boshlanishi",
@@ -198,7 +198,7 @@
           "Sayt va reklama birgalikda ishlashi kerak"
         ],
         [
-          "Reklama byudjeti oyiga $300+",
+          "Reklama byudjeti muntazam va sezilarli",
           "Agentlik",
           "Xato narxi xizmatdan qimmat"
         ],
@@ -240,13 +240,13 @@
     },
     {
       "type": "p",
-      "text": "Shartnoma imzolashdan oldin uchta narsani talab qiling: oldingi ishlarning jonli havolalari, hisob-kitoblarga kirish kimda qolishi haqida yozma band, va bosqichma-bosqich smeta. Bu uchta savol 90% muammolarni oldindan ko'rsatadi."
+      "text": "Shartnoma imzolashdan oldin uchta narsani talab qiling: oldingi ishlarning jonli havolalari, hisob-kitoblarga kirish kimda qolishi haqida yozma band, va bosqichma-bosqich smeta. Bu uchta savol ko‘p muammolarni oldindan ko‘rsatadi."
     }
   ],
   "faq": [
     {
       "q": "O'zbekistonda sayt yaratishni birjada yoki agentlikda buyurtma qilish arzonroqmi?",
-      "a": "Birja arzonroq: $100–400 agentlikdagi 2–15 mln so'mga qarshi. Lekin birja bajarilgan ish uchun javob beradi, natija uchun emas. Agar sayt arizalar manbai bo'lsa, agentlikning narx farqi bir necha oy ichida qoplanadi, chunki sayt va reklama bitta jamoa tomonidan bog'lanadi."
+      "a": "Bir martalik va fayl bilan qabul qilinadigan vazifada birja odatda arzonroq. Lekin birja bajarilgan ish uchun javob beradi, natija uchun emas. Agar sayt arizalar manbai bo‘lsa, bir xil davrdagi maqsadli ariza narxini solishtiring: sayt va reklamani bitta jamoa bog‘laganda yo‘qotishlar kamayadi."
     },
     {
       "q": "Nima uchun birjada narx shunchalik past?",
@@ -320,12 +320,12 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

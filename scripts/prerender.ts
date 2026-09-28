@@ -249,7 +249,7 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       const _cap = b.caption ? `<figcaption class="text-sm text-white/55 mt-3 leading-relaxed">${escapeText(b.caption)}</figcaption>` : '';
       return `<figure class="my-10"><img src="${escapeHtml(b.src || '')}" alt="${escapeHtml(b.alt || '')}"${_dim}${_ar} class="rounded-2xl border border-white/10 w-full h-auto"${_ld} />${_cap}</figure>`;
     }
-    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'cta': { const _isExt = isExternalHref(b.href || ''); return `<div class="my-10"><a href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
       const rows = b.rows || [];
@@ -383,6 +383,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       dateModified: dateModifiedIso,
       locale: page.locale === 'uz' ? 'uz' : 'ru',
       offers: visibleOffer ? buildOfferLd(visibleOffer, fullUrl) : undefined,
+      alwaysAvailable: !TEAM_SERVICE_URL_RE.test(page.url),
     }));
   }
   if (types.has('Article')) {
@@ -511,7 +512,7 @@ function renderDigitalCommandHero(
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro dc-lead">${escapeText(page.heroSubtitle)}</p>` : ''}
       <div class="dc-actions">
-        <a data-testid="page-cta-primary" href="${escapeHtml(primaryHref)}"${primaryHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary">${escapeText(page.ctaPrimaryLabel || 'Получить разбор')}</a>
+        <a data-testid="page-cta-primary" href="${escapeHtml(primaryHref)}"${isExternalHref(primaryHref) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary">${escapeText(page.ctaPrimaryLabel || 'Получить разбор')}</a>
         <a href="${escapeHtml(secondaryHref)}" class="btn-secondary">${escapeText(page.ctaSecondaryLabel || 'Посмотреть систему')}</a>
       </div>
       ${trustHtml}
@@ -679,6 +680,12 @@ const DIGITAL_COMMAND_STYLES = `<style>
 // https://gptbot.uz/ru/gpt-chat/, which offers a Russian document to a searcher
 // whose language the cluster could not match. Only this one pair is flipped;
 // every other pair keeps the Russian default.
+// Services the team delivers in office hours: they get the organisation's hours,
+// not the 24/7 availability that only an AI bot can honestly declare.
+const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish)/;
+// Absolute links to our own host are internal: no nofollow, no new tab.
+const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href) && !/^https:\/\/gptbot\.uz(\/|$)/i.test(href);
+
 const X_DEFAULT_BY_URL: Record<string, string> = {
   '/uz/gpt-uzbek-tilida/': '/uz/gpt-uzbek-tilida/',
   '/ru/gpt-chat/': '/uz/gpt-uzbek-tilida/',
@@ -815,6 +822,7 @@ ${ogImg && ogDims ? `<meta property="og:image:height" content="${ogDims.h}" />` 
 ${ogImg ? `<meta name="twitter:image" content="${escapeHtml(ogImg)}" />` : ''}
 
 <link rel="preload" href="/assets/fonts/geist-${page.locale === 'uz' ? 'latin' : 'cyrillic'}-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+${page.locale === 'uz' ? '' : '<link rel="preload" href="/assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />'}
 <link rel="llms" href="${escapeHtml(global.siteUrl)}/llms.txt" />
 <link rel="alternate" type="application/rss+xml" title="${page.locale === 'uz' ? 'GPTBot.uz blogi' : 'Блог GPTBot.uz'}" href="${escapeHtml(global.siteUrl)}/${page.locale === 'uz' ? 'uz' : 'ru'}/blog/feed.xml" />
 ${LLM_MARKDOWN_URLS.has(page.url)
@@ -844,7 +852,7 @@ ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === '
     <nav class="flex gap-3 text-sm">
       ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${(page.ctaPrimaryHref || global.defaultCTA.href).startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${isExternalHref(page.ctaPrimaryHref || global.defaultCTA.href) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
         ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
       </a>
     </nav>
@@ -871,7 +879,7 @@ ${marketVariant
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
       ${page.ctaPrimaryHref ? `<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
-        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}"${page.ctaPrimaryHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
+        <a data-testid="page-cta-primary" href="${escapeHtml(page.ctaPrimaryHref)}"${isExternalHref(page.ctaPrimaryHref) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">
           ${escapeText(page.ctaPrimaryLabel || 'Демо')}
         </a>
         ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="btn-secondary w-full sm:w-auto">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}

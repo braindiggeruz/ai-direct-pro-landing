@@ -28,6 +28,17 @@
       "text": "Разберём, что входит в услугу, чем SMM отличается от таргетированной рекламы, сколько это стоит в месяц, с чего начать своими силами и почему у многих SMM не даёт заявок."
     },
     {
+      "type": "linkp",
+      "text": "Если SMM нужно заказать, а не только разобраться, — пакеты и цены на странице {smm}.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/ru/smm-prodvizhenie-tashkent/",
+          "anchor": "SMM-продвижения в Ташкенте"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "chto-vhodit",
       "text": "Что входит в SMM-продвижение"
@@ -289,7 +300,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-08-27",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -297,6 +308,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-08-20T00:00:00.000Z",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
   "createdAt": "2026-08-02T00:00:00.000Z"
 }

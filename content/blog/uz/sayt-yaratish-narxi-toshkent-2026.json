@@ -161,8 +161,15 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Frilanser bilan ishlashda alohida xavf — kirish huquqlari. Agar domen, xosting va kabinetlar ijrochiga rasmiylashtirilgan bo'lsa, ajralganda siz faqat saytni emas, tarixini ham yo'qotasiz. Batafsil: {tanlash}."
+      "type": "linkp",
+      "text": "Frilanser bilan ishlashda alohida xavf — kirish huquqlari. Agar domen, xosting va kabinetlar ijrochiga rasmiylashtirilgan bo'lsa, ajralganda siz faqat saytni emas, tarixini ham yo'qotasiz. Batafsil: {tanlash}.",
+      "links": [
+        {
+          "token": "tanlash",
+          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "anchor": "agentlik, frilanser yoki birja: qanday tanlash"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -190,8 +197,20 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Agar sayt vizitka emas, arizalar vositasi sifatida kerak bo'lsa, darhol murojaatlarni qayta ishlash bilan bog'lashni rejalashtirish mantiqan to'g'ri. Biz {sayt} qilamiz va {bot} ulaymiz — ariza sovib qolmasligi uchun."
+      "type": "linkp",
+      "text": "Agar sayt vizitka emas, arizalar vositasi sifatida kerak bo'lsa, darhol murojaatlarni qayta ishlash bilan bog'lashni rejalashtirish mantiqan to'g'ri. Biz {sayt} qilamiz va {bot} ulaymiz — ariza sovib qolmasligi uchun.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "biznes uchun saytlar"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/sayt-uchun-ai-bot/",
+          "anchor": "sayt uchun AI-bot"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -215,7 +234,8 @@
     },
     {
       "type": "cta",
-      "text": "Bog'lanish"
+      "text": "Sayt yaratish tarkibi va narxini ko‘rish",
+      "href": "/uz/sayt-yaratish/"
     }
   ],
   "faq": [
@@ -237,7 +257,7 @@
     },
     {
       "q": "Saytga AI-bot kerakmi?",
-      "a": "Agar sayt arizalar olib kelishi kerak bo'lsa — ha. Bizning o'lchovlar bo'yicha tashrif buyuruvchilarning 38% 30 soniya ichida javob olmasa ketadi, murojaatlarning 40% esa soat 19:00 dan keyin keladi, menejerlar ishlamaydigan paytda. AI-bot darhol va 24/7 javob beradi."
+      "a": "Agar sayt arizalar olib kelishi kerak bo'lsa — ha. Darhol javob olmagan tashrif buyuruvchi ko‘pincha raqobatchiga o‘tadi, murojaatlarning bir qismi esa kechqurun, menejerlar ishlamaydigan paytda keladi. AI-bot darhol va 24/7 javob beradi."
     },
     {
       "q": "Manba kodlari menga topshirilishini qanday tekshirish mumkin?",
@@ -309,12 +329,12 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }
