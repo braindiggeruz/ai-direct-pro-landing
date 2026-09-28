@@ -1,0 +1,158 @@
+{
+  "verifiedAt": "2026-09-28T06:14:52.931Z",
+  "environment": "local production build, not deployed",
+  "passed": 15,
+  "sitemapEntries": 288,
+  "results": [
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "status": 200,
+      "h1": "Таргетированная реклама в Ташкенте: креативы, аудитории и заявки",
+      "schema": "Service",
+      "faq": 13,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/telegram-ads-uzbekistan/",
+      "status": 200,
+      "h1": "Telegram Ads в Узбекистане — цена, запуск и настройка",
+      "schema": "Service",
+      "faq": 16,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/telegram-reklama/",
+      "status": 200,
+      "h1": "Telegram reklama — O‘zbekistonda biznes uchun",
+      "schema": "Service",
+      "faq": 13,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "status": 200,
+      "h1": "SMM-продвижение в Ташкенте: контент, реклама и заявки",
+      "schema": "Service",
+      "faq": 10,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "status": 200,
+      "h1": "Toshkentda SMM xizmatlari",
+      "schema": "Service",
+      "faq": 9,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "status": 200,
+      "h1": "Telegram Ads в Узбекистане: сколько стоит и как запустить",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "status": 200,
+      "h1": "Сколько стоит интернет-реклама в Узбекистане: цены 2026",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "status": 200,
+      "h1": "Сколько стоит SMM и ведение Instagram в Узбекистане в 2026 году",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "status": 200,
+      "h1": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "h1": "O'zbekistonda SMM xizmati narxi 2026: qancha turadi",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "status": 200,
+      "h1": "Сколько стоит контекстная реклама в Ташкенте в 2026 году",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "status": 200,
+      "h1": "Toshkentda kontekst reklama narxi 2026: qancha turadi",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "status": 200,
+      "h1": "Рекламный бюджет: сколько процентов от оборота тратить бизнесу",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "status": 200,
+      "h1": "Reklama byudjeti qancha bo'lishi kerak: hisoblash tartibi",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    },
+    {
+      "path": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "status": 200,
+      "h1": "Google Ads или Яндекс Директ в Узбекистане: что выбрать в 2026 году",
+      "schema": "Article",
+      "faq": 6,
+      "canonical": "self",
+      "sitemapLastmod": "2026-09-28",
+      "styles": 1
+    }
+  ]
+}

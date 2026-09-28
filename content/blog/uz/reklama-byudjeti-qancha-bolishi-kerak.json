@@ -4,7 +4,7 @@
   "slug": "reklama-byudjeti-qancha-bolishi-kerak",
   "url": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
   "title": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",
-  "description": "Aylanmadan reklamaga qancha foiz ketishi kerak: biznes bosqichlari bo'yicha ko'rsatkichlar, maqsaddan byudjet hisoblash va oz-ko'pligini qanday aniqlash.",
+  "description": "Reklama byudjeti formulasi: mijozlar, konversiya va CPL. So‘mdagi o‘quv misollari, xizmat haqi, marja va sinov limiti alohida hisoblanadi.",
   "h1": "Reklama byudjeti qancha bo'lishi kerak: hisoblash tartibi",
   "topicCluster": "byudjet",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -15,7 +15,7 @@
     "reklama uchun byudjet hisoblash",
     "kichik biznes reklama byudjeti"
   ],
-  "intro": "Aylanmadan reklamaga qancha foiz ketishi kerak, nega universal raqam yo'q va byudjetni odat bo'yicha emas, maqsaddan qanday hisoblash kerak. 2026-yil uchun O'zbekiston bo'yicha hisob-kitoblar.",
+  "intro": "Reklama byudjetini aylanmaning universal foizidan emas, maqsad, marja va tasdiqlangan ma’lumotdan hisoblash. Formulalar, o‘quv ssenariylari va biznes uchun cheklovlar.",
   "body": [
     {
       "type": "toc",
@@ -26,23 +26,23 @@
           "target": "#javob"
         },
         {
-          "anchor": "Biznes bosqichlari bo'yicha ko'rsatkichlar",
+          "anchor": "Biznes bosqichida nimaga qarash kerak",
           "target": "#jadval"
         },
         {
-          "anchor": "Byudjetni maqsaddan qanday hisoblash",
+          "anchor": "Byudjetni maqsaddan hisoblash",
           "target": "#hisob"
         },
         {
-          "anchor": "Byudjet noto'g'ri ekanini qanday bilish",
+          "anchor": "Rejani qachon qayta ko‘rish kerak",
           "target": "#xatolar"
         },
         {
-          "anchor": "Byudjetni kanallar bo'yicha qanday taqsimlash",
+          "anchor": "Byudjetni kanallar bo‘yicha taqsimlash",
           "target": "#taqsimot"
         },
         {
-          "anchor": "Xulosa",
+          "anchor": "Hisob uchun nima tayyorlash kerak",
           "target": "#xulosa"
         }
       ]
@@ -54,162 +54,184 @@
     },
     {
       "type": "p",
-      "text": "Ishchi ko'rsatkich: barqaror biznes uchun aylanmaning 5–10 foizi, o'sish vazifasi bo'lsa 10–15 foiz, yangi mahsulot chiqarish yoki yangi shaharga kirishda 15–25 foiz. 3 foizdan kam faqat to'liq yuklama va kuchli doimiy mijozlar bazasi bo'lganda ma'noga ega."
+      "text": "Aylanmadan reklamaga ajratiladigan majburiy foiz yo‘q. Marja, takroriy xaridlar va to‘lov muddati turlicha bo‘lsa, bir xil tushum bir xil reklama byudjetini anglatmaydi. Foiz nazorat uchun qulay, lekin iqtisodiy hisobni almashtirmaydi."
     },
     {
       "type": "p",
-      "text": "Lekin aylanmadan foiz — bu tekshiruv metrikasi, rejalashtirish usuli emas. Byudjetni maqsaddan hisoblash kerak: qancha ariza kerak va bitta ariza qancha turadi."
+      "text": "Media byudjet, jamoa ishi, materiallar va o‘lchash alohida rejalashtiriladi. Faqat platforma pulini hisoblasangiz, mijoz jalb qilish xarajati past ko‘rinadi. Ma’lumot bo‘lmasa, kutiladigan CPL’ni o‘ylab topish emas, cheklangan test sarfini kelishish kerak."
     },
     {
       "type": "h2",
       "id": "jadval",
-      "text": "Biznes bosqichlari bo'yicha ko'rsatkichlar"
+      "text": "Biznes bosqichida nimaga qarash kerak"
     },
     {
       "type": "table",
       "headers": [
         "Holat",
-        "Aylanmadan foiz",
-        "Izoh"
+        "Qaror asosi",
+        "Cheklov"
       ],
       "rows": [
         [
-          "Ishga tushirish yoki yangi mahsulot",
-          "15–25 %",
-          "o'zingiz haqingizda noldan bildirish kerak"
+          "Yangi mahsulot",
+          "Auditoriya gipotezasi va kelishilgan test",
+          "Tarixiy konversiya yo‘q; prognoz va’da emas"
         ],
         [
-          "Faol o'sish",
-          "10–15 %",
-          "bozor ulushini olish vazifasi"
+          "Ishlayotgan kanal",
+          "Bir davrdagi sarf, maqsadli lid va sotuv",
+          "Byudjet o‘sishi natijani mutanosib oshirmasligi mumkin"
         ],
         [
-          "Barqaror biznes",
-          "5–10 %",
-          "oqimni ushlab turish va mijozlarni qaytarish"
+          "Takroriy sotuv",
+          "Tasdiqlangan xaridlar tarixi",
+          "Mijozning kelajakdagi qiymatini dalilsiz qo‘shmaslik"
         ],
         [
-          "Optimizatsiya yoki inqiroz",
-          "3–5 %",
-          "faqat o'lchanadigan daromadli kanallar"
+          "Cheklangan yuklama",
+          "Ishlab chiqarish va sotuv jamoasi imkoniyati",
+          "Xizmat ko‘rsatishdan ko‘p buyurtma jalb qilmaslik"
         ]
       ]
     },
     {
       "type": "h2",
       "id": "hisob",
-      "text": "Byudjetni maqsaddan qanday hisoblash"
+      "text": "Byudjetni maqsaddan hisoblash"
     },
     {
       "type": "p",
-      "text": "Formula oddiy: kerakli mijozlar sonini arizaning sotuvga aylanish ko'rsatkichiga bo'lamiz, arizalar sonini olamiz va kanaldagi ariza narxiga ko'paytiramiz."
+      "text": "Kerakli maqsadli murojaat = kerakli mijozlar / murojaatdan mijozga konversiya. Media byudjet = murojaatlar × media CPL. To‘liq byudjetga shu davrdagi sozlash, yuritish, material va servislar qo‘shiladi."
     },
     {
-      "type": "list",
-      "items": [
-        "Maqsad: oyiga 20 ta mijoz.",
-        "Arizaning sotuvga aylanishi: 25 % → 80 ta ariza kerak.",
-        "Ariza narxi: $8 → oyiga $640 byudjet.",
-        "Ustiga xizmat haqi: oyiga $150–300."
+      "type": "p",
+      "text": "Shartli o‘quv misoli, mijoz statistikasi emas: maqsad 20 mijoz, konversiya 25%, media CPL 100 000 so‘m. 80 maqsadli murojaat va 8 000 000 so‘m joylashtirish xarajati kerak bo‘ladi. Jamoa ishi bu summaga kirmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "20 mijoz uchun o‘quv ssenariysi",
+        "Murojaatlar",
+        "Shartli CPL 100 000 so‘mda media byudjet"
+      ],
+      "rows": [
+        [
+          "Konversiya 10%",
+          "200",
+          "20 000 000 so‘m"
+        ],
+        [
+          "Konversiya 20%",
+          "100",
+          "10 000 000 so‘m"
+        ],
+        [
+          "Konversiya 25%",
+          "80",
+          "8 000 000 so‘m"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "Agar hisoblangan byudjet aylanmaning 20 foizidan oshsa, muammo reklamada emas, mahsulot iqtisodida: marjada yoki arizaning sotuvga aylanishida."
+      "text": "Jadval hisobning farazlarga sezgirligini ko‘rsatadi, natijani kafolatlamaydi. Bir biznes konversiyasi va boshqa biznes lid narxini ishonchli prognoz deb ishlatib bo‘lmaydi. Ma’lumot bo‘lmasa, farazlar oralig‘i va tekshiriladigan jihatlarni yozing."
+    },
+    {
+      "type": "p",
+      "text": "Ruxsat etilgan CAC marja, pul majburiyatlari va foyda maqsadidan belgilanadi. Bitta yangi mijozga sarflash mumkin bo‘lgan summa maqsadli liddan mijozga konversiyaga ko‘paytirilsa, chegaraviy to‘liq CPL chiqadi. Takroriy sotuvni faqat tasdiqlangan tarix bilan qo‘shing."
     },
     {
       "type": "h2",
       "id": "xatolar",
-      "text": "Byudjet noto'g'ri ekanini qanday bilish"
-    },
-    {
-      "type": "quote",
-      "text": "Juda kichik byudjet belgisi — statistika yiga olmaysiz. Juda katta byudjet belgisi — arizalarni qayta ishlashga ulgurmayapsiz."
+      "text": "Rejani qachon qayta ko‘rish kerak"
     },
     {
       "type": "list",
       "items": [
-        "Kanal uchun oyiga 30 tadan kam ariza — statistika bo'yicha xulosa ishonchsiz.",
-        "Arizalar sotuv bo'limi qayta ishlay oladigandan ko'p — avval jarayon.",
-        "Byudjet oshganda ariza narxi oshadi — kanal noto'g'ri yoki auditoriya tor.",
-        "Byudjet «qancha achinmasa» deb belgilanadi — bu rejalashtirish emas."
+        "Xarajat va arizalar boshqa davr yoki manbadan olingan.",
+        "Tugma bosilishi yuborilgan murojaat deb yozilgan.",
+        "Sotuv sikli tugamagan, lekin kampaniya foydali deb e’lon qilingan.",
+        "Kuzatuv kam: bitta mijoz konversiya foizini keskin o‘zgartiradi.",
+        "Jamoa javobga yoki buyurtmani bajarishga ulgurmayapti."
       ]
+    },
+    {
+      "type": "p",
+      "text": "Har qanday xulosani ishonchli qiladigan yagona lid soni yo‘q. Mutlaq sonlar, barqarorlik, sotuv kechikishi va murojaat sifatini tekshiring. Texnik xatoni tuzatish uchun oy oxirini kutish kerak emas."
     },
     {
       "type": "h2",
       "id": "taqsimot",
-      "text": "Byudjetni kanallar bo'yicha qanday taqsimlash"
+      "text": "Byudjetni kanallar bo‘yicha taqsimlash"
     },
     {
       "type": "p",
-      "text": "Kichik biznes uchun ishchi sxema: 50–60 % tez javob beradigan kanallarga (kontekst, target, Telegram), 20–30 % SEO ga — kechiktirilgan, lekin arzon manba sifatida, 10–20 % mijozlarni ushlab qolish va takroriy sotuvlarga."
+      "text": "Avval tekshiriladigan gipoteza va natijani o‘lchashga mablag‘ ajrating. Ikkinchi kanalning hissasini alohida ko‘rish mumkin bo‘lganda uni qo‘shing. Qidiruv reklamasi, Telegram, SMM va SEO uchun universal nisbat yo‘q."
+    },
+    {
+      "type": "p",
+      "text": "SEO alohida ish rejasi bilan baholanadi: maqsadli so‘rovlarda ko‘rinish, xizmat sahifalariga o‘tish va tasdiqlangan murojaatlar. U ma’lum oydan avtomatik tarzda pullik reklamadan arzon bo‘lib qolmaydi."
     },
     {
       "type": "h2",
       "id": "xulosa",
-      "text": "Xulosa"
-    },
-    {
-      "type": "p",
-      "text": "Oxirgi 2–3 oy ichida ariza narxi va sotuvga aylanish ko'rsatkichini hisoblang. Bu ikki raqamsiz byudjet haqidagi har qanday gap — taxmin."
-    },
-    {
-      "type": "quote",
-      "text": "Aylanmadan foizlar — yo'naltiruvchi ko'rsatkich, norma emas. Byudjetni maqsad va sohangizdagi ariza narxidan hisoblash kerak."
+      "text": "Hisob uchun nima tayyorlash kerak"
     },
     {
       "type": "linkp",
-      "text": "{reklama} uchun byudjetni hisoblash yoki {ariza}ni ulash — boshlashdan oldin hisoblab beramiz.",
+      "text": "Bir xil davrdagi sarf, maqsadli murojaat, sotuv, marja va yuklamani yig‘ing. Keyin {ads} sinovini rejalashtiramiz. Murojaatlarni uzatish muammosi bo‘lsa, {automation} alohida ko‘rib chiqiladi.",
       "links": [
         {
-          "token": "reklama",
+          "token": "ads",
           "target": "/uz/internet-reklama-toshkent/",
-          "anchor": "Toshkentda internet-reklama"
+          "anchor": "internet-reklama"
         },
         {
-          "token": "ariza",
+          "token": "automation",
           "target": "/uz/arizalarni-avtomatlashtirish/",
-          "anchor": "arizalarni avtomatlashtirishni"
+          "anchor": "avtomatlashtirish"
         }
       ]
     },
     {
       "type": "p",
-      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
+      "text": "GPTBot.uz — biznes uchun internet-reklama va avtomatlashtirish. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Vazifani quyidagi tugma orqali Telegram’da muhokama qilish mumkin."
     },
     {
       "type": "cta",
-      "text": "Bog'lanish"
+      "text": "Ish tarkibi va smetani so‘rash",
+      "href": "https://t.me/XGame_changerx"
     }
   ],
   "faq": [
     {
-      "q": "Aylanmadan reklamaga qancha foiz ketishi kerak?",
-      "a": "Barqaror biznes uchun 5–10 %, o'sish vazifasi bo'lsa 10–15 %, yangi mahsulot chiqarishda 15–25 %. 3 % dan kam faqat to'liq yuklamada."
+      "q": "Aylanmadan reklamaga qancha foiz ajratish kerak?",
+      "a": "Universal norma yo‘q. Maqsad, konversiya, ruxsat etilgan mijoz narxi va to‘liq xarajat hisoblanadi; aylanma ulushi qo‘shimcha tekshiruv."
     },
     {
-      "q": "Reklama byudjetini qanday hisoblash kerak?",
-      "a": "Maqsaddan: kerakli mijozlar sonini arizaning sotuvga aylanishiga bo'lib, ariza narxiga ko'paytiring. Masalan, 25 % konversiya va $8 ariza narxi bilan 20 ta mijoz — oyiga $640."
+      "q": "Reklama byudjeti qanday hisoblanadi?",
+      "a": "Mijozlar / maqsadli murojaatdan mijozga konversiya × media CPL. Jamoa, material va servis xarajatlari alohida qo‘shiladi."
     },
     {
-      "q": "O'zbekistonda kichik biznes uchun reklama byudjeti qancha?",
-      "a": "Xizmat haqi bilan oyiga 2–8 million so'm. 2 million so'mdan kam bilan bitta kanalni test qilish mumkin, lekin arizalar oqimini qurib bo'lmaydi."
+      "q": "Kichik biznesga qancha byudjet kerak?",
+      "a": "Iqtisod, talab va tayyorlikka bog‘liq. Ma’lumot bo‘lmasa, ariza kafolatisiz gipotezani tekshirish limiti kelishiladi."
     },
     {
-      "q": "Reklama byudjeti o'zini oqlamasa nima qilish kerak?",
-      "a": "Uch narsani tekshiring: arizalarni qayta ishlash tezligi, sayt konversiyasi va minus-so'zlar to'g'riligi. Ko'pincha muammo stavkalarda emas, qayta ishlashda."
+      "q": "Byudjet nega o‘zini oqlamayapti?",
+      "a": "O‘lchash, auditoriya, taklif, sahifa, murojaat sifati va sotuv tekshiriladi. Oldindan yagona sababni tayinlash mumkin emas."
     },
     {
-      "q": "Past mavsumda byudjetni qisqartirish kerakmi?",
-      "a": "To'liq emas: butunlay to'xtatilgan kanal keyin qimmatroq ishga tushadi, chunki algoritmlar qaytadan o'rganadi. 30–50 % ga tushiring, noldan emas."
+      "q": "Past mavsumda reklamani kamaytirish kerakmi?",
+      "a": "Talab, marja, ma’lumot va pul cheklovlariga bog‘liq. Barcha biznes uchun bir xil qisqartirish foizi asoslanmagan."
     },
     {
-      "q": "Reklamaga nisbatan SEO ga qancha sarflash kerak?",
-      "a": "Odatda byudjetning 20–30 %. SEO ning effekti 3–6 oyga kechikadi, lekin bir yil ichida ariza narxi 2–4 barobar arzon bo'ladi."
+      "q": "SEO uchun qancha ajratish kerak?",
+      "a": "Alohida ish rejasi va maqsadga qarab. Universal ulush yoki ariza narxida kafolatlangan ustunlik yo‘q."
     }
   ],
   "cta": {
-    "label": "Telegram orqali bog'lanish",
+    "label": "Telegram’da smeta olish",
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
@@ -250,21 +272,21 @@
     }
   ],
   "ogTitle": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",
-  "ogDescription": "Aylanmadan reklamaga qancha foiz ketishi kerak: biznes bosqichlari bo'yicha ko'rsatkichlar, maqsaddan byudjet hisoblash va oz-ko'pligini qanday aniqlash.",
+  "ogDescription": "Reklama byudjeti formulasi: mijozlar, konversiya va CPL. So‘mdagi o‘quv misollari, xizmat haqi, marja va sinov limiti alohida hisoblanadi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
   "hreflangRu": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
   "hreflangUz": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
   "robotsIndex": true,
   "robotsFollow": true,
-  "author": "GPTBot Team",
+  "author": "GPTBot.uz",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-02",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

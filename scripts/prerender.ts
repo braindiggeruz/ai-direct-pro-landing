@@ -501,7 +501,7 @@ function renderDigitalCommandHero(
   const heroSrcSet = page.heroImage && /-1200\.webp$/.test(page.heroImage.src)
     ? `${page.heroImage.src.replace('-1200.webp', '-480.webp')} 480w, ${page.heroImage.src.replace('-1200.webp', '-800.webp')} 800w, ${page.heroImage.src} 1200w`
     : '';
-  return `<section class="dc-hero" aria-labelledby="digital-command-title">
+  return `<section class="dc-hero"${page.compactHero ? ' data-compact-hero' : ''} aria-labelledby="digital-command-title">
     <div class="dc-orbit dc-orbit-one" aria-hidden="true"></div>
     <div class="dc-orbit dc-orbit-two" aria-hidden="true"></div>
     <div class="dc-hero-copy">
@@ -635,6 +635,9 @@ const DIGITAL_COMMAND_STYLES = `<style>
   .dc-updated{margin-bottom:.65rem;color:rgba(255,255,255,.42);font-size:.72rem;text-transform:uppercase;letter-spacing:.09em}
   .dc-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:.35rem}
   .dc-actions a{min-height:3rem}
+  .dc-hero[data-compact-hero]{padding-top:1.5rem}
+  .dc-hero[data-compact-hero] h1{font-size:clamp(2.15rem,3.5vw,3rem);line-height:1.05;max-width:22ch}
+  @media(max-width:600px){.dc-hero[data-compact-hero] h1{font-size:2.15rem;line-height:1.05;max-width:18ch}}
   .dc-visual{min-height:37rem;border:1px solid rgba(255,255,255,.1);border-radius:2rem;overflow:hidden;background:#0b1020;box-shadow:0 2.5rem 6rem rgba(0,0,0,.45)}
   .dc-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(5,7,13,.3) 58%,rgba(5,7,13,.96));pointer-events:none}
   .dc-visual>img{width:100%;height:100%;min-height:37rem;object-fit:cover;filter:saturate(.9) contrast(1.04)}

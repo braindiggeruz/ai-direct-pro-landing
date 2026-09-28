@@ -4,7 +4,7 @@
   "slug": "internet-reklama-narxi-ozbekiston-2026",
   "url": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
   "title": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
-  "description": "Reklama berish narxi kanallar bo‘yicha: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
+  "description": "Internet-reklama: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida. Smeta tarkibi va ariza narxini hisoblash.",
   "h1": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
   "topicCluster": "reklama-narxi",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -18,7 +18,7 @@
     "internetda reklama berish narxi",
     "reklama narxi qancha"
   ],
-  "intro": "O'zbekiston bozori bo'yicha aniq raqamlar: har bir kanal qancha turadi, smeta nimadan yig'iladi va biznes qayerda ortiqcha to'laydi. Barcha narxlar pudratchi ishi bilan birga, faqat reklama byudjeti bilan emas.",
+  "intro": "Internet-reklama narxi: ishga tushirish va yuritish xizmati, media byudjet hamda qo‘shimcha ishlar. GPTBot.uz tariflari va hisoblash usulini ko‘rsatamiz; bu butun bozor bo‘yicha o‘rtacha narx emas.",
   "body": [
     {
       "type": "toc",
@@ -29,19 +29,19 @@
           "target": "#javob"
         },
         {
-          "anchor": "Kanallar bo'yicha narxlar",
+          "anchor": "GPTBot.uz tariflari va alohida xarajatlar",
           "target": "#narxlar"
         },
         {
-          "anchor": "Smeta nimadan yig'iladi",
+          "anchor": "Smeta nimadan yig‘iladi",
           "target": "#smeta"
         },
         {
-          "anchor": "Birja, frilanser yoki agentlik",
+          "anchor": "Birja, frilanser yoki agentlikni qanday solishtirish kerak",
           "target": "#solishtirish"
         },
         {
-          "anchor": "Qayerdan buyurtma berish",
+          "anchor": "Hisoblash uchun nima yuborish kerak",
           "target": "#buyurtma"
         }
       ]
@@ -53,151 +53,118 @@
     },
     {
       "type": "p",
-      "text": "Toshkentdagi kichik biznes uchun 2026 yilda internet-reklama byudjeti — pudratchi ishi bilan birga oyiga 2 dan 8 million so'mgacha. Bu summadan pastda bitta kanalni test rejimida ishga tushirish mumkin, lekin barqaror arizalar oqimini qurib bo'lmaydi. Quyida har bir kanal bo'yicha aniq raqamlar."
+      "text": "GPTBot.uz’da kontekst yoki target reklamasini ishga tushirish bir martalik 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan boshlanadi. Media byudjet alohida to‘lanadi. Bu kelishilgan tarkibning boshlang‘ich narxi, istalgan kampaniyani shu pulga to‘liq bajarish va’dasi emas."
+    },
+    {
+      "type": "p",
+      "text": "Yakuniy summa kanal, geografiya, tillar, kreativlar va sayt yoki profil tayyorligiga bog‘liq. Ish boshlanishidan oldin nimalar kirishi, oylik yuritish qachon boshlanishi va qaysi xarajatlar alohidaligi yoziladi."
     },
     {
       "type": "h2",
       "id": "narxlar",
-      "text": "Kanallar bo'yicha narxlar: 2026 yil raqamlari"
+      "text": "GPTBot.uz tariflari va alohida xarajatlar"
     },
     {
       "type": "table",
       "headers": [
-        "Kanal",
-        "Reklama byudjeti/oy",
-        "Pudratchi ishi/oy",
-        "Bosish narxi",
-        "Ariza narxi"
+        "Yo‘nalish",
+        "Xizmat narxi",
+        "Alohida tekshiriladi"
       ],
       "rows": [
         [
-          "Kontekst (Google Ads)",
-          "$200–500",
-          "$150–300",
-          "$0,15–0,80",
-          "$3–12"
+          "Kontekst yoki target",
+          "Ishga tushirish 1 990 000 so‘mdan; yuritish oyiga 1 490 000 so‘mdan",
+          "Media byudjet, kanal soni, kreativ va analitika hajmi"
         ],
         [
-          "Target (Instagram)",
-          "$150–400",
-          "$120–250",
-          "$0,20–1,00",
-          "$4–15"
+          "SMM Start",
+          "Oyiga 2 490 000 so‘mdan",
+          "Target, suratga olish va CRM tanlangan paketga bog‘liq; media byudjet alohida"
         ],
         [
-          "Telegram Ads",
-          "kampaniya uchun $100 dan",
-          "$100–200",
-          "$0,50–2,00",
-          "$5–15"
+          "Telegram Ads yoki kanal posti",
+          "Brifdan keyin hisoblanadi",
+          "Joylashtirish yo‘li, komissiya, kanal yoki bot"
         ],
         [
-          "Telegram kanallarga post",
-          "$100–500",
-          "$50–150",
-          "$0,30–1,50",
-          "$3–8"
-        ],
-        [
-          "SEO",
-          "—",
-          "$300–800",
-          "—",
-          "$2–6 (4-oydan)"
-        ],
-        [
-          "AI-bot (arizalarni qayta ishlash)",
-          "—",
-          "990 000 so'mdan bir martalik",
-          "—",
-          "CPL 40–60% ga kamayadi"
+          "SEO va avtomatlashtirish",
+          "Alohida loyiha va smeta",
+          "Bu platforma to‘lovi yoki kafolatlangan arzon ariza emas"
         ]
       ]
     },
     {
-      "type": "p",
-      "text": "Eng muhim raqam: 30 soniya ichida javob berilmagan ariza — ariza bo'lmay qoladi. Bizning o'lchovlar bo'yicha murojaatlarning 38% javob bo'lmasa ketadi. Shuning uchun tez javob beradigan AI-bot ariza narxini stavkalarni optimallashtirishdan ko'ra ko'proq pasaytiradi."
+      "type": "linkp",
+      "text": "Xizmat tarkibi {ads}, {smm} va {telegram} sahifalarida. Narxni ish hajmi bilan birga solishtiring.",
+      "links": [
+        {
+          "token": "ads",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "internet-reklama"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM"
+        },
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram reklama"
+        }
+      ]
     },
     {
       "type": "h2",
       "id": "smeta",
-      "text": "Smeta nimadan yig'iladi"
+      "text": "Smeta nimadan yig‘iladi"
     },
     {
       "type": "list",
       "items": [
-        "Sozlash va yuritish ishi — alohida satrda.",
-        "Reklama byudjeti — alohida, u platformaga ketadi.",
-        "Kreativlar, matnlar va moslashtirish — alohida.",
-        "Analitika va arizalarni qayta ishlash — alohida."
-      ]
-    },
-    {
-      "type": "quote",
-      "text": "«Hammasi ichida, bitta narx» degan pudratchi deyarli har doim analitika va arizalarni qayta ishlashda tejaydi. Bu uning uchun eng qimmat satrlar, siz uchun esa eng muhimlari."
-    },
-    {
-      "type": "h2",
-      "id": "solishtirish",
-      "text": "Birja, frilanser yoki agentlik"
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Mezon",
-        "Frilans birjasi",
-        "Yakka frilanser",
-        "Agentlik"
-      ],
-      "rows": [
-        [
-          "Kirish narxi",
-          "Vazifa uchun $30 dan",
-          "1,5 million so'mdan",
-          "4 million so'mdan"
-        ],
-        [
-          "Pudratchini tekshirish",
-          "Reyting, oson soxtalashtiriladi",
-          "Yo'q, faqat so'z",
-          "Shartnoma, yuridik shaxs"
-        ],
-        [
-          "Kasallikda almashtirish",
-          "Yo'q",
-          "Yo'q",
-          "Bor"
-        ],
-        [
-          "Kanallar bog'liqligi uchun javobgarlik",
-          "Yo'q",
-          "Yo'q",
-          "Bor"
-        ],
-        [
-          "Kabinetlar va manba kodlari",
-          "Bahsli",
-          "Ko'pincha bahsli",
-          "Shartnomada belgilanadi"
-        ],
-        [
-          "Nizo bo'lsa",
-          "Platforma arbitraji",
-          "Deyarli hech narsa",
-          "Shartnoma"
-        ]
+        "Bir martalik ishga tushirish: kirishlar, kampaniya tuzilishi, kelishilgan materiallar, hodisalar va murojaat yo‘lini tekshirish.",
+        "Yuritish: davr, optimallashtirish, yangi sinovlar, hisobot va to‘lov boshlanadigan sana.",
+        "Media byudjet: platforma yoki kanal egasiga pul; limit va valyuta oldindan belgilanadi.",
+        "Qo‘shimcha ish: suratga olish, sayt yoki bot, CRM, litsenziya va komissiyalar — kerak bo‘lsa va paketga kirmasa."
       ]
     },
     {
       "type": "p",
-      "text": "Birja oddiy vazifalarda narx bo'yicha yutadi: banner, matn, bitta kampaniya. Lekin natija bog'liqlikka — reklama, sayt, arizalarni qayta ishlash — bog'liq bo'lsa, javobgarlik tarqaladi va ariza narxi bir necha barobar oshadi. Batafsil: {tanlash}."
+      "text": "Ishga tushirish tarkibida dastlabki ikki hafta yuritish ko‘rsatilgan. Smetada shu davr va keyingi oylik ish boshlanishi ajratilishi kerak; bir xil tarkib ikki marta hisoblanmaydi. «Dan» narxi ish hajmini kelishish o‘rnini bosmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Media CPL = platforma xarajati / maqsadli murojaatlar. To‘liq CPL = shu davrga tegishli barcha jalb qilish xarajatlari / ayni murojaatlar. Murojaat bo‘lmasa, nolga bo‘linmaydi: sarf va tasdiqlangan natija yo‘qligi alohida qayd etiladi."
+    },
+    {
+      "type": "p",
+      "text": "Shartli o‘quv misoli, mijoz natijasi emas: 3 000 000 so‘m joylashtirish xarajati va 20 ta maqsadli murojaat media CPL 150 000 so‘mni beradi. Shu davrdagi jamoa ishi 1 500 000 so‘m bo‘lsa, to‘liq CPL 225 000 so‘m. Bu kelajakdagi ariza narxi prognozi emas."
+    },
+    {
+      "type": "h2",
+      "id": "solishtirish",
+      "text": "Birja, frilanser yoki agentlikni qanday solishtirish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Topshiriladigan kampaniya, material, sozlash va hisobot ro‘yxatini oling.",
+        "Kabinet mijoz nomida qolishini va ijrochining ishchi rolini kelishing.",
+        "Reklama bilan sotuvni bog‘laydigan mas’ulni belgilang.",
+        "Hamkorlik tugaganda material, kirishlar va qoldiq byudjet bo‘yicha tartibni yozing."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ijrochi formati sifat yoki narx nisbatini avtomatik belgilamaydi. Frilanser ham aniq mas’uliyat olishi, agentlik esa ayrim ishlarni paketdan tashqari hisoblashi mumkin. Shuning uchun tasdiqlangan tajriba, tarkib va topshirish shartlarini solishtiring."
     },
     {
       "type": "linkp",
-      "text": "{tanlash} — har bir variant qayerda ob'ektiv yaxshiroq va sxema qayerda sinadi.",
+      "text": "Tanlash mezonlari {choice} maqolasida.",
       "links": [
         {
-          "token": "tanlash",
+          "token": "choice",
           "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
           "anchor": "agentlik, frilanser yoki birja"
         }
@@ -206,69 +173,65 @@
     {
       "type": "h2",
       "id": "buyurtma",
-      "text": "Qayerdan buyurtma berish kerak"
+      "text": "Hisoblash uchun nima yuborish kerak"
     },
     {
       "type": "p",
-      "text": "Agar bir martalik sozlash emas, o'lchanadigan narxli arizalar oqimi kerak bo'lsa, kanal tanlashdan emas, joriy kanallar auditidan boshlash to'g'ri. Audit arizalarning qayerda yo'qolayotganini ko'rsatadi va ko'r-ko'rona bir oy reklamadan arzonroq. Biz {reklama} va {audit} qilamiz."
+      "text": "Mahsulot, shahar, auditoriya tili, sayt yoki profil havolasi va joylashtirish limitini yuboring. Kampaniya ishlagan bo‘lsa, bir xil davrdagi anonim xarajat va murojaatlar soni kerak. Parol yoki mijozlarning shaxsiy ma’lumotlarini yubormang."
+    },
+    {
+      "type": "p",
+      "text": "Telegram tugmasini bosish yuborilgan ariza emas. Hisobotda o‘tish, suhbat, tasdiqlangan murojaat va sotuv alohida bo‘lsin. Bot javob berishga yordam berishi mumkin, lekin barcha bizneslarda CPL kamayishini kafolatlamaydi."
     },
     {
       "type": "linkp",
-      "text": "{reklama} va {audit} — shartnomagacha kanallaringizni tahlil qilib, ariza narxini hisoblab beramiz.",
+      "text": "{reklama} bo‘yicha ish hajmi va test limitini kelishamiz. Haqiqiy kelajak CPL’ini sinovdan oldin va’da qilmaymiz.",
       "links": [
         {
           "token": "reklama",
           "target": "/uz/internet-reklama-toshkent/",
-          "anchor": "Toshkentda internet-reklama"
-        },
-        {
-          "token": "audit",
-          "target": "/ru/marketingovyi-audit-tashkent/",
-          "anchor": "marketing audit"
+          "anchor": "Internet-reklama smetasi"
         }
       ]
     },
     {
       "type": "p",
-      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
+      "text": "GPTBot.uz — biznes uchun internet-reklama va avtomatlashtirish. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Vazifani quyidagi tugma orqali Telegram’da muhokama qilish mumkin."
     },
     {
       "type": "cta",
-      "text": "Bog'lanish"
+      "text": "Ish tarkibi va smetani so‘rash",
+      "href": "https://t.me/XGame_changerx"
     }
   ],
   "faq": [
     {
-      "q": "O'zbekistonda kichik biznes uchun internet-reklama qancha turadi?",
-      "a": "Pudratchi ishi bilan birga oyiga 2 dan 8 million so'mgacha. Bitta kanalni test rejimida $150–200 reklama byudjeti va $120–300 yuritish ishi bilan boshlash mumkin. Oyiga 2 million so'mdan pastda faqat gipotezalarni sinash mumkin, barqaror arizalar oqimini emas."
+      "q": "Internet-reklama qancha turadi?",
+      "a": "GPTBot.uz’da kontekst yoki target ishga tushirish 1 990 000 so‘mdan bir martalik, yuritish oyiga 1 490 000 so‘mdan. Media byudjet va qo‘shimcha vazifalar alohida."
     },
     {
-      "q": "Reklama berish narxi qancha?",
-      "a": "Toshkentdagi kichik biznes uchun 2026 yilda internet-reklama byudjeti pudratchi ishi bilan birga oyiga 2 dan 8 million so‘mgacha chiqadi. Platforma chegaralari esa ancha past: Meta Ads kuniga $1 dan, Telegram Ads minimal CPM 0,1 Toncoin, Google Ads majburiy minimal byudjet talab qilmaydi. Chegaradan boshlash mumkin, lekin natija beradigan summa bitta ariza uchun ruxsat etilgan narxdan hisoblanadi."
+      "q": "Reklama byudjeti tarifga kiradimi?",
+      "a": "Yo‘q. U platforma yoki kanal egasiga alohida to‘lanadi. Sozlash, yuritish va material tayyorlash bilan aralashtirmang."
     },
     {
-      "q": "Kontekstli reklama arzonmi yoki Instagram target?",
-      "a": "Xizmatlar uchun (yuristlar, klinikalar, ta'mirlash, ta'lim) kontekst arzonroq — foydalanuvchi allaqachon xizmatni qidiryapti, bosish narxi $0,15–0,80. Tovarlar va b2c uchun target arzonroq — bosish $0,20–1,00, lekin qamrov kengroq. Bosish narxini emas, ariza narxini hisoblash kerak."
+      "q": "Kontekst yoki Instagram target arzonroqmi?",
+      "a": "Maqsadli murojaat va sotuv bo‘yicha tekshiriladi. Arzon klik foydali mijozni anglatmaydi; barcha sohalar uchun bitta CPL yo‘q."
     },
     {
-      "q": "Nega SEO kontekstdan qimmatroq, agar trafik bepul bo'lsa?",
-      "a": "SEO da siz trafik uchun emas, ish uchun to'laysiz: semantika, matnlar, texnik optimallashtirish, havolalar. Birinchi natijalar 3–6 oydan keyin chiqadi, lekin keyin trafik bosish uchun to'lovsiz keladi. To'rtinchi oydan boshlab SEO dan ariza narxi odatda $2–6, kontekstdan esa $3–12."
+      "q": "Kichik biznesga majburiy oylik summa bormi?",
+      "a": "Barqaror arizani kafolatlaydigan universal summa yo‘q. Talab, iqtisod va tayyorlikka qarab chegaralangan test kelishiladi."
     },
     {
-      "q": "Frilans birjasida agentlikdan arzonroq buyurtma berish mumkinmi?",
-      "a": "Oddiy vazifalarda — banner, matn, bitta kampaniya — ha, 3–5 barobar arzonroq. Lekin natija «reklama — sayt — arizalarni qayta ishlash» bog'liqligiga bog'liq bo'lsa, birjada javobgarlik tarqaladi: har bir ijrochi faqat o'z qismi uchun javob beradi. Ariza narxi oshadi, bahslashadigan odam yo'q."
+      "q": "AI-bot ariza narxini kamaytiradimi?",
+      "a": "Ta’sirini o‘lchash kerak. Bot javob va uzatishni avtomatlashtirishi mumkin, lekin kamayish foizi kafolatlanmaydi. Ishlab chiqish va tashqi servislar alohida hisoblanadi."
     },
     {
-      "q": "Arizalarni qayta ishlash uchun AI-bot qancha turadi?",
-      "a": "Telegram-bot — 990 000 so'mdan, Instagram-bot — 1 190 000 so'mdan, lidlarni kvalifikatsiya qiladigan II voronkasi — 1 990 000 so'mdan bir martalik. Bot birinchi soniyalarda va 24/7 javob beradi, bu ariza narxini 40–60% ga pasaytiradi."
-    },
-    {
-      "q": "Pudratchi ko'rsatkichlarni soxtalashtirayotganini qanday bilish mumkin?",
-      "a": "Ko'rsatishlar va bosishlarga emas, kontaktli arizalar va ularning narxiga qarang. Reklama kabinetiga kirish va skvoz analitika talab qiling: agar pudratchi faqat bosishlar bo'yicha hisobot bersa va kabinetga kirishni bermasa — ijrochini almashtirish vaqti keldi."
+      "q": "Hisobotda nimaga qarash kerak?",
+      "a": "Sarf, maqsadli murojaat, uning narxi va sotuv. Tugma bosilishi, suhbat va tasdiqlangan ariza turli bosqichlardir."
     }
   ],
   "cta": {
-    "label": "Telegram orqali bog'lanish",
+    "label": "Telegram’da smeta olish",
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
@@ -323,21 +286,21 @@
     }
   ],
   "ogTitle": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",
-  "ogDescription": "Reklama berish narxi kanallar bo‘yicha: kontekst, target, Telegram Ads, postlar, SEO. Bosish va ariza narxi, birja/frilanser/agentlik solishtiruvi. O‘zbekiston, 2026 yil.",
+  "ogDescription": "Internet-reklama: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida. Smeta tarkibi va ariza narxini hisoblash.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
   "hreflangRu": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
   "hreflangUz": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
   "robotsIndex": true,
   "robotsFollow": true,
-  "author": "GPTBot Team",
+  "author": "GPTBot.uz",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-19",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-19T03:24:10.878Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

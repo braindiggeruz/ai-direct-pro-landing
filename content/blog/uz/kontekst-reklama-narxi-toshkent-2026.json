@@ -4,7 +4,7 @@
   "slug": "kontekst-reklama-narxi-toshkent-2026",
   "url": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
   "title": "Kontekst reklama narxi Toshkent 2026: aniq raqamlar",
-  "description": "Toshkentda kontekst reklama narxi 2026: reklama byudjeti, xizmat haqi, klik va ariza narxi. Google Ads va Yandex Direct bo'yicha jadval.",
+  "description": "Toshkentda kontekst reklama: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida, Google Ads sinovini hisoblash.",
   "h1": "Toshkentda kontekst reklama narxi 2026: qancha turadi",
   "topicCluster": "reklama-narxi",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -15,7 +15,7 @@
     "Yandex Direct narxi O'zbekiston",
     "kontekst reklama buyurtma"
   ],
-  "intro": "Toshkentda kontekst reklama 2026-yilda qancha turadi: reklama byudjeti va xizmat haqi alohida hisoblanadi, klik va ariza narxi esa sohaga qarab farq qiladi. Quyida aniq raqamlar va hisoblash tartibi.",
+  "intro": "Toshkentda kontekst reklama narxi: sozlash, yuritish va alohida media byudjet. GPTBot.uz tariflari, smeta chegaralari va sinovni baholash usuli — tasdiqlanmagan o‘rtacha klik narxisiz.",
   "body": [
     {
       "type": "toc",
@@ -26,19 +26,19 @@
           "target": "#javob"
         },
         {
-          "anchor": "Narxlar jadvali 2026",
+          "anchor": "Xizmat narxi va media byudjet",
           "target": "#jadval"
         },
         {
-          "anchor": "Klik narxi nimaga bog'liq",
+          "anchor": "Klik narxi nimaga bog‘liq",
           "target": "#klik"
         },
         {
-          "anchor": "Boshlash uchun qancha kerak",
+          "anchor": "Birinchi sinovni qanday hisoblash kerak",
           "target": "#boshlash"
         },
         {
-          "anchor": "Qayerda ortiqcha to'lanadi",
+          "anchor": "Ortiqcha xarajatni qayerdan izlash kerak",
           "target": "#ortiqcha"
         },
         {
@@ -54,116 +54,116 @@
     },
     {
       "type": "p",
-      "text": "Toshkentda kichik biznes uchun kontekst reklama oyiga 350–800 dollar turadi: 200–500 dollari reklama byudjeti, yana 150–300 dollari sozlash va yuritish uchun. 300 dollardan kam miqdor faqat 30 kunlik test uchun yetadi, sotuv kanali sifatida emas."
+      "text": "GPTBot.uz’da kontekst reklamasini ishga tushirish bir martalik 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan boshlanadi. Ko‘rsatish va kliklar uchun media byudjet bu narxlarga kirmaydi. Kanal, so‘rovlar, hudud, tillar va sahifa ishlari tanlangandan keyin yakuniy smeta tuziladi."
     },
     {
-      "type": "list",
-      "items": [
-        "Reklama byudjeti — platformaga to'lanadigan pul.",
-        "Xizmat haqi — sozlash, yuritish, tahlil, hisobot.",
-        "Kreativ va matnlar — ba'zan xizmat haqiga kiradi, ba'zan alohida.",
-        "Tahlil va maqsadlar — alohida qator, busiz ariza narxi noma'lum."
-      ]
+      "type": "p",
+      "text": "Boshlang‘ich tarif cheksiz kampaniya yoki istalgan sayt yaratishni anglatmaydi. Smetada sahifa ishlari, materiallar, hodisalar va ishga tushirish paketidagi dastlabki ikki hafta yuritish yozilishi kerak. Keyingi to‘lov davri alohida kelishiladi."
     },
     {
       "type": "h2",
       "id": "jadval",
-      "text": "Narxlar jadvali 2026"
+      "text": "Xizmat narxi va media byudjet"
     },
     {
       "type": "table",
       "headers": [
-        "Platforma",
-        "Byudjet/oy",
-        "Xizmat/oy",
-        "Klik narxi",
-        "Ariza narxi"
+        "Xarajat",
+        "Hisoblash",
+        "Nimani tekshirish kerak"
       ],
       "rows": [
         [
-          "Google Ads (qidiruv)",
-          "$200–500",
-          "$150–300",
-          "$0,15–0,80",
-          "$3–12"
+          "Ishga tushirish",
+          "Bir martalik 1 990 000 so‘mdan",
+          "So‘rovlar, tuzilma, matn, sahifa, UTM, maqsadlar va kiritilgan yuritish davri"
         ],
         [
-          "Yandex Direct (qidiruv)",
-          "$150–400",
-          "$120–250",
-          "$0,10–0,60",
-          "$4–14"
+          "Yuritish",
+          "Oyiga 1 490 000 so‘mdan",
+          "Optimallashtirish, sinovlar, hisobot va davr sanalari"
         ],
         [
-          "Banner tarmoqlar",
-          "$150–400",
-          "$120–250",
-          "$0,05–0,30",
-          "$5–20"
+          "Media byudjet",
+          "Platformaga alohida limit",
+          "Valyuta, mijozning kirishi va sarf nazorati"
         ],
         [
-          "Retargeting",
-          "$50–150",
-          "$50–100",
-          "$0,10–0,40",
-          "$4–10"
+          "Qo‘shimcha ish",
+          "Kelishilgan smeta",
+          "Ikkinchi kanal, yangi sahifa, CRM va tashqi servislar"
         ]
       ]
     },
     {
-      "type": "p",
-      "text": "O'zbekistonda mobil trafik ulushi yuqori, shu sababli mobil qurilmalar uchun alohida kampaniya odatda arzonroq klik beradi."
+      "type": "linkp",
+      "text": "Bu butun Toshkent bozorining o‘rtacha narxi emas. {service} sahifasidagi tarkibni o‘qib, bir xil hajmdagi takliflarni solishtiring.",
+      "links": [
+        {
+          "token": "service",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz reklama xizmatlari"
+        }
+      ]
     },
     {
       "type": "h2",
       "id": "klik",
-      "text": "Klik narxi nimaga bog'liq"
+      "text": "Klik narxi nimaga bog‘liq"
+    },
+    {
+      "type": "p",
+      "text": "Stavka va prognozlar tanlangan kabinetda aniq so‘rov va hudud bo‘yicha tekshiriladi. Butun O‘zbekiston uchun bitta tasdiqlangan klik narxi yo‘q. Prognoz rejalashtirishga yordam beradi, lekin platformaning ariza olib kelish majburiyati emas."
     },
     {
       "type": "list",
       "items": [
-        "Sohadagi raqobat: ko'chmas mulk va tibbiyotda klik 3–5 barobar qimmat.",
-        "Geografiya: Toshkent viloyatlardan qimmat, lekin bir xil byudjetga ko'proq ariza beradi.",
-        "E'lonlar sifati: yuqori sifat ko'rsatkichi klik narxini bevosita tushiradi.",
-        "Sayt tezligi va mobil versiya: sekin sayt klikni qimmatlashtiradi.",
-        "Mavsum: talab cho'qqisida klik narxi 20–50 % ga oshadi."
+        "Brend so‘rovlarini umumiy so‘rovlardan, qidiruvni reklama tarmog‘idan ajrating.",
+        "Til, geografiya, e’lonning so‘rovga mosligi va istisnolarni tekshiring.",
+        "Telefon orqali murojaat yo‘lini tekshiring; alohida mobil kampaniya arzon natijani kafolatlamaydi.",
+        "Faqat CPC emas, maqsadli murojaat va sotuvni solishtiring."
       ]
     },
     {
       "type": "h2",
       "id": "boshlash",
-      "text": "Boshlash uchun qancha kerak"
+      "text": "Birinchi sinovni qanday hisoblash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Avval ruxsat etilgan sarf, maqsadli ariza mezoni va to‘xtatish shartlarini belgilang. Eski ma’lumot bo‘lmasa, bu gipoteza sinovi, savdolar soni va’dasi emas. Taqvimdagi muddatning o‘zi xulosani ishonchli qilmaydi."
     },
     {
       "type": "list",
       "items": [
-        "Bir martalik sozlash — $200–400.",
-        "Birinchi oy reklama byudjeti — $200–500.",
-        "Tahlil va maqsadlar — $100–250, ba'zan xizmat haqiga kiradi.",
-        "Keyin oyiga $350–800."
+        "Bitta tushunarli xizmat va murojaat yo‘lini tayyorlang.",
+        "So‘rov guruhlarini ajrating, mos kelmaganlarini chiqarib tashlang.",
+        "Hodisalarni tekshiring, javob beradigan mas’ulni belgilang.",
+        "Limit, kuzatuv davri, sotuv kechikishi va davom ettirish shartini kelishing."
       ]
     },
     {
       "type": "p",
-      "text": "30 kundan qisqa test deyarli har doim noto'g'ri xulosa beradi: algoritmlar 1–2 hafta o'rganadi va birinchi hafta doim qimmatroq."
+      "text": "Shartli o‘quv misoli: 2 000 000 so‘m joylashtirish xarajati va 10 ta maqsadli murojaat media CPL 200 000 so‘mni beradi. Sozlash va yuritish to‘liq jalb qilish xarajatiga qo‘shiladi. Bu hisoblash misoli, kampaniyangiz prognozi emas."
     },
     {
       "type": "h2",
       "id": "ortiqcha",
-      "text": "Qayerda ortiqcha to'lanadi"
-    },
-    {
-      "type": "quote",
-      "text": "Faqat klik va ko'rsatuvlarni ko'rsatib, ariza narxini ko'rsatmaydigan pudratchi aynan siz to'layotgan narsani yashiradi."
+      "text": "Ortiqcha xarajatni qayerdan izlash kerak"
     },
     {
       "type": "list",
       "items": [
-        "Byudjet va xizmat haqi bitta raqamda berilishi.",
-        "Tahlil yo'qligi: arizalar bor, lekin qayerdan kelgani noma'lum.",
-        "Minus-so'zlarsiz ish — byudjetning 40 % gachasi havoga ketadi.",
-        "Arizalarga 5 daqiqadan kech javob — ariza narxi 1,5–2 barobar oshadi."
+        "Ishga tushirishga kiritilgan ish uchun takroriy to‘lov.",
+        "Mos kelmagan so‘rovlar yoki noto‘g‘ri geografiya.",
+        "E’lon va sahifadagi taklifning bir-biriga mos kelmasligi.",
+        "Ishlamaydigan telefon, forma yoki messenjer havolasi.",
+        "Sotuv statusi yo‘qligi: arzon kontakt mijoz deb qabul qilinishi."
       ]
+    },
+    {
+      "type": "p",
+      "text": "Faqat kliklar bo‘yicha hisobot sotuvni baholash uchun yetarli emas, ammo bu o‘z-o‘zidan firibgarlik dalili ham emas. Avval ma’lumotlar, hodisalar va mas’uliyatni tekshirish kerak."
     },
     {
       "type": "h2",
@@ -171,66 +171,59 @@
       "text": "Keyingi qadam"
     },
     {
-      "type": "p",
-      "text": "Avval iqtisodiyotni hisoblang: bitta ariza uchun qancha to'lashga tayyorsiz va arizalarning qancha foizi sotuvga aylanadi. Bu ikki raqamsiz har qanday byudjet — taxmin."
-    },
-    {
-      "type": "quote",
-      "text": "Narxlar — 2026-yil uchun O'zbekiston bozori bo'yicha yo'naltiruvchi ko'rsatkich. Aniq smeta soha, geografiya va arizalar qanchalik tez qayta ishlanishiga bog'liq."
-    },
-    {
       "type": "linkp",
-      "text": "{reklama}ni ishga tushirish yoki {ariza}ni ulash — ariza narxini shartnomagacha hisoblab beramiz.",
+      "text": "Mahsulot, shahar, sayt, til va oldingi statistikani {service} smetasi uchun yuboring. Parol yoki mijoz kontaktlari kerak emas. Murojaatni uzatishdagi muammo bo‘lsa, {automation} alohida baholanadi.",
       "links": [
         {
-          "token": "reklama",
+          "token": "service",
           "target": "/uz/internet-reklama-toshkent/",
-          "anchor": "Toshkentda internet-reklamani"
+          "anchor": "internet-reklama"
         },
         {
-          "token": "ariza",
+          "token": "automation",
           "target": "/uz/arizalarni-avtomatlashtirish/",
-          "anchor": "arizalarni avtomatlashtirishni"
+          "anchor": "avtomatlashtirish"
         }
       ]
     },
     {
       "type": "p",
-      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
+      "text": "GPTBot.uz — biznes uchun internet-reklama va avtomatlashtirish. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Vazifani quyidagi tugma orqali Telegram’da muhokama qilish mumkin."
     },
     {
       "type": "cta",
-      "text": "Bog'lanish"
+      "text": "Ish tarkibi va smetani so‘rash",
+      "href": "https://t.me/XGame_changerx"
     }
   ],
   "faq": [
     {
       "q": "Toshkentda kontekst reklama qancha turadi?",
-      "a": "Oyiga 350–800 dollar, xizmat haqi bilan birga: 200–500 dollar reklama byudjeti va 150–300 dollar yuritish. Bir martalik sozlash alohida, 200–400 dollar."
+      "a": "GPTBot.uz’da ishga tushirish bir martalik 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida; yakuniy smeta hajmga bog‘liq."
     },
     {
-      "q": "Google Ads sozlash qancha turadi?",
-      "a": "2–3 kampaniyali standart akkaunt uchun 200–400 dollar. Bir necha soha va alohida sahifalar kerak bo'lsa, qimmatroq."
+      "q": "Google Ads sozlash qancha?",
+      "a": "Boshlang‘ich ishga tushirish 1 990 000 so‘mdan. Kampaniya, til, sahifa soni va hodisalar to‘lovdan oldin kelishiladi."
     },
     {
-      "q": "Boshlash uchun minimal byudjet qancha?",
-      "a": "Birinchi 30 kun uchun 300 dollar — statistika yig'ish va ariza narxi tartibini tushunish uchun yetadi. Barqaror oqim uchun 2–3 oy kerak."
+      "q": "Qancha minimal byudjet natija beradi?",
+      "a": "Natijani kafolatlaydigan universal summa yo‘q. Talab, iqtisod va tayyorlikka qarab chegaralangan sinov kelishiladi."
     },
     {
-      "q": "O'zbekistonda qaysi arzonroq — Google Ads yoki Yandex Direct?",
-      "a": "Yandex Directda klik odatda arzonroq, lekin auditoriya har xil. Toshkentda aksariyat sohalarda asosiy hajmni Google beradi, Yandex ikkinchi kanal sifatida ishlaydi."
+      "q": "Google Ads yoki Yandex Direct arzonroqmi?",
+      "a": "Maqsadli murojaatlar bo‘yicha solishtiriladigan sinov javob beradi. Past CPC arzon mijozni isbotlamaydi."
     },
     {
-      "q": "O'zbekistonda klik narxi qancha?",
-      "a": "Banner tarmoqlarda $0,05 dan raqobatli qidiruvda $0,80 gacha. Ko'chmas mulk, tibbiyot va avtoda $1 dan yuqori bo'lishi mumkin."
+      "q": "Klik narxi qancha?",
+      "a": "Aniq so‘rovlar, hudud va kabinet prognozi tekshiriladi. Haqiqiy CPC joylashtirish natijasidan ma’lum bo‘ladi."
     },
     {
-      "q": "Natija qachon bo'ladi?",
-      "a": "Birinchi arizalar ishga tushgandan keyingi kunlardan. Ariza narxi ishchi holatga kelishi 4–8 hafta: statistika yig'ilishi va ishlamaydigan bog'lamlar o'chirilishi kerak."
+      "q": "Arizalar qachon keladi?",
+      "a": "Muddat va son kafolatlanmaydi. Baholash davri ma’lumot hajmi va sotuv sikliga bog‘liq; texnik xato esa darhol tuzatiladi."
     }
   ],
   "cta": {
-    "label": "Telegram orqali bog'lanish",
+    "label": "Telegram’da smeta olish",
     "href": "https://t.me/XGame_changerx"
   },
   "internalLinks": [
@@ -278,21 +271,21 @@
     }
   ],
   "ogTitle": "Kontekst reklama narxi Toshkent 2026: aniq raqamlar",
-  "ogDescription": "Toshkentda kontekst reklama narxi 2026: reklama byudjeti, xizmat haqi, klik va ariza narxi. Google Ads va Yandex Direct bo'yicha jadval.",
+  "ogDescription": "Toshkentda kontekst reklama: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan. Media byudjet alohida, Google Ads sinovini hisoblash.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
   "hreflangRu": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
   "hreflangUz": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
   "robotsIndex": true,
   "robotsFollow": true,
-  "author": "GPTBot Team",
+  "author": "GPTBot.uz",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-02",
+  "dateModified": "2026-09-28",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-02T00:00:00.000Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z"
 }

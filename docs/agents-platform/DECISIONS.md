@@ -1,5 +1,11 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-SEO-ADS-20260928 — factual advertising content and opt-in conversion layout
+
+Preserve existing URLs, titles, H1, canonical, publication dates and the ten protected SEO contracts. Refresh 15 advertising documents in place. Own tariffs are not market benchmarks; illustrative calculations are not client results. SMM scope must agree between landing, article and FAQ. Direct Telegram Ads rules must not be confused with reseller conditions or post placements.
+
+Reuse the existing prerenderer with an optional compactHero flag on two advertising pages, preserving the full H1 and other pages' layout. A brief with a source URL is a manual contact aid, not automatic attribution. Keep contact_click separate from acknowledged and qualified leads; do not fabricate generate_lead. No new API, schema, provider or production mutation. Release is separate from local preparation. Evidence: docs/seo/advertising-2026-09-28/REPORT-RU.md.
+
 ## D-041 — voice search is AI for hearing only; understanding stays deterministic (2026-08-02)
 
 **Decision.** The only model in the Bormi voice path is speech-to-text.

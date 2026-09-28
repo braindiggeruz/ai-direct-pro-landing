@@ -120,6 +120,8 @@ export interface Page {
   heroTrust?: string[];
   /** Optional static visual treatment for flagship commercial pages. */
   designVariant?: 'digital-command-center' | 'warm-market-signals';
+  /** Compact long flagship headings on desktop/mobile; preserves the full H1. */
+  compactHero?: boolean;
   /** Page-scoped labels for the flagship command-center hero. */
   commandCenter?: {
     kicker?: string;

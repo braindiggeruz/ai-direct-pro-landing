@@ -1,4 +1,19 @@
 {
+  "advertising_seo_20260928": {
+    "status": "implemented_verified_locally_not_deployed",
+    "branch": "seo/advertising-conversion-20260928",
+    "baseline_commit": "8b5ac313634035b6830e50951edcbe76e77a4259",
+    "report": "docs/seo/advertising-2026-09-28/REPORT-RU.md",
+    "changed_pages": 5,
+    "changed_articles": 10,
+    "targeted_tests": "105/105",
+    "protected_seo": "10/10 unchanged",
+    "local_http_html": "15/15",
+    "full_declared_suite": "2 date-sensitive Lead Radar fixture failures; isolated Date.now=2026-08-25 gives 2/2; no production code or test workaround committed",
+    "pushed": false,
+    "deployed": false,
+    "next_step": "Owner publication authorization, fresh remote/live preflight and guarded release; then approved advertising case and confirmed-enquiry measurement"
+  },
   "seo_ai_agent_article_20260914": {
     "status": "deployed_and_live_verified",
     "article_commit": "b27c8ad22a3cf6b1dfbc14210721fe732d9f6c56",
@@ -87,10 +102,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AEO history, locale and recovered-result verification",
-  "stage_status": "complete",
-  "last_completed_stage": "AEO history locale, empty-state and recovered-result repair",
-  "next_stage": "Optional owner usability feedback",
+  "current_stage": "Advertising SEO truth and conversion sprint",
+  "stage_status": "complete_locally_not_deployed",
+  "last_completed_stage": "Advertising landing and RU/UZ article corrections with protected SEO verification",
+  "next_stage": "Authorized advertising SEO publication after fresh remote/live preflight",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

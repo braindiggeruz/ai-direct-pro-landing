@@ -26,16 +26,20 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram reklama",
   "heroTitle": "Telegram reklama — O‘zbekistonda biznes uchun",
-  "heroSubtitle": "Rasmiy Telegram Ads kabineti orqali ham, kanallarda joylashtirish orqali ham reklama beramiz. Eng muhimi — bosishdan keyingi yo‘l: odam qayerga tushadi, kim javob beradi va ariza qayerda saqlanadi.",
-  "ctaPrimaryLabel": "Bepul maslahat olish",
+  "heroSubtitle": "Rasmiy Telegram Ads yoki kanallarda post joylashtirishni yo‘lga qo‘yamiz. Jamoa ishi, reklama byudjeti va komissiyalar alohida hisoblanadi. Kanal yoki bot, matnlar va murojaatlarni o‘lchashni ish boshlanishidan oldin kelishamiz.",
+  "ctaPrimaryLabel": "Smeta olish",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Reklamaning ikki yo‘li",
-  "ctaSecondaryHref": "#ikki-yol",
+  "ctaSecondaryLabel": "Smeta uchun nimalar kerak",
+  "ctaSecondaryHref": "#brief",
   "bodyBlocks": [
     {
       "type": "toc",
       "text": "Sahifa bo‘yicha",
       "links": [
+        {
+          "anchor": "brief",
+          "label": "Smeta olish"
+        },
         {
           "anchor": "ikki-yol",
           "label": "Telegram’da reklamaning ikki yo‘li"
@@ -89,6 +93,32 @@
           "label": "Ko‘p so‘raladigan savollar"
         }
       ]
+    },
+    {
+      "type": "h2",
+      "id": "brief",
+      "text": "Telegram reklama uchun smeta oling"
+    },
+    {
+      "type": "p",
+      "text": "Mahsulot, shahar, auditoriya tili va kanal yoki bot havolasini yuboring. Rasmiy Ads kerakmi yoki kanallarda post joylashtirishmi — yozing. Hali tanlamagan bo‘lsangiz, vazifaga qarab aniqlaymiz."
+    },
+    {
+      "type": "p",
+      "text": "Smetada jamoa ishi, media byudjet, ehtimoliy komissiya va kanal yoki botni tayyorlash alohida ko‘rsatiladi. To‘lovdan oldin matnlar, joylashtirishlar, maqsadli murojaat va sinovni to‘xtatish shartlarini kelishamiz."
+    },
+    {
+      "type": "quote",
+      "text": "Assalomu alaykum! Telegram reklama kerak. Mahsulot: …; shahar va til: …; kanal yoki bot: …; maqsad: …; joylashtirish byudjeti: …; Ads yoki kanal posti: …. Manba: gptbot.uz/uz/telegram-reklama/"
+    },
+    {
+      "type": "cta",
+      "text": "Telegram’da smeta so‘rash",
+      "href": "https://t.me/XGame_changerx"
+    },
+    {
+      "type": "p",
+      "text": "Yuqoridagi namunani nusxalab, Telegram’da to‘ldiring. Sayt xabarni avtomatik yubormaydi; tugmani bosish yuborilgan ariza degani emas."
     },
     {
       "type": "p",
@@ -309,6 +339,10 @@
     },
     {
       "type": "p",
+      "text": "Telegram Ads rasmiy yo‘riqnomasida ko‘rsatilgan to‘g‘ridan-to‘g‘ri kabinet kanal yoki bot havolasini qabul qiladi. Sayt va menejer bilan bevosita aloqa barcha kabinetlarda bir xil qo‘llab-quvvatlanmaydi. Kanal postlari uchun havola alohida kelishiladi; boshqa kabinet imkoniyatlari ishga tushirishdan oldin tekshiriladi."
+    },
+    {
+      "type": "p",
       "text": "Bu sahifadagi eng muhim bo‘lim. Reklamani yoqish oson, lekin pul aynan shu yerda yo‘qoladi: odam bosadi, botga yoki kanalga tushadi va u yerda hech kim javob bermaydi."
     },
     {
@@ -513,11 +547,11 @@
     },
     {
       "q": "Reklama uchun kanalim bo‘lishi shartmi?",
-      "a": "Shart emas. Odamni to‘g‘ridan-to‘g‘ri botga yoki saytga olib borish mumkin. Kanal bo‘lsa yaxshi — u takroriy aloqa uchun ishlaydi, lekin birinchi kampaniya uchun majburiy emas."
+      "a": "Kanal o‘rniga bot bo‘lishi mumkin. Rasmiy yo‘riqnomadagi to‘g‘ridan-to‘g‘ri kabinet kanal yoki botga olib boradi; sayt havolasini avtomatik ravishda qo‘llab-quvvatlaydi deb bo‘lmaydi. Kanal postidagi havola esa kanal egasi bilan kelishiladi."
     },
     {
       "q": "Bosishdan keyin odam qayerga tushadi?",
-      "a": "Kelishuvga qarab: botga, kanalga yoki saytdagi sahifaga. Ko‘p hollarda bot qulayroq bo‘ladi, chunki suhbat Telegram’ning o‘zida davom etadi va odam boshqa ilovaga o‘tmaydi."
+      "a": "Tanlangan joylashtirish yo‘liga bog‘liq. Rasmiy yo‘riqnomadagi Ads kabinetida kanal yoki bot; kanal postida esa kelishilgan manzil. Har bir yo‘l uchun xabar, manzil va o‘lchash usuli oldindan tekshiriladi."
     },
     {
       "q": "Natijani qanday tekshiraman?",
@@ -616,7 +650,12 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-19",
+  "lastReviewedAt": "2026-09-28",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-19T03:21:56.567Z"
+  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "heroTrust": [
+    "Ads va kanal postlari alohida",
+    "Media byudjet alohida",
+    "UZ + RU"
+  ]
 }

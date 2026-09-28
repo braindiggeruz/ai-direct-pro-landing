@@ -505,7 +505,7 @@
     },
     {
       "type": "p",
-      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+      "text": "«Dan» narxi tanlangan paket tarkibiga tegishli. «Biznes» target yuritishni, «Pro» esa retarget, suratga olish kuni va CRM bilan bog‘lashni ham o‘z ichiga oladi. Ularning hajmi smetada yoziladi va qayta qo‘shimcha haq sifatida hisoblanmaydi. Media byudjet, CRM litsenziyasi va tashqi servislar alohida to‘lanadi. Paketdan tashqari kanallar, suratga olish va integratsiyalar oldindan kelishiladi. Sotuv kafolatlanmaydi."
     },
     {
       "type": "list",
@@ -635,7 +635,7 @@
   "faq": [
     {
       "q": "SMM xizmatlari narxi qancha?",
-      "a": "Narx ish hajmiga bog‘liq: nechta kanal yuritiladi, oyiga qancha kontent kerak, dizayn kimda tayyorlanadi va moderatsiya hajmi qanday. Suhbat va dastlabki baholash bepul — undan keyin aniq hajm va narx aytiladi."
+      "a": "GPTBot.uz paketlari: Start — oyiga 2 490 000 so‘mdan, Biznes — 4 490 000 so‘mdan, Pro — 7 900 000 so‘mdan. Tarkib shu sahifadagi jadvalda ko‘rsatilgan. Media byudjet va tashqi litsenziyalar alohida; yakuniy hajm hamda narx brifdan keyin belgilanadi."
     },
     {
       "q": "Birinchi natijani qachon baholash mumkin?",
@@ -760,9 +760,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-09-28",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-09-28T00:00:00.000Z",
   "heroTrust": [
     "Oyiga 2 490 000 so‘mdan",
     "UZ + RU",

@@ -1,3 +1,51 @@
+# Рекламное SEO — локальный спринт 2026-09-28
+
+## 1. Состояние
+Ветка `seo/advertising-conversion-20260928`, база HEAD до работы `8b5ac313`. Этап реализован локально. Push/deploy отсутствуют. Существующий untracked `.serena/` сохранён вне коммита.
+
+## 2. Что сделано
+Пять посадочных и десять статей RU/UZ: согласованные тарифы, удаление неподтверждённых обещаний, три коротких брифа, два opt-in компактных hero без сокращения H1. В общий test script добавлено 8 регрессий.
+
+## 3. Изменённые файлы
+Список и смысл — `docs/seo/advertising-2026-09-28/REPORT-RU.md`. 15 JSON, `scripts/prerender.ts`, `src/shared/types.ts`, `tests/advertising-seo-content.test.ts`, `package.json`, документация. В папке отчёта — локальный HTML-check, шаблон фактуры кейса и пустой обезличенный журнал лидов.
+
+## 4. Архитектурные решения
+D-SEO-ADS-20260928: существующие URL и рендереры, opt-in компактность, клик не равен полученной заявке. Новых API, миграций или внешних сервисов нет.
+
+## 5. Что сознательно не сделано
+Нет push/deploy, переиндексации, новых посадочных, выдуманного кейса, серверной формы, изменений ботов/БД/оплат/аналитических настроек. Весь восьминедельный roadmap не завершён.
+
+## 6. Проверки
+- `npm run build`: exit 0; после hero — повторные prerender, `tsc -b`, scoped ESLint, exit 0.
+- 11 профильных test files: 105/105.
+- `npx tsx scripts/seo-protection.ts check`: 10/10, baseline не менялся.
+- Локальный HTTP/HTML: 15/15, CSS и FAQ JSON-LD; sitemap 288, lastmod изменённых 2026-09-28.
+- `npm run scan:secrets`: clean; `git diff --check`: exit 0.
+- CUA: 320/390/1280 px, без горизонтального overflow; якорь брифа и основная кнопка проверены.
+- Полный declared suite: два падения Lead Radar, не называть весь suite зелёным.
+
+## 7. Известные проблемы
+Две неизменённые фикстуры lead-radar.test.ts от 24.08 просрочены относительно 30-дневного TTL на текущую дату. Изолированный запуск воспроизводит оба падения; диагностический Date.now=25.08 даёт 2/2. Код TTL и фикстуры не менялись. Прежние warnings: admin chunk >500 KB и некритический hreflang-сигнал. Нет независимой носительской редактуры UZ и разрешённых метрик рекламного кейса.
+
+## 8. Следующая задача
+Публикация кандидата после отдельного разрешения владельца на push/deploy, свежей сверки remote/live и решения по известному тестовому долгу.
+
+## 9. Acceptance следующего этапа
+Полный production artifact с admin, штатные Pages-гейты, 15 live URL с canonical/FAQ/CSS/lastmod, protected 10/10 и подтверждённая версия production. Деплой не подтверждает индексацию или рост лидов.
+
+## 10. Команды для старта
+`git status --short`; `git log -3 --oneline`; `git ls-remote origin HEAD refs/heads/main`. Затем STATE, этот handoff и REPORT-RU. `npm run build`; `npx tsx scripts/seo-protection.ts check`; `node --import tsx --test tests/advertising-seo-content.test.ts`.
+
+## 11. Риски
+Не включать .serena/. Не трогать устаревший main другого checkout. Не выкладывать текущий dist без admin/release build. Не ослаблять TTL ради тестов. Шаблон Telegram — не автоматическая атрибуция.
+
+## 12. Rollback
+Обычный revert только scoped commit рекламного спринта после проверки новых изменений. Миграций и внешних побочных эффектов нет.
+
+---
+
+# Исторические handoff-записи — не доказательство текущего production
+
 # GPTBot AEO video incident closure — 2026-09-05
 
 ## AI-agent comparison article — deployed and live-verified, 2026-09-14
