@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-09-28T17:28:18Z",
+  "release": {
+    "commit": "32c4fd990b141c713aea5bf8051aabd0c6dc9de9",
+    "artifactSha256": "b6a831bbc026eb50ccba907136d1d31b22131d6ba26e84411891ce8ee5187a0f",
+    "fileCount": 933
+  },
+  "deployment": {
+    "id": "3b76e913-6e00-43f2-bf2a-03d56e0cd0c6",
+    "environment": "production",
+    "branch": "main"
+  },
+  "pages": [
+    {
+      "url": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "таблице минимального бюджета Telegram Ads": true,
+        "geist-latin-wght-normal": true
+      },
+      "absent": {
+        "eLama": true,
+        "hoursAvailable": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/uz/telegram-reklama/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "Kirish yo‘li": true,
+        "0,1 TON": true
+      },
+      "absent": {
+        "eLama": true,
+        "hoursAvailable": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "id=\"minimalnyy-byudzhet\"": true,
+        "не универсальное правило": true,
+        "elama.ru": true
+      },
+      "absent": {
+        "2 000 евро": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/ru/internet-reklama-tashkent/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "Цена работы (сум)": true,
+        "\"opens\":\"10:00\"": true,
+        "\"closes\":\"19:00\"": true
+      },
+      "absent": {
+        "hoursAvailable": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "id=\"target\"": true,
+        "id=\"kontekst\"": true,
+        "1 990 000 dan": true,
+        "1 490 000 dan": true
+      },
+      "absent": {
+        "hoursAvailable": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "\"closes\":\"19:00\"": true
+      },
+      "absent": {
+        "hoursAvailable": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "hoursAvailable": true
+      },
+      "absent": {}
+    },
+    {
+      "url": "https://gptbot.uz/ru/lokalnoe-seo-tashkent/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "сколько стоит SEO-продвижение в Узбекистане": true
+      },
+      "absent": {}
+    },
+    {
+      "url": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {
+        "сколько стоит интернет-магазин в Ташкенте": true
+      },
+      "absent": {}
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {},
+      "absent": {
+        "По нашим замерам": true,
+        "href=\"#\"": true
+      }
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+      "status": 200,
+      "selfCanonical": true,
+      "present": {},
+      "absent": {
+        "60–80% рутины": true,
+        "href=\"#\"": true
+      }
+    }
+  ],
+  "allPagesPass": true,
+  "protectedIdenticalToArtifact": "10/10",
+  "protectedComparisonNote": "Byte comparison with dist after removing the Cloudflare Web Analytics beacon that the edge may inject before </body>.",
+  "sitemapUrls": 288
+}

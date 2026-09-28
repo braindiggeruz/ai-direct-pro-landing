@@ -1,6 +1,6 @@
 {
   "advertising_seo_20260928": {
-    "status": "second_pass_complete_release_authorized",
+    "status": "deployed_and_live_verified",
     "branch": "seo/advertising-conversion-20260928",
     "baseline_commit": "8b5ac313634035b6830e50951edcbe76e77a4259",
     "first_pass_commit": "cc969d80",
@@ -15,9 +15,18 @@
     "second_pass": "Full fix from the independent 2026-09-28 advertising audit: one sourced Telegram Ads threshold set (official 0.1 TON CPM on money pages, reseller conditions only in the article with the eLama source), published tariffs on the RU and UZ hubs, raw {tokens} and href-less CTAs removed across the blog, unsupported statistics removed from web and lead articles, 17 misleading internal anchors renamed, compactHero on 5 more RU landings, Organization hours Mon-Sat 10-19 with 24/7 hoursAvailable kept only for bots, Latin Geist preload on RU pages, own-host absolute CTAs treated as internal, homepage footer audit link and cross-language links, tests/seo-content-guards.test.ts",
     "second_pass_verification": "tsc -b 0; 36 SEO/content/release test files one by one: 35 green, react-router-v8-migration keeps its 3 documented route/sitemap count baselines; seo-audit 0 critical/0 broken/0 orphan; build:fast exit 0 with 288 sitemap URLs; protected SEO 10/10; scoped ESLint 0; secret scan clean (3085 files); git diff --check pass; local browser first-screen CTA on 6 RU landings and homepage footer links",
     "deployment_authorization": "Owner explicitly requested the full fix, autonomous work and immediate deployment on 2026-09-28",
-    "pushed": false,
-    "deployed": false,
-    "next_step": "Commit, fast-forward main, push, build:production, deploy:pages:production, live verification and a receipt commit; then owner items: advertising case materials, NAP and Google Business Profile, real enquiry register, GA4 export, price confirmation"
+    "pushed": true,
+    "deployed": true,
+    "next_step": "On 2026-09-29 request indexing in Google Search Console for the ten priority URLs in REPORT-RU; then owner items: advertising case materials, NAP and Google Business Profile, real enquiry register, GA4 export, price confirmation; compare the same GSC advertising cohorts 28 full days after recrawl",
+    "release_commit": "32c4fd990b141c713aea5bf8051aabd0c6dc9de9",
+    "deployment_id": "3b76e913-6e00-43f2-bf2a-03d56e0cd0c6",
+    "artifact_sha256": "b6a831bbc026eb50ccba907136d1d31b22131d6ba26e84411891ce8ee5187a0f",
+    "artifact_files": 933,
+    "live_verification": "docs/seo/advertising-2026-09-28/live-verification-2026-09-28.json: 11/11 changed URLs 200, self-canonical, expected markers present and forbidden absent; protected 10/10 byte-identical to the artifact after removing the injected Cloudflare Web Analytics beacon; sitemap 288 with lastmod 2026-09-28 on changed pages",
+    "indexnow": "reports/indexnow-receipts/2026-09-28T17-24-41-213Z_manual_advertising_release.json: 45 changed URLs, each verified live 200/self-canonical/indexable, HTTP 200 (receipt, not indexing)",
+    "websub": "reports/websub-receipts/2026-09-28T17-24-46-848Z_07e7cffe.json: both blog feeds HTTP 204",
+    "gsc_request_indexing": "Rejected on 2026-09-28 with the daily quota message; retry the ten priority URLs listed in REPORT-RU on 2026-09-29",
+    "indexing_confirmed": false
   },
   "seo_ai_agent_article_20260914": {
     "status": "deployed_and_live_verified",
@@ -108,9 +117,9 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Advertising SEO full fix from the 2026-09-28 audit",
-  "stage_status": "complete_locally_release_authorized",
-  "last_completed_stage": "Advertising SEO second pass: audit fixes, guards and verification",
-  "next_stage": "Guarded production release of the advertising SEO fix with live verification",
+  "stage_status": "complete",
+  "last_completed_stage": "Advertising SEO full fix deployed to production and live-verified",
+  "next_stage": "GSC request indexing for the ten priority advertising URLs on 2026-09-29, then owner-dependent advertising proof and enquiry measurement",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -380,7 +389,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "2e4458c1421b19eabf53e7d1175595d8aa5bd9d8",
+  "last_commit": "32c4fd990b141c713aea5bf8051aabd0c6dc9de9",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {

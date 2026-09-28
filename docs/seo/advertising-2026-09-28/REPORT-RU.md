@@ -1,6 +1,6 @@
 # Рекламное SEO — первый спринт и полный фикс по аудиту, 28.09.2026
 
-Статус: первый проход (15 документов, коммит `cc969d80`) и второй проход — полный фикс по независимому аудиту — реализованы и проверены локально. Публикация выполняется по прямой команде владельца от 28.09.2026 («сразу деплой»); подтверждение production — в разделе «Публикация».
+Статус: первый проход (15 документов, коммит `cc969d80`) и второй проход — полный фикс по независимому аудиту — реализованы и проверены локально. Опубликовано 28.09.2026 по прямой команде владельца («сразу деплой»): production = `32c4fd99`, подробности — раздел «Публикация».
 Ветка: `seo/advertising-conversion-20260928`.
 База: `8b5ac313634035b6830e50951edcbe76e77a4259`; при старте совпала с origin/main.
 Проверенный на старте production: `0dd36128ef935d469b598a7c846312439896f1c0`.
@@ -127,7 +127,7 @@ Telegram: условия посредника больше не представ
 
 ## Что ещё не сделано
 
-- До второго прохода push, деплой, переиндексация и изменения GSC/GA4/профилей не выполнялись; публикация второго прохода — по команде владельца, см. «Публикация».
+- Изменения GSC/GA4/профилей не выполнялись; запрос индексирования в GSC не прошёл из-за дневной квоты и перенесён на 29.09.2026.
 - Настоящие сообщения в Telegram, тестовые лиды в production, платные API/объявления не запускались.
 - Новый рекламный кейс не сфабрикован: нужны исходные материалы и разрешение клиента. См. CASE-INTAKE-RU.md.
 - Серверная форма/CRM-атрибуция не внедрена. Существующие contact_click, telegram_open_attempt, pricing_view сохранены; generate_lead на клик не добавлялся.
@@ -144,7 +144,25 @@ Telegram: условия посредника больше не представ
 
 ## Публикация
 
-Release build (`npm run build:production` с admin и штампом) и `npm run deploy:pages:production` выполняются после коммита второго прохода. Deployment ID, коммит production и live-проверки фиксируются отдельным коммитом-квитанцией.
+- Коммит `32c4fd990b141c713aea5bf8051aabd0c6dc9de9` fast-forward в `main` (`8b5ac313..32c4fd99`), без force; ветка сохранена на origin.
+- `npm run build:production`: exit 0, admin собран, штамп `32c4fd990b141c713aea5bf8051aabd0c6dc9de9`, 933 файла.
+- `npm run deploy:pages:production`: `deployed_and_verified`; Cloudflare Pages deployment `3b76e913-6e00-43f2-bf2a-03d56e0cd0c6` (Production, main). `https://gptbot.uz/gptbot-release.json`: commit `32c4fd990b141c713aea5bf8051aabd0c6dc9de9`, artifactSha256 `b6a831bbc026eb50ccba907136d1d31b22131d6ba26e84411891ce8ee5187a0f`, fileCount 933.
+- Live-проверка (`live-verification-2026-09-28.json`): 11 изменённых URL — HTTP 200, self-canonical, все ожидаемые маркеры есть, запрещённые отсутствуют; защищённые 10/10 побайтно равны артефакту (после удаления beacon Cloudflare Web Analytics, который edge добавляет перед `</body>`); sitemap 288 URL, lastmod изменённых страниц 2026-09-28.
+- IndexNow: один батч из 45 изменённых URL (оба прохода), каждый предварительно проверен live как 200/self-canonical/indexable; HTTP 200 — это приём уведомления, не индексация. Квитанция `reports/indexnow-receipts/2026-09-28T17-24-41-213Z_manual_advertising_release.json`.
+- WebSub: оба фида блога приняты хабом (HTTP 204/204), квитанция `reports/websub-receipts/2026-09-28T17-24-46-848Z_07e7cffe.json`.
+- Google Search Console: URL `/ru/internet-reklama-tashkent/` в индексе; «Запросить индексирование» отклонено сообщением «Квота превышена… попробуйте повторно отправить его завтра». Запрос для приоритетных URL перенесён на 29.09.2026.
+
+Приоритетные URL для запроса индексирования в GSC 29.09.2026:
+1. https://gptbot.uz/ru/internet-reklama-tashkent/
+2. https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
+3. https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/
+4. https://gptbot.uz/ru/telegram-ads-uzbekistan/
+5. https://gptbot.uz/ru/smm-prodvizhenie-tashkent/
+6. https://gptbot.uz/uz/internet-reklama-toshkent/
+7. https://gptbot.uz/uz/telegram-reklama/
+8. https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/
+9. https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/
+10. https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/
 
 ## Rollback
 

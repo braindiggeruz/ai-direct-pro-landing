@@ -1,7 +1,7 @@
 # Рекламное SEO — полный фикс по аудиту 2026-09-28
 
 ## 1. Состояние
-Ветка `seo/advertising-conversion-20260928`: первый проход `cc969d80` и второй проход (этот коммит) поверх `8b5ac313` = origin/main. Владелец 28.09.2026 прямо поручил полный фикс, автономную работу и немедленный деплой. После коммита: fast-forward main, push, `build:production`, `deploy:pages:production`, live-проверка, коммит-квитанция. Untracked `.serena/` не включать.
+Опубликовано. Production = `32c4fd990b141c713aea5bf8051aabd0c6dc9de9` (первый проход `cc969d80` + второй проход `32c4fd99`), Cloudflare Pages deployment `3b76e913-6e00-43f2-bf2a-03d56e0cd0c6`, artifactSha256 `b6a831bbc026eb50ccba907136d1d31b22131d6ba26e84411891ce8ee5187a0f`, 933 файла. `main` = release commit + этот коммит-квитанция (только документы и квитанции). Владелец 28.09.2026 прямо поручил полный фикс, автономную работу и немедленный деплой. Untracked `.serena/` не включать.
 
 ## 2. Что сделано
 Второй проход закрывает автономные пункты независимого аудита: один проверенный набор порогов Telegram Ads, опубликованные тарифы на RU/UZ-хабах, сырые `{token}` и CTA без адреса по всему блогу, недоказанные статистики в статьях о сайтах, заявках и подрядчиках, 17 анкоров, compactHero ещё на 5 RU-лендингах, часы Пн–Сб 10–19 в Organization и отказ от 24/7 `hoursAvailable` для услуг команды, preload латиницы на RU, внутренние абсолютные CTA без nofollow, ссылки футера главной, guard-тест.
@@ -21,15 +21,16 @@ D-SEO-ADS-20260928B: money-страницы только с первичными
 - `seo-audit.ts`: 0 critical, 0 broken, 0 orphan. `build:fast`: exit 0, sitemap 288.
 - `seo-protection.ts check`: 10/10. `scan:secrets`: clean (3085). `git diff --check`: pass.
 - Локальный браузер: CTA в первом экране 1366×768 на 6 RU-лендингах; футер главной рисует новые ссылки.
+- Production: `deployed_and_verified`; live 11/11 изменённых URL с маркерами, защищённые 10/10 равны артефакту, sitemap 288 (`docs/seo/advertising-2026-09-28/live-verification-2026-09-28.json`). IndexNow 45 URL — HTTP 200; WebSub 204/204.
 
 ## 7. Известные проблемы
 Две фикстуры `lead-radar.test.ts` просрочены по 30-дневному TTL; три счётчика `react-router-v8-migration` устарели. Оба долга не связаны с этой работой. Диск C: машины владельца во время работы заполнился до 0 ГБ (крупные файлы `.codex`); очищены только регенерируемые кэши node/tsx/jiti, временные файлы релиза переведены на F:.
 
 ## 8. Следующая задача
-Guarded production release этого коммита: `build:production`, `deploy:pages:production`, live-проверка изменённых URL, protected 10/10, `gptbot-release.json`, sitemap lastmod; затем запрос переобхода ключевых URL и коммит-квитанция.
+29.09.2026: «Запросить индексирование» в GSC для 10 приоритетных URL из REPORT-RU (28.09 отклонено дневной квотой). Затем пункты владельца: материалы рекламного кейса, NAP и Google Business Profile, журнал реальных обращений, экспорт GA4, подтверждение цен. Через 28 полных дней после переобхода — сравнение тех же рекламных когорт GSC.
 
 ## 9. Acceptance следующего этапа
-Production `gptbot-release.json` указывает на коммит релиза; live HTML изменённых URL содержит новые таблицы, анкоры и разметку; protected 10/10; sitemap 288. Деплой не подтверждает индексацию или рост обращений.
+GSC подтверждает принятый запрос для каждого приоритетного URL или фиксируется причина отказа; в URL Inspection видна дата сканирования после 28.09.2026. Индексация и рост обращений не заявляются без данных GSC и журнала обращений.
 
 ## 10. Команды для старта
 `git status --short`; `git log -3 --oneline`; `git ls-remote origin refs/heads/main`. Затем STATE, этот handoff и REPORT-RU. `npx tsx scripts/seo-protection.ts check`; `node --import tsx --test tests/seo-content-guards.test.ts`.
