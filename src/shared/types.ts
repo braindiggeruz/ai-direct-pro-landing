@@ -216,6 +216,8 @@ export interface GlobalSEO {
   phone?: string;
   /** Named expert/founder used as Article author (Person) for E-E-A-T. */
   authorName?: string;
+  /** The same author in Latin script, shown on Uzbek (Latin) pages instead of the Cyrillic name. */
+  authorNameLatin?: string;
   /** Public profile URL for the named author (e.g. the About page). */
   authorUrl?: string;
   telegram?: string;
@@ -237,7 +239,8 @@ export interface GlobalSEO {
   sameAs: string[];
   /**
    * Business directory / map cards of the studio itself (not of the author).
-   * Merged into Organization.sameAs only; Person.sameAs keeps `sameAs`.
+   * The only source of Organization.sameAs; Person.sameAs keeps `sameAs`
+   * (the founder's personal profiles are not the company's).
    */
   businessProfiles?: string[];
   defaultCTA: { label: string; href: string };

@@ -86,16 +86,19 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
   org.contactPoint = {
     '@type': 'ContactPoint',
-    contactType: 'customer support',
+    // The public number takes new-client enquiries, not support tickets.
+    contactType: 'sales',
     ...(global.phone ? { telephone: global.phone } : {}),
     availableLanguage: langCodes.map((code) => LANGUAGE_NAMES[code] || code),
   };
   if (global.phone) org.telephone = global.phone;
 
-  // sameAs — every confirmed external profile of the studio: social/code
-  // profiles shared with the author node plus the studio's own map and
-  // directory cards (content/global/site.json businessProfiles).
-  const sameAs = [...(global.sameAs ?? []), ...(global.businessProfiles ?? [])]
+  // sameAs — the studio's own map and directory cards only
+  // (content/global/site.json businessProfiles). global.sameAs holds the
+  // founder's personal Telegram and GitHub; those belong to the Person node
+  // (buildAuthorPersonLd). Listing them here too told search engines and AI
+  // assistants that the company and the founder are the same entity.
+  const sameAs = (global.businessProfiles ?? [])
     .filter((url, index, all) => url && all.indexOf(url) === index);
   if (sameAs.length > 0) org.sameAs = sameAs;
 
@@ -137,6 +140,7 @@ export function buildAuthorPersonLd(global: GlobalSEO): Record<string, unknown> 
     '@type': 'Person',
     '@id': `${global.siteUrl}/#author`,
     name: global.authorName,
+    ...(global.authorNameLatin ? { alternateName: global.authorNameLatin } : {}),
     ...(global.authorUrl ? { url: global.authorUrl } : {}),
     worksFor: { '@id': `${global.siteUrl}/#org` },
     jobTitle: 'Founder and editor',

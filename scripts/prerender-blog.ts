@@ -262,12 +262,13 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
   const authorPerson = buildAuthorPersonLd(global);
   if (authorPerson) graph.push(authorPerson);
   graph.push(buildBreadcrumbLd([
-    { name: global.siteName, item: `${global.siteUrl}/` },
+    { name: global.siteName, item: `${global.siteUrl}${a.locale === 'uz' ? '/uz/' : '/'}` },
     { name: blogIndexName, item: blogIndexUrl },
     { name: a.h1, item: fullUrl },
   ]));
   graph.push({
-    '@type': 'Article',
+    // BlogPosting is the Article subtype for blog entries; Google reads both.
+    '@type': 'BlogPosting',
     '@id': `${fullUrl}#article`,
     headline: a.title,
     name: a.h1,
@@ -283,7 +284,7 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
     publisher: { '@id': `${global.siteUrl}/#org` },
     datePublished: a.datePublished || a.createdAt,
     dateModified: a.dateModified || a.updatedAt || a.datePublished,
-    mainEntityOfPage: fullUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': fullUrl },
     image: a.ogImage || global.defaultOgImage,
     keywords: (a.keywords || []).join(', '),
     articleSection: a.topicCluster,
@@ -417,6 +418,8 @@ ${LLM_MARKDOWN_URLS.has(a.url)
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
 ${cssLinks}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
@@ -429,7 +432,7 @@ ${METRIKA_HEAD}
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
-    <a href="/" class="font-display text-lg sm:text-xl text-white shrink-0">${escapeHtml(global.siteName)}</a>
+    <a href="${lang === 'uz' ? '/uz/' : '/'}" class="font-display text-lg sm:text-xl text-white shrink-0">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-2 sm:gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="hidden sm:inline text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(headerCtaHref)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${headerCtaHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-3 sm:px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center text-center">
@@ -441,7 +444,7 @@ ${METRIKA_NOSCRIPT}
 
 <main id="main" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
   <nav aria-label="Breadcrumb" data-testid="article-breadcrumb" class="text-sm text-white/50 mb-6">
-    <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
+    <a href="${lang === 'uz' ? '/uz/' : '/'}" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
     <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
     <span class="px-2">/</span>
@@ -451,7 +454,7 @@ ${METRIKA_NOSCRIPT}
   <article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
     <div data-testid="article-meta" class="mb-10 rounded-2xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-white/60">
-      <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml(global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
+      <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml((lang === 'uz' ? global.authorNameLatin : undefined) || global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
       ${a.datePublished ? `<span class="mx-2" aria-hidden="true">·</span><span>${escapeHtml(t.published)} <time datetime="${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}</time></span>` : ''}
       ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
     </div>
@@ -468,7 +471,7 @@ ${METRIKA_NOSCRIPT}
 
 <footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
-    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${lang === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
       <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${a.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
@@ -521,7 +524,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
     buildOrganizationLd(global),
     buildWebSiteLd(global),
     buildBreadcrumbLd([
-      { name: global.siteName, item: `${global.siteUrl}/` },
+      { name: global.siteName, item: `${global.siteUrl}${locale === 'uz' ? '/uz/' : '/'}` },
       { name: t.blog, item: indexUrl },
     ]),
     {
@@ -585,6 +588,8 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <!-- Favicon: the square 1 140-byte brand mark, not the 75 834-byte landing
      illustration that used to be served here. See scripts/prerender.ts. -->
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
 ${cssLinks}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>
@@ -597,7 +602,7 @@ ${METRIKA_HEAD}
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
-    <a href="/" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
+    <a href="${locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="/${locale}/blog/" data-testid="header-blog-active" class="hidden sm:inline text-brand-cyan">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(global.defaultCTA.label)}</a>
@@ -607,7 +612,7 @@ ${METRIKA_NOSCRIPT}
 
 <main id="main" class="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
-    <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
+    <a href="${locale === 'uz' ? '/uz/' : '/'}" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
     <span class="text-white/70">${escapeHtml(t.blog)}</span>
   </nav>
@@ -620,7 +625,7 @@ ${METRIKA_NOSCRIPT}
 
 <footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
-    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
       <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>

@@ -45,7 +45,7 @@ export const i18n: Record<Lang, Dict> = {
     },
     hero: {
       badge: 'AI-бот для бизнеса · Instagram и Telegram',
-      h1a: 'GPTBot.uz — AI-бот для бизнеса,',
+      h1a: 'GPTBot.uz — AI-бот для бизнеса в Узбекистане,',
       h1b: 'который не теряет заявки',
       sub: 'AI/GPT-менеджер отвечает клиентам в Instagram и Telegram 24/7, собирает имя, телефон и передаёт горячие заявки вашему менеджеру.',
       bullets: [

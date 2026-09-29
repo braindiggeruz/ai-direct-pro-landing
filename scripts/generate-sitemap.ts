@@ -14,8 +14,8 @@ const DIST_DIR = path.join(ROOT, 'dist');
 
 const pageFiles = fg.sync('pages/**/*.json', { cwd: CONTENT_DIR, absolute: true });
 const pages: Page[] = pageFiles.map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')));
-// A page whose canonical points elsewhere (today only /ru/ → /) is not a sitemap
-// URL: the sitemap lists canonical URLs only.
+// A page whose canonical points elsewhere is not a sitemap URL: the sitemap
+// lists canonical URLs only.
 const selfCanonical = (p: Page): boolean => !p.canonical || p.canonical === p.url || p.canonical === `${SITE_URL}${p.url}`;
 const eligible = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && selfCanonical(p));
 
@@ -76,22 +76,35 @@ function imageLinks(images: string[]): string {
 
 // --- hreflang helpers -------------------------------------------------------
 
-type Alternates = { ru?: string; uz?: string };
+type Alternates = { ru?: string; uz?: string; xDefault?: string };
 
-type HreflangFields = { hreflangRu?: string; hreflangUz?: string };
+type HreflangFields = { hreflangRu?: string; hreflangUz?: string; hreflangXDefault?: string };
 
+// Content JSON may carry an absolute URL instead of a site-relative path (one
+// UZ article did, and the sitemap printed `https://gptbot.uzhttps://…`). The
+// prerenderers already accept both forms; accept both here too.
+function sitePath(href: string | undefined): string {
+  if (!href) return '';
+  return href.startsWith(SITE_URL) ? href.slice(SITE_URL.length) || '/' : href;
+}
+
+// Same rule as scripts/prerender.ts and scripts/prerender-blog.ts, so the
+// sitemap and the page never disagree: annotate a real RU↔UZ pair or nothing
+// (a one-member set annotates nothing), and honour `hreflangXDefault` only when
+// it is one of the two members; otherwise the Russian member is the default.
 function alternatesOf(item: HreflangFields): Alternates | undefined {
-  const alt: Alternates = {};
-  if (item.hreflangRu) alt.ru = item.hreflangRu;
-  if (item.hreflangUz) alt.uz = item.hreflangUz;
-  return alt.ru || alt.uz ? alt : undefined;
+  const ru = sitePath(item.hreflangRu);
+  const uz = sitePath(item.hreflangUz);
+  if (!ru || !uz) return undefined;
+  const override = sitePath(item.hreflangXDefault);
+  return { ru, uz, xDefault: override === ru || override === uz ? override : ru };
 }
 
 function hreflangLinks(alt: Alternates): string {
   const lines: string[] = [];
   if (alt.ru) lines.push(`    <xhtml:link rel="alternate" hreflang="ru" href="${SITE_URL}${alt.ru}"/>`);
   if (alt.uz) lines.push(`    <xhtml:link rel="alternate" hreflang="uz" href="${SITE_URL}${alt.uz}"/>`);
-  const fallback = alt.ru || alt.uz;
+  const fallback = alt.xDefault || alt.ru || alt.uz;
   if (fallback) lines.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${fallback}"/>`);
   return lines.join('\n');
 }
@@ -113,8 +126,8 @@ if (uzArticles.length > 0) blogIndexAlternates.uz = '/uz/blog/';
 
 const entries: Entry[] = [
   // Homepage: the Russian member and the x-default of the homepage hreflang set.
-  // /ru/ canonicalises to "/" and is filtered out above (selfCanonical), so
-  // exactly one URL claims ru; /uz/ declares the reciprocal pair through its own
+  // /ru/ is a 301 to "/" (content/seo/redirects.json), so exactly one URL
+  // claims ru; /uz/ declares the reciprocal pair through its own
   // hreflangRu/hreflangUz fields (HOME_HREFLANG, gsc-audit-2026-09-17 T13).
   { url: '/', lastmod: latestSiteChange, alternates: { ru: HOME_HREFLANG.ru, uz: HOME_HREFLANG.uz } },
   // Blog indexes — emit one per locale that has at least one published article.

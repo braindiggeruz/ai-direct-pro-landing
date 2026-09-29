@@ -1,5 +1,21 @@
 [
   {
+    "id": "ru-hub-to-homepage",
+    "from": "/ru/",
+    "to": "/",
+    "statusCode": 301,
+    "reason": "/ru/ was a separate 999-word hub canonicalised to / with a different H1 and title; Google can ignore a canonical between non-duplicate pages, leaving two Russian homepages competing for «AI-бот для бизнеса в Узбекистане». Owner chose one URL (full-site audit 2026-09-29).",
+    "createdAt": "2026-09-29"
+  },
+  {
+    "id": "ru-hub-to-homepage-no-slash",
+    "from": "/ru",
+    "to": "/",
+    "statusCode": 301,
+    "reason": "Slashless variant of /ru/ in one hop instead of /ru → /ru/ → / (full-site audit 2026-09-29).",
+    "createdAt": "2026-09-29"
+  },
+  {
     "id": "blog-no-locale-prefix",
     "from": "/blog/*",
     "to": "/ru/blog/:splat",

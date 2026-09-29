@@ -1,4 +1,14 @@
 {
+  "full_site_audit_20260929": {
+    "status": "release_candidate",
+    "branch": "seo/full-audit-fixes-20260929",
+    "baseline_commit": "9f15ffb2",
+    "report": "docs/seo/full-audit-2026-09-29/REPORT-RU.md",
+    "audit": "C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/ (outside Git)",
+    "owner_decisions": "hours Mon-Sat 10:00-19:00; /ru/ 301 to /",
+    "verification": "tsc -b 0; seo-audit 0 critical; build:fast exit 0 (288 sitemap URLs, 148 with hreflang, 24 user redirects); SEO test files one by one green; npm test 629/631 with the 2 known date-sensitive tests/lead-radar.test.ts failures reproduced on clean origin/main; scoped ESLint 0",
+    "owner_actions": "GBP Boss Digital NAP; Yandex Business pin/address/categories; Cloudflare Page Rule /?lang=ru -> /; HTML Cache Rule; real reviews/cases; UZ translations; Google API key for PSI/CrUX"
+  },
   "advertising_seo_20260928": {
     "status": "third_pass_deployed",
     "branch": "seo/advertising-conversion-20260928",

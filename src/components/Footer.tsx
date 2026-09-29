@@ -76,6 +76,9 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
   const lDemo = t.nav.cta;
   const phoneLabel = isUz ? 'Qo‘ng‘iroq qilish: +998 50 587 07 20' : 'Позвонить: +998 50 587 07 20';
   const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko‘chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko‘chasi 35, Ташкент";
+  // Same hours as openingHoursSpecification in scripts/jsonld-helpers.ts:
+  // structured data has to describe something a visitor can see.
+  const hoursLabel = isUz ? 'Ish vaqti: Du–Sha 10:00–19:00' : 'Часы работы: Пн–Сб 10:00–19:00';
   return (
     <footer id="contacts" data-testid="site-footer" className="relative pt-16 pb-32 sm:pb-12 border-t border-white/5 bg-bg-base/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -208,6 +211,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
                 </a>
               </li>
               <li className="text-white/50 leading-relaxed" data-testid="footer-office-address">{officeLabel}</li>
+              <li className="text-white/50 leading-relaxed" data-testid="footer-office-hours">{hoursLabel}</li>
             </ul>
           </div>
         </div>

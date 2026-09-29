@@ -55,10 +55,11 @@ export const HREFLANG_PAIRS: Array<[string, string]> = [
 /**
  * The homepage hreflang set (gsc-audit-2026-09-17 T13, decided 2026-09-18).
  * `/` is the Russian entry and the x-default; `/uz/` is the Uzbek entry.
- * `/ru/` canonicalises to `/` and declares no alternates, so exactly one URL
- * claims `ru` and the brand query «gptbot» is no longer split between two
- * Russian homes. index.html, content/pages/{ru,uz}/hub.json, the sitemap
- * generator, the audit and the tests all read this one definition.
+ * `/ru/` is a 301 to `/` (content/seo/redirects.json, 2026-09-29; before that
+ * it was a separate hub canonicalised to `/`), so exactly one URL claims `ru`
+ * and the brand query «gptbot» is not split between two Russian homes.
+ * index.html, content/pages/uz/hub.json, the sitemap generator, the audit and
+ * the tests all read this one definition.
  */
 export const HOME_HREFLANG = { ru: '/', uz: '/uz/', xDefault: '/' } as const;
 

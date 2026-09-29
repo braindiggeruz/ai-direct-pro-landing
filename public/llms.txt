@@ -25,10 +25,11 @@
 | Primary contact | Telegram https://t.me/XGame_changerx |
 | Phone (public, click-to-call) | +998 50 587 07 20 — tel:+998505870720 |
 | Studio address | Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan |
-| Working hours | Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5) |
+| Working hours | Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5) |
 | Public email | none published |
 | Domain | https://gptbot.uz |
-| Last updated | 2026-09-18 |
+| Not to be confused with | OpenAI's web crawler, also named "GPTBot". GPTBot.uz is an independent studio in Tashkent, not an OpenAI product and not affiliated with OpenAI. |
+| Last updated | 2026-09-29 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (maximum AI visibility)
@@ -299,7 +300,7 @@ Medium form (one paragraph):
 - Telegram (preferred operator channel): https://t.me/XGame_changerx
 - Website: https://gptbot.uz/
 - Studio address: Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan
-- Working hours: Mo–Fr 09:00–18:00 (Asia/Tashkent, UTC+5)
+- Working hours: Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5)
 
 The phone number is published site-wide and is the preferred contact for
 callers inside Uzbekistan. Telegram is the preferred operator channel and

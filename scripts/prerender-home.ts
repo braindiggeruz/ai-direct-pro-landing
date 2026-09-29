@@ -86,12 +86,18 @@ function definitions(items: readonly { t: string; d: string }[]): string {
   return `<dl>${items.map((i) => `<dt>${escapeText(i.t)}</dt><dd>${escapeText(i.d)}</dd>`).join('')}</dl>`;
 }
 
+// A page whose canonical names another URL (the retired /ru/ hub, now a 301 to
+// "/") is not a link target: linking it from the homepage would point the
+// homepage at a redirect back to itself.
+const isSelfCanonical = (global: GlobalSEO, p: Page): boolean =>
+  !p.canonical || p.canonical === p.url || p.canonical === `${global.siteUrl}${p.url}`;
+
 function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): string {
   const liveMoney = pages
-    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage')
+    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage' && isSelfCanonical(global, p))
     .sort((a, b) => a.url.localeCompare(b.url));
   const liveMoneyUz = pages
-    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'uz' && p.pageType !== 'homepage')
+    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'uz' && p.pageType !== 'homepage' && isSelfCanonical(global, p))
     .sort((a, b) => a.url.localeCompare(b.url));
   const liveBlog = blog
     .filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru')
@@ -192,7 +198,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
   </main>
 
   <footer>
-    <p>GPTBot.uz · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')}</p>
+    <p>GPTBot.uz · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')} · Пн–Сб 10:00–19:00</p>
     <!-- NAP: the phone belongs here too, same as the real footer and the sticky
          bar. This shell is the no-JS / crawler view of the homepage, so it is
          the only NAP a crawler that does not execute JavaScript will ever see.
@@ -291,7 +297,7 @@ async function main(): Promise<void> {
   }
 
   fs.writeFileSync(DIST_INDEX, html, 'utf-8');
-  const liveMoneyCount = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage').length;
+  const liveMoneyCount = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage' && isSelfCanonical(global, p)).length;
   const liveBlogCount = blog.filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru').length;
   console.log(`Homepage SEO shell injected: ${liveMoneyCount} money links + ${liveBlogCount} blog links. JSON-LD upgraded to @graph(Organization+WebSite+WebPage+Service).`);
 }

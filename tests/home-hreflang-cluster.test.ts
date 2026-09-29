@@ -26,14 +26,19 @@ test('index.html declares the homepage hreflang set from HOME_HREFLANG', () => {
   assert.equal((html.match(/hreflang="ru"/g) ?? []).length, 1, 'exactly one ru alternate on the homepage');
 });
 
-test('/ru/ canonicalises to the homepage and declares no alternates', () => {
-  const ru = page('content/pages/ru/hub.json');
-  assert.equal(ru.url, '/ru/');
-  assert.equal(ru.canonical, `${SITE_URL}${HOME_HREFLANG.ru}`);
-  assert.equal(ru.hreflangRu || '', '');
-  assert.equal(ru.hreflangUz || '', '');
-  assert.equal(ru.status, 'published');
-  assert.notEqual(ru.robotsIndex, false, 'a canonicalised page stays indexable; noindex + canonical is contradictory');
+// /ru/ used to be a separate 999-word hub canonicalised to "/". A canonical
+// between two non-duplicate pages is only a hint, so Google could keep both
+// Russian homepages. The owner chose one URL on 2026-09-29: /ru/ is a 301 to
+// the homepage and has no content file behind it.
+test('/ru/ is a one-hop 301 to the homepage, not a page', () => {
+  assert.equal(fs.existsSync(path.join(ROOT, 'content/pages/ru/hub.json')), false);
+  const redirects = JSON.parse(read('content/seo/redirects.json')) as Array<{ from: string; to: string; statusCode: number }>;
+  for (const from of ['/ru/', '/ru']) {
+    const rule = redirects.find((r) => r.from === from);
+    assert.ok(rule, `${from} must redirect`);
+    assert.equal(rule.to, HOME_HREFLANG.ru);
+    assert.equal(rule.statusCode, 301);
+  }
 });
 
 test('/uz/ is the Uzbek member and points back at the homepage', () => {

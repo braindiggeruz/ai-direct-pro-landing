@@ -348,7 +348,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
 
   if (types.has('BreadcrumbList')) {
     graph.push(buildBreadcrumbLd([
-      { name: global.siteName, item: `${global.siteUrl}/` },
+      { name: global.siteName, item: `${global.siteUrl}${page.locale === 'uz' ? '/uz/' : '/'}` },
       { name: page.breadcrumbLabel || page.h1, item: fullUrl },
     ]));
   }
@@ -468,7 +468,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 
 <footer class="border-t border-white/[0.06] py-6">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
-    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
       <a data-testid="footer-call-cta" href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
       <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
@@ -671,25 +671,11 @@ const DIGITAL_COMMAND_STYLES = `<style>
   @media(prefers-reduced-motion:no-preference){.dc-live:before{animation:dc-pulse 2.2s ease-in-out infinite}.dc-signal{animation:dc-float 5s ease-in-out infinite}.dc-signal-b{animation-delay:-1.5s}.dc-signal-c{animation-delay:-3s}@keyframes dc-pulse{50%{opacity:.35;transform:scale(.75)}}@keyframes dc-float{50%{transform:translateY(-8px)}}}
 </style>`;
 
-// Per-page x-default overrides, keyed by page URL. See renderPage() for the
-// resolution order; a page JSON may also carry `hreflangXDefault`, which wins.
-//
-// /uz/gpt-uzbek-tilida/ is the single highest-traffic URL on the site and the
-// demand behind it is Uzbek-language: "chatgpt uzbek tilida", "chatgptga
-// qanday kirish". Both members of the pair declared x-default =
-// https://gptbot.uz/ru/gpt-chat/, which offers a Russian document to a searcher
-// whose language the cluster could not match. Only this one pair is flipped;
-// every other pair keeps the Russian default.
 // Services the team delivers in office hours: they get the organisation's hours,
 // not the 24/7 availability that only an AI bot can honestly declare.
 const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish)/;
 // Absolute links to our own host are internal: no nofollow, no new tab.
 const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href) && !/^https:\/\/gptbot\.uz(\/|$)/i.test(href);
-
-const X_DEFAULT_BY_URL: Record<string, string> = {
-  '/uz/gpt-uzbek-tilida/': '/uz/gpt-uzbek-tilida/',
-  '/ru/gpt-chat/': '/uz/gpt-uzbek-tilida/',
-};
 
 function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
@@ -720,14 +706,15 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   // the declared alternates. The Russian member is the right global default for
   // a Tashkent studio that sells in Russian, and it was applied unconditionally
   // — including to the pair whose entire query set is Uzbek. Resolution order:
-  //   1. `hreflangXDefault` on the page JSON (site-relative or absolute)
-  //   2. X_DEFAULT_BY_URL below
-  //   3. the Russian member of the pair (unchanged for every other page)
+  //   1. `hreflangXDefault` on the page JSON (site-relative or absolute).
+  //      /ru/gpt-chat/ ↔ /uz/gpt-uzbek-tilida/ sets it to the Uzbek member:
+  //      the demand behind that pair is Uzbek ("chatgpt uzbek tilida").
+  //      It lives in the JSON, not here, so scripts/generate-sitemap.ts
+  //      reads the same value and the sitemap agrees with the page.
+  //   2. the Russian member of the pair (every other page)
   // The override is honoured only when it is itself one of the two declared
   // alternates: an x-default outside the set annotates nothing.
-  const xDefaultRaw = (page as { hreflangXDefault?: string }).hreflangXDefault
-    || X_DEFAULT_BY_URL[page.url]
-    || '';
+  const xDefaultRaw = (page as { hreflangXDefault?: string }).hreflangXDefault || '';
   const xDefaultOverride = xDefaultRaw
     ? (xDefaultRaw.startsWith('http') ? xDefaultRaw : `${global.siteUrl}${xDefaultRaw}`)
     : '';
@@ -745,7 +732,7 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   // E-E-A-T author byline. Named expert from global config (Person schema anchor).
   // Rendered under the H1 on commercial pages and content pages that explicitly
   // declare Article schema. Copy-only, no invented credentials or review claims.
-  const authorName = global.authorName || global.organizationName;
+  const authorName = (page.locale === 'uz' ? global.authorNameLatin : undefined) || global.authorName || global.organizationName;
   const authorUrl = page.locale === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
   const authorLabel = page.locale === 'uz' ? 'Muallif' : 'Автор';
   const orgReviewLabel = page.locale === 'uz'
@@ -835,6 +822,8 @@ ${LLM_MARKDOWN_URLS.has(page.url)
      /favicon.svg is deliberately not used: it is the purple mark from the
      original scaffold commit, not GPTBot artwork. -->
 <link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/webp'}"${marketVariant ? '' : ' sizes="80x80"'} href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/logo-sq-80.webp'}" />
+${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
@@ -848,7 +837,7 @@ ${METRIKA_HEAD}
 ${METRIKA_NOSCRIPT}
 ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-    <a href="/" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
+    <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">
       ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
@@ -865,7 +854,7 @@ ${marketVariant
   ? renderGptChatMain(page, global)
   : `<main id="main" class="${page.designVariant === 'digital-command-center' ? 'dc-shell' : 'max-w-3xl'} mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
-    <a href="/" class="hover:text-white">${escapeHtml(global.siteName)}</a>
+    <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="hover:text-white">${escapeHtml(global.siteName)}</a>
     <span class="px-2">/</span>
     <span class="text-white/70">${escapeText(page.breadcrumbLabel || page.h1)}</span>
   </nav>
@@ -904,7 +893,7 @@ ${marketVariant
 
 ${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
-    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')}</span>
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
       <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${page.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
