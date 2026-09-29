@@ -39,6 +39,9 @@ sitemap, performance, visual, GEO, local, backlinks, clusters, SXO). Полны�
 - Полный `npm test`: 629/631. Два падения в `tests/lead-radar.test.ts` воспроизводятся на чистом `origin/main` (датозависимые фикстуры, известны с 2026-09-28) — не связаны с этим изменением.
 - ESLint изменённых файлов — 0.
 
+## IndexNow
+2026-09-29 10:36 UTC: один батч из 289 URL (все 288 URL sitemap — в релизе изменились JSON-LD Organization и видимые часы на каждой странице — плюс `/ru/` как новый 301). Каждый URL проверен live перед отправкой: 200, self-canonical, indexable. HTTP 200 — приём уведомления (Bing, Yandex, Seznam, Naver, Yep), не индексация. Квитанция: `reports/indexnow-receipts/2026-09-29T10-36-34-631Z_manual_full_audit_release.json`. Google IndexNow не использует — для него GSC «Запросить индексирование» (10 URL в день).
+
 ## Что осталось владельцу (код не решает)
 1. **Google Business Profile** «Boss Digital»: адрес Little Ring Road 57 → Yahyo Gulyamov ko‘chasi 35, телефон → +998 50 587 07 20, сайт → gptbot.uz, часы Пн–Сб 10–19.
 2. **Яндекс Бизнес** «Gptbot.uz»: метка стоит в Навоийской области без адреса; поставить адрес в Ташкенте, убрать нерелевантные рубрики (ресторан), часы Пн–Сб 10–19.
