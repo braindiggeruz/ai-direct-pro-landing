@@ -68,6 +68,32 @@ export interface LeadAlert {
   shareConversation: boolean;
   /** Ignored entirely unless shareConversation is true. */
   transcript?: TranscriptTurn[];
+  /** gpt_leads.source: 'gpt_chat' | 'calculator' | 'page_form'. Absent on old rows. */
+  source?: string | null;
+  /** Service slug from utm_json.attribution.service, when the form sent one. */
+  service?: string | null;
+}
+
+const SOURCE_LABELS = new Map<string, string>([
+  ['gpt_chat', 'AI-чат'],
+  ['calculator', 'калькулятор'],
+  ['page_form', 'форма на странице'],
+]);
+
+const SOURCE_HEADS = new Map<string, string>([
+  ['calculator', 'Заявка из калькулятора'],
+  ['page_form', 'Заявка с сайта'],
+]);
+
+/** One line: where the lead came from, what it is about, and on which page. */
+export function sourceSummary(alert: Pick<LeadAlert, 'source' | 'service' | 'pageUrl'>): string | null {
+  if (!alert.source && !alert.service) return null;
+  const parts = [
+    alert.source ? SOURCE_LABELS.get(alert.source) ?? alert.source : null,
+    alert.service ? `услуга ${alert.service}` : null,
+    alert.pageUrl,
+  ].filter((part): part is string => !!part);
+  return parts.join(' · ');
 }
 
 const MAX_TURNS_IN_ALERT = 6;
@@ -139,8 +165,10 @@ export interface RenderedAlert {
  * and — only with consent — what was actually said.
  */
 export function buildLeadAlert(alert: LeadAlert): RenderedAlert {
-  const head = `🔔 <b>Заявка из AI-чата</b>\n\n`;
+  const fromChat = !alert.source || alert.source === 'gpt_chat';
+  const head = `🔔 <b>${(alert.source && SOURCE_HEADS.get(alert.source)) || 'Заявка из AI-чата'}</b>\n\n`;
   const body =
+    line('Источник', sourceSummary(alert)) +
     line('Имя', alert.name || 'не указано') +
     line('Контакт', `${alert.contactValue} (${alert.contactType})`) +
     line('Запрос', alert.intent || 'не указан') +
@@ -152,7 +180,10 @@ export function buildLeadAlert(alert: LeadAlert): RenderedAlert {
 
   const turns = alert.shareConversation ? alert.transcript ?? [] : [];
   let tail: string;
-  if (!alert.shareConversation) {
+  if (!fromChat && !alert.shareConversation) {
+    // A calculator or page form has no conversation to withhold.
+    tail = '';
+  } else if (!alert.shareConversation) {
     tail = '\n<i>Переписку передавать не разрешили — показываем только контакт.</i>';
   } else if (turns.length === 0) {
     tail = '\n<i>Переписку разрешили передать, но сообщений в этой сессии нет.</i>';

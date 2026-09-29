@@ -1,4 +1,13 @@
 {
+  "lead_capture_20260929": {
+    "status": "release_candidate",
+    "branch": "seo/full-audit-fixes-20260929",
+    "baseline_commit": "7b78175f",
+    "report": "docs/seo/lead-capture-2026-09-29/REPORT-RU.md",
+    "roadmap": "C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/ROADMAP-ADS-TGBOTS-2026-09-29.md (outside Git)",
+    "verification": "tsc app+functions 0; scoped ESLint 0; npm test 675/677 (2 known date-sensitive lead-radar failures); lead-attribution 17/17; lead-capture-templates 26/26; build:fast 0; seo-audit 0 critical; seo-protection 10/10",
+    "owner_actions": "register 6 Metrika JS goals; GA4 custom dims service_slug/cta_zone/page_path/lead_source; privacy-policy attribution line; lead register"
+  },
   "full_site_audit_20260929": {
     "status": "deployed_and_verified",
     "release_commit": "807c3d5ccf8f747bc0902a991aa7887d8f12cd7f",

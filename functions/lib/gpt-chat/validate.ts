@@ -46,6 +46,31 @@ export interface LeadInput {
   requestId?: string;
   /** Single-use challenge token, verified and discarded at the edge. */
   turnstileToken?: string;
+  /**
+   * Which surface produced the lead. Whitelisted by `normalizeLeadSource`;
+   * anything else, or nothing, is the AI chat — the endpoint's original caller.
+   */
+  source?: string;
+  /** Service slug the visitor asked about (e.g. `telegram-bot`). */
+  service?: string;
+  /**
+   * First-touch attribution recorded by the browser. Strictly sanitised by
+   * `sanitizeLeadAttribution`; unknown keys are dropped. Never carries PII.
+   */
+  attribution?: Record<string, unknown>;
+}
+
+export const LEAD_SOURCES = ['gpt_chat', 'calculator', 'page_form'] as const;
+export type LeadSource = typeof LEAD_SOURCES[number];
+
+/** The sanitised first-touch record stored under utm_json.attribution. */
+export interface LeadAttribution {
+  landing?: string;
+  referrerHost?: string;
+  gclid?: string;
+  yclid?: string;
+  fbclid?: string;
+  firstSeenAt?: string;
 }
 
 export interface LeadValidation {
@@ -63,16 +88,30 @@ export interface LeadValidation {
     pageUrl: string | null;
     shareConversation: boolean;
     requestId: string | null;
+    source: LeadSource;
+    service: string | null;
+    attribution: LeadAttribution | null;
   };
 }
 
 const TELEGRAM_HANDLE_RE = /^[A-Za-z][A-Za-z0-9_]{4,31}$/;
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@.]{1,190}\.[^\s@]{2,63}$/;
 const REQUEST_ID_RE = /^[A-Za-z0-9_-]{16,80}$/;
+/**
+ * What a typed phone number looks like: digits with an optional leading +,
+ * spaces, brackets, dots and dashes. Nothing else. Without this gate the digit
+ * extraction below turned '@aziz901234567', 'aziz901234567@gmail.com' or
+ * 't.me/aziz901234567' into +998901234567 \u2014 a number the visitor never gave,
+ * which may belong to someone else.
+ */
+const PHONE_SHAPE_RE = /^\+?[\d\s().\-\u2010-\u2015]+$/;
+/** A Telegram contact announces itself: a leading @ or a t.me link. */
+const TELEGRAM_SHAPE_RE = /^(?:@|(?:https?:\/\/)?t\.me\/)/i;
 
 function normalizePhone(raw: string | null): string | null {
   if (!raw) return null;
   const compact = raw.replace(/^tel:/i, '').replace(/\u00a0/g, ' ').trim();
+  if (!PHONE_SHAPE_RE.test(compact)) return null;
   const digits = compact.replace(/\D/g, '');
   const withCountry = digits.length === 9
     ? `+998${digits}`
@@ -107,6 +146,26 @@ function normalizeTypedContact(type: string, raw: string | null): string | null 
 }
 
 /**
+ * One untyped contact field (the calculator and the page form send no
+ * contactType). Route by shape, and try exactly one parser: a leading @ or a
+ * t.me link is Telegram, any other @ is e-mail, digits-and-punctuation is a
+ * phone, and whatever is left can only be a bare Telegram handle. A value that
+ * fails its parser is rejected, never re-read as a different kind of contact.
+ */
+function detectContact(raw: string): readonly [string, string] | null {
+  const value = raw.replace(/\u00a0/g, ' ').trim();
+  const [type, normalize] = TELEGRAM_SHAPE_RE.test(value)
+    ? ['telegram', normalizeTelegram] as const
+    : value.includes('@')
+      ? ['email', normalizeEmail] as const
+      : PHONE_SHAPE_RE.test(value.replace(/^tel:/i, '').trim())
+        ? ['phone', normalizePhone] as const
+        : ['telegram', normalizeTelegram] as const;
+  const normalized = normalize(value);
+  return normalized ? [type, normalized] as const : null;
+}
+
+/**
  * Keep the stored page to a same-site PATH. A full URL from an untrusted body
  * can carry a query string with personal data into a database row and from
  * there into a Telegram message, and an absolute off-site URL in an owner
@@ -126,6 +185,88 @@ export function normalizePagePath(v: unknown): string | null {
   path = path.split('?')[0].split('#')[0];
   if (!path.startsWith('/') || path.startsWith('//')) return null;
   return path.slice(0, 200);
+}
+
+const SERVICE_RE = /^[a-z0-9-]{1,60}$/;
+const REFERRER_HOST_RE = /^[a-z0-9.-]{1,100}$/;
+const CLICK_ID_RE = /^[A-Za-z0-9._-]{1,200}$/;
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,9})?)?(?:Z|[+-]\d{2}:?\d{2})?)?$/;
+
+/** Whitelisted lead source; anything else (or nothing) is the AI chat. */
+export function normalizeLeadSource(v: unknown): LeadSource {
+  return typeof v === 'string' && (LEAD_SOURCES as readonly string[]).includes(v)
+    ? v as LeadSource
+    : 'gpt_chat';
+}
+
+/** A lowercase slug such as `telegram-bot`; anything else is dropped. */
+export function normalizeLeadService(v: unknown): string | null {
+  if (typeof v !== 'string') return null;
+  const value = v.trim();
+  return SERVICE_RE.test(value) ? value : null;
+}
+
+function matchOrNull(v: unknown, re: RegExp): string | null {
+  if (typeof v !== 'string') return null;
+  const value = v.trim();
+  return re.test(value) ? value : null;
+}
+
+function isoDateOrNull(v: unknown): string | null {
+  if (typeof v !== 'string') return null;
+  const value = v.trim();
+  if (value.length > 40 || !ISO_DATE_RE.test(value)) return null;
+  return Number.isNaN(Date.parse(value)) ? null : value;
+}
+
+/**
+ * Keep only the known first-touch keys, each in a strict shape. A value that
+ * does not fit is dropped rather than truncated: a clipped click id or host is
+ * wrong data, not partial data. Returns null when nothing survives.
+ */
+export function sanitizeLeadAttribution(v: unknown): LeadAttribution | null {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return null;
+  const raw = v as Record<string, unknown>;
+  const out: LeadAttribution = {};
+  const landing = normalizePagePath(raw.landing);
+  if (landing) out.landing = landing;
+  const referrerHost = typeof raw.referrerHost === 'string'
+    ? matchOrNull(raw.referrerHost.toLowerCase(), REFERRER_HOST_RE)
+    : null;
+  if (referrerHost) out.referrerHost = referrerHost;
+  for (const key of ['gclid', 'yclid', 'fbclid'] as const) {
+    const id = matchOrNull(raw[key], CLICK_ID_RE);
+    if (id) out[key] = id;
+  }
+  const firstSeenAt = isoDateOrNull(raw.firstSeenAt);
+  if (firstSeenAt) out.firstSeenAt = firstSeenAt;
+  return Object.keys(out).length ? out : null;
+}
+
+const MAX_UTM_JSON_CHARS = 2000;
+
+/**
+ * The stored utm_json. Without service/attribution it is byte-for-byte what it
+ * always was. With them, they are added under one "attribution" key so they
+ * can never replace a utm key the client sent; if the client already used that
+ * key, or the merge would not fit the column budget, the legacy form wins.
+ */
+export function buildLeadUtmJson(
+  utm: unknown,
+  service: string | null,
+  attribution: LeadAttribution | null,
+): string | null {
+  const base = utm && typeof utm === 'object' ? utm : null;
+  const legacy = base ? JSON.stringify(base).slice(0, MAX_UTM_JSON_CHARS) : null;
+  const extra: Record<string, string> = {
+    ...(service ? { service } : {}),
+    ...(attribution ?? {}),
+  };
+  if (!Object.keys(extra).length) return legacy;
+  if (Array.isArray(base)) return legacy;
+  if (base && Object.prototype.hasOwnProperty.call(base, 'attribution')) return legacy;
+  const merged = JSON.stringify({ ...((base ?? {}) as Record<string, unknown>), attribution: extra });
+  return merged.length <= MAX_UTM_JSON_CHARS ? merged : legacy;
 }
 
 /**
@@ -152,12 +293,7 @@ export function validateLead(input: LeadInput): LeadValidation {
       contactValue = normalizeTypedContact(contactType, explicit);
       if (!contactValue) return { ok: false, error: 'contact does not match contactType' };
     } else {
-      const candidates = [
-        ['phone', normalizePhone(explicit)],
-        ['telegram', normalizeTelegram(explicit)],
-        ['email', normalizeEmail(explicit)],
-      ] as const;
-      const detected = candidates.find(([, value]) => !!value);
+      const detected = detectContact(explicit);
       if (detected) [contactType, contactValue] = detected;
     }
   } else {
@@ -170,6 +306,9 @@ export function validateLead(input: LeadInput): LeadValidation {
   const requestId = clean(input.requestId);
   if (requestId && !REQUEST_ID_RE.test(requestId)) return { ok: false, error: 'invalid requestId' };
 
+  const service = normalizeLeadService(input.service);
+  const attribution = sanitizeLeadAttribution(input.attribution);
+
   return {
     ok: true,
     value: {
@@ -180,10 +319,13 @@ export function validateLead(input: LeadInput): LeadValidation {
       telegram,
       intent: clean(input.intent) || clean(input.needType),
       sessionId: clean(input.sessionId),
-      utmJson: input.utm && typeof input.utm === 'object' ? JSON.stringify(input.utm).slice(0, 2000) : null,
+      utmJson: buildLeadUtmJson(input.utm, service, attribution),
       pageUrl: normalizePagePath(input.pageUrl),
       shareConversation: input.shareConversation === true,
       requestId,
+      source: normalizeLeadSource(input.source),
+      service,
+      attribution,
     },
   };
 }

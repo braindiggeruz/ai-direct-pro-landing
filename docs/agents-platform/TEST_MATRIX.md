@@ -1,5 +1,20 @@
 # TEST_MATRIX — обязательный baseline GPTBot Agents Platform
 
+## Lead capture and attribution — calculator, page form, first touch (2026-09-29, full-audit fixes)
+
+| Check | Result |
+| --- | --- |
+| Scope | calculator leads accepted again with `source='calculator'`; two-field page form (`source='page_form'`) on 24 allowlisted landings; first-touch record `gptbot_ft_v1`; prefilled studio Telegram link |
+| New gates in `npm test` | `tests/lead-attribution.test.ts` and `tests/lead-capture-templates.test.ts` — the only tests of the calculator/page-form lead contract, which broke silently from 2026-09-04 |
+| `tests/lead-attribution.test.ts` | 17 of 17 PASS |
+| `tests/lead-capture-templates.test.ts` | 26 of 26 PASS against a fresh `build:fast` (its dist/ checks skip when dist/ predates the template) |
+| Untyped contact detection | routed by shape: `@…` / `t.me/…` → Telegram, other `@` → e-mail, digits and punctuation → phone; `@aziz901234567`, `aziz901234567@gmail.com`, `t.me/aziz901234567` are no longer stored as `+998901234567` |
+| Page form without JS | `method="post"`, submit button ships `disabled` and is enabled only after the handler binds; `<noscript>` Telegram link — a contact can no longer reach the page URL |
+| Header | section nav on service landings; the nine measurement-hold pages and `/uz/` keep the previous header |
+| Chat, bridge, outbox, backend security, calculator, metrika | 15 · 42 · 3 · 31 · 6 · 67 PASS |
+| `npx tsc -b` · functions tsconfig | 0 · 0 errors |
+| `npx tsx scripts/seo-protection.ts check` | Protected SEO: 10/10 unchanged |
+
 ## Bormi launch latency — placement and key reuse (2026-08-02, follow-up 4)
 
 | Check | Result |

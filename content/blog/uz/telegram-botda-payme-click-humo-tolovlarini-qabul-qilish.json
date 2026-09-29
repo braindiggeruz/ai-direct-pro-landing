@@ -119,6 +119,30 @@
       "text": "Botga to‘lovni ulash nafaqat qulaylik — bu konversiyaga bevosita ta’sir qiladi. Mijoz \"issiq\" holatida, ya’ni qaror qabul qilgan zahoti to‘lay oladi. Bundan tashqari, menejerlar karta raqami tashlash va cheklarni tekshirish o‘rniga haqiqiy sotuvga vaqt ajratadi. Bu Telegram va Instagram Direct orqali keladigan arizalar oqimini yaxlit tizimga aylantiradi."
     },
     {
+      "type": "h2",
+      "id": "tolovli-bot-kalit-topshirish",
+      "text": "Payme/Click to‘lovli bot — kalit topshirish asosida"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz to‘lov qabul qiladigan Telegram botlarni ishlab chiqadi: bot Payme yoki Click orqali to‘lov havolasini yaratadi, to‘lov tizimidan tasdiqni oladi va to‘langan buyurtmani menejerga yoki CRM’ga uzatadi. E’lon qilingan tarif jadvalida Payme/Click to‘lovi «Telegram bot Pro» tarifiga kiradi — «AI + CRM + Payme/Click + vitrina yoki Mini App» tarkibi uchun 4 900 000 so‘mdan. Jadvaldagi muddat — 14 kun; u kirish huquqlari, materiallar va ssenariy tasdiqlangandan keyin boshlanadi."
+    },
+    {
+      "type": "p",
+      "text": "To‘lovni oddiyroq botga ham ulash mumkin — bunda u brifdan keyin smetada alohida satr sifatida hisoblanadi. To‘lov tizimi bilan shartnoma va merchant akkauntni biznesning o‘zi rasmiylashtiradi; tashqi tariflar, jumladan to‘lov tizimi komissiyasi, ishlab chiqish narxiga kirmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Barcha tariflar va har birining tarkibi — {narx} sahifasida.",
+      "links": [
+        {
+          "token": "narx",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot narxlari"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Sizning biznesingiz uchun to‘lov oqimini Telegram’da muhokama qilish",
       "href": "https://t.me/XGame_changerx"

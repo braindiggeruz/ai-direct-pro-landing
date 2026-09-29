@@ -371,7 +371,29 @@ test('metrika: the goal catalogue is closed and every goal is fired somewhere', 
     'gpt_chat_open',
     'pricing_cta_click',
     'lead_form_submit_success',
+    'telegram_cta_studio',
+    'telegram_cta_bot',
+    'phone_click',
+    'lead_form_success',
+    'calculator_lead_success',
+    'chat_lead_success',
   ]);
+});
+
+test('metrika: every goal in the catalogue is fired from the tag or a lead success path', async () => {
+  const fromHead = ['telegram_cta_click', 'gpt_chat_open', 'pricing_cta_click', 'telegram_cta_studio', 'telegram_cta_bot', 'phone_click'];
+  for (const goal of fromHead) assert.ok(METRIKA_HEAD.includes(`'${goal}'`), `${goal} is never fired by the tag`);
+  const wrapper = await source('src/lib/analytics/yandexMetrika.ts');
+  for (const goal of ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success']) {
+    assert.ok(wrapper.includes(`'${goal}'`), `${goal} is not in the React goal wrapper`);
+  }
+  assert.match(await source('src/calculator/CalculatorApp.tsx'), /reachYandexGoal\(YANDEX_GOALS\.calculatorLeadSuccess\)/);
+  assert.match(await source('src/gpt-chat/components/AiLeadForm.tsx'), /reachYandexGoal\(YANDEX_GOALS\.chatLeadSuccess\)/);
+  assert.match(await source('scripts/lead-form.ts'), /window\.ym\(111312750,'reachGoal','lead_form_success'\)/);
+  for (const goal of YANDEX_METRIKA_GOALS) {
+    const fired = fromHead.includes(goal) || ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success', 'lead_form_success'].includes(goal);
+    assert.ok(fired, `${goal} is catalogued but fired nowhere`);
+  }
 });
 
 test('metrika: CTA clicks report their goal and nothing else', () => {
@@ -382,13 +404,49 @@ test('metrika: CTA clicks report their goal and nothing else', () => {
   click(h, '/ru/tarify-ai-chat/');
   click(h, '/ru/blog/');
   const reported = goals(h.calls);
+  // telegram_cta_click keeps firing for every Telegram link, so a goal already
+  // configured on it does not break; the studio contact adds its finer goal.
   assert.deepEqual(reported.map((c) => c[2]), [
     'telegram_cta_click',
+    'telegram_cta_studio',
     'gpt_chat_open',
     'pricing_cta_click',
   ]);
   // A goal is a name. There is no fourth argument that could carry user data.
   for (const call of reported) assert.equal(call.length, 3);
+});
+
+test('metrika: Telegram goals are split by handle, never by the prefilled text', () => {
+  const h = harness();
+  h.run();
+  click(h, 'https://t.me/XGame_changerx?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5');
+  click(h, 'https://t.me/XGame_changerx/');
+  click(h, 'https://t.me/gptbot_javob_bot?start=site_ru');
+  click(h, 'https://t.me/BormiMarketBot?start=buyer_site_uz');
+  click(h, 'https://t.me/GPTBot_support');
+  // A draft that merely mentions a bot must not turn the studio link into one.
+  click(h, 'https://t.me/XGame_changerx?text=my_bot');
+  assert.deepEqual(goals(h.calls).map((c) => c[2]), [
+    'telegram_cta_click', 'telegram_cta_studio',
+    'telegram_cta_click', 'telegram_cta_studio',
+    'telegram_cta_click', 'telegram_cta_bot',
+    'telegram_cta_click', 'telegram_cta_bot',
+    'telegram_cta_click',
+    'telegram_cta_click', 'telegram_cta_studio',
+  ]);
+});
+
+test('metrika: a phone link reports phone_click with no number attached', () => {
+  const h = harness();
+  h.run();
+  click(h, 'tel:+998505870720');
+  click(h, 'TEL:+998505870720');
+  const reported = goals(h.calls);
+  assert.deepEqual(reported.map((c) => c[2]), ['phone_click', 'phone_click']);
+  for (const call of reported) {
+    assert.equal(call.length, 3);
+    assert.ok(!JSON.stringify(call).includes('998'), 'the number reached Metrika');
+  }
 });
 
 test('metrika: the React goal wrapper accepts no parameters and survives a missing tag', async () => {

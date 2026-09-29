@@ -130,7 +130,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       ).bind(
         id, lead.requestId, sessionId, lead.contactType, lead.contactValue,
         lead.name, lead.phone, lead.telegram, lead.intent, lead.utmJson,
-        'gpt_chat', lead.pageUrl, nowIso,
+        // Whitelisted in validateLead; the chat still sends nothing and so
+        // still lands as 'gpt_chat'. Service + first-touch attribution ride
+        // inside utm_json under its "attribution" key.
+        lead.source, lead.pageUrl, nowIso,
       ),
       db.prepare(
         'INSERT INTO gpt_events (id, session_id, user_id, event_name, payload_json, created_at) VALUES (?,?,NULL,?,?,?)',
@@ -138,7 +141,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
         genId('evt'),
         sessionId,
         'GPTChatLeadSubmitted',
-        JSON.stringify({ intent: lead.intent, locale, shareConversation: lead.shareConversation }),
+        JSON.stringify({ intent: lead.intent, locale, shareConversation: lead.shareConversation, source: lead.source }),
         nowIso,
       ),
       db.prepare(

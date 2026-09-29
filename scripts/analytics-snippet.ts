@@ -7,7 +7,9 @@
 //   - gtag.js dynamic loader (G-V87YFL96C7)
 //   - SPA route-change page_view (pushState/replaceState/popstate)
 //   - global click listener for Telegram demo CTAs ->
-//     gtag('event','telegram_demo_click', {page_path,page_title,cta_text,target_url})
+//     gtag('event','telegram_demo_click', {page_path,page_title,service_slug,
+//     cta_text,cta_zone,target_url}); t.me target_url is the handle without
+//     the ?text= draft the prerendered contact links carry
 //   - SEO funnel events on prerendered landings: seo_landing_view,
 //     service_cta_click, telegram_open_attempt, language_switch
 //   - contact_click when a visitor activates the studio's Telegram contact
@@ -140,13 +142,19 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
     var href = (el.getAttribute && el.getAttribute('href')) || '';
     var label = text.substring(0,80);
     var isTg = /t\\.me\\//i.test(href) || /^tg:/i.test(href);
+    // A Telegram link may carry a prefilled draft (?text=...). The destination
+    // is the handle; the draft is page copy, and would only overrun GA4's
+    // 100-character parameter limit, so it is cut off before any payload.
+    var target = isTg ? href.split('?')[0] : href;
     var isDemo = /дем[оа]|demo|telegram|телегра/i.test(text);
     if (isTg || (isDemo && text.length < 60)) {
       gtag('event','telegram_demo_click',{
         page_path: location.pathname,
         page_title: document.title,
+        service_slug: serviceSlug,
         cta_text: label,
-        target_url: href
+        cta_zone: ctaZone(el),
+        target_url: target
       });
     }
     // The studio's own contact handles, mirroring content/global/site.json.
@@ -160,7 +168,7 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         service_slug: serviceSlug,
         cta_text: label,
         cta_zone: ctaZone(el),
-        target_url: href,
+        target_url: target,
         contact_kind: isContactTg ? 'contact' : 'product_bot'
       });
     }
@@ -176,7 +184,7 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         service_slug: serviceSlug,
         cta_text: label,
         cta_zone: ctaZone(el),
-        target_url: href,
+        target_url: target,
         contact_kind: 'contact',
         contact_method: 'telegram'
       });

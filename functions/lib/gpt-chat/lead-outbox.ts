@@ -2,6 +2,7 @@ import { genId } from './http';
 import { buildLeadAlert, buildMutedNotice, loadTranscript, sendOwnerAlert, type LeadAlert } from './notify';
 import { consumeRateLimit, HOUR_MS } from './rate-limit';
 import type { BridgeEnv } from './bridge-env';
+import { normalizeLeadService } from './validate';
 
 interface PendingLeadRow {
   outbox_id: string;
@@ -13,6 +14,7 @@ interface PendingLeadRow {
   intent: string | null;
   page_url: string | null;
   utm_json: string | null;
+  source: string | null;
   created_at: string;
   locale: 'ru' | 'uz';
   share_conversation: number;
@@ -39,6 +41,17 @@ async function record(
     ).bind(genId('evt'), row.session_id, null, eventName, JSON.stringify(payload), new Date().toISOString()).run();
   } catch {
     // Delivery state lives in the outbox; the analytics event is secondary.
+  }
+}
+
+/** utm_json.attribution.service, re-validated: the row is data, not trusted markup. */
+export function serviceFromUtmJson(utmJson: string | null): string | null {
+  if (!utmJson) return null;
+  try {
+    const parsed = JSON.parse(utmJson) as { attribution?: { service?: unknown } } | null;
+    return normalizeLeadService(parsed?.attribution?.service);
+  } catch {
+    return null;
   }
 }
 
@@ -87,7 +100,7 @@ export async function deliverLeadOutboxItem(
   const row = await db.prepare(
     `SELECT o.id AS outbox_id, o.lead_id, o.locale, o.share_conversation,
             o.attempt_count, l.session_id, l.contact_type, l.contact_value,
-            l.name, l.intent, l.page_url, l.utm_json, l.created_at
+            l.name, l.intent, l.page_url, l.utm_json, l.source, l.created_at
      FROM gpt_lead_outbox o
      JOIN gpt_leads l ON l.id = o.lead_id
      WHERE o.id = ?`,
@@ -137,6 +150,8 @@ export async function deliverLeadOutboxItem(
     createdAt: row.created_at,
     shareConversation: row.share_conversation === 1,
     transcript,
+    source: row.source,
+    service: serviceFromUtmJson(row.utm_json),
   };
   const result = await sendOwnerAlert(env, buildLeadAlert(alert));
   if (result.status === 'sent') {

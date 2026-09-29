@@ -22,6 +22,8 @@ import { renderSiteStylesheets } from './site-stylesheets';
 import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
+import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
+import { withStudioTelegramPrefill } from './telegram-cta';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
   buildOrganizationLd,
@@ -423,6 +425,7 @@ ${LLM_MARKDOWN_URLS.has(a.url)
 ${cssLinks}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
+${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
@@ -593,6 +596,7 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 ${cssLinks}
 
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ldGraph })}</script>
+${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
@@ -651,7 +655,13 @@ async function main() {
   for (const a of published) {
     const outPath = path.join(DIST_DIR, a.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderArticle(a, global, cssLinks, publishedArticleUrls), 'utf-8');
+    // Bare studio-contact links get a prefilled first message naming the topic
+    // and the page (scripts/telegram-cta.ts); protected articles are unchanged.
+    fs.writeFileSync(outPath, withStudioTelegramPrefill(renderArticle(a, global, cssLinks, publishedArticleUrls), {
+      locale: a.locale === 'uz' ? 'uz' : 'ru',
+      label: a.h1,
+      path: a.url,
+    }), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
@@ -662,7 +672,12 @@ async function main() {
     const sorted = [...localeArticles].sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''));
     const indexPath = path.join(DIST_DIR, locale, 'blog', 'index.html');
     fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-    fs.writeFileSync(indexPath, renderBlogIndex(sorted, locale, global, cssLinks), 'utf-8');
+    fs.writeFileSync(indexPath, withStudioTelegramPrefill(renderBlogIndex(sorted, locale, global, cssLinks), {
+      locale,
+      // The topic half of the index title ("… — AI-боты и автоматизация заявок").
+      label: STRINGS[locale].blogIndexTitle.split(' — ')[1] || STRINGS[locale].blogTitle,
+      path: `/${locale}/blog/`,
+    }), 'utf-8');
     console.log(`  + dist/${locale}/blog/index.html (${localeArticles.length} cards)`);
   }
   console.log(`Prerendered ${written} article(s), skipped ${articles.length - published.length} draft(s).`);

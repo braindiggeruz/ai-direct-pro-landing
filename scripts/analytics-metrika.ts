@@ -63,6 +63,20 @@ export const YANDEX_METRIKA_GOALS = [
   'gpt_chat_open',
   'pricing_cta_click',
   'lead_form_submit_success',
+  // 2026-09-29: finer goals next to the four above, which keep firing exactly
+  // as before so goals already configured in the counter do not break.
+  //   telegram_cta_studio     a click on the studio contact t.me/XGame_changerx
+  //   telegram_cta_bot        a click on a t.me/<name>bot product bot
+  //   phone_click             a click on any tel: link
+  //   lead_form_success       page lead form, after the server accepted it
+  //   calculator_lead_success calculator lead, after the server accepted it
+  //   chat_lead_success       AI-chat lead form, after the server accepted it
+  'telegram_cta_studio',
+  'telegram_cta_bot',
+  'phone_click',
+  'lead_form_success',
+  'calculator_lead_success',
+  'chat_lead_success',
 ] as const;
 
 // Kept as literal text rather than interpolated so the block is greppable and
@@ -167,7 +181,17 @@ export const METRIKA_HEAD = `<script data-tag="ym">
     var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
     if (!el) return;
     var href = (el.getAttribute && el.getAttribute('href')) || '';
-    if (href.indexOf('t.me/') > -1 || href.indexOf('tg:') === 0) { goal('telegram_cta_click'); return; }
+    var tme = href.toLowerCase().indexOf('t.me/');
+    if (tme > -1 || href.indexOf('tg:') === 0) {
+      goal('telegram_cta_click');
+      // Which Telegram: the studio contact or one of the product bots. Only the
+      // handle is looked at, never the prefilled text that may follow it.
+      var handle = tme > -1 ? href.slice(tme + 5).split('?')[0].split('#')[0].split('/')[0].toLowerCase() : '';
+      if (handle === 'xgame_changerx') goal('telegram_cta_studio');
+      else if (handle.length > 3 && handle.slice(-3) === 'bot') goal('telegram_cta_bot');
+      return;
+    }
+    if (href.slice(0, 4).toLowerCase() === 'tel:') { goal('phone_click'); return; }
     if (href.charAt(0) !== '/') return;
     var target = href.split('?')[0].split('#')[0];
     if (target.indexOf('/gpt-chat/') > -1 || target.indexOf('/gpt-uzbek-tilida/') > -1) goal('gpt_chat_open');

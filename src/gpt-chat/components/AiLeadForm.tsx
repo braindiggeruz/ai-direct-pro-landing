@@ -3,6 +3,7 @@ import type { ChatStrings } from '../i18n';
 import type { Locale } from '../types';
 import { fetchTurnstileConfig, sendLead } from '../api';
 import { EV, track, trackLeadSubmitted } from '../analytics';
+import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika';
 import { parseContact, telegramContact } from '../contact';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
@@ -99,6 +100,8 @@ export function AiLeadForm({
     if (res.ok) {
       setStatus('sent');
       trackLeadSubmitted(method, { mode: parsed.type, intent, locale });
+      // After the server acknowledged the write; the goal is a bare name.
+      reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
     } else {
       if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
         setTurnstileRequired(true);

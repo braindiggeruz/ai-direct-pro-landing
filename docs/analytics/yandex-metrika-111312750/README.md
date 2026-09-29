@@ -108,14 +108,28 @@ The tag never reads `.value`, `FormData`, `localStorage`, `sessionStorage`,
 | `gpt_chat_open` | head block, delegated click | `/gpt-chat/`, `/gpt-uzbek-tilida/` |
 | `pricing_cta_click` | head block, delegated click | slug contains `tarify` or `narx` |
 | `lead_form_submit_success` | `src/calculator/CalculatorApp.tsx` | **only after the server accepted the lead** |
+| `telegram_cta_studio` | head block, delegated click | the studio contact `t.me/XGame_changerx` (with or without `?text=`); fires **in addition to** `telegram_cta_click` |
+| `telegram_cta_bot` | head block, delegated click | a `t.me/<name>bot` product bot; fires **in addition to** `telegram_cta_click` |
+| `phone_click` | head block, delegated click | any `tel:` link |
+| `lead_form_success` | page lead form (`scripts/lead-form.ts`, inline) | **only after `/api/gpt/lead` answered `ok:true`** |
+| `calculator_lead_success` | `src/calculator/CalculatorApp.tsx` | same moment as `lead_form_submit_success`, calculator only |
+| `chat_lead_success` | `src/gpt-chat/components/AiLeadForm.tsx` | **only after the server accepted the chat lead** |
 
-The last one is why `src/lib/analytics/yandexMetrika.ts` exists: markup cannot
+The first four goals are unchanged, so goals already configured in the counter
+keep counting exactly as before; the six added 2026-09-29 split them by source.
+`telegram_cta_click` still fires for every Telegram link, and
+`lead_form_submit_success` still fires for the calculator only.
+
+The lead goals are why `src/lib/analytics/yandexMetrika.ts` exists: markup cannot
 express "fire after the response came back ok". A submit *click* is not a lead,
 so the goal sits behind the `throw new Error('lead rejected')` check — a test
 asserts that ordering. The wrapper takes no parameters and is a no-op when `ym`
-is missing, blocked or throwing.
+is missing, blocked or throwing. The page lead form is plain prerendered HTML
+without React, so it calls `ym(111312750, 'reachGoal', 'lead_form_success')`
+directly, with no fourth argument, inside the same `ok === true` branch that
+pushes `generate_lead` to the dataLayer.
 
-Create these four goals in the Metrika interface as **JavaScript-event** goals
+Create these ten goals in the Metrika interface as **JavaScript-event** goals
 with exactly these identifiers. Nothing else in the code will fire.
 
 ---

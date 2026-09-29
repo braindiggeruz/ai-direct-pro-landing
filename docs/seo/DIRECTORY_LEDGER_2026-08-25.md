@@ -36,22 +36,90 @@ the rows in — do not re-submit first.
 | 3 | konigle.com | NOT_SUBMITTED | — | — | — | nofollow | en | SEO | `/ru/seo-prodvizhenie-saytov-tashkent/` | — | **No** | Suggest listing on `/info/s/seo-agencies-tashkent` |
 | 4 | ppc4.com | NOT_SUBMITTED | — | — | — | dofollow | en | Digital marketing | `/ru/digital-marketing-tashkent/` | — | **No** | Add agency under `/digital-marketing/uzbekistan/tashkent/` |
 | 5 | olx.uz | BLOCKED_PHONE | — | — | — | nofollow | uz/ru | SMM | `/uz/smm-xizmatlari/` | — | Yes | Strongest target — holds #1 and #5 on `smm xizmatlari` |
-| 6 | goldenpages.uz | BLOCKED_PHONE | — | — | — | unknown | ru/uz | SMM, SEO | `/uz/smm-xizmatlari/` | — | Yes | #9 on `smm xizmatlari`, #10 on `seo оптимизация ташкент` |
+| 6 | goldenpages.uz | LIVE_NEEDS_FIX | https://www.goldenpages.uz/en/company/?Id=121192 | — | not verified | unknown | ru/uz | Telegram bots, internet advertising | `/uz/telegram-bot-biznes-uchun/` | pre-existing (renewed 25.07.2026 per the listing) | No | **Edit the existing listing, never create a second one.** Wrong address, wrong rubrics, no description — see "Update 2026-09-29" below |
 | 7 | glotr.uz | BLOCKED_PHONE | — | — | — | unknown | ru | SMM | `/uz/smm-xizmatlari/` | — | Yes | #11 on `smm xizmatlari` |
 | 8 | tovar.uz | BLOCKED_PHONE | — | — | — | unknown | ru/uz | Web development | `/uz/sayt-yaratish/` | — | Yes | #13 on `smm xizmatlari` |
 | 9 | birbir.uz | BLOCKED_PHONE | — | — | — | unknown | uz | Web development | `/uz/sayt-yaratish/` | — | Yes | #12 and #18 on Uzbek service queries |
 | 10 | yellowpages.uz | BLOCKED_PHONE | — | — | — | unknown | ru/uz | Web development | `/ru/razrabotka-saytov-tashkent/` | — | Yes | #18 on `smm xizmatlari` |
 | 11 | workspace.ru | BLOCKED_PHONE | — | — | — | nofollow | ru | Digital | `/ru/digital-marketing-tashkent/` | — | Yes | Contractor profile |
-| 12 | ratingruneta.ru | BLOCKED_PHONE | — | — | — | dofollow | ru | Agency | `/ru/` | — | Yes | Agency registry, domain rank 82 |
+| 12 | ratingruneta.ru | BLOCKED_PHONE | — | — | — | dofollow | ru | Agency | `/ru/internet-reklama-tashkent/` | — | Yes | Agency registry, domain rank 82 |
 | 13 | topmarketingagency.uz | BLOCKED_PHONE | — | — | — | unknown | uz | Marketing | `/ru/digital-marketing-tashkent/` | — | Yes | Ranks on `marketing agentligi` |
 | 14 | marketing.uz | NOT_APPLICABLE | — | — | — | unknown | ru | Editorial | — | — | No | Editorial pitch only — never a submission |
-| 15 | 2gis.uz | BLOCKED_GBP | — | — | — | unknown | ru/uz | Local | `/ru/` | — | Yes | Needs the same address / service-area decision as GBP |
-| 16 | Yandex Business | BLOCKED_GBP | — | — | — | unknown | ru | Local | `/ru/` | — | Yes | Same |
-| 17 | Google Business Profile | BLOCKED_OWNER_FACTS | — | — | — | n/a | ru/uz | Local | `/ru/` | — | Yes | See `docs/seo/GBP_LAUNCH_PACK_2026-08-22.md` |
+| 15 | 2gis.uz | BLOCKED_GBP | — | — | — | unknown | ru/uz | Local | `/ru/internet-reklama-tashkent/` | — | Yes | Needs the same address / service-area decision as GBP. A card probably exists: `scripts/jsonld-helpers.ts` records the owner's hours as published on 2GIS (checked 2026-09-28), while the 2026-09-29 audit could not open 2GIS. Find it before creating one |
+| 16 | Yandex Business | LIVE_NEEDS_FIX | https://yandex.ru/maps/org/109235624736 | — | not verified | unknown | ru | Local | `/ru/internet-reklama-tashkent/` | pre-existing card «Gptbot.uz» | No | **Edit, do not re-create.** Pin in Navoiy region, no address, «ресторан» rubric — `docs/seo/full-audit-2026-09-29/OWNER-STEPS-RU.md` §2 |
+| 17 | Google Business Profile | LIVE_NEEDS_FIX | Google Maps cid 15658123710081809529 | — | not verified | n/a | ru/uz | Local | `/boss-digital/` while the card is named Boss Digital, otherwise `/ru/internet-reklama-tashkent/` | pre-existing card «Boss Digital» | No | **Edit, do not re-create.** Little Ring Road 57, old phone, website canonical.uz — `OWNER-STEPS-RU.md` §3; background in `docs/seo/GBP_LAUNCH_PACK_2026-08-22.md` |
 
 **4 of 17 rows can be completed today without any owner fact** — rows 1–4.
 **11 rows are blocked by one missing value: a real business phone.**
 Rows 15–17 are additionally blocked by the address / service-area decision.
+
+## Update 2026-09-29
+
+Source: the 2026-09-29 full-site audit and roadmap
+(`C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/ROADMAP-ADS-TGBOTS-2026-09-29.md`,
+item 10) and `docs/seo/full-audit-2026-09-29/OWNER-STEPS-RU.md`. Nothing below
+was submitted or edited by an agent.
+
+**New status `LIVE_NEEDS_FIX`.** The listing already exists and a logged-out
+visitor can open it, but its name, address, rubrics or website are wrong. The
+owner edits it; nobody creates a second one. Its backlink is still not counted
+anywhere until the Backlink and rel columns are read on the live listing.
+
+**Row 6 was wrong.** It said goldenpages.uz was not submitted and blocked on a
+phone. A listing for GPTBOT.UZ already exists at
+`https://www.goldenpages.uz/en/company/?Id=121192` (opened logged-out on
+2026-09-29). It is registered as a self-employed person at "Yashnabad district,
+22nd Voenniy gorodok, 8", a fourth address that matches neither the site nor
+the maps cards. It is filed only under "Automated control systems" and "IT
+development and implementation services". It has no description and no
+products, 1 rating and 0 reviews, and was renewed 25.07.2026. It came first
+for the brand query `gptbot.uz`, ahead of the site itself. All result
+positions in this update come from a US-index web search on 2026-09-29 and are
+indicative, not google.uz ranks. What the owner does, after the one name and
+address are chosen (roadmap item 4):
+
+1. Set the address, phone and hours to the canonical values in
+   `content/global/site.json` (Yahyo Gulyamov ko‘chasi 35, +998 50 587 07 20,
+   Mon–Sat 10:00–19:00).
+2. Add rubric 108664 «Telegram bot yaratish xizmatlari». It ranked first for
+   `telegram bot yaratish xizmati Toshkent narxi` and listed 8 companies;
+   placement is free. Add rubric 4180 «Internet reklama», which ranked second
+   for `internet reklama toshkent`.
+3. Add a description and the services with the prices the site already
+   publishes (`content/pages/uz/chat-bot-narxi.json`,
+   `content/pages/uz/internet-reklama-toshkent.json`); no other figures.
+4. Website field: `https://gptbot.uz/uz/telegram-bot-biznes-uchun/?utm_source=goldenpages&utm_medium=directory`.
+   If the listing allows a link per service, the advertising entry links to
+   `/uz/internet-reklama-toshkent/` with the same UTM. That page is under the
+   snippet test until 2026-10-03; a directory link does not change the page
+   itself.
+
+**Rows 16 and 17 were also wrong** in the same way: both cards exist. Yandex
+Business «Gptbot.uz» is `https://yandex.ru/maps/org/109235624736` (also in
+`content/global/site.json` → `businessProfiles`). The Google Business Profile is
+«Boss Digital», cid 15658123710081809529. Both carry wrong NAP; the fix steps
+are in `OWNER-STEPS-RU.md` §2–3.
+
+**No listing links to `/ru/` any more.** Since 2026-09-29 `/ru/` answers 301 to
+`/` (`content/seo/redirects.json`), and `/` is a protected page under
+measurement until 2026-10-20. Rows 12, 15, 16 and 17 now point at a service
+page. The target is `/ru/internet-reklama-tashkent/`, or `/boss-digital/` while
+a card carries the Boss Digital name. Every link a listing publishes is the
+service URL plus `?utm_source=<platform>&utm_medium=directory`, so the
+first-touch record and the lead register can attribute the contact.
+
+**The phone blocker is gone.** `content/global/site.json` publishes
++998 50 587 07 20. The rows still marked `BLOCKED_PHONE` now wait on one thing:
+the owner choosing a single name and address and fixing Google and Yandex with
+them (roadmap item 4). Submitting before that spreads four addresses further.
+After that, work through them at most one per working day, starting with the
+free goldenpages fix.
+
+**pc.uz.** The audit also saw an existing pc.uz listing (audit
+`findings/geo.md`, finding 3), and `scripts/jsonld-helpers.ts` records the
+owner's hours as published on PC.uz (checked 2026-09-28). Neither recorded the
+URL. Search for it before creating anything on pc.uz, and add a row here once
+it is found.
 
 ## Why directories at all
 

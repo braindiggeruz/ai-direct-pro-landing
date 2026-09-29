@@ -22,6 +22,10 @@ export const YANDEX_GOALS = {
   pricingCtaClick: 'pricing_cta_click',
   /** A lead the server accepted. Never fired from a submit handler alone. */
   leadFormSubmitSuccess: 'lead_form_submit_success',
+  /** The calculator's lead, accepted by the server (fired next to the one above). */
+  calculatorLeadSuccess: 'calculator_lead_success',
+  /** The AI chat's lead form, accepted by the server. */
+  chatLeadSuccess: 'chat_lead_success',
 } as const;
 
 export type YandexGoal = (typeof YANDEX_GOALS)[keyof typeof YANDEX_GOALS];

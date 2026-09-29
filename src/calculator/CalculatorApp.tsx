@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
@@ -15,15 +15,107 @@ import {
 } from './pricing';
 
 const TELEGRAM_URL = 'https://t.me/XGame_changerx';
+const FIRST_TOUCH_KEY = 'gptbot_ft_v1';
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+const CLICK_ID_KEYS = ['gclid', 'yclid', 'fbclid'] as const;
+
+type LeadError = 'form' | 'contact' | 'turnstile' | 'rate_limited' | 'failed';
+
+const LEAD_ERROR_TEXT: Record<LeadError, string> = {
+  form: 'Укажите контакт и подтвердите согласие. Если форма недоступна, напишите нам в Telegram.',
+  contact: 'Не получилось распознать контакт. Укажите телефон в формате +998… или Telegram-ник @username — или напишите нам в Telegram.',
+  turnstile: 'Форма временно просит дополнительную проверку. Отправьте расчёт нам в Telegram — ответим там же.',
+  rate_limited: 'Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, напишите нам в Telegram.',
+  failed: 'Не удалось отправить заявку. Напишите нам в Telegram — по кнопке ниже расчёт скопируется, останется вставить его в сообщение.',
+};
+
+/** Server codes from /api/gpt/lead mapped to what the visitor can do about them. */
+function leadErrorFor(code: string): LeadError {
+  if (code === 'invalid_lead') return 'contact';
+  if (code === 'turnstile_required' || code === 'turnstile_failed') return 'turnstile';
+  if (code === 'rate_limited') return 'rate_limited';
+  return 'failed';
+}
 
 function safeUtm(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
   const result: Record<string, string> = { tool: 'telegram_cost_calculator' };
-  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']) {
+  for (const key of UTM_KEYS) {
     const value = params.get(key);
     if (value) result[key] = value.slice(0, 120);
   }
   return result;
+}
+
+/**
+ * The first-touch record the site keeps in localStorage. Storage can be
+ * blocked (private mode, disabled site data), so every access is guarded and a
+ * missing or malformed record is simply an empty one.
+ */
+function readFirstTouch(): Record<string, string> {
+  try {
+    const raw = window.localStorage.getItem(FIRST_TOUCH_KEY);
+    if (!raw) return {};
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const result: Record<string, string> = {};
+    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+      if (typeof value === 'string' && value) result[key] = value.slice(0, 200);
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * First-touch attribution for the lead. When the site never managed to store
+ * a record, the current visit is the best evidence there is: this page, an
+ * external referrer host and any click id in the address. The server
+ * re-validates every key and drops what does not fit.
+ */
+function leadAttribution(firstTouch: Record<string, string>): Record<string, string> | undefined {
+  const result: Record<string, string> = {};
+  if (firstTouch.landing) {
+    for (const key of ['landing', 'referrerHost', ...CLICK_ID_KEYS, 'firstSeenAt']) {
+      if (firstTouch[key]) result[key] = firstTouch[key];
+    }
+  } else {
+    try {
+      result.landing = window.location.pathname;
+      const params = new URLSearchParams(window.location.search);
+      for (const key of CLICK_ID_KEYS) {
+        const value = params.get(key);
+        if (value) result[key] = value.slice(0, 200);
+      }
+      const referrerHost = document.referrer ? new URL(document.referrer).hostname : '';
+      if (referrerHost && referrerHost !== window.location.hostname) result.referrerHost = referrerHost;
+    } catch {
+      /* an unparsable referrer is simply not recorded */
+    }
+  }
+  return Object.keys(result).length ? result : undefined;
+}
+
+/** UTM tags of this visit; without any, the ones from the first touch. */
+function leadUtm(firstTouch: Record<string, string>): Record<string, string> {
+  const current = safeUtm();
+  if (UTM_KEYS.some((key) => current[key])) return current;
+  const result = { ...current };
+  for (const key of UTM_KEYS) {
+    if (firstTouch[key]) result[key] = firstTouch[key].slice(0, 120);
+  }
+  return result;
+}
+
+/** Idempotency key accepted by the endpoint: [A-Za-z0-9_-]{16,80}. */
+function newRequestId(): string {
+  try {
+    return `calc_${crypto.randomUUID().replace(/-/g, '')}`;
+  } catch {
+    const random = `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`;
+    return `calc_${random.replace(/[^a-z0-9]/g, '')}`.padEnd(24, '0').slice(0, 60);
+  }
 }
 
 async function copyText(text: string): Promise<boolean> {
@@ -87,6 +179,10 @@ export default function CalculatorApp() {
   const [contact, setContact] = useState('');
   const [consent, setConsent] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [leadError, setLeadError] = useState<LeadError>('form');
+  // One key per contact: a retry after a lost response is deduplicated by the
+  // server, and editing the contact starts a new request instead of a conflict.
+  const requestIdRef = useRef<string | null>(null);
   const result = useMemo(() => calculateEstimate(selection), [selection]);
   const summary = useMemo(() => buildEstimateSummary(result), [result]);
 
@@ -121,24 +217,35 @@ export default function CalculatorApp() {
 
   const submitLead = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (formStatus === 'sending') return;
     if (!contact.trim() || !consent) {
+      setLeadError('form');
       setFormStatus('error');
       return;
     }
     setFormStatus('sending');
+    requestIdRef.current ??= newRequestId();
+    const firstTouch = readFirstTouch();
+    // Stays 'network' unless the server answered with its own code.
+    let code = 'network';
     try {
       const response = await fetch('/api/gpt/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          requestId: requestIdRef.current,
+          source: 'calculator',
+          service: 'telegram-bot',
           name: name.trim() || undefined,
-          contactType: 'calculator_contact',
+          // No contactType: the server recognises a phone, an @handle or an
+          // e-mail by itself, and a type it does not know rejects the lead.
           contactValue: contact.trim(),
           consent: true,
           intent: summary.slice(0, 500),
           pageUrl: window.location.pathname,
+          attribution: leadAttribution(firstTouch),
           utm: {
-            ...safeUtm(),
+            ...leadUtm(firstTouch),
             goal: selection.goalId,
             features: selection.featureIds.join(','),
             volume: selection.volumeId,
@@ -148,8 +255,13 @@ export default function CalculatorApp() {
           },
         }),
       });
-      const body = await response.json() as { ok?: boolean };
-      if (!body.ok) throw new Error('lead rejected');
+      // The endpoint answers { ok:false, code } for a rejected or unstored lead,
+      // so only a literal ok:true is a lead. The server's message is never shown.
+      const body = await response.json() as { ok?: unknown; code?: unknown };
+      if (body.ok !== true) {
+        code = typeof body.code === 'string' ? body.code : 'rejected';
+        throw new Error('lead rejected');
+      }
       setFormStatus('success');
       track('calculator_lead_submitted', {
         goal: selection.goalId,
@@ -159,9 +271,19 @@ export default function CalculatorApp() {
       // The goal carries a name and no parameters, so nothing typed above it
       // can reach Metrika.
       reachYandexGoal(YANDEX_GOALS.leadFormSubmitSuccess);
+      // The same event under its source-specific name, so the calculator can be
+      // told apart from the page form and the chat in Metrika.
+      reachYandexGoal(YANDEX_GOALS.calculatorLeadSuccess);
     } catch {
+      setLeadError(leadErrorFor(code));
       setFormStatus('error');
+      track('calculator_lead_failed', { goal: selection.goalId, code: code.slice(0, 40) });
     }
+  };
+
+  const openTelegramFallback = () => {
+    void copyText(summary);
+    track('calculator_telegram_click', { goal: selection.goalId, from: 'lead_error' });
   };
 
   return (
@@ -365,14 +487,14 @@ export default function CalculatorApp() {
                   <input
                     id="calculator-contact"
                     value={contact}
-                    onChange={(event) => { setContact(event.target.value); if (formStatus === 'error') setFormStatus('idle'); }}
+                    onChange={(event) => { setContact(event.target.value); requestIdRef.current = null; if (formStatus === 'error') setFormStatus('idle'); }}
                     autoComplete="tel"
                     // ym-disable-keys: phone / Telegram handle is never recorded.
                     className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 ym-disable-keys"
                     placeholder="+998… или @username"
                     maxLength={200}
                     aria-required="true"
-                    aria-invalid={formStatus === 'error' && !contact.trim()}
+                    aria-invalid={formStatus === 'error' && (!contact.trim() || leadError === 'contact')}
                   />
                   <label className="mt-4 flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-white/60">
                     <input
@@ -384,7 +506,20 @@ export default function CalculatorApp() {
                     <span>Согласен на обработку данных для связи по расчёту. <a href="/ru/politika-konfidentsialnosti/" className="text-brand-cyan hover:underline">Политика конфиденциальности</a>.</span>
                   </label>
                   {formStatus === 'error' && (
-                    <p className="mt-3 text-sm text-rose-200" role="alert">Укажите контакт и подтвердите согласие. Если форма недоступна, напишите нам в Telegram.</p>
+                    <div className="mt-3 text-sm leading-relaxed text-rose-200" role="alert">
+                      <p>{LEAD_ERROR_TEXT[leadError]}</p>
+                      {leadError !== 'form' && (
+                        <a
+                          href={TELEGRAM_URL}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          onClick={openTelegramFallback}
+                          className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
+                        >
+                          Отправить расчёт в Telegram
+                        </a>
+                      )}
+                    </div>
                   )}
                   <button type="submit" disabled={formStatus === 'sending'} className="btn-primary mt-5 min-h-12 w-full text-base disabled:cursor-wait disabled:opacity-60">
                     {formStatus === 'sending' ? 'Отправляем…' : 'Отправить расчёт'}

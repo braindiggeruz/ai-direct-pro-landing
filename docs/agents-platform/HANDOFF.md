@@ -1,3 +1,9 @@
+# Приём и атрибуция заявок + блоки «заказать», 2026-09-29
+
+Кандидат релиза (база `7b78175f`): починен калькулятор (с 04.09 отклонял все заявки), атрибуция заявок (source/service/attribution), Telegram-кнопки с готовым текстом, первый визит `gptbot_ft_v1`, новые цели Метрики, форма из двух полей на 24 коммерческих страницах, панель на /boss-digital/, навигация лендингов, блоки «заказать». Защищённые 10 и тестовые 9 страниц (`scripts/measurement-hold.ts`, до 03.10) видимо не менялись. Отчёт: `docs/seo/lead-capture-2026-09-29/REPORT-RU.md`; журнал для замеров: `docs/seo/CHANGE_LOG_2026-09.md`.
+
+---
+
 # Полный SEO-аудит gptbot.uz и исправления, 2026-09-29
 
 Опубликовано. Production = `807c3d5ccf8f747bc0902a991aa7887d8f12cd7f`, Cloudflare Pages deployment `1cd04819-320a-45ce-a4b1-c1d1d653d9d4`, 935 файлов; живая проверка и защищённые 10/10 — `docs/seo/full-audit-2026-09-29/live-verification-2026-09-29.json`. Ветка `seo/full-audit-fixes-20260929` (база `9f15ffb2`). Владелец поручил исправить найденное аудитом и сразу задеплоить; решения: часы Пн–Сб 10:00–19:00, `/ru/` → 301 на `/`. Что исправлено, проверка и действия владельца — `docs/seo/full-audit-2026-09-29/REPORT-RU.md`. Находки аудита — вне Git: `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`. Деплой — только `npm run build:production` + `npm run deploy:pages:production`; untracked `.serena/` не включать.

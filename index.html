@@ -166,6 +166,22 @@
       window.dataLayer = window.dataLayer || [];
     </script>
 
+    <!-- First-touch attribution record (localStorage gptbot_ft_v1). A byte-for-byte
+         copy of FIRST_TOUCH_SCRIPT in scripts/attribution-snippet.ts; it sends
+         nothing and skips /admin*, /api/. Kept unindented for that reason. -->
+<script id="gptbot-first-touch">
+(function(){try{
+var K='gptbot_ft_v1',l=window.location,p=l.pathname||'/';
+if(p==='/admin'||p.indexOf('/admin/')===0||p.indexOf('/admin-tools')===0||p.indexOf('/api/')===0)return;
+var s=window.localStorage;if(!s||s.getItem(K))return;
+var q=new URLSearchParams(l.search||''),r={landing:p.slice(0,200),firstSeenAt:new Date().toISOString()};
+try{var h=document.referrer?new URL(document.referrer).hostname.toLowerCase():'';if(h&&h!==l.hostname&&/^[a-z0-9.-]{1,100}$/.test(h))r.referrerHost=h;}catch(e){}
+['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){var v=q.get(k);if(v)r[k]=v.slice(0,100);});
+['gclid','yclid','fbclid'].forEach(function(k){var v=q.get(k);if(v&&/^[A-Za-z0-9._-]{1,200}$/.test(v))r[k]=v;});
+s.setItem(K,JSON.stringify(r));
+}catch(e){}})();
+</script>
+
     <!-- Meta Pixel Code — public pages only. Stripped from /admin-tools/* by
          the catch-all Pages Function via data-tag="meta". -->
     <script data-tag="meta">
@@ -309,13 +325,18 @@
           var href = (el.getAttribute && el.getAttribute('href')) || '';
           var label = text.substring(0,80);
           var isTg = /t\.me\//i.test(href) || /^tg:/i.test(href);
+          // A Telegram link may carry a prefilled draft (?text=...); the
+          // destination is the handle. Mirrors scripts/analytics-snippet.ts.
+          var target = isTg ? href.split('?')[0] : href;
           var isDemo = /дем[оа]|demo|telegram|телегра/i.test(text);
           if (isTg || (isDemo && text.length < 60)) {
             gtag('event','telegram_demo_click',{
               page_path: location.pathname,
               page_title: document.title,
+              service_slug: serviceSlug,
               cta_text: label,
-              target_url: href
+              cta_zone: ctaZone(el),
+              target_url: target
             });
           }
           // The studio's own contact handles, mirroring content/global/site.json.
@@ -329,7 +350,7 @@
               service_slug: serviceSlug,
               cta_text: label,
               cta_zone: ctaZone(el),
-              target_url: href,
+              target_url: target,
               contact_kind: isContactTg ? 'contact' : 'product_bot'
             });
           }
@@ -345,7 +366,7 @@
               service_slug: serviceSlug,
               cta_text: label,
               cta_zone: ctaZone(el),
-              target_url: href,
+              target_url: target,
               contact_kind: 'contact',
               contact_method: 'telegram'
             });
@@ -509,7 +530,17 @@
     var el = e.target && e.target.closest ? e.target.closest('a,button') : null;
     if (!el) return;
     var href = (el.getAttribute && el.getAttribute('href')) || '';
-    if (href.indexOf('t.me/') > -1 || href.indexOf('tg:') === 0) { goal('telegram_cta_click'); return; }
+    var tme = href.toLowerCase().indexOf('t.me/');
+    if (tme > -1 || href.indexOf('tg:') === 0) {
+      goal('telegram_cta_click');
+      // Which Telegram: the studio contact or one of the product bots. Only the
+      // handle is looked at, never the prefilled text that may follow it.
+      var handle = tme > -1 ? href.slice(tme + 5).split('?')[0].split('#')[0].split('/')[0].toLowerCase() : '';
+      if (handle === 'xgame_changerx') goal('telegram_cta_studio');
+      else if (handle.length > 3 && handle.slice(-3) === 'bot') goal('telegram_cta_bot');
+      return;
+    }
+    if (href.slice(0, 4).toLowerCase() === 'tel:') { goal('phone_click'); return; }
     if (href.charAt(0) !== '/') return;
     var target = href.split('?')[0].split('#')[0];
     if (target.indexOf('/gpt-chat/') > -1 || target.indexOf('/gpt-uzbek-tilida/') > -1) goal('gpt_chat_open');

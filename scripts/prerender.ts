@@ -12,6 +12,10 @@ import { renderSiteStylesheets } from './site-stylesheets';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
+import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
+import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
+import { isMeasurementHoldPath } from './measurement-hold';
+import { withStudioTelegramPrefill } from './telegram-cta';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import {
@@ -677,6 +681,99 @@ const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|
 // Absolute links to our own host are internal: no nofollow, no new tab.
 const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href) && !/^https:\/\/gptbot\.uz(\/|$)/i.test(href);
 
+// The mobile call/Telegram bar is keyed to commercial page types. The agency
+// page is authored as pageType "legal" (it is the company page, not a service
+// landing), so it never got the bar although it is where agency enquiries land.
+const STICKY_BAR_EXTRA_URLS: ReadonlySet<string> = new Set(['/boss-digital/', '/uz/boss-digital/']);
+
+// Section navigation of the landing header: four hubs per locale. The landing
+// header used to offer the logo, a language switch and one CTA — nothing that
+// leads from one service page to the prices, the other cluster or the blog.
+const SITE_NAV = {
+  ru: {
+    label: 'Разделы сайта',
+    langLabel: 'Язык страницы',
+    links: [
+      { href: '/ru/ai-bot-dlya-biznesa/', text: 'Решения' },
+      { href: '/ru/stoimost-chat-bota/', text: 'Цены' },
+      { href: '/ru/internet-reklama-tashkent/', text: 'Реклама' },
+      { href: '/ru/blog/', text: 'Блог' },
+    ],
+  },
+  uz: {
+    label: 'Sayt bo‘limlari',
+    langLabel: 'Sahifa tili',
+    links: [
+      { href: '/uz/biznes-uchun-ai-bot/', text: 'Yechimlar' },
+      { href: '/uz/chat-bot-narxi/', text: 'Narxlar' },
+      { href: '/uz/internet-reklama-toshkent/', text: 'Reklama' },
+      { href: '/uz/blog/', text: 'Blog' },
+    ],
+  },
+} as const;
+
+// Landing header (every page except the market variant and the AI-chat app).
+//
+// The sticky bar stays one row high — logo and the primary CTA — because body
+// anchors are offset with scroll-mt-24. Section links and the RU/UZ switch sit
+// in a second row that scrolls away with the page; on a phone the links scroll
+// horizontally and every target, the language links included, is at least
+// 44×44 px. The current page and the current language carry aria-current.
+//
+// Measurement-hold pages (scripts/measurement-hold.ts) keep the previous
+// header byte for byte until the 2026-10-03 reading. So does /uz/, the Uzbek
+// homepage and hreflang twin of the protected '/': the section nav is for
+// service landings, not the homepage (scripts/lead-form.ts excludes /uz/ from
+// the form for the same reason).
+const LEGACY_HEADER_PATHS: ReadonlySet<string> = new Set(['/uz/']);
+
+function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz: string): string {
+  if (isMeasurementHoldPath(page.url) || LEGACY_HEADER_PATHS.has(page.url)) {
+    return `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
+    <nav class="flex gap-3 text-sm">
+      ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
+      ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
+      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${isExternalHref(page.ctaPrimaryHref || global.defaultCTA.href) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+        ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
+      </a>
+    </nav>
+  </div>
+</header>`;
+  }
+  const locale = page.locale === 'uz' ? 'uz' : 'ru';
+  const nav = SITE_NAV[locale];
+  const ctaHref = page.ctaPrimaryHref || global.defaultCTA.href;
+  // px-2 on phones so the last hub peeks out of the scroll row instead of
+  // hiding entirely behind the language switch.
+  const navLinkClass = 'inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:text-white aria-[current=page]:bg-white/10 aria-[current=page]:text-white';
+  const langLinkClass = 'inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-transparent font-semibold text-white/60 hover:bg-white/5 hover:text-white aria-[current=page]:border-white/20 aria-[current=page]:bg-white/10 aria-[current=page]:text-white';
+  const links = nav.links
+    .map((l) => `<li><a href="${l.href}"${l.href === page.url ? ' aria-current="page"' : ''} class="${navLinkClass}">${escapeText(l.text)}</a></li>`)
+    .join('');
+  const lang = [
+    altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru"${locale === 'ru' ? ' aria-current="page"' : ''} class="${langLinkClass}">RU</a>` : '',
+    altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz"${locale === 'uz' ? ' aria-current="page"' : ''} class="${langLinkClass}">UZ</a>` : '',
+  ].join('');
+  return `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+    <a href="${locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white shrink-0" data-testid="back-home">${escapeHtml(global.siteName)}</a>
+    <a href="${escapeHtml(ctaHref)}"${isExternalHref(ctaHref) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold text-sm leading-tight text-center px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center">
+      ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
+    </a>
+  </div>
+</header>
+<div class="border-b border-white/5 bg-bg-base">
+  <div class="max-w-5xl mx-auto px-2 sm:px-4 flex items-center gap-2">
+    <nav aria-label="${escapeHtml(nav.label)}" data-testid="site-nav" class="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <ul class="flex gap-1 whitespace-nowrap text-sm">${links}</ul>
+    </nav>
+    ${lang ? `<nav aria-label="${escapeHtml(nav.langLabel)}" data-testid="language-switch" class="flex shrink-0 gap-1 text-sm">${lang}</nav>` : ''}
+  </div>
+</div>`;
+}
+
 function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
@@ -747,7 +844,7 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   // Mobile sticky conversion bar — commercial pages only, hidden ≥lg.
   // GA4 showed that every recorded conversion currently comes from mobile, so
   // the first action here is a direct phone link. Telegram remains as secondary.
-  const showStickyCta = isCommercialPage;
+  const showStickyCta = isCommercialPage || STICKY_BAR_EXTRA_URLS.has(page.url);
   const stickyPhoneLabel = page.locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить';
   const stickyTelegramLabel = 'Telegram';
   const stickyCtaHtml = showStickyCta
@@ -778,6 +875,10 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
     </section>`
     : '';
   const hasCopyablePrompts = page.bodyBlocks?.some((block) => block.copyableItems) ?? false;
+  // Two-field lead form, only on the allowlist in scripts/lead-form.ts (which
+  // also refuses protected, measurement-hold, calculator and market pages).
+  const leadForm = marketVariant || page.pageType === 'gpt-chat' ? '' : renderLeadForm(page);
+  const leadFormHtml = leadForm ? `\n    ${leadForm}` : '';
 
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
@@ -828,6 +929,7 @@ ${cssLinks}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
+${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
@@ -835,18 +937,7 @@ ${METRIKA_HEAD}
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
-${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-    <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
-    <nav class="flex gap-3 text-sm">
-      ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
-      ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${isExternalHref(page.ctaPrimaryHref || global.defaultCTA.href) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
-        ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
-      </a>
-    </nav>
-  </div>
-</header>`}
+${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, altRu, altUz)}
 
 ${marketVariant
   ? page.slug === 'sotuvchi' ? renderMarketLanding(page) : renderMarketTrust(page)
@@ -883,7 +974,7 @@ ${marketVariant
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
     ${renderArticle(page.bodyBlocks || [], contentAnchor)}
 
-    ${renderSources(page)}
+    ${renderSources(page)}${leadFormHtml}
     ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}
     ${renderInternalLinks(page)}
     ${renderRelatedArticles(page, articles)}
@@ -925,7 +1016,7 @@ ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money p
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
-${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}
+${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${LEAD_FORM_SCRIPT}` : ''}
 ${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>
 </html>
@@ -945,7 +1036,14 @@ async function main() {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref), 'utf-8');
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref);
+    // Every bare studio-contact link gets a prefilled first message naming the
+    // service and the page; protected pages come back unchanged.
+    fs.writeFileSync(outPath, withStudioTelegramPrefill(html, {
+      locale: page.locale === 'uz' ? 'uz' : 'ru',
+      label: page.breadcrumbLabel || page.h1,
+      path: page.url,
+    }), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
