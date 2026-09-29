@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-09-29",
+  "release": {
+    "commit": "807c3d5ccf8f747bc0902a991aa7887d8f12cd7f",
+    "deployment": "1cd04819-320a-45ce-a4b1-c1d1d653d9d4",
+    "artifactSha256": "bff7f0c69e28b2efc44f56b65f7b1f79ac2e07a805de408d1d8311585b39e6c9",
+    "fileCount": 935,
+    "previousProduction": "9f15ffb2980c281b111535949856d767b873990e"
+  },
+  "live": {
+    "manifestCommit": "807c3d5ccf8f747bc0902a991aa7887d8f12cd7f",
+    "/ru/": "301 -> https://gptbot.uz/",
+    "/ru": "301 -> https://gptbot.uz/",
+    "www /ru/": "301 -> https://gptbot.uz/ru/ -> / (zone-level www rule runs before Pages; 2 hops)",
+    "/favicon.ico": 200,
+    "sitemap": {
+      "urls": 288,
+      "withHreflang": 148,
+      "doubledHost": 0,
+      "ruHubListed": false,
+      "gptChatXDefault": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+    },
+    "uzLanding": {
+      "logoHref": "/uz/",
+      "hoursVisible": true,
+      "latinByline": true,
+      "favicon": true
+    },
+    "uzArticle": {
+      "schema": "BlogPosting",
+      "breadcrumbRoot": "https://gptbot.uz/uz/"
+    },
+    "homepage": {
+      "title": "GPTBot.uz — AI-бот для бизнеса в Узбекистане | Telegram",
+      "linksToRuHub": 0,
+      "organizationSameAs": [
+        "https://yandex.ru/maps/org/109235624736"
+      ],
+      "hoursVisible": true
+    },
+    "llmsTxt": {
+      "hours": "Mo–Sa 10:00–19:00",
+      "openAiDisambiguation": true
+    },
+    "protectedSeo": "10/10 live HTML match docs/seo/evidence/2026-09-29-full-audit/reviewed-protected-pages.json"
+  }
+}

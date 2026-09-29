@@ -1,6 +1,6 @@
 # Полный SEO-аудит gptbot.uz и исправления, 2026-09-29
 
-Кандидат релиза на ветке `seo/full-audit-fixes-20260929` (база `9f15ffb2`). Владелец поручил исправить найденное аудитом и сразу задеплоить; решения: часы Пн–Сб 10:00–19:00, `/ru/` → 301 на `/`. Что исправлено, проверка и действия владельца — `docs/seo/full-audit-2026-09-29/REPORT-RU.md`. Находки аудита — вне Git: `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`. Деплой — только `npm run build:production` + `npm run deploy:pages:production`; untracked `.serena/` не включать.
+Опубликовано. Production = `807c3d5ccf8f747bc0902a991aa7887d8f12cd7f`, Cloudflare Pages deployment `1cd04819-320a-45ce-a4b1-c1d1d653d9d4`, 935 файлов; живая проверка и защищённые 10/10 — `docs/seo/full-audit-2026-09-29/live-verification-2026-09-29.json`. Ветка `seo/full-audit-fixes-20260929` (база `9f15ffb2`). Владелец поручил исправить найденное аудитом и сразу задеплоить; решения: часы Пн–Сб 10:00–19:00, `/ru/` → 301 на `/`. Что исправлено, проверка и действия владельца — `docs/seo/full-audit-2026-09-29/REPORT-RU.md`. Находки аудита — вне Git: `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`. Деплой — только `npm run build:production` + `npm run deploy:pages:production`; untracked `.serena/` не включать.
 
 ---
 

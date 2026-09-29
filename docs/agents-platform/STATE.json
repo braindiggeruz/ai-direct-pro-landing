@@ -1,6 +1,9 @@
 {
   "full_site_audit_20260929": {
-    "status": "release_candidate",
+    "status": "deployed_and_verified",
+    "release_commit": "807c3d5ccf8f747bc0902a991aa7887d8f12cd7f",
+    "deployment": "1cd04819-320a-45ce-a4b1-c1d1d653d9d4",
+    "live_verification": "docs/seo/full-audit-2026-09-29/live-verification-2026-09-29.json",
     "branch": "seo/full-audit-fixes-20260929",
     "baseline_commit": "9f15ffb2",
     "report": "docs/seo/full-audit-2026-09-29/REPORT-RU.md",
