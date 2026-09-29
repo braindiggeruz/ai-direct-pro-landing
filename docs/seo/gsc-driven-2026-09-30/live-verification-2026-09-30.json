@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-09-30",
+  "release": {
+    "commit": "908ee526dd669769fc01c93f81470af96fbe8998",
+    "deployment": "3ed0959b-5850-487e-9731-044e189f51aa",
+    "previousProduction": "1902504ecd937c2886e30d033e0ef5e60f576fb1"
+  },
+  "live": {
+    "protectedSeo": "10/10 live HTML match docs/seo/evidence/2026-09-30-gsc-driven/reviewed-protected-pages.json",
+    "chatPagesFAQPage": false,
+    "leaderTitlesUnchanged": true,
+    "ruRedirect": "301 -> /",
+    "indexNow": "reports/indexnow-receipts/2026-09-29T20-54-47-917Z_manual_gsc_driven_release.json (16 URLs, HTTP 200)"
+  }
+}

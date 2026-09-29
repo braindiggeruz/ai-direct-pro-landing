@@ -1,6 +1,9 @@
 {
   "gsc_driven_20260930": {
-    "status": "release_candidate",
+    "status": "deployed_and_verified",
+    "release_commit": "908ee526dd669769fc01c93f81470af96fbe8998",
+    "deployment": "3ed0959b-5850-487e-9731-044e189f51aa",
+    "live_verification": "docs/seo/gsc-driven-2026-09-30/live-verification-2026-09-30.json",
     "branch": "seo/full-audit-fixes-20260929",
     "baseline_commit": "e4742c7e",
     "report": "docs/seo/gsc-driven-2026-09-30/REPORT-RU.md",

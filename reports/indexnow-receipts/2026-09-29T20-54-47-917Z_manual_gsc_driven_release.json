@@ -1,0 +1,28 @@
+{
+  "submittedAt": "2026-09-29T20:54:47.917Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_gsc_driven_release",
+  "releaseCommit": "908ee526dd669769fc01c93f81470af96fbe8998",
+  "reason": "Content changed in 908ee526 (leader descriptions/FAQ/first screen, commercial titles/H1, author markup, homepage shell text) plus landing nav and lead form now shown on pages whose measurement hold was lifted. Each URL verified live first: 200, self-canonical, indexable.",
+  "count": 16,
+  "urls": [
+    "https://gptbot.uz/",
+    "https://gptbot.uz/ru/avtor-boris-gerasimov/",
+    "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "https://gptbot.uz/ru/gpt-chat/",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+    "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+    "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+    "https://gptbot.uz/uz/ai-sotuvchi/",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "https://gptbot.uz/uz/internet-reklama-toshkent/",
+    "https://gptbot.uz/uz/muallif-boris-gerasimov/",
+    "https://gptbot.uz/uz/sayt-yaratish/",
+    "https://gptbot.uz/uz/telegram-reklama/"
+  ],
+  "responseExcerpt": ""
+}
