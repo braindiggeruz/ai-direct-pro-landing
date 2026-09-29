@@ -1,6 +1,9 @@
 {
   "lead_capture_20260929": {
-    "status": "release_candidate",
+    "status": "deployed_and_verified",
+    "release_commit": "1902504ecd937c2886e30d033e0ef5e60f576fb1",
+    "deployment": "40abb45f-2e77-43c8-a1b3-b12858f78ba1",
+    "live_verification": "docs/seo/lead-capture-2026-09-29/live-verification-2026-09-29.json",
     "branch": "seo/full-audit-fixes-20260929",
     "baseline_commit": "7b78175f",
     "report": "docs/seo/lead-capture-2026-09-29/REPORT-RU.md",

@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-09-29",
+  "release": {
+    "commit": "1902504ecd937c2886e30d033e0ef5e60f576fb1",
+    "deployment": "40abb45f-2e77-43c8-a1b3-b12858f78ba1",
+    "fileCount": 936,
+    "previousProduction": "807c3d5ccf8f747bc0902a991aa7887d8f12cd7f"
+  },
+  "live": {
+    "leadForm": {
+      "present": [
+        "/ru/internet-reklama-tashkent/",
+        "/uz/chat-bot-narxi/",
+        "/boss-digital/",
+        "/ru/telegram-bot-dlya-biznesa/"
+      ],
+      "absent": [
+        "/",
+        "/uz/",
+        "/ru/gpt-chat/",
+        "/uz/internet-reklama-toshkent/",
+        "/uz/sayt-yaratish/",
+        "/ru/kalkulyator-stoimosti-telegram-bota/"
+      ]
+    },
+    "telegramPrefill": true,
+    "firstTouchSnippet": true,
+    "orderBlocks": {
+      "/ru/telegram-bot-dlya-biznesa/": "from 990 000",
+      "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/": true
+    },
+    "calculatorBundle": {
+      "file": "/assets/telegram-cost-calculator-CTxC4rMk.js",
+      "contains_calculator_contact": false
+    },
+    "api": {
+      "no_consent": "400 invalid_lead consent required",
+      "old_calculator_payload": "400 invalid_lead contact does not match contactType",
+      "note": "No successful live submission was made: it would create a real lead and an owner alert. Success paths are covered by tests/lead-attribution.test.ts end-to-end handler tests."
+    },
+    "holdDescriptionRestored": "/uz/internet-reklama-toshkent/ starts «Toshkentda internet reklama berish:»",
+    "protectedSeo": "10/10 live HTML match docs/seo/evidence/2026-09-29-full-audit/reviewed-protected-pages.json",
+    "indexNow": "reports/indexnow-receipts/2026-09-29T17-35-52-387Z_manual_lead_capture_release.json (115 URLs, HTTP 200)"
+  }
+}
