@@ -254,7 +254,7 @@
         },
         {
           "token": "business",
-          "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "target": "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
           "anchor": "сравнении ChatGPT и AI-бота для бизнеса"
         }
       ]
@@ -319,7 +319,7 @@
       "priority": 2
     },
     {
-      "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "target": "/ru/ai-bot-dlya-biznesa/",
       "anchor": "AI-бот для бизнеса в Узбекистане",
       "locale": "ru",
       "type": "contextual",

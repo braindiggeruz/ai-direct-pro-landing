@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-09-30",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -305,15 +305,15 @@
       "commercial": {
         "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
         "owns": "find the official ChatGPT app download for Android, iPhone, Windows or macOS",
-        "mustNotTarget": ["chatgpt ochish", "chatgpt kirish", "chatgpt uzbek tilida online"]
+        "mustNotTarget": ["chatgpt kirish", "chatgpt uzbek tilida online"]
       },
       "informational": {
         "url": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
-        "owns": "whether ChatGPT is available from Uzbekistan and whether a VPN is required; the sign-in route itself («chatgpt kirish», «chatgpt ochish») is owned by /uz/blog/chatgptga-qanday-kirish-mumkin/ since 2026-09-18 (pair C18)",
+        "owns": "whether ChatGPT is available from Uzbekistan and whether a VPN is required; the sign-in route is not this page's (pairs C18 and C22)",
         "mustNotTarget": ["chatgpt ilovasini yuklab olish", "chatgpt yuklab olish uzbek tilida"]
       },
       "gscNote": "A 24-hour Google Search Console sample reviewed on 2026-08-20 showed 399 visible impressions across Uzbek ChatGPT download, access and online-use variants. The strongest uncovered phrase was «chatgpt yuklab olish uzbek tilida», while «chatgpt ochish» formed a separate access intent.",
-  "observedOwnerNote": "Verified 2026-08-24 against 28-day Uzbekistan GSC. The fence below is the INTENDED ownership; Google routes «chatgpt ochish» the other way. The commercial URL — which mustNotTarget it — receives 264 impressions at position 9.33, while the informational URL designated to own it receives 27 at position 6.85. The fence is deliberately kept (the two intents are genuinely distinct and the informational page holds the better position), but future agents must not read this pair as a statement of observed ranking. Also measured that day: «chatgpt yuklab olish uzbek tilida» supplies 2 754 of the commercial URL's 3 547 impressions (78%), which is why its title now carries the «o‘zbek tilida» modifier.",
+  "observedOwnerNote": "Verified 2026-08-24 against 28-day Uzbekistan GSC. The fence below is the INTENDED ownership; Google routes «chatgpt ochish» the other way. The commercial URL — which mustNotTarget it — receives 264 impressions at position 9.33, while the informational URL designated to own it receives 27 at position 6.85. The fence is deliberately kept (the two intents are genuinely distinct and the informational page holds the better position), but future agents must not read this pair as a statement of observed ranking. Also measured that day: «chatgpt yuklab olish uzbek tilida» supplies 2 754 of the commercial URL's 3 547 impressions (78%), which is why its title now carries the «o‘zbek tilida» modifier. 2026-09-29: Google has routed «chatgpt ochish» to the download article since 09-11 (92% of the query's impressions over 09-20..28, position 6.6, CTR 0.66%; the login article 8.2%, position 8.2, 0 clicks); five internal «ochish» anchors in four documents already point there; ownership accepted, so «chatgpt ochish» left this page's mustNotTarget and is declared by it. Release 2026-09-30 on this article: description (the unsupported «3 daqiqada» removed, 177 → 138 characters), a first FAQ, the «skachat (скачать)» FAQ question, the paid-plan FAQ answer and the web/pc H2 wording; title and H1 unchanged. Revert rule (the same text is in docs/seo/CHANGE_LOG_2026-09.md and in the 2026-09-30-gsc-driven revision note): «chatgpt yuklab olish uzbek tilida» on this URL, 14-day reads at T0+14 and T0+28 after this article's recrawl, judged only at impression-weighted position ≤ 3.5. Base 2026-09-16..29: 134 clicks / 5 550 impressions, CTR 2.41%, position 3.38 (API 2026-09-30; an earlier pull the same day gave 137 / 5 555, 2.47%; re-pull once final); 1 SD of a 14-day CTR at this volume ≈ 0.21 pp. Revert when one read is below 2.0% (base − 2 SD) or both reads are below 2.2% (base − 1 SD); a trigger at the base itself (the earlier 2.4%) would revert a zero effect 40–50% of the time. Clicks are reported but trigger nothing: they move with demand. Position drives this CTR (09-16..21 ≈ 1.6% at pos ~3.8; 09-22..28 ≈ 3.1% at pos ~2.9), so at a better position than the base these thresholds are conservative. Revert = restore this article's e4742c7e values (git show e4742c7e:content/blog/uz/chatgpt-telefon-va-kompyuterga-yuklab-olish.json) for FAQ[0], the «skachat (скачать)» question wording and the web/pc H2s with the «Ha.» opening, and set description and ogDescription to «ChatGPT’ni telefonga va kompyuterga yuklab olish: Play Market, App Store va brauzer — 3 ta usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish.» (158 characters: the e4742c7e lead sentence without the unsupported «3 daqiqada», plus the current second sentence, because the old one promised first-setup and error sections the article does not have; never re-publish the e4742c7e description verbatim). Keep «ixtiyoriy pullik tariflar» in the paid-plan answer and the «chatgpt ochish» keyword. Then write a new reviewed revision under docs/seo/evidence/<date>-<name>/ and point BASELINE to it.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-20"
     },
@@ -415,7 +415,7 @@
       },
       "informational": {
         "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-        "owns": "sign in to or open ChatGPT — the head terms «chatgpt kirish» and «chatgpt ochish» — plus Log in versus Sign up, the official domain, the login code not arriving and clone-site safety",
+        "owns": "how to sign in to ChatGPT — the login long tail «chatgpt kirish login», «chatgptga kirish», «chatgpt ga kirish», «chat gpt kirish», «chatgpt saytiga kirish», «chatgpt ochish uzbek tilida» — plus Log in versus Sign up, the official domain, the login code not arriving, the site not opening and clone-site safety. The bare head «chatgpt kirish» is routed to /uz/gpt-uzbek-tilida/ (pair C22) and «chatgpt ochish» to the download article (pair C11)",
         "mustNotTarget": [
           "chatgpt o‘zbekistonda",
           "chatgpt o'zbekistonda ishlaydimi",
@@ -424,7 +424,7 @@
         ]
       },
       "gscNote": "GSC audit 2026-09-17 (28 days to 2026-09-14): «chatgpt kirish» 24 641 impressions / 80 clicks / CTR 0.32% / position 7.4, routed by Google to the login article; the VPN/availability article collected 2 246 impressions / 7 clicks / CTR 0.31% / position 8.4 with «kirish» leading its title; «chatgpt ochish» (3 365 impressions over 90 days) was split between the login and download articles. The 2026-09-04 fence awarded the head terms to the VPN article, but the measured routing went the other way, so the fence was reversed on 2026-09-18 (docs/seo/gsc-audit-2026-09-17/QUICK_WINS.md QW-1 and QW-2, CANNIBALIZATION.md).",
-      "observedOwnerNote": "Ownership follows the measured routing. On 2026-09-18 the login article took «kirish (login)» into its title, H1, description and intro and gained an «ochish» section; the VPN/availability article dropped «kirish» from title, H1, description and keywords and now answers «ishlaydimi / VPN kerakmi», linking to the login article for sign-in. No redirect; both pages answer distinct questions. Success after 28 full days from the recrawl: CTR of «chatgpt kirish» ≥ 0.6% at position 6–9 and login-article share of ochish/kirish queries ≥ 80%; the title is rolled back if CTR < 0.3% two weeks running (QUICK_WINS.md). The download article stays fenced by C11; /uz/gpt-uzbek-tilida/ owns the product-page variants «chatgpt bepul kirish» and «chatgpt kirish uzbek tilida», not the bare head term.",
+      "observedOwnerNote": "Ownership follows the measured routing. On 2026-09-18 the login article took «kirish (login)» into its title, H1, description and intro and gained an «ochish» section; the VPN/availability article dropped «kirish» from title, H1, description and keywords and now answers «ishlaydimi / VPN kerakmi», linking to the login article for sign-in. No redirect; both pages answer distinct questions. Success after 28 full days from the recrawl: CTR of «chatgpt kirish» ≥ 0.6% at position 6–9 and login-article share of ochish/kirish queries ≥ 80%; the title is rolled back if CTR < 0.3% two weeks running (QUICK_WINS.md). The download article stays fenced by C11; /uz/gpt-uzbek-tilida/ owns the product-page variants «chatgpt bepul kirish» and «chatgpt kirish uzbek tilida», not the bare head term. Superseded 2026-09-29 for the head terms: success criteria failed (login-article share of «chatgpt kirish» 28.0% vs ≥80%, of «chatgpt ochish» 8.2%; query CTR 0.46% vs ≥0.6%). Bare head → C22; «chatgpt ochish» → C11 download article. The VPN-article fence in this pair still holds.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-09-18"
     },
@@ -504,6 +504,37 @@
       "observedOwnerNote": "The existing money page keeps the transactional AI-bot family. The new article owns only the comparison question and explicitly introduces workflow as the safer middle layer. The older /ru/blog/gpt-bot-vs-chat-bot/ remains an architecture article about combining scripted dialogue, RAG and GPT; it does not declare AI-agent comparison keywords.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-09-13"
+    },
+    {
+      "id": "C22-uz-chatgpt-kirish-chat-vs-login",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "the bare head «chatgpt kirish» as Google has routed it since 2026-09-13, plus «chatgpt kirish uzbek tilida», «chatgpt bepul kirish», «chatgpt online kirish» and the uzbekcha / o‘zbek tilida / bepul / jaji piti / chachipiti family, answered with an honest two-path block (#chatgpt-kirish): official chatgpt.com, or this independent GPTBot.uz chat",
+        "mustNotTarget": [
+          "chatgpt kirish login",
+          "chatgptga kirish",
+          "chatgpt ga kirish",
+          "chatgpt login",
+          "chatgpt sign up",
+          "chatgpt login kodi kelmadi",
+          "chatgpt ochish uzbek tilida"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "owns": "how to sign in: «chatgpt kirish login», «chatgptga kirish», «chatgpt ga kirish», «chat gpt kirish», «chatgpt saytiga kirish», «chatgpt ochish uzbek tilida», Log in vs Sign up, login code not arriving, site not opening, clone sites",
+        "mustNotTarget": [
+          "chatgpt kirish uzbek tilida",
+          "chatgpt bepul kirish",
+          "chatgpt online kirish",
+          "chatgpt uzbekcha",
+          "chatgpt uzbekcha online"
+        ]
+      },
+      "gscNote": "GSC pulled 2026-09-29 (dataState=all), PRE 09-04..17 vs POST 09-20..28: «chatgpt kirish» ~1,830 impressions/day in POST; share UZ chat 8%→59% (pos 7.4, CTR 0.44%), login article 90%→28% (pos 8.6), RU chat 0%→13% (pos 5.8). Google switched the leading URL on 09-13 and rotates it (6 changes in 25 days); query-level and page-summed impressions differ by 0.01%, so Google shows one of our URLs at a time. Query level, all URLs combined: 09-04..12 (login article alone) 6.44 clicks/day, CTR 0.34% on ~1,894 impressions/day; 09-04..17 4.86/day, 0.28%, pos 7.63; POST 8.44/day, 0.46%, of which 09-20..23 leaned on the RU chat at pos ~5.8 (14 clicks on 1,671 impressions); 09-24..28 4.6/day, 0.30%, pos 7.48, UZ chat leading, RU chat 0 clicks on 422 impressions; pre-release 14 days 09-16..29 6.86/day, 0.42%, pos 7.65.",
+      "observedOwnerNote": "Ownership follows Google's routing. No canonical change and no redirect (Google canonical = ours). Release 2026-09-30: the UZ chat page opens its summary with the two-path «ChatGPT kirish» section and gets a description that states its independence; the login article keeps its title and H1 (prefix «ChatGPT kirish (login):») and changes only its description, a first FAQ and the in-body link to the UZ chat. PROVISIONAL until the stage-2 gate: the login article still declares «chatgpt kirish», so «chatgpt kirish» is deliberately absent from this pair's informational mustNotTarget, and /uz/gpt-uzbek-tilida/ does not yet declare «chatgpt kirish» or «chatgpt online kirish». Expected effect 0 to +1 click/day on «chatgpt kirish», counted once across the UZ chat, login-article and RU chat changes; the POST 8.44/day level depended on the RU chat's temporary pos-5.8 exposure, which this release does not target. Measurement (the same rules are in docs/seo/CHANGE_LOG_2026-09.md, section «30.09», and in the 2026-09-30-gsc-driven revision note): query-level «chatgpt kirish», all URLs combined, 14-day reads at T0+14 and T0+28 (T0 = the later post-release recrawl of /uz/gpt-uzbek-tilida/ and the login article), each judged only at impression-weighted position 7.2–8.1 and ≥ 1,400 impressions/day (otherwise recorded without a verdict), never against the 09-24..28 trough. Base 2026-09-16..29: 96 clicks / 23 098 impressions, CTR 0.42%, position 7.65, 6.86 clicks/day (API 2026-09-30; re-pull once final); 1 SD of a 14-day CTR at this volume ≈ 0.04 pp, of the 14-day mean clicks ≈ 0.7/day. Keep, the only gate for stage 2: CTR ≥ 0.50% (base + 2 SD; the earlier 0.40% sat below the base and would have passed a zero effect about 65% of the time). Hold: 0.33% ≤ CTR < 0.50% → no stage 2, read T0+28. Loss: CTR < 0.33% (base − 2 SD) → revert when confirmed (14-day mean clicks more than 2 SD, ≈ 1.4/day, below the base and the CHANGE_LOG control set not down the same way) or when both T0+14 and T0+28 are below 0.33%; an unconfirmed single loss read counts as a hold. After T0+28 with neither keep nor loss: no measurable effect, so stage 1 stays, with no stage 2 and no revert. Stage 2, only on keep: (1) move the «chatgpt kirish» and «chatgpt online kirish» declarations from the login article to /uz/gpt-uzbek-tilida/ and add «chatgpt kirish» to this pair's informational mustNotTarget; (2) decide the login-article title demotion; (3) re-point the three bare «ChatGPT kirish» anchors (content/pages/uz/hub.json, content/pages/uz/suniy-intellekt.json, content/blog/uz/insho-yozish-suniy-intellekt-bilan.json) to /uz/gpt-uzbek-tilida/#chatgpt-kirish. Revert set, because the release is read as one intervention: restore the e4742c7e values (git show e4742c7e:<file>) of every «chatgpt kirish» lever it changed — /uz/gpt-uzbek-tilida/: description and ogDescription, the summary bodyBlocks this release changed (the #chatgpt-kirish section — H2 «ChatGPT’ga o‘zbek tilida qanday kirish mumkin?», its paragraph and the guide-link anchor «ChatGPT kirish yo‘riqnomasi» — back to its e4742c7e place and wording, the #jaji-piti H2 removed and the spellings paragraph restored, the #chatgpt-bepul H2 «ChatGPT o‘zbek tilida bepulmi?» restored and the added sentence removed), the guide-link anchor in internalLinks and secondaryKeywords; /uz/blog/chatgptga-qanday-kirish-mumkin/: description and ogDescription, FAQ[0], the in-body link paragraph and keywords; /ru/gpt-chat/: description and ogDescription and the chatgpt.com login paragraph; both chats' resting-screen line (premium.officialLead / officialTail in src/gpt-chat/i18n.ts and its render in src/gpt-chat/components/AiChatConsole.tsx). Not reverted, because they are not «chatgpt kirish» levers: the RU chat's download-guide and Telegram-bot links and its «O‘zbekcha» entry, the payment-article link targets, the removal of the hidden FAQPage JSON-LD from both chats, and the download article (its own rule in C11). Then bump the pages' dates, write a new reviewed revision under docs/seo/evidence/<date>-<name>/ and point BASELINE to it; never repoint BASELINE to an old revision.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-09-29"
     }
   ],
   "architectureDecisions": [

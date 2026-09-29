@@ -156,8 +156,8 @@
       "url": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
       "name": "Борис Герасимов — основатель и редактор GPTBot.uz",
       "inLanguage": "ru",
-      "dateCreated": "2026-07-30",
-      "dateModified": "2026-07-30",
+      "dateCreated": "2026-07-30T00:00:00+05:00",
+      "dateModified": "2026-07-30T00:00:00+05:00",
       "mainEntity": {
         "@id": "https://gptbot.uz/#author"
       }

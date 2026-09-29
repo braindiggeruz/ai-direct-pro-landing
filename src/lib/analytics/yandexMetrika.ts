@@ -26,6 +26,13 @@ export const YANDEX_GOALS = {
   calculatorLeadSuccess: 'calculator_lead_success',
   /** The AI chat's lead form, accepted by the server. */
   chatLeadSuccess: 'chat_lead_success',
+  /** A click on the chatgpt.com link on the chat's resting screen: a visitor
+   *  who came for the official ChatGPT and was shown the way there. */
+  officialChatgptClick: 'official_chatgpt_click',
+  /** A click from the Russian chat to the Uzbek one (header or resting screen).
+   *  The head block also counts these as gpt_chat_open, because the target is
+   *  /uz/gpt-uzbek-tilida/; read the switch rate from this goal, not that one. */
+  chatLocaleSwitch: 'chat_locale_switch',
 } as const;
 
 export type YandexGoal = (typeof YANDEX_GOALS)[keyof typeof YANDEX_GOALS];

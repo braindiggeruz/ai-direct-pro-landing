@@ -28,7 +28,14 @@ export interface ChatStrings {
     historyNote: string; savedChats: string; noHistory: string; newChatHint: string; actionCost: string;
     answerReady: string; monthlyLimit: string; pause: string; offer: string;
     scheduled:string; receipt:string; refundReceipt:string; contextTooLarge:string;
+    /** Resting screen: the text around the chatgpt.com link, for a visitor who
+     *  searched for the official ChatGPT. Lead + link + tail read as one line. */
+    officialLead: string; officialTail: string;
   };
+  /** RU chat only: the visible way to the Uzbek chat on the first screen —
+   *  the header label (`nav`) and the resting-screen link (`page`). The Uzbek
+   *  chat has no counterpart, so its header keeps the short «RU». */
+  uzEntry?: { nav: string; page: string };
   brand: string;
   online: string;
   inputPlaceholder: string;
@@ -154,7 +161,9 @@ const RU: ChatStrings = {
     pending:'Ожидаем подтверждение оплаты. Возврат с платёжной страницы сам по себе не подтверждает платёж.',cancelled:'Платёж отменён. При списании обратитесь в поддержку провайдера.',expired:'Оплаченный период закончился.',test:'Тестовый режим: реальные деньги не списываются.',
     copyFailed:'Копирование недоступно. Выделите текст и скопируйте вручную.',partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',simpler:'Объяснить проще',translate:'Перевести на узбекский',continue:'Продолжить',
     historyNote:'Список разговоров в этом браузере разделён по аккаунтам и не синхронизируется между устройствами. Сообщения обрабатываются на сервере.',savedChats:'Ваши разговоры',noHistory:'Сохранённых разговоров пока нет.',newChatHint:'Начать новую тему',actionCost:'В Plus завершённый ответ на продолжение, перевод или упрощение использует один ответ лимита. Прерванные и неуспешные ответы в этот лимит не входят.',
+    officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
   },
+  uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot AI',
   online: 'Online',
   inputPlaceholder: 'Напишите сообщение…',
@@ -298,6 +307,7 @@ const UZ: ChatStrings = {
     pending:'To‘lov tasdig‘ini kutyapmiz. To‘lov sahifasidan qaytish to‘lov amalga oshganini bildirmaydi.',cancelled:'To‘lov bekor qilindi. Pul yechilgan bo‘lsa, to‘lov xizmati yordam markaziga murojaat qiling.',expired:'To‘langan muddat tugadi.',test:'Sinov rejimi: haqiqiy pul yechilmaydi.',
     copyFailed:'Nusxalab bo‘lmadi. Matnni belgilab, qo‘lda nusxalang.',partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',simpler:'Oddiyroq tushuntir',translate:'Rus tiliga tarjima',continue:'Davom ettir',
     historyNote:'Bu brauzerdagi suhbatlar ro‘yxati akkauntlar bo‘yicha ajratilgan, qurilmalar orasida sinxronlanmaydi. Xabarlar serverda qayta ishlanadi.',savedChats:'Suhbatlaringiz',noHistory:'Hozircha saqlangan suhbat yo‘q.',newChatHint:'Yangi mavzu boshlash',actionCost:'Plus’da davom ettirish, tarjima yoki soddalashtirishga tugallangan javob limitdan bitta javob sarflaydi. Uzilgan yoki xato bilan tugagan javoblar bu limitga kirmaydi.',
+    officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
   },
   brand: 'GPTBot AI',
   online: 'Online',

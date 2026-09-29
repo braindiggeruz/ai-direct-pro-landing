@@ -377,6 +377,8 @@ test('metrika: the goal catalogue is closed and every goal is fired somewhere', 
     'lead_form_success',
     'calculator_lead_success',
     'chat_lead_success',
+    'official_chatgpt_click',
+    'chat_locale_switch',
   ]);
 });
 
@@ -384,16 +386,43 @@ test('metrika: every goal in the catalogue is fired from the tag or a lead succe
   const fromHead = ['telegram_cta_click', 'gpt_chat_open', 'pricing_cta_click', 'telegram_cta_studio', 'telegram_cta_bot', 'phone_click'];
   for (const goal of fromHead) assert.ok(METRIKA_HEAD.includes(`'${goal}'`), `${goal} is never fired by the tag`);
   const wrapper = await source('src/lib/analytics/yandexMetrika.ts');
-  for (const goal of ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success']) {
+  // Goals the React islands fire through reachYandexGoal(); each must be a
+  // name in the wrapper's own closed list, or the wrapper drops it.
+  const fromReact = ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success', 'official_chatgpt_click', 'chat_locale_switch'];
+  for (const goal of fromReact) {
     assert.ok(wrapper.includes(`'${goal}'`), `${goal} is not in the React goal wrapper`);
   }
   assert.match(await source('src/calculator/CalculatorApp.tsx'), /reachYandexGoal\(YANDEX_GOALS\.calculatorLeadSuccess\)/);
   assert.match(await source('src/gpt-chat/components/AiLeadForm.tsx'), /reachYandexGoal\(YANDEX_GOALS\.chatLeadSuccess\)/);
+  const chat = await source('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(chat, /reachYandexGoal\(YANDEX_GOALS\.officialChatgptClick\)/);
+  assert.match(chat, /reachYandexGoal\(YANDEX_GOALS\.chatLocaleSwitch\)/);
   assert.match(await source('scripts/lead-form.ts'), /window\.ym\(111312750,'reachGoal','lead_form_success'\)/);
   for (const goal of YANDEX_METRIKA_GOALS) {
-    const fired = fromHead.includes(goal) || ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success', 'lead_form_success'].includes(goal);
+    const fired = fromHead.includes(goal) || fromReact.includes(goal) || goal === 'lead_form_success';
     assert.ok(fired, `${goal} is catalogued but fired nowhere`);
   }
+  // The two catalogues describe one counter: nothing the wrapper may send is
+  // missing from the list the counter's goals are configured from.
+  const wrapperGoals = [...wrapper.matchAll(/^\s+\w+: '([a-z_]+)',\r?$/gm)].map((m) => m[1]);
+  assert.ok(wrapperGoals.length >= fromReact.length, 'the wrapper goal list was not parsed');
+  for (const goal of wrapperGoals) {
+    assert.ok((YANDEX_METRIKA_GOALS as readonly string[]).includes(goal), `${goal} is in the wrapper but not in the catalogue`);
+  }
+});
+
+test("metrika: the chat's first-screen links — chatgpt.com adds no tag goal, the Uzbek entry is also a chat open", () => {
+  const h = harness({ pathname: '/ru/gpt-chat/' });
+  h.run();
+  // External: the tag ignores it, so official_chatgpt_click (from React) is
+  // the only goal this click produces.
+  click(h, 'https://chatgpt.com/');
+  assert.deepEqual(goals(h.calls).map((c) => c[2]), []);
+  // The RU→UZ switch targets /gpt-uzbek-tilida/, which the tag has always
+  // counted as gpt_chat_open. Pinned here so the double count with
+  // chat_locale_switch stays a known, documented one.
+  click(h, '/uz/gpt-uzbek-tilida/');
+  assert.deepEqual(goals(h.calls).map((c) => c[2]), ['gpt_chat_open']);
 });
 
 test('metrika: CTA clicks report their goal and nothing else', () => {

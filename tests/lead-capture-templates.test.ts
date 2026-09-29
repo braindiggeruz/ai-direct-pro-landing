@@ -9,9 +9,12 @@
 //     copy in index.html cannot drift (scripts/attribution-snippet.ts);
 //   - the two-field page form posts exactly the /api/gpt/lead contract, and a
 //     goal/generate_lead fires only on a literal ok:true (scripts/lead-form.ts);
-//   - no form, navigation row or other visible change reaches a protected or
-//     measurement-hold page. The dist/ checks run only against a build that
-//     already contains this template (otherwise they skip).
+//   - no form, navigation row or other visible change reaches a protected page
+//     or a page on measurement hold. The 2026-09-19 hold was lifted on
+//     2026-09-29 (scripts/measurement-hold.ts), so the hold checks guard an
+//     empty set and the former hold pages get their cluster's templates. The
+//     dist/ checks run only against a build that already contains this
+//     template (otherwise they skip).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -229,6 +232,25 @@ test('every allowlisted page is a published landing with a valid service slug', 
   }
 });
 
+test('after the hold lift the two Uzbek advertising landings carry the form of their RU twins', () => {
+  // The 2026-09-19 measurement hold kept these two out of the allowlist until
+  // it was lifted on 2026-09-29 (scripts/measurement-hold.ts).
+  for (const [url, service] of [['/uz/internet-reklama-toshkent/', 'internet-reklama'], ['/uz/telegram-reklama/', 'telegram-ads']] as const) {
+    assert.ok(!MEASUREMENT_HOLD_PATHS.has(url), `${url} is still on hold`);
+    assert.equal(LEAD_FORM_PAGES[url], service, url);
+    const page = PAGES.get(url)!;
+    assert.equal(leadFormServiceFor(page), service, url);
+    const html = renderLeadForm(page);
+    assert.match(html, /data-testid="page-lead-form"/, url);
+    assert.match(html, /data-locale="uz"/, url);
+    assert.match(html, new RegExp(`data-service="${service}"`), url);
+    assert.ok(html.includes(`href="${PRIVACY_PAGE.uz}"`), url);
+  }
+  // Same service slug as the RU twin of each page.
+  assert.equal(LEAD_FORM_PAGES['/uz/internet-reklama-toshkent/'], LEAD_FORM_PAGES['/ru/internet-reklama-tashkent/']);
+  assert.equal(LEAD_FORM_PAGES['/uz/telegram-reklama/'], LEAD_FORM_PAGES['/ru/telegram-ads-uzbekistan/']);
+});
+
 test('the rendered form is labelled, 44 px, and links the privacy policy of its locale', () => {
   for (const [url, locale] of [['/ru/stoimost-chat-bota/', 'ru'], ['/uz/chat-bot-narxi/', 'uz']] as const) {
     const html = renderLeadForm(PAGES.get(url)!);
@@ -247,7 +269,7 @@ test('the rendered form is labelled, 44 px, and links the privacy policy of its 
     assert.match(html, /data-telegram="https:\/\/t\.me\/XGame_changerx\?text=/);
     assert.ok(!/contactType/.test(html + LEAD_FORM_SCRIPT), 'the form must let the server detect the contact type');
   }
-  assert.equal(renderLeadForm(PAGES.get('/uz/sayt-yaratish/')!), '', 'a measurement-hold page renders no form');
+  assert.equal(renderLeadForm(PAGES.get('/uz/sayt-yaratish/')!), '', 'a page outside the allowlist renders no form');
   assert.equal(renderLeadForm(PAGES.get('/ru/kalkulyator-stoimosti-telegram-bota/')!), '');
 });
 
@@ -603,6 +625,11 @@ test('built pages: section nav everywhere except hold pages and /uz/; boss-digit
     if (!html) continue;
     assert.ok(!html.includes('data-testid="site-nav"'), `${url} gained the nav row`);
     assert.ok(!html.includes('data-testid="language-switch"'), url);
+  }
+  // The five landings of the lifted 2026-09-19 hold now get the cluster header.
+  for (const url of ['/uz/internet-reklama-toshkent/', '/uz/telegram-reklama/', '/uz/ai-sotuvchi/', '/uz/gpt-bot-biznes-uchun/', '/uz/sayt-yaratish/']) {
+    const html = distHtml(url)!;
+    assert.equal((html.match(/data-testid="site-nav"/g) ?? []).length, 1, url);
   }
   for (const url of ['/boss-digital/', '/uz/boss-digital/']) {
     assert.ok(distHtml(url)!.includes('data-testid="sticky-call-cta"'), url);

@@ -21,9 +21,9 @@ import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
  *
  * Deliberately NOT listed, and asserted in tests/lead-capture-templates.test.ts:
  *   - the homepage and the ten protected pages (scripts/seo-protection.ts);
- *   - the nine measurement-hold pages until 2026-10-03
- *     (scripts/measurement-hold.ts) — which is why /uz/internet-reklama-toshkent/
- *     and /uz/telegram-reklama/ are missing from the Uzbek advertising cluster;
+ *   - any page on measurement hold (scripts/measurement-hold.ts). The 2026-09-19
+ *     hold was lifted on 2026-09-29, so /uz/internet-reklama-toshkent/ and
+ *     /uz/telegram-reklama/ now join the Uzbek advertising cluster;
  *   - /ru/kalkulyator-stoimosti-telegram-bota/, which has its own form;
  *   - the GPTBot Market pages and the AI-chat pages.
  */
@@ -39,6 +39,8 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/ru/digital-strategiya-dlya-biznesa/': 'digital-strategiya',
   '/ru/marketingovyi-audit-tashkent/': 'marketing-audit',
   // Advertising and marketing services — UZ
+  '/uz/internet-reklama-toshkent/': 'internet-reklama',
+  '/uz/telegram-reklama/': 'telegram-ads',
   '/uz/smm-xizmatlari/': 'smm',
   // Telegram bots and chat bots — RU
   '/ru/razrabotka-telegram-bota-tashkent/': 'telegram-bot',

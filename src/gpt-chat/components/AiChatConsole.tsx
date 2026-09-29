@@ -20,6 +20,7 @@ import {
   saveOfferDismissed,
 } from "../storage";
 import { track, trackOnce, EV } from "../analytics";
+import { reachYandexGoal, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
 import type { AnswerAction } from "./AiChatMessageList";
 import { AiChatInput } from "./AiChatInput";
@@ -59,6 +60,9 @@ type LimitReason = "hourly" | "daily" | "monthly";
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
   const uz = config.locale === "uz";
+  // Present on the Russian chat only: most of its search impressions are
+  // Uzbek-language queries, and the only switch used to be an 11px «UZ».
+  const uzEntry = uz ? undefined : t.uzEntry;
   const pricingHref = uz ? "/uz/chat-bot-narxi/" : "/ru/tarify-ai-chat/";
   const businessHref = uz
     ? "/uz/biznes-uchun-ai-bot/"
@@ -560,6 +564,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     saveOfferDismissed(config.locale, storageScope);
   };
 
+  // First-screen routing. Both carry a goal name and UI metadata only.
+  const onOfficialClick = () => {
+    reachYandexGoal(YANDEX_GOALS.officialChatgptClick);
+    track(EV.officialLinkClick, { surface: "empty" });
+  };
+  const onLocaleSwitch = (surface: "header" | "empty") => {
+    reachYandexGoal(YANDEX_GOALS.chatLocaleSwitch);
+    track(EV.localeSwitch, { from: "ru", surface });
+  };
+
   // The hourly window may already have passed while the card was on screen.
   // Nothing local can know when, so the honest move is to let the person try:
   // the server either answers or says 'limit_reached' again.
@@ -711,7 +725,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
             {!paid && <AiUsageBadge remaining={remaining} t={t} />}
             <nav
-              className="flex items-center overflow-hidden rounded-xl bg-white/[0.04] text-[11px]"
+              className={`flex items-center overflow-hidden rounded-xl bg-white/[0.04] ${uzEntry ? "text-xs" : "text-[11px]"}`}
               aria-label={uz ? "Til" : "Язык"}
             >
               {(
@@ -738,6 +752,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   >
                     {l.code}
                   </span>
+                ) : l.lang === "uz" && uzEntry ? (
+                  // The word, not the code, on the Russian chat. Below 375px
+                  // the header has no room for it, so the code comes back and
+                  // the resting screen's «O‘zbekcha sahifa →» carries the word.
+                  <a
+                    key={l.code}
+                    href={l.href}
+                    hrefLang={l.lang}
+                    lang="uz"
+                    data-testid={`lang-${l.lang}`}
+                    onClick={() => onLocaleSwitch("header")}
+                    className="gpt-lang-switch grid min-h-11 min-w-11 place-items-center px-2.5 text-white/45 hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
+                  >
+                    <span className="gpt-lang-full">{uzEntry.nav}</span>
+                    <span className="gpt-lang-short">{l.code}</span>
+                  </a>
                 ) : (
                   <a
                     key={l.code}
@@ -850,6 +880,35 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   <ShieldCheck aria-hidden="true" />
                   {t.premium.trust}
                 </p>
+                {/* Many visitors of both chat pages searched «chatgpt kirish»
+                    and may want OpenAI itself. Say where that is, and say
+                    plainly that this chat is not it, on the first screen
+                    rather than below a full-height app. */}
+                <p className="gpt-official" data-testid="gpt-official">
+                  {t.premium.officialLead}
+                  <a
+                    href="https://chatgpt.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={onOfficialClick}
+                  >
+                    chatgpt.com
+                  </a>
+                  {t.premium.officialTail}
+                </p>
+                {uzEntry && (
+                  <p className="gpt-official">
+                    <a
+                      href="/uz/gpt-uzbek-tilida/"
+                      hrefLang="uz"
+                      lang="uz"
+                      data-testid="gpt-uz-entry"
+                      onClick={() => onLocaleSwitch("empty")}
+                    >
+                      {uzEntry.page}
+                    </a>
+                  </p>
+                )}
                 <p className="mt-2 text-[12px] leading-relaxed text-white/35">
                   {paid ? t.premium.manual : t.emptyMeta}
                 </p>

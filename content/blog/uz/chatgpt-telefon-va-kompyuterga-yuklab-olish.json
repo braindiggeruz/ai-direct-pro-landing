@@ -4,7 +4,7 @@
   "slug": "chatgpt-telefon-va-kompyuterga-yuklab-olish",
   "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
   "title": "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)",
-  "description": "ChatGPT’ni telefonga va kompyuterga yuklab olish: Play Market, App Store va brauzer — 3 ta usul, bepul, 3 daqiqada. Birinchi sozlash, keng tarqalgan xatolar va ularning yechimi.",
+  "description": "ChatGPT yuklab olish o‘zbek tilida: Android, iPhone va kompyuterga — 3 usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish.",
   "h1": "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish",
   "topicCluster": "chatgpt-uzbek-tilida",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -15,7 +15,11 @@
     "chatgpt yuklab olish",
     "chat gpt android",
     "chatgpt iphone",
-    "chatgpt kompyuterga o‘rnatish"
+    "chatgpt kompyuterga o‘rnatish",
+    "chatgpt ochish",
+    "chatgpt uzbekcha skachat",
+    "chatgpt skachat uzbek tilida",
+    "chatgpt yuklab olish kompyuter uchun"
   ],
   "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin.",
   "body": [
@@ -171,11 +175,11 @@
     {
       "type": "h2",
       "id": "web",
-      "text": "ChatGPTni yuklamasdan ishlatsa bo‘ladimi?"
+      "text": "ChatGPT’ni yuklamasdan ochish: brauzerda ishlatish"
     },
     {
       "type": "p",
-      "text": "Ha. OpenAI rasmiy FAQ sahifasida ChatGPT web orqali chatgpt.com manzilida ishlashi ko‘rsatilgan. Zamonaviy brauzer, barqaror internet va hisobga kirish kifoya. Bu umumiy yoki ish kompyuteriga ortiqcha dastur o‘rnatishni xohlamaydigan foydalanuvchi uchun eng sodda yo‘l."
+      "text": "OpenAI rasmiy FAQ sahifasida ChatGPT web orqali chatgpt.com manzilida ishlashi ko‘rsatilgan. Zamonaviy brauzer, barqaror internet va hisobga kirish kifoya. Bu umumiy yoki ish kompyuteriga ortiqcha dastur o‘rnatishni xohlamaydigan foydalanuvchi uchun eng sodda yo‘l."
     },
     {
       "type": "list",
@@ -221,7 +225,7 @@
     {
       "type": "h2",
       "id": "pc",
-      "text": "Windows yoki macOS kompyuterida qanday ishlatish kerak?"
+      "text": "ChatGPT’ni kompyuterga yuklab olish: Windows va macOS"
     },
     {
       "type": "table",
@@ -359,6 +363,10 @@
   ],
   "faq": [
     {
+      "q": "ChatGPT’ni o‘zbek tilida qanday yuklab olish mumkin?",
+      "a": "Androidda Google Play’dan, iPhone va iPad’da App Store’dan nashriyotchisi OpenAI bo‘lgan ChatGPT ilovasini o‘rnating; kompyuterda chatgpt.com brauzerda ishlaydi. Alohida o‘zbekcha ilova yo‘q va kerak emas — savolni o‘zbekcha yozing."
+    },
+    {
       "q": "ChatGPTni kompyuterga yuklash shartmi?",
       "a": "Yo‘q. chatgpt.com rasmiy web-versiyasi brauzerda ishlaydi. Desktop ilova qulaylik uchun tanlanadi."
     },
@@ -384,10 +392,10 @@
     },
     {
       "q": "ChatGPT o‘zbek tilida yuklab olish bepulmi?",
-      "a": "Ha. Rasmiy ilova va chatgpt.com bepul. To‘lov faqat ixtiyoriy Plus tarifi uchun, oddiy suhbat uchun shart emas."
+      "a": "Ha. Rasmiy ilova va chatgpt.com bepul. To‘lov faqat ixtiyoriy pullik tariflar uchun, oddiy suhbat uchun shart emas."
     },
     {
-      "q": "ChatGPT’ning alohida o‘zbekcha ilovasi bormi?",
+      "q": "ChatGPT skachat (скачать) o‘zbek tilida: alohida ilova bormi?",
       "a": "Yo‘q, alohida «o‘zbekcha versiya» yo‘q. Rasmiy ilova o‘zbek tilini tushunadi, shuning uchun qo‘shimcha dastur izlash kerak emas."
     },
     {
@@ -471,7 +479,7 @@
     }
   ],
   "ogTitle": "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)",
-  "ogDescription": "ChatGPT’ni telefonga va kompyuterga yuklab olish: Play Market, App Store va brauzer — 3 ta usul, bepul, 3 daqiqada. Birinchi sozlash, keng tarqalgan xatolar va ularning yechimi.",
+  "ogDescription": "ChatGPT yuklab olish o‘zbek tilida: Android, iPhone va kompyuterga — 3 usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
   "hreflangUz": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
@@ -479,7 +487,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-09-30",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -488,7 +496,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-09-01",
+  "updatedAt": "2026-09-30",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",

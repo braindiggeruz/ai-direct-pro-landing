@@ -270,3 +270,75 @@ test('a document declaring FAQPage actually shows the questions', () => {
     );
   }
 });
+
+// renderGptChatMain (scripts/prerender.ts) has no FAQ block, so a gpt-chat
+// page's faq never reaches the visible HTML. Until 2026-09-30 both chat pages
+// still shipped FAQPage JSON-LD for those hidden questions (15 on
+// /uz/gpt-uzbek-tilida/, 8 on /ru/gpt-chat/), which breaks Google's rule that
+// marked-up content must be visible. The content check below keeps the
+// declaration honest; the built-site check catches any template that marks up
+// questions it does not show.
+test('a gpt-chat page declares no FAQPage, because its template shows no FAQ', () => {
+  for (const doc of indexable) {
+    if ((doc as Page).pageType !== 'gpt-chat') continue;
+    assert.ok(
+      !(doc.schemaTypes || []).includes('FAQPage' as never),
+      `${doc.url} declares FAQPage, but the gpt-chat template renders no FAQ`,
+    );
+  }
+});
+
+const DIST = path.join(ROOT, 'dist');
+
+function builtPages(dir: string, out: string[] = []): string[] {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) builtPages(full, out);
+    else if (entry.name === 'index.html') out.push(full);
+  }
+  return out;
+}
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&#x([0-9a-f]+);/gi, (_, h: string) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d: string) => String.fromCodePoint(Number(d)))
+    .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&');
+}
+
+const squash = (s: string) => s.replace(/\s+/g, ' ').trim();
+
+test('every FAQPage question in the built HTML is visible text on that page', {
+  skip: !fs.existsSync(path.join(DIST, 'index.html')) && 'no dist/ build present; run npm run build:fast',
+}, () => {
+  let pagesWithFaq = 0;
+  const hidden: string[] = [];
+  for (const file of builtPages(DIST)) {
+    const html = fs.readFileSync(file, 'utf8');
+    const questions: string[] = [];
+    for (const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
+      const data = JSON.parse(m[1]) as Record<string, unknown> | Record<string, unknown>[];
+      const roots = Array.isArray(data) ? data : [data];
+      const nodes = roots.flatMap((r) => (Array.isArray(r['@graph']) ? (r['@graph'] as Record<string, unknown>[]) : [r]));
+      for (const node of nodes) {
+        if (node['@type'] !== 'FAQPage' || !Array.isArray(node.mainEntity)) continue;
+        for (const q of node.mainEntity as Array<{ name?: string }>) if (q.name) questions.push(squash(q.name));
+      }
+    }
+    if (!questions.length) continue;
+    pagesWithFaq += 1;
+    const body = html
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<(script|style|template)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+      .match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? '';
+    const text = squash(decodeEntities(body.replace(/<[^>]*>/g, ' ')));
+    const missing = questions.filter((q) => !text.includes(q));
+    if (missing.length) {
+      const rel = path.relative(DIST, path.dirname(file)).split(path.sep).join('/');
+      hidden.push(`/${rel ? `${rel}/` : ''}: ${missing.length} of ${questions.length} (e.g. «${missing[0]}»)`);
+    }
+  }
+  assert.ok(pagesWithFaq > 0, 'no built page carries FAQPage — did the JSON-LD shape change?');
+  assert.deepEqual(hidden, [], `FAQPage marks up questions the page does not show:\n${hidden.join('\n')}`);
+});

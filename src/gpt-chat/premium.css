@@ -301,3 +301,19 @@ body:has(.gpt-sidebar-dialog) > [data-slot="dialog-overlay"] { background: #0509
 .gpt-plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.6; color: #c1cce0; }
 .gpt-plan-features svg { color: var(--primary); width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
 .gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] .gpt-panel-note { margin: 0; font-size: 11px; }
+/* First-screen routing (2026-09-30): the chatgpt.com line on both chats and the
+   Uzbek entry on the RU chat. Text stays at 12px or more. Each link is a 46px
+   tap target without breaking the line spacing: vertical padding on an inline
+   box grows its hit area but not its line, and position:relative paints it
+   above the next line's text, which would otherwise take the lower half of
+   the taps. The header switch shows the word from 375px up; at 360px the row
+   (menu, brand, badge, switch, account) had 5px to spare, so narrower phones
+   keep the code and get the word from «O‘zbekcha sahifa →» instead. */
+.gpt-premium .gpt-official { max-width: 520px; margin: 8px auto 0; font-size: 12px; line-height: 1.6; color: var(--muted-foreground); text-align: center; text-wrap: pretty; }
+.gpt-premium .gpt-official a { position: relative; padding: 15px 2px; white-space: nowrap; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+.gpt-lang-short { display: none; }
+@media (max-width: 374px) {
+ .gpt-lang-full { display: none; }
+ .gpt-lang-short { display: inline; }
+ .gpt-premium .gpt-header .gpt-lang-switch { padding: 0; }
+}

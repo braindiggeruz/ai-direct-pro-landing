@@ -108,6 +108,10 @@ export const EV = {
   /** The Telegram route actually taken, with `withSession` telling us whether
    *  the minted link carried the web conversation or fell back to the handle. */
   telegramHandoffClicked: 'telegram_handoff_clicked',
+  // First-screen routing (2026-09-30). `surface` says where the link sat
+  // ('empty' = the resting screen); `from` is the locale the visitor left.
+  officialLinkClick: 'GPTChatOfficialLinkClick',
+  localeSwitch: 'GPTChatLocaleSwitch',
 } as const;
 
 /**

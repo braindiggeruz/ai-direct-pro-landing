@@ -77,6 +77,16 @@ export const YANDEX_METRIKA_GOALS = [
   'lead_form_success',
   'calculator_lead_success',
   'chat_lead_success',
+  // 2026-09-30: two goals on the AI chat's first screen, fired from React
+  // (src/gpt-chat/components/AiChatConsole.tsx), not from the block below.
+  //   official_chatgpt_click  a click on the chatgpt.com link (official ChatGPT)
+  //   chat_locale_switch      a click from /ru/gpt-chat/ to /uz/gpt-uzbek-tilida/
+  // The block below still reports gpt_chat_open for every link whose target is
+  // /gpt-uzbek-tilida/, so each chat_locale_switch is also a gpt_chat_open on
+  // /ru/gpt-chat/ (the header UZ link already was before this goal existed).
+  // The block is left unchanged because index.html must carry it byte for byte.
+  'official_chatgpt_click',
+  'chat_locale_switch',
 ] as const;
 
 // Kept as literal text rather than interpolated so the block is greppable and

@@ -13,24 +13,25 @@
     "разработка AI-ботов Узбекистан"
   ],
   "searchIntent": "commercial",
-  "h1": "Разработка чат-ботов в Ташкенте: как выбрать студию",
-  "title": "Разработка чат-ботов в Ташкенте — как выбрать студию 2026",
-  "description": "Как выбрать студию для разработки чат-ботов в Ташкенте: на что смотреть, какие критерии важны и почему GPTBot.uz делает AI-ботов для Telegram, Instagram.",
+  "h1": "Разработка чат-ботов на заказ в Ташкенте",
+  "title": "Разработка чат-ботов в Ташкенте на заказ | GPTBot.uz",
+  "description": "Разработка чат-ботов на заказ в Ташкенте: Telegram, Instagram Direct и WhatsApp, на русском и узбекском. Состав и цена фиксируются в смете. Как выбрать студию.",
   "canonical": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
   "hreflangRu": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
-  "ogTitle": "Разработка чат-ботов в Ташкенте — как выбрать студию | GPTBot.uz",
-  "ogDescription": "Критерии выбора студии чат-ботов в Ташкенте и почему GPTBot.uz делает AI-ботов под ключ для бизнеса в Узбекистане.",
+  "ogTitle": "Разработка чат-ботов в Ташкенте на заказ | GPTBot.uz",
+  "ogDescription": "Разработка чат-ботов на заказ в Ташкенте: Telegram, Instagram Direct и WhatsApp, на русском и узбекском. Состав и цена фиксируются в смете. Как выбрать студию.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Разработка чат-ботов в Ташкенте",
-  "heroTitle": "Разработка чат-ботов в Ташкенте",
+  "heroTitle": "Разработка чат-ботов на заказ в Ташкенте",
   "heroSubtitle": "Как выбрать студию, которая сделает AI-бота под вашу нишу — и почему бизнес в Узбекистане заказывает ботов у GPTBot.uz.",
   "ctaPrimaryLabel": "Обсудить проект в Telegram",
   "ctaPrimaryHref": "https://t.me/XGame_changerx",
   "ctaSecondaryLabel": "Как мы работаем",
   "ctaSecondaryHref": "#kriterii",
   "bodyBlocks": [
+    { "type": "p", "text": "GPTBot.uz разрабатывает чат-ботов на заказ для бизнеса в Ташкенте и по Узбекистану: Telegram, Instagram Direct и WhatsApp. Состав работ и цена фиксируются в смете." },
     { "type": "p", "text": "Разработчик чат-ботов — это студия или специалист, который проектирует, собирает и внедряет бота под задачи бизнеса: сценарий, базу знаний и интеграции с CRM." },
     {
       "type": "p",
@@ -185,7 +186,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-25",
+  "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-06-25"
+  "updatedAt": "2026-09-30"
 }

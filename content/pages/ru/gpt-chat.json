@@ -17,13 +17,13 @@
   "searchIntent": "informational",
   "h1": "Chat GPT онлайн в Узбекистане",
   "title": "ChatGPT онлайн бесплатно в Узбекистане — без регистрации",
-  "description": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русскоязычный AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно. Есть узбекская версия.",
+  "description": "ChatGPT онлайн бесплатно, без регистрации: пишите по-русски или по-узбекски (uzbekcha) — ответ на языке вопроса. Независимый AI-чат GPTBot.uz, не OpenAI.",
   "canonical": "https://gptbot.uz/ru/gpt-chat/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "ogTitle": "ChatGPT онлайн бесплатно в Узбекистане — без регистрации",
-  "ogDescription": "ChatGPT онлайн в Узбекистане без регистрации и VPN: русскоязычный AI-чат прямо в браузере. Тексты, перевод, учёба и работа — бесплатно. Есть узбекская версия.",
+  "ogDescription": "ChatGPT онлайн бесплатно, без регистрации: пишите по-русски или по-узбекски (uzbekcha) — ответ на языке вопроса. Независимый AI-чат GPTBot.uz, не OpenAI.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -47,12 +47,27 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Нужно приложение? Официальный ChatGPT есть в Google Play и App Store — {download}.",
+      "links": [
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "инструкция по установке официального приложения (на узбекском)"
+        }
+      ]
+    },
+    {
       "type": "p",
       "text": "GPTBot.uz — независимый AI-чат онлайн для пользователей из Узбекистана. Он помогает писать и редактировать тексты, объяснять темы, готовить планы, переводы и варианты ответа клиенту. Чат работает в браузере; доступный бесплатный лимит и актуальные условия показаны в интерфейсе сервиса."
     },
     {
       "type": "p",
       "text": "Сервис не является официальным продуктом OpenAI, ChatGPT или NVIDIA и использует сторонние языковые модели по API. AI может ошибаться — проверяйте важные факты. Не вводите пароли, номера карт и другие чувствительные данные."
+    },
+    {
+      "type": "p",
+      "text": "Официальный ChatGPT открывается на chatgpt.com: Log in, если аккаунт есть, или Sign up. Без регистрации можно задать вопрос в чате на этой странице — это независимый сервис GPTBot.uz, не OpenAI; есть дневной и часовой лимит."
     },
     {
       "type": "linkp",
@@ -173,28 +188,6 @@
       "text": "Как получать более точные ответы"
     },
     {
-      "type": "linkp",
-      "text": "Вы уже пользуетесь AI-чатом. Следующий шаг для бизнеса — место, где клиент видит предложение и оставляет заявку: {sayt}.",
-      "links": [
-        {
-          "token": "sayt",
-          "target": "/ru/razrabotka-saytov-tashkent/",
-          "anchor": "разработка сайта в Ташкенте"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "Вы используете AI для бизнеса. Попробуйте {link} — таргетированную рекламу в мессенджере.",
-      "links": [
-        {
-          "token": "link",
-          "target": "/ru/telegram-ads-uzbekistan/",
-          "anchor": "Telegram Ads"
-        }
-      ]
-    },
-    {
       "type": "list",
       "items": [
         "Сформулируйте одну задачу и ожидаемый результат.",
@@ -226,6 +219,28 @@
           "token": "price",
           "target": "/ru/stoimost-chat-bota/",
           "anchor": "тарифы на AI-ботов"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Вы уже пользуетесь AI-чатом. Следующий шаг для бизнеса — место, где клиент видит предложение и оставляет заявку: {sayt}.",
+      "links": [
+        {
+          "token": "sayt",
+          "target": "/ru/razrabotka-saytov-tashkent/",
+          "anchor": "разработка сайта в Ташкенте"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Нужно, чтобы такой AI отвечал вашим клиентам прямо в Telegram? Это {tgbot}: он работает по вашей базе знаний и передаёт заявки менеджеру.",
+      "links": [
+        {
+          "token": "tgbot",
+          "target": "/ru/telegram-bot-dlya-biznesa/",
+          "anchor": "Telegram-бот для бизнеса"
         }
       ]
     },
@@ -343,8 +358,8 @@
       "priority": 2
     },
     {
-      "target": "/ru/telegram-ads-uzbekistan/",
-      "anchor": "Telegram Ads",
+      "target": "/ru/telegram-bot-dlya-biznesa/",
+      "anchor": "Telegram-бот для бизнеса",
       "locale": "ru",
       "type": "contextual",
       "priority": 3
@@ -354,13 +369,18 @@
       "anchor": "Тарифы на AI-ботов",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "anchor": "инструкция по установке официального приложения (на узбекском)",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
     "Organization",
     "WebSite",
-    "BreadcrumbList",
-    "FAQPage"
+    "BreadcrumbList"
   ],
   "extraJsonLd": [
     {
@@ -381,7 +401,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-09-18"
+  "updatedAt": "2026-09-30"
 }

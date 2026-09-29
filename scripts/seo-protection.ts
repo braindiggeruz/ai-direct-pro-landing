@@ -28,7 +28,21 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Russian homepage and sign the byline in Latin script; the homepage shell no
 // longer links /ru/. Title, H1, description, canonical, robots and hreflang of
 // all ten pages are unchanged; reviewedChanges in the file lists every diff.
-export const BASELINE = 'docs/seo/evidence/2026-09-29-full-audit/reviewed-protected-pages.json';
+// The 2026-09-30-gsc-driven revision (fresh GSC data, owner mandate 2026-09-29)
+// gives each ChatGPT leader one intent: the UZ chat takes the bare «chatgpt
+// kirish» with an honest chatgpt.com/independent-chat section first, the login
+// article targets the login long tail (new description and first FAQ; its title
+// waits for the C22 stage-2 decision), the download article gets a 138-character
+// description and FAQ/H2 wording, the RU chat gets a bilingual description, a
+// login paragraph and a Telegram-bot link instead of Telegram Ads, and the
+// payment article links Russian business pages. The homepage body changes by
+// one shell anchor (the H1 of /ru/luchshie-razrabotchiki-chat-botov-tashkent/).
+// Both chat pages stop emitting FAQPage JSON-LD for questions their template
+// never showed; their visible HTML is unaffected by that.
+// Title, canonical, robots, hreflang and all H1s are unchanged; reviewedChanges
+// lists every diff, including the JSON-LD, og and keyword edits the gate does
+// not see.
+export const BASELINE = 'docs/seo/evidence/2026-09-30-gsc-driven/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

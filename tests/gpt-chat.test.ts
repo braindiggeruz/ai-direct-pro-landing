@@ -13,6 +13,9 @@ import { renderMarkdown } from '../src/gpt-chat/markdown';
 import { applyRole, getRoles } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
+import { strings } from '../src/gpt-chat/i18n';
+import { EV } from '../src/gpt-chat/analytics';
+import { readFileSync } from 'node:fs';
 
 type AnyEnv = Parameters<typeof resolveConfig>[0];
 
@@ -198,4 +201,51 @@ test('AI cabinet templates cover SMM, business, study and image prompt MVP', () 
   const uzImagePrompt = buildImagePromptRequest('kafe', 'instagram', 'uz');
   assert.match(uzImagePrompt, /faqat prompt/i);
   assert.doesNotMatch(uzImagePrompt, /[А-Яа-яЁё]/);
+});
+
+// First screen of the chat (2026-09-30): honest routing for visitors who
+// searched for the official ChatGPT, and a visible way from the Russian chat
+// to the Uzbek one. The chat is client-rendered, so none of this reaches the
+// prerendered HTML; these tests pin the copy and the wiring instead.
+test('chat first screen: the official ChatGPT line is honest, localized and number-free', () => {
+  for (const locale of ['ru', 'uz'] as const) {
+    const p = strings(locale).premium;
+    const line = `${p.officialLead}chatgpt.com${p.officialTail}`;
+    assert.match(line, /OpenAI/);
+    assert.match(line, /GPTBot\.uz/);
+    assert.match(line, locale === 'uz' ? /mustaqil/ : /независим/);
+    assert.doesNotMatch(line, /\d/, 'no number may enter the routing line');
+    assert.ok(p.officialLead.endsWith(' ') && p.officialTail.startsWith(' '), 'the link keeps a space on both sides');
+  }
+  assert.ok(!strings('uz').premium.officialTail.includes("'"), 'Uzbek copy uses letter apostrophes');
+});
+
+test('chat first screen: only the Russian chat carries the Uzbek entry', () => {
+  assert.deepEqual(strings('ru').uzEntry, { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' });
+  assert.equal(strings('uz').uzEntry, undefined);
+});
+
+test('chat first screen: links, tap targets and events are wired', () => {
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // chatgpt.com opens in a new tab, without an opener or a referrer.
+  assert.match(consoleSource, /href="https:\/\/chatgpt\.com\/"\s+target="_blank"\s+rel="noopener noreferrer"\s+onClick=\{onOfficialClick\}/);
+  // The header switch keeps its target, hreflang and 44px cell; only the label changes.
+  const header = consoleSource.slice(consoleSource.indexOf('l.lang === "uz" && uzEntry'), consoleSource.indexOf('</nav>'));
+  assert.match(header, /href=\{l\.href\}/);
+  assert.match(header, /hrefLang=\{l\.lang\}/);
+  assert.match(header, /min-h-11 min-w-11/);
+  assert.match(header, /onLocaleSwitch\("header"\)/);
+  assert.match(consoleSource, /code: "UZ",\s+href: "\/uz\/gpt-uzbek-tilida\/"/);
+  assert.match(consoleSource, /code: "RU",\s+href: "\/ru\/gpt-chat\/"/);
+  // The resting-screen link to the Uzbek chat.
+  assert.match(consoleSource, /href="\/uz\/gpt-uzbek-tilida\/"\s+hrefLang="uz"[\s\S]{0,200}onClick=\{\(\) => onLocaleSwitch\("empty"\)\}/);
+  assert.match(consoleSource, /track\(EV\.officialLinkClick, \{ surface: "empty" \}\)/);
+  assert.match(consoleSource, /track\(EV\.localeSwitch, \{ from: "ru", surface \}\)/);
+  assert.equal(EV.officialLinkClick, 'GPTChatOfficialLinkClick');
+  assert.equal(EV.localeSwitch, 'GPTChatLocaleSwitch');
+  const css = readFileSync(new URL('../src/gpt-chat/premium.css', import.meta.url), 'utf8');
+  assert.match(css, /\.gpt-official \{[^}]*font-size: 12px/);
+  // 12px text: 15px of padding above and below the ~14px inline box is a
+  // 44px+ target, and position:relative keeps the next line from taking half of it.
+  assert.match(css, /\.gpt-official a \{[^}]*position: relative;[^}]*padding: 15px 2px;/);
 });

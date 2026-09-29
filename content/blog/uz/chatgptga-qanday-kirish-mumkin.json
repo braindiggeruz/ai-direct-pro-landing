@@ -4,16 +4,19 @@
   "slug": "chatgptga-qanday-kirish-mumkin",
   "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
   "title": "ChatGPT kirish (login): rasmiy sayt, ochish va ro‘yxatdan o‘tish",
-  "description": "ChatGPT’ga kirish va ochish: rasmiy chatgpt.com, hisob ochish, kod kelmasa nima qilish, klon saytlardan saqlanish. O‘zbekiston uchun 2026 qo‘llanmasi.",
+  "description": "ChatGPT’ga kirish (login): rasmiy chatgpt.com, Log in yoki Sign up — 3 qadam, odatda VPNsiz. Kod kelmasa yoki sayt ochilmasa nima qilish.",
   "h1": "ChatGPT kirish va ochish: rasmiy sayt, ro‘yxatdan o‘tish va xatolar",
   "topicCluster": "chatgpt-ozbekistonda",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
     "chatgpt kirish",
-    "chatgpt ochish",
     "chatgptga kirish",
+    "chatgpt kirish login",
+    "chatgpt ga kirish",
+    "chat gpt kirish",
+    "chatgpt saytiga kirish",
+    "chatgpt ochish uzbek tilida",
     "chatgpt login",
-    "chatgpt online kirish",
     "chatgpt sign up",
     "chatgpt ro‘yxatdan o‘tish",
     "chatgpt login kodi kelmadi",
@@ -120,8 +123,15 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Ochilmasa yoki kod kelmasa — quyidagi «ChatGPT ochilmasa nima qilish kerak?» bo‘limiga qarang. O‘zbek tilida darhol savol berish uchun ro‘yxatsiz variant — GPTBot AI chati."
+      "type": "linkp",
+      "text": "Ochilmasa yoki kod kelmasa — quyidagi «ChatGPT ochilmasa nima qilish kerak?» bo‘limiga qarang. O‘zbek tilida darhol, ro‘yxatdan o‘tmasdan savol berish kerak bo‘lsa — GPTBot.uz’ning mustaqil {uzchat} bor (OpenAI mahsuloti emas).",
+      "links": [
+        {
+          "token": "uzchat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "ro‘yxatsiz o‘zbekcha AI-chati"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -307,6 +317,10 @@
   ],
   "faq": [
     {
+      "q": "ChatGPT’ga qanday kirish mumkin?",
+      "a": "Brauzerda chatgpt.com manzilini oching, hisobingiz bo‘lsa Log in, bo‘lmasa Sign up tugmasini bosing va email, Google yoki Apple orqali kiring. O‘zbekistondan odatiy kirish uchun VPN kerak emas."
+    },
+    {
       "q": "ChatGPT kirish uchun qaysi sayt rasmiy?",
       "a": "Rasmiy kirish domeni chatgpt.com. Login ma’lumotini o‘xshash nomli klon saytlar yoki Telegram botlarga bermang."
     },
@@ -387,7 +401,7 @@
     }
   ],
   "ogTitle": "ChatGPT kirish (login): rasmiy sayt, ochish va ro‘yxatdan o‘tish",
-  "ogDescription": "ChatGPT’ga kirish va ochish: rasmiy chatgpt.com, hisob ochish, kod kelmasa nima qilish, klon saytlardan saqlanish. O‘zbekiston uchun 2026 qo‘llanmasi.",
+  "ogDescription": "ChatGPT’ga kirish (login): rasmiy chatgpt.com, Log in yoki Sign up — 3 qadam, odatda VPNsiz. Kod kelmasa yoki sayt ochilmasa nima qilish.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
   "hreflangUz": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
@@ -395,7 +409,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-18",
+  "dateModified": "2026-09-30",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -420,6 +434,6 @@
       "note": "Ma’lumotlarni yuborish va maxfiylik bo‘yicha rasmiy tushuntirish."
     }
   ],
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-09-30",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

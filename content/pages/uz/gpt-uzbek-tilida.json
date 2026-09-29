@@ -22,18 +22,22 @@
     "chatgpt kirish uzbek tilida",
     "chatgpt o'zbekcha",
     "chatgpt 4 uzbek tilida",
-    "chatgpt uzbek"
+    "chatgpt uzbek",
+    "jaji piti",
+    "jajipiti",
+    "chachipiti",
+    "chatgpt uzbekcha bepul"
   ],
   "searchIntent": "transactional",
   "h1": "ChatGPT o‘zbek tilida online",
   "title": "ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat",
-  "description": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan, VPNsiz. Savol bering — javob o‘zbek tilida, telefon va kompyuterda ishlaydi.",
+  "description": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan va VPNsiz, javob o‘zbek tilida. GPTBot.uz — mustaqil AI-chat, OpenAI mahsuloti emas.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "ogTitle": "ChatGPT o‘zbek tilida (uzbekcha) — bepul kirish, ro‘yxatsiz chat",
-  "ogDescription": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan, VPNsiz. Savol bering — javob o‘zbek tilida, telefon va kompyuterda ishlaydi.",
+  "ogDescription": "ChatGPT uzbekcha online: bepul kirish, ro‘yxatdan o‘tmasdan va VPNsiz, javob o‘zbek tilida. GPTBot.uz — mustaqil AI-chat, OpenAI mahsuloti emas.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -54,8 +58,38 @@
       "text": "Muhim aniqlik: GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. «ChatGPT» nomi ushbu sahifada foydalanuvchi izlaydigan texnologiya va xizmat turini tushuntirish uchun ishlatiladi. AI xato qilishi mumkin — muhim faktlarni birlamchi manbadan tekshiring. Parol, karta raqami, hujjat va boshqa maxfiy ma’lumotlarni kiritmang."
     },
     {
+      "type": "h2",
+      "id": "chatgpt-kirish",
+      "text": "ChatGPT kirish: rasmiy sayt yoki ro‘yxatsiz o‘zbekcha chat"
+    },
+    {
       "type": "p",
-      "text": "«Chachipiti», «jaji piti», «chat jipiti» yoki «жажипити» — bularning bari ChatGPT nomining og‘zaki o‘zbekcha yozilishlari. Shu sahifadagi AI chat ham o‘zbek tilida javob beradi, ro‘yxatdan o‘tish va VPN talab qilmaydi: savolingizni shu sahifadagi chatga yozing."
+      "text": "Rasmiy ChatGPT’ga kirish uchun brauzerda chatgpt.com manzilini oching va Log in (hisob bo‘lsa) yoki Sign up (yangi hisob) tugmasini bosing — email, Google yoki Apple orqali. O‘zbekistondan odatiy kirish uchun VPN talab qilinmaydi. Ro‘yxatdan o‘tmasdan o‘zbekcha savol berish kerak bo‘lsa, shu sahifadagi chatga yozing: bu GPTBot.uz’ning mustaqil AI-chati, OpenAI mahsuloti emas; kunlik va soatlik limit bor."
+    },
+    {
+      "type": "linkp",
+      "text": "Login, Sign up, keng tarqalgan xatolar va xavfsizlik bo‘yicha to‘liq qo‘llanma {kirish} sahifasida. Ilovani telefon yoki kompyuterga o‘rnatish kerak bo‘lsa, {download} yo‘riqnomasini oching.",
+      "links": [
+        {
+          "token": "kirish",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT’ga kirish yo‘riqnomasi (login va ro‘yxatdan o‘tish)"
+        },
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPTni xavfsiz yuklash"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jaji-piti",
+      "text": "Jaji piti, chachipiti, chati piti — bu ChatGPT’mi?"
+    },
+    {
+      "type": "p",
+      "text": "«Chachipiti», «jaji piti» (yoki «jajipiti»), «chati piti» va «жажипити» — bularning bari ChatGPT nomining og‘zaki o‘zbekcha yozilishlari. Rasmiy ChatGPT — chatgpt.com sayti va OpenAI ilovasi. Shu sahifadagi AI chat esa GPTBot.uz’ning mustaqil xizmati: o‘zbek tilida javob beradi, ro‘yxatdan o‘tish va VPN talab qilmaydi."
     },
     {
       "type": "linkp",
@@ -101,31 +135,6 @@
     },
     {
       "type": "h2",
-      "id": "chatgpt-kirish",
-      "text": "ChatGPT’ga o‘zbek tilida qanday kirish mumkin?"
-    },
-    {
-      "type": "p",
-      "text": "Kirish uchun brauzerda aynan chatgpt.com manzilini oching va Log in yoki Sign up tugmasini tanlang. Ro‘yxatdan o‘tishda ishlaydigan elektron pochta kerak bo‘ladi, keyin ikki bosqichli himoyani yoqish tavsiya etiladi. O‘zbekistondan odatiy kirish uchun VPN talab qilinmaydi — bu savol alohida sahifada manbalar bilan tekshirilgan."
-    },
-    {
-      "type": "linkp",
-      "text": "Login, Sign up, keng tarqalgan xatolar va xavfsizlik bo‘yicha to‘liq qo‘llanma {kirish} sahifasida. Ilovani telefon yoki kompyuterga o‘rnatish kerak bo‘lsa, {download} yo‘riqnomasini oching.",
-      "links": [
-        {
-          "token": "kirish",
-          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-          "anchor": "ChatGPT kirish yo‘riqnomasi"
-        },
-        {
-          "token": "download",
-          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-          "anchor": "ChatGPTni xavfsiz yuklash"
-        }
-      ]
-    },
-    {
-      "type": "h2",
       "id": "shu-sahifadagi-chat",
       "text": "Shu sahifadagi AI chat: shartlari"
     },
@@ -157,7 +166,11 @@
     {
       "type": "h2",
       "id": "chatgpt-bepul",
-      "text": "ChatGPT o‘zbek tilida bepulmi?"
+      "text": "ChatGPT bepul: o‘zbek tilida nima bepul, nima limitli?"
+    },
+    {
+      "type": "p",
+      "text": "Bu yerda ikki xizmatni ajrating: shu sahifadagi GPTBot.uz chati bepul, lekin kunlik va soatlik limit bilan ishlaydi; quyidagi javob va jadval esa rasmiy ChatGPT haqida."
     },
     {
       "type": "p",
@@ -620,7 +633,7 @@
     },
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPT kirish yo‘riqnomasi",
+      "anchor": "ChatGPT’ga kirish yo‘riqnomasi (login va ro‘yxatdan o‘tish)",
       "locale": "uz",
       "type": "contextual",
       "priority": 1
@@ -643,8 +656,7 @@
   "schemaTypes": [
     "Organization",
     "WebSite",
-    "BreadcrumbList",
-    "FAQPage"
+    "BreadcrumbList"
   ],
   "extraJsonLd": [
     {
@@ -665,7 +677,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-09-18"
+  "updatedAt": "2026-09-30"
 }

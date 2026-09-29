@@ -1,4 +1,14 @@
 {
+  "gsc_driven_20260930": {
+    "status": "release_candidate",
+    "branch": "seo/full-audit-fixes-20260929",
+    "baseline_commit": "e4742c7e",
+    "report": "docs/seo/gsc-driven-2026-09-30/REPORT-RU.md",
+    "gsc_access": "service account claude-seo@cake-city-office.iam.gserviceaccount.com, siteFullUser on sc-domain:gptbot.uz; key at C:/Users/Borinio/.config/claude-seo/gsc-service-account.json (outside Git; the key was pasted into chat on 2026-09-29 — owner asked to rotate)",
+    "protected_baseline": "docs/seo/evidence/2026-09-30-gsc-driven/reviewed-protected-pages.json",
+    "measurement_hold": "lifted (2026-09-19 test unreadable: 0-66 impressions/14d)",
+    "verification": "tsc app+functions 0; ESLint 0; npm test 680/682 (2 known lead-radar date fixtures); seo-audit 0 critical; build:fast 0; seo-protection 10/10"
+  },
   "lead_capture_20260929": {
     "status": "deployed_and_verified",
     "release_commit": "1902504ecd937c2886e30d033e0ef5e60f576fb1",

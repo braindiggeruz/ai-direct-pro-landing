@@ -10,16 +10,20 @@
     "GPT и ChatGPT разница",
     "ChatGPT отличие",
     "Generative Pre-trained Transformer",
-    "что такое GPT и ChatGPT"
+    "что такое GPT и ChatGPT",
+    "gpt расшифровка",
+    "chat gpt расшифровка",
+    "как расшифровывается gpt",
+    "chatgpt что это"
   ],
   "searchIntent": "informational",
   "h1": "GPT vs ChatGPT: в чём разница простыми словами",
-  "title": "GPT и ChatGPT: разница простыми словами + таблица",
-  "description": "Чем GPT отличается от ChatGPT: технология против сервиса, понятная таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
+  "title": "GPT и ChatGPT: расшифровка и разница простыми словами",
+  "description": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
   "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
   "hreflangRu": "/ru/gpt-vs-chatgpt-sravnenie/",
-  "ogTitle": "GPT vs ChatGPT: в чём разница между технологией и продуктом",
-  "ogDescription": "Понятное сравнение: GPT — генеративная языковая модель, ChatGPT — чат-продукт на её основе. Плюс место независимых AI-сервисов.",
+  "ogTitle": "GPT и ChatGPT: расшифровка и разница простыми словами",
+  "ogDescription": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -270,7 +274,7 @@
     "Article",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-01",
+  "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-09-01"
+  "updatedAt": "2026-09-30"
 }

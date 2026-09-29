@@ -404,7 +404,10 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     if (page.sources?.length) articleNode.citation = page.sources.map((source) => source.url);
     graph.push(articleNode);
   }
-  if (page.faq?.length) {
+  // FAQPage only where the template shows the questions. renderGptChatMain has
+  // no FAQ block, so a gpt-chat page's faq would be markup for content no
+  // visitor can see (Google: marked-up content must be visible on the page).
+  if (page.faq?.length && page.pageType !== 'gpt-chat') {
     graph.push({
       '@type': 'FAQPage',
       '@id': `${fullUrl}#faq`,
