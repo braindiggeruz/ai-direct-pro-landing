@@ -58,7 +58,7 @@ export default function App() {
     document.title =
       lang === 'uz'
         ? 'GPTBot.uz — O‘zbekistonda biznes uchun AI bot | Instagram va Telegram'
-        : 'AI-бот для бизнеса в Узбекистане | GPTBot.uz';
+        : 'GPTBot.uz — AI-бот для бизнеса в Узбекистане | Telegram';
     const desc = document.querySelector('meta[name="description"]');
     if (desc) {
       desc.setAttribute(

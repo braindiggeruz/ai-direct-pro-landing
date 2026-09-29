@@ -18,17 +18,20 @@ sitemap, performance, visual, GEO, local, backlinks, clusters, SXO). Полны�
 | 6 | Часы: schema Пн–Сб 10–19, llms.txt и UZ-статья Пн–Пт 09–18, на странице часов не видно | llms.txt и статья приведены к Пн–Сб 10:00–19:00; часы видны во всех футерах (RU/UZ, лендинги, блог, главная, React-футер) |
 | 7 | Organization.sameAs = личный Telegram и GitHub основателя | Organization.sameAs — только карточки компании (`businessProfiles`); личные профили остаются у Person |
 | 8 | ContactPoint `customer support` для номера продаж | `contactType: sales` |
-| 9 | Title главной «… \| Telegram» нарушает правило бренда | `AI-бот для бизнеса в Узбекистане \| GPTBot.uz` (index.html и React) |
+| 9 | Title главной «… \| Telegram» | **Не менялся намеренно**: главная — лидер трафика под защитным гейтом (`scripts/seo-protection.ts`); менять title лидера без данных GSC о CTR — риск без доказанной выгоды |
 | 10 | H1 React-главной без «в Узбекистане», SEO-оболочка — с ним | React H1 совпадает с оболочкой |
 | 11 | Кириллическая подпись автора на латинских UZ-страницах | `authorNameLatin: Boris Gerasimov` на UZ; Person.alternateName |
 | 12 | 14 RU-лендингов: «Обновлено: июнь 2026» в тексте против ISO-даты в шапке | Фраза удалена, дата остаётся одна — в шапке |
-| 13 | 6 meta description длиннее 160 символов | Сокращены до 150–157 |
+| 13 | 6 meta description длиннее 160 символов | 4 сокращены до 153–157; 2 статьи из защищённой десятки (`chatgpt-telefon…`, `chatgpt-ozbekistonda-vpnsiz…`) оставлены как есть по той же причине, что и title главной |
 | 14 | `/favicon.ico` → 404; иконка 80×80 не кратна 48px (требование Google для фавиконки в выдаче) | `/favicon.ico` (16/32/48) и `logo-sq-96.png` во всех шаблонах |
 | 15 | Статьи блога: `Article`, `mainEntityOfPage` строкой | `BlogPosting`, `mainEntityOfPage` — `WebPage` |
 | 16 | Бренд совпадает с краулером OpenAI GPTBot | В llms.txt строка «Not to be confused with …» (решение F01 о `alternateName: GPTBot` в JSON-LD сохранено) |
 
 Проверено и отклонено: «конфликт цен 990 000 / 1 990 000» — это разные тарифы
 (базовый Telegram-бот и AI-бот), противоречия нет.
+
+## Защищённые страницы
+Гейт `seo-protection` остановил первую сборку: изменения задели 10 лидеров трафика. Title и описания лидеров возвращены; остальное проверено пословным diff и зафиксировано новой ревизией `docs/seo/evidence/2026-09-29-full-audit/reviewed-protected-pages.json` (только часы в футере, латинская подпись автора и ссылки логотипа/крошек на `/uz/` в UZ-статьях, удалённая ссылка на `/ru/` в оболочке главной). Title, H1, description, canonical, robots и hreflang всех десяти страниц не изменились.
 
 ## Проверка
 - `npx tsc -b` — 0 ошибок; `seo-audit.ts` — 0 critical; `build:fast` — exit 0, sitemap 288 URL, 148 с hreflang, 24 user-редиректа.

@@ -21,7 +21,14 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // which the React landing renders. The nine leaders are byte-identical, and
 // the homepage keeps its title, H1, description, canonical, robots, hreflang
 // and internal-link set.
-export const BASELINE = 'docs/seo/evidence/2026-09-18-home-shell/reviewed-protected-pages.json';
+// The 2026-09-29-full-audit revision (full-site audit, owner decisions: office
+// hours Mon–Sat 10:00–19:00, /ru/ → 301 to "/") changes body text and links
+// only: every footer shows the office hours the Organization schema declares;
+// the five Uzbek articles link their logo and breadcrumb to /uz/ instead of the
+// Russian homepage and sign the byline in Latin script; the homepage shell no
+// longer links /ru/. Title, H1, description, canonical, robots and hreflang of
+// all ten pages are unchanged; reviewedChanges in the file lists every diff.
+export const BASELINE = 'docs/seo/evidence/2026-09-29-full-audit/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
