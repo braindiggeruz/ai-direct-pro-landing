@@ -3,8 +3,17 @@
 // Enforces hashed-IP quotas, calls OpenRouter server-side with a model
 // fallback chain, persists both messages + usage, returns a friendly error
 // on provider failure instead of crashing.
+//
+// The chain comes from webChatChain(): the OpenRouter chain by default, or one
+// Z.ai model in front of it when BOTH GPT_MODEL_PROVIDER='zai' and the secret
+// ZAI_API_KEY are set (model-provider.ts). meta/done/modelUsed always carry
+// the id of the model that actually answered ('zai/glm-4.7-flash',
+// 'minimax/minimax-m3:free', …); the UI prints it verbatim.
 import type { Env } from "../../_types";
-import { resolveConfig, modelChain } from "../../lib/gpt-chat/config";
+import { resolveConfig } from "../../lib/gpt-chat/config";
+import { webChatChain } from "../../lib/gpt-chat/model-provider";
+import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
+import { alertOperator } from "../../lib/gpt-chat/operator-alert";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { hashIp, getClientIp } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited, genId } from "../../lib/gpt-chat/http";
@@ -21,7 +30,10 @@ import {
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, cookieValue } from "../../lib/gpt-chat/identity-store";
 import { TurnStore } from "../../lib/gpt-chat/turn-store";
-import { modelFailed } from "../../lib/gpt-chat/model-health-store";
+import {
+  modelFailed,
+  settleModelFailure,
+} from "../../lib/gpt-chat/model-health-store";
 import { buildMessages, type ChatMessage } from "../../lib/gpt-chat/prompt";
 import { chatComplete } from "../../lib/gpt-chat/openrouter-chat";
 import {
@@ -44,6 +56,13 @@ interface ChatBody {
   /** When true the response is SSE (text/event-stream) instead of JSON. */
   stream?: boolean;
 }
+
+/**
+ * Failures that say nothing about the service's health: the visitor left, or
+ * the provider refused this one request (Z.ai 1301 content safety, a
+ * request-level 400). They are not service alerts.
+ */
+const NOT_A_SERVICE_FAILURE = new Set(["aborted", "content_refused", "bad_request"]);
 
 function publicProviderCode(code: string | undefined): string {
   return code === "no_key" ||
@@ -153,6 +172,10 @@ export const onRequestPost: PagesFunction<Env> = async ({
           billingMode(env as BillingEnv) || "live",
         );
       }
+      // ── HOOK (paid-chat package D): after the identity lookup ──────────────
+      // `user`, `subject`, `period` and `hashedIp` are resolved here and no
+      // quota has been reserved yet. Package D adds its hook on this line.
+      // ────────────────────────────────────────────────────────────────────────
       if (period) plan = "paid";
       const decision = await turns!.reserve(subject, hashedIp, period, cfg);
       reservation = decision.id;
@@ -172,6 +195,12 @@ export const onRequestPost: PagesFunction<Env> = async ({
           429,
         );
       }
+      // ── HOOK (paid-chat package D): after the limit_reached branch ─────────
+      // The turn is admitted (`reservation` holds it). Still inside this try:
+      // a throw here answers quota_unavailable without releasing the
+      // reservation, so a hook here must be best-effort. Package D adds its
+      // hook on this line.
+      // ────────────────────────────────────────────────────────────────────────
     } catch {
       return fail("quota_unavailable", "Try again later", 503);
     }
@@ -199,21 +228,31 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const admitAttempt = period
     ? () => turns!.admitModelAttempt(period!)
     : undefined;
+  const chain = webChatChain(cfg, env, plan);
+  // Z.ai balance / key failures page the owner (operator-alert.ts). Runs in
+  // the background and never throws into the turn.
+  const onOperatorEvent = (code: string) =>
+    waitUntil(
+      alertOperator(env, db, code).catch(() =>
+        console.warn("gpt_alert_delivery_failed"),
+      ),
+    );
 
   if (wantStream) {
     const start = await chatStreamStart(
       env,
       cfg,
-      modelChain(cfg, plan),
+      chain,
       messages,
       900,
       60_000,
       request.signal,
       admitAttempt,
+      onOperatorEvent,
     ).catch(() => ({ ok: false as const, errorCode: "provider_error" }));
     if (!start.ok) {
       await finish(false);
-      if (start.errorCode !== "aborted")
+      if (!NOT_A_SERVICE_FAILURE.has(start.errorCode))
         waitUntil(
           recordServiceAlert(env, "chat_" + start.errorCode)
             .then(() => maintainBilling(env))
@@ -247,6 +286,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
       let clientGone = false;
       let completed = false;
       let upstreamError = false;
+      // The upstream's own failure code when it sent one mid-stream.
+      let upstreamCode = "";
       try {
         await send({ type: "meta", sessionId, model: start.model });
         for (;;) {
@@ -255,9 +296,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
           for (const ev of parseSseChunk(
             state,
             decoder.decode(value, { stream: true }),
+            start.provider,
           )) {
             if (ev.error) {
               upstreamError = true;
+              upstreamCode = ev.error;
               throw new Error(ev.error);
             }
             if (ev.done) completed = true;
@@ -297,8 +340,20 @@ export const onRequestPost: PagesFunction<Env> = async ({
         !clientGone &&
         !request.signal.aborted &&
         (upstreamError || !completed)
-      )
-        await modelFailed(db, start.model, "provider_error");
+      ) {
+        // Z.ai: a mid-stream safety stop (1301 / finish_reason 'sensitive')
+        // refused this answer only, so it cools nothing down; a balance or
+        // key failure blocks 'zai/*' and pages the owner. OpenRouter keeps
+        // its historical 30 s provider_error cooldown.
+        if (start.provider === "zai")
+          await settleModelFailure(
+            db,
+            start.model,
+            upstreamCode || "provider_error",
+            onOperatorEvent,
+          );
+        else await modelFailed(db, start.model, "provider_error");
+      }
 
       // Persist + usage + remaining (best-effort), then close the stream.
       const nowIso = new Date().toISOString();
@@ -341,7 +396,12 @@ export const onRequestPost: PagesFunction<Env> = async ({
                 start.model,
                 null,
                 outputTokens || null,
-                null,
+                // 0 tokens means the usage chunk never arrived → unknown cost.
+                estimateCostUsd(
+                  start.model,
+                  inputTokens || null,
+                  outputTokens || null,
+                ),
                 nowIso,
               ),
             db
@@ -391,17 +451,18 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const result = await chatComplete(
     env,
     cfg,
-    modelChain(cfg, plan),
+    chain,
     messages,
     900,
     45_000,
     request.signal,
     admitAttempt,
+    onOperatorEvent,
   ).catch(() => ({ ok: false as const, errorCode: "provider_error" }));
 
   if (!result.ok) {
     await finish(false);
-    if (result.errorCode !== "aborted")
+    if (!NOT_A_SERVICE_FAILURE.has(result.errorCode ?? ""))
       waitUntil(
         recordServiceAlert(env, "chat_" + result.errorCode)
           .then(() => maintainBilling(env))
@@ -458,7 +519,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
             result.modelUsed ?? null,
             null,
             result.outputTokens ?? null,
-            null,
+            estimateCostUsd(
+              result.modelUsed,
+              result.inputTokens,
+              result.outputTokens,
+            ),
             nowIso,
           ),
         db

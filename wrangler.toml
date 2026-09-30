@@ -32,6 +32,12 @@
 #   alerts to the owner. Both optional: unset they fall back to
 #   TELEGRAM_ASSISTANT_BOT_TOKEN / TELEGRAM_ADMIN_CHAT_ID, and with neither
 #   pair present the lead is still stored and the send is skipped.
+#   ZAI_API_KEY is the Z.ai (api.z.ai) pay-as-you-go key for the web chat's
+#   optional second provider. Optional: unset, the chat never calls Z.ai even
+#   when GPT_MODEL_PROVIDER = "zai". Never a plain-text var.
+#   UZUM_CREDENTIALS_JSON packs the Uzum Checkout terminal id/API key and the
+#   Merchant API service id/login/password for test and live in ONE secret (it
+#   saves Workers Free bindings); format in docs/paid-chat/UZUM-RU.md.
 #
 # CRON_SECRET must match the GitHub Actions repository secret used by
 # .github/workflows/search-pulse-daily.yml.
@@ -127,7 +133,7 @@ queue = "gptbot-automation"
 # this JSON serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
 # functions/_middleware.ts expands only its explicit allowlist at request time.
 [vars]
-GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"minimax/minimax-m3:free,nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"minimax/minimax-m3:free","OPENROUTER_MODEL_FREE_FALLBACKS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","OPENROUTER_MODEL_PAID":"mistralai/mistral-small-3.2-24b-instruct","OPENROUTER_MODEL_PAID_FALLBACKS":"meta-llama/llama-3.3-70b-instruct,minimax/minimax-m3:free","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"true","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true"}'''
+GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"minimax/minimax-m3:free,nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"minimax/minimax-m3:free","OPENROUTER_MODEL_FREE_FALLBACKS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","OPENROUTER_MODEL_PAID":"mistralai/mistral-small-3.2-24b-instruct","OPENROUTER_MODEL_PAID_FALLBACKS":"meta-llama/llama-3.3-70b-instruct,minimax/minimax-m3:free","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"true","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"openrouter","ZAI_MODEL_FREE":"glm-4.7-flash","ZAI_MODEL_PAID":"glm-4.5-air","ZAI_TIERS":"free,paid","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_IKPU":"","UZUM_FISCAL_PACKAGE_CODE":"","UZUM_FISCAL_VAT_PERCENT":""}'''
 
 # Wrangler understands the nested object below for local typing and future
 # runtimes. Pages Direct Upload currently persists the text binding above; the
@@ -346,3 +352,44 @@ MARKET_OWNER_TELEGRAM_BINDING_ENABLED = "false"
 # carry. Turning it on is this line plus a root deploy; turning it off is the
 # rollback, and the previous panel never stopped working.
 BORMI_ADMIN_V2_ENABLED = "true"
+
+# ── Consumer AI chat: Z.ai as a second provider (web chat only) ─────────────
+# OFF as committed. Z.ai answers only when BOTH are true:
+#   1. GPT_MODEL_PROVIDER = "zai" here AND in the packed
+#      GPTBOT_RUNTIME_CONFIG_JSON line above (tests/runtime-config.test.ts
+#      keeps the two identical), followed by a deploy;
+#   2. the secret ZAI_API_KEY is set in Cloudflare Pages (never in this file).
+# Then one Z.ai model goes in front of the OpenRouter chain and OpenRouter
+# stays the fallback (Z.ai takes at most one of the three slots). Javob, the
+# Telegram assistant, stays on OpenRouter either way. Switching off is
+# GPT_MODEL_PROVIDER = "openrouter" in both places plus a deploy.
+# The free tier accepts only $0 models (glm-4.7-flash, glm-4.5-flash); the paid
+# tier only glm-4.7-flashx, glm-4.5-air, glm-4.7-flash, glm-4.5-flash. Any other
+# value (every GLM-5.x included) is ignored and the chain stays OpenRouter.
+# ZAI_TIERS lists the tiers that may use Z.ai; ZAI_TIMEOUT_MS is the per-attempt
+# budget (clamped 3000..15000). Runbook: docs/paid-chat/ZAI-RU.md.
+GPT_MODEL_PROVIDER = "openrouter"
+ZAI_MODEL_FREE = "glm-4.7-flash"
+ZAI_MODEL_PAID = "glm-4.5-air"
+ZAI_TIERS = "free,paid"
+ZAI_TIMEOUT_MS = "12000"
+
+# ── Consumer AI chat: Uzum Bank payments ──────────────────────────────────────
+# OFF as committed (UZUM_API = ""). Uzum is reachable only when ALL are set:
+#   1. UZUM_API = "checkout" (card page on the site) or "merchant" (payments
+#      inside the Uzum Bank app) here AND in the packed JSON line above;
+#   2. the secret UZUM_CREDENTIALS_JSON in Cloudflare Pages (never in this file);
+#   3. for Checkout in live mode, UZUM_CHECKOUT_BASE_URL from the Uzum manager
+#      (there is no production default; the test default below is UNVERIFIED);
+#   4. the existing GPT_BILLING_* live gates (mode, LIVE_READY, terms).
+# UZUM_AUTOFISCAL = "true" only after Uzum enables auto-fiscalization on the
+# terminal; it then requires UZUM_FISCAL_IKPU (17 digits), UZUM_FISCAL_PACKAGE_CODE
+# and UZUM_FISCAL_VAT_PERCENT (0..100) from the accountant. Runbook:
+# docs/paid-chat/UZUM-RU.md.
+UZUM_API = ""
+UZUM_CHECKOUT_BASE_URL = ""
+UZUM_CHECKOUT_TEST_BASE_URL = "https://test-chk-api.uzumcheckout.uz"
+UZUM_AUTOFISCAL = "false"
+UZUM_FISCAL_IKPU = ""
+UZUM_FISCAL_PACKAGE_CODE = ""
+UZUM_FISCAL_VAT_PERCENT = ""

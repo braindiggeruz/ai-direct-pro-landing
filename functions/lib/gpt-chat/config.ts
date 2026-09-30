@@ -14,6 +14,20 @@ export interface GptChatConfig {
   maxInputChars: number;
   maxHistoryTurns: number;
   hashSalt: string;
+  // ── Z.ai (second provider, web chat only; see model-provider.ts) ──────────
+  // Off unless BOTH GPT_MODEL_PROVIDER='zai' (public, needs a deploy) AND the
+  // secret ZAI_API_KEY exist. modelChain() below never reads these fields, so
+  // Javob and the OpenRouter catalogue check can never reach Z.ai.
+  /** 'zai' only when GPT_MODEL_PROVIDER is 'zai' (trimmed, any case); anything else is 'openrouter'. */
+  modelProvider: 'openrouter' | 'zai';
+  /** Bare Z.ai model code for the free tier. Must be a $0 model or it is ignored. */
+  zaiModelFree: string;
+  /** Bare Z.ai model code for the paid tier. Must be on the paid allowlist or it is ignored. */
+  zaiModelPaid: string;
+  /** Tiers that may put one Z.ai model in front of the OpenRouter chain. */
+  zaiTiers: Array<'free' | 'paid'>;
+  /** Per-attempt Z.ai budget (JSON: whole call; stream: first content). 3000..15000 ms. */
+  zaiTimeoutMs: number;
 }
 
 function num(v: string | undefined, def: number): number {
@@ -26,6 +40,21 @@ function list(v: string | undefined): string[] {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
+}
+
+function clampedMs(v: string | undefined, def: number, min: number, max: number): number {
+  const n = v ? parseInt(v, 10) : NaN;
+  return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : def;
+}
+
+// Unset → both tiers. Set → exactly the valid tiers named (an empty or invalid
+// value switches Z.ai off for every tier, which fails towards OpenRouter).
+function zaiTiers(v: string | undefined): Array<'free' | 'paid'> {
+  if (v === undefined) return ['free', 'paid'];
+  const tiers = list(v.toLowerCase()).filter(
+    (tier): tier is 'free' | 'paid' => tier === 'free' || tier === 'paid',
+  );
+  return [...new Set(tiers)];
 }
 
 export function resolveConfig(env: Env): GptChatConfig {
@@ -78,6 +107,11 @@ export function resolveConfig(env: Env): GptChatConfig {
     maxInputChars: num(env.GPT_MAX_INPUT_CHARS, 3000),
     maxHistoryTurns: 10, // server-side history window cap (per report)
     hashSalt: env.GPT_HASH_SALT || '',
+    modelProvider: (env.GPT_MODEL_PROVIDER || '').trim().toLowerCase() === 'zai' ? 'zai' : 'openrouter',
+    zaiModelFree: (env.ZAI_MODEL_FREE || '').trim().toLowerCase() || 'glm-4.7-flash',
+    zaiModelPaid: (env.ZAI_MODEL_PAID || '').trim().toLowerCase() || 'glm-4.5-air',
+    zaiTiers: zaiTiers(env.ZAI_TIERS),
+    zaiTimeoutMs: clampedMs(env.ZAI_TIMEOUT_MS, 12_000, 3_000, 15_000),
   };
 }
 

@@ -1,0 +1,136 @@
+{
+  "version": "2026-09-30",
+  "note": "Blind A/B probe: Z.ai GLM vs the current OpenRouter model, 10 Uzbek (Latin) + 10 Russian everyday prompts. Used by scripts/zai-blind-eval.ts. 'reference' is a hint for the human rater and is never sent to a model.",
+  "prompts": [
+    {
+      "id": "uz-advice",
+      "lang": "uz",
+      "category": "advice",
+      "prompt": "Har kuni ertalab erta turishni qanday odat qilsam bo‘ladi? 5 ta amaliy maslahat bering."
+    },
+    {
+      "id": "uz-homework",
+      "lang": "uz",
+      "category": "homework",
+      "prompt": "8-sinf o‘quvchisiman. Fotosintez nima ekanini oddiy tilda tushuntirib bering va uning asosiy bosqichlarini yozing.",
+      "reference": "Yorug‘lik bosqichi va qorong‘ilik bosqichi (Kalvin sikli); CO2 + suv + yorug‘lik → glyukoza + kislorod."
+    },
+    {
+      "id": "uz-instagram",
+      "lang": "uz",
+      "category": "instagram",
+      "prompt": "Toshkentdagi kichik qandolatxona uchun Instagram post yozib bering: yangi mevali tort chiqdi, faqat shanba kuni 20% chegirma. Qisqa, emoji bilan va 3–4 ta xeshteg qo‘shing."
+    },
+    {
+      "id": "uz-translate",
+      "lang": "uz",
+      "category": "translation",
+      "prompt": "Quyidagi matnni rus tiliga tarjima qiling: «Hurmatli mijoz, buyurtmangiz tayyor. Uni ertaga soat 10:00 dan 18:00 gacha do‘konimizdan olib ketishingiz mumkin.»",
+      "reference": "Уважаемый клиент, ваш заказ готов. Вы можете забрать его в нашем магазине завтра с 10:00 до 18:00."
+    },
+    {
+      "id": "uz-letter",
+      "lang": "uz",
+      "category": "letter",
+      "prompt": "Direktor nomiga 3 kunlik ta’til so‘rab rasmiy ariza yozib bering. Sababi: oilaviy marosim."
+    },
+    {
+      "id": "uz-recipe",
+      "lang": "uz",
+      "category": "recipe",
+      "prompt": "4 kishilik oddiy o‘zbek palovi retseptini yozing: masalliqlar miqdori bilan va bosqichma-bosqich tayyorlash."
+    },
+    {
+      "id": "uz-cv",
+      "lang": "uz",
+      "category": "cv",
+      "prompt": "Menda 2 yillik sotuv menejeri tajribasi bor. Bank sohasida ishga kirish uchun qisqa rezyume (CV) tuzib bering, bo‘limlari bilan."
+    },
+    {
+      "id": "uz-code",
+      "lang": "uz",
+      "category": "code",
+      "prompt": "Python’dagi mana bu kod nima qilishini tushuntiring: sum(x for x in range(10) if x % 2 == 0)",
+      "reference": "0 dan 9 gacha juft sonlar yig‘indisi: 0+2+4+6+8 = 20."
+    },
+    {
+      "id": "uz-math",
+      "lang": "uz",
+      "category": "math",
+      "prompt": "Do‘konda olmaning kilosi 12 000 so‘m, nokning kilosi 15 000 so‘m. 3 kg olma va 2 kg nok olsam, 100 000 so‘mdan qancha qaytim olaman? Yechimni bosqichma-bosqich ko‘rsating.",
+      "reference": "36 000 + 30 000 = 66 000; qaytim 34 000 so‘m."
+    },
+    {
+      "id": "uz-honesty",
+      "lang": "uz",
+      "category": "honesty",
+      "prompt": "Sen ChatGPTmisan? Seni qaysi kompaniya yaratgan?",
+      "reference": "O‘zini ChatGPT yoki OpenAI deb atamasligi kerak: GPTBot.uz AI-yordamchisi, mustaqil servis."
+    },
+    {
+      "id": "ru-advice",
+      "lang": "ru",
+      "category": "advice",
+      "prompt": "Как перестать откладывать дела на потом? Дай 5 конкретных советов, без воды."
+    },
+    {
+      "id": "ru-homework",
+      "lang": "ru",
+      "category": "homework",
+      "prompt": "Я в 5 классе. Объясни простыми словами, как сложить дроби 2/3 и 3/4.",
+      "reference": "Общий знаменатель 12: 8/12 + 9/12 = 17/12 = 1 5/12."
+    },
+    {
+      "id": "ru-instagram",
+      "lang": "ru",
+      "category": "instagram",
+      "prompt": "Напиши пост для Instagram небольшой кофейни в Самарканде: открываем летнюю веранду, первые 50 гостей получают круассан в подарок. Коротко, дружелюбно, 3–4 хэштега."
+    },
+    {
+      "id": "ru-translate",
+      "lang": "ru",
+      "category": "translation",
+      "prompt": "Переведи на узбекский язык латиницей: «Спасибо за заказ! Курьер привезёт его сегодня до 19:00. Если будут вопросы, позвоните нам.»",
+      "reference": "Buyurtma uchun rahmat! Kuryer uni bugun soat 19:00 gacha yetkazib beradi. Savollaringiz bo‘lsa, bizga qo‘ng‘iroq qiling."
+    },
+    {
+      "id": "ru-letter",
+      "lang": "ru",
+      "category": "letter",
+      "prompt": "Составь официальное письмо поставщику с просьбой перенести срок поставки товара на 10 дней. Тон вежливый, деловой."
+    },
+    {
+      "id": "ru-recipe",
+      "lang": "ru",
+      "category": "recipe",
+      "prompt": "Дай рецепт сырников на 2 порции: ингредиенты в граммах и шаги приготовления."
+    },
+    {
+      "id": "ru-cv",
+      "lang": "ru",
+      "category": "cv",
+      "prompt": "Помоги составить резюме для junior-разработчика на Python: 1 год фриланса, знаю Django и SQL. Нужны структура и примеры формулировок."
+    },
+    {
+      "id": "ru-code",
+      "lang": "ru",
+      "category": "code",
+      "prompt": "Объясни, что делает этот JavaScript-код и есть ли в нём ошибка: const total = items.reduce((a, b) => a + b.price);",
+      "reference": "Ошибка: нет начального значения, первым аккумулятором станет объект items[0]; нужно reduce((a, b) => a + b.price, 0)."
+    },
+    {
+      "id": "ru-math",
+      "lang": "ru",
+      "category": "math",
+      "prompt": "Поезд едет из Ташкента в Самарканд 300 км со скоростью 120 км/ч, а обратно со скоростью 100 км/ч. Какая средняя скорость за весь путь? Покажи решение.",
+      "reference": "600 км / (2,5 ч + 3 ч) = 600 / 5,5 ≈ 109,1 км/ч (не 110)."
+    },
+    {
+      "id": "ru-honesty",
+      "lang": "ru",
+      "category": "honesty",
+      "prompt": "Ты ChatGPT? Какая модель мне сейчас отвечает?",
+      "reference": "Не должен называть себя ChatGPT или OpenAI: AI-помощник GPTBot.uz, независимый сервис."
+    }
+  ]
+}

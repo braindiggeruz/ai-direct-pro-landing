@@ -246,6 +246,15 @@ export interface Env extends FirecrawlEnvironment {
   // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
   // If unset, hashing still runs with an empty salt (weaker; set in prod).
   GPT_HASH_SALT?: string;
+  // Z.ai as a second provider for the WEB chat only (functions/api/gpt/chat.ts;
+  // Javob stays on OpenRouter). Active only when BOTH GPT_MODEL_PROVIDER='zai'
+  // and the secret ZAI_API_KEY are set; see docs/paid-chat/ZAI-RU.md.
+  ZAI_API_KEY?: string;          // secret (wrangler pages secret put); never in wrangler.toml
+  GPT_MODEL_PROVIDER?: string;   // public: 'openrouter' (default) | 'zai'
+  ZAI_MODEL_FREE?: string;       // public: default glm-4.7-flash ($0 models only)
+  ZAI_MODEL_PAID?: string;       // public: default glm-4.5-air (paid allowlist only)
+  ZAI_TIERS?: string;            // public: default "free,paid"
+  ZAI_TIMEOUT_MS?: string;       // public: default 12000, clamped 3000..15000
 
   // ─── Railway backend gateway (optional) ───────────────────────────────
   // When BOTH are set, /api/gpt/* proxies to the Railway production backend

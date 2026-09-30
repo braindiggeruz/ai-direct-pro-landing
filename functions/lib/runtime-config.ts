@@ -65,6 +65,22 @@ export const RUNTIME_CONFIG_KEYS = [
   'MARKET_PRIVATE_LISTING_ENABLED',
   'MARKET_OWNER_TELEGRAM_BINDING_ENABLED',
   'BORMI_ADMIN_V2_ENABLED',
+  // Z.ai provider switch for the web chat (functions/lib/gpt-chat/model-provider.ts).
+  // Public only; the key itself is the secret ZAI_API_KEY and never listed here.
+  'GPT_MODEL_PROVIDER',
+  'ZAI_MODEL_FREE',
+  'ZAI_MODEL_PAID',
+  'ZAI_TIERS',
+  'ZAI_TIMEOUT_MS',
+  // Uzum Bank payments (functions/lib/gpt-chat/uzum-config.ts). Public only; the
+  // terminal/API key and Merchant API login live in the secret UZUM_CREDENTIALS_JSON.
+  'UZUM_API',
+  'UZUM_CHECKOUT_BASE_URL',
+  'UZUM_CHECKOUT_TEST_BASE_URL',
+  'UZUM_AUTOFISCAL',
+  'UZUM_FISCAL_IKPU',
+  'UZUM_FISCAL_PACKAGE_CODE',
+  'UZUM_FISCAL_VAT_PERCENT',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

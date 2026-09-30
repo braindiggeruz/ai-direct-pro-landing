@@ -5,10 +5,16 @@
 // env-driven model fallback chain: primary → fallbacks. On rate-limit /
 // 5xx / timeout it advances to the next model; on success it returns
 // immediately. The OPENROUTER_API_KEY never leaves the server.
+//
+// The chain may also hold provider-qualified Z.ai ids ('zai/…', see
+// model-provider.ts); those attempts go to zai-chat.ts. Only the web chat
+// builds such a chain (webChatChain), and only with both Z.ai switches on.
 import type { Env } from "../../_types";
 import type { ChatMessage } from "./prompt";
 import type { GptChatConfig } from "./config";
-import { availableModels, modelFailed } from "./model-health-store";
+import { availableModels, settleModelFailure } from "./model-health-store";
+import { hasProviderKey, providerOf, type ModelProvider } from "./model-provider";
+import { callZaiOnce } from "./zai-chat";
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 
@@ -21,6 +27,8 @@ export interface ChatResult {
   /**
    * Machine tag when ok=false:
    * rate_limit | model_unavailable | provider_error | timeout | no_key | empty
+   * | account_unavailable | aborted | budget_exhausted, and from Z.ai also
+   * content_refused | balance_exhausted | bad_request.
    */
   errorCode?: string;
 }
@@ -152,6 +160,15 @@ async function callOne(
  * configuration rather than a bad afternoon on the internet, and it says so.
  * That distinction is the difference between reading one code and rediscovering
  * the whole outage from scratch.
+ *
+ * Provider accounts are separate: an account failure (401/402 on OpenRouter,
+ * 1000-series or 1113 on Z.ai) blocks and skips only that provider's
+ * candidates. For an OpenRouter-only chain that is exactly the early return
+ * this walker always had. A refused request (Z.ai 1301 content safety, or a
+ * request-level 400) costs no cooldown; the next candidate gets its turn.
+ *
+ * onOperatorEvent receives 'zai_balance_exhausted' / 'zai_auth_failed'; the
+ * web chat turns them into an owner alert. It is optional and never awaited.
  */
 export async function chatComplete(
   env: Env,
@@ -162,35 +179,57 @@ export async function chatComplete(
   timeoutMs = 45_000,
   signal?: AbortSignal,
   admitAttempt?: () => Promise<boolean>,
+  onOperatorEvent?: (code: string) => void,
 ): Promise<ChatResult> {
-  if (!env.OPENROUTER_API_KEY) return { ok: false, errorCode: "no_key" };
+  if (
+    chain.length
+      ? !chain.some((model) => hasProviderKey(env, providerOf(model)))
+      : !env.OPENROUTER_API_KEY
+  )
+    return { ok: false, errorCode: "no_key" };
   let last: ChatResult = { ok: false, errorCode: "provider_error" };
   let everyCandidateUnavailable = chain.length > 0;
-  const candidates = await availableModels(env.GPTBOT_DRAFTS_DB, chain);
+  const candidates = (await availableModels(env.GPTBOT_DRAFTS_DB, chain)).filter(
+    (model) => hasProviderKey(env, providerOf(model)),
+  );
   if (!candidates.length) return { ok: false, errorCode: "rate_limit" };
   const deadline = Date.now() + timeoutMs;
+  const skipped = new Set<ModelProvider>();
   for (const model of candidates) {
+    const provider = providerOf(model);
+    if (skipped.has(provider)) continue;
     if (signal?.aborted) return { ok: false, errorCode: "aborted" };
     if (admitAttempt && !(await admitAttempt()))
       return { ok: false, errorCode: "budget_exhausted" };
     if (Date.now() >= deadline) return { ok: false, errorCode: "timeout" };
-    last = await callOne(
-      env,
-      cfg,
-      model,
-      messages,
-      maxTokens,
-      Math.min(15_000, deadline - Date.now()),
-      signal,
-    );
+    last =
+      provider === "zai"
+        ? await callZaiOnce(
+            env,
+            model,
+            messages,
+            maxTokens,
+            Math.min(cfg.zaiTimeoutMs, deadline - Date.now()),
+            signal,
+          )
+        : await callOne(
+            env,
+            cfg,
+            model,
+            messages,
+            maxTokens,
+            Math.min(15_000, deadline - Date.now()),
+            signal,
+          );
     if (signal?.aborted) return { ok: false, errorCode: "aborted" };
     if (last.ok) return last;
-    await modelFailed(
+    const step = await settleModelFailure(
       env.GPTBOT_DRAFTS_DB,
-      last.errorCode === "account_unavailable" ? "*" : model,
+      model,
       last.errorCode || "provider_error",
+      onOperatorEvent,
     );
-    if (last.errorCode === "account_unavailable") return last;
+    if (step === "skip_provider") skipped.add(provider);
     if (last.errorCode !== "model_unavailable")
       everyCandidateUnavailable = false;
     // Keep walking on every failure class: a hard failure on one model may
