@@ -53,7 +53,7 @@ import { applyRole, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView } from "./AiAccountPanel";
-import { archiveChat, loadChats } from "../storage";
+import { archiveChat, keepsShownConversation, loadChats } from "../storage";
 
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
@@ -118,26 +118,50 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
+  // What the screen holds, for onAccount, which outlives the render it was made in.
+  const shownRef = useRef<{ messages: ChatMessage[]; busy: boolean }>({ messages: [], busy: false });
+  useEffect(() => {
+    shownRef.current = { messages, busy };
+  }, [messages, busy]);
   const onAccount = useCallback((account: AccountView | null) => {
     const identity = account ? (account.user?.storageKey || "guest") : null;
     const scope = account?.user?.storageKey;
     if (accountIdentityRef.current !== identity) {
-      identityGeneration.current++;
-      abortRef.current?.abort();
-      setBusy(false);
-      setMessages(account ? loadHistory(config.locale, scope) : []);
-      setSavedChats(account ? loadChats(config.locale, scope) : []);
-      // Auth redirects revoke session cookies. Never restore an old account's
-      // session reference on a new identity; quota stays authoritative on server.
-      const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
-      setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+      const shown = shownRef.current;
+      if (
+        identity !== null &&
+        keepsShownConversation(
+          accountIdentityRef.current,
+          establishedIdentityRef.current,
+          identity,
+          shown.busy || shown.messages.length > 0,
+        )
+      ) {
+        // The account answers again after failed reads (F11), and the chat
+        // was answering this visitor meanwhile: what was said, an answer
+        // still arriving and the session stay. It becomes the stored
+        // conversation; the one stored before moves to the saved chats, as
+        // "New chat" would do. The turn in flight stores nothing itself.
+        setSavedChats(archiveChat(loadHistory(config.locale, scope), config.locale, scope));
+        saveHistory(shown.messages.filter((m) => !m.streaming), config.locale, scope);
+      } else {
+        identityGeneration.current++;
+        abortRef.current?.abort();
+        setBusy(false);
+        setMessages(account ? loadHistory(config.locale, scope) : []);
+        setSavedChats(account ? loadChats(config.locale, scope) : []);
+        // Auth redirects revoke session cookies. Never restore an old account's
+        // session reference on a new identity; quota stays authoritative on server.
+        const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
+        setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+        startedRef.current = false;
+      }
       // A failed account read says nothing about who is asking, so the
       // composer (and a question a limit put back into it) stays. Another
       // known identity — signing out, another account — starts empty.
       if (identity !== null && establishedIdentityRef.current !== null && establishedIdentityRef.current !== identity) setInput("");
       if (account) establishedIdentityRef.current = identity;
       setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
-      startedRef.current = false;
       accountIdentityRef.current = identity;
     }
     setStorageScope(scope);
@@ -149,9 +173,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setFreeLimits(account?.freeLimits ?? null);
     setRemaining(account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining() : -1));
     // The view refreshes after every turn and on every focus, and knows
-    // nothing of a guest's allowance: it never lifts a limit a 429 set (F1).
-    // It only reports a pack that has just arrived, or a signed-in visitor's
-    // free day that the server counted to the end.
+    // nothing of a guest's allowance: it never lifts a free-tier limit a 429
+    // set (F1). It only reports a pack that has just arrived (or is gone,
+    // taking its day cap along), or a signed-in visitor's free day that the
+    // server counted to the end.
     if (account)
       dispatchLimit({
         type: "account",

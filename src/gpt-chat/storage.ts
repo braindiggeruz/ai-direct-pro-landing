@@ -145,6 +145,28 @@ export function saveOfferDismissed(locale: Locale, scope?: string): void {
   }
 }
 
+/**
+ * Whether the conversation on screen stays when the account view answers
+ * again after failed reads (F11, plan WP-06). Meanwhile the chat answered as
+ * a guest with the same cookies, so what was said belongs to the identity
+ * that now answers, unless the page had known another one before the reads
+ * failed. Otherwise (nothing said, a first view, another identity) that
+ * identity's stored history loads as on any visit.
+ *
+ * @param previous the last view's identity; null after failed reads, and before the first view
+ * @param established the last identity a view named, or null
+ * @param next the identity the view names now
+ * @param shown something is on screen or a turn is under way
+ */
+export function keepsShownConversation(
+  previous: string | null,
+  established: string | null,
+  next: string,
+  shown: boolean,
+): boolean {
+  return shown && previous === null && (established === null || established === next);
+}
+
 export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
   try {
     const raw =

@@ -4,9 +4,10 @@
 // Only the server sets or lifts a limit; the clock only says when to try
 // again. The account view refreshes after every turn and on every window
 // focus, and it cannot know a guest's allowance (a guest's view never reads
-// D1), so it must never take a limit down: that was the card vanishing ~0.4 s
-// after a 429 (F1). The one exception is a pack with answers left appearing,
-// which is a payment that just went through.
+// D1), so it must never take a free-tier limit down: that was the card
+// vanishing ~0.4 s after a 429 (F1). The exceptions: a pack with answers left
+// appearing, which is a payment that just went through, and a pack's own day
+// cap once the view shows no pack (signed out, or the pack ended).
 //
 // The reducer is pure (events carry the time), so StrictMode may run it
 // twice. The limit is kept in sessionStorage: a reload or a trip to the
@@ -110,16 +111,18 @@ export function reduceLimit(state: LimitState | null, event: LimitEvent): LimitS
       };
     case 'admitted':
       return null;
-    case 'account':
-      if (state) {
-        return event.packRemaining !== null && event.packRemaining > 0 && LIFTED_BY_PACK.has(state.reason)
-          ? null
-          : state;
-      }
+    case 'account': {
+      // A pack with answers left lifts what LIFTED_BY_PACK names. The pack's
+      // own day cap holds only while there is a pack: signed out, or with the
+      // pack spent or ended, the free tier applies, which the server counts
+      // apart from the pack's answers.
+      const pack = event.packRemaining !== null && event.packRemaining > 0;
+      if (state && !(pack ? LIFTED_BY_PACK.has(state.reason) : state.reason === 'pack_daily')) return state;
       // The server counted this visitor's free day to the end and there is no pack.
       return event.freeRemaining === 0 && event.packRemaining === null
         ? { reason: 'daily', retryAt: nextUtcMidnight(event.now), since: event.now, limits: event.freeLimits }
         : null;
+    }
   }
 }
 

@@ -2,9 +2,12 @@
   "paid_chat_prod_2026": {
     "wp": "WP-06",
     "release": "R1",
-    "status": "committed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
     "commit": "f7ed0f47145f719df54018a5eed42d0d12d96fcf",
-    "commit_note": "feat(gpt-chat): keep the limit card until the server lifts the limit (parent 6425c188); the metadata-only follow-up that records this SHA is state_commit (HEAD, rule D-006)",
+    "commit_note": "feat(gpt-chat): keep the limit card until the server lifts the limit (parent 6425c188); ae080b2f records this SHA (metadata only, rule D-006, state_commit); the review fix is review_commit",
+    "review": "WP-06 adversarial review 2026-10-01: the pure limit reducer (a 429 sets the limit with retryAfterSec or a per-reason fallback, an admitted turn lifts it, the account view never lifts a free-tier limit, so the F1 card no longer vanishes on the post-turn refresh or on focus), canSendNow and the 15 s tick with a timeout at retryAt, sessionStorage for the limit and the guest remaining (one key for RU and UZ, L18), the 60-minute draft, the card over the composer for all six WP-05 reasons with today/tomorrow by the Tashkent date, the exits (pack only with billingAvailable, bot only with botHandoff and only for the free caps), aria-describedby, SSE done truncated/charged/hourRemaining, retryAfterSec from body or Retry-After, validAccountView freeLimits fail-closed, no plan names in the card strings, no server, config or migration change, bundle, protected pages and the docs confirmed. The implementer's deviations hold. Two defects fixed. (1) F11 recovery: after failed account reads the chat answers as a guest, but the next successful read (it runs after every turn) was treated as an identity change: it aborted an answer in flight and replaced the conversation on screen with the stored history, so the question and the answer just delivered vanished (reproduced in the Browser pane against a local mock: two failed reads, one answer, then the refresh). storage.ts keepsShownConversation(previous, established, next, shown) decides it purely: after failed reads, with something on screen or a turn under way, and no other identity known before, the conversation stays, the stored one is archived to the saved chats and the screen becomes the stored conversation; any other identity change still aborts and reloads. (2) A pack's own day cap (pack_daily) survived signing out: the guest view could never lift it, so a signed-out visitor was held until 05:00 Tashkent under a pack text although the free tier is counted apart. The reducer now drops pack_daily when the account view shows no pack with answers left, and falls through to the free-day rule when the server counted that day to 0. Tests: gpt-limit-state +1 (pack day cap), gpt-account-storage +1 (the recovery rule, 10 cases), gpt-account-ui +1 (wiring); each red-checked with a mutation",
+    "review_commit": "HEAD = fix(gpt-chat): address WP-06 review findings (parent ae080b2f)",
+    "review_open_issues": "Pre-existing, now more visible because the chat works in guest mode: a failed account read after a known identity (e.g. on focus) still clears the screen and aborts an answer in flight, because the same onAccount(null) serves logout, where clearing is wanted; tell the two apart (e.g. a signed-out flag from the logout handler) and keep the screen on a failure. After a recovery the answer that was in flight is stored with the next turn, not at once (its closure still has no storage scope, by design). The draft lives in localStorage while the limit lives in sessionStorage: a second tab without the limit clears the shared draft on mount, so the first tab keeps the question on screen but not across its own reload. A 429 on an answer action (Continue, Translate...) puts the whole synthetic prompt (instruction plus up to 1900 characters of the answer) into the composer and the draft, as the plan says (setInput(trimmed)); WP-09 or WP-17 may keep the action instead. The implementer's WP-09, WP-17 and native-Uzbek items stand",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "a61963f102f1465e124426024d10998284af324f (ancestor of HEAD, checked 2026-09-30)",
@@ -340,9 +343,9 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-06 the limit card holds (release R1)",
+  "current_stage": "Paid AI chat production readiness: WP-06 the limit card holds, and its review (release R1)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-06 committed on paid-chat/prod-readiness (not pushed, not deployed; no migration)",
+  "last_completed_stage": "Paid AI chat WP-06 committed and reviewed on paid-chat/prod-readiness (not pushed, not deployed; no migration)",
   "next_stage": "Paid AI chat WP-07: GPT_HASH_SALT with hash migration and message deletion (off) (release R2), per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
@@ -614,7 +617,7 @@
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "f7ed0f47145f719df54018a5eed42d0d12d96fcf",
-  "state_commit": "HEAD",
+  "state_commit": "ae080b2f0e894a51dbd30dd1614712b871d19056",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",

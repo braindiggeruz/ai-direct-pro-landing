@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DRAFT_TTL_MS, archiveChat, clearDraft, clearHistory, clearSessionId, loadChats, loadDraft, loadHistory, loadRemaining, loadSessionId, saveDraft, saveHistory, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
+import { DRAFT_TTL_MS, archiveChat, clearDraft, clearHistory, clearSessionId, keepsShownConversation, loadChats, loadDraft, loadHistory, loadRemaining, loadSessionId, saveDraft, saveHistory, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 
 const a = 'a'.repeat(64);
 const b = 'b'.repeat(64);
@@ -70,6 +70,26 @@ test('the truncation mark survives in history and in archived chats', () => {
   assert.equal(loadHistory('uz')[0].truncated, false);
   archiveChat(messages, 'uz');
   assert.equal(loadChats('uz')[0].messages[1].truncated, true);
+});
+
+test('after failed account reads the conversation on screen stays only with the visitor it was had with (F11)', () => {
+  // The first view on a page, or after nothing was said: the stored history loads.
+  assert.equal(keepsShownConversation(null, null, 'guest', false), false);
+  assert.equal(keepsShownConversation(null, a, a, false), false);
+  // Reads failed on load, the chat answered meanwhile: the conversation is
+  // this visitor's, guest or signed in, and so is a turn still under way.
+  assert.equal(keepsShownConversation(null, null, 'guest', true), true);
+  assert.equal(keepsShownConversation(null, null, a, true), true);
+  // Known as A, reads failed, A answers again.
+  assert.equal(keepsShownConversation(null, a, a, true), true);
+  // Known as A before the failure (or before signing out), now someone else:
+  // A's words never land in another scope.
+  assert.equal(keepsShownConversation(null, a, 'guest', true), false);
+  assert.equal(keepsShownConversation(null, a, b, true), false);
+  assert.equal(keepsShownConversation(null, 'guest', a, true), false);
+  // A change between two answered views is an identity change, never a recovery.
+  assert.equal(keepsShownConversation('guest', 'guest', a, true), false);
+  assert.equal(keepsShownConversation(a, a, b, true), false);
 });
 
 test('authenticated history never silently imports legacy guest history or accepts malformed identity', () => {

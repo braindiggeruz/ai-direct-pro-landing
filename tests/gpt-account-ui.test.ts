@@ -114,3 +114,20 @@ test('the chat feeds the card from the limit state; the account view only report
   assert.equal(mounts.length, 1);
   assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(\s*$/);
 });
+
+test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
+  const kept = onAccount.slice(onAccount.indexOf('keepsShownConversation('), onAccount.indexOf('} else {'));
+  assert.match(kept, /accountIdentityRef\.current,\s*establishedIdentityRef\.current,\s*identity,\s*shown\.busy \|\| shown\.messages\.length > 0/);
+  // The answer on screen and one still arriving stay; the stored conversation
+  // is archived rather than overwritten, and the screen becomes the stored one.
+  assert.doesNotMatch(kept, /identityGeneration|abort\(|setMessages|setBusy|setSessionId/);
+  assert.match(kept, /setSavedChats\(archiveChat\(loadHistory\(config\.locale, scope\), config\.locale, scope\)\)/);
+  assert.match(kept, /saveHistory\(shown\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\)/);
+  // Any other change of identity still drops what the previous one saw.
+  const changed = onAccount.slice(onAccount.indexOf('} else {'));
+  assert.match(changed, /identityGeneration\.current\+\+;\s*abortRef\.current\?\.abort\(\);/);
+  assert.match(changed, /setMessages\(account \? loadHistory\(config\.locale, scope\) : \[\]\)/);
+  assert.match(source, /shownRef\.current = \{ messages, busy \};/);
+});

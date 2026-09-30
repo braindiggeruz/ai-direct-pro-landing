@@ -73,7 +73,7 @@ test('a 429 sets the limit with the server time, or a safe default by reason', (
 });
 
 test('the account view never takes down a limit the server set (F1)', () => {
-  for (const reason of REASONS) {
+  for (const reason of REASONS.filter((r) => r !== 'pack_daily')) {
     const state = blocked(reason, reason === 'monthly' ? null : 1800);
     // A guest's view (nothing counted), a stale cached count, a signed-in
     // free count above zero, a spent pack: none of them lifts the limit.
@@ -96,6 +96,21 @@ test('a pack with answers left lifts only the caps a pack removes', () => {
     const state = blocked(reason, 600);
     assert.equal(reduceLimit(state, account(null, 120)), state, reason);
   }
+});
+
+test('a pack day cap holds while the pack does and goes with it', () => {
+  const state = reduceLimit(null, { type: 'blocked', reason: 'pack_daily', retryAfterSec: 9 * 3600, limits: { daily: 50, hourly: null }, now: NOW })!;
+  // Refreshes and focus while the pack still has answers: the cap stands.
+  for (const left of [1, 120, 250]) assert.equal(reduceLimit(state, account(null, left)), state, `pack ${left}`);
+  // Signed out (a guest view), or signed in with the pack spent or ended: the
+  // free tier applies, which the server counts apart; it decides the next turn.
+  for (const event of [account(null, null), account(15, null), account(null, 0)]) {
+    assert.equal(reduceLimit(state, event), null, JSON.stringify(event));
+  }
+  // ...unless the server counted that free day to the end as well.
+  assert.deepEqual(reduceLimit(state, account(0, null, NOW + MIN)), {
+    reason: 'daily', retryAt: nextUtcMidnight(NOW), since: NOW + MIN, limits: FREE,
+  });
 });
 
 test('the account view sets a day limit only from the server own count, without a pack', () => {
