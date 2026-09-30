@@ -234,8 +234,9 @@ async function callOne(
  * EVERY candidate was rejected as an unknown model, the chain is stale
  * configuration rather than a bad afternoon on the internet, and it says so.
  * That distinction is the difference between reading one code and rediscovering
- * the whole outage from scratch. When every candidate is cooling down, no
- * request is sent and the code is models_cooling.
+ * the whole outage from scratch. When every candidate is cooling down, or
+ * admitAttempt skips all that are not, no request is sent and the code is
+ * models_cooling.
  *
  * At most MAX_ATTEMPTS requests. Cooling and keyless models never take one,
  * and neither do the candidates a failure skips: an account failure (401, or
@@ -326,6 +327,11 @@ export async function chatComplete(
     // Keep walking on every failure class: a hard failure on one model may
     // still resolve on the next vendor, so we continue.
   }
+  // No request went out: admitAttempt skipped every candidate the health
+  // check let through (the free tier's spent budget in front of a ':free'
+  // chain that is cooling down). Nothing was refused as unknown, so this is
+  // models_cooling, never the stale-chain diagnosis below.
+  if (attempts === 0) return settled({ ok: false, errorCode: "models_cooling" });
   // A single live candidate anywhere in the chain means the configuration is
   // fine and the last candidate's own code is the honest answer. Only when the
   // chain is unavailable end to end do we promote the diagnosis.

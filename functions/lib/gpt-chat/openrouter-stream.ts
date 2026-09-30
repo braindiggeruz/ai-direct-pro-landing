@@ -268,6 +268,9 @@ export async function chatStreamStart(
       everyCandidateUnavailable = false;
     }
   }
+  // Same as chatComplete: a walk that sent nothing because admitAttempt
+  // skipped every live candidate is models_cooling, not a stale chain.
+  if (attempts === 0) return failed("models_cooling");
   return failed(everyCandidateUnavailable ? "model_unavailable" : lastCode);
 }
 

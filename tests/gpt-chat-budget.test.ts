@@ -23,6 +23,8 @@ import {
   worstCaseMicroUsd,
 } from '../functions/lib/gpt-chat/model-spend-store';
 import { maintainBilling } from '../functions/lib/gpt-chat/billing-maintenance-store';
+import { chatComplete } from '../functions/lib/gpt-chat/openrouter-chat';
+import { chatStreamStart } from '../functions/lib/gpt-chat/openrouter-stream';
 import { onRequestPost as chat } from '../functions/api/gpt/chat';
 
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
@@ -249,6 +251,45 @@ test('web chat: a spent budget sends no paid request, answers on ":free" and rec
     [
       { model: 'google/gemma-4-31b-it:free', attempts: 1 },
       { model: 'google/gemma-4-31b-it:free', attempts: 1 },
+    ],
+  );
+});
+
+test('a spent budget in front of a cooling ":free" chain is models_cooling, never the stale-chain page', async (t) => {
+  // A busy day: the budget is spent and every ':free' model is cooling down
+  // after 429s, so the only live candidate is the paid head, which the budget
+  // skips. Nothing is sent and nothing was refused as unknown.
+  const f = await paidPrimaryFixture('0.0001');
+  const cfg = resolveConfig(f.env);
+  const cooling = f.db.prepare("INSERT INTO gpt_model_health(org_id, model, blocked_until, code) VALUES (?,?,?,'rate_limit')");
+  for (const model of freeChain(cfg)) cooling.bind(BILLING_ORG, model, Date.now() + 60_000).runSync();
+  const bodies = openrouter(t, () => sse('never'));
+  const chain = webChatChain(cfg, f.env, 'free');
+  assert.deepEqual(chain, [PAID, ...freeChain(cfg)]);
+  const admit = () => freePaidBudget(new ModelSpendStore(f.binding, BILLING_ORG), cfg, messages, () => undefined).admit;
+  assert.deepEqual(
+    await chatComplete(f.env, cfg, chain, messages, 100, 5000, undefined, admit()),
+    { ok: false, errorCode: 'models_cooling', attempts: 0 },
+  );
+  assert.deepEqual(
+    await chatStreamStart(f.env, cfg, chain, messages, 100, 5000, undefined, admit()),
+    { ok: false, errorCode: 'models_cooling', attempts: 0 },
+  );
+  // Through the chat, both paths: the visitor reads model_unavailable, the
+  // owner is paged chat_models_cooling (not chat_model_unavailable, "check
+  // OPENROUTER_MODEL_*"), and the budget note stays in the background.
+  for (const stream of [true, false])
+    assert.equal((JSON.parse(await turn(f, { stream })) as { code: string }).code, 'model_unavailable');
+  assert.equal(bodies.length, 0);
+  assert.deepEqual(
+    f.db.rows<{ code: string }>('SELECT DISTINCT code FROM gpt_service_alerts ORDER BY code').map((r) => r.code),
+    ['chat_models_cooling', 'free_paid_budget_exhausted'],
+  );
+  assert.deepEqual(
+    f.db.rows<{ status: string; outcome: string; attempts: number }>('SELECT status, outcome, attempts FROM gpt_turn_reservations').map((r) => ({ ...r })),
+    [
+      { status: 'released', outcome: 'no_model', attempts: 0 },
+      { status: 'released', outcome: 'no_model', attempts: 0 },
     ],
   );
 });
