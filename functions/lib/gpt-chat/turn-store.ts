@@ -1,5 +1,22 @@
+// The web chat's answer allowance (gpt_turn_reservations). One INSERT ...
+// SELECT is both the admission decision and the reservation, atomic across
+// isolates; reservations count before any upstream work.
+//
+// Admission rules (plan WP-05, decisions L3 and L5), all at once:
+//   free tier   per UTC day and per rolling hour (GPT_FREE_DAILY_LIMIT,
+//               GPT_FREE_HOURLY_LIMIT), counted by account AND by IP hash
+//               among turns without a pack: signing in or out gives no new
+//               allowance, and a spent pack does not touch it;
+//   pack        PACK_DAILY_LIMIT a UTC day and the pack's own message_limit;
+//               no hourly cap (none in the pack's terms);
+//   both        at most MAX_CONCURRENT_TURNS in flight per subject, and an
+//               abuse ceiling of requests per IP hash and rolling hour.
+// A refusal is explained by the same rules (explain): the precise reason and
+// when a turn fits again. The UTC day starts at 05:00 in Tashkent.
 import type { AccessPeriod } from "./billing-store";
 import type { GptChatConfig } from "./config";
+import { spendDay } from "./model-spend-store";
+import { DAY_MS, HOUR_MS } from "./rate-limit";
 import type { TurnOutcome } from "./turn-outcome";
 
 /** How a turn settled (migrations/0066 columns); counts and ids only, never text. */
@@ -27,6 +44,143 @@ export interface Allowance {
   hourRemaining: number | null;
 }
 
+/** Answers a pack gives in one UTC day (decision L3). */
+export const PACK_DAILY_LIMIT = 50;
+/** Answers one subject may have in flight at once. */
+const MAX_CONCURRENT_TURNS = 2;
+/** Requests per IP hash and rolling hour, whatever became of them: the abuse ceiling. */
+const IP_HOURLY_CEILING = { free: 100, paid: 1000 } as const;
+/** An unsettled reservation stops counting after this. */
+const RESERVATION_MS = 120_000;
+/** Retry hint when concurrent turns keep changing the counts under a refusal. */
+const BUSY_RETRY_MS = 5_000;
+
+/**
+ * Why a turn was refused (the 429's `reason`):
+ *   hourly      the free tier's rolling hour, by account or by IP hash
+ *   daily       the free tier's UTC day, by account or by IP hash
+ *   pack_daily  the pack's UTC day (PACK_DAILY_LIMIT)
+ *   monthly     the pack is spent or no longer valid; the free tier still
+ *               applies, so the chat retries the turn there
+ *   busy        MAX_CONCURRENT_TURNS answers are still being prepared
+ *   ip          the IP hash's hourly request ceiling
+ */
+export type LimitReason =
+  | "hourly"
+  | "daily"
+  | "pack_daily"
+  | "monthly"
+  | "busy"
+  | "ip";
+
+export interface LimitExplanation {
+  reason: LimitReason;
+  /** When a turn fits again (epoch ms); null for 'monthly', which time does not lift. */
+  retryAt: number | null;
+  /** Answers left today (free tier) or in the pack. */
+  remaining: number;
+}
+
+/** A reservation, or why there is none. */
+export type Admission =
+  | { id: string; remaining: number; limit?: undefined }
+  | { id: null; limit: LimitExplanation };
+
+// Counts as spent: answered, or reserved and not yet expired.
+const ACTIVE = "(status='done' OR (status='reserved' AND expires_at>?))";
+
+/** One admission rule: a turn is admitted while fewer than `limit` rows match `rows`. */
+interface Rule {
+  reason: Exclude<LimitReason, "monthly">;
+  /** Condition on gpt_turn_reservations after `org_id=? AND`; placeholders bound by `binds`. */
+  rows: string;
+  binds: unknown[];
+  limit: number;
+  /**
+   * When a refused turn fits again: 'day' at the next UTC midnight; 'hour'
+   * one hour after the limit-th newest matching row was created; 'expiry'
+   * when the limit-th latest-expiring matching reservation expires.
+   */
+  frees: "day" | "hour" | "expiry";
+}
+
+function dayStart(now: number): number {
+  return Math.floor(now / DAY_MS) * DAY_MS;
+}
+
+function admissionRules(
+  subject: string,
+  ip: string,
+  period: AccessPeriod | null,
+  cfg: GptChatConfig,
+  now: number,
+): Rule[] {
+  const day = dayStart(now);
+  const hour = now - HOUR_MS;
+  // expires_at is created_at + RESERVATION_MS, so the created_at bound only
+  // lets the subject index skip the subject's settled history.
+  const busy: Rule = {
+    reason: "busy",
+    rows: "subject=? AND status='reserved' AND expires_at>? AND created_at>?",
+    binds: [subject, now, now - RESERVATION_MS],
+    limit: MAX_CONCURRENT_TURNS,
+    frees: "expiry",
+  };
+  const ipCeiling: Rule = {
+    reason: "ip",
+    rows: "ip_hash=? AND created_at>?",
+    binds: [ip, hour],
+    limit: IP_HOURLY_CEILING[period ? "paid" : "free"],
+    frees: "hour",
+  };
+  if (period)
+    return [
+      {
+        reason: "pack_daily",
+        rows: `subject=? AND created_at>=? AND ${ACTIVE}`,
+        binds: [subject, day, now],
+        limit: PACK_DAILY_LIMIT,
+        frees: "day",
+      },
+      busy,
+      ipCeiling,
+    ];
+  // Decision L5: by the account AND by the IP hash, among turns without a pack.
+  const free = (
+    reason: "daily" | "hourly",
+    key: "subject" | "ip_hash",
+    value: string,
+  ): Rule =>
+    reason === "daily"
+      ? {
+          reason,
+          rows: `${key}=? AND created_at>=? AND period_id IS NULL AND ${ACTIVE}`,
+          binds: [value, day, now],
+          limit: cfg.freeDailyLimit,
+          frees: "day",
+        }
+      : {
+          reason,
+          rows: `${key}=? AND created_at>? AND period_id IS NULL AND ${ACTIVE}`,
+          binds: [value, hour, now],
+          limit: cfg.freeHourlyLimit,
+          frees: "hour",
+        };
+  return [
+    free("daily", "subject", subject),
+    free("daily", "ip_hash", ip),
+    free("hourly", "subject", subject),
+    free("hourly", "ip_hash", ip),
+    busy,
+    ipCeiling,
+  ];
+}
+
+// The pack's own ceiling: answers spent in it, and whether it is still valid.
+const PACK_USED = `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${ACTIVE})`;
+const PACK_VALID =
+  "EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>?)";
+
 // Provider-reported values are stored only as what they claim to be.
 function count(value: number | null | undefined): number | null {
   return typeof value === "number" && Number.isFinite(value) && value >= 0
@@ -43,103 +197,159 @@ export class TurnStore {
     readonly db: D1Database,
     readonly org: string,
   ) {}
+  /**
+   * Reserve one answer for `subject` (an account, or the IP hash of a guest)
+   * on `period`'s pack or, without one, on the free tier. `ip` is the IP hash.
+   */
   async reserve(
     subject: string,
     ip: string,
     period: AccessPeriod | null,
     cfg: GptChatConfig,
     now = Date.now(),
-  ) {
-    const id = crypto.randomUUID();
-    const day = Math.floor(now / 86400_000) * 86400_000;
-    // One INSERT ... SELECT is the admission decision AND reservation across
-    // isolates. Bounded indexed counts replace the growing messages JOIN.
-    // Reservations count before upstream work, not after a 60-second answer.
-    const active = "(status='done' OR (status='reserved' AND expires_at>?))";
-    const freeOnly = period ? "" : " AND period_id IS NULL";
-    const periodGuard = period
-      ? ` AND (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${active})<?
-      AND EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>?)`
-      : "";
-    const result = await this.db
-      .prepare(
-        `INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at)
-      SELECT ?,?,?,?,?,'reserved',?,? WHERE
-      (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND subject=? AND created_at>=? AND ${active}${freeOnly})<?
-      AND (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND subject=? AND created_at>=? AND ${active}${freeOnly})<?
-      AND (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND subject=? AND status='reserved' AND expires_at>?)<2
-      AND (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ip_hash=? AND created_at>=?)<${period ? 1000 : 100}
-      ${periodGuard} RETURNING id`,
-      )
-      .bind(
+  ): Promise<Admission> {
+    const rules = admissionRules(subject, ip, period, cfg, now);
+    const guards = rules.map(
+      (rule) => `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${rule.rows})<?`,
+    );
+    const binds = rules.flatMap((rule) => [this.org, ...rule.binds, rule.limit]);
+    if (period) {
+      guards.push(`${PACK_USED}<?`, PACK_VALID);
+      binds.push(
         this.org,
-        id,
-        subject,
-        ip,
-        period?.order_id ?? null,
+        period.order_id,
         now,
-        now + 120_000,
+        period.message_limit,
         this.org,
-        subject,
-        day,
+        period.order_id,
         now,
-        period ? 50 : cfg.freeDailyLimit,
-        this.org,
-        subject,
-        now - 3600_000,
         now,
-        period ? 20 : cfg.freeHourlyLimit,
-        this.org,
-        subject,
-        now,
-        this.org,
-        ip,
-        now - 3600_000,
-        ...(period
-          ? [
-              this.org,
-              period.order_id,
-              now,
-              period.message_limit,
-              this.org,
-              period.order_id,
-              now,
-              now,
-            ]
-          : []),
-      )
-      .first<{ id: string }>();
-    const remaining = await this.remaining(subject, period, cfg, now);
+      );
+    }
+    // A refusal whose cause cleared before explain() read it (a concurrent
+    // turn settled in between) is retried once.
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const row = await this.db
+        .prepare(
+          `INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at)
+        SELECT ?,?,?,?,?,'reserved',?,? WHERE ${guards.join(" AND ")} RETURNING id`,
+        )
+        .bind(
+          this.org,
+          crypto.randomUUID(),
+          subject,
+          ip,
+          period?.order_id ?? null,
+          now,
+          now + RESERVATION_MS,
+          ...binds,
+        )
+        .first<{ id: string }>();
+      if (row)
+        return {
+          id: row.id,
+          remaining: (await this.allowance(subject, ip, period, cfg, now)).remaining,
+        };
+      const limit = await this.explain(subject, ip, period, cfg, now);
+      if (limit) return { id: null, limit };
+    }
+    // Twice refused and twice cleared: concurrent turns of this subject or IP
+    // are settling under us, so the answer is the one for a turn in flight.
     return {
-      id: result?.id ?? null,
-      remaining,
-      reason: remaining === 0 ? (period ? "monthly" : "daily") : "hourly",
+      id: null,
+      limit: {
+        reason: "busy",
+        retryAt: now + BUSY_RETRY_MS,
+        remaining: (await this.allowance(subject, ip, period, cfg, now)).remaining,
+      },
     };
+  }
+  /**
+   * Why reserve() refuses a turn right now, in one SELECT over the same
+   * rules; null when nothing refuses it. When several rules refuse, the one
+   * that lifts last is the reason; a spent or ended pack ('monthly') wins.
+   */
+  async explain(
+    subject: string,
+    ip: string,
+    period: AccessPeriod | null,
+    cfg: GptChatConfig,
+    now = Date.now(),
+  ): Promise<LimitExplanation | null> {
+    const rules = admissionRules(subject, ip, period, cfg, now);
+    // A 'day' rule yields its count; any other yields the edge row's time
+    // when the rule refuses (the limit-th newest matching row), else NULL.
+    const columns = rules.map((rule, i) => {
+      if (rule.frees === "day")
+        return `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${rule.rows}) AS r${i}`;
+      const edge = rule.frees === "hour" ? "created_at" : "expires_at";
+      return `(SELECT CASE WHEN COUNT(*)>=? THEN MIN(edge) END FROM (SELECT ${edge} AS edge FROM gpt_turn_reservations WHERE org_id=? AND ${rule.rows} ORDER BY ${edge} DESC LIMIT ?)) AS r${i}`;
+    });
+    const binds = rules.flatMap((rule) =>
+      rule.frees === "day"
+        ? [this.org, ...rule.binds]
+        : [rule.limit, this.org, ...rule.binds, rule.limit],
+    );
+    if (period) {
+      columns.push(`${PACK_USED} AS used`, `${PACK_VALID} AS valid`);
+      binds.push(this.org, period.order_id, now, this.org, period.order_id, now, now);
+    }
+    const row = await this.db
+      .prepare(`SELECT ${columns.join(",")}`)
+      .bind(...binds)
+      .first<Record<string, number | null>>();
+    if (!row) return null;
+    const found = (i: number) => row[`r${i}`];
+    const spentToday = Math.max(
+      0,
+      ...rules.flatMap((rule, i) => (rule.frees === "day" ? [Number(found(i))] : [])),
+    );
+    const remaining = Math.max(
+      0,
+      period ? period.message_limit - Number(row.used) : cfg.freeDailyLimit - spentToday,
+    );
+    if (period && (Number(row.used) >= period.message_limit || !row.valid))
+      return { reason: "monthly", retryAt: null, remaining };
+    let refusal: { reason: LimitReason; retryAt: number } | null = null;
+    for (const [i, rule] of rules.entries()) {
+      const value = found(i);
+      let retryAt: number | null = null;
+      if (rule.frees === "day") {
+        if (Number(value) >= rule.limit) retryAt = dayStart(now) + DAY_MS;
+      } else if (value !== null) {
+        retryAt = Number(value) + (rule.frees === "hour" ? HOUR_MS : 0);
+      }
+      if (retryAt !== null && (!refusal || retryAt > refusal.retryAt))
+        refusal = { reason: rule.reason, retryAt };
+    }
+    return refusal && { ...refusal, remaining };
   }
   async remaining(
     subject: string,
+    ip: string,
     period: AccessPeriod | null,
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<number> {
-    return (await this.allowance(subject, period, cfg, now)).remaining;
+    return (await this.allowance(subject, ip, period, cfg, now)).remaining;
   }
   /**
    * The day's (or the pack's) and, for the free tier, the rolling hour's
-   * answers left, in one read. The chat reads it after the settlement, so a
+   * answers left, in one read; the free tier counts by account and by IP
+   * hash, like reserve(). The chat reads it after the settlement, so a
    * released turn is already given back.
    */
   async allowance(
     subject: string,
+    ip: string,
     period: AccessPeriod | null,
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<Allowance> {
-    const active = "(status='done' OR (status='reserved' AND expires_at>?))";
     if (period) {
       const row = await this.db
         .prepare(
-          `SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${active}`,
+          `SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${ACTIVE}`,
         )
         .bind(this.org, period.order_id, now)
         .first<{ n: number }>();
@@ -148,20 +358,41 @@ export class TurnStore {
         hourRemaining: null,
       };
     }
-    const day = Math.floor(now / 86400_000) * 86400_000;
-    const hour = now - 3600_000;
+    const day = dayStart(now);
+    const hour = now - HOUR_MS;
+    const counts = (key: "subject" | "ip_hash") =>
+      `SELECT COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS day,
+        COALESCE(SUM(CASE WHEN created_at>? THEN 1 ELSE 0 END),0) AS hour
+        FROM gpt_turn_reservations WHERE org_id=? AND ${key}=? AND created_at>=? AND period_id IS NULL AND ${ACTIVE}`;
+    const since = Math.min(day, hour);
     const row = await this.db
       .prepare(
-        `SELECT COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS day,
-        COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS hour
-        FROM gpt_turn_reservations WHERE org_id=? AND subject=? AND created_at>=? AND period_id IS NULL AND ${active}`,
+        `SELECT MAX(s.day,i.day) AS day, MAX(s.hour,i.hour) AS hour FROM (${counts("subject")}) s, (${counts("ip_hash")}) i`,
       )
-      .bind(day, hour, this.org, subject, Math.min(day, hour), now)
+      .bind(day, hour, this.org, subject, since, now, day, hour, this.org, ip, since, now)
       .first<{ day: number; hour: number }>();
     return {
       remaining: Math.max(0, cfg.freeDailyLimit - (row?.day ?? 0)),
       hourRemaining: Math.max(0, cfg.freeHourlyLimit - (row?.hour ?? 0)),
     };
+  }
+  /**
+   * Count a refusal in gpt_limit_hits: one row per UTC day, reason and
+   * subject (the quota's pseudonymous key, never an address or a message).
+   */
+  async recordLimitHit(
+    reason: LimitReason,
+    tier: "free" | "paid",
+    subject: string,
+    now = Date.now(),
+  ): Promise<void> {
+    await this.db
+      .prepare(
+        `INSERT INTO gpt_limit_hits(org_id,day,reason,tier,subject,n,first_at) VALUES(?,?,?,?,?,1,?)
+        ON CONFLICT(org_id,day,reason,subject) DO UPDATE SET n=n+1`,
+      )
+      .bind(this.org, spendDay(now), reason, tier, subject, now)
+      .run();
   }
   /**
    * Settle a reservation once: 'done' when charged, 'released' otherwise,

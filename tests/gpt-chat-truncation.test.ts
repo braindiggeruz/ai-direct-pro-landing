@@ -383,6 +383,6 @@ test('a reservation settles once, only in its own org; provider values are store
     status: 'released', outcome: 'truncated', charged: 0, model: FREE, finish_reason: 'length', cancel_reason: null,
     ttft_ms: 813, total_ms: null, tokens_in: null, tokens_out: 1600, reasoning_tokens: null, cost_micro_usd: 0, attempts: 2,
   }]);
-  assert.deepEqual(await mine.allowance('subject', null, cfg), { remaining: 15, hourRemaining: 5 });
-  assert.deepEqual(await theirs.allowance('subject', null, cfg), { remaining: 15, hourRemaining: 5 });
+  assert.deepEqual(await mine.allowance('subject', 'ip', null, cfg), { remaining: 15, hourRemaining: 5 });
+  assert.deepEqual(await theirs.allowance('subject', 'ip', null, cfg), { remaining: 15, hourRemaining: 5 });
 });

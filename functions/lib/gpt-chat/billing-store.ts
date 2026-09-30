@@ -160,6 +160,11 @@ export class BillingStore {
       .bind(this.org, order).first<{ version: string }>();
     if (row?.version !== version) throw new Error('terms_changed');
   }
+  /**
+   * The pack a turn draws from: a valid period with answers left (spent ones
+   * count as TurnStore does), the one that ends first. A spent or ended pack
+   * is not returned, so the free tier applies instead (decision L5).
+   */
   async access(
     user: string,
     mode: BillingMode,
@@ -167,10 +172,13 @@ export class BillingStore {
   ): Promise<AccessPeriod | null> {
     return this.db
       .prepare(
-        `SELECT order_id,starts_at,ends_at,message_limit,refund_requested_at FROM gpt_access_periods
-      WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>? ORDER BY starts_at LIMIT 1`,
+        `SELECT p.order_id,p.starts_at,p.ends_at,p.message_limit,p.refund_requested_at FROM gpt_access_periods p
+      WHERE p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL AND p.starts_at<=? AND p.ends_at>?
+      AND (SELECT COUNT(*) FROM gpt_turn_reservations r WHERE r.org_id=p.org_id AND r.period_id=p.order_id
+        AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?)))<p.message_limit
+      ORDER BY p.ends_at LIMIT 1`,
       )
-      .bind(this.org, user, mode, now, now)
+      .bind(this.org, user, mode, now, now, now)
       .first<AccessPeriod>();
   }
   /** Newest order of any provider (Click/Payme and Uzum) for the account panel. */

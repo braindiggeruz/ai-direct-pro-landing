@@ -7,7 +7,10 @@ import {
   BILLING_ORG,
   addCalendarMonth,
 } from "../functions/lib/gpt-chat/billing-config";
-import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
+import {
+  BillingStore,
+  type AccessPeriod,
+} from "../functions/lib/gpt-chat/billing-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
 import {
@@ -328,7 +331,7 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   assert.equal(accepted.length, 2);
   await turns.finish(accepted[0].id!, { outcome: "upstream_error", charged: false });
   await turns.finish(accepted[1].id!, { outcome: "answered", charged: true });
-  assert.equal(await turns.remaining(f.user, null, cfg), 14);
+  assert.equal(await turns.remaining(f.user, "ip", null, cfg), 14);
   const o = await f.store.createOrder(
     f.user,
     "payme",
@@ -349,9 +352,48 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   assert.ok(paid.id);
   await turns.finish(paid.id!, { outcome: "answered", charged: true });
   assert.equal(
-    (await turns.reserve(f.user, "another-ip", tiny, cfg)).reason,
+    (await turns.reserve(f.user, "another-ip", tiny, cfg)).limit?.reason,
     "monthly",
   );
+});
+test("a pack turn draws from the valid pack with answers left that ends first; a spent one is not offered", async () => {
+  const f = await billingFixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const now = Date.now();
+  const day = 86400_000;
+  const period = (order: string, endsIn: number, limit: number, revokedAt: number | null = null) =>
+    f.db
+      .prepare(
+        "INSERT INTO gpt_access_periods(org_id,order_id,user_id,mode,starts_at,ends_at,message_limit,revoked_at) VALUES(?,?,?,'test',?,?,?,?)",
+      )
+      .bind(BILLING_ORG, order, f.user, now - day, now + endsIn, limit, revokedAt)
+      .runSync();
+  const pack = (order: string) =>
+    f.db.rows<AccessPeriod>(
+      "SELECT order_id,starts_at,ends_at,message_limit,refund_requested_at FROM gpt_access_periods WHERE order_id=?",
+      order,
+    )[0];
+  const spend = async (order: string) => {
+    const turn = await turns.reserve(f.user, "ip", pack(order), cfg);
+    await turns.finish(turn.id!, { outcome: "answered", charged: true });
+  };
+  period("later", 20 * day, 300);
+  period("sooner-spent", 5 * day, 1);
+  period("sooner-revoked", 2 * day, 300, now - 1000);
+  period("ended", -1, 300);
+  await spend("sooner-spent");
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, "later");
+  // A turn in flight holds its answer; a released one gives it back.
+  period("soonest", 3 * day, 1);
+  const inFlight = await turns.reserve(f.user, "ip", pack("soonest"), cfg);
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, "later");
+  await turns.finish(inFlight.id!, { outcome: "upstream_error", charged: false });
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, "soonest");
+  await spend("soonest");
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, "later");
+  assert.equal(await f.store.access(f.user, "live"), null);
+  assert.equal(await new BillingStore(f.binding, "other-org").access(f.user, "test"), null);
 });
 test("calendar month handles January 31 and leap years", () => {
   assert.equal(

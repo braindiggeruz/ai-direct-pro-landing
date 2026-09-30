@@ -20,8 +20,15 @@
 // settlement. A free turn may start on the paid primary only through the
 // day's budget (model-spend-store.ts); a pack turn walks under its attempt
 // ceiling (TurnStore.admitModelAttempt).
+//
+// A refused turn answers 429 with the precise reason, the tier's limits and
+// when a turn fits again (retryAt, retryAfterSec, Retry-After), in the
+// visitor's language (chat-copy.ts), and is counted in gpt_limit_hits. The
+// free tier counts by account and by IP hash, so signing in gives no new
+// allowance; a spent or ended pack leaves the free tier open (turn-store.ts).
 import type { Env } from "../../_types";
-import { resolveConfig } from "../../lib/gpt-chat/config";
+import type { Locale } from "../../../src/shared/types";
+import { resolveConfig, type GptChatConfig } from "../../lib/gpt-chat/config";
 import { webChatChain } from "../../lib/gpt-chat/model-provider";
 import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
 import {
@@ -47,10 +54,13 @@ import {
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, cookieValue } from "../../lib/gpt-chat/identity-store";
 import {
+  PACK_DAILY_LIMIT,
   TurnStore,
   type Allowance,
+  type LimitExplanation,
   type TurnSettlement,
 } from "../../lib/gpt-chat/turn-store";
+import { limitMessage, providerMessage } from "../../lib/gpt-chat/chat-copy";
 import {
   failureOutcome,
   isTruncated,
@@ -108,16 +118,45 @@ function microUsd(usd: number | null): number | null {
   return usd === null ? null : Math.round(usd * 1_000_000);
 }
 
-function providerMessage(code: string | undefined): string {
-  if (code === "no_key")
-    return "AI-чат временно не настроен. Попробуйте позже.";
-  if (code === "rate_limit")
-    return "Сейчас много запросов. Попробуйте ещё раз через минуту.";
-  if (code === "model_unavailable")
-    return "Модели AI-чата обновляются. Попробуйте ещё раз немного позже.";
-  if (code === "timeout")
-    return "Ответ занял слишком много времени. Попробуйте ещё раз.";
-  return "Не удалось получить ответ. Попробуйте переформулировать или повторить.";
+/**
+ * The 429 of a refused turn (plan WP-05): the precise reason, the tier and
+ * its limits, when a turn fits again (retryAt, retryAfterSec and the
+ * Retry-After header) and a message in the visitor's language.
+ */
+function limitReached(
+  limit: LimitExplanation,
+  tier: "free" | "paid",
+  cfg: GptChatConfig,
+  locale: Locale,
+  now = Date.now(),
+): Response {
+  const retryAfterSec =
+    limit.retryAt === null
+      ? null
+      : Math.max(1, Math.ceil((limit.retryAt - now) / 1000));
+  const limits =
+    tier === "paid"
+      ? { daily: PACK_DAILY_LIMIT, hourly: null }
+      : { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit };
+  return json(
+    {
+      ok: false,
+      code: "limit_reached",
+      reason: limit.reason,
+      tier,
+      remaining: limit.remaining,
+      limits,
+      retryAt: limit.retryAt,
+      retryAfterSec,
+      message: limitMessage(limit.reason, locale, {
+        limits,
+        remaining: limit.remaining,
+        retryAfterSec,
+      }),
+    },
+    429,
+    retryAfterSec === null ? {} : { "Retry-After": String(retryAfterSec) },
+  );
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({
@@ -207,35 +246,25 @@ export const onRequestPost: PagesFunction<Env> = async ({
           billingMode(env as BillingEnv) || "live",
         );
       }
-      // ── HOOK (paid-chat package D): after the identity lookup ──────────────
-      // `user`, `subject`, `period` and `hashedIp` are resolved here and no
-      // quota has been reserved yet. Package D adds its hook on this line.
-      // ────────────────────────────────────────────────────────────────────────
+      let decision = await turns!.reserve(subject, hashedIp, period, cfg);
+      if (decision.limit?.reason === "monthly") {
+        // The pack was spent or ended after access() read it; the free tier
+        // still applies (decision L5).
+        period = null;
+        decision = await turns!.reserve(subject, hashedIp, null, cfg);
+      }
       if (period) plan = "paid";
-      const decision = await turns!.reserve(subject, hashedIp, period, cfg);
+      if (decision.limit) {
+        const refused = decision.limit;
+        waitUntil(
+          turns!
+            .recordLimitHit(refused.reason, plan, subject)
+            .catch(() => console.warn("gpt_limit_hit_record_failed")),
+        );
+        return limitReached(refused, plan, cfg, locale);
+      }
       reservation = decision.id;
       admittedRemaining = decision.remaining;
-      if (!decision.id) {
-        return json(
-          {
-            ok: false,
-            code: "limit_reached",
-            reason: decision.reason,
-            remaining: decision.remaining,
-            message:
-              decision.reason === "hourly"
-                ? "Слишком много сообщений за час. Попробуйте позже или оформите Plus."
-                : "Дневной лимит бесплатных сообщений исчерпан. Возвращайтесь завтра или оформите Plus.",
-          },
-          429,
-        );
-      }
-      // ── HOOK (paid-chat package D): after the limit_reached branch ─────────
-      // The turn is admitted (`reservation` holds it). Still inside this try:
-      // a throw here answers quota_unavailable without releasing the
-      // reservation, so a hook here must be best-effort. Package D adds its
-      // hook on this line.
-      // ────────────────────────────────────────────────────────────────────────
     } catch {
       return fail("quota_unavailable", "Try again later", 503);
     }
@@ -251,7 +280,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   // What is left once the turn is settled; the admission's count if D1 fails.
   const allowance = async (): Promise<Allowance> => {
     try {
-      return await turns!.allowance(subject, period, cfg);
+      return await turns!.allowance(subject, hashedIp, period, cfg);
     } catch {
       return { remaining: admittedRemaining, hourRemaining: null };
     }
@@ -321,7 +350,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
       return json({
         ok: false,
         code,
-        message: providerMessage(code),
+        message: providerMessage(code, locale),
         sessionId,
       });
     }
@@ -369,6 +398,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
               state,
               decoder.decode(value, { stream: true }),
               start.provider,
+              start.model,
             )) {
               if (ev.error) {
                 upstreamCode = ev.error;
@@ -565,7 +595,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
     return json({
       ok: false,
       code,
-      message: providerMessage(code),
+      message: providerMessage(code, locale),
       sessionId,
     });
   }

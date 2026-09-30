@@ -272,7 +272,8 @@ test('every candidate cooling down: nothing is sent, the visitor reads model_una
   const response = (await (await anonymousTurn(f, true)).json()) as { ok: boolean; code: string; message: string };
   await drain(f);
   assert.deepEqual([response.ok, response.code], [false, 'model_unavailable']);
-  assert.match(response.message, /Модели AI-чата обновляются/);
+  // The turn was in Uzbek (plan WP-05: the message follows the visitor's locale).
+  assert.match(response.message, /^AI-chat modellari yangilanmoqda\./);
   assert.equal(bodies.length, 0);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='chat_models_cooling'"), 1);
   assert.ok(isUrgentAlert('chat_models_cooling'));

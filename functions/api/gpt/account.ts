@@ -14,7 +14,7 @@ import {
   ensureUzumSchema,
 } from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, sameOrigin, cookieValue } from "../../lib/gpt-chat/identity-store";
-import { sha256Hex } from "../../lib/gpt-chat/hash";
+import { getClientIp, hashIp, sha256Hex } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { TurnStore } from "../../lib/gpt-chat/turn-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
@@ -65,6 +65,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
   waitUntil,
 }) => {
   const mode = billingMode(env);
+  const cfg = resolveConfig(env);
   const base = {
     ok: true,
     loginAvailable: identityReady(env),
@@ -72,6 +73,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     priceUzs: 20000,
     messageLimit: PAID_MESSAGES,
     termsVersion: termsVersion(env),
+    // The free tier's limits from the config: a guest's view never reads D1
+    // (decision L18); what is left comes from the chat's own answers.
+    freeLimits: { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit },
     // The limit card's "continue in the Telegram bot" button. Off unless the
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
@@ -116,10 +120,12 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     const scheduled = await store.nextAccess(user, mode || "live");
     const receipts = await store.receipts(user, mode || "live");
     const refundable = await store.refundable(user, mode || "live");
+    // Without a pack the free tier counts by account and by IP hash, as the chat does.
     const remaining = await new TurnStore(db, BILLING_ORG).remaining(
       user,
+      await hashIp(getClientIp(request), cfg.hashSalt),
       access,
-      resolveConfig(env),
+      cfg,
     );
     return json({
       ...base,
