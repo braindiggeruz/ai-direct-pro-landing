@@ -317,6 +317,19 @@ async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: L
       // greeting below, because a link that no longer works is not something
       // the person can do anything about.
       if (isWebHandoffPayload(payload) && (await handleWebHandoffStart(deps, chatId, from, pseudo, payload))) return;
+      // The website's public, contextless link (its fallback whenever no
+      // session-carrying handoff was minted). The payload says which site
+      // language the person was reading, and that beats the Telegram client's
+      // language_code; the language keyboard still follows, so one tap undoes
+      // it. Every other payload keeps the shipped greeting below, unchanged.
+      if (payload === 'site_ru' || payload === 'site_uz') {
+        const siteLocale: Locale = payload === 'site_uz' ? 'uz' : 'ru';
+        await S.setLocale(db, userId, siteLocale);
+        await S.logEvent(db, 'javob_bot_start', pseudo, { locale: siteLocale, source: payload });
+        await tg.sendMessage(chatId, C.SITE_WELCOME[siteLocale]);
+        await tg.sendMessage(chatId, C.CHOOSE_LANG[siteLocale], { keyboard: C.langKeyboard() });
+        return;
+      }
       const source = /^(site_ru|site_uz|share|direct)$/.test(payload) ? payload : 'direct';
       await S.logEvent(db, 'javob_bot_start', pseudo, { locale, source });
       await tg.sendMessage(chatId, C.START[locale]);

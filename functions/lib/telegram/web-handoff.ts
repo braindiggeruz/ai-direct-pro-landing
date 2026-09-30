@@ -216,6 +216,9 @@ async function recordGptEvent(
   }
 }
 
+/** Handoff intents minted by the website's limit cards (src/gpt-chat/handoff.ts). */
+const CONSUMER_INTENTS: ReadonlySet<string> = new Set(['hourly_limit', 'daily_limit', 'monthly_limit']);
+
 /**
  * Tell the owner, then write down what happened.
  *
@@ -226,6 +229,11 @@ async function recordGptEvent(
  * The hourly ceiling is deliberately the SAME counter the lead endpoint uses
  * ('lead_notify'/'owner'): the owner has one phone, so leads and arrivals
  * share one budget. Past it the push is muted and the breadcrumb still lands.
+ *
+ * Arrivals from a limit card (a consumer who ran out of free messages and
+ * went on in the bot) are recorded and never pushed: the bot serves them by
+ * itself, and they would otherwise spend that shared budget and mute the
+ * alerts for real leads. They do not touch the ceiling at all.
  */
 export async function notifyOwnerOfArrival(
   env: BridgeEnv,
@@ -241,6 +249,11 @@ export async function notifyOwnerOfArrival(
     // not in a table anybody may later export.
     claimedBy: identity.pseudo,
   });
+
+  if (arrival.intent !== null && CONSUMER_INTENTS.has(arrival.intent)) {
+    await recordGptEvent(db, arrival.sessionId, 'GPTChatHandoffNotifySkipped', { reason: 'consumer_intent' });
+    return;
+  }
 
   const limits = resolveBridgeLimits(env);
   const ceiling = await consumeRateLimit(db, 'lead_notify', 'owner', {

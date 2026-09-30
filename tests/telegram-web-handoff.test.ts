@@ -26,7 +26,7 @@ import { ensureSchema } from '../functions/lib/gpt-chat/schema';
 import { handleUpdate } from '../functions/lib/telegram/handler';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { TelegramClient } from '../functions/lib/telegram/client';
-import { HANDOFF_WELCOME, START } from '../functions/lib/telegram/i18n';
+import { CHOOSE_LANG, HANDOFF_WELCOME, SITE_WELCOME, START } from '../functions/lib/telegram/i18n';
 import {
   buildArrivalAlert,
   claimWebHandoff,
@@ -288,13 +288,111 @@ test('plain /start and a malformed payload keep the shipped behaviour', async ()
 
     const user = toUser(calls);
     assert.equal(user.length, 6, 'two messages per /start, as before');
-    for (let i = 0; i < 6; i += 2) assert.equal(user[i].body.text, START.ru);
+    // '' and an invalid w_ payload are the shipped cold start, byte for byte.
+    // 'site_uz' is the website's public bot link — the one every consumer
+    // "continue in Telegram" fallback now uses — so it greets as an arrival
+    // from the site, in the site's language, and then offers the language
+    // keyboard like every /start does.
+    assert.equal(user[0].body.text, START.ru);
+    assert.equal(user[1].body.text, CHOOSE_LANG.ru);
+    assert.equal(user[2].body.text, SITE_WELCOME.uz);
+    assert.equal(user[3].body.text, CHOOSE_LANG.uz);
+    assert.ok(user[3].body.reply_markup, 'language choice still offered');
+    // The malformed payload takes the unchanged cold-start path, which has
+    // always greeted in the STORED locale — and the site_uz arrival just
+    // stored uz for this person, exactly as a claimed w_ handoff does. For a
+    // person whose stored locale is ru it is START.ru, as before (below).
+    assert.equal(user[4].body.text, START.uz);
+    assert.equal(user[5].body.text, CHOOSE_LANG.uz);
     assert.equal(toOwner(calls).length, 0);
 
     const sources = db
       .rows<{ meta_json: string }>("SELECT meta_json FROM telegram_events WHERE event = 'javob_bot_start'")
       .map((r) => JSON.parse(r.meta_json).source);
     assert.deepEqual(sources, ['direct', 'site_uz', 'direct']);
+
+    // A different person, stored locale ru: '' and an invalid w_ payload are
+    // still exactly START.ru + the language keyboard.
+    calls.length = 0;
+    const other = { id: 555_002, language_code: 'ru' };
+    const plain = startUpdate('', other) as unknown as { message: { chat: { id: number } } };
+    plain.message.chat.id = 555_002;
+    const junk = startUpdate('w_not-a-token', other) as unknown as { message: { chat: { id: number } } };
+    junk.message.chat.id = 555_002;
+    await handleUpdate(deps(db), plain as never);
+    await handleUpdate(deps(db), junk as never);
+    const texts = sends(calls).filter((c) => c.body.chat_id === 555_002).map((c) => c.body.text);
+    assert.deepEqual(texts, [START.ru, CHOOSE_LANG.ru, START.ru, CHOOSE_LANG.ru]);
+  } finally { restore(); }
+});
+
+test('/start site_ru greets in the site language, not the Telegram client language', async () => {
+  const db = await database();
+  const calls: TgCall[] = []; const restore = installFetch(calls);
+  try {
+    await handleUpdate(deps(db), startUpdate('site_ru', { language_code: 'uz' }));
+
+    const user = toUser(calls);
+    assert.equal(user.length, 2);
+    assert.equal(user[0].body.text, SITE_WELCOME.ru);
+    assert.equal(user[1].body.text, CHOOSE_LANG.ru);
+    assert.ok(user[1].body.reply_markup, 'language choice still offered');
+    assert.equal(db.value('SELECT locale FROM telegram_users WHERE telegram_user_id = ?', USER_CHAT), 'ru');
+    assert.equal(toOwner(calls).length, 0, 'a contextless arrival pings nobody');
+
+    const events = db.rows<{ event: string; meta_json: string }>("SELECT event, meta_json FROM telegram_events WHERE event = 'javob_bot_start'");
+    assert.equal(events.length, 1);
+    assert.deepEqual(JSON.parse(events[0].meta_json), { locale: 'ru', source: 'site_ru' });
+  } finally { restore(); }
+});
+
+test('the site welcome never claims the web conversation was carried over', () => {
+  for (const locale of ['ru', 'uz'] as const) {
+    const text = SITE_WELCOME[locale];
+    assert.notEqual(text, HANDOFF_WELCOME[locale]);
+    assert.match(text, /gptbot\.uz/);
+    assert.doesNotMatch(text, /продолжаем разговор|davom ettiramiz|перенес|ko‘chir/i);
+    assert.doesNotMatch(text, /ChatGPT|OpenAI/);
+    assert.doesNotMatch(text, /\d/, 'no quota number the owner has not decided');
+  }
+  assert.ok(!SITE_WELCOME.uz.includes("'"), 'Uzbek copy uses letter apostrophes');
+});
+
+test('a limit-card arrival is greeted, recorded, and never spends the owner-alert budget', async () => {
+  const db = await database();
+  const calls: TgCall[] = []; const restore = installFetch(calls);
+  try {
+    const payload = await mint(db, { locale: 'ru', intent: 'daily_limit' });
+    await handleUpdate(deps(db), startUpdate(payload));
+
+    assert.equal(toUser(calls)[0].body.text, HANDOFF_WELCOME.ru, 'the person gets the continuation greeting');
+    assert.equal(toOwner(calls).length, 0, 'the owner is not pinged for a consumer who ran out of free messages');
+    const rows = db.rows<{ event_name: string; payload_json: string }>('SELECT event_name, payload_json FROM gpt_events ORDER BY created_at, rowid');
+    assert.deepEqual(rows.map((r) => r.event_name), ['GPTChatHandoffClaimed', 'GPTChatHandoffNotifySkipped']);
+    assert.match(rows[1].payload_json, /consumer_intent/);
+    assert.equal(
+      db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action = 'lead_notify'"),
+      0,
+      'the shared lead_notify/owner ceiling was not touched',
+    );
+  } finally { restore(); }
+});
+
+test('hourly and monthly limit arrivals are skipped the same way; an offer arrival still alerts', async () => {
+  for (const intent of ['hourly_limit', 'monthly_limit']) {
+    const db = await database();
+    const calls: TgCall[] = []; const restore = installFetch(calls);
+    try {
+      await handleUpdate(deps(db), startUpdate(await mint(db, { locale: 'uz', intent })));
+      assert.equal(toOwner(calls).length, 0, intent);
+      assert.equal(db.value("SELECT COUNT(*) FROM gpt_events WHERE event_name = 'GPTChatHandoffNotifySkipped' AND payload_json LIKE '%consumer_intent%'"), 1, intent);
+    } finally { restore(); }
+  }
+  const db = await database();
+  const calls: TgCall[] = []; const restore = installFetch(calls);
+  try {
+    await handleUpdate(deps(db), startUpdate(await mint(db, { locale: 'ru', intent: 'offer' })));
+    assert.equal(toOwner(calls).length, 1, 'an explicit offer arrival is a lead and still reaches the owner');
   } finally { restore(); }
 });
 

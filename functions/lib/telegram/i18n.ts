@@ -142,6 +142,21 @@ export const HANDOFF_WELCOME: Record<Locale, string> = {
   uz: 'gptbot.uz saytidagi suhbatni davom ettiramiz.\n\nTelegramda botning alohida kunlik limiti bor — shuning uchun saytdagi limit yangilanishini kutmasdan, hoziroq davom ettirish mumkin.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Savolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
 };
 
+/**
+ * First message after `/start site_ru|site_uz` — the public, contextless link
+ * the website's chat uses whenever a session-carrying handoff was not minted.
+ *
+ * Sent in the SITE's language (the payload says which page the tap came
+ * from), not the Telegram client's. It says where the person came from and
+ * what is different here — the bot's own daily allowance, separate but not
+ * unlimited — and it does NOT say the web conversation was carried over,
+ * because on this link it never is.
+ */
+export const SITE_WELCOME: Record<Locale, string> = {
+  ru: 'Вы пришли с сайта gptbot.uz.\n\nЗдесь, в Telegram, у бота свой отдельный дневной лимит — можно продолжать прямо сейчас.\n\nНапишите вопрос своими словами или перешлите любое сообщение — подготовлю ответ. Голосовые тоже понимаю.',
+  uz: 'Siz gptbot.uz saytidan keldingiz.\n\nTelegramda botning alohida kunlik limiti bor — hoziroq davom ettirishingiz mumkin.\n\nSavolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
+};
+
 const PRICING_URL: Record<Locale, string> = {
   ru: 'https://gptbot.uz/ru/tarify-ai-chat/',
   uz: 'https://gptbot.uz/uz/chat-bot-narxi/',

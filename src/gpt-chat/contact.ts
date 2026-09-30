@@ -6,13 +6,13 @@ import { TELEGRAM_CONFIGURED, telegramDeepLink } from '../lib/telegram';
 
 /**
  * The studio's own Telegram contact — the same verified handle that
- * content/global/site.json publishes as `telegram` / `defaultCTA.href`, and
- * that AiChatMessageList already links to.
+ * content/global/site.json publishes as `telegram` / `defaultCTA.href`.
  *
- * src/lib/telegram.ts hides every Telegram CTA when VITE_TELEGRAM_BOT_USERNAME
- * is unset, which is exactly the state the production build ships in. Hiding a
- * broken bot link is right; hiding the only route to a human is not, so the
- * chat degrades to this contact instead of rendering nothing.
+ * src/lib/telegram.ts defaults the bot username to the live assistant handle,
+ * so the bot is always configured and every consumer route goes there. The
+ * chat reaches this personal account only through the explicit B2B call to
+ * action (studioBusinessLink) and the no-bot fallbacks below (telegramContact,
+ * studioTelegramLink), which a normal build never takes.
  */
 export const STUDIO_TELEGRAM_URL = 'https://t.me/XGame_changerx';
 
@@ -28,11 +28,32 @@ export function telegramContact(locale: Locale): TelegramTarget {
     : { href: STUDIO_TELEGRAM_URL, channel: 'studio' };
 }
 
-/** The owner's Telegram is the honest fallback when a bot handoff cannot mint. */
+/**
+ * Last resort only. Consumer surfaces reach this solely through
+ * publicBotLink() in handoff.ts, and only when no bot username is configured
+ * at all — which src/lib/telegram.ts makes impossible in a normal build. It
+ * keeps a Telegram button from ever being dead; it is not a handoff route.
+ */
 export function studioTelegramLink(locale: Locale): string {
   const greeting = locale === 'uz'
     ? 'Assalomu alaykum! Saytdagi AI-chatdan yozyapman.'
     : 'Здравствуйте! Пишу из AI-чата на сайте.';
+  return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(greeting)}`;
+}
+
+/**
+ * The studio's own Telegram with a B2B opener prefilled.
+ *
+ * The ONLY chat surface allowed to use the personal account is the explicit
+ * B2B call to action ("Нужен такой AI-чат для сайта…", AiOfferCard stage
+ * 'b2b'): there a human conversation is the right outcome — one B2B bot is
+ * worth roughly fifty consumer packages. Every consumer "continue in
+ * Telegram" route goes to the assistant bot instead (handoff.ts).
+ */
+export function studioBusinessLink(locale: Locale): string {
+  const greeting = locale === 'uz'
+    ? 'Assalomu alaykum! Biznes uchun AI-bot bo‘yicha gaplashmoqchiman.'
+    : 'Здравствуйте! Хочу обсудить AI-бота для бизнеса.';
   return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(greeting)}`;
 }
 

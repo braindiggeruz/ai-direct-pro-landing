@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { ChatStrings } from '../i18n';
 import type { Locale } from '../types';
 import { track, EV } from '../analytics';
-import { useTelegramHandoff, type HandoffSource } from '../handoff';
+import { useTelegramHandoff, type HandoffLink, type HandoffSource } from '../handoff';
+import { studioBusinessLink } from '../contact';
 import { AiTelegramCta } from './AiTelegramCta';
 import { AiLeadForm, type LeadMethod } from './AiLeadForm';
 
 /**
  * Stage 2 — 'b2b': after a few useful answers, one dismissible line of
  *   commercial offer. Never returns once dismissed (for the rest of the day).
+ *   Its Telegram button goes to the studio's own account with a B2B opener
+ *   prefilled, and mints nothing: a business buyer should reach a person —
+ *   one B2B bot is worth about fifty consumer packages — while a consumer who
+ *   came for a free "ChatGPT" belongs in the assistant bot.
  * Stage 3 — 'hourly': the hourly cap. Telegram is the PRIMARY action because
  *   it is a real continuation — the assistant bot has its own separate
  *   allowance. The day is not over, so "try again later" stays available.
@@ -16,9 +21,9 @@ import { AiLeadForm, type LeadMethod } from './AiLeadForm';
  *   contact form underneath.
  */
 export type OfferStage = 'b2b' | 'hourly' | 'daily';
+type CapStage = Exclude<OfferStage, 'b2b'>;
 
-const HANDOFF_SOURCE: Record<OfferStage, HandoffSource> = {
-  b2b: 'offer',
+const HANDOFF_SOURCE: Record<CapStage, HandoffSource> = {
   hourly: 'hourly_limit',
   daily: 'daily_limit',
 };
@@ -37,6 +42,56 @@ const LEAD_INTENT: Record<OfferStage, string> = {
 // second answer must not inflate the denominator the two routes are read
 // against.
 const seen = new Set<OfferStage>();
+
+/**
+ * The cap stages' Telegram route. A child component so that the handoff hook —
+ * which writes a D1 row per mount — runs only while a cap card is on screen
+ * and never for the B2B offer, without calling a hook conditionally.
+ *
+ * Honest, and only where it is true: the note about the bot's own allowance is
+ * shown only when the link goes to the bot, and the "this conversation
+ * continues there" line only once the server minted a session-carrying link.
+ */
+function CapTelegramBlock({
+  t,
+  locale,
+  apiBase,
+  sessionId,
+  stage,
+  actions,
+  after,
+}: {
+  t: ChatStrings;
+  locale: Locale;
+  apiBase: string;
+  sessionId: string | null;
+  stage: CapStage;
+  /** Rendered in the same row as the Telegram button. */
+  actions: ReactNode;
+  /** Rendered between the button row and the notes. */
+  after: ReactNode;
+}) {
+  const link = useTelegramHandoff(apiBase, sessionId, locale, HANDOFF_SOURCE[stage]);
+  const toBot = link.channel === 'bot';
+  return (
+    <>
+      <div className="grid gap-2.5 sm:flex sm:flex-wrap">
+        <AiTelegramCta
+          link={link}
+          label={toBot ? t.capTelegramCta : t.contactTelegram}
+          stage={stage}
+          variant="primary"
+        />
+        {actions}
+      </div>
+      {after}
+      {toBot && <p className="mt-3 text-[12px] leading-relaxed text-white/40">{t.capTelegramNote}</p>}
+      {link.withSession && (
+        <p className="mt-1.5 text-[12px] leading-relaxed text-white/40">{t.telegramContextNote}</p>
+      )}
+    </>
+  );
+}
 
 export function AiOfferCard({
   t,
@@ -60,7 +115,6 @@ export function AiOfferCard({
   onRetry?: () => void;
 }) {
   const [leadOpen, setLeadOpen] = useState(false);
-  const link = useTelegramHandoff(apiBase, sessionId, locale, HANDOFF_SOURCE[stage]);
   const isCap = stage !== 'b2b';
 
   useEffect(() => {
@@ -75,31 +129,15 @@ export function AiOfferCard({
     track(EV.leadIntent, { from: stage });
   };
 
-  // Without a configured bot the link goes to a person, not to the assistant:
-  // the label says so, and the note about the bot's own allowance is dropped
-  // rather than describing a bot the visitor is not being sent to.
-  const toBot = link.channel === 'bot';
-  const telegramLabel = toBot ? (isCap ? t.capTelegramCta : t.telegramCta) : t.contactTelegram;
-
-  const telegramBlock = (
-    <>
-      <AiTelegramCta
-        link={link}
-        label={telegramLabel}
-        stage={stage}
-        variant={isCap ? 'primary' : 'secondary'}
-      />
-      {!leadOpen && (
-        <button
-          type="button"
-          onClick={openLead}
-          data-testid={`offer-lead-${stage}`}
-          className="inline-flex w-full min-h-12 items-center justify-center rounded-2xl border border-white/12 px-5 text-[14px] font-medium text-white/75 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:w-auto"
-        >
-          {isCap ? t.capLeadCta : t.b2bDiscuss}
-        </button>
-      )}
-    </>
+  const leadButton = !leadOpen && (
+    <button
+      type="button"
+      onClick={openLead}
+      data-testid={`offer-lead-${stage}`}
+      className="inline-flex w-full min-h-12 items-center justify-center rounded-2xl border border-white/12 px-5 text-[14px] font-medium text-white/75 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:w-auto"
+    >
+      {isCap ? t.capLeadCta : t.b2bDiscuss}
+    </button>
   );
 
   const retryBlock = stage === 'hourly' && onRetry && (
@@ -131,19 +169,11 @@ export function AiOfferCard({
     </div>
   );
 
-  // Honest, and only where it is true: the note about the bot's own limit is
-  // shown at the caps, and the "this conversation continues there" line only
-  // once the server actually minted a session-carrying link.
-  const notes = (
-    <>
-      {isCap && toBot && <p className="mt-3 text-[12px] leading-relaxed text-white/40">{t.capTelegramNote}</p>}
-      {link.withSession && (
-        <p className="mt-1.5 text-[12px] leading-relaxed text-white/40">{t.telegramContextNote}</p>
-      )}
-    </>
-  );
-
-  if (!isCap) {
+  if (stage === 'b2b') {
+    // The explicit B2B call to action: the studio's own Telegram, B2B opener
+    // prefilled, nothing minted. This is the one chat surface where the
+    // personal account is the right destination (see contact.ts).
+    const businessLink: HandoffLink = { href: studioBusinessLink(locale), channel: 'studio', withSession: false };
     return (
       <aside
         className="mt-6 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 sm:p-5"
@@ -171,8 +201,10 @@ export function AiOfferCard({
             </button>
           )}
         </div>
-        <div className="mt-4 grid gap-2.5 sm:flex sm:flex-wrap">{telegramBlock}</div>
-        {notes}
+        <div className="mt-4 grid gap-2.5 sm:flex sm:flex-wrap">
+          <AiTelegramCta link={businessLink} label={t.contactTelegram} stage={stage} variant="secondary" />
+          {leadButton}
+        </div>
         {leadBlock}
       </aside>
     );
@@ -194,9 +226,15 @@ export function AiOfferCard({
       <p className="mb-4 text-[14px] leading-relaxed text-white/70">
         {stage === 'hourly' ? t.hourlyBody : t.dailyBody}
       </p>
-      <div className="grid gap-2.5 sm:flex sm:flex-wrap">{telegramBlock}</div>
-      {retryBlock}
-      {notes}
+      <CapTelegramBlock
+        t={t}
+        locale={locale}
+        apiBase={apiBase}
+        sessionId={sessionId}
+        stage={stage}
+        actions={leadButton}
+        after={retryBlock}
+      />
       {leadBlock}
       <p className="mt-4 text-[12px] text-white/35">
         <a

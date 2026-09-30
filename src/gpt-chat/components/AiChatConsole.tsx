@@ -28,6 +28,7 @@ import { AiPromptChips } from "./AiPromptChips";
 import { AiUsageBadge } from "./AiUsageBadge";
 import { AiQuotaThread } from "./AiQuotaThread";
 import { AiOfferCard } from "./AiOfferCard";
+import { AiLimitTelegram } from "./AiLimitTelegram";
 import { AiSidebar } from "./AiSidebar";
 import { PromptTemplateGrid } from "./PromptTemplateGrid";
 import { ImagePromptTool } from "./ImagePromptTool";
@@ -590,6 +591,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     inputRef.current?.focus();
   }, [limitReached]);
 
+  // The limit card below is the paywall people actually see; the offer card's
+  // cap stages are never rendered. One paywall_viewed per transition into a
+  // limit (or into a different one) — not per render, not per account refresh
+  // that leaves the same limit in place.
+  useEffect(() => {
+    if (!limitReached) return;
+    track(EV.paywallViewed, { stage: limitReason, locale: config.locale, surface: "limit_card" });
+  }, [limitReached, limitReason, config.locale]);
+
+  // Limit card only: a package that can really be bought leads; otherwise the
+  // Telegram bot does.
+  const limitAccountFirst = billingAvailable && !paid;
+
   const showOffer =
     activeTool === "business" &&
     assistantCount >= B2B_AFTER &&
@@ -965,34 +979,73 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             {!accountReady && <p role="status" className="gpt-panel-note">{uz ? "Akkaunt holatini tekshiring." : "Проверьте состояние аккаунта."} <button type="button" className="gpt-text-button" onClick={() => { setAccountOpen(n => n + 1); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
             {limitReached ? (
               // Stages 3 and 4: the same card, told apart by which cap was hit.
-              // Telegram leads, because it is a real continuation rather than
-              // a consolation link.
-              <div className="gpt-partial mb-2" role="status">
+              // When a package can actually be bought, "Мой тариф" leads and
+              // the bot follows; otherwise the bot leads, because it is a real
+              // continuation (its own allowance) rather than a consolation
+              // link. Either way the card never claims "the free chat is
+              // available" to someone it has just blocked, and never sends a
+              // consumer to a personal Telegram account (AiLimitTelegram).
+              <div
+                className="gpt-partial mb-2"
+                role="status"
+                data-testid="ai-limit-card"
+                data-reason={limitReason}
+              >
                 <p>
                   {limitReason === "monthly"
                     ? t.premium.monthlyLimit
-                    : limitReason === "hourly" || paid
+                    : paid
                       ? t.premium.pause
-                      : (billingAvailable ? t.premium.offer : t.premium.unavailable)}
+                      : limitReason === "hourly"
+                        ? t.hourlyBody
+                        : billingAvailable
+                          ? t.premium.offer
+                          : t.dailyBody}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    className="gpt-text-button"
-                    onClick={() => setAccountOpen((n) => n + 1)}
-                  >
-                    {t.premium.account}
-                  </button>
-                  <button
-                    type="button"
-                    className="gpt-text-button"
-                    onClick={onLimitRetry}
-                  >
-                    {t.retry}
-                  </button>
-                  <a className="gpt-text-button" href={businessHref}>
-                    {t.businessLink}
-                  </a>
+                <div className="mt-3 flex flex-col gap-2">
+                  {limitAccountFirst && (
+                    <button
+                      type="button"
+                      className="gpt-primary"
+                      data-testid="limit-account"
+                      onClick={() => setAccountOpen((n) => n + 1)}
+                    >
+                      {t.premium.account}
+                    </button>
+                  )}
+                  {/* Same slot in both orders, so a late billing flag only
+                      restyles the button instead of remounting it and minting
+                      a second link. */}
+                  <AiLimitTelegram
+                    t={t}
+                    locale={config.locale}
+                    apiBase={config.apiBase}
+                    sessionId={sessionId}
+                    reason={limitReason}
+                    variant={limitAccountFirst ? "secondary" : "primary"}
+                  />
+                  <div className="flex flex-wrap gap-2">
+                    {!limitAccountFirst && (
+                      <button
+                        type="button"
+                        className="gpt-text-button"
+                        data-testid="limit-account"
+                        onClick={() => setAccountOpen((n) => n + 1)}
+                      >
+                        {t.premium.account}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="gpt-text-button"
+                      onClick={onLimitRetry}
+                    >
+                      {t.retry}
+                    </button>
+                    <a className="gpt-text-button" href={businessHref}>
+                      {t.businessLink}
+                    </a>
+                  </div>
                 </div>
               </div>
             ) : (
