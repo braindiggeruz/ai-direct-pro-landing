@@ -1,0 +1,4 @@
+# Verbatim copies of Uzum Bank's public API specifications (docs/paid-chat/UZUM-RU.md).
+# Their Markdown ends lines with two spaces as hard breaks; keep the files byte-identical
+# to the published source instead of reporting that as a whitespace error.
+docs/paid-chat/uzum-spec/*.yaml -whitespace

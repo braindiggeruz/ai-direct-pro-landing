@@ -1,3 +1,102 @@
+# Платный AI-чат к проду: сквозная проверка релиза R1 (WP-00…WP-06), 2026-10-01
+
+**Итог.** Ветка `paid-chat/prod-readiness` проверена целиком на вершине `137ce909` (WP-00…WP-06 с ревью). Сверял с планом `10-PROD-PLAN.md`: §1 (проверки и «Релиз»), §3 (R1), §4 «R1: сборка и выкат», §5 и §6. Сборка, тесты, защищённые страницы, SEO, миграции и секреты в порядке. Нашлась одна поломка: `git diff --check origin/main..HEAD` падал на 21 строке. Все эти строки в `docs/paid-chat/uzum-spec/*.yaml`. Это дословные копии публичных спецификаций Uzum, где два пробела в конце строки означают перенос строки в Markdown. Исправлено новым `.gitattributes`: для этих трёх файлов снята проверка пробелов (`-whitespace`), а сами файлы остались побайтно такими, как у Uzum. Заодно уточнён комментарий в `tests/bormi-admin-moderation-ui.test.ts`: там было написано, что `.gitattributes` в репозитории нет. Теперь сказано, что он не задаёт концы строк. Код не менялся. Ничего не запушено и не задеплоено. Cloudflare, D1 (удалённая база даже не читалась), GSC и боты не менялись.
+
+**Что проверено (результаты).**
+1. `npx tsc -b` — 0 ошибок; `npm run typecheck:functions` — 0.
+2. Тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`):
+   - затронутые R1 и контрольные: 30 файлов, 406/406. Среди них `gpt-billing` 15, `gpt-uzum-payments` 17, `gpt-zai-provider` 18, `gpt-chat-handoff-link` 11, `telegram-web-handoff` 21, `telegram-assistant` 61, `gpt-readiness` 9, `gpt-operations` 7, `gpt-routing` 6, `gpt-chat` 19, `gpt-chat-stream` 11, `runtime-config` 4, `pages-config-parity` 7, `openrouter-model-catalogue` 5, `seo-content-guards` 7, `gpt-watchdog` 13, `gpt-model-policy` 13, `gpt-chat-budget` 10, `gpt-chat-truncation` 8, `gpt-chat-limits` 13, `gpt-chat-runtime-schema` 5, `gpt-limit-state` 13, `gpt-account-ui` 10, `gpt-account-storage` 6, `lead-radar-worker` 17, `lead-radar-release-manifest` 11, `pages-production-release` 8, `secret-scan` 16;
+   - весь список `npm test` по одному файлу: 66 файлов, 828/830;
+   - один прогон `npm test` целиком: 828/830.
+   - Оба раза падают только два известных теста в `tests/lead-radar.test.ts` (фикстуры от 2026-08-24). Код Lead Radar в R1 не менялся.
+3. Сборка и SEO:
+   - `npx vite build` и `npx tsx scripts/prerender.ts` — 0;
+   - `seo-protection check` — **10/10 unchanged** (после остальных шагов `build:fast`, см. отклонение 1);
+   - `npx tsx scripts/seo-audit.ts` — 121 страница, 0 critical;
+   - стартовый JS чата (замыкание статических импортов, brotli q11) — 116 446 байт. Против 114,4 КБ до R1 это **+2,0 КБ br**, в пределах «≤ +3 КБ за релиз». Entry `gpt-chat` — 49 417 байт br.
+4. Репетиция миграций 0065+0066 на локальной D1 (`wrangler d1 migrations apply --local`, отдельный конфиг с фиктивным id базы; `--remote` не использовался). Сделано два независимых прогона, результаты одинаковые:
+   - 0001…0064 применены, затем синтетические строки: 2 сессии, 3 сообщения, 3 хода (1 `done`), 1 алерт, 1 заказ, 1 `gpt_billing_ops`;
+   - `migrations list` показывает ровно 0065 и 0066;
+   - `apply` №1: обе ✅. Ledger 65 → 67, таблиц 161 → 164, индексов 485 → 497 (7 именованных и 5 автоиндексов), представлений 0 → 1. У `gpt_turn_reservations` 20 колонок, у старых ходов `outcome` пустой. Новые таблицы пусты, представление видит 1 заказ;
+   - `apply` №2: «No migrations to apply», все счётчики те же.
+   - Сырое повторное выполнение SQL на копии (node:sqlite): 0065 идемпотентна. Повтор 0066 даёт `duplicate column name: outcome`, как и сказано в её шапке. Путь восстановления из шапки (только `CREATE`, дважды) проходит.
+5. Паритет bootstrap. Сравнивал полную схему (колонки, индексы с `WHERE`, представления):
+   - в порядке релиза (0001…0066, затем `ensureSchema` + `ensureBillingSchema` + `ensureUzumSchema`) bootstrap не меняет ни одного объекта R1;
+   - при «коде раньше миграции» (0001…0064 + bootstrap) объекты R1 совпадают с миграциями один в один.
+   - Вне R1 есть давний дрейф с `origin/main`, см. открытый вопрос 1.
+6. `git diff --check origin/main..HEAD` — чисто после `.gitattributes`. `npm run scan:secrets` — чисто (3158 файлов). `test:secret-scan` — 16/16. Регулярка токена Telegram по `git diff origin/main..HEAD` и по рабочему дереву — 0 совпадений. `functions/api/telegram/webhook.ts`, `TELEGRAM_BOT_TOKEN`, `scripts/seo-protection.ts` и `docs/seo/evidence` не тронуты. `dist/` и `.serena/` не в Git. Прод `a61963f1` — предок HEAD.
+
+**Отклонения от поручения.**
+1. Цепочка `npx vite build ; npx tsx scripts/prerender.ts ; seo-protection check` из §1 плана даёт ложный красный. Проверка находит 10 изменений: блог «missing HTML» и `h1`/ссылки главной. Причина: `vite build` очищает `dist/`, а блог и главную пререндерят `prerender-blog.ts` и `prerender-home.ts`. После остальных шагов `build:fast` проверка показывает 10/10. Запускать её надо после `npm run build:fast` или `build:production`; guard деплоя так и делает.
+2. На Windows локальная D1 wrangler отвечает «internal error», если путь к sqlite длиннее MAX_PATH (папка scratchpad). Поэтому репетиция шла в короткой `%TEMP%\r1d1`, после проверки папка удалена.
+3. `wrangler deploy --dry-run` для Worker'а в этой проверке не запускал: поручение запрещает `wrangler deploy`. Его прогнал WP-01, он есть в чек-листе.
+
+**Чек-лист выката R1 — только по команде владельца.** Git Bash, `cd F:/Claude/gptbot-gsc-audit-20260917`, `export NODE_OPTIONS=--max-old-space-size=1400`. Секреты не печатать, только имена. Порядок жёсткий: миграции до кода, превью до миграций не делать (превью пишет в боевую D1).
+0. Предусловия:
+   - push только с разрешения владельца;
+   - `git status` без runtime-изменений (guard `assertCleanRuntime`);
+   - `python F:/Claude/gptbot-tools/deploy_runner.py check` (линия прода: `a61963f1` — предок).
+1. Резервная копия D1:
+   - `npx wrangler d1 export gptbot-ai-drafts --remote --output F:/Claude/gptbot-tools/backups/d1-R1-<stamp>.sql`;
+   - `sha256sum` этого файла.
+2. Репетиция на копии экспорта. Отдельный `wrangler.toml` с фиктивным id и `migrations_dir`, `--persist-to` в короткой папке:
+   - `wrangler d1 execute <db> --local --persist-to <dir> --file <export>`;
+   - копировать 0065 и 0066;
+   - `wrangler d1 migrations apply <db> --local --persist-to <dir>` дважды;
+   - сравнить число строк (как в п. 4 выше).
+3. Боевая D1:
+   - `npx wrangler d1 migrations list gptbot-ai-drafts --remote` — в списке ровно `0065_gpt_uzum_payments.sql` и `0066_gpt_chat_runtime.sql`;
+   - `npx wrangler d1 migrations apply gptbot-ai-drafts --remote`;
+   - сверка только чтением: `npx wrangler d1 execute gptbot-ai-drafts --remote --command "SELECT (SELECT COUNT(*) FROM pragma_table_info('gpt_turn_reservations')) AS cols, (SELECT COUNT(*) FROM gpt_payment_orders_all) AS orders, (SELECT MAX(name) FROM d1_migrations) AS last"`. Ожидается `cols=20`, `last=0066_gpt_chat_runtime.sql`.
+4. Сборка:
+   - `npm run build:production` (внутри `build:fast`, админка и stamp);
+   - отдельно `npx tsx scripts/seo-audit.ts` (0 critical) и `npx tsc -b` (0);
+   - `npx tsx scripts/seo-protection.ts check` (10/10).
+5. Деплой Pages:
+   - `python F:/Claude/gptbot-tools/deploy_runner.py check`, затем `python F:/Claude/gptbot-tools/deploy_runner.py deploy`;
+   - сверить `https://gptbot.uz/gptbot-release.json`: коммит = HEAD.
+6. Новый секрет `GPT_BILLING_MAINTENANCE_SECRET` (Pages **и** Worker, одно значение, ≥ 32 байт, через stdin, `ALERTS-RU.md`):
+   - `f="$(mktemp)"; node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))" > "$f"`;
+   - `npx wrangler pages secret put GPT_BILLING_MAINTENANCE_SECRET --project-name ai-direct-pro-landing < "$f"`;
+   - `npx wrangler secret put GPT_BILLING_MAINTENANCE_SECRET -c wrangler.automation.toml < "$f"`;
+   - guarded-передеплой того же коммита: `python F:/Claude/gptbot-tools/deploy_runner.py deploy`. Секрет Pages вступает в силу только с деплоем.
+   - Других новых секретов в R1 нет. `ZAI_API_KEY`, `UZUM_CREDENTIALS_JSON` и `GPT_CLICK_CREDENTIALS_JSON` даёт владелец позже (S1–S5). Канал алертов — существующие `GPT_NOTIFY_BOT_TOKEN`/`GPT_NOTIFY_CHAT_ID` или запасные `TELEGRAM_ASSISTANT_BOT_TOKEN`/`TELEGRAM_ADMIN_CHAT_ID`. Проверить только имена: `npx wrangler pages secret list --project-name ai-direct-pro-landing`.
+7. Worker `gptbot-automation`. Его `[vars]` заменяются целиком: `LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED="false"`, `GPT_BILLING_MAINTENANCE_ENABLED="true"`.
+   - `npx wrangler deployments list -c wrangler.automation.toml` — записать id версии для отката;
+   - `npx wrangler deploy -c wrangler.automation.toml --dry-run --outdir <tmp>`;
+   - `npx wrangler deploy -c wrangler.automation.toml`.
+8. Учебный алерт:
+   - `h="$(mktemp)"; printf 'Authorization: Bearer %s' "$(cat "$f")" > "$h"`;
+   - `curl -sS -X POST https://gptbot.uz/api/internal/gpt-billing-maintenance -H @"$h" -d '{"drill":true}'`;
+   - ожидается `alerts.status=sent`, `alerts.codes=["drill"]` и сообщение в Telegram не позже чем через 1 мин.
+9. Проба моделей (`MODELS-RU.md`):
+   - `curl -sS -X POST https://gptbot.uz/api/internal/gpt-model-probe -H @"$h"`;
+   - `curl -sS -X POST https://gptbot.uz/api/internal/gpt-model-probe -H @"$h" -d '{"model":"google/gemma-4-31b-it:free","calls":20}'`;
+   - затем `rm -f "$f" "$h"`;
+   - приёмка: только `200`, `errors={}`; у `reasoningOff` `reasoningTokensMax=0`; `rate429` ≤ 0,1 у головы `:free` (иначе сменить голову в `OPENROUTER_MODEL_FREE*`, без кода); `ttftMsMedian` < `firstContentTimeoutMs`.
+10. R1.1 — только если проба прошла и у OpenRouter есть кредиты:
+    - `GPT_FREE_TIER_PAID_PRIMARY` → `"true"` в `wrangler.toml` в двух местах: в JSON `GPTBOT_RUNTIME_CONFIG_JSON` и во вложенной таблице `[vars.GPTBOT_RUNTIME_CONFIG]`;
+    - `runtime-config` и `pages-config-parity` по одному файлу;
+    - коммит, `npm run build:production`, `deploy_runner.py check`, `deploy_runner.py deploy`.
+11. Приёмка после выката:
+    - `LIMITS-RU.md`: 6 сообщений → 6-й ответ 429 `hourly` с `Retry-After`; карточка в Browser pane 375×812 RU/UZ держится;
+    - через 30 мин в `gpt_billing_ops` есть `watchdog` и `catalogue` (агрегат);
+    - capabilities Lead Radar: autosend выключен, 0 отправок за 24 ч;
+    - через 24 ч агрегаты `MODELS-RU.md`: ответов ≥ 90 %, обрезанных ≤ 5 %, `SUM(actual_micro)` ≪ 1 000 000.
+    - Флаг `enable_request_signal` действует на весь Pages-проект, поэтому после деплоя нужен короткий смоук чата со «Стоп».
+12. Квитанция `docs/paid-chat/releases/R1-live-verification.json`, запись в журнал изменений (`docs/seo/CHANGE_LOG_2026-10.md`), коммит квитанций.
+- **Стоп R1.1:** «без ответа» выше прошлой недели **или** расход > $1 три дня подряд → `GPT_FREE_TIER_PAID_PRIMARY="false"` и деплой в тот же день.
+- **Откат R1:** `git revert` и guarded-деплой. Колонки и таблицы 0065/0066 остаются, `DROP` не делать. `wrangler rollback` Worker'а вернёт `AUTOSEND=true`, поэтому сразу после него снова деплой Worker'а с `false`.
+
+**Открыто (не блокирует R1).**
+1. Давний дрейф bootstrap и миграций (так уже на `origin/main`, R1 его не создавал). `ensureSchema` создаёт `gpt_handoffs`, `gpt_rate_limits`, `idx_gpt_handoffs_expires`, `idx_gpt_handoffs_session` и `idx_gpt_leads_contact`, которых нет ни в одной миграции. В проде они созданы рантаймом. Нужна ли аддитивная миграция «как есть» для ровного ledger — решение ведущего, отдельным WP.
+2. В §1 плана цепочку проверки защищённых страниц стоит поправить на `npm run build:fast` → `seo-protection check` (отклонение 1).
+3. Открытые вопросы ревью WP-00…WP-06 остаются как записаны ниже.
+
+**Дальше.** Выкат R1 по команде владельца (чек-лист выше). Параллельно в ветке — WP-07.
+
+---
+
 # Платный AI-чат к проду: ревью WP-06, 2026-10-01
 
 **Итог.** Проверил коммиты WP-06 `f7ed0f47` (код) и `ae080b2f` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md`: §1, решения L3 и L18 из §2, §4 WP-06, §5 и §6, картой `03` §2–§4 (F1–F3, F11–F13) и `AGENTS.md` §2–8, §11. Сделано верно:
