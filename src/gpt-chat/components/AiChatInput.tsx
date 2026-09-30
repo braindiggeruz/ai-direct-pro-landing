@@ -3,10 +3,12 @@ import { ArrowUp, Square, Sparkles } from 'lucide-react';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/components/ui/input-group';
 import type { ChatStrings } from '../i18n';
 
-export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, maxChars, t, inputRef }: {
+export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, maxChars, t, inputRef, describedBy }: {
   value: string; onChange: (v: string) => void; onSend: () => void;
   onStop?: () => void; disabled?: boolean; busy?: boolean; maxChars: number;
   t: ChatStrings; inputRef: RefObject<HTMLTextAreaElement | null>;
+  /** Id of what explains why sending is paused (the limit card). */
+  describedBy?: string;
 }) {
   useEffect(() => {
     const el = inputRef.current;
@@ -29,6 +31,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
           onChange={(e) => onChange(e.target.value.slice(0, maxChars))}
           onKeyDown={onKeyDown} rows={1} maxLength={maxChars}
           placeholder={t.inputPlaceholder} aria-label={t.inputPlaceholder}
+          aria-describedby={describedBy}
           className="ym-disable-keys" />
         <InputGroupAddon align="block-end" className="gpt-input-toolbar">
           <span className="gpt-input-identity"><Sparkles aria-hidden="true" /> GPTBot AI</span>

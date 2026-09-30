@@ -224,7 +224,7 @@ export function AiOfferCard({
         {stage === 'hourly' ? t.hourlyTitle : t.paywallTitle}
       </h3>
       <p className="mb-4 text-[14px] leading-relaxed text-white/70">
-        {stage === 'hourly' ? t.hourlyBody : t.dailyBody}
+        {stage === 'hourly' ? t.hourlyBody(null) : t.dailyBody(null, false)}
       </p>
       <CapTelegramBlock
         t={t}

@@ -1,53 +1,96 @@
-// What the chat's limit card says and which exits it offers.
+// What the chat's limit card says and which exits it offers (plan WP-06, map
+// 03 §3.1). Pure: the console passes the limit, the account facts and the
+// time it last read the clock.
 import { strings } from './i18n';
+import type { LimitState } from './limit-state';
 import type { Locale } from './types';
 
-/**
- * Which cap was hit. 'hourly' is a pause of at most an hour with the day's
- * allowance still unspent; 'daily' is over until tomorrow. The two must not be
- * confused: treating an hourly pause as a daily one locks a willing visitor
- * out for the rest of the day.
- */
-export type LimitReason = 'hourly' | 'daily' | 'monthly';
-
 export interface LimitCardInput {
-  reason: LimitReason;
-  /** An access period is active (a paid package). */
-  paid: boolean;
   /** A package can really be bought right now (mode + a ready provider). */
   billingAvailable: boolean;
+  /** An access period is active (a paid package). */
+  paid: boolean;
   /** The server's account view said botHandoff === true. */
   botHandoff: boolean;
+  /** Answers left today (free tier) or in the pack; -1 when unknown. */
+  remaining: number;
 }
 
 export interface LimitCard {
+  /** The free tier's caps have a heading; the rest are one sentence. */
+  title: string | null;
   body: string;
-  /** The account button leads the card instead of the secondary row. */
-  accountFirst: boolean;
-  /** Render AiLimitTelegram (the assistant bot route). */
-  bot: boolean;
+  /** When a turn fits again, from the clock; null when the body already says it or time does not lift the limit. */
+  wait: string | null;
+  /** The limit has lifted: the send button is back, the server decides. */
+  ready: boolean;
+  /** Offer the pack window: only while a pack can really be bought. */
+  account: boolean;
+  /** The assistant bot route and its handoff intent: the free tier's caps only, while the server enables it. */
+  bot: 'hourly' | 'daily' | null;
+}
+
+/** Tashkent keeps UTC+5 all year. */
+const TASHKENT_OFFSET_MS = 5 * 3_600_000;
+
+function tashkentDate(at: number): string {
+  return new Date(at + TASHKENT_OFFSET_MS).toISOString().slice(0, 10);
 }
 
 /**
- * The bot route appears only while GPT_BOT_HANDOFF_ENABLED is on, and the copy
- * follows it: without the button no line tells a blocked visitor to go on in
- * the bot, and none claims the free chat is still available.
+ * The limits' day turns at 00:00 UTC, which is 05:00 in Tashkent. A refusal
+ * between 00:00 and 05:00 there lifts on the visitor's own calendar day:
+ * "today from 05:00", not "tomorrow" (the WP-05 review's night case).
  */
-export function limitCard(locale: Locale, s: LimitCardInput): LimitCard {
+export function liftsToday(retryAt: number, now: number): boolean {
+  return tashkentDate(retryAt) === tashkentDate(now);
+}
+
+export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, now: number): LimitCard {
   const t = strings(locale);
-  const body =
-    s.reason === 'monthly'
-      ? t.premium.monthlyLimit
-      : s.paid
-        ? t.premium.pause
-        : s.reason === 'hourly'
-          ? s.botHandoff ? t.hourlyBody : t.premium.pause
-          : s.billingAvailable
-            ? t.premium.offer
-            : s.botHandoff ? t.dailyBody : t.dailyTitle;
+  const ready = limit.retryAt !== null && now >= limit.retryAt;
+  const today = limit.retryAt !== null && liftsToday(limit.retryAt, now);
+  const daily = limit.limits?.daily ?? null;
+  const freeCap = limit.reason === 'hourly' || limit.reason === 'daily' ? limit.reason : null;
+
+  let title: string | null = null;
+  let body: string;
+  switch (limit.reason) {
+    case 'hourly':
+      title = t.hourlyTitle;
+      body = t.hourlyBody(limit.limits?.hourly ?? null);
+      break;
+    case 'daily':
+      title = t.dailyTitle;
+      body = t.dailyBody(daily, today);
+      break;
+    case 'pack_daily':
+      body = t.packDailyBody(daily, s.remaining >= 0 ? s.remaining : null, today);
+      break;
+    case 'monthly':
+      body = t.premium.monthlyLimit;
+      break;
+    case 'busy':
+      body = t.busyBody;
+      break;
+    case 'ip':
+      body = t.ipBody;
+      break;
+  }
+
+  let wait: string | null = null;
+  if (ready) wait = t.limitReady;
+  else if (limit.retryAt !== null && limit.reason !== 'daily' && limit.reason !== 'pack_daily') {
+    const left = limit.retryAt - now;
+    wait = left < 60_000 ? t.limitLessMinute : t.limitWait(Math.ceil(left / 60_000));
+  }
+
   return {
+    title,
     body,
-    accountFirst: s.billingAvailable && !s.paid,
-    bot: s.botHandoff,
+    wait,
+    ready,
+    account: s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid)),
+    bot: s.botHandoff ? freeCap : null,
   };
 }

@@ -1,5 +1,5 @@
 import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { Sparkles, ShieldCheck } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
@@ -18,6 +18,9 @@ import {
   saveRemaining,
   loadOfferDismissed,
   saveOfferDismissed,
+  loadDraft,
+  saveDraft,
+  clearDraft,
 } from "../storage";
 import { track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
@@ -29,7 +32,16 @@ import { AiUsageBadge } from "./AiUsageBadge";
 import { AiQuotaThread } from "./AiQuotaThread";
 import { AiOfferCard } from "./AiOfferCard";
 import { AiLimitTelegram } from "./AiLimitTelegram";
-import { limitCard, type LimitReason } from "../limit-card";
+import { limitCard } from "../limit-card";
+import {
+  LIMIT_TICK_MS,
+  canSendNow,
+  limitCounts,
+  limitReasonOf,
+  loadLimit,
+  reduceLimit,
+  saveLimit,
+} from "../limit-state";
 import { AiSidebar } from "./AiSidebar";
 import { PromptTemplateGrid } from "./PromptTemplateGrid";
 import { ImagePromptTool } from "./ImagePromptTool";
@@ -44,10 +56,8 @@ import { AiAccountPanel, type AccountView } from "./AiAccountPanel";
 import { archiveChat, loadChats } from "../storage";
 
 const MAX_INPUT = 3000;
-// Segments in the quota thread. Mirrors GPT_FREE_DAILY_LIMIT in wrangler.toml
-// (the server reports what is left, never the size of the allowance). The
-// thread hides itself rather than lying if the two drift apart.
-const FREE_DAILY_SEGMENTS = 15;
+/** The limit card, which also describes the composer while a limit stands. */
+const LIMIT_CARD_ID = "ai-limit-card";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
 
@@ -63,14 +73,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     : "/ru/gpt-dlya-biznesa/";
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
-  const [accountReady, setAccountReady] = useState(false);
+  // 'unknown': the account view failed even after a retry. The chat still
+  // answers, as a guest whose history is neither loaded nor written (F11).
+  const [accountState, setAccountState] = useState<"loading" | "ready" | "unknown">("loading");
+  const accountReady = accountState === "ready";
+  const [freeLimits, setFreeLimits] = useState<AccountView["freeLimits"] | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const [billingAvailable, setBillingAvailable] = useState(false);
   const [botHandoff, setBotHandoff] = useState(false);
   const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
   const entryMeta = entry ? { source: chatEntryArticleHref(entry), intent: entry.id } : {};
-  const [input, setInput] = useState(() => entry?.prompt || '');
+  const [input, setInput] = useState(() => entry?.prompt || loadDraft());
   const [savedChats, setSavedChats] = useState<ReturnType<typeof loadChats>>([]);
   const [paid, setPaid] = useState(false);
   const [accountRefresh, setAccountRefresh] = useState(0);
@@ -80,10 +94,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(-1);
   const [busy, setBusy] = useState(false);
-  const [limitReached, setLimitReached] = useState(false);
-  // Only a daily cap is remembered across a reload: an hourly one is never
-  // persisted, so a returning visitor is not walled for a limit that expired.
-  const [limitReason, setLimitReason] = useState<LimitReason>("daily");
+  // Set and lifted by the server only (limit-state.ts); the clock just says
+  // when the send button comes back.
+  const [limit, dispatchLimit] = useReducer(reduceLimit, null, () => loadLimit(Date.now()));
+  const [clock, setClock] = useState(() => Date.now());
   const [offerDismissed, setOfferDismissed] = useState(() =>
     loadOfferDismissed(config.locale),
   );
@@ -102,7 +116,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   >(null);
   const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const retryFocusRef = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
   const onAccount = useCallback((account: AccountView | null) => {
@@ -118,22 +131,35 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       // session reference on a new identity; quota stays authoritative on server.
       const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
       setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+      // A failed account read says nothing about who is asking, so the
+      // composer (and a question a limit put back into it) stays. Another
+      // known identity — signing out, another account — starts empty.
+      if (identity !== null && establishedIdentityRef.current !== null && establishedIdentityRef.current !== identity) setInput("");
       if (account) establishedIdentityRef.current = identity;
       setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
-      if (accountIdentityRef.current !== null) setInput("");
       startedRef.current = false;
       accountIdentityRef.current = identity;
     }
     setStorageScope(scope);
-    setAccountReady(!!account);
+    setAccountState(account ? "ready" : "unknown");
     setSignedIn(!!account?.user);
     setPaid(!!account?.access && account.access.ends_at > Date.now());
     setBillingAvailable(!!account?.mode && !!account.providers.length);
     setBotHandoff(account?.botHandoff === true);
-    const quota = account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining(config.locale) : -1);
-    setRemaining(quota);
-    setLimitReached(quota === 0);
-    if (account?.access && quota === 0) setLimitReason("monthly");
+    setFreeLimits(account?.freeLimits ?? null);
+    setRemaining(account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining() : -1));
+    // The view refreshes after every turn and on every focus, and knows
+    // nothing of a guest's allowance: it never lifts a limit a 429 set (F1).
+    // It only reports a pack that has just arrived, or a signed-in visitor's
+    // free day that the server counted to the end.
+    if (account)
+      dispatchLimit({
+        type: "account",
+        freeRemaining: account.user && !account.access ? (account.remaining ?? null) : null,
+        packRemaining: account.access?.remaining ?? null,
+        freeLimits: account.freeLimits ?? null,
+        now: Date.now(),
+      });
   }, [config.locale]);
 
   const focusInput = () => {
@@ -183,8 +209,55 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const empty = messages.length === 0;
   const turnstileReady =
     turnstileConfig?.required === false || !!turnstileToken;
-  const sendDisabled = busy || limitReached || !turnstileReady || !accountReady;
+  const limitBlocked = !canSendNow(limit, clock);
+  const sendDisabled =
+    busy || limitBlocked || !turnstileReady || accountState === "loading";
 
+  // The limit outlives a reload and a trip to the payment page.
+  useEffect(() => {
+    saveLimit(limit);
+  }, [limit]);
+
+  // While a limit waits, re-read the clock every LIMIT_TICK_MS, when the tab
+  // is shown again and at the moment it lifts: "N min" counts down and the
+  // send button comes back on time. The server still decides.
+  const retryAt = limit?.retryAt ?? null;
+  useEffect(() => {
+    if (retryAt === null) return;
+    const tick = () => setClock(Date.now());
+    tick();
+    const left = retryAt - Date.now();
+    if (left <= 0) return;
+    const timer = window.setInterval(tick, LIMIT_TICK_MS);
+    const lift = window.setTimeout(() => {
+      window.clearInterval(timer);
+      tick();
+    }, left + 50);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") tick();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", tick);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(lift);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", tick);
+    };
+  }, [retryAt]);
+
+  // The refused question is kept while the limit stands (DRAFT_TTL_MS), so a
+  // reload or the payment page does not lose it (F2); it goes with the limit.
+  const limited = limit !== null;
+  useEffect(() => {
+    if (limited) saveDraft(input);
+  }, [limited, input]);
+  useEffect(() => {
+    if (!limited) clearDraft();
+  }, [limited]);
+
+  // Nothing is stored while the account view has not answered: who is
+  // asking, and so the storage scope, is unknown (F11).
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
     const generation = identityGeneration.current;
@@ -192,7 +265,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (generation !== identityGeneration.current) return null;
     if (id) {
       setSessionId(id);
-      saveSessionId(id, config.locale, storageScope);
+      if (accountReady) saveSessionId(id, config.locale, storageScope);
       track(EV.sessionStarted, { status: "created" });
     }
     return id;
@@ -200,7 +273,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const persist = (next: ChatMessage[]) => {
     setMessages(next);
-    saveHistory(next, config.locale, storageScope);
+    if (accountReady) saveHistory(next, config.locale, storageScope);
   };
 
   const doSend = async (
@@ -267,14 +340,21 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const base = withUser.filter((m) => !m.pending);
     const handleJson = (res: ChatApiResponse) => {
       if (generation !== identityGeneration.current) return;
+      // Any answer but a limit refusal or a failed check means no limit stands.
+      if (
+        res.code !== "limit_reached" &&
+        res.code !== "turnstile_failed" &&
+        res.code !== "turnstile_unavailable"
+      )
+        dispatchLimit({ type: "admitted" });
       if (res.ok && res.answer) {
         if (typeof res.remaining === "number" && res.remaining >= 0) {
           setRemaining(res.remaining);
-          saveRemaining(res.remaining, config.locale, storageScope);
+          if (accountReady) saveRemaining(res.remaining, storageScope);
         }
         if (res.sessionId && res.sessionId !== sid) {
           setSessionId(res.sessionId);
-          saveSessionId(res.sessionId, config.locale, storageScope);
+          if (accountReady) saveSessionId(res.sessionId, config.locale, storageScope);
         }
         persist([
           ...base,
@@ -282,24 +362,30 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             role: "assistant",
             content: res.answer,
             model: res.modelUsed ?? null,
+            truncated: res.truncated === true,
           },
         ]);
         track(EV.answerReceived, { model: res.modelUsed });
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, messageNumber });
       } else if (res.code === "limit_reached") {
-        const reason: LimitReason =
-          res.reason === "monthly"
-            ? "monthly"
-            : res.reason === "daily"
-              ? "daily"
-              : "hourly";
-        setLimitReason(reason);
-        setLimitReached(true);
-        // An hourly pause is not the end of the day, so the day counter is
-        // left alone — writing 0 here would wall the visitor until midnight.
-        if (typeof res.remaining === "number") setRemaining(res.remaining);
-        if (reason === "daily" && !paid) saveRemaining(0, config.locale, storageScope);
-        setMessages(base);
+        const reason = limitReasonOf(res.reason);
+        dispatchLimit({
+          type: "blocked",
+          reason,
+          retryAfterSec: res.retryAfterSec ?? null,
+          limits: limitCounts(res.limits),
+          now: Date.now(),
+        });
+        // What is left today (or in the pack): an hourly pause leaves the
+        // day's count as it is.
+        if (typeof res.remaining === "number" && res.remaining >= 0) {
+          setRemaining(res.remaining);
+          if (accountReady) saveRemaining(res.remaining, storageScope);
+        }
+        // The question goes back into the composer (and, while the limit
+        // stands, into the draft) instead of a bubble that gets no answer.
+        setMessages(history);
+        setInput(trimmed);
         track(EV.limitReached, { reason, status: "blocked" });
         track(EV.limitReachedProduct, { reason, status: "blocked" });
         track(EV.aiResponseError, { code: "limit_reached", messageNumber });
@@ -371,10 +457,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       {
         onMeta: (m) => {
           if (generation !== identityGeneration.current) return;
+          // The stream opens only once the server has admitted the turn.
+          dispatchLimit({ type: "admitted" });
           answeringModel = m.model || null;
           if (m.sessionId && m.sessionId !== sid) {
             setSessionId(m.sessionId);
-            saveSessionId(m.sessionId, config.locale, storageScope);
+            if (accountReady) saveSessionId(m.sessionId, config.locale, storageScope);
           }
         },
         onDelta: (text) => {
@@ -400,11 +488,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } else if (outcome.ok) {
       if (typeof outcome.remaining === "number" && outcome.remaining >= 0) {
         setRemaining(outcome.remaining);
-        saveRemaining(outcome.remaining, config.locale, storageScope);
+        if (accountReady) saveRemaining(outcome.remaining, storageScope);
       }
       persist([
         ...base,
-        { role: "assistant", content: acc, model: outcome.modelUsed ?? null },
+        {
+          role: "assistant",
+          content: acc,
+          model: outcome.modelUsed ?? null,
+          truncated: outcome.truncated === true,
+        },
       ]);
       track(EV.answerReceived, { model: outcome.modelUsed });
       track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, messageNumber });
@@ -456,7 +549,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   // Prompt chips always prefill the composer and focus — never auto-send.
   const onChipPick = (chip: PromptChip) => {
-    if (busy || limitReached) return;
+    if (busy || limitBlocked) return;
     setInput(chip.insert);
     track(EV.promptChipClicked, { chipId: chip.id, locale: config.locale });
     track(EV.useTemplate, {
@@ -570,40 +663,27 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     track(EV.localeSwitch, { from: "ru", surface });
   };
 
-  // The hourly window may already have passed while the card was on screen.
-  // Nothing local can know when, so the honest move is to let the person try:
-  // the server either answers or says 'limit_reached' again.
-  const onLimitRetry = () => {
-    retryFocusRef.current = true;
-    setLimitReached(false);
-  };
-
-  // The composer does not exist yet at the moment of the click — it replaces
-  // the cap card on the next render — so focus has to wait for it.
-  useEffect(() => {
-    if (limitReached || !retryFocusRef.current) return;
-    retryFocusRef.current = false;
-    inputRef.current?.focus();
-  }, [limitReached]);
-
   // The limit card below is the paywall people actually see; the offer card's
-  // cap stages are never rendered. One paywall_viewed per transition into a
-  // limit (or into a different one) — not per render, not per account refresh
-  // that leaves the same limit in place.
+  // cap stages are never rendered. One paywall_viewed per limit the server
+  // sets (a reload restores it and counts again) — not per render, not per
+  // account refresh or clock tick that leaves the same limit in place.
+  const limitReason = limit?.reason;
+  const limitSince = limit?.since;
   useEffect(() => {
-    if (!limitReached) return;
+    if (!limitReason) return;
     track(EV.paywallViewed, { stage: limitReason, locale: config.locale, surface: "limit_card" });
-  }, [limitReached, limitReason, config.locale]);
+  }, [limitReason, limitSince, config.locale]);
 
-  // Limit card only: a package that can really be bought leads; otherwise the
-  // Telegram bot does, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
-  const card = limitCard(config.locale, { reason: limitReason, paid, billingAvailable, botHandoff });
+  // Limit card only: a package that can really be bought leads; the Telegram
+  // bot follows, or leads, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
+  const card =
+    limit && limitCard(config.locale, limit, { billingAvailable, paid, botHandoff, remaining }, clock);
 
   const showOffer =
     activeTool === "business" &&
     assistantCount >= B2B_AFTER &&
     !offerDismissed &&
-    !limitReached;
+    !limit;
   const toolCopy: Record<
     Exclude<AiToolId, "chat" | "images">,
     { title: string; body: string }
@@ -802,12 +882,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         </header>
 
         {/* The free allowance as a thread, so the cap is watched rather than
-            sprung. FREE_DAILY_SEGMENTS mirrors GPT_FREE_DAILY_LIMIT; the
-            component hides itself if the two ever drift apart. */}
+            sprung. Its size is the server's freeLimits.daily; the component
+            hides itself while that is unknown. */}
         {!paid && (
           <AiQuotaThread
             remaining={remaining}
-            total={FREE_DAILY_SEGMENTS}
+            total={freeLimits?.daily ?? 0}
             t={t}
           />
         )}
@@ -881,7 +961,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   <AiPromptChips
                     chips={t.chips}
                     onPick={onChipPick}
-                    disabled={busy || limitReached}
+                    disabled={busy || limitBlocked}
                     label={t.emptyPrompt}
                   />
                 </EmptyContent>
@@ -946,7 +1026,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             )}
             {!paid &&
               billingAvailable &&
-              !limitReached &&
+              !limit &&
               assistantCount >= 10 &&
               remaining > 2 && (
                 <div className="gpt-partial">
@@ -971,150 +1051,141 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {/* Composer */}
         <div className="gpt-composer shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
-            {!accountReady && <p role="status" className="gpt-panel-note">{uz ? "Akkaunt holatini tekshiring." : "Проверьте состояние аккаунта."} <button type="button" className="gpt-text-button" onClick={() => { setAccountOpen(n => n + 1); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
-            {limitReached ? (
-              // Stages 3 and 4: the same card, told apart by which cap was hit.
-              // When a package can actually be bought, "Мой тариф" leads and
-              // the bot follows; otherwise the bot leads, because it is a real
-              // continuation (its own allowance) rather than a consolation
-              // link. The bot is there only while the server says botHandoff.
-              // Either way the card never claims "the free chat is available"
-              // to someone it has just blocked, and never sends a consumer to
-              // a personal Telegram account (AiLimitTelegram).
+            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{uz ? "Akkaunt holatini tekshiring." : "Проверьте состояние аккаунта."} <button type="button" className="gpt-text-button" onClick={() => { setAccountOpen(n => n + 1); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
+            {limit && card && (
+              // The limit card sits above the composer, which keeps the
+              // refused question; sending waits for the time the server gave
+              // (F1–F3). Its exits: the pack window only while a pack can
+              // really be bought, the Telegram bot only while the server says
+              // botHandoff, and never a personal Telegram account
+              // (AiLimitTelegram). A retry button is gone: the send button
+              // comes back when the limit lifts.
               <div
+                id={LIMIT_CARD_ID}
                 className="gpt-partial mb-2"
                 role="status"
                 data-testid="ai-limit-card"
-                data-reason={limitReason}
+                data-reason={limit.reason}
+                data-ready={card.ready ? "true" : undefined}
               >
-                <p>{card.body}</p>
-                <div className="mt-3 flex flex-col gap-2">
-                  {card.accountFirst && (
-                    <button
-                      type="button"
-                      className="gpt-primary"
-                      data-testid="limit-account"
-                      onClick={() => setAccountOpen((n) => n + 1)}
-                    >
-                      {t.premium.account}
-                    </button>
-                  )}
-                  {/* Same slot in both orders, so a late billing flag only
-                      restyles the button instead of remounting it and minting
-                      a second link. */}
-                  {card.bot && (
-                    <AiLimitTelegram
-                      t={t}
-                      locale={config.locale}
-                      apiBase={config.apiBase}
-                      sessionId={sessionId}
-                      reason={limitReason}
-                      variant={card.accountFirst ? "secondary" : "primary"}
-                    />
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    {!card.accountFirst && (
+                {card.title && <p className="font-medium text-white">{card.title}</p>}
+                <p>
+                  {card.body}
+                  {input.trim() ? ` ${t.limitDraftKept}` : ""}
+                </p>
+                {card.wait && (
+                  // The countdown is not announced on every tick; the line
+                  // that replaces it once the limit lifts is.
+                  <p
+                    key={card.ready ? "ready" : "wait"}
+                    className="mt-1 text-brand-cyan"
+                    aria-live={card.ready ? undefined : "off"}
+                  >
+                    {card.wait}
+                  </p>
+                )}
+                {(card.account || card.bot) && (
+                  <div className="mt-3 flex flex-col gap-2">
+                    {card.account && (
                       <button
                         type="button"
-                        className="gpt-text-button"
+                        className="gpt-primary"
                         data-testid="limit-account"
                         onClick={() => setAccountOpen((n) => n + 1)}
                       >
                         {t.premium.account}
                       </button>
                     )}
-                    <button
-                      type="button"
-                      className="gpt-text-button"
-                      onClick={onLimitRetry}
-                    >
-                      {t.retry}
-                    </button>
-                    <a className="gpt-text-button" href={businessHref}>
-                      {t.businessLink}
-                    </a>
+                    {card.bot && (
+                      <AiLimitTelegram
+                        t={t}
+                        locale={config.locale}
+                        apiBase={config.apiBase}
+                        sessionId={sessionId}
+                        reason={card.bot}
+                        variant={card.account ? "secondary" : "primary"}
+                      />
+                    )}
                   </div>
-                </div>
+                )}
               </div>
-            ) : (
-              <>
-                {!paid && remaining >= 0 && remaining <= 2 && (
-                  // Saffron, the one warm colour in this palette, and the same
-                  // one the quota thread turns above — so the warning and the
-                  // thread read as one fact stated twice, not two alerts. The
-                  // emoji that used to sit here said nothing the colour and the
-                  // sentence did not already say.
-                  <div
-                    className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron"
-                    role="status"
-                  >
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
-                      aria-hidden="true"
-                    />
-                    <span>{t.lowWarning(remaining)}</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setAccountOpen((value) => value + 1);
-                        track(EV.viewPricing, { from: "low_limit" });
-                        track(EV.upgradeClick, { from: "low_limit" });
-                        track(EV.pricingClicked, { from: "low_limit" });
-                      }}
-                      className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline"
-                    >
-                      {t.premium.account}
-                    </button>
-                  </div>
-                )}
-                {turnstileConfig?.required && turnstileConfig.siteKey && (
-                  <TurnstileChallenge
-                    ref={turnstileRef}
-                    siteKey={turnstileConfig.siteKey}
-                    loadingText={t.turnstileLoading}
-                    promptText={t.turnstilePrompt}
-                    verifiedText={t.turnstileVerified}
-                    errorText={t.turnstileError}
-                    onTokenChange={onTurnstileTokenChange}
-                  />
-                )}
-                {(!turnstileConfig || turnstileConfigError) && (
-                  <p
-                    className={
-                      turnstileConfigError
-                        ? "mb-2 text-center text-xs text-red-300"
-                        : "mb-2 text-center text-xs text-white/45"
-                    }
-                    role="status"
-                    aria-live="polite"
-                  >
-                    {turnstileConfigError
-                      ? t.turnstileError
-                      : t.turnstileLoading}
-                  </p>
-                )}
-                {turnstileServerError && (
-                  <p
-                    className="mb-2 text-center text-xs text-red-300"
-                    role="alert"
-                  >
-                    {turnstileServerError}
-                  </p>
-                )}
-                {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
-                <AiChatInput
-                  value={input}
-                  onChange={setInput}
-                  onSend={() => doSend(input)}
-                  onStop={onStop}
-                  disabled={sendDisabled}
-                  busy={busy}
-                  maxChars={MAX_INPUT}
-                  t={t}
-                  inputRef={inputRef}
-                />
-              </>
             )}
+            {!limit && !paid && remaining >= 0 && remaining <= 2 && (
+              // Saffron, the one warm colour in this palette, and the same
+              // one the quota thread turns above — so the warning and the
+              // thread read as one fact stated twice, not two alerts. The
+              // emoji that used to sit here said nothing the colour and the
+              // sentence did not already say.
+              <div
+                className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron"
+                role="status"
+              >
+                <span
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
+                  aria-hidden="true"
+                />
+                <span>{t.lowWarning(remaining)}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAccountOpen((value) => value + 1);
+                    track(EV.viewPricing, { from: "low_limit" });
+                    track(EV.upgradeClick, { from: "low_limit" });
+                    track(EV.pricingClicked, { from: "low_limit" });
+                  }}
+                  className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline"
+                >
+                  {t.premium.account}
+                </button>
+              </div>
+            )}
+            {turnstileConfig?.required && turnstileConfig.siteKey && (
+              <TurnstileChallenge
+                ref={turnstileRef}
+                siteKey={turnstileConfig.siteKey}
+                loadingText={t.turnstileLoading}
+                promptText={t.turnstilePrompt}
+                verifiedText={t.turnstileVerified}
+                errorText={t.turnstileError}
+                onTokenChange={onTurnstileTokenChange}
+              />
+            )}
+            {(!turnstileConfig || turnstileConfigError) && (
+              <p
+                className={
+                  turnstileConfigError
+                    ? "mb-2 text-center text-xs text-red-300"
+                    : "mb-2 text-center text-xs text-white/45"
+                }
+                role="status"
+                aria-live="polite"
+              >
+                {turnstileConfigError
+                  ? t.turnstileError
+                  : t.turnstileLoading}
+              </p>
+            )}
+            {turnstileServerError && (
+              <p
+                className="mb-2 text-center text-xs text-red-300"
+                role="alert"
+              >
+                {turnstileServerError}
+              </p>
+            )}
+            {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
+            <AiChatInput
+              value={input}
+              onChange={setInput}
+              onSend={() => doSend(input)}
+              onStop={onStop}
+              disabled={sendDisabled}
+              busy={busy}
+              maxChars={MAX_INPUT}
+              t={t}
+              inputRef={inputRef}
+              describedBy={limit ? LIMIT_CARD_ID : undefined}
+            />
           </div>
         </div>
       </div>

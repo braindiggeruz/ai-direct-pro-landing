@@ -7,10 +7,17 @@ const SID_KEY = "gptchat_sid";
 const HIST_KEY = "gptchat_history";
 const REMAINING_KEY = "gptchat_remaining";
 const OFFER_KEY = "gptchat_offer_dismissed";
+const DRAFT_KEY = "gptchat_draft";
+/** A refused question waits in the composer this long, e.g. across a trip to the payment page. */
+export const DRAFT_TTL_MS = 60 * 60_000;
+
+function scopeKey(base: string, scope?: string): string {
+  if (scope !== undefined && !isOpaqueStorageKey(scope)) throw new Error("Invalid account storage scope");
+  return scope ? `${base}_account_${scope}` : base;
+}
 
 function localeKey(base: string, locale: Locale, scope?: string): string {
-  if (scope !== undefined && !isOpaqueStorageKey(scope)) throw new Error("Invalid account storage scope");
-  return scope ? `${base}_account_${scope}_${locale}` : `${base}_${locale}`;
+  return `${scopeKey(base, scope)}_${locale}`;
 }
 
 export function loadSessionId(locale: Locale, scope?: string): string | null {
@@ -41,9 +48,15 @@ export function clearSessionId(locale: Locale, scope?: string): void {
   }
 }
 
-export function loadRemaining(locale: Locale, scope?: string): number {
+/**
+ * The last count of answers left that the chat's own answers reported (the
+ * guest's account view does not carry one, decision L18). One key for the RU
+ * and UZ chats, because the server counts one allowance for both; in
+ * sessionStorage, so a new visit asks the server rather than a stale number.
+ */
+export function loadRemaining(scope?: string): number {
   try {
-    const raw = localStorage.getItem(localeKey(REMAINING_KEY, locale, scope));
+    const raw = sessionStorage.getItem(scopeKey(REMAINING_KEY, scope));
     if (raw === null) return -1;
     const parsed = JSON.parse(raw) as { value?: unknown; date?: unknown };
     if (parsed.date !== new Date().toISOString().slice(0, 10)) return -1;
@@ -54,16 +67,52 @@ export function loadRemaining(locale: Locale, scope?: string): number {
   }
 }
 
-export function saveRemaining(remaining: number, locale: Locale, scope?: string): void {
+export function saveRemaining(remaining: number, scope?: string): void {
   if (!Number.isInteger(remaining) || remaining < 0) return;
   try {
-    localStorage.setItem(
-      localeKey(REMAINING_KEY, locale, scope),
+    sessionStorage.setItem(
+      scopeKey(REMAINING_KEY, scope),
       JSON.stringify({
         value: remaining,
         date: new Date().toISOString().slice(0, 10),
       }),
     );
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * The question a limit refused, kept while the limit lasts (plan WP-06), so a
+ * reload or the payment page does not lose it. Not scoped to an account: the
+ * point is to find it again after signing in to buy a pack.
+ */
+export function loadDraft(now = Date.now()): string {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (raw === null) return "";
+    const parsed = JSON.parse(raw) as { text?: unknown; savedAt?: unknown };
+    return typeof parsed.text === "string" && typeof parsed.savedAt === "number"
+      && now - parsed.savedAt >= 0 && now - parsed.savedAt < DRAFT_TTL_MS
+      ? parsed.text
+      : "";
+  } catch {
+    return "";
+  }
+}
+
+export function saveDraft(text: string, now = Date.now()): void {
+  try {
+    if (text.trim()) localStorage.setItem(DRAFT_KEY, JSON.stringify({ text, savedAt: now }));
+    else localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    /* noop */
+  }
+}
+
+export function clearDraft(): void {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
   } catch {
     /* noop */
   }
@@ -117,6 +166,7 @@ export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
         content: m.content.slice(0, 100_000),
         model: typeof m.model === "string" ? m.model : null,
         partial: m.partial === true,
+        truncated: m.truncated === true,
       }));
   } catch {
     return [];
@@ -132,6 +182,7 @@ export function saveHistory(messages: ChatMessage[], locale: Locale, scope?: str
         content: m.content,
         model: m.model ?? null,
         partial: m.partial === true,
+        truncated: m.truncated === true,
       }))
       .slice(-40);
     localStorage.setItem(localeKey(HIST_KEY, locale, scope), JSON.stringify(clean));
@@ -186,6 +237,7 @@ export function loadChats(locale: Locale, scope?: string): SavedChat[] {
                 content: m.content.slice(0, 100_000),
                 model: typeof m.model === "string" ? m.model : null,
                 partial: m.partial === true,
+                truncated: m.truncated === true,
               })),
           }))
       : [];

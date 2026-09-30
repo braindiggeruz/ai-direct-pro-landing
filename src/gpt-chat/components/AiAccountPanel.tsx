@@ -9,6 +9,9 @@ import type { ChatStrings } from "../i18n";
 import { validAccountView, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, allowedCheckoutUrl, type AccountView, type PaymentProvider } from "../types";
 import { track } from "../analytics";
 export type { AccountView } from "../types";
+
+/** Pause before the one retry of a failed account read. */
+const ACCOUNT_RETRY_MS = 1_500;
 export function AiAccountPanel({
   t,
   locale,
@@ -38,13 +41,26 @@ export function AiAccountPanel({
   const refreshGeneration = useRef(0);
   const refresh = useCallback(async () => {
     const generation = ++refreshGeneration.current;
-    try {
+    const load = async (): Promise<AccountView> => {
       const res = await fetch(`${apiBase}/api/gpt/account`, {
         cache: "no-store",
         signal: AbortSignal.timeout(10_000),
       });
       const next = (await res.json()) as AccountView;
       if (!res.ok || !validAccountView(next)) throw new Error();
+      return next;
+    };
+    try {
+      let next: AccountView;
+      try {
+        next = await load();
+      } catch {
+        // One retry, then the chat goes on as a guest whose history is
+        // neither loaded nor written until the account answers (F11).
+        await new Promise((resolve) => setTimeout(resolve, ACCOUNT_RETRY_MS));
+        if (generation !== refreshGeneration.current) return;
+        next = await load();
+      }
       if (generation !== refreshGeneration.current) return;
       if (next.access && next.access.ends_at <= Date.now()) next.access = null;
       setData(next);

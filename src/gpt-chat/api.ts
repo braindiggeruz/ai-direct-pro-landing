@@ -68,8 +68,30 @@ export interface StreamCallbacks {
 }
 
 export type StreamOutcome =
-  | { mode: 'stream'; ok: boolean; aborted?: boolean; code?: string; remaining?: number; modelUsed?: string; sessionId?: string; gotText: boolean }
+  | {
+      mode: 'stream'; ok: boolean; aborted?: boolean; code?: string; remaining?: number;
+      /** Free tier: answers left in the rolling hour; null for a pack or an older server. */
+      hourRemaining?: number | null;
+      /** Cut at the length limit, and so not charged (plan decision L4). */
+      truncated?: boolean;
+      charged?: boolean;
+      modelUsed?: string; sessionId?: string; gotText: boolean;
+    }
   | { mode: 'json'; res: ChatApiResponse };
+
+/**
+ * When a refused turn fits again, in seconds: the 429 body's retryAfterSec,
+ * else its Retry-After header (delta-seconds), else null.
+ */
+export function retryAfterSeconds(body: unknown, header: string | null): number | null {
+  const value = body && typeof body === 'object' ? (body as { retryAfterSec?: unknown }).retryAfterSec : undefined;
+  if (typeof value === 'number' && Number.isFinite(value) && value >= 0) return value;
+  return header !== null && /^\d+$/.test(header.trim()) ? Number(header.trim()) : null;
+}
+
+function answerCount(value: unknown): number | null {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0 ? value : null;
+}
 
 // Streaming chat turn. Sends stream:true; if the server answers with SSE the
 // deltas are delivered via callbacks, otherwise the parsed JSON response is
@@ -98,7 +120,13 @@ export async function sendChatStream(
     });
     const type = res.headers.get('Content-Type') || '';
     if (!type.includes('text/event-stream')) {
-      return { mode: 'json', res: (await res.json()) as ChatApiResponse };
+      const body = (await res.json()) as ChatApiResponse;
+      return {
+        mode: 'json',
+        res: res.status === 429 && body.code === 'limit_reached'
+          ? { ...body, retryAfterSec: retryAfterSeconds(body, res.headers.get('Retry-After')) }
+          : body,
+      };
     }
     if (!res.body) return { mode: 'stream', ok: false, code: 'network', gotText };
 
@@ -116,7 +144,10 @@ export async function sendChatStream(
         buffer = buffer.slice(idx + 1);
         if (!line.startsWith('data: ')) continue;
         try {
-          const ev = JSON.parse(line.slice(6)) as { type: string; text?: string; sessionId?: string; model?: string; remaining?: number; modelUsed?: string; code?: string };
+          const ev = JSON.parse(line.slice(6)) as {
+            type: string; text?: string; sessionId?: string; model?: string; remaining?: number;
+            hourRemaining?: unknown; truncated?: unknown; charged?: unknown; modelUsed?: string; code?: string;
+          };
           if (ev.type === 'meta') cb.onMeta?.({ sessionId: ev.sessionId, model: ev.model });
           else if (ev.type === 'delta' && ev.text) {
             gotText = true;
@@ -125,8 +156,13 @@ export async function sendChatStream(
           }
           // A terminal event confirms completion, not that an answer exists.
           // Empty completions must not render blank replies or count as success.
+          // An older server sends neither truncated nor charged: an answer
+          // was charged unless the server says it was not.
           else if (ev.type === 'done') outcome = hasAnswerText
-            ? { mode: 'stream', ok: true, remaining: ev.remaining, modelUsed: ev.modelUsed, gotText }
+            ? {
+                mode: 'stream', ok: true, remaining: ev.remaining, hourRemaining: answerCount(ev.hourRemaining),
+                truncated: ev.truncated === true, charged: ev.charged !== false, modelUsed: ev.modelUsed, gotText,
+              }
             : { mode: 'stream', ok: false, code: 'empty_response', gotText };
           else if (ev.type === 'error') outcome = { mode: 'stream', ok: false, code: ev.code || 'provider_error', gotText };
         } catch { /* skip malformed line */ }

@@ -16,10 +16,9 @@ interface Props {
   /** Messages left today; -1 means the server has not told us yet. */
   remaining: number;
   /**
-   * The day's full allowance, for the number of segments. The server only ever
-   * reports what is left, so the caller passes FREE_DAILY_SEGMENTS, which
-   * mirrors GPT_FREE_DAILY_LIMIT in wrangler.toml. If the two ever drift the
-   * guard below hides the thread rather than drawing a wrong one.
+   * The day's full allowance, for the number of segments: the account view's
+   * freeLimits.daily (GPT_FREE_DAILY_LIMIT), 0 while it is unknown. The guard
+   * below hides the thread rather than drawing a wrong one.
    */
   total: number;
   t: ChatStrings;

@@ -200,29 +200,32 @@ test('AI cabinet roles are localized and affect the request without user data', 
   assert.match(uz, /Vazifa: Post yoz/);
 });
 
-test('AI cabinet persists quota separately by locale and clears only chat session', () => {
-  const values = new Map<string, string>();
-  const previous = globalThis.localStorage;
-  Object.defineProperty(globalThis, 'localStorage', {
-    configurable: true,
-    value: {
+test('AI cabinet shares the quota between the RU and UZ chats and clears only the chat session', () => {
+  const memory = () => {
+    const values = new Map<string, string>();
+    return {
       getItem: (key: string) => values.get(key) ?? null,
       setItem: (key: string, value: string) => { values.set(key, value); },
       removeItem: (key: string) => { values.delete(key); },
-    },
-  });
+    };
+  };
+  const previous = { localStorage: globalThis.localStorage, sessionStorage: globalThis.sessionStorage };
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: memory() });
+  Object.defineProperty(globalThis, 'sessionStorage', { configurable: true, value: memory() });
   try {
-    assert.equal(loadRemaining('ru'), -1);
-    saveRemaining(14, 'ru');
-    saveRemaining(8, 'uz');
-    assert.equal(loadRemaining('ru'), 14);
-    assert.equal(loadRemaining('uz'), 8);
+    assert.equal(loadRemaining(), -1);
+    saveRemaining(14);
+    // The UZ chat's answer reports the same server allowance a moment later.
+    saveRemaining(8);
+    assert.equal(loadRemaining(), 8);
     saveSessionId('session-1', 'ru');
     clearSessionId('ru');
-    assert.equal(loadRemaining('ru'), 14);
+    assert.equal(loadRemaining(), 8);
   } finally {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: previous });
-    else delete (globalThis as { localStorage?: Storage }).localStorage;
+    for (const name of ['localStorage', 'sessionStorage'] as const) {
+      if (previous[name]) Object.defineProperty(globalThis, name, { configurable: true, value: previous[name] });
+      else delete (globalThis as Partial<Record<typeof name, Storage>>)[name];
+    }
   }
 });
 

@@ -26,7 +26,7 @@ export interface ChatStrings {
     failed: string; pending: string; cancelled: string; expired: string; test: string;
     copyFailed: string; partial: string; simpler: string; translate: string; continue: string;
     historyNote: string; savedChats: string; noHistory: string; newChatHint: string; actionCost: string;
-    answerReady: string; monthlyLimit: string; pause: string; offer: string;
+    answerReady: string; monthlyLimit: string; offer: string;
     scheduled:string; receipt:string; refundReceipt:string; contextTooLarge:string;
     /** Resting screen: the text around the chatgpt.com link, for a visitor who
      *  searched for the official ChatGPT. Lead + link + tail read as one line. */
@@ -134,13 +134,25 @@ export interface ChatStrings {
   capTelegramNote: string;
   capLeadCta: string;
   telegramContextNote: string;
+  // The limit card (limit-card.ts), one line per reason the server refuses
+  // with. The wait line under it is re-read from the clock; the day's lines
+  // say "today" or "tomorrow" from when the limit lifts in Tashkent.
   hourlyTitle: string;
-  hourlyBody: string;
+  hourlyBody: (hourly: number | null) => string;
   hourlyRetry: string;
   hourlyRetryHint: string;
-  // The limit card's daily line while the bot route is off (limit-card.ts).
   dailyTitle: string;
-  dailyBody: string;
+  dailyBody: (daily: number | null, today: boolean) => string;
+  packDailyBody: (daily: number | null, left: number | null, today: boolean) => string;
+  busyBody: string;
+  ipBody: string;
+  limitWait: (minutes: number) => string;
+  limitLessMinute: string;
+  limitReady: string;
+  /** Said only while the refused question is back in the composer. */
+  limitDraftKept: string;
+  /** Under an answer cut at the length limit, which is never charged. */
+  truncated: string;
   leadIntroCap: string;
   leadConsentDetail: string;
   answeredBy: string;
@@ -151,7 +163,7 @@ const RU: ChatStrings = {
   premium: {
     refunded:'Платёжная система подтвердила возврат. Доступ по этому платежу отключён.',
     scheduled:'Следующий период уже оплачен. Начало',receipt:'Фискальный чек',refundReceipt:'Чек возврата',contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
-    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого оплаченного периода закончились. Следующий пакет доступен с начала нового периода.',pause:'Сейчас действует ограничение частоты. Повторите позже — остаток ответов сохранён.',offer:'Пользуетесь часто? Plus: 300 ответов за 20 000 сум в месяц.',
+    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого оплаченного периода закончились. Следующий пакет доступен с начала нового периода.',offer:'Пользуетесь часто? Plus: 300 ответов за 20 000 сум в месяц.',
     eyebrow:'ВАШ AI-ПОМОЩНИК',welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',
     intro:'Написать, перевести или разобраться в теме. Просто спросите на русском или узбекском.',
     trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'Мой тариф',title:'Больше пространства для вопросов',price:'20 000 сум / месяц',
@@ -282,12 +294,24 @@ const RU: ChatStrings = {
   capTelegramNote: 'У Telegram-бота свой дневной лимит — продолжить можно сразу. Бесплатные сообщения здесь вернутся позже.',
   capLeadCta: 'Оставить контакт',
   telegramContextNote: 'К сообщению добавится короткий код этого разговора — по нему мы поймём, о чём вы спрашивали здесь.',
-  hourlyTitle: 'Часовой лимит исчерпан',
-  hourlyBody: 'Бесплатный чат на сайте считает сообщения по часам. Дневной лимит ещё не закончился — продолжите в Telegram сейчас или вернитесь сюда позже.',
+  hourlyTitle: 'Часовой бесплатный лимит исчерпан',
+  hourlyBody: (hourly) => hourly === null
+    ? 'Бесплатные сообщения на сайте считаются по часам.'
+    : `Лимит бесплатных сообщений в час — ${hourly}.`,
   hourlyRetry: 'Попробовать снова',
   hourlyRetryHint: 'Если час уже прошёл',
-  dailyTitle: 'Бесплатный лимит на сегодня исчерпан',
-  dailyBody: 'Дневной бесплатный лимит на сайте исчерпан. Продолжить можно в нашем Telegram-боте — или оставьте контакт, и мы свяжемся.',
+  dailyTitle: 'Дневной бесплатный лимит исчерпан',
+  dailyBody: (daily, today) =>
+    `${daily === null ? '' : `Лимит бесплатных сообщений в день — ${daily}. `}Снова писать можно ${today ? 'сегодня' : 'завтра'} с 05:00 по Ташкенту.`,
+  packDailyBody: (daily, left, today) =>
+    `Дневной лимит пакета исчерпан${daily === null ? '' : ` (ответов в день: ${daily})`}. Продолжить можно ${today ? 'сегодня' : 'завтра'} с 05:00 по Ташкенту${left === null ? '' : `; ответов в пакете осталось: ${left}`}.`,
+  busyBody: 'Предыдущий ответ ещё готовится.',
+  ipBody: 'Из вашей сети слишком много запросов.',
+  limitWait: (minutes) => `Снова написать можно через ${minutes} мин.`,
+  limitLessMinute: 'Снова написать можно меньше чем через минуту.',
+  limitReady: 'Можно писать снова.',
+  limitDraftKept: 'Ваш вопрос остался в поле ввода.',
+  truncated: 'Ответ остановился на пределе длины и не списан с лимита. Нажмите «Продолжить».',
   leadIntroCap: 'Оставьте контакт — свяжемся и ответим на вопросы.',
   leadConsentDetail: 'Отправляем имя, контакт, номер сессии чата и адрес страницы. Текст переписки не передаётся.',
   answeredBy: 'Ответила модель',
@@ -298,7 +322,7 @@ const UZ: ChatStrings = {
   premium: {
     refunded:'To‘lov tizimi pulni qaytarishni tasdiqladi. Shu to‘lov bo‘yicha obuna o‘chirildi.',
     scheduled:'Keyingi davr uchun to‘langan. Boshlanish sanasi',receipt:'Fiskal chek',refundReceipt:'Pulni qaytarish cheki',contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
-    answerReady:'Javob tayyor.',monthlyLimit:'Bu davr uchun javoblar tugadi. Yangi to‘plam keyingi davr boshlanganda ochiladi.',pause:'Hozircha so‘rovlar soni cheklangan. Keyinroq qayta urining — qolgan javoblaringiz saqlanadi.',offer:'Tez-tez foydalanasizmi? Plus: oyiga 20 000 so‘mga 300 ta javob.',
+    answerReady:'Javob tayyor.',monthlyLimit:'Bu davr uchun javoblar tugadi. Yangi to‘plam keyingi davr boshlanganda ochiladi.',offer:'Tez-tez foydalanasizmi? Plus: oyiga 20 000 so‘mga 300 ta javob.',
     eyebrow:'SIZNING AI YORDAMCHINGIZ',welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',
     intro:'Matn yozish, tarjima qilish yoki mavzuni tushunish. O‘zbekcha yoki ruscha so‘rang.',
     trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'Mening tarifim',title:'Savollaringiz uchun ko‘proq imkoniyat',price:'Oyiga 20 000 so‘m',
@@ -428,12 +452,24 @@ const UZ: ChatStrings = {
   capTelegramNote: 'Telegram-botning o‘z kunlik limiti bor — hoziroq davom ettirish mumkin. Bu yerdagi bepul xabarlar keyinroq qaytadi.',
   capLeadCta: 'Kontakt qoldirish',
   telegramContextNote: 'Xabarga shu suhbatning qisqa kodi qo‘shiladi — shu orqali nima so‘raganingizni tushunamiz.',
-  hourlyTitle: 'Soatlik limit tugadi',
-  hourlyBody: 'Saytdagi bepul chat xabarlarni soat bo‘yicha hisoblaydi. Kunlik limit hali tugagani yo‘q — hozir Telegramda davom ettiring yoki keyinroq shu yerga qayting.',
+  hourlyTitle: 'Soatlik bepul limit tugadi',
+  hourlyBody: (hourly) => hourly === null
+    ? 'Saytdagi bepul chat xabarlarni soat bo‘yicha hisoblaydi.'
+    : `Bir soatda ${hourly} ta bepul xabar yozish mumkin.`,
   hourlyRetry: 'Qayta urinib ko‘rish',
   hourlyRetryHint: 'Agar bir soat o‘tgan bo‘lsa',
-  dailyTitle: 'Bugungi bepul limit tugadi',
-  dailyBody: 'Saytdagi kunlik bepul limit tugadi. Telegram-botimizda davom ettirishingiz mumkin — yoki kontakt qoldiring, o‘zimiz bog‘lanamiz.',
+  dailyTitle: 'Kunlik bepul limit tugadi',
+  dailyBody: (daily, today) =>
+    `${daily === null ? '' : `Kuniga ${daily} ta bepul xabar yozish mumkin. `}${today ? 'Bugun' : 'Ertaga'} soat 05:00 dan (Toshkent vaqti bilan) yana yozasiz.`,
+  packDailyBody: (daily, left, today) =>
+    `Paketning kunlik limiti${daily === null ? '' : ` (${daily} ta javob)`} tugadi. ${today ? 'Bugun' : 'Ertaga'} soat 05:00 dan (Toshkent vaqti bilan) davom ettirasiz${left === null ? '' : `; paketda ${left} ta javob qoldi`}.`,
+  busyBody: 'Oldingi javob hali tayyorlanmoqda.',
+  ipBody: 'Tarmog‘ingizdan so‘rovlar juda ko‘p.',
+  limitWait: (minutes) => `${minutes} daqiqadan keyin yana yozasiz.`,
+  limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
+  limitReady: 'Endi yana yozishingiz mumkin.',
+  limitDraftKept: 'Savolingiz yozish maydonida turibdi.',
+  truncated: 'Javob uzunlik chegarasida to‘xtadi va limitdan hisoblanmadi. «Davom ettir»ni bosing.',
   leadIntroCap: 'Kontakt qoldiring — bog‘lanamiz va savollaringizga javob beramiz.',
   leadConsentDetail: 'Ism, kontakt, chat sessiyasi raqami va sahifa manzili yuboriladi. Yozishmalar matni uzatilmaydi.',
   answeredBy: 'Javob bergan model',

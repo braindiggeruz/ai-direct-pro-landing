@@ -222,6 +222,12 @@ export function AiChatMessageList({
                         {t.premium.partial}
                       </p>
                     )}
+                    {/* Points at «Continue», which only the last answer has. */}
+                    {m.truncated && i === lastAssistant && (
+                      <p className="gpt-partial" role="status">
+                        {t.truncated}
+                      </p>
+                    )}
                     <MessageActions
                       content={m.content}
                       isLast={i === lastAssistant}

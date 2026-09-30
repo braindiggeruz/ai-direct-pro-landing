@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sendChatStream } from '../src/gpt-chat/api';
+import { retryAfterSeconds, sendChatStream } from '../src/gpt-chat/api';
 import { parseSseChunk } from '../functions/lib/gpt-chat/openrouter-stream';
 
 const params = { sessionId: null, message: 'fixture', locale: 'uz' as const, history: [] };
@@ -46,7 +46,10 @@ test('Unicode answer survives split UTF-8 bytes and retains completion metadata'
   }, new AbortController().signal);
   assert.equal(answer, 'Salom, мир 🌍');
   assert.deepEqual(metadata, [{ sessionId: 'fixture-session', model: 'fixture-model' }]);
-  assert.deepEqual(outcome, { mode: 'stream', ok: true, remaining: 4, modelUsed: 'fixture-model', gotText: true });
+  // An older done event without the settlement fields: charged, not cut, no hour count.
+  assert.deepEqual(outcome, {
+    mode: 'stream', ok: true, remaining: 4, hourRemaining: null, truncated: false, charged: true, modelUsed: 'fixture-model', gotText: true,
+  });
 });
 
 test('server parser: a finish_reason alone is an event, and usage carries the reasoning tokens', () => {
@@ -67,18 +70,59 @@ test('server parser: a finish_reason alone is an event, and usage carries the re
   ]);
 });
 
-test('the settled done event (truncated, charged, hourRemaining) still reads as an answer with its remaining', async (t) => {
-  // The server's done event since WP-04; this client shows the answer and the
-  // remaining count, and the truncation mark arrives with the limit card (WP-06).
+test('the settled done event carries truncated, charged and hourRemaining to the answer', async (t) => {
+  // The server's done event since WP-04: an answer cut at the length limit is
+  // not charged (decision L4) and the chat marks it.
   t.mock.method(globalThis, 'fetch', async () => new Response(sse(
     { type: 'meta', sessionId: 'fixture-session', model: 'fixture-model' },
     { type: 'delta', text: 'Uzun javob' },
-    { type: 'done', remaining: 15, hourRemaining: 5, modelUsed: 'fixture-model', truncated: true, charged: false },
+    { type: 'done', remaining: 15, hourRemaining: 4, modelUsed: 'fixture-model', truncated: true, charged: false },
   ), { headers: { 'Content-Type': 'text/event-stream' } }));
   let answer = '';
   const outcome = await sendChatStream('', params, { onDelta: text => { answer += text; } }, new AbortController().signal);
   assert.equal(answer, 'Uzun javob');
-  assert.deepEqual(outcome, { mode: 'stream', ok: true, remaining: 15, modelUsed: 'fixture-model', gotText: true });
+  assert.deepEqual(outcome, {
+    mode: 'stream', ok: true, remaining: 15, hourRemaining: 4, truncated: true, charged: false, modelUsed: 'fixture-model', gotText: true,
+  });
+});
+
+test('a malformed settlement reads as a charged, whole answer without an hour count', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => new Response(sse(
+    { type: 'delta', text: 'Javob' },
+    { type: 'done', remaining: 3, hourRemaining: -2, truncated: 'yes', charged: 0 },
+  ), { headers: { 'Content-Type': 'text/event-stream' } }));
+  const outcome = await sendChatStream('', params, { onDelta: () => {} }, new AbortController().signal);
+  assert.deepEqual(outcome, { mode: 'stream', ok: true, remaining: 3, hourRemaining: null, truncated: false, charged: true, modelUsed: undefined, gotText: true });
+});
+
+test('a 429 reaches the chat with retryAfterSec from the body, else from Retry-After', async (t) => {
+  const refusal = { ok: false, code: 'limit_reached', reason: 'hourly', tier: 'free', remaining: 9, limits: { daily: 15, hourly: 5 }, retryAt: 1_700_000_720_000, retryAfterSec: 720, message: 'x' };
+  const fetches = [
+    Response.json(refusal, { status: 429, headers: { 'Retry-After': '999' } }),
+    Response.json({ ...refusal, retryAfterSec: undefined }, { status: 429, headers: { 'Retry-After': '1800' } }),
+    Response.json({ ...refusal, retryAfterSec: undefined }, { status: 429 }),
+  ];
+  t.mock.method(globalThis, 'fetch', async () => fetches.shift()!);
+  const expected = [720, 1800, null];
+  for (const retryAfterSec of expected) {
+    const outcome = await sendChatStream('', params, { onDelta: () => assert.fail('a refusal has no deltas') }, new AbortController().signal);
+    assert.equal(outcome.mode, 'json');
+    if (outcome.mode !== 'json') continue;
+    assert.equal(outcome.res.code, 'limit_reached');
+    assert.equal(outcome.res.reason, 'hourly');
+    assert.deepEqual(outcome.res.limits, { daily: 15, hourly: 5 });
+    assert.equal(outcome.res.retryAfterSec, retryAfterSec);
+  }
+});
+
+test('retryAfterSeconds reads only a number of seconds', () => {
+  assert.equal(retryAfterSeconds({ retryAfterSec: 0 }, null), 0);
+  assert.equal(retryAfterSeconds({ retryAfterSec: 12.5 }, '60'), 12.5);
+  assert.equal(retryAfterSeconds({ retryAfterSec: -1 }, ' 60 '), 60);
+  assert.equal(retryAfterSeconds({ retryAfterSec: '60' }, null), null);
+  // An HTTP date, a negative or a fractional header is not a delay in seconds.
+  for (const header of ['Wed, 01 Oct 2026 10:00:00 GMT', '-5', '1.5', '']) assert.equal(retryAfterSeconds({}, header), null, header);
+  assert.equal(retryAfterSeconds(null, '30'), 30);
 });
 
 test('partial text followed by an error remains an error with the partial answer available', async (t) => {

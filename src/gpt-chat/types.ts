@@ -29,6 +29,8 @@ export interface AccountView {
   providers: PaymentProvider[];
   user: { signedIn: true; storageKey: string } | null;
   remaining?: number;
+  /** The free tier's allowance from the config (a guest's view never reads D1). */
+  freeLimits?: { daily: number; hourly: number };
   terms: { ru: string | null; uz: string | null };
   termsVersion: string | null;
   /** Limit card may offer the Telegram bot. Anything but `true` means no. */
@@ -44,6 +46,10 @@ export function isOpaqueStorageKey(value: unknown): value is string {
   return typeof value === 'string' && /^[A-Za-z0-9_-]{16,128}$/.test(value);
 }
 
+function isCount(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0;
+}
+
 export function validAccountView(value: unknown): value is AccountView {
   if (!value || typeof value !== 'object') return false;
   const account = value as AccountView;
@@ -57,7 +63,9 @@ export function validAccountView(value: unknown): value is AccountView {
     })
     && (account.termsVersion === null || typeof account.termsVersion === 'string')
     && (account.botHandoff === undefined || typeof account.botHandoff === 'boolean')
-    && (account.remaining === undefined || (Number.isInteger(account.remaining) && account.remaining >= 0))
+    && (account.remaining === undefined || isCount(account.remaining))
+    && (account.freeLimits === undefined || (!!account.freeLimits && typeof account.freeLimits === 'object'
+      && isCount(account.freeLimits.daily) && isCount(account.freeLimits.hourly)))
     && (!account.access || (!!account.user && typeof account.access.order_id === 'string'
       && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && Number.isInteger(account.access.remaining) && account.access.remaining >= 0))
     && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string' && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))))
@@ -102,6 +110,8 @@ export interface ChatMessage {
   streaming?: boolean;
   error?: boolean;
   partial?: boolean;
+  /** Cut at the length limit and not charged: the answer says so. */
+  truncated?: boolean;
 }
 
 export interface MountConfig {
@@ -119,7 +129,16 @@ export interface ChatApiResponse {
   sessionId?: string;
   code?: string;
   message?: string;
+  /** 429 limit_reached: which rule refused the turn (limit-state.ts LimitReason). */
   reason?: string;
+  tier?: 'free' | 'paid';
+  limits?: { daily: number | null; hourly: number | null };
+  retryAt?: number | null;
+  /** Seconds until a turn fits again (the body, else the Retry-After header). */
+  retryAfterSec?: number | null;
+  hourRemaining?: number | null;
+  truncated?: boolean;
+  charged?: boolean;
   plan?: string;
   leadHint?: string;
 }
