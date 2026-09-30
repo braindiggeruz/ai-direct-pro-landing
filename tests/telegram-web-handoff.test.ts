@@ -19,11 +19,13 @@
 // the production DDL of both schemas.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { randomBytes } from 'node:crypto';
 
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { ensureSchema } from '../functions/lib/gpt-chat/schema';
 import { handleUpdate } from '../functions/lib/telegram/handler';
+import { pseudoUser } from '../functions/lib/telegram/store';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { TelegramClient } from '../functions/lib/telegram/client';
 import { CHOOSE_LANG, HANDOFF_WELCOME, SITE_WELCOME, START } from '../functions/lib/telegram/i18n';
@@ -75,7 +77,9 @@ function installFetch(calls: TgCall[]): () => void {
 const NOTIFY_ENV = {
   OPENROUTER_API_KEY: 'test',
   TELEGRAM_ASSISTANT_BOT_TOKEN: 'assistant-token',
-  GPT_HASH_SALT: 'salt',
+  // A 32-byte salt whose SINCE has passed: pseudonyms are the salted v2.
+  GPT_HASH_SALT: randomBytes(32).toString('hex'),
+  GPT_HASH_SALT_SINCE: '2026-01-01T00:00:00Z',
   GPT_NOTIFY_BOT_TOKEN: 'notify-token',
   GPT_NOTIFY_CHAT_ID: OWNER_CHAT,
 };
@@ -188,6 +192,17 @@ test('a valid token continues the conversation in the web session language', asy
     assert.ok(events.some((e) => e.event === 'javob_bot_start' && e.meta_json.includes('web_handoff')));
     assert.ok(events.some((e) => e.event === 'javob_handoff_claimed'));
     assert.ok(!events.some((e) => e.meta_json.includes(String(USER_CHAT))), 'no raw Telegram id in analytics');
+
+    // Every stored key of this person is the salted pseudonym (h2_, 32 chars).
+    const pseudo = await pseudoUser(USER_CHAT, deps(db).cfg);
+    assert.match(pseudo, /^h2_[0-9a-f]{29}$/);
+    assert.equal(db.value('SELECT claimed_by FROM gpt_handoffs'), pseudo);
+    assert.deepEqual(
+      [...new Set(db.rows<{ pseudo_user: string }>('SELECT pseudo_user FROM telegram_events').map((e) => e.pseudo_user))],
+      [pseudo],
+    );
+    const claimed = db.rows<{ payload_json: string }>("SELECT payload_json FROM gpt_events WHERE event_name='GPTChatHandoffClaimed'");
+    assert.equal(JSON.parse(claimed[0].payload_json).claimedBy, pseudo);
   } finally { restore(); }
 });
 

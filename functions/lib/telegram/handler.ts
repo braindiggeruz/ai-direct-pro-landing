@@ -105,7 +105,7 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
 
   const user = await S.upsertUser(db, from.id, localeFromCode(from.language_code));
   const locale = user.locale;
-  const pseudo = await S.pseudoUser(from.id, cfg.hashSalt);
+  const pseudo = await S.pseudoUser(from.id, cfg);
   const text = (msg.text || '').trim();
 
   if (text.startsWith('/')) return await handleCommand(deps, chatId, from, locale, text, pseudo);
@@ -524,7 +524,7 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
   const data = cq.data || '';
   const user = await S.upsertUser(db, userId, localeFromCode(cq.from.language_code));
   const locale = user.locale;
-  const pseudo = await S.pseudoUser(userId, cfg.hashSalt);
+  const pseudo = await S.pseudoUser(userId, cfg);
   const parts = data.split(':');
   const kind = parts[0];
 

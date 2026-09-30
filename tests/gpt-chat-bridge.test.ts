@@ -12,6 +12,7 @@
 //   - the public POST surface is boring to flood.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { randomBytes } from 'node:crypto';
 
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { ensureSchema } from '../functions/lib/gpt-chat/schema';
@@ -105,7 +106,10 @@ const NOTIFY_ENV = {
   GPT_NOTIFY_BOT_TOKEN: 'test-bot-token-never-logged',
   GPT_NOTIFY_CHAT_ID: '4242',
   GPT_HANDOFF_BOT_USERNAME: 'gptbotuz_bot',
-  GPT_HASH_SALT: 'salt',
+  // Production shape after release R2: a 32-byte salt whose SINCE has passed,
+  // so every rate-limit subject below is a salted v2 IP hash.
+  GPT_HASH_SALT: randomBytes(32).toString('hex'),
+  GPT_HASH_SALT_SINCE: '2026-01-01T00:00:00Z',
 };
 
 function context(db: SqliteD1 | null, body: unknown, envOver: Record<string, unknown> = {}, path = '/api/gpt/lead') {

@@ -86,10 +86,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
     await ensureUzumSchema(db);
-    const hashedIp = await hashIp(
-      getClientIp(request),
-      resolveConfig(env).hashSalt,
-    );
+    const hashedIp = await hashIp(getClientIp(request), resolveConfig(env));
     const rate = await consumeRateLimit(db, "uzum_callback", hashedIp, {
       limit: 300,
       windowMs: HOUR_MS,

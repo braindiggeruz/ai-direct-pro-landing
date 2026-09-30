@@ -61,7 +61,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   const now = new Date();
   const nowIso = now.toISOString();
   const clientIp = getClientIp(request);
-  const hashedIp = await hashIp(clientIp, cfg.hashSalt);
+  const hashedIp = await hashIp(clientIp, cfg, now.getTime());
   const perHour = await consumeRateLimit(db, 'lead', hashedIp, {
     limit: limits.leadPerHour,
     windowMs: HOUR_MS,

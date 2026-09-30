@@ -171,10 +171,12 @@ test('buildChatBody: no response_format (free-form), carries model + messages', 
   assert.equal((body.messages as unknown[]).length, 1);
 });
 
-test('hashIp: deterministic + salt-sensitive, hex output', async () => {
-  const a = await hashIp('1.2.3.4', 'salt');
-  const b = await hashIp('1.2.3.4', 'salt');
-  const c = await hashIp('1.2.3.4', 'other');
+// The salted v2 scheme and its switch-over: tests/gpt-hash-salt.test.ts.
+test('hashIp: deterministic hex per address without a salt', async () => {
+  const cfg = resolveConfig({} as AnyEnv);
+  const a = await hashIp('1.2.3.4', cfg);
+  const b = await hashIp('1.2.3.4', cfg);
+  const c = await hashIp('1.2.3.5', cfg);
   assert.equal(a, b);
   assert.notEqual(a, c);
   assert.match(a, /^[0-9a-f]{64}$/);

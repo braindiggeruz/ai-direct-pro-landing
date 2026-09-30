@@ -5,8 +5,7 @@ import type { Env } from '../../_types';
 import { ensureSchema } from '../../lib/gpt-chat/schema';
 import { json, fail } from '../../lib/gpt-chat/http';
 import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
-import { resolveConfig } from '../../lib/gpt-chat/config';
-import { sha256Hex } from '../../lib/gpt-chat/hash';
+import { hashToken } from '../../lib/gpt-chat/hash';
 
 function cookie(request: Request, name: string): string | null {
   for (const part of (request.headers.get('Cookie') || '').split(';')) {
@@ -53,7 +52,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const session = await db.prepare(
       'SELECT anon_token FROM gpt_sessions WHERE id = ? LIMIT 1',
     ).bind(sessionId).first<{ anon_token: string | null }>();
-    const suppliedHash = await sha256Hex(`${token}${resolveConfig(env).hashSalt}`);
+    const suppliedHash = await hashToken(token);
     if (!session?.anon_token || !sameValue(session.anon_token, suppliedHash)) {
       return fail('forbidden', 'Forbidden', 403);
     }

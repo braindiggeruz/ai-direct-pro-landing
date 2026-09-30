@@ -2,8 +2,10 @@
 // Distinct secrets from the lead-capture bot (functions/api/telegram/webhook.ts)
 // so both bots can coexist with different tokens and webhooks.
 import type { Env } from '../../_types';
+import { resolveHashSalt, type HashSalt } from '../gpt-chat/hash';
 
-export interface TelegramConfig {
+/** hashSalt/hashSaltSince (HashSalt): the pseudonym salt, see gpt-chat/hash.ts. */
+export interface TelegramConfig extends HashSalt {
   token: string;
   webhookSecret: string;
   siteUrl: string;
@@ -12,7 +14,6 @@ export interface TelegramConfig {
   maxInputChars: number;
   maxOutputChars: number;
   itemTtlMs: number;
-  hashSalt: string;
   sttTimeoutMs: number;
   voiceMinSeconds: number;
   voiceMaxSeconds: number;
@@ -42,7 +43,7 @@ export function resolveTelegramConfig(env: Env): TelegramConfig {
     maxOutputChars: num(env.TELEGRAM_MAX_OUTPUT_CHARS, 3000),
     // Source text retained only long enough for follow-up buttons (24h).
     itemTtlMs: num(env.TELEGRAM_ITEM_TTL_HOURS, 24) * 60 * 60 * 1000,
-    hashSalt: env.GPT_HASH_SALT || '',
+    ...resolveHashSalt(env),
     sttTimeoutMs: Math.min(Math.max(num(env.TELEGRAM_STT_TIMEOUT_MS, 10_000), 1_000), 10_000),
     voiceMinSeconds,
     voiceMaxSeconds: Math.max(voiceMinSeconds, Math.min(num(env.TELEGRAM_VOICE_MAX_SECONDS, 300), 300)),

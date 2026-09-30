@@ -9,7 +9,7 @@ import {
 } from "./alert-policy";
 import { spendDay } from "./model-spend-store";
 import { resolveOwnerNotify } from "./notify";
-import { consumeRateLimit, HOUR_MS } from "./rate-limit";
+import { consumeRateLimit, DAY_MS, HOUR_MS } from "./rate-limit";
 
 /**
  * Record one durable, coarse error code, whatever GPT_BILLING_MODE is: a
@@ -200,6 +200,14 @@ export async function maintainBilling(
         "DELETE FROM gpt_limit_hits WHERE rowid IN (SELECT rowid FROM gpt_limit_hits WHERE org_id=? AND day<? LIMIT 500)",
       )
       .bind(BILLING_ORG, spendDay(now - 93 * 86400_000)),
+    // Closed anti-abuse windows (none is longer than a day). They are keyed by
+    // the IP hash and are not rekeyed with the salt (salt-rekey-store.ts), so
+    // they must not outlive their window by weeks either.
+    db
+      .prepare(
+        "DELETE FROM gpt_rate_limits WHERE rowid IN (SELECT rowid FROM gpt_rate_limits WHERE window_start<? LIMIT 500)",
+      )
+      .bind(new Date(now - 2 * DAY_MS).toISOString()),
   ]);
   const token = env.GPT_NOTIFY_BOT_TOKEN || env.TELEGRAM_ASSISTANT_BOT_TOKEN;
   const chat = Number(env.GPT_NOTIFY_CHAT_ID || env.TELEGRAM_ADMIN_CHAT_ID);

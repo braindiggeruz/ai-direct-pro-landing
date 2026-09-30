@@ -123,7 +123,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // Without a pack the free tier counts by account and by IP hash, as the chat does.
     const remaining = await new TurnStore(db, BILLING_ORG).remaining(
       user,
-      await hashIp(getClientIp(request), cfg.hashSalt),
+      await hashIp(getClientIp(request), cfg),
       access,
       cfg,
     );

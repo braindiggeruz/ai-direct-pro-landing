@@ -1,6 +1,6 @@
 // D1 data access for the Telegram assistant. All queries are parameterized;
 // no SQL is ever built from AI output. Ownership is enforced on item reads.
-import { hashIp } from '../gpt-chat/hash';
+import { activeSalt, saltedPseudo, sha256Hex, type HashSalt } from '../gpt-chat/hash';
 
 export type Locale = 'ru' | 'uz';
 export type TgAction = 'reply' | 'explain' | 'summarize' | 'translate';
@@ -11,9 +11,15 @@ function shortId(): string {
 function nowIso(): string { return new Date().toISOString(); }
 function utcDate(d = new Date()): string { return d.toISOString().slice(0, 10); }
 
-/** Pseudonymous, stable per (user, salt). Analytics NEVER store the raw id. */
-export function pseudoUser(userId: number, salt: string): Promise<string> {
-  return hashIp(`tg:${userId}`, salt).then((h) => h.slice(0, 32));
+/**
+ * Pseudonymous, 32 chars. Analytics NEVER store the raw id. Legacy
+ * sha256("tg:"+id)[0:32] before GPT_HASH_SALT_SINCE, the salted v2 after
+ * (gpt-chat/hash.ts), so a pseudonym stays stable across the rekey.
+ */
+export async function pseudoUser(userId: number, cfg: HashSalt, now = Date.now()): Promise<string> {
+  const legacy = (await sha256Hex(`tg:${userId}`)).slice(0, 32);
+  const salt = activeSalt(cfg, now);
+  return salt ? saltedPseudo(salt, legacy) : legacy;
 }
 
 // ── Updates (dedupe) ─────────────────────────────────────────────────────

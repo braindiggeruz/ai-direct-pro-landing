@@ -13,7 +13,7 @@ import {
 } from "../../../lib/gpt-chat/identity-store";
 import { fail, json, readJsonLimited } from "../../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../../lib/gpt-chat/rate-limit";
-import { hashIp, getClientIp } from "../../../lib/gpt-chat/hash";
+import { hashIp, getClientIp, resolveHashSalt } from "../../../lib/gpt-chat/hash";
 import { ensureSchema } from "../../../lib/gpt-chat/schema";
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
@@ -36,7 +36,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     const limit = await consumeRateLimit(
       db,
       "account_login",
-      await hashIp(getClientIp(request), env.GPT_HASH_SALT || ""),
+      await hashIp(getClientIp(request), resolveHashSalt(env)),
       { limit: 10, windowMs: HOUR_MS },
     );
     if (!limit.allowed || limit.degraded)

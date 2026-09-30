@@ -813,7 +813,7 @@ test('analytics never contain raw message text or raw telegram id', async () => 
     assert.ok(!(e.meta_json || '').includes('СЕКРЕТНАЯ'), 'raw text leaked');
     assert.notEqual(e.pseudo_user, '19');
   }
-  const p = await pseudoUser(19, 's');
+  const p = await pseudoUser(19, resolveTelegramConfig(baseEnv));
   assert.equal(events[0].pseudo_user, p);
 });
 

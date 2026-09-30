@@ -1,3 +1,62 @@
+# Платный AI-чат: WP-07 — соль хешей с перекеем и удаление переписки (выключено), 2026-10-01
+
+**Итог.** Сделан WP-07 плана `10-PROD-PLAN.md` (релиз R2, D7, решение L8) на ветке `paid-chat/prod-readiness` поверх `77720e11` (R1 в проде). Код готов к релизу R2 и в проде ничего не меняет, пока нет секрета `GPT_HASH_SALT` и не наступил `GPT_HASH_SALT_SINCE` (в `wrangler.toml` он пустой). Удаление переписки собрано и выключено (`GPT_MESSAGES_RETENTION_DAYS=""`). Ничего не запушено и не задеплоено. Cloudflare, секреты, GSC и боты не менялись. Из D1 прочитаны только агрегаты (числа строк и форматы дат) для оценки объёма перекея. Миграции в WP-07 нет: по §5 плана 0067 относится к WP-08. Runbook: `docs/paid-chat/SALT-RU.md`.
+
+**Что сделано.**
+1. `functions/lib/gpt-chat/hash.ts`:
+   - старый хеш IP — `sha256(ip)` (соль больше не дописывается: в проде её никогда не было, значит, это ровно то, что лежит в D1);
+   - v2 — `"h2_" + HMAC-SHA256(соль, старый хеш)`;
+   - `hashIp(ip, cfg, now)` отдаёт v2 только при соли от 32 байт и `now ≥ SINCE`. Соль без `SINCE` — старый хеш и один `console.warn({"event":"gpt_hash_salt_since_missing"})` на изолят. `SINCE` принимается только как момент UTC с `Z`;
+   - `hashToken(token) = sha256(token)` без соли (L8). Им пишут и сверяют `anon_token` `session.ts`, `history.ts` и `IdentityStore.ownsChat` (параметр соли у него убран).
+2. `GptChatConfig` и `TelegramConfig` расширяют `HashSalt` (`hashSalt`, `hashSaltSince`) через общий `resolveHashSalt`. Вызовы `hashIp` в `chat`, `session`, `account`, `auth/start`, `handoff`, `lead`, `payments/uzum` передают конфиг. Псевдоним бота `pseudoUser(id, cfg, now)`: до `SINCE` — `sha256("tg:"+id)[0:32]`, после — `"h2_"` + 29 hex от HMAC(соль, старый псевдоним), длина 32.
+3. Новый `functions/lib/gpt-chat/salt-rekey-store.ts` (`rekeySaltedHashes`):
+   - работает только после `SINCE`. За тик — до 200 строк на таблицу, **сначала новые**, и не больше 400 строк на тик;
+   - строка берётся, пока её значение имеет старый вид (64/32 hex). `UPDATE` условный по прочитанному значению, поэтому повтор ничего не меняет, а двойного ключа нет;
+   - курсор на таблицу — `gpt_billing_ops` `salt_rekey:<таблица>` (0 = готово); аренда `salt_rekey` на 2 мин, снимается в конце тика;
+   - таблицы: `gpt_turn_reservations.ip_hash` и `.subject` (без `acct_`, только org `gptbot-consumer`), `gpt_limit_hits.subject` (слияние со строкой v2 того же дня), `gpt_sessions.hashed_ip`, `telegram_events.pseudo_user`, `gpt_handoffs.claimed_by`, `gpt_events.claimedBy`; строки `gpt_usage_daily` до `SINCE` удаляются. Таблица, которой нет в базе, считается готовой;
+   - в ответе только числа строк.
+4. Новый `functions/lib/gpt-chat/retention-store.ts` (`purgeChatMessages`): пусто или `0` — выключено, иначе срок 7..3650 дней. Одним пакетом D1 — до 500 строк каждого вида: `gpt_messages`, `gpt_sessions.hashed_ip=NULL` (сама сессия остаётся), `gpt_usage_daily`.
+5. `gpt-billing-maintenance.ts`: новые шаги `rekey` и `retention` между `maintenance` и `diagnostics`, плюс `ensureSchema` чата. Бюджеты шагов пересчитаны, в сумме 19 с < 20 с таймаута Worker'а: providers 6, watchdog 2, alerts 4,5, maintenance 2,5, rekey 2, retention 1, diagnostics 1. `maintainBilling` теперь чистит и закрытые окна `gpt_rate_limits` старше 2 суток.
+6. Настройки: `GPT_HASH_SALT_SINCE` и `GPT_MESSAGES_RETENTION_DAYS` (пустые) — в `RUNTIME_CONFIG_KEYS`, `_types.ts`, JSON и таблице `wrangler.toml`. JSON 3 318 байт из 5 120.
+7. Тесты: новые `tests/gpt-hash-salt.test.ts` (10) и `tests/gpt-retention.test.ts` (4), оба добавлены в `npm test`. Обновлены `gpt-chat` (hashIp), `gpt-chat-limits`, `gpt-zai-provider` (hashToken), `telegram-assistant` (pseudoUser). В `gpt-chat-session-privacy`, `gpt-chat-bridge` и `telegram-web-handoff` стоит соль как в проде после R2: 32 случайных байта и прошедший `SINCE`. Там проверяются несолёный `anon_token`, v2 `hashed_ip` и v2-псевдоним в `claimed_by`, `telegram_events` и `gpt_events`. Отдельный тест проверяет чистку окон `gpt_rate_limits`. Проверка мутациями: `ASC` вместо `DESC` и `DO NOTHING` вместо слияния отказов ловятся тестами.
+8. Документы: новый `docs/paid-chat/SALT-RU.md` (схема, таблицы, настройки, шаги релиза, SQL сверки, откат, как включать удаление), в `ALERTS-RU.md` — шаги и бюджеты тика.
+
+**Отклонения от плана (и почему).**
+1. `gpt_events.payload_json.claimedBy` — плана нет. Событие `GPTChatHandoffClaimed` повторяет псевдоним бота, в проде таких строк 2. Без перекея там остались бы перебираемые Telegram id. Перекеивается через `json_set`.
+2. `gpt_usage_daily` в перекее удаляется, а не перекеивается (так в карте 01 §4.1). Таблицу с 06.09 никто не пишет и не читает, в проде 123 строки со старыми хешами IP. Удаление по сроку (`retention`) тоже осталось, как в плане.
+3. `gpt_rate_limits` не перекеивается (как в плане), но закрытые окна старше 2 суток теперь чистит шаг `maintenance`. Раньше их чистил только `lead.ts` на 2 % заявок, поэтому в проде лежат окна с 04.09 (11 старых хешей). Самое длинное окно — сутки.
+4. Кроме пачек по 200 на таблицу введён потолок 400 строк на тик: так HMAC укладывается в лимит CPU Workers Free. Замерить CPU на превью нельзя, превью пишет в боевую D1. При нынешнем объёме (ходов 1314, сессий 719, событий бота 228) это около 7 тиков, 1 ч 45 мин. Быстрее — ручными вызовами эндпоинта (SALT-RU шаг 6).
+5. В плане «передеплой того же коммита» после `secret put` + `SINCE`. Но `SINCE` живёт в `wrangler.toml`, поэтому передеплоится однострочный коммит конфигурации, как в R1.1. Секрет и `SINCE` вступают в силу одним деплоем.
+6. `SINCE` без `Z` (местное время, дата без времени, `+05:00`) считается незаданным: опечатка оставляет старые хеши, а не включает соль в неожиданный момент.
+7. Бюджеты шагов тика уменьшены (alerts 5 → 4,5 с, maintenance 4 → 2,5 с, diagnostics 2 → 1 с), чтобы новые шаги поместились в 20 с Worker'а без его передеплоя.
+8. `anon_token` не перекеивается (карта 01 §4.1 его называла): по L8 токены не солятся.
+
+**Проверки.**
+- `npx tsc -b` — 0; `npm run typecheck:functions` — 0; ESLint изменённых файлов — 0.
+- Тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`), затронутые и соседние — 28 файлов, 446/446: gpt-hash-salt 10, gpt-retention 4, gpt-chat-session-privacy 3, telegram-web-handoff 21, gpt-chat-bridge 42, gpt-chat 19, gpt-chat-limits 13, gpt-zai-provider 18, telegram-assistant 61, gpt-watchdog 13, gpt-operations 7, runtime-config 4, pages-config-parity 7, gpt-billing 15, gpt-uzum-payments 17, gpt-readiness 9, lead-attribution 17, lead-capture-templates 27, functions-type-safety 38, gpt-chat-stream 11, gpt-chat-truncation 8, gpt-chat-budget 10, gpt-routing 6, gpt-chat-handoff-link 11, gpt-backend-security 31, gpt-lead-outbox-endpoint 3, gpt-chat-runtime-schema 5, secret-scan 16.
+- Весь список `npm test` по одному файлу: 68 файлов, 842/844; падают только два известных теста `tests/lead-radar.test.ts` (фикстуры от 2026-08-24), как до WP-07 (828/830 + 14 новых).
+- `npm run build:fast` → `seo-protection check` — **10/10 unchanged**. `src/` и `content/` не менялись, бандл не менялся.
+- `git diff --check` — чисто; `npm run scan:secrets` — чисто; регулярка токена Telegram по diff — 0; `webhook.ts`, `TELEGRAM_BOT_TOKEN`, `scripts/seo-protection.ts`, `docs/seo/evidence` не тронуты.
+
+**Для релиза R2 (делает ведущий по команде владельца, подробно — `SALT-RU.md`).**
+1. Деплой кода R2 (WP-07 + WP-08, миграция 0067 — из WP-08) с пустым `SINCE`. Тик отвечает `rekey.status = "off"`.
+2. Соль: 32 случайных байта hex без перевода строки, в `C:/Users/Borinio/.config/gptbot-private/gpt-hash-salt.txt`. Запись через `wr.py --stdin … pages secret put GPT_HASH_SALT`. Не печатать, не удалять, не менять.
+3. `SINCE` — ближайшие 00:00 UTC, до которых успеет деплой (не меньше часа запаса), вид `2026-10-03T00:00:00Z`. Пишется в JSON и в таблицу `wrangler.toml`, затем тесты `runtime-config` и `pages-config-parity`, коммит.
+4. Guarded-деплой этого коммита. До `SINCE` тик должен отвечать `rekey.status = "waiting"`.
+5. После `SINCE` — тики крона или ручные вызовы до `rekey.status = "done"`.
+6. Через `SINCE` + 2 ч — агрегатный SQL из `SALT-RU.md` (шаг 7): все счётчики 0, включая `new_sessions_unsalted`.
+7. Живая приёмка: 6-е сообщение — 429; заявка из чата с перепиской доходит; открытый до `SINCE` чат продолжает историю. Квитанция `R2-live-verification.json`.
+- **Откат:** до `SINCE` — пустой `SINCE` и деплой; после `SINCE` — только исправление вперёд. Соль не удалять, `SINCE` не двигать.
+
+**Открыто.**
+1. Первые тики после `SINCE` — смотреть CPU шага `rekey` (Functions metrics или `wrangler pages deployment tail`). Если `failed: ["rekey"]` из-за CPU, уменьшить `TICK_ROWS`: курсоры продолжат с того же места.
+2. Удаление переписки включают только по решению владельца и юриста о сроке и тем же релизом, что меняет текст политики (WP-18).
+3. Админке (WP-19) в разделе «Готовность» стоит показывать `rekey.status` и `retention` из тика (без значений).
+
+**Дальше.** WP-08 (бот @gptbotuz_bot и миграция 0067), затем выкат R2 по `SALT-RU.md`.
+
+---
+
 # Платный AI-чат: релиз R1 выкачен в прод, порядок бесплатных моделей, 2026-10-01
 
 **Итог.** R1 (WP-00…WP-06, вершина `ba01fb53`) выкачен в прод 2026-10-01 ночью по поручению владельца («делай всё под ключ автономно»). Порядок выката — план §4 «R1: сборка и выкат»:

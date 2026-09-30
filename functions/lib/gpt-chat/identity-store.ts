@@ -1,4 +1,4 @@
-import { sha256Hex } from "./hash";
+import { hashToken, sha256Hex } from "./hash";
 export function cookieValue(request: Request, name: string): string {
   return (
     (request.headers.get("cookie") || "")
@@ -23,7 +23,7 @@ export class IdentityStore {
     readonly db: D1Database,
     readonly org: string,
   ) {}
-  async ownsChat(request: Request, id: string, salt: string): Promise<boolean> {
+  async ownsChat(request: Request, id: string): Promise<boolean> {
     if (
       cookieValue(request, "gpt_sid") !== id ||
       !cookieValue(request, "gpt_sat")
@@ -32,7 +32,7 @@ export class IdentityStore {
     try {
       return !!(await this.db
         .prepare("SELECT id FROM gpt_sessions WHERE id=? AND anon_token=?")
-        .bind(id, await sha256Hex(`${cookieValue(request, "gpt_sat")}${salt}`))
+        .bind(id, await hashToken(cookieValue(request, "gpt_sat")))
         .first());
     } catch {
       return false;

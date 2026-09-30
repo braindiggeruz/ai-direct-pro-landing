@@ -240,7 +240,7 @@ test('limits are per org: another tenant neither refuses nor sees this org\'s tu
 test('the sixth message in an hour: 429 hourly with retryAt, retryAfterSec, Retry-After and a message in the visitor language', async () => {
   const f = await fixture();
   const now = Date.now();
-  const ipHash = await hashIp(IP, '');
+  const ipHash = await hashIp(IP, resolveConfig(f.env));
   const today = Math.floor(now / DAY) * DAY;
   const seeded = times(5, (i) => now - (50 - 10 * i) * 1000, { subject: ipHash, ip: ipHash });
   seed(f, seeded);

@@ -85,7 +85,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     return unlinked('storage_unavailable');
   }
 
-  const hashedIp = await hashIp(getClientIp(request), cfg.hashSalt);
+  const hashedIp = await hashIp(getClientIp(request), cfg);
   const gate = await consumeRateLimit(db, 'handoff', hashedIp, { limit: limits.handoffPerHour, windowMs: HOUR_MS });
   // Minting is cheap but it writes a row, so it is capped. Being over the cap
   // must not cut somebody off from the only route to a human, so the answer is

@@ -4,7 +4,7 @@
 import type { Env } from '../../_types';
 import { resolveConfig } from '../../lib/gpt-chat/config';
 import { ensureSchema } from '../../lib/gpt-chat/schema';
-import { hashIp, getClientIp, sha256Hex } from '../../lib/gpt-chat/hash';
+import { hashIp, getClientIp, hashToken } from '../../lib/gpt-chat/hash';
 import { json, fail, readJson, genId } from '../../lib/gpt-chat/http';
 import { normLocale } from '../../lib/gpt-chat/validate';
 import { proxyToRailway, relay } from '../../lib/gpt-chat/gateway';
@@ -20,14 +20,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const source = typeof body.source === 'string' ? body.source.slice(0, 60) : 'gpt_chat';
   const sessionId = genId('sess');
   const anonToken = genId('anon');
-  const anonTokenHash = await sha256Hex(`${anonToken}${cfg.hashSalt}`);
+  const anonTokenHash = await hashToken(anonToken);
   const nowIso = new Date().toISOString();
 
   const db = env.GPTBOT_DRAFTS_DB;
   if (db) {
     try {
       await ensureSchema(db);
-      const hashedIp = await hashIp(getClientIp(request), cfg.hashSalt);
+      const hashedIp = await hashIp(getClientIp(request), cfg);
       await db
         .prepare(
           `INSERT INTO gpt_sessions (id, user_id, anon_token, hashed_ip, locale, source, created_at, last_activity_at)

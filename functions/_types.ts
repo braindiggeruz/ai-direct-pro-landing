@@ -256,9 +256,17 @@ export interface Env extends FirecrawlEnvironment {
   // Public. A stopped or abandoned answer is charged only once this many
   // characters reached the visitor (default 600, clamped 0..20000; 0 = never).
   GPT_STOP_CHARGE_MIN_CHARS?: string;
-  // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
-  // If unset, hashing still runs with an empty salt (weaker; set in prod).
+  // Secret. Salt of the v2 IP hashes and Telegram pseudonyms (HMAC, at least
+  // 32 bytes, shorter = unset; functions/lib/gpt-chat/hash.ts). NEVER store raw
+  // IPs. Used only from GPT_HASH_SALT_SINCE on; never removed once used.
   GPT_HASH_SALT?: string;
+  // Public. UTC instant ("2026-10-03T00:00:00Z") from which new hashes are v2
+  // and the maintenance tick rekeys older rows (salt-rekey-store.ts). Empty =
+  // legacy hashes. Set once with the salt; never moved after it has passed.
+  GPT_HASH_SALT_SINCE?: string;
+  // Public. Days gpt_messages are kept (retention-store.ts). Empty or 0 = kept
+  // until deleted on request; otherwise clamped 7..3650.
+  GPT_MESSAGES_RETENTION_DAYS?: string;
   // Z.ai as a second provider for the WEB chat only (functions/api/gpt/chat.ts;
   // Javob stays on OpenRouter). Active only when GPT_MODEL_PROVIDER='zai',
   // GPT_ZAI_EVAL_APPROVED and the secret ZAI_API_KEY are all set; see

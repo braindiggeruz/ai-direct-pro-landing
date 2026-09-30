@@ -27,7 +27,7 @@ import { ZAI_ENDPOINT, classifyZaiFailure, callZaiOnce } from '../functions/lib/
 import { availableModels, modelFailed } from '../functions/lib/gpt-chat/model-health-store';
 import { estimateCostUsd } from '../functions/lib/gpt-chat/model-pricing';
 import { alertOperator } from '../functions/lib/gpt-chat/operator-alert';
-import { sha256Hex } from '../functions/lib/gpt-chat/hash';
+import { hashToken } from '../functions/lib/gpt-chat/hash';
 import { onRequestPost as chat } from '../functions/api/gpt/chat';
 import { runAssistant } from '../functions/lib/telegram/service';
 import { RUNTIME_CONFIG_KEYS, hydrateRuntimeConfig } from '../functions/lib/runtime-config';
@@ -165,12 +165,12 @@ function endpoint(env: Env, body: Body, cookie?: string) {
 }
 
 /** Make gpt_messages persistence reachable: ownsChat needs gpt_sid + gpt_sat. */
-async function ownedSession(sqlite: SqliteD1, salt = '') {
+async function ownedSession(sqlite: SqliteD1) {
   const id = `sess_${secret().slice(0, 12)}`;
   const sat = secret();
   sqlite.sqlite
     .prepare('INSERT INTO gpt_sessions (id, anon_token, created_at) VALUES (?, ?, ?)')
-    .run(id, await sha256Hex(`${sat}${salt}`), new Date().toISOString());
+    .run(id, await hashToken(sat), new Date().toISOString());
   return { id, cookie: `gpt_sid=${id}; gpt_sat=${sat}` };
 }
 

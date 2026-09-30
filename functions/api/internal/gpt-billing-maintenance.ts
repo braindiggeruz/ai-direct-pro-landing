@@ -10,6 +10,10 @@
 //   watchdog     silence watchdog, at most every 10 minutes
 //   alerts       deliver urgent service alerts to the owner
 //   maintenance  retention sweeps; the payment outbox in live mode
+//   rekey        after GPT_HASH_SALT_SINCE, one batch of legacy hashes per
+//                table to their salted v2 (salt-rekey-store.ts)
+//   retention    chat messages older than GPT_MESSAGES_RETENTION_DAYS; off
+//                while that is empty (retention-store.ts)
 //   diagnostics  outbox, last hour of turns, blocked models
 // Any failed step answers 503 with `failed`, so the Worker logs it; the other
 // steps still ran.
@@ -18,6 +22,7 @@
 // hour), so the same tick delivers a training alert end to end. Any other body
 // is ignored except invalid JSON (400).
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import { ensureSchema } from "../../lib/gpt-chat/schema";
 import {
   deliverServiceAlerts,
   maintainBilling,
@@ -31,13 +36,18 @@ import {
   checkBillingProviders,
 } from "../../lib/gpt-chat/billing-operations-store";
 import { runWatchdog } from "../../lib/gpt-chat/watchdog-store";
+import { rekeySaltedHashes } from "../../lib/gpt-chat/salt-rekey-store";
+import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
 
+// 19 s together, under the Worker's 20 s timeout.
 const STEP_BUDGET_MS = {
   providers: 6_000,
   watchdog: 2_000,
-  alerts: 5_000,
-  maintenance: 4_000,
-  diagnostics: 2_000,
+  alerts: 4_500,
+  maintenance: 2_500,
+  rekey: 2_000,
+  retention: 1_000,
+  diagnostics: 1_000,
 } as const;
 type Step = keyof typeof STEP_BUDGET_MS;
 
@@ -82,6 +92,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     }
   }
   try {
+    // The chat tables too: the rekey and retention steps and the rate-limit
+    // sweep work on them.
+    await ensureSchema(env.GPTBOT_DRAFTS_DB);
     await ensureBillingSchema(env.GPTBOT_DRAFTS_DB);
     if (drill) await recordServiceAlert(env, "drill");
   } catch {
@@ -107,6 +120,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   const watchdog = await step("watchdog", () => runWatchdog(env));
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const maintenance = await step("maintenance", () => maintainBilling(env));
+  const rekey = await step("rekey", () => rekeySaltedHashes(env));
+  const retention = await step("retention", () => purgeChatMessages(env));
   const diagnostics = await step("diagnostics", () => inspectBilling(env));
   return json(
     {
@@ -116,6 +131,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       watchdog,
       alerts,
       ...maintenance,
+      rekey,
+      retention,
       ...diagnostics,
     },
     failed.length ? 503 : 200,

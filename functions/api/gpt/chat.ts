@@ -225,7 +225,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
       : genId("sess");
   let plan: "free" | "paid" = "free";
   const db = env.GPTBOT_DRAFTS_DB;
-  const hashedIp = await hashIp(ip, cfg.hashSalt);
+  const hashedIp = await hashIp(ip, cfg);
 
   let subject = hashedIp;
   let period: AccessPeriod | null = null;
@@ -480,7 +480,6 @@ export const onRequestPost: PagesFunction<Env> = async ({
         (await new IdentityStore(db, BILLING_ORG).ownsChat(
           request,
           sessionId,
-          cfg.hashSalt,
         ))
       ) {
         try {
@@ -630,7 +629,6 @@ export const onRequestPost: PagesFunction<Env> = async ({
     (await new IdentityStore(db, BILLING_ORG).ownsChat(
       request,
       sessionId,
-      cfg.hashSalt,
     ))
   ) {
     try {

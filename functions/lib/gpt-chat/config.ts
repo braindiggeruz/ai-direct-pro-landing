@@ -1,8 +1,10 @@
 // Consumer AI-chat runtime config, resolved from env with safe defaults.
 // Pure — no I/O. Values from the brief's env contract.
 import type { Env } from '../../_types';
+import { resolveHashSalt, type HashSalt } from './hash';
 
-export interface GptChatConfig {
+/** hashSalt/hashSaltSince (HashSalt): GPT_HASH_SALT and GPT_HASH_SALT_SINCE, see hash.ts. */
+export interface GptChatConfig extends HashSalt {
   siteUrl: string;
   freeModel: string;
   freeFallbacks: string[];
@@ -13,7 +15,6 @@ export interface GptChatConfig {
   paidMonthlyLimit: number;
   maxInputChars: number;
   maxHistoryTurns: number;
-  hashSalt: string;
   /** max_tokens of one web-chat answer (GPT_MAX_OUTPUT_TOKENS). 400..4000, default 1600. */
   maxOutputTokens: number;
   /** Per-attempt budget until an OpenRouter stream's first content (GPT_FIRST_CONTENT_TIMEOUT_MS). 5000..20000 ms. */
@@ -166,7 +167,7 @@ export function resolveConfig(env: Env): GptChatConfig {
     paidMonthlyLimit: Math.min(num(env.GPT_PAID_MONTHLY_LIMIT, 300), 300),
     maxInputChars: num(env.GPT_MAX_INPUT_CHARS, 3000),
     maxHistoryTurns: 10, // server-side history window cap (per report)
-    hashSalt: env.GPT_HASH_SALT || '',
+    ...resolveHashSalt(env),
     maxOutputTokens: clampedInt(env.GPT_MAX_OUTPUT_TOKENS, 1600, 400, 4000),
     firstContentTimeoutMs: clampedInt(env.GPT_FIRST_CONTENT_TIMEOUT_MS, 12_000, 5_000, 20_000),
     freeTierPaidPrimary: (env.GPT_FREE_TIER_PAID_PRIMARY || '').trim().toLowerCase() === 'true',

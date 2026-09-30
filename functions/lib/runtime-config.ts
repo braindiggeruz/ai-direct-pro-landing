@@ -96,6 +96,11 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_FREE_TIER_PAID_PRIMARY',
   'GPT_FREE_PAID_DAILY_USD',
   'GPT_STOP_CHARGE_MIN_CHARS',
+  // Hash salt switch-over and message retention (functions/lib/gpt-chat/hash.ts,
+  // salt-rekey-store.ts, retention-store.ts). The salt itself is the secret
+  // GPT_HASH_SALT and never listed here.
+  'GPT_HASH_SALT_SINCE',
+  'GPT_MESSAGES_RETENTION_DAYS',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];
