@@ -157,13 +157,13 @@
       "name": "Борис Герасимов — основатель и редактор GPTBot.uz",
       "inLanguage": "ru",
       "dateCreated": "2026-07-30T00:00:00+05:00",
-      "dateModified": "2026-07-30T00:00:00+05:00",
+      "dateModified": "2026-09-30T00:00:00+05:00",
       "mainEntity": {
         "@id": "https://gptbot.uz/#author"
       }
     }
   ],
-  "lastReviewedAt": "2026-07-30",
+  "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-07-30T00:00:00Z",
-  "updatedAt": "2026-07-30"
+  "updatedAt": "2026-09-30"
 }
