@@ -10,10 +10,26 @@
 // modelUsed always carry the id of the model that actually answered
 // ('zai/glm-4.7-flash', 'google/gemma-4-31b-it:free', …); the UI prints it
 // verbatim. Answer length is cfg.maxOutputTokens (GPT_MAX_OUTPUT_TOKENS).
+//
+// Every reservation is settled once, without any text (TurnStore.finish,
+// migrations/0066): outcome, charged, model, finish_reason, time to first
+// content, total time, tokens, list-price cost and attempts. An answer cut at
+// the length limit is never charged and says so (done.truncated); a stopped
+// answer is charged only past GPT_STOP_CHARGE_MIN_CHARS delivered characters
+// (turn-outcome.ts). `remaining` / `hourRemaining` are read after that
+// settlement. A free turn may start on the paid primary only through the
+// day's budget (model-spend-store.ts); a pack turn walks under its attempt
+// ceiling (TurnStore.admitModelAttempt).
 import type { Env } from "../../_types";
 import { resolveConfig } from "../../lib/gpt-chat/config";
 import { webChatChain } from "../../lib/gpt-chat/model-provider";
 import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
+import {
+  FREE_PAID_BUDGET_ALERT,
+  ModelSpendStore,
+  freePaidBudget,
+} from "../../lib/gpt-chat/model-spend-store";
+import { recordServiceAlert } from "../../lib/gpt-chat/billing-maintenance-store";
 import { alertOperator } from "../../lib/gpt-chat/operator-alert";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { hashIp, getClientIp } from "../../lib/gpt-chat/hash";
@@ -30,13 +46,25 @@ import {
 } from "../../lib/gpt-chat/billing-store";
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, cookieValue } from "../../lib/gpt-chat/identity-store";
-import { TurnStore } from "../../lib/gpt-chat/turn-store";
+import {
+  TurnStore,
+  type Allowance,
+  type TurnSettlement,
+} from "../../lib/gpt-chat/turn-store";
+import {
+  failureOutcome,
+  isTruncated,
+  settleStreamedAnswer,
+} from "../../lib/gpt-chat/turn-outcome";
 import {
   modelFailed,
   settleModelFailure,
 } from "../../lib/gpt-chat/model-health-store";
 import { buildMessages, type ChatMessage } from "../../lib/gpt-chat/prompt";
-import { chatComplete } from "../../lib/gpt-chat/openrouter-chat";
+import {
+  chatComplete,
+  type AdmitAttempt,
+} from "../../lib/gpt-chat/openrouter-chat";
 import {
   chatStreamStart,
   parseSseChunk,
@@ -73,6 +101,11 @@ function publicProviderCode(code: string | undefined): string {
     code === "timeout"
     ? code
     : "provider_error";
+}
+
+/** USD → integer micro-USD for gpt_turn_reservations.cost_micro_usd; null stays unknown. */
+function microUsd(usd: number | null): number | null {
+  return usd === null ? null : Math.round(usd * 1_000_000);
 }
 
 function providerMessage(code: string | undefined): string {
@@ -207,13 +240,21 @@ export const onRequestPost: PagesFunction<Env> = async ({
       return fail("quota_unavailable", "Try again later", 503);
     }
   }
-  const finish = async (hasAnswer: boolean) => {
+  const settle = async (settlement: TurnSettlement) => {
     if (reservation)
       try {
-        await turns!.finish(reservation, hasAnswer);
+        await turns!.finish(reservation, settlement);
       } catch {
         console.warn("gpt_quota_settlement_failed");
       }
+  };
+  // What is left once the turn is settled; the admission's count if D1 fails.
+  const allowance = async (): Promise<Allowance> => {
+    try {
+      return await turns!.allowance(subject, period, cfg);
+    } catch {
+      return { remaining: admittedRemaining, hourRemaining: null };
+    }
   };
 
   // Provider call.
@@ -224,12 +265,23 @@ export const onRequestPost: PagesFunction<Env> = async ({
     locale,
   );
   if (messages[messages.length - 1].content !== msg.value) {
-    await finish(false);
+    await settle({ outcome: "context_too_large", charged: false });
     return fail("context_too_large", "Shorten the message", 400);
   }
-  const admitAttempt = period
-    ? () => turns!.admitModelAttempt(period!)
-    : undefined;
+  // A free turn pays for a paid model only out of the day's budget; its
+  // exhaustion is recorded once a day (informational, alert-policy.ts).
+  const budget = period
+    ? null
+    : freePaidBudget(new ModelSpendStore(db, BILLING_ORG), cfg, messages, () =>
+        waitUntil(
+          recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() =>
+            console.warn("gpt_operator_alert_record_failed"),
+          ),
+        ),
+      );
+  const admitAttempt: AdmitAttempt = budget
+    ? budget.admit
+    : async () => ((await turns!.admitModelAttempt(period!)) ? "ok" : "stop");
   const chain = webChatChain(cfg, env, plan);
   // OpenRouter credits (402 on a paid model) and Z.ai balance / key failures
   // page the owner (operator-alert.ts). Runs in the background and never
@@ -241,6 +293,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const reportFailure = (code: string) =>
     waitUntil(alertOperator(env, "chat_" + code, { watchdog: true }));
 
+  const turnStarted = Date.now();
   if (wantStream) {
     const start = await chatStreamStart(
       env,
@@ -252,9 +305,15 @@ export const onRequestPost: PagesFunction<Env> = async ({
       request.signal,
       admitAttempt,
       onOperatorEvent,
-    ).catch(() => ({ ok: false as const, errorCode: "provider_error" }));
+    ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 }));
     if (!start.ok) {
-      await finish(false);
+      await settle({
+        outcome: failureOutcome(start.errorCode),
+        charged: false,
+        cancelReason: start.errorCode === "aborted" ? "client_gone" : null,
+        totalMs: Date.now() - turnStarted,
+        attempts: start.attempts,
+      });
       if (!NOT_A_SERVICE_FAILURE.has(start.errorCode))
         reportFailure(start.errorCode);
       // Plain JSON (not SSE) — the client falls back on Content-Type.
@@ -281,66 +340,94 @@ export const onRequestPost: PagesFunction<Env> = async ({
       const reader = start.body.getReader();
       const state = { buffer: "" };
       let answer = "";
-      let inputTokens = 0;
-      let outputTokens = 0;
+      // Answer characters whose write reached the visitor's stream.
+      let deliveredChars = 0;
+      let inputTokens: number | undefined;
+      let outputTokens: number | undefined;
+      let reasoningTokens: number | undefined;
+      let finishReason: string | undefined;
       let clientGone = false;
       let completed = false;
-      let upstreamError = false;
-      // The upstream's own failure code when it sent one mid-stream.
-      let upstreamCode = "";
+      // The upstream's own failure code when it broke mid-stream.
+      let upstreamCode: string | null = null;
+      // A failed write means the visitor pressed Stop or left.
+      const deliver = async (event: unknown) => {
+        try {
+          await send(event);
+          return true;
+        } catch {
+          clientGone = true;
+          return false;
+        }
+      };
       try {
-        await send({ type: "meta", sessionId, model: start.model });
-        for (;;) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          for (const ev of parseSseChunk(
-            state,
-            decoder.decode(value, { stream: true }),
-            start.provider,
-          )) {
-            if (ev.error) {
-              upstreamError = true;
-              upstreamCode = ev.error;
-              throw new Error(ev.error);
-            }
-            if (ev.done) completed = true;
-            if (ev.inputTokens !== undefined) inputTokens = ev.inputTokens ?? 0;
-            if (ev.outputTokens !== undefined)
-              outputTokens = ev.outputTokens ?? 0;
-            if (ev.delta) {
-              answer += ev.delta;
-              try {
-                await send({ type: "delta", text: ev.delta });
-              } catch {
-                clientGone = true;
+        if (await deliver({ type: "meta", sessionId, model: start.model }))
+          read: for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            for (const ev of parseSseChunk(
+              state,
+              decoder.decode(value, { stream: true }),
+              start.provider,
+            )) {
+              if (ev.error) {
+                upstreamCode = ev.error;
+                break read;
+              }
+              if (ev.done) completed = true;
+              if (ev.inputTokens !== undefined) inputTokens = ev.inputTokens;
+              if (ev.outputTokens !== undefined) outputTokens = ev.outputTokens;
+              if (ev.reasoningTokens !== undefined)
+                reasoningTokens = ev.reasoningTokens;
+              if (ev.finishReason) finishReason = ev.finishReason;
+              if (ev.delta) {
+                answer += ev.delta;
+                if (!(await deliver({ type: "delta", text: ev.delta })))
+                  break read;
+                deliveredChars += ev.delta.length;
               }
             }
-            if (clientGone) break;
           }
-          if (clientGone) break;
-        }
       } catch {
-        upstreamError = true;
-        // Upstream broke mid-stream. If nothing was produced, tell the client;
-        // a partial answer is still worth keeping on their side.
-        if (!answer && !clientGone) {
-          try {
-            await send({ type: "error", code: "provider_error" });
-          } catch {
-            /* client gone */
-          }
-        }
+        // A read error: the upstream broke, or the visitor left and
+        // request.signal aborted the upstream fetch with it.
+        if (!request.signal.aborted) upstreamCode = "provider_error";
       } finally {
         start.abort();
         await reader.cancel().catch(() => undefined);
       }
-      const successful = !!answer.trim() && completed && !upstreamError && !clientGone && !request.signal.aborted;
-      await finish(successful);
-      if (
-        !clientGone &&
-        !request.signal.aborted &&
-        (upstreamError || !completed)
-      ) {
+      if (request.signal.aborted) clientGone = true;
+      const { outcome, charged, cancelReason } = settleStreamedAnswer(
+        {
+          hasText: !!answer.trim(),
+          deliveredChars,
+          completed,
+          upstreamCode,
+          clientGone,
+          finishReason,
+        },
+        cfg.stopChargeMinChars,
+      );
+      // 0 tokens means the usage chunk never arrived → unknown cost.
+      const tokensIn = inputTokens || null;
+      const tokensOut = outputTokens || null;
+      const costUsd = estimateCostUsd(start.model, tokensIn, tokensOut);
+      await settle({
+        outcome,
+        charged,
+        cancelReason,
+        model: start.model,
+        finishReason: finishReason ?? null,
+        ttftMs: start.ttftMs,
+        totalMs: Date.now() - turnStarted,
+        tokensIn,
+        tokensOut,
+        reasoningTokens: reasoningTokens ?? null,
+        costMicroUsd: microUsd(costUsd),
+        attempts: start.attempts,
+      });
+      await budget?.settle(start.model, costUsd);
+      if (!clientGone && (upstreamCode !== null || !completed)) {
         // Z.ai: a mid-stream safety stop (1301 / finish_reason 'sensitive')
         // refused this answer only, so it cools nothing down; a balance or
         // key failure blocks 'zai/*' and pages the owner. OpenRouter keeps
@@ -355,9 +442,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
         else await modelFailed(db, start.model, "provider_error");
       }
 
-      // Persist + usage + remaining (best-effort), then close the stream.
+      // Persist (best-effort), then tell the visitor how the turn settled.
       const nowIso = new Date().toISOString();
-      const remaining = admittedRemaining;
       if (
         db &&
         answer.trim() &&
@@ -379,7 +465,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
                 "user",
                 msg.value!,
                 null,
-                inputTokens || null,
+                tokensIn,
                 null,
                 null,
                 nowIso,
@@ -395,13 +481,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
                 answer,
                 start.model,
                 null,
-                outputTokens || null,
-                // 0 tokens means the usage chunk never arrived → unknown cost.
-                estimateCostUsd(
-                  start.model,
-                  inputTokens || null,
-                  outputTokens || null,
-                ),
+                tokensOut,
+                costUsd,
                 nowIso,
               ),
             db
@@ -414,21 +495,29 @@ export const onRequestPost: PagesFunction<Env> = async ({
           /* best-effort */
         }
       }
-      if (answer.trim() && !clientGone) {
-        try {
-          await send(
-            successful
-              ? { type: "done", remaining, modelUsed: start.model }
+      if (!clientGone) {
+        const { remaining, hourRemaining } = await allowance();
+        // A partial answer is still worth keeping on the visitor's side.
+        await deliver(
+          !answer.trim()
+            ? { type: "error", code: "provider_error" }
+            : outcome === "answered" || outcome === "truncated"
+              ? {
+                  type: "done",
+                  remaining,
+                  hourRemaining,
+                  modelUsed: start.model,
+                  truncated: outcome === "truncated",
+                  charged,
+                }
               : {
                   type: "error",
                   code: "partial",
                   remaining,
+                  hourRemaining,
                   modelUsed: start.model,
                 },
-          );
-        } catch {
-          /* client gone */
-        }
+        );
       }
       try {
         await writer.close();
@@ -458,10 +547,17 @@ export const onRequestPost: PagesFunction<Env> = async ({
     request.signal,
     admitAttempt,
     onOperatorEvent,
-  ).catch(() => ({ ok: false as const, errorCode: "provider_error" }));
+  ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 }));
 
   if (!result.ok) {
-    await finish(false);
+    const failure = result.errorCode ?? "provider_error";
+    await settle({
+      outcome: failureOutcome(failure),
+      charged: false,
+      cancelReason: failure === "aborted" ? "client_gone" : null,
+      totalMs: Date.now() - turnStarted,
+      attempts: result.attempts,
+    });
     if (!NOT_A_SERVICE_FAILURE.has(result.errorCode ?? ""))
       reportFailure(result.errorCode ?? "provider_error");
     // 200 with ok:false so the client renders an error state, not a crash.
@@ -475,7 +571,27 @@ export const onRequestPost: PagesFunction<Env> = async ({
   }
 
   const answer = result.content!;
-  await finish(true);
+  // A JSON answer reaches the visitor whole or not at all, so only a cut at
+  // the length limit is left uncharged here.
+  const truncated = isTruncated(result.finishReason);
+  const costUsd = estimateCostUsd(
+    result.modelUsed,
+    result.inputTokens,
+    result.outputTokens,
+  );
+  await settle({
+    outcome: truncated ? "truncated" : "answered",
+    charged: !truncated,
+    model: result.modelUsed,
+    finishReason: result.finishReason ?? null,
+    totalMs: Date.now() - turnStarted,
+    tokensIn: result.inputTokens,
+    tokensOut: result.outputTokens,
+    reasoningTokens: result.reasoningTokens,
+    costMicroUsd: microUsd(costUsd),
+    attempts: result.attempts,
+  });
+  if (result.modelUsed) await budget?.settle(result.modelUsed, costUsd);
   const nowIso = new Date().toISOString();
 
   // Persist (best-effort — never block the answer on a write failure).
@@ -516,11 +632,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
             result.modelUsed ?? null,
             null,
             result.outputTokens ?? null,
-            estimateCostUsd(
-              result.modelUsed,
-              result.inputTokens,
-              result.outputTokens,
-            ),
+            costUsd,
             nowIso,
           ),
         db
@@ -532,12 +644,15 @@ export const onRequestPost: PagesFunction<Env> = async ({
     }
   }
 
-  const remaining = admittedRemaining;
+  const { remaining, hourRemaining } = await allowance();
 
   return json({
     ok: true,
     answer,
     remaining,
+    hourRemaining,
+    truncated,
+    charged: !truncated,
     modelUsed: result.modelUsed,
     sessionId,
   });

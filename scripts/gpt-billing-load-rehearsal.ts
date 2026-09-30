@@ -22,7 +22,11 @@ for (let offset = 0; offset < count; offset += 50) {
         cfg,
       );
       assert.ok(admitted.id);
-      await store.finish(admitted.id, i % 5 !== 0);
+      const answered = i % 5 !== 0;
+      await store.finish(admitted.id, {
+        outcome: answered ? "answered" : "upstream_error",
+        charged: answered,
+      });
     }),
   );
 }

@@ -15,6 +15,7 @@ import {
   buildChatBody,
   classifyFailureEnvelope,
   classifyFailureResponse,
+  type AdmitAttempt,
 } from "./openrouter-chat";
 import { availableModels, MAX_ATTEMPTS, settleModelFailure } from "./model-health-store";
 import {
@@ -52,9 +53,13 @@ export type StreamStart =
       model: string;
       /** Which dialect `body` speaks; pass it to parseSseChunk. */
       provider: ModelProvider;
+      /** ms from the start of the walk to the first content, failed attempts included. */
+      ttftMs: number;
+      /** Requests the walk sent, the winning one included. */
+      attempts: number;
       abort: () => void;
     }
-  | { ok: false; errorCode: string };
+  | { ok: false; errorCode: string; attempts: number };
 
 /** The streaming OpenRouter request the chat sends; the model probe sends the same one. */
 export function openRouterRequest(
@@ -104,37 +109,40 @@ export async function chatStreamStart(
   maxTokens = 900,
   timeoutMs = 60_000,
   signal?: AbortSignal,
-  admitAttempt?: () => Promise<boolean>,
+  admitAttempt?: AdmitAttempt,
   onOperatorEvent?: (code: string) => void,
 ): Promise<StreamStart> {
+  const started = Date.now();
+  let attempts = 0;
+  const failed = (errorCode: string): StreamStart => ({ ok: false, errorCode, attempts });
   if (
     chain.length
       ? !chain.some((model) => hasProviderKey(env, providerOf(model)))
       : !env.OPENROUTER_API_KEY
   )
-    return { ok: false, errorCode: "no_key" };
+    return failed("no_key");
   let lastCode = "provider_error";
   let everyCandidateUnavailable = chain.length > 0;
-  // Same attempt rules as chatComplete: cooling, keyless and skipped models
-  // never take one of the MAX_ATTEMPTS.
+  // Same attempt and admission rules as chatComplete: cooling, keyless,
+  // skipped and budget-skipped models never take one of the MAX_ATTEMPTS.
   const candidates = await availableModels(
     env.GPTBOT_DRAFTS_DB,
     chain.filter((model) => hasProviderKey(env, providerOf(model))),
   );
-  if (!candidates.length) return { ok: false, errorCode: "models_cooling" };
+  if (!candidates.length) return failed("models_cooling");
   const deadline = Date.now() + timeoutMs;
   const skipped = new Set<string>();
-  let attempts = 0;
   for (const model of candidates) {
     const provider = providerOf(model);
     if (healthWildcards(model).some((wildcard) => skipped.has(wildcard))) continue;
     if (attempts === MAX_ATTEMPTS) break;
+    if (signal?.aborted) return failed("aborted");
+    const admission = admitAttempt ? await admitAttempt(model) : "ok";
+    if (admission === "stop") return failed("budget_exhausted");
+    if (admission === "skip") continue;
     attempts++;
-    if (signal?.aborted) return { ok: false, errorCode: "aborted" };
-    if (admitAttempt && !(await admitAttempt()))
-      return { ok: false, errorCode: "budget_exhausted" };
     const controller = new AbortController();
-    if (Date.now() >= deadline) return { ok: false, errorCode: "timeout" };
+    if (Date.now() >= deadline) return failed("timeout");
     let timer = setTimeout(
       () => controller.abort(),
       Math.min(
@@ -200,6 +208,7 @@ export async function chatStreamStart(
         if (!ready && events.some((event) => event.done))
           throw new Error("empty");
       }
+      const ttftMs = Date.now() - started;
       clearTimeout(timer);
       timer = setTimeout(
         () => controller.abort(),
@@ -232,6 +241,8 @@ export async function chatStreamStart(
         body,
         model,
         provider,
+        ttftMs,
+        attempts,
         abort: () => {
           clearTimeout(timer);
           controller.abort();
@@ -240,7 +251,7 @@ export async function chatStreamStart(
     } catch (e) {
       clearTimeout(timer);
       controller.abort();
-      if (signal?.aborted) return { ok: false, errorCode: "aborted" };
+      if (signal?.aborted) return failed("aborted");
       lastCode =
         (e as Error).name === "AbortError"
           ? "timeout"
@@ -257,10 +268,7 @@ export async function chatStreamStart(
       everyCandidateUnavailable = false;
     }
   }
-  return {
-    ok: false,
-    errorCode: everyCandidateUnavailable ? "model_unavailable" : lastCode,
-  };
+  return failed(everyCandidateUnavailable ? "model_unavailable" : lastCode);
 }
 
 export interface SseEvent {

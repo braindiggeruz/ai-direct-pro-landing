@@ -12,8 +12,8 @@
 //                                approved Z.ai; the committed date must have
 //                                docs/paid-chat/evals/zai-<date>.json (tested)
 //   ZAI_API_KEY                  secret, set by the owner
-// With the committed config webChatChain() returns modelChain() unchanged, so
-// the chat's outbound requests go to OpenRouter only.
+// With the committed config webChatChain() returns the OpenRouter chain of the
+// tier, so the chat's outbound requests go to OpenRouter only.
 //
 // Only functions/api/gpt/chat.ts calls webChatChain(). Javob
 // (functions/lib/telegram/**) and the OpenRouter catalogue check
@@ -99,18 +99,32 @@ export function _resetZaiWarning(): void {
 }
 
 /**
- * The web chat's chain for a tier: modelChain(cfg, 'paid') or freeChain(cfg).
+ * The free tier's OpenRouter chain on the site: freeChain(cfg), headed by the
+ * paid primary when GPT_FREE_TIER_PAID_PRIMARY is on and the daily budget
+ * (GPT_FREE_PAID_DAILY_USD) is above 0 (decision L6). The web chat must walk
+ * it with the budget's admitAttempt (model-spend-store.ts): that is what
+ * skips the paid head to ':free' once the day's budget is spent.
+ */
+function siteFreeChain(cfg: GptChatConfig): string[] {
+  return cfg.freeTierPaidPrimary && cfg.freePaidDailyUsd > 0
+    ? [cfg.paidModel, ...freeChain(cfg)]
+    : freeChain(cfg);
+}
+
+/**
+ * The web chat's chain for a tier: modelChain(cfg, 'paid') or siteFreeChain(cfg).
  * With all three Z.ai switches on: one Z.ai model first, then that OpenRouter
- * chain as the fallback. The chain is not cut here: the walker takes the
- * first three candidates that are neither cooling down nor keyless
- * (availableModels), so a blocked Z.ai never costs an OpenRouter slot.
+ * chain as the fallback ([zai, paidPrimary, free…] for the free tier). The
+ * chain is not cut here: the walker takes the first three candidates that are
+ * neither cooling down, keyless nor skipped by the budget (availableModels,
+ * admitAttempt), so a blocked Z.ai never costs an OpenRouter slot.
  */
 export function webChatChain(
   cfg: GptChatConfig,
   env: Pick<Env, 'ZAI_API_KEY'>,
   tier: 'free' | 'paid',
 ): string[] {
-  const base = tier === 'paid' ? modelChain(cfg, 'paid') : freeChain(cfg);
+  const base = tier === 'paid' ? modelChain(cfg, 'paid') : siteFreeChain(cfg);
   if (
     cfg.modelProvider !== 'zai' ||
     !cfg.zaiEvalApproved ||

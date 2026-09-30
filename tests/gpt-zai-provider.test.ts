@@ -247,7 +247,7 @@ test('2 GPT_MODEL_PROVIDER=zai without ZAI_API_KEY stays OpenRouter-only', async
   assert.equal(counts.zai, 0);
   assert.deepEqual(
     await chatComplete({ ...env, OPENROUTER_API_KEY: undefined }, cfg, ['vendor/a:free'], messages),
-    { ok: false, errorCode: 'no_key' },
+    { ok: false, errorCode: 'no_key', attempts: 0 },
   );
 });
 
@@ -310,6 +310,8 @@ test('5 JSON: Z.ai request shape, qualified modelUsed and token usage', async (t
     modelUsed: 'zai/glm-4.7-flash',
     inputTokens: 120,
     outputTokens: 30,
+    finishReason: 'stop',
+    attempts: 1,
   });
   assert.equal(counts.openrouter, 0);
   const request = seen[0];
@@ -417,7 +419,7 @@ test('7 a 1301 refusal cools nothing down, falls through, and is not a service a
   assert.ok(!logged.some((line) => line.includes('my private question')), 'error.message is never logged');
   assert.deepEqual(
     await chatComplete(env, cfg, ['zai/glm-4.7-flash'], messages, 100, 5000),
-    { ok: false, errorCode: 'content_refused' },
+    { ok: false, errorCode: 'content_refused', attempts: 1 },
   );
 });
 
@@ -520,7 +522,7 @@ test('11 an OpenRouter 402 writes * and leaves the Z.ai model available', async 
   const chain = webChatChain(cfg, env, 'free');
   const { counts } = route(t, { zai: zaiError(400, '1301'), openrouter: () => new Response('', { status: 402 }) });
   const result = await chatComplete(env, cfg, chain, messages, 100, 5000);
-  assert.deepEqual(result, { ok: false, errorCode: 'account_unavailable' });
+  assert.deepEqual(result, { ok: false, errorCode: 'account_unavailable', attempts: 2 });
   assert.equal(counts.openrouter, 1, 'the remaining OpenRouter candidates are skipped, as before');
   assert.deepEqual(healthRows(sqlite).map((r) => r.model), ['*']);
   assert.deepEqual(await availableModels(db, chain), ['zai/glm-4.7-flash']);
@@ -531,7 +533,7 @@ test('11 an OpenRouter 402 writes * and leaves the Z.ai model available', async 
   const orOnly = { ...env, GPT_MODEL_PROVIDER: undefined } as Env;
   assert.deepEqual(
     await chatComplete(orOnly, cfg, webChatChain(resolveConfig(orOnly), orOnly, 'paid'), messages, 100, 5000),
-    { ok: false, errorCode: 'account_unavailable' },
+    { ok: false, errorCode: 'account_unavailable', attempts: 2 },
   );
   assert.equal(counts.openrouter, 2);
   assert.deepEqual(healthRows(sqlite).map((r) => r.model), ['*', 'openrouter-paid/*']);

@@ -49,7 +49,12 @@
 
 name = "ai-direct-pro-landing"
 compatibility_date = "2024-09-23"
-compatibility_flags = ["global_fetch_strictly_public"]
+# enable_request_signal: request.signal of an incoming request aborts when the
+# client disconnects. Only the AI chat reads it (functions/api/gpt/chat.ts):
+# Stop or a closed tab ends the model call and settles the turn as client_gone.
+# It is project-wide; no other Function reads the incoming signal, and it is
+# not passed on to subrequests (that would be request_signal_passthrough).
+compatibility_flags = ["global_fetch_strictly_public", "enable_request_signal"]
 pages_build_output_dir = "dist"
 
 # Run the Functions Worker next to D1 instead of next to the shopper.
@@ -138,7 +143,7 @@ queue = "gptbot-automation"
 # this JSON serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
 # functions/_middleware.ts expands only its explicit allowlist at request time.
 [vars]
-GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"google/gemma-4-31b-it:free","OPENROUTER_MODEL_FREE_FALLBACKS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"1","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"openrouter","GPT_ZAI_EVAL_APPROVED":"","ZAI_MODEL_FREE":"glm-4.7-flash","ZAI_MODEL_PAID":"glm-4.5-air","ZAI_TIERS":"free,paid","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_IKPU":"","UZUM_FISCAL_PACKAGE_CODE":"","UZUM_FISCAL_VAT_PERCENT":"","GPT_BOT_HANDOFF_ENABLED":"false","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3"}'''
+GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"google/gemma-4-31b-it:free","OPENROUTER_MODEL_FREE_FALLBACKS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"1","GPT_STOP_CHARGE_MIN_CHARS":"600","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"openrouter","GPT_ZAI_EVAL_APPROVED":"","ZAI_MODEL_FREE":"glm-4.7-flash","ZAI_MODEL_PAID":"glm-4.5-air","ZAI_TIERS":"free,paid","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_IKPU":"","UZUM_FISCAL_PACKAGE_CODE":"","UZUM_FISCAL_VAT_PERCENT":"","GPT_BOT_HANDOFF_ENABLED":"false","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3"}'''
 
 # Wrangler understands the nested object below for local typing and future
 # runtimes. Pages Direct Upload currently persists the text binding above; the
@@ -185,14 +190,19 @@ OPENROUTER_MODEL_PAID_FALLBACKS = "mistralai/mistral-small-3.2-24b-instruct,goog
 # hard-coded 900). GPT_FIRST_CONTENT_TIMEOUT_MS: how long one OpenRouter
 # attempt may wait for its first streamed content (clamped 5000..20000).
 # GPT_FREE_TIER_PAID_PRIMARY puts the paid primary in front of the free chain
-# under a daily budget of GPT_FREE_PAID_DAILY_USD (clamped 0..20; 0 = never).
-# It stays "false" until the budget path ships (plan WP-04) and the model probe
-# (POST /api/internal/gpt-model-probe) has cleared the chain; nothing reads it
-# before then.
+# under a daily budget of GPT_FREE_PAID_DAILY_USD (clamped 0..20; 0 = never):
+# each paid attempt pre-reserves its worst case, and a spent budget skips to
+# ':free' (functions/lib/gpt-chat/model-spend-store.ts). It stays "false" until
+# the model probe (POST /api/internal/gpt-model-probe) has cleared the chain
+# (release step R1.1, docs/paid-chat/MODELS-RU.md).
+# GPT_STOP_CHARGE_MIN_CHARS: an answer the visitor stopped is charged only once
+# this many characters reached them (clamped 0..20000; 0 = never). An answer
+# cut at the length limit is never charged.
 GPT_MAX_OUTPUT_TOKENS = "1600"
 GPT_FIRST_CONTENT_TIMEOUT_MS = "12000"
 GPT_FREE_TIER_PAID_PRIMARY = "false"
 GPT_FREE_PAID_DAILY_USD = "1"
+GPT_STOP_CHARGE_MIN_CHARS = "600"
 
 # ── Chat → owner bridge ─────────────────────────────────────────────────────
 # The AI chat has captured leads into gpt_leads since it shipped and notified

@@ -188,6 +188,13 @@ test("real chat endpoint uses paid account, bounds context, charges one answer a
       1,
     );
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_attempts"), 2);
+    // One charged answer, settled with the model that gave it and both attempts;
+    // a pack turn never touches the free tier's daily budget.
+    assert.deepEqual(
+      { ...f.db.rows("SELECT outcome, charged, model, attempts FROM gpt_turn_reservations")[0] as object },
+      { outcome: "answered", charged: 1, model: modelChain(resolveConfig(f.env), "paid")[1], attempts: 2 },
+    );
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_spend"), 0);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_messages"), 0);
     const messages = buildMessages(
       Array.from({ length: 20 }, () => ({

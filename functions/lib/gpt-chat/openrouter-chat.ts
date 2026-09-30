@@ -39,6 +39,12 @@ export interface ChatResult {
   modelUsed?: string;
   inputTokens?: number;
   outputTokens?: number;
+  /** choices[0].finish_reason of the answer: 'stop', 'length', … */
+  finishReason?: string;
+  /** usage.completion_tokens_details.reasoning_tokens (OpenRouter). */
+  reasoningTokens?: number;
+  /** Requests the walk sent, at most MAX_ATTEMPTS; chatComplete sets it on every result. */
+  attempts?: number;
   /**
    * Machine tag when ok=false:
    * rate_limit | model_unavailable | models_cooling | provider_error | timeout
@@ -51,9 +57,25 @@ export interface ChatResult {
 
 interface ORResp {
   choices?: { message?: { content?: string }; finish_reason?: string }[];
-  usage?: { prompt_tokens?: number; completion_tokens?: number };
+  usage?: {
+    prompt_tokens?: number;
+    completion_tokens?: number;
+    completion_tokens_details?: { reasoning_tokens?: number };
+  };
   error?: { message?: unknown; code?: string | number };
 }
+
+/**
+ * Admission of one attempt, asked right before its request (never for a
+ * candidate that is cooling down, keyless or skipped):
+ *   'ok'   send it; it takes one of the MAX_ATTEMPTS;
+ *   'skip' do not send it and walk on without spending an attempt (the free
+ *          tier's daily budget for paid models is spent, model-spend-store.ts);
+ *   'stop' end the walk with budget_exhausted (a pack's attempt ceiling,
+ *          TurnStore.admitModelAttempt).
+ */
+export type AttemptAdmission = "ok" | "skip" | "stop";
+export type AdmitAttempt = (model: string) => Promise<AttemptAdmission>;
 
 /** Build the request body once; only `model` changes across the chain. */
 export function buildChatBody(
@@ -180,7 +202,8 @@ async function callOne(
     // happened to be empty.
     if (data.error)
       return { ok: false, errorCode: classifyFailureEnvelope(data.error, model) };
-    const content = data.choices?.[0]?.message?.content?.trim();
+    const choice = data.choices?.[0];
+    const content = choice?.message?.content?.trim();
     if (!content) return { ok: false, errorCode: "empty" };
     return {
       ok: true,
@@ -188,6 +211,8 @@ async function callOne(
       modelUsed: model,
       inputTokens: data.usage?.prompt_tokens,
       outputTokens: data.usage?.completion_tokens,
+      finishReason: choice?.finish_reason || undefined,
+      reasoningTokens: data.usage?.completion_tokens_details?.reasoning_tokens,
     };
   } catch (e) {
     return {
@@ -221,6 +246,10 @@ async function callOne(
  * request (OpenRouter 403 or request-level 400, Z.ai 1301) costs no cooldown;
  * the next candidate gets its turn.
  *
+ * admitAttempt (AdmitAttempt) is asked before every request: a pack's
+ * attempt ceiling stops the walk, the free tier's spent budget skips a paid
+ * model to the next candidate.
+ *
  * onOperatorEvent receives 'openrouter_credit_exhausted',
  * 'zai_balance_exhausted' and 'zai_auth_failed'; the web chat turns them into
  * an owner alert. It is optional and never awaited.
@@ -233,35 +262,37 @@ export async function chatComplete(
   maxTokens = 900,
   timeoutMs = 45_000,
   signal?: AbortSignal,
-  admitAttempt?: () => Promise<boolean>,
+  admitAttempt?: AdmitAttempt,
   onOperatorEvent?: (code: string) => void,
 ): Promise<ChatResult> {
+  let attempts = 0;
+  const settled = (result: ChatResult): ChatResult => ({ ...result, attempts });
   if (
     chain.length
       ? !chain.some((model) => hasProviderKey(env, providerOf(model)))
       : !env.OPENROUTER_API_KEY
   )
-    return { ok: false, errorCode: "no_key" };
+    return settled({ ok: false, errorCode: "no_key" });
   let last: ChatResult = { ok: false, errorCode: "provider_error" };
   let everyCandidateUnavailable = chain.length > 0;
   const candidates = await availableModels(
     env.GPTBOT_DRAFTS_DB,
     chain.filter((model) => hasProviderKey(env, providerOf(model))),
   );
-  if (!candidates.length) return { ok: false, errorCode: "models_cooling" };
+  if (!candidates.length) return settled({ ok: false, errorCode: "models_cooling" });
   const deadline = Date.now() + timeoutMs;
   // Health wildcards blocked during this walk (settleModelFailure).
   const skipped = new Set<string>();
-  let attempts = 0;
   for (const model of candidates) {
     const provider = providerOf(model);
     if (healthWildcards(model).some((wildcard) => skipped.has(wildcard))) continue;
     if (attempts === MAX_ATTEMPTS) break;
+    if (signal?.aborted) return settled({ ok: false, errorCode: "aborted" });
+    const admission = admitAttempt ? await admitAttempt(model) : "ok";
+    if (admission === "stop") return settled({ ok: false, errorCode: "budget_exhausted" });
+    if (admission === "skip") continue;
     attempts++;
-    if (signal?.aborted) return { ok: false, errorCode: "aborted" };
-    if (admitAttempt && !(await admitAttempt()))
-      return { ok: false, errorCode: "budget_exhausted" };
-    if (Date.now() >= deadline) return { ok: false, errorCode: "timeout" };
+    if (Date.now() >= deadline) return settled({ ok: false, errorCode: "timeout" });
     last =
       provider === "zai"
         ? await callZaiOnce(
@@ -281,8 +312,8 @@ export async function chatComplete(
             Math.min(15_000, deadline - Date.now()),
             signal,
           );
-    if (signal?.aborted) return { ok: false, errorCode: "aborted" };
-    if (last.ok) return last;
+    if (signal?.aborted) return settled({ ok: false, errorCode: "aborted" });
+    if (last.ok) return settled(last);
     const skip = await settleModelFailure(
       env.GPTBOT_DRAFTS_DB,
       model,
@@ -298,7 +329,9 @@ export async function chatComplete(
   // A single live candidate anywhere in the chain means the configuration is
   // fine and the last candidate's own code is the honest answer. Only when the
   // chain is unavailable end to end do we promote the diagnosis.
-  return everyCandidateUnavailable
-    ? { ok: false, errorCode: "model_unavailable" }
-    : last;
+  return settled(
+    everyCandidateUnavailable
+      ? { ok: false, errorCode: "model_unavailable" }
+      : last,
+  );
 }

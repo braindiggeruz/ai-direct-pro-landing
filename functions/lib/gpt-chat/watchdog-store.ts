@@ -14,10 +14,14 @@
 //   stale_reservations    more than 3 turns of the last hour still 'reserved'
 //                         after their expiry (the isolate died mid-turn)
 //   chat_truncation_high  over 24 h, of at least 20 turns with an outcome,
-//                         more than 15 % 'truncated'; skipped while
-//                         gpt_turn_reservations.outcome does not exist yet
-//                         (migrations/0066)
+//                         more than 15 % 'truncated'
 // A settled turn is 'done', 'released', or 'reserved' past its expires_at.
+// Turns that say nothing about the service are left out of the counts (their
+// outcome, migrations/0066): the visitor pressed Stop or left, the provider
+// refused that one request, or the message did not fit. Otherwise one visitor
+// pressing Stop three times on a quiet night would raise chat_silence. A turn
+// cut at the length limit was answered. Turns settled before 0066 have no
+// outcome and count as before.
 // Codes go through recordServiceAlert, so each fires at most once an hour;
 // alert-policy.ts decides which of them page the owner.
 //
@@ -36,6 +40,12 @@ const STALE_MAX = 3;
 const TRUNCATION_WINDOW_MS = 24 * HOUR_MS;
 const TRUNCATION_MIN_TURNS = 20;
 const TRUNCATION_MAX_SHARE = 0.15;
+/**
+ * Outcomes that say nothing about the service's health (turn-outcome.ts); a
+ * turn settled before migrations/0066 has none and counts.
+ */
+const COUNTED =
+  "COALESCE(outcome,'') NOT IN ('client_gone','refused','context_too_large')";
 
 export interface WatchdogConfig {
   windowMs: number;
@@ -53,6 +63,7 @@ export function watchdogConfig(env: Env): WatchdogConfig {
 export interface TurnStats {
   /** Settled turns created inside the window. */
   settled: number;
+  /** Settled turns that got an answer ('done', or cut at the length limit). */
   done: number;
   /** Every reservation created inside the window, in flight included. */
   reserved: number;
@@ -65,8 +76,7 @@ export interface WatchdogSample {
   turns: TurnStats;
   /** Distinct hashed IPs that opened a chat session inside the window. */
   sessions: number;
-  /** null while the outcome column is missing. */
-  truncation: { turns: number; truncated: number } | null;
+  truncation: { turns: number; truncated: number };
 }
 
 /** Pure decision: which codes a sample raises. */
@@ -87,18 +97,11 @@ export function watchdogCodes(
     codes.push("chat_no_turns");
   if (turns.hourStale > STALE_MAX) codes.push("stale_reservations");
   if (
-    truncation &&
     truncation.turns >= TRUNCATION_MIN_TURNS &&
     truncation.truncated > truncation.turns * TRUNCATION_MAX_SHARE
   )
     codes.push("chat_truncation_high");
   return codes;
-}
-
-function missingColumn(error: unknown): boolean {
-  return /no such column/i.test(
-    error instanceof Error ? error.message : String(error),
-  );
 }
 
 /** Watchdog reads. SQL lives only here; every query is scoped to `org`. */
@@ -120,16 +123,18 @@ export class WatchdogStore {
     return !!row;
   }
 
+  /** Needs the 0066 columns, which every caller's ensureBillingSchema guarantees. */
   async turns(now: number, windowMs: number): Promise<TurnStats> {
-    const settled = "(status<>'reserved' OR expires_at<=?)";
+    const settled = `(status<>'reserved' OR expires_at<=?) AND ${COUNTED}`;
+    const answered = `(status='done' OR outcome='truncated') AND ${COUNTED}`;
     const row = await this.db
       .prepare(
         `SELECT
         COALESCE(SUM(CASE WHEN ${settled} THEN 1 ELSE 0 END),0) AS settled,
-        COALESCE(SUM(CASE WHEN status='done' THEN 1 ELSE 0 END),0) AS done,
+        COALESCE(SUM(CASE WHEN ${answered} THEN 1 ELSE 0 END),0) AS done,
         COUNT(*) AS reserved,
         COALESCE(SUM(CASE WHEN created_at>=? AND ${settled} THEN 1 ELSE 0 END),0) AS hour_settled,
-        COALESCE(SUM(CASE WHEN created_at>=? AND status='done' THEN 1 ELSE 0 END),0) AS hour_done,
+        COALESCE(SUM(CASE WHEN created_at>=? AND ${answered} THEN 1 ELSE 0 END),0) AS hour_done,
         COALESCE(SUM(CASE WHEN created_at>=? AND status='reserved' AND expires_at<=? THEN 1 ELSE 0 END),0) AS hour_stale
       FROM gpt_turn_reservations WHERE org_id=? AND created_at>=?`,
       )
@@ -180,23 +185,18 @@ export class WatchdogStore {
     return row?.n ?? 0;
   }
 
-  /** Outcome counts over 24 h; null until migrations/0066 adds the column. */
+  /** Outcome counts over 24 h (turns settled since migrations/0066). */
   async truncation(
     now: number,
-  ): Promise<{ turns: number; truncated: number } | null> {
-    try {
-      const row = await this.db
-        .prepare(
-          `SELECT COUNT(*) AS turns, COALESCE(SUM(CASE WHEN outcome='truncated' THEN 1 ELSE 0 END),0) AS truncated
-        FROM gpt_turn_reservations WHERE org_id=? AND created_at>=? AND outcome IS NOT NULL`,
-        )
-        .bind(this.org, now - TRUNCATION_WINDOW_MS)
-        .first<{ turns: number; truncated: number }>();
-      return { turns: row?.turns ?? 0, truncated: row?.truncated ?? 0 };
-    } catch (error) {
-      if (missingColumn(error)) return null;
-      throw error;
-    }
+  ): Promise<{ turns: number; truncated: number }> {
+    const row = await this.db
+      .prepare(
+        `SELECT COUNT(*) AS turns, COALESCE(SUM(CASE WHEN outcome='truncated' THEN 1 ELSE 0 END),0) AS truncated
+      FROM gpt_turn_reservations WHERE org_id=? AND created_at>=? AND outcome IS NOT NULL`,
+      )
+      .bind(this.org, now - TRUNCATION_WINDOW_MS)
+      .first<{ turns: number; truncated: number }>();
+    return { turns: row?.turns ?? 0, truncated: row?.truncated ?? 0 };
   }
 }
 

@@ -35,6 +35,56 @@ export const BILLING_DDL = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_turn_ip ON gpt_turn_reservations(org_id,ip_hash,created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_billing_delivery ON gpt_billing_outbox(org_id,delivered_at,available_at)`,
 ];
+// Chat runtime (migrations/0066): how each turn settled, without any text, so
+// the watchdog, the admin and the daily budget read one ledger. All nullable:
+// rows settled before 0066 keep NULL, and the status CHECK is not touched.
+export const CHAT_RUNTIME_COLUMNS: ReadonlyArray<readonly [string, "TEXT" | "INTEGER"]> = [
+  ["outcome", "TEXT"],
+  ["charged", "INTEGER"],
+  ["model", "TEXT"],
+  ["finish_reason", "TEXT"],
+  ["cancel_reason", "TEXT"],
+  ["ttft_ms", "INTEGER"],
+  ["total_ms", "INTEGER"],
+  ["tokens_in", "INTEGER"],
+  ["tokens_out", "INTEGER"],
+  ["reasoning_tokens", "INTEGER"],
+  ["cost_micro_usd", "INTEGER"],
+  ["attempts", "INTEGER"],
+];
+export const CHAT_RUNTIME_DDL = [
+  // The free tier's daily spend on paid models (model-spend-store.ts); day is
+  // the UTC day, like the quotas.
+  `CREATE TABLE IF NOT EXISTS gpt_model_spend (org_id TEXT NOT NULL, day TEXT NOT NULL, bucket TEXT NOT NULL, reserved_micro INTEGER NOT NULL DEFAULT 0, actual_micro INTEGER NOT NULL DEFAULT 0, attempts INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(org_id,day,bucket))`,
+  // One counter per limit reason, subject and UTC day (written by plan WP-05).
+  `CREATE TABLE IF NOT EXISTS gpt_limit_hits (org_id TEXT NOT NULL, day TEXT NOT NULL, reason TEXT NOT NULL, tier TEXT NOT NULL, subject TEXT NOT NULL, n INTEGER NOT NULL DEFAULT 0, first_at INTEGER NOT NULL, PRIMARY KEY(org_id,day,reason,subject))`,
+  // Time windows of the watchdog, the diagnostics and the admin.
+  `CREATE INDEX IF NOT EXISTS idx_gpt_turn_created ON gpt_turn_reservations(org_id,created_at)`,
+  // deliverServiceAlerts claims undelivered rows of the last 24 hours.
+  `CREATE INDEX IF NOT EXISTS idx_gpt_service_alerts_pending ON gpt_service_alerts(org_id,delivered_at,created_at)`,
+];
+/**
+ * Add the 0066 columns a database without the migration lacks: one PRAGMA
+ * per bootstrap, an ALTER only for a missing column. Another isolate may add
+ * the same column in between; its duplicate is not an error.
+ */
+async function addChatRuntimeColumns(db: D1Database): Promise<void> {
+  const info = await db
+    .prepare("PRAGMA table_info('gpt_turn_reservations')")
+    .all<{ name: string }>();
+  const present = new Set((info.results ?? []).map((column) => column.name));
+  for (const [name, type] of CHAT_RUNTIME_COLUMNS) {
+    if (present.has(name)) continue;
+    try {
+      await db
+        .prepare(`ALTER TABLE gpt_turn_reservations ADD COLUMN ${name} ${type}`)
+        .run();
+    } catch (error) {
+      if (!/duplicate column name/i.test(error instanceof Error ? error.message : String(error)))
+        throw error;
+    }
+  }
+}
 // Uzum Bank orders (migrations/0065). gpt_payment_orders cannot take a third
 // provider (its CHECK is fixed), so Uzum rows live in a sibling table with the
 // same ledger columns; gpt_payment_orders_all is the cross-provider read path.
@@ -80,11 +130,17 @@ function once(
 }
 const billingBootstraps = new WeakMap<D1Database, Promise<void>>();
 const uzumBootstraps = new WeakMap<D1Database, Promise<void>>();
-/** The 0064 ledger. Every billing path runs it, the chat turn included. */
+/**
+ * The 0064 ledger and the 0066 chat runtime objects. Every billing path runs
+ * it, the chat turn included. A release applies migrations/0066 first; this
+ * bootstrap then only confirms it.
+ */
 export function ensureBillingSchema(db: D1Database): Promise<void> {
-  return once(billingBootstraps, db, () =>
-    db.batch(BILLING_DDL.map((sql) => db.prepare(sql))),
-  );
+  return once(billingBootstraps, db, async () => {
+    await db.batch(BILLING_DDL.map((sql) => db.prepare(sql)));
+    await addChatRuntimeColumns(db);
+    await db.batch(CHAT_RUNTIME_DDL.map((sql) => db.prepare(sql)));
+  });
 }
 /**
  * The 0065 objects, bootstrapped on Uzum paths only: payments/uzum*,

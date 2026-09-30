@@ -184,6 +184,8 @@ export async function callZaiOnce(
       modelUsed: modelId,
       inputTokens: data.usage?.prompt_tokens,
       outputTokens: data.usage?.completion_tokens,
+      // 'length' and 'model_context_window_exceeded' mark a cut-off answer.
+      finishReason: choice?.finish_reason || undefined,
     };
   } catch (e) {
     return {

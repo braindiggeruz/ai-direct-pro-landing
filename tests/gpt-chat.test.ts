@@ -75,10 +75,15 @@ test('resolveConfig: model runtime knobs are clamped, the paid primary for free 
   for (const value of ['false', '1', 'yes', ''])
     assert.equal(resolveConfig({ GPT_FREE_TIER_PAID_PRIMARY: value } as AnyEnv).freeTierPaidPrimary, false, value);
   assert.equal(resolveConfig({ GPT_FREE_TIER_PAID_PRIMARY: ' TRUE ' } as AnyEnv).freeTierPaidPrimary, true);
-  // The committed config keeps it off until the budget path and the probe.
+  // The committed config keeps it off until the model probe (release step R1.1).
   const wrangler = readFileSync('wrangler.toml', 'utf8');
   assert.match(wrangler, /^GPT_FREE_TIER_PAID_PRIMARY = "false"$/m);
   assert.match(wrangler, /^GPT_MAX_OUTPUT_TOKENS = "1600"$/m);
+  // Stop is charged past 600 delivered characters (decision L4), and the chat
+  // can only see Stop with request.signal on (plan WP-04).
+  assert.match(wrangler, /^GPT_STOP_CHARGE_MIN_CHARS = "600"$/m);
+  assert.match(wrangler, /"GPT_STOP_CHARGE_MIN_CHARS":"600"/);
+  assert.match(wrangler, /^compatibility_flags = \[[^\]]*"enable_request_signal"[^\]]*\]$/m);
 });
 
 test('resolveConfig parses env overrides + comma lists', () => {

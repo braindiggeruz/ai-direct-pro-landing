@@ -18,15 +18,22 @@ export interface GptChatConfig {
   maxOutputTokens: number;
   /** Per-attempt budget until an OpenRouter stream's first content (GPT_FIRST_CONTENT_TIMEOUT_MS). 5000..20000 ms. */
   firstContentTimeoutMs: number;
-  // ── Paid primary for the free tier (plan WP-04) ─────────────────────────────
-  // Parsed here, consumed only by the web chat's daily budget path, which puts
-  // the paid primary in front of the free chain under GPT_FREE_PAID_DAILY_USD.
-  // Until that path exists nothing reads them, and the free chain stays
-  // freeChain(): turning the flag on early cannot make a free turn paid.
+  // ── Paid primary for the free tier (plan WP-04, decision L6) ─────────────────
+  // webChatChain() puts the paid primary in front of the free chain only when
+  // the flag is on AND the budget is above 0; every attempt on it then has to
+  // pre-reserve its worst case from the day's budget (model-spend-store.ts),
+  // and an exhausted budget skips it to ':free'. modelChain()/freeChain() never
+  // change: Javob, AEO and the catalogue check stay ':free'.
   /** GPT_FREE_TIER_PAID_PRIMARY === 'true'; anything else (and unset) is false. */
   freeTierPaidPrimary: boolean;
   /** Daily USD the free tier may spend on the paid primary (GPT_FREE_PAID_DAILY_USD). 0..20, default 1; 0 = never. */
   freePaidDailyUsd: number;
+  /**
+   * GPT_STOP_CHARGE_MIN_CHARS (decision L4): a turn the visitor stopped or
+   * left is charged only once at least this many answer characters reached
+   * them; 0 = never charged. 0..20000, default 600.
+   */
+  stopChargeMinChars: number;
   // ── Z.ai (second provider, web chat only; see model-provider.ts) ──────────
   // Off unless ALL THREE: GPT_MODEL_PROVIDER='zai' and GPT_ZAI_EVAL_APPROVED
   // (public, need a deploy) and the secret ZAI_API_KEY. modelChain() below
@@ -162,6 +169,7 @@ export function resolveConfig(env: Env): GptChatConfig {
     firstContentTimeoutMs: clampedInt(env.GPT_FIRST_CONTENT_TIMEOUT_MS, 12_000, 5_000, 20_000),
     freeTierPaidPrimary: (env.GPT_FREE_TIER_PAID_PRIMARY || '').trim().toLowerCase() === 'true',
     freePaidDailyUsd: clampedUsd(env.GPT_FREE_PAID_DAILY_USD, 1, 20),
+    stopChargeMinChars: clampedInt(env.GPT_STOP_CHARGE_MIN_CHARS, 600, 0, 20_000),
     modelProvider: (env.GPT_MODEL_PROVIDER || '').trim().toLowerCase() === 'zai' ? 'zai' : 'openrouter',
     zaiModelFree: (env.ZAI_MODEL_FREE || '').trim().toLowerCase() || 'glm-4.7-flash',
     zaiModelPaid: (env.ZAI_MODEL_PAID || '').trim().toLowerCase() || 'glm-4.5-air',
@@ -185,8 +193,9 @@ export function modelChain(cfg: GptChatConfig, tier: 'free' | 'paid'): string[] 
 }
 
 /**
- * The ':free' chain by name, for the callers that must never pay: the web
- * chat's free tier (webChatChain) and Javob (functions/lib/telegram/service.ts).
+ * The ':free' chain by name, for the callers that must never pay on their own:
+ * Javob (functions/lib/telegram/service.ts) and the web chat's free tier, which
+ * webChatChain may head with the budgeted paid primary.
  */
 export function freeChain(cfg: GptChatConfig): string[] {
   return modelChain(cfg, 'free');

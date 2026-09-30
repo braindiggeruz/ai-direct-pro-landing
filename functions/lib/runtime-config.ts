@@ -95,6 +95,7 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_FIRST_CONTENT_TIMEOUT_MS',
   'GPT_FREE_TIER_PAID_PRIMARY',
   'GPT_FREE_PAID_DAILY_USD',
+  'GPT_STOP_CHARGE_MIN_CHARS',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

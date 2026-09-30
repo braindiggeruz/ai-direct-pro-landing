@@ -10,6 +10,17 @@
 // bridge and have no row in 0008; they exist only through this bootstrap
 // until a migration catches up, which is exactly what this pattern is for.
 
+/**
+ * Time indexes of migrations/0066 on this module's tables: the silence
+ * watchdog and the admin read sessions by time, and message retention will
+ * delete by time. Bootstrapped here, where the tables are created, because
+ * routes that only run ensureBillingSchema never create them.
+ */
+export const CHAT_TIME_INDEXES = [
+  `CREATE INDEX IF NOT EXISTS idx_gpt_messages_created ON gpt_messages (created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_sessions_created ON gpt_sessions (created_at)`,
+];
+
 const DDL: string[] = [
   `CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
@@ -151,6 +162,7 @@ const DDL: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_lead_outbox_pending ON gpt_lead_outbox (status, available_at, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_session ON gpt_handoffs (session_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_expires ON gpt_handoffs (expires_at)`,
+  ...CHAT_TIME_INDEXES,
 ];
 
 const _bootstrapped = new WeakMap<D1Database, Promise<void>>();

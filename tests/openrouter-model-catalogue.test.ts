@@ -53,9 +53,9 @@ test('non-streaming and streaming chains both expose all-models-unavailable', as
   try {
     const chain = ['vendor/a:free', 'vendor/b:free'];
     const complete = await chatComplete(env, cfg, chain, messages, 100, 1000);
-    assert.deepEqual(complete, { ok: false, errorCode: 'model_unavailable' });
+    assert.deepEqual(complete, { ok: false, errorCode: 'model_unavailable', attempts: 2 });
     const stream = await chatStreamStart(env, cfg, chain, messages, 100, 1000);
-    assert.deepEqual(stream, { ok: false, errorCode: 'model_unavailable' });
+    assert.deepEqual(stream, { ok: false, errorCode: 'model_unavailable', attempts: 2 });
   } finally {
     globalThis.fetch = previous;
   }
@@ -67,7 +67,7 @@ test('a transient failure prevents a mixed chain from being mislabeled stale', a
   globalThis.fetch = async () => new Response('', { status: ++calls === 1 ? 404 : 429 });
   try {
     const result = await chatStreamStart(env, cfg, ['vendor/a', 'vendor/b'], messages, 100, 1000);
-    assert.deepEqual(result, { ok: false, errorCode: 'rate_limit' });
+    assert.deepEqual(result, { ok: false, errorCode: 'rate_limit', attempts: 2 });
   } finally {
     globalThis.fetch = previous;
   }

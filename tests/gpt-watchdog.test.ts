@@ -79,11 +79,11 @@ function turn(
   f: Fixture,
   status: "reserved" | "done" | "released",
   createdAt: number,
-  options: { org?: string; expiresAt?: number } = {},
+  options: { org?: string; expiresAt?: number; outcome?: string } = {},
 ) {
   f.db
     .prepare(
-      "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,?,NULL,?,?,?)",
+      "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at,outcome) VALUES(?,?,?,?,NULL,?,?,?,?)",
     )
     .bind(
       options.org ?? BILLING_ORG,
@@ -93,6 +93,7 @@ function turn(
       status,
       createdAt,
       options.expiresAt ?? createdAt + 120_000,
+      options.outcome ?? null,
     )
     .runSync();
 }
@@ -128,7 +129,7 @@ test("watchdog decisions: every check needs traffic and has an exact threshold",
   const codes = (
     turns: Partial<TurnStats>,
     sessions = 0,
-    truncation: { turns: number; truncated: number } | null = null,
+    truncation = { turns: 0, truncated: 0 },
   ) => watchdogCodes({ turns: stats(turns), sessions, truncation }, cfg);
   // A quiet night raises nothing.
   assert.deepEqual(codes({}), []);
@@ -167,12 +168,11 @@ test("watchdog decisions: every check needs traffic and has an exact threshold",
     codes({ settled: 8, done: 4, reserved: 8, hourSettled: 8, hourDone: 4, hourStale: 4 }),
     ["stale_reservations"],
   );
-  // Truncation: > 15 % of at least 20 turns with an outcome; absent column → skipped.
+  // Truncation: > 15 % of at least 20 turns with an outcome.
   const busy = { settled: 30, done: 30, reserved: 30 };
   assert.deepEqual(codes(busy, 0, { turns: 20, truncated: 4 }), ["chat_truncation_high"]);
   assert.deepEqual(codes(busy, 0, { turns: 20, truncated: 3 }), []);
   assert.deepEqual(codes(busy, 0, { turns: 19, truncated: 19 }), []);
-  assert.deepEqual(codes(busy, 0, null), []);
   // Config: defaults, clamps and garbage.
   assert.deepEqual(watchdogConfig({}), { windowMs: 180 * MIN, minTurns: 3 });
   assert.deepEqual(
@@ -229,13 +229,46 @@ test("watchdog store counts only its own org's turns inside the window; org B ne
   // gpt_sessions has no org_id: only the consumer chat's org reads it.
   assert.equal(await theirs.sessions(now - 180 * MIN), 0);
 
-  // Before migrations/0066 there is no outcome column: the check is skipped.
-  assert.equal(await mine.truncation(now), null);
-  f.db.exec("ALTER TABLE gpt_turn_reservations ADD COLUMN outcome TEXT");
+  // Turns settled before migrations/0066 have no outcome: truncation ignores them.
+  assert.deepEqual(await mine.truncation(now), { turns: 0, truncated: 0 });
   f.db.exec(`UPDATE gpt_turn_reservations SET outcome='answered' WHERE status='done'`);
   f.db.exec(`UPDATE gpt_turn_reservations SET outcome='truncated' WHERE status='released' AND org_id='${BILLING_ORG}'`);
   assert.deepEqual(await mine.truncation(now), { turns: 7, truncated: 4 });
   assert.deepEqual(await theirs.truncation(now), { turns: 0, truncated: 0 });
+});
+
+test("Stop, a refused request and an oversize message never count; a truncated answer is an answer", async () => {
+  const f = await billingFixture();
+  const store = new WatchdogStore(f.binding, BILLING_ORG);
+  // One visitor presses Stop three times on a quiet night (uncharged: short),
+  // the provider refuses one request and one message does not fit.
+  for (let i = 0; i < 3; i++)
+    turn(f, "released", T0 - (10 + i) * MIN, { outcome: "client_gone" });
+  turn(f, "released", T0 - 5 * MIN, { outcome: "refused" });
+  turn(f, "released", T0 - 4 * MIN, { outcome: "context_too_large" });
+  // A long answer stopped past GPT_STOP_CHARGE_MIN_CHARS is charged ('done'),
+  // and still says nothing about the service.
+  turn(f, "done", T0 - 3 * MIN, { outcome: "client_gone" });
+  assert.deepEqual(await store.turns(T0, 180 * MIN), stats({ reserved: 6 }));
+  assert.deepEqual(await runWatchdog(f.env, T0), { ran: true, raised: [] });
+
+  // Four answers cut at the length limit (released, uncharged) are answers:
+  // no silence, no degradation.
+  for (let i = 0; i < 4; i++)
+    turn(f, "released", T0 + (1 + i) * MIN, { outcome: "truncated" });
+  assert.deepEqual(await store.turns(T0 + 10 * MIN, 180 * MIN), stats({
+    settled: 4,
+    done: 4,
+    reserved: 10,
+    hourSettled: 4,
+    hourDone: 4,
+  }));
+  assert.deepEqual(await runWatchdog(f.env, T0 + 10 * MIN), { ran: true, raised: [] });
+
+  // Real failures still count, next to the ignored turns.
+  for (let i = 0; i < 5; i++)
+    turn(f, "released", T0 + (11 + i) * MIN, { outcome: "upstream_error" });
+  assert.deepEqual(await runWatchdog(f.env, T0 + 20 * MIN), { ran: true, raised: ["chat_degraded"] });
 });
 
 test("runWatchdog takes a 10-minute lease per org and records what it raises", async () => {

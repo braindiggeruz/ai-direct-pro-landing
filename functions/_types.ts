@@ -249,10 +249,13 @@ export interface Env extends FirecrawlEnvironment {
   GPT_MAX_OUTPUT_TOKENS?: string;
   GPT_FIRST_CONTENT_TIMEOUT_MS?: string;
   // Public. The paid primary in front of the free chain ("true" only) under a
-  // daily USD budget (default 1, clamped 0..20). Read by the budget path of
-  // plan WP-04; stays "false" until the model probe clears the chain.
+  // daily USD budget (default 1, clamped 0..20; functions/lib/gpt-chat/
+  // model-spend-store.ts); stays "false" until the model probe clears the chain.
   GPT_FREE_TIER_PAID_PRIMARY?: string;
   GPT_FREE_PAID_DAILY_USD?: string;
+  // Public. A stopped or abandoned answer is charged only once this many
+  // characters reached the visitor (default 600, clamped 0..20000; 0 = never).
+  GPT_STOP_CHARGE_MIN_CHARS?: string;
   // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
   // If unset, hashing still runs with an empty salt (weaker; set in prod).
   GPT_HASH_SALT?: string;

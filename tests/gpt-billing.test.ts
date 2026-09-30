@@ -326,8 +326,8 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   );
   const accepted = decisions.filter((d) => d.id);
   assert.equal(accepted.length, 2);
-  await turns.finish(accepted[0].id!, false);
-  await turns.finish(accepted[1].id!, true);
+  await turns.finish(accepted[0].id!, { outcome: "upstream_error", charged: false });
+  await turns.finish(accepted[1].id!, { outcome: "answered", charged: true });
   assert.equal(await turns.remaining(f.user, null, cfg), 14);
   const o = await f.store.createOrder(
     f.user,
@@ -347,7 +347,7 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   );
   const paid = await turns.reserve(f.user, "new-ip", tiny, cfg);
   assert.ok(paid.id);
-  await turns.finish(paid.id!, true);
+  await turns.finish(paid.id!, { outcome: "answered", charged: true });
   assert.equal(
     (await turns.reserve(f.user, "another-ip", tiny, cfg)).reason,
     "monthly",

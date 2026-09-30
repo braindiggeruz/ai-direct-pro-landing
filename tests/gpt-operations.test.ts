@@ -67,7 +67,7 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
   const cfg = resolveConfig(f.env);
   const admitted = await turnsB.reserve(f.user, "synthetic-ip", periodB, cfg);
   assert.ok(admitted.id);
-  await turnsB.finish(admitted.id, true);
+  await turnsB.finish(admitted.id, { outcome: "answered", charged: true });
   assert.equal(await turnsA.remaining(f.user, null, cfg), 15);
   assert.equal(
     (await turnsA.reserve(f.user, "synthetic-ip", periodB, cfg)).id,
@@ -570,13 +570,18 @@ test("oversized chunked bodies stop reading early; free tier rejects paid overri
   assert.ok(
     modelChain(resolveConfig(f.env), "free").every((m) => m.endsWith(":free")),
   );
-  // The site's free chain is the same ':free' chain, and the paid primary
-  // flag cannot change that before the daily budget path exists (plan WP-04).
+  // The site's free chain is the ':free' chain until the paid primary flag is
+  // on with a daily budget above 0; then the paid primary heads it, and the
+  // budget (model-spend-store.ts) gates every attempt on it. modelChain(free)
+  // itself never changes: Javob, AEO and the catalogue check stay ':free'.
+  assert.deepEqual(webChatChain(resolveConfig(f.env), f.env, "free"), modelChain(resolveConfig(f.env), "free"));
   f.env.GPT_FREE_TIER_PAID_PRIMARY = "true";
   const siteCfg = resolveConfig(f.env);
   assert.equal(siteCfg.freeTierPaidPrimary, true);
-  assert.deepEqual(webChatChain(siteCfg, f.env, "free"), modelChain(siteCfg, "free"));
-  assert.ok(webChatChain(siteCfg, f.env, "free").every((m) => m.endsWith(":free")));
+  assert.deepEqual(webChatChain(siteCfg, f.env, "free"), [siteCfg.paidModel, ...modelChain(siteCfg, "free")]);
+  assert.ok(modelChain(siteCfg, "free").every((m) => m.endsWith(":free")));
+  f.env.GPT_FREE_PAID_DAILY_USD = "0";
+  assert.deepEqual(webChatChain(resolveConfig(f.env), f.env, "free"), modelChain(siteCfg, "free"));
   assert.deepEqual(webChatChain(siteCfg, f.env, "paid"), modelChain(siteCfg, "paid"));
   Object.assign(f.env, {
     GPT_BILLING_MODE: "live",

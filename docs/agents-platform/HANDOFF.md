@@ -1,3 +1,66 @@
+# Платный AI-чат к проду: WP-04 — телеметрия хода, бюджет $1, обрезка и «Стоп», миграция 0066, 2026-09-30
+
+**Итог.** Каждый ход чата теперь закрывается одной записью без текста: исход, списан ли, модель, `finish_reason`, время до первого слова, общее время, токены, стоимость и число попыток. Ответ, обрезанный по длине, **никогда не списывается** и помечен (`truncated: true, charged: false`). «Стоп» списывается, только если посетителю уже ушло ≥ 600 символов. `remaining` считается после расчёта хода. Бесплатным на сайте цепочку может возглавить платная модель под суточным бюджетом $1: каждая попытка заранее резервирует худший случай одной атомарной записью, исчерпанный бюджет пропускает платную к `:free`. Миграция 0066 и её bootstrap готовы, репетиция на локальной D1 прошла. `GPT_FREE_TIER_PAID_PRIMARY` в репозитории по-прежнему `"false"`: включается шагом R1.1 после пробы. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись. План — `10-PROD-PLAN.md` §4 WP-04 (вне Git), дальше WP-05. Runbook — `docs/paid-chat/MODELS-RU.md` (разделы «Бюджет», «Исход хода»). Код-коммит WP-04 записан в STATE как `HEAD`; следующий коммит только записывает его SHA (правило D-006).
+
+**Что сделано.**
+- **Миграция `migrations/0066_gpt_chat_runtime.sql`** (аддитивная, без `DROP`, CHECK статуса не тронут):
+  - 12 nullable-колонок `gpt_turn_reservations`: `outcome, charged, model, finish_reason, cancel_reason, ttft_ms, total_ms, tokens_in, tokens_out, reasoning_tokens, cost_micro_usd, attempts`;
+  - таблицы `gpt_model_spend(org_id, day, bucket, reserved_micro, actual_micro, attempts)` и `gpt_limit_hits(org_id, day, reason, tier, subject, n, first_at)` (пишет WP-05);
+  - индексы `idx_gpt_turn_created`, `idx_gpt_messages_created`, `idx_gpt_sessions_created` и `idx_gpt_service_alerts_pending`.
+- **Bootstrap:** `ensureBillingSchema` — один `PRAGMA table_info` на изолят, `ALTER` только для недостающей колонки, дубль от соседнего изолята не ошибка, другая ошибка бросается и повторяется на следующем запросе. Индексы `gpt_messages`/`gpt_sessions` — в `ensureSchema` (`CHAT_TIME_INDEXES`). Паритет 0066 ⇄ bootstrap проверяет `tests/gpt-chat-runtime-schema.test.ts` в обе стороны.
+- **Исход хода** (`functions/lib/gpt-chat/turn-outcome.ts`, чистый модуль): `answered | truncated | client_gone | upstream_error | no_model | refused | context_too_large`. `TurnStore.finish(id, settlement)` — одна `UPDATE … WHERE status='reserved'`: повтор и чужой org ничего не меняют. `cost_micro_usd` пишется **всегда** (раньше стоимость жила только в `gpt_messages` и только для сохранённой переписки). Значения провайдера пишутся, только если это неотрицательные числа.
+- **Насос SSE и JSON-путь** (`chat.ts`):
+  - `length` / `model_context_window_exceeded` → `released`, `charged=0`, `done{truncated:true, charged:false, remaining, hourRemaining}`;
+  - «Стоп» или закрытая вкладка (запись в поток не прошла или сработал `request.signal`) → `client_gone`, списание только при доставленных ≥ `GPT_STOP_CHARGE_MIN_CHARS` символах; уход посетителя не ставит модель на паузу;
+  - `remaining` и `hourRemaining` (у бесплатных) читаются **после** расчёта (`TurnStore.allowance`, один SELECT) — в `done`, `error: partial` и JSON;
+  - в JSON-пути ответ доходит целиком или никак, поэтому «Стоп» там не списывается.
+- **Бюджет $1** (`functions/lib/gpt-chat/model-spend-store.ts`, решение L6):
+  - `webChatChain(free)` = `[paidPrimary, …freeChain]` только при `GPT_FREE_TIER_PAID_PRIMARY="true"` **и** `GPT_FREE_PAID_DAILY_USD > 0`; с Z.ai — `[zai, paidPrimary, …free]`. `modelChain()`/`freeChain()` не менялись: бот, AEO и проверка каталога остаются на `:free`;
+  - перед каждой платной попыткой — резерв худшего случая (`promptTokenBound` + весь ответ по `PAID_PRICE_CEILING`, ≈ $0,00067 для короткого вопроса, ≈ $0,0011 для самого длинного контекста) одним `INSERT … ON CONFLICT DO UPDATE … WHERE reserved+x ≤ cap RETURNING`;
+  - ответ пришёл → резерв заменяется ценой по прайсу (`actual += cost`, разница возвращается); провал или нет usage → резерв остаётся;
+  - исчерпан → `skip` к `:free` (попытку не занимает) + фоновый `free_paid_budget_exhausted` одной строкой в сутки; сбой D1 бюджета → тоже `skip` (деньги закрыты, чат отвечает);
+  - ходы пакета бюджет не трогают: они идут по платной цепочке под `admitModelAttempt`.
+- **Обходчики:** контракт `admitAttempt(model) → 'ok' | 'skip' | 'stop'` в обоих (`AdmitAttempt` в `openrouter-chat.ts`). `StreamStart` отдаёт `ttftMs` (от начала перебора, с упавшими попытками) и `attempts`; `ChatResult` — `finishReason`, `reasoningTokens`, `attempts` (и у Z.ai JSON — `finishReason`). У неудачи тоже есть `attempts`.
+- **Сторож** (открытый вопрос ревью WP-02): ходы `client_gone`, `refused`, `context_too_large` не считаются вовсе, `truncated` считается ответом. Иначе три «Стопа» тихой ночью поднимали срочный `chat_silence`. `chat_truncation_high` теперь работает всегда.
+- **Уборка:** `gpt_model_spend` и `gpt_limit_hits` старше 93 дней удаляет крон (по org).
+- **`wrangler.toml`:** `compatibility_flags += "enable_request_signal"` (входящий сигнал читает только чат; в подзапросы не передаётся — это другой флаг); V `GPT_STOP_CHARGE_MIN_CHARS="600"` (JSON 3260/5120 байт и таблица, `RUNTIME_CONFIG_KEYS`, `Env`).
+- **Документы:** `MODELS-RU.md` (бюджет, исход хода, шаг R1.1, агрегаты приёмки WP-04, откат), `ALERTS-RU.md` (новый фоновый код, правила сторожа). `npm test` += три новых файла.
+
+**Отклонения от плана и почему.**
+1. **Индексов четыре, а не три:** добавлен `idx_gpt_service_alerts_pending(org_id, delivered_at, created_at)` — рекомендация ревью WP-02 (доставка алертов на каждом неудачном ходе читает эту таблицу, а D1 Free считает прочитанные строки).
+2. **Индексы `gpt_messages`/`gpt_sessions` — в `schema.ts`, не в `billing-schema.ts`:** эти таблицы создаёт `ensureSchema`, а маршруты `auth/callback`, `auth/logout`, `internal/gpt-billing-maintenance` зовут только `ensureBillingSchema` и упали бы на «no such table».
+3. **`fallbackFrom` и `ChatResult.latencyMs` не добавлены:** колонок и читателей у них нет. `total_ms` считает `chat.ts` вокруг обхода, число попыток пишется в `attempts`. У JSON-пути `ttft_ms` = null (первого слова отдельно нет).
+4. **Правила исхода — отдельный чистый модуль `turn-outcome.ts`**, SQL — только в `turn-store.ts` / `model-spend-store.ts` (AGENTS §3).
+5. **Оценка худшего хода — по `PAID_PRICE_CEILING`**, а не по прайсу модели: `max_price` — настоящий предел того, что возьмёт OpenRouter (`allow_fallbacks` может увести на провайдера дороже прайса). Факт — по прайсу `estimateCostUsd`, как в плане.
+6. **`free_paid_budget_exhausted` фоновый и суточный** (карта `01` §2.3: «информационный»); пишется `recordServiceAlert` напрямую, без попытки доставки.
+7. **Платная основная не встаёт в цепочку при `GPT_FREE_PAID_DAILY_USD = 0`** (иначе каждая попытка пропускалась бы и писала алерт).
+8. **Сторож больше не терпит отсутствие колонки `outcome`:** её гарантирует bootstrap у обоих, кто его зовёт (эндпоинт обслуживания и чат). Проверка «до 0066» из WP-02 заменена тестом «ходы до 0066 без исхода считаются как раньше».
+9. **Уборка новых таблиц (93 дня)** — план молчит, карта `01` §2.6 п. 22 её просит; без неё `gpt_limit_hits` растёт без предела.
+10. **`hourRemaining` только у бесплатных** (у пакета `null`): часовой лимит пакета убирает WP-05 (L3). Формула бесплатного часа пока старая (по `subject`), Б3 — в WP-05.
+11. **Локальная проверка `enable_request_signal`:** флаг принимают `wrangler dev` 4.118 и Miniflare 5.20260730 с датой `2024-09-23`, но ни тот, ни другой не передают обрыв клиента в `request.signal` (отдельный воркер: обрыв через 1 с — 0 срабатываний и с флагом, и без). Поэтому эффект флага видно только на превью/проде — это шаг релиза. «Стоп» через ошибку записи в поток работает и без флага (тот же прогон: «Network connection lost» на записи); флаг добавляет обрыв запроса к модели в паузе между кусками и в JSON-пути. Код обоих путей покрыт тестами с настоящим `AbortSignal`.
+12. **`promptTokenBound`** вынесен из `buildMessages` (тот же подсчёт байт + 32 на сообщение, поведение сборки промпта не менялось).
+13. **`tests/gpt-chat-stream.test.ts`** проверяет клиентский разбор (новый `done` читается старым клиентом как ответ с `remaining`) и серверный `parseSseChunk` (одиночный `finish_reason`, `reasoning_tokens`). Пометку `truncated` в UI делает WP-06.
+
+**Проверки.**
+- `tsc -b` 0; `typecheck:functions` 0; ESLint изменённых файлов 0; `git diff --check` чисто; `scan:secrets` чисто (3152 файла), `test:secret-scan` 16/16, grep токенов пуст, `seo-protection check` 10/10. `src/`, `content/` и prerender не менялись.
+- Весь список `npm test` по одному файлу: 64 файла, 791/793. Падают только две известные датозависимые фикстуры `lead-radar`.
+- Новые: `gpt-chat-runtime-schema` 5/5, `gpt-chat-budget` 9/9, `gpt-chat-truncation` 8/8. Обновлённые: `gpt-watchdog` 13/13 (+1), `gpt-chat-stream` 8/8 (+2), `gpt-readiness` 9/9, `gpt-routing` 6/6, `gpt-operations` 7/7, `gpt-billing` 14/14, `gpt-chat` 19/19, `gpt-zai-provider` 18/18, `gpt-model-policy` 13/13, `openrouter-model-catalogue` 5/5, `runtime-config` 4/4, `pages-config-parity` 7/7.
+- Проверка «на красный»: девять временных поломок ловятся (обрезка списана, «Стоп» никогда не списан, потолок бюджета не проверен, бюджет не рассчитан, сторож считает «Стоп», `remaining` до расчёта, платная основная без проверки бюджета, bootstrap без колонки, пропуск бюджета съедает попытку).
+- **Репетиция 0066 на локальной D1** (`wrangler d1 migrations apply --local`, отдельная папка в scratch, фиктивный id базы, `--remote` не использовался): 0008 + 0061 + 0064 + 0065, синтетические строки → 0066 применена (19 команд) → второй `apply`: «No migrations to apply». Строк до/после: резервов 3/3, сессий 1/1, сообщений 2/2, алертов 1/1; ledger 4 → 5; новые таблицы пусты; 4 новых индекса; 20 колонок; у старых ходов `outcome` NULL. Тот же сценарий и «код раньше миграции» — в `tests/gpt-chat-runtime-schema.test.ts`.
+
+**Для релиза R1.**
+1. **0066 — строго до кода и до любого превью** (превью пишет в боевую D1). Если bootstrap успеет раньше, `migrations apply` упадёт на «duplicate column name»; что делать — в шапке миграции (применить только `CREATE` и записать файл в ledger, ничего не удалять).
+2. Репетиция на копии прод-экспорта по процедуре релиза (§1: экспорт с sha256, применить дважды, сравнить строки) → `migration-rehearsal.json`.
+3. Смоук `enable_request_signal` на превью: «Стоп» после первых слов → строка `client_gone`, `charged=0`; флаг действует на весь Pages-проект.
+4. **R1.1:** проба моделей (`MODELS-RU.md`) → `GPT_FREE_TIER_PAID_PRIMARY = "true"` (JSON и таблица) → guarded-деплой. Без кредитов OpenRouter платная основная получит 402: ход уйдёт к `:free`, платные встанут на паузу на 15 минут, срочный `openrouter_credit_exhausted` — не чаще раза в час. Нужен вход владельца §8 (кредиты).
+5. Через 24 ч после R1.1 — агрегаты из `MODELS-RU.md`: ответов ≥ 90 %, `truncated` ≤ 5 %, `actual_micro` за сутки ≪ 1 000 000, медиана `ttft_ms`.
+6. Нагрузка на D1: +1 чтение на ход (`allowance`); при платной основной +2 записи на платную попытку (резерв и расчёт). Чат по-прежнему на Workers Free — следить за CPU (см. открытый вопрос WP-03).
+7. Откат: `GPT_FREE_TIER_PAID_PRIMARY="false"` или `GPT_FREE_PAID_DAILY_USD="0"`; порог «Стопа» — `GPT_STOP_CHARGE_MIN_CHARS`; иначе `git revert` и guarded-деплой. Колонки и таблицы 0066 остаются, старый код их не читает.
+
+**Дальше.** WP-05.
+
+---
+
 # Платный AI-чат к проду: ревью WP-03, 2026-09-30
 
 **Итог.** Проверил коммиты WP-03 `965085d2` (код) и `8ae247a6` (SHA в STATE) по §1 и §4 WP-03 плана `10-PROD-PLAN.md` и по `AGENTS.md` §2–8, §11. Цепочки, тело запроса, классы сбоев, три попытки после фильтра, `models_cooling`, третий переключатель Z.ai, промпт, цены, паритет конфига и документы сделаны верно. Отклонения исполнителя обоснованы. Нашёл один дефект в пробе моделей и исправил его в этом коммите. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись.

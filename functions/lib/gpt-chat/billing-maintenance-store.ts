@@ -7,6 +7,7 @@ import {
   URGENT_ALERT_PATTERNS,
   type UrgentLine,
 } from "./alert-policy";
+import { spendDay } from "./model-spend-store";
 import { resolveOwnerNotify } from "./notify";
 import { consumeRateLimit, HOUR_MS } from "./rate-limit";
 
@@ -188,6 +189,17 @@ export async function maintainBilling(
         "DELETE FROM gpt_service_alerts WHERE rowid IN (SELECT rowid FROM gpt_service_alerts WHERE org_id=? AND created_at<? LIMIT 500)",
       )
       .bind(BILLING_ORG, now - 93 * 86400_000),
+    // migrations/0066: daily counters, keyed by UTC day.
+    db
+      .prepare(
+        "DELETE FROM gpt_model_spend WHERE rowid IN (SELECT rowid FROM gpt_model_spend WHERE org_id=? AND day<? LIMIT 500)",
+      )
+      .bind(BILLING_ORG, spendDay(now - 93 * 86400_000)),
+    db
+      .prepare(
+        "DELETE FROM gpt_limit_hits WHERE rowid IN (SELECT rowid FROM gpt_limit_hits WHERE org_id=? AND day<? LIMIT 500)",
+      )
+      .bind(BILLING_ORG, spendDay(now - 93 * 86400_000)),
   ]);
   const token = env.GPT_NOTIFY_BOT_TOKEN || env.TELEGRAM_ASSISTANT_BOT_TOKEN;
   const chat = Number(env.GPT_NOTIFY_CHAT_ID || env.TELEGRAM_ADMIN_CHAT_ID);

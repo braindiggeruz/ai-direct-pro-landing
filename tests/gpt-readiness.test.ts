@@ -126,7 +126,7 @@ test('checkout rejects absent or stale terms before order creation, journals con
   for (const url of ['https://evil.test/terms', 'https://gptbot.uz@evil.test/', 'http://gptbot.uz/', 'https://gptbot.uz:444/terms']) assert.equal(termsUrl(url), null);
 });
 
-test('whitespace-only SSE retries before exposing a model; partial streams release successful-answer quota', async () => {
+test('whitespace-only SSE retries before exposing a model; partial streams release successful-answer quota, counted after the release', async () => {
   const f = await billingFixture();
   f.env.OPENROUTER_API_KEY = randomBytes(32).toString('hex');
   const cfg = resolveConfig(f.env);
@@ -144,8 +144,10 @@ test('whitespace-only SSE retries before exposing a model; partial streams relea
     const text = await response.text();
     await Promise.all(f.background);
     assert.match(text, /"code":"partial"/);
+    // The released turn is already given back: 15 of 15 left today, 5 of 5 this hour.
+    assert.match(text, /"type":"error","code":"partial","remaining":15,"hourRemaining":5/);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='done'"), 0);
-    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='released'"), 1);
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='released' AND outcome='upstream_error' AND charged=0"), 1);
   } finally { globalThis.fetch = original; }
 });
 

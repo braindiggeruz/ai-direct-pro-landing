@@ -20,6 +20,29 @@ export interface ChatMessage {
   content: string;
 }
 
+/** buildMessages keeps promptBytes() of its result at or below this. */
+const PROMPT_BYTE_BUDGET = 5700;
+/** Tokens reserved for the chat template around the messages. */
+const FRAMING_TOKENS = 256;
+const encoder = new TextEncoder();
+
+/**
+ * UTF-8 bytes of the messages plus 32 per message for its role markers. The
+ * byte count bounds the tokens: a byte-fallback tokeniser never emits more
+ * tokens than bytes.
+ */
+function promptBytes(messages: ChatMessage[]): number {
+  return messages.reduce((n, m) => n + encoder.encode(m.content).length + 32, 0);
+}
+
+/**
+ * The most prompt tokens `messages` can cost: promptBytes plus the template
+ * reserve. The free tier's daily budget reserves by it (model-spend-store.ts).
+ */
+export function promptTokenBound(messages: ChatMessage[]): number {
+  return promptBytes(messages) + FRAMING_TOKENS;
+}
+
 /**
  * Build the provider message array: system + trimmed history + new user turn.
  * History is trimmed to the last `maxTurns` user/assistant messages to cap
@@ -47,13 +70,11 @@ export function buildMessages(
     ...safeHistory,
     { role: "user", content: userMessage },
   ];
-  // Byte bound is conservative for byte-fallback tokenisers. Reserve 256
-  // tokens for chat framing. Drop oldest turns before trimming the new input.
-  const encoder = new TextEncoder();
-  const size = () =>
-    result.reduce((n, m) => n + encoder.encode(m.content).length + 32, 0);
-  while (result.length > 2 && size() > 5700) result.splice(1, 1);
-  while (size() > 5700 && result[result.length - 1].content.length > 1)
+  // Byte bound is conservative for byte-fallback tokenisers; FRAMING_TOKENS
+  // stay reserved on top. Drop oldest turns before trimming the new input.
+  const size = () => promptBytes(result);
+  while (result.length > 2 && size() > PROMPT_BYTE_BUDGET) result.splice(1, 1);
+  while (size() > PROMPT_BYTE_BUDGET && result[result.length - 1].content.length > 1)
     result[result.length - 1].content = result[result.length - 1].content.slice(
       0,
       -64,

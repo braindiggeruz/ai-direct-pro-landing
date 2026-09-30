@@ -1,5 +1,43 @@
 import type { AccessPeriod } from "./billing-store";
 import type { GptChatConfig } from "./config";
+import type { TurnOutcome } from "./turn-outcome";
+
+/** How a turn settled (migrations/0066 columns); counts and ids only, never text. */
+export interface TurnSettlement {
+  outcome: TurnOutcome;
+  /** Counts against the allowance: status 'done'; otherwise 'released'. */
+  charged: boolean;
+  model?: string | null;
+  finishReason?: string | null;
+  cancelReason?: string | null;
+  ttftMs?: number | null;
+  totalMs?: number | null;
+  tokensIn?: number | null;
+  tokensOut?: number | null;
+  reasoningTokens?: number | null;
+  costMicroUsd?: number | null;
+  attempts?: number | null;
+}
+
+/** What is left for the subject after a turn. */
+export interface Allowance {
+  /** Answers left today (free tier) or in the pack. */
+  remaining: number;
+  /** Free tier only: answers left in the rolling hour; null for a pack. */
+  hourRemaining: number | null;
+}
+
+// Provider-reported values are stored only as what they claim to be.
+function count(value: number | null | undefined): number | null {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0
+    ? Math.round(value)
+    : null;
+}
+
+function label(value: string | null | undefined): string | null {
+  return value ? value.slice(0, 128) : null;
+}
+
 export class TurnStore {
   constructor(
     readonly db: D1Database,
@@ -84,32 +122,75 @@ export class TurnStore {
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<number> {
-    const predicate = period
-      ? "period_id=?"
-      : "subject=? AND created_at>=? AND period_id IS NULL";
+    return (await this.allowance(subject, period, cfg, now)).remaining;
+  }
+  /**
+   * The day's (or the pack's) and, for the free tier, the rolling hour's
+   * answers left, in one read. The chat reads it after the settlement, so a
+   * released turn is already given back.
+   */
+  async allowance(
+    subject: string,
+    period: AccessPeriod | null,
+    cfg: GptChatConfig,
+    now = Date.now(),
+  ): Promise<Allowance> {
+    const active = "(status='done' OR (status='reserved' AND expires_at>?))";
+    if (period) {
+      const row = await this.db
+        .prepare(
+          `SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${active}`,
+        )
+        .bind(this.org, period.order_id, now)
+        .first<{ n: number }>();
+      return {
+        remaining: Math.max(0, period.message_limit - (row?.n ?? 0)),
+        hourRemaining: null,
+      };
+    }
+    const day = Math.floor(now / 86400_000) * 86400_000;
+    const hour = now - 3600_000;
     const row = await this.db
       .prepare(
-        `SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND ${predicate} AND (status='done' OR (status='reserved' AND expires_at>?))`,
+        `SELECT COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS day,
+        COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS hour
+        FROM gpt_turn_reservations WHERE org_id=? AND subject=? AND created_at>=? AND period_id IS NULL AND ${active}`,
       )
-      .bind(
-        this.org,
-        ...(period
-          ? [period.order_id]
-          : [subject, Math.floor(now / 86400_000) * 86400_000]),
-        now,
-      )
-      .first<{ n: number }>();
-    return Math.max(
-      0,
-      (period?.message_limit ?? cfg.freeDailyLimit) - (row?.n ?? 0),
-    );
+      .bind(day, hour, this.org, subject, Math.min(day, hour), now)
+      .first<{ day: number; hour: number }>();
+    return {
+      remaining: Math.max(0, cfg.freeDailyLimit - (row?.day ?? 0)),
+      hourRemaining: Math.max(0, cfg.freeHourlyLimit - (row?.hour ?? 0)),
+    };
   }
-  async finish(id: string, hasAnswer: boolean): Promise<void> {
+  /**
+   * Settle a reservation once: 'done' when charged, 'released' otherwise,
+   * together with its telemetry (migrations/0066).
+   */
+  async finish(id: string, settlement: TurnSettlement): Promise<void> {
     await this.db
       .prepare(
-        "UPDATE gpt_turn_reservations SET status=? WHERE org_id=? AND id=? AND status='reserved'",
+        `UPDATE gpt_turn_reservations SET status=?,outcome=?,charged=?,model=?,finish_reason=?,cancel_reason=?,
+        ttft_ms=?,total_ms=?,tokens_in=?,tokens_out=?,reasoning_tokens=?,cost_micro_usd=?,attempts=?
+        WHERE org_id=? AND id=? AND status='reserved'`,
       )
-      .bind(hasAnswer ? "done" : "released", this.org, id)
+      .bind(
+        settlement.charged ? "done" : "released",
+        settlement.outcome,
+        settlement.charged ? 1 : 0,
+        label(settlement.model),
+        label(settlement.finishReason),
+        label(settlement.cancelReason),
+        count(settlement.ttftMs),
+        count(settlement.totalMs),
+        count(settlement.tokensIn),
+        count(settlement.tokensOut),
+        count(settlement.reasoningTokens),
+        count(settlement.costMicroUsd),
+        count(settlement.attempts),
+        this.org,
+        id,
+      )
       .run();
   }
   async admitModelAttempt(period: AccessPeriod): Promise<boolean> {

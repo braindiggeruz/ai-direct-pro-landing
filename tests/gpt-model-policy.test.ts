@@ -183,6 +183,7 @@ test('a 400 body is read at most 2 KB, never logged, and only an unknown-model w
   assert.deepEqual(await chatStreamStart(f.env, cfg, ['vendor/a:free'], messages, 100, 5000), {
     ok: false,
     errorCode: 'model_unavailable',
+    attempts: 1,
   });
   const rows = health(f);
   assert.deepEqual(rows.map((r) => [r.model, r.code]), [['vendor/a:free', 'model_unavailable']]);
@@ -266,8 +267,8 @@ test('every candidate cooling down: nothing is sent, the visitor reads model_una
   const bodies = openrouter(t, () => answer('never'));
   for (const model of freeChain(cfg))
     f.db.exec(`INSERT INTO gpt_model_health(org_id, model, blocked_until, code) VALUES ('gptbot-consumer', '${model}', ${Date.now() + 60_000}, 'rate_limit')`);
-  assert.deepEqual(await chatComplete(f.env, cfg, freeChain(cfg), messages), { ok: false, errorCode: 'models_cooling' });
-  assert.deepEqual(await chatStreamStart(f.env, cfg, freeChain(cfg), messages), { ok: false, errorCode: 'models_cooling' });
+  assert.deepEqual(await chatComplete(f.env, cfg, freeChain(cfg), messages), { ok: false, errorCode: 'models_cooling', attempts: 0 });
+  assert.deepEqual(await chatStreamStart(f.env, cfg, freeChain(cfg), messages), { ok: false, errorCode: 'models_cooling', attempts: 0 });
   const response = (await (await anonymousTurn(f, true)).json()) as { ok: boolean; code: string; message: string };
   await drain(f);
   assert.deepEqual([response.ok, response.code], [false, 'model_unavailable']);
