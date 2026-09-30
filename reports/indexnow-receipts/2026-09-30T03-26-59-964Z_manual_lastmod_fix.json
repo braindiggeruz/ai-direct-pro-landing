@@ -1,0 +1,20 @@
+{
+  "submittedAt": "2026-09-30T03:26:59.964Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "manual_lastmod_fix",
+  "releaseCommit": "164a7b234adc9e34b919cd701385edfef49bea6c",
+  "reason": "Pages given their real modification date in 164a7b23 and the blog indexes whose recently-updated list changed. Each URL verified live first.",
+  "count": 8,
+  "urls": [
+    "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+    "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+    "https://gptbot.uz/ru/stoimost-chat-bota/",
+    "https://gptbot.uz/ru/avtor-boris-gerasimov/",
+    "https://gptbot.uz/uz/muallif-boris-gerasimov/",
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/uz/blog/"
+  ],
+  "responseExcerpt": ""
+}
