@@ -1,0 +1,39 @@
+{
+ "restore_seconds": 3.2,
+ "dump_sha256": "2687a1ed0eee0cbae2af7e0f6513b1bca7c573813dd3c865bc2f7fb2fa7bb0b9",
+ "tables_before": 161,
+ "pending": [
+  "0065_gpt_uzum_payments.sql",
+  "0066_gpt_chat_runtime.sql"
+ ],
+ "apply1": [
+  "0065_gpt_uzum_payments.sql",
+  "0066_gpt_chat_runtime.sql"
+ ],
+ "apply2": [],
+ "rowcounts_unchanged_for_existing": false,
+ "new_tables": [
+  "gpt_limit_hits",
+  "gpt_model_spend",
+  "gpt_uzum_orders"
+ ],
+ "second_apply_noop": true,
+ "gpt_turn_reservations_columns": 20,
+ "ledger_tail": [
+  [
+   "0066_gpt_chat_runtime.sql"
+  ],
+  [
+   "0065_gpt_uzum_payments.sql"
+  ],
+  [
+   "0064_gpt_consumer_billing.sql"
+  ]
+ ],
+ "quick_check": "ok",
+ "indexes_new": [
+  "idx_gpt_turn_created",
+  "idx_gpt_messages_created",
+  "idx_gpt_sessions_created"
+ ]
+}

@@ -1,0 +1,93 @@
+{
+  "release": "R1",
+  "date": "2026-10-01",
+  "production_commits": [
+    "ba01fb5322ed3003977f87656d00dd64ca374dfe",
+    "eccfac28cac4ea748beeee1ae0c72c986640f651"
+  ],
+  "previous_production": "a61963f102f1465e124426024d10998284af324f",
+  "d1": {
+    "backup_sha256": "2687a1ed0eee0cbae2af7e0f6513b1bca7c573813dd3c865bc2f7fb2fa7bb0b9",
+    "backup_bytes": 35019111,
+    "backup_location": "outside Git (F:/Claude/gptbot-production-backups/paid-chat-R1-2026-09-30T20-29-34Z/)",
+    "rehearsal": "R1-migration-rehearsal.json",
+    "applied_remote": [
+      "0065_gpt_uzum_payments.sql",
+      "0066_gpt_chat_runtime.sql"
+    ],
+    "readback": {
+      "last_migration": "0066_gpt_chat_runtime.sql",
+      "ledger_rows": 67,
+      "gpt_turn_reservations_columns": 20,
+      "new_indexes": 4,
+      "view_gpt_payment_orders_all": 1,
+      "gpt_uzum_orders_rows": 0
+    }
+  },
+  "pages": {
+    "deploy": "deployed_and_verified",
+    "manifest_commit": "eccfac28cac4ea748beeee1ae0c72c986640f651",
+    "seo_protection": "10/10 unchanged",
+    "seo_audit": "0 critical"
+  },
+  "secrets": {
+    "set": [
+      "GPT_BILLING_MAINTENANCE_SECRET (Pages + Worker gptbot-automation)"
+    ],
+    "values_printed": false
+  },
+  "worker": {
+    "name": "gptbot-automation",
+    "version": "044002bc-2cbd-4328-b7b8-49c2b887fd54",
+    "rollback_version": "770dc25f-0aad-472f-b452-23f4cbf92a84",
+    "cron": "*/15 * * * *",
+    "LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED": "false",
+    "GPT_BILLING_MAINTENANCE_ENABLED": "true"
+  },
+  "drill_alert": {
+    "status": "sent",
+    "codes": [
+      "drill",
+      "chat_model_unavailable (old, undelivered, recorded by the previous code)"
+    ]
+  },
+  "model_probe": {
+    "google/gemma-4-26b-a4b-it": "402 paid_credit_exhausted x2",
+    "mistralai/mistral-small-3.2-24b-instruct": "402 paid_credit_exhausted x2",
+    "google/gemma-4-31b-it:free": "429 x2",
+    "nvidia/nemotron-3-super-120b-a12b:free": "200 x2, reasoning 0, ttft median 561 ms",
+    "dots-studio/dots-3-note-preview:free": "200 x2, reasoning 0, ttft median 685 ms",
+    "action": "free chain reordered nemotron > dots > gemma (commit eccfac28); R1.1 paid primary NOT enabled (no OpenRouter credits)"
+  },
+  "live_acceptance": {
+    "browser": "built-in browser, mobile 375x812, /ru/gpt-chat/",
+    "turns": "5 answered (nemotron 2, dots 3), all correct, avg ttft 830-1460 ms from D1, charged 5",
+    "sixth_message": "HTTP 429 {reason:hourly, tier:free, retryAfterSec:3469, message:'Лимит бесплатных сообщений в час — 5. Снова написать можно через 58 мин.'}",
+    "limit_card": "visible above the input, question kept, countdown 58 -> 56 min after 60 s, survived focus and visibilitychange events",
+    "gpt_limit_hits": "1 row hourly/free",
+    "gpt_billing_ops": [
+      "catalogue",
+      "watchdog"
+    ],
+    "payment_routes_without_keys": {
+      "POST /api/payments/uzum": 404,
+      "POST /api/payments/uzum-merchant/check": 404,
+      "POST /api/payments/click": "200 {error:-1, SIGN CHECK FAILED} (becomes 404 in WP-13)"
+    },
+    "account_guest": {
+      "mode": null,
+      "providers": [],
+      "loginAvailable": false,
+      "botHandoff": false,
+      "freeLimits": {
+        "daily": 15,
+        "hourly": 5
+      }
+    }
+  },
+  "open_items": [
+    "OpenRouter has no purchased credits: paid models 402; owner top-up needed before R1.1",
+    "'Plus' still in the chat header and action note until WP-09 (R3)",
+    "Lead Radar admin API likely 503 since 03.09 (schema-contract misses 0059) - pre-existing, owner decision"
+  ]
+}
