@@ -2,9 +2,12 @@
   "paid_chat_prod_2026": {
     "wp": "WP-05",
     "release": "R1",
-    "status": "committed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
     "commit": "05ac26f637d69c659f134057e0ea4811107f7f1f",
-    "commit_note": "feat(gpt-chat): refuse chat turns with the precise limit and when it lifts (parent ad9e784f); the metadata-only follow-up that records this SHA is state_commit (HEAD, rule D-006)",
+    "commit_note": "feat(gpt-chat): refuse chat turns with the precise limit and when it lifts (parent ad9e784f); 0cd835e1 records this SHA (metadata only, rule D-006, state_commit); the review fix is review_commit",
+    "review": "WP-05 adversarial review 2026-09-30: the one rule list behind reserve() and explain() (free day and hour by subject AND ip_hash among period_id IS NULL, pack PACK_DAILY_LIMIT 50 and message_limit with no hourly cap, busy 2, IP ceiling 100/1000), every retryAt (next 00:00 UTC; hour and IP an hour after the limit-th newest row, exact under the strict window; busy the limit-th latest expiry), the lifts-last priority, the retry-once and busy fallback, access() (valid pack with answers left, the one that ends first, org-scoped subquery on idx_gpt_turn_period), the monthly race retried on the free tier, the 429 contract with Retry-After, gpt_limit_hits (pseudonymous subject, org-scoped, WP-07 rekeys it), the guest account view without D1 (L18), no SQL built from input, bind counts far under the D1 limit, fail-closed 503 when a count throws, config parity and the docs confirmed. The implementer's six deviations hold. One defect fixed: the day's texts (daily, pack_daily; RU and UZ) always said 'tomorrow from 05:00', but the UTC day turns at 05:00 in Tashkent, so a refusal between 00:00 and 05:00 there lifts the same calendar day, hours away, and the message promised a wait about a day too long. chat-copy.ts now says today (сегодня / Bugun) when retryAfterSec <= 5 h and tomorrow otherwise; the free day's first sentence no longer says 'today's' (Kunlik / закончились) so it reads true at night; a new test pins six clock cases against Tashkent calendar dates, red-checked with two mutations (always tomorrow; < instead of <= at 00:00); the endpoint pack-day test accepts either word; LIMITS-RU.md says so",
+    "review_commit": "HEAD = fix(gpt-chat): address WP-05 review findings (parent 0cd835e1)",
+    "review_open_issues": "WP-06: the planned limit-card text dailyBody (map 03 section 4, 'Завтра с 05:00' / 'Ertaga soat 05:00 dan') has the same night error; pick today or tomorrow from retryAt (the day lifts within 5 h = today in Tashkent). Plan-level: a pack at its daily 50 answers 429 pack_daily for the rest of the UTC day and does not fall back to the free 15/5 (the plan is silent; the old behaviour kept, deviation 4). gpt_limit_hits keeps the first tier of a (day, reason, subject) row: only busy and ip can occur on both tiers, and the plan's primary key has no tier; WP-19 should not read tier as exact for those two. WP-06, WP-17, WP-13 (B1) and the WP-04 content_filter question stay as the implementer listed them",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "a61963f102f1465e124426024d10998284af324f (ancestor of HEAD, checked 2026-09-30)",
@@ -303,9 +306,9 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-05 limits and an honest 429 on the server (release R1)",
+  "current_stage": "Paid AI chat production readiness: WP-05 limits and an honest 429 on the server, and its review (release R1)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-05 committed on paid-chat/prod-readiness (not pushed, not deployed; no migration)",
+  "last_completed_stage": "Paid AI chat WP-05 committed and reviewed on paid-chat/prod-readiness (not pushed, not deployed; no migration)",
   "next_stage": "Paid AI chat WP-06: the limit card holds (P0, F1-F3, F11, F13) (release R1), per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
@@ -577,7 +580,7 @@
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "05ac26f637d69c659f134057e0ea4811107f7f1f",
-  "state_commit": "HEAD",
+  "state_commit": "0cd835e12bfc71a01b97f91e1db3921a70055f1c",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",

@@ -344,7 +344,8 @@ test('the pack day: 429 pack_daily with the pack tier, limits and what is left i
   assert.equal(response.headers.get('retry-after'), String(body.retryAfterSec));
   const untilMidnight = Math.ceil((today + DAY - now) / 1000);
   assert.ok((body.retryAfterSec as number) <= untilMidnight && (body.retryAfterSec as number) >= untilMidnight - 30, String(body.retryAfterSec));
-  assert.match(body.message as string, /ответов в день: 50.*завтра с 05:00 по Ташкенту.*осталось: 250\.$/);
+  // 'сегодня' when this runs between 00:00 and 05:00 in Tashkent (pinned by the day-word test below).
+  assert.match(body.message as string, /ответов в день: 50.*(сегодня|завтра) с 05:00 по Ташкенту.*осталось: 250\.$/);
   assert.deepEqual(limitHits(f).map((row) => [row.reason, row.tier, row.subject, row.n]), [['pack_daily', 'paid', f.user, 1]]);
 });
 
@@ -366,11 +367,36 @@ test('the texts: every reason and failure in RU and UZ, no plan names, letter ap
   }
   assert.match(limitMessage('hourly', 'ru', facts), /через 2 мин/);
   assert.match(limitMessage('ip', 'uz', { ...facts, retryAfterSec: 1 }), /^Tarmog‘ingizdan .* 1 daqiqadan keyin/);
-  assert.match(limitMessage('daily', 'uz', facts), /Bugungi 15 ta bepul xabar tugadi\. Ertaga soat 05:00 dan \(Toshkent vaqti bilan\)/);
+  assert.match(limitMessage('daily', 'uz', { ...facts, retryAfterSec: 14 * 3600 }), /^Kunlik 15 ta bepul xabar tugadi\. Ertaga soat 05:00 dan \(Toshkent vaqti bilan\)/);
   assert.match(limitMessage('pack_daily', 'uz', { ...facts, limits: { daily: 50, hourly: null } }), /\(50 ta javob\).* paketda 7 ta javob qoldi\.$/);
   assert.match(providerMessage('rate_limit', 'uz'), /^Hozir so‘rovlar ko‘p\./);
   // The chat endpoint carries no plan names of its own.
   assert.doesNotMatch(readFileSync(new URL('../functions/api/gpt/chat.ts', import.meta.url), 'utf8'), /Plus|оформите/);
+});
+
+test('the day lifts at 05:00 in Tashkent: "today" when refused between 00:00 and 05:00 there, "tomorrow" otherwise', () => {
+  const tashkentDate = (ms: number) => new Date(ms + 5 * HOUR).toISOString().slice(0, 10);
+  // Refusal times in UTC; Tashkent is five hours ahead.
+  const cases: Array<[at: number, sameDay: boolean]> = [
+    [Date.UTC(2026, 9, 1, 10), false], // 15:00
+    [Date.UTC(2026, 9, 1, 18, 59, 59), false], // 23:59:59
+    [Date.UTC(2026, 9, 1, 19), true], // 00:00
+    [Date.UTC(2026, 9, 1, 21), true], // 02:00
+    [Date.UTC(2026, 9, 1, 23, 59, 59), true], // 04:59:59
+    [Date.UTC(2026, 9, 2), false], // 05:00, the day has just turned
+  ];
+  for (const [at, sameDay] of cases) {
+    // As the chat sends it: the next UTC midnight, in whole seconds rounded up.
+    const retryAt = Math.floor(at / DAY) * DAY + DAY;
+    assert.equal(tashkentDate(at) === tashkentDate(retryAt), sameDay, new Date(at).toISOString());
+    const facts = { limits: { daily: 15, hourly: 5 }, remaining: 0, retryAfterSec: Math.ceil((retryAt - at) / 1000) };
+    const packFacts = { ...facts, limits: { daily: 50, hourly: null }, remaining: 250 };
+    const [ru, uz] = sameDay ? ['сегодня', 'Bugun'] : ['завтра', 'Ertaga'];
+    assert.match(limitMessage('daily', 'ru', facts), new RegExp(`^Бесплатные сообщения закончились \\(в день — 15\\)\\. Снова писать можно ${ru} с 05:00 по Ташкенту\\.$`));
+    assert.match(limitMessage('daily', 'uz', facts), new RegExp(`^Kunlik 15 ta bepul xabar tugadi\\. ${uz} soat 05:00 dan \\(Toshkent vaqti bilan\\) yana yozishingiz mumkin\\.$`));
+    assert.match(limitMessage('pack_daily', 'ru', packFacts), new RegExp(`Продолжить можно ${ru} с 05:00 по Ташкенту; ответов в пакете осталось: 250\\.$`));
+    assert.match(limitMessage('pack_daily', 'uz', packFacts), new RegExp(`tugadi\\. ${uz} soat 05:00 dan \\(Toshkent vaqti bilan\\) davom ettirasiz;`));
+  }
 });
 
 test('a failed turn answers in the visitor language', async () => {

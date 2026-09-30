@@ -31,6 +31,7 @@
 - Заголовок `Retry-After` равен `retryAfterSec` (≥ 1).
 - `tier` — `free` или `paid`. У пакета `limits` = `{"daily":50,"hourly":null}`, а `remaining` показывает остаток пакета.
 - `message` пишется на языке хода (`locale`: `ru` или `uz`) и не содержит названий тарифов и цен. Ошибки провайдера (`no_key`, `rate_limit`, `model_unavailable`, `timeout`, прочее) тоже приходят на языке хода.
+- Сутки (`daily`, `pack_daily`) снимаются в 05:00 по Ташкенту. Если отказ пришёлся на 00:00–05:00 по Ташкенту (`retryAfterSec` ≤ 5 ч), текст говорит «сегодня с 05:00» / «Bugun soat 05:00 dan», иначе «завтра с 05:00» / «Ertaga soat 05:00 dan».
 - Старый UI понимает `hourly`, `daily` и `monthly`; `pack_daily`, `busy` и `ip` он показывает как часовой лимит. Карточку по новым полям делает WP-06.
 - Гостевой `GET /api/gpt/account` отдаёт `freeLimits: {daily, hourly}` из конфига и в D1 не ходит. Вошедшему `remaining` считается по аккаунту и по IP, как в чате.
 

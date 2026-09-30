@@ -6,6 +6,14 @@
 import type { Locale } from "../../../src/shared/types";
 import type { LimitReason } from "./turn-store";
 
+/**
+ * Tashkent keeps UTC+5 all year, so the limits' UTC day turns at 05:00
+ * there. A day's limit that lifts within this many seconds lifts at 05:00 on
+ * the visitor's own calendar day (refused between 00:00 and 05:00 there):
+ * "today", not "tomorrow".
+ */
+const TASHKENT_DAY_TURN_SEC = 5 * 3600;
+
 export interface LimitFacts {
   /** The tier's limits: the free tier's day and hour, or the pack's day (hourly null). */
   limits: { daily: number; hourly: number | null };
@@ -24,6 +32,8 @@ export function limitMessage(
   const uz = locale === "uz";
   const minutes = Math.max(1, Math.ceil((facts.retryAfterSec ?? 0) / 60));
   const { daily, hourly } = facts.limits;
+  const today =
+    facts.retryAfterSec !== null && facts.retryAfterSec <= TASHKENT_DAY_TURN_SEC;
   switch (reason) {
     case "hourly":
       return uz
@@ -31,12 +41,12 @@ export function limitMessage(
         : `Лимит бесплатных сообщений в час — ${hourly}. Снова написать можно через ${minutes} мин.`;
     case "daily":
       return uz
-        ? `Bugungi ${daily} ta bepul xabar tugadi. Ertaga soat 05:00 dan (Toshkent vaqti bilan) yana yozishingiz mumkin.`
-        : `Бесплатные сообщения на сегодня закончились (в день — ${daily}). Снова писать можно завтра с 05:00 по Ташкенту.`;
+        ? `Kunlik ${daily} ta bepul xabar tugadi. ${today ? "Bugun" : "Ertaga"} soat 05:00 dan (Toshkent vaqti bilan) yana yozishingiz mumkin.`
+        : `Бесплатные сообщения закончились (в день — ${daily}). Снова писать можно ${today ? "сегодня" : "завтра"} с 05:00 по Ташкенту.`;
     case "pack_daily":
       return uz
-        ? `Paketning kunlik limiti (${daily} ta javob) tugadi. Ertaga soat 05:00 dan (Toshkent vaqti bilan) davom ettirasiz; paketda ${facts.remaining} ta javob qoldi.`
-        : `Дневной лимит пакета исчерпан (ответов в день: ${daily}). Продолжить можно завтра с 05:00 по Ташкенту; ответов в пакете осталось: ${facts.remaining}.`;
+        ? `Paketning kunlik limiti (${daily} ta javob) tugadi. ${today ? "Bugun" : "Ertaga"} soat 05:00 dan (Toshkent vaqti bilan) davom ettirasiz; paketda ${facts.remaining} ta javob qoldi.`
+        : `Дневной лимит пакета исчерпан (ответов в день: ${daily}). Продолжить можно ${today ? "сегодня" : "завтра"} с 05:00 по Ташкенту; ответов в пакете осталось: ${facts.remaining}.`;
     case "monthly":
       return uz
         ? "Paketdagi javoblar tugadi. Bepul limit ishlashda davom etadi."
