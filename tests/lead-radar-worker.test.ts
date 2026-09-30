@@ -16,6 +16,7 @@ import {
 } from '../functions/platform/lead-radar/telegram-campaign';
 import { checkCorporateTelegramContact } from '../functions/platform/lead-radar/contact-resolution';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { automationWorkerVars } from './helpers/wrangler-vars';
 import { leadRadarTelegramAccountFinalizationQueueMessage } from '../src/shared/lead-radar-telegram-account-finalization';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -291,7 +292,10 @@ async function runningCampaignFixture(): Promise<{
     db: db.asD1(), dataKey: CAMPAIGN_DATA_KEY, orgId: CAMPAIGN_ORG,
     companyId, contactBasis: 'existing_relationship',
     evidenceReference: 'fixture-worker-existing-relationship',
-    expiresAt: '2026-09-24T12:00:00.000Z', reviewerId: 'owner@example.test',
+    // Relative to the fixture clock: the fixture runs on real time, and a fixed
+    // date expired on 2026-09-24 and failed every campaign test after it.
+    expiresAt: new Date(now.getTime() + 30 * 24 * 60 * 60_000).toISOString(),
+    reviewerId: 'owner@example.test',
     idempotencyKey: 'worker_campaign_authorization_0001', now,
   });
   const prepared = await prepareTelegramCampaign({
@@ -682,6 +686,76 @@ test('disabled Telegram campaign autosend ACKs without a claim or provider effec
     'SELECT daily_reserved_count FROM lead_radar_tg_user_accounts WHERE org_id = ?',
     CAMPAIGN_ORG,
   ), 0);
+});
+
+// The deployed Worker's own values for every switch that decides whether a
+// campaign goes out, read from wrangler.automation.toml. The rest of [vars]
+// turns on the Signal Radar scout and the crawler, which would reach the real
+// network from a unit test, so only these keys are taken.
+const CAMPAIGN_SEND_GATES = [
+  'LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED',
+  'LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED',
+  'LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED',
+  'LEAD_RADAR_TELEGRAM_TRANSPORT_MODE',
+  'LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT',
+  'LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS',
+] as const;
+
+async function shippedWorkerCampaignRun(overrides: Record<string, string> = {}): Promise<{
+  enqueued: unknown[];
+  providerCalls: number;
+  recipientStatus: unknown;
+}> {
+  const shipped = automationWorkerVars();
+  const gates = Object.fromEntries(CAMPAIGN_SEND_GATES.map((key) => {
+    assert.ok(shipped.has(key), `${key} is missing from wrangler.automation.toml`);
+    return [key, shipped.get(key)];
+  }));
+  const { db, envelope } = await runningCampaignFixture();
+  try {
+    const service = privateTelegramService();
+    const outgoing = fakeQueue();
+    // Tenant allowlist, secrets and the private binding are all present, as
+    // in production; only the tenant id is the fixture's.
+    const env = environment(db, {
+      ...gates,
+      ...overrides,
+      AUTOMATION_QUEUE: outgoing,
+      LEAD_RADAR_ALLOWED_ORGS: CAMPAIGN_ORG,
+      LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: CAMPAIGN_DATA_KEY,
+      LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN: TELEGRAM_INTERNAL_SERVICE_TOKEN,
+      LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: service.binding,
+    });
+    await worker.scheduled({} as ScheduledController, env);
+    const message = queueMessage(envelope);
+    await worker.queue(batch([message]), env);
+    assert.equal(message.acknowledgements, 1);
+    assert.deepEqual(message.retries, []);
+    return {
+      enqueued: outgoing.sent,
+      providerCalls: service.calls.length,
+      recipientStatus: db.value(
+        'SELECT status FROM lead_radar_tg_campaign_recipients WHERE campaign_id = ?',
+        envelope.campaign_id,
+      ),
+    };
+  } finally {
+    db.sqlite.close();
+  }
+}
+
+test('the shipped Worker config neither dispatches nor sends an approved running campaign', async () => {
+  const shipped = await shippedWorkerCampaignRun();
+  assert.deepEqual(shipped.enqueued, []);
+  assert.equal(shipped.providerCalls, 0);
+  assert.equal(shipped.recipientStatus, 'pending');
+
+  // The same config with only autosend flipped does send, so it is that switch,
+  // not a missing binding, tenant or limit, that holds the campaign back.
+  const flipped = await shippedWorkerCampaignRun({ LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' });
+  assert.equal(flipped.enqueued.length, 1);
+  assert.equal(flipped.providerCalls, 1);
+  assert.equal(flipped.recipientStatus, 'sent');
 });
 
 test('missing private Telegram binding ACKs without a claim or ambiguous delivery', async (t) => {

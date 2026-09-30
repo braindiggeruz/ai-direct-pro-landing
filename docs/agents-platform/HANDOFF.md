@@ -1,3 +1,54 @@
+# Платный AI-чат к проду: WP-01 — Lead Radar AUTOSEND=false и гигиена релиза, 2026-09-30
+
+**Итог.** Автоотправка кампаний Lead Radar выключена во всех четырёх местах, и тесты теперь доказывают, что отправки нет и на Pages, и в Worker'е. Guard деплоя блокирует незакоммиченную миграцию. Строка про деплой в `AGENTS.md` исправлена. Передеплой Worker'а подготовлен (dry-run), но **не выполнен**. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись. План — `10-PROD-PLAN.md` §4 WP-01 (вне Git), дальше WP-02.
+
+**Что сделано.**
+- `LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED = "false"`:
+  - `wrangler.toml` — упакованный JSON (его читает прод) и вложенная таблица;
+  - `wrangler.automation.toml` — копия, которую читает Worker; отправляет именно он;
+  - пин в `tests/pages-config-parity.test.ts` — с датой и D12.
+  Остальные флаги (`CAMPAIGN`, `ACCOUNT`, `CONTACT`) не тронуты. Кампанию можно подготовить и утвердить. Кнопки «Запустить» и «Возобновить» API отклоняет (409 `lead_radar_campaign_autosend_paused`). Крон кампании в очередь не ставит, а консьюмер подтверждает сообщение без захвата получателя.
+- Новые тесты:
+  - `pages-config-parity`: копия Worker'а совпадает с Pages по всем флагам Lead Radar, autosend выключен. Отдельный тест собирает capabilities из упакованного JSON: кампании доступны, autosend выключен.
+  - `lead-radar-worker`: с флагами из `wrangler.automation.toml` крон ничего не ставит в очередь, консьюмер ничего не отправляет, получатель остаётся `pending`. Тот же конфиг, где изменён только autosend, отправляет ровно одно сообщение. Значит, держит именно флаг, а не отсутствующая привязка или тенант.
+  - `pages-production-release`: `migrations/` считается runtime-файлом. На настоящем временном git-репозитории новая или изменённая миграция блокирует релиз, а `docs/` — нет.
+  - Каждый новый тест проверен «на красный»: он падает, если вернуть `true` в Worker или в упакованный JSON либо убрать правило `migrations`.
+- `scripts/release/pages-production.ts`: `runtimeFile` учитывает `migrations/`, поэтому `stamp`, `check` и `deploy` отказывают при незакоммиченной миграции. `runtimeFile` и `assertCleanRuntime` экспортированы для теста.
+- `AGENTS.md` §2: «Deploy = push в main» → Direct Upload через `deploy_runner.py` после `build:production`, только по команде; Worker — отдельно, через `--dry-run`.
+- `tests/lead-radar-worker.test.ts`: в фикстуре кампании была дата `expiresAt` 2026-09-24. Фикстура идёт по реальным часам, поэтому с 24.09 падали 7 из 16 тестов. Теперь дата считается от часов фикстуры (+30 дней). Нужно и новому тесту, и приёмке Worker'а.
+- `tests/helpers/wrangler-vars.ts`: чтение `[vars]` Worker'а для двух тестов.
+
+**Подготовка передеплоя Worker'а `gptbot-automation` (не выполнялся).**
+- Активная версия `770dc25f-0aad-472f-b452-23f4cbf92a84` от 2026-09-04T08:36:42Z. Проверено read-only: `wrangler deployments list` и `versions view`. Её 23 vars совпадают с `wrangler.automation.toml` на HEAD один к одному, кроме AUTOSEND: в проде `"true"`. Секреты (только имена): `FIRECRAWL_API_KEY`, `LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY`, `LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN`. `GPT_BILLING_MAINTENANCE_SECRET` нет — его добавит WP-02.
+- `wrangler deploy -c wrangler.automation.toml --dry-run --outdir <scratch>`: ok, 1379,42 KiB / gzip 301,87 KiB. Бандл до и после WP-01 совпадает побайтно: WP-01 меняет только var.
+- Что принесёт передеплой. Список собран по metafile бандла: 96 своих файлов плюс `libphonenumber-js`, а не только три каталога из плана. База — последний коммит, затрагивающий эти файлы, до выгрузки: `4874e86c`, 04.09 06:53Z. Метаданных коммита у версии Worker'а нет.
+  - `48e1d206` (06.09): крон вызывает `runGptBillingMaintenance`. Без `GPT_BILLING_MAINTENANCE_ENABLED="true"` и секрета вызов ничего не делает; их включает WP-02.
+  - `c4037f2b` (18.09) и `2cea30dc` (29.09): `src/shared/site-config.ts` (`HOME_HREFLANG`) и `src/shared/audit.ts` (`HOME_NODE` в SEO-аудите). В бандл они попадают через seo-autopilot; на Lead Radar не влияют.
+  - `functions/platform/lead-radar/**`, `functions/platform/automation/**` и `workers/` (кроме хука выше) с 03.09 не менялись.
+  - Если выгрузка 04.09 шла из дерева старше `4874e86c`, добавятся ещё `7b27ec42`, `546bc893` и `4874e86c` (04.09). В них только логирование ошибок в LLM-роутере, circuit breaker и usage-store плюс новый `functions/lib/observability.ts`.
+- D1, read-only агрегат на 30.09: кампаний 0, эффектов отправки 0 (за всё время и за 24 ч), аккаунтов Telegram: 1 `connected`, 12 `revoked`. Висящих кампаний нет, поэтому порядок «Pages → Worker» без риска.
+
+**Отклонения от плана и почему.**
+1. План называет коммиты `e1ac7c8c`, `92722c0c` и `bb931b95`. В бандл Worker'а они не входят: там типы в `functions/_types.ts`, а `runtime-config.ts` и `wrangler.toml` относятся к Pages. Настоящий список изменений — выше, он собран по бандлу.
+2. «Коммит 04.09» однозначно не определить: у версии Worker'а нет метаданных коммита. За базу взят последний коммит с входными файлами до времени выгрузки, остаток неопределённости описан выше.
+3. Добавлены тесты сверх плана: паритет Worker'а с Pages и поведение Worker'а на отгружаемом конфиге. Четыре места из плана закрепляли только Pages, а отправляет Worker.
+4. Починена просроченная дата в фикстуре `lead-radar-worker` (см. выше). Поведение кода не менялось.
+5. `test:lead-radar` целиком не зелёный. Эти падения есть и до WP-01: ветка не меняет ни код Lead Radar, ни эти тесты относительно `f53cabcb`. В `npm test` эти файлы не входят, кроме `lead-radar`.
+   - `lead-radar` — 2 падения. Это известные датозависимые тесты: с часами на 2026-09-20 проходят 35/35.
+   - `lead-radar-api` — 6 падений; `lead-radar-telegram-campaign-api` — 16 падений, после чего файл висит до таймаута 900 с. Причина общая, и дело не в датах: `lead_radar_schema_unavailable`. Подробности — в находке ниже.
+
+**Находка вне WP (не чинил, нужен отдельный пакет Lead Radar).** Миграция `0059_lead_radar_signal_chats.sql` (03.09) добавила `lead_radar_signal_chats`. Исключения в `functions/platform/lead-radar/schema-contract.ts` её не знают, поэтому отпечаток целевой схемы Lead Radar не сходится: `schema_fingerprint_mismatch`. Бисект на фикстуре: до 0058 `pass`, с 0059 `blocked`; 0064 и 0065 ни при чём. Раз 0059 в проде применена, админ-API Lead Radar, который вызывает `assertLeadRadarRuntimeSchema` (поиски, контакты, кампании), вероятно, отвечает 503 с 03.09. В проде не проверял. Починка — добавить таблицу в список исключений с тестом. Она снова откроет админку Lead Radar, поэтому решать владельцу.
+
+**Проверки.** `tsc -b` 0; `typecheck:functions` 0; ESLint изменённых файлов 0. Затронутые тесты по одному: pages-config-parity 7/7, runtime-config 4/4, pages-production-release 8/8, lead-radar-worker 17/17 (было 9/16). `test:lead-radar` по одному файлу — 690 pass / 24 fail; до WP-01 было 682 / 31. Разница — починенные 7 тестов `lead-radar-worker` и новый тест. Все 24 оставшихся падения были и до WP-01: 2 в `lead-radar`, 6 в `lead-radar-api`, 16 в `lead-radar-telegram-campaign-api`, который ещё и висит до таймаута (отклонение 5). `lead-radar-release-manifest` 11/11, `lead-radar-campaign-ui` 15/15. `scan:secrets` чисто (3138 файлов), `test:secret-scan` 16/16, grep токенов пуст, `git diff --check` чисто. `src/`, `content/` и prerender не менялись; `seo-protection check` 10/10.
+
+**Для релиза R1 (Worker; Pages по §1 плана).**
+1. Сначала Pages. Упакованный JSON выключит autosend в админке и API, но Worker до своего деплоя читает свою копию, где `"true"`. Поэтому Worker выкатывать в том же окне, после секрета WP-02.
+2. `npx wrangler deploy -c wrangler.automation.toml --dry-run --outdir <tmp>`. В списке привязок должно быть `AUTOSEND ("false")` и `GPT_BILLING_MAINTENANCE_ENABLED` (WP-02). Затем `npx wrangler deploy -c wrangler.automation.toml`.
+3. После деплоя: `wrangler versions view <новая>` → AUTOSEND `"false"`; capabilities Lead Radar → `campaignAutoSendEnabled=false`. Через 24 ч агрегат `SELECT status, COUNT(*) FROM lead_radar_tg_campaign_effects WHERE updated_at >= strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day') GROUP BY status` не должен содержать `dispatching`, `sent` или `ambiguous`.
+4. Откат: `wrangler rollback` на `770dc25f` вернёт AUTOSEND=true. После любого отката сразу снова деплой с `false`.
+
+---
+
 # Платный AI-чат к проду: ревью WP-00, 2026-09-30
 
 **Итог.** Проверил четыре коммита WP-00 (`c209366e`, `208bd0a3`, `ed2a918d`, `34fca360`) по §1 и §4 WP-00 плана `10-PROD-PLAN.md` и по `AGENTS.md` §2–8, §11. Дефектов в коде не нашёл, и этот коммит код не меняет. Исправлена только запись в STATE: вместо заглушки `"HEAD"` там теперь настоящий SHA `34fca360dff16d67fecf2f3f1d5e21e7fd1bc1e9`. Этого требует `AGENTS.md` §9, а по правилу D-006 `last_commit` — это код-коммит этапа; поле `state_commit` указывает на этот коммит, в нём только метаданные. Ничего не запушено и не задеплоено.

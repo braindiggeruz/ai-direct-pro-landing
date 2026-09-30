@@ -44,12 +44,15 @@ function git(root: string, args: string[]): string {
   return result.stdout.trim();
 }
 
-function runtimeFile(filename: string): boolean {
-  return /^(src|functions|workers|tools|content|public|scripts|apps|config)\//.test(filename)
+// migrations/ is not a build input, but `wrangler d1 migrations apply` runs
+// every pending file in it. An uncommitted migration means the release either
+// ships code that needs DDL the commit does not carry, or DDL nobody reviewed.
+export function runtimeFile(filename: string): boolean {
+  return /^(src|functions|workers|tools|content|public|scripts|apps|config|migrations)\//.test(filename)
     || /^(package(-lock)?\.json|yarn\.lock|vite\.config\.|tsconfig\.|wrangler)/.test(filename);
 }
 
-function assertCleanRuntime(root: string): void {
+export function assertCleanRuntime(root: string): void {
   const changed = [...git(root, ['diff', '--name-only', 'HEAD']).split('\n'),
     ...git(root, ['ls-files', '--others', '--exclude-standard']).split('\n')].filter(runtimeFile);
   if (changed.length) throw new Error('Uncommitted runtime files: commit the reviewed build inputs before production deployment.');

@@ -20,6 +20,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { hydrateRuntimeConfig } from '../functions/lib/runtime-config';
+import { resolveLeadRadarCapabilities } from '../functions/platform/lead-radar/capabilities';
+import { automationWorkerVars } from './helpers/wrangler-vars';
 
 const config = fs.readFileSync(path.join(process.cwd(), 'wrangler.toml'), 'utf8');
 
@@ -53,6 +56,11 @@ const declaredVars = (): Map<string, string> => {
 // NOT relax who may be messaged: the fail-closed ownership and endpoint-type
 // rules, the daily limits and LEAD_RADAR_ALLOWED_ORGS below stay pinned, and an
 // empty allowlist remains a hard pause even with this boolean set to true.
+//
+// LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED moved the other way on
+// 2026-09-30 (paid-chat plan D12): the paired sender is a live personal
+// Telegram account, so approved campaigns must not go out on their own.
+// Preparing and approving campaigns stays available; sending does not.
 const LEAD_RADAR_VARS: Record<string, string> = {
   LEAD_RADAR_ADMISSION_ENABLED: 'true',
   LEAD_RADAR_PROCESSING_ENABLED: 'true',
@@ -61,7 +69,7 @@ const LEAD_RADAR_VARS: Record<string, string> = {
   LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
   LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
-  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'false',
   LEAD_RADAR_PERSONAL_RETENTION_DAYS: '30',
   LEAD_RADAR_ALLOWED_ORGS: 'owner_8ee98dc3040f160b308166b0',
   LEAD_RADAR_MAX_DISPATCH_PER_TICK: '5',
@@ -86,6 +94,42 @@ test('every Lead Radar production var is declared on this branch too', () => {
         'to deploy wins, so the two must stay identical',
     );
   }
+});
+
+// The automation Worker never sees the Pages vars. It reads its own [vars],
+// which every Worker deploy replaces wholesale, and it is the component that
+// actually sends campaigns (workers/automation-worker.ts). A switch flipped in
+// wrangler.toml alone makes the admin UI report "paused" while the Worker keeps
+// sending from the paired account.
+test('the automation Worker carries the same Lead Radar switches, with autosend off', () => {
+  const pages = declaredVars();
+  const worker = automationWorkerVars();
+  for (const [key, expected] of Object.entries(LEAD_RADAR_VARS)) {
+    assert.equal(worker.get(key), expected, `${key}: the Worker copy in wrangler.automation.toml disagrees`);
+  }
+  for (const [key, value] of worker) {
+    if (pages.has(key)) assert.equal(value, pages.get(key), `${key} differs between Pages and the Worker`);
+  }
+  assert.equal(worker.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'), 'false');
+});
+
+test('production Pages offers campaigns to the owner but reports autosend paused', () => {
+  // Production reads the packed text var, not the table (see the note above
+  // [vars] in wrangler.toml), so resolve the capabilities from that.
+  const packed = /GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(config)?.[1];
+  assert.ok(packed, 'wrangler.toml has no packed GPTBOT_RUNTIME_CONFIG_JSON');
+  const env = hydrateRuntimeConfig({
+    GPTBOT_RUNTIME_CONFIG_JSON: packed,
+    // Production has both secrets and the private binding; stand-ins here, so
+    // that only the flags decide the outcome.
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: Buffer.alloc(32, 7).toString('base64url'),
+    LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN: Buffer.alloc(32, 9).toString('base64url'),
+    LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: { fetch: async () => new Response(null) } as unknown as Fetcher,
+  });
+  const capabilities = resolveLeadRadarCapabilities(env, LEAD_RADAR_VARS.LEAD_RADAR_ALLOWED_ORGS);
+  assert.equal(capabilities.telegramAccountEnabled, true);
+  assert.equal(capabilities.campaignOutreachEnabled, true);
+  assert.equal(capabilities.campaignAutoSendEnabled, false);
 });
 
 test('the integrated release keeps campaign limits unchanged after outreach was enabled', () => {

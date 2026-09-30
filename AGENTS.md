@@ -35,7 +35,10 @@ knowledge-схема, workflows, prompts, i18n; регистрация одно�
 - НЕ хранить секреты в коде/логах/чатах; токены только через env/`wrangler pages secret put`.
 - НЕ выводить пользовательские тексты/PII в события и логи (паттерн: pseudo-ключи + SAFE-поля).
 - НЕ смешивать рефакторинг ядра и продуктовую фичу в одном коммите.
-- НЕ push без разрешения владельца. Deploy = push в main (CF Pages авто) — только по команде.
+- НЕ push без разрешения владельца. Push ничего не собирает: Deploy = Direct Upload через
+  `F:/Claude/gptbot-tools/deploy_runner.py check|deploy` после `npm run build:production` — только по
+  команде; «сырой» `wrangler pages deploy` в обход guard запрещён. Worker `gptbot-automation`
+  деплоится отдельно (`wrangler deploy -c wrangler.automation.toml`, сначала `--dry-run`), тоже по команде.
 - Бренд пишется **«GPTBot.uz»** везде, где он виден поисковику или модели: `og:site_name`, суффикс
   title (`| GPTBot.uz`), h1 главной, подписи «Проверено командой», llms.txt. «GPTBot» без `.uz` —
   только `organizationLegalName`/`alternateName` в JSON-LD (коллизия с краулером OpenAI GPTBot;

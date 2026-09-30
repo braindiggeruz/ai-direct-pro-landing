@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { assertProductionLineage, inspectArtifact, REQUIRED_FEATURES, REQUIRED_RELEASES, verifyStampedArtifact } from '../scripts/release/pages-production';
+import {
+  assertCleanRuntime, assertProductionLineage, inspectArtifact, REQUIRED_FEATURES, REQUIRED_RELEASES, runtimeFile,
+  verifyStampedArtifact,
+} from '../scripts/release/pages-production';
 
 const head = 'a'.repeat(40);
 test('production rejects both one-sided branches and unknown production metadata', () => {
@@ -65,6 +69,39 @@ test('stamp binds the entire artifact to its reviewed source commit', (t) => {
   assert.throws(() => verifyStampedArtifact(dist, 'b'.repeat(40)), /stale/);
   fs.writeFileSync(path.join(dist, 'extra.html'), 'another worktree build');
   assert.throws(() => verifyStampedArtifact(dist, head), /stale/);
+});
+
+test('an uncommitted migration blocks the release like uncommitted code', (t) => {
+  assert.equal(runtimeFile('migrations/0066_gpt_chat_runtime.sql'), true);
+  assert.equal(runtimeFile('functions/api/gpt/chat.ts'), true);
+  assert.equal(runtimeFile('docs/agents-platform/HANDOFF.md'), false);
+  assert.equal(runtimeFile('tests/pages-production-release.test.ts'), false);
+
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'gptbot-pages-release-git-'));
+  t.after(() => fs.rmSync(repo, { recursive: true, force: true }));
+  const git = (...args: string[]) => {
+    const result = spawnSync('git', ['-c', 'user.name=release-test', '-c', 'user.email=release-test@example.invalid',
+      '-c', 'commit.gpgsign=false', ...args], { cwd: repo, encoding: 'utf8', windowsHide: true });
+    assert.equal(result.status, 0, result.stderr);
+  };
+  git('init', '-q');
+  fs.mkdirSync(path.join(repo, 'migrations'));
+  fs.writeFileSync(path.join(repo, 'migrations/0065_applied.sql'), 'SELECT 1;\n');
+  git('add', 'migrations/0065_applied.sql');
+  git('commit', '-q', '-m', 'base');
+  assert.doesNotThrow(() => assertCleanRuntime(repo));
+
+  fs.mkdirSync(path.join(repo, 'docs'));
+  fs.writeFileSync(path.join(repo, 'docs/receipt.md'), 'release notes\n');
+  assert.doesNotThrow(() => assertCleanRuntime(repo), 'documents alone must not block a release');
+
+  const pending = path.join(repo, 'migrations/0066_pending.sql');
+  fs.writeFileSync(pending, 'SELECT 2;\n');
+  assert.throws(() => assertCleanRuntime(repo), /Uncommitted runtime files/);
+
+  fs.rmSync(pending);
+  fs.appendFileSync(path.join(repo, 'migrations/0065_applied.sql'), '-- edited after review\n');
+  assert.throws(() => assertCleanRuntime(repo), /Uncommitted runtime files/);
 });
 
 test('release rejects public HTML with admin CSS even when every asset returns 200', t => {

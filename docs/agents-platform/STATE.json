@@ -1,24 +1,38 @@
 {
   "paid_chat_prod_2026": {
-    "wp": "WP-00",
+    "wp": "WP-01",
     "release": "R1",
-    "status": "committed_reviewed_not_deployed",
-    "commit": "34fca360dff16d67fecf2f3f1d5e21e7fd1bc1e9",
-    "commit_note": "fix(gpt-chat): keep stage-1 surfaces inert (parent ed2a918d); the review follow-up that records this SHA is state_commit (HEAD, metadata only, rule D-006)",
-    "review": "WP-00 adversarial review 2026-09-30: no code defect; this follow-up only records the real SHA instead of the HEAD placeholder (AGENTS.md section 9) and corrects the git diff --check note",
-    "intake_commits": {
-      "B_zai": "c209366e",
-      "C_uzum": "208bd0a3",
-      "A_bot_buttons": "ed2a918d"
-    },
+    "status": "committed_not_deployed",
+    "commit": "HEAD",
+    "commit_note": "fix(release): stop Lead Radar autosend and block uncommitted migrations (parent 454efb63); HEAD is replaced by the real SHA in a metadata-only follow-up (rule D-006)",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "a61963f102f1465e124426024d10998284af324f (ancestor of HEAD, checked 2026-09-30)",
     "plan": "C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/raw/prod-2026-09-30/10-PROD-PLAN.md (outside Git)",
-    "settings_added": "V GPT_BOT_HANDOFF_ENABLED=\"false\" (packed JSON + nested table)",
-    "migrations_for_release": "R1 applies 0065_gpt_uzum_payments.sql (in repo) and 0066 (WP-04) BEFORE the Pages deploy: the signed-in account panel and the live outbox read the 0065 view",
-    "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; stage-1 files 81/81 (handoff-link 11, telegram-web-handoff 21, zai 18, uzum 17, billing 14); gpt-readiness 9/9; gpt-account-ui 7/7; npm test files one by one 735/737 (2 known lead-radar date fixtures); build:fast steps 0; seo-protection 10/10; scan:secrets clean; git diff --check f53cabcb..HEAD clean except 21 intentional trailing-space Markdown line breaks in the verbatim docs/paid-chat/uzum-spec YAML; review re-ran tsc -b, typecheck:functions, ESLint, build:fast, seo-protection and every npm test file one by one",
-    "next_wp": "WP-01"
+    "settings_changed": "V + W LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED=\"false\" (packed JSON, nested table, wrangler.automation.toml); Worker picks it up only on its own deploy",
+    "release_guard": "scripts/release/pages-production.ts counts migrations/ as runtime: an uncommitted or edited migration blocks stamp, check and deploy",
+    "worker_release": {
+      "deployed": false,
+      "active_version": "770dc25f-0aad-472f-b452-23f4cbf92a84 (2026-09-04T08:36:42Z); its 23 vars equal wrangler.automation.toml except AUTOSEND, which is true there",
+      "dry_run": "ok, 1379.42 KiB / gzip 301.87 KiB; bundle byte-identical before and after WP-01",
+      "code_since_upload": "48e1d206 billing maintenance cron hook (inert until WP-02); c4037f2b and 2cea30dc src/shared site-config and audit via seo-autopilot; possibly 7b27ec42, 546bc893, 4874e86c (logging only) if the upload predates them; Lead Radar and automation platform code unchanged since 2026-09-03",
+      "d1_baseline": "read-only aggregate 2026-09-30: 0 campaigns, 0 campaign effects, 1 connected Telegram account"
+    },
+    "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; pages-config-parity 7/7, runtime-config 4/4, pages-production-release 8/8, lead-radar-worker 17/17 (was 9/16: fixture expiry fixed); new tests red-checked against autosend true and the old migration rule; test:lead-radar file by file 690 pass / 24 fail, all 24 pre-existing (was 682/31): lead-radar 2 date fixtures (35/35 with the clock at 2026-09-20), lead-radar-api 6 and lead-radar-telegram-campaign-api 16 plus a hang, both lead_radar_schema_unavailable (see finding_outside_wp); Worker dry run ok; seo-protection 10/10; scan:secrets clean; test:secret-scan 16/16; git diff --check clean; token grep empty",
+    "finding_outside_wp": "migrations/0059_lead_radar_signal_chats.sql is missing from the schema-contract exclusions, so the Lead Radar target schema fingerprint no longer matches (fixture bisect: pass up to 0058, blocked from 0059); the Lead Radar admin API that calls assertLeadRadarRuntimeSchema probably answers 503 since 2026-09-03 (not verified in production); needs its own Lead Radar package and an owner decision",
+    "wp00": {
+      "commit": "34fca360dff16d67fecf2f3f1d5e21e7fd1bc1e9",
+      "review_commit": "454efb63",
+      "intake_commits": {
+        "B_zai": "c209366e",
+        "C_uzum": "208bd0a3",
+        "A_bot_buttons": "ed2a918d"
+      },
+      "settings_added": "V GPT_BOT_HANDOFF_ENABLED=\"false\" (packed JSON + nested table)",
+      "migrations_for_release": "R1 applies 0065_gpt_uzum_payments.sql (in repo) and 0066 (WP-04) BEFORE the Pages deploy: the signed-in account panel and the live outbox read the 0065 view",
+      "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; stage-1 files 81/81; gpt-readiness 9/9; gpt-account-ui 7/7; npm test files one by one 735/737 (2 known lead-radar date fixtures); build:fast steps 0; seo-protection 10/10; scan:secrets clean"
+    },
+    "next_wp": "WP-02"
   },
   "gsc_driven_20260930": {
     "status": "deployed_and_verified",
@@ -176,10 +190,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-00 stage-1 intake, inert fuse and its review (release R1)",
+  "current_stage": "Paid AI chat production readiness: WP-01 Lead Radar AUTOSEND=false and release hygiene (release R1)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-00 committed and reviewed on paid-chat/prod-readiness (not pushed, not deployed)",
-  "next_stage": "Paid AI chat WP-01: Lead Radar AUTOSEND=false and release hygiene (release R1), per 10-PROD-PLAN.md",
+  "last_completed_stage": "Paid AI chat WP-01 committed on paid-chat/prod-readiness (not pushed, not deployed; Worker redeploy prepared by dry-run only)",
+  "next_stage": "Paid AI chat WP-02: mode-independent alerts, silence watchdog and maintenance cron (release R1), per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -449,7 +463,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "34fca360dff16d67fecf2f3f1d5e21e7fd1bc1e9",
+  "last_commit": "HEAD",
   "state_commit": "HEAD",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
