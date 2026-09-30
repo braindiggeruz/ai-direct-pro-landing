@@ -445,17 +445,19 @@ test('8 a 1113 blocks zai/* for ~15 min, pages the owner once per hour, OpenRout
 
   // Two more failures in the same hour: no further push, one alert row.
   const hour = Date.now();
-  await alertOperator(env, db, 'zai_balance_exhausted', hour);
-  await alertOperator(env, db, 'zai_balance_exhausted', hour);
+  await alertOperator(env, 'zai_balance_exhausted', {}, hour);
+  await alertOperator(env, 'zai_balance_exhausted', {}, hour);
   assert.equal(counts.telegram, 1);
   assert.equal(sqlite.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='zai_balance_exhausted'"), 1);
+  assert.equal(sqlite.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='zai_balance_exhausted' AND delivered_at IS NOT NULL"), 1, 'the cron will not send it again');
   assert.equal(sqlite.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='lead_notify'"), 0, 'never the lead ceiling');
   // A different code in the same hour still reaches the owner.
-  await alertOperator(env, db, 'zai_auth_failed', hour);
+  await alertOperator(env, 'zai_auth_failed', {}, hour);
   assert.equal(counts.telegram, 2);
-  // Codes without an owner push never touch Telegram.
-  await alertOperator(env, db, 'chat_rate_limit', hour);
+  // Background codes are recorded but never touch Telegram on their own.
+  await alertOperator(env, 'chat_rate_limit', {}, hour);
   assert.equal(counts.telegram, 2);
+  assert.equal(sqlite.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='chat_rate_limit' AND delivered_at IS NULL"), 1);
 });
 
 // ── 9. Rate limits ─────────────────────────────────────────────────────────

@@ -14,7 +14,8 @@
 //     mistralai/mistral-small-3.2-24b-instruct prompt 0.00000009375 /
 //     completion 0.00000025 per token → 0.09375 / 0.25 per 1M;
 //     meta-llama/llama-3.3-70b-instruct 0.0000001 / 0.00000032 → 0.1 / 0.32.
-//     Both are inside the 0.1 / 0.32 max_price cap buildChatBody enforces.
+//     Both are inside PAID_PRICE_CEILING below, the max_price cap buildChatBody
+//     enforces.
 //   Any OpenRouter ':free' id is $0: buildChatBody sends max_price 0/0/0 for
 //   those, so OpenRouter cannot bill the request.
 //
@@ -22,6 +23,28 @@
 // modelled). An unknown model or a missing token count yields null, never a
 // guessed zero.
 import { providerOf } from "./model-provider";
+
+/** OpenRouter `provider.max_price`: USD per 1M prompt / completion tokens, USD per request. */
+export interface PriceCeiling {
+  prompt: number;
+  completion: number;
+  request: number;
+}
+
+/**
+ * The most an OpenRouter request may cost. buildChatBody sends it as
+ * max_price, so OpenRouter refuses any endpoint above it, and the hourly
+ * catalogue check (billing-operations-store.ts) takes a chain model out when
+ * none of its endpoints fits. One constant, so the two cannot drift apart.
+ */
+export const PAID_PRICE_CEILING: Readonly<PriceCeiling> = { prompt: 0.1, completion: 0.32, request: 0 };
+/** A ':free' id must never become a billable request. */
+export const FREE_PRICE_CEILING: Readonly<PriceCeiling> = { prompt: 0, completion: 0, request: 0 };
+
+/** The ceiling for an OpenRouter model id: $0 for ':free', PAID_PRICE_CEILING otherwise. */
+export function priceCeiling(modelId: string): Readonly<PriceCeiling> {
+  return modelId.endsWith(":free") ? FREE_PRICE_CEILING : PAID_PRICE_CEILING;
+}
 
 export interface ModelPrice {
   /** USD per 1M prompt tokens. */

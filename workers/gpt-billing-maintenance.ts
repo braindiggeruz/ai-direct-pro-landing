@@ -1,5 +1,8 @@
-// Existing automation worker invokes this optional task. Pages owns the
-// payment ledger; no second DB authority or provider credentials in this worker.
+// Existing automation worker invokes this optional task every 15 minutes.
+// Pages owns the payment ledger, the alerts and the watchdog; no second DB
+// authority or provider credentials in this worker. Opt-in: the var
+// GPT_BILLING_MAINTENANCE_ENABLED="true" (wrangler.automation.toml) and the
+// secret GPT_BILLING_MAINTENANCE_SECRET, equal on this Worker and on Pages.
 export async function runGptBillingMaintenance(env: {
   GPT_BILLING_MAINTENANCE_ENABLED?: string;
   GPT_BILLING_MAINTENANCE_SECRET?: string;
@@ -17,7 +20,9 @@ export async function runGptBillingMaintenance(env: {
         headers: {
           Authorization: `Bearer ${env.GPT_BILLING_MAINTENANCE_SECRET}`,
         },
-        signal: AbortSignal.timeout(30_000),
+        // The hook runs first in scheduled() and delays Lead Radar behind it;
+        // the endpoint's step budgets add up to less than this.
+        signal: AbortSignal.timeout(20_000),
         redirect: "error",
       },
     );

@@ -14,6 +14,7 @@ import type { ChatMessage } from "./prompt";
 import type { GptChatConfig } from "./config";
 import { availableModels, settleModelFailure } from "./model-health-store";
 import { hasProviderKey, providerOf, type ModelProvider } from "./model-provider";
+import { priceCeiling } from "./model-pricing";
 import { callZaiOnce } from "./zai-chat";
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
@@ -55,9 +56,7 @@ export function buildChatBody(
     provider: {
       // Our three-attempt budget is the only retry layer.
       allow_fallbacks: false,
-      max_price: model.endsWith(":free")
-        ? { prompt: 0, completion: 0, request: 0 }
-        : { prompt: 0.1, completion: 0.32, request: 0 },
+      max_price: { ...priceCeiling(model) },
     },
     // Penalties curb degenerate loops (small free models repeating a line).
     frequency_penalty: 0.5,

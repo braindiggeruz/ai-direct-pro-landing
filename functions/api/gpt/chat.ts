@@ -42,10 +42,6 @@ import {
 } from "../../lib/gpt-chat/openrouter-stream";
 import { checkTurnstile } from "../../lib/turnstile";
 import { proxyToRailway, relay } from "../../lib/gpt-chat/gateway";
-import {
-  maintainBilling,
-  recordServiceAlert,
-} from "../../lib/gpt-chat/billing-maintenance-store";
 
 interface ChatBody {
   sessionId?: string;
@@ -231,12 +227,12 @@ export const onRequestPost: PagesFunction<Env> = async ({
   const chain = webChatChain(cfg, env, plan);
   // Z.ai balance / key failures page the owner (operator-alert.ts). Runs in
   // the background and never throws into the turn.
-  const onOperatorEvent = (code: string) =>
-    waitUntil(
-      alertOperator(env, db, code).catch(() =>
-        console.warn("gpt_alert_delivery_failed"),
-      ),
-    );
+  const onOperatorEvent = (code: string) => waitUntil(alertOperator(env, code));
+  // A failed turn is recorded, runs the silence watchdog (its second circuit
+  // when the maintenance cron is down) and delivers what is urgent. Nothing
+  // else: the retention sweeps belong to the cron.
+  const reportFailure = (code: string) =>
+    waitUntil(alertOperator(env, "chat_" + code, { watchdog: true }));
 
   if (wantStream) {
     const start = await chatStreamStart(
@@ -253,11 +249,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
     if (!start.ok) {
       await finish(false);
       if (!NOT_A_SERVICE_FAILURE.has(start.errorCode))
-        waitUntil(
-          recordServiceAlert(env, "chat_" + start.errorCode)
-            .then(() => maintainBilling(env))
-            .catch(() => console.warn("gpt_alert_delivery_failed")),
-        );
+        reportFailure(start.errorCode);
       // Plain JSON (not SSE) — the client falls back on Content-Type.
       return json({
         ok: false,
@@ -463,11 +455,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   if (!result.ok) {
     await finish(false);
     if (!NOT_A_SERVICE_FAILURE.has(result.errorCode ?? ""))
-      waitUntil(
-        recordServiceAlert(env, "chat_" + result.errorCode)
-          .then(() => maintainBilling(env))
-          .catch(() => console.warn("gpt_alert_delivery_failed")),
-      );
+      reportFailure(result.errorCode ?? "provider_error");
     // 200 with ok:false so the client renders an error state, not a crash.
     return json({
       ok: false,

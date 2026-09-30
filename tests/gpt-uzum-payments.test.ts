@@ -623,8 +623,8 @@ test("11. maintenance delivers a Uzum outbox event; Click/Payme delivery is unch
     assert.equal(f.telegram.length, 2);
     const uzum = f.telegram.find((m) => m.text.includes(row.id))!;
     const clickMessage = f.telegram.find((m) => m.text.includes(click.id))!;
-    assert.equal(uzum.text, `GPTBot Plus: paid\nuzum · 20 000 UZS\n${row.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
-    assert.equal(clickMessage.text, `GPTBot Plus: paid\nclick · 20 000 UZS\n${click.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
+    assert.equal(uzum.text, `GPTBot.uz · AI paket: paid\nuzum · 20 000 UZS\n${row.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
+    assert.equal(clickMessage.text, `GPTBot.uz · AI paket: paid\nclick · 20 000 UZS\n${click.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_outbox WHERE delivered_at IS NULL"), 0);
     // Both providers share one access timeline without overlap.
     const periods = f.db.rows<{ starts_at: number; ends_at: number }>("SELECT starts_at,ends_at FROM gpt_access_periods ORDER BY starts_at");

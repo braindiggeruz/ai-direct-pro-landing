@@ -1,3 +1,52 @@
+# Платный AI-чат к проду: WP-02 — алерты без привязки к режиму, сторож тишины, крон обслуживания, 2026-09-30
+
+**Итог.** Сбой чата теперь записывается и доходит до владельца в любом режиме оплаты. Срочные коды приходят в Telegram одним сообщением на пачку, с общим потолком 6 сообщений в час; фоновые коды сами не шлются. Сторож тишины ловит «ходы есть, ответов нет». Он работает от крона обслуживания Worker'а (каждые 15 минут) и, вторым контуром, от каждого неудачного хода. Эндпоинт обслуживания разбит на шаги: у каждого свой try/catch и бюджет времени. Есть учебный алерт `{"drill":true}`. Секрет `GPT_BILLING_MAINTENANCE_SECRET` только назван и описан, **не задан**. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись. План — `10-PROD-PLAN.md` §4 WP-02 (вне Git), дальше WP-03. Runbook — `docs/paid-chat/ALERTS-RU.md`.
+
+**Что сделано.**
+- `billing-maintenance-store.ts`:
+  - `recordServiceAlert` пишет в любом режиме (убран выход при `test`);
+  - новый `deliverServiceAlerts(env, now)` не зависит от `GPT_BILLING_MODE`. Условия: есть канал (`GPT_NOTIFY_*` или фолбэк на бот-ассистента, общий `resolveOwnerNotify`) и `GPT_ALERTS_ENABLED !== "false"`. Пачку срочных строк забирает один `UPDATE … RETURNING`, поэтому крон и сбойный ход не пришлют её дважды. Потолок `GPT_ALERTS_MAX_PER_HOUR` считается через `consumeRateLimit(db,'service_alert','global')`; пачка сверх потолка ждёт следующего часа. Неудачная отправка повторяется через 5 минут. Строки старше 24 часов не шлются;
+  - `maintainBilling`: только уборка и outbox оплат, live-гейт остался только у outbox. Текст «GPTBot Plus» заменён на «GPTBot.uz · AI paket».
+- Новый `alert-policy.ts` — важность (GLOB-шаблоны, те же в SQL), id строки (код:час или код:d<сутки>), текст сообщения.
+- Новый `watchdog-store.ts`: `WatchdogStore(db, org)` (весь SQL здесь, org в каждом WHERE), чистая функция `watchdogCodes` и `runWatchdog(env, now)` с арендой `gpt_billing_ops` task `watchdog` на 10 минут. Проверки: `chat_silence`, `chat_degraded`, `chat_no_turns`, `stale_reservations` и `chat_truncation_high` (последняя пропускается, пока 0066 не добавит `outcome`).
+- `operator-alert.ts`: `alertOperator(env, code, {watchdog?}, now)` = записать → (сторож) → доставить, никогда не бросает. `chat.ts`: оба пути отказа вызывают его с `watchdog: true`; уборки на пути отказа больше нет. Z.ai-события идут тем же путём.
+- `billing-operations-store.ts` `checkBillingProviders`: вместо каталога на 762 КБ — `GET /api/v1/models/{id}/endpoints` для ≤ 6 моделей цепочки параллельно. 404, пустой список эндпоинтов или ни одного эндпоинта в потолке → модель блокируется на час (`model_unavailable`) и пишется `catalogue_model_unavailable`. Сеть или 5xx → `catalogue_check_failed`, модель не блокируется. Ключ проверяется через `GET /api/v1/key`: `is_free_tier` → `openrouter_free_tier_50rpd`, `limit_remaining < 1` → `openrouter_key_credit_low` (оба раз в сутки). Не-200 → `openrouter_key_unavailable`. Форма ответа API проверена 30.09 публичными GET без ключа: `minimax/minimax-m3:free` отдаёт `endpoints: []`, неизвестная модель — 404.
+- `model-pricing.ts`: `PAID_PRICE_CEILING` (0,1 / 0,32 / 0), `FREE_PRICE_CEILING`, `priceCeiling(model)`. `buildChatBody` берёт `max_price` оттуда (копией), чтобы проверка и запрос не расходились.
+- `internal/gpt-billing-maintenance.ts`: шаги providers (6 с) → watchdog (2 с) → alerts (5 с) → maintenance (4 с) → diagnostics (2 с), в сумме 19 с. Упавший шаг даёт 503 и список `failed`, остальные шаги выполняются. Тело `{"drill":true}` записывает срочный `drill` (один в час), и этот же тик его доставляет. Неверный JSON → 400.
+- `workers/gpt-billing-maintenance.ts`: таймаут 30 → 20 с. `wrangler.automation.toml [vars]`: `GPT_BILLING_MAINTENANCE_ENABLED = "true"`, имя секрета в шапке.
+- V-настройки `GPT_ALERTS_ENABLED="true"`, `GPT_ALERTS_MAX_PER_HOUR="6"`, `GPT_WATCHDOG_WINDOW_MINUTES="180"`, `GPT_WATCHDOG_MIN_TURNS="3"` добавлены в упакованный JSON и во вложенную таблицу `wrangler.toml`, в `RUNTIME_CONFIG_KEYS` и в `Env`. JSON — 3088 байт из 5120: отдельных переменных Pages это не добавляет, секрет добавит одну при релизе.
+- Документы: новый `docs/paid-chat/ALERTS-RU.md` (важность, доставка, сторож, крон, настройки, секрет через stdin, drill, проверочные агрегаты, откат); строчки в `ZAI-RU.md` и `UZUM-RU.md` согласованы. `npm test` += `tests/gpt-watchdog.test.ts`.
+
+**Отклонения от плана и почему.**
+1. **Прямой пуш Z.ai убран.** `operator-alert.ts` слал `zai_*` владельцу напрямую, в обход записи, и делал это только потому, что доставка была привязана к live. Теперь `zai_*` срочные, и без удаления прямого пуша владелец получал бы одно событие дважды: пуш и доставку той же строки кроном. Отдельный счётчик `operator_alert` больше не используется, действует общий потолок.
+2. **Важность уточнена по коду.**
+   - `chat_no_turns` сделан срочным. Иначе он не доходил бы никогда: фоновый код попадает только в срочное сообщение, а `chat_degraded` без ходов не поднимается.
+   - `chat_model_unavailable` срочный: код возникает, только когда отклонена вся цепочка (простой 04.09; `01` §3 п.3).
+   - `openrouter_free_tier_50rpd` и `openrouter_key_credit_low` срочные, но раз в сутки. §8 п.4 ждёт, что они скажут владельцу, когда пополнить счёт; раз в час это 24 сообщения в сутки.
+   - Фоновые: `stale_reservations`, `chat_truncation_high`, `openrouter_key_unavailable`, `payme_*` (L17) и коды отдельных ходов.
+   - `chat_models_cooling` и `openrouter_credit_exhausted` уже в срочном списке: их поднимет WP-03.
+3. **Фон — в каждом срочном сообщении**, строкой «Фон за час», а не только в `chat_degraded`. Сообщений от этого не больше, а причина видна сразу. Фоновые строки никогда не помечаются доставленными, поэтому уборка теперь удаляет алерты старше 93 дней **по возрасту** (раньше — только доставленные; иначе таблица росла бы без конца).
+4. `chat_degraded` не поднимается вместе с `chat_silence`: тишина говорит больше.
+5. **Платёжные роуты не тронуты.** Click, Payme и Uzum по-прежнему после записи алерта вызывают `maintainBilling`, а тот больше не доставляет алерты. Их срочные коды доходят через крон (≤ 15 мин) или вместе с ближайшей доставкой из чата. Раньше такая доставка была только в live, а live в проде не включался. WP-13/14/15 при желании переведут эти места на `alertOperator` одной строкой.
+6. **`gpt_sessions` без `org_id`.** Это собственная таблица чата, она старше платформы. Её читает только org чата (`BILLING_ORG`); для остальных org счётчик сессий равен 0, и это закреплено тестом.
+7. **Ответ эндпоинта** теперь содержит итог каждого шага (`providers`, `watchdog`, `alerts`, `failed`) плюс прежние поля. Worker по-прежнему смотрит только на `ok`.
+8. **Dry-run Worker'а не запускал:** правило задачи запрещает любой `wrangler deploy`. Var в `wrangler.automation.toml` проверяет тест, код хука изменился на одну константу.
+
+**Проверки.** `tsc -b` 0; `typecheck:functions` 0; `typecheck:lead-radar` 0; ESLint изменённых файлов 0. Тесты по одному: gpt-watchdog 11/11 (новый), gpt-operations 7/7 (+1 тест каталога), gpt-zai-provider 18/18, gpt-uzum-payments 17/17, gpt-readiness 9/9, gpt-routing 6/6, gpt-chat 18/18, gpt-billing 14/14, gpt-chat-stream 6/6, runtime-config 4/4, pages-config-parity 7/7, openrouter-model-catalogue 4/4, lead-radar-worker 17/17. Весь список `npm test` по одному файлу: 60 файлов, 749/751; падают только две известные датозависимые фикстуры `lead-radar`. Проверка «на красный»: шесть временных поломок ловятся тестами. Поломки: запись снова зависит от режима, путь отказа без сторожа, уборка только доставленных, нет потолка, фон пейджит, тишина без трафика. `scan:secrets` чисто, `test:secret-scan` 16/16, grep токенов пуст, `git diff --check` чисто. `src/`, `content/` и prerender не менялись; `seo-protection check` 10/10.
+
+**Для релиза R1.**
+1. Порядок из §3: D1 (0065, 0066) → Pages → секрет → передеплой Pages → Worker → drill. Команды для секрета есть в `ALERTS-RU.md`: значение из `randomBytes(32)`, через временный файл без перевода строки, `< файл` в `wrangler pages secret put` и `wrangler secret put -c wrangler.automation.toml`, нигде не печатается. Секрет Pages вступает в силу только со следующим деплоем.
+2. В dry-run Worker'а среди привязок должны быть `GPT_BILLING_MAINTENANCE_ENABLED ("true")` и `LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED ("false")`.
+3. Drill: ответ `alerts.status = "sent"`, сообщение в Telegram приходит меньше чем за минуту. Через 30 минут в `gpt_billing_ops` должны быть строки `catalogue` и `watchdog`, а у срочных строк `gpt_service_alerts` заполнен `delivered_at`. Агрегаты — в `ALERTS-RU.md`.
+4. **WP-03 должен уйти в том же релизе.** `minimax/minimax-m3:free` сейчас голова бесплатной цепочки, а эндпоинтов у неё нет. Без WP-03 часовая проверка будет блокировать её и слать `catalogue_model_unavailable` каждый час.
+5. Если у аккаунта OpenRouter не было покупок, после R1 раз в сутки будет приходить `openrouter_free_tier_50rpd`. Это вход владельца из §8 п.4.
+6. По желанию для 0066 (WP-04): индекс `gpt_service_alerts(org_id, delivered_at, created_at)`. Сейчас выборка пачки читает всю таблицу, это около 1000 строк при хранении 93 дня.
+7. Откат: `GPT_ALERTS_ENABLED="false"` (запись продолжается) или `GPT_BILLING_MAINTENANCE_ENABLED="false"` в Worker'е; код — `git revert` и guarded-деплой.
+
+**Дальше.** WP-03.
+
+---
+
 # Платный AI-чат к проду: ревью WP-01, 2026-09-30
 
 **Итог.** Проверил коммиты WP-01 `a66586d3` (код) и `cecdfa91` (SHA в STATE) по §1 и §4 WP-01 плана `10-PROD-PLAN.md` и по `AGENTS.md` §2–8, §11. Выключение autosend сделано верно и доказано тестами. В guard'е миграций, который WP-01 закрывал, нашлись две дыры; этот коммит их закрывает тестами. Ещё уточнён запрос проверки после релиза. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись.

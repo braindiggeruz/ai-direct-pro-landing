@@ -2,6 +2,8 @@ import { BILLING_ORG, type BillingEnv } from "./billing-config";
 import { modelChain, resolveConfig } from "./config";
 import { recordServiceAlert } from "./billing-maintenance-store";
 import { modelFailed } from "./model-health-store";
+import { priceCeiling } from "./model-pricing";
+import { providerOf } from "./model-provider";
 
 /** SQLite/D1 wording for a table or view that does not exist (yet). */
 function missingSchema(error: unknown): boolean {
@@ -43,6 +45,98 @@ export async function inspectBilling(env: BillingEnv, now = Date.now()) {
     blockedModels: models.results,
   };
 }
+const OPENROUTER_API = "https://openrouter.ai/api/v1";
+/** The chain is at most two tiers of three; never fan out further than that. */
+const MAX_CHECKED_MODELS = 6;
+/** 'vendor/model' or 'vendor/model:variant' — the only shape put into a URL. */
+const MODEL_SLUG = /^[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*(?::[a-z0-9-]+)?$/i;
+
+type EndpointPrice = { prompt?: string; completion?: string; request?: string };
+
+/** Catalogue prices are USD per token (per request for `request`); the ceiling is per 1M tokens. */
+function withinCeiling(model: string, price: EndpointPrice | undefined): boolean {
+  const ceiling = priceCeiling(model);
+  const perToken = (value: string | undefined, max: number) => {
+    const usd = Number(value ?? "0");
+    // Compared in micro-USD per 1M tokens, so 0.00000032 equals 0.32 exactly.
+    return Number.isFinite(usd) && usd >= 0 && Math.round(usd * 1e12) <= Math.round(max * 1e6);
+  };
+  const request = Number(price?.request ?? "0");
+  return (
+    !!price &&
+    perToken(price.prompt, ceiling.prompt) &&
+    perToken(price.completion, ceiling.completion) &&
+    Number.isFinite(request) &&
+    request >= 0 &&
+    request <= ceiling.request
+  );
+}
+
+/**
+ * One model's endpoints (~2–15 KB instead of the 762 KB catalogue):
+ * 'ok' when some endpoint is inside the price ceiling, 'unavailable' when the
+ * model is unknown (404) or no endpoint fits (a retired model keeps its page
+ * with an empty list), 'failed' when OpenRouter could not be asked.
+ */
+async function checkModel(model: string): Promise<"ok" | "unavailable" | "failed"> {
+  if (!MODEL_SLUG.test(model)) return "unavailable";
+  try {
+    const response = await fetch(`${OPENROUTER_API}/models/${model}/endpoints`, {
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) {
+      await response.body?.cancel();
+      return response.status === 404 ? "unavailable" : "failed";
+    }
+    const body = (await response.json()) as {
+      data?: { endpoints?: Array<{ pricing?: EndpointPrice }> };
+    };
+    const endpoints = body.data?.endpoints;
+    if (!Array.isArray(endpoints)) return "failed";
+    return endpoints.some((e) => withinCeiling(model, e.pricing))
+      ? "ok"
+      : "unavailable";
+  } catch {
+    return "failed";
+  }
+}
+
+/** The account behind OPENROUTER_API_KEY: free tier and remaining key limit. */
+async function checkKey(env: BillingEnv, now: number) {
+  try {
+    const response = await fetch(`${OPENROUTER_API}/key`, {
+      headers: { Authorization: `Bearer ${env.OPENROUTER_API_KEY}` },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) {
+      await response.body?.cancel();
+      await recordServiceAlert(env, "openrouter_key_unavailable", now);
+      return;
+    }
+    const key = (await response.json()) as {
+      data?: { is_free_tier?: boolean; limit_remaining?: number | null };
+    };
+    // No credits ever bought: every ':free' model shares 50 requests a day
+    // across the chat, the bot and AEO.
+    if (key.data?.is_free_tier === true)
+      await recordServiceAlert(env, "openrouter_free_tier_50rpd", now);
+    if (
+      typeof key.data?.limit_remaining === "number" &&
+      key.data.limit_remaining < 1
+    )
+      await recordServiceAlert(env, "openrouter_key_credit_low", now);
+  } catch {
+    await recordServiceAlert(env, "openrouter_key_unavailable", now);
+  }
+}
+
+/**
+ * Hourly (lease task 'catalogue'): every OpenRouter model of the free and paid
+ * chains must still be served inside its price ceiling. A model that is not
+ * is blocked for an hour (model_unavailable) and raises
+ * catalogue_model_unavailable; an unreachable API raises
+ * catalogue_check_failed and blocks nothing.
+ */
 export async function checkBillingProviders(env: BillingEnv, now = Date.now()) {
   const db = env.GPTBOT_DRAFTS_DB!;
   const claimed = await db
@@ -52,60 +146,22 @@ export async function checkBillingProviders(env: BillingEnv, now = Date.now()) {
     )
     .bind(BILLING_ORG, now + 3600_000, now)
     .first();
-  if (!claimed) return;
-  try {
-    const response = await fetch("https://openrouter.ai/api/v1/models", {
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!response.ok) throw new Error();
-    const body = (await response.json()) as {
-      data?: Array<{
-        id: string;
-        pricing?: { prompt?: string; completion?: string };
-      }>;
-    };
-    if (!Array.isArray(body.data) || !body.data.length) throw new Error();
-    const cfg = resolveConfig(env);
-    for (const id of new Set([
-      ...modelChain(cfg, "free"),
-      ...modelChain(cfg, "paid"),
-    ])) {
-      const model = body.data.find((m) => m.id === id);
-      const free = id.endsWith(":free");
-      const promptPrice = Number(model?.pricing?.prompt);
-      const completionPrice = Number(model?.pricing?.completion);
-      if (
-        !model ||
-        !Number.isFinite(promptPrice) ||
-        !Number.isFinite(completionPrice) ||
-        promptPrice < 0 ||
-        completionPrice < 0 ||
-        promptPrice > (free ? 0 : 0.1 / 1e6) ||
-        completionPrice > (free ? 0 : 0.32 / 1e6)
-      ) {
-        await modelFailed(db, id, "model_unavailable");
-        await recordServiceAlert(env, "catalogue_model_unavailable");
-      }
-    }
-    if (env.OPENROUTER_API_KEY) {
-      const keyResponse = await fetch("https://openrouter.ai/api/v1/key", {
-        headers: { Authorization: `Bearer ${env.OPENROUTER_API_KEY}` },
-        signal: AbortSignal.timeout(5000),
-      });
-      if (!keyResponse.ok)
-        await recordServiceAlert(env, "openrouter_key_unavailable");
-      else {
-        const key = (await keyResponse.json()) as {
-          data?: { limit_remaining?: number | null };
-        };
-        if (
-          typeof key.data?.limit_remaining === "number" &&
-          key.data.limit_remaining < 1
-        )
-          await recordServiceAlert(env, "openrouter_key_credit_low");
-      }
-    }
-  } catch {
-    await recordServiceAlert(env, "catalogue_check_failed");
-  }
+  if (!claimed) return { ran: false, unavailable: [] as string[] };
+  const cfg = resolveConfig(env);
+  const models = [
+    ...new Set([...modelChain(cfg, "free"), ...modelChain(cfg, "paid")]),
+  ]
+    .filter((model) => providerOf(model) === "openrouter")
+    .slice(0, MAX_CHECKED_MODELS);
+  const [results] = await Promise.all([
+    Promise.all(models.map(checkModel)),
+    env.OPENROUTER_API_KEY ? checkKey(env, now) : undefined,
+  ]);
+  const unavailable = models.filter((_, i) => results[i] === "unavailable");
+  for (const model of unavailable) await modelFailed(db, model, "model_unavailable", now);
+  if (unavailable.length)
+    await recordServiceAlert(env, "catalogue_model_unavailable", now);
+  if (results.includes("failed"))
+    await recordServiceAlert(env, "catalogue_check_failed", now);
+  return { ran: true, unavailable };
 }

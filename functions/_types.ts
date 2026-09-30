@@ -259,6 +259,14 @@ export interface Env extends FirecrawlEnvironment {
   // button (account view `botHandoff`); any other value hides it. Stays
   // "false" until the assistant bot answers reliably.
   GPT_BOT_HANDOFF_ENABLED?: string;
+  // Public. Owner alerts (billing-maintenance-store.ts deliverServiceAlerts):
+  // "false" mutes sending, recording goes on. Messages per hour, default 6.
+  GPT_ALERTS_ENABLED?: string;
+  GPT_ALERTS_MAX_PER_HOUR?: string;
+  // Public. Silence watchdog (watchdog-store.ts): window in minutes (default
+  // 180, clamped 60..1440) and the settled turns it needs (default 3).
+  GPT_WATCHDOG_WINDOW_MINUTES?: string;
+  GPT_WATCHDOG_MIN_TURNS?: string;
 
   // ─── Railway backend gateway (optional) ───────────────────────────────
   // When BOTH are set, /api/gpt/* proxies to the Railway production backend

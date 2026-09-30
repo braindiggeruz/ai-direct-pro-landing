@@ -83,6 +83,12 @@ export const RUNTIME_CONFIG_KEYS = [
   'UZUM_FISCAL_VAT_PERCENT',
   // Limit card -> assistant bot button (functions/api/gpt/account.ts botHandoff).
   'GPT_BOT_HANDOFF_ENABLED',
+  // Owner alerts and the silence watchdog (functions/lib/gpt-chat/alert-policy.ts,
+  // watchdog-store.ts). The Telegram channel itself stays in GPT_NOTIFY_* secrets.
+  'GPT_ALERTS_ENABLED',
+  'GPT_ALERTS_MAX_PER_HOUR',
+  'GPT_WATCHDOG_WINDOW_MINUTES',
+  'GPT_WATCHDOG_MIN_TURNS',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

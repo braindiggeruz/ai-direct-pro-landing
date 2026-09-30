@@ -114,7 +114,7 @@ FROM gpt_service_alerts WHERE code LIKE 'zai_%' ORDER BY created_at DESC LIMIT 2
 
 Если среди ответов много моделей OpenRouter при включённом Z.ai, значит бесплатная Flash-модель часто упирается в лимит одновременных запросов. В этом случае стоит оставить Z.ai только для платного уровня (`ZAI_TIERS = "paid"`).
 
-Сообщения владельцу в Telegram приходят через тот же бот и чат, что и заявки: `GPT_NOTIFY_BOT_TOKEN` / `GPT_NOTIFY_CHAT_ID`, а если их нет — `TELEGRAM_ASSISTANT_BOT_TOKEN` / `TELEGRAM_ADMIN_CHAT_ID`. Они не расходуют лимит уведомлений о заявках.
+Сообщения владельцу в Telegram приходят через тот же бот и чат, что и заявки: `GPT_NOTIFY_BOT_TOKEN` / `GPT_NOTIFY_CHAT_ID`, а если их нет — `TELEGRAM_ASSISTANT_BOT_TOKEN` / `TELEGRAM_ADMIN_CHAT_ID`. Они не расходуют лимит уведомлений о заявках. Алерты Z.ai идут общим путём срочных алертов, в любом режиме оплаты, с общим потолком `GPT_ALERTS_MAX_PER_HOUR` и выключателем `GPT_ALERTS_ENABLED` (docs/paid-chat/ALERTS-RU.md).
 
 ## Слепая проба
 

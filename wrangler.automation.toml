@@ -3,6 +3,9 @@
 # created or changed by this repository task.
 # Secret (never committed): LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN must
 # match the gateway and Pages value for private account/send Service Binding calls.
+# Secret (never committed): GPT_BILLING_MAINTENANCE_SECRET, the bearer of the
+# AI chat's maintenance call below; the same value is a Pages secret. Generated
+# (at least 32 random bytes) and set through stdin at release, never echoed.
 name = "gptbot-automation"
 main = "workers/automation-worker.ts"
 compatibility_date = "2026-07-28"
@@ -111,3 +114,10 @@ LEAD_RADAR_TELEGRAM_BOT_USERNAME = ""
 LEAD_RADAR_CONTACT_DAILY_LIMIT = "10"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "120"
+# AI chat maintenance (paid-chat plan D6): every cron tick POSTs
+# https://gptbot.uz/api/internal/gpt-billing-maintenance with the secret
+# GPT_BILLING_MAINTENANCE_SECRET — model and key check, silence watchdog, owner
+# alerts, retention, payment outbox. Skipped while this Worker has no such
+# secret; Pages needs the same value, otherwise it answers 403 and the Worker
+# logs gpt_billing_maintenance_failed.
+GPT_BILLING_MAINTENANCE_ENABLED = "true"

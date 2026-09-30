@@ -1,21 +1,160 @@
 import { TelegramClient } from "../../channels/telegram/api";
-import type { BridgeEnv } from "./bridge-env";
+import { boundedNum, type BridgeEnv } from "./bridge-env";
 import { BILLING_ORG, type BillingEnv } from "./billing-config";
-// Durable, coarse error codes only. One notice per code/hour prevents floods.
+import {
+  alertRowId,
+  renderAlertMessage,
+  URGENT_ALERT_PATTERNS,
+  type UrgentLine,
+} from "./alert-policy";
+import { resolveOwnerNotify } from "./notify";
+import { consumeRateLimit, HOUR_MS } from "./rate-limit";
+
+/**
+ * Record one durable, coarse error code, whatever GPT_BILLING_MODE is: a
+ * test-mode rehearsal has to see its alerts too. One row per code per hour
+ * (per day for state alerts, alert-policy.ts) prevents floods. Recording never
+ * sends anything; deliverServiceAlerts does.
+ */
 export async function recordServiceAlert(
   env: BillingEnv,
   code: string,
   now = Date.now(),
 ) {
   console.warn(JSON.stringify({ event: "gpt_service_failure", code }));
-  if (env.GPT_BILLING_MODE === "test") return;
   if (!env.GPTBOT_DRAFTS_DB) return;
   await env.GPTBOT_DRAFTS_DB.prepare(
     "INSERT OR IGNORE INTO gpt_service_alerts(org_id,id,code,created_at) VALUES(?,?,?,?)",
   )
-    .bind(BILLING_ORG, `${code}:${Math.floor(now / 3600_000)}`, code, now)
+    .bind(BILLING_ORG, alertRowId(code, now), code, now)
     .run();
 }
+
+/** An undelivered urgent alert older than this is stale news, not a page. */
+const ALERT_LOOKBACK_MS = 24 * HOUR_MS;
+/** A claimed batch whose send failed (or whose isolate died) is retried after this. */
+const ALERT_LEASE_MS = 5 * 60_000;
+const ALERT_BATCH = 40;
+const URGENT_SQL = `(${URGENT_ALERT_PATTERNS.map(() => "code GLOB ?").join(" OR ")})`;
+
+export type AlertDeliveryStatus =
+  | "disabled"
+  | "unconfigured"
+  | "idle"
+  | "capped"
+  | "sent"
+  | "failed";
+
+export interface AlertDelivery {
+  status: AlertDeliveryStatus;
+  /** Urgent codes in the batch; codes only, never text or identifiers. */
+  codes: string[];
+}
+
+/**
+ * Send pending URGENT service alerts to the owner as one Telegram message,
+ * independent of GPT_BILLING_MODE. It needs a channel (GPT_NOTIFY_* or the
+ * assistant-bot fallback, see notify.ts) and GPT_ALERTS_ENABLED other than
+ * "false", the emergency switch.
+ *
+ * - The batch is claimed with one UPDATE, so concurrent callers (the cron, a
+ *   failing chat turn) never send the same alert twice.
+ * - Every message spends one slot of GPT_ALERTS_MAX_PER_HOUR (default 6)
+ *   across all callers. A batch over the ceiling waits for the next window.
+ * - Background codes never send. Those of the last hour ride along as context.
+ * - A failed send keeps its lease and is retried after ALERT_LEASE_MS.
+ */
+export async function deliverServiceAlerts(
+  env: BillingEnv & BridgeEnv,
+  now = Date.now(),
+): Promise<AlertDelivery> {
+  if (env.GPT_ALERTS_ENABLED === "false")
+    return { status: "disabled", codes: [] };
+  const db = env.GPTBOT_DRAFTS_DB;
+  const channel = resolveOwnerNotify(env);
+  if (!db || !channel.configured) return { status: "unconfigured", codes: [] };
+  const claimed = await db
+    .prepare(
+      `UPDATE gpt_service_alerts SET lease_until=? WHERE rowid IN (SELECT rowid FROM gpt_service_alerts
+      WHERE org_id=? AND delivered_at IS NULL AND lease_until<=? AND created_at>=? AND ${URGENT_SQL}
+      ORDER BY created_at LIMIT ${ALERT_BATCH}) RETURNING id,code,created_at`,
+    )
+    .bind(
+      now + ALERT_LEASE_MS,
+      BILLING_ORG,
+      now,
+      now - ALERT_LOOKBACK_MS,
+      ...URGENT_ALERT_PATTERNS,
+    )
+    .all<{ id: string; code: string; created_at: number }>();
+  const rows = (claimed.results || []).sort(
+    (a, b) => a.created_at - b.created_at,
+  );
+  if (!rows.length) return { status: "idle", codes: [] };
+  const lines: UrgentLine[] = [];
+  for (const row of rows) {
+    const line = lines.find((l) => l.code === row.code);
+    if (line) line.count++;
+    else lines.push({ code: row.code, count: 1 });
+  }
+  const codes = lines.map((l) => l.code);
+  const ids = rows.map((r) => r.id);
+  const inIds = `id IN (${ids.map(() => "?").join(",")})`;
+  const slot = await consumeRateLimit(
+    db,
+    "service_alert",
+    "global",
+    {
+      limit: boundedNum(env.GPT_ALERTS_MAX_PER_HOUR, 6, 1, 60),
+      windowMs: HOUR_MS,
+    },
+    new Date(now),
+  );
+  // A degraded counter still sends: the claim above already bounds this batch
+  // to one message, and staying quiet would lose an urgent alert.
+  if (!slot.allowed) {
+    await db
+      .prepare(
+        `UPDATE gpt_service_alerts SET lease_until=? WHERE org_id=? AND ${inIds}`,
+      )
+      .bind(now + slot.retryAfterSeconds * 1000, BILLING_ORG, ...ids)
+      .run();
+    return { status: "capped", codes };
+  }
+  const background = await db
+    .prepare(
+      `SELECT DISTINCT code FROM gpt_service_alerts WHERE org_id=? AND created_at>=? AND NOT ${URGENT_SQL} ORDER BY code LIMIT 10`,
+    )
+    .bind(BILLING_ORG, now - HOUR_MS, ...URGENT_ALERT_PATTERNS)
+    .all<{ code: string }>();
+  const sent = await new TelegramClient(channel.token).call(
+    "sendMessage",
+    {
+      // Numeric ids are the normal case; a @channel target stays a string.
+      chat_id: /^-?\d+$/.test(channel.chatId)
+        ? Number(channel.chatId)
+        : channel.chatId,
+      text: renderAlertMessage(
+        lines,
+        (background.results || []).map((r) => r.code),
+      ),
+    },
+    { timeoutMs: 4000, maxRetries: 0 },
+  );
+  if (!sent.ok) return { status: "failed", codes };
+  await db
+    .prepare(
+      `UPDATE gpt_service_alerts SET delivered_at=?,lease_until=0 WHERE org_id=? AND ${inIds}`,
+    )
+    .bind(now, BILLING_ORG, ...ids)
+    .run();
+  return { status: "sent", codes };
+}
+
+/**
+ * Retention sweeps and the payment outbox. Service alerts are delivered by
+ * deliverServiceAlerts; only the outbox is gated on live billing.
+ */
 export async function maintainBilling(
   env: BillingEnv & BridgeEnv,
   now = Date.now(),
@@ -43,9 +182,10 @@ export async function maintainBilling(
         "DELETE FROM gpt_model_attempts WHERE rowid IN (SELECT rowid FROM gpt_model_attempts WHERE org_id=? AND created_at<? LIMIT 500)",
       )
       .bind(BILLING_ORG, now - 93 * 86400_000),
+    // Background alerts are never delivered on their own, so age alone decides.
     db
       .prepare(
-        "DELETE FROM gpt_service_alerts WHERE rowid IN (SELECT rowid FROM gpt_service_alerts WHERE org_id=? AND delivered_at IS NOT NULL AND created_at<? LIMIT 500)",
+        "DELETE FROM gpt_service_alerts WHERE rowid IN (SELECT rowid FROM gpt_service_alerts WHERE org_id=? AND created_at<? LIMIT 500)",
       )
       .bind(BILLING_ORG, now - 93 * 86400_000),
   ]);
@@ -84,7 +224,7 @@ export async function maintainBilling(
       "sendMessage",
       {
         chat_id: chat,
-        text: `GPTBot Plus: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
       },
       { timeoutMs: 4000, maxRetries: 0 },
     );
@@ -101,38 +241,6 @@ export async function maintainBilling(
       )
       .run();
     if (result.ok) delivered++;
-  }
-  if (env.GPT_BILLING_MODE === "live") {
-    const alerts = await db
-      .prepare(
-        "SELECT id,code FROM gpt_service_alerts WHERE org_id=? AND delivered_at IS NULL AND lease_until<=? ORDER BY created_at LIMIT 2",
-      )
-      .bind(BILLING_ORG, now)
-      .all<{ id: string; code: string }>();
-    for (const alert of alerts.results || []) {
-      const claim = await db
-        .prepare(
-          "UPDATE gpt_service_alerts SET lease_until=? WHERE org_id=? AND id=? AND delivered_at IS NULL AND lease_until<=? RETURNING id",
-        )
-        .bind(now + 300_000, BILLING_ORG, alert.id, now)
-        .first();
-      if (!claim) continue;
-      const sent = await new TelegramClient(token).call(
-        "sendMessage",
-        {
-          chat_id: chat,
-          text: `GPTBot: сбой ${alert.code}. Проверьте Workers logs, модели и баланс OpenRouter.`,
-        },
-        { timeoutMs: 4000, maxRetries: 0 },
-      );
-      if (sent.ok)
-        await db
-          .prepare(
-            "UPDATE gpt_service_alerts SET delivered_at=? WHERE org_id=? AND id=?",
-          )
-          .bind(Date.now(), BILLING_ORG, alert.id)
-          .run();
-    }
   }
   return { delivered, configured: true };
 }

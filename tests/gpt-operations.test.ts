@@ -10,7 +10,11 @@ import {
   BILLING_ORG,
   providerReady,
 } from "../functions/lib/gpt-chat/billing-config";
-import { maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
+import {
+  deliverServiceAlerts,
+  maintainBilling,
+  recordServiceAlert,
+} from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { readJsonLimited } from "../functions/lib/gpt-chat/http";
 import { resolveConfig, modelChain } from "../functions/lib/gpt-chat/config";
 import { runGptBillingMaintenance } from "../workers/gpt-billing-maintenance";
@@ -21,6 +25,12 @@ import {
   inspectBilling,
   checkBillingProviders,
 } from "../functions/lib/gpt-chat/billing-operations-store";
+import {
+  PAID_PRICE_CEILING,
+  FREE_PRICE_CEILING,
+} from "../functions/lib/gpt-chat/model-pricing";
+import { buildChatBody } from "../functions/lib/gpt-chat/openrouter-chat";
+import { automationWorkerVars } from "./helpers/wrangler-vars";
 
 test("another tenant cannot affect identity, entitlements, quota, model health, maintenance or diagnostics", async () => {
   const f = await billingFixture();
@@ -82,6 +92,12 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
     .bind(other, "other-alert", "provider_error", Date.now())
     .run();
   await f.binding
+    .prepare(
+      "INSERT INTO gpt_service_alerts(org_id,id,code,created_at) VALUES(?,?,?,?)",
+    )
+    .bind(other, "other-drill", "drill", Date.now())
+    .run();
+  await f.binding
     .prepare("INSERT INTO gpt_billing_ops VALUES(?,?,?)")
     .bind(other, "catalogue", Date.now() + 3600000)
     .run();
@@ -94,25 +110,32 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
   assert.equal(diagnostics.blockedModels?.length, 0);
   const original = globalThis.fetch;
   let calls = 0;
+  const chain = [
+    ...new Set([...modelChain(cfg, "free"), ...modelChain(cfg, "paid")]),
+  ];
   globalThis.fetch = async (input) => {
     calls++;
-    assert.equal(input, "https://openrouter.ai/api/v1/models");
+    const model = /^https:\/\/openrouter\.ai\/api\/v1\/models\/(.+)\/endpoints$/.exec(String(input))?.[1];
+    assert.ok(model && chain.includes(model), String(input));
     return Response.json({
-      data: [...modelChain(cfg, "free"), ...modelChain(cfg, "paid")].map(
-        (id) => ({ id, pricing: { prompt: "0", completion: "0" } }),
-      ),
+      data: { endpoints: [{ pricing: { prompt: "0", completion: "0" } }] },
     });
   };
   try {
     await checkBillingProviders(f.env);
-    assert.equal(calls, 1);
+    assert.equal(calls, chain.length);
     Object.assign(f.env, {
       GPT_BILLING_MODE: "live",
       GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"),
       GPT_NOTIFY_CHAT_ID: "123456789",
     });
     await maintainBilling(f.env);
-    assert.equal(calls, 1);
+    // Another tenant's urgent alert is never ours to page.
+    assert.deepEqual(await deliverServiceAlerts(f.env), {
+      status: "idle",
+      codes: [],
+    });
+    assert.equal(calls, chain.length);
     assert.equal(
       f.db.value(
         "SELECT COUNT(*) FROM gpt_auth_challenges WHERE org_id=?",
@@ -300,7 +323,7 @@ test("fiscal receipt replay and refund request are owned, mode-separated and ide
   await Promise.all(f.background);
 });
 
-test("notification outbox leases concurrent drains, retries failures and never sends in test mode", async () => {
+test("notification outbox leases concurrent drains, retries failures and never sends in test mode; alerts do", async () => {
   const f = await billingFixture();
   const order = await f.store.createOrder(
     f.user,
@@ -327,8 +350,19 @@ test("notification outbox leases concurrent drains, retries failures and never s
     );
   };
   try {
+    // Test mode: the paid order's notice stays in the outbox, while an urgent
+    // service alert goes out.
+    await recordServiceAlert(f.env, "click_processing");
     await maintainBilling(f.env);
     assert.equal(calls, 0);
+    succeed = true;
+    assert.deepEqual(await deliverServiceAlerts(f.env), {
+      status: "sent",
+      codes: ["click_processing"],
+    });
+    assert.equal(calls, 1);
+    calls = 0;
+    succeed = false;
     f.env.GPT_BILLING_MODE = "live";
     const now = Date.now();
     await Promise.all([
@@ -379,14 +413,135 @@ test("maintenance worker is opt-in and sends only fixed-origin bearer requests",
     await runGptBillingMaintenance({});
     await runGptBillingMaintenance({ GPT_BILLING_MAINTENANCE_SECRET: secret });
     assert.equal(calls, 0);
+    // The switch ships on: the Worker calls as soon as the secret exists.
+    const shipped = automationWorkerVars().get("GPT_BILLING_MAINTENANCE_ENABLED");
+    assert.equal(shipped, "true");
     await runGptBillingMaintenance({
       GPT_BILLING_MAINTENANCE_SECRET: secret,
-      GPT_BILLING_MAINTENANCE_ENABLED: "true",
+      GPT_BILLING_MAINTENANCE_ENABLED: shipped,
     });
     assert.equal(calls, 1);
   } finally {
     globalThis.fetch = original;
   }
+});
+
+test("hourly catalogue check: only the chain's endpoints, the shared price ceiling, key state once a day", async () => {
+  const f = await billingFixture();
+  const key = randomBytes(24).toString("hex");
+  Object.assign(f.env, {
+    OPENROUTER_API_KEY: key,
+    OPENROUTER_MODEL_FREE: "vendor/free-ok:free",
+    OPENROUTER_MODEL_FREE_FALLBACKS:
+      "vendor/free-retired:free,vendor/free-unknown:free",
+    OPENROUTER_MODEL_PAID: "vendor/paid-ok",
+    OPENROUTER_MODEL_PAID_FALLBACKS: "vendor/paid-pricey,vendor/free-ok:free",
+  });
+  const endpoints: Record<string, unknown[] | null> = {
+    "vendor/free-ok:free": [{ pricing: { prompt: "0", completion: "0" } }],
+    // A retired model keeps its page with no endpoints.
+    "vendor/free-retired:free": [],
+    // An unknown one answers 404.
+    "vendor/free-unknown:free": null,
+    // One endpoint over the ceiling, one exactly at it (0.1 / 0.32 per 1M).
+    "vendor/paid-ok": [
+      { pricing: { prompt: "0.0000002", completion: "0.0000005" } },
+      { pricing: { prompt: "0.0000001", completion: "0.00000032" } },
+    ],
+    "vendor/paid-pricey": [
+      { pricing: { prompt: "0.00000011", completion: "0.0000003" } },
+      { pricing: { prompt: "0", completion: "0", request: "0.001" } },
+    ],
+  };
+  let keyState: unknown = { data: { is_free_tier: true, limit_remaining: 0.5 } };
+  let down = false;
+  const seen: string[] = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    const url = String(input);
+    seen.push(url);
+    if (down) throw new TypeError("synthetic network failure");
+    if (url === "https://openrouter.ai/api/v1/key") {
+      assert.equal(
+        new Headers(init?.headers).get("authorization"),
+        `Bearer ${key}`,
+      );
+      return Response.json(keyState);
+    }
+    const model = /^https:\/\/openrouter\.ai\/api\/v1\/models\/(.+)\/endpoints$/.exec(url)?.[1];
+    assert.ok(model && model in endpoints, url);
+    const list = endpoints[model];
+    return list === null
+      ? Response.json({ error: { message: "Not Found", code: 404 } }, { status: 404 })
+      : Response.json({ data: { id: model, endpoints: list } });
+  };
+  const day = Date.UTC(2026, 8, 30);
+  const health = () =>
+    f.db
+      .rows<{ model: string; code: string; blocked_until: number }>(
+        "SELECT model,code,blocked_until FROM gpt_model_health ORDER BY model",
+      )
+      .map((r) => [r.model, r.code, r.blocked_until]);
+  const alerts = () =>
+    f.db
+      .rows<{ id: string }>("SELECT id FROM gpt_service_alerts ORDER BY id")
+      .map((r) => r.id);
+  try {
+    const now = day + 3600_000;
+    assert.deepEqual(await checkBillingProviders(f.env, now), {
+      ran: true,
+      unavailable: [
+        "vendor/free-retired:free",
+        "vendor/free-unknown:free",
+        "vendor/paid-pricey",
+      ],
+    });
+    assert.equal(seen.length, 6, "five chain models and the key, nothing else");
+    assert.equal(new Set(seen).size, 6);
+    assert.deepEqual(health(), [
+      ["vendor/free-retired:free", "model_unavailable", now + 3600_000],
+      ["vendor/free-unknown:free", "model_unavailable", now + 3600_000],
+      ["vendor/paid-pricey", "model_unavailable", now + 3600_000],
+    ]);
+    const hour = Math.floor(now / 3600_000);
+    const dayIndex = Math.floor(now / 86_400_000);
+    assert.deepEqual(alerts(), [
+      `catalogue_model_unavailable:${hour}`,
+      `openrouter_free_tier_50rpd:d${dayIndex}`,
+      `openrouter_key_credit_low:d${dayIndex}`,
+    ]);
+    // Hourly lease: a second call in the hour asks nobody.
+    assert.deepEqual(await checkBillingProviders(f.env, now + 60_000), {
+      ran: false,
+      unavailable: [],
+    });
+    assert.equal(seen.length, 6);
+    // OpenRouter unreachable: a check failure, and no model is blocked for it.
+    down = true;
+    await checkBillingProviders(f.env, now + 3600_000);
+    assert.equal(health().length, 3);
+    assert.ok(alerts().includes(`catalogue_check_failed:${hour + 1}`));
+    assert.ok(alerts().includes(`openrouter_key_unavailable:${hour + 1}`));
+    // The same key state later that day is still one row per day.
+    down = false;
+    keyState = { data: { is_free_tier: true, limit_remaining: null } };
+    await checkBillingProviders(f.env, now + 2 * 3600_000);
+    assert.equal(
+      alerts().filter((id) => id.startsWith("openrouter_free_tier_50rpd")).length,
+      1,
+    );
+    assert.equal(
+      alerts().filter((id) => id.startsWith("openrouter_key_credit_low")).length,
+      1,
+    );
+  } finally {
+    globalThis.fetch = original;
+  }
+  // The request body is capped by the very same ceiling, as a copy.
+  assert.deepEqual(buildChatBody("vendor/paid-ok", [], 900).provider.max_price, PAID_PRICE_CEILING);
+  assert.deepEqual(buildChatBody("vendor/free-ok:free", [], 900).provider.max_price, FREE_PRICE_CEILING);
+  buildChatBody("vendor/paid-ok", [], 900).provider.max_price.prompt = 99;
+  assert.equal(PAID_PRICE_CEILING.prompt, 0.1);
 });
 
 test("oversized chunked bodies stop reading early; free tier rejects paid overrides; live checkout needs safe terms", async () => {
