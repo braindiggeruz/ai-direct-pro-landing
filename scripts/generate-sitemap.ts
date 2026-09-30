@@ -175,3 +175,31 @@ if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true });
 fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), xml, 'utf-8');
 const withAlternates = entries.filter((e) => e.alternates && (e.alternates.ru || e.alternates.uz)).length;
 console.log(`Sitemap written with ${entries.length} entries (${eligible.length} pages + ${eligibleArticles.length} articles), ${withAlternates} with hreflang alternates, ${entriesWithImages} with ${imageCount} images → dist/sitemap.xml`);
+
+// --- Recent-changes sitemap ---------------------------------------------------
+//
+// A small second sitemap with only the canonical URLs whose lastmod falls in
+// the last UPDATES_WINDOW_DAYS before the newest change on the site. It is a
+// strict subset of sitemap.xml (same entries, same lastmod, same hreflang), so
+// it adds no URL Google would not already find; it only gives Google a short,
+// fresh file to fetch when it is submitted through Search Console after a
+// release. It is deliberately NOT listed in robots.txt, which advertises
+// exactly one sitemap (tests/gsc-indexation-hygiene.test.ts).
+const UPDATES_WINDOW_DAYS = 14;
+const updatesSince = latestSiteChange
+  ? new Date(new Date(latestSiteChange).getTime() - UPDATES_WINDOW_DAYS * 86_400_000).toISOString().slice(0, 10)
+  : undefined;
+const recentEntries = updatesSince ? entries.filter((e) => e.lastmod && e.lastmod >= updatesSince) : [];
+const updatesXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${recentEntries.map((e) => {
+  const altXml = e.alternates ? hreflangLinks(e.alternates) : '';
+  return `  <url>
+    <loc>${SITE_URL}${e.url}</loc>${altXml ? `\n${altXml}` : ''}
+    <lastmod>${e.lastmod}</lastmod>
+  </url>`;
+}).join('\n')}
+</urlset>
+`;
+fs.writeFileSync(path.join(DIST_DIR, 'sitemap-updates.xml'), updatesXml, 'utf-8');
+console.log(`Recent-changes sitemap written with ${recentEntries.length} entries (lastmod >= ${updatesSince ?? 'n/a'}) → dist/sitemap-updates.xml`);
