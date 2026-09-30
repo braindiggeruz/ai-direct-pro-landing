@@ -379,6 +379,7 @@ interface ProbeModel {
   planned: number;
   calls: number;
   statuses: Record<string, number>;
+  errors: Record<string, number>;
   rate429: number | null;
   finishReasons: Record<string, number>;
   reasoningTokensMax: number | null;
@@ -407,8 +408,8 @@ test('the probe: bearer only, every chain model in UZ and RU with the chat reque
   assert.deepEqual(result.models.map((m) => m.model), chain);
   for (const m of result.models) {
     assert.deepEqual(
-      [m.planned, m.calls, m.statuses, m.rate429, m.finishReasons, m.reasoningTokensMax, m.reasoningOff],
-      [2, 2, { 200: 2 }, 0, { stop: 2 }, 0, REASONING_OFF_MODELS.has(m.model)],
+      [m.planned, m.calls, m.statuses, m.errors, m.rate429, m.finishReasons, m.reasoningTokensMax, m.reasoningOff],
+      [2, 2, { 200: 2 }, {}, 0, { stop: 2 }, 0, REASONING_OFF_MODELS.has(m.model)],
       m.model,
     );
     assert.deepEqual(m.results.map((r) => r.locale), ['uz', 'ru']);
@@ -436,7 +437,9 @@ test('the probe: 20 calls to one model measure its 429 share; an empty or failed
   openrouter(t, (_body, n) => {
     if (n === 3 || n === 7) return new Response('', { status: 429 });
     if (n === 5) return sse({ choices: [{ delta: {}, finish_reason: 'length' }] }, { choices: [], usage: { completion_tokens: 1600, completion_tokens_details: { reasoning_tokens: 1600 } } });
+    // OpenRouter answered 200, then the upstream refused inside the stream.
     if (n === 9) return sse({ error: { code: 429, message: 'SECRET upstream' } });
+    if (n === 11) return new Response('{"error":{"message":"SECRET: reasoning is mandatory for this endpoint"}}', { status: 400 });
     return probeAnswer();
   });
   const response = await probeCall(f, `Bearer ${token}`, JSON.stringify({ model: 'google/gemma-4-31b-it:free', calls: 20 }));
@@ -444,12 +447,18 @@ test('the probe: 20 calls to one model measure its 429 share; an empty or failed
   assert.ok(!text.includes('SECRET'));
   const [m] = (JSON.parse(text) as { models: ProbeModel[] }).models;
   assert.equal(m.model, 'google/gemma-4-31b-it:free');
-  assert.deepEqual([m.calls, m.statuses, m.rate429], [20, { 200: 18, 429: 2 }, 0.1]);
+  assert.deepEqual([m.calls, m.statuses], [20, { 200: 17, 400: 1, 429: 2 }]);
+  // Every rate limit counts, whatever the HTTP status: 3 of 20, not 2.
+  assert.equal(m.rate429, 0.15);
+  assert.deepEqual(m.errors, { rate_limit: 3, empty: 1, bad_request: 1 });
   assert.deepEqual(m.results.slice(0, 4).map((r) => r.locale), ['uz', 'ru', 'uz', 'ru']);
+  assert.equal(m.results[2].error, 'rate_limit');
   assert.deepEqual(m.results[4], { locale: 'uz', status: 200, finishReason: 'length', reasoningTokens: 1600, ttftMs: null, error: 'empty' });
   assert.equal(m.results[8].error, 'rate_limit');
+  assert.equal(m.results[10].error, 'bad_request', 'a refused parameter reads apart from an unknown model');
   assert.equal(m.reasoningTokensMax, 1600);
-  assert.deepEqual(m.finishReasons, { stop: 16, length: 1 });
+  assert.deepEqual(m.finishReasons, { stop: 15, length: 1 });
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_health'), 0, 'a probe cools nothing down');
 });
 
 test('the probe refuses what it cannot measure before calling anybody', async (t) => {

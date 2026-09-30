@@ -14,6 +14,12 @@
 // Nothing is written to D1: a probe must not cool a model down, take a quota
 // or raise an alert.
 //
+// A call passes only with no error code. The code is the chat's own failure
+// class (classifyFailureResponse / the SSE parser), because OpenRouter can
+// answer 200 and still fail inside the stream (an upstream 429 or 502 before
+// any content). So `rate429` counts every rate_limit, HTTP 429 or in-stream,
+// exactly as the chat cools a model down for either.
+//
 // Body (optional JSON, ≤ 256 bytes):
 //   {"calls":N}                      every chain model, N calls each (default 2)
 //   {"model":"<chain id>","calls":N} one model, e.g. 20 calls for the 429 share
@@ -29,7 +35,7 @@ import type { BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { freeChain, modelChain, resolveConfig, type GptChatConfig } from "../../lib/gpt-chat/config";
 import { fail, json, readTextLimited } from "../../lib/gpt-chat/http";
 import { providerOf } from "../../lib/gpt-chat/model-provider";
-import { OPENROUTER_ENDPOINT } from "../../lib/gpt-chat/openrouter-chat";
+import { OPENROUTER_ENDPOINT, classifyFailureResponse } from "../../lib/gpt-chat/openrouter-chat";
 import { openRouterRequest, parseSseChunk } from "../../lib/gpt-chat/openrouter-stream";
 import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
 import { buildMessages } from "../../lib/gpt-chat/prompt";
@@ -58,7 +64,11 @@ export interface ProbeCall {
   reasoningTokens: number | null;
   /** From sending the request to the first content delta. */
   ttftMs: number | null;
-  /** Machine code only: an in-stream failure class, 'empty', 'timeout' or 'network'. */
+  /**
+   * Machine code only, absent when the call answered: the chat's failure
+   * class of a non-2xx status or of an in-stream error (rate_limit,
+   * bad_request, model_unavailable, …), 'empty', 'timeout' or 'network'.
+   */
   error?: string;
 }
 
@@ -101,7 +111,8 @@ async function probeOnce(
     });
     call.status = res.status;
     if (!res.ok || !res.body) {
-      await res.body?.cancel();
+      // Releases the body; of a 400 it reads ≤ 2 KB, matched and dropped.
+      call.error = res.ok ? "empty" : await classifyFailureResponse(res, model);
       return call;
     }
     reader = res.body.getReader();
@@ -145,8 +156,9 @@ async function probeModel(
     planned,
     calls: results.length,
     statuses: tally(results.map((r) => r.status)),
+    errors: tally(results.map((r) => r.error ?? null)),
     rate429: results.length
-      ? Math.round((results.filter((r) => r.status === 429).length / results.length) * 1000) / 1000
+      ? Math.round((results.filter((r) => r.error === "rate_limit").length / results.length) * 1000) / 1000
       : null,
     finishReasons: tally(results.map((r) => r.finishReason)),
     reasoningTokensMax: reasoning.length ? Math.max(...reasoning) : null,
