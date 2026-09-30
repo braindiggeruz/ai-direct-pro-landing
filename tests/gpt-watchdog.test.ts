@@ -97,10 +97,11 @@ function turn(
     .runSync();
 }
 
-function session(f: Fixture, createdAt: number) {
+/** A chat session; each one comes from its own hashed IP unless one is given. */
+function session(f: Fixture, createdAt: number, hashedIp = `ip_${randomUUID()}`) {
   f.db
-    .prepare("INSERT INTO gpt_sessions(id,locale,created_at) VALUES(?,'uz',?)")
-    .bind(`sess_${randomUUID()}`, new Date(createdAt).toISOString())
+    .prepare("INSERT INTO gpt_sessions(id,hashed_ip,locale,created_at) VALUES(?,?,'uz',?)")
+    .bind(`sess_${randomUUID()}`, hashedIp, new Date(createdAt).toISOString())
     .runSync();
 }
 
@@ -265,6 +266,26 @@ test("runWatchdog takes a 10-minute lease per org and records what it raises", a
     f.db.value("SELECT next_at FROM gpt_billing_ops WHERE org_id=? AND task='watchdog'", BILLING_ORG),
     T0 + 30 * MIN,
   );
+});
+
+test("chat_no_turns counts visitors, not session rows: one client looping POST /api/gpt/session never pages", async () => {
+  const f = await billingFixture();
+  // One hashed IP opens ten sessions (a script, or one visitor on the RU and
+  // the UZ page) and no turn is ever reserved.
+  for (let i = 1; i <= 10; i++) session(f, T0 - i * MIN, "ip_same");
+  assert.equal(
+    await new WatchdogStore(f.binding, BILLING_ORG).sessions(T0 - 180 * MIN),
+    1,
+  );
+  assert.deepEqual(await runWatchdog(f.env, T0), { ran: true, raised: [] });
+  // Two more visitors: three distinct IPs and no reservation is a real stop.
+  session(f, T0 + MIN, "ip_second");
+  session(f, T0 + MIN, "ip_third");
+  assert.deepEqual(await runWatchdog(f.env, T0 + 10 * MIN), {
+    ran: true,
+    raised: ["chat_no_turns"],
+  });
+  assert.deepEqual(alertCodes(f), ["chat_no_turns"]);
 });
 
 test("urgent alerts reach the owner in test mode and with no billing mode at all", async (t) => {

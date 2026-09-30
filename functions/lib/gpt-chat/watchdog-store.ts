@@ -8,8 +8,9 @@
 //                         GPT_WATCHDOG_MIN_TURNS (3) settled turns, none done
 //   chat_degraded         in the last 60 min at least 4 settled turns and
 //                         fewer than half done (not raised with chat_silence)
-//   chat_no_turns         in the window at least MIN_TURNS new sessions and
-//                         no reservation at all: turns fail before admission
+//   chat_no_turns         in the window new sessions from at least MIN_TURNS
+//                         distinct hashed IPs and no reservation at all:
+//                         turns fail before admission
 //   stale_reservations    more than 3 turns of the last hour still 'reserved'
 //                         after their expiry (the isolate died mid-turn)
 //   chat_truncation_high  over 24 h, of at least 20 turns with an outcome,
@@ -62,7 +63,7 @@ export interface TurnStats {
 
 export interface WatchdogSample {
   turns: TurnStats;
-  /** New chat sessions inside the window. */
+  /** Distinct hashed IPs that opened a chat session inside the window. */
   sessions: number;
   /** null while the outcome column is missing. */
   truncation: { turns: number; truncated: number } | null;
@@ -161,14 +162,19 @@ export class WatchdogStore {
   }
 
   /**
-   * New sessions since `since`. gpt_sessions is the consumer chat's own
-   * pre-platform table: it has no org_id and holds only this chat's sessions,
-   * so only the chat's own org reads it.
+   * Distinct hashed IPs that opened a session since `since`. Distinct, not
+   * rows: POST /api/gpt/session needs no Turnstile, so one client posting it
+   * in a loop, or one visitor on the RU and the UZ page, must not page the
+   * owner with the urgent chat_no_turns. gpt_sessions is the consumer chat's
+   * own pre-platform table: it has no org_id and holds only this chat's
+   * sessions, so only the chat's own org reads it.
    */
   async sessions(since: number): Promise<number> {
     if (this.org !== BILLING_ORG) return 0;
     const row = await this.db
-      .prepare("SELECT COUNT(*) AS n FROM gpt_sessions WHERE created_at>=?")
+      .prepare(
+        "SELECT COUNT(DISTINCT hashed_ip) AS n FROM gpt_sessions WHERE created_at>=?",
+      )
       .bind(new Date(since).toISOString())
       .first<{ n: number }>();
     return row?.n ?? 0;
