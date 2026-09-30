@@ -2,7 +2,7 @@
 // OpenRouter provider used by the web chat (functions/lib/gpt-chat). The AI is
 // never called from the client; the token/key never leaves the server.
 import type { Env } from '../../_types';
-import { resolveConfig, modelChain } from '../gpt-chat/config';
+import { resolveConfig, freeChain } from '../gpt-chat/config';
 import { chatComplete } from '../gpt-chat/openrouter-chat';
 import type { BuiltPrompt } from './prompts';
 import { validateReply, validateModifier } from './validator';
@@ -32,7 +32,9 @@ export async function runAssistant(
   const result = await chatComplete(
     env,
     cfg,
-    modelChain(cfg, 'free').slice(0, options.maxModels ?? Number.POSITIVE_INFINITY),
+    // The ':free' chain only: Javob never spends money. A paid model for the
+    // bot would have to go through the web chat's daily budget (plan WP-08).
+    freeChain(cfg).slice(0, options.maxModels ?? Number.POSITIVE_INFINITY),
     [
       { role: 'system', content: prompt.system },
       { role: 'user', content: prompt.user },

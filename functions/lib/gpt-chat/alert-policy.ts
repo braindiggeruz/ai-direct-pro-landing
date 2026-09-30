@@ -19,8 +19,8 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   // Every candidate of the chain was refused as an unknown model: the chain
   // is stale configuration (the 2026-09-04 outage), not a bad minute.
   "chat_model_unavailable",
-  // Raised once the chain classification lands (plan WP-03): every candidate
-  // cooling down; an OpenRouter 402 on a paid model.
+  // Every candidate of the chain is cooling down, so no request was even sent;
+  // an OpenRouter 402 on a paid model (no credits: only ':free' answers).
   "chat_models_cooling",
   "openrouter_credit_exhausted",
   // Hourly catalogue and key check (billing-operations-store.ts).
@@ -74,6 +74,8 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   chat_no_key: "нет ключа провайдера моделей, чат не отвечает",
   chat_account_unavailable: "провайдер отклонил аккаунт (401/402): ключ или кредиты",
   chat_model_unavailable: "вся цепочка моделей отклонена как неизвестная, проверьте OPENROUTER_MODEL_*",
+  chat_models_cooling: "все модели цепочки на паузе после сбоев, чат не отвечает",
+  openrouter_credit_exhausted: "OpenRouter: нет кредитов (402), платные модели выключены на 15 минут, отвечают только :free",
   catalogue_model_unavailable: "модель цепочки пропала из OpenRouter или вышла за потолок цены; она выключена на час",
   catalogue_check_failed: "проверка моделей OpenRouter не прошла",
   openrouter_key_credit_low: "OpenRouter: лимит ключа почти исчерпан",

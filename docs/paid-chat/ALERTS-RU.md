@@ -15,9 +15,10 @@
 
 | Код | Что значит |
 |---|---|
-| `chat_no_key`, `chat_account_unavailable` | чат не может отвечать никому: нет ключа, или провайдер отклонил аккаунт (401/402) |
+| `chat_no_key`, `chat_account_unavailable` | чат не может отвечать никому: нет ключа, или провайдер отклонил аккаунт (401, или 402 на `:free`-модели) |
 | `chat_model_unavailable` | вся цепочка моделей отклонена как неизвестная (так выглядел простой 04.09) |
-| `chat_models_cooling`, `openrouter_credit_exhausted` | появятся с WP-03: все модели на паузе; 402 на платной модели |
+| `chat_models_cooling` | все модели цепочки на паузе после сбоев, запрос даже не отправлен; посетитель видит «модели обновляются» |
+| `openrouter_credit_exhausted` | 402 на платной модели: у OpenRouter нет кредитов. Платные модели выключены на 15 минут, отвечают `:free` |
 | `catalogue_*` | часовая проверка: модель цепочки пропала из OpenRouter или вышла за потолок цены (`catalogue_model_unavailable`), либо проверка не прошла (`catalogue_check_failed`) |
 | `openrouter_free_tier_50rpd`, `openrouter_key_credit_low` | аккаунт OpenRouter на бесплатном уровне (50 запросов к `:free` в сутки на чат, бота и AEO вместе); лимит ключа почти исчерпан. **Не чаще раза в сутки.** |
 | `chat_silence`, `chat_degraded`, `chat_no_turns` | сторож тишины (ниже) |

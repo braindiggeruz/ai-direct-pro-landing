@@ -50,6 +50,37 @@ test('resolveConfig applies defaults from the strategic report', () => {
   for (const model of paidChain) assert.ok(buildChatBody(model, [], 900).provider.max_price.completion <= 0.32);
 });
 
+test('resolveConfig: model runtime knobs are clamped, the paid primary for free stays off unless "true"', () => {
+  const defaults = resolveConfig({} as AnyEnv);
+  assert.equal(defaults.maxOutputTokens, 1600);
+  assert.equal(defaults.firstContentTimeoutMs, 12_000);
+  assert.equal(defaults.freeTierPaidPrimary, false);
+  assert.equal(defaults.freePaidDailyUsd, 1);
+  assert.equal(defaults.zaiEvalApproved, '');
+  const low = resolveConfig({
+    GPT_MAX_OUTPUT_TOKENS: '50',
+    GPT_FIRST_CONTENT_TIMEOUT_MS: '100',
+    GPT_FREE_PAID_DAILY_USD: '-3',
+  } as AnyEnv);
+  assert.deepEqual([low.maxOutputTokens, low.firstContentTimeoutMs, low.freePaidDailyUsd], [400, 5_000, 0]);
+  const high = resolveConfig({
+    GPT_MAX_OUTPUT_TOKENS: '99999',
+    GPT_FIRST_CONTENT_TIMEOUT_MS: '99999',
+    GPT_FREE_PAID_DAILY_USD: '500',
+  } as AnyEnv);
+  assert.deepEqual([high.maxOutputTokens, high.firstContentTimeoutMs, high.freePaidDailyUsd], [4000, 20_000, 20]);
+  assert.equal(resolveConfig({ GPT_FREE_PAID_DAILY_USD: '0.5' } as AnyEnv).freePaidDailyUsd, 0.5);
+  assert.equal(resolveConfig({ GPT_FREE_PAID_DAILY_USD: 'lots' } as AnyEnv).freePaidDailyUsd, 1);
+  assert.equal(resolveConfig({ GPT_MAX_OUTPUT_TOKENS: 'many' } as AnyEnv).maxOutputTokens, 1600);
+  for (const value of ['false', '1', 'yes', ''])
+    assert.equal(resolveConfig({ GPT_FREE_TIER_PAID_PRIMARY: value } as AnyEnv).freeTierPaidPrimary, false, value);
+  assert.equal(resolveConfig({ GPT_FREE_TIER_PAID_PRIMARY: ' TRUE ' } as AnyEnv).freeTierPaidPrimary, true);
+  // The committed config keeps it off until the budget path and the probe.
+  const wrangler = readFileSync('wrangler.toml', 'utf8');
+  assert.match(wrangler, /^GPT_FREE_TIER_PAID_PRIMARY = "false"$/m);
+  assert.match(wrangler, /^GPT_MAX_OUTPUT_TOKENS = "1600"$/m);
+});
+
 test('resolveConfig parses env overrides + comma lists', () => {
   const cfg = resolveConfig({
     OPENROUTER_MODEL_FREE: 'x/free',

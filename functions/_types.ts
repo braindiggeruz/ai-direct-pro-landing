@@ -243,14 +243,26 @@ export interface Env extends FirecrawlEnvironment {
   GPT_FREE_HOURLY_LIMIT?: string;  // default 5
   GPT_PAID_MONTHLY_LIMIT?: string; // maximum 300; access periods snapshot their allowance
   GPT_MAX_INPUT_CHARS?: string;    // default 3000
+  // Public. Model runtime (functions/lib/gpt-chat/config.ts): answer length in
+  // tokens (default 1600, clamped 400..4000) and the per-attempt wait for an
+  // OpenRouter stream's first content (default 12000 ms, clamped 5000..20000).
+  GPT_MAX_OUTPUT_TOKENS?: string;
+  GPT_FIRST_CONTENT_TIMEOUT_MS?: string;
+  // Public. The paid primary in front of the free chain ("true" only) under a
+  // daily USD budget (default 1, clamped 0..20). Read by the budget path of
+  // plan WP-04; stays "false" until the model probe clears the chain.
+  GPT_FREE_TIER_PAID_PRIMARY?: string;
+  GPT_FREE_PAID_DAILY_USD?: string;
   // Salt for SHA-256(CF-Connecting-IP + salt). NEVER store raw IPs.
   // If unset, hashing still runs with an empty salt (weaker; set in prod).
   GPT_HASH_SALT?: string;
   // Z.ai as a second provider for the WEB chat only (functions/api/gpt/chat.ts;
-  // Javob stays on OpenRouter). Active only when BOTH GPT_MODEL_PROVIDER='zai'
-  // and the secret ZAI_API_KEY are set; see docs/paid-chat/ZAI-RU.md.
+  // Javob stays on OpenRouter). Active only when GPT_MODEL_PROVIDER='zai',
+  // GPT_ZAI_EVAL_APPROVED and the secret ZAI_API_KEY are all set; see
+  // docs/paid-chat/ZAI-RU.md.
   ZAI_API_KEY?: string;          // secret (wrangler pages secret put); never in wrangler.toml
   GPT_MODEL_PROVIDER?: string;   // public: 'openrouter' (default) | 'zai'
+  GPT_ZAI_EVAL_APPROVED?: string; // public: YYYY-MM-DD of the approving blind eval; '' = Z.ai off
   ZAI_MODEL_FREE?: string;       // public: default glm-4.7-flash ($0 models only)
   ZAI_MODEL_PAID?: string;       // public: default glm-4.5-air (paid allowlist only)
   ZAI_TIERS?: string;            // public: default "free,paid"

@@ -2,14 +2,7 @@ import type { AeoObservation } from "../../../src/shared/aeo";
 import { createAiFacade } from "../ai/facade";
 import { AiPolicyResolver } from "../ai/policy";
 import { AiError } from "../ai/errors";
-
-// These configured models advertise optional reasoning in the provider catalogue.
-// Keep unknown future models on their own defaults instead of disabling mandatory thinking.
-const DIRECT_ANSWER_MODELS = new Set([
-  "minimax/minimax-m3:free",
-  "nvidia/nemotron-3-super-120b-a12b:free",
-  "dots-studio/dots-3-note-preview:free",
-]);
+import { reasoningParam } from "../ai/model-policy";
 
 export function allowedModel(model: string | undefined): string | null {
   return model && /^[a-z0-9-]+\/[a-z0-9._-]+:free$/i.test(model) ? model : null;
@@ -77,9 +70,9 @@ export async function observe(
                     max_price: { prompt: 0, completion: 0, request: 0 },
                   },
                   max_tokens: request.maxTokens,
-                  reasoning: DIRECT_ANSWER_MODELS.has(model)
-                    ? { enabled: false, exclude: true }
-                    : { exclude: true },
+                  // Models with optional reasoning answer directly; an unknown
+                  // model keeps its own default (it may require thinking).
+                  reasoning: reasoningParam(model) ?? { exclude: true },
                   temperature: request.temperature,
                   messages: request.messages,
                 }),

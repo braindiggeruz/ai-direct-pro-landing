@@ -17,6 +17,7 @@ import {
 } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { readJsonLimited } from "../functions/lib/gpt-chat/http";
 import { resolveConfig, modelChain } from "../functions/lib/gpt-chat/config";
+import { webChatChain } from "../functions/lib/gpt-chat/model-provider";
 import { runGptBillingMaintenance } from "../workers/gpt-billing-maintenance";
 import { IdentityStore } from "../functions/lib/gpt-chat/identity-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
@@ -569,6 +570,14 @@ test("oversized chunked bodies stop reading early; free tier rejects paid overri
   assert.ok(
     modelChain(resolveConfig(f.env), "free").every((m) => m.endsWith(":free")),
   );
+  // The site's free chain is the same ':free' chain, and the paid primary
+  // flag cannot change that before the daily budget path exists (plan WP-04).
+  f.env.GPT_FREE_TIER_PAID_PRIMARY = "true";
+  const siteCfg = resolveConfig(f.env);
+  assert.equal(siteCfg.freeTierPaidPrimary, true);
+  assert.deepEqual(webChatChain(siteCfg, f.env, "free"), modelChain(siteCfg, "free"));
+  assert.ok(webChatChain(siteCfg, f.env, "free").every((m) => m.endsWith(":free")));
+  assert.deepEqual(webChatChain(siteCfg, f.env, "paid"), modelChain(siteCfg, "paid"));
   Object.assign(f.env, {
     GPT_BILLING_MODE: "live",
     GPT_PAYME_KEY: randomBytes(32).toString("hex"),

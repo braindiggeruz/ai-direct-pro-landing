@@ -68,6 +68,7 @@ export const RUNTIME_CONFIG_KEYS = [
   // Z.ai provider switch for the web chat (functions/lib/gpt-chat/model-provider.ts).
   // Public only; the key itself is the secret ZAI_API_KEY and never listed here.
   'GPT_MODEL_PROVIDER',
+  'GPT_ZAI_EVAL_APPROVED',
   'ZAI_MODEL_FREE',
   'ZAI_MODEL_PAID',
   'ZAI_TIERS',
@@ -89,6 +90,11 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_ALERTS_MAX_PER_HOUR',
   'GPT_WATCHDOG_WINDOW_MINUTES',
   'GPT_WATCHDOG_MIN_TURNS',
+  // Model runtime of the web chat (functions/lib/gpt-chat/config.ts).
+  'GPT_MAX_OUTPUT_TOKENS',
+  'GPT_FIRST_CONTENT_TIMEOUT_MS',
+  'GPT_FREE_TIER_PAID_PRIMARY',
+  'GPT_FREE_PAID_DAILY_USD',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

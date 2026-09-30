@@ -29,7 +29,9 @@ test("stream falls back before content, cooldown shared with a second request", 
     const p = JSON.parse(String(init?.body));
     called.push(p.model);
     assert.ok(p.provider.max_price.prompt <= 0.1);
-    assert.equal(p.provider.allow_fallbacks, false);
+    // Paid models may fall back between providers inside max_price; a ':free'
+    // slug has one provider and our chain is its only retry layer.
+    assert.equal(p.provider.allow_fallbacks, !p.model.endsWith(":free"));
     return called.length === 1
       ? new Response("", { status: 429 })
       : sse("Hello");
@@ -58,24 +60,52 @@ test("stream falls back before content, cooldown shared with a second request", 
     globalThis.fetch = original;
   }
 });
-test("shared account 402 stops all models and later requests respect cooldown", async () => {
+test("402 on a paid model skips to ':free' instead of stopping everyone; a 402 there too blocks the account", async () => {
   const f = await billingFixture();
   f.env.OPENROUTER_API_KEY = randomBytes(32).toString("hex");
   const cfg = resolveConfig(f.env);
-  let calls = 0;
+  const chain = modelChain(cfg, "paid");
+  assert.ok(!chain[0].endsWith(":free") && !chain[1].endsWith(":free") && chain[2].endsWith(":free"));
+  const called: string[] = [];
+  const events: string[] = [];
+  let freeStatus = 200;
   const original = globalThis.fetch;
-  globalThis.fetch = async () => {
-    calls++;
-    return new Response("", { status: 402 });
+  globalThis.fetch = async (_input, init) => {
+    const model = JSON.parse(String(init?.body)).model as string;
+    called.push(model);
+    if (!model.endsWith(":free")) return new Response("", { status: 402 });
+    return freeStatus === 200
+      ? Response.json({ choices: [{ message: { content: "Free answer" } }] })
+      : new Response("", { status: freeStatus });
   };
   try {
-    assert.equal(
-      (await chatComplete(f.env, cfg, modelChain(cfg, "paid"), [])).errorCode,
-      "account_unavailable",
+    const before = Date.now();
+    const answered = await chatComplete(f.env, cfg, chain, [], 900, 45_000, undefined, undefined, (code) => events.push(code));
+    assert.deepEqual([answered.ok, answered.modelUsed], [true, chain[2]]);
+    assert.deepEqual(called, [chain[0], chain[2]], "the second paid model is skipped, not asked");
+    assert.deepEqual(events, ["openrouter_credit_exhausted"]);
+    const rows = f.db.rows<{ model: string; code: string; blocked_until: number }>(
+      "SELECT model, code, blocked_until FROM gpt_model_health",
     );
-    assert.equal(calls, 1);
-    await chatComplete(f.env, cfg, modelChain(cfg, "paid"), []);
-    assert.equal(calls, 1);
+    assert.deepEqual(rows.map((r) => [r.model, r.code]), [["openrouter-paid/*", "paid_credit_exhausted"]]);
+    assert.ok(Math.abs(rows[0].blocked_until - (before + 15 * 60_000)) < 5_000);
+    // While the paid wildcard cools down, paid models are not even asked.
+    called.length = 0;
+    assert.equal((await chatComplete(f.env, cfg, chain, [])).modelUsed, chain[2]);
+    assert.deepEqual(called, [chain[2]]);
+
+    // No credits at all: a 402 on ':free' blocks the whole account ('*'),
+    // and later requests send nothing.
+    f.db.exec("DELETE FROM gpt_model_health");
+    freeStatus = 402;
+    called.length = 0;
+    assert.equal((await chatComplete(f.env, cfg, chain, [])).errorCode, "account_unavailable");
+    assert.deepEqual(called, [chain[0], chain[2]]);
+    assert.equal(
+      (await chatComplete(f.env, cfg, chain, [])).errorCode,
+      "models_cooling",
+    );
+    assert.equal(called.length, 2);
   } finally {
     globalThis.fetch = original;
   }

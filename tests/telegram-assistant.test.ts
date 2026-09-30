@@ -445,6 +445,8 @@ interface Rec {
   tg: any[];
   ai: number;
   aiReplies?: string[];
+  /** `model` of every OpenRouter reply request, in order. */
+  models?: string[];
   audioBytes?: Uint8Array;
   tgFilePath?: string;
   tgFileSize?: number;
@@ -501,6 +503,7 @@ function installFetch(rec: Rec) {
       }
       const reply = rec.aiReplies?.[rec.ai] ?? 'Rahmat! Buyurtmangiz yo‘lda, tez orada yetkazamiz.';
       rec.ai++;
+      rec.models = [...(rec.models ?? []), body.model];
       return jsonRes({ choices: [{ message: { content: reply } }], usage: { prompt_tokens: 5, completion_tokens: 5 } });
     }
     return jsonRes({ ok: false });
@@ -541,6 +544,16 @@ test('forward → IMMEDIATE reply with modifier keyboard, no action menu', async
   assert.ok(cbs.every((c: string) => c.startsWith('jmod:')));
   assert.ok(!sends.some((s) => /Что сделать/.test(s.body.text)), 'no action menu');
   assert.ok(rec.tg.some((c) => c.method === 'sendChatAction'), 'typing indicator shown');
+});
+
+test('Javob asks the free chain only: its head, and never a paid id put in the free slot', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY, RU_REPLY] }; installFetch(rec);
+  const text = (updateId: number, chat: number) => ({ update_id: updateId, message: { chat: { id: chat, type: 'private' }, from: { id: chat, language_code: 'ru' }, text: 'Добрый день! Можно перенести встречу на завтра?' } }) as any;
+  await handleUpdate(deps(db), text(40, 40));
+  // A paid model configured as the free primary is dropped, not billed.
+  await handleUpdate(deps(db, { OPENROUTER_MODEL_FREE: 'google/gemma-4-26b-a4b-it' }), text(41, 41));
+  assert.deepEqual(rec.models, ['google/gemma-4-31b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free']);
 });
 
 test('direct/copied text → reply too (no menu)', async () => {

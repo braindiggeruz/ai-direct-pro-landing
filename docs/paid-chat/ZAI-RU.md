@@ -1,14 +1,15 @@
 # Z.ai в AI-чате: как включить, выключить и что делать при сбоях
 
-*Пакет B платного AI-чата, 2026-09-30. Код: `functions/lib/gpt-chat/model-provider.ts`, `zai-chat.ts`, `model-pricing.ts`, `operator-alert.ts`. Тесты: `tests/gpt-zai-provider.test.ts`.*
+*Пакет B платного AI-чата, 2026-09-30. Код: `functions/lib/gpt-chat/model-provider.ts`, `zai-chat.ts`, `model-pricing.ts`, `operator-alert.ts`. Тесты: `tests/gpt-zai-provider.test.ts`, `tests/gpt-model-policy.test.ts` (третий переключатель, WP-03).*
 
 ## Коротко
 
 - Z.ai (модели GLM компании Zhipu) подключён к веб-чату как **второй** провайдер. OpenRouter остаётся запасным: Z.ai занимает не больше одного места из трёх в цепочке моделей.
 - **Сейчас выключено.** С конфигурацией из репозитория чат отправляет те же запросы в OpenRouter, что и раньше. Это проверяют тесты.
-- Z.ai включается, только когда выполнены **оба** условия:
+- Z.ai включается, только когда выполнены **все три** условия (решение L10 плана):
   1. `GPT_MODEL_PROVIDER = "zai"` в `wrangler.toml`, после чего сделан деплой;
-  2. в Cloudflare Pages задан секрет `ZAI_API_KEY`.
+  2. `GPT_ZAI_EVAL_APPROVED = "<ГГГГ-ММ-ДД>"` — дата слепой пробы, по которой Z.ai одобрен; к ней в репозитории лежит отчёт `docs/paid-chat/evals/zai-<дата>.json`, иначе тесты падают;
+  3. в Cloudflare Pages задан секрет `ZAI_API_KEY`.
 - Бот Javob (@gptbot_javob_bot) и бот @gptbotuz_bot остаются на OpenRouter в любом случае.
 - Под ответом чат пишет модель, которая действительно ответила, например `zai/glm-4.7-flash`. Чат никогда не называет себя ChatGPT.
 
@@ -21,11 +22,14 @@
    - Cloudflare → Workers & Pages → `ai-direct-pro-landing` → Settings → Variables and Secrets → Production → Add → тип **Secret**, имя `ZAI_API_KEY`;
    - или в терминале: `npx wrangler pages secret put ZAI_API_KEY --project-name ai-direct-pro-landing` (команда сама попросит значение).
 4. **Слепая проба.** До переключения прогоните пробу качества (раздел «Слепая проба» ниже) и решите: Z.ai или оставить как есть. Оставить как есть — тоже нормальный итог.
-5. **Переключатель.** В `wrangler.toml` поменяйте `GPT_MODEL_PROVIDER` с `"openrouter"` на `"zai"` **в двух местах**, иначе тест упадёт:
-   - в длинной строке `GPTBOT_RUNTIME_CONFIG_JSON` (`"GPT_MODEL_PROVIDER":"zai"`);
-   - в таблице `[vars.GPTBOT_RUNTIME_CONFIG]` внизу файла (`GPT_MODEL_PROVIDER = "zai"`).
-6. Проверьте (`node --import tsx --test tests/runtime-config.test.ts` и `tests/gpt-zai-provider.test.ts`) и сделайте деплой.
-7. **Проверка на сайте.** Задайте вопрос в чате. Под ответом должна появиться подпись `zai/glm-4.7-flash`. Если там модель OpenRouter, значит Z.ai не ответил и сработал запасной вариант (причина — в разделе «Где смотреть»).
+5. **Отчёт.** Если Z.ai одобрен, положите в репозиторий `docs/paid-chat/evals/zai-<дата>.json` (формат — в разделе «Слепая проба»).
+6. **Переключатели.** В `wrangler.toml` поменяйте **в двух местах**, иначе тест упадёт:
+   - `GPT_MODEL_PROVIDER` с `"openrouter"` на `"zai"`;
+   - `GPT_ZAI_EVAL_APPROVED` с `""` на ту же дату, что в имени отчёта.
+
+   Два места — это длинная строка `GPTBOT_RUNTIME_CONFIG_JSON` (`"GPT_MODEL_PROVIDER":"zai"`) и таблица `[vars.GPTBOT_RUNTIME_CONFIG]` внизу файла (`GPT_MODEL_PROVIDER = "zai"`).
+7. Проверьте (`node --import tsx --test tests/runtime-config.test.ts`, `tests/gpt-zai-provider.test.ts` и `tests/gpt-model-policy.test.ts`) и сделайте деплой.
+8. **Проверка на сайте.** Задайте вопрос в чате. Под ответом должна появиться подпись `zai/glm-4.7-flash`. Если там модель OpenRouter, значит Z.ai не ответил и сработал запасной вариант (причина — в разделе «Где смотреть»).
 
 ## Как выключить
 
@@ -49,6 +53,7 @@
 |---|---|---|
 | `ZAI_API_KEY` | — (секрет) | Ключ Z.ai. Только секрет Cloudflare, никогда не в `wrangler.toml`. |
 | `GPT_MODEL_PROVIDER` | `openrouter` | `zai` ставит одну модель Z.ai первой. Любое другое значение означает OpenRouter. |
+| `GPT_ZAI_EVAL_APPROVED` | пусто | Дата одобрившей слепой пробы, `ГГГГ-ММ-ДД`. Пусто, несуществующая дата или другой формат — Z.ai выключен. |
 | `ZAI_MODEL_FREE` | `glm-4.7-flash` | Модель для бесплатного уровня. Разрешены только бесплатные: `glm-4.7-flash`, `glm-4.5-flash`. |
 | `ZAI_MODEL_PAID` | `glm-4.5-air` | Модель для платного уровня. Разрешены `glm-4.7-flashx`, `glm-4.5-air`, `glm-4.7-flash`, `glm-4.5-flash`. |
 | `ZAI_TIERS` | `free,paid` | Для каких уровней включён Z.ai. Например, `paid` — только для платного. Пусто или ошибка — ни для какого. |
@@ -123,13 +128,26 @@ FROM gpt_service_alerts WHERE code LIKE 'zai_%' ORDER BY created_at DESC LIMIT 2
 ```
 node --import tsx scripts/zai-blind-eval.ts --dry-run        # проверка без сети
 node --import tsx scripts/zai-blind-eval.ts                  # бесплатный уровень: zai/glm-4.7-flash против бесплатной модели OpenRouter
-node --import tsx scripts/zai-blind-eval.ts --paid           # платный: zai/glm-4.5-air против mistral-small-3.2
+node --import tsx scripts/zai-blind-eval.ts --paid           # платный: zai/glm-4.5-air против платной основной модели чата
 node --import tsx scripts/zai-blind-eval.ts --baseline=nvidia/nemotron-3-super-120b-a12b:free
 ```
 
 Ключи `ZAI_API_KEY` и `OPENROUTER_API_KEY` задайте только для этой команды. Скрипт их не печатает и не сохраняет. Без ключей он ничего не вызывает и объясняет, что нужно.
 
-Результат — лист оценки `docs/paid-chat/eval/zai-blind-eval-<дата>-<уровень>.md` с пустыми колонками 1–5 (правильность, язык, польза) и отдельный файл-ключ `…-key.json`. Откройте ключ только после того, как выставите все оценки.
+Результат — лист оценки `docs/paid-chat/eval/zai-blind-eval-<дата>-<уровень>.md` с пустыми колонками 1–5 (правильность, язык, польза) и отдельный файл-ключ `…-key.json`. Откройте ключ только после того, как выставите все оценки. Лимит ответа и платная модель для сравнения берутся из рабочей конфигурации чата (`GPT_MAX_OUTPUT_TOKENS`, `OPENROUTER_MODEL_PAID`).
+
+**Отчёт о решении** — `docs/paid-chat/evals/zai-<дата>.json`. Его проверяет `tests/gpt-model-policy.test.ts`, когда `GPT_ZAI_EVAL_APPROVED` не пуст:
+
+```json
+{
+  "date": "2026-10-05",
+  "decision": "approved",
+  "sheets": ["docs/paid-chat/eval/zai-blind-eval-2026-10-05-free.md"],
+  "summary": "по заполненным листам: суммы A/B по правильности, языку и пользе; кто оценивал"
+}
+```
+
+`date` совпадает с датой в имени файла и в `GPT_ZAI_EVAL_APPROVED`, `decision` равен `approved`, а каждый лист из `sheets` лежит в репозитории.
 
 ## Риски и оговорки
 

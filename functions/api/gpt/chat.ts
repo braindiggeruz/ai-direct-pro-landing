@@ -5,10 +5,11 @@
 // on provider failure instead of crashing.
 //
 // The chain comes from webChatChain(): the OpenRouter chain by default, or one
-// Z.ai model in front of it when BOTH GPT_MODEL_PROVIDER='zai' and the secret
-// ZAI_API_KEY are set (model-provider.ts). meta/done/modelUsed always carry
-// the id of the model that actually answered ('zai/glm-4.7-flash',
-// 'minimax/minimax-m3:free', …); the UI prints it verbatim.
+// Z.ai model in front of it when GPT_MODEL_PROVIDER='zai', GPT_ZAI_EVAL_APPROVED
+// and the secret ZAI_API_KEY are all set (model-provider.ts). meta/done/
+// modelUsed always carry the id of the model that actually answered
+// ('zai/glm-4.7-flash', 'google/gemma-4-31b-it:free', …); the UI prints it
+// verbatim. Answer length is cfg.maxOutputTokens (GPT_MAX_OUTPUT_TOKENS).
 import type { Env } from "../../_types";
 import { resolveConfig } from "../../lib/gpt-chat/config";
 import { webChatChain } from "../../lib/gpt-chat/model-provider";
@@ -55,12 +56,17 @@ interface ChatBody {
 
 /**
  * Failures that say nothing about the service's health: the visitor left, or
- * the provider refused this one request (Z.ai 1301 content safety, a
- * request-level 400). They are not service alerts.
+ * the provider refused this one request (OpenRouter 403 moderation, Z.ai 1301
+ * content safety, a request-level 400). They are not service alerts.
  */
 const NOT_A_SERVICE_FAILURE = new Set(["aborted", "content_refused", "bad_request"]);
 
+/**
+ * The code the client sees. Every candidate cooling down (models_cooling)
+ * reads as model_unavailable; the owner alert keeps the precise code.
+ */
 function publicProviderCode(code: string | undefined): string {
+  if (code === "models_cooling") return "model_unavailable";
   return code === "no_key" ||
     code === "rate_limit" ||
     code === "model_unavailable" ||
@@ -225,8 +231,9 @@ export const onRequestPost: PagesFunction<Env> = async ({
     ? () => turns!.admitModelAttempt(period!)
     : undefined;
   const chain = webChatChain(cfg, env, plan);
-  // Z.ai balance / key failures page the owner (operator-alert.ts). Runs in
-  // the background and never throws into the turn.
+  // OpenRouter credits (402 on a paid model) and Z.ai balance / key failures
+  // page the owner (operator-alert.ts). Runs in the background and never
+  // throws into the turn.
   const onOperatorEvent = (code: string) => waitUntil(alertOperator(env, code));
   // A failed turn is recorded, runs the silence watchdog (its second circuit
   // when the maintenance cron is down) and delivers what is urgent. Nothing
@@ -240,7 +247,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
       cfg,
       chain,
       messages,
-      900,
+      cfg.maxOutputTokens,
       60_000,
       request.signal,
       admitAttempt,
@@ -251,10 +258,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
       if (!NOT_A_SERVICE_FAILURE.has(start.errorCode))
         reportFailure(start.errorCode);
       // Plain JSON (not SSE) — the client falls back on Content-Type.
+      const code = publicProviderCode(start.errorCode);
       return json({
         ok: false,
-        code: publicProviderCode(start.errorCode),
-        message: providerMessage(start.errorCode),
+        code,
+        message: providerMessage(code),
         sessionId,
       });
     }
@@ -445,7 +453,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
     cfg,
     chain,
     messages,
-    900,
+    cfg.maxOutputTokens,
     45_000,
     request.signal,
     admitAttempt,
@@ -457,10 +465,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
     if (!NOT_A_SERVICE_FAILURE.has(result.errorCode ?? ""))
       reportFailure(result.errorCode ?? "provider_error");
     // 200 with ok:false so the client renders an error state, not a crash.
+    const code = publicProviderCode(result.errorCode);
     return json({
       ok: false,
-      code: publicProviderCode(result.errorCode),
-      message: providerMessage(result.errorCode),
+      code,
+      message: providerMessage(code),
       sessionId,
     });
   }

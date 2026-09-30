@@ -82,6 +82,40 @@ export async function readTextLimited(request: Request, maxBytes: number): Promi
   }
 }
 
+/**
+ * The first `maxBytes` of an upstream error body, decoded as text. Always
+ * releases the body and never throws. Provider error messages can echo the
+ * visitor's own text back, so callers only match it against fixed patterns:
+ * never log, return or store it.
+ */
+export async function readBodyPrefix(res: Response, maxBytes: number): Promise<string> {
+  if (!res.body) return "";
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  try {
+    while (total < maxBytes) {
+      const part = await reader.read();
+      if (part.done) break;
+      chunks.push(part.value);
+      total += part.value.byteLength;
+    }
+  } catch {
+    /* a truncated or aborted body still has whatever arrived */
+  } finally {
+    await reader.cancel().catch(() => undefined);
+  }
+  const bytes = new Uint8Array(Math.min(total, maxBytes));
+  let offset = 0;
+  for (const chunk of chunks) {
+    if (offset >= bytes.length) break;
+    const slice = chunk.subarray(0, bytes.length - offset);
+    bytes.set(slice, offset);
+    offset += slice.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
+}
+
 export function genId(prefix: string): string {
   return `${prefix}_${crypto.randomUUID().replace(/-/g, "").slice(0, 24)}`;
 }

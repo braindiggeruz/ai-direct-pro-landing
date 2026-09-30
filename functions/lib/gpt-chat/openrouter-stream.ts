@@ -10,9 +10,20 @@
 import type { Env } from "../../_types";
 import type { ChatMessage } from "./prompt";
 import type { GptChatConfig } from "./config";
-import { buildChatBody, classifyFailureStatus } from "./openrouter-chat";
-import { availableModels, settleModelFailure } from "./model-health-store";
-import { hasProviderKey, providerOf, bareModel, type ModelProvider } from "./model-provider";
+import {
+  OPENROUTER_ENDPOINT,
+  buildChatBody,
+  classifyFailureEnvelope,
+  classifyFailureResponse,
+} from "./openrouter-chat";
+import { availableModels, MAX_ATTEMPTS, settleModelFailure } from "./model-health-store";
+import {
+  hasProviderKey,
+  healthWildcards,
+  providerOf,
+  bareModel,
+  type ModelProvider,
+} from "./model-provider";
 import {
   ZAI_ENDPOINT,
   buildZaiBody,
@@ -21,17 +32,17 @@ import {
   zaiHeaders,
 } from "./zai-chat";
 
-const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
-
 /** Codes a pre-content failure may carry as its Error message. */
 const STREAM_FAILURE_CODES = [
   "rate_limit",
   "model_unavailable",
   "account_unavailable",
-  // Z.ai only; the OpenRouter parser never produces these.
   "content_refused",
-  "balance_exhausted",
   "bad_request",
+  // OpenRouter only: a 402 on a paid model.
+  "paid_credit_exhausted",
+  // Z.ai only.
+  "balance_exhausted",
 ];
 
 export type StreamStart =
@@ -45,7 +56,8 @@ export type StreamStart =
     }
   | { ok: false; errorCode: string };
 
-function openRouterRequest(
+/** The streaming OpenRouter request the chat sends; the model probe sends the same one. */
+export function openRouterRequest(
   env: Env,
   cfg: GptChatConfig,
   model: string,
@@ -103,15 +115,21 @@ export async function chatStreamStart(
     return { ok: false, errorCode: "no_key" };
   let lastCode = "provider_error";
   let everyCandidateUnavailable = chain.length > 0;
-  const candidates = (await availableModels(env.GPTBOT_DRAFTS_DB, chain)).filter(
-    (model) => hasProviderKey(env, providerOf(model)),
+  // Same attempt rules as chatComplete: cooling, keyless and skipped models
+  // never take one of the MAX_ATTEMPTS.
+  const candidates = await availableModels(
+    env.GPTBOT_DRAFTS_DB,
+    chain.filter((model) => hasProviderKey(env, providerOf(model))),
   );
-  if (!candidates.length) return { ok: false, errorCode: "rate_limit" };
+  if (!candidates.length) return { ok: false, errorCode: "models_cooling" };
   const deadline = Date.now() + timeoutMs;
-  const skipped = new Set<ModelProvider>();
+  const skipped = new Set<string>();
+  let attempts = 0;
   for (const model of candidates) {
     const provider = providerOf(model);
-    if (skipped.has(provider)) continue;
+    if (healthWildcards(model).some((wildcard) => skipped.has(wildcard))) continue;
+    if (attempts === MAX_ATTEMPTS) break;
+    attempts++;
     if (signal?.aborted) return { ok: false, errorCode: "aborted" };
     if (admitAttempt && !(await admitAttempt()))
       return { ok: false, errorCode: "budget_exhausted" };
@@ -119,38 +137,38 @@ export async function chatStreamStart(
     if (Date.now() >= deadline) return { ok: false, errorCode: "timeout" };
     let timer = setTimeout(
       () => controller.abort(),
-      Math.min(provider === "zai" ? cfg.zaiTimeoutMs : 12_000, deadline - Date.now()),
+      Math.min(
+        provider === "zai" ? cfg.zaiTimeoutMs : cfg.firstContentTimeoutMs,
+        deadline - Date.now(),
+      ),
     );
     try {
       const init =
         provider === "zai"
           ? zaiRequest(env, model, messages, maxTokens)
           : openRouterRequest(env, cfg, model, messages, maxTokens);
-      const res = await fetch(provider === "zai" ? ZAI_ENDPOINT : ENDPOINT, {
+      const res = await fetch(provider === "zai" ? ZAI_ENDPOINT : OPENROUTER_ENDPOINT, {
         ...init,
         signal: signal
           ? AbortSignal.any([controller.signal, signal])
           : controller.signal,
       });
       if (!res.ok || !res.body) {
-        if (provider === "zai") {
-          // Read the business code while the attempt timer is still armed.
-          // readZaiError always releases the body; a 2xx without one has none.
-          const code = res.ok ? undefined : await readZaiError(res);
-          clearTimeout(timer);
-          lastCode = classifyZaiFailure(res.status, code);
-        } else {
-          clearTimeout(timer);
-          await res.body?.cancel();
-          lastCode = classifyFailureStatus(res.status);
-        }
-        const step = await settleModelFailure(
+        // Read what the classification needs while the attempt timer is still
+        // armed (a Z.ai business code, ≤ 2 KB of an OpenRouter 400). Both
+        // readers always release the body; a 2xx without one has none.
+        lastCode =
+          provider === "zai"
+            ? classifyZaiFailure(res.status, res.ok ? undefined : await readZaiError(res))
+            : await classifyFailureResponse(res, model);
+        clearTimeout(timer);
+        const skip = await settleModelFailure(
           env.GPTBOT_DRAFTS_DB,
           model,
           lastCode,
           onOperatorEvent,
         );
-        if (step === "skip_provider") skipped.add(provider);
+        if (skip) skipped.add(skip);
         if (lastCode !== "model_unavailable") everyCandidateUnavailable = false;
         continue;
       }
@@ -174,6 +192,7 @@ export async function chatStreamStart(
           parser,
           decoder.decode(part.value, { stream: true }),
           provider,
+          model,
         );
         const failure = events.find((event) => event.error);
         if (failure) throw new Error(failure.error);
@@ -228,13 +247,13 @@ export async function chatStreamStart(
           : STREAM_FAILURE_CODES.includes((e as Error).message)
             ? (e as Error).message
             : "provider_error";
-      const step = await settleModelFailure(
+      const skip = await settleModelFailure(
         env.GPTBOT_DRAFTS_DB,
         model,
         lastCode,
         onOperatorEvent,
       );
-      if (step === "skip_provider") skipped.add(provider);
+      if (skip) skipped.add(skip);
       everyCandidateUnavailable = false;
     }
   }
@@ -250,19 +269,24 @@ export interface SseEvent {
   done?: boolean;
   inputTokens?: number;
   outputTokens?: number;
-  /** choices[0].finish_reason, when the chunk carried one (Z.ai dialect only). */
+  /** choices[0].finish_reason, when the chunk carried one. */
   finishReason?: string;
+  /** usage.completion_tokens_details.reasoning_tokens (OpenRouter dialect). */
+  reasoningTokens?: number;
 }
 
 /**
  * Incremental parser for the upstream SSE wire format. Feed decoded text
  * chunks; returns extracted events. Keeps partial lines in `state.buffer`.
- * `provider` selects the dialect; the default is OpenRouter's, unchanged.
+ * `provider` selects the dialect; the default is OpenRouter's. `model` is the
+ * id the stream answers for; it only decides what an in-stream 402 means
+ * (classifyFailureStatus).
  */
 export function parseSseChunk(
   state: { buffer: string },
   chunk: string,
   provider: ModelProvider = "openrouter",
+  model = "",
 ): SseEvent[] {
   state.buffer += chunk;
   const events: SseEvent[] = [];
@@ -283,22 +307,31 @@ export function parseSseChunk(
     }
     try {
       const data = JSON.parse(payload) as {
-        error?: { code?: number };
-        choices?: { delta?: { content?: string } }[];
-        usage?: { prompt_tokens?: number; completion_tokens?: number };
+        error?: { code?: unknown; message?: unknown };
+        choices?: { delta?: { content?: string }; finish_reason?: string | null }[];
+        usage?: {
+          prompt_tokens?: number;
+          completion_tokens?: number;
+          completion_tokens_details?: { reasoning_tokens?: number };
+        };
       };
-      const delta = data.choices?.[0]?.delta?.content;
-      const ev: SseEvent = {};
       if (data.error) {
-        events.push({ error: classifyFailureStatus(Number(data.error.code)) });
+        events.push({ error: classifyFailureEnvelope(data.error, model) });
         continue;
       }
+      const choice = data.choices?.[0];
+      const delta = choice?.delta?.content;
+      const ev: SseEvent = {};
       if (typeof delta === "string" && delta) ev.delta = delta;
+      if (typeof choice?.finish_reason === "string" && choice.finish_reason)
+        ev.finishReason = choice.finish_reason;
       if (data.usage) {
         ev.inputTokens = data.usage.prompt_tokens;
         ev.outputTokens = data.usage.completion_tokens;
+        const reasoning = data.usage.completion_tokens_details?.reasoning_tokens;
+        if (typeof reasoning === "number") ev.reasoningTokens = reasoning;
       }
-      if (ev.delta !== undefined || ev.inputTokens !== undefined)
+      if (ev.delta !== undefined || data.usage || ev.finishReason !== undefined)
         events.push(ev);
     } catch {
       /* malformed keep-alive line — skip */

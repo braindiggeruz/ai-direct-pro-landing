@@ -38,9 +38,11 @@ const secret = () => randomBytes(24).toString('hex');
 const messages = [{ role: 'user' as const, content: 'Salom' }];
 const encoder = new TextEncoder();
 
-// The historical OpenRouter request keys, in wire order. Pinned literally so a
-// Z.ai-only field can never leak into an OpenRouter request.
-const OPENROUTER_JSON_KEYS = ['model', 'messages', 'temperature', 'max_tokens', 'provider', 'frequency_penalty', 'presence_penalty'];
+// The OpenRouter request keys, in wire order, for a model that answers
+// without reasoning (functions/platform/ai/model-policy.ts; every committed
+// chain head is one). Pinned literally so a Z.ai-only field can never leak
+// into an OpenRouter request.
+const OPENROUTER_JSON_KEYS = ['model', 'messages', 'temperature', 'max_tokens', 'reasoning', 'provider', 'frequency_penalty', 'presence_penalty'];
 const OPENROUTER_STREAM_KEYS = [...OPENROUTER_JSON_KEYS, 'stream', 'stream_options'];
 
 type Body = Record<string, unknown>;
@@ -124,12 +126,14 @@ async function freshDb() {
   return { sqlite, db };
 }
 
+/** All three Z.ai switches on (plan decision L10). */
 function zaiEnv(db?: D1Database, extra: Partial<Env> = {}): Env {
   return {
     GPTBOT_DRAFTS_DB: db,
     OPENROUTER_API_KEY: secret(),
     ZAI_API_KEY: secret(),
     GPT_MODEL_PROVIDER: 'zai',
+    GPT_ZAI_EVAL_APPROVED: '2026-09-30',
     ...extra,
   } as Env;
 }
@@ -218,6 +222,8 @@ test('1 default config: webChatChain is modelChain and no request ever reaches a
   assert.ok(seen.every((s) => s.host === 'openrouter.ai'), 'only OpenRouter may be called');
   assert.deepEqual(Object.keys(seen[0].body!), OPENROUTER_JSON_KEYS);
   assert.deepEqual(Object.keys(seen[1].body!), OPENROUTER_STREAM_KEYS);
+  assert.deepEqual(seen[0].body!.reasoning, { enabled: false, exclude: true });
+  assert.equal(seen[0].body!.max_tokens, 1600);
   assert.deepEqual(seen[1].body!.stream_options, { include_usage: true });
   assert.equal(seen[0].headers.get('x-title'), 'GPTBot.uz AI Chat');
   assert.equal(seen[0].body!.model, modelChain(cfg, 'free')[0]);
@@ -245,16 +251,17 @@ test('2 GPT_MODEL_PROVIDER=zai without ZAI_API_KEY stays OpenRouter-only', async
   );
 });
 
-// ── 3. Both switches ───────────────────────────────────────────────────────
-test('3 with both switches: one Z.ai model first, OpenRouter behind it, three slots', () => {
+// ── 3. All switches ────────────────────────────────────────────────────────
+test('3 with all switches: one Z.ai model first, the whole OpenRouter chain behind it', () => {
   const env = zaiEnv();
   const cfg = resolveConfig(env);
+  // Not cut to three slots here: the walker spends its three attempts on the
+  // first candidates that are not cooling down (tests/gpt-model-policy.test.ts).
   const free = webChatChain(cfg, env, 'free');
-  assert.deepEqual(free, ['zai/glm-4.7-flash', cfg.freeModel, cfg.freeFallbacks[0]]);
+  assert.deepEqual(free, ['zai/glm-4.7-flash', ...modelChain(cfg, 'free')]);
   assert.equal(free.filter((m) => providerOf(m) === 'zai').length, 1);
-  assert.ok(free.length <= 3);
   const paid = webChatChain(cfg, env, 'paid');
-  assert.deepEqual(paid, ['zai/glm-4.5-air', cfg.paidModel, cfg.paidFallbacks[0]]);
+  assert.deepEqual(paid, ['zai/glm-4.5-air', ...modelChain(cfg, 'paid')]);
   assert.equal(bareModel(paid[0]), 'glm-4.5-air');
   assert.equal(providerOf('z-ai/glm-4.7-flash'), 'openrouter', "OpenRouter's own z-ai/ slugs are not Z.ai direct");
 
@@ -432,7 +439,8 @@ test('8 a 1113 blocks zai/* for ~15 min, pages the owner once per hour, OpenRout
   const rows = healthRows(sqlite);
   assert.deepEqual(rows.map((r) => [r.model, r.code]), [[ZAI_WILDCARD, 'balance_exhausted']]);
   assert.ok(Math.abs(rows[0].blocked_until - (before + 15 * 60_000)) < 5_000);
-  assert.deepEqual(await availableModels(db, webChatChain(cfg, env, 'free')), modelChain(cfg, 'free').slice(0, 2));
+  // The blocked Z.ai model no longer costs an OpenRouter attempt.
+  assert.deepEqual(await availableModels(db, webChatChain(cfg, env, 'free')), modelChain(cfg, 'free'));
 
   // Wiring through the real endpoint: the owner push goes out once.
   sqlite.exec('DELETE FROM gpt_model_health');
@@ -516,7 +524,8 @@ test('11 an OpenRouter 402 writes * and leaves the Z.ai model available', async 
   assert.equal(counts.openrouter, 1, 'the remaining OpenRouter candidates are skipped, as before');
   assert.deepEqual(healthRows(sqlite).map((r) => r.model), ['*']);
   assert.deepEqual(await availableModels(db, chain), ['zai/glm-4.7-flash']);
-  // OpenRouter-only chains keep the historical early return.
+  // An OpenRouter-only paid chain: the 402 on the paid primary skips the paid
+  // fallback, the ':free' tail is asked once, and its 402 ends the walk.
   counts.openrouter = 0;
   sqlite.exec('DELETE FROM gpt_model_health');
   const orOnly = { ...env, GPT_MODEL_PROVIDER: undefined } as Env;
@@ -524,7 +533,8 @@ test('11 an OpenRouter 402 writes * and leaves the Z.ai model available', async 
     await chatComplete(orOnly, cfg, webChatChain(resolveConfig(orOnly), orOnly, 'paid'), messages, 100, 5000),
     { ok: false, errorCode: 'account_unavailable' },
   );
-  assert.equal(counts.openrouter, 1);
+  assert.equal(counts.openrouter, 2);
+  assert.deepEqual(healthRows(sqlite).map((r) => r.model), ['*', 'openrouter-paid/*']);
 });
 
 // ── 12. Timeout ────────────────────────────────────────────────────────────
@@ -576,7 +586,7 @@ test('13 a mid-stream Z.ai refusal ends as partial and cools nothing down', asyn
 });
 
 // ── 14. Javob isolation ────────────────────────────────────────────────────
-test('14 Javob (runAssistant) never calls Z.ai, even with both switches on', async (t) => {
+test('14 Javob (runAssistant) never calls Z.ai, even with all switches on', async (t) => {
   const env = zaiEnv(undefined, { TELEGRAM_ASSISTANT_BOT_TOKEN: secret() } as Partial<Env>);
   const prompt = { system: 'Siz yordamchisiz.', user: 'Salom', promptVersion: 'test' };
   const ok = route(t);
@@ -594,7 +604,8 @@ test('14 Javob (runAssistant) never calls Z.ai, even with both switches on', asy
 
 // ── 15. Cost accounting ────────────────────────────────────────────────────
 test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
-  assert.equal(estimateCostUsd('minimax/minimax-m3:free', 1500, 500), 0);
+  assert.equal(estimateCostUsd('google/gemma-4-31b-it:free', 1500, 500), 0);
+  assert.equal(estimateCostUsd('google/gemma-4-26b-a4b-it', 1_000_000, 1_000_000), 0.39);
   assert.equal(estimateCostUsd('zai/glm-4.7-flash', 1500, 500), 0);
   assert.equal(estimateCostUsd('zai/glm-4.5-flash', 1500, 500), 0);
   assert.equal(estimateCostUsd('zai/glm-4.5-air', 1500, 500), 0.00085);
@@ -604,7 +615,12 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
   assert.equal(estimateCostUsd('zai/glm-4.5-air', undefined, 500), null);
   assert.equal(estimateCostUsd(undefined, 1500, 500), null);
   // Every paid OpenRouter price stays inside the cap buildChatBody enforces.
-  for (const model of ['mistralai/mistral-small-3.2-24b-instruct', 'meta-llama/llama-3.3-70b-instruct']) {
+  for (const model of [
+    'google/gemma-4-26b-a4b-it',
+    'mistralai/mistral-small-3.2-24b-instruct',
+    'meta-llama/llama-3.3-70b-instruct',
+    'deepseek/deepseek-v4-flash',
+  ]) {
     const cap = buildChatBody(model, [], 900).provider.max_price;
     assert.ok(estimateCostUsd(model, 1_000_000, 0)! <= cap.prompt);
     assert.ok(estimateCostUsd(model, 0, 1_000_000)! <= cap.completion);
@@ -634,7 +650,7 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
   // last chunk, 1500/500 tokens → $0.00085 on the assistant row.
   {
     const f = await billingFixture();
-    Object.assign(f.env, { OPENROUTER_API_KEY: secret(), ZAI_API_KEY: secret(), GPT_MODEL_PROVIDER: 'zai' });
+    Object.assign(f.env, { OPENROUTER_API_KEY: secret(), ZAI_API_KEY: secret(), GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-09-30' });
     const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());
     await f.store.transition(order.id, 'prepared', 'prepare');
     await f.store.transition(order.id, 'paid', 'perform');
@@ -667,10 +683,10 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
 
 // ── 16. Runtime config ─────────────────────────────────────────────────────
 test('16 the Z.ai switches are allowlisted public config, committed as openrouter', () => {
-  const keys = ['GPT_MODEL_PROVIDER', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_TIMEOUT_MS'];
+  const keys = ['GPT_MODEL_PROVIDER', 'GPT_ZAI_EVAL_APPROVED', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_TIMEOUT_MS'];
   for (const key of keys) assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes(key), key);
   assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes('ZAI_API_KEY'), 'the key is a secret, never runtime config');
-  const expected = { GPT_MODEL_PROVIDER: 'openrouter', ZAI_MODEL_FREE: 'glm-4.7-flash', ZAI_MODEL_PAID: 'glm-4.5-air', ZAI_TIERS: 'free,paid', ZAI_TIMEOUT_MS: '12000' };
+  const expected = { GPT_MODEL_PROVIDER: 'openrouter', GPT_ZAI_EVAL_APPROVED: '', ZAI_MODEL_FREE: 'glm-4.7-flash', ZAI_MODEL_PAID: 'glm-4.5-air', ZAI_TIERS: 'free,paid', ZAI_TIMEOUT_MS: '12000' };
   const packed = packedRuntimeConfig();
   const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
   const table = source.slice(source.indexOf('[vars.GPTBOT_RUNTIME_CONFIG]'));
@@ -683,8 +699,8 @@ test('16 the Z.ai switches are allowlisted public config, committed as openroute
   assert.equal(env.ZAI_API_KEY, undefined);
   const cfg = resolveConfig(env);
   assert.deepEqual(
-    [cfg.modelProvider, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiTimeoutMs],
-    ['openrouter', 'glm-4.7-flash', 'glm-4.5-air', ['free', 'paid'], 12_000],
+    [cfg.modelProvider, cfg.zaiEvalApproved, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiTimeoutMs],
+    ['openrouter', '', 'glm-4.7-flash', 'glm-4.5-air', ['free', 'paid'], 12_000],
   );
 });
 

@@ -1,3 +1,81 @@
+# Платный AI-чат к проду: WP-03 — цепочка моделей, тело запроса, классификация сбоев, без MiniMax, 2026-09-30
+
+**Итог.** Мёртвая модель MiniMax M3 `:free` убрана из цепочек и из AEO. Голова бесплатной цепочки теперь `google/gemma-4-31b-it:free`, платная основная — `google/gemma-4-26b-a4b-it`. Ответ стал длиннее: 1600 токенов вместо 900. Модели с необязательным рассуждением отвечают без него. Платные модели могут переходить между провайдерами в пределах потолка цены. Сбои OpenRouter больше не выключают модель для всех из-за вопроса одного посетителя, а 402 на платной модели не останавливает бесплатные. Появился эндпоинт пробы моделей. `GPT_FREE_TIER_PAID_PRIMARY` = `"false"`, и до WP-04 эта настройка ни на что не влияет. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись. План — `10-PROD-PLAN.md` §4 WP-03 (вне Git), дальше WP-04. Runbook — `docs/paid-chat/MODELS-RU.md`. Код-коммит WP-03 записан в STATE как `HEAD`; следующий коммит только записывает его SHA (правило D-006).
+
+**Что сделано.**
+- **Цепочки** (`config.ts` = `wrangler.toml`, JSON и таблица):
+  - бесплатная: `google/gemma-4-31b-it:free` → `nvidia/nemotron-3-super-120b-a12b:free` → `dots-studio/dots-3-note-preview:free`;
+  - пакет: `google/gemma-4-26b-a4b-it` → `mistralai/mistral-small-3.2-24b-instruct` → `google/gemma-4-31b-it:free`.
+  Новый `freeChain(cfg)`, `modelChain()` не менялся: во free по-прежнему только `:free`. Сайт (`webChatChain`) и бот Javob (`telegram/service.ts`) берут `freeChain`. AEO: `AEO_MEASUREMENT_MODELS` = nemotron, dots. Комментарий к дефолтам переписан по каталогу OpenRouter от 30.09.
+- **Настройки** `config.ts`:
+  - `maxOutputTokens` (`GPT_MAX_OUTPUT_TOKENS`, 1600, 400..4000);
+  - `firstContentTimeoutMs` (`GPT_FIRST_CONTENT_TIMEOUT_MS`, 12000, 5000..20000);
+  - `freeTierPaidPrimary` (`GPT_FREE_TIER_PAID_PRIMARY`, только `"true"` включает; в `wrangler.toml` `"false"`);
+  - `freePaidDailyUsd` (`GPT_FREE_PAID_DAILY_USD`, 1, 0..20);
+  - `zaiEvalApproved` (`GPT_ZAI_EVAL_APPROVED`, только настоящая дата `ГГГГ-ММ-ДД`, иначе пусто).
+  Все пять добавлены в `RUNTIME_CONFIG_KEYS`, `Env`, упакованный JSON и таблицу. JSON — 3226 байт из 5120.
+- **Z.ai (L10):** третий переключатель `GPT_ZAI_EVAL_APPROVED`. Без даты, с несуществующей датой или без ключа цепочка без Z.ai. Если дата закоммичена, тест требует отчёт `docs/paid-chat/evals/zai-<дата>.json` (`date`, `decision: "approved"`, `sheets` — листы оценки, которые есть в репозитории). Формат описан в `ZAI-RU.md`.
+- **Попытки:** модели на паузе и без ключа убираются **до** счёта трёх попыток. Цепочка больше не режется до трёх ни в `availableModels`, ни в `webChatChain`: три попытки считают обходчики (`MAX_ATTEMPTS`).
+- **Тело запроса** (`buildChatBody`):
+  - `reasoning: {enabled:false, exclude:true}` по списку `REASONING_OFF_MODELS` из нового `functions/platform/ai/model-policy.ts` (обе gemma, nemotron, dots). По каталогу у всех четырёх `reasoning.mandatory: false`. Список читает и AEO;
+  - `allow_fallbacks: true` у платных, `false` у `:free`;
+  - `max_price` — по-прежнему `priceCeiling()`.
+- **Классификация OpenRouter** (`classifyFailureStatus(status, model, detail)`, `classifyFailureResponse`, `classifyFailureEnvelope`):
+  - 400: читается не больше 2 КБ тела, никуда не пишется. «not a valid model / No endpoints found» → `model_unavailable` (час), иначе `bad_request` без паузы;
+  - 403 → `content_refused` без паузы;
+  - 402 на платной модели → `paid_credit_exhausted`: пауза шаблона `openrouter-paid/*` на 15 минут, остальные платные пропускаются, ход идёт к `:free`, срочный алерт `openrouter_credit_exhausted`;
+  - 402 на `:free` и 401 → как раньше `*`;
+  - все кандидаты на паузе → `models_cooling`, запрос не отправляется. Посетитель видит `model_unavailable`, владелец получает срочный `chat_models_cooling`.
+  Всё это работает одинаково в JSON-пути, в потоке и в SSE-ошибках. `readBodyPrefix` вынесен в `http.ts`, `readZaiError` использует его же.
+- **Чат** (`chat.ts`): `900` → `cfg.maxOutputTokens` в обоих путях. Ожидание первого слова OpenRouter — `cfg.firstContentTimeoutMs`. Тексты алертов для двух новых кодов добавлены в `alert-policy.ts`.
+- **Цены** (`model-pricing.ts`): `google/gemma-4-26b-a4b-it` 0,09/0,30; `deepseek/deepseek-v4-flash` 0,07854/0,15708 (кандидат, ни в одной цепочке).
+- **Промпт:** убрано «мягко предложи GPTBot.uz» (D9). Добавлено «длинный ответ: сначала суть, последнюю фразу заканчивай» и Google в списке «не утверждай, что ты официальный …».
+- **Проба** `POST /api/internal/gpt-model-probe` (Bearer `GPT_BILLING_MAINTENANCE_SECRET`, проверяется до чтения тела):
+  - каждой модели обеих цепочек уходит тот же потоковый запрос, что и из чата, с двумя постоянными вопросами (UZ, RU);
+  - на вызов в ответе только HTTP-код, `finish_reason`, `reasoning_tokens`, `ttftMs` и машинный код ошибки, на модель — сводка с `rate429`;
+  - текст ответа не возвращается и не пишется, D1 не трогается;
+  - `{"model":"…","calls":20}` — доля 429 у одной модели; не больше 20 вызовов на модель и 40 всего, бюджет пробы 110 секунд.
+- **Документы:** новый `docs/paid-chat/MODELS-RU.md` (цепочки, запрос, классы сбоев, проба и пороги, агрегаты, откат); `ZAI-RU.md` (третий переключатель, отчёт); `ALERTS-RU.md` (два кода теперь живые). `scripts/zai-blind-eval.ts` берёт лимит ответа и платную модель из рабочей конфигурации. `npm test` += `tests/gpt-model-policy.test.ts`.
+
+**Отклонения от плана и почему.**
+1. **Три попытки считают обходчики, а не `slice(0, 3)` в `availableModels`.** План: сначала фильтр, потом срез. Сделано строже: `availableModels` только фильтрует, а обходчики считают попытки (`MAX_ATTEMPTS`). Иначе после 402 на платной модели пропущенные платные всё равно занимали бы места среза. Например, `[zai, gemma-26b, mistral]` без `:free` в хвосте: ход падал бы, хотя `:free` жива. По той же причине `webChatChain` больше не режет цепочку до трёх.
+2. **`GPT_FREE_TIER_PAID_PRIMARY` и `GPT_FREE_PAID_DAILY_USD` только разобраны и лежат в конфиге.** Цепочку они не меняют. Подключение `[paid, ...freeChain]` в плане стоит в WP-04 вместе с бюджетом $1. Если подключить раньше, платная модель стояла бы перед бесплатными посетителями без потолка трат. Тест в `gpt-operations` закрепляет, что `true` не делает бесплатную цепочку платной.
+3. **Порядок Z.ai.** `[zai, paidPrimary, free…]` из плана — это бесплатная цепочка после WP-04. Сейчас `[zai, ...freeChain]` и `[zai, ...платная цепочка]`.
+4. **Разбор `finish_reason` и `reasoning_tokens` в SSE** (по плану WP-04) сделан сейчас: без него проба не видит рассуждение. Насос чата эти поля пока не читает. Заодно чанк только с `usage` без `prompt_tokens` теперь не теряется.
+5. **Список `REASONING_OFF_MODELS` — по каталогу, а не по живой пробе.** Живой пробы нет: локально нет ключа, а прод трогать нельзя. Каталог 30.09 показывает `reasoning.mandatory: false` у всех четырёх, у обеих gemma ещё `default_enabled: false`. Подтверждение — проба после R1. Если модель ответит 400, чат не ляжет: такой 400 не ставит паузу.
+6. **В AEO gemma-4-31b:free не добавлена**, MiniMax только убран. Её доля 429 ещё не доказана, а новая модель поменяла бы сравнение AEO. Тест теперь требует, чтобы модели AEO входили в бесплатную цепочку: тогда их видит часовая проверка каталога. MiniMax в AEO умер незаметно именно потому, что эта проверка его не видела.
+7. **Цена deepseek-v4-flash** — 0,07854/0,15708 по каталогу на момент работы. План писал 0,0818/0,1635, цена изменилась в тот же день.
+8. **Пауза `openrouter-paid/*` — 15 минут.** В плане срока нет. 15 минут — как у баланса Z.ai: пополнение делает человек.
+9. **Проба меряет только OpenRouter.** У Z.ai своя слепая проба. Ответ пробы включает `firstContentTimeoutMs`, чтобы сравнить с `ttftMsMedian`.
+10. **Мелкое:** 404 остаётся `model_unavailable` (план говорит только о 400/402/403). Слепая проба Z.ai обещает «тот же запрос, что у чата», поэтому она теперь берёт 1600 токенов и платную основную вместо 900 и mistral. В промпт добавлен Google (карта `01` §2.2 п. 10): голова цепочки теперь Gemma.
+
+**Проверки.**
+- `tsc -b` 0; `typecheck:functions` 0; ESLint изменённых файлов 0; `git diff --check` чисто.
+- Тесты по одному файлу:
+  - новый `gpt-model-policy` 13/13;
+  - openrouter-model-catalogue 5/5, gpt-chat 19/19, gpt-routing 6/6, gpt-zai-provider 18/18, telegram-assistant 61/61 (+1: бот просит только `:free`), gpt-operations 7/7;
+  - gpt-readiness 9/9, gpt-chat-stream 6/6, gpt-watchdog 12/12, gpt-billing 14/14, gpt-uzum-payments 17/17, runtime-config 4/4, pages-config-parity 7/7, aeo-workspace 12/12, aeo-workers 1/1, aeo-review 5/5.
+- Весь список `npm test` по одному файлу: 61 файл, 766/768. Падают только две известные датозависимые фикстуры `lead-radar`.
+- Проверка «на красный»: шесть временных поломок ловятся тестами. Поломки: срез до фильтра, 403 с паузой, 402 как аккаунт, Z.ai без даты, `allow_fallbacks` всегда false, любой 400 как неизвестная модель.
+- `scan:secrets` чисто (3146 файлов), `test:secret-scan` 16/16, grep токенов пуст, `seo-protection check` 10/10. `src/`, `content/` и prerender не менялись.
+- `grep -rn minimax functions src wrangler.toml` → только `src/admin/lib/aeo-models.ts` (подпись старых наблюдений).
+- `agent-boundaries` (не входит в `npm test`) падает на старых импортах `functions/agents/sotuvchi/**` и `functions/channels/telegram/rate-limit.ts` из `functions/lib/observability`. Это не WP-03: новый `platform/ai/model-policy.ts` ничего не импортирует.
+
+**Для релиза R1.**
+1. WP-03 уходит **в том же релизе**, что и WP-02. Иначе часовая проверка будет раз в час блокировать MiniMax и слать `catalogue_model_unavailable`.
+2. **Шаг R1.1 — проба** (`MODELS-RU.md`), после деплоя Pages и секрета:
+   - все модели × 2: только `200`, у `reasoningOff` `reasoningTokensMax = 0`;
+   - `{"model":"google/gemma-4-31b-it:free","calls":20}`: `rate429` ≤ 0,1. Иначе gemma уходит из головы `:free` правкой `OPENROUTER_MODEL_FREE*` (без кода).
+   Пока `openrouter_free_tier_50rpd` приходит, аккаунт на бесплатном уровне: полная проба съедает 26 из 50 дневных запросов к `:free` (чат, бот и AEO вместе). Запускать её утром по Ташкенту или урезать `calls`.
+3. `GPT_FREE_TIER_PAID_PRIMARY` → `"true"` только после WP-04 и пробы. До WP-04 она ни на что не влияет.
+4. Приёмка «в `gpt_model_health` нет строк minimax»: старая строка с прошедшим `blocked_until` останется, таблицу никто не чистит. Проверять нужно действующие паузы (SQL в `MODELS-RU.md`), через час после деплоя их должно быть 0.
+5. Платные модели в R1 вызываются только для пакетов, а оплата выключена. Когда их начнут вызывать (пакеты или WP-04), без кредитов OpenRouter платная цепочка ответит через `:free`, а владелец будет раз в час получать `openrouter_credit_exhausted`. Кредиты — вход владельца из §8.
+6. Откат: цепочку — правкой `OPENROUTER_MODEL_*`, длину ответа — `GPT_MAX_OUTPUT_TOKENS`, остальное — `git revert` и guarded-деплой.
+
+**Дальше.** WP-04.
+
+---
+
 # Платный AI-чат к проду: ревью WP-02, 2026-09-30
 
 **Итог.** Проверил коммиты WP-02 `31fb22e1` (код) и `77cffdd2` (SHA в STATE) по §1 и §4 WP-02 плана `10-PROD-PLAN.md` и по `AGENTS.md` §2–8, §11. Доставка алертов, потолок в час, аренды, SQL сторожа, шаги эндпоинта обслуживания, проверка моделей и тесты сделаны верно. Нашёл один дефект и исправил его в этом коммите. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись.

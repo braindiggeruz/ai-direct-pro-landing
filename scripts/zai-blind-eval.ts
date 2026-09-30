@@ -2,7 +2,7 @@
 //
 //   node --import tsx scripts/zai-blind-eval.ts --dry-run          # validate + plan, no network
 //   node --import tsx scripts/zai-blind-eval.ts                    # free: zai/glm-4.7-flash vs OpenRouter free primary
-//   node --import tsx scripts/zai-blind-eval.ts --paid             # paid: zai/glm-4.5-air vs mistral-small-3.2
+//   node --import tsx scripts/zai-blind-eval.ts --paid             # paid: zai/glm-4.5-air vs the chat's paid primary
 //   node --import tsx scripts/zai-blind-eval.ts --paid --seed=42   # reproducible A/B assignment
 //   node --import tsx scripts/zai-blind-eval.ts --baseline=nvidia/nemotron-3-super-120b-a12b:free
 //                                                                  # another OpenRouter baseline
@@ -10,7 +10,8 @@
 // Live mode needs ZAI_API_KEY and OPENROUTER_API_KEY in the environment (set
 // them in the shell for this one command; they are never printed or written).
 // It spends real money only in --paid mode (a few cents at most: 20 prompts,
-// ≤900 output tokens each, on models priced in functions/lib/gpt-chat/model-pricing.ts).
+// ≤ GPT_MAX_OUTPUT_TOKENS output tokens each, on models priced in
+// functions/lib/gpt-chat/model-pricing.ts).
 //
 // It answers the roadmap's question "Z.ai or as is?" with evidence, not taste:
 //   - the production system prompt (buildMessages) and the production provider
@@ -68,9 +69,7 @@ const FIXTURE = path.join(ROOT, 'scripts/fixtures/zai-blind-eval-prompts.json');
 const OUT_DIR = path.join(ROOT, 'docs/paid-chat/eval');
 const REQUIRED_CATEGORIES = ['advice', 'homework', 'instagram', 'translation', 'letter', 'recipe', 'cv', 'code', 'math', 'honesty'];
 const GAP_MS = 1500;
-const MAX_TOKENS = 900;
 const TURN_TIMEOUT_MS = 45_000;
-const PAID_BASELINE = 'mistralai/mistral-small-3.2-24b-instruct';
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
@@ -148,7 +147,7 @@ async function ask(env: Env, model: string, prompt: EvalPrompt): Promise<Answer>
   const started = Date.now();
   let result: ChatResult;
   try {
-    result = await chatComplete(env, cfg, [model], messages, MAX_TOKENS, TURN_TIMEOUT_MS);
+    result = await chatComplete(env, cfg, [model], messages, cfg.maxOutputTokens, TURN_TIMEOUT_MS);
   } catch {
     result = { ok: false, errorCode: 'provider_error' };
   }
@@ -178,7 +177,7 @@ async function main(): Promise<number> {
   const env = { ...process.env, GPTBOT_DRAFTS_DB: undefined } as unknown as Env;
   const cfg = resolveConfig(env);
   const zaiModel = `zai/${TIER === 'free' ? cfg.zaiModelFree : cfg.zaiModelPaid}`;
-  const baseline = baselineArg || (TIER === 'free' ? cfg.freeModel : PAID_BASELINE);
+  const baseline = baselineArg || (TIER === 'free' ? cfg.freeModel : cfg.paidModel);
   if (providerOf(baseline) !== 'openrouter' || !/^[a-z0-9._-]+\/[a-z0-9._:-]+$/.test(baseline)) {
     console.error(`✗ baseline ${baseline} is not an OpenRouter model id`);
     return 1;
@@ -233,7 +232,7 @@ async function main(): Promise<number> {
     '',
     'Оценки от 1 до 5: **Правильность** (факты, расчёты, код), **Язык** (грамотный узбекский латиницей или русский, без смешения), **Польза** (можно ли сразу использовать ответ).',
     '',
-    `Системный промпт — рабочий промпт чата (buildMessages). Лимит ответа ${MAX_TOKENS} токенов. Вопросов: ${rows.length}.`,
+    `Системный промпт — рабочий промпт чата (buildMessages). Лимит ответа ${cfg.maxOutputTokens} токенов. Вопросов: ${rows.length}.`,
     '',
   ];
   for (const [index, row] of rows.entries()) {

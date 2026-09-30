@@ -31,6 +31,7 @@ import type { Env } from "../../_types";
 import type { ChatMessage } from "./prompt";
 import type { ChatResult } from "./openrouter-chat";
 import { bareModel } from "./model-provider";
+import { readBodyPrefix } from "./http";
 
 /**
  * Fixed on purpose: there is no env-configurable base URL, so a config change
@@ -119,31 +120,7 @@ export function classifyZaiFailure(
  * always releases the body, never throws, and never returns error.message.
  */
 export async function readZaiError(res: Response): Promise<string | undefined> {
-  if (!res.body) return undefined;
-  const reader = res.body.getReader();
-  const chunks: Uint8Array[] = [];
-  let total = 0;
-  try {
-    while (total < ERROR_BODY_LIMIT) {
-      const part = await reader.read();
-      if (part.done) break;
-      chunks.push(part.value);
-      total += part.value.byteLength;
-    }
-  } catch {
-    /* a truncated or aborted body still has whatever arrived */
-  } finally {
-    await reader.cancel().catch(() => undefined);
-  }
-  const bytes = new Uint8Array(Math.min(total, ERROR_BODY_LIMIT));
-  let offset = 0;
-  for (const chunk of chunks) {
-    if (offset >= bytes.length) break;
-    const slice = chunk.subarray(0, bytes.length - offset);
-    bytes.set(slice, offset);
-    offset += slice.byteLength;
-  }
-  const text = new TextDecoder().decode(bytes);
+  const text = await readBodyPrefix(res, ERROR_BODY_LIMIT);
   try {
     const data = JSON.parse(text) as { error?: { code?: unknown } };
     const code = data?.error?.code;

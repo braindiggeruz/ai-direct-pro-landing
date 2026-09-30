@@ -6,16 +6,19 @@
 // which is deliberately distinct from OpenRouter's own 'z-ai/…' slugs, so an
 // id alone says where the request goes and what the answer label will read.
 //
-// Z.ai is used only when BOTH switches are on:
-//   GPT_MODEL_PROVIDER='zai'   public config, needs a deploy
-//   ZAI_API_KEY                secret, set by the owner
+// Z.ai is used only when ALL THREE switches are on (plan decision L10):
+//   GPT_MODEL_PROVIDER='zai'     public config, needs a deploy
+//   GPT_ZAI_EVAL_APPROVED=<date> public config: the day a blind evaluation
+//                                approved Z.ai; the committed date must have
+//                                docs/paid-chat/evals/zai-<date>.json (tested)
+//   ZAI_API_KEY                  secret, set by the owner
 // With the committed config webChatChain() returns modelChain() unchanged, so
-// the chat's outbound requests are byte-identical to the OpenRouter-only build.
+// the chat's outbound requests go to OpenRouter only.
 //
 // Only functions/api/gpt/chat.ts calls webChatChain(). Javob
 // (functions/lib/telegram/**) and the OpenRouter catalogue check
-// (billing-operations-store.ts) keep calling modelChain(), which never
-// contains a 'zai/' id.
+// (billing-operations-store.ts) keep calling modelChain()/freeChain(), which
+// never contain a 'zai/' id.
 //
 // Facts (docs.z.ai, read 2026-09-30):
 //   https://docs.z.ai/api-reference/llm/chat-completion — model codes
@@ -24,7 +27,7 @@
 // GLM-5.x cannot switch thinking off (first token ~9–12 s against our 12 s
 // first-content budget), so no GLM-5 code is ever allowed here.
 import type { Env } from '../../_types';
-import { modelChain, type GptChatConfig } from './config';
+import { freeChain, modelChain, type GptChatConfig } from './config';
 
 export type ModelProvider = 'openrouter' | 'zai';
 
@@ -45,6 +48,23 @@ export function bareModel(id: string): string {
 /** The account-wide health wildcard for a provider ('*' stays OpenRouter-only). */
 export function providerWildcard(provider: ModelProvider): string {
   return provider === 'zai' ? ZAI_WILDCARD : '*';
+}
+
+/**
+ * Model-health wildcard for every PAID OpenRouter model: a 402 on a paid model
+ * means the account has no credits, and ':free' models still answer.
+ */
+export const OPENROUTER_PAID_WILDCARD = 'openrouter-paid/*';
+
+/** An OpenRouter id that can bill the account (anything but a ':free' slug). */
+export function isPaidOpenRouterModel(id: string): boolean {
+  return !!id && providerOf(id) === 'openrouter' && !id.endsWith(':free');
+}
+
+/** The health wildcards that also block a model: its provider's account and, for a paid OpenRouter id, its credits. */
+export function healthWildcards(id: string): string[] {
+  if (providerOf(id) === 'zai') return [ZAI_WILDCARD];
+  return isPaidOpenRouterModel(id) ? ['*', OPENROUTER_PAID_WILDCARD] : ['*'];
 }
 
 /** $0 Z.ai models. The free tier may only ever call one of these. */
@@ -79,17 +99,25 @@ export function _resetZaiWarning(): void {
 }
 
 /**
- * The web chat's chain for a tier. Default: exactly modelChain(cfg, tier).
- * With both Z.ai switches on: one Z.ai model first, then the OpenRouter chain
- * as the fallback, three slots in total (Z.ai takes at most one of them).
+ * The web chat's chain for a tier: modelChain(cfg, 'paid') or freeChain(cfg).
+ * With all three Z.ai switches on: one Z.ai model first, then that OpenRouter
+ * chain as the fallback. The chain is not cut here: the walker takes the
+ * first three candidates that are neither cooling down nor keyless
+ * (availableModels), so a blocked Z.ai never costs an OpenRouter slot.
  */
 export function webChatChain(
   cfg: GptChatConfig,
   env: Pick<Env, 'ZAI_API_KEY'>,
   tier: 'free' | 'paid',
 ): string[] {
-  const base = modelChain(cfg, tier);
-  if (cfg.modelProvider !== 'zai' || !env.ZAI_API_KEY || !cfg.zaiTiers.includes(tier)) return base;
+  const base = tier === 'paid' ? modelChain(cfg, 'paid') : freeChain(cfg);
+  if (
+    cfg.modelProvider !== 'zai' ||
+    !cfg.zaiEvalApproved ||
+    !env.ZAI_API_KEY ||
+    !cfg.zaiTiers.includes(tier)
+  )
+    return base;
   const id = tier === 'free' ? cfg.zaiModelFree : cfg.zaiModelPaid;
   const allowed = tier === 'free' ? ZAI_ZERO_PRICE.has(id) : ZAI_PAID_ALLOWED.has(id);
   if (!allowed) {
@@ -101,5 +129,5 @@ export function webChatChain(
     }
     return base;
   }
-  return [`${ZAI_PREFIX}${id}`, ...base.filter((m) => providerOf(m) === 'openrouter')].slice(0, 3);
+  return [`${ZAI_PREFIX}${id}`, ...base.filter((m) => providerOf(m) === 'openrouter')];
 }
