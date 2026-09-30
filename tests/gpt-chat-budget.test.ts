@@ -249,8 +249,8 @@ test('web chat: a spent budget sends no paid request, answers on ":free" and rec
   assert.deepEqual(
     f.db.rows<{ model: string; attempts: number }>('SELECT model, attempts FROM gpt_turn_reservations').map((r) => ({ ...r })),
     [
-      { model: 'google/gemma-4-31b-it:free', attempts: 1 },
-      { model: 'google/gemma-4-31b-it:free', attempts: 1 },
+      { model: 'nvidia/nemotron-3-super-120b-a12b:free', attempts: 1 },
+      { model: 'nvidia/nemotron-3-super-120b-a12b:free', attempts: 1 },
     ],
   );
 });
@@ -298,7 +298,7 @@ test('web chat: a failed paid attempt keeps its reservation (it may be billed) a
   const f = await paidPrimaryFixture();
   const bodies = openrouter(t, (body) => (body.model === PAID ? new Response('', { status: 503 }) : sse('Bepul javob')));
   assert.match(await turn(f), /"type":"done"/);
-  assert.deepEqual(bodies.map((b) => b.model), [PAID, 'google/gemma-4-31b-it:free']);
+  assert.deepEqual(bodies.map((b) => b.model), [PAID, 'nvidia/nemotron-3-super-120b-a12b:free']);
   const estimate = worstCaseMicroUsd(messages, resolveConfig(f.env).maxOutputTokens);
   assert.deepEqual(spend(f), { reserved_micro: estimate, actual_micro: 0, attempts: 1 });
   assert.equal(f.db.value('SELECT attempts FROM gpt_turn_reservations'), 2);

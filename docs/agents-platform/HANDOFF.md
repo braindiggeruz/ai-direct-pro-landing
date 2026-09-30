@@ -1,3 +1,23 @@
+# Платный AI-чат: релиз R1 выкачен в прод, порядок бесплатных моделей, 2026-10-01
+
+**Итог.** R1 (WP-00…WP-06, вершина `ba01fb53`) выкачен в прод 2026-10-01 ночью по поручению владельца («делай всё под ключ автономно»). Порядок выката — план §4 «R1: сборка и выкат»:
+1. Экспорт D1 до миграций: `F:/Claude/gptbot-production-backups/paid-chat-R1-2026-09-30T20-29-34Z/before-0065-0066.sql`, 35 019 111 байт, sha256 `2687a1ed0eee0cbae2af7e0f6513b1bca7c573813dd3c865bc2f7fb2fa7bb0b9` (вне Git: содержит переписки).
+2. Репетиция на копии этого экспорта (sqlite, foreign_keys off, одна транзакция): pending = 0065, 0066; первое применение — обе; второе — пусто; у существующих таблиц изменилось только число строк `d1_migrations` (65 → 67); `quick_check` ok; 20 колонок у `gpt_turn_reservations`; 4 индекса 0066 на месте. `wrangler d1 execute --local --file` на полном экспорте падает на `foreign key mismatch` (sotuvchi_categories), `scripts/release/d1-export-restore.ts` — на `statement_13105`: оба инструмента устарели для текущей схемы.
+3. `d1 migrations list --remote` = ровно 0065, 0066 → `apply --remote` → read-only сверка: последняя 0066, ledger 67, 20 колонок, 4 индекса, view есть, новые таблицы пусты.
+4. `build:production` → seo-protection 10/10, seo-audit 0 critical, `tsc -b` 0 → `deploy_runner.py check` pass → `deploy`: `deployed_and_verified`, манифест = `ba01fb53`.
+5. Секрет `GPT_BILLING_MAINTENANCE_SECRET` (32 байта, сгенерирован агентом, хранится только в `C:/Users/Borinio/.config/gptbot-private/`) — в Pages (+ guarded-передеплой того же коммита) и в Worker `gptbot-automation`.
+6. Worker: версия для отката — `770dc25f-0aad-472f-b452-23f4cbf92a84` (от 04.09, AUTOSEND=true — после отката сразу передеплой). Dry-run чистый (AUTOSEND "false", GPT_BILLING_MAINTENANCE_ENABLED "true"), deploy → версия `044002bc-2cbd-4328-b7b8-49c2b887fd54`, крон `*/15`.
+7. Учебный алерт `{"drill":true}` → `alerts.status=sent` (коды `drill` и старый недоставленный `chat_model_unavailable` от прежнего кода).
+8. Проба моделей: платные `gemma-4-26b-a4b-it` и `mistral-small-3.2` — 402 (`paid_credit_exhausted`: на OpenRouter нет кредитов — вход владельца, план §8 п.4); `gemma-4-31b-it:free` — 429 на всех вызовах; `nemotron-3-super:free` и `dots-3-note-preview:free` — 200, `reasoning_tokens` 0, TTFT ≈0,5–0,7 с.
+
+**Изменение в этом коммите.** По правилу WP-03 (≤10% 429, иначе Gemma уходит с головы цепочки) бесплатная цепочка переставлена: `nemotron-3-super:free → dots-3-note-preview:free → gemma-4-31b-it:free` — в `wrangler.toml` (JSON и таблица), в дефолтах `functions/lib/gpt-chat/config.ts` (комментарий с датой пробы) и в ожиданиях тестов (`openrouter-model-catalogue`, `gpt-chat-budget`, `gpt-chat-truncation`, `telegram-assistant`). R1.1 (`GPT_FREE_TIER_PAID_PRIMARY=true`) **не включён**: нет кредитов OpenRouter.
+
+**Проверки.** Тесты по одному файлу: openrouter-model-catalogue 5/5, gpt-chat-budget 10/10, gpt-chat-truncation 8/8, telegram-assistant 61/61, gpt-model-policy 13/13, gpt-chat 19/19, gpt-routing 6/6, gpt-zai-provider 18/18, gpt-operations 7/7, gpt-watchdog 13/13, gpt-chat-limits 13/13, runtime-config 4/4, pages-config-parity 7/7, gpt-readiness 9/9, gpt-chat-stream 11/11. `tsc -b` 0, `typecheck:functions` 0, ESLint изменённых файлов 0.
+
+**Дальше.** Деплой этого коммита, живая приёмка R1 (429 hourly с `Retry-After`, карточка лимита на 375×812, тики `gpt_billing_ops`, Lead Radar молчит), квитанция `docs/paid-chat/releases/R1-live-verification.json`, затем WP-07/WP-08 (R2).
+
+---
+
 # Платный AI-чат к проду: сквозная проверка релиза R1 (WP-00…WP-06), 2026-10-01
 
 **Итог.** Ветка `paid-chat/prod-readiness` проверена целиком на вершине `137ce909` (WP-00…WP-06 с ревью). Сверял с планом `10-PROD-PLAN.md`: §1 (проверки и «Релиз»), §3 (R1), §4 «R1: сборка и выкат», §5 и §6. Сборка, тесты, защищённые страницы, SEO, миграции и секреты в порядке. Нашлась одна поломка: `git diff --check origin/main..HEAD` падал на 21 строке. Все эти строки в `docs/paid-chat/uzum-spec/*.yaml`. Это дословные копии публичных спецификаций Uzum, где два пробела в конце строки означают перенос строки в Markdown. Исправлено новым `.gitattributes`: для этих трёх файлов снята проверка пробелов (`-whitespace`), а сами файлы остались побайтно такими, как у Uzum. Заодно уточнён комментарий в `tests/bormi-admin-moderation-ui.test.ts`: там было написано, что `.gitattributes` в репозитории нет. Теперь сказано, что он не задаёт концы строк. Код не менялся. Ничего не запушено и не задеплоено. Cloudflare, D1 (удалённая база даже не читалась), GSC и боты не менялись.

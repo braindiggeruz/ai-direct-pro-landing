@@ -17,7 +17,7 @@ function wranglerVar(name: string): string | undefined {
 }
 
 test('production model defaults and wrangler vars stay identical', () => {
-  const free = ['google/gemma-4-31b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free'];
+  const free = ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free'];
   const paid = ['google/gemma-4-26b-a4b-it', 'mistralai/mistral-small-3.2-24b-instruct', 'google/gemma-4-31b-it:free'];
   assert.deepEqual([cfg.freeModel, ...cfg.freeFallbacks], free);
   assert.deepEqual([cfg.paidModel, ...cfg.paidFallbacks], paid);

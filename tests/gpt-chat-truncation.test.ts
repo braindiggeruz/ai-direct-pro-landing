@@ -24,7 +24,7 @@ import { onRequestPost as chat } from '../functions/api/gpt/chat';
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 type Row = Record<string, unknown>;
 
-const FREE = 'google/gemma-4-31b-it:free';
+const FREE = 'nvidia/nemotron-3-super-120b-a12b:free';
 const encoder = new TextEncoder();
 const data = (event: unknown) => `data: ${JSON.stringify(event)}\n\n`;
 const delta = (content: string) => data({ choices: [{ delta: { content } }] });

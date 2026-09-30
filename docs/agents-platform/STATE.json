@@ -2,7 +2,7 @@
   "paid_chat_prod_2026": {
     "wp": "R1-verification",
     "release": "R1",
-    "status": "verified_not_deployed",
+    "status": "deployed",
     "commit": "137ce909d6542c5ea090ae9f51bec9852f725e61",
     "commit_note": "R1 integration verification of WP-00..WP-06 at 137ce909 (the verified tip). HEAD = chore(release): verify R1 and exempt the vendored Uzum specs from whitespace checks (parent 137ce909): adds .gitattributes and records this verification; a commit cannot carry its own SHA (rule D-006)",
     "branch": "paid-chat/prod-readiness",
@@ -207,7 +207,24 @@
       "migrations_for_release": "R1 applies 0065_gpt_uzum_payments.sql (in repo) and 0066 (WP-04) BEFORE the Pages deploy: the signed-in account panel and the live outbox read the 0065 view",
       "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; stage-1 files 81/81; gpt-readiness 9/9; gpt-account-ui 7/7; npm test files one by one 735/737 (2 known lead-radar date fixtures); build:fast steps 0; seo-protection 10/10; scan:secrets clean"
     },
-    "next_wp": "WP-07"
+    "next_wp": "WP-07",
+    "release_deploy": {
+      "commit": "ba01fb5322ed3003977f87656d00dd64ca374dfe",
+      "d1_backup_sha256": "2687a1ed0eee0cbae2af7e0f6513b1bca7c573813dd3c865bc2f7fb2fa7bb0b9",
+      "migrations_applied": [
+        "0065_gpt_uzum_payments.sql",
+        "0066_gpt_chat_runtime.sql"
+      ],
+      "worker_version": "044002bc-2cbd-4328-b7b8-49c2b887fd54",
+      "worker_rollback": "770dc25f-0aad-472f-b452-23f4cbf92a84",
+      "secrets_set": [
+        "GPT_BILLING_MAINTENANCE_SECRET (Pages, Worker)"
+      ],
+      "drill": "sent",
+      "probe": "paid 402 (no OpenRouter credits); gemma-4-31b-it:free 429; nemotron and dots 200, reasoning 0",
+      "r1_1_paid_primary": "not enabled: no OpenRouter credits"
+    },
+    "free_chain": "nvidia/nemotron-3-super-120b-a12b:free > dots-studio/dots-3-note-preview:free > google/gemma-4-31b-it:free"
   },
   "gsc_driven_20260930": {
     "status": "deployed_and_verified",
@@ -307,7 +324,11 @@
     "handoff": "docs/readiness/2026-09-06/EXECUTION-RU.md",
     "roadmap": "docs/readiness/2026-09-06/ROADMAP-RU.md",
     "verification": "598/598 full tests, app/Functions TypeScript, scoped lint, clean secret scan, 914-file build:cf, 288 live HTML contracts, 10 protected contracts, 8 asset hashes, actual mobile UZ 7+5=12 canary; live D1 1 completed turn and 0 paid attempts/orders/accounts/periods",
-    "external_dependencies": ["Telegram Login client configuration", "Click/Payme merchant credentials and acceptance", "Approved RU/UZ terms and fiscal settings"],
+    "external_dependencies": [
+      "Telegram Login client configuration",
+      "Click/Payme merchant credentials and acceptance",
+      "Approved RU/UZ terms and fiscal settings"
+    ],
     "payments_enabled": false,
     "next_step": "Configure Telegram Login and approved RU/UZ terms, receive merchant sandbox credentials and complete acceptance; keep checkout disabled until then. CWV remains unmeasured after PSI HTTP429; legacy constraint findings documented separately."
   },
@@ -365,7 +386,7 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: R1 integration verification of WP-00..WP-06 (release R1, not deployed)",
+  "current_stage": "Paid AI chat production readiness: release R1 deployed (ba01fb53); free-chain reorder after the production model probe",
   "stage_status": "complete",
   "last_completed_stage": "Paid AI chat R1 integration verification on paid-chat/prod-readiness: WP-00..WP-06 verified at 137ce909 (not pushed, not deployed; migrations 0065+0066 rehearsed locally)",
   "next_stage": "Paid AI chat WP-07: GPT_HASH_SALT with hash migration and message deletion (off) (release R2), per 10-PROD-PLAN.md",

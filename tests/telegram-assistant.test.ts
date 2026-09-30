@@ -553,7 +553,7 @@ test('Javob asks the free chain only: its head, and never a paid id put in the f
   await handleUpdate(deps(db), text(40, 40));
   // A paid model configured as the free primary is dropped, not billed.
   await handleUpdate(deps(db, { OPENROUTER_MODEL_FREE: 'google/gemma-4-26b-a4b-it' }), text(41, 41));
-  assert.deepEqual(rec.models, ['google/gemma-4-31b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free']);
+  assert.deepEqual(rec.models, ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free']);
 });
 
 test('direct/copied text → reply too (no menu)', async () => {

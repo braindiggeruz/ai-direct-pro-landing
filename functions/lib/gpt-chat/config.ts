@@ -123,14 +123,16 @@ export function resolveConfig(env: Env): GptChatConfig {
     //
     // Chains from 2026-09-30, read from https://openrouter.ai/api/v1/models and
     // /api/v1/models/{id}/endpoints that day:
-    //   free  1. google/gemma-4-31b-it:free ... one provider (Google AI Studio,
-    //            100% uptime over 30 min). On 2026-09-04 it answered upstream
-    //            429 to every attempt; the post-deploy model probe must show at
-    //            most 10% 429 over 20 calls, otherwise it leaves the head of the
-    //            chain by config alone (OPENROUTER_MODEL_FREE).
-    //         2. nvidia/nemotron-3-super-120b-a12b:free ... fastest responder.
-    //         3. dots-studio/dots-3-note-preview:free ... third vendor, 512k
+    //   free  1. nvidia/nemotron-3-super-120b-a12b:free ... fastest responder;
+    //            the R1 production probe (2026-10-01) got 200 with 0 reasoning
+    //            tokens and ~0.6 s to first token in Uzbek and Russian.
+    //         2. dots-studio/dots-3-note-preview:free ... second vendor, 512k
     //            context, weakest Uzbek, answered every probe.
+    //         3. google/gemma-4-31b-it:free ... one provider (Google AI Studio).
+    //            It answered upstream 429 on 2026-09-04 and again to every call
+    //            of the R1 probe, so it left the head of the chain; it returns
+    //            there by config alone (OPENROUTER_MODEL_FREE) once a probe shows
+    //            at most 10% 429 over 20 calls.
     //   paid  1. google/gemma-4-26b-a4b-it ... MoE, 13 providers, 5 of them
     //            inside PAID_PRICE_CEILING (model-pricing.ts); the request lets
     //            OpenRouter fall back between them (buildChatBody).
@@ -150,10 +152,10 @@ export function resolveConfig(env: Env): GptChatConfig {
     // minutes; poolside/* and cohere/north-mini-code are coding agents;
     // inclusionai/ling-3.0-flash-fin is finance-tuned; liquid/lfm-2.5-2.6b is
     // 2.6B with mandatory reasoning.
-    freeModel: env.OPENROUTER_MODEL_FREE || 'google/gemma-4-31b-it:free',
+    freeModel: env.OPENROUTER_MODEL_FREE || 'nvidia/nemotron-3-super-120b-a12b:free',
     freeFallbacks: list(env.OPENROUTER_MODEL_FREE_FALLBACKS).length
       ? list(env.OPENROUTER_MODEL_FREE_FALLBACKS)
-      : ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free'],
+      : ['dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free'],
     // Every paid request also enforces the provider price cap (max_price).
     paidModel: env.OPENROUTER_MODEL_PAID || 'google/gemma-4-26b-a4b-it',
     paidFallbacks: list(env.OPENROUTER_MODEL_PAID_FALLBACKS).length
