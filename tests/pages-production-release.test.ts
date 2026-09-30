@@ -102,6 +102,20 @@ test('an uncommitted migration blocks the release like uncommitted code', (t) =>
   fs.rmSync(pending);
   fs.appendFileSync(path.join(repo, 'migrations/0065_applied.sql'), '-- edited after review\n');
   assert.throws(() => assertCleanRuntime(repo), /Uncommitted runtime files/);
+
+  fs.writeFileSync(path.join(repo, 'migrations/0065_applied.sql'), 'SELECT 1;\n');
+  assert.doesNotThrow(() => assertCleanRuntime(repo), 'the restored migration matches HEAD again');
+
+  // A staged move is reported by its destination alone unless renames are split.
+  git('mv', 'migrations/0065_applied.sql', 'docs/0065_applied.sql');
+  assert.throws(() => assertCleanRuntime(repo), /Uncommitted runtime files/, 'a migration moved out of migrations/');
+  git('mv', 'docs/0065_applied.sql', 'migrations/0065_applied.sql');
+  assert.doesNotThrow(() => assertCleanRuntime(repo), 'the migration moved back matches HEAD again');
+
+  // Without -z Git prints this path quoted, and the quoted form matches no runtime prefix.
+  fs.mkdirSync(path.join(repo, 'content'));
+  fs.writeFileSync(path.join(repo, 'content/статья.md'), '# draft\n');
+  assert.throws(() => assertCleanRuntime(repo), /Uncommitted runtime files/, 'an untracked non-ASCII content file');
 });
 
 test('release rejects public HTML with admin CSS even when every asset returns 200', t => {

@@ -1,3 +1,32 @@
+# Платный AI-чат к проду: ревью WP-01, 2026-09-30
+
+**Итог.** Проверил коммиты WP-01 `a66586d3` (код) и `cecdfa91` (SHA в STATE) по §1 и §4 WP-01 плана `10-PROD-PLAN.md` и по `AGENTS.md` §2–8, §11. Выключение autosend сделано верно и доказано тестами. В guard'е миграций, который WP-01 закрывал, нашлись две дыры; этот коммит их закрывает тестами. Ещё уточнён запрос проверки после релиза. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись.
+
+**Что исправлено.**
+1. `assertCleanRuntime` в `scripts/release/pages-production.ts` пропускал два случая:
+   - Перенос в индексе (`git mv migrations/0066_x.sql docs/`). `git diff --name-only HEAD` показывает только новый путь, и guard считал дерево чистым, хотя миграции из HEAD в рабочем дереве нет. То же для файла из `functions/` или `src/`.
+   - Путь не в ASCII. Git по умолчанию пишет его в кавычках и восьмеричными кодами (`"content/\321\201..."`), и такой путь не совпадает ни с одним runtime-префиксом. Новый `content/статья.md` релиз не блокировал.
+   Теперь `git diff --name-only --no-renames -z HEAD` и `git ls-files --others --exclude-standard -z`. В `tests/pages-production-release.test.ts` добавлены оба случая на том же временном git-репозитории. Каждый проверен «на красный»: со старой командой тест падает, с новой проходит.
+2. Проверка через 24 ч после деплоя Worker'а (раздел WP-01 ниже, п. 3) не искала статус `failed`. Эффект получает `failed` только из `dispatching`, то есть Worker уже взял получателя и начал отправку. Теперь в списке запрещённых статусов `dispatching`, `sent`, `failed` и `ambiguous`. `reserved` и `canceled` не показывают отправку: `reserved` пишется при создании кампании, а создание по-прежнему разрешено.
+
+**Что перепроверил.**
+- `tsc -b` 0; `typecheck:functions` 0; ESLint на файлах WP-01 и этого коммита 0.
+- Тесты по одному: pages-config-parity 7/7, runtime-config 4/4, pages-production-release 8/8, lead-radar-worker 17/17, lead-radar-release-manifest 11/11, lead-radar-campaign-ui 15/15, lead-radar-0041-reconciliation 9/9, lead-radar-release-gate 12/12.
+- `lead-radar-api` 4/10: все 6 падений — 503 на проверке схемы. Это совпадает с находкой WP-01 про 0059. Относительно `f53cabcb` ветка добавила в Lead Radar-область только `0065` (таблица `gpt_`, фильтр схемы её не видит).
+- grep AUTOSEND по `wrangler*.toml` и `pages-config-parity` — только `false`. `scan:secrets` чисто, `test:secret-scan` 16/16, grep токенов пуст, `git diff --check` чисто, `seo-protection check` 10/10.
+- Dry-run Worker'а сам не запускал: правило ревью запрещает любой `wrangler deploy`. Бандл WP-01 не меняет, это видно по диффу: только var и тесты.
+
+**Что подтверждено по коду.**
+- Отправляет только Worker (`PrivateTelegramCampaignSender` в консьюмере). Pages отклоняет `start`/`resume` (409 `lead_radar_campaign_autosend_paused`), а preflight добавляет блокер `autosend_paused`. Worker не импортирует `runtime-config.ts`, поэтому коммиты `e1ac7c8c`, `92722c0c`, `bb931b95` в его бандл не попадают. Отклонение 1 из WP-01 верно.
+- История `workers/`, `functions/platform/lead-radar` и `functions/platform/automation` после выгрузки 04.09 08:36Z: только `48e1d206` (хук обслуживания биллинга). `25e1536c` и `199d5afb` от 03.09 старше выгрузки.
+- Тест Worker'а доказывает именно флаг: тот же конфиг, где изменён только autosend, ставит в очередь и отправляет ровно одно сообщение.
+
+**Замечание для релиза (не дефект кода).** Guard работает на `stamp`, `check` и `deploy`, то есть после шага 3 релиза (`migrations apply --remote`). Незакоммиченную миграцию он заметит, но уже после её применения к D1. Поэтому перед `migrations apply --remote` вывод `git status --porcelain -- migrations` должен быть пустым, а `migrations list --remote` — показывать ровно ожидаемые файлы (§1 плана, шаг 3).
+
+**Дальше.** WP-02.
+
+---
+
 # Платный AI-чат к проду: WP-01 — Lead Radar AUTOSEND=false и гигиена релиза, 2026-09-30
 
 **Итог.** Автоотправка кампаний Lead Radar выключена во всех четырёх местах, и тесты теперь доказывают, что отправки нет и на Pages, и в Worker'е. Guard деплоя блокирует незакоммиченную миграцию. Строка про деплой в `AGENTS.md` исправлена. Передеплой Worker'а подготовлен (dry-run), но **не выполнен**. Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не менялись. План — `10-PROD-PLAN.md` §4 WP-01 (вне Git), дальше WP-02. Код-коммит WP-01 — `a66586d3ca90cf9b60887703bb525fa0e62b8e4d`. Следующий коммит только записывает этот SHA в STATE (правило D-006).
@@ -44,7 +73,7 @@
 **Для релиза R1 (Worker; Pages по §1 плана).**
 1. Сначала Pages. Упакованный JSON выключит autosend в админке и API, но Worker до своего деплоя читает свою копию, где `"true"`. Поэтому Worker выкатывать в том же окне, после секрета WP-02.
 2. `npx wrangler deploy -c wrangler.automation.toml --dry-run --outdir <tmp>`. В списке привязок должно быть `AUTOSEND ("false")` и `GPT_BILLING_MAINTENANCE_ENABLED` (WP-02). Затем `npx wrangler deploy -c wrangler.automation.toml`.
-3. После деплоя: `wrangler versions view <новая>` → AUTOSEND `"false"`; capabilities Lead Radar → `campaignAutoSendEnabled=false`. Через 24 ч агрегат `SELECT status, COUNT(*) FROM lead_radar_tg_campaign_effects WHERE updated_at >= strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day') GROUP BY status` не должен содержать `dispatching`, `sent` или `ambiguous`.
+3. После деплоя: `wrangler versions view <новая>` → AUTOSEND `"false"`; capabilities Lead Radar → `campaignAutoSendEnabled=false`. Через 24 ч агрегат `SELECT status, COUNT(*) FROM lead_radar_tg_campaign_effects WHERE updated_at >= strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day') GROUP BY status` не должен содержать `dispatching`, `sent`, `failed` или `ambiguous` (`failed` добавлен ревью: он бывает только после `dispatching`).
 4. Откат: `wrangler rollback` на `770dc25f` вернёт AUTOSEND=true. После любого отката сразу снова деплой с `false`.
 
 ---

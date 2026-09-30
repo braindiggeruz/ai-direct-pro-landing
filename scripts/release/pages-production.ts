@@ -52,9 +52,13 @@ export function runtimeFile(filename: string): boolean {
     || /^(package(-lock)?\.json|yarn\.lock|vite\.config\.|tsconfig\.|wrangler)/.test(filename);
 }
 
+// -z prints paths verbatim: by default Git quotes a non-ASCII path
+// ("content/\321\201...") and the quoted form matches no runtime prefix.
+// --no-renames lists both sides of a staged move, so moving a migration or a
+// source file out of a runtime directory still counts as a runtime change.
 export function assertCleanRuntime(root: string): void {
-  const changed = [...git(root, ['diff', '--name-only', 'HEAD']).split('\n'),
-    ...git(root, ['ls-files', '--others', '--exclude-standard']).split('\n')].filter(runtimeFile);
+  const changed = [...git(root, ['diff', '--name-only', '--no-renames', '-z', 'HEAD']).split('\0'),
+    ...git(root, ['ls-files', '--others', '--exclude-standard', '-z']).split('\0')].filter(runtimeFile);
   if (changed.length) throw new Error('Uncommitted runtime files: commit the reviewed build inputs before production deployment.');
 }
 

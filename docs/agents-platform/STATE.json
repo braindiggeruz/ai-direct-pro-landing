@@ -2,15 +2,17 @@
   "paid_chat_prod_2026": {
     "wp": "WP-01",
     "release": "R1",
-    "status": "committed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
     "commit": "a66586d3ca90cf9b60887703bb525fa0e62b8e4d",
-    "commit_note": "fix(release): stop Lead Radar autosend and block uncommitted migrations (parent 454efb63); the metadata-only follow-up that records this SHA is state_commit (HEAD, rule D-006)",
+    "commit_note": "fix(release): stop Lead Radar autosend and block uncommitted migrations (parent 454efb63); cecdfa91 records this SHA (metadata only, rule D-006); the review fix is review_commit",
+    "review": "WP-01 adversarial review 2026-09-30: autosend change and its tests confirmed; the migration guard missed a staged move out of a runtime directory and non-ASCII paths (Git quotes them), both fixed with -z and --no-renames and red-checked tests; the 24 h post-deploy query now also rejects failed effects",
+    "review_commit": "HEAD = fix(release): address WP-01 review findings (parent cecdfa91)",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "a61963f102f1465e124426024d10998284af324f (ancestor of HEAD, checked 2026-09-30)",
     "plan": "C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/raw/prod-2026-09-30/10-PROD-PLAN.md (outside Git)",
     "settings_changed": "V + W LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED=\"false\" (packed JSON, nested table, wrangler.automation.toml); Worker picks it up only on its own deploy",
-    "release_guard": "scripts/release/pages-production.ts counts migrations/ as runtime: an uncommitted or edited migration blocks stamp, check and deploy",
+    "release_guard": "scripts/release/pages-production.ts counts migrations/ as runtime: an uncommitted, edited or moved migration blocks stamp, check and deploy (git diff --no-renames -z and ls-files -z since the review); the guard runs after migrations apply, so git status --porcelain -- migrations must be empty before applying",
     "worker_release": {
       "deployed": false,
       "active_version": "770dc25f-0aad-472f-b452-23f4cbf92a84 (2026-09-04T08:36:42Z); its 23 vars equal wrangler.automation.toml except AUTOSEND, which is true there",
@@ -18,7 +20,7 @@
       "code_since_upload": "48e1d206 billing maintenance cron hook (inert until WP-02); c4037f2b and 2cea30dc src/shared site-config and audit via seo-autopilot; possibly 7b27ec42, 546bc893, 4874e86c (logging only) if the upload predates them; Lead Radar and automation platform code unchanged since 2026-09-03",
       "d1_baseline": "read-only aggregate 2026-09-30: 0 campaigns, 0 campaign effects, 1 connected Telegram account"
     },
-    "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; pages-config-parity 7/7, runtime-config 4/4, pages-production-release 8/8, lead-radar-worker 17/17 (was 9/16: fixture expiry fixed); new tests red-checked against autosend true and the old migration rule; test:lead-radar file by file 690 pass / 24 fail, all 24 pre-existing (was 682/31): lead-radar 2 date fixtures (35/35 with the clock at 2026-09-20), lead-radar-api 6 and lead-radar-telegram-campaign-api 16 plus a hang, both lead_radar_schema_unavailable (see finding_outside_wp); Worker dry run ok; seo-protection 10/10; scan:secrets clean; test:secret-scan 16/16; git diff --check clean; token grep empty",
+    "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; pages-config-parity 7/7, runtime-config 4/4, pages-production-release 8/8, lead-radar-worker 17/17 (was 9/16: fixture expiry fixed); new tests red-checked against autosend true and the old migration rule; test:lead-radar file by file 690 pass / 24 fail, all 24 pre-existing (was 682/31): lead-radar 2 date fixtures (35/35 with the clock at 2026-09-20), lead-radar-api 6 and lead-radar-telegram-campaign-api 16 plus a hang, both lead_radar_schema_unavailable (see finding_outside_wp); Worker dry run ok; seo-protection 10/10; scan:secrets clean; test:secret-scan 16/16; git diff --check clean; token grep empty; review re-ran tsc -b, typecheck:functions, ESLint, pages-config-parity, runtime-config, pages-production-release, lead-radar-worker, lead-radar-release-manifest 11/11, lead-radar-campaign-ui 15/15, lead-radar-0041-reconciliation 9/9, lead-radar-release-gate 12/12, lead-radar-api (6 fails, all 503 schema), scan:secrets, test:secret-scan, seo-protection 10/10",
     "finding_outside_wp": "migrations/0059_lead_radar_signal_chats.sql is missing from the schema-contract exclusions, so the Lead Radar target schema fingerprint no longer matches (fixture bisect: pass up to 0058, blocked from 0059); the Lead Radar admin API that calls assertLeadRadarRuntimeSchema probably answers 503 since 2026-09-03 (not verified in production); needs its own Lead Radar package and an owner decision",
     "wp00": {
       "commit": "34fca360dff16d67fecf2f3f1d5e21e7fd1bc1e9",
@@ -190,9 +192,9 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-01 Lead Radar AUTOSEND=false and release hygiene (release R1)",
+  "current_stage": "Paid AI chat production readiness: WP-01 Lead Radar AUTOSEND=false and release hygiene, and its review (release R1)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-01 committed on paid-chat/prod-readiness (not pushed, not deployed; Worker redeploy prepared by dry-run only)",
+  "last_completed_stage": "Paid AI chat WP-01 committed and reviewed on paid-chat/prod-readiness (not pushed, not deployed; Worker redeploy prepared by dry-run only)",
   "next_stage": "Paid AI chat WP-02: mode-independent alerts, silence watchdog and maintenance cron (release R1), per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
