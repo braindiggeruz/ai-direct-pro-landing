@@ -1,0 +1,3361 @@
+openapi: 3.0.2
+info:
+  title: Uzum Checkout
+  version: 1.10.3
+  description: >
+    **Uzum Checkout** is a payment gateway for websites and mobile applications.
+    It enables card payments, receipt fiscalization, and refund management
+    through a single, secure API.
+
+
+    #### ⚙️ Key features
+
+    - Responsive payment form optimized for both web and mobile
+
+    - Automatic receipt fiscalization for one-step payments
+
+    - Card binding and recurring payments
+
+    - Payments without opening the payment form (Back-to-back Payment)
+
+    - Full and partial refunds
+
+    - PCI DSS compliance
+
+
+    #### 💳 Supported payment systems
+
+    Visa · Mastercard · Uzcard · Humo
+
+
+    #### 🚀 Quick start
+
+    - [API key authentication](#section/Authentication)
+
+    - [Fiscalization](#section/Fiscalization)
+
+    - [One-step payment processing](#tag/One-Step-Payment)
+
+    - [Payment without opening the form (Back-to-back
+    Payment)](#tag/Back-to-back-Payment)
+
+    - [Managing and paying with saved
+    cards](#tag/Managing-Credit-Cards-Bindings)
+
+    - [Test data and error codes](#tag/Testing)
+
+
+    ---
+
+
+    # Getting started
+
+
+    To integrate with the **Uzum Checkout API** quickly and smoothly, follow
+    these steps:
+
+
+    1. **Choose the payment type**  
+       Review the [Payment types](#section/Payment-Types) section.
+
+    2. **Configure fiscalization**  
+       For one-step payments, [automatic fiscalization](#section/Fiscalization/One-Step-Payment-Fiscalization) is available.  
+
+    3. **Review key processes**:
+        - [One-step payment with automatic fiscalization](#section/API-Call-Procedures/Processing-a-one-step-payment-with-auto-fiscalization)
+        - [One-step payment without automatic fiscalization](#section/API-Call-Procedures/Processing-a-one-step-payment-without-auto-fiscalization)
+        - [Card management: binding, payments, deactivation](#section/API-Call-Procedures/Processes-For-Managing-Credit-Cards)
+        - [Card-number payment without opening the form (with data encryption)](#section/Process-descriptions/Card-number-payment-without-opening-the-form-encrypted)
+        - [Payment refunds](#section/API-Call-Procedures/Processes-For-Managing-Credit-Cards)
+        - [Fiscalization of a purchase receipt based on an advance receipt](#section/Process-descriptions/Fiscalization-of-purchase-receipt-based-on-advance)
+
+    4. **Run a test integration**  
+       Use the provided [test environment and test cards](#tag/Testing) to verify that all scenarios work as expected.
+
+    5. **Go live**  
+       After successful testing, you will receive access to the production environment and can move the integration to live operation.
+
+    ---
+
+    # Authentication
+
+
+
+    ## API Key
+
+
+    You can authenticate using an API key, a simple authorization method that
+    provides a high level of security. When choosing this method, we will give
+    you an API Key that you must include in each request. 
+
+
+    When choosing API Key authorization, your requests must include the
+    `X-Terminal-Id` and `X-API-Key` headers.
+
+
+    ## HTTP Authentication Headers
+
+
+    **X-Terminal-Id**: The identifier for the transaction processing terminal
+    within our system. We assign and provide this identifier to each partner.
+
+
+    **X-API-Key**: A unique API key. We assign and provide this key to each
+    partner.
+
+
+    **Content-Language**: The preferred locale of the client, which determines
+    the language of the payment form. Enum: `"ru-RU"`, `"uz-UZ"`, `"en-EN"`.
+
+
+    # One-step payment
+
+
+    In a one-step payment, the card authorization and the deduction of funds
+    from the client occur simultaneously. This is the simplest way to process
+    payments. Use this type of payment if the provision of your service or the
+    sale of goods happens immediately after the funds are deducted.
+
+
+    ***For example***, when purchasing movie tickets online, the payment occurs
+    immediately after entering the payment information. After the payment, the
+    client will receive the tickets shortly, taking into account the time
+    required for the ticket sales service to process the data.
+
+
+
+    After completing a one-step payment, you can process both full and partial
+    refunds to the client.
+
+
+    **With a one-step payment, you can use auto-fiscalization.** We handle all
+    the fiscalization work for you; you do not need to manually transmit data to
+    the fiscalization service.
+
+
+    <h3>One-step Payment State Model</h3>
+
+
+    <a href='/img/checkout/one-step-state-model-eng.png' target='_blank'><img
+    style="display: block; margin: 0 auto; max-width:70%; height: auto;"
+
+    src='/img/checkout/one-step-state-model-eng.png'/></a>.
+
+
+    | Status    |
+    Description                                                                                                 
+    |
+
+    |-----------|--------------------------------------------------------------------------------------------------------------|
+
+    | REGISTERED| After calling the API `/register`, the payment has been
+    successfully registered in Checkout.                |
+
+    | COMPLETED | The funds have been successfully deducted from the client's
+    card. The bank that issued the client's card approved the payment. |
+
+    | DECLINED  | The bank that issued the client's card declined the payment or
+    an error occurred while attempting to process the payment. |
+
+    | REFUNDED  | After calling the API `/refund`, the funds have been
+    successfully refunded to the client's card.            |
+
+
+
+    # Fiscalization
+
+
+    Fiscalization is a mandatory process imposed by legislation that involves
+    the registration of payment transactions and the issuance of fiscal
+    receipts.
+
+
+    ## One-Step Payment Fiscalization
+
+
+    If you are working with one-step payments, you can take advantage of
+    automatic fiscalization. By default, it is turned off; to enable it, you
+    need to inform your manager at Uzum Bank.
+
+
+    When the auto-fiscalization service is enabled, you need to transmit
+    information about the cart to the method `/payment/register`, including
+    details about each item, as well as its SKU, packaging code, and VAT rate
+    percentage.
+
+
+    We provide detailed information on how to find the SKU and packaging code of
+    a product in the SKU and Packaging Code section.
+
+
+    When the auto-fiscalization service is turned off, you need to manually
+    transmit data to the fiscalization service. You can use our <a
+    href='https://developer.uzumbank.uz/fiscalization'
+    target='_blank'>fiscalization service</a>.
+
+
+    ## SKU and packaging code
+
+
+
+    To process fiscalization, you need to know the SKU and packaging code of the
+    product. You can find the SKU and packaging code on the website of the
+    Unified Electronic National Product Catalog: https://tasnif.soliq.uz/ 
+
+
+
+    1. Go to the website https://tasnif.soliq.uz//
+
+
+    1. On the homepage, pay attention to the search bar and choose the
+    appropriate search method. The most optimal option is usually 'Text Search'.
+
+
+
+    <a href='/img/fiscalization/ikpu-1.png' target='_blank'><img
+
+    src='/img/fiscalization/ikpu-1.png'/></a>.
+
+
+
+    3. Enter keywords into the search bar, for example, "electric kettle." If
+    your product does not appear in the list, try using more general terms, such
+    as "kettle."
+
+
+
+    <a href='/img/fiscalization/ikpu-2.png' target='_blank'><img
+
+    src='/img/fiscalization/ikpu-2.png'/></a>.
+
+
+
+    4. Go to the page of the product that closely matches yours.
+
+
+    5. The SKU of the product will be displayed at the top of the page.
+
+
+
+    <a href='/img/fiscalization/ikpu-3.png' target='_blank'><img
+
+    src='/img/fiscalization/ikpu-3.png'/></a>.
+
+
+
+    6. In the "Conditional Unit" section, find the code. The options may vary,
+    such as "pcs" for individual items, "grams" for weight-based products, and
+    "service" (UZS) for services. If you have difficulty choosing the correct
+    conditional unit, consult your accounting department for assistance.
+
+
+
+    # API Call Procedures
+
+          
+    1. One-step payment with auto-fiscalization
+
+
+    1. One-step payment without auto-fiscalization
+
+
+    1. Card management:
+        - Binding
+        - Unbinding
+        - Payment
+
+    1. Refunds
+
+
+    1. Prepaid receipt fiscalization
+
+
+
+    ## Processing a one-step payment with auto-fiscalization
+
+
+    To initiate a one-step payment with automatic fiscalization, use the
+    [/payment/register]() method.
+
+
+    In the request, you should specify the payment type as `payType="ONE_STEP"`
+    and provide information about the items in the cart within the cart object.
+    This data is required for the automatic fiscalization of the receipt based
+    on the items provided.
+
+
+    <a href='/img/checkout/checkout-one-step-auto-eng.png' target='_blank'><img
+
+    src='/img/checkout/checkout-one-step-auto-eng.png' style="display: block;
+    margin: 0 auto; max-width:70%; height: auto;"/></a>.
+
+
+    1. The customer begins the payment process on your platform by clicking the
+    "Pay" button.
+
+
+    1. You send a request to Uzum Checkout to register the one-step payment
+    using the [/payment/register]() method, with the `payType="ONE_STEP"`
+    parameter and the cart details included in the cart object to generate a
+    fiscal receipt.
+
+
+    1. We register the payment, send you a unique order ID (`orderId`), and a
+    payment page URL.
+
+
+    1. You then redirect the customer to the Uzum Checkout payment page using
+    the provided URL.
+
+
+    1. The customer enters their card details and confirms the payment.
+
+
+    1. We complete the debit operation.
+
+
+    1. We fiscalize the receipt.
+
+
+    1. We send you a callback with the payment completion information.
+
+
+    1. You confirm receipt of the callback.
+
+
+    1. We notify the customer of the successful payment and redirect them to
+    your page.
+
+
+
+    ## Processing a one-step payment without auto-fiscalization
+
+
+    To initiate a one-step payment without automatic fiscalization, use the
+    [/payment/register]() method with the payment type `payType="ONE_STEP"`.
+
+
+    There is no need to provide information about the items in the cart.
+
+
+    <a href='/img/checkout/checkout-one-step-self-eng.png' target='_blank'><img
+
+    src='/img/checkout/checkout-one-step-self-eng.png' style="display: block;
+    margin: 0 auto; max-width:70%; height: auto;"/></a>.
+
+
+
+    1. The customer begins the payment process on your platform by clicking the
+    "Pay" button.
+
+
+    1. You send a request to Uzum Checkout to register a one-step payment using
+    the [/payment/register]() method with the parameter `payType="ONE_STEP"`.
+
+
+    1. We register the payment and send you a unique order ID (`orderId`) and
+    the payment page URL.
+
+
+    1. You then redirect the customer to the Uzum Checkout payment page using
+    the provided URL.
+
+
+    1. The customer enters their card details/selects a bound card and confirms
+    the payment.
+
+
+    1. After the payment is confirmed, we proceed with the funds debiting.
+
+
+    1. We send a callback with the payment completion information.
+
+
+    1. You confirm receipt of the callback.
+
+
+    1. We notify the customer of the successful payment and redirect them to
+    your page.
+
+
+    ## Card management
+
+
+    This category includes the following processes:
+
+
+    - **Card Binding**: Users can bind their cards to the system, allowing
+    future transactions without re-entering card details.
+
+
+    - **Payment**: Linked cards are used for instant payments, providing a
+    faster checkout process without re-entering payment information.
+
+
+    - **Card Deactivation**: This allows users to unlink payment cards from the
+    system.
+
+
+    ### Binding
+
+
+    Card binding can be performed using the `/payment/register` method. When
+    calling this method, you must pass `operationType="BINDING"`.
+
+
+    <a href='/img/checkout/checkout-bind-card-eng.png' target='_blank'><img
+
+    src='/img/checkout/checkout-bind-card-eng.png' style="display: block;
+    margin: 0 auto; max-width:70%; height: auto;"/></a>.
+
+
+    1. The customer provides card details.
+
+
+    2. You send a request to bind the card using the [/payment/register](#)
+    method with `operationType="BINDING"`.
+
+
+    3. We process the request and send you a URL that leads the customer to the
+    card data entry form.
+
+
+    4. You provide the customer with the form to enter their card details.
+
+
+    5. The customer enters their card details and confirms them.
+
+
+    6. We create the binding. During the binding process, Uzum Checkout
+    temporarily holds a small amount on the customer’s card to verify its
+    functionality and will immediately return these funds.
+
+
+    7. Upon completion of the binding process, we send you a callback with
+    information about the result of the operation.
+
+
+    8. You confirm receipt of the callback.
+
+
+    9. We notify the customer of the successful binding and redirect them to
+    your page.
+
+
+    #### Alternative 
+
+
+    Your customer can also save their card independently while making a purchase
+    by checking the "Remember Card" option on the payment form.
+
+
+    In this case, the card saving process described above is not required.
+
+
+    <a  href='/img/checkout/bind-card-app.png' target='_blank'><img
+
+    style="display:block; margin: auto; max-width: 400px"
+
+    src='/img/checkout/bind-card-app.png'/></a>.
+
+
+    ### Payment
+
+
+    The customer can select one of the linked cards to pay for the order.
+
+
+    <a href='/img/checkout/checkout-pay-with-bind-card-eng.png'
+    target='_blank'><img
+
+    src='/img/checkout/checkout-pay-with-bind-card-eng.png' style="display:
+    block; margin: 0 auto; max-width:70%; height: auto;"/></a>.
+
+
+    1. The customer begins the payment process on your platform by clicking the
+    "Pay" button.
+
+
+    2. You send a request to retrieve the list of the customer's linked cards.
+
+
+    3. We provide you with the list of the customer's linked cards.
+
+
+    4. You present the list of linked cards to the customer.
+
+
+    5. The customer selects the desired card for payment and initiates the
+    payment.
+
+
+    6. You send a request to register the payment using the
+    [/payment/register](#) method. If automatic fiscalization is enabled, you
+    must provide cart data for one-step payments.
+
+
+    7. We register the payment and send you a unique order ID (`orderId`).
+
+
+    8. You send a request to `/payment/merchantPay` with `type="bind"` and the
+    identifier of the selected card to process the payment.
+
+
+    9. We process the payment.
+
+
+    10. We send you a callback with information about the result of the
+    operation.
+
+
+    11. You confirm receipt of the callback.
+
+
+    12. You notify the customer of the successful payment.
+
+
+
+    ### Unbinding 
+
+
+    The customer can unlink their credit card from the system.
+
+
+    <a href='/img/checkout/unBindCard-eng.png' target='_blank'><img
+    src='/img/checkout/unBindCard-eng.png'/></a>
+
+
+    1. The customer navigates to the card binding management page in your
+    application.
+
+
+    2. You send a request to Uzum Checkout with `/api/v1/acquiring/getBindings`
+    to retrieve the list of the customer's linked cards.
+
+
+    3. Uzum Checkout processes the request and provides you with the list of the
+    customer's linked cards.
+
+
+    4. You present the obtained list to the customer through your user
+    interface.
+
+
+    5. The customer reviews the list, selects the card for deactivation, and
+    initiates the deactivation process.
+
+
+    6. You send a request to deactivate the card to Uzum Checkout using the
+    `/api/v1/acquiring/unBindCard` method, specifying the binding ID.
+
+
+    7. Uzum Checkout processes the deactivation request and sends you a response
+    with information about the result of the operation.
+      
+    ## Back-to-back payment (no form opening)
+
+
+    Encrypted card payment is available **only after passing PCI DSS
+    certification**.
+
+
+    To process a card payment without opening the Uzum Checkout form, the
+    merchant must send a request to register a payment using the
+    `/payment/register` endpoint.
+
+
+    Therefore, if **auto-fiscalization** is enabled, order data **must be
+    provided** for one-step payments.
+
+
+    <a href="/img/checkout/checkout-pay-card-no-form-eng.png" target="_blank">
+      <img src="/img/checkout/checkout-pay-card-no-form-eng.png"
+          style="display: block; margin: 0 auto; max-width:70%; height: auto;" />
+    </a>
+
+
+    1. You register the payment using the `/payment/register` method.
+
+
+    2. We register the payment and return an `orderId`.
+
+
+    3. You request the encryption certificate and fingerprint using  
+      [`/acquiring/getMerchantCertificate`](#tag/Platezh-bez-otkrytiya-formy-(Back-to-back-Payment)/operation/get_merchant_certificate_api_v1_acquiring_getMerchantCertificate_post).
+
+    4. We generate and return the **certificate** and **fingerprint**.
+
+
+    5. You send a payment request using  
+      [`/payment/merchantPay`](#tag/Platezh-bez-otkrytiya-formy-(Back-to-back-Payment)/operation/merchant_pay_api_v1_payment_merchantPay_post),  
+      specifying `type = card` and passing an **encrypted JSON payload** with card data.
+
+    6. We process the payment.
+
+
+    7. We send you a callback with the payment execution result.
+
+
+    8. You confirm receipt of the callback.
+
+
+
+    ## Refunds
+
+
+    After the successful completion of the payment, when the transaction status
+    is updated to 'COMPLETED', you have the option to issue a refund to the
+    customer.
+
+
+    ### Refund for One-Step Payment with Automatic Fiscalization
+
+
+    <a href='/img/checkout/checkout-auto-refund-eng.png' target='_blank'><img
+    src='/img/checkout/checkout-auto-refund-eng.png' style="display: block;
+    margin: 0 auto; max-width:60%; height: auto;"/></a>
+
+
+    1. You send a request to refund the payment using the [/acquiring/refund](#)
+    method; specify the refund amount and details of the returned items in the
+    `cart` object.
+
+
+    2. We confirm receipt of the request.
+
+
+    3. We process the refund.
+
+
+    4. We fiscalize the return receipt.
+
+
+    5. We send you a callback with information about the completion of the
+    refund and the creation of the receipt.
+
+
+    6. You confirm receipt of the callback.
+
+
+    ### Refund for one-step payments without automatic fiscalization
+
+
+    <a href='/img/checkout/checkout-self-refund-eng.png' target='_blank'><img
+    src='/img/checkout/checkout-self-refund-eng.png' style="display: block;
+    margin: 0 auto; max-width:60%; height: auto;"/></a>
+
+
+    1. You send a request to refund the payment using the [/acquiring/refund](#)
+    method; specify the refund amount.
+
+
+    2. We confirm receipt of the request.
+
+
+    3. We process the refund.
+
+
+    4. We send you a callback with information about the completion of the
+    refund and the creation of the receipt.
+
+
+    5. You confirm receipt of the callback.
+
+
+    ---
+
+
+    ## Prepaid receipt fiscalization
+
+
+    The
+    [/acquiring/purchaseReceipt](#tag/Auxiliary-Methods/operation/purchase_receipt_api_v1_acquiring_purchaseReceipt_post)
+    method is available **only when a prepaid receipt with type `PREPAID` must
+    be generated first**, followed by a sales receipt.
+
+
+    <a href="/img/checkout/checkout-fiscalization-paid-eng.png" target="_blank">
+      <img src="/img/checkout/checkout-fiscalization-paid-eng.png"
+          style="display: block; margin: 0 auto; max-width:60%; height: auto;" />
+    </a>
+
+
+    1. You send a purchase receipt fiscalization request using the  
+      [/acquiring/purchaseReceipt](#tag/Auxiliary-Methods/operation/purchase_receipt_api_v1_acquiring_purchaseReceipt_post) method.
+
+    2. We confirm receipt of the request.
+
+
+    3. We generate the sales receipt.
+
+
+    4. We send you a callback with information about the created receipt.
+
+
+    5. You confirm receipt of the callback.
+
+
+    ---
+
+
+
+    # Callbacks
+
+
+    Callbacks, or “webhooks,” are an integral part of the interaction between
+    our API and your server. They allow your service to receive notifications
+    about various events and respond to them in real time.
+
+
+    Callbacks are located at the end of the API method descriptions. Each
+    callback can be expanded to examine its structure.
+
+
+    <a href='/img/checkout/callbacks.png' target='_blank'><img style="display:
+    block; margin: 1rem auto; max-width:80%; height: auto;"
+    src='/img/checkout/callbacks.png'/></a>
+
+
+    Your server must process the received callback request and return a status
+    of 200 OK. This confirms to our server that the notification has been
+    received and processed.
+
+
+    If our server does not receive confirmation, it will send another callback.
+    This will occur a maximum of 5 times.
+x-tagGroups:
+  - name: API
+    tags:
+      - One-Step Payment
+      - Managing Credit Cards Bindings
+      - Back-to-back Payment
+      - Auxiliary Methods
+  - name: Additional Info
+    tags:
+      - Testing
+      - Error Codes
+      - Post Messages
+tags:
+  - name: Testing
+    description: |
+
+      HUMO and Uzcard test cards are available for testing.
+      - **HUMO**: `9860 0901 0121 9724`, *exp* `10/26`, *3-DS:* `777777`
+      - **UzCard**: `8600 3129 2957 7175`, *exp* `09/26`, *3-DS:* `777777`
+  - name: Error Codes
+    description: >-
+      Error Code | Description
+
+      --- | ----
+
+      0  | Operation completed successfully
+
+      <b>1xxx</b> | <b>Authentication Errors</b>
+
+      1001 | Invalid UzumId token
+
+      1006 | Access error: insufficient rights to perform the operation
+
+      <b>2xxx</b> | <b>API Request Data Errors</b>
+
+      2000 | Invalid data format: ValidationError
+
+      <b>3xxx</b> | <b>Payment Processing Errors</b>
+
+      3000 | Invalid payment status: operation cannot be performed in the
+      current status
+
+      3001 | Terminal with the specified terminalId not found
+
+      3002 | Invalid amount, currency, or fee
+
+      3003 | Invalid cart parameters
+
+      3004 | Terminal does not support this payment type (ONE_STEP / TWO_STEP)
+
+      3005 | Payment with the specified paymentId not found
+
+      3006 | Binding with the specified bindingId not found
+
+      3007 | Invalid card details. Incorrect MCC code
+
+      3008 | Insufficient funds on the account
+
+      3009 | Declined by antifraud system
+
+      3010 | Payment with this card is not possible due to sanctions or other
+      restrictions
+
+      3011 | Operation declined by the issuing bank
+
+      3012 | Transaction limit exceeded
+
+      3013 | Payment amount exceeds the set limit
+
+      3014 | MCC not found in the allowed list
+
+      3015 | Transactions with cards of the specified payment system are
+      prohibited
+
+      3016 | Decryption error: certificate not found or AES token not found
+
+      3019 | Incorrect amount for payment cancellation
+
+      3020 | Timeout for payment cancellation
+
+      3021 | Incorrect amount for refund
+
+      3022 | Timeout for refund
+
+      3023 | Partner not found
+
+      3024 | BIN not found
+
+      3025 | Encryption is prohibited
+
+      3026 | Payment form validation error
+
+      3027 | Payment with this order number already exists
+
+      3028 | Operation already exists
+
+      3029 | Payment data expiration
+
+      3030 | COMPLETE operation is unavailable for single-step payments
+
+      3034 | Single-step payments are prohibited
+
+      3035 | Operation not found
+
+      3036 | Unable to cancel single-step payment
+
+      3037 | Required settings are missing on the terminal for processing the
+      payment
+
+      3038 | Unable to invoke COMPLETE operation for BINDING
+
+      3039 | Unable to invoke REVERSE operation for BINDING
+
+      3040 | 3DS not supported
+
+      3041 | Session timed out
+
+      3042 | User closed the payment form
+
+      3043 | Payment cannot be processed. Possible issues on the processing side
+
+      3045 | Cart for automatic fiscalization of the refund was not provided
+
+      3046 | Item in the cart did not pass validation during automatic
+      fiscalization of the refund
+
+      3047 | Unknown payment type
+
+      3048 | Partner is not active
+
+      3049 | Processing is unresponsive
+
+      3050 | MPS/NPS configuration error. Unknown MPS/NPS
+
+      3051 | 3DS error
+
+      3052 | MPS/NPS setup error. Unknown MPS/NPS
+
+      3053 | The number of marked items in the cart does not match the number of
+      marking codes
+
+      3054 | Duplicates found in the array of marking codes
+
+      3055 | Incorrect VAT rate or IKPU code, packaging, or marking
+
+      3056 | Partner not set up
+
+      3057 | 3DS error on external MPI
+
+      3058 | Cart is not required for automatic fiscalization
+
+      3059 | Incorrect total amount of the cart
+
+      3060 | Partner is blocked
+
+      <b>34xx</b> | <b>Mobile Payment Errors</b>
+
+      3401 | Incorrect mobile payment method, payment is only possible via
+      binding
+
+      3404 | Mobile payment blocked. Please try again later
+
+      3405 | The card number for notifications does not match the account
+      number, or the SMS notification service is not enabled
+
+      <b>5xxx</b> | <b>Technical Errors</b>
+
+      5000 | Internal Error
+  - name: Post Messages
+    description: >
+      The JSON object will consist of three mandatory fields: `status`,
+      `action`, and `errorCode`. Additionally, an optional field `payment_id`
+      may be present.
+
+      - The `status` field will contain one of three possible values: `SUCCESS`,
+      `CANCEL`, or `ERROR`. This indicates the state in which the user completed
+      the operation. For example, if the user successfully completed the task,
+      the value of the `status` field will be `SUCCESS`.
+
+      - The `action` field will have only one possible value - `close`. This
+      means that after the status is sent, the parent component should close the
+      iframe or webview.
+
+      - The `errorCode` field will contain a numerical error identifier.
+
+      Example of a JSON object:
+
+      ``` {
+        "status": "SUCCESS",
+        "action": "close",
+        "payment_id": "1234567890",
+        "errorCode": 0
+      } ```
+
+      Consequently, the parent component receiving this message should check the
+      value of the `status` field and take the corresponding action based on
+      this status, and then close the `iframe` or `webview`.
+paths:
+  /api/v1/acquiring/purchaseReceipt:
+    post:
+      tags:
+        - Auxiliary Methods
+      summary: Purchase receipt fiscalization based on a prepaid receipt
+      description: ''
+      operationId: purchase_receipt_api_v1_acquiring_purchaseReceipt_post
+      parameters:
+        - name: X-Operation-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+            description: Idempotency key. Must be unique for each operation
+            title: X-Operation-Id
+        - name: X-Terminal-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+            description: Terminal identifier
+            title: X-Terminal-Id
+        - name: X-API-Key
+          in: header
+          required: false
+          schema:
+            type: string
+            description: A unique key used to authenticate requests
+            title: X-API-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseReceiptRequest'
+      callbacks:
+        receipt_merchant_callback:
+          '{$receipt_callback_url}':
+            post:
+              summary: Receipt Merchant Callback
+              description: '[OPTIONAL] Callbacks for receipt creation'
+              operationId: receipt_merchant_callback__receipt_callback_url__post
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ReceiptGeneratedCallbackData'
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_PurchaseReceiptResponse_'
+  /api/v1/payment/register:
+    post:
+      tags:
+        - One-Step Payment
+        - Two-Step Payment
+        - Managing Credit Cards Bindings
+        - Back-to-back Payment
+      summary: Payment registration
+      description: Used to register a one-step.
+      operationId: register_payment_api_v1_payment_register_post
+      parameters:
+        - description: JWT token received when user authenticates using UzumID
+          required: false
+          schema:
+            title: X-Merchant-Access-Token
+            type: string
+            description: >-
+              JWT token received when user authenticates using UzumID. Used only
+              for Uzum ecosystem services.
+          name: X-Merchant-Access-Token
+          in: header
+        - description: Localization of payment form.
+          required: true
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/LocaleType'
+            description: Localization of payment form.
+          name: Content-Language
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Request
+              anyOf:
+                - $ref: '#/components/schemas/OrderPaymentRequest'
+                - $ref: '#/components/schemas/OrderBingingRequest'
+                - $ref: '#/components/schemas/OrderMobileTopUpRegisterRequest'
+                - $ref: '#/components/schemas/OrderTechCardRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_PaymentRegisterResponse_'
+      callbacks:
+        acquiring_merchant_callback:
+          '{$callback_url}':
+            post:
+              summary: Acquiring Merchant Callback
+              description: |-
+                [REQUIRED] Callbacks about performing financial transactions,
+                 configured on the terminal side
+              operationId: acquiring_merchant_callback__callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AcquiringCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        event_merchant_callback:
+          '{$event_callback_url}':
+            post:
+              summary: Event Merchant Callback
+              description: >-
+                [OPTIONAL] Business event callbacks are configured on the
+                terminal side
+              operationId: event_merchant_callback__event_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/BusinessEvent'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        receipt_merchant_callback:
+          '{$receipt_callback_url}':
+            post:
+              summary: Receipt Merchant Callback
+              description: '[OPTIONAL] Callbacks for receipt creation'
+              operationId: receipt_merchant_callback__receipt_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ReceiptGeneratedCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+  /api/v1/payment/merchantPay:
+    post:
+      tags:
+        - Managing Credit Cards Bindings
+        - Back-to-back Payment
+      summary: Confirm back-to-back payment
+      description: >-
+        Used for server-to-server payments, including payments by card binding
+        or encrypted card data
+      operationId: merchant_pay_api_v1_payment_merchantPay_post
+      parameters:
+        - description: Idempotency key. Unique for each operation.
+          required: true
+          schema:
+            title: X-Operation-Id
+            type: string
+            description: Idempotency key. Unique for each operation.
+            format: uuid
+          name: X-Operation-Id
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantPayCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_MerchantPayResult_'
+      callbacks:
+        acquiring_merchant_callback:
+          '{$callback_url}':
+            post:
+              summary: Acquiring Merchant Callback
+              description: >-
+                [REQUIRED] Callbacks for financial operations, configured on the
+                terminal side
+              operationId: acquiring_merchant_callback__callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AcquiringCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        event_merchant_callback:
+          '{$event_callback_url}':
+            post:
+              summary: Event Merchant Callback
+              description: >-
+                [OPTIONAL] Business event callbacks configured on the terminal
+                side
+              operationId: event_merchant_callback__event_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/BusinessEvent'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        receipt_merchant_callback:
+          '{$receipt_callback_url}':
+            post:
+              summary: Receipt Merchant Callback
+              description: '[OPTIONAL] Callbacks for receipt creation'
+              operationId: receipt_merchant_callback__receipt_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ReceiptGeneratedCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+  /api/v1/payment/getOrderStatus:
+    post:
+      tags:
+        - Auxiliary Methods
+        - payment
+      summary: Get payment status
+      description: Retrieves the current status of a payment
+      operationId: get_order_status_api_v1_payment_getOrderStatus_post
+      parameters:
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetOrderStatusCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_GetOrderStatusResponse_'
+  /api/v1/payment/getOperationState:
+    post:
+      tags:
+        - Auxiliary Methods
+        - payment
+      summary: Get operation status
+      description: Retrieves the current status of an operation
+      operationId: get_operation_state_api_v1_payment_getOperationState_post
+      parameters:
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetOperationStateCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_GetOperationStateResponse_'
+  /api/v1/acquiring/getMerchantCertificate:
+    post:
+      tags:
+        - Back-to-back Payment
+      summary: Get encryption certificate and fingerprint
+      description: Retrieves an encryption certificate and its fingerprint
+      operationId: get_merchant_certificate_api_v1_acquiring_getMerchantCertificate_post
+      parameters:
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+          name: X-API-Key
+          in: header
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_GetCertificateResponse_'
+  /api/v1/acquiring/complete:
+    post:
+      tags:
+        - Two-Step Payment
+        - acquiring
+      summary: Confirmation of two-step payment
+      description: Confirmation of two-step payment
+      operationId: complete_api_v1_acquiring_complete_post
+      parameters:
+        - description: Idempotency key. Unique for each operation.
+          required: true
+          schema:
+            title: X-Operation-Id
+            type: string
+            description: Idempotency key. Unique for each operation.
+            format: uuid
+          name: X-Operation-Id
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Complete2SPCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_Complete2SPResponse_'
+      callbacks:
+        acquiring_merchant_callback:
+          '{$callback_url}':
+            post:
+              summary: Acquiring Merchant Callback
+              description: |-
+                [REQUIRED] Callbacks about performing financial transactions,
+                 configured on the terminal side
+              operationId: acquiring_merchant_callback__callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AcquiringCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        event_merchant_callback:
+          '{$event_callback_url}':
+            post:
+              summary: Event Merchant Callback
+              description: >-
+                [OPTIONAL] Business event callbacks are configured on the
+                terminal side
+              operationId: event_merchant_callback__event_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/BusinessEvent'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        receipt_merchant_callback:
+          '{$receipt_callback_url}':
+            post:
+              summary: Receipt Merchant Callback
+              description: '[OPTIONAL] Callbacks for receipt creation'
+              operationId: receipt_merchant_callback__receipt_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ReceiptGeneratedCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+  /api/v1/acquiring/refund:
+    post:
+      tags:
+        - One-Step Payment
+        - Two-Step Payment
+        - acquiring
+      summary: Refund
+      description: |-
+        Full or partial refund of payment. This method can only be used
+         after the transaction has changed to "COMPLETED" status.
+      operationId: refund_api_v1_acquiring_refund_post
+      parameters:
+        - description: Idempotency key. Unique for each operation.
+          required: true
+          schema:
+            title: X-Operation-Id
+            type: string
+            description: Idempotency key. Unique for each operation.
+            format: uuid
+          name: X-Operation-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_RefundResponse_'
+      callbacks:
+        acquiring_merchant_callback:
+          '{$callback_url}':
+            post:
+              summary: Acquiring Merchant Callback
+              description: |-
+                [REQUIRED] Callbacks about performing financial transactions,
+                 configured on the terminal side
+              operationId: acquiring_merchant_callback__callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AcquiringCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        event_merchant_callback:
+          '{$event_callback_url}':
+            post:
+              summary: Event Merchant Callback
+              description: >-
+                [OPTIONAL] Business event callbacks are configured on the
+                terminal side
+              operationId: event_merchant_callback__event_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/BusinessEvent'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        receipt_merchant_callback:
+          '{$receipt_callback_url}':
+            post:
+              summary: Receipt Merchant Callback
+              description: '[OPTIONAL] Callbacks for receipt creation'
+              operationId: receipt_merchant_callback__receipt_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ReceiptGeneratedCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+  /api/v1/acquiring/reverse:
+    post:
+      tags:
+        - Two-Step Payment
+        - acquiring
+      summary: Reverse
+      description: >-
+        The method is used to cancel payment for an order. This is a method for
+        unholding funds in an account.
+         Cancellation can be performed when the payment is in the "AUTHORIZED" status.
+      operationId: reverse_api_v1_acquiring_reverse_post
+      parameters:
+        - description: Idempotency key. Unique for each operation.
+          required: true
+          schema:
+            title: X-Operation-Id
+            type: string
+            description: Idempotency key. Unique for each operation.
+            format: uuid
+          name: X-Operation-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReverseCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_ReverseResponse_'
+      callbacks:
+        acquiring_merchant_callback:
+          '{$callback_url}':
+            post:
+              summary: Acquiring Merchant Callback
+              description: |-
+                [REQUIRED] Callbacks about performing financial transactions,
+                 configured on the terminal side
+              operationId: acquiring_merchant_callback__callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AcquiringCallbackData'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+        event_merchant_callback:
+          '{$event_callback_url}':
+            post:
+              summary: Event Merchant Callback
+              description: >-
+                [OPTIONAL] Business event callbacks are configured on the
+                terminal side
+              operationId: event_merchant_callback__event_callback_url__post
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/BusinessEvent'
+                required: true
+              responses:
+                '200':
+                  description: Successful Response
+                  content:
+                    application/json:
+                      schema: {}
+  /api/v1/acquiring/getBindings:
+    post:
+      tags:
+        - Managing Credit Cards Bindings
+        - acquiring
+      summary: Get customer bindings
+      description: Retrieves a list of customer bindings
+      operationId: get_bindings_api_v1_acquiring_getBindings_post
+      parameters:
+        - description: JWT token received when user authenticates using UzumID
+          required: false
+          schema:
+            title: X-Merchant-Access-Token
+            type: string
+            description: >-
+              JWT token received when user authenticates using UzumID. Used only
+              for Uzum ecosystem services.
+          name: X-Merchant-Access-Token
+          in: header
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetBindingsCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_GetBindingsResponse_'
+  /api/v1/payment/getReceipts:
+    post:
+      tags:
+        - Auxiliary Methods
+        - payment
+        - merchant
+      summary: Getting information about receipts
+      operationId: get_merchant_receipts_api_v1_payment_getReceipts_post
+      parameters:
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests.
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+            format: uuid
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetReceiptRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_GetReceiptsResponse_'
+  /api/v1/acquiring/unBindCard:
+    post:
+      tags:
+        - Managing Credit Cards Bindings
+        - acquiring
+      summary: Unbinding customer card
+      description: Method for unbinding a customer card
+      operationId: unbind_card_api_v1_acquiring_unBindCard_post
+      parameters:
+        - description: Terminal ID
+          required: true
+          schema:
+            title: X-Terminal-Id
+            type: string
+            description: Terminal ID
+            format: uuid
+          name: X-Terminal-Id
+          in: header
+        - description: A unique key is used to authenticate requests
+          required: false
+          schema:
+            title: X-API-Key
+            type: string
+            description: A unique key is used to authenticate requests.
+          name: X-API-Key
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnbindCardCommand'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_UnBindCardResponse_'
+components:
+  schemas:
+    PurchaseReceiptCartRequest:
+      properties:
+        total:
+          type: integer
+          exclusiveMinimum: 0
+          title: Total
+          description: Total cart amount
+        items:
+          items:
+            $ref: '#/components/schemas/FiscalizationCartItemRequest'
+          type: array
+          minItems: 1
+          title: Items
+          description: Detailed list of items or services in the customer's cart
+      type: object
+      required:
+        - total
+        - items
+      title: PurchaseReceiptCartRequest
+    PurchaseReceiptResponse:
+      properties:
+        operationId:
+          type: string
+          format: uuid
+          title: Operationid
+          description: Operation ID on the Uzum Checkout side
+      type: object
+      required:
+        - operationId
+      title: PurchaseReceiptResponse
+    ApiResponse_PurchaseReceiptResponse_:
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Message
+        result:
+          $ref: '#/components/schemas/PurchaseReceiptResponse'
+      type: object
+      required:
+        - errorCode
+      title: ApiResponse[PurchaseReceiptResponse]
+    PurchaseReceiptRequest:
+      properties:
+        orderId:
+          type: string
+          format: uuid
+          title: Orderid
+          description: Order identifier
+        cart:
+          allOf:
+            - $ref: '#/components/schemas/PurchaseReceiptCartRequest'
+          description: Cart data for purchase receipt fiscalization
+      type: object
+      required:
+        - orderId
+        - cart
+      title: PurchaseReceiptRequest
+    UnbindCardCommand:
+      title: UnbindCardCommand
+      required:
+        - bindingId
+      type: object
+      properties:
+        bindingId:
+          title: Binding Id
+          maxLength: 255
+          type: string
+          description: Binding ID
+    ApiResponse_UnBindCardResponse_:
+      title: ApiResponse[UnBindCardResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          title: Error code
+          type: string
+          description: Error code
+        message:
+          title: Message
+          type: string
+    AcquiringCallbackData:
+      title: AcquiringCallbackData
+      required:
+        - orderId
+        - operationState
+        - operationType
+        - orderNumber
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID on the Checkout side
+        operationState:
+          allOf:
+            - $ref: '#/components/schemas/CallbackOperationState'
+          description: Operation status
+        operationType:
+          allOf:
+            - $ref: '#/components/schemas/PaymentOperationType'
+          description: Operation type
+        cardType:
+          title: Card Type
+          description: |
+            Type of card used for the transaction:
+            * `1` – Corporate card  
+            * `2` – Personal card
+          type: integer
+          enum:
+            - 1
+            - 2
+        merchantOperationId:
+          title: Merchantoperationid
+          type: string
+          description: |-
+            Operation ID on the merchant's side, will be returned if it was
+             passed when initializing the operation
+        orderNumber:
+          title: Ordernumber
+          type: string
+          description: Order ID on the merchant's side
+        rrn:
+          title: Rrn
+          type: string
+          description: Unique identifier of the banking transaction
+    ApiResponse_GetCertificateResponse_:
+      title: ApiResponse[GetCertificateResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/GetCertificateResponse'
+    GetCertificateResponse:
+      title: GetCertificateResponse
+      required:
+        - certificate
+        - fingerprint
+      type: object
+      properties:
+        certificate:
+          title: Certificate
+          type: string
+          description: Certificate body (base64)
+        fingerprint:
+          title: Fingerprint
+          type: string
+          description: Certificate fingerprint (base64)
+    AcquiringPaymentParams:
+      title: AcquiringPaymentParams
+      required:
+        - payType
+      type: object
+      properties:
+        operationType:
+          title: Operationtype
+          enum:
+            - PAYMENT
+          type: string
+          description: Operation type PAYMENT - payment by card
+          default: PAYMENT
+        payType:
+          allOf:
+            - $ref: '#/components/schemas/PayType'
+          description: Payment type (one_step/two_step)
+        phoneNumber:
+          title: Phonenumber
+          type: string
+          description: Phone number only for topping up mobile balance
+        force3ds:
+          title: Force3Ds
+          type: boolean
+          description: Forcing payment to 3DS
+    AcquiringStatus:
+      title: AcquiringStatus
+      enum:
+        - REGISTERED
+        - AUTHORIZED
+        - TOP_UP_COMPLETED
+        - COMPLETED
+        - REFUNDED
+        - REVERSED
+        - DECLINED
+      type: string
+      description: An enumeration.
+    ApiResponse_Complete2SPResponse_:
+      title: ApiResponse[Complete2SPResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/Complete2SPResponse'
+    ApiResponse_GetBindingsResponse_:
+      title: ApiResponse[GetBindingsResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/GetBindingsResponse'
+    ApiResponse_GetOperationStateResponse_:
+      title: ApiResponse[GetOperationStateResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/GetOperationStateResponse'
+    ApiResponse_GetOrderStatusResponse_:
+      title: ApiResponse[GetOrderStatusResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/GetOrderStatusResponse'
+    ApiResponse_MerchantPayResult_:
+      title: ApiResponse[MerchantPayResult]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/MerchantPayResult'
+    ApiResponse_PaymentRegisterResponse_:
+      title: ApiResponse[PaymentRegisterResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/PaymentRegisterResponse'
+    ApiResponse_RefundResponse_:
+      title: ApiResponse[RefundResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/RefundResponse'
+    ApiResponse_ReverseResponse_:
+      title: ApiResponse[ReverseResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/ReverseResponse'
+    BindingInfoResponse:
+      title: BindingInfoResponse
+      required:
+        - ips
+      type: object
+      properties:
+        bindingId:
+          title: Binding Id
+          maxLength: 255
+          type: string
+          description: Binding ID
+        maskedPan:
+          title: Masked Pan
+          maxLength: 19
+          pattern: ^[\*0-9]*$
+          type: string
+          description: Masked pan
+        expiryDate:
+          title: Expiry Date
+          maxLength: 6
+          minLength: 6
+          pattern: ^[0-9]*$
+          type: string
+          description: Binding expiration date YYYYMM
+        ips:
+          $ref: '#/components/schemas/app__api__models__payment__BindingIPS'
+    OrderTechCardRequest:
+      title: OrderTechCardRequest
+      required:
+        - clientId
+        - amount
+        - currency
+        - orderNumber
+        - paymentParams
+        - sessionTimeoutSecs
+      type: object
+      properties:
+        clientId:
+          title: Clientid
+          minLength: 1
+          type: string
+          description: Client ID
+        amount:
+          title: Amount
+          exclusiveMaximum: 999999999999
+          minimum: 1
+          type: integer
+          description: >-
+            Payment amount  (in minimum currency units - tiyins, without
+            commission)
+        currency:
+          allOf:
+            - $ref: '#/components/schemas/Currency'
+          description: Payment currency (ISO 4217 code)
+        orderNumber:
+          title: Ordernumber
+          maxLength: 36
+          minLength: 1
+          type: string
+          description: Payment ID on the merchant's side
+        paymentParams:
+          title: Paymentparams
+          allOf:
+            - $ref: '#/components/schemas/TechCardParams'
+          description: Additional payment parameters
+        sessionTimeoutSecs:
+          title: Sessiontimeoutsecs
+          maximum: 1800
+          minimum: 600
+          type: integer
+          description: Maximum session duration in seconds
+    TechCardParams:
+      title: TechCardParams
+      required:
+        - operationType
+      type: object
+      properties:
+        operationType:
+          title: Operationtype
+          enum:
+            - TECH_CARD
+          type: string
+          description: TECH_CARD - payment pay technical installment card ;
+        phoneNumber:
+          title: Phonenumber
+          type: string
+          description: Client mobile number
+    BusinessEvent:
+      title: BusinessEvent
+      required:
+        - orderId
+        - orderNumber
+        - eventType
+        - actionCode
+        - actionCodeDescription
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID on the Checkout side
+        orderNumber:
+          title: Ordernumber
+          type: string
+          description: Order ID on the merchant's side
+        eventType:
+          allOf:
+            - $ref: '#/components/schemas/BusinessEventType'
+          description: Business event type
+        actionCode:
+          allOf:
+            - $ref: '#/components/schemas/ErrorCode'
+          description: Event code
+        actionCodeDescription:
+          title: Actioncodedescription
+          type: string
+          description: Event code description
+    BusinessEventType:
+      title: BusinessEventType
+      enum:
+        - FORM_CLOSED
+      type: string
+      description: An enumeration.
+    ReceiptGeneratedCallbackData:
+      title: ReceiptGeneratedCallbackData
+      required:
+        - orderId
+        - receiptType
+        - receiptUrl
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID on Checkout side
+        receiptType:
+          allOf:
+            - $ref: '#/components/schemas/ReceiptType'
+          description: Receipt type
+        receiptUrl:
+          title: Receipturl
+          type: string
+          description: Link to the receipt
+    ReceiptType:
+      title: ReceiptType
+      enum:
+        - PURCHASE
+        - PREPAID
+        - REFUND
+      type: string
+      description: An enumeration.
+    CallbackOperationState:
+      title: CallbackOperationState
+      enum:
+        - SUCCESS
+        - FAIL
+      type: string
+      description: An enumeration.
+    Cart:
+      title: Cart
+      type: object
+      description: Info about cart
+      required:
+        - cartId
+        - items
+        - total
+      properties:
+        cartId:
+          title: Cartid
+          type: string
+          description: Cart ID on the merchant's side
+        receiptType:
+          allOf:
+            - $ref: '#/components/schemas/RegisterReceiptType'
+          description: Type of fiscal receipt
+        items:
+          title: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        total:
+          title: Total
+          type: integer
+          description: Total cart cost
+    CartItem:
+      title: CartItem
+      required:
+        - title
+        - productId
+        - quantity
+        - unitPrice
+        - total
+      type: object
+      properties:
+        title:
+          title: Title
+          type: string
+          description: Name of the product
+        productId:
+          title: Productid
+          type: string
+          description: Product ID on the merchant's side
+        quantity:
+          title: Quantity
+          type: integer
+          description: Quantity of items in the order
+        unitPrice:
+          title: Unitprice
+          type: integer
+          description: Price per unit of items in tiyins
+        total:
+          title: Total
+          type: integer
+          description: Total price of all goods of the same type:unit_price * quantity
+        receiptParams:
+          title: Receiptparams
+          allOf:
+            - $ref: '#/components/schemas/UZReceiptParams'
+          description: >-
+            Data for autofiscalization. Additional information about
+            fiscalization to link https://www.inplat-tech.ru/docs/ofd/v.2/
+    Complete2SPCommand:
+      title: Complete2SPCommand
+      required:
+        - orderId
+        - amount
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+        amount:
+          title: Amount
+          minimum: 1
+          type: integer
+          description: Amount for Complete in tiyins
+    Complete2SPResponse:
+      title: Complete2SPResponse
+      required:
+        - operationId
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the Uzum Checkout side
+          format: uuid
+    Currency:
+      title: Currency
+      enum:
+        - 860
+      type: integer
+      description: An enumeration.
+    ErrorCode:
+      title: ErrorCode
+      type: integer
+    GetBindingsCommand:
+      title: GetBindingsCommand
+      required:
+        - clientId
+      type: object
+      properties:
+        clientId:
+          title: Clientid
+          type: string
+          description: |
+            Client ID in the merchant's system.
+    GetBindingsResponse:
+      title: GetBindingsResponse
+      required:
+        - bindings
+      type: object
+      properties:
+        bindings:
+          title: Bindings
+          type: array
+          items:
+            $ref: '#/components/schemas/BindingInfoResponse'
+          description: Card bindings
+    GetOperationStateCommand:
+      title: GetOperationStateCommand
+      required:
+        - operationId
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the checkout side
+          format: uuid
+    GetOperationStateResponse:
+      title: GetOperationStateResponse
+      required:
+        - operation
+      type: object
+      properties:
+        operation:
+          $ref: '#/components/schemas/Operation'
+    GetOrderStatusCommand:
+      title: GetOrderStatusCommand
+      required:
+        - orderId
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+    GetOrderStatusResponse:
+      title: GetOrderStatusResponse
+      required:
+        - orderId
+        - status
+        - merchantOrderId
+        - amount
+        - totalAmount
+        - completedAmount
+        - refundedAmount
+        - reversedAmount
+        - operations
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+        status:
+          allOf:
+            - $ref: '#/components/schemas/AcquiringStatus'
+          description: Payment status
+        cardType:
+          title: Card Type
+          description: |
+            Type of card used for the transaction:
+            * `1` – Corporate card  
+            * `2` – Personal card
+          type: integer
+          enum:
+            - 1
+            - 2
+        actionCode:
+          title: Actioncode
+          type: integer
+          description: Reason why payment was declined
+        merchantOrderId:
+          title: Merchantorderid
+          type: string
+          description: Order ID on the merchant's side
+        amount:
+          title: Amount
+          type: integer
+          description: Amount transferred when registering a payment
+        totalAmount:
+          title: Totalamount
+          type: integer
+          description: Total payment amount
+        completedAmount:
+          title: Completedamount
+          type: integer
+          description: Complete amount
+        refundedAmount:
+          title: Refundedamount
+          type: integer
+          description: Refund amount
+        reversedAmount:
+          title: Reversedamount
+          type: integer
+          description: Reverse amount
+        bindingId:
+          title: Binding Id
+          maxLength: 255
+          type: string
+          description: Binding ID
+        operations:
+          title: Operations
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+          description: Operations history
+    IPS:
+      title: IPS
+      enum:
+        - MASTERCARD
+        - VISA
+        - HUMO
+        - UZCARD
+      type: string
+      description: Type of card payment system
+    LocaleType:
+      title: LocaleType
+      enum:
+        - ru-RU
+        - uz-UZ
+        - en-EN
+      type: string
+      description: An enumeration.
+    merchantParams:
+      title: merchantParams
+      type: object
+      properties:
+        cart:
+          $ref: '#/components/schemas/Cart'
+    MerchantPayCommand:
+      title: MerchantPayCommand
+      required:
+        - processData
+        - orderId
+        - returnUrl
+      type: object
+      properties:
+        processData:
+          title: Processdata
+          oneOf:
+            - $ref: '#/components/schemas/PayByBindCardCommandData'
+            - $ref: '#/components/schemas/PayByCardTokenWithExternalMPICommandData'
+            - $ref: '#/components/schemas/PayByTechCardCommandData'
+          description: Payment method details.
+          discriminator:
+            propertyName: type
+            mapping:
+              bind: '#/components/schemas/PayByBindCardCommandData'
+              card: '#/components/schemas/PayByCardTokenWithExternalMPICommandData'
+              tech_card: '#/components/schemas/PayByTechCardCommandData'
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+        returnUrl:
+          title: Returnurl
+          type: string
+          description: URL for redirecting after the payment
+    PayByTechCardCommandData:
+      title: PayByTechCardCommandData
+      required:
+        - type
+        - techCardId
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+            - tech_card
+          type: string
+        techCardId:
+          title: Techcardid
+          type: integer
+          description: Technical card ID
+        tariffPlan:
+          title: Tariffplan
+          type: string
+          description: Installment plan
+        subMerchant:
+          title: Submerchant
+          allOf:
+            - $ref: '#/components/schemas/SubMerchant'
+          description: Information about sub-merchant
+    SubMerchant:
+      title: SubMerchant
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: Sub-merchant's ID
+        tinPinfl:
+          title: Tinpinfl
+          type: string
+          description: Sub-merchant's Tin or Pinfl
+        account:
+          title: Account
+          type: string
+          description: Sub-merchant's account number
+        MFO:
+          title: Mfo
+          type: string
+          description: Sub-merchant's bank MFO
+        name:
+          title: Name
+          type: string
+          description: Sub-merchant's name
+    PayByCardTokenWithExternalMPICommandData:
+      title: PayByCardTokenWithExternalMPICommandData
+      required:
+        - type
+        - aesToken
+        - cardToken
+        - certificateFingerprint
+        - needBindCard
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+            - card
+          type: string
+        aesToken:
+          title: Aestoken
+          minLength: 1
+          type: string
+          description: Couple <init. vector> (base64)
+        cardToken:
+          title: Cardtoken
+          minLength: 1
+          type: string
+          description: Encrypted JSON-message with a card data (base64)
+        certificateFingerprint:
+          title: Certificatefingerprint
+          minLength: 1
+          type: string
+          description: Certificate fingerprint (base64)
+        needBindCard:
+          title: Needbindcard
+          type: boolean
+          description: ID for bind creating
+        externalMpi:
+          title: Externalmpi
+          allOf:
+            - $ref: '#/components/schemas/ExternalMPI'
+          description: 3DS external mpi parameters
+    ExternalMPI:
+      title: ExternalMPI
+      type: object
+      properties:
+        dsTransId:
+          title: Dstransid
+          type: string
+          description: 3DS 2.0 UUID of the transaction in a directory server
+        cavv:
+          title: Cavv
+          type: string
+          description: Cardholder Authentication Verification Value
+        flowType:
+          title: flowType
+          enum:
+            - CHALLENGE
+            - FRICTIONLESS
+          type: string
+          description: 3DS 2.0 authentication flow type
+        aresStatus:
+          title: aresStatus
+          enum:
+            - 'Y'
+            - 'N'
+            - U
+            - A
+            - C
+            - D
+            - R
+            - I
+          type: string
+          description: 3DS 2.0 authentication (ARes) respond status
+        xid:
+          title: Xid
+          type: string
+          description: 3DS 1.x transaction ID in a 3ds server
+    MerchantPayResult:
+      title: MerchantPayResult
+      required:
+        - operationId
+        - mdOrder
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the checkout side
+          format: uuid
+        mdOrder:
+          title: Mdorder
+          type: string
+          description: Order ID for opening the 3ds form
+        dataFor3ds:
+          title: Datafor3Ds
+          allOf:
+            - $ref: '#/components/schemas/APIDataFor3DS'
+          description: Data for 3DS passing
+    APIDataFor3DS:
+      title: APIDataFor3DS
+      type: object
+      properties:
+        acsUrl:
+          title: Acsurl
+          type: string
+          description: >-
+            AcsUrl for 3DS passing. 3ds form will be opened if AcsUrl is
+            received
+        paReq:
+          title: Pareq
+          type: string
+          description: >-
+            Massage PAReq (base64), parameter of this payment query which
+            include all important data about the payment.
+        termUrl:
+          title: Termurl
+          type: string
+          description: URL of terminal
+    Operation:
+      title: Operation
+      required:
+        - operationId
+        - startAt
+        - operationType
+        - state
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the checkout side
+          format: uuid
+        merchantOperationId:
+          title: Merchantoperationid
+          type: string
+          description: Operation ID on the merchant side
+          format: uuid
+        startAt:
+          title: Startat
+          type: string
+          description: Operation start time
+          format: date-time
+        doneAt:
+          title: Doneat
+          type: string
+          description: Operation end time
+          format: date-time
+        operationType:
+          allOf:
+            - $ref: '#/components/schemas/PaymentOperationType'
+          description: Operation type
+        state:
+          allOf:
+            - $ref: '#/components/schemas/PaymentOperationState'
+          description: Operation Status
+        rrn:
+          title: Rrn
+          type: string
+          description: RRN of the operation
+        actionCodeDescription:
+          title: Actioncodedescription
+          type: string
+          description: Reason why payment was declined
+    OrderOperationType:
+      title: OrderOperationType
+      enum:
+        - PAYMENT
+        - INSTALLMENT
+        - BINDING
+      type: string
+      description: An enumeration.
+    PayByBindCardCommandData:
+      title: PayByBindCardCommandData
+      required:
+        - type
+        - bindingId
+      type: object
+      properties:
+        type:
+          title: Type
+        bindingId:
+          title: Bindingid
+          minLength: 1
+          type: string
+          description: |-
+            ID of the link created when paying for the order or used
+             for payment.
+        cvc:
+          title: Cvc
+          pattern: ^\d{3}$
+          type: string
+          description: CVC of card
+    PayType:
+      title: PayType
+      enum:
+        - ONE_STEP
+        - TWO_STEP
+      type: string
+      description: An enumeration.
+    PaymentOperationState:
+      title: PaymentOperationState
+      enum:
+        - IN_PROGRESS
+        - SUCCESS
+        - FAIL
+      type: string
+      description: An enumeration.
+    PaymentOperationType:
+      title: PaymentOperationType
+      enum:
+        - AUTHORIZE
+        - COMPLETE
+        - REFUND
+        - REVERSE
+        - TOP_UP_COMPLETED
+      type: string
+      description: An enumeration.
+    OrderPaymentRequest:
+      title: OrderPaymentRequest
+      required:
+        - clientId
+        - currency
+        - orderNumber
+        - viewType
+        - paymentParams
+        - sessionTimeoutSecs
+        - amount
+      type: object
+      properties:
+        amount:
+          title: Amount
+          maximum: 999999999999
+          minimum: 1
+          type: integer
+          description: Payment amount (in tiyins, no commission)
+        clientId:
+          title: Clientid
+          type: string
+          description: |
+            Client ID in the merchant's system.
+        currency:
+          allOf:
+            - $ref: '#/components/schemas/Currency'
+          description: >
+            Payment currency. The ISO 4217 code must be specified. Uzbek sum is
+            UZS - 860.
+        paymentDetails:
+          title: Paymentdetails
+          maxLength: 1024
+          type: string
+          description: Payment details
+        orderNumber:
+          title: Ordernumber
+          maxLength: 36
+          minLength: 1
+          type: string
+          description: Order ID on the merchant's side
+        successUrl:
+          title: Successurl
+          maxLength: 2083
+          minLength: 1
+          type: string
+          description: URL to redirect if the payment is successful
+          format: uri
+        failureUrl:
+          title: Failureurl
+          maxLength: 2083
+          minLength: 1
+          type: string
+          description: Redirect URL if payment fails
+          format: uri
+        viewType:
+          allOf:
+            - $ref: '#/components/schemas/PaymentViewType'
+          description: Payment page display type
+        paymentParams:
+          title: Paymentparams
+          allOf:
+            - $ref: '#/components/schemas/AcquiringPaymentParams'
+          description: Additional merchant's parameters
+        merchantParams:
+          title: merchantParams
+          type: object
+          properties:
+            cart:
+              title: Cart
+              allOf:
+                - $ref: '#/components/schemas/Cart'
+            divisionId:
+              title: DivisionID
+              description: Merchant branch ID
+              type: string
+            divisionName:
+              title: Divisionname
+              type: string
+              description: Merchant branch name
+            aviaBookingId:
+              title: Aviabookingid
+              type: string
+              description: Booking avia ticket/s ID
+          description: Additional merchant's parameters
+        sessionTimeoutSecs:
+          title: Sessiontimeoutsecs
+          maximum: 1800
+          minimum: 600
+          type: integer
+          description: Maximum session duration in seconds
+    OrderBingingRequest:
+      title: OrderBingingRequest
+      required:
+        - clientId
+        - currency
+        - orderNumber
+        - viewType
+        - paymentParams
+        - sessionTimeoutSecs
+      type: object
+      properties:
+        clientId:
+          title: Clientid
+          type: string
+          description: |
+            Client ID in the merchant's system.
+        currency:
+          allOf:
+            - $ref: '#/components/schemas/Currency'
+          description: >
+            Payment currency. The ISO 4217 code must be specified. For example:
+            Uzbek sum is UZS - 860.
+        paymentDetails:
+          title: Paymentdetails
+          maxLength: 1024
+          type: string
+          description: Payment details
+        orderNumber:
+          title: Ordernumber
+          maxLength: 36
+          minLength: 1
+          type: string
+          description: Order ID on the merchant's side
+        successUrl:
+          title: Successurl
+          maxLength: 2083
+          minLength: 1
+          type: string
+          description: URL to redirect if the payment is successful
+          format: uri
+        failureUrl:
+          title: Failureurl
+          maxLength: 2083
+          minLength: 1
+          type: string
+          description: Redirect URL if payment fails
+          format: uri
+        viewType:
+          allOf:
+            - $ref: '#/components/schemas/PaymentViewType'
+          description: Payment page display type
+        paymentParams:
+          title: Paymentparams
+          allOf:
+            - $ref: '#/components/schemas/BindingPaymentParams'
+          description: Additional merchant's parameters
+        sessionTimeoutSecs:
+          title: Sessiontimeoutsecs
+          maximum: 1800
+          minimum: 600
+          type: integer
+          description: Maximum session duration in seconds
+    OrderMobileTopUpRegisterRequest:
+      title: OrderMobileTopUpRegisterRequest
+      required:
+        - clientId
+        - currency
+        - orderNumber
+        - paymentParams
+        - sessionTimeoutSecs
+        - amount
+        - merchantParams
+      type: object
+      properties:
+        amount:
+          title: Amount
+          maximum: 999999999999
+          minimum: 1
+          type: integer
+          description: Payment amount (in tiyins, no commission)
+        clientId:
+          title: Clientid
+          type: string
+          description: |
+            Client ID in the merchant's system.
+        currency:
+          allOf:
+            - $ref: '#/components/schemas/Currency'
+          description: >
+            Payment currency. The ISO 4217 code must be specified. For example:
+            Uzbek sum is UZS - 860.
+        paymentDetails:
+          title: Paymentdetails
+          maxLength: 1024
+          type: string
+          description: Payment details
+        orderNumber:
+          title: Ordernumber
+          maxLength: 36
+          minLength: 1
+          type: string
+          description: Order ID on the merchant's side
+        paymentParams:
+          title: Paymentparams
+          allOf:
+            - $ref: '#/components/schemas/MobileTopUpPaymentParams'
+          description: Additional merchant's parameters
+        merchantParams:
+          title: merchantParams
+          allOf:
+            - $ref: '#/components/schemas/MobileTopUpMerchantParams'
+          description: Additional merchant's parameters
+        sessionTimeoutSecs:
+          title: Sessiontimeoutsecs
+          maximum: 1800
+          minimum: 600
+          type: integer
+          description: Maximum session duration in seconds
+    BindingPaymentParams:
+      title: BindingPaymentParams
+      required:
+        - operationType
+      type: object
+      properties:
+        operationType:
+          title: Operationtype
+          enum:
+            - BINDING
+          type: string
+          description: BINDING - card binding;
+        phoneNumber:
+          title: Phonenumber
+          type: string
+          description: Phone number only for top up
+    MobileTopUpMerchantParams:
+      title: MobileTopUpMerchantParams
+      type: object
+      properties:
+        cart:
+          title: Cart
+          allOf:
+            - $ref: '#/components/schemas/MobileTopUpCartRequest'
+          description: Information about cart
+    MobileTopUpPaymentParams:
+      title: MobileTopUpPaymentParams
+      required:
+        - operationType
+        - phoneNumber
+      type: object
+      properties:
+        operationType:
+          title: Operationtype
+          enum:
+            - MOBILE_TOP_UP
+          type: string
+          description: MOBILE_TOP_UP - mobile balance topping up;
+        phoneNumber:
+          title: Phonenumber
+          type: string
+          description: Mobile number for topping up
+    MobileTopUpCartRequest:
+      title: MobileTopUpCartRequest
+      required:
+        - cartId
+        - receiptType
+        - items
+        - total
+      type: object
+      properties:
+        cartId:
+          title: Cartid
+          type: string
+          description: Cart ID on the merchant's side
+        receiptType:
+          allOf:
+            - $ref: '#/components/schemas/RegisterReceiptType'
+          description: Type of a fiscal receipt
+        items:
+          title: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/MobileTopUpCartItemRequest'
+          description: Cart structure
+        total:
+          title: Total
+          type: integer
+          description: General cost of the cart
+    MobileTopUpCartItemRequest:
+      title: MobileTopUpCartItemRequest
+      required:
+        - title
+        - productId
+        - quantity
+        - unitPrice
+        - total
+        - receiptParams
+      type: object
+      properties:
+        title:
+          title: Title
+          maxLength: 63
+          type: string
+          description: Product name
+        productId:
+          title: Productid
+          type: string
+          description: Product ID on the merchant's side
+        quantity:
+          title: Quantity
+          type: integer
+          description: Quantity of items in the order
+        unitPrice:
+          title: Unitprice
+          type: integer
+          description: Price for one unit of the product in minimal currency units
+        total:
+          title: Total
+          type: integer
+          description: General amount of the product in the order
+        receiptParams:
+          title: Receiptparams
+          allOf:
+            - $ref: '#/components/schemas/UZReceiptParams'
+          description: >-
+            Information for receipt fiscalization. Additional information on the
+            link https://www.inplat-tech.ru/docs/ofd/v.2/
+    PaymentRegisterResponse:
+      title: PaymentRegisterResponse
+      required:
+        - orderId
+        - paymentRedirectUrl
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+        paymentRedirectUrl:
+          title: Paymentredirecturl
+          type: string
+          description: Payment page URL
+    PaymentViewType:
+      title: PaymentViewType
+      enum:
+        - WEB_VIEW
+        - IFRAME
+        - REDIRECT
+      type: string
+      description: An enumeration.
+    RefundCommand:
+      title: RefundCommand
+      required:
+        - orderId
+        - amount
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+        amount:
+          title: Amount
+          minimum: 1
+          type: integer
+          description: Amount to refund in tiyins
+    RefundResponse:
+      title: RefundResponse
+      required:
+        - operationId
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the checkout side
+          format: uuid
+    RegisterReceiptType:
+      title: RegisterReceiptType
+      enum:
+        - PURCHASE
+        - PREPAID
+      type: string
+      description: An enumeration.
+    ReverseCommand:
+      title: ReverseCommand
+      required:
+        - orderId
+        - amount
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Payment identifier
+          format: uuid
+        amount:
+          title: Amount
+          minimum: 1
+          type: integer
+          description: Amount to reverse in tiyins
+    ReverseResponse:
+      title: ReverseResponse
+      required:
+        - operationId
+      type: object
+      properties:
+        operationId:
+          title: Operationid
+          type: string
+          description: Operation ID on the checkout side
+          format: uuid
+    app__api__models__payment__BindingIPS:
+      title: BindingIPS
+      type: object
+      properties:
+        name:
+          allOf:
+            - $ref: '#/components/schemas/IPS'
+    UZReceiptParams:
+      title: UZReceiptParams
+      required:
+        - spic
+        - packageCode
+        - vatPercent
+      type: object
+      properties:
+        spic:
+          title: Spic
+          maxLength: 17
+          minLength: 17
+          type: string
+          description: IKPU (SPIC) product code
+        packageCode:
+          title: Packagecode
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Packaging code
+        vatPercent:
+          title: Vatpercent
+          minimum: 0
+          type: integer
+          description: VAT rate
+        TIN:
+          title: Tin
+          maxLength: 9
+          minLength: 1
+          type: string
+          description: >-
+            Committee TIN. Must be filled in if the PINFL is not filled in.
+            Can't be filled in together
+        PINFL:
+          title: Pinfl
+          maxLength: 14
+          minLength: 1
+          type: string
+          description: >-
+            Committee PINFL. Must be filled in if the TIN is not filled in.
+            Can't be filled in together
+        discount:
+          title: Discount
+          exclusiveMinimum: 0
+          type: integer
+          description: Discount amount
+        voucher:
+          title: Voucher
+          exclusiveMinimum: 0
+          type: integer
+          description: Discount marketplace (in tiyins)
+        labels:
+          title: Labels
+          type: array
+          items:
+            type: string
+          description: >-
+            Array of product labels. Quantity of labels must correspond to the
+            quantity of labelled items in the cart
+      description: Data for autofiscalization
+    RefundRequest:
+      title: RefundRequest
+      required:
+        - orderId
+        - amount
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order id
+          format: uuid
+        amount:
+          title: Amount
+          minimum: 1
+          maximum: 999999999999
+          type: integer
+          description: Amount of the refund
+        cart:
+          title: Cart
+          allOf:
+            - $ref: '#/components/schemas/FiscalizationCartRequest'
+          description: >-
+            Cart for processing the refund. Filled in only when
+            autofiscalization is enabled.
+    FiscalizationCartRequest:
+      title: FiscalizationCartRequest
+      required:
+        - total
+        - items
+      type: object
+      properties:
+        total:
+          title: Total
+          exclusiveMinimum: 0
+          type: integer
+          description: Total price of the cart
+        items:
+          title: Items
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/FiscalizationCartItemRequest'
+          description: The composition of the cart
+    FiscalizationCartItemRequest:
+      title: FiscalizationCartItemRequest
+      required:
+        - productId
+        - quantity
+        - receiptParams
+      type: object
+      properties:
+        productId:
+          title: Productid
+          minLength: 1
+          type: string
+          description: Item ID on the merchant's side
+        quantity:
+          title: Quantity
+          exclusiveMinimum: 0
+          type: integer
+          description: Quantity of the item
+        receiptParams:
+          title: Receiptparams
+          allOf:
+            - $ref: '#/components/schemas/UZReceiptParams'
+    GetReceiptRequest:
+      title: GetReceiptRequest
+      required:
+        - orderId
+      type: object
+      properties:
+        orderId:
+          title: Orderid
+          type: string
+          description: Order ID
+          format: uuid
+    GetReceiptResponse:
+      title: GetReceiptResponse
+      required:
+        - receiptUrl
+        - receiptType
+      type: object
+      properties:
+        receiptUrl:
+          title: Receipturl
+          type: string
+          description: Link to the receipt
+        receiptType:
+          allOf:
+            - $ref: '#/components/schemas/ReceiptType'
+          description: Type of the receipt (purchase/refund)
+    GetReceiptsResponse:
+      title: GetReceiptsResponse
+      required:
+        - receipts
+      type: object
+      properties:
+        receipts:
+          title: Receipts
+          type: array
+          items:
+            $ref: '#/components/schemas/GetReceiptResponse'
+          description: Issued receipts
+    ApiResponse_GetReceiptsResponse_:
+      title: ApiResponse[GetReceiptsResponse]
+      required:
+        - errorCode
+      type: object
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          title: Message
+          type: string
+        result:
+          $ref: '#/components/schemas/GetReceiptsResponse'

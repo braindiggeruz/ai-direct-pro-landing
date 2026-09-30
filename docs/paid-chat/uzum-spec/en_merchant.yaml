@@ -1,0 +1,1102 @@
+openapi: 3.1.0
+info:
+  title: Merchant API
+  version: 1.0.0
+  x-logo:
+    url: https://uzumbank.uz/_nuxt/img/uzumbank-logo-light.f4c13a0.svg
+    href: /
+  description: >
+    **Merchant API** allows partners to accept payments through the Uzum Bank
+    mobile application. When a customer pays for a service, Uzum Bank sends
+    [webhooks](#tag/Webhooks) to your server — HTTP POST requests containing
+    payment data.
+
+
+    To integrate, implement webhook handlers on your side and generate responses
+    according to this specification.
+
+
+    #### ⚙️ Key features
+
+    - Payment eligibility check
+
+    - Payment transaction creation (initiation)
+
+    - Transaction confirmation
+
+    - Transaction cancellation
+
+    - Transaction status checks
+
+
+    #### 🚀 **Quick start**
+
+    - [Payment flow](#section/Payment-Flow)
+
+    - [Request format](#section/Request-Format)
+
+    - [Authorization](#section/Authorization)
+
+    - [Error Codes](#section/Error-Codes)
+
+    - [Webhooks](#tag/Webhooks)
+
+
+    ---
+
+    # Payment Flow
+
+
+    The payment acceptance process through the Uzum Bank mobile application
+    consists of three main steps:
+
+
+    1. Checking payment eligibility — [`/check`](#operation/check)
+
+    2. Creating a transaction — [`/create`](#operation/create)
+
+    3. Confirming the payment — [`/confirm`](#operation/confirm)
+
+
+    The full scenario below describes the actions performed by Uzum Bank and the
+    responses that the partner must return at each step.
+
+
+    <a href='/img/merchant-api/en-merchant-payment-flow.svg'
+    target='_blank'><img style="display: block; margin: 0 auto; max-width:90%;
+    height:auto;" src='/img/merchant-api/en-merchant-payment-flow.svg'/></a>.
+
+
+    1. The customer selects a service in the Uzum Bank application and enters
+    the data required for payment, such as an account number, phone number, or
+    order number.
+
+    2. Uzum Bank sends the [`/check`](#operation/check) webhook to the partner
+    to verify whether the payment can be accepted for the provided data.
+    Customer data is passed in the `params` object.
+
+    3. The partner validates the data and returns:
+       - `status: OK` if the payment can continue;
+       - `status: FAILED` and `errorCode` if the payment cannot be accepted.
+    4. If the check is successful, Uzum Bank sends the
+    [`/create`](#operation/create) webhook with the transaction identifier
+    `transId`, amount `amount`, and payment parameters.
+
+    5. The partner creates the transaction on its side and returns:
+       - `status: CREATED` if the transaction is created;
+       - `status: FAILED` and `errorCode` if the transaction cannot be created.
+    6. After the transaction is created successfully, Uzum Bank debits the
+    customer's payment instrument and sends the [`/confirm`](#operation/confirm)
+    webhook to the partner.
+
+    7. The partner provides the service to the customer, moves the transaction
+    to its final state, and returns:
+       - `status: CONFIRMED` if the service was provided successfully;
+       - `status: FAILED` and `errorCode` if confirmation is not possible.
+    8. If a server error or timeout occurs on the partner side while processing
+    [`/confirm`](#operation/confirm), Uzum Bank sends the
+    [`/status`](#operation/status) webhook to retrieve the actual transaction
+    state. The request is repeated up to 10 times until the partner returns
+    `CONFIRMED` or `FAILED`.
+
+
+    # State Model
+
+
+    A transaction can be in one of three states.
+
+
+    <a href='/img/merchant-api/merchant-state-model.png' target='_blank'><img
+    style="display: block; margin: 0 auto; max-width:40%; height:auto;"
+    src='/img/merchant-api/merchant-state-model.png'/></a>.
+
+
+    If you do not receive the transaction confirmation request within 30 minutes
+    of its creation, the transaction is considered unsuccessful. In this case,
+    set the transaction status to `FAILED` on your side.
+
+
+    # Request Format
+
+
+    Uzum Bank uses the HTTPS protocol to deliver webhooks to the partner.
+    Requests are sent via the `POST` method in `application/json` format, and
+    responses are also expected in `application/json` format.
+
+
+    # Authorization
+
+
+    Authorization is done via the HTTP <a
+    href="https://developer.mozilla.org/en/docs/Web/HTTP/Headers/Authorization"
+    target="_blank">Authorization</a> header, which must be present in every
+    request. The header is generated using the "Basic" scheme and user
+    credentials encoded in <a
+    href="https://developer.mozilla.org/en/docs/Glossary/Base64"
+    target="_blank">base64</a> format: `Authorization: Basic <user
+    credentials>`. The user credentials, including the username and password,
+    are provided by our team.
+
+
+    To form the header:
+
+
+    1. Create a string from the username and password, separated by a colon, for
+    example: `"myLogin:myPassword"`;
+
+    2. Encode the string in base64, the result might be
+    `YWxhZGRpbjpvcGVuc2VzYW1l`;
+
+    3. Insert the result into the header; make sure there is a space between the
+    word `"Basic"` and the encoded credentials.
+
+
+    The header will look like:
+
+
+    | Header      | Value                        |
+
+    |--------------------|------------------------------|
+
+    | Authorization | Basic YWxhZGRpbjpvcGVuc2VzYW1l    |
+
+
+    # Error Codes
+
+
+    If a webhook cannot be processed successfully, return HTTP `400` and a JSON
+    error object with the `errorCode` field. The `errorCode` value is returned
+    as a string.
+
+
+    | Error Code | Error Description | Comments | Methods |
+
+    |------------|-------------------|----------|---------|
+
+    | `10001` | Access denied | Authorization error. Check the `Authorization`
+    header and issued credentials. | `/check`, `/create`, `/confirm`,
+    `/reverse`, `/status` |
+
+    | `10002` | JSON parsing error | The request body is not valid JSON or does
+    not match the expected structure. | `/check`, `/create`, `/confirm`,
+    `/reverse`, `/status` |
+
+    | `10003` | Invalid operation | Incorrect HTTP method. All webhooks expect
+    `POST`. | `/check`, `/create`, `/confirm`, `/reverse`, `/status` |
+
+    | `10005` | Missing required parameters | One or more required parameters
+    are missing or empty. | `/check`, `/create`, `/confirm`, `/reverse`,
+    `/status` |
+
+    | `10006` | Invalid `serviceId` | The service identifier is unknown or not
+    available to the partner. | `/check`, `/create` |
+
+    | `10007` | Additional payment attribute not found | For example: account
+    number, phone number, or order number. | `/check`, `/create` |
+
+    | `10008` | Payment already made | The payment for the specified additional
+    attributes has already been successfully processed. | `/check`, `/create` |
+
+    | `10009` | Payment cancelled | The payment for the specified additional
+    attributes has been cancelled. | `/check`, `/create` |
+
+    | `10010` | Transaction with the specified `transId` has already been
+    created | Return this code when transaction creation is repeated with the
+    same `transId`. | `/create` |
+
+    | `10011` | Invalid amount | The payment amount does not match the expected
+    amount or cannot be accepted. | `/create` |
+
+    | `10012` | Payment amount is below the minimum | The amount is lower than
+    the minimum allowed for the service. | `/create` |
+
+    | `10013` | Payment amount exceeds the maximum | The amount is higher than
+    the maximum allowed for the service. | `/create` |
+
+    | `10014` | Transaction not found | The transaction with the specified
+    `transId` does not exist in the partner system. | `/confirm`, `/reverse`,
+    `/status` |
+
+    | `10015` | Transaction cancelled | A cancelled transaction cannot be
+    confirmed. | `/confirm` |
+
+    | `10016` | Transaction with the specified `transId` has already been
+    confirmed | Repeated confirmation call for an already confirmed transaction.
+    | `/confirm` |
+
+    | `10017` | Transaction cannot be cancelled | The transaction cannot be
+    cancelled in its current state. | `/reverse` |
+
+    | `10018` | Transaction with the specified `transId` has already been
+    cancelled | Repeated cancellation call for an already cancelled transaction.
+    | `/reverse` |
+
+    | `99999` | Internal server error | The Uzum Bank service is temporarily
+    unavailable or cannot process the request. Try again later. | `/check`,
+    `/create`, `/confirm`, `/reverse`, `/status` |
+tags:
+  - name: Webhooks
+    description: >
+      These are the requests that Uzum Bank sends to the partner during the
+      payment process according to the Merchant API protocol.
+security:
+  - BasicAuth: []
+webhooks:
+  /check:
+    post:
+      summary: Verifying Payment Possibility
+      description: >
+        The `/check` webhook is used to verify the possibility of processing a
+        payment and to retrieve additional information about the payment or the
+        user.
+      tags:
+        - Webhooks
+      operationId: check
+      requestBody:
+        $ref: '#/components/requestBodies/CheckRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CheckResponseSuccess'
+        '400':
+          $ref: '#/components/responses/CheckResponseError'
+  /create:
+    post:
+      summary: Creating Payment Transaction
+      description: >
+        The `/create` webhook is used to create a payment transaction in the
+        partner's system.
+      tags:
+        - Webhooks
+      operationId: create
+      requestBody:
+        $ref: '#/components/requestBodies/CreateRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateResponseSuccess'
+        '400':
+          $ref: '#/components/responses/CreateResponseError'
+  /confirm:
+    post:
+      summary: Confirming Payment Transaction
+      description: >
+        The `/confirm` webhook is used to confirm the payment transaction after
+        the service has been successfully paid for.
+      tags:
+        - Webhooks
+      operationId: confirm
+      requestBody:
+        $ref: '#/components/requestBodies/ConfirmRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ConfirmResponseSuccess'
+        '400':
+          $ref: '#/components/responses/ConfirmResponseError'
+  /reverse:
+    post:
+      summary: Cancelling Payment Transaction
+      description: >
+        The `/reverse` webhook is used to cancel a payment transaction in the
+        partner's system.
+      tags:
+        - Webhooks
+      operationId: reverse
+      requestBody:
+        $ref: '#/components/requestBodies/ReverseRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ReverseResponseSuccess'
+        '400':
+          $ref: '#/components/responses/ReverseResponseError'
+  /status:
+    post:
+      summary: Checking Payment Transaction Status
+      description: >
+        The `/status` webhook is used to check the status of a payment
+        transaction in the partner's system.
+      tags:
+        - Webhooks
+      operationId: status
+      requestBody:
+        $ref: '#/components/requestBodies/StatusRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusResponseSuccess'
+        '400':
+          $ref: '#/components/responses/StatusResponseError'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  requestBodies:
+    CheckRequest:
+      description: |
+        JSON object with request parameters.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckRequest'
+    CreateRequest:
+      description: |
+        JSON object with request parameters.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateRequest'
+    ConfirmRequest:
+      description: |
+        JSON object with request parameters.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfirmRequest'
+    ReverseRequest:
+      description: |
+        JSON object with request parameters.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReverseRequest'
+    StatusRequest:
+      description: |
+        JSON object with request parameters.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusRequest'
+  responses:
+    CheckResponseSuccess:
+      description: |
+        Successful response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Check'
+    CheckResponseError:
+      description: |
+        Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CheckError'
+    CreateResponseSuccess:
+      description: |
+        Successful response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Create'
+    CreateResponseError:
+      description: |
+        Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateError'
+    ConfirmResponseSuccess:
+      description: |
+        Successful response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Confirm'
+    ConfirmResponseError:
+      description: |
+        Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConfirmError'
+    ReverseResponseSuccess:
+      description: |
+        Successful response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reverse'
+    ReverseResponseError:
+      description: |
+        Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReverseError'
+    StatusResponseSuccess:
+      description: |
+        Successful response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Status'
+    StatusResponseError:
+      description: |
+        Error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusError'
+  schemas:
+    CheckRequest:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of request (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361456728
+        params:
+          description: >
+            An object with additional payment properties, such as the account
+            number `account`.
+          type: object
+          example:
+            account: 123456789
+      required:
+        - serviceId
+        - timestamp
+        - params
+    Check:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of payment verification (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361457021
+        status:
+          description: |
+            Payment verification status.
+          type: string
+          enum:
+            - OK
+          example: OK
+        data:
+          description: >
+            User and payment data (can be an empty object).
+
+            The `data` object consists of key-value pairs. The key name is
+            arbitrary, for example: `account` or `fio`.
+
+            The value is an object with a single property `value` (type
+            `string`).
+          type: object
+          example:
+            account:
+              value: '123456789'
+            fio:
+              value: Ivanov Ivan Ivanovich
+      required:
+        - serviceId
+        - timestamp
+        - status
+    CheckError:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of payment verification (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361457021
+        status:
+          description: |
+            Payment verification status.
+          type: string
+          enum:
+            - FAILED
+          example: FAILED
+        errorCode:
+          description: >
+            Error code for payment eligibility verification. Possible values are
+            described in the "Error Codes" section.
+          type: string
+          example: '10007'
+      required:
+        - errorCode
+    CreateRequest:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of request (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361456728
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        params:
+          description: >
+            An object with additional payment properties, such as the account
+            number `account`.
+          type: object
+          example:
+            account: 123456789
+        amount:
+          description: |
+            Payment amount in tiyin (the smallest currency unit).
+          type: integer
+          format: int64
+          example: 2500000
+      required:
+        - serviceId
+        - timestamp
+        - transId
+        - params
+        - amount
+    Create:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - CREATED
+          example: CREATED
+        transTime:
+          description: >
+            Time of payment transaction creation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        data:
+          description: >
+            User and payment data (can be an empty object).
+
+            The `data` object consists of key-value pairs. The key name is
+            arbitrary, for example: `account` or `fio`.
+
+            The value is an object with a single property `value` (type
+            `string`).
+          type: object
+          example:
+            account:
+              value: '123456789'
+            fio:
+              value: Ivanov Ivan Ivanovich
+        amount:
+          description: |
+            Payment amount in tiyin (the smallest currency unit).
+          type: integer
+          format: int64
+          example: 2500000
+      required:
+        - serviceId
+        - transId
+        - status
+        - transTime
+        - amount
+    CreateError:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - FAILED
+          example: FAILED
+        transTime:
+          description: >
+            Time of payment transaction creation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        errorCode:
+          description: >
+            Error code for payment transaction creation. Possible values are
+            described in the "Error Codes" section.
+          type: string
+          example: '10013'
+      required:
+        - errorCode
+    ConfirmRequest:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of request (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361456728
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        paymentSource:
+          description: >
+            Payment source indicator: UZCARD, HUMO, VISA, MASTERCARD,
+            VISA_DOMESTIC, MASTERCARD_DOMESTIC, INSTALLMENT, CASHBACK, ACCOUNT,
+            WALLET, VISAUZS, UZUM_DEBIT_VISA.
+          type: string
+          format: enum
+          example: INSTALLMENT
+        tariff:
+          description: >
+            `tariff` is available if the payment source symbol is `INSTALLMENT`;
+            otherwise, it is `null`: "003" or "15-0-4" or `null`.
+          type: string
+          format: string
+          example: '003'
+        processingReferenceNumber:
+          description: >
+            Processing reference number. This field is sent only when paying
+            with Uzcard, Humo, Visa Uzum Bank, or Visa Kapital Bank cards.
+            Otherwise, the value of this field will be `null`.
+          type: string
+          format: string
+          example: '000'
+        phone:
+          description: |
+            Client phone number.
+          type: string
+          format: string
+          example: '998901234567'
+        cardType:
+          description: >
+            Client bank card type (1 - corporate bank card, 2 - private bank
+            card).
+          type: integer
+          format: int32
+          example: 2
+      required:
+        - serviceId
+        - timestamp
+        - transId
+        - paymentSource
+        - phone
+    Confirm:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - CONFIRMED
+          example: CONFIRMED
+        confirmTime:
+          description: >
+            Time of payment transaction confirmation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        data:
+          description: >
+            User and payment data (can be an empty object).
+
+            The `data` object consists of key-value pairs. The key name is
+            arbitrary, for example: `account` or `fio`.
+
+            The value is an object with a single property `value` (type
+            `string`).
+          type: object
+          example:
+            account:
+              value: '123456789'
+            fio:
+              value: Ivanov Ivan Ivanovich
+        amount:
+          description: |
+            Payment amount in tiyin (the smallest currency unit).
+          type: integer
+          format: int64
+          example: 2500000
+      required:
+        - serviceId
+        - transId
+        - status
+        - confirmTime
+        - amount
+    ConfirmError:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - FAILED
+          example: FAILED
+        confirmTime:
+          description: >
+            Time of payment transaction confirmation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        errorCode:
+          description: >
+            Error code for payment transaction confirmation. Possible values are
+            described in the "Error Codes" section.
+          type: string
+          example: '10014'
+      required:
+        - errorCode
+    ReverseRequest:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of request (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361456728
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+      required:
+        - serviceId
+        - timestamp
+        - transId
+    Reverse:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - REVERSED
+          example: REVERSED
+        reverseTime:
+          description: >
+            Time of payment transaction cancellation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        data:
+          description: >
+            User and payment data (can be an empty object).
+
+            The `data` object consists of key-value pairs. The key name is
+            arbitrary, for example: `account` or `fio`.
+
+            The value is an object with a single property `value` (type
+            `string`).
+          type: object
+          example:
+            account:
+              value: '123456789'
+            fio:
+              value: Ivanov Ivan Ivanovich
+        amount:
+          description: |
+            Payment amount in tiyin (the smallest currency unit).
+          type: integer
+          format: int64
+          example: 2500000
+      required:
+        - serviceId
+        - transId
+        - status
+        - reverseTime
+        - amount
+    ReverseError:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - FAILED
+          example: FAILED
+        reverseTime:
+          description: >
+            Time of payment transaction cancellation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        errorCode:
+          description: >
+            Error code for payment transaction cancellation. Possible values are
+            described in the "Error Codes" section.
+          type: string
+          example: '10017'
+      required:
+        - errorCode
+    StatusRequest:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        timestamp:
+          description: |
+            Time of request (Unix timestamp in milliseconds).
+          type: integer
+          format: int64
+          example: 1698361456728
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+      required:
+        - serviceId
+        - timestamp
+        - transId
+    Status:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - CREATED
+            - CONFIRMED
+            - REVERSED
+          example: CONFIRMED
+        transTime:
+          description: >
+            Time of payment transaction creation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        confirmTime:
+          description: >
+            Time of payment transaction confirmation (Unix timestamp in
+            milliseconds).
+          oneOf:
+            - type: integer
+              format: int64
+            - type: 'null'
+          example: 1698361458054
+        reverseTime:
+          description: >
+            Time of payment transaction cancellation (Unix timestamp in
+            milliseconds).
+          oneOf:
+            - type: integer
+              format: int64
+            - type: 'null'
+          example: null
+        data:
+          description: >
+            User and payment data (can be an empty object).
+
+            The `data` object consists of key-value pairs. The key name is
+            arbitrary, for example: `account` or `fio`.
+
+            The value is an object with a single property `value` (type
+            `string`).
+          type: object
+          example:
+            account:
+              value: '123456789'
+            fio:
+              value: Ivanov Ivan Ivanovich
+        amount:
+          description: |
+            Payment amount in tiyin (the smallest currency unit).
+          type: integer
+          format: int64
+          example: 2500000
+      required:
+        - serviceId
+        - transId
+        - status
+        - transTime
+    StatusError:
+      type: object
+      properties:
+        serviceId:
+          description: |
+            Service ID for which the payment is being made.
+          type: integer
+          format: int64
+          example: 101202
+        transId:
+          description: |
+            Transaction ID of the payment created in Uzum Bank.
+          type: string
+          format: uuid
+          example: 5c398d7e-76b6-11ee-96da-f3a095c6289d
+        status:
+          description: |
+            Payment transaction status.
+          type: string
+          enum:
+            - FAILED
+          example: FAILED
+        transTime:
+          description: >
+            Time of payment transaction creation (Unix timestamp in
+            milliseconds).
+          type: integer
+          format: int64
+          example: 1698361458054
+        confirmTime:
+          description: >
+            Time of payment transaction confirmation (Unix timestamp in
+            milliseconds).
+          oneOf:
+            - type: integer
+              format: int64
+            - type: 'null'
+          example: 1698361458054
+        reverseTime:
+          description: >
+            Time of payment transaction cancellation (Unix timestamp in
+            milliseconds).
+          oneOf:
+            - type: integer
+              format: int64
+            - type: 'null'
+          example: null
+        errorCode:
+          description: >
+            Error code for payment transaction status retrieval. Possible values
+            are described in the "Error Codes" section.
+          type: string
+          example: '10014'
+      required:
+        - errorCode

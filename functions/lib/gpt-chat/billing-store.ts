@@ -36,14 +36,24 @@ export interface AccessPeriod {
   refund_requested_at: number | null;
 }
 
+/** Closed set: SQL below names `this.table`, never caller-supplied text. */
+export type OrderTable = "gpt_payment_orders" | "gpt_uzum_orders";
+export const UZUM_ORDERS: OrderTable = "gpt_uzum_orders";
+
 export class BillingStore {
+  readonly table: OrderTable;
   constructor(
     readonly db: D1Database,
     readonly org: string,
-  ) {}
+    table: OrderTable = "gpt_payment_orders",
+  ) {
+    if (table !== "gpt_payment_orders" && table !== UZUM_ORDERS)
+      throw new Error("order_table");
+    this.table = table;
+  }
   order(id: string): Promise<Order | null> {
     return this.db
-      .prepare("SELECT * FROM gpt_payment_orders WHERE org_id=? AND id=?")
+      .prepare(`SELECT * FROM ${this.table} WHERE org_id=? AND id=?`)
       .bind(this.org, id)
       .first<Order>();
   }
@@ -54,7 +64,7 @@ export class BillingStore {
   ): Promise<Order | null> {
     return this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND provider=? AND mode=? AND external_id=?",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND provider=? AND mode=? AND external_id=?`,
       )
       .bind(this.org, provider, mode, id)
       .first<Order>();
@@ -66,10 +76,17 @@ export class BillingStore {
     requestId: string,
     now = Date.now(),
     consent?: { version: string; url: string; locale: 'ru' | 'uz' },
+    api?: "checkout" | "merchant",
   ): Promise<Order> {
+    // Uzum rows live in their own table (0065); the old table's CHECK rejects them.
+    if (
+      (provider === "uzum") !== (this.table === UZUM_ORDERS) ||
+      (api && this.table !== UZUM_ORDERS)
+    )
+      throw new Error("provider_table");
     const prior = await this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND request_id=?",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND request_id=?`,
       )
       .bind(this.org, user, requestId)
       .first<Order>();
@@ -81,7 +98,7 @@ export class BillingStore {
     }
     const pending = await this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND state IN ('pending','prepared')",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND state IN ('pending','prepared')`,
       )
       .bind(this.org, user, provider, mode)
       .first<Order>();
@@ -96,13 +113,14 @@ export class BillingStore {
         reason: 4,
       });
     }
-    const id = `pay_${crypto.randomUUID().replace(/-/g, "")}`;
+    // 'uzm_' + 32 hex = 36 chars, the Uzum Checkout orderNumber maximum.
+    const id = `${this.table === UZUM_ORDERS ? "uzm" : "pay"}_${crypto.randomUUID().replace(/-/g, "")}`;
     const event = crypto.randomUUID();
     await this.db.batch([
       this.db
         .prepare(
-          `INSERT OR IGNORE INTO gpt_payment_orders(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at)
-        VALUES(?,?,?,?,?,?,?,'UZS','pending',?,?)`,
+          `INSERT OR IGNORE INTO ${this.table}(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at${api ? ",api" : ""})
+        VALUES(?,?,?,?,?,?,?,'UZS','pending',?,?${api ? ",?" : ""})`,
         )
         .bind(
           this.org,
@@ -114,20 +132,21 @@ export class BillingStore {
           PRICE_TIYIN,
           now,
           now + PAYMENT_TTL_MS,
+          ...(api ? [api] : []),
         ),
       this.db
         .prepare(
           `INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,to_state,created_at)
-        SELECT org_id,?,id,'account','checkout','pending',? FROM gpt_payment_orders WHERE org_id=? AND id=?`,
+        SELECT org_id,?,id,'account','checkout','pending',? FROM ${this.table} WHERE org_id=? AND id=?`,
         )
         .bind(event, now, this.org, id),
       ...(consent ? [this.db.prepare(`INSERT INTO gpt_payment_consents(org_id,order_id,user_id,version,url,locale,accepted_at)
-        SELECT org_id,id,user_id,?,?,?,? FROM gpt_payment_orders WHERE org_id=? AND id=?`)
+        SELECT org_id,id,user_id,?,?,?,? FROM ${this.table} WHERE org_id=? AND id=?`)
         .bind(consent.version, consent.url, consent.locale, now, this.org, id)] : []),
     ]);
     const row = await this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND (request_id=? OR state IN ('pending','prepared')) ORDER BY created_at DESC LIMIT 1",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND (request_id=? OR state IN ('pending','prepared')) ORDER BY created_at DESC LIMIT 1`,
       )
       .bind(this.org, user, provider, mode, requestId)
       .first<Order>();
@@ -154,10 +173,22 @@ export class BillingStore {
       .bind(this.org, user, mode, now, now)
       .first<AccessPeriod>();
   }
+  /** Newest order of any provider (Click/Payme and Uzum) for the account panel. */
+  async latestAcrossProviders(
+    user: string,
+    mode: BillingMode,
+  ): Promise<Order | null> {
+    return this.db
+      .prepare(
+        "SELECT * FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,seq DESC LIMIT 1",
+      )
+      .bind(this.org, user, mode)
+      .first<Order>();
+  }
   async latest(user: string, mode: BillingMode): Promise<Order | null> {
     return this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,seq DESC LIMIT 1",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,seq DESC LIMIT 1`,
       )
       .bind(this.org, user, mode)
       .first<Order>();
@@ -232,7 +263,7 @@ export class BillingStore {
       const audit = this.db
         .prepare(
           `INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,from_state,to_state,created_at)
-        SELECT org_id,?,id,?, ?,state,?,? FROM gpt_payment_orders WHERE org_id=? AND id=? AND version=?${guard}`,
+        SELECT org_id,?,id,?, ?,state,?,? FROM ${this.table} WHERE org_id=? AND id=? AND version=?${guard}`,
         )
         .bind(
           event,
@@ -253,7 +284,7 @@ export class BillingStore {
         audit,
         this.db
           .prepare(
-            `UPDATE gpt_payment_orders SET state=?,version=version+1,external_id=COALESCE(external_id,?),provider_time=COALESCE(provider_time,?),
+            `UPDATE ${this.table} SET state=?,version=version+1,external_id=COALESCE(external_id,?),provider_time=COALESCE(provider_time,?),
           expires_at=CASE WHEN ?='prepared' AND provider='payme' THEN ? ELSE expires_at END,
           create_time=CASE WHEN ?='prepared' THEN ? ELSE create_time END,
           perform_time=CASE WHEN ?='paid' THEN ? ELSE perform_time END,
@@ -366,7 +397,7 @@ export class BillingStore {
   ): Promise<Order[]> {
     const result = await this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders WHERE org_id=? AND provider=? AND mode=? AND provider_time>=? AND provider_time<=? AND create_time>0 ORDER BY provider_time,seq",
+        `SELECT * FROM ${this.table} WHERE org_id=? AND provider=? AND mode=? AND provider_time>=? AND provider_time<=? AND create_time>0 ORDER BY provider_time,seq`,
       )
       .bind(this.org, provider, mode, from, to)
       .all<Order>();
@@ -449,11 +480,23 @@ export class BillingStore {
   async receipts(user: string, mode: BillingMode) {
     const rows = await this.db
       .prepare(
-        `SELECT r.kind,r.receipt_url FROM gpt_fiscal_receipts r JOIN gpt_payment_orders p ON p.id=r.order_id AND p.org_id=r.org_id
+        `SELECT r.kind,r.receipt_url FROM gpt_fiscal_receipts r JOIN gpt_payment_orders_all p ON p.id=r.order_id AND p.org_id=r.org_id
       WHERE r.org_id=? AND p.user_id=? AND p.mode=? AND r.status_code=0 AND r.receipt_url IS NOT NULL ORDER BY r.updated_at DESC LIMIT 10`,
       )
       .bind(this.org, user, mode)
       .all<{ kind: string; receipt_url: string }>();
     return rows.results || [];
   }
+}
+/** The order table a provider's rows live in. Click/Payme keep the 0064 table. */
+export function storeFor(
+  db: D1Database,
+  org: string,
+  provider: LocalProvider,
+): BillingStore {
+  return new BillingStore(
+    db,
+    org,
+    provider === "uzum" ? UZUM_ORDERS : "gpt_payment_orders",
+  );
 }

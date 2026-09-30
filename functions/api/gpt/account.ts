@@ -16,9 +16,50 @@ import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { TurnStore } from "../../lib/gpt-chat/turn-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+import { ensureSchema } from "../../lib/gpt-chat/schema";
+import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
+import { uzumApi, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
+import { UzumStore } from "../../lib/gpt-chat/uzum-store";
+
+/**
+ * A prepared Uzum Checkout order is settled from Uzum's own status when the
+ * visitor opens the panel or presses "check status": this recovers a lost or
+ * late callback. Bounded per account; any failure leaves the state as it is.
+ */
+async function reconcileUzum(
+  env: BillingEnv,
+  db: D1Database,
+  user: string,
+  orderId: string,
+): Promise<boolean> {
+  const mode = billingMode(env);
+  const cfg =
+    mode && uzumApi(env) === "checkout"
+      ? uzumCheckoutConfig(env, mode, { settleOnly: true })
+      : null;
+  if (!mode || !cfg) return false;
+  try {
+    const store = new UzumStore(db, BILLING_ORG);
+    const row = await store.order(orderId);
+    if (!row || row.user_id !== user || row.api !== "checkout" || row.mode !== mode)
+      return false;
+    await ensureSchema(db);
+    const rate = await consumeRateLimit(db, "uzum_reconcile", user, {
+      limit: 6,
+      windowMs: HOUR_MS,
+    });
+    if (!rate.allowed) return false;
+    const settled = await store.reconcileCheckout(env, cfg, row);
+    return !!settled && settled.result !== "unchanged";
+  } catch {
+    return false;
+  }
+}
+
 export const onRequestGet: PagesFunction<BillingEnv> = async ({
   request,
   env,
+  waitUntil,
 }) => {
   const mode = billingMode(env);
   const base = {
@@ -28,8 +69,11 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     priceUzs: 20000,
     messageLimit: PAID_MESSAGES,
     termsVersion: termsVersion(env),
-    providers: (["click", "payme"] as const).filter((p) =>
-      providerReady(env, p),
+    // Uzum is offered on the site only as Checkout (card page); the Merchant
+    // API flow has no customer screen yet.
+    providers: (["click", "payme", "uzum"] as const).filter(
+      (p) =>
+        providerReady(env, p) && (p !== "uzum" || uzumApi(env) === "checkout"),
     ),
     terms: {
       ru: termsUrl(env.GPT_BILLING_TERMS_RU),
@@ -47,8 +91,20 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return json({ ...base, user: null });
     const store = new BillingStore(db, BILLING_ORG);
+    let latest = await store.latestAcrossProviders(user, mode || "live");
+    if (
+      latest?.provider === "uzum" &&
+      latest.state === "prepared" &&
+      (await reconcileUzum(env, db, user, latest.id))
+    ) {
+      waitUntil(
+        maintainBilling(env).catch(() =>
+          console.warn("gpt_billing_delivery_failed"),
+        ),
+      );
+      latest = await store.latestAcrossProviders(user, mode || "live");
+    }
     const access = await store.access(user, mode || "live");
-    const latest = await store.latest(user, mode || "live");
     const scheduled = await store.nextAccess(user, mode || "live");
     const receipts = await store.receipts(user, mode || "live");
     const refundable = await store.refundable(user, mode || "live");

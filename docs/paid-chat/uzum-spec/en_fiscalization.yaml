@@ -1,0 +1,1180 @@
+openapi: 3.0.2
+info:
+  title: Uzum Fiscalization
+  version: 0.0.2
+  description: >
+    **Uzum Fiscalization** is a service for fiscalizing receipts and submitting
+    them to the Uzbekistan tax authority via API.
+
+
+    #### ⚙️ Key features
+
+    - Fiscalization of purchase and refund receipts
+
+    - Submission of QR code payment data — subject to agreement with Uzum
+
+    - Receipt link generation
+
+    - Non-fiscal receipts for advances and credit payments (without a QR code
+    and fiscal identifier) — subject to agreement with Uzum
+
+      > ⚠️ **Important:** For advance and credit payments, the State Tax Committee does not issue fiscal receipts. In such cases, a non-fiscal receipt link can be generated. To enable this feature, contact your Uzum account manager.
+
+    #### 🚀 **Quick start**
+
+    - [Authentication](#section/Authentication)
+
+    - [Package code and IKPU](#section/IKPU-and-Packaging-Code)
+
+    - [Receipt fiscalization](#tag/Fiscalization)
+
+    - [Submitting QR payment receipts to the tax
+    authority](#tag/Submit-QR-Code-Payment-Receipt-to-Tax-Authorities)
+
+
+    ---
+
+
+    # Getting started
+
+
+    To integrate with the **Uzum Fiscalization API** quickly and smoothly,
+    follow these steps:
+
+
+    1. Obtain and securely store the [authorization
+    token](#section/Authentication) for API access from your Uzum Bank account
+    manager.
+
+
+    2. Prepare the required data: [IKPU and package codes for goods and
+    services](#section/IKPU-and-Packaging-Code).
+
+
+    3. Review the available API methods:
+        - [Receipt fiscalization](#tag/Fiscalization)
+        - [Submitting QR payment receipts to the tax authority](#tag/Submit-QR-Code-Payment-Receipt-to-Tax-Authorities)
+
+    4. Complete a [test integration](#tag/Testing).
+
+
+    5. Go live.
+
+
+    ---
+
+    # Authentication
+
+    Authentication via API key is a straightforward yet highly secure
+    authorization method. We will provide you with a secret API key that must be
+    included in all your requests. If the provided key matches the one stored in
+    our system, your requests will be automatically verified as legitimate.
+
+
+    Your requests must include the **X-API-Key** header.
+
+
+    # IKPU and Packaging Code
+
+
+    To perform fiscalization, you need to know the IKPU and the product
+    packaging code. You can find the IKPU and packaging code on the Unified
+    Electronic National Catalog of Products website:
+    [https://tasnif.soliq.uz/](https://tasnif.soliq.uz/)
+
+
+    <a href='/img/fiscalization/ikpu-3.png' target='_blank'><img
+    src='/img/fiscalization/ikpu-3.png'/></a>.
+
+
+    1. Visit the website [https://tasnif.soliq.uz/](https://tasnif.soliq.uz/)
+
+    2. On the homepage, use the search bar and choose the appropriate search
+    method. The most optimal option is usually 'Text Search'.
+
+    3. Enter keywords in the search bar, such as "electric kettle". If your
+    product doesn't appear in the list, try using more general terms like
+    "kettle".
+
+    4. Go to the product page that best matches your item.
+
+    5. The IKPU of the product will be displayed at the top of the page.
+
+    6. In the "Conditional Unit" section, find the code. The options can vary,
+    for example, "pcs" for individual items, "gram" for weight-based items, and
+    "service" (sum) for services.
+
+
+    If you have difficulties selecting the correct conditional unit, please
+    contact your accounting department for assistance.
+x-tagGroups:
+  - name: API
+    description: hi
+    tags:
+      - Check Service Status
+      - Fiscalization
+      - Submit QR Code Payment Receipt to Tax Authorities
+  - name: Testing
+    tags:
+      - Testing
+  - name: Additional information
+    tags:
+      - Updates
+tags:
+  - name: Check Service Status
+    description: >-
+      This method allows you to check the basic functionality and availability
+      of the fiscalization service.
+  - name: Fiscalization
+    description: >
+      In this section, the API provides methods for working with fiscal
+      receipts.
+
+
+      `/v2/receipt` method allows you to register a sale operation and generate
+      a fiscal receipt that complies with all legal requirements.
+
+
+      `/v2/refund_receipt` method is designed for registering return
+      transactions for goods or services. Similar to the direct receipt
+      fiscalization method, it ensures the generation of a fiscal receipt for
+      the return that also meets all regulatory requirements and can be provided
+      to the customer.
+
+
+      `/v2/receipt/{operation_id}/receipt_url` method provides the ability to
+      obtain an electronic copy of the fiscal receipt using the unique operation
+      identifier.
+  - name: Submit QR Code Payment Receipt to Tax Authorities
+    description: >
+      The method is designed to send information about payments made using QR
+      codes directly to the tax authority.
+
+
+      Using this method allows automating the fiscalization process for payments
+      made at offline points of sale, ensuring immediate registration of
+      financial transactions in accordance with the law.
+
+
+      The use of this method must be pre-coordinated with the Uzum development
+      team.
+  - name: Terms and Definitions
+    description: >
+      - **OFD** - Fiscal Data Operator.
+
+      - **GNC** - State Tax Committee of the Republic of Uzbekistan.
+
+      - **NIC** - Scientific and Information Center of New Technologies of the
+      State Tax Committee of the Republic of Uzbekistan.
+
+      - **API Key** - A unique identifier used for authentication and
+      authorization when interacting with the API. It is generated and provided
+      by the Uzum development team for each partner.
+
+      - **Callback** - A function for sending the results of fiscalization of
+      receipts and QR codes to the partner if there is no response from the tax
+      authority in real-time. To enable callbacks, you need to contact the Uzum
+      manager and provide a link that will be used to process the results.
+  - name: Testing
+    description: >
+      To conduct a test integration with our service, please follow these steps:
+
+
+      1. **Request an API Key:** First, you need to request an API key from your
+      manager at Uzum. This key will be used in the headers of your requests for
+      authentication.
+        
+      2. **Test Environment:** For testing, use the host
+      `https://test-ofd.ipt-merch.com`. The following methods are available on
+      this host:
+          - **Sales Fiscalization** `/v2/receipt`:
+            - Receipt with multiple items (multiple objects in the `items` collection),
+            - If applicable: Receipt with a discount (value `items.discount > 0`),
+            - If applicable: Receipt with a marketplace discount (discount is not subtracted from the total amount, `items.voucher > 0`).
+          - **Refund Fiscalization** `/v2/refund_receipt`:
+            - Receipt with multiple items (multiple objects in the `items` collection),
+            - If applicable: Receipt with a discount (value `items.discount > 0`),
+            - If applicable: Receipt with a marketplace discount (discount is not subtracted from the total amount, `items.voucher > 0`).
+          - **Get ready-made receipt link** `/v2/receipt_url/{operation_id}`.
+          - **Send QR Code Payment Receipt Information** `/v2/qr_payment`: Using this method requires prior approval with our development team.
+
+      3. **Test Confirmation:** After completing the testing, please provide the
+      links to the generated receipts in our Telegram chat for confirmation of
+      all necessary checks.
+
+
+      4. **Move to Production Environment:** After successful confirmation of
+      the testing, request an API Key for the production environment in the
+      Telegram chat. The production environment uses the host
+      `https://ofd-key.inplat-tech.com`.
+
+
+      By following these steps, you will successfully integrate with our service
+      and start using all the available features.
+  - name: Updates
+    description: >
+      Follow our [Telegram channel](https://t.me/+1PD-jWBuj20wNTcy) for
+      real-time updates on service improvements, emergency situations, and
+      resolution timelines.
+
+
+      ### Product Labeling
+
+      Due to changes in the legislation of the Republic of Uzbekistan, according
+      to the decree introducing the mandatory digital product labeling system,
+      starting from **March 1, 2024**, the provision of product labels for the
+      following product groups is mandatory when fiscalizing receipts:
+
+
+      1. Tobacco products;
+
+      2. Alcoholic beverages (except beer and beer-based drinks);
+
+      3. Beer products (beer and beer-based drinks);
+
+      4. Household appliances and electronics;
+
+      5. Pharmaceuticals;
+
+      6. **Water and soft drinks.**
+
+
+      Changes have been made to the methods **v2/receipt** and
+      **/v2/refund_receipt**, where a new array **labels** has been added to the
+      **items** collection, designed to transmit product labels.
+
+
+      If the request does not include labels for products from the listed
+      categories (tobacco, alcoholic beverages, and others), the service will
+      return an error, and the receipt will not be fiscalized.
+paths:
+  /health/:
+    get:
+      tags:
+        - Check Service Status
+      summary: /health
+      parameters:
+        - in: header
+          name: X-API-Key
+          required: true
+          schema:
+            type: string
+          description: Unique API key. We assign and provide this key to each partner.
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/plain:
+              schema:
+                type: string
+  /v2/receipt:
+    post:
+      tags:
+        - Fiscalization
+      summary: /v2/receipt
+      description: >-
+        The direct receipt fiscalization method is intended for registering
+        sales transactions in the GNK system.
+      parameters:
+        - in: header
+          name: X-API-Key
+          required: true
+          schema:
+            type: string
+          description: Unique API key. We assign and provide this key to each partner.
+      operationId: fiscal_receipt_generation_fiscal_receipt_generation_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptData'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptGenerationResponse'
+        '202':
+          description: Request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestAccepted'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Auth error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /v2/refund_receipt:
+    post:
+      tags:
+        - Fiscalization
+      summary: /v2/refund_receipt
+      description: >
+        The refund receipt fiscalization method is intended for registering
+        returns in the GNK system.
+
+
+        For fiscalization of a refund receipt, the following conditions must be
+        met:
+
+        - The `paymentId` of the refund receipt must equal the `paymentId` of
+        the sales receipt.
+
+        - The sales receipt must have been previously fiscalized.
+      parameters:
+        - in: header
+          name: X-API-Key
+          required: true
+          schema:
+            type: string
+          description: Unique API key. We assign and provide this key to each partner.
+      operationId: fiscal_receipt_refund_fiscal_receipt_refund_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundData'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptRefundResponse'
+        '202':
+          description: Request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundAccepted'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRefundRequestResponse'
+        '403':
+          description: Auth error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorResponse'
+        '404':
+          description: Reciept not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundByPaymentIdResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /v2/qr_payment:
+    post:
+      tags:
+        - Submit QR Code Payment Receipt to Tax Authorities
+      summary: /v2/qr_payment
+      parameters:
+        - in: header
+          name: X-API-Key
+          required: true
+          schema:
+            type: string
+          description: Unique API key. We assign and provide this key to each partner.
+      operationId: save_qr_code_url_save_qr_code_url_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QrPaymentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '202':
+          description: Request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QrPaymentRequestAccepted'
+        '400':
+          description: Bad Request Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadQrPaymentRequestResponse'
+        '403':
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /v2/receipt/{operation_id}/receipt_url:
+    get:
+      summary: /v2/receipt/{operation_id}/receipt_url
+      description: >-
+        The method for obtaining a link to the fiscal receipt after its
+        fiscalization.
+      parameters:
+        - in: path
+          name: operation_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: Unique operation identifier.
+        - in: header
+          name: X-API-Key
+          required: true
+          schema:
+            type: string
+          description: Unique API key. We assign and provide this key to each partner.
+      operationId: get_receipt_url
+      tags:
+        - Fiscalization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReceiptURLResponse'
+        '202':
+          description: Request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WaitingForReceiptURLResponse'
+        '400':
+          description: There is no URL for prepaid/credit receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoURLForPrepaidCreditReceipt'
+        '403':
+          description: Auth error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorResponse'
+        '404':
+          description: Reciept not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundByPAOResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    RequestAccepted:
+      title: Request Accepted
+      required:
+        - message
+        - code
+      type: object
+      properties:
+        payment_id:
+          title: Payment Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: >-
+            Unique payment identifier in the electronic payment system. Returned
+            if the `payment_id` is not provided in the fiscalization request.
+        code:
+          title: Code
+          type: integer
+          description: |
+            Possible values
+             * 0 - Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and receipt will be fiscalized as soon as ofd.soliq.uz is available. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * 1 - Error occurred in communications with ofd.soliq.uz. We will retry it later. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * 2 - Didn't fiscalized receipt yet. We're in process of retrying it. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+        message:
+          title: Message
+          type: string
+          description: |
+            Possible values
+             * Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and receipt will be fiscalized as soon as ofd.soliq.uz is available. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * Error occurred in communications with ofd.soliq.uz. We will retry it later. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * Didn't fiscalized receipt yet. We're in process of retrying it. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+          example: >-
+            Didn't receive a timely response from an ofd.soliq.uz server. Your
+            request was accepted and receipt receipt will be fiscalized as soon
+            as ofd.soliq.uz is available. You can either retry request later,
+            call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+    RefundAccepted:
+      title: Refund Request Accepted
+      required:
+        - message
+        - code
+      type: object
+      properties:
+        code:
+          title: Code
+          type: integer
+          description: |
+            Possible values
+             * 0 - Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and receipt will be fiscalized as soon as ofd.soliq.uz is available. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * 1 - Error occurred in communications with ofd.soliq.uz. We will retry it later. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * 2 - Didn't fiscalized receipt yet. We're in process of retrying it. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+        message:
+          title: Message
+          type: string
+          description: |
+            Possible values
+             * Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and receipt will be fiscalized as soon as ofd.soliq.uz is available. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * Error occurred in communications with ofd.soliq.uz. We will retry it later. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+             * Didn't fiscalized receipt yet. We're in process of retrying it. You can either retry request later, call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+          example: >-
+            Didn't receive a timely response from an ofd.soliq.uz server. Your
+            request was accepted and receipt receipt will be fiscalized as soon
+            as ofd.soliq.uz is available. You can either retry request later,
+            call /v2/receipt_url/{operation_id} method or subscribe to callbacks
+    WaitingForReceiptURLResponse:
+      title: Waiting For Receipt URL Response
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: message
+          type: string
+          example: >-
+            Your request was accepted, but receipt still not has been
+            fiscalized. Retry later, please
+    NoURLForPrepaidCreditReceipt:
+      title: No URL For Prepaid/Credit Receipt
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: message
+          type: string
+          example: URL for prepaid/credit receipt does not exists
+    NotFoundByPaymentIdResponse:
+      title: Reciept not found by PaymentId
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: message
+          type: string
+          example: Receipt with {payment id} payment id was not found
+    NotFoundByPAOResponse:
+      title: Reciept not found by PAO
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: message
+          type: string
+          example: >-
+            Receipt with {payment id} payment id and {operation id} operation id
+            was not found
+    BadRequestResponse:
+      title: Bad Request
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: integer
+          enum:
+            - 1
+            - 2
+          description: |
+            Sort order:
+             * 1 - Invalid spic/package code. Please check values and resend request
+             * 2 - Receipt with the same payment_id and receipt_type was already send. Please check values and resend request
+        message:
+          type: string
+          example: Invalid spic/package code. Please check values and resend request
+    BadRefundRequestResponse:
+      title: Bad Refund Request
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Refund is unavailable due to expiration
+    InternalServerErrorResponse:
+      title: Internal Server Error
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: >-
+            Server encountered an unexpected condition that prevented it from
+            fulfilling the request. Please, contact support
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ReceiptData:
+      title: ReceiptData
+      required:
+        - operation_id
+        - date_time
+        - cash_amount
+        - card_amount
+        - items
+      type: object
+      properties:
+        payment_id:
+          title: Payment Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: >-
+            Unique payment identifier. When using the Uzum checkout, this
+            identifier corresponds to the `order_id`. In the case of cash
+            payments, the transfer of the identifier is not required; the
+            `payment_id` will be automatically assigned by our system.
+        operation_id:
+          title: Operation Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: Unique transaction identifier that you must generate in your system.
+        date_time:
+          title: Date Time
+          type: string
+          description: >
+            The date and time should be provided in ISO 8601 format. If the time
+            zone is not specified, the service will interpret them according to
+            Tashkent time. The date and time should be within 24 hours after
+            receiving confirmation of successful payment.
+
+
+            Time zone of Tashkent: "2023-11-01T14:00:00+05:00".
+
+            Without specifying the time zone: "2023-11-01T14:00:00".
+
+            Coordinated Universal Time: "2023-11-01T09:00:00Z".
+          format: date-time
+          example: '2023-08-07T20:00:35+05:00'
+        cash_amount:
+          title: Cash Amount
+          type: integer
+          minimum: 0
+          description: >-
+            The cash payment amount in tyiins before any discounts are applied.
+            A tyiin is the fractional monetary unit, equal to 1/100 of an Uzbek
+            sum. Therefore, if the cash payment amount is 1,000 sums, the value
+            to be transmitted should be 100,000 tyiins (1,000 * 100).
+        card_amount:
+          title: Card Amount
+          type: integer
+          minimum: 0
+          description: >-
+            The card payment amount in tyiins before any discounts are applied.
+            A tyiin is the fractional monetary unit, equal to 1/100 of an Uzbek
+            sum. Therefore, if the card payment amount is 1,000 sums, the value
+            to be transmitted should be 100,000 tyiins (1,000 * 100).
+        phone_number:
+          title: Phone Number
+          type: string
+          maxLength: 12
+          example: 998991234567
+          description: >
+            The customer's phone number in international format, for example,
+            `'998940202903'`.
+
+
+            It is allowed to use numbers from Russia and Kazakhstan, such as
+            `'79991116921'`. If there is no phone number or if a number from
+            Russia or Kazakhstan is used, cashback will not be credited.
+        ppt_id:
+          title: PPT ID
+          type: string
+          description: >-
+            Unique transaction identifier assigned by the payment processing
+            center.
+        card_type:
+          title: Card Type
+          description: |
+            Type of card used for the transaction:
+            * `1` – Corporate card  
+            * `2` – Personal card
+          type: integer
+          enum:
+            - 1
+            - 2
+        receipt_type:
+          title: Receipt Type
+          default: 0
+          description: |
+            Receipt type:
+              * 0 - Sale
+              * 1 - Advance
+              * 2 - Credit
+          type: integer
+          enum:
+            - 0
+            - 1
+            - 2
+        items:
+          title: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptDataItem'
+          description: >-
+            Detailed list of products or services included in the customer's
+            cart.
+    AuthErrorResponse:
+      title: AuthErrorResponse
+      type: object
+      properties:
+        message:
+          title: Operation Id
+          type: string
+          format: string
+          description: |
+            Available Values:
+             * Multiple auth headers are defined
+             * Auth header is not defined
+             * User is not found
+    ReceiptDataCommissionInfo:
+      title: ReceiptDataCommissionInfo
+      type: object
+      properties:
+        TIN:
+          title: Tin
+          type: string
+          description: >-
+            Taxpayer Identification Number (TIN) of the principal. It is
+            mandatory if PINF is not provided. Simultaneous filling of both TIN
+            and PINF is not allowed.
+        PINFL:
+          title: Pinfl
+          maxLength: 14
+          minLength: 14
+          type: string
+          description: >-
+            PINF of the principal. It is mandatory if TIN is not provided.
+            Simultaneous filling of both PINF and TIN is not allowed.
+    ReceiptDataItem:
+      title: ReceiptDataItem
+      required:
+        - product_name
+        - price
+        - count
+        - spic
+        - package_code
+        - vat_percent
+      type: object
+      properties:
+        product_name:
+          title: Product Name
+          type: string
+          description: Name of the product or service.
+          maxLength: 63
+        price:
+          title: Price
+          type: integer
+          minimum: 0
+          description: >-
+            The cost of the product in tyiyn. Tyiyn is the subunit of the Uzbek
+            sum, equal to 1/100 of a sum. Accordingly, if the cost of the
+            product is 1,000 sum, you should send the value of 100,000 tyiyn
+            (1,000 * 100).
+        discount:
+          title: Discount
+          type: integer
+          minimum: 0
+          description: >-
+            The total discount amount for all units of this product in the cart,
+            expressed in tyiyn. Tyiyn is the subunit of the Uzbek sum, equal to
+            1/100 of a sum. Accordingly, if the discount amount is 1,000 sum,
+            you should send the value of 100,000 tyiyn (1,000 * 100).
+        voucher:
+          title: Voucher
+          type: integer
+          minimum: 0
+          description: >-
+            The total marketplace discount amount, calculated based on the
+            number of products and expressed in tyiyn. This discount does not
+            reduce the total check amount, but it is not charged to the customer
+            during the checkout payment. Tyiyn is the subunit of the Uzbek sum,
+            equal to 1/100 of a sum. Accordingly, if the discount amount is
+            1,000 sum, you should send the value of 100,000 tyiyn (1,000 * 100).
+        count:
+          title: Count
+          type: number
+          mininum: 0
+          format: double
+          example: 1.998
+          description: The quantity of the product in the order.
+        spic:
+          title: Spic
+          type: string
+          description: IKPU code.
+        package_code:
+          title: Package Code
+          type: string
+          description: Packaging code.
+          minLength: 0
+          maxLength: 20
+        vat_percent:
+          title: Vat Percent
+          type: integer
+          minimum: 0
+          description: VAT rate in % for this item.
+        commission_info:
+          title: Commission Info
+          allOf:
+            - $ref: '#/components/schemas/ReceiptDataCommissionInfo'
+          description: Payer data.
+        owner_type:
+          title: Owner Type
+          type: integer
+          description: >
+            Product/Service owner type: * 0 - Resale * 1 - In-house production *
+            2 - Service
+          enum:
+            - 0
+            - 1
+            - 2
+    ReceiptGenerationResponse:
+      title: ReceiptGenerationResponse
+      type: object
+      required:
+        - payment_id
+        - receipt_id
+      properties:
+        receipt_id:
+          title: Receipt Id
+          type: integer
+          example: 209726
+          description: Receipt number in the tax committee (GNC).
+        payment_id:
+          title: Payment Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: >-
+            Unique payment identifier in the electronic payment system. It is
+            generated on our side if `payment_id` is not specified in the
+            fiscalization request.
+        receipt_url:
+          title: Receipt URL
+          type: string
+          example: >-
+            https://ofd.soliq.uz/epi?t=EZ000000000296&r=51&c=20230807182725&s=176112857133
+          description: >-
+            Link to the receipt; not provided in the case of advance or credit
+            receipts.
+    ReceiptRefundResponse:
+      title: RefundReceiptGenerationResponse
+      type: object
+      required:
+        - receipt_url
+        - receipt_id
+      properties:
+        receipt_id:
+          title: Receipt Id
+          type: integer
+          example: 209726
+          description: Receipt number in the tax committee (GNC).
+        receipt_url:
+          title: Receipt URL
+          type: string
+          example: >-
+            https://ofd.soliq.uz/epi?t=EZ000000000296&r=51&c=20230807182725&s=176112857133
+          description: >-
+            Link to the receipt; not provided in the case of advance or credit
+            receipts.
+    GetReceiptURLResponse:
+      required:
+        - receipt_url
+      title: GetReceiptURLResponse
+      type: object
+      properties:
+        receipt_url:
+          title: Receipt Url
+          type: string
+    RefundData:
+      title: RefundData
+      required:
+        - payment_id
+        - operation_id
+        - cash_amount
+        - card_amount
+        - date_time
+        - items
+      type: object
+      properties:
+        payment_id:
+          title: Payment Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: Unique payment identifier.
+        operation_id:
+          title: Operation Id
+          type: string
+          format: uuid
+          example: 61e057d9-b737-42fa-ae33-614a284a5a92
+          description: Unique operation identifier.
+        cash_amount:
+          title: Cash Amount
+          type: integer
+          minimum: 0
+          description: >-
+            Amount of cash refund in tiyns before discount. Tiyn is the
+            fractional monetary unit equal to 1/100 of the Uzbek som.
+            Accordingly, if the cash refund amount is 1,000 som, you need to
+            pass the value of 100,000 tiyns (1,000 * 100).
+        card_amount:
+          title: Card Amount
+          type: integer
+          minimum: 0
+          description: >-
+            Amount of card refund in tiyns before discount. Tiyn is the
+            fractional monetary unit equal to 1/100 of the Uzbek som.
+            Accordingly, if the card refund amount is 1,000 som, you need to
+            pass the value of 100,000 tiyns (1,000 * 100).
+        date_time:
+          title: Date Time
+          type: string
+          description: >
+            Date and time should be specified in ISO 8601 format. If the time
+            zone is not specified, the service will interpret them according to
+            the time of Tashkent city. Specify the date and time within 24 hours
+            after receiving confirmation of the successful payment.
+          format: date-time
+        ppt_id:
+          title: PPT ID
+          type: string
+          description: >-
+            Unique transaction identifier assigned by the payment processing
+            center.
+        card_type:
+          title: Card Type
+          description: |
+            Type of card used for the transaction:
+            * `1` – Corporate card  
+            * `2` – Personal card
+          type: integer
+          enum:
+            - 1
+            - 2
+        items:
+          title: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptDataItem'
+          description: List of items to be returned.
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    QrPaymentRequest:
+      title: QR Payment Request
+      required:
+        - payment_id
+        - operation_id
+        - paid_sum
+        - date_time
+        - commission_info
+        - phone_number
+        - receipt_info
+      type: object
+      properties:
+        payment_id:
+          title: QR Payment Id
+          type: string
+          maxLength: 36
+          example: f8ba6f5a97934a8bb36d0fefb9684d0d
+          description: >-
+            Unique identifier of the QR payment in the electronic payment
+            system.
+        operation_id:
+          title: QR Operation Id
+          type: string
+          format: uuid
+          example: db95b04e-add0-427d-a1f8-6b79eec0efe3
+          description: >-
+            Unique identifier of the operation that you must generate in your
+            system.
+        paid_sum:
+          title: Paid Sum
+          type: integer
+          min: 1
+          example: 256675
+          description: >-
+            Amount of payment in tyiyns. A tyiyn is a subunit of currency, equal
+            to 1/100 of an Uzbek sum. Therefore, if the payment amount is 1,000
+            sums, you should provide the value of 100,000 tyiyns (1,000 * 100).
+        date_time:
+          title: Date Time
+          type: string
+          description: >-
+            The payment time is specified in the UTC +5:00 time zone and must
+            follow the format: YYYY-MM-DD HH:MM:SS.
+          format: date-time
+          example: '2022-06-21 12:26:54'
+        commission_info:
+          title: Commission Info
+          allOf:
+            - $ref: '#/components/schemas/ReceiptDataCommissionInfo'
+          description: Principal's information.
+        phone_number:
+          title: Phone Number
+          type: string
+          description: >
+            Client's phone number in international format, for example,
+            `'998940202903'`.
+
+
+            Numbers from Russia and Kazakhstan are also allowed, such as
+            `'79991116921'`. Cashback will not be granted if the phone number is
+            not provided or if it is from Russia or Kazakhstan.
+          maxLength: 12
+        sale_point_address:
+          title: Sale Point Address
+          description: Sale point address
+          type: string
+          maxLength: 128
+          example: Tashkent, Chilanzar District, Mukimi Street, 166.
+        receipt_info:
+          $ref: '#/components/schemas/ReceiptInfo'
+    ReceiptInfo:
+      title: Receipt Info
+      type: object
+      description: Information about the registered receipt
+      required:
+        - terminal_id
+        - receipt_seq
+      properties:
+        terminal_id:
+          type: string
+          maxLength: 14
+          description: FM number
+          example: UZ000000000002
+        receipt_seq:
+          type: string
+          maxLength: 16
+          description: Receipt number
+          example: '123'
+    QrPaymentRequestAccepted:
+      title: QR Payment Request Accepted
+      required:
+        - message
+        - code
+      type: object
+      properties:
+        code:
+          title: Code
+          type: integer
+          description: |
+            Possible values
+             * 0 - Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and QR payment will be send as soon as ofd.soliq.uz is available. You can retry request later
+             * 1 - Error occurred in communications with ofd.soliq.uz. We will retry it later
+             * 2 - Didn't send QR payment yet. We're in process of retrying it
+        message:
+          title: Message
+          type: string
+          description: |
+            Possible values
+             * Didn't receive a timely response from an ofd.soliq.uz server. Your request was accepted and QR payment will be send as soon as ofd.soliq.uz is available. You can retry request later
+             * Error occurred in communications with ofd.soliq.uz. We will retry it later
+             * Didn't send QR payment yet. We're in process of retrying it
+          example: >-
+            Didn't receive a timely response from an ofd.soliq.uz server. Your
+            request was accepted and QR payment will be send as soon as
+            ofd.soliq.uz is available. You can retry request later
+    BadQrPaymentRequestResponse:
+      title: Bad QR Payment Request
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Sale QR payment with the same payment_id was already send

@@ -35,12 +35,38 @@ export const BILLING_DDL = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_turn_ip ON gpt_turn_reservations(org_id,ip_hash,created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_billing_delivery ON gpt_billing_outbox(org_id,delivered_at,available_at)`,
 ];
+// Uzum Bank orders (migrations/0065). gpt_payment_orders cannot take a third
+// provider (its CHECK is fixed), so Uzum rows live in a sibling table with the
+// same ledger columns; gpt_payment_orders_all is the cross-provider read path.
+export const UZUM_BILLING_DDL = [
+  `CREATE TABLE IF NOT EXISTS gpt_uzum_orders (
+    seq INTEGER PRIMARY KEY AUTOINCREMENT, org_id TEXT NOT NULL, id TEXT NOT NULL UNIQUE,
+    user_id TEXT NOT NULL, provider TEXT NOT NULL CHECK(provider='uzum'),
+    mode TEXT NOT NULL CHECK(mode IN ('test','live')), request_id TEXT NOT NULL,
+    amount INTEGER NOT NULL CHECK(amount=2000000), currency TEXT NOT NULL CHECK(currency='UZS'),
+    state TEXT NOT NULL CHECK(state IN ('pending','prepared','paid','cancelled','refunded')),
+    external_id TEXT, provider_time INTEGER, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL,
+    create_time INTEGER NOT NULL DEFAULT 0, perform_time INTEGER NOT NULL DEFAULT 0,
+    cancel_time INTEGER NOT NULL DEFAULT 0, reason INTEGER, version INTEGER NOT NULL DEFAULT 0,
+    api TEXT NOT NULL DEFAULT 'checkout' CHECK(api IN ('checkout','merchant')),
+    redirect_url TEXT, refund_operation_id TEXT, refund_requested_at INTEGER,
+    UNIQUE(org_id,user_id,request_id), UNIQUE(org_id,provider,mode,external_id))`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_uzum_orders_user ON gpt_uzum_orders(org_id,user_id,created_at)`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS idx_gpt_uzum_orders_pending ON gpt_uzum_orders(org_id,user_id,provider,mode) WHERE state IN ('pending','prepared')`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_uzum_orders_statement ON gpt_uzum_orders(org_id,provider,mode,provider_time)`,
+  `CREATE VIEW IF NOT EXISTS gpt_payment_orders_all AS
+    SELECT seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version FROM gpt_payment_orders
+    UNION ALL
+    SELECT seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version FROM gpt_uzum_orders`,
+];
 const bootstraps = new WeakMap<D1Database, Promise<void>>();
 export function ensureBillingSchema(db: D1Database): Promise<void> {
   let pending = bootstraps.get(db);
   if (!pending) {
+    // 0064 first: the view in UZUM_BILLING_DDL reads gpt_payment_orders.
     pending = db
       .batch(BILLING_DDL.map((sql) => db.prepare(sql)))
+      .then(() => db.batch(UZUM_BILLING_DDL.map((sql) => db.prepare(sql))))
       .then(() => undefined)
       .catch((error) => {
         bootstraps.delete(db);

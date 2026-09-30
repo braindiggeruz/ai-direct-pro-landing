@@ -58,7 +58,7 @@ export async function maintainBilling(
     return { delivered: 0, configured: false };
   const rows = await db
     .prepare(
-      `SELECT o.id,o.order_id,o.event,p.provider,p.mode FROM gpt_billing_outbox o JOIN gpt_payment_orders p ON p.id=o.order_id AND p.org_id=o.org_id
+      `SELECT o.id,o.order_id,o.event,p.provider,p.mode FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.id=o.order_id AND p.org_id=o.org_id
     WHERE o.org_id=? AND p.mode='live' AND o.delivered_at IS NULL AND o.available_at<=? AND o.lease_until<=? ORDER BY o.created_at LIMIT 3`,
     )
     .bind(BILLING_ORG, now, now)

@@ -1,8 +1,17 @@
 import type { Env } from "../../_types";
+import {
+  uzumApi,
+  uzumCheckoutConfig,
+  uzumKey,
+  merchantCredentials,
+  type UzumEnv,
+} from "./uzum-config";
 
 export type BillingMode = "test" | "live";
-export type LocalProvider = "payme" | "click";
-export type BillingEnv = Env & {
+export type LocalProvider = "payme" | "click" | "uzum";
+// UZUM_* fields (public config plus the one secret UZUM_CREDENTIALS_JSON) are
+// declared in uzum-config.ts and documented in docs/paid-chat/UZUM-RU.md.
+export type BillingEnv = Env & UzumEnv & {
   GPT_BILLING_MODE?: string;
   GPT_BILLING_LIVE_READY?: string;
   GPT_TELEGRAM_CLIENT_ID?: string;
@@ -59,6 +68,7 @@ export function providerKey(
   provider: LocalProvider,
   mode: BillingMode,
 ): string {
+  if (provider === "uzum") return uzumKey(env, mode);
   return (
     (provider === "payme"
       ? mode === "test"
@@ -82,6 +92,14 @@ export function providerReady(
       !termsUrl(env.GPT_BILLING_TERMS_UZ) || !termsVersion(env))
   )
     return false;
+  if (provider === "uzum") {
+    // Checkout also needs a valid base URL and, when auto-fiscalization is on,
+    // complete receipt parameters; Merchant API needs its service credentials.
+    const api = uzumApi(env);
+    return api === "checkout"
+      ? !!uzumCheckoutConfig(env, mode)
+      : api === "merchant" && !!merchantCredentials(env, mode);
+  }
   return provider === "payme"
     ? !!env.GPT_PAYME_MERCHANT_ID
     : !!(mode === "test"

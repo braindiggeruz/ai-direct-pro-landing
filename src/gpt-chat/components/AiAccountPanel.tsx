@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles, X, Check } from 'lucide-react';
 import type { Locale } from "../types";
 import type { ChatStrings } from "../i18n";
-import { validAccountView, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, type AccountView } from "../types";
+import { validAccountView, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, allowedCheckoutUrl, type AccountView, type PaymentProvider } from "../types";
 import { track } from "../analytics";
 export type { AccountView } from "../types";
 export function AiAccountPanel({
@@ -33,7 +33,7 @@ export function AiAccountPanel({
   const [open, setOpen] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [termsChanged, setTermsChanged] = useState<string | null>(null);
-  const requestKeys = useRef<Partial<Record<"click" | "payme", string>>>({});
+  const requestKeys = useRef<Partial<Record<PaymentProvider, string>>>({});
   const copy = t.premium;
   const refreshGeneration = useRef(0);
   const refresh = useCallback(async () => {
@@ -139,7 +139,7 @@ export function AiAccountPanel({
       setBusy(false);
     }
   };
-  const pay = (provider: "click" | "payme") =>
+  const pay = (provider: PaymentProvider) =>
     run(async () => {
       const resume = resumeReady && data?.payment?.provider === provider;
       if ((!checkoutReady && !resume) || !terms || !data?.providers.includes(provider)) throw new Error();
@@ -160,14 +160,10 @@ export function AiAccountPanel({
         result.mode === "checkout" &&
         typeof result.checkoutUrl === "string"
       ) {
-        const url = new URL(result.checkoutUrl);
-        if (
-          !["checkout.paycom.uz", "my.click.uz"].includes(url.hostname) ||
-          url.protocol !== "https:" || url.username || url.password
-        )
-          throw new Error();
+        const url = allowedCheckoutUrl(result.checkoutUrl);
+        if (!url) throw new Error();
         track(resume ? "checkout_resumed" : "checkout_started", { method: provider, locale, mode: data.mode || "unavailable" });
-        location.assign(url.href);
+        location.assign(url);
       } else await refresh();
     });
   const close = () => setOpen(false);
@@ -358,7 +354,7 @@ export function AiAccountPanel({
                       disabled={busy || !terms || !checkoutReady}
                       onClick={() => void pay(provider)}
                     >
-                      {provider === "click" ? "Click" : "Payme"}{" "}
+                      {provider === "click" ? "Click" : provider === "uzum" ? "Uzum Bank" : "Payme"}{" "}
                       <span aria-hidden="true">↗</span>
                     </button>
                   ))}

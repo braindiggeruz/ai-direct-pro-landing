@@ -12,9 +12,119 @@ import { IdentityStore, sameOrigin } from "../../lib/gpt-chat/identity-store";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
+import { uzumApi, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
+import { registerPayment } from "../../lib/gpt-chat/uzum-checkout";
+import {
+  UzumStore,
+  UZUM_SESSION_REUSE_MS,
+} from "../../lib/gpt-chat/uzum-store";
+import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+
+/**
+ * Uzum branch. Test mode keeps the Click/Payme test contract (no URL). Live
+ * Checkout registers the order with Uzum once and re-serves the stored page
+ * while its session is open; Merchant API returns the order code the visitor
+ * enters in the Uzum Bank app (not shown by the UI yet).
+ */
+async function subscribeUzum(
+  env: BillingEnv,
+  db: D1Database,
+  user: string,
+  requestId: string,
+  locale: "ru" | "uz",
+  consent: { version: string; url: string; locale: "ru" | "uz" },
+  origin: string,
+  waitUntil: (task: Promise<unknown>) => void,
+): Promise<Response> {
+  const mode = billingMode(env)!;
+  const api = uzumApi(env)!;
+  const store = new UzumStore(db, BILLING_ORG);
+  const now = Date.now();
+  let row = await store.createOrder(user, mode, requestId, api, now, consent);
+  if (row.api !== api) {
+    // The owner switched Checkout <-> Merchant API while this invoice was
+    // open. Close it if Uzum never saw it; the visitor starts a fresh one.
+    if (row.state === "pending" && !row.external_id)
+      await store.billing.transition(row.id, "cancelled", "invoice_expired", {
+        reason: 4,
+      });
+    return json({ ok: true, mode: "status", attemptId: row.id });
+  }
+  if (
+    (row.state !== "pending" && row.state !== "prepared") ||
+    row.expires_at <= now
+  )
+    return json({ ok: true, mode: "status", attemptId: row.id });
+  if (row.mode === "test")
+    return json({
+      ok: true,
+      mode: "test",
+      attemptId: row.id,
+      amount: row.amount,
+      currency: row.currency,
+    });
+  if (api === "merchant")
+    return json({ ok: true, mode: "uzum_app", attemptId: row.id, account: row.id });
+  const cfg = uzumCheckoutConfig(env, mode);
+  if (!cfg) return json({ ok: false, mode: "manual", code: "not_configured" }, 503);
+  if (row.external_id) {
+    // Registered before: re-serve the page while its Uzum session is open.
+    if (row.redirect_url && now - (row.provider_time ?? 0) < UZUM_SESSION_REUSE_MS) {
+      if (row.state === "pending")
+        row = await store.attachCheckout(
+          row.id,
+          row.external_id,
+          row.redirect_url,
+          row.provider_time ?? now,
+        );
+      return json({
+        ok: true,
+        mode: "checkout",
+        checkoutUrl: row.redirect_url,
+        attemptId: row.id,
+      });
+    }
+    // Session over: settle from Uzum's own status, never from the browser.
+    const settled = await store.reconcileCheckout(env, cfg, row, now);
+    if (!settled)
+      return fail("checkout_unavailable", "Check status before retrying", 503);
+    if (settled.result !== "unchanged")
+      waitUntil(
+        maintainBilling(env).catch(() =>
+          console.warn("gpt_billing_delivery_failed"),
+        ),
+      );
+    return json({ ok: true, mode: "status", attemptId: row.id });
+  }
+  const returnUrl = `${origin}${locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}`;
+  const registered = await registerPayment(cfg, row, locale, returnUrl);
+  if (!registered.ok) {
+    // Uzum refused (e.g. 3027 duplicate order number): close this invoice so
+    // the next attempt is a new order. A network failure keeps it pending.
+    if (registered.error === "uzum")
+      await store.billing.transition(row.id, "cancelled", "uzum_register_failed", {
+        reason: registered.code,
+      });
+    return fail("checkout_unavailable", "Check status before retrying", 503);
+  }
+  row = await store.attachCheckout(
+    row.id,
+    registered.orderId,
+    registered.redirectUrl,
+    Date.now(),
+  );
+  return json({
+    ok: true,
+    mode: "checkout",
+    checkoutUrl: row.redirect_url,
+    attemptId: row.id,
+  });
+}
+
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
+  waitUntil,
 }) => {
   if (!sameOrigin(request)) return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{
@@ -27,7 +137,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   if (!body.ok || !body.value) return fail("bad_request", "Invalid request");
   const p = body.value;
   if (
-    (p.provider !== "payme" && p.provider !== "click") ||
+    (p.provider !== "payme" && p.provider !== "click" && p.provider !== "uzum") ||
     !/^[a-zA-Z0-9_-]{16,80}$/.test(p.requestId || "") ||
     p.acceptTerms !== true
   )
@@ -51,6 +161,17 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     });
     if (!rate.allowed || rate.degraded)
       return fail("try_later", "Try later", 429);
+    if (p.provider === "uzum")
+      return await subscribeUzum(
+        env,
+        db,
+        user,
+        p.requestId!,
+        locale,
+        { version, url: terms, locale },
+        new URL(request.url).origin,
+        waitUntil,
+      );
     const row = await new BillingStore(db, BILLING_ORG).createOrder(
       user,
       p.provider,

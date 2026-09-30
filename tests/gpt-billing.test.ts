@@ -19,7 +19,7 @@ import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { renderMarkdown } from "../src/gpt-chat/markdown";
 import { strings } from "../src/gpt-chat/i18n";
-import { BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
+import { BILLING_DDL, UZUM_BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
 
 test("Click MD5 matches independent Node reference, exact amount parser", () => {
   for (const text of [
@@ -382,4 +382,11 @@ test("migration and runtime billing schema match", () => {
     "utf8",
   ).replace(/\r\n/g, "\n");
   for (const ddl of BILLING_DDL) assert.ok(migration.includes(ddl + ";"));
+});
+test("0065 migration and runtime Uzum schema match", () => {
+  const migration = readFileSync(
+    new URL("../migrations/0065_gpt_uzum_payments.sql", import.meta.url),
+    "utf8",
+  ).replace(/\r\n/g, "\n");
+  for (const ddl of UZUM_BILLING_DDL) assert.ok(migration.includes(ddl + ";"));
 });
