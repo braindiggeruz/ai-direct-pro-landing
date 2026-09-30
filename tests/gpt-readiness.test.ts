@@ -1,7 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { billingFixture } from './helpers/gpt-billing-fixture';
+import { SqliteD1 } from './helpers/sqlite-d1';
 import { onRequestGet as account } from '../functions/api/gpt/account';
 import { onRequestPost as subscribe } from '../functions/api/gpt/subscribe';
 import { onRequestPost as logout } from '../functions/api/gpt/auth/logout';
@@ -10,6 +12,7 @@ import { onRequestPost as click } from '../functions/api/payments/click';
 import { termsUrl } from '../functions/lib/gpt-chat/billing-config';
 import { chatStreamStart } from '../functions/lib/gpt-chat/openrouter-stream';
 import { modelChain, resolveConfig } from '../functions/lib/gpt-chat/config';
+import { inspectBilling } from '../functions/lib/gpt-chat/billing-operations-store';
 
 test('Payme preparation starts its protocol timeout and test grants never enter the legacy live mirror', async () => {
   const f = await billingFixture();
@@ -37,6 +40,50 @@ test('anonymous account metadata is no-store/noindex and performs no database wo
   assert.equal(view.loginAvailable, false);
   assert.deepEqual(view.providers, []);
   assert.equal(view.termsVersion, null);
+});
+
+test('the bot handoff flag reaches the account view only as exactly "true", with no database work', async () => {
+  const view = async (flag?: string) => {
+    const env = { GPTBOT_DRAFTS_DB: { prepare() { throw Error('unavailable'); }, batch() { throw Error('unavailable'); } }, GPT_BOT_HANDOFF_ENABLED: flag };
+    const response = await account({ request: new Request('https://gpt.test/api/gpt/account'), env } as unknown as Parameters<typeof account>[0]);
+    return (await response.json() as { botHandoff: unknown }).botHandoff;
+  };
+  assert.equal(await view(), false);
+  for (const flag of ['false', '', 'TRUE', '1', 'yes']) assert.equal(await view(flag), false, flag);
+  assert.equal(await view('true'), true);
+});
+
+test('a chat turn needs no Uzum schema and never creates it (migration 0065 not applied)', async () => {
+  // A database the chat bootstraps by itself: nothing from 0065 exists.
+  const db = new SqliteD1();
+  const background: Promise<unknown>[] = [];
+  const env = { GPTBOT_DRAFTS_DB: db.asD1(), OPENROUTER_API_KEY: randomBytes(32).toString('hex') };
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => new Response(`data: ${JSON.stringify({ choices: [{ delta: { content: 'Javob' } }] })}\n\ndata: [DONE]\n\n`);
+  try {
+    const response = await chat({
+      request: new Request('https://gpt.test/api/gpt/chat', { method: 'POST', body: JSON.stringify({ message: 'Salom', stream: true }) }),
+      env,
+      waitUntil: (task: Promise<unknown>) => background.push(task),
+    } as unknown as Parameters<typeof chat>[0]);
+    const text = await response.text();
+    await Promise.all(background);
+    assert.equal(response.status, 200);
+    assert.match(text, /"type":"done"/);
+    assert.equal(db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='done'"), 1);
+    assert.equal(db.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE '%uzum%' OR name='gpt_payment_orders_all'"), 0);
+  } finally { globalThis.fetch = original; }
+});
+
+test('diagnostics report the payments section as schema_pending until migration 0065, the rest still answers', async () => {
+  const f = await billingFixture();
+  f.db.exec('DROP VIEW gpt_payment_orders_all; DROP TABLE gpt_uzum_orders');
+  const diagnostics = await inspectBilling(f.env);
+  assert.equal(diagnostics.outbox, 'schema_pending');
+  assert.deepEqual(diagnostics.lastHour, []);
+  assert.deepEqual(diagnostics.blockedModels, []);
+  f.db.exec(readFileSync(new URL('../migrations/0065_gpt_uzum_payments.sql', import.meta.url), 'utf8'));
+  assert.deepEqual({ ...(await inspectBilling(f.env)).outbox as object }, { pending: 0, oldest: null });
 });
 
 test('account storage identity is stable across devices, distinct across users; logout clears transcript cookies', async () => {

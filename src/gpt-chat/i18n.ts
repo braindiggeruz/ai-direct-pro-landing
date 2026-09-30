@@ -138,6 +138,8 @@ export interface ChatStrings {
   hourlyBody: string;
   hourlyRetry: string;
   hourlyRetryHint: string;
+  // The limit card's daily line while the bot route is off (limit-card.ts).
+  dailyTitle: string;
   dailyBody: string;
   leadIntroCap: string;
   leadConsentDetail: string;
@@ -284,6 +286,7 @@ const RU: ChatStrings = {
   hourlyBody: 'Бесплатный чат на сайте считает сообщения по часам. Дневной лимит ещё не закончился — продолжите в Telegram сейчас или вернитесь сюда позже.',
   hourlyRetry: 'Попробовать снова',
   hourlyRetryHint: 'Если час уже прошёл',
+  dailyTitle: 'Бесплатный лимит на сегодня исчерпан',
   dailyBody: 'Дневной бесплатный лимит на сайте исчерпан. Продолжить можно в нашем Telegram-боте — или оставьте контакт, и мы свяжемся.',
   leadIntroCap: 'Оставьте контакт — свяжемся и ответим на вопросы.',
   leadConsentDetail: 'Отправляем имя, контакт, номер сессии чата и адрес страницы. Текст переписки не передаётся.',
@@ -429,6 +432,7 @@ const UZ: ChatStrings = {
   hourlyBody: 'Saytdagi bepul chat xabarlarni soat bo‘yicha hisoblaydi. Kunlik limit hali tugagani yo‘q — hozir Telegramda davom ettiring yoki keyinroq shu yerga qayting.',
   hourlyRetry: 'Qayta urinib ko‘rish',
   hourlyRetryHint: 'Agar bir soat o‘tgan bo‘lsa',
+  dailyTitle: 'Bugungi bepul limit tugadi',
   dailyBody: 'Saytdagi kunlik bepul limit tugadi. Telegram-botimizda davom ettirishingiz mumkin — yoki kontakt qoldiring, o‘zimiz bog‘lanamiz.',
   leadIntroCap: 'Kontakt qoldiring — bog‘lanamiz va savollaringizga javob beramiz.',
   leadConsentDetail: 'Ism, kontakt, chat sessiyasi raqami va sahifa manzili yuboriladi. Yozishmalar matni uzatilmaydi.',

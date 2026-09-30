@@ -3,6 +3,12 @@ import { modelChain, resolveConfig } from "./config";
 import { recordServiceAlert } from "./billing-maintenance-store";
 import { modelFailed } from "./model-health-store";
 
+/** SQLite/D1 wording for a table or view that does not exist (yet). */
+function missingSchema(error: unknown): boolean {
+  return /no such table/i.test(
+    error instanceof Error ? error.message : String(error),
+  );
+}
 export async function inspectBilling(env: BillingEnv, now = Date.now()) {
   const db = env.GPTBOT_DRAFTS_DB!;
   const [queue, turns, models] = await Promise.all([
@@ -11,7 +17,13 @@ export async function inspectBilling(env: BillingEnv, now = Date.now()) {
         "SELECT COUNT(*) AS pending,MIN(o.created_at) AS oldest FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.org_id=o.org_id AND p.id=o.order_id WHERE o.org_id=? AND o.delivered_at IS NULL AND p.mode='live'",
       )
       .bind(BILLING_ORG)
-      .first(),
+      .first<{ pending: number; oldest: number | null }>()
+      // The view comes from migrations/0065. Before it is applied this one
+      // section says so; the rest of the diagnostics still answer.
+      .catch((error: unknown) => {
+        if (missingSchema(error)) return "schema_pending" as const;
+        throw error;
+      }),
     db
       .prepare(
         "SELECT status,COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND created_at>=? GROUP BY status",

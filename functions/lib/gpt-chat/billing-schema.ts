@@ -59,20 +59,45 @@ export const UZUM_BILLING_DDL = [
     UNION ALL
     SELECT seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version FROM gpt_uzum_orders`,
 ];
-const bootstraps = new WeakMap<D1Database, Promise<void>>();
-export function ensureBillingSchema(db: D1Database): Promise<void> {
-  let pending = bootstraps.get(db);
+// One bootstrap per binding; a failed one is forgotten so the next request
+// retries it instead of replaying the error.
+function once(
+  cache: WeakMap<D1Database, Promise<void>>,
+  db: D1Database,
+  create: () => Promise<unknown>,
+): Promise<void> {
+  let pending = cache.get(db);
   if (!pending) {
-    // 0064 first: the view in UZUM_BILLING_DDL reads gpt_payment_orders.
-    pending = db
-      .batch(BILLING_DDL.map((sql) => db.prepare(sql)))
-      .then(() => db.batch(UZUM_BILLING_DDL.map((sql) => db.prepare(sql))))
+    pending = create()
       .then(() => undefined)
       .catch((error) => {
-        bootstraps.delete(db);
+        cache.delete(db);
         throw error;
       });
-    bootstraps.set(db, pending);
+    cache.set(db, pending);
   }
   return pending;
+}
+const billingBootstraps = new WeakMap<D1Database, Promise<void>>();
+const uzumBootstraps = new WeakMap<D1Database, Promise<void>>();
+/** The 0064 ledger. Every billing path runs it, the chat turn included. */
+export function ensureBillingSchema(db: D1Database): Promise<void> {
+  return once(billingBootstraps, db, () =>
+    db.batch(BILLING_DDL.map((sql) => db.prepare(sql))),
+  );
+}
+/**
+ * The 0065 objects, bootstrapped on Uzum paths only: payments/uzum*,
+ * internal/gpt-uzum-refund and the Uzum branches of gpt/account and
+ * gpt/subscribe while UZUM_API is set. A chat turn never runs this DDL, so a
+ * failure here cannot take the chat down. The other readers of the view rely
+ * on migrations/0065, which a release applies before the code that reads it.
+ */
+export function ensureUzumSchema(db: D1Database): Promise<void> {
+  // 0064 first: the view reads gpt_payment_orders.
+  return once(uzumBootstraps, db, () =>
+    ensureBillingSchema(db).then(() =>
+      db.batch(UZUM_BILLING_DDL.map((sql) => db.prepare(sql))),
+    ),
+  );
 }

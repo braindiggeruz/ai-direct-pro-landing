@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { SqliteD1 } from "./sqlite-d1";
 import { ensureSchema } from "../../functions/lib/gpt-chat/schema";
 import { ensureBillingSchema } from "../../functions/lib/gpt-chat/billing-schema";
@@ -18,6 +19,15 @@ export async function billingFixture() {
   const binding = db.asD1();
   await ensureSchema(binding);
   await ensureBillingSchema(binding);
+  // Production from release R1 on: migrations/0065 (the Uzum table and the
+  // cross-provider view the account panel and the outbox read) is applied as
+  // `d1 migrations apply` does, not by the Uzum routes' runtime bootstrap.
+  db.exec(
+    readFileSync(
+      new URL("../../migrations/0065_gpt_uzum_payments.sql", import.meta.url),
+      "utf8",
+    ),
+  );
   const secret = () => randomBytes(32).toString("hex");
   const numeric = () => String(randomBytes(4).readUInt32BE(0));
   const env = {

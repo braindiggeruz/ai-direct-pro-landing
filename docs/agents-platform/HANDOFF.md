@@ -1,3 +1,29 @@
+# Платный AI-чат к проду: WP-00 — приём этапа 1 и предохранитель, 2026-09-30
+
+**Состояние.** Ветка `paid-chat/prod-readiness` от `f53cabcb` (= `origin/main`); прод `a61963f1` — её предок (проверено `gptbot-release.json` и `git merge-base --is-ancestor`). Ничего не запушено и не задеплоено; Cloudflare, D1, GSC и боты не трогались. План — `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/raw/prod-2026-09-30/10-PROD-PLAN.md` (вне Git), дальше WP-01.
+
+**Коммиты WP-00.** `c209366e` — пакет B (Z.ai) вместе с общими `wrangler.toml` и `runtime-config.ts`, где лежат и инертные ключи `UZUM_*`; `208bd0a3` — пакет C (Uzum, миграция 0065, спецификации Uzum без правок); `ed2a918d` — пакет A (кнопки в бота); затем этот коммит `fix(gpt-chat): keep stage-1 surfaces inert`. Коммиты 1–3 — этап 1 как есть, без правок.
+
+**Что сделал предохранитель.**
+- (а) `ensureBillingSchema` создаёт только таблицы 0064. Новый `ensureUzumSchema` (0064 → 0065) вызывают только `payments/uzum.ts`, `payments/uzum-merchant/[op].ts`, `internal/gpt-uzum-refund.ts`, а также `account.ts` (при заданном `UZUM_API`) и `subscribe.ts` (при `provider=uzum`, до этого `providerReady` уже проверил настройку). Ход чата DDL Uzum больше не выполняет. `inspectBilling` без view отдаёт `outbox: "schema_pending"`, а не 503; остальные секции отвечают.
+- (б) Новый V `GPT_BOT_HANDOFF_ENABLED="false"` (JSON и вложенная таблица, `RUNTIME_CONFIG_KEYS`, `Env`). `/api/gpt/account` отдаёт `botHandoff` (true только при строке `"true"`, в D1 не ходит). `validAccountView`: поле boolean или отсутствует, иное — вид отклоняется. Решение карточки лимита вынесено в `src/gpt-chat/limit-card.ts`: `AiLimitTelegram` монтируется только при `botHandoff`, поэтому без флага нет ни кнопки, ни одноразовой ссылки (строки в D1).
+- (в) `npm test` += `gpt-uzum-payments`, `gpt-zai-provider`.
+- (г) `.serena/` — в `F:/Claude/gptbot-repo-clean-20260801/.git/info/exclude`: это общий git-каталог worktree, в самом checkout `.git` — файл.
+
+**Отклонения от плана и почему.**
+1. Приёмка «`grep gpt_uzum billing-schema.ts` только внутри `ensureUzumSchema`» буквально не выполнима: экспорт `UZUM_BILLING_DDL` читают тесты паритета с миграцией 0065. Выполнен смысл проверки: `UZUM_BILLING_DDL` в `functions/` исполняет только `ensureUzumSchema`, а тест доказывает, что `ensureBillingSchema` не создаёт ни одного объекта Uzum.
+2. Кроме Uzum-путей view читают панель вошедшего (`latestAcrossProviders`, `receipts`) и outbox в `maintainBilling` (только live). Они опираются на миграцию 0065 — так и задумано в плане (§5 и `05` A6: «миграция до кода»). Поэтому тестовая `billingFixture` теперь накатывает сам файл 0065 — это прод начиная с R1.
+3. Тексты карточки без бота. `hourlyBody` и `dailyBody` зовут в Telegram, а `premium.unavailable` («бесплатный чат доступен») запрещён тестом пакета A. Без флага: часовой лимит и пакет показывают `premium.pause` (как в проде сейчас), дневной без оплаты — новый ключ `dailyTitle` «Бесплатный лимит на сегодня исчерпан» / «Bugungi bepul limit tugadi» (формулировка из `03` §4). С флагом тексты пакета A не меняются. Остальные тексты карточки переписывает WP-06.
+4. `limitCard` принимает locale, а не объект строк. Если передать `t` в функцию при рендере, React Compiler перестаёт мемоизировать `onAccount` (ESLint `react-hooks/preserve-manual-memoization`).
+
+**Проверки.** `tsc -b` 0; `typecheck:functions` 0; ESLint изменённых файлов 0. Пять файлов этапа 1 — 81/81 (handoff-link 11, telegram-web-handoff 21, zai 18, uzum 17 — новый тест 13 «каждый Uzum-путь сам поднимает 0065», billing 14). `gpt-readiness` 9/9 (новые тесты: ход чата на базе без 0065 проходит и не создаёт объектов Uzum; `schema_pending`; флаг бота). `gpt-account-ui` 7/7. Все файлы `npm test` по одному — 735/737 (две известные датозависимые фикстуры `lead-radar`). Шаги `build:fast` 0; `seo-protection check` 10/10; `scan:secrets` clean; `git diff --check` чисто; grep токенов пуст. Бандл: +1 маленький модуль, `gpt-chat-*.js` 46,5 КБ br.
+
+**Для релиза R1.** Миграцию 0065 (шапка и rollback-notes проверены; `CREATE … IF NOT EXISTS`, без DROP) накатить вместе с 0066 (WP-04) **до** деплоя Pages. После R1 на проде ничего не меняется: Uzum инертен (`UZUM_API=""`), Z.ai выключен (`GPT_MODEL_PROVIDER=openrouter`, ключа нет), кнопка бота скрыта до R2.1 (`GPT_BOT_HANDOFF_ENABLED=true` → деплой).
+
+**Заметки для WP-15.** `storeFor` в `billing-store.ts` используют только тесты, `BillingStore.latest` — только `scripts/gpt-billing-rehearsal.ts`. Панель вошедшего без 0065 отвечает 503 — вход появится только в R4, а 0065 применяется в R1.
+
+---
+
 # Правки по свежим данным Search Console, 2026-09-30
 
 Опубликовано: production `908ee526`, deployment `3ed0959b-5850-487e-9731-044e189f51aa`; защищённые 10/10 на живом HTML, IndexNow 16 URL. База `e4742c7e`. Владелец подключил Search Console API (сервисный аккаунт, ключ вне Git). Данные: трафик плоский, ~92 % показов — пять ChatGPT-страниц; «chatgpt kirish» каннибализирован между UZ-чатом, статьёй про вход и RU-чатом; тест 19.09 нечитаем — заморозка до 03.10/20.10 снята. Сделано: интент по страницам-лидерам (описания, FAQ, первый экран UZ-чата, без смены title/H1), коммерческие title/H1 разработки ботов, FAQPage убран с чат-страниц (не был видимым), правила замера/отката C22/C11. Отчёт: `docs/seo/gsc-driven-2026-09-30/REPORT-RU.md`; защищённая ревизия `docs/seo/evidence/2026-09-30-gsc-driven/`. Следующее: чтения C22/C11 через 14 и 28 дней после переобхода. Устаревшее ниже про «заморозку до 03.10/20.10» — отменено.

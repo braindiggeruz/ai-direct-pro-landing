@@ -18,7 +18,7 @@ import {
   billingMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
-import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
 import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
@@ -82,7 +82,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       ),
     );
   try {
-    await ensureBillingSchema(env.GPTBOT_DRAFTS_DB);
+    await ensureUzumSchema(env.GPTBOT_DRAFTS_DB);
     const store = new UzumStore(env.GPTBOT_DRAFTS_DB, BILLING_ORG);
     const row = await store.order(p.orderId);
     if (

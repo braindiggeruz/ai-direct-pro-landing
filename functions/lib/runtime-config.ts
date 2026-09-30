@@ -81,6 +81,8 @@ export const RUNTIME_CONFIG_KEYS = [
   'UZUM_FISCAL_IKPU',
   'UZUM_FISCAL_PACKAGE_CODE',
   'UZUM_FISCAL_VAT_PERCENT',
+  // Limit card -> assistant bot button (functions/api/gpt/account.ts botHandoff).
+  'GPT_BOT_HANDOFF_ENABLED',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

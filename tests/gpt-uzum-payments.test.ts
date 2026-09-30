@@ -9,6 +9,7 @@ import { readFileSync } from "node:fs";
 import { uzumFixture } from "./helpers/uzum-fixture";
 import { billingFixture } from "./helpers/gpt-billing-fixture";
 import { freshAdminDb } from "./helpers/bormi-admin-fixture";
+import { SqliteD1 } from "./helpers/sqlite-d1";
 import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
 import { onRequestPost as uzumMerchant } from "../functions/api/payments/uzum-merchant/[op]";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
@@ -20,7 +21,11 @@ import {
   type BillingEnv,
 } from "../functions/lib/gpt-chat/billing-config";
 import { BillingStore, storeFor } from "../functions/lib/gpt-chat/billing-store";
-import { UZUM_BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
+import {
+  UZUM_BILLING_DDL,
+  ensureBillingSchema,
+  ensureUzumSchema,
+} from "../functions/lib/gpt-chat/billing-schema";
 import { UzumStore } from "../functions/lib/gpt-chat/uzum-store";
 import {
   allowedUzumReceipt,
@@ -659,8 +664,48 @@ test("12. 0065 applies after the full ledger; the view unions both tables; runti
     binding.prepare("INSERT INTO gpt_uzum_orders(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
       .bind(BILLING_ORG, `uzm_${"1".repeat(32)}`, "acct_a", "uzum", "live", randomUUID(), 2000000, "UZS", "pending", 1, Date.now() + 1e6).run(),
   );
-  // Runtime bootstrap on the same database is a no-op.
-  const f = await billingFixture();
-  assert.equal(f.db.value("SELECT COUNT(*) FROM sqlite_master WHERE name='gpt_payment_orders_all' AND type='view'"), 1);
-  assert.equal(f.db.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE 'idx_gpt_uzum_orders_%'"), 3);
+  // Runtime bootstrap. The 0064 one (every chat turn runs it) creates no
+  // Uzum object; the Uzum one adds exactly the 0065 objects and is a no-op
+  // over the migrated ledger.
+  const uzumObjects = (db: SqliteD1) =>
+    db.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE '%uzum%' OR name='gpt_payment_orders_all'");
+  const bare = new SqliteD1();
+  await ensureBillingSchema(bare.asD1());
+  assert.equal(uzumObjects(bare), 0);
+  await ensureUzumSchema(bare.asD1());
+  assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name='gpt_payment_orders_all' AND type='view'"), 1);
+  assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE 'idx_gpt_uzum_orders_%'"), 3);
+  const migrated = uzumObjects(ledger);
+  assert.equal(uzumObjects(bare), migrated);
+  await ensureUzumSchema(binding);
+  assert.equal(uzumObjects(ledger), migrated);
+  assert.equal((await new BillingStore(binding, BILLING_ORG).latestAcrossProviders("acct_a", "live"))!.id, uzum.id);
+});
+
+test("13. every Uzum path bootstraps the 0065 objects itself when the migration is missing", async () => {
+  const none = `uzm_${"0".repeat(32)}`;
+  type Fixture = Awaited<ReturnType<typeof uzumFixture>>;
+  const paths: Array<[api: "checkout" | "merchant", name: string, call: (f: Fixture) => Promise<number>]> = [
+    ["checkout", "account", async (f) => (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.cookie } })))).status],
+    ["checkout", "subscribe", async (f) => (await f.subscribeUzum(randomUUID())).status],
+    ["checkout", "callback", async (f) => (await f.callback({ orderId: randomUUID(), operationState: "SUCCESS", operationType: "COMPLETE", orderNumber: none })).status],
+    ["checkout", "refund", async (f) => (await f.refundCall({ orderId: none, confirmRefund: true })).status],
+    ["merchant", "merchant webhook", async (f) => (await f.merchantCall("check", { params: { account: none } })).status],
+  ];
+  for (const [api, name, call] of paths) {
+    const f = await uzumFixture({ api });
+    try {
+      f.db.exec("DROP VIEW gpt_payment_orders_all; DROP TABLE gpt_uzum_orders");
+      const status = await call(f);
+      await f.drain();
+      assert.ok(status < 500, `${name} answered ${status}`);
+      assert.equal(
+        f.db.value("SELECT COUNT(*) FROM sqlite_master WHERE name IN ('gpt_uzum_orders','gpt_payment_orders_all')"),
+        2,
+        name,
+      );
+    } finally {
+      f.restore();
+    }
+  }
 });

@@ -16,7 +16,7 @@ import {
   billingMode,
   type BillingEnv,
 } from "../../../lib/gpt-chat/billing-config";
-import { ensureBillingSchema } from "../../../lib/gpt-chat/billing-schema";
+import { ensureUzumSchema } from "../../../lib/gpt-chat/billing-schema";
 import { ensureSchema } from "../../../lib/gpt-chat/schema";
 import { json, fail, readJsonLimited } from "../../../lib/gpt-chat/http";
 import { sameSecret } from "../../../lib/gpt-chat/payment-protocol";
@@ -125,7 +125,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   try {
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
-    await ensureBillingSchema(db);
+    await ensureUzumSchema(db);
     const store = new UzumStore(db, BILLING_ORG);
     const settle = () =>
       waitUntil(

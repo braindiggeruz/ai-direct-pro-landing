@@ -29,6 +29,7 @@ import { AiUsageBadge } from "./AiUsageBadge";
 import { AiQuotaThread } from "./AiQuotaThread";
 import { AiOfferCard } from "./AiOfferCard";
 import { AiLimitTelegram } from "./AiLimitTelegram";
+import { limitCard, type LimitReason } from "../limit-card";
 import { AiSidebar } from "./AiSidebar";
 import { PromptTemplateGrid } from "./PromptTemplateGrid";
 import { ImagePromptTool } from "./ImagePromptTool";
@@ -50,14 +51,6 @@ const FREE_DAILY_SEGMENTS = 15;
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
 
-/**
- * Which cap was hit. 'hourly' is a pause of at most an hour with the day's
- * allowance still unspent; 'daily' is over until tomorrow. The two must not be
- * confused: treating an hourly pause as a daily one locks a willing visitor
- * out for the rest of the day.
- */
-type LimitReason = "hourly" | "daily" | "monthly";
-
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
   const uz = config.locale === "uz";
@@ -73,6 +66,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [accountReady, setAccountReady] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [billingAvailable, setBillingAvailable] = useState(false);
+  const [botHandoff, setBotHandoff] = useState(false);
   const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
   const entryMeta = entry ? { source: chatEntryArticleHref(entry), intent: entry.id } : {};
@@ -135,6 +129,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setSignedIn(!!account?.user);
     setPaid(!!account?.access && account.access.ends_at > Date.now());
     setBillingAvailable(!!account?.mode && !!account.providers.length);
+    setBotHandoff(account?.botHandoff === true);
     const quota = account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining(config.locale) : -1);
     setRemaining(quota);
     setLimitReached(quota === 0);
@@ -601,8 +596,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   }, [limitReached, limitReason, config.locale]);
 
   // Limit card only: a package that can really be bought leads; otherwise the
-  // Telegram bot does.
-  const limitAccountFirst = billingAvailable && !paid;
+  // Telegram bot does, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
+  const card = limitCard(config.locale, { reason: limitReason, paid, billingAvailable, botHandoff });
 
   const showOffer =
     activeTool === "business" &&
@@ -982,28 +977,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               // When a package can actually be bought, "Мой тариф" leads and
               // the bot follows; otherwise the bot leads, because it is a real
               // continuation (its own allowance) rather than a consolation
-              // link. Either way the card never claims "the free chat is
-              // available" to someone it has just blocked, and never sends a
-              // consumer to a personal Telegram account (AiLimitTelegram).
+              // link. The bot is there only while the server says botHandoff.
+              // Either way the card never claims "the free chat is available"
+              // to someone it has just blocked, and never sends a consumer to
+              // a personal Telegram account (AiLimitTelegram).
               <div
                 className="gpt-partial mb-2"
                 role="status"
                 data-testid="ai-limit-card"
                 data-reason={limitReason}
               >
-                <p>
-                  {limitReason === "monthly"
-                    ? t.premium.monthlyLimit
-                    : paid
-                      ? t.premium.pause
-                      : limitReason === "hourly"
-                        ? t.hourlyBody
-                        : billingAvailable
-                          ? t.premium.offer
-                          : t.dailyBody}
-                </p>
+                <p>{card.body}</p>
                 <div className="mt-3 flex flex-col gap-2">
-                  {limitAccountFirst && (
+                  {card.accountFirst && (
                     <button
                       type="button"
                       className="gpt-primary"
@@ -1016,16 +1002,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   {/* Same slot in both orders, so a late billing flag only
                       restyles the button instead of remounting it and minting
                       a second link. */}
-                  <AiLimitTelegram
-                    t={t}
-                    locale={config.locale}
-                    apiBase={config.apiBase}
-                    sessionId={sessionId}
-                    reason={limitReason}
-                    variant={limitAccountFirst ? "secondary" : "primary"}
-                  />
+                  {card.bot && (
+                    <AiLimitTelegram
+                      t={t}
+                      locale={config.locale}
+                      apiBase={config.apiBase}
+                      sessionId={sessionId}
+                      reason={limitReason}
+                      variant={card.accountFirst ? "secondary" : "primary"}
+                    />
+                  )}
                   <div className="flex flex-wrap gap-2">
-                    {!limitAccountFirst && (
+                    {!card.accountFirst && (
                       <button
                         type="button"
                         className="gpt-text-button"

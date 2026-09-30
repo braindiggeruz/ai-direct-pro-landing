@@ -9,7 +9,10 @@ import {
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
-import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import {
+  ensureBillingSchema,
+  ensureUzumSchema,
+} from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, sameOrigin, cookieValue } from "../../lib/gpt-chat/identity-store";
 import { sha256Hex } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
@@ -69,6 +72,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     priceUzs: 20000,
     messageLimit: PAID_MESSAGES,
     termsVersion: termsVersion(env),
+    // The limit card's "continue in the Telegram bot" button. Off unless the
+    // flag is exactly "true": the bot must answer reliably first.
+    botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
     // Uzum is offered on the site only as Checkout (card page); the Merchant
     // API flow has no customer screen yet.
     providers: (["click", "payme", "uzum"] as const).filter(
@@ -87,7 +93,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     return json({ ...base, user: null });
   try {
     const db = env.GPTBOT_DRAFTS_DB;
-    await ensureBillingSchema(db);
+    // Orders are read through the 0065 view: bootstrapped here, like on the
+    // Uzum routes, while Uzum is on; otherwise it comes from the migration.
+    await (uzumApi(env) ? ensureUzumSchema(db) : ensureBillingSchema(db));
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return json({ ...base, user: null });
     const store = new BillingStore(db, BILLING_ORG);

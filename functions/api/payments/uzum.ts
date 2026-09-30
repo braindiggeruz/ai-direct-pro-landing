@@ -16,7 +16,7 @@ import {
   billingMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
-import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
@@ -85,7 +85,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   try {
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
-    await ensureBillingSchema(db);
+    await ensureUzumSchema(db);
     const hashedIp = await hashIp(
       getClientIp(request),
       resolveConfig(env).hashSalt,

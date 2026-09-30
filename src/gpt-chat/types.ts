@@ -31,6 +31,8 @@ export interface AccountView {
   remaining?: number;
   terms: { ru: string | null; uz: string | null };
   termsVersion: string | null;
+  /** Limit card may offer the Telegram bot. Anything but `true` means no. */
+  botHandoff?: boolean;
   access?: { order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null } | null;
   payment?: { id: string; state: string; provider?: PaymentProvider } | null;
   scheduled?: { starts_at: number } | null;
@@ -54,6 +56,7 @@ export function validAccountView(value: unknown): value is AccountView {
       return term === null || typeof term === 'string';
     })
     && (account.termsVersion === null || typeof account.termsVersion === 'string')
+    && (account.botHandoff === undefined || typeof account.botHandoff === 'boolean')
     && (account.remaining === undefined || (Number.isInteger(account.remaining) && account.remaining >= 0))
     && (!account.access || (!!account.user && typeof account.access.order_id === 'string'
       && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && Number.isInteger(account.access.remaining) && account.access.remaining >= 0))

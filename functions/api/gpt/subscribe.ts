@@ -7,7 +7,10 @@ import {
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
-import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
+import {
+  ensureBillingSchema,
+  ensureUzumSchema,
+} from "../../lib/gpt-chat/billing-schema";
 import { IdentityStore, sameOrigin } from "../../lib/gpt-chat/identity-store";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
@@ -152,7 +155,10 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   try {
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
-    await ensureBillingSchema(db);
+    // providerReady() above means Uzum is configured when it is asked for.
+    await (p.provider === "uzum"
+      ? ensureUzumSchema(db)
+      : ensureBillingSchema(db));
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return fail("login_required", "Login required", 401);
     const rate = await consumeRateLimit(db, "checkout", user, {
