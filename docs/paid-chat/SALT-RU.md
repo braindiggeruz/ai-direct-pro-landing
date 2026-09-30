@@ -15,6 +15,8 @@
 
 Шаг `rekey` крона (`*/15`) после `SINCE`. За один тик — не больше 200 строк на таблицу (сначала **самые новые**, от них зависят квоты) и не больше 400 строк на тик в сумме, чтобы HMAC уложился в лимит CPU Workers Free. Строка берётся, только пока её значение имеет старый вид (64 или 32 hex-символа), а `UPDATE` условный: повторный прогон ничего не меняет, двойного ключа нет. Курсор на таблицу — `gpt_billing_ops`, задача `salt_rekey:<таблица>` (`next_at` = время самой старой обработанной строки, `0` = таблица готова). Аренда одна: задача `salt_rekey`, 2 минуты, в конце тика снимается.
 
+Хеш, посчитанный запросом до `SINCE`, может попасть в базу чуть позже. Например, бот пишет событие ответа, только когда модель ответила, — через секунды. Поэтому таблица просматривается до `SINCE` + 10 минут, а готовой считается только после прохода, начатого позже этого момента. Если всё переведено раньше, курсор ставится на `SINCE` + 10 минут, и следующий тик делает ещё один проход. Солёные значения никогда не выглядят как старые, поэтому новые строки только читаются и не переписываются.
+
 | Таблица, колонка | Что это | Как |
 |---|---|---|
 | `gpt_turn_reservations.ip_hash`, `.subject` | квоты чата | перекей; `subject` аккаунта (`acct_…`) не трогается; только org `gptbot-consumer` |
@@ -65,13 +67,17 @@ Git Bash, `cd F:/Claude/gptbot-gsc-audit-20260917`, `export NODE_OPTIONS=--max-o
    h="$(mktemp)"; printf 'Authorization: Bearer %s' "$(cat C:/Users/Borinio/.config/gptbot-private/gpt-billing-maintenance-secret.txt)" > "$h"
    curl -sS -X POST https://gptbot.uz/api/internal/gpt-billing-maintenance -H @"$h" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.stringify(JSON.parse(s).rekey)))"
    ```
-   Ожидается `{"status":"waiting",…}`: соль длиной от 32 байт принята, `SINCE` разобран. `off` — секрета нет или он короче 32 байт. Тогда до `SINCE` нужно исправить секрет и передеплоить, а если не успеть — перенести `SINCE` на следующие сутки новым коммитом (пока `SINCE` не наступил, это безопасно).
+   Ожидается `{"status":"waiting",…}`: соль длиной от 32 байт принята, `SINCE` разобран и ещё не наступил. Другие ответы:
+   - `no_since` — соль есть, но `SINCE` пустой или записан не как момент UTC с `Z`. Хеши так и останутся старыми: исправить значение в `wrangler.toml` новым коммитом и передеплоить;
+   - `off` — секрета нет или он короче 32 байт. Исправить секрет и передеплоить.
+
+   Если до `SINCE` исправить не успеть, `SINCE` переносится на следующие сутки новым коммитом: пока `SINCE` не наступил, это безопасно.
 6. **После `SINCE`.** Перекей идёт сам на каждом тике крона. Быстрее — ручные вызовы того же эндпоинта: каждый вызов — одна пачка, аренда в конце снимается.
    ```bash
    for i in $(seq 1 15); do curl -sS -X POST https://gptbot.uz/api/internal/gpt-billing-maintenance -H @"$h" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.stringify(JSON.parse(s).rekey)))"; sleep 5; done
    rm -f "$h"
    ```
-   Статусы: `ran` (пачка сделана, `pending` — какие таблицы ещё не готовы) → `done`. `busy` — в эту минуту идёт тик крона. В ответе только числа строк, без хешей.
+   Статусы: `ran` (пачка сделана, `pending` — какие таблицы ещё не готовы) → `done`. `done` бывает не раньше `SINCE` + 10 минут: последний проход по таблице начинается после этого момента. `busy` — в эту минуту идёт тик крона. В ответе только числа строк, без хешей.
 7. **Сверка (только агрегаты)**, не раньше чем через 2 ч после `SINCE`. `<MS>` — `SINCE` в миллисекундах (`node -e "console.log(Date.parse('<SINCE>'))"`), `<ISO>` — `SINCE` в виде `2026-10-03T00:00:00.000Z` (с миллисекундами: так пишет код). Все счётчики должны быть 0:
    ```sql
    SELECT
@@ -84,9 +90,11 @@ Git Bash, `cd F:/Claude/gptbot-gsc-audit-20260917`, `export NODE_OPTIONS=--max-o
     (SELECT COUNT(*) FROM gpt_events WHERE event_name='GPTChatHandoffClaimed' AND created_at<'<ISO>' AND json_extract(payload_json,'$.claimedBy') NOT LIKE 'h2\_%' ESCAPE '\') AS handoff_events,
     (SELECT COUNT(*) FROM gpt_usage_daily) AS usage_daily,
     (SELECT COUNT(*) FROM gpt_billing_ops WHERE org_id='gptbot-consumer' AND task GLOB 'salt_rekey:*' AND next_at<>0) AS unfinished_tables,
-    (SELECT COUNT(*) FROM gpt_sessions WHERE created_at>='<ISO>' AND hashed_ip NOT LIKE 'h2\_%' ESCAPE '\') AS new_sessions_unsalted
+    (SELECT COUNT(*) FROM gpt_sessions WHERE created_at>='<ISO>' AND hashed_ip NOT LIKE 'h2\_%' ESCAPE '\') AS new_sessions_unsalted,
+    (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id='gptbot-consumer' AND created_at>=<MS> AND ip_hash NOT LIKE 'h2\_%' ESCAPE '\') AS new_turns_unsalted,
+    (SELECT COUNT(*) FROM telegram_events WHERE created_at>='<ISO>' AND pseudo_user NOT LIKE 'h2\_%' ESCAPE '\') AS new_tg_events_unsalted
    ```
-   Запуск: `python F:/Claude/gptbot-tools/wr.py -- d1 execute gptbot-ai-drafts --remote --json --command "<запрос в одну строку>"`. Последний счётчик доказывает, что новые строки пишутся солёными.
+   Запуск: `python F:/Claude/gptbot-tools/wr.py -- d1 execute gptbot-ai-drafts --remote --json --command "<запрос в одну строку>"`. Три последних счётчика доказывают, что новые строки пишутся солёными, а старые ключи, попавшие в базу уже после `SINCE`, тоже переведены.
 8. **Живая приёмка:**
    - квоты: 6-е сообщение за час — 429 `hourly` с `Retry-After` (`LIMITS-RU.md`);
    - заявка из чата с перепиской (с согласием) доходит владельцу;

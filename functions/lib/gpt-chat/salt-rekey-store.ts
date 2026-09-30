@@ -11,14 +11,23 @@
 // key does not see it, so the first tick after SINCE undercounts at most that
 // hour (the risk the plan accepts).
 //
+// Late legacy writes: a request that hashed just before SINCE may store its
+// key a little after it (a bot reply logs its events once the model has
+// answered, seconds later). So a table is scanned up to SINCE + SETTLE_MS,
+// not only up to SINCE, and it counts as finished only by a scan that ran
+// after that instant; an earlier complete scan leaves the cursor at SINCE +
+// SETTLE_MS for one more pass. v2 values never have the legacy shape, so the
+// newer rows cost a read, never a rewrite.
+//
 // Idempotent and checkable: a row is picked only while its value still has
 // the legacy shape (64 or 32 lowercase hex), every UPDATE is conditional on
 // the value it read, and "h2_" never has that shape, so nothing is keyed
 // twice and a rerun changes nothing. Per table a cursor in gpt_billing_ops
 // (task 'salt_rekey:<table>', next_at = the time of the oldest row rewritten
-// so far, 0 = finished) keeps each pick on the time index instead of
-// rescanning converted rows; one lease (task 'salt_rekey') keeps two ticks
-// from doing the same batch. A table's batch and its cursor commit together.
+// so far, SINCE + SETTLE_MS for the settle pass, 0 = finished) keeps each
+// pick on the time index instead of rescanning converted rows; one lease
+// (task 'salt_rekey') keeps two ticks from doing the same batch. A table's
+// batch and its cursor commit together.
 //
 // Not rewritten here:
 //   gpt_sessions.anon_token  a hash of a random token, never salted (hash.ts)
@@ -40,6 +49,8 @@ import {
 export const REKEY_BATCH = 200;
 /** No further table is started in a tick once this many rows were rewritten. */
 export const TICK_ROWS = 400;
+/** How long after SINCE a legacy key may still land (see above). */
+export const SETTLE_MS = 10 * 60_000;
 const LEASE_MS = 2 * 60_000;
 /** Cursor of a finished table: no row is older than the epoch. */
 const DONE = 0;
@@ -191,11 +202,16 @@ const USAGE_TABLE = "gpt_usage_daily";
 export type RekeyStatus =
   /** No usable GPT_HASH_SALT: hashes stay legacy. */
   | "off"
-  /** A salt, but GPT_HASH_SALT_SINCE is unset, invalid or still ahead. */
+  /**
+   * A salt, but GPT_HASH_SALT_SINCE is empty or not a UTC instant ending in
+   * Z: hashes stay legacy for good. Fix the value before relying on SINCE.
+   */
+  | "no_since"
+  /** A salt and a valid GPT_HASH_SALT_SINCE that is still ahead. */
   | "waiting"
   /** Another tick holds the lease. */
   | "busy"
-  /** This tick rewrote a batch; `pending` tables still have legacy rows. */
+  /** This tick ran; `pending` tables are not finished yet. */
   | "ran"
   /** Every table is converted. */
   | "done";
@@ -233,9 +249,11 @@ function rekeyer(salt: string, shape: Shape): Rekey {
 }
 
 /**
- * Rewrite one batch of a table and move its cursor, in one D1 batch. A table
- * this database never created holds nothing to rewrite: it is finished, and
- * whatever creates it later writes v2.
+ * Rewrite one batch of a table and move its cursor, in one D1 batch. A scan
+ * that reaches the table's end leaves `scanned` as the cursor: DONE, or SINCE
+ * + SETTLE_MS while late legacy writes may still land. A table this database
+ * never created holds nothing to rewrite: it is finished, and whatever creates
+ * it later writes v2.
  */
 async function rekeyTable(
   db: D1Database,
@@ -243,6 +261,7 @@ async function rekeyTable(
   bound: number,
   limit: number,
   rekey: Rekey,
+  scanned: number,
 ): Promise<{ rows: number; done: boolean }> {
   let rows: Row[];
   try {
@@ -265,7 +284,7 @@ async function rekeyTable(
   // Rows at the cursor's own instant stay in the next pick (<=); the ones
   // rewritten here no longer have the legacy shape.
   const cursor =
-    rows.length < limit ? DONE : (timeMs(rows[rows.length - 1].t) ?? bound);
+    rows.length < limit ? scanned : (timeMs(rows[rows.length - 1].t) ?? bound);
   statements.push(setCursor(db, target.table, cursor));
   await db.batch(statements);
   return { rows: rows.length, done: cursor === DONE };
@@ -314,10 +333,13 @@ export async function rekeySaltedHashes(
   const tables = [...TARGETS.map((t) => t.table), USAGE_TABLE];
   const db = env.GPTBOT_DRAFTS_DB;
   if (!cfg.hashSalt || !db) return { status: "off", rows: {}, pending: [] };
+  if (cfg.hashSaltSince === null)
+    return { status: "no_since", rows: {}, pending: tables };
   const salt = activeSalt(cfg, now);
-  if (!salt || cfg.hashSaltSince === null)
-    return { status: "waiting", rows: {}, pending: tables };
+  if (!salt) return { status: "waiting", rows: {}, pending: tables };
   const since = cfg.hashSaltSince;
+  const settle = since + SETTLE_MS;
+  const scanned = now >= settle ? DONE : settle;
 
   const stored = await db
     .prepare("SELECT task,next_at FROM gpt_billing_ops WHERE org_id=? AND task GLOB ?")
@@ -350,13 +372,13 @@ export async function rekeySaltedHashes(
         pending.push(target.table);
         continue;
       }
-      const bound = cursors.get(cursorTask(target.table)) ?? since - 1;
       const done = await rekeyTable(
         db,
         target,
-        Math.min(bound, since - 1),
+        cursors.get(cursorTask(target.table)) ?? settle,
         Math.min(REKEY_BATCH, TICK_ROWS - spent),
         rekeys[target.shape],
+        scanned,
       );
       rows[target.table] = done.rows;
       spent += done.rows;

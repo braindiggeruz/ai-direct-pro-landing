@@ -15,7 +15,7 @@ import { maintainBilling } from '../functions/lib/gpt-chat/billing-maintenance-s
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { hashIp, hashToken, MIN_SALT_BYTES, resolveHashSalt, sha256Hex } from '../functions/lib/gpt-chat/hash';
 import { IdentityStore } from '../functions/lib/gpt-chat/identity-store';
-import { REKEY_BATCH, rekeySaltedHashes, TICK_ROWS } from '../functions/lib/gpt-chat/salt-rekey-store';
+import { REKEY_BATCH, rekeySaltedHashes, SETTLE_MS, TICK_ROWS } from '../functions/lib/gpt-chat/salt-rekey-store';
 import { TurnStore } from '../functions/lib/gpt-chat/turn-store';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
@@ -213,23 +213,30 @@ test('the rekey converts every legacy key written before SINCE exactly once, new
   usage.bind('2026-09-01', ips[0], 3).runSync();
   usage.bind('2026-10-02', ips[1], 1).runSync();
 
-  // Before SINCE, and without a salt, the rekey does not even take its lease.
+  // Before SINCE, and without a salt or a valid SINCE, the rekey does not even
+  // take its lease. A salt whose SINCE is empty or a typo says so: it is not
+  // "waiting", it would never switch on.
   const original = dump(f.db);
   assert.deepEqual(await rekeySaltedHashes(f.env, SINCE + MIN), { status: 'off', rows: {}, pending: [] });
+  Object.assign(f.env, { GPT_HASH_SALT: SALT });
+  assert.equal((await rekeySaltedHashes(f.env, SINCE + MIN)).status, 'no_since');
+  Object.assign(f.env, { GPT_HASH_SALT_SINCE: '2026-10-03T00:00:00' });
+  assert.equal((await rekeySaltedHashes(f.env, SINCE + MIN)).status, 'no_since', 'a SINCE without Z is a typo');
   Object.assign(f.env, salted());
   const waiting = await rekeySaltedHashes(f.env, SINCE - 1);
   assert.equal(waiting.status, 'waiting');
   assert.deepEqual(dump(f.db), original);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_ops WHERE task GLOB 'salt_rekey*'"), 0);
 
-  // Tick 1: a batch per table, newest first, until TICK_ROWS rows.
+  // Tick 1: a batch per table, newest first, until TICK_ROWS rows. The limit
+  // hits are all converted, but the table waits for its settle pass.
   assert.equal(REKEY_BATCH, 200);
   assert.equal(TICK_ROWS, 400);
   const first = await rekeySaltedHashes(f.env, SINCE + MIN);
   assert.deepEqual(first, {
     status: 'ran',
     rows: { gpt_turn_reservations: 200, gpt_limit_hits: 1, gpt_sessions: 199, gpt_usage_daily: 2 },
-    pending: ['gpt_turn_reservations', 'gpt_sessions', 'telegram_events', 'gpt_handoffs', 'gpt_events'],
+    pending: ['gpt_turn_reservations', 'gpt_limit_hits', 'gpt_sessions', 'telegram_events', 'gpt_handoffs', 'gpt_events'],
   });
   const converted = "ip_hash LIKE 'h2\\_%' ESCAPE '\\'";
   assert.equal(
@@ -242,11 +249,13 @@ test('the rekey converts every legacy key written before SINCE exactly once, new
     SINCE - 201 * MIN,
   );
 
-  // Tick 2 finishes; tick 3 finds nothing to do and touches nothing.
+  // Tick 2 (after the settle instant) finishes; tick 3 finds nothing to do
+  // and touches nothing.
+  assert.ok(16 * MIN >= SETTLE_MS);
   const second = await rekeySaltedHashes(f.env, SINCE + 16 * MIN);
   assert.deepEqual(second, {
     status: 'done',
-    rows: { gpt_turn_reservations: 51, gpt_sessions: 51, telegram_events: 3, gpt_handoffs: 1, gpt_events: 1 },
+    rows: { gpt_turn_reservations: 51, gpt_limit_hits: 0, gpt_sessions: 51, telegram_events: 3, gpt_handoffs: 1, gpt_events: 1 },
     pending: [],
   });
   const finished = dump(f.db);
@@ -330,11 +339,55 @@ test('a legacy limit-hit row merges into the v2 row of the same day when SINCE f
   assert.deepEqual(rows(f, 'SELECT subject, n, first_at FROM gpt_limit_hits'), merged);
 });
 
+test('a legacy key that lands just after SINCE is rekeyed too: a table finishes only after its settle pass', async () => {
+  const f = await billingFixture();
+  await ensureTelegramSchema(f.binding);
+  Object.assign(f.env, salted());
+  const tgEvent = f.db.prepare('INSERT INTO telegram_events (id, event, pseudo_user, meta_json, created_at) VALUES (?,?,?,?,?)');
+  turn(f, 'before', sha(IP), sha(IP), SINCE - MIN);
+  tgEvent.bind('e-before', 'javob_bot_start', legacyPseudo(7), '{}', iso(SINCE - HOUR)).runSync();
+  tgEvent.bind('e-early', 'javob_context_detected', legacyPseudo(7), '{}', iso(SINCE + 2_000)).runSync();
+
+  // The cron tick of SINCE itself: everything stored so far is converted,
+  // even a key that landed after SINCE, yet no table is finished before
+  // SINCE + SETTLE_MS.
+  const first = await rekeySaltedHashes(f.env, SINCE + 5_000);
+  assert.equal(first.status, 'ran');
+  assert.deepEqual([first.rows.gpt_turn_reservations, first.rows.telegram_events], [1, 2]);
+  assert.equal(
+    f.db.value("SELECT next_at FROM gpt_billing_ops WHERE org_id=? AND task='salt_rekey:telegram_events'", BILLING_ORG),
+    SINCE + SETTLE_MS,
+  );
+
+  // Late writes: a bot reply that started before SINCE logs its event once the
+  // model answered, and a chat turn hashed before SINCE is stored a moment after.
+  tgEvent.bind('e-late', 'javob_reply_generated', legacyPseudo(7), '{}', iso(SINCE + 40_000)).runSync();
+  turn(f, 'late', sha(IP), sha(IP), SINCE + 1_000);
+  const second = await rekeySaltedHashes(f.env, SINCE + 2 * MIN);
+  assert.equal(second.status, 'ran');
+  assert.deepEqual([second.rows.gpt_turn_reservations, second.rows.telegram_events], [1, 1]);
+  assert.deepEqual(rows(f, 'SELECT id, subject, ip_hash FROM gpt_turn_reservations ORDER BY id'), [
+    { id: 'before', subject: v2Ip(sha(IP)), ip_hash: v2Ip(sha(IP)) },
+    { id: 'late', subject: v2Ip(sha(IP)), ip_hash: v2Ip(sha(IP)) },
+  ]);
+  assert.deepEqual(rows(f, 'SELECT id, pseudo_user FROM telegram_events ORDER BY id'), [
+    { id: 'e-before', pseudo_user: v2Pseudo(legacyPseudo(7)) },
+    { id: 'e-early', pseudo_user: v2Pseudo(legacyPseudo(7)) },
+    { id: 'e-late', pseudo_user: v2Pseudo(legacyPseudo(7)) },
+  ]);
+
+  // The first tick at or after the settle instant finishes every table.
+  const settled = await rekeySaltedHashes(f.env, SINCE + SETTLE_MS);
+  assert.equal(settled.status, 'done');
+  assert.ok(Object.values(settled.rows).every((n) => n === 0));
+  assert.deepEqual(await rekeySaltedHashes(f.env, SINCE + SETTLE_MS + 15 * MIN), { status: 'done', rows: {}, pending: [] });
+});
+
 test('one rekey at a time: a held lease waits, a finished tick frees it', async () => {
   const f = await billingFixture();
   Object.assign(f.env, salted());
   session(f, 's-old', sha(IP), SINCE - MIN);
-  const now = SINCE + MIN;
+  const now = SINCE + SETTLE_MS;
   f.db.prepare("INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES(?,'salt_rekey',?)").bind(BILLING_ORG, now + MIN).runSync();
   const busy = await rekeySaltedHashes(f.env, now);
   assert.equal(busy.status, 'busy');
@@ -421,7 +474,8 @@ test('quotas, history and chat ownership carry over the switch-over', async () =
   const turns = new TurnStore(f.binding, BILLING_ORG);
   // The window the plan accepts: until the first tick the v2 key sees none of them.
   assert.equal((await turns.allowance(key, key, null, cfg, after)).hourRemaining, cfg.freeHourlyLimit);
-  assert.equal((await rekeySaltedHashes(f.env, after)).status, 'done');
+  const tick = await rekeySaltedHashes(f.env, after);
+  assert.deepEqual([tick.rows.gpt_turn_reservations, tick.rows.gpt_sessions], [3, 1]);
   assert.equal((await turns.allowance(key, key, null, cfg, after)).hourRemaining, cfg.freeHourlyLimit - 3);
 
   // The session keeps its token hash; ownership and history do not notice.
