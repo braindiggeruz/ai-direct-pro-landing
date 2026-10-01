@@ -693,3 +693,21 @@ test("bot_silent counts failed and cut-off updates of 24 h against replies; org 
   assert.deepEqual(await store.bot(T0 + 20 * MIN), { failed: 4, answered: 1 });
   assert.deepEqual(await runWatchdog(f.env, T0 + 20 * MIN), { ran: true, raised: [] });
 });
+
+test("bot_silent stays true for a day after three failures; the owner is paged once that day, not every hour", async (t) => {
+  const f = await billingFixture();
+  notify(f);
+  const sent = telegram(t);
+  await ensureTelegramSchema(f.binding);
+  // One person, three replies the validator refused, and nobody writes again:
+  // the 24 h window keeps the condition true on every cron run of the day.
+  for (const id of [1, 2, 3]) botUpdate(f, id, "failed:validation_failed", T0 - id * MIN);
+  for (const at of [T0, T0 + HOUR, T0 + 5 * HOUR]) {
+    assert.deepEqual(await runWatchdog(f.env, at), { ran: true, raised: ["bot_silent"] });
+    await deliverServiceAlerts(f.env, at + MIN);
+  }
+  assert.equal(alertRowId("bot_silent", T0), `bot_silent:d${Math.floor(T0 / 86_400_000)}`);
+  assert.deepEqual(alertCodes(f), ["bot_silent"]);
+  assert.equal(sent.length, 1);
+  assert.match(sent[0].text, /• bot_silent — бот @gptbotuz_bot/);
+});

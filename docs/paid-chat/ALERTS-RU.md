@@ -22,7 +22,7 @@
 | `catalogue_*` | часовая проверка: модель цепочки пропала из OpenRouter или вышла за потолок цены (`catalogue_model_unavailable`), либо проверка не прошла (`catalogue_check_failed`) |
 | `openrouter_free_tier_50rpd`, `openrouter_key_credit_low` | аккаунт OpenRouter на бесплатном уровне (50 запросов к `:free` в сутки на чат, бота и AEO вместе); лимит ключа почти исчерпан. **Не чаще раза в сутки.** |
 | `chat_silence`, `chat_degraded`, `chat_no_turns` | сторож тишины (ниже) |
-| `bot_no_key`, `bot_account_unavailable`, `bot_model_unavailable`, `bot_models_cooling`, `bot_silent` | бот @gptbotuz_bot не может ответить никому, или сторож видит, что он молчит (WP-08, `BOT-RU.md`) |
+| `bot_no_key`, `bot_account_unavailable`, `bot_model_unavailable`, `bot_models_cooling`, `bot_silent` | бот @gptbotuz_bot не может ответить никому, или сторож видит, что он молчит (WP-08, `BOT-RU.md`). **`bot_silent` — не чаще раза в сутки.** |
 | `zai_*`, `click_*`, `uzum_*` | Z.ai и платёжные провайдеры |
 | `drill` | учебный алерт |
 
@@ -53,7 +53,7 @@
 | `chat_no_turns` | за окно сессии открыли посетители не меньше чем с `GPT_WATCHDOG_MIN_TURNS` разных IP (по хешу), а ходов нет совсем: запросы падают до резерва (Turnstile или D1). Считаются разные IP, а не строки: сессию создаёт `POST /api/gpt/session` без Turnstile, и один клиент в цикле не должен будить владельца | да |
 | `stale_reservations` | за час больше 3 ходов зависли в `reserved` (изолят умер посреди ответа) | нет |
 | `chat_truncation_high` | за 24 часа из не меньше 20 ходов с исходом больше 15 % обрезаны (`outcome = 'truncated'`, миграция 0066) | нет |
-| `bot_silent` | бот @gptbotuz_bot за 24 часа: не меньше 3 апдейтов закончились ошибкой (`telegram_updates.status = 'failed:<код>'`) или так и не закончились (`processing` дольше 2 минут), и ни одного `javob_reply_generated` (WP-08) | да |
+| `bot_silent` | бот @gptbotuz_bot за 24 часа: не меньше 3 апдейтов закончились ошибкой (`telegram_updates.status = 'failed:<код>'`) или так и не закончились (`processing` дольше 2 минут), и ни одного `javob_reply_generated` (WP-08). Окно — сутки, поэтому условие держится до следующего дня, и строка пишется одна в сутки (UTC), а не в час | да |
 
 Простой 25.08–03.09 (89 сессий, 0 ответов) сторож поймал бы не позже чем через 3 часа.
 

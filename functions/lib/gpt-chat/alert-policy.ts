@@ -56,11 +56,15 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
  * hour, so the owner is reminded daily instead of paged 24 times. The free
  * tier's spent daily budget (model-spend-store.ts) is one too, and only
  * informational (background): ':free' keeps answering until the UTC day ends.
+ * So is bot_silent: its window is 24 h, so three failed updates nobody follows
+ * up keep it true on every watchdog run of the next day, which hourly rows
+ * would turn into a page an hour.
  */
 const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "openrouter_key_credit_low",
   "openrouter_free_tier_50rpd",
   "free_paid_budget_exhausted",
+  "bot_silent",
 ]);
 
 function globMatch(pattern: string, code: string): boolean {
