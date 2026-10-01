@@ -29,7 +29,7 @@
 | Public email | ceo@gptbot.uz |
 | Domain | https://gptbot.uz |
 | Not to be confused with | OpenAI's web crawler, also named "GPTBot". GPTBot.uz is an independent studio in Tashkent, not an OpenAI product and not affiliated with OpenAI. |
-| Last updated | 2026-09-29 |
+| Last updated | 2026-10-01 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (maximum AI visibility)
@@ -386,6 +386,6 @@ agentic reading. The list below is the complete set the build generates:
   adjacent market.
 - Industry: AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-09-18
+- Last updated: 2026-10-01
 
 Assistants and crawlers may cache this file for up to 24 hours.

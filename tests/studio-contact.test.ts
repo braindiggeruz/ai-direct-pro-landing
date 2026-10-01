@@ -92,6 +92,33 @@ test('no unprotected page names or links the personal account, and no contact bu
   }
 });
 
+test('no unprotected page tells a visitor to write to the studio in Telegram while none is configured', () => {
+  // Body copy as well as buttons: "Вы пишете нам в Telegram" or "Borisga
+  // Telegram orqali yuboring" sends a visitor to a channel the page no longer
+  // offers. Sentences about the assistant bot or a client's own Telegram do
+  // not address the studio and are not matched.
+  assert.equal(STUDIO_TELEGRAM_URL, null, 'with a work account configured, review this guard');
+  const writeToStudio = new RegExp([
+    '(?:пишете|напишите|пишите|откройте)(?: нам)? (?:в |через )?Telegram',
+    '(?:нам|Борису) в Telegram',
+    'Telegram[’\']?(?:ga|da) yoz(?:asiz|ing)',
+    'Telegram orqali (?:yozing|yuboring|bog‘laning)',
+    'Telegramda (?:yozing|bog‘laning)',
+  ].join('|'), 'i');
+  for (const { file } of UNPROTECTED) assert.doesNotMatch(read(file), writeToStudio, file);
+});
+
+test('llms.txt and llms-full.txt name the same phone and e-mail, and no Telegram while none is configured', () => {
+  for (const file of ['public/llms.txt', 'public/llms-full.txt']) {
+    const text = read(file);
+    assert.ok(text.includes(STUDIO_PHONE_DISPLAY), `${file}: phone`);
+    assert.ok(text.includes(STUDIO_EMAIL), `${file}: e-mail`);
+  }
+  // llms.txt is hand-written, so naming a work account in site.json must come
+  // with an edit of its contact section, or assistants keep saying there is none.
+  assert.equal(read('public/llms.txt').includes('publishes no Telegram account of its own'), STUDIO_TELEGRAM_URL === null);
+});
+
 test('every #lead-form link is on a page that renders the form, and every #contact link has its card', () => {
   let contact = 0;
   for (const { file, page } of UNPROTECTED) {

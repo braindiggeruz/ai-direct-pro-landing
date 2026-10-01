@@ -2,7 +2,7 @@
 
 > GPTBot.uz builds AI-powered digital systems for businesses in Uzbekistan: websites, AI bots, Telegram bots, CRM integrations, lead automation and advertising funnels.
 
-Last updated: 2026-09-18. The curated map with key facts and the AI crawler policy is https://gptbot.uz/llms.txt.
+Last updated: 2026-10-01. The curated map with key facts and the AI crawler policy is https://gptbot.uz/llms.txt.
 
 ## Business positioning
 

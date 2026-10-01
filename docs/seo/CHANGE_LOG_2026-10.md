@@ -43,3 +43,13 @@
 - Сервер `/api/gpt/lead`: сообщения об ошибке больше не говорят «напишите нам в Telegram».
 
 **Осталось для WP-12** (шаблоны, общие с защищёнными страницами, — личная ссылка там пока есть): поле `telegram`, `sameAs`, `defaultCTA` в `site.json`; футер чат-страниц и `<noscript>` чата; главная (`prerender-home.ts`, `src/components/Footer.tsx`, `src/lib/cta.ts`); шаблон блога (футер, мобильная панель, кнопка в шапке); цель Метрики `telegram_cta_studio` и обработчик кликов в `<head>` (`analytics-snippet.ts`, `analytics-metrika.ts`, копия в `index.html`). Статьи блога этот WP не трогал: в 153 незащищённых статьях 261 ссылка на личный Telegram (кнопки и ссылки в тексте) и ещё 15 упоминаний в тексте.
+
+**Ревью WP-11 (`fix(site): address WP-11 review findings`).** В тексте пяти незащищённых страниц осталось «напишите нам в Telegram», хотя Telegram на них больше не предлагается. `seo-protection check` — 10/10 без изменений.
+
+| URL | Отметка | Что изменилось | Сниппет/H1 |
+|---|---|---|---|
+| `/ru/stoimost-chat-bota/` | — | «Вы пишете нам в Telegram» → «Вы оставляете заявку в форме на этой странице или звоните нам» (раздел «Как формируется смета»; форма на странице есть) | нет |
+| `/uz/chat-bot-narxi/` | — | «Siz Telegram’ga yozasiz» → «Siz shu sahifadagi formada ariza qoldirasiz yoki bizga qo‘ng‘iroq qilasiz» (форма на странице есть) | нет |
+| `/ru/kalkulyator-stoimosti-telegram-bota/` | — | Шаг «…или откройте Telegram» → «…или отправьте расчёт нам напрямую — кнопкой под итогом» (калькулятор теперь отправляет расчёт на e-mail) | нет |
+| `/ru/avtor-boris-gerasimov/`, `/uz/muallif-boris-gerasimov/` | — | Сообщить об ошибке в материале: «Борису в Telegram» / «Borisga Telegram orqali» → на `ceo@gptbot.uz`, как уже в FAQ этих страниц | нет |
+| `/llms.txt`, `/llms-full.txt` | — | Дата «Last updated» → 2026-10-01: контакты в них сменились в WP-11 | — |
