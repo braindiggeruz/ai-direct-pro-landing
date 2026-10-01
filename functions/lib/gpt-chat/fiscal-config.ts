@@ -4,7 +4,8 @@
 //
 //   GPT_FISCAL_IKPU          the 17-digit product code (IKPU/MXIK) from
 //                            tasnif.soliq.uz
-//   GPT_FISCAL_PACKAGE_CODE  its package code (for example "услуга (раз)")
+//   GPT_FISCAL_PACKAGE_CODE  its package code, the code and not its name
+//                            (1514296 is "услуга (раз)")
 //   GPT_FISCAL_VAT_PERCENT   the VAT rate, 0..100. The price INCLUDES the VAT:
 //                            20 000 сум at 12 % carries 20 000 * 12 / 112 VAT.
 //   GPT_FISCAL_TIN           the seller's TIN (9 digits) or PINFL (14 digits)

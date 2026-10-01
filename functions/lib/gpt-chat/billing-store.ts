@@ -56,6 +56,12 @@ export class PendingElsewhereError extends Error {
 export type OrderTable = "gpt_payment_orders" | "gpt_uzum_orders";
 export const UZUM_ORDERS: OrderTable = "gpt_uzum_orders";
 
+// A pack `p` a turn can still draw from: valid now, not revoked, answers
+// left (spent ones count as TurnStore does). Binds org, user, mode, now x3.
+const USABLE_PACK = `p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL AND p.starts_at<=? AND p.ends_at>?
+      AND (SELECT COUNT(*) FROM gpt_turn_reservations r WHERE r.org_id=p.org_id AND r.period_id=p.order_id
+        AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?)))<p.message_limit`;
+
 export class BillingStore {
   readonly table: OrderTable;
   constructor(
@@ -212,13 +218,28 @@ export class BillingStore {
     return this.db
       .prepare(
         `SELECT p.order_id,p.starts_at,p.ends_at,p.message_limit,p.refund_requested_at FROM gpt_access_periods p
-      WHERE p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL AND p.starts_at<=? AND p.ends_at>?
-      AND (SELECT COUNT(*) FROM gpt_turn_reservations r WHERE r.org_id=p.org_id AND r.period_id=p.order_id
-        AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?)))<p.message_limit
-      ORDER BY p.ends_at LIMIT 1`,
+      WHERE ${USABLE_PACK} ORDER BY p.ends_at LIMIT 1`,
       )
       .bind(this.org, user, mode, now, now, now)
       .first<AccessPeriod>();
+  }
+  /**
+   * When the last pack a turn can still draw from ends. Packs run side by
+   * side, so the account is paid through the latest of them, not through
+   * the one access() draws from first.
+   */
+  async paidThrough(
+    user: string,
+    mode: BillingMode,
+    now = Date.now(),
+  ): Promise<number | null> {
+    const row = await this.db
+      .prepare(
+        `SELECT MAX(p.ends_at) AS value FROM gpt_access_periods p WHERE ${USABLE_PACK}`,
+      )
+      .bind(this.org, user, mode, now, now, now)
+      .first<{ value: number | null }>();
+    return row?.value ?? null;
   }
   /** Newest order of any provider (Click/Payme and Uzum) for the account panel. */
   async latestAcrossProviders(

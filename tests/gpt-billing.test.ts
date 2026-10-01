@@ -21,6 +21,7 @@ import {
 import { onRequestPost as payme } from "../functions/api/payments/payme";
 import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
+import { onRequestGet as account } from "../functions/api/gpt/account";
 import { renderMarkdown } from "../src/gpt-chat/markdown";
 import { strings } from "../src/gpt-chat/i18n";
 import { accountStrings } from "../src/gpt-chat/account-strings";
@@ -252,6 +253,37 @@ test("a repeat purchase starts at once, side by side; turns draw from the pack t
   const turn = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
   await turns.finish(turn.id!, { outcome: "answered", charged: true });
   assert.equal((await f.store.access(f.user, "test"))?.order_id, second.id);
+});
+
+test("the panel asks to renew only when the last running pack ends soon", async () => {
+  const f = await billingFixture();
+  const day = 86400_000;
+  const pay = async (provider: "click" | "payme") => {
+    const order = await f.store.createOrder(f.user, provider, "test", crypto.randomUUID());
+    await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID() });
+    return f.store.transition(order.id, "paid", "perform");
+  };
+  // The rehearsal session sees the test packs.
+  const view = async () =>
+    ((await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as {
+      access: { order_id: string; renewSoon: boolean } | null;
+    }).access;
+  const first = await pay("click");
+  await f.binding
+    .prepare("UPDATE gpt_access_periods SET ends_at=? WHERE order_id=?")
+    .bind(Date.now() + 2 * day, first.id)
+    .run();
+  assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, true]);
+  // Renewed early: turns still draw from the first pack, and nothing asks to pay again.
+  const second = await pay("payme");
+  assert.equal(await f.store.paidThrough(f.user, "test"), addCalendarMonth(second.perform_time));
+  assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, false]);
+  // A revoked later pack does not count.
+  await f.binding
+    .prepare("UPDATE gpt_access_periods SET revoked_at=? WHERE order_id=?")
+    .bind(Date.now(), second.id)
+    .run();
+  assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, true]);
 });
 
 test("one open invoice per account across providers (U7); a synthetic rehearsal account never buys live", async () => {

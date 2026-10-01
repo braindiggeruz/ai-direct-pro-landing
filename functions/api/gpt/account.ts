@@ -131,6 +131,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       latest = await store.latestAcrossProviders(user, context);
     }
     const access = await store.access(user, context);
+    // Packs run side by side: renewing is due only when the last one ends soon.
+    const paidThrough = access ? await store.paidThrough(user, context) : null;
     const receipts = await store.receipts(user, context);
     const refundable = await store.refundable(user, context);
     // Without a pack the free tier counts by account and by IP hash, as the chat does.
@@ -150,7 +152,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
         ? {
             ...access,
             remaining,
-            renewSoon: access.ends_at - Date.now() < 3 * 86400_000,
+            renewSoon: (paidThrough ?? access.ends_at) - Date.now() < 3 * 86400_000,
           }
         : null,
       payment: latest
