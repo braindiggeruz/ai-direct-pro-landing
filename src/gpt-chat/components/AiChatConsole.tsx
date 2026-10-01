@@ -52,6 +52,7 @@ import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import { archiveChat, keepsShownConversation, loadChats } from "../storage";
 import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
+import { preloadsBusinessCard } from "../preload";
 
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
@@ -582,11 +583,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setActiveTool(tool);
     track(EV.toolOpened, { tool, from: "sidebar" });
   };
-  // The business offer (chat-lead) shows only in the business tool: fetch it
-  // while the visitor is there, before the third answer calls for it.
+  // The business offer (chat-lead) shows only in the business tool and not
+  // once closed for the day: fetch it while the visitor is there, before the
+  // third answer calls for it.
   useEffect(() => {
-    if (activeTool === "business") leadPart.preload();
-  }, [activeTool]);
+    if (preloadsBusinessCard({ tool: activeTool, dismissed: offerDismissed })) leadPart.preload();
+  }, [activeTool, offerDismissed]);
 
   const onImagePrompt = (prompt: string, presetId: string) => {
     if (sendDisabled) return;

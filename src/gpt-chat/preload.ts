@@ -1,6 +1,7 @@
 // When to fetch a lazy part before anyone asks for it (plan WP-10). A part is
 // worth fetching ahead only where people are about to open it, and only if
 // they can open it at all: nobody downloads a window they cannot reach.
+import type { AiToolId } from './templates';
 
 export interface AccountWindowSignals {
   /** The window can be opened: a pack can be bought, an account or an active pack (showsAccountPill). */
@@ -22,4 +23,13 @@ export function preloadsAccountWindow(signals: AccountWindowSignals): boolean {
     || (signals.remaining >= 0 && signals.remaining <= 2)
     || signals.payReturn
     || signals.paymentPending;
+}
+
+/**
+ * The business card (chat-lead) shows only in the business tool, after a few
+ * answers, and not again the day it was closed: fetched while the visitor is
+ * in that tool and the card can still come.
+ */
+export function preloadsBusinessCard(signals: { tool: AiToolId; dismissed: boolean }): boolean {
+  return signals.tool === 'business' && !signals.dismissed;
 }

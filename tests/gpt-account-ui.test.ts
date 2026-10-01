@@ -6,7 +6,7 @@ import { limitCard } from '../src/gpt-chat/limit-card';
 import type { LimitReason, LimitState } from '../src/gpt-chat/limit-state';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
-import { preloadsAccountWindow, type AccountWindowSignals } from '../src/gpt-chat/preload';
+import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06' });
 
@@ -180,6 +180,16 @@ test('nobody downloads a window they cannot open', () => {
   assert.match(panel, /get\("pay"\) === "return"/);
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(chat, /remaining=\{remaining\}\s*limited=\{limited\}/);
-  // The business card loads in the business tool, where it is shown.
-  assert.match(chat, /if \(activeTool === "business"\) leadPart\.preload\(\);/);
+});
+
+test('the business card is fetched in the business tool, and not once it was closed for the day', () => {
+  assert.equal(preloadsBusinessCard({ tool: 'business', dismissed: false }), true, 'the card comes after a few answers here');
+  assert.equal(preloadsBusinessCard({ tool: 'business', dismissed: true }), false, 'closed today: it will not come back');
+  for (const tool of ['chat', 'images', 'smm', 'study'] as const) {
+    assert.equal(preloadsBusinessCard({ tool, dismissed: false }), false, `${tool}: the card never shows there`);
+  }
+  // The console asks with the same two facts that decide whether the card shows.
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(chat, /if \(preloadsBusinessCard\(\{ tool: activeTool, dismissed: offerDismissed \}\)\) leadPart\.preload\(\);\s*\}, \[activeTool, offerDismissed\]\);/);
+  assert.match(chat, /const showOffer =\s*activeTool === "business" &&\s*assistantCount >= B2B_AFTER &&\s*!offerDismissed &&/);
 });
