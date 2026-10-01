@@ -1,3 +1,115 @@
+# Платный AI-чат к проду: сквозная проверка R2+R3 одним релизом (WP-07…WP-12), 2026-10-01
+
+**Итог.** Ветка `paid-chat/prod-readiness` проверена целиком на вершине `23e2c92c` (WP-07…WP-12 с ревью поверх живого R1 `77720e11`). Сверял с планом `10-PROD-PLAN.md`: §1 (проверки и «Релиз»), §3 (строки R2 и R3), §4 (WP-07…WP-12), §5 и §6, а также с `SALT-RU.md` и `BOT-RU.md`. Ведущий решил выкатить R2 и R3 одним релизом, поэтому ниже один чек-лист. Работа началась после закрытия приложения: дерево было чистым на `23e2c92c`, незаконченной проверки не было. Поломок не нашлось, код не менялся. Ничего не запушено и не задеплоено. Cloudflare, GSC, боты и вебхуки не менялись, удалённая D1 не читалась. Из сети читались только публичные страницы (`gptbot-release.json` и 10 защищённых URL) и список sitemap в GSC.
+
+**Результаты.**
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0.
+2. Тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`):
+   - 26 файлов, которые тронули WP-07…WP-12, плюс контрольные (`gpt-uzum-payments`, `gpt-readiness`, `gpt-operations`, `gpt-routing`, `gpt-chat-stream`, `gpt-limit-state`, `runtime-config`, `pages-config-parity`, `seo-content-guards`, `secret-scan`, `functions-type-safety`): 37 файлов, **613/613**. Среди них `telegram-assistant` 76, `yandex-metrika` 69, `gpt-chat-bridge` 42, `telegram-web-handoff` 22, `studio-contact` 18, `gpt-billing` 15, `gpt-watchdog` 15, `gpt-hash-salt` 11, `gpt-chat-honesty` 11, `seo-protection` 6;
+   - весь список `npm test`: 73 файла, **931/933**. Падают только два известных теста `tests/lead-radar.test.ts`: «manual approval is fail-closed…» и «store enforces tenant isolation…». На снимке `origin/main` (прод) они падают так же; код Lead Radar в R2/R3 не менялся.
+3. Сборка и SEO:
+   - `npm run build:fast` — 0;
+   - `seo-protection check` — **10/10 на новой базе** `2026-10-01-paid-chat-honesty`;
+   - против прежней базы `2026-09-30-gsc-driven` изменились **все десять** защищённых страниц и только поле `bodyTextSha256`: `/`, `/uz/gpt-uzbek-tilida/`, `/ru/gpt-chat/`, `/ru/blog/chatgpt-i-claude-v-uzbekistane/`, `/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/`, `/uz/blog/chatgptga-qanday-kirish-mumkin/`, `/uz/blog/chatgpt-uzbek-tilida-promptlar/`, `/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/`, `/uz/blog/ai-chat-nima-va-qanday-turlari-bor/`, `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/`. Title, H1, description, robots, googlebot, canonical, hreflang и внутренние ссылки те же;
+   - живой прод (манифест `eccfac28`) совпадает с прежней базой 10/10 (только чтение), то есть выкат меняет ровно это;
+   - `npx tsx scripts/seo-audit.ts` — 121 страница, 0 critical;
+   - гейт бандла пройден: старт 104 943 Б br (−337 к базе; в R1 было 116 446, то есть −11,5 КБ), `chat-account` 4 577, `chat-lead` 4 475 (+684), `chat-tools` 6 254.
+4. Миграция 0067 (данные, без схемы), только локально (`wrangler d1 migrations apply --local`, временный конфиг с фиктивным id, короткая папка `%TEMP%\r23d1`, `--remote` не использовался). Два независимых прогона дали одинаковый результат:
+   - применены 0001…0066, добавлены синтетические строки (пользователь бота, истёкшая подписка `plus`, истёкший заказ `day_pass`). Ledger 67, как в проде; `plans`: `free=1, day_pass=1, plus=1, pro=0, team=0`;
+   - `migrations list` — ровно `0067_javob_plans_retire.sql`;
+   - `apply` №1: ledger 68. `plans`: `free=1`, остальные 0, у `day_pass`/`plus` проставлен `updated_at`. Число строк изменилось только у `d1_migrations`, схема побайтно та же;
+   - `apply` №2: «No migrations to apply», снимок тот же. Повторное выполнение SQL 0067 ничего не меняет (даже `updated_at`).
+5. Паритет bootstrap (настоящий SQLite):
+   - «миграции, потом bootstrap» и «bootstrap раньше 0067» дают одну и ту же схему;
+   - каталог `plans` одинаков во всех четырёх вариантах: только миграции, миграции + bootstrap, bootstrap до миграции, пустая база + bootstrap;
+   - bootstrap не меняет ни одного объекта миграций. Дрейф — те же пять давних объектов, что и в R1 (`gpt_handoffs`, `gpt_rate_limits` и три индекса); новых R2/R3 не добавляет.
+6. `git diff --check origin/main..HEAD` — чисто; `npm run scan:secrets` — чисто (3 191 файл); `test:secret-scan` — 16/16; регулярка токена Telegram по диффу и по отслеживаемым файлам — 0. `webhook.ts` не тронут. `TELEGRAM_BOT_TOKEN` встречается в диффе только в тексте документов. `dist/` и `.serena/` не в Git.
+
+**Что меняется для краулеров** (сборка `origin/main` против сборки HEAD, по `sitemap.xml`):
+- изменились все 288 URL карты: обработчики в `<head>`, JSON-LD и ссылки контакта общие для всех страниц;
+- видимый текст изменился на 284 URL. Четыре страницы GPTBot Market (`/ru/market-doverie/`, `/uz/market-ishonch/`, `/ru/sotuvchi/`, `/uz/sotuvchi/`) изменились только в `<head>`, JSON-LD и параметре ссылки;
+- title сменился у `/ru/tarify-ai-chat/`, description — у `/ru/gpt-na-russkom/`;
+- изменились 25 Markdown-копий, `llms.txt`, `llms-full.txt` и `sitemap-updates.xml`; `robots.txt`, `_redirects` и `_headers` те же;
+- личная ссылка была на 288 страницах, осталась на четырёх страницах Market.
+
+**Отклонения.**
+1. Первая попытка второго прогона упала на 0023 с ошибкой локального wrangler «bad port» (порт miniflare, не SQL). Прогон повторён с нуля в новой папке и совпал с первым.
+2. Ведущий выкатывает R2 и R3 одним релизом, но деплоев два. Соль нельзя включить первым деплоем: код R1 считает `sha256(ip + соль)`. Поэтому порядок такой: код с пустым `SINCE`, потом секрет, потом коммит `SINCE` и передеплой (`SALT-RU.md`).
+3. Проверка живых защищённых страниц сделана однострочником на `seoContract` и `BASELINE` (п. 12 чек-листа): `scripts/seo-protection.ts` умеет только `capture|check` по `dist/`, а скрипт защиты не меняю.
+
+**Чек-лист выката R2+R3 — только по команде владельца.** Git Bash, `cd F:/Claude/gptbot-gsc-audit-20260917`, `export NODE_OPTIONS=--max-old-space-size=1400`. Секреты не печатать, только имена. Wrangler — через `python F:/Claude/gptbot-tools/wr.py -- …`. Превью не делать: оно пишет в боевую D1. Worker `gptbot-automation` в R2/R3 не меняется.
+0. **Предусловия.**
+   - Push только с разрешения владельца. `git status` чистый, `python F:/Claude/gptbot-tools/deploy_runner.py check` (прод `eccfac28` — предок).
+   - Выбрать дату с учётом окон C22/C11 и записать её в строку «Выкаты» `docs/seo/CHANGE_LOG_2026-10.md`. Оплату в этот день не включать.
+1. **Резервная копия D1:** `wr.py -- d1 export gptbot-ai-drafts --remote --output F:/Claude/gptbot-production-backups/paid-chat-R2R3-<stamp>/before-0067.sql`, затем `sha256sum`. Копия вне Git: в ней переписки.
+2. **Репетиция на копии экспорта**, как в R1: `node:sqlite`, `foreign_keys=OFF`, одна транзакция. Применить SQL 0067 дважды. Первый раз меняются две строки `plans` (`day_pass`, `plus`), второй — ни одной. Число строк ни в одной таблице не меняется; `quick_check` = ok. Итог записать в `docs/paid-chat/releases/R2R3-migration-rehearsal.json`.
+3. **Боевая D1.**
+   - `wr.py -- d1 migrations list gptbot-ai-drafts --remote` — ровно `0067_javob_plans_retire.sql`;
+   - `wr.py -- d1 migrations apply gptbot-ai-drafts --remote`;
+   - сверка только чтением: `SELECT code, is_active FROM plans ORDER BY display_order` (`free 1`, остальные 0) и `SELECT COUNT(*) n, MAX(name) last FROM d1_migrations` (68, `0067_javob_plans_retire.sql`).
+4. **Сборка:** `npm run build:production`, затем `npx tsc -b` (0), `npx tsx scripts/seo-audit.ts` (0 critical), `npx tsx scripts/seo-protection.ts check` (10/10 на новой базе), `npx tsx scripts/chat-bundle-budget.ts` (в пределах).
+5. **Деплой 1 — код, `GPT_HASH_SALT_SINCE` пустой:**
+   - `python F:/Claude/gptbot-tools/deploy_runner.py check`, затем `deploy`;
+   - `https://gptbot.uz/gptbot-release.json`: коммит = HEAD;
+   - тик обслуживания (`SALT-RU.md`, шаг 5) отвечает `rekey.status = "off"`.
+6. **Бот** (`BOT-RU.md`, Bearer из `gptbot-private/gpt-billing-maintenance-secret.txt` через файл заголовка, без печати):
+   - `POST https://gptbot.uz/api/internal/gpt-model-probe?target=javob` — 4 прогона `ok`; при `rate_limit` повторить один раз;
+   - `POST https://gptbot.uz/api/internal/javob-setup` (проверка), затем с `{"apply":true}`. Ожидается `matches: true`, `plans` — «лимит / limit»;
+   - смоук: владелец за минуту шлёт @gptbotuz_bot текст и голосовое. Сверка агрегатами с момента деплоя: в `telegram_updates.status` есть `done`, а `telegram_events` показывает `javob_reply_generated` и `voice_reply_generated` больше 0.
+7. **Соль:**
+   - `f=C:/Users/Borinio/.config/gptbot-private/gpt-hash-salt.txt; test -e "$f" || node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))" > "$f"`;
+   - `python F:/Claude/gptbot-tools/wr.py --stdin "$f" -- pages secret put GPT_HASH_SALT --project-name ai-direct-pro-landing`;
+   - `pages secret list` — проверить только имя.
+8. **`SINCE`:**
+   - значение: `node -e "const d=new Date(Date.now()+3600e3);d.setUTCHours(24,0,0,0);console.log(d.toISOString().replace('.000Z','Z'))"`;
+   - записать в `wrangler.toml` в два места: JSON и таблицу;
+   - тесты `runtime-config` и `pages-config-parity` по одному файлу;
+   - коммит `chore(release): switch hash salting on at <SINCE>` (с HANDOFF и STATE).
+9. **Деплой 2:**
+   - `build:production`, затем `seo-protection check`, затем `deploy_runner.py check|deploy`;
+   - тик отвечает `rekey.status = "waiting"`. `no_since` — исправить `SINCE` новым коммитом; `off` — исправить секрет.
+10. **После `SINCE`:**
+    - тики крона или ручные вызовы (`SALT-RU.md`, шаг 6) до `done` (не раньше `SINCE` + 10 мин);
+    - CPU шага `rekey` смотреть в метриках Functions;
+    - через `SINCE` + 2 ч — агрегатный SQL из `SALT-RU.md`, шаг 7: все 12 счётчиков = 0;
+    - приёмка: 6-е сообщение — 429 `hourly` с `Retry-After`; заявка из чата с перепиской доходит; вкладка, открытая до `SINCE`, продолжает историю.
+11. **Живые маркеры** после деплоя 1 (`curl -s <URL> | grep -c '<строка>'`):
+    - `/ru/gpt-chat/`: «когда он доступен, его условия показаны в самом чате», `mailto:ceo@gptbot.uz`;
+    - `/uz/gpt-uzbek-tilida/`: «Pullik AI paket ixtiyoriy», «Biznes bot narxlari»;
+    - `/`: `id="contact"`, `mailto:ceo@gptbot.uz`;
+    - `/ru/tarify-ai-chat/`: title «Тарифы AI-чата — бесплатно и AI-пакет | GPTBot.uz», «20 000 сум, без автосписаний»;
+    - `/uz/javob/`: «10 ta javob va oyiga 100 tagacha»;
+    - `/uz/blog/chatgptga-qanday-kirish-mumkin/`: «GPTBot.uz · O‘zbek tilida»;
+    - ноль совпадений `Day Pass|Plus|obuna|подписк` на `/ru/javob/`, `/uz/javob/`, `/ru/tarify-ai-chat/`, `/uz/gpt-chat-qollanma/`, `/ru/gpt-chat-guide/`;
+    - `XGame_changerx` — только на четырёх страницах Market из `sitemap.xml`;
+    - Browser pane 375×812: шапка «GPTBot.uz», «OpenAI mahsuloti emas», чанки грузятся по требованию, ошибок консоли нет, одно `message_sent` на сообщение.
+12. **Защищённые страницы вживую** — должно быть `10/10`:
+    `npx tsx -e "import fs from 'node:fs';import {seoContract,PROTECTED_PATHS,BASELINE} from './scripts/seo-protection.ts';(async()=>{const b=JSON.parse(fs.readFileSync(BASELINE,'utf8'));let ok=0;for(const p of PROTECTED_PATHS){const c=seoContract(await (await fetch('https://gptbot.uz'+p,{headers:{'cache-control':'no-cache'}})).text());const d=Object.keys(c).filter(k=>JSON.stringify(c[k])!==JSON.stringify(b.pages.find(r=>r.pathname===p).contract[k]));if(!d.length)ok++;else console.log(p,d.join(','))}console.log('live vs BASELINE:',ok+'/10')})()"`
+    До выката он даёт 0/10: в проде прежняя база.
+13. **Переобход:**
+    - `py -3 -W ignore F:/Claude/gptbot-tools/gsc_tools.py submit https://gptbot.uz/sitemap.xml https://gptbot.uz/sitemap-updates.xml https://gptbot.uz/ru/blog/feed.xml https://gptbot.uz/uz/blog/feed.xml`;
+    - IndexNow по всем 288 URL карты (на каждом изменился подвал), каждый сначала проверяется вживую: `node -e "const x=require('fs').readFileSync('dist/sitemap.xml','utf8');require('fs').writeFileSync('<tmp>/r2r3-urls.json',JSON.stringify([...x.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1])))"`, затем `python F:/Claude/gptbot-tools/indexnow_list.py <tmp>/r2r3-urls.json <HEAD> r2r3_release "R2+R3: contact and footer on every page, chat terms, AI pack copy"`. Квитанция ляжет в `reports/indexnow-receipts/`.
+14. **Квитанции:**
+    - `npx tsx scripts/chat-bundle-budget.ts --record` из сборки релиза (решение WP-10);
+    - `docs/paid-chat/releases/R2R3-live-verification.json`: время `SINCE` (не соль), статусы тиков, агрегаты, маркеры, 10/10;
+    - строка «Выкаты» в `CHANGE_LOG_2026-10.md` (дата, коммит, deployment);
+    - HANDOFF и STATE, один коммит.
+- **R2.1:** 7 дней ≥ 90 % ответов бота → `GPT_BOT_HANDOFF_ENABLED = "true"` → деплой.
+- **Откат:**
+  - код — `git revert` и guarded-деплой; 0067 не откатывать;
+  - после `secret put`, но до `SINCE`: сначала пустой `SINCE` и передеплой. Код R1 до WP-07 возвращать, только удалив `GPT_HASH_SALT`: R1 дописал бы соль к IP;
+  - после `SINCE` — только исправление вперёд: соль не удалять и не менять, `SINCE` не двигать;
+  - защищённые страницы откатываются только целиком. Старая база не тронута.
+
+**Открыто (не блокирует выкат).**
+1. Давний дрейф bootstrap и миграций (п. 5) — как в R1, решение ведущего.
+2. Открытые вопросы ревью WP-07…WP-12 остаются, как записаны ниже: GPTBot Market и личный Telegram; title `/uz/gpt-chat-qollanma/`; ник бота в `AGENTS.md`; `plan='plus'` в БД (WP-13); вычитка узбекских строк носителем.
+3. Рабочего Telegram нет. Когда владелец его назовёт, это одна строка `studioTelegram` в `site.json` плюс три проверки в `studio-contact` и фраза в `llms.txt`.
+
+**Дальше.** Выкат R2+R3 по команде владельца (чек-лист выше), затем WP-13 (релиз R4).
+
+---
+
 # Платный AI-чат к проду: ревью WP-12, 2026-10-01
 
 **Итог.** Проверил коммиты WP-12 `98f8eb8b` (ревизия, шаблоны, контент) и `0e8bd637` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md` (§1: правила, проверки и защищённые страницы; §2: L14; §3, строка R3; §4, WP-12: файлы, тесты, приёмка), картой `03` §5 и `AGENTS.md` §2–8, §11. Работа началась после перезапуска приложения: дерево было чистым на `0e8bd637`, незаконченной работы не было. Ничего не запушено и не задеплоено. Cloudflare, D1, GSC, боты и вебхуки не менялись; `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты.
