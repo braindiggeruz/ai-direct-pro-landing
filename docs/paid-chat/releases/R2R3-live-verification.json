@@ -1,0 +1,87 @@
+{
+  "release": "R2+R3",
+  "date": "2026-10-01",
+  "production_commits": [
+    "26b058e54861dfd57469ada283e278c01fa28749",
+    "0ca0a69961a63b68dae14c005059908a60c65e61"
+  ],
+  "previous_production": "eccfac28cac4ea748beeee1ae0c72c986640f651",
+  "d1": {
+    "backup_sha256": "7c29d25cd5c176fd73e51ded4adb279d9120621d7a815e09f21636012778b252",
+    "backup_bytes": 35470223,
+    "backup_location": "outside Git (F:/Claude/gptbot-production-backups/paid-chat-R2R3-2026-10-01T08-39-51Z/)",
+    "rehearsal": {
+      "pending": [
+        "0067_javob_plans_retire.sql"
+      ],
+      "apply1": [
+        "0067_javob_plans_retire.sql"
+      ],
+      "apply2": [],
+      "second_apply_noop": true,
+      "quick_check": "ok",
+      "ledger_tail": [
+        [
+          "0067_javob_plans_retire.sql"
+        ],
+        [
+          "0066_gpt_chat_runtime.sql"
+        ],
+        [
+          "0065_gpt_uzum_payments.sql"
+        ]
+      ]
+    },
+    "applied_remote": [
+      "0067_javob_plans_retire.sql"
+    ],
+    "readback": {
+      "last_migration": "0067_javob_plans_retire.sql",
+      "ledger_rows": 68,
+      "plans": "free=1,day_pass=0,plus=0,pro=0,team=0"
+    }
+  },
+  "pages": {
+    "deploys": [
+      "26b058e5 (salt off)",
+      "0ca0a699 (GPT_HASH_SALT_SINCE set)"
+    ],
+    "guard_note": "deploy 1 reported CDN lag; manifest matched after 20 s, no redeploy",
+    "seo_protection_build": "10/10 on 2026-10-01-paid-chat-honesty",
+    "bundle_budget": "within budget; baseline re-recorded from the released build"
+  },
+  "bot": {
+    "probe_target_javob": "4/4 ok: text+voice, uz+ru, nemotron, 909-1448 ms",
+    "javob_setup_apply": "matches true; /plans = лимит / limit"
+  },
+  "salt": {
+    "secret": "GPT_HASH_SALT set on Pages (value only in C:/Users/Borinio/.config/gptbot-private/)",
+    "since": "2026-10-02T00:00:00Z",
+    "tick_after_deploy2": "rekey waiting; pending 7 tables",
+    "retention": "off"
+  },
+  "live_markers": {
+    "/ru/gpt-chat/": "когда он доступен, его условия показаны в самом чате - OK",
+    "/uz/gpt-uzbek-tilida/": "Pullik AI paket ixtiyoriy, Biznes bot narxlari - OK",
+    "/": "id=contact OK; ceo@gptbot.uz present but rewritten by Cloudflare Email Address Obfuscation",
+    "/ru/tarify-ai-chat/": "title \"Тарифы AI-чата — бесплатно и AI-пакет | GPTBot.uz\", \"20 000 сум\", \"без автосписаний\" - OK",
+    "/uz/javob/": "10 ta javob - OK",
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/": "href=https://chatgpt.com - OK",
+    "absent": "Day Pass, GPTBot Plus, >Plus<, XGame_changerx on the checked pages"
+  },
+  "protected_live": {
+    "raw": "0/10: Cloudflare Email Address Obfuscation (zone setting) rewrites every e-mail into /cdn-cgi/l/email-protection + [email protected] and injects email-decode.min.js, so internalLinks and bodyTextSha256 differ from the artifact",
+    "with_obfuscation_undone": "10/10 vs docs/seo/evidence/2026-10-01-paid-chat-honesty/reviewed-protected-pages.json",
+    "decision": "kept the zone setting (owner choice: spam protection); future option: wrap the address in <!--email_off--> comments or turn obfuscation off in Cloudflare"
+  },
+  "recrawl": {
+    "indexnow": "HTTP 200, 288 URLs verified live, receipt reports/indexnow-receipts/2026-10-01T08-48-35-069Z_paid-chat-r2r3.json",
+    "gsc_sitemaps_submitted": [
+      "https://gptbot.uz/sitemap.xml",
+      "https://gptbot.uz/sitemap-updates.xml",
+      "https://gptbot.uz/ru/blog/feed.xml",
+      "https://gptbot.uz/uz/blog/feed.xml"
+    ]
+  },
+  "pending_after_since": "rekey ticks to done; aggregates of docs/paid-chat/SALT-RU.md step 7 two hours after SINCE; 429 on the 6th message and chat history continuity"
+}

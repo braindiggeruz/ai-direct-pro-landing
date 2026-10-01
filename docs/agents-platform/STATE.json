@@ -2,7 +2,7 @@
   "paid_chat_prod_2026": {
     "wp": "R2R3-verification",
     "release": "R2+R3 (one production release, lead decision)",
-    "status": "verified_not_deployed",
+    "status": "R2+R3 deployed",
     "commit": "23e2c92c08a6c46dece354e5e6047316e7a67ad1",
     "commit_note": "R2+R3 integration verification of WP-07..WP-12 at 23e2c92c (the verified tip). HEAD = chore(release): verify R2 and R3 as one release (parent 23e2c92c), documentation only; a commit cannot carry its own SHA (rule D-006). No failure was found, no code changed.",
     "resume_note": "Started after the app was closed: clean tree at 23e2c92c, no partial verification existed.",
@@ -448,7 +448,10 @@
       "secrets_set": [
         "GPT_HASH_SALT (Pages)"
       ],
-      "salt_since": "2026-10-02T00:00:00Z"
+      "salt_since": "2026-10-02T00:00:00Z",
+      "deploy2_commit": "0ca0a69961a63b68dae14c005059908a60c65e61",
+      "protected_live": "10/10 after undoing Cloudflare email obfuscation",
+      "indexnow": "288 URLs HTTP 200"
     }
   },
   "gsc_driven_20260930": {
@@ -611,7 +614,7 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: R2+R3 deploying (deploy 1 = 26b058e5 live; salt SINCE 2026-10-02T00:00:00Z)",
+  "current_stage": "Paid AI chat production readiness: R2+R3 live (0ca0a699); salt rekey from 2026-10-02T00:00:00Z",
   "stage_status": "complete",
   "last_completed_stage": "Paid AI chat R2+R3 integration verification on paid-chat/prod-readiness: WP-07..WP-12 verified at 23e2c92c (not pushed, not deployed; 0067 rehearsed locally, no code change)",
   "next_stage": "Paid AI chat R4: WP-13..WP-18 (billing core, Click and Uzum fiscal receipts, Uzum hardening, bot login, pack window, offer and policy), per 10-PROD-PLAN.md",
