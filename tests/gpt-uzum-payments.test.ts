@@ -7,7 +7,7 @@ import assert from "node:assert/strict";
 import { randomBytes, randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { uzumFixture } from "./helpers/uzum-fixture";
-import { billingFixture } from "./helpers/gpt-billing-fixture";
+import { billingFixture, liveSettings } from "./helpers/gpt-billing-fixture";
 import { freshAdminDb } from "./helpers/bormi-admin-fixture";
 import { SqliteD1 } from "./helpers/sqlite-d1";
 import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
@@ -15,8 +15,10 @@ import { onRequestPost as uzumMerchant } from "../functions/api/payments/uzum-me
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import {
+  addCalendarMonth,
   BILLING_ORG,
-  providerKey,
+  liveReadiness,
+  providerConfigured,
   providerReady,
   type BillingEnv,
 } from "../functions/lib/gpt-chat/billing-config";
@@ -103,6 +105,9 @@ test("1. not configured: callbacks 404 without touching D1, subscribe refuses, p
       // Merchant API selected but only Checkout credentials present.
       { GPT_BILLING_MODE: "live", UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: checkoutCreds },
       { GPT_BILLING_MODE: "live", UZUM_API: "other", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
+      // Fully configured, but switched off for Uzum alone or not allowed at all.
+      { GPT_BILLING_MODE: "live", GPT_BILLING_MODE_UZUM: "off", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
+      { GPT_BILLING_MODE: "live", GPT_PAYMENT_PROVIDERS: "click", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
     ])
       assert.deepEqual(await call(env), [404, 404], JSON.stringify(Object.keys(env)));
     assert.equal(outbound, 0);
@@ -117,10 +122,12 @@ test("1. not configured: callbacks 404 without touching D1, subscribe refuses, p
         }),
       ),
     );
-    assert.equal(response.status, 503);
-    assert.equal(((await response.json()) as { code: string }).code, "not_configured");
-    const view = async () =>
-      (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account")))).json()) as { providers: string[] };
+    assert.equal(response.status, 404);
+    assert.equal(((await response.json()) as { code: string }).code, "not_found");
+    // Test providers are dark: offered in a rehearsal session only.
+    const view = async (cookie = f.rehearsal) =>
+      (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie } })))).json()) as { providers: string[] };
+    assert.deepEqual((await view("")).providers, []);
     assert.deepEqual((await view()).providers, ["click", "payme"]);
     // Merchant API ready: still no Uzum button (no customer screen yet).
     Object.assign(f.env, {
@@ -148,21 +155,49 @@ test("config: host allowlist, fiscal completeness and key gates fail closed", ()
   assert.equal(allowedUzumRedirect("https://ofd.soliq.uz/check"), null);
   assert.equal(allowedUzumReceipt("https://ofd.soliq.uz/check?t=1"), "https://ofd.soliq.uz/check?t=1");
   assert.equal(allowedUzumReceipt("javascript:alert(1)"), null);
+  // The cart carries the shared GPT_FISCAL_* values, complete or not at all.
   assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "false" })), undefined);
-  assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", UZUM_FISCAL_IKPU: "123", UZUM_FISCAL_PACKAGE_CODE: "1", UZUM_FISCAL_VAT_PERCENT: "12" })), null);
-  assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", UZUM_FISCAL_IKPU: "1".repeat(17), UZUM_FISCAL_PACKAGE_CODE: "1", UZUM_FISCAL_VAT_PERCENT: "101" })), null);
-  assert.deepEqual(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", UZUM_FISCAL_IKPU: "1".repeat(17), UZUM_FISCAL_PACKAGE_CODE: "7", UZUM_FISCAL_VAT_PERCENT: "0" })), { spic: "1".repeat(17), packageCode: "7", vatPercent: 0 });
-  const creds = JSON.stringify({ checkout: { live: { terminalId: randomUUID(), apiKey: randomBytes(24).toString("hex") } } });
-  const ready = env({ UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: creds, UZUM_CHECKOUT_BASE_URL: "https://checkout.uzumbank.uz", GPT_BILLING_LIVE_READY: "true", GPT_BILLING_TERMS_RU: "https://gptbot.uz/ru/terms/", GPT_BILLING_TERMS_UZ: "https://gptbot.uz/uz/terms/", GPT_BILLING_TERMS_VERSION: "v1" });
+  assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", GPT_FISCAL_IKPU: "123", GPT_FISCAL_PACKAGE_CODE: "1", GPT_FISCAL_VAT_PERCENT: "12" })), null);
+  assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", GPT_FISCAL_IKPU: "1".repeat(17), GPT_FISCAL_PACKAGE_CODE: "1", GPT_FISCAL_VAT_PERCENT: "101" })), null);
+  assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", GPT_FISCAL_IKPU: "1".repeat(17), GPT_FISCAL_PACKAGE_CODE: "1" })), null);
+  assert.deepEqual(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", GPT_FISCAL_IKPU: "1".repeat(17), GPT_FISCAL_PACKAGE_CODE: "7", GPT_FISCAL_VAT_PERCENT: "0" })), { spic: "1".repeat(17), packageCode: "7", vatPercent: 0 });
+  const creds = JSON.stringify({
+    checkout: { live: { terminalId: randomUUID(), apiKey: randomBytes(24).toString("hex") } },
+    fiscal: { live: { apiKey: randomBytes(24).toString("hex") } },
+  });
+  const ready = env({
+    ...liveSettings(),
+    GPTBOT_DRAFTS_DB: bomb as unknown as D1Database,
+    GPT_IDENTITY_SECRET: randomBytes(32).toString("hex"),
+    GPT_TELEGRAM_CLIENT_ID: "1",
+    GPT_TELEGRAM_CLIENT_SECRET: randomBytes(16).toString("hex"),
+    UZUM_API: "checkout",
+    UZUM_AUTOFISCAL: "true",
+    UZUM_CREDENTIALS_JSON: creds,
+    UZUM_CHECKOUT_BASE_URL: "https://checkout.uzumbank.uz",
+    GPT_BILLING_TERMS_RU: "https://gptbot.uz/ru/terms/",
+    GPT_BILLING_TERMS_UZ: "https://gptbot.uz/uz/terms/",
+    GPT_BILLING_TERMS_VERSION: "v1",
+  });
+  assert.deepEqual(liveReadiness(ready, "uzum"), []);
   assert.equal(providerReady(ready, "uzum"), true);
-  assert.ok(providerKey(ready, "uzum", "live"));
-  assert.equal(providerKey(ready, "uzum", "test"), "");
+  assert.equal(providerConfigured(ready, "uzum", "live"), true);
+  assert.equal(providerConfigured(ready, "uzum", "test"), false);
   assert.equal(providerReady({ ...ready, GPT_BILLING_LIVE_READY: "false" }, "uzum"), false);
   assert.equal(providerReady({ ...ready, GPT_BILLING_TERMS_VERSION: "" }, "uzum"), false);
-  assert.equal(providerReady({ ...ready, UZUM_AUTOFISCAL: "true" }, "uzum"), false);
-  // Click/Payme branches are untouched by the Uzum settings.
+  // A live card sale without a receipt is not offered (U3).
+  assert.deepEqual(liveReadiness({ ...ready, UZUM_AUTOFISCAL: "false" }, "uzum"), ["UZUM_AUTOFISCAL"]);
+  assert.equal(providerReady({ ...ready, GPT_FISCAL_IKPU: "" }, "uzum"), false);
+  // The Merchant API prints receipts through the Fiscalization API key.
+  const merchant = { ...ready, UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: randomBytes(12).toString("hex") } } }) };
+  assert.deepEqual(liveReadiness(merchant, "uzum"), ["UZUM_CREDENTIALS_JSON.fiscal.live.apiKey"]);
+  // Click/Payme branches are untouched by the Uzum settings; Payme is off
+  // unless listed and never live (no receipt detail).
   assert.equal(providerReady({ ...ready, GPT_CLICK_SECRET: "x".repeat(20) }, "click"), false);
-  assert.equal(providerReady({ ...ready, GPT_PAYME_KEY: "x".repeat(20), GPT_PAYME_MERCHANT_ID: "1" }, "payme"), true);
+  const payme = { ...ready, GPT_PAYME_KEY: "x".repeat(20), GPT_PAYME_MERCHANT_ID: "1" };
+  assert.equal(providerReady(payme, "payme"), false);
+  assert.deepEqual(liveReadiness(payme, "payme"), ["GPT_PAYMENT_PROVIDERS", "payme_receipt_detail"]);
+  assert.deepEqual(liveReadiness({ ...payme, GPT_PAYMENT_PROVIDERS: "click,uzum,payme" }, "payme"), ["payme_receipt_detail"]);
   // The browser redirect check and the server allowlist agree.
   assert.equal(UZUM_CHECKOUT_HOST.source, UZUM_HOST_PATTERN.source);
   assert.equal(allowedCheckoutUrl("https://pay.uzumbank.uz/p/1"), "https://pay.uzumbank.uz/p/1");
@@ -191,11 +226,20 @@ test("2. checkout success: exact register body, pulled COMPLETED grants one peri
       currency: 860,
       orderNumber: id,
       paymentDetails: "AI paket 300 · gptbot.uz",
-      successUrl: "https://gpt.test/ru/gpt-chat/",
-      failureUrl: "https://gpt.test/ru/gpt-chat/",
+      successUrl: "https://gpt.test/ru/gpt-chat/?pay=return",
+      failureUrl: "https://gpt.test/ru/gpt-chat/?pay=return",
       viewType: "REDIRECT",
       paymentParams: { payType: "ONE_STEP" },
       sessionTimeoutSecs: 1800,
+      // A live sale prints its receipt (U3): the shared GPT_FISCAL_* values, VAT 12 % included.
+      merchantParams: {
+        cart: {
+          cartId: id,
+          receiptType: "PURCHASE",
+          total: 2000000,
+          items: [{ title: "AI paket 300", productId: "ai_paket_300", quantity: 1, unitPrice: 2000000, total: 2000000, receiptParams: { spic: "10305008002000000", packageCode: "1514296", vatPercent: 12 } }],
+        },
+      },
     });
     assert.ok(!/gpt\b|chatgpt/i.test(String(register.body.paymentDetails).replace("gptbot.uz", "")));
     const store = new UzumStore(f.binding, BILLING_ORG);
@@ -233,18 +277,18 @@ test("2. checkout success: exact register body, pulled COMPLETED grants one peri
 });
 
 test("2b. auto-fiscalization sends the cart on register and refund; Uzum register error cancels the invoice", async () => {
-  const f = await uzumFixture({ autofiscal: true });
+  const f = await uzumFixture();
   try {
     const started = await f.subscribeUzum(randomUUID(), "uz");
     assert.equal(started.status, 200);
     const body = f.calls[0].body as { merchantParams: { cart: Record<string, unknown> }; successUrl: string };
     assert.equal(f.calls[0].headers["content-language"], "uz-UZ");
-    assert.equal(body.successUrl, "https://gpt.test/uz/gpt-uzbek-tilida/");
+    assert.equal(body.successUrl, "https://gpt.test/uz/gpt-uzbek-tilida/?pay=return");
     assert.deepEqual(body.merchantParams.cart, {
       cartId: started.body.attemptId,
       receiptType: "PURCHASE",
       total: 2000000,
-      items: [{ title: "AI paket 300", productId: "ai_paket_300", quantity: 1, unitPrice: 2000000, total: 2000000, receiptParams: { spic: "10305008001000000", packageCode: "1501223", vatPercent: 12 } }],
+      items: [{ title: "AI paket 300", productId: "ai_paket_300", quantity: 1, unitPrice: 2000000, total: 2000000, receiptParams: { spic: "10305008002000000", packageCode: "1514296", vatPercent: 12 } }],
     });
     const row = (await new UzumStore(f.binding, BILLING_ORG).order(String(started.body.attemptId)))!;
     f.settleAtUzum(row.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
@@ -252,7 +296,7 @@ test("2b. auto-fiscalization sends the cart on register and refund; Uzum registe
     const refunded = await f.refundCall({ orderId: row.id, confirmRefund: true });
     assert.equal(refunded.status, 200, JSON.stringify(refunded.body));
     const refundCall = f.calls.find((c) => c.path === "/api/v1/acquiring/refund")!;
-    assert.deepEqual(refundCall.body.cart, { total: 2000000, items: [{ productId: "ai_paket_300", quantity: 1, receiptParams: { spic: "10305008001000000", packageCode: "1501223", vatPercent: 12 } }] });
+    assert.deepEqual(refundCall.body.cart, { total: 2000000, items: [{ productId: "ai_paket_300", quantity: 1, receiptParams: { spic: "10305008002000000", packageCode: "1514296", vatPercent: 12 } }] });
 
     const g = await uzumFixture();
     try {
@@ -418,7 +462,11 @@ test("7. owner refund: secret required, idempotent X-Operation-Id, state follows
     assert.match(refunds[0].headers["x-operation-id"], /^[0-9a-f-]{36}$/);
     assert.equal(refunds[0].headers["x-operation-id"], refunds[1].headers["x-operation-id"]);
     assert.equal(first.body.operationId, second.body.operationId);
-    assert.deepEqual(refunds[0].body, { orderId: row.external_id, amount: 2000000 });
+    assert.deepEqual(refunds[0].body, {
+      orderId: row.external_id,
+      amount: 2000000,
+      cart: { total: 2000000, items: [{ productId: "ai_paket_300", quantity: 1, receiptParams: { spic: "10305008002000000", packageCode: "1514296", vatPercent: 12 } }] },
+    });
     assert.ok((await store.order(row.id))!.refund_requested_at);
     assert.ok(await f.store.access(f.user, "live"));
     // Uzum reports the refund; the callback pull settles it.
@@ -606,30 +654,29 @@ test("10. Merchant API: Basic auth first, check/create/confirm, error codes, rev
   }
 });
 
-test("11. maintenance delivers a Uzum outbox event; Click/Payme delivery is unchanged", async () => {
+test("11. the owner hears of a Uzum and a Click payment once each; each pack starts at its payment", async () => {
   const f = await uzumFixture();
   try {
     const row = await paidCheckout(f);
     const click = await f.store.createOrder(f.user, "click", "live", randomUUID());
     await f.store.transition(click.id, "prepared", "Prepare", { externalId: String(randomBytes(4).readUInt32BE(0)) });
     await f.store.transition(click.id, "paid", "Complete");
+    // The callback's own delivery runs in the background; the next tick sends the rest.
     await f.drain();
-    const diagnostics = await inspectBilling(f.env);
-    assert.equal((diagnostics.outbox as { pending: number }).pending, 2);
-    Object.assign(f.env, { GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"), GPT_NOTIFY_CHAT_ID: "123456789" });
-    f.fake.allowTelegram = true;
-    const result = await maintainBilling(f.env);
-    assert.deepEqual({ delivered: result.delivered, configured: result.configured }, { delivered: 2, configured: true });
+    await maintainBilling(f.env);
     assert.equal(f.telegram.length, 2);
     const uzum = f.telegram.find((m) => m.text.includes(row.id))!;
     const clickMessage = f.telegram.find((m) => m.text.includes(click.id))!;
     assert.equal(uzum.text, `GPTBot.uz · AI paket: paid\nuzum · 20 000 UZS\n${row.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
     assert.equal(clickMessage.text, `GPTBot.uz · AI paket: paid\nclick · 20 000 UZS\n${click.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_outbox WHERE delivered_at IS NULL"), 0);
-    // Both providers share one access timeline without overlap.
+    assert.equal(((await inspectBilling(f.env)).outbox as { pending: number }).pending, 0);
+    // Both packs run side by side from their own payment, one calendar month each.
     const periods = f.db.rows<{ starts_at: number; ends_at: number }>("SELECT starts_at,ends_at FROM gpt_access_periods ORDER BY starts_at");
     assert.equal(periods.length, 2);
-    assert.equal(periods[0].ends_at, periods[1].starts_at);
+    for (const period of periods) assert.equal(period.ends_at, addCalendarMonth(period.starts_at));
+    assert.ok(periods[1].starts_at < periods[0].ends_at);
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_subscriptions WHERE plan='ai_paket'"), 2);
   } finally {
     f.restore();
   }
@@ -645,6 +692,12 @@ test("12. 0065 applies after the full ledger; the view unions both tables; runti
   ledger.exec(migration);
   const binding = ledger.asD1();
   const click = await new BillingStore(binding, BILLING_ORG).createOrder("acct_a", "click", "live", randomUUID());
+  // One open invoice across providers (U7): the Click one is closed first.
+  await assert.rejects(
+    storeFor(binding, BILLING_ORG, "uzum").createOrder("acct_a", "uzum", "live", randomUUID(), Date.now() + 5, undefined, "merchant"),
+    /pending_elsewhere/,
+  );
+  await new BillingStore(binding, BILLING_ORG).transition(click.id, "cancelled", "invoice_expired", { reason: 4 });
   const uzum = await storeFor(binding, BILLING_ORG, "uzum").createOrder("acct_a", "uzum", "live", randomUUID(), Date.now() + 5, undefined, "merchant");
   assert.match(uzum.id, ORDER_ID);
   assert.match(click.id, /^pay_[0-9a-f]{32}$/);

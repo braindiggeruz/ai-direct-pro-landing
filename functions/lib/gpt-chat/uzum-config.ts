@@ -9,24 +9,23 @@
 // Everything here fails closed: a missing, malformed or partial value means
 // "Uzum is off", never a default credential. Values are never logged.
 import type { Env } from "../../_types";
+import { fiscalParams, type FiscalEnv } from "./fiscal-config";
 
 export type UzumApi = "checkout" | "merchant";
 type Mode = "test" | "live";
 
 /** Only the fields this module reads; BillingEnv in billing-config.ts carries them. */
-export type UzumEnv = Env & {
-  GPT_BILLING_MODE?: string;
-  UZUM_API?: string;
-  UZUM_CHECKOUT_BASE_URL?: string;
-  UZUM_CHECKOUT_TEST_BASE_URL?: string;
-  UZUM_AUTOFISCAL?: string;
-  UZUM_FISCAL_IKPU?: string;
-  UZUM_FISCAL_PACKAGE_CODE?: string;
-  UZUM_FISCAL_VAT_PERCENT?: string;
-  /** Secret. {"checkout":{"test":{"terminalId","apiKey"},"live":{…}},
-   *  "merchant":{"test":{"serviceId","login","password"},"live":{…}}} */
-  UZUM_CREDENTIALS_JSON?: string;
-};
+export type UzumEnv = Env &
+  FiscalEnv & {
+    UZUM_API?: string;
+    UZUM_CHECKOUT_BASE_URL?: string;
+    UZUM_CHECKOUT_TEST_BASE_URL?: string;
+    UZUM_AUTOFISCAL?: string;
+    /** Secret. {"checkout":{"test":{"terminalId","apiKey"},"live":{…}},
+     *  "merchant":{"test":{"serviceId","login","password"},"live":{…}},
+     *  "fiscal":{"test":{"apiKey"},"live":{…}}} */
+    UZUM_CREDENTIALS_JSON?: string;
+  };
 
 export interface UzumCheckoutCredentials {
   terminalId: string;
@@ -165,23 +164,25 @@ export function allowedUzumReceipt(value: unknown): string | null {
 }
 
 /**
- * Auto-fiscalization parameters. `undefined` = off; `null` = switched on but
- * incomplete (which keeps Uzum unavailable rather than selling without a
- * receipt the terminal expects).
+ * Auto-fiscalization parameters: the shared GPT_FISCAL_* settings
+ * (fiscal-config.ts). `undefined` = off; `null` = switched on but incomplete
+ * (which keeps Uzum unavailable rather than selling without a receipt the
+ * terminal expects).
  */
 export function uzumFiscal(env: UzumEnv): UzumFiscal | null | undefined {
   if (env.UZUM_AUTOFISCAL !== "true") return undefined;
-  const spic = env.UZUM_FISCAL_IKPU || "";
-  const packageCode = env.UZUM_FISCAL_PACKAGE_CODE || "";
-  const vat = env.UZUM_FISCAL_VAT_PERCENT || "";
-  if (
-    !/^\d{17}$/.test(spic) ||
-    !/^[A-Za-z0-9]{1,20}$/.test(packageCode) ||
-    !/^\d{1,3}$/.test(vat) ||
-    Number(vat) > 100
-  )
-    return null;
-  return { spic, packageCode, vatPercent: Number(vat) };
+  const params = fiscalParams(env);
+  return params
+    ? { spic: params.ikpu, packageCode: params.packageCode, vatPercent: params.vatPercent }
+    : null;
+}
+
+/** The Uzum Fiscalization API key of one mode (Merchant API receipts), or null. */
+export function uzumFiscalApiKey(env: UzumEnv, mode: Mode): string | null {
+  const apiKey = record(record(parsedCredentials(env)?.fiscal)?.[mode])?.apiKey;
+  return typeof apiKey === "string" && /^[A-Za-z0-9._~+/=-]{16,256}$/.test(apiKey)
+    ? apiKey
+    : null;
 }
 
 /**
@@ -202,30 +203,4 @@ export function uzumCheckoutConfig(
   if (!credentials || !baseUrl || (fiscal === null && !options.settleOnly))
     return null;
   return { baseUrl, ...credentials, fiscal: fiscal ?? null };
-}
-
-/** The secret the existing `!key` gates look at: API key or Basic password. */
-export function uzumKey(env: UzumEnv, mode: Mode): string {
-  const api = uzumApi(env);
-  if (api === "checkout") return checkoutCredentials(env, mode)?.apiKey ?? "";
-  if (api === "merchant") return merchantCredentials(env, mode)?.password ?? "";
-  return "";
-}
-
-/**
- * Protocol readiness for one API: billing mode set, that API selected and its
- * credentials (plus, for Checkout, a valid base URL) present. The callback
- * endpoints gate on this alone, like Click/Payme gate on their key, so that
- * GPT_BILLING_LIVE_READY=false stops NEW checkouts without stranding a paid
- * order whose confirmation is still on its way.
- */
-export function uzumEndpointReady(env: UzumEnv, api: UzumApi): boolean {
-  const mode =
-    env.GPT_BILLING_MODE === "test" || env.GPT_BILLING_MODE === "live"
-      ? env.GPT_BILLING_MODE
-      : null;
-  if (!mode || uzumApi(env) !== api) return false;
-  return api === "checkout"
-    ? !!checkoutCredentials(env, mode) && !!uzumBaseUrl(env, mode)
-    : !!merchantCredentials(env, mode);
 }

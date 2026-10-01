@@ -2,10 +2,12 @@ import {
   addCalendarMonth,
   PAID_MESSAGES,
   PAYMENT_TTL_MS,
+  PLAN_ID,
   PRICE_TIYIN,
   type BillingMode,
   type LocalProvider,
 } from "./billing-config";
+import { isRehearsalAccount } from "./rehearsal";
 
 export interface Order {
   seq: number;
@@ -34,6 +36,20 @@ export interface AccessPeriod {
   ends_at: number;
   message_limit: number;
   refund_requested_at: number | null;
+}
+
+/**
+ * An unexpired invoice of the same account is still open at another
+ * provider (U7): finish it or let it expire before paying elsewhere, so one
+ * visitor never pays twice by accident.
+ */
+export class PendingElsewhereError extends Error {
+  constructor(
+    readonly orderId: string,
+    readonly provider: LocalProvider,
+  ) {
+    super("pending_elsewhere");
+  }
 }
 
 /** Closed set: SQL below names `this.table`, never caller-supplied text. */
@@ -84,6 +100,9 @@ export class BillingStore {
       (api && this.table !== UZUM_ORDERS)
     )
       throw new Error("provider_table");
+    // A synthetic rehearsal account buys in test only (rehearsal.ts).
+    if (mode === "live" && isRehearsalAccount(user))
+      throw new Error("rehearsal_live");
     const prior = await this.db
       .prepare(
         `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND request_id=?`,
@@ -113,6 +132,19 @@ export class BillingStore {
         reason: 4,
       });
     }
+    // Every provider's open invoices, through the 0065 view (U7). The INSERT
+    // repeats the check inside the batch, so two tabs opening two providers
+    // at once cannot both get an invoice.
+    const openElsewhere =
+      "SELECT id,provider FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? AND provider<>? AND state IN ('pending','prepared') AND expires_at>?";
+    const elsewhere = async () => {
+      const open = await this.db
+        .prepare(`${openElsewhere} ORDER BY created_at DESC LIMIT 1`)
+        .bind(this.org, user, mode, provider, now)
+        .first<{ id: string; provider: LocalProvider }>();
+      if (open) throw new PendingElsewhereError(open.id, open.provider);
+    };
+    await elsewhere();
     // 'uzm_' + 32 hex = 36 chars, the Uzum Checkout orderNumber maximum.
     const id = `${this.table === UZUM_ORDERS ? "uzm" : "pay"}_${crypto.randomUUID().replace(/-/g, "")}`;
     const event = crypto.randomUUID();
@@ -120,7 +152,7 @@ export class BillingStore {
       this.db
         .prepare(
           `INSERT OR IGNORE INTO ${this.table}(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at${api ? ",api" : ""})
-        VALUES(?,?,?,?,?,?,?,'UZS','pending',?,?${api ? ",?" : ""})`,
+        SELECT ?,?,?,?,?,?,?,'UZS','pending',?,?${api ? ",?" : ""} WHERE NOT EXISTS(${openElsewhere})`,
         )
         .bind(
           this.org,
@@ -133,6 +165,11 @@ export class BillingStore {
           now,
           now + PAYMENT_TTL_MS,
           ...(api ? [api] : []),
+          this.org,
+          user,
+          mode,
+          provider,
+          now,
         ),
       this.db
         .prepare(
@@ -150,6 +187,8 @@ export class BillingStore {
       )
       .bind(this.org, user, provider, mode, requestId)
       .first<Order>();
+    // No row: the guarded INSERT lost to another provider's invoice.
+    if (!row) await elsewhere();
     if (!row || row.provider !== provider || row.mode !== mode)
       throw new Error("idempotency_conflict");
     if (consent) await this.assertConsent(row.id, consent.version);
@@ -201,18 +240,12 @@ export class BillingStore {
       .bind(this.org, user, mode)
       .first<Order>();
   }
-  private async periodEnd(user: string, mode: BillingMode): Promise<number> {
-    const row = await this.db
-      .prepare(
-        "SELECT COALESCE(MAX(ends_at),0) AS value FROM gpt_access_periods WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL",
-      )
-      .bind(this.org, user, mode)
-      .first<{ value: number }>();
-    return row?.value ?? 0;
-  }
   /** Audit's conditional INSERT is the transaction guard. All effects depend
    * on its unguessable ID, never changes() across unrelated statements. D1
-   * batch is atomic; concurrent accounts/invoices retry against the new end. */
+   * batch is atomic; a concurrent transition of the same order retries.
+   * A paid order opens its own pack at once: one calendar month from the
+   * payment, side by side with any pack still running (access() draws from
+   * the one that ends first). */
   async transition(
     id: string,
     target: "prepared" | "paid" | "cancelled",
@@ -255,23 +288,16 @@ export class BillingStore {
         !["pending", "prepared", "paid"].includes(row.state)
       )
         throw new Error("state");
-      const end =
-        target === "paid" ? await this.periodEnd(row.user_id, row.mode) : 0;
-      const start = Math.max(now, end);
-      const nextEnd = addCalendarMonth(start);
+      const nextEnd = addCalendarMonth(now);
       const nextState =
         target === "cancelled" && row.state === "paid" ? "refunded" : target;
       const event = crypto.randomUUID();
       const gate =
         "EXISTS(SELECT 1 FROM gpt_payment_journal WHERE org_id=? AND id=?)";
-      const guard =
-        target === "paid"
-          ? ` AND ?=(SELECT COALESCE(MAX(ends_at),0) FROM gpt_access_periods WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL)`
-          : "";
       const audit = this.db
         .prepare(
           `INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,from_state,to_state,created_at)
-        SELECT org_id,?,id,?, ?,state,?,? FROM ${this.table} WHERE org_id=? AND id=? AND version=?${guard}`,
+        SELECT org_id,?,id,?, ?,state,?,? FROM ${this.table} WHERE org_id=? AND id=? AND version=?`,
         )
         .bind(
           event,
@@ -286,7 +312,6 @@ export class BillingStore {
           this.org,
           id,
           row.version,
-          ...(target === "paid" ? [end, this.org, row.user_id, row.mode] : []),
         );
       const statements = [
         audit,
@@ -331,7 +356,7 @@ export class BillingStore {
               id,
               row.user_id,
               row.mode,
-              start,
+              now,
               nextEnd,
               PAID_MESSAGES,
               this.org,
@@ -342,13 +367,14 @@ export class BillingStore {
           this.db
             .prepare(
               `INSERT INTO gpt_subscriptions(id,user_id,provider,provider_subscription_id,plan,status,current_period_end,created_at,updated_at)
-          SELECT ?,?,?,?,'plus','active',?,?,? WHERE ${gate}`,
+          SELECT ?,?,?,?,?,'active',?,?,? WHERE ${gate}`,
             )
             .bind(
               id,
               row.user_id,
               row.provider,
               row.external_id,
+              PLAN_ID,
               new Date(nextEnd).toISOString(),
               new Date(now).toISOString(),
               new Date(now).toISOString(),
@@ -443,18 +469,6 @@ export class BillingStore {
       )
       .bind(this.org, id, user)
       .first());
-  }
-  nextAccess(
-    user: string,
-    mode: BillingMode,
-    now = Date.now(),
-  ): Promise<AccessPeriod | null> {
-    return this.db
-      .prepare(
-        "SELECT order_id,starts_at,ends_at,message_limit,refund_requested_at FROM gpt_access_periods WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL AND starts_at>? ORDER BY starts_at LIMIT 1",
-      )
-      .bind(this.org, user, mode, now)
-      .first<AccessPeriod>();
   }
   async refundable(user: string, mode: BillingMode) {
     const rows = await this.db

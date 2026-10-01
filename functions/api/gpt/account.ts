@@ -1,13 +1,17 @@
 import {
   BILLING_ORG,
-  billingMode,
-  identityReady,
-  providerReady,
+  loginMethods,
+  offeredProviders,
   PAID_MESSAGES,
+  PRICE_TIYIN,
+  providerMode,
   termsUrl,
   termsVersion,
   type BillingEnv,
+  type BillingMode,
 } from "../../lib/gpt-chat/billing-config";
+import { fiscalParams, includedVat } from "../../lib/gpt-chat/fiscal-config";
+import { viewerMode } from "../../lib/gpt-chat/rehearsal";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
 import {
   ensureBillingSchema,
@@ -16,7 +20,7 @@ import {
 import { IdentityStore, sameOrigin, cookieValue } from "../../lib/gpt-chat/identity-store";
 import { getClientIp, hashIp, sha256Hex } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
-import { TurnStore } from "../../lib/gpt-chat/turn-store";
+import { PACK_DAILY_LIMIT, TurnStore } from "../../lib/gpt-chat/turn-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
@@ -35,7 +39,7 @@ async function reconcileUzum(
   user: string,
   orderId: string,
 ): Promise<boolean> {
-  const mode = billingMode(env);
+  const mode = providerMode(env, "uzum");
   const cfg =
     mode && uzumApi(env) === "checkout"
       ? uzumCheckoutConfig(env, mode, { settleOnly: true })
@@ -64,14 +68,29 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  const mode = billingMode(env);
+  // A rehearsal session sees test providers and test orders only; everyone
+  // else live ones only (decision L7, rehearsal.ts). No D1 read.
+  const context: BillingMode = await viewerMode(request, env);
+  const providers = offeredProviders(env, context);
   const cfg = resolveConfig(env);
+  const fiscal = fiscalParams(env);
+  const logins = loginMethods(env);
   const base = {
     ok: true,
-    loginAvailable: identityReady(env),
-    mode,
-    priceUzs: 20000,
-    messageLimit: PAID_MESSAGES,
+    loginAvailable: logins.length > 0,
+    loginMethods: logins,
+    mode: providers.length ? context : null,
+    // The AI pack (decision L3): one calendar month from the payment. The
+    // price includes VAT at GPT_FISCAL_VAT_PERCENT.
+    pack: {
+      priceUzs: PRICE_TIYIN / 100,
+      messageLimit: PAID_MESSAGES,
+      dailyLimit: PACK_DAILY_LIMIT,
+      months: 1,
+      vat: fiscal
+        ? { percent: fiscal.vatPercent, includedTiyin: includedVat(PRICE_TIYIN, fiscal.vatPercent) }
+        : null,
+    },
     termsVersion: termsVersion(env),
     // The free tier's limits from the config: a guest's view never reads D1
     // (decision L18); what is left comes from the chat's own answers.
@@ -79,19 +98,14 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // The limit card's "continue in the Telegram bot" button. Off unless the
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
-    // Uzum is offered on the site only as Checkout (card page); the Merchant
-    // API flow has no customer screen yet.
-    providers: (["click", "payme", "uzum"] as const).filter(
-      (p) =>
-        providerReady(env, p) && (p !== "uzum" || uzumApi(env) === "checkout"),
-    ),
+    providers,
     terms: {
       ru: termsUrl(env.GPT_BILLING_TERMS_RU),
       uz: termsUrl(env.GPT_BILLING_TERMS_UZ),
     },
   };
   if (!env.GPTBOT_DRAFTS_DB)
-    return json({ ...base, loginAvailable: false, user: null });
+    return json({ ...base, loginAvailable: false, loginMethods: [], user: null });
   // Anonymous readiness checks need no schema bootstrap or account DB queries.
   if (!/^[a-f0-9]{64}$/.test(cookieValue(request, "__Host-gpt_account")))
     return json({ ...base, user: null });
@@ -103,7 +117,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return json({ ...base, user: null });
     const store = new BillingStore(db, BILLING_ORG);
-    let latest = await store.latestAcrossProviders(user, mode || "live");
+    let latest = await store.latestAcrossProviders(user, context);
     if (
       latest?.provider === "uzum" &&
       latest.state === "prepared" &&
@@ -114,12 +128,11 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
           console.warn("gpt_billing_delivery_failed"),
         ),
       );
-      latest = await store.latestAcrossProviders(user, mode || "live");
+      latest = await store.latestAcrossProviders(user, context);
     }
-    const access = await store.access(user, mode || "live");
-    const scheduled = await store.nextAccess(user, mode || "live");
-    const receipts = await store.receipts(user, mode || "live");
-    const refundable = await store.refundable(user, mode || "live");
+    const access = await store.access(user, context);
+    const receipts = await store.receipts(user, context);
+    const refundable = await store.refundable(user, context);
     // Without a pack the free tier counts by account and by IP hash, as the chat does.
     const remaining = await new TurnStore(db, BILLING_ORG).remaining(
       user,
@@ -131,7 +144,6 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       ...base,
       user: { signedIn: true, storageKey: await sha256Hex(`local-history:${BILLING_ORG}:${user}`) },
       remaining,
-      scheduled,
       receipts,
       refundable,
       access: access

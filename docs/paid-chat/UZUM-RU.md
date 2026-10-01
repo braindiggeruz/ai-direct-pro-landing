@@ -27,13 +27,16 @@
 9. Можно ли в приложении Uzum ввести код заказа вида `uzm_…` (32 шестнадцатеричных символа). В примерах документации код заказа числовой. Вопрос только для Merchant API.
 10. Разрешено ли название услуги «AI paket 300 · gptbot.uz». Слов «GPT» и «ChatGPT» в платёжных данных нет.
 
-## 3. Что взять у бухгалтера (для автофискализации)
+## 3. Данные чека (общие для Click и Uzum)
 
-- ИКПУ (SPIC) услуги: 17 цифр, по каталогу https://tasnif.soliq.uz/.
-- Код упаковки: до 20 символов.
-- Ставка НДС, целое число от 0 до 100.
+Решение владельца от 01.10.2026, значения уже в `wrangler.toml`:
 
-Это не секреты, их задаём в `wrangler.toml`: `UZUM_AUTOFISCAL = "true"`, `UZUM_FISCAL_IKPU`, `UZUM_FISCAL_PACKAGE_CODE`, `UZUM_FISCAL_VAT_PERCENT`. Если автофискализация включена, а хотя бы одно значение не заполнено или неверно, новые оплаты Uzum не принимаются. Чек без обязательных данных мы не создаём.
+- `GPT_FISCAL_IKPU = "10305008002000000"` — ИКПУ (SPIC) услуги, 17 цифр, по каталогу https://tasnif.soliq.uz/ (действует, маркировка не нужна).
+- `GPT_FISCAL_PACKAGE_CODE = "1514296"` — код упаковки «услуга (раз)».
+- `GPT_FISCAL_VAT_PERCENT = "12"` — ставка НДС. НДС **входит** в цену: в 20 000 сум 2 142,86 сум НДС.
+- `GPT_FISCAL_TIN` — ИНН продавца (его передаёт только чек Click).
+
+Uzum берёт их, когда включена автофискализация (`UZUM_AUTOFISCAL = "true"`). Если хотя бы одно значение не заполнено или неверно, новые оплаты Uzum не принимаются. Чек без обязательных данных мы не создаём. Боевая продажа через Checkout без автофискализации не открывается вовсе (`liveReadiness()` называет `UZUM_AUTOFISCAL`). Merchant API в бою требует ключ Uzum Fiscalization API в секрете (`fiscal.live.apiKey`).
 
 ## 4. Как включить
 
@@ -50,6 +53,10 @@
   "merchant": {
     "test": { "serviceId": 0, "login": "<логин>", "password": "<пароль>" },
     "live": { "serviceId": 0, "login": "<логин>", "password": "<пароль>" }
+  },
+  "fiscal": {
+    "test": { "apiKey": "<тестовый ключ Fiscalization API>" },
+    "live": { "apiKey": "<боевой ключ Fiscalization API>" }
   }
 }
 ```
@@ -65,15 +72,17 @@
 | `UZUM_API` | `""` — выключено; `"checkout"` или `"merchant"` |
 | `UZUM_CHECKOUT_BASE_URL` | боевой адрес API от Uzum; только https и только домены uzumbank.uz, uzumcheckout.uz или uzum.uz |
 | `UZUM_CHECKOUT_TEST_BASE_URL` | тестовый адрес; по умолчанию `https://test-chk-api.uzumcheckout.uz` (не проверен) |
-| `UZUM_AUTOFISCAL` и `UZUM_FISCAL_*` | см. раздел 3 |
+| `GPT_BILLING_MODE_UZUM` | `""` — как `GPT_BILLING_MODE`; `"test"`, `"live"` или `"off"` только для Uzum |
+| `GPT_PAYMENT_PROVIDERS` | разрешённые провайдеры, по умолчанию `"click,uzum"` |
+| `UZUM_AUTOFISCAL` и `GPT_FISCAL_*` | см. раздел 3 |
 
 Если Uzum выдаст адрес на другом домене, нужно поправить одну строку `UZUM_HOST_PATTERN` в `functions/lib/gpt-chat/uzum-config.ts` и `UZUM_CHECKOUT_HOST` в `src/gpt-chat/types.ts` (тест проверяет, что они совпадают). Этот список защищает ключ API: из-за опечатки в настройке ключ не уйдёт на чужой сервер.
 
 ### 4.3. Порядок запуска
 
 1. **Миграция.** До деплоя кода примените `migrations/0065_gpt_uzum_payments.sql` к базе `gptbot-ai-drafts` так же, как применяли 0064 (`docs/readiness/2026-09-06/`), например `npx wrangler d1 migrations apply gptbot-ai-drafts --remote`. Она создаёт таблицу `gpt_uzum_orders` и представление `gpt_payment_orders_all`. Перед этим сделайте резервную копию D1. Если D1 не примет `CREATE VIEW`, не деплойте код: без представления не откроется раздел «Мой тариф».
-2. **Тест без денег.** `GPT_BILLING_MODE="test"`, `UZUM_API="checkout"`, в секрете раздел `checkout.test`. Прогоните `node --import tsx scripts/uzum-sandbox-rehearsal.ts` с тестовыми ключами в окружении: он создаёт заказ, выдаёт ссылку на страницу оплаты, следит за статусом, а с `--refund` ещё и возвращает деньги. Тестовые карты указаны в спецификации (раздел Testing): HUMO 9860 0901 0121 9724 (до 10/26) и Uzcard 8600 3129 2957 7175 (до 09/26), код 3-DS 777777. **Эти карты истекают в сентябре и октябре 2026 года, запросите у Uzum актуальные.** В тестовом режиме сайт, как и для Click и Payme, не выдаёт ссылку на оплату: проверяется протокол, а не деньги.
-3. **Бой со скрытым запуском.** `GPT_BILLING_MODE="live"`, `GPT_BILLING_LIVE_READY="true"`, опубликованные оферта RU/UZ и `GPT_BILLING_TERMS_VERSION`, `UZUM_CHECKOUT_BASE_URL`, раздел `checkout.live`. Купите пакет сами, проверьте, что доступ открылся, в Telegram пришло «GPTBot.uz · AI paket: paid / uzum», а в разделе «Мой тариф» появилась ссылка на чек (при автофискализации). Затем сделайте учебный возврат (раздел 6).
+2. **Тест без денег.** `GPT_BILLING_MODE_UZUM="test"`, `UZUM_API="checkout"`, в секрете раздел `checkout.test`. Тестовый режим тёмный: посетители его не видят. Uzum в тесте предлагается только в сессии репетиции, то есть браузеру с cookie `__Host-gpt_rehearsal`. Её выдаёт `POST /api/internal/gpt-rehearsal-session` с Bearer `GPT_BILLING_MAINTENANCE_SECRET`. Прогоните `node --import tsx scripts/uzum-sandbox-rehearsal.ts` с тестовыми ключами в окружении: он создаёт заказ, выдаёт ссылку на страницу оплаты, следит за статусом, а с `--refund` ещё и возвращает деньги. Тестовые карты указаны в спецификации (раздел Testing): HUMO 9860 0901 0121 9724 (до 10/26) и Uzcard 8600 3129 2957 7175 (до 09/26), код 3-DS 777777. **Эти карты истекают в сентябре и октябре 2026 года, запросите у Uzum актуальные.** В тестовом режиме сайт, как и для Click и Payme, не выдаёт ссылку на оплату: проверяется протокол, а не деньги.
+3. **Бой со скрытым запуском.** `GPT_BILLING_MODE_UZUM="live"`, `GPT_BILLING_LIVE_READY="true"` и всё, что называет `liveReadiness()` в `functions/lib/gpt-chat/billing-config.ts`: опубликованные оферта RU/UZ, `GPT_BILLING_TERMS_VERSION`, `GPT_BILLING_TERMS_APPROVED_AT` (дата одобрения юристом), `UZUM_CHECKOUT_BASE_URL`, раздел `checkout.live`, автофискализация, канал уведомлений, соль, `GPT_IDENTITY_SECRET`, `GPT_BILLING_MAINTENANCE_SECRET` и способ входа. Купите пакет сами, проверьте, что доступ открылся, в Telegram пришло «GPTBot.uz · AI paket: paid / uzum», а в разделе «Мой тариф» появилась ссылка на чек (при автофискализации). Затем сделайте учебный возврат (раздел 6).
 4. Откройте оплату всем.
 
 ## 5. Как это работает (для проверки)
@@ -123,7 +132,7 @@ curl -X POST https://gptbot.uz/api/internal/gpt-uzum-refund \
 ## 7. Выключение и откат
 
 - **Остановить новые оплаты, не теряя подтверждений:** `GPT_BILLING_LIVE_READY="false"`. Это останавливает новые оплаты у всех провайдеров, а уведомления Uzum продолжают приниматься.
-- **Выключить Uzum полностью:** `UZUM_API=""` или удалить секрет. После этого адреса Uzum отвечают 404. Делайте это, только когда ожидающие заказы Uzum закрылись: сессия Checkout длится 30 минут, транзакция Merchant API тоже 30 минут, счёт живёт 12 часов.
+- **Выключить Uzum полностью:** `GPT_BILLING_MODE_UZUM="off"`, `UZUM_API=""` или удалить секрет. После этого адреса Uzum отвечают 404. Делайте это, только когда ожидающие заказы Uzum закрылись: сессия Checkout длится 30 минут, транзакция Merchant API тоже 30 минут, счёт живёт 12 часов.
 - **Переключаться между Checkout и Merchant API** тоже стоит, когда открытых заказов Uzum нет. Открытый заказ одного режима не используется для другого.
 - Таблицу `gpt_uzum_orders` **не удалять**: это финансовые записи. Представление `gpt_payment_orders_all` можно удалить только вместе с откатом кода к версии до 0065.
 

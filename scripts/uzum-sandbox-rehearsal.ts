@@ -8,7 +8,7 @@
 // Credentials come only from the shell environment, for this one command:
 //   UZUM_CREDENTIALS_JSON='{"checkout":{"test":{"terminalId":"…","apiKey":"…"}}}'
 //   UZUM_CHECKOUT_TEST_BASE_URL=https://…   (optional; the default host is UNVERIFIED)
-//   UZUM_AUTOFISCAL / UZUM_FISCAL_IKPU / UZUM_FISCAL_PACKAGE_CODE / UZUM_FISCAL_VAT_PERCENT (optional)
+//   UZUM_AUTOFISCAL / GPT_FISCAL_IKPU / GPT_FISCAL_PACKAGE_CODE / GPT_FISCAL_VAT_PERCENT (optional)
 // They are never printed or written. Test cards are listed in the Uzum
 // Checkout spec (docs/paid-chat/uzum-spec/en_checkout.yaml, "Testing").
 // Nothing touches D1: this proves the protocol, not the ledger (the ledger is

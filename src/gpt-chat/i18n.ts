@@ -122,7 +122,7 @@ function ru(n: number, one: string, few: string, many: string): string {
 const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
-    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого оплаченного периода закончились. Следующий пакет доступен с начала нового периода.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
+    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
     eyebrow:'ВАШ AI-ПОМОЩНИК',welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',
     intro:'Написать, перевести или разобраться в теме. Просто спросите на русском или узбекском.',
     trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'AI-пакет',accountActive:'Мой пакет',
@@ -210,7 +210,7 @@ const RU: ChatStrings = {
 const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
-    answerReady:'Javob tayyor.',monthlyLimit:'Bu davr uchun javoblar tugadi. Yangi to‘plam keyingi davr boshlanganda ochiladi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
+    answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
     eyebrow:'SIZNING AI YORDAMCHINGIZ',welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',
     intro:'Matn yozish, tarjima qilish yoki mavzuni tushunish. O‘zbekcha yoki ruscha so‘rang.',
     trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'AI paket',accountActive:'Paketim',

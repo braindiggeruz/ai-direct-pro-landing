@@ -43,7 +43,6 @@ export interface AccountView {
   botHandoff?: boolean;
   access?: { order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null } | null;
   payment?: { id: string; state: string; provider?: PaymentProvider } | null;
-  scheduled?: { starts_at: number } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
   refundable?: Array<{ order_id: string; starts_at: number; refund_requested_at: number | null }>;
 }
@@ -75,7 +74,6 @@ export function validAccountView(value: unknown): value is AccountView {
     && (!account.access || (!!account.user && typeof account.access.order_id === 'string'
       && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && Number.isInteger(account.access.remaining) && account.access.remaining >= 0))
     && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string' && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))))
-    && (!account.scheduled || Number.isFinite(account.scheduled.starts_at))
     && (account.receipts === undefined || (Array.isArray(account.receipts) && account.receipts.every(r => r && typeof r.kind === 'string' && typeof r.receipt_url === 'string')))
     && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at))));
 }

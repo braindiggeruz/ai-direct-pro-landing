@@ -71,7 +71,7 @@ function times(n: number, at: (i: number) => number, turn: Omit<Turn, 'at'>): Tu
   return Array.from({ length: n }, (_, i) => ({ ...turn, at: at(i) }));
 }
 
-/** A pack of `f.user` in mode 'test' (the fixture's billing mode). */
+/** A pack of `f.user` in mode 'test' (the fixture's billing mode): the chat draws it in a rehearsal session (f.testCookie). */
 function pack(f: Fixture, order: string, limit: number, { from = T0 - DAY, to = T0 + 20 * DAY } = {}): AccessPeriod {
   f.db
     .prepare(
@@ -319,11 +319,11 @@ test('a spent or ended pack does not block the free tier, even when it runs out 
       now,
     ).map((row) => row.period_id);
 
-  const first = (await (await chat(request(f, {}, { cookie: f.cookie }))).json()) as Row;
+  const first = (await (await chat(request(f, {}, { cookie: f.testCookie }))).json()) as Row;
   assert.deepEqual([first.ok, first.remaining, first.hourRemaining], [true, 14, 4]);
   // The pack was still readable when access() ran and spent by the reservation.
   t.mock.method(BillingStore.prototype, 'access', async () => spent);
-  const raced = (await (await chat(request(f, {}, { cookie: f.cookie }))).json()) as Row;
+  const raced = (await (await chat(request(f, {}, { cookie: f.testCookie }))).json()) as Row;
   await drain(f);
   assert.deepEqual([raced.ok, raced.remaining, raced.hourRemaining], [true, 13, 3]);
   assert.deepEqual(periods(), [null, null]);
@@ -336,7 +336,7 @@ test('the pack day: 429 pack_daily with the pack tier, limits and what is left i
   const today = Math.floor(now / DAY) * DAY;
   pack(f, 'pack-live', 300, { from: now - DAY, to: now + 20 * DAY });
   seed(f, times(PACK_DAILY_LIMIT, (i) => Math.max(today, now - (i + 1) * 1000), { subject: f.user, ip: 'ip-p', period: 'pack-live' }));
-  const response = await chat(request(f, {}, { cookie: f.cookie }));
+  const response = await chat(request(f, {}, { cookie: f.testCookie }));
   await drain(f);
   assert.equal(response.status, 429);
   const body = (await response.json()) as Row;

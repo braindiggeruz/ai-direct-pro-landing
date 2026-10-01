@@ -1,5 +1,5 @@
 import { randomBytes, randomUUID } from "node:crypto";
-import { billingFixture } from "./gpt-billing-fixture";
+import { billingFixture, liveSettings } from "./gpt-billing-fixture";
 import { onRequestPost as uzumCallback } from "../../functions/api/payments/uzum";
 import { onRequestPost as uzumMerchant } from "../../functions/api/payments/uzum-merchant/[op]";
 import { onRequestPost as uzumRefund } from "../../functions/api/internal/gpt-uzum-refund";
@@ -36,7 +36,6 @@ export async function uzumFixture(
   options: {
     mode?: "test" | "live";
     api?: "checkout" | "merchant";
-    autofiscal?: boolean;
   } = {},
 ) {
   const f = await billingFixture();
@@ -49,20 +48,21 @@ export async function uzumFixture(
     password: hex(20),
   };
   const maintenanceSecret = hex(32);
+  // Live-ready as a whole (liveReadiness() empty): a live Uzum sale prints
+  // its receipt, by auto-fiscalization (Checkout) or the Fiscalization API
+  // key (Merchant API).
   Object.assign(f.env, {
+    ...liveSettings(),
     GPT_BILLING_MODE: mode,
-    GPT_BILLING_LIVE_READY: "true",
     GPT_BILLING_MAINTENANCE_SECRET: maintenanceSecret,
     UZUM_API: api,
     UZUM_CHECKOUT_BASE_URL: UZUM_FIXTURE_BASE,
     UZUM_CHECKOUT_TEST_BASE_URL: UZUM_FIXTURE_TEST_BASE,
-    UZUM_AUTOFISCAL: options.autofiscal ? "true" : "false",
-    UZUM_FISCAL_IKPU: options.autofiscal ? "10305008001000000" : "",
-    UZUM_FISCAL_PACKAGE_CODE: options.autofiscal ? "1501223" : "",
-    UZUM_FISCAL_VAT_PERCENT: options.autofiscal ? "12" : "",
+    UZUM_AUTOFISCAL: "true",
     UZUM_CREDENTIALS_JSON: JSON.stringify({
       checkout: { [mode]: checkout },
       merchant: { [mode]: merchant },
+      fiscal: { [mode]: { apiKey: hex(24) } },
     }),
   } satisfies Partial<BillingEnv>);
   const base = mode === "live" ? UZUM_FIXTURE_BASE : UZUM_FIXTURE_TEST_BASE;
@@ -76,7 +76,8 @@ export async function uzumFixture(
     refundErrorCode: 0,
     /** Next getOrderStatus / getReceipts throws like a dropped connection. */
     failPulls: 0,
-    allowTelegram: false,
+    /** The owner channel is configured (liveSettings): its messages are recorded. */
+    allowTelegram: true,
   };
   const reply = (result: unknown, errorCode = 0) =>
     Response.json({ errorCode, message: errorCode ? "fixture error" : null, result });

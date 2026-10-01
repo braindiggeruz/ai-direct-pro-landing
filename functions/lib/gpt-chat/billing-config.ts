@@ -1,9 +1,36 @@
+// Billing configuration: which payment providers run, in which mode, with
+// which credentials, and what a live sale still lacks. Everything fails
+// closed: a missing, malformed or unknown value means "off", never a default
+// credential, and nothing here ever returns or logs a secret value.
+//
+// Providers (decision L17): GPT_PAYMENT_PROVIDERS lists the providers that
+// may run at all ("click,uzum" when unset). Payme runs only when listed. A
+// provider outside the list sells nothing and its callback route is a 404.
+//
+// Modes (decision L7): GPT_BILLING_MODE_CLICK and GPT_BILLING_MODE_UZUM
+// ("test" | "live" | "off") set one provider's mode; empty falls back to
+// GPT_BILLING_MODE, any other value is "off". Test is dark: only a rehearsal
+// session (rehearsal.ts) sees a test provider and pays it.
+//
+// Credentials (decision L9): one secret per provider. Click reads
+// GPT_CLICK_CREDENTIALS_JSON {"test"|"live": {service_id, merchant_id,
+// secret_key, merchant_user_id}}; only while that secret is unset or empty,
+// the legacy GPT_CLICK_* variables. Uzum reads UZUM_CREDENTIALS_JSON
+// (uzum-config.ts). Payme keeps GPT_PAYME_*.
+//
+// Live (liveReadiness): a new live checkout needs every setting it lists.
 import type { Env } from "../../_types";
+import type { BridgeEnvExtras } from "./bridge-env";
+import { fiscalIssues, type FiscalEnv } from "./fiscal-config";
+import { resolveHashSalt } from "./hash";
+import { resolveOwnerNotify } from "./notify";
 import {
-  uzumApi,
-  uzumCheckoutConfig,
-  uzumKey,
+  checkoutCredentials,
   merchantCredentials,
+  uzumApi,
+  uzumBaseUrl,
+  uzumCheckoutConfig,
+  uzumFiscalApiKey,
   type UzumEnv,
 } from "./uzum-config";
 
@@ -11,43 +38,103 @@ export type BillingMode = "test" | "live";
 export type LocalProvider = "payme" | "click" | "uzum";
 // UZUM_* fields (public config plus the one secret UZUM_CREDENTIALS_JSON) are
 // declared in uzum-config.ts and documented in docs/paid-chat/UZUM-RU.md.
-export type BillingEnv = Env & UzumEnv & {
-  GPT_BILLING_MODE?: string;
-  GPT_BILLING_LIVE_READY?: string;
-  GPT_TELEGRAM_CLIENT_ID?: string;
-  GPT_TELEGRAM_CLIENT_SECRET?: string;
-  GPT_IDENTITY_SECRET?: string;
-  GPT_PAYME_MERCHANT_ID?: string;
-  GPT_PAYME_KEY?: string;
-  GPT_PAYME_TEST_KEY?: string;
-  GPT_CLICK_SERVICE_ID?: string;
-  GPT_CLICK_MERCHANT_ID?: string;
-  GPT_CLICK_SECRET?: string;
-  GPT_CLICK_TEST_SERVICE_ID?: string;
-  GPT_CLICK_TEST_SECRET?: string;
-  GPT_BILLING_MAINTENANCE_SECRET?: string;
-  GPT_BILLING_TERMS_RU?: string;
-  GPT_BILLING_TERMS_UZ?: string;
-  GPT_BILLING_TERMS_VERSION?: string;
-};
+export type BillingEnv = Env &
+  UzumEnv &
+  FiscalEnv &
+  BridgeEnvExtras & {
+    GPT_PAYMENT_PROVIDERS?: string;
+    GPT_BILLING_MODE?: string;
+    GPT_BILLING_MODE_CLICK?: string;
+    GPT_BILLING_MODE_UZUM?: string;
+    GPT_BILLING_LIVE_READY?: string;
+    GPT_TELEGRAM_CLIENT_ID?: string;
+    GPT_TELEGRAM_CLIENT_SECRET?: string;
+    GPT_IDENTITY_SECRET?: string;
+    GPT_PAYME_MERCHANT_ID?: string;
+    GPT_PAYME_KEY?: string;
+    GPT_PAYME_TEST_KEY?: string;
+    /** Secret. {"test"|"live": {service_id, merchant_id, secret_key, merchant_user_id}} */
+    GPT_CLICK_CREDENTIALS_JSON?: string;
+    // Legacy Click variables, read only while GPT_CLICK_CREDENTIALS_JSON is unset.
+    GPT_CLICK_SERVICE_ID?: string;
+    GPT_CLICK_MERCHANT_ID?: string;
+    GPT_CLICK_SECRET?: string;
+    GPT_CLICK_TEST_SERVICE_ID?: string;
+    GPT_CLICK_TEST_SECRET?: string;
+    GPT_BILLING_MAINTENANCE_SECRET?: string;
+    GPT_BILLING_TERMS_RU?: string;
+    GPT_BILLING_TERMS_UZ?: string;
+    GPT_BILLING_TERMS_VERSION?: string;
+    /** YYYY-MM-DD the lawyer approved the offer the terms URLs point to. */
+    GPT_BILLING_TERMS_APPROVED_AT?: string;
+  };
 
 export const BILLING_ORG = "gptbot-consumer";
 export const PRICE_TIYIN = 2_000_000;
 // A product allowance, not a profitability claim; model attempts have a separate cap.
 export const PAID_MESSAGES = 300;
 export const PAYMENT_TTL_MS = 43_200_000;
-export function billingMode(env: BillingEnv): BillingMode | null {
-  return env.GPT_BILLING_MODE === "test" || env.GPT_BILLING_MODE === "live"
-    ? env.GPT_BILLING_MODE
+/** The product (decision L16): «AI paket» / «AI-пакет», plan id in the ledgers. */
+export const PLAN_ID = "ai_paket";
+/** Every provider the code knows, in the order the pack window offers them. */
+export const PROVIDERS: readonly LocalProvider[] = ["click", "uzum", "payme"];
+const DEFAULT_PROVIDERS = "click,uzum";
+/** The setting that holds a provider's mode; Payme has only the global one. */
+const MODE_SETTING = {
+  click: "GPT_BILLING_MODE_CLICK",
+  uzum: "GPT_BILLING_MODE_UZUM",
+  payme: "GPT_BILLING_MODE",
+} as const satisfies Record<LocalProvider, keyof BillingEnv>;
+/** Secrets shorter than this count as unset. */
+const MIN_SECRET_LENGTH = 32;
+
+/** The providers GPT_PAYMENT_PROVIDERS allows ("click,uzum" when unset). */
+export function paymentProviders(env: BillingEnv): LocalProvider[] {
+  const listed = (env.GPT_PAYMENT_PROVIDERS ?? DEFAULT_PROVIDERS)
+    .split(",")
+    .map((name) => name.trim());
+  return PROVIDERS.filter((provider) => listed.includes(provider));
+}
+
+/** The mode the settings give a provider, before the allowlist. */
+function configuredMode(env: BillingEnv, provider: LocalProvider): BillingMode | null {
+  const value = env[MODE_SETTING[provider]] || env.GPT_BILLING_MODE || "";
+  return value === "test" || value === "live" ? value : null;
+}
+
+/** A provider's mode, or null when it is off or not in GPT_PAYMENT_PROVIDERS. */
+export function providerMode(
+  env: BillingEnv,
+  provider: LocalProvider,
+): BillingMode | null {
+  return paymentProviders(env).includes(provider)
+    ? configuredMode(env, provider)
     : null;
 }
+
+/** The providers currently in `mode`. */
+export function providersInMode(env: BillingEnv, mode: BillingMode): LocalProvider[] {
+  return PROVIDERS.filter((provider) => providerMode(env, provider) === mode);
+}
+
+/** Some provider runs, in test or live. */
+export function billingActive(env: BillingEnv): boolean {
+  return PROVIDERS.some((provider) => providerMode(env, provider) !== null);
+}
+
 export function identityReady(env: BillingEnv): boolean {
   return !!(
     env.GPT_TELEGRAM_CLIENT_ID &&
     env.GPT_TELEGRAM_CLIENT_SECRET &&
-    (env.GPT_IDENTITY_SECRET?.length ?? 0) >= 32
+    (env.GPT_IDENTITY_SECRET?.length ?? 0) >= MIN_SECRET_LENGTH
   );
 }
+
+/** How a visitor can sign in; the Telegram bot login joins in plan WP-16. */
+export function loginMethods(env: BillingEnv): Array<"oidc"> {
+  return identityReady(env) ? ["oidc"] : [];
+}
+
 export function termsUrl(value: string | undefined): string | null {
   if (!value) return null;
   try {
@@ -63,35 +150,131 @@ export function termsVersion(env: BillingEnv): string | null {
   const value = env.GPT_BILLING_TERMS_VERSION || "";
   return /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value : null;
 }
-export function providerKey(
+
+/** GPT_BILLING_TERMS_APPROVED_AT as a real calendar date that has come, else null. */
+function termsApprovedAt(env: BillingEnv, now: number): string | null {
+  const value = env.GPT_BILLING_TERMS_APPROVED_AT || "";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const at = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(at) &&
+    new Date(at).toISOString().slice(0, 10) === value &&
+    at <= now
+    ? value
+    : null;
+}
+
+export interface ClickCredentials {
+  serviceId: string;
+  /** Live checkout links need it; a test account may have none. */
+  merchantId: string | null;
+  secretKey: string;
+  /** Merchant API user (fiscal receipts, reversal); absent from the legacy variables. */
+  merchantUserId: string | null;
+}
+type ClickField = "service_id" | "merchant_id" | "secret_key" | "merchant_user_id";
+const CLICK_FIELDS: readonly ClickField[] = [
+  "service_id",
+  "merchant_id",
+  "secret_key",
+  "merchant_user_id",
+];
+
+function clickId(value: unknown): string | null {
+  const text = typeof value === "number" && Number.isSafeInteger(value) ? String(value) : value;
+  return typeof text === "string" && /^[1-9]\d{0,11}$/.test(text) ? text : null;
+}
+function clickSecret(value: unknown): string | null {
+  return typeof value === "string" && /^[\x21-\x7e]{8,256}$/.test(value) ? value : null;
+}
+function record(value: unknown): Record<string, unknown> | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+/** The object a JSON secret holds, or null when it is anything else. */
+function jsonRecord(raw: string): Record<string, unknown> | null {
+  if (raw.length > 4096) return null;
+  try {
+    return record(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+interface ClickSource {
+  from: "json" | "legacy";
+  /** The name to report when the secret itself or its mode block is unusable. */
+  broken: string | null;
+  fields: Partial<Record<ClickField, string>>;
+}
+
+/**
+ * The Click fields one mode has, validated, and where they came from. A
+ * broken GPT_CLICK_CREDENTIALS_JSON is "nothing", never the legacy fallback.
+ */
+function clickSource(env: BillingEnv, mode: BillingMode): ClickSource {
+  const raw = env.GPT_CLICK_CREDENTIALS_JSON;
+  if (raw) {
+    const parsed = jsonRecord(raw);
+    const block = record(parsed?.[mode]);
+    if (!block)
+      return {
+        from: "json",
+        broken: parsed ? `GPT_CLICK_CREDENTIALS_JSON.${mode}` : "GPT_CLICK_CREDENTIALS_JSON",
+        fields: {},
+      };
+    return {
+      from: "json",
+      broken: null,
+      fields: {
+        service_id: clickId(block.service_id) ?? undefined,
+        merchant_id: clickId(block.merchant_id) ?? undefined,
+        secret_key: clickSecret(block.secret_key) ?? undefined,
+        merchant_user_id: clickId(block.merchant_user_id) ?? undefined,
+      },
+    };
+  }
+  const legacy =
+    mode === "test"
+      ? { service: env.GPT_CLICK_TEST_SERVICE_ID, secret: env.GPT_CLICK_TEST_SECRET, merchant: undefined }
+      : { service: env.GPT_CLICK_SERVICE_ID, secret: env.GPT_CLICK_SECRET, merchant: env.GPT_CLICK_MERCHANT_ID };
+  return {
+    from: "legacy",
+    broken: null,
+    fields: {
+      service_id: clickId(legacy.service) ?? undefined,
+      merchant_id: clickId(legacy.merchant) ?? undefined,
+      secret_key: clickSecret(legacy.secret) ?? undefined,
+    },
+  };
+}
+
+/** Click's credentials for `mode`: at least the service id and the secret key. */
+export function clickCredentials(
+  env: BillingEnv,
+  mode: BillingMode,
+): ClickCredentials | null {
+  const { fields } = clickSource(env, mode);
+  if (!fields.service_id || !fields.secret_key) return null;
+  return {
+    serviceId: fields.service_id,
+    merchantId: fields.merchant_id ?? null,
+    secretKey: fields.secret_key,
+    merchantUserId: fields.merchant_user_id ?? null,
+  };
+}
+
+export function paymeKey(env: BillingEnv, mode: BillingMode): string {
+  return (mode === "test" ? env.GPT_PAYME_TEST_KEY : env.GPT_PAYME_KEY) || "";
+}
+
+/** The provider's protocol credentials for `mode` are present and valid. */
+export function providerConfigured(
   env: BillingEnv,
   provider: LocalProvider,
   mode: BillingMode,
-): string {
-  if (provider === "uzum") return uzumKey(env, mode);
-  return (
-    (provider === "payme"
-      ? mode === "test"
-        ? env.GPT_PAYME_TEST_KEY
-        : env.GPT_PAYME_KEY
-      : mode === "test"
-        ? env.GPT_CLICK_TEST_SECRET
-        : env.GPT_CLICK_SECRET) || ""
-  );
-}
-export function providerReady(
-  env: BillingEnv,
-  provider: LocalProvider,
 ): boolean {
-  const mode = billingMode(env);
-  if (!mode || !providerKey(env, provider, mode)) return false;
-  if (
-    mode === "live" &&
-    (env.GPT_BILLING_LIVE_READY !== "true" ||
-      !termsUrl(env.GPT_BILLING_TERMS_RU) ||
-      !termsUrl(env.GPT_BILLING_TERMS_UZ) || !termsVersion(env))
-  )
-    return false;
   if (provider === "uzum") {
     // Checkout also needs a valid base URL and, when auto-fiscalization is on,
     // complete receipt parameters; Merchant API needs its service credentials.
@@ -100,11 +283,120 @@ export function providerReady(
       ? !!uzumCheckoutConfig(env, mode)
       : api === "merchant" && !!merchantCredentials(env, mode);
   }
-  return provider === "payme"
-    ? !!env.GPT_PAYME_MERCHANT_ID
-    : !!(mode === "test"
-        ? env.GPT_CLICK_TEST_SERVICE_ID
-        : env.GPT_CLICK_SERVICE_ID && env.GPT_CLICK_MERCHANT_ID);
+  if (provider === "payme")
+    return !!paymeKey(env, mode) && !!env.GPT_PAYME_MERCHANT_ID;
+  const click = clickCredentials(env, mode);
+  return !!click && (mode === "test" || !!click.merchantId);
+}
+
+/** Names of the provider's own live settings that are missing or invalid. */
+function providerLiveIssues(env: BillingEnv, provider: LocalProvider): string[] {
+  if (provider === "payme")
+    // Payme fiscalizes from the receipt `detail` of CheckPerformTransaction,
+    // which this code does not send: Payme stays test-only.
+    return [
+      ...(paymeKey(env, "live") ? [] : ["GPT_PAYME_KEY"]),
+      ...(env.GPT_PAYME_MERCHANT_ID ? [] : ["GPT_PAYME_MERCHANT_ID"]),
+      "payme_receipt_detail",
+    ];
+  if (provider === "click") {
+    const source = clickSource(env, "live");
+    const missing = CLICK_FIELDS.filter((field) => !source.fields[field]);
+    // The legacy variables never carry merchant_user_id: only the secret does.
+    const credentials = source.broken
+      ? [source.broken]
+      : source.from === "legacy" && missing.some((field) => field !== "merchant_user_id")
+        ? ["GPT_CLICK_CREDENTIALS_JSON"]
+        : missing.map((field) => `GPT_CLICK_CREDENTIALS_JSON.live.${field}`);
+    // The Click receipt (ofd_data) carries the seller's TIN as well.
+    return [...credentials, ...fiscalIssues(env, { tin: true })];
+  }
+  const api = uzumApi(env);
+  if (!api) return ["UZUM_API", ...fiscalIssues(env, { tin: false })];
+  const issues =
+    api === "checkout"
+      ? [
+          ...(checkoutCredentials(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.checkout.live"]),
+          ...(uzumBaseUrl(env, "live") ? [] : ["UZUM_CHECKOUT_BASE_URL"]),
+          // A live card sale prints its receipt through Uzum's auto-fiscalization.
+          ...(env.UZUM_AUTOFISCAL === "true" ? [] : ["UZUM_AUTOFISCAL"]),
+        ]
+      : [
+          ...(merchantCredentials(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.merchant.live"]),
+          // The in-app payment prints its receipt through the Uzum Fiscalization API.
+          ...(uzumFiscalApiKey(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.fiscal.live.apiKey"]),
+        ];
+  return [...issues, ...fiscalIssues(env, { tin: false })];
+}
+
+/**
+ * The names of every setting a live checkout of `provider` still lacks, in a
+ * stable order; empty means ready. Names only: never a value, never a hint of
+ * one. The admin panel and the release runbook print this list as it is.
+ */
+export function liveReadiness(
+  env: BillingEnv,
+  provider: LocalProvider,
+  now = Date.now(),
+): string[] {
+  const missing: string[] = [];
+  if (!paymentProviders(env).includes(provider)) missing.push("GPT_PAYMENT_PROVIDERS");
+  if (configuredMode(env, provider) !== "live") missing.push(MODE_SETTING[provider]);
+  if (env.GPT_BILLING_LIVE_READY !== "true") missing.push("GPT_BILLING_LIVE_READY");
+  if (!termsUrl(env.GPT_BILLING_TERMS_RU)) missing.push("GPT_BILLING_TERMS_RU");
+  if (!termsUrl(env.GPT_BILLING_TERMS_UZ)) missing.push("GPT_BILLING_TERMS_UZ");
+  if (!termsVersion(env)) missing.push("GPT_BILLING_TERMS_VERSION");
+  if (!termsApprovedAt(env, now)) missing.push("GPT_BILLING_TERMS_APPROVED_AT");
+  missing.push(...providerLiveIssues(env, provider));
+  if (!env.GPTBOT_DRAFTS_DB) missing.push("GPTBOT_DRAFTS_DB");
+  // The owner hears about a failed payment or receipt.
+  const notify = resolveOwnerNotify(env);
+  if (!notify.token) missing.push("GPT_NOTIFY_BOT_TOKEN");
+  if (!notify.chatId) missing.push("GPT_NOTIFY_CHAT_ID");
+  if (env.GPT_ALERTS_ENABLED === "false") missing.push("GPT_ALERTS_ENABLED");
+  // IP hashes are salted (D7) before anyone pays.
+  const salt = resolveHashSalt(env);
+  if (!salt.hashSalt) missing.push("GPT_HASH_SALT");
+  if (salt.hashSaltSince === null || salt.hashSaltSince > now)
+    missing.push("GPT_HASH_SALT_SINCE");
+  if ((env.GPT_IDENTITY_SECRET?.length ?? 0) < MIN_SECRET_LENGTH)
+    missing.push("GPT_IDENTITY_SECRET");
+  // The maintenance cron (outbox, receipts, reconciliation) authenticates with it.
+  if ((env.GPT_BILLING_MAINTENANCE_SECRET?.length ?? 0) < MIN_SECRET_LENGTH)
+    missing.push("GPT_BILLING_MAINTENANCE_SECRET");
+  // A payer must be able to sign in.
+  if (!loginMethods(env).length) {
+    if (!env.GPT_TELEGRAM_CLIENT_ID) missing.push("GPT_TELEGRAM_CLIENT_ID");
+    if (!env.GPT_TELEGRAM_CLIENT_SECRET) missing.push("GPT_TELEGRAM_CLIENT_SECRET");
+  }
+  return [...new Set(missing)];
+}
+
+/**
+ * New checkouts of `provider`: its mode, its protocol credentials and, in
+ * live, an empty liveReadiness(). The callback routes gate on the mode and
+ * the credentials alone, so that switching live off (GPT_BILLING_LIVE_READY)
+ * stops new sales without stranding a payment already on its way.
+ */
+export function providerReady(env: BillingEnv, provider: LocalProvider): boolean {
+  const mode = providerMode(env, provider);
+  if (!mode || !providerConfigured(env, provider, mode)) return false;
+  return mode === "test" || liveReadiness(env, provider).length === 0;
+}
+
+/**
+ * The providers a visitor in `mode` is offered: live ones to everyone, test
+ * ones in a rehearsal session only (the caller passes the viewer's mode).
+ * Uzum is offered on the site only as Checkout: the Merchant API flow has no
+ * customer screen yet (plan WP-15).
+ */
+export function offeredProviders(env: BillingEnv, mode: BillingMode): LocalProvider[] {
+  return PROVIDERS.filter(
+    (provider) =>
+      providerMode(env, provider) === mode &&
+      providerReady(env, provider) &&
+      (provider !== "uzum" || uzumApi(env) === "checkout"),
+  );
 }
 
 export function addCalendarMonth(start: number): number {

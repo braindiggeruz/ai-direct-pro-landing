@@ -666,7 +666,7 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
     const session = await ownedSession(f.db);
     const response = await chat(f.ctx(new Request('https://gpt.test/api/gpt/chat', {
       method: 'POST',
-      headers: { cookie: `${f.cookie}; ${session.cookie}`, 'Content-Type': 'application/json' },
+      headers: { cookie: `${f.testCookie}; ${session.cookie}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: 'Salom', locale: 'uz', stream: true, sessionId: session.id }),
     })));
     const wire = await response.text();

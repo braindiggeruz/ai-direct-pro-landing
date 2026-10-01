@@ -10,8 +10,30 @@ import {
   type BillingEnv,
 } from "../../functions/lib/gpt-chat/billing-config";
 import { clickSignature } from "../../functions/lib/gpt-chat/payment-protocol";
+import { mintRehearsal, REHEARSAL_COOKIE } from "../../functions/lib/gpt-chat/rehearsal";
 import { onRequestPost as payme } from "../../functions/api/payments/payme";
 import { onRequestPost as click } from "../../functions/api/payments/click";
+
+/**
+ * The settings every live checkout needs besides the provider's own
+ * (billing-config.ts liveReadiness), with random secrets. The fiscal codes
+ * are the public ones committed in wrangler.toml.
+ */
+export function liveSettings(): Partial<BillingEnv> {
+  return {
+    GPT_BILLING_LIVE_READY: "true",
+    GPT_BILLING_TERMS_APPROVED_AT: "2026-09-30",
+    GPT_FISCAL_IKPU: "10305008002000000",
+    GPT_FISCAL_PACKAGE_CODE: "1514296",
+    GPT_FISCAL_VAT_PERCENT: "12",
+    GPT_FISCAL_TIN: "310618348",
+    GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"),
+    GPT_NOTIFY_CHAT_ID: "123456789",
+    GPT_HASH_SALT: randomBytes(32).toString("hex"),
+    GPT_HASH_SALT_SINCE: "2026-09-01T00:00:00Z",
+    GPT_BILLING_MAINTENANCE_SECRET: randomBytes(32).toString("hex"),
+  };
+}
 
 // Runtime-only random protocol fixtures, never real merchant credentials.
 export async function billingFixture() {
@@ -32,6 +54,8 @@ export async function billingFixture() {
   const numeric = () => String(randomBytes(4).readUInt32BE(0));
   const env = {
     GPTBOT_DRAFTS_DB: binding,
+    // Payme is off unless listed (decision L17); these tests exercise it.
+    GPT_PAYMENT_PROVIDERS: "click,uzum,payme",
     GPT_BILLING_MODE: "test",
     GPT_BILLING_TERMS_VERSION: 'fixture-v1',
     GPT_BILLING_TERMS_RU: 'https://gptbot.uz/ru/terms/',
@@ -48,6 +72,9 @@ export async function billingFixture() {
   const identity = new IdentityStore(binding, BILLING_ORG);
   const token = await identity.login(secret());
   const cookie = `__Host-gpt_account=${token}`;
+  // A rehearsal session (rehearsal.ts): the only context offered test providers.
+  const rehearsal = `${REHEARSAL_COOKIE}=${(await mintRehearsal(env))!.token}`;
+  const testCookie = `${cookie}; ${rehearsal}`;
   const user = (await identity.user(
     new Request("https://gpt.test", { headers: { cookie } }),
   ))!;
@@ -117,6 +144,8 @@ export async function billingFixture() {
     user,
     token,
     cookie,
+    rehearsal,
+    testCookie,
     ctx,
     rpc,
     clickCall,

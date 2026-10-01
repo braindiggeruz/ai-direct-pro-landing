@@ -14,7 +14,7 @@ export interface AccountStrings {
   active: string;
   expires: string; remaining: string; renew: string; refund: string; refundPending: string;
   failed: string; pending: string; cancelled: string; expired: string; test: string;
-  scheduled: string; receipt: string; refundReceipt: string;
+  receipt: string; refundReceipt: string;
   /** The pack window while the account view is being read. */
   checking: string;
   termsChanged: string; termsMissing: string;
@@ -42,7 +42,7 @@ const RU: AccountStrings = {
   active: 'AI-пакет активен',
   expires: 'Оплачен до',
   remaining: 'ответов осталось в этом периоде',
-  renew: 'Период скоро закончится. Можно оплатить следующий месяц.',
+  renew: 'Период скоро закончится. Новый пакет начнёт действовать сразу после оплаты.',
   refund: 'Запросить возврат',
   refundPending: 'Запрос на возврат принят. Доступ сохраняется до решения.',
   failed: 'Статус не получен. Если уже платили, проверьте статус перед повторной оплатой.',
@@ -50,7 +50,6 @@ const RU: AccountStrings = {
   cancelled: 'Платёж отменён. При списании обратитесь в поддержку провайдера.',
   expired: 'Оплаченный период закончился.',
   test: 'Тестовый режим: реальные деньги не списываются.',
-  scheduled: 'Следующий период уже оплачен. Начало',
   receipt: 'Фискальный чек',
   refundReceipt: 'Чек возврата',
   checking: 'Проверяем состояние аккаунта…',
@@ -80,7 +79,7 @@ const UZ: AccountStrings = {
   active: 'AI paket faol',
   expires: 'Amal qilish muddati',
   remaining: 'ta javob shu davr uchun qoldi',
-  renew: 'Muddat tugashiga oz qoldi. Keyingi oy uchun to‘lashingiz mumkin.',
+  renew: 'Muddat tugashiga oz qoldi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',
   refund: 'Pulni qaytarishni so‘rash',
   refundPending: 'So‘rovingiz qabul qilindi. Qaror chiqquncha xizmatdan foydalanasiz.',
   failed: 'Holatni aniqlab bo‘lmadi. To‘lagan bo‘lsangiz, yana to‘lashdan oldin holatni tekshiring.',
@@ -88,7 +87,6 @@ const UZ: AccountStrings = {
   cancelled: 'To‘lov bekor qilindi. Pul yechilgan bo‘lsa, to‘lov xizmati yordam markaziga murojaat qiling.',
   expired: 'To‘langan muddat tugadi.',
   test: 'Sinov rejimi: haqiqiy pul yechilmaydi.',
-  scheduled: 'Keyingi davr uchun to‘langan. Boshlanish sanasi',
   receipt: 'Fiskal chek',
   refundReceipt: 'Pulni qaytarish cheki',
   checking: 'Akkaunt holati tekshirilmoqda…',

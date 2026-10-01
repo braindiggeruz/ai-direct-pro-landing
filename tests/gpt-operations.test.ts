@@ -2,12 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { generateKeyPair, exportJWK, SignJWT } from "jose";
-import { billingFixture } from "./helpers/gpt-billing-fixture";
+import { billingFixture, liveSettings } from "./helpers/gpt-billing-fixture";
 import { onRequestGet as callback } from "../functions/api/gpt/auth/callback";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import {
   BILLING_ORG,
+  liveReadiness,
   providerReady,
 } from "../functions/lib/gpt-chat/billing-config";
 import {
@@ -304,17 +305,21 @@ test("fiscal receipt replay and refund request are owned, mode-separated and ide
       .first<{ n: number }>())!.n,
     1,
   );
-  const view = await (
-    await account(
-      f.ctx(
-        new Request("https://gpt.test/api/gpt/account", {
-          headers: { cookie: f.cookie },
-        }),
-      ),
-    )
-  ).json();
-  assert.equal(view.refundable.length, 1);
-  assert.ok(view.refundable[0].refund_requested_at);
+  // Test orders are seen in a rehearsal session only (decision L7).
+  const view = async (cookie: string) =>
+    (
+      await account(
+        f.ctx(
+          new Request("https://gpt.test/api/gpt/account", {
+            headers: { cookie },
+          }),
+        ),
+      )
+    ).json();
+  assert.equal((await view(f.cookie)).refundable.length, 0);
+  const rehearsalView = await view(f.testCookie);
+  assert.equal(rehearsalView.refundable.length, 1);
+  assert.ok(rehearsalView.refundable[0].refund_requested_at);
   assert.equal(
     (await f.rpc("CancelTransaction", { id: tx, reason: 10 })).result.state,
     -2,
@@ -583,14 +588,18 @@ test("oversized chunked bodies stop reading early; free tier rejects paid overri
   f.env.GPT_FREE_PAID_DAILY_USD = "0";
   assert.deepEqual(webChatChain(resolveConfig(f.env), f.env, "free"), modelChain(siteCfg, "free"));
   assert.deepEqual(webChatChain(siteCfg, f.env, "paid"), modelChain(siteCfg, "paid"));
+  // An unsafe offer link is reported by name and blocks live; a safe one clears it.
   Object.assign(f.env, {
+    ...liveSettings(),
     GPT_BILLING_MODE: "live",
-    GPT_PAYME_KEY: randomBytes(32).toString("hex"),
-    GPT_BILLING_LIVE_READY: "true",
+    GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({
+      live: { service_id: 1, merchant_id: 2, secret_key: randomBytes(16).toString("hex"), merchant_user_id: 3 },
+    }),
     GPT_BILLING_TERMS_RU: "javascript:alert(1)",
     GPT_BILLING_TERMS_UZ: "https://gptbot.uz/terms/",
   });
-  assert.equal(providerReady(f.env, "payme"), false);
+  assert.deepEqual(liveReadiness(f.env, "click"), ["GPT_BILLING_TERMS_RU"]);
+  assert.equal(providerReady(f.env, "click"), false);
   f.env.GPT_BILLING_TERMS_RU = "https://gptbot.uz/ru/terms/";
-  assert.equal(providerReady(f.env, "payme"), true);
+  assert.equal(providerReady(f.env, "click"), true);
 });

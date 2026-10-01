@@ -1,4 +1,10 @@
-import { BILLING_ORG, type BillingEnv } from "./billing-config";
+import {
+  BILLING_ORG,
+  liveReadiness,
+  PROVIDERS,
+  providerMode,
+  type BillingEnv,
+} from "./billing-config";
 import { modelChain, resolveConfig } from "./config";
 import { recordServiceAlert } from "./billing-maintenance-store";
 import { modelFailed } from "./model-health-store";
@@ -40,6 +46,14 @@ export async function inspectBilling(env: BillingEnv, now = Date.now()) {
       .all(),
   ]);
   return {
+    // Each provider's mode and what a live sale of it still lacks: setting
+    // names only, never a value (billing-config.ts liveReadiness).
+    payments: Object.fromEntries(
+      PROVIDERS.map((provider) => [
+        provider,
+        { mode: providerMode(env, provider), missing: liveReadiness(env, provider, now) },
+      ]),
+    ),
     outbox: queue,
     lastHour: turns.results,
     blockedModels: models.results,

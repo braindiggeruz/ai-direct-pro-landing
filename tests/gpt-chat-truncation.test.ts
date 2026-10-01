@@ -174,7 +174,7 @@ test('stream: a pack answer cut at the limit gives the answer back to the pack',
   await f.store.transition(order.id, 'prepared', 'prepare');
   await f.store.transition(order.id, 'paid', 'perform');
   openrouter(t, () => upstream('Uzun pullik javob...', 'length', { prompt_tokens: 1000, completion_tokens: 1600 }));
-  const done = events(await (await chat(f.ctx(request({ stream: true }, { cookie: f.cookie })))).text()).at(-1)!;
+  const done = events(await (await chat(f.ctx(request({ stream: true }, { cookie: f.testCookie })))).text()).at(-1)!;
   await drain(f);
   assert.deepEqual([done.truncated, done.charged, done.remaining, done.hourRemaining], [true, false, 300, null]);
   // The model was paid for all the same: 1000 × 0.09 + 1600 × 0.30 = 570 micro-USD.

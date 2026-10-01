@@ -1,6 +1,10 @@
 import { TelegramClient } from "../../channels/telegram/api";
 import { boundedNum, type BridgeEnv } from "./bridge-env";
-import { BILLING_ORG, type BillingEnv } from "./billing-config";
+import {
+  BILLING_ORG,
+  providersInMode,
+  type BillingEnv,
+} from "./billing-config";
 import {
   alertRowId,
   renderAlertMessage,
@@ -154,7 +158,8 @@ export async function deliverServiceAlerts(
 
 /**
  * Retention sweeps and the payment outbox. Service alerts are delivered by
- * deliverServiceAlerts; only the outbox is gated on live billing.
+ * deliverServiceAlerts; only the outbox is gated on live billing (some
+ * provider live), and it carries live orders only.
  */
 export async function maintainBilling(
   env: BillingEnv & BridgeEnv,
@@ -211,8 +216,9 @@ export async function maintainBilling(
   ]);
   const token = env.GPT_NOTIFY_BOT_TOKEN || env.TELEGRAM_ASSISTANT_BOT_TOKEN;
   const chat = Number(env.GPT_NOTIFY_CHAT_ID || env.TELEGRAM_ADMIN_CHAT_ID);
-  // Switching a preview into test mode must not drain any live notifications.
-  if (env.GPT_BILLING_MODE !== "live")
+  // Only while some provider is live: a deployment with every provider in
+  // test (or off) must not drain any live notifications.
+  if (!providersInMode(env, "live").length)
     return { delivered: 0, configured: false };
   if (!token || !Number.isSafeInteger(chat) || !chat)
     return { delivered: 0, configured: false };

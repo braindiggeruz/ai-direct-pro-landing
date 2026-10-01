@@ -15,7 +15,7 @@
 // Source: https://developer.uzumbank.uz/redocusaurus/en_checkout.yaml (1.10.3).
 import {
   BILLING_ORG,
-  billingMode,
+  providerMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
@@ -65,7 +65,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       "invalid_request",
       "Send confirmRefund:true, or merchantRefundReference with confirmedRefund:true",
     );
-  const mode = billingMode(env);
+  const mode = providerMode(env, "uzum");
   const api = uzumApi(env);
   // A refund carries the fiscal cart when auto-fiscalization is on: strict.
   const cfg =

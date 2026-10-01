@@ -1,12 +1,18 @@
 import {
   BILLING_ORG,
-  billingMode,
+  clickCredentials,
+  PRICE_TIYIN,
+  providerMode,
   providerReady,
   termsUrl,
   termsVersion,
   type BillingEnv,
+  type BillingMode,
 } from "../../lib/gpt-chat/billing-config";
-import { BillingStore } from "../../lib/gpt-chat/billing-store";
+import {
+  BillingStore,
+  PendingElsewhereError,
+} from "../../lib/gpt-chat/billing-store";
 import {
   ensureBillingSchema,
   ensureUzumSchema,
@@ -22,6 +28,24 @@ import {
   UZUM_SESSION_REUSE_MS,
 } from "../../lib/gpt-chat/uzum-store";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+import { isRehearsalAccount, viewerMode } from "../../lib/gpt-chat/rehearsal";
+
+/** The chat page a payment page sends the visitor back to (CheckoutReturn, plan WP-17). */
+function returnUrl(origin: string, locale: "ru" | "uz"): string {
+  return `${origin}${locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}?pay=return`;
+}
+
+/** Click's payment page for a live order; providerReady() vouched for the ids. */
+function clickCheckoutUrl(env: BillingEnv, orderId: string, back: string): string {
+  const click = clickCredentials(env, "live")!;
+  return `https://my.click.uz/services/pay/?${new URLSearchParams({
+    service_id: click.serviceId,
+    merchant_id: click.merchantId!,
+    amount: (PRICE_TIYIN / 100).toFixed(2),
+    transaction_param: orderId,
+    return_url: back,
+  })}`;
+}
 
 /**
  * Uzum branch. Test mode keeps the Click/Payme test contract (no URL). Live
@@ -33,13 +57,13 @@ async function subscribeUzum(
   env: BillingEnv,
   db: D1Database,
   user: string,
+  mode: BillingMode,
   requestId: string,
   locale: "ru" | "uz",
   consent: { version: string; url: string; locale: "ru" | "uz" },
   origin: string,
   waitUntil: (task: Promise<unknown>) => void,
 ): Promise<Response> {
-  const mode = billingMode(env)!;
   const api = uzumApi(env)!;
   const store = new UzumStore(db, BILLING_ORG);
   const now = Date.now();
@@ -99,8 +123,7 @@ async function subscribeUzum(
       );
     return json({ ok: true, mode: "status", attemptId: row.id });
   }
-  const returnUrl = `${origin}${locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}`;
-  const registered = await registerPayment(cfg, row, locale, returnUrl);
+  const registered = await registerPayment(cfg, row, locale, returnUrl(origin, locale));
   if (!registered.ok) {
     // Uzum refused (e.g. 3027 duplicate order number): close this invoice so
     // the next attempt is a new order. A network failure keeps it pending.
@@ -145,8 +168,17 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     p.acceptTerms !== true
   )
     return fail("bad_request", "Invalid request");
-  if (!providerReady(env, p.provider) || !env.GPTBOT_DRAFTS_DB)
-    return json({ ok: false, mode: "manual", code: "not_configured" }, 503);
+  // Only a provider this visitor is offered: a live one to everyone, a test
+  // one in a rehearsal session only (decision L7). Anything else, Payme
+  // outside GPT_PAYMENT_PROVIDERS included, is a missing route.
+  const mode = providerMode(env, p.provider);
+  if (
+    !mode ||
+    !providerReady(env, p.provider) ||
+    !env.GPTBOT_DRAFTS_DB ||
+    mode !== (await viewerMode(request, env))
+  )
+    return fail("not_found", "Not found", 404);
   const locale = p.locale === 'uz' ? 'uz' : 'ru';
   const version = termsVersion(env);
   const terms = termsUrl(locale === 'uz' ? env.GPT_BILLING_TERMS_UZ : env.GPT_BILLING_TERMS_RU);
@@ -161,6 +193,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       : ensureBillingSchema(db));
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return fail("login_required", "Login required", 401);
+    // A synthetic rehearsal account never buys live (rehearsal.ts).
+    if (mode === "live" && isRehearsalAccount(user))
+      return fail("not_found", "Not found", 404);
     const rate = await consumeRateLimit(db, "checkout", user, {
       limit: 10,
       windowMs: HOUR_MS,
@@ -172,6 +207,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         env,
         db,
         user,
+        mode,
         p.requestId!,
         locale,
         { version, url: terms, locale },
@@ -181,7 +217,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     const row = await new BillingStore(db, BILLING_ORG).createOrder(
       user,
       p.provider,
-      billingMode(env)!,
+      mode,
       p.requestId!,
       Date.now(),
       { version, url: terms, locale },
@@ -191,7 +227,6 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       row.expires_at <= Date.now()
     )
       return json({ ok: true, mode: "status", attemptId: row.id });
-    const returnUrl = `${new URL(request.url).origin}${p.locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}`;
     // Test mode never produces a live checkout URL. Sandbox callbacks and the
     // local protocol rehearsal exercise the same ledger without moving money.
     if (row.mode === "test")
@@ -202,17 +237,21 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         amount: row.amount,
         currency: row.currency,
       });
-    const url =
-      p.provider === "payme"
-        ? `https://checkout.paycom.uz/${btoa(`m=${env.GPT_PAYME_MERCHANT_ID};ac.order_id=${row.id};a=${row.amount};l=${p.locale === "uz" ? "uz" : "ru"};c=${returnUrl}`)}`
-        : `https://my.click.uz/services/pay/?${new URLSearchParams({ service_id: env.GPT_CLICK_SERVICE_ID!, merchant_id: env.GPT_CLICK_MERCHANT_ID!, amount: "20000.00", transaction_param: row.id, return_url: returnUrl })}`;
+    // Live is Click here: Payme never passes liveReadiness() (it sends no
+    // receipt detail), and Uzum took its own branch above.
+    if (p.provider !== "click") throw new Error("not_live_capable");
     return json({
       ok: true,
       mode: "checkout",
-      checkoutUrl: url,
+      checkoutUrl: clickCheckoutUrl(env, row.id, returnUrl(new URL(request.url).origin, locale)),
       attemptId: row.id,
     });
   } catch (error) {
+    if (error instanceof PendingElsewhereError)
+      return fail("pending_elsewhere", "Another payment is still open; check its status first", 409, {
+        attemptId: error.orderId,
+        provider: error.provider,
+      });
     if (error instanceof Error && error.message === 'terms_changed')
       return fail('terms_changed', 'An existing invoice uses different terms; check its status first', 409);
     return fail("checkout_unavailable", "Check status before retrying", 503);

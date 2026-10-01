@@ -13,7 +13,7 @@
 // Uzum on someone else's behalf.
 import {
   BILLING_ORG,
-  billingMode,
+  providerMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
@@ -56,7 +56,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   waitUntil,
 }) => {
   // Not configured: indistinguishable from a missing route, and no D1 access.
-  const mode = billingMode(env);
+  const mode = providerMode(env, "uzum");
   const cfg =
     mode && uzumApi(env) === "checkout"
       ? uzumCheckoutConfig(env, mode, { settleOnly: true })
@@ -141,7 +141,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
 };
 
 export const onRequest: PagesFunction<BillingEnv> = async ({ env }) => {
-  const mode = billingMode(env);
+  const mode = providerMode(env, "uzum");
   return mode &&
     uzumApi(env) === "checkout" &&
     uzumCheckoutConfig(env, mode, { settleOnly: true })

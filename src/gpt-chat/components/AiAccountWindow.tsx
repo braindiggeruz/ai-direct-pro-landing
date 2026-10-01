@@ -150,11 +150,6 @@ export function AiAccountWindow({
           {data.access.renewSoon && <p>{copy.renew}</p>}
         </div>
       )}
-      {data?.scheduled && (
-        <p className="gpt-notice">
-          {copy.scheduled}: {date(data.scheduled.starts_at)}
-        </p>
-      )}
       {data?.receipts?.filter(receipt => safeAccountLink(receipt.receipt_url)).map((receipt, i) => (
         <a
           key={i}
@@ -174,7 +169,7 @@ export function AiAccountWindow({
               ? copy.refunded
               : data.payment.state === "cancelled"
                 ? copy.cancelled
-                : !data.access && !data.scheduled
+                : !data.access
                   ? copy.expired
                   : ""}
         </p>

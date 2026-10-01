@@ -13,7 +13,7 @@
 // The confirm payload's phone number is never logged and never stored.
 import {
   BILLING_ORG,
-  billingMode,
+  providerMode,
   type BillingEnv,
 } from "../../../lib/gpt-chat/billing-config";
 import { ensureUzumSchema } from "../../../lib/gpt-chat/billing-schema";
@@ -53,7 +53,7 @@ const TIME_FIELD: Record<Operation, string> = {
 function merchant(
   env: BillingEnv,
 ): { mode: "test" | "live"; creds: UzumMerchantCredentials } | null {
-  const mode = billingMode(env);
+  const mode = providerMode(env, "uzum");
   if (!mode || uzumApi(env) !== "merchant") return null;
   const creds = merchantCredentials(env, mode);
   return creds ? { mode, creds } : null;

@@ -1,3 +1,66 @@
+# Платный AI-чат: WP-13 — ядро биллинга, готовность к live, тёмный тест, 2026-10-01
+
+**Итог.** Сделан WP-13 плана `10-PROD-PLAN.md` (релиз R4; решения L7, L9, L16, L17; D1, D2) на ветке `paid-chat/prod-readiness` поверх `cf76bded`, коммит `HEAD` (настоящий SHA запишет следующий коммит, правило D-006). Миграций нет. Ничего не запушено и не задеплоено; Cloudflare, GSC, боты, вебхуки и удалённая D1 не трогались. Защищённые страницы 10/10 без изменений.
+
+**Возобновление.** ПК владельца перезагрузился посреди прошлой попытки WP-13: в дереве было 34 изменённых и 5 новых файлов. Сначала сделана копия `F:/Claude/gptbot-tools/backups/wp13-partial-20261001-143937/` (`tracked.patch`, `untracked.tar`, `untracked.txt`), потом правки просмотрены целиком, проверены тестами и доведены. Ничего не выброшено.
+
+**Что сделано.**
+1. `functions/lib/gpt-chat/billing-config.ts`:
+   - `GPT_PAYMENT_PROVIDERS` (по умолчанию `click,uzum`). Payme работает, только если указан в списке (L17), и только в test: live требует `detail` чека, которого код не шлёт, поэтому `liveReadiness()` всегда называет `payme_receipt_detail`;
+   - режим на провайдера `GPT_BILLING_MODE_CLICK` / `GPT_BILLING_MODE_UZUM` (`test`, `live`, `off`) поверх `GPT_BILLING_MODE`; опечатка значит «выключено» (L7);
+   - `liveReadiness(env, provider)` возвращает **только имена**: allowlist, режим, `GPT_BILLING_LIVE_READY`, `GPT_BILLING_TERMS_RU/UZ/VERSION`, `GPT_BILLING_TERMS_APPROVED_AT` (наступившая дата одобрения юристом), креды live (Click — по полям секрета; Uzum Checkout — креды, `UZUM_CHECKOUT_BASE_URL`, `UZUM_AUTOFISCAL`; Uzum Merchant — креды и `fiscal.live.apiKey`), `GPT_FISCAL_*` (`GPT_FISCAL_TIN` — только для Click), D1, канал алертов, `GPT_HASH_SALT` и наступивший `GPT_HASH_SALT_SINCE`, `GPT_IDENTITY_SECRET`, `GPT_BILLING_MAINTENANCE_SECRET`, способ входа;
+   - `providerReady()` = режим + креды режима + (test или пустой `liveReadiness()`). Колбэки смотрят только на режим и креды, поэтому `GPT_BILLING_LIVE_READY=false` останавливает новые продажи, а начатые оплаты доходят;
+   - Click (L9): `GPT_CLICK_CREDENTIALS_JSON` = `{"test"|"live": {service_id, merchant_id, secret_key, merchant_user_id}}`. Старые `GPT_CLICK_*` читаются, только пока секрета нет; сломанный секрет означает «кредов нет», а не фолбэк;
+   - `PLAN_ID = "ai_paket"` (L16).
+2. Новый `functions/lib/gpt-chat/fiscal-config.ts`: общие для Click и Uzum `GPT_FISCAL_IKPU`, `GPT_FISCAL_PACKAGE_CODE`, `GPT_FISCAL_VAT_PERCENT`, `GPT_FISCAL_TIN` (`UZUM_FISCAL_*` удалены). `includedVat()` считает НДС **внутри** цены: 2 000 000 тийин при 12 % — это 214 286 тийин (2 142,86 сум). Корзина Uzum передаёт `vatPercent: 12`, сумму НДС Uzum считает сам; окно пакета получает `pack.vat`. Чек Click (сумма НДС) — WP-14.
+3. `functions/lib/gpt-chat/billing-store.ts`:
+   - Б1: оплаченный пакет стартует в момент оплаты, `ends_at = addCalendarMonth(now)`; guard `MAX(ends_at)` и `nextAccess()` удалены. `access()` берёт пакет с остатком, который кончается раньше; пустой или истёкший пакет бесплатные не блокирует;
+   - U7: открытый счёт у другого провайдера → `PendingElsewhereError`, `subscribe` отвечает 409 `pending_elsewhere` с `attemptId` и `provider`. Проверка повторена внутри `INSERT … WHERE NOT EXISTS`, поэтому две вкладки с разными провайдерами не получат два счёта;
+   - `plan='ai_paket'` в `gpt_subscriptions`; синтетический `acct_rh_*` live-заказ не получает.
+4. Роуты оплаты: `payments/click.ts` и `payments/payme.ts` (POST и GET) отвечают 404 до чтения тела и D1, если провайдер выключен, не в allowlist или без кредов своего режима. Гонка двух Prepare Click на один заказ даёт −4 без алерта.
+5. `functions/api/gpt/account.ts`: `providers` — live-провайдеры всем, test — только в сессии репетиции; `pack{priceUzs, messageLimit, dailyLimit, months, vat}`, `loginMethods`, `terms`; заказы, пакеты и чеки — из контекста зрителя. Гость по-прежнему не ходит в D1 (L18).
+6. `functions/api/gpt/subscribe.ts`: оплатить можно только провайдера, предложенного этому зрителю, иначе 404. `returnUrl` с `?pay=return`; ссылка Click строится из кредов; live-ссылку выдаёт только Click (у Uzum своя ветка).
+7. `functions/api/gpt/chat.ts`: пока работает хоть один провайдер, гость в JSON остаётся на локальной квоте (тест: без Railway путь один при любом режиме). Ход берёт live-пакет, в репетиции — test-пакет.
+8. Тёмный тест (L7), новые `functions/lib/gpt-chat/rehearsal.ts` и `functions/api/internal/gpt-rehearsal-session.ts`:
+   - cookie `__Host-gpt_rehearsal` = `v1.<срок>.<nonce>.<HMAC-SHA256(GPT_IDENTITY_SECRET)>`, живёт 2 ч, D1 не читает, действует, только пока какой-то провайдер в `test`;
+   - `POST /api/internal/gpt-rehearsal-session` (Bearer `GPT_BILLING_MAINTENANCE_SECRET`) выдаёт cookie; без test-провайдера — 404. С телом `{"account": true}` ещё и входит синтетическим аккаунтом `acct_rh_…` на те же 2 ч.
+9. Тик обслуживания: в диагностике появился раздел `payments.{click,uzum,payme} = {mode, missing}`, только имена.
+10. Настройки (JSON и таблица `wrangler.toml`, `RUNTIME_CONFIG_KEYS`): `GPT_PAYMENT_PROVIDERS="click,uzum"`; `GPT_BILLING_MODE`, `_CLICK`, `_UZUM` пустые; `GPT_BILLING_LIVE_READY="false"`; `GPT_BILLING_TERMS_RU/UZ/VERSION/APPROVED_AT` пустые; `GPT_FISCAL_IKPU="10305008002000000"`, `GPT_FISCAL_PACKAGE_CODE="1514296"`, `GPT_FISCAL_VAT_PERCENT="12"`, `GPT_FISCAL_TIN="310618348"` (решение владельца 01.10). JSON — 3 724 из 5 120 байт.
+11. Тексты RU/UZ: строка «Следующий период уже оплачен» убрана; `renew` и `monthlyLimit` говорят, что новый пакет начинает действовать сразу после оплаты. `docs/paid-chat/UZUM-RU.md`: данные чека, тёмный тест, `liveReadiness()`.
+
+**Исправлено поверх прерванной попытки.**
+- U7 стал атомарным: проверка повторена в самом INSERT, добавлен тест гонки. Мутационная проверка: без условия тест падает.
+- Тест U7 считал заказ чужой org (3 вместо 2): добавлен фильтр `org_id`.
+- Ответ 409 `pending_elsewhere` проверен на уровне `/api/gpt/subscribe`.
+- `monthlyLimit` RU/UZ обещал «следующий пакет с начала нового периода»: после Б1 это неправда, текст переписан.
+- Раздел `payments` в диагностике тика (для runbook и приёмки R4).
+- В тесте 11 Uzum возвращены `\n` вместо многострочного литерала (лишний шум в диффе).
+
+**Проверки.**
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0.
+2. Тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`): `gpt-billing` 16/16, `gpt-live-readiness` 9/9 (новый), `gpt-rehearsal` 5/5 (новый), `gpt-uzum-payments` 17/17, `gpt-operations` 7/7, `gpt-readiness` 9/9, `gpt-routing` 6/6, `gpt-chat-budget` 10/10, `gpt-chat-limits` 13/13, `gpt-chat-truncation` 8/8, `gpt-model-policy` 14/14, `gpt-zai-provider` 18/18, `gpt-watchdog` 15/15, `runtime-config` 4/4, `pages-config-parity` 7/7. Весь список `npm test` по одному файлу: 75 файлов, **946/948**; падают только два известных теста `tests/lead-radar.test.ts` («manual approval is fail-closed…», «store enforces tenant isolation…»), код Lead Radar не менялся.
+3. `npx eslint` по 39 изменённым TS-файлам — 0; `git diff --check` — чисто; `npm run scan:secrets` — чисто; `test:secret-scan` 16/16; регулярка токена Telegram по диффу и новым файлам — 0.
+4. `npm run build:fast` — 0; `seo-protection check` — **10/10 без изменений** (база `2026-10-01-paid-chat-honesty`); гейт бандла в норме (старт 104 921 Б br, −22 Б). `content/` не менялся, миграций нет.
+
+**Отклонения от плана.**
+1. Ключи настроек типизированы в `BillingEnv` / `FiscalEnv` / `UzumEnv`, как и прежние `GPT_BILLING_*`, а не в `functions/_types.ts`.
+2. Payme остаётся только тестовым: для live нужен `detail` чека в `CheckPerformTransaction`, а код его не шлёт. Payme и так выключен (L17).
+3. Фискальные значения закоммичены сразу, а не пустыми до бухгалтера (§6): их назвал владелец 01.10 (ИКПУ проверен на tasnif.soliq.uz, упаковка 1514296 «услуга (раз)», НДС 12 % в цене, ИНН 310618348). Сами по себе live они не открывают.
+4. В `liveReadiness()` добавлен `GPT_BILLING_TERMS_APPROVED_AT`: юрист оферту ещё не одобрил, live без явной даты одобрения закрыт.
+5. Сессия репетиции — только тестовый контекст: в ней видны test-провайдеры, test-заказы и test-пакеты, а live — только вне её. Так тест не смешивается с боем.
+6. Раздел `payments` в диагностике тика — сверх текста плана.
+
+**На релиз R4 (здесь не сделано).**
+- R4 выкатывает WP-13…WP-18 вместе. У WP-13 своей миграции нет (0068 — у WP-14…WP-17).
+- Приёмка после деплоя: `GET /api/gpt/account` → `providers: []`, `mode: null`; `POST /api/payments/click` и `/api/payments/payme` → 404; в `gpt_payment_orders` +0 строк; тик обслуживания показывает `payments.click.missing`, первым идёт `GPT_BILLING_MODE_CLICK`.
+- `GPT_IDENTITY_SECRET` (агент, R4) нужен и входу, и cookie репетиции. `GPT_CLICK_CREDENTIALS_JSON` присылает владелец (шаги S).
+- `GPT_BILLING_TERMS_RU/UZ/VERSION` — WP-18; `GPT_BILLING_TERMS_APPROVED_AT` — дата от владельца после юриста.
+- Синтетические `acct_rh_*` остаются в `gpt_accounts` после своей 2-часовой сессии; чистку можно добавить в WP-22.
+
+**Следующее.** WP-14 (фискальные чеки Click).
+
+---
+
 # Платный AI-чат: R2+R3 в проде, 2026-10-01
 
 **Итог.** Прод = `0ca0a699` (R2+R3: соль с `SINCE` 2026-10-02T00:00:00Z, починенный бот, честный интерфейс, ленивые части чата, страницы без «Plus» и личного Telegram, ревизия защищённых `2026-10-01-paid-chat-honesty`). Квитанции: `docs/paid-chat/releases/R2R3-live-verification.json`, `R2R3-migration-rehearsal.json`, IndexNow `reports/indexnow-receipts/2026-10-01T08-48-35-069Z_paid-chat-r2r3.json`. База бандла перезаписана из выпущенной сборки.

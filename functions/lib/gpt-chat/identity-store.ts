@@ -93,6 +93,31 @@ export class IdentityStore {
       .run();
     return token;
   }
+  /**
+   * A fresh account with no identity behind it (a rehearsal, rehearsal.ts),
+   * signed in for `ttlMs`. Its identity_hash names only the account itself.
+   */
+  async syntheticLogin(
+    idPrefix: string,
+    ttlMs: number,
+    now = Date.now(),
+  ): Promise<{ id: string; token: string }> {
+    const id = `${idPrefix}${randomToken().slice(0, 32)}`;
+    const token = randomToken();
+    await this.db.batch([
+      this.db
+        .prepare(
+          "INSERT INTO gpt_accounts(org_id,id,identity_hash,created_at,last_seen_at) VALUES(?,?,?,?,?)",
+        )
+        .bind(this.org, id, `synthetic:${id}`, now, now),
+      this.db
+        .prepare(
+          "INSERT INTO gpt_auth_sessions(org_id,token_hash,user_id,expires_at) VALUES(?,?,?,?)",
+        )
+        .bind(this.org, await sha256Hex(token), id, now + ttlMs),
+    ]);
+    return { id, token };
+  }
   async logout(request: Request) {
     await this.db
       .prepare("DELETE FROM gpt_auth_sessions WHERE org_id=? AND token_hash=?")

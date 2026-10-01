@@ -79,9 +79,24 @@ export const RUNTIME_CONFIG_KEYS = [
   'UZUM_CHECKOUT_BASE_URL',
   'UZUM_CHECKOUT_TEST_BASE_URL',
   'UZUM_AUTOFISCAL',
-  'UZUM_FISCAL_IKPU',
-  'UZUM_FISCAL_PACKAGE_CODE',
-  'UZUM_FISCAL_VAT_PERCENT',
+  // Payments of the AI pack (functions/lib/gpt-chat/billing-config.ts): which
+  // providers run, each one's mode, the live switch and the offer. Public
+  // only; credentials are the secrets GPT_CLICK_CREDENTIALS_JSON and
+  // UZUM_CREDENTIALS_JSON and never listed here.
+  'GPT_PAYMENT_PROVIDERS',
+  'GPT_BILLING_MODE',
+  'GPT_BILLING_MODE_CLICK',
+  'GPT_BILLING_MODE_UZUM',
+  'GPT_BILLING_LIVE_READY',
+  'GPT_BILLING_TERMS_RU',
+  'GPT_BILLING_TERMS_UZ',
+  'GPT_BILLING_TERMS_VERSION',
+  'GPT_BILLING_TERMS_APPROVED_AT',
+  // Fiscal receipt parameters shared by Click and Uzum (fiscal-config.ts).
+  'GPT_FISCAL_IKPU',
+  'GPT_FISCAL_PACKAGE_CODE',
+  'GPT_FISCAL_VAT_PERCENT',
+  'GPT_FISCAL_TIN',
   // Limit card -> assistant bot button (functions/api/gpt/account.ts botHandoff).
   'GPT_BOT_HANDOFF_ENABLED',
   // Owner alerts and the silence watchdog (functions/lib/gpt-chat/alert-policy.ts,

@@ -9,6 +9,7 @@ import {
 } from "../functions/lib/gpt-chat/billing-config";
 import {
   BillingStore,
+  PendingElsewhereError,
   type AccessPeriod,
 } from "../functions/lib/gpt-chat/billing-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
@@ -38,7 +39,7 @@ test("Click MD5 matches independent Node reference, exact amount parser", () => 
   for (const bad of ["2e4", "20000.001", "-20000", "20000,00", "Infinity"])
     assert.equal(parseClickAmount(bad), null);
 });
-test("unauthenticated provider calls cannot touch D1", async () => {
+test("inert providers are a missing route before the body or D1; configured ones authenticate first", async () => {
   const bomb = {
     prepare() {
       throw new Error("DB touched");
@@ -47,14 +48,10 @@ test("unauthenticated provider calls cannot touch D1", async () => {
       throw new Error("DB touched");
     },
   };
-  const env = {
-    GPT_BILLING_MODE: "test",
-    GPT_PAYME_TEST_KEY: randomBytes(32).toString("hex"),
-    GPT_CLICK_TEST_SECRET: randomBytes(32).toString("hex"),
-    GPTBOT_DRAFTS_DB: bomb,
-  };
+  let bodyRead = false;
   const invoke = (
     handler: typeof payme,
+    env: Record<string, unknown>,
     body: string,
     headers: Record<string, string>,
   ) =>
@@ -62,29 +59,69 @@ test("unauthenticated provider calls cannot touch D1", async () => {
       request: new Request("https://gpt.test", {
         method: "POST",
         headers,
-        body,
-      }),
-      env,
+        // highWaterMark 0: the stream is pulled only when the handler reads it.
+        body: new ReadableStream(
+          {
+            pull(controller) {
+              bodyRead = true;
+              controller.enqueue(new TextEncoder().encode(body));
+              controller.close();
+            },
+          },
+          { highWaterMark: 0 },
+        ),
+        duplex: "half",
+      } as RequestInit),
+      env: { GPTBOT_DRAFTS_DB: bomb, ...env },
+      waitUntil() {},
     } as unknown as Parameters<typeof payme>[0]);
+  const form = { "Content-Type": "application/x-www-form-urlencoded" };
+  const clickTest = {
+    GPT_CLICK_TEST_SECRET: randomBytes(32).toString("hex"),
+    GPT_CLICK_TEST_SERVICE_ID: "12345",
+  };
+  const paymeTest = { GPT_PAYME_TEST_KEY: randomBytes(32).toString("hex") };
+  // Off, not allowed, switched off alone, or without the mode's credentials.
+  for (const [handler, env] of [
+    [click, {}],
+    [click, { GPT_BILLING_MODE: "live", ...clickTest }],
+    [click, { GPT_BILLING_MODE: "test", GPT_CLICK_TEST_SECRET: clickTest.GPT_CLICK_TEST_SECRET }],
+    [click, { GPT_BILLING_MODE: "test", GPT_BILLING_MODE_CLICK: "off", ...clickTest }],
+    [click, { GPT_BILLING_MODE: "test", GPT_PAYMENT_PROVIDERS: "uzum", ...clickTest }],
+    [click, { GPT_BILLING_MODE: "test", GPT_CLICK_CREDENTIALS_JSON: "{broken", ...clickTest }],
+    // Payme is off by default (decision L17), whatever its key says.
+    [payme, { GPT_BILLING_MODE: "test", ...paymeTest }],
+    [payme, { GPT_BILLING_MODE: "test", GPT_PAYMENT_PROVIDERS: "click,payme" }],
+  ] as Array<[typeof payme, Record<string, unknown>]>) {
+    const response = await invoke(handler, env, "action=0", form);
+    assert.equal(response.status, 404, JSON.stringify(Object.keys(env)));
+    assert.equal(bodyRead, false);
+  }
+  // Configured: the protocol answers, still before any D1 access.
   assert.equal(
     (
       await (
-        await invoke(payme, "{}", { "Content-Type": "application/json" })
+        await invoke(payme, { GPT_BILLING_MODE: "test", GPT_PAYMENT_PROVIDERS: "click,payme", ...paymeTest }, "{}", {
+          "Content-Type": "application/json",
+        })
       ).json()
     ).error.code,
     -32504,
   );
   assert.equal(
-    (
-      await (
-        await invoke(click, "action=0", {
-          "Content-Type": "application/x-www-form-urlencoded",
-        })
-      ).json()
-    ).error,
+    (await (await invoke(click, { GPT_BILLING_MODE: "test", ...clickTest }, "action=0", form)).json()).error,
     -8,
   );
+  assert.equal(bodyRead, true, "the probe sees a body that is read");
+  // Click's own mode wins over the global one; the credentials secret wins
+  // over the legacy variables.
+  const fromJson = {
+    GPT_BILLING_MODE_CLICK: "test",
+    GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({ test: { service_id: 777, secret_key: randomBytes(16).toString("hex") } }),
+  };
+  assert.equal((await (await invoke(click, fromJson, "action=0", form)).json()).error, -8);
 });
+
 test("Payme wrong amount, idempotent Create/Perform, statement and refund", async () => {
   const f = await billingFixture();
   const o = await f.store.createOrder(
@@ -183,37 +220,80 @@ test("Payme rejects external ID reuse, other org/order, expires prepared transac
   );
   assert.equal((await f.rpc("CheckTransaction", { id: tx })).result.state, -1);
 });
-test("two simultaneous different paid invoices extend without overlap", async () => {
+test("a repeat purchase starts at once, side by side; turns draw from the pack that ends first", async () => {
   const f = await billingFixture();
-  const now = Date.UTC(2026, 8, 5);
-  const rows = await Promise.all(
-    ["click", "payme"].map((p) =>
-      f.store.createOrder(
-        f.user,
-        p as "click" | "payme",
-        "test",
-        crypto.randomUUID(),
-      ),
-    ),
-  );
-  await Promise.all(
-    rows.map((o) =>
-      f.store.transition(o.id, "prepared", "prepare", {
-        externalId: crypto.randomUUID(),
-      }),
-    ),
-  );
-  await Promise.all(
-    rows.map((o) => f.store.transition(o.id, "paid", "perform", { now })),
-  );
-  const periods = f.db.rows<{ starts_at: number; ends_at: number }>(
-    "SELECT starts_at,ends_at FROM gpt_access_periods ORDER BY starts_at",
-  );
-  assert.equal(periods.length, 2);
-  assert.equal(periods[0].starts_at, now);
-  assert.equal(periods[0].ends_at, periods[1].starts_at);
-  assert.equal(periods[1].ends_at, addCalendarMonth(addCalendarMonth(now)));
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const day = 86400_000;
+  const t0 = Date.now() - 10 * day;
+  const t1 = Date.now() - 1000;
+  const pay = async (provider: "click" | "payme", now: number) => {
+    const order = await f.store.createOrder(f.user, provider, "test", crypto.randomUUID(), now);
+    await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID(), now });
+    return f.store.transition(order.id, "paid", "perform", { now });
+  };
+  const first = await pay("click", t0);
+  const second = await pay("payme", t1);
+  const period = (order: string) => ({
+    ...f.db.rows<{ starts_at: number; ends_at: number }>(
+      "SELECT starts_at,ends_at FROM gpt_access_periods WHERE order_id=?",
+      order,
+    )[0],
+  });
+  // Each pack is one calendar month from its own payment: no queue.
+  assert.deepEqual(period(first.id), { starts_at: t0, ends_at: addCalendarMonth(t0) });
+  assert.deepEqual(period(second.id), { starts_at: t1, ends_at: addCalendarMonth(t1) });
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, first.id);
+  // The first pack spent: the second one carries on at once.
+  await f.binding
+    .prepare("UPDATE gpt_access_periods SET message_limit=1 WHERE order_id=?")
+    .bind(first.id)
+    .run();
+  const turn = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
+  await turns.finish(turn.id!, { outcome: "answered", charged: true });
+  assert.equal((await f.store.access(f.user, "test"))?.order_id, second.id);
 });
+
+test("one open invoice per account across providers (U7); a synthetic rehearsal account never buys live", async () => {
+  const f = await billingFixture();
+  const now = Date.now();
+  const click = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID(), now);
+  // The same provider resumes its open invoice; another one is refused.
+  assert.equal((await f.store.createOrder(f.user, "click", "test", crypto.randomUUID(), now)).id, click.id);
+  await assert.rejects(
+    f.store.createOrder(f.user, "payme", "test", crypto.randomUUID(), now),
+    (error: unknown) =>
+      error instanceof PendingElsewhereError && error.orderId === click.id && error.provider === "click",
+  );
+  // Live and test ledgers, other accounts and other orgs are separate.
+  assert.ok(await f.store.createOrder(f.user, "payme", "live", crypto.randomUUID(), now));
+  assert.ok(await f.store.createOrder("acct_other", "payme", "test", crypto.randomUUID(), now));
+  assert.ok(await new BillingStore(f.binding, "other-org").createOrder(f.user, "payme", "test", crypto.randomUUID(), now));
+  // An expired invoice no longer blocks.
+  const later = click.expires_at + 1;
+  const payme = await f.store.createOrder(f.user, "payme", "test", crypto.randomUUID(), later);
+  assert.equal(payme.provider, "payme");
+  assert.equal(
+    f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND mode='test'", BILLING_ORG, f.user),
+    2,
+  );
+  // Two tabs opening two providers at once: the INSERT itself re-checks, one wins.
+  const raced = await Promise.allSettled(
+    (["click", "payme"] as const).map((provider) =>
+      f.store.createOrder("acct_race", provider, "test", crypto.randomUUID(), now),
+    ),
+  );
+  assert.deepEqual(raced.map((r) => r.status).sort(), ["fulfilled", "rejected"]);
+  assert.ok(raced.some((r) => r.status === "rejected" && r.reason instanceof PendingElsewhereError));
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE user_id='acct_race'"), 1);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE order_id NOT IN (SELECT id FROM gpt_payment_orders_all)"), 0);
+  await assert.rejects(
+    f.store.createOrder("acct_rh_0123456789abcdef0123456789abcdef", "click", "live", crypto.randomUUID()),
+    /rehearsal_live/,
+  );
+  assert.ok(await f.store.createOrder("acct_rh_0123456789abcdef0123456789abcdef", "click", "test", crypto.randomUUID()));
+});
+
 test("Click Prepare/Complete, repeat -4, cancellation -9 and amount tampering", async () => {
   const f = await billingFixture();
   const o = await f.store.createOrder(
@@ -268,15 +348,22 @@ test("Click Prepare/Complete, repeat -4, cancellation -9 and amount tampering", 
     -9,
   );
   assert.equal((await f.clickCall(cancelled.id, "0")).error, -9);
+  // Two Prepares with different click_trans_id race for one order: one wins,
+  // the other gets -4 as if it came second, and nobody is paged.
+  const raced = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
+  const answers = await Promise.all([f.clickCall(raced.id, "0"), f.clickCall(raced.id, "0")]);
+  assert.deepEqual(answers.map((r) => r.error).sort(), [-4, 0]);
+  await Promise.all(f.background);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='click_processing'"), 0);
 });
-test("test checkout authenticates account, ignores client amount and never returns live URL", async () => {
+test("test checkout is dark, authenticates account, ignores client amount and never returns live URL", async () => {
   const f = await billingFixture();
   const id = crypto.randomUUID();
-  const request = () =>
+  const request = (cookie = f.testCookie) =>
     new Request("https://gpt.test/api/gpt/subscribe", {
       method: "POST",
       headers: {
-        cookie: f.cookie,
+        cookie,
         Origin: "https://gpt.test",
         "Content-Type": "application/json",
       },
@@ -288,6 +375,12 @@ test("test checkout authenticates account, ignores client amount and never retur
         amount: 1,
       }),
     });
+  // Without the rehearsal cookie a test provider does not exist (decision L7).
+  const outside = await subscribe(f.ctx(request(f.cookie)));
+  assert.equal(outside.status, 404);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 0);
+  const forged = await subscribe(f.ctx(request(`${f.cookie}; __Host-gpt_rehearsal=v1.${Date.now() + 60_000}.${"0".repeat(32)}.${"0".repeat(64)}`)));
+  assert.equal(forged.status, 404);
   const first = await (await subscribe(f.ctx(request()))).json();
   assert.equal(first.mode, "test");
   assert.equal(first.amount, 2000000);
@@ -296,6 +389,17 @@ test("test checkout authenticates account, ignores client amount and never retur
     (await (await subscribe(f.ctx(request()))).json()).attemptId,
     first.attemptId,
   );
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 1);
+  // The open Payme invoice keeps Click closed until it is settled or expires (U7).
+  const other = await subscribe(f.ctx(new Request("https://gpt.test/api/gpt/subscribe", {
+    method: "POST",
+    headers: { cookie: f.testCookie, Origin: "https://gpt.test", "Content-Type": "application/json" },
+    body: JSON.stringify({ provider: "click", requestId: crypto.randomUUID(), acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION }),
+  })));
+  assert.equal(other.status, 409);
+  const { message, ...refused } = (await other.json()) as Record<string, unknown>;
+  assert.equal(typeof message, "string");
+  assert.deepEqual(refused, { ok: false, code: "pending_elsewhere", attemptId: first.attemptId, provider: "payme" });
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 1);
 });
 test("identity is stable across devices; challenge is one-use; logout invalidates cookie", async () => {

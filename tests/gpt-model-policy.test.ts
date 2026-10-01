@@ -223,7 +223,7 @@ test('a 402 on a paid model in the stream skips to :free and pages the owner onc
     f.ctx(
       new Request('https://gpt.test/api/gpt/chat', {
         method: 'POST',
-        headers: { cookie: f.cookie, 'Content-Type': 'application/json' },
+        headers: { cookie: f.testCookie, 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: 'Salom', locale: 'uz', stream: true }),
       }),
     ),

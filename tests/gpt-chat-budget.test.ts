@@ -310,7 +310,7 @@ test('web chat: a pack turn walks the paid chain under its own attempt ceiling a
   await f.store.transition(order.id, 'prepared', 'prepare');
   await f.store.transition(order.id, 'paid', 'perform');
   const bodies = openrouter(t, () => sse('Pullik javob'));
-  assert.match(await turn(f, { cookie: f.cookie }), /"type":"done"/);
+  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"/);
   assert.deepEqual(bodies.map((b) => b.model), [PAID]);
   assert.equal(spend(f), null);
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);

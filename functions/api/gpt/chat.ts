@@ -44,9 +44,10 @@ import { json, fail, readJsonLimited, genId } from "../../lib/gpt-chat/http";
 import { normLocale, validateMessage } from "../../lib/gpt-chat/validate";
 import {
   BILLING_ORG,
-  billingMode,
+  billingActive,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
+import { viewerMode } from "../../lib/gpt-chat/rehearsal";
 import {
   BillingStore,
   type AccessPeriod,
@@ -205,9 +206,11 @@ export const onRequestPost: PagesFunction<Env> = async ({
   // Prefer the Railway backend (Supabase-backed) when configured — JSON mode
   // only; streaming always runs the local path. Turnstile must run first.
   // The single-use token is edge-only and must not be relayed or logged.
+  // While any payment provider runs (test or live), guests stay on the local
+  // quota too, so the free tier and the pack count in one ledger.
   if (
     !wantStream &&
-    !billingMode(env as BillingEnv) &&
+    !billingActive(env as BillingEnv) &&
     !cookieValue(request, "__Host-gpt_account")
   ) {
     const railwayBody = { ...body };
@@ -241,9 +244,10 @@ export const onRequestPost: PagesFunction<Env> = async ({
       const user = await new IdentityStore(db, BILLING_ORG).user(request);
       if (user) {
         subject = user;
+        // A live pack, or a test pack in a rehearsal session (rehearsal.ts).
         period = await new BillingStore(db, BILLING_ORG).access(
           user,
-          billingMode(env as BillingEnv) || "live",
+          await viewerMode(request, env as BillingEnv),
         );
       }
       let decision = await turns!.reserve(subject, hashedIp, period, cfg);

@@ -14,7 +14,8 @@
 //                table to their salted v2 (salt-rekey-store.ts)
 //   retention    chat messages older than GPT_MESSAGES_RETENTION_DAYS; off
 //                while that is empty (retention-store.ts)
-//   diagnostics  outbox, last hour of turns, blocked models
+//   diagnostics  outbox, last hour of turns, blocked models, and each payment
+//                provider's mode with the names liveReadiness() still lacks
 // Any failed step answers 503 with `failed`, so the Worker logs it; the other
 // steps still ran.
 //

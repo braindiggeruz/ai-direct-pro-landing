@@ -1,6 +1,6 @@
 import {
   BILLING_ORG,
-  billingMode,
+  providerMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
@@ -46,7 +46,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     if (
       !order ||
       order.provider !== "click" ||
-      order.mode !== billingMode(env) ||
+      order.mode !== providerMode(env, "click") ||
       !["paid", "refunded"].includes(order.state)
     )
       return fail("invalid_order", "Order not eligible", 409);

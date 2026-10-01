@@ -107,7 +107,7 @@ test('checkout rejects absent or stale terms before order creation, journals con
   const f = await billingFixture();
   const requestId = crypto.randomUUID();
   const checkout = (version?: string) => subscribe(f.ctx(new Request('https://gpt.test/api/gpt/subscribe', {
-    method: 'POST', headers: { origin: 'https://gpt.test', cookie: f.cookie, 'Content-Type': 'application/json' },
+    method: 'POST', headers: { origin: 'https://gpt.test', cookie: f.testCookie, 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'payme', requestId, acceptTerms: true, termsVersion: version, locale: 'ru' }),
   })));
   assert.equal((await checkout()).status, 409);

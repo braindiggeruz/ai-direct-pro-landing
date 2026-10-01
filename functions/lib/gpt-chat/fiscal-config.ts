@@ -1,0 +1,75 @@
+// Fiscal receipt parameters of the AI pack, shared by every provider that
+// prints a receipt (Click ofd_data, Uzum Checkout auto-fiscalization, the
+// Uzum Fiscalization API): one set of public settings, validated here once.
+//
+//   GPT_FISCAL_IKPU          the 17-digit product code (IKPU/MXIK) from
+//                            tasnif.soliq.uz
+//   GPT_FISCAL_PACKAGE_CODE  its package code (for example "услуга (раз)")
+//   GPT_FISCAL_VAT_PERCENT   the VAT rate, 0..100. The price INCLUDES the VAT:
+//                            20 000 сум at 12 % carries 20 000 * 12 / 112 VAT.
+//   GPT_FISCAL_TIN           the seller's TIN (9 digits) or PINFL (14 digits)
+//
+// Everything fails closed: a missing or malformed value is reported by name
+// and never replaced by a default.
+
+export interface FiscalEnv {
+  GPT_FISCAL_IKPU?: string;
+  GPT_FISCAL_PACKAGE_CODE?: string;
+  GPT_FISCAL_VAT_PERCENT?: string;
+  GPT_FISCAL_TIN?: string;
+}
+
+/** What a receipt line needs; the TIN is read on its own (fiscalTin). */
+export interface FiscalParams {
+  ikpu: string;
+  packageCode: string;
+  vatPercent: number;
+}
+
+const IKPU = /^\d{17}$/;
+const PACKAGE_CODE = /^[A-Za-z0-9]{1,20}$/;
+const VAT_PERCENT = /^\d{1,3}$/;
+const TIN = /^(?:\d{9}|\d{14})$/;
+
+function vatPercent(env: FiscalEnv): number | null {
+  const value = env.GPT_FISCAL_VAT_PERCENT || "";
+  return VAT_PERCENT.test(value) && Number(value) <= 100 ? Number(value) : null;
+}
+
+/** The receipt line's codes and VAT rate, or null while any is missing or invalid. */
+export function fiscalParams(env: FiscalEnv): FiscalParams | null {
+  const ikpu = env.GPT_FISCAL_IKPU || "";
+  const packageCode = env.GPT_FISCAL_PACKAGE_CODE || "";
+  const vat = vatPercent(env);
+  if (!IKPU.test(ikpu) || !PACKAGE_CODE.test(packageCode) || vat === null)
+    return null;
+  return { ikpu, packageCode, vatPercent: vat };
+}
+
+/** The seller's TIN or PINFL, or null. */
+export function fiscalTin(env: FiscalEnv): string | null {
+  const value = env.GPT_FISCAL_TIN || "";
+  return TIN.test(value) ? value : null;
+}
+
+/**
+ * Names of the fiscal settings that are missing or invalid. `tin` adds
+ * GPT_FISCAL_TIN, which only the Click receipt carries (CommissionInfo).
+ */
+export function fiscalIssues(env: FiscalEnv, options: { tin: boolean }): string[] {
+  const issues: string[] = [];
+  if (!IKPU.test(env.GPT_FISCAL_IKPU || "")) issues.push("GPT_FISCAL_IKPU");
+  if (!PACKAGE_CODE.test(env.GPT_FISCAL_PACKAGE_CODE || ""))
+    issues.push("GPT_FISCAL_PACKAGE_CODE");
+  if (vatPercent(env) === null) issues.push("GPT_FISCAL_VAT_PERCENT");
+  if (options.tin && !fiscalTin(env)) issues.push("GPT_FISCAL_TIN");
+  return issues;
+}
+
+/**
+ * The VAT inside a VAT-inclusive amount, in the amount's own unit (tiyin),
+ * rounded half up: 2 000 000 tiyin at 12 % carries 214 286 tiyin of VAT.
+ */
+export function includedVat(amount: number, percent: number): number {
+  return Math.round((amount * percent) / (100 + percent));
+}

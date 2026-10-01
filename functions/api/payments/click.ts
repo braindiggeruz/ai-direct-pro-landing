@@ -1,13 +1,17 @@
+// Click Shop API (Prepare/Complete), registered in the Click cabinet as
+// https://gptbot.uz/api/payments/click. Source: docs.click.uz, Shop API.
+// Not configured (Click off, outside GPT_PAYMENT_PROVIDERS or without the
+// credentials of its mode): a missing route, before the body or D1.
 import {
   BILLING_ORG,
-  billingMode,
-  providerKey,
+  clickCredentials,
+  providerMode,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
-import { json, readTextLimited } from "../../lib/gpt-chat/http";
+import { fail, json, readTextLimited } from "../../lib/gpt-chat/http";
 import {
   clickSignature,
   parseClickAmount,
@@ -22,8 +26,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  const mode = billingMode(env);
-  const key = mode ? providerKey(env, "click", mode) : "";
+  const mode = providerMode(env, "click");
+  const credentials = mode ? clickCredentials(env, mode) : null;
+  if (!mode || !credentials) return fail("not_found", "Not found", 404);
   const error = (code: number) =>
     json({
       error: code,
@@ -41,7 +46,6 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         } as Record<number, string>
       )[code],
     });
-  if (!key || !mode) return error(-1);
   if (
     !request.headers
       .get("content-type")
@@ -74,11 +78,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     !/^-?\d+$/.test(p.error)
   )
     return error(-8);
-  const service =
-    mode === "test" ? env.GPT_CLICK_TEST_SERVICE_ID : env.GPT_CLICK_SERVICE_ID;
   if (
-    p.service_id !== service ||
-    !sameSecret(p.sign_string.toLowerCase(), clickSignature(p, key))
+    p.service_id !== credentials.serviceId ||
+    !sameSecret(p.sign_string.toLowerCase(), clickSignature(p, credentials.secretKey))
   )
     return error(-1);
   // Do not add a short sign_time TTL: delayed authentic retries must settle.
@@ -146,7 +148,10 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       error: 0,
       error_note: "Success",
     });
-  } catch {
+  } catch (cause) {
+    // A second Prepare with another click_trans_id lost the race for this
+    // order: the same answer as when it comes second (-4), and no alert.
+    if (cause instanceof Error && cause.message === "conflict") return error(-4);
     waitUntil(
       recordServiceAlert(env, "click_processing")
         .then(() => maintainBilling(env))

@@ -1,14 +1,18 @@
+// Payme Merchant API (JSON-RPC). Off unless GPT_PAYMENT_PROVIDERS lists
+// "payme" (decision L17), and test-only: Payme fiscalizes from a receipt
+// `detail` this code does not send, so liveReadiness() never clears it.
+// Not configured: a missing route, before the body or D1.
 import {
   BILLING_ORG,
-  billingMode,
-  providerKey,
+  paymeKey,
+  providerMode,
   PAYMENT_TTL_MS,
   type BillingEnv,
 } from "../../lib/gpt-chat/billing-config";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
 import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
-import { json, readJsonLimited } from "../../lib/gpt-chat/http";
+import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import {
   paymeCheck,
   paymeState,
@@ -24,8 +28,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  const mode = billingMode(env);
-  const key = mode ? providerKey(env, "payme", mode) : "";
+  const mode = providerMode(env, "payme");
+  const key = mode ? paymeKey(env, mode) : "";
+  if (!mode || !key) return fail("not_found", "Not found", 404);
   const error = (id: unknown, code: number, data: string | null = null) =>
     json({
       id,
@@ -41,7 +46,6 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     });
   // Authentication precedes schema bootstrap and every database read.
   if (
-    !key ||
     !sameSecret(
       request.headers.get("authorization") || "",
       `Basic ${btoa(`Paycom:${key}`)}`,
@@ -66,7 +70,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     return error(null, -32600);
   const { id, method, params: p } = rpc;
   const ok = (result: unknown) => json({ id, result });
-  if (!env.GPTBOT_DRAFTS_DB || !mode) return error(id, -32400);
+  if (!env.GPTBOT_DRAFTS_DB) return error(id, -32400);
   try {
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
@@ -258,5 +262,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     );
   }
 };
-export const onRequest: PagesFunction<BillingEnv> = async () =>
-  json({ id: null, error: { code: -32300, message: "Use POST", data: null } });
+export const onRequest: PagesFunction<BillingEnv> = async ({ env }) => {
+  const mode = providerMode(env, "payme");
+  return mode && paymeKey(env, mode)
+    ? json({ id: null, error: { code: -32300, message: "Use POST", data: null } })
+    : fail("not_found", "Not found", 404);
+};
