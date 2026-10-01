@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ChatStrings } from '../i18n';
+import { leadStrings } from '../lead-strings';
 import type { Locale } from '../types';
 import { track, EV } from '../analytics';
 import type { HandoffLink } from '../handoff';
@@ -37,6 +38,7 @@ export function AiOfferCard({
   /** The offer must be closable. */
   onDismiss: () => void;
 }) {
+  const copy = leadStrings(locale);
   const [leadOpen, setLeadOpen] = useState(false);
 
   useEffect(() => {
@@ -53,21 +55,21 @@ export function AiOfferCard({
     <aside
       className="mt-6 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 sm:p-5"
       data-testid="ai-offer-b2b"
-      aria-label={t.b2bTitle}
+      aria-label={copy.b2bTitle}
     >
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
           <span className="inline-block rounded-full bg-brand-cyan/[0.1] px-2.5 py-1 text-[11px] font-medium text-brand-cyan">
-            {t.offerBadge}
+            {copy.offerBadge}
           </span>
-          <h3 className="mt-2.5 text-[15px] font-semibold leading-snug text-white">{t.b2bTitle}</h3>
-          <p className="mt-1 text-[13px] leading-relaxed text-white/55">{t.offerBody}</p>
+          <h3 className="mt-2.5 text-[15px] font-semibold leading-snug text-white">{copy.b2bTitle}</h3>
+          <p className="mt-1 text-[13px] leading-relaxed text-white/55">{copy.offerBody}</p>
         </div>
         <button
           type="button"
           onClick={() => { track(EV.offerDismissed, { surface: 'chat', locale }); onDismiss(); }}
-          aria-label={t.dismissOffer}
-          title={t.dismissOffer}
+          aria-label={copy.dismissOffer}
+          title={copy.dismissOffer}
           data-testid="ai-offer-dismiss"
           className="-mr-1 -mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white/30 transition-colors hover:bg-white/[0.05] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
         >
@@ -83,7 +85,7 @@ export function AiOfferCard({
             data-testid={`offer-lead-${STAGE}`}
             className="inline-flex w-full min-h-12 items-center justify-center rounded-2xl border border-white/12 px-5 text-[14px] font-medium text-white/75 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan sm:w-auto"
           >
-            {t.b2bDiscuss}
+            {copy.b2bDiscuss}
           </button>
         )}
       </div>
@@ -96,7 +98,7 @@ export function AiOfferCard({
             sessionId={sessionId}
             intent="ai_bot_for_business"
             method="offer_b2b"
-            intro={t.leadIntro}
+            intro={copy.leadIntro}
             autoFocus
           />
         </div>

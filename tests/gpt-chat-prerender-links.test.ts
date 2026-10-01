@@ -14,9 +14,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 
 import { gptChatNavLinks } from '../scripts/gpt-chat-nav';
+import { ENTRIES, entryScript, readViteManifest, type ViteManifest } from '../scripts/vite-manifest';
 import type { Page } from '../src/shared/types';
 
 const ROOT = process.cwd();
@@ -105,5 +107,52 @@ test('prerendered gpt-chat HTML stays structurally valid', { skip: built.length 
     assert.equal((html.match(/<nav aria-label/g) || []).length, 1, `${url} must render exactly one summary nav`);
     assert.ok(!/name="robots"[^>]*noindex/.test(html), `${url} must not be noindex`);
     assert.ok(html.includes('data-testid="seo-summary"'), `${url} lost its indexable summary section`);
+  }
+});
+
+// ── Which script a chat page loads (plan WP-10) ──────────────────────────────
+// The chat has lazy chunks now. "The first gpt-chat-*.js in dist/assets" could
+// be one of them, and the page would load a chunk instead of the app; the
+// entry comes from Vite's manifest instead.
+
+test('the chat page loads the manifest entry, never a chunk that shares its prefix', () => {
+  const manifest: ViteManifest = {
+    // Directory and key order both put the lazy chunk first.
+    'src/gpt-chat/parts/chat-account.ts': { file: 'assets/gpt-chat-account-Aa1.js', name: 'gpt-chat-account', isDynamicEntry: true },
+    [ENTRIES.chat]: { file: 'assets/gpt-chat-Zz9.js', name: 'gpt-chat', src: ENTRIES.chat, isEntry: true },
+    [ENTRIES.calculator]: { file: 'assets/telegram-cost-calculator-Q1.js', src: ENTRIES.calculator, isEntry: true },
+    [ENTRIES.landing]: { file: 'assets/index-L1.js', src: ENTRIES.landing, isEntry: true },
+  };
+  assert.equal(entryScript(manifest, ENTRIES.chat), '/assets/gpt-chat-Zz9.js');
+  assert.equal(entryScript(manifest, ENTRIES.calculator), '/assets/telegram-cost-calculator-Q1.js');
+  assert.equal(entryScript(manifest, ENTRIES.landing), '/assets/index-L1.js');
+  // A page without its script is a broken page: no entry, no render.
+  assert.throws(() => entryScript({}, ENTRIES.chat), /not in the manifest/);
+  assert.throws(() => entryScript({ [ENTRIES.chat]: { file: 'assets/gpt-chat-Zz9.js' } }, ENTRIES.chat), /not in the manifest/, 'a chunk is no entry');
+  assert.throws(() => entryScript({ [ENTRIES.chat]: { file: '../evil.js', isEntry: true } }, ENTRIES.chat), /not in the manifest/);
+});
+
+test('prerender reads the manifest of the build and refuses one without it', (t) => {
+  const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'gptbot-manifest-'));
+  t.after(() => fs.rmSync(dist, { recursive: true, force: true }));
+  assert.throws(() => readViteManifest(dist), /Missing \.vite\/manifest\.json/);
+  fs.mkdirSync(path.join(dist, '.vite'));
+  fs.writeFileSync(path.join(dist, '.vite', 'manifest.json'), JSON.stringify({ [ENTRIES.chat]: { file: 'assets/gpt-chat-Zz9.js', isEntry: true } }));
+  assert.equal(entryScript(readViteManifest(dist), ENTRIES.chat), '/assets/gpt-chat-Zz9.js');
+
+  const prerender = fs.readFileSync(path.join(ROOT, 'scripts', 'prerender.ts'), 'utf8');
+  assert.doesNotMatch(prerender, /startsWith\('(gpt-chat|index|telegram-cost-calculator)-'\)|readdirSync\(assetsDir\)/, 'no prefix lookup is left');
+  for (const entry of ['landing', 'chat', 'calculator']) assert.ok(prerender.includes(`entryScript(manifest, ENTRIES.${entry})`), entry);
+  // The manifest keys are the inputs vite.config.ts builds.
+  const vite = fs.readFileSync(path.join(ROOT, 'vite.config.ts'), 'utf8');
+  for (const source of Object.values(ENTRIES)) assert.ok(vite.includes(`here('./${source}')`), source);
+});
+
+const manifestBuilt = fs.existsSync(path.join(ROOT, 'dist', '.vite', 'manifest.json'));
+test('every prerendered chat page loads the built chat entry', { skip: (!manifestBuilt || built.length === 0) && 'no dist/ build present' }, () => {
+  const src = entryScript(readViteManifest(path.join(ROOT, 'dist')), ENTRIES.chat);
+  for (const { file, url } of built) {
+    const scripts = [...fs.readFileSync(file, 'utf8').matchAll(/<script type="module" src="([^"]+)"/g)].map((m) => m[1]);
+    assert.deepEqual(scripts.filter((s) => s.includes('chat')), [src], url);
   }
 });

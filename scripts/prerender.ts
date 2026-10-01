@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import { renderSiteStylesheets } from './site-stylesheets';
+import { ENTRIES, entryScript, readViteManifest } from './vite-manifest';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -113,32 +114,6 @@ function loadPublishedArticles(): BlogArticle[] {
   return files
     .map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')) as BlogArticle)
     .filter((a) => a.status === 'published' && a.robotsIndex !== false);
-}
-
-function findJsAsset(): string | null {
-  const assetsDir = path.join(DIST_DIR, 'assets');
-  if (!fs.existsSync(assetsDir)) return null;
-  // index entry — usually starts with "index-"
-  const file = fs.readdirSync(assetsDir).find((f) => f.startsWith('index-') && f.endsWith('.js'));
-  return file ? `/assets/${file}` : null;
-}
-
-// Standalone AI-chat island bundle (separate Vite entry). Injected ONLY on
-// pageType === 'gpt-chat' pages so static money pages stay JS-free.
-function findChatAsset(): string | null {
-  const assetsDir = path.join(DIST_DIR, 'assets');
-  if (!fs.existsSync(assetsDir)) return null;
-  const file = fs.readdirSync(assetsDir).find((f) => f.startsWith('gpt-chat-') && f.endsWith('.js'));
-  return file ? `/assets/${file}` : null;
-}
-
-// Standalone calculator island. Money pages remain static by default; only a
-// page with interactiveTool="telegram-cost-calculator" receives this bundle.
-function findCalculatorAsset(): string | null {
-  const assetsDir = path.join(DIST_DIR, 'assets');
-  if (!fs.existsSync(assetsDir)) return null;
-  const file = fs.readdirSync(assetsDir).find((f) => f.startsWith('telegram-cost-calculator-') && f.endsWith('.js'));
-  return file ? `/assets/${file}` : null;
 }
 
 function escapeHtml(s: string): string {
@@ -1031,9 +1006,15 @@ async function main() {
   const pages = loadPages();
   const articles = loadPublishedArticles();
   const cssLinks = renderSiteStylesheets(DIST_DIR);
-  const jsHref = findJsAsset();
-  const chatHref = findChatAsset();
-  const calculatorHref = findCalculatorAsset();
+  // Entry scripts come from the Vite manifest, never "the first file with
+  // this prefix": the chat's lazy chunks live in the same directory.
+  const manifest = readViteManifest(DIST_DIR);
+  const jsHref = entryScript(manifest, ENTRIES.landing);
+  // The AI-chat island, injected ONLY on pageType === 'gpt-chat' pages so
+  // static money pages stay JS-free; the calculator island only on the page
+  // with interactiveTool="telegram-cost-calculator".
+  const chatHref = entryScript(manifest, ENTRIES.chat);
+  const calculatorHref = entryScript(manifest, ENTRIES.calculator);
   let written = 0, skipped = 0;
   for (const page of pages) {
     if (page.status === 'draft') { skipped++; continue; }

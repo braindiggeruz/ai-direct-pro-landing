@@ -5,6 +5,8 @@ import { billingOpen, canStartCheckout, canResumeCheckout, safeAccountLink, safe
 import { limitCard } from '../src/gpt-chat/limit-card';
 import type { LimitReason, LimitState } from '../src/gpt-chat/limit-state';
 import { strings } from '../src/gpt-chat/i18n';
+import { accountStrings } from '../src/gpt-chat/account-strings';
+import { preloadsAccountWindow, type AccountWindowSignals } from '../src/gpt-chat/preload';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06' });
 
@@ -67,7 +69,7 @@ const limitOf = (reason: LimitReason): LimitState => ({
 
 test('the limit card: the pack only while it can be bought, the bot only while the server enables it', () => {
   for (const locale of ['ru', 'uz'] as const) {
-    const t = strings(locale);
+    const unavailable = accountStrings(locale).unavailable;
     for (const reason of REASONS) {
       for (const paid of [false, true]) {
         for (const billingAvailable of [false, true]) {
@@ -80,7 +82,7 @@ test('the limit card: the pack only while it can be bought, the bot only while t
             const text = [card.title, card.body, card.wait].join(' ');
             assert.doesNotMatch(text, /Telegram|\bbot/i, `${label}: no line points to a bot the card may not show`);
             assert.doesNotMatch(text, /Plus|obuna|подписк/i, label);
-            assert.ok(!text.includes(t.premium.unavailable), `${label}: never "the free chat is available" to a blocked visitor`);
+            assert.ok(!text.includes(unavailable), `${label}: never "the free chat is available" to a blocked visitor`);
           }
         }
       }
@@ -149,4 +151,35 @@ test('a pack is buyable only with a mode and a provider; every opening of its wi
   const froms = [...chat.matchAll(/openAccount\("(\w+)"\)/g)].map((m) => m[1]).sort();
   assert.deepEqual(froms, ['account_check', 'after_10', 'limit_card', 'low_limit']);
   assert.doesNotMatch(chat, /setAccountOpen\(\(n\) => n \+ 1\)/);
+});
+
+// ── the pack window is a lazy part (WP-10): fetched ahead where people open it ──
+
+const signals = (over: Partial<AccountWindowSignals> = {}): AccountWindowSignals => ({
+  reachable: true, remaining: 10, limited: false, payReturn: false, paymentPending: false, ...over,
+});
+
+test('the pack window is fetched ahead at ≤ 2 left, at a 429 and on the way back from paying', () => {
+  assert.equal(preloadsAccountWindow(signals()), false, 'plenty left: on demand');
+  assert.equal(preloadsAccountWindow(signals({ remaining: -1 })), false, 'the count is not known yet');
+  for (const remaining of [2, 1, 0]) assert.equal(preloadsAccountWindow(signals({ remaining })), true, `${remaining} left`);
+  assert.equal(preloadsAccountWindow(signals({ remaining: 3 })), false);
+  assert.equal(preloadsAccountWindow(signals({ limited: true })), true, 'the limit card offers the pack');
+  assert.equal(preloadsAccountWindow(signals({ payReturn: true })), true, '?pay=return');
+  assert.equal(preloadsAccountWindow(signals({ paymentPending: true })), true, 'an invoice waits');
+});
+
+test('nobody downloads a window they cannot open', () => {
+  // Production today: billing off, a guest. The limit card shows no pack button.
+  for (const over of [{ limited: true }, { remaining: 0 }, { payReturn: true }, { paymentPending: true }]) {
+    assert.equal(preloadsAccountWindow(signals({ ...over, reachable: false })), false, JSON.stringify(over));
+  }
+  const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
+  assert.match(panel, /const reachable = showsAccountPill\(data\);/);
+  assert.match(panel, /if \(preloadsAccountWindow\(\{ reachable, remaining, limited, payReturn, paymentPending \}\)\) accountPart\.preload\(\);/);
+  assert.match(panel, /get\("pay"\) === "return"/);
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(chat, /remaining=\{remaining\}\s*limited=\{limited\}/);
+  // The business card loads in the business tool, where it is shown.
+  assert.match(chat, /if \(activeTool === "business"\) leadPart\.preload\(\);/);
 });

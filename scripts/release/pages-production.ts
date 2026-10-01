@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { assertPublicStylesheets } from '../site-stylesheets';
 import { assertSeoProtection } from '../seo-protection';
+import { assertChatBundleBudget } from '../chat-bundle-budget';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -247,6 +248,8 @@ async function main(): Promise<void> {
   const commit = git(ROOT, ['rev-parse', 'HEAD']);
   const dist = path.join(ROOT, 'dist');
   assertSeoProtection(dist);
+  // The AI chat's start bundle and lazy parts stay within budget (10-PROD-PLAN §1).
+  assertChatBundleBudget(dist);
   assertCleanRuntime(ROOT);
   if (mode === 'stamp') {
     const release = inspectArtifact(dist, commit);

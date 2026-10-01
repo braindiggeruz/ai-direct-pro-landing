@@ -14,7 +14,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 
 import { EV, GA4_PARAMS, track } from '../src/gpt-chat/analytics';
-import { strings, type ChatStrings } from '../src/gpt-chat/i18n';
+import { strings } from '../src/gpt-chat/i18n';
+import { accountStrings } from '../src/gpt-chat/account-strings';
+import { leadStrings } from '../src/gpt-chat/lead-strings';
 import { showsAccountPill, type AccountView } from '../src/gpt-chat/types';
 import { AiChatInput } from '../src/gpt-chat/components/AiChatInput';
 import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
@@ -37,8 +39,8 @@ function files(dir: string): string[] {
   });
 }
 
-/** Every string a ChatStrings yields, functions called with sample numbers. */
-function allCopy(t: ChatStrings): string[] {
+/** Every string a copy object yields, functions called with sample numbers. */
+function allCopy(t: object): string[] {
   const out: string[] = [];
   const walk = (value: unknown) => {
     if (typeof value === 'string') out.push(value);
@@ -72,7 +74,8 @@ test('no file of the chat or its server says Plus, obuna, подписк or GPTB
 
 test('no line the chat can show, in either language, names a tier or the old brand', () => {
   for (const locale of LOCALES) {
-    for (const line of allCopy(strings(locale))) {
+    // The chat's lines, and those of its lazy parts: the pack window and the business card.
+    for (const line of [...allCopy(strings(locale)), ...allCopy(accountStrings(locale)), ...allCopy(leadStrings(locale))]) {
       assert.doesNotMatch(line, DISHONEST, `${locale}: ${line}`);
       assert.doesNotMatch(line, /\bPro\b|Tez orada|Скоро/, `${locale}: ${line}`);
     }
@@ -179,12 +182,15 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   })), true);
 
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
-  assert.match(panel, /\{showsAccountPill\(data\) && \(\s*<DialogTrigger asChild>/);
-  assert.match(panel, /\{data\?\.access \? copy\.accountActive : copy\.account\}/);
-  assert.match(panel, /\{!loading && billingAvailable && !data\?\.access && \(\s*<Card className="gpt-plan-card">/);
-  assert.match(panel, /copy\.packFeatures\.map/);
-  // Every word the window shows comes from i18n, in the visitor's language.
-  assert.doesNotMatch(panel, /locale === ['"]uz['"] \? ['"][^'"]*[a-zа-я]{3}/i);
+  assert.match(panel, /const reachable = showsAccountPill\(data\);/);
+  assert.match(panel, /\{reachable && \(\s*<DialogTrigger asChild>/);
+  assert.match(panel, /\{data\?\.access \? t\.premium\.accountActive : t\.premium\.account\}/);
+  const window = read('src/gpt-chat/components/AiAccountWindow.tsx');
+  assert.match(window, /\{!loading && billingAvailable && !data\?\.access && \(\s*<Card className="gpt-plan-card">/);
+  assert.match(window, /copy\.packFeatures\.map/);
+  assert.match(window, /const copy = accountStrings\(locale\);/);
+  // Every word the window shows comes from the copy files, in the visitor's language.
+  for (const source of [panel, window]) assert.doesNotMatch(source, /locale === ['"]uz['"] \? ['"][^'"]*[a-zа-я]{3}/i);
 
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   const low = consoleSource.slice(consoleSource.indexOf('{t.lowWarning(remaining)}'), consoleSource.indexOf('openAccount("low_limit")'));

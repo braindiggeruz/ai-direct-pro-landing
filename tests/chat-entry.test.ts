@@ -44,24 +44,30 @@ test('arbitrary prompts, external return URLs and unknown IDs are never consumed
 });
 
 test('account readiness never auto-starts checkout or login, and New Chat preserves the free session and quota', () => {
-  const panel = readFileSync('src/gpt-chat/components/AiAccountPanel.tsx', 'utf8');
-  const source = ts.createSourceFile('panel.tsx', panel, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-  let effects = 0;
-  function visit(node: ts.Node) {
-    if (ts.isCallExpression(node) && node.expression.getText(source) === 'useEffect') {
-      effects++;
-      const inspect = (child: ts.Node) => {
-        if (ts.isCallExpression(child)) assert.doesNotMatch(child.expression.getText(source), /^(pay|post|location\.(assign|replace))$/, 'Effects may refresh status but must not create payment/login actions');
-        ts.forEachChild(child, inspect);
-      };
-      if (node.arguments[0]) inspect(node.arguments[0]);
-    }
-    ts.forEachChild(node, visit);
+  // The account's data (start bundle), the pill and frame (start bundle) and
+  // the window's body (lazy part chat-account).
+  const files = ['src/gpt-chat/use-account.ts', 'src/gpt-chat/components/AiAccountPanel.tsx', 'src/gpt-chat/components/AiAccountWindow.tsx'];
+  const effects: Record<string, number> = {};
+  for (const file of files) {
+    const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, file.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
+    effects[file] = 0;
+    const visit = (node: ts.Node) => {
+      if (ts.isCallExpression(node) && node.expression.getText(source) === 'useEffect') {
+        effects[file]++;
+        const inspect = (child: ts.Node) => {
+          if (ts.isCallExpression(child)) assert.doesNotMatch(child.expression.getText(source), /^(pay|post|run|location\.(assign|replace))$/, `${file}: effects may refresh status but must not create payment/login actions`);
+          ts.forEachChild(child, inspect);
+        };
+        if (node.arguments[0]) inspect(node.arguments[0]);
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(source);
   }
-  visit(source);
-  assert.ok(effects > 0, 'Account status refresh effects were actually inspected');
-  assert.match(panel, /canStartCheckout\(data, locale\)/);
-  assert.match(panel, /termsVersion: data\.termsVersion/);
+  for (const file of files) assert.ok(effects[file] > 0, `${file}: account effects were actually inspected`);
+  const window = readFileSync('src/gpt-chat/components/AiAccountWindow.tsx', 'utf8');
+  assert.match(window, /canStartCheckout\(data, locale\)/);
+  assert.match(window, /termsVersion: data\.termsVersion/);
   const console = readFileSync('src/gpt-chat/components/AiChatConsole.tsx', 'utf8');
   const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));
   assert.ok(newChat.includes('archiveChat'), 'New Chat archives the current conversation');

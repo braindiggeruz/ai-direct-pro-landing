@@ -27,6 +27,10 @@ export default defineConfig({
     // flags as "legacy JavaScript" (~33 KiB). All target browsers support ES2022.
     target: 'es2022',
     sourcemap: false,
+    // dist/.vite/manifest.json names each entry's file: scripts/prerender.ts
+    // takes the chat and calculator scripts from it (a lazy chunk may share an
+    // entry's prefix), and scripts/chat-bundle-budget.ts walks it.
+    manifest: true,
     minify: 'esbuild',
     rollupOptions: {
       // Three entries:

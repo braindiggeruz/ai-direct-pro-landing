@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-01T05:04:05.437Z",
+  "source": "WP-10 (release R3 candidate): npm run build:fast of paid-chat/prod-readiness, c097e937 + WP-10",
+  "entry": "src/gpt-chat/main.tsx",
+  "startBytes": 105251,
+  "parts": {
+    "chat-account": 4608,
+    "chat-lead": 3790,
+    "chat-tools": 6243
+  }
+}

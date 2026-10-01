@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 import { buildTelegramAgentsWebhookUrl } from '../functions/channels/telegram/setup';
 import { isUsableSotuvchiBotUsername } from '../src/shared/sotuvchi-config';
+import { budgetFailures, measureDist, readBaseline } from './chat-bundle-budget';
 import { runBackupRestoreRehearsal } from './release/backup-restore-rehearsal';
 import { runDeploymentDryRun } from './release/deployment-dry-run';
 import {
@@ -102,6 +103,19 @@ function command(
     ok: result.status === 0,
     output: `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim(),
   };
+}
+
+// The AI-chat bundle budget (scripts/chat-bundle-budget.ts) on the build in dist/.
+function chatBundleBudget(dist: string): { ok: boolean; detail: string } {
+  try {
+    const report = measureDist(dist);
+    const failures = budgetFailures(report, readBaseline());
+    return failures.length
+      ? { ok: false, detail: `${failures.length}-budget-failures` }
+      : { ok: true, detail: `start-${report.start.bytes}-bytes-br` };
+  } catch {
+    return { ok: false, detail: 'manifest-or-baseline-unreadable' };
+  }
 }
 
 function safeDetail(output: string): string {
@@ -261,6 +275,12 @@ export function runReleasePreflight(
     const rootBuild = command('corepack', ['yarn', 'build']);
     add('deep:root-build', rootBuild.ok,
       rootBuild.ok ? 'pass' : safeDetail(rootBuild.output));
+    // Measured only on the build that just passed: a failed build leaves the
+    // previous dist/ behind, and its numbers would describe another commit.
+    const bundle = rootBuild.ok
+      ? chatBundleBudget(path.join(ROOT, 'dist'))
+      : { ok: false, detail: 'build-failed' };
+    add('deep:chat-bundle-budget', bundle.ok, bundle.detail);
     const rootAudit = command(
       'corepack',
       ['yarn', 'audit', '--groups', 'dependencies', '--json'],

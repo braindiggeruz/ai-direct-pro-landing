@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import type { ChatStrings } from '../i18n';
+import { leadStrings } from '../lead-strings';
 import type { Locale } from '../types';
 import { fetchTurnstileConfig, sendLead } from '../api';
 import { EV, track } from '../analytics';
@@ -55,6 +56,7 @@ export function AiLeadForm({
   const [turnstileSiteKey, setTurnstileSiteKey] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
+  const copy = leadStrings(locale);
   const tg = telegramContact(locale);
   const privacyHref = locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/';
   const telegramLink =
@@ -131,10 +133,10 @@ export function AiLeadForm({
         role="status"
         data-testid="ai-lead-success"
       >
-        <p className="text-[14px] font-medium text-brand-cyan">{t.leadSuccess}</p>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-white/60">{t.leadSuccessNext}</p>
+        <p className="text-[14px] font-medium text-brand-cyan">{copy.leadSuccess}</p>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-white/60">{copy.leadSuccessNext}</p>
         <p className="mt-1 text-[13px] leading-relaxed text-white/60">
-          {t.leadSuccessTelegram}{' '}
+          {copy.leadSuccessTelegram}{' '}
           <a
             href={tg.href}
             target="_blank"
@@ -155,7 +157,7 @@ export function AiLeadForm({
     <form onSubmit={onSubmit} noValidate className="ym-disable-submit" data-testid="ai-lead-form">
       {intro && <p className="mb-3 text-[13px] leading-relaxed text-white/60">{intro}</p>}
       <label htmlFor={`${uid}-name`} className="block text-[13px] text-white/70">
-        {t.leadName} <span className="text-white/35">({t.leadNameOptional})</span>
+        {copy.leadName} <span className="text-white/35">({copy.leadNameOptional})</span>
       </label>
       <input
         id={`${uid}-name`}
@@ -164,13 +166,13 @@ export function AiLeadForm({
         onChange={(event) => setName(event.target.value)}
         autoComplete="name"
         maxLength={120}
-        placeholder={t.leadNamePlaceholder}
+        placeholder={copy.leadNamePlaceholder}
         // ym-disable-keys: a visitor's name is never recorded.
         className="mt-1.5 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-[15px] text-white outline-none transition-colors placeholder:text-white/30 focus:border-brand-cyan/50 focus-visible:ring-2 focus-visible:ring-brand-cyan/30 ym-disable-keys"
       />
 
       <label htmlFor={`${uid}-contact`} className="mt-3.5 block text-[13px] text-white/70">
-        {t.leadContact} <span aria-hidden="true" className="text-brand-cyan">*</span>
+        {copy.leadContact} <span aria-hidden="true" className="text-brand-cyan">*</span>
       </label>
       <input
         id={`${uid}-contact`}
@@ -178,7 +180,7 @@ export function AiLeadForm({
         onChange={(event) => { setContact(event.target.value); if (contactError) setContactError(false); }}
         autoComplete="tel"
         maxLength={200}
-        placeholder={t.leadContactPlaceholder}
+        placeholder={copy.leadContactPlaceholder}
         aria-required="true"
         aria-invalid={contactError}
         aria-describedby={contactError ? `${uid}-contact-error` : `${uid}-contact-hint`}
@@ -187,11 +189,11 @@ export function AiLeadForm({
       />
       {contactError ? (
         <p id={`${uid}-contact-error`} role="alert" className="mt-1.5 text-[12px] leading-relaxed text-red-300">
-          {t.leadContactError}
+          {copy.leadContactError}
         </p>
       ) : (
         <p id={`${uid}-contact-hint`} className="mt-1.5 text-[12px] leading-relaxed text-white/40">
-          {t.leadContactHint}
+          {copy.leadContactHint}
         </p>
       )}
 
@@ -204,7 +206,7 @@ export function AiLeadForm({
           className="mt-0.5 h-5 w-5 shrink-0 accent-[#2FE6D1]"
         />
         <span>
-          {t.leadConsent}.{' '}
+          {copy.leadConsent}.{' '}
           <a href={privacyHref} className="text-brand-cyan underline underline-offset-4 hover:no-underline">
             {t.leadPrivacy}
           </a>
@@ -213,9 +215,9 @@ export function AiLeadForm({
       {/* Exactly what leaves the browser, in plain words. The payload below is
           name + one contact + the intent slug + this session's id + the page
           path — never the conversation itself. */}
-      <p className="mt-2 pl-8 text-[12px] leading-relaxed text-white/35">{t.leadConsentDetail}</p>
+      <p className="mt-2 pl-8 text-[12px] leading-relaxed text-white/35">{copy.leadConsentDetail}</p>
       {consentError && (
-        <p role="alert" className="mt-1.5 text-[12px] leading-relaxed text-red-300">{t.leadConsentError}</p>
+        <p role="alert" className="mt-1.5 text-[12px] leading-relaxed text-red-300">{copy.leadConsentError}</p>
       )}
 
       {turnstileRequired && turnstileSiteKey && (
@@ -241,12 +243,12 @@ export function AiLeadForm({
         disabled={status === 'sending'}
         className="btn-primary mt-4 min-h-12 w-full text-[14px] disabled:cursor-wait disabled:opacity-60 sm:w-auto"
       >
-        {status === 'sending' ? t.leadSending : t.leadSubmit}
+        {status === 'sending' ? copy.leadSending : copy.leadSubmit}
       </button>
 
       {status === 'failed' && (
         <p role="alert" className="mt-3 text-[13px] leading-relaxed text-red-200">
-          {t.leadError}{' '}
+          {copy.leadError}{' '}
           <a
             href={tg.href}
             target="_blank"

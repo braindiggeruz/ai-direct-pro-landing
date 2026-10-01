@@ -22,6 +22,7 @@ import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { renderMarkdown } from "../src/gpt-chat/markdown";
 import { strings } from "../src/gpt-chat/i18n";
+import { accountStrings } from "../src/gpt-chat/account-strings";
 import { BILLING_DDL, UZUM_BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
 
 test("Click MD5 matches independent Node reference, exact amount parser", () => {
@@ -413,7 +414,8 @@ test("markdown preserves repeated code lines, table scroll and escapes malicious
   assert.ok(html.includes('tabindex="0"'));
 });
 test("Uzbek new copy has proper letter apostrophes and no ASCII apostrophes", () => {
-  const copy = JSON.stringify(strings("uz").premium);
+  // The chat's pack lines and the pack window's copy (lazy part chat-account).
+  const copy = JSON.stringify([strings("uz").premium, accountStrings("uz")]);
   assert.ok(!copy.includes("'"));
   assert.ok(!/[og]’/i.test(copy));
   assert.ok(copy.includes("o‘"));

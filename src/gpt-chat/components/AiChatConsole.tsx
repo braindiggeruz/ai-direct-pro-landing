@@ -30,7 +30,6 @@ import { AiChatInput } from "./AiChatInput";
 import { AiPromptChips } from "./AiPromptChips";
 import { AiUsageBadge } from "./AiUsageBadge";
 import { AiQuotaThread } from "./AiQuotaThread";
-import { AiOfferCard } from "./AiOfferCard";
 import { AiLimitTelegram } from "./AiLimitTelegram";
 import { limitCard } from "../limit-card";
 import {
@@ -43,8 +42,6 @@ import {
   saveLimit,
 } from "../limit-state";
 import { AiSidebar } from "./AiSidebar";
-import { PromptTemplateGrid } from "./PromptTemplateGrid";
-import { ImagePromptTool } from "./ImagePromptTool";
 import {
   TurnstileChallenge,
   type TurnstileChallengeHandle,
@@ -54,6 +51,7 @@ import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import { archiveChat, keepsShownConversation, loadChats } from "../storage";
+import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
 
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
@@ -71,9 +69,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // Present on the Russian chat only: most of its search impressions are
   // Uzbek-language queries, and the only switch used to be an 11px «UZ».
   const uzEntry = uz ? undefined : t.uzEntry;
-  const businessHref = uz
-    ? "/uz/biznes-uchun-ai-bot/"
-    : "/ru/gpt-dlya-biznesa/";
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
   // 'unknown': the account view failed even after a retry. The chat still
@@ -587,6 +582,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setActiveTool(tool);
     track(EV.toolOpened, { tool, from: "sidebar" });
   };
+  // The business offer (chat-lead) shows only in the business tool: fetch it
+  // while the visitor is there, before the third answer calls for it.
+  useEffect(() => {
+    if (activeTool === "business") leadPart.preload();
+  }, [activeTool]);
 
   const onImagePrompt = (prompt: string, presetId: string) => {
     if (sendDisabled) return;
@@ -672,78 +672,29 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     assistantCount >= B2B_AFTER &&
     !offerDismissed &&
     !limit;
-  const toolCopy: Record<
-    Exclude<AiToolId, "chat" | "images">,
-    { title: string; body: string }
-  > = uz
-    ? {
-        smm: {
-          title: "AI SMM kabinet",
-          body: "Instagram va Telegram uchun post, stories, reklama va kontent reja.",
-        },
-        business: {
-          title: "AI biznes vositalari",
-          body: "Mijoz javobi, FAQ, sotuv skripti va AI-bot pilot rejasi.",
-        },
-        study: {
-          title: "AI bilan o‘qish",
-          body: "Mavzuni tushunish, konspekt, test, tarjima va matn tekshirish.",
-        },
-      }
-    : {
-        smm: {
-          title: "AI SMM кабинет",
-          body: "Посты, сторис, реклама и контент-планы для Instagram и Telegram.",
-        },
-        business: {
-          title: "AI для бизнеса",
-          body: "Ответы клиентам, FAQ, продажи и пилотный план AI-бота.",
-        },
-        study: {
-          title: "AI для учёбы",
-          body: "Разобраться в теме, сделать конспект, тест, перевод или проверить текст.",
-        },
-      };
-
-  const toolPanel =
-    activeTool === "images" ? (
-      <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
-        <ImagePromptTool
-          locale={config.locale}
-          onGenerate={onImagePrompt}
-          disabled={sendDisabled}
-        />
-      </div>
-    ) : activeTool !== "chat" ? (
-      <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
-        <h2 className="text-lg font-semibold text-white">
-          {toolCopy[activeTool].title}
-        </h2>
-        <p className="mb-4 mt-1 text-sm leading-relaxed text-white/50">
-          {toolCopy[activeTool].body}
-        </p>
-        <PromptTemplateGrid
-          key={`${config.locale}-${activeTool}`}
-          locale={config.locale}
-          tool={activeTool}
-          onPick={onTemplatePick}
-          disabled={sendDisabled}
-        />
-        {activeTool === "business" && (
-          <p className="mt-4 text-[13px] text-white/45">
-            <a
-              href={businessHref}
-              onClick={() =>
-                track(EV.businessClicked, { from: "business_tab" })
-              }
-              className="text-brand-cyan hover:underline underline-offset-4"
-            >
-              {t.businessLink}
-            </a>
-          </p>
+  // The tools behind the menu are the lazy part chat-tools; the frame stays,
+  // so the screen keeps its place while the templates arrive.
+  const tool = activeTool === "chat" ? null : activeTool;
+  const toolPanel = tool && (
+    <div className="mb-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+      <LazyPart
+        part={toolsPart}
+        fallback={<PartLoading label={t.partLoading} className="gpt-part-loading-tool" />}
+        failed={<PartFailed message={t.partFailed} reload={t.partReload} />}
+      >
+        {({ AiToolPanel }) => (
+          <AiToolPanel
+            t={t}
+            locale={config.locale}
+            tool={tool}
+            disabled={sendDisabled}
+            onTemplatePick={onTemplatePick}
+            onImagePrompt={onImagePrompt}
+          />
         )}
-      </div>
-    ) : null;
+      </LazyPart>
+    </div>
+  );
 
   return (
     // ym-hide-content: Webvisor is enabled on counter 111312750. Everything the
@@ -866,6 +817,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               onAccount={onAccount}
               refreshKey={accountRefresh}
               openRequest={accountOpen}
+              remaining={remaining}
+              limited={limited}
             />
           </div>
         </header>
@@ -1003,13 +956,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             {/* Stage 2 of the funnel: one offer, after the chat has already
                 been useful, closable and gone for the day once closed. */}
             {showOffer && (
-              <AiOfferCard
-                t={t}
-                locale={config.locale}
-                apiBase={config.apiBase}
-                sessionId={sessionId}
-                onDismiss={onDismissOffer}
-              />
+              // The lazy part chat-lead; a card that cannot load is not shown.
+              <LazyPart part={leadPart} fallback={null} failed={null}>
+                {({ AiOfferCard }) => (
+                  <AiOfferCard
+                    t={t}
+                    locale={config.locale}
+                    apiBase={config.apiBase}
+                    sessionId={sessionId}
+                    onDismiss={onDismissOffer}
+                  />
+                )}
+              </LazyPart>
             )}
             {!paid &&
               billingAvailable &&
