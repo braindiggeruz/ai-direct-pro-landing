@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { Dict, Lang } from '../i18n';
-import { track } from '../lib/cta';
+import { trackContact } from '../lib/cta';
+import { STUDIO_CONTACT_PROPS, STUDIO_PHONE, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 
-const PHONE_HREF = 'tel:+998505870720';
-
-export default function StickyCTA({ t, ctaUrl, lang }: { t: Dict; ctaUrl: string; lang: Lang }) {
+// The mobile call bar: the studio phone and, once content/global/site.json
+// names one, the work Telegram (src/shared/studio-contact.ts); without it the
+// phone takes the whole bar, as on the landings (plan decision L14).
+export default function StickyCTA({ t, lang }: { t: Dict; lang: Lang }) {
   const [pastProof, setPastProof] = useState(false);
   const [nearFooter, setNearFooter] = useState(false);
 
@@ -40,26 +42,30 @@ export default function StickyCTA({ t, ctaUrl, lang }: { t: Dict; ctaUrl: string
       className="sticky-cta-shell fixed inset-x-0 bottom-0 z-40 mx-auto max-w-sm px-4 pb-[max(0.65rem,env(safe-area-inset-bottom))] pt-2 sm:hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05070D] via-[#05070D]/85 to-transparent -z-10" />
-      <div className="grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur">
+      <div className={`grid ${STUDIO_TELEGRAM_URL ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'} gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur`}>
         <a
           data-testid="sticky-call-btn"
-          href={PHONE_HREF}
+          href={`tel:${STUDIO_PHONE}`}
           tabIndex={show ? 0 : -1}
+          onClick={() => trackContact('phone', 'sticky_bar', lang)}
           className="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm"
         >
           {callLabel}
         </a>
-        <a
-          data-testid="sticky-telegram-btn"
-          href={ctaUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex={show ? 0 : -1}
-          onClick={() => track('click_sticky_cta', { contact_method: 'telegram', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: ctaUrl, cta_zone: 'sticky_bar' })}
-          className="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm"
-        >
-          Telegram
-        </a>
+        {STUDIO_TELEGRAM_URL && (
+          <a
+            data-testid="sticky-telegram-btn"
+            {...STUDIO_CONTACT_PROPS}
+            href={STUDIO_TELEGRAM_URL}
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            tabIndex={show ? 0 : -1}
+            onClick={() => trackContact('telegram', 'sticky_bar', lang)}
+            className="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm"
+          >
+            Telegram
+          </a>
+        )}
       </div>
       <div className="sr-only">{t.sticky}</div>
     </div>

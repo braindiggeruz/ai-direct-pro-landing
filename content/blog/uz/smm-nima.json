@@ -237,7 +237,7 @@
     {
       "type": "cta",
       "text": "Sahifangizni ko‘rib chiqib, nimadan boshlash kerakligini aytamiz — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -264,7 +264,7 @@
   ],
   "cta": {
     "label": "SMM bo‘yicha maslahat olish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

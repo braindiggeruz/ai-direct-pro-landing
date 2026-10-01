@@ -16,6 +16,10 @@ test('every entry has a published article and resolves to a fixed prompt and loc
     assert.equal(link.search, '');
     assert.equal(chatEntryFromHash(link.hash), entry);
     assert.ok(renderChatEntry(article.url).includes(`href="${chatEntryHref(entry)}"`));
+    // The block leads into the chat, whose header says GPTBot.uz (AGENTS.md 2).
+    const html = renderChatEntry(article.url);
+    assert.match(html, entry.locale === 'ru' ? /GPTBot\.uz · На русском/ : /GPTBot\.uz · O‘zbek tilida/);
+    assert.doesNotMatch(html, /GPTBot AI/);
   }
 });
 

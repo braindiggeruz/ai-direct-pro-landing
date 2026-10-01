@@ -322,7 +322,7 @@
     {
       "type": "cta",
       "text": "Обсудить Python-бота для бизнеса",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -374,7 +374,7 @@
   ],
   "cta": {
     "label": "Обсудить Telegram-бота на Python",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

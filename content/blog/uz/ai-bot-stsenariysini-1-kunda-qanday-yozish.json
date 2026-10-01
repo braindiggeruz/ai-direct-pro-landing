@@ -173,11 +173,11 @@
     {
       "type": "cta",
       "text": "Ssenariyingiz tahlilini olish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "p",
-      "text": "Telegram'ga yozing — ssenariy qoralamangizni bepul ko'rib chiqamiz va ishga tushirishdan oldin nimani kuchaytirish kerakligini aytamiz."
+      "text": "E-mail yozing — ssenariy qoralamangizni bepul ko'rib chiqamiz va ishga tushirishdan oldin nimani kuchaytirish kerakligini aytamiz."
     }
   ],
   "faq": [
@@ -203,8 +203,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram'da demo so'rash",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Dict } from '../i18n';
-import { track } from '../lib/cta';
+import { CONTACT_HREF, track } from '../lib/cta';
 
 type ChatStep =
   | { type: 'msg'; from: 'client' | 'ai'; key: 'c1' | 'a1' | 'c2' | 'a2' }
@@ -14,7 +14,7 @@ const SEQUENCE: ChatStep[] = [
   { type: 'lead' },
 ];
 
-export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
+export default function DemoChat({ t }: { t: Dict }) {
   const [visible, setVisible] = useState<number>(0);
   const [typing, setTyping] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -161,9 +161,7 @@ export default function DemoChat({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
 
               <a
                 data-testid="demo-cta"
-                href={ctaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={CONTACT_HREF}
                 onClick={() => track('click_demo_cta', { source: 'demo_block' })}
                 className="btn-primary mt-6 w-full text-sm"
               >

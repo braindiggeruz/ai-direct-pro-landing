@@ -131,7 +131,7 @@
     {
       "type": "cta",
       "text": "Sizning holatingizda nimadan boshlashni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -154,7 +154,7 @@
     },
     {
       "q": "Bu darajalarning har biri qancha turadi?",
-      "a": "Narx murojaatlar hajmi va integratsiyalar to‘plamiga bog‘liq. \"Qutida\" narx ishlamaydi — aniq biznes uchun Telegram’da muhokama qilamiz."
+      "a": "Narx murojaatlar hajmi va integratsiyalar to‘plamiga bog‘liq. \"Qutida\" narx ishlamaydi — aniq biznes uchun telefon yoki e-mail orqali muhokama qilamiz."
     },
     {
       "q": "CRM’ni o‘tkazib yuborib darrov AI menejerga o‘tish mumkinmi?",
@@ -170,8 +170,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da demoni ochish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

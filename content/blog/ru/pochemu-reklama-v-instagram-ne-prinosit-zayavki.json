@@ -682,7 +682,7 @@
     {
       "type": "cta",
       "text": "Обсудить аудит рекламной воронки",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -805,7 +805,7 @@
   ],
   "cta": {
     "label": "Обсудить рекламную воронку",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

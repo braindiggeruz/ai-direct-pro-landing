@@ -1,22 +1,34 @@
-// The studio's contact card, on landings that have no lead form.
+// The studio's contact card, on landings that have no lead form and on blog
+// articles.
 //
 // Content points a call to action at it with the in-page anchor "#contact"
-// (ctaPrimaryHref, ctaSecondaryHref, a cta block or a linkp target). The card
-// lists the phone and the e-mail from content/global/site.json and, once one is
-// configured, the studio's work Telegram (src/shared/studio-contact.ts). So no
-// page names a channel the site does not offer, and naming a work Telegram
-// later is one setting, not an edit of every page (paid-chat plan, L14).
+// (ctaPrimaryHref, ctaSecondaryHref, a cta block or a linkp target; on an
+// article also its `cta`). The card lists the phone and the e-mail from
+// content/global/site.json and, once one is configured, the studio's work
+// Telegram (src/shared/studio-contact.ts). So no page names a channel the site
+// does not offer, and naming a work Telegram later is one setting, not an edit
+// of every page (paid-chat plan, L14).
 //
 // Rendered by scripts/prerender.ts in the lead form's slot, before the FAQ, and
-// only on a page that links it, so the anchor never dangles and pages that do
-// not link it are unchanged.
-import type { Page } from '../src/shared/types';
-import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+// by scripts/prerender-blog.ts after the article, and only on a page that links
+// it, so the anchor never dangles and pages that do not link it are unchanged.
+import type { BlogArticle, BodyBlock, Page } from '../src/shared/types';
+import {
+  STUDIO_CONTACT_ATTR,
+  STUDIO_EMAIL,
+  STUDIO_PHONE,
+  STUDIO_PHONE_DISPLAY,
+  STUDIO_TELEGRAM_URL,
+} from '../src/shared/studio-contact';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
 
 export const CONTACT_ANCHOR = '#contact';
 
+/** The label of a call to action that only leads to the card. */
+export const CONTACT_CTA_LABEL = { ru: 'Связаться с нами', uz: 'Biz bilan bog‘lanish' } as const;
+
 type ContactPage = Pick<Page, 'url' | 'locale' | 'h1' | 'breadcrumbLabel' | 'ctaPrimaryHref' | 'ctaSecondaryHref' | 'bodyBlocks'>;
+type ContactArticle = Pick<BlogArticle, 'url' | 'locale' | 'h1' | 'cta' | 'body'>;
 
 const COPY = {
   ru: {
@@ -43,27 +55,46 @@ function escapeText(s: string): string {
   return s.replace(/[&<]/g, (c) => ({ '&': '&amp;', '<': '&lt;' }[c]!));
 }
 
-/** True when any call to action or link on the page points at the card. */
-export function linksContactCard(page: ContactPage): boolean {
-  if (page.ctaPrimaryHref === CONTACT_ANCHOR || page.ctaSecondaryHref === CONTACT_ANCHOR) return true;
-  return (page.bodyBlocks || []).some((block) =>
+function blocksLinkCard(blocks: BodyBlock[] | undefined): boolean {
+  return (blocks || []).some((block) =>
     block.href === CONTACT_ANCHOR || (block.links || []).some((link) => link.target === CONTACT_ANCHOR));
 }
 
 /**
- * The card section, or '' when nothing on the page links it. `studio`
- * defaults to the configured work Telegram; tests pass one explicitly.
+ * True when any call to action or link on the page points at the card. A page
+ * without a primary CTA gets "#contact" in its header (scripts/prerender.ts),
+ * so it links the card too.
  */
-export function renderContactCard(page: ContactPage, studio: string | null = STUDIO_TELEGRAM_URL): string {
-  if (!linksContactCard(page)) return '';
-  const locale = page.locale === 'uz' ? 'uz' : 'ru';
+export function linksContactCard(page: ContactPage): boolean {
+  if (!page.ctaPrimaryHref || page.ctaPrimaryHref === CONTACT_ANCHOR || page.ctaSecondaryHref === CONTACT_ANCHOR) return true;
+  return blocksLinkCard(page.bodyBlocks);
+}
+
+/**
+ * True when the article's call to action, its header button (`headerHref`, as
+ * scripts/prerender-blog.ts resolves it) or a body block points at the card.
+ */
+export function articleLinksContactCard(article: ContactArticle, headerHref: string): boolean {
+  return headerHref === CONTACT_ANCHOR || article.cta?.href === CONTACT_ANCHOR || blocksLinkCard(article.body);
+}
+
+/**
+ * The card section for a document at `url`. `label` names the service in the
+ * Telegram draft. `studio` defaults to the configured work Telegram; tests
+ * pass one explicitly.
+ */
+export function contactCardHtml(
+  target: { url: string; locale?: string; label: string },
+  studio: string | null = STUDIO_TELEGRAM_URL,
+): string {
+  const locale = target.locale === 'uz' ? 'uz' : 'ru';
   const t = COPY[locale];
-  const telegram = studioTelegramHref(locale, telegramServiceLabel(page.breadcrumbLabel || page.h1), page.url, studio);
+  const telegram = studioTelegramHref(locale, telegramServiceLabel(target.label), target.url, studio);
   const button = 'min-h-[44px] w-full sm:w-auto text-base';
   const links = [
     `<a data-testid="contact-phone" href="tel:${STUDIO_PHONE}" class="btn-primary ${button}">${escapeText(t.call)}: ${escapeText(STUDIO_PHONE_DISPLAY)}</a>`,
     `<a data-testid="contact-email" href="mailto:${escapeAttr(STUDIO_EMAIL)}" class="btn-secondary ${button}">E-mail: ${escapeText(STUDIO_EMAIL)}</a>`,
-    ...(telegram ? [`<a data-testid="contact-telegram" href="${escapeAttr(telegram)}" target="_blank" rel="nofollow noopener noreferrer" class="btn-secondary ${button}">${escapeText(t.telegram)}</a>`] : []),
+    ...(telegram ? [`<a data-testid="contact-telegram" ${STUDIO_CONTACT_ATTR} href="${escapeAttr(telegram)}" target="_blank" rel="nofollow noopener noreferrer" class="btn-secondary ${button}">${escapeText(t.telegram)}</a>`] : []),
   ];
   return `<section id="contact" data-testid="studio-contact" aria-labelledby="contact-heading" class="mt-16 scroll-mt-24 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-8">
       <div class="eyebrow mb-3">${escapeText(t.eyebrow)}</div>
@@ -71,4 +102,31 @@ export function renderContactCard(page: ContactPage, studio: string | null = STU
       <p class="text-sm sm:text-base text-white/70 leading-relaxed mb-6">${escapeText(t.intro)}</p>
       <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3">${links.join('')}</div>
     </section>`;
+}
+
+/**
+ * The studio's phone, e-mail and, once one is configured, work Telegram as
+ * footer links (landings, AI-chat pages, articles, blog indexes). `phoneTestId`
+ * keeps a template's existing test id on the phone link.
+ */
+export function studioFooterLinks(
+  linkClass: string,
+  opts: { phoneTestId?: string; studio?: string | null } = {},
+): string {
+  const studio = opts.studio === undefined ? STUDIO_TELEGRAM_URL : opts.studio;
+  const testId = opts.phoneTestId ? `data-testid="${escapeAttr(opts.phoneTestId)}" ` : '';
+  return [
+    `<a ${testId}href="tel:${STUDIO_PHONE}" class="${linkClass}">${escapeText(STUDIO_PHONE_DISPLAY)}</a>`,
+    `<a href="mailto:${escapeAttr(STUDIO_EMAIL)}" class="${linkClass}">${escapeText(STUDIO_EMAIL)}</a>`,
+    ...(studio ? [`<a ${STUDIO_CONTACT_ATTR} href="${escapeAttr(studio)}" rel="nofollow noopener noreferrer" target="_blank" class="${linkClass}">Telegram</a>`] : []),
+  ].join('\n      ');
+}
+
+/**
+ * The card section of a landing, or '' when nothing on the page links it.
+ * `studio` defaults to the configured work Telegram; tests pass one explicitly.
+ */
+export function renderContactCard(page: ContactPage, studio: string | null = STUDIO_TELEGRAM_URL): string {
+  if (!linksContactCard(page)) return '';
+  return contactCardHtml({ url: page.url, locale: page.locale, label: page.breadcrumbLabel || page.h1 }, studio);
 }

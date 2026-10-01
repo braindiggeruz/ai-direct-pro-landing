@@ -227,8 +227,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demoni ochish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -271,8 +271,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da demoni ochish",
-    "href": "https://t.me/XGame_changerx",
+    "label": "Demo so‘rash",
+    "href": "#contact",
     "note": "AI bot sizning biznesingiz mijozlariga Telegram’da qanday javob bera olishini ko‘rmoqchimisiz? GPTBot demoni oching va ssenariy namunasini ko‘ring: bot murojaatni qabul qiladi, so‘rovni aniqlaydi va arizani menejerga uzatadi."
   },
   "internalLinks": [

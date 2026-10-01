@@ -355,7 +355,7 @@
     {
       "type": "cta",
       "text": "Заказать аудит или разработку Telegram-бота",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -403,7 +403,7 @@
   ],
   "cta": {
     "label": "Обсудить проверку Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

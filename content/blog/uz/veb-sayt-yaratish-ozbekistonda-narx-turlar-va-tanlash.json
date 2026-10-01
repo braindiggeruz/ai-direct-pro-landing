@@ -96,7 +96,7 @@
     },
     {
       "type": "linkp",
-      "text": "Sayt yaratish kerakmi? {call} yoki {tg}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
+      "text": "Sayt yaratish kerakmi? {call} yoki {mail}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
       "links": [
         {
           "token": "call",
@@ -104,9 +104,9 @@
           "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram"
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
         }
       ]
     },
@@ -196,7 +196,7 @@
     },
     {
       "type": "linkp",
-      "text": "Sayt yaratish kerakmi? {call} yoki {tg}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
+      "text": "Sayt yaratish kerakmi? {call} yoki {mail}: loyihangizni 15 daqiqada eshitamiz va bepul smeta tayyorlaymiz.",
       "links": [
         {
           "token": "call",
@@ -204,9 +204,9 @@
           "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram"
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
         }
       ]
     },

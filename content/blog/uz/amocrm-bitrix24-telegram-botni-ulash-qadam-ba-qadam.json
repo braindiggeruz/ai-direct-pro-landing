@@ -114,8 +114,8 @@
     },
     {
       "type": "cta",
-      "text": "Sizning CRM ingiz uchun ulash sxemasini Telegram’da muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "CRM’ingiz uchun ulash sxemasini muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -150,12 +150,12 @@
     },
     {
       "q": "Bu qancha vaqt oladi va qancha turadi?",
-      "a": "Muddat va narx voronka murakkabligi va integratsiya to‘plamiga bog‘liq. Aniq holatni Telegram’da muhokama qilamiz."
+      "a": "Muddat va narx voronka murakkabligi va integratsiya to‘plamiga bog‘liq. Aniq holatni telefon yoki e-mail orqali muhokama qilamiz."
     }
   ],
   "cta": {
-    "label": "Telegram’da ulashni muhokama qilish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Ulashni muhokama qilish",
+    "href": "#contact"
   },
   "internalLinks": [
     {

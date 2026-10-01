@@ -144,7 +144,7 @@
     {
       "type": "cta",
       "text": "Saytingizni birgalikda ko‘rib chiqamiz",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -175,7 +175,7 @@
   ],
   "cta": {
     "label": "Saytni ko‘rib chiqishni so‘rash",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

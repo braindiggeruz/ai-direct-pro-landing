@@ -134,7 +134,7 @@
     {
       "type": "cta",
       "text": "Получить бота для салона",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -173,8 +173,8 @@
     }
   ],
   "cta": {
-    "label": "Запросить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -12,7 +12,8 @@
 //     the ?text= draft the prerendered contact links carry
 //   - SEO funnel events on prerendered landings: seo_landing_view,
 //     service_cta_click, telegram_open_attempt, language_switch
-//   - contact_click when a visitor activates the studio's Telegram contact
+//   - contact_click when a visitor activates the studio's Telegram contact,
+//     a link marked data-contact="studio" (src/shared/studio-contact.ts)
 //   - phone_click when a visitor activates any phone link on the page
 //   - pricing_view the first time a tariff table enters the viewport
 //
@@ -157,9 +158,12 @@ export const ANALYTICS_HEAD = `<script data-tag="ga">
         target_url: target
       });
     }
-    // The studio's own contact handles, mirroring content/global/site.json.
-    // Everything else on t.me is one of our product bots.
-    var isContactTg = isTg && /t\\.me\\/(XGame_changerx|GPTBot_support)(\\b|\\/|$)/i.test(href);
+    // The studio's contact is the link every template marks data-contact="studio"
+    // (src/shared/studio-contact.ts): the work Telegram named in
+    // content/global/site.json, if any. The handle is never matched here, so a
+    // new work account needs no edit of this block. Everything else on t.me is
+    // one of our product bots.
+    var isContactTg = isTg && el.getAttribute('data-contact') === 'studio';
     if (isTg) {
       gtag('event','telegram_open_attempt',{
         page_path: location.pathname,

@@ -55,7 +55,6 @@
   "authorName": "Борис Герасимов",
   "authorNameLatin": "Boris Gerasimov",
   "authorUrl": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
-  "telegram": "https://t.me/XGame_changerx",
   "instagram": "",
   "address": "Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan",
   "addressLocality": "Toshkent",
@@ -83,16 +82,11 @@
     }
   ],
   "sameAs": [
-    "https://t.me/XGame_changerx",
     "https://github.com/braindiggeruz"
   ],
   "businessProfiles": [
     "https://yandex.ru/maps/org/109235624736"
   ],
-  "defaultCTA": {
-    "label": "Запустить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
-  },
   "streetAddress": "Yahyo Gulyamov ko‘chasi 35",
   "geo": {
     "latitude": 41.3340,

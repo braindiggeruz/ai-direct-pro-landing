@@ -340,7 +340,7 @@
     {
       "type": "cta",
       "text": "Обсудить запуск Telegram-бота 24/7",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -396,7 +396,7 @@
   ],
   "cta": {
     "label": "Обсудить хостинг Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

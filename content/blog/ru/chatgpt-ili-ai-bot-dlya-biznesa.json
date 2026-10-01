@@ -454,7 +454,7 @@
     {
       "type": "cta",
       "text": "Обсудить AI-бота под ваш процесс",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -505,7 +505,7 @@
   ],
   "cta": {
     "label": "Запросить разбор задачи",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

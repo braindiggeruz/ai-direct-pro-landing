@@ -350,7 +350,7 @@
     {
       "type": "cta",
       "text": "Получить расчёт сайта",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -389,7 +389,7 @@
   ],
   "cta": {
     "label": "Рассчитать стоимость сайта",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

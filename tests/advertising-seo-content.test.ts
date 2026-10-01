@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 import type { BlogArticle, Page } from '../src/shared/types';
 import { LEAD_FORM_PAGES } from '../scripts/lead-form';
+import { CONTACT_ANCHOR } from '../scripts/contact-card';
 
 const articles = [
   'ru/telegram-ads-stoimost-i-zapusk-uzbekistan',
@@ -33,7 +34,9 @@ test('advertising refresh keeps all existing article identities and working comm
     assert.ok(article.targetMoneyPage);
     assert.ok(article.internalLinks.some(link => link.target === article.targetMoneyPage));
     assert.ok(article.body.some(block => block.type === 'linkp' && block.links?.some(link => link.target?.startsWith(`/${locale}/`) && !link.target.includes('/blog/'))));
-    assert.equal(article.cta?.href, 'https://t.me/XGame_changerx');
+    // The studio contact card (phone, e-mail; the work Telegram once one is
+    // configured), not the owner's personal Telegram (paid-chat plan, L14).
+    assert.equal(article.cta?.href, CONTACT_ANCHOR);
     assert.equal(article.dateModified, '2026-09-28');
     assert.ok(article.datePublished! < article.dateModified!);
     const ids = article.body.filter(block => block.id).map(block => block.id);
@@ -41,7 +44,7 @@ test('advertising refresh keeps all existing article identities and working comm
     for (const block of article.body) {
       if (block.type === 'toc') for (const link of block.links || []) assert.ok(ids.includes(link.target?.slice(1)), `${key}: broken TOC ${link.target}`);
       if (block.type === 'p') assert.doesNotMatch(block.text || '', /\{[a-z]+\}/, `${key}: unresolved link token`);
-      if (block.type === 'cta') assert.equal(block.href, 'https://t.me/XGame_changerx');
+      if (block.type === 'cta') assert.equal(block.href, CONTACT_ANCHOR);
     }
   }
 });

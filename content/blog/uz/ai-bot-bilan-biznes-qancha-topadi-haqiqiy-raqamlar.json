@@ -155,7 +155,7 @@
     {
       "type": "cta",
       "text": "Biznesingiz uchun qoplanishni hisoblash",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "p",
@@ -185,8 +185,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram'da demo so'rash",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

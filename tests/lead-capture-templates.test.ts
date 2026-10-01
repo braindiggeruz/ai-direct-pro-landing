@@ -99,31 +99,33 @@ test('the service label is one trimmed line of at most ~60 characters', () => {
   assert.ok(long.endsWith('…'));
 });
 
-// The bare link here is the legacy `telegram` value of content/global/site.json,
-// which the blog template still renders until the protected revision (WP-12)
-// moves it to the work account; the rewrite gives it the same draft.
+// Once a work account is configured, every bare link to it gets the draft
+// naming the page; while none is (L14) there is nothing to rewrite.
 test('only bare studio-contact hrefs are rewritten', () => {
   const html = [
-    '<a href="https://t.me/XGame_changerx">a</a>',
-    '<a href="https://t.me/XGame_changerx/">b</a>',
-    '<a href="https://t.me/XGame_changerx?text=keep">c</a>',
-    '<a href="https://t.me/gptbot_javob_bot?start=site_ru">d</a>',
-    '<script type="application/ld+json">{"sameAs":["https://t.me/XGame_changerx"]}</script>',
-    '<p>Пишите: https://t.me/XGame_changerx</p>',
+    `<a href="${WORK}">a</a>`,
+    `<a href="${WORK}/">b</a>`,
+    `<a href="${WORK}?text=keep">c</a>`,
+    '<a href="https://t.me/gptbotuz_bot?start=site_ru">d</a>',
+    `<script type="application/ld+json">{"sameAs":["${WORK}"]}</script>`,
+    `<p>Пишите: ${WORK}</p>`,
   ].join('\n');
-  const out = withStudioTelegramPrefill(html, { locale: 'ru', label: 'SMM-продвижение', path: '/ru/smm-prodvizhenie-tashkent/' });
-  const prefilled = studioTelegramHref('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/', 'https://t.me/XGame_changerx')!;
+  const opts = { locale: 'ru' as const, label: 'SMM-продвижение', path: '/ru/smm-prodvizhenie-tashkent/' };
+  const out = withStudioTelegramPrefill(html, opts, WORK);
+  const prefilled = studioTelegramHref('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/', WORK)!;
   assert.equal(out.split(`href="${prefilled}"`).length - 1, 2);
-  assert.ok(out.includes('href="https://t.me/XGame_changerx?text=keep"'));
-  assert.ok(out.includes('href="https://t.me/gptbot_javob_bot?start=site_ru"'));
-  assert.ok(out.includes('{"sameAs":["https://t.me/XGame_changerx"]}'));
-  assert.ok(out.includes('<p>Пишите: https://t.me/XGame_changerx</p>'));
+  assert.ok(out.includes(`href="${WORK}?text=keep"`));
+  assert.ok(out.includes('href="https://t.me/gptbotuz_bot?start=site_ru"'));
+  assert.ok(out.includes(`{"sameAs":["${WORK}"]}`));
+  assert.ok(out.includes(`<p>Пишите: ${WORK}</p>`));
+  assert.equal(withStudioTelegramPrefill(html, opts, null), html, 'no work account: nothing to rewrite');
+  assert.equal(withStudioTelegramPrefill(html, opts), html, 'none is configured today');
 });
 
 test('the ten protected pages keep the bare contact link', () => {
-  const html = '<a href="https://t.me/XGame_changerx">Telegram</a>';
+  const html = `<a href="${WORK}">Telegram</a>`;
   for (const pathname of PROTECTED_PATHS) {
-    assert.equal(withStudioTelegramPrefill(html, { locale: 'uz', label: 'x', path: pathname }), html, pathname);
+    assert.equal(withStudioTelegramPrefill(html, { locale: 'uz', label: 'x', path: pathname }, WORK), html, pathname);
   }
 });
 
@@ -358,6 +360,8 @@ function formHarness(options: {
   rejectFetch?: boolean;
   storage?: unknown;
   search?: string;
+  /** The form's fallback as leadFormFallback() builds it for a work Telegram. */
+  fallback?: { href: string; text: string };
 } = {}) {
   const locale = options.locale ?? 'ru';
   const pathname = locale === 'uz' ? '/uz/chat-bot-narxi/' : '/ru/smm-prodvizhenie-tashkent/';
@@ -367,8 +371,8 @@ function formHarness(options: {
     'data-locale': attr('data-locale'),
     'data-service': attr('data-service'),
     'data-label': attr('data-label'),
-    'data-fallback': (attr('data-fallback') || '').replace(/&amp;/g, '&'),
-    'data-fallback-text': attr('data-fallback-text'),
+    'data-fallback': options.fallback?.href ?? (attr('data-fallback') || '').replace(/&amp;/g, '&'),
+    'data-fallback-text': options.fallback?.text ?? attr('data-fallback-text'),
   };
   const contact = element({ value: '' });
   const name = element({ value: '' });
@@ -494,6 +498,7 @@ test('a rejected lead shows the server message and the studio phone', async () =
   assert.ok(link, 'no contact link after an error');
   assert.equal(link.href, `tel:${STUDIO_PHONE}`);
   assert.equal(link.target, undefined, 'a tel: link opens in place');
+  assert.equal(link.getAttribute('data-contact'), null, 'a phone link is not the Telegram contact');
   assert.equal(link.textContent, CALL.ru);
   assert.ok(ru.window.dataLayer.some((e) => e.event === 'lead_form_failed' && e.error_code === 'rate_limited'));
 
@@ -511,6 +516,22 @@ test('a rejected lead shows the server message and the studio phone', async () =
   await offline.submit();
   assert.match(String(offline.status.textContent), /Не удалось отправить заявку/);
   assert.equal(offline.button.disabled, false);
+});
+
+test('with a work Telegram the fallback link is marked as the studio contact', async () => {
+  // The head click handlers count contact_click and telegram_cta_studio by
+  // this marker, not by a handle (src/shared/studio-contact.ts).
+  const fallback = leadFormFallback('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/', WORK);
+  const h = formHarness({ response: { ok: false, code: 'store_failed' }, fallback });
+  h.contact.value = '901234567';
+  h.consent.checked = true;
+  await h.submit();
+  const link = h.status.children.find((c) => (c as FakeElement).attrs !== undefined) as FakeElement & { href?: string; target?: string };
+  assert.equal(link.href, fallback.href);
+  assert.equal(link.getAttribute('data-contact'), 'studio');
+  assert.equal(link.target, '_blank');
+  // Today the fallback is the phone, in the form and in its <noscript> line.
+  assert.ok(!renderLeadForm(PAGES.get('/ru/smm-prodvizhenie-tashkent/')!).includes('data-contact'), 'a phone fallback is not marked');
 });
 
 test('nothing is sent without a plausible contact and the consent box', async () => {
@@ -663,21 +684,19 @@ test('built pages: section nav everywhere except hold pages and /uz/; boss-digit
   }
 });
 
-test('built pages: protected pages are not prefilled; landings link no personal account', { skip }, () => {
+test('built pages: protected pages carry no Telegram draft; no page names the personal account', { skip }, () => {
   for (const url of PROTECTED_PATHS) {
     const html = distHtml(url);
     if (!html) continue;
-    assert.ok(!html.includes('t.me/XGame_changerx?text='), `${url} was prefilled`);
+    assert.doesNotMatch(html, /t\.me\/[A-Za-z0-9_]+\?text=/, `${url} was prefilled`);
   }
   for (const page of PAGES.values()) {
-    if (page.status !== 'published' || PROTECTED_PATHS.includes(page.url as never) || page.designVariant === 'warm-market-signals') continue;
+    if (page.status !== 'published' || page.designVariant === 'warm-market-signals') continue;
     const html = distHtml(page.url);
     if (!html) continue;
-    // Visible markup only: the analytics click handlers in <head> and the
-    // JSON-LD sameAs belong to the templates of the protected pages and move
-    // with their revision (WP-12).
-    const body = (html.match(/<body\b[^>]*>([\s\S]*)<\/body>/)?.[1] ?? '').replace(/<script\b[\s\S]*?<\/script>/g, '');
-    assert.ok(!body.includes('XGame_changerx'), `${page.url} links the personal account`);
+    // The whole document since the protected revision (WP-12): visible markup,
+    // the click handlers in <head> and JSON-LD sameAs alike.
+    assert.ok(!html.includes('XGame_changerx'), `${page.url} names the personal account`);
   }
   const html = distHtml('/ru/stoimost-chat-bota/')!;
   assert.ok(html.includes(`href="tel:${STUDIO_PHONE}"`));

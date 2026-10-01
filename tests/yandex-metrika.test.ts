@@ -361,9 +361,14 @@ test('metrika: an unparseable referer is simply omitted', () => {
 
 // ── goals ────────────────────────────────────────────────────────────────────
 
-function click(h: Harness, href: string) {
-  h.fire('click', { target: { closest: () => ({ getAttribute: () => href }) } });
+/** A click on a link with this href and, optionally, other attributes. */
+function click(h: Harness, href: string, attrs: Record<string, string> = {}) {
+  const getAttribute = (name: string) => (name === 'href' ? href : attrs[name] ?? null);
+  h.fire('click', { target: { closest: () => ({ getAttribute }) } });
 }
+
+/** The studio's work Telegram as every template renders it (src/shared/studio-contact.ts). */
+const STUDIO = { 'data-contact': 'studio' };
 
 test('metrika: the goal catalogue is closed and every goal is fired somewhere', () => {
   assert.deepEqual([...YANDEX_METRIKA_GOALS], [
@@ -443,7 +448,7 @@ test("metrika: the chat's first-screen links — chatgpt.com adds no tag goal, t
 test('metrika: CTA clicks report their goal and nothing else', () => {
   const h = harness();
   h.run();
-  click(h, 'https://t.me/XGame_changerx');
+  click(h, 'https://t.me/studio_work', STUDIO);
   click(h, '/ru/gpt-chat/');
   click(h, '/ru/tarify-ai-chat/');
   click(h, '/ru/blog/');
@@ -460,16 +465,19 @@ test('metrika: CTA clicks report their goal and nothing else', () => {
   for (const call of reported) assert.equal(call.length, 3);
 });
 
-test('metrika: Telegram goals are split by handle, never by the prefilled text', () => {
+test('metrika: the studio goal follows the studio-contact marker; bots are split by handle, never by the prefilled text', () => {
   const h = harness();
   h.run();
-  click(h, 'https://t.me/XGame_changerx?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5');
-  click(h, 'https://t.me/XGame_changerx/');
-  click(h, 'https://t.me/gptbot_javob_bot?start=site_ru');
+  click(h, 'https://t.me/studio_work?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5', STUDIO);
+  click(h, 'https://t.me/studio_work/', STUDIO);
+  click(h, 'https://t.me/gptbotuz_bot?start=site_ru');
   click(h, 'https://t.me/BormiMarketBot?start=buyer_site_uz');
   click(h, 'https://t.me/GPTBot_support');
   // A draft that merely mentions a bot must not turn the studio link into one.
-  click(h, 'https://t.me/XGame_changerx?text=my_bot');
+  click(h, 'https://t.me/studio_work?text=my_bot', STUDIO);
+  // Without the marker an account is no studio contact, whatever its handle:
+  // naming a work Telegram in site.json needs no edit of the tag.
+  click(h, 'https://t.me/XGame_changerx');
   assert.deepEqual(goals(h.calls).map((c) => c[2]), [
     'telegram_cta_click', 'telegram_cta_studio',
     'telegram_cta_click', 'telegram_cta_studio',
@@ -477,6 +485,7 @@ test('metrika: Telegram goals are split by handle, never by the prefilled text',
     'telegram_cta_click', 'telegram_cta_bot',
     'telegram_cta_click',
     'telegram_cta_click', 'telegram_cta_studio',
+    'telegram_cta_click',
   ]);
 });
 

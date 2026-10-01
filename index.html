@@ -339,9 +339,12 @@ s.setItem(K,JSON.stringify(r));
               target_url: target
             });
           }
-          // The studio's own contact handles, mirroring content/global/site.json.
-          // Everything else on t.me is one of our product bots.
-          var isContactTg = isTg && /t\.me\/(XGame_changerx|GPTBot_support)(\b|\/|$)/i.test(href);
+          // The studio's contact is the link every template marks data-contact="studio"
+          // (src/shared/studio-contact.ts): the work Telegram named in
+          // content/global/site.json, if any. The handle is never matched here, so a
+          // new work account needs no edit of this block. Everything else on t.me is
+          // one of our product bots.
+          var isContactTg = isTg && el.getAttribute('data-contact') === 'studio';
           if (isTg) {
             gtag('event','telegram_open_attempt',{
               page_path: location.pathname,
@@ -533,10 +536,11 @@ s.setItem(K,JSON.stringify(r));
     var tme = href.toLowerCase().indexOf('t.me/');
     if (tme > -1 || href.indexOf('tg:') === 0) {
       goal('telegram_cta_click');
-      // Which Telegram: the studio contact or one of the product bots. Only the
+      // Which Telegram: the studio contact (the link marked data-contact="studio",
+      // src/shared/studio-contact.ts) or one of the product bots. Only the
       // handle is looked at, never the prefilled text that may follow it.
       var handle = tme > -1 ? href.slice(tme + 5).split('?')[0].split('#')[0].split('/')[0].toLowerCase() : '';
-      if (handle === 'xgame_changerx') goal('telegram_cta_studio');
+      if (el.getAttribute('data-contact') === 'studio') goal('telegram_cta_studio');
       else if (handle.length > 3 && handle.slice(-3) === 'bot') goal('telegram_cta_bot');
       return;
     }

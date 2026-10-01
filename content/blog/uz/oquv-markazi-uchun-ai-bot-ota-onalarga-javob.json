@@ -97,8 +97,8 @@
     },
     {
       "type": "cta",
-      "text": "O‘quv markazingiz uchun bot stsenariysini Telegram’da muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "O‘quv markazingiz uchun bot stsenariysini muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -160,12 +160,12 @@
     },
     {
       "q": "Ishga tushirish qancha vaqt oladi?",
-      "a": "Muddat kurslar soni va jadval tizimiga bog‘liq. Aniq holatni Telegram’da muhokama qilamiz."
+      "a": "Muddat kurslar soni va jadval tizimiga bog‘liq. Aniq holatni telefon yoki e-mail orqali muhokama qilamiz."
     }
   ],
   "cta": {
-    "label": "Telegram’da o‘quv markazi boti bo‘yicha maslahat",
-    "href": "https://t.me/XGame_changerx"
+    "label": "O‘quv markazi boti bo‘yicha maslahat",
+    "href": "#contact"
   },
   "internalLinks": [
     {

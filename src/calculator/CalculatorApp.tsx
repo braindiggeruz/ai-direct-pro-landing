@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
-import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
+import { STUDIO_CONTACT_PROPS, STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
   buildEstimateSummary,
@@ -468,7 +468,7 @@ export default function CalculatorApp() {
                 </button>
                 <a
                   href={sendHref}
-                  {...(SEND_BY_TELEGRAM ? { target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
+                  {...(SEND_BY_TELEGRAM ? { ...STUDIO_CONTACT_PROPS, target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
                   onClick={() => sendEstimate('result')}
                   className="btn-primary min-h-12 text-center"
                 >
@@ -536,7 +536,7 @@ export default function CalculatorApp() {
                       ) : leadError !== 'form' && (
                         <a
                           href={sendHref}
-                          {...(SEND_BY_TELEGRAM ? { target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
+                          {...(SEND_BY_TELEGRAM ? { ...STUDIO_CONTACT_PROPS, target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
                           onClick={() => sendEstimate('lead_error')}
                           className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
                         >

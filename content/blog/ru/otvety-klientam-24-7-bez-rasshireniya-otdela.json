@@ -137,7 +137,7 @@
     {
       "type": "cta",
       "text": "Запустить ночной AI-режим под нишу",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -176,8 +176,8 @@
     }
   ],
   "cta": {
-    "label": "Запросить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

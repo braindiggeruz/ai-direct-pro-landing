@@ -1,9 +1,9 @@
 import type { Dict } from '../i18n';
-import { track } from '../lib/cta';
+import { CONTACT_HREF, track } from '../lib/cta';
 import { GradientBackground } from './animate-ui/components/backgrounds/gradient';
 import PremiumImage from './PremiumImage';
 
-type Props = { t: Dict; ctaUrl: string };
+type Props = { t: Dict };
 
 // Words to visually emphasize inside short bullets (per language by index)
 const BULLET_ACCENTS: Record<string, string[]> = {
@@ -26,7 +26,7 @@ function HighlightBullet({ text, accent }: { text: string; accent?: string }) {
   );
 }
 
-export default function Hero({ t, ctaUrl }: Props) {
+export default function Hero({ t }: Props) {
   // crude language detection from the bullet text (RU vs UZ)
   const isRu = t.hero.bullets[0].includes('секунд');
   const accents = isRu ? BULLET_ACCENTS.ru : BULLET_ACCENTS.uz;
@@ -83,14 +83,12 @@ export default function Hero({ t, ctaUrl }: Props) {
             <div className="mt-6 flex flex-col items-stretch sm:items-start gap-3">
               <a
                 data-testid="hero-cta-primary"
-                href={ctaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={CONTACT_HREF}
                 onClick={() => track('click_hero_cta')}
                 className="btn-primary text-base !py-4 sm:!py-3.5 w-full sm:w-auto"
               >
                 {t.hero.cta}
-                <TgIcon />
+                <ArrowIcon />
               </a>
 
               <p className="text-xs text-white/60">{t.hero.micro}</p>
@@ -140,10 +138,12 @@ export default function Hero({ t, ctaUrl }: Props) {
   );
 }
 
-function TgIcon() {
+// The button leads to the contact section, not to Telegram, so it carries the
+// arrow the other homepage buttons use instead of the Telegram plane.
+function ArrowIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M22 3 2.5 10.5c-.9.35-.88 1.65.05 1.95l4.7 1.5L9.5 21c.4 1.05 1.8 1.2 2.4.25l2.95-4.55 5.3 3.9c.95.7 2.3.15 2.5-1.05L23 4.3c.2-1.1-.95-2-1.95-1.3Z" fill="#04101A"/>
+      <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

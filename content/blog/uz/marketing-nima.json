@@ -286,7 +286,7 @@
     {
       "type": "cta",
       "text": "Qaysi kanal sizning biznesingizga mos kelishini birgalikda ko‘rib chiqamiz — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -317,7 +317,7 @@
   ],
   "cta": {
     "label": "Marketing bo‘yicha maslahat olish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

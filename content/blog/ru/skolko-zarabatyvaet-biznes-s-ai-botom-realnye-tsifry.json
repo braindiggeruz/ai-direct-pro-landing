@@ -155,7 +155,7 @@
     {
       "type": "cta",
       "text": "Посчитать окупаемость для вашего бизнеса",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "p",
@@ -185,8 +185,8 @@
     }
   ],
   "cta": {
-    "label": "Запросить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

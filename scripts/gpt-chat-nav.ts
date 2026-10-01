@@ -22,10 +22,13 @@ export type NavLink = { href: string; text: string };
 
 export function gptChatNavLinks(page: Page): NavLink[] {
   const uz = page.locale === 'uz';
+  // /uz/chat-bot-narxi/ prices business bots (from 990 000 so‘m), not the free
+  // chat, so the Uzbek link says so instead of «Tariflar» (paid-chat plan
+  // WP-12, F10): a chat visitor must not read it as the chat's own price.
   const curated: NavLink[] = uz
     ? [
         { href: '/uz/gpt-chat-qollanma/', text: 'AI-chat qo‘llanmasi' },
-        { href: '/uz/chat-bot-narxi/', text: 'Tariflar' },
+        { href: '/uz/chat-bot-narxi/', text: 'Biznes bot narxlari' },
         { href: '/uz/biznes-uchun-ai-bot/', text: 'Biznes uchun AI' },
         { href: '/uz/blog/', text: 'Blog' },
       ]

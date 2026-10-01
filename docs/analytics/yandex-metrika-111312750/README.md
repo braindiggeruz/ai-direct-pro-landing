@@ -108,7 +108,7 @@ The tag never reads `.value`, `FormData`, `localStorage`, `sessionStorage`,
 | `gpt_chat_open` | head block, delegated click | `/gpt-chat/`, `/gpt-uzbek-tilida/` |
 | `pricing_cta_click` | head block, delegated click | slug contains `tarify` or `narx` |
 | `lead_form_submit_success` | `src/calculator/CalculatorApp.tsx` | **only after the server accepted the lead** |
-| `telegram_cta_studio` | head block, delegated click | the studio contact `t.me/XGame_changerx` (with or without `?text=`); fires **in addition to** `telegram_cta_click` |
+| `telegram_cta_studio` | head block, delegated click | a link marked `data-contact="studio"`: the studio's work Telegram from `content/global/site.json` `studioTelegram` (with or without `?text=`); fires **in addition to** `telegram_cta_click`. Since 2026-10-01 (paid-chat WP-12, decision L14) no work Telegram is named and the personal account is no longer linked, so this goal does not fire until one is |
 | `telegram_cta_bot` | head block, delegated click | a `t.me/<name>bot` product bot; fires **in addition to** `telegram_cta_click` |
 | `phone_click` | head block, delegated click | any `tel:` link |
 | `lead_form_success` | page lead form (`scripts/lead-form.ts`, inline) and the AI chat's lead form (`AiLeadForm.tsx`, next to `chat_lead_success`) | **only after `/api/gpt/lead` answered `ok:true`** |
@@ -129,8 +129,11 @@ keep counting exactly as before; the six added 2026-09-29 split them by source.
 `telegram_cta_studio`, `phone_click`. Leads are `lead_form_success` +
 `calculator_lead_success`: the chat's form fires `lead_form_success` too, the
 calculator does not, so nothing is counted twice. `chat_opened` and
-`chat_limit_hit` come from React through `reachYandexGoalOnce()`; the head block
-is unchanged, so `index.html` and every prerendered `<head>` stay byte for byte.
+`chat_limit_hit` come from React through `reachYandexGoalOnce()`; WP-09 left the
+head block unchanged. WP-12 (2026-10-01) changed one line of it: the studio goal
+keys off the `data-contact="studio"` marker instead of a handle, so naming a work
+Telegram needs no edit of the tag. `index.html` and every prerendered `<head>`
+still carry the block byte for byte.
 
 The lead goals are why `src/lib/analytics/yandexMetrika.ts` exists: markup cannot
 express "fire after the response came back ok". A submit *click* is not a lead,

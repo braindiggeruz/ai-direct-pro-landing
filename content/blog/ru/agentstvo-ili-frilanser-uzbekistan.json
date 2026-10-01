@@ -157,7 +157,7 @@
     {
       "type": "cta",
       "text": "Разобрать вашу задачу и смету",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -184,7 +184,7 @@
   ],
   "cta": {
     "label": "Обсудить задачу",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "интернет-реклама в Ташкенте под ключ", "locale": "ru", "type": "contextual", "priority": 1 },

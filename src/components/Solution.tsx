@@ -1,7 +1,7 @@
 import type { Dict } from '../i18n';
-import { track } from '../lib/cta';
+import { CONTACT_HREF, track } from '../lib/cta';
 
-export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
+export default function Solution({ t }: { t: Dict }) {
   const benefitGroups = [
     t.solution.benefits.slice(0, 2),
     t.solution.benefits.slice(2, 4),
@@ -47,9 +47,7 @@ export default function Solution({ t, ctaUrl }: { t: Dict; ctaUrl: string }) {
             <div className="mt-8">
               <a
                 data-testid="solution-cta"
-                href={ctaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={CONTACT_HREF}
                 onClick={() => track('click_demo_cta', { source: 'solution' })}
                 className="btn-primary"
               >

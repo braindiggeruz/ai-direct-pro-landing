@@ -6,7 +6,7 @@
 
 | Выкат (production) | Коммиты | Когда | Deployment | Файлов контента |
 |---|---|---|---|---|
-| **pending: релиз R3** | WP-09 (`6d69b68d`, `c097e937`), WP-10 (`d7ab468c`, `d39cece1`), WP-11 и следующий WP-12 ветки `paid-chat/prod-readiness` | не выкачен | — | WP-10: 0; WP-11: 108 страниц + `content/global/site.json` |
+| **pending: релиз R3** | WP-09 (`6d69b68d`, `c097e937`), WP-10 (`d7ab468c`, `d39cece1`), WP-11 (`ea50bd9c`, `e11524f0`) и WP-12 (SHA — в `STATE.json` `paid_chat_prod_2026.commit`) ветки `paid-chat/prod-readiness` | не выкачен | — | WP-10: 0; WP-11: 108 страниц + `content/global/site.json`; WP-12: 2 страницы, 159 статей (6 защищённых), `site.json` |
 
 ## WP-10 — ленивые части AI-чата (релиз R3, не выкачен)
 
@@ -53,3 +53,30 @@
 | `/ru/kalkulyator-stoimosti-telegram-bota/` | — | Шаг «…или откройте Telegram» → «…или отправьте расчёт нам напрямую — кнопкой под итогом» (калькулятор теперь отправляет расчёт на e-mail) | нет |
 | `/ru/avtor-boris-gerasimov/`, `/uz/muallif-boris-gerasimov/` | — | Сообщить об ошибке в материале: «Борису в Telegram» / «Borisga Telegram orqali» → на `ceo@gptbot.uz`, как уже в FAQ этих страниц | нет |
 | `/llms.txt`, `/llms-full.txt` | — | Дата «Last updated» → 2026-10-01: контакты в них сменились в WP-11 | — |
+
+## WP-12 — одна ревизия защищённых страниц (релиз R3, не выкачен)
+
+Новая база гейта: `docs/seo/evidence/2026-10-01-paid-chat-honesty/reviewed-protected-pages.json` (`BASELINE` в `scripts/seo-protection.ts`). Предыдущая база `2026-09-30-gsc-driven` не тронута, её sha256 записан в новой (`previousRevisionSha256`) и проверяется тестом. На всех десяти страницах меняется одно поле — `bodyTextSha256`. Title, H1, description, robots, googlebot, canonical, hreflang и внутренние ссылки — те же, что в `2026-09-30-gsc-driven`. `seo-protection check` — 10/10 на новой базе.
+
+Решение владельца L14: рабочий Telegram не назван, поэтому личный `t.me/XGame_changerx` уходит со всего сайта, кроме GPTBot Market. Остаются телефон, `ceo@gptbot.uz` и формы. Telegram студии — одна строка `studioTelegram` в `content/global/site.json`.
+
+| URL | Отметка | Что изменилось | Сниппет/H1 |
+|---|---|---|---|
+| `/uz/gpt-uzbek-tilida/` | **[P]** | Блок под чатом. Список условий: «Bepul chat uchun ro‘yxatdan o‘tish… so‘ralmaydi»; «Bepul chatdan foydalanish uchun to‘lov shart emas. Pullik AI paket ixtiyoriy: u mavjud bo‘lganda, shartlari chatning o‘zida ko‘rsatiladi» вместо «To‘lovli tarif hali ishga tushirilmagan…»; «Savollar … serverimizga va xorijdagi AI-provayderlarga yuboriladi…» вместо «Suhbat tarixi brauzeringizda qoladi». Абзац о боте больше не обещает «suhbatni Telegramda davom ettirish»: «Telegramda GPTBot Javob boti ham bor: uning o‘z bepul limiti bor…». Строки связи: телефон и e-mail вместо Telegram, noscript — «bizga qo‘ng‘iroq qiling: +998 50 587 07 20». Навигация «Tariflar» → «Biznes bot narxlari» (адрес тот же). Футер: e-mail вместо Telegram. FAQ (только `.md`) — те же формулировки. `lastReviewedAt`/`updatedAt` 2026-10-01 | нет |
+| `/ru/gpt-chat/` | **[P]** | То же по-русски: «Для бесплатного чата оплата не нужна. Платный AI-пакет — по желанию: когда он доступен, его условия показаны в самом чате»; «Вопросы отправляются на наш сервер и зарубежным AI-провайдерам…»; «В Telegram есть и бот GPTBot Javob…»; «Быстрый — позвонить нам или написать на ceo@gptbot.uz»; noscript «позвоните нам»; футер. `lastReviewedAt`/`updatedAt` 2026-10-01 | нет |
+| `/` | **[P]** | Оболочка для краулеров: «Запустить демо в Telegram» → «Запустить демо» и «Запросить демо», обе ведут на новый раздел `#contact` (заголовок финального блока, «Позвонить: +998 50 587 07 20 · E-mail: ceo@gptbot.uz», «Отвечаем Пн–Сб 10:00–19:00.»). FAQ «Что будет после обращения? — Вы звоните или пишете на e-mail…». Футер: e-mail вместо Telegram. React-лендинг: все кнопки «демо» ведут на раздел контактов (`FinalCTA`, `id="contact"`), футер — телефон и e-mail, мобильная панель — только телефон | нет |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/` | **[P]** | Две строки «Qo‘ng‘iroq qilish yoki Telegram» → «… yoki e-mail yozish» (`mailto:`), блок входа в чат «GPTBot AI · …» → «GPTBot.uz · O‘zbek tilida», футер | нет |
+| `/ru/blog/chatgpt-i-claude-v-uzbekistane/` | **[P]** | «Позвонить или написать на e-mail»; кнопка «Запросить демо AI-бота — на русском и узбекском»; вместо конечной кнопки «Запросить демо в Telegram» — карточка контактов; блок входа «GPTBot.uz · На русском»; футер | нет |
+| `/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/` | **[P]** | Строка связи, блок входа «GPTBot.uz · На русском», футер | нет |
+| `/uz/blog/chatgptga-qanday-kirish-mumkin/` | **[P]** | Строка связи, блок входа, футер. Упоминание «chatgpt.com» в «Rasmiy kirish sahifasi chatgpt.com domenida…» стало ссылкой на `https://chatgpt.com/` — видимый текст тот же, внешние ссылки гейт не видит | нет |
+| `/uz/blog/chatgpt-uzbek-tilida-promptlar/` | **[P]** | Блок входа «GPTBot.uz · O‘zbek tilida», футер | нет |
+| `/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/` | **[P]** | Строка связи, блок входа, футер | нет |
+| `/uz/blog/ai-chat-nima-va-qanday-turlari-bor/` | **[P]** | Кнопка в шапке «Telegramda demo ko‘rish» → «Demo so‘rash» (`#contact`), вместо конечной кнопки — карточка контактов, футер | нет |
+| 153 незащищённые статьи и блог-индексы `/ru/blog/`, `/uz/blog/` | — | 259 кнопок, которые вели в личный Telegram, ведут на карточку контактов `#contact` (её шаблон блога рисует на месте конечной кнопки). Надписи «…в Telegram» нейтральные: «Запросить демо», «Demo so‘rash», «Обсудить задачу»; кнопки про Telegram-бота как продукт не менялись. 11 строк «{call} или {tg}» → e-mail, 15 текстов с адресом и 27 фраз «напишите в Telegram», «Telegram’da muhokama qilamiz» → телефон или e-mail. Футер и мобильная панель — как на лендингах; у блог-индексов — кнопка «Связаться с нами» и карточка. `dateModified` статей не менялся: их содержание то же | нет |
+| все страницы | — | `<head>`: события `contact_click` (GA4) и цель `telegram_cta_studio` (Метрика) считают ссылку с меткой `data-contact="studio"`, а не личный ник; пока рабочего Telegram нет, ни то ни другое не срабатывает. JSON-LD: `Organization.email` и `ContactPoint.email` = `ceo@gptbot.uz`, в `Person.sameAs` нет личного Telegram. Копия блока Метрики в `index.html` — байт в байт | — |
+
+**Что гейт не видит** (полный список — `invisibleToGate` в новой базе): экраны чата R1 (карточка лимита, честный 429, «Стоп»), WP-09 (бренд «GPTBot.uz», строка «не продукт OpenAI», лимиты 15/5, без «Plus»), WP-10 (скрипт из манифеста, ленивые части, `/.vite/manifest.json`), WP-11 (Markdown-копии, B2B-карточка чата, сообщения `/api/gpt/lead`), WP-12 (обработчики кликов в `<head>`, JSON-LD, React-лендинг главной, Meta Pixel: клик по кнопке «демо» больше не `Lead`, клик по телефону, e-mail или Telegram — `Contact`; ссылка на chatgpt.com; FAQ и даты чат-страниц; Markdown-копии).
+
+**Замеры C22 и C11.** Ревизия трогает три их страницы (`/uz/gpt-uzbek-tilida/`, статьи о входе и о загрузке), но не их рычаги: title, description, H1, FAQ[0], раздел `#chatgpt-kirish` и ссылки в тексте те же. Выкат внутри окна чтения T0+14/T0+28 всё равно добавляет помеху. Дату R3 выбирает релиз; её нужно записать здесь, в строке «Выкаты». Первый экран чат-страниц ревизия не меняет: блок с текстом стоит под окном чата.
+
+**Откат:** `git revert` коммита WP-12 возвращает шаблоны, контент и `BASELINE` вместе, затем guarded-деплой. Старые базы не редактируются.

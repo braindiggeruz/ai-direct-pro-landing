@@ -32,7 +32,8 @@ export type Dict = {
   };
   trust: { h: string; t: string; badges: readonly string[] };
   faq: { h: string; items: readonly { q: string; a: string }[] };
-  final: { h: string; sub: string; cta: string; micro: string };
+  /** The contact section (#contact): every homepage demo button leads here. */
+  final: { h: string; sub: string; call: string; telegram: string; micro: string };
   footer: { brand: string; city: string; tag: string; privacy: string; consent: string };
   sticky: string;
 };
@@ -54,7 +55,7 @@ export const i18n: Record<Lang, Dict> = {
         'Заявки сразу менеджеру',
         'RU + UZ · демо под вашу нишу',
       ],
-      cta: 'Запустить демо в Telegram',
+      cta: 'Запросить демо',
       ctaSecondary: 'Посмотреть, как работает',
       micro: 'Без сложной настройки. Покажем сценарий под вашу нишу.',
       stats: [
@@ -137,7 +138,7 @@ export const i18n: Record<Lang, Dict> = {
         { t: 'Демо-сценарий', d: 'AI-диалог, собранный под вашу нишу.' },
         { t: 'Рекомендация', d: 'Как автоматизировать первый контакт уже сейчас.' },
       ],
-      cta: 'Получить демо в Telegram',
+      cta: 'Получить демо',
     },
     trust: {
       h: 'Не магия. Просто быстрый первый контакт.',
@@ -158,14 +159,15 @@ export const i18n: Record<Lang, Dict> = {
         { q: 'Можно ли на русском и узбекском?', a: 'Да, сценарий можно адаптировать под RU и UZ Latin.' },
         { q: 'Нужен ли сайт?', a: 'Нет. Можно вести клиента из Telegram Ads на этот мини-лендинг и дальше в Telegram-бот.' },
         { q: 'Для каких бизнесов подходит?', a: 'Для тех, кто получает заявки в Instagram Direct, Telegram или WhatsApp: клиники, салоны, обучение, магазины, услуги, недвижимость.' },
-        { q: 'Что будет после заявки?', a: 'Вы попадёте в Telegram, где можно посмотреть демо и обсудить сценарий под вашу нишу.' },
+        { q: 'Что будет после обращения?', a: 'Вы звоните или пишете на e-mail — мы показываем демо и обсуждаем сценарий под вашу нишу.' },
       ],
     },
     final: {
       h: 'Пока менеджер думает — клиент уходит',
       sub: 'Запустите AI-сейлза, который отвечает сразу, собирает контакты и не теряет заявки.',
-      cta: 'Перейти в Telegram',
-      micro: 'Демо займёт 1 минуту.',
+      call: 'Позвонить',
+      telegram: 'Написать в Telegram',
+      micro: 'Отвечаем Пн–Сб 10:00–19:00.',
     },
     footer: {
       brand: 'GPTBot.uz',
@@ -193,7 +195,7 @@ export const i18n: Record<Lang, Dict> = {
         'Lidlar darhol menejerga',
         'RU + UZ · nishingizga demo',
       ],
-      cta: 'Telegram’da demoni ko‘rish',
+      cta: 'Demo so‘rash',
       ctaSecondary: 'Qanday ishlashini ko‘rish',
       micro: 'Murakkab sozlash kerak emas. Nishingiz uchun ssenariy ko‘rsatamiz.',
       stats: [
@@ -276,7 +278,7 @@ export const i18n: Record<Lang, Dict> = {
         { t: 'Demo-ssenariy', d: 'Nishingizga moslangan AI-dialog.' },
         { t: 'Tavsiya', d: 'Birinchi kontaktni qanday avtomatlashtirish.' },
       ],
-      cta: 'Telegram’da demo olish',
+      cta: 'Demo olish',
     },
     trust: {
       h: 'Sehr emas. Shunchaki tez birinchi kontakt.',
@@ -297,14 +299,15 @@ export const i18n: Record<Lang, Dict> = {
         { q: 'Rus va o‘zbek tilida ishlaydimi?', a: 'Ha, ssenariyni RU va UZ Latin uchun moslash mumkin.' },
         { q: 'Sayt kerakmi?', a: 'Yo‘q. Mijozni Telegram Ads’dan ushbu mini-lendingga va keyin Telegram-botga olib borish mumkin.' },
         { q: 'Qaysi biznes uchun mos?', a: 'Instagram Direct, Telegram yoki WhatsApp orqali ariza qabul qiladiganlar uchun: klinika, salon, ta’lim, do‘kon, xizmat, ko‘chmas mulk.' },
-        { q: 'Arizadan keyin nima bo‘ladi?', a: 'Siz Telegram’ga o‘tasiz, u yerda demoni ko‘rib, nishingiz uchun ssenariyni muhokama qilamiz.' },
+        { q: 'Murojaatdan keyin nima bo‘ladi?', a: 'Siz qo‘ng‘iroq qilasiz yoki e-mail yozasiz — biz demoni ko‘rsatamiz va nishingiz uchun ssenariyni muhokama qilamiz.' },
       ],
     },
     final: {
       h: 'Menejer o‘ylab turguncha — mijoz ketadi',
       sub: 'Darhol javob beradigan, kontakt yig‘adigan va lidlarni yo‘qotmaydigan AI-sotuvchini ishga tushiring.',
-      cta: 'Telegram’ga o‘tish',
-      micro: 'Demo 1 daqiqa oladi.',
+      call: 'Qo‘ng‘iroq qilish',
+      telegram: 'Telegramda yozish',
+      micro: 'Du–Sha 10:00–19:00 javob beramiz.',
     },
     footer: {
       brand: 'GPTBot.uz',

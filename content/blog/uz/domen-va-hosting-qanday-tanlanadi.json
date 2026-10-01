@@ -135,7 +135,7 @@
     {
       "type": "cta",
       "text": "Domen va hosting bo‘yicha maslahat olish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -166,7 +166,7 @@
   ],
   "cta": {
     "label": "Domen va hosting bo‘yicha savol berish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

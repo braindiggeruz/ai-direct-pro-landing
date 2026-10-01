@@ -492,7 +492,7 @@
     {
       "type": "cta",
       "text": "Разобрать ночную воронку заявок",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -539,7 +539,7 @@
   ],
   "cta": {
     "label": "Получить разбор воронки",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

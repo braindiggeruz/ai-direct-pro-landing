@@ -1,4 +1,4 @@
-import type { BodyBlock, FaqItem, GlobalSEO, Page } from '../src/shared/types';
+import type { BodyBlock, FaqItem, Page } from '../src/shared/types';
 
 function e(value: string): string {
   return (value || '').replace(/[&<>"']/g, (character) => ({
@@ -17,6 +17,13 @@ function marketPath(locale: Page['locale']): string {
 function trustPath(locale: Page['locale']): string {
   return locale === 'uz' ? '/uz/market-ishonch/' : '/ru/market-doverie/';
 }
+
+// GPTBot Market is a separate product with its own support channel; the
+// studio contact of gptbot.uz (src/shared/studio-contact.ts, plan decision L14)
+// does not apply here. The footer used to read the site-wide `telegram` field,
+// which the protected-pages revision (paid-chat WP-12) removed, so the channel
+// is named where it is used.
+const MARKET_SUPPORT_URL = 'https://t.me/XGame_changerx';
 
 export function renderMarketHeader(
   page: Page,
@@ -279,9 +286,9 @@ export function renderMarketTrust(page: Page): string {
   </main>`;
 }
 
-export function renderMarketFooter(page: Page, global: GlobalSEO): string {
+export function renderMarketFooter(page: Page): string {
   const uz = page.locale === 'uz';
-  return `<footer class="market-footer"><div class="market-shell market-footer-row"><div><img src="/assets/market/gptbot-market-wordmark-dark.svg" width="255" height="48" alt="GPTBot Market" /><p>${uz ? 'GPTBot.uz mahsuloti. Ulangan do‘kon kataloglarida mahsulot topishga yordam beradi. Telegram, OpenAI yoki do‘konlar nomidan chiqmaydi.' : 'Продукт GPTBot.uz. Помогает находить товары в каталогах подключённых магазинов. Не выступает от имени Telegram, OpenAI или магазинов.'}</p></div><nav class="market-footer-links" aria-label="${uz ? 'Yordamchi havolalar' : 'Служебные ссылки'}"><a href="${trustPath(page.locale)}">${uz ? 'Ishonch markazi' : 'Центр доверия'}</a><a href="${uz ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/'}">${uz ? 'Maxfiylik' : 'Конфиденциальность'}</a><a href="${e(global.telegram || 'https://t.me/XGame_changerx')}" rel="nofollow noopener noreferrer" target="_blank">${uz ? 'Qo‘llab-quvvatlash' : 'Поддержка'}</a></nav></div></footer>`;
+  return `<footer class="market-footer"><div class="market-shell market-footer-row"><div><img src="/assets/market/gptbot-market-wordmark-dark.svg" width="255" height="48" alt="GPTBot Market" /><p>${uz ? 'GPTBot.uz mahsuloti. Ulangan do‘kon kataloglarida mahsulot topishga yordam beradi. Telegram, OpenAI yoki do‘konlar nomidan chiqmaydi.' : 'Продукт GPTBot.uz. Помогает находить товары в каталогах подключённых магазинов. Не выступает от имени Telegram, OpenAI или магазинов.'}</p></div><nav class="market-footer-links" aria-label="${uz ? 'Yordamchi havolalar' : 'Служебные ссылки'}"><a href="${trustPath(page.locale)}">${uz ? 'Ishonch markazi' : 'Центр доверия'}</a><a href="${uz ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/'}">${uz ? 'Maxfiylik' : 'Конфиденциальность'}</a><a href="${MARKET_SUPPORT_URL}" rel="nofollow noopener noreferrer" target="_blank">${uz ? 'Qo‘llab-quvvatlash' : 'Поддержка'}</a></nav></div></footer>`;
 }
 
 export const MARKET_FAQ_SCRIPT = `<script>

@@ -123,7 +123,7 @@
     {
       "type": "cta",
       "text": "Sayt bo‘yicha maslahat olish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -150,7 +150,7 @@
   ],
   "cta": {
     "label": "Sayt bo‘yicha maslahat olish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

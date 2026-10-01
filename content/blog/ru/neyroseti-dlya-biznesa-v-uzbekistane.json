@@ -243,8 +243,8 @@
     },
     {
       "type": "cta",
-      "text": "Посмотреть, как нейросеть отвечает вашим клиентам — демо в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Запросить демо: как нейросеть отвечает вашим клиентам",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -283,8 +283,8 @@
     }
   ],
   "cta": {
-    "label": "Запросить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

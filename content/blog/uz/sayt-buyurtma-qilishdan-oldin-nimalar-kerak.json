@@ -168,7 +168,7 @@
     {
       "type": "cta",
       "text": "Loyihangizni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -199,7 +199,7 @@
   ],
   "cta": {
     "label": "Loyihani muhokama qilish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

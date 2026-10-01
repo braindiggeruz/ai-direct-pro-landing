@@ -96,8 +96,8 @@
     },
     {
       "type": "cta",
-      "text": "Saloningiz uchun bot yozilish oqimini Telegram’da muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Saloningiz uchun bot yozilish oqimini muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -159,12 +159,12 @@
     },
     {
       "q": "Ishga tushirish qancha vaqt oladi?",
-      "a": "Muddat xizmatlar va jadval tizimiga bog‘liq. Aniq holatni Telegram’da muhokama qilamiz."
+      "a": "Muddat xizmatlar va jadval tizimiga bog‘liq. Aniq holatni telefon yoki e-mail orqali muhokama qilamiz."
     }
   ],
   "cta": {
-    "label": "Telegram’da salon boti bo‘yicha maslahat",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Salon boti bo‘yicha maslahat",
+    "href": "#contact"
   },
   "internalLinks": [
     {

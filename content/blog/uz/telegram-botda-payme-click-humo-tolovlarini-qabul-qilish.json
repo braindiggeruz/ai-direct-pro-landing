@@ -144,8 +144,8 @@
     },
     {
       "type": "cta",
-      "text": "Sizning biznesingiz uchun to‘lov oqimini Telegram’da muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Biznesingiz uchun to‘lov oqimini muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -180,12 +180,12 @@
     },
     {
       "q": "Bu narx qancha turadi?",
-      "a": "Narx integratsiya to‘plami va provayder shartlariga bog‘liq. \"Qutida\" narx ishlamaydi — aniq holat uchun Telegram’da muhokama qilamiz."
+      "a": "Narx integratsiya to‘plami va provayder shartlariga bog‘liq. \"Qutida\" narx ishlamaydi — aniq holat uchun telefon yoki e-mail orqali muhokama qilamiz."
     }
   ],
   "cta": {
-    "label": "Telegram’da demoni ochish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

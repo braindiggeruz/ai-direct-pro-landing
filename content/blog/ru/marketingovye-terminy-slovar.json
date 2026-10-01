@@ -320,7 +320,7 @@
     {
       "type": "cta",
       "text": "Обсудить маркетинг для вашего бизнеса",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -383,7 +383,7 @@
   ],
   "cta": {
     "label": "Обсудить маркетинг для бизнеса",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" },

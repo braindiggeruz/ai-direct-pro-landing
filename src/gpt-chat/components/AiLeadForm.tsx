@@ -6,6 +6,7 @@ import { fetchTurnstileConfig, sendLead } from '../api';
 import { EV, track } from '../analytics';
 import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika';
 import { parseContact, studioQuickContact, type StudioQuickContact } from '../contact';
+import { STUDIO_CONTACT_PROPS } from '../../shared/studio-contact';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
@@ -267,6 +268,7 @@ function QuickContactLink({
   if (quick.channel === 'phone') return <a href={quick.href} className={className}>{quick.display}</a>;
   return (
     <a
+      {...STUDIO_CONTACT_PROPS}
       href={quick.href}
       target="_blank"
       rel="nofollow noopener noreferrer"

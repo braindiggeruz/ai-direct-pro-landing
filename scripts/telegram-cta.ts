@@ -11,13 +11,13 @@
 // Which account that is comes from content/global/site.json `studioTelegram`
 // (src/shared/studio-contact.ts). It is empty while the studio has no work
 // account (paid-chat plan, decision L14): studioTelegramHref() then returns
-// null and every caller offers the phone instead.
+// null, every caller offers the phone and e-mail instead, and
+// withStudioTelegramPrefill() has nothing to rewrite.
 //
 // Used by scripts/prerender.ts (landings), scripts/prerender-blog.ts (articles
-// and blog indexes) and scripts/lead-form.ts. The ten protected pages keep the
-// bare link: scripts/seo-protection.ts pins them, and their one revision is
-// paid-chat WP-12.
-import { telegram as legacyTelegram } from '../content/global/site.json';
+// and blog indexes), scripts/contact-card.ts and scripts/lead-form.ts. The ten
+// protected pages keep the bare link: scripts/seo-protection.ts pins their
+// text, and the draft names the page.
 import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { PROTECTED_PATHS } from './seo-protection';
 
@@ -75,25 +75,21 @@ const BARE_LINK_PATHS: ReadonlySet<string> = new Set(['/uz/']);
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-// The studio links a template can render bare: the work account and, until
-// WP-12 moves the shared templates to it, the legacy `telegram` value that the
-// blog template still renders. Only an href that is exactly one of them (with
-// or without the trailing slash) is rewritten. Links that already carry a
-// query, other handles, JSON-LD and visible text are left alone.
-const BARE_STUDIO_HREFS = [...new Set([STUDIO_TELEGRAM_URL, legacyTelegram].filter((url): url is string => !!url))]
-  .map((url) => ({ url: url.replace(/\/$/, ''), re: new RegExp(`href="${escapeRe(url.replace(/\/$/, ''))}\\/?"`, 'g') }));
-
 /**
- * Rewrite every bare studio-contact href in a rendered document to the
- * prefilled one. Protected pages are returned unchanged.
+ * Rewrite every bare studio-contact href (exactly the configured work account,
+ * with or without the trailing slash) in a rendered document to the prefilled
+ * one. Links that already carry a query, other handles, JSON-LD and visible
+ * text are left alone. Protected pages are returned unchanged, and so is every
+ * page while no work account is configured. `studio` defaults to the
+ * configured account; tests pass one explicitly.
  */
 export function withStudioTelegramPrefill(
   html: string,
   opts: { locale: 'ru' | 'uz'; label: string; path: string },
+  studio: string | null = STUDIO_TELEGRAM_URL,
 ): string {
-  if (isProtectedPath(opts.path) || BARE_LINK_PATHS.has(opts.path)) return html;
-  return BARE_STUDIO_HREFS.reduce(
-    (out, { url, re }) => out.replace(re, () => `href="${prefilled(url, opts.locale, opts.label, opts.path)}"`),
-    html,
-  );
+  if (!studio || isProtectedPath(opts.path) || BARE_LINK_PATHS.has(opts.path)) return html;
+  const base = studio.replace(/\/$/, '');
+  const bare = new RegExp(`href="${escapeRe(base)}\\/?"`, 'g');
+  return html.replace(bare, () => `href="${prefilled(base, opts.locale, opts.label, opts.path)}"`);
 }

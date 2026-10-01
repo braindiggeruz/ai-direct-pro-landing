@@ -786,7 +786,7 @@
     {
       "type": "cta",
       "text": "Получить бесплатную консультацию",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -900,8 +900,8 @@
     }
   ],
   "cta": {
-    "label": "Открыть демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

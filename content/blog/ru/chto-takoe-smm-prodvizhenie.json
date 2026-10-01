@@ -222,7 +222,7 @@
     {
       "type": "cta",
       "text": "Обсудить продвижение в соцсетях",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -277,7 +277,7 @@
   ],
   "cta": {
     "label": "Обсудить SMM-продвижение",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижение в Ташкенте" },

@@ -205,7 +205,7 @@
     {
       "type": "cta",
       "text": "Собрать маркетинг-кит для вашей компании",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -260,7 +260,7 @@
   ],
   "cta": {
     "label": "Собрать маркетинг-кит",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/digital-marketing-tashkent/", "anchor": "Digital-маркетинг в Ташкенте" },

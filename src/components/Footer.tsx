@@ -1,6 +1,13 @@
 import type { Dict } from '../i18n';
 import type { Lang } from '../i18n';
-import { track } from '../lib/cta';
+import { CONTACT_HREF, track, trackContact } from '../lib/cta';
+import {
+  STUDIO_CONTACT_PROPS,
+  STUDIO_EMAIL,
+  STUDIO_PHONE,
+  STUDIO_PHONE_DISPLAY,
+  STUDIO_TELEGRAM_URL,
+} from '../shared/studio-contact';
 
 // Full footer with money pages (Batch A), niche pages, blog, contacts.
 // Niche pages still link out even when they're drafts in this build — the
@@ -64,7 +71,7 @@ const OTHER_LANG_PROMOTION = {
   },
 } as const;
 
-export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUrl: string }) {
+export default function Footer({ t, lang }: { t: Dict; lang: Lang }) {
   const isUz = lang === 'uz';
   const lSolutions = isUz ? 'Yechimlar' : 'Решения';
   const lNiches = isUz ? 'Nishlar' : 'Ниши';
@@ -74,7 +81,7 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
   const lBlog = isUz ? 'Blog' : 'Блог';
   const lSitemap = 'Sitemap';
   const lDemo = t.nav.cta;
-  const phoneLabel = isUz ? 'Qo‘ng‘iroq qilish: +998 50 587 07 20' : 'Позвонить: +998 50 587 07 20';
+  const phoneLabel = `${isUz ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PHONE_DISPLAY}`;
   const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko‘chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko‘chasi 35, Ташкент";
   // Same hours as openingHoursSpecification in scripts/jsonld-helpers.ts:
   // structured data has to describe something a visitor can see.
@@ -101,10 +108,8 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             </p>
             <a
               data-testid="footer-cta"
-              href={ctaUrl}
-              target="_blank"
-              rel="nofollow noopener noreferrer"
-              onClick={() => track('click_footer_cta', { contact_method: 'telegram', contact_kind: 'contact', locale: lang, page_kind: 'homepage', target_url: ctaUrl, cta_zone: 'footer_primary' })}
+              href={CONTACT_HREF}
+              onClick={() => track('click_footer_cta', { locale: lang, page_kind: 'homepage', cta_zone: 'footer_primary' })}
               className="btn-primary !py-2.5 !px-4 text-sm"
             >
               {lDemo}
@@ -198,18 +203,39 @@ export default function Footer({ t, lang, ctaUrl }: { t: Dict; lang: Lang; ctaUr
             <ul className="space-y-2.5 text-sm">
               <li>
                 <a
-                  href="tel:+998505870720"
+                  href={`tel:${STUDIO_PHONE}`}
                   data-testid="footer-phone"
+                  onClick={() => trackContact('phone', 'footer', lang)}
                   className="text-white/65 hover:text-brand-cyan transition"
                 >
                   {phoneLabel}
                 </a>
               </li>
               <li>
-                <a href="https://t.me/XGame_changerx" target="_blank" rel="nofollow noopener noreferrer" data-testid="footer-telegram" className="text-white/65 hover:text-brand-cyan transition">
-                  Telegram bot
+                <a
+                  href={`mailto:${STUDIO_EMAIL}`}
+                  data-testid="footer-email"
+                  onClick={() => trackContact('email', 'footer', lang)}
+                  className="text-white/65 hover:text-brand-cyan transition break-all"
+                >
+                  {STUDIO_EMAIL}
                 </a>
               </li>
+              {STUDIO_TELEGRAM_URL && (
+                <li>
+                  <a
+                    {...STUDIO_CONTACT_PROPS}
+                    href={STUDIO_TELEGRAM_URL}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    data-testid="footer-telegram"
+                    onClick={() => trackContact('telegram', 'footer', lang)}
+                    className="text-white/65 hover:text-brand-cyan transition"
+                  >
+                    Telegram
+                  </a>
+                </li>
+              )}
               <li className="text-white/50 leading-relaxed" data-testid="footer-office-address">{officeLabel}</li>
               <li className="text-white/50 leading-relaxed" data-testid="footer-office-hours">{hoursLabel}</li>
             </ul>

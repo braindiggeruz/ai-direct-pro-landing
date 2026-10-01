@@ -377,7 +377,7 @@
     {
       "type": "cta",
       "text": "Обсудить разработку сайта",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -416,7 +416,7 @@
   ],
   "cta": {
     "label": "Получить предложение по сайту",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

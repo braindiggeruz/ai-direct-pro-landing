@@ -218,9 +218,9 @@ export interface GlobalSEO {
   email?: string;
   /**
    * The studio's WORK Telegram (https://t.me/<handle>), or "" when there is
-   * none. The one setting behind every studio Telegram link on unprotected
-   * pages and in the chat (src/shared/studio-contact.ts). Empty means no
-   * Telegram is offered at all: phone, e-mail and forms remain (plan L14).
+   * none. The one setting behind every studio Telegram link on the site and
+   * in the chat (src/shared/studio-contact.ts). Empty means no Telegram is
+   * offered at all: phone, e-mail and forms remain (plan L14).
    */
   studioTelegram?: string;
   /** Named expert/founder used as Article author (Person) for E-E-A-T. */
@@ -229,14 +229,6 @@ export interface GlobalSEO {
   authorNameLatin?: string;
   /** Public profile URL for the named author (e.g. the About page). */
   authorUrl?: string;
-  /**
-   * Legacy contact link, read only by the surfaces the ten protected pages
-   * share: the homepage, the AI-chat page footer, the blog template, JSON-LD
-   * sameAs and defaultCTA. The one-time protected revision (paid-chat plan
-   * WP-12) moves them to `studioTelegram` and removes this field. New code
-   * reads src/shared/studio-contact.ts instead.
-   */
-  telegram?: string;
   instagram?: string;
   /** Human-readable single-line address (footer + JSON-LD short form). */
   address?: string;
@@ -259,7 +251,6 @@ export interface GlobalSEO {
    * (the founder's personal profiles are not the company's).
    */
   businessProfiles?: string[];
-  defaultCTA: { label: string; href: string };
   /** Geo coordinates for the published address — drives Organization.geo. */
   geo?: { latitude: number; longitude: number };
   /** Office hours string (e.g. "Mo-Sa 10:00-19:00") for reference. */

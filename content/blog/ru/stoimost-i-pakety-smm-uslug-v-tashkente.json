@@ -266,7 +266,7 @@
     {
       "type": "cta",
       "text": "Получить расчёт под свой бизнес",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -297,7 +297,7 @@
   ],
   "cta": {
     "label": "Получить расчёт под свой бизнес",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-услуги в Ташкенте" },

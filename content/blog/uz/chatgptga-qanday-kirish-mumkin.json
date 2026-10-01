@@ -42,7 +42,7 @@
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ni biznes jarayoniga ulash kerak bo‘lsa, {call} yoki {tg}: vazifani eshitamiz va qaysi yechim mosligini aytamiz.",
+      "text": "ChatGPT’ni biznes jarayoniga ulash kerak bo‘lsa, {call} yoki {mail}: vazifani eshitamiz va qaysi yechim mosligini aytamiz.",
       "links": [
         {
           "token": "call",
@@ -50,9 +50,9 @@
           "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram"
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
         }
       ]
     },
@@ -106,8 +106,15 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Qidiruv natijasidagi reklamaga emas, manzil satridagi domen nomiga qarang. Rasmiy kirish sahifasi chatgpt.com domenida bo‘lishi kerak. OpenAI nomiga o‘xshash, lekin boshqa harflar bilan yozilgan saytlar login ma’lumotini o‘g‘irlashi mumkin."
+      "type": "linkp",
+      "text": "Qidiruv natijasidagi reklamaga emas, manzil satridagi domen nomiga qarang. Rasmiy kirish sahifasi {official} domenida bo‘lishi kerak. OpenAI nomiga o‘xshash, lekin boshqa harflar bilan yozilgan saytlar login ma’lumotini o‘g‘irlashi mumkin.",
+      "links": [
+        {
+          "token": "official",
+          "target": "https://chatgpt.com/",
+          "anchor": "chatgpt.com"
+        }
+      ]
     },
     {
       "type": "h2",

@@ -151,11 +151,11 @@
     {
       "type": "cta",
       "text": "Do'kon uchun botni ishga tushirish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "p",
-      "text": "Nishangizga mos katalog va Payme/Click to'lovli ishlaydigan bot demosini ko'rsatamiz — Telegram'ga yozing, ish kuni davomida javob beramiz."
+      "text": "Nishangizga mos katalog va Payme/Click to'lovli ishlaydigan bot demosini ko'rsatamiz — qo'ng'iroq qiling yoki e-mail yozing, ish kuni davomida javob beramiz."
     }
   ],
   "faq": [
@@ -181,8 +181,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram'da demo so'rash",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

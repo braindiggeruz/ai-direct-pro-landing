@@ -97,8 +97,8 @@
     },
     {
       "type": "cta",
-      "text": "Klinikangiz uchun bot stsenariysini Telegram’da muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Klinikangiz uchun bot stsenariysini muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -160,12 +160,12 @@
     },
     {
       "q": "Ishga tushirish qancha vaqt oladi?",
-      "a": "Muddat stsenariylar soni va jadval tizimiga bog‘liq. Aniq holatni Telegram’da muhokama qilib bosqichlarni belgilaymiz."
+      "a": "Muddat stsenariylar soni va jadval tizimiga bog‘liq. Aniq holatni telefon yoki e-mail orqali muhokama qilib bosqichlarni belgilaymiz."
     }
   ],
   "cta": {
-    "label": "Telegram’da klinika boti bo‘yicha maslahat",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Klinika boti bo‘yicha maslahat",
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -272,7 +272,7 @@
     {
       "type": "cta",
       "text": "Получить расчёт после первичного аудита",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -319,7 +319,7 @@
   ],
   "cta": {
     "label": "Рассчитать SEO для сайта",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/seo-prodvizhenie-saytov-tashkent/", "anchor": "SEO-продвижение сайтов в Ташкенте" },

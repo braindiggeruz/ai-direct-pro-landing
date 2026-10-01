@@ -169,7 +169,7 @@
         { "token": "internet", "target": "/ru/internet-reklama-tashkent/", "anchor": "материале об интернет-рекламе в Ташкенте" }
       ]
     },
-    { "type": "cta", "text": "Разобрать закупку под ваш бюджет", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Разобрать закупку под ваш бюджет", "href": "#contact" }
   ],
   "faq": [
     {
@@ -197,7 +197,7 @@
       "a": "Да, если готова точка назначения: бот, сайт или менеджер, который отвечает быстро. Свой канал нужен, когда решение принимается долго и человека приходится прогревать. Если канала нет, ведите трафик туда, где сразу можно задать вопрос и оставить контакт, а не в пустую ленту."
     }
   ],
-  "cta": { "label": "Обсудить закупку размещений", "href": "https://t.me/XGame_changerx" },
+  "cta": { "label": "Обсудить закупку размещений", "href": "#contact" },
   "internalLinks": [
     { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "официальная платформа Telegram Ads и её пороги входа", "locale": "ru", "type": "contextual" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "куда вести трафик: Telegram-бот под заявки", "locale": "ru", "type": "contextual" },

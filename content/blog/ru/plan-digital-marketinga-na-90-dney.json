@@ -30,7 +30,7 @@
     {"type":"list","items":["Перестраивать все каналы одновременно без исходной точки.","Заказывать большой объём контента до проверки сегментов и сообщений.","Менять кампании каждый день без достаточного периода наблюдения.","Считать лидом любое техническое событие.","Создавать десятки похожих SEO-страниц без отдельного намерения.","Увеличивать бюджет, пока сайт и команда теряют текущие обращения."]},
     {"type":"p","text":"План остаётся живым: задача переносится не потому, что команда не уложилась в красивую диаграмму, а потому что появилась новая зависимость или данные изменили приоритет. Важно записать решение, владельца и новую контрольную точку."},
     {"type":"linkp","text":"Если исходная точка неизвестна, начните с {audit}. Для формального документа и бюджетных сценариев нужна {strategy}, а для единой реализации подходит {digital}.","links":[{"token":"audit","target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит"},{"token":"strategy","target":"/ru/digital-strategiya-dlya-biznesa/","anchor":"digital-стратегия"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг"}]},
-    {"type":"cta","text":"Собрать план на 90 дней","href":"https://t.me/XGame_changerx"}
+    {"type":"cta","text":"Собрать план на 90 дней","href":"#contact"}
   ],
   "faq":[
     {"q":"Достаточно ли 90 дней для результата?","a":"Для фундамента, запуска и первых решений обычно да. Для устойчивого SEO, длинного цикла сделки или сложного рынка может потребоваться больше времени."},
@@ -40,7 +40,7 @@
     {"q":"Как часто менять рекламу?","a":"По данным и заранее заданным границам, а не по настроению. Слишком частые изменения мешают сравнить гипотезы."},
     {"q":"Что считать итогом квартала?","a":"Работающее измерение, подтверждённые или опровергнутые гипотезы, обновлённая воронка и обоснованный план следующего периода."}
   ],
-  "cta":{"label":"Получить roadmap","href":"https://t.me/XGame_changerx"},
+  "cta":{"label":"Получить roadmap","href":"#contact"},
   "internalLinks":[{"target":"/ru/digital-strategiya-dlya-biznesa/","anchor":"digital-стратегия для бизнеса","locale":"ru","type":"contextual","priority":1},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":2},{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","anchor":"стратегия для Узбекистана","locale":"ru","type":"contextual","priority":4},
   {"target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане"}
 ],

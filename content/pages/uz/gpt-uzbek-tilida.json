@@ -46,8 +46,8 @@
   "heroSubtitle": "ChatGPT uzbekcha: bepul kirish, ro‘yxatsiz — matn, tarjima, reja va savollar o‘zbek tilida.",
   "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
-  "ctaSecondaryLabel": "Telegramda vazifani aytish",
-  "ctaSecondaryHref": "https://t.me/XGame_changerx",
+  "ctaSecondaryLabel": "Biznes uchun AI-bot",
+  "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
   "bodyBlocks": [
     {
       "type": "p",
@@ -93,7 +93,7 @@
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {tg}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {mail}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
       "links": [
         {
           "token": "call",
@@ -101,9 +101,9 @@
           "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram"
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
         }
       ]
     },
@@ -144,7 +144,7 @@
     },
     {
       "type": "linkp",
-      "text": "Soatlik limit tugasa, suhbatni Telegramda davom ettirish mumkin: {javob} botining o‘z alohida bepul kunlik limiti bor. U ham cheksiz emas — amaldagi shartlar shu sahifada halol yozilgan.",
+      "text": "Telegramda {javob} boti ham bor: uning o‘z bepul limiti bor, u ham cheksiz emas — amaldagi shartlar uning sahifasida yozilgan.",
       "links": [
         {
           "token": "javob",
@@ -156,11 +156,11 @@
     {
       "type": "list",
       "items": [
-        "Ro‘yxatdan o‘tish, karta va telefon raqami so‘ralmaydi.",
+        "Bepul chat uchun ro‘yxatdan o‘tish, karta va telefon raqami so‘ralmaydi.",
         "Javob so‘rov tilida keladi: o‘zbekcha yozsangiz — o‘zbekcha, ruscha yozsangiz — ruscha.",
         "Kunlik va soatlik limit bor; ular tugaganda chat buni aniq aytadi.",
-        "To‘lovli tarif hali ishga tushirilmagan — soxta balans yoki soxta «Pro» tugmasi ko‘rsatilmaydi.",
-        "Suhbat tarixi brauzeringizda qoladi; maxfiy ma’lumotni baribir yozmang."
+        "Bepul chatdan foydalanish uchun to‘lov shart emas. Pullik AI paket ixtiyoriy: u mavjud bo‘lganda, shartlari chatning o‘zida ko‘rsatiladi.",
+        "Savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi — parol, karta va boshqa maxfiy ma’lumotni yozmang."
       ]
     },
     {
@@ -448,12 +448,17 @@
     },
     {
       "type": "linkp",
-      "text": "Ikki yo‘l bor. Tez yo‘l — {tg} yozing va vazifangizni ayting. Sekinroq, lekin aniqroq yo‘l — avval {narx} ko‘ring: paketlar, muddat va nima kirishi ochiq yozilgan, shundan keyin gaplashish osonroq.",
+      "text": "Ikki yo‘l bor. Tez yo‘l — {call} yoki {mail} va vazifangizni ayting. Sekinroq, lekin aniqroq yo‘l — avval {narx} ko‘ring: paketlar, muddat va nima kirishi ochiq yozilgan, shundan keyin gaplashish osonroq.",
       "links": [
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegramda"
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
         },
         {
           "token": "narx",
@@ -481,7 +486,7 @@
   "faq": [
     {
       "q": "AI-chatdan bepul foydalanish mumkinmi?",
-      "a": "Ha. Shu sahifadagi chat bepul va ro‘yxatdan o‘tishsiz ishlaydi. Cheksiz emas: kunlik va soatlik limit bor va limitga yetganda chat buni o‘zi aytadi. To‘lovli tarif hali ishga tushirilmagan."
+      "a": "Ha. Shu sahifadagi chat bepul va ro‘yxatdan o‘tishsiz ishlaydi. Cheksiz emas: kunlik va soatlik limit bor va limitga yetganda chat buni o‘zi aytadi. Bepul chat uchun to‘lov shart emas; pullik AI paket ixtiyoriy."
     },
     {
       "q": "Maxfiy ma’lumot yuborish mumkinmi?",
@@ -529,7 +534,7 @@
     },
     {
       "q": "Limit tugasa nima bo‘ladi?",
-      "a": "Chat qachon yangilanishini ko‘rsatadi. Kutmaslik uchun suhbatni Telegramdagi GPTBot Javob botida davom ettirish mumkin — uning o‘z alohida bepul kunlik limiti bor, u ham cheksiz emas."
+      "a": "Chat qachon yangilanishini ko‘rsatadi. Telegramda GPTBot Javob boti ham bor: uning o‘z bepul limiti bor, u ham cheksiz emas."
     },
     {
       "q": "Xuddi shunday chatni o‘z biznesim uchun qo‘yish mumkinmi?",
@@ -677,7 +682,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-09-30",
+  "lastReviewedAt": "2026-10-01",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-09-30"
+  "updatedAt": "2026-10-01"
 }

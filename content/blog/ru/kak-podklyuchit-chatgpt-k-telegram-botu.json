@@ -325,7 +325,7 @@
     {
       "type": "cta",
       "text": "Обсудить AI-бота для Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -381,7 +381,7 @@
   ],
   "cta": {
     "label": "Обсудить ChatGPT-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

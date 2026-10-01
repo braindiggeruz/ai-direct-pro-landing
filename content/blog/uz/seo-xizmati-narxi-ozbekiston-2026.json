@@ -183,7 +183,7 @@
     },
     {
       "type": "p",
-      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. Telegram: https://t.me/XGame_changerx. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
+      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. E-mail: ceo@gptbot.uz. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
     },
     {
       "type": "cta",
@@ -218,8 +218,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram orqali bog'lanish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Biz bilan bog‘lanish",
+    "href": "#contact"
   },
   "internalLinks": [
     {

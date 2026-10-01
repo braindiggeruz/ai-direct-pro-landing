@@ -42,7 +42,22 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Title, canonical, robots, hreflang and all H1s are unchanged; reviewedChanges
 // lists every diff, including the JSON-LD, og and keyword edits the gate does
 // not see.
-export const BASELINE = 'docs/seo/evidence/2026-09-30-gsc-driven/reviewed-protected-pages.json';
+// The 2026-10-01-paid-chat-honesty revision is the one revision of release R3
+// (paid-chat plan WP-12; owner decision L14: no work Telegram has been named,
+// so the owner's personal t.me account leaves the site). It changes body text
+// only, on all ten pages: the shared footers name the phone and ceo@gptbot.uz
+// instead of the personal Telegram; the two chat pages state their terms so
+// they stay true before and after the paid AI pack opens (no «paid plan not
+// launched», no «history stays in your browser», no promise to continue in the
+// bot), their contact lines and noscript name phone and e-mail, and the Uzbek
+// summary nav says «Biznes bot narxlari» (same href); the articles' consultation
+// lines name e-mail instead of Telegram, and two articles get the contact card
+// for their call to action; the homepage shell's demo links lead to a contact
+// section. Title, H1, description, canonical, robots, hreflang and internal
+// links of all ten pages are unchanged; reviewedChanges lists every diff and
+// invisibleToGate what R1–R3 changed outside the gate (React screens, <head>
+// handlers, JSON-LD, the login guide's chatgpt.com link, Markdown twins).
+export const BASELINE = 'docs/seo/evidence/2026-10-01-paid-chat-honesty/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

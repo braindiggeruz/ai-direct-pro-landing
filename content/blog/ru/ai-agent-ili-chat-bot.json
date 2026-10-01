@@ -365,7 +365,7 @@
     {
       "type": "cta",
       "text": "Разобрать ваш процесс и выбрать минимально достаточную архитектуру",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -405,8 +405,8 @@
     }
   ],
   "cta": {
-    "label": "Обсудить AI-автоматизацию в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Обсудить AI-автоматизацию для Telegram",
+    "href": "#contact"
   },
   "internalLinks": [
     {

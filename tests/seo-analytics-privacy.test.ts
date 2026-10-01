@@ -7,6 +7,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import { ANALYTICS_HEAD } from '../scripts/analytics-snippet';
+import { STUDIO_CONTACT_ATTR } from '../src/shared/studio-contact';
 
 const SEO_EVENTS = [
   'seo_landing_view',
@@ -43,20 +44,23 @@ test('analytics never runs on the admin surface', () => {
   assert.match(ANALYTICS_HEAD, /\/api\//);
 });
 
-test('contact_click recognises the contact handle the site actually publishes', () => {
-  // The contact event keys off the studio's own Telegram handle. If site.json ever
-  // moves to a different handle and this block is not updated, every enquiry
-  // silently stops being counted — so the two are pinned together here.
+test('contact_click follows the studio-contact marker, not a handle', () => {
+  // Every template marks the studio's work Telegram data-contact="studio"
+  // (src/shared/studio-contact.ts), and the event keys off that marker. Until
+  // 2026-10 it matched the owner's personal handle, so a new account in
+  // site.json would have silently stopped the count; now naming a work
+  // Telegram needs no edit here, and no handle is written into the block.
+  assert.equal(STUDIO_CONTACT_ATTR, 'data-contact="studio"');
+  assert.ok(
+    ANALYTICS_HEAD.includes("var isContactTg = isTg && el.getAttribute('data-contact') === 'studio';"),
+    'contact_click must key off the studio-contact marker',
+  );
+  assert.ok(indexHtmlAnalyticsBlock().includes("var isContactTg = isTg && el.getAttribute('data-contact') === 'studio';"), 'index.html drifted');
+  for (const block of [ANALYTICS_HEAD, indexHtmlAnalyticsBlock()]) assert.doesNotMatch(block, /XGame_changerx|t\\?\.me\\?\/\(/i);
   const site = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), 'content', 'global', 'site.json'), 'utf8'),
-  ) as { telegram?: string };
-  const handle = (site.telegram || '').replace(/^https:\/\/t\.me\//, '').replace(/\/$/, '');
-
-  assert.ok(handle, 'site.json must publish a Telegram contact');
-  assert.ok(
-    ANALYTICS_HEAD.includes(handle),
-    `analytics block does not treat t.me/${handle} as the contact channel`,
-  );
+  ) as Record<string, unknown>;
+  assert.ok(!('telegram' in site), 'the legacy telegram field is gone; the setting is studioTelegram');
 });
 
 test('no lead stage is claimed that the browser cannot observe', () => {

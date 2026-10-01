@@ -394,7 +394,7 @@
     {
       "type": "cta",
       "text": "Обсудить аудит сайта и воронки",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -497,7 +497,7 @@
   ],
   "cta": {
     "label": "Обсудить сайт и систему заявок",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

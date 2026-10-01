@@ -361,7 +361,7 @@
     {
       "type": "cta",
       "text": "Обсудить сбор и обработку заявок",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -436,7 +436,7 @@
   ],
   "cta": {
     "label": "Обсудить обработку заявок",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/sayt-dlya-zayavok/", "anchor": "Сайт для заявок" },

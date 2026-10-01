@@ -14,7 +14,7 @@
 import { MEASUREMENT_HOLD_PATHS } from './measurement-hold';
 import { PROTECTED_PATHS } from './seo-protection';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
-import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 /**
  * Explicit allowlist: page URL → service slug sent with the lead
@@ -160,9 +160,13 @@ export function leadFormFallback(
   };
 }
 
-/** target and rel for a fallback href: a web link opens a new tab, tel: does not. */
+/**
+ * Attributes of a fallback href: a web link is the studio's work Telegram, so
+ * it carries the studio-contact marker the head click handlers count and opens
+ * a new tab; tel: does neither.
+ */
 function fallbackTarget(href: string): string {
-  return /^https:/.test(href) ? ' target="_blank" rel="nofollow noopener noreferrer"' : '';
+  return /^https:/.test(href) ? ` ${STUDIO_CONTACT_ATTR} target="_blank" rel="nofollow noopener noreferrer"` : '';
 }
 
 function escapeAttr(s: string): string {
@@ -278,7 +282,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     status.textContent=text;
     if(withContact&&fbHref&&fbText){
       var a=document.createElement('a');
-      a.href=fbHref;if(/^https:/.test(fbHref)){a.target='_blank';a.rel='nofollow noopener noreferrer';}
+      a.href=fbHref;if(/^https:/.test(fbHref)){a.setAttribute('data-contact','studio');a.target='_blank';a.rel='nofollow noopener noreferrer';}
       a.className='ml-1 inline-flex min-h-[44px] items-center font-semibold text-brand-cyan underline underline-offset-2 hover:no-underline';
       a.textContent=fbText;
       status.appendChild(document.createTextNode(' '));status.appendChild(a);

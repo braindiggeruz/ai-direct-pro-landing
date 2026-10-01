@@ -136,9 +136,9 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da demo ochish",
-    "href": "https://t.me/XGame_changerx",
-    "note": "AI-botni amalda ko‘rmoqchimisiz? Telegram’da yozing — sohangizga mos demo-stsenariyni ko‘rsatamiz."
+    "label": "Demo so‘rash",
+    "href": "#contact",
+    "note": "AI-botni amalda ko‘rmoqchimisiz? Qo‘ng‘iroq qiling yoki e-mail yozing — sohangizga mos demo-stsenariyni ko‘rsatamiz."
   },
   "faq": [
     {

@@ -33,7 +33,7 @@
     {"type":"p","text":"GA4 предоставляет отчёты по путям и моделям атрибуции, но модель распределяет кредит по своим правилам. Для управленческого решения дополните её CRM, исследованиями и знанием цикла сделки. Не объявляйте канал бесполезным только потому, что он редко получает последний клик."},
     {"type":"linkp","text":"Принципы моделей описаны в {attribution}.","links":[{"token":"attribution","target":"https://support.google.com/analytics/answer/10596866?hl=ru","anchor":"официальной справке GA4 по атрибуции"}]},
     {"type":"linkp","text":"Заказать канал отдельно: {seo} или {ads}. Объединить их с сайтом, SMM и CRM можно в {digital}.","links":[{"token":"seo","target":"/ru/seo-prodvizhenie-saytov-tashkent/","anchor":"SEO-продвижение в Ташкенте"},{"token":"ads","target":"/ru/internet-reklama-tashkent/","anchor":"интернет-рекламу в Ташкенте"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг"}]},
-    {"type":"cta","text":"Выбрать канал по данным","href":"https://t.me/XGame_changerx"}
+    {"type":"cta","text":"Выбрать канал по данным","href":"#contact"}
   ],
   "faq":[
     {"q":"Что дешевле: SEO или Google Ads?","a":"Зависит от периода, конкуренции, объёма работ и конверсии. Сравнивайте стоимость квалифицированного лида и продажи, а не только клик."},
@@ -43,7 +43,7 @@
     {"q":"Как долго ждать SEO?","a":"Единого срока нет. Он зависит от индексации, конкуренции, состояния сайта, объёма работ и качества страниц."},
     {"q":"Когда использовать оба канала?","a":"Когда есть ресурс на быстрый платный спрос и параллельное создание долгосрочного поискового актива, а аналитика сравнивает качество обращений."}
   ],
-  "cta":{"label":"Получить рекомендацию","href":"https://t.me/XGame_changerx"},
+  "cta":{"label":"Получить рекомендацию","href":"#contact"},
   "internalLinks":[{"target":"/ru/seo-prodvizhenie-saytov-tashkent/","anchor":"SEO-продвижение сайтов","locale":"ru","type":"contextual","priority":1},{"target":"/ru/internet-reklama-tashkent/","anchor":"Google Ads и интернет-реклама","locale":"ru","type":"contextual","priority":2},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":3},{"target":"/ru/performance-marketing-tashkent/","anchor":"performance-маркетинг","locale":"ru","type":"contextual","priority":4}],
   "ogTitle":"SEO или Google Ads: честное сравнение для бизнеса","ogDescription":"Скорость, затраты, контроль, данные и правило выбора между органикой и платным спросом.","ogImage":"https://gptbot.uz/assets/digital/seo-ili-google-ads-chto-vybrat-1200.webp",
   "canonical":"https://gptbot.uz/ru/blog/seo-ili-google-ads-chto-vybrat/","hreflangRu":"/ru/blog/seo-ili-google-ads-chto-vybrat/","robotsIndex":true,"robotsFollow":true,

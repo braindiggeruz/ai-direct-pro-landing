@@ -112,8 +112,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da muhokama qilish",
-    "href": "https://t.me/XGame_changerx",
+    "label": "Muhokama qilish",
+    "href": "#contact",
     "note": "Sohangiz haqida gapirib bering — AI-menejer mijoz bilan birinchi xabardan arizagacha qanday suhbat olib borishini ko‘rsatamiz."
   },
   "faq": [

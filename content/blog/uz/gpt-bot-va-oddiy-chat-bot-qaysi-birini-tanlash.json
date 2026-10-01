@@ -95,8 +95,8 @@
     },
     {
       "type": "cta",
-      "text": "Biznesingizga qaysi bot mosligini Telegram’da aniqlash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Biznesingizga qaysi bot mosligini aniqlash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -162,8 +162,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da qaysi bot kerakligini aniqlash",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Qaysi bot kerakligini aniqlash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

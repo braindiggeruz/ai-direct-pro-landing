@@ -131,7 +131,7 @@
     {
       "type": "cta",
       "text": "Обсудить, с чего начать в вашем случае",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -170,8 +170,8 @@
     }
   ],
   "cta": {
-    "label": "Запросить демо в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Запросить демо",
+    "href": "#contact"
   },
   "internalLinks": [
     {

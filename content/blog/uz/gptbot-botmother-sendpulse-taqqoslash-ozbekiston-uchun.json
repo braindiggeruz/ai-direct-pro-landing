@@ -115,8 +115,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da demo olish",
-    "href": "https://t.me/XGame_changerx",
+    "label": "Demo olish",
+    "href": "#contact",
     "note": "Konstruktor va studiya orasida ikkilanyapsizmi? Bizga yozing — konstruktor sizga mos kelish-kelmasligini halol aytamiz va sohangizga mos AI-bot demosini ko‘rsatamiz."
   },
   "faq": [

@@ -38,6 +38,9 @@ export function AiTelegramCta({
       target="_blank"
       rel="nofollow noopener noreferrer"
       data-testid={`telegram-cta-${stage}`}
+      // The studio's work Telegram is marked for the head click handlers
+      // (contact_click, telegram_cta_studio; src/shared/studio-contact.ts).
+      data-contact={link.channel === 'studio' ? 'studio' : undefined}
       // One event per click: where it sat, where it goes, and whether the
       // minted link carried the web conversation.
       onClick={() => track(EV.telegramCtaClicked, { from: stage, channel: link.channel, with_session: link.withSession })}

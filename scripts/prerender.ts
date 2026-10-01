@@ -15,8 +15,8 @@ import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
-import { renderContactCard } from './contact-card';
-import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { CONTACT_ANCHOR, CONTACT_CTA_LABEL, renderContactCard, studioFooterLinks } from './contact-card';
+import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
@@ -412,9 +412,11 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
 // — the long-form material lives on the dedicated guide page.
 function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const uz = page.locale === 'uz';
+  // The phone is the one contact that works without JavaScript on any device
+  // and exists whether or not a work Telegram is configured (plan L14).
   const noscript = uz
-    ? 'AI-chatdan foydalanish uchun JavaScript’ni yoqing yoki Telegram’da bizga yozing.'
-    : 'Включите JavaScript, чтобы пользоваться AI-чатом, или напишите нам в Telegram.';
+    ? `AI-chatdan foydalanish uchun JavaScript’ni yoqing yoki bizga qo‘ng‘iroq qiling: ${STUDIO_PHONE_DISPLAY}.`
+    : `Включите JavaScript, чтобы пользоваться AI-чатом, или позвоните нам: ${STUDIO_PHONE_DISPLAY}.`;
   const loading = uz ? 'AI-chat yuklanmoqda…' : 'AI-чат загружается…';
   const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
@@ -422,11 +424,12 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 
   // NAP: gpt-chat pages deliberately get no big footer (see the footer branch
   // further down), so the compact footer in this template is the ONLY place the
-  // phone number reaches the homepage HTML. It carries a click-to-call link with
-  // a gtag event, matching the main footer and the mobile sticky bar. Do not
-  // drop it: without it the homepage ships no NAP at all — both a lost
-  // conversion (GA4 shows every recorded conversion comes from mobile) and an
-  // E-E-A-T signal loss.
+  // phone number reaches the chat pages' HTML. It carries a click-to-call link
+  // (the head click handler reports phone_click), the e-mail and, once one is
+  // configured, the studio's work Telegram — the same links as the landing
+  // footer (studioFooterLinks). Do not drop it: without it these pages ship no
+  // NAP at all — both a lost conversion (GA4 shows every recorded conversion
+  // comes from mobile) and an E-E-A-T signal loss.
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
@@ -454,8 +457,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs text-white/40">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
-      <a data-testid="footer-call-cta" href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+      ${studioFooterLinks('hover:text-white', { phoneTestId: 'footer-call-cta' })}
     </div>
   </div>
 </footer>`;
@@ -715,8 +717,8 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
     <nav class="flex gap-3 text-sm">
       ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || global.defaultCTA.href)}"${isExternalHref(page.ctaPrimaryHref || global.defaultCTA.href) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
-        ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
+      <a href="${escapeHtml(page.ctaPrimaryHref || CONTACT_ANCHOR)}"${isExternalHref(page.ctaPrimaryHref || CONTACT_ANCHOR) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+        ${escapeText(page.ctaPrimaryLabel || CONTACT_CTA_LABEL[page.locale === 'uz' ? 'uz' : 'ru'])}
       </a>
     </nav>
   </div>
@@ -724,7 +726,9 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
   }
   const locale = page.locale === 'uz' ? 'uz' : 'ru';
   const nav = SITE_NAV[locale];
-  const ctaHref = page.ctaPrimaryHref || global.defaultCTA.href;
+  // Without a primary CTA the header leads to the contact card, which
+  // linksContactCard() then renders (scripts/contact-card.ts).
+  const ctaHref = page.ctaPrimaryHref || CONTACT_ANCHOR;
   // px-2 on phones so the last hub peeks out of the scroll row instead of
   // hiding entirely behind the language switch.
   const navLinkClass = 'inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:text-white aria-[current=page]:bg-white/10 aria-[current=page]:text-white';
@@ -740,7 +744,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
     <a href="${locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white shrink-0" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <a href="${escapeHtml(ctaHref)}"${isExternalHref(ctaHref) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold text-sm leading-tight text-center px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center">
-      ${escapeText(page.ctaPrimaryLabel || global.defaultCTA.label)}
+      ${escapeText(page.ctaPrimaryLabel || CONTACT_CTA_LABEL[locale])}
     </a>
   </div>
 </header>
@@ -861,7 +865,7 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   const showStickyCta = isCommercialPage || STICKY_BAR_EXTRA_URLS.has(page.url);
   const stickyPhoneLabel = page.locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить';
   const stickySecondary = STUDIO_TELEGRAM_URL
-    ? `<a data-testid="sticky-telegram-cta" href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a>`
+    ? `<a data-testid="sticky-telegram-cta" ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a>`
     : leadForm
     ? `<a data-testid="sticky-form-cta" href="#lead-form" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">${page.locale === 'uz' ? 'Ariza' : 'Заявка'}</a>`
     : '';
@@ -971,7 +975,7 @@ ${marketVariant
 </main>`
 }
 
-${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
+${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
     <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
@@ -979,9 +983,7 @@ ${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${page.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
-      <a href="tel:${STUDIO_PHONE}" class="hover:text-white">${escapeHtml(STUDIO_PHONE_DISPLAY)}</a>
-      <a href="mailto:${escapeHtml(STUDIO_EMAIL)}" class="hover:text-white">${escapeHtml(STUDIO_EMAIL)}</a>
-      ${STUDIO_TELEGRAM_URL ? `<a href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>` : ''}
+      ${studioFooterLinks('hover:text-white')}
     </div>
     ${page.locale === 'uz' ? `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Reklama xizmatlari">
       <span class="text-white/50">Reklama:</span>

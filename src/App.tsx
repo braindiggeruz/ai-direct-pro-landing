@@ -1,6 +1,6 @@
 import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { i18n, type Lang } from './i18n';
-import { buildCtaUrl, track } from './lib/cta';
+import { track } from './lib/cta';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Pain from './components/Pain';
@@ -44,7 +44,6 @@ function getInitialLang(): Lang {
 export default function App() {
   const [lang, setLang] = useState<Lang>(getInitialLang());
   const t = useMemo(() => i18n[lang], [lang]);
-  const ctaUrl = useMemo(() => buildCtaUrl(), []);
   const scroll50Fired = useRef(false);
   // Bumped by MountSignal when a lazy below-the-fold boundary resolves.
   const [belowFoldVersion, setBelowFoldVersion] = useState(0);
@@ -163,26 +162,26 @@ export default function App() {
       <a className="skip-link" href="#main-content">
         {lang === 'uz' ? 'Asosiy mazmunga o‘tish' : 'Перейти к основному содержанию'}
       </a>
-      <Header t={t} lang={lang} onSwitchLang={switchLang} ctaUrl={ctaUrl} />
+      <Header t={t} lang={lang} onSwitchLang={switchLang} />
       <main id="main-content">
-        <Hero t={t} ctaUrl={ctaUrl} />
+        <Hero t={t} />
         <Pain t={t} />
         <Suspense fallback={null}>
-          <Solution t={t} ctaUrl={ctaUrl} />
+          <Solution t={t} />
           <SolutionsGrid t={t} lang={lang} />
-          <DemoChat t={t} ctaUrl={ctaUrl} />
+          <DemoChat t={t} />
           <Niches t={t} lang={lang} />
-          <Offer t={t} ctaUrl={ctaUrl} />
+          <Offer t={t} />
           <PromotionServices lang={lang} />
           <BlogTeaser t={t} lang={lang} />
           <FAQ t={t} />
-          <FinalCTA t={t} ctaUrl={ctaUrl} />
+          <FinalCTA t={t} lang={lang} />
           <MountSignal onMount={signalBelowFold} />
         </Suspense>
       </main>
       <Suspense fallback={null}>
-        <Footer t={t} lang={lang} ctaUrl={ctaUrl} />
-        <StickyCTA t={t} ctaUrl={ctaUrl} lang={lang} />
+        <Footer t={t} lang={lang} />
+        <StickyCTA t={t} lang={lang} />
         <MountSignal onMount={signalBelowFold} />
       </Suspense>
     </div>

@@ -402,7 +402,7 @@
     {
       "type": "cta",
       "text": "Подобрать формат сайта",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -441,7 +441,7 @@
   ],
   "cta": {
     "label": "Выбрать сайт для бизнеса",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

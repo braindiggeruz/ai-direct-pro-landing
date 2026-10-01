@@ -146,11 +146,11 @@
     {
       "type": "cta",
       "text": "Yetkazib berish xizmati uchun botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "p",
-      "text": "Ariza qabul qilish uchun bazaviy botni ishga tushirish bir necha kun oladi. Telegram'ga yozing — yetkazib berish uchun demo-ssenariyni ko'rsatamiz va tariflaringiz hamda kanallaringizga mos smetani hisoblaymiz."
+      "text": "Ariza qabul qilish uchun bazaviy botni ishga tushirish bir necha kun oladi. Qo'ng'iroq qiling yoki e-mail yozing — yetkazib berish uchun demo-ssenariyni ko'rsatamiz va tariflaringiz hamda kanallaringizga mos smetani hisoblaymiz."
     }
   ],
   "faq": [
@@ -176,8 +176,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram'da demo so'rash",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Demo so‘rash",
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -32,7 +32,7 @@
     {"type":"h2","text":"Как понять, что документ готов"},
     {"type":"list","items":["Каждый приоритет связан с сегментом и бизнес-целью.","Канал имеет конкретную роль и следующий шаг.","Метрики разделяют активность, лид, качество и продажу.","Бюджет показывает несколько сценариев и ограничения.","Roadmap содержит владельцев и зависимости.","Непроверенные утверждения помечены как гипотезы."]},
     {"type":"linkp","text":"Готовая последовательность находится в {plan}. Общая система услуг собрана на странице {digital}.","links":[{"token":"plan","target":"/ru/blog/plan-digital-marketinga-na-90-dney/","anchor":"плане digital-маркетинга на 90 дней"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте"}]},
-    {"type":"cta","text":"Разработать стратегию","href":"https://t.me/XGame_changerx"}
+    {"type":"cta","text":"Разработать стратегию","href":"#contact"}
   ],
   "faq":[
     {"q":"Нужна ли отдельная стратегия для Узбекистана?","a":"Если рынок, язык, площадки, конкуренты и маршрут продаж отличаются, локальная стратегия нужна. Копирование плана другого рынка создаёт непроверенные предположения."},
@@ -42,7 +42,7 @@
     {"q":"Можно ли сделать стратегию без CRM?","a":"Можно начать, но план должен включать минимальный учёт качества лидов. Иначе каналы будут сравниваться только по формам и кликам."},
     {"q":"Что важнее: охват или заявки?","a":"Они относятся к разным этапам. Охват нужен для внимания, но бизнес-решение о масштабировании требует связи с целевыми действиями и продажами."}
   ],
-  "cta":{"label":"Обсудить стратегию","href":"https://t.me/XGame_changerx"},
+  "cta":{"label":"Обсудить стратегию","href":"#contact"},
   "internalLinks":[{"target":"/ru/digital-strategiya-dlya-biznesa/","anchor":"разработка digital-стратегии","locale":"ru","type":"contextual","priority":1},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг в Ташкенте","locale":"ru","type":"contextual","priority":2},{"target":"/ru/blog/plan-digital-marketinga-na-90-dney/","anchor":"план на 90 дней","locale":"ru","type":"contextual","priority":3}],
   "ogTitle":"Digital-стратегия для бизнеса в Узбекистане: 6 шагов","ogDescription":"Сегменты, языки, путь клиента, каналы, UTM и roadmap без распыления бюджета.","ogImage":"https://gptbot.uz/assets/digital/digital-strategiya-v-uzbekistane-1200.webp",
   "canonical":"https://gptbot.uz/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","hreflangRu":"/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/","robotsIndex":true,"robotsFollow":true,

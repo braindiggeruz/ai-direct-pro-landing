@@ -118,7 +118,7 @@
     {
       "type": "cta",
       "text": "Qaysi sayt mos kelishini birgalikda aniqlaymiz",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -149,7 +149,7 @@
   ],
   "cta": {
     "label": "Sayt turini tanlashda yordam",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

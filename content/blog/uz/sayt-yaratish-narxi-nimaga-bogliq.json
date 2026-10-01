@@ -131,7 +131,7 @@
     {
       "type": "cta",
       "text": "Loyiha narxini aniqlash",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -162,7 +162,7 @@
   ],
   "cta": {
     "label": "Loyiha narxini muhokama qilish",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

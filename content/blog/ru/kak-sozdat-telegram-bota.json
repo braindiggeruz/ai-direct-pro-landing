@@ -712,7 +712,7 @@
     {
       "type": "cta",
       "text": "Обсудить сценарий Telegram-бота",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -776,7 +776,7 @@
   ],
   "cta": {
     "label": "Обсудить Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Dict } from '../i18n';
 import type { Lang } from '../i18n';
-import { track } from '../lib/cta';
+import { CONTACT_HREF, track } from '../lib/cta';
 
-type Props = { t: Dict; lang: Lang; onSwitchLang: (l: Lang) => void; ctaUrl: string };
+type Props = { t: Dict; lang: Lang; onSwitchLang: (l: Lang) => void };
 
-export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
+export default function Header({ t, lang, onSwitchLang }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileNavRef = useRef<HTMLElement | null>(null);
@@ -102,9 +102,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
 
           <a
             data-testid="header-cta"
-            href={ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={CONTACT_HREF}
             onClick={() => track('click_header_cta')}
             className="btn-primary min-h-11 !py-2.5 !px-4 text-sm hidden sm:inline-flex"
           >
@@ -169,9 +167,7 @@ export default function Header({ t, lang, onSwitchLang, ctaUrl }: Props) {
             ))}
             <li>
               <a
-                href={ctaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={CONTACT_HREF}
                 tabIndex={mobileOpen ? 0 : -1}
                 data-testid="header-cta-mobile"
                 onClick={() => { setMobileOpen(false); track('click_header_cta_mobile'); }}

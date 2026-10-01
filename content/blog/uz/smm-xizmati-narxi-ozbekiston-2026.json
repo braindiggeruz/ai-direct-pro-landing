@@ -193,12 +193,12 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — biznes uchun internet-reklama va avtomatlashtirish. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Vazifani quyidagi tugma orqali Telegram’da muhokama qilish mumkin."
+      "text": "GPTBot.uz — biznes uchun internet-reklama va avtomatlashtirish. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Vazifani telefon yoki e-mail orqali muhokama qilish mumkin — kontaktlar quyidagi tugmada."
     },
     {
       "type": "cta",
       "text": "Ish tarkibi va smetani so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -232,8 +232,8 @@
     }
   ],
   "cta": {
-    "label": "Telegram’da smeta olish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Smeta olish",
+    "href": "#contact"
   },
   "internalLinks": [
     {

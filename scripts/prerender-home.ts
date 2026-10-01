@@ -24,6 +24,13 @@ import fg from 'fast-glob';
 import type { Page, BlogArticle, GlobalSEO } from '../src/shared/types';
 import { i18n } from '../src/i18n';
 import {
+  STUDIO_CONTACT_ATTR,
+  STUDIO_EMAIL,
+  STUDIO_PHONE,
+  STUDIO_PHONE_DISPLAY,
+  STUDIO_TELEGRAM_URL,
+} from '../src/shared/studio-contact';
+import {
   buildOrganizationLd,
   buildWebSiteLd,
   buildServiceLd,
@@ -119,7 +126,14 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     .map((a) => `<li><a href="${escapeHtml(a.url)}" hreflang="uz">${escapeText(a.title || a.h1)}</a></li>`)
     .join('');
 
-  const cta = global.defaultCTA || { label: 'Запустить демо в Telegram', href: 'https://t.me/XGame_changerx' };
+  // The phone, the e-mail and, once content/global/site.json names one, the
+  // studio's work Telegram (src/shared/studio-contact.ts) — the same links as
+  // the contact section and the footer of the React landing.
+  const contacts = [
+    `<a href="tel:${STUDIO_PHONE}">${escapeText(RU.final.call)}: ${escapeText(STUDIO_PHONE_DISPLAY)}</a>`,
+    `<a href="mailto:${escapeHtml(STUDIO_EMAIL)}">E-mail: ${escapeText(STUDIO_EMAIL)}</a>`,
+    ...(STUDIO_TELEGRAM_URL ? [`<a ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer">${escapeText(RU.final.telegram)}</a>`] : []),
+  ];
 
   // Single self-contained fallback block. index.html contains a tiny critical
   // first-paint guard that hides it while JavaScript is enabled; a noscript
@@ -132,7 +146,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <a href="/ru/ai-bot-dlya-biznesa/">Решения</a>
       <a href="/ru/ai-bot-dlya-kliniki/">Ниши</a>
       <a href="/ru/blog/">Блог</a>
-      <a href="${escapeHtml(cta.href)}">${escapeText(cta.label)}</a>
+      <a href="#contact">${escapeText(RU.nav.cta)}</a>
     </nav>
   </header>
 
@@ -144,7 +158,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
     ${list(RU.hero.bullets)}
 
-    <p><a href="${escapeHtml(cta.href)}" rel="noopener noreferrer">${escapeText(cta.label)}</a></p>
+    <p><a href="#contact">${escapeText(RU.hero.cta)}</a></p>
 
     <section aria-label="Проблема">
       <h2>${escapeText(RU.pain.h)}</h2>
@@ -195,6 +209,13 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <h2>${escapeText(RU.faq.h)}</h2>
       ${RU.faq.items.map((f) => `<h3>${escapeText(f.q)}</h3><p>${escapeText(f.a)}</p>`).join('\n      ')}
     </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">${escapeText(RU.final.h)}</h2>
+      <p>${escapeText(RU.final.sub)}</p>
+      <p>${contacts.join(' · ')}</p>
+      <p>${escapeText(RU.final.micro)}</p>
+    </section>
   </main>
 
   <footer>
@@ -205,9 +226,11 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
          No gtag handler on purpose: this block is only visible when JavaScript
          is unavailable, so any onclick here would be dead code. -->
     <p>
-      <a data-testid="footer-call-cta" href="tel:+998505870720">+998 50 587 07 20</a>
+      <a data-testid="footer-call-cta" href="tel:${STUDIO_PHONE}">${escapeText(STUDIO_PHONE_DISPLAY)}</a>
       ·
-      <a href="${escapeHtml(global.telegram || '#')}" rel="noopener noreferrer">Telegram</a>
+      <a href="mailto:${escapeHtml(STUDIO_EMAIL)}">${escapeText(STUDIO_EMAIL)}</a>${STUDIO_TELEGRAM_URL ? `
+      ·
+      <a ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer">Telegram</a>` : ''}
     </p>
   </footer>
 </div>`;

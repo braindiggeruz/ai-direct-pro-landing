@@ -268,7 +268,7 @@
     {
       "type": "cta",
       "text": "Обсудить продвижение сайта",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -323,7 +323,7 @@
   ],
   "cta": {
     "label": "Обсудить SEO-продвижение сайта",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     { "target": "/ru/seo-prodvizhenie-saytov-tashkent/", "anchor": "SEO-продвижение сайтов в Ташкенте" },

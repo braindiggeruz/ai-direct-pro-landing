@@ -353,7 +353,7 @@
     {
       "type": "cta",
       "text": "Получить разбор задачи и структуру ТЗ",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -401,7 +401,7 @@
   ],
   "cta": {
     "label": "Обсудить ТЗ на Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

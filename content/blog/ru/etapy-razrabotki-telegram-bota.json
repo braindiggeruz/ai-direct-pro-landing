@@ -362,7 +362,7 @@
     {
       "type": "cta",
       "text": "Обсудить этапы и оценку проекта",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -410,7 +410,7 @@
   ],
   "cta": {
     "label": "Обсудить разработку Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

@@ -80,7 +80,7 @@
         { "token": "service", "target": "/ru/razrabotka-telegram-mini-app-tashkent/", "anchor": "разработки Telegram Mini App" }
       ]
     },
-    { "type": "cta", "text": "Разобрать идею Mini App для вашего бизнеса", "href": "https://t.me/XGame_changerx" }
+    { "type": "cta", "text": "Разобрать идею Mini App для вашего бизнеса", "href": "#contact" }
   ],
   "faq": [
     { "q": "Mini App работает только на телефоне?", "a": "Нет. Telegram доступен на нескольких платформах, но интерфейс в первую очередь проектируют mobile-first и затем проверяют на поддерживаемых клиентах и размерах окна." },
@@ -88,7 +88,7 @@
     { "q": "Обязательно ли нужен Telegram-бот?", "a": "Большинство бизнес-сценариев связывает Mini App с ботом, однако Telegram поддерживает разные точки запуска. Архитектура зависит от того, как пользователь должен входить и получать уведомления." },
     { "q": "Можно ли использовать один Mini App для нескольких филиалов?", "a": "Да, если роли, каталог, расписание и права доступа спроектированы для филиальной структуры. Нельзя просто добавить поле филиала, не решив, откуда берутся его данные." }
   ],
-  "cta": { "label": "Заказать разработку Mini App", "href": "https://t.me/XGame_changerx" },
+  "cta": { "label": "Заказать разработку Mini App", "href": "#contact" },
   "internalLinks": [
     { "target": "/ru/razrabotka-telegram-mini-app-tashkent/", "anchor": "создание Mini App под бизнес-сценарий", "locale": "ru", "type": "contextual" },
     { "target": "/ru/blog/telegram-bot-ili-mini-app/", "anchor": "Telegram-бот или Mini App", "locale": "ru", "type": "contextual" },

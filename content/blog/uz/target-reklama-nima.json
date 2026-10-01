@@ -171,7 +171,7 @@
     },
     {
       "type": "linkp",
-      "text": "Reklama byudjeti ariza keltiradimi-yo‘qmi, hisoblab ko‘rish kerakmi? {call} yoki {tg}: chegaraviy CPLni birgalikda hisoblaymiz.",
+      "text": "Reklama byudjeti ariza keltiradimi-yo‘qmi, hisoblab ko‘rish kerakmi? {call} yoki {mail}: chegaraviy CPLni birgalikda hisoblaymiz.",
       "links": [
         {
           "token": "call",
@@ -179,9 +179,9 @@
           "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "tg",
-          "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram"
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
         }
       ]
     },

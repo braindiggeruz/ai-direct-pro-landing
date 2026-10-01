@@ -107,8 +107,8 @@
     },
     {
       "type": "cta",
-      "text": "O‘z raqamlaringiz bo‘yicha hisobni Telegram’da birga ko‘rib chiqamiz",
-      "href": "https://t.me/XGame_changerx"
+      "text": "O‘z raqamlaringiz bo‘yicha hisobni birga ko‘rib chiqamiz",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -143,12 +143,12 @@
     },
     {
       "q": "Narx qancha? U ROI ga qanday ta’sir qiladi?",
-      "a": "Narx integratsiya to‘plamiga bog‘liq va uni Telegram’da muhokama qilamiz. Formulada narx maxrajda turadi: xarajat qancha aniq bo‘lsa, ROI shuncha real bo‘ladi."
+      "a": "Narx integratsiya to‘plamiga bog‘liq va uni telefon yoki e-mail orqali muhokama qilamiz. Formulada narx maxrajda turadi: xarajat qancha aniq bo‘lsa, ROI shuncha real bo‘ladi."
     }
   ],
   "cta": {
-    "label": "Telegram’da hisobni ko‘rib chiqish",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Hisobni birga ko‘rib chiqish",
+    "href": "#contact"
   },
   "internalLinks": [
     {

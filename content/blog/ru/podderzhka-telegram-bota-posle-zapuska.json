@@ -366,7 +366,7 @@
     {
       "type": "cta",
       "text": "Обсудить поддержку или аудит бота",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -414,7 +414,7 @@
   ],
   "cta": {
     "label": "Обсудить поддержку Telegram-бота",
-    "href": "https://t.me/XGame_changerx"
+    "href": "#contact"
   },
   "internalLinks": [
     {

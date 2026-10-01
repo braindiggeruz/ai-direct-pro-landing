@@ -6,8 +6,7 @@ import type { GlobalSEO } from '../../shared/types';
 
 const EMPTY: GlobalSEO = {
   siteName: '', siteUrl: '', titleTemplate: '%s', defaultDescription: '', defaultOgImage: '',
-  organizationName: '', logo: '', telegram: '', instagram: '', address: '', sameAs: [],
-  defaultCTA: { label: '', href: '' },
+  organizationName: '', logo: '', email: '', studioTelegram: '', instagram: '', address: '', sameAs: [],
 };
 
 export default function Settings() {
@@ -55,14 +54,17 @@ export default function Settings() {
           <div className="sm:col-span-2"><Label>Default OG image URL</Label><Input value={data.defaultOgImage} onChange={(e) => set('defaultOgImage', e.target.value)}/></div>
           <div><Label>Organization name</Label><Input value={data.organizationName} onChange={(e) => set('organizationName', e.target.value)}/></div>
           <div><Label>Logo URL</Label><Input value={data.logo} onChange={(e) => set('logo', e.target.value)}/></div>
-          <div><Label>Telegram</Label><Input value={data.telegram || ''} onChange={(e) => set('telegram', e.target.value)}/></div>
+          {/* The studio's WORK Telegram, read by every studio contact on the
+              site (src/shared/studio-contact.ts). Empty = no Telegram is
+              offered; a value that is not https://t.me/<handle> never becomes
+              a link and fails tests/studio-contact.test.ts. */}
+          <div><Label>Studio Telegram <span className="text-white/40 text-xs">(https://t.me/handle, empty = none)</span></Label><Input value={data.studioTelegram || ''} onChange={(e) => set('studioTelegram', e.target.value)}/></div>
+          <div><Label>E-mail</Label><Input value={data.email || ''} onChange={(e) => set('email', e.target.value)}/></div>
           <div><Label>Instagram</Label><Input value={data.instagram || ''} onChange={(e) => set('instagram', e.target.value)}/></div>
           <div><Label>Phone</Label><Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)}/></div>
           <div><Label>Address</Label><Input value={data.address || ''} onChange={(e) => set('address', e.target.value)}/></div>
           <div className="sm:col-span-2"><Label>sameAs <span className="text-white/40 text-xs">(comma-separated URLs)</span></Label>
             <Input value={(data.sameAs || []).join(', ')} onChange={(e) => set('sameAs', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))}/></div>
-          <div><Label>Default CTA label</Label><Input value={data.defaultCTA.label} onChange={(e) => set('defaultCTA', { ...data.defaultCTA, label: e.target.value })}/></div>
-          <div><Label>Default CTA href</Label><Input value={data.defaultCTA.href} onChange={(e) => set('defaultCTA', { ...data.defaultCTA, href: e.target.value })}/></div>
         </div>
       </Card>
     </div>

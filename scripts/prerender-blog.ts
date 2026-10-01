@@ -24,6 +24,14 @@ import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { withStudioTelegramPrefill } from './telegram-cta';
+import {
+  articleLinksContactCard,
+  CONTACT_ANCHOR,
+  CONTACT_CTA_LABEL,
+  contactCardHtml,
+  studioFooterLinks,
+} from './contact-card';
+import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
   buildOrganizationLd,
@@ -317,20 +325,24 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
 // Scoped by the topicCluster the content already declares, not by a slug guess,
 // and rendered with the same markup, classes, contact values and tracking
 // attributes as the bar in scripts/prerender.ts — same `.sticky-cta` rule in
-// src/index.css, same data-testids, same phone and Telegram destinations.
+// src/index.css, same data-testids, the same phone and, once one is
+// configured, the same work Telegram (src/shared/studio-contact.ts); without
+// it the phone takes the whole bar (plan decision L14).
 const UZ_CHATGPT_CLUSTERS = new Set(['chatgpt-uzbek-tilida', 'chatgpt-ozbekistonda']);
 
 function showsStickyCta(a: BlogArticle): boolean {
   return Boolean(chatEntryForArticle(a.url)) || a.locale === 'uz' && UZ_CHATGPT_CLUSTERS.has(a.topicCluster || '');
 }
 
-function renderStickyCta(a: BlogArticle, global: GlobalSEO): string {
+function renderStickyCta(a: BlogArticle, studio: string | null = STUDIO_TELEGRAM_URL): string {
   if (!showsStickyCta(a)) return '';
   const entry = chatEntryForArticle(a.url);
   if (entry) return `<div class="sticky-cta lg:hidden article-chat-sticky"><a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">${entry.locale === 'ru' ? 'Открыть AI-чат' : 'AI-chatni ochish'} <span aria-hidden="true">↗</span></a></div>`;
   const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
-  const telegramHref = global.telegram || global.defaultCTA.href;
-  return `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(telegramHref)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a></div>`;
+  const telegram = studio
+    ? `<a data-testid="sticky-telegram-cta" ${STUDIO_CONTACT_ATTR} href="${escapeHtml(studio)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a>`
+    : '';
+  return `<div class="sticky-cta lg:hidden grid ${telegram ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'} gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:${STUDIO_PHONE}" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a>${telegram}</div>`;
 }
 
 function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publishedArticleUrls: ReadonlySet<string>): string {
@@ -348,8 +360,16 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
     'max-image-preview:large',
   ].join(', ');
   const entry = chatEntryForArticle(a.url);
-  const headerCtaHref = entry ? chatEntryHref(entry) : a.cta?.href || global.defaultCTA.href;
+  // Without its own call to action an article leads to the studio contact card.
+  const headerCtaHref = entry ? chatEntryHref(entry) : a.cta?.href || CONTACT_ANCHOR;
   const endChatEntry = entry && a.cta && ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(a.cta.href) ? entry : undefined;
+  // The card (phone, e-mail, the work Telegram once configured) renders where
+  // the end button stood, on every article that links "#contact"; an end CTA
+  // that only pointed at it gives way to the card itself.
+  const contactCard = articleLinksContactCard(a, headerCtaHref)
+    ? contactCardHtml({ url: a.url, locale: a.locale, label: a.h1 })
+    : '';
+  const endCta = a.cta && a.cta.href !== CONTACT_ANCHOR ? a.cta : undefined;
   const blogIndexHref = `/${lang}/blog/`;
   const authorProfileHref = lang === 'uz' ? '/uz/muallif-boris-gerasimov/' : (global.authorUrl || '/ru/avtor-boris-gerasimov/');
 
@@ -439,7 +459,7 @@ ${METRIKA_NOSCRIPT}
     <nav class="flex gap-2 sm:gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="hidden sm:inline text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>
       <a href="${escapeHtml(headerCtaHref)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${headerCtaHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-3 sm:px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center text-center">
-        ${escapeHtml(entry?.locale === 'ru' ? 'Открыть AI-чат' : a.cta?.label || global.defaultCTA.label)}
+        ${escapeHtml(entry?.locale === 'ru' ? 'Открыть AI-чат' : a.cta?.label || CONTACT_CTA_LABEL[lang])}
       </a>
     </nav>
   </div>
@@ -466,7 +486,7 @@ ${METRIKA_NOSCRIPT}
     </div>
   </article>
 
-  ${a.cta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(endChatEntry ? chatEntryHref(endChatEntry) : a.cta.href)}" ${endChatEntry ? `data-chat-entry="${endChatEntry.id}"` : ''}${a.cta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(endChatEntry?.locale === 'ru' ? 'Открыть AI-чат на русском' : a.cta.label)}</a></div>` : ''}
+  ${endCta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(endChatEntry ? chatEntryHref(endChatEntry) : endCta.href)}" ${endChatEntry ? `data-chat-entry="${endChatEntry.id}"` : ''}${endCta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(endChatEntry?.locale === 'ru' ? 'Открыть AI-чат на русском' : endCta.label)}</a></div>` : ''}${contactCard}
   ${renderFaq(a.faq || [], a)}
   ${renderSources(a)}
   ${renderInternalLinks(a, publishedArticleUrls)}
@@ -481,12 +501,11 @@ ${METRIKA_NOSCRIPT}
         ${a.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
       <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
-      <a href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+      ${studioFooterLinks('hover:text-white')}
     </div>
   </div>
 </footer>
-${renderStickyCta(a, global)}
+${renderStickyCta(a)}
 ${chatEntryForArticle(a.url) ? CHAT_ENTRY_TRACKING : ''}
 </body>
 </html>
@@ -609,7 +628,7 @@ ${METRIKA_NOSCRIPT}
     <a href="${locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="/${locale}/blog/" data-testid="header-blog-active" class="hidden sm:inline text-brand-cyan">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(global.defaultCTA.href)}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(global.defaultCTA.label)}</a>
+      <a href="${CONTACT_ANCHOR}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(CONTACT_CTA_LABEL[locale])}</a>
     </nav>
   </div>
 </header>
@@ -625,6 +644,7 @@ ${METRIKA_NOSCRIPT}
   <section data-testid="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     ${cards}
   </section>
+  ${contactCardHtml({ url: `/${locale}/blog/`, locale, label: t.blogTitle })}
 </main>
 
 <footer class="border-t border-white/5 mt-20 py-10">
@@ -635,8 +655,7 @@ ${METRIKA_NOSCRIPT}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
-      <a href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
-      <a href="${escapeHtml(global.telegram || '#')}" class="hover:text-white">Telegram</a>
+      ${studioFooterLinks('hover:text-white')}
     </div>
   </div>
 </footer>

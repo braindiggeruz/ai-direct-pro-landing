@@ -81,23 +81,29 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
   }
 
   // contactPoint — ContactPoint has no `url` or `areaServed` properties on
-  // schema.org, so only contactType + telephone + availableLanguage are emitted.
-  // telephone appears once global.phone is filled in content/global/site.json.
+  // schema.org, so only contactType + telephone + email + availableLanguage
+  // are emitted. telephone and email appear once global.phone and global.email
+  // are filled in content/global/site.json — the same phone and e-mail every
+  // footer and contact card shows (src/shared/studio-contact.ts).
   const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
+  const email = global.email?.trim();
   org.contactPoint = {
     '@type': 'ContactPoint',
     // The public number takes new-client enquiries, not support tickets.
     contactType: 'sales',
     ...(global.phone ? { telephone: global.phone } : {}),
+    ...(email ? { email } : {}),
     availableLanguage: langCodes.map((code) => LANGUAGE_NAMES[code] || code),
   };
   if (global.phone) org.telephone = global.phone;
+  if (email) org.email = email;
 
   // sameAs — the studio's own map and directory cards only
   // (content/global/site.json businessProfiles). global.sameAs holds the
-  // founder's personal Telegram and GitHub; those belong to the Person node
-  // (buildAuthorPersonLd). Listing them here too told search engines and AI
-  // assistants that the company and the founder are the same entity.
+  // founder's own profiles (GitHub; the personal Telegram left it with the
+  // protected-pages revision, plan decision L14); those belong to the Person
+  // node (buildAuthorPersonLd). Listing them here too told search engines and
+  // AI assistants that the company and the founder are the same entity.
   const sameAs = (global.businessProfiles ?? [])
     .filter((url, index, all) => url && all.indexOf(url) === index);
   if (sameAs.length > 0) org.sameAs = sameAs;

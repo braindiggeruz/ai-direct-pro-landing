@@ -40,7 +40,7 @@
     {"type":"table","headers":["Поле","Содержание"],"rows":[["Наблюдение","Что именно увидели"],["Доказательство","Ссылка, скриншот, выгрузка или тест"],["Влияние","Какая часть воронки затронута"],["Рекомендация","Конкретное действие"],["Владелец","Кто отвечает"],["Контроль","Как доказать исправление"]]},
     {"type":"quote","text":"Находка без доказательства, владельца, срока и критерия завершения остаётся наблюдением, а не задачей."},
     {"type":"linkp","text":"Если нужен независимый аудит с roadmap, смотрите {service}. Встроить исправления в общую систему поможет {digital}.","links":[{"token":"service","target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит в Ташкенте"},{"token":"digital","target":"/ru/digital-marketing-tashkent/","anchor":"комплексный digital-маркетинг"}]},
-    {"type":"cta","text":"Заказать независимый аудит","href":"https://t.me/XGame_changerx"}
+    {"type":"cta","text":"Заказать независимый аудит","href":"#contact"}
   ],
   "faq":[
     {"q":"Как часто проводить аудит?","a":"Полную проверку полезно делать перед новым бюджетным циклом или существенным изменением. Критичные события, формы и данные контролируются постоянно."},
@@ -50,7 +50,7 @@
     {"q":"Что делать с противоречивыми отчётами?","a":"Сверить определения, период, часовой пояс, модель атрибуции и дедупликацию. После этого выбрать источник правды для каждого уровня."},
     {"q":"Аудит гарантирует рост?","a":"Нет. Он выявляет подтверждённые разрывы и улучшает качество решений. Результат внедрения зависит также от продукта и рынка."}
   ],
-  "cta":{"label":"Получить аудит","href":"https://t.me/XGame_changerx"},
+  "cta":{"label":"Получить аудит","href":"#contact"},
   "internalLinks":[{"target":"/ru/marketingovyi-audit-tashkent/","anchor":"маркетинговый аудит в Ташкенте","locale":"ru","type":"contextual","priority":1},{"target":"/ru/digital-marketing-tashkent/","anchor":"digital-маркетинг","locale":"ru","type":"contextual","priority":2},{"target":"/ru/performance-marketing-tashkent/","anchor":"performance-маркетинг","locale":"ru","type":"contextual","priority":3},{"target":"/ru/blog/plan-digital-marketinga-na-90-dney/","anchor":"план на 90 дней","locale":"ru","type":"contextual","priority":4},{"target":"/ru/blog/marketingovye-terminy-slovar/","anchor":"словарь маркетинговых терминов","locale":"ru","type":"contextual","priority":5},
   {"target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "anchor": "Telegram Ads или посевы в каналах"}
 ],

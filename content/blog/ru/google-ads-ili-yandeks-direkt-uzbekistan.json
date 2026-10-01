@@ -181,12 +181,12 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — интернет-реклама и автоматизация для бизнеса. Адрес: Yahyo Gulyamov ko‘chasi 35, Toshkent. Обсудить задачу можно в Telegram по кнопке ниже."
+      "text": "GPTBot.uz — интернет-реклама и автоматизация для бизнеса. Адрес: Yahyo Gulyamov ko‘chasi 35, Toshkent. Обсудить задачу можно по телефону или e-mail — контакты по кнопке ниже."
     },
     {
       "type": "cta",
       "text": "Запросить состав работ и смету",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -216,8 +216,8 @@
     }
   ],
   "cta": {
-    "label": "Получить смету в Telegram",
-    "href": "https://t.me/XGame_changerx"
+    "label": "Получить смету",
+    "href": "#contact"
   },
   "internalLinks": [
     {

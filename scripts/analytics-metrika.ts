@@ -65,7 +65,9 @@ export const YANDEX_METRIKA_GOALS = [
   'lead_form_submit_success',
   // 2026-09-29: finer goals next to the four above, which keep firing exactly
   // as before so goals already configured in the counter do not break.
-  //   telegram_cta_studio     a click on the studio contact t.me/XGame_changerx
+  //   telegram_cta_studio     a click on the studio's work Telegram, the link
+  //                           marked data-contact="studio" (none while
+  //                           content/global/site.json names no work account)
   //   telegram_cta_bot        a click on a t.me/<name>bot product bot
   //   phone_click             a click on any tel: link
   //   lead_form_success       page lead form, after the server accepted it
@@ -203,10 +205,11 @@ export const METRIKA_HEAD = `<script data-tag="ym">
     var tme = href.toLowerCase().indexOf('t.me/');
     if (tme > -1 || href.indexOf('tg:') === 0) {
       goal('telegram_cta_click');
-      // Which Telegram: the studio contact or one of the product bots. Only the
+      // Which Telegram: the studio contact (the link marked data-contact="studio",
+      // src/shared/studio-contact.ts) or one of the product bots. Only the
       // handle is looked at, never the prefilled text that may follow it.
       var handle = tme > -1 ? href.slice(tme + 5).split('?')[0].split('#')[0].split('/')[0].toLowerCase() : '';
-      if (handle === 'xgame_changerx') goal('telegram_cta_studio');
+      if (el.getAttribute('data-contact') === 'studio') goal('telegram_cta_studio');
       else if (handle.length > 3 && handle.slice(-3) === 'bot') goal('telegram_cta_bot');
       return;
     }
