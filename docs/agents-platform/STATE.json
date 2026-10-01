@@ -436,6 +436,19 @@
       "settings_added": "V GPT_BOT_HANDOFF_ENABLED=\"false\" (packed JSON + nested table)",
       "migrations_for_release": "R1 applies 0065_gpt_uzum_payments.sql (in repo) and 0066 (WP-04) BEFORE the Pages deploy: the signed-in account panel and the live outbox read the 0065 view",
       "verification": "tsc -b 0; typecheck:functions 0; ESLint changed files 0; stage-1 files 81/81; gpt-readiness 9/9; gpt-account-ui 7/7; npm test files one by one 735/737 (2 known lead-radar date fixtures); build:fast steps 0; seo-protection 10/10; scan:secrets clean"
+    },
+    "r2r3_deploy": {
+      "deploy1_commit": "26b058e54861dfd57469ada283e278c01fa28749",
+      "d1_backup_sha256": "7c29d25cd5c176fd73e51ded4adb279d9120621d7a815e09f21636012778b252",
+      "migrations_applied": [
+        "0067_javob_plans_retire.sql"
+      ],
+      "bot_probe": "4/4 ok (text+voice, uz+ru)",
+      "bot_profile": "applied, matches true",
+      "secrets_set": [
+        "GPT_HASH_SALT (Pages)"
+      ],
+      "salt_since": "2026-10-02T00:00:00Z"
     }
   },
   "gsc_driven_20260930": {
@@ -598,10 +611,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: R2+R3 integration verification of WP-07..WP-12 as one production release (verified at 23e2c92c, not deployed): all checks green, migration 0067 rehearsed locally twice, the release checklist is in HANDOFF",
+  "current_stage": "Paid AI chat production readiness: R2+R3 deploying (deploy 1 = 26b058e5 live; salt SINCE 2026-10-02T00:00:00Z)",
   "stage_status": "complete",
   "last_completed_stage": "Paid AI chat R2+R3 integration verification on paid-chat/prod-readiness: WP-07..WP-12 verified at 23e2c92c (not pushed, not deployed; 0067 rehearsed locally, no code change)",
-  "next_stage": "Release R2+R3 (WP-07..WP-12) on the owner command per the HANDOFF checklist, then paid AI chat WP-13 (release R4)",
+  "next_stage": "Paid AI chat R4: WP-13..WP-18 (billing core, Click and Uzum fiscal receipts, Uzum hardening, bot login, pack window, offer and policy), per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

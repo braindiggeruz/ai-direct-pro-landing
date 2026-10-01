@@ -1,3 +1,20 @@
+# Платный AI-чат: выкат R2+R3, деплой 1 и включение соли, 2026-10-01
+
+**Итог.** R2+R3 (WP-07…WP-12, вершина `26b058e5`) выкатываются одним релизом в два деплоя Pages, по чек-листу сверки R2+R3 (ниже).
+1. Экспорт D1 до 0067: `F:/Claude/gptbot-production-backups/paid-chat-R2R3-2026-10-01T08-39-51Z/before-0067.sql`, 35 470 223 байта, sha256 `7c29d25cd5c176fd73e51ded4adb279d9120621d7a815e09f21636012778b252` (вне Git).
+2. Репетиция 0067 на копии экспорта: pending = только 0067; второе применение пусто; `quick_check` ok; `plans`: free=1, day_pass=0, plus=0.
+3. `migrations list --remote` = ровно 0067 → `apply` → сверка: последняя 0067, ledger 68, `plans` free=1, day_pass/plus/pro/team=0.
+4. `build:production` → seo-protection 10/10 (новая база `2026-10-01-paid-chat-honesty`), бюджет бандла в норме, seo-audit 0 critical, `tsc -b` 0, `deploy_runner.py check` pass → `deploy`. Guard сообщил об отставании CDN; через 20 с манифест = `26b058e5`, повторно не деплоили.
+5. Тик обслуживания: `rekey.status = off`, сбоев нет.
+6. Бот: проба `gpt-model-probe?target=javob` — 4/4 ok (текст и голос, UZ и RU, nemotron, 0,9–1,4 с). `javob-setup` → `{"apply":true}` → `matches: true` (`/plans` — «лимит / limit»).
+7. `GPT_HASH_SALT` (32 байта, только в `C:/Users/Borinio/.config/gptbot-private/gpt-hash-salt.txt`) задан секретом Pages.
+
+**Этот коммит.** `GPT_HASH_SALT_SINCE = 2026-10-02T00:00:00Z` в `wrangler.toml` (JSON и таблица). Тесты: runtime-config 4/4, pages-config-parity 7/7, gpt-hash-salt 11/11.
+
+**Дальше.** Деплой 2 этого коммита, тик → `rekey waiting`; после `SINCE` перекей кроном до `done`; через 2 ч — агрегаты из `docs/paid-chat/SALT-RU.md` шаг 7; маркеры живых страниц, защищённые 10/10 вживую, sitemaps и IndexNow; квитанция `docs/paid-chat/releases/R2R3-live-verification.json`. Откат после `SINCE` — только вперёд.
+
+---
+
 # Платный AI-чат к проду: сквозная проверка R2+R3 одним релизом (WP-07…WP-12), 2026-10-01
 
 **Итог.** Ветка `paid-chat/prod-readiness` проверена целиком на вершине `23e2c92c` (WP-07…WP-12 с ревью поверх живого R1 `77720e11`). Сверял с планом `10-PROD-PLAN.md`: §1 (проверки и «Релиз»), §3 (строки R2 и R3), §4 (WP-07…WP-12), §5 и §6, а также с `SALT-RU.md` и `BOT-RU.md`. Ведущий решил выкатить R2 и R3 одним релизом, поэтому ниже один чек-лист. Работа началась после закрытия приложения: дерево было чистым на `23e2c92c`, незаконченной проверки не было. Поломок не нашлось, код не менялся. Ничего не запушено и не задеплоено. Cloudflare, GSC, боты и вебхуки не менялись, удалённая D1 не читалась. Из сети читались только публичные страницы (`gptbot-release.json` и 10 защищённых URL) и список sitemap в GSC.
