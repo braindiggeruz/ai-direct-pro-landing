@@ -14,6 +14,7 @@
 import { MEASUREMENT_HOLD_PATHS } from './measurement-hold';
 import { PROTECTED_PATHS } from './seo-protection';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
+import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 /**
  * Explicit allowlist: page URL → service slug sent with the lead
@@ -126,21 +127,43 @@ const CLIENT_COPY = {
     consent: 'Отметьте согласие — без него мы не можем ответить на заявку.',
     sending: 'Отправляем…',
     success: 'Спасибо! Заявка получена. Ответим в рабочее время, Пн–Сб 10:00–19:00.',
-    turnstile: 'Форма просит дополнительную проверку. Напишите нам в Telegram:',
-    failed: 'Не удалось отправить заявку. Напишите нам в Telegram:',
-    telegram: 'Написать в Telegram',
+    turnstile: 'Форма просит дополнительную проверку. Свяжитесь с нами напрямую.',
+    failed: 'Не удалось отправить заявку. Свяжитесь с нами напрямую.',
   },
   uz: {
     contact: 'Telefon raqami (masalan, +998 90 123 45 67) yoki Telegram (@username) kiriting.',
     consent: 'Roziligingizni belgilang — busiz arizaga javob bera olmaymiz.',
     sending: 'Yuborilmoqda…',
     success: 'Rahmat! Ariza qabul qilindi. Ish vaqtida javob beramiz: Du–Sha 10:00–19:00.',
-    turnstile: 'Bu yerda qo‘shimcha tekshiruv talab qilinmoqda. Telegramda yozing:',
-    rateLimited: 'Arizangiz allaqachon qabul qilingan. Shoshilinch bo‘lsa, Telegramda yozing:',
-    failed: 'Arizani yuborib bo‘lmadi. Telegramda yozing:',
-    telegram: 'Telegramda yozish',
+    turnstile: 'Bu yerda qo‘shimcha tekshiruv talab qilinmoqda. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
+    rateLimited: 'Arizangiz allaqachon qabul qilingan. Shoshilinch bo‘lsa, biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
+    failed: 'Arizani yuborib bo‘lmadi. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
   },
 } as const;
+
+/**
+ * Where the form sends a visitor it could not take: the studio's work Telegram
+ * with a draft naming the page, or, while no work account is configured
+ * (src/shared/studio-contact.ts), the studio phone.
+ */
+export function leadFormFallback(
+  locale: 'ru' | 'uz',
+  label: string,
+  path: string,
+  studio: string | null = STUDIO_TELEGRAM_URL,
+): { href: string; text: string } {
+  const telegram = studioTelegramHref(locale, label, path, studio);
+  if (telegram) return { href: telegram, text: locale === 'uz' ? 'Telegramda yozish' : 'Написать в Telegram' };
+  return {
+    href: `tel:${STUDIO_PHONE}`,
+    text: `${locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PHONE_DISPLAY}`,
+  };
+}
+
+/** target and rel for a fallback href: a web link opens a new tab, tel: does not. */
+function fallbackTarget(href: string): string {
+  return /^https:/.test(href) ? ' target="_blank" rel="nofollow noopener noreferrer"' : '';
+}
 
 function escapeAttr(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
@@ -162,7 +185,8 @@ const INPUT_CLASS =
  * put ?contact=+998… into the page URL, where the analytics tags and edge logs
  * record it. So the submit button ships `disabled` and only the script enables
  * it, after binding; `method="post"` keeps any other fallback out of the query
- * string; and a <noscript> line offers Telegram instead of a dead form.
+ * string; and a <noscript> line offers the direct contact instead of a dead
+ * form.
  */
 export function renderLeadForm(page: LeadFormPage): string {
   const service = leadFormServiceFor(page);
@@ -170,12 +194,12 @@ export function renderLeadForm(page: LeadFormPage): string {
   const locale = page.locale === 'uz' ? 'uz' : 'ru';
   const t = COPY[locale];
   const label = telegramServiceLabel(page.breadcrumbLabel || page.h1);
-  const telegram = studioTelegramHref(locale, label, page.url);
+  const fallback = leadFormFallback(locale, label, page.url);
   return `<section id="lead-form" data-testid="page-lead-form" aria-labelledby="lead-form-heading" class="mt-16 scroll-mt-24 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-5 sm:p-8">
       <div class="eyebrow mb-3">${escapeText(t.eyebrow)}</div>
       <h2 id="lead-form-heading" class="font-display text-2xl sm:text-3xl text-white mb-3">${escapeText(t.heading)}</h2>
       <p class="text-sm sm:text-base text-white/70 leading-relaxed mb-6">${escapeText(t.intro)}</p>
-      <form data-lead-form method="post" data-service="${escapeAttr(service)}" data-locale="${locale}" data-label="${escapeAttr(label)}" data-telegram="${escapeAttr(telegram)}" class="grid gap-4 ym-disable-submit" novalidate>
+      <form data-lead-form method="post" data-service="${escapeAttr(service)}" data-locale="${locale}" data-label="${escapeAttr(label)}" data-fallback="${escapeAttr(fallback.href)}" data-fallback-text="${escapeAttr(fallback.text)}" class="grid gap-4 ym-disable-submit" novalidate>
         <div class="grid gap-4 sm:grid-cols-2">
           <label class="grid gap-2 text-sm text-white/80">
             <span>${escapeText(t.name)} <span class="text-white/45">${escapeText(t.optional)}</span></span>
@@ -195,7 +219,7 @@ export function renderLeadForm(page: LeadFormPage): string {
         </div>
       </form>
       <p data-lead-form-status role="status" aria-live="polite" tabindex="-1" class="mt-4 text-sm leading-relaxed text-white/80 focus:outline-none"></p>
-      <noscript><p class="mt-4 text-sm"><a href="${escapeAttr(telegram)}" target="_blank" rel="nofollow noopener noreferrer" class="inline-block py-3 font-semibold text-brand-cyan underline underline-offset-2 hover:no-underline">${escapeText(CLIENT_COPY[locale].telegram)}</a></p></noscript>
+      <noscript><p class="mt-4 text-sm"><a href="${escapeAttr(fallback.href)}"${fallbackTarget(fallback.href)} class="inline-block py-3 font-semibold text-brand-cyan underline underline-offset-2 hover:no-underline">${escapeText(fallback.text)}</a></p></noscript>
     </section>`;
 }
 
@@ -210,7 +234,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   var COPY=${JSON.stringify(CLIENT_COPY)};
   var uz=form.getAttribute('data-locale')==='uz',T=uz?COPY.uz:COPY.ru;
   var service=form.getAttribute('data-service')||'',label=form.getAttribute('data-label')||'';
-  var tgHref=form.getAttribute('data-telegram')||'https://t.me/XGame_changerx';
+  var fbHref=form.getAttribute('data-fallback')||'',fbText=form.getAttribute('data-fallback-text')||'';
   var section=form.parentNode,status=section&&section.querySelector('[data-lead-form-status]');
   var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]');
   var UTM=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],CLICK=['gclid','yclid','fbclid'];
@@ -249,14 +273,14 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     if(/^(?:@|(?:https?:\/\/)?t\.me\/)?[A-Za-z][A-Za-z0-9_]{4,31}$/.test(v))return true;
     return /^[^\s@]{1,64}@[^\s@.]{1,190}\.[^\s@]{2,63}$/.test(v);
   }
-  function say(text,withTelegram){
+  function say(text,withContact){
     if(!status)return;
     status.textContent=text;
-    if(withTelegram){
+    if(withContact&&fbHref&&fbText){
       var a=document.createElement('a');
-      a.href=tgHref;a.target='_blank';a.rel='nofollow noopener noreferrer';
+      a.href=fbHref;if(/^https:/.test(fbHref)){a.target='_blank';a.rel='nofollow noopener noreferrer';}
       a.className='ml-1 inline-flex min-h-[44px] items-center font-semibold text-brand-cyan underline underline-offset-2 hover:no-underline';
-      a.textContent=T.telegram;
+      a.textContent=fbText;
       status.appendChild(document.createTextNode(' '));status.appendChild(a);
     }
   }

@@ -28,8 +28,8 @@
   "breadcrumbLabel": "AI-sotuvchi",
   "heroTitle": "AI-sotuvchi — mijoz bilan birinchi suhbatni olib boruvchi yordamchi",
   "heroSubtitle": "AI-sotuvchi sotuv bo‘limini almashtirmaydi, balki birinchi kontaktni o‘z zimmasiga oladi: javob beradi, mijozni saralaydi va menejerga tayyor lid uzatadi.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -136,8 +136,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demo so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -173,7 +173,7 @@
     },
     {
       "q": "Narxi qancha?",
-      "a": "Narx ssenariy murakkabligi va kanallar soniga bog‘liq. Nishingiz uchun bepul demo oling: https://t.me/XGame_changerx."
+      "a": "Narx ssenariy murakkabligi va kanallar soniga bog‘liq. Nishangiz uchun bepul demo: +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing."
     },
     {
       "q": "AI sotuvchi savdo bo‘limini almashtiradimi?",
@@ -185,7 +185,7 @@
     },
     {
       "q": "AI sotuvchi qancha turadi?",
-      "a": "Narx kanallar soni, ssenariy murakkabligi va CRM integratsiyasiga bog‘liq. Voronkangizga qarab hisoblaymiz — Telegram’ga yozing."
+      "a": "Narx kanallar soni, ssenariy murakkabligi va CRM integratsiyasiga bog‘liq. Voronkangizga qarab hisoblaymiz — biz bilan bog‘laning."
     }
   ],
   "internalLinks": [

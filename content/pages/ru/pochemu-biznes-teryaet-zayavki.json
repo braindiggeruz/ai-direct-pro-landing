@@ -28,7 +28,7 @@
   "heroTitle": "Почему бизнес теряет заявки",
   "heroSubtitle": "Четыре главные причины потери клиентов в мессенджерах — и как AI-бот закрывает каждую из них.",
   "ctaPrimaryLabel": "Перестать терять заявки",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Разобрать причины",
   "ctaSecondaryHref": "#prichiny",
   "bodyBlocks": [
@@ -83,7 +83,7 @@
     {
       "type": "cta",
       "text": "Перестать терять заявки",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

@@ -26,8 +26,8 @@
   "breadcrumbLabel": "Biznes uchun chat-bot",
   "heroTitle": "Biznes uchun chat-bot — Telegram va Instagram’da 24/7 javob",
   "heroSubtitle": "Chat-bot mijozning birinchi savoliga bir necha soniyada javob beradi, ism va telefonni yig‘adi va tayyor lidni menejeringizga uzatadi.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -116,12 +116,12 @@
     },
     {
       "type": "p",
-      "text": "Tipik ssenariyli bitta kanal uchun chat-bot — boshlash uchun eng arzon yechim. Narx kanallar va integratsiyalar soni bilan oshadi. Telegram’ga yozing — qo‘llab-quvvatlovingiz va byudjetingizga konfiguratsiya tanlaymiz."
+      "text": "Tipik ssenariyli bitta kanal uchun chat-bot — boshlash uchun eng arzon yechim. Narx kanallar va integratsiyalar soni bilan oshadi. Ariza qoldiring — qo‘llab-quvvatlovingiz va byudjetingizga konfiguratsiya tanlaymiz."
     },
     {
       "type": "cta",
-      "text": "Telegram’da chat-bot so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Chat-bot so‘rash",
+      "href": "#lead-form"
     },
     {
       "type": "h2",

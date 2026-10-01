@@ -29,7 +29,7 @@
   "heroTitle": "AI-бот для агентства недвижимости и риелторов",
   "heroSubtitle": "AI-менеджер квалифицирует клиента по бюджету, району, формату и сроку, собирает контакт и передаёт горячего покупателя или арендатора риелтору. Telegram, Instagram Direct и WhatsApp — на русском и узбекском.",
   "ctaPrimaryLabel": "Обсудить бота для агентства",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Сценарий квалификации",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -229,7 +229,7 @@
     {
       "type": "cta",
       "text": "Обсудить AI-бота для агентства",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

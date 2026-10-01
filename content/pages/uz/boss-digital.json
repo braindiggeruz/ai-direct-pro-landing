@@ -26,7 +26,7 @@
   "heroTitle": "Boss Digital — Toshkentda digital-agentlik va biznesni AI-avtomatlashtirish",
   "heroSubtitle": "Boss Digital biznes uchun saytlar, raqamli yechimlar va avtomatlashtirish tizimlarini ishlab chiqadi. GPTBot.uz — kompaniyaning murojaatlar, arizalar va savdoni avtomatlashtirish uchun AI- va Telegram-botlar yaratadigan ixtisoslashgan yo‘nalishi.",
   "ctaPrimaryLabel": "Loyihani muhokama qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "GPTBot.uz yechimlarini ko‘rish",
   "ctaSecondaryHref": "/",
   "bodyBlocks": [
@@ -198,7 +198,7 @@
     },
     {
       "type": "p",
-      "text": "Kompaniya Toshkentda ishlaydi va mijozlarni ofis manzilida qabul qiladi. Uchrashuvni oldindan kelishib olgan ma’qul — Telegram orqali yozing yoki qo‘ng‘iroq qiling. O‘zbekistonning boshqa shaharlaridagi kompaniyalar bilan masofadan ishlaymiz: muhokama, joriy etish va qo‘llab-quvvatlash onlayn o‘tadi."
+      "text": "Kompaniya Toshkentda ishlaydi va mijozlarni ofis manzilida qabul qiladi. Uchrashuvni oldindan kelishib olgan ma’qul — qo‘ng‘iroq qiling yoki e-mail yozing. O‘zbekistonning boshqa shaharlaridagi kompaniyalar bilan masofadan ishlaymiz: muhokama, joriy etish va qo‘llab-quvvatlash onlayn o‘tadi."
     },
     {
       "type": "list",
@@ -225,7 +225,7 @@
       "items": [
         "Boss Digital, Toshkent, O‘zbekiston",
         "Telefon: +998 50 587 07 20",
-        "Telegram: t.me/XGame_changerx",
+        "E-mail: ceo@gptbot.uz",
         "Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent",
         "Ish vaqti: 10:00–19:00",
         "AI-yo‘nalish sayti: gptbot.uz"
@@ -233,8 +233,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da loyihani muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Loyihani muhokama qilish",
+      "href": "#lead-form"
     },
     {
       "type": "h2",
@@ -282,7 +282,7 @@
     },
     {
       "q": "Ishni qanday boshlash mumkin?",
-      "a": "Telegram orqali yozing (t.me/XGame_changerx) yoki +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko‘rib chiqamiz va aniq yechim taklif qilamiz."
+      "a": "+998 50 587 07 20 raqamiga qo‘ng‘iroq qiling, ceo@gptbot.uz manziliga yozing yoki shu sahifadagi formada ariza qoldiring. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko‘rib chiqamiz va aniq yechim taklif qilamiz."
     }
   ],
   "internalLinks": [

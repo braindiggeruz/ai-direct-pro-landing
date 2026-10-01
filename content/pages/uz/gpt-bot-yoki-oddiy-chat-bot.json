@@ -28,7 +28,7 @@
   "heroTitle": "GPT-bot yoki oddiy chat-bot",
   "heroSubtitle": "Aqlli GPT-bot tugmali ssenariyli botdan nimasi bilan farq qiladi — va vazifalaringizga qaysi birini tanlash kerak.",
   "ctaPrimaryLabel": "Vazifaga bot tanlash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Ikki turni solishtirish",
   "ctaSecondaryHref": "#solishtirish",
   "bodyBlocks": [
@@ -80,7 +80,7 @@
     {
       "type": "cta",
       "text": "Vazifaga bot tanlash",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [

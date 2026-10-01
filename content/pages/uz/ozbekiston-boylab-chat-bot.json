@@ -27,8 +27,8 @@
   "breadcrumbLabel": "O‘zbekiston bo‘ylab chat-bot",
   "heroTitle": "Butun O‘zbekiston bo‘ylab chat-bot ishlab chiqish",
   "heroSubtitle": "Barcha hududlar bilan masofadan ishlaymiz — Toshkent, Samarqand, Buxoro, Namangan, Andijon va boshqa shaharlar. Telegram, Instagram Direct va WhatsApp rus va o‘zbek tilida.",
-  "ctaPrimaryLabel": "Telegram’da botni muhokama qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Botni muhokama qilish",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Shaharlar va ish formati",
   "ctaSecondaryHref": "#shaharlar",
   "bodyBlocks": [
@@ -79,8 +79,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Botni muhokama qilish",
+      "href": "#lead-form"
     }
   ],
   "faq": [

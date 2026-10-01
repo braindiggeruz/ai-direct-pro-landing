@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
+import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
   buildEstimateSummary,
@@ -14,19 +15,35 @@ import {
   type FeatureId,
 } from './pricing';
 
-const TELEGRAM_URL = 'https://t.me/XGame_changerx';
 const FIRST_TOUCH_KEY = 'gptbot_ft_v1';
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
 const CLICK_ID_KEYS = ['gclid', 'yclid', 'fbclid'] as const;
 
 type LeadError = 'form' | 'contact' | 'turnstile' | 'rate_limited' | 'failed';
 
+/**
+ * How the estimate reaches the studio without the form: the studio's work
+ * Telegram while one is configured (the summary is copied, the visitor pastes
+ * it), otherwise an e-mail that already contains it (src/shared/studio-contact.ts).
+ */
+const SEND_BY_TELEGRAM = STUDIO_TELEGRAM_URL !== null;
+const SEND_LABEL = SEND_BY_TELEGRAM ? 'Отправить расчёт в Telegram' : 'Отправить расчёт на e-mail';
+const SEND_HOW = SEND_BY_TELEGRAM
+  ? 'по кнопке ниже расчёт скопируется, останется вставить его в сообщение'
+  : `по кнопке ниже откроется письмо на ${STUDIO_EMAIL} с расчётом внутри`;
+
+function sendEstimateHref(summary: string): string {
+  if (STUDIO_TELEGRAM_URL) return STUDIO_TELEGRAM_URL;
+  const subject = 'Расчёт Telegram-бота с сайта GPTBot.uz';
+  return `mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary)}`;
+}
+
 const LEAD_ERROR_TEXT: Record<LeadError, string> = {
-  form: 'Укажите контакт и подтвердите согласие. Если форма недоступна, напишите нам в Telegram.',
-  contact: 'Не получилось распознать контакт. Укажите телефон в формате +998… или Telegram-ник @username — или напишите нам в Telegram.',
-  turnstile: 'Форма временно просит дополнительную проверку. Отправьте расчёт нам в Telegram — ответим там же.',
-  rate_limited: 'Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, напишите нам в Telegram.',
-  failed: 'Не удалось отправить заявку. Напишите нам в Telegram — по кнопке ниже расчёт скопируется, останется вставить его в сообщение.',
+  form: 'Укажите контакт и подтвердите согласие.',
+  contact: 'Не получилось распознать контакт. Укажите телефон в формате +998… или Telegram-ник @username — или отправьте расчёт напрямую.',
+  turnstile: `Форма временно просит дополнительную проверку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
+  rate_limited: `Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, позвоните: ${STUDIO_PHONE_DISPLAY}.`,
+  failed: `Не удалось отправить заявку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
 };
 
 /** Server codes from /api/gpt/lead mapped to what the visitor can do about them. */
@@ -281,9 +298,11 @@ export default function CalculatorApp() {
     }
   };
 
-  const openTelegramFallback = () => {
+  const sendHref = sendEstimateHref(summary);
+  // The summary is also copied: a mail client may cut a long mailto body.
+  const sendEstimate = (from: 'result' | 'lead_error') => {
     void copyText(summary);
-    track('calculator_telegram_click', { goal: selection.goalId, from: 'lead_error' });
+    track(SEND_BY_TELEGRAM ? 'calculator_telegram_click' : 'calculator_email_click', { goal: selection.goalId, from });
   };
 
   return (
@@ -448,13 +467,12 @@ export default function CalculatorApp() {
                   Скопировать мини-ТЗ
                 </button>
                 <a
-                  href={TELEGRAM_URL}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  onClick={() => { void copyText(summary); track('calculator_telegram_click', { goal: selection.goalId }); }}
+                  href={sendHref}
+                  {...(SEND_BY_TELEGRAM ? { target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
+                  onClick={() => sendEstimate('result')}
                   className="btn-primary min-h-12 text-center"
                 >
-                  Скопировать и открыть Telegram
+                  {SEND_BY_TELEGRAM ? 'Скопировать и открыть Telegram' : SEND_LABEL}
                 </a>
               </div>
               <p className="mt-3 min-h-5 text-sm text-brand-cyan" role="status">{copyStatus}</p>
@@ -508,15 +526,21 @@ export default function CalculatorApp() {
                   {formStatus === 'error' && (
                     <div className="mt-3 text-sm leading-relaxed text-rose-200" role="alert">
                       <p>{LEAD_ERROR_TEXT[leadError]}</p>
-                      {leadError !== 'form' && (
+                      {leadError === 'rate_limited' ? (
                         <a
-                          href={TELEGRAM_URL}
-                          target="_blank"
-                          rel="nofollow noopener noreferrer"
-                          onClick={openTelegramFallback}
+                          href={`tel:${STUDIO_PHONE}`}
                           className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
                         >
-                          Отправить расчёт в Telegram
+                          Позвонить: {STUDIO_PHONE_DISPLAY}
+                        </a>
+                      ) : leadError !== 'form' && (
+                        <a
+                          href={sendHref}
+                          {...(SEND_BY_TELEGRAM ? { target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
+                          onClick={() => sendEstimate('lead_error')}
+                          className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
+                        >
+                          {SEND_LABEL}
                         </a>
                       )}
                     </div>

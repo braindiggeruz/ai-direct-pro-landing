@@ -28,7 +28,7 @@
   "heroTitle": "Biznes nega arizalarni yo‘qotadi",
   "heroSubtitle": "Messenjerlarda mijozlarni yo‘qotishning to‘rtta asosiy sababi — va AI bot ularning har birini qanday yopadi.",
   "ctaPrimaryLabel": "Arizalarni yo‘qotishni to‘xtatish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Sabablarni ko‘rib chiqish",
   "ctaSecondaryHref": "#sabablar",
   "bodyBlocks": [
@@ -83,7 +83,7 @@
     {
       "type": "cta",
       "text": "Arizalarni yo‘qotishni to‘xtatish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [

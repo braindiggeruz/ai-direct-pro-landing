@@ -28,7 +28,7 @@
   "heroTitle": "Локальное SEO в Ташкенте",
   "heroSubtitle": "Сводим воедино сайт, Google Business Profile, Яндекс Бизнес и 2ГИС: корректные данные, категории, услуги, филиалы, отзывы, фотографии и измеримые действия. Работаем только с реальной географией бизнеса — без фиктивных адресов и обещаний топ‑1.",
   "ctaPrimaryLabel": "Заказать локальный SEO-аудит",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Что входит в работу",
   "ctaSecondaryHref": "#scope",
   "heroImage": {
@@ -224,7 +224,7 @@
     {
       "type": "cta",
       "text": "Получить аудит локальной видимости",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [

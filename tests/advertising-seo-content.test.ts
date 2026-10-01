@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import type { BlogArticle, Page } from '../src/shared/types';
+import { LEAD_FORM_PAGES } from '../scripts/lead-form';
 
 const articles = [
   'ru/telegram-ads-stoimost-i-zapusk-uzbekistan',
@@ -83,7 +84,9 @@ test('commercial briefs preserve a real contact and explicitly distinguish click
   for (const key of ['ru/targetirovannaya-reklama-tashkent', 'ru/telegram-ads-uzbekistan', 'uz/telegram-reklama']) {
     const page = read<Page>(`pages/${key}`);
     published(page, `/${key}/`);
-    assert.equal(page.ctaPrimaryHref, 'https://t.me/XGame_changerx');
+    // The page's own lead form, not a personal Telegram account (paid-chat L14).
+    assert.equal(page.ctaPrimaryHref, '#lead-form');
+    assert.ok(`/${key}/` in LEAD_FORM_PAGES, key);
     assert.equal(page.ctaSecondaryHref, '#brief');
     assert.equal(page.bodyBlocks.filter(block => block.id === 'brief').length, 1);
     assert.ok(page.bodyBlocks.some(block => block.type === 'quote' && block.text?.includes(`gptbot.uz/${key}/`)));

@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Стоимость чат-бота",
   "heroTitle": "Стоимость чат-бота для бизнеса",
   "heroSubtitle": "Стартовые цены относятся к конкретному ограниченному объёму работ. До запуска фиксируем каналы, сценарии, интеграции, ограничения, поддержку и сторонние расходы.",
-  "ctaPrimaryLabel": "Узнать стоимость в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Узнать стоимость",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -162,8 +162,8 @@
     },
     {
       "type": "cta",
-      "text": "Выбрать тариф и получить смету в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Выбрать тариф и получить смету",
+      "href": "#lead-form"
     },
     {
       "type": "linkp",
@@ -281,8 +281,8 @@
     },
     {
       "type": "cta",
-      "text": "Узнать стоимость в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Узнать стоимость",
+      "href": "#lead-form"
     },
     {
       "type": "h2",

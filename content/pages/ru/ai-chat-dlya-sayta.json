@@ -20,8 +20,8 @@
   "breadcrumbLabel": "AI-чат для сайта",
   "heroTitle": "AI-чат для сайта",
   "heroSubtitle": "Встроенный AI-чат-консультант для вашего сайта: отвечает 24/7, собирает заявки и передаёт горячих лидов менеджеру или в CRM.",
-  "ctaPrimaryLabel": "Получить демо в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Получить демо",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#kak-rabotaet",
   "bodyBlocks": [

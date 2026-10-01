@@ -3,8 +3,9 @@
 // Run: node --import tsx --test tests/lead-capture-templates.test.ts
 //
 // Pins four things the prerenderers now ship:
-//   - the studio Telegram link carries a prefilled first message, except on the
-//     ten protected pages (scripts/telegram-cta.ts);
+//   - a studio Telegram link carries a prefilled first message, except on the
+//     ten protected pages (scripts/telegram-cta.ts); while no work Telegram is
+//     configured (L14) the form falls back to the studio phone;
 //   - a first-touch record is written once per browser, sends nothing, and the
 //     copy in index.html cannot drift (scripts/attribution-snippet.ts);
 //   - the two-field page form posts exactly the /api/gpt/lead contract, and a
@@ -21,8 +22,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { STUDIO_TELEGRAM_URL, studioTelegramHref, studioTelegramMessage, telegramServiceLabel, withStudioTelegramPrefill } from '../scripts/telegram-cta';
+import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from '../src/shared/studio-contact';
 import { FIRST_TOUCH_SCRIPT, FIRST_TOUCH_STORAGE_KEY } from '../scripts/attribution-snippet';
-import { LEAD_FORM_PAGES, LEAD_FORM_SCRIPT, PRIVACY_PAGE, leadFormServiceFor, renderLeadForm } from '../scripts/lead-form';
+import { LEAD_FORM_PAGES, LEAD_FORM_SCRIPT, PRIVACY_PAGE, leadFormFallback, leadFormServiceFor, renderLeadForm } from '../scripts/lead-form';
 import { MEASUREMENT_HOLD_PATHS } from '../scripts/measurement-hold';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
 import { ANALYTICS_HEAD } from '../scripts/analytics-snippet';
@@ -50,6 +52,9 @@ const PAGES = new Map<string, Page>(
 );
 
 const scriptBody = (block: string) => block.replace(/^<script[^>]*>\n/, '').replace(/\n<\/script>$/, '');
+/** A stand-in work account: what the templates do once one is configured. */
+const WORK = 'https://t.me/studio_work';
+const CALL = { ru: `Позвонить: ${STUDIO_PHONE_DISPLAY}`, uz: `Qo‘ng‘iroq qilish: ${STUDIO_PHONE_DISPLAY}` } as const;
 
 // ── Telegram prefill ─────────────────────────────────────────────────────────
 
@@ -64,13 +69,27 @@ test('the prefilled message names the brand, the service and the page in both lo
   );
 });
 
+test('no work Telegram is configured, so there is no studio Telegram href (L14)', () => {
+  assert.equal(STUDIO_TELEGRAM_URL, null);
+  assert.equal(studioTelegramHref('ru', 'Стоимость чат-бота', '/ru/stoimost-chat-bota/'), null);
+});
+
 test('the prefilled href is the bare contact plus one encoded text parameter', () => {
-  const href = studioTelegramHref('uz', 'O‘zbekiston bo‘ylab chat-bot', '/uz/ozbekiston-boylab-chat-bot/');
+  const href = studioTelegramHref('uz', 'O‘zbekiston bo‘ylab chat-bot', '/uz/ozbekiston-boylab-chat-bot/', WORK)!;
   const url = new URL(href);
-  assert.equal(`${url.origin}${url.pathname}`, STUDIO_TELEGRAM_URL);
+  assert.equal(`${url.origin}${url.pathname}`, WORK);
   assert.deepEqual([...url.searchParams.keys()], ['text']);
   assert.equal(url.searchParams.get('text'), studioTelegramMessage('uz', 'O‘zbekiston bo‘ylab chat-bot', '/uz/ozbekiston-boylab-chat-bot/'));
   assert.doesNotMatch(href, /["'<>\s&]/, 'the href must be safe inside any attribute');
+});
+
+test('the form falls back to the phone, and to the work Telegram once one is configured', () => {
+  assert.deepEqual(leadFormFallback('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/'), { href: `tel:${STUDIO_PHONE}`, text: CALL.ru });
+  assert.deepEqual(leadFormFallback('uz', 'SMM xizmatlari', '/uz/smm-xizmatlari/'), { href: `tel:${STUDIO_PHONE}`, text: CALL.uz });
+  assert.deepEqual(leadFormFallback('uz', 'SMM xizmatlari', '/uz/smm-xizmatlari/', WORK), {
+    href: studioTelegramHref('uz', 'SMM xizmatlari', '/uz/smm-xizmatlari/', WORK)!,
+    text: 'Telegramda yozish',
+  });
 });
 
 test('the service label is one trimmed line of at most ~60 characters', () => {
@@ -80,6 +99,9 @@ test('the service label is one trimmed line of at most ~60 characters', () => {
   assert.ok(long.endsWith('…'));
 });
 
+// The bare link here is the legacy `telegram` value of content/global/site.json,
+// which the blog template still renders until the protected revision (WP-12)
+// moves it to the work account; the rewrite gives it the same draft.
 test('only bare studio-contact hrefs are rewritten', () => {
   const html = [
     '<a href="https://t.me/XGame_changerx">a</a>',
@@ -90,7 +112,7 @@ test('only bare studio-contact hrefs are rewritten', () => {
     '<p>Пишите: https://t.me/XGame_changerx</p>',
   ].join('\n');
   const out = withStudioTelegramPrefill(html, { locale: 'ru', label: 'SMM-продвижение', path: '/ru/smm-prodvizhenie-tashkent/' });
-  const prefilled = studioTelegramHref('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/');
+  const prefilled = studioTelegramHref('ru', 'SMM-продвижение', '/ru/smm-prodvizhenie-tashkent/', 'https://t.me/XGame_changerx')!;
   assert.equal(out.split(`href="${prefilled}"`).length - 1, 2);
   assert.ok(out.includes('href="https://t.me/XGame_changerx?text=keep"'));
   assert.ok(out.includes('href="https://t.me/gptbot_javob_bot?start=site_ru"'));
@@ -266,7 +288,8 @@ test('the rendered form is labelled, 44 px, and links the privacy policy of its 
     assert.match(html, /ym-disable-keys/);
     assert.match(html, /ym-disable-submit/);
     assert.match(html, new RegExp(`data-locale="${locale}"`));
-    assert.match(html, /data-telegram="https:\/\/t\.me\/XGame_changerx\?text=/);
+    assert.ok(html.includes(`data-fallback="tel:${STUDIO_PHONE}"`), url);
+    assert.ok(html.includes(`data-fallback-text="${CALL[locale]}"`), url);
     assert.ok(!/contactType/.test(html + LEAD_FORM_SCRIPT), 'the form must let the server detect the contact type');
   }
   assert.equal(renderLeadForm(PAGES.get('/uz/sayt-yaratish/')!), '', 'a page outside the allowlist renders no form');
@@ -285,8 +308,9 @@ test('the form cannot submit natively before the script binds, so a contact neve
     assert.equal((html.match(/<button\b/g) ?? []).length, 1, url);
     assert.match(html, /<button type="submit" disabled /, `${url}: the submit button must ship disabled`);
     const noscript = html.match(/<noscript>([\s\S]*?)<\/noscript>/)?.[1] ?? '';
-    assert.match(noscript, /href="https:\/\/t\.me\/XGame_changerx\?text=/, `${url}: no Telegram fallback without JS`);
-    assert.ok(noscript.includes(locale === 'uz' ? 'Telegramda yozish' : 'Написать в Telegram'), url);
+    assert.ok(noscript.includes(`href="tel:${STUDIO_PHONE}"`), `${url}: no phone fallback without JS`);
+    assert.ok(noscript.includes(CALL[locale]), url);
+    assert.ok(!noscript.includes('target='), `${url}: a tel: link opens in place`);
   }
   // The script enables the button only after the submit handler is bound.
   const bind = LEAD_FORM_SCRIPT.indexOf("form.addEventListener('submit'");
@@ -343,7 +367,8 @@ function formHarness(options: {
     'data-locale': attr('data-locale'),
     'data-service': attr('data-service'),
     'data-label': attr('data-label'),
-    'data-telegram': (attr('data-telegram') || '').replace(/&amp;/g, '&'),
+    'data-fallback': (attr('data-fallback') || '').replace(/&amp;/g, '&'),
+    'data-fallback-text': attr('data-fallback-text'),
   };
   const contact = element({ value: '' });
   const name = element({ value: '' });
@@ -447,7 +472,7 @@ test('success is a literal ok:true: only then generate_lead and lead_form_succes
   assert.deepEqual(h.ymCalls, [[111312750, 'reachGoal', 'lead_form_success']]);
   assert.ok(!JSON.stringify(h.window.dataLayer).includes('alisher'), 'the contact reached the dataLayer');
 
-  for (const response of [{ ok: 'true' }, { ok: 1 }, {}, { ok: false, code: 'store_failed', message: 'Не удалось сохранить заявку. Напишите нам в Telegram.' }]) {
+  for (const response of [{ ok: 'true' }, { ok: 1 }, {}, { ok: false, code: 'store_failed', message: 'Не удалось сохранить заявку. Попробуйте ещё раз чуть позже.' }]) {
     const rejected = formHarness({ response });
     rejected.contact.value = '+998 90 123 45 67';
     rejected.consent.checked = true;
@@ -459,16 +484,17 @@ test('success is a literal ok:true: only then generate_lead and lead_form_succes
   }
 });
 
-test('a rejected lead shows the server message and the prefilled Telegram link', async () => {
-  const ru = formHarness({ response: { ok: false, code: 'rate_limited', message: 'Мы уже получили вашу заявку. Если нужно срочно — напишите нам в Telegram.' } });
+test('a rejected lead shows the server message and the studio phone', async () => {
+  const ru = formHarness({ response: { ok: false, code: 'rate_limited', message: 'Мы уже получили вашу заявку и ответим в рабочее время.' } });
   ru.contact.value = '901234567';
   ru.consent.checked = true;
   await ru.submit();
   assert.match(String(ru.status.textContent), /Мы уже получили вашу заявку/);
-  const link = ru.status.children.find((c) => (c as FakeElement).attrs !== undefined) as FakeElement & { href?: string; textContent?: string };
-  assert.ok(link, 'no Telegram link after an error');
-  assert.match(String(link.href), /^https:\/\/t\.me\/XGame_changerx\?text=/);
-  assert.equal(link.textContent, 'Написать в Telegram');
+  const link = ru.status.children.find((c) => (c as FakeElement).attrs !== undefined) as FakeElement & { href?: string; target?: string; textContent?: string };
+  assert.ok(link, 'no contact link after an error');
+  assert.equal(link.href, `tel:${STUDIO_PHONE}`);
+  assert.equal(link.target, undefined, 'a tel: link opens in place');
+  assert.equal(link.textContent, CALL.ru);
   assert.ok(ru.window.dataLayer.some((e) => e.event === 'lead_form_failed' && e.error_code === 'rate_limited'));
 
   const uz = formHarness({ locale: 'uz', response: { ok: false, code: 'turnstile_required', message: 'Подтвердите, что вы человек.' } });
@@ -477,6 +503,7 @@ test('a rejected lead shows the server message and the prefilled Telegram link',
   await uz.submit();
   assert.match(String(uz.status.textContent), /qo‘shimcha tekshiruv/);
   assert.ok(!String(uz.status.textContent).includes('Подтвердите'), 'an Uzbek page shows Uzbek copy');
+  assert.ok(!/Telegram/.test(String(uz.status.textContent)), 'no Telegram is offered while none is configured');
 
   const offline = formHarness({ rejectFetch: true });
   offline.contact.value = '901234567';
@@ -636,14 +663,23 @@ test('built pages: section nav everywhere except hold pages and /uz/; boss-digit
   }
 });
 
-test('built pages: protected pages keep the bare Telegram link, others are prefilled', { skip }, () => {
+test('built pages: protected pages are not prefilled; landings link no personal account', { skip }, () => {
   for (const url of PROTECTED_PATHS) {
     const html = distHtml(url);
     if (!html) continue;
     assert.ok(!html.includes('t.me/XGame_changerx?text='), `${url} was prefilled`);
   }
-  const prefilled = studioTelegramHref('ru', PAGES.get('/ru/stoimost-chat-bota/')!.breadcrumbLabel!, '/ru/stoimost-chat-bota/');
+  for (const page of PAGES.values()) {
+    if (page.status !== 'published' || PROTECTED_PATHS.includes(page.url as never) || page.designVariant === 'warm-market-signals') continue;
+    const html = distHtml(page.url);
+    if (!html) continue;
+    // Visible markup only: the analytics click handlers in <head> and the
+    // JSON-LD sameAs belong to the templates of the protected pages and move
+    // with their revision (WP-12).
+    const body = (html.match(/<body\b[^>]*>([\s\S]*)<\/body>/)?.[1] ?? '').replace(/<script\b[\s\S]*?<\/script>/g, '');
+    assert.ok(!body.includes('XGame_changerx'), `${page.url} links the personal account`);
+  }
   const html = distHtml('/ru/stoimost-chat-bota/')!;
-  assert.ok(html.includes(`href="${prefilled}"`));
-  assert.ok(!html.includes('href="https://t.me/XGame_changerx"'), 'a bare contact link survived');
+  assert.ok(html.includes(`href="tel:${STUDIO_PHONE}"`));
+  assert.ok(html.includes('data-testid="sticky-form-cta" href="#lead-form"'), 'the call bar offers the form');
 });

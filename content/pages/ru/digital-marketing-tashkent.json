@@ -29,7 +29,7 @@
   "heroTitle": "Digital-маркетинг в Ташкенте",
   "heroSubtitle": "Строим не набор разрозненных каналов, а управляемую систему: изучаем спрос, создаём предложение, приводим аудиторию, превращаем интерес в диалог, передаём лид в CRM и считаем путь до продажи.",
   "ctaPrimaryLabel": "Получить разбор маркетинга",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Посмотреть систему",
   "ctaSecondaryHref": "#system",
   "heroImage": {
@@ -590,7 +590,7 @@
     {
       "type": "cta",
       "text": "Обсудить систему роста",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

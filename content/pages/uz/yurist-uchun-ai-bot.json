@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Yurist uchun AI bot",
   "heroTitle": "Yurist va yuridik kompaniya uchun AI bot",
   "heroSubtitle": "Murojaatni saralaydi, tipik savollarga javob beradi, konsultatsiyaga yozadi va birorta arizani yo‘qotmaydi — kechayu kunduz.",
-  "ctaPrimaryLabel": "Telegram’da botni ishga tushirish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Botni ishga tushirishni muhokama qilish",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -131,8 +131,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da botni ishga tushirish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Botni ishga tushirishni muhokama qilish",
+      "href": "#contact"
     }
   ],
   "faq": [

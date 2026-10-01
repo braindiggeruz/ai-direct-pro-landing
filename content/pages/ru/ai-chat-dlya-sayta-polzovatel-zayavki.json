@@ -27,7 +27,7 @@
   "breadcrumbLabel": "AI-чат и заявки с сайта",
   "heroSubtitle": "Хороший чат не давит на посетителя формой: сначала помогает, затем собирает только нужные данные и сохраняет контекст для менеджера.",
   "ctaPrimaryLabel": "Обсудите AI-чат для сайта или Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Путь заявки",
   "ctaSecondaryHref": "#put-zayavki",
   "heroTrust": ["Читаемо на mobile", "Передача в CRM", "Эскалация менеджеру"],
@@ -87,7 +87,7 @@
     { "type": "linkp", "text": "Для оценки вариантов посмотрите {tariffs}. GPTBot.uz — независимый AI-сервис на базе языковых моделей; конкретная конфигурация сайта, Telegram и CRM рассчитывается после разбора процесса.", "links": [
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
     ] },
-    { "type": "cta", "text": "Обсудите AI-чат для сайта или Telegram", "href": "https://t.me/XGame_changerx" },
+    { "type": "cta", "text": "Обсудите AI-чат для сайта или Telegram", "href": "#contact" },
     {
       "type": "h2",
       "text": "Коротко о главном"

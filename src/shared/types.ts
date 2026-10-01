@@ -214,12 +214,28 @@ export interface GlobalSEO {
   knowsAbout?: string[];
   logo: string;
   phone?: string;
+  /** The studio's public e-mail (contact card, landing footer, llms.txt). */
+  email?: string;
+  /**
+   * The studio's WORK Telegram (https://t.me/<handle>), or "" when there is
+   * none. The one setting behind every studio Telegram link on unprotected
+   * pages and in the chat (src/shared/studio-contact.ts). Empty means no
+   * Telegram is offered at all: phone, e-mail and forms remain (plan L14).
+   */
+  studioTelegram?: string;
   /** Named expert/founder used as Article author (Person) for E-E-A-T. */
   authorName?: string;
   /** The same author in Latin script, shown on Uzbek (Latin) pages instead of the Cyrillic name. */
   authorNameLatin?: string;
   /** Public profile URL for the named author (e.g. the About page). */
   authorUrl?: string;
+  /**
+   * Legacy contact link, read only by the surfaces the ten protected pages
+   * share: the homepage, the AI-chat page footer, the blog template, JSON-LD
+   * sameAs and defaultCTA. The one-time protected revision (paid-chat plan
+   * WP-12) moves them to `studioTelegram` and removes this field. New code
+   * reads src/shared/studio-contact.ts instead.
+   */
   telegram?: string;
   instagram?: string;
   /** Human-readable single-line address (footer + JSON-LD short form). */

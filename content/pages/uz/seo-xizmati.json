@@ -29,7 +29,7 @@
   "heroTitle": "Toshkentda SEO xizmati",
   "heroSubtitle": "Saytingizni Google qidiruvida odam izlayotgan so‘rovlar bo‘yicha ko‘rinadigan qilamiz: texnik xatolarni tuzatamiz, sahifalarni so‘rov bo‘yicha ajratamiz va natijani Search Console orqali o‘lchaymiz. Maqsad — trafik raqami emas, saytdan keladigan ariza.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Xizmat tarkibi",
   "ctaSecondaryHref": "#tarkib",
   "bodyBlocks": [
@@ -513,13 +513,13 @@
     {
       "type": "cta",
       "text": "Saytingizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
     {
       "q": "SEO xizmatini qanday buyurtma qilaman?",
-      "a": "Telegram’ga yozing va sayt manzilini hamda biznesingiz haqida qisqacha ma’lumot yuboring. Biz saytni ko‘rib chiqamiz, savollar beramiz va ish tarkibi, muddati hamda narxi bilan qaytamiz. Birinchi ko‘rik va ish hajmini baholash bepul."
+      "a": "ceo@gptbot.uz manziliga sayt manzilini hamda biznesingiz haqida qisqacha ma’lumot yuboring yoki qo‘ng‘iroq qiling. Biz saytni ko‘rib chiqamiz, savollar beramiz va ish tarkibi, muddati hamda narxi bilan qaytamiz. Birinchi ko‘rik va ish hajmini baholash bepul."
     },
     {
       "q": "SEO natijasi qancha vaqtdan keyin ko‘rinadi?",

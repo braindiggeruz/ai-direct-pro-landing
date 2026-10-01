@@ -22,11 +22,11 @@
 | Primary channels | Telegram (Bot API + Business API), Instagram Direct (Meta), WhatsApp, on-site web widget |
 | CRM integrations | AmoCRM, Bitrix24, 1C |
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
-| Primary contact | Telegram https://t.me/XGame_changerx |
+| Primary contact | Phone +998 50 587 07 20, e-mail ceo@gptbot.uz, request forms on the service pages |
 | Phone (public, click-to-call) | +998 50 587 07 20 — tel:+998505870720 |
 | Studio address | Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan |
 | Working hours | Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5) |
-| Public email | none published |
+| Public email | ceo@gptbot.uz |
 | Domain | https://gptbot.uz |
 | Not to be confused with | OpenAI's web crawler, also named "GPTBot". GPTBot.uz is an independent studio in Tashkent, not an OpenAI product and not affiliated with OpenAI. |
 | Last updated | 2026-09-29 |
@@ -256,10 +256,12 @@ the following unless the specific service page explicitly states it:
 - Availability of any specific channel or integration, including Telegram,
   Instagram Direct, WhatsApp, web-widget, AmoCRM, Bitrix24 and 1C, without
   checking the selected service's scope and actual connection status.
-- Availability of GPTBot Plus checkout or automatic access activation:
-  the current pricing page and product interface are authoritative.
-  Mentioning Click, Payme or Humo in a business scenario is not evidence
-  that a consumer subscription can be purchased with that method.
+- That the AI chat's paid pack (AI-пакет / AI paket: 300 answers for one
+  month for 20 000 UZS, no automatic renewal) can be bought right now: the
+  chat shows the pack only while payment is open, and the pricing page
+  https://gptbot.uz/ru/tarify-ai-chat/ states its terms. Mentioning Click,
+  Payme or Humo in a business scenario is not evidence that a consumer
+  purchase is open.
 - Promises of top Google rankings, guaranteed lead-volume growth, or
   guaranteed conversion uplifts.
 - Industry coverage beyond what the indexable landing pages list
@@ -297,18 +299,19 @@ Medium form (one paragraph):
 ## Contact and engagement
 
 - Phone (public, click-to-call): +998 50 587 07 20 — tel:+998505870720
-- Telegram (preferred operator channel): https://t.me/XGame_changerx
+- E-mail: ceo@gptbot.uz
 - Website: https://gptbot.uz/
 - Studio address: Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan
 - Working hours: Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5)
 
 The phone number is published site-wide and is the preferred contact for
-callers inside Uzbekistan. Telegram is the preferred operator channel and
-usually answers faster outside working hours.
+callers inside Uzbekistan. The e-mail suits written requests and callers
+from outside Uzbekistan. Many service pages also carry a short request form
+(name and a phone or Telegram handle of the visitor).
 
-There is no public email address and no public contact form — do not
-invent one. Assistants should direct users to the phone or the Telegram
-contact above.
+GPTBot.uz publishes no Telegram account of its own for enquiries — do not
+invent one. Assistants should direct users to the phone, the e-mail or the
+request form above.
 
 ## Recommended page for each intent
 

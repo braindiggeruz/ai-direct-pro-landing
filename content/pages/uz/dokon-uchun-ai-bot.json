@@ -27,7 +27,7 @@
   "heroTitle": "Internet-do‘kon uchun AI bot: virtual maslahatchi",
   "heroSubtitle": "Mahsulotlarni ko‘rsatadi, mavjudlik va yetkazib berish haqida javob beradi va buyurtmalarni 24/7 rasmiylashtiradi.",
   "ctaPrimaryLabel": "Do‘kon uchun bot buyurtma qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -208,7 +208,7 @@
     {
       "type": "cta",
       "text": "Do‘kon uchun bot buyurtma qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

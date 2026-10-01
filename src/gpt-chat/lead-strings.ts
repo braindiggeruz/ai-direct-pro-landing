@@ -27,7 +27,8 @@ export interface LeadStrings {
   leadSending: string;
   leadSuccess: string;
   leadSuccessNext: string;
-  leadSuccessTelegram: string;
+  /** Leads into the studio contact link (contact.ts studioQuickContact). */
+  leadSuccessFaster: string;
   leadIntro: string;
   leadError: string;
 }
@@ -52,9 +53,9 @@ const RU: LeadStrings = {
   leadSending: 'Отправляем…',
   leadSuccess: 'Заявка принята.',
   leadSuccessNext: 'Свяжемся в рабочее время: пн–сб, 10:00–19:00.',
-  leadSuccessTelegram: 'Если нужно быстрее — напишите нам в Telegram.',
+  leadSuccessFaster: 'Если нужно быстрее, свяжитесь с нами:',
   leadIntro: 'Нужен такой AI-чат на сайт, в Telegram или CRM? Оставьте контакт.',
-  leadError: 'Не удалось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.',
+  leadError: 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с нами:',
 };
 
 const UZ: LeadStrings = {
@@ -77,9 +78,9 @@ const UZ: LeadStrings = {
   leadSending: 'Yuborilmoqda…',
   leadSuccess: 'Ariza qabul qilindi.',
   leadSuccessNext: 'Ish vaqtida bog‘lanamiz: dushanba–shanba, 10:00–19:00.',
-  leadSuccessTelegram: 'Tezroq kerak bo‘lsa — Telegramda yozing.',
+  leadSuccessFaster: 'Tezroq kerak bo‘lsa, biz bilan bog‘laning:',
   leadIntro: 'Shunday AI-chat sayt, Telegram yoki CRM uchun kerakmi? Kontakt qoldiring.',
-  leadError: 'Ariza yuborilmadi. Yana urinib ko‘ring yoki Telegramda yozing.',
+  leadError: 'Ariza yuborilmadi. Yana urinib ko‘ring yoki biz bilan bog‘laning:',
 };
 
 export function leadStrings(locale: Locale): LeadStrings {

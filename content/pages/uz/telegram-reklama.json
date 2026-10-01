@@ -28,7 +28,7 @@
   "heroTitle": "Telegram reklama — O‘zbekistonda biznes uchun",
   "heroSubtitle": "Rasmiy Telegram Ads yoki kanallarda post joylashtirishni yo‘lga qo‘yamiz. Jamoa ishi, reklama byudjeti va komissiyalar alohida hisoblanadi. Kanal yoki bot, matnlar va murojaatlarni o‘lchashni ish boshlanishidan oldin kelishamiz.",
   "ctaPrimaryLabel": "Smeta olish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Smeta uchun nimalar kerak",
   "ctaSecondaryHref": "#brief",
   "bodyBlocks": [
@@ -113,8 +113,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da smeta so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Smeta so‘rash",
+      "href": "#lead-form"
     },
     {
       "type": "p",
@@ -551,7 +551,7 @@
     {
       "type": "cta",
       "text": "Telegram reklama bo‘yicha vazifangizni muhokama qilaylik — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

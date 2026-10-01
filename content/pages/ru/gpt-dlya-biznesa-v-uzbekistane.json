@@ -27,7 +27,7 @@
   "breadcrumbLabel": "GPT для бизнеса в Узбекистане",
   "heroSubtitle": "Где AI действительно снимает рутину: разбор обращений, ответы клиентам, квалификация заявок и передача менеджеру.",
   "ctaPrimaryLabel": "Обсудите AI-чат для сайта или Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Сценарии внедрения",
   "ctaSecondaryHref": "#scenarii",
   "heroTrust": ["Русский и узбекский", "Telegram и сайт", "Интеграция с CRM"],
@@ -91,7 +91,7 @@
     { "type": "linkp", "text": "Стоимость зависит от каналов, базы знаний и интеграций. Начните со страницы {tariffs}, затем обсудите пилот под ваш процесс в Ташкенте или другом городе Узбекистана.", "links": [
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" }
     ] },
-    { "type": "cta", "text": "Обсудите AI-чат для сайта или Telegram", "href": "https://t.me/XGame_changerx" },
+    { "type": "cta", "text": "Обсудите AI-чат для сайта или Telegram", "href": "#contact" },
     {
       "type": "h2",
       "text": "Коротко о главном"

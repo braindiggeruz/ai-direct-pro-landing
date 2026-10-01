@@ -28,7 +28,7 @@
   "heroTitle": "AI-бот или менеджер",
   "heroSubtitle": "Где сильнее бот, где незаменим человек и почему связка бот плюс менеджер обрабатывает заявки эффективнее всего.",
   "ctaPrimaryLabel": "Обсудить связку для бизнеса",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Сравнить бота и менеджера",
   "ctaSecondaryHref": "#sravnenie",
   "bodyBlocks": [
@@ -80,7 +80,7 @@
     {
       "type": "cta",
       "text": "Обсудить связку для бизнеса",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

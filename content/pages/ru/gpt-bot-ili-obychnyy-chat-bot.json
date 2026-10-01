@@ -28,7 +28,7 @@
   "heroTitle": "GPT-бот или обычный чат-бот",
   "heroSubtitle": "Чем умный AI-бот на GPT отличается от кнопочного бота по сценарию — и какой выбрать под ваши задачи.",
   "ctaPrimaryLabel": "Подобрать бота под задачу",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Сравнить два типа",
   "ctaSecondaryHref": "#sravnenie",
   "bodyBlocks": [
@@ -80,7 +80,7 @@
     {
       "type": "cta",
       "text": "Подобрать бота под задачу",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

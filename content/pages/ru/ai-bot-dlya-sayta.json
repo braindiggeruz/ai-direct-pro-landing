@@ -28,7 +28,7 @@
   "heroTitle": "AI-бот для сайта",
   "heroSubtitle": "Виджет-консультант отвечает посетителям, консультирует по товарам и услугам, собирает заявки и передаёт их в Telegram или CRM — круглосуточно.",
   "ctaPrimaryLabel": "Поставить бота на сайт",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Что умеет бот на сайте",
   "ctaSecondaryHref": "#chto-umeet",
   "bodyBlocks": [
@@ -79,7 +79,7 @@
     {
       "type": "cta",
       "text": "Поставить бота на сайт",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

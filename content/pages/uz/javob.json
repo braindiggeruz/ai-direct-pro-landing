@@ -22,9 +22,9 @@
   "heroTitle": "Ovozli xabar keldi — javob va muhim nuqtalar tayyor",
   "heroSubtitle": "Telegramdan ovozli xabar yuboring. GPTBot transkript va javob tayyorlaydi, so‘rovingiz bo‘yicha tekshiriladigan bayonotlar, qarama-qarshiliklar va noaniq va’dalarni ajratadi.",
   "ctaPrimaryLabel": "Telegramda bepul sinab ko‘rish",
-  "ctaPrimaryHref": "https://t.me/gptbot_javob_bot?start=site_uz",
-  "ctaSecondaryLabel": "Tariflar",
-  "ctaSecondaryHref": "#tariflar",
+  "ctaPrimaryHref": "https://t.me/gptbotuz_bot?start=site_uz",
+  "ctaSecondaryLabel": "Limitlar",
+  "ctaSecondaryHref": "#limitlar",
   "heroTrust": ["5 daqiqagacha matn + ovoz", "RU + Uzbek Latin", "Audio saqlanmaydi", "Kuniga 1 tahlil bepul"],
   "bodyBlocks": [
     { "type": "h2", "text": "Qanday ishlaydi" },
@@ -52,13 +52,12 @@
       "Natija dalil emas va ayblash, sud, ishdan bo‘shatish yoki jazolash uchun ishlatilmasligi kerak.",
       "Birinchi tahlildan oldin tushunarli rozilik olinadi; kuniga 1 muvaffaqiyatli tahlil bepul. Xato yoki ma’lumot yetishmasa limit sarflanmaydi."
     ] },
-    { "type": "h2", "text": "Tariflar", "id": "tariflar" },
-    { "type": "table", "headers": ["Tarif", "Narx", "Nima kiradi"], "rows": [
-      ["Free", "0 UZS", "Matn yoki ovoz uchun kuniga 3 ta javob, oyiga 30 tagacha, RU/UZ"],
-      ["Day Pass", "2 900 UZS", "24 soat ichida 25 tagacha javob, bir martalik to‘lov"],
-      ["Plus", "24 900 UZS/oy", "Oyiga 250 tagacha javob, uzun xabarlar"]
+    { "type": "h2", "text": "Limitlar", "id": "limitlar" },
+    { "type": "table", "headers": ["Nima", "Bepul"], "rows": [
+      ["Matn va ovozli xabarlarga javob, RU/UZ", "Kuniga 10 ta, oyiga 100 tagacha"],
+      ["Mazmun tahlili", "Kuniga 1 ta muvaffaqiyatli tahlil"]
     ] },
-    { "type": "p", "text": "Onlayn to‘lov ulanmoqda. «Cheksiz» so‘zini ishlatmaymiz: har bir tarifda limitlar halol ko‘rsatilgan." },
+    { "type": "p", "text": "Botda pullik tariflar yo‘q: bot hech narsa sotmaydi va to‘lov so‘ramaydi. Kun va oy Toshkent vaqti bo‘yicha hisoblanadi; bugun qancha qolganini bot /plans buyrug‘ida ko‘rsatadi. «Cheksiz» so‘zini ishlatmaymiz: limit bor va u shu yerda ko‘rsatilgan." },
     { "type": "h2", "text": "Maxfiylik" },
     { "type": "list", "items": [
       "Bot faqat siz unga yuborgan yoki uzatgan xabarlarni ko‘radi.",
@@ -75,7 +74,7 @@
     { "q": "Tahlil odam yolg‘on gapirayotganini aniqlaydimi?", "a": "Yo‘q. Ovoz yoki matndan yolg‘onni ishonchli aniqlab bo‘lmaydi. Tahlil faqat transkript mazmunini ko‘radi: bayonotlar, ichki qarama-qarshiliklar, noaniq iboralar va tekshirish savollari. Hisobot dalil emas." },
     { "q": "Nechta tahlil bepul?", "a": "Kuniga bitta muvaffaqiyatli mazmun tahlili. Yozuv 10 soniyadan qisqa bo‘lsa, aniq bayonotlar yetishmasa yoki xizmat vaqtincha ishlamasa, limit sarflanmaydi." },
     { "q": "Bot narx yoki muddat o‘ylab topishi mumkinmi?", "a": "Yo‘q. Xabarda narx, mavjudlik yoki muddat bo‘lmasa, Javob raqam o‘ylab topmaydi — aniqlashtiruvchi muloyim javob tayyorlaydi. Bu mahsulotning qat’iy qoidasi." },
-    { "q": "Bepulmi?", "a": "Bepul limit bor: kuniga 3 ta javob, oyiga 30 tagacha. Ko‘proq kerak bo‘lsa — Day Pass (24 soatga 2 900 UZS) yoki Plus (oyiga 250 tagacha javob)." },
+    { "q": "Bepulmi?", "a": "Ha. Kuniga 10 ta javob va oyiga 100 tagacha, shuningdek kuniga 1 ta mazmun tahlili bepul. Botda pullik tariflar yo‘q." },
     { "q": "Yozishmalarim saqlanadimi?", "a": "Audio saqlanmaydi. Matn va transkript tahrir tugmalari uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. MVP’da doimiy tarix yo‘q. /delete_me ma’lumotlarni o‘chiradi." }
   ],
   "internalLinks": [
@@ -85,7 +84,7 @@
     { "target": "/uz/maxfiylik-siyosati/", "anchor": "Maxfiylik siyosati", "locale": "uz", "type": "footer" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Service", "FAQPage"],
-  "lastReviewedAt": "2026-07-17",
+  "lastReviewedAt": "2026-10-01",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-07-17"
+  "updatedAt": "2026-10-01"
 }

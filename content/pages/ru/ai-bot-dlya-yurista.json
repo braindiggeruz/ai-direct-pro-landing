@@ -27,8 +27,8 @@
   "breadcrumbLabel": "AI-бот для юриста",
   "heroTitle": "AI-бот для юриста и юридической компании",
   "heroSubtitle": "Квалифицирует обращение, отвечает на типовые вопросы, записывает на консультацию и не теряет ни одной заявки — круглосуточно.",
-  "ctaPrimaryLabel": "Запустить бота в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Обсудить запуск бота",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Что умеет бот",
   "ctaSecondaryHref": "#chto-umeet",
   "bodyBlocks": [
@@ -131,8 +131,8 @@
     },
     {
       "type": "cta",
-      "text": "Запустить бота в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Обсудить запуск бота",
+      "href": "#contact"
     },
     {
       "type": "h2",

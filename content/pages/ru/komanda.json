@@ -26,7 +26,7 @@
   "heroTitle": "Команда GPTBot.uz",
   "heroSubtitle": "Специализированная команда разработчиков и архитекторов бизнес-процессов из Ташкента. Мы не просто пишем код — мы строим работающие воронки продаж.",
   "ctaPrimaryLabel": "Написать команде",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "О компании",
   "ctaSecondaryHref": "/ru/o-kompanii/",
   "bodyBlocks": [
@@ -70,7 +70,7 @@
     {
       "type": "cta",
       "text": "Обсудить проект с командой",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

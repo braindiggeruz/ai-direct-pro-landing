@@ -26,7 +26,7 @@
   "heroTitle": "Борис Герасимов",
   "heroSubtitle": "Основатель GPTBot.uz и ответственный редактор материалов об AI-ботах, автоматизации, Telegram-разработке и digital-маркетинге в Узбекистане.",
   "ctaPrimaryLabel": "Задать вопрос автору",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "О компании GPTBot.uz",
   "ctaSecondaryHref": "/ru/o-kompanii/",
   "bodyBlocks": [
@@ -100,8 +100,8 @@
     },
     {
       "type": "cta",
-      "text": "Написать Борису в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Связаться с Борисом",
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -115,7 +115,7 @@
     },
     {
       "q": "Как предложить исправление?",
-      "a": "Отправьте ссылку на страницу и описание неточности в Telegram: https://t.me/XGame_changerx."
+      "a": "Отправьте ссылку на страницу и описание неточности на ceo@gptbot.uz."
     }
   ],
   "internalLinks": [

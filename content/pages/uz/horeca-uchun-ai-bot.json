@@ -26,8 +26,8 @@
   "breadcrumbLabel": "HoReCa uchun AI-bot",
   "heroTitle": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar 24/7",
   "heroSubtitle": "Restoran, kafe va yetkazib berish xizmati uchun AI-bot stol band qiladi, menyu bo‘yicha javob beradi va tayyor arizani administratorga uzatadi.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -198,8 +198,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demo so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -235,7 +235,7 @@
     },
     {
       "q": "Narxi qancha?",
-      "a": "Narx kanallar va integratsiyalar (band qilish/CRM, yetkazib berish tizimi) soniga bog‘liq. Demo va smeta uchun: https://t.me/XGame_changerx."
+      "a": "Narx kanallar va integratsiyalar (band qilish/CRM, yetkazib berish tizimi) soniga bog‘liq. Demo va smeta uchun +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing."
     },
     {
       "q": "Restoran uchun bot qancha turadi?",

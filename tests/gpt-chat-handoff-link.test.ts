@@ -2,11 +2,13 @@
 //
 // Run: node --import tsx --test tests/gpt-chat-handoff-link.test.ts
 //
-// The property worth pinning: no consumer surface — sidebar, lead form, limit
-// card, any handoff failure, a tap before the mint answers —
-// can produce a link to the owner's personal Telegram account. Consumers go to
-// the assistant bot @gptbotuz_bot; only the explicit B2B card reaches the
-// studio, with a B2B opener prefilled.
+// The property worth pinning: no surface — sidebar, lead form, limit card,
+// B2B card, any handoff failure, a tap before the mint answers — can produce
+// a link to the owner's personal Telegram account (paid-chat plan, L14).
+// Consumers go to the assistant bot @gptbotuz_bot. Only the explicit B2B card
+// reaches the studio in Telegram, and only once a work account is configured
+// (content/global/site.json studioTelegram); until then it offers its form,
+// and the lead form's quick contact is the phone.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -22,13 +24,17 @@ import {
   resolveHandoffLink,
   type MintedHandoff,
 } from '../src/gpt-chat/handoff';
-import { studioBusinessLink, telegramContact } from '../src/gpt-chat/contact';
+import { studioBusinessLink, studioQuickContact } from '../src/gpt-chat/contact';
+import { telegramDeepLink } from '../src/lib/telegram';
+import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 // tsx compiles .tsx with the classic transform in tests; the app build uses
 // react-jsx. Same shim as tests/lead-radar-telegram-ui.test.ts.
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
 const OWNER = 'XGame_changerx';
+/** A stand-in work account: what the B2B routes do once one is configured. */
+const WORK = 'https://t.me/studio_work';
 const TOKEN = `w_${'a'.repeat(32)}`;
 const PUBLIC = {
   ru: 'https://t.me/gptbotuz_bot?start=site_ru',
@@ -151,21 +157,32 @@ test('no consumer case can reach the owner account', () => {
     }
     assert.ok(!publicBotLink(locale).href.includes(OWNER));
   }
-  // Sidebar and lead form.
-  assert.deepEqual(telegramContact('uz'), { channel: 'bot', href: PUBLIC.uz });
-  assert.deepEqual(telegramContact('ru'), { channel: 'bot', href: PUBLIC.ru });
+  // The sidebar: always the assistant bot, whose handle always has a value.
+  assert.equal(telegramDeepLink('uz'), PUBLIC.uz);
+  assert.equal(telegramDeepLink('ru'), PUBLIC.ru);
 });
 
-test('only the explicit B2B call to action reaches the studio, with a B2B opener', () => {
-  const ru = studioBusinessLink('ru');
-  const uz = studioBusinessLink('uz');
-  assert.ok(ru.startsWith(`https://t.me/${OWNER}?text=`));
-  assert.ok(uz.startsWith(`https://t.me/${OWNER}?text=`));
+test('no work Telegram is configured, and the personal account is not one (L14)', () => {
+  assert.equal(STUDIO_TELEGRAM_URL, null);
+  for (const locale of ['ru', 'uz'] as const) {
+    assert.equal(studioBusinessLink(locale), null);
+    assert.deepEqual(studioQuickContact(locale), { href: `tel:${STUDIO_PHONE}`, channel: 'phone', display: STUDIO_PHONE_DISPLAY });
+  }
+  assert.equal(STUDIO_PHONE, '+998505870720');
+  assert.equal(STUDIO_PHONE_DISPLAY, '+998 50 587 07 20');
+});
+
+test('once a work account is configured, the B2B routes open it with a B2B opener', () => {
+  const ru = studioBusinessLink('ru', WORK)!;
+  const uz = studioBusinessLink('uz', WORK)!;
+  assert.ok(ru.startsWith(`${WORK}?text=`));
+  assert.ok(uz.startsWith(`${WORK}?text=`));
   assert.ok(ru.endsWith(encodeURIComponent('Здравствуйте! Хочу обсудить AI-бота для бизнеса.')));
   assert.ok(uz.endsWith(encodeURIComponent('Assalomu alaykum! Biznes uchun AI-bot bo‘yicha gaplashmoqchiman.')));
   const uzText = decodeURIComponent(new URL(uz).searchParams.get('text') ?? '');
   assert.ok(uzText.includes('bo‘yicha'), 'Uzbek letter apostrophe is U+2018');
   assert.ok(!uzText.includes("'"), 'no ASCII apostrophe in Uzbek copy');
+  assert.deepEqual(studioQuickContact('ru', WORK), { href: ru, channel: 'studio', display: 'Telegram' });
 });
 
 /** Every href in a static render, entity-decoded. */
@@ -192,23 +209,23 @@ test('before the mint answers, the limit card already links to the public bot', 
   }
 });
 
-test('the offer card is the B2B offer only, and it opens the studio', () => {
+test('without a work account the offer card offers its lead form and no Telegram', () => {
   for (const locale of ['ru', 'uz'] as const) {
     const t = strings(locale);
     const b2b = renderToStaticMarkup(React.createElement(AiOfferCard, { t, locale, apiBase: '', sessionId: 'sess_1', onDismiss: () => {} }));
-    const links = hrefs(b2b).filter((h) => h.includes('t.me'));
-    assert.deepEqual(links, [studioBusinessLink(locale)]);
-    assert.ok(b2b.includes(t.contactTelegram), 'a person answers, and the label says so');
-    assert.ok(!b2b.includes(t.capTelegramNote));
-    assert.ok(b2b.includes('data-testid="telegram-cta-b2b"'));
+    assert.deepEqual(hrefs(b2b).filter((h) => h.includes('t.me')), []);
+    assert.ok(!b2b.includes(t.contactTelegram));
+    assert.ok(!b2b.includes('data-testid="telegram-cta-b2b"'));
+    assert.ok(b2b.includes('data-testid="offer-lead-b2b"'), 'the lead form is the route');
+    assert.ok(!b2b.includes(OWNER));
   }
 });
 
 test('wiring: B2B uses the business link, the limit card uses the bot route', () => {
   const offer = source('src/gpt-chat/components/AiOfferCard.tsx');
   assert.match(offer, /studioBusinessLink\(locale\)/, 'the B2B card links to the studio with a B2B opener');
+  assert.match(offer, /\{businessLink && <AiTelegramCta /, 'and only while a work account is configured');
   assert.doesNotMatch(offer, /useTelegramHandoff/, 'the B2B card mints nothing');
-  assert.doesNotMatch(offer, /studioTelegramLink/);
   // The cap stages that were coded but never rendered are gone (WP-09): the
   // limit card above the composer is the only surface a limit reaches.
   assert.doesNotMatch(offer, /hourly|daily|pricingHref|onRetry/);
@@ -219,13 +236,14 @@ test('wiring: B2B uses the business link, the limit card uses the bot route', ()
   assert.match(consoleSource, /track\(EV\.limitHit, \{ reason, locale: config\.locale \}\)/);
   assert.doesNotMatch(consoleSource, /t\.premium\.unavailable/, 'the limit card no longer says the free chat is available');
 
+  // handoff.ts reaches nobody's account: it imports only a type from contact.ts.
   const handoff = source('src/gpt-chat/handoff.ts');
-  const calls = [...handoff.matchAll(/studioTelegramLink\(/g)].map((m) => m.index ?? -1);
-  assert.equal(calls.length, 1, 'studioTelegramLink is called exactly once');
-  const publicFn = handoff.indexOf('export function publicBotLink(');
-  const publicEnd = handoff.indexOf('\n}', publicFn);
-  assert.ok(publicFn > 0 && calls[0] > publicFn && calls[0] < publicEnd, 'and only inside publicBotLink');
-  assert.doesNotMatch(handoff, /XGame_changerx/);
+  assert.match(handoff, /^import type \{ TelegramTarget \} from '\.\/contact';$/m);
+  assert.doesNotMatch(handoff, /studio(Telegram|Business)Link\(|STUDIO_TELEGRAM_URL|XGame_changerx/);
+
+  const leadForm = source('src/gpt-chat/components/AiLeadForm.tsx');
+  assert.match(leadForm, /studioQuickContact\(locale\)/, 'after a lead: the studio, not the bot');
+  assert.doesNotMatch(leadForm, /telegramDeepLink|t\.telegramCta/);
 
   const limit = source('src/gpt-chat/components/AiLimitTelegram.tsx');
   assert.match(limit, /useTelegramHandoff\(apiBase, sessionId, locale, source\)/);

@@ -30,7 +30,7 @@
   "heroTitle": "Toshkentda SMM xizmatlari",
   "heroSubtitle": "Instagram va Telegram uchun strategiya, kontent, nashr va moderatsiyani tashkil qilamiz. Direct murojaatlari uchun javob tartibi, insonga uzatish va o‘lchash hodisalari alohida kelishiladi.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Xizmat tarkibi",
   "ctaSecondaryHref": "#tarkib",
   "bodyBlocks": [
@@ -629,7 +629,7 @@
     {
       "type": "cta",
       "text": "Sahifalaringizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

@@ -36,9 +36,9 @@
   "heroTitle": "Сайт с AI-ботом для бизнеса",
   "heroSubtitle": "Сайт с AI-ботом — это сайт, который не просто показывает информацию, а ведёт диалог с посетителем. AI-консультант отвечает на вопросы 24/7, помогает выбрать услугу, собирает имя и телефон, передаёт заявку менеджеру, в Telegram, CRM или Google Sheets и помогает бизнесу не терять обращения.",
   "ctaPrimaryLabel": "Получить бесплатную консультацию",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
-  "ctaSecondaryLabel": "Обсудить сайт с AI-ботом",
-  "ctaSecondaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
+  "ctaSecondaryLabel": "Сколько стоит",
+  "ctaSecondaryHref": "#price",
   "bodyBlocks": [
     { "type": "list", "items": [
       "AI-бот отвечает на вопросы 24/7",
@@ -184,7 +184,7 @@
 
     { "type": "h2", "text": "Почему сайт с AI-ботом стоит заказать у GPTBot.uz", "id": "why" },
     { "type": "p", "text": "GPTBot.uz соединяет сайт, AI-бота, Telegram, CRM и заявки. Фокус не на “виджете ради виджета”, а на обработке обращений. Можно начать с MVP и развивать бота после запуска. Можно работать на русском и Uzbek Latin. Решение адаптируется под бизнес в Узбекистане." },
-    { "type": "cta", "text": "Хочу сайт с AI-ботом", "href": "https://t.me/XGame_changerx" },
+    { "type": "cta", "text": "Хочу сайт с AI-ботом", "href": "#contact" },
     {
       "type": "h2",
       "text": "Коротко о главном"

@@ -5,7 +5,7 @@ import type { Locale } from '../types';
 import { fetchTurnstileConfig, sendLead } from '../api';
 import { EV, track } from '../analytics';
 import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika';
-import { parseContact, telegramContact } from '../contact';
+import { parseContact, studioQuickContact, type StudioQuickContact } from '../contact';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
@@ -57,9 +57,9 @@ export function AiLeadForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const copy = leadStrings(locale);
-  const tg = telegramContact(locale);
+  const quick = studioQuickContact(locale);
   const privacyHref = locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/';
-  const telegramLink =
+  const quickLink =
     'inline-flex min-h-11 items-center text-[13px] text-brand-cyan underline underline-offset-4 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-lg';
 
   // The form is only ever mounted once it has been revealed, so mounting IS
@@ -136,16 +136,8 @@ export function AiLeadForm({
         <p className="text-[14px] font-medium text-brand-cyan">{copy.leadSuccess}</p>
         <p className="mt-1.5 text-[13px] leading-relaxed text-white/60">{copy.leadSuccessNext}</p>
         <p className="mt-1 text-[13px] leading-relaxed text-white/60">
-          {copy.leadSuccessTelegram}{' '}
-          <a
-            href={tg.href}
-            target="_blank"
-            rel="nofollow noopener noreferrer"
-            onClick={() => track(EV.telegramCtaClicked, { from: 'lead_success', channel: tg.channel, locale })}
-            className={telegramLink}
-          >
-            {tg.channel === 'bot' ? t.telegramCta : t.contactTelegram}
-          </a>
+          {copy.leadSuccessFaster}{' '}
+          <QuickContactLink quick={quick} from="lead_success" locale={locale} className={quickLink} />
         </p>
       </div>
     );
@@ -249,17 +241,39 @@ export function AiLeadForm({
       {status === 'failed' && (
         <p role="alert" className="mt-3 text-[13px] leading-relaxed text-red-200">
           {copy.leadError}{' '}
-          <a
-            href={tg.href}
-            target="_blank"
-            rel="nofollow noopener noreferrer"
-            onClick={() => track(EV.telegramCtaClicked, { from: 'lead_error', channel: tg.channel, locale })}
-            className={telegramLink}
-          >
-            {tg.channel === 'bot' ? t.telegramCta : t.contactTelegram}
-          </a>
+          <QuickContactLink quick={quick} from="lead_error" locale={locale} className={quickLink} />
         </p>
       )}
     </form>
+  );
+}
+
+/**
+ * The fastest way to a person after a lead (contact.ts): the studio's work
+ * Telegram while one is configured, the phone otherwise. A tel: link opens in
+ * place and the analytics snippet in the page head records it as phone_click.
+ */
+function QuickContactLink({
+  quick,
+  from,
+  locale,
+  className,
+}: {
+  quick: StudioQuickContact;
+  from: 'lead_success' | 'lead_error';
+  locale: Locale;
+  className: string;
+}) {
+  if (quick.channel === 'phone') return <a href={quick.href} className={className}>{quick.display}</a>;
+  return (
+    <a
+      href={quick.href}
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+      onClick={() => track(EV.telegramCtaClicked, { from, channel: quick.channel, locale })}
+      className={className}
+    >
+      {quick.display}
+    </a>
   );
 }

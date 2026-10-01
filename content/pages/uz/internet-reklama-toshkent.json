@@ -29,7 +29,7 @@
   "heroTitle": "Toshkentda internet reklama — ariza va savdolar uchun",
   "heroSubtitle": "Internet reklama klikdan keyingi yo‘l bilan birga ishlaydi: taklif, qo‘nish sahifasi yoki messenjer, hodisa, menejer va CRM statusi. Har bir bosqich alohida o‘lchanadi; sotuv natijasi reklama kabinetining o‘zi bilan kafolatlanmaydi.",
   "ctaPrimaryLabel": "Reklamani muhokama qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday",
   "heroTrust": [
@@ -373,7 +373,7 @@
     {
       "type": "cta",
       "text": "Biznesingiz uchun reklamani muhokama qiling",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

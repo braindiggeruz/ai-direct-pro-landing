@@ -26,8 +26,8 @@
   "breadcrumbLabel": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
   "heroTitle": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
   "heroSubtitle": "AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi va issiq lidlarni menejerga uzatadi.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -117,7 +117,7 @@
     },
     {
       "type": "p",
-      "text": "Narx kanallar soni, ssenariy murakkabligi va CRM bilan integratsiyaga bog‘liq. Bitta messenjer uchun bazaviy bot ko‘p kanalli yechimdan tezroq va arzonroq ishga tushadi. Aniq smetani vazifaga qarab hisoblaymiz — Telegram’ga yozing, keysingizni muhokama qilamiz."
+      "text": "Narx kanallar soni, ssenariy murakkabligi va CRM bilan integratsiyaga bog‘liq. Bitta messenjer uchun bazaviy bot ko‘p kanalli yechimdan tezroq va arzonroq ishga tushadi. Aniq smetani vazifaga qarab hisoblaymiz — biz bilan bog‘laning, keysingizni muhokama qilamiz."
     },
     {
       "type": "h3",
@@ -175,8 +175,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demo so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",

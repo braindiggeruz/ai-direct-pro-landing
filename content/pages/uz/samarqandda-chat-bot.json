@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Samarqandda chat-bot",
   "heroTitle": "Samarqandda chat-bot ishlab chiqish",
   "heroSubtitle": "Samarqandda biznes uchun AI botlar — Telegram, Instagram Direct va WhatsApp rus va o‘zbek tilida. Ofisga bog‘lanmasdan, masofadan ishlaymiz.",
-  "ctaPrimaryLabel": "Telegram’da botni muhokama qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Botni muhokama qilish",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday-ishlaymiz",
   "bodyBlocks": [
@@ -82,8 +82,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Botni muhokama qilish",
+      "href": "#lead-form"
     }
   ],
   "faq": [

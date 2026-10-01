@@ -26,8 +26,8 @@
   "breadcrumbLabel": "Окупаемость чат-бота",
   "heroTitle": "Окупаемость чат-бота",
   "heroSubtitle": "За сколько окупается AI-бот, как считать ROI и почему даже несколько спасённых сделок в месяц перекрывают его стоимость.",
-  "ctaPrimaryLabel": "Посчитать окупаемость в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Получить расчёт окупаемости",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Пример расчёта",
   "ctaSecondaryHref": "#raschet",
   "bodyBlocks": [
@@ -83,8 +83,8 @@
     },
     {
       "type": "cta",
-      "text": "Посчитать окупаемость в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Получить расчёт окупаемости",
+      "href": "#contact"
     },
     {
       "type": "h2",

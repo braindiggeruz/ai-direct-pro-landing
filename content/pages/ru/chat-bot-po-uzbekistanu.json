@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Чат-бот по Узбекистану",
   "heroTitle": "Разработка чат-ботов по всему Узбекистану",
   "heroSubtitle": "Работаем удалённо со всеми регионами — Ташкент, Самарканд, Бухара, Наманган, Андижан и другие города. Telegram, Instagram Direct и WhatsApp на русском и узбекском.",
-  "ctaPrimaryLabel": "Обсудить бота в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Обсудить бота",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Города и формат работы",
   "ctaSecondaryHref": "#goroda",
   "bodyBlocks": [
@@ -78,8 +78,8 @@
     },
     {
       "type": "cta",
-      "text": "Обсудить бота в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Обсудить бота",
+      "href": "#lead-form"
     },
     {
       "type": "h2",

@@ -27,8 +27,8 @@
   "breadcrumbLabel": "AI-бот для автосалона",
   "heroTitle": "AI-бот для автосалона и автосервиса",
   "heroSubtitle": "Квалифицирует заявки на авто, отвечает по моделям, цене и трейд-ин, записывает на тест-драйв и сервис — круглосуточно.",
-  "ctaPrimaryLabel": "Запустить бота в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Обсудить запуск бота",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Что умеет бот",
   "ctaSecondaryHref": "#chto-umeet",
   "bodyBlocks": [
@@ -137,8 +137,8 @@
     },
     {
       "type": "cta",
-      "text": "Запустить бота в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Обсудить запуск бота",
+      "href": "#contact"
     },
     {
       "type": "h2",

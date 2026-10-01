@@ -1,20 +1,7 @@
-// How the chat reaches a human, and how it reads what a visitor typed into
-// the single contact field. Pure except for the env read inherited from
-// ../lib/telegram.
+// How the chat reaches a person at the studio, and how it reads what a visitor
+// typed into the single contact field. Pure.
 import type { Locale } from './types';
-import { TELEGRAM_CONFIGURED, telegramDeepLink } from '../lib/telegram';
-
-/**
- * The studio's own Telegram contact — the same verified handle that
- * content/global/site.json publishes as `telegram` / `defaultCTA.href`.
- *
- * src/lib/telegram.ts defaults the bot username to the live assistant handle,
- * so the bot is always configured and every consumer route goes there. The
- * chat reaches this personal account only through the explicit B2B call to
- * action (studioBusinessLink) and the no-bot fallbacks below (telegramContact,
- * studioTelegramLink), which a normal build never takes.
- */
-export const STUDIO_TELEGRAM_URL = 'https://t.me/XGame_changerx';
+import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 
 export interface TelegramTarget {
   href: string;
@@ -22,39 +9,45 @@ export interface TelegramTarget {
   channel: 'bot' | 'studio';
 }
 
-export function telegramContact(locale: Locale): TelegramTarget {
-  return TELEGRAM_CONFIGURED
-    ? { href: telegramDeepLink(locale), channel: 'bot' }
-    : { href: STUDIO_TELEGRAM_URL, channel: 'studio' };
-}
-
 /**
- * Last resort only. Consumer surfaces reach this solely through
- * publicBotLink() in handoff.ts, and only when no bot username is configured
- * at all — which src/lib/telegram.ts makes impossible in a normal build. It
- * keeps a Telegram button from ever being dead; it is not a handoff route.
- */
-export function studioTelegramLink(locale: Locale): string {
-  const greeting = locale === 'uz'
-    ? 'Assalomu alaykum! Saytdagi AI-chatdan yozyapman.'
-    : 'Здравствуйте! Пишу из AI-чата на сайте.';
-  return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(greeting)}`;
-}
-
-/**
- * The studio's own Telegram with a B2B opener prefilled.
+ * The studio's work Telegram with a B2B opener prefilled, or null while none
+ * is configured (content/global/site.json `studioTelegram`, read through
+ * src/shared/studio-contact.ts).
  *
- * The ONLY chat surface allowed to use the personal account is the explicit
- * B2B call to action ("Нужен такой AI-чат для сайта…", AiOfferCard): there
- * a human conversation is the right outcome — one B2B bot is
- * worth roughly fifty consumer packages. Every consumer "continue in
- * Telegram" route goes to the assistant bot instead (handoff.ts).
+ * The explicit B2B call to action ("Нужен такой AI-чат для сайта…",
+ * AiOfferCard) is the only chat surface that may send a visitor to a person
+ * in Telegram: one B2B bot is worth roughly fifty consumer packages. Every
+ * consumer "continue in Telegram" route goes to the assistant bot instead
+ * (handoff.ts). The owner's personal account is not a public contact any more
+ * (paid-chat plan, decision L14): without a work account the card offers its
+ * lead form alone.
  */
-export function studioBusinessLink(locale: Locale): string {
+export function studioBusinessLink(locale: Locale, studio: string | null = STUDIO_TELEGRAM_URL): string | null {
+  if (!studio) return null;
   const greeting = locale === 'uz'
     ? 'Assalomu alaykum! Biznes uchun AI-bot bo‘yicha gaplashmoqchiman.'
     : 'Здравствуйте! Хочу обсудить AI-бота для бизнеса.';
-  return `${STUDIO_TELEGRAM_URL}?text=${encodeURIComponent(greeting)}`;
+  return `${studio}?text=${encodeURIComponent(greeting)}`;
+}
+
+export interface StudioQuickContact {
+  href: string;
+  /** 'studio' = the work Telegram, 'phone' = a tel: link. */
+  channel: 'studio' | 'phone';
+  /** Visible text, e.g. "+998 50 587 07 20". */
+  display: string;
+}
+
+/**
+ * The fastest way to a person after a business lead: the work Telegram when
+ * one is configured, otherwise the studio phone. Never the assistant bot,
+ * which answers questions, not enquiries.
+ */
+export function studioQuickContact(locale: Locale, studio: string | null = STUDIO_TELEGRAM_URL): StudioQuickContact {
+  const telegram = studioBusinessLink(locale, studio);
+  return telegram
+    ? { href: telegram, channel: 'studio', display: 'Telegram' }
+    : { href: `tel:${STUDIO_PHONE}`, channel: 'phone', display: STUDIO_PHONE_DISPLAY };
 }
 
 export interface ParsedContact {

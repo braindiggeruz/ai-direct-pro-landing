@@ -28,7 +28,7 @@
   "heroTitle": "Sayt uchun AI bot",
   "heroSubtitle": "Vidjet-konsultant tashrif buyuruvchilarga javob beradi, tovar va xizmatlar bo‘yicha konsultatsiya beradi, arizalarni yig‘adi va Telegram yoki CRM’ga uzatadi — kechayu kunduz.",
   "ctaPrimaryLabel": "Saytga bot qo‘yish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Saytdagi bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -86,7 +86,7 @@
     {
       "type": "cta",
       "text": "Saytga bot qo‘yish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [

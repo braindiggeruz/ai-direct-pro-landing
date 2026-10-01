@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Chat-bot narxi",
   "heroTitle": "Biznes uchun chat-bot narxi",
   "heroSubtitle": "Boshlang‘ich narx aniq cheklangan ish hajmiga tegishli. Ishga tushirishdan oldin kanal, ssenariy, integratsiya, cheklov, qo‘llab-quvvatlash va tashqi xarajatlarni qayd etamiz.",
-  "ctaPrimaryLabel": "Telegram’da narxni bilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Narxni bilish",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -237,8 +237,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da narxni bilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Narxni bilish",
+      "href": "#lead-form"
     }
   ],
   "faq": [

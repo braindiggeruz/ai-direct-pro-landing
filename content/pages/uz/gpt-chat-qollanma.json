@@ -28,7 +28,7 @@
   "heroSubtitle": "AI-chat nimalar qila oladi, o‘zbek va rus tillarida qanday ishlaydi, limitlar va xavfsiz foydalanish qoidalari.",
   "ctaPrimaryLabel": "AI-chatni ochish",
   "ctaPrimaryHref": "/uz/gpt-uzbek-tilida/",
-  "ctaSecondaryLabel": "Tariflar",
+  "ctaSecondaryLabel": "Biznes bot narxlari",
   "ctaSecondaryHref": "/uz/chat-bot-narxi/",
   "heroTrust": [
     "RU + UZ",
@@ -84,7 +84,7 @@
         "AI bilan o‘qish: mavzuni tushuntirish, konspekt, test, tarjima va matn tekshirish — foydalanuvchi o‘rniga ishni bajarish va’dasisiz.",
         "AI biznes: mijoz javobi, FAQ, mahsulot tavsifi, sotuv skripti va Telegram-bot ssenariysi.",
         "Images MVP: post, banner, mahsulot, Telegram muqovasi yoki maqola uchun batafsil image prompt generatori.",
-        "Limitlar joriy chat API ma’lumotiga asoslanadi; haqiqiy tasvir generatsiyasi va image credits faqat xavfsiz backend tayyor bo‘lgandan keyin qo‘shiladi."
+        "Chatning o‘zi rasm chizmaydi: Images vositasi istalgan rasm generatoriga qo‘yiladigan batafsil so‘rov tayyorlaydi."
       ]
     },
     {
@@ -97,16 +97,16 @@
     },
     {
       "type": "h2",
-      "text": "Tariflar: bepul, Plus va Business"
+      "text": "Bepul chat, AI paket va biznes uchun bot"
     },
     {
       "type": "linkp",
-      "text": "Har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Kengaytirilgan limit va qo‘shimcha imkoniyatli Plus tarifi ishga tushirishga tayyorlanmoqda. Kompaniyalar uchun B2B joriy etish mavjud — tafsilotlar {tariffs} sahifasida.",
+      "text": "Har kuni bepul xabar limiti bor, ro‘yxatdan o‘tish shart emas. Ko‘proq javob kerak bo‘lsa — AI paket: bir oyga 300 ta javob, 20 000 so‘m, avtomatik to‘lovsiz. Kompaniyalar uchun — alohida AI-bot joriy etish: {tariffs}.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/ru/tarify-ai-chat/",
-          "anchor": "AI chat tariflari"
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "biznes bot narxlari"
         }
       ]
     },
@@ -186,11 +186,11 @@
     },
     {
       "q": "AI chat bepulmi?",
-      "a": "Ha, har kuni bepul xabar limiti bor, murakkab ro‘yxatdan o‘tishsiz. Ko‘proq hajm uchun Plus tarifi mavjud."
+      "a": "Ha, har kuni bepul xabar limiti bor, ro‘yxatdan o‘tish shart emas. Ko‘proq kerak bo‘lsa — AI paket: bir oyga 300 ta javob."
     },
     {
       "q": "Qanday limitlar bor?",
-      "a": "Bepul tarifda kunlik va soatlik xabar limiti amal qiladi. Aniq qiymatlar chatda ko‘rsatiladi. Plus limitni kengaytiradi."
+      "a": "Bepul chatda kunlik va soatlik xabar limiti amal qiladi. Aniq qiymatlar chatda ko‘rsatiladi. AI paket bir oyga 300 ta javob beradi, kuniga 50 tagacha."
     },
     {
       "q": "O‘zbek tilida yozsa bo‘ladimi?",
@@ -254,7 +254,7 @@
     },
     {
       "target": "/ru/tarify-ai-chat/",
-      "anchor": "AI chat tariflari",
+      "anchor": "AI chat tariflari (RU)",
       "locale": "uz",
       "type": "block"
     },
@@ -278,7 +278,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-07-26",
+  "lastReviewedAt": "2026-10-01",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-10-01"
 }

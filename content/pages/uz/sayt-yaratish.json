@@ -35,7 +35,7 @@
   "heroTitle": "Sayt yaratish — biznesingizga ariza keltiradigan veb sayt",
   "heroSubtitle": "Landing, korporativ sayt, katalog yoki internet do‘kon yaratamiz. Sayt mobil qurilmalarda tez ochiladi, ariza formasi ishlaydi, arizalar esa Telegram yoki CRM’ga tushadi.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Qanday saytlar yaratamiz",
   "ctaSecondaryHref": "#turlari",
   "bodyBlocks": [
@@ -528,7 +528,7 @@
     {
       "type": "cta",
       "text": "Sayt yaratish bo‘yicha loyihangizni muhokama qilaylik — maslahat bepul.",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [

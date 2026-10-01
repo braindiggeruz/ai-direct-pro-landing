@@ -26,7 +26,7 @@
   "heroTitle": "Maxfiylik siyosati",
   "heroSubtitle": "GPTBot.uz sayt foydalanuvchilari va mijozlar malumotlarini qanday yigishi, ishlatishi va himoya qilishi.",
   "ctaPrimaryLabel": "Malumotlar boyicha boglanish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Biz haqimizda",
   "ctaSecondaryHref": "/uz/biz-haqimizda/",
   "bodyBlocks": [
@@ -86,7 +86,7 @@
     },
     {
       "type": "p",
-      "text": "Siz oz malumotlaringizga kirish, ularni tuzatish yoki ochirishni sorashingiz mumkin. Buning uchun bizga Telegramda yozing. Biz murojaatni korib chiqamiz va oqilona muddatda javob beramiz."
+      "text": "Siz oz malumotlaringizga kirish, ularni tuzatish yoki ochirishni sorashingiz mumkin. Buning uchun bizga ceo@gptbot.uz manziliga yozing. Biz murojaatni korib chiqamiz va oqilona muddatda javob beramiz."
     },
     {
       "type": "h2",
@@ -94,12 +94,12 @@
     },
     {
       "type": "p",
-      "text": "Shaxsiy malumotlarga ishlov berish boyicha biz bilan Telegramda boglaning: https://t.me/XGame_changerx. GPTBot.uz, Toshkent, Ozbekiston."
+      "text": "Shaxsiy ma’lumotlarga ishlov berish bo‘yicha biz bilan ceo@gptbot.uz e-mail yoki +998 50 587 07 20 telefoni orqali bog‘laning. GPTBot.uz, Toshkent, O‘zbekiston."
     },
     {
       "type": "cta",
       "text": "Biz bilan boglaning",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -113,11 +113,11 @@
     },
     {
       "q": "Malumotlarimni qanday ochirish mumkin?",
-      "a": "Bizga Telegramda ochirish sorovi bilan yozing — murojaatni korib chiqamiz va malumotlarni oqilona muddatda ochiramiz."
+      "a": "Bizga ceo@gptbot.uz manziliga o‘chirish so‘rovi bilan yozing — murojaatni ko‘rib chiqamiz va ma’lumotlarni oqilona muddatda o‘chiramiz."
     },
     {
       "q": "Maxfiylik boyicha kim bilan boglanish kerak?",
-      "a": "GPTBot.uz bilan Telegramda: https://t.me/XGame_changerx."
+      "a": "GPTBot.uz bilan ceo@gptbot.uz e-mail yoki +998 50 587 07 20 telefoni orqali."
     }
   ],
   "internalLinks": [

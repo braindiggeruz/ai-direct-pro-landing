@@ -36,12 +36,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   const cfg = resolveConfig(env);
   const db = env.GPTBOT_DRAFTS_DB;
   if (!db) {
-    return fail('store_unavailable', 'Не удалось сохранить заявку. Напишите нам в Telegram.', 503);
+    return fail('store_unavailable', 'Не удалось сохранить заявку. Попробуйте ещё раз чуть позже.', 503);
   }
   try {
     await ensureSchema(db);
   } catch {
-    return fail('store_unavailable', 'Не удалось сохранить заявку. Напишите нам в Telegram.', 503);
+    return fail('store_unavailable', 'Не удалось сохранить заявку. Попробуйте ещё раз чуть позже.', 503);
   }
 
   // A retry with the same key returns the original write before spending any
@@ -76,7 +76,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   if (!perHour.allowed || !perDay.allowed) {
     return fail(
       'rate_limited',
-      'Мы уже получили вашу заявку. Если нужно срочно — напишите нам в Telegram.',
+      'Мы уже получили вашу заявку и ответим в рабочее время.',
       429,
       { retryAfterSeconds: perHour.allowed ? perDay.retryAfterSeconds : perHour.retryAfterSeconds },
     );
@@ -113,7 +113,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     return fail('rate_limit_unavailable', 'Проверка временно недоступна. Попробуйте позже.', 503);
   }
   if (!global.allowed) {
-    return fail('rate_limited', 'Приём заявок временно ограничен. Напишите нам в Telegram.', 429, {
+    return fail('rate_limited', 'Приём заявок временно ограничен. Попробуйте позже.', 429, {
       retryAfterSeconds: global.retryAfterSeconds,
     });
   }
@@ -160,7 +160,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
         return json({ ok: true, id: existing.id, duplicate: true, idempotent: true });
       }
     }
-    return fail('store_failed', 'Не удалось сохранить заявку. Напишите нам в Telegram.', 503);
+    return fail('store_failed', 'Не удалось сохранить заявку. Попробуйте ещё раз чуть позже.', 503);
   }
 
   waitUntil(

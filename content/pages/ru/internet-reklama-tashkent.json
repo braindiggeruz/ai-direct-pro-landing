@@ -31,7 +31,7 @@
   "heroTitle": "Интернет-реклама в Ташкенте для заявок и продаж",
   "heroSubtitle": "Проектируем платное привлечение как измеримую систему: выбираем канал под сформированный или новый спрос, готовим оффер и посадочную страницу, фиксируем события конверсии и передаём обращения менеджеру или в CRM.",
   "ctaPrimaryLabel": "Запустить рекламу",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Узнать подробнее",
   "ctaSecondaryHref": "#how",
   "heroImage": {
@@ -422,7 +422,7 @@
     {
       "type": "cta",
       "text": "Обсудить рекламу для бизнеса",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

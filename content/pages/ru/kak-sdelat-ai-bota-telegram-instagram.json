@@ -26,8 +26,8 @@
   "breadcrumbLabel": "Как сделать AI-бота",
   "heroTitle": "Как сделать AI-бота для Telegram и Instagram",
   "heroSubtitle": "Пошаговый разбор: от идеи до запуска за несколько дней. Что подготовить, какие шаги пройти и сколько это стоит.",
-  "ctaPrimaryLabel": "Сделать бота в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Заказать Telegram-бота",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#steps",
   "bodyBlocks": [
@@ -85,8 +85,8 @@
     },
     {
       "type": "cta",
-      "text": "Сделать бота в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Заказать Telegram-бота",
+      "href": "#contact"
     },
     {
       "type": "h2",

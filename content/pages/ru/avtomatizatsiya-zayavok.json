@@ -27,7 +27,7 @@
   "heroTitle": "Автоматизация заявок: не теряйте клиентов",
   "heroSubtitle": "AI-бот мгновенно отвечает на заявки, собирает данные и передаёт горячих клиентов менеджеру или в CRM.",
   "ctaPrimaryLabel": "Получить автоматизацию",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -129,7 +129,7 @@
     {
       "type": "cta",
       "text": "Получить автоматизацию",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

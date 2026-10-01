@@ -26,7 +26,7 @@
   "breadcrumbLabel": "Performance-маркетинг",
   "heroSubtitle": "Настраиваем измерение, запускаем кампании, улучшаем посадочные страницы и возвращаем в рекламу данные о качестве обращений. Отчёт отвечает не только на вопрос, сколько было кликов.",
   "ctaPrimaryLabel": "Получить performance-разбор",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Метод работы",
   "ctaSecondaryHref": "#method",
   "heroImage": {
@@ -347,7 +347,7 @@
     {
       "type": "cta",
       "text": "Разобрать рекламную воронку",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

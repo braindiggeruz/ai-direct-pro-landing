@@ -26,7 +26,7 @@
   "heroTitle": "GPTBot.uz haqida",
   "heroSubtitle": "Toshkentdagi studiya — Ozbekistondagi biznes uchun AI-botlarni joriy qiladi: birinchi xabardan CRM dagi bitimgacha.",
   "ctaPrimaryLabel": "Biz bilan boglaning",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Nishalar boyicha korish",
   "ctaSecondaryHref": "/uz/biznes-uchun-ai-bot/",
   "bodyBlocks": [
@@ -73,11 +73,11 @@
     },
     {
       "type": "p",
-      "text": "Maqola bo‘yicha savol yoki tuzatishni Telegram orqali yuborish mumkin: https://t.me/XGame_changerx. Tahririyat tamoyillari oxirgi marta 2026-yil 26-iyulda tekshirildi."
+      "text": "Maqola bo‘yicha savol yoki tuzatishni ceo@gptbot.uz manziliga yuborish mumkin. Tahririyat tamoyillari oxirgi marta 2026-yil 26-iyulda tekshirildi."
     },
     {
       "type": "p",
-      "text": "Boris bilan to‘g‘ridan-to‘g‘ri Telegram orqali bog‘lanish mumkin: https://t.me/XGame_changerx — u kiruvchi loyihalarni o‘zi ko‘rib chiqadi va nishaga mos stsenariy taklif qiladi."
+      "text": "Boris bilan to‘g‘ridan-to‘g‘ri +998 50 587 07 20 telefoni yoki ceo@gptbot.uz e-mail orqali bog‘lanish mumkin — u kiruvchi loyihalarni o‘zi ko‘rib chiqadi va nishaga mos stsenariy taklif qiladi."
     },
     {
       "type": "h2",
@@ -119,8 +119,8 @@
     },
     {
       "type": "cta",
-      "text": "Loyihani Telegramda muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Loyihani muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -152,7 +152,7 @@
     },
     {
       "q": "Siz bilan qanday boglanish mumkin?",
-      "a": "Bizga Telegramda yozing: https://t.me/XGame_changerx. Nishangizni muhokama qilamiz va ssenariy namunasini tayyorlaymiz."
+      "a": "+998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing. Nishangizni muhokama qilamiz va ssenariy namunasini tayyorlaymiz."
     }
   ],
   "internalLinks": [

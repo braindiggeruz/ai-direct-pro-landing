@@ -27,7 +27,7 @@
   "heroTitle": "Biznes uchun AI-bot joriy etish ssenariylari",
   "heroSubtitle": "Quyida biznesdagi odatiy vazifalardan tuzilgan anonim ssenariylar berilgan. Bular ommaviy tasdiqlangan sharhlar ham, natija va’dasi ham emas: ta’sir kelishilgan hodisalar, murojaat sifati va CRM ma’lumotlari bilan tekshiriladi.",
   "ctaPrimaryLabel": "Soham uchun ssenariy olish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Narxini bilish",
   "ctaSecondaryHref": "/uz/chat-bot-narxi/",
   "bodyBlocks": [
@@ -126,7 +126,7 @@
     {
       "type": "cta",
       "text": "Ssenariy va qabul mezonlarini olish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

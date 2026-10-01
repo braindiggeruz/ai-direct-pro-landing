@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Yetkazib berish uchun AI bot",
   "heroTitle": "Ovqat yetkazib berish uchun AI bot",
   "heroSubtitle": "Buyurtmalarni qabul qiladi, menyu bo‘yicha yo‘naltiradi, summani hisoblaydi, manzilni aniqlaydi va yetkazib berish holatini xabar qiladi — kechayu kunduz.",
-  "ctaPrimaryLabel": "Telegram’da botni ishga tushirish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Botni ishga tushirishni muhokama qilish",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -148,8 +148,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da botni ishga tushirish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Botni ishga tushirishni muhokama qilish",
+      "href": "#contact"
     }
   ],
   "faq": [

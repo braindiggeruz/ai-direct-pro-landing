@@ -23,8 +23,8 @@
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbekcha bo‘lim",
   "heroSubtitle": "GPTBot.uz — Toshkentdagi studiya. Kichik va o‘rta biznes uchun AI/GPT botlar ishlab chiqamiz: Telegram, Instagram Direct, WhatsApp va sayt, rus va o‘zbek tillarida.",
-  "ctaPrimaryLabel": "Telegram’da demoni ishga tushirish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Blog",
   "ctaSecondaryHref": "/uz/blog/",
   "bodyBlocks": [
@@ -137,7 +137,7 @@
     },
     {
       "q": "Nimadan boshlash kerak?",
-      "a": "Bizga Telegram’da yozing. Vazifangizni bepul tahlil qilib, sohangiz uchun stsenariy namunasini tayyorlaymiz."
+      "a": "Biz bilan telefon yoki e-mail orqali bog‘laning. Vazifangizni bepul tahlil qilib, sohangiz uchun stsenariy namunasini tayyorlaymiz."
     }
   ],
   "internalLinks": [

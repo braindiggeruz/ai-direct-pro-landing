@@ -26,7 +26,7 @@
   "heroTitle": "AI-продавец: виртуальный консультант",
   "heroSubtitle": "Ведёт диалог, выявляет потребность, записывает на звонок или встречу и передаёт горячую заявку в CRM.",
   "ctaPrimaryLabel": "Запустить AI-продавца",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -133,7 +133,7 @@
     {
       "type": "cta",
       "text": "Запустить AI-продавца",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -181,7 +181,7 @@
     },
     {
       "q": "Сколько стоит AI-продавец?",
-      "a": "Зависит от числа каналов, сложности сценария и интеграций с CRM. Посчитаем под вашу воронку — напишите в Telegram."
+      "a": "Зависит от числа каналов, сложности сценария и интеграций с CRM. Посчитаем под вашу воронку — свяжитесь с нами."
     }
   ],
   "internalLinks": [

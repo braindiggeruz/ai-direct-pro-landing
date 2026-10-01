@@ -29,7 +29,7 @@
   "heroTitle": "Biznes uchun GPT bot: aqlli 24/7 javob beruvchi",
   "heroSubtitle": "Tabiiy tilni tushunadi, mazmunli javoblar beradi va arizalarni Telegram yoki CRM’ga uzatadi.",
   "ctaPrimaryLabel": "GPT bot demosi",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -122,12 +122,12 @@
     },
     {
       "type": "p",
-      "text": "GPT bot LLM ishi va bilim bazasini ishlab chiqish tufayli oddiy tugmali botdan qimmatroq, lekin yuqori konversiya hisobiga o‘zini oqlaydi. Narx bilim bazasi hajmi, kanallar soni va integratsiyalarga bog‘liq. Telegram’ga yozing — keysingizga qarab hisoblaymiz."
+      "text": "GPT bot LLM ishi va bilim bazasini ishlab chiqish tufayli oddiy tugmali botdan qimmatroq, lekin yuqori konversiya hisobiga o‘zini oqlaydi. Narx bilim bazasi hajmi, kanallar soni va integratsiyalarga bog‘liq. Biz bilan bog‘laning — keysingizga qarab hisoblaymiz."
     },
     {
       "type": "cta",
-      "text": "Telegram’da GPT botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "GPT botni muhokama qilish",
+      "href": "#contact"
     },
     {
       "type": "h2",

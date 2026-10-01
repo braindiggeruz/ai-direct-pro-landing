@@ -29,7 +29,7 @@
   "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
   "heroSubtitle": "Buyurtmalarni qabul qiladi, 24/7 javob beradi, xabarlar yuboradi va lidlarni CRM’ga uzatadi.",
   "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -122,7 +122,7 @@
     },
     {
       "type": "p",
-      "text": "Narx funksiyalar to‘plamiga bog‘liq: arizalar uchun oddiy bot katalog, to‘lov va tarqatmali bot-do‘kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Telegram’ga yozing — funksiya va smetani biznesingizga qarab muhokama qilamiz."
+      "text": "Narx funksiyalar to‘plamiga bog‘liq: arizalar uchun oddiy bot katalog, to‘lov va tarqatmali bot-do‘kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Ariza qoldiring — funksiya va smetani biznesingizga qarab muhokama qilamiz."
     },
     {
       "type": "h3",
@@ -192,7 +192,7 @@
     {
       "type": "cta",
       "text": "Telegram bot so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

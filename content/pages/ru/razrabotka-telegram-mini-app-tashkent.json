@@ -28,7 +28,7 @@
   "heroTitle": "Разработка Telegram Mini App в Ташкенте",
   "heroSubtitle": "Создаём мобильный интерфейс, который открывается из бота или меню Telegram: каталог, запись, корзина, личный кабинет, оплата и интеграции с вашей системой. Сначала проверяем бизнес-сценарий, затем проектируем безопасный запуск.",
   "ctaPrimaryLabel": "Обсудить Mini App",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Посмотреть возможности",
   "ctaSecondaryHref": "#capabilities",
   "heroImage": {
@@ -170,7 +170,7 @@
     {
       "type": "cta",
       "text": "Получить разбор сценария Telegram Mini App",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

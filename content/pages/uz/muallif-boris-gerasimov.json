@@ -26,7 +26,7 @@
   "heroTitle": "Boris Gerasimov",
   "heroSubtitle": "GPTBot.uz asoschisi va O‘zbekistondagi AI-botlar, avtomatlashtirish, Telegram dasturlash hamda digital marketing materiallari uchun mas’ul muharrir.",
   "ctaPrimaryLabel": "Muallifga savol berish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "GPTBot.uz haqida",
   "ctaSecondaryHref": "/uz/biz-haqimizda/",
   "bodyBlocks": [
@@ -100,8 +100,8 @@
     },
     {
       "type": "cta",
-      "text": "Borisga Telegramda yozish",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Boris bilan bog‘lanish",
+      "href": "#contact"
     }
   ],
   "faq": [
@@ -115,7 +115,7 @@
     },
     {
       "q": "Tuzatish taklifini qanday yuborish mumkin?",
-      "a": "Sahifa havolasi va noaniqlik tavsifini Telegram orqali yuboring: https://t.me/XGame_changerx."
+      "a": "Sahifa havolasi va noaniqlik tavsifini ceo@gptbot.uz manziliga yuboring."
     }
   ],
   "internalLinks": [

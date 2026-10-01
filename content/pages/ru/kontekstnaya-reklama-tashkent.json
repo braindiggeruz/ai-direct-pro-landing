@@ -26,7 +26,7 @@
   "breadcrumbLabel": "Контекстная реклама",
   "heroSubtitle": "Перехватываем сформированный спрос в Google и Яндексе, связываем объявления с посадочной страницей и измеряем не только клики, но и качество обращений.",
   "ctaPrimaryLabel": "Обсудить рекламную кампанию",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Рассчитать CPL",
   "ctaSecondaryHref": "#calculator",
   "heroImage": {
@@ -525,7 +525,7 @@
     {
       "type": "cta",
       "text": "Обсудить контекстную рекламу",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

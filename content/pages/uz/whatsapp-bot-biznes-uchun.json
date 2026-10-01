@@ -29,7 +29,7 @@
   "heroTitle": "WhatsApp bot biznes uchun O‘zbekistonda",
   "heroSubtitle": "AI-menejer WhatsApp’da bir necha soniyada javob beradi, mijoz nima istayotganini aniqlaydi, kontaktni yig‘adi va tayyor lidni Telegram yoki CRM orqali menejeringizga uzatadi. Rus va o‘zbek tillari — boshidan.",
   "ctaPrimaryLabel": "WhatsApp botni ishga tushirish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -227,7 +227,7 @@
     {
       "type": "cta",
       "text": "Biznesingiz uchun WhatsApp botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -278,7 +278,7 @@
     },
     {
       "q": "Joriy etish qancha turadi?",
-      "a": "Narx bilim bazasi hajmiga, integratsiyalar soniga va ssenariylarning murakkabligiga bog‘liq. Telegram’ga yozing, ariza oqimingizni ko‘rib chiqamiz va shaxsiy smeta yuboramiz: https://t.me/XGame_changerx."
+      "a": "Narx bilim bazasi hajmiga, integratsiyalar soniga va ssenariylarning murakkabligiga bog‘liq. +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing — ariza oqimingizni ko‘rib chiqamiz va shaxsiy smeta yuboramiz."
     },
     {
       "q": "Bot bitta WhatsApp raqami bilan bir nechta menejer uchun ishlay oladimi?",

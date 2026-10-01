@@ -30,7 +30,7 @@
   "heroTitle": "Сайт для заявок и клиентов",
   "heroSubtitle": "Сайт для заявок — это не просто страница с текстом, а система получения обращений. Мы разрабатываем сайты с удобными формами, интеграцией в Telegram и CRM, аналитикой и AI-ботом, чтобы бизнес не терял лиды и стабильно получал заявки.",
   "ctaPrimaryLabel": "Заказать сайт для заявок",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как работает форма",
   "ctaSecondaryHref": "#form",
   "bodyBlocks": [

@@ -29,7 +29,7 @@
   "breadcrumbLabel": "Telegram Ads",
   "heroSubtitle": "Запускаем официальные Telegram Ads и размещения в каналах под задачу бизнеса. Подготовим смету: работа команды, рекламный бюджет и комиссии — отдельно. Канал или бот, сообщения и измерение обращений согласуем до старта.",
   "ctaPrimaryLabel": "Получить смету",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Что войдёт в смету",
   "ctaSecondaryHref": "#brief",
   "heroImage": {
@@ -150,8 +150,8 @@
     },
     {
       "type": "cta",
-      "text": "Запросить смету в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Запросить смету",
+      "href": "#lead-form"
     },
     {
       "type": "p",
@@ -653,7 +653,7 @@
     {
       "type": "cta",
       "text": "Обсудить запуск Telegram Ads",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#lead-form"
     }
   ],
   "faq": [

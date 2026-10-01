@@ -18,8 +18,9 @@ let seen = false;
 /**
  * The B2B offer: after a few useful answers in the business tool, one
  * dismissible card. Never returns once dismissed (for the rest of the day).
- * Its Telegram button goes to the studio's own account with a B2B opener
- * prefilled, and mints nothing: a business buyer should reach a person — one
+ * Its lead form reaches the studio; so does its Telegram button, shown only
+ * while a work Telegram is configured (contact.ts), with a B2B opener
+ * prefilled and nothing minted: a business buyer should reach a person — one
  * B2B bot is worth about fifty consumer packages — while a consumer who came
  * for a free "ChatGPT" belongs in the assistant bot. A limit is never sold
  * from here: the limit card above the composer handles it (limit-card.ts).
@@ -47,10 +48,11 @@ export function AiOfferCard({
     track(EV.offerViewed, { surface: 'chat', locale });
   }, [locale]);
 
-  // The studio's own Telegram, B2B opener prefilled, nothing minted. This is
-  // the one chat surface where the personal account is the right destination
-  // (see contact.ts).
-  const businessLink: HandoffLink = { href: studioBusinessLink(locale), channel: 'studio', withSession: false };
+  // The studio's work Telegram, B2B opener prefilled, nothing minted: the one
+  // chat surface where a person in Telegram is the right destination. Absent
+  // while no work account is configured (see contact.ts).
+  const studioHref = studioBusinessLink(locale);
+  const businessLink: HandoffLink | null = studioHref ? { href: studioHref, channel: 'studio', withSession: false } : null;
   return (
     <aside
       className="mt-6 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 sm:p-5"
@@ -77,7 +79,7 @@ export function AiOfferCard({
         </button>
       </div>
       <div className="mt-4 grid gap-2.5 sm:flex sm:flex-wrap">
-        <AiTelegramCta link={businessLink} label={t.contactTelegram} stage={STAGE} variant="secondary" />
+        {businessLink && <AiTelegramCta link={businessLink} label={t.contactTelegram} stage={STAGE} variant="secondary" />}
         {!leadOpen && (
           <button
             type="button"

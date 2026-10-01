@@ -14,12 +14,12 @@
 //   configured:false, a link to some other bot or account)
 //                                   → the PUBLIC bot deep link
 //                                     t.me/<bot>?start=site_ru|site_uz
-// The owner's personal Telegram account is never produced here. A consumer
-// who asked the chat for "ChatGPT" belongs in the bot, which has its own
-// allowance and answers at once; the personal account is reserved for the
-// explicit B2B card (studioBusinessLink in contact.ts), where a human sale is
-// the right outcome. The button is never dead and never claims context it
-// does not have.
+// No person's Telegram account is ever produced here. A consumer who asked
+// the chat for "ChatGPT" belongs in the bot, which has its own allowance and
+// answers at once; the studio's work Telegram, when one is configured, is
+// reserved for the explicit B2B card (studioBusinessLink in contact.ts), where
+// a human sale is the right outcome. The button is never dead and never claims
+// context it does not have.
 //
 // Why it is written this way — the defects this replaced, verified in code on
 // 2026-09-30 (every one of them sent consumers to the owner's DMs):
@@ -58,8 +58,8 @@
 //      Limit-intent arrivals are now recorded but never pushed.
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from './types';
-import { studioTelegramLink, type TelegramTarget } from './contact';
-import { TELEGRAM_BOT_USERNAME, TELEGRAM_CONFIGURED, telegramDeepLink } from '../lib/telegram';
+import type { TelegramTarget } from './contact';
+import { TELEGRAM_BOT_USERNAME, telegramDeepLink } from '../lib/telegram';
 
 /** Which surface asked for the link. Sent as the handoff `intent`. */
 export type HandoffSource = 'offer' | 'hourly_limit' | 'daily_limit' | 'monthly_limit';
@@ -93,7 +93,6 @@ function isTelegramUrl(value: string): boolean {
  * followed, whoever returned it.
  */
 export function isConfiguredBotUrl(value: string): boolean {
-  if (!TELEGRAM_CONFIGURED) return false;
   let url: URL;
   try {
     url = new URL(value);
@@ -113,16 +112,11 @@ export function isConfiguredBotUrl(value: string): boolean {
 /**
  * The public, contextless entry to the assistant bot — the same
  * `?start=site_ru|site_uz` link the server's own fallback returns, and a
- * payload the bot greets in the site's language.
- *
- * The studio branch is a never-dead-button guarantee only: src/lib/telegram.ts
- * defaults the bot username to the live handle, so TELEGRAM_CONFIGURED is
- * true in every build. This is the ONE place handoff.ts may reach the studio.
+ * payload the bot greets in the site's language. src/lib/telegram.ts always
+ * has a bot username, so this link always exists.
  */
 export function publicBotLink(locale: Locale): HandoffLink {
-  return TELEGRAM_CONFIGURED
-    ? { href: telegramDeepLink(locale), channel: 'bot', withSession: false }
-    : { href: studioTelegramLink(locale), channel: 'studio', withSession: false };
+  return { href: telegramDeepLink(locale), channel: 'bot', withSession: false };
 }
 
 export interface MintedHandoff {

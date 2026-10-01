@@ -8,13 +8,20 @@
 // is a first message that names the service and the page, instead of a bare
 // "Здравствуйте" that has to be asked about.
 //
-// Used by scripts/prerender.ts (landings) and scripts/prerender-blog.ts
-// (articles and blog indexes). The ten protected pages keep the bare link:
-// scripts/seo-protection.ts pins their internal links, and they are not to be
-// touched in any way until the 2026-10-20 verdict.
+// Which account that is comes from content/global/site.json `studioTelegram`
+// (src/shared/studio-contact.ts). It is empty while the studio has no work
+// account (paid-chat plan, decision L14): studioTelegramHref() then returns
+// null and every caller offers the phone instead.
+//
+// Used by scripts/prerender.ts (landings), scripts/prerender-blog.ts (articles
+// and blog indexes) and scripts/lead-form.ts. The ten protected pages keep the
+// bare link: scripts/seo-protection.ts pins them, and their one revision is
+// paid-chat WP-12.
+import { telegram as legacyTelegram } from '../content/global/site.json';
+import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { PROTECTED_PATHS } from './seo-protection';
 
-export const STUDIO_TELEGRAM_URL = 'https://t.me/XGame_changerx';
+export { STUDIO_TELEGRAM_URL };
 
 const PROTECTED: ReadonlySet<string> = new Set(PROTECTED_PATHS);
 const MAX_LABEL = 60;
@@ -40,8 +47,21 @@ function encodeDraft(text: string): string {
   return encodeURIComponent(text).replace(/['()*!]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
 }
 
-export function studioTelegramHref(locale: 'ru' | 'uz', label: string, path: string): string {
-  return `${STUDIO_TELEGRAM_URL}?text=${encodeDraft(studioTelegramMessage(locale, label, path))}`;
+function prefilled(base: string, locale: 'ru' | 'uz', label: string, path: string): string {
+  return `${base}?text=${encodeDraft(studioTelegramMessage(locale, label, path))}`;
+}
+
+/**
+ * The studio's work Telegram with the draft, or null while none is configured.
+ * `studio` defaults to the configured account; tests pass one explicitly.
+ */
+export function studioTelegramHref(
+  locale: 'ru' | 'uz',
+  label: string,
+  path: string,
+  studio: string | null = STUDIO_TELEGRAM_URL,
+): string | null {
+  return studio ? prefilled(studio, locale, label, path) : null;
 }
 
 export function isProtectedPath(path: string): boolean {
@@ -53,10 +73,15 @@ export function isProtectedPath(path: string): boolean {
 // draft built from it would read oddly; it keeps the bare link like "/".
 const BARE_LINK_PATHS: ReadonlySet<string> = new Set(['/uz/']);
 
-// Only an href that is exactly the bare contact (with or without the trailing
-// slash) is rewritten. Links that already carry a query, other handles, the
-// JSON-LD sameAs value and visible text mentioning the handle are left alone.
-const BARE_STUDIO_HREF_RE = /href="https:\/\/t\.me\/XGame_changerx\/?"/g;
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// The studio links a template can render bare: the work account and, until
+// WP-12 moves the shared templates to it, the legacy `telegram` value that the
+// blog template still renders. Only an href that is exactly one of them (with
+// or without the trailing slash) is rewritten. Links that already carry a
+// query, other handles, JSON-LD and visible text are left alone.
+const BARE_STUDIO_HREFS = [...new Set([STUDIO_TELEGRAM_URL, legacyTelegram].filter((url): url is string => !!url))]
+  .map((url) => ({ url: url.replace(/\/$/, ''), re: new RegExp(`href="${escapeRe(url.replace(/\/$/, ''))}\\/?"`, 'g') }));
 
 /**
  * Rewrite every bare studio-contact href in a rendered document to the
@@ -67,6 +92,8 @@ export function withStudioTelegramPrefill(
   opts: { locale: 'ru' | 'uz'; label: string; path: string },
 ): string {
   if (isProtectedPath(opts.path) || BARE_LINK_PATHS.has(opts.path)) return html;
-  const href = studioTelegramHref(opts.locale, opts.label, opts.path);
-  return html.replace(BARE_STUDIO_HREF_RE, () => `href="${href}"`);
+  return BARE_STUDIO_HREFS.reduce(
+    (out, { url, re }) => out.replace(re, () => `href="${prefilled(url, opts.locale, opts.label, opts.path)}"`),
+    html,
+  );
 }

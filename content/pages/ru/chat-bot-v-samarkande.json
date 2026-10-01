@@ -27,8 +27,8 @@
   "breadcrumbLabel": "Чат-бот в Самарканде",
   "heroTitle": "Разработка чат-ботов в Самарканде",
   "heroSubtitle": "AI-боты для бизнеса в Самарканде — Telegram, Instagram Direct и WhatsApp на русском и узбекском. Работаем удалённо, без привязки к офису.",
-  "ctaPrimaryLabel": "Обсудить бота в Telegram",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Обсудить бота",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как мы работаем",
   "ctaSecondaryHref": "#kak-rabotaem",
   "bodyBlocks": [
@@ -82,8 +82,8 @@
     },
     {
       "type": "cta",
-      "text": "Обсудить бота в Telegram",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Обсудить бота",
+      "href": "#lead-form"
     },
     {
       "type": "h2",

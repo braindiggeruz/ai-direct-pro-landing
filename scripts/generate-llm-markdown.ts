@@ -13,12 +13,12 @@ import path from 'node:path';
 import type { Page, BlogArticle, BodyBlock, FaqItem, InternalLink, SourceReference } from '../src/shared/types';
 import { SITE_URL } from '../src/shared/site-config';
 import { LLM_MARKDOWN_BLOG_URLS, LLM_MARKDOWN_SLUGS_RU, LLM_MARKDOWN_SLUGS_UZ } from './llm-pages';
+import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGES_DIR = path.join(ROOT, 'content', 'pages');
 const BLOG_DIR = path.join(ROOT, 'content', 'blog');
 const DIST_DIR = path.join(ROOT, 'dist');
-const TG = 'https://t.me/XGame_changerx';
 
 type Locale = 'ru' | 'uz';
 
@@ -69,12 +69,12 @@ const TEXT: Record<Locale, {
   ru: {
     faq: 'Частые вопросы', also: 'Смотрите также', consult: 'Консультация', source: 'Источник',
     sources: 'Источники', author: 'Автор', published: 'Опубликовано', updated: 'Обновлено',
-    consultText: 'Разберём задачу бизнеса и предложим решение — сайт, AI-бот, Telegram-бот, интеграцию с CRM или рекламную воронку. Напишите в Telegram:',
+    consultText: 'Разберём задачу бизнеса и предложим решение — сайт, AI-бот, Telegram-бот, интеграцию с CRM или рекламную воронку. Связаться с нами:',
   },
   uz: {
     faq: 'Tez-tez so‘raladigan savollar', also: 'Shuningdek qarang', consult: 'Maslahat', source: 'Manba',
     sources: 'Manbalar', author: 'Muallif', published: 'Nashr etilgan', updated: 'Yangilangan',
-    consultText: 'Biznes vazifangizni ko‘rib chiqamiz va yechim taklif qilamiz — sayt, AI-bot, Telegram-bot, CRM integratsiyasi yoki reklama voronkasi. Telegramda yozing:',
+    consultText: 'Biznes vazifangizni ko‘rib chiqamiz va yechim taklif qilamiz — sayt, AI-bot, Telegram-bot, CRM integratsiyasi yoki reklama voronkasi. Biz bilan bog‘lanish:',
   },
 };
 
@@ -95,9 +95,16 @@ function sourcesMd(sources: SourceReference[] | undefined, locale: Locale): stri
   return [`\n## ${TEXT[locale].sources}\n`, ...live.map((s) => `- [${s.title.trim()}](${s.url})${s.note ? ` — ${s.note.trim()}` : ''}`)];
 }
 
+/** The studio's contact channels from content/global/site.json (src/shared/studio-contact.ts). */
+const CONTACTS = [
+  `[${STUDIO_PHONE_DISPLAY}](tel:${STUDIO_PHONE})`,
+  `[${STUDIO_EMAIL}](mailto:${STUDIO_EMAIL})`,
+  ...(STUDIO_TELEGRAM_URL ? [`[Telegram](${STUDIO_TELEGRAM_URL})`] : []),
+].join(' · ');
+
 function tail(url: string, locale: Locale): string[] {
   const t = TEXT[locale];
-  return [`\n## ${t.consult}\n`, `${t.consultText} [${TG}](${TG}).`, `\n---\n${t.source}: ${SITE_URL}${url} · GPTBot.uz`];
+  return [`\n## ${t.consult}\n`, `${t.consultText} ${CONTACTS}.`, `\n---\n${t.source}: ${SITE_URL}${url} · GPTBot.uz`];
 }
 
 const isoDate = (value: string | undefined) => (value ? new Date(value).toISOString().slice(0, 10) : '');

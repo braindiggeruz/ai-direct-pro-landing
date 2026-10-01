@@ -15,6 +15,8 @@ import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
+import { renderContactCard } from './contact-card';
+import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
@@ -819,16 +821,6 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
     ? `<p data-testid="page-author" class="text-xs text-white/50 mb-4">${escapeHtml(authorLabel)}: <a href="${escapeHtml(authorUrl)}" class="text-white/70 hover:text-white underline underline-offset-2">${escapeText(authorName)}</a>${isCommercialPage ? ` · ${escapeText(orgReviewLabel)}` : ''}</p>`
     : '';
 
-  // Mobile sticky conversion bar — commercial pages only, hidden ≥lg.
-  // GA4 showed that every recorded conversion currently comes from mobile, so
-  // the first action here is a direct phone link. Telegram remains as secondary.
-  const showStickyCta = isCommercialPage || STICKY_BAR_EXTRA_URLS.has(page.url);
-  const stickyPhoneLabel = page.locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить';
-  const stickyTelegramLabel = 'Telegram';
-  const stickyCtaHtml = showStickyCta
-    ? `<div class="sticky-cta lg:hidden grid grid-cols-[1fr_auto] gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:+998505870720" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(stickyPhoneLabel)}</a><a data-testid="sticky-telegram-cta" href="${escapeHtml(global.telegram || global.defaultCTA.href)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">${escapeText(stickyTelegramLabel)}</a></div>`
-    : '';
-
   // Trust microcopy chips — copy-only, no fake guarantees. Reused below the
   // primary CTA on every money page. Localised per page.locale.
   const trustChips = (page.heroTrust && page.heroTrust.length) ? page.heroTrust
@@ -855,8 +847,27 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   const hasCopyablePrompts = page.bodyBlocks?.some((block) => block.copyableItems) ?? false;
   // Two-field lead form, only on the allowlist in scripts/lead-form.ts (which
   // also refuses protected, measurement-hold, calculator and market pages).
+  // The studio contact card takes the same slot on a page that links "#contact"
+  // (scripts/contact-card.ts).
   const leadForm = marketVariant || page.pageType === 'gpt-chat' ? '' : renderLeadForm(page);
-  const leadFormHtml = leadForm ? `\n    ${leadForm}` : '';
+  const contactCard = marketVariant || page.pageType === 'gpt-chat' ? '' : renderContactCard(page);
+  const leadFormHtml = [leadForm, contactCard].filter(Boolean).map((html) => `\n    ${html}`).join('');
+
+  // Mobile sticky conversion bar — commercial pages only, hidden ≥lg.
+  // GA4 showed that every recorded conversion currently comes from mobile, so
+  // the first action here is a direct phone link. The second is the studio's
+  // work Telegram when one is configured (src/shared/studio-contact.ts),
+  // otherwise the page's lead form, otherwise nothing: the phone takes the row.
+  const showStickyCta = isCommercialPage || STICKY_BAR_EXTRA_URLS.has(page.url);
+  const stickyPhoneLabel = page.locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить';
+  const stickySecondary = STUDIO_TELEGRAM_URL
+    ? `<a data-testid="sticky-telegram-cta" href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a>`
+    : leadForm
+    ? `<a data-testid="sticky-form-cta" href="#lead-form" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">${page.locale === 'uz' ? 'Ariza' : 'Заявка'}</a>`
+    : '';
+  const stickyCtaHtml = showStickyCta
+    ? `<div class="sticky-cta lg:hidden grid ${stickySecondary ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'} gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:${STUDIO_PHONE}" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(stickyPhoneLabel)}</a>${stickySecondary}</div>`
+    : '';
 
   return `<!doctype html>
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
@@ -968,8 +979,9 @@ ${marketVariant ? renderMarketFooter(page, global) : page.pageType === 'gpt-chat
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
         ${page.locale === 'uz' ? 'Yandex Xaritalar' : 'Яндекс Карты'}
       </a>
-      <a href="tel:+998505870720" class="hover:text-white">+998 50 587 07 20</a>
-      <a href="${escapeHtml(global.telegram || '#')}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>
+      <a href="tel:${STUDIO_PHONE}" class="hover:text-white">${escapeHtml(STUDIO_PHONE_DISPLAY)}</a>
+      <a href="mailto:${escapeHtml(STUDIO_EMAIL)}" class="hover:text-white">${escapeHtml(STUDIO_EMAIL)}</a>
+      ${STUDIO_TELEGRAM_URL ? `<a href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer" target="_blank" class="hover:text-white">Telegram</a>` : ''}
     </div>
     ${page.locale === 'uz' ? `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Reklama xizmatlari">
       <span class="text-white/50">Reklama:</span>

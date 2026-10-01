@@ -25,8 +25,8 @@
   "breadcrumbLabel": "Arizalarni qabul qiluvchi bot",
   "heroTitle": "Arizalarni qabul qiluvchi bot — Telegram va Instagram’da 24/7",
   "heroSubtitle": "Bot mijozning birinchi xabaridan keyin ism va telefonni yig‘adi va to‘ldirilgan arizani Telegram’dagi menejerga yoki CRM’ga uzatadi.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -128,8 +128,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demo so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -165,7 +165,7 @@
     },
     {
       "q": "Narxi qancha?",
-      "a": "Narx ssenariy murakkabligi va ulanadigan kanallar/CRM soniga bog‘liq. Bepul demo: https://t.me/XGame_changerx."
+      "a": "Narx ssenariy murakkabligi va ulanadigan kanallar/CRM soniga bog‘liq. Bepul demo uchun +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing."
     },
     {
       "q": "Bot operatorni almashtiradimi?",
@@ -177,7 +177,7 @@
     },
     {
       "q": "Arizalarni qabul qiluvchi bot qancha turadi?",
-      "a": "Narx kanallar soni, ssenariy va integratsiyalarga bog‘liq. Jarayoningizga qarab hisoblaymiz — Telegram’ga yozing."
+      "a": "Narx kanallar soni, ssenariy va integratsiyalarga bog‘liq. Jarayoningizga qarab hisoblaymiz — biz bilan bog‘laning."
     }
   ],
   "internalLinks": [

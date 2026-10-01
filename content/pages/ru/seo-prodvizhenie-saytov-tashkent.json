@@ -31,7 +31,7 @@
   "heroTitle": "SEO-продвижение сайтов в Ташкенте для бизнеса",
   "heroSubtitle": "Помогаем сайту стать понятнее поисковым системам и полезнее клиентам. Начинаем с аудита и спроса, исправляем технические ошибки, создаём посадочные страницы, связываем контент перелинковкой и измеряем не только позиции, но и обращения.",
   "ctaPrimaryLabel": "Получить SEO-разбор",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Посмотреть состав работ",
   "ctaSecondaryHref": "#process",
   "bodyBlocks": [
@@ -687,7 +687,7 @@
     {
       "type": "cta",
       "text": "Получить первичный SEO-разбор",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

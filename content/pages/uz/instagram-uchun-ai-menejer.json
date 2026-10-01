@@ -26,8 +26,8 @@
   "breadcrumbLabel": "Instagram uchun AI-menejer",
   "heroTitle": "Instagram uchun AI-menejer — Direct’dagi savollarga 24/7 javob",
   "heroSubtitle": "Instagram Direct’da mijozning birinchi savoliga soniyalarda javob bering, ism va telefonni yig‘ing va tayyor lidni menejeringizga uzating.",
-  "ctaPrimaryLabel": "Telegram’da demo so‘rash",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryLabel": "Demo so‘rash",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -187,8 +187,8 @@
     },
     {
       "type": "cta",
-      "text": "Telegram’da demo so‘rash",
-      "href": "https://t.me/XGame_changerx"
+      "text": "Demo so‘rash",
+      "href": "#contact"
     },
     {
       "type": "h2",
@@ -224,7 +224,7 @@
     },
     {
       "q": "Narxi qancha?",
-      "a": "Narx ssenariy va integratsiyalar soniga bog‘liq. Nishingiz uchun bepul demo oling: https://t.me/XGame_changerx."
+      "a": "Narx ssenariy va integratsiyalar soniga bog‘liq. Nishangiz uchun bepul demo: +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing."
     },
     {
       "q": "AI-menejer Instagram Direct botdan nimasi bilan farq qiladi?",

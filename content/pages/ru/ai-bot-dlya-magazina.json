@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для интернет-магазина: виртуальный консультант",
   "heroSubtitle": "Показывает товары, отвечает на вопросы о наличии и доставке и оформляет заказы 24/7.",
   "ctaPrimaryLabel": "Заказать бота для магазина",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -208,7 +208,7 @@
     {
       "type": "cta",
       "text": "Заказать бота для магазина",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

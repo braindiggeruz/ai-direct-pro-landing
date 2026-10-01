@@ -29,7 +29,7 @@
   "heroTitle": "Ko‘chmas mulk agentligi va rieltorlar uchun AI bot",
   "heroSubtitle": "AI-menejer mijozni byudjet, tuman, format va muddat bo‘yicha saralaydi, kontaktni yig‘adi va issiq xaridor yoki ijarachini rieltorga uzatadi. Telegram, Instagram Direct va WhatsApp — rus va o‘zbek tillarida.",
   "ctaPrimaryLabel": "Agentlik uchun botni muhokama qilish",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Saralash ssenariysi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -229,7 +229,7 @@
     {
       "type": "cta",
       "text": "Agentlik uchun AI botni muhokama qilish",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",

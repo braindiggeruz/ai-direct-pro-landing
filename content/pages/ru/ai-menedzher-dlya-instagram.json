@@ -26,7 +26,7 @@
   "heroTitle": "AI-менеджер для Instagram: виртуальный помощник",
   "heroSubtitle": "AI-менеджер отвечает в Instagram Direct и комментариях, инициирует продажу и передаёт заявки менеджеру.",
   "ctaPrimaryLabel": "Подключить AI-менеджера",
-  "ctaPrimaryHref": "https://t.me/XGame_changerx",
+  "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -185,7 +185,7 @@
     {
       "type": "cta",
       "text": "Подключить AI-менеджера",
-      "href": "https://t.me/XGame_changerx"
+      "href": "#contact"
     },
     {
       "type": "h2",
