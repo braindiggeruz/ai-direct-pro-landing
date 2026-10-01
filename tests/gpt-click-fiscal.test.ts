@@ -405,6 +405,27 @@ test("the maintenance tick retries due receipts before it delivers alerts: a fai
   assert.match(urgent[0], /click_fiscal_failed — Click: чек ОФД не пробит/);
 });
 
+test("a slow Click still fits the tick: receipts run beside providers and watchdog, not in a slice of their own", async (t) => {
+  const c = await liveClick(t);
+  // A first print is three calls (status_by_mti, submit_items, ofd_data);
+  // across the ocean each easily takes this long.
+  c.fake.latencyMs = 600;
+  const order = await c.paidAt(Date.now());
+  const response = await maintenance(
+    c.f.ctx(
+      new Request("https://gptbot.uz/api/internal/gpt-billing-maintenance", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${c.f.env.GPT_BILLING_MAINTENANCE_SECRET}` },
+      }),
+    ) as never,
+  );
+  const body = (await response.json()) as { failed: string[]; fiscal: Record<string, number> | null };
+  assert.equal(response.status, 200, JSON.stringify(body.failed));
+  assert.deepEqual(body.fiscal, { printed: 1, retried: 0, skipped: 0, queued: 0, failing: 0 });
+  assert.equal(c.receipt(order.id).status_code, 0);
+  assert.equal(c.fake.count("POST", "submit_items"), 1);
+});
+
 // ── Reversal ──────────────────────────────────────────────────────────────────
 
 test("reversal: Bearer only, confirmed body, current version; a paid order is reversed once and recorded as refunded", async (t) => {

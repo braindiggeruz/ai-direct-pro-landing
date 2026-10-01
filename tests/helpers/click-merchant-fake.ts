@@ -39,6 +39,8 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     loseSubmitAnswers: 0,
     /** ofd_data answers without a link this many times after a submit. */
     qrDelay: 0,
+    /** Every Click call takes this long; the caller's timeout aborts it, as with a real fetch. */
+    latencyMs: 0,
     qrUrl: (paymentId: number) =>
       `https://ofd.soliq.uz/epi?t=EZ000000000030&r=${paymentId}&c=20261001120000&s=854971301623`,
     /** Click learns of a payment of our order at `at` (it answers status_by_mti for that day). */
@@ -53,6 +55,15 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
   };
 
   const reply = (body: unknown, status = 200) => Response.json(body, { status });
+  const roundTrip = (signal: AbortSignal | null | undefined) =>
+    new Promise<void>((resolve, reject) => {
+      if (signal?.aborted) return reject(signal.reason);
+      const timer = setTimeout(resolve, fake.latencyMs);
+      signal?.addEventListener("abort", () => {
+        clearTimeout(timer);
+        reject(signal.reason);
+      }, { once: true });
+    });
   const authorized = (header: string | null, serviceId: string): boolean => {
     const account = accounts.find((a) => a.serviceId === serviceId);
     const match = /^(\d+):([0-9a-f]{40}):(\d{10})$/.exec(header ?? "");
@@ -76,6 +87,7 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     const path = url.pathname.slice(PREFIX.length);
     const body = init?.body ? (JSON.parse(String(init.body)) as Record<string, unknown>) : null;
     calls.push({ method, path, body });
+    if (fake.latencyMs > 0) await roundTrip(init?.signal);
     const headers = new Headers(init?.headers);
     const parts = path.split("/").filter(Boolean);
     const serviceId = parts[0] === "ofd_data" && parts[1] === "submit_items" ? String(body?.service_id) : parts[1];

@@ -5,8 +5,10 @@
 // Rows live in gpt_fiscal_receipts (0064 + migrations/0068). The batch that
 // marks a Click order paid inserts its PERFORM row (billing-store.ts); the
 // primary key (org_id, order_id, kind) makes that insert idempotent.
-// status_code: -1 queued, 0 printed, -2 skipped (a test order, or one
-// reversed before its receipt was printed: last_error says which).
+// status_code: -1 queued, 0 printed, -2 skipped (a test order, one
+// reversed before its receipt was printed, or one closed by hand after a
+// receipt printed elsewhere, docs/paid-chat/CLICK-FISCAL-RU.md: last_error
+// says which).
 //
 // fiscalizeDue runs right after Click's Complete (waitUntil) and in every
 // maintenance tick. It leases one due row at a time (UPDATE … WHERE

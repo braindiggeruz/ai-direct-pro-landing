@@ -8,8 +8,11 @@
 // timeout):
 //   providers    OpenRouter chain endpoints and key, at most hourly
 //   watchdog     silence watchdog, at most every 10 minutes
-//   fiscal       Click fiscal receipts that are due, at most 5 (fiscal-store.ts);
-//                before alerts, so its click_fiscal_failed goes out this tick
+//   fiscal       Click fiscal receipts that are due, at most 5 (fiscal-store.ts).
+//                It starts first and runs beside providers and watchdog: a
+//                receipt is several calls to api.click.uz, too slow for a
+//                slice of its own. Alerts wait for it, so its
+//                click_fiscal_failed goes out this tick.
 //   alerts       deliver urgent service alerts to the owner
 //   maintenance  retention sweeps; the payment outbox in live mode
 //   rekey        after GPT_HASH_SALT_SINCE, one batch of legacy hashes per
@@ -43,19 +46,25 @@ import { rekeySaltedHashes } from "../../lib/gpt-chat/salt-rekey-store";
 import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 
-// 19 s together, under the Worker's 20 s timeout. Receipts are printed right
-// after Click's Complete; this tick only retries, so its share is small.
+// 19 s together, under the Worker's 20 s timeout: fiscal runs beside
+// providers + watchdog (8 s both), then alerts and the rest follow one by one.
 const STEP_BUDGET_MS = {
   providers: 6_000,
-  watchdog: 1_500,
-  fiscal: 1_500,
+  watchdog: 2_000,
+  fiscal: 8_000,
   alerts: 4_500,
-  maintenance: 2_000,
+  maintenance: 2_500,
   rekey: 2_000,
-  retention: 750,
-  diagnostics: 750,
+  retention: 1_000,
+  diagnostics: 1_000,
 } as const;
 type Step = keyof typeof STEP_BUDGET_MS;
+/**
+ * No receipt starts after this. One already started may still make up to
+ * three calls of 0.5 s at most (fiscal-store.ts), so the step ends well
+ * inside its 8 s.
+ */
+const FISCAL_RUN_MS = 5_000;
 
 async function withBudget<T>(run: () => Promise<T>, ms: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -122,11 +131,13 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       return null;
     }
   };
+  // Not awaited yet: the receipts run beside the next two steps.
+  const fiscalRun = step("fiscal", () =>
+    fiscalizeDue(env, { budgetMs: FISCAL_RUN_MS }),
+  );
   const providers = await step("providers", () => checkBillingProviders(env));
   const watchdog = await step("watchdog", () => runWatchdog(env));
-  const fiscal = await step("fiscal", () =>
-    fiscalizeDue(env, { budgetMs: STEP_BUDGET_MS.fiscal }),
-  );
+  const fiscal = await fiscalRun;
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const maintenance = await step("maintenance", () => maintainBilling(env));
   const rekey = await step("rekey", () => rekeySaltedHashes(env));
