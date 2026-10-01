@@ -158,6 +158,14 @@ test('no article asks the reader to contact the studio in Telegram', () => {
   for (const { file } of ARTICLES) assert.doesNotMatch(read(file), studioSpeaks, file);
 });
 
+test('the e-mail that replaced Telegram reads as Russian, not as a swapped word', () => {
+  // «обсудить в Telegram» rewritten word for word leaves «обсудить в E-mail»
+  // (an article FAQ shipped in WP-12 like that); in Russian one writes
+  // «по e-mail» or «на e-mail».
+  const swapped = /(?:обсудить|написать|напишите|пишите)(?: нам)? в e-?mail/i;
+  for (const { file } of [...ARTICLES, ...SITE_PAGES]) assert.doesNotMatch(read(file), swapped, file);
+});
+
 test('llms.txt and llms-full.txt name the same phone and e-mail, and no Telegram while none is configured', () => {
   for (const file of ['public/llms.txt', 'public/llms-full.txt']) {
     const text = read(file);
