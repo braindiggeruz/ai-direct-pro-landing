@@ -320,3 +320,12 @@ body:has(.gpt-sidebar-dialog) > [data-slot="dialog-overlay"] { background: #0509
  .gpt-lang-short { display: inline; }
  .gpt-premium .gpt-header .gpt-lang-switch { padding: 0; }
 }
+/* The pack button («AI-пакет», wider than the old four-letter label) shows
+   only while a pack can be bought or someone is signed in. With it, «O‘zbekcha»
+   overflowed its link and was cut at 375px (5px short; it fits from 384px), so
+   up to 389px the switch keeps the code then too. */
+@media (max-width: 389px) {
+ .gpt-premium .gpt-header:has(.gpt-account-trigger) .gpt-lang-full { display: none; }
+ .gpt-premium .gpt-header:has(.gpt-account-trigger) .gpt-lang-short { display: inline; }
+ .gpt-premium .gpt-header:has(.gpt-account-trigger) .gpt-lang-switch { padding: 0; }
+}

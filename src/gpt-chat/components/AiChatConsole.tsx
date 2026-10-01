@@ -831,8 +831,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   </span>
                 ) : l.lang === "uz" && uzEntry ? (
                   // The word, not the code, on the Russian chat. Below 375px
-                  // the header has no room for it, so the code comes back and
-                  // the resting screen's «O‘zbekcha sahifa →» carries the word.
+                  // (390px while the pack button shows) the header has no room
+                  // for it, so the code comes back and the resting screen's
+                  // «O‘zbekcha sahifa →» carries the word (premium.css).
                   <a
                     key={l.code}
                     href={l.href}

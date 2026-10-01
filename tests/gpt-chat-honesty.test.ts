@@ -146,6 +146,18 @@ test('the resting screen states the server’s daily and hourly allowance, in ag
   assert.equal(ru.hourWarning(5), 'В этот час можно отправить ещё 5 сообщений.');
   assert.equal(uz.hourWarning(1), 'Bu soat ichida yana 1 ta xabar yuborishingiz mumkin.');
 
+  // Every Russian counter the chat shows agrees with its number: the header
+  // badge, the low-limit line and the composer's character count.
+  assert.equal(ru.remaining(1), 'Осталось 1 сообщение сегодня');
+  assert.equal(ru.remaining(3), 'Осталось 3 сообщения сегодня');
+  assert.equal(ru.remaining(11), 'Осталось 11 сообщений сегодня');
+  assert.equal(ru.lowWarning(0), 'Осталось 0 сообщений на сегодня.');
+  assert.equal(ru.lowWarning(1), 'Осталось 1 сообщение на сегодня.');
+  assert.equal(ru.lowWarning(2), 'Осталось 2 сообщения на сегодня.');
+  assert.equal(ru.charsLeft(1), '1 символ до лимита');
+  assert.equal(ru.charsLeft(22), '22 символа до лимита');
+  assert.equal(ru.charsLeft(200), '200 символов до лимита');
+
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /t\.emptyMeta\(freeLimits\)/);
   assert.match(consoleSource, /setHourLeft\(outcome\.hourRemaining \?\? null\)/);
@@ -179,6 +191,19 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   assert.match(low, /\{billingAvailable && \(\s*<button/);
   assert.match(consoleSource, /setBillingAvailable\(billingOpen\(account\)\)/);
   assert.doesNotMatch(consoleSource, /chat-bot-narxi|pricingHref/, 'the free chat sends nobody to the business price list (F10)');
+});
+
+test('with the pack button in the header, the Russian chat’s switch is never cut', () => {
+  // «AI-пакет» is wider than the old label: at 375px «O‘zbekcha» overflowed its link
+  // by 5px and was clipped. While the button shows, the code comes back below
+  // 390px, as it does for everyone below 375px.
+  const css = read('src/gpt-chat/premium.css');
+  const rule = css.match(/@media \(max-width: 389px\) \{([^@]*)\}/);
+  assert.ok(rule, 'a 389px rule exists');
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-full \{ display: none; \}/);
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-short \{ display: inline; \}/);
+  // The class it keys on is the one the pill carries.
+  assert.match(read('src/gpt-chat/components/AiAccountPanel.tsx'), /className="gpt-account-trigger"/);
 });
 
 test('the console renders without a pill, a tier or the old brand before the account answers', async (t) => {
