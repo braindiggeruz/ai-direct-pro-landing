@@ -78,12 +78,23 @@ export function validAccountView(value: unknown): value is AccountView {
     && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at))));
 }
 
-export function safeAccountLink(value: unknown): string | null {
+function httpsLink(value: unknown): URL | null {
   if (typeof value !== 'string' || !value.trim()) return null;
   try {
     const url = new URL(value, 'https://gptbot.uz');
-    return url.protocol === 'https:' && !url.username && !url.password ? url.href : null;
+    return url.protocol === 'https:' && !url.username && !url.password ? url : null;
   } catch { return null; }
+}
+
+/** Uzum's own domains; every other receipt links to the tax authority's ofd.soliq.uz. */
+const UZUM_RECEIPT_HOST = /(^|\.)(uzumbank\.uz|uzumcheckout\.uz|uzum\.uz)$/;
+
+/** A fiscal receipt link the panel may open: ofd.soliq.uz or an Uzum host, nothing else. */
+export function safeAccountLink(value: unknown): string | null {
+  const url = httpsLink(value);
+  return url && !url.port && (url.hostname === 'ofd.soliq.uz' || UZUM_RECEIPT_HOST.test(url.hostname))
+    ? url.href
+    : null;
 }
 
 /** A pack can really be bought right now: a billing mode and a ready provider. */
@@ -108,8 +119,8 @@ export function canStartCheckout(account: AccountView | null, locale: Locale): b
 }
 
 export function safeTermsLink(value: unknown): string | null {
-  const link = safeAccountLink(value);
-  return link && new URL(link).origin === 'https://gptbot.uz' ? link : null;
+  const url = httpsLink(value);
+  return url && url.origin === 'https://gptbot.uz' ? url.href : null;
 }
 
 export function canResumeCheckout(account: AccountView | null, locale: Locale): boolean {

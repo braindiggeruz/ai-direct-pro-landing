@@ -105,6 +105,7 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   bot_silent: "бот @gptbotuz_bot: за сутки 3+ сбоя и ни одного ответа",
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
+  click_fiscal_failed: "Click: чек ОФД не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",
   drill: "учебный алерт: канал доставки работает",
 };
 

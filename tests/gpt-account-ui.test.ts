@@ -31,6 +31,10 @@ test('pending payment prevents starting another checkout and unsafe terms or rec
   for (const state of ['pending', 'prepared']) assert.equal(canStartCheckout({ ...account(), payment: { id: 'order', state } }, 'ru'), false);
   assert.equal(canStartCheckout({ ...account(), payment: { id: 'order', state: 'cancelled' } }, 'ru'), true);
   for (const link of ['javascript:alert(1)', 'data:text/plain,secret', 'http://gptbot.uz/terms', 'https://user:secret@gptbot.uz/terms']) assert.equal(safeAccountLink(link), null);
+  // A receipt opens only on the tax authority's page or an Uzum host.
+  for (const link of ['https://gptbot.uz/receipt', '/receipt', 'https://evil.example/epi', 'https://ofd.soliq.uz.evil.example/epi', 'https://ofd.soliq.uz:8443/epi', 'http://ofd.soliq.uz/epi', 'https://uzumbank.uz.evil.example/r']) assert.equal(safeAccountLink(link), null, link);
+  assert.equal(safeAccountLink('https://ofd.soliq.uz/epi?t=EZ1&r=2'), 'https://ofd.soliq.uz/epi?t=EZ1&r=2');
+  assert.equal(safeAccountLink('https://check.uzumbank.uz/r/1'), 'https://check.uzumbank.uz/r/1');
   assert.equal(safeTermsLink('https://gptbot.uz:8443/terms'), null);
   assert.equal(safeTermsLink('/ru/terms/'), 'https://gptbot.uz/ru/terms/');
 });

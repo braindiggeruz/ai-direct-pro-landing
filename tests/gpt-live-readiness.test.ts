@@ -26,6 +26,7 @@ import {
   UZUM_PRODUCT_ID,
   UZUM_PRODUCT_TITLE,
 } from "../functions/lib/gpt-chat/uzum-checkout";
+import { CLICK_RECEIPT_NAME } from "../functions/lib/gpt-chat/click-merchant";
 import { inspectBilling } from "../functions/lib/gpt-chat/billing-operations-store";
 import { RUNTIME_CONFIG_KEYS, hydrateRuntimeConfig } from "../functions/lib/runtime-config";
 import { onRequestGet as account } from "../functions/api/gpt/account";
@@ -257,7 +258,7 @@ test("VAT is included in the price, rounded half up", () => {
 });
 
 test("the product is the AI pack: no GPT, Plus, Pro or subscription in its names", () => {
-  const names = [PLAN_ID, UZUM_PRODUCT_TITLE, UZUM_PRODUCT_ID, UZUM_PAYMENT_DETAILS.replace("gptbot.uz", "")];
+  const names = [PLAN_ID, UZUM_PRODUCT_TITLE, UZUM_PRODUCT_ID, UZUM_PAYMENT_DETAILS.replace("gptbot.uz", ""), CLICK_RECEIPT_NAME];
   assert.equal(PLAN_ID, "ai_paket");
   for (const name of names) assert.doesNotMatch(name, /gpt|chatgpt|plus|\bpro\b|obuna|подписк/i, name);
 });

@@ -2,6 +2,8 @@
 // https://gptbot.uz/api/payments/click. Source: docs.click.uz, Shop API.
 // Not configured (Click off, outside GPT_PAYMENT_PROVIDERS or without the
 // credentials of its mode): a missing route, before the body or D1.
+// A live Complete queues the fiscal receipt in the same batch that marks the
+// order paid and starts printing it once Click has its answer.
 import {
   BILLING_ORG,
   clickCredentials,
@@ -21,6 +23,7 @@ import {
   maintainBilling,
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
@@ -140,6 +143,11 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       maintainBilling(env).catch(() =>
         console.warn("gpt_billing_delivery_failed"),
       ),
+    );
+    // The fiscal receipt, after the answer to Click; the maintenance tick
+    // retries what fails here (fiscal-store.ts).
+    waitUntil(
+      fiscalizeDue(env).catch(() => console.warn("gpt_click_fiscal_failed")),
     );
     return json({
       click_trans_id: Number(p.click_trans_id),

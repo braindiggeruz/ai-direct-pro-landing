@@ -63,22 +63,41 @@ export const CHAT_RUNTIME_DDL = [
   // deliverServiceAlerts claims undelivered rows of the last 24 hours.
   `CREATE INDEX IF NOT EXISTS idx_gpt_service_alerts_pending ON gpt_service_alerts(org_id,delivered_at,created_at)`,
 ];
+// Paid chat, release R4 (migrations/0068). Click fiscal receipts (WP-14):
+// gpt_fiscal_receipts becomes a retry queue (fiscal-store.ts). The columns
+// come after the six of 0064; a row written before keeps provider NULL and is
+// never queued.
+export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = [
+  ["provider", "TEXT"],
+  ["attempts", "INTEGER NOT NULL DEFAULT 0"],
+  ["next_at", "INTEGER NOT NULL DEFAULT 0"],
+  ["lease_until", "INTEGER NOT NULL DEFAULT 0"],
+  ["payment_id", "TEXT"],
+  ["last_error", "TEXT"],
+  ["submitted_at", "INTEGER"],
+];
+export const PAID_CHAT_DDL = [
+  // fiscal-store.ts claims due rows of one provider.
+  `CREATE INDEX IF NOT EXISTS idx_gpt_fiscal_due ON gpt_fiscal_receipts(org_id,provider,status_code,next_at)`,
+];
 /**
- * Add the 0066 columns a database without the migration lacks: one PRAGMA
- * per bootstrap, an ALTER only for a missing column. Another isolate may add
- * the same column in between; its duplicate is not an error.
+ * Add the columns a database without the migration lacks: one PRAGMA per
+ * table and bootstrap, an ALTER only for a missing column. Another isolate
+ * may add the same column in between; its duplicate is not an error.
  */
-async function addChatRuntimeColumns(db: D1Database): Promise<void> {
+async function addMissingColumns(
+  db: D1Database,
+  table: "gpt_turn_reservations" | "gpt_fiscal_receipts",
+  columns: ReadonlyArray<readonly [string, string]>,
+): Promise<void> {
   const info = await db
-    .prepare("PRAGMA table_info('gpt_turn_reservations')")
+    .prepare(`PRAGMA table_info('${table}')`)
     .all<{ name: string }>();
   const present = new Set((info.results ?? []).map((column) => column.name));
-  for (const [name, type] of CHAT_RUNTIME_COLUMNS) {
+  for (const [name, type] of columns) {
     if (present.has(name)) continue;
     try {
-      await db
-        .prepare(`ALTER TABLE gpt_turn_reservations ADD COLUMN ${name} ${type}`)
-        .run();
+      await db.prepare(`ALTER TABLE ${table} ADD COLUMN ${name} ${type}`).run();
     } catch (error) {
       if (!/duplicate column name/i.test(error instanceof Error ? error.message : String(error)))
         throw error;
@@ -131,15 +150,17 @@ function once(
 const billingBootstraps = new WeakMap<D1Database, Promise<void>>();
 const uzumBootstraps = new WeakMap<D1Database, Promise<void>>();
 /**
- * The 0064 ledger and the 0066 chat runtime objects. Every billing path runs
- * it, the chat turn included. A release applies migrations/0066 first; this
- * bootstrap then only confirms it.
+ * The 0064 ledger, the 0066 chat runtime and the 0068 paid-chat objects.
+ * Every billing path runs it, the chat turn included. A release applies the
+ * migrations first; this bootstrap then only confirms them.
  */
 export function ensureBillingSchema(db: D1Database): Promise<void> {
   return once(billingBootstraps, db, async () => {
     await db.batch(BILLING_DDL.map((sql) => db.prepare(sql)));
-    await addChatRuntimeColumns(db);
+    await addMissingColumns(db, "gpt_turn_reservations", CHAT_RUNTIME_COLUMNS);
     await db.batch(CHAT_RUNTIME_DDL.map((sql) => db.prepare(sql)));
+    await addMissingColumns(db, "gpt_fiscal_receipts", FISCAL_RECEIPT_COLUMNS);
+    await db.batch(PAID_CHAT_DDL.map((sql) => db.prepare(sql)));
   });
 }
 /**

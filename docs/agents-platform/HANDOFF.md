@@ -1,3 +1,60 @@
+# Платный AI-чат: WP-14 — фискальные чеки Click, 2026-10-01
+
+**Итог.** Сделан WP-14 плана `10-PROD-PLAN.md` (релиз R4, D3) на ветке `paid-chat/prod-readiness` поверх `58134e7d`, коммит `HEAD` (настоящий SHA запишет следующий коммит, только метаданные, правило D-006). Создана миграция `migrations/0068_gpt_paid_chat.sql` — общий файл R4: WP-15…WP-17 дописывают в него свои DDL, интеграция R4 его закрывает. Ничего не запушено и не задеплоено. Cloudflare, удалённая D1, GSC, боты и вебхуки не трогались, `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты. Защищённые страницы 10/10 без изменений.
+
+**Возобновление.** ПК владельца перезагрузился. Дерево было чистым на `58134e7d` (WP-13 после ревью), незаконченной работы WP-14 не было, резервных копий `wp14-*` нет. WP-14 начат с нуля.
+
+**Источник протокола.** docs.click.uz, Merchant API: разделы «Подключение и выполнение запросов», «Фискализация товаров и услуг», «Ошибки». Сайт собран на Docusaurus, тексты взяты из его JS-чанков 01.10. Всё совпало с картой `02` §5.1: заголовок `Auth: merchant_user_id:sha1(timestamp+secret_key):timestamp`, `POST …/ofd_data/submit_items`, `GET …/ofd_data/:service_id/:payment_id` → `{paymentId, qrCodeURL}`, `GET …/status_by_mti/:service_id/:merchant_trans_id/YYYY-MM-DD` → `payment_id`, `DELETE …/reversal/:service_id/:payment_id`. Коды ошибок ofd в документации не перечислены, ошибки API — обычные HTTP-статусы.
+
+**Что сделано.**
+1. Новый `functions/lib/gpt-chat/click-merchant.ts` — чистый клиент без D1 и логов. Хост зашит: `https://api.click.uz`. Подпись SHA-1 через WebCrypto, таймаут 5 с, ответ не больше 16 КБ, `redirect: "error"`. Строка чека — `clickReceiptItem()`: `Name="AI paket 300 (xizmat, 1 oy)"`, `SPIC`, `PackageCode`, `Price=2000000`, `Amount=1`, `VAT=round(price·vat/(100+vat))` = 214 286 при 12 %, `VATPercent`, `CommissionInfo.TIN` (или `PINFL` при 14 цифрах). Тело: `received_card=2000000`, наличные и e-cash по нулям. `payment_id` берётся у Click по нашему `pay_…` (`status_by_mti`) на ташкентскую дату Complete, затем Prepare, если она другая.
+2. Новый `functions/lib/gpt-chat/fiscal-store.ts` — очередь на `gpt_fiscal_receipts`:
+   - статусы: `-1` ждёт, `0` напечатан, `-2` пропущен (`skipped_test`, `skipped_refunded`, `order_missing`);
+   - аренда по одной строке: `UPDATE … WHERE lease_until<=? RETURNING`, 60 с. Каждая запись проверяет свою аренду (`lease_until` служит токеном);
+   - повтор сначала спрашивает `ofd_data`. Принятый Click чек (`submitted_at`) повторно не отправляется: только ждём ссылку;
+   - успех — `error_code=0` и `qrCodeURL` на `https://ofd.soliq.uz`;
+   - бэкофф 1 → 5 → 15 → 60 мин → 6 ч. С 6-й неудачи или через 24 ч после оплаты каждая неудача пишет срочный `click_fiscal_failed`;
+   - печатаются только live-заказы; `last_error` хранит грубый код (`payment_id:http_500`, `submit:click_-5`, `qr_pending`, `qr_host`, `config_missing`).
+3. `billing-store.ts`: в batch перехода в `paid` для Click добавлен `INSERT … ON CONFLICT(org_id,order_id,kind) DO NOTHING`. Live-заказ получает `-1`, test — сразу `-2 skipped_test`.
+4. `payments/click.ts`: после Complete — `waitUntil(fiscalizeDue(env))` (до 20 с, чек обычно печатается сразу).
+5. Тик обслуживания: шаг `fiscal` (не больше 5 чеков) перед `alerts`, поэтому алерт уходит в том же тике. В ответе тика — `fiscal {printed, retried, skipped, queued, failing}`.
+6. Новый `functions/api/internal/gpt-click-reversal.ts` (Bearer `GPT_BILLING_MAINTENANCE_SECRET`), тело `{orderId, version, confirmReversal:true}`:
+   - чужая версия → 409 `version_changed`, не `paid` → 409;
+   - уже `refunded` → 200 без вызова Click: повтор ничего не делает;
+   - `error_code=0` → `paid → refunded` той же `transition()`, что и `gpt-click-refund-record.ts`, `reason=5`;
+   - отказ Click → 502 с кодом, учёт не меняется;
+   - в ответе `receiptPrinted`: был ли пробит чек продажи.
+7. Ссылки на чеки. Сервер (`account.ts`, `receiptLink()` в `fiscal-config.ts`) и клиент (`safeAccountLink` в `src/gpt-chat/types.ts`) пропускают только `https://ofd.soliq.uz` и хосты Uzum. `safeTermsLink` стал отдельной функцией (только `https://gptbot.uz`).
+8. `0068_gpt_paid_chat.sql`: 7 колонок `gpt_fiscal_receipts` (`provider`, `attempts`, `next_at`, `lease_until`, `payment_id`, `last_error`, `submitted_at`) и индекс `idx_gpt_fiscal_due`. Тот же DDL — в bootstrap (`FISCAL_RECEIPT_COLUMNS`, `PAID_CHAT_DDL`, общий `addMissingColumns`), паритет проверяется тестом.
+9. Текст алерта `click_fiscal_failed` (`alert-policy.ts`). Документация: новый `docs/paid-chat/CLICK-FISCAL-RU.md` (поля чека, очередь, проверка S2, возврат, вопросы к Click), строка в `ALERTS-RU.md`. `package.json`: два новых теста в `npm test`.
+
+**Проверки.**
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0; новые тесты проверены разовой сборкой tsc (0 ошибок, временный tsconfig удалён).
+2. Новые тесты: `gpt-click-fiscal` 13/13 (фейковый Click Merchant API `tests/helpers/click-merchant-fake.ts` проверяет подпись каждого запроса), `gpt-paid-chat-schema` 4/4 (паритет 0068 с bootstrap, репетиция «дважды через ledger», порядок «миграция до кода»). Мутационные проверки: без условия аренды, без GET перед повтором, с повторной отправкой принятого чека и без проверки хоста ссылки тесты падают.
+3. Весь список `npm test` по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`): 77 файлов, **964/966**; падают только два известных датозависимых теста `tests/lead-radar.test.ts` («manual approval is fail-closed…», «store enforces tenant isolation…»), код Lead Radar не менялся. Среди них `gpt-billing` 17/17, `gpt-live-readiness` 9/9, `gpt-uzum-payments` 17/17, `gpt-watchdog` 15/15, `gpt-account-ui` 14/14, `gpt-chat-runtime-schema` 5/5.
+4. `npx eslint` по 16 изменённым и новым TS-файлам — 0; `git diff --check` — чисто; `scan:secrets` — чисто; `test:secret-scan` 16/16; регэксп токена Telegram по диффу и новым файлам — 0.
+5. `npm run build:fast` — 0; `seo-protection check` — **10/10 без изменений**; гейт бандла в норме (старт 104 967 Б br, +24 Б; `chat-account` 4 529 Б). `content/` не менялся.
+
+**Отклонения от плана.**
+1. Колонка `submitted_at` сверх списка плана. Без неё повтор после «чек принят, ссылки ещё нет» отправил бы позицию второй раз.
+2. Индекс `idx_gpt_fiscal_due` для выборки очереди (аддитивно).
+3. Бюджеты тика: `fiscal` 1,5 с. Чтобы сумма осталась 19 с при таймауте Worker'а 20 с, урезаны `watchdog` 2 → 1,5 с, `maintenance` 2,5 → 2 с, `retention` и `diagnostics` 1 → 0,75 с. Основной путь печати — сразу после Complete, тик только повторяет.
+4. Строка test-заказа помечается `skipped_test` сразу при оплате, а не в очереди. Чек заказа, который вернули до печати, получает `skipped_refunded`: продажи уже нет.
+5. Возврат требует ещё и `confirmReversal:true` (как у Uzum). Креды берутся по режиму заказа, а не по текущему режиму Click: деньги можно вернуть и после выключения продаж.
+6. Повторы без потолка: после 6 ч — раз в 6 ч, и каждая неудача пишет алерт (не чаще раза в час), пока человек не починит. Продажа без чека — это то, о чём надо напоминать.
+7. Нехватка `merchant_user_id` или `GPT_FISCAL_*` у оплаченного заказа — не пропуск, а неудача `config_missing` с повторами и алертом. Выключение продаж Click печать не останавливает.
+
+**На релиз R4 (здесь не сделано).**
+- `0068` применяется **до** кода (шапка файла). Её дописывают WP-15…WP-17. Репетиция — по образцу `tests/gpt-paid-chat-schema.test.ts`. В проде `gpt_fiscal_receipts` пуста.
+- Приёмка после деплоя: тик обслуживания отдаёт `fiscal = {printed:0, retried:0, skipped:0, queued:0, failing:0}`, `failed` без `fiscal`; `POST /api/internal/gpt-click-reversal` без Bearer → 403; в `gpt_fiscal_receipts` +0 строк. Новых настроек нет: `GPT_FISCAL_*` заданы в WP-13, `merchant_user_id` придёт в секрете владельца `GPT_CLICK_CREDENTIALS_JSON`. Worker не менялся.
+- Живая проверка — только в S2 (покупка владельца): SQL и сверка чека по `CLICK-FISCAL-RU.md`; вопросы к Click из §8 п. 5 (`payment_id`, `Amount`, `received_*`, `CommissionInfo`, чек возврата, тестовый сервис).
+
+**Открыто.** Хосты чеков Uzum: `allowedUzumReceipt` (WP-15) по-прежнему принимает любой поддомен `soliq.uz`, а панель показывает только `ofd.soliq.uz` и хосты Uzum. Сверить при ревью Uzum.
+
+**Следующее.** WP-15 (Uzum, пакет C).
+
+---
+
 # Платный AI-чат к проду: ревью WP-13, 2026-10-01
 
 **Итог.** Проверил коммиты WP-13 `42b90756` (код, HANDOFF, STATE) и `e5944e76` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md` (§1: правила и проверки; §2: L7, L9, L16, L17, L18; §3, строка R4; §4, WP-13: файлы, настройки, тесты, приёмка; §5 и §6), картой `02` (Б1, U7) и `AGENTS.md` §2–8, §11. Работа началась после перезагрузки ПК владельца: дерево было чистым на `e5944e76`, незаконченной работы не было. Ничего не запушено и не задеплоено. Cloudflare, удалённая D1, GSC, боты и вебхуки не менялись; `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты.

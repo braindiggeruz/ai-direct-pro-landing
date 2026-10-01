@@ -7,6 +7,7 @@ import {
   type BillingMode,
   type LocalProvider,
 } from "./billing-config";
+import { FISCAL_QUEUED, FISCAL_SKIPPED } from "./fiscal-store";
 import { isRehearsalAccount } from "./rehearsal";
 
 export interface Order {
@@ -384,6 +385,26 @@ export class BillingStore {
               event,
             ),
         );
+        // Click prints its receipt through the queue (fiscal-store.ts); a test
+        // order is never printed. The primary key makes a repeat a no-op.
+        if (row.provider === "click")
+          statements.push(
+            this.db
+              .prepare(
+                `INSERT INTO gpt_fiscal_receipts(org_id,order_id,kind,provider,status_code,last_error,next_at,updated_at)
+          SELECT ?,?,'PERFORM','click',?,?,?,? WHERE ${gate} ON CONFLICT(org_id,order_id,kind) DO NOTHING`,
+              )
+              .bind(
+                this.org,
+                id,
+                row.mode === "live" ? FISCAL_QUEUED : FISCAL_SKIPPED,
+                row.mode === "live" ? null : "skipped_test",
+                now,
+                now,
+                this.org,
+                event,
+              ),
+          );
         if (row.mode === 'live') statements.push(
           this.db
             .prepare(

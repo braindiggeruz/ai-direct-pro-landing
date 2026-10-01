@@ -8,6 +8,8 @@
 // timeout):
 //   providers    OpenRouter chain endpoints and key, at most hourly
 //   watchdog     silence watchdog, at most every 10 minutes
+//   fiscal       Click fiscal receipts that are due, at most 5 (fiscal-store.ts);
+//                before alerts, so its click_fiscal_failed goes out this tick
 //   alerts       deliver urgent service alerts to the owner
 //   maintenance  retention sweeps; the payment outbox in live mode
 //   rekey        after GPT_HASH_SALT_SINCE, one batch of legacy hashes per
@@ -39,16 +41,19 @@ import {
 import { runWatchdog } from "../../lib/gpt-chat/watchdog-store";
 import { rekeySaltedHashes } from "../../lib/gpt-chat/salt-rekey-store";
 import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 
-// 19 s together, under the Worker's 20 s timeout.
+// 19 s together, under the Worker's 20 s timeout. Receipts are printed right
+// after Click's Complete; this tick only retries, so its share is small.
 const STEP_BUDGET_MS = {
   providers: 6_000,
-  watchdog: 2_000,
+  watchdog: 1_500,
+  fiscal: 1_500,
   alerts: 4_500,
-  maintenance: 2_500,
+  maintenance: 2_000,
   rekey: 2_000,
-  retention: 1_000,
-  diagnostics: 1_000,
+  retention: 750,
+  diagnostics: 750,
 } as const;
 type Step = keyof typeof STEP_BUDGET_MS;
 
@@ -119,6 +124,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   };
   const providers = await step("providers", () => checkBillingProviders(env));
   const watchdog = await step("watchdog", () => runWatchdog(env));
+  const fiscal = await step("fiscal", () =>
+    fiscalizeDue(env, { budgetMs: STEP_BUDGET_MS.fiscal }),
+  );
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const maintenance = await step("maintenance", () => maintainBilling(env));
   const rekey = await step("rekey", () => rekeySaltedHashes(env));
@@ -130,6 +138,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       failed,
       providers,
       watchdog,
+      fiscal,
       alerts,
       ...maintenance,
       rekey,

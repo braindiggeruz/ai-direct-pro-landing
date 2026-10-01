@@ -23,7 +23,7 @@
 | `openrouter_free_tier_50rpd`, `openrouter_key_credit_low` | аккаунт OpenRouter на бесплатном уровне (50 запросов к `:free` в сутки на чат, бота и AEO вместе); лимит ключа почти исчерпан. **Не чаще раза в сутки.** |
 | `chat_silence`, `chat_degraded`, `chat_no_turns` | сторож тишины (ниже) |
 | `bot_no_key`, `bot_account_unavailable`, `bot_model_unavailable`, `bot_models_cooling`, `bot_silent` | бот @gptbotuz_bot не может ответить никому, или сторож видит, что он молчит (WP-08, `BOT-RU.md`). **`bot_silent` — не чаще раза в сутки.** |
-| `zai_*`, `click_*`, `uzum_*` | Z.ai и платёжные провайдеры |
+| `zai_*`, `click_*`, `uzum_*` | Z.ai и платёжные провайдеры. `click_fiscal_failed` — чек Click не пробит после 6 попыток или за сутки после оплаты (`CLICK-FISCAL-RU.md`) |
 | `drill` | учебный алерт |
 
 Фоновые коды — всё остальное: `chat_rate_limit`, `chat_timeout`, `chat_provider_error`, `chat_empty`, `chat_budget_exhausted`, `stale_reservations`, `chat_truncation_high`, `free_paid_budget_exhausted`, `openrouter_key_unavailable`, `payme_*`, а также единичные сбои бота: `bot_rate_limit`, `bot_timeout`, `bot_validation_failed`, `bot_truncated`, `bot_provider_error` и другие `bot_<код>`.

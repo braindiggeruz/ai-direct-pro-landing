@@ -10,7 +10,7 @@ import {
   type BillingEnv,
   type BillingMode,
 } from "../../lib/gpt-chat/billing-config";
-import { fiscalParams, includedVat } from "../../lib/gpt-chat/fiscal-config";
+import { fiscalParams, includedVat, receiptLink } from "../../lib/gpt-chat/fiscal-config";
 import { viewerMode } from "../../lib/gpt-chat/rehearsal";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
 import {
@@ -133,7 +133,12 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     const access = await store.access(user, context);
     // Packs run side by side: renewing is due only when the last one ends soon.
     const paidThrough = access ? await store.paidThrough(user, context) : null;
-    const receipts = await store.receipts(user, context);
+    // Printed receipts (Click, Payme, Uzum): only a link on ofd.soliq.uz or
+    // an Uzum host reaches the page.
+    const receipts = (await store.receipts(user, context)).flatMap((receipt) => {
+      const url = receiptLink(receipt.receipt_url);
+      return url ? [{ kind: receipt.kind, receipt_url: url }] : [];
+    });
     const refundable = await store.refundable(user, context);
     // Without a pack the free tier counts by account and by IP hash, as the chat does.
     const remaining = await new TurnStore(db, BILLING_ORG).remaining(

@@ -11,7 +11,8 @@
 //   GPT_FISCAL_TIN           the seller's TIN (9 digits) or PINFL (14 digits)
 //
 // Everything fails closed: a missing or malformed value is reported by name
-// and never replaced by a default.
+// and never replaced by a default. The hosts a printed receipt may link to
+// are named here too (ofdReceiptLink, receiptLink).
 
 export interface FiscalEnv {
   GPT_FISCAL_IKPU?: string;
@@ -73,4 +74,38 @@ export function fiscalIssues(env: FiscalEnv, options: { tin: boolean }): string[
  */
 export function includedVat(amount: number, percent: number): number {
   return Math.round((amount * percent) / (100 + percent));
+}
+
+/** The tax authority's receipt page: Click, Payme and Uzum receipts link here. */
+const OFD_HOST = "ofd.soliq.uz";
+/** Uzum's own domains, where an Uzum receipt may live as well (uzum-config.ts). */
+const UZUM_RECEIPT_HOST = /(^|\.)(uzumbank\.uz|uzumcheckout\.uz|uzum\.uz)$/;
+
+function httpsLink(value: unknown): URL | null {
+  if (typeof value !== "string" || value.length > 2048) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password && !url.port
+      ? url
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+/** A receipt link on the tax authority's own host, or null (the Click receipt). */
+export function ofdReceiptLink(value: unknown): string | null {
+  const url = httpsLink(value);
+  return url?.hostname === OFD_HOST ? url.href : null;
+}
+
+/**
+ * A receipt link the account panel may show: https on ofd.soliq.uz or on an
+ * Uzum host. Anything else stays in D1 and never reaches the page.
+ */
+export function receiptLink(value: unknown): string | null {
+  const url = httpsLink(value);
+  return url && (url.hostname === OFD_HOST || UZUM_RECEIPT_HOST.test(url.hostname))
+    ? url.href
+    : null;
 }
