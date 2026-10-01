@@ -34,7 +34,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
           aria-describedby={describedBy}
           className="ym-disable-keys" />
         <InputGroupAddon align="block-end" className="gpt-input-toolbar">
-          <span className="gpt-input-identity"><Sparkles aria-hidden="true" /> GPTBot AI</span>
+          <span className="gpt-input-identity"><Sparkles aria-hidden="true" /> {t.brand}</span>
           <span className="gpt-key-hint" aria-hidden="true">Enter ↵</span>
           {busy && onStop ? (
             <InputGroupButton variant="secondary" size="icon-sm" className="gpt-send-button"
@@ -49,8 +49,10 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
           )}
         </InputGroupAddon>
       </InputGroup>
+      {/* Not OpenAI, and where the question goes: on every screen size, not
+          only inside the menu a phone keeps closed (F8). */}
       <div className="gpt-input-footnote">
-        <span>{t.inputMicrocopy}</span>
+        <span data-testid="ai-input-microcopy">{t.inputMicrocopy}</span>
         {left <= 200 && <span role="status">{t.charsLeft(Math.max(0, left))}</span>}
       </div>
     </div>

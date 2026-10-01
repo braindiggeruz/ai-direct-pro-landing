@@ -22,6 +22,12 @@ export function allowedCheckoutUrl(value: unknown): string | null {
   } catch { return null; }
 }
 
+/** The free tier's allowance, as the server's account view states it. */
+export interface FreeLimits {
+  daily: number;
+  hourly: number;
+}
+
 export interface AccountView {
   ok: boolean;
   loginAvailable: boolean;
@@ -30,7 +36,7 @@ export interface AccountView {
   user: { signedIn: true; storageKey: string } | null;
   remaining?: number;
   /** The free tier's allowance from the config (a guest's view never reads D1). */
-  freeLimits?: { daily: number; hourly: number };
+  freeLimits?: FreeLimits;
   terms: { ru: string | null; uz: string | null };
   termsVersion: string | null;
   /** Limit card may offer the Telegram bot. Anything but `true` means no. */
@@ -80,6 +86,20 @@ export function safeAccountLink(value: unknown): string | null {
     const url = new URL(value, 'https://gptbot.uz');
     return url.protocol === 'https:' && !url.username && !url.password ? url.href : null;
   } catch { return null; }
+}
+
+/** A pack can really be bought right now: a billing mode and a ready provider. */
+export function billingOpen(account: AccountView | null): boolean {
+  return !!account?.mode && account.providers.length > 0;
+}
+
+/**
+ * The header pill stands for something real: a pack that can be bought, an
+ * account or an active pack (F4). With none of them it was a «Pro» button
+ * leading to a price nobody could pay.
+ */
+export function showsAccountPill(account: AccountView | null): boolean {
+  return billingOpen(account) || !!account?.user || !!account?.access;
 }
 
 export function canStartCheckout(account: AccountView | null, locale: Locale): boolean {

@@ -280,10 +280,10 @@ test('chat first screen: links, tap targets and events are wired', () => {
   assert.match(consoleSource, /code: "RU",\s+href: "\/ru\/gpt-chat\/"/);
   // The resting-screen link to the Uzbek chat.
   assert.match(consoleSource, /href="\/uz\/gpt-uzbek-tilida\/"\s+hrefLang="uz"[\s\S]{0,200}onClick=\{\(\) => onLocaleSwitch\("empty"\)\}/);
-  assert.match(consoleSource, /track\(EV\.officialLinkClick, \{ surface: "empty" \}\)/);
-  assert.match(consoleSource, /track\(EV\.localeSwitch, \{ from: "ru", surface \}\)/);
-  assert.equal(EV.officialLinkClick, 'GPTChatOfficialLinkClick');
-  assert.equal(EV.localeSwitch, 'GPTChatLocaleSwitch');
+  assert.match(consoleSource, /track\(EV\.officialLinkClicked, \{ surface: "empty" \}\)/);
+  assert.match(consoleSource, /track\(EV\.localeSwitched, \{ from: "ru", surface \}\)/);
+  assert.equal(EV.officialLinkClicked, 'official_link_clicked');
+  assert.equal(EV.localeSwitched, 'locale_switched');
   const css = readFileSync(new URL('../src/gpt-chat/premium.css', import.meta.url), 'utf8');
   assert.match(css, /\.gpt-official \{[^}]*font-size: 12px/);
   // 12px text: 15px of padding above and below the ~14px inline box is a

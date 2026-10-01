@@ -111,14 +111,26 @@ The tag never reads `.value`, `FormData`, `localStorage`, `sessionStorage`,
 | `telegram_cta_studio` | head block, delegated click | the studio contact `t.me/XGame_changerx` (with or without `?text=`); fires **in addition to** `telegram_cta_click` |
 | `telegram_cta_bot` | head block, delegated click | a `t.me/<name>bot` product bot; fires **in addition to** `telegram_cta_click` |
 | `phone_click` | head block, delegated click | any `tel:` link |
-| `lead_form_success` | page lead form (`scripts/lead-form.ts`, inline) | **only after `/api/gpt/lead` answered `ok:true`** |
+| `lead_form_success` | page lead form (`scripts/lead-form.ts`, inline) and the AI chat's lead form (`AiLeadForm.tsx`, next to `chat_lead_success`) | **only after `/api/gpt/lead` answered `ok:true`** |
 | `calculator_lead_success` | `src/calculator/CalculatorApp.tsx` | same moment as `lead_form_submit_success`, calculator only |
 | `chat_lead_success` | `src/gpt-chat/components/AiLeadForm.tsx` | **only after the server accepted the chat lead** |
+| `official_chatgpt_click` | `AiChatConsole.tsx` (React) | the chatgpt.com link on the chat's resting screen |
+| `chat_locale_switch` | `AiChatConsole.tsx` (React) | from `/ru/gpt-chat/` to `/uz/gpt-uzbek-tilida/` (also a `gpt_chat_open` from the head block) |
+| `chat_opened` | `AiChatConsole.tsx` (React) | the chat mounted; once per page view, whether or not `/api/gpt/account` answers |
+| `chat_limit_hit` | `AiChatConsole.tsx` (React) | the server refused a turn (429); once per reason per page view |
 
 The first four goals are unchanged, so goals already configured in the counter
 keep counting exactly as before; the six added 2026-09-29 split them by source.
 `telegram_cta_click` still fires for every Telegram link, and
 `lead_form_submit_success` still fires for the calculator only.
+
+**The six goals to report on** (paid-chat plan WP-09, 2026-10-01): `chat_opened`,
+`chat_limit_hit`, `lead_form_success`, `calculator_lead_success`,
+`telegram_cta_studio`, `phone_click`. Leads are `lead_form_success` +
+`calculator_lead_success`: the chat's form fires `lead_form_success` too, the
+calculator does not, so nothing is counted twice. `chat_opened` and
+`chat_limit_hit` come from React through `reachYandexGoalOnce()`; the head block
+is unchanged, so `index.html` and every prerendered `<head>` stay byte for byte.
 
 The lead goals are why `src/lib/analytics/yandexMetrika.ts` exists: markup cannot
 express "fire after the response came back ok". A submit *click* is not a lead,
@@ -129,7 +141,7 @@ without React, so it calls `ym(111312750, 'reachGoal', 'lead_form_success')`
 directly, with no fourth argument, inside the same `ok === true` branch that
 pushes `generate_lead` to the dataLayer.
 
-Create these ten goals in the Metrika interface as **JavaScript-event** goals
+Create these fourteen goals in the Metrika interface as **JavaScript-event** goals
 with exactly these identifiers. Nothing else in the code will fire.
 
 ---

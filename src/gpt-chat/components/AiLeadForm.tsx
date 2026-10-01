@@ -2,13 +2,13 @@ import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import type { ChatStrings } from '../i18n';
 import type { Locale } from '../types';
 import { fetchTurnstileConfig, sendLead } from '../api';
-import { EV, track, trackLeadSubmitted } from '../analytics';
+import { EV, track } from '../analytics';
 import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika';
 import { parseContact, telegramContact } from '../contact';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
-export type LeadMethod = 'offer_b2b' | 'hourly_limit' | 'daily_limit';
+export type LeadMethod = 'offer_b2b';
 
 type Status = 'idle' | 'sending' | 'sent' | 'failed';
 
@@ -99,9 +99,12 @@ export function AiLeadForm({
     });
     if (res.ok) {
       setStatus('sent');
-      trackLeadSubmitted(method, { mode: parsed.type, intent, locale });
-      // After the server acknowledged the write; the goal is a bare name.
+      // After the server acknowledged the write, never on the click. The
+      // goals are bare names: chat_lead_success says where the lead came
+      // from, lead_form_success counts it with the site's other forms.
+      track(EV.generateLead, { method, mode: parsed.type, intent, locale });
       reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
+      reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
     } else {
       if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
         setTurnstileRequired(true);

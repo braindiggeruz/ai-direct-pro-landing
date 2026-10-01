@@ -3,7 +3,7 @@
 // Run: node --import tsx --test tests/gpt-chat-handoff-link.test.ts
 //
 // The property worth pinning: no consumer surface — sidebar, lead form, limit
-// card, cap offer stages, any handoff failure, a tap before the mint answers —
+// card, any handoff failure, a tap before the mint answers —
 // can produce a link to the owner's personal Telegram account. Consumers go to
 // the assistant bot @gptbotuz_bot; only the explicit B2B card reaches the
 // studio, with a B2B opener prefilled.
@@ -192,36 +192,31 @@ test('before the mint answers, the limit card already links to the public bot', 
   }
 });
 
-test('the offer card: cap stages open the bot, the B2B stage opens the studio', () => {
+test('the offer card is the B2B offer only, and it opens the studio', () => {
   for (const locale of ['ru', 'uz'] as const) {
     const t = strings(locale);
-    const base = { t, locale, apiBase: '', sessionId: 'sess_1', pricingHref: '/ru/tarify-ai-chat/' };
-    for (const stage of ['hourly', 'daily'] as const) {
-      const markup = renderToStaticMarkup(React.createElement(AiOfferCard, { ...base, stage, onRetry: () => {} }));
-      const links = hrefs(markup).filter((h) => h.includes('t.me'));
-      assert.deepEqual(links, [PUBLIC[locale]], `${locale}/${stage}`);
-      assert.ok(!markup.includes(OWNER));
-      assert.ok(markup.includes(t.capTelegramCta));
-    }
-    const b2b = renderToStaticMarkup(React.createElement(AiOfferCard, { ...base, stage: 'b2b', onDismiss: () => {} }));
+    const b2b = renderToStaticMarkup(React.createElement(AiOfferCard, { t, locale, apiBase: '', sessionId: 'sess_1', onDismiss: () => {} }));
     const links = hrefs(b2b).filter((h) => h.includes('t.me'));
     assert.deepEqual(links, [studioBusinessLink(locale)]);
     assert.ok(b2b.includes(t.contactTelegram), 'a person answers, and the label says so');
     assert.ok(!b2b.includes(t.capTelegramNote));
+    assert.ok(b2b.includes('data-testid="telegram-cta-b2b"'));
   }
 });
 
 test('wiring: B2B uses the business link, the limit card uses the bot route', () => {
   const offer = source('src/gpt-chat/components/AiOfferCard.tsx');
   assert.match(offer, /studioBusinessLink\(locale\)/, 'the B2B card links to the studio with a B2B opener');
-  const b2b = offer.slice(offer.indexOf("if (stage === 'b2b')"), offer.indexOf('return (', offer.indexOf("if (stage === 'b2b')")));
-  assert.doesNotMatch(b2b, /useTelegramHandoff/, 'the B2B card mints nothing');
+  assert.doesNotMatch(offer, /useTelegramHandoff/, 'the B2B card mints nothing');
   assert.doesNotMatch(offer, /studioTelegramLink/);
+  // The cap stages that were coded but never rendered are gone (WP-09): the
+  // limit card above the composer is the only surface a limit reaches.
+  assert.doesNotMatch(offer, /hourly|daily|pricingHref|onRetry/);
 
   const consoleSource = source('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /import \{ AiLimitTelegram \} from "\.\/AiLimitTelegram";/);
   assert.match(consoleSource, /<AiLimitTelegram/);
-  assert.match(consoleSource, /track\(EV\.paywallViewed, \{ stage: limitReason, locale: config\.locale, surface: "limit_card" \}\)/);
+  assert.match(consoleSource, /track\(EV\.limitHit, \{ reason, locale: config\.locale \}\)/);
   assert.doesNotMatch(consoleSource, /t\.premium\.unavailable/, 'the limit card no longer says the free chat is available');
 
   const handoff = source('src/gpt-chat/handoff.ts');

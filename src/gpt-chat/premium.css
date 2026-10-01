@@ -23,7 +23,6 @@
 .gpt-premium [class*="text-white/"], .gpt-account-dialog [class*="text-white/"] { color: var(--muted-foreground); }
 .gpt-premium .gpt-header { height: 76px; padding: 0 28px; gap: 12px; background: var(--background); border-color: #ffffff0c; }
 .gpt-header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; font-size: 17px; font-weight: 650; letter-spacing: -.045em; }
-.gpt-brand-ai { color: var(--muted-foreground); font-weight: 450; }
 .gpt-brand-symbol { display: grid; place-items: center; width: 34px; height: 34px; background: var(--secondary); border: 1px solid #80f2d533; color: var(--primary); border-radius: 11px; }
 .gpt-brand-symbol svg { width: 18px; height: 18px; }
 .gpt-premium .gpt-header nav { border: 1px solid #ffffff0d; border-radius: 12px; background: #ffffff04; }
@@ -134,7 +133,6 @@
  .gpt-premium .gpt-header { height: 64px; padding: 0 10px; gap: 4px; }
  .gpt-header-brand { font-size: 15px; gap: 7px; }
  .gpt-header-brand .gpt-brand-symbol { display: none; }
- .gpt-brand-ai { display: none; }
  .gpt-premium .gpt-header nav :is(a,span) { min-width: 36px; }
  .gpt-premium .gpt-intro { padding: 18px 0 8px; }
  .gpt-premium .gpt-mark { width: 52px; height: 52px; border-radius: 18px; margin-bottom: 20px; }
@@ -148,7 +146,6 @@
  .gpt-trust { font-size: 10px; margin-top: 18px; }
  .gpt-account-trigger { padding: 8px 10px; gap: 5px; font-size: 11px; }
  .gpt-account-dialog { padding: 20px; }
- .gpt-input-footnote { font-size: 9px; }
  .gpt-key-hint { display: none; }
  .gpt-premium .gpt-send-button { margin-left: auto; }
  .gpt-premium .gpt-composer { padding-top: 8px; }
@@ -290,7 +287,6 @@
 .gpt-premium [data-slot="badge"] > svg, .gpt-account-dialog [data-slot="badge"] > svg { width: 12px; height: 12px; }
 .gpt-account-dialog [data-slot="badge"] { min-height: 24px; border-radius: 8px; }
 body:has(.gpt-account-dialog) > [data-slot="dialog-overlay"] { background: #050912bf; backdrop-filter: blur(8px); }
-.gpt-account-short-label { display: none; } @media(max-width:700px) { .gpt-account-full-label { display:none; } .gpt-account-short-label { display:inline; } }
 .gpt-sidebar-dialog { top: 0; left: 0; bottom: 0; transform: none; width: min(300px,85vw); max-width: none; height: 100dvh; border-radius: 0 24px 24px 0; border: 0; padding: 0; display: block; background: #0d111c; }
 .gpt-sidebar-dialog > div:last-child > div:first-child, .gpt-premium > aside > div > div:first-child { height: 76px; }
 .gpt-sidebar-close { position: absolute; right: 12px; top: 16px; width: 44px; height: 44px; }
@@ -312,6 +308,13 @@ body:has(.gpt-sidebar-dialog) > [data-slot="dialog-overlay"] { background: #0509
 .gpt-premium .gpt-official { max-width: 520px; margin: 8px auto 0; font-size: 12px; line-height: 1.6; color: var(--muted-foreground); text-align: center; text-wrap: pretty; }
 .gpt-premium .gpt-official a { position: relative; padding: 15px 2px; white-space: nowrap; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
 .gpt-lang-short { display: none; }
+/* Below 360px the header (menu, brand, quota, switch, pack) has no room for
+   the pack's word: the pill keeps its icon and a 44px target, and the word
+   stays its accessible name. */
+@media (max-width: 359px) {
+ .gpt-premium .gpt-header .gpt-account-trigger { min-width: 44px; padding: 8px 12px; }
+ .gpt-account-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
 @media (max-width: 374px) {
  .gpt-lang-full { display: none; }
  .gpt-lang-short { display: inline; }

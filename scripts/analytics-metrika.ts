@@ -87,6 +87,15 @@ export const YANDEX_METRIKA_GOALS = [
   // The block is left unchanged because index.html must carry it byte for byte.
   'official_chatgpt_click',
   'chat_locale_switch',
+  // 2026-10-01 (paid-chat plan WP-09): the chat's own funnel, fired from React
+  // (AiChatConsole.tsx), never from the block below, which stays unchanged.
+  //   chat_opened     the chat mounted; once per page view, account or not
+  //   chat_limit_hit  the server refused a turn (429); once per reason per view
+  // With lead_form_success (now also fired by the chat's lead form),
+  // calculator_lead_success, telegram_cta_studio and phone_click these are
+  // the six goals the counter reports on (docs/analytics/yandex-metrika-111312750).
+  'chat_opened',
+  'chat_limit_hit',
 ] as const;
 
 // Kept as literal text rather than interpolated so the block is greppable and

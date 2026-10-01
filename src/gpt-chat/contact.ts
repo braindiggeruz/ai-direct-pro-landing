@@ -45,8 +45,8 @@ export function studioTelegramLink(locale: Locale): string {
  * The studio's own Telegram with a B2B opener prefilled.
  *
  * The ONLY chat surface allowed to use the personal account is the explicit
- * B2B call to action ("Нужен такой AI-чат для сайта…", AiOfferCard stage
- * 'b2b'): there a human conversation is the right outcome — one B2B bot is
+ * B2B call to action ("Нужен такой AI-чат для сайта…", AiOfferCard): there
+ * a human conversation is the right outcome — one B2B bot is
  * worth roughly fifty consumer packages. Every consumer "continue in
  * Telegram" route goes to the assistant bot instead (handoff.ts).
  */

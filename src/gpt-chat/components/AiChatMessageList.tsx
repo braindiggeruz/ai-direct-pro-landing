@@ -42,7 +42,6 @@ function MessageActions({
     try {
       await navigator.clipboard.writeText(content);
       setCopyStatus("done");
-      track(EV.copyAnswer, { surface: "answer_actions" });
       track(EV.messageCopied, { surface: "answer_actions" });
     } catch {
       setCopyStatus("failed");
@@ -110,7 +109,6 @@ function MessageActions({
           {t.premium.copyFailed}
         </p>
       )}
-      {isLast && <p className="gpt-model">{t.premium.actionCost}</p>}
     </>
   );
 }
@@ -195,7 +193,7 @@ export function AiChatMessageList({
             ) : m.role === "assistant" && !m.error ? (
               <>
                 <div className="gpt-answer-head">
-                  <span aria-hidden="true">✦</span>GPTBot
+                  <span aria-hidden="true">✦</span>{t.brand}
                 </div>
                 <div
                   className="gpt-answer-body"

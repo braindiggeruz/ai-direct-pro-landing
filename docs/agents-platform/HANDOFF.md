@@ -1,3 +1,124 @@
+# Платный AI-чат: WP-09 — честный интерфейс и одна аналитика (D9), 2026-10-01
+
+**Итог.** Сделан WP-09 плана `10-PROD-PLAN.md` (релиз R3, D9) на ветке `paid-chat/prod-readiness` поверх `023a629f` (WP-08 с ревью), коммит `HEAD` (настоящий SHA запишет следующий коммит, правило D-006). В чате больше нет «Plus», «obuna», «подписка» и «GPTBot AI». Бренд — «GPTBot.uz». Под полем ввода на любом экране написано, что это не продукт OpenAI и что вопросы уходят зарубежным AI-провайдерам. На первом экране — лимиты сервера (15 в день и 5 в час). Пока пакет нельзя купить, нет ни кнопки, ни цены. GA4 получает одно событие на действие, Метрика — цели `chat_opened` и `chat_limit_hit`. Ничего не запушено и не задеплоено. Cloudflare, D1, GSC, боты и вебхуки не менялись. Миграций и настроек нет. Защищённые страницы — 10/10 без изменений. Изменились только React-экран и каталоги целей, блок Метрики в `<head>` тот же. Справка: `docs/paid-chat/ANALYTICS-RU.md`.
+
+**Что сделано.**
+1. **Тексты** (`src/gpt-chat/i18n.ts`, ключи из карты `03` §4, у которых есть экран):
+   - `brand` = «GPTBot.uz» — в шапке, в поле ввода и над каждым ответом (раньше «GPTBot AI» и «GPTBot»);
+   - `inputMicrocopy`: RU «Не продукт OpenAI · Вопросы отправляются зарубежным AI-провайдерам — не пишите личные данные», UZ «OpenAI mahsuloti emas · Savollar xorijdagi AI-provayderlarga yuboriladi — shaxsiy ma’lumot yozmang». На телефоне строка теперь 10 px вместо 9;
+   - `emptyMeta(freeLimits)`: «до 15 сообщений в день и 5 в час» / «kuniga 15 ta, soatiga 5 tagacha xabar». Числа приходят от сервера. Пока `/api/gpt/account` не ответил, строка выходит без чисел. Для русского добавлено согласование `ru()`: «до 1 сообщения», «до 21 сообщения»;
+   - новая `hourWarning(n)`: при 1 оставшемся сообщении в скользящем часе (`hourRemaining` из SSE `done` или JSON) показывается строка «В этот час можно отправить ещё 1 сообщение». Через час она гаснет;
+   - пакет называется «AI-пакет» / «AI paket», с пакетом — «Мой пакет» / «Paketim». Изменены `title`, `price`, `benefits`, `offer`, `active`, `manual`, `terms`, `unavailable`, `historyNote`, `refunded` (UZ). Новые: `activeLine(n)`, `packFeatures`, `checking`, `accountCheck`, `termsChanged`, `termsMissing`, `resumeNote`, `resume`;
+   - `disclaimer` без NVIDIA: отвечают модели сторонних компаний, название модели указано под ответом. `pricingLink`: RU «Тарифы AI-чата», UZ «Biznes bot narxlari»;
+   - удалены 39 мёртвых ключей (5 из них с «Plus») и типы `QuickAction`/`PromptCategory`.
+2. **Экран:**
+   - строка `actionCost` под последним ответом («В Plus…») удалена;
+   - строка платного: `premium.activeLine(remaining)` вместо «Plus · N»;
+   - карточка `AiOfferCard` теперь только B2B. Мёртвые стадии `hourly/daily`, их ключи, `pricingHref` и ссылка «Tariflar» на B2B-прайс удалены (F10);
+   - из `api.ts` удалена мёртвая `subscribe(…, 'plus')`, из CSS — `.gpt-brand-ai` и короткая/полная подписи кнопки.
+3. **Пакет (F4, F6):**
+   - `types.ts`: `billingOpen()` и `showsAccountPill()`. Кнопка в шапке есть, только если пакет можно купить, есть вход или действует пакет. В проде сейчас (гость, оплата выключена) кнопки нет;
+   - ниже 360 px кнопка показывает только иконку, а слово остаётся её именем для скринридера (замерено на 320, 360 и 375);
+   - в окне значок «GPTBot.uz» вместо «GPTBot Plus · Скоро». Карточка с ценой — только при `billingOpen`, её пункты берутся из `packFeatures`. Раньше при сбое аккаунта показывалась цена 20 000 сум;
+   - все литералы окна перенесены в i18n;
+   - кнопка у предупреждения о низком остатке и предложение после 10 ответов открывают окно только при оплате.
+4. **GA4** (`analytics.ts`, карта `03` §8.1):
+   - закрытый каталог `EV`, все имена в snake_case, параметры фильтрует `GA4_PARAMS` (тоже snake_case);
+   - `chat_opened` — при монтировании, даже если аккаунт не ответил (F18);
+   - `message_sent` — одно на сообщение, `source`: composer / template / answer_action / retry;
+   - на ответ ровно одно из трёх: `ai_response_success{finish}`, `ai_response_error` или `generation_stopped`;
+   - `limit_hit` — на каждый 429, `pack_viewed{from}` — на каждое открытие окна;
+   - `checkout_started{provider,resume}`, `login_started`/`login_result`;
+   - `telegram_cta_clicked{from,channel,with_session}` — одно на клик (было 5);
+   - `generate_lead` — только после ответа сервера;
+   - удалены 24 дубля (`GPTChatPageView`, `VisitChat`, `StartChat`, `SendPrompt`, `LimitReached`, `UpgradeClick`, `CopyAnswer`, `website_telegram_clicked` и др.). Полный список — в `ANALYTICS-RU.md`.
+5. **Метрика:**
+   - `YANDEX_GOALS` += `leadFormSuccess`, `chatOpened`, `chatLimitHit`;
+   - новая `reachYandexGoalOnce(goal, key)`: цель уходит раз за просмотр, ключ остаётся на странице;
+   - `YANDEX_METRIKA_GOALS` += `chat_opened`, `chat_limit_hit`;
+   - форма лида в чате шлёт `lead_form_success` рядом с `chat_lead_success`, калькулятор — нет, поэтому лиды не считаются дважды;
+   - блок в `<head>` и `index.html` не менялись. README счётчика (§4) дополнен: 14 целей и 6 рабочих.
+6. **Тесты:**
+   - новый `tests/gpt-chat-honesty.test.ts`, 10 тестов. Проверяет:
+     - grep плана по `src/gpt-chat` и `functions/api/gpt`;
+     - все строки обоих языков;
+     - бренд в трёх местах (статический рендер);
+     - микрокопию и CSS (её не прячут, шрифт ≥ 10 px);
+     - `emptyMeta` и согласование;
+     - кнопку и цену без оплаты;
+     - рендер консоли без кнопки;
+     - каталог GA4: snake_case и отсутствие дублей. Каждый вызов `track()` найден через TS AST: событие — из `EV`, параметры — из `GA4_PARAMS`, одно событие на клик Telegram;
+     - что `track()` отбрасывает лишние поля;
+   - `yandex-metrika`: +1 тест (`reachYandexGoalOnce`), каталог, цели из React, `lead_form_success` за `ok`;
+   - `gpt-account-ui`: +1 тест (`billingOpen`, `pack_viewed{from}`);
+   - `gpt-chat-handoff-link`: карточка только B2B;
+   - `gpt-chat`: новые имена событий;
+   - `npm test` += `gpt-chat-honesty`.
+7. **Документы:** новый `docs/paid-chat/ANALYTICS-RU.md` (каталог, удалённые дубли, шаги владельца, проверка после деплоя); `docs/analytics/yandex-metrika-111312750/README.md` §4.
+
+**Отклонения от плана и почему.**
+1. **Не добавлены ключи экранов, которых ещё нет:** вход через бота (WP-16), `pay*`, `uzumCode`, `refundHint`, `payNote`, `paidInterest`, `limitPackCta` (WP-17). Не тронуты ключи, зависящие от Б1: `renew`, `monthlyLimit`, `scheduled` (WP-13). Ключ без экрана — мёртвый код, а WP-10 всё равно выносит строки аккаунта в `account-strings.ts`.
+2. **`packFeatures`:**
+   - без «20 в час»: часового лимита у пакета нет (L3, WP-05);
+   - вместо «прерванные ответы не списываются» написано «оборвавшиеся из-за сбоя или на пределе длины не списываются». «Стоп» после 600 знаков списывается (L4);
+   - «без автосписаний» уже стоит в подвале карточки (`manual`), второй раз не повторяется.
+3. **`chat_opened` без `anonymous`:** при монтировании аккаунт ещё неизвестен, `anonymous` передаёт `message_sent`. `entry` — id входа вместо адреса статьи в `source`, потому что `source` теперь означает источник сообщения.
+4. **`response_regenerated` стал `message_sent{source: retry}`.** `paywall_viewed` срабатывал и при восстановлении после перезагрузки, его заменил `limit_hit` на каждый отказ сервера.
+5. **События окна сразу названы как в §8.1:** `pack_viewed`, `login_*`, `checkout_started{resume}`. К значениям `from` добавлены `account_check` и `login_failed`. `pay_return` появится с WP-17.
+6. **`hourWarning` только при 1 оставшемся сообщении.** «Ещё 0» означает отказ, а его объясняет карточка лимита. С суточным предупреждением строка вместе не показывается.
+7. **Строка под полем — без ссылки «Maxfiylik»** (по плану она приходит с WP-18). Карта `03` §3.7 просила выкатывать строку только с новой политикой, но план WP-09 её включает, а текст верен уже сейчас.
+8. **Кнопка пакета ниже 360 px — только иконка, сноска на телефоне — 10 px.** «AI-пакет» шире «Plus»: на 360 px запас 4 px, на 320 без правила тап-зоны сжимались.
+9. **L14 (личный t.me) в WP-09 не входит.** Карточка B2B по-прежнему ведёт на `STUDIO_TELEGRAM_URL`. В WP-11 это станет одной константой, и вместе с ней сменится handle цели `telegram_cta_studio` в блоке `<head>` и `index.html`. Футер — WP-12.
+
+**Проверки.**
+- `tsc -b` 0; `typecheck:functions` 0; ESLint 20 изменённых файлов 0.
+- Тесты по одному файлу:
+  - новые и изменённые: `gpt-chat-honesty` 10/10 (новый), `yandex-metrika` 69/69 (+1), `gpt-account-ui` 11/11 (+1), `gpt-chat-handoff-link` 11/11, `gpt-limit-state` 13/13, `gpt-chat` 19/19, `chat-entry` 4/4;
+  - весь список `npm test` и соседние файлы — 70 файлов, 880/882. Падают только две известные датозависимые фикстуры `lead-radar`.
+- Проверка «на красный»: 6 временных поломок ловятся:
+  - бренд UZ снова «GPTBot AI»;
+  - второй `track` в кнопке Telegram;
+  - цена без `billingAvailable`;
+  - нет `chat_opened` в Метрике;
+  - нет `lead_form_success`;
+  - ошибка в согласовании.
+- Grep плана `Plus|obuna|подписк|GPTBot AI` по `src/gpt-chat functions/api/gpt` — 0 строк.
+- `npm run build:fast` → `seo-protection check` — **10/10 unchanged**.
+- Стартовый JS чата (замыкание статических импортов, brotli q11): 116 446 → 114 052 байт, **−2 394 байт**.
+- `git diff --check`, `scan:secrets` (3171 файл), `test:secret-scan` 16/16, grep токена Telegram — чисто.
+- Локальная приёмка в Browser pane. Сервер — мок в scratchpad: `dist/`, поддельный `/api`, заглушка `ym`. Прод не трогал.
+  - UZ, 375×812, оплата выключена:
+    - шапка «GPTBot.uz», кнопки пакета нет;
+    - на первом экране «kuniga 15 ta, soatiga 5 tagacha xabar», строка «OpenAI mahsuloti emas…» видна;
+    - 6 сообщений: в `dataLayer` ровно `chat_opened` ×1, `message_sent` ×6 (номера 1–6, `source` composer), `ai_response_success` ×5 (`finish` stop), `limit_hit` ×1 (hourly). В Метрике — `chat_opened` и `chat_limit_hit`, по одному разу;
+    - после 4-го сообщения — «Bu soat ichida yana 1 ta xabar…»;
+    - под ответом нет строки про «Plus».
+  - RU, оплата включена:
+    - кнопка «AI-пакет» помещается на 375, 360 и 320 px (на 320 — иконка, 44 px), горизонтальной прокрутки нет;
+    - окно: значок «GPTBot.uz», «AI paket: shu chatda ko‘proq javob», четыре пункта, `pack_viewed{from: header}`;
+    - карточка лимита → «AI-пакет» → `pack_viewed{from: limit_card}`;
+    - вход с пакетом: «Мой пакет», «AI-пакет · ответов осталось: N».
+  - Ошибок в консоли нет, только сетевая запись самого 429.
+
+**Для релиза R3 (вместе с WP-10…WP-12).**
+1. Деплой обычный guarded, миграций и секретов нет.
+2. WP-12 вносит в `reviewedChanges` изменения, которых гейт не видит: бренд в шапке, строку под полем, числа на первом экране, скрытую без оплаты кнопку, удалённый `actionCost`, дисклеймер меню, две цели Метрики из React. Блок `<head>` не менялся.
+3. Владелец после выката (подробно — `ANALYTICS-RU.md`):
+   - убрать второй тег GA4 в GTM `GTM-NLR4WFX8`;
+   - зарегистрировать в GA4 параметры `reason`, `from`, `provider`, `source`;
+   - создать в Метрике JS-цели `chat_opened` и `chat_limit_hit`.
+4. Живая проверка: одно `message_sent` на сообщение, цель `chat_opened`.
+5. Откат: `git revert` и guarded-деплой. Хранилище браузера не менялось.
+
+**Открыто.**
+1. Новые узбекские строки — `packFeatures`, `hourWarning`, `historyNote`, `disclaimer`, `inputMicrocopy` — нужна вычитка носителем (§8 плана, не блокирует).
+2. 429 на кнопке под ответом всё ещё кладёт в поле служебный запрос (п. 4 ревью WP-06; WP-17).
+3. Личный Telegram в карточке B2B и в форме лида — WP-11 (L14).
+
+**Дальше.** WP-10 (релиз R3).
+
+---
+
 # Платный AI-чат к проду: ревью WP-08, 2026-10-01
 
 **Итог.** Проверил коммиты WP-08 `75d542a1` (код) и `fd0eebc0` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md` (§1, решения L15 и D11 из §2, §4 WP-08, §5, §6), картой `04` (§3–7) и `AGENTS.md` §2–8, §11. Сделано верно:

@@ -379,6 +379,8 @@ test('metrika: the goal catalogue is closed and every goal is fired somewhere', 
     'chat_lead_success',
     'official_chatgpt_click',
     'chat_locale_switch',
+    'chat_opened',
+    'chat_limit_hit',
   ]);
 });
 
@@ -388,15 +390,28 @@ test('metrika: every goal in the catalogue is fired from the tag or a lead succe
   const wrapper = await source('src/lib/analytics/yandexMetrika.ts');
   // Goals the React islands fire through reachYandexGoal(); each must be a
   // name in the wrapper's own closed list, or the wrapper drops it.
-  const fromReact = ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success', 'official_chatgpt_click', 'chat_locale_switch'];
+  const fromReact = ['lead_form_submit_success', 'calculator_lead_success', 'chat_lead_success', 'official_chatgpt_click', 'chat_locale_switch', 'chat_opened', 'chat_limit_hit'];
   for (const goal of fromReact) {
     assert.ok(wrapper.includes(`'${goal}'`), `${goal} is not in the React goal wrapper`);
   }
   assert.match(await source('src/calculator/CalculatorApp.tsx'), /reachYandexGoal\(YANDEX_GOALS\.calculatorLeadSuccess\)/);
-  assert.match(await source('src/gpt-chat/components/AiLeadForm.tsx'), /reachYandexGoal\(YANDEX_GOALS\.chatLeadSuccess\)/);
+  const leadForm = await source('src/gpt-chat/components/AiLeadForm.tsx');
+  assert.match(leadForm, /reachYandexGoal\(YANDEX_GOALS\.chatLeadSuccess\);\s*reachYandexGoal\(YANDEX_GOALS\.leadFormSuccess\);/);
+  // Both chat lead goals sit behind the server's ok, never on the click.
+  const success = leadForm.slice(leadForm.indexOf('if (res.ok) {'), leadForm.indexOf('} else {', leadForm.indexOf('if (res.ok) {')));
+  assert.match(success, /YANDEX_GOALS\.leadFormSuccess/);
+  // The calculator reports its own goal, so leads add up without a double count.
+  assert.doesNotMatch(await source('src/calculator/CalculatorApp.tsx'), /YANDEX_GOALS\.leadFormSuccess/);
   const chat = await source('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(chat, /reachYandexGoal\(YANDEX_GOALS\.officialChatgptClick\)/);
   assert.match(chat, /reachYandexGoal\(YANDEX_GOALS\.chatLocaleSwitch\)/);
+  // chat_opened on mount, not after the account view (F18); chat_limit_hit on
+  // the server's refusal, once per reason.
+  const mount = chat.slice(chat.indexOf('trackOnce(EV.chatOpened'), chat.indexOf('}, [config.locale]);', chat.indexOf('trackOnce(EV.chatOpened')));
+  assert.match(mount, /reachYandexGoalOnce\(YANDEX_GOALS\.chatOpened\)/);
+  assert.doesNotMatch(mount, /accountReady|signedIn/);
+  const refused = chat.slice(chat.indexOf('} else if (res.code === "limit_reached") {'), chat.indexOf('} else if (', chat.indexOf('} else if (res.code === "limit_reached") {') + 10));
+  assert.match(refused, /reachYandexGoalOnce\(YANDEX_GOALS\.chatLimitHit, reason\)/);
   assert.match(await source('scripts/lead-form.ts'), /window\.ym\(111312750,'reachGoal','lead_form_success'\)/);
   for (const goal of YANDEX_METRIKA_GOALS) {
     const fired = fromHead.includes(goal) || fromReact.includes(goal) || goal === 'lead_form_success';
@@ -488,6 +503,24 @@ test('metrika: the React goal wrapper accepts no parameters and survives a missi
   for (const forbidden of ['setUserID', 'userParams', 'firstPartyParams', 'JSON.stringify']) {
     assert.ok(!wrapper.includes(forbidden), `the wrapper uses ${forbidden}`);
   }
+});
+
+test('metrika: a once-goal reaches the counter once per page view and key, still as a bare name', async (t) => {
+  const { reachYandexGoalOnce, YANDEX_GOALS } = await import('../src/lib/analytics/yandexMetrika');
+  const calls: unknown[][] = [];
+  const g = globalThis as Record<string, unknown>;
+  g.window = { ym: (...args: unknown[]) => calls.push(args) };
+  t.after(() => { delete g.window; });
+  reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
+  reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
+  reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, 'hourly');
+  reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, 'hourly');
+  reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, 'daily');
+  assert.deepEqual(calls, [
+    [COUNTER, 'reachGoal', 'chat_opened'],
+    [COUNTER, 'reachGoal', 'chat_limit_hit'],
+    [COUNTER, 'reachGoal', 'chat_limit_hit'],
+  ], 'the reason only tells repeats apart; it never reaches Metrika');
 });
 
 test('metrika: the lead goal fires only after the server accepted the lead', async () => {

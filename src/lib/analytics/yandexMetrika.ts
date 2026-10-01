@@ -26,6 +26,15 @@ export const YANDEX_GOALS = {
   calculatorLeadSuccess: 'calculator_lead_success',
   /** The AI chat's lead form, accepted by the server. */
   chatLeadSuccess: 'chat_lead_success',
+  /** Any site lead form the server accepted: the page forms (inline, in
+   *  scripts/lead-form.ts) and the chat's (next to chat_lead_success). The
+   *  calculator reports calculator_lead_success instead, so the two add up
+   *  to every lead once. */
+  leadFormSuccess: 'lead_form_success',
+  /** The AI chat mounted: once per page view, before the account answers. */
+  chatOpened: 'chat_opened',
+  /** The server refused a chat turn (429): once per reason per page view. */
+  chatLimitHit: 'chat_limit_hit',
   /** A click on the chatgpt.com link on the chat's resting screen: a visitor
    *  who came for the official ChatGPT and was shown the way there. */
   officialChatgptClick: 'official_chatgpt_click',
@@ -51,4 +60,18 @@ export function reachYandexGoal(goal: YandexGoal): void {
   } catch {
     /* blocked, absent or throwing — analytics must never break the page */
   }
+}
+
+const reachedOnce = new Set<string>();
+
+/**
+ * reachYandexGoal at most once per page view for this goal and `key`. The key
+ * only tells repeats apart on the page (the chat passes the limit reason); it
+ * never leaves it.
+ */
+export function reachYandexGoalOnce(goal: YandexGoal, key = ''): void {
+  const id = `${goal}:${key}`;
+  if (reachedOnce.has(id)) return;
+  reachedOnce.add(id);
+  reachYandexGoal(goal);
 }

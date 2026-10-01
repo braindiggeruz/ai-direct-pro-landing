@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, validAccountView, type AccountView } from '../src/gpt-chat/types';
+import { billingOpen, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, validAccountView, type AccountView } from '../src/gpt-chat/types';
 import { limitCard } from '../src/gpt-chat/limit-card';
 import type { LimitReason, LimitState } from '../src/gpt-chat/limit-state';
 import { strings } from '../src/gpt-chat/i18n';
@@ -108,7 +108,7 @@ test('the chat feeds the card from the limit state; the account view only report
   const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
   const dispatches = [...onAccount.matchAll(/dispatchLimit\(\{\s*type: "(\w+)"/g)].map((m) => m[1]);
   assert.deepEqual(dispatches, ['account'], 'the account view can only report, never block or admit');
-  const refused = source.slice(source.indexOf('} else if (res.code === "limit_reached") {'), source.indexOf('track(EV.limitReached'));
+  const refused = source.slice(source.indexOf('} else if (res.code === "limit_reached") {'), source.indexOf('track(EV.limitHit'));
   assert.match(refused, /setMessages\(history\);\s*setInput\(trimmed\);/, 'the question goes back into the composer');
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
@@ -130,4 +130,23 @@ test('the account answering again after failed reads keeps the guest-mode conver
   assert.match(changed, /identityGeneration\.current\+\+;\s*abortRef\.current\?\.abort\(\);/);
   assert.match(changed, /setMessages\(account \? loadHistory\(config\.locale, scope\) : \[\]\)/);
   assert.match(source, /shownRef\.current = \{ messages, busy \};/);
+});
+
+test('a pack is buyable only with a mode and a provider; every opening of its window says where from', () => {
+  assert.equal(billingOpen(null), false);
+  assert.equal(billingOpen({ ...account(), mode: null }), false);
+  assert.equal(billingOpen({ ...account(), providers: [] }), false);
+  assert.equal(billingOpen(account()), true);
+  const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
+  // One pack_viewed per opening, sent where the window opens, never on a re-render.
+  assert.equal((panel.match(/track\(EV\.packViewed/g) ?? []).length, 1);
+  assert.match(panel, /const openPack = useCallback\(\(from: PackFrom\) => \{\s*setOpen\(true\);\s*track\(EV\.packViewed, \{ from, locale \}\);/);
+  assert.match(panel, /onClick=\{\(\) => openPack\("header"\)\}/);
+  assert.match(panel, /if \(openRequest\) openPack\(openRequest\.from\);/);
+  assert.match(panel, /openPack\("login_failed"\)/);
+  assert.match(panel, /onOpenChange=\{\(next\) => \{ if \(!next\) close\(\); \}\}/, 'the Dialog itself only closes');
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const froms = [...chat.matchAll(/openAccount\("(\w+)"\)/g)].map((m) => m[1]).sort();
+  assert.deepEqual(froms, ['account_check', 'after_10', 'limit_card', 'low_limit']);
+  assert.doesNotMatch(chat, /setAccountOpen\(\(n\) => n \+ 1\)/);
 });

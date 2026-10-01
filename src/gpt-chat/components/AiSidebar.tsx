@@ -51,12 +51,12 @@ function SidebarBody({
   const tg = telegramContact(locale);
   const links = [
     { key: 'guide', href: uz ? '/uz/gpt-chat-qollanma/' : '/ru/gpt-chat-guide/', label: t.guideLink, event: null },
-    { key: 'pricing', href: uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/', label: uz ? 'Biznes bot narxlari' : t.pricingLink, event: 'pricing' },
+    { key: 'pricing', href: uz ? '/uz/chat-bot-narxi/' : '/ru/tarify-ai-chat/', label: t.pricingLink, event: 'pricing' },
     { key: 'business', href: uz ? '/uz/biznes-uchun-ai-bot/' : '/ru/gpt-dlya-biznesa/', label: t.businessLink, event: 'business' },
     { key: 'about', href: uz ? '/uz/biz-haqimizda/' : '/ru/o-kompanii/', label: t.aboutLink, event: null },
   ];
   const onLinkClick = (event: string | null) => {
-    if (event === 'pricing') { track(EV.pricingClicked, { from: 'sidebar' }); track(EV.viewPricing, { from: 'sidebar' }); }
+    if (event === 'pricing') track(EV.pricingClicked, { from: 'sidebar' });
     if (event === 'business') track(EV.businessClicked, { from: 'sidebar' });
   };
   const showLabels = !collapsed || inDrawer;
@@ -119,7 +119,7 @@ function SidebarBody({
             href={tg.href}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            onClick={() => { track(EV.telegramCtaClicked, { from: 'sidebar', channel: tg.channel, source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); track(EV.websiteTelegramClicked, { source: locale === 'uz' ? 'site_uz' : 'site_ru', locale }); }}
+            onClick={() => track(EV.telegramCtaClicked, { from: 'sidebar', channel: tg.channel, locale })}
             data-testid="sidebar-telegram"
             className="mt-auto flex min-h-11 items-center gap-2 rounded-xl border border-brand-cyan/25 bg-brand-cyan/[0.06] px-3 text-[13px] font-medium text-brand-cyan hover:bg-brand-cyan/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
           >

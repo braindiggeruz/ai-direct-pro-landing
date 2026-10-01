@@ -2,13 +2,13 @@
 // if present, never throws when analytics is absent.
 type Payload = Record<string, unknown>;
 
-const SAFE_KEYS = new Set([
-  'route', 'lang', 'locale', 'tool', 'templateId', 'roleId', 'status', 'source',
-  'from', 'where', 'mode', 'channel', 'presetId', 'plan', 'reason', 'code',
-  'model', 'surface', 'messageNumber', 'anonymous', 'chipId', 'method',
-  // Funnel metadata only: which staged offer, which intent slug, and whether
-  // the Telegram link carried the web session. Never anything a visitor typed.
-  'stage', 'intent', 'withSession',
+// GA4 parameters, snake_case (map 03 §8.1). Funnel metadata only: which
+// surface, which slug, which outcome — never anything a visitor typed.
+export const GA4_PARAMS: ReadonlySet<string> = new Set([
+  'route', 'lang', 'locale', 'tool', 'template_id', 'role_id', 'status', 'source',
+  'from', 'mode', 'channel', 'preset_id', 'reason', 'code', 'model', 'surface',
+  'message_number', 'anonymous', 'chip_id', 'method', 'intent',
+  'with_session', 'provider', 'finish', 'resume', 'entry',
 ]);
 const onceKeys = new Set<string>();
 
@@ -17,13 +17,13 @@ function safePayload(data: Payload): Payload {
   const lang = typeof document !== 'undefined' ? document.documentElement.lang?.slice(0, 2) : undefined;
   const clean: Payload = { route, lang };
   for (const [key, value] of Object.entries(data)) {
-    if (!SAFE_KEYS.has(key)) continue;
+    if (!GA4_PARAMS.has(key)) continue;
     if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') clean[key] = value;
   }
   return clean;
 }
 
-export function track(event: string, data: Payload = {}): void {
+export function track(event: ChatEvent, data: Payload = {}): void {
   try {
     const w = window as unknown as {
       dataLayer?: Array<Record<string, unknown>>;
@@ -41,7 +41,7 @@ export function track(event: string, data: Payload = {}): void {
   }
 }
 
-export function trackOnce(event: string, data: Payload = {}): void {
+export function trackOnce(event: ChatEvent, data: Payload = {}): void {
   const payload = safePayload(data);
   const key = `${event}:${String(payload.route || '')}:${String(payload.lang || '')}`;
   if (onceKeys.has(key)) return;
@@ -49,81 +49,55 @@ export function trackOnce(event: string, data: Payload = {}): void {
   track(event, data);
 }
 
-// Canonical event names (see brief §8).
+/**
+ * The chat's closed GA4 catalogue: one event per thing that happened (map 03
+ * §8.1, plan WP-09). The PascalCase twins that used to fire next to these
+ * (GPTChatMessageSent, SendPrompt, LimitReached, UpgradeClick and the rest)
+ * are gone, so a dashboard can count any of them without dividing by three.
+ * The page view is GA4's own `page_view`, sent by the loader in the head.
+ */
 export const EV = {
-  pageView: 'GPTChatPageView',
-  sessionStarted: 'GPTChatSessionStarted',
-  messageSent: 'GPTChatMessageSent',
-  answerReceived: 'GPTChatAnswerReceived',
-  limitReached: 'GPTChatLimitReached',
-  leadIntent: 'GPTChatLeadIntent',
-  leadSubmitted: 'GPTChatLeadSubmitted',
-  pricingViewed: 'GPTChatPricingViewed',
-  subscribeIntent: 'GPTChatSubscribeIntent',
-  providerError: 'GPTChatProviderError',
-  // Product-cabinet funnel. Payloads contain only UI metadata — never prompts
-  // or generated answers.
-  visitChat: 'VisitChat',
-  startChat: 'StartChat',
-  sendPrompt: 'SendPrompt',
-  useTemplate: 'UseTemplate',
-  selectRole: 'SelectRole',
-  generateImagePrompt: 'GenerateImagePrompt',
-  viewPricing: 'ViewPricing',
-  limitReachedProduct: 'LimitReached',
-  upgradeClick: 'UpgradeClick',
-  businessDemoStarted: 'BusinessDemoStarted',
-  businessLeadSubmitted: 'BusinessLeadSubmitted',
-  telegramClick: 'TelegramClick',
-  copyAnswer: 'CopyAnswer',
-  newChat: 'NewChat',
-  // Normalized product-funnel events (2026-07 UX sprint). Snake_case set used
-  // for cross-product dashboards; legacy PascalCase events above stay for GA
-  // continuity. message_sent carries messageNumber instead of _1/_2/_3 names.
+  /** On mount, once per page view, whether or not the account view answers. */
   chatOpened: 'chat_opened',
-  promptChipClicked: 'prompt_chip_clicked',
-  messageSentN: 'message_sent',
+  /** One per message: `source` composer | template | answer_action | retry
+   *  (a regenerated answer is a message sent again, not an event of its own). */
+  messageSent: 'message_sent',
+  /** Exactly one of these three per answer. `finish` stop | length. */
   aiResponseSuccess: 'ai_response_success',
   aiResponseError: 'ai_response_error',
-  messageCopied: 'message_copied',
-  responseRegenerated: 'response_regenerated',
   generationStopped: 'generation_stopped',
-  pricingClicked: 'pricing_clicked',
-  b2bCtaClicked: 'b2b_cta_clicked',
-  businessClicked: 'business_clicked',
-  telegramClicked: 'telegram_clicked',
+  /** The server refused a turn (429); `reason` as the server gave it. */
+  limitHit: 'limit_hit',
+  /** The account / pack window opened; `from` says which button opened it. */
+  packViewed: 'pack_viewed',
+  loginStarted: 'login_started',
+  loginResult: 'login_result',
+  /** `resume` true when an existing invoice is reopened, not a new purchase. */
+  checkoutStarted: 'checkout_started',
+  accountActionFailed: 'account_action_failed',
+  accountLogout: 'account_logout',
+  /** Every Telegram button: `from`, `channel` bot | studio, `with_session`. */
   telegramCtaClicked: 'telegram_cta_clicked',
-  websiteTelegramClicked: 'website_telegram_clicked',
-  // Lead funnel of the free chat (2026-09). Until now the only measured thing
-  // between "answer received" and "enquiry" was nothing at all.
-  generateLead: 'generate_lead',
-  paywallViewed: 'paywall_viewed',
   leadFormOpened: 'lead_form_opened',
+  /** Only after the server acknowledged the lead — a submit click is not a lead. */
+  generateLead: 'generate_lead',
   leadFormFailed: 'lead_form_failed',
-  // The staged offer (stages 2-4 of the funnel). `stage` is 'b2b' | 'hourly'
-  // | 'daily'; offerViewed fires once per stage per page view, so a re-render
-  // or a scroll never inflates the denominator of the two routes out.
+  pricingClicked: 'pricing_clicked',
+  businessClicked: 'business_clicked',
+  /** The B2B offer card: once per page view, and its close button. */
   offerViewed: 'offer_viewed',
   offerDismissed: 'offer_dismissed',
-  /** The Telegram route actually taken, with `withSession` telling us whether
-   *  the minted link carried the web conversation or fell back to the handle. */
-  telegramHandoffClicked: 'telegram_handoff_clicked',
-  // First-screen routing (2026-09-30). `surface` says where the link sat
-  // ('empty' = the resting screen); `from` is the locale the visitor left.
-  officialLinkClick: 'GPTChatOfficialLinkClick',
-  localeSwitch: 'GPTChatLocaleSwitch',
+  promptChipClicked: 'prompt_chip_clicked',
+  templateUsed: 'template_used',
+  messageCopied: 'message_copied',
+  newChat: 'new_chat',
+  roleSelected: 'role_selected',
+  toolOpened: 'tool_opened',
+  imagePromptGenerated: 'image_prompt_generated',
+  /** The chatgpt.com link on the resting screen. */
+  officialLinkClicked: 'official_link_clicked',
+  /** From the Russian chat to the Uzbek one; `surface` header | empty. */
+  localeSwitched: 'locale_switched',
 } as const;
 
-/**
- * GA4 `generate_lead`, plus the legacy PascalCase twin for dashboard
- * continuity.
- *
- * Call it ONLY after the backend acknowledged the lead — a submit click is not
- * a lead (tests/seo-analytics-privacy.test.ts holds the site's analytics to
- * that rule). `method` says which surface produced the lead; nothing the
- * visitor typed is ever passed in.
- */
-export function trackLeadSubmitted(method: string, data: Payload = {}): void {
-  track(EV.generateLead, { ...data, method });
-  track(EV.leadSubmitted, { ...data, method });
-}
+export type ChatEvent = (typeof EV)[keyof typeof EV];

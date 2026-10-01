@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import type { ChatMessage, MountConfig } from "../types";
+import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig } from "../types";
 import { strings } from "../i18n";
 import { createSession, fetchTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
@@ -23,7 +23,7 @@ import {
   clearDraft,
 } from "../storage";
 import { track, trackOnce, EV } from "../analytics";
-import { reachYandexGoal, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
+import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
 import type { AnswerAction } from "./AiChatMessageList";
 import { AiChatInput } from "./AiChatInput";
@@ -52,7 +52,7 @@ import {
 import { applyRole, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
-import { AiAccountPanel, type AccountView } from "./AiAccountPanel";
+import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import { archiveChat, keepsShownConversation, loadChats } from "../storage";
 
 const MAX_INPUT = 3000;
@@ -60,6 +60,10 @@ const MAX_INPUT = 3000;
 const LIMIT_CARD_ID = "ai-limit-card";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
+/** The free tier's rolling hour: warn while this many messages or fewer are left in it. */
+const HOUR_WARNING_AT = 1;
+/** A rolling-hour count says nothing an hour after the turn that reported it. */
+const HOUR_WARNING_TTL_MS = 3_600_000;
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
@@ -67,7 +71,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // Present on the Russian chat only: most of its search impressions are
   // Uzbek-language queries, and the only switch used to be an 11px «UZ».
   const uzEntry = uz ? undefined : t.uzEntry;
-  const pricingHref = uz ? "/uz/chat-bot-narxi/" : "/ru/tarify-ai-chat/";
   const businessHref = uz
     ? "/uz/biznes-uchun-ai-bot/"
     : "/ru/gpt-dlya-biznesa/";
@@ -77,22 +80,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // answers, as a guest whose history is neither loaded nor written (F11).
   const [accountState, setAccountState] = useState<"loading" | "ready" | "unknown">("loading");
   const accountReady = accountState === "ready";
-  const [freeLimits, setFreeLimits] = useState<AccountView["freeLimits"] | null>(null);
+  const [freeLimits, setFreeLimits] = useState<FreeLimits | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const [billingAvailable, setBillingAvailable] = useState(false);
   const [botHandoff, setBotHandoff] = useState(false);
   const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
-  const entryMeta = entry ? { source: chatEntryArticleHref(entry), intent: entry.id } : {};
+  // Which article sent the visitor here: a fixed slug, never prompt text.
+  const entryMeta = entry ? { entry: entry.id } : {};
   const [input, setInput] = useState(() => entry?.prompt || loadDraft());
   const [savedChats, setSavedChats] = useState<ReturnType<typeof loadChats>>([]);
   const [paid, setPaid] = useState(false);
   const [accountRefresh, setAccountRefresh] = useState(0);
-  const [accountOpen, setAccountOpen] = useState(0);
+  const [accountOpen, setAccountOpen] = useState<PackOpenRequest | undefined>();
+  const openAccount = (from: PackFrom) => setAccountOpen((last) => ({ seq: (last?.seq ?? 0) + 1, from }));
   const accountIdentityRef = useRef<string | null>(null);
   const establishedIdentityRef = useRef<string | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(-1);
+  // Free messages left in the rolling hour, from the last answered turn.
+  const [hourLeft, setHourLeft] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   // Set and lifted by the server only (limit-state.ts); the clock just says
   // when the send button comes back.
@@ -114,7 +121,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [turnstileServerError, setTurnstileServerError] = useState<
     string | null
   >(null);
-  const startedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
@@ -154,7 +160,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // session reference on a new identity; quota stays authoritative on server.
         const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
         setSessionId(firstGuest ? loadSessionId(config.locale) : null);
-        startedRef.current = false;
       }
       // A failed account read says nothing about who is asking, so the
       // composer (and a question a limit put back into it) stays. Another
@@ -168,7 +173,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setAccountState(account ? "ready" : "unknown");
     setSignedIn(!!account?.user);
     setPaid(!!account?.access && account.access.ends_at > Date.now());
-    setBillingAvailable(!!account?.mode && !!account.providers.length);
+    setBillingAvailable(billingOpen(account));
     setBotHandoff(account?.botHandoff === true);
     setFreeLimits(account?.freeLimits ?? null);
     setRemaining(account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining() : -1));
@@ -197,17 +202,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     }
   }, []);
 
+  // On mount, once per page view: a visitor whose account view never
+  // answers has still opened the chat (F18). Whether they are signed in is
+  // not known yet; message_sent carries that.
   useEffect(() => {
-    trackOnce(EV.pageView, { locale: config.locale });
-    trackOnce(EV.visitChat, { locale: config.locale });
-
-  }, [config.locale]);
-
-  useEffect(() => {
-    if (accountReady) trackOnce(EV.chatOpened, { locale: config.locale, anonymous: !signedIn, ...entryMeta });
+    trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta });
+    reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
   // Entry is fixed for this navigation; no prompt text enters analytics.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountReady, signedIn, config.locale]);
+  }, [config.locale]);
 
   useEffect(() => {
     let cancelled = false;
@@ -281,6 +284,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (!limited) clearDraft();
   }, [limited]);
 
+  // A rolling-hour count is dropped an hour after the turn that reported it.
+  useEffect(() => {
+    if (hourLeft === null) return;
+    const timer = window.setTimeout(() => setHourLeft(null), HOUR_WARNING_TTL_MS);
+    return () => window.clearTimeout(timer);
+  }, [hourLeft]);
+
   // Nothing is stored while the account view has not answered: who is
   // asking, and so the storage scope, is unknown (F11).
   const ensureSession = async (): Promise<string | null> => {
@@ -291,7 +301,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (id) {
       setSessionId(id);
       if (accountReady) saveSessionId(id, config.locale, storageScope);
-      track(EV.sessionStarted, { status: "created" });
     }
     return id;
   };
@@ -307,6 +316,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       templateId?: string;
       tool?: AiToolId;
       answerAction?: AnswerAction;
+      retry?: boolean;
     } = {},
   ) => {
     const trimmed = text.trim();
@@ -314,14 +324,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setBusy(true);
     setInput("");
     setTurnstileServerError(null);
-    if (!startedRef.current) {
-      startedRef.current = true;
-      track(EV.startChat, {
-        locale: config.locale,
-        tool: meta.tool || activeTool,
-        roleId: role,
-      });
-    }
     const generation = identityGeneration.current;
     const sid = await ensureSession();
     if (generation !== identityGeneration.current) return;
@@ -332,17 +334,20 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       { role: "assistant", content: "", pending: true },
     ];
     setMessages(withUser);
+    const messageNumber = history.filter((m) => m.role === "user").length + 1;
     track(EV.messageSent, {
+      ...entryMeta,
       source: meta.templateId
         ? "template"
         : meta.answerAction
           ? "answer_action"
-          : "composer",
-    });
-    const messageNumber = history.filter((m) => m.role === "user").length + 1;
-    track(EV.messageSentN, {
-      ...entryMeta,
-      messageNumber,
+          : meta.retry
+            ? "retry"
+            : "composer",
+      message_number: messageNumber,
+      tool: meta.tool || activeTool,
+      role_id: role,
+      template_id: meta.templateId,
       locale: config.locale,
       anonymous: !signedIn,
     });
@@ -351,16 +356,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       0,
       MAX_INPUT,
     );
-    track(EV.sendPrompt, {
-      source: meta.templateId
-        ? "template"
-        : meta.answerAction
-          ? "answer_action"
-          : "composer",
-      tool: meta.tool || activeTool,
-      roleId: role,
-      templateId: meta.templateId || undefined,
-    });
 
     const base = withUser.filter((m) => !m.pending);
     const handleJson = (res: ChatApiResponse) => {
@@ -377,6 +372,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           setRemaining(res.remaining);
           if (accountReady) saveRemaining(res.remaining, storageScope);
         }
+        setHourLeft(typeof res.hourRemaining === "number" ? res.hourRemaining : null);
         if (res.sessionId && res.sessionId !== sid) {
           setSessionId(res.sessionId);
           if (accountReady) saveSessionId(res.sessionId, config.locale, storageScope);
@@ -390,8 +386,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             truncated: res.truncated === true,
           },
         ]);
-        track(EV.answerReceived, { model: res.modelUsed });
-        track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, messageNumber });
+        track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
         dispatchLimit({
@@ -411,9 +406,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // stands, into the draft) instead of a bubble that gets no answer.
         setMessages(history);
         setInput(trimmed);
-        track(EV.limitReached, { reason, status: "blocked" });
-        track(EV.limitReachedProduct, { reason, status: "blocked" });
-        track(EV.aiResponseError, { code: "limit_reached", messageNumber });
+        // One event per refusal; the Metrika goal once per reason per view.
+        track(EV.limitHit, { reason, locale: config.locale });
+        reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, reason);
       } else if (
         res.code === "turnstile_failed" ||
         res.code === "turnstile_unavailable"
@@ -423,7 +418,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         setTurnstileServerError(
           res.code === "turnstile_failed" ? t.turnstileRetry : t.turnstileError,
         );
-        track(EV.aiResponseError, { code: res.code, messageNumber });
+        track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
       } else {
         // Curated copy only — never surface raw backend/provider strings.
         const friendly =
@@ -436,8 +431,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           ...base,
           { role: "assistant", content: friendly, error: true },
         ]);
-        track(EV.providerError, { code: res.code });
-        track(EV.aiResponseError, { code: res.code, messageNumber });
+        track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
       }
     };
 
@@ -515,6 +509,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         setRemaining(outcome.remaining);
         if (accountReady) saveRemaining(outcome.remaining, storageScope);
       }
+      setHourLeft(outcome.hourRemaining ?? null);
       persist([
         ...base,
         {
@@ -524,8 +519,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           truncated: outcome.truncated === true,
         },
       ]);
-      track(EV.answerReceived, { model: outcome.modelUsed });
-      track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, messageNumber });
+      track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, message_number: messageNumber, finish: outcome.truncated === true ? "length" : "stop" });
     } else if (outcome.aborted) {
       // User pressed Stop: keep whatever was generated, never an error state.
       if (acc)
@@ -534,7 +528,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           { role: "assistant", content: acc, model: answeringModel },
         ]);
       else setMessages(base);
-      track(EV.generationStopped, { locale: config.locale, messageNumber });
+      track(EV.generationStopped, { locale: config.locale, message_number: messageNumber });
     } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
       persist([
@@ -546,14 +540,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           partial: true,
         },
       ]);
-      track(EV.providerError, { code: outcome.code });
-      track(EV.aiResponseError, { code: outcome.code, messageNumber });
+      track(EV.aiResponseError, { code: outcome.code, message_number: messageNumber });
     } else {
       const friendly =
         outcome.code === "network" ? t.errorNetwork : t.errorGeneric;
       persist([...base, { role: "assistant", content: friendly, error: true }]);
-      track(EV.providerError, { code: outcome.code });
-      track(EV.aiResponseError, { code: outcome.code, messageNumber });
+      track(EV.aiResponseError, { code: outcome.code, message_number: messageNumber });
     }
     if (turnstileConfig?.required) {
       turnstileRef.current?.reset();
@@ -576,43 +568,29 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const onChipPick = (chip: PromptChip) => {
     if (busy || limitBlocked) return;
     setInput(chip.insert);
-    track(EV.promptChipClicked, { chipId: chip.id, locale: config.locale });
-    track(EV.useTemplate, {
-      templateId: `chip_${chip.id}`,
-      tool: "chat",
-      mode: "prefill",
-    });
+    track(EV.promptChipClicked, { chip_id: chip.id, locale: config.locale });
     focusInput();
   };
 
   const onTemplatePick = (template: PromptTemplate, prompt: string) => {
     if (sendDisabled) return;
-    track(EV.useTemplate, {
-      templateId: template.id,
-      tool: template.tool,
-      mode: "send",
-    });
+    track(EV.templateUsed, { template_id: template.id, tool: template.tool });
     void doSend(prompt, { templateId: template.id, tool: template.tool });
   };
 
   const onRoleChange = (nextRole: RoleId) => {
     setRole(nextRole);
-    track(EV.selectRole, { roleId: nextRole, tool: activeTool });
+    track(EV.roleSelected, { role_id: nextRole, tool: activeTool });
   };
 
   const onToolChange = (tool: AiToolId) => {
     setActiveTool(tool);
-    if (tool === "business")
-      track(EV.businessDemoStarted, { from: "sidebar", status: "opened" });
+    track(EV.toolOpened, { tool, from: "sidebar" });
   };
 
   const onImagePrompt = (prompt: string, presetId: string) => {
     if (sendDisabled) return;
-    track(EV.generateImagePrompt, {
-      presetId,
-      tool: "images",
-      status: "submitted",
-    });
+    track(EV.imagePromptGenerated, { preset_id: presetId, tool: "images" });
     void doSend(prompt, { templateId: `image-${presetId}`, tool: "images" });
   };
 
@@ -653,7 +631,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setInput("");
     // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
     // pitch the same person again.
-    startedRef.current = false;
     track(EV.newChat, { status: "cleared" });
     focusInput();
   };
@@ -667,10 +644,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         break;
       }
     }
-    if (lastUser) {
-      track(EV.responseRegenerated, { locale: config.locale });
-      void doSend(lastUser);
-    }
+    if (lastUser) void doSend(lastUser, { retry: true });
   };
 
   const onDismissOffer = () => {
@@ -681,23 +655,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // First-screen routing. Both carry a goal name and UI metadata only.
   const onOfficialClick = () => {
     reachYandexGoal(YANDEX_GOALS.officialChatgptClick);
-    track(EV.officialLinkClick, { surface: "empty" });
+    track(EV.officialLinkClicked, { surface: "empty" });
   };
   const onLocaleSwitch = (surface: "header" | "empty") => {
     reachYandexGoal(YANDEX_GOALS.chatLocaleSwitch);
-    track(EV.localeSwitch, { from: "ru", surface });
+    track(EV.localeSwitched, { from: "ru", surface });
   };
-
-  // The limit card below is the paywall people actually see; the offer card's
-  // cap stages are never rendered. One paywall_viewed per limit the server
-  // sets (a reload restores it and counts again) — not per render, not per
-  // account refresh or clock tick that leaves the same limit in place.
-  const limitReason = limit?.reason;
-  const limitSince = limit?.since;
-  useEffect(() => {
-    if (!limitReason) return;
-    track(EV.paywallViewed, { stage: limitReason, locale: config.locale, surface: "limit_card" });
-  }, [limitReason, limitSince, config.locale]);
 
   // Limit card only: a package that can really be bought leads; the Telegram
   // bot follows, or leads, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
@@ -832,9 +795,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               <path d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <div className="gpt-header-brand">
+          <div className="gpt-header-brand" data-testid="ai-header-brand">
             <span className="gpt-brand-symbol" aria-hidden="true"><Sparkles /></span>
-            <span>GPTBot<span className="gpt-brand-ai"> AI</span></span>
+            <span>{t.brand}</span>
           </div>
           <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
             {!paid && <AiUsageBadge remaining={remaining} t={t} />}
@@ -918,7 +881,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         )}
         {paid && (
           <p className="px-4 pt-2 text-xs text-brand-cyan" role="status">
-            Plus · {remaining} {t.premium.remaining}
+            {t.premium.activeLine(remaining)}
           </p>
         )}
 
@@ -958,8 +921,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               // in 45vh of empty dark, which left the product looking like a
               // demo. The height is now what the content needs, and the space
               // under the chips carries the terms instead of nothing: free, no
-              // signup, fifteen messages a day — stated once, before anyone
-              // invests a question in it.
+              // signup, the server's daily and hourly allowance — stated once,
+              // before anyone invests a question in it.
               <Empty className="gpt-intro">
                 <EmptyHeader className="gpt-intro-header">
                 <div className="gpt-mark" aria-hidden="true">
@@ -1024,7 +987,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   </p>
                 )}
                 <p className="mt-2 text-[12px] leading-relaxed text-white/35">
-                  {paid ? t.premium.manual : t.emptyMeta}
+                  {paid ? t.premium.manual : t.emptyMeta(freeLimits)}
                 </p>
               </Empty>
             ) : (
@@ -1044,8 +1007,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 locale={config.locale}
                 apiBase={config.apiBase}
                 sessionId={sessionId}
-                stage="b2b"
-                pricingHref={pricingHref}
                 onDismiss={onDismissOffer}
               />
             )}
@@ -1059,7 +1020,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   <button
                     type="button"
                     className="gpt-text-button"
-                    onClick={() => setAccountOpen((n) => n + 1)}
+                    onClick={() => openAccount("after_10")}
                   >
                     {t.premium.account}
                   </button>
@@ -1076,7 +1037,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {/* Composer */}
         <div className="gpt-composer shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
-            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{uz ? "Akkaunt holatini tekshiring." : "Проверьте состояние аккаунта."} <button type="button" className="gpt-text-button" onClick={() => { setAccountOpen(n => n + 1); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
+            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountCheck} <button type="button" className="gpt-text-button" onClick={() => { openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
             {limit && card && (
               // The limit card sits above the composer, which keeps the
               // refused question; sending waits for the time the server gave
@@ -1116,7 +1077,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                         type="button"
                         className="gpt-primary"
                         data-testid="limit-account"
-                        onClick={() => setAccountOpen((n) => n + 1)}
+                        onClick={() => openAccount("limit_card")}
                       >
                         {t.premium.account}
                       </button>
@@ -1150,18 +1111,32 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   aria-hidden="true"
                 />
                 <span>{t.lowWarning(remaining)}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAccountOpen((value) => value + 1);
-                    track(EV.viewPricing, { from: "low_limit" });
-                    track(EV.upgradeClick, { from: "low_limit" });
-                    track(EV.pricingClicked, { from: "low_limit" });
-                  }}
-                  className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline"
-                >
-                  {t.premium.account}
-                </button>
+                {/* The pack only while it can really be bought (F6). */}
+                {billingAvailable && (
+                  <button
+                    type="button"
+                    onClick={() => openAccount("low_limit")}
+                    className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline"
+                  >
+                    {t.premium.account}
+                  </button>
+                )}
+              </div>
+            )}
+            {!limit && !paid && !(remaining >= 0 && remaining <= 2) &&
+              hourLeft !== null && hourLeft > 0 && hourLeft <= HOUR_WARNING_AT && (
+              // The hourly cap is the one people meet (about twice a day):
+              // said before the refusal, in the same quiet line as above.
+              <div
+                className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron"
+                role="status"
+                data-testid="ai-hour-warning"
+              >
+                <span
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
+                  aria-hidden="true"
+                />
+                <span>{t.hourWarning(hourLeft)}</span>
               </div>
             )}
             {turnstileConfig?.required && turnstileConfig.siteKey && (

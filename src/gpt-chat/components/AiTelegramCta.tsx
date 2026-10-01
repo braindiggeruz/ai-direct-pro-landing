@@ -19,7 +19,7 @@ export function AiTelegramCta({
 }: {
   link: HandoffLink;
   label: string;
-  /** Funnel stage this click belongs to — the GA4 `stage` parameter. */
+  /** Where the button sits — the GA4 `from` parameter and the test id. */
   stage: string;
   variant: 'primary' | 'secondary';
   children?: ReactNode;
@@ -38,13 +38,9 @@ export function AiTelegramCta({
       target="_blank"
       rel="nofollow noopener noreferrer"
       data-testid={`telegram-cta-${stage}`}
-      onClick={() => {
-        track(EV.telegramHandoffClicked, { stage, channel: link.channel, withSession: link.withSession });
-        track(EV.telegramCtaClicked, { from: stage, channel: link.channel });
-        track(EV.telegramClicked, { from: stage });
-        track(EV.telegramClick, { from: stage });
-        track(EV.leadIntent, { from: stage });
-      }}
+      // One event per click: where it sat, where it goes, and whether the
+      // minted link carried the web conversation.
+      onClick={() => track(EV.telegramCtaClicked, { from: stage, channel: link.channel, with_session: link.withSession })}
       className={`${base} ${skin}`}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

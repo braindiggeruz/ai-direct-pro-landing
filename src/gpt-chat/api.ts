@@ -211,18 +211,3 @@ export async function sendLead(apiBase: string, payload: LeadPayload): Promise<L
     return { ok: false, code: 'network' };
   }
 }
-
-export interface SubscribeResult {
-  ok: boolean;
-  mode?: 'manual' | 'checkout';
-  checkoutUrl?: string | null;
-  message?: string;
-}
-
-export async function subscribe(apiBase: string, plan: 'plus' | 'business', sessionId: string | null): Promise<SubscribeResult> {
-  try {
-    return await postJson<SubscribeResult>(`${apiBase}/api/gpt/subscribe`, { plan, sessionId });
-  } catch {
-    return { ok: false };
-  }
-}

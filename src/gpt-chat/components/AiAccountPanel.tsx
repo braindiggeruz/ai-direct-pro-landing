@@ -6,9 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Sparkles, X, Check } from 'lucide-react';
 import type { Locale } from "../types";
 import type { ChatStrings } from "../i18n";
-import { validAccountView, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, allowedCheckoutUrl, type AccountView, type PaymentProvider } from "../types";
-import { track } from "../analytics";
+import { validAccountView, billingOpen, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, allowedCheckoutUrl, showsAccountPill, type AccountView, type PaymentProvider } from "../types";
+import { track, EV } from "../analytics";
 export type { AccountView } from "../types";
+
+/** Which button opened the window: the GA4 `from` of `pack_viewed`. */
+export type PackFrom = "header" | "limit_card" | "low_limit" | "after_10" | "account_check" | "login_failed";
+/** Ask the panel to open; a new `seq` is a new request. */
+export interface PackOpenRequest {
+  seq: number;
+  from: PackFrom;
+}
 
 /** Pause before the one retry of a failed account read. */
 const ACCOUNT_RETRY_MS = 1_500;
@@ -18,14 +26,14 @@ export function AiAccountPanel({
   apiBase,
   onAccount,
   refreshKey,
-  openRequest = 0,
+  openRequest,
 }: {
   t: ChatStrings;
   locale: Locale;
   apiBase: string;
   onAccount: (account: AccountView | null) => void;
   refreshKey: number;
-  openRequest?: number;
+  openRequest?: PackOpenRequest;
 }) {
   const [data, setData] = useState<AccountView | null>(null);
   const [error, setError] = useState(false);
@@ -76,12 +84,17 @@ export function AiAccountPanel({
       if (generation === refreshGeneration.current) setLoading(false);
     }
   }, [apiBase, onAccount]);
+  // One pack_viewed per opening, with the button that opened it.
+  const openPack = useCallback((from: PackFrom) => {
+    setOpen(true);
+    track(EV.packViewed, { from, locale });
+  }, [locale]);
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("login") === "failed") {
       setLoginFailed(true);
-      track("account_login_result", { status: "failed", locale });
-      setOpen(true);
+      track(EV.loginResult, { method: "telegram", status: "failed", locale });
+      openPack("login_failed");
       url.searchParams.delete("login");
       window.history.replaceState(null, "", url.href);
     }
@@ -89,7 +102,7 @@ export function AiAccountPanel({
     return () => {
       generation.current++;
     };
-  }, [locale]);
+  }, [locale, openPack]);
   useEffect(() => {
     void refresh();
   }, [refresh, refreshKey]);
@@ -101,8 +114,8 @@ export function AiAccountPanel({
     return () => window.removeEventListener("focus", focus);
   }, [refresh]);
   useEffect(() => {
-    if (openRequest) setOpen(true);
-  }, [openRequest]);
+    if (openRequest) openPack(openRequest.from);
+  }, [openRequest, openPack]);
   const pendingId = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment.id : null;
   useEffect(() => {
     if (!pendingId) return;
@@ -116,13 +129,10 @@ export function AiAccountPanel({
   }, [pendingId, refresh]);
   const currentTerms = data?.terms[locale];
   useEffect(() => { setTerms(false); }, [data?.termsVersion, currentTerms, data?.user?.storageKey, locale]);
-  useEffect(() => {
-    if (open) track("account_opened", { locale, surface: "chat" });
-  }, [open, locale]);
   const checkoutReady = !error && !loading && canStartCheckout(data, locale);
   const resumeReady = !error && !loading && canResumeCheckout(data, locale) && termsChanged !== data?.payment?.id;
   const termsUrl = safeTermsLink(data?.terms[locale]);
-  const billingAvailable = !!data?.mode && !!data.providers.length;
+  const billingAvailable = billingOpen(data);
   const post = async (path: string, body: unknown) => {
     const res = await fetch(`${apiBase}${path}`, {
       method: "POST",
@@ -143,14 +153,14 @@ export function AiAccountPanel({
       if (cause instanceof Error && cause.message === 'terms_changed') {
         setTerms(false);
         setTermsChanged(data?.payment?.id || 'offer_changed');
-        track("account_action_failed", { locale, code: "terms_changed" });
+        track(EV.accountActionFailed, { locale, code: "terms_changed" });
         await refresh();
         return;
       }
       setError(true);
       setData(null);
       onAccount(null);
-      track("account_action_failed", { locale, code: "request_failed" });
+      track(EV.accountActionFailed, { locale, code: "request_failed" });
     } finally {
       setBusy(false);
     }
@@ -178,31 +188,34 @@ export function AiAccountPanel({
       ) {
         const url = allowedCheckoutUrl(result.checkoutUrl);
         if (!url) throw new Error();
-        track(resume ? "checkout_resumed" : "checkout_started", { method: provider, locale, mode: data.mode || "unavailable" });
+        track(EV.checkoutStarted, { provider, resume, locale, mode: data.mode || "unavailable" });
         location.assign(url);
       } else await refresh();
     });
   const close = () => setOpen(false);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-      <Button variant="secondary"
-        type="button"
-        className="gpt-account-trigger"
-        onClick={() => setOpen(true)}
-        aria-label={copy.account}
-      >
-        <Sparkles data-icon="inline-start" />
-        <span className="gpt-account-full-label">{data?.access ? "Plus" : copy.account}</span>
-        <span className="gpt-account-short-label" aria-hidden="true">Plus</span>
-      </Button>
-      </DialogTrigger>
+    // Opening goes through openPack (the pill, a request from the chat, a
+    // failed login), so the Dialog itself only ever closes.
+    <Dialog open={open} onOpenChange={(next) => { if (!next) close(); }}>
+      {showsAccountPill(data) && (
+        <DialogTrigger asChild>
+        <Button variant="secondary"
+          type="button"
+          className="gpt-account-trigger"
+          onClick={() => openPack("header")}
+          data-testid="ai-account-trigger"
+        >
+          <Sparkles data-icon="inline-start" />
+          <span className="gpt-account-label">{data?.access ? copy.accountActive : copy.account}</span>
+        </Button>
+        </DialogTrigger>
+      )}
       <DialogContent
         showCloseButton={false}
         className="gpt-account-dialog ym-hide-content"
       >
         <div className="gpt-panel-top">
-          <Badge variant="secondary"><Sparkles data-icon="inline-start" /> GPTBot Plus{!billingAvailable && !data?.access ? (locale === "uz" ? " · Tez orada" : " · Скоро") : ""}</Badge>
+          <Badge variant="secondary"><Sparkles data-icon="inline-start" /> {t.brand}</Badge>
           <Button variant="ghost" size="icon-lg"
             type="button"
             className="gpt-icon-button"
@@ -216,19 +229,12 @@ export function AiAccountPanel({
           {data?.access ? copy.active : copy.title}
         </DialogTitle>
         <DialogDescription className="sr-only">{copy.benefits}</DialogDescription>
-        {loading && <p role="status">{locale === "uz" ? "Akkaunt holati tekshirilmoqda…" : "Проверяем состояние аккаунта…"}</p>}
-        {!loading && !data?.access && (
+        {loading && <p role="status">{copy.checking}</p>}
+        {/* A price only while the pack can really be bought (F6). */}
+        {!loading && billingAvailable && !data?.access && (
           <Card className="gpt-plan-card">
-            <CardHeader><Badge variant="outline">Plus</Badge><CardTitle className="gpt-price">{copy.price}</CardTitle></CardHeader>
-            <CardContent><ul className="gpt-plan-features">{(locale === 'uz' ? [
-              'Oyiga 300 ta javob. Soatiga 20 va kuniga 50 tagacha.',
-              'Uzilishlarda zaxira modellarga avtomatik o‘tish.',
-              'Telegram orqali kirib, boshqa qurilmada ham foydalanish.',
-            ] : [
-              '300 ответов в месяц. До 20 в час и 50 в день.',
-              'Автоматический переход на резервные модели при сбоях.',
-              'Доступ с разных устройств через вход в Telegram.',
-            ]).map(feature => <li key={feature}><Check aria-hidden="true" /><span>{feature}</span></li>)}</ul></CardContent>
+            <CardHeader><Badge variant="outline">{copy.account}</Badge><CardTitle className="gpt-price">{copy.price}</CardTitle></CardHeader>
+            <CardContent><ul className="gpt-plan-features">{copy.packFeatures.map(feature => <li key={feature}><Check aria-hidden="true" /><span>{feature}</span></li>)}</ul></CardContent>
             <CardFooter><p className="gpt-panel-note"><Check aria-hidden="true" className="inline size-3 mr-1" />{copy.manual}</p></CardFooter>
           </Card>
         )}
@@ -243,7 +249,7 @@ export function AiAccountPanel({
             {copy.loginFailed}
           </p>
         )}
-        {termsChanged && <p role="alert" className="gpt-notice">{locale === 'uz' ? 'To‘lov shartlari yangilandi. Kutilayotgan to‘lovni takrorlamang — avval holatini tekshiring.' : 'Условия оплаты обновились. Не повторяйте ожидающий платёж — сначала проверьте его статус.'}</p>}
+        {termsChanged && <p role="alert" className="gpt-notice">{copy.termsChanged}</p>}
         {data?.access && (
           <div className="gpt-access-summary">
             <strong>{data.access.remaining}</strong>
@@ -317,7 +323,7 @@ export function AiAccountPanel({
               onClick={() =>
                 void run(async () => {
                   if (!data?.loginAvailable || !consent) return;
-                  track("account_login_started", { method: "telegram", locale });
+                  track(EV.loginStarted, { method: "telegram", locale });
                   const result = await post("/api/gpt/auth/start", {
                     locale,
                     consent,
@@ -377,9 +383,9 @@ export function AiAccountPanel({
                 </div>
                 {data.payment?.provider && ['pending', 'prepared'].includes(data.payment.state) && (
                   <div className="gpt-panel-note">
-                    <p>{locale === 'uz' ? 'Bu mavjud hisobga qaytish. Yangi hisob yaratilmaydi.' : 'Возврат к существующему счёту. Новый счёт не создаётся.'}</p>
+                    <p>{copy.resumeNote}</p>
                     <button type="button" className="gpt-primary" disabled={busy || !terms || !resumeReady} onClick={() => { if (data.payment?.provider) void pay(data.payment.provider); }}>
-                      {locale === 'uz' ? 'Shu to‘lovni davom ettirish' : 'Продолжить этот платёж'}
+                      {copy.resume}
                     </button>
                   </div>
                 )}
@@ -419,7 +425,7 @@ export function AiAccountPanel({
                   setConsent(false);
                   setTerms(false);
                   onAccount(null);
-                  track("account_logout", { locale });
+                  track(EV.accountLogout, { locale });
                   await refresh();
                 })
               }
@@ -428,7 +434,7 @@ export function AiAccountPanel({
             </button>
           </>
         ))}
-        {billingAvailable && (!termsUrl || !data?.termsVersion?.trim()) && <p role="status">{locale === "uz" ? "To‘lov shartlari hali mavjud emas." : "Условия оплаты пока недоступны."}</p>}
+        {billingAvailable && (!termsUrl || !data?.termsVersion?.trim()) && <p role="status">{copy.termsMissing}</p>}
         {!loading && !data?.providers.length && (
           <p className="gpt-panel-note">{copy.unavailable}</p>
         )}
