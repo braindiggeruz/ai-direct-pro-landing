@@ -24,11 +24,13 @@ import { randomBytes } from 'node:crypto';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { ensureSchema } from '../functions/lib/gpt-chat/schema';
+import { ensureBillingSchema } from '../functions/lib/gpt-chat/billing-schema';
+import { freeChain, resolveConfig } from '../functions/lib/gpt-chat/config';
 import { handleUpdate } from '../functions/lib/telegram/handler';
 import { pseudoUser } from '../functions/lib/telegram/store';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { TelegramClient } from '../functions/lib/telegram/client';
-import { CHOOSE_LANG, HANDOFF_WELCOME, SITE_WELCOME, START } from '../functions/lib/telegram/i18n';
+import { CHOOSE_LANG, ERR_PROVIDER, HANDOFF_WELCOME, SITE_WELCOME, START } from '../functions/lib/telegram/i18n';
 import {
   buildArrivalAlert,
   claimWebHandoff,
@@ -518,4 +520,71 @@ test('message counts survive a missing session and a broken table', async () => 
   assert.deepEqual(await countSessionMessages(db.asD1(), 'sess_missing'), { total: 0, fromPerson: 0 });
   const broken = { prepare: () => ({ bind: () => ({ first: async () => { throw new Error('nope'); } }) }) } as unknown as D1Database;
   assert.deepEqual(await countSessionMessages(broken, 'sess_counts'), { total: 0, fromPerson: 0 });
+});
+
+// ── After the greeting: the bot answers (plan WP-08) ─────────────────────────
+// The greetings promise an answer, voice included. On the production schemas
+// (the bot's, the chat's and the billing ones its reply path bootstraps) the
+// first question is answered past a cooling model, and a reply that cannot be
+// made reaches the owner as an urgent bot alert.
+
+/** Bot API calls are recorded as before; OpenRouter answers with `reply`, or fails. */
+function installReplyFetch(calls: TgCall[], models: string[], reply: () => Response): () => void {
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = String(input);
+    const body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
+    if (new URL(url).host === 'openrouter.ai') {
+      models.push(String(body.model));
+      return reply();
+    }
+    calls.push({ method: url.split('/').pop() || '', body });
+    return new Response(JSON.stringify({ ok: true, result: { message_id: calls.length } }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }) as typeof globalThis.fetch;
+  return () => { globalThis.fetch = original; };
+}
+
+test('after a handoff the first question is answered past a cooling model; a reply that cannot be made pages the owner', async () => {
+  const db = await database();
+  const env = { GPTBOT_DRAFTS_DB: db.asD1() };
+  const [head, second] = freeChain(resolveConfig(NOTIFY_ENV as never));
+  await ensureBillingSchema(db.asD1());
+  db.sqlite
+    .prepare("INSERT INTO gpt_model_health(org_id, model, blocked_until, code) VALUES ('gptbot-consumer', ?, ?, 'model_unavailable')")
+    .run(head, Date.now() + 3_600_000);
+  const calls: TgCall[] = [];
+  const models: string[] = [];
+  const answer = 'Albatta, ertaga gaplashamiz. Sizga qaysi vaqt qulay?';
+  let restore = installReplyFetch(calls, models, () => Response.json({ choices: [{ message: { content: answer } }] }));
+  try {
+    await handleUpdate(deps(db, env), startUpdate(await mint(db, { locale: 'uz' })));
+    calls.length = 0;
+    const question = { update_id: 900_001, message: { chat: { id: USER_CHAT, type: 'private' }, from: { id: USER_CHAT, language_code: 'uz' }, text: 'Salom! Uchrashuvni boshqa kunga ko‘chirsak bo‘ladimi?' } } as never;
+    assert.equal(await handleUpdate(deps(db, env), question), 'done');
+    assert.deepEqual(models, [second], 'the cooling head takes no request');
+    assert.ok(toUser(calls).some((c) => c.body.text === answer));
+    assert.equal(db.value("SELECT COUNT(*) FROM telegram_events WHERE event = 'javob_reply_generated'"), 1);
+  } finally { restore(); }
+
+  // Now every model is cooling: the person hears back, the owner is paged once.
+  db.sqlite
+    .prepare("INSERT OR REPLACE INTO gpt_model_health(org_id, model, blocked_until, code) SELECT 'gptbot-consumer', value, ?, 'rate_limit' FROM json_each(?)")
+    .run(Date.now() + 3_600_000, JSON.stringify(freeChain(resolveConfig(NOTIFY_ENV as never))));
+  calls.length = 0;
+  models.length = 0;
+  restore = installReplyFetch(calls, models, () => new Response('', { status: 500 }));
+  try {
+    const again = { update_id: 900_002, message: { chat: { id: USER_CHAT, type: 'private' }, from: { id: USER_CHAT, language_code: 'uz' }, text: 'Salom! Ertaga soat nechada gaplashamiz?' } } as never;
+    assert.equal(await handleUpdate(deps(db, env), again), 'failed:models_cooling');
+    assert.deepEqual(models, []);
+    assert.ok(toUser(calls).some((c) => c.body.text === ERR_PROVIDER.uz));
+    assert.equal(db.value("SELECT code FROM gpt_service_alerts WHERE code LIKE 'bot_%'"), 'bot_models_cooling');
+    const paged = toOwner(calls).map((c) => String(c.body.text));
+    assert.equal(paged.length, 1);
+    assert.match(paged[0], /bot_models_cooling — бот @gptbotuz_bot/);
+    assert.ok(!paged[0].includes('Ertaga'), 'the alert carries no message text');
+  } finally { restore(); }
 });

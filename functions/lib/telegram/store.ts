@@ -22,14 +22,31 @@ export async function pseudoUser(userId: number, cfg: HashSalt, now = Date.now()
   return salt ? saltedPseudo(salt, legacy) : legacy;
 }
 
-// ── Updates (dedupe) ─────────────────────────────────────────────────────
+// ── Updates (dedupe + outcome) ───────────────────────────────────────────
+/**
+ * How an update ended: 'done', or 'failed:<code>' when the person got an
+ * error instead of what they asked for (handler.ts). A claimed update stays
+ * 'processing' until then, so one the 30 s waitUntil cut off is visible too:
+ * the watchdog counts both (watchdog-store.ts bot_silent). Rows from before
+ * 2026-10 say 'ok'.
+ */
+export type UpdateOutcome = 'done' | `failed:${string}`;
+
 /** Returns true if this update_id is NEW (should be processed). */
 export async function claimUpdate(db: D1Database, updateId: number): Promise<boolean> {
   const res = await db
     .prepare('INSERT OR IGNORE INTO telegram_updates (update_id, processed_at, status) VALUES (?,?,?)')
-    .bind(updateId, nowIso(), 'ok')
+    .bind(updateId, nowIso(), 'processing')
     .run();
   return (res.meta?.changes ?? 0) > 0;
+}
+
+/** Record how a claimed update ended. Only a 'processing' row changes, so a replay cannot rewrite it. */
+export async function finishUpdate(db: D1Database, updateId: number, outcome: UpdateOutcome): Promise<void> {
+  await db
+    .prepare("UPDATE telegram_updates SET status = ? WHERE update_id = ? AND status = 'processing'")
+    .bind(outcome.slice(0, 64), updateId)
+    .run();
 }
 
 // ── Users ────────────────────────────────────────────────────────────────

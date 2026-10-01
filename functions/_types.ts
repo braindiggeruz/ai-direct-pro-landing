@@ -414,7 +414,10 @@ export interface Env extends FirecrawlEnvironment {
   BORMI_ADMIN_V2_ENABLED?: string;
   /** R2 bucket holding seller-uploaded product images. */
   MARKET_MEDIA?: R2Bucket;
-  TELEGRAM_FREE_DAILY_LIMIT?: string;   // default 20 (superseded by plan config for Javob)
+  // Javob's free replies a day / a month (public, packed runtime config):
+  // 10 / 100 in wrangler.toml; unset or invalid = the plans row 'free'.
+  TELEGRAM_FREE_DAILY_LIMIT?: string;
+  TELEGRAM_FREE_MONTHLY_LIMIT?: string;
   TELEGRAM_MAX_INPUT_CHARS?: string;    // default 4000
   TELEGRAM_MAX_OUTPUT_CHARS?: string;   // default 3000
   TELEGRAM_ITEM_TTL_HOURS?: string;     // default 24 (source-text retention)

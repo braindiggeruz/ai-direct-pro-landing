@@ -1,10 +1,13 @@
 // GPTBot Javob — tests for the Zero-Prompt Reply Engine, usage ledger,
-// billing scaffolding and safety validation.
+// billing scaffolding and safety validation, and plan WP-08: the reply path
+// after the model-health filter, one deadline inside waitUntil, bot alerts and
+// update outcomes, free limits by the Tashkent day, no price or payment link
+// anywhere in the bot (D11) and the server-side profile endpoint.
 // Run: node --import tsx --test tests/telegram-assistant.test.ts
 //
 // No real network: global fetch is mocked for BOTH Telegram Bot API and the
 // OpenRouter provider; D1 is an in-memory fake that understands exactly the
-// SQL the stores issue.
+// SQL the stores issue (migration 0067 runs on real SQLite).
 /* eslint-disable @typescript-eslint/no-explicit-any -- test doubles */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -16,10 +19,16 @@ import { classifyMessage } from '../functions/lib/telegram/classify';
 import { validateReply, validateModifier } from '../functions/lib/telegram/validator';
 import { resolveTelegramConfig, isProtectedBotUsername, telegramConfigured } from '../functions/lib/telegram/config';
 import { localeFromCode, isForward, handleUpdate } from '../functions/lib/telegram/handler';
-import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, limitKeyboard, plansText } from '../functions/lib/telegram/i18n';
+import * as C from '../functions/lib/telegram/i18n';
+import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, plansText } from '../functions/lib/telegram/i18n';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
 import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
-import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
+import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, tashkentPeriodStarts, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
+import { runJavobValidated } from '../functions/lib/telegram/service';
+import { buildJavobReplyPrompt } from '../functions/lib/telegram/prompts';
+import { JAVOB_PROFILE } from '../functions/lib/telegram/bot-profile';
+import { onRequestPost as javobSetup } from '../functions/api/internal/javob-setup';
+import { SqliteD1 } from './helpers/sqlite-d1';
 import { buildAnalysisPrompt, TAHLIL_PROMPT_VERSION } from '../functions/lib/telegram/analysis-prompt';
 import { sanitizeAnalysis, groundAnalysisTimestamps, isLieDetectionQuestion, harmfulUseCategory, TAHLIL_CONSENT_VERSION } from '../functions/lib/telegram/analysis';
 import { formatAnalysisReport } from '../functions/lib/telegram/analysis-report';
@@ -58,7 +67,10 @@ test('assistant endpoint is POST-only and rejects missing or wrong secret header
 
   assert.equal((await call()).status, 401);
   assert.equal((await call('wrong-secret')).status, 401);
+  assert.equal((await call('expected-secreX')).status, 401);
   assert.equal((await call('expected-secret')).status, 200);
+  const source = fs.readFileSync('functions/api/telegram/assistant.ts', 'utf8');
+  assert.match(source, /sameSecret\(got, cfg\.webhookSecret\)/, 'compared in constant time');
 });
 
 test('setup guard refuses aidirectprobot', () => {
@@ -68,8 +80,11 @@ test('setup guard refuses aidirectprobot', () => {
   const script = fs.readFileSync('scripts/telegram-setup.ts', 'utf8');
   assert.match(script, /guardProtectedBot\(username\)/);
   assert.match(script, /--i-know-this-kills-the-lead-bot/);
-  assert.match(script, /голосовое/);
-  assert.match(script, /ovozli/);
+  // The script and POST /api/internal/javob-setup apply one profile.
+  assert.match(script, /JAVOB_PROFILE\[''\]\.commands/);
+  assert.match(script, /JAVOB_PROFILE\.uz\.commands/);
+  assert.match(JAVOB_PROFILE[''].description, /голосовое/);
+  assert.match(JAVOB_PROFILE.uz.description, /ovozli/);
 });
 
 test('voice onboarding and privacy copy make the product boundary explicit', () => {
@@ -258,18 +273,31 @@ test('clarify/feedback/lang/limit keyboards shape', () => {
   assert.ok(clarifyKeyboard('uz', id).flat().some((b) => b.callback_data === `ctx:manager:${id}`));
   assert.equal(feedbackKeyboard('ru', 'r1').flat().length, 3);
   assert.equal(langKeyboard()[0][0].callback_data, 'lang:ru');
-  assert.match(limitKeyboard('ru')[0][0].url!, /tarify-ai-chat/);
 });
 
-test('plansText renders the catalog without the word безлимит', () => {
-  const txt = plansText('ru', [
-    { code: 'free', name_ru: 'Free', name_uz: 'Free', price_uzs: 0, billing_type: 'none', monthly_limit: 30, daily_limit: 3, duration_hours: null },
-    { code: 'day_pass', name_ru: 'Day Pass', name_uz: 'Day Pass', price_uzs: 2900, billing_type: 'one_time', monthly_limit: 25, daily_limit: null, duration_hours: 24 },
-    { code: 'plus', name_ru: 'Plus', name_uz: 'Plus', price_uzs: 24900, billing_type: 'monthly', monthly_limit: 250, daily_limit: null, duration_hours: null },
-  ]);
-  assert.match(txt, /Day Pass/);
-  assert.match(txt, /24[\s\u00A0]900/); // ru-RU NBSP thousands separator
-  assert.ok(!/безлимит/i.test(txt));
+// D11: Telegram allows digital goods in a bot only for Stars.
+const PRICE = /\d[\d\s\u00a0]*\s?(UZS|сум|so[‘'`ʻ]?m)/i;
+const PAID_WORDS = /Plus|Day Pass|\bPro\b|obuna|подписк|тариф|tarif|оплатит|to‘lov qiling/i;
+const LINK = /https?:|t\.me\/(?!share)|gptbot\.uz\//i;
+
+test('plansText: the free limit and when it turns, no price, no paid plan, no link', () => {
+  for (const locale of ['ru', 'uz'] as const) {
+    for (const text of [plansText(locale, { daily: 10, monthly: 100 }, 7), plansText(locale, null, null)]) {
+      assert.match(text, /00:00/);
+      assert.ok(!PRICE.test(text), text);
+      assert.ok(!PAID_WORDS.test(text), text);
+      assert.ok(!LINK.test(text), text);
+      assert.ok(!/безлимит/i.test(text));
+    }
+  }
+  const ru = plansText('ru', { daily: 10, monthly: 100 }, 7);
+  assert.match(ru, /10 ответов в день, до 100 в месяц/);
+  assert.match(ru, /Сегодня осталось ответов: 7\./);
+  assert.match(plansText('uz', { daily: 10, monthly: 100 }, 7), /kuniga 10 ta javob, oyiga 100 tagacha/);
+  assert.ok(!/осталось/.test(plansText('ru', { daily: 10, monthly: 100 }, null)), 'no count outside the free tier');
+  for (const [n, word] of [[1, 'ответ'], [3, 'ответа'], [5, 'ответов'], [11, 'ответов'], [21, 'ответ'], [22, 'ответа']] as const) {
+    assert.match(plansText('ru', { daily: n, monthly: 100 }, null), new RegExp(`Бесплатно: ${n} ${word} в день`));
+  }
 });
 
 test('localeFromCode + isForward', () => {
@@ -295,6 +323,8 @@ function makeD1() {
     users: [] as any[], items: [] as any[], results: [] as any[], updates: [] as any[],
     events: [] as any[], ledger: [] as any[], ents: [] as any[], analyses: [] as any[],
     platformEvents: [] as any[],
+    // gpt_* tables the reply path reads and writes (WP-08).
+    health: [] as any[], alerts: [] as any[], spend: [] as any[],
     subs: [] as any[], orders: [] as any[], txs: [] as any[], prefs: [] as any[], refs: [] as any[],
     plans: [
       { code: 'free', name_ru: 'Free', name_uz: 'Free', price_uzs: 0, billing_type: 'none', duration_hours: null, monthly_limit: 30, daily_limit: 3, features_json: null, is_active: 1, display_order: 1 },
@@ -322,7 +352,26 @@ function makeD1() {
     }
     if (/INSERT OR IGNORE INTO telegram_updates/.test(sql)) {
       if (t.updates.some((u) => u.update_id === a[0])) return { meta: { changes: 0 } };
-      t.updates.push({ update_id: a[0] }); return { meta: { changes: 1 } };
+      t.updates.push({ update_id: a[0], processed_at: a[1], status: a[2] }); return { meta: { changes: 1 } };
+    }
+    if (/UPDATE telegram_updates SET status = \? WHERE update_id = \? AND status = 'processing'/.test(sql)) {
+      const u = t.updates.find((x) => x.update_id === a[1] && x.status === 'processing');
+      if (u) u.status = a[0];
+      return { meta: { changes: u ? 1 : 0 } };
+    }
+    if (/INSERT INTO gpt_model_health/.test(sql)) {
+      const h = t.health.find((x) => x.org_id === a[0] && x.model === a[1]);
+      if (h) { h.blocked_until = Math.max(h.blocked_until, a[2]); h.code = a[3]; } else t.health.push({ org_id: a[0], model: a[1], blocked_until: a[2], code: a[3] });
+      return { meta: { changes: 1 } };
+    }
+    if (/INSERT OR IGNORE INTO gpt_service_alerts/.test(sql)) {
+      if (t.alerts.some((x) => x.id === a[1])) return { meta: { changes: 0 } };
+      t.alerts.push({ org_id: a[0], id: a[1], code: a[2], created_at: a[3] }); return { meta: { changes: 1 } };
+    }
+    if (/UPDATE gpt_model_spend SET reserved_micro/.test(sql)) {
+      const row = t.spend.find((x) => x.org_id === a[2] && x.day === a[3] && x.bucket === a[4]);
+      if (row) { row.reserved_micro = Math.max(0, row.reserved_micro - a[0]); row.actual_micro += a[1]; }
+      return { meta: { changes: row ? 1 : 0 } };
     }
     if (/INSERT INTO telegram_users/.test(sql)) { t.users.push({ telegram_user_id: a[0], locale: a[1], daily_usage_count: 0, daily_usage_date: a[4], total_actions: 0 }); return { meta: { changes: 1 } }; }
     if (/UPDATE telegram_users SET last_seen_at/.test(sql)) return { meta: { changes: 1 } };
@@ -414,6 +463,19 @@ function makeD1() {
       return { c: t.ledger.filter((l) => l.telegram_user_id === a[0] && l.usage_type === a[1] && l.created_at >= a[2]).length };
     }
     if (/usage_type = 'modifier'/.test(sql)) { return { c: t.ledger.filter((l) => l.telegram_user_id === a[0] && l.item_id === a[1] && l.usage_type === 'modifier').length }; }
+    // ModelSpendStore.reserve: one upsert that refuses to pass the cap.
+    if (/INSERT INTO gpt_model_spend/.test(sql)) {
+      const [org, day, bucket, micro, , cap] = a;
+      const row = t.spend.find((x) => x.org_id === org && x.day === day && x.bucket === bucket);
+      if (!row) {
+        if (micro > cap) return null;
+        t.spend.push({ org_id: org, day, bucket, reserved_micro: micro, actual_micro: 0, attempts: 1 });
+        return { reserved_micro: micro };
+      }
+      if (row.reserved_micro + micro > a[6]) return null;
+      row.reserved_micro += micro; row.attempts += 1;
+      return { reserved_micro: row.reserved_micro };
+    }
     return null;
   }
   function all(sql: string, a: any[]) {
@@ -428,6 +490,9 @@ function makeD1() {
     }
     if (/FROM plans/.test(sql)) {
       return { results: t.plans };
+    }
+    if (/SELECT model FROM gpt_model_health WHERE org_id=\? AND blocked_until>\?/.test(sql)) {
+      return { results: t.health.filter((h) => h.org_id === a[0] && h.blocked_until > a[1]).map((h) => ({ model: h.model })) };
     }
     return { results: [] };
   }
@@ -461,6 +526,12 @@ interface Rec {
   analysisResults?: any[];
   analysisBodies?: any[];
   analysisFail?: boolean;
+  /** HTTP status a model answers with instead of a reply. */
+  aiFail?: Record<string, number>;
+  /** The reply request never answers; it ends only when its signal aborts. */
+  aiHang?: boolean;
+  /** Milliseconds before every reply. */
+  aiDelayMs?: number;
 }
 function installFetch(rec: Rec) {
   (globalThis as any).fetch = async (url: string | URL, init?: any) => {
@@ -501,9 +572,15 @@ function installFetch(rec: Rec) {
         };
         return jsonRes({ choices: [{ message: { content: JSON.stringify(value) } }], usage: { prompt_tokens: 50, completion_tokens: 100 } });
       }
+      rec.models = [...(rec.models ?? []), body.model];
+      const failStatus = rec.aiFail?.[body.model];
+      if (failStatus) return new Response('{}', { status: failStatus, headers: { 'content-type': 'application/json' } });
+      if (rec.aiHang) {
+        return new Promise((_, reject) => init.signal.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError'))));
+      }
+      if (rec.aiDelayMs) await new Promise((resolve) => setTimeout(resolve, rec.aiDelayMs));
       const reply = rec.aiReplies?.[rec.ai] ?? 'Rahmat! Buyurtmangiz yo‘lda, tez orada yetkazamiz.';
       rec.ai++;
-      rec.models = [...(rec.models ?? []), body.model];
       return jsonRes({ choices: [{ message: { content: reply } }], usage: { prompt_tokens: 5, completion_tokens: 5 } });
     }
     return jsonRes({ ok: false });
@@ -654,7 +731,7 @@ test('input too long → limit explanation, nothing stored', async () => {
 
 // ═══ Usage / plans ═════════════════════════════════════════════════════════
 
-test('free tier: 3/day limit blocks the 4th and offers plans', async () => {
+test('free tier: the catalogue fallback (3/day) blocks the 4th and says when it comes back, with nothing to buy', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY, RU_REPLY, RU_REPLY, RU_REPLY] }; installFetch(rec);
   const d = deps(db);
@@ -667,17 +744,23 @@ test('free tier: 3/day limit blocks the 4th and offers plans', async () => {
   assert.equal(rec.ai, 3, 'no AI after daily cap');
   const limitMsg = rec.tg.find((c) => c.method === 'sendMessage');
   assert.match(limitMsg.body.text, /лимит/i);
+  assert.match(limitMsg.body.text, /00:00 по Ташкенту/);
+  assert.equal(limitMsg.body.reply_markup, undefined, 'no button to a pricing page');
+  assert.ok(!PRICE.test(limitMsg.body.text) && !PAID_WORDS.test(limitMsg.body.text));
   assert.ok((db as any)._t.events.some((e: any) => e.event === 'javob_limit_reached'));
 });
 
-test('free tier limits come from the plan catalog', async () => {
+const NO_CONFIG = { daily: null, monthly: null };
+
+test('free tier limits fall back to the plan catalog when TELEGRAM_FREE_* is unset', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   (db as any)._t.plans.find((p: any) => p.code === 'free').daily_limit = 1;
-  assert.equal((await decideUsage(db, 140)).allowed, true);
+  assert.equal((await decideUsage(db, 140, NO_CONFIG)).allowed, true);
   await consumeUsage(db, 140, 'main_generation', 'gen:catalog-1');
-  const after = await decideUsage(db, 140);
+  const after = await decideUsage(db, 140, NO_CONFIG);
   assert.equal(after.allowed, false);
   assert.equal(after.reason, 'daily');
+  assert.deepEqual(after.freeLimits, { daily: 1, monthly: 30 });
 });
 
 test('usage ledger is idempotent by key', async () => {
@@ -692,7 +775,7 @@ test('usage ledger is idempotent by key', async () => {
 test('day pass entitlement: grants 25, consumed first, expiry falls back to free', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   await grantEntitlement(db, 21, 25, 24, 'order:day_pass', 'order_1');
-  const dec = await decideUsage(db, 21);
+  const dec = await decideUsage(db, 21, NO_CONFIG);
   assert.equal(dec.allowed, true);
   assert.equal(dec.planCode, 'day_pass');
   assert.equal(dec.remainingPeriod, 25);
@@ -703,14 +786,14 @@ test('day pass entitlement: grants 25, consumed first, expiry falls back to free
   assert.equal((db as any)._t.ents.length, 1);
   // expire it
   (db as any)._t.ents[0].expires_at = new Date(Date.now() - 1000).toISOString();
-  const after = await decideUsage(db, 21);
+  const after = await decideUsage(db, 21, NO_CONFIG);
   assert.equal(after.planCode, 'free');
 });
 
 test('plus entitlement: 250/period via subscription grant', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   await grantEntitlement(db, 22, 250, 24 * 30, 'subscription:plus', 'sub_1');
-  const dec = await decideUsage(db, 22);
+  const dec = await decideUsage(db, 22, NO_CONFIG);
   assert.equal(dec.planCode, 'plus');
   assert.equal(dec.remainingPeriod, 250);
 });
@@ -736,7 +819,10 @@ test('invented price in AI output → one retry, then fail closed (never sent)',
   const sends = rec.tg.filter((c) => c.method === 'sendMessage');
   assert.ok(sends.every((s) => !/50000|45000/.test(s.body.text)), 'invented price never reaches the user');
   assert.match(sends[0].body.text, /не удалось/i);
-  assert.ok((db as any)._t.events.some((e: any) => e.event === 'javob_reply_failed'));
+  const failed = (db as any)._t.events.find((e: any) => e.event === 'javob_reply_failed');
+  // Only the validator's codes: their detail quotes the answer.
+  assert.deepEqual(JSON.parse(failed.meta_json), { locale: 'ru', code: 'validation_failed', issues: 'invented_number,invented_fact' });
+  assert.ok(!/50000|45000|сум/.test(failed.meta_json));
 });
 
 test('clean grounded answer passes validation first try', async () => {
@@ -773,15 +859,17 @@ test('feedback callback enforces result ownership', async () => {
   assert.ok(!(db as any)._t.events.some((e: any) => e.event === 'javob_feedback_submitted' && e.meta_json.includes(resultId)));
 });
 
-test('/delete_me wipes user rows; /plans shows catalog', async () => {
+test('/delete_me wipes user rows; /plans shows the free limit, not the catalogue', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
   const d = deps(db);
   await handleUpdate(d, { update_id: 80, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: 'Вопрос про оплату заказа', forward_date: 1 } } as any);
   await handleUpdate(d, { update_id: 81, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/plans' } } as any);
   const plansMsg = rec.tg.filter((c) => c.method === 'sendMessage').pop();
-  assert.match(plansMsg.body.text, /Day Pass/);
-  assert.ok(!/Pro/.test(plansMsg.body.text), 'inactive plans hidden');
+  // The catalogue fallback (3 a day, 30 a month): one reply used.
+  assert.match(plansMsg.body.text, /3 ответа в день, до 30 в месяц/);
+  assert.match(plansMsg.body.text, /Сегодня осталось ответов: 2\./);
+  assert.ok(!PRICE.test(plansMsg.body.text) && !PAID_WORDS.test(plansMsg.body.text) && !LINK.test(plansMsg.body.text));
   const t = (db as any)._t;
   t.ents.push({ id: 'ent', telegram_user_id: 18 });
   t.subs.push({ id: 'sub', telegram_user_id: 18 });
@@ -1009,7 +1097,7 @@ test('voice checks main-generation quota before Telegram download and STT', asyn
 
 // ═══ GPTBot Tahlil P0 ═══════════════════════════════════════════════════════
 
-test('Tahlil first-use consent → structured report → cached questions/paywall → delete', async () => {
+test('Tahlil first-use consent → structured report → cached questions, no offer → delete', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const transcript = 'Товар точно на складе. Доставим примерно в четверг, но наличие нужно уточнить.';
   const rec: Rec = {
@@ -1054,6 +1142,7 @@ test('Tahlil first-use consent → structured report → cached questions/paywal
   assert.match(reportSend.body.text, /Можете подтвердить наличие|гарантированный срок/i, 'top verification questions are immediately actionable');
   assert.ok(reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_questions:${itemId}`));
   assert.ok(reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => b.callback_data === `analysis_feedback:useful:${itemId}`));
+  assert.ok(!reportSend.body.reply_markup.inline_keyboard.flat().some((b: any) => /analysis_details|pay/.test(b.callback_data ?? '')), 'no «Подробнее» offer');
 
   await handleUpdate(d, { update_id: 203, callback_query: { id: 'cq-questions', from: { id: 200 }, data: `analysis_questions:${itemId}`, message: { chat: { id: 200 }, message_id: 12 } } } as any);
   assert.equal(rec.analysisAi, 1, 'stored questions do not call LLM');
@@ -1067,13 +1156,14 @@ test('Tahlil first-use consent → structured report → cached questions/paywal
   assert.equal(rec.analysisAi, 1, 'negative feedback does not call the analysis provider');
   assert.ok(t.events.some((x: any) => x.event === 'analysis_rated_useless'));
 
+  // Buttons of reports sent before D11: no price, no payment, no intent row.
   await handleUpdate(d, { update_id: 204, callback_query: { id: 'cq-details', from: { id: 200 }, data: `analysis_details:${itemId}`, message: { chat: { id: 200 }, message_id: 13 } } } as any);
-  assert.ok(rec.tg.some((x) => x.method === 'sendMessage' && /4[\s\u00a0]?900/.test(x.body.text)));
-  assert.ok(t.events.some((x: any) => x.event === 'paywall_shown'));
   await handleUpdate(d, { update_id: 205, callback_query: { id: 'cq-pay', from: { id: 200 }, data: `analysis_pay_intent:${itemId}`, message: { chat: { id: 200 }, message_id: 14 } } } as any);
+  assert.ok(!rec.tg.some((x) => x.method === 'sendMessage' && (/4[\s\u00a0]?900|Day Pass/.test(x.body.text))));
+  assert.equal(rec.tg.filter((x) => x.method === 'sendMessage' && x.body.text === C.ANALYSIS_NO_DETAILS.ru).length, 2);
   assert.equal(t.orders.length, 0);
   assert.equal(t.ents.length, 0);
-  assert.ok(t.events.some((x: any) => x.event === 'payment_intent'));
+  assert.ok(!t.events.some((x: any) => x.event === 'payment_intent' || x.event === 'paywall_shown'));
 
   t.items[0].transcript_segments_json = JSON.stringify([{ start: 0, end: 18, text: transcript }]);
   await handleUpdate(d, { update_id: 206, callback_query: { id: 'cq-cached', from: { id: 200 }, data: `analyze:${itemId}`, message: { chat: { id: 200 }, message_id: 15 } } } as any);
@@ -1095,7 +1185,7 @@ test('Tahlil first-use consent → structured report → cached questions/paywal
   }
 });
 
-test('Tahlil quota is separate, one successful analysis per UTC day', async () => {
+test('Tahlil quota is separate, one successful analysis per Tashkent day', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const rec: Rec = { tg: [], ai: 0, analysisAi: 0 }; installFetch(rec);
   const d = deps(db);
@@ -1151,4 +1241,391 @@ test('Tahlil fixed boundary and harmful-use refusal bypass the reply LLM', async
   assert.ok(harmful);
   assert.match(harmful.meta_json, /legal/);
   assert.ok(!harmful.meta_json.includes('доказательство'));
+});
+
+// ═══ WP-08: the reply path, deadline, alerts and outcomes ════════════════════
+
+const HOUR = 3_600_000;
+const ORG = 'gptbot-consumer';
+const FREE = ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free'];
+/** The bot with D1 bound, as in production: model health, spend and alerts are read and written. */
+const withDb = (db: any, over: any = {}) => deps(db, { GPTBOT_DRAFTS_DB: db, ...over });
+const cool = (db: any, ...models: string[]) => {
+  for (const model of models) db._t.health.push({ org_id: ORG, model, blocked_until: Date.now() + HOUR, code: 'model_unavailable' });
+};
+const voiceUpdate = (id: number, chat: number) => ({
+  update_id: id,
+  message: { chat: { id: chat, type: 'private' }, from: { id: chat, language_code: 'ru' }, voice: { file_id: `voice-${id}`, duration: 12, file_size: 4 } },
+}) as any;
+const textUpdate = (id: number, chat: number, text = 'Добрый день! Можно перенести встречу на другой день?') => ({
+  update_id: id,
+  message: { chat: { id: chat, type: 'private' }, from: { id: chat, language_code: 'ru' }, text },
+}) as any;
+const sent = (rec: Rec) => rec.tg.filter((c) => c.method === 'sendMessage').map((c) => c.body);
+const failures = (db: any) => db._t.events.filter((e: any) => e.event === 'javob_reply_failed').map((e: any) => JSON.parse(e.meta_json));
+
+test('voice: cooling models take none of its two attempts; the next live one answers (the 2026-09-15 outage)', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  // The site keeps the head of the chain cooling, as it kept the retired
+  // MiniMax. Two cooling heads: a cut of the chain before the health filter
+  // (the old maxModels) would leave the voice path nothing to ask.
+  cool(db, FREE[0], FREE[1]);
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY], sttText: 'Здравствуйте, можно перенести встречу на четверг?', sttLanguage: 'russian' };
+  installFetch(rec);
+  const outcome = await handleUpdate(withDb(db, { GROQ_API_KEY: 'groq-test' }), voiceUpdate(300, 300));
+  assert.equal(outcome, 'done');
+  assert.deepEqual(rec.models, [FREE[2]]);
+  assert.ok(sent(rec).some((m) => m.text === RU_REPLY));
+  assert.ok(db._t.events.some((e: any) => e.event === 'voice_reply_generated'));
+  assert.equal(db._t.alerts.length, 0);
+});
+
+test('voice: at most two model requests, counted after the health filter', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, sttText: 'Здравствуйте, можно перенести встречу на четверг?', sttLanguage: 'russian', aiFail: { [FREE[0]]: 429, [FREE[1]]: 429 } };
+  installFetch(rec);
+  const outcome = await handleUpdate(withDb(db, { GROQ_API_KEY: 'groq-test' }), voiceUpdate(301, 301));
+  assert.deepEqual(rec.models, [FREE[0], FREE[1]], 'the third model is never asked on the voice path');
+  assert.equal(outcome, 'failed:rate_limit');
+  assert.deepEqual(failures(db), [{ locale: 'ru', code: 'rate_limit' }]);
+  assert.ok(sent(rec).some((m) => m.text === C.ERR_PROVIDER.ru));
+  // Both 429s cooled their model down for a minute, as on the site.
+  assert.deepEqual(db._t.health.map((h: any) => [h.model, h.code]), [[FREE[0], 'rate_limit'], [FREE[1], 'rate_limit']]);
+  // A single rate limit is background for the owner; the watchdog watches the pattern.
+  assert.deepEqual(db._t.alerts.map((a: any) => a.code), ['bot_rate_limit']);
+});
+
+test('every model cooling: models_cooling without a request, the friendly error, one bot alert an hour', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  cool(db, ...FREE);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  const first = await handleUpdate(withDb(db), textUpdate(310, 310));
+  const second = await handleUpdate(withDb(db), textUpdate(311, 311));
+  assert.deepEqual([first, second], ['failed:models_cooling', 'failed:models_cooling']);
+  assert.equal(rec.models, undefined, 'no request is sent');
+  const errors = rec.tg.filter((c) => c.method === 'sendMessage' && c.body.text === C.ERR_PROVIDER.ru);
+  assert.equal(errors.length, 2);
+  const buttons = errors[0].body.reply_markup.inline_keyboard.flat().map((b: any) => b.callback_data);
+  assert.ok(buttons.some((b: string) => b.startsWith('retry:')) && buttons.some((b: string) => b.startsWith('restart:')));
+  assert.deepEqual(failures(db).map((f: any) => f.code), ['models_cooling', 'models_cooling']);
+  // One row per code per hour (gpt_service_alerts id), and it pages: nothing answers.
+  assert.equal(db._t.alerts.length, 1);
+  assert.equal(db._t.alerts[0].code, 'bot_models_cooling');
+  assert.equal(db._t.alerts[0].id, `bot_models_cooling:${Math.floor(db._t.alerts[0].created_at / HOUR)}`);
+});
+
+test('a refused request is not a service failure: no bot alert', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, aiFail: { [FREE[0]]: 403, [FREE[1]]: 403, [FREE[2]]: 403 } }; installFetch(rec);
+  assert.equal(await handleUpdate(withDb(db), textUpdate(320, 320)), 'failed:content_refused');
+  assert.deepEqual(failures(db).map((f: any) => f.code), ['content_refused']);
+  assert.equal(db._t.alerts.length, 0);
+  assert.equal(db._t.health.length, 0, 'a refused request cools nothing down');
+});
+
+test('one deadline: nothing starts past it, a hanging model ends in time, a retry that does not fit fails closed', async () => {
+  // 24.5 s of the 25 s are gone: no model request at all.
+  {
+    const db = makeD1(); await ensureTelegramSchema(db);
+    const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+    const outcome = await handleUpdate({ ...withDb(db), receivedAt: Date.now() - 24_500 }, textUpdate(330, 330));
+    assert.equal(outcome, 'failed:timeout');
+    assert.equal(rec.models, undefined);
+    assert.ok(sent(rec).some((m) => m.text === C.ERR_PROVIDER.ru), 'the person still hears back');
+  }
+  // 2 s left and the model hangs: the request is aborted at the deadline.
+  {
+    const db = makeD1(); await ensureTelegramSchema(db);
+    const rec: Rec = { tg: [], ai: 0, aiHang: true }; installFetch(rec);
+    const started = Date.now();
+    const outcome = await handleUpdate({ ...withDb(db), receivedAt: Date.now() - 23_000 }, textUpdate(331, 331));
+    assert.equal(outcome, 'failed:timeout');
+    assert.ok(Date.now() - started < 5_000, `took ${Date.now() - started} ms`);
+    assert.deepEqual(rec.models, [FREE[0]]);
+    assert.ok(sent(rec).some((m) => m.text === C.ERR_PROVIDER.ru));
+  }
+  // The first answer invents a number and arrives with < 1 s left: no retry.
+  {
+    const rec: Rec = { tg: [], ai: 0, aiDelayMs: 700, aiReplies: ['Перенесём на 15:30.'] }; installFetch(rec);
+    const source = 'Можно перенести встречу?';
+    const res = await runJavobValidated(baseEnv, buildJavobReplyPrompt(source), 3000, {
+      source, expectedLanguage: 'ru', mode: 'reply', deadline: Date.now() + 1_600,
+    });
+    assert.deepEqual([res.ok, res.errorCode, res.retried, res.issues, rec.ai], [false, 'validation_failed', false, ['invented_number'], 1]);
+  }
+});
+
+test('«Сначала / Boshidan» under an error starts over like /new, with no stale-button message', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  cool(db, ...FREE);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  await handleUpdate(withDb(db), textUpdate(340, 340));
+  const restart = rec.tg.find((c) => c.method === 'sendMessage' && c.body.reply_markup)!.body.reply_markup.inline_keyboard.flat()
+    .find((b: any) => b.callback_data.startsWith('restart:')).callback_data;
+  rec.tg.length = 0;
+  const outcome = await handleUpdate(withDb(db), { update_id: 341, callback_query: { id: 'r', from: { id: 340 }, data: restart, message: { chat: { id: 340 }, message_id: 1 } } } as any);
+  assert.equal(outcome, 'done');
+  assert.deepEqual(sent(rec).map((m) => m.text), [START.ru]);
+  // An expired item is no reason to refuse a fresh start.
+  rec.tg.length = 0;
+  await handleUpdate(withDb(db), { update_id: 342, callback_query: { id: 'r2', from: { id: 340 }, data: 'restart:0000000000000000', message: { chat: { id: 340 }, message_id: 2 } } } as any);
+  assert.deepEqual(sent(rec).map((m) => m.text), [START.ru]);
+});
+
+test('Javob walks the free tier chain: the paid primary only under the shared daily budget', async () => {
+  const flags = { GPT_FREE_TIER_PAID_PRIMARY: 'true', GPT_FREE_PAID_DAILY_USD: '1' };
+  {
+    const db = makeD1(); await ensureTelegramSchema(db);
+    const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
+    assert.equal(await handleUpdate(withDb(db, flags), textUpdate(350, 350)), 'done');
+    assert.deepEqual(rec.models, ['google/gemma-4-26b-a4b-it']);
+    // One reservation in the bucket the site's free turns use, settled to the list price.
+    assert.equal(db._t.spend.length, 1);
+    const [spend] = db._t.spend;
+    assert.deepEqual([spend.org_id, spend.bucket, spend.attempts], [ORG, 'free_paid', 1]);
+    assert.equal(spend.reserved_micro, spend.actual_micro, 'the worst-case reservation was replaced by the cost');
+  }
+  {
+    // The day's budget is spent: the paid model is skipped to ':free' and the owner learns it once a day.
+    const db = makeD1(); await ensureTelegramSchema(db);
+    const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
+    assert.equal(await handleUpdate(withDb(db, { ...flags, GPT_FREE_PAID_DAILY_USD: '0.000001' }), textUpdate(351, 351)), 'done');
+    assert.deepEqual(rec.models, [FREE[0]]);
+    assert.deepEqual(db._t.alerts.map((a: any) => a.code), ['free_paid_budget_exhausted']);
+  }
+});
+
+test('the webhook records each update outcome: done, failed:<code>, failed:exception; a replay changes nothing', async () => {
+  const db = makeD1();
+  cool(db, ...FREE);
+  const env = { ...baseEnv, TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 'expected-secret', GPTBOT_DRAFTS_DB: db };
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  const tasks: Promise<unknown>[] = [];
+  const post = async (update: unknown) => {
+    const response = await assistantPost({
+      request: new Request('https://gptbot.uz/api/telegram/assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-telegram-bot-api-secret-token': 'expected-secret' },
+        body: JSON.stringify(update),
+      }),
+      env,
+      waitUntil: (task: Promise<unknown>) => tasks.push(task),
+    } as never);
+    assert.equal(response.status, 200);
+    await Promise.all(tasks);
+  };
+  await post({ update_id: 360, message: { chat: { id: 360, type: 'private' }, from: { id: 360 }, text: '/start' } });
+  await post(textUpdate(361, 360));
+  await post(textUpdate(361, 360));
+  const prepare = db.prepare;
+  (db as any).prepare = (sql: string) => {
+    if (/SELECT telegram_user_id, locale/.test(sql)) throw new Error('d1 down');
+    return prepare(sql);
+  };
+  await post(textUpdate(362, 360));
+  (db as any).prepare = prepare;
+  assert.deepEqual(db._t.updates.map((u: any) => [u.update_id, u.status]), [
+    [360, 'done'],
+    [361, 'failed:models_cooling'],
+    [362, 'failed:exception'],
+  ]);
+  assert.equal(failures(db).length, 1, 'the replay of 361 did nothing');
+});
+
+test('free limits: TELEGRAM_FREE_* win, the catalogue fills a gap, the day and month turn at 00:00 in Tashkent', async () => {
+  const cfg = (over: any) => resolveTelegramConfig({ TELEGRAM_ASSISTANT_BOT_TOKEN: 't', ...over });
+  assert.deepEqual([cfg({ TELEGRAM_FREE_DAILY_LIMIT: '10', TELEGRAM_FREE_MONTHLY_LIMIT: '100' }).freeDailyLimit, cfg({ TELEGRAM_FREE_MONTHLY_LIMIT: '100' }).freeMonthlyLimit], [10, 100]);
+  for (const bad of [undefined, '', '0', '-3', '10x', '2.5']) {
+    assert.equal(cfg({ TELEGRAM_FREE_DAILY_LIMIT: bad }).freeDailyLimit, null, String(bad));
+  }
+  // 23:59:59 and 00:00 in Tashkent; month starts follow the same clock.
+  assert.deepEqual(tashkentPeriodStarts(new Date('2026-10-01T18:59:59Z')), { day: '2026-09-30T19:00:00.000Z', month: '2026-09-30T19:00:00.000Z' });
+  assert.deepEqual(tashkentPeriodStarts(new Date('2026-10-01T19:00:00Z')), { day: '2026-10-01T19:00:00.000Z', month: '2026-09-30T19:00:00.000Z' });
+  assert.equal(tashkentPeriodStarts(new Date('2026-10-31T19:00:00Z')).month, '2026-10-31T19:00:00.000Z');
+
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const ledger = (userId: number, createdAt: string) => db._t.ledger.push({ telegram_user_id: userId, usage_type: 'main_generation', created_at: createdAt, idempotency_key: `${userId}:${createdAt}` });
+  const one = { daily: 1, monthly: 100 };
+  ledger(1, '2026-10-01T18:30:00.000Z');
+  assert.equal((await decideUsage(db, 1, one, new Date('2026-10-01T18:59:59Z'))).reason, 'daily');
+  assert.equal((await decideUsage(db, 1, one, new Date('2026-10-01T19:00:00Z'))).allowed, true, 'a new Tashkent day');
+  // Two UTC days, one Tashkent day: still spent (the UTC day used to reset at 05:00 in Tashkent).
+  ledger(2, '2026-10-01T19:30:00.000Z');
+  assert.equal((await decideUsage(db, 2, one, new Date('2026-10-02T01:00:00Z'))).allowed, false);
+  // The month: the configured cap and its own message.
+  const month = await decideUsage(db, 2, { daily: 10, monthly: 1 }, new Date('2026-10-02T01:00:00Z'));
+  assert.deepEqual([month.allowed, month.reason], [false, 'period']);
+  assert.match(C.limitReached('ru', month.reason), /1-го числа в 00:00 по Ташкенту/);
+  assert.match(C.limitReached('uz', 'daily'), /Toshkent vaqti bilan soat 00:00/);
+  // A configured value wins; the catalogue (3 a day, 30 a month) fills only the gap.
+  assert.deepEqual((await decideUsage(db, 3, { daily: null, monthly: 50 })).freeLimits, { daily: 3, monthly: 50 });
+  assert.deepEqual((await decideUsage(db, 3, { daily: 10, monthly: 100 })).freeLimits, { daily: 10, monthly: 100 });
+  db._t.plans = [];
+  assert.deepEqual((await decideUsage(db, 3, { daily: 10, monthly: 100 })).allowed, true, 'the catalogue is not needed when both are set');
+  assert.equal((await decideUsage(db, 3, { daily: 10, monthly: null })).allowed, false, 'no limit at all fails closed');
+});
+
+test('/plans with TELEGRAM_FREE_* set: 10 a day, 100 a month, what is left today', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  const limits = { TELEGRAM_FREE_DAILY_LIMIT: '10', TELEGRAM_FREE_MONTHLY_LIMIT: '100' };
+  await handleUpdate(deps(db, limits), { update_id: 370, message: { chat: { id: 370, type: 'private' }, from: { id: 370, language_code: 'uz' }, text: '/plans' } } as any);
+  await handleUpdate(deps(db, limits), { update_id: 371, message: { chat: { id: 371, type: 'private' }, from: { id: 371, language_code: 'ru' }, text: '/plans' } } as any);
+  const [uz, ru] = sent(rec).map((m) => m.text);
+  assert.match(uz, /kuniga 10 ta javob, oyiga 100 tagacha/);
+  assert.match(uz, /Bugun qolgan javoblar: 10 ta\./);
+  assert.match(ru, /10 ответов в день, до 100 в месяц/);
+  for (const text of [uz, ru]) assert.ok(!PRICE.test(text) && !PAID_WORDS.test(text) && !LINK.test(text), text);
+  assert.ok(sent(rec).every((m) => m.reply_markup === undefined));
+  assert.match(C.HELP.ru, /\/plans — лимит/);
+  assert.match(C.HELP.uz, /\/plans — limit/);
+});
+
+test('no keyboard, limit text or command in the bot leads to a price, an offer or a payment', () => {
+  const id = 'c'.repeat(16);
+  const keyboards = [
+    langKeyboard(),
+    ...(['ru', 'uz'] as const).flatMap((locale) => [
+      resultKeyboard(locale, id, 'ru', true),
+      C.voiceResultKeyboard(locale, id, 'uz'),
+      C.analysisConsentKeyboard(locale, id),
+      C.analysisReportKeyboard(locale, id),
+      clarifyKeyboard(locale, id),
+      feedbackKeyboard(locale, 'r1'),
+      C.errorKeyboard(locale, id),
+      C.actionKeyboard(locale, id),
+      C.translateTargetKeyboard(locale, id),
+    ]),
+  ];
+  for (const keyboard of keyboards) {
+    const wire = JSON.stringify(keyboard);
+    assert.ok(!/tarify|narxi|oferta|click|uzum|payme|pay_intent|analysis_details/i.test(wire), wire);
+    assert.ok(!keyboard.flat().some((b) => b.url), 'no url button at all');
+    for (const b of keyboard.flat()) if (b.callback_data) assert.ok(Buffer.byteLength(b.callback_data) <= 64);
+  }
+  assert.equal('limitKeyboard' in C, false);
+  assert.equal('analysisPaywallKeyboard' in C, false);
+  const copy = fs.readFileSync('functions/lib/telegram/i18n.ts', 'utf8');
+  assert.ok(!PRICE.test(copy), 'no price anywhere in the bot copy');
+  assert.ok(!/Day Pass|\bPlus\b|тариф|tarif|obuna|подписк|gptbot\.uz\/(ru|uz)\//i.test(copy));
+  for (const profile of Object.values(JAVOB_PROFILE)) {
+    const wire = JSON.stringify(profile);
+    assert.ok(!PRICE.test(wire) && !PAID_WORDS.test(wire) && !LINK.test(wire), wire);
+  }
+  assert.deepEqual([JAVOB_PROFILE[''].commands.find((c) => c.command === 'plans')?.description, JAVOB_PROFILE.uz.commands.find((c) => c.command === 'plans')?.description], ['лимит', 'limit']);
+});
+
+test('old Tahlil offer buttons answer without a price, even for a gone report; payment_intent is never written', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
+  for (const [i, kind] of ['analysis_details', 'analysis_pay_intent', 'analysis_later'].entries()) {
+    await handleUpdate(deps(db), { update_id: 380 + i, callback_query: { id: `o${i}`, from: { id: 380, language_code: 'uz' }, data: `${kind}:gone0000gone0000`, message: { chat: { id: 380 }, message_id: i } } } as any);
+  }
+  assert.deepEqual(sent(rec).map((m) => m.text), Array(3).fill(C.ANALYSIS_NO_DETAILS.uz));
+  assert.ok(!PRICE.test(C.ANALYSIS_NO_DETAILS.ru) && !PRICE.test(C.ANALYSIS_NO_DETAILS.uz));
+  const events = db._t.events.map((e: any) => e.event);
+  assert.deepEqual(events.filter((e: string) => e === 'analysis_details_viewed').length, 3);
+  assert.ok(!events.includes('payment_intent') && !events.includes('paywall_shown'));
+  assert.ok(!db._t.events.some((e: any) => /amountUzs|4900/.test(e.meta_json)));
+});
+
+test('migration 0067 retires Day Pass and Plus once; the bootstrap seeds them inactive', async () => {
+  const read = (name: string) => fs.readFileSync(`migrations/${name}`, 'utf8');
+  const sqlite = new SqliteD1();
+  sqlite.exec(read('0009_telegram_assistant.sql'));
+  sqlite.exec(read('0010_javob_billing.sql'));
+  const active = (d: SqliteD1) => Object.fromEntries(d.rows<{ code: string; is_active: number }>('SELECT code, is_active FROM plans ORDER BY display_order').map((r) => [r.code, r.is_active]));
+  assert.deepEqual(active(sqlite), { free: 1, day_pass: 1, plus: 1, pro: 0, team: 0 }, 'production before 0067');
+  const free = sqlite.rows('SELECT * FROM plans WHERE code = ?', 'free');
+  sqlite.exec(read('0067_javob_plans_retire.sql'));
+  assert.deepEqual(active(sqlite), { free: 1, day_pass: 0, plus: 0, pro: 0, team: 0 });
+  assert.deepEqual(sqlite.rows('SELECT * FROM plans WHERE code = ?', 'free'), free, 'the free row (the limits fallback) is untouched');
+  const stamped = sqlite.rows('SELECT code, updated_at FROM plans WHERE code IN (\'day_pass\', \'plus\') ORDER BY code');
+  assert.ok(stamped.every((r: any) => /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(r.updated_at)));
+  sqlite.exec('UPDATE plans SET updated_at = \'marker\' WHERE code IN (\'day_pass\', \'plus\')');
+  sqlite.exec(read('0067_javob_plans_retire.sql'));
+  assert.equal(sqlite.value('SELECT COUNT(*) FROM plans WHERE updated_at = \'marker\''), 2, 'a second run matches no row');
+  // The rollback in the header restores the rows.
+  sqlite.exec('UPDATE plans SET is_active = 1 WHERE code IN (\'day_pass\', \'plus\');');
+  assert.deepEqual(active(sqlite), { free: 1, day_pass: 1, plus: 1, pro: 0, team: 0 });
+
+  const fresh = new SqliteD1();
+  await ensureTelegramSchema(fresh.asD1());
+  assert.deepEqual(active(fresh), { free: 1, day_pass: 0, plus: 0, pro: 0, team: 0 });
+});
+
+// ═══ WP-08: the bot's profile, applied on the server ════════════════════════
+
+function profileFetch(username = 'gptbotuz_bot') {
+  const calls: Array<{ method: string; body: any; url: string }> = [];
+  const held: Record<string, { commands?: any[]; short?: string; description?: string }> = {};
+  (globalThis as any).fetch = async (url: string, init?: any) => {
+    const method = String(url).split('/').pop()!;
+    const body = init?.body ? JSON.parse(init.body) : {};
+    calls.push({ method, body, url: String(url) });
+    const lang = body.language_code ?? '';
+    const slot = (held[lang] ??= {});
+    if (method === 'getMe') return jsonRes({ ok: true, result: { username } });
+    if (method === 'setMyCommands') { slot.commands = body.commands; return jsonRes({ ok: true, result: true }); }
+    if (method === 'setMyShortDescription') { slot.short = body.short_description; return jsonRes({ ok: true, result: true }); }
+    if (method === 'setMyDescription') { slot.description = body.description; return jsonRes({ ok: true, result: true }); }
+    if (method === 'getMyCommands') return jsonRes({ ok: true, result: slot.commands ?? [] });
+    if (method === 'getMyShortDescription') return jsonRes({ ok: true, result: { short_description: slot.short ?? '' } });
+    if (method === 'getMyDescription') return jsonRes({ ok: true, result: { description: slot.description ?? '' } });
+    return jsonRes({ ok: false });
+  };
+  return calls;
+}
+
+function setupCall(env: any, auth: string, body?: string) {
+  return javobSetup({
+    request: new Request('https://gptbot.uz/api/internal/javob-setup', {
+      method: 'POST',
+      headers: { Authorization: auth, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      ...(body === undefined ? {} : { body }),
+    }),
+    env,
+  } as never);
+}
+
+test('javob-setup: bearer first; check reads only; apply sets RU and UZ and reads them back; the token never leaves', async () => {
+  const token = 'bot-token-SECRET-123';
+  const secret = 'maintenance-secret-xyz';
+  const env = { TELEGRAM_ASSISTANT_BOT_TOKEN: token, GPT_BILLING_MAINTENANCE_SECRET: secret };
+  const calls = profileFetch();
+  assert.equal((await setupCall({ TELEGRAM_ASSISTANT_BOT_TOKEN: token }, `Bearer ${secret}`)).status, 403, 'no secret configured');
+  assert.equal((await setupCall(env, 'Bearer wrong')).status, 403);
+  assert.equal((await setupCall(env, '')).status, 403);
+  assert.equal(calls.length, 0, 'nothing reaches Telegram before the bearer');
+  assert.equal((await setupCall(env, `Bearer ${secret}`, 'x'.repeat(300))).status, 413);
+  assert.equal((await setupCall(env, `Bearer ${secret}`, '{bad')).status, 400);
+  assert.equal((await setupCall({ GPT_BILLING_MAINTENANCE_SECRET: secret }, `Bearer ${secret}`)).status, 503);
+
+  const check = await setupCall(env, `Bearer ${secret}`);
+  const checked = await check.json() as any;
+  assert.equal(check.status, 200);
+  assert.deepEqual([checked.bot, checked.applied, checked.matches], ['@gptbotuz_bot', null, false]);
+  assert.ok(!calls.some((c) => c.method.startsWith('set')), 'a check writes nothing');
+
+  calls.length = 0;
+  const applied = await setupCall(env, `Bearer ${secret}`, '{"apply":true}');
+  const text = await applied.text();
+  const result = JSON.parse(text);
+  assert.equal(applied.status, 200);
+  assert.deepEqual([result.ok, result.applied, result.matches], [true, { failed: [] }, true]);
+  assert.deepEqual(result.profiles.default.commands, JAVOB_PROFILE[''].commands);
+  assert.deepEqual(result.profiles.uz.commands, JAVOB_PROFILE.uz.commands);
+  assert.equal(result.profiles.uz.shortDescription, JAVOB_PROFILE.uz.shortDescription);
+  const sets = calls.filter((c) => c.method.startsWith('set')).map((c) => `${c.method}:${c.body.language_code ?? ''}`).sort();
+  assert.deepEqual(sets, ['setMyCommands:', 'setMyCommands:uz', 'setMyDescription:', 'setMyDescription:uz', 'setMyShortDescription:', 'setMyShortDescription:uz']);
+  assert.ok(!calls.some((c) => /setWebhook|deleteWebhook/.test(c.method)), 'the webhook is never touched');
+  assert.ok(!text.includes(token), 'the token is never in the answer');
+});
+
+test('javob-setup refuses a protected bot before writing anything', async () => {
+  const env = { TELEGRAM_ASSISTANT_BOT_TOKEN: 'lead-bot-token', GPT_BILLING_MAINTENANCE_SECRET: 's3' };
+  const calls = profileFetch('aidirectprobot');
+  const response = await setupCall(env, 'Bearer s3', '{"apply":true}');
+  assert.equal(response.status, 409);
+  assert.deepEqual(calls.map((c) => c.method), ['getMe']);
 });

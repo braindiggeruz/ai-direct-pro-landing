@@ -259,6 +259,21 @@ test('a cooling model is filtered out before the three attempts are counted', as
   bodies.length = 0;
   await chatStreamStart(f.env, cfg, chain, messages, 100, 5000);
   assert.deepEqual(bodies.map((b) => b.model), chain.slice(1), 'the same in the stream walker');
+
+  // A lower cap (Javob's voice path asks for two) also counts requests, not
+  // slots: the cooling head still costs nothing.
+  f.db.exec("DELETE FROM gpt_model_health WHERE model <> 'v/a:free'");
+  bodies.length = 0;
+  const capped = await chatComplete(f.env, cfg, chain, messages, 100, 5000, undefined, undefined, undefined, 2);
+  assert.deepEqual(bodies.map((b) => b.model), chain.slice(1, 3));
+  assert.equal(capped.attempts, 2);
+  // Out-of-range caps fall back inside 1..MAX_ATTEMPTS.
+  for (const [cap, sent] of [[0, 1], [9, 3]] as const) {
+    f.db.exec('DELETE FROM gpt_model_health');
+    bodies.length = 0;
+    await chatComplete(f.env, cfg, chain, messages, 100, 5000, undefined, undefined, undefined, cap);
+    assert.equal(bodies.length, sent, `cap ${cap}`);
+  }
 });
 
 test('every candidate cooling down: nothing is sent, the visitor reads model_unavailable, the owner chat_models_cooling', async (t) => {
@@ -356,10 +371,10 @@ test('a committed GPT_ZAI_EVAL_APPROVED date has its evaluation report', () => {
 });
 
 // ── Model probe endpoint ────────────────────────────────────────────────────
-function probeCall(f: Fixture, auth: string, body?: string) {
+function probeCall(f: Fixture, auth: string, body?: string, query = '') {
   return probe(
     f.ctx(
-      new Request('https://gptbot.uz/api/internal/gpt-model-probe', {
+      new Request(`https://gptbot.uz/api/internal/gpt-model-probe${query}`, {
         method: 'POST',
         headers: { Authorization: auth },
         ...(body === undefined ? {} : { body }),
@@ -476,7 +491,58 @@ test('the probe refuses what it cannot measure before calling anybody', async (t
   for (const calls of [0, 21, 1.5, '2', null]) assert.equal(await status(JSON.stringify({ calls })), 400, String(calls));
   assert.equal(await status(JSON.stringify({ calls: 9 })), 400, 'five models × 9 calls is over the 40-call ceiling');
   assert.equal(await status('x'.repeat(300)), 413);
+  assert.equal((await probeCall(f, `Bearer ${token}`, '', '?target=bot')).status, 400, 'javob or no target');
   f.env.OPENROUTER_API_KEY = undefined;
   assert.equal(await status(''), 503);
+  assert.equal(bodies.length, 0);
+});
+
+interface JavobRun {
+  mode: string;
+  locale: string;
+  ok: boolean;
+  code?: string;
+  issues: string[];
+  model: string | null;
+  retried: boolean;
+  latencyMs: number;
+}
+
+test('the javob probe runs the bot reply path, text and voice in UZ and RU, and returns codes only', async (t) => {
+  const f = await withKey();
+  const token = secret();
+  f.env.GPT_BILLING_MAINTENANCE_SECRET = token;
+  const cfg = resolveConfig(f.env);
+  const [head, second] = freeChain(cfg);
+  const cooling = (model: string) =>
+    f.db.exec(`INSERT INTO gpt_model_health(org_id, model, blocked_until, code) VALUES ('gptbot-consumer', '${model}', ${Date.now() + 3600_000}, 'model_unavailable')`);
+  // The head is cooling down, as the site left the retired MiniMax all September.
+  cooling(head);
+  const bodies = openrouter(t, (body) => {
+    const incoming = String((body.messages as Array<{ content: string }>)[1].content);
+    return answer(incoming.includes('Salom')
+      ? 'SECRET Albatta, boshqa kunga ko‘chiramiz. Sizga qaysi kun qulay?'
+      : 'SECRET Да, давайте перенесём. Какой день вам удобен?');
+  });
+  const response = await probeCall(f, `Bearer ${token}`, '', '?target=javob');
+  const text = await response.text();
+  assert.equal(response.status, 200);
+  assert.ok(!text.includes('SECRET') && !text.includes('Salom'), 'no answer and no prompt text leaves the endpoint');
+  const { runs } = JSON.parse(text) as { runs: JavobRun[] };
+  assert.deepEqual(runs.map((r) => [r.mode, r.locale, r.ok, r.code, r.model, r.issues, r.retried]), [
+    ['text', 'uz', true, undefined, second, [], false],
+    ['text', 'ru', true, undefined, second, [], false],
+    ['voice', 'uz', true, undefined, second, [], false],
+    ['voice', 'ru', true, undefined, second, [], false],
+  ]);
+  assert.ok(bodies.every((b) => b.model === second), 'the cooling head takes no request');
+  for (const table of ['gpt_service_alerts', 'gpt_turn_reservations', 'gpt_model_spend'])
+    assert.equal(f.db.value(`SELECT COUNT(*) FROM ${table}`), 0, table);
+
+  // Every model cooling: the probe says so instead of an empty success.
+  for (const model of freeChain(cfg).slice(1)) cooling(model);
+  bodies.length = 0;
+  const cold = JSON.parse(await (await probeCall(f, `Bearer ${token}`, '', '?target=javob')).text()) as { runs: JavobRun[] };
+  assert.deepEqual(cold.runs.map((r) => [r.ok, r.code]), Array(4).fill([false, 'models_cooling']));
   assert.equal(bodies.length, 0);
 });

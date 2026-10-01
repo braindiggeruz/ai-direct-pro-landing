@@ -16,9 +16,9 @@
 // tier, so the chat's outbound requests go to OpenRouter only.
 //
 // Only functions/api/gpt/chat.ts calls webChatChain(). Javob
-// (functions/lib/telegram/**) and the OpenRouter catalogue check
-// (billing-operations-store.ts) keep calling modelChain()/freeChain(), which
-// never contain a 'zai/' id.
+// (functions/lib/telegram/service.ts) calls freeTierChain(), the OpenRouter
+// catalogue check (billing-operations-store.ts) modelChain()/freeChain(); none
+// of them ever contains a 'zai/' id.
 //
 // Facts (docs.z.ai, read 2026-09-30):
 //   https://docs.z.ai/api-reference/llm/chat-completion — model codes
@@ -99,20 +99,21 @@ export function _resetZaiWarning(): void {
 }
 
 /**
- * The free tier's OpenRouter chain on the site: freeChain(cfg), headed by the
- * paid primary when GPT_FREE_TIER_PAID_PRIMARY is on and the daily budget
- * (GPT_FREE_PAID_DAILY_USD) is above 0 (decision L6). The web chat must walk
- * it with the budget's admitAttempt (model-spend-store.ts): that is what
+ * The free tier's OpenRouter chain, the site's and Javob's alike (decisions
+ * L6, L15): freeChain(cfg), headed by the paid primary when
+ * GPT_FREE_TIER_PAID_PRIMARY is on and the daily budget
+ * (GPT_FREE_PAID_DAILY_USD) is above 0. Every caller must walk it with the
+ * budget's admitAttempt (model-spend-store.ts freePaidBudget): that is what
  * skips the paid head to ':free' once the day's budget is spent.
  */
-function siteFreeChain(cfg: GptChatConfig): string[] {
+export function freeTierChain(cfg: GptChatConfig): string[] {
   return cfg.freeTierPaidPrimary && cfg.freePaidDailyUsd > 0
     ? [cfg.paidModel, ...freeChain(cfg)]
     : freeChain(cfg);
 }
 
 /**
- * The web chat's chain for a tier: modelChain(cfg, 'paid') or siteFreeChain(cfg).
+ * The web chat's chain for a tier: modelChain(cfg, 'paid') or freeTierChain(cfg).
  * With all three Z.ai switches on: one Z.ai model first, then that OpenRouter
  * chain as the fallback ([zai, paidPrimary, free…] for the free tier). The
  * chain is not cut here: the walker takes the first three candidates that are
@@ -124,7 +125,7 @@ export function webChatChain(
   env: Pick<Env, 'ZAI_API_KEY'>,
   tier: 'free' | 'paid',
 ): string[] {
-  const base = tier === 'paid' ? modelChain(cfg, 'paid') : siteFreeChain(cfg);
+  const base = tier === 'paid' ? modelChain(cfg, 'paid') : freeTierChain(cfg);
   if (
     cfg.modelProvider !== 'zai' ||
     !cfg.zaiEvalApproved ||

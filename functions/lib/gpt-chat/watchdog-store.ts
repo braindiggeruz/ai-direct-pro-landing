@@ -1,6 +1,6 @@
-// Silence watchdog for the web chat (D6). It looks at what the chat DID, not
-// at what failed: the 2026-08-25..09-03 outage (89 sessions, 0 answers) raised
-// no alert because nobody watched for answers that never came.
+// Silence watchdog for the web chat and Javob (D6). It looks at what the chat
+// DID, not at what failed: the 2026-08-25..09-03 outage (89 sessions, 0
+// answers) raised no alert because nobody watched for answers that never came.
 //
 // Every check needs traffic before it can fire, so a quiet night raises
 // nothing. Checks, all per org:
@@ -15,6 +15,12 @@
 //                         after their expiry (the isolate died mid-turn)
 //   chat_truncation_high  over 24 h, of at least 20 turns with an outcome,
 //                         more than 15 % 'truncated'
+//   bot_silent            Javob (@gptbotuz_bot) over 24 h: at least 3 updates
+//                         that failed (telegram_updates.status 'failed:<code>')
+//                         or never finished (still 'processing' 2 minutes
+//                         after the claim: the 30 s waitUntil cut them off),
+//                         and not one javob_reply_generated. The 2026-09-15
+//                         outage (8 failed voice replies, 0 answers) is this.
 // A settled turn is 'done', 'released', or 'reserved' past its expires_at.
 // Turns that say nothing about the service are left out of the counts (their
 // outcome, migrations/0066): the visitor pressed Stop or left, the provider
@@ -40,6 +46,10 @@ const STALE_MAX = 3;
 const TRUNCATION_WINDOW_MS = 24 * HOUR_MS;
 const TRUNCATION_MIN_TURNS = 20;
 const TRUNCATION_MAX_SHARE = 0.15;
+const BOT_WINDOW_MS = 24 * HOUR_MS;
+const BOT_SILENT_MIN_FAILURES = 3;
+/** An update still 'processing' this long after its claim was cut off (waitUntil allows 30 s). */
+const BOT_UNFINISHED_AFTER_MS = 2 * 60_000;
 /**
  * Outcomes that say nothing about the service's health (turn-outcome.ts); a
  * turn settled before migrations/0066 has none and counts.
@@ -72,11 +82,19 @@ export interface TurnStats {
   hourStale: number;
 }
 
+export interface BotStats {
+  /** Javob updates of the last 24 h that failed or never finished. */
+  failed: number;
+  /** Javob replies sent in the last 24 h (javob_reply_generated). */
+  answered: number;
+}
+
 export interface WatchdogSample {
   turns: TurnStats;
   /** Distinct hashed IPs that opened a chat session inside the window. */
   sessions: number;
   truncation: { turns: number; truncated: number };
+  bot: BotStats;
 }
 
 /** Pure decision: which codes a sample raises. */
@@ -84,7 +102,7 @@ export function watchdogCodes(
   sample: WatchdogSample,
   cfg: WatchdogConfig,
 ): string[] {
-  const { turns, sessions, truncation } = sample;
+  const { turns, sessions, truncation, bot } = sample;
   const codes: string[] = [];
   const silent = turns.settled >= cfg.minTurns && turns.done === 0;
   if (silent) codes.push("chat_silence");
@@ -101,7 +119,14 @@ export function watchdogCodes(
     truncation.truncated > truncation.turns * TRUNCATION_MAX_SHARE
   )
     codes.push("chat_truncation_high");
+  if (bot.failed >= BOT_SILENT_MIN_FAILURES && bot.answered === 0)
+    codes.push("bot_silent");
   return codes;
+}
+
+/** SQLite/D1 wording for a table that was never created in this database. */
+function missingTable(error: unknown): boolean {
+  return /no such table/i.test(error instanceof Error ? error.message : String(error));
 }
 
 /** Watchdog reads. SQL lives only here; every query is scoped to `org`. */
@@ -198,6 +223,31 @@ export class WatchdogStore {
       .first<{ turns: number; truncated: number }>();
     return { turns: row?.turns ?? 0, truncated: row?.truncated ?? 0 };
   }
+
+  /**
+   * Javob over the last 24 h, counts only. telegram_updates and
+   * telegram_events are the bot's own pre-platform tables without org_id, so
+   * only the consumer chat's org reads them (as with sessions). A database
+   * without the bot's tables has no bot traffic.
+   */
+  async bot(now: number): Promise<BotStats> {
+    if (this.org !== BILLING_ORG) return { failed: 0, answered: 0 };
+    const since = new Date(now - BOT_WINDOW_MS).toISOString();
+    try {
+      const row = await this.db
+        .prepare(
+          `SELECT
+        (SELECT COUNT(*) FROM telegram_updates WHERE processed_at>=? AND (status LIKE 'failed:%' OR (status='processing' AND processed_at<?))) AS failed,
+        (SELECT COUNT(*) FROM telegram_events WHERE created_at>=? AND event='javob_reply_generated') AS answered`,
+        )
+        .bind(since, new Date(now - BOT_UNFINISHED_AFTER_MS).toISOString(), since)
+        .first<{ failed: number; answered: number }>();
+      return { failed: row?.failed ?? 0, answered: row?.answered ?? 0 };
+    } catch (error) {
+      if (missingTable(error)) return { failed: 0, answered: 0 };
+      throw error;
+    }
+  }
 }
 
 export interface WatchdogRun {
@@ -216,12 +266,13 @@ export async function runWatchdog(
   const store = new WatchdogStore(db, BILLING_ORG);
   if (!(await store.claim(now))) return { ran: false, raised: [] };
   const cfg = watchdogConfig(env);
-  const [turns, sessions, truncation] = await Promise.all([
+  const [turns, sessions, truncation, bot] = await Promise.all([
     store.turns(now, cfg.windowMs),
     store.sessions(now - cfg.windowMs),
     store.truncation(now),
+    store.bot(now),
   ]);
-  const raised = watchdogCodes({ turns, sessions, truncation }, cfg);
+  const raised = watchdogCodes({ turns, sessions, truncation, bot }, cfg);
   for (const code of raised) await recordServiceAlert(env, code, now);
   return { ran: true, raised };
 }

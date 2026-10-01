@@ -1,7 +1,8 @@
 // The free tier's daily budget for paid models (plan WP-04, decision L6).
 //
 // With GPT_FREE_TIER_PAID_PRIMARY on, a free turn starts on the paid primary
-// (model-provider.ts webChatChain) while the UTC day's spend stays within
+// (model-provider.ts freeTierChain; the site's free turns and Javob's replies
+// share one budget, decision L15) while the UTC day's spend stays within
 // GPT_FREE_PAID_DAILY_USD. Before every paid attempt the turn pre-reserves its
 // WORST case with one atomic upsert that refuses to pass the cap, so any
 // number of concurrent turns in any number of isolates cannot overspend it:
@@ -24,7 +25,7 @@ import { PAID_PRICE_CEILING } from "./model-pricing";
 import type { AdmitAttempt } from "./openrouter-chat";
 import { promptTokenBound, type ChatMessage } from "./prompt";
 
-/** gpt_model_spend.bucket of the free tier's spend on paid models (site; the bot joins it in WP-08). */
+/** gpt_model_spend.bucket of the free tier's spend on paid models: the site's free turns and Javob share it. */
 export const FREE_PAID_BUCKET = "free_paid";
 
 export const FREE_PAID_BUDGET_ALERT = "free_paid_budget_exhausted";

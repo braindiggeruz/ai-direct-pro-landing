@@ -33,9 +33,17 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   "chat_silence",
   "chat_degraded",
   "chat_no_turns",
+  // Javob (@gptbotuz_bot, functions/lib/telegram/handler.ts) records every
+  // failed reply as bot_<code>. Like the chat, only what stops every reply
+  // pages; a single rate_limit, timeout or validation_failed is background,
+  // and the watchdog turns a pattern of them into bot_silent.
+  "bot_no_key",
+  "bot_account_unavailable",
+  "bot_model_unavailable",
+  "bot_models_cooling",
+  "bot_silent",
   // Providers and channels a human has to fix.
   "zai_*",
-  "bot_*",
   "click_*",
   "uzum_*",
   // POST /api/internal/gpt-billing-maintenance {"drill":true}.
@@ -86,6 +94,11 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   chat_silence: "ходы были, но ни одного ответа за окно сторожа",
   chat_degraded: "за час ответ получили меньше половины ходов",
   chat_no_turns: "сессии открываются, а ходов нет (Turnstile или D1)",
+  bot_no_key: "бот @gptbotuz_bot: нет ключа OpenRouter, бот не отвечает",
+  bot_account_unavailable: "бот @gptbotuz_bot: OpenRouter отклонил аккаунт (401/402)",
+  bot_model_unavailable: "бот @gptbotuz_bot: вся цепочка моделей отклонена как неизвестная",
+  bot_models_cooling: "бот @gptbotuz_bot: все модели на паузе после сбоев, ответ не отправлен",
+  bot_silent: "бот @gptbotuz_bot: за сутки 3+ сбоя и ни одного ответа",
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
   drill: "учебный алерт: канал доставки работает",

@@ -10,8 +10,12 @@
 // `setup` configures commands + descriptions (RU default + UZ language_code),
 // sets the webhook with secret_token and allowed_updates=[message,callback_query],
 // then verifies via getWebhookInfo. Pending updates are preserved unless --drop.
+// Commands and descriptions come from functions/lib/telegram/bot-profile.ts,
+// the same text POST /api/internal/javob-setup applies server side; that
+// endpoint is the way to refresh them without the token on this machine.
 
 import { isProtectedBotUsername } from '../functions/lib/telegram/config';
+import { JAVOB_PROFILE } from '../functions/lib/telegram/bot-profile';
 
 const TOKEN = process.env.TELEGRAM_ASSISTANT_BOT_TOKEN || '';
 const SECRET = process.env.TELEGRAM_ASSISTANT_WEBHOOK_SECRET || '';
@@ -35,38 +39,6 @@ async function tg<T = unknown>(method: string, body?: Record<string, unknown>): 
   if (!data.ok) console.error(`  ✗ ${method}: ${data.description || res.status}`);
   return data;
 }
-
-const COMMANDS_RU = [
-  { command: 'start', description: 'начать' },
-  { command: 'new', description: 'новый запрос' },
-  { command: 'lang', description: 'язык' },
-  { command: 'plans', description: 'тарифы' },
-  { command: 'help', description: 'помощь' },
-  { command: 'privacy', description: 'конфиденциальность' },
-  { command: 'delete_me', description: 'удалить мои данные' },
-];
-const COMMANDS_UZ = [
-  { command: 'start', description: 'boshlash' },
-  { command: 'new', description: 'yangi so‘rov' },
-  { command: 'lang', description: 'til' },
-  { command: 'plans', description: 'tariflar' },
-  { command: 'help', description: 'yordam' },
-  { command: 'privacy', description: 'maxfiylik' },
-  { command: 'delete_me', description: 'ma’lumotlarimni o‘chirish' },
-];
-
-const SHORT_RU = 'Перешлите текст или голосовое — получите готовый ответ и безопасный анализ содержания.';
-const SHORT_UZ = 'Matn yoki ovozli xabar yuboring — tayyor javob va xavfsiz mazmun tahlilini oling.';
-const DESC_RU = `GPTBot Javob — помощник для текста и голосовых в Telegram.
-
-Перешлите текст или голосовое от клиента, коллеги или руководителя — бот покажет расшифровку и подготовит ответ. Для голосового доступен Tahlil: проверяемые утверждения, противоречия и вопросы для уточнения. Это не детектор лжи и не доказательство.
-
-Поддерживает русский, Uzbek Latin и смешанную речь. Аудио не хранится.`;
-const DESC_UZ = `GPTBot Javob — Telegram matn va ovozli xabarlari uchun yordamchi.
-
-Mijoz, hamkasb yoki rahbardan kelgan matn yoki ovozli xabarni yuboring — bot transkript va javob tayyorlaydi. Ovozli xabar uchun Tahlil bayonotlar, qarama-qarshiliklar va aniqlashtiruvchi savollarni ko‘rsatadi. Bu yolg‘on detektori ham, dalil ham emas.
-
-Rus tili, Uzbek Latin va aralash nutqni qo‘llab-quvvatlaydi. Audio saqlanmaydi.`;
 
 interface BotIdentity {
   id: number;
@@ -174,17 +146,17 @@ async function setup(): Promise<void> {
 
   console.log('→ Setting commands (RU default + UZ)…');
   const commandResults = await Promise.all([
-    tg('setMyCommands', { commands: COMMANDS_RU }),
-    tg('setMyCommands', { commands: COMMANDS_UZ, language_code: 'uz' }),
+    tg('setMyCommands', { commands: JAVOB_PROFILE[''].commands }),
+    tg('setMyCommands', { commands: JAVOB_PROFILE.uz.commands, language_code: 'uz' }),
   ]);
   if (commandResults.some((r) => !r.ok)) { console.error('✗ Command setup failed. Webhook was not changed.'); process.exit(1); }
 
   console.log('→ Setting descriptions…');
   const descriptionResults = await Promise.all([
-    tg('setMyShortDescription', { short_description: SHORT_RU }),
-    tg('setMyShortDescription', { short_description: SHORT_UZ, language_code: 'uz' }),
-    tg('setMyDescription', { description: DESC_RU }),
-    tg('setMyDescription', { description: DESC_UZ, language_code: 'uz' }),
+    tg('setMyShortDescription', { short_description: JAVOB_PROFILE[''].shortDescription }),
+    tg('setMyShortDescription', { short_description: JAVOB_PROFILE.uz.shortDescription, language_code: 'uz' }),
+    tg('setMyDescription', { description: JAVOB_PROFILE[''].description }),
+    tg('setMyDescription', { description: JAVOB_PROFILE.uz.description, language_code: 'uz' }),
   ]);
   if (descriptionResults.some((r) => !r.ok)) { console.error('✗ Description setup failed. Webhook was not changed.'); process.exit(1); }
 

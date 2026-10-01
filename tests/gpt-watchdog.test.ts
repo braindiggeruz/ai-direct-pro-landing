@@ -20,8 +20,10 @@ import {
   watchdogCodes,
   watchdogConfig,
   WatchdogStore,
+  type BotStats,
   type TurnStats,
 } from "../functions/lib/gpt-chat/watchdog-store";
+import { ensureTelegramSchema } from "../functions/lib/telegram/schema";
 import { onRequestPost as chat } from "../functions/api/gpt/chat";
 import { onRequestPost as maintenance } from "../functions/api/internal/gpt-billing-maintenance";
 
@@ -130,9 +132,15 @@ test("watchdog decisions: every check needs traffic and has an exact threshold",
     turns: Partial<TurnStats>,
     sessions = 0,
     truncation = { turns: 0, truncated: 0 },
-  ) => watchdogCodes({ turns: stats(turns), sessions, truncation }, cfg);
+    bot: BotStats = { failed: 0, answered: 0 },
+  ) => watchdogCodes({ turns: stats(turns), sessions, truncation, bot }, cfg);
   // A quiet night raises nothing.
   assert.deepEqual(codes({}), []);
+  // Javob: 3 failed or unfinished updates in 24 h and not one reply.
+  const none = { turns: 0, truncated: 0 };
+  assert.deepEqual(codes({}, 0, none, { failed: 3, answered: 0 }), ["bot_silent"]);
+  assert.deepEqual(codes({}, 0, none, { failed: 2, answered: 0 }), []);
+  assert.deepEqual(codes({}, 0, none, { failed: 30, answered: 1 }), []);
   // Silence: at least MIN_TURNS settled turns, none answered.
   assert.deepEqual(codes({ settled: 2, reserved: 2 }), []);
   assert.deepEqual(codes({ settled: 3, reserved: 3 }), ["chat_silence"]);
@@ -361,6 +369,10 @@ test("only urgent codes page; background codes ride along and stay undelivered",
     "chat_no_turns",
     "zai_balance_exhausted",
     "bot_silent",
+    "bot_models_cooling",
+    "bot_model_unavailable",
+    "bot_account_unavailable",
+    "bot_no_key",
     "click_processing",
     "uzum_amount_mismatch",
     "drill",
@@ -375,6 +387,12 @@ test("only urgent codes page; background codes ride along and stay undelivered",
     "stale_reservations",
     "chat_truncation_high",
     "openrouter_key_unavailable",
+    // One failed bot reply is background, as one failed chat turn is.
+    "bot_rate_limit",
+    "bot_timeout",
+    "bot_validation_failed",
+    "bot_truncated",
+    "bot_provider_error",
     "payme_processing",
     "catalogue",
     "chat_silence_x",
@@ -628,4 +646,50 @@ test("a step that hangs is cut at its budget and the tick goes on", async (t) =>
   assert.deepEqual(body.failed, ["providers"]);
   assert.deepEqual(body.watchdog, { ran: true, raised: [] });
   assert.deepEqual(body.alerts, { status: "idle", codes: [] });
+});
+
+// ── Javob (@gptbotuz_bot): bot_silent ─────────────────────────────────────────
+
+function botUpdate(f: Fixture, id: number, status: string, at: number) {
+  f.db
+    .prepare("INSERT INTO telegram_updates(update_id,processed_at,status) VALUES(?,?,?)")
+    .bind(id, new Date(at).toISOString(), status)
+    .runSync();
+}
+
+function botEvent(f: Fixture, event: string, at: number) {
+  f.db
+    .prepare("INSERT INTO telegram_events(id,event,pseudo_user,meta_json,created_at) VALUES(?,?,?,?,?)")
+    .bind(randomUUID(), event, "pseudo", "{}", new Date(at).toISOString())
+    .runSync();
+}
+
+test("bot_silent counts failed and cut-off updates of 24 h against replies; org B and a database without the bot see nothing", async () => {
+  const f = await billingFixture();
+  const store = new WatchdogStore(f.binding, BILLING_ORG);
+  // The bot's tables are not there yet: no traffic, no error.
+  assert.deepEqual(await store.bot(T0), { failed: 0, answered: 0 });
+  await ensureTelegramSchema(f.binding);
+  botUpdate(f, 1, "failed:models_cooling", T0 - 23 * HOUR);
+  botUpdate(f, 2, "processing", T0 - 3 * MIN); // cut off by the 30 s waitUntil
+  botUpdate(f, 3, "processing", T0 - MIN); // still in flight
+  botUpdate(f, 4, "done", T0 - HOUR);
+  botUpdate(f, 5, "ok", T0 - HOUR); // a row from before outcomes existed
+  botUpdate(f, 6, "failed:rate_limit", T0 - 25 * HOUR); // outside the day
+  botEvent(f, "javob_reply_failed", T0 - HOUR);
+  assert.deepEqual(await store.bot(T0), { failed: 2, answered: 0 });
+  // gpt_* org B: the bot's tables have no org_id and belong to the consumer org.
+  assert.deepEqual(await new WatchdogStore(f.binding, OTHER).bot(T0), { failed: 0, answered: 0 });
+
+  // Two failures are not yet a pattern.
+  assert.deepEqual(await runWatchdog(f.env, T0), { ran: true, raised: [] });
+  botUpdate(f, 7, "failed:timeout", T0 + MIN);
+  assert.deepEqual(await runWatchdog(f.env, T0 + 10 * MIN), { ran: true, raised: ["bot_silent"] });
+  assert.deepEqual(alertCodes(f), ["bot_silent"]);
+  assert.equal(isUrgentAlert("bot_silent"), true);
+  // One reply in the day ends the silence.
+  botEvent(f, "javob_reply_generated", T0 + 15 * MIN);
+  // Update 3 has now been 'processing' for over two minutes: it was cut off too.
+  assert.deepEqual(await store.bot(T0 + 20 * MIN), { failed: 4, answered: 1 });
+  assert.deepEqual(await runWatchdog(f.env, T0 + 20 * MIN), { ran: true, raised: [] });
 });

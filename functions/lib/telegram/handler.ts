@@ -10,8 +10,14 @@ import type { Locale } from './store';
 import * as C from './i18n';
 import { buildJavobReplyPrompt, buildJavobModifierPrompt, guessLanguage, JAVOB_PROMPT_VERSION, type JavobModifier } from './prompts';
 import { classifyMessage } from './classify';
-import { runJavobValidated } from './service';
-import { decideUsage, decideAnalysisUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM } from './billing';
+import {
+  JAVOB_REPLY_DEADLINE_MS,
+  JAVOB_VOICE_MAX_ATTEMPTS,
+  JAVOB_VOICE_MS,
+  runJavobValidated,
+  type JavobRunResult,
+} from './service';
+import { decideUsage, decideAnalysisUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM, type ConfiguredLimits } from './billing';
 import { downloadTelegramFile, transcribeAudio, VoicePipelineError } from './transcription';
 import {
   analyzeTranscript,
@@ -25,13 +31,26 @@ import {
 import { analysisFromStored, formatAnalysisReport, formatVerificationQuestions } from './analysis-report';
 import { logJavobMessageReceived } from './platform-events';
 import { claimWebHandoff, isWebHandoffPayload, notifyOwnerOfArrival, type ArrivalIdentity } from './web-handoff';
+import { alertOperator } from '../gpt-chat/operator-alert';
 
 interface Deps {
   env: Env;
   db: D1Database;
   cfg: TelegramConfig;
   tg: TelegramClient;
+  /**
+   * When the webhook received the update (epoch ms); the reply deadline
+   * counts from it. Unset: from the moment the reply starts.
+   */
+  receivedAt?: number;
 }
+
+/**
+ * A failure code when the person got an error instead of what they asked for
+ * (store.ts UpdateOutcome 'failed:<code>'); undefined when the update was
+ * handled, a limit or a stale button included.
+ */
+type Failure = string | undefined;
 
 // `username` / `first_name` are used in exactly one place: the owner's alert
 // when somebody arrives from the website, so he can answer a person rather
@@ -73,6 +92,17 @@ const SHARE_EVERY = 5;      // share CTA on every Nth successful action
 const FEEDBACK_AT = 3;      // first feedback ask after the 3rd action
 const FEEDBACK_EVERY = 10;  // then every 10th
 
+/** One request refused, not the service failing (as in functions/api/gpt/chat.ts). */
+const NOT_A_SERVICE_FAILURE: ReadonlySet<string> = new Set(['content_refused', 'bad_request']);
+
+function replyDeadline(deps: Deps): number {
+  return (deps.receivedAt ?? Date.now()) + JAVOB_REPLY_DEADLINE_MS;
+}
+
+function freeLimits(cfg: TelegramConfig): ConfiguredLimits {
+  return { daily: cfg.freeDailyLimit, monthly: cfg.freeMonthlyLimit };
+}
+
 export function localeFromCode(code?: string): Locale {
   return code?.toLowerCase().startsWith('uz') ? 'uz' : 'ru';
 }
@@ -82,17 +112,21 @@ export function isForward(msg: TgMessage): boolean {
 }
 
 // ── Public entry ───────────────────────────────────────────────────────────
-export async function handleUpdate(deps: Deps, update: TgUpdate): Promise<void> {
+/** Handle one update and say how it ended (telegram_updates.status). Never throws. */
+export async function handleUpdate(deps: Deps, update: TgUpdate): Promise<S.UpdateOutcome> {
   try {
-    if (update.callback_query) return await handleCallback(deps, update.callback_query, update.update_id);
-    if (update.message) return await handleMessage(deps, update.message, update.update_id);
+    let failure: Failure;
+    if (update.callback_query) failure = await handleCallback(deps, update.callback_query, update.update_id);
+    else if (update.message) failure = await handleMessage(deps, update.message, update.update_id);
+    return failure ? `failed:${failure}` : 'done';
   } catch (e) {
     console.error('tg.handler error:', (e as Error).message);
+    return 'failed:exception';
   }
 }
 
 // ── Messages ───────────────────────────────────────────────────────────────
-async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Promise<void> {
+async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Promise<Failure> {
   const { db, cfg, tg } = deps;
   const chatId = msg.chat.id;
   const from = msg.from;
@@ -164,7 +198,7 @@ async function handleMessage(deps: Deps, msg: TgMessage, updateId: number): Prom
     return;
   }
 
-  await generateReply(deps, chatId, from.id, locale, pseudo, { id: itemId, source_text: text, source_language: cls.language }, `gen:${updateId}`);
+  return await generateReply(deps, chatId, from.id, locale, pseudo, { id: itemId, source_text: text, source_language: cls.language }, `gen:${updateId}`);
 }
 
 function durationBucket(seconds: number): string {
@@ -191,7 +225,7 @@ async function handleVoiceMessage(
   media: TgMedia,
   mediaKind: 'voice' | 'audio',
   updateId: number,
-): Promise<void> {
+): Promise<Failure> {
   const { db, cfg, tg, env } = deps;
   const duration = Math.max(0, Math.floor(Number(media.duration) || 0));
   const declaredSize = Math.max(0, Math.floor(Number(media.file_size) || 0));
@@ -215,10 +249,10 @@ async function handleVoiceMessage(
   }
 
   // Avoid paying for download/STT when the user's generation quota is gone.
-  const usage = await decideUsage(db, userId);
+  const usage = await decideUsage(db, userId, freeLimits(cfg));
   if (!usage.allowed) {
     await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
-    await tg.sendMessage(chatId, C.LIMIT_REACHED[locale], { keyboard: C.limitKeyboard(locale) });
+    await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));
     return;
   }
 
@@ -236,7 +270,8 @@ async function handleVoiceMessage(
     await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'download', code });
     if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
     await tg.sendMessage(chatId, code === 'too_large' ? C.VOICE_TOO_LARGE[locale] : C.VOICE_UNAVAILABLE[locale]);
-    return;
+    // A file over the bot's limit is the person's to fix, not a failure.
+    return code === 'too_large' ? undefined : code;
   }
 
   await S.logEvent(db, 'stt_started', pseudo, {
@@ -256,7 +291,8 @@ async function handleVoiceMessage(
     await S.logEvent(db, 'stt_failed', pseudo, { locale, stage: 'transcription', code });
     if (processingMessageId) await tg.deleteMessage(chatId, processingMessageId);
     await tg.sendMessage(chatId, code === 'empty_transcript' ? C.VOICE_UNCLEAR[locale] : C.VOICE_UNAVAILABLE[locale]);
-    return;
+    // Speech nobody could make out is the recording's, not the service's.
+    return code === 'empty_transcript' ? undefined : code;
   }
 
   const sourceText = transcript.text.replace(/\s+/g, ' ').trim().slice(0, cfg.voiceMaxTranscriptChars);
@@ -293,7 +329,7 @@ async function handleVoiceMessage(
     return;
   }
 
-  await generateReply(deps, chatId, userId, locale, pseudo, {
+  return await generateReply(deps, chatId, userId, locale, pseudo, {
     id: itemId,
     source_text: sourceText,
     source_language: classification.language,
@@ -304,8 +340,8 @@ async function handleVoiceMessage(
   }, `gen:${updateId}`);
 }
 
-async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: Locale, text: string, pseudo: string): Promise<void> {
-  const { db, tg } = deps;
+async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: Locale, text: string, pseudo: string): Promise<Failure> {
+  const { db, cfg, tg } = deps;
   const userId = from.id;
   const cmd = text.split(/\s+/)[0].toLowerCase().replace(/@.*$/, '');
   const payload = text.slice(cmd.length).trim();
@@ -349,9 +385,10 @@ async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: L
       await tg.sendMessage(chatId, C.PRIVACY[locale]);
       return;
     case '/plans': {
-      const plans = await import('./billing').then((b) => b.listActivePlans(db));
+      // The free limit and what is left today. No catalogue, no price (D11).
+      const usage = await decideUsage(db, userId, freeLimits(cfg));
       await S.logEvent(db, 'javob_plans_viewed', pseudo, { locale });
-      await tg.sendMessage(chatId, C.plansText(locale, plans));
+      await tg.sendMessage(chatId, C.plansText(locale, usage.freeLimits, usage.planCode === 'free' ? usage.remainingToday : null));
       return;
     }
     case '/delete_me':
@@ -442,13 +479,13 @@ async function generateReply(
   item: ItemLike,
   idemKey: string,
   audience?: string,
-): Promise<void> {
+): Promise<Failure> {
   const { db, cfg, tg, env } = deps;
 
-  const usage = await decideUsage(db, userId);
+  const usage = await decideUsage(db, userId, freeLimits(cfg));
   if (!usage.allowed) {
     await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
-    await tg.sendMessage(chatId, C.LIMIT_REACHED[locale], { keyboard: C.limitKeyboard(locale) });
+    await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));
     return;
   }
   if (usage.remainingToday === 1) await S.logEvent(db, 'javob_limit_warning', pseudo, { locale });
@@ -460,13 +497,14 @@ async function generateReply(
     source: item.source_text,
     expectedLanguage: srcLang,
     mode: 'reply',
-    ...(item.source_type === 'voice' ? { timeoutMs: 8_000, maxModels: 1, validationRetry: false } : {}),
+    deadline: replyDeadline(deps),
+    // Voice: one generation of at most two models (after the health filter),
+    // because the download and STT already spent up to 16 s.
+    ...(item.source_type === 'voice'
+      ? { firstAttemptMs: JAVOB_VOICE_MS, maxAttempts: JAVOB_VOICE_MAX_ATTEMPTS, validationRetry: false }
+      : {}),
   });
-  if (!res.ok || !res.text) {
-    await S.logEvent(db, 'javob_reply_failed', pseudo, { locale, code: res.errorCode || 'unknown' });
-    await tg.sendMessage(chatId, C.ERR_PROVIDER[locale], { keyboard: C.errorKeyboard(locale, item.id) });
-    return;
-  }
+  if (!res.ok || !res.text) return await replyFailed(deps, chatId, locale, pseudo, item.id, res);
 
   const outLang = guessLanguage(res.text);
   const resultId = await S.saveResult(db, item.id, 'javob_reply', audience ? `ctx_${audience}` : null, res.text, res.provider, res.model ?? null, JAVOB_PROMPT_VERSION, outLang, res.latencyMs);
@@ -505,6 +543,34 @@ async function generateReply(
   }
 }
 
+/**
+ * A reply the person does not get. The event carries the code and the
+ * validator's issue codes, never their detail (it quotes the answer). The
+ * friendly error with «Повторить / Сначала» goes out first; then bot_<code> is
+ * recorded for the owner, delivered at once when urgent, and the watchdog
+ * looks for a silent bot (operator-alert.ts). Returns the code.
+ */
+async function replyFailed(
+  deps: Deps,
+  chatId: number,
+  locale: Locale,
+  pseudo: string,
+  itemId: string,
+  res: JavobRunResult,
+  modifier?: string,
+): Promise<string> {
+  const code = res.errorCode || 'unknown';
+  await S.logEvent(deps.db, 'javob_reply_failed', pseudo, {
+    locale,
+    code,
+    ...(modifier ? { modifier } : {}),
+    ...(res.issues.length ? { issues: res.issues.join(',') } : {}),
+  });
+  await deps.tg.sendMessage(chatId, C.ERR_PROVIDER[locale], { keyboard: C.errorKeyboard(locale, itemId) });
+  if (!NOT_A_SERVICE_FAILURE.has(code)) await alertOperator(deps.env, `bot_${code}`, { watchdog: true });
+  return code;
+}
+
 function latencyBucket(ms: number): string {
   if (ms < 2000) return '<2s';
   if (ms < 5000) return '2-5s';
@@ -515,7 +581,7 @@ function latencyBucket(ms: number): string {
 // ── Callbacks ──────────────────────────────────────────────────────────────
 const MODIFIERS: ReadonlySet<string> = new Set(['shorter', 'softer', 'confident', 'alternative', 'to_ru', 'to_uz']);
 
-async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Promise<void> {
+async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Promise<Failure> {
   const { db, cfg, tg } = deps;
   await tg.answerCallbackQuery(cq.id); // clear the button spinner first
   const chatId = cq.message?.chat.id;
@@ -561,6 +627,20 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
       model: owned.model || '', promptVersion: owned.prompt_version || '', outLang: owned.output_language || '',
     });
     await tg.sendMessage(chatId, C.FEEDBACK_THANKS[locale]);
+    return;
+  }
+
+  // «Сначала / Boshidan» under an error: start over, exactly as /new.
+  if (kind === 'restart') {
+    await tg.sendMessage(chatId, C.START[locale]);
+    return;
+  }
+
+  // Buttons of Tahlil reports sent before 2026-10 led to a Day Pass offer.
+  // They now say there is nothing more, with no price and no payment (D11).
+  if (kind === 'analysis_details' || kind === 'analysis_pay_intent' || kind === 'analysis_later') {
+    await S.logEvent(db, 'analysis_details_viewed', pseudo, { locale });
+    await tg.sendMessage(chatId, C.ANALYSIS_NO_DETAILS[locale]);
     return;
   }
 
@@ -631,36 +711,6 @@ async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Pro
     return;
   }
 
-  if (kind === 'analysis_details') {
-    const report = await S.getOwnedAnalysis(db, item.id, userId);
-    if (!report) {
-      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
-      return;
-    }
-    await S.logEvent(db, 'analysis_details_viewed', pseudo, { locale });
-    await S.logEvent(db, 'paywall_shown', pseudo, { locale, product: 'tahlil_day_pass' });
-    await tg.sendMessage(chatId, C.ANALYSIS_PAYWALL[locale], { keyboard: C.analysisPaywallKeyboard(locale, item.id) });
-    return;
-  }
-
-  if (kind === 'analysis_pay_intent') {
-    const report = await S.getOwnedAnalysis(db, item.id, userId);
-    if (!report) {
-      await tg.sendMessage(chatId, C.ERR_STALE[locale]);
-      return;
-    }
-    // P0 measures demand only. No payment order, entitlement or fake checkout.
-    await S.logEvent(db, 'payment_intent', pseudo, { locale, product: 'tahlil_day_pass', amountUzs: 4900 });
-    await tg.sendMessage(chatId, C.ANALYSIS_PAYMENT_PENDING[locale]);
-    return;
-  }
-
-  if (kind === 'analysis_later') {
-    await S.logEvent(db, 'analysis_paywall_dismissed', pseudo, { locale });
-    await tg.sendMessage(chatId, C.ANALYSIS_LATER[locale]);
-    return;
-  }
-
   if (kind === 'analysis_delete') {
     const report = await S.getOwnedAnalysis(db, item.id, userId);
     if (!report) {
@@ -716,7 +766,7 @@ async function sendStoredAnalysis(
   item: S.TgItemRow,
   row: S.AnalysisReportRow,
   cached: boolean,
-): Promise<void> {
+): Promise<Failure> {
   const storedAnalysis = analysisFromStored(row);
   if (!storedAnalysis) {
     await deps.tg.sendMessage(chatId, C.ANALYSIS_FAILED[locale]);
@@ -744,7 +794,7 @@ async function runAnalysis(
   locale: Locale,
   pseudo: string,
   item: S.TgOwnedItemRow,
-): Promise<void> {
+): Promise<Failure> {
   const { db, cfg, tg, env } = deps;
   if (item.source_type !== 'voice') {
     await tg.sendMessage(chatId, C.ERR_STALE[locale]);
@@ -794,7 +844,7 @@ async function runAnalysis(
       durationBucket: durationBucket(duration),
     });
     await tg.sendMessage(chatId, abstained ? C.ANALYSIS_INSUFFICIENT[locale] : C.ANALYSIS_FAILED[locale]);
-    return;
+    return abstained ? undefined : `analysis_${result.errorCode || 'unknown'}`;
   }
 
   const analysis: TranscriptAnalysis = result.analysis;
@@ -842,7 +892,7 @@ async function runModifier(
   item: S.TgOwnedItemRow,
   modifier: JavobModifier,
   updateId: number,
-): Promise<void> {
+): Promise<Failure> {
   const { db, cfg, tg, env } = deps;
   const last = await S.getLastResult(db, item.id);
   if (!last) {
@@ -852,11 +902,11 @@ async function runModifier(
 
   const isAlternative = modifier === 'alternative';
   if (isAlternative) {
-    // «Другой» = new main generation: counts against the plan.
-    const usage = await decideUsage(db, userId);
+    // «Другой» = new main generation: counts against the free limit.
+    const usage = await decideUsage(db, userId, freeLimits(cfg));
     if (!usage.allowed) {
       await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
-      await tg.sendMessage(chatId, C.LIMIT_REACHED[locale], { keyboard: C.limitKeyboard(locale) });
+      await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));
       return;
     }
   } else {
@@ -882,12 +932,9 @@ async function runModifier(
     previous: isAlternative ? undefined : last.result_text,
     expectedLanguage: expected,
     mode: isAlternative ? 'reply' : 'modifier',
+    deadline: replyDeadline(deps),
   });
-  if (!res.ok || !res.text) {
-    await S.logEvent(db, 'javob_reply_failed', pseudo, { locale, code: res.errorCode || 'unknown', modifier });
-    await tg.sendMessage(chatId, C.ERR_PROVIDER[locale], { keyboard: C.errorKeyboard(locale, item.id) });
-    return;
-  }
+  if (!res.ok || !res.text) return await replyFailed(deps, chatId, locale, pseudo, item.id, res, modifier);
 
   const outLang = guessLanguage(res.text);
   const resultId = await S.saveResult(db, item.id, 'javob_reply', modifier, res.text, res.provider, res.model ?? null, JAVOB_PROMPT_VERSION, outLang, res.latencyMs);

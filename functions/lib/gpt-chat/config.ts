@@ -20,11 +20,12 @@ export interface GptChatConfig extends HashSalt {
   /** Per-attempt budget until an OpenRouter stream's first content (GPT_FIRST_CONTENT_TIMEOUT_MS). 5000..20000 ms. */
   firstContentTimeoutMs: number;
   // ── Paid primary for the free tier (plan WP-04, decision L6) ─────────────────
-  // webChatChain() puts the paid primary in front of the free chain only when
-  // the flag is on AND the budget is above 0; every attempt on it then has to
-  // pre-reserve its worst case from the day's budget (model-spend-store.ts),
-  // and an exhausted budget skips it to ':free'. modelChain()/freeChain() never
-  // change: Javob, AEO and the catalogue check stay ':free'.
+  // freeTierChain() (model-provider.ts; the site's free tier and Javob) puts
+  // the paid primary in front of the free chain only when the flag is on AND
+  // the budget is above 0; every attempt on it then has to pre-reserve its
+  // worst case from the day's budget (model-spend-store.ts), and an exhausted
+  // budget skips it to ':free'. modelChain()/freeChain() never change: AEO and
+  // the catalogue check stay ':free'.
   /** GPT_FREE_TIER_PAID_PRIMARY === 'true'; anything else (and unset) is false. */
   freeTierPaidPrimary: boolean;
   /** Daily USD the free tier may spend on the paid primary (GPT_FREE_PAID_DAILY_USD). 0..20, default 1; 0 = never. */
@@ -37,9 +38,9 @@ export interface GptChatConfig extends HashSalt {
   stopChargeMinChars: number;
   // ── Z.ai (second provider, web chat only; see model-provider.ts) ──────────
   // Off unless ALL THREE: GPT_MODEL_PROVIDER='zai' and GPT_ZAI_EVAL_APPROVED
-  // (public, need a deploy) and the secret ZAI_API_KEY. modelChain() below
-  // never reads these fields, so Javob and the OpenRouter catalogue check can
-  // never reach Z.ai.
+  // (public, need a deploy) and the secret ZAI_API_KEY. modelChain() and
+  // freeTierChain() never read these fields, so Javob and the OpenRouter
+  // catalogue check can never reach Z.ai.
   /** 'zai' only when GPT_MODEL_PROVIDER is 'zai' (trimmed, any case); anything else is 'openrouter'. */
   modelProvider: 'openrouter' | 'zai';
   /**
@@ -196,9 +197,9 @@ export function modelChain(cfg: GptChatConfig, tier: 'free' | 'paid'): string[] 
 }
 
 /**
- * The ':free' chain by name, for the callers that must never pay on their own:
- * Javob (functions/lib/telegram/service.ts) and the web chat's free tier, which
- * webChatChain may head with the budgeted paid primary.
+ * The ':free' chain by name, for the callers that must never pay on their own.
+ * The free tier of the web chat and Javob walk it through freeTierChain
+ * (model-provider.ts), which may head it with the budgeted paid primary.
  */
 export function freeChain(cfg: GptChatConfig): string[] {
   return modelChain(cfg, 'free');

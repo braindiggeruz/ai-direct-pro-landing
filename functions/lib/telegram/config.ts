@@ -10,7 +10,14 @@ export interface TelegramConfig extends HashSalt {
   webhookSecret: string;
   siteUrl: string;
   botUsername: string;
-  freeDailyLimit: number;
+  /**
+   * Free replies a day (TELEGRAM_FREE_DAILY_LIMIT) and a month
+   * (TELEGRAM_FREE_MONTHLY_LIMIT), counted by Tashkent day and month
+   * (billing.ts). null when unset or invalid: the plans row 'free' is the
+   * fallback (decision L15).
+   */
+  freeDailyLimit: number | null;
+  freeMonthlyLimit: number | null;
   maxInputChars: number;
   maxOutputChars: number;
   itemTtlMs: number;
@@ -29,6 +36,14 @@ function num(v: string | undefined, def: number): number {
   return Number.isFinite(n) && n > 0 ? n : def;
 }
 
+/** A whole number 1..max, or null for unset, zero, negative or garbage. */
+function limit(v: string | undefined, max: number): number | null {
+  const raw = (v || '').trim();
+  if (!/^\d+$/.test(raw)) return null;
+  const n = Number(raw);
+  return n > 0 ? Math.min(n, max) : null;
+}
+
 export function resolveTelegramConfig(env: Env): TelegramConfig {
   const voiceMinSeconds = Math.min(num(env.TELEGRAM_VOICE_MIN_SECONDS, 3), 30);
   return {
@@ -38,7 +53,8 @@ export function resolveTelegramConfig(env: Env): TelegramConfig {
     // Public, non-secret. Used only for share links; the site reads its own
     // VITE_TELEGRAM_BOT_USERNAME at build time.
     botUsername: (env.TELEGRAM_ASSISTANT_BOT_USERNAME || '').replace(/^@/, ''),
-    freeDailyLimit: num(env.TELEGRAM_FREE_DAILY_LIMIT, 20),
+    freeDailyLimit: limit(env.TELEGRAM_FREE_DAILY_LIMIT, 1000),
+    freeMonthlyLimit: limit(env.TELEGRAM_FREE_MONTHLY_LIMIT, 30_000),
     maxInputChars: num(env.TELEGRAM_MAX_INPUT_CHARS, 4000),
     maxOutputChars: num(env.TELEGRAM_MAX_OUTPUT_CHARS, 3000),
     // Source text retained only long enough for follow-up buttons (24h).

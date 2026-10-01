@@ -112,10 +112,13 @@ const DDL: string[] = [
   )`,
   `CREATE INDEX IF NOT EXISTS idx_analysis_user_expiry ON analysis_reports (telegram_user_id, expires_at)`,
   `CREATE INDEX IF NOT EXISTS idx_analysis_expiry ON analysis_reports (expires_at)`,
+  // Javob sells nothing inside Telegram (decision D11): day_pass and plus are
+  // seeded inactive, as migrations/0067 leaves them in production. The free
+  // row is the fallback for limits that TELEGRAM_FREE_* does not set.
   `INSERT OR IGNORE INTO plans (id, code, name_ru, name_uz, price_uzs, billing_type, duration_hours, monthly_limit, daily_limit, features_json, is_active, display_order, created_at) VALUES
     ('plan_free','free','Free','Free',0,'none',NULL,30,3,'{"modifiers":"basic"}',1,1,'2026-07-16T00:00:00Z'),
-    ('plan_day_pass','day_pass','Day Pass','Day Pass',2900,'one_time',24,25,NULL,'{}',1,2,'2026-07-16T00:00:00Z'),
-    ('plan_plus','plus','Plus','Plus',24900,'monthly',NULL,250,NULL,'{"launch_price_uzs":19900,"styles":1}',1,3,'2026-07-16T00:00:00Z'),
+    ('plan_day_pass','day_pass','Day Pass','Day Pass',2900,'one_time',24,25,NULL,'{}',0,2,'2026-07-16T00:00:00Z'),
+    ('plan_plus','plus','Plus','Plus',24900,'monthly',NULL,250,NULL,'{"launch_price_uzs":19900,"styles":1}',0,3,'2026-07-16T00:00:00Z'),
     ('plan_pro','pro','Pro','Pro',49900,'monthly',NULL,800,NULL,'{"styles":3,"coming_soon":true}',0,4,'2026-07-16T00:00:00Z'),
     ('plan_team','team','Team','Team',199000,'monthly',NULL,3000,NULL,'{"seats":5,"coming_soon":true}',0,5,'2026-07-16T00:00:00Z')`,
 ];

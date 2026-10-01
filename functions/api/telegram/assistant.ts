@@ -2,14 +2,18 @@
 //
 // SEPARATE from the lead-capture bot at /api/telegram/webhook: distinct token
 // (TELEGRAM_ASSISTANT_BOT_TOKEN) and secret (TELEGRAM_ASSISTANT_WEBHOOK_SECRET)
-// so both bots coexist. Validates the Telegram secret header, dedupes by
-// update_id, returns 200 immediately and processes in the background so the
-// webhook connection is never held open on the AI call.
+// so both bots coexist. Validates the Telegram secret header (constant time),
+// dedupes by update_id, returns 200 immediately and processes in the
+// background so the webhook connection is never held open on the AI call.
+// waitUntil keeps that work alive for 30 s after the response; the handler
+// plans the reply inside that window from `receivedAt`, and the update's row
+// in telegram_updates ends as 'done' or 'failed:<code>'.
 import type { Env } from '../../_types';
+import { sameSecret } from '../../lib/gpt-chat/payment-protocol';
 import { resolveTelegramConfig, telegramConfigured } from '../../lib/telegram/config';
 import { TelegramClient } from '../../lib/telegram/client';
 import { ensureTelegramSchema } from '../../lib/telegram/schema';
-import { claimUpdate } from '../../lib/telegram/store';
+import { claimUpdate, finishUpdate } from '../../lib/telegram/store';
 import { handleUpdate, type TgUpdate } from '../../lib/telegram/handler';
 
 function ok(): Response {
@@ -17,6 +21,7 @@ function ok(): Response {
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
+  const receivedAt = Date.now();
   // Feature dormant until both dedicated secrets are configured — never
   // error or expose partial configuration, just return 200.
   if (!telegramConfigured(env)) return ok();
@@ -25,8 +30,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   // Verify the shared secret. When a secret is configured it is REQUIRED;
   // a mismatch is rejected. (Telegram sends it on every webhook call.)
   if (cfg.webhookSecret) {
-    const got = request.headers.get('x-telegram-bot-api-secret-token');
-    if (got !== cfg.webhookSecret) return new Response('forbidden', { status: 401 });
+    const got = request.headers.get('x-telegram-bot-api-secret-token') || '';
+    if (!sameSecret(got, cfg.webhookSecret)) return new Response('forbidden', { status: 401 });
   }
 
   const db = env.GPTBOT_DRAFTS_DB;
@@ -47,7 +52,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       // Dedupe: a repeated update_id (Telegram retry) is a no-op.
       const fresh = await claimUpdate(db, update.update_id);
       if (!fresh) return;
-      await handleUpdate({ env, db, cfg, tg }, update);
+      const outcome = await handleUpdate({ env, db, cfg, tg, receivedAt }, update);
+      await finishUpdate(db, update.update_id, outcome);
     } catch (e) {
       console.error('tg.assistant process error:', (e as Error).message);
     }

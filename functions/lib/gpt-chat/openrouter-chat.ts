@@ -43,7 +43,7 @@ export interface ChatResult {
   finishReason?: string;
   /** usage.completion_tokens_details.reasoning_tokens (OpenRouter). */
   reasoningTokens?: number;
-  /** Requests the walk sent, at most MAX_ATTEMPTS; chatComplete sets it on every result. */
+  /** Requests the walk sent, at most MAX_ATTEMPTS (or the caller's lower cap); chatComplete sets it on every result. */
   attempts?: number;
   /**
    * Machine tag when ok=false:
@@ -251,6 +251,13 @@ async function callOne(
  * attempt ceiling stops the walk, the free tier's spent budget skips a paid
  * model to the next candidate.
  *
+ * maxAttempts lowers the request cap below MAX_ATTEMPTS (Javob's voice path
+ * asks for two). It counts requests, never chain slots, so it applies after
+ * the health filter: a model that is cooling down does not use one up. Cutting
+ * the chain before the filter instead is what silenced the bot's voice replies
+ * from 2026-09-07: its single slot was a retired model that the site kept
+ * re-cooling, so the walk had no candidate and never sent a request.
+ *
  * onOperatorEvent receives 'openrouter_credit_exhausted',
  * 'zai_balance_exhausted' and 'zai_auth_failed'; the web chat turns them into
  * an owner alert. It is optional and never awaited.
@@ -265,7 +272,9 @@ export async function chatComplete(
   signal?: AbortSignal,
   admitAttempt?: AdmitAttempt,
   onOperatorEvent?: (code: string) => void,
+  maxAttempts = MAX_ATTEMPTS,
 ): Promise<ChatResult> {
+  const attemptCap = Math.max(1, Math.min(MAX_ATTEMPTS, Math.floor(maxAttempts) || 1));
   let attempts = 0;
   const settled = (result: ChatResult): ChatResult => ({ ...result, attempts });
   if (
@@ -287,7 +296,7 @@ export async function chatComplete(
   for (const model of candidates) {
     const provider = providerOf(model);
     if (healthWildcards(model).some((wildcard) => skipped.has(wildcard))) continue;
-    if (attempts === MAX_ATTEMPTS) break;
+    if (attempts === attemptCap) break;
     if (signal?.aborted) return settled({ ok: false, errorCode: "aborted" });
     const admission = admitAttempt ? await admitAttempt(model) : "ok";
     if (admission === "stop") return settled({ ok: false, errorCode: "budget_exhausted" });

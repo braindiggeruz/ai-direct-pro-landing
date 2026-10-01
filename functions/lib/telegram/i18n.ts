@@ -1,6 +1,11 @@
 // RU / Uzbek-Latin copy + inline keyboards for the Telegram assistant.
 // Keyboards embed only an action tag + short item id in callback_data —
 // never the source text (ownership is verified server-side by item id).
+//
+// Telegram allows digital goods inside a bot only for Stars, so the bot names
+// no price, no paid plan and links to no payment or pricing page (decision
+// D11, tested): its limits are free and say when they come back.
+import type { FreeAllowance } from './billing';
 import type { InlineKeyboard } from './client';
 import type { Locale, TgAction } from './store';
 
@@ -94,14 +99,24 @@ export const RECOMMENDED_REPLY: Record<Locale, string> = {
   uz: '💬 Tavsiya etilgan javob:',
 };
 
-export const LIMIT_REACHED: Record<Locale, string> = {
-  ru: 'Бесплатный лимит на сегодня закончился. Продолжить работу можно на тарифе GPTBot.',
-  uz: 'Bugungi bepul limit tugadi. GPTBot tarifida davom ettirishingiz mumkin.',
+const LIMIT_REACHED_DAY: Record<Locale, string> = {
+  ru: 'Бесплатные ответы на сегодня закончились. Лимит обновится в 00:00 по Ташкенту.',
+  uz: 'Bugungi bepul javoblar tugadi. Limit Toshkent vaqti bilan soat 00:00 da yangilanadi.',
 };
 
+const LIMIT_REACHED_MONTH: Record<Locale, string> = {
+  ru: 'Бесплатные ответы в этом месяце закончились. Лимит обновится 1-го числа в 00:00 по Ташкенту.',
+  uz: 'Bu oy uchun bepul javoblar tugadi. Limit keyingi oyning 1-kuni Toshkent vaqti bilan soat 00:00 da yangilanadi.',
+};
+
+/** The free replies are spent: when they come back, and nothing to buy. */
+export function limitReached(locale: Locale, reason: 'daily' | 'period' | undefined): string {
+  return (reason === 'daily' ? LIMIT_REACHED_DAY : LIMIT_REACHED_MONTH)[locale];
+}
+
 export const HELP: Record<Locale, string> = {
-  ru: 'GPTBot Javob — готовый ответ на любое сообщение.\n\nПерешлите текст или голосовое — я подготовлю ответ. Кнопками можно сделать его короче, мягче, увереннее или сменить язык RU/UZ. Под голосовым есть «Анализ содержания»: он выделяет проверяемые утверждения, внутренние противоречия и вопросы, но не определяет ложь.\n\nКоманды:\n/new — новый запрос\n/lang — язык\n/plans — тарифы\n/privacy — конфиденциальность\n/delete_me — удалить мои данные',
-  uz: 'GPTBot Javob — istalgan xabarga tayyor javob.\n\nMatn yoki ovozli xabar yuboring — javob tayyorlayman. Tugmalar orqali uni qisqartirish, yumshatish, ishonchliroq qilish yoki RU/UZ tilini almashtirish mumkin. Ovozli xabar ostidagi «Mazmun tahlili» bayonotlar, ichki qarama-qarshiliklar va savollarni ko‘rsatadi, lekin yolg‘onni aniqlamaydi.\n\nBuyruqlar:\n/new — yangi so‘rov\n/lang — til\n/plans — tariflar\n/privacy — maxfiylik\n/delete_me — ma’lumotlarimni o‘chirish',
+  ru: 'GPTBot Javob — готовый ответ на любое сообщение.\n\nПерешлите текст или голосовое — я подготовлю ответ. Кнопками можно сделать его короче, мягче, увереннее или сменить язык RU/UZ. Под голосовым есть «Анализ содержания»: он выделяет проверяемые утверждения, внутренние противоречия и вопросы, но не определяет ложь.\n\nКоманды:\n/new — новый запрос\n/lang — язык\n/plans — лимит\n/privacy — конфиденциальность\n/delete_me — удалить мои данные',
+  uz: 'GPTBot Javob — istalgan xabarga tayyor javob.\n\nMatn yoki ovozli xabar yuboring — javob tayyorlayman. Tugmalar orqali uni qisqartirish, yumshatish, ishonchliroq qilish yoki RU/UZ tilini almashtirish mumkin. Ovozli xabar ostidagi «Mazmun tahlili» bayonotlar, ichki qarama-qarshiliklar va savollarni ko‘rsatadi, lekin yolg‘onni aniqlamaydi.\n\nBuyruqlar:\n/new — yangi so‘rov\n/lang — til\n/plans — limit\n/privacy — maxfiylik\n/delete_me — ma’lumotlarimni o‘chirish',
 };
 
 const PRIVACY_BASE: Record<Locale, string> = {
@@ -155,11 +170,6 @@ export const HANDOFF_WELCOME: Record<Locale, string> = {
 export const SITE_WELCOME: Record<Locale, string> = {
   ru: 'Вы пришли с сайта gptbot.uz.\n\nЗдесь, в Telegram, у бота свой отдельный дневной лимит — можно продолжать прямо сейчас.\n\nНапишите вопрос своими словами или перешлите любое сообщение — подготовлю ответ. Голосовые тоже понимаю.',
   uz: 'Siz gptbot.uz saytidan keldingiz.\n\nTelegramda botning alohida kunlik limiti bor — hoziroq davom ettirishingiz mumkin.\n\nSavolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
-};
-
-const PRICING_URL: Record<Locale, string> = {
-  ru: 'https://gptbot.uz/ru/tarify-ai-chat/',
-  uz: 'https://gptbot.uz/uz/chat-bot-narxi/',
 };
 
 const ACTION_LABELS: Record<Locale, Record<TgAction, string>> = {
@@ -285,7 +295,6 @@ export function analysisHarmRefusal(locale: Locale, category: 'child' | 'legal' 
 export function analysisReportKeyboard(locale: Locale, itemId: string): InlineKeyboard {
   return [
     [{ text: locale === 'ru' ? '❓ Вопросы для проверки' : '❓ Tekshirish savollari', callback_data: `analysis_questions:${itemId}` }],
-    [{ text: locale === 'ru' ? '📋 Подробнее' : '📋 Batafsil', callback_data: `analysis_details:${itemId}` }],
     [
       { text: locale === 'ru' ? '👍 Полезно' : '👍 Foydali', callback_data: `analysis_feedback:useful:${itemId}` },
       { text: locale === 'ru' ? '👎 Не помогло' : '👎 Yordam bermadi', callback_data: `analysis_feedback:useless:${itemId}` },
@@ -299,26 +308,14 @@ export const ANALYSIS_FEEDBACK_THANKS: Record<Locale, string> = {
   uz: 'Baholaganingiz uchun rahmat. Bu Tahlil’ni aniqroq va foydaliroq qilishga yordam beradi.',
 };
 
-export const ANALYSIS_PAYWALL: Record<Locale, string> = {
-  ru: '📋 Подробный разбор\n\nВ следующей версии здесь будут расширенные пояснения и дополнительные вопросы. Day Pass — 4 900 UZS на 24 часа.\n\nОнлайн-оплата пока подключается: сейчас кнопка только фиксирует интерес и ничего не списывает.',
-  uz: '📋 Batafsil tahlil\n\nKeyingi versiyada kengaytirilgan izohlar va qo‘shimcha savollar bo‘ladi. Day Pass — 4 900 UZS, 24 soatga.\n\nOnlayn to‘lov hozir ulanmoqda: tugma faqat qiziqishni qayd etadi va pul yechmaydi.',
-};
-
-export function analysisPaywallKeyboard(locale: Locale, itemId: string): InlineKeyboard {
-  return [[
-    { text: locale === 'ru' ? 'Day Pass · 4 900 UZS' : 'Day Pass · 4 900 UZS', callback_data: `analysis_pay_intent:${itemId}` },
-    { text: locale === 'ru' ? 'Позже' : 'Keyinroq', callback_data: `analysis_later:${itemId}` },
-  ]];
-}
-
-export const ANALYSIS_PAYMENT_PENDING: Record<Locale, string> = {
-  ru: 'Спасибо! Интерес записан. Онлайн-оплата подключается — мы ничего не списали и не создавали заказ.',
-  uz: 'Rahmat! Qiziqish qayd etildi. Onlayn to‘lov ulanmoqda — hech narsa yechilmadi va buyurtma yaratilmadi.',
-};
-
-export const ANALYSIS_LATER: Record<Locale, string> = {
-  ru: 'Хорошо. К текущему бесплатному отчёту можно вернуться в течение примерно 24 часов.',
-  uz: 'Mayli. Joriy bepul hisobotga taxminan 24 soat ichida qaytish mumkin.',
+/**
+ * Reports sent before 2026-10 carry a «Подробнее» button that led to a Day
+ * Pass offer; that button and the offer's own buttons now get this, with no
+ * price and no payment.
+ */
+export const ANALYSIS_NO_DETAILS: Record<Locale, string> = {
+  ru: 'Расширенного разбора пока нет. Отчёт выше — полный: к нему и к вопросам для проверки можно вернуться в течение суток.',
+  uz: 'Kengaytirilgan tahlil hozircha yo‘q. Yuqoridagi hisobot to‘liq: unga va tekshirish savollariga bir kun ichida qaytish mumkin.',
 };
 
 export const ANALYSIS_DELETED: Record<Locale, string> = {
@@ -366,29 +363,39 @@ export const MODIFIER_CAP: Record<Locale, string> = {
   uz: 'Bu xabar uchun tahrirlar ko‘p bo‘ldi. Xabarni qayta yuboring yoki «Boshqacha» tugmasini bosing.',
 };
 
-export interface PlanDisplay { code: string; name: string; priceUzs: number; limitLine: string }
-
-export function plansText(locale: Locale, plans: Array<{ code: string; name_ru: string; name_uz: string; price_uzs: number; billing_type: string; monthly_limit: number | null; daily_limit: number | null; duration_hours: number | null }>): string {
-  const ru = locale === 'ru';
-  const lines: string[] = [ru ? 'Тарифы GPTBot Javob:' : 'GPTBot Javob tariflari:', ''];
-  for (const p of plans) {
-    const name = ru ? p.name_ru : p.name_uz;
-    const price = p.price_uzs === 0 ? (ru ? 'бесплатно' : 'bepul')
-      : `${p.price_uzs.toLocaleString('ru-RU')} UZS${p.billing_type === 'monthly' ? (ru ? '/мес' : '/oy') : ''}`;
-    let limit: string;
-    if (p.code === 'free') limit = ru ? `${p.daily_limit} ответа в день, до ${p.monthly_limit} в месяц` : `kuniga ${p.daily_limit} ta javob, oyiga ${p.monthly_limit} tagacha`;
-    else if (p.billing_type === 'one_time') limit = ru ? `до ${p.monthly_limit} ответов, ${p.duration_hours} часа` : `${p.monthly_limit} tagacha javob, ${p.duration_hours} soat`;
-    else limit = ru ? `до ${p.monthly_limit} ответов в месяц` : `oyiga ${p.monthly_limit} tagacha javob`;
-    lines.push(`• ${name} — ${price}\n  ${limit}`);
-  }
-  lines.push('');
-  lines.push(ru ? 'Онлайн-оплата скоро. Подробнее: https://gptbot.uz/ru/tarify-ai-chat/' : 'Onlayn to‘lov tez orada. Batafsil: https://gptbot.uz/uz/chat-bot-narxi/');
-  return lines.join('\n');
+// 1 ответ, 2 ответа, 5 ответов, 11 ответов, 21 ответ.
+function repliesRu(n: number): string {
+  const tens = n % 100;
+  const ones = n % 10;
+  if (tens >= 11 && tens <= 14) return 'ответов';
+  if (ones === 1) return 'ответ';
+  if (ones >= 2 && ones <= 4) return 'ответа';
+  return 'ответов';
 }
 
-export function limitKeyboard(locale: Locale): InlineKeyboard {
-  const label = locale === 'ru' ? 'Посмотреть тарифы' : 'Tariflarni ko‘rish';
-  return [[{ text: label, url: PRICING_URL[locale] }]];
+/**
+ * /plans: the free limits and what is left today. A fixed text, not the plan
+ * catalogue: no price, no paid plan, no link (decision D11). `limits` is null
+ * only when no limit could be read; `remainingToday` is null outside the free
+ * tier.
+ */
+export function plansText(locale: Locale, limits: FreeAllowance | null, remainingToday: number | null): string {
+  const ru = locale === 'ru';
+  const lines = [ru ? 'Лимит GPTBot Javob' : 'GPTBot Javob limiti', ''];
+  if (limits) {
+    lines.push(ru
+      ? `Бесплатно: ${limits.daily} ${repliesRu(limits.daily)} в день, до ${limits.monthly} в месяц. Лимит обновляется в 00:00 по Ташкенту.`
+      : `Bepul: kuniga ${limits.daily} ta javob, oyiga ${limits.monthly} tagacha. Limit Toshkent vaqti bilan soat 00:00 da yangilanadi.`);
+  } else {
+    lines.push(ru
+      ? 'Ответы бесплатные в пределах дневного лимита. Он обновляется в 00:00 по Ташкенту.'
+      : 'Javoblar kunlik limit doirasida bepul. Limit Toshkent vaqti bilan soat 00:00 da yangilanadi.');
+  }
+  if (remainingToday !== null) lines.push(ru ? `Сегодня осталось ответов: ${remainingToday}.` : `Bugun qolgan javoblar: ${remainingToday} ta.`);
+  lines.push('', ru
+    ? 'В боте ничего не продаётся: оплаты и платных функций здесь нет.'
+    : 'Botda hech narsa sotilmaydi: bu yerda to‘lov ham, pullik funksiyalar ham yo‘q.');
+  return lines.join('\n');
 }
 
 export function errorKeyboard(locale: Locale, itemId?: string): InlineKeyboard {

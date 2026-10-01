@@ -12,18 +12,16 @@ import { shortId } from './store';
 
 export type UsageType = 'main_generation' | 'modifier' | 'analysis';
 
-export interface PlanRow {
-  code: string;
-  name_ru: string;
-  name_uz: string;
-  price_uzs: number;
-  billing_type: string;
-  duration_hours: number | null;
-  monthly_limit: number | null;
-  daily_limit: number | null;
-  features_json: string | null;
-  is_active: number;
-  display_order: number;
+/** The bot's free replies: TELEGRAM_FREE_DAILY_LIMIT / _MONTHLY_LIMIT, null when unset. */
+export interface ConfiguredLimits {
+  daily: number | null;
+  monthly: number | null;
+}
+
+/** The free tier's limits a decision used. */
+export interface FreeAllowance {
+  daily: number;
+  monthly: number;
 }
 
 export interface UsageDecision {
@@ -32,21 +30,30 @@ export interface UsageDecision {
   remainingToday: number | null;  // free tier only
   remainingPeriod: number;        // entitlement / monthly remaining
   reason?: 'daily' | 'period';
+  /** Free tier only: the limits applied; null for an entitlement or a missing catalogue. */
+  freeLimits: FreeAllowance | null;
 }
 
 export const MAX_MODIFIERS_PER_ITEM = 8; // callback-spam cap, config-in-code
 
-function nowIso(): string { return new Date().toISOString(); }
-function utcDate(d = new Date()): string { return d.toISOString().slice(0, 10); }
-function monthStartIso(d = new Date()): string {
-  return `${d.toISOString().slice(0, 7)}-01T00:00:00.000Z`;
-}
+/** Tashkent keeps UTC+5 all year (no daylight saving). */
+const TASHKENT_OFFSET_MS = 5 * 3600_000;
 
-export async function listActivePlans(db: D1Database): Promise<PlanRow[]> {
-  const res = await db
-    .prepare('SELECT code, name_ru, name_uz, price_uzs, billing_type, duration_hours, monthly_limit, daily_limit, features_json, is_active, display_order FROM plans ORDER BY display_order')
-    .all<PlanRow>();
-  return (res.results || []).filter((p) => p.is_active === 1);
+function nowIso(): string { return new Date().toISOString(); }
+
+/**
+ * Where the Tashkent day and month holding `now` began, as the ISO instants
+ * the ledger's created_at is compared with. The bot's limits turn at 00:00 in
+ * Tashkent (19:00 UTC the day before), which is what the bot tells people.
+ */
+export function tashkentPeriodStarts(now = new Date()): { day: string; month: string } {
+  const local = new Date(now.getTime() + TASHKENT_OFFSET_MS);
+  const year = local.getUTCFullYear();
+  const month = local.getUTCMonth();
+  return {
+    day: new Date(Date.UTC(year, month, local.getUTCDate()) - TASHKENT_OFFSET_MS).toISOString(),
+    month: new Date(Date.UTC(year, month, 1) - TASHKENT_OFFSET_MS).toISOString(),
+  };
 }
 
 interface EntRow { id: string; remaining: number; expires_at: string; source: string }
@@ -70,7 +77,7 @@ async function ledgerCount(db: D1Database, userId: number, usageType: UsageType,
   return row?.c ?? 0;
 }
 
-async function freePlanLimits(db: D1Database): Promise<{ daily: number; monthly: number } | null> {
+async function freePlanLimits(db: D1Database): Promise<FreeAllowance | null> {
   const row = await db
     .prepare("SELECT daily_limit, monthly_limit FROM plans WHERE code = 'free' AND is_active = 1 LIMIT 1")
     .first<{ daily_limit: number | null; monthly_limit: number | null }>();
@@ -79,22 +86,48 @@ async function freePlanLimits(db: D1Database): Promise<{ daily: number; monthly:
   return { daily: row.daily_limit!, monthly: row.monthly_limit! };
 }
 
+/**
+ * The configured limits win (decision L15: 10 a day, 100 a month); the plans
+ * row 'free' fills in a value that is not configured. The catalogue is not
+ * read when both are set.
+ */
+async function freeAllowance(db: D1Database, configured: ConfiguredLimits): Promise<FreeAllowance | null> {
+  if (configured.daily !== null && configured.monthly !== null) {
+    return { daily: configured.daily, monthly: configured.monthly };
+  }
+  const plan = await freePlanLimits(db);
+  if (!plan) return null;
+  return { daily: configured.daily ?? plan.daily, monthly: configured.monthly ?? plan.monthly };
+}
+
 /** Decide whether a main generation is allowed, WITHOUT consuming it. */
-export async function decideUsage(db: D1Database, userId: number): Promise<UsageDecision> {
+export async function decideUsage(
+  db: D1Database,
+  userId: number,
+  configured: ConfiguredLimits,
+  now = new Date(),
+): Promise<UsageDecision> {
   const ent = await activeEntitlement(db, userId);
   if (ent) {
     const planCode = ent.source.includes('day_pass') ? 'day_pass' : ent.source.includes('plus') ? 'plus' : ent.source.split(':')[1] || 'paid';
-    return { allowed: true, planCode, remainingToday: null, remainingPeriod: ent.remaining };
+    return { allowed: true, planCode, remainingToday: null, remainingPeriod: ent.remaining, freeLimits: null };
   }
-  // Free tier limits come from the plan catalog; usage is ledger-derived.
-  const free = await freePlanLimits(db);
-  // Missing/invalid catalog data must never turn into unlimited usage.
-  if (!free) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period' };
-  const usedToday = await ledgerCount(db, userId, 'main_generation', `${utcDate()}T00:00:00.000Z`);
-  const usedMonth = await ledgerCount(db, userId, 'main_generation', monthStartIso());
-  if (usedMonth >= free.monthly) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period' };
-  if (usedToday >= free.daily) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: free.monthly - usedMonth, reason: 'daily' };
-  return { allowed: true, planCode: 'free', remainingToday: free.daily - usedToday, remainingPeriod: free.monthly - usedMonth };
+  // Usage is ledger-derived.
+  const free = await freeAllowance(db, configured);
+  // Missing/invalid limits must never turn into unlimited usage.
+  if (!free) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period', freeLimits: null };
+  const starts = tashkentPeriodStarts(now);
+  const usedToday = await ledgerCount(db, userId, 'main_generation', starts.day);
+  const usedMonth = await ledgerCount(db, userId, 'main_generation', starts.month);
+  if (usedMonth >= free.monthly) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period', freeLimits: free };
+  if (usedToday >= free.daily) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: free.monthly - usedMonth, reason: 'daily', freeLimits: free };
+  return {
+    allowed: true,
+    planCode: 'free',
+    remainingToday: Math.min(free.daily - usedToday, free.monthly - usedMonth),
+    remainingPeriod: free.monthly - usedMonth,
+    freeLimits: free,
+  };
 }
 
 /** P0 Tahlil quota is deliberately separate from Javob reply entitlements. */
@@ -102,9 +135,10 @@ export async function decideAnalysisUsage(
   db: D1Database,
   userId: number,
   dailyLimit = 1,
+  now = new Date(),
 ): Promise<{ allowed: boolean; remainingToday: number }> {
   const limit = Math.max(1, Math.min(Math.floor(dailyLimit), 1));
-  const used = await ledgerCount(db, userId, 'analysis', `${utcDate()}T00:00:00.000Z`);
+  const used = await ledgerCount(db, userId, 'analysis', tashkentPeriodStarts(now).day);
   return { allowed: used < limit, remainingToday: Math.max(0, limit - used) };
 }
 

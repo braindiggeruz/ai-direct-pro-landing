@@ -101,6 +101,9 @@ export const RUNTIME_CONFIG_KEYS = [
   // GPT_HASH_SALT and never listed here.
   'GPT_HASH_SALT_SINCE',
   'GPT_MESSAGES_RETENTION_DAYS',
+  // Javob's free replies a day and a month (functions/lib/telegram/billing.ts).
+  'TELEGRAM_FREE_DAILY_LIMIT',
+  'TELEGRAM_FREE_MONTHLY_LIMIT',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

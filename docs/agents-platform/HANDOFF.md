@@ -1,3 +1,63 @@
+# Платный AI-чат: WP-08 — бот @gptbotuz_bot отвечает снова, без цен и ссылок на оплату (P0, D11), миграция 0067, 2026-10-01
+
+**Итог.** Сделан WP-08 плана `10-PROD-PLAN.md` (релиз R2, решения L15 и D11) на ветке `paid-chat/prod-readiness` поверх `9ae4f01b` (WP-07 с ревью). Причина молчания бота с 13.09 (карта `04` §3.1): голосовой путь резал цепочку до одной модели **до** фильтра здоровья, а первой стояла удалённая MiniMax, которую сайт каждый час ставил на паузу, — запрос не уходил вовсе. Теперь попытки считаются после фильтра, сбои видны владельцу и сторожу, у апдейта есть исход, в боте нет цен, тарифов и ссылок на оплату. Ничего не запушено и не задеплоено. Cloudflare, секреты, GSC, вебхуки и боты не менялись; Bot API не вызывался; D1 не читалась. `GPT_BOT_HANDOFF_ENABLED` остаётся `"false"` (R2.1). Runbook: `docs/paid-chat/BOT-RU.md`.
+
+**Что сделано.**
+1. **Путь ответа** (`functions/lib/telegram/service.ts`):
+   - цепочка бота — `freeTierChain` (бывший `siteFreeChain`, теперь экспортирован): платная основная только при `GPT_FREE_TIER_PAID_PRIMARY` и только из общего суточного бюджета (`freePaidBudget`, `gpt_model_spend.bucket = 'free_paid'`, как у бесплатных на сайте), затем `:free`. Без D1 бюджета нет, и цепочка только `:free`. Перед ходом `ensureBillingSchema` (схема бота не создаёт `gpt_*`);
+   - `chatComplete(…, maxAttempts)` (`openrouter-chat.ts`): потолок запросов ниже `MAX_ATTEMPTS`, считается после `availableModels`. Голос — 2 запроса, текст — 3;
+   - один дедлайн: работа моделей кончается через 25 с после прихода апдейта (`receivedAt` из `assistant.ts`), первая генерация ≤ 14 с, повтор после валидатора ≤ 10 с, генерация с остатком < 1 с не начинается (первая → `timeout`, повтор → `validation_failed`). Голос: одна генерация ≤ 10 с без повтора;
+   - ответ, обрезанный по `max_tokens` (`finish_reason = length`), не отправляется: код `truncated`;
+   - `issues` — коды замечаний валидатора без `detail`; алерты OpenRouter (402, исчерпанный бюджет) пишутся как с сайта.
+2. **Обработчик** (`handler.ts`): `handleUpdate` возвращает исход `done | failed:<код>` (`failed:exception` при исключении); неудачный ответ → событие `javob_reply_failed {code, issues}`, «не удалось» с «Повторить / Сначала», затем `alertOperator('bot_<код>', {watchdog:true})` (кроме `content_refused`, `bad_request`); `restart:` = `/new`; голос — `maxAttempts: 2`, 10 с.
+3. **Исход апдейта** (`store.ts`, `assistant.ts`): `claimUpdate` пишет `processing`, `finishUpdate` — `done` или `failed:<код>` (только из `processing`, повтор не перезаписывает). Секрет вебхука сравнивается `sameSecret` (постоянное время).
+4. **Сторож и алерты:** `watchdog-store.ts` += `bot_silent`: за 24 ч ≥ 3 апдейта `failed:*` или `processing` дольше 2 минут и 0 `javob_reply_generated` (таблицы бота без `org_id` читает только `gptbot-consumer`; базы без них — нули). `alert-policy.ts`: вместо `bot_*` срочные только `bot_no_key`, `bot_account_unavailable`, `bot_model_unavailable`, `bot_models_cooling`, `bot_silent`, с текстами.
+5. **Лимиты (L15):** `TELEGRAM_FREE_DAILY_LIMIT = "10"`, новый `TELEGRAM_FREE_MONTHLY_LIMIT = "100"` (JSON и таблица `wrangler.toml`, `RUNTIME_CONFIG_KEYS`, `_types.ts`; JSON ≈ 3,4 КБ из 5,12). Незаданное или мусорное значение берётся из `plans.free`. Сутки и месяц — по Ташкенту (`tashkentPeriodStarts`), дневной Tahlil тоже.
+6. **D11** (`i18n.ts`): `/plans` — лимит, когда он обновится и сколько осталось сегодня; `HELP` «/plans — лимит / limit»; `limitReached` (день / месяц) без тарифа; удалены `limitKeyboard`, `PRICING_URL`, `ANALYSIS_PAYWALL`, `analysisPaywallKeyboard`, `ANALYSIS_PAYMENT_PENDING`, `ANALYSIS_LATER`, кнопка «Подробнее» у отчёта Tahlil, `listActivePlans`/`PlanRow`; старые `analysis_details|analysis_pay_intent|analysis_later` → `ANALYSIS_NO_DETAILS`, `payment_intent` больше не пишется. Сид `schema.ts`: `day_pass`, `plus` — `is_active = 0`.
+7. **Миграция** `migrations/0067_javob_plans_retire.sql`: `UPDATE plans SET is_active = 0, updated_at = … WHERE code IN ('day_pass','plus') AND is_active <> 0`; rollback в шапке.
+8. **Профиль бота:** новый `functions/lib/telegram/bot-profile.ts` (команды и описания RU по умолчанию и UZ; `plans — лимит / limit`), его читают `scripts/telegram-setup.ts` (тексты сверены побайтно с прежними, guard не тронут) и новый `POST /api/internal/javob-setup` (Bearer `GPT_BILLING_MAINTENANCE_SECRET` до чтения тела; без тела — только `getMy*` и сверка, `{"apply":true}` — `setMy*` RU и UZ и сверка; защищённый бот → 409 до записи; вебхук не трогает; токен в ответ не попадает).
+9. **Проба** `POST /api/internal/gpt-model-probe?target=javob`: `runJavobValidated` на постоянном UZ и RU сообщении, текст и голос; в ответе только коды, модель, `retried`, `latencyMs`.
+10. **Документы:** новый `docs/paid-chat/BOT-RU.md`; `ALERTS-RU.md` (коды бота, `bot_silent`), `MODELS-RU.md` (бот на `freeTierChain`, `maxAttempts`; таблица цепочек была в порядке до R1 — исправлена).
+
+**Отклонения от плана (и почему).**
+1. Бюджет — существующий `bucket = 'free_paid'`, а не `free`: тот же суточный $1, что у сайта (L15 требует общий).
+2. Код «все на паузе» — `models_cooling` из WP-03, а не `all_cooling_down` из карты.
+3. Алерты идут через `alertOperator` (запись + сторож + доставка), как у чата, а не только `recordServiceAlert`; срочными оставлены 5 кодов вместо `bot_*`: иначе каждый единичный `rate_limit` или `validation_failed` будил бы владельца (логика D6).
+4. `bot_silent` считает апдейты с ошибкой или оборванные, а не все входы: вход без положенного ответа (лимит, уточняющий вопрос, короткое голосовое, `/start`) иначе поднимал бы ложную тревогу на сутки.
+5. «≤ 28 с» реализовано как 25 с на модели от прихода апдейта: остаток нужен, чтобы сохранить и отправить ответ или ошибку. Голос получил 10 с вместо 8.
+6. Добавлено из карты `04` §4 п.4: обрезанный ответ не отправляется (`truncated`).
+7. По Ташкенту считается и месяц, и дневной Tahlil; лимит месяца получил свой текст (иначе обещание «в 00:00» было бы ложным).
+8. `/plans` показывает и остаток на сегодня.
+9. Проба `javob` пишет то же, что настоящий ответ (паузы моделей, бюджет, алерты OpenRouter), но не квоту и не `bot_<код>`: иначе это не проба пути бота.
+10. `/delete_me` по-прежнему стирает `usage_ledger` и обнуляет лимит (карта `04` §5, «побочная мелочь») — вне WP-08.
+
+**Проверки.**
+- `npx tsc -b` — 0; `npm run typecheck:functions` — 0; ESLint изменённых файлов (24) — 0.
+- Тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`): telegram-assistant 76/76 (было 61), telegram-web-handoff 22/22 (+1, настоящий SQLite: ответ после handoff мимо модели на паузе и срочный `bot_models_cooling` владельцу), gpt-watchdog 14/14 (+1), gpt-model-policy 14/14 (+1), functions-type-safety 38, gpt-zai-provider 18, runtime-config 4, pages-config-parity 7, openrouter-model-catalogue 5, gpt-chat-budget 10, gpt-routing 6, gpt-hash-salt 11, platform-events 20, telegram-channel-compat 1, gpt-operations 7, gpt-chat 19, gpt-chat-limits 13, gpt-readiness 9, gpt-chat-stream 11, gpt-chat-truncation 8, gpt-billing 15, gpt-backend-security 31, gpt-chat-bridge 42, secret-scan 16, gpt-uzum-payments 17, gpt-chat-runtime-schema 5, gpt-retention 4, gpt-chat-session-privacy 3, gpt-lead-outbox-endpoint 3, gpt-chat-handoff-link 11.
+- Весь список `npm test` по одному файлу: 68 файлов, 861/863; падают только два известных теста `tests/lead-radar.test.ts` (фикстуры от 2026-08-24), как до WP-08.
+- Мутации ловятся: обрезка цепочки до фильтра (голос при двух моделях на паузе), смещение Ташкента 0 (лимиты), отключённый `restart:`.
+- `npm run build:fast` → `seo-protection check` — **10/10 unchanged**. `src/` и `content/` не менялись.
+- `git diff --check`, `npm run scan:secrets`, регулярка токена Telegram по diff — чисто. `webhook.ts`, `TELEGRAM_BOT_TOKEN`, `scripts/seo-protection.ts`, `docs/seo/evidence` не тронуты.
+
+**Для релиза R2 (ведущий; подробно — `BOT-RU.md`, шаги соли — `SALT-RU.md`).**
+1. `migrations list --remote` — ровно `0067_javob_plans_retire.sql`; репетиция на копии (дважды, второй прогон без изменений) → `apply` → `SELECT code, is_active FROM plans` (`free 1`, остальные 0).
+2. Guarded-деплой кода R2 (WP-07 + WP-08). Новых секретов WP-08 не требует; `TELEGRAM_FREE_*` приходят с `wrangler.toml`.
+3. Проба `?target=javob`: 4 прогона `ok`, у голоса нет `models_cooling`.
+4. `POST /api/internal/javob-setup` → проверка → `{"apply":true}` → `matches: true` (это и есть `getMyCommands`).
+5. По желанию владелец за минуту шлёт боту текст и голосовое.
+6. Через сутки — агрегаты из `BOT-RU.md`: в `javob_reply_failed` нет `rate_limit` от модели на паузе, в `telegram_updates.status` видны исходы.
+7. R2.1: 7 дней ≥ 90 % ответов → `GPT_BOT_HANDOFF_ENABLED = "true"` → деплой.
+- **Откат:** `git revert` + guarded-деплой; миграцию не откатывать (старый код покажет в `/plans` только Free).
+
+**Открыто.**
+1. Платная основная для бота включится вместе с сайтом (R1.1) только после покупки кредитов OpenRouter.
+2. В сообщении бота длиннее 3000 символов текст по-прежнему обрезается до `TELEGRAM_MAX_OUTPUT_CHARS` без пометки (было и раньше; при `max_tokens` 1000 редкость).
+3. WP-16 (вход через бота) правит тот же `handler.ts` — делать после R2.
+
+**Дальше.** Выкат R2 (WP-07 + WP-08) по `SALT-RU.md` и `BOT-RU.md`, затем WP-09.
+
+---
+
 # Платный AI-чат к проду: ревью WP-07, 2026-10-01
 
 **Итог.** Проверил коммиты WP-07 `2c2f0348` (код) и `4d5f14bd` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md`: §1, решение L8 из §2, §4 WP-07, §5 и §6, картой `01` §1.8 и `AGENTS.md` §2–8, §11. Сделано верно:
