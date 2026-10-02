@@ -3,7 +3,7 @@
     "wp": "WP-17",
     "release": "R4",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "782dc7f3e2c506ff206de2c073df0dcf01303997",
     "commit_note": "feat(gpt-chat): the AI paket window, the Paketim panel and the way back from a payment (parent 0a5f791b); the next commit, docs(agents-platform): record the WP-17 commit in STATE, records this SHA (metadata only, rule D-006, state_commit)",
     "resume_note": "Started on a clean tree at 0a5f791b (WP-16 after review); no interrupted WP-17 attempt and no wp17 backup existed.",
     "source": "10-PROD-PLAN.md sections 1, 2 (L7, L14, L16, L18), 3 (R4), 4 (WP-17), 5, 6; map 03 sections 3.2-3.6 (window, sign-in, checkout and return, Uzum code, Paketim), 4 (copy), 7 (bundle) and 8.1 (GA4 funnel, purchase).",
@@ -1127,7 +1127,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "782dc7f3e2c506ff206de2c073df0dcf01303997",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
