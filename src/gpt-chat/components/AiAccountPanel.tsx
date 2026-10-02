@@ -64,7 +64,7 @@ export function AiAccountPanel({
   remaining: number;
   /** The server refused a turn and the limit stands. */
   limited: boolean;
-  /** The browser is about to leave for a payment page: keep what the chat must find again. */
+  /** The browser is about to leave for a payment page or the Uzum Bank app: keep what the chat must find again. */
   onLeave?: () => void;
 }) {
   const [payReturn] = useState(() => new URLSearchParams(window.location.search).get("pay") === "return");
@@ -147,7 +147,9 @@ export function AiAccountPanel({
       saveCheckout(watch);
       setOutcome(null);
       setCheckout(watch);
-      if (watch.flow === "redirect") onLeave?.();
+      // Off to the payment page, or to the Uzum Bank app with the code: a
+      // phone may unload this tab meanwhile, so the composer's question is kept.
+      if (watch.flow === "redirect" || watch.flow === "code") onLeave?.();
     },
     dismiss: () => {
       setOutcome(null);

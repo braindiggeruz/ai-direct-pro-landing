@@ -182,7 +182,10 @@ test('chat-account: sign-in through the bot — the button, then the number, the
       const waiting = render();
       for (const line of [...copy.botLoginSteps('gptbotuz_bot'), copy.botLoginOpen, copy.botLoginCopy, copy.botLoginWarning]) assert.ok(waiting.includes(line.replace(/&/g, '&amp;')), `${locale}: ${line}`);
       assert.match(waiting, /<strong class="gpt-login-code">47<\/strong>/);
-      assert.ok(waiting.includes(`<a class="gpt-primary ym-disable-tracklink" href="${deepLink}"`) && waiting.includes('rel="noopener noreferrer"'));
+      // The deep link carries the attempt's nonce: a button opens it, so no <a href>
+      // reaches outbound-link tracking (Metrika, GA4) or a session recording.
+      assert.ok(!waiting.includes(deepLink) && !waiting.includes('login_'), locale);
+      assert.ok(waiting.includes(`<button type="button" class="gpt-primary">${copy.botLoginOpen} <span aria-hidden="true">↗</span></button>`), locale);
       assert.match(waiting, new RegExp(copy.botLoginWaiting('(9:59|10:00)').replace(/[…]/g, '.')));
       // Code mode: no number on the site.
       store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'code', code: null, deepLink, expiresAt: Date.now() + 600_000 }));
@@ -195,6 +198,10 @@ test('chat-account: sign-in through the bot — the button, then the number, the
         React.createElement(AccountDialog, { ...frame(), t: strings(locale), locale, account: handle(guest()) })));
       assert.ok(oidc.includes(copy.login) && !oidc.includes('gpt-bot-login'));
     }
+    // The button opens the link itself (a new tab, or this one if blocked).
+    const screen = read('src/gpt-chat/account/BotLoginScreen.tsx');
+    assert.match(screen, /window\.open\(attempt\.deepLink, '_blank'\)/);
+    assert.doesNotMatch(screen, /href=\{attempt\.deepLink\}/);
     // A stored attempt that is not our bot's sign-in link is ignored.
     store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'pick', code: '47', deepLink: 'https://t.me/someone_else?start=login_' + 'ab'.repeat(16), expiresAt: Date.now() + 600_000 }));
     assert.ok(!renderToStaticMarkup(React.createElement(Dialog, { open: true },

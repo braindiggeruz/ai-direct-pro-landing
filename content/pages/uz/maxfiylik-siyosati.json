@@ -128,7 +128,9 @@
       "type": "list",
       "items": [
         "Cloudflare (AQSh) — sayt xostingi va ma’lumotlar bazasi.",
-        "OpenRouter (AQSh) va u orqali AI model yetkazib beruvchilari (masalan, NVIDIA, Google, Mistral AI) — javob olish uchun savol va suhbat tarixi. Javob bergan model nomi javob ostida ko‘rsatiladi.",
+        "OpenRouter, Inc. (AQSh) — AI chat va bot AI modellarga u orqali murojaat qiladi: savol va suhbat tarixini oladi va ularni javob beradigan modelga uzatadi.",
+        "AI model yetkazib beruvchilari — OpenRouter savolni ularga uzatadi: hozir bular NVIDIA (Nemotron modellari), dots-studio (dots modeli), Google (Gemma modellari) va Mistral AI (Mistral Small modeli), botdagi yozuvni tahlil qilish uchun esa OpenAI. Ro‘yxat chat sozlamalari bilan birga o‘zgaradi; javob bergan model nomi javob ostida ko‘rsatiladi.",
+        "Groq (AQSh), u ishlamasa — OpenAI (AQSh) — @gptbotuz_bot botidagi ovozli xabarlarni matnga aylantirish.",
         "Z.ai (Singapur) — faqat chat uning modellariga o‘tkazilgan bo‘lsa; bu ham javob ostidagi model nomidan ko‘rinadi.",
         "Click va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",
         "Telegram — bot orqali kirish, bot bilan yozishma va egasiga arizalar hamda to‘lovlar haqida xabarnomalar.",
@@ -147,7 +149,7 @@
       "type": "list",
       "items": [
         "AI chat yozishmalari — ularni o‘chirishni so‘ramaguningizcha.",
-        "Limitlar va matnsiz texnik hodisalar — 93 kun.",
+        "Limitlar va matnsiz texnik hodisalar (jumladan AI paket oynasi qadamlari hamda arizalar va chatdan botga o‘tishlar haqidagi belgilar) — 93 kun.",
         "Botdagi matn va ovozli xabarlar — 24 soat.",
         "Arizalar — ularni o‘chirishni so‘ramaguningizcha.",
         "To‘lov yozuvlari va cheklar — soliq qonunchiligi talab qiladigan muddat davomida."

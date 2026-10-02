@@ -173,6 +173,17 @@ export function BotLoginScreen({
     setAttempt(null);
   };
 
+  // The deep link carries the attempt's nonce: it is opened from a button,
+  // never an <a href>, so no outbound-link tracking (Metrika trackLinks, GA4
+  // enhanced measurement, a tag manager) and no session recording ever sees it.
+  const openTelegram = () => {
+    if (!attempt) return;
+    const tab = window.open(attempt.deepLink, '_blank');
+    if (tab) tab.opener = null;
+    // A blocked new tab: go in this one; the attempt survives the reload.
+    else location.assign(attempt.deepLink);
+  };
+
   const copyLink = async () => {
     if (!attempt) return;
     try {
@@ -222,10 +233,9 @@ export function BotLoginScreen({
           </li>
         ))}
       </ol>
-      {/* Metrika's own outbound-link tracking keeps the nonce out of its reports. */}
-      <a className="gpt-primary ym-disable-tracklink" href={attempt.deepLink} target="_blank" rel="noopener noreferrer">
+      <button type="button" className="gpt-primary" onClick={openTelegram}>
         {copy.botLoginOpen} <span aria-hidden="true">↗</span>
-      </a>
+      </button>
       <button type="button" className="gpt-text-button" onClick={() => void copyLink()}>
         {copied ? copy.botLoginCopied : copy.botLoginCopy}
       </button>

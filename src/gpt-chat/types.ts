@@ -1,4 +1,6 @@
 // Shared types for the AI-chat island.
+import { receiptHost, UZUM_HOST } from '../shared/payment-hosts';
+
 export type Locale = "ru" | "uz";
 
 export type PaymentProvider = 'click' | 'payme' | 'uzum';
@@ -7,9 +9,8 @@ export function isPaymentProvider(value: unknown): value is PaymentProvider {
   return typeof value === 'string' && PAYMENT_PROVIDERS.includes(value);
 }
 
-// Same suffix rule as UZUM_HOST_PATTERN in functions/lib/gpt-chat/uzum-config.ts
-// (tests/gpt-uzum-payments.test.ts keeps the two equal).
-export const UZUM_CHECKOUT_HOST = /(^|\.)(uzumbank\.uz|uzumcheckout\.uz|uzum\.uz)$/;
+// Uzum's domains, one rule with the server (src/shared/payment-hosts.ts).
+export const UZUM_CHECKOUT_HOST = UZUM_HOST;
 /** Where the browser may be sent to pay: the providers' own hosts only. */
 export function allowedCheckoutUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;
@@ -39,6 +40,8 @@ export interface PackTerms {
   months: number;
   /** VAT included in the price; null until the fiscal settings are set. */
   vat?: { percent: number; includedTiyin: number } | null;
+  /** Working days the seller has to pay a refund back (the offer, section 8). */
+  refundDays?: number;
 }
 
 export interface AccountView {
@@ -61,16 +64,35 @@ export interface AccountView {
   uzumFlow?: 'checkout' | 'code' | null;
   /** The account's permanent code for the Uzum Bank app, once issued for the current terms. */
   paymentCode?: string | null;
+  /**
+   * The running packs. order_id, ends_at and message_limit are the pack
+   * turns draw from first; `remaining` counts every running pack (they run
+   * side by side), and so does `dayRemaining`.
+   */
   access?: {
     order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null;
     /** The pack's own size (300 for the AI pack). */
     message_limit?: number;
-    /** What the pack's day cap still lets through today, at most `remaining`. */
+    /** What the day cap still lets through today, at most `remaining`. */
     dayRemaining?: number;
+    /** Packs running side by side, their answers bought, and when the last ends. */
+    packs?: number;
+    totalLimit?: number;
+    paidThrough?: number;
+    /** What is left in the pack turns draw from first (until ends_at). */
+    firstRemaining?: number;
   } | null;
-  payment?: { id: string; state: string; provider?: PaymentProvider } | null;
+  /** The newest order; `cancellable`: open, and no provider has seen it yet. */
+  payment?: { id: string; state: string; provider?: PaymentProvider; cancellable?: boolean } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
-  refundable?: Array<{ order_id: string; starts_at: number; refund_requested_at: number | null }>;
+  /**
+   * Running packs a refund can be asked for, and asked ones: the unused
+   * answers (frozen by the request) and the sum the offer's rule gives back.
+   */
+  refundable?: Array<{
+    order_id: string; starts_at: number; refund_requested_at: number | null;
+    ends_at?: number; message_limit?: number; unused?: number; refund_uzs?: number;
+  }>;
 }
 
 export function isOpaqueStorageKey(value: unknown): value is string {
@@ -85,11 +107,16 @@ function isPositive(value: unknown): value is number {
   return isCount(value) && value > 0;
 }
 
+function isTime(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0;
+}
+
 function validPack(pack: unknown): pack is PackTerms {
   if (!pack || typeof pack !== 'object') return false;
-  const { priceUzs, messageLimit, dailyLimit, months, vat } = pack as PackTerms;
+  const { priceUzs, messageLimit, dailyLimit, months, vat, refundDays } = pack as PackTerms;
   return isPositive(priceUzs) && isPositive(messageLimit) && isPositive(dailyLimit) && isPositive(months)
-    && (vat === undefined || vat === null || (typeof vat === 'object' && isCount(vat.percent) && isCount(vat.includedTiyin)));
+    && (vat === undefined || vat === null || (typeof vat === 'object' && isCount(vat.percent) && isCount(vat.includedTiyin)))
+    && (refundDays === undefined || isPositive(refundDays));
 }
 
 /** Nine digits, the first not 0: the shape of an Uzum Bank app code (payment-code-store.ts). */
@@ -118,12 +145,22 @@ export function validAccountView(value: unknown): value is AccountView {
     && (account.paymentCode === undefined || account.paymentCode === null
       || (!!account.user && typeof account.paymentCode === 'string' && PAYMENT_CODE.test(account.paymentCode)))
     && (!account.access || (!!account.user && typeof account.access.order_id === 'string'
-      && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && isCount(account.access.remaining)
+      && isTime(account.access.ends_at) && isCount(account.access.remaining)
       && (account.access.message_limit === undefined || isPositive(account.access.message_limit))
-      && (account.access.dayRemaining === undefined || isCount(account.access.dayRemaining))))
-    && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string' && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))))
+      && (account.access.dayRemaining === undefined || isCount(account.access.dayRemaining))
+      && (account.access.packs === undefined || isPositive(account.access.packs))
+      && (account.access.totalLimit === undefined || isPositive(account.access.totalLimit))
+      && (account.access.paidThrough === undefined || isTime(account.access.paidThrough))
+      && (account.access.firstRemaining === undefined || isCount(account.access.firstRemaining))))
+    && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string'
+      && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))
+      && (account.payment.cancellable === undefined || typeof account.payment.cancellable === 'boolean')))
     && (account.receipts === undefined || (Array.isArray(account.receipts) && account.receipts.every(r => r && typeof r.kind === 'string' && typeof r.receipt_url === 'string')))
-    && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at))));
+    && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at)
+      && (r.ends_at === undefined || isTime(r.ends_at))
+      && (r.message_limit === undefined || isPositive(r.message_limit))
+      && (r.unused === undefined || isCount(r.unused))
+      && (r.refund_uzs === undefined || isCount(r.refund_uzs)))));
 }
 
 function httpsLink(value: unknown): URL | null {
@@ -134,15 +171,13 @@ function httpsLink(value: unknown): URL | null {
   } catch { return null; }
 }
 
-/** Uzum's own domains; every other receipt links to the tax authority's ofd.soliq.uz. */
-const UZUM_RECEIPT_HOST = /(^|\.)(uzumbank\.uz|uzumcheckout\.uz|uzum\.uz)$/;
-
-/** A fiscal receipt link the panel may open: ofd.soliq.uz or an Uzum host, nothing else. */
+/**
+ * A fiscal receipt link the panel may open: ofd.soliq.uz or an Uzum host,
+ * nothing else; the server's receiptLink() applies the same rule.
+ */
 export function safeAccountLink(value: unknown): string | null {
   const url = httpsLink(value);
-  return url && !url.port && (url.hostname === 'ofd.soliq.uz' || UZUM_RECEIPT_HOST.test(url.hostname))
-    ? url.href
-    : null;
+  return url && !url.port && receiptHost(url.hostname) ? url.href : null;
 }
 
 /** A pack can really be bought right now: a billing mode and a ready provider. */

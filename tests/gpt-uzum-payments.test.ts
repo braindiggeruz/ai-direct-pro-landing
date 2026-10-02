@@ -41,10 +41,12 @@ import {
   uzumFiscalBaseUrl,
   UZUM_HOST_PATTERN,
 } from "../functions/lib/gpt-chat/uzum-config";
-import { maintainUzum } from "../functions/lib/gpt-chat/uzum-maintenance";
+import { maintainUzum, uzumWait } from "../functions/lib/gpt-chat/uzum-maintenance";
+import { receiptLink } from "../functions/lib/gpt-chat/fiscal-config";
+import { UZUM_HOST } from "../src/shared/payment-hosts";
 import { maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { inspectBilling } from "../functions/lib/gpt-chat/billing-operations-store";
-import { UZUM_CHECKOUT_HOST, allowedCheckoutUrl, validAccountView } from "../src/gpt-chat/types";
+import { UZUM_CHECKOUT_HOST, allowedCheckoutUrl, safeAccountLink, validAccountView } from "../src/gpt-chat/types";
 
 const ORDER_ID = /^uzm_[0-9a-f]{32}$/;
 const bomb = {
@@ -824,15 +826,18 @@ test("U4/U11 maintenance: lost callbacks settle, missing receipts are fetched, a
     f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET provider_time=provider_time-? WHERE id IN (?,?)").run(UZUM_SESSION_EXPIRED_MS + MIN, a.id, b.id);
     assert.deepEqual(await maintainUzum(f.env), { settled: 2, receipts: 0, expired: 0, recovered: 0 });
     assert.deepEqual([(await store.order(a.id))!.state, (await store.order(b.id))!.state], ["paid", "cancelled"]);
-    // Paid a day ago, Uzum's sale receipt never arrived: asked every tick, the owner told once a day.
+    // Paid a day ago, Uzum's sale receipt never arrived: asked, the owner told,
+    // then left to wait (WP-24): the next tick asks Uzum nothing.
     f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET perform_time=perform_time-? WHERE id=?").run(25 * HOUR, a.id);
     assert.deepEqual(await maintainUzum(f.env), { settled: 0, receipts: 0, expired: 0, recovered: 0 });
     assert.equal(f.calls.filter((c) => c.path === "/api/v1/payment/getReceipts").length, 1);
-    await maintainUzum(f.env);
     assert.deepEqual(f.alerts(), ["uzum_receipt_missing"]);
+    await maintainUzum(f.env);
+    assert.equal(f.calls.filter((c) => c.path === "/api/v1/payment/getReceipts").length, 1);
     const url = "https://ofd.soliq.uz/epi?t=EZ000000000296&r=7&c=20261001140000&s=1";
     f.settleAtUzum(a.external_id!, { receipts: [{ receiptUrl: url, receiptType: "PURCHASE" }] });
-    assert.deepEqual(await maintainUzum(f.env), { settled: 0, receipts: 1, expired: 0, recovered: 0 });
+    // Its wait (a quarter of its age, at most 6 hours) over, it is asked again.
+    assert.deepEqual(await maintainUzum(f.env, { now: Date.now() + uzumWait(25 * HOUR) + MIN }), { settled: 0, receipts: 1, expired: 0, recovered: 0 });
     assert.equal(f.receipt(a.id).receipt_url, url);
     // Done: the receipt is on file, so the order leaves the scan.
     const pulls = f.calls.length;
@@ -853,6 +858,75 @@ test("U4/U11 maintenance: lost callbacks settle, missing receipts are fetched, a
   } finally {
     f.restore();
   }
+});
+
+test("WP-24: orders that cannot settle wait, so five of them never starve the tick", async () => {
+  // A quarter of the order's age, one tick at least, six hours at most.
+  assert.deepEqual([0, 30 * MIN, 2 * HOUR, 24 * HOUR, 100 * HOUR].map(uzumWait), [15 * MIN, 15 * MIN, 30 * MIN, 6 * HOUR, 6 * HOUR]);
+  const f = await uzumFixture();
+  try {
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const orders = [];
+    for (let i = 0; i < 6; i++) {
+      const cookie = `__Host-gpt_account=${await f.identity.login(randomBytes(16).toString("hex"))}`;
+      orders.push((await store.order(String((await f.subscribeUzum(randomUUID(), "ru", cookie)).body.attemptId)))!);
+    }
+    const stuck = orders.slice(0, 5);
+    const sixth = orders[5];
+    // Uzum keeps three open (AUTHORIZED); two report an amount that is not ours (the owner is told).
+    for (const [i, row] of stuck.entries())
+      f.settleAtUzum(row.external_id!, i < 3 ? { status: "AUTHORIZED" } : { status: "COMPLETED", amount: 1000, completedAmount: 1000 });
+    f.settleAtUzum(sixth.external_id!, {
+      status: "COMPLETED",
+      completedAmount: 2000000,
+      receipts: [{ receiptUrl: "https://ofd.soliq.uz/epi?t=EZ000000000296&r=6&c=20261001140000&s=1", receiptType: "PURCHASE" }],
+    });
+    // Their sessions ended long ago, the five stuck ones first.
+    const now = Date.now();
+    for (const [i, row] of orders.entries())
+      f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET provider_time=? WHERE id=?").run(now - UZUM_SESSION_EXPIRED_MS - (10 - i) * MIN, row.id);
+    const pulls = () => f.calls.filter((c) => c.path === "/api/v1/payment/getOrderStatus").length;
+    const waits = () => f.db.rows<{ task: string; next_at: number }>("SELECT task,next_at FROM gpt_billing_ops WHERE task GLOB 'uzum_wait:*' ORDER BY task").map((row) => ({ ...row }));
+    // One tick: the five oldest take every slot, none settles, each is told to wait.
+    assert.deepEqual(await maintainUzum(f.env, { now }), { settled: 0, receipts: 0, expired: 0, recovered: 0 });
+    assert.equal(pulls(), 5);
+    assert.deepEqual(waits().map((row) => row.task), stuck.map((row) => `uzum_wait:${row.id}`).sort());
+    for (const row of waits()) assert.ok(row.next_at >= now + 15 * MIN && row.next_at <= now + 6 * HOUR, String(row.next_at - now));
+    assert.deepEqual([...new Set(f.alerts())], ["uzum_amount_mismatch"]);
+    // The next tick passes them by and settles the sixth.
+    assert.deepEqual(await maintainUzum(f.env, { now: now + MIN }), { settled: 1, receipts: 0, expired: 0, recovered: 0 });
+    assert.equal(pulls(), 6);
+    assert.equal((await store.order(sixth.id))!.state, "paid");
+    // Their wait over, they are asked again; settled now, they leave the scan.
+    for (const row of stuck) f.settleAtUzum(row.external_id!, { status: "DECLINED", amount: 2000000 });
+    const later = now + 6 * HOUR + MIN;
+    assert.deepEqual(await maintainUzum(f.env, { now: later }), { settled: 5, receipts: 1, expired: 0, recovered: 0 });
+    assert.equal(pulls(), 11);
+    assert.deepEqual(await Promise.all(stuck.map(async (row) => (await store.order(row.id))!.state)), Array(5).fill("cancelled"));
+    // A day after a wait ran out, its row is dropped; another org's rows are not touched.
+    f.db.sqlite.prepare("INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES('other-org','uzum_wait:x',0)").run();
+    await maintainUzum(f.env, { now: later + 25 * HOUR });
+    assert.deepEqual(waits(), [{ task: "uzum_wait:x", next_at: 0 }]);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("receipt links: what an Uzum callback may store is exactly what «Paketim» shows (one host rule)", () => {
+  const links = [
+    "https://ofd.soliq.uz/epi?t=EZ1&r=2", "https://check.uzumbank.uz/r/1", "https://receipts.uzum.uz/r/2", "https://pay.uzumcheckout.uz/r/3",
+    "https://my.soliq.uz/check", "https://ofd.soliq.uz.evil.example/epi", "https://uzumbank.uz.evil.example/r", "https://test-ofd.ipt-merch.com/r/1",
+    "https://ofd.soliq.uz:8443/epi", "http://ofd.soliq.uz/epi", "https://user:secret@ofd.soliq.uz/epi", "javascript:alert(1)", "/epi", "",
+  ];
+  for (const link of links) {
+    assert.equal(allowedUzumReceipt(link), receiptLink(link), link);
+    assert.equal(safeAccountLink(link), receiptLink(link), link);
+  }
+  assert.equal(links.filter((link) => receiptLink(link)).length, 4);
+  // One source for both sides (src/shared/payment-hosts.ts).
+  assert.equal(UZUM_HOST_PATTERN, UZUM_HOST);
+  assert.equal(UZUM_CHECKOUT_HOST, UZUM_HOST);
 });
 
 test("U11: the panel fetches the receipt of a paid card payment whose receipt callback was lost", async () => {
@@ -879,8 +953,21 @@ test("Checkout without auto-fiscalization: no cart, and the Fiscalization API pr
     const store = new UzumStore(f.binding, BILLING_ORG);
     const started = await f.subscribeUzum(randomUUID());
     const register = f.calls.find((c) => c.path === "/api/v1/payment/register")!;
-    assert.equal("merchantParams" in register.body, false);
-    const row = (await store.order(String(started.body.attemptId)))!;
+    const id = String(started.body.attemptId);
+    // The exact registration: test 2's body without the auto-fiscalization cart.
+    assert.deepEqual(register.body, {
+      amount: 2000000,
+      clientId: f.user,
+      currency: 860,
+      orderNumber: id,
+      paymentDetails: "AI paket 300 · gptbot.uz",
+      successUrl: "https://gpt.test/ru/gpt-chat/?pay=return",
+      failureUrl: "https://gpt.test/ru/gpt-chat/?pay=return",
+      viewType: "REDIRECT",
+      paymentParams: { payType: "ONE_STEP" },
+      sessionTimeoutSecs: 1800,
+    });
+    const row = (await store.order(id))!;
     assert.equal(row.autofiscal, 0);
     f.settleAtUzum(row.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
     await f.callback(complete(row));
@@ -896,9 +983,9 @@ test("Checkout without auto-fiscalization: no cart, and the Fiscalization API pr
     await f.callback({ orderId: row.external_id, receiptType: "PURCHASE", receiptUrl: "https://ofd.soliq.uz/epi?other=1" });
     assert.equal(f.calls.length, before);
     assert.equal(f.receipt(row.id).receipt_url, sale.receipt_url);
-    // The refund carries no cart; Uzum's REFUNDED brings the refund receipt.
+    // The refund carries no cart, exactly; Uzum's REFUNDED brings the refund receipt.
     assert.equal((await f.refundCall({ orderId: row.id, confirmRefund: true })).status, 200);
-    assert.equal("cart" in f.calls.find((c) => c.path === "/api/v1/acquiring/refund")!.body, false);
+    assert.deepEqual(f.calls.find((c) => c.path === "/api/v1/acquiring/refund")!.body, { orderId: row.external_id, amount: 2000000 });
     f.settleAtUzum(row.external_id!, { status: "REFUNDED", refundedAmount: 2000000 });
     await f.callback({ ...complete(row), operationType: "REFUND" });
     await f.drain();

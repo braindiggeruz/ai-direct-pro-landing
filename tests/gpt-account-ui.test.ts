@@ -284,6 +284,26 @@ test('the pack, the Uzum flow, the app code and the pack day are well formed or 
   ]) assert.equal(validAccountView({ ...signedIn, ...broken }), false, JSON.stringify(broken));
 });
 
+test('packs side by side, the refund sums and a closable invoice are well formed or the view fails closed (WP-24)', () => {
+  const signedIn = account();
+  const access = { order_id: ORDER, ends_at: Date.now() + 1e9, remaining: 420, renewSoon: false, refund_requested_at: null, message_limit: 300, dayRemaining: 50 };
+  const totals = { packs: 2, totalLimit: 600, paidThrough: Date.now() + 2e9, firstRemaining: 120 };
+  const refund = { order_id: ORDER, starts_at: Date.now(), ends_at: Date.now() + 1e9, message_limit: 300, refund_requested_at: null, unused: 200, refund_uzs: 13333 };
+  const pack = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, refundDays: 10 };
+  assert.equal(validAccountView({
+    ...signedIn, pack, access: { ...access, ...totals },
+    payment: { id: ORDER, state: 'pending', provider: 'click', cancellable: true },
+    refundable: [refund, { order_id: OTHER, starts_at: Date.now(), refund_requested_at: null }],
+  }), true);
+  for (const broken of [
+    { access: { ...access, packs: 0 } }, { access: { ...access, totalLimit: -300 } }, { access: { ...access, paidThrough: Number.NaN } },
+    { access: { ...access, paidThrough: '2026-11-03' } }, { access: { ...access, firstRemaining: -1 } }, { access: { ...access, firstRemaining: 1.5 } },
+    { payment: { id: ORDER, state: 'pending', provider: 'click', cancellable: 'yes' } },
+    { refundable: [{ ...refund, unused: -1 }] }, { refundable: [{ ...refund, refund_uzs: 13333.33 }] }, { refundable: [{ ...refund, message_limit: 0 }] },
+    { refundable: [{ ...refund, ends_at: 0 }] }, { pack: { ...pack, refundDays: 0 } }, { pack: { ...pack, refundDays: '10' } },
+  ]) assert.equal(validAccountView({ ...signedIn, ...broken }), false, JSON.stringify(broken));
+});
+
 test('a payment is checked every 3 s for two minutes, every 15 s up to ten, then no more', () => {
   assert.equal(checkoutPollDelay(0), 3_000);
   assert.equal(checkoutPollDelay(119_999), 3_000);

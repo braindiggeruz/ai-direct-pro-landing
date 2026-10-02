@@ -43,6 +43,11 @@ export type UzumApplyResult =
   | "unchanged"
   | "alert";
 
+/** gpt_billing_ops task of an order the Uzum scans wait for (UzumStore.waitUntil). */
+const WAIT_TASK = "uzum_wait:";
+/** The order `o` is not told to wait. Binds now. */
+const NOT_WAITING = `NOT EXISTS(SELECT 1 FROM gpt_billing_ops b WHERE b.org_id=o.org_id AND b.task='${WAIT_TASK}'||o.id AND b.next_at>?)`;
+
 /** Same code Payme uses for a protocol timeout; also an app transaction never confirmed. */
 export const UZUM_REASON_TIMEOUT = 4;
 /** Money returned (refund or reverse after completion). */
@@ -227,6 +232,7 @@ export class UzumStore {
             reason: UZUM_REASON_TIMEOUT,
             now,
             from: ["pending"],
+            unseen: true,
           })
         : this.billing.transition(invoice.id, "cancelled", "uzum_superseded", {
             reason: UZUM_REASON_TIMEOUT,
@@ -412,22 +418,51 @@ export class UzumStore {
    * registered card payments whose session ended (U4), auto-fiscalized
    * payments without Uzum's sale receipt (U11), app transactions never
    * confirmed, and app transactions whose /confirm arrived but never finished.
+   * The two scans that ask Uzum skip an order told to wait (waitUntil), so
+   * orders that cannot settle never hold every slot of a tick.
    */
-  staleCheckouts(before: number, limit: number): Promise<UzumOrder[]> {
+  staleCheckouts(before: number, limit: number, now: number): Promise<UzumOrder[]> {
     return this.list(
-      "api='checkout' AND state IN ('pending','prepared') AND external_id IS NOT NULL AND provider_time<? ORDER BY provider_time",
-      [before],
+      `api='checkout' AND state IN ('pending','prepared') AND external_id IS NOT NULL AND provider_time<? AND ${NOT_WAITING}
+      ORDER BY provider_time`,
+      [before, now],
       limit,
     );
   }
-  unreceipted(from: number, to: number, limit: number): Promise<UzumOrder[]> {
+  unreceipted(from: number, to: number, limit: number, now: number): Promise<UzumOrder[]> {
     return this.list(
       `api='checkout' AND state='paid' AND autofiscal=1 AND perform_time>? AND perform_time<?
       AND NOT EXISTS(SELECT 1 FROM gpt_fiscal_receipts r WHERE r.org_id=o.org_id AND r.order_id=o.id AND r.kind='PERFORM' AND r.status_code=0)
-      ORDER BY perform_time`,
-      [from, to],
+      AND ${NOT_WAITING} ORDER BY perform_time`,
+      [from, to, now],
       limit,
     );
+  }
+  /**
+   * The scans leave this order alone until `until`: Uzum's answer left it as
+   * it was (still open, a mismatch the owner was told of, no receipt yet) or
+   * could not be had. The wait lives in gpt_billing_ops, one row per order.
+   */
+  async waitUntil(id: string, until: number): Promise<void> {
+    await this.db
+      .prepare(
+        `INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES(?,?,?)
+      ON CONFLICT(org_id,task) DO UPDATE SET next_at=excluded.next_at`,
+      )
+      .bind(this.org, `${WAIT_TASK}${id}`, until)
+      .run();
+  }
+  /**
+   * Waits that ran out before `before`: the scan took their order up again
+   * since (and set a new wait) or the order settled, so the row is spent.
+   */
+  async dropWaits(before: number): Promise<void> {
+    await this.db
+      .prepare(
+        `DELETE FROM gpt_billing_ops WHERE rowid IN (SELECT rowid FROM gpt_billing_ops WHERE org_id=? AND task GLOB '${WAIT_TASK}*' AND next_at<? LIMIT 100)`,
+      )
+      .bind(this.org, before)
+      .run();
   }
   unconfirmedApp(before: number, limit: number): Promise<UzumOrder[]> {
     return this.list(

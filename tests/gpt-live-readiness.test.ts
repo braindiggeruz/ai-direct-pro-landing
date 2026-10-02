@@ -311,6 +311,7 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     dailyLimit: 50,
     months: 1,
     vat: { percent: 12, includedTiyin: 214286 },
+    refundDays: 10,
   });
 });
 

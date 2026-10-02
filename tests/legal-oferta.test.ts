@@ -16,13 +16,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PAID_MESSAGES, PRICE_TIYIN, termsUrl } from '../functions/lib/gpt-chat/billing-config';
+import { PAID_MESSAGES, PRICE_TIYIN, REFUND_WORKING_DAYS, refundUzs, termsUrl } from '../functions/lib/gpt-chat/billing-config';
 import { TELEMETRY_RETENTION_DAYS } from '../functions/lib/gpt-chat/billing-maintenance-store';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { includedVat, PACK_RECEIPT_NAME } from '../functions/lib/gpt-chat/fiscal-config';
 import { retentionDays } from '../functions/lib/gpt-chat/retention-store';
 import { MAX_CONCURRENT_TURNS, PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
+import { ANALYSIS_DEFAULT_MODEL } from '../functions/lib/telegram/analysis';
 import type { Env } from '../functions/_types';
 import { canonicalCommit, productionVariableNames, type PagesProject } from '../scripts/release/pages-production';
 import { RUNTIME_CONFIG_KEYS } from '../functions/lib/runtime-config';
@@ -97,15 +98,14 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   }
   // One edition, one day it took effect: the text, the edition and the date change together.
   assert.equal(offers.ru.lastReviewedAt, offers.uz.lastReviewedAt);
-  // The lawyer's approval (docs/paid-chat/OFFER-RU.md): none yet, or one date in both copies of
-  // GPT_BILLING_TERMS_APPROVED_AT and on both offers, with the policies reviewed too; never half
-  // recorded. Recording it as the runbook says keeps this test green.
+  // The lawyer's approval of the offer (docs/paid-chat/OFFER-RU.md): none, or one date in both
+  // copies of GPT_BILLING_TERMS_APPROVED_AT and on both offers; never half recorded. The
+  // policies carry their own review date (or none yet): the live gate demands it at deploy.
   const approvedAt = config.GPT_BILLING_TERMS_APPROVED_AT;
   assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
   for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
-  if (approvedAt) {
-    for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^\d{4}-\d{2}-\d{2}$/, doc.url);
-  }
+  assert.match(approvedAt, /^(\d{4}-\d{2}-\d{2})?$/);
+  for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -119,9 +119,12 @@ test('(d) every number the offers state is the number the code and the deployed 
   const uz = text(offers.uz);
   assert.ok(ru.includes(`Цена — ${price} сум, в том числе НДС ${vat} % — ${vatSum} сум`));
   assert.ok(uz.includes(`Narxi — ${price} so‘m, shu jumladan QQS ${vat} % — ${vatSum} so‘m`));
+  // The refund example: 100 of the pack's answers used.
+  const example = sum(refundUzs(PAID_MESSAGES - 100, PAID_MESSAGES) * 100);
+  assert.equal(example, '13 333');
   for (const [locale, body] of [['ru', ru], ['uz', uz]] as const) {
     for (const [, amount] of body.matchAll(/(\d{1,3}(?: \d{3})*(?:,\d{2})?) (?:сум|so‘m)/g)) {
-      assert.ok(amount === price || amount === vatSum, `${locale}: ${amount}`);
+      assert.ok(amount === price || amount === vatSum || amount === example, `${locale}: ${amount}`);
     }
     // The pack is named as on the receipt.
     assert.ok(body.includes(`«${PACK_RECEIPT_NAME}»`), locale);
@@ -142,16 +145,26 @@ test('(d) every number the offers state is the number the code and the deployed 
   // Decision L3: the pack has no hourly cap.
   assert.doesNotMatch(ru, /ответов в час|20 в час/);
   assert.doesNotMatch(uz, /soatiga \d+ tagacha javob/);
-  // The full refund the code makes (it refunds whole orders only).
-  assert.ok(ru.includes(`Возврат делается в полной сумме — ${price} сум`));
-  assert.ok(uz.includes(`Pul to‘liq — ${price} so‘m`));
-  // The refund request is answered within a stated number of working days, in both languages alike.
-  const days = /не позднее (\d+) рабочих дней/.exec(ru)?.[1];
-  assert.ok(days);
-  assert.ok(uz.includes(`${days} ish kunidan kechiktirmay`));
-  // The Paketim panel promises the same once a refund is requested (WP-17 left it to the offer).
-  assert.ok(accountStrings('ru').refundPending.includes(`в течение ${days} рабочих дней`));
-  assert.ok(accountStrings('uz').refundPending.includes(`${days} ish kuni ichida`));
+  // The refund rule (lead decision of 2026-10-03, WP-24; refundUzs): while the pack runs, the
+  // unused part, the price times the unused answers over PAID_MESSAGES rounded down to a whole
+  // sum; nothing used, the whole price. No longer "always the full sum".
+  assert.ok(ru.includes(`делённая на ${PAID_MESSAGES}, с округлением вниз до целого сума`));
+  assert.ok(uz.includes(`${PAID_MESSAGES} ga bo‘lish yo‘li bilan hisoblanadi va butun so‘mgacha pastga yaxlitlanadi`));
+  assert.ok(ru.includes(`возвращается полная цена — ${price} сум`));
+  assert.ok(uz.includes(`to‘liq narx — ${price} so‘m qaytariladi`));
+  assert.ok(ru.includes(`из ${PAID_MESSAGES} ответов использовано 100, возвращается ${example} сум`));
+  assert.ok(uz.includes(`${PAID_MESSAGES} ta javobdan 100 tasi ishlatilgan bo‘lsa, ${example} so‘m qaytariladi`));
+  assert.ok(ru.includes('Неиспользованные ответы считаются в момент запроса'));
+  assert.ok(uz.includes('Ishlatilmagan javoblar so‘rov paytida hisoblanadi'));
+  assert.doesNotMatch(ru, /в полной сумме/);
+  assert.doesNotMatch(uz, /Pul to‘liq —/);
+  // Paid back within REFUND_WORKING_DAYS working days to the same card, in both languages, and the
+  // Paketim panel says the same (with the days the account view hands it).
+  assert.equal(REFUND_WORKING_DAYS, 10);
+  assert.ok(ru.includes(`не позднее ${REFUND_WORKING_DAYS} рабочих дней со дня запроса на карту, с которой оплачен пакет`));
+  assert.ok(uz.includes(`${REFUND_WORKING_DAYS} ish kunidan kechiktirmay paket to‘langan kartaga qaytaradi`));
+  assert.ok(accountStrings('ru').refundPending('1', REFUND_WORKING_DAYS).includes(`в течение ${REFUND_WORKING_DAYS} рабочих дней`));
+  assert.ok(accountStrings('uz').refundPending('1', REFUND_WORKING_DAYS).includes(`${REFUND_WORKING_DAYS} ish kuni ichida`));
 });
 
 test('(e) the product is «AI-пакет» / «AI paket»: no GPT, Plus, Pro, obuna or subscription in its name', () => {
@@ -277,6 +290,35 @@ test('the privacy policies describe the chat, its recipients, payment, sign-in a
   // Correct Uzbek apostrophes only (o‘, g‘ with U+2018; ’ for the tutuq belgisi).
   for (const doc of [policies.uz, offers.uz]) assert.doesNotMatch(JSON.stringify(doc), /[a-zA-Z]'[a-zA-Z]/, doc.url);
   assert.doesNotMatch(uz, /\bmalumot|\bboglan|\bozingiz/, 'the Uzbek policy lost its apostrophes before');
+});
+
+test('the policies name OpenRouter, Inc. and every model supplier the deployed chains use (WP-24)', () => {
+  const cfg = resolveConfig(deployed);
+  // A supplier's slug on OpenRouter and the name both policies give it.
+  const SUPPLIERS: Record<string, string> = {
+    nvidia: 'NVIDIA', 'dots-studio': 'dots-studio', google: 'Google', mistralai: 'Mistral AI', openai: 'OpenAI',
+  };
+  const models = [
+    cfg.freeModel, ...cfg.freeFallbacks, cfg.paidModel, ...cfg.paidFallbacks,
+    // The bot's analysis of a recording (functions/lib/telegram/analysis.ts).
+    (config as Record<string, string>).OPENROUTER_MODEL_ANALYSIS || ANALYSIS_DEFAULT_MODEL,
+  ];
+  assert.ok(models.some((model) => model.startsWith('dots-studio/')), 'the free chain as deployed');
+  for (const model of models) {
+    const name = SUPPLIERS[model.split('/')[0]];
+    assert.ok(name, `${model}: a new model supplier; name it in both policies, then here`);
+    for (const doc of Object.values(policies)) assert.ok(text(doc).includes(name), `${doc.url}: ${name}`);
+  }
+  for (const doc of Object.values(policies)) {
+    assert.ok(text(doc).includes('OpenRouter, Inc.'), doc.url);
+    // The bot's voice messages are transcribed by Groq, OpenAI when it fails (transcription.ts).
+    assert.ok(text(doc).includes('Groq') && text(doc).includes('OpenAI'), doc.url);
+  }
+  assert.match(text(policies.ru), /OpenRouter, Inc\. \(США\)/);
+  assert.match(text(policies.uz), /OpenRouter, Inc\. \(AQSh\)/);
+  // No basis or safeguard of the transfer abroad is claimed: that is the lawyer's to state.
+  for (const doc of Object.values(policies))
+    assert.doesNotMatch(text(doc), /DPF|Data Privacy Framework|стандартн\w* договорн|адекватн|SCC/i, doc.url);
 });
 
 // ---------------------------------------------------------------------------

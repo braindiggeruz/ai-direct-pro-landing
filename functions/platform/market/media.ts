@@ -113,6 +113,17 @@ export async function verifyMediaHandle(
   return { productId: parsed.p, index: Number(parsed.i) };
 }
 
+/**
+ * A redirect from Telegram is a failure, never followed: the bot token is in
+ * the URL. Workers reject `redirect: 'error'` before sending anything, so the
+ * fetches ask for 'manual' and a 3xx is refused here, its body released.
+ */
+async function refusedRedirect(response: Response): Promise<boolean> {
+  if (response.status < 300 || response.status > 399) return false;
+  await response.body?.cancel();
+  return true;
+}
+
 export async function proxyTelegramMedia(
   botToken: string,
   fileId: string,
@@ -121,9 +132,9 @@ export async function proxyTelegramMedia(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ file_id: fileId }),
-    redirect: 'error',
+    redirect: 'manual',
   });
-  if (!metadata.ok) return null;
+  if (await refusedRedirect(metadata) || !metadata.ok) return null;
   const body = await metadata.json() as {
     ok?: boolean;
     result?: { file_path?: string; file_size?: number };
@@ -141,8 +152,9 @@ export async function proxyTelegramMedia(
   }
   const upstream = await fetch(
     `https://api.telegram.org/file/bot${botToken}/${path}`,
-    { redirect: 'error' },
+    { redirect: 'manual' },
   );
+  if (await refusedRedirect(upstream)) return null;
   const contentType = upstream.headers.get('Content-Type') ?? '';
   const contentLength = Number(upstream.headers.get('Content-Length') ?? 0);
   if (

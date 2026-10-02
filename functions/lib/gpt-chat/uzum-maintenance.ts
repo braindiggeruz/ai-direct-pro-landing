@@ -13,6 +13,11 @@
 //              (U8). The owner hears of each (uzum_confirm_recovered) and
 //              checks the Uzum cabinet; money Uzum returned instead is
 //              recorded through internal/gpt-uzum-refund.
+// An order Uzum's answer leaves as it was (still open, an amount the owner
+// was told does not match, no receipt yet), or that cannot be asked (no
+// credentials for its mode, Uzum down), waits before its next turn: a
+// quarter of its age, 15 minutes to 6 hours (uzumWait). Five such orders
+// cannot hold every slot of a tick and starve the others.
 // Off (null) while Uzum has no mode or no UZUM_API: then no Uzum DDL runs here.
 import {
   BILLING_ORG,
@@ -21,6 +26,7 @@ import {
 } from "./billing-config";
 import { ensureUzumSchema } from "./billing-schema";
 import { recordServiceAlert } from "./billing-maintenance-store";
+import { DAY_MS } from "./rate-limit";
 import { uzumApi, uzumCheckoutConfig } from "./uzum-config";
 import { UZUM_TIMEOUT_MS } from "./uzum-checkout";
 import {
@@ -40,6 +46,17 @@ const RECEIPT_WINDOW_MS = 48 * 3_600_000;
 const RECEIPT_ALERT_MS = 24 * 3_600_000;
 /** A /confirm whose order is still prepared after this did not finish. */
 const CONFIRM_STUCK_MS = 10 * 60_000;
+const WAIT_MIN_MS = 15 * 60_000;
+const WAIT_MAX_MS = 6 * 3_600_000;
+
+/**
+ * How long the scans leave alone an order that did not settle, `age` ms
+ * after its payment began: a quarter of that, at least one tick (15 min),
+ * at most 6 hours. Fresh orders are asked again soon, old ones rarely.
+ */
+export function uzumWait(age: number): number {
+  return Math.min(WAIT_MAX_MS, Math.max(WAIT_MIN_MS, Math.floor(age / 4)));
+}
 
 export interface UzumTick {
   settled: number;
@@ -92,19 +109,25 @@ export async function maintainUzum(
     tick.recovered++;
   }
 
-  for (const row of await store.staleCheckouts(now - UZUM_SESSION_EXPIRED_MS, UZUM_BATCH)) {
+  for (const row of await store.staleCheckouts(now - UZUM_SESSION_EXPIRED_MS, UZUM_BATCH, now)) {
+    if (!time()) break;
     const cfg = uzumCheckoutConfig(env, row.mode, { settleOnly: true });
-    if (!cfg || !time()) continue;
-    const settled = await store.reconcileCheckout(env, cfg, row, now, timeout());
-    if (settled && settled.result !== "unchanged") tick.settled++;
+    const settled = cfg ? await store.reconcileCheckout(env, cfg, row, now, timeout()) : null;
+    if (settled && settled.result !== "unchanged" && settled.result !== "alert") tick.settled++;
+    else await store.waitUntil(row.id, now + uzumWait(now - (row.provider_time ?? row.created_at)));
   }
-  for (const row of await store.unreceipted(now - RECEIPT_WINDOW_MS, now - RECEIPT_GRACE_MS, UZUM_BATCH)) {
+  for (const row of await store.unreceipted(now - RECEIPT_WINDOW_MS, now - RECEIPT_GRACE_MS, UZUM_BATCH, now)) {
+    if (!time()) break;
     const cfg = uzumCheckoutConfig(env, row.mode, { settleOnly: true });
-    if (!cfg || !time()) continue;
-    await store.pullReceipts(cfg, row, timeout());
-    if (await store.hasSaleReceipt(row.id)) tick.receipts++;
-    else if (now - row.perform_time > RECEIPT_ALERT_MS)
+    if (cfg) await store.pullReceipts(cfg, row, timeout());
+    if (await store.hasSaleReceipt(row.id)) {
+      tick.receipts++;
+      continue;
+    }
+    if (now - row.perform_time > RECEIPT_ALERT_MS)
       await recordServiceAlert(env, "uzum_receipt_missing", now);
+    await store.waitUntil(row.id, now + uzumWait(now - row.perform_time));
   }
+  await store.dropWaits(now - DAY_MS);
   return tick;
 }

@@ -21,6 +21,15 @@ export const CHAT_TIME_INDEXES = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_sessions_created ON gpt_sessions (created_at)`,
 ];
 
+/**
+ * migrations/0069: gpt_events by time, for its retention sweep in
+ * maintainBilling (TELEMETRY_RETENTION_DAYS). The table has no org_id, and the
+ * sweep runs every 15 minutes, so without this index each run scans it all.
+ */
+export const CHAT_EVENT_INDEXES = [
+  `CREATE INDEX IF NOT EXISTS idx_gpt_events_created ON gpt_events (created_at)`,
+];
+
 const DDL: string[] = [
   `CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
@@ -163,6 +172,7 @@ const DDL: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_session ON gpt_handoffs (session_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_expires ON gpt_handoffs (expires_at)`,
   ...CHAT_TIME_INDEXES,
+  ...CHAT_EVENT_INDEXES,
 ];
 
 const _bootstrapped = new WeakMap<D1Database, Promise<void>>();

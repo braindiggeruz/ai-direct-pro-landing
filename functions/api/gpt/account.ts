@@ -5,6 +5,7 @@ import {
   PAID_MESSAGES,
   PRICE_TIYIN,
   providerMode,
+  REFUND_WORKING_DAYS,
   termsUrl,
   termsVersion,
   uzumFlow,
@@ -73,6 +74,23 @@ async function reconcileUzum(
   }
 }
 
+/**
+ * The newest order as the pack window shows it. An open invoice past its
+ * time reads as cancelled. `cancellable`: open, and no provider has seen it
+ * yet (no external id), so the account may close it and pay another way
+ * (BillingStore.cancelInvoice).
+ */
+function paymentView(order: Order, now = Date.now()) {
+  const open = ["pending", "prepared"].includes(order.state) && order.expires_at >= now;
+  return {
+    id: order.id,
+    state: ["pending", "prepared"].includes(order.state) && !open ? "cancelled" : order.state,
+    provider: order.provider,
+    createdAt: order.created_at,
+    cancellable: open && order.state === "pending" && !order.external_id,
+  };
+}
+
 /** The account's Uzum app code, while it carries the current offer; else null. */
 async function currentPaymentCode(
   env: BillingEnv,
@@ -113,6 +131,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       vat: fiscal
         ? { percent: fiscal.vatPercent, includedTiyin: includedVat(PRICE_TIYIN, fiscal.vatPercent) }
         : null,
+      // The offer's refund rule: the unused part, paid back within these days.
+      refundDays: REFUND_WORKING_DAYS,
     },
     termsVersion: termsVersion(env),
     // The free tier's limits from the config: a guest's view never reads D1
@@ -156,18 +176,22 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       latest = await store.latestAcrossProviders(user, context);
     }
     const access = await store.access(user, context);
-    // Packs run side by side: renewing is due only when the last one ends soon.
-    const paidThrough = access ? await store.paidThrough(user, context) : null;
+    // Packs run side by side: the account has the answers of all of them, is
+    // paid through the latest end, and renewing is due only when that is near.
+    const packs = access ? await store.usablePacks(user, context) : [];
+    const paidThrough = packs.length ? Math.max(...packs.map((pack) => pack.ends_at)) : null;
     // Printed receipts (Click, Payme, Uzum): only a link on ofd.soliq.uz or
     // an Uzum host reaches the page.
     const receipts = (await store.receipts(user, context)).flatMap((receipt) => {
       const url = receiptLink(receipt.receipt_url);
       return url ? [{ kind: receipt.kind, receipt_url: url }] : [];
     });
+    // Running packs a refund can be asked for, and asked ones, with the sum
+    // each is owed (the offer's refund rule, refundUzs).
     const refundable = await store.refundable(user, context);
     // Without a pack the free tier counts by account and by IP hash, as the
-    // chat does; with one, what is left in it and what its day cap still
-    // lets through today (the Paketim panel).
+    // chat does; with one, what is left in every running pack and what the
+    // day cap still lets through today (the Paketim panel).
     const { remaining, dayRemaining } = await new TurnStore(db, BILLING_ORG).allowance(
       user,
       await hashIp(getClientIp(request), cfg),
@@ -188,20 +212,14 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
             remaining,
             dayRemaining: dayRemaining ?? remaining,
             renewSoon: (paidThrough ?? access.ends_at) - Date.now() < 3 * 86400_000,
+            packs: Math.max(1, packs.length),
+            totalLimit: packs.reduce((sum, pack) => sum + pack.message_limit, 0) || access.message_limit,
+            paidThrough: paidThrough ?? access.ends_at,
+            // What is left in the pack turns draw from first (access.ends_at).
+            firstRemaining: packs[0]?.order_id === access.order_id ? Math.max(0, packs[0].remaining) : remaining,
           }
         : null,
-      payment: latest
-        ? {
-            id: latest.id,
-            state:
-              ["pending", "prepared"].includes(latest.state) &&
-              latest.expires_at < Date.now()
-                ? "cancelled"
-                : latest.state,
-            provider: latest.provider,
-            createdAt: latest.created_at,
-          }
-        : null,
+      payment: latest ? paymentView(latest) : null,
     });
   } catch {
     return fail("account_unavailable", "Try later", 503);
@@ -218,23 +236,35 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     request,
     2048,
   );
+  if (!body.ok) return fail("bad_request", "Invalid request");
+  const { action, orderId } = body.value ?? {};
   if (
-    !body.ok ||
-    body.value?.action !== "refund_request" ||
-    typeof body.value.orderId !== "string"
+    (action !== "refund_request" && action !== "cancel_invoice") ||
+    typeof orderId !== "string"
   )
     return fail("bad_request", "Invalid request");
   try {
-    await ensureBillingSchema(env.GPTBOT_DRAFTS_DB);
-    const user = await new IdentityStore(
-      env.GPTBOT_DRAFTS_DB,
-      BILLING_ORG,
-    ).user(request);
+    const db = env.GPTBOT_DRAFTS_DB;
+    // Orders are read through the 0065 view (cancel_invoice): bootstrapped
+    // here while Uzum is on, as on GET; otherwise it comes from the migration.
+    await (uzumApi(env) ? ensureUzumSchema(db) : ensureBillingSchema(db));
+    const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return fail("login_required", "Login required", 401);
-    const accepted = await new BillingStore(
-      env.GPTBOT_DRAFTS_DB,
-      BILLING_ORG,
-    ).requestRefund(user, body.value.orderId);
+    const store = new BillingStore(db, BILLING_ORG);
+    if (action === "cancel_invoice") {
+      // Only the viewer's own invoice of the mode it sees (decision L7).
+      const result = await store.cancelInvoice(user, await viewerMode(request, env), orderId);
+      if (result === "not_found") return fail("not_found", "Not found", 404);
+      if (result === "in_progress")
+        return fail("invoice_in_progress", "The provider holds this invoice; check its status", 409);
+      waitUntil(
+        maintainBilling(env).catch(() =>
+          console.warn("gpt_billing_delivery_failed"),
+        ),
+      );
+      return json({ ok: true });
+    }
+    const accepted = await store.requestRefund(user, orderId);
     if (accepted)
       waitUntil(
         maintainBilling(env).catch(() =>

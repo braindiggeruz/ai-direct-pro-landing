@@ -3,6 +3,9 @@ import { boundedNum, type BridgeEnv } from "./bridge-env";
 import {
   BILLING_ORG,
   providersInMode,
+  REFUND_WORKING_DAYS,
+  refundRequestUnused,
+  refundUzs,
   type BillingEnv,
 } from "./billing-config";
 import {
@@ -158,10 +161,23 @@ export async function deliverServiceAlerts(
 
 /**
  * Days the text-free telemetry is kept: turns, model attempts, service
- * alerts, spend and limit counters, the pack window's funnel steps. The
+ * alerts, spend and limit counters, the pack window's funnel steps, and the
+ * chat's breadcrumbs of leads and of the way to the bot (gpt_events). The
  * privacy policy states this number (tests/legal-oferta.test.ts).
  */
 export const TELEMETRY_RETENTION_DAYS = 93;
+
+/**
+ * What the owner pays for a refund request, as the offer's rule fixes it:
+ * the unused answers frozen by the request over the pack's size, within
+ * REFUND_WORKING_DAYS working days, to the card the pack was paid with.
+ */
+function refundLine(method: string | null, size: number | null): string {
+  const unused = refundRequestUnused(method);
+  if (unused === null || !size) return "";
+  const sum = String(refundUzs(unused, size)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return `Вернуть ${sum} сум (не использовано ${unused} из ${size} ответов) в течение ${REFUND_WORKING_DAYS} рабочих дней на карту, с которой платили.\n`;
+}
 
 /**
  * Retention sweeps and the payment outbox. Service alerts are delivered by
@@ -213,6 +229,15 @@ export async function maintainBilling(
         "DELETE FROM gpt_ui_events WHERE rowid IN (SELECT rowid FROM gpt_ui_events WHERE org_id=? AND created_at<? LIMIT 500)",
       )
       .bind(BILLING_ORG, now - TELEMETRY_RETENTION_DAYS * DAY_MS),
+    // The chat's breadcrumbs (migrations/0008, no org_id): a lead sent, the
+    // way to the bot taken, with the session, intent and page and, once
+    // claimed, the bot user's pseudonym. No message text. Kept as long as
+    // the other text-free telemetry; created_at is ISO text (0069 indexes it).
+    db
+      .prepare(
+        "DELETE FROM gpt_events WHERE rowid IN (SELECT rowid FROM gpt_events WHERE created_at<? LIMIT 500)",
+      )
+      .bind(new Date(now - TELEMETRY_RETENTION_DAYS * DAY_MS).toISOString()),
     // migrations/0066: daily counters, keyed by UTC day.
     db
       .prepare(
@@ -241,9 +266,14 @@ export async function maintainBilling(
     return { delivered: 0, configured: false };
   if (!token || !Number.isSafeInteger(chat) || !chat)
     return { delivered: 0, configured: false };
+  // A refund request carries the sum owed: the answers left when it was
+  // made (its journal row) over the pack's size (BillingStore.requestRefund).
   const rows = await db
     .prepare(
-      `SELECT o.id,o.order_id,o.event,p.provider,p.mode FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.id=o.order_id AND p.org_id=o.org_id
+      `SELECT o.id,o.order_id,o.event,p.provider,p.mode,
+      (SELECT j.method FROM gpt_payment_journal j WHERE j.org_id=o.org_id AND j.id='refund_request:'||o.order_id) AS refund_method,
+      (SELECT a.message_limit FROM gpt_access_periods a WHERE a.org_id=o.org_id AND a.order_id=o.order_id) AS size
+    FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.id=o.order_id AND p.org_id=o.org_id
     WHERE o.org_id=? AND p.mode='live' AND o.delivered_at IS NULL AND o.available_at<=? AND o.lease_until<=? ORDER BY o.created_at LIMIT 3`,
     )
     .bind(BILLING_ORG, now, now)
@@ -253,6 +283,8 @@ export async function maintainBilling(
       event: string;
       provider: string;
       mode: string;
+      refund_method: string | null;
+      size: number | null;
     }>();
   let delivered = 0;
   for (const row of rows.results || []) {
@@ -269,7 +301,7 @@ export async function maintainBilling(
       "sendMessage",
       {
         chat_id: chat,
-        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\n${row.event === "refund_requested" ? refundLine(row.refund_method, row.size) : ""}Текст разговора и данные Telegram-аккаунта не передаются.`,
       },
       { timeoutMs: 4000, maxRetries: 0 },
     );

@@ -95,6 +95,11 @@ function PlanCard({ t, copy, pack }: { t: ChatStrings; copy: AccountStrings; pac
  * checkout watch stay on the chat's start bundle (AiAccountPanel,
  * use-account.ts), so the pill and the limit card never wait for this file.
  * Every number of the pack comes from the account view.
+ *
+ * One open invoice per account (U7, WP-24): the pay step offers to resume it,
+ * or, while no provider has seen it, to close it and pay another way; the
+ * way back from a payment and the app code lead there too, and a provider
+ * refused for another's open invoice (409 pending_elsewhere) is pointed there.
  */
 export function AccountDialog({
   t,
@@ -124,6 +129,11 @@ export function AccountDialog({
   const [terms, setTerms] = useState(false);
   const [termsChanged, setTermsChanged] = useState(() => memoryRef.current.refusedForTerms);
   const [elsewhere, setElsewhere] = useState<PaymentProvider | null>(null);
+  // The provider took up the invoice the account tried to close.
+  const [held, setHeld] = useState(false);
+  // Back at the pay step while a payment is still watched (CheckoutReturn,
+  // UzumCodeScreen): to resume the invoice or to pay another way.
+  const [choosing, setChoosing] = useState(false);
   const currentTerms = data?.terms[locale];
   useEffect(() => { setTerms(false); }, [data?.termsVersion, currentTerms, data?.user?.storageKey, locale]);
   // Back from the payment page out of the browser's page cache: the page is
@@ -159,6 +169,7 @@ export function AccountDialog({
   const run = async (action: () => Promise<void>) => {
     setBusy(true);
     setElsewhere(null);
+    setHeld(false);
     account.clearError();
     try {
       await action();
@@ -175,6 +186,13 @@ export function AccountDialog({
       // Another provider's invoice is still open (U7): say which, and offer it.
       if (code === "pending_elsewhere" && cause instanceof RequestError && cause.provider) {
         setElsewhere(cause.provider);
+        track(EV.accountActionFailed, { locale, code });
+        await refresh();
+        return;
+      }
+      // The provider took the invoice up while it was being closed.
+      if (code === "invoice_in_progress") {
+        setHeld(true);
         track(EV.accountActionFailed, { locale, code });
         await refresh();
         return;
@@ -203,6 +221,7 @@ export function AccountDialog({
       const started = () => {
         track(EV.checkoutStarted, { provider, resume, locale, mode: data.mode || "unavailable" });
         recordUiEvent(apiBase, "checkout_started", provider);
+        setChoosing(false);
       };
       if (result.mode === "checkout") {
         const url = allowedCheckoutUrl(result.checkoutUrl);
@@ -217,9 +236,16 @@ export function AccountDialog({
         checkout.start({ provider, flow: "code", at: Date.now(), attemptId: null, before: orderId(data.payment?.id) });
       } else if (result.mode === "test" || result.mode === "status") {
         if (result.mode === "test") started();
+        setChoosing(false);
         checkout.start({ provider, flow: result.mode, at: Date.now(), attemptId, before: null });
         await refresh();
       } else await refresh();
+    });
+  // Close the account's own invoice no provider has seen yet (BillingStore.cancelInvoice).
+  const cancelInvoice = (order: string) =>
+    run(async () => {
+      await post("/api/gpt/account", { action: "cancel_invoice", orderId: order });
+      await refresh();
     });
   const requestRefund = (order: string) =>
     run(async () => {
@@ -249,11 +275,21 @@ export function AccountDialog({
   const appCode = [data?.paymentCode, memoryRef.current.paymentCode].find(
     (code): code is string => typeof code === "string" && PAYMENT_CODE.test(code),
   );
-  if (watch?.flow === "code" && appCode && pack && checkout.outcome !== "paid" && checkout.outcome !== "cancelled")
+  if (watch?.flow === "code" && appCode && pack && !choosing && checkout.outcome !== "paid" && checkout.outcome !== "cancelled")
     return (
-      <UzumCodeScreen t={t} copy={copy} code={appCode} sum={groupDigits(pack.priceUzs)} loading={loading} onCheck={() => void refresh()} onClose={onClose} />
+      <UzumCodeScreen
+        t={t}
+        copy={copy}
+        code={appCode}
+        sum={groupDigits(pack.priceUzs)}
+        loading={loading}
+        onCheck={() => void refresh()}
+        onChange={() => setChoosing(true)}
+        onClose={onClose}
+      />
     );
-  if (watch)
+  // A payment that turned out paid is said even after "change the way to pay".
+  if (watch && (!choosing || checkout.outcome === "paid"))
     return (
       <CheckoutReturn
         t={t}
@@ -266,11 +302,13 @@ export function AccountDialog({
         date={date}
         onCheck={() => void refresh()}
         onAgain={checkout.dismiss}
+        onChange={() => setChoosing(true)}
         onClose={onClose}
       />
     );
 
   const offered = data?.providers ?? [];
+  const openPayment = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment : null;
   const appFlow = (provider: PaymentProvider) => provider === "uzum" && data?.uzumFlow === "code";
   const payStep = billingAvailable && pack && data?.user && (
     <>
@@ -307,16 +345,28 @@ export function AccountDialog({
         ))}
       </div>
       <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
-      {data.payment?.provider && ["pending", "prepared"].includes(data.payment.state) && (
-        <div className="gpt-panel-note">
+      {openPayment?.provider && (
+        <div className="gpt-panel-note" data-testid="ai-pay-open">
           <p>{copy.resumeNote}</p>
-          <button type="button" className="gpt-primary" disabled={busy || !terms || !resumeReady} onClick={() => { if (data.payment?.provider) void pay(data.payment.provider); }}>
+          <button type="button" className="gpt-primary" disabled={busy || !terms || !resumeReady} onClick={() => { if (openPayment.provider) void pay(openPayment.provider); }}>
             {copy.resume}
           </button>
+          {openPayment.cancellable ? (
+            <>
+              <p>{copy.cancelInvoiceNote(PROVIDER_NAMES[openPayment.provider])}</p>
+              <button type="button" className="gpt-text-button" disabled={busy} onClick={() => void cancelInvoice(openPayment.id)}>
+                {copy.cancelInvoice}
+              </button>
+            </>
+          ) : (
+            <p>{copy.invoiceHeld(PROVIDER_NAMES[openPayment.provider])}</p>
+          )}
         </div>
       )}
     </>
   );
+  // A pack frozen by its refund request is not "ended": its refund line says what happens.
+  const refundAsked = !!data?.refundable?.some((period) => period.order_id === data.payment?.id && period.refund_requested_at);
   const paymentState = data?.payment
     ? ["pending", "prepared"].includes(data.payment.state)
       ? copy.pending
@@ -324,7 +374,7 @@ export function AccountDialog({
         ? copy.refunded
         : data.payment.state === "cancelled"
           ? copy.cancelled
-          : !data.access
+          : !data.access && !refundAsked
             ? copy.expired
             : ""
     : "";
@@ -341,6 +391,7 @@ export function AccountDialog({
       {loginFailed && <p role="alert" className="gpt-error">{copy.loginFailed}</p>}
       {termsChanged && <p role="alert" className="gpt-notice">{copy.termsChanged}</p>}
       {elsewhere && <p role="alert" className="gpt-notice">{copy.payPendingElsewhere(PROVIDER_NAMES[elsewhere])}</p>}
+      {held && <p role="alert" className="gpt-notice">{copy.cancelFailed}</p>}
       {data && !data.user && (
         <>
           {/* A price only while the pack can really be bought (F6). */}

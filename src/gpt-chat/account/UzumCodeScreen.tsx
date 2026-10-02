@@ -20,6 +20,7 @@ export function groupPaymentCode(code: string): string {
  * permanent code for the Uzum Bank app, the steps there, the amount, and a
  * copy button. The pack switches on by itself: the account view is read on
  * the checkout schedule meanwhile, and the window then says it is paid.
+ * Showing the code opens no order, so another way to pay is one press away.
  */
 export function UzumCodeScreen({
   t,
@@ -28,6 +29,7 @@ export function UzumCodeScreen({
   sum,
   loading,
   onCheck,
+  onChange,
   onClose,
 }: {
   t: ChatStrings;
@@ -38,6 +40,8 @@ export function UzumCodeScreen({
   sum: string;
   loading: boolean;
   onCheck: () => void;
+  /** Back to the pay step: another way to pay. */
+  onChange: () => void;
   onClose: () => void;
 }) {
   const [copied, setCopied] = useState(false);
@@ -73,6 +77,7 @@ export function UzumCodeScreen({
       <p className="gpt-panel-note">{copy.uzumCodeNote}</p>
       <p role="status" className="gpt-panel-note">{copy.payChecking}</p>
       <button type="button" className="gpt-text-button" disabled={loading} onClick={onCheck}>{t.premium.check}</button>
+      <button type="button" className="gpt-text-button" onClick={onChange}>{copy.payChange}</button>
       <button type="button" className="gpt-text-button" onClick={onClose}>{copy.payBackToChat}</button>
     </>
   );

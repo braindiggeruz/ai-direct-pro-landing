@@ -189,12 +189,17 @@ test('a pack: 50 a day, no hourly cap; spent or ended it is "monthly", which tim
   assert.deepEqual(await turns.explain(f.user, 'ip-p', p, cfg, T0), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
   assert.deepEqual((await turns.reserve(f.user, 'ip-p', p, cfg, T0)).limit, { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
 
+  // A spent or ended pack refuses; what is left is counted over every running
+  // pack of the account (they run side by side): pack-a still holds 250.
   const spent = pack(f, 'pack-spent', 3);
   seed(f, times(3, (i) => T0 - DAY - i * MIN, { subject: f.user, ip: 'ip-p', period: 'pack-spent' }));
-  assert.deepEqual(await turns.explain(f.user, 'ip-p', spent, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 0 });
+  assert.deepEqual(await turns.explain(f.user, 'ip-p', spent, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 250 });
   const ended = pack(f, 'pack-ended', 300, { from: T0 - 40 * DAY, to: T0 - 1 });
-  assert.deepEqual(await turns.explain(f.user, 'ip-p', ended, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 300 });
-  f.db.exec("UPDATE gpt_access_periods SET revoked_at=1 WHERE order_id='pack-a'");
+  assert.deepEqual(await turns.explain(f.user, 'ip-p', ended, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 250 });
+  // A refund asked for freezes the pack (WP-24); revoked, it is gone.
+  f.db.exec("UPDATE gpt_access_periods SET refund_requested_at=1 WHERE order_id='pack-a'");
+  assert.deepEqual(await turns.explain(f.user, 'ip-p', p, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 0 });
+  f.db.exec("UPDATE gpt_access_periods SET refund_requested_at=NULL, revoked_at=1 WHERE order_id='pack-a'");
   assert.equal((await turns.explain(f.user, 'ip-p', p, cfg, T0))?.reason, 'monthly');
 });
 

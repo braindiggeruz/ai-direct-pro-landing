@@ -2,8 +2,10 @@
 // lazy part chat-account renders them: the pack for a guest and sign-in
 // through the bot, «Paketim» with the pay step, the way back from a payment
 // (checking, paid, still pending, cancelled), the Uzum Bank app code, the test
-// mode, a pending invoice. Every number is the server's, every link goes to
-// an allowed place, and the window speaks the visitor's language.
+// mode, a pending invoice. WP-24: two packs side by side, the refund rule's
+// sums, and an open invoice resumed, closed or left for another way to pay.
+// Every number is the server's, every link goes to an allowed place, and the
+// window speaks the visitor's language.
 //
 // Run: node --import tsx --test tests/gpt-pack-dialog.test.ts
 import assert from 'node:assert/strict';
@@ -30,7 +32,7 @@ import { previewViews } from '../scripts/pack-window-preview';
 const LOCALES = ['ru', 'uz'] as const;
 type Locale = (typeof LOCALES)[number];
 const read = (relative: string) => readFileSync(new URL(`../${relative}`, import.meta.url), 'utf8');
-const PACK: PackTerms = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 } };
+const PACK: PackTerms = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 }, refundDays: 10 };
 const ORDER = `pay_${'a'.repeat(32)}`;
 const OTHER = `uzm_${'b'.repeat(32)}`;
 const ENDS = Date.parse('2026-11-03T09:00:00Z');
@@ -161,8 +163,10 @@ test('«Paketim»: n / 300, today’s room under the day cap, until when, receip
         { kind: 'CANCEL', receipt_url: 'https://check.uzumbank.uz/r/1' },
       ],
       refundable: [
-        { order_id: ORDER, starts_at: Date.parse('2026-10-03T09:00:00Z'), refund_requested_at: null },
-        { order_id: OTHER, starts_at: Date.parse('2026-09-03T09:00:00Z'), refund_requested_at: Date.parse('2026-09-04T09:00:00Z') },
+        { order_id: ORDER, starts_at: Date.parse('2026-10-03T09:00:00Z'), ends_at: ENDS, message_limit: 300, refund_requested_at: null, unused: 120, refund_uzs: 8000 },
+        { order_id: OTHER, starts_at: Date.parse('2026-09-03T09:00:00Z'), ends_at: ENDS, message_limit: 300, refund_requested_at: Date.parse('2026-09-04T09:00:00Z'), unused: 200, refund_uzs: 13333 },
+        // All answers used: nothing to give back, nothing offered.
+        { order_id: `pay_${'c'.repeat(32)}`, starts_at: Date.parse('2026-08-03T09:00:00Z'), ends_at: ENDS, message_limit: 300, refund_requested_at: null, unused: 0, refund_uzs: 0 },
       ],
     }));
     assert.match(page, /<strong>120<span class="gpt-access-size"> \/ 300<\/span><\/strong>/);
@@ -172,8 +176,16 @@ test('«Paketim»: n / 300, today’s room under the day cap, until when, receip
     assert.ok(!page.includes('evil.example'), 'a receipt elsewhere is not linked');
     // One pack can be asked back (the confirmation comes on the press), the other already was.
     assert.ok(has(page, `${copy.refund} · ${date(locale, Date.parse('2026-10-03T09:00:00Z'))}`));
-    assert.ok(has(page, `${copy.refundPending} · ${date(locale, Date.parse('2026-09-03T09:00:00Z'))}`));
+    assert.ok(has(page, `${copy.refundPending('13 333', 10)} · ${date(locale, Date.parse('2026-09-03T09:00:00Z'))}`));
+    assert.ok(!has(page, `${copy.refund} · ${date(locale, Date.parse('2026-08-03T09:00:00Z'))}`), 'a spent pack offers no refund');
     assert.ok(!page.includes('gpt-refund-confirm'));
+    // A pack frozen by its refund request is not said to have ended.
+    const frozen = await window(locale, member({
+      payment: { id: ORDER, state: 'paid', provider: 'click' },
+      refundable: [{ order_id: ORDER, starts_at: NOW, ends_at: ENDS, message_limit: 300, refund_requested_at: NOW, unused: 300, refund_uzs: 20000 }],
+    }));
+    assert.ok(has(frozen, copy.refundPending('20 000', 10)) && !has(frozen, copy.expired), locale);
+    assert.ok(has(await window(locale, member({ payment: { id: ORDER, state: 'paid', provider: 'click' } })), copy.expired), locale);
     // Over an active pack: no price card, the next pack in one line, still the offer and the buttons.
     assert.ok(!page.includes('gpt-plan-card'));
     assert.ok(has(page, `${copy.price('20 000', 1, 300)}. ${strings(locale).premium.manual}`));
@@ -185,6 +197,80 @@ test('«Paketim»: n / 300, today’s room under the day cap, until when, receip
   // The refund goes out only from the confirmation's own button.
   assert.match(panel, /onClick=\{\(\) => setConfirming\(period\.order_id\)\}/);
   assert.match(panel, /onClick=\{\(\) => void onRefund\(period\.order_id\)\.finally\(\(\) => setConfirming\(null\)\)\}/);
+});
+
+test('two packs side by side: the answers of both, the latest end, and which one is spent first (WP-24)', async () => {
+  const first = Date.parse('2026-10-20T09:00:00Z');
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    const page = await window(locale, withPack({
+      remaining: 420,
+      access: { order_id: ORDER, ends_at: first, remaining: 420, renewSoon: false, refund_requested_at: null, message_limit: 300, dayRemaining: 50, packs: 2, totalLimit: 600, paidThrough: ENDS, firstRemaining: 120 },
+    }));
+    assert.match(page, /<strong>420<span class="gpt-access-size"> \/ 600<\/span><\/strong>/);
+    for (const line of [copy.remainingPacks(2), copy.until(date(locale, ENDS)), copy.firstPack(120, date(locale, first)), copy.today(50, 50)])
+      assert.ok(has(page, line), `${locale}: ${line}`);
+    assert.ok(page.includes(`<p>${html(copy.until(date(locale, ENDS)))}</p>`), `${locale}: paid through the later pack`);
+    assert.ok(!page.includes(`<p>${html(copy.until(date(locale, first)))}</p>`), `${locale}: not through the first`);
+    // One pack: its own numbers, no line about the order of packs.
+    const one = await window(locale, withPack());
+    assert.ok(has(one, copy.remaining) && !has(one, copy.firstPack(120, date(locale, ENDS))), locale);
+  }
+  assert.equal(accountStrings('ru').firstPack(1, '03.11.2026'), 'Сначала тратится пакет до 03.11.2026: в нём остался 1 ответ.');
+  assert.equal(accountStrings('ru').firstPack(120, '03.11.2026'), 'Сначала тратится пакет до 03.11.2026: в нём осталось 120 ответов.');
+});
+
+test('the refund rule in the window: the sum for the unused answers, the days, the same card (WP-24)', () => {
+  const owed = { sum: '13 333', unused: 200, size: 300 };
+  assert.equal(
+    accountStrings('ru').refundConfirm('03.10.2026', owed, 10),
+    'Вернуть неиспользованную часть пакета от 03.10.2026? Не использовано 200 из 300 ответов — вернём 13 333 сум на карту, с которой платили, в течение 10 рабочих дней. Ответы из этого пакета сразу перестанут списываться.',
+  );
+  assert.equal(
+    accountStrings('uz').refundConfirm('03.10.2026', owed, 10),
+    '03.10.2026 dagi paketning ishlatilmagan qismi uchun pulni qaytarishni so‘raysizmi? 300 ta javobdan 200 tasi ishlatilmagan — 13 333 so‘mni 10 ish kuni ichida to‘lov qilingan kartaga qaytaramiz. Bu paketdan javoblar darhol yechilmay qoladi.',
+  );
+  assert.equal(accountStrings('ru').refundPending('20 000', 10), 'Запрос на возврат принят: 20 000 сум вернём на карту, с которой платили, в течение 10 рабочих дней.');
+  assert.equal(accountStrings('uz').refundPending('20 000', 10), 'So‘rovingiz qabul qilindi: 20 000 so‘mni 10 ish kuni ichida to‘lov qilingan kartaga qaytaramiz.');
+  // An older view without the sum or the days still says something true.
+  assert.equal(accountStrings('ru').refundPending(null, null), 'Запрос на возврат принят: неиспользованную часть вернём на карту, с которой платили.');
+  assert.doesNotMatch(accountStrings('ru').refundConfirm('03.10.2026', null, null), /null|undefined|NaN/);
+  assert.doesNotMatch(accountStrings('uz').refundConfirm('03.10.2026', null, null), /null|undefined|NaN/);
+  // The panel takes the sum and the days from the server's view.
+  const panel = read('src/gpt-chat/account/PackPanel.tsx');
+  assert.match(panel, /const days = data\.pack\?\.refundDays \?\? null;/);
+  assert.match(panel, /copy\.refundConfirm\(date\(period\.starts_at\), owed\(period\), days\)/);
+  assert.match(panel, /period\.refund_uzs === 0 \? null/);
+});
+
+test('an open invoice: resumed, or closed while no provider has seen it, so another way to pay is free (U7, WP-24)', async () => {
+  const open = (state: string, cancellable: boolean) => member({ payment: { id: ORDER, state, provider: 'click', cancellable } });
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    // Click never saw it: resume it, or close it.
+    const unseen = await window(locale, open('pending', true));
+    for (const line of [copy.resumeNote, copy.resume, copy.cancelInvoiceNote('Click'), copy.cancelInvoice]) assert.ok(has(unseen, line), `${locale}: ${line}`);
+    assert.ok(!has(unseen, copy.invoiceHeld('Click')));
+    // Click holds it: resume it, or let it close by itself.
+    const held = await window(locale, open('prepared', false));
+    assert.ok(has(held, copy.resume) && has(held, copy.invoiceHeld('Click')) && !has(held, copy.cancelInvoice), locale);
+    // Back from paying, nothing paid: the way back to the pay step, at once while
+    // no provider has the invoice, after the two minutes otherwise.
+    const change = (page: string) => page.includes('data-testid="ai-pay-change"') && has(page, copy.payChange);
+    assert.ok(change(await window(locale, open('pending', true), { watch: watchOf() })), locale);
+    assert.ok(!change(await window(locale, open('prepared', false), { watch: watchOf() })), locale);
+    assert.ok(change(await window(locale, open('prepared', false), { watch: watchOf({ at: NOW - 121_000 }) })), locale);
+    assert.ok(!change(await window(locale, withPack(), { watch: watchOf() })), 'paid: nothing to change');
+    assert.ok(!change(await window(locale, open('pending', true), { watch: watchOf({ attemptId: OTHER }) })), 'another order says nothing of this one');
+    // The app code opens no order: another way to pay is one press away.
+    const code = await window(locale, member({ uzumFlow: 'code', paymentCode: '123456782' }), { watch: watchOf({ provider: 'uzum', flow: 'code', attemptId: null }) });
+    assert.ok(has(code, copy.payChange), locale);
+  }
+  const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
+  assert.match(dialog, /post\("\/api\/gpt\/account", \{ action: "cancel_invoice", orderId: order \}\)/);
+  assert.match(dialog, /code === "invoice_in_progress"/);
+  // Back at the pay step, a payment that turned out paid is still said.
+  assert.match(dialog, /if \(watch && \(!choosing \|\| checkout\.outcome === "paid"\)\)/);
 });
 
 test('test mode is said on the window and on the way back; a pending invoice is resumed, not paid twice', async () => {
@@ -307,8 +393,8 @@ test('the way back: ?pay=return opens the window, leaves the address, and the br
   assert.match(panel, /\} else if \(checkout\) openPack\("pay_return"\);/);
   // Polled on the checkout schedule until the payment ends.
   assert.match(panel, /useAccount\(apiBase, onAccount, refreshKey, checkout && !outcome \? checkout\.at : null\)/);
-  // Leaving for the payment page keeps the composer's question (DRAFT_TTL_MS).
-  assert.match(panel, /if \(watch\.flow === "redirect"\) onLeave\?\.\(\);/);
+  // Leaving for the payment page or the Uzum Bank app keeps the composer's question (DRAFT_TTL_MS).
+  assert.match(panel, /if \(watch\.flow === "redirect" \|\| watch\.flow === "code"\) onLeave\?\.\(\);/);
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
   assert.match(dialog, /checkout\.start\(\{ provider, flow: "redirect", at: Date\.now\(\), attemptId, before: null \}\);\s*location\.assign\(url\);/);
   // The server's return address carries the marker (subscribe.ts).
@@ -317,7 +403,7 @@ test('the way back: ?pay=return opens the window, leaves the address, and the br
 
 test('the local preview (scripts/pack-window-preview.ts) answers with views the window accepts', async () => {
   const views = previewViews(NOW);
-  assert.deepEqual(Object.keys(views).sort(), ['cancelled', 'code', 'guest', 'member', 'off', 'paid', 'pending', 'test']);
+  assert.deepEqual(Object.keys(views).sort(), ['cancelled', 'code', 'guest', 'member', 'off', 'packs', 'paid', 'pending', 'test', 'unseen']);
   for (const [state, view] of Object.entries(views)) {
     assert.ok(validAccountView(view), state);
     for (const locale of LOCALES) assert.ok((await window(locale, view as unknown as AccountView)).length > 500, `${state}/${locale}`);

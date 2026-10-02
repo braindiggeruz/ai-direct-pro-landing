@@ -1,12 +1,16 @@
 import { useState, type ReactNode } from "react";
 import type { AccountView, PackTerms } from "../types";
-import type { AccountStrings } from "../account-strings";
+import { groupDigits, type AccountStrings, type RefundOwed } from "../account-strings";
 import { safeAccountLink } from "../types";
 import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from "../../shared/studio-contact";
 
 type Access = NonNullable<AccountView["access"]>;
 
-/** The running pack: "120 / 300", today's room under the day cap, until when. */
+/**
+ * The running packs: "120 / 300", today's room under the day cap, until
+ * when. Packs bought early run side by side: the answers of all of them
+ * ("420 / 600"), the latest end, and which pack turns draw from first.
+ */
 export function AccessSummary({
   copy,
   access,
@@ -18,19 +22,30 @@ export function AccessSummary({
   pack: PackTerms | undefined;
   date: (at: number) => string;
 }) {
-  const size = access.message_limit ?? pack?.messageLimit;
+  const packs = access.packs ?? 1;
+  const size = access.totalLimit ?? access.message_limit ?? pack?.messageLimit;
   return (
     <div className="gpt-access-summary">
       <strong>
         {access.remaining}
         {size !== undefined && <span className="gpt-access-size"> / {size}</span>}
       </strong>
-      <span>{copy.remaining}</span>
+      <span>{packs > 1 ? copy.remainingPacks(packs) : copy.remaining}</span>
       {pack && access.dayRemaining !== undefined && <p>{copy.today(access.dayRemaining, pack.dailyLimit)}</p>}
-      <p>{copy.until(date(access.ends_at))}</p>
+      <p>{copy.until(date(access.paidThrough ?? access.ends_at))}</p>
+      {packs > 1 && access.firstRemaining !== undefined && <p>{copy.firstPack(access.firstRemaining, date(access.ends_at))}</p>}
       {access.renewSoon && <p>{copy.renew}</p>}
     </div>
   );
+}
+
+type Refundable = NonNullable<AccountView["refundable"]>[number];
+
+/** What the offer's rule gives back for this pack, as the server counted it. */
+function owed(period: Refundable): RefundOwed | null {
+  return period.refund_uzs !== undefined && period.unused !== undefined && period.message_limit !== undefined
+    ? { sum: groupDigits(period.refund_uzs), unused: period.unused, size: period.message_limit }
+    : null;
 }
 
 /**
@@ -50,9 +65,10 @@ export function SupportLine({ copy }: { copy: AccountStrings }) {
 
 /**
  * «Paketim» (plan WP-17, map 03 §3.6), the signed-in part of the pack window:
- * the running pack or what is left of the free day, the pay step (children),
+ * the running packs or what is left of the free day, the pay step (children),
  * fiscal receipts (ofd.soliq.uz and Uzum hosts only), refund requests with a
- * confirmation, where to ask, and sign-out.
+ * confirmation that names the sum the offer's rule gives back (WP-24), where
+ * to ask, and sign-out. A pack with nothing left to give back offers none.
  */
 export function PackPanel({
   copy,
@@ -73,6 +89,7 @@ export function PackPanel({
 }) {
   // The pack whose refund waits for a second press.
   const [confirming, setConfirming] = useState<string | null>(null);
+  const days = data.pack?.refundDays ?? null;
   const receipts = (data.receipts ?? []).flatMap((receipt) => {
     const href = safeAccountLink(receipt.receipt_url);
     return href ? [{ kind: receipt.kind, href }] : [];
@@ -96,11 +113,11 @@ export function PackPanel({
       {data.refundable?.map((period) =>
         period.refund_requested_at ? (
           <p key={period.order_id} className="gpt-panel-note" role="status">
-            {copy.refundPending} · {date(period.starts_at)}
+            {copy.refundPending(owed(period)?.sum ?? null, days)} · {date(period.starts_at)}
           </p>
-        ) : confirming === period.order_id ? (
+        ) : period.refund_uzs === 0 ? null : confirming === period.order_id ? (
           <div key={period.order_id} className="gpt-refund-confirm" role="group">
-            <p>{copy.refundConfirm(date(period.starts_at))}</p>
+            <p>{copy.refundConfirm(date(period.starts_at), owed(period), days)}</p>
             <button
               type="button"
               className="gpt-primary"

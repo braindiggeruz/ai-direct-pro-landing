@@ -22,7 +22,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const ORDER = `pay_${'0'.repeat(31)}1`;
-const PACK = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 } };
+const EARLIER = `pay_${'0'.repeat(31)}2`;
+const PACK = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 }, refundDays: 10 };
 const DAY = 86_400_000;
 
 /** The account views the preview can answer with, shaped as functions/api/gpt/account.ts answers. */
@@ -36,20 +37,39 @@ export function previewViews(now = Date.now()): Record<string, Record<string, un
   const paid = {
     ...member,
     remaining: 120,
-    access: { order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, remaining: 120, dayRemaining: 37, renewSoon: false },
-    payment: { id: ORDER, state: 'paid', provider: 'click', createdAt: now - 2 * DAY },
+    access: {
+      order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, remaining: 120, dayRemaining: 37,
+      renewSoon: false, packs: 1, totalLimit: 300, paidThrough: now + 28 * DAY, firstRemaining: 120,
+    },
+    payment: { id: ORDER, state: 'paid', provider: 'click', createdAt: now - 2 * DAY, cancellable: false },
     receipts: [{ kind: 'PERFORM', receipt_url: 'https://ofd.soliq.uz/epi?t=EZ0000000000&r=1&c=20261001120000&s=1' }],
-    refundable: [{ order_id: ORDER, starts_at: now - 2 * DAY, refund_requested_at: null }],
+    refundable: [{ order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, unused: 120, refund_uzs: 8000 }],
+  };
+  // Renewed early: two packs side by side, turns draw from the earlier one first.
+  const packs = {
+    ...paid,
+    remaining: 420,
+    access: {
+      order_id: EARLIER, starts_at: now - 20 * DAY, ends_at: now + 10 * DAY, message_limit: 300, refund_requested_at: null, remaining: 420, dayRemaining: 50,
+      renewSoon: false, packs: 2, totalLimit: 600, paidThrough: now + 28 * DAY, firstRemaining: 120,
+    },
+    refundable: [
+      { order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, unused: 300, refund_uzs: 20000 },
+      { order_id: EARLIER, starts_at: now - 20 * DAY, ends_at: now + 10 * DAY, message_limit: 300, refund_requested_at: null, unused: 120, refund_uzs: 8000 },
+    ],
   };
   return {
     guest: base,
     off: { ...base, loginAvailable: false, loginMethods: [], mode: null, providers: [] },
     member,
     test: { ...member, mode: 'test' },
-    pending: { ...member, payment: { id: ORDER, state: 'prepared', provider: 'click', createdAt: now } },
+    pending: { ...member, payment: { id: ORDER, state: 'prepared', provider: 'click', createdAt: now, cancellable: false } },
+    // An invoice Click has not seen yet: it can be closed to pay with Uzum Bank.
+    unseen: { ...member, payment: { id: ORDER, state: 'pending', provider: 'click', createdAt: now, cancellable: true } },
     paid,
+    packs,
     code: { ...member, uzumFlow: 'code', paymentCode: '123456782' },
-    cancelled: { ...member, payment: { id: ORDER, state: 'cancelled', provider: 'click', createdAt: now } },
+    cancelled: { ...member, payment: { id: ORDER, state: 'cancelled', provider: 'click', createdAt: now, cancellable: false } },
   };
 }
 
@@ -86,8 +106,15 @@ function serve(port: number, initial: string): http.Server {
       return send(res, 200, view);
     }
     if (route === 'POST /api/gpt/account') {
-      refundAsked = true;
-      return send(res, 200, { ok: true });
+      let body = '';
+      req.on('data', (chunk) => { body += chunk; });
+      req.on('end', () => {
+        // Closing the open invoice ends it as the server would; anything else asks a refund.
+        if (body.includes('"cancel_invoice"')) state = 'cancelled';
+        else refundAsked = true;
+        send(res, 200, { ok: true });
+      });
+      return;
     }
     if (route === 'POST /api/gpt/subscribe')
       return state === 'code'

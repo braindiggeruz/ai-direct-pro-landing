@@ -17,6 +17,11 @@ const CLOCK_MS = 5_000;
  * pay again, check the status, where to ask. Cancelled: try again, where to
  * ask. The server's account view decides; returning from a payment page
  * proves nothing by itself.
+ *
+ * While the watched invoice is open, "continue or change the way to pay"
+ * leads back to the pay step (WP-24), where it is resumed, or closed if no
+ * provider has seen it yet: at once when none has (nobody can be paying
+ * it), after the two minutes otherwise.
  */
 export function CheckoutReturn({
   t,
@@ -29,6 +34,7 @@ export function CheckoutReturn({
   date,
   onCheck,
   onAgain,
+  onChange,
   onClose,
 }: {
   t: ChatStrings;
@@ -41,9 +47,14 @@ export function CheckoutReturn({
   date: (at: number) => string;
   onCheck: () => void;
   onAgain: () => void;
+  /** Back to the pay step, the watched invoice still open. */
+  onChange: () => void;
   onClose: () => void;
 }) {
   const result = settledCheckout(data, watch);
+  const payment = data?.payment;
+  const open = !result && !!payment && (!watch.attemptId || payment.id === watch.attemptId)
+    && ["pending", "prepared"].includes(payment.state);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (result) return;
@@ -88,6 +99,12 @@ export function CheckoutReturn({
       </>
     );
   const long = outcome === "pending" || now - watch.at >= CHECKOUT_FAST_FOR_MS;
+  const change = open && (payment?.cancellable === true || long) && (
+    <div className="gpt-panel-note" data-testid="ai-pay-change">
+      <p>{copy.payChangeNote}</p>
+      <button type="button" className="gpt-text-button" onClick={onChange}>{copy.payChange}</button>
+    </div>
+  );
   return (
     <>
       <DialogTitle>{copy.payChecking}</DialogTitle>
@@ -99,6 +116,7 @@ export function CheckoutReturn({
             <p role="status" className="gpt-notice" data-testid="ai-pay-result" data-result="pending">{copy.payPendingLong}</p>
           </DialogDescription>
           <button type="button" className="gpt-primary" disabled={loading} onClick={onCheck}>{t.premium.check}</button>
+          {change}
           <SupportLine copy={copy} />
           {back(false)}
         </>
@@ -108,6 +126,7 @@ export function CheckoutReturn({
             <p role="status" className="gpt-panel-note" data-testid="ai-pay-result" data-result="checking">{copy.payCheckingNote}</p>
           </DialogDescription>
           <div className="gpt-part-loading gpt-pay-checking" aria-hidden="true" />
+          {change}
           {back(true)}
         </>
       )}

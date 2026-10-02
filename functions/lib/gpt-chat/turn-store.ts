@@ -38,7 +38,7 @@ export interface TurnSettlement {
 
 /** What is left for the subject after a turn. */
 export interface Allowance {
-  /** Answers left today (free tier) or in the pack. */
+  /** Answers left today (free tier) or in every pack the account can draw from. */
   remaining: number;
   /** Free tier only: answers left in the rolling hour; null for a pack. */
   hourRemaining: number | null;
@@ -83,7 +83,7 @@ export interface LimitExplanation {
   reason: LimitReason;
   /** When a turn fits again (epoch ms); null for 'monthly', which time does not lift. */
   retryAt: number | null;
-  /** Answers left today (free tier) or in the pack. */
+  /** Answers left today (free tier) or in every pack the account can draw from. */
   remaining: number;
 }
 
@@ -182,10 +182,18 @@ function admissionRules(
   ];
 }
 
-// The pack's own ceiling: answers spent in it, and whether it is still valid.
+// The pack's own ceiling: answers spent in it, and whether it is still valid
+// (not revoked, no refund asked for: BillingStore.requestRefund freezes it).
 const PACK_USED = `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${ACTIVE})`;
 const PACK_VALID =
-  "EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>?)";
+  "EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND refund_requested_at IS NULL AND starts_at<=? AND ends_at>?)";
+// Answers left in every valid pack of the account and mode of pack `?`:
+// packs run side by side, so what the account has left is their sum, as
+// BillingStore.usablePacks lists them. Binds now, org, the pack's order id, now x2.
+const PACKS_LEFT = `(SELECT COALESCE(SUM(MAX(0,p.message_limit-(SELECT COUNT(*) FROM gpt_turn_reservations r
+    WHERE r.org_id=p.org_id AND r.period_id=p.order_id AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?))))),0)
+  FROM gpt_access_periods p JOIN gpt_access_periods d ON d.org_id=p.org_id AND d.user_id=p.user_id AND d.mode=p.mode
+  WHERE d.org_id=? AND d.order_id=? AND p.revoked_at IS NULL AND p.refund_requested_at IS NULL AND p.starts_at<=? AND p.ends_at>?)`;
 
 // Provider-reported values are stored only as what they claim to be.
 function count(value: number | null | undefined): number | null {
@@ -297,8 +305,8 @@ export class TurnStore {
         : [rule.limit, this.org, ...rule.binds, rule.limit],
     );
     if (period) {
-      columns.push(`${PACK_USED} AS used`, `${PACK_VALID} AS valid`);
-      binds.push(this.org, period.order_id, now, this.org, period.order_id, now, now);
+      columns.push(`${PACK_USED} AS used`, `${PACK_VALID} AS valid`, `${PACKS_LEFT} AS packs_left`);
+      binds.push(this.org, period.order_id, now, this.org, period.order_id, now, now, now, this.org, period.order_id, now, now);
     }
     const row = await this.db
       .prepare(`SELECT ${columns.join(",")}`)
@@ -312,7 +320,7 @@ export class TurnStore {
     );
     const remaining = Math.max(
       0,
-      period ? period.message_limit - Number(row.used) : cfg.freeDailyLimit - spentToday,
+      period ? Number(row.packs_left) : cfg.freeDailyLimit - spentToday,
     );
     if (period && (Number(row.used) >= period.message_limit || !row.valid))
       return { reason: "monthly", retryAt: null, remaining };
@@ -331,10 +339,12 @@ export class TurnStore {
     return refusal && { ...refusal, remaining };
   }
   /**
-   * The day's (or the pack's) and, for the free tier, the rolling hour's
+   * The day's (or the packs') and, for the free tier, the rolling hour's
    * answers left, in one read; the free tier counts by account and by IP
-   * hash, like reserve(). The chat reads it after the settlement, so a
-   * released turn is already given back.
+   * hash, like reserve(). With a pack, what is left in every pack the
+   * account can still draw from: a turn draws from `period` first and then
+   * from the next one. The chat reads it after the settlement, so a released
+   * turn is already given back.
    */
   async allowance(
     subject: string,
@@ -350,11 +360,11 @@ export class TurnStore {
       )!;
       const row = await this.db
         .prepare(
-          `SELECT ${PACK_USED} AS used, (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${daily.rows}) AS today`,
+          `SELECT ${PACKS_LEFT} AS packs_left, (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${daily.rows}) AS today`,
         )
-        .bind(this.org, period.order_id, now, this.org, ...daily.binds)
-        .first<{ used: number; today: number }>();
-      const remaining = Math.max(0, period.message_limit - (row?.used ?? 0));
+        .bind(now, this.org, period.order_id, now, now, this.org, ...daily.binds)
+        .first<{ packs_left: number; today: number }>();
+      const remaining = Math.max(0, row?.packs_left ?? 0);
       return {
         remaining,
         hourRemaining: null,

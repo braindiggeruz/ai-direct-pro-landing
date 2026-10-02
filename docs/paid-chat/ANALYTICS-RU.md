@@ -14,9 +14,9 @@
 | Ответ | ровно одно из `ai_response_success` (`finish` stop / length), `ai_response_error` (`code`), `generation_stopped` | `model`, `message_number` |
 | Отказ сервера (429) | `limit_hit` | `reason`, `locale` |
 | Окно пакета открыто | `pack_viewed` | `from`: header / limit_card / low_limit / after_10 / account_check / login_failed / login_resume / pay_return |
-| Вход | `login_started`, `login_result` | `method` (bot / oidc), `status` (done / rejected / expired / failed) |
+| Вход | `login_started`, `login_result` | `method` (bot / oidc), `status` (done / rejected / expired / failed). Ссылка на бота с nonce открывается кнопкой, поэтому в исходящие клики GA4 и Метрики не попадает |
 | Оплата началась | `checkout_started` | `provider`, `mode`, `resume` (true — возврат к существующему счёту) |
-| Оплата закончилась | `checkout_result` | `status` (paid / pending — не подтверждена за 10 минут / cancelled), `provider`, `mode` |
+| Оплата закончилась | `checkout_result` | `status` (paid / pending — не подтверждена за 10 минут / cancelled, в том числе счёт, который человек сам отменил, `CHECKOUT-RU.md`), `provider`, `mode` |
 | Покупка | `purchase` (ecommerce GA4) | `transaction_id` (номер заказа, не ПДн), `value` 20000, `currency` UZS, `items[{item_id: ai_paket_300}]`; только `mode=live`, один раз на заказ в браузере |
 | Любая кнопка Telegram | `telegram_cta_clicked` | `from`, `channel` (bot / studio), `with_session` |
 | Лид | `lead_form_opened`, `generate_lead` (только после ответа сервера), `lead_form_failed` | `method`, `intent`, `code` |

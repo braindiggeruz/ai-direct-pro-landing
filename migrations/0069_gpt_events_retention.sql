@@ -1,0 +1,17 @@
+-- The paid AI chat, WP-24 (paid-chat plan, after R4): retention of the chat's
+-- breadcrumbs. gpt_events (0008) holds the web chat's lead and chat-to-bot
+-- events: the chat session id, the intent, the page and, for a claimed
+-- handoff, the bot user's pseudonym (salted HMAC). No message text, no IP and
+-- no org_id. maintainBilling (functions/lib/gpt-chat/billing-maintenance-store.ts)
+-- now deletes rows older than TELEMETRY_RETENTION_DAYS (93, the period the
+-- privacy policy states for text-free technical events), 500 per run of the
+-- 15-minute maintenance cron. This index keeps each run from scanning the
+-- whole table; created_at is ISO-8601 text, so it sorts by time.
+-- Runtime parity: CHAT_EVENT_INDEXES in functions/lib/gpt-chat/schema.ts
+-- (ensureSchema), tested in tests/gpt-events-retention.test.ts.
+-- Order: either way. CREATE INDEX IF NOT EXISTS is a no-op once the bootstrap
+-- built the index, so the code may run before or after this migration.
+-- Rollback: the index may stay (DROP INDEX IF EXISTS idx_gpt_events_created
+-- only slows the sweep). Swept rows do not come back: the release takes the
+-- D1 export first, as always.
+CREATE INDEX IF NOT EXISTS idx_gpt_events_created ON gpt_events (created_at);

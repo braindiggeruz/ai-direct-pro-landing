@@ -283,6 +283,12 @@ const ANALYSIS_SCHEMA = {
   required: ['sufficient', 'insufficiencyReason', 'summary', 'claims', 'contradictions', 'hedging', 'questions'],
 } as const;
 
+/**
+ * The model of a recording's analysis when OPENROUTER_MODEL_ANALYSIS is not
+ * set. The privacy policy names its supplier (tests/legal-oferta.test.ts).
+ */
+export const ANALYSIS_DEFAULT_MODEL = 'openai/gpt-4o-mini';
+
 export async function analyzeTranscript(
   env: Env,
   transcript: string,
@@ -293,7 +299,7 @@ export async function analyzeTranscript(
   const startedAt = Date.now();
   if (!env.OPENROUTER_API_KEY) return { ok: false, provider: 'openrouter', latencyMs: 0, promptVersion: TAHLIL_PROMPT_VERSION, errorCode: 'no_key' };
   const prompt = buildAnalysisPrompt(transcript, language, segments);
-  const model = env.OPENROUTER_MODEL_ANALYSIS || 'openai/gpt-4o-mini';
+  const model = env.OPENROUTER_MODEL_ANALYSIS || ANALYSIS_DEFAULT_MODEL;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), Math.min(Math.max(timeoutMs, 1_000), 15_000));
   try {

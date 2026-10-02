@@ -24,13 +24,22 @@ export interface AccountStrings {
   active: string;
   /** "120 / 300", then this. */
   remaining: string;
+  /** "420 / 600", then this, when `packs` run side by side. */
+  remainingPacks: (packs: number) => string;
+  /** Packs side by side: the one turns draw from first, and what is left in it. */
+  firstPack: (left: number, date: string) => string;
   today: (left: number, daily: number) => string;
   until: (date: string) => string;
   renew: string;
   noPack: string;
   freeLeft: (left: number) => string;
-  refund: string; refundPending: string;
-  refundConfirm: (date: string) => string;
+  refund: string;
+  /**
+   * The offer's refund rule: the unused part back, `days` working days at
+   * most (both from the server; null when an older view lacks them).
+   */
+  refundPending: (sum: string | null, days: number | null) => string;
+  refundConfirm: (date: string, owed: RefundOwed | null, days: number | null) => string;
   refundYes: string; refundNo: string;
   /** Before the studio's e-mail and phone. */
   supportLabel: string;
@@ -41,6 +50,15 @@ export interface AccountStrings {
   termsChanged: string; termsMissing: string;
   /** A pending invoice: going back to it creates no new one. */
   resumeNote: string; resume: string;
+  /** An open invoice no provider has seen yet: it can be closed to pay another way. */
+  cancelInvoice: string;
+  cancelInvoiceNote: (provider: string) => string;
+  /** An open invoice the provider holds: it closes by itself. */
+  invoiceHeld: (provider: string) => string;
+  /** The provider took the invoice up while it was being closed. */
+  cancelFailed: string;
+  /** Back from paying, not paid: return to the invoice or choose another way. */
+  payChange: string; payChangeNote: string;
   /** Pay buttons: "Click", "Uzum Bank", "Payme". */
   payVia: (provider: string) => string;
   /** Uzum through the Merchant API: a code in the Uzum Bank app. */
@@ -68,6 +86,13 @@ export interface AccountStrings {
   botLoginDone: string; botLoginRejected: string; botLoginExpired: string; botLoginWarning: string;
 }
 
+/** What a refund request is owed: the sum, and the unused answers of the pack's size. */
+export interface RefundOwed {
+  sum: string;
+  unused: number;
+  size: number;
+}
+
 const answers = (n: number) => `${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`;
 const months = (n: number) => `${n} ${ru(n, 'календарный месяц', 'календарных месяца', 'календарных месяцев')}`;
 
@@ -92,14 +117,18 @@ const RU: AccountStrings = {
   terms: 'Принимаю условия публичной оферты',
   active: 'AI-пакет активен',
   remaining: 'ответов осталось в пакете',
+  remainingPacks: () => 'ответов осталось в пакетах',
+  firstPack: (n, date) => `Сначала тратится пакет до ${date}: в нём ${ru(n, 'остался', 'осталось', 'осталось')} ${answers(n)}.`,
   today: (n, d) => `Сегодня можно ещё ${n} (до ${d} в день)`,
   until: (date) => `Действует до ${date}`,
   renew: 'Пакет скоро закончится. Новый можно купить в любой момент — он начнёт действовать сразу.',
   noPack: 'Активного пакета нет.',
   freeLeft: (n) => `Бесплатно на сегодня осталось: ${n}.`,
   refund: 'Запросить возврат',
-  refundPending: 'Запрос на возврат принят: ответим в течение 3 рабочих дней. Доступ сохраняется до решения.',
-  refundConfirm: (date) => `Запросить возврат за пакет от ${date}? Деньги вернутся на карту, с которой платили, а пакет отключится.`,
+  refundPending: (sum, days) =>
+    `Запрос на возврат принят: ${sum === null ? 'неиспользованную часть' : `${sum} сум`} вернём на карту, с которой платили${days === null ? '' : `, в течение ${days} рабочих дней`}.`,
+  refundConfirm: (date, owed, days) =>
+    `Вернуть неиспользованную часть пакета от ${date}?${owed ? ` Не использовано ${owed.unused} из ${owed.size} ${ru(owed.size, 'ответа', 'ответов', 'ответов')} — вернём ${owed.sum} сум` : ' Вернём её'} на карту, с которой платили${days === null ? '' : `, в течение ${days} рабочих дней`}. Ответы из этого пакета сразу перестанут списываться.`,
   refundYes: 'Да, запросить возврат',
   refundNo: 'Не нужно',
   supportLabel: 'Вопросы об оплате и возврате:',
@@ -115,6 +144,12 @@ const RU: AccountStrings = {
   termsMissing: 'Условия оплаты пока недоступны.',
   resumeNote: 'Возврат к существующему счёту. Новый счёт не создаётся.',
   resume: 'Продолжить этот платёж',
+  cancelInvoice: 'Отменить этот счёт',
+  cancelInvoiceNote: (provider) => `${provider} ещё не получил этот счёт: его можно отменить и оплатить другим способом.`,
+  invoiceHeld: (provider) => `Этот счёт уже открыт в ${provider}. Если вы не оплатили, он закроется сам, и тогда можно выбрать другой способ.`,
+  cancelFailed: 'Платёжная система уже приняла этот счёт, отменить его нельзя. Проверьте статус.',
+  payChange: 'Продолжить или сменить способ оплаты',
+  payChangeNote: 'Не оплатили? Можно вернуться к этому счёту или выбрать другой способ оплаты.',
   payVia: (provider) => `Оплатить через ${provider}`,
   payInApp: 'Оплатить в приложении Uzum Bank',
   payNote: (providers) => `Данные карты к нам не попадают: оплата проходит на стороне ${providers}.`,
@@ -127,7 +162,7 @@ const RU: AccountStrings = {
   payBackToChat: 'Вернуться в чат',
   payTestNoPage: 'Тестовый режим: страница оплаты не открывается.',
   payAgain: 'Попробовать ещё раз',
-  payPendingElsewhere: (provider) => `Счёт через ${provider} ещё ждёт оплаты. Продолжите его ниже или дождитесь, пока он истечёт.`,
+  payPendingElsewhere: (provider) => `Счёт через ${provider} ещё открыт, второй не создаём. Что с ним можно сделать — ниже.`,
   uzumCodeTitle: 'Оплата в приложении Uzum Bank',
   uzumCodeSteps: (service, sum) => [
     'Откройте приложение Uzum Bank и раздел «Платежи».',
@@ -183,14 +218,18 @@ const UZ: AccountStrings = {
   terms: 'Ommaviy oferta shartlariga roziman',
   active: 'AI paket faol',
   remaining: 'ta javob paketda qoldi',
+  remainingPacks: (packs) => `ta javob ${packs} ta paketda qoldi`,
+  firstPack: (n, date) => `Avval ${date} gacha amal qiladigan paketdan yechiladi: unda ${n} ta javob qoldi.`,
   today: (n, d) => `Bugun yana ${n} ta (kuniga ${d} tagacha)`,
   until: (date) => `${date} gacha amal qiladi`,
   renew: 'Paket muddati tugashiga oz qoldi. Yangisini istalgan payt olishingiz mumkin — u darhol boshlanadi.',
   noPack: 'Faol paket yo‘q.',
   freeLeft: (n) => `Bepul: bugun ${n} ta xabar qoldi.`,
   refund: 'Pulni qaytarishni so‘rash',
-  refundPending: 'So‘rovingiz qabul qilindi: 3 ish kuni ichida javob beramiz. Qaror chiqquncha xizmatdan foydalanasiz.',
-  refundConfirm: (date) => `${date} dagi paket uchun pulni qaytarishni so‘raysizmi? Pul to‘langan kartaga qaytadi, paket esa o‘chiriladi.`,
+  refundPending: (sum, days) =>
+    `So‘rovingiz qabul qilindi: ${sum === null ? 'ishlatilmagan qismini' : `${sum} so‘mni`}${days === null ? '' : ` ${days} ish kuni ichida`} to‘lov qilingan kartaga qaytaramiz.`,
+  refundConfirm: (date, owed, days) =>
+    `${date} dagi paketning ishlatilmagan qismi uchun pulni qaytarishni so‘raysizmi?${owed ? ` ${owed.size} ta javobdan ${owed.unused} tasi ishlatilmagan — ${owed.sum} so‘mni` : ' Uni'}${days === null ? '' : ` ${days} ish kuni ichida`} to‘lov qilingan kartaga qaytaramiz. Bu paketdan javoblar darhol yechilmay qoladi.`,
   refundYes: 'Ha, qaytarishni so‘rayman',
   refundNo: 'Kerak emas',
   supportLabel: 'To‘lov va pulni qaytarish bo‘yicha savollar:',
@@ -206,6 +245,12 @@ const UZ: AccountStrings = {
   termsMissing: 'To‘lov shartlari hali mavjud emas.',
   resumeNote: 'Bu mavjud hisobga qaytish. Yangi hisob yaratilmaydi.',
   resume: 'Shu to‘lovni davom ettirish',
+  cancelInvoice: 'Bu hisobni bekor qilish',
+  cancelInvoiceNote: (provider) => `${provider} bu hisobni hali olmagan: uni bekor qilib, boshqa usulda to‘lash mumkin.`,
+  invoiceHeld: (provider) => `Bu hisob ${provider} tomonida allaqachon ochilgan. To‘lamagan bo‘lsangiz, u o‘zi yopiladi, keyin boshqa usulni tanlash mumkin.`,
+  cancelFailed: 'To‘lov tizimi bu hisobni allaqachon qabul qilgan, uni bekor qilib bo‘lmaydi. Holatini tekshiring.',
+  payChange: 'Davom ettirish yoki to‘lov usulini almashtirish',
+  payChangeNote: 'To‘lamadingizmi? Shu hisobga qaytish yoki boshqa to‘lov usulini tanlash mumkin.',
   payVia: (provider) => `${provider} orqali to‘lash`,
   payInApp: 'Uzum Bank ilovasida to‘lash',
   payNote: (providers) => `Karta ma’lumotlari bizga kelmaydi: to‘lov ${providers} tomonida amalga oshiriladi.`,
@@ -218,7 +263,7 @@ const UZ: AccountStrings = {
   payBackToChat: 'Chatga qaytish',
   payTestNoPage: 'Sinov rejimi: to‘lov sahifasi ochilmaydi.',
   payAgain: 'Qayta urinib ko‘rish',
-  payPendingElsewhere: (provider) => `${provider} orqali hisob hali to‘lanmagan. Uni quyida davom ettiring yoki muddati tugashini kuting.`,
+  payPendingElsewhere: (provider) => `${provider} orqali ochilgan hisob hali yopilmagan, ikkinchisini ochmaymiz. U bilan nima qilish mumkinligi — quyida.`,
   uzumCodeTitle: 'Uzum Bank ilovasida to‘lov',
   uzumCodeSteps: (service, sum) => [
     'Uzum Bank ilovasini oching va «To‘lovlar» bo‘limiga kiring.',

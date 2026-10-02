@@ -308,17 +308,21 @@ test("fiscal receipt replay and refund request are owned, mode-separated and ide
     0,
   );
   assert.equal(await f.store.requestRefund("other-user", order.id), false);
+  assert.ok(await f.store.access(f.user, "test"));
   await Promise.all(
     Array.from({ length: 8 }, () => f.store.requestRefund(f.user, order.id)),
   );
-  assert.ok(await f.store.access(f.user, "test"));
-  assert.equal(
-    (await f.binding
+  // The request freezes the pack (the offer's refund rule): no answer is
+  // drawn from it any more, and the journal keeps what was left, once.
+  assert.equal(await f.store.access(f.user, "test"), null);
+  assert.deepEqual(
+    await f.binding
       .prepare(
-        "SELECT COUNT(*) AS n FROM gpt_payment_journal WHERE method='refund_requested'",
+        "SELECT method,COUNT(*) AS n FROM gpt_payment_journal WHERE method GLOB 'refund_requested*' GROUP BY method",
       )
-      .first<{ n: number }>())!.n,
-    1,
+      .all<{ method: string; n: number }>()
+      .then((rows) => rows.results.map((row) => ({ ...row }))),
+    [{ method: "refund_requested:300", n: 1 }],
   );
   // Test orders are seen in a rehearsal session only (decision L7).
   const view = async (cookie: string) =>
@@ -411,6 +415,42 @@ test("notification outbox leases concurrent drains, retries failures and never s
   } finally {
     globalThis.fetch = original;
   }
+});
+
+test("a refund request tells the owner the sum the offer's rule gives back and when (WP-24)", async () => {
+  const f = await billingFixture();
+  const order = await f.store.createOrder(f.user, "payme", "live", crypto.randomUUID());
+  await f.store.transition(order.id, "prepared", "prepare");
+  await f.store.transition(order.id, "paid", "perform");
+  // 100 of the 300 answers given: 200 unused, 20 000 * 200 / 300 = 13 333 sum.
+  for (let i = 0; i < 100; i++)
+    f.db
+      .prepare(
+        "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,?,?,'done',?,?)",
+      )
+      .bind(BILLING_ORG, crypto.randomUUID(), f.user, "ip", order.id, Date.now() - 1000, Date.now() + 1000)
+      .runSync();
+  assert.equal(await f.store.requestRefund(f.user, order.id), true);
+  Object.assign(f.env, {
+    GPT_BILLING_MODE: "live",
+    GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"),
+    GPT_NOTIFY_CHAT_ID: "123456789",
+  });
+  const original = globalThis.fetch;
+  const sent: string[] = [];
+  globalThis.fetch = async (_input, init) => {
+    sent.push(String((JSON.parse(String(init?.body)) as { text: string }).text));
+    return Response.json({ ok: true, result: { message_id: sent.length } });
+  };
+  try {
+    await maintainBilling(f.env);
+  } finally {
+    globalThis.fetch = original;
+  }
+  assert.deepEqual(sent, [
+    `GPTBot.uz · AI paket: paid\npayme · 20 000 UZS\n${order.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+    `GPTBot.uz · AI paket: refund_requested\npayme · 20 000 UZS\n${order.id}\nВернуть 13 333 сум (не использовано 200 из 300 ответов) в течение 10 рабочих дней на карту, с которой платили.\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+  ]);
 });
 
 test("maintenance worker is opt-in and sends only fixed-origin bearer requests", async () => {

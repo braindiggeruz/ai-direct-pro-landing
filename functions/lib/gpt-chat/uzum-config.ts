@@ -11,6 +11,7 @@
 // "Uzum is off", never a default credential. Values are never logged.
 import type { Env } from "../../_types";
 import { fiscalParams, receiptLink, type FiscalEnv } from "./fiscal-config";
+import { UZUM_HOST } from "../../../src/shared/payment-hosts";
 import { sameSecret } from "./payment-protocol";
 
 export type UzumApi = "checkout" | "merchant";
@@ -59,9 +60,10 @@ export interface UzumCheckoutConfig {
 }
 
 // UNVERIFIED allowlist. The public spec names no API host; these are the
-// bank's own domains. If Uzum hands over a host outside them, extend this one
-// line — it exists so a typo or a hostile config value cannot receive the key.
-export const UZUM_HOST_PATTERN = /(^|\.)(uzumbank\.uz|uzumcheckout\.uz|uzum\.uz)$/;
+// bank's own domains (src/shared/payment-hosts.ts, shared with the browser).
+// If Uzum hands over a host outside them, extend that one line — it exists so
+// a typo or a hostile config value cannot receive the key.
+export const UZUM_HOST_PATTERN = UZUM_HOST;
 // The Fiscalization API runs on Inplat's hosts (the spec's "Testing" section:
 // test https://test-ofd.ipt-merch.com, production https://ofd-key.inplat-tech.com),
 // besides the bank's own domains. Its key is sent nowhere else.
