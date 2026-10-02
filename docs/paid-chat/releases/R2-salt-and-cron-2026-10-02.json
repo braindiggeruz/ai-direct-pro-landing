@@ -1,0 +1,40 @@
+{
+  "release": "R2 follow-up (salt after SINCE) + automation Worker fix",
+  "date": "2026-10-02",
+  "salt": {
+    "since": "2026-10-02T00:00:00Z",
+    "finding": "the cron never called the maintenance endpoint (see worker below), so at 17:12 UTC the rekey had not started: the first manual tick still deleted 123 gpt_usage_daily rows",
+    "manual_ticks": "about 10 calls of /api/internal/gpt-billing-maintenance between 17:12 and 17:17 UTC: ran ... ran -> done (last batch gpt_turn_reservations 5 rows)",
+    "step7_aggregates": {
+      "turns_ip": 0,
+      "turns_subject": 0,
+      "limit_hits": 0,
+      "sessions": 0,
+      "tg_events": 0,
+      "handoffs": 0,
+      "handoff_events": 0,
+      "usage_daily": 0,
+      "unfinished_tables": 0,
+      "new_sessions_unsalted": 0,
+      "new_turns_unsalted": 0,
+      "new_tg_events_unsalted": 0
+    },
+    "after_since_activity": {
+      "new_sessions": 29,
+      "new_turns": 80,
+      "new_done_turns": 65,
+      "new_limit_hits_429": 4
+    },
+    "note": "new rows were salted from SINCE on; old keys were matched only after the rekey, so a visitor active across 00:00 UTC could get a fresh quota once (the window the plan accepts)"
+  },
+  "automation_worker": {
+    "finding": "live tail of version cb7687d7, tick 17:30 UTC: warn gpt_billing_maintenance_failed about 2 ms after start; cause: Workers reject fetch() with redirect \"error\" before sending",
+    "fix_commit": "6d949b53 fix(automation): let the cron reach the chat maintenance endpoint",
+    "deployed_from": "clean worktree = production commit cf76bded + the fix only (dry-run bindings checked: LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED \"false\", GPT_BILLING_MAINTENANCE_ENABLED \"true\")",
+    "version": "b4fc8084-2929-418c-a314-e14ae89abf9c",
+    "rollback_version": "cb7687d7-512b-48f0-afbd-a23e71b98094 (brings the bug back)",
+    "verified": "tick 17:45 UTC: outcome ok, no gpt_billing_maintenance_failed; cpuTime 495 ms, wallTime 126 s",
+    "impact_before_fix": "from R1 (2026-09-30) to 2026-10-02 17:45 UTC the model check, the silence watchdog, owner alerts and the salt rekey ran only from manual release calls",
+    "unrelated_open": "same tick: lead_radar.worker_failure LeadRadarSchemaUnavailableError on dispatch and telegram_campaign_reconcile (Lead Radar, pre-existing, not part of the paid chat)"
+  }
+}
