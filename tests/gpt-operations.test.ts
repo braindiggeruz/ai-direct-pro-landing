@@ -412,7 +412,7 @@ test("maintenance worker is opt-in and sends only fixed-origin bearer requests",
       (init?.headers as Record<string, string>).Authorization,
       `Bearer ${secret}`,
     );
-    assert.equal(init?.redirect, "error");
+    assert.equal(init?.redirect, "manual");
     return Response.json({ ok: true });
   };
   try {

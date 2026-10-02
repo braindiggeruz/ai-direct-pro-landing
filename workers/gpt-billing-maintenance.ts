@@ -23,7 +23,10 @@ export async function runGptBillingMaintenance(env: {
         // The hook runs first in scheduled() and delays Lead Radar behind it;
         // the endpoint's step budgets add up to less than this.
         signal: AbortSignal.timeout(20_000),
-        redirect: "error",
+        // Workers reject redirect "error" before sending (only "follow" and
+        // "manual" exist at the edge); "manual" keeps the bearer from
+        // following a redirect, and a 3xx fails the ok check below.
+        redirect: "manual",
       },
     );
     if (!response.ok) throw new Error();
