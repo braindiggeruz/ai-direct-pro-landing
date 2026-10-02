@@ -1,9 +1,10 @@
 // Deploy-time live gate (paid-chat plan WP-18, decisions L9 and L13).
 //
 // A deploy whose committed runtime config says GPT_BILLING_LIVE_READY = "true"
-// goes out only when what a live sale promises is really in place:
-//   - a provider in live mode, and every name liveReadiness() reports for it
-//     that the committed config can settle (terms, the lawyer's approval date,
+// and puts a provider in live mode goes out only when what a live sale
+// promises is really in place:
+//   - for every provider in live mode, no name liveReadiness() reports that
+//     the committed config can settle (terms, the lawyer's approval date,
 //     fiscal settings, Uzum's live URLs, sign-in);
 //   - both offers, /ru/oferta/ and /uz/oferta/: published and indexable, at
 //     GPT_BILLING_TERMS_RU/UZ, stating the edition GPT_BILLING_TERMS_VERSION,
@@ -11,7 +12,7 @@
 //     built into dist with that edition, the seller's requisites and a
 //     sitemap entry;
 //   - complete requisites (content/global/legal-entity.json) whose STIR is
-//     the receipts' GPT_FISCAL_TIN;
+//     the receipts' GPT_FISCAL_TIN, which must be set for Uzum too;
 //   - a legalReviewedAt on both privacy policies;
 //   - the secrets of the live providers and of the shared machinery, by NAME,
 //     in Cloudflare Pages production. `check-production` and `deploy` read the
@@ -19,11 +20,11 @@
 //     as deferred. Contents are never read here: liveReadiness() validates
 //     them at runtime and fails closed.
 // A deploy that switches live off is never held: with GPT_BILLING_LIVE_READY
-// other than "true" none of the rules above applies, so the stop switch always
-// ships. One rule holds regardless: a Pages variable named like a billing
-// setting would silently override the reviewed JSON at runtime
-// (hydrateRuntimeConfig fills only what is missing), so check-production and
-// deploy refuse one.
+// other than "true", or with no provider in live mode, none of the rules above
+// applies, so either stop switch always ships. One rule holds regardless: a
+// Pages variable named like a billing setting would silently override the
+// reviewed JSON at runtime (hydrateRuntimeConfig fills only what is missing),
+// so check-production and deploy refuse one.
 //
 //   npx tsx scripts/release/live-gate.ts                    the committed config
 //   npx tsx scripts/release/live-gate.ts --assume-live click   what Click live
@@ -110,7 +111,7 @@ export interface LiveGateInput {
 }
 
 export interface LiveGateReport {
-  /** GPT_BILLING_LIVE_READY is "true": the live rules applied. */
+  /** GPT_BILLING_LIVE_READY is "true" and a provider is in live mode: the live rules applied. */
   live: boolean;
   providers: LocalProvider[];
   /** What refuses the deploy; names and paths only. */
@@ -141,13 +142,15 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
       if (BILLING_SETTINGS.has(name)) issues.push(`Pages variable ${name} overrides the reviewed GPTBOT_RUNTIME_CONFIG_JSON: remove it`);
     }
   }
-  const live = input.config.GPT_BILLING_LIVE_READY === 'true';
-  if (!live) return { live, providers: [], issues, deferred: [] };
-
   const base = { ...input.config, GPTBOT_DRAFTS_DB: input.d1Bound ? {} : undefined };
   const env = (secrets: Iterable<string>) => ({ ...base, ...standIns(secrets) }) as unknown as BillingEnv;
-  const providers = PROVIDERS.filter((provider) => providerMode(env([]), provider) === 'live');
-  if (!providers.length) issues.push('GPT_BILLING_LIVE_READY is "true" but no provider is in live mode');
+  // Nothing sells live without both the switch and a provider in live mode,
+  // so either one taken back is a stop that ships (the R-table rollback:
+  // GPT_BILLING_LIVE_READY=false or a provider's mode cleared).
+  const providers = input.config.GPT_BILLING_LIVE_READY === 'true'
+    ? PROVIDERS.filter((provider) => providerMode(env([]), provider) === 'live')
+    : [];
+  if (!providers.length) return { live: false, providers, issues, deferred: [] };
   for (const provider of providers) {
     if (input.production) {
       // Present secrets stand in as valid: what is still named is either a
@@ -200,10 +203,12 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
     else if (!pastDay(policy.legalReviewedAt, now)) issues.push(`${policy.url}: legalReviewedAt (the lawyer's approval) is missing`);
   }
   issues.push(...legalEntityIssues(input.entity).map((field) => `content/global/legal-entity.json: ${field}`));
-  if (input.config.GPT_FISCAL_TIN && input.config.GPT_FISCAL_TIN !== entity.stir) {
+  // Set and equal whatever the provider: liveReadiness() asks only Click's
+  // receipt for the TIN, yet every live sale is made by this seller.
+  if (input.config.GPT_FISCAL_TIN !== entity.stir) {
     issues.push('GPT_FISCAL_TIN is not the seller\'s STIR (content/global/legal-entity.json)');
   }
-  return { live, providers, issues: [...new Set(issues)], deferred: [...deferred].sort() };
+  return { live: true, providers, issues: [...new Set(issues)], deferred: [...deferred].sort() };
 }
 
 /** The packed public runtime config of wrangler.toml, as production reads it. */

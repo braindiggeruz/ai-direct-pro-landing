@@ -6,8 +6,8 @@
 //   - their edition and URLs are the deployed GPT_BILLING_TERMS_*;
 //   - every number they state is read from the code or the deployed config
 //     it describes, so the offer cannot drift from what is sold;
-//   - the seller's requisites come from one file, and without them the offer
-//     stays draft (L13);
+//   - the seller's requisites come from one file, and a page that shows them
+//     does not build while they are incomplete (L13);
 //   - the deploy-time live gate (scripts/release/live-gate.ts) refuses live
 //     billing without the offers, the requisites, the lawyer's approval, the
 //     fiscal settings and the live providers' secrets.
@@ -97,9 +97,15 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   }
   // One edition, one day it took effect: the text, the edition and the date change together.
   assert.equal(offers.ru.lastReviewedAt, offers.uz.lastReviewedAt);
-  // The lawyer has not approved this edition yet: no approval anywhere, so live stays closed.
-  assert.equal(config.GPT_BILLING_TERMS_APPROVED_AT, '');
-  for (const doc of [...Object.values(offers), ...Object.values(policies)]) assert.equal(doc.legalReviewedAt, undefined, doc.url);
+  // The lawyer's approval (docs/paid-chat/OFFER-RU.md): none yet, or one date in both copies of
+  // GPT_BILLING_TERMS_APPROVED_AT and on both offers, with the policies reviewed too; never half
+  // recorded. Recording it as the runbook says keeps this test green.
+  const approvedAt = config.GPT_BILLING_TERMS_APPROVED_AT;
+  assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
+  for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
+  if (approvedAt) {
+    for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^\d{4}-\d{2}-\d{2}$/, doc.url);
+  }
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -188,21 +194,14 @@ test('(g) the offers are linked from the pricing page and from the policy of the
   assert.equal(strings('uz').privacyHref, policies.uz.url);
 });
 
-test('L13: the offers are published only while the requisites are complete, and only then linked', () => {
-  const complete = legalEntityIssues(LEGAL_ENTITY).length === 0;
-  assert.ok(complete, `content/global/legal-entity.json: ${legalEntityIssues(LEGAL_ENTITY).join(', ')}`);
+test('L13: the offers are published with complete requisites, and a page naming the seller refuses to build without them', () => {
+  // Prerender throws on a page with `requisites` while they are incomplete (renderRequisites
+  // below), so the offers and the policies are published only with all of them.
+  assert.deepEqual(legalEntityIssues(LEGAL_ENTITY), [], 'content/global/legal-entity.json');
   for (const locale of LOCALES) {
-    assert.equal(offers[locale].status === 'published', complete);
+    assert.equal(offers[locale].status, 'published');
     assert.equal(offers[locale].requisites, 'seller');
     assert.equal(policies[locale].requisites, 'operator');
-  }
-  if (!complete) {
-    // A draft offer is a 404 (generate-robots.ts): nothing may link it.
-    for (const dir of ['ru', 'uz']) {
-      for (const file of fs.readdirSync(path.join(ROOT, 'content/pages', dir))) {
-        assert.doesNotMatch(read(`content/pages/${dir}/${file}`), /\/oferta\//, `${dir}/${file}`);
-      }
-    }
   }
   // The requisites of the owner's business.json (owner decisions of 2026-09-30 and 2026-10-01).
   assert.equal(LEGAL_ENTITY.stir, config.GPT_FISCAL_TIN, 'the receipts carry the seller\'s TIN');
@@ -343,8 +342,9 @@ test('live gate: each missing piece refuses live by name, and never prints a val
     ['no fiscal code', { config: { ...live.config, GPT_FISCAL_IKPU: '' } }, /click: GPT_FISCAL_IKPU/],
     ['Click secret not in production', { production: new Set(LIVE_SECRETS.filter((name) => name !== 'GPT_CLICK_CREDENTIALS_JSON')) }, /click: Pages secret GPT_CLICK_CREDENTIALS_JSON is not set/],
     ['no salt in production', { production: new Set(LIVE_SECRETS.filter((name) => name !== 'GPT_HASH_SALT')) }, /Pages secret GPT_HASH_SALT is not set/],
-    ['live switch without a live provider', { config: { ...live.config, GPT_BILLING_MODE_CLICK: '' } }, /no provider is in live mode/],
     ['Uzum live without its API', { config: { ...live.config, GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live' } }, /uzum: UZUM_API/],
+    // liveReadiness() does not ask Uzum for the TIN; the gate still requires the seller's.
+    ['Uzum live without the receipt TIN', { config: { ...live.config, GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live', UZUM_API: 'merchant', GPT_FISCAL_TIN: '' } }, /GPT_FISCAL_TIN is not the seller's STIR/],
   ];
   for (const [name, change, expected] of cases) {
     const report = liveGate({ ...live, ...change });
@@ -360,6 +360,12 @@ test('live gate: switching live off always ships, and no Pages variable may shad
     offers: { ru: null, uz: null }, entity: {}, built: () => null, production: new Set(),
   });
   assert.deepEqual(liveGate(off).issues, []);
+  // The other stop (the R-table rollback): the switch stays "true", the provider's mode is
+  // cleared or back to test. Nothing sells live, so nothing is required either.
+  for (const mode of ['', 'test']) {
+    const stopped = { ...off, config: { ...off.config, GPT_BILLING_LIVE_READY: 'true', GPT_BILLING_MODE_CLICK: mode } };
+    assert.deepEqual(liveGate(stopped), { live: false, providers: [], issues: [], deferred: [] }, mode || 'cleared');
+  }
   // A secret named like a billing setting overrides the reviewed JSON at runtime.
   for (const name of ['GPT_BILLING_LIVE_READY', 'GPT_BILLING_MODE_CLICK', 'GPT_PAYMENT_PROVIDERS', 'GPT_FISCAL_TIN', 'UZUM_API']) {
     const report = liveGate({ ...off, production: new Set([name]) });
