@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { assertPublicStylesheets } from '../site-stylesheets';
 import { assertSeoProtection } from '../seo-protection';
 import { assertChatBundleBudget } from '../chat-bundle-budget';
+import { assertLiveGate, loadLiveGateInput } from './live-gate';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -146,7 +147,17 @@ export function verifyStampedArtifact(dist: string, commit: string): PagesReleas
   return actual;
 }
 
-async function productionCommit(): Promise<string> {
+export interface PagesProject {
+  success?: boolean;
+  result?: {
+    canonical_deployment?: {
+      environment?: string; latest_stage?: { status?: string }; deployment_trigger?: { metadata?: { commit_hash?: string } };
+    };
+    deployment_configs?: { production?: { env_vars?: Record<string, unknown> | null } };
+  };
+}
+
+async function productionProject(): Promise<PagesProject> {
   const account = process.env.CLOUDFLARE_ACCOUNT_ID;
   const credential = process.env.CLOUDFLARE_API_TOKEN;
   if (!account || !credential) throw new Error('Cloudflare credentials must be supplied through the environment.');
@@ -154,20 +165,36 @@ async function productionCommit(): Promise<string> {
     headers: { Authorization: `Bearer ${credential}` }, signal: AbortSignal.timeout(30_000),
   });
   if (!response.ok) throw new Error(`Production metadata check failed (HTTP ${response.status}).`);
-  const body = await response.json() as { success?: boolean; result?: { canonical_deployment?: {
-    environment?: string; latest_stage?: { status?: string }; deployment_trigger?: { metadata?: { commit_hash?: string } };
-  } } };
-  const deployment = body.result?.canonical_deployment;
-  if (!body.success || deployment?.environment !== 'production' || deployment.latest_stage?.status !== 'success') {
+  return await response.json() as PagesProject;
+}
+
+export function canonicalCommit(project: PagesProject): string {
+  const deployment = project.result?.canonical_deployment;
+  if (!project.success || deployment?.environment !== 'production' || deployment.latest_stage?.status !== 'success') {
     throw new Error('No confirmed successful production deployment; manual investigation required.');
   }
   return deployment.deployment_trigger?.metadata?.commit_hash ?? '';
 }
 
-async function checkProduction(root: string): Promise<string> {
-  const current = await productionCommit();
+/**
+ * The NAMES of the production variables and secrets (the API never returns a
+ * secret's value, and nothing here reads a value), for the live gate.
+ */
+export function productionVariableNames(project: PagesProject): Set<string> {
+  return new Set(Object.keys(project.result?.deployment_configs?.production?.env_vars ?? {}));
+}
+
+async function productionCommit(): Promise<string> {
+  return canonicalCommit(await productionProject());
+}
+
+async function checkProduction(root: string, dist: string): Promise<string> {
+  const project = await productionProject();
+  const current = canonicalCommit(project);
   assertProductionLineage(current, (commit) => spawnSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'],
     { cwd: root, stdio: 'ignore', windowsHide: true }).status === 0);
+  // Live billing needs its secrets in production, by name (scripts/release/live-gate.ts).
+  assertLiveGate(loadLiveGateInput(root, dist, productionVariableNames(project)));
   return current;
 }
 
@@ -200,7 +227,7 @@ function describeLock(lockPath: string): string {
   return `${header}.${detail} If nothing is deploying, the previous run was killed and leaked it — remove the file, then redeploy.`;
 }
 
-async function deploy(root: string, release: PagesRelease): Promise<void> {
+async function deploy(root: string, dist: string, release: PagesRelease): Promise<void> {
   // All git worktrees share this lock. It protects cooperating deployment
   // commands, not an unrelated raw Wrangler upload or an external CI system.
   const lockPath = path.join(path.resolve(root, git(root, ['rev-parse', '--git-common-dir'])), 'gptbot-pages-production.lock');
@@ -216,7 +243,7 @@ async function deploy(root: string, release: PagesRelease): Promise<void> {
     throw new Error(describeLock(lockPath));
   }
   try {
-    await checkProduction(root);
+    await checkProduction(root, dist);
     const cli = path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js');
     const exitCode = await new Promise<number>((resolve, reject) => {
       const child = spawn(process.execPath, [cli, 'pages', 'deploy', 'dist', '--project-name', PROJECT,
@@ -250,6 +277,9 @@ async function main(): Promise<void> {
   assertSeoProtection(dist);
   // The AI chat's start bundle and lazy parts stay within budget (10-PROD-PLAN §1).
   assertChatBundleBudget(dist);
+  // Live billing ships only with its offer, requisites and settings (WP-18);
+  // the secrets are confirmed by name in check-production and deploy.
+  assertLiveGate(loadLiveGateInput(ROOT, dist, null));
   assertCleanRuntime(ROOT);
   if (mode === 'stamp') {
     const release = inspectArtifact(dist, commit);
@@ -258,9 +288,9 @@ async function main(): Promise<void> {
     return;
   }
   const release = verifyStampedArtifact(dist, commit);
-  if (mode === 'deploy') await deploy(ROOT, release);
+  if (mode === 'deploy') await deploy(ROOT, dist, release);
   else console.log(JSON.stringify({ status: 'pass', commit, files: release.fileCount,
-    ...(mode === 'check-production' ? { previousProductionCommit: await checkProduction(ROOT) } : {}) }));
+    ...(mode === 'check-production' ? { previousProductionCommit: await checkProduction(ROOT, dist) } : {}) }));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

@@ -209,7 +209,8 @@ test('the gate runs where a release is built: vite manifest, the guarded Pages r
   assert.match(read('vite.config.ts'), /\n {4}manifest: true,\n/);
   const pages = read('scripts/release/pages-production.ts');
   const main = pages.slice(pages.indexOf('async function main()'));
-  assert.match(main, /assertSeoProtection\(dist\);\s*\/\/[^\n]*\n\s*assertChatBundleBudget\(dist\);\s*assertCleanRuntime\(ROOT\);/);
+  // The live billing gate (WP-18) runs between the budget and the clean-tree check.
+  assert.match(main, /assertSeoProtection\(dist\);\s*\/\/[^\n]*\n\s*assertChatBundleBudget\(dist\);(?:\s*\/\/[^\n]*)*\s*assertLiveGate\(loadLiveGateInput\(ROOT, dist, null\)\);\s*assertCleanRuntime\(ROOT\);/);
   const preflight = read('scripts/release-preflight.ts');
   const build = preflight.indexOf("add('deep:root-build'");
   const gate = preflight.indexOf("add('deep:chat-bundle-budget', bundle.ok, bundle.detail);");

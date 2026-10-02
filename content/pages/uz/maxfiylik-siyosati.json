@@ -6,29 +6,30 @@
   "pageType": "legal",
   "primaryKeyword": "maxfiylik siyosati",
   "secondaryKeywords": [
-    "shaxsiy malumotlarga ishlov berish",
+    "shaxsiy ma’lumotlarga ishlov berish",
     "GPTBot maxfiyligi",
-    "malumotlarni himoya qilish"
+    "ma’lumotlarni himoya qilish"
   ],
   "searchIntent": "informational",
   "h1": "Maxfiylik siyosati",
   "title": "Maxfiylik siyosati — GPTBot.uz",
-  "description": "GPTBot.uz maxfiylik siyosati: qanday malumotlarni yigamiz, ulardan qanday foydalanamiz va saqlaymiz, hamda shaxsiy malumotlar boyicha qanday boglanish mumkin.",
+  "description": "GPTBot.uz maxfiylik siyosati: qaysi ma’lumotlarni olamiz, AI chat va to‘lovda ulardan qanday foydalanamiz, kimga uzatamiz, qancha saqlaymiz va bog‘lanish yo‘li.",
   "canonical": "https://gptbot.uz/uz/maxfiylik-siyosati/",
   "hreflangRu": "/ru/politika-konfidentsialnosti/",
   "hreflangUz": "/uz/maxfiylik-siyosati/",
   "ogTitle": "Maxfiylik siyosati — GPTBot.uz",
-  "ogDescription": "GPTBot.uz maxfiylik siyosati: qanday malumotlarni yigamiz, ulardan qanday foydalanamiz va saqlaymiz, hamda shaxsiy malumotlar boyicha qanday boglanish mumkin.",
+  "ogDescription": "GPTBot.uz maxfiylik siyosati: qaysi ma’lumotlarni olamiz, AI chat va to‘lovda ulardan qanday foydalanamiz, kimga uzatamiz, qancha saqlaymiz va bog‘lanish yo‘li.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Maxfiylik siyosati",
   "heroTitle": "Maxfiylik siyosati",
-  "heroSubtitle": "GPTBot.uz sayt foydalanuvchilari va mijozlar malumotlarini qanday yigishi, ishlatishi va himoya qilishi.",
-  "ctaPrimaryLabel": "Malumotlar boyicha boglanish",
+  "heroSubtitle": "GPTBot.uz sayt, AI chat va bot foydalanuvchilari hamda mijozlarning ma’lumotlarini qanday yig‘ishi, ishlatishi va himoya qilishi.",
+  "ctaPrimaryLabel": "Ma’lumotlar bo‘yicha bog‘lanish",
   "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Biz haqimizda",
   "ctaSecondaryHref": "/uz/biz-haqimizda/",
+  "requisites": "operator",
   "bodyBlocks": [
     {
       "type": "h2",
@@ -36,49 +37,129 @@
     },
     {
       "type": "p",
-      "text": "Ushbu maxfiylik siyosati GPTBot.uz (Toshkent, Ozbekiston) gptbot.uz saytidan foydalanganingizda va bizga murojaat qilganingizda taqdim etgan malumotlaringizga qanday ishlov berishini tavsiflaydi. Saytdan foydalanib va biz bilan boglanib, siz ushbu siyosat shartlariga rozilik bildirasiz."
+      "text": "Ushbu siyosat GPTBot.uz gptbot.uz saytida, GPTBot.uz AI chatida, @gptbotuz_bot Telegram-botida va ariza shakllarida ma’lumotlarga qanday ishlov berishini tavsiflaydi. Ma’lumotlar operatori — rekvizitlari sahifa oxirida keltirilgan kompaniya. Sayt va xizmatlardan foydalanib, siz ushbu siyosatga rozilik bildirasiz."
     },
     {
       "type": "h2",
-      "text": "Qanday malumotlarni yigamiz"
+      "text": "Qanday ma’lumotlarni olamiz"
     },
     {
       "type": "list",
       "items": [
-        "Siz ozingiz qoldiradigan kontakt malumotlari: ism, telefon raqami, messenjerdagi nik",
-        "Murojaatlaringiz va biz bilan yozishmalaringiz mazmuni",
-        "Texnik malumotlar: qurilma turi, brauzer, tashrif buyurgan sahifalaringiz",
-        "Veb-analitika va reklama tizimlari piksellarining shaxssizlantirilgan malumotlari"
+        "Arizalar: ism, telefon yoki Telegram’dagi nik, vazifa haqida yozganlaringiz, ariza yuborilgan sahifa va reklama belgilari (UTM).",
+        "AI chat: savollar va javoblar, til, vaqt va javob bergan model nomi.",
+        "AI paket to‘lovi: buyurtma raqami, summa, holat va to‘lov tizimidagi tranzaksiya raqami.",
+        "Texnik ma’lumotlar: qurilma va brauzer turi, ko‘rilgan sahifalar, veb-analitika ma’lumotlari."
       ]
     },
     {
       "type": "h2",
-      "text": "Malumotlardan qanday foydalanamiz"
+      "text": "AI chat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Savol va javoblar matni serverimizda til, vaqt va model nomi bilan birga saqlanadi.",
+        "IP-manzilni saqlamaymiz: uning o‘rniga maxfiy kalit (tuz) bilan olingan xeshi saqlanadi, kalitsiz undan manzilni tiklab bo‘lmaydi. Xesh bepul limitlar va suiiste’moldan himoya uchun kerak.",
+        "Limitlar, nosozliklar va yozishmalar matnisiz boshqa texnik hodisalar 93 kun saqlanadi.",
+        "Suhbatlar ro‘yxati va chat sozlamalari faqat brauzeringizda (localStorage) saqlanadi. AI paket oynasi brauzerda tasodifiy varaq raqamini eslab qoladi va o‘z qadamlarini serverda sanaydi — yozishmalar matni, IP-manzil va akkauntsiz.",
+        "Yandex Metrika Vebvizori chat oynasini yozib olmaydi: u yozuvdan yashirilgan.",
+        "Iltimos, chatga shaxsiy ma’lumotlarni — o‘zingiznikini ham, boshqalarnikini ham — yozmang: javob berish uchun savol AI provayderlarga yuboriladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Telegram orqali kirish"
+    },
+    {
+      "type": "p",
+      "text": "AI paket akkauntdan sotib olinadi, akkauntga @gptbotuz_bot botimiz yoki Telegram tugmasi orqali kirasiz. Akkaunt uchun Telegram ID’ingizni emas, uning maxfiy kalit bilan olingan xeshini saqlaymiz, kirish sessiyasi esa brauzer cookie’sida saqlanadi."
+    },
+    {
+      "type": "h2",
+      "text": "@gptbotuz_bot Telegram-boti"
+    },
+    {
+      "type": "p",
+      "text": "Botga yozsangiz, u Telegram ID’ingiz va tilingizni saqlaydi, matn va ovozli xabarlarni esa ularga javob berish uchun 24 soat saqlaydi. /delete_me buyrug‘i botdagi ma’lumotlaringizni o‘chiradi."
+    },
+    {
+      "type": "h2",
+      "text": "To‘lov va chek"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Karta ma’lumotlarini Click yoki Uzum Bank tomonida kiritasiz, ular bizga kelmaydi.",
+        "Buyurtma raqami, summa, holat, to‘lov tizimidagi tranzaksiya raqami va chek havolasini saqlaymiz.",
+        "Elektron chek uchun to‘lov tizimi xarid haqidagi ma’lumotlarni soliq organlarining fiskallashtirish tizimiga uzatadi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paketni sotib olish shartlari {oferta} keltirilgan.",
+      "links": [
+        {
+          "token": "oferta",
+          "target": "/uz/oferta/",
+          "anchor": "ommaviy ofertada"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ma’lumotlardan qanday foydalanamiz"
     },
     {
       "type": "list",
       "items": [
         "Murojaatingizga javob berish va taklif tayyorlash uchun",
-        "Sayt ishini va xizmatlar sifatini yaxshilash uchun",
-        "Reklama samaradorligini umumlashtirilgan korinishda olchash uchun",
+        "AI chat savollarga javob berishi va limitlarga rioya qilishi uchun",
+        "AI paketni sotish, chek berish va pulni qaytarish uchun",
+        "Sayt va xizmatlar ishini yaxshilash hamda reklama samaradorligini umumlashtirilgan ko‘rinishda o‘lchash uchun",
         "Qonunchilik talablarini bajarish uchun"
       ]
     },
     {
       "type": "h2",
-      "text": "Malumotlarni uchinchi shaxslarga uzatish"
+      "text": "Ma’lumotlarni kimga uzatamiz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Cloudflare (AQSh) — sayt xostingi va ma’lumotlar bazasi.",
+        "OpenRouter (AQSh) va u orqali AI model yetkazib beruvchilari (masalan, NVIDIA, Google, Mistral AI) — javob olish uchun savol va suhbat tarixi. Javob bergan model nomi javob ostida ko‘rsatiladi.",
+        "Z.ai (Singapur) — faqat chat uning modellariga o‘tkazilgan bo‘lsa; bu ham javob ostidagi model nomidan ko‘rinadi.",
+        "Click va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",
+        "Telegram — bot orqali kirish, bot bilan yozishma va egasiga arizalar hamda to‘lovlar haqida xabarnomalar.",
+        "Google Analytics (Google), Yandex Metrika (Yandex) va bosh sahifadagi Meta pikseli — tashriflar bo‘yicha shaxssizlantirilgan statistika."
+      ]
     },
     {
       "type": "p",
-      "text": "Biz shaxsiy malumotlaringizni sotmaymiz. Malumotlar sayt va analitika ishi uchun foydalanadigan xizmatlar (masalan, hosting va veb-analitika tizimlari) tomonidan faqat xizmat korsatish uchun zarur bolgan hajmda ishlov berilishi mumkin."
+      "text": "Biz shaxsiy ma’lumotlarni sotmaymiz. Qabul qiluvchilarning bir qismi O‘zbekistondan tashqarida joylashgan; ularga faqat xizmat ishlashi uchun zarur ma’lumotlarni uzatamiz."
     },
     {
       "type": "h2",
-      "text": "Malumotlarni saqlash va himoya qilish"
+      "text": "Saqlash muddatlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI chat yozishmalari — ularni o‘chirishni so‘ramaguningizcha.",
+        "Limitlar va matnsiz texnik hodisalar — 93 kun.",
+        "Botdagi matn va ovozli xabarlar — 24 soat.",
+        "Arizalar — ularni o‘chirishni so‘ramaguningizcha.",
+        "To‘lov yozuvlari va cheklar — soliq qonunchiligi talab qiladigan muddat davomida."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ma’lumotlarni himoya qilish"
     },
     {
       "type": "p",
-      "text": "Biz malumotlarni yuqorida tavsiflangan maqsadlar uchun zarur bolgan muddat davomida saqlaymiz va ularni ruxsatsiz kirish, ozgartirish va oshkor qilishdan himoya qilish uchun oqilona texnik va tashkiliy choralar koramiz."
+      "text": "Ma’lumotlarni ruxsatsiz kirish, o‘zgartirish va oshkor qilishdan himoya qilish uchun oqilona texnik va tashkiliy choralar ko‘ramiz."
     },
     {
       "type": "h2",
@@ -86,7 +167,15 @@
     },
     {
       "type": "p",
-      "text": "Siz oz malumotlaringizga kirish, ularni tuzatish yoki ochirishni sorashingiz mumkin. Buning uchun bizga ceo@gptbot.uz manziliga yozing. Biz murojaatni korib chiqamiz va oqilona muddatda javob beramiz."
+      "text": "Siz o‘z ma’lumotlaringizga kirish, ularni tuzatish yoki o‘chirishni so‘rashingiz mumkin: ceo@gptbot.uz manziliga yozing yoki +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling. AI chat yozishmasini topishimiz uchun suhbatning taxminiy vaqti va sahifasini ko‘rsating. Murojaatni ko‘rib chiqib, oqilona muddatda javob beramiz."
+    },
+    {
+      "type": "h2",
+      "text": "Siyosatdagi o‘zgarishlar"
+    },
+    {
+      "type": "p",
+      "text": "Yangi tahrir shu sahifada e’lon qilinadi, yangilangan sana sarlavha ostida ko‘rsatiladi."
     },
     {
       "type": "h2",
@@ -98,25 +187,25 @@
     },
     {
       "type": "cta",
-      "text": "Biz bilan boglaning",
+      "text": "Biz bilan bog‘laning",
       "href": "#contact"
     }
   ],
   "faq": [
     {
-      "q": "Sayt qanday malumotlarni yigadi?",
-      "a": "Siz ozingiz qoldiradigan kontakt malumotlari, murojaatlar mazmuni va shaxssizlantirilgan texnik hamda analitika malumotlari."
+      "q": "Sayt qanday ma’lumotlarni yig‘adi?",
+      "a": "Arizalarda qoldiradigan kontaktlaringiz, AI chat savol va javoblari, AI paket sotib olinganda buyurtma ma’lumotlari hamda shaxssizlantirilgan texnik va analitika ma’lumotlari."
     },
     {
-      "q": "Malumotlarimni sotasizmi?",
-      "a": "Yoq. Biz shaxsiy malumotlarni sotmaymiz. Ular faqat murojaatingizga javob berish va xizmatlarni yaxshilash uchun ishlatiladi."
+      "q": "Ma’lumotlarimni sotasizmi?",
+      "a": "Yo‘q. Biz shaxsiy ma’lumotlarni sotmaymiz va ularni faqat sayt va AI chat ishlashi uchun zarur xizmatlarga uzatamiz."
     },
     {
-      "q": "Malumotlarimni qanday ochirish mumkin?",
-      "a": "Bizga ceo@gptbot.uz manziliga o‘chirish so‘rovi bilan yozing — murojaatni ko‘rib chiqamiz va ma’lumotlarni oqilona muddatda o‘chiramiz."
+      "q": "Ma’lumotlarimni qanday o‘chirish mumkin?",
+      "a": "ceo@gptbot.uz manziliga yozing — arizalar va AI chat yozishmalarini o‘chiramiz. @gptbotuz_bot botidagi ma’lumotlarni /delete_me buyrug‘i o‘chiradi."
     },
     {
-      "q": "Maxfiylik boyicha kim bilan boglanish kerak?",
+      "q": "Maxfiylik bo‘yicha kim bilan bog‘lanish kerak?",
       "a": "GPTBot.uz bilan ceo@gptbot.uz e-mail yoki +998 50 587 07 20 telefoni orqali."
     }
   ],
@@ -124,6 +213,18 @@
     {
       "target": "/uz/biz-haqimizda/",
       "anchor": "GPTBot.uz haqida",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/oferta/",
+      "anchor": "AI paket uchun ommaviy oferta",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati",
       "locale": "uz",
       "type": "contextual"
     }
@@ -134,7 +235,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-06-26",
+  "lastReviewedAt": "2026-10-03",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-06-26"
+  "updatedAt": "2026-10-03"
 }

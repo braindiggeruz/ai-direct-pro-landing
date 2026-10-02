@@ -59,7 +59,6 @@ export function AiLeadForm({
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const copy = leadStrings(locale);
   const quick = studioQuickContact(locale);
-  const privacyHref = locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/';
   const quickLink =
     'inline-flex min-h-11 items-center text-[13px] text-brand-cyan underline underline-offset-4 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-lg';
 
@@ -200,7 +199,7 @@ export function AiLeadForm({
         />
         <span>
           {copy.leadConsent}.{' '}
-          <a href={privacyHref} className="text-brand-cyan underline underline-offset-4 hover:no-underline">
+          <a href={t.privacyHref} className="text-brand-cyan underline underline-offset-4 hover:no-underline">
             {t.leadPrivacy}
           </a>
         </span>

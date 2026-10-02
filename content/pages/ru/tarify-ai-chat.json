@@ -37,6 +37,9 @@
       ["AI-чат на сайт, в Telegram или CRM", "—", "—", "Да, внедрение"]
     ] },
     { "type": "p", "text": "Пакет покупается прямо в чате: кнопка «AI-пакет» появляется в его шапке, когда оплата открыта. Если кнопки нет, оплата сейчас недоступна, а бесплатный лимит работает как обычно. Ответ, который не пришёл из-за сбоя или оборвался по длине, из пакета не списывается." },
+    { "type": "linkp", "text": "Цена, лимиты, оплата, чек и возврат AI-пакета подробно описаны в {oferta}.", "links": [
+      { "token": "oferta", "target": "/ru/oferta/", "anchor": "публичной оферте" }
+    ] },
     { "type": "h2", "text": "Что выбрать" },
     { "type": "list", "items": [
       "Бесплатно — чтобы попробовать чат и решать разовые задачи: тексты, идеи, учёба, перевод.",
@@ -73,11 +76,12 @@
   "internalLinks": [
     { "target": "/ru/gpt-chat/", "anchor": "AI-чат онлайн", "locale": "ru", "type": "contextual" },
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "AI-чат для бизнеса", "locale": "ru", "type": "block" },
-    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" }
+    { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "AI-чат для сайта", "locale": "ru", "type": "block" },
+    { "target": "/ru/oferta/", "anchor": "Публичная оферта на AI-пакет", "locale": "ru", "type": "contextual" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "FAQPage"],
   "extraJsonLd": [],
-  "lastReviewedAt": "2026-10-01",
+  "lastReviewedAt": "2026-10-03",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-01"
+  "updatedAt": "2026-10-03"
 }

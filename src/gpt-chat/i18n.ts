@@ -75,6 +75,10 @@ export interface ChatStrings {
   emptyMeta: (limits: FreeLimits | null) => string;
   disclaimer: string;
   leadPrivacy: string;
+  /** The privacy policy of this locale: under the composer, in the sign-in and lead consents. */
+  privacyHref: string;
+  /** Its short name next to the composer's line. */
+  privacyLink: string;
   newChat: string;
   copy: string;
   copied: string;
@@ -177,6 +181,8 @@ const RU: ChatStrings = {
   disclaimer:
     'GPTBot.uz — независимый AI-сервис, не официальный продукт OpenAI или ChatGPT. Отвечают модели сторонних компаний; название модели указано под ответом.',
   leadPrivacy: 'Политика конфиденциальности',
+  privacyHref: '/ru/politika-konfidentsialnosti/',
+  privacyLink: 'Конфиденциальность',
   newChat: 'Новый чат',
   copy: 'Копировать',
   copied: 'Скопировано',
@@ -266,6 +272,8 @@ const UZ: ChatStrings = {
   disclaimer:
     'GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Javoblarni boshqa kompaniyalarning modellari beradi; model nomi javob ostida yozilgan.',
   leadPrivacy: 'Maxfiylik siyosati',
+  privacyHref: '/uz/maxfiylik-siyosati/',
+  privacyLink: 'Maxfiylik',
   newChat: 'Yangi chat',
   copy: 'Nusxalash',
   copied: 'Nusxalandi',

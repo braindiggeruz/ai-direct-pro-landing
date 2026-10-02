@@ -52,8 +52,8 @@ export interface Allowance {
 
 /** Answers a pack gives in one UTC day (decision L3). */
 export const PACK_DAILY_LIMIT = 50;
-/** Answers one subject may have in flight at once. */
-const MAX_CONCURRENT_TURNS = 2;
+/** Answers one subject may have in flight at once (the offer states it). */
+export const MAX_CONCURRENT_TURNS = 2;
 /** Requests per IP hash and rolling hour, whatever became of them: the abuse ceiling. */
 const IP_HOURLY_CEILING = { free: 100, paid: 1000 } as const;
 /** An unsettled reservation stops counting after this. */

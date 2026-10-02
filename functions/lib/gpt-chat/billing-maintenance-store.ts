@@ -157,6 +157,13 @@ export async function deliverServiceAlerts(
 }
 
 /**
+ * Days the text-free telemetry is kept: turns, model attempts, service
+ * alerts, spend and limit counters, the pack window's funnel steps. The
+ * privacy policy states this number (tests/legal-oferta.test.ts).
+ */
+export const TELEMETRY_RETENTION_DAYS = 93;
+
+/**
  * Retention sweeps and the payment outbox. Service alerts are delivered by
  * deliverServiceAlerts; only the outbox is gated on live billing (some
  * provider live), and it carries live orders only.
@@ -188,29 +195,35 @@ export async function maintainBilling(
       .prepare(
         "DELETE FROM gpt_turn_reservations WHERE rowid IN (SELECT rowid FROM gpt_turn_reservations WHERE org_id=? AND created_at<? LIMIT 500)",
       )
-      .bind(BILLING_ORG, now - 93 * 86400_000),
+      .bind(BILLING_ORG, now - TELEMETRY_RETENTION_DAYS * DAY_MS),
     db
       .prepare(
         "DELETE FROM gpt_model_attempts WHERE rowid IN (SELECT rowid FROM gpt_model_attempts WHERE org_id=? AND created_at<? LIMIT 500)",
       )
-      .bind(BILLING_ORG, now - 93 * 86400_000),
+      .bind(BILLING_ORG, now - TELEMETRY_RETENTION_DAYS * DAY_MS),
     // Background alerts are never delivered on their own, so age alone decides.
     db
       .prepare(
         "DELETE FROM gpt_service_alerts WHERE rowid IN (SELECT rowid FROM gpt_service_alerts WHERE org_id=? AND created_at<? LIMIT 500)",
       )
-      .bind(BILLING_ORG, now - 93 * 86400_000),
+      .bind(BILLING_ORG, now - TELEMETRY_RETENTION_DAYS * DAY_MS),
+    // The pack window's funnel steps (WP-17): no text, IP or account.
+    db
+      .prepare(
+        "DELETE FROM gpt_ui_events WHERE rowid IN (SELECT rowid FROM gpt_ui_events WHERE org_id=? AND created_at<? LIMIT 500)",
+      )
+      .bind(BILLING_ORG, now - TELEMETRY_RETENTION_DAYS * DAY_MS),
     // migrations/0066: daily counters, keyed by UTC day.
     db
       .prepare(
         "DELETE FROM gpt_model_spend WHERE rowid IN (SELECT rowid FROM gpt_model_spend WHERE org_id=? AND day<? LIMIT 500)",
       )
-      .bind(BILLING_ORG, spendDay(now - 93 * 86400_000)),
+      .bind(BILLING_ORG, spendDay(now - TELEMETRY_RETENTION_DAYS * DAY_MS)),
     db
       .prepare(
         "DELETE FROM gpt_limit_hits WHERE rowid IN (SELECT rowid FROM gpt_limit_hits WHERE org_id=? AND day<? LIMIT 500)",
       )
-      .bind(BILLING_ORG, spendDay(now - 93 * 86400_000)),
+      .bind(BILLING_ORG, spendDay(now - TELEMETRY_RETENTION_DAYS * DAY_MS)),
     // Closed anti-abuse windows (none is longer than a day). They are keyed by
     // the IP hash and are not rekeyed with the salt (salt-rekey-store.ts), so
     // they must not outlive their window by weeks either.

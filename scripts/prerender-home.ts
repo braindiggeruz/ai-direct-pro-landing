@@ -99,12 +99,19 @@ function definitions(items: readonly { t: string; d: string }[]): string {
 const isSelfCanonical = (global: GlobalSEO, p: Page): boolean =>
   !p.canonical || p.canonical === p.url || p.canonical === `${global.siteUrl}${p.url}`;
 
+// The pages the shell lists. The public offer (a page with `termsVersion`) is
+// not among them: it is linked from the pricing page and the privacy policies
+// only, never from the protected homepage or a footer (paid-chat plan WP-18).
+const inShellIndex = (global: GlobalSEO, p: Page, locale: 'ru' | 'uz'): boolean =>
+  p.status === 'published' && p.robotsIndex !== false && p.locale === locale && p.pageType !== 'homepage'
+  && !p.termsVersion && isSelfCanonical(global, p);
+
 function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): string {
   const liveMoney = pages
-    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage' && isSelfCanonical(global, p))
+    .filter((p) => inShellIndex(global, p, 'ru'))
     .sort((a, b) => a.url.localeCompare(b.url));
   const liveMoneyUz = pages
-    .filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'uz' && p.pageType !== 'homepage' && isSelfCanonical(global, p))
+    .filter((p) => inShellIndex(global, p, 'uz'))
     .sort((a, b) => a.url.localeCompare(b.url));
   const liveBlog = blog
     .filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru')
@@ -320,7 +327,7 @@ async function main(): Promise<void> {
   }
 
   fs.writeFileSync(DIST_INDEX, html, 'utf-8');
-  const liveMoneyCount = pages.filter((p) => p.status === 'published' && p.robotsIndex !== false && p.locale === 'ru' && p.pageType !== 'homepage' && isSelfCanonical(global, p)).length;
+  const liveMoneyCount = pages.filter((p) => inShellIndex(global, p, 'ru')).length;
   const liveBlogCount = blog.filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru').length;
   console.log(`Homepage SEO shell injected: ${liveMoneyCount} money links + ${liveBlogCount} blog links. JSON-LD upgraded to @graph(Organization+WebSite+WebPage+Service).`);
 }

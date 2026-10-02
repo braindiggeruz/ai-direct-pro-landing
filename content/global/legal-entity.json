@@ -1,0 +1,23 @@
+{
+  "_source": "Copied on 2026-10-03 (paid-chat plan WP-18) from the owner's F:/Claude/gptbot-keys-inbox/business.json (outside Git): owner chat of 2026-09-30 and the registration certificate No 1089429 of 2023-07-07. The Uzbek spellings of the name, address and director are transliterations for the Uzbek pages and need the owner's check against the certificate. The e-mail and the phone are not repeated here: they are the studio contact of content/global/site.json.",
+  "name": {
+    "ru": "Общество с ограниченной ответственностью «FREEDOM IS HEAVEN»",
+    "uz": "«FREEDOM IS HEAVEN» mas’uliyati cheklangan jamiyati"
+  },
+  "shortName": {
+    "ru": "ООО «FREEDOM IS HEAVEN»",
+    "uz": "«FREEDOM IS HEAVEN» MChJ"
+  },
+  "stir": "310618348",
+  "address": {
+    "ru": "г. Ташкент, Юнусабадский район, МФЙ Матонат, Ц-5 мавзеси, 50-уй, 42-хонадон",
+    "uz": "Toshkent shahri, Yunusobod tumani, Matonat MFY, Ts-5 mavzesi, 50-uy, 42-xonadon"
+  },
+  "bank": "Asia Alliance Bank",
+  "account": "20208000105670835001",
+  "mfo": "01095",
+  "director": {
+    "ru": "Рубцов Сергей Викторович",
+    "uz": "Rubtsov Sergey Viktorovich"
+  }
+}

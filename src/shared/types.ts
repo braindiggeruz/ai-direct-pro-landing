@@ -151,6 +151,23 @@ export interface Page {
    */
   extraJsonLd?: Record<string, unknown>[];
 
+  /**
+   * legal: the edition of the terms this page states (GPT_BILLING_TERMS_VERSION
+   * for the public offer). Rendered under the H1 as «Редакция … · действует с
+   * <lastReviewedAt>»; the text, the edition and that date change together.
+   */
+  termsVersion?: string;
+  /**
+   * legal: YYYY-MM-DD a lawyer approved this exact text. Not rendered; the
+   * deploy-time live gate (scripts/release/live-gate.ts) requires it.
+   */
+  legalReviewedAt?: string;
+  /**
+   * legal: render the requisites of content/global/legal-entity.json after the
+   * body, as the seller's (the offer) or the data operator's (privacy policy).
+   */
+  requisites?: 'seller' | 'operator';
+
   lastReviewedAt?: string; // ISO date
   updatedAt?: string;
   createdAt?: string;

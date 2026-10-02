@@ -109,7 +109,7 @@ test('the brand is GPTBot.uz in the header, the composer and above every answer'
   assert.match(consoleSource, /data-testid="ai-header-brand">[\s\S]{0,120}<span>\{t\.brand\}<\/span>/);
 });
 
-test('under the composer, on every screen: not OpenAI, and questions go to foreign AI providers', () => {
+test('under the composer, on every screen: not OpenAI, questions go to foreign AI providers, and the privacy policy', () => {
   const expected = {
     ru: ['Не продукт OpenAI', 'зарубежным AI-провайдерам', 'не пишите личные данные'],
     uz: ['OpenAI mahsuloti emas', 'xorijdagi AI-provayderlarga', 'shaxsiy ma’lumot yozmang'],
@@ -120,7 +120,11 @@ test('under the composer, on every screen: not OpenAI, and questions go to forei
     const input = renderToStaticMarkup(React.createElement(AiChatInput, {
       value: '', onChange: () => {}, onSend: () => {}, maxChars: 3000, t, inputRef: React.createRef<HTMLTextAreaElement>(),
     }));
-    assert.ok(input.includes(`<span data-testid="ai-input-microcopy">${t.inputMicrocopy}</span>`), locale);
+    assert.ok(input.includes(`<span data-testid="ai-input-microcopy">${t.inputMicrocopy} · `
+      + `<a href="${t.privacyHref}" data-testid="ai-input-privacy">${t.privacyLink}</a></span>`), locale);
+    // The policy of this locale (plan WP-18): what the chat keeps and who receives it.
+    assert.equal(t.privacyHref, locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/');
+    assert.equal(t.privacyLink, locale === 'uz' ? 'Maxfiylik' : 'Конфиденциальность');
     // The menu's disclaimer (hidden on a phone until ☰) says the same and more.
     assert.match(t.disclaimer, /GPTBot\.uz/);
     assert.match(t.disclaimer, /OpenAI/);

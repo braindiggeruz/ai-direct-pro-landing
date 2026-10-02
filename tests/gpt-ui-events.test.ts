@@ -10,6 +10,7 @@ import { billingFixture } from "./helpers/gpt-billing-fixture";
 import { onRequest as eventOther, onRequestPost as event } from "../functions/api/gpt/event";
 import { BILLING_ORG, type BillingEnv } from "../functions/lib/gpt-chat/billing-config";
 import { parseUiEvent, UI_EVENTS, UiEventStore, type UiEvent } from "../functions/lib/gpt-chat/ui-event-store";
+import { maintainBilling, TELEMETRY_RETENTION_DAYS } from "../functions/lib/gpt-chat/billing-maintenance-store";
 
 const ORIGIN = "https://gpt.test";
 const ENDPOINT = `${ORIGIN}/api/gpt/event`;
@@ -137,4 +138,21 @@ test("org B does not see or deduplicate against org A (AGENTS §3)", async () =>
   assert.equal(await b.record(step), true, "the same id in org B is org B's own event");
   const count = (org: string) => Number(f.db.value("SELECT COUNT(*) FROM gpt_ui_events WHERE org_id=?", org));
   assert.deepEqual([count("org-a"), count("org-b"), count(BILLING_ORG)], [1, 1, 0]);
+});
+
+test("the steps are kept TELEMETRY_RETENTION_DAYS, as the privacy policy says, and the sweep stays in its org", async () => {
+  const { f } = await counter();
+  const now = Date.now();
+  const day = 86_400_000;
+  const old = now - (TELEMETRY_RETENTION_DAYS + 1) * day;
+  const kept = now - (TELEMETRY_RETENTION_DAYS - 1) * day;
+  f.db.exec(`INSERT INTO gpt_ui_events(org_id,id,type,view_id,detail,created_at) VALUES
+    ('${BILLING_ORG}','old','pack_viewed',NULL,'limit_card',${old}),
+    ('${BILLING_ORG}','kept','pack_viewed',NULL,'limit_card',${kept}),
+    ('org-b','other','pack_viewed',NULL,'limit_card',${old})`);
+  await maintainBilling(f.env, now);
+  assert.deepEqual(
+    f.db.rows<{ org_id: string; id: string }>("SELECT org_id,id FROM gpt_ui_events ORDER BY id").map((row) => `${row.org_id}/${row.id}`),
+    [`${BILLING_ORG}/kept`, "org-b/other"],
+  );
 });

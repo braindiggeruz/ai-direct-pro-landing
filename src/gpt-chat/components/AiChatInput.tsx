@@ -50,9 +50,12 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
         </InputGroupAddon>
       </InputGroup>
       {/* Not OpenAI, and where the question goes: on every screen size, not
-          only inside the menu a phone keeps closed (F8). */}
+          only inside the menu a phone keeps closed (F8). The privacy policy
+          says what is kept and who receives it (plan WP-18). */}
       <div className="gpt-input-footnote">
-        <span data-testid="ai-input-microcopy">{t.inputMicrocopy}</span>
+        <span data-testid="ai-input-microcopy">
+          {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
+        </span>
         {left <= 200 && <span role="status">{t.charsLeft(Math.max(0, left))}</span>}
       </div>
     </div>

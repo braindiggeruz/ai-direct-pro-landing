@@ -96,6 +96,8 @@
 .gpt-premium .gpt-send-button[data-variant="default"] { background: var(--primary); color: var(--primary-foreground); }
 .gpt-premium .gpt-send-button:disabled { opacity: .42; }
 .gpt-input-footnote { display: flex; justify-content: space-between; gap: 8px; color: #9ba8bd; font-size: 10px; line-height: 1.5; padding: 10px 5px 0; }
+.gpt-input-footnote a { color: #c3cddc; text-decoration: underline; text-underline-offset: 2px; }
+.gpt-input-footnote a:hover { color: var(--primary); }
 .gpt-premium .gpt-user-message { background: #1f2e40; border: 1px solid #364c65; border-radius: 20px 20px 6px 20px; color: var(--foreground); }
 .gpt-premium .gpt-answer { min-width: 0; max-width: 100%; }
 .gpt-account-trigger { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border: 1px solid #80f2d53b; border-radius: 12px; color: var(--primary); font-size: 12px; white-space: nowrap; background: var(--secondary); }

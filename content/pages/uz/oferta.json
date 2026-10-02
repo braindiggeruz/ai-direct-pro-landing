@@ -1,0 +1,219 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/oferta/",
+  "slug": "oferta",
+  "pageType": "legal",
+  "primaryKeyword": "ommaviy oferta",
+  "secondaryKeywords": [
+    "AI paket shartlari",
+    "GPTBot.uz ofertasi",
+    "AI paket pulini qaytarish"
+  ],
+  "searchIntent": "informational",
+  "h1": "AI paket uchun ommaviy oferta",
+  "title": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
+  "description": "GPTBot.uz chatidagi AI paket shartlari: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. Click yoki Uzum Bank, chek.",
+  "canonical": "https://gptbot.uz/uz/oferta/",
+  "hreflangRu": "/ru/oferta/",
+  "hreflangUz": "/uz/oferta/",
+  "hreflangXDefault": "/uz/oferta/",
+  "ogTitle": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
+  "ogDescription": "AI paket: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek, pulni qaytarish va sotuvchi rekvizitlari.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Oferta",
+  "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish.",
+  "termsVersion": "ai-paket-2026-10-v1",
+  "requisites": "seller",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Bu ommaviy oferta. Rekvizitlari sahifa oxirida keltirilgan sotuvchi (keyingi o‘rinlarda — Sotuvchi) har qanday muomalaga layoqatli jismoniy shaxsga (keyingi o‘rinlarda — Xaridor) GPTBot.uz AI chatidagi AI paketni quyidagi shartlarda sotib olishni taklif qiladi."
+    },
+    {
+      "type": "h2",
+      "text": "1. Atamalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "AI chat — gptbot.uz sayti sahifalaridagi GPTBot.uz chati, unda savollarga AI modellar javob beradi.",
+        "Javob — AI modelning AI chatda Xaridorning bitta savoliga yozgan xabari.",
+        "AI paket — AI chatda bepul limitdan tashqari javoblar olish huquqi, shartlari 3-bo‘limda. Chekda u «AI paket 300 (xizmat, 1 oy)» deb ataladi.",
+        "Akkaunt — Xaridor Telegram orqali kiradigan AI chat hisobi. Paket akkauntga bog‘langan va unga kirilgan barcha qurilmalarda ishlaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "2. Oferta predmeti"
+    },
+    {
+      "type": "p",
+      "text": "Sotuvchi Xaridorga AI paket hajmida GPTBot.uz AI chatidan bepul limitdan tashqari foydalanish imkonini beradi, Xaridor esa paket uchun to‘laydi. GPTBot.uz — mustaqil xizmat: u OpenAI mahsuloti emas va ChatGPT’ga kirish imkonini bermaydi. Javoblarni boshqa kompaniyalarning AI modellari yozadi, model nomi har bir javob ostida ko‘rsatiladi. Sotuvchi javoblar to‘g‘ri, to‘liq va muayyan maqsadga mos bo‘lishini kafolatlamaydi: muhim faktlarni, ayniqsa tibbiy, huquqiy va moliyaviy masalalarda, tekshirib ko‘ring."
+    },
+    {
+      "type": "h2",
+      "text": "3. AI paket: narx, muddat va limitlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Narxi — 20 000 so‘m, shu jumladan QQS 12 % — 2 142,86 so‘m. To‘lov bir martalik.",
+        "Muddati — to‘lov paytidan boshlab bir kalendar oy: 15-oktabr soat 14:00 da to‘langan paket 15-noyabr soat 14:00 gacha amal qiladi. Keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunida xuddi shu soatda tugaydi.",
+        "Paketga 300 tagacha javob kiradi. Paketdan bir sutkada 50 tadan ortiq javob yechilmaydi; sutka Toshkent vaqti bilan soat 05:00 da boshlanadi.",
+        "Bitta akkaunt uchun bir vaqtda 2 tadan ortiq javob tayyorlanmaydi.",
+        "Avtomatik yechib olish yo‘q: paket o‘z-o‘zidan uzaytirilmaydi. Keyingi paketni Xaridor faqat kerak bo‘lsa sotib oladi.",
+        "Muddat oxirigacha ishlatilmagan javoblar bekor bo‘ladi va keyingi paketga o‘tkazilmaydi.",
+        "Yangi paket, oldingisi tugamagan bo‘lsa ham, to‘lovdan so‘ng darhol amal qila boshlaydi. Javoblar avval muddati oldinroq tugaydigan paketdan yechiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "4. Qaysi javoblar yechiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Paketdan chatga to‘liq yetib kelgan javob yechiladi.",
+        "Uzunlik cheklovi sababli uzilib qolgan javob chatda belgilanadi va yechilmaydi.",
+        "AI model, tarmoq yoki xizmatda nosozlik bo‘lib, javob kelmasa, hech narsa yechilmaydi.",
+        "Xaridor javobni «To‘xtatish» tugmasi bilan to‘xtatsa, javob faqat to‘xtatishdan oldin chatga kamida 600 ta belgi kelgan bo‘lsa yechiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "5. Bepul rejim"
+    },
+    {
+      "type": "p",
+      "text": "AI paketsiz AI chat bepul ishlaydi: sutkasiga 15 tagacha va soatiga 5 tagacha xabar, sutka bu yerda ham Toshkent vaqti bilan 05:00 da boshlanadi. Paket javoblari tugasa yoki muddati o‘tsa, bepul rejim odatdagidek ishlaydi. Bepul limitlar AI paketga kirmaydi va o‘zgarishi mumkin; amaldagilari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "text": "6. To‘lov va chek"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Paket Click yoki Uzum Bank orqali — xarid paytida ulangan usullar bilan to‘lanadi; mavjud tugmalar AI paket oynasida ko‘rsatiladi.",
+        "Karta ma’lumotlarini Xaridor to‘lov tizimi tomonida kiritadi. Sotuvchi ularni olmaydi va saqlamaydi.",
+        "To‘lov tizimi to‘lovni tasdiqlagach, paket amal qila boshlaydi.",
+        "To‘lov va pulni qaytarish uchun elektron fiskal chek shakllantiriladi. Chek havolasi AI chatning «Paketim» bo‘limida paydo bo‘ladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "7. Aksept"
+    },
+    {
+      "type": "p",
+      "text": "Xaridor AI paket oynasida ommaviy oferta shartlariga roziligini belgilab, paket uchun to‘laganda ofertani qabul qiladi. Buyurtma bilan birga u qabul qilgan oferta tahriri saqlanadi. Aksept shu tahrirning barcha shartlariga rozilikni bildiradi."
+    },
+    {
+      "type": "h2",
+      "text": "8. Pulni qaytarish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xaridor paket amal qilib turgan paytda undan voz kechib, pulni qaytarishni so‘rashi mumkin: AI chatning «Paketim» bo‘limidagi «Pulni qaytarishni so‘rash» tugmasi orqali, Sotuvchi rekvizitlaridagi e-mail’ga yozib yoki telefon qilib.",
+        "Sotuvchi so‘rovga 3 ish kunidan kechiktirmay javob beradi.",
+        "Pul to‘liq — 20 000 so‘m — o‘sha to‘lov tizimi orqali, to‘lov qilingan kartaga qaytariladi. Pul qaytarilgach, paket o‘chiriladi.",
+        "Pul kartaga qachon tushishi to‘lov tizimi va karta bankiga bog‘liq. Pulni qaytarish uchun ham chek shakllantiriladi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Sotuvchiga sahifa oxiridagi {contacts} orqali yozish yoki qo‘ng‘iroq qilish mumkin.",
+      "links": [
+        {
+          "token": "contacts",
+          "target": "#contact",
+          "anchor": "kontaktlar"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "9. Xaridor ma’lumotlari"
+    },
+    {
+      "type": "linkp",
+      "text": "Sotuvchi ma’lumotlarga qanday ishlov berishi {maxfiylik} bayon qilingan. Javob berish uchun AI chat savol va javoblarni xorijdagi AI provayderlarga yuboradi, shuning uchun chatga shaxsiy ma’lumotlarni — o‘zingiznikini ham, boshqalarnikini ham — yozmang.",
+      "links": [
+        {
+          "token": "maxfiylik",
+          "target": "/uz/maxfiylik-siyosati/",
+          "anchor": "maxfiylik siyosatida"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "10. Xizmat ishi va javobgarlik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sotuvchi AI chat kecha-kunduz ishlashiga harakat qiladi, lekin uzluksiz ishlashini kafolatlamaydi: texnik xizmat uchun tanaffuslar hamda AI provayderlar, xosting va aloqada nosozliklar bo‘lishi mumkin.",
+        "Xaridor AI chatdan qonunni buzadigan harakatlar uchun foydalanmaydi va limitlarni chetlab o‘tishga urinmaydi.",
+        "Sotuvchi Xaridorning AI modellar javoblari asosida qabul qilgan qarorlari uchun javob bermaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "11. Ofertaga o‘zgartirish kiritish"
+    },
+    {
+      "type": "p",
+      "text": "Sotuvchi ushbu sahifada yangi raqamli yangi tahrirni e’lon qilib, ofertani o‘zgartirishi mumkin. Yangi tahrir e’lon qilinganidan keyingi xaridlarga nisbatan amal qiladi. To‘langan paket o‘z muddati tugaguncha Xaridor qabul qilgan tahrir shartlari asosida amal qiladi. Keyingi to‘lovdan oldin AI paket oynasi yana rozilik so‘raydi."
+    },
+    {
+      "type": "h2",
+      "text": "12. Nizolar va qo‘llaniladigan huquq"
+    },
+    {
+      "type": "p",
+      "text": "Ofertaga O‘zbekiston Respublikasi qonunchiligi qo‘llaniladi. Taraflar nizolarni avval muzokaralar yo‘li bilan hal qiladi: talabnomani Sotuvchining e-mail’iga yoki telefoni orqali yuborish mumkin. Kelishuvga erishilmasa, nizoni sud O‘zbekiston Respublikasi qonunchiligida belgilangan tartibda ko‘rib chiqadi."
+    },
+    {
+      "type": "h2",
+      "text": "13. Oferta tili"
+    },
+    {
+      "type": "p",
+      "text": "Oferta o‘zbek va rus tillarida e’lon qilingan, ikkala matn teng kuchga ega. Matnlar o‘rtasida farq bo‘lsa, o‘zbek tilidagi matn qo‘llaniladi."
+    }
+  ],
+  "faq": [],
+  "internalLinks": [
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chatdan foydalanish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "lastReviewedAt": "2026-10-03",
+  "createdAt": "2026-10-03T00:00:00Z",
+  "updatedAt": "2026-10-03"
+}

@@ -16,6 +16,7 @@ import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
 import { CONTACT_ANCHOR, CONTACT_CTA_LABEL, renderContactCard, studioFooterLinks } from './contact-card';
+import { renderRequisites, renderTermsEdition } from './legal-entity';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
@@ -809,6 +810,9 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   const rawModified = page.lastReviewedAt || page.updatedAt || '';
   const modifiedIso = rawModified ? new Date(rawModified).toISOString().slice(0, 10) : '';
   const modifiedLabel = page.locale === 'uz' ? 'Yangilangan' : 'Обновлено';
+  // The public offer states its edition and the day it took effect instead
+  // (scripts/legal-entity.ts); the live gate reads the edition back.
+  const termsEditionHtml = renderTermsEdition(page);
 
   // E-E-A-T author byline. Named expert from global config (Person schema anchor).
   // Rendered under the H1 on commercial pages and content pages that explicitly
@@ -948,7 +952,7 @@ ${marketVariant
     : `<div class="${page.heroImage ? 'lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center ' : ''}mb-4">
     <div>
       <h1 data-testid="page-h1" class="font-display text-[2rem] sm:text-5xl lg:text-6xl text-white mb-6 leading-tight break-words hyphens-auto">${escapeText(page.h1)}</h1>
-      ${modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}
+      ${termsEditionHtml || (modifiedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : '')}
       ${bylineHtml}
       ${page.heroSubtitle ? `<p class="speakable-intro text-lg text-white/80 mb-8 max-w-2xl">${escapeText(page.heroSubtitle)}</p>` : ''}
       ${page.ctaPrimaryHref ? `<div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-4">
@@ -965,7 +969,7 @@ ${marketVariant
   ${calculatorHtml}
   ${renderGrowthTool(page)}
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
-    ${renderArticle(page.bodyBlocks || [], contentAnchor)}
+    ${renderArticle(page.bodyBlocks || [], contentAnchor)}${renderRequisites(page)}
 
     ${renderSources(page)}${leadFormHtml}
     ${renderFaq(page.faq || [], page.locale === 'uz' ? 'uz' : 'ru')}

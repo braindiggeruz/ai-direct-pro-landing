@@ -352,7 +352,7 @@ export function AccountDialog({
                 <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
                 <span>
                   {copy.loginConsent}{" "}
-                  <a href={locale === "uz" ? "/uz/maxfiylik-siyosati/" : "/ru/politika-konfidentsialnosti/"}>{t.leadPrivacy}</a>
+                  <a href={t.privacyHref}>{t.leadPrivacy}</a>
                 </span>
               </label>
               {/* The bot first (no BotFather client needed); Telegram's OIDC
