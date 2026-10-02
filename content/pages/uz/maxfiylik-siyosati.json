@@ -129,7 +129,7 @@
       "items": [
         "Cloudflare (AQSh) — sayt xostingi va ma’lumotlar bazasi.",
         "OpenRouter, Inc. (AQSh) — AI chat va bot AI modellarga u orqali murojaat qiladi: savol va suhbat tarixini oladi va ularni javob beradigan modelga uzatadi.",
-        "AI model yetkazib beruvchilari — OpenRouter savolni ularga uzatadi: hozir bular NVIDIA (Nemotron modellari), dots-studio (dots modeli), Google (Gemma modellari) va Mistral AI (Mistral Small modeli), botdagi yozuvni tahlil qilish uchun esa OpenAI. Ro‘yxat chat sozlamalari bilan birga o‘zgaradi; javob bergan model nomi javob ostida ko‘rsatiladi.",
+        "AI model ishlaydigan kompaniyalar: OpenRouter savol va suhbat tarixini ularga uzatadi. Bu model ishlab chiquvchisi yoki shu modelni OpenRouter orqali taqdim etadigan boshqa provayder bo‘lishi mumkin. Hozir chat va bot NVIDIA (Nemotron), dots-studio (dots), Google (Gemma) va Mistral AI (Mistral Small) modellaridan, botdagi yozuvni tahlil qilish uchun esa OpenAI modelidan foydalanadi. Ro‘yxat chat sozlamalari bilan birga o‘zgaradi; javob bergan model nomi javob ostida ko‘rsatiladi.",
         "Groq (AQSh), u ishlamasa — OpenAI (AQSh) — @gptbotuz_bot botidagi ovozli xabarlarni matnga aylantirish.",
         "Z.ai (Singapur) — faqat chat uning modellariga o‘tkazilgan bo‘lsa; bu ham javob ostidagi model nomidan ko‘rinadi.",
         "Click va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",

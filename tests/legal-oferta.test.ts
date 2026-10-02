@@ -316,6 +316,11 @@ test('the policies name OpenRouter, Inc. and every model supplier the deployed c
   }
   assert.match(text(policies.ru), /OpenRouter, Inc\. \(США\)/);
   assert.match(text(policies.uz), /OpenRouter, Inc\. \(AQSh\)/);
+  // OpenRouter runs a model at its developer or at another provider that serves it (a paid model
+  // falls back between providers, openrouter-chat.ts): the policies name the models' developers,
+  // never as the only companies a question reaches.
+  assert.ok(text(policies.ru).includes('Это разработчик модели или другой провайдер, который предоставляет эту модель через OpenRouter.'));
+  assert.ok(text(policies.uz).includes('Bu model ishlab chiquvchisi yoki shu modelni OpenRouter orqali taqdim etadigan boshqa provayder bo‘lishi mumkin.'));
   // No basis or safeguard of the transfer abroad is claimed: that is the lawyer's to state.
   for (const doc of Object.values(policies))
     assert.doesNotMatch(text(doc), /DPF|Data Privacy Framework|стандартн\w* договорн|адекватн|SCC/i, doc.url);
