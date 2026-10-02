@@ -50,7 +50,7 @@ import { applyRole, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
-import { archiveChat, keepsShownConversation, loadChats } from "../storage";
+import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
 import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 
@@ -158,9 +158,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         setSessionId(firstGuest ? loadSessionId(config.locale) : null);
       }
       // A failed account read says nothing about who is asking, so the
-      // composer (and a question a limit put back into it) stays. Another
-      // known identity — signing out, another account — starts empty.
-      if (identity !== null && establishedIdentityRef.current !== null && establishedIdentityRef.current !== identity) setInput("");
+      // composer (and a question a limit put back into it) stays, and so it
+      // does when a guest signs in to buy a pack. Another known identity —
+      // signing out, another account — starts empty.
+      if (identity !== null && establishedIdentityRef.current !== null && !keepsComposer(establishedIdentityRef.current, identity)) setInput("");
       if (account) establishedIdentityRef.current = identity;
       setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
       accountIdentityRef.current = identity;
@@ -187,6 +188,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         now: Date.now(),
       });
   }, [config.locale]);
+
+  // The way to a payment page and back (plan WP-17): the question in the
+  // composer waits there (DRAFT_TTL_MS), limit or not.
+  const keepDraft = useCallback(() => saveDraft(inputRef.current?.value ?? ""), []);
 
   const focusInput = () => {
     inputRef.current?.focus();
@@ -821,6 +826,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               openRequest={accountOpen}
               remaining={remaining}
               limited={limited}
+              onLeave={keepDraft}
             />
           </div>
         </header>

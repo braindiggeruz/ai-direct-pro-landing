@@ -286,6 +286,46 @@ test("the panel asks to renew only when the last running pack ends soon", async 
   assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, true]);
 });
 
+test("the Paketim panel: what is left in the pack and what its day cap still lets through today (WP-17)", async () => {
+  const f = await billingFixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  // A free answer earlier today: the pack's day counts every answer of the
+  // account today, as reserve() does (turn-store.ts pack_daily).
+  const free = await turns.reserve(f.user, "ip", null, cfg);
+  await turns.finish(free.id!, { outcome: "answered", charged: true });
+  const order = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
+  await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID() });
+  await f.store.transition(order.id, "paid", "perform");
+  const view = async () => {
+    const access = ((await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as {
+      access: { remaining: number; dayRemaining: number; message_limit: number };
+    }).access;
+    return [access.remaining, access.dayRemaining, access.message_limit];
+  };
+  assert.deepEqual(await view(), [300, 49, 300]);
+  for (let i = 0; i < 3; i++) {
+    const turn = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
+    await turns.finish(turn.id!, { outcome: "answered", charged: true });
+  }
+  // A released answer (cut at the length limit, a provider error) gives its place back.
+  const cut = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
+  await turns.finish(cut.id!, { outcome: "truncated", charged: false });
+  assert.deepEqual(await view(), [297, 46, 300]);
+  // Near the end of the pack, today's room is never more than what is left in it.
+  await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=5 WHERE order_id=?").bind(order.id).run();
+  assert.deepEqual(await view(), [2, 2, 5]);
+  // The same numbers reserve() goes by: the day cap refuses the 50th answer of the day.
+  await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=300 WHERE order_id=?").bind(order.id).run();
+  const period = (await f.store.access(f.user, "test"))!;
+  for (let i = 0; i < 46; i++) {
+    const turn = await turns.reserve(f.user, "ip", period, cfg);
+    await turns.finish(turn.id!, { outcome: "answered", charged: true });
+  }
+  assert.deepEqual(await view(), [251, 0, 300]);
+  assert.equal((await turns.reserve(f.user, "ip", period, cfg)).limit?.reason, "pack_daily");
+});
+
 test("one open invoice per account across providers (U7); a synthetic rehearsal account never buys live", async () => {
   const f = await billingFixture();
   const now = Date.now();
@@ -468,7 +508,7 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   assert.equal(accepted.length, 2);
   await turns.finish(accepted[0].id!, { outcome: "upstream_error", charged: false });
   await turns.finish(accepted[1].id!, { outcome: "answered", charged: true });
-  assert.equal(await turns.remaining(f.user, "ip", null, cfg), 14);
+  assert.equal((await turns.allowance(f.user, "ip", null, cfg)).remaining, 14);
   const o = await f.store.createOrder(
     f.user,
     "payme",

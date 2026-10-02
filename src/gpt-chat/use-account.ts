@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { validAccountView, type AccountView } from './types';
+import { checkoutPollDelay } from './checkout';
 
 /** Pause before the one retry of a failed account read. */
 const ACCOUNT_RETRY_MS = 1_500;
@@ -21,13 +22,15 @@ export interface AccountHandle {
 /**
  * The account view's data side, on the chat's start bundle (the pack window
  * itself is the lazy part chat-account): read on mount, after every turn
- * (`refreshKey`) and on every focus, and every 5 s for 30 s while a payment
- * waits for its provider.
+ * (`refreshKey`) and on every focus, and while the browser waits for a
+ * payment (`watchSince`, checkout.ts) every 3 s for two minutes, then every
+ * 15 s until ten minutes, whenever the tab is in view.
  */
 export function useAccount(
   apiBase: string,
   onAccount: (account: AccountView | null) => void,
   refreshKey: number,
+  watchSince: number | null,
 ): AccountHandle {
   const [data, setData] = useState<AccountView | null>(null);
   const [error, setError] = useState(false);
@@ -86,17 +89,21 @@ export function useAccount(
     window.addEventListener('focus', focus);
     return () => window.removeEventListener('focus', focus);
   }, [refresh]);
-  const pendingId = data?.payment && ['pending', 'prepared'].includes(data.payment.state) ? data.payment.id : null;
   useEffect(() => {
-    if (!pendingId) return;
-    let attempts = 0;
-    const timer = window.setInterval(() => {
-      attempts += 1;
-      void refresh();
-      if (attempts >= 6) window.clearInterval(timer);
-    }, 5_000);
-    return () => window.clearInterval(timer);
-  }, [pendingId, refresh]);
+    if (watchSince === null) return;
+    let timer = 0;
+    const schedule = () => {
+      const delay = checkoutPollDelay(Date.now() - watchSince);
+      if (delay === null) return;
+      timer = window.setTimeout(() => {
+        // A hidden tab is not asked; coming back to it reads at once (focus).
+        if (document.visibilityState !== 'hidden') void refresh();
+        schedule();
+      }, delay);
+    };
+    schedule();
+    return () => window.clearTimeout(timer);
+  }, [watchSince, refresh]);
   const fail = useCallback(() => {
     setError(true);
     setData(null);

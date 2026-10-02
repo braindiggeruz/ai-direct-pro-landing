@@ -41,6 +41,37 @@ export function track(event: ChatEvent, data: Payload = {}): void {
   }
 }
 
+/**
+ * GA4's ecommerce `purchase` for a pack the server confirmed (plan WP-17,
+ * map 03 §8.1). Not through track(): its `items` are a list, which the
+ * catalogue's flat parameters drop. The order id is not personal data; the
+ * caller sends each one once (checkout.ts firstReport).
+ */
+export function trackPurchase(order: { transactionId: string; value: number; itemId: string; itemName: string; provider: string }): void {
+  try {
+    const w = window as unknown as {
+      dataLayer?: Array<Record<string, unknown>>;
+      gtag?: (...args: unknown[]) => void;
+    };
+    const ecommerce = {
+      transaction_id: order.transactionId,
+      value: order.value,
+      currency: 'UZS',
+      items: [{ item_id: order.itemId, item_name: order.itemName, price: order.value, quantity: 1 }],
+    };
+    const payload = safePayload({ provider: order.provider });
+    if (typeof w.gtag === 'function') w.gtag('event', EV.purchase, { ...payload, ...ecommerce });
+    else {
+      if (!w.dataLayer) w.dataLayer = [];
+      // GTM reads ecommerce from its own key; clear the previous one first.
+      w.dataLayer.push({ ecommerce: null });
+      w.dataLayer.push({ event: EV.purchase, ...payload, ecommerce });
+    }
+  } catch {
+    /* noop */
+  }
+}
+
 export function trackOnce(event: ChatEvent, data: Payload = {}): void {
   const payload = safePayload(data);
   const key = `${event}:${String(payload.route || '')}:${String(payload.lang || '')}`;
@@ -74,6 +105,10 @@ export const EV = {
   loginResult: 'login_result',
   /** `resume` true when an existing invoice is reopened, not a new purchase. */
   checkoutStarted: 'checkout_started',
+  /** How the payment the browser waited for ended: `status` paid | pending | cancelled. */
+  checkoutResult: 'checkout_result',
+  /** GA4 ecommerce, once per order the server confirmed; sent by trackPurchase() only. */
+  purchase: 'purchase',
   accountActionFailed: 'account_action_failed',
   accountLogout: 'account_logout',
   /** Every Telegram button: `from`, `channel` bot | studio, `with_session`. */

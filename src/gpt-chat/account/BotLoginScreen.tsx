@@ -10,12 +10,15 @@ import {
   type BotLoginStatus,
 } from '../bot-login';
 import { track, EV } from '../analytics';
+import { recordUiEvent } from '../ui-events';
 
 /** How often the window asks while the tab is visible. */
 const POLL_MS = 2_000;
 
 const STATUSES: readonly string[] = ['pending', 'claimed', 'rejected', 'expired', 'done'];
-const ENDED: ReadonlySet<BotLoginStatus> = new Set(['done', 'rejected', 'expired']);
+/** The attempt is over: signed in, refused or out of time. */
+const isOver = (status: BotLoginStatus): status is 'done' | 'rejected' | 'expired' =>
+  status === 'done' || status === 'rejected' || status === 'expired';
 
 /** POST /api/gpt/auth/bot/start; throws on anything but a valid attempt. */
 async function startBotLogin(apiBase: string, locale: 'ru' | 'uz'): Promise<BotLoginAttempt> {
@@ -57,14 +60,15 @@ function clock(ms: number): string {
 }
 
 /**
- * Sign-in through the bot @gptbotuz_bot (lazy part chat-account, plan WP-16):
+ * Sign-in through the bot @gptbotuz_bot (lazy part chat-account, plans WP-16
+ * and WP-17; map 03 §3.3):
  * the start button, then the steps with the number to press in the bot (or,
  * in code mode, the field for the bot's code), then the outcome. It asks the
  * server every 2 s while the tab is visible and at once when the tab comes
  * back from Telegram, never two requests at a time; an attempt this tab
  * started survives a reload for its 10 minutes (bot-login.ts).
  */
-export function AiBotLogin({
+export function BotLoginScreen({
   locale,
   apiBase,
   copy,
@@ -94,14 +98,15 @@ export function AiBotLogin({
 
   const settle = useCallback((next: BotLoginStatus) => {
     if (ended.current) return;
-    if (ENDED.has(next)) {
+    if (isOver(next)) {
       ended.current = true;
       saveBotLogin(null);
       track(EV.loginResult, { method: 'bot', status: next, locale });
+      recordUiEvent(apiBase, 'login_result', next);
       if (next === 'done') void onSignedIn();
     }
     setStatus(next);
-  }, [locale, onSignedIn]);
+  }, [apiBase, locale, onSignedIn]);
 
   const ask = useCallback(async (code?: string) => {
     if (!attempt || ended.current || (asking.current && code === undefined)) return;
@@ -117,7 +122,7 @@ export function AiBotLogin({
   }, [apiBase, attempt, settle]);
 
   useEffect(() => {
-    if (!attempt || ENDED.has(status)) return;
+    if (!attempt || isOver(status)) return;
     const tick = () => {
       const at = Date.now();
       setNow(at);
@@ -143,6 +148,7 @@ export function AiBotLogin({
     setBusy(true);
     setStartFailed(false);
     track(EV.loginStarted, { method: 'bot', locale });
+    recordUiEvent(apiBase, 'login_started', 'bot');
     try {
       const next = await startBotLogin(apiBase, locale);
       saveBotLogin(next);
@@ -155,6 +161,7 @@ export function AiBotLogin({
     } catch {
       setStartFailed(true);
       track(EV.loginResult, { method: 'bot', status: 'failed', locale });
+      recordUiEvent(apiBase, 'login_result', 'failed');
     } finally {
       setBusy(false);
     }
@@ -215,7 +222,8 @@ export function AiBotLogin({
           </li>
         ))}
       </ol>
-      <a className="gpt-primary" href={attempt.deepLink} target="_blank" rel="noopener noreferrer">
+      {/* Metrika's own outbound-link tracking keeps the nonce out of its reports. */}
+      <a className="gpt-primary ym-disable-tracklink" href={attempt.deepLink} target="_blank" rel="noopener noreferrer">
         {copy.botLoginOpen} <span aria-hidden="true">↗</span>
       </a>
       <button type="button" className="gpt-text-button" onClick={() => void copyLink()}>

@@ -185,12 +185,19 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   assert.match(panel, /const reachable = showsAccountPill\(data\);/);
   assert.match(panel, /\{reachable && \(\s*<DialogTrigger asChild>/);
   assert.match(panel, /\{data\?\.access \? t\.premium\.accountActive : t\.premium\.account\}/);
-  const window = read('src/gpt-chat/components/AiAccountWindow.tsx');
-  assert.match(window, /\{!loading && billingAvailable && !data\?\.access && \(\s*<Card className="gpt-plan-card">/);
-  assert.match(window, /copy\.packFeatures\.map/);
+  const window = read('src/gpt-chat/account/AccountDialog.tsx');
+  // The price card for a guest and the pay step for an account, only while a
+  // pack can be bought, with the numbers the server states.
+  assert.match(window, /\{billingAvailable && pack && <PlanCard t=\{t\} copy=\{copy\} pack=\{pack\} \/>\}/);
+  assert.match(window, /const payStep = billingAvailable && pack && data\?\.user && \(/);
+  assert.match(window, /copy\.packFeatures\(pack\.months, pack\.messageLimit, pack\.dailyLimit\)\.map/);
+  assert.match(window, /copy\.price\(groupDigits\(pack\.priceUzs\), pack\.months, pack\.messageLimit\)/);
   assert.match(window, /const copy = accountStrings\(locale\);/);
-  // Every word the window shows comes from the copy files, in the visitor's language.
-  for (const source of [panel, window]) assert.doesNotMatch(source, /locale === ['"]uz['"] \? ['"][^'"]*[a-zа-я]{3}/i);
+  // Every word the window shows comes from the copy files, in the visitor's
+  // language (a path such as /uz/maxfiylik-siyosati/ is not a word).
+  const screens = files('src/gpt-chat/account').map(read);
+  assert.ok(screens.length >= 5, 'the window and its screens');
+  for (const source of [panel, ...screens]) assert.doesNotMatch(source, /locale === ['"]uz['"] \? ['"](?!\/)[^'"]*[a-zа-я]{3}/i);
 
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   const low = consoleSource.slice(consoleSource.indexOf('{t.lowWarning(remaining)}'), consoleSource.indexOf('openAccount("low_limit")'));

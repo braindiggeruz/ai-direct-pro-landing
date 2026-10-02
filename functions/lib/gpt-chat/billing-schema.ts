@@ -68,7 +68,8 @@ export const CHAT_RUNTIME_DDL = [
 // for the Uzum Fiscalization API. The columns come after the six of 0064; a
 // row written before keeps provider NULL and is never queued. operation_id is
 // the Uzum receipt's own idempotency key, stored before the receipt is sent.
-// Sign-in through the bot (WP-16): gpt_bot_logins in PAID_CHAT_DDL.
+// Sign-in through the bot (WP-16): gpt_bot_logins in PAID_CHAT_DDL; the pack
+// window's funnel counter (WP-17): gpt_ui_events.
 export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = [
   ["provider", "TEXT"],
   ["attempts", "INTEGER NOT NULL DEFAULT 0"],
@@ -90,6 +91,11 @@ export const PAID_CHAT_DDL = [
   `CREATE TABLE IF NOT EXISTS gpt_bot_logins (org_id TEXT NOT NULL, id TEXT NOT NULL, nonce_hash TEXT NOT NULL, browser_hash TEXT NOT NULL, mode TEXT NOT NULL CHECK(mode IN ('pick','code')), code TEXT NOT NULL, choices TEXT, locale TEXT NOT NULL, client TEXT, status TEXT NOT NULL CHECK(status IN ('pending','claimed','confirmed','rejected','consumed')), tg_hash TEXT, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL, claimed_at INTEGER, decided_at INTEGER, consumed_at INTEGER, PRIMARY KEY(org_id,id), UNIQUE(org_id,nonce_hash))`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_browser ON gpt_bot_logins(org_id,browser_hash,created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_expiry ON gpt_bot_logins(org_id,expires_at)`,
+  // The pack window's funnel (WP-17, ui-event-store.ts): one row per event, a
+  // closed type and qualifier, the browser tab's random id. No IP, account or
+  // chat session; `id` is the browser's, so a resent event counts once.
+  `CREATE TABLE IF NOT EXISTS gpt_ui_events (org_id TEXT NOT NULL, id TEXT NOT NULL, type TEXT NOT NULL, view_id TEXT, detail TEXT NOT NULL, created_at INTEGER NOT NULL, PRIMARY KEY(org_id,id))`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_ui_events_created ON gpt_ui_events(org_id,created_at)`,
 ];
 /**
  * Add the columns a database without the migration lacks: one PRAGMA per

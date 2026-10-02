@@ -10,7 +10,7 @@ export interface AccountWindowSignals {
   remaining: number;
   /** A 429 stands: the limit card offers the pack. */
   limited: boolean;
-  /** Back from a payment page (`?pay=return`, which subscribe.ts adds with WP-13). */
+  /** Back from a payment page, or waiting for one this browser started (checkout.ts). */
   payReturn: boolean;
   /** A payment waits for its provider: the visitor is coming back to it. */
   paymentPending: boolean;

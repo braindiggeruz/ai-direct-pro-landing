@@ -49,8 +49,11 @@ test('arbitrary prompts, external return URLs and unknown IDs are never consumed
 
 test('account readiness never auto-starts checkout or login, and New Chat preserves the free session and quota', () => {
   // The account's data (start bundle), the pill and frame (start bundle) and
-  // the window's body (lazy part chat-account).
-  const files = ['src/gpt-chat/use-account.ts', 'src/gpt-chat/components/AiAccountPanel.tsx', 'src/gpt-chat/components/AiAccountWindow.tsx'];
+  // the window's body and screens (lazy part chat-account).
+  const files = [
+    'src/gpt-chat/use-account.ts', 'src/gpt-chat/components/AiAccountPanel.tsx', 'src/gpt-chat/account/AccountDialog.tsx',
+    'src/gpt-chat/account/BotLoginScreen.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx',
+  ];
   const effects: Record<string, number> = {};
   for (const file of files) {
     const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, file.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
@@ -69,7 +72,7 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
     visit(source);
   }
   for (const file of files) assert.ok(effects[file] > 0, `${file}: account effects were actually inspected`);
-  const window = readFileSync('src/gpt-chat/components/AiAccountWindow.tsx', 'utf8');
+  const window = readFileSync('src/gpt-chat/account/AccountDialog.tsx', 'utf8');
   assert.match(window, /canStartCheckout\(data, locale\)/);
   assert.match(window, /termsVersion: data\.termsVersion/);
   const console = readFileSync('src/gpt-chat/components/AiChatConsole.tsx', 'utf8');

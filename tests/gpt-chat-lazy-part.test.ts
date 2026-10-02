@@ -113,37 +113,44 @@ test('LazyPart shows its placeholder until the part is here, then the part', asy
 const guest = (over: Partial<AccountView> = {}): AccountView => ({
   ok: true, loginAvailable: true, mode: 'live', providers: ['click', 'uzum'], user: null,
   terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, termsVersion: '2026-10-01',
-  freeLimits: { daily: 15, hourly: 5 }, ...over,
+  freeLimits: { daily: 15, hourly: 5 }, pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null }, ...over,
 });
 const handle = (data: AccountView | null, over: Partial<AccountHandle> = {}): AccountHandle => ({
   data, error: false, loading: false, refresh: async () => {}, fail: () => {}, forget: () => {}, clearError: () => {}, ...over,
 });
+/** The window's props besides the account: no payment under way. */
+const frame = () => ({
+  apiBase: '', loginFailed: false, onClose: () => {},
+  memoryRef: { current: { requestKeys: {}, refusedForTerms: null, paymentCode: null } },
+  checkout: { watch: null, outcome: null, start: () => {}, dismiss: () => {} },
+});
 
 test('chat-account: the pack window says what it said before the split', async () => {
-  const { AiAccountWindow } = await accountPart.load();
+  const { AccountDialog } = await accountPart.load();
   for (const locale of LOCALES) {
     const t = strings(locale);
     const copy = accountStrings(locale);
     const render = (account: AccountHandle, loginFailed = false) => renderToStaticMarkup(
       React.createElement(Dialog, { open: true },
-        React.createElement(AiAccountWindow, { t, locale, apiBase: '', account, loginFailed, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } })),
+        React.createElement(AccountDialog, { ...frame(), t, locale, account, loginFailed })),
     );
+    const price = copy.price('20 000', 1, 300);
     // A guest while a pack can be bought: title, price card, sign-in.
     const buyable = render(handle(guest()));
-    for (const line of [copy.title, copy.price, ...copy.packFeatures, t.premium.manual, copy.loginConsent, copy.login, t.premium.check, t.premium.historyNote]) {
+    for (const line of [copy.title, price, ...copy.packFeatures(1, 300, 50), t.premium.manual, copy.loginConsent, copy.login, t.premium.check, t.premium.historyNote]) {
       assert.ok(buyable.includes(line.replace(/&/g, '&amp;')), `${locale}: ${line}`);
     }
     assert.ok(!buyable.includes(copy.unavailable));
     // Billing off: no price, and it says so.
     const closed = render(handle(guest({ mode: null, providers: [] })));
-    assert.ok(!closed.includes(copy.price) && closed.includes(copy.unavailable), locale);
+    assert.ok(!closed.includes(price) && closed.includes(copy.unavailable), locale);
     // Signed in with a pack: what is left, until when, sign-out.
     const paid = render(handle(guest({
       user: { signedIn: true, storageKey: 'a'.repeat(64) },
       access: { order_id: 'o', ends_at: Date.parse('2026-11-01T00:00:00Z'), remaining: 120, renewSoon: false, refund_requested_at: null },
     })));
-    for (const line of [copy.active, copy.remaining, copy.expires, copy.terms, copy.logout]) assert.ok(paid.includes(line), `${locale}: ${line}`);
-    assert.match(paid, /<strong>120<\/strong>/);
+    for (const line of [copy.active, copy.remaining, copy.until('').trim(), copy.terms, copy.logout]) assert.ok(paid.includes(line), `${locale}: ${line}`);
+    assert.match(paid, /<strong>120<span class="gpt-access-size"> \/ 300<\/span><\/strong>/);
     assert.ok(!paid.includes('gpt-plan-card'), 'no price card over an active pack');
     // Reading the account, a failed read, a failed sign-in.
     assert.ok(render(handle(null, { loading: true })).includes(copy.checking));
@@ -153,7 +160,7 @@ test('chat-account: the pack window says what it said before the split', async (
 });
 
 test('chat-account: sign-in through the bot — the button, then the number, the link and the warning', async () => {
-  const { AiAccountWindow } = await accountPart.load();
+  const { AccountDialog } = await accountPart.load();
   const deepLink = `https://t.me/gptbotuz_bot?start=login_${'ab'.repeat(16)}`;
   const store = new Map<string, string>();
   const scope = globalThis as unknown as { sessionStorage?: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> };
@@ -163,7 +170,7 @@ test('chat-account: sign-in through the bot — the button, then the number, the
       const copy = accountStrings(locale);
       const render = () => renderToStaticMarkup(
         React.createElement(Dialog, { open: true },
-          React.createElement(AiAccountWindow, { t: strings(locale), locale, apiBase: '', account: handle(guest({ loginMethods: ['bot', 'oidc'] })), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } })),
+          React.createElement(AccountDialog, { ...frame(), t: strings(locale), locale, account: handle(guest({ loginMethods: ['bot', 'oidc'] })) })),
       );
       // Before starting: the consent and one sign-in button.
       store.clear();
@@ -175,7 +182,7 @@ test('chat-account: sign-in through the bot — the button, then the number, the
       const waiting = render();
       for (const line of [...copy.botLoginSteps('gptbotuz_bot'), copy.botLoginOpen, copy.botLoginCopy, copy.botLoginWarning]) assert.ok(waiting.includes(line.replace(/&/g, '&amp;')), `${locale}: ${line}`);
       assert.match(waiting, /<strong class="gpt-login-code">47<\/strong>/);
-      assert.ok(waiting.includes(`href="${deepLink}"`) && waiting.includes('rel="noopener noreferrer"'));
+      assert.ok(waiting.includes(`<a class="gpt-primary ym-disable-tracklink" href="${deepLink}"`) && waiting.includes('rel="noopener noreferrer"'));
       assert.match(waiting, new RegExp(copy.botLoginWaiting('(9:59|10:00)').replace(/[…]/g, '.')));
       // Code mode: no number on the site.
       store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'code', code: null, deepLink, expiresAt: Date.now() + 600_000 }));
@@ -185,13 +192,13 @@ test('chat-account: sign-in through the bot — the button, then the number, the
       // An older server without loginMethods keeps Telegram's OIDC button.
       store.clear();
       const oidc = renderToStaticMarkup(React.createElement(Dialog, { open: true },
-        React.createElement(AiAccountWindow, { t: strings(locale), locale, apiBase: '', account: handle(guest()), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } })));
+        React.createElement(AccountDialog, { ...frame(), t: strings(locale), locale, account: handle(guest()) })));
       assert.ok(oidc.includes(copy.login) && !oidc.includes('gpt-bot-login'));
     }
     // A stored attempt that is not our bot's sign-in link is ignored.
     store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'pick', code: '47', deepLink: 'https://t.me/someone_else?start=login_' + 'ab'.repeat(16), expiresAt: Date.now() + 600_000 }));
     assert.ok(!renderToStaticMarkup(React.createElement(Dialog, { open: true },
-      React.createElement(AiAccountWindow, { t: strings('ru'), locale: 'ru', apiBase: '', account: handle(guest({ loginMethods: ['bot'] })), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } }))).includes('someone_else'));
+      React.createElement(AccountDialog, { ...frame(), t: strings('ru'), locale: 'ru', account: handle(guest({ loginMethods: ['bot'] })) }))).includes('someone_else'));
   } finally {
     delete scope.sessionStorage;
   }

@@ -22,9 +22,15 @@
 -- identity (HMAC with GPT_IDENTITY_SECRET); `code` is the 2-digit number the
 -- site shows (or the 6-digit code the bot sends), `client` a browser family
 -- and OS. No IP, name or Telegram id.
+-- WP-17, the pack window's funnel: gpt_ui_events counts pack_viewed,
+-- login_started, login_result, checkout_started and checkout_result
+-- (functions/lib/gpt-chat/ui-event-store.ts, POST /api/gpt/event): a closed
+-- type and qualifier, the browser tab's random id (view_id) and the time. No
+-- text, IP, account or chat session. `id` is the browser's own per event, so a
+-- resent event counts once.
 -- Runtime parity is tested (tests/gpt-paid-chat-schema.test.ts):
 -- FISCAL_RECEIPT_COLUMNS and PAID_CHAT_DDL (ensureBillingSchema; the bot
--- sign-in table too), and UZUM_ORDER_COLUMNS and UZUM_PAID_CHAT_DDL
+-- sign-in table and the funnel table too), and UZUM_ORDER_COLUMNS and UZUM_PAID_CHAT_DDL
 -- (ensureUzumSchema) in functions/lib/gpt-chat/billing-schema.ts.
 -- No text and no card data: payment_id is Click's numeric payment id or the
 -- Uzum payment uuid, last_error a coarse code such as submit:click_-5 or
@@ -61,3 +67,7 @@ CREATE TABLE IF NOT EXISTS gpt_bot_logins (org_id TEXT NOT NULL, id TEXT NOT NUL
 CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_browser ON gpt_bot_logins(org_id,browser_hash,created_at);
 
 CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_expiry ON gpt_bot_logins(org_id,expires_at);
+
+CREATE TABLE IF NOT EXISTS gpt_ui_events (org_id TEXT NOT NULL, id TEXT NOT NULL, type TEXT NOT NULL, view_id TEXT, detail TEXT NOT NULL, created_at INTEGER NOT NULL, PRIMARY KEY(org_id,id));
+
+CREATE INDEX IF NOT EXISTS idx_gpt_ui_events_created ON gpt_ui_events(org_id,created_at);

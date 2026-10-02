@@ -70,7 +70,7 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
   const admitted = await turnsB.reserve(f.user, "synthetic-ip", periodB, cfg);
   assert.ok(admitted.id);
   await turnsB.finish(admitted.id, { outcome: "answered", charged: true });
-  assert.equal(await turnsA.remaining(f.user, "synthetic-ip", null, cfg), 15);
+  assert.equal((await turnsA.allowance(f.user, "synthetic-ip", null, cfg)).remaining, 15);
   assert.equal(
     (await turnsA.reserve(f.user, "synthetic-ip", periodB, cfg)).id,
     null,

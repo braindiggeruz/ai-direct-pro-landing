@@ -42,6 +42,12 @@ export interface Allowance {
   remaining: number;
   /** Free tier only: answers left in the rolling hour; null for a pack. */
   hourRemaining: number | null;
+  /**
+   * A pack only: answers its day cap (PACK_DAILY_LIMIT) still lets through
+   * today, never more than `remaining`. The free tier's `remaining` is the
+   * day's already.
+   */
+  dayRemaining?: number;
 }
 
 /** Answers a pack gives in one UTC day (decision L3). */
@@ -324,15 +330,6 @@ export class TurnStore {
     }
     return refusal && { ...refusal, remaining };
   }
-  async remaining(
-    subject: string,
-    ip: string,
-    period: AccessPeriod | null,
-    cfg: GptChatConfig,
-    now = Date.now(),
-  ): Promise<number> {
-    return (await this.allowance(subject, ip, period, cfg, now)).remaining;
-  }
   /**
    * The day's (or the pack's) and, for the free tier, the rolling hour's
    * answers left, in one read; the free tier counts by account and by IP
@@ -347,15 +344,21 @@ export class TurnStore {
     now = Date.now(),
   ): Promise<Allowance> {
     if (period) {
+      // The pack's day is reserve()'s own pack_daily rule, counted the same way.
+      const daily = admissionRules(subject, ip, period, cfg, now).find(
+        (rule) => rule.reason === "pack_daily",
+      )!;
       const row = await this.db
         .prepare(
-          `SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${ACTIVE}`,
+          `SELECT ${PACK_USED} AS used, (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${daily.rows}) AS today`,
         )
-        .bind(this.org, period.order_id, now)
-        .first<{ n: number }>();
+        .bind(this.org, period.order_id, now, this.org, ...daily.binds)
+        .first<{ used: number; today: number }>();
+      const remaining = Math.max(0, period.message_limit - (row?.used ?? 0));
       return {
-        remaining: Math.max(0, period.message_limit - (row?.n ?? 0)),
+        remaining,
         hourRemaining: null,
+        dayRemaining: Math.min(remaining, Math.max(0, daily.limit - (row?.today ?? 0))),
       };
     }
     const day = dayStart(now);

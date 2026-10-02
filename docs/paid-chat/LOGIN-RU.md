@@ -1,6 +1,6 @@
 # Вход на сайт через бота @gptbotuz_bot
 
-*WP-16 плана платного AI-чата (релиз R4), 2026-10-03. Решение L11. Код: `functions/api/gpt/auth/bot/start.ts`, `functions/api/gpt/auth/bot/status.ts`, `functions/lib/gpt-chat/bot-login-store.ts`, `bot-login.ts`, `telegram-identity.ts`, `functions/lib/telegram/web-login.ts`, ветки в `handler.ts`, тексты в `functions/lib/telegram/i18n.ts`; на сайте `src/gpt-chat/components/AiBotLogin.tsx` (ленивая часть `chat-account`), `src/gpt-chat/bot-login.ts`. Миграция — `migrations/0068_gpt_paid_chat.sql` (таблица `gpt_bot_logins`). Тесты: `tests/gpt-bot-login.test.ts`, `tests/telegram-web-login.test.ts`, ветка в `tests/telegram-assistant.test.ts`.*
+*WP-16 плана платного AI-чата (релиз R4), 2026-10-03. Решение L11. Код: `functions/api/gpt/auth/bot/start.ts`, `functions/api/gpt/auth/bot/status.ts`, `functions/lib/gpt-chat/bot-login-store.ts`, `bot-login.ts`, `telegram-identity.ts`, `functions/lib/telegram/web-login.ts`, ветки в `handler.ts`, тексты в `functions/lib/telegram/i18n.ts`; на сайте `src/gpt-chat/account/BotLoginScreen.tsx` (ленивая часть `chat-account`; до WP-17 — `components/AiBotLogin.tsx`), `src/gpt-chat/bot-login.ts`. Миграция — `migrations/0068_gpt_paid_chat.sql` (таблица `gpt_bot_logins`). Тесты: `tests/gpt-bot-login.test.ts`, `tests/telegram-web-login.test.ts`, ветка в `tests/telegram-assistant.test.ts`.*
 
 ## Зачем
 

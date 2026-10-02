@@ -165,8 +165,10 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       return url ? [{ kind: receipt.kind, receipt_url: url }] : [];
     });
     const refundable = await store.refundable(user, context);
-    // Without a pack the free tier counts by account and by IP hash, as the chat does.
-    const remaining = await new TurnStore(db, BILLING_ORG).remaining(
+    // Without a pack the free tier counts by account and by IP hash, as the
+    // chat does; with one, what is left in it and what its day cap still
+    // lets through today (the Paketim panel).
+    const { remaining, dayRemaining } = await new TurnStore(db, BILLING_ORG).allowance(
       user,
       await hashIp(getClientIp(request), cfg),
       access,
@@ -184,6 +186,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
         ? {
             ...access,
             remaining,
+            dayRemaining: dayRemaining ?? remaining,
             renewSoon: (paidThrough ?? access.ends_at) - Date.now() < 3 * 86400_000,
           }
         : null,

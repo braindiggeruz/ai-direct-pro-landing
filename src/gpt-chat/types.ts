@@ -3,7 +3,7 @@ export type Locale = "ru" | "uz";
 
 export type PaymentProvider = 'click' | 'payme' | 'uzum';
 const PAYMENT_PROVIDERS: readonly string[] = ['click', 'payme', 'uzum'];
-function isPaymentProvider(value: unknown): value is PaymentProvider {
+export function isPaymentProvider(value: unknown): value is PaymentProvider {
   return typeof value === 'string' && PAYMENT_PROVIDERS.includes(value);
 }
 
@@ -31,6 +31,16 @@ export interface FreeLimits {
   hourly: number;
 }
 
+/** The AI pack on sale, as the server states it: the window prints these numbers, never literals. */
+export interface PackTerms {
+  priceUzs: number;
+  messageLimit: number;
+  dailyLimit: number;
+  months: number;
+  /** VAT included in the price; null until the fiscal settings are set. */
+  vat?: { percent: number; includedTiyin: number } | null;
+}
+
 export interface AccountView {
   ok: boolean;
   loginAvailable: boolean;
@@ -46,7 +56,18 @@ export interface AccountView {
   termsVersion: string | null;
   /** Limit card may offer the Telegram bot. Anything but `true` means no. */
   botHandoff?: boolean;
-  access?: { order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null } | null;
+  pack?: PackTerms;
+  /** How Uzum is paid while offered: its card page, or a code in the Uzum Bank app. */
+  uzumFlow?: 'checkout' | 'code' | null;
+  /** The account's permanent code for the Uzum Bank app, once issued for the current terms. */
+  paymentCode?: string | null;
+  access?: {
+    order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null;
+    /** The pack's own size (300 for the AI pack). */
+    message_limit?: number;
+    /** What the pack's day cap still lets through today, at most `remaining`. */
+    dayRemaining?: number;
+  } | null;
   payment?: { id: string; state: string; provider?: PaymentProvider } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
   refundable?: Array<{ order_id: string; starts_at: number; refund_requested_at: number | null }>;
@@ -59,6 +80,20 @@ export function isOpaqueStorageKey(value: unknown): value is string {
 function isCount(value: unknown): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value >= 0;
 }
+
+function isPositive(value: unknown): value is number {
+  return isCount(value) && value > 0;
+}
+
+function validPack(pack: unknown): pack is PackTerms {
+  if (!pack || typeof pack !== 'object') return false;
+  const { priceUzs, messageLimit, dailyLimit, months, vat } = pack as PackTerms;
+  return isPositive(priceUzs) && isPositive(messageLimit) && isPositive(dailyLimit) && isPositive(months)
+    && (vat === undefined || vat === null || (typeof vat === 'object' && isCount(vat.percent) && isCount(vat.includedTiyin)));
+}
+
+/** Nine digits, the first not 0: the shape of an Uzum Bank app code (payment-code-store.ts). */
+export const PAYMENT_CODE = /^[1-9]\d{8}$/;
 
 export function validAccountView(value: unknown): value is AccountView {
   if (!value || typeof value !== 'object') return false;
@@ -78,8 +113,14 @@ export function validAccountView(value: unknown): value is AccountView {
     && (account.remaining === undefined || isCount(account.remaining))
     && (account.freeLimits === undefined || (!!account.freeLimits && typeof account.freeLimits === 'object'
       && isCount(account.freeLimits.daily) && isCount(account.freeLimits.hourly)))
+    && (account.pack === undefined || validPack(account.pack))
+    && (account.uzumFlow === undefined || account.uzumFlow === null || account.uzumFlow === 'checkout' || account.uzumFlow === 'code')
+    && (account.paymentCode === undefined || account.paymentCode === null
+      || (!!account.user && typeof account.paymentCode === 'string' && PAYMENT_CODE.test(account.paymentCode)))
     && (!account.access || (!!account.user && typeof account.access.order_id === 'string'
-      && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && Number.isInteger(account.access.remaining) && account.access.remaining >= 0))
+      && Number.isFinite(account.access.ends_at) && account.access.ends_at > 0 && isCount(account.access.remaining)
+      && (account.access.message_limit === undefined || isPositive(account.access.message_limit))
+      && (account.access.dayRemaining === undefined || isCount(account.access.dayRemaining))))
     && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string' && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))))
     && (account.receipts === undefined || (Array.isArray(account.receipts) && account.receipts.every(r => r && typeof r.kind === 'string' && typeof r.receipt_url === 'string')))
     && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at))));
@@ -119,7 +160,7 @@ export function showsAccountPill(account: AccountView | null): boolean {
 }
 
 export function canStartCheckout(account: AccountView | null, locale: Locale): boolean {
-  return !!account && validAccountView(account) && !!account.user
+  return !!account && validAccountView(account) && !!account.user && !!account.pack
     && account.providers.length > 0 && !!account.mode
     && !!account.termsVersion?.trim() && !!safeTermsLink(account.terms[locale])
     && !['pending', 'prepared'].includes(account.payment?.state || '');

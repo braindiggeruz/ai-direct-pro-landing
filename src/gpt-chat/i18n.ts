@@ -111,7 +111,7 @@ export interface ChatStrings {
 }
 
 /** Russian count agreement: 1 / 21 → one, 2–4 / 22–24 → few, the rest → many. */
-function ru(n: number, one: string, few: string, many: string): string {
+export function ru(n: number, one: string, few: string, many: string): string {
   const tens = n % 100;
   const units = n % 10;
   if (tens >= 11 && tens <= 14) return many;

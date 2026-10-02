@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DRAFT_TTL_MS, archiveChat, clearDraft, clearHistory, clearSessionId, keepsShownConversation, loadChats, loadDraft, loadHistory, loadRemaining, loadSessionId, saveDraft, saveHistory, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
+import { readFileSync } from 'node:fs';
+import { DRAFT_TTL_MS, archiveChat, clearDraft, clearHistory, clearSessionId, keepsComposer, keepsShownConversation, loadChats, loadDraft, loadHistory, loadRemaining, loadSessionId, saveDraft, saveHistory, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 
 const a = 'a'.repeat(64);
 const b = 'b'.repeat(64);
@@ -90,6 +91,21 @@ test('after failed account reads the conversation on screen stays only with the 
   // A change between two answered views is an identity change, never a recovery.
   assert.equal(keepsShownConversation('guest', 'guest', a, true), false);
   assert.equal(keepsShownConversation(a, a, b, true), false);
+});
+
+test('the question in the composer survives signing in, and nothing else (WP-17)', () => {
+  // Limit, pack window, sign-in, payment: the same person at the same keyboard.
+  assert.equal(keepsComposer('guest', a), true);
+  assert.equal(keepsComposer(a, a), true);
+  assert.equal(keepsComposer('guest', 'guest'), true);
+  // Signing out, or another account: the text may be someone else's.
+  assert.equal(keepsComposer(a, 'guest'), false);
+  assert.equal(keepsComposer(a, b), false);
+  const console = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(console, /establishedIdentityRef\.current !== null && !keepsComposer\(establishedIdentityRef\.current, identity\)\) setInput\(""\);/);
+  // On the way to a payment page the composer's text is kept, limit or not.
+  assert.match(console, /const keepDraft = useCallback\(\(\) => saveDraft\(inputRef\.current\?\.value \?\? ""\), \[\]\);/);
+  assert.match(console, /onLeave=\{keepDraft\}/);
 });
 
 test('authenticated history never silently imports legacy guest history or accepts malformed identity', () => {

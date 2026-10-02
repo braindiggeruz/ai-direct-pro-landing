@@ -117,12 +117,24 @@
 .gpt-primary { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; min-height: 48px; padding: 12px 18px; border-radius: 14px; background: var(--primary); color: var(--primary-foreground); font-weight: 650; font-size: 14px; }
 .gpt-primary:disabled { opacity: .45; cursor: not-allowed; }
 .gpt-text-button { min-height: 44px; padding: 8px 12px; font-size: 13px; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
-.gpt-payment-buttons { display: flex; gap: 12px; }
+/* The pay step (account/AccountDialog.tsx): one full-width button per provider, stacked so a
+   phone never squeezes «Uzum Bank orqali to‘lash» beside «Click orqali to‘lash». */
+.gpt-payment-buttons { display: flex; flex-direction: column; gap: 12px; }
 .gpt-access-summary { padding: 24px; border: 1px solid #80f2d53b; border-radius: 20px; margin-top: 20px; background: var(--secondary); }
 .gpt-access-summary strong { display: block; font-size: 48px; line-height: 1.1; letter-spacing: -.05em; color: var(--primary); }
 .gpt-access-summary :is(span,p) { font-size: 13px; color: #c1d9d2; }
 .gpt-access-summary p { margin-top: 12px; }
-/* Sign-in through the bot (AiBotLogin.tsx): the steps, the number to press, the code field. */
+.gpt-access-summary strong .gpt-access-size { font-size: 22px; letter-spacing: -.02em; color: var(--muted-foreground); }
+/* «Paketim» (account/PackPanel.tsx): the refund's second press, and links to the studio. */
+.gpt-refund-confirm { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; padding: 14px; border-radius: 14px; background: var(--muted); font-size: 13px; line-height: 1.6; }
+.gpt-account-dialog .gpt-panel-note a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.gpt-account-dialog .gpt-panel-note a[href^="tel:"] { white-space: nowrap; }
+/* Receipt links line up with the text buttons around them. */
+.gpt-account-dialog a.gpt-text-button { display: block; text-align: center; }
+/* Back from a payment (account/CheckoutReturn.tsx) and the Uzum Bank app code (UzumCodeScreen.tsx). */
+.gpt-pay-checking { min-height: 8px; margin: 18px 0; }
+.gpt-login-code.gpt-pay-code { font-size: 36px; letter-spacing: .08em; white-space: nowrap; }
+/* Sign-in through the bot (account/BotLoginScreen.tsx): the steps, the number to press, the code field. */
 .gpt-login-steps { margin: 4px 0 18px; padding-left: 20px; list-style: decimal; font-size: 13px; line-height: 1.7; color: var(--muted-foreground); }
 .gpt-login-code { display: block; margin: 10px 0 6px; font-size: 56px; line-height: 1; font-weight: 700; letter-spacing: .06em; color: var(--primary); font-variant-numeric: tabular-nums; }
 a.gpt-primary { text-decoration: none; }

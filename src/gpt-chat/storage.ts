@@ -167,6 +167,20 @@ export function keepsShownConversation(
   return shown && previous === null && (established === null || established === next);
 }
 
+/**
+ * Whether the composer keeps its text when the account view names a new
+ * identity (plan WP-17). Signing in at this keyboard — the guest becomes an
+ * account, as on the way limit → pack window → sign-in → payment — keeps the
+ * question. Signing out or another account starts empty: that text may be
+ * someone else's.
+ *
+ * @param established the last identity a view named
+ * @param next the identity the view names now
+ */
+export function keepsComposer(established: string, next: string): boolean {
+  return established === next || (established === "guest" && next !== "guest");
+}
+
 export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
   try {
     const raw =

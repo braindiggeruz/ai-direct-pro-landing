@@ -9,12 +9,16 @@ import { accountStrings } from '../src/gpt-chat/account-strings';
 import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
+import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
+import { GA4_PARAMS, trackPurchase } from '../src/gpt-chat/analytics';
+import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
+import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
 
-const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06' });
+const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06', pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null } });
 
 test('checkout requires valid identity, current locale terms, version and merchant availability', () => {
   assert.equal(canStartCheckout(account(), 'ru'), true);
-  for (const value of [null, { ...account(), user: null }, { ...account(), providers: [] }, { ...account(), mode: null }, { ...account(), termsVersion: null }, { ...account(), termsVersion: ' ' }, { ...account(), terms: { ru: null, uz: '/uz/offer/' } }, { ...account(), terms: { ru: 'https://evil.example/offer/', uz: null } }]) {
+  for (const value of [null, { ...account(), user: null }, { ...account(), providers: [] }, { ...account(), mode: null }, { ...account(), termsVersion: null }, { ...account(), termsVersion: ' ' }, { ...account(), terms: { ru: null, uz: '/uz/offer/' } }, { ...account(), terms: { ru: 'https://evil.example/offer/', uz: null } }, { ...account(), pack: undefined }]) {
     assert.equal(canStartCheckout(value as AccountView | null, 'ru'), false);
   }
   const uzOnly = { ...account(), terms: { ru: null, uz: '/uz/offer/' } };
@@ -223,7 +227,7 @@ test('nobody downloads a window they cannot open', () => {
   }
   const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
   assert.match(panel, /const reachable = showsAccountPill\(data\);/);
-  assert.match(panel, /if \(preloadsAccountWindow\(\{ reachable, remaining, limited, payReturn, paymentPending \}\)\) accountPart\.preload\(\);/);
+  assert.match(panel, /if \(preloadsAccountWindow\(\{ reachable, remaining, limited, payReturn: !!checkout, paymentPending \}\)\) accountPart\.preload\(\);/);
   assert.match(panel, /get\("pay"\) === "return"/);
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(chat, /remaining=\{remaining\}\s*limited=\{limited\}/);
@@ -239,4 +243,151 @@ test('the business card is fetched in the business tool, and not once it was clo
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(chat, /if \(preloadsBusinessCard\(\{ tool: activeTool, dismissed: offerDismissed \}\)\) leadPart\.preload\(\);\s*\}, \[activeTool, offerDismissed\]\);/);
   assert.match(chat, /const showOffer =\s*activeTool === "business" &&\s*assistantCount >= B2B_AFTER &&\s*!offerDismissed &&/);
+});
+
+// ── the AI pack window (WP-17): the view's new fields, the way back from paying ──
+
+/** localStorage and sessionStorage for one test, gone after it. */
+function memoryStorage(t: { after: (fn: () => void) => void }) {
+  const make = () => {
+    const values = new Map<string, string>();
+    return { values, getItem: (k: string) => values.get(k) ?? null, setItem: (k: string, v: string) => { values.set(k, String(v)); }, removeItem: (k: string) => { values.delete(k); } };
+  };
+  const local = make();
+  const session = make();
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: local });
+  Object.defineProperty(globalThis, 'sessionStorage', { configurable: true, value: session });
+  t.after(() => {
+    delete (globalThis as Record<string, unknown>).localStorage;
+    delete (globalThis as Record<string, unknown>).sessionStorage;
+  });
+  return { local: local.values, session: session.values };
+}
+
+const ORDER = `pay_${'a'.repeat(32)}`;
+const OTHER = `uzm_${'b'.repeat(32)}`;
+
+test('the pack, the Uzum flow, the app code and the pack day are well formed or the view fails closed', () => {
+  const signedIn = account();
+  assert.equal(validAccountView({ ...signedIn, uzumFlow: 'code', paymentCode: '123456789' }), true);
+  assert.equal(validAccountView({ ...signedIn, uzumFlow: null, paymentCode: null }), true);
+  assert.equal(validAccountView({ ...signedIn, pack: undefined }), true, 'an older server without the pack stays valid, and sells nothing');
+  assert.equal(validAccountView({ ...signedIn, pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 } } }), true);
+  const access = { order_id: ORDER, ends_at: Date.now() + 1e9, remaining: 120, renewSoon: false, refund_requested_at: null };
+  assert.equal(validAccountView({ ...signedIn, access: { ...access, message_limit: 300, dayRemaining: 50 } }), true);
+  for (const broken of [
+    { pack: null }, { pack: { priceUzs: 0, messageLimit: 300, dailyLimit: 50, months: 1 } }, { pack: { priceUzs: '20000', messageLimit: 300, dailyLimit: 50, months: 1 } },
+    { pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: -1, includedTiyin: 0 } } },
+    { uzumFlow: 'app' }, { paymentCode: '12345678' }, { paymentCode: '012345678' }, { paymentCode: 123456789 },
+    { user: null, paymentCode: '123456789' },
+    { access: { ...access, dayRemaining: -1 } }, { access: { ...access, dayRemaining: 1.5 } }, { access: { ...access, message_limit: 0 } },
+  ]) assert.equal(validAccountView({ ...signedIn, ...broken }), false, JSON.stringify(broken));
+});
+
+test('a payment is checked every 3 s for two minutes, every 15 s up to ten, then no more', () => {
+  assert.equal(checkoutPollDelay(0), 3_000);
+  assert.equal(checkoutPollDelay(119_999), 3_000);
+  assert.equal(checkoutPollDelay(120_000), 15_000);
+  assert.equal(checkoutPollDelay(599_999), 15_000);
+  assert.equal(checkoutPollDelay(600_000), null);
+  // 40 looks in the fast phase and 32 in the slow one: about 72, not one a second.
+  let looks = 0;
+  for (let at = 0, delay = checkoutPollDelay(0); delay !== null; at += delay, delay = checkoutPollDelay(at)) looks++;
+  assert.ok(looks >= 70 && looks <= 74, String(looks));
+  const source = readFileSync(new URL('../src/gpt-chat/use-account.ts', import.meta.url), 'utf8');
+  assert.match(source, /const delay = checkoutPollDelay\(Date\.now\(\) - watchSince\);/);
+  assert.match(source, /if \(document\.visibilityState !== 'hidden'\) void refresh\(\);/);
+  assert.doesNotMatch(source, /attempts >= 6|5_000\)/, 'the old 5 s × 6 poll is gone');
+});
+
+test('the watched payment ends only by what the server says about that order', () => {
+  const watch = (over: Partial<CheckoutWatch> = {}): CheckoutWatch => ({ provider: 'click', flow: 'redirect', at: NOW, attemptId: ORDER, before: null, ...over });
+  const view = (state: string, id = ORDER): AccountView => ({ ...account(), payment: { id, state, provider: 'click' } });
+  assert.equal(settledCheckout(null, watch()), null);
+  assert.equal(settledCheckout(account(), watch()), null, 'no order yet');
+  for (const state of ['pending', 'prepared']) assert.equal(settledCheckout(view(state), watch()), null, state);
+  assert.equal(settledCheckout(view('paid'), watch()), 'paid');
+  for (const state of ['cancelled', 'refunded']) assert.equal(settledCheckout(view(state), watch()), 'cancelled', state);
+  assert.equal(settledCheckout(view('paid', OTHER), watch()), null, 'another order paid says nothing about this one');
+  // The Uzum Bank app: Uzum opens the order, so the one after `before` counts.
+  const app = watch({ provider: 'uzum', flow: 'code', attemptId: null, before: OTHER });
+  assert.equal(settledCheckout(view('paid', OTHER), app), null, 'the order from before the code');
+  assert.equal(settledCheckout(view('paid', ORDER), app), 'paid');
+  assert.equal(settledCheckout(view('paid', ORDER), watch({ flow: 'code', attemptId: null, before: null })), 'paid', 'the first order of the account');
+  // Back with ?pay=return and nothing stored: the newest order.
+  assert.equal(settledCheckout(view('paid', OTHER), watch({ provider: null, attemptId: null })), 'paid');
+});
+
+test('the trip to the payment page is remembered for 30 minutes: provider, time and order, nothing else', (t) => {
+  const { local } = memoryStorage(t);
+  const trip: CheckoutWatch = { provider: 'uzum', flow: 'redirect', at: NOW, attemptId: ORDER, before: null };
+  saveCheckout(trip);
+  assert.deepEqual(Object.keys(JSON.parse(local.get('gptchat_checkout')!)).sort(), ['at', 'attemptId', 'before', 'flow', 'provider']);
+  assert.deepEqual(loadCheckout(NOW + 60_000), trip);
+  assert.equal(loadCheckout(NOW + CHECKOUT_TTL_MS), null, 'an old trip is not a return from paying');
+  assert.equal(loadCheckout(NOW - 1), null, 'a trip from the future (a clock set back) is not trusted');
+  for (const broken of [{ provider: 'paypal' }, { flow: 'wire' }, { at: 'now' }, { attemptId: 'pay_1' }, { before: 'x' }]) {
+    local.set('gptchat_checkout', JSON.stringify({ ...trip, ...broken }));
+    assert.equal(loadCheckout(NOW + 1), null, JSON.stringify(broken));
+  }
+  local.set('gptchat_checkout', '{');
+  assert.equal(loadCheckout(NOW), null);
+  saveCheckout(trip);
+  saveCheckout(null);
+  assert.equal(local.has('gptchat_checkout'), false);
+  assert.equal(orderId(ORDER), ORDER);
+  for (const value of [undefined, null, 'ord_1', `pay_${'A'.repeat(32)}`, 42]) assert.equal(orderId(value), null);
+});
+
+test('a purchase reaches GA4 once per order, as ecommerce, without anything personal', (t) => {
+  const { local } = memoryStorage(t);
+  assert.equal(firstReport(ORDER), true);
+  assert.equal(firstReport(ORDER), false, 'a reload or a second tab does not count it again');
+  assert.equal(firstReport(OTHER), true);
+  assert.deepEqual(JSON.parse(local.get('gptchat_purchases')!), [OTHER, ORDER]);
+  const g = globalThis as Record<string, unknown>;
+  const sent: unknown[][] = [];
+  g.window = { gtag: (...args: unknown[]) => sent.push(args) };
+  t.after(() => { delete g.window; });
+  trackPurchase({ transactionId: ORDER, value: 20000, itemId: 'ai_paket_300', itemName: 'AI paket 300', provider: 'click' });
+  const [kind, event, payload] = sent[0] as [string, string, Record<string, unknown>];
+  assert.deepEqual([kind, event], ['event', 'purchase']);
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'route' && key !== 'lang')),
+    { provider: 'click', transaction_id: ORDER, value: 20000, currency: 'UZS', items: [{ item_id: 'ai_paket_300', item_name: 'AI paket 300', price: 20000, quantity: 1 }] },
+  );
+  // Through GTM's dataLayer the ecommerce object is replaced, not merged.
+  const layer: unknown[] = [];
+  g.window = { dataLayer: layer };
+  trackPurchase({ transactionId: ORDER, value: 20000, itemId: 'ai_paket_300', itemName: 'AI paket 300', provider: 'uzum' });
+  assert.deepEqual(layer[0], { ecommerce: null });
+  assert.equal((layer[1] as { event: string }).event, 'purchase');
+  assert.equal((layer[1] as { ecommerce: { transaction_id: string } }).ecommerce.transaction_id, ORDER);
+  // The order id never rides on the catalogue's flat parameters.
+  assert.equal(GA4_PARAMS.has('transaction_id'), false);
+});
+
+test('every funnel step the window sends is one the server counts', (t) => {
+  memoryStorage(t);
+  assert.deepEqual([...PACK_FROM], [...UI_EVENTS.pack_viewed]);
+  const bodies: string[] = [];
+  const real = globalThis.fetch;
+  globalThis.fetch = (async (url: string, init: RequestInit) => {
+    assert.equal(url, '/api/gpt/event');
+    assert.equal(init.keepalive, true);
+    bodies.push(String(init.body));
+    return new Response('{}');
+  }) as typeof fetch;
+  t.after(() => { globalThis.fetch = real; });
+  for (const [type, details] of Object.entries(UI_EVENTS)) {
+    for (const detail of details) recordUiEvent('', type as keyof UiEventDetails, detail as never);
+  }
+  const events = bodies.map((body) => JSON.parse(body) as Record<string, unknown>);
+  assert.equal(events.length, Object.values(UI_EVENTS).flat().length);
+  for (const event of events) {
+    assert.ok(parseUiEvent(event), JSON.stringify(event));
+    assert.deepEqual(Object.keys(event).sort(), ['detail', 'id', 'type', 'view']);
+  }
+  assert.equal(new Set(events.map((e) => e.id)).size, events.length, 'a fresh id per event');
+  assert.equal(new Set(events.map((e) => e.view)).size, 1, 'one tab, one view id');
 });

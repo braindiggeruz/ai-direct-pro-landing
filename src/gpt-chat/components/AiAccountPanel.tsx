@@ -9,13 +9,23 @@ import { showsAccountPill, type AccountView } from "../types";
 import { useAccount } from "../use-account";
 import { accountPart, LazyPart, PartFailed, PartLoading } from "../lazy-part";
 import { preloadsAccountWindow } from "../preload";
-import type { AccountWindowMemory } from "./AiAccountWindow";
-import { track, EV } from "../analytics";
+import type { AccountWindowMemory, CheckoutControls } from "../account/AccountDialog";
+import { track, trackPurchase, EV } from "../analytics";
 import { loadBotLogin } from "../bot-login";
+import { recordUiEvent, type PackFrom } from "../ui-events";
+import {
+  CHECKOUT_WATCH_MS,
+  checkoutReport,
+  firstReport,
+  loadCheckout,
+  saveCheckout,
+  settledCheckout,
+  type CheckoutOutcome,
+  type CheckoutWatch,
+} from "../checkout";
 export type { AccountView } from "../types";
+export type { PackFrom } from "../ui-events";
 
-/** Which button opened the window: the GA4 `from` of `pack_viewed`. */
-export type PackFrom = "header" | "limit_card" | "low_limit" | "after_10" | "account_check" | "login_failed" | "login_resume";
 /** Ask the panel to open; a new `seq` is a new request. */
 export interface PackOpenRequest {
   seq: number;
@@ -26,6 +36,12 @@ export interface PackOpenRequest {
  * The header pill and the pack window's frame. The account data (use-account.ts)
  * and this frame are on the chat's start bundle; the window's body is the lazy
  * part chat-account, fetched ahead of time when someone is about to need it.
+ *
+ * The frame also follows a payment this browser went to make (checkout.ts):
+ * back from the payment page (`?pay=return`, or a stored trip of the last 30
+ * minutes) the window opens by itself to say how it went, the account view is
+ * read on the checkout schedule until the payment ends, and the result reaches
+ * GA4 and the server's counter once, with the window open or not.
  */
 export function AiAccountPanel({
   t,
@@ -36,6 +52,7 @@ export function AiAccountPanel({
   openRequest,
   remaining,
   limited,
+  onLeave,
 }: {
   t: ChatStrings;
   locale: Locale;
@@ -47,45 +64,108 @@ export function AiAccountPanel({
   remaining: number;
   /** The server refused a turn and the limit stands. */
   limited: boolean;
+  /** The browser is about to leave for a payment page: keep what the chat must find again. */
+  onLeave?: () => void;
 }) {
-  const account = useAccount(apiBase, onAccount, refreshKey);
+  const [payReturn] = useState(() => new URLSearchParams(window.location.search).get("pay") === "return");
+  // A trip stored by this browser, or, back from a payment page with nothing
+  // stored (storage blocked), a wait from now for the newest payment.
+  const [checkout, setCheckout] = useState<CheckoutWatch | null>(() =>
+    loadCheckout() ?? (payReturn ? { provider: null, flow: "redirect", at: Date.now(), attemptId: null, before: null } : null));
+  const [outcome, setOutcome] = useState<CheckoutOutcome | null>(null);
+  // Read on the checkout schedule while the payment has not ended; a payment
+  // that ends after the ten minutes still counts once the view says so.
+  const account = useAccount(apiBase, onAccount, refreshKey, checkout && !outcome ? checkout.at : null);
   const { data } = account;
   const [open, setOpen] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
-  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null });
-  const [payReturn] = useState(() => new URLSearchParams(window.location.search).get("pay") === "return");
+  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null, paymentCode: null });
   // One pack_viewed per opening, with the button that opened it.
   const openPack = useCallback((from: PackFrom) => {
     setOpen(true);
     track(EV.packViewed, { from, locale });
-  }, [locale]);
+    recordUiEvent(apiBase, "pack_viewed", from);
+  }, [apiBase, locale]);
+  // What the address and this tab bring along, once: a failed Telegram
+  // sign-in, the way back from a payment page, or a sign-in through the bot
+  // still running (the phone may have reloaded the tab while Telegram was in
+  // front). Their parameters leave the address bar.
+  const arrived = useRef(false);
   useEffect(() => {
+    if (arrived.current) return;
+    arrived.current = true;
     const url = new URL(window.location.href);
-    if (url.searchParams.get("login") === "failed") {
-      setLoginFailed(true);
-      track(EV.loginResult, { method: "telegram", status: "failed", locale });
-      openPack("login_failed");
+    const failed = url.searchParams.get("login") === "failed";
+    if (failed || payReturn) {
       url.searchParams.delete("login");
+      url.searchParams.delete("pay");
       window.history.replaceState(null, "", url.href);
     }
-  }, [locale, openPack]);
+    if (failed) {
+      setLoginFailed(true);
+      track(EV.loginResult, { method: "oidc", status: "failed", locale });
+      recordUiEvent(apiBase, "login_result", "failed");
+      openPack("login_failed");
+    } else if (checkout) openPack("pay_return");
+    else if (loadBotLogin()) openPack("login_resume");
+  }, [apiBase, checkout, locale, openPack, payReturn]);
   useEffect(() => {
     if (openRequest) openPack(openRequest.from);
   }, [openRequest, openPack]);
-  // A sign-in through the bot this tab started is still running (the phone
-  // may have reloaded the tab while Telegram was in front): back to it.
+
+  const settle = useCallback((result: CheckoutOutcome) => {
+    if (!checkout) return;
+    setOutcome(result);
+    saveCheckout(null);
+    const report = checkoutReport(data, checkout, result);
+    track(EV.checkoutResult, { provider: report.result.provider, status: result, mode: report.result.mode, locale });
+    recordUiEvent(apiBase, "checkout_result", result);
+    // Revenue for real money only, once per order on this browser.
+    if (report.purchase && firstReport(report.purchase.transactionId)) trackPurchase(report.purchase);
+  }, [apiBase, checkout, data, locale]);
+  // The payment ended (paid, or cancelled); a wait that outlived the
+  // schedule, counted from an answered view, is reported as pending and may
+  // still end later.
   useEffect(() => {
-    if (loadBotLogin()) openPack("login_resume");
-  }, [openPack]);
+    if (!checkout || (outcome && outcome !== "pending")) return;
+    const result = settledCheckout(data, checkout);
+    if (result) settle(result);
+  }, [checkout, data, outcome, settle]);
+  const answered = data !== null;
+  useEffect(() => {
+    if (!checkout || outcome || !answered) return;
+    const timer = window.setTimeout(() => settle("pending"), Math.max(0, checkout.at + CHECKOUT_WATCH_MS - Date.now()));
+    return () => window.clearTimeout(timer);
+  }, [answered, checkout, outcome, settle]);
+  const checkoutControls: CheckoutControls = {
+    watch: checkout,
+    outcome,
+    start: (watch) => {
+      saveCheckout(watch);
+      setOutcome(null);
+      setCheckout(watch);
+      if (watch.flow === "redirect") onLeave?.();
+    },
+    dismiss: () => {
+      setOutcome(null);
+      setCheckout(null);
+    },
+  };
+
   const reachable = showsAccountPill(data);
   const paymentPending = !!data?.payment && ["pending", "prepared"].includes(data.payment.state);
   useEffect(() => {
-    if (preloadsAccountWindow({ reachable, remaining, limited, payReturn, paymentPending })) accountPart.preload();
-  }, [reachable, remaining, limited, payReturn, paymentPending]);
-  const close = () => setOpen(false);
+    if (preloadsAccountWindow({ reachable, remaining, limited, payReturn: !!checkout, paymentPending })) accountPart.preload();
+  }, [reachable, remaining, limited, checkout, paymentPending]);
+  // An ended payment is said once: closing the window leaves it behind.
+  const close = () => {
+    setOpen(false);
+    if (outcome) checkoutControls.dismiss();
+  };
   return (
     // Opening goes through openPack (the pill, a request from the chat, a
-    // failed login), so the Dialog itself only ever closes.
+    // failed login, the way back from a payment), so the Dialog itself only
+    // ever closes.
     <Dialog open={open} onOpenChange={(next) => { if (!next) close(); }}>
       {reachable && (
         <DialogTrigger asChild>
@@ -120,8 +200,17 @@ export function AiAccountPanel({
           fallback={<><DialogTitle>{t.premium.account}</DialogTitle><PartLoading label={t.partLoading} className="gpt-part-loading-window" /></>}
           failed={<><DialogTitle>{t.premium.account}</DialogTitle><PartFailed message={t.partFailed} reload={t.partReload} /></>}
         >
-          {({ AiAccountWindow }) => (
-            <AiAccountWindow t={t} locale={locale} apiBase={apiBase} account={account} memoryRef={windowMemory} loginFailed={loginFailed} />
+          {({ AccountDialog }) => (
+            <AccountDialog
+              t={t}
+              locale={locale}
+              apiBase={apiBase}
+              account={account}
+              memoryRef={windowMemory}
+              loginFailed={loginFailed}
+              checkout={checkoutControls}
+              onClose={close}
+            />
           )}
         </LazyPart>
       </DialogContent>

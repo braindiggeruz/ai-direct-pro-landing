@@ -3,7 +3,7 @@
 // kept in sessionStorage for its 10 minutes, so a tab the phone reloaded
 // while Telegram was in front picks it up again (AiAccountPanel, on the
 // start bundle, reopens the window; the requests live in the lazy
-// components/AiBotLogin.tsx). The number and the deep link stay out of the
+// account/BotLoginScreen.tsx). The number and the deep link stay out of the
 // chat's analytics events: only `method` and `status` are ever tracked (an
 // analytics script's own outbound-link tracking may still see the link).
 import { isBotLoginUrl } from './handoff';

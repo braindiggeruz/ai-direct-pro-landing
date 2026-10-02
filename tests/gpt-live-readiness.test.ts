@@ -38,6 +38,7 @@ import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
 import { onRequestPost as botLoginStart } from "../functions/api/gpt/auth/bot/start";
 import { onRequestPost as botLoginStatus } from "../functions/api/gpt/auth/bot/status";
 import { onRequestPost as oidcStart } from "../functions/api/gpt/auth/start";
+import { onRequestPost as uiEvent } from "../functions/api/gpt/event";
 import { SqliteD1 } from "./helpers/sqlite-d1";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -287,6 +288,8 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     [botLoginStart, "https://gptbot.uz/api/gpt/auth/bot/start"],
     [botLoginStatus, "https://gptbot.uz/api/gpt/auth/bot/status"],
     [oidcStart, "https://gptbot.uz/api/gpt/auth/start"],
+    // The pack window's funnel counter (WP-17): the window is out of reach.
+    [uiEvent, "https://gptbot.uz/api/gpt/event"],
   ] as Array<[typeof botLoginStart, string]>) {
     const response = await handler({
       request: new Request(url, { method: "POST", headers: { Origin: "https://gptbot.uz", "Content-Type": "application/json" }, body: '{"consent":true}' }),
