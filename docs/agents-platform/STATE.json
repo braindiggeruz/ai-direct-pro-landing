@@ -3,7 +3,7 @@
     "wp": "WP-24",
     "release": "R5 build (after the live R4; with WP-19..WP-23), migration 0069",
     "status": "committed_not_reviewed_not_deployed",
-    "commit": "HEAD",
+    "commit": "ca24274e8c51bd1772441ab55ad845bb9780294d",
     "commit_note": "feat(gpt-chat): resume or close an open invoice, count every running pack, refund the unused part, keep breadcrumbs 93 days, never starve the Uzum scan (parent 2cdea35f, the R4 release record); the next commit records this SHA (metadata only, rule D-006).",
     "resume_note": "Clean tree at 6502224c, no interrupted WP-24 attempt and no wp24 backup. During the work the lead committed 2cdea35f (R4 release receipts, bundle baseline) to this branch; no overlap with WP-24 files.",
     "source": "The lead's WP-24 task (12 R4 follow-ups) and the open issues of the R4 reviews in HANDOFF; 10-PROD-PLAN.md sections 1, 2 (L7, L14, L16, L18), 5 and 6 (WP-24 itself is not in section 4).",
@@ -1270,7 +1270,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "ca24274e8c51bd1772441ab55ad845bb9780294d",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
