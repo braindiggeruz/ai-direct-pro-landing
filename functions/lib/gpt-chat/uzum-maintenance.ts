@@ -48,6 +48,12 @@ export interface UzumTick {
   recovered: number;
 }
 
+/** "state": a webhook moved the row after the scan read it. Anything else fails the step. */
+function settledMeanwhile(error: unknown): null {
+  if (error instanceof Error && error.message === "state") return null;
+  throw error;
+}
+
 export async function maintainUzum(
   env: BillingEnv,
   options: { now?: number; budgetMs?: number } = {},
@@ -64,16 +70,24 @@ export async function maintainUzum(
   const store = new UzumStore(db, BILLING_ORG);
   const tick: UzumTick = { settled: 0, receipts: 0, expired: 0, recovered: 0 };
 
-  // D1 only: never confirmed within 30 minutes, or confirmed half-way.
+  // D1 only: never confirmed within 30 minutes, or confirmed half-way. Each
+  // write starts from the state the scan read; a webhook that settled the
+  // transaction in between wins, and the row is left to it.
   for (const row of await store.unconfirmedApp(now - UZUM_MERCHANT_CONFIRM_MS, UZUM_BATCH)) {
-    await store.billing.transition(row.id, "cancelled", "timeout", {
-      reason: UZUM_REASON_TIMEOUT,
-      now,
-    });
-    tick.expired++;
+    const closed = await store.billing
+      .transition(row.id, "cancelled", "timeout", {
+        reason: UZUM_REASON_TIMEOUT,
+        now,
+        from: ["prepared"],
+      })
+      .catch(settledMeanwhile);
+    if (closed) tick.expired++;
   }
   for (const row of await store.stuckConfirms(now - CONFIRM_STUCK_MS, UZUM_BATCH)) {
-    await store.billing.transition(row.id, "paid", "uzum_confirm_recovered", { now });
+    const finished = await store.billing
+      .transition(row.id, "paid", "uzum_confirm_recovered", { now })
+      .catch(settledMeanwhile);
+    if (!finished) continue;
     await recordServiceAlert(env, "uzum_confirm_recovered", now);
     tick.recovered++;
   }

@@ -185,10 +185,12 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       row.state === "prepared" &&
       row.confirm_requested_at === null &&
       now - row.create_time > UZUM_MERCHANT_CONFIRM_MS;
+    // Only the unconfirmed transaction it read: never one paid in between.
     const expire = (row: UzumOrder) =>
       store.billing.transition(row.id, "cancelled", "timeout", {
         reason: UZUM_REASON_TIMEOUT,
         now,
+        from: ["prepared"],
       });
     const reload = async (row: UzumOrder) => (await store.order(row.id))!;
 

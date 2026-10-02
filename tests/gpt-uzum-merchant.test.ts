@@ -68,6 +68,36 @@ function breakable(f: Fixture) {
   };
 }
 
+/**
+ * The fixture's D1 behind a hook that runs `meanwhile` once, right after the
+ * next read whose SQL contains `fragment`: another webhook settling an order
+ * between the read a decision rests on and the write that acts on it.
+ */
+function afterRead(f: Fixture, fragment: string, meanwhile: () => Promise<unknown>) {
+  let armed = true;
+  const inner = f.binding;
+  f.env.GPTBOT_DRAFTS_DB = new Proxy(inner, {
+    get(target, prop) {
+      if (prop === "prepare")
+        return (sql: string) => {
+          const statement = target.prepare(sql);
+          if (armed && sql.includes(fragment)) {
+            const all = statement.all.bind(statement);
+            statement.all = (async () => {
+              const rows = await all();
+              armed = false;
+              await meanwhile();
+              return rows;
+            }) as typeof statement.all;
+          }
+          return statement;
+        };
+      const value = Reflect.get(target, prop) as unknown;
+      return typeof value === "function" ? (value as (...args: unknown[]) => unknown).bind(target) : value;
+    },
+  });
+}
+
 const create = (f: Fixture, code: string, transId = randomUUID(), amount = PRICE) =>
   f.merchantCall("create", { transId, amount, params: { account: code } });
 const confirm = (f: Fixture, transId: string) =>
@@ -417,6 +447,56 @@ test("U10/U7: one payment per account at a time; a newer app payment replaces an
     assert.equal((await check()).status, "OK");
     // Two packs bought in the app run side by side.
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE user_id=? AND revoked_at IS NULL", f.user), 2);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("an order paid between a decision and its write is never closed or refunded by it: a newer app payment, a Click invoice, the 30-minute sweep", async () => {
+  const f = await uzumFixture({ mode: "test", api: "merchant" });
+  try {
+    const code = await f.paymentCode();
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const paidIntact = async (id: string) => {
+      assert.equal((await store.order(id))!.state, "paid");
+      assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE order_id=? AND revoked_at IS NULL", id), 1);
+      assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_fiscal_receipts WHERE order_id=? AND kind='CANCEL'", id), 0);
+    };
+    // The /confirm of an app payment lands right after a newer /create read
+    // it as unconfirmed: the newer one waits (10008), the paid one stays paid.
+    const first = randomUUID();
+    await create(f, code, first);
+    const confirming = (await store.external("test", first))!;
+    afterRead(f, "FROM gpt_payment_orders_all p", () =>
+      store.billing.transition(confirming.id, "paid", "uzum_confirm"),
+    );
+    assert.equal((await create(f, code)).body.errorCode, "10008");
+    await paidIntact(confirming.id);
+    // A Click invoice Click had not seen when the app payment read it, paid since.
+    const click = new BillingStore(f.binding, BILLING_ORG);
+    const unseen = await click.createOrder(f.user, "click", "test", randomUUID());
+    afterRead(f, "FROM gpt_payment_orders_all p", async () => {
+      await click.transition(unseen.id, "prepared", "Prepare", { externalId: String(randomBytes(4).readUInt32BE(0)) });
+      await click.transition(unseen.id, "paid", "Complete");
+    });
+    assert.equal((await create(f, code)).body.errorCode, "10008");
+    assert.equal((await click.order(unseen.id))!.state, "paid");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE order_id=? AND revoked_at IS NULL", unseen.id), 1);
+    // The sweep read a transaction as unconfirmed; its /confirm got there first.
+    const swept = randomUUID();
+    assert.equal((await create(f, code, swept)).body.status, "CREATED");
+    const late = (await store.external("test", swept))!;
+    afterRead(f, "confirm_requested_at IS NULL AND create_time<", () =>
+      store.billing.transition(late.id, "paid", "uzum_confirm"),
+    );
+    assert.deepEqual(await maintainUzum(f.env, { now: Date.now() + 31 * MIN }), {
+      settled: 0,
+      receipts: 0,
+      expired: 0,
+      recovered: 0,
+    });
+    await paidIntact(late.id);
     await f.drain();
   } finally {
     f.restore();

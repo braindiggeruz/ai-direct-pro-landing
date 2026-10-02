@@ -293,6 +293,13 @@ export class BillingStore {
       providerTime?: number;
       reason?: number;
       now?: number;
+      /**
+       * The states the order may leave. A caller acting on an earlier read
+       * (an invoice to close, a transaction to expire) names the state it
+       * saw, so an order paid in between throws "state" instead of being
+       * refunded without its money going back.
+       */
+      from?: ReadonlyArray<Order["state"]>;
     } = {},
   ): Promise<Order> {
     const now = options.now ?? Date.now();
@@ -317,6 +324,7 @@ export class BillingStore {
         (target === "cancelled" && row.state === "refunded")
       )
         return row;
+      if (options.from && !options.from.includes(row.state)) throw new Error("state");
       if (target === "prepared" && row.state !== "pending")
         throw new Error("state");
       if (target === "paid" && row.state !== "prepared")

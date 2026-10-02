@@ -10,9 +10,9 @@
 // The primary key (org_id, order_id, kind) makes those inserts idempotent.
 // status_code: -1 queued, 0 printed, -2 skipped (a Click test order or an
 // Uzum test order without a test key, one reversed before its receipt was
-// printed, a refund receipt of a sale that never printed, or one closed by
-// hand after a receipt printed elsewhere, docs/paid-chat/CLICK-FISCAL-RU.md:
-// last_error says which).
+// printed (Click) or reached Uzum, a refund receipt of a sale that never
+// printed, or one closed by hand after a receipt printed elsewhere,
+// docs/paid-chat/CLICK-FISCAL-RU.md: last_error says which).
 //
 // fiscalizeDue runs right after Click's Complete and Uzum's payment
 // (waitUntil) and in every maintenance tick. It leases one due row at a time
@@ -333,6 +333,11 @@ async function dueClick(
   };
 }
 
+/** The Uzum payment uuid a sale receipt is sent with: the Checkout orderId or the app transId. */
+function uzumPaymentId(order: UzumOrderFacts): string | null {
+  return isUuid(order.external_id) ? order.external_id.toLowerCase() : null;
+}
+
 /** Prints one leased Uzum receipt through the Fiscalization API. */
 async function printUzumReceipt(
   env: BillingEnv,
@@ -344,7 +349,7 @@ async function printUzumReceipt(
   at: number,
   now: number,
   deadline: number,
-): Promise<Printed> {
+): Promise<Outcome> {
   const params = fiscalParams(env);
   if (!params) return { error: "config_missing" };
   const options = (): UzumFiscalCallOptions => ({
@@ -365,6 +370,9 @@ async function printUzumReceipt(
     const existing = await fetchReceiptUrl(access, operationId, options());
     if (existing.ok)
       return existing.receiptUrl ? link(existing.receiptUrl) : { error: "qr_pending" };
+    // Uzum never got the sale receipt of money that has gone back since: no sale.
+    if (existing.error === "not_found" && row.kind === "PERFORM" && order.state !== "paid")
+      return { skip: "skipped_refunded" };
     // Uzum took it before: wait for its link rather than resend it.
     if (existing.error !== "not_found" && row.submitted_at !== null)
       return { error: `url:${uzumFiscalFailureCode(existing)}` };
@@ -372,7 +380,7 @@ async function printUzumReceipt(
   const paymentId =
     row.kind === "CANCEL"
       ? salePaymentId
-      : (row.payment_id ?? (isUuid(order.external_id) ? order.external_id.toLowerCase() : null));
+      : (row.payment_id ?? uzumPaymentId(order));
   if (row.kind === "CANCEL" && !paymentId) return { error: "payment_id" };
   const sent = await submitReceipt(
     access,
@@ -398,9 +406,12 @@ async function dueUzum(
   const skip = (reason: string): Due => ({ outcome: { skip: reason }, alert: null, since: now });
   const order = await store.uzumOrder(row.order_id);
   if (!order) return skip("order_missing");
-  // A sale reversed before its receipt printed is no sale; a refund receipt
-  // belongs to money that went back.
-  if (row.kind === "PERFORM" && order.state !== "paid") return skip("skipped_refunded");
+  // A sale reversed before its receipt was ever sent is no sale. One that may
+  // have reached Uzum (an operation_id exists) is finished first: Uzum's
+  // answer decides, so a sale on the OFD always gets its refund receipt. A
+  // refund receipt belongs to money that went back.
+  if (row.kind === "PERFORM" && order.state !== "paid" && !row.operation_id)
+    return skip("skipped_refunded");
   if (row.kind === "CANCEL" && order.state !== "refunded") return skip("not_refunded");
   const access = uzumFiscalAccess(env, order.mode);
   if (!access && order.mode === "test") return skip("skipped_test");
@@ -413,7 +424,9 @@ async function dueUzum(
     if (!sale || sale.status_code === FISCAL_SKIPPED) return skip("sale_unprinted");
     if (sale.status_code !== FISCAL_PRINTED)
       return { outcome: { error: "sale_pending" }, alert, since: at };
-    salePaymentId = sale.payment_id;
+    // A sale found by its link after a lost answer never kept the id it was
+    // sent with: the order's own, as in the sale receipt.
+    salePaymentId = sale.payment_id ?? uzumPaymentId(order);
   }
   if (!access) return { outcome: { error: "config_missing" }, alert, since: at };
   return {

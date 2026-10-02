@@ -313,6 +313,39 @@ test("a refund receipt follows its sale: same payment_id, the refund time; none 
   }
 });
 
+test("a sale receipt that may have reached Uzum is finished when the money goes back first, and its refund receipt follows", async () => {
+  const f = await uzumFixture({ api: "merchant" });
+  try {
+    // Uzum keeps the first receipt but its answer is lost; it accepts the
+    // second (202) and has not printed it yet.
+    const lost = await paidAt(f, T0);
+    const accepted = await paidAt(f, T0 + 1000);
+    f.fake.loseFiscalAnswers = 1;
+    f.fake.fiscalPendingReads = 1;
+    assert.equal((await fiscalizeDue(f.env, { now: T0 + 1000 })).retried, 2);
+    f.fake.fiscalPendingReads = 0;
+    assert.deepEqual(
+      [lost, accepted].map((order) => [f.receipt(order.id).last_error, f.receipt(order.id).submitted_at]),
+      [["submit:network", null], ["qr_pending", T0 + 1000]],
+    );
+    // Both are returned before their sale receipts printed.
+    for (const order of [lost, accepted])
+      await order.store.billing.transition(order.id, "cancelled", "uzum_reverse", { reason: 5, now: T0 + 2 * MIN });
+    for (const at of [T0 + 10 * MIN, T0 + 30 * MIN, T0 + 2 * HOUR]) await fiscalizeDue(f.env, { now: at });
+    // The OFD holds each sale, so each gets its refund receipt, with the sale's payment_id.
+    for (const order of [lost, accepted]) {
+      assert.deepEqual([f.receipt(order.id).status_code, f.receipt(order.id, "CANCEL").status_code], [0, 0]);
+      const refund = posts(f, "/v2/refund_receipt").find((call) => call.body.payment_id === order.external_id);
+      assert.ok(refund, "the refund receipt names the sale's payment");
+    }
+    assert.equal(posts(f).length, 2, "no sale receipt sent twice");
+    assert.equal(posts(f, "/v2/refund_receipt").length, 2);
+    assert.equal([...f.fiscalReceipts.values()].filter((receipt) => receipt.kind === "CANCEL").length, 2);
+  } finally {
+    f.restore();
+  }
+});
+
 test("two workers never print one receipt, and another org's receipts are never claimed", async () => {
   const f = await uzumFixture({ api: "merchant" });
   try {

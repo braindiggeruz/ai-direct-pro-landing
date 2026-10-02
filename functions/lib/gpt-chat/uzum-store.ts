@@ -219,15 +219,19 @@ export class UzumStore {
     );
     if (open.some((invoice) => appPaymentAction(invoice) === "block"))
       throw new AppPaymentBlockedError();
+    // Each one only from the state it was read in: an invoice paid since is
+    // left alone ("state"), and this payment waits (10008).
     for (const invoice of open)
       await (appPaymentAction(invoice) === "close"
         ? storeFor(this.db, this.org, invoice.provider).transition(invoice.id, "cancelled", "invoice_superseded", {
             reason: UZUM_REASON_TIMEOUT,
             now,
+            from: ["pending"],
           })
         : this.billing.transition(invoice.id, "cancelled", "uzum_superseded", {
             reason: UZUM_REASON_TIMEOUT,
             now,
+            from: ["prepared"],
           }));
     const row = await this.billing.createOrder(user, "uzum", mode, transId, now, consent, "merchant");
     // Another invoice won the race for this account in between.
