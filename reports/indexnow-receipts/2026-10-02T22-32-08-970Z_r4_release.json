@@ -1,0 +1,17 @@
+{
+  "submittedAt": "2026-10-02T22:32:08.970Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "r4_release",
+  "releaseCommit": "6502224ccab347a0b8947849924a57f0475beafe",
+  "reason": "R4: public offer RU/UZ, privacy policies, pricing link",
+  "count": 5,
+  "urls": [
+    "https://gptbot.uz/ru/oferta/",
+    "https://gptbot.uz/uz/oferta/",
+    "https://gptbot.uz/ru/politika-konfidentsialnosti/",
+    "https://gptbot.uz/uz/maxfiylik-siyosati/",
+    "https://gptbot.uz/ru/tarify-ai-chat/"
+  ],
+  "responseExcerpt": ""
+}

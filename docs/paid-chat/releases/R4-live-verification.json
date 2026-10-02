@@ -1,0 +1,97 @@
+{
+  "release": "R4 (WP-13..WP-18)",
+  "date": "2026-10-03 (UTC 2026-10-02 22:2x)",
+  "production_commit": "6502224ccab347a0b8947849924a57f0475beafe",
+  "previous_production": "0ca0a69961a63b68dae14c005059908a60c65e61",
+  "released_from": "clean git worktree F:/wt-r4 at the R4 tip (the branch moved on with R5-R7 work); node_modules junctions to the main checkout",
+  "d1": {
+    "backup_sha256": "414b6cd154f46f09d40d6cec370bdc2eddcfeabdc2b630d0c0c6907ea4c7d056",
+    "backup_bytes": 36817692,
+    "backup_location": "outside Git (F:/Claude/gptbot-production-backups/paid-chat-R4-2026-10-02T22-26-50Z/before-0068.sql)",
+    "rehearsal": {
+      "runs": 2,
+      "status": [
+        "pass",
+        "pass"
+      ],
+      "pending": [
+        "0068_gpt_paid_chat.sql"
+      ],
+      "failures": []
+    },
+    "remote_list_before_apply": [
+      "0068_gpt_paid_chat.sql"
+    ],
+    "applied_remote": [
+      "0068_gpt_paid_chat.sql (19 commands, 52.6 ms)"
+    ],
+    "readback": {
+      "d1_migrations": 69,
+      "last": "0068_gpt_paid_chat.sql",
+      "gpt_fiscal_receipts_columns": 14,
+      "gpt_uzum_orders_columns": 25,
+      "new_objects": "8/8 (gpt_payment_codes, gpt_bot_logins, gpt_ui_events + 5 indexes)",
+      "rows_in_new_tables": 0,
+      "payment_orders_all": 0,
+      "fiscal_receipts": 0
+    }
+  },
+  "secrets": {
+    "GPT_IDENTITY_SECRET": "set on Pages before the deploy (32 random bytes hex; value only in C:/Users/Borinio/.config/gptbot-private/gpt-identity-secret.txt; never change while accounts exist)"
+  },
+  "build": {
+    "build_production": 0,
+    "seo_protection": "10/10 unchanged (2026-10-01-paid-chat-honesty)",
+    "seo_audit": "0 critical",
+    "bundle": "within budget; baseline re-recorded from this build",
+    "live_gate": {
+      "live": false,
+      "providers": [],
+      "issues": []
+    }
+  },
+  "deploy": {
+    "check": "pass (previous production 0ca0a699 is an ancestor)",
+    "deploy": "deployed_and_verified",
+    "preview_url_host": "388c9004.ai-direct-pro-landing.pages.dev",
+    "release_json_commit": "6502224c"
+  },
+  "inert_smoke": "29/29 PASS: /api/gpt/account providers [] loginMethods [] mode null termsVersion ai-paket-2026-10-v1; every payment, subscribe, login and event route 404; foreign Origin 403; internal routes 403 without bearer; rehearsal session 404 (no provider in test); maintenance tick ok, all providers off; GPT_IDENTITY_SECRET present",
+  "live_still_lacks": {
+    "click": [
+      "GPT_BILLING_MODE_CLICK",
+      "GPT_BILLING_LIVE_READY",
+      "GPT_BILLING_TERMS_APPROVED_AT",
+      "GPT_CLICK_CREDENTIALS_JSON"
+    ],
+    "uzum": [
+      "GPT_BILLING_MODE_UZUM",
+      "GPT_BILLING_LIVE_READY",
+      "GPT_BILLING_TERMS_APPROVED_AT",
+      "UZUM_API"
+    ]
+  },
+  "bot": {
+    "probe_javob": "4/4 ok (text+voice, uz+ru, nemotron, 0.9-4.1 s)",
+    "javob_setup": "matches true"
+  },
+  "pages": {
+    "/ru/oferta/ and /uz/oferta/": "200, index follow, canonical, hreflang ru/uz/x-default uz, edition marker, STIR; no X-Robots-Tag",
+    "policies and /ru/tarify-ai-chat/": "200, link to the offer",
+    "homepage": "no link to the offers (protected page untouched)",
+    "browser_375x812 /ru/gpt-chat/": "Конфиденциальность link under the input; no pack window or sign-in; a test question got an answer (nemotron); no console errors"
+  },
+  "protected_live": "10/10 vs 2026-10-01-paid-chat-honesty with Cloudflare e-mail obfuscation undone",
+  "recrawl": {
+    "indexnow": "HTTP 200, 5 URLs verified live (reports/indexnow-receipts/2026-10-02T22-32-08-970Z_r4_release.json)",
+    "gsc_sitemaps_submitted": [
+      "https://gptbot.uz/sitemap.xml",
+      "https://gptbot.uz/sitemap-updates.xml"
+    ]
+  },
+  "follow_up": [
+    "after 48 h without rollback (not before 2026-10-04T22:30Z): pages secret delete TELEGRAM_ASSISTANT_BOT_USERNAME + redeploy",
+    "R4 review open issues go into WP-24 of the R5-R7 build (continue-payment block, two-pack totals, refund rule, retention of gpt_events/gpt_ui_events, policy recipients, Market media fetch redirect)"
+  ],
+  "rollback": "git revert + guarded deploy; keep 0068 (additive) and GPT_IDENTITY_SECRET"
+}
