@@ -325,4 +325,7 @@ test('the local preview (scripts/pack-window-preview.ts) answers with views the 
   // It loads nothing from elsewhere: no analytics hit leaves the machine.
   assert.match(read('scripts/pack-window-preview.ts'), /script-src 'self'; connect-src 'self'/);
   assert.match(read('scripts/pack-window-preview.ts'), /\.listen\(port, '127\.0\.0\.1'/);
+  // Files from dist/ only: not from a sibling such as dist-old/.
+  assert.match(read('scripts/pack-window-preview.ts'), /const inside = \(file: string\) => file === dist \|\| file\.startsWith\(dist \+ path\.sep\);/);
+  assert.doesNotMatch(read('scripts/pack-window-preview.ts'), /\.startsWith\(dist\)/);
 });

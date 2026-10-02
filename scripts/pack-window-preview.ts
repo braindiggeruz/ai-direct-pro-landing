@@ -112,10 +112,12 @@ function serve(port: number, initial: string): http.Server {
     if (route === 'POST /api/gpt/chat')
       return send(res, 429, { ok: false, code: 'limit_reached', reason: 'hourly', tier: 'free', limits: { daily: 15, hourly: 5 }, retryAfterSec: 1500, remaining: 10 });
     if (url.pathname.startsWith('/api/')) return send(res, 404, { ok: false, code: 'not_found' });
-    // Files of the build; a directory is its index.html.
+    // Files of the build; a directory is its index.html. Inside dist/ only:
+    // a bare prefix test would also let /../dist-old/ through.
+    const inside = (file: string) => file === dist || file.startsWith(dist + path.sep);
     const file = path.normalize(path.join(dist, decodeURIComponent(url.pathname)));
-    const target = file.startsWith(dist) && fs.existsSync(file) && fs.statSync(file).isDirectory() ? path.join(file, 'index.html') : file;
-    if (!target.startsWith(dist) || !fs.existsSync(target) || !fs.statSync(target).isFile()) {
+    const target = inside(file) && fs.existsSync(file) && fs.statSync(file).isDirectory() ? path.join(file, 'index.html') : file;
+    if (!inside(target) || !fs.existsSync(target) || !fs.statSync(target).isFile()) {
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       return res.end('not found');
     }

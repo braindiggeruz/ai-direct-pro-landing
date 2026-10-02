@@ -14,10 +14,10 @@ import { track, trackPurchase, EV } from "../analytics";
 import { loadBotLogin } from "../bot-login";
 import { recordUiEvent, type PackFrom } from "../ui-events";
 import {
-  CHECKOUT_WATCH_MS,
   checkoutReport,
   firstReport,
   loadCheckout,
+  pendingDelay,
   saveCheckout,
   settledCheckout,
   type CheckoutOutcome,
@@ -125,18 +125,21 @@ export function AiAccountPanel({
   }, [apiBase, checkout, data, locale]);
   // The payment ended (paid, or cancelled); a wait that outlived the
   // schedule, counted from an answered view, is reported as pending and may
-  // still end later.
+  // still end later. A view that already says how it ended arms no pending
+  // timer: back after the ten minutes, a 0 ms timer set beside "paid" could
+  // fire before React clears it and report pending, then paid again.
   useEffect(() => {
     if (!checkout || (outcome && outcome !== "pending")) return;
     const result = settledCheckout(data, checkout);
     if (result) settle(result);
   }, [checkout, data, outcome, settle]);
-  const answered = data !== null;
   useEffect(() => {
-    if (!checkout || outcome || !answered) return;
-    const timer = window.setTimeout(() => settle("pending"), Math.max(0, checkout.at + CHECKOUT_WATCH_MS - Date.now()));
+    if (!checkout || outcome) return;
+    const delay = pendingDelay(data, checkout);
+    if (delay === null) return;
+    const timer = window.setTimeout(() => settle("pending"), delay);
     return () => window.clearTimeout(timer);
-  }, [answered, checkout, outcome, settle]);
+  }, [checkout, data, outcome, settle]);
   const checkoutControls: CheckoutControls = {
     watch: checkout,
     outcome,

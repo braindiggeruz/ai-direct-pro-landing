@@ -43,8 +43,8 @@ const released = Number(
 );
 assert.equal(done, 800);
 assert.equal(released, 200);
-assert.equal(await store.remaining("synthetic-user-0", "synthetic-ip-0", null, cfg), 15);
-assert.equal(await store.remaining("synthetic-user-1", "synthetic-ip-1", null, cfg), 14);
+assert.equal((await store.allowance("synthetic-user-0", "synthetic-ip-0", null, cfg)).remaining, 15);
+assert.equal((await store.allowance("synthetic-user-1", "synthetic-ip-1", null, cfg)).remaining, 14);
 console.log(
   JSON.stringify(
     {

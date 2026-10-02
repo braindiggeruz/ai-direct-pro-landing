@@ -9,7 +9,7 @@ import { accountStrings } from '../src/gpt-chat/account-strings';
 import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
-import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
+import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
 import { GA4_PARAMS, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
@@ -316,6 +316,22 @@ test('the watched payment ends only by what the server says about that order', (
   assert.equal(settledCheckout(view('paid', ORDER), watch({ flow: 'code', attemptId: null, before: null })), 'paid', 'the first order of the account');
   // Back with ?pay=return and nothing stored: the newest order.
   assert.equal(settledCheckout(view('paid', OTHER), watch({ provider: null, attemptId: null })), 'paid');
+});
+
+test('"still pending" waits for the account view and the ten minutes, and never comes beside an end', () => {
+  const watch: CheckoutWatch = { provider: 'click', flow: 'redirect', at: NOW, attemptId: ORDER, before: null };
+  const view = (state: string, id = ORDER): AccountView => ({ ...account(), payment: { id, state, provider: 'click' } });
+  assert.equal(pendingDelay(null, watch, NOW), null, 'nothing answered yet: nothing to say');
+  assert.equal(pendingDelay(view('prepared'), watch, NOW + 60_000), 540_000);
+  assert.equal(pendingDelay(account(), watch, NOW), 600_000, 'no order in the view yet');
+  assert.equal(pendingDelay(view('paid', OTHER), watch, NOW + 60_000), 540_000, 'another order paid says nothing about this one');
+  // Back after the ten minutes, still waiting: pending at once.
+  assert.equal(pendingDelay(view('prepared'), watch, NOW + 700_000), 0);
+  // Back after the ten minutes and already paid or cancelled: that is the
+  // result, so no 0 ms pending timer races it (AiAccountPanel).
+  for (const state of ['paid', 'cancelled', 'refunded']) assert.equal(pendingDelay(view(state), watch, NOW + 700_000), null, state);
+  const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
+  assert.match(panel, /const delay = pendingDelay\(data, checkout\);\s*if \(delay === null\) return;\s*const timer = window\.setTimeout\(\(\) => settle\("pending"\), delay\);/);
 });
 
 test('the trip to the payment page is remembered for 30 minutes: provider, time and order, nothing else', (t) => {

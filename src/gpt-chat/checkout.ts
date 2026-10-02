@@ -69,6 +69,17 @@ export function settledCheckout(account: AccountView | null, watch: CheckoutWatc
   return payment.state === 'cancelled' || payment.state === 'refunded' ? 'cancelled' : null;
 }
 
+/**
+ * When the watched payment is said to be still pending: what is left of the
+ * ten-minute watch, counted from when the browser began waiting. Null before
+ * the account view has answered, and once it says how the payment ended: that
+ * end is reported instead, never "pending" next to it.
+ */
+export function pendingDelay(account: AccountView | null, watch: CheckoutWatch, now = Date.now()): number | null {
+  if (!account || settledCheckout(account, watch)) return null;
+  return Math.max(0, watch.at + CHECKOUT_WATCH_MS - now);
+}
+
 /** What the page reports once the watched payment ends (AiAccountPanel). */
 export interface CheckoutReport {
   /** GA4 checkout_result. */
