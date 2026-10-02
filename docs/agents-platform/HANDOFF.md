@@ -1,3 +1,121 @@
+# Платный AI-чат к проду: сквозная проверка релиза R4 (WP-13…WP-18), 2026-10-03
+
+**Итог.** Проверил ветку `paid-chat/prod-readiness` на `664185d7` (WP-13…WP-18 с ревью поверх живых R1–R3; в ветке также `6d949b53` — исправление Worker'а, он уже в проде версией `b4fc8084`). Сверял с планом `10-PROD-PLAN.md`: §1 (проверки и порядок релиза), §3 (строка R4, S1–S5), разделы WP-13…WP-18 и «R4: сборка и выкат», §5, §6, §7; с `AGENTS.md` §2–8 и §11. Дерево было чистым, незаконченной работы не было. **Сбоев не найдено, код не менялся**: этот коммит записывает результаты, квитанцию репетиции и чек-лист выката. Ничего не запушено и не задеплоено; удалённая D1, Cloudflare, GSC, боты и вебхуки не трогались (к проду — только GET публичных страниц); `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты.
+
+**Результаты** (`NODE_OPTIONS=--max-old-space-size=1400`, тесты по одному файлу):
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0; eslint по 107 изменённым в R4 файлам — 0.
+2. Тесты:
+   - 51 файл: всё, что трогали WP-07…WP-18, плюс контрольный список (`gpt-billing`, `gpt-uzum-payments`, `gpt-zai-provider`, `gpt-chat-handoff-link`, `telegram-web-handoff`, `telegram-assistant`, `gpt-readiness`, `gpt-operations`, `gpt-routing`, `gpt-chat`, `gpt-chat-stream`, `gpt-chat-limits`, `gpt-limit-state`, `gpt-watchdog`, `gpt-model-policy`, `runtime-config`, `pages-config-parity`, `seo-content-guards`, `seo-revenue-claims`, `pages-production-release`) — **738/738**;
+   - весь список `npm test`, 85 файлов — **1078/1080**: падают только два известных датозависимых теста `lead-radar` (Lead Radar в R4 не менялся);
+   - после свежей сборки ещё раз тесты, читающие `dist`: `legal-oferta` 16/16, `gpt-chat-prerender-links` 9/9, `gpt-pack-dialog` 12/12, `pages-config-parity` 7/7, `seo-page-integrity` 17/17, `studio-contact` 18/18, `chat-bundle-budget` 9/9, `lead-capture-templates` 30/30.
+3. Сборка и SEO:
+   - `npm run build:fast` — 0; `seo-protection check` — **10/10 без изменений** на базе `2026-10-01-paid-chat-honesty`. R4 новой ревизии не создаёт: против прежней базы `2026-09-30-gsc-driven` все 10 страниц отличаются только `bodyTextSha256` — это ревизия R3, она уже в проде;
+   - живой прод сегодня — 10/10 на текущей базе после снятия обфускации e-mail Cloudflare (без снятия — 0/10 по `internalLinks` и `bodyTextSha256`, как и в R2+R3);
+   - `seo-audit` — 123 страницы, 0 critical, 0 сирот, 45 пар RU/UZ;
+   - бандл чата: старт 106 623 Б br (+1 680 к базе, порог +3 КБ), `chat-account` 9 780 Б (≤ 12 КБ; +5 203 — экраны WP-17), `chat-lead` 4 409, `chat-tools` 6 251 — в бюджете;
+   - `npm run build:production` — 0 (штамп прошёл live-гейт офлайн и проверку чистого дерева), `pages-production.ts check` — pass (945 файлов), `wrangler pages functions build` — собран.
+4. **Миграция 0068.** Локальная репетиция, дважды, на копии экспорта прода от 01.10 (`sha256 7c29d25c…`, 35,5 МБ; сначала доведена до 0067, как в проде). Квитанция — `docs/paid-chat/releases/R4-predeploy-rehearsal.json`.
+   - В очереди ровно `0068_gpt_paid_chat.sql`; первый прогон применяет его, второй — пусто.
+   - Число строк меняется только у `d1_migrations` (+1); три новые таблицы пустые; `quick_check` = ok; нарушений внешних ключей 0; оба прогона совпали.
+   - Повтор «сырого» SQL падает на `duplicate column name: provider` и ничего не оставляет; bootstrap после миграции ничего не меняет.
+   - Паритет: bootstrap кода до миграции строит те же колонки и индексы пяти затронутых таблиц. Но миграция после такого bootstrap падает (`duplicate column`) — поэтому **0068 строго до деплоя Pages и без превью**. Код прода `0ca0a699` ни одного объекта 0068 не создаёт (проверено).
+   - В экспорте 0 заказов, чеков и заказов Uzum: новая семантика срока пакета миграции данных не требует.
+5. `git diff --check origin/main..HEAD` — чисто; `scan:secrets` — чисто (3 243 файла); `test:secret-scan` 16/16; регэксп токена Telegram по диффу — 0; шаблоны ключей (sk-or, AKIA, PEM, ghp) — 0. Счёт продавца — только в `legal-entity.json` (публичный реквизит оферты) и маркером утечки в `legal-oferta.test.ts`.
+6. **Локальный смоук** `wrangler pages dev dist` (порт 8799, остановлен; сначала без секретов, затем с одноразовыми локальными) — 29/29:
+   - `GET /api/gpt/account`: `providers: []`, `loginMethods: []`, `mode: null`, `terms` = обе оферты, `termsVersion` = `ai-paket-2026-10-v1`;
+   - POST и GET `/api/payments/{click,payme,uzum,uzum-merchant/check}` — 404; `/api/gpt/subscribe` (click, uzum, payme), `/api/gpt/auth/bot/{start,status}`, `/api/gpt/auth/start`, `/api/gpt/event` — 404 со своим Origin, 403 с чужим; внутренние `gpt-rehearsal-session` и `gpt-click-reversal` без Bearer — 403;
+   - с Bearer: `gpt-rehearsal-session` — 404 (нет провайдера в `test`); тик обслуживания — `ok`, все провайдеры выключены, `GPT_IDENTITY_SECRET` не в списке недостающего;
+   - оферты: 200, `index, follow`, canonical, hreflang ru/uz и `x-default` = uz, маркер редакции, СТИР; политики и `/ru/tarify-ai-chat/` ссылаются на оферты; обе в `sitemap.xml`; `robots.txt` их не закрывает; на главной ссылок на оферты нет;
+   - локальная D1 этими маршрутами ни разу не открыта.
+7. **Что меняет R4 для поисковиков** (сборка `origin/main` против `HEAD`):
+   - новые `/ru/oferta/`, `/uz/oferta/`;
+   - изменены `/ru/politika-konfidentsialnosti/`, `/uz/maxfiylik-siyosati/`, `/ru/tarify-ai-chat/`, `sitemap.xml`, `sitemap-updates.xml`;
+   - у `index.html` сдвинут один перевод строки (контракт защиты тот же); 284 файла отличаются только хешами ассетов; `.md`-копии, `llms*.txt`, `robots.txt`, `_redirects`, `_headers` те же;
+   - гейт не видит React: под полем ввода чата (в том числе на защищённых `/ru/gpt-chat/` и `/uz/gpt-uzbek-tilida/`) появилась ссылка «Конфиденциальность / Maxfiylik».
+
+**Инструменты выката (вне Git, `F:/Claude/gptbot-tools/paid-chat/`).** Работают из корня репозитория, значений секретов не печатают:
+- `rehearse-migrations.mts <export.sql> <report.json> [--through <файл>] [--expect <файл>]` — репетиция ожидающих миграций на копии экспорта в памяти (`node:sqlite`): два прогона, повтор, «сырой» повтор, bootstrap, паритет; exit 1 при любом расхождении (проверено на неверном `--expect`);
+- `inert-smoke.mjs <url> [--bearer-file <файл>] [--expect-identity]` — смоук из п. 6;
+- `protected-live.mts <url>` — 10 защищённых страниц вживую против `BASELINE` со снятой обфускацией e-mail.
+
+**Отклонения и замечания.**
+1. Шаблон задачи говорил о «новой базе WP-12» и «миграции WP-07». В R4 ревизии защищённых нет (проверка — на действующей базе), а миграция R4 — `0068` (WP-14…WP-17); её и репетировал.
+2. `/api/gpt/subscribe` на кривое тело отвечает 400 до 404: сначала читает тело до 2 КБ, D1 не трогает. Правило «404 до тела и D1» в плане — для колбэков провайдеров; там оно выполняется. Дефектом не считаю.
+3. **Порядок секрета.** План: Pages → `GPT_IDENTITY_SECRET` → передеплой. Предлагаю положить секрет до деплоя и обойтись одним деплоем. С выключенными провайдерами секрет ничего видимого не включает, а код R3 его не читает. Порядок плана тоже рабочий.
+4. **Секрет `TELEGRAM_ASSISTANT_BOT_USERNAME`.** `LOGIN-RU.md` велит удалить его после деплоя. Но код R3 берёт имя бота только из этой привязки: если удалить сразу, откат на R3 сломает ссылки на бота. Удалять после 48 ч без отката, а при откате вернуть (значение публичное — `gptbotuz_bot`).
+5. Сценарии и скрипты R7 (`scripts/paid-chat/dark-rehearsal.ts`, `ingest-keys.ts`, `ONBOARDING-KEYS-RU.md`) ещё не написаны — это WP-22/23. Ниже их шаги по плану и по фактическому коду.
+
+**Чек-лист выката R4 — только по команде владельца.** Git Bash, `cd F:/Claude/gptbot-gsc-audit-20260917`, `export NODE_OPTIONS=--max-old-space-size=1400`. Wrangler — только через `python F:/Claude/gptbot-tools/wr.py -- …`. Секреты не печатать. Превью не делать: оно пишет в боевую D1. Worker `gptbot-automation` в R4 не меняется (его код в ветке = версия `b4fc8084` в проде).
+0. **Предусловия.** Push — только с разрешения владельца. `git status` чистый; `python F:/Claude/gptbot-tools/deploy_runner.py check` (прод `0ca0a699` — предок `HEAD`). Строка в «Выкаты» `docs/seo/CHANGE_LOG_2026-10.md`.
+1. **Резервная копия D1.** `wr.py -- d1 export gptbot-ai-drafts --remote --output F:/Claude/gptbot-production-backups/paid-chat-R4-<stamp>/before-0068.sql`, затем `sha256sum`. Копия вне Git: в ней переписки.
+2. **Репетиция на копии этого экспорта, дважды:** `node --import tsx F:/Claude/gptbot-tools/paid-chat/rehearse-migrations.mts <before-0068.sql> docs/paid-chat/releases/R4-migration-rehearsal.json --expect 0068_gpt_paid_chat.sql`. Нужно `status: pass`: `pending` = только 0068, второй прогон пуст, меняется только `d1_migrations` (+1), паритет `true`, `quick_check` = ok. Если `pending` другой — стоп.
+3. **Боевая D1, до деплоя:**
+   - `wr.py -- d1 migrations list gptbot-ai-drafts --remote` — ровно `0068_gpt_paid_chat.sql`;
+   - `wr.py -- d1 migrations apply gptbot-ai-drafts --remote`;
+   - сверка только чтением:
+     - `SELECT COUNT(*) n, MAX(name) last FROM d1_migrations` → 69 и `0068_gpt_paid_chat.sql`;
+     - `SELECT COUNT(*) FROM pragma_table_info('gpt_fiscal_receipts')` → 14; то же для `gpt_uzum_orders` → 25;
+     - `SELECT name FROM sqlite_master WHERE name IN ('gpt_payment_codes','gpt_bot_logins','gpt_ui_events','idx_gpt_fiscal_due','idx_gpt_uzum_orders_state','idx_gpt_bot_logins_browser','idx_gpt_bot_logins_expiry','idx_gpt_ui_events_created')` → 8 имён;
+     - `SELECT (SELECT COUNT(*) FROM gpt_payment_codes)+(SELECT COUNT(*) FROM gpt_bot_logins)+(SELECT COUNT(*) FROM gpt_ui_events) n` → 0.
+   - Если `apply` упал на `duplicate column name`, значит, код R4 уже где-то запускался (превью). Тогда по шапке 0068: вручную выполнить только `CREATE`, записать файл в `d1_migrations`, ничего не удалять.
+4. **Секрет `GPT_IDENTITY_SECRET`** (генерирует агент, ≥ 32 символов; не менять, пока есть аккаунты: смена отвязывает их):
+   - `f=C:/Users/Borinio/.config/gptbot-private/gpt-identity-secret.txt; test -e "$f" || node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))" > "$f"`;
+   - `python F:/Claude/gptbot-tools/wr.py --stdin "$f" -- pages secret put GPT_IDENTITY_SECRET --project-name ai-direct-pro-landing`;
+   - `wr.py -- pages secret list --project-name ai-direct-pro-landing` — только имена; переменных ≤ 64.
+   - По порядку плана этот шаг идёт после п. 6 и требует передеплоя того же коммита.
+5. **Сборка:** `npm run build:production` (0), затем `npx tsx scripts/seo-protection.ts check` (10/10), `npx tsx scripts/seo-audit.ts` (0 critical), `npx tsx scripts/chat-bundle-budget.ts` (в бюджете), `npx tsx scripts/release/live-gate.ts` (`live: false`, `issues: []`).
+6. **Деплой:** `python F:/Claude/gptbot-tools/deploy_runner.py check`, затем `deploy`. `https://gptbot.uz/gptbot-release.json` — коммит = `HEAD`. Гейт при деплое проверит и имена переменных Pages (ни одна не перекрывает настройки биллинга).
+7. **Инертность вживую:** `node F:/Claude/gptbot-tools/paid-chat/inert-smoke.mjs https://gptbot.uz --bearer-file C:/Users/Borinio/.config/gptbot-private/gpt-billing-maintenance-secret.txt --expect-identity` — всё PASS.
+   - `INFO` должен называть для Click только `GPT_BILLING_MODE_CLICK`, `GPT_BILLING_LIVE_READY`, `GPT_BILLING_TERMS_APPROVED_AT`, `GPT_CLICK_CREDENTIALS_JSON`; для Uzum — `GPT_BILLING_MODE_UZUM`, `GPT_BILLING_LIVE_READY`, `GPT_BILLING_TERMS_APPROVED_AT`, `UZUM_API`. Если там есть `GPT_NOTIFY_*`, `GPT_HASH_SALT` или токен бота — разобраться до следующего шага.
+   - Агрегаты: `SELECT COUNT(*) FROM gpt_payment_orders_all` и `SELECT COUNT(*) FROM gpt_fiscal_receipts` — как до деплоя (по экспорту 01.10 — 0); новые таблицы — 0.
+8. **Бот** (`handler.ts` получил ветку `/start login_`): `POST https://gptbot.uz/api/internal/gpt-model-probe?target=javob` — 4 прогона ok; `POST /api/internal/javob-setup` без `apply` — `matches: true`. По желанию владелец за минуту шлёт боту текст и `/start login_00000000000000000000000000000000`: ответ «ссылка устарела», `gpt_bot_logins` = 0.
+9. **Страницы:** смоук п. 7 уже проверил оферты (200, `index, follow`, canonical, hreflang ru/uz + `x-default` uz, редакция `ai-paket-2026-10-v1`, СТИР), ссылки из политик и тарифов, `sitemap.xml`, `robots.txt`. Дополнительно `curl -sI https://gptbot.uz/ru/oferta/` — без `X-Robots-Tag: noindex`. Browser pane 375×812 на `/ru/gpt-chat/`: под полем ссылка «Конфиденциальность», окна пакета и входа нет, ошибок в консоли нет.
+10. **Защищённые вживую:** `node --import tsx F:/Claude/gptbot-tools/paid-chat/protected-live.mts https://gptbot.uz` → 10/10 со снятой обфускацией.
+11. **Переобход:**
+    - IndexNow по пяти URL: `/ru/oferta/`, `/uz/oferta/`, `/ru/politika-konfidentsialnosti/`, `/uz/maxfiylik-siyosati/`, `/ru/tarify-ai-chat/`. Сначала список в `<tmp>/r4-urls.json`, затем `python F:/Claude/gptbot-tools/indexnow_list.py <tmp>/r4-urls.json <HEAD> r4_release "R4: public offer RU/UZ, privacy policies, pricing link"`;
+    - `py -3 -W ignore F:/Claude/gptbot-tools/gsc_tools.py submit https://gptbot.uz/sitemap.xml https://gptbot.uz/sitemap-updates.xml`.
+12. **Квитанции и уборка:**
+    - `npx tsx scripts/chat-bundle-budget.ts --record` из сборки релиза;
+    - `docs/paid-chat/releases/R4-live-verification.json`: экспорт (sha), репетиция, `applied_remote`, сверка, деплой, имя секрета (без значения), смоук, бот, 10/10, IndexNow;
+    - CHANGE_LOG, HANDOFF, STATE — одним коммитом.
+    - Через 48 ч без отката: `wr.py -- pages secret delete TELEGRAM_ASSISTANT_BOT_USERNAME --project-name ai-direct-pro-landing` и передеплой (значение уже в JSON).
+- **Откат:** `git revert` и guarded-деплой. `0068` аддитивна, её не откатывать; `GPT_IDENTITY_SECRET` не удалять (код R3 его не читает). Если секрет имени бота уже удалён — вернуть его до деплоя R3.
+
+**Что будет в R7 (по плану и по фактическому коду; скрипты пишут WP-22/23).**
+- **Тёмная репетиция (WP-22, слой 2):**
+  1. Агент генерирует тестовые креды в `C:/Users/Borinio/.config/gptbot-private/`:
+     - `GPT_CLICK_CREDENTIALS_JSON = {"test":{service_id, merchant_id, merchant_user_id — фиктивные числа; secret_key — 32 случайных байта hex}}`;
+     - `UZUM_CREDENTIALS_JSON = {"merchant":{"test":{serviceId, login, password — случайные}}}`.
+     `wr.py --stdin … pages secret put` для обоих. Позже ключи владельца вливаются в те же JSON рядом с `test`.
+  2. Коммит `wrangler.toml` (JSON и таблица): `GPT_BILLING_MODE_CLICK="test"`, `UZUM_API="merchant"`, `GPT_BILLING_MODE_UZUM="test"`. Затем тесты `runtime-config` и `pages-config-parity`, `build:production`, деплой.
+  3. Посетитель без cookie по-прежнему видит `providers: []`, `subscribe` → 404. Колбэки Click и Uzum Merchant теперь отвечают по протоколу (принимают только тестовую подпись и тестовый Basic).
+  4. Click: `POST /api/internal/gpt-rehearsal-session {"account":true}` (Bearer) → cookie `__Host-gpt_rehearsal` + `__Host-gpt_account` → `POST /api/gpt/subscribe {provider:"click", requestId, acceptTerms:true, termsVersion}` → Prepare и Complete на `https://gptbot.uz/api/payments/click`, подписанные тестовым `secret_key` → `GET /api/gpt/account` с cookie: пакет активен, чек `skipped_test` → возврат через `gpt-click-refund-record` → период отозван.
+  5. Uzum: `node --import tsx scripts/uzum-sandbox-rehearsal.ts --api merchant --simulate https://gptbot.uz`. В окружении этой одной команды — `UZUM_CREDENTIALS_JSON` (merchant.test) и `GPT_BILLING_MAINTENANCE_SECRET`.
+  6. По желанию владелец проходит экраны с cookie репетиции (вход через бота — настоящий, 375×812, RU и UZ).
+  7. Режимы снять → деплой → `inert-smoke.mjs` снова зелёный. Строки `mode='test'` и `acct_rh_*` остаются. Агрегат по режимам: `SELECT mode, state, COUNT(*) FROM gpt_payment_orders_all GROUP BY 1,2`. Квитанция `R7-dark-rehearsal.json`.
+- **Приём ключей (WP-23, §7 плана).** Владелец кладёт в `F:/Claude/gptbot-keys-inbox/` файлы `click.json`, `uzum.json`, `zai.txt`; `business.json` там уже есть.
+  1. `npx tsx scripts/paid-chat/ingest-keys.ts --inbox F:/Claude/gptbot-keys-inbox --dry-run` (только имена полей) → `--apply`: секреты через stdin, несекретное — в JSON `wrangler.toml`.
+  2. Коммит → guarded-деплой → тик (`inert-smoke.mjs --bearer-file`) печатает, чего не хватает live. Владелец удаляет файлы.
+  3. **S1** Click `test` (15 сценариев Click, `dark-rehearsal.ts --provider click`).
+  4. **S2** Click `live`. Нужна дата юриста в `GPT_BILLING_TERMS_APPROVED_AT` и в `legalReviewedAt` обеих оферт и обеих политик, затем `GPT_BILLING_MODE_CLICK=live` и `GPT_BILLING_LIVE_READY=true` → деплой (гейт проверит всё). Дальше покупка и возврат владельца, сверка чека `ofd.soliq.uz`.
+  5. **S3/S4** — Uzum, **S5** — Z.ai по оценке.
+  - Стоп-кран: снять `GPT_BILLING_MODE_<P>` или `GPT_BILLING_LIVE_READY=false` → деплой.
+
+**Открыто (R4 не блокирует).**
+1. Пункты ревью WP-18:
+   - срок хранения `gpt_events`;
+   - срок пакета считается в UTC;
+   - перечень получателей данных;
+   - полный возврат.
+2. Одобрение юриста — дата пустая, live закрыт гейтом.
+3. Кредитов OpenRouter нет: `GPT_FREE_TIER_PAID_PRIMARY` остаётся `false`.
+4. Два датозависимых теста `lead-radar`.
+5. Узбекскую транслитерацию реквизитов сверить со свидетельством.
+
+**Дальше.** Выкат R4 по чек-листу выше (по команде владельца) или WP-19 — решает ведущий.
+
+---
+
 # Платный AI-чат к проду: ревью WP-18, 2026-10-03
 
 **Итог.** Проверил коммиты WP-18 `67a5ae96` (оферта, политики, реквизиты, live-гейт, тесты, документы, HANDOFF, STATE) и `c8cc75c3` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md`: §1 (правила и проверки), §2 (L3, L4, L13, L14, L16), строка R4 и откат S1–S5 в §3, раздел WP-18 (файлы, тесты, приёмка, риски), §5 и §6; с картой `05` §3.1–3.6; с `AGENTS.md` §2–8 и §11. Дерево было чистым на `c8cc75c3`, незаконченной работы и резервных копий не было. Ничего не запушено и не задеплоено; Cloudflare, удалённая D1, GSC, боты и вебхуки не трогались; `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты.

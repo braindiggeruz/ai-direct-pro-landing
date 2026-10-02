@@ -1,0 +1,215 @@
+{
+ "release": "R4",
+ "kind": "pre-deploy local rehearsal (never --remote); the release repeats it on a fresh production export",
+ "date": "2026-10-03",
+ "verified_commit": "664185d7407ab86b9034d5b78c5946ecc0ba684b",
+ "export": "production export of 2026-10-01 before 0067 (outside Git: F:/Claude/gptbot-production-backups/paid-chat-R2R3-2026-10-01T08-39-51Z/before-0067.sql), brought up to 0067 as production is now",
+ "tool": "F:/Claude/gptbot-tools/paid-chat/rehearse-migrations.mts --through 0067_javob_plans_retire.sql --expect 0068_gpt_paid_chat.sql (outside Git; in-memory node:sqlite)",
+ "status": "pass",
+ "failures": [],
+ "export_sha256": "7c29d25cd5c176fd73e51ded4adb279d9120621d7a815e09f21636012778b252",
+ "export_bytes": 35470223,
+ "through": "0067_javob_plans_retire.sql",
+ "runs": [
+  {
+   "run": 1,
+   "restore_seconds": 1.867,
+   "tables_in_dump": 164,
+   "ledger_tail_in_dump": "0066_gpt_chat_runtime.sql",
+   "brought_up_to_production": [
+    "0067_javob_plans_retire.sql"
+   ],
+   "tables_before": 164,
+   "pending": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "apply1": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "apply2": [],
+   "second_apply_noop": true,
+   "rowcounts_changed": [
+    "d1_migrations"
+   ],
+   "only_ledger_rows_changed": true,
+   "ledger_rows_added": 1,
+   "new_tables": {
+    "gpt_bot_logins": 0,
+    "gpt_payment_codes": 0,
+    "gpt_ui_events": 0
+   },
+   "ledger_tail": [
+    "0068_gpt_paid_chat.sql",
+    "0067_javob_plans_retire.sql",
+    "0066_gpt_chat_runtime.sql"
+   ],
+   "raw_rerun_of_last_file": "duplicate column name: provider",
+   "raw_rerun_left_no_trace": true,
+   "bootstrap_after_migration_noop": true,
+   "quick_check": "ok",
+   "foreign_key_violations": 0
+  },
+  {
+   "run": 2,
+   "restore_seconds": 1.842,
+   "tables_in_dump": 164,
+   "ledger_tail_in_dump": "0066_gpt_chat_runtime.sql",
+   "brought_up_to_production": [
+    "0067_javob_plans_retire.sql"
+   ],
+   "tables_before": 164,
+   "pending": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "apply1": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "apply2": [],
+   "second_apply_noop": true,
+   "rowcounts_changed": [
+    "d1_migrations"
+   ],
+   "only_ledger_rows_changed": true,
+   "ledger_rows_added": 1,
+   "new_tables": {
+    "gpt_bot_logins": 0,
+    "gpt_payment_codes": 0,
+    "gpt_ui_events": 0
+   },
+   "ledger_tail": [
+    "0068_gpt_paid_chat.sql",
+    "0067_javob_plans_retire.sql",
+    "0066_gpt_chat_runtime.sql"
+   ],
+   "raw_rerun_of_last_file": "duplicate column name: provider",
+   "raw_rerun_left_no_trace": true,
+   "bootstrap_after_migration_noop": true,
+   "quick_check": "ok",
+   "foreign_key_violations": 0
+  }
+ ],
+ "bootstrap_parity": {
+  "touched_tables": [
+   "gpt_bot_logins",
+   "gpt_fiscal_receipts",
+   "gpt_payment_codes",
+   "gpt_ui_events",
+   "gpt_uzum_orders"
+  ],
+  "migration_equals_code_first_bootstrap": true,
+  "migrate_after_code_first_bootstrap": "0068_gpt_paid_chat.sql: duplicate column name: provider",
+  "shape": [
+   [
+    "gpt_bot_logins",
+    [
+     "org_id TEXT NOT NULL PK1",
+     "id TEXT NOT NULL PK2",
+     "nonce_hash TEXT NOT NULL",
+     "browser_hash TEXT NOT NULL",
+     "mode TEXT NOT NULL",
+     "code TEXT NOT NULL",
+     "choices TEXT",
+     "locale TEXT NOT NULL",
+     "client TEXT",
+     "status TEXT NOT NULL",
+     "tg_hash TEXT",
+     "created_at INTEGER NOT NULL",
+     "expires_at INTEGER NOT NULL",
+     "claimed_at INTEGER",
+     "decided_at INTEGER",
+     "consumed_at INTEGER"
+    ],
+    [
+     "CREATE INDEX idx_gpt_bot_logins_browser ON gpt_bot_logins(org_id,browser_hash,created_at)",
+     "CREATE INDEX idx_gpt_bot_logins_expiry ON gpt_bot_logins(org_id,expires_at)"
+    ]
+   ],
+   [
+    "gpt_fiscal_receipts",
+    [
+     "org_id TEXT NOT NULL PK1",
+     "order_id TEXT NOT NULL PK2",
+     "kind TEXT NOT NULL PK3",
+     "receipt_url TEXT",
+     "status_code INTEGER NOT NULL",
+     "updated_at INTEGER NOT NULL",
+     "provider TEXT",
+     "attempts INTEGER NOT NULL DEFAULT 0",
+     "next_at INTEGER NOT NULL DEFAULT 0",
+     "lease_until INTEGER NOT NULL DEFAULT 0",
+     "payment_id TEXT",
+     "last_error TEXT",
+     "submitted_at INTEGER",
+     "operation_id TEXT"
+    ],
+    [
+     "CREATE INDEX idx_gpt_fiscal_due ON gpt_fiscal_receipts(org_id,provider,status_code,next_at)"
+    ]
+   ],
+   [
+    "gpt_payment_codes",
+    [
+     "org_id TEXT NOT NULL PK1",
+     "code TEXT NOT NULL PK2",
+     "user_id TEXT NOT NULL",
+     "created_at INTEGER NOT NULL",
+     "terms_version TEXT",
+     "terms_url TEXT",
+     "terms_locale TEXT",
+     "terms_accepted_at INTEGER"
+    ],
+    []
+   ],
+   [
+    "gpt_ui_events",
+    [
+     "org_id TEXT NOT NULL PK1",
+     "id TEXT NOT NULL PK2",
+     "type TEXT NOT NULL",
+     "view_id TEXT",
+     "detail TEXT NOT NULL",
+     "created_at INTEGER NOT NULL"
+    ],
+    [
+     "CREATE INDEX idx_gpt_ui_events_created ON gpt_ui_events(org_id,created_at)"
+    ]
+   ],
+   [
+    "gpt_uzum_orders",
+    [
+     "seq INTEGER PK1",
+     "org_id TEXT NOT NULL",
+     "id TEXT NOT NULL",
+     "user_id TEXT NOT NULL",
+     "provider TEXT NOT NULL",
+     "mode TEXT NOT NULL",
+     "request_id TEXT NOT NULL",
+     "amount INTEGER NOT NULL",
+     "currency TEXT NOT NULL",
+     "state TEXT NOT NULL",
+     "external_id TEXT",
+     "provider_time INTEGER",
+     "created_at INTEGER NOT NULL",
+     "expires_at INTEGER NOT NULL",
+     "create_time INTEGER NOT NULL DEFAULT 0",
+     "perform_time INTEGER NOT NULL DEFAULT 0",
+     "cancel_time INTEGER NOT NULL DEFAULT 0",
+     "reason INTEGER",
+     "version INTEGER NOT NULL DEFAULT 0",
+     "api TEXT NOT NULL DEFAULT 'checkout'",
+     "redirect_url TEXT",
+     "refund_operation_id TEXT",
+     "refund_requested_at INTEGER",
+     "confirm_requested_at INTEGER",
+     "autofiscal INTEGER"
+    ],
+    [
+     "CREATE UNIQUE INDEX idx_gpt_uzum_orders_pending ON gpt_uzum_orders(org_id,user_id,provider,mode) WHERE state IN ('pending','prepared')",
+     "CREATE INDEX idx_gpt_uzum_orders_state ON gpt_uzum_orders(org_id,api,state)",
+     "CREATE INDEX idx_gpt_uzum_orders_statement ON gpt_uzum_orders(org_id,provider,mode,provider_time)",
+     "CREATE INDEX idx_gpt_uzum_orders_user ON gpt_uzum_orders(org_id,user_id,created_at)"
+    ]
+   ]
+  ]
+ }
+}
