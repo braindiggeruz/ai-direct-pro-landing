@@ -3,9 +3,9 @@ import type { Locale } from '../types';
 import type { AccountStrings } from '../account-strings';
 import { TELEGRAM_BOT_USERNAME } from '../../lib/telegram';
 import {
+  attemptFromStart,
   loadBotLogin,
   saveBotLogin,
-  validBotLoginAttempt,
   type BotLoginAttempt,
   type BotLoginStatus,
 } from '../bot-login';
@@ -25,9 +25,9 @@ async function startBotLogin(apiBase: string, locale: 'ru' | 'uz'): Promise<BotL
     body: JSON.stringify({ locale, consent: true }),
     signal: AbortSignal.timeout(15_000),
   });
-  const value = (await res.json()) as { ok?: unknown } & Partial<BotLoginAttempt>;
-  const attempt = { id: value.id, mode: value.mode, code: value.code, deepLink: value.deepLink, expiresAt: value.expiresAt };
-  if (!res.ok || value.ok !== true || !validBotLoginAttempt(attempt)) throw new Error('bot_login_start');
+  const value = (await res.json()) as { ok?: unknown };
+  const attempt = res.ok && value.ok === true ? attemptFromStart(value) : null;
+  if (!attempt) throw new Error('bot_login_start');
   return attempt;
 }
 

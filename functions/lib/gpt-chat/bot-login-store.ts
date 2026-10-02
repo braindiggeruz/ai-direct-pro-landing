@@ -11,7 +11,8 @@
 //
 // pending   the site created it; the nonce is in the deep link, its hash here;
 // claimed   a Telegram user opened the link; their identity hash is bound and
-//           no other Telegram user can take it over;
+//           no other Telegram user can take it over: another one opening it
+//           rejects the attempt (claimed or confirmed);
 // confirmed (pick) that user pressed the number the site shows: one press,
 //           so a person who never saw the site (a forwarded link) guesses one
 //           of three; (code) skipped: the bot sends the code and the browser
@@ -68,7 +69,7 @@ export type BotLoginOpening =
   | { result: "reopened"; row: BotLoginRow }
   /** The same user already confirmed it (or the site already signed in). */
   | { result: "decided"; row: BotLoginRow }
-  /** Another Telegram user holds it. */
+  /** Another Telegram user holds it; while in flight it is rejected now. */
   | { result: "taken" }
   /** Unknown, expired or rejected. */
   | { result: "stale" };
@@ -175,7 +176,12 @@ export class BotLoginStore {
 
   /**
    * The bot opened `login_<nonce>` for the Telegram identity `tgHash`. The
-   * first opener binds the attempt; the same person may open it again.
+   * first opener binds the attempt; the same person may open it again. A
+   * second Telegram account opening it means the link reached someone else:
+   * the attempt still in flight is rejected, so the browser that started it
+   * signs in to nobody's account through it (a stolen link and one lucky
+   * press would otherwise sign it in to the thief's) and is told to start
+   * again.
    */
   async openByNonce(
     nonce: string,
@@ -198,7 +204,16 @@ export class BotLoginStore {
       .first<BotLoginRow>();
     if (!row || row.expires_at <= now || row.status === "rejected" || row.status === "pending")
       return { result: "stale" };
-    if (row.tg_hash !== tgHash) return { result: "taken" };
+    if (row.tg_hash !== tgHash) {
+      await this.db
+        .prepare(
+          `UPDATE gpt_bot_logins SET status='rejected', decided_at=?
+           WHERE org_id=? AND nonce_hash=? AND status IN ('claimed','confirmed') AND expires_at>?`,
+        )
+        .bind(now, this.org, nonceHash, now)
+        .run();
+      return { result: "taken" };
+    }
     return row.status === "claimed" ? { result: "reopened", row } : { result: "decided", row };
   }
 

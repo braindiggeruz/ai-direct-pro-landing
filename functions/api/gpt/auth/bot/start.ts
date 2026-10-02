@@ -1,10 +1,12 @@
 // POST /api/gpt/auth/bot/start — sign in through the bot @gptbotuz_bot (plan
 // WP-16, decision L11). Body {locale, consent: true}.
 //
-// Answers {id, mode, code, deepLink, expiresAt}. The browser opens deepLink
-// (https://t.me/<bot>?start=login_<nonce>) and, in pick mode, shows `code`
-// large: the bot asks the person to press that number. In code mode `code`
-// is null and the bot sends the code instead. The browser's own secret goes
+// Answers {id, mode, code, deepLink, expiresAt, expiresIn}. The browser opens
+// deepLink (https://t.me/<bot>?start=login_<nonce>) and, in pick mode, shows
+// `code` large: the bot asks the person to press that number. In code mode
+// `code` is null and the bot sends the code instead. expiresAt is on the
+// server's clock; the browser counts expiresIn (ms) down on its own clock,
+// which may be off by more than these 10 minutes. The browser's own secret goes
 // into the cookie __Host-gpt_botlogin; only the browser that holds it can
 // collect the sign-in (status.ts), so a forwarded link signs nobody in by
 // itself.
@@ -78,6 +80,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env })
         code: mode === "pick" ? attempt.code : null,
         deepLink: deepLinkFor(resolveHandoffConfig(env).botUsername, `${LOGIN_PAYLOAD_PREFIX}${nonce}`),
         expiresAt: attempt.expiresAt,
+        expiresIn: BOT_LOGIN_TTL_MS,
       },
       200,
       { "Set-Cookie": authCookie(BOT_LOGIN_COOKIE, browserSecret, BOT_LOGIN_TTL_MS / 1000) },

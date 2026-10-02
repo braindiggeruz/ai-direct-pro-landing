@@ -492,7 +492,7 @@ export const LOGIN_STALE: Record<Locale, string> = {
 
 export const LOGIN_TAKEN: Record<Locale, string> = {
   ru: 'Эту ссылку уже открыл другой аккаунт Telegram, поэтому войти по ней нельзя. Начните вход на сайте заново и не пересылайте ссылку.',
-  uz: 'Bu havolani boshqa Telegram akkaunt ochgan, shuning uchun u orqali kirib bo‘lmaydi. Saytda kirishni qaytadan boshlang va havolani hech kimga yubormang.',
+  uz: 'Bu havolani boshqa Telegram akkaunti ochgan, shuning uchun u orqali kirib bo‘lmaydi. Saytda kirishni qaytadan boshlang va havolani hech kimga yubormang.',
 };
 
 export const LOGIN_LIMITED: Record<Locale, string> = {

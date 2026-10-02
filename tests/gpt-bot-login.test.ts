@@ -76,7 +76,7 @@ function cookieFrom(response: Response, name: string): string | undefined {
   return line?.slice(name.length + 1).split(";")[0];
 }
 
-interface Started { id: string; mode: string; code: string | null; deepLink: string; expiresAt: number; nonce: string; cookie: string }
+interface Started { id: string; mode: string; code: string | null; deepLink: string; expiresAt: number; expiresIn: number; nonce: string; cookie: string }
 async function begin(f: Fixture, over: { cookie?: string; locale?: string; ip?: string } = {}): Promise<Started> {
   const response = await call(f, start, "/api/gpt/auth/bot/start", { locale: over.locale ?? "uz", consent: true }, over);
   const body = (await response.json()) as Omit<Started, "nonce" | "cookie">;
@@ -140,6 +140,8 @@ test("start: same origin and consent first; the answer, the cookie, and only has
   assert.match(body.code!, /^[1-9]\d$/);
   assert.match(body.deepLink, /^https:\/\/t\.me\/gptbotuz_bot\?start=login_[0-9a-f]{32}$/);
   assert.ok(body.expiresAt >= before + BOT_LOGIN_TTL_MS && body.expiresAt <= Date.now() + BOT_LOGIN_TTL_MS);
+  // The browser counts down on its own clock, which may be off by more than that.
+  assert.equal(body.expiresIn, BOT_LOGIN_TTL_MS);
   const [line] = response.headers.getSetCookie();
   assert.match(line, /^__Host-gpt_botlogin=[a-f0-9]{64}; Path=\/; HttpOnly; Secure; SameSite=Lax; Max-Age=600$/);
   assert.equal(response.headers.get("Cache-Control"), "no-store, no-cache, must-revalidate");
@@ -240,7 +242,6 @@ test("one press: a wrong number or «not me» rejects for good; a foreign or lat
   const other = (await telegramIdentityHash(f.env.GPT_IDENTITY_SECRET!, TELEGRAM_ID + 1))!;
   const a = await begin(f);
   await f.logins.openByNonce(a.nonce, f.tgHash);
-  assert.equal((await f.logins.openByNonce(a.nonce, other)).result, "taken");
   assert.equal((await f.logins.decide(a.id, other, a.code!)).result, "foreign");
   assert.equal((await f.logins.reject(a.id, other)).result, "foreign");
   const wrong = loginChoices(a.code!).split(",").find((n) => n !== a.code)!;
@@ -264,6 +265,34 @@ test("one press: a wrong number or «not me» rejects for good; a foreign or lat
   assert.deepEqual(await f.logins.consume(c.id, sha256(c.cookie.split("__Host-gpt_botlogin=")[1]), late), { status: "expired" });
   f.db.exec(`UPDATE gpt_bot_logins SET expires_at=${Date.now() - 1} WHERE id='${c.id}'`);
   assert.deepEqual((await poll(f, c)).body, { ok: true, status: "expired" });
+});
+
+test("a second Telegram account opening the link ends the attempt: the browser signs in to nobody's account", async () => {
+  const f = await setup();
+  const thief = (await telegramIdentityHash(f.env.GPT_IDENTITY_SECRET!, TELEGRAM_ID + 1))!;
+  // A stolen link opened first by someone else, then by its owner: the owner
+  // is told it is taken, the site that it is rejected, and the thief's press
+  // of the right number (one in three) no longer signs the owner's browser in.
+  const stolen = await begin(f);
+  assert.equal((await f.logins.openByNonce(stolen.nonce, thief)).result, "claimed");
+  assert.equal((await f.logins.openByNonce(stolen.nonce, f.tgHash)).result, "taken");
+  assert.deepEqual((await poll(f, stolen)).body, { ok: true, status: "rejected" });
+  assert.equal((await f.logins.decide(stolen.id, thief, stolen.code!)).result, "repeat");
+  assert.deepEqual((await poll(f, stolen)).body, { ok: true, status: "rejected" });
+  // Confirmed by the thief but not collected yet: rejected all the same.
+  const confirmed = await begin(f);
+  await f.logins.openByNonce(confirmed.nonce, thief);
+  assert.equal((await f.logins.decide(confirmed.id, thief, confirmed.code!)).result, "confirmed");
+  assert.equal((await f.logins.openByNonce(confirmed.nonce, f.tgHash)).result, "taken");
+  assert.deepEqual((await poll(f, confirmed)).body, { ok: true, status: "rejected" });
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE identity_hash=?", thief), 0);
+  // Collected already: nothing to undo, and the second opener is still told it is taken.
+  const done = await begin(f);
+  await f.logins.openByNonce(done.nonce, f.tgHash);
+  await f.logins.decide(done.id, f.tgHash, done.code!);
+  assert.equal((await poll(f, done)).body.status, "done");
+  assert.equal((await f.logins.openByNonce(done.nonce, thief)).result, "taken");
+  assert.equal(f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", done.id), "consumed");
 });
 
 test("code mode: the code goes to the bot only, is typed in once, and is not spent before the bot is opened", async () => {

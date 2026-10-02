@@ -3,10 +3,11 @@
 // machine functions/lib/gpt-chat/bot-login-store.ts.
 //
 //   /start login_<nonce>  the person tapped «Открыть Telegram» on the site. The
-//                         first Telegram account to open the link holds it; the
-//                         bot shows which browser asked and when, and asks for
-//                         the number the site shows (pick) or sends the code to
-//                         type in there (code).
+//                         first Telegram account to open the link holds it (a
+//                         second one is told it is taken, and the attempt ends);
+//                         the bot shows which browser asked and when, and asks
+//                         for the number the site shows (pick) or sends the
+//                         code to type in there (code).
 //   lg:<n>:<id>           a number pressed: the one press an attempt gets.
 //   lgx:<id>              «Это не я»: the attempt ends.
 //   lgout:<locale>        «Выйти на всех устройствах»: every web session of the

@@ -188,7 +188,7 @@ test('the same update_id twice through the webhook asks once', async () => {
 
 // ── 13. opening again ───────────────────────────────────────────────────────
 
-test('opened again: the same person is asked again; another account is told it is taken and changes nothing', async () => {
+test('opened again: the same person is asked again; another account is told it is taken and the attempt ends', async () => {
   const db = await database();
   const calls: TgCall[] = []; const restore = installFetch(calls);
   try {
@@ -201,10 +201,18 @@ test('opened again: the same person is asked again; another account is told it i
     assert.equal(again.body.text, ask.body.text);
     assert.deepEqual(buttons(again), buttons(ask), 'the same three numbers in the same order');
 
+    // The link reached a second account: it is told so, and the attempt ends,
+    // so the browser that started it signs in to nobody's account through it.
     calls.length = 0;
     await handleUpdate(deps(db), start(a.payload, STRANGER));
     assert.deepEqual(sends(calls).map((c) => [c.body.chat_id, c.body.text]), [[STRANGER.id, C.LOGIN_TAKEN.ru]]);
-    assert.deepEqual(row(db, a.id), first);
+    assert.equal(row(db, a.id).status, 'rejected');
+    assert.equal(row(db, a.id).tg_hash, first.tg_hash, 'the holder stays the holder');
+    // The holder's press of the right number no longer confirms it.
+    calls.length = 0;
+    await handleUpdate(deps(db), press(`lg:${a.code}:${a.id}`));
+    assert.deepEqual(calls.map((c) => c.method), ['answerCallbackQuery']);
+    assert.equal(row(db, a.id).status, 'rejected');
   } finally { restore(); }
 });
 

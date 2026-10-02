@@ -8,7 +8,7 @@ import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
-import { validBotLoginAttempt } from '../src/gpt-chat/bot-login';
+import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06' });
 
@@ -83,6 +83,20 @@ test('a sign-in deep link is our bot with login_ and 32 hex, nothing else', () =
   assert.equal(validBotLoginAttempt({ ...attempt, mode: 'code', code: null }), true);
   for (const broken of [{ code: '7' }, { code: null }, { mode: 'code' }, { id: 'xyz' }, { deepLink: 'https://evil.example/' }, { expiresAt: 'soon' }])
     assert.equal(validBotLoginAttempt({ ...attempt, ...broken }), false, JSON.stringify(broken));
+});
+
+test('a started attempt lives its 10 minutes on this browser\'s clock, however wrong that clock is', () => {
+  const deepLink = `https://t.me/gptbotuz_bot?start=login_${'ab'.repeat(16)}`;
+  // This computer's clock runs two hours ahead of the server's: the server's
+  // expiresAt is already past here, the attempt must still live 10 minutes.
+  const local = Date.UTC(2026, 9, 3, 14, 0);
+  const server = local - 2 * 3_600_000;
+  const answer = { ok: true, id: '0123456789abcdef', mode: 'pick', code: '47', deepLink, expiresAt: server + 600_000, expiresIn: 600_000 };
+  assert.deepEqual(attemptFromStart(answer, local), { id: '0123456789abcdef', mode: 'pick', code: '47', deepLink, expiresAt: local + 600_000 });
+  assert.deepEqual(attemptFromStart({ ...answer, mode: 'code', code: null }, local)?.expiresAt, local + 600_000);
+  for (const broken of [{ expiresIn: undefined }, { expiresIn: '600000' }, { expiresIn: 0 }, { expiresIn: -1 }, { expiresIn: 1.5 }, { expiresIn: 86_400_000 }, { deepLink: 'https://evil.example/' }, { code: '7' }])
+    assert.equal(attemptFromStart({ ...answer, ...broken }, local), null, JSON.stringify(broken));
+  assert.equal(attemptFromStart(null), null);
 });
 
 test('freeLimits is two counts or absent; anything else fails the view closed', () => {

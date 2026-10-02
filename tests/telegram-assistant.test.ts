@@ -421,6 +421,13 @@ function makeD1() {
     }
     if (/UPDATE entitlements SET remaining = remaining - 1/.test(sql)) { const e = t.ents.find((x) => x.id === a[0]); if (e && e.remaining > 0) e.remaining -= 1; return { meta: { changes: 1 } }; }
     if (/INSERT INTO entitlements/.test(sql)) { t.ents.push({ id: a[0], telegram_user_id: a[1], entitlement_type: a[2], quantity: a[3], remaining: a[4], starts_at: a[5], expires_at: a[6], source: a[7], source_id: a[8] }); return { meta: { changes: 1 } }; }
+    // bot-login-store.ts openByNonce: a second Telegram account opened the link.
+    if (/UPDATE gpt_bot_logins SET status='rejected', decided_at=\?\s+WHERE org_id=\? AND nonce_hash=\?/.test(sql)) {
+      const [at, org, nonceHash, now] = a;
+      const row = t.logins.find((x) => x.org_id === org && x.nonce_hash === nonceHash && ['claimed', 'confirmed'].includes(x.status) && x.expires_at > now);
+      if (row) Object.assign(row, { status: 'rejected', decided_at: at });
+      return { meta: { changes: row ? 1 : 0 } };
+    }
     if (/CREATE TABLE|CREATE (UNIQUE )?INDEX|ALTER TABLE|INSERT OR IGNORE INTO plans/.test(sql)) return { meta: { changes: 0 } };
     if (/DELETE FROM payment_transactions/.test(sql)) { const ids = new Set(t.orders.filter((x) => x.telegram_user_id === a[0]).map((x) => x.id)); t.txs = t.txs.filter((x) => !ids.has(x.payment_order_id)); return { meta: { changes: 1 } }; }
     if (/DELETE FROM payment_orders/.test(sql)) { t.orders = t.orders.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
@@ -1583,6 +1590,11 @@ test('sign-in links and buttons (WP-16) are routed before Javob: no model, no it
   assert.equal(login.status, 'confirmed');
   assert.deepEqual(rec.tg.map((c) => c.method), ['answerCallbackQuery', 'editMessageText']);
   assert.equal(rec.tg[0].body.text, C.LOGIN_TOAST.ru.confirmed);
+  // Another Telegram account opens the same link: taken, and the attempt ends.
+  rec.tg.length = 0;
+  await handleUpdate(deps(db, env), { update_id: 1704, message: { chat: { id: 32, type: 'private' }, from: { id: 32, language_code: 'ru' }, text: `/start login_${nonce}` } } as any);
+  assert.deepEqual(rec.tg.filter((c) => c.method === 'sendMessage').map((c) => c.body.text), [C.LOGIN_TAKEN.ru]);
+  assert.equal(login.status, 'rejected');
   // An unknown link: stale, in the person's bot language.
   rec.tg.length = 0;
   await handleUpdate(deps(db, env), startLogin(1702, `login_${'f'.repeat(32)}`));
@@ -1591,7 +1603,7 @@ test('sign-in links and buttons (WP-16) are routed before Javob: no model, no it
   assert.equal((db as any)._t.items.length, 0);
   assert.equal((db as any)._t.ledger.length, 0);
   const events = (db as any)._t.events.filter((e: any) => e.event.startsWith('web_login_'));
-  assert.deepEqual(events.map((e: any) => [e.event, e.meta_json]), [['web_login_opened', '{"locale":"ru"}'], ['web_login_confirmed', '{"locale":"ru"}'], ['web_login_stale', '{"locale":"uz"}']]);
+  assert.deepEqual(events.map((e: any) => [e.event, e.meta_json]), [['web_login_opened', '{"locale":"ru"}'], ['web_login_confirmed', '{"locale":"ru"}'], ['web_login_taken', '{"locale":"ru"}'], ['web_login_stale', '{"locale":"uz"}']]);
   // Javob itself is untouched by all of this.
   rec.tg.length = 0;
   await handleUpdate(deps(db, env), { update_id: 1703, message: { chat: { id: 31, type: 'private' }, from: { id: 31, language_code: 'ru' }, text: 'Здравствуйте, когда будет готов мой заказ?', forward_date: 1 } } as any);
