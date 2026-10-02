@@ -10,7 +10,8 @@
 // a hint: we look the order up by both ids, then pull getOrderStatus with our
 // own credentials and apply THAT. Unknown or mismatched orders get 200 {}
 // without any outbound call, so this endpoint cannot be used to make us call
-// Uzum on someone else's behalf.
+// Uzum on someone else's behalf. A receipt callback counts only for an order
+// Uzum auto-fiscalizes; the Fiscalization API prints the others' receipts.
 import {
   BILLING_ORG,
   providerMode,
@@ -34,6 +35,7 @@ import {
   maintainBilling,
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 
 const ORDER_NUMBER = /^uzm_[0-9a-f]{32}$/;
 const OPERATION_STATES = ["SUCCESS", "FAIL"];
@@ -96,8 +98,10 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     if (receipt) {
       const row = await store.external(mode, orderId);
       const url = allowedUzumReceipt(p.receiptUrl);
-      // Unknown order or a link outside the allowlist: acknowledge, ignore.
-      if (!row || row.api !== "checkout" || !url) return json({});
+      // Unknown order, one whose receipts are ours to print, or a link
+      // outside the allowlist: acknowledge, ignore.
+      if (!row || row.api !== "checkout" || row.autofiscal !== 1 || !url)
+        return json({});
       const pulled = await getReceipts(cfg, orderId);
       if (!pulled.ok) return fail("upstream_unavailable", "Retry", 502);
       const confirmed = pulled.receipts.find(
@@ -123,12 +127,17 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     const pulled = await getOrderStatus(cfg, orderId);
     if (!pulled.ok) return fail("upstream_unavailable", "Retry", 502);
     const result = await store.applyPulledStatus(env, row, pulled.status);
-    if (result !== "unchanged")
+    if (result !== "unchanged") {
       waitUntil(
         maintainBilling(env).catch(() =>
           console.warn("gpt_billing_delivery_failed"),
         ),
       );
+      // The receipt of an order Uzum does not auto-fiscalize (fiscal-store.ts).
+      waitUntil(
+        fiscalizeDue(env).catch(() => console.warn("gpt_uzum_fiscal_failed")),
+      );
+    }
     return json({});
   } catch {
     waitUntil(

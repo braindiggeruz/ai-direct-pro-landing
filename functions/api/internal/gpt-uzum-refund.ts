@@ -1,28 +1,36 @@
-// Owner-only Uzum Checkout refunds (full amount only in this stage).
+// Owner-only Uzum refunds (full amount only).
 // Auth: Authorization: Bearer GPT_BILLING_MAINTENANCE_SECRET, like
-// gpt-click-refund-record.ts.
+// gpt-click-refund-record.ts. The order's own mode and API decide the
+// credentials, so money can be returned after Uzum sales were switched off.
 //
+// Checkout orders:
 // 1) {orderId, confirmRefund:true}: asks Uzum to refund the paid order
 //    (POST /api/v1/acquiring/refund). The X-Operation-Id is created once and
 //    stored BEFORE the call, so a retry repeats the same operation instead of
-//    refunding twice. The ledger changes only when Uzum reports REFUNDED
-//    (REFUND callback, a status pull right after the call, or "check status").
+//    refunding twice. An order Uzum auto-fiscalized carries the cart (Uzum
+//    prints the refund receipt); any other order carries none, and the
+//    Fiscalization API prints its refund receipt (fiscal-store.ts). The
+//    ledger changes only when Uzum reports REFUNDED (REFUND callback, a status
+//    pull right after the call, or "check status").
 // 2) {orderId, merchantRefundReference, confirmedRefund:true}: records a
 //    refund made in the Uzum cabinet. We pull the status first and record it
 //    only if Uzum itself reports the full amount refunded; otherwise 409.
 //    Marking a refund Uzum has not confirmed would revoke access while the
 //    customer's money was never returned.
-// Source: https://developer.uzumbank.uz/redocusaurus/en_checkout.yaml (1.10.3).
-import {
-  BILLING_ORG,
-  providerMode,
-  type BillingEnv,
-} from "../../lib/gpt-chat/billing-config";
+// Merchant API orders (payments in the Uzum Bank app): the Merchant API has
+// no refund call; Uzum returns the money and sends /reverse, which settles
+// the order by itself. Only 2) applies, for a refund Uzum made without
+// /reverse; there is no status to pull, so the owner's confirmation is the
+// record, as for Click.
+// Source: https://developer.uzumbank.uz/redocusaurus/en_checkout.yaml (1.10.3),
+// en_merchant.yaml (1.0.0).
+import { BILLING_ORG, type BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
 import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
-import { uzumApi, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
+import { uzumCartParams, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
 import { getOrderStatus, refund } from "../../lib/gpt-chat/uzum-checkout";
 import { UzumStore, UZUM_REASON_RETURNED } from "../../lib/gpt-chat/uzum-store";
 
@@ -65,36 +73,45 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       "invalid_request",
       "Send confirmRefund:true, or merchantRefundReference with confirmedRefund:true",
     );
-  const mode = providerMode(env, "uzum");
-  const api = uzumApi(env);
-  // A refund carries the fiscal cart when auto-fiscalization is on: strict.
-  const cfg =
-    mode && api === "checkout"
-      ? uzumCheckoutConfig(env, mode, { settleOnly: recordOnly })
-      : null;
-  if (!mode || !cfg)
-    return fail("uzum_not_configured", "Uzum Checkout is not configured", 409);
   if (!env.GPTBOT_DRAFTS_DB) return fail("unavailable", "Unavailable", 503);
-  const settle = () =>
+  const reference = recordOnly ? (p.merchantRefundReference as string).trim() : "";
+  const settle = () => {
     waitUntil(
       maintainBilling(env).catch(() =>
         console.warn("gpt_billing_delivery_failed"),
       ),
     );
+    // The refund receipt of an order whose sale receipt we printed.
+    waitUntil(
+      fiscalizeDue(env).catch(() => console.warn("gpt_uzum_fiscal_failed")),
+    );
+  };
   try {
     await ensureUzumSchema(env.GPTBOT_DRAFTS_DB);
     const store = new UzumStore(env.GPTBOT_DRAFTS_DB, BILLING_ORG);
     const row = await store.order(p.orderId);
-    if (
-      !row ||
-      row.mode !== mode ||
-      row.api !== "checkout" ||
-      !row.external_id ||
-      !["paid", "refunded"].includes(row.state)
-    )
+    if (!row || !row.external_id || !["paid", "refunded"].includes(row.state))
       return fail("invalid_order", "Order not eligible", 409);
     if (row.state === "refunded")
       return json({ ok: true, state: "refunded", recorded: recordOnly });
+
+    if (row.api === "merchant") {
+      if (!recordOnly)
+        return fail(
+          "uzum_merchant_refund",
+          "Uzum returns an app payment and sends /reverse; record a refund it made otherwise with merchantRefundReference",
+          409,
+        );
+      await store.billing.transition(row.id, "cancelled", `owner_refund_record:${reference}`, {
+        reason: UZUM_REASON_RETURNED,
+      });
+      settle();
+      return json({ ok: true, recorded: true, state: "refunded" });
+    }
+
+    const cfg = uzumCheckoutConfig(env, row.mode, { settleOnly: true });
+    if (!cfg)
+      return fail("uzum_not_configured", "Uzum Checkout is not configured", 409);
 
     if (recordOnly) {
       const pulled = await getOrderStatus(cfg, row.external_id);
@@ -112,19 +129,20 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
           "Uzum does not report this order as fully refunded",
           409,
         );
-      await store.billing.transition(
-        row.id,
-        "cancelled",
-        `owner_refund_record:${(p.merchantRefundReference as string).trim()}`,
-        { reason: UZUM_REASON_RETURNED },
-      );
+      await store.billing.transition(row.id, "cancelled", `owner_refund_record:${reference}`, {
+        reason: UZUM_REASON_RETURNED,
+      });
       settle();
       return json({ ok: true, recorded: true, state: "refunded" });
     }
 
+    // The cart goes with the refund exactly when it went with the payment.
+    const cart = row.autofiscal === 1 ? uzumCartParams(env) : null;
+    if (row.autofiscal === 1 && !cart)
+      return fail("fiscal_not_configured", "GPT_FISCAL_* are incomplete", 409);
     const operationId = await store.refundOperation(row.id, crypto.randomUUID());
     if (!operationId) return fail("invalid_order", "Order not eligible", 409);
-    const result = await refund(cfg, row.external_id, row.amount, operationId);
+    const result = await refund(cfg, row.external_id, row.amount, operationId, cart);
     if (
       !result.ok &&
       !(result.error === "uzum" && result.code === OPERATION_EXISTS)

@@ -27,7 +27,9 @@ import {
   UzumStore,
   UZUM_SESSION_REUSE_MS,
 } from "../../lib/gpt-chat/uzum-store";
+import { PaymentCodeStore } from "../../lib/gpt-chat/payment-code-store";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { isRehearsalAccount, viewerMode } from "../../lib/gpt-chat/rehearsal";
 
 /** The chat page a payment page sends the visitor back to (CheckoutReturn, plan WP-17). */
@@ -48,10 +50,11 @@ function clickCheckoutUrl(env: BillingEnv, orderId: string, back: string): strin
 }
 
 /**
- * Uzum branch. Test mode keeps the Click/Payme test contract (no URL). Live
- * Checkout registers the order with Uzum once and re-serves the stored page
- * while its session is open; Merchant API returns the order code the visitor
- * enters in the Uzum Bank app (not shown by the UI yet).
+ * Uzum branch. Checkout registers the order with Uzum once, on the test
+ * terminal in a rehearsal (U5), and re-serves the stored page while its
+ * session is open. The Merchant API opens no order here: the visitor gets the
+ * account's permanent payment code for the Uzum Bank app, issued with the
+ * terms just accepted, and Uzum's /create opens the order (U1).
  */
 async function subscribeUzum(
   env: BillingEnv,
@@ -65,9 +68,19 @@ async function subscribeUzum(
   waitUntil: (task: Promise<unknown>) => void,
 ): Promise<Response> {
   const api = uzumApi(env)!;
-  const store = new UzumStore(db, BILLING_ORG);
   const now = Date.now();
-  let row = await store.createOrder(user, mode, requestId, api, now, consent);
+  if (api === "merchant")
+    return json({
+      ok: true,
+      mode: "code",
+      paymentCode: await new PaymentCodeStore(db, BILLING_ORG).issue(user, consent, now),
+    });
+  // providerReady() vouched for the Checkout config of this mode.
+  const cfg = uzumCheckoutConfig(env, mode);
+  if (!cfg) return json({ ok: false, mode: "manual", code: "not_configured" }, 503);
+  const store = new UzumStore(db, BILLING_ORG);
+  // An expired order Uzum registered is settled from Uzum's status first (U4).
+  let row = await store.createOrder(user, mode, requestId, api, now, consent, { env, cfg });
   if (row.api !== api) {
     // The owner switched Checkout <-> Merchant API while this invoice was
     // open. Close it if Uzum never saw it; the visitor starts a fresh one.
@@ -82,18 +95,6 @@ async function subscribeUzum(
     row.expires_at <= now
   )
     return json({ ok: true, mode: "status", attemptId: row.id });
-  if (row.mode === "test")
-    return json({
-      ok: true,
-      mode: "test",
-      attemptId: row.id,
-      amount: row.amount,
-      currency: row.currency,
-    });
-  if (api === "merchant")
-    return json({ ok: true, mode: "uzum_app", attemptId: row.id, account: row.id });
-  const cfg = uzumCheckoutConfig(env, mode);
-  if (!cfg) return json({ ok: false, mode: "manual", code: "not_configured" }, 503);
   if (row.external_id) {
     // Registered before: re-serve the page while its Uzum session is open.
     if (row.redirect_url && now - (row.provider_time ?? 0) < UZUM_SESSION_REUSE_MS) {
@@ -115,12 +116,16 @@ async function subscribeUzum(
     const settled = await store.reconcileCheckout(env, cfg, row, now);
     if (!settled)
       return fail("checkout_unavailable", "Check status before retrying", 503);
-    if (settled.result !== "unchanged")
+    if (settled.result !== "unchanged") {
       waitUntil(
         maintainBilling(env).catch(() =>
           console.warn("gpt_billing_delivery_failed"),
         ),
       );
+      waitUntil(
+        fiscalizeDue(env).catch(() => console.warn("gpt_uzum_fiscal_failed")),
+      );
+    }
     return json({ ok: true, mode: "status", attemptId: row.id });
   }
   const registered = await registerPayment(cfg, row, locale, returnUrl(origin, locale));
@@ -133,11 +138,13 @@ async function subscribeUzum(
       });
     return fail("checkout_unavailable", "Check status before retrying", 503);
   }
+  // Who prints the receipts is fixed by what this registration carried.
   row = await store.attachCheckout(
     row.id,
     registered.orderId,
     registered.redirectUrl,
     Date.now(),
+    !!cfg.fiscal,
   );
   return json({
     ok: true,

@@ -1,3 +1,58 @@
+# Платный AI-чат: WP-15 — Uzum (пакет C): ревью по спецификации, оба режима, чеки, репетиция, 2026-10-02
+
+**Итог.** Сделан WP-15 плана `10-PROD-PLAN.md` (релиз R4) на ветке `paid-chat/prod-readiness` поверх `ded5e8a8`, коммит `HEAD` (SHA записывает следующий коммит, правило D-006). Uzum доведён в обоих режимах: Checkout (`X-Terminal-Id` + `X-API-Key`) и Merchant API (Basic), у обоих есть чек, оба инертны без ключей. Отчёт ревью — новый `docs/paid-chat/UZUM-REVIEW-2026-10.md`: открытых High и Medium нет. Миграция — дописана `0068_gpt_paid_chat.sql` (в проде не применена). Ничего не запушено и не задеплоено. Cloudflare, удалённая D1, GSC, боты и вебхуки не трогались; `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты. Защищённые страницы 10/10 без изменений, `src/` и `content/` не менялись.
+
+**Возобновление.** Дерево было чистым на `56d179c3` (WP-14 после ревью), незаконченной работы WP-15 и резервных копий `wp15-*` не было. Пока шла работа, другая сессия закоммитила в эту ветку `6d949b53` (починка крона: `redirect: "error"` в Worker) и `ded5e8a8` (квитанция ресолта); с файлами WP-15 они не пересекаются.
+
+**Что сделано.**
+1. **Ревью по спецификации** Checkout 1.10.3, Merchant API 1.0.0, Fiscalization 0.0.2: соответствие по каждой операции и полю, чек-лист безопасности, решения — `UZUM-REVIEW-2026-10.md`.
+2. **Критичный дефект всех платёжных клиентов (найден по ходу).** workerd не знает `fetch(..., { redirect: "error" })` и бросает исключение до отправки (так же сломался крон, `6d949b53`). Клиенты Uzum Checkout (пакет C), Click Merchant API (WP-14) и новый Fiscalization API поэтому в проде не сделали бы ни одного запроса. Теперь `redirect: "manual"`, ответ 3xx — сбой без чтения тела. Фейки Click и Uzum в тестах бросают на `"error"`, как workerd; мутационная проверка: с `"error"` падают `gpt-click-fiscal` (11), `gpt-uzum-payments` (20), `gpt-uzum-fiscal` (9).
+3. **U1 — оплата в приложении по коду.** Новый `payment-code-store.ts`: постоянный код аккаунта, 8 случайных цифр + контрольная Луна, таблица `gpt_payment_codes` (`PRIMARY KEY(org_id, code)`, `UNIQUE(org_id, user_id)`, принятая оферта). `subscribe` в режиме Merchant API заказа не создаёт и отвечает `{mode: "code", paymentCode}`; `account` отдаёт `uzumFlow` (`checkout` | `code`) и `paymentCode`, пока код несёт текущую оферту. `/check` принимает код числом и строкой (пробелы, дефисы), отвечает `account` и `product: "AI paket 300"`; `/create` создаёт заказ на лету (`request_id = transId`, сумма строго 2 000 000, согласие из кода). Uzum теперь предлагается на сайте и в этом режиме (экран кода — WP-17; нынешнее окно на `mode: "code"` просто обновляет панель).
+4. **Правила одной оплаты аккаунта в приложении (U7, U10)** — `appPaymentAction`: невиденный провайдером счёт закрывается (`invoice_superseded`, актор `system`), неподтверждённая прежняя оплата в приложении заменяется (`uzum_superseded`, её поздний `/confirm` → 10015), остальное — 10008. Половинчатый `/create` того же `transId` подхватывается. Новые оплаты слушают выключатель продаж (`providerReady`, иначе 99999); `/confirm`, `/reverse`, `/status` работают всегда, пока у Uzum есть режим и креды.
+5. **U8.** `/confirm` пишет `confirm_requested_at` до `paid`; `/status` и повторный `/confirm` довершают оплату (даже после 30 минут), крон через 10 минут довершает сам и шлёт `uzum_confirm_recovered`. **U9:** Basic в любом регистре, сравнение декодированных `login:password` за постоянное время (`merchantAuthorized`).
+6. **U2 — чеки через Uzum Fiscalization API.** Новый `uzum-fiscal.ts` (`/v2/receipt`, `/v2/refund_receipt`, `GET /v2/receipt/{operation_id}/receipt_url`). Очередь `fiscal-store.ts` теперь общая для Click и Uzum (`provider='uzum'`, `PERFORM` и `CANCEL`): `operation_id` пишется до первого вызова и повторяется; повтор сначала спрашивает ссылку; 202 и «уже был» (400, код 2) — ждём ссылку, не шлём заново; `date_time` — момент оплаты по Ташкенту; чек возврата ждёт чек продажи и повторяет его `payment_id`, без чека продажи — `sale_unprinted`. Бэкофф и пороги как у Click, алерт `uzum_fiscal_failed` (только live). Тестовые заказы печатаются на тестовом хосте при `fiscal.test.apiKey` (Uzum требует эти ссылки до боевого ключа), без ключа — `skipped_test`.
+7. **U3.** Live Checkout требует автофискализацию **или** ключ Fiscalization API. Кто печатает чек, фиксируется при регистрации (`gpt_uzum_orders.autofiscal`): строка очереди вставляется в batch перехода в `paid` только для заказа без корзины; корзина в возврате идёт ровно тогда, когда шла в оплате; колбэк чека учитывается только для заказа с автофискализацией.
+8. **U4, U5, U11.** Просроченный зарегистрированный заказ перед закрытием сверяется с `getOrderStatus`, Uzum недоступен — ничего не закрывается (`uzum_unsettled` → 503). В тесте Checkout регистрирует на тестовом терминале и отдаёт `checkoutUrl` (только сессии репетиции). Панель спрашивает `getReceipts` для оплаченного заказа без чека.
+9. **Шаг `uzum` в тике обслуживания** (`uzum-maintenance.ts`, 8 с параллельно с `fiscal`): сверка зарегистрированных заказов через 35 минут (U4), чеки автофискализации за 48 часов (через сутки без чека — `uzum_receipt_missing`, раз в сутки), закрытие неподтверждённых оплат через 30 минут, довершение зависших подтверждений. Пока Uzum выключен — `null` без D1.
+10. **Возвраты.** `gpt-uzum-refund` берёт ключи режима самого заказа (деньги можно вернуть после выключения продаж). Для Merchant API вызова возврата нет: `confirmRefund` → 409 `uzum_merchant_refund`, запись возврата, который сделал Uzum, — по подтверждению владельца; чек возврата печатается очередью.
+11. **U12–U14 и прочее.** Адреса Fiscalization API — V `UZUM_FISCAL_BASE_URL`, `UZUM_FISCAL_TEST_BASE_URL` (значения из спеки, JSON и таблица `wrangler.toml`, `RUNTIME_CONFIG_KEYS`; JSON 3 842 из 5 120 байт) за allowlist `ipt-merch.com`, `inplat-tech.com` и хостов Uzum. Сортировка по `(created_at, provider, id)`. TIN/PINFL комитента не передаются (своя продажа, вопрос Uzum). `allowedUzumReceipt` теперь то же правило, что панель (ровно `ofd.soliq.uz` или хост Uzum) — открытый пункт WP-14. Б9 перепроверен: Uzum-DDL только в путях Uzum. Тексты алертов Uzum на русском (`alert-policy.ts`).
+12. **`0068_gpt_paid_chat.sql`** дописана: `gpt_fiscal_receipts.operation_id`, `gpt_uzum_orders.confirm_requested_at` и `autofiscal`, таблица `gpt_payment_codes`, индекс `idx_gpt_uzum_orders_state`. Тот же DDL — в bootstrap: колонка чека в `ensureBillingSchema`, остальное только в `ensureUzumSchema` (`UZUM_ORDER_COLUMNS`, `UZUM_PAID_CHAT_DDL`).
+13. **Репетиция.** `scripts/uzum-sandbox-rehearsal.ts --api merchant --simulate <сайт | local>` играет Uzum Bank: 22 шага (неверный пароль, чужой `serviceId`, опечатка в коде, код числом и `basic` строчными, неверная сумма, повтор `transId`, потерянный ответ `/confirm` и `/status` после него, повторы, возврат, замена неподтверждённой оплаты, неизвестный `transId`). Код берёт сам через сессию репетиции и `/api/gpt/subscribe`. `local` поднимает обработчики сайта на 127.0.0.1 над временной SQLite. Режим Checkout прежний (`--refund` теперь передаёт корзину по признаку заказа).
+14. Документы: `UZUM-RU.md` переписан под итог (вопросы Uzum, чеки, оба режима, возвраты, алерты, SQL); `ALERTS-RU.md` — шаги `fiscal` и `uzum` в тике, коды Uzum.
+
+**Проверки.**
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0; новые тесты и скрипт — разовой проверкой tsc без проектного конфига (ошибок в новом коде нет; одна старая в `gpt-live-readiness.test.ts:364`, WP-13).
+2. Новые и изменённые тесты по одному файлу (`NODE_OPTIONS=--max-old-space-size=1400`): `gpt-uzum-payments` 24/24 (было 17), `gpt-uzum-merchant` 12/12 (новый), `gpt-uzum-fiscal` 9/9 (новый), `gpt-uzum-rehearsal` 3/3 (новый), `gpt-paid-chat-schema` 4/4, `gpt-live-readiness` 9/9, `gpt-click-fiscal` 14/14.
+3. Весь список `npm test` по одному файлу: 80 файлов, **996/998**; падают только два известных датозависимых теста `tests/lead-radar.test.ts`.
+4. `node --import tsx scripts/uzum-sandbox-rehearsal.ts --api merchant --simulate local` — 22/22; `--dry-run` обоих режимов без сети.
+5. `npx eslint` по 29 изменённым и новым TS-файлам — 0; `git diff --check` — чисто; `scan:secrets` — чисто (3 215 файлов); `test:secret-scan` 16/16; регэксп токена Telegram по диффу — 0.
+6. `npm run build:fast` — 0; `seo-protection check` — **10/10 без изменений**; гейт бандла в норме (старт 104 967 Б br, `chat-account` 4 529 Б).
+
+**Отклонения от плана.**
+1. Чек Checkout без автофискализации — через Fiscalization API (карта называла это запасным путём, спека Checkout прямо к нему отсылает); признак `autofiscal` в заказе.
+2. `operation_id` — колонка строки чека (`gpt_fiscal_receipts`), а не `gpt_uzum_orders.fiscal_operation_id`: у чека возврата свой ключ.
+3. `gpt_payment_codes` хранит принятую оферту и `UNIQUE(org_id, user_id)`; код — 9 цифр вместе с контрольной.
+4. Замена неподтверждённой оплаты в приложении и закрытие невиденного счёта другого провайдера; выключатель продаж для `/check` и `/create` (99999).
+5. Крон довершает зависшее подтверждение (сверх U8).
+6. `gpt-uzum-refund` читает заказ до проверки конфигурации (D1 после Bearer).
+7. `UZUM_WEBHOOK_IPS` не сделан (Uzum IP не давал).
+8. Сверх плана: исправлен `redirect: "error"` в `click-merchant.ts` (WP-14) — тот же дефект, без него чеки Click в проде не печатались бы.
+
+**На релиз R4 (здесь не сделано).**
+- `0068` применяется **до** кода (шапка файла), репетиция — по образцу `tests/gpt-paid-chat-schema.test.ts` (теперь с объектами Uzum). WP-16 и WP-17 ещё допишут в неё свои DDL.
+- Приёмка после деплоя: `POST /api/payments/uzum` и `/api/payments/uzum-merchant/check` → 404; `GET /api/gpt/account` → `providers: []`, `uzumFlow: null`; тик обслуживания: `uzum: null`, `fiscal` без ошибок; `gpt_uzum_orders` и `gpt_payment_codes` — 0 строк.
+- Новые V `UZUM_FISCAL_BASE_URL`, `UZUM_FISCAL_TEST_BASE_URL` уже в `wrangler.toml`. Секретов нет; `UZUM_CREDENTIALS_JSON` (с `fiscal.{test,live}.apiKey`) присылает владелец.
+- Тёмная репетиция Uzum (WP-22): `uzum-sandbox-rehearsal.ts --api merchant --simulate https://gptbot.uz` с тестовыми кредами `merchant.test`.
+
+**Открыто.**
+1. Вопросы к Uzum — `UZUM-RU.md` §2 (тип договора, боевой адрес Checkout, автофискализация, ключи и `owner_type` Fiscalization API, повтор `/create`, поведение после 10 `/status`, тест-карты).
+2. Тот же `redirect: 'error'` остался в `functions/platform/market/media.ts` (Bormi, вне WP-15) — предложена отдельная задача.
+3. Экран кода и выбор Uzum в окне пакета — WP-17 (`uzumFlow`, `paymentCode`, поллинг статуса).
+
+**Следующее.** WP-16 (вход через бота @gptbotuz_bot).
+
+---
+
 # Платный AI-чат к проду: ревью WP-14, 2026-10-01
 
 **Итог.** Проверил коммиты WP-14 `5ac3a73a` (код, HANDOFF, STATE) и `0bf4d233` (SHA в STATE). Сверял с планом `10-PROD-PLAN.md`: §1 (правила и проверки), §2 (L12, L16), строка R4 в §3, раздел WP-14 (файлы, настройки, миграция, тесты, приёмка, риски), §5, §6 и §8 п. 5. Ещё сверял с картой `02` §5.1 и `AGENTS.md` §2–8, §11. Работа началась после перезагрузки ПК владельца: дерево было чистым на `0bf4d233`, незаконченной работы не было. Ничего не запушено и не задеплоено. Cloudflare, удалённая D1, GSC, боты и вебхуки не менялись; `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты.

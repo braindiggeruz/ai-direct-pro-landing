@@ -58,13 +58,16 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
  * informational (background): ':free' keeps answering until the UTC day ends.
  * So is bot_silent: its window is 24 h, so three failed updates nobody follows
  * up keep it true on every watchdog run of the next day, which hourly rows
- * would turn into a page an hour.
+ * would turn into a page an hour. So is uzum_receipt_missing: the Uzum step
+ * of every tick finds the same receipt missing until Uzum prints it or a
+ * person settles it (uzum-maintenance.ts).
  */
 const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "openrouter_key_credit_low",
   "openrouter_free_tier_50rpd",
   "free_paid_budget_exhausted",
   "bot_silent",
+  "uzum_receipt_missing",
 ]);
 
 function globMatch(pattern: string, code: string): boolean {
@@ -106,6 +109,14 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
   click_fiscal_failed: "Click: чек ОФД не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",
+  uzum_fiscal_failed: "Uzum: чек через Fiscalization API не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",
+  uzum_receipt_missing: "Uzum: сутки после оплаты картой нет чека автофискализации, проверьте кабинет Uzum",
+  uzum_amount_mismatch: "Uzum: сумма или номер заказа в ответе Uzum не совпали, доступ не выдан",
+  uzum_paid_after_cancel: "Uzum: деньги списаны по уже закрытому заказу, верните их или выдайте доступ вручную",
+  uzum_partial_refund: "Uzum: частичный возврат, доступ не тронут, разберитесь вручную",
+  uzum_status_conflict: "Uzum: после оплаты пришёл отказ, доступ не тронут, сверьте с кабинетом",
+  uzum_confirm_recovered: "Uzum: оплата в приложении завершена после сбоя подтверждения, сверьте её с кабинетом Uzum",
+  uzum_processing: "Uzum: ошибка сервера при обработке уведомления, Uzum повторит запрос",
   drill: "учебный алерт: канал доставки работает",
 };
 

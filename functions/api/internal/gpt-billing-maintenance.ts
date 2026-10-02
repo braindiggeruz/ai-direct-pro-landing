@@ -8,11 +8,17 @@
 // timeout):
 //   providers    OpenRouter chain endpoints and key, at most hourly
 //   watchdog     silence watchdog, at most every 10 minutes
-//   fiscal       Click fiscal receipts that are due, at most 5 (fiscal-store.ts).
-//                It starts first and runs beside providers and watchdog: a
-//                receipt is several calls to api.click.uz, too slow for a
-//                slice of its own. Alerts wait for it, so its
-//                click_fiscal_failed goes out this tick.
+//   fiscal       fiscal receipts that are due (Click, and Uzum's through the
+//                Fiscalization API), at most 5 (fiscal-store.ts).
+//   uzum         Uzum orders a callback or webhook left open: card payments to
+//                settle from Uzum's status, missing receipts of auto-fiscalized
+//                ones, app transactions to close or finish (uzum-maintenance.ts);
+//                off while Uzum is.
+//                fiscal and uzum start first and run beside providers and
+//                watchdog: a receipt or a status is several calls to Click or
+//                Uzum, too slow for a slice of their own. Alerts wait for
+//                both, so click_fiscal_failed and the uzum_* codes go out this
+//                tick.
 //   alerts       deliver urgent service alerts to the owner
 //   maintenance  retention sweeps; the payment outbox in live mode
 //   rekey        after GPT_HASH_SALT_SINCE, one batch of legacy hashes per
@@ -45,13 +51,15 @@ import { runWatchdog } from "../../lib/gpt-chat/watchdog-store";
 import { rekeySaltedHashes } from "../../lib/gpt-chat/salt-rekey-store";
 import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
+import { maintainUzum } from "../../lib/gpt-chat/uzum-maintenance";
 
-// 19 s together, under the Worker's 20 s timeout: fiscal runs beside
-// providers + watchdog (8 s both), then alerts and the rest follow one by one.
+// 19 s together, under the Worker's 20 s timeout: fiscal and uzum run beside
+// providers + watchdog (8 s each), then alerts and the rest follow one by one.
 const STEP_BUDGET_MS = {
   providers: 6_000,
   watchdog: 2_000,
   fiscal: 8_000,
+  uzum: 8_000,
   alerts: 4_500,
   maintenance: 2_500,
   rekey: 2_000,
@@ -60,9 +68,9 @@ const STEP_BUDGET_MS = {
 } as const;
 type Step = keyof typeof STEP_BUDGET_MS;
 /**
- * No receipt starts after this. One already started may still make up to
- * three calls of 0.5 s at most (fiscal-store.ts), so the step ends well
- * inside its 8 s.
+ * No receipt and no Uzum call starts after this. One already started may
+ * still make up to three calls of 0.5 s at most (fiscal-store.ts,
+ * uzum-maintenance.ts), so each step ends well inside its 8 s.
  */
 const FISCAL_RUN_MS = 5_000;
 
@@ -131,13 +139,15 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       return null;
     }
   };
-  // Not awaited yet: the receipts run beside the next two steps.
+  // Not awaited yet: receipts and Uzum run beside the next two steps.
   const fiscalRun = step("fiscal", () =>
     fiscalizeDue(env, { budgetMs: FISCAL_RUN_MS }),
   );
+  const uzumRun = step("uzum", () => maintainUzum(env, { budgetMs: FISCAL_RUN_MS }));
   const providers = await step("providers", () => checkBillingProviders(env));
   const watchdog = await step("watchdog", () => runWatchdog(env));
   const fiscal = await fiscalRun;
+  const uzum = await uzumRun;
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const maintenance = await step("maintenance", () => maintainBilling(env));
   const rekey = await step("rekey", () => rekeySaltedHashes(env));
@@ -150,6 +160,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       providers,
       watchdog,
       fiscal,
+      uzum,
       alerts,
       ...maintenance,
       rekey,

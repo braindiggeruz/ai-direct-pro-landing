@@ -1,18 +1,24 @@
-// Fiscal receipts queue (plan WP-14, D3): every live Click payment gets a
-// receipt from the tax authority's OFD with a link on ofd.soliq.uz, with
-// retries, idempotently, and with an alert when it keeps failing.
+// Fiscal receipts queue (plan WP-14 and WP-15, D3): every live Click payment,
+// and every Uzum payment whose registration carried no auto-fiscalization
+// cart, gets a receipt from the tax authority's OFD with a link on
+// ofd.soliq.uz, with retries, idempotently, and with an alert when it keeps
+// failing.
 //
 // Rows live in gpt_fiscal_receipts (0064 + migrations/0068). The batch that
-// marks a Click order paid inserts its PERFORM row (billing-store.ts); the
-// primary key (org_id, order_id, kind) makes that insert idempotent.
-// status_code: -1 queued, 0 printed, -2 skipped (a test order, one
-// reversed before its receipt was printed, or one closed by hand after a
-// receipt printed elsewhere, docs/paid-chat/CLICK-FISCAL-RU.md: last_error
-// says which).
+// marks an order paid inserts its PERFORM row; for Uzum the batch that
+// returns the money of such an order inserts its CANCEL row (billing-store.ts).
+// The primary key (org_id, order_id, kind) makes those inserts idempotent.
+// status_code: -1 queued, 0 printed, -2 skipped (a Click test order or an
+// Uzum test order without a test key, one reversed before its receipt was
+// printed, a refund receipt of a sale that never printed, or one closed by
+// hand after a receipt printed elsewhere, docs/paid-chat/CLICK-FISCAL-RU.md:
+// last_error says which).
 //
-// fiscalizeDue runs right after Click's Complete (waitUntil) and in every
-// maintenance tick. It leases one due row at a time (UPDATE … WHERE
-// lease_until<=? RETURNING), so two workers never print the same receipt:
+// fiscalizeDue runs right after Click's Complete and Uzum's payment
+// (waitUntil) and in every maintenance tick. It leases one due row at a time
+// (UPDATE … WHERE lease_until<=? RETURNING), so two workers never print the
+// same receipt.
+// Click (click-merchant.ts):
 //   1. Click's payment_id is looked up by our merchant_trans_id
 //      (status_by_mti) once and kept;
 //   2. a retry first asks ofd_data whether the receipt already exists;
@@ -20,11 +26,21 @@
 //      accepted (submitted_at): a receipt is never sent twice on purpose;
 //   4. ofd_data gives the link. Printed = error_code 0 and a qrCodeURL on
 //      https://ofd.soliq.uz (fiscal-config.ts ofdReceiptLink).
+// Uzum (uzum-fiscal.ts):
+//   1. the receipt's operation_id is written before the first call and reused;
+//   2. a retry first asks receipt_url by that operation_id;
+//   3. the receipt goes out (/v2/receipt or /v2/refund_receipt); "sent before"
+//      counts as accepted, never as a reason to send another;
+//   4. the link comes with the answer or from receipt_url. A refund receipt
+//      waits for its sale receipt and repeats its payment_id.
+//   Test orders print on the test host with the test key; without one they
+//   are skipped_test.
 // A failure waits 1, 5, 15, 60 minutes, then every 6 hours. From the sixth
-// failed attempt, or once the payment is more than 24 hours old, a failure
-// records the urgent alert click_fiscal_failed (one row per hour).
-// last_error keeps a coarse code only (payment_id:network, submit:click_-5,
-// qr_pending): never a message, a key or a card detail.
+// failed attempt, or once the payment is more than 24 hours old, a failure of
+// a live receipt records the urgent alert click_fiscal_failed or
+// uzum_fiscal_failed (one row per hour). last_error keeps a coarse code only
+// (payment_id:network, submit:click_-5, qr_pending): never a message, a key
+// or a card detail.
 import {
   BILLING_ORG,
   clickCredentials,
@@ -42,7 +58,21 @@ import {
   type ClickCallOptions,
   type ClickMerchantAuth,
 } from "./click-merchant";
-import { fiscalParams, fiscalTin, ofdReceiptLink } from "./fiscal-config";
+import {
+  fiscalParams,
+  fiscalTin,
+  ofdReceiptLink,
+  testReceiptLink,
+} from "./fiscal-config";
+import { isUuid, uzumFiscalAccess, type UzumFiscalAccess } from "./uzum-config";
+import {
+  fetchReceiptUrl,
+  submitReceipt,
+  UZUM_FISCAL_TIMEOUT_MS,
+  uzumFiscalFailureCode,
+  uzumReceiptBody,
+  type UzumFiscalCallOptions,
+} from "./uzum-fiscal";
 
 export const FISCAL_QUEUED = -1;
 export const FISCAL_PRINTED = 0;
@@ -58,12 +88,17 @@ const FISCAL_BATCH = 5;
 /** Below this, a run stops instead of starting another call. */
 const MIN_CALL_MS = 500;
 
+export type FiscalProvider = "click" | "uzum";
+export type FiscalKind = "PERFORM" | "CANCEL";
 /** A leased queue row. `lease_until` is the lease's token: every write checks it. */
 export interface FiscalRow {
   order_id: string;
+  kind: FiscalKind;
+  provider: FiscalProvider;
   attempts: number;
   payment_id: string | null;
   submitted_at: number | null;
+  operation_id: string | null;
   lease_until: number;
 }
 interface ClickOrderFacts {
@@ -73,6 +108,15 @@ interface ClickOrderFacts {
   amount: number;
   provider_time: number | null;
   perform_time: number;
+}
+interface UzumOrderFacts {
+  id: string;
+  state: string;
+  mode: BillingMode;
+  amount: number;
+  external_id: string | null;
+  perform_time: number;
+  cancel_time: number;
 }
 
 export function fiscalBackoff(attempts: number): number {
@@ -84,14 +128,14 @@ export class FiscalStore {
     readonly db: D1Database,
     readonly org: string,
   ) {}
-  /** Leases the next due Click receipt, or null when none is due. */
+  /** Leases the next due receipt of either provider, or null when none is due. */
   claim(now: number): Promise<FiscalRow | null> {
     return this.db
       .prepare(
         `UPDATE gpt_fiscal_receipts SET lease_until=?,attempts=attempts+1,updated_at=?
-      WHERE org_id=? AND rowid=(SELECT rowid FROM gpt_fiscal_receipts WHERE org_id=? AND provider='click' AND kind='PERFORM'
+      WHERE org_id=? AND rowid=(SELECT rowid FROM gpt_fiscal_receipts WHERE org_id=? AND provider IN ('click','uzum')
         AND status_code=? AND next_at<=? AND lease_until<=? ORDER BY next_at LIMIT 1) AND lease_until<=?
-      RETURNING order_id,attempts,payment_id,submitted_at,lease_until`,
+      RETURNING order_id,kind,provider,attempts,payment_id,submitted_at,operation_id,lease_until`,
       )
       .bind(now + FISCAL_LEASE_MS, now, this.org, this.org, FISCAL_QUEUED, now, now, now)
       .first<FiscalRow>();
@@ -104,20 +148,34 @@ export class FiscalStore {
       .bind(this.org, id)
       .first<ClickOrderFacts>();
   }
+  /** Read only for a claimed Uzum row, so gpt_uzum_orders (0065) exists by then. */
+  uzumOrder(id: string): Promise<UzumOrderFacts | null> {
+    return this.db
+      .prepare(
+        "SELECT id,state,mode,amount,external_id,perform_time,cancel_time FROM gpt_uzum_orders WHERE org_id=? AND id=?",
+      )
+      .bind(this.org, id)
+      .first<UzumOrderFacts>();
+  }
   /** One write on a leased row; a lost lease (another worker took over) changes nothing. */
   private async leased(row: FiscalRow, set: string, values: unknown[]): Promise<void> {
     await this.db
       .prepare(
-        `UPDATE gpt_fiscal_receipts SET ${set} WHERE org_id=? AND order_id=? AND kind='PERFORM' AND lease_until=?`,
+        `UPDATE gpt_fiscal_receipts SET ${set} WHERE org_id=? AND order_id=? AND kind=? AND lease_until=?`,
       )
-      .bind(...values, this.org, row.order_id, row.lease_until)
+      .bind(...values, this.org, row.order_id, row.kind, row.lease_until)
       .run();
   }
   keepPaymentId(row: FiscalRow, paymentId: string): Promise<void> {
     return this.leased(row, "payment_id=?", [paymentId]);
   }
-  submitted(row: FiscalRow, now: number): Promise<void> {
-    return this.leased(row, "submitted_at=?", [now]);
+  /** The Uzum receipt's idempotency key, written before the receipt goes out. */
+  keepOperationId(row: FiscalRow, operationId: string): Promise<void> {
+    return this.leased(row, "operation_id=?", [operationId]);
+  }
+  /** The provider accepted the receipt; the payment id it named is kept unless one is. */
+  submitted(row: FiscalRow, now: number, paymentId: string | null = null): Promise<void> {
+    return this.leased(row, "submitted_at=?,payment_id=COALESCE(payment_id,?)", [now, paymentId]);
   }
   printed(row: FiscalRow, url: string, now: number): Promise<void> {
     return this.leased(
@@ -140,7 +198,7 @@ export class FiscalStore {
       now,
     ]);
   }
-  /** The receipt row of an order, for the reversal endpoint. */
+  /** The sale receipt row of an order (the reversal endpoint; an Uzum refund receipt). */
   receipt(orderId: string) {
     return this.db
       .prepare(
@@ -158,12 +216,12 @@ export class FiscalStore {
       .bind(paymentId, this.org, orderId)
       .run();
   }
-  /** Click receipts still waiting, and how many of them are past the alert threshold. */
+  /** Receipts still waiting, and how many of them are past the alert threshold. */
   async queue(): Promise<{ queued: number; failing: number }> {
     const row = await this.db
       .prepare(
         `SELECT COUNT(*) AS queued,COALESCE(SUM(attempts>=?),0) AS failing FROM gpt_fiscal_receipts
-      WHERE org_id=? AND provider='click' AND kind='PERFORM' AND status_code=?`,
+      WHERE org_id=? AND provider IN ('click','uzum') AND status_code=?`,
       )
       .bind(FISCAL_ALERT_ATTEMPTS, this.org, FISCAL_QUEUED)
       .first<{ queued: number; failing: number }>();
@@ -186,7 +244,23 @@ export function clickMerchantAuth(
     : null;
 }
 
-/** Prints one leased receipt: the link, or a coarse failure code. */
+type Printed = { link: string } | { error: string };
+/** One claimed row's fate: printed, failed (retried), or skipped with a reason. */
+type Outcome = Printed | { skip: string };
+interface Due {
+  outcome: Outcome;
+  /** The alert a failure records once it is old or repeated; null for a test receipt. */
+  alert: string | null;
+  /** When the money moved: the age that raises the alert. */
+  since: number;
+}
+
+/** A call's timeout: what is left of the run, within the provider's own limit. */
+function callTimeout(limitMs: number, deadline: number): number {
+  return Math.max(MIN_CALL_MS, Math.min(limitMs, deadline - Date.now()));
+}
+
+/** Prints one leased Click receipt: the link, or a coarse failure code. */
 async function printClickReceipt(
   env: BillingEnv,
   store: FiscalStore,
@@ -194,14 +268,14 @@ async function printClickReceipt(
   order: ClickOrderFacts,
   now: number,
   deadline: number,
-): Promise<{ link: string } | { error: string }> {
+): Promise<Printed> {
   const auth = clickMerchantAuth(env, "live");
   const params = fiscalParams(env);
   const tin = fiscalTin(env);
   if (!auth || !params || !tin) return { error: "config_missing" };
   const options = (): ClickCallOptions => ({
     now,
-    timeoutMs: Math.max(MIN_CALL_MS, Math.min(CLICK_TIMEOUT_MS, deadline - Date.now())),
+    timeoutMs: callTimeout(CLICK_TIMEOUT_MS, deadline),
   });
   let payment = row.payment_id;
   if (!payment) {
@@ -236,6 +310,119 @@ async function printClickReceipt(
   return receipt.qrCodeUrl ? link(receipt.qrCodeUrl) : { error: "qr_pending" };
 }
 
+async function dueClick(
+  env: BillingEnv,
+  store: FiscalStore,
+  row: FiscalRow,
+  now: number,
+  deadline: number,
+): Promise<Due> {
+  const order = await store.clickOrder(row.order_id);
+  if (!order || order.mode !== "live" || order.state !== "paid")
+    return {
+      outcome: {
+        skip: !order ? "order_missing" : order.mode !== "live" ? "skipped_test" : "skipped_refunded",
+      },
+      alert: null,
+      since: now,
+    };
+  return {
+    outcome: await printClickReceipt(env, store, row, order, now, deadline),
+    alert: "click_fiscal_failed",
+    since: order.perform_time || now,
+  };
+}
+
+/** Prints one leased Uzum receipt through the Fiscalization API. */
+async function printUzumReceipt(
+  env: BillingEnv,
+  store: FiscalStore,
+  row: FiscalRow,
+  order: UzumOrderFacts,
+  access: UzumFiscalAccess,
+  salePaymentId: string | null,
+  at: number,
+  now: number,
+  deadline: number,
+): Promise<Printed> {
+  const params = fiscalParams(env);
+  if (!params) return { error: "config_missing" };
+  const options = (): UzumFiscalCallOptions => ({
+    timeoutMs: callTimeout(UZUM_FISCAL_TIMEOUT_MS, deadline),
+  });
+  // The idempotency key exists before Uzum ever hears of this receipt.
+  let operationId = row.operation_id;
+  if (!operationId) {
+    operationId = crypto.randomUUID();
+    await store.keepOperationId(row, operationId);
+  }
+  const link = (url: string): Printed => {
+    const checked = order.mode === "live" ? ofdReceiptLink(url) : testReceiptLink(url);
+    return checked ? { link: checked } : { error: "qr_host" };
+  };
+  // A retry: the receipt may be printed already (a lost answer, a slow OFD).
+  if (row.attempts > 1 || row.submitted_at !== null) {
+    const existing = await fetchReceiptUrl(access, operationId, options());
+    if (existing.ok)
+      return existing.receiptUrl ? link(existing.receiptUrl) : { error: "qr_pending" };
+    // Uzum took it before: wait for its link rather than resend it.
+    if (existing.error !== "not_found" && row.submitted_at !== null)
+      return { error: `url:${uzumFiscalFailureCode(existing)}` };
+  }
+  const paymentId =
+    row.kind === "CANCEL"
+      ? salePaymentId
+      : (row.payment_id ?? (isUuid(order.external_id) ? order.external_id.toLowerCase() : null));
+  if (row.kind === "CANCEL" && !paymentId) return { error: "payment_id" };
+  const sent = await submitReceipt(
+    access,
+    row.kind,
+    uzumReceiptBody(row.kind, { operationId, paymentId, at, amount: order.amount, params }),
+    options(),
+  );
+  if (!sent.ok) return { error: `submit:${uzumFiscalFailureCode(sent)}` };
+  await store.submitted(row, now, row.kind === "PERFORM" ? (sent.paymentId ?? paymentId) : null);
+  if (sent.receiptUrl) return link(sent.receiptUrl);
+  const receipt = await fetchReceiptUrl(access, operationId, options());
+  if (!receipt.ok) return { error: `url:${uzumFiscalFailureCode(receipt)}` };
+  return receipt.receiptUrl ? link(receipt.receiptUrl) : { error: "qr_pending" };
+}
+
+async function dueUzum(
+  env: BillingEnv,
+  store: FiscalStore,
+  row: FiscalRow,
+  now: number,
+  deadline: number,
+): Promise<Due> {
+  const skip = (reason: string): Due => ({ outcome: { skip: reason }, alert: null, since: now });
+  const order = await store.uzumOrder(row.order_id);
+  if (!order) return skip("order_missing");
+  // A sale reversed before its receipt printed is no sale; a refund receipt
+  // belongs to money that went back.
+  if (row.kind === "PERFORM" && order.state !== "paid") return skip("skipped_refunded");
+  if (row.kind === "CANCEL" && order.state !== "refunded") return skip("not_refunded");
+  const access = uzumFiscalAccess(env, order.mode);
+  if (!access && order.mode === "test") return skip("skipped_test");
+  const at = (row.kind === "PERFORM" ? order.perform_time : order.cancel_time) || now;
+  const alert = order.mode === "live" ? "uzum_fiscal_failed" : null;
+  let salePaymentId: string | null = null;
+  if (row.kind === "CANCEL") {
+    const sale = await store.receipt(order.id);
+    // No sale receipt ever printed: there is nothing to refund on the OFD.
+    if (!sale || sale.status_code === FISCAL_SKIPPED) return skip("sale_unprinted");
+    if (sale.status_code !== FISCAL_PRINTED)
+      return { outcome: { error: "sale_pending" }, alert, since: at };
+    salePaymentId = sale.payment_id;
+  }
+  if (!access) return { outcome: { error: "config_missing" }, alert, since: at };
+  return {
+    outcome: await printUzumReceipt(env, store, row, order, access, salePaymentId, at, now, deadline),
+    alert,
+    since: at,
+  };
+}
+
 export interface FiscalTick {
   printed: number;
   /** Failed this time; each waits for its next attempt. */
@@ -247,9 +434,9 @@ export interface FiscalTick {
 }
 
 /**
- * Prints the due Click receipts, at most `limit`, within `budgetMs` of wall
- * time (a row already started finishes its calls; its lease covers a cut).
- * Live orders only: a test order's row is skipped_test from the start.
+ * Prints the due receipts of Click and Uzum, at most `limit`, within
+ * `budgetMs` of wall time (a row already started finishes its calls; its
+ * lease covers a cut).
  */
 export async function fiscalizeDue(
   env: BillingEnv,
@@ -265,27 +452,23 @@ export async function fiscalizeDue(
     if (deadline - Date.now() < MIN_CALL_MS) break;
     const row = await store.claim(now);
     if (!row) break;
-    const order = await store.clickOrder(row.order_id);
-    if (!order || order.mode !== "live" || order.state !== "paid") {
-      await store.skip(
-        row,
-        !order ? "order_missing" : order.mode !== "live" ? "skipped_test" : "skipped_refunded",
-        now,
-      );
+    const due =
+      row.provider === "click"
+        ? await dueClick(env, store, row, now, deadline)
+        : await dueUzum(env, store, row, now, deadline);
+    const { outcome } = due;
+    if ("skip" in outcome) {
+      await store.skip(row, outcome.skip, now);
       tick.skipped++;
-      continue;
-    }
-    const result = await printClickReceipt(env, store, row, order, now, deadline);
-    if ("link" in result) {
-      await store.printed(row, result.link, now);
+    } else if ("link" in outcome) {
+      await store.printed(row, outcome.link, now);
       tick.printed++;
-      continue;
+    } else {
+      await store.retry(row, outcome.error, now);
+      tick.retried++;
+      if (due.alert && (row.attempts >= FISCAL_ALERT_ATTEMPTS || now - due.since > FISCAL_ALERT_AGE_MS))
+        await recordServiceAlert(env, due.alert, now);
     }
-    await store.retry(row, result.error, now);
-    tick.retried++;
-    const paidAt = order.perform_time || now;
-    if (row.attempts >= FISCAL_ALERT_ATTEMPTS || now - paidAt > FISCAL_ALERT_AGE_MS)
-      await recordServiceAlert(env, "click_fiscal_failed", now);
   }
   Object.assign(tick, await store.queue());
   return tick;

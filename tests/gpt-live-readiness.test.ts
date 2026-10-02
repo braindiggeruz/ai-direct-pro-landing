@@ -82,6 +82,21 @@ test("a complete configuration is live-ready for Click and Uzum, and offered to 
   assert.deepEqual(offeredProviders(env, "live"), ["click", "uzum"]);
   // Nothing is in test, so a rehearsal context is offered nothing.
   assert.deepEqual(offeredProviders(env, "test"), []);
+  // Uzum is live-ready in either flow: Checkout without auto-fiscalization
+  // with the Fiscalization API key, and the Merchant API with it.
+  const fiscal = { fiscal: { live: { apiKey: marked() } } };
+  const cardByApi = liveEnv({
+    UZUM_AUTOFISCAL: "false",
+    UZUM_CREDENTIALS_JSON: JSON.stringify({ checkout: { live: { terminalId: randomUUID(), apiKey: marked() } }, ...fiscal }),
+  });
+  const app = liveEnv({
+    UZUM_API: "merchant",
+    UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: marked() } }, ...fiscal }),
+  });
+  for (const ready of [cardByApi, app]) {
+    assert.deepEqual(liveReadiness(ready, "uzum"), []);
+    assert.deepEqual(offeredProviders(ready, "live"), ["click", "uzum"]);
+  }
 });
 
 test("every missing or invalid setting blocks live and is reported alone, by name", () => {
@@ -134,6 +149,9 @@ test("every missing or invalid setting blocks live and is reported alone, by nam
     // Merchant API: credentials and the Fiscalization API key.
     ["uzum", { UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ fiscal: { live: { apiKey: marked() } } }) }, "UZUM_CREDENTIALS_JSON.merchant.live"],
     ["uzum", { UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: marked() } } }) }, "UZUM_CREDENTIALS_JSON.fiscal.live.apiKey"],
+    ["uzum", { UZUM_API: "merchant", UZUM_FISCAL_BASE_URL: "https://evil.example", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: marked() } }, fiscal: { live: { apiKey: marked() } } }) }, "UZUM_FISCAL_BASE_URL"],
+    // Checkout without auto-fiscalization prints through the Fiscalization API instead.
+    ["uzum", { UZUM_AUTOFISCAL: "false", UZUM_FISCAL_BASE_URL: "http://ofd-key.inplat-tech.com", UZUM_CREDENTIALS_JSON: JSON.stringify({ checkout: { live: { terminalId: randomUUID(), apiKey: marked() } }, fiscal: { live: { apiKey: marked() } } }) }, "UZUM_FISCAL_BASE_URL"],
   ];
   const outputs: string[][] = [];
   for (const [provider, change, name] of cases) {
@@ -219,8 +237,14 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes(secret), secret);
     assert.doesNotMatch(source, new RegExp(`^\\s*${secret}\\s*=`, "mu"), secret);
   }
-  // The legacy Uzum fiscal names are gone: one source for every receipt.
-  assert.ok(!Object.keys(packed).some((key) => key.startsWith("UZUM_FISCAL_")));
+  // The legacy Uzum receipt codes are gone: one source for every receipt
+  // (GPT_FISCAL_*). UZUM_FISCAL_*BASE_URL are the Fiscalization API hosts.
+  for (const legacy of ["UZUM_FISCAL_IKPU", "UZUM_FISCAL_PACKAGE_CODE", "UZUM_FISCAL_VAT_PERCENT"])
+    assert.ok(!(legacy in packed) && !(RUNTIME_CONFIG_KEYS as readonly string[]).includes(legacy), legacy);
+  assert.deepEqual(
+    Object.keys(packed).filter((key) => key.startsWith("UZUM_FISCAL_")),
+    ["UZUM_FISCAL_BASE_URL", "UZUM_FISCAL_TEST_BASE_URL"],
+  );
   // Every payment route is a missing route, before any D1 access.
   const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };
   const post = (handler: typeof click, url: string) =>

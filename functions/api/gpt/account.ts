@@ -7,12 +7,13 @@ import {
   providerMode,
   termsUrl,
   termsVersion,
+  uzumFlow,
   type BillingEnv,
   type BillingMode,
 } from "../../lib/gpt-chat/billing-config";
 import { fiscalParams, includedVat, receiptLink } from "../../lib/gpt-chat/fiscal-config";
 import { viewerMode } from "../../lib/gpt-chat/rehearsal";
-import { BillingStore } from "../../lib/gpt-chat/billing-store";
+import { BillingStore, type Order } from "../../lib/gpt-chat/billing-store";
 import {
   ensureBillingSchema,
   ensureUzumSchema,
@@ -23,22 +24,28 @@ import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { PACK_DAILY_LIMIT, TurnStore } from "../../lib/gpt-chat/turn-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
 import { uzumApi, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
 import { UzumStore } from "../../lib/gpt-chat/uzum-store";
+import { PaymentCodeStore } from "../../lib/gpt-chat/payment-code-store";
 
 /**
- * A prepared Uzum Checkout order is settled from Uzum's own status when the
- * visitor opens the panel or presses "check status": this recovers a lost or
- * late callback. Bounded per account; any failure leaves the state as it is.
+ * The latest Uzum Checkout order is settled from Uzum's own answers when the
+ * visitor opens the panel or presses "check status": a prepared order's
+ * status (a lost or late callback) and the receipts of a paid order Uzum
+ * auto-fiscalizes (a lost receipt callback, U11). Bounded per account; any
+ * failure leaves things as they are. True when something changed.
  */
 async function reconcileUzum(
   env: BillingEnv,
   db: D1Database,
   user: string,
-  orderId: string,
+  latest: Order,
 ): Promise<boolean> {
+  if (latest.provider !== "uzum" || !["prepared", "paid"].includes(latest.state))
+    return false;
   const mode = providerMode(env, "uzum");
   const cfg =
     mode && uzumApi(env) === "checkout"
@@ -47,8 +54,10 @@ async function reconcileUzum(
   if (!mode || !cfg) return false;
   try {
     const store = new UzumStore(db, BILLING_ORG);
-    const row = await store.order(orderId);
+    const row = await store.order(latest.id);
     if (!row || row.user_id !== user || row.api !== "checkout" || row.mode !== mode)
+      return false;
+    if (row.state === "paid" && (row.autofiscal !== 1 || (await store.hasSaleReceipt(row.id))))
       return false;
     await ensureSchema(db);
     const rate = await consumeRateLimit(db, "uzum_reconcile", user, {
@@ -56,11 +65,22 @@ async function reconcileUzum(
       windowMs: HOUR_MS,
     });
     if (!rate.allowed) return false;
+    if (row.state === "paid") return ((await store.pullReceipts(cfg, row)) ?? 0) > 0;
     const settled = await store.reconcileCheckout(env, cfg, row);
     return !!settled && settled.result !== "unchanged";
   } catch {
     return false;
   }
+}
+
+/** The account's Uzum app code, while it carries the current offer; else null. */
+async function currentPaymentCode(
+  env: BillingEnv,
+  db: D1Database,
+  user: string,
+): Promise<string | null> {
+  const row = await new PaymentCodeStore(db, BILLING_ORG).forUser(user);
+  return row && row.terms_version === termsVersion(env) ? row.code : null;
 }
 
 export const onRequestGet: PagesFunction<BillingEnv> = async ({
@@ -72,6 +92,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
   // else live ones only (decision L7, rehearsal.ts). No D1 read.
   const context: BillingMode = await viewerMode(request, env);
   const providers = offeredProviders(env, context);
+  const flow = providers.includes("uzum") ? uzumFlow(env) : null;
   const cfg = resolveConfig(env);
   const fiscal = fiscalParams(env);
   const logins = loginMethods(env);
@@ -99,6 +120,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
     providers,
+    // How Uzum is paid when offered: its card page, or the payment code for
+    // the Uzum Bank app (Merchant API).
+    uzumFlow: flow,
     terms: {
       ru: termsUrl(env.GPT_BILLING_TERMS_RU),
       uz: termsUrl(env.GPT_BILLING_TERMS_UZ),
@@ -118,15 +142,14 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     if (!user) return json({ ...base, user: null });
     const store = new BillingStore(db, BILLING_ORG);
     let latest = await store.latestAcrossProviders(user, context);
-    if (
-      latest?.provider === "uzum" &&
-      latest.state === "prepared" &&
-      (await reconcileUzum(env, db, user, latest.id))
-    ) {
+    if (latest && (await reconcileUzum(env, db, user, latest))) {
       waitUntil(
         maintainBilling(env).catch(() =>
           console.warn("gpt_billing_delivery_failed"),
         ),
+      );
+      waitUntil(
+        fiscalizeDue(env).catch(() => console.warn("gpt_uzum_fiscal_failed")),
       );
       latest = await store.latestAcrossProviders(user, context);
     }
@@ -150,6 +173,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     return json({
       ...base,
       user: { signedIn: true, storageKey: await sha256Hex(`local-history:${BILLING_ORG}:${user}`) },
+      // Issued by /api/gpt/subscribe once its owner accepted the offer.
+      paymentCode: flow === "code" ? await currentPaymentCode(env, db, user) : null,
       remaining,
       receipts,
       refundable,

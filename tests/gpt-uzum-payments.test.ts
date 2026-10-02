@@ -1,5 +1,8 @@
-// Uzum Bank payments (package C): Checkout callbacks + pulls, Merchant API
-// webhooks, owner refunds, the 0065 ledger table and the cross-provider view.
+// Uzum Bank payments (package C, plan WP-15): Checkout callbacks + pulls,
+// owner refunds, the maintenance step, the 0065 ledger table and the
+// cross-provider view. The Merchant API webhooks are in
+// tests/gpt-uzum-merchant.test.ts, the Fiscalization API in
+// tests/gpt-uzum-fiscal.test.ts, the rehearsal in tests/gpt-uzum-rehearsal.test.ts.
 // Every credential below is random per run; no request leaves the process.
 // Run: node --import tsx --test tests/gpt-uzum-payments.test.ts
 import { test } from "node:test";
@@ -14,6 +17,7 @@ import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
 import { onRequestPost as uzumMerchant } from "../functions/api/payments/uzum-merchant/[op]";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestGet as account } from "../functions/api/gpt/account";
+import { onRequestPost as maintenance } from "../functions/api/internal/gpt-billing-maintenance";
 import {
   addCalendarMonth,
   BILLING_ORG,
@@ -28,14 +32,16 @@ import {
   ensureBillingSchema,
   ensureUzumSchema,
 } from "../functions/lib/gpt-chat/billing-schema";
-import { UzumStore } from "../functions/lib/gpt-chat/uzum-store";
+import { UzumStore, UZUM_SESSION_EXPIRED_MS } from "../functions/lib/gpt-chat/uzum-store";
 import {
   allowedUzumReceipt,
   allowedUzumRedirect,
   uzumBaseUrl,
   uzumFiscal,
+  uzumFiscalBaseUrl,
   UZUM_HOST_PATTERN,
 } from "../functions/lib/gpt-chat/uzum-config";
+import { maintainUzum } from "../functions/lib/gpt-chat/uzum-maintenance";
 import { maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { inspectBilling } from "../functions/lib/gpt-chat/billing-operations-store";
 import { UZUM_CHECKOUT_HOST, allowedCheckoutUrl, validAccountView } from "../src/gpt-chat/types";
@@ -102,8 +108,11 @@ test("1. not configured: callbacks 404 without touching D1, subscribe refuses, p
       { GPT_BILLING_MODE: "live", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://evil.example" },
       { GPT_BILLING_MODE: "live", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "http://api.uzumbank.uz" },
       { GPT_BILLING_MODE: "live", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: "{not json", UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
-      // Merchant API selected but only Checkout credentials present.
+      // Merchant API selected but only Checkout credentials present, or a
+      // malformed Merchant block (serviceId as a string, a ':' in the login).
       { GPT_BILLING_MODE: "live", UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: checkoutCreds },
+      { GPT_BILLING_MODE: "live", UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: "77", login: "x", password: randomBytes(12).toString("hex") } } }) },
+      { GPT_BILLING_MODE: "live", UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "a:b", password: randomBytes(12).toString("hex") } } }) },
       { GPT_BILLING_MODE: "live", UZUM_API: "other", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
       // Fully configured, but switched off for Uzum alone or not allowed at all.
       { GPT_BILLING_MODE: "live", GPT_BILLING_MODE_UZUM: "off", UZUM_API: "checkout", UZUM_CREDENTIALS_JSON: checkoutCreds, UZUM_CHECKOUT_BASE_URL: "https://api.uzumbank.uz" },
@@ -129,13 +138,18 @@ test("1. not configured: callbacks 404 without touching D1, subscribe refuses, p
       (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie } })))).json()) as { providers: string[] };
     assert.deepEqual((await view("")).providers, []);
     assert.deepEqual((await view()).providers, ["click", "payme"]);
-    // Merchant API ready: still no Uzum button (no customer screen yet).
+    // The maintenance step stays off without reading D1.
+    assert.equal(await maintainUzum({ GPTBOT_DRAFTS_DB: bomb } as unknown as BillingEnv), null);
+    assert.equal(await maintainUzum({ GPTBOT_DRAFTS_DB: bomb, GPT_BILLING_MODE: "test" } as unknown as BillingEnv), null);
+    // Merchant API ready: offered (in the rehearsal) with the app-code flow.
     Object.assign(f.env, {
       UZUM_API: "merchant",
       UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { test: { serviceId: 77, login: "fixture", password: randomBytes(12).toString("hex") } } }),
     });
     assert.equal(providerReady(f.env, "uzum"), true);
-    assert.deepEqual((await view()).providers, ["click", "payme"]);
+    const merchantView = (await view()) as { providers: string[]; uzumFlow?: unknown };
+    assert.deepEqual([merchantView.providers, merchantView.uzumFlow], [["click", "uzum", "payme"], "code"]);
+    assert.equal(((await view("")) as { uzumFlow?: unknown }).uzumFlow, null);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_uzum_orders"), 0);
     assert.equal(outbound, 0);
   } finally {
@@ -155,6 +169,17 @@ test("config: host allowlist, fiscal completeness and key gates fail closed", ()
   assert.equal(allowedUzumRedirect("https://ofd.soliq.uz/check"), null);
   assert.equal(allowedUzumReceipt("https://ofd.soliq.uz/check?t=1"), "https://ofd.soliq.uz/check?t=1");
   assert.equal(allowedUzumReceipt("javascript:alert(1)"), null);
+  // The same rule as the account panel: the tax authority's ofd.soliq.uz
+  // exactly, or an Uzum host; never another soliq.uz subdomain.
+  assert.equal(allowedUzumReceipt("https://my.soliq.uz/check"), null);
+  assert.equal(allowedUzumReceipt("https://ofd.soliq.uz:8443/check"), null);
+  assert.equal(allowedUzumReceipt("https://receipts.uzumbank.uz/r/1"), "https://receipts.uzumbank.uz/r/1");
+  // The Fiscalization API: the spec's hosts by default, an allowlisted override, never a foreign one.
+  assert.equal(uzumFiscalBaseUrl(env({}), "live"), "https://ofd-key.inplat-tech.com");
+  assert.equal(uzumFiscalBaseUrl(env({}), "test"), "https://test-ofd.ipt-merch.com");
+  assert.equal(uzumFiscalBaseUrl(env({ UZUM_FISCAL_BASE_URL: "https://ofd.uzumbank.uz/" }), "live"), "https://ofd.uzumbank.uz");
+  for (const bad of ["https://ofd-key.inplat-tech.com.evil.example", "http://ofd-key.inplat-tech.com", "https://evil.example", "https://ofd-key.inplat-tech.com/?x=1"])
+    assert.equal(uzumFiscalBaseUrl(env({ UZUM_FISCAL_BASE_URL: bad }), "live"), null, bad);
   // The cart carries the shared GPT_FISCAL_* values, complete or not at all.
   assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "false" })), undefined);
   assert.equal(uzumFiscal(env({ UZUM_AUTOFISCAL: "true", GPT_FISCAL_IKPU: "123", GPT_FISCAL_PACKAGE_CODE: "1", GPT_FISCAL_VAT_PERCENT: "12" })), null);
@@ -185,8 +210,14 @@ test("config: host allowlist, fiscal completeness and key gates fail closed", ()
   assert.equal(providerConfigured(ready, "uzum", "test"), false);
   assert.equal(providerReady({ ...ready, GPT_BILLING_LIVE_READY: "false" }, "uzum"), false);
   assert.equal(providerReady({ ...ready, GPT_BILLING_TERMS_VERSION: "" }, "uzum"), false);
-  // A live card sale without a receipt is not offered (U3).
-  assert.deepEqual(liveReadiness({ ...ready, UZUM_AUTOFISCAL: "false" }, "uzum"), ["UZUM_AUTOFISCAL"]);
+  // A live card sale without a receipt is not offered (U3): without
+  // auto-fiscalization the Fiscalization API key prints it instead.
+  const noFiscalKey = JSON.stringify({ checkout: { live: { terminalId: randomUUID(), apiKey: randomBytes(24).toString("hex") } } });
+  assert.deepEqual(liveReadiness({ ...ready, UZUM_AUTOFISCAL: "false", UZUM_CREDENTIALS_JSON: noFiscalKey }, "uzum"), ["UZUM_AUTOFISCAL"]);
+  assert.deepEqual(liveReadiness({ ...ready, UZUM_AUTOFISCAL: "false" }, "uzum"), []);
+  assert.deepEqual(liveReadiness({ ...ready, UZUM_AUTOFISCAL: "false", UZUM_FISCAL_BASE_URL: "https://evil.example" }, "uzum"), ["UZUM_FISCAL_BASE_URL"]);
+  // With auto-fiscalization the Fiscalization API host is not needed.
+  assert.deepEqual(liveReadiness({ ...ready, UZUM_FISCAL_BASE_URL: "https://evil.example" }, "uzum"), []);
   assert.equal(providerReady({ ...ready, GPT_FISCAL_IKPU: "" }, "uzum"), false);
   // The Merchant API prints receipts through the Fiscalization API key.
   const merchant = { ...ready, UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: randomBytes(12).toString("hex") } } }) };
@@ -246,6 +277,8 @@ test("2. checkout success: exact register body, pulled COMPLETED grants one peri
     const row = (await store.order(id))!;
     assert.equal(row.state, "prepared");
     assert.equal(row.api, "checkout");
+    // The cart went with the registration: Uzum prints this order's receipts.
+    assert.equal(row.autofiscal, 1);
     assert.ok(f.orders.has(row.external_id!));
     assert.equal(started.body.checkoutUrl, row.redirect_url);
     // Refresh/retry re-serves the same page without a second /register.
@@ -262,9 +295,11 @@ test("2. checkout success: exact register body, pulled COMPLETED grants one peri
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_outbox WHERE order_id=? AND event='paid'", id), 1);
     assert.equal(f.db.value("SELECT actor FROM gpt_payment_journal WHERE order_id=? AND to_state='paid'", id), "uzum");
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_subscriptions WHERE id=? AND provider='uzum'", id), 1);
+    // No receipt of ours to print: the queue gets no row.
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_fiscal_receipts WHERE order_id=?", id), 0);
     const view = await f.accountView();
     assert.ok(validAccountView(view));
-    assert.deepEqual(view.providers, ["uzum"]);
+    assert.deepEqual([view.providers, view.uzumFlow], [["uzum"], "checkout"]);
     assert.equal((view.access as { order_id: string }).order_id, id);
     assert.deepEqual(
       { provider: (view.payment as { provider: string }).provider, state: (view.payment as { state: string }).state },
@@ -330,21 +365,27 @@ test("2c. an ended Uzum session is never re-served: the pull settles it and a ne
     assert.equal(fresh.body.mode, "checkout");
     assert.notEqual(fresh.body.attemptId, id);
     // Owner switches to the Merchant API while a registered checkout invoice
-    // is open: it is left to settle, never reused for the other API.
+    // is open: the site shows the app code, the card invoice is left to
+    // settle (never reused for the other API), and the app waits for it.
     Object.assign(f.env, { UZUM_API: "merchant" });
     const switched = await f.subscribeUzum(randomUUID());
-    assert.deepEqual(switched.body, { ok: true, mode: "status", attemptId: fresh.body.attemptId });
+    assert.equal(switched.body.mode, "code");
     assert.equal((await store.order(String(fresh.body.attemptId)))!.state, "prepared");
-    // Once nothing is open, the Merchant API answers with the code to enter in the Uzum Bank app.
+    assert.equal((await f.merchantCall("check", { params: { account: switched.body.paymentCode } })).body.errorCode, "10008");
+    // The Merchant API opens no order on the site: it answers with the
+    // account's permanent code for the Uzum Bank app, the same every time.
     Object.assign(f.env, { UZUM_API: "checkout" });
     f.settleAtUzum((await store.order(String(fresh.body.attemptId)))!.external_id!, { status: "DECLINED" });
     await f.callback({ orderId: (await store.order(String(fresh.body.attemptId)))!.external_id, operationState: "FAIL", operationType: "AUTHORIZE", orderNumber: fresh.body.attemptId });
     const callsBefore = f.calls.length;
+    const ordersBefore = f.db.value("SELECT COUNT(*) FROM gpt_uzum_orders");
     Object.assign(f.env, { UZUM_API: "merchant" });
     const app = await f.subscribeUzum(randomUUID());
-    assert.equal(app.body.mode, "uzum_app");
-    assert.equal(app.body.account, app.body.attemptId);
-    assert.equal((await store.order(String(app.body.attemptId)))!.api, "merchant");
+    assert.equal(app.body.mode, "code");
+    assert.match(String(app.body.paymentCode), /^[1-9]\d{8}$/);
+    assert.equal(app.body.paymentCode, switched.body.paymentCode);
+    assert.equal((await f.merchantCall("check", { params: { account: app.body.paymentCode } })).body.status, "OK");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_uzum_orders"), ordersBefore);
     assert.equal(f.calls.length, callsBefore, "no Checkout call in Merchant API mode");
     await f.drain();
   } finally {
@@ -519,6 +560,28 @@ test("8. a failed status pull answers 502 and changes nothing", async () => {
   }
 });
 
+test("8c. a redirect from Uzum is never followed: the pull fails, the key goes nowhere, nothing changes", async () => {
+  const f = await uzumFixture();
+  try {
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const started = await f.subscribeUzum(randomUUID());
+    const row = (await store.order(String(started.body.attemptId)))!;
+    f.settleAtUzum(row.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
+    f.fake.redirects = 1;
+    const hint = { orderId: row.external_id, operationState: "SUCCESS", operationType: "COMPLETE", orderNumber: row.id };
+    assert.equal((await f.callback(hint)).status, 502);
+    assert.equal((await store.order(row.id))!.state, "prepared");
+    // Every call went to the configured Uzum host only (the fake throws on any other).
+    assert.deepEqual([...new Set(f.calls.map((c) => c.host))], ["fixture-chk.uzumbank.uz"]);
+    assert.equal(f.fake.followed, 0);
+    assert.equal((await f.callback(hint)).status, 200);
+    assert.equal((await store.order(row.id))!.state, "paid");
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
 test("8b. 'check status' recovers a lost callback by pulling, within the per-account limit", async () => {
   const f = await uzumFixture();
   try {
@@ -563,91 +626,6 @@ test("9. receipt callback stores a receipt only after getReceipts confirms it; f
     assert.deepEqual((await f.accountView()).receipts, [{ kind: "PERFORM", receipt_url: url }]);
     f.fake.failPulls = 1;
     assert.equal((await f.callback({ orderId: row.external_id, receiptType: "REFUND", receiptUrl: url })).status, 502);
-    await f.drain();
-  } finally {
-    f.restore();
-  }
-});
-
-test("10. Merchant API: Basic auth first, check/create/confirm, error codes, reverse and status mapping", async () => {
-  const f = await uzumFixture({ mode: "test", api: "merchant" });
-  try {
-    const store = new UzumStore(f.binding, BILLING_ORG);
-    const order = () => store.createOrder(f.user, "test", randomUUID(), "merchant");
-    const bad = await uzumMerchant(
-      f.ctx(
-        new Request("https://gpt.test/api/payments/uzum-merchant/check", {
-          method: "POST",
-          headers: { Authorization: f.basic(f.merchant.login, "wrong-password") },
-          body: "{}",
-        }),
-        { op: "check" },
-      ),
-    );
-    assert.equal(bad.status, 400);
-    assert.equal(((await bad.json()) as { errorCode: string }).errorCode, "10001");
-    const bombed = await uzumMerchant({
-      request: new Request("https://gpt.test/api/payments/uzum-merchant/check", { method: "POST", body: "{}" }),
-      env: { ...f.env, GPTBOT_DRAFTS_DB: bomb },
-      params: { op: "check" },
-      waitUntil() {},
-    } as never);
-    assert.equal(((await bombed.json()) as { errorCode: string }).errorCode, "10001");
-    assert.equal((await f.merchantCall("pay", {})).body.errorCode, "10003");
-    assert.equal((await f.merchantCall("check", { serviceId: f.merchant.serviceId + 1, params: {} })).body.errorCode, "10006");
-    assert.equal((await f.merchantCall("check", { params: { account: `uzm_${"0".repeat(32)}` } })).body.errorCode, "10007");
-    assert.equal((await f.merchantCall("check", {})).body.errorCode, "10005");
-
-    const a = await order();
-    const checked = await f.merchantCall("check", { params: { account: a.id } });
-    assert.equal(checked.status, 200);
-    assert.deepEqual({ status: checked.body.status, data: checked.body.data }, { status: "OK", data: { account: { value: a.id } } });
-    const transId = randomUUID();
-    assert.equal((await f.merchantCall("create", { transId, amount: 1999900, params: { account: a.id } })).body.errorCode, "10011");
-    const created = await f.merchantCall("create", { transId, amount: 2000000, params: { account: a.id } });
-    assert.equal(created.status, 200);
-    assert.equal(created.body.status, "CREATED");
-    assert.equal(created.body.amount, 2000000);
-    assert.equal((await f.merchantCall("create", { transId, amount: 2000000, params: { account: a.id } })).body.errorCode, "10010");
-    assert.equal((await f.merchantCall("create", { transId: randomUUID(), amount: 2000000, params: { account: a.id } })).body.errorCode, "10008");
-    assert.equal((await f.merchantCall("status", { transId })).body.status, "CREATED");
-    const confirmed = await f.merchantCall("confirm", { transId, paymentSource: "UZCARD", phone: "998900000000" });
-    assert.equal(confirmed.body.status, "CONFIRMED");
-    assert.equal((await store.order(a.id))!.state, "paid");
-    assert.ok(await f.store.access(f.user, "test"));
-    assert.equal((await f.merchantCall("confirm", { transId, paymentSource: "UZCARD", phone: "998900000000" })).body.errorCode, "10016");
-    assert.equal((await f.merchantCall("check", { params: { account: a.id } })).body.errorCode, "10008");
-    const status = await f.merchantCall("status", { transId });
-    assert.equal(status.body.status, "CONFIRMED");
-    assert.equal(status.body.confirmTime, (await store.order(a.id))!.perform_time);
-    assert.equal(JSON.stringify(f.db.rows("SELECT * FROM gpt_uzum_orders")).includes("998900000000"), false, "phone is never stored");
-
-    const reversed = await f.merchantCall("reverse", { transId });
-    assert.equal(reversed.body.status, "REVERSED");
-    assert.equal((await store.order(a.id))!.state, "refunded");
-    assert.equal(await f.store.access(f.user, "test"), null);
-    assert.equal((await f.merchantCall("reverse", { transId })).body.errorCode, "10018");
-    assert.equal((await f.merchantCall("status", { transId })).body.status, "REVERSED");
-    assert.equal((await f.merchantCall("check", { params: { account: a.id } })).body.errorCode, "10009");
-
-    // 30-minute rule: confirm after 31 minutes fails and closes the order.
-    const b = await order();
-    const late = randomUUID();
-    await f.merchantCall("create", { transId: late, amount: 2000000, params: { account: b.id } });
-    f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET create_time=create_time-? WHERE id=?").run(31 * 60_000, b.id);
-    assert.equal((await f.merchantCall("confirm", { transId: late, paymentSource: "HUMO", phone: "x" })).body.errorCode, "10015");
-    assert.equal((await store.order(b.id))!.state, "cancelled");
-    const failed = await f.merchantCall("status", { transId: late });
-    assert.deepEqual([failed.status, failed.body.status, failed.body.errorCode], [400, "FAILED", "10015"]);
-    assert.equal((await f.merchantCall("status", { transId: randomUUID() })).body.errorCode, "10014");
-    assert.equal((await f.merchantCall("confirm", { transId: randomUUID(), paymentSource: "HUMO", phone: "x" })).body.errorCode, "10014");
-    // Tenant isolation: another org's order is not payable here.
-    const foreign = await new UzumStore(f.binding, "org_other").createOrder(f.user, "test", randomUUID(), "merchant");
-    assert.equal((await f.merchantCall("check", { params: { account: foreign.id } })).body.errorCode, "10007");
-    // A Checkout-mode order is not payable through the Merchant API.
-    await f.binding.prepare("UPDATE gpt_uzum_orders SET state='cancelled' WHERE org_id=? AND user_id=? AND state IN ('pending','prepared')").bind(BILLING_ORG, f.user).run();
-    const card = await store.createOrder(f.user, "test", randomUUID(), "checkout");
-    assert.equal((await f.merchantCall("check", { params: { account: card.id } })).body.errorCode, "10007");
     await f.drain();
   } finally {
     f.restore();
@@ -727,7 +705,8 @@ test("12. 0065 applies after the full ledger; the view unions both tables; runti
   assert.equal(uzumObjects(bare), 0);
   await ensureUzumSchema(bare.asD1());
   assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name='gpt_payment_orders_all' AND type='view'"), 1);
-  assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE 'idx_gpt_uzum_orders_%'"), 3);
+  assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name LIKE 'idx_gpt_uzum_orders_%'"), 4);
+  assert.equal(bare.value("SELECT COUNT(*) FROM sqlite_master WHERE name='gpt_payment_codes' AND type='table'"), 1);
   const migrated = uzumObjects(ledger);
   assert.equal(uzumObjects(bare), migrated);
   await ensureUzumSchema(binding);
@@ -760,5 +739,226 @@ test("13. every Uzum path bootstraps the 0065 objects itself when the migration 
     } finally {
       f.restore();
     }
+  }
+});
+
+const MIN = 60_000;
+const HOUR = 60 * MIN;
+const complete = (row: { id: string; external_id: string | null }) => ({
+  orderId: row.external_id,
+  operationState: "SUCCESS",
+  operationType: "COMPLETE",
+  orderNumber: row.id,
+});
+
+test("U5: a rehearsal pays Checkout on Uzum's TEST terminal page; without the rehearsal it is a missing route", async () => {
+  const f = await uzumFixture({ mode: "test" });
+  try {
+    const dark = await f.subscribeUzum(randomUUID(), "ru", f.cookie);
+    assert.equal(dark.status, 404);
+    assert.equal(f.calls.length, 0);
+    const started = await f.subscribeUzum(randomUUID());
+    assert.equal(started.status, 200, JSON.stringify(started.body));
+    assert.equal(started.body.mode, "checkout");
+    assert.match(String(started.body.checkoutUrl), /^https:\/\/pay\.fixture\.uzumbank\.uz\/p\//);
+    assert.deepEqual(f.calls.map((c) => `${c.host}${c.path}`), ["fixture-test-chk.uzumcheckout.uz/api/v1/payment/register"]);
+    const row = (await new UzumStore(f.binding, BILLING_ORG).order(String(started.body.attemptId)))!;
+    assert.equal(row.mode, "test");
+    // The test card at Uzum's page, then Uzum's callback: a test pack, never a live one.
+    f.settleAtUzum(row.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
+    assert.equal((await f.callback(complete(row))).status, 200);
+    assert.ok(await f.store.access(f.user, "test"));
+    assert.equal(await f.store.access(f.user, "live"), null);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("U4: an expired order Uzum registered is settled from Uzum's status before a new one, never closed blindly", async () => {
+  const f = await uzumFixture();
+  try {
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const expire = (id: string) =>
+      f.db.sqlite
+        .prepare("UPDATE gpt_uzum_orders SET created_at=created_at-?,provider_time=provider_time-?,expires_at=? WHERE id=?")
+        .run(13 * HOUR, 13 * HOUR, Date.now() - 1, id);
+    // Paid at Uzum, the callback lost: the next checkout finds the payment.
+    const first = await f.subscribeUzum(randomUUID());
+    const paid = (await store.order(String(first.body.attemptId)))!;
+    f.settleAtUzum(paid.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
+    expire(paid.id);
+    const next = await f.subscribeUzum(randomUUID());
+    assert.equal(next.body.mode, "checkout");
+    assert.equal((await store.order(paid.id))!.state, "paid");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE order_id=?", paid.id), 1);
+    // Uzum cannot be asked: nothing is closed, the visitor checks the status first.
+    const open = (await store.order(String(next.body.attemptId)))!;
+    expire(open.id);
+    f.fake.failPulls = 1;
+    const refused = await f.subscribeUzum(randomUUID());
+    assert.deepEqual([refused.status, refused.body.code], [503, "checkout_unavailable"]);
+    assert.equal((await store.order(open.id))!.state, "prepared");
+    // Uzum still says REGISTERED long after its session: closed, a new order starts.
+    const after = await f.subscribeUzum(randomUUID());
+    assert.equal(after.body.mode, "checkout");
+    assert.equal((await store.order(open.id))!.state, "cancelled");
+    assert.notEqual(after.body.attemptId, open.id);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("U4/U11 maintenance: lost callbacks settle, missing receipts are fetched, a day without one tells the owner", async () => {
+  const f = await uzumFixture();
+  try {
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const other = `__Host-gpt_account=${await f.identity.login(randomBytes(16).toString("hex"))}`;
+    const a = (await store.order(String((await f.subscribeUzum(randomUUID())).body.attemptId)))!;
+    const b = (await store.order(String((await f.subscribeUzum(randomUUID(), "ru", other)).body.attemptId)))!;
+    f.settleAtUzum(a.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
+    // Inside their 30-minute sessions nothing is asked yet.
+    assert.deepEqual(await maintainUzum(f.env), { settled: 0, receipts: 0, expired: 0, recovered: 0 });
+    assert.equal(f.calls.filter((c) => c.path === "/api/v1/payment/getOrderStatus").length, 0);
+    f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET provider_time=provider_time-? WHERE id IN (?,?)").run(UZUM_SESSION_EXPIRED_MS + MIN, a.id, b.id);
+    assert.deepEqual(await maintainUzum(f.env), { settled: 2, receipts: 0, expired: 0, recovered: 0 });
+    assert.deepEqual([(await store.order(a.id))!.state, (await store.order(b.id))!.state], ["paid", "cancelled"]);
+    // Paid a day ago, Uzum's sale receipt never arrived: asked every tick, the owner told once a day.
+    f.db.sqlite.prepare("UPDATE gpt_uzum_orders SET perform_time=perform_time-? WHERE id=?").run(25 * HOUR, a.id);
+    assert.deepEqual(await maintainUzum(f.env), { settled: 0, receipts: 0, expired: 0, recovered: 0 });
+    assert.equal(f.calls.filter((c) => c.path === "/api/v1/payment/getReceipts").length, 1);
+    await maintainUzum(f.env);
+    assert.deepEqual(f.alerts(), ["uzum_receipt_missing"]);
+    const url = "https://ofd.soliq.uz/epi?t=EZ000000000296&r=7&c=20261001140000&s=1";
+    f.settleAtUzum(a.external_id!, { receipts: [{ receiptUrl: url, receiptType: "PURCHASE" }] });
+    assert.deepEqual(await maintainUzum(f.env), { settled: 0, receipts: 1, expired: 0, recovered: 0 });
+    assert.equal(f.receipt(a.id).receipt_url, url);
+    // Done: the receipt is on file, so the order leaves the scan.
+    const pulls = f.calls.length;
+    await maintainUzum(f.env);
+    assert.equal(f.calls.length, pulls);
+    // Through the tick: the step reports beside the receipts; off while Uzum is.
+    const tick = async () => {
+      const response = await maintenance(
+        f.ctx(new Request("https://gptbot.uz/api/internal/gpt-billing-maintenance", { method: "POST", headers: { Authorization: `Bearer ${f.maintenanceSecret}` } })),
+      );
+      return (await response.json()) as { failed: string[]; uzum: unknown };
+    };
+    const on = await tick();
+    assert.deepEqual([on.failed.includes("uzum"), on.uzum], [false, { settled: 0, receipts: 0, expired: 0, recovered: 0 }]);
+    f.env.UZUM_API = "";
+    assert.equal((await tick()).uzum, null);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("U11: the panel fetches the receipt of a paid card payment whose receipt callback was lost", async () => {
+  const f = await uzumFixture();
+  try {
+    const row = await paidCheckout(f);
+    const url = "https://ofd.soliq.uz/epi?t=EZ000000000296&r=9&c=20261001140000&s=1";
+    f.settleAtUzum(row.external_id!, { receipts: [{ receiptUrl: url, receiptType: "PURCHASE" }] });
+    const view = await f.accountView();
+    assert.deepEqual(view.receipts, [{ kind: "PERFORM", receipt_url: url }]);
+    // On file now: opening the panel again asks Uzum nothing.
+    const calls = f.calls.length;
+    await f.accountView();
+    assert.equal(f.calls.length, calls);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+});
+
+test("Checkout without auto-fiscalization: no cart, and the Fiscalization API prints the sale and the refund receipts", async () => {
+  const f = await uzumFixture({ autofiscal: false });
+  try {
+    const store = new UzumStore(f.binding, BILLING_ORG);
+    const started = await f.subscribeUzum(randomUUID());
+    const register = f.calls.find((c) => c.path === "/api/v1/payment/register")!;
+    assert.equal("merchantParams" in register.body, false);
+    const row = (await store.order(String(started.body.attemptId)))!;
+    assert.equal(row.autofiscal, 0);
+    f.settleAtUzum(row.external_id!, { status: "COMPLETED", completedAmount: 2000000 });
+    await f.callback(complete(row));
+    await f.drain();
+    const sale = f.receipt(row.id);
+    assert.deepEqual(
+      { provider: sale.provider, status: sale.status_code, url: sale.receipt_url, paymentId: sale.payment_id },
+      { provider: "uzum", status: 0, url: f.fake.fiscalUrl(String(sale.operation_id)), paymentId: row.external_id },
+    );
+    assert.equal(f.fiscalReceipts.get(String(sale.operation_id))!.body.payment_id, row.external_id);
+    // A receipt callback for it is ignored: the queue owns this receipt.
+    const before = f.calls.length;
+    await f.callback({ orderId: row.external_id, receiptType: "PURCHASE", receiptUrl: "https://ofd.soliq.uz/epi?other=1" });
+    assert.equal(f.calls.length, before);
+    assert.equal(f.receipt(row.id).receipt_url, sale.receipt_url);
+    // The refund carries no cart; Uzum's REFUNDED brings the refund receipt.
+    assert.equal((await f.refundCall({ orderId: row.id, confirmRefund: true })).status, 200);
+    assert.equal("cart" in f.calls.find((c) => c.path === "/api/v1/acquiring/refund")!.body, false);
+    f.settleAtUzum(row.external_id!, { status: "REFUNDED", refundedAmount: 2000000 });
+    await f.callback({ ...complete(row), operationType: "REFUND" });
+    await f.drain();
+    const back = f.receipt(row.id, "CANCEL");
+    assert.deepEqual([back.provider, back.status_code], ["uzum", 0]);
+    assert.notEqual(back.operation_id, sale.operation_id);
+    const refundBody = f.fiscalReceipts.get(String(back.operation_id))!;
+    assert.deepEqual([refundBody.kind, refundBody.body.payment_id], ["CANCEL", row.external_id]);
+    assert.deepEqual(
+      ((await f.accountView()).receipts as Array<{ kind: string }>).map((r) => r.kind).sort(),
+      ["CANCEL", "PERFORM"],
+    );
+  } finally {
+    f.restore();
+  }
+});
+
+test("a refund carries the cart exactly when the payment did, whatever UZUM_AUTOFISCAL says now", async () => {
+  const f = await uzumFixture();
+  try {
+    const row = await paidCheckout(f);
+    f.env.UZUM_AUTOFISCAL = "false";
+    assert.equal((await f.refundCall({ orderId: row.id, confirmRefund: true })).status, 200);
+    assert.ok("cart" in f.calls.find((c) => c.path === "/api/v1/acquiring/refund")!.body);
+    // An auto-fiscalized order without complete receipt codes is not refunded half-way.
+    f.env.UZUM_AUTOFISCAL = "true";
+    const next = await paidCheckout(f);
+    f.env.UZUM_AUTOFISCAL = "false";
+    f.env.GPT_FISCAL_IKPU = "";
+    const refused = await f.refundCall({ orderId: next.id, confirmRefund: true });
+    assert.deepEqual([refused.status, refused.body.code], [409, "fiscal_not_configured"]);
+    assert.equal(f.calls.filter((c) => c.path === "/api/v1/acquiring/refund").length, 1);
+    await f.drain();
+  } finally {
+    f.restore();
+  }
+  const g = await uzumFixture({ autofiscal: false });
+  try {
+    const row = await paidCheckout(g);
+    await g.drain();
+    g.env.UZUM_AUTOFISCAL = "true";
+    assert.equal((await g.refundCall({ orderId: row.id, confirmRefund: true })).status, 200);
+    assert.equal("cart" in g.calls.find((c) => c.path === "/api/v1/acquiring/refund")!.body, false);
+    await g.drain();
+  } finally {
+    g.restore();
+  }
+});
+
+test("U13: the newest order across providers breaks ties on provider and id, not on per-table seq", async () => {
+  const f = await uzumFixture();
+  try {
+    const at = Date.now();
+    const uzum = new UzumStore(f.binding, BILLING_ORG);
+    const u = await uzum.createOrder(f.user, "live", randomUUID(), "checkout", at);
+    await uzum.billing.transition(u.id, "cancelled", "invoice_expired", { reason: 4, now: at });
+    const c = await f.store.createOrder(f.user, "click", "live", randomUUID(), at);
+    assert.equal(u.created_at, c.created_at);
+    assert.equal((await f.store.latestAcrossProviders(f.user, "live"))!.id, u.id);
+  } finally {
+    f.restore();
   }
 });

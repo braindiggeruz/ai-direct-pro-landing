@@ -31,6 +31,7 @@ import {
   uzumBaseUrl,
   uzumCheckoutConfig,
   uzumFiscalApiKey,
+  uzumFiscalBaseUrl,
   type UzumEnv,
 } from "./uzum-config";
 
@@ -318,14 +319,18 @@ function providerLiveIssues(env: BillingEnv, provider: LocalProvider): string[] 
       ? [
           ...(checkoutCredentials(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.checkout.live"]),
           ...(uzumBaseUrl(env, "live") ? [] : ["UZUM_CHECKOUT_BASE_URL"]),
-          // A live card sale prints its receipt through Uzum's auto-fiscalization.
-          ...(env.UZUM_AUTOFISCAL === "true" ? [] : ["UZUM_AUTOFISCAL"]),
         ]
-      : [
-          ...(merchantCredentials(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.merchant.live"]),
-          // The in-app payment prints its receipt through the Uzum Fiscalization API.
-          ...(uzumFiscalApiKey(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.fiscal.live.apiKey"]),
-        ];
+      : [...(merchantCredentials(env, "live") ? [] : ["UZUM_CREDENTIALS_JSON.merchant.live"])];
+  // A live sale prints its receipt. A card payment: by Uzum's
+  // auto-fiscalization, or else through the Fiscalization API, which every
+  // in-app payment uses (fiscal-store.ts).
+  const fiscalKey = uzumFiscalApiKey(env, "live");
+  if (api === "checkout" && env.UZUM_AUTOFISCAL !== "true" && !fiscalKey)
+    issues.push("UZUM_AUTOFISCAL");
+  else if (api === "merchant" || env.UZUM_AUTOFISCAL !== "true") {
+    if (!fiscalKey) issues.push("UZUM_CREDENTIALS_JSON.fiscal.live.apiKey");
+    if (!uzumFiscalBaseUrl(env, "live")) issues.push("UZUM_FISCAL_BASE_URL");
+  }
   return [...issues, ...fiscalIssues(env, { tin: false })];
 }
 
@@ -387,16 +392,22 @@ export function providerReady(env: BillingEnv, provider: LocalProvider): boolean
 /**
  * The providers a visitor in `mode` is offered: live ones to everyone, test
  * ones in a rehearsal session only (the caller passes the viewer's mode).
- * Uzum is offered on the site only as Checkout: the Merchant API flow has no
- * customer screen yet (plan WP-15).
+ * Uzum is offered in either flow; the account view says which (uzumFlow).
  */
 export function offeredProviders(env: BillingEnv, mode: BillingMode): LocalProvider[] {
   return PROVIDERS.filter(
-    (provider) =>
-      providerMode(env, provider) === mode &&
-      providerReady(env, provider) &&
-      (provider !== "uzum" || uzumApi(env) === "checkout"),
+    (provider) => providerMode(env, provider) === mode && providerReady(env, provider),
   );
+}
+
+/**
+ * How Uzum is paid when it is offered: "checkout" sends the visitor to
+ * Uzum's card page; "code" shows the permanent payment code to enter in the
+ * Uzum Bank app (Merchant API, payment-code-store.ts).
+ */
+export function uzumFlow(env: BillingEnv): "checkout" | "code" | null {
+  const api = uzumApi(env);
+  return api === "checkout" ? "checkout" : api === "merchant" ? "code" : null;
 }
 
 export function addCalendarMonth(start: number): number {

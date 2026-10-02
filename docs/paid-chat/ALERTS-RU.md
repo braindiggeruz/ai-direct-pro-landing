@@ -23,7 +23,7 @@
 | `openrouter_free_tier_50rpd`, `openrouter_key_credit_low` | аккаунт OpenRouter на бесплатном уровне (50 запросов к `:free` в сутки на чат, бота и AEO вместе); лимит ключа почти исчерпан. **Не чаще раза в сутки.** |
 | `chat_silence`, `chat_degraded`, `chat_no_turns` | сторож тишины (ниже) |
 | `bot_no_key`, `bot_account_unavailable`, `bot_model_unavailable`, `bot_models_cooling`, `bot_silent` | бот @gptbotuz_bot не может ответить никому, или сторож видит, что он молчит (WP-08, `BOT-RU.md`). **`bot_silent` — не чаще раза в сутки.** |
-| `zai_*`, `click_*`, `uzum_*` | Z.ai и платёжные провайдеры. `click_fiscal_failed` — чек Click не пробит после 6 попыток или за сутки после оплаты (`CLICK-FISCAL-RU.md`) |
+| `zai_*`, `click_*`, `uzum_*` | Z.ai и платёжные провайдеры. `click_fiscal_failed` — чек Click не пробит после 6 попыток или за сутки после оплаты (`CLICK-FISCAL-RU.md`). Uzum (`UZUM-RU.md`, раздел 6): `uzum_fiscal_failed` — то же для чека через Fiscalization API; `uzum_receipt_missing` — сутки после оплаты картой нет чека автофискализации (**не чаще раза в сутки**); `uzum_confirm_recovered` — оплату в приложении пришлось довершить после сбоя `/confirm`, сверьте с кабинетом; `uzum_amount_mismatch`, `uzum_paid_after_cancel`, `uzum_partial_refund`, `uzum_status_conflict` — ответ Uzum не сходится с заказом, доступ не тронут; `uzum_processing` — ошибка сервера на уведомлении Uzum |
 | `drill` | учебный алерт |
 
 Фоновые коды — всё остальное: `chat_rate_limit`, `chat_timeout`, `chat_provider_error`, `chat_empty`, `chat_budget_exhausted`, `stale_reservations`, `chat_truncation_high`, `free_paid_budget_exhausted`, `openrouter_key_unavailable`, `payme_*`, а также единичные сбои бота: `bot_rate_limit`, `bot_timeout`, `bot_validation_failed`, `bot_truncated`, `bot_provider_error` и другие `bot_<код>`.
@@ -61,13 +61,16 @@
 
 Worker `gptbot-automation` на каждом тике крона (`*/15`) делает `POST https://gptbot.uz/api/internal/gpt-billing-maintenance` с `Authorization: Bearer <GPT_BILLING_MAINTENANCE_SECRET>`, таймаут 20 секунд. Эндпоинт выполняет шаги по порядку. У каждого шага свой try/catch и свой бюджет времени, в сумме меньше 20 секунд:
 
-1. `providers` (6 с), раз в час: эндпоинты моделей цепочки OpenRouter (`/api/v1/models/{id}/endpoints`, не больше 6 моделей) и ключ (`/api/v1/key`). Модель без эндпоинта в потолке цены (`PAID_PRICE_CEILING` в `model-pricing.ts`, тот же, что в запросе к модели) выключается на час.
-2. `watchdog` (2 с), раз в 10 минут: сторож тишины.
-3. `alerts` (4,5 с): доставка срочных алертов.
-4. `maintenance` (2,5 с): чистка старых строк (с WP-07 и закрытых окон `gpt_rate_limits` старше 2 суток); уведомления об оплатах — только в `live`.
-5. `rekey` (2 с): после `GPT_HASH_SALT_SINCE` — пачка старых хешей в солёные (WP-07, `SALT-RU.md`). До этого — `off`, `no_since` (соль есть, а `SINCE` пустой или с опечаткой) или `waiting`, без обращений к D1.
-6. `retention` (1 с): удаление переписки старше `GPT_MESSAGES_RETENTION_DAYS`. Пока настройка пустая — `{"enabled":false}` (`SALT-RU.md`).
-7. `diagnostics` (1 с): очередь уведомлений, ходы за час, заблокированные модели.
+1. `fiscal` (8 с) и `uzum` (8 с) стартуют первыми и идут параллельно со следующими двумя шагами; новый вызов к Click или Uzum не начинается позже 5 секунд:
+   - `fiscal`: до 5 чеков из очереди `gpt_fiscal_receipts` — Click (`CLICK-FISCAL-RU.md`) и Uzum через Fiscalization API (`UZUM-RU.md`);
+   - `uzum`: заказы Uzum, которые не закрыло уведомление (`UZUM-RU.md`, раздел 5). Пока Uzum выключен — `null`, без обращений к D1.
+2. `providers` (6 с), раз в час: эндпоинты моделей цепочки OpenRouter (`/api/v1/models/{id}/endpoints`, не больше 6 моделей) и ключ (`/api/v1/key`). Модель без эндпоинта в потолке цены (`PAID_PRICE_CEILING` в `model-pricing.ts`, тот же, что в запросе к модели) выключается на час.
+3. `watchdog` (2 с), раз в 10 минут: сторож тишины.
+4. `alerts` (4,5 с): доставка срочных алертов. Ждёт `fiscal` и `uzum`, поэтому их алерты уходят в том же тике.
+5. `maintenance` (2,5 с): чистка старых строк (с WP-07 и закрытых окон `gpt_rate_limits` старше 2 суток); уведомления об оплатах — только в `live`.
+6. `rekey` (2 с): после `GPT_HASH_SALT_SINCE` — пачка старых хешей в солёные (WP-07, `SALT-RU.md`). До этого — `off`, `no_since` (соль есть, а `SINCE` пустой или с опечаткой) или `waiting`, без обращений к D1.
+7. `retention` (1 с): удаление переписки старше `GPT_MESSAGES_RETENTION_DAYS`. Пока настройка пустая — `{"enabled":false}` (`SALT-RU.md`).
+8. `diagnostics` (1 с): очередь уведомлений, ходы за час, заблокированные модели, режим каждого провайдера и имена того, чего не хватает для live.
 
 Если какой-то шаг упал, эндпоинт отвечает 503 со списком `failed`, остальные шаги всё равно выполнены. Worker пишет в лог `gpt_billing_maintenance_failed`.
 

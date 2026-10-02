@@ -22,6 +22,12 @@ type Operation = "mti" | "submit" | "ofd" | "reversal";
 
 const PREFIX = "/v2/merchant/payment";
 
+/** workerd (Pages Functions) refuses this mode before sending; so does every fake here. */
+export function refuseLikeWorkerd(init?: RequestInit): void {
+  if (init?.redirect === "error")
+    throw new TypeError('Invalid redirect value, must be one of "follow" or "manual"');
+}
+
 export function fakeClickMerchant(accounts: ClickAccess[]) {
   const payments = new Map<string, { paymentId: number; day: string; serviceId: string }>();
   const receipts = new Map<number, { items: unknown[]; pendingReads: number }>();
@@ -75,6 +81,7 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
   const original = globalThis.fetch;
   globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);
+    refuseLikeWorkerd(init);
     if (url.hostname === "api.telegram.org") {
       telegram.push(String(JSON.parse(String(init?.body ?? "{}")).text ?? ""));
       return reply({ ok: true, result: { message_id: telegram.length } });

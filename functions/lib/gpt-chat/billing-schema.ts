@@ -63,10 +63,11 @@ export const CHAT_RUNTIME_DDL = [
   // deliverServiceAlerts claims undelivered rows of the last 24 hours.
   `CREATE INDEX IF NOT EXISTS idx_gpt_service_alerts_pending ON gpt_service_alerts(org_id,delivered_at,created_at)`,
 ];
-// Paid chat, release R4 (migrations/0068). Click fiscal receipts (WP-14):
-// gpt_fiscal_receipts becomes a retry queue (fiscal-store.ts). The columns
-// come after the six of 0064; a row written before keeps provider NULL and is
-// never queued.
+// Paid chat, release R4 (migrations/0068). Fiscal receipts (WP-14, WP-15):
+// gpt_fiscal_receipts becomes a retry queue (fiscal-store.ts) for Click and
+// for the Uzum Fiscalization API. The columns come after the six of 0064; a
+// row written before keeps provider NULL and is never queued. operation_id is
+// the Uzum receipt's own idempotency key, stored before the receipt is sent.
 export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = [
   ["provider", "TEXT"],
   ["attempts", "INTEGER NOT NULL DEFAULT 0"],
@@ -75,6 +76,7 @@ export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = 
   ["payment_id", "TEXT"],
   ["last_error", "TEXT"],
   ["submitted_at", "INTEGER"],
+  ["operation_id", "TEXT"],
 ];
 export const PAID_CHAT_DDL = [
   // fiscal-store.ts claims due rows of one provider.
@@ -87,7 +89,7 @@ export const PAID_CHAT_DDL = [
  */
 async function addMissingColumns(
   db: D1Database,
-  table: "gpt_turn_reservations" | "gpt_fiscal_receipts",
+  table: "gpt_turn_reservations" | "gpt_fiscal_receipts" | "gpt_uzum_orders",
   columns: ReadonlyArray<readonly [string, string]>,
 ): Promise<void> {
   const info = await db
@@ -128,6 +130,22 @@ export const UZUM_BILLING_DDL = [
     UNION ALL
     SELECT seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version FROM gpt_uzum_orders`,
 ];
+// Uzum, release R4 (migrations/0068, plan WP-15). Two columns of the 0065
+// table: confirm_requested_at (a Merchant API /confirm arrived: Uzum has
+// debited the payer, so /status finishes the payment instead of failing it)
+// and autofiscal (1 = the Checkout registration carried the cart, so Uzum
+// prints the receipts itself; otherwise the Fiscalization API prints them).
+export const UZUM_ORDER_COLUMNS: ReadonlyArray<readonly [string, string]> = [
+  ["confirm_requested_at", "INTEGER"],
+  ["autofiscal", "INTEGER"],
+];
+// The permanent payment code an account enters in the Uzum Bank app (Merchant
+// API), with the terms its owner accepted when the site showed it; and the
+// index of the maintenance scans of open and unreceipted Uzum orders.
+export const UZUM_PAID_CHAT_DDL = [
+  `CREATE TABLE IF NOT EXISTS gpt_payment_codes (org_id TEXT NOT NULL, code TEXT NOT NULL, user_id TEXT NOT NULL, created_at INTEGER NOT NULL, terms_version TEXT, terms_url TEXT, terms_locale TEXT, terms_accepted_at INTEGER, PRIMARY KEY(org_id,code), UNIQUE(org_id,user_id))`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_uzum_orders_state ON gpt_uzum_orders(org_id,api,state)`,
+];
 // One bootstrap per binding; a failed one is forgotten so the next request
 // retries it instead of replaying the error.
 function once(
@@ -164,17 +182,19 @@ export function ensureBillingSchema(db: D1Database): Promise<void> {
   });
 }
 /**
- * The 0065 objects, bootstrapped on Uzum paths only: payments/uzum*,
- * internal/gpt-uzum-refund and the Uzum branches of gpt/account and
- * gpt/subscribe while UZUM_API is set. A chat turn never runs this DDL, so a
- * failure here cannot take the chat down. The other readers of the view rely
- * on migrations/0065, which a release applies before the code that reads it.
+ * The 0065 objects and the Uzum part of 0068, bootstrapped on Uzum paths
+ * only: payments/uzum*, internal/gpt-uzum-refund, the Uzum step of the
+ * maintenance tick and the Uzum branches of gpt/account and gpt/subscribe
+ * while UZUM_API is set. A chat turn never runs this DDL, so a failure here
+ * cannot take the chat down. The other readers of the view rely on
+ * migrations/0065, which a release applies before the code that reads it.
  */
 export function ensureUzumSchema(db: D1Database): Promise<void> {
   // 0064 first: the view reads gpt_payment_orders.
-  return once(uzumBootstraps, db, () =>
-    ensureBillingSchema(db).then(() =>
-      db.batch(UZUM_BILLING_DDL.map((sql) => db.prepare(sql))),
-    ),
-  );
+  return once(uzumBootstraps, db, async () => {
+    await ensureBillingSchema(db);
+    await db.batch(UZUM_BILLING_DDL.map((sql) => db.prepare(sql)));
+    await addMissingColumns(db, "gpt_uzum_orders", UZUM_ORDER_COLUMNS);
+    await db.batch(UZUM_PAID_CHAT_DDL.map((sql) => db.prepare(sql)));
+  });
 }

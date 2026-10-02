@@ -53,6 +53,18 @@ export class PendingElsewhereError extends Error {
   }
 }
 
+/**
+ * The terms the payer accepted for an order. `acceptedAt` is when, if not at
+ * the order's creation: an Uzum app payment carries the acceptance its
+ * payment code was shown with (payment-code-store.ts).
+ */
+export interface OrderConsent {
+  version: string;
+  url: string;
+  locale: "ru" | "uz";
+  acceptedAt?: number;
+}
+
 /** Closed set: SQL below names `this.table`, never caller-supplied text. */
 export type OrderTable = "gpt_payment_orders" | "gpt_uzum_orders";
 export const UZUM_ORDERS: OrderTable = "gpt_uzum_orders";
@@ -98,7 +110,7 @@ export class BillingStore {
     mode: BillingMode,
     requestId: string,
     now = Date.now(),
-    consent?: { version: string; url: string; locale: 'ru' | 'uz' },
+    consent?: OrderConsent,
     api?: "checkout" | "merchant",
   ): Promise<Order> {
     // Uzum rows live in their own table (0065); the old table's CHECK rejects them.
@@ -146,7 +158,7 @@ export class BillingStore {
       "SELECT id,provider FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? AND provider<>? AND state IN ('pending','prepared') AND expires_at>?";
     const elsewhere = async () => {
       const open = await this.db
-        .prepare(`${openElsewhere} ORDER BY created_at DESC LIMIT 1`)
+        .prepare(`${openElsewhere} ORDER BY created_at DESC,provider DESC,id DESC LIMIT 1`)
         .bind(this.org, user, mode, provider, now)
         .first<{ id: string; provider: LocalProvider }>();
       if (open) throw new PendingElsewhereError(open.id, open.provider);
@@ -186,7 +198,7 @@ export class BillingStore {
         .bind(event, now, this.org, id),
       ...(consent ? [this.db.prepare(`INSERT INTO gpt_payment_consents(org_id,order_id,user_id,version,url,locale,accepted_at)
         SELECT org_id,id,user_id,?,?,?,? FROM ${this.table} WHERE org_id=? AND id=?`)
-        .bind(consent.version, consent.url, consent.locale, now, this.org, id)] : []),
+        .bind(consent.version, consent.url, consent.locale, consent.acceptedAt ?? now, this.org, id)] : []),
     ]);
     const row = await this.db
       .prepare(
@@ -242,14 +254,18 @@ export class BillingStore {
       .first<{ value: number | null }>();
     return row?.value ?? null;
   }
-  /** Newest order of any provider (Click/Payme and Uzum) for the account panel. */
+  /**
+   * Newest order of any provider (Click/Payme and Uzum) for the account panel.
+   * Ties break on provider and id: seq counts per table, so it says nothing
+   * across the two (map 02, U13).
+   */
   async latestAcrossProviders(
     user: string,
     mode: BillingMode,
   ): Promise<Order | null> {
     return this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,seq DESC LIMIT 1",
+        "SELECT * FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,provider DESC,id DESC LIMIT 1",
       )
       .bind(this.org, user, mode)
       .first<Order>();
@@ -325,7 +341,7 @@ export class BillingStore {
           event,
           method.startsWith("owner_")
             ? "owner"
-            : ["timeout", "invoice_expired"].includes(method)
+            : ["timeout", "invoice_expired", "invoice_superseded"].includes(method)
               ? "system"
               : row.provider,
           method,
@@ -387,6 +403,19 @@ export class BillingStore {
         );
         // Click prints its receipt through the queue (fiscal-store.ts); a test
         // order is never printed. The primary key makes a repeat a no-op.
+        // Uzum prints through the same queue (the Fiscalization API) unless
+        // the order's registration carried the auto-fiscalization cart: then
+        // Uzum prints it itself. A test order prints on the test host.
+        if (this.table === UZUM_ORDERS)
+          statements.push(
+            this.db
+              .prepare(
+                `INSERT INTO gpt_fiscal_receipts(org_id,order_id,kind,provider,status_code,next_at,updated_at)
+          SELECT org_id,id,'PERFORM','uzum',?,?,? FROM gpt_uzum_orders WHERE org_id=? AND id=? AND COALESCE(autofiscal,0)=0 AND ${gate}
+          ON CONFLICT(org_id,order_id,kind) DO NOTHING`,
+              )
+              .bind(FISCAL_QUEUED, now, now, this.org, id, this.org, event),
+          );
         if (row.provider === "click")
           statements.push(
             this.db
@@ -425,6 +454,18 @@ export class BillingStore {
             ),
         );
       }
+      // Money going back on an Uzum order whose sale receipt is ours to print
+      // takes a refund receipt; the queue prints it once the sale printed.
+      if (target === "cancelled" && row.state === "paid" && this.table === UZUM_ORDERS)
+        statements.push(
+          this.db
+            .prepare(
+              `INSERT INTO gpt_fiscal_receipts(org_id,order_id,kind,provider,status_code,next_at,updated_at)
+          SELECT org_id,order_id,'CANCEL','uzum',?,?,? FROM gpt_fiscal_receipts WHERE org_id=? AND order_id=? AND kind='PERFORM' AND provider='uzum' AND ${gate}
+          ON CONFLICT(org_id,order_id,kind) DO NOTHING`,
+            )
+            .bind(FISCAL_QUEUED, now, now, this.org, id, this.org, event),
+        );
       if (target === "cancelled") {
         statements.push(
           this.db

@@ -14,6 +14,7 @@ import {
   allowedUzumRedirect,
   isUuid,
   type UzumCheckoutConfig,
+  type UzumFiscal,
 } from "./uzum-config";
 
 export const UZUM_TIMEOUT_MS = 8000;
@@ -63,6 +64,10 @@ export type UzumFailure = {
   code?: number;
 };
 export type UzumResult<T> = ({ ok: true } & T) | UzumFailure;
+/** A shorter timeout for a call that must fit a maintenance slice. */
+export interface UzumCallOptions {
+  timeoutMs?: number;
+}
 
 const MAX_RESPONSE_BYTES = 65_536;
 
@@ -79,7 +84,7 @@ async function call(
   cfg: UzumCheckoutConfig,
   path: string,
   body: unknown,
-  options: { language?: "ru-RU" | "uz-UZ"; operationId?: string } = {},
+  options: UzumCallOptions & { language?: "ru-RU" | "uz-UZ"; operationId?: string } = {},
 ): Promise<UzumResult<{ result: Record<string, unknown> }>> {
   let response: Response;
   try {
@@ -94,11 +99,18 @@ async function call(
         ...(options.operationId ? { "X-Operation-Id": options.operationId } : {}),
       },
       body: JSON.stringify(body),
-      redirect: "error",
-      signal: AbortSignal.timeout(UZUM_TIMEOUT_MS),
+      // A redirect is never followed, so the key cannot reach another host.
+      // workerd has no "error" mode (only "follow" and "manual"): a 3xx
+      // answer comes back as it is and fails below.
+      redirect: "manual",
+      signal: AbortSignal.timeout(options.timeoutMs ?? UZUM_TIMEOUT_MS),
     });
   } catch {
     return { ok: false, error: "network" };
+  }
+  if (response.status >= 300 && response.status < 400) {
+    await response.body?.cancel();
+    return { ok: false, error: "http", code: response.status };
   }
   let parsed: Record<string, unknown> | null = null;
   try {
@@ -190,8 +202,9 @@ export async function registerPayment(
 export async function getOrderStatus(
   cfg: UzumCheckoutConfig,
   orderId: string,
+  options: UzumCallOptions = {},
 ): Promise<UzumResult<{ status: UzumStatus }>> {
-  const reply = await call(cfg, "/api/v1/payment/getOrderStatus", { orderId });
+  const reply = await call(cfg, "/api/v1/payment/getOrderStatus", { orderId }, options);
   if (!reply.ok) return reply;
   const r = reply.result;
   if (
@@ -224,8 +237,9 @@ export async function getOrderStatus(
 export async function getReceipts(
   cfg: UzumCheckoutConfig,
   orderId: string,
+  options: UzumCallOptions = {},
 ): Promise<UzumResult<{ receipts: UzumReceipt[] }>> {
-  const reply = await call(cfg, "/api/v1/payment/getReceipts", { orderId });
+  const reply = await call(cfg, "/api/v1/payment/getReceipts", { orderId }, options);
   if (!reply.ok) return reply;
   const list = reply.result.receipts;
   if (!Array.isArray(list)) return { ok: false, error: "shape" };
@@ -242,16 +256,17 @@ export async function getReceipts(
 
 /**
  * Full refund. `operationId` is the X-Operation-Id idempotency key: persist it
- * before calling and reuse it on every retry. With auto-fiscalization the
- * refund must carry the cart (Uzum error 3045 otherwise).
+ * before calling and reuse it on every retry. `fiscal` is the cart of an
+ * order that Uzum auto-fiscalized: its refund must carry the cart (Uzum error
+ * 3045 otherwise), and the refund of any other order must not (3058).
  */
 export async function refund(
   cfg: UzumCheckoutConfig,
   orderId: string,
   value: number,
   operationId: string,
+  fiscal: UzumFiscal | null,
 ): Promise<UzumResult<{ operationId: string }>> {
-  const fiscal = cfg.fiscal;
   const reply = await call(
     cfg,
     "/api/v1/acquiring/refund",

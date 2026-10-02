@@ -25,12 +25,12 @@
 // merchant_trans_id instead), whether Amount counts pieces (1) or thousandths,
 // received_card for wallet payments, CommissionInfo on a seller's own sale,
 // and how a reversal is fiscalized.
-import { includedVat, type FiscalParams } from "./fiscal-config";
+import { includedVat, PACK_RECEIPT_NAME, type FiscalParams } from "./fiscal-config";
 
 export const CLICK_MERCHANT_API = "https://api.click.uz/v2/merchant/payment";
 export const CLICK_TIMEOUT_MS = 5000;
 /** The receipt line (decision L16): the AI pack, a service, one month; ≤ 63 characters. */
-export const CLICK_RECEIPT_NAME = "AI paket 300 (xizmat, 1 oy)";
+export const CLICK_RECEIPT_NAME = PACK_RECEIPT_NAME;
 /** One pack per payment. To confirm with Click: pieces, not thousandths. */
 export const CLICK_RECEIPT_QUANTITY = 1;
 const MAX_RESPONSE_BYTES = 16_384;
@@ -124,11 +124,18 @@ async function call(
         Auth: await clickAuthHeader(auth, options.now),
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-      redirect: "error",
+      // A redirect is never followed, so the key cannot reach another host.
+      // workerd has no "error" mode (only "follow" and "manual"): a 3xx
+      // answer comes back as it is and fails below.
+      redirect: "manual",
       signal: AbortSignal.timeout(options.timeoutMs ?? CLICK_TIMEOUT_MS),
     });
   } catch {
     return { ok: false, error: "network" };
+  }
+  if (response.status >= 300 && response.status < 400) {
+    await response.body?.cancel();
+    return { ok: false, error: "http", code: response.status };
   }
   let reply: Record<string, unknown> | null = null;
   try {

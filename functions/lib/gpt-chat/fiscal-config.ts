@@ -21,6 +21,12 @@ export interface FiscalEnv {
   GPT_FISCAL_TIN?: string;
 }
 
+/**
+ * The receipt line of the pack (decision L16): the AI pack, a service, one
+ * month; at most 63 characters (Click Name, Uzum product_name).
+ */
+export const PACK_RECEIPT_NAME = "AI paket 300 (xizmat, 1 oy)";
+
 /** What a receipt line needs; the TIN is read on its own (fiscalTin). */
 export interface FiscalParams {
   ikpu: string;
@@ -97,6 +103,15 @@ function httpsLink(value: unknown): URL | null {
 export function ofdReceiptLink(value: unknown): string | null {
   const url = httpsLink(value);
   return url?.hostname === OFD_HOST ? url.href : null;
+}
+
+/**
+ * A test receipt's link: any https link without credentials or port. The
+ * test Fiscalization host's link format is not documented; the panel still
+ * shows only what receiptLink() allows.
+ */
+export function testReceiptLink(value: unknown): string | null {
+  return httpsLink(value)?.href ?? null;
 }
 
 /**

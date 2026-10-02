@@ -79,6 +79,8 @@ export const RUNTIME_CONFIG_KEYS = [
   'UZUM_CHECKOUT_BASE_URL',
   'UZUM_CHECKOUT_TEST_BASE_URL',
   'UZUM_AUTOFISCAL',
+  'UZUM_FISCAL_BASE_URL',
+  'UZUM_FISCAL_TEST_BASE_URL',
   // Payments of the AI pack (functions/lib/gpt-chat/billing-config.ts): which
   // providers run, each one's mode, the live switch and the offer. Public
   // only; credentials are the secrets GPT_CLICK_CREDENTIALS_JSON and

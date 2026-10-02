@@ -1,8 +1,10 @@
 // migrations/0068 (the paid AI chat, release R4) against its runtime
 // bootstrap, and a local rehearsal of applying it to the production shape.
-// WP-14 adds the Click fiscal queue columns; WP-15..WP-17 extend the same
-// file and this test. Real SQLite (tests/helpers/sqlite-d1.ts); nothing here
-// touches a remote database.
+// WP-14 adds the Click fiscal queue columns; WP-15 the Uzum receipt key, two
+// gpt_uzum_orders columns and gpt_payment_codes (bootstrapped by
+// ensureUzumSchema only); WP-16..WP-17 extend the same file and this test.
+// Real SQLite (tests/helpers/sqlite-d1.ts); nothing here touches a remote
+// database.
 // Run: node --import tsx --test tests/gpt-paid-chat-schema.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -11,8 +13,11 @@ import { SqliteD1 } from "./helpers/sqlite-d1";
 import { ensureSchema } from "../functions/lib/gpt-chat/schema";
 import {
   ensureBillingSchema,
+  ensureUzumSchema,
   FISCAL_RECEIPT_COLUMNS,
   PAID_CHAT_DDL,
+  UZUM_ORDER_COLUMNS,
+  UZUM_PAID_CHAT_DDL,
 } from "../functions/lib/gpt-chat/billing-schema";
 
 const migration = (name: string) =>
@@ -26,7 +31,15 @@ const BEFORE_0068 = [
   "0065_gpt_uzum_payments.sql",
   "0066_gpt_chat_runtime.sql",
 ];
-const TABLES = ["gpt_fiscal_receipts"];
+const TABLES = ["gpt_fiscal_receipts", "gpt_uzum_orders", "gpt_payment_codes"];
+const DDL = [...PAID_CHAT_DDL, ...UZUM_PAID_CHAT_DDL];
+
+/** Every bootstrap 0068 mirrors: the billing one and the Uzum one. */
+async function bootstrap(db: SqliteD1): Promise<void> {
+  await ensureSchema(db.asD1());
+  await ensureBillingSchema(db.asD1());
+  await ensureUzumSchema(db.asD1());
+}
 const SQL_COMMENT = /^\s*--.*$/gm;
 
 function statements(sql: string): string[] {
@@ -97,19 +110,22 @@ function apply(db: SqliteD1, name: string, sql: string): "applied" | "skipped" {
 
 test("0068 lists exactly what the runtime bootstraps, both ways, and only adds", () => {
   const sql = statements(M0068);
-  assert.deepEqual(
+  const added = (table: string) =>
     sql.flatMap((statement) => {
-      const match = /^ALTER TABLE gpt_fiscal_receipts ADD COLUMN (\w+) (.+)$/i.exec(statement);
-      return match ? [[match[1], match[2]]] : [];
-    }),
-    FISCAL_RECEIPT_COLUMNS.map(([name, type]) => [name, type]),
-  );
+      const match = /^ALTER TABLE (\w+) ADD COLUMN (\w+) (.+)$/i.exec(statement);
+      return match && match[1] === table ? [[match[2], match[3]]] : [];
+    });
+  assert.deepEqual(added("gpt_fiscal_receipts"), FISCAL_RECEIPT_COLUMNS.map(([name, type]) => [name, type]));
+  assert.deepEqual(added("gpt_uzum_orders"), UZUM_ORDER_COLUMNS.map(([name, type]) => [name, type]));
   assert.deepEqual(
     names(sql, /CREATE INDEX IF NOT EXISTS (\w+)/i).sort(),
-    names(PAID_CHAT_DDL, /CREATE INDEX IF NOT EXISTS (\w+)/i).sort(),
+    names(DDL, /CREATE INDEX IF NOT EXISTS (\w+)/i).sort(),
   );
-  for (const ddl of PAID_CHAT_DDL) assert.ok(M0068.replace(/\r\n/g, "\n").includes(`${ddl};`), ddl);
-  assert.equal(sql.length, FISCAL_RECEIPT_COLUMNS.length + PAID_CHAT_DDL.length);
+  assert.deepEqual(names(sql, /CREATE TABLE IF NOT EXISTS (\w+)/i), ["gpt_payment_codes"]);
+  for (const ddl of DDL) assert.ok(M0068.replace(/\r\n/g, "\n").includes(`${ddl};`), ddl);
+  assert.equal(sql.length, FISCAL_RECEIPT_COLUMNS.length + UZUM_ORDER_COLUMNS.length + DDL.length);
+  // The chat turn's bootstrap stays free of Uzum objects (map 02, B9).
+  for (const ddl of PAID_CHAT_DDL) assert.doesNotMatch(ddl, /uzum|payment_codes/);
   // Additive only: nothing is dropped, deleted or rewritten; financial rows stay.
   const code = M0068.replace(SQL_COMMENT, "");
   assert.doesNotMatch(code, /\b(DROP|DELETE|UPDATE|INSERT|TRUNCATE)\b/i);
@@ -120,8 +136,7 @@ test("0068 on the production shape and the runtime bootstrap on an empty databas
   const migrated = productionShape();
   migrated.exec(M0068);
   const bootstrapped = new SqliteD1();
-  await ensureSchema(bootstrapped.asD1());
-  await ensureBillingSchema(bootstrapped.asD1());
+  await bootstrap(bootstrapped);
   const expected = shape(migrated);
   assert.deepEqual(shape(bootstrapped), expected);
   // The six 0064 columns first, then the queue's.
@@ -130,7 +145,16 @@ test("0068 on the production shape and the runtime bootstrap on an empty databas
     columns.map((column) => column.name),
     ["org_id", "order_id", "kind", "receipt_url", "status_code", "updated_at", ...FISCAL_RECEIPT_COLUMNS.map(([name]) => name)],
   );
-  assert.deepEqual(Object.keys(expected.indexes), ["idx_gpt_fiscal_due"]);
+  // The 0065 columns of gpt_uzum_orders first, then WP-15's.
+  assert.deepEqual(
+    (expected.tables.gpt_uzum_orders as Array<{ name: string }>).slice(-2).map((column) => column.name),
+    UZUM_ORDER_COLUMNS.map(([name]) => name),
+  );
+  assert.deepEqual(
+    (expected.tables.gpt_payment_codes as Array<{ name: string }>).map((column) => column.name),
+    ["org_id", "code", "user_id", "created_at", "terms_version", "terms_url", "terms_locale", "terms_accepted_at"],
+  );
+  assert.deepEqual(Object.keys(expected.indexes), ["idx_gpt_fiscal_due", "idx_gpt_uzum_orders_state"]);
 });
 
 test("rehearsal: 0068 applied twice through the ledger keeps every row; the bootstrap after it changes nothing", async () => {
@@ -140,12 +164,16 @@ test("rehearsal: 0068 applied twice through the ledger keeps every row; the boot
   db.sqlite
     .prepare("INSERT INTO gpt_fiscal_receipts(org_id,order_id,kind,receipt_url,status_code,updated_at) VALUES('gptbot-consumer','pay_a','PERFORM','https://ofd.soliq.uz/epi?r=1',0,?)")
     .run(now);
+  // An Uzum order written before 0068 keeps its values; the new columns are NULL.
+  db.sqlite
+    .prepare("INSERT INTO gpt_uzum_orders(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at) VALUES('gptbot-consumer','uzm_a','acct_a','uzum','live','r1',2000000,'UZS','cancelled',?,?)")
+    .run(now, now + 1);
   const before = counts(db);
   assert.equal(apply(db, "0068_gpt_paid_chat.sql", M0068), "applied");
   const after = counts(db);
   assert.deepEqual(
     Object.fromEntries(Object.entries(after).filter(([table]) => !(table in before))),
-    { d1_migrations: 1 },
+    { d1_migrations: 1, gpt_payment_codes: 0 },
   );
   for (const [table, n] of Object.entries(before)) assert.equal(after[table], n, table);
   assert.equal(apply(db, "0068_gpt_paid_chat.sql", M0068), "skipped");
@@ -166,11 +194,15 @@ test("rehearsal: 0068 applied twice through the ledger keeps every row; the boot
       payment_id: null,
       last_error: null,
       submitted_at: null,
+      operation_id: null,
     },
   );
+  assert.deepEqual(
+    { ...db.rows("SELECT id,state,api,confirm_requested_at,autofiscal FROM gpt_uzum_orders")[0] as object },
+    { id: "uzm_a", state: "cancelled", api: "checkout", confirm_requested_at: null, autofiscal: null },
+  );
   const schema = shape(db);
-  await ensureSchema(db.asD1());
-  await ensureBillingSchema(db.asD1());
+  await bootstrap(db);
   assert.deepEqual(shape(db), schema);
   // Outside the ledger the ALTERs are not repeatable: why the header demands
   // the migration before the code.
@@ -179,8 +211,7 @@ test("rehearsal: 0068 applied twice through the ledger keeps every row; the boot
 
 test("code deployed before 0068: the bootstrap adds the columns, and the migration then refuses (release order)", async () => {
   const db = productionShape();
-  await ensureSchema(db.asD1());
-  await ensureBillingSchema(db.asD1());
+  await bootstrap(db);
   const reference = productionShape();
   reference.exec(M0068);
   assert.deepEqual(shape(db), shape(reference));
