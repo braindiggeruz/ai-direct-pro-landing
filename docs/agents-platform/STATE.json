@@ -3,7 +3,7 @@
     "wp": "WP-15",
     "release": "R4",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "e77f655d8e81e284ebe00a43acf7a455c6fa6674",
     "commit_note": "feat(billing): finish Uzum package C (parent ded5e8a8); the next commit, docs(agents-platform): record the WP-15 commit in STATE, records this SHA (metadata only, rule D-006, state_commit)",
     "resume_note": "Started on a clean tree at 56d179c3 (WP-14 after review); no interrupted WP-15 attempt and no wp15 backup existed. While it ran another session committed 6d949b53 (automation Worker redirect fix) and ded5e8a8 (salt rekey receipt) to this branch; they touch no WP-15 file.",
     "source": "docs/paid-chat/uzum-spec/en_checkout.yaml (1.10.3), en_merchant.yaml (1.0.0), en_fiscalization.yaml (0.0.2), fetched 2026-09-30; map 02 section 4.4 (U1-U14). Review report: docs/paid-chat/UZUM-REVIEW-2026-10.md (no open High or Medium).",
@@ -1032,7 +1032,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "e77f655d8e81e284ebe00a43acf7a455c6fa6674",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
