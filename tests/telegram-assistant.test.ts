@@ -12,6 +12,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { createHash, createHmac } from 'node:crypto';
 
 import { splitMessage, escapeHtml, TelegramClient } from '../functions/lib/telegram/client';
 import { guessLanguage, buildJavobReplyPrompt, buildJavobModifierPrompt, JAVOB_PROMPT_VERSION } from '../functions/lib/telegram/prompts';
@@ -325,6 +326,8 @@ function makeD1() {
     platformEvents: [] as any[],
     // gpt_* tables the reply path reads and writes (WP-08).
     health: [] as any[], alerts: [] as any[], spend: [] as any[],
+    // Sign-in through the bot (WP-16): gpt_bot_logins rows and gpt_rate_limits counters.
+    logins: [] as any[], rates: new Map<string, number>(),
     subs: [] as any[], orders: [] as any[], txs: [] as any[], prefs: [] as any[], refs: [] as any[],
     plans: [
       { code: 'free', name_ru: 'Free', name_uz: 'Free', price_uzs: 0, billing_type: 'none', duration_hours: null, monthly_limit: 30, daily_limit: 3, features_json: null, is_active: 1, display_order: 1 },
@@ -435,6 +438,28 @@ function makeD1() {
     return { meta: { changes: 0 } };
   }
   function first(sql: string, a: any[]) {
+    // web-login.ts: the rate limit and bot-login-store.ts's conditional steps.
+    if (/INSERT INTO gpt_rate_limits/.test(sql)) {
+      const key = a.join('|');
+      t.rates.set(key, (t.rates.get(key) ?? 0) + 1);
+      return { count: t.rates.get(key) };
+    }
+    if (/UPDATE gpt_bot_logins SET status='claimed'/.test(sql)) {
+      const [tgHash, at, org, nonceHash, now] = a;
+      const row = t.logins.find((x) => x.org_id === org && x.nonce_hash === nonceHash && x.status === 'pending' && x.expires_at > now);
+      if (!row) return null;
+      Object.assign(row, { status: 'claimed', tg_hash: tgHash, claimed_at: at });
+      return { ...row };
+    }
+    if (/FROM gpt_bot_logins WHERE org_id=\? AND nonce_hash=\?/.test(sql)) return t.logins.find((x) => x.org_id === a[0] && x.nonce_hash === a[1]) || null;
+    if (/UPDATE gpt_bot_logins SET status=CASE WHEN code=\? THEN 'confirmed'/.test(sql)) {
+      const [pick, at, org, id, tgHash, now] = a;
+      const row = t.logins.find((x) => x.org_id === org && x.id === id && x.tg_hash === tgHash && x.mode === 'pick' && x.status === 'claimed' && x.expires_at > now);
+      if (!row) return null;
+      Object.assign(row, { status: row.code === pick ? 'confirmed' : 'rejected', decided_at: at });
+      return { status: row.status, locale: row.locale };
+    }
+    if (/SELECT tg_hash,expires_at,locale FROM gpt_bot_logins/.test(sql)) return t.logins.find((x) => x.org_id === a[0] && x.id === a[1]) || null;
     if (/FROM events WHERE idempotency_key = \?/.test(sql)) {
       return t.platformEvents.find((event) => event.idempotency_key === a[0]) || null;
     }
@@ -1495,6 +1520,10 @@ test('no keyboard, limit text or command in the bot leads to a price, an offer o
       C.errorKeyboard(locale, id),
       C.actionKeyboard(locale, id),
       C.translateTargetKeyboard(locale, id),
+      // Sign-in on the site (WP-16): numbers, «not me», sign out everywhere.
+      C.loginPickKeyboard(locale, id, ['47', '12', '85']),
+      C.loginCodeKeyboard(locale, id),
+      C.loginLogoutKeyboard(locale),
     ]),
   ];
   for (const keyboard of keyboards) {
@@ -1527,6 +1556,47 @@ test('old Tahlil offer buttons answer without a price, even for a gone report; p
   assert.deepEqual(events.filter((e: string) => e === 'analysis_details_viewed').length, 3);
   assert.ok(!events.includes('payment_intent') && !events.includes('paywall_shown'));
   assert.ok(!db._t.events.some((e: any) => /amountUzs|4900/.test(e.meta_json)));
+});
+
+test('sign-in links and buttons (WP-16) are routed before Javob: no model, no item, no allowance; Javob answers as before', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
+  const secret = 's'.repeat(32);
+  const env = { GPT_IDENTITY_SECRET: secret };
+  const nonce = 'a1'.repeat(16);
+  const login = {
+    org_id: 'gptbot-consumer', id: '0123456789abcdef', nonce_hash: createHash('sha256').update(nonce).digest('hex'),
+    browser_hash: 'b'.repeat(64), mode: 'pick', code: '47', choices: '12,47,85', locale: 'ru', client: 'Safari, iOS',
+    status: 'pending', tg_hash: null, created_at: Date.now(), expires_at: Date.now() + 600_000,
+  };
+  (db as any)._t.logins.push(login);
+  const startLogin = (id: number, payload: string) => ({ update_id: id, message: { chat: { id: 31, type: 'private' }, from: { id: 31, language_code: 'uz' }, text: `/start ${payload}` } }) as any;
+  await handleUpdate(deps(db, env), startLogin(1700, `login_${nonce}`));
+  assert.equal(login.status, 'claimed');
+  assert.equal(login.tg_hash, createHmac('sha256', secret).update('tg:31').digest('hex'));
+  const ask = rec.tg.filter((c) => c.method === 'sendMessage');
+  assert.equal(ask.length, 1);
+  assert.match(ask[0].body.text, /Вход на сайт gptbot\.uz/, 'in the site page language, not the client one');
+  assert.deepEqual(ask[0].body.reply_markup.inline_keyboard.flat().map((b: any) => b.callback_data), ['lg:12:0123456789abcdef', 'lg:47:0123456789abcdef', 'lg:85:0123456789abcdef', 'lgx:0123456789abcdef']);
+  rec.tg.length = 0;
+  await handleUpdate(deps(db, env), { update_id: 1701, callback_query: { id: 'q', from: { id: 31, language_code: 'uz' }, data: 'lg:47:0123456789abcdef', message: { chat: { id: 31, type: 'private' }, message_id: 5 } } } as any);
+  assert.equal(login.status, 'confirmed');
+  assert.deepEqual(rec.tg.map((c) => c.method), ['answerCallbackQuery', 'editMessageText']);
+  assert.equal(rec.tg[0].body.text, C.LOGIN_TOAST.ru.confirmed);
+  // An unknown link: stale, in the person's bot language.
+  rec.tg.length = 0;
+  await handleUpdate(deps(db, env), startLogin(1702, `login_${'f'.repeat(32)}`));
+  assert.deepEqual(rec.tg.filter((c) => c.method === 'sendMessage').map((c) => c.body.text), [C.LOGIN_STALE.uz]);
+  assert.equal(rec.ai, 0);
+  assert.equal((db as any)._t.items.length, 0);
+  assert.equal((db as any)._t.ledger.length, 0);
+  const events = (db as any)._t.events.filter((e: any) => e.event.startsWith('web_login_'));
+  assert.deepEqual(events.map((e: any) => [e.event, e.meta_json]), [['web_login_opened', '{"locale":"ru"}'], ['web_login_confirmed', '{"locale":"ru"}'], ['web_login_stale', '{"locale":"uz"}']]);
+  // Javob itself is untouched by all of this.
+  rec.tg.length = 0;
+  await handleUpdate(deps(db, env), { update_id: 1703, message: { chat: { id: 31, type: 'private' }, from: { id: 31, language_code: 'ru' }, text: 'Здравствуйте, когда будет готов мой заказ?', forward_date: 1 } } as any);
+  assert.equal(rec.ai, 1);
+  assert.equal(rec.tg.filter((c) => c.method === 'sendMessage').at(-1).body.text, RU_REPLY);
 });
 
 test('migration 0067 retires Day Pass and Plus once; the bootstrap seeds them inactive', async () => {

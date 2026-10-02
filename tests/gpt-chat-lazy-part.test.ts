@@ -152,6 +152,51 @@ test('chat-account: the pack window says what it said before the split', async (
   }
 });
 
+test('chat-account: sign-in through the bot — the button, then the number, the link and the warning', async () => {
+  const { AiAccountWindow } = await accountPart.load();
+  const deepLink = `https://t.me/gptbotuz_bot?start=login_${'ab'.repeat(16)}`;
+  const store = new Map<string, string>();
+  const scope = globalThis as unknown as { sessionStorage?: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> };
+  scope.sessionStorage = { getItem: (key) => store.get(key) ?? null, setItem: (key, value) => { store.set(key, value); }, removeItem: (key) => { store.delete(key); } };
+  try {
+    for (const locale of LOCALES) {
+      const copy = accountStrings(locale);
+      const render = () => renderToStaticMarkup(
+        React.createElement(Dialog, { open: true },
+          React.createElement(AiAccountWindow, { t: strings(locale), locale, apiBase: '', account: handle(guest({ loginMethods: ['bot', 'oidc'] })), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } })),
+      );
+      // Before starting: the consent and one sign-in button.
+      store.clear();
+      const idle = render();
+      assert.ok(idle.includes(copy.loginConsent) && idle.includes(copy.login), locale);
+      assert.ok(!idle.includes(copy.botLoginOpen));
+      // An attempt this tab started (it survives a reload): the steps, the number large, the link, the warning.
+      store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'pick', code: '47', deepLink, expiresAt: Date.now() + 600_000 }));
+      const waiting = render();
+      for (const line of [...copy.botLoginSteps('gptbotuz_bot'), copy.botLoginOpen, copy.botLoginCopy, copy.botLoginWarning]) assert.ok(waiting.includes(line.replace(/&/g, '&amp;')), `${locale}: ${line}`);
+      assert.match(waiting, /<strong class="gpt-login-code">47<\/strong>/);
+      assert.ok(waiting.includes(`href="${deepLink}"`) && waiting.includes('rel="noopener noreferrer"'));
+      assert.match(waiting, new RegExp(copy.botLoginWaiting('(9:59|10:00)').replace(/[…]/g, '.')));
+      // Code mode: no number on the site.
+      store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'code', code: null, deepLink, expiresAt: Date.now() + 600_000 }));
+      const code = render();
+      for (const line of copy.botLoginCodeSteps('gptbotuz_bot')) assert.ok(code.includes(line), `${locale}: ${line}`);
+      assert.ok(!code.includes('gpt-login-code'));
+      // An older server without loginMethods keeps Telegram's OIDC button.
+      store.clear();
+      const oidc = renderToStaticMarkup(React.createElement(Dialog, { open: true },
+        React.createElement(AiAccountWindow, { t: strings(locale), locale, apiBase: '', account: handle(guest()), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } })));
+      assert.ok(oidc.includes(copy.login) && !oidc.includes('gpt-bot-login'));
+    }
+    // A stored attempt that is not our bot's sign-in link is ignored.
+    store.set('gptchat_botlogin_pending', JSON.stringify({ id: '0123456789abcdef', mode: 'pick', code: '47', deepLink: 'https://t.me/someone_else?start=login_' + 'ab'.repeat(16), expiresAt: Date.now() + 600_000 }));
+    assert.ok(!renderToStaticMarkup(React.createElement(Dialog, { open: true },
+      React.createElement(AiAccountWindow, { t: strings('ru'), locale: 'ru', apiBase: '', account: handle(guest({ loginMethods: ['bot'] })), loginFailed: false, memoryRef: { current: { requestKeys: {}, refusedForTerms: null } } }))).includes('someone_else'));
+  } finally {
+    delete scope.sessionStorage;
+  }
+});
+
 test('chat-lead: the business card and its form, in the visitor’s language', async () => {
   const { AiOfferCard } = await leadPart.load();
   for (const locale of LOCALES) {

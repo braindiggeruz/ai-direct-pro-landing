@@ -2,7 +2,8 @@
 // bootstrap, and a local rehearsal of applying it to the production shape.
 // WP-14 adds the Click fiscal queue columns; WP-15 the Uzum receipt key, two
 // gpt_uzum_orders columns and gpt_payment_codes (bootstrapped by
-// ensureUzumSchema only); WP-16..WP-17 extend the same file and this test.
+// ensureUzumSchema only); WP-16 gpt_bot_logins (sign-in through the bot,
+// ensureBillingSchema); WP-17 extends the same file and this test.
 // Real SQLite (tests/helpers/sqlite-d1.ts); nothing here touches a remote
 // database.
 // Run: node --import tsx --test tests/gpt-paid-chat-schema.test.ts
@@ -31,7 +32,7 @@ const BEFORE_0068 = [
   "0065_gpt_uzum_payments.sql",
   "0066_gpt_chat_runtime.sql",
 ];
-const TABLES = ["gpt_fiscal_receipts", "gpt_uzum_orders", "gpt_payment_codes"];
+const TABLES = ["gpt_fiscal_receipts", "gpt_uzum_orders", "gpt_payment_codes", "gpt_bot_logins"];
 const DDL = [...PAID_CHAT_DDL, ...UZUM_PAID_CHAT_DDL];
 
 /** Every bootstrap 0068 mirrors: the billing one and the Uzum one. */
@@ -121,7 +122,7 @@ test("0068 lists exactly what the runtime bootstraps, both ways, and only adds",
     names(sql, /CREATE INDEX IF NOT EXISTS (\w+)/i).sort(),
     names(DDL, /CREATE INDEX IF NOT EXISTS (\w+)/i).sort(),
   );
-  assert.deepEqual(names(sql, /CREATE TABLE IF NOT EXISTS (\w+)/i), ["gpt_payment_codes"]);
+  assert.deepEqual(names(sql, /CREATE TABLE IF NOT EXISTS (\w+)/i), ["gpt_payment_codes", "gpt_bot_logins"]);
   for (const ddl of DDL) assert.ok(M0068.replace(/\r\n/g, "\n").includes(`${ddl};`), ddl);
   assert.equal(sql.length, FISCAL_RECEIPT_COLUMNS.length + UZUM_ORDER_COLUMNS.length + DDL.length);
   // The chat turn's bootstrap stays free of Uzum objects (map 02, B9).
@@ -129,7 +130,9 @@ test("0068 lists exactly what the runtime bootstraps, both ways, and only adds",
   // Additive only: nothing is dropped, deleted or rewritten; financial rows stay.
   const code = M0068.replace(SQL_COMMENT, "");
   assert.doesNotMatch(code, /\b(DROP|DELETE|UPDATE|INSERT|TRUNCATE)\b/i);
-  assert.doesNotMatch(code, /\bCHECK\b/i);
+  // No existing CHECK changes: CHECKs belong to the new table only.
+  for (const statement of sql)
+    if (/\bCHECK\b/i.test(statement)) assert.match(statement, /^CREATE TABLE IF NOT EXISTS gpt_bot_logins /, statement);
 });
 
 test("0068 on the production shape and the runtime bootstrap on an empty database build the same schema", async () => {
@@ -154,7 +157,16 @@ test("0068 on the production shape and the runtime bootstrap on an empty databas
     (expected.tables.gpt_payment_codes as Array<{ name: string }>).map((column) => column.name),
     ["org_id", "code", "user_id", "created_at", "terms_version", "terms_url", "terms_locale", "terms_accepted_at"],
   );
-  assert.deepEqual(Object.keys(expected.indexes), ["idx_gpt_fiscal_due", "idx_gpt_uzum_orders_state"]);
+  assert.deepEqual(
+    (expected.tables.gpt_bot_logins as Array<{ name: string }>).map((column) => column.name),
+    ["org_id", "id", "nonce_hash", "browser_hash", "mode", "code", "choices", "locale", "client", "status", "tg_hash", "created_at", "expires_at", "claimed_at", "decided_at", "consumed_at"],
+  );
+  assert.deepEqual(Object.keys(expected.indexes), [
+    "idx_gpt_bot_logins_browser",
+    "idx_gpt_bot_logins_expiry",
+    "idx_gpt_fiscal_due",
+    "idx_gpt_uzum_orders_state",
+  ]);
 });
 
 test("rehearsal: 0068 applied twice through the ledger keeps every row; the bootstrap after it changes nothing", async () => {
@@ -173,7 +185,7 @@ test("rehearsal: 0068 applied twice through the ledger keeps every row; the boot
   const after = counts(db);
   assert.deepEqual(
     Object.fromEntries(Object.entries(after).filter(([table]) => !(table in before))),
-    { d1_migrations: 1, gpt_payment_codes: 0 },
+    { d1_migrations: 1, gpt_payment_codes: 0, gpt_bot_logins: 0 },
   );
   for (const [table, n] of Object.entries(before)) assert.equal(after[table], n, table);
   assert.equal(apply(db, "0068_gpt_paid_chat.sql", M0068), "skipped");

@@ -20,6 +20,15 @@ export interface AccountStrings {
   termsChanged: string; termsMissing: string;
   /** A pending invoice: going back to it creates no new one. */
   resumeNote: string; resume: string;
+  /** Sign-in through the bot (AiBotLogin.tsx). Steps take the bot's @username. */
+  botLoginSteps: (bot: string) => string[];
+  botLoginCodeSteps: (bot: string) => string[];
+  botLoginOpen: string; botLoginCopy: string; botLoginCopied: string; botLoginRestart: string;
+  /** Time left as m:ss. */
+  botLoginWaiting: (left: string) => string;
+  botLoginClaimed: (code: string) => string;
+  botLoginCodeClaimed: string; botLoginCodeLabel: string; botLoginCodeSubmit: string;
+  botLoginDone: string; botLoginRejected: string; botLoginExpired: string; botLoginWarning: string;
 }
 
 const RU: AccountStrings = {
@@ -57,6 +66,29 @@ const RU: AccountStrings = {
   termsMissing: 'Условия оплаты пока недоступны.',
   resumeNote: 'Возврат к существующему счёту. Новый счёт не создаётся.',
   resume: 'Продолжить этот платёж',
+  botLoginSteps: (bot) => [
+    `Нажмите «Открыть Telegram» — откроется @${bot}.`,
+    'В боте нажмите это число:',
+    'Вернитесь на эту страницу — вход завершится сам.',
+  ],
+  botLoginCodeSteps: (bot) => [
+    `Нажмите «Открыть Telegram» — откроется @${bot}.`,
+    'Бот пришлёт код из 6 цифр.',
+    'Введите его на этой странице — и вы войдёте.',
+  ],
+  botLoginOpen: 'Открыть Telegram',
+  botLoginCopy: 'Скопировать ссылку',
+  botLoginCopied: 'Ссылка скопирована',
+  botLoginRestart: 'Начать заново',
+  botLoginWaiting: (left) => `Ждём подтверждения… ${left}`,
+  botLoginClaimed: (code) => `Бот открыт. Нажмите в боте число ${code}.`,
+  botLoginCodeClaimed: 'Бот открыт. Введите код из 6 цифр, который он прислал.',
+  botLoginCodeLabel: 'Код из бота',
+  botLoginCodeSubmit: 'Войти',
+  botLoginDone: 'Вы вошли. Выберите способ оплаты.',
+  botLoginRejected: 'Вход отклонён: число или код не совпали, или в боте нажали «Это не я». Начните заново.',
+  botLoginExpired: 'Ссылка для входа истекла (10 минут). Начните заново.',
+  botLoginWarning: 'Подтверждайте, только если сами нажали «Войти» на этой странице. Никому не пересылайте ссылку.',
 };
 
 const UZ: AccountStrings = {
@@ -94,6 +126,29 @@ const UZ: AccountStrings = {
   termsMissing: 'To‘lov shartlari hali mavjud emas.',
   resumeNote: 'Bu mavjud hisobga qaytish. Yangi hisob yaratilmaydi.',
   resume: 'Shu to‘lovni davom ettirish',
+  botLoginSteps: (bot) => [
+    `«Telegramni ochish»ni bosing — @${bot} ochiladi.`,
+    'Botda shu raqamni bosing:',
+    'Shu sahifaga qayting — kirish o‘zi yakunlanadi.',
+  ],
+  botLoginCodeSteps: (bot) => [
+    `«Telegramni ochish»ni bosing — @${bot} ochiladi.`,
+    'Bot 6 xonali kod yuboradi.',
+    'Uni shu sahifada kiriting — shunda kirasiz.',
+  ],
+  botLoginOpen: 'Telegramni ochish',
+  botLoginCopy: 'Havolani nusxalash',
+  botLoginCopied: 'Havola nusxalandi',
+  botLoginRestart: 'Qaytadan boshlash',
+  botLoginWaiting: (left) => `Tasdiqlash kutilmoqda… ${left}`,
+  botLoginClaimed: (code) => `Bot ochildi. Endi botda ${code} raqamini bosing.`,
+  botLoginCodeClaimed: 'Bot ochildi. U yuborgan 6 xonali kodni kiriting.',
+  botLoginCodeLabel: 'Botdan kelgan kod',
+  botLoginCodeSubmit: 'Kirish',
+  botLoginDone: 'Kirdingiz. Endi to‘lov usulini tanlang.',
+  botLoginRejected: 'Kirish rad etildi: raqam yoki kod mos kelmadi yoki botda «Bu men emas» bosildi. Qaytadan boshlang.',
+  botLoginExpired: 'Kirish havolasining muddati tugadi (10 daqiqa). Qaytadan boshlang.',
+  botLoginWarning: 'Faqat shu sahifada «Kirish»ni o‘zingiz bosgan bo‘lsangiz tasdiqlang. Havolani hech kimga yubormang.',
 };
 
 export function accountStrings(locale: Locale): AccountStrings {

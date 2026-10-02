@@ -9,6 +9,7 @@ import { accountStrings } from "../account-strings";
 import { billingOpen, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, allowedCheckoutUrl, type PaymentProvider } from "../types";
 import type { AccountHandle } from "../use-account";
 import { track, EV } from "../analytics";
+import { AiBotLogin } from "./AiBotLogin";
 
 /**
  * What the window must not forget when it closes and opens again: it unmounts
@@ -195,27 +196,40 @@ export function AiAccountWindow({
               </a>
             </span>
           </label>
-          <button
-            type="button"
-            className="gpt-primary"
-            disabled={busy || error || loading || !consent || !data?.loginAvailable}
-            onClick={() =>
-              void run(async () => {
-                if (!data?.loginAvailable || !consent) return;
-                track(EV.loginStarted, { method: "telegram", locale });
-                const result = await post("/api/gpt/auth/start", {
-                  locale,
-                  consent,
-                });
-                const url = new URL(result.url);
-                if (url.origin !== "https://oauth.telegram.org")
-                  throw new Error();
-                location.assign(url.href);
-              })
-            }
-          >
-            {copy.login}
-          </button>
+          {/* The bot first (no BotFather client needed); Telegram's OIDC
+              when the server offers only that. */}
+          {data.loginMethods?.includes("bot") ? (
+            <AiBotLogin
+              locale={locale}
+              apiBase={apiBase}
+              copy={copy}
+              consent={consent}
+              disabled={busy || error || loading}
+              onSignedIn={refresh}
+            />
+          ) : (
+            <button
+              type="button"
+              className="gpt-primary"
+              disabled={busy || error || loading || !consent || !data?.loginAvailable}
+              onClick={() =>
+                void run(async () => {
+                  if (!data?.loginAvailable || !consent) return;
+                  track(EV.loginStarted, { method: "telegram", locale });
+                  const result = await post("/api/gpt/auth/start", {
+                    locale,
+                    consent,
+                  });
+                  const url = new URL(result.url);
+                  if (url.origin !== "https://oauth.telegram.org")
+                    throw new Error();
+                  location.assign(url.href);
+                })
+              }
+            >
+              {copy.login}
+            </button>
+          )}
         </>
       ) : null) : (
         <>

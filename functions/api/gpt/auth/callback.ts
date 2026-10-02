@@ -11,6 +11,7 @@ import {
   cookieValue,
 } from "../../../lib/gpt-chat/identity-store";
 import { fail } from "../../../lib/gpt-chat/http";
+import { telegramIdentityHash } from "../../../lib/gpt-chat/telegram-identity";
 const keys = createRemoteJWKSet(
   new URL("https://oauth.telegram.org/.well-known/jwks.json"),
   { timeoutDuration: 5000 },
@@ -59,29 +60,14 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       issuer: "https://oauth.telegram.org",
       audience: env.GPT_TELEGRAM_CLIENT_ID,
       algorithms: ["RS256"],
-      requiredClaims: ["exp", "iat", "sub", "aud", "iss"],
+      requiredClaims: ["exp", "iat", "sub", "aud", "iss", "id"],
       maxTokenAge: "10m",
     });
-    if (!payload.sub) throw new Error("subject_missing");
-    // Keyed pseudonym: no Telegram name, phone, photo, raw ID or token persists.
-    // Still personal data, not a claim of legal anonymisation.
-    const key = await crypto.subtle.importKey(
-      "raw",
-      new TextEncoder().encode(env.GPT_IDENTITY_SECRET),
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign"],
-    );
-    const hash = Array.from(
-      new Uint8Array(
-        await crypto.subtle.sign(
-          "HMAC",
-          key,
-          new TextEncoder().encode(payload.sub),
-        ),
-      ),
-      (v) => v.toString(16).padStart(2, "0"),
-    ).join("");
+    // The numeric Telegram id (claim `id`, scope `profile`), keyed exactly as
+    // the bot keys it, so both ways in reach one account; `sub` is not that
+    // id. No name, username, photo, raw id or token persists.
+    const hash = await telegramIdentityHash(env.GPT_IDENTITY_SECRET!, payload.id);
+    if (!hash) throw new Error("telegram_id_missing");
     const token = await store.login(hash);
     await store.logout(request);
     const headers = new Headers({

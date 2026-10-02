@@ -7,6 +7,8 @@ import type { LimitReason, LimitState } from '../src/gpt-chat/limit-state';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
+import { isBotLoginUrl } from '../src/gpt-chat/handoff';
+import { validBotLoginAttempt } from '../src/gpt-chat/bot-login';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06' });
 
@@ -54,6 +56,33 @@ test('botHandoff is a boolean or absent; anything else fails the view closed', (
   assert.equal(validAccountView({ ...account(), botHandoff: false }), true);
   assert.equal(validAccountView(account()), true, 'an older server without the field stays valid (and means no bot)');
   for (const botHandoff of ['true', 1, null, {}]) assert.equal(validAccountView({ ...account(), botHandoff }), false);
+});
+
+test('loginMethods is a list of bot and oidc or absent; anything else fails the view closed', () => {
+  for (const loginMethods of [['bot'], ['bot', 'oidc'], ['oidc'], []]) assert.equal(validAccountView({ ...account(), loginMethods }), true);
+  assert.equal(validAccountView(account()), true, 'an older server without the field');
+  for (const loginMethods of ['bot', ['sms'], [1], null, {}]) assert.equal(validAccountView({ ...account(), loginMethods }), false);
+});
+
+test('a sign-in deep link is our bot with login_ and 32 hex, nothing else', () => {
+  const nonce = 'ab'.repeat(16);
+  assert.equal(isBotLoginUrl(`https://t.me/gptbotuz_bot?start=login_${nonce}`), true);
+  assert.equal(isBotLoginUrl(`https://telegram.me/GPTBotUz_Bot?start=login_${nonce}`), true);
+  for (const link of [
+    `https://t.me/someone_else?start=login_${nonce}`,
+    `https://t.me/gptbotuz_bot?start=site_ru`,
+    `https://t.me/gptbotuz_bot?start=login_${nonce.toUpperCase()}`,
+    `https://t.me/gptbotuz_bot?start=login_${nonce}&x=1`,
+    `http://t.me/gptbotuz_bot?start=login_${nonce}`,
+    `https://t.me/gptbotuz_bot?start=login_${nonce}#x`,
+    'https://t.me/gptbotuz_bot',
+    'not a url',
+  ]) assert.equal(isBotLoginUrl(link), false, link);
+  const attempt = { id: '0123456789abcdef', mode: 'pick', code: '47', deepLink: `https://t.me/gptbotuz_bot?start=login_${nonce}`, expiresAt: Date.now() + 600_000 };
+  assert.equal(validBotLoginAttempt(attempt), true);
+  assert.equal(validBotLoginAttempt({ ...attempt, mode: 'code', code: null }), true);
+  for (const broken of [{ code: '7' }, { code: null }, { mode: 'code' }, { id: 'xyz' }, { deepLink: 'https://evil.example/' }, { expiresAt: 'soon' }])
+    assert.equal(validBotLoginAttempt({ ...attempt, ...broken }), false, JSON.stringify(broken));
 });
 
 test('freeLimits is two counts or absent; anything else fails the view closed', () => {

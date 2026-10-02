@@ -122,6 +122,13 @@
 .gpt-access-summary strong { display: block; font-size: 48px; line-height: 1.1; letter-spacing: -.05em; color: var(--primary); }
 .gpt-access-summary :is(span,p) { font-size: 13px; color: #c1d9d2; }
 .gpt-access-summary p { margin-top: 12px; }
+/* Sign-in through the bot (AiBotLogin.tsx): the steps, the number to press, the code field. */
+.gpt-login-steps { margin: 4px 0 18px; padding-left: 20px; list-style: decimal; font-size: 13px; line-height: 1.7; color: var(--muted-foreground); }
+.gpt-login-code { display: block; margin: 10px 0 6px; font-size: 56px; line-height: 1; font-weight: 700; letter-spacing: .06em; color: var(--primary); font-variant-numeric: tabular-nums; }
+a.gpt-primary { text-decoration: none; }
+.gpt-bot-login .gpt-text-button { display: block; margin: 6px auto 0; }
+.gpt-login-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted-foreground); }
+.gpt-login-input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border); background: var(--card); color: var(--foreground); font-size: 24px; letter-spacing: .3em; text-align: center; font-variant-numeric: tabular-nums; }
 .gpt-error, .gpt-notice { padding: 12px 15px; border-radius: 12px; font-size: 12px; line-height: 1.6; background: var(--muted); margin: 14px 0; }
 .gpt-error { background: #361f29; color: #ffd7df; }
 /* A lazy part on its way (lazy-part.tsx): its place is held at about its height. */

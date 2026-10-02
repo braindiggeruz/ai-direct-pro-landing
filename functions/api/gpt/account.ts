@@ -95,10 +95,12 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
   const flow = providers.includes("uzum") ? uzumFlow(env) : null;
   const cfg = resolveConfig(env);
   const fiscal = fiscalParams(env);
-  const logins = loginMethods(env);
+  // Sign-in exists to pay: offered only with a provider (as offeredLoginMethods).
+  const logins = providers.length ? loginMethods(env) : [];
   const base = {
     ok: true,
     loginAvailable: logins.length > 0,
+    // "bot" (@gptbotuz_bot) first, then Telegram's OIDC when configured.
     loginMethods: logins,
     mode: providers.length ? context : null,
     // The AI pack (decision L3): one calendar month from the payment. The

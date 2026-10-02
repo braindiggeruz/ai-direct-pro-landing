@@ -11,10 +11,11 @@ import { accountPart, LazyPart, PartFailed, PartLoading } from "../lazy-part";
 import { preloadsAccountWindow } from "../preload";
 import type { AccountWindowMemory } from "./AiAccountWindow";
 import { track, EV } from "../analytics";
+import { loadBotLogin } from "../bot-login";
 export type { AccountView } from "../types";
 
 /** Which button opened the window: the GA4 `from` of `pack_viewed`. */
-export type PackFrom = "header" | "limit_card" | "low_limit" | "after_10" | "account_check" | "login_failed";
+export type PackFrom = "header" | "limit_card" | "low_limit" | "after_10" | "account_check" | "login_failed" | "login_resume";
 /** Ask the panel to open; a new `seq` is a new request. */
 export interface PackOpenRequest {
   seq: number;
@@ -71,6 +72,11 @@ export function AiAccountPanel({
   useEffect(() => {
     if (openRequest) openPack(openRequest.from);
   }, [openRequest, openPack]);
+  // A sign-in through the bot this tab started is still running (the phone
+  // may have reloaded the tab while Telegram was in front): back to it.
+  useEffect(() => {
+    if (loadBotLogin()) openPack("login_resume");
+  }, [openPack]);
   const reachable = showsAccountPill(data);
   const paymentPending = !!data?.payment && ["pending", "prepared"].includes(data.payment.state);
   useEffect(() => {

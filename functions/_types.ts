@@ -282,6 +282,12 @@ export interface Env extends FirecrawlEnvironment {
   // button (account view `botHandoff`); any other value hides it. Stays
   // "false" until the assistant bot answers reliably.
   GPT_BOT_HANDOFF_ENABLED?: string;
+  // Public. Sign-in on the site through the bot (functions/lib/gpt-chat/
+  // bot-login-store.ts): "pick" (default; the bot offers three numbers, the
+  // person presses the one the site shows) or "code" (the bot sends 6 digits
+  // to type in on the site; the switch for abused forwarded links). Any other
+  // value turns sign-in through the bot off.
+  GPT_BOT_LOGIN_MODE?: string;
   // Public. Owner alerts (billing-maintenance-store.ts deliverServiceAlerts):
   // "false" mutes sending, recording goes on. Messages per hour, default 6.
   GPT_ALERTS_ENABLED?: string;
@@ -310,7 +316,8 @@ export interface Env extends FirecrawlEnvironment {
   // the GPTBOT_DRAFTS_DB D1 binding.
   TELEGRAM_ASSISTANT_BOT_TOKEN?: string;
   TELEGRAM_ASSISTANT_WEBHOOK_SECRET?: string;
-  // Public bot @username (no secret). Used only for server-built share links;
+  // Public bot @username (no secret), in the packed runtime JSON. Used for
+  // server-built share links and as the fallback of GPT_HANDOFF_BOT_USERNAME;
   // the site reads its own build-time VITE_TELEGRAM_BOT_USERNAME.
   TELEGRAM_ASSISTANT_BOT_USERNAME?: string;
   // ─── GPTBot Agents Telegram transport (/api/telegram/agents) ─────────

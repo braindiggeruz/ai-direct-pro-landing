@@ -178,6 +178,12 @@ export async function maintainBilling(
         "DELETE FROM gpt_auth_sessions WHERE rowid IN (SELECT rowid FROM gpt_auth_sessions WHERE org_id=? AND expires_at<? LIMIT 500)",
       )
       .bind(BILLING_ORG, now),
+    // Sign-in attempts through the bot (bot-login-store.ts): a day after their 10 minutes.
+    db
+      .prepare(
+        "DELETE FROM gpt_bot_logins WHERE rowid IN (SELECT rowid FROM gpt_bot_logins WHERE org_id=? AND expires_at<? LIMIT 500)",
+      )
+      .bind(BILLING_ORG, now - DAY_MS),
     db
       .prepare(
         "DELETE FROM gpt_turn_reservations WHERE rowid IN (SELECT rowid FROM gpt_turn_reservations WHERE org_id=? AND created_at<? LIMIT 500)",

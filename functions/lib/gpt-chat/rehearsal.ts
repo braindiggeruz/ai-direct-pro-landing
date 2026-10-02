@@ -15,9 +15,12 @@
 // identity behind it). Such an account never gets a live order
 // (BillingStore.createOrder).
 import {
+  loginMethods,
+  offeredProviders,
   providersInMode,
   type BillingEnv,
   type BillingMode,
+  type LoginMethod,
 } from "./billing-config";
 import { authCookie, cookieValue } from "./identity-store";
 
@@ -99,4 +102,20 @@ export async function viewerMode(
   now = Date.now(),
 ): Promise<BillingMode> {
   return (await rehearsalActive(request, env, now)) ? "test" : "live";
+}
+
+/**
+ * The sign-in methods this visitor is offered: none while no provider is
+ * offered to them. An account exists to pay, so with billing off (or in test
+ * outside a rehearsal) sign-in is unreachable and its start routes are 404.
+ * Never touches D1.
+ */
+export async function offeredLoginMethods(
+  request: Request,
+  env: BillingEnv,
+  now = Date.now(),
+): Promise<LoginMethod[]> {
+  return offeredProviders(env, await viewerMode(request, env, now)).length
+    ? loginMethods(env)
+    : [];
 }

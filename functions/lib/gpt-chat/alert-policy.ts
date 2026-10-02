@@ -42,6 +42,9 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   "bot_model_unavailable",
   "bot_models_cooling",
   "bot_silent",
+  // Signing in on the site through the bot failed on our side (D1): a payer
+  // cannot sign in (functions/lib/telegram/web-login.ts).
+  "bot_login_failed",
   // Providers and channels a human has to fix.
   "zai_*",
   "click_*",

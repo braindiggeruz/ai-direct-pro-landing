@@ -412,3 +412,124 @@ export function shareText(locale: Locale, botUsername: string): { url: string } 
   const botUrl = `https://t.me/${botUsername}`;
   return { url: `https://t.me/share/url?url=${encodeURIComponent(botUrl)}&text=${encodeURIComponent(text)}` };
 }
+
+// ── Sign-in on gptbot.uz through the bot (web-login.ts, plan WP-16) ────────
+// Sent in the language of the site page the person started on. No price, no
+// plan, no link: signing in is all that happens here (D11).
+
+/** HH:MM in Tashkent (UTC+5, no daylight saving). */
+function tashkentClock(at: number): string {
+  const date = new Date(at + 5 * 3600_000);
+  return `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
+}
+
+/** Which browser asked and when: the person checks it is the one in their hand. */
+function loginRequest(locale: Locale, client: string | null, at: number): string {
+  return locale === 'ru'
+    ? `Браузер: ${client ?? 'не определён'}\nВремя запроса: ${tashkentClock(at)} по Ташкенту`
+    : `Brauzer: ${client ?? 'aniqlanmadi'}\nSo‘rov vaqti: Toshkent vaqti bilan ${tashkentClock(at)}`;
+}
+
+/** Pick mode: press the number the site shows; one press. */
+export function loginPrompt(locale: Locale, client: string | null, at: number): string {
+  return locale === 'ru'
+    ? `Вход на сайт gptbot.uz\n\n${loginRequest(locale, client, at)}\n\nПодтверждайте, только если сами нажали «Войти» на gptbot.uz. Нажмите число, которое показано на сайте, — попытка одна.`
+    : `gptbot.uz saytiga kirish\n\n${loginRequest(locale, client, at)}\n\nFaqat gptbot.uz saytida «Kirish»ni o‘zingiz bosgan bo‘lsangiz tasdiqlang. Saytda ko‘rsatilgan raqamni bosing — urinish bitta.`;
+}
+
+/** Code mode (GPT_BOT_LOGIN_MODE=code): the code to type in on the site. */
+export function loginCodePrompt(locale: Locale, client: string | null, at: number, code: string): string {
+  return locale === 'ru'
+    ? `Вход на сайт gptbot.uz\n\n${loginRequest(locale, client, at)}\n\nКод для входа: ${code}\n\nВведите его на сайте, в окне входа. Никому не сообщайте этот код — даже тем, кто называет себя поддержкой. Если вы не нажимали «Войти» на gptbot.uz, нажмите «Это не я».`
+    : `gptbot.uz saytiga kirish\n\n${loginRequest(locale, client, at)}\n\nKirish kodi: ${code}\n\nUni saytdagi kirish oynasiga kiriting. Bu kodni hech kimga aytmang — o‘zini yordam xizmati deb tanishtirganlarga ham. gptbot.uz saytida «Kirish»ni bosmagan bo‘lsangiz, «Bu men emas»ni bosing.`;
+}
+
+const LOGIN_BUTTONS: Record<Locale, { deny: string; logout: string }> = {
+  ru: { deny: 'Это не я', logout: 'Выйти на всех устройствах' },
+  uz: { deny: 'Bu men emas', logout: 'Barcha qurilmalardan chiqish' },
+};
+
+/** Three numbers (one is right) and «not me»; callback_data stays far below 64 bytes. */
+export function loginPickKeyboard(locale: Locale, loginId: string, choices: readonly string[]): InlineKeyboard {
+  return [
+    choices.map((choice) => ({ text: choice, callback_data: `lg:${choice}:${loginId}` })),
+    [{ text: LOGIN_BUTTONS[locale].deny, callback_data: `lgx:${loginId}` }],
+  ];
+}
+
+/** Code mode: «not me» while the code is unused, and signing out everywhere after. */
+export function loginCodeKeyboard(locale: Locale, loginId: string): InlineKeyboard {
+  return [
+    [{ text: LOGIN_BUTTONS[locale].deny, callback_data: `lgx:${loginId}` }],
+    ...loginLogoutKeyboard(locale),
+  ];
+}
+
+/** «Выйти на всех устройствах»: the locale rides along, the button needs no row. */
+export function loginLogoutKeyboard(locale: Locale): InlineKeyboard {
+  return [[{ text: LOGIN_BUTTONS[locale].logout, callback_data: `lgout:${locale}` }]];
+}
+
+export const LOGIN_CONFIRMED: Record<Locale, string> = {
+  ru: 'Вход подтверждён. Вернитесь в браузер — вход завершится сам.\n\nЕсли это были не вы, нажмите «Выйти на всех устройствах».',
+  uz: 'Kirish tasdiqlandi. Brauzerga qayting — kirish o‘zi yakunlanadi.\n\nBu siz bo‘lmasangiz, «Barcha qurilmalardan chiqish»ni bosing.',
+};
+
+export const LOGIN_REJECTED: Record<Locale, string> = {
+  ru: 'Число не совпало, вход отклонён. Если входите вы, начните вход на сайте заново.',
+  uz: 'Raqam mos kelmadi, kirish rad etildi. Agar o‘zingiz kirayotgan bo‘lsangiz, saytda qaytadan boshlang.',
+};
+
+export const LOGIN_DENIED: Record<Locale, string> = {
+  ru: 'Вход отменён: по этой ссылке никто не войдёт. Не пересылайте ссылки для входа другим людям.',
+  uz: 'Kirish bekor qilindi: bu havola orqali hech kim kira olmaydi. Kirish havolalarini boshqalarga yubormang.',
+};
+
+export const LOGIN_STALE: Record<Locale, string> = {
+  ru: 'Ссылка для входа устарела или уже использована. Начните вход на сайте gptbot.uz заново — новая ссылка действует 10 минут.',
+  uz: 'Kirish havolasi eskirgan yoki allaqachon ishlatilgan. gptbot.uz saytida kirishni qaytadan boshlang — yangi havola 10 daqiqa amal qiladi.',
+};
+
+export const LOGIN_TAKEN: Record<Locale, string> = {
+  ru: 'Эту ссылку уже открыл другой аккаунт Telegram, поэтому войти по ней нельзя. Начните вход на сайте заново и не пересылайте ссылку.',
+  uz: 'Bu havolani boshqa Telegram akkaunt ochgan, shuning uchun u orqali kirib bo‘lmaydi. Saytda kirishni qaytadan boshlang va havolani hech kimga yubormang.',
+};
+
+export const LOGIN_LIMITED: Record<Locale, string> = {
+  ru: 'Слишком много попыток входа за час. Попробуйте позже.',
+  uz: 'Bir soatda kirishga urinishlar juda ko‘p. Keyinroq urinib ko‘ring.',
+};
+
+export const LOGIN_FAILED: Record<Locale, string> = {
+  ru: 'Сейчас не получилось обработать вход. Попробуйте ещё раз через минуту.',
+  uz: 'Hozir kirishni amalga oshirib bo‘lmadi. Bir daqiqadan keyin qayta urinib ko‘ring.',
+};
+
+export const LOGIN_REVOKED: Record<Locale, string> = {
+  ru: 'Готово: вы вышли из аккаунта gptbot.uz на всех устройствах. Войти снова можно на сайте.',
+  uz: 'Tayyor: barcha qurilmalarda gptbot.uz akkauntidan chiqdingiz. Saytda qaytadan kirishingiz mumkin.',
+};
+
+/** The short toast under a pressed login button (answerCallbackQuery, ≤ 200 chars). */
+export const LOGIN_TOAST: Record<Locale, Record<'confirmed' | 'rejected' | 'denied' | 'repeat' | 'foreign' | 'stale' | 'revoked' | 'failed', string>> = {
+  ru: {
+    confirmed: 'Вход подтверждён',
+    rejected: 'Вход отклонён',
+    denied: 'Вход отменён',
+    repeat: 'Уже обработано',
+    foreign: 'Эта кнопка не для вашего аккаунта',
+    stale: 'Ссылка устарела',
+    revoked: 'Вы вышли на всех устройствах',
+    failed: 'Не получилось, попробуйте ещё раз',
+  },
+  uz: {
+    confirmed: 'Kirish tasdiqlandi',
+    rejected: 'Kirish rad etildi',
+    denied: 'Kirish bekor qilindi',
+    repeat: 'Allaqachon bajarilgan',
+    foreign: 'Bu tugma sizning akkauntingiz uchun emas',
+    stale: 'Havola eskirgan',
+    revoked: 'Barcha qurilmalardan chiqdingiz',
+    failed: 'Bajarilmadi, qayta urinib ko‘ring',
+  },
+};

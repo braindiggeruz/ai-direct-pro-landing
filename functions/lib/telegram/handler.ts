@@ -31,6 +31,7 @@ import {
 import { analysisFromStored, formatAnalysisReport, formatVerificationQuestions } from './analysis-report';
 import { logJavobMessageReceived } from './platform-events';
 import { claimWebHandoff, isWebHandoffPayload, notifyOwnerOfArrival, type ArrivalIdentity } from './web-handoff';
+import { handleWebLoginCallback, handleWebLoginStart, isWebLoginCallback, isWebLoginPayload } from './web-login';
 import { alertOperator } from '../gpt-chat/operator-alert';
 
 interface Deps {
@@ -80,7 +81,7 @@ interface TgCallback {
   id: string;
   from: TgFrom;
   data?: string;
-  message?: { chat: { id: number }; message_id: number };
+  message?: { chat: { id: number; type?: string }; message_id: number };
 }
 export interface TgUpdate {
   update_id: number;
@@ -348,6 +349,10 @@ async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: L
 
   switch (cmd) {
     case '/start': {
+      // Signing in on gptbot.uz (web-login.ts): before anything else, and
+      // never a model call. A stale or unknown link says so: the person is
+      // in the middle of signing in and can start again on the site.
+      if (isWebLoginPayload(payload)) return await handleWebLoginStart(deps, chatId, from.id, pseudo, payload, locale);
       // A payload minted by the website's AI chat. Anything else — including
       // a stale, replayed or invented `w_…` — falls through to the ordinary
       // greeting below, because a link that no longer works is not something
@@ -583,6 +588,9 @@ const MODIFIERS: ReadonlySet<string> = new Set(['shorter', 'softer', 'confident'
 
 async function handleCallback(deps: Deps, cq: TgCallback, updateId: number): Promise<Failure> {
   const { db, cfg, tg } = deps;
+  // Sign-in buttons answer the press themselves, with a toast, and need no
+  // Javob item (web-login.ts).
+  if (isWebLoginCallback(cq.data || '')) return await handleWebLoginCallback(deps, cq, localeFromCode(cq.from.language_code));
   await tg.answerCallbackQuery(cq.id); // clear the button spinner first
   const chatId = cq.message?.chat.id;
   if (!chatId) return;

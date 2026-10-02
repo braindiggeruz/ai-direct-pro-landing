@@ -101,6 +101,8 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_FISCAL_TIN',
   // Limit card -> assistant bot button (functions/api/gpt/account.ts botHandoff).
   'GPT_BOT_HANDOFF_ENABLED',
+  // Sign-in through the bot: "pick" | "code" (functions/lib/gpt-chat/billing-config.ts).
+  'GPT_BOT_LOGIN_MODE',
   // Owner alerts and the silence watchdog (functions/lib/gpt-chat/alert-policy.ts,
   // watchdog-store.ts). The Telegram channel itself stays in GPT_NOTIFY_* secrets.
   'GPT_ALERTS_ENABLED',
@@ -121,6 +123,8 @@ export const RUNTIME_CONFIG_KEYS = [
   // Javob's free replies a day and a month (functions/lib/telegram/billing.ts).
   'TELEGRAM_FREE_DAILY_LIMIT',
   'TELEGRAM_FREE_MONTHLY_LIMIT',
+  // Javob's public @username (functions/lib/telegram/config.ts); was a secret.
+  'TELEGRAM_ASSISTANT_BOT_USERNAME',
 ] as const;
 
 export type RuntimeConfigKey = (typeof RUNTIME_CONFIG_KEYS)[number];

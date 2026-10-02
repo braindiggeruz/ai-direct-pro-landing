@@ -15,10 +15,17 @@
 -- gpt_payment_codes holds the permanent 9-digit code (Luhn check digit) an
 -- account enters in the Uzum Bank app, with the terms version its owner
 -- accepted on the site; no phone, name or Telegram data.
+-- WP-16, sign-in through the bot @gptbotuz_bot: gpt_bot_logins holds one row
+-- per attempt (functions/lib/gpt-chat/bot-login-store.ts), pending -> claimed
+-- -> confirmed | rejected -> consumed, kept a day after its 10 minutes. Only
+-- hashes: the deep link's nonce, the browser's cookie and the Telegram
+-- identity (HMAC with GPT_IDENTITY_SECRET); `code` is the 2-digit number the
+-- site shows (or the 6-digit code the bot sends), `client` a browser family
+-- and OS. No IP, name or Telegram id.
 -- Runtime parity is tested (tests/gpt-paid-chat-schema.test.ts):
--- FISCAL_RECEIPT_COLUMNS and PAID_CHAT_DDL (ensureBillingSchema), and
--- UZUM_ORDER_COLUMNS and UZUM_PAID_CHAT_DDL (ensureUzumSchema) in
--- functions/lib/gpt-chat/billing-schema.ts.
+-- FISCAL_RECEIPT_COLUMNS and PAID_CHAT_DDL (ensureBillingSchema; the bot
+-- sign-in table too), and UZUM_ORDER_COLUMNS and UZUM_PAID_CHAT_DDL
+-- (ensureUzumSchema) in functions/lib/gpt-chat/billing-schema.ts.
 -- No text and no card data: payment_id is Click's numeric payment id or the
 -- Uzum payment uuid, last_error a coarse code such as submit:click_-5 or
 -- qr_pending.
@@ -48,3 +55,9 @@ ALTER TABLE gpt_uzum_orders ADD COLUMN autofiscal INTEGER;
 CREATE TABLE IF NOT EXISTS gpt_payment_codes (org_id TEXT NOT NULL, code TEXT NOT NULL, user_id TEXT NOT NULL, created_at INTEGER NOT NULL, terms_version TEXT, terms_url TEXT, terms_locale TEXT, terms_accepted_at INTEGER, PRIMARY KEY(org_id,code), UNIQUE(org_id,user_id));
 
 CREATE INDEX IF NOT EXISTS idx_gpt_uzum_orders_state ON gpt_uzum_orders(org_id,api,state);
+
+CREATE TABLE IF NOT EXISTS gpt_bot_logins (org_id TEXT NOT NULL, id TEXT NOT NULL, nonce_hash TEXT NOT NULL, browser_hash TEXT NOT NULL, mode TEXT NOT NULL CHECK(mode IN ('pick','code')), code TEXT NOT NULL, choices TEXT, locale TEXT NOT NULL, client TEXT, status TEXT NOT NULL CHECK(status IN ('pending','claimed','confirmed','rejected','consumed')), tg_hash TEXT, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL, claimed_at INTEGER, decided_at INTEGER, consumed_at INTEGER, PRIMARY KEY(org_id,id), UNIQUE(org_id,nonce_hash));
+
+CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_browser ON gpt_bot_logins(org_id,browser_hash,created_at);
+
+CREATE INDEX IF NOT EXISTS idx_gpt_bot_logins_expiry ON gpt_bot_logins(org_id,expires_at);

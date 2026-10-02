@@ -1,9 +1,5 @@
 import { base64url } from "jose";
-import {
-  BILLING_ORG,
-  identityReady,
-  type BillingEnv,
-} from "../../../lib/gpt-chat/billing-config";
+import { BILLING_ORG, type BillingEnv } from "../../../lib/gpt-chat/billing-config";
 import { ensureBillingSchema } from "../../../lib/gpt-chat/billing-schema";
 import {
   IdentityStore,
@@ -14,15 +10,18 @@ import {
 import { fail, json, readJsonLimited } from "../../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../../lib/gpt-chat/rate-limit";
 import { hashIp, getClientIp, resolveHashSalt } from "../../../lib/gpt-chat/hash";
+import { offeredLoginMethods } from "../../../lib/gpt-chat/rehearsal";
 import { ensureSchema } from "../../../lib/gpt-chat/schema";
 
+// Telegram's OIDC sign-in, optional next to the bot (bot/start.ts): offered
+// only with GPT_TELEGRAM_CLIENT_ID and only while a provider is offered.
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
 }) => {
   if (!sameOrigin(request)) return fail("forbidden", "Forbidden", 403);
-  if (!identityReady(env) || !env.GPTBOT_DRAFTS_DB)
-    return fail("not_configured", "Unavailable", 503);
+  if (!(await offeredLoginMethods(request, env)).includes("oidc") || !env.GPTBOT_DRAFTS_DB)
+    return fail("not_found", "Not found", 404);
   const body = await readJsonLimited<{ locale?: string; consent?: boolean }>(
     request,
     2048,
@@ -53,7 +52,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       client_id: env.GPT_TELEGRAM_CLIENT_ID!,
       redirect_uri: `${new URL(request.url).origin}/api/gpt/auth/callback`,
       response_type: "code",
-      scope: "openid",
+      // `profile` makes the id_token carry the numeric Telegram id (claim
+      // `id`), the same key the bot signs in with; `sub` is not that id.
+      scope: "openid profile",
       state,
       code_challenge: base64url.encode(
         new Uint8Array(

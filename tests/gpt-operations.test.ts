@@ -21,6 +21,7 @@ import { resolveConfig, modelChain } from "../functions/lib/gpt-chat/config";
 import { webChatChain } from "../functions/lib/gpt-chat/model-provider";
 import { runGptBillingMaintenance } from "../workers/gpt-billing-maintenance";
 import { IdentityStore } from "../functions/lib/gpt-chat/identity-store";
+import { telegramIdentityHash } from "../functions/lib/gpt-chat/telegram-identity";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
 import { availableModels } from "../functions/lib/gpt-chat/model-health-store";
 import {
@@ -164,7 +165,7 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
   }
 });
 
-test("OIDC verifies signature, audience and expiry; state is cookie-bound and single-use", async () => {
+test("OIDC verifies signature, audience and expiry; state is cookie-bound and single-use; the account is keyed by the Telegram id like the bot's", async () => {
   const f = await billingFixture();
   const { publicKey, privateKey } = await generateKeyPair("RS256");
   const jwk = {
@@ -187,11 +188,13 @@ test("OIDC verifies signature, audience and expiry; state is cookie-bound and si
     return Response.json({ keys: [jwk] });
   };
   try {
+    const telegramId = 700_100_200;
     const issue = (
       aud = f.env.GPT_TELEGRAM_CLIENT_ID!,
       exp: number | string = "5m",
+      claims: Record<string, unknown> = { id: telegramId },
     ) =>
-      new SignJWT({})
+      new SignJWT(claims)
         .setProtectedHeader({ alg: "RS256", kid: jwk.kid })
         .setSubject("synthetic-subject")
         .setIssuer("https://oauth.telegram.org")
@@ -228,12 +231,24 @@ test("OIDC verifies signature, audience and expiry; state is cookie-bound and si
       valid.response.headers.get("set-cookie")!,
       /HttpOnly; Secure; SameSite=Lax/,
     );
+    // One account per Telegram user, whichever way in: the bot's key (WP-16).
+    assert.equal(
+      f.db.value(
+        "SELECT COUNT(*) FROM gpt_accounts WHERE org_id=? AND identity_hash=?",
+        BILLING_ORG,
+        (await telegramIdentityHash(f.env.GPT_IDENTITY_SECRET!, telegramId))!,
+      ),
+      1,
+    );
     const repeated = await callback(f.ctx(valid.request));
     assert.match(repeated.headers.get("location")!, /login=failed/);
     assert.equal(tokenCalls, 1);
     for (const invalid of [
       await issue("wrong-audience"),
       await issue(f.env.GPT_TELEGRAM_CLIENT_ID!, 1),
+      // `sub` alone is not the Telegram id: no account from it.
+      await issue(f.env.GPT_TELEGRAM_CLIENT_ID!, "5m", {}),
+      await issue(f.env.GPT_TELEGRAM_CLIENT_ID!, "5m", { id: "12ab" }),
       token.slice(0, -8) + "invalid!",
     ]) {
       token = invalid;

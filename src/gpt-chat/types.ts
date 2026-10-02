@@ -22,6 +22,9 @@ export function allowedCheckoutUrl(value: unknown): string | null {
   } catch { return null; }
 }
 
+/** How a visitor signs in: the bot @gptbotuz_bot, or Telegram's OIDC. */
+export type LoginMethod = 'bot' | 'oidc';
+
 /** The free tier's allowance, as the server's account view states it. */
 export interface FreeLimits {
   daily: number;
@@ -31,6 +34,8 @@ export interface FreeLimits {
 export interface AccountView {
   ok: boolean;
   loginAvailable: boolean;
+  /** "bot" first when the bot can sign people in; absent from an older server (OIDC then). */
+  loginMethods?: LoginMethod[];
   mode: 'test' | 'live' | null;
   providers: PaymentProvider[];
   user: { signedIn: true; storageKey: string } | null;
@@ -59,6 +64,8 @@ export function validAccountView(value: unknown): value is AccountView {
   if (!value || typeof value !== 'object') return false;
   const account = value as AccountView;
   return account.ok === true && typeof account.loginAvailable === 'boolean'
+    && (account.loginMethods === undefined || (Array.isArray(account.loginMethods)
+      && account.loginMethods.every(method => method === 'bot' || method === 'oidc')))
     && [null, 'test', 'live'].includes(account.mode)
     && Array.isArray(account.providers) && account.providers.every(isPaymentProvider)
     && (account.user === null || (account.user?.signedIn === true && isOpaqueStorageKey(account.user.storageKey)))

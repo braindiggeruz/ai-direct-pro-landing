@@ -21,7 +21,9 @@
 // Live (liveReadiness): a new live checkout needs every setting it lists.
 import type { Env } from "../../_types";
 import type { BridgeEnvExtras } from "./bridge-env";
+import type { BotLoginMode } from "./bot-login-store";
 import { fiscalIssues, type FiscalEnv } from "./fiscal-config";
+import { resolveHandoffConfig } from "./handoff";
 import { resolveHashSalt } from "./hash";
 import { resolveOwnerNotify } from "./notify";
 import {
@@ -48,8 +50,10 @@ export type BillingEnv = Env &
     GPT_BILLING_MODE_CLICK?: string;
     GPT_BILLING_MODE_UZUM?: string;
     GPT_BILLING_LIVE_READY?: string;
+    /** Optional Telegram OIDC client; sign-in through the bot needs none. */
     GPT_TELEGRAM_CLIENT_ID?: string;
     GPT_TELEGRAM_CLIENT_SECRET?: string;
+    /** Secret (≥ 32): keys the account identity hashes and the rehearsal cookie. */
     GPT_IDENTITY_SECRET?: string;
     GPT_PAYME_MERCHANT_ID?: string;
     GPT_PAYME_KEY?: string;
@@ -123,6 +127,7 @@ export function billingActive(env: BillingEnv): boolean {
   return PROVIDERS.some((provider) => providerMode(env, provider) !== null);
 }
 
+/** Telegram's OIDC sign-in (optional): its client and the identity secret. */
 export function identityReady(env: BillingEnv): boolean {
   return !!(
     env.GPT_TELEGRAM_CLIENT_ID &&
@@ -131,9 +136,47 @@ export function identityReady(env: BillingEnv): boolean {
   );
 }
 
-/** How a visitor can sign in; the Telegram bot login joins in plan WP-16. */
-export function loginMethods(env: BillingEnv): Array<"oidc"> {
-  return identityReady(env) ? ["oidc"] : [];
+export type LoginMethod = "bot" | "oidc";
+
+/**
+ * GPT_BOT_LOGIN_MODE (decision L11): "pick" (empty means pick) — the bot
+ * offers three numbers and the person presses the one the site shows; "code"
+ * — the switch for when forwarded links get abused: the bot sends 6 digits
+ * that are typed in on the site. Any other value turns sign-in through the
+ * bot off.
+ */
+export function botLoginMode(env: BillingEnv): BotLoginMode | null {
+  const value = env.GPT_BOT_LOGIN_MODE || "pick";
+  return value === "pick" || value === "code" ? value : null;
+}
+
+/** Names of what sign-in through the bot @gptbotuz_bot lacks; empty means ready. */
+function botLoginIssues(env: BillingEnv): string[] {
+  return [
+    ...((env.GPT_IDENTITY_SECRET?.length ?? 0) >= MIN_SECRET_LENGTH ? [] : ["GPT_IDENTITY_SECRET"]),
+    // The bot answers only with both of its secrets (telegram/config.ts).
+    ...(env.TELEGRAM_ASSISTANT_BOT_TOKEN ? [] : ["TELEGRAM_ASSISTANT_BOT_TOKEN"]),
+    ...(env.TELEGRAM_ASSISTANT_WEBHOOK_SECRET ? [] : ["TELEGRAM_ASSISTANT_WEBHOOK_SECRET"]),
+    ...(resolveHandoffConfig(env).configured ? [] : ["GPT_HANDOFF_BOT_USERNAME"]),
+    ...(botLoginMode(env) ? [] : ["GPT_BOT_LOGIN_MODE"]),
+  ];
+}
+
+export function botLoginReady(env: BillingEnv): boolean {
+  return botLoginIssues(env).length === 0;
+}
+
+/**
+ * How a visitor can sign in: through the bot (the default) and, when its
+ * client is configured, Telegram's OIDC. Whether anybody is offered them is
+ * the caller's question: only while a provider is offered (rehearsal.ts
+ * offeredLoginMethods).
+ */
+export function loginMethods(env: BillingEnv): LoginMethod[] {
+  return [
+    ...(botLoginReady(env) ? (["bot"] as const) : []),
+    ...(identityReady(env) ? (["oidc"] as const) : []),
+  ];
 }
 
 export function termsUrl(value: string | undefined): string | null {
@@ -369,11 +412,9 @@ export function liveReadiness(
   // The maintenance cron (outbox, receipts, reconciliation) authenticates with it.
   if ((env.GPT_BILLING_MAINTENANCE_SECRET?.length ?? 0) < MIN_SECRET_LENGTH)
     missing.push("GPT_BILLING_MAINTENANCE_SECRET");
-  // A payer must be able to sign in.
-  if (!loginMethods(env).length) {
-    if (!env.GPT_TELEGRAM_CLIENT_ID) missing.push("GPT_TELEGRAM_CLIENT_ID");
-    if (!env.GPT_TELEGRAM_CLIENT_SECRET) missing.push("GPT_TELEGRAM_CLIENT_SECRET");
-  }
+  // A payer must be able to sign in: through the bot, which needs no
+  // BotFather client (Telegram's OIDC is optional and never required).
+  if (!loginMethods(env).length) missing.push(...botLoginIssues(env));
   return [...new Set(missing)];
 }
 

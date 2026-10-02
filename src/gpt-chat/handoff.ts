@@ -110,6 +110,14 @@ export function isConfiguredBotUrl(value: string): boolean {
 }
 
 /**
+ * A sign-in deep link (functions/api/gpt/auth/bot/start.ts): a link to our
+ * bot whose start parameter is `login_` + 32 hex, and nothing else.
+ */
+export function isBotLoginUrl(value: string): boolean {
+  return isConfiguredBotUrl(value) && /^login_[0-9a-f]{32}$/.test(startParam(value) ?? '');
+}
+
+/**
  * The public, contextless entry to the assistant bot — the same
  * `?start=site_ru|site_uz` link the server's own fallback returns, and a
  * payload the bot greets in the site's language. src/lib/telegram.ts always

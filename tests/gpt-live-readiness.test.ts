@@ -35,6 +35,9 @@ import { onRequestPost as chat } from "../functions/api/gpt/chat";
 import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as payme } from "../functions/api/payments/payme";
 import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
+import { onRequestPost as botLoginStart } from "../functions/api/gpt/auth/bot/start";
+import { onRequestPost as botLoginStatus } from "../functions/api/gpt/auth/bot/status";
+import { onRequestPost as oidcStart } from "../functions/api/gpt/auth/start";
 import { SqliteD1 } from "./helpers/sqlite-d1";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -58,8 +61,10 @@ function liveEnv(extra: Partial<BillingEnv> = {}): BillingEnv {
     GPT_HASH_SALT: marked(),
     GPT_IDENTITY_SECRET: marked(),
     GPT_BILLING_MAINTENANCE_SECRET: marked(),
-    GPT_TELEGRAM_CLIENT_ID: "1234567",
-    GPT_TELEGRAM_CLIENT_SECRET: marked(),
+    // Sign-in through the bot (WP-16): its two secrets and its username.
+    TELEGRAM_ASSISTANT_BOT_TOKEN: marked(),
+    TELEGRAM_ASSISTANT_WEBHOOK_SECRET: marked(),
+    GPT_HANDOFF_BOT_USERNAME: "gptbotuz_bot",
     GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({
       live: { service_id: 41001, merchant_id: 32002, secret_key: marked(), merchant_user_id: 50003 },
     }),
@@ -127,7 +132,8 @@ test("every missing or invalid setting blocks live and is reported alone, by nam
     ["click", { GPT_FISCAL_VAT_PERCENT: "" }, "GPT_FISCAL_VAT_PERCENT"],
     ["click", { GPT_FISCAL_TIN: "31061834" }, "GPT_FISCAL_TIN"],
     ["click", { GPTBOT_DRAFTS_DB: undefined }, "GPTBOT_DRAFTS_DB"],
-    ["click", { GPT_NOTIFY_BOT_TOKEN: undefined }, "GPT_NOTIFY_BOT_TOKEN"],
+    // Alerts fall back to the bot's token; with OIDC for sign-in, nothing else is missing.
+    ["click", { GPT_NOTIFY_BOT_TOKEN: undefined, TELEGRAM_ASSISTANT_BOT_TOKEN: undefined, GPT_TELEGRAM_CLIENT_ID: "1234567", GPT_TELEGRAM_CLIENT_SECRET: marked() }, "GPT_NOTIFY_BOT_TOKEN"],
     ["click", { GPT_NOTIFY_CHAT_ID: undefined }, "GPT_NOTIFY_CHAT_ID"],
     ["click", { GPT_ALERTS_ENABLED: "false" }, "GPT_ALERTS_ENABLED"],
     ["click", { GPT_HASH_SALT: hex(8) }, "GPT_HASH_SALT"],
@@ -135,8 +141,11 @@ test("every missing or invalid setting blocks live and is reported alone, by nam
     ["click", { GPT_HASH_SALT_SINCE: "" }, "GPT_HASH_SALT_SINCE"],
     ["click", { GPT_IDENTITY_SECRET: hex(8) }, "GPT_IDENTITY_SECRET"],
     ["click", { GPT_BILLING_MAINTENANCE_SECRET: undefined }, "GPT_BILLING_MAINTENANCE_SECRET"],
-    ["click", { GPT_TELEGRAM_CLIENT_ID: undefined }, "GPT_TELEGRAM_CLIENT_ID"],
-    ["click", { GPT_TELEGRAM_CLIENT_SECRET: "" }, "GPT_TELEGRAM_CLIENT_SECRET"],
+    // A payer signs in through the bot; Telegram's OIDC is never required.
+    ["click", { TELEGRAM_ASSISTANT_BOT_TOKEN: undefined }, "TELEGRAM_ASSISTANT_BOT_TOKEN"],
+    ["click", { TELEGRAM_ASSISTANT_WEBHOOK_SECRET: "" }, "TELEGRAM_ASSISTANT_WEBHOOK_SECRET"],
+    ["click", { GPT_HANDOFF_BOT_USERNAME: "@bot" }, "GPT_HANDOFF_BOT_USERNAME"],
+    ["click", { GPT_BOT_LOGIN_MODE: "off" }, "GPT_BOT_LOGIN_MODE"],
     // Uzum Checkout: credentials, the production base URL, auto-fiscalization.
     ["uzum", { GPT_BILLING_MODE_UZUM: "off" }, "GPT_BILLING_MODE_UZUM"],
     ["uzum", { UZUM_API: "" }, "UZUM_API"],
@@ -177,6 +186,17 @@ test("every missing or invalid setting blocks live and is reported alone, by nam
     "GPT_CLICK_CREDENTIALS_JSON",
     "GPT_FISCAL_IKPU",
   ]);
+});
+
+test("sign-in: the bot is enough, Telegram's OIDC alone is enough, the code mode is valid", () => {
+  const oidcOnly = liveEnv({
+    TELEGRAM_ASSISTANT_BOT_TOKEN: undefined,
+    GPT_TELEGRAM_CLIENT_ID: "1234567",
+    GPT_TELEGRAM_CLIENT_SECRET: marked(),
+  });
+  assert.deepEqual(liveReadiness(oidcOnly, "click"), []);
+  assert.deepEqual(liveReadiness(liveEnv({ GPT_BOT_LOGIN_MODE: "code" }), "click"), []);
+  assert.deepEqual(liveReadiness(liveEnv({ GPT_BOT_LOGIN_MODE: "pick" }), "uzum"), []);
 });
 
 test("Click credentials: one secret, the legacy variables only while it is unset", () => {
@@ -260,11 +280,28 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     [uzumCallback, "https://gptbot.uz/api/payments/uzum"],
   ] as Array<[typeof click, string]>)
     assert.equal((await post(handler, url)).status, 404, url);
+  // Sign-in exists to pay: with billing off both ways in are missing routes
+  // too, before the body and D1, whatever the bot's own settings.
+  const signIn = { ...env, GPTBOT_DRAFTS_DB: bomb, GPT_IDENTITY_SECRET: hex(32), TELEGRAM_ASSISTANT_BOT_TOKEN: "t", TELEGRAM_ASSISTANT_WEBHOOK_SECRET: "s", GPT_TELEGRAM_CLIENT_ID: "1", GPT_TELEGRAM_CLIENT_SECRET: "c" };
+  for (const [handler, url] of [
+    [botLoginStart, "https://gptbot.uz/api/gpt/auth/bot/start"],
+    [botLoginStatus, "https://gptbot.uz/api/gpt/auth/bot/status"],
+    [oidcStart, "https://gptbot.uz/api/gpt/auth/start"],
+  ] as Array<[typeof botLoginStart, string]>) {
+    const response = await handler({
+      request: new Request(url, { method: "POST", headers: { Origin: "https://gptbot.uz", "Content-Type": "application/json" }, body: '{"consent":true}' }),
+      env: signIn,
+    } as unknown as Parameters<typeof botLoginStart>[0]);
+    assert.equal(response.status, 404, url);
+  }
   const view = (await (
-    await account({ request: new Request("https://gptbot.uz/api/gpt/account"), env: { ...env, GPTBOT_DRAFTS_DB: bomb } } as unknown as Parameters<typeof account>[0])
-  ).json()) as { providers: unknown[]; mode: unknown; pack: unknown };
+    await account({ request: new Request("https://gptbot.uz/api/gpt/account"), env: { ...signIn } } as unknown as Parameters<typeof account>[0])
+  ).json()) as { providers: unknown[]; mode: unknown; pack: unknown; loginAvailable: boolean; loginMethods: unknown[] };
   assert.deepEqual(view.providers, []);
   assert.equal(view.mode, null);
+  assert.equal(view.loginAvailable, false);
+  assert.deepEqual(view.loginMethods, []);
+  assert.equal(packed.GPT_BOT_LOGIN_MODE, "pick");
   assert.deepEqual(view.pack, {
     priceUzs: 20000,
     messageLimit: 300,
