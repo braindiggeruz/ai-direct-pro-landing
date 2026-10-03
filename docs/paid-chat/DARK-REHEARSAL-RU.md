@@ -52,7 +52,7 @@
      python F:/Claude/gptbot-tools/wr.py --stdin <dir>/GPT_CLICK_CREDENTIALS_JSON.json -- pages secret put GPT_CLICK_CREDENTIALS_JSON --project-name ai-direct-pro-landing
      python F:/Claude/gptbot-tools/wr.py --stdin <dir>/UZUM_CREDENTIALS_JSON.json -- pages secret put UZUM_CREDENTIALS_JSON --project-name ai-direct-pro-landing
      ```
-     По квитанции R4 этих секретов в Pages нет. Перед `put` проверить по именам: `python F:/Claude/gptbot-tools/wr.py -- pages secret list --project-name ai-direct-pro-landing`. Если хоть один уже есть, его не перетирать: там могут быть ключи владельца. Тогда секреты собирает WP-23 (`ingest-keys`), блок `test` идёт рядом с `live`.
+     По квитанции R4 этих секретов в Pages нет. Перед `put` проверить по именам: `python F:/Claude/gptbot-tools/wr.py -- pages secret list --project-name ai-direct-pro-landing`. Если хоть один уже есть, его не перетирать: там могут быть ключи владельца. Тогда секреты собирает `scripts/paid-chat/ingest-keys.ts --apply --test-credentials <эта папка>` (WP-23, `ONBOARDING-KEYS-RU.md`): блок `test` идёт рядом с `live`.
    - В `wrangler.toml`, в упакованном JSON и во вложенной таблице: `GPT_BILLING_MODE_CLICK="test"`, `UZUM_API="merchant"`, `GPT_BILLING_MODE_UZUM="test"` (`DARK_REHEARSAL_SETTINGS` в скрипте).
    - Это временный коммит. Тест `gpt-live-readiness` «the committed configuration is inert» на нём падает так и задумано, после шага 4 снова зелёный. `runtime-config` и `pages-config-parity` должны быть зелёными.
    - `npm run build:production` → `deploy_runner.py check` → `deploy`. Live-гейт режим `test` не держит.

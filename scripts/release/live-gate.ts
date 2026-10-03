@@ -129,7 +129,12 @@ function pastDay(value: unknown, now: number): value is string {
 
 const root = (name: string) => name.split('.')[0];
 
-function standIns(names: Iterable<string>): Record<string, string> {
+/**
+ * A stand-in value for each of `names` that only a Pages secret holds (the
+ * others are skipped): a secret known by its name alone passes liveReadiness().
+ * scripts/paid-chat/ingest-keys.ts uses the same set.
+ */
+export function standIns(names: Iterable<string>): Record<string, string> {
   return Object.fromEntries([...names].filter((name) => name in SECRET_STAND_INS).map((name) => [name, SECRET_STAND_INS[name]]));
 }
 
