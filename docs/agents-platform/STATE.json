@@ -3,7 +3,7 @@
     "wp": "WP-20",
     "release": "R6 (with the R5..R7 build after the live R4); migrations 0069 (WP-24) and 0070 before the code",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "9fc0771b46312e776841e11e31c12a14ce77aab6",
     "commit_note": "feat(b2b): lead sources and budget, the form on the four B2B pages, the chat business line (parent 8d1bd0db, the WP-19 review); the next commit only records this SHA (rule D-006).",
     "resume_note": "An interrupted earlier WP-20 attempt left 27 modified and 7 new files; backed up to F:/Claude/gptbot-tools/backups/wp-20-partial-20261003-081352/ (tracked.patch, untracked.tar; an identical copy wp20-partial-20261003-0313 was made 20 s earlier), reviewed in full and kept. Fixed on top: doc-comment order in admin-store.ts, the line impression counted once per page view, a literal NBSP in a test, gpt-live-readiness for the new event gate; docs, package.json and the visual acceptance added.",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-20, map 05 section 4 and map 03 section 9; the lead task (migration 0070, protected pages untouched, detector without lookbehind or \\b, >= 20 positive and >= 20 negative synthetic phrases, the business line in a lazy chunk, events via /api/gpt/event).",
@@ -1410,7 +1410,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "9fc0771b46312e776841e11e31c12a14ce77aab6",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
