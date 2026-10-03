@@ -194,12 +194,13 @@ test('1 default config: webChatChain is modelChain and no request ever reaches a
     for (const tier of ['free', 'paid'] as const) assert.deepEqual(webChatChain(cfg, env, tier), modelChain(cfg, tier));
   }
 
-  // The committed wrangler config, hydrated exactly as _middleware does, plus
-  // a Z.ai key: the real endpoint still talks only to OpenRouter, with the
+  // The committed wrangler config switched off (GPT_MODEL_PROVIDER back to
+  // openrouter, the documented way off), hydrated exactly as _middleware does,
+  // plus a Z.ai key: the real endpoint talks only to OpenRouter, with the
   // historical request shape, in both the JSON and the streaming path.
   const { db } = await freshDb();
   const env = hydrateRuntimeConfig({
-    GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packedRuntimeConfig()),
+    GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify({ ...packedRuntimeConfig(), GPT_MODEL_PROVIDER: 'openrouter' }),
     GPTBOT_DRAFTS_DB: db,
     OPENROUTER_API_KEY: secret(),
     ZAI_API_KEY: secret(),
@@ -684,11 +685,13 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
 });
 
 // ── 16. Runtime config ─────────────────────────────────────────────────────
-test('16 the Z.ai switches are allowlisted public config, committed as openrouter', () => {
+test('16 the Z.ai switches are allowlisted public config, committed on with $0 models', () => {
   const keys = ['GPT_MODEL_PROVIDER', 'GPT_ZAI_EVAL_APPROVED', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_TIMEOUT_MS'];
   for (const key of keys) assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes(key), key);
   assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes('ZAI_API_KEY'), 'the key is a secret, never runtime config');
-  const expected = { GPT_MODEL_PROVIDER: 'openrouter', GPT_ZAI_EVAL_APPROVED: '', ZAI_MODEL_FREE: 'glm-4.7-flash', ZAI_MODEL_PAID: 'glm-4.5-air', ZAI_TIERS: 'free,paid', ZAI_TIMEOUT_MS: '12000' };
+  // On since 2026-10-03 (owner directive). Both tiers use a $0 model until the
+  // Z.ai balance is topped up: a paid model would answer 1113 and block zai/*.
+  const expected = { GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-10-03', ZAI_MODEL_FREE: 'glm-4.7-flash', ZAI_MODEL_PAID: 'glm-4.7-flash', ZAI_TIERS: 'free,paid', ZAI_TIMEOUT_MS: '12000' };
   const packed = packedRuntimeConfig();
   const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
   const table = source.slice(source.indexOf('[vars.GPTBOT_RUNTIME_CONFIG]'));
@@ -702,8 +705,14 @@ test('16 the Z.ai switches are allowlisted public config, committed as openroute
   const cfg = resolveConfig(env);
   assert.deepEqual(
     [cfg.modelProvider, cfg.zaiEvalApproved, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiTimeoutMs],
-    ['openrouter', '', 'glm-4.7-flash', 'glm-4.5-air', ['free', 'paid'], 12_000],
+    ['zai', '2026-10-03', 'glm-4.7-flash', 'glm-4.7-flash', ['free', 'paid'], 12_000],
   );
+  // With the Pages secret, both tiers put that one Z.ai model in front of the
+  // OpenRouter chain; without it they stay on OpenRouter.
+  for (const tier of ['free', 'paid'] as const) {
+    assert.deepEqual(webChatChain(cfg, { ZAI_API_KEY: 'k' } as Env, tier), ['zai/glm-4.7-flash', ...modelChain(cfg, tier).filter((m) => !m.startsWith('zai/'))]);
+    assert.deepEqual(webChatChain(cfg, {} as Env, tier), modelChain(cfg, tier));
+  }
 });
 
 // ── Classifier table ───────────────────────────────────────────────────────
