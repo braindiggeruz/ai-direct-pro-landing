@@ -39,7 +39,7 @@
   "rollback": "GPT_MODEL_PROVIDER = \"openrouter\" in both places + guarded deploy, or block zai/* in gpt_model_health without a deploy (docs/paid-chat/ZAI-RU.md)",
   "update_glm53": {
     "production_commit": "a69ab2c084e96d9fe7eb312064506dfa55492076",
-    "why": "owner holds a prepaid \"100 million GLM-5.3-Flash Premium Pack\" (86,739,418 tokens left, valid to 2026-12-17, applicable to glm-5.3-flash); free glm-4.7-flash answered 1302 rate limits (in the 3 h before the switch: 1 answer by zai/glm-4.7-flash vs 100 by OpenRouter nemotron)",
+    "why": "owner holds a prepaid \"100 million GLM-5.3-Flash Premium Pack\" (86,739,418 tokens left, valid to 2026-12-17, applicable to glm-5.3-flash); in direct probes the same day the free glm-4.7-flash answered 1302 (rate limit) and once stayed silent for 90 s. Correction: an earlier version of this receipt quoted \"1 vs 100 answers in 3 h\"; that query compared ISO timestamps with SQLite datetime() text and was wrong. Real traffic was low that night: 2 assistant answers between 23:00 and 00:44 UTC.",
     "code": "ZAI_PREPAID_MODELS (public) + ZAI_PREPAID_CAPABLE {glm-5.3-flash}; GLM-5.x sent with reasoning_effort \"low\" (thinking cannot be disabled, 1210)",
     "probe": "stream first content 3.2-3.8 s, reasoning tokens 0, ~40 tokens/s; JSON 15/20 inside the 12 s whole-call budget",
     "gates": "gpt-zai-provider 19/19, gpt-model-policy 14/14, runtime-config 4/4, pages-config-parity 7/7, catalogue 5/5, gpt-chat 19/19, stream 11/11, budget 10/10, watchdog 15/15; tsc -b and typecheck:functions 0; seo-protection 10/10; seo-audit 0 critical; bundle within budget; live gate live false",
