@@ -3,7 +3,7 @@
     "wp": "WP-21",
     "release": "R7 (with the R5..R7 build); no migration, no setting",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "d773d89f8e1c3df95a3cf03610d455feea6c3426",
     "commit_note": "fix(paid-chat): address WP-21 review findings (parent 2dec6673, the WP-23 review). The WP-21 implementer committed nothing (/security-review could not run: the session's working directory was not a git repository), so the review pass did WP-21 itself; the next commit only records this SHA (rule D-006).",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-21 (the final security review of the paid contour before keys; acceptance: 0 open High/Medium, every Low with a decision), sections 1, 2 (L7, L8, L11, L12, L16, L17), 3 and 6; AGENTS.md 2-8 and 11.",
     "scope": [
@@ -1547,7 +1547,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "d773d89f8e1c3df95a3cf03610d455feea6c3426",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
