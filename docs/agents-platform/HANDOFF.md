@@ -1,3 +1,205 @@
+# Платный AI-чат к проду: сквозная проверка релиза R5+R6+R7 (WP-19…WP-25 и WP-21), 2026-10-03
+
+**Итог.** Проверил ветку `paid-chat/prod-readiness` на `7d44b333`. В неё входят WP-24, WP-25, WP-19, WP-20, WP-22, WP-23 и WP-21 вместе с ревью, поверх R4 (`2cdea35f`), плюс слияние живого релиза Z.ai (`f3093e83`). Сверял с планом `10-PROD-PLAN.md`: §1, §3 (R5–R7, S1–S5), §4 WP-19…WP-23, §5, §6; разделы WP-24 и WP-25 в этом файле; `AGENTS.md` §2–8 и §11. **Сбоев не найдено, код не менялся.** Этот коммит записывает результаты, квитанцию репетиции миграций и чек-лист выката.
+
+Ничего не запушено и не задеплоено. Cloudflare, GSC, боты и вебхуки не трогались. К удалённой D1 был один агрегатный SELECT только на чтение (`changed_db: false`). К проду — только GET публичных страниц. `webhook.ts` и `TELEGRAM_BOT_TOKEN` не тронуты, миграции 0065–0068 побайтно те же, что в R4 (`6502224c`).
+
+**Возобновление.** Прошлую попытку этой проверки прервал лимит. После неё остались коммит слияния `7d44b333` и неотслеженный `docs/paid-chat/releases/R5R7-predeploy-rehearsal.json`. Копия лежит в `F:/Claude/gptbot-tools/backups/R5R7-verify-partial-20261003-131221/`: `tracked.patch` пустой, `untracked.tar` и `inert-smoke.mjs.r4`. Слияние проверено (ниже). Репетицию повторил, результат тот же, кроме времени восстановления.
+
+**Слияние `7d44b333` (проверено).**
+- В проде `a69ab2c0`: Z.ai GLM-5.3-Flash по предоплаченному пакету владельца (`ZAI-live-verification.json`). `origin/main` = `f3093e83`.
+- Без слияния `deploy_runner.py check` отказал бы: живой коммит не был бы предком релиза. А сам R5–R7 вернул бы прод на `glm-4.7-flash` и потерял бы `ZAI_PREPAID_MODELS`.
+- Код Z.ai в `HEAD` побайтно равен `origin/main`: `zai-chat.ts`, `model-provider.ts`, `config.ts`, `model-pricing.ts`, `runtime-config.ts`, `_types.ts`, `tests/gpt-zai-provider.test.ts`, `ZAI-RU.md`, `evals/zai-2026-10-03.json`. До слияния в ветке был ровно текст `7d35a803`.
+- `wrangler.toml` отличается от `origin/main` только в обеих копиях `GPT_BILLING_TERMS_VERSION` (`ai-paket-2026-10-v2`), `GPT_BILLING_TERMS_APPROVED_AT` (`2026-10-03`) и комментарием WP-25.
+- У слияния не было записи в HANDOFF и STATE. Она здесь.
+
+**Результаты** (`NODE_OPTIONS=--max-old-space-size=1400`, тесты по одному файлу).
+1. `npx tsc -b` — 0; `npm run typecheck:functions` — 0; eslint по 117 TS-файлам, изменённым после R4, — 0.
+2. Тесты:
+   - 54 файла: 43, которые трогали WP-13…WP-25, и контрольный список задачи (`gpt-billing`, `gpt-uzum-payments`, `gpt-click-fiscal`, `gpt-zai-provider`, `gpt-chat-handoff-link`, `telegram-web-handoff`, `telegram-assistant`, `gpt-readiness`, `gpt-operations`, `gpt-routing`, `gpt-chat`, `gpt-chat-stream`, `gpt-chat-limits`, `gpt-limit-state`, `gpt-watchdog`, `gpt-model-policy`, `runtime-config`, `pages-config-parity`, `seo-content-guards`, `seo-revenue-claims`, `owner-control-center`, `signal-radar-admin-integration`, `paid-chat-e2e-rehearsal`, `paid-chat-ingest-keys`) — **792/792**;
+   - весь список `npm test`, 97 файлов — **1247/1249**: падают только два известных датозависимых теста `lead-radar` (Lead Radar после R3 не менялся). Тесты, читающие `dist`, шли после свежей сборки;
+   - дополнительно `pages-production-release` 8/8, `seo-page-integrity` 17/17. Вне `npm test` по-прежнему красные `agent-boundaries` (9/10) и `react-router-v8-migration` (23/26), как записано в ревью WP-19.
+3. Сборка и SEO:
+   - `npm run build:fast` — 0; `seo-protection check` — **10/10 без изменений** на базе `2026-10-01-paid-chat-honesty`, ревизии нет;
+   - живой прод `a69ab2c0` сегодня — 10/10 через `protected-live.mts` со снятой обфускацией e-mail;
+   - `seo-audit` — 123 страницы, 0 critical, 0 сирот, 45 пар RU/UZ;
+   - бандл: старт 107 808 Б br (+1 185 к базе R4, порог +3 КБ), `chat-account` 10 205, `chat-lead` 5 364, `chat-tools` 6 240 (≤ 12 КБ) — в бюджете;
+   - `npm run build:production` — 0, штамп: 947 файлов, в `features` есть `ai_chat_admin`; `pages-production.ts check` — pass; `wrangler pages functions build` — собран; `live-gate.ts` — `live: false`, `issues: []`.
+4. **Миграции 0069 и 0070.** Квитанция — `docs/paid-chat/releases/R5R7-predeploy-rehearsal.json`.
+   - Репетиция локально, два независимых прогона на копии экспорта прода R4 (`sha256 414b6cd1…`, 36,8 МБ). Копия сначала доведена до 0068, как в проде.
+   - В очереди ровно `0069_gpt_events_retention.sql` и `0070_gpt_leads_budget.sql`. Второй `apply` пуст. Число строк меняется только у `d1_migrations` (+2). `quick_check` ok, нарушений внешних ключей 0. Сырой повтор 0070 падает на `duplicate column name: budget` и следов не оставляет. Bootstrap после миграций ничего не меняет.
+   - Паритет: bootstrap кода строит те же колонки и индексы `gpt_events` и `gpt_leads`. Но 0070 после такого bootstrap падает, поэтому **0070 строго до деплоя Pages и без превью**.
+   - Прод, один агрегатный SELECT: `d1_migrations` 69, последняя 0068; колонки `budget` и индекса `idx_gpt_events_created` ещё нет, значит, живой код их не создаёт. `gpt_events` — 6 строк, старше 93 дней — 0 (самая старая от 04.09): уборка WP-24 до 06.12 ничего не удалит.
+5. `git diff --check` (от R4 и от `origin/main`) — чисто. `scan:secrets` — чисто (3 296 файлов). `test:secret-scan` 16/16. Регэксп токена Telegram и шаблоны ключей (sk-or, AKIA, PEM, ghp, xox) по диффу от R4 — 0. Значения пяти файлов `C:/Users/Borinio/.config/gptbot-private/` в диффе и в дереве не встречаются (проверены только счётчики).
+6. **Локальный смоук** `wrangler pages dev dist` (127.0.0.1:8799, отдельный `--persist-to`, после проверки остановлен, процессов не осталось). Обновлённый `inert-smoke.mjs` дал 37/37 без секретов, затем 40/40 с одноразовыми локальными секретами. Проверено:
+   - `/api/gpt/account`: `providers: []`, входа нет, `termsVersion` = `ai-paket-2026-10-v2`;
+   - платежи, `subscribe`, вход — 404; событие `pack_viewed` — 404; `b2b_line_shown` с чужим Origin — 403;
+   - админка `overview`, `payments`, `visitors`, `refund-record`, `rehearsal-session` без токена и с мусорным — 401;
+   - оферты с маркером v2, политики, тарифы; четыре B2B-страницы с формой и `<select name="budget">`;
+   - с Bearer: сессия репетиции — 404, тик обслуживания ok, все провайдеры выключены, `GPT_IDENTITY_SECRET` задан;
+   - локальная D1 этими маршрутами не открывалась.
+7. **Что R5–R7 меняет для поисковиков.** Сравнивал сборку `origin/main` (`git archive`, отдельная папка, удалена) со сборкой `HEAD`, без учёта хешей ассетов и переводов строк. Отличаются 35 HTML-страниц:
+   - текст изменён на 9: `/ru/oferta/`, `/uz/oferta/` (раздел 8 v2), `/ru/politika-konfidentsialnosti/`, `/uz/maxfiylik-siyosati/`, `/ru/tarify-ai-chat/`, а также формы и кнопки четырёх B2B-страниц;
+   - на остальных 26 страницах с общей формой (`scripts/lead-form.ts`) добавлен только необязательный выбор бюджета;
+   - `index.html` отличается только пробелами;
+   - `sitemap.xml`, `sitemap-updates.xml`, `robots.txt`, `_redirects`, `_headers`, `llms*.txt` и `.md`-копии те же. `lastmod` не сдвинут: у оферт и политик уже 2026-10-03, а у B2B-страниц текст не менялся.
+
+**Инструменты выката (вне Git, `F:/Claude/gptbot-tools/paid-chat/`).**
+- `inert-smoke.mjs` обновлён под R5–R7. Прежняя версия в резервной копии.
+  - Шаг `POST /api/gpt/event {}` (после WP-20 там 400) заменён на `pack_viewed` → 404 и `b2b_line_shown` с чужим Origin → 403.
+  - Добавлены 401 админки (5 маршрутов и мусорный токен) и проверка четырёх B2B-форм.
+  - Редакция оферты берётся из `--terms-version` или из `wrangler.toml` текущей папки, проверяется на страницах и в `/api/gpt/account`.
+  - Против нынешнего прода (R4 + Z.ai) он красный, так и задумано: там v1, нет админки и бюджета. Запускать после деплоя R5–R7 из рабочей копии релиза.
+- `rehearse-migrations.mts` и `protected-live.mts` — без изменений.
+
+**Отклонения и замечания.**
+1. В плане (§3, §5) миграция R6 называлась `0069_gpt_leads_budget.sql`. На деле `0069` — индекс уборки `gpt_events` (WP-24), `0070` — колонка `budget` (WP-20). Релиз один, порядок 0069 → 0070.
+2. Выбор бюджета появился на всех страницах общей формы, а не только на четырёх B2B. Так задумано в WP-20: форма одна. Защищённых страниц это не касается (10/10).
+3. Условие WP-25 остаётся: перед выкатом владелец подтверждает раздел 8 оферты v2 (оплаченный пакет не возвращается). В релизе едет `ai-paket-2026-10-v2` с датой `2026-10-03`.
+4. По плану релиз — по одному на R5, R6 и R7. Здесь один выкат: миграций две, новых настроек и секретов нет, Worker не меняется.
+
+**Чек-лист выката R5+R6+R7 одним релизом — только по команде владельца.**
+
+Общие правила:
+- Git Bash, чистая рабочая копия на коммите релиза (как R4: отдельный worktree, `node_modules` — junction); `export NODE_OPTIONS=--max-old-space-size=1400`.
+- Wrangler — только через `python F:/Claude/gptbot-tools/wr.py -- …`. Секреты не печатать.
+- **Превью не делать**: оно пишет в боевую D1, и bootstrap кода R6 добавил бы `budget` раньше 0070.
+- Новых настроек и секретов нет, Worker `gptbot-automation` не меняется.
+
+0. **Предусловия.**
+   - Команда владельца и разрешение на push.
+   - Владелец подтверждает раздел 8 v2.
+   - `git status` чистый; `python F:/Claude/gptbot-tools/deploy_runner.py check`: прод `a69ab2c0` — предок `HEAD`.
+   - Строка в «Выкаты» `docs/seo/CHANGE_LOG_2026-10.md`.
+1. **Резервная копия D1:**
+   ```
+   S=F:/Claude/gptbot-production-backups/paid-chat-R5R7-$(date -u +%Y-%m-%dT%H-%M-%SZ); mkdir -p $S
+   python F:/Claude/gptbot-tools/wr.py -- d1 export gptbot-ai-drafts --remote --output $S/before-0069.sql
+   sha256sum $S/before-0069.sql > $S/before-0069.sql.sha256
+   ```
+   Копия вне Git: в ней переписки.
+2. **Репетиция на копии этого экспорта** (два независимых прогона в памяти):
+   ```
+   node --import tsx F:/Claude/gptbot-tools/paid-chat/rehearse-migrations.mts $S/before-0069.sql docs/paid-chat/releases/R5R7-migration-rehearsal.json --expect 0069_gpt_events_retention.sql,0070_gpt_leads_budget.sql
+   ```
+   Нужно `status: pass`: в обоих прогонах ожидают ровно 0069 и 0070, второй `apply` пуст, меняется только `d1_migrations` (+2), паритет `true`, `quick_check` = ok. `--through` не нужен: прод уже на 0068. Иначе стоп.
+3. **Боевая D1, до деплоя:**
+   - по желанию агрегат уборки: `SELECT COUNT(*) n, SUM(created_at < strftime('%Y-%m-%dT%H:%M:%fZ','now','-93 days')) old FROM gpt_events` (03.10: 6 и 0);
+   - `wr.py -- d1 migrations list gptbot-ai-drafts --remote` — ровно `0069_gpt_events_retention.sql` и `0070_gpt_leads_budget.sql`;
+   - `wr.py -- d1 migrations apply gptbot-ai-drafts --remote`;
+   - сверка только чтением: `SELECT (SELECT COUNT(*) FROM d1_migrations) n, (SELECT MAX(name) FROM d1_migrations) last, (SELECT COUNT(*) FROM pragma_table_info('gpt_leads')) cols, (SELECT COUNT(*) FROM pragma_table_info('gpt_leads') WHERE name='budget') budget, (SELECT COUNT(*) FROM sqlite_master WHERE name='idx_gpt_events_created') idx` → 71, `0070_gpt_leads_budget.sql`, 15, 1, 1;
+   - если 0070 упал на `duplicate column name: budget`, значит, код R6 уже где-то запускался. Тогда по шапке 0070 записать файл в `d1_migrations` вручную, ничего не удалять.
+4. **Сборка:**
+   - `npm run build:production` — 0, в `features` штампа есть `ai_chat_admin`;
+   - `npx tsx scripts/seo-protection.ts check` — 10/10;
+   - `npx tsx scripts/seo-audit.ts` — 0 critical;
+   - `npx tsx scripts/chat-bundle-budget.ts` — в бюджете;
+   - `npx tsx scripts/release/live-gate.ts` — `live: false`, `issues: []`.
+5. **Деплой:** `python F:/Claude/gptbot-tools/deploy_runner.py check`, затем `deploy`. `curl -s https://gptbot.uz/gptbot-release.json`: `commit` = `HEAD`, в `features` есть `ai_chat_admin`.
+6. **Инертность, админка без сессии и B2B-формы вживую** (из рабочей копии релиза):
+   ```
+   node F:/Claude/gptbot-tools/paid-chat/inert-smoke.mjs https://gptbot.uz --bearer-file C:/Users/Borinio/.config/gptbot-private/gpt-billing-maintenance-secret.txt --expect-identity
+   ```
+   Нужно 40/40.
+   - Тик ok: значит, секрет Bearer не короче 32 символов (S1 WP-21).
+   - `INFO` у Click должен называть только `GPT_BILLING_MODE_CLICK`, `GPT_BILLING_LIVE_READY`, `GPT_CLICK_CREDENTIALS_JSON`; у Uzum — `GPT_BILLING_MODE_UZUM`, `GPT_BILLING_LIVE_READY`, `UZUM_API`. Даты одобрения там больше нет.
+   - `curl -sI https://gptbot.uz/admin-tools/ai-chat` — 200 (оболочка SPA), `X-Robots-Tag: noindex, nofollow`, `no-store`; данные закрывает API (401).
+   - Агрегаты `SELECT COUNT(*) FROM gpt_payment_orders_all` и `SELECT COUNT(*) FROM gpt_fiscal_receipts` — как до деплоя (0).
+7. **Админка с сессией владельца**, если она есть. Владелец входит на `/admin-tools/login`, значение `localStorage.gptbot_admin_token` сохраняется в `C:/Users/Borinio/.config/gptbot-private/admin-token.txt` (живёт 12 ч, нужен и для слоя 2).
+   ```
+   curl -s -H "Authorization: Bearer $(cat C:/Users/Borinio/.config/gptbot-private/admin-token.txt)" https://gptbot.uz/api/admin/ai-chat/overview | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const o=JSON.parse(s);console.log(o.tz,['readiness','weeks','models','alerts'].map(k=>k+'='+(o[k].ok?'ok':o[k].error)).join(' '))})"
+   ```
+   Ожидается `Asia/Tashkent readiness=ok weeks=ok models=ok alerts=ok`. На экране `/admin-tools/ai-chat`:
+   - «Готовность» — только имена;
+   - «Ходы» по неделям совпадают с агрегатом из `ADMIN-RU.md`;
+   - IP-группы показаны псевдонимами;
+   - роль `support_readonly` получает 403.
+8. **Бизнес-строка и B2B.**
+   - Browser pane 375×812, `/ru/gpt-chat/`. Первое сообщение о заказе бота («Нужен Telegram-бот для магазина, сколько стоит разработка?»). После полного ответа один раз появляется «Услуга GPTBot.uz» с кнопками «Оставить заявку», «Об услуге» и ×. В новой сессии вопрос не о бизнесе («Как написать резюме?») — строки нет. Окна пакета и входа нет, ошибок в консоли нет. Каждый вопрос — один ход модели.
+   - Агрегат: `SELECT type, detail, COUNT(*) FROM gpt_ui_events WHERE org_id='gptbot-consumer' AND type LIKE 'b2b_line_%' GROUP BY type, detail` → `b2b_line_shown`/`bot` ≥ 1.
+   - Четыре тестовые заявки — только с согласия владельца: уйдут уведомления. Через формы четырёх страниц с `?utm_source=test`, у каждой свой контакт, не больше двух в час с одного IP. Затем `SELECT source, json_extract(utm_json,'$.attribution.service') service, budget, COUNT(*) FROM gpt_leads WHERE created_at >= '<начало>' GROUP BY 1,2,3` → `page_form`, `ai-bot` или `chat-bot`, выбранный бюджет. Уведомления пришли со строкой «Бюджет».
+9. **Бот.** `javob-setup` теперь под общей проверкой Bearer.
+   - `POST /api/internal/gpt-model-probe?target=javob` — 4 прогона ok;
+   - `POST /api/internal/javob-setup` без `apply` — `matches: true`.
+10. **Защищённые вживую:** `node --import tsx F:/Claude/gptbot-tools/paid-chat/protected-live.mts https://gptbot.uz` → 10/10 со снятой обфускацией e-mail.
+11. **Переобход.**
+    - IndexNow по 9 URL: `/ru/oferta/`, `/uz/oferta/`, `/ru/politika-konfidentsialnosti/`, `/uz/maxfiylik-siyosati/`, `/ru/tarify-ai-chat/`, `/ru/ai-bot-dlya-biznesa/`, `/uz/biznes-uchun-ai-bot/`, `/ru/gpt-dlya-biznesa/`, `/ru/luchshie-razrabotchiki-chat-botov-tashkent/`. Список — в `<tmp>/r5r7-urls.json`, затем `python F:/Claude/gptbot-tools/indexnow_list.py <tmp>/r5r7-urls.json <HEAD> r5r7_release "R5-R7: offer v2, policies, B2B lead forms"`.
+    - `py -3 -W ignore F:/Claude/gptbot-tools/gsc_tools.py submit https://gptbot.uz/sitemap.xml https://gptbot.uz/sitemap-updates.xml`.
+    - 26 страниц, где прибавился только выбор бюджета, отправлять не нужно.
+12. **Квитанции:**
+    - `npx tsx scripts/chat-bundle-budget.ts --record` из сборки релиза;
+    - `docs/paid-chat/releases/R5R7-live-verification.json`: sha экспорта, репетиция, `applied_remote`, сверка, деплой, смоук 40/40, админка, бизнес-строка и заявки, бот, 10/10, IndexNow;
+    - CHANGE_LOG, HANDOFF, STATE — одним коммитом.
+- **Откат:** `git revert` и guarded-деплой. 0069 (индекс) и 0070 (колонка) остаются: прежний код их не читает. Оферта вернётся к v1, открытых счетов нет, оплата выключена.
+
+**Слой 2 тёмной репетиции (R7): после выката и проверок выше,** по `docs/paid-chat/DARK-REHEARSAL-RU.md`. Предусловие: ни один провайдер не в `live`.
+
+| Настройка (обе копии `wrangler.toml`) | Сейчас | На время прогона | После |
+|---|---|---|---|
+| `GPT_BILLING_MODE_CLICK` | `""` | `"test"` | `""` |
+| `UZUM_API` | `""` | `"merchant"` | `""` |
+| `GPT_BILLING_MODE_UZUM` | `""` | `"test"` | `""` |
+| Секреты Pages `GPT_CLICK_CREDENTIALS_JSON` (`test`), `UZUM_CREDENTIALS_JSON` (`merchant.test`) | нет | кладутся | остаются: без режима инертны |
+
+1. **Токен админки** — как в п. 7. Без него Bearer-путь, но без проверок списка оплат.
+2. **Тестовые креды:** `node --import tsx scripts/paid-chat/dark-rehearsal.ts credentials --out C:/Users/Borinio/.config/gptbot-private/dark-rehearsal`.
+3. **Секреты.**
+   - `wr.py -- pages secret list --project-name ai-direct-pro-landing`: обоих имён быть не должно. Если хоть одно есть, не перетирать: собрать через `scripts/paid-chat/ingest-keys.ts --apply --test-credentials <папка>`.
+   - Иначе:
+     ```
+     python F:/Claude/gptbot-tools/wr.py --stdin C:/Users/Borinio/.config/gptbot-private/dark-rehearsal/GPT_CLICK_CREDENTIALS_JSON.json -- pages secret put GPT_CLICK_CREDENTIALS_JSON --project-name ai-direct-pro-landing
+     python F:/Claude/gptbot-tools/wr.py --stdin C:/Users/Borinio/.config/gptbot-private/dark-rehearsal/UZUM_CREDENTIALS_JSON.json -- pages secret put UZUM_CREDENTIALS_JSON --project-name ai-direct-pro-landing
+     ```
+   - Переменных Pages должно остаться ≤ 64.
+4. **Временный коммит.**
+   ```
+   sed -i -e 's/"GPT_BILLING_MODE_CLICK":""/"GPT_BILLING_MODE_CLICK":"test"/' -e 's/"UZUM_API":""/"UZUM_API":"merchant"/' -e 's/"GPT_BILLING_MODE_UZUM":""/"GPT_BILLING_MODE_UZUM":"test"/' -e 's/^GPT_BILLING_MODE_CLICK = ""$/GPT_BILLING_MODE_CLICK = "test"/' -e 's/^UZUM_API = ""$/UZUM_API = "merchant"/' -e 's/^GPT_BILLING_MODE_UZUM = ""$/GPT_BILLING_MODE_UZUM = "test"/' wrangler.toml
+   ```
+   - `git diff wrangler.toml` — ровно 4 строки: строка JSON и три строки таблицы. Проверено на копии файла; `sed` в Git Bash пишет LF, при `core.autocrlf=true` Git этого не видит.
+   - `runtime-config` и `pages-config-parity` зелёные. `gpt-live-readiness` «the committed configuration is inert» красный, так задумано.
+   - Коммит `chore(release): dark rehearsal settings (temporary)`, затем `npm run build:production`, `deploy_runner.py check` и `deploy`.
+   - `curl -s https://gptbot.uz/api/gpt/account` — `providers: []`: посетитель по-прежнему ничего не видит.
+5. **Прогон:**
+   ```
+   node --import tsx scripts/paid-chat/dark-rehearsal.ts run --site https://gptbot.uz --credentials C:/Users/Borinio/.config/gptbot-private/dark-rehearsal --admin-token-file C:/Users/Borinio/.config/gptbot-private/admin-token.txt --bearer-file C:/Users/Borinio/.config/gptbot-private/gpt-billing-maintenance-secret.txt --drill
+   ```
+   Результат — `docs/paid-chat/releases/R7-dark-rehearsal.json`, `status: pass`.
+   - Click: сессия репетиции, заказ, Prepare −1/−2/0, два Complete, повтор −4, пакет на 300, строка админки `test`/`paid`, «Отметить возврат» и его повтор, пакет отозван.
+   - Uzum Merchant: код оплаты и 22 шага `uzum-sandbox-rehearsal`.
+   - Учебный алерт (`drill`) уходит раз в час UTC. Если `drill not sent`, повторить в следующем часу.
+6. **По желанию — владелец:** «Сессия репетиции» в админке, экраны окна 375×812 на RU и UZ, вход через бота настоящий. Cookie репетиции никому не передавать.
+7. **Выключение:** `git revert --no-edit <временный коммит>`, затем `npm run build:production`, `deploy_runner.py check` и `deploy`.
+8. **Проверка выключения:** `node --import tsx scripts/paid-chat/dark-rehearsal.ts verify-off --site https://gptbot.uz --admin-token-file C:/Users/Borinio/.config/gptbot-private/admin-token.txt` (если 12 ч прошли — `--bearer-file …`). Фаза `after_off` дописывается в ту же квитанцию. `inert-smoke.mjs … --expect-identity` снова 40/40.
+9. **Агрегаты** из `lead_aggregates` квитанции через `wr.py -- d1 execute gptbot-ai-drafts --remote --json --command "<sql>"`:
+   - live-строк заказов нет;
+   - шагов окна в `gpt_ui_events` с начала прогона 0, если владелец не ходил по экранам;
+   - доставленных владельцу событий тестовых заказов 0.
+
+   Владелец подтверждает: «AI paket: …» не приходило, учебный алерт пришёл.
+10. **Квитанция** `R7-dark-rehearsal.json`, CHANGE_LOG, HANDOFF, STATE — одним коммитом. Удалить `admin-token.txt`.
+
+**Что владелец видит в конце.**
+- **На сайте:**
+  - оферта и политики новой редакции: оплаченный пакет не возвращается, кроме ошибочного списания; получатели данных названы поимённо;
+  - на четырёх B2B-страницах форма заявки с необязательным бюджетом (тот же выбор есть на остальных страницах с формой);
+  - в чате после первого вопроса о боте, сайте, рекламе или CRM один раз появляется строка «Услуга GPTBot.uz»;
+  - окна «AI paket», оплаты и входа через бота посетители не видят; чат отвечает через Z.ai GLM-5.3-Flash, как сейчас.
+- **В админке `/admin-tools/ai-chat`:**
+  - разделы: готовность (чего не хватает для live), недели, модели, алерты, оплаты (тестовые строки помечены «тест» и «репетиция»), IP-группы псевдонимами;
+  - кнопки «Отметить возврат» и «Сессия репетиции». После выключения вторая отвечает 409 `no_test_provider`.
+- **В Telegram:** один учебный алерт, ни одного «AI paket: …», заявки приходят со строкой «Бюджет».
+- **Дальше от владельца:** только `click.json` и `uzum.json` в `F:/Claude/gptbot-keys-inbox/` по `ONBOARDING-KEYS-RU.md` (Z.ai уже работает). Затем S1–S4.
+
+**Открыто.**
+1. Подтверждение раздела 8 v2 (юрист, вопрос 2 в `OFFER-RU.md`) и вычитка UZ носителем — до выката.
+2. S3 и S4 WP-21: правило rate limiting Cloudflare для `/api/gpt/*` (действие владельца).
+3. Кредитов OpenRouter нет, `GPT_FREE_TIER_PAID_PRIMARY` = `false`; основной провайдер — Z.ai.
+4. Срок пакета в UTC (ревью WP-18, п. 2). Два датозависимых теста `lead-radar`, два старых красных теста вне `npm test`.
+
+**Дальше.** Выкат R5–R7 по чек-листу выше и слой 2 по команде владельца. Затем ключи по `ONBOARDING-KEYS-RU.md`.
+
+---
+
 # Платный AI-чат: WP-21 — ревью безопасности всего платного контура (R7), 2026-10-03
 
 **Итог.**

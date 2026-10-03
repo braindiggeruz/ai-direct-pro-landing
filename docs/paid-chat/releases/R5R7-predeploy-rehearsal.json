@@ -1,0 +1,147 @@
+{
+ "release": "R5+R6+R7 (WP-19..WP-25 with WP-21; migrations 0069 and 0070)",
+ "kind": "pre-deploy local rehearsal (never --remote); the release repeats it on a fresh production export",
+ "date": "2026-10-03",
+ "verified_commit": "7d44b333020cd694f0e4491b457dcab69398500d",
+ "export": "R4 production export of 2026-10-02 before 0068 (outside Git: F:/Claude/gptbot-production-backups/paid-chat-R4-2026-10-02T22-26-50Z/before-0068.sql), brought up to 0068 as production is now",
+ "tool": "F:/Claude/gptbot-tools/paid-chat/rehearse-migrations.mts --through 0068_gpt_paid_chat.sql --expect 0069_gpt_events_retention.sql,0070_gpt_leads_budget.sql (outside Git; in-memory node:sqlite)",
+ "status": "pass",
+ "failures": [],
+ "export_sha256": "414b6cd154f46f09d40d6cec370bdc2eddcfeabdc2b630d0c0c6907ea4c7d056",
+ "export_bytes": 36817692,
+ "through": "0068_gpt_paid_chat.sql",
+ "runs": [
+  {
+   "run": 1,
+   "restore_seconds": 3.635,
+   "tables_in_dump": 164,
+   "ledger_tail_in_dump": "0067_javob_plans_retire.sql",
+   "brought_up_to_production": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "tables_before": 167,
+   "pending": [
+    "0069_gpt_events_retention.sql",
+    "0070_gpt_leads_budget.sql"
+   ],
+   "apply1": [
+    "0069_gpt_events_retention.sql",
+    "0070_gpt_leads_budget.sql"
+   ],
+   "apply2": [],
+   "second_apply_noop": true,
+   "rowcounts_changed": [
+    "d1_migrations"
+   ],
+   "only_ledger_rows_changed": true,
+   "ledger_rows_added": 2,
+   "new_tables": {},
+   "ledger_tail": [
+    "0070_gpt_leads_budget.sql",
+    "0069_gpt_events_retention.sql",
+    "0068_gpt_paid_chat.sql"
+   ],
+   "raw_rerun_of_last_file": "duplicate column name: budget",
+   "raw_rerun_left_no_trace": true,
+   "bootstrap_after_migration_noop": true,
+   "quick_check": "ok",
+   "foreign_key_violations": 0
+  },
+  {
+   "run": 2,
+   "restore_seconds": 4.505,
+   "tables_in_dump": 164,
+   "ledger_tail_in_dump": "0067_javob_plans_retire.sql",
+   "brought_up_to_production": [
+    "0068_gpt_paid_chat.sql"
+   ],
+   "tables_before": 167,
+   "pending": [
+    "0069_gpt_events_retention.sql",
+    "0070_gpt_leads_budget.sql"
+   ],
+   "apply1": [
+    "0069_gpt_events_retention.sql",
+    "0070_gpt_leads_budget.sql"
+   ],
+   "apply2": [],
+   "second_apply_noop": true,
+   "rowcounts_changed": [
+    "d1_migrations"
+   ],
+   "only_ledger_rows_changed": true,
+   "ledger_rows_added": 2,
+   "new_tables": {},
+   "ledger_tail": [
+    "0070_gpt_leads_budget.sql",
+    "0069_gpt_events_retention.sql",
+    "0068_gpt_paid_chat.sql"
+   ],
+   "raw_rerun_of_last_file": "duplicate column name: budget",
+   "raw_rerun_left_no_trace": true,
+   "bootstrap_after_migration_noop": true,
+   "quick_check": "ok",
+   "foreign_key_violations": 0
+  }
+ ],
+ "bootstrap_parity": {
+  "touched_tables": [
+   "gpt_events",
+   "gpt_leads"
+  ],
+  "migration_equals_code_first_bootstrap": true,
+  "migrate_after_code_first_bootstrap": "0070_gpt_leads_budget.sql: duplicate column name: budget",
+  "shape": [
+   [
+    "gpt_events",
+    [
+     "id TEXT PK1",
+     "session_id TEXT",
+     "user_id TEXT",
+     "event_name TEXT NOT NULL",
+     "payload_json TEXT",
+     "created_at TEXT NOT NULL"
+    ],
+    [
+     "CREATE INDEX idx_gpt_events_created ON gpt_events (created_at)"
+    ]
+   ],
+   [
+    "gpt_leads",
+    [
+     "id TEXT PK1",
+     "session_id TEXT",
+     "user_id TEXT",
+     "contact_type TEXT",
+     "contact_value TEXT",
+     "name TEXT",
+     "phone TEXT",
+     "telegram TEXT",
+     "intent TEXT",
+     "utm_json TEXT",
+     "source TEXT",
+     "page_url TEXT",
+     "created_at TEXT NOT NULL",
+     "request_id TEXT",
+     "budget TEXT"
+    ],
+    [
+     "CREATE INDEX idx_gpt_leads_contact ON gpt_leads (contact_value, created_at)",
+     "CREATE INDEX idx_gpt_leads_created ON gpt_leads (created_at, source)",
+     "CREATE UNIQUE INDEX idx_gpt_leads_request ON gpt_leads (request_id)"
+    ]
+   ]
+  ]
+ },
+ "production_readback": {
+  "how": "one read-only aggregate SELECT through wr.py d1 execute --remote --json, 2026-10-03 (changed_db false); no ids, hashes or text",
+  "d1_migrations_rows": 69,
+  "d1_migrations_last": "0068_gpt_paid_chat.sql",
+  "gpt_leads_budget_column": 0,
+  "idx_gpt_events_created": 0,
+  "gpt_events_rows": 6,
+  "gpt_events_older_than_93_days": 0,
+  "gpt_events_oldest_day": "2026-09-04",
+  "meaning": "exactly 0069 and 0070 are pending and the live code has not pre-created their objects; the 93-day sweep of WP-24 deletes nothing before 2026-12-06"
+ }
+}
