@@ -2,7 +2,11 @@
   "paid_chat_prod_2026": {
     "wp": "WP-25",
     "release": "R5 build (after the live R4; with WP-24, WP-19..WP-23), no migration",
-    "status": "committed_not_reviewed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
+    "review": "WP-25 adversarial review 2026-10-03 of 1ebf5e02 and 1f60163f against the lead's WP-25 task (WP-25 is not in plan section 4), plan sections 1, 2 (L12, L13, L14, L16, L18), 5 and 6, and AGENTS.md 2-8 and 11. These hold: offer section 8 RU/UZ states the rule, the two exceptions, 10 working days and the refund receipt alike, consistent with sections 3, 6 and 11; the edition ai-paket-2026-10-v2 is in both offers, the packed JSON, the nested table, the tests and the built dist; the no-refund line sits beside the price (plan card footer, the price line over a running pack) and disappears with the price when billing is off; POST /api/gpt/account accepts only cancel_invoice and answers 400 before D1; the freeze conditions left USABLE_PACK, PACK_VALID and PACKS_LEFT without changing the bind order; every query stays org-scoped; the Seller's refund tools are untouched; no migration, bootstrap parity kept; the Z.ai key format occurs nowhere in the tree, the WP-25 diff or the last 20 commits. A read-only aggregate on remote D1 found 0 rows in gpt_access_periods and 0 refund_requested outbox events, so dropping the freeze changes no stored row. No code defect. Two documentation defects fixed: (1) HANDOFF and STATE called WP-24 review note 1 closed, but the live gate still reads legalReviewedAt as the lawyer's approval while the v2 date is the owner's, so dating the policies would open live with a section 8 the lawyer never saw; (2) docs/paid-chat/OFFER-RU.md did not say that a payment which started no pack (uzum_paid_after_cancel) is refunded in the provider's cabinet: gpt-click-reversal, gpt-click-refund-record and gpt-uzum-refund take only paid orders and answer 409 invalid_order.",
+    "review_commit": "HEAD = fix(paid-chat): address WP-25 review findings (parent 1f60163f)",
+    "review_open_issues": "Not defects that block R5; for the lead and the owner: (1) confirm offer section 8 v2 with the owner before R5, the decision reached the agents only through the lead's task; (2) show the lawyer section 8 v2 together with the policies and date the policies only after that (the live gate opens on dates alone); (3) the offers say 'действует с 03.10.2026' while section 11 makes an edition apply after publication: if R5 ships later, set lastReviewedAt to the deploy date (visible date, not an approval); no sales, billing off, no harm now; (4) the window's short line says 'не возвращаются' without the exceptions, which the linked offer and the support line carry: the lawyer may ask for 'кроме ошибочных списаний'; (5) inert-smoke.mjs (outside Git) expects data-terms-version v1 on both offers.",
+    "review_verification": "tsc -b 0 and typecheck:functions 0; eslint 0 on the 20 TS/TSX files of WP-25; git diff --check clean; Telegram token and key regexes on the diff 0; test:secret-scan 16/16, scan:secrets clean (3254 files). One file at a time (NODE_OPTIONS=--max-old-space-size=1400): gpt-billing 21/21, gpt-operations 8/8, gpt-pack-dialog 15/15, gpt-account-ui 25/25, legal-oferta 18/18, gpt-chat-limits 13/13, gpt-chat-lazy-part 7/7, gpt-live-readiness 10/10, gpt-chat-honesty 11/11, gpt-chat 19/19, gpt-uzum-payments 26/26, gpt-uzum-merchant 13/13, gpt-uzum-fiscal 10/10, gpt-uzum-rehearsal 3/3, gpt-click-fiscal 14/14, gpt-paid-chat-schema 4/4, runtime-config 4/4, pages-config-parity 7/7, seo-content-guards 7/7, seo-revenue-claims 7/7, gpt-readiness 9/9. The whole npm test list one file at a time: 87 files 1095/1097, only the two known date-dependent lead-radar tests fail. build:fast 0; seo-protection check 10/10 unchanged; seo-audit 0 critical, 45 RU/UZ pairs; chat bundle within budget (chat-account 10203 B br); live-gate committed config issues [], --assume-live click names only the two policies' legalReviewedAt. Preview at 375x812 (RU guest, UZ Paketim with a pack): no refund button, support line with e-mail and phone, no horizontal scroll; preview stopped.",
     "commit": "1ebf5e021224b4cce40a900c102c53c3fdb94193",
     "commit_note": "feat(legal): a paid AI pack is not refundable: offer edition ai-paket-2026-10-v2, no refund request (parent bd65b94b, the lead's Z.ai switch); the next commit only records this SHA (rule D-006).",
     "resume_note": "Clean tree at bd65b94b, no interrupted WP-25 attempt and no wp25 backup.",
@@ -33,11 +37,12 @@
       "Uzbek proofreading of section 8 v2 and the window strings noRefund and supportLabel."
     ],
     "open_issues": [
-      "WP-24 open items closed by WP-25: partial-refund ledger and receipt; review notes 1 (date vs changed section 8), 2 (turn in flight at a refund request) and 4 (manual partial payout). Review note 3 (owner notices of user-closed invoices) stays.",
+      "WP-24 open items closed by WP-25: partial-refund ledger and receipt; review notes 2 (turn in flight at a refund request) and 4 (manual partial payout). Review note 3 (owner notices of user-closed invoices) stays.",
+      "WP-24 review note 1 stays open (WP-25 review): legalReviewedAt and GPT_BILLING_TERMS_APPROVED_AT = 2026-10-03 are the owner's date for edition v2, while scripts/release/live-gate.ts reads legalReviewedAt as the lawyer's approval and, with Click assumed live, names only the two policies; dating the policies opens live even if the lawyer never saw section 8 v2. Show him section 8 v2 with the policies first.",
       "Pack month counted in UTC (WP-18 review item 2), unchanged.",
       "Two date-dependent lead-radar tests."
     ],
-    "next_wp": "WP-25 review, then WP-19 (admin AI chat, R5), as the lead decides",
+    "next_wp": "WP-19 (admin AI chat, R5), as the lead decides",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "6502224ccab347a0b8947849924a57f0475beafe (R4 live, manifest; receipts commit 2cdea35f)",
@@ -1043,10 +1048,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-25 (owner decision 2026-10-03: a paid AI pack is not refundable; offer edition ai-paket-2026-10-v2; no buyer refund request) committed on paid-chat/prod-readiness, not reviewed, not deployed; R4 live (6502224c)",
+  "current_stage": "Paid AI chat production readiness: WP-25 (owner decision 2026-10-03: a paid AI pack is not refundable; offer edition ai-paket-2026-10-v2; no buyer refund request) committed on paid-chat/prod-readiness, reviewed (two documentation fixes), not deployed; R4 live (6502224c)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-25 on paid-chat/prod-readiness; not pushed, not deployed",
-  "next_stage": "Paid AI chat: WP-25 review, then WP-19 (admin AI chat, R5), as the lead decides, per 10-PROD-PLAN.md",
+  "last_completed_stage": "Paid AI chat WP-25 on paid-chat/prod-readiness, reviewed (no code defect; HANDOFF/STATE and OFFER-RU.md corrected); not pushed, not deployed",
+  "next_stage": "Paid AI chat: WP-19 (admin AI chat, R5), as the lead decides, per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
