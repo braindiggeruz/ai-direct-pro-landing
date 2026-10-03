@@ -3,7 +3,7 @@
 // time it last read the clock.
 import { strings } from './i18n';
 import type { LimitState } from './limit-state';
-import type { Locale } from './types';
+import type { Locale, PackTerms } from './types';
 
 export interface LimitCardInput {
   /** A package can really be bought right now (mode + a ready provider). */
@@ -14,6 +14,8 @@ export interface LimitCardInput {
   botHandoff: boolean;
   /** Answers left today (free tier) or in the pack; -1 when unknown. */
   remaining: number;
+  /** The pack on sale as the server states it; null when the account view gave none. */
+  pack?: PackTerms | null;
 }
 
 export interface LimitCard {
@@ -26,6 +28,10 @@ export interface LimitCard {
   ready: boolean;
   /** Offer the pack window: only while a pack can really be bought. */
   account: boolean;
+  /** The pack's value under the limit (price, answers, no auto-renewal); null without an offer or terms. */
+  offer: string | null;
+  /** The pack button's label: with the price when the terms are known. */
+  cta: string;
   /** The assistant bot route and its handoff intent: the free tier's caps only, while the server enables it. */
   bot: 'hourly' | 'daily' | null;
 }
@@ -85,12 +91,17 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     wait = left < 60_000 ? t.limitLessMinute : t.limitWait(Math.ceil(left / 60_000));
   }
 
+  const account = s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid));
+  const pack = account && s.pack ? s.pack : null;
   return {
     title,
     body,
     wait,
     ready,
-    account: s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid)),
+    account,
+    // The 'monthly' body already says the pack ran out; the value line is for a free cap.
+    offer: pack && freeCap !== null ? t.limitOffer(pack) : null,
+    cta: pack ? t.limitBuy(pack, limit.reason === 'monthly') : t.premium.account,
     bot: s.botHandoff ? freeCap : null,
   };
 }

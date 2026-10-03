@@ -141,6 +141,38 @@ test('the limit card: the pack only while it can be bought, the bot only while t
   }
 });
 
+test('a free-cap card sells the pack with the server terms and the price, only while it can be bought', () => {
+  const pack = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null };
+  for (const locale of ['ru', 'uz'] as const) {
+    for (const reason of REASONS) {
+      for (const paid of [false, true]) {
+        for (const billingAvailable of [false, true]) {
+          const label = `${locale}/${reason}/paid=${paid}/billing=${billingAvailable}`;
+          const card = limitCard(locale, limitOf(reason), { paid, billingAvailable, botHandoff: false, remaining: 7, pack }, NOW);
+          const freeCap = reason === 'hourly' || reason === 'daily';
+          assert.equal(card.offer !== null, billingAvailable && freeCap && !paid, `${label}: the value line only under a free cap, while a pack can be bought`);
+          if (card.offer) {
+            assert.match(card.offer, /20\u00a0000/, `${label}: the price from the terms`);
+            assert.match(card.offer, /300/, label);
+            assert.match(card.offer, /50/, label);
+            assert.doesNotMatch(card.offer, /Plus|Pro\b|obuna|подписк/i, label);
+          }
+          if (card.account) assert.match(card.cta, /20\u00a0000/, `${label}: the button carries the price`);
+        }
+      }
+    }
+    // Without terms from the server the button keeps the pack's name and no value line is made up.
+    const bare = limitCard(locale, limitOf('hourly'), { paid: false, billingAvailable: true, botHandoff: false, remaining: 0, pack: null }, NOW);
+    assert.equal(bare.offer, null);
+    assert.equal(bare.cta, strings(locale).premium.account);
+    // A spent pack offers a new one without the free-cap line.
+    const spent = limitCard(locale, limitOf('monthly'), { paid: true, billingAvailable: true, botHandoff: false, remaining: 0, pack }, NOW);
+    assert.equal(spent.offer, null);
+    assert.match(spent.cta, locale === 'ru' ? /новый AI-пакет/ : /Yangi AI paket/);
+  }
+  assert.ok(!strings('uz').limitOffer(pack).includes("'"), 'no ASCII apostrophe in Uzbek copy');
+});
+
 test('every reason has its own words; o‘ and g‘ use U+2018', () => {
   for (const locale of ['ru', 'uz'] as const) {
     const bodies = REASONS.map((reason) => limitCard(locale, limitOf(reason), { paid: false, billingAvailable: false, botHandoff: false, remaining: 7 }, NOW).body);
@@ -156,7 +188,8 @@ test('every reason has its own words; o‘ and g‘ use U+2018', () => {
 test('the chat feeds the card from the limit state; the account view only reports to it', () => {
   const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(source, /setBotHandoff\(account\?\.botHandoff === true\)/);
-  assert.match(source, /limitCard\(config\.locale, limit, \{ billingAvailable, paid, botHandoff, remaining \}, clock\)/);
+  assert.match(source, /limitCard\(config\.locale, limit, \{ billingAvailable, paid, botHandoff, remaining, pack: packTerms \}, clock\)/);
+  assert.match(source, /setPackTerms\(account\?\.pack \?\? null\)/);
   assert.doesNotMatch(source, /setLimitReached|onLimitRetry|FREE_DAILY_SEGMENTS/);
   const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
   const dispatches = [...onAccount.matchAll(/dispatchLimit\(\{\s*type: "(\w+)"/g)].map((m) => m[1]);

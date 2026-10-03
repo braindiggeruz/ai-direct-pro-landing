@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig } from "../types";
+import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
 import { createSession, fetchTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
@@ -82,6 +82,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [freeLimits, setFreeLimits] = useState<FreeLimits | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const [billingAvailable, setBillingAvailable] = useState(false);
+  const [packTerms, setPackTerms] = useState<PackTerms | null>(null);
   const [botHandoff, setBotHandoff] = useState(false);
   const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
@@ -177,6 +178,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setSignedIn(!!account?.user);
     setPaid(!!account?.access && account.access.ends_at > Date.now());
     setBillingAvailable(billingOpen(account));
+    setPackTerms(account?.pack ?? null);
     setBotHandoff(account?.botHandoff === true);
     setFreeLimits(account?.freeLimits ?? null);
     setRemaining(account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining() : -1));
@@ -704,7 +706,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // Limit card only: a package that can really be bought leads; the Telegram
   // bot follows, or leads, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
   const card =
-    limit && limitCard(config.locale, limit, { billingAvailable, paid, botHandoff, remaining }, clock);
+    limit && limitCard(config.locale, limit, { billingAvailable, paid, botHandoff, remaining, pack: packTerms }, clock);
 
   const showOffer =
     activeTool === "business" &&
@@ -1089,6 +1091,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     {card.wait}
                   </p>
                 )}
+                {card.offer && (
+                  <p className="mt-2 text-white" data-testid="limit-offer">
+                    {card.offer}
+                  </p>
+                )}
                 {(card.account || card.bot) && (
                   <div className="mt-3 flex flex-col gap-2">
                     {card.account && (
@@ -1098,7 +1105,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                         data-testid="limit-account"
                         onClick={() => openAccount("limit_card")}
                       >
-                        {t.premium.account}
+                        {card.cta}
                       </button>
                     )}
                     {card.bot && (

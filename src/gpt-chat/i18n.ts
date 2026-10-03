@@ -1,7 +1,12 @@
 // RU/UZ copy for the AI-chat island. Brand-safe strings only: the brand is
 // «GPTBot.uz», the paid offer is the «AI-пакет» / «AI paket» (plan L16), and
 // no line names a subscription tier (tests/gpt-chat-honesty.test.ts).
-import type { FreeLimits, Locale } from './types';
+import type { FreeLimits, Locale, PackTerms } from './types';
+
+/** 20000 → «20 000» with a no-break space, the way prices are written on the site. */
+function sum(uzs: number): string {
+  return String(Math.round(uzs)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+}
 
 export interface PromptChip {
   id: string;
@@ -108,6 +113,10 @@ export interface ChatStrings {
   limitReady: string;
   /** Said only while the refused question is back in the composer. */
   limitDraftKept: string;
+  /** Under a free-cap refusal, while a pack can really be bought: its value from the server's terms. */
+  limitOffer: (pack: PackTerms) => string;
+  /** The limit card's pack button with the price; `again` once the pack's own answers ran out. */
+  limitBuy: (pack: PackTerms, again: boolean) => string;
   /** Under an answer cut at the length limit, which is never charged. */
   truncated: string;
   answeredBy: string;
@@ -208,6 +217,8 @@ const RU: ChatStrings = {
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
   limitDraftKept: 'Ваш вопрос остался в поле ввода.',
+  limitOffer: (p) => `Не хотите ждать? AI-пакет — ${p.messageLimit} ответов на ${p.months === 1 ? 'месяц' : `${p.months} мес.`}, до ${p.dailyLimit} в день, за ${sum(p.priceUzs)} сум. Без автосписаний.`,
+  limitBuy: (p, again) => `${again ? 'Купить новый AI-пакет' : 'Купить AI-пакет'} за ${sum(p.priceUzs)} сум`,
   truncated: 'Ответ остановился на пределе длины и не списан с лимита. Нажмите «Продолжить».',
   answeredBy: 'Ответила модель',
   writing: 'Пишет ответ…',
@@ -299,6 +310,8 @@ const UZ: ChatStrings = {
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',
   limitDraftKept: 'Savolingiz yozish maydonida turibdi.',
+  limitOffer: (p) => `Kutishni xohlamaysizmi? AI paket — ${p.months === 1 ? 'bir oyga' : `${p.months} oyga`} ${p.messageLimit} ta javob, kuniga ${p.dailyLimit} tagacha, ${sum(p.priceUzs)} so‘m. Avtomatik yechib olinmaydi.`,
+  limitBuy: (p, again) => `${again ? 'Yangi AI paket olish' : 'AI paket olish'} — ${sum(p.priceUzs)} so‘m`,
   truncated: 'Javob uzunlik chegarasida to‘xtadi va limitdan hisoblanmadi. «Davom ettir»ni bosing.',
   answeredBy: 'Javob bergan model',
   writing: 'Javob yozilmoqda…',

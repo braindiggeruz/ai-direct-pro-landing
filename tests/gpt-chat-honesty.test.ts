@@ -45,8 +45,12 @@ function allCopy(t: object): string[] {
   const walk = (value: unknown) => {
     if (typeof value === 'string') out.push(value);
     else if (typeof value === 'function') {
-      for (const args of [[0], [1], [5], [15], [null], [{ daily: 15, hourly: 5 }], [15, true], [50, 3, false]]) {
-        const result = (value as (...a: unknown[]) => unknown)(...args);
+      const pack = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null };
+      for (const args of [[0], [1], [5], [15], [null], [{ daily: 15, hourly: 5 }], [15, true], [50, 3, false], [pack], [pack, true]]) {
+        // A sample a function cannot take (the pack terms given to a counter,
+        // a number given to the pack's line) is skipped; the right one is in the list.
+        let result: unknown;
+        try { result = (value as (...a: unknown[]) => unknown)(...args); } catch { continue; }
         if (typeof result === 'string') out.push(result);
       }
     } else if (Array.isArray(value)) value.forEach(walk);
