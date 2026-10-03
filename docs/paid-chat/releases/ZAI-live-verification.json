@@ -36,5 +36,13 @@
     "maintenance_tick": "ok, failed [], no blocked models",
     "protected_live": "10/10 with e-mail obfuscation undone"
   },
-  "rollback": "GPT_MODEL_PROVIDER = \"openrouter\" in both places + guarded deploy, or block zai/* in gpt_model_health without a deploy (docs/paid-chat/ZAI-RU.md)"
+  "rollback": "GPT_MODEL_PROVIDER = \"openrouter\" in both places + guarded deploy, or block zai/* in gpt_model_health without a deploy (docs/paid-chat/ZAI-RU.md)",
+  "update_glm53": {
+    "production_commit": "a69ab2c084e96d9fe7eb312064506dfa55492076",
+    "why": "owner holds a prepaid \"100 million GLM-5.3-Flash Premium Pack\" (86,739,418 tokens left, valid to 2026-12-17, applicable to glm-5.3-flash); free glm-4.7-flash answered 1302 rate limits (in the 3 h before the switch: 1 answer by zai/glm-4.7-flash vs 100 by OpenRouter nemotron)",
+    "code": "ZAI_PREPAID_MODELS (public) + ZAI_PREPAID_CAPABLE {glm-5.3-flash}; GLM-5.x sent with reasoning_effort \"low\" (thinking cannot be disabled, 1210)",
+    "probe": "stream first content 3.2-3.8 s, reasoning tokens 0, ~40 tokens/s; JSON 15/20 inside the 12 s whole-call budget",
+    "gates": "gpt-zai-provider 19/19, gpt-model-policy 14/14, runtime-config 4/4, pages-config-parity 7/7, catalogue 5/5, gpt-chat 19/19, stream 11/11, budget 10/10, watchdog 15/15; tsc -b and typecheck:functions 0; seo-protection 10/10; seo-audit 0 critical; bundle within budget; live gate live false",
+    "live": "/ru/gpt-chat/ answered by zai/glm-5.3-flash, no console errors; inert smoke 29/29; Javob 4/4 on OpenRouter; tick ok, no blocked models; protected 10/10"
+  }
 }
