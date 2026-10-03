@@ -3,7 +3,7 @@
   "locale": "ru",
   "url": "/ru/gpt-chat-guide/",
   "slug": "gpt-chat-guide",
-  "pageType": "money",
+  "pageType": "blog",
   "primaryKeyword": "как пользоваться AI-чатом",
   "secondaryKeywords": [
     "ai чат возможности",
@@ -340,7 +340,7 @@
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service",
+    "Article",
     "FAQPage"
   ],
   "lastReviewedAt": "2026-10-01",

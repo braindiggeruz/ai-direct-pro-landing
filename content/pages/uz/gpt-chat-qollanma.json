@@ -3,7 +3,7 @@
   "locale": "uz",
   "url": "/uz/gpt-chat-qollanma/",
   "slug": "gpt-chat-qollanma",
-  "pageType": "money",
+  "pageType": "blog",
   "primaryKeyword": "AI chatdan qanday foydalanish",
   "secondaryKeywords": [
     "ai chat imkoniyatlari",
@@ -275,7 +275,7 @@
     "Organization",
     "WebSite",
     "BreadcrumbList",
-    "Service",
+    "Article",
     "FAQPage"
   ],
   "lastReviewedAt": "2026-10-01",
