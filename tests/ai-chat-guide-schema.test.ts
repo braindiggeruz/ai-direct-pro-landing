@@ -10,7 +10,7 @@ import type { GlobalSEO, Page } from '../src/shared/types';
 
 const ROOT = process.cwd();
 const global = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/global/site.json'), 'utf8')) as GlobalSEO;
-const guides = ['ru/gpt-chat-guide', 'uz/gpt-chat-qollanma'].map((name) => ({
+const guides = ['ru/gpt-chat-guide', 'uz/gpt-chat-qollanma', 'uz/suniy-intellekt'].map((name) => ({
   page: JSON.parse(fs.readFileSync(path.join(ROOT, `content/pages/${name}.json`), 'utf8')) as Page,
   file: path.join(ROOT, `dist/${name}/index.html`),
 }));
@@ -19,7 +19,7 @@ const hasBuild = fs.existsSync(path.join(ROOT, 'dist/.vite/manifest.json'));
 type Entity = Record<string, unknown> & { '@type'?: string; '@id'?: string };
 
 for (const { page, file } of guides) {
-  test(`${page.url} renders an authored guide, with reciprocal language links and no service offer`, {
+  test(`${page.url} renders an authored guide, with valid language links and no service offer`, {
     skip: !hasBuild && 'no dist/ build present; run npm run build:fast',
   }, () => {
     assert.ok(fs.existsSync(file), `the fresh build omitted ${page.url}`);
@@ -60,8 +60,12 @@ for (const { page, file } of guides) {
       `${SITE_URL}${page.locale === 'uz' ? HOME_HREFLANG.uz : HOME_HREFLANG.ru}`,
       page.canonical,
     ]);
-    for (const [lang, target] of [['ru', page.hreflangRu], ['uz', page.hreflangUz]]) {
-      assert.ok(html.includes(`hreflang="${lang}" href="${SITE_URL}${target}"`), `keep the ${lang} alternate`);
+    if (page.hreflangRu && page.hreflangUz) {
+      for (const [lang, target] of [['ru', page.hreflangRu], ['uz', page.hreflangUz]]) {
+        assert.ok(html.includes(`hreflang="${lang}" href="${SITE_URL}${target}"`), `keep the ${lang} alternate`);
+      }
+    } else {
+      assert.doesNotMatch(html, /<link\b[^>]*hreflang=/, 'a single-locale guide has no language pair');
     }
     assert.ok(html.includes(`rel="canonical" href="${page.canonical}"`));
     assert.ok(html.includes(`href="${page.ctaPrimaryHref}"`), 'the direct chat entry must remain');

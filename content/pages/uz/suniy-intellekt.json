@@ -3,7 +3,7 @@
   "locale": "uz",
   "url": "/uz/suniy-intellekt/",
   "slug": "suniy-intellekt",
-  "pageType": "niche",
+  "pageType": "blog",
   "primaryKeyword": "sun'iy intellekt",
   "secondaryKeywords": [
     "sun'iy intellekt nima",
@@ -322,6 +322,7 @@
     "WebSite",
     "BreadcrumbList",
     "WebPage",
+    "Article",
     "FAQPage"
   ],
   "lastReviewedAt": "2026-09-01",

@@ -284,6 +284,13 @@ export default function CalculatorApp() {
         goal: selection.goalId,
         feature_count: selection.featureIds.length,
       });
+      // The server acknowledged the request. No typed contact, name, estimate
+      // summary or attribution identifiers belong in the analytics event.
+      track('generate_lead', {
+        lead_source: 'calculator',
+        service_slug: 'telegram-bot',
+        page_path: window.location.pathname,
+      });
       // Only after the server accepted the lead — a submit click is not a lead.
       // The goal carries a name and no parameters, so nothing typed above it
       // can reach Metrika.

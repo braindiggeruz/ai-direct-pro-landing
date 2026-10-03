@@ -19,15 +19,24 @@ const PIXEL_STD_MAP: Record<string, string> = {
   view_section: 'ViewContent',
 };
 
-// Push to dataLayer (and Meta Pixel if available) safely.
+// gtag already queues into dataLayer. Use exactly one Google route and keep
+// Meta independent so an unavailable Google tag cannot suppress its events.
 export function track(event: string, data: Record<string, unknown> = {}): void {
   try {
     const w = window as unknown as {
       dataLayer?: Array<Record<string, unknown>>;
+      gtag?: (...args: unknown[]) => void;
       fbq?: (...args: unknown[]) => void;
     };
-    if (!w.dataLayer) w.dataLayer = [];
-    w.dataLayer.push({ event, ...data });
+    try {
+      if (typeof w.gtag === 'function') w.gtag('event', event, data);
+      else {
+        if (!w.dataLayer) w.dataLayer = [];
+        w.dataLayer.push({ event, ...data });
+      }
+    } catch {
+      /* Google analytics must not block the independent Meta route. */
+    }
     if (typeof w.fbq === 'function') {
       const std = PIXEL_STD_MAP[event];
       if (std) {

@@ -1,5 +1,7 @@
 # GPTBot.uz: SEO candidate, 3 October 2026
 
+This file preserves the initial candidate and its validation. The owner subsequently authorized implementation and deployment; the expanded release scope and current handoff are in `implementation.md`. Historical checks below are not proof of the later production release.
+
 ## Scope and baseline
 
 Prepared from production-matching commit `9a8b9ff0609c91835524d83d07b40e20d400dc1f` in branch `seo/gpt-evidence-20261003`. This is an isolated, unpublished candidate. The unrelated Agents Platform state and handoff are not advanced by this SEO work.

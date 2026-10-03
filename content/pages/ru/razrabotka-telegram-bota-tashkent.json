@@ -1221,5 +1221,8 @@
     "Payme / Click",
     "AmoCRM / Bitrix24",
     "Кейс: Cake City"
-  ]
+  ],
+  "heroTrustLinks": {
+    "Кейс: Cake City": "/ru/blog/keys-cake-city-platforma-kondirterskoy/"
+  }
 }
