@@ -4,8 +4,6 @@ import {
   PAYMENT_TTL_MS,
   PLAN_ID,
   PRICE_TIYIN,
-  REFUND_REQUEST_METHOD,
-  refundUzs,
   type BillingMode,
   type LocalProvider,
 } from "./billing-config";
@@ -38,7 +36,6 @@ export interface AccessPeriod {
   starts_at: number;
   ends_at: number;
   message_limit: number;
-  refund_requested_at: number | null;
 }
 
 /**
@@ -75,10 +72,9 @@ export const UZUM_ORDERS: OrderTable = "gpt_uzum_orders";
 // Binds now.
 const PACK_USED = `(SELECT COUNT(*) FROM gpt_turn_reservations r WHERE r.org_id=p.org_id AND r.period_id=p.order_id
         AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?)))`;
-// A pack `p` a turn can still draw from: valid now, not revoked, no refund
-// asked for (the request freezes what is left, refundable()), answers left.
-// Binds org, user, mode, now x3.
-const USABLE_PACK = `p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL AND p.refund_requested_at IS NULL
+// A pack `p` a turn can still draw from: valid now, not revoked (a refund the
+// Seller made closes it), answers left. Binds org, user, mode, now x3.
+const USABLE_PACK = `p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL
       AND p.starts_at<=? AND p.ends_at>? AND ${PACK_USED}<p.message_limit`;
 
 /** A pack a turn can still draw from, with what is left in it (usablePacks). */
@@ -88,19 +84,6 @@ export interface UsablePack {
   ends_at: number;
   message_limit: number;
   remaining: number;
-}
-
-/** A pack its buyer may ask a refund for, or already did (refundable). */
-export interface RefundablePack {
-  order_id: string;
-  starts_at: number;
-  ends_at: number;
-  message_limit: number;
-  refund_requested_at: number | null;
-  /** Answers not used: frozen when the refund was asked for, else as of now. */
-  unused: number;
-  /** What the refund is: refundUzs(unused, message_limit). */
-  refund_uzs: number;
 }
 
 export class BillingStore {
@@ -258,7 +241,7 @@ export class BillingStore {
   ): Promise<AccessPeriod | null> {
     return this.db
       .prepare(
-        `SELECT p.order_id,p.starts_at,p.ends_at,p.message_limit,p.refund_requested_at FROM gpt_access_periods p
+        `SELECT p.order_id,p.starts_at,p.ends_at,p.message_limit FROM gpt_access_periods p
       WHERE ${USABLE_PACK} ORDER BY p.ends_at,p.order_id LIMIT 1`,
       )
       .bind(this.org, user, mode, now, now, now)
@@ -565,76 +548,6 @@ export class BillingStore {
       .bind(this.org, provider, mode, from, to)
       .all<Order>();
     return result.results || [];
-  }
-  /**
-   * The buyer asks for the unused part of a pack back (the offer, section
-   * 8): only while the pack runs. The request freezes the pack: turns stop
-   * drawing from it (USABLE_PACK, TurnStore), and the journal keeps how many
-   * answers were left then, which fixes the sum owed (refundable). A pack
-   * with nothing left gives nothing back and cannot be asked for. It does
-   * not claim money was returned; the owner pays and records the refund.
-   */
-  async requestRefund(
-    user: string,
-    id: string,
-    now = Date.now(),
-  ): Promise<boolean> {
-    const event = `refund_request:${id}`;
-    const running = "p.org_id=? AND p.order_id=? AND p.user_id=? AND p.revoked_at IS NULL AND p.starts_at<=? AND p.ends_at>?";
-    await this.db.batch([
-      this.db
-        .prepare(
-          `INSERT OR IGNORE INTO gpt_payment_journal(org_id,id,order_id,actor,method,from_state,to_state,created_at)
-        SELECT p.org_id,?,p.order_id,'user','${REFUND_REQUEST_METHOD}'||(p.message_limit-${PACK_USED}),'paid','paid',? FROM gpt_access_periods p
-        WHERE ${running} AND p.refund_requested_at IS NULL AND ${PACK_USED}<p.message_limit`,
-        )
-        .bind(event, now, now, this.org, id, user, now, now, now),
-      // Frozen only with the count on record.
-      this.db
-        .prepare(
-          `UPDATE gpt_access_periods AS p SET refund_requested_at=COALESCE(p.refund_requested_at,?)
-        WHERE ${running} AND EXISTS(SELECT 1 FROM gpt_payment_journal j WHERE j.org_id=p.org_id AND j.id=?)`,
-        )
-        .bind(now, this.org, id, user, now, now, event),
-      this.db
-        .prepare(
-          `INSERT OR IGNORE INTO gpt_billing_outbox(org_id,id,order_id,event,created_at,available_at)
-        SELECT org_id,?,order_id,'refund_requested',?,? FROM gpt_access_periods WHERE org_id=? AND order_id=? AND user_id=? AND refund_requested_at IS NOT NULL`,
-        )
-        .bind(event, now, now, this.org, id, user),
-    ]);
-    return !!(await this.db
-      .prepare(
-        "SELECT order_id FROM gpt_access_periods WHERE org_id=? AND order_id=? AND user_id=? AND refund_requested_at IS NOT NULL",
-      )
-      .bind(this.org, id, user)
-      .first());
-  }
-  /**
-   * The packs of the account a refund can be asked for (running ones) or
-   * was (until the owner records it), newest first, with the sum each is
-   * owed: the unused answers frozen by the request, else as of now.
-   */
-  async refundable(
-    user: string,
-    mode: BillingMode,
-    now = Date.now(),
-  ): Promise<RefundablePack[]> {
-    const rows = await this.db
-      .prepare(
-        `SELECT p.order_id,p.starts_at,p.ends_at,p.message_limit,p.refund_requested_at,
-        COALESCE((SELECT CAST(substr(j.method,${REFUND_REQUEST_METHOD.length + 1}) AS INTEGER) FROM gpt_payment_journal j
-          WHERE j.org_id=p.org_id AND j.id='refund_request:'||p.order_id AND j.method GLOB '${REFUND_REQUEST_METHOD}*'),
-          MAX(0,p.message_limit-${PACK_USED})) AS unused
-      FROM gpt_access_periods p WHERE p.org_id=? AND p.user_id=? AND p.mode=? AND p.revoked_at IS NULL
-        AND (p.refund_requested_at IS NOT NULL OR (p.starts_at<=? AND p.ends_at>?)) ORDER BY p.starts_at DESC LIMIT 10`,
-      )
-      .bind(now, this.org, user, mode, now, now)
-      .all<Omit<RefundablePack, "refund_uzs">>();
-    return (rows.results || []).map((row) => ({
-      ...row,
-      refund_uzs: refundUzs(row.unused, row.message_limit),
-    }));
   }
   /**
    * The account closes its own open invoice that no provider has seen yet

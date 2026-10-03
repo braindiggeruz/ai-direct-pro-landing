@@ -23,40 +23,35 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const ORDER = `pay_${'0'.repeat(31)}1`;
 const EARLIER = `pay_${'0'.repeat(31)}2`;
-const PACK = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 }, refundDays: 10 };
+const PACK = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 } };
 const DAY = 86_400_000;
 
 /** The account views the preview can answer with, shaped as functions/api/gpt/account.ts answers. */
 export function previewViews(now = Date.now()): Record<string, Record<string, unknown>> {
   const base = {
     ok: true, loginAvailable: true, loginMethods: ['bot'], mode: 'live', providers: ['click', 'uzum'],
-    pack: PACK, termsVersion: 'ai-paket-2026-10-v1', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
+    pack: PACK, termsVersion: 'ai-paket-2026-10-v2', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
     uzumFlow: 'checkout', terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, user: null,
   };
-  const member = { ...base, user: { signedIn: true, storageKey: 'p'.repeat(64) }, remaining: 3, paymentCode: null, receipts: [], refundable: [], access: null, payment: null };
+  const member = { ...base, user: { signedIn: true, storageKey: 'p'.repeat(64) }, remaining: 3, paymentCode: null, receipts: [], access: null, payment: null };
   const paid = {
     ...member,
     remaining: 120,
     access: {
-      order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, remaining: 120, dayRemaining: 37,
+      order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, remaining: 120, dayRemaining: 37,
       renewSoon: false, packs: 1, totalLimit: 300, paidThrough: now + 28 * DAY, firstRemaining: 120,
     },
     payment: { id: ORDER, state: 'paid', provider: 'click', createdAt: now - 2 * DAY, cancellable: false },
     receipts: [{ kind: 'PERFORM', receipt_url: 'https://ofd.soliq.uz/epi?t=EZ0000000000&r=1&c=20261001120000&s=1' }],
-    refundable: [{ order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, unused: 120, refund_uzs: 8000 }],
   };
   // Renewed early: two packs side by side, turns draw from the earlier one first.
   const packs = {
     ...paid,
     remaining: 420,
     access: {
-      order_id: EARLIER, starts_at: now - 20 * DAY, ends_at: now + 10 * DAY, message_limit: 300, refund_requested_at: null, remaining: 420, dayRemaining: 50,
+      order_id: EARLIER, starts_at: now - 20 * DAY, ends_at: now + 10 * DAY, message_limit: 300, remaining: 420, dayRemaining: 50,
       renewSoon: false, packs: 2, totalLimit: 600, paidThrough: now + 28 * DAY, firstRemaining: 120,
     },
-    refundable: [
-      { order_id: ORDER, starts_at: now - 2 * DAY, ends_at: now + 28 * DAY, message_limit: 300, refund_requested_at: null, unused: 300, refund_uzs: 20000 },
-      { order_id: EARLIER, starts_at: now - 20 * DAY, ends_at: now + 10 * DAY, message_limit: 300, refund_requested_at: null, unused: 120, refund_uzs: 8000 },
-    ],
   };
   return {
     guest: base,
@@ -70,6 +65,16 @@ export function previewViews(now = Date.now()): Record<string, Record<string, un
     packs,
     code: { ...member, uzumFlow: 'code', paymentCode: '123456782' },
     cancelled: { ...member, payment: { id: ORDER, state: 'cancelled', provider: 'click', createdAt: now, cancellable: false } },
+    // Money the Seller returned (a double charge, a payment that started no
+    // pack; the offer, section 8): the pack closed, the refund receipt shown.
+    refunded: {
+      ...member,
+      payment: { id: ORDER, state: 'refunded', provider: 'click', createdAt: now - DAY, cancellable: false },
+      receipts: [
+        { kind: 'PERFORM', receipt_url: 'https://ofd.soliq.uz/epi?t=EZ0000000000&r=1&c=20261001120000&s=1' },
+        { kind: 'CANCEL', receipt_url: 'https://ofd.soliq.uz/epi?t=EZ0000000000&r=2&c=20261002120000&s=2' },
+      ],
+    },
   };
 }
 
@@ -83,7 +88,6 @@ const POLICY = "default-src 'self'; script-src 'self'; connect-src 'self'; img-s
 function serve(port: number, initial: string): http.Server {
   const dist = path.join(ROOT, 'dist');
   let state = initial;
-  let refundAsked = false;
   const send = (res: http.ServerResponse, status: number, body: unknown) => {
     res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
     res.end(JSON.stringify(body));
@@ -96,22 +100,17 @@ function serve(port: number, initial: string): http.Server {
       const next = url.pathname.slice('/__preview/'.length);
       if (!(next in views)) return send(res, 404, { states: Object.keys(views) });
       state = next;
-      refundAsked = false;
       console.log(`state: ${state}`);
       return send(res, 200, { state });
     }
-    if (route === 'GET /api/gpt/account') {
-      const view = structuredClone(views[state]) as { refundable?: Array<{ refund_requested_at: number | null }> };
-      if (refundAsked) view.refundable?.forEach((period) => { period.refund_requested_at = Date.now(); });
-      return send(res, 200, view);
-    }
+    if (route === 'GET /api/gpt/account') return send(res, 200, views[state]);
     if (route === 'POST /api/gpt/account') {
       let body = '';
       req.on('data', (chunk) => { body += chunk; });
       req.on('end', () => {
-        // Closing the open invoice ends it as the server would; anything else asks a refund.
-        if (body.includes('"cancel_invoice"')) state = 'cancelled';
-        else refundAsked = true;
+        // Closing the open invoice ends it as the server would; the account has no other action.
+        if (!body.includes('"cancel_invoice"')) return send(res, 400, { ok: false, code: 'bad_request' });
+        state = 'cancelled';
         send(res, 200, { ok: true });
       });
       return;

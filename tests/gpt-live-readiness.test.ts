@@ -57,7 +57,7 @@ function liveEnv(extra: Partial<BillingEnv> = {}): BillingEnv {
     GPT_BILLING_MODE: "live",
     GPT_BILLING_TERMS_RU: "https://gptbot.uz/ru/oferta/",
     GPT_BILLING_TERMS_UZ: "https://gptbot.uz/uz/oferta/",
-    GPT_BILLING_TERMS_VERSION: "ai-paket-2026-10-v1",
+    GPT_BILLING_TERMS_VERSION: "ai-paket-2026-10-v2",
     GPT_NOTIFY_BOT_TOKEN: marked(),
     GPT_HASH_SALT: marked(),
     GPT_IDENTITY_SECRET: marked(),
@@ -311,7 +311,6 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     dailyLimit: 50,
     months: 1,
     vat: { percent: 12, includedTiyin: 214286 },
-    refundDays: 10,
   });
 });
 

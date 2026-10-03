@@ -17,6 +17,8 @@ export interface AccountStrings {
   packFeatures: (months: number, messages: number, daily: number) => string[];
   /** What the pack is and is not: no ChatGPT, no OpenAI. */
   honesty: string;
+  /** Beside the price, before paying: a paid pack is not refundable (the offer, section 8). */
+  noRefund: string;
   /** Why a guest signs in before paying. */
   loginWhy: string;
   login: string; loginConsent: string; loginFailed: string; refunded: string;
@@ -33,15 +35,7 @@ export interface AccountStrings {
   renew: string;
   noPack: string;
   freeLeft: (left: number) => string;
-  refund: string;
-  /**
-   * The offer's refund rule: the unused part back, `days` working days at
-   * most (both from the server; null when an older view lacks them).
-   */
-  refundPending: (sum: string | null, days: number | null) => string;
-  refundConfirm: (date: string, owed: RefundOwed | null, days: number | null) => string;
-  refundYes: string; refundNo: string;
-  /** Before the studio's e-mail and phone. */
+  /** Before the studio's e-mail and phone: where a payment problem (a double charge) goes. */
   supportLabel: string;
   failed: string; pending: string; cancelled: string; expired: string; test: string;
   receipt: string; refundReceipt: string;
@@ -86,13 +80,6 @@ export interface AccountStrings {
   botLoginDone: string; botLoginRejected: string; botLoginExpired: string; botLoginWarning: string;
 }
 
-/** What a refund request is owed: the sum, and the unused answers of the pack's size. */
-export interface RefundOwed {
-  sum: string;
-  unused: number;
-  size: number;
-}
-
 const answers = (n: number) => `${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`;
 const months = (n: number) => `${n} ${ru(n, 'календарный месяц', 'календарных месяца', 'календарных месяцев')}`;
 
@@ -107,6 +94,7 @@ const RU: AccountStrings = {
     'Бесплатный лимит сохраняется: закончится пакет — бесплатный чат продолжит работать.',
   ],
   honesty: 'Это ответы в чате GPTBot.uz, а не доступ к ChatGPT. Сервис не связан с OpenAI.',
+  noRefund: 'Деньги за оплаченный пакет не возвращаются: он начинает действовать сразу после оплаты.',
   loginWhy: 'Пакет закрепляется за аккаунтом, поэтому сначала войдите через Telegram.',
   login: 'Войти через Telegram',
   loginConsent: 'Согласен на создание аккаунта по идентификатору Telegram. Не запрашиваем телефон, имя и доступ к переписке.',
@@ -124,14 +112,7 @@ const RU: AccountStrings = {
   renew: 'Пакет скоро закончится. Новый можно купить в любой момент — он начнёт действовать сразу.',
   noPack: 'Активного пакета нет.',
   freeLeft: (n) => `Бесплатно на сегодня осталось: ${n}.`,
-  refund: 'Запросить возврат',
-  refundPending: (sum, days) =>
-    `Запрос на возврат принят: ${sum === null ? 'неиспользованную часть' : `${sum} сум`} вернём на карту, с которой платили${days === null ? '' : `, в течение ${days} рабочих дней`}.`,
-  refundConfirm: (date, owed, days) =>
-    `Вернуть неиспользованную часть пакета от ${date}?${owed ? ` Не использовано ${owed.unused} из ${owed.size} ${ru(owed.size, 'ответа', 'ответов', 'ответов')} — вернём ${owed.sum} сум` : ' Вернём её'} на карту, с которой платили${days === null ? '' : `, в течение ${days} рабочих дней`}. Ответы из этого пакета сразу перестанут списываться.`,
-  refundYes: 'Да, запросить возврат',
-  refundNo: 'Не нужно',
-  supportLabel: 'Вопросы об оплате и возврате:',
+  supportLabel: 'Проблема с оплатой? Напишите или позвоните:',
   failed: 'Статус не получен. Если уже платили, проверьте статус перед повторной оплатой.',
   pending: 'Ожидаем подтверждение оплаты. Возврат с платёжной страницы сам по себе не подтверждает платёж.',
   cancelled: 'Платёж отменён, пакет не подключён. Если деньги всё же списаны, напишите нам — разберёмся.',
@@ -208,6 +189,7 @@ const UZ: AccountStrings = {
     'Bepul limit ham qoladi: paket tugasa, bepul chat ishlashda davom etadi.',
   ],
   honesty: 'Bu GPTBot.uz chatidagi javoblar, ChatGPT’ga kirish emas. Xizmat OpenAI bilan bog‘liq emas.',
+  noRefund: 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.',
   loginWhy: 'Paket akkauntingizga biriktiriladi, shuning uchun avval Telegram orqali kiring.',
   login: 'Telegram orqali kirish',
   loginConsent: 'Telegram identifikatori orqali akkaunt yaratishga roziman. Telefon, ism va yozishmalarga ruxsat so‘ramaymiz.',
@@ -225,14 +207,7 @@ const UZ: AccountStrings = {
   renew: 'Paket muddati tugashiga oz qoldi. Yangisini istalgan payt olishingiz mumkin — u darhol boshlanadi.',
   noPack: 'Faol paket yo‘q.',
   freeLeft: (n) => `Bepul: bugun ${n} ta xabar qoldi.`,
-  refund: 'Pulni qaytarishni so‘rash',
-  refundPending: (sum, days) =>
-    `So‘rovingiz qabul qilindi: ${sum === null ? 'ishlatilmagan qismini' : `${sum} so‘mni`}${days === null ? '' : ` ${days} ish kuni ichida`} to‘lov qilingan kartaga qaytaramiz.`,
-  refundConfirm: (date, owed, days) =>
-    `${date} dagi paketning ishlatilmagan qismi uchun pulni qaytarishni so‘raysizmi?${owed ? ` ${owed.size} ta javobdan ${owed.unused} tasi ishlatilmagan — ${owed.sum} so‘mni` : ' Uni'}${days === null ? '' : ` ${days} ish kuni ichida`} to‘lov qilingan kartaga qaytaramiz. Bu paketdan javoblar darhol yechilmay qoladi.`,
-  refundYes: 'Ha, qaytarishni so‘rayman',
-  refundNo: 'Kerak emas',
-  supportLabel: 'To‘lov va pulni qaytarish bo‘yicha savollar:',
+  supportLabel: 'To‘lovda muammo bormi? Yozing yoki qo‘ng‘iroq qiling:',
   failed: 'Holatni aniqlab bo‘lmadi. To‘lagan bo‘lsangiz, yana to‘lashdan oldin holatni tekshiring.',
   pending: 'To‘lov tasdig‘ini kutyapmiz. To‘lov sahifasidan qaytish to‘lov amalga oshganini bildirmaydi.',
   cancelled: 'To‘lov bekor qilindi, paket yoqilmadi. Pul baribir yechilgan bo‘lsa, bizga yozing — hal qilamiz.',

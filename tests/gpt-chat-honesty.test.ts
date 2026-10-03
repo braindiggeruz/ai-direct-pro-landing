@@ -182,7 +182,7 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   assert.equal(showsAccountPill(guest({ user: { signedIn: true, storageKey: 'a'.repeat(64) } })), true, 'an account has its window');
   assert.equal(showsAccountPill(guest({
     user: { signedIn: true, storageKey: 'a'.repeat(64) },
-    access: { order_id: 'o', ends_at: Date.now() + 1e9, remaining: 10, renewSoon: false, refund_requested_at: null },
+    access: { order_id: 'o', ends_at: Date.now() + 1e9, remaining: 10, renewSoon: false },
   })), true);
 
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');

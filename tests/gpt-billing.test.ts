@@ -6,7 +6,6 @@ import { billingFixture } from "./helpers/gpt-billing-fixture";
 import {
   BILLING_ORG,
   addCalendarMonth,
-  refundUzs,
 } from "../functions/lib/gpt-chat/billing-config";
 import {
   BillingStore,
@@ -168,9 +167,7 @@ test("Payme wrong amount, idempotent Create/Perform, statement and refund", asyn
     1,
   );
   assert.ok(await f.store.access(f.user, "test"));
-  assert.equal(await f.store.requestRefund(f.user, o.id), true);
-  // The request freezes the pack until the money goes back (the offer's rule).
-  assert.equal(await f.store.access(f.user, "test"), null);
+  // Payme cancelling a performed transaction is the money going back: the pack closes.
   const cancelled = await f.rpc("CancelTransaction", { id: tx, reason: 1 });
   assert.equal(cancelled.result.state, -2);
   assert.deepEqual(
@@ -391,68 +388,53 @@ test("two packs side by side: the panel and the chat count every running pack, p
   assert.deepEqual(await new BillingStore(f.binding, "other-org").usablePacks(f.user, "test"), []);
 });
 
-test("the refund rule: the unused part back, counted when asked and frozen; nothing used, the whole price (WP-24)", async () => {
-  // price x unused / 300, rounded down to a whole sum.
-  assert.deepEqual([300, 299, 200, 150, 1, 0].map((unused) => refundUzs(unused, 300)), [20000, 19933, 13333, 10000, 66, 0]);
-  assert.equal(refundUzs(400, 300), 20000, "never more than the price");
-  assert.equal(refundUzs(-5, 300), 0);
-  assert.equal(refundUzs(10, 0), 0);
+test("a paid pack is not refundable (WP-25): no refund request, the pack keeps working; only the Seller's refund closes it", async () => {
   const f = await billingFixture();
   const turns = new TurnStore(f.binding, BILLING_ORG);
   const cfg = resolveConfig(f.env);
-  const pay = async () => {
-    const order = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
-    await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID() });
-    return f.store.transition(order.id, "paid", "perform");
-  };
-  const order = await pay();
-  const listed = async () => (await f.store.refundable(f.user, "test")).map((row) => ({ ...row }));
-  // Nothing used: the whole price.
-  assert.deepEqual(
-    (await listed()).map((row) => [row.order_id, row.unused, row.refund_uzs, row.refund_requested_at]),
-    [[order.id, 300, 20000, null]],
-  );
+  const order = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
+  await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID() });
+  await f.store.transition(order.id, "paid", "perform");
   spend(f, order.id, 100);
-  assert.deepEqual((await listed()).map((row) => [row.unused, row.refund_uzs]), [[200, 13333]]);
-  // Another account or org cannot ask; the buyer can, once.
-  assert.equal(await f.store.requestRefund("acct_other", order.id), false);
-  assert.equal(await new BillingStore(f.binding, "other-org").requestRefund(f.user, order.id), false);
+  const post = (body: unknown) =>
+    accountAction(
+      f.ctx(
+        new Request("https://gpt.test/api/gpt/account", {
+          method: "POST",
+          headers: { Origin: "https://gpt.test", "Content-Type": "application/json", cookie: f.testCookie },
+          body: JSON.stringify(body),
+        }),
+      ),
+    );
+  // The buyer has no way to ask: the account's one action is closing an unseen invoice.
+  const asked = await post({ action: "refund_request", orderId: order.id });
+  assert.deepEqual([asked.status, ((await asked.json()) as { code: string }).code], [400, "bad_request"]);
+  assert.equal("requestRefund" in f.store, false);
+  assert.equal("refundable" in f.store, false);
+  // Nothing changed: the pack answers on, and no buyer row reached the journal or the owner.
   const period = (await f.store.access(f.user, "test"))!;
-  assert.equal(await f.store.requestRefund(f.user, order.id), true);
-  assert.equal(await f.store.requestRefund(f.user, order.id), true);
-  // Frozen: no turn draws from the pack, a turn already holding it is refused.
+  assert.equal(period.order_id, order.id);
+  assert.deepEqual(Object.keys(period).sort(), ["ends_at", "message_limit", "order_id", "starts_at"]);
+  const turn = await turns.reserve(f.user, "ip", period, cfg);
+  assert.ok(turn.id);
+  assert.equal(turn.remaining, 199);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE order_id=? AND actor='user'", order.id), 0);
+  assert.deepEqual(f.db.rows<{ event: string }>("SELECT event FROM gpt_billing_outbox WHERE order_id=?", order.id).map((row) => row.event), ["paid"]);
+  // The account view offers no refund: no list of refundable packs, no refund days.
+  const view = (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as Record<string, unknown> & {
+    pack: Record<string, unknown>;
+    access: Record<string, unknown>;
+  };
+  assert.equal("refundable" in view, false);
+  assert.equal("refundDays" in view.pack, false);
+  assert.equal("refund_requested_at" in view.access, false);
+  // Money taken by mistake (the offer's exception): the Seller returns it and records it
+  // (internal/gpt-click-refund-record), and only that closes the pack.
+  await f.store.transition(order.id, "cancelled", "owner_refund_record:click-ref-1", { reason: 5 });
+  assert.equal((await f.store.order(order.id))!.state, "refunded");
   assert.equal(await f.store.access(f.user, "test"), null);
   assert.equal((await turns.reserve(f.user, "ip", period, cfg)).limit?.reason, "monthly");
-  // The sum stays what it was when asked, whatever settles later.
-  spend(f, order.id, 5);
-  const [asked] = await listed();
-  assert.deepEqual([asked.unused, asked.refund_uzs], [200, 13333]);
-  assert.ok(asked.refund_requested_at);
-  assert.equal(
-    f.db.value("SELECT method FROM gpt_payment_journal WHERE id=?", `refund_request:${order.id}`),
-    "refund_requested:200",
-  );
-  // The account view hands the sum to «Paketim», with the days the offer gives.
-  const view = (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as {
-    refundable: Array<{ order_id: string; unused: number; refund_uzs: number }>;
-    pack: { refundDays: number };
-  };
-  assert.deepEqual(view.refundable.map((row) => [row.order_id, row.unused, row.refund_uzs]), [[order.id, 200, 13333]]);
-  assert.equal(view.pack.refundDays, 10);
-  // Only while the pack runs: an ended one cannot be asked for, and is not offered.
-  const ended = await pay();
-  f.db.prepare("UPDATE gpt_access_periods SET ends_at=? WHERE order_id=?").bind(Date.now() - 1, ended.id).runSync();
-  assert.equal(await f.store.requestRefund(f.user, ended.id), false);
-  assert.ok(!(await listed()).some((row) => row.order_id === ended.id));
-  // A spent pack has nothing left to give back, and cannot be asked for.
-  const spent = await pay();
-  spend(f, spent.id, 300);
-  assert.deepEqual(
-    (await listed()).filter((row) => row.order_id === spent.id).map((row) => [row.unused, row.refund_uzs]),
-    [[0, 0]],
-  );
-  assert.equal(await f.store.requestRefund(f.user, spent.id), false);
-  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE id=?", `refund_request:${spent.id}`), 0);
+  await Promise.all(f.background);
 });
 
 test("the account closes its own invoice no provider has seen, never one a provider holds (U7, WP-24)", async () => {
@@ -730,7 +712,7 @@ test("a pack turn draws from the valid pack with answers left that ends first; a
       .runSync();
   const pack = (order: string) =>
     f.db.rows<AccessPeriod>(
-      "SELECT order_id,starts_at,ends_at,message_limit,refund_requested_at FROM gpt_access_periods WHERE order_id=?",
+      "SELECT order_id,starts_at,ends_at,message_limit FROM gpt_access_periods WHERE order_id=?",
       order,
     )[0];
   const spend = async (order: string) => {

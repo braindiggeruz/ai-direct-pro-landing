@@ -147,7 +147,7 @@ test('chat-account: the pack window says what it said before the split', async (
     // Signed in with a pack: what is left, until when, sign-out.
     const paid = render(handle(guest({
       user: { signedIn: true, storageKey: 'a'.repeat(64) },
-      access: { order_id: 'o', ends_at: Date.parse('2026-11-01T00:00:00Z'), remaining: 120, renewSoon: false, refund_requested_at: null },
+      access: { order_id: 'o', ends_at: Date.parse('2026-11-01T00:00:00Z'), remaining: 120, renewSoon: false },
     })));
     for (const line of [copy.active, copy.remaining, copy.until('').trim(), copy.terms, copy.logout]) assert.ok(paid.includes(line), `${locale}: ${line}`);
     assert.match(paid, /<strong>120<span class="gpt-access-size"> \/ 300<\/span><\/strong>/);

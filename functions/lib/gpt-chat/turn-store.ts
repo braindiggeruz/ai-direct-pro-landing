@@ -183,17 +183,17 @@ function admissionRules(
 }
 
 // The pack's own ceiling: answers spent in it, and whether it is still valid
-// (not revoked, no refund asked for: BillingStore.requestRefund freezes it).
+// (not revoked: a refund the Seller made closes it).
 const PACK_USED = `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND period_id=? AND ${ACTIVE})`;
 const PACK_VALID =
-  "EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND refund_requested_at IS NULL AND starts_at<=? AND ends_at>?)";
+  "EXISTS(SELECT 1 FROM gpt_access_periods WHERE org_id=? AND order_id=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>?)";
 // Answers left in every valid pack of the account and mode of pack `?`:
 // packs run side by side, so what the account has left is their sum, as
 // BillingStore.usablePacks lists them. Binds now, org, the pack's order id, now x2.
 const PACKS_LEFT = `(SELECT COALESCE(SUM(MAX(0,p.message_limit-(SELECT COUNT(*) FROM gpt_turn_reservations r
     WHERE r.org_id=p.org_id AND r.period_id=p.order_id AND (r.status='done' OR (r.status='reserved' AND r.expires_at>?))))),0)
   FROM gpt_access_periods p JOIN gpt_access_periods d ON d.org_id=p.org_id AND d.user_id=p.user_id AND d.mode=p.mode
-  WHERE d.org_id=? AND d.order_id=? AND p.revoked_at IS NULL AND p.refund_requested_at IS NULL AND p.starts_at<=? AND p.ends_at>?)`;
+  WHERE d.org_id=? AND d.order_id=? AND p.revoked_at IS NULL AND p.starts_at<=? AND p.ends_at>?)`;
 
 // Provider-reported values are stored only as what they claim to be.
 function count(value: number | null | undefined): number | null {

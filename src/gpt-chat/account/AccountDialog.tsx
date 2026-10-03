@@ -63,7 +63,10 @@ class RequestError extends Error {
   }
 }
 
-/** The pack on sale: price, what it gives, no automatic renewal, what it is not. */
+/**
+ * The pack on sale: price, what it gives, no automatic renewal, that a paid
+ * pack is not refundable (the offer, section 8), what it is not.
+ */
 function PlanCard({ t, copy, pack }: { t: ChatStrings; copy: AccountStrings; pack: PackTerms }) {
   return (
     <>
@@ -79,7 +82,10 @@ function PlanCard({ t, copy, pack }: { t: ChatStrings; copy: AccountStrings; pac
             ))}
           </ul>
         </CardContent>
-        <CardFooter><p className="gpt-panel-note"><Check aria-hidden="true" className="inline size-3 mr-1" />{t.premium.manual}</p></CardFooter>
+        <CardFooter>
+          <p className="gpt-panel-note"><Check aria-hidden="true" className="inline size-3 mr-1" />{t.premium.manual}</p>
+          <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
+        </CardFooter>
       </Card>
       <p className="gpt-panel-note" data-testid="ai-pack-honesty">{copy.honesty}</p>
     </>
@@ -247,11 +253,6 @@ export function AccountDialog({
       await post("/api/gpt/account", { action: "cancel_invoice", orderId: order });
       await refresh();
     });
-  const requestRefund = (order: string) =>
-    run(async () => {
-      await post("/api/gpt/account", { action: "refund_request", orderId: order });
-      await refresh();
-    });
   const logout = () =>
     void run(async () => {
       await post("/api/gpt/auth/logout", {});
@@ -313,9 +314,12 @@ export function AccountDialog({
   const payStep = billingAvailable && pack && data?.user && (
     <>
       {data.access ? (
-        <p className="gpt-panel-note">
-          {copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. {t.premium.manual}
-        </p>
+        <>
+          <p className="gpt-panel-note">
+            {copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. {t.premium.manual}
+          </p>
+          <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
+        </>
       ) : (
         <PlanCard t={t} copy={copy} pack={pack} />
       )}
@@ -365,8 +369,6 @@ export function AccountDialog({
       )}
     </>
   );
-  // A pack frozen by its refund request is not "ended": its refund line says what happens.
-  const refundAsked = !!data?.refundable?.some((period) => period.order_id === data.payment?.id && period.refund_requested_at);
   const paymentState = data?.payment
     ? ["pending", "prepared"].includes(data.payment.state)
       ? copy.pending
@@ -374,7 +376,7 @@ export function AccountDialog({
         ? copy.refunded
         : data.payment.state === "cancelled"
           ? copy.cancelled
-          : !data.access && !refundAsked
+          : !data.access
             ? copy.expired
             : ""
     : "";
@@ -442,7 +444,7 @@ export function AccountDialog({
         </>
       )}
       {data?.user && (
-        <PackPanel copy={copy} data={data} busy={busy} date={date} onRefund={requestRefund} onLogout={logout}>
+        <PackPanel copy={copy} data={data} busy={busy} date={date} onLogout={logout}>
           {payStep}
           {paymentState && <p className="gpt-panel-note" role="status">{paymentState}</p>}
         </PackPanel>

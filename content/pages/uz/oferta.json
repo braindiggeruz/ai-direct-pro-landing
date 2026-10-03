@@ -19,14 +19,14 @@
   "hreflangUz": "/uz/oferta/",
   "hreflangXDefault": "/uz/oferta/",
   "ogTitle": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
-  "ogDescription": "AI paket: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek, pulni qaytarish va sotuvchi rekvizitlari.",
+  "ogDescription": "AI paket: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek, pulni qaytarish shartlari va sotuvchi rekvizitlari.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Oferta",
-  "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish.",
-  "termsVersion": "ai-paket-2026-10-v1",
-  "legalReviewedAt": "2026-10-01",
+  "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish shartlari.",
+  "termsVersion": "ai-paket-2026-10-v2",
+  "legalReviewedAt": "2026-10-03",
   "requisites": "seller",
   "bodyBlocks": [
     {
@@ -119,12 +119,11 @@
     {
       "type": "list",
       "items": [
-        "Paket amal qilib turgan paytda Xaridor undan voz kechib, ishlatilmagan qismi uchun pulni qaytarishni so‘rashi mumkin: AI chatning «Paketim» bo‘limidagi «Pulni qaytarishni so‘rash» tugmasi orqali, Sotuvchi rekvizitlaridagi e-mail’ga yozib yoki telefon qilib.",
-        "Qaytariladigan summa paket narxini paketning ishlatilmagan javoblari soniga ko‘paytirib, 300 ga bo‘lish yo‘li bilan hisoblanadi va butun so‘mgacha pastga yaxlitlanadi. Paketdan birorta ham javob ishlatilmagan bo‘lsa, to‘liq narx — 20 000 so‘m qaytariladi. Masalan, 300 ta javobdan 100 tasi ishlatilgan bo‘lsa, 13 333 so‘m qaytariladi.",
-        "Ishlatilmagan javoblar so‘rov paytida hisoblanadi. Shu paytdan boshlab bu paketdan javoblar yechilmaydi; boshqa paketlar va bepul rejim odatdagidek ishlaydi.",
-        "Sotuvchi summani so‘rov kunidan boshlab 10 ish kunidan kechiktirmay paket to‘langan kartaga qaytaradi.",
-        "Pul kartaga qachon tushishi to‘lov tizimi va karta bankiga bog‘liq. Pulni qaytarish uchun ham chek shakllantiriladi.",
-        "Paket muddati tugagach, ishlatilmagan javoblar bekor bo‘ladi (3-bo‘lim) va ular uchun pul qaytarilmaydi."
+        "To‘langan AI paket uchun pul qaytarilmaydi. Paket amal qila boshlagan paytda xizmat ko‘rsatilgan hisoblanadi: shu paytdan Xaridor paket muddati davomida uning javoblaridan foydalana oladi (3-bo‘lim).",
+        "Shuning uchun paket puli to‘liq ham, qisman ham qaytarilmaydi, shu jumladan Xaridor ishlatmagan javoblar uchun ham.",
+        "Istisno — xato bilan yechilgan pul: bitta xarid uchun pul ikki marta yechilgan bo‘lsa yoki to‘lov o‘tgan, lekin paket amal qila boshlamagan bo‘lsa. Sotuvchi buyurtmani tekshiradi va xato yechilgan summani murojaat kunidan boshlab 10 ish kunidan kechiktirmay to‘liq o‘sha kartaga qaytaradi.",
+        "O‘zbekiston Respublikasi qonunchiligi buni bevosita talab qiladigan hollarda ham pul qaytariladi.",
+        "Pul kartaga qachon tushishi to‘lov tizimi va karta bankiga bog‘liq. Pulni qaytarish uchun ham chek shakllantiriladi."
       ]
     },
     {

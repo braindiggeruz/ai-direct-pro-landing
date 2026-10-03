@@ -5,7 +5,6 @@ import {
   PAID_MESSAGES,
   PRICE_TIYIN,
   providerMode,
-  REFUND_WORKING_DAYS,
   termsUrl,
   termsVersion,
   uzumFlow,
@@ -131,8 +130,6 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       vat: fiscal
         ? { percent: fiscal.vatPercent, includedTiyin: includedVat(PRICE_TIYIN, fiscal.vatPercent) }
         : null,
-      // The offer's refund rule: the unused part, paid back within these days.
-      refundDays: REFUND_WORKING_DAYS,
     },
     termsVersion: termsVersion(env),
     // The free tier's limits from the config: a guest's view never reads D1
@@ -186,9 +183,6 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       const url = receiptLink(receipt.receipt_url);
       return url ? [{ kind: receipt.kind, receipt_url: url }] : [];
     });
-    // Running packs a refund can be asked for, and asked ones, with the sum
-    // each is owed (the offer's refund rule, refundUzs).
-    const refundable = await store.refundable(user, context);
     // Without a pack the free tier counts by account and by IP hash, as the
     // chat does; with one, what is left in every running pack and what the
     // day cap still lets through today (the Paketim panel).
@@ -205,7 +199,6 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       paymentCode: flow === "code" ? await currentPaymentCode(env, db, user) : null,
       remaining,
       receipts,
-      refundable,
       access: access
         ? {
             ...access,
@@ -238,40 +231,30 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   );
   if (!body.ok) return fail("bad_request", "Invalid request");
   const { action, orderId } = body.value ?? {};
-  if (
-    (action !== "refund_request" && action !== "cancel_invoice") ||
-    typeof orderId !== "string"
-  )
+  // The one thing an account does here: close its own open invoice. A paid
+  // pack is not refundable (the offer, section 8); money taken by mistake is
+  // returned by the Seller (internal/gpt-click-reversal, gpt-uzum-refund).
+  if (action !== "cancel_invoice" || typeof orderId !== "string")
     return fail("bad_request", "Invalid request");
   try {
     const db = env.GPTBOT_DRAFTS_DB;
-    // Orders are read through the 0065 view (cancel_invoice): bootstrapped
-    // here while Uzum is on, as on GET; otherwise it comes from the migration.
+    // Orders are read through the 0065 view: bootstrapped here while Uzum is
+    // on, as on GET; otherwise it comes from the migration.
     await (uzumApi(env) ? ensureUzumSchema(db) : ensureBillingSchema(db));
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
     if (!user) return fail("login_required", "Login required", 401);
     const store = new BillingStore(db, BILLING_ORG);
-    if (action === "cancel_invoice") {
-      // Only the viewer's own invoice of the mode it sees (decision L7).
-      const result = await store.cancelInvoice(user, await viewerMode(request, env), orderId);
-      if (result === "not_found") return fail("not_found", "Not found", 404);
-      if (result === "in_progress")
-        return fail("invoice_in_progress", "The provider holds this invoice; check its status", 409);
-      waitUntil(
-        maintainBilling(env).catch(() =>
-          console.warn("gpt_billing_delivery_failed"),
-        ),
-      );
-      return json({ ok: true });
-    }
-    const accepted = await store.requestRefund(user, orderId);
-    if (accepted)
-      waitUntil(
-        maintainBilling(env).catch(() =>
-          console.warn("gpt_billing_delivery_failed"),
-        ),
-      );
-    return accepted ? json({ ok: true }) : fail("not_found", "Not found", 404);
+    // Only the viewer's own invoice of the mode it sees (decision L7).
+    const result = await store.cancelInvoice(user, await viewerMode(request, env), orderId);
+    if (result === "not_found") return fail("not_found", "Not found", 404);
+    if (result === "in_progress")
+      return fail("invoice_in_progress", "The provider holds this invoice; check its status", 409);
+    waitUntil(
+      maintainBilling(env).catch(() =>
+        console.warn("gpt_billing_delivery_failed"),
+      ),
+    );
+    return json({ ok: true });
   } catch {
     return fail("account_unavailable", "Try later", 503);
   }

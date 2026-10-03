@@ -10,13 +10,16 @@
 //     does not build while they are incomplete (L13);
 //   - the deploy-time live gate (scripts/release/live-gate.ts) refuses live
 //     billing without the offers, the requisites, the lawyer's approval, the
-//     fiscal settings and the live providers' secrets.
+//     fiscal settings and the live providers' secrets;
+//   - a paid pack is not refundable (owner decision of 2026-10-03, WP-25),
+//     with two narrow exceptions, and the pack window and the pricing page say
+//     the same before anyone pays.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PAID_MESSAGES, PRICE_TIYIN, REFUND_WORKING_DAYS, refundUzs, termsUrl } from '../functions/lib/gpt-chat/billing-config';
+import { PAID_MESSAGES, PRICE_TIYIN, termsUrl } from '../functions/lib/gpt-chat/billing-config';
 import { TELEMETRY_RETENTION_DAYS } from '../functions/lib/gpt-chat/billing-maintenance-store';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { includedVat, PACK_RECEIPT_NAME } from '../functions/lib/gpt-chat/fiscal-config';
@@ -87,7 +90,8 @@ test('(a) both offers are published, indexable legal pages with a reciprocal hre
 });
 
 test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING_TERMS_*', () => {
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v1');
+  // ai-paket-2026-10-v2 (WP-25): v1, published with R4, still promised refunds.
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v2');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -105,6 +109,9 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
   for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
   assert.match(approvedAt, /^(\d{4}-\d{2}-\d{2})?$/);
+  // v2 is the owner's decision of 2026-10-03 on the refund clause, taken after the lawyer
+  // approved v1 on 2026-10-01 (docs/paid-chat/OFFER-RU.md).
+  assert.equal(approvedAt, '2026-10-03');
   for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
 });
 
@@ -119,12 +126,10 @@ test('(d) every number the offers state is the number the code and the deployed 
   const uz = text(offers.uz);
   assert.ok(ru.includes(`Цена — ${price} сум, в том числе НДС ${vat} % — ${vatSum} сум`));
   assert.ok(uz.includes(`Narxi — ${price} so‘m, shu jumladan QQS ${vat} % — ${vatSum} so‘m`));
-  // The refund example: 100 of the pack's answers used.
-  const example = sum(refundUzs(PAID_MESSAGES - 100, PAID_MESSAGES) * 100);
-  assert.equal(example, '13 333');
+  // The price and its VAT are the only sums: no refund amount or example any more (WP-25).
   for (const [locale, body] of [['ru', ru], ['uz', uz]] as const) {
     for (const [, amount] of body.matchAll(/(\d{1,3}(?: \d{3})*(?:,\d{2})?) (?:сум|so‘m)/g)) {
-      assert.ok(amount === price || amount === vatSum || amount === example, `${locale}: ${amount}`);
+      assert.ok(amount === price || amount === vatSum, `${locale}: ${amount}`);
     }
     // The pack is named as on the receipt.
     assert.ok(body.includes(`«${PACK_RECEIPT_NAME}»`), locale);
@@ -145,26 +150,6 @@ test('(d) every number the offers state is the number the code and the deployed 
   // Decision L3: the pack has no hourly cap.
   assert.doesNotMatch(ru, /ответов в час|20 в час/);
   assert.doesNotMatch(uz, /soatiga \d+ tagacha javob/);
-  // The refund rule (lead decision of 2026-10-03, WP-24; refundUzs): while the pack runs, the
-  // unused part, the price times the unused answers over PAID_MESSAGES rounded down to a whole
-  // sum; nothing used, the whole price. No longer "always the full sum".
-  assert.ok(ru.includes(`делённая на ${PAID_MESSAGES}, с округлением вниз до целого сума`));
-  assert.ok(uz.includes(`${PAID_MESSAGES} ga bo‘lish yo‘li bilan hisoblanadi va butun so‘mgacha pastga yaxlitlanadi`));
-  assert.ok(ru.includes(`возвращается полная цена — ${price} сум`));
-  assert.ok(uz.includes(`to‘liq narx — ${price} so‘m qaytariladi`));
-  assert.ok(ru.includes(`из ${PAID_MESSAGES} ответов использовано 100, возвращается ${example} сум`));
-  assert.ok(uz.includes(`${PAID_MESSAGES} ta javobdan 100 tasi ishlatilgan bo‘lsa, ${example} so‘m qaytariladi`));
-  assert.ok(ru.includes('Неиспользованные ответы считаются в момент запроса'));
-  assert.ok(uz.includes('Ishlatilmagan javoblar so‘rov paytida hisoblanadi'));
-  assert.doesNotMatch(ru, /в полной сумме/);
-  assert.doesNotMatch(uz, /Pul to‘liq —/);
-  // Paid back within REFUND_WORKING_DAYS working days to the same card, in both languages, and the
-  // Paketim panel says the same (with the days the account view hands it).
-  assert.equal(REFUND_WORKING_DAYS, 10);
-  assert.ok(ru.includes(`не позднее ${REFUND_WORKING_DAYS} рабочих дней со дня запроса на карту, с которой оплачен пакет`));
-  assert.ok(uz.includes(`${REFUND_WORKING_DAYS} ish kunidan kechiktirmay paket to‘langan kartaga qaytaradi`));
-  assert.ok(accountStrings('ru').refundPending('1', REFUND_WORKING_DAYS).includes(`в течение ${REFUND_WORKING_DAYS} рабочих дней`));
-  assert.ok(accountStrings('uz').refundPending('1', REFUND_WORKING_DAYS).includes(`${REFUND_WORKING_DAYS} ish kuni ichida`));
 });
 
 test('(e) the product is «AI-пакет» / «AI paket»: no GPT, Plus, Pro, obuna or subscription in its name', () => {
@@ -205,6 +190,50 @@ test('(g) the offers are linked from the pricing page and from the policy of the
   // The chat's privacy link (composer, sign-in and lead consent) is the policy of its locale.
   assert.equal(strings('ru').privacyHref, policies.ru.url);
   assert.equal(strings('uz').privacyHref, policies.uz.url);
+});
+
+test('(h) a paid pack is not refundable: two narrow exceptions, said the same in the offers, the window and the pricing page (WP-25)', () => {
+  const section8 = (doc: Page) => {
+    const blocks = doc.bodyBlocks ?? [];
+    const at = blocks.findIndex((block) => block.type === 'h2' && /^8\. /.test(block.text ?? ''));
+    assert.ok(at > 0, doc.url);
+    const list = blocks[at + 1] as { type: string; items?: string[] };
+    assert.equal(list.type, 'list', doc.url);
+    return list.items!.join(' ');
+  };
+  const ru = section8(offers.ru);
+  const uz = section8(offers.uz);
+  // The rule: the service counts as provided once the pack starts; no full or partial refund,
+  // unused answers included.
+  assert.ok(ru.startsWith('Оплаченный AI-пакет не возвращается. Услуга считается оказанной, когда пакет начал действовать'));
+  assert.ok(uz.startsWith('To‘langan AI paket uchun pul qaytarilmaydi. Paket amal qila boshlagan paytda xizmat ko‘rsatilgan hisoblanadi'));
+  assert.ok(ru.includes('не возвращаются ни полностью, ни частично, в том числе за ответы, которые Покупатель не использовал'));
+  assert.ok(uz.includes('to‘liq ham, qisman ham qaytarilmaydi, shu jumladan Xaridor ishlatmagan javoblar uchun ham'));
+  // Exception (a): money taken by mistake, in full, to the same card, within 10 working days.
+  assert.ok(ru.includes('Исключение — деньги, списанные по ошибке: если за одну покупку деньги списаны дважды или оплата прошла, а пакет не начал действовать'));
+  assert.ok(ru.includes('возвращает ошибочно списанную сумму полностью на ту же карту не позднее 10 рабочих дней со дня обращения'));
+  assert.ok(uz.includes('Istisno — xato bilan yechilgan pul: bitta xarid uchun pul ikki marta yechilgan bo‘lsa yoki to‘lov o‘tgan, lekin paket amal qila boshlamagan bo‘lsa'));
+  assert.ok(uz.includes('murojaat kunidan boshlab 10 ish kunidan kechiktirmay to‘liq o‘sha kartaga qaytaradi'));
+  // Exception (b): what the law of Uzbekistan expressly requires. Nothing else.
+  assert.ok(ru.includes('когда этого прямо требует законодательство Республики Узбекистан'));
+  assert.ok(uz.includes('O‘zbekiston Respublikasi qonunchiligi buni bevosita talab qiladigan hollarda ham pul qaytariladi'));
+  assert.equal(offers.ru.bodyBlocks!.filter((block) => block.type === 'h2' && block.text === '8. Возврат').length, 1);
+  // No refund on request, no share for unused answers, no button, anywhere in either offer.
+  for (const body of [text(offers.ru), text(offers.uz)]) {
+    assert.doesNotMatch(body, /Запросить возврат|неиспользованн\S* част|делённая на|в момент запроса|13 333/);
+    assert.doesNotMatch(body, /qaytarishni so‘rash|ishlatilmagan qism|ga bo‘lish|so‘rov paytida|13 333/);
+  }
+  // Before paying, beside the price, the pack window says it plainly in both languages; the
+  // pricing page says it too. The panel points a payment problem to the studio.
+  assert.equal(accountStrings('ru').noRefund, 'Деньги за оплаченный пакет не возвращаются: он начинает действовать сразу после оплаты.');
+  assert.equal(accountStrings('uz').noRefund, 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.');
+  assert.equal(accountStrings('ru').supportLabel, 'Проблема с оплатой? Напишите или позвоните:');
+  assert.equal(accountStrings('uz').supportLabel, 'To‘lovda muammo bormi? Yozing yoki qo‘ng‘iroq qiling:');
+  const pricing = text(page('ru/tarify-ai-chat'));
+  assert.ok(pricing.includes('Оплаченный AI-пакет не возвращается: он начинает действовать сразу после оплаты. Деньги, списанные по ошибке, возвращаются.'));
+  assert.doesNotMatch(pricing, /Запросить возврат|неиспользованн/);
+  for (const copy of [accountStrings('ru'), accountStrings('uz')])
+    for (const key of ['refund', 'refundPending', 'refundConfirm', 'refundYes', 'refundNo']) assert.ok(!(key in copy), key);
 });
 
 test('L13: the offers are published with complete requisites, and a page naming the seller refuses to build without them', () => {

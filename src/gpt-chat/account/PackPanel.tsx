@@ -1,6 +1,6 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { AccountView, PackTerms } from "../types";
-import { groupDigits, type AccountStrings, type RefundOwed } from "../account-strings";
+import type { AccountStrings } from "../account-strings";
 import { safeAccountLink } from "../types";
 import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from "../../shared/studio-contact";
 
@@ -39,17 +39,9 @@ export function AccessSummary({
   );
 }
 
-type Refundable = NonNullable<AccountView["refundable"]>[number];
-
-/** What the offer's rule gives back for this pack, as the server counted it. */
-function owed(period: Refundable): RefundOwed | null {
-  return period.refund_uzs !== undefined && period.unused !== undefined && period.message_limit !== undefined
-    ? { sum: groupDigits(period.refund_uzs), unused: period.unused, size: period.message_limit }
-    : null;
-}
-
 /**
- * Where payment and refund questions go: the studio's e-mail and phone from
+ * Where a payment problem goes (money taken twice, or a payment that started
+ * no pack: the offer, section 8): the studio's e-mail and phone from
  * content/global/site.json (src/shared/studio-contact.ts), the one place
  * every page reads them from. Never a personal Telegram (decision L14).
  */
@@ -66,16 +58,16 @@ export function SupportLine({ copy }: { copy: AccountStrings }) {
 /**
  * «Paketim» (plan WP-17, map 03 §3.6), the signed-in part of the pack window:
  * the running packs or what is left of the free day, the pay step (children),
- * fiscal receipts (ofd.soliq.uz and Uzum hosts only), refund requests with a
- * confirmation that names the sum the offer's rule gives back (WP-24), where
- * to ask, and sign-out. A pack with nothing left to give back offers none.
+ * fiscal receipts (ofd.soliq.uz and Uzum hosts only), where a payment problem
+ * goes, and sign-out. A paid pack is not refundable (the offer, section 8,
+ * WP-25): there is no refund request here. Money taken by mistake is
+ * returned by the Seller, and its refund receipt shows up with the others.
  */
 export function PackPanel({
   copy,
   data,
   busy,
   date,
-  onRefund,
   onLogout,
   children,
 }: {
@@ -83,13 +75,9 @@ export function PackPanel({
   data: AccountView;
   busy: boolean;
   date: (at: number) => string;
-  onRefund: (orderId: string) => Promise<void>;
   onLogout: () => void;
   children: ReactNode;
 }) {
-  // The pack whose refund waits for a second press.
-  const [confirming, setConfirming] = useState<string | null>(null);
-  const days = data.pack?.refundDays ?? null;
   const receipts = (data.receipts ?? []).flatMap((receipt) => {
     const href = safeAccountLink(receipt.receipt_url);
     return href ? [{ kind: receipt.kind, href }] : [];
@@ -110,38 +98,6 @@ export function PackPanel({
           {receipt.kind === "CANCEL" ? copy.refundReceipt : copy.receipt}
         </a>
       ))}
-      {data.refundable?.map((period) =>
-        period.refund_requested_at ? (
-          <p key={period.order_id} className="gpt-panel-note" role="status">
-            {copy.refundPending(owed(period)?.sum ?? null, days)} · {date(period.starts_at)}
-          </p>
-        ) : period.refund_uzs === 0 ? null : confirming === period.order_id ? (
-          <div key={period.order_id} className="gpt-refund-confirm" role="group">
-            <p>{copy.refundConfirm(date(period.starts_at), owed(period), days)}</p>
-            <button
-              type="button"
-              className="gpt-primary"
-              disabled={busy}
-              onClick={() => void onRefund(period.order_id).finally(() => setConfirming(null))}
-            >
-              {copy.refundYes}
-            </button>
-            <button type="button" className="gpt-text-button" disabled={busy} onClick={() => setConfirming(null)}>
-              {copy.refundNo}
-            </button>
-          </div>
-        ) : (
-          <button
-            key={period.order_id}
-            type="button"
-            className="gpt-text-button"
-            disabled={busy}
-            onClick={() => setConfirming(period.order_id)}
-          >
-            {copy.refund} · {date(period.starts_at)}
-          </button>
-        ),
-      )}
       <SupportLine copy={copy} />
       <button type="button" className="gpt-text-button" disabled={busy} onClick={onLogout}>
         {copy.logout}

@@ -4,7 +4,7 @@ import { createServer } from "vite";
 import { billingFixture } from "../tests/helpers/gpt-billing-fixture";
 import {
   onRequestGet as account,
-  onRequestPost as refund,
+  onRequestPost as accountAction,
 } from "../functions/api/gpt/account";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestPost as session } from "../functions/api/gpt/session";
@@ -175,7 +175,7 @@ const server = await createServer({
             } else if (url.pathname === "/api/auth/config")
               response = Response.json({ turnstileRequired: false });
             else if (url.pathname === "/api/gpt/account")
-              response = await (req.method === "POST" ? refund : account)(ctx);
+              response = await (req.method === "POST" ? accountAction : account)(ctx);
             else if (url.pathname === "/api/gpt/subscribe")
               response = await subscribe(ctx);
             else if (url.pathname === "/api/gpt/session")

@@ -81,33 +81,6 @@ export const PAID_MESSAGES = 300;
 export const PAYMENT_TTL_MS = 43_200_000;
 /** The product (decision L16): «AI paket» / «AI-пакет», plan id in the ledgers. */
 export const PLAN_ID = "ai_paket";
-/**
- * The offer's refund rule (section 8, lead decision of 2026-10-03): while a
- * pack runs, its buyer may ask for the unused part back. The seller pays it
- * within REFUND_WORKING_DAYS working days to the card the pack was paid with.
- */
-export const REFUND_WORKING_DAYS = 10;
-/**
- * The sum a refund request is owed: the price times the pack's unused
- * answers over its size, rounded down to a whole sum. A pack none of whose
- * answers was used gets the whole price back.
- */
-export function refundUzs(unused: number, size: number): number {
-  if (!Number.isSafeInteger(size) || size <= 0 || !Number.isFinite(unused)) return 0;
-  const left = Math.min(Math.max(0, Math.trunc(unused)), size);
-  return Math.floor(((PRICE_TIYIN / 100) * left) / size);
-}
-/**
- * The method of a refund request's journal row (BillingStore.requestRefund):
- * this prefix and the answers the pack had left when it was made.
- */
-export const REFUND_REQUEST_METHOD = "refund_requested:";
-/** The unused answers a refund request's journal method recorded, or null. */
-export function refundRequestUnused(method: string | null | undefined): number | null {
-  if (typeof method !== "string" || !method.startsWith(REFUND_REQUEST_METHOD)) return null;
-  const value = method.slice(REFUND_REQUEST_METHOD.length);
-  return /^\d{1,6}$/.test(value) ? Number(value) : null;
-}
 /** Every provider the code knows, in the order the pack window offers them. */
 export const PROVIDERS: readonly LocalProvider[] = ["click", "uzum", "payme"];
 const DEFAULT_PROVIDERS = "click,uzum";

@@ -75,6 +75,8 @@ WHERE r.provider = 'click' AND o.mode = 'live' ORDER BY o.perform_time DESC LIMI
 
 ## Возврат через API (для агента, не кнопка админки)
 
+Только для исключений оферты (раздел 8, WP-25): оплаченный пакет не возвращается, Продавец возвращает лишь деньги, списанные по ошибке (дважды за одну покупку или без пакета), — целиком, на ту же карту, не позднее 10 рабочих дней со дня обращения, — и случаи, когда возврат прямо требует закон. Запроса возврата у покупателя на сайте нет.
+
 `POST https://gptbot.uz/api/internal/gpt-click-reversal`, заголовок `Authorization: Bearer <GPT_BILLING_MAINTENANCE_SECRET>`, тело `{"orderId":"pay_…","version":<версия заказа>,"confirmReversal":true}`. `version` — текущее `gpt_payment_orders.version` заказа: если заказ изменился, ответ 409 `version_changed`.
 
 - `200 {reversed:true}` — Click вернул деньги, заказ `refunded`, доступ отозван, вам ушло уведомление. Поле `receiptPrinted: true` значит, что чек продажи уже был пробит: чек возврата Click не описывает, решите его с бухгалтером.

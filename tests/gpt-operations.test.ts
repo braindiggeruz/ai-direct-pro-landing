@@ -63,7 +63,7 @@ test("another tenant cannot affect identity, entitlements, quota, model health, 
     null,
   );
   assert.equal(await f.store.access(f.user, "live"), null);
-  assert.equal(await f.store.requestRefund(f.user, orderB.id), false);
+  assert.equal(await f.store.cancelInvoice(f.user, "live", orderB.id), "not_found");
   const turnsA = new TurnStore(f.binding, BILLING_ORG);
   const turnsB = new TurnStore(f.binding, other);
   const cfg = resolveConfig(f.env);
@@ -264,7 +264,7 @@ test("OIDC verifies signature, audience and expiry; state is cookie-bound and si
   }
 });
 
-test("fiscal receipt replay and refund request are owned, mode-separated and idempotent", async () => {
+test("fiscal receipt replay is owned, mode-separated and idempotent; only the provider's refund closes the pack", async () => {
   const f = await billingFixture();
   const order = await f.store.createOrder(
     f.user,
@@ -307,26 +307,10 @@ test("fiscal receipt replay and refund request are owned, mode-separated and ide
       .length,
     0,
   );
-  assert.equal(await f.store.requestRefund("other-user", order.id), false);
   assert.ok(await f.store.access(f.user, "test"));
-  await Promise.all(
-    Array.from({ length: 8 }, () => f.store.requestRefund(f.user, order.id)),
-  );
-  // The request freezes the pack (the offer's refund rule): no answer is
-  // drawn from it any more, and the journal keeps what was left, once.
-  assert.equal(await f.store.access(f.user, "test"), null);
-  assert.deepEqual(
-    await f.binding
-      .prepare(
-        "SELECT method,COUNT(*) AS n FROM gpt_payment_journal WHERE method GLOB 'refund_requested*' GROUP BY method",
-      )
-      .all<{ method: string; n: number }>()
-      .then((rows) => rows.results.map((row) => ({ ...row }))),
-    [{ method: "refund_requested:300", n: 1 }],
-  );
-  // Test orders are seen in a rehearsal session only (decision L7).
+  // Test packs are seen in a rehearsal session only (decision L7).
   const view = async (cookie: string) =>
-    (
+    (await (
       await account(
         f.ctx(
           new Request("https://gpt.test/api/gpt/account", {
@@ -334,17 +318,17 @@ test("fiscal receipt replay and refund request are owned, mode-separated and ide
           }),
         ),
       )
-    ).json();
-  assert.equal((await view(f.cookie)).refundable.length, 0);
-  const rehearsalView = await view(f.testCookie);
-  assert.equal(rehearsalView.refundable.length, 1);
-  assert.ok(rehearsalView.refundable[0].refund_requested_at);
+    ).json()) as { access: { order_id: string } | null };
+  assert.equal((await view(f.cookie)).access, null);
+  assert.equal((await view(f.testCookie)).access?.order_id, order.id);
+  // A paid pack is not refundable (WP-25): money goes back only through the
+  // provider (here Payme's CancelTransaction), and that closes the pack.
   assert.equal(
     (await f.rpc("CancelTransaction", { id: tx, reason: 10 })).result.state,
     -2,
   );
   assert.equal(await f.store.access(f.user, "test"), null);
-  assert.equal((await f.store.refundable(f.user, "test")).length, 0);
+  assert.equal((await f.store.order(order.id))!.state, "refunded");
   await Promise.all(f.background);
 });
 
@@ -417,20 +401,13 @@ test("notification outbox leases concurrent drains, retries failures and never s
   }
 });
 
-test("a refund request tells the owner the sum the offer's rule gives back and when (WP-24)", async () => {
+test("the owner hears of a sale and of the Seller's refund in one plain line each; no buyer refund request exists (WP-25)", async () => {
   const f = await billingFixture();
   const order = await f.store.createOrder(f.user, "payme", "live", crypto.randomUUID());
   await f.store.transition(order.id, "prepared", "prepare");
   await f.store.transition(order.id, "paid", "perform");
-  // 100 of the 300 answers given: 200 unused, 20 000 * 200 / 300 = 13 333 sum.
-  for (let i = 0; i < 100; i++)
-    f.db
-      .prepare(
-        "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,?,?,'done',?,?)",
-      )
-      .bind(BILLING_ORG, crypto.randomUUID(), f.user, "ip", order.id, Date.now() - 1000, Date.now() + 1000)
-      .runSync();
-  assert.equal(await f.store.requestRefund(f.user, order.id), true);
+  // Money taken by mistake, returned by the Seller and recorded (gpt-click-refund-record).
+  await f.store.transition(order.id, "cancelled", "owner_refund_record:ref-1", { reason: 5 });
   Object.assign(f.env, {
     GPT_BILLING_MODE: "live",
     GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"),
@@ -449,8 +426,9 @@ test("a refund request tells the owner the sum the offer's rule gives back and w
   }
   assert.deepEqual(sent, [
     `GPTBot.uz · AI paket: paid\npayme · 20 000 UZS\n${order.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
-    `GPTBot.uz · AI paket: refund_requested\npayme · 20 000 UZS\n${order.id}\nВернуть 13 333 сум (не использовано 200 из 300 ответов) в течение 10 рабочих дней на карту, с которой платили.\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+    `GPTBot.uz · AI paket: refunded\npayme · 20 000 UZS\n${order.id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
   ]);
+  assert.equal("requestRefund" in f.store, false);
 });
 
 test("maintenance worker is opt-in and sends only fixed-origin bearer requests", async () => {

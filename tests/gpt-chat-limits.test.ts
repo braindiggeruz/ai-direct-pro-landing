@@ -79,7 +79,7 @@ function pack(f: Fixture, order: string, limit: number, { from = T0 - DAY, to = 
     )
     .bind(BILLING_ORG, order, f.user, from, to, limit)
     .runSync();
-  return { order_id: order, starts_at: from, ends_at: to, message_limit: limit, refund_requested_at: null };
+  return { order_id: order, starts_at: from, ends_at: to, message_limit: limit };
 }
 
 function openrouter(t: TestContext) {
@@ -196,11 +196,10 @@ test('a pack: 50 a day, no hourly cap; spent or ended it is "monthly", which tim
   assert.deepEqual(await turns.explain(f.user, 'ip-p', spent, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 250 });
   const ended = pack(f, 'pack-ended', 300, { from: T0 - 40 * DAY, to: T0 - 1 });
   assert.deepEqual(await turns.explain(f.user, 'ip-p', ended, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 250 });
-  // A refund asked for freezes the pack (WP-24); revoked, it is gone.
-  f.db.exec("UPDATE gpt_access_periods SET refund_requested_at=1 WHERE order_id='pack-a'");
+  // Revoked (money the Seller returned, the offer's only refunds; WP-25), it is gone, and
+  // nothing is left in any running pack.
+  f.db.exec("UPDATE gpt_access_periods SET revoked_at=1 WHERE order_id='pack-a'");
   assert.deepEqual(await turns.explain(f.user, 'ip-p', p, cfg, T0), { reason: 'monthly', retryAt: null, remaining: 0 });
-  f.db.exec("UPDATE gpt_access_periods SET refund_requested_at=NULL, revoked_at=1 WHERE order_id='pack-a'");
-  assert.equal((await turns.explain(f.user, 'ip-p', p, cfg, T0))?.reason, 'monthly');
 });
 
 test('a refusal whose cause keeps clearing before it is explained is retried once, then read as a turn in flight', async (t) => {

@@ -40,8 +40,6 @@ export interface PackTerms {
   months: number;
   /** VAT included in the price; null until the fiscal settings are set. */
   vat?: { percent: number; includedTiyin: number } | null;
-  /** Working days the seller has to pay a refund back (the offer, section 8). */
-  refundDays?: number;
 }
 
 export interface AccountView {
@@ -70,7 +68,7 @@ export interface AccountView {
    * side by side), and so does `dayRemaining`.
    */
   access?: {
-    order_id: string; ends_at: number; remaining: number; renewSoon: boolean; refund_requested_at: number | null;
+    order_id: string; ends_at: number; remaining: number; renewSoon: boolean;
     /** The pack's own size (300 for the AI pack). */
     message_limit?: number;
     /** What the day cap still lets through today, at most `remaining`. */
@@ -85,14 +83,6 @@ export interface AccountView {
   /** The newest order; `cancellable`: open, and no provider has seen it yet. */
   payment?: { id: string; state: string; provider?: PaymentProvider; cancellable?: boolean } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
-  /**
-   * Running packs a refund can be asked for, and asked ones: the unused
-   * answers (frozen by the request) and the sum the offer's rule gives back.
-   */
-  refundable?: Array<{
-    order_id: string; starts_at: number; refund_requested_at: number | null;
-    ends_at?: number; message_limit?: number; unused?: number; refund_uzs?: number;
-  }>;
 }
 
 export function isOpaqueStorageKey(value: unknown): value is string {
@@ -113,10 +103,9 @@ function isTime(value: unknown): value is number {
 
 function validPack(pack: unknown): pack is PackTerms {
   if (!pack || typeof pack !== 'object') return false;
-  const { priceUzs, messageLimit, dailyLimit, months, vat, refundDays } = pack as PackTerms;
+  const { priceUzs, messageLimit, dailyLimit, months, vat } = pack as PackTerms;
   return isPositive(priceUzs) && isPositive(messageLimit) && isPositive(dailyLimit) && isPositive(months)
-    && (vat === undefined || vat === null || (typeof vat === 'object' && isCount(vat.percent) && isCount(vat.includedTiyin)))
-    && (refundDays === undefined || isPositive(refundDays));
+    && (vat === undefined || vat === null || (typeof vat === 'object' && isCount(vat.percent) && isCount(vat.includedTiyin)));
 }
 
 /** Nine digits, the first not 0: the shape of an Uzum Bank app code (payment-code-store.ts). */
@@ -155,12 +144,7 @@ export function validAccountView(value: unknown): value is AccountView {
     && (!account.payment || (typeof account.payment.id === 'string' && typeof account.payment.state === 'string'
       && (account.payment.provider === undefined || isPaymentProvider(account.payment.provider))
       && (account.payment.cancellable === undefined || typeof account.payment.cancellable === 'boolean')))
-    && (account.receipts === undefined || (Array.isArray(account.receipts) && account.receipts.every(r => r && typeof r.kind === 'string' && typeof r.receipt_url === 'string')))
-    && (account.refundable === undefined || (Array.isArray(account.refundable) && account.refundable.every(r => r && typeof r.order_id === 'string' && Number.isFinite(r.starts_at)
-      && (r.ends_at === undefined || isTime(r.ends_at))
-      && (r.message_limit === undefined || isPositive(r.message_limit))
-      && (r.unused === undefined || isCount(r.unused))
-      && (r.refund_uzs === undefined || isCount(r.refund_uzs)))));
+    && (account.receipts === undefined || (Array.isArray(account.receipts) && account.receipts.every(r => r && typeof r.kind === 'string' && typeof r.receipt_url === 'string')));
 }
 
 function httpsLink(value: unknown): URL | null {

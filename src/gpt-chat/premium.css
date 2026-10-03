@@ -109,7 +109,7 @@
 .gpt-account-dialog .gpt-plan-card { border-radius: 20px; background: radial-gradient(ellipse at top right, #6756b32e, transparent 70%),var(--card); border: 1px solid #7468a077; padding: 0; overflow: hidden; }
 .gpt-account-dialog .gpt-plan-card [data-slot="card-header"] { padding: 22px 22px 0; display: flex; flex-direction: column; gap: 10px; }
 .gpt-account-dialog .gpt-plan-card [data-slot="card-content"] { padding: 12px 22px; }
-.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] { padding: 12px 22px; border-top: 1px solid #ffffff0d; background: #ffffff03; }
+.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] { padding: 12px 22px; border-top: 1px solid #ffffff0d; background: #ffffff03; flex-direction: column; align-items: flex-start; gap: 6px; }
 .gpt-price { font-size: 27px; color: var(--foreground); font-weight: 600; letter-spacing: -.05em; }
 .gpt-panel-description { font-size: 14px; color: #c1cce0; line-height: 1.7; }
 .gpt-panel-note { font-size: 12px; line-height: 1.6; color: var(--muted-foreground); margin: 12px 0; }
@@ -127,8 +127,7 @@
 .gpt-access-summary :is(span,p) { font-size: 13px; color: #c1d9d2; }
 .gpt-access-summary p { margin-top: 12px; }
 .gpt-access-summary strong .gpt-access-size { font-size: 22px; letter-spacing: -.02em; color: var(--muted-foreground); }
-/* «Paketim» (account/PackPanel.tsx): the refund's second press, and links to the studio. */
-.gpt-refund-confirm { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; padding: 14px; border-radius: 14px; background: var(--muted); font-size: 13px; line-height: 1.6; }
+/* «Paketim» (account/PackPanel.tsx): links to the studio. */
 .gpt-account-dialog .gpt-panel-note a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .gpt-account-dialog .gpt-panel-note a[href^="tel:"] { white-space: nowrap; }
 /* Receipt links line up with the text buttons around them. */
@@ -322,7 +321,8 @@ body:has(.gpt-sidebar-dialog) > [data-slot="dialog-overlay"] { background: #0509
 .gpt-plan-features { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 8px; padding: 0; list-style: none; }
 .gpt-plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.6; color: #c1cce0; }
 .gpt-plan-features svg { color: var(--primary); width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
-.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] .gpt-panel-note { margin: 0; font-size: 11px; }
+/* The footer says no automatic renewal and that a paid pack is not refundable: same size, never smaller than 12px. */
+.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] .gpt-panel-note { margin: 0; font-size: 12px; }
 /* First-screen routing (2026-09-30): the chatgpt.com line on both chats and the
    Uzbek entry on the RU chat. Text stays at 12px or more. Each link is a 46px
    tap target without breaking the line spacing: vertical padding on an inline
