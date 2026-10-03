@@ -1,10 +1,13 @@
-// The pack window's funnel on the server (POST /api/gpt/event, plan WP-17),
-// sent next to the GA4 event of the same step: GA4 misses everyone who blocks
-// it, this counter does not. Fire and forget — a lost event costs a count,
-// never a sign-in or a purchase. The body is a fresh id per event (a resend
+// The chat's steps counted on the server (POST /api/gpt/event): the pack
+// window's funnel (plan WP-17) and the business line (plan WP-20), each sent
+// next to the GA4 event of the same step: GA4 misses everyone who blocks it,
+// this counter does not. Fire and forget — a lost event costs a count, never
+// a sign-in, a purchase or a lead. The body is a fresh id per event (a resend
 // counts once), the step, one qualifier from a closed list and this tab's
 // random id: nothing a visitor typed, no order and no account. The server
-// answers 404 while the window is out of reach (billing off).
+// answers 404 to a pack-window step while the window is out of reach (billing
+// off) and counts the business line whatever billing does.
+import type { BusinessTopic } from './business-intent';
 
 /** Which button opened the pack window: GA4's `from` of pack_viewed and the counter's qualifier. */
 export const PACK_FROM = [
@@ -19,6 +22,8 @@ export interface UiEventDetails {
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';
   checkout_result: 'paid' | 'pending' | 'cancelled';
+  b2b_line_shown: BusinessTopic;
+  b2b_line_dismissed: BusinessTopic;
 }
 
 const VIEW_KEY = 'gptchat_view';

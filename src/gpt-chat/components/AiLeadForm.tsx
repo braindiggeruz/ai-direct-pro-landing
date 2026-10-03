@@ -2,22 +2,25 @@ import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import type { ChatStrings } from '../i18n';
 import { leadStrings } from '../lead-strings';
 import type { Locale } from '../types';
-import { fetchTurnstileConfig, sendLead } from '../api';
+import { fetchTurnstileConfig, sendLead, type ChatLeadSource } from '../api';
 import { EV, track } from '../analytics';
 import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika';
 import { parseContact, studioQuickContact, type StudioQuickContact } from '../contact';
 import { STUDIO_CONTACT_PROPS } from '../../shared/studio-contact';
+import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS, isLeadBudget } from '../../shared/lead-budget';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
-export type LeadMethod = 'offer_b2b';
+export type LeadMethod = 'offer_b2b' | 'chat_b2b_line';
 
 type Status = 'idle' | 'sending' | 'sent' | 'failed';
 
 /**
- * The chat's only lead capture. Two fields and a consent box — name, one
- * contact, nothing else — posted to /api/gpt/lead, which needs consent plus a
- * reachable contact and stores the row in gpt_leads.
+ * The chat's lead capture: name, one contact, an optional budget and a
+ * consent box, posted to /api/gpt/lead, which needs consent plus a reachable
+ * contact and stores the row in gpt_leads. Every caller names its source
+ * (gpt_chat for the business card, chat_b2b for the business line); the
+ * server files a lead without one as 'unknown'.
  *
  * generate_lead fires only after the server acknowledges the write; a submit
  * click is not a lead.
@@ -29,6 +32,7 @@ export function AiLeadForm({
   sessionId,
   intent,
   method,
+  source,
   intro,
   autoFocus,
 }: {
@@ -39,6 +43,8 @@ export function AiLeadForm({
   /** Short slug stored with the lead so the operator knows what was asked. */
   intent: string;
   method: LeadMethod;
+  /** gpt_leads.source of this form, sent with every lead. */
+  source: ChatLeadSource;
   /** One line above the fields explaining why we are asking. */
   intro?: string;
   /** Set when the form replaced a button the person just pressed. */
@@ -46,6 +52,7 @@ export function AiLeadForm({
 }) {
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
+  const [budget, setBudget] = useState('');
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>('idle');
   const [contactError, setContactError] = useState(false);
@@ -58,6 +65,7 @@ export function AiLeadForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const copy = leadStrings(locale);
+  const budgetField = LEAD_BUDGET_FIELD[locale];
   const quick = studioQuickContact(locale);
   const quickLink =
     'inline-flex min-h-11 items-center text-[13px] text-brand-cyan underline underline-offset-4 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-lg';
@@ -66,7 +74,7 @@ export function AiLeadForm({
   // the "lead form opened" moment. Measured here rather than at each call site
   // so every surface reports it the same way.
   useEffect(() => {
-    track(EV.leadFormOpened, { method, intent, locale });
+    track(EV.leadFormOpened, { method, source, intent, locale });
     if (autoFocus) firstFieldRef.current?.focus({ preventScroll: true });
     // Intentionally once per mount: re-firing on a prop change would inflate it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,6 +104,8 @@ export function AiLeadForm({
       intent,
       sessionId,
       consent: true,
+      source,
+      budget: isLeadBudget(budget) ? budget : undefined,
       // Path only — a query string can carry personal data into the record.
       pageUrl: typeof location === 'undefined' ? undefined : location.pathname,
     });
@@ -104,7 +114,7 @@ export function AiLeadForm({
       // After the server acknowledged the write, never on the click. The
       // goals are bare names: chat_lead_success says where the lead came
       // from, lead_form_success counts it with the site's other forms.
-      track(EV.generateLead, { method, mode: parsed.type, intent, locale });
+      track(EV.generateLead, { method, source, mode: parsed.type, intent, locale });
       reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
       reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
     } else {
@@ -122,7 +132,7 @@ export function AiLeadForm({
         return;
       }
       setStatus('failed');
-      track(EV.leadFormFailed, { method, intent, code: res.code, locale });
+      track(EV.leadFormFailed, { method, source, intent, code: res.code, locale });
     }
   };
 
@@ -189,6 +199,22 @@ export function AiLeadForm({
         </p>
       )}
 
+      <label htmlFor={`${uid}-budget`} className="mt-3.5 block text-[13px] text-white/70">
+        {budgetField.label} <span className="text-white/35">{budgetField.optional}</span>
+      </label>
+      <select
+        id={`${uid}-budget`}
+        name="budget"
+        value={budget}
+        onChange={(event) => setBudget(event.target.value)}
+        className="mt-1.5 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-[15px] text-white outline-none transition-colors focus:border-brand-cyan/50 focus-visible:ring-2 focus-visible:ring-brand-cyan/30"
+      >
+        <option value="">{budgetField.empty}</option>
+        {LEAD_BUDGETS.map((value) => (
+          <option key={value} value={value}>{LEAD_BUDGET_LABELS[locale][value]}</option>
+        ))}
+      </select>
+
       <label className="mt-3.5 flex cursor-pointer items-start gap-3 text-[13px] leading-relaxed text-white/60">
         <input
           type="checkbox"
@@ -205,8 +231,9 @@ export function AiLeadForm({
         </span>
       </label>
       {/* Exactly what leaves the browser, in plain words. The payload below is
-          name + one contact + the intent slug + this session's id + the page
-          path — never the conversation itself. */}
+          name + one contact + the budget if chosen + the intent slug + the
+          source + this session's id + the page path — never the conversation
+          itself. */}
       <p className="mt-2 pl-8 text-[12px] leading-relaxed text-white/35">{copy.leadConsentDetail}</p>
       {consentError && (
         <p role="alert" className="mt-1.5 text-[12px] leading-relaxed text-red-300">{copy.leadConsentError}</p>

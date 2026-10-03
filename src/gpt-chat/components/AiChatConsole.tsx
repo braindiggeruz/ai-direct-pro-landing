@@ -21,6 +21,8 @@ import {
   loadDraft,
   saveDraft,
   clearDraft,
+  loadBusinessLineShown,
+  saveBusinessLineShown,
 } from "../storage";
 import { track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
@@ -53,6 +55,7 @@ import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest }
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
 import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
+import { businessLineTopic, type BusinessTopic } from "../business-intent";
 
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
@@ -104,6 +107,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [offerDismissed, setOfferDismissed] = useState(() =>
     loadOfferDismissed(config.locale),
   );
+  // The business line under a first answer (plan WP-20); `open` once its form is.
+  const [businessLine, setBusinessLine] = useState<{ topic: BusinessTopic; open: boolean } | null>(null);
   const [activeTool, setActiveTool] = useState<AiToolId>("chat");
   const [role, setRole] = useState<RoleId>("general");
   const [collapsed, setCollapsed] = useState(false);
@@ -150,6 +155,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         identityGeneration.current++;
         abortRef.current?.abort();
         setBusy(false);
+        setBusinessLine(null);
         setMessages(account ? loadHistory(config.locale, scope) : []);
         setSavedChats(account ? loadChats(config.locale, scope) : []);
         // Auth redirects revoke session cookies. Never restore an old account's
@@ -324,6 +330,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (!trimmed || sendDisabled) return;
     setBusy(true);
     setInput("");
+    // The business line was an offer for the first answer: a next message
+    // takes it away, unless its form is open.
+    setBusinessLine((line) => (line?.open ? line : null));
     setTurnstileServerError(null);
     const generation = identityGeneration.current;
     const sid = await ensureSession();
@@ -336,6 +345,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     ];
     setMessages(withUser);
     const messageNumber = history.filter((m) => m.role === "user").length + 1;
+    // Read here, in the browser, and never sent: only the topic is counted,
+    // and only once the line shows (AiBusinessLine).
+    const lineTopic = businessLineTopic({
+      text: trimmed,
+      messageNumber,
+      tool: meta.tool || activeTool,
+      typed: !meta.templateId && !meta.answerAction && !meta.retry,
+      spent: offerDismissed || loadBusinessLineShown(),
+    });
+    if (lineTopic) leadPart.preload();
+    // Once the answer is complete, never during the stream; once per browser session.
+    const revealLine = () => {
+      if (!lineTopic) return;
+      saveBusinessLineShown();
+      setBusinessLine({ topic: lineTopic, open: false });
+    };
     track(EV.messageSent, {
       ...entryMeta,
       source: meta.templateId
@@ -387,6 +412,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             truncated: res.truncated === true,
           },
         ]);
+        revealLine();
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
@@ -520,6 +546,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           truncated: outcome.truncated === true,
         },
       ]);
+      revealLine();
       track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, message_number: messageNumber, finish: outcome.truncated === true ? "length" : "stop" });
     } else if (outcome.aborted) {
       // User pressed Stop: keep whatever was generated, never an error state.
@@ -636,8 +663,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
     setInput("");
+    setBusinessLine(null);
     // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
-    // pitch the same person again.
+    // pitch the same person again; neither is the business line, which shows
+    // once per browser session.
     track(EV.newChat, { status: "cleared" });
     focusInput();
   };
@@ -654,7 +683,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (lastUser) void doSend(lastUser, { retry: true });
   };
 
+  // Closing the business card or the business line closes both for the day:
+  // one "no, thanks" to the studio's offer is enough.
   const onDismissOffer = () => {
+    setBusinessLine(null);
     setOfferDismissed(true);
     saveOfferDismissed(config.locale, storageScope);
   };
@@ -868,6 +900,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                       setSavedChats(archiveChat(messages, config.locale, storageScope));
                       persist(chat.messages);
                       setInput("");
+                      setBusinessLine(null);
                     }}
                   >
                     {chat.title}
@@ -960,6 +993,25 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 onRetry={onRetry}
                 onAnswerAction={onAnswerAction}
               />
+            )}
+            {/* The business line: under the first answer to a question about a
+                bot, a site, ads or a CRM, once per browser session (WP-20). */}
+            {businessLine && !limit && activeTool !== "business" && (
+              // The lazy part chat-lead; a line that cannot load is not shown.
+              <LazyPart part={leadPart} fallback={null} failed={null}>
+                {({ AiBusinessLine }) => (
+                  <AiBusinessLine
+                    t={t}
+                    locale={config.locale}
+                    apiBase={config.apiBase}
+                    sessionId={sessionId}
+                    topic={businessLine.topic}
+                    open={businessLine.open}
+                    onOpen={() => setBusinessLine((line) => line && { ...line, open: true })}
+                    onDismiss={onDismissOffer}
+                  />
+                )}
+              </LazyPart>
             )}
             {/* Stage 2 of the funnel: one offer, after the chat has already
                 been useful, closable and gone for the day once closed. */}

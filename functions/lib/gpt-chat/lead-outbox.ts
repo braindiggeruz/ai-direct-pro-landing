@@ -2,7 +2,7 @@ import { genId } from './http';
 import { buildLeadAlert, buildMutedNotice, loadTranscript, sendOwnerAlert, type LeadAlert } from './notify';
 import { consumeRateLimit, HOUR_MS } from './rate-limit';
 import type { BridgeEnv } from './bridge-env';
-import { normalizeLeadService } from './validate';
+import { normalizeLeadBudget, normalizeLeadService } from './validate';
 
 interface PendingLeadRow {
   outbox_id: string;
@@ -15,6 +15,7 @@ interface PendingLeadRow {
   page_url: string | null;
   utm_json: string | null;
   source: string | null;
+  budget: string | null;
   created_at: string;
   locale: 'ru' | 'uz';
   share_conversation: number;
@@ -100,7 +101,7 @@ export async function deliverLeadOutboxItem(
   const row = await db.prepare(
     `SELECT o.id AS outbox_id, o.lead_id, o.locale, o.share_conversation,
             o.attempt_count, l.session_id, l.contact_type, l.contact_value,
-            l.name, l.intent, l.page_url, l.utm_json, l.source, l.created_at
+            l.name, l.intent, l.page_url, l.utm_json, l.source, l.budget, l.created_at
      FROM gpt_lead_outbox o
      JOIN gpt_leads l ON l.id = o.lead_id
      WHERE o.id = ?`,
@@ -152,6 +153,7 @@ export async function deliverLeadOutboxItem(
     transcript,
     source: row.source,
     service: serviceFromUtmJson(row.utm_json),
+    budget: normalizeLeadBudget(row.budget),
   };
   const result = await sendOwnerAlert(env, buildLeadAlert(alert));
   if (result.status === 'sent') {

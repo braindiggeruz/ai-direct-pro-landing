@@ -30,6 +30,18 @@ export const CHAT_EVENT_INDEXES = [
   `CREATE INDEX IF NOT EXISTS idx_gpt_events_created ON gpt_events (created_at)`,
 ];
 
+/**
+ * Columns gpt_leads gained after migrations/0008, in the order the migrations
+ * add them: request_id (0061) and budget (0070, the budget a lead form asks
+ * for). A database that lacks one gets it here. CREATE TABLE below already
+ * names request_id and leaves budget to this list, so budget is the last
+ * column of a fresh table, as of a migrated one.
+ */
+export const LEAD_COLUMNS: ReadonlyArray<readonly [string, string]> = [
+  ['request_id', 'TEXT'],
+  ['budget', 'TEXT'],
+];
+
 const DDL: string[] = [
   `CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
@@ -184,9 +196,16 @@ export function ensureSchema(db: D1Database): Promise<void> {
       for (const stmt of DDL) {
         await db.prepare(stmt).run();
       }
-      const leadColumns = await db.prepare("PRAGMA table_info('gpt_leads')").all<{ name: string }>();
-      if (!(leadColumns.results ?? []).some((column) => column.name === 'request_id')) {
-        await db.prepare('ALTER TABLE gpt_leads ADD COLUMN request_id TEXT').run();
+      const info = await db.prepare("PRAGMA table_info('gpt_leads')").all<{ name: string }>();
+      const present = new Set((info.results ?? []).map((column) => column.name));
+      for (const [name, type] of LEAD_COLUMNS) {
+        if (present.has(name)) continue;
+        try {
+          await db.prepare(`ALTER TABLE gpt_leads ADD COLUMN ${name} ${type}`).run();
+        } catch (error) {
+          // Another isolate added it in between; anything else is a real failure.
+          if (!/duplicate column name/i.test(error instanceof Error ? error.message : String(error))) throw error;
+        }
       }
       await db.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_gpt_leads_request ON gpt_leads (request_id)').run();
     })().catch((e) => {

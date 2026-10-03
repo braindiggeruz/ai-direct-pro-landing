@@ -28,7 +28,7 @@
   "heroTitle": "AI-бот для бизнеса: круглосуточный GPT-менеджер",
   "heroSubtitle": "AI/GPT-менеджер отвечает клиентам 24/7 в Telegram и Instagram, собирает имя и телефон и передаёт готовые заявки вашему менеджеру.",
   "ctaPrimaryLabel": "Запросить демо",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -193,7 +193,7 @@
     {
       "type": "cta",
       "text": "Запросить демо",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

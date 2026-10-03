@@ -19,7 +19,8 @@
 | Оплата закончилась | `checkout_result` | `status` (paid / pending — не подтверждена за 10 минут / cancelled, в том числе счёт, который человек сам отменил, `CHECKOUT-RU.md`), `provider`, `mode` |
 | Покупка | `purchase` (ecommerce GA4) | `transaction_id` (номер заказа, не ПДн), `value` 20000, `currency` UZS, `items[{item_id: ai_paket_300}]`; только `mode=live`, один раз на заказ в браузере |
 | Любая кнопка Telegram | `telegram_cta_clicked` | `from`, `channel` (bot / studio), `with_session` |
-| Лид | `lead_form_opened`, `generate_lead` (только после ответа сервера), `lead_form_failed` | `method`, `intent`, `code` |
+| Лид | `lead_form_opened`, `generate_lead` (только после ответа сервера), `lead_form_failed` | `method` (offer_b2b / chat_b2b_line), `source` (gpt_chat / chat_b2b, как в `gpt_leads.source`), `intent`, `code` |
+| Бизнес-строка под первым ответом (WP-20, `B2B-RU.md`) | `b2b_line_shown` (раз за просмотр), `b2b_line_dismissed` | `topic` (bot / site / ads / crm) |
 | Ссылка на цены в меню | `pricing_clicked` | `from` |
 | Прочее | `prompt_chip_clicked` (`chip_id`), `template_used` (`template_id`), `message_copied`, `new_chat`, `role_selected`, `tool_opened`, `image_prompt_generated`, `official_link_clicked`, `locale_switched`, `business_clicked`, `offer_viewed`, `offer_dismissed`, `account_action_failed`, `account_logout` | — |
 
@@ -27,7 +28,7 @@
 
 События сервера в D1 (`gpt_events`, например `GPTChatLeadSubmitted`, `GPTChatHandoffClaimed`) — отдельный журнал, они не менялись.
 
-## Воронка окна пакета на сервере (WP-17)
+## Шаги чата на сервере: воронка окна пакета (WP-17) и бизнес-строка (WP-20)
 
 GA4 не видит тех, кто блокирует аналитику. Поэтому каждый шаг окна пакета параллельно уходит на сервер: `POST /api/gpt/event` → таблица `gpt_ui_events` (миграция `0068`, код `functions/lib/gpt-chat/ui-event-store.ts`, клиент `src/gpt-chat/ui-events.ts`). Шаги и квалификаторы — закрытые списки:
 
@@ -38,8 +39,9 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 | `login_result` | `done` / `rejected` / `expired` / `failed` |
 | `checkout_started` | `click` / `uzum` / `payme` |
 | `checkout_result` | `paid` / `pending` / `cancelled` |
+| `b2b_line_shown`, `b2b_line_dismissed` | тема бизнес-строки: `bot` / `site` / `ads` / `crm` |
 
-В строке — шаг, квалификатор, случайный id вкладки (`view_id`, sessionStorage) и время. Ни текста, ни IP, ни аккаунта, ни сессии чата: строку нельзя связать с человеком или перепиской. `id` строки — свой у каждого события из браузера, повтор запроса считается один раз. Лимит — 60 событий в час на хеш IP. Пока оплата выключена (провайдер не предложен посетителю), роут отвечает 404 до тела и D1. Покупки здесь не считаются: их источник — заказы (`gpt_payment_orders_all`).
+В строке — шаг, квалификатор, случайный id вкладки (`view_id`, sessionStorage) и время. Ни текста, ни IP, ни аккаунта, ни сессии чата: строку нельзя связать с человеком или перепиской. `id` строки — свой у каждого события из браузера, повтор запроса считается один раз. Лимит — 60 событий в час на хеш IP. Пока оплата выключена (провайдер не предложен посетителю), шаг окна пакета получает 404 до D1. Шаги бизнес-строки считаются всегда, поэтому тело (до 1 кБ) читается раньше: тип решает. Покупки здесь не считаются: их источник — заказы (`gpt_payment_orders_all`).
 
 Агрегат для проверки (только числа): `SELECT type, detail, COUNT(*) FROM gpt_ui_events WHERE org_id='gptbot-consumer' AND created_at > <ms> GROUP BY type, detail`.
 
@@ -50,7 +52,7 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 ## Что сделать владельцу (после выката R3)
 
 1. GTM `GTM-NLR4WFX8`: убрать второй тег GA4, иначе `page_view` считается дважды.
-2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
+2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`, а после R6 и `topic`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
 3. Метрика, счётчик 111312750: создать цели «JavaScript-событие» `chat_opened` и `chat_limit_hit` (остальные четыре уже есть).
 
 ## Проверка после деплоя

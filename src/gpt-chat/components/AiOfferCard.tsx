@@ -100,6 +100,7 @@ export function AiOfferCard({
             sessionId={sessionId}
             intent="ai_bot_for_business"
             method="offer_b2b"
+            source="gpt_chat"
             intro={copy.leadIntro}
             autoFocus
           />

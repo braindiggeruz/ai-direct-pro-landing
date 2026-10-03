@@ -125,15 +125,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
     await db.batch([
       db.prepare(
         `INSERT INTO gpt_leads
-          (id, request_id, session_id, user_id, contact_type, contact_value, name, phone, telegram, intent, utm_json, source, page_url, created_at)
-         VALUES (?,?,?,NULL,?,?,?,?,?,?,?,?,?,?)`,
+          (id, request_id, session_id, user_id, contact_type, contact_value, name, phone, telegram, intent, utm_json, source, page_url, budget, created_at)
+         VALUES (?,?,?,NULL,?,?,?,?,?,?,?,?,?,?,?)`,
       ).bind(
         id, lead.requestId, sessionId, lead.contactType, lead.contactValue,
         lead.name, lead.phone, lead.telegram, lead.intent, lead.utmJson,
-        // Whitelisted in validateLead; the chat still sends nothing and so
-        // still lands as 'gpt_chat'. Service + first-touch attribution ride
-        // inside utm_json under its "attribution" key.
-        lead.source, lead.pageUrl, nowIso,
+        // Whitelisted in validateLead: every form names itself, a body that
+        // names nothing is 'unknown'. Service + first-touch attribution ride
+        // inside utm_json under its "attribution" key; the budget is one of
+        // a closed list or NULL (gpt_leads.budget, migrations/0070).
+        lead.source, lead.pageUrl, lead.budget, nowIso,
       ),
       db.prepare(
         'INSERT INTO gpt_events (id, session_id, user_id, event_name, payload_json, created_at) VALUES (?,?,NULL,?,?,?)',

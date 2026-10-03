@@ -1,5 +1,6 @@
 // Input validation for the AI-chat endpoints. Pure — unit-tested.
 import type { Locale } from '../../../src/shared/types';
+import { isLeadBudget, type LeadBudget } from '../../../src/shared/lead-budget';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/min';
 
 export function normLocale(v: unknown): Locale {
@@ -48,9 +49,12 @@ export interface LeadInput {
   turnstileToken?: string;
   /**
    * Which surface produced the lead. Whitelisted by `normalizeLeadSource`;
-   * anything else, or nothing, is the AI chat — the endpoint's original caller.
+   * anything else, or nothing, is stored as 'unknown': every form names
+   * itself, so a lead without a source is not attributed to any of them.
    */
   source?: string;
+  /** The budget the visitor picked (src/shared/lead-budget.ts); anything else is dropped. */
+  budget?: string;
   /** Service slug the visitor asked about (e.g. `telegram-bot`). */
   service?: string;
   /**
@@ -60,7 +64,13 @@ export interface LeadInput {
   attribution?: Record<string, unknown>;
 }
 
-export const LEAD_SOURCES = ['gpt_chat', 'calculator', 'page_form'] as const;
+/**
+ * gpt_chat: the AI chat's business card (AiOfferCard); chat_b2b: the chat's
+ * business line after a first answer about a bot, a site, ads or a CRM;
+ * calculator; page_form: the form on a landing (scripts/lead-form.ts);
+ * unknown: a body that named no source of this list (an old open tab).
+ */
+export const LEAD_SOURCES = ['gpt_chat', 'chat_b2b', 'calculator', 'page_form', 'unknown'] as const;
 export type LeadSource = typeof LEAD_SOURCES[number];
 
 /** The sanitised first-touch record stored under utm_json.attribution. */
@@ -90,6 +100,7 @@ export interface LeadValidation {
     requestId: string | null;
     source: LeadSource;
     service: string | null;
+    budget: LeadBudget | null;
     attribution: LeadAttribution | null;
   };
 }
@@ -192,11 +203,19 @@ const REFERRER_HOST_RE = /^[a-z0-9.-]{1,100}$/;
 const CLICK_ID_RE = /^[A-Za-z0-9._-]{1,200}$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,9})?)?(?:Z|[+-]\d{2}:?\d{2})?)?$/;
 
-/** Whitelisted lead source; anything else (or nothing) is the AI chat. */
+/**
+ * Whitelisted lead source. Anything else, or nothing, is 'unknown': it used to
+ * be 'gpt_chat', which credited the chat with every lead that named no source.
+ */
 export function normalizeLeadSource(v: unknown): LeadSource {
   return typeof v === 'string' && (LEAD_SOURCES as readonly string[]).includes(v)
     ? v as LeadSource
-    : 'gpt_chat';
+    : 'unknown';
+}
+
+/** One value of the closed budget list, or null (not asked, not chosen, or not ours). */
+export function normalizeLeadBudget(v: unknown): LeadBudget | null {
+  return isLeadBudget(v) ? v : null;
 }
 
 /** A lowercase slug such as `telegram-bot`; anything else is dropped. */
@@ -325,6 +344,7 @@ export function validateLead(input: LeadInput): LeadValidation {
       requestId,
       source: normalizeLeadSource(input.source),
       service,
+      budget: normalizeLeadBudget(input.budget),
       attribution,
     },
   };

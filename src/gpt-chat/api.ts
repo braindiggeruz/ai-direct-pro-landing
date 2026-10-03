@@ -1,5 +1,6 @@
 // Thin client for the /api/gpt/* endpoints. All calls are same-origin.
 import type { ChatApiResponse, ChatMessage, Locale } from './types';
+import type { LeadBudget } from '../shared/lead-budget';
 
 async function postJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
@@ -189,9 +190,19 @@ export interface LeadPayload {
   sessionId?: string | null;
   consent: boolean;
   pageUrl?: string;
+  /**
+   * Which chat form sent it, always named: gpt_chat is the business card
+   * (AiOfferCard), chat_b2b the business line after a first answer. The
+   * server stores a lead that names no source as 'unknown'.
+   */
+  source: ChatLeadSource;
+  /** The visitor's choice from the closed budget list; absent when none was chosen. */
+  budget?: LeadBudget;
   /** Structured, non-message business context accepted by the existing lead endpoint. */
   utm?: Record<string, string>;
 }
+
+export type ChatLeadSource = 'gpt_chat' | 'chat_b2b';
 
 export interface LeadResult {
   ok: boolean;

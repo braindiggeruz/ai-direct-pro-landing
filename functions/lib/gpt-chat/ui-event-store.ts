@@ -1,7 +1,9 @@
 // The pack window's funnel, counted on the server (plan WP-17): which button
 // opened the window, sign-ins started and how they ended, checkouts started
 // and how they ended. GA4 sees the same steps but misses everyone who blocks
-// it; this table does not, and the admin (WP-19) counts from it.
+// it; this table does not, and the admin (WP-19) counts from it. The chat's
+// business line (plan WP-20) counts here too: shown and closed, by topic, so
+// its false alarms can be read against the leads it brings (source chat_b2b).
 //
 // One row per event: a type and one qualifier, both from closed lists, the
 // browser tab's random id and the time. No text, no IP, no account and no
@@ -28,9 +30,26 @@ export const UI_EVENTS = {
   checkout_started: ["click", "uzum", "payme"],
   /** How the payment the browser waited for ended: paid, still pending after the wait, or cancelled. */
   checkout_result: ["paid", "pending", "cancelled"],
+  /** The chat's business line showed under a first answer; the qualifier is the topic (business-intent.ts). */
+  b2b_line_shown: ["bot", "site", "ads", "crm"],
+  /** The visitor closed it. */
+  b2b_line_dismissed: ["bot", "site", "ads", "crm"],
 } as const satisfies Record<string, readonly string[]>;
 
 export type UiEventType = keyof typeof UI_EVENTS;
+
+/**
+ * The pack window's steps: out of reach, and so not counted, while no payment
+ * provider is offered (POST /api/gpt/event answers 404). The business line's
+ * steps are counted whatever billing does.
+ */
+export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>([
+  "pack_viewed",
+  "login_started",
+  "login_result",
+  "checkout_started",
+  "checkout_result",
+]);
 
 export interface UiEvent {
   /** The browser's id for this one event (a UUID). */

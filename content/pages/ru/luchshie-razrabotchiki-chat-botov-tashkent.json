@@ -27,7 +27,7 @@
   "heroTitle": "Разработка чат-ботов на заказ в Ташкенте",
   "heroSubtitle": "Как выбрать студию, которая сделает AI-бота под вашу нишу — и почему бизнес в Узбекистане заказывает ботов у GPTBot.uz.",
   "ctaPrimaryLabel": "Обсудить проект",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как мы работаем",
   "ctaSecondaryHref": "#kriterii",
   "bodyBlocks": [
@@ -86,7 +86,7 @@
     {
       "type": "cta",
       "text": "Обсудить проект",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

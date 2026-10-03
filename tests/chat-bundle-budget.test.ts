@@ -180,7 +180,10 @@ const LAZY_ONLY = {
     'src/gpt-chat/account/AccountDialog.tsx', 'src/gpt-chat/account/BotLoginScreen.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx',
     'src/gpt-chat/account/UzumCodeScreen.tsx', 'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/account-strings.ts', 'src/components/ui/card.tsx',
   ],
-  'chat-lead': ['src/gpt-chat/components/AiOfferCard.tsx', 'src/gpt-chat/components/AiLeadForm.tsx', 'src/gpt-chat/lead-strings.ts'],
+  'chat-lead': [
+    'src/gpt-chat/components/AiOfferCard.tsx', 'src/gpt-chat/components/AiBusinessLine.tsx', 'src/gpt-chat/components/AiLeadForm.tsx',
+    'src/gpt-chat/lead-strings.ts', 'src/shared/lead-budget.ts',
+  ],
   'chat-tools': ['src/gpt-chat/components/AiToolPanel.tsx', 'src/gpt-chat/components/PromptTemplateGrid.tsx', 'src/gpt-chat/components/ImagePromptTool.tsx', 'src/gpt-chat/templates.ts'],
 };
 
@@ -190,6 +193,8 @@ test('nothing the start imports statically reaches a lazy part; each part reache
   assert.ok(start.has('src/gpt-chat/components/AiAccountPanel.tsx') && start.has('src/gpt-chat/limit-card.ts'), 'the pill and the limit card are at once on screen');
   // The way back from a payment is followed with the window closed too (WP-17).
   assert.ok(start.has('src/gpt-chat/checkout.ts') && start.has('src/gpt-chat/ui-events.ts'), 'the checkout watch and the funnel counter');
+  // The business-topic detector decides at send time whether the line will come (WP-20).
+  assert.ok(start.has('src/gpt-chat/business-intent.ts'), 'the detector is on the start bundle');
   for (const [name, files] of Object.entries(LAZY_ONLY)) {
     for (const file of files) assert.ok(!start.has(file), `${file} (${name}) is on the start bundle`);
     assert.ok(!start.has(`src/gpt-chat/parts/${name}.ts`), `${name} is imported statically`);

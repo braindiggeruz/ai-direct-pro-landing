@@ -39,6 +39,7 @@ import { onRequestPost as botLoginStart } from "../functions/api/gpt/auth/bot/st
 import { onRequestPost as botLoginStatus } from "../functions/api/gpt/auth/bot/status";
 import { onRequestPost as oidcStart } from "../functions/api/gpt/auth/start";
 import { onRequestPost as uiEvent } from "../functions/api/gpt/event";
+import { PACK_WINDOW_EVENTS, UI_EVENTS } from "../functions/lib/gpt-chat/ui-event-store";
 import { SqliteD1 } from "./helpers/sqlite-d1";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -288,14 +289,26 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     [botLoginStart, "https://gptbot.uz/api/gpt/auth/bot/start"],
     [botLoginStatus, "https://gptbot.uz/api/gpt/auth/bot/status"],
     [oidcStart, "https://gptbot.uz/api/gpt/auth/start"],
-    // The pack window's funnel counter (WP-17): the window is out of reach.
-    [uiEvent, "https://gptbot.uz/api/gpt/event"],
   ] as Array<[typeof botLoginStart, string]>) {
     const response = await handler({
       request: new Request(url, { method: "POST", headers: { Origin: "https://gptbot.uz", "Content-Type": "application/json" }, body: '{"consent":true}' }),
       env: signIn,
     } as unknown as Parameters<typeof botLoginStart>[0]);
     assert.equal(response.status, 404, url);
+  }
+  // The pack window's funnel counter (WP-17): every step of the window is out
+  // of reach, 404 before D1. The chat's business line is counted there
+  // whatever billing does (WP-20, tests/gpt-ui-events.test.ts).
+  for (const type of PACK_WINDOW_EVENTS) {
+    const response = await uiEvent({
+      request: new Request("https://gptbot.uz/api/gpt/event", {
+        method: "POST",
+        headers: { Origin: "https://gptbot.uz", "Content-Type": "application/json" },
+        body: JSON.stringify({ id: randomUUID(), type, detail: UI_EVENTS[type][0] }),
+      }),
+      env: signIn,
+    } as unknown as Parameters<typeof uiEvent>[0]);
+    assert.equal(response.status, 404, type);
   }
   const view = (await (
     await account({ request: new Request("https://gptbot.uz/api/gpt/account"), env: { ...signIn } } as unknown as Parameters<typeof account>[0])

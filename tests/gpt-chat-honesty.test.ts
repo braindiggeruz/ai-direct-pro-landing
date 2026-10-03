@@ -274,7 +274,9 @@ function trackCalls(): Array<{ file: string; event: string; keys: string[] }> {
 test('the GA4 catalogue: snake_case, one name per entity, no legacy twin', () => {
   const names = Object.values(EV);
   assert.equal(new Set(names).size, names.length, 'two keys share an event');
-  for (const name of names) assert.match(name, /^[a-z]+(_[a-z0-9]+)*$/, name);
+  // GA4's own rule (a letter first, then letters, digits and underscores),
+  // in lower snake_case: b2b_line_shown is the server counter's name too (WP-20).
+  for (const name of names) assert.match(name, /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/, name);
   for (const legacy of ['GPTChatPageView', 'VisitChat', 'StartChat', 'GPTChatMessageSent', 'SendPrompt', 'GPTChatLimitReached', 'LimitReached',
     'ViewPricing', 'UpgradeClick', 'CopyAnswer', 'website_telegram_clicked', 'paywall_viewed', 'telegram_clicked', 'TelegramClick',
     'telegram_handoff_clicked', 'GPTChatLeadSubmitted', 'GPTChatLeadIntent', 'GPTChatAnswerReceived', 'GPTChatProviderError', 'UseTemplate']) {

@@ -27,7 +27,7 @@
   "heroTitle": "Biznes uchun AI bot — Instagram va Telegram’da mijozlarga 24/7 javob",
   "heroSubtitle": "AI/GPT-menejer Instagram va Telegram’da 24/7 javob beradi, ism va telefonni yig‘adi va issiq lidlarni menejerga uzatadi.",
   "ctaPrimaryLabel": "Demo so‘rash",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -176,7 +176,7 @@
     {
       "type": "cta",
       "text": "Demo so‘rash",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

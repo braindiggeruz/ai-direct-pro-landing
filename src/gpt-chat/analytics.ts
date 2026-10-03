@@ -8,7 +8,7 @@ export const GA4_PARAMS: ReadonlySet<string> = new Set([
   'route', 'lang', 'locale', 'tool', 'template_id', 'role_id', 'status', 'source',
   'from', 'mode', 'channel', 'preset_id', 'reason', 'code', 'model', 'surface',
   'message_number', 'anonymous', 'chip_id', 'method', 'intent',
-  'with_session', 'provider', 'finish', 'resume', 'entry',
+  'with_session', 'provider', 'finish', 'resume', 'entry', 'topic',
 ]);
 const onceKeys = new Set<string>();
 
@@ -122,6 +122,9 @@ export const EV = {
   /** The B2B offer card: once per page view, and its close button. */
   offerViewed: 'offer_viewed',
   offerDismissed: 'offer_dismissed',
+  /** The business line under a first answer (business-intent.ts): once per browser session, and its close button. `topic` bot | site | ads | crm. */
+  b2bLineShown: 'b2b_line_shown',
+  b2bLineDismissed: 'b2b_line_dismissed',
   promptChipClicked: 'prompt_chip_clicked',
   templateUsed: 'template_used',
   messageCopied: 'message_copied',

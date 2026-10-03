@@ -21,6 +21,7 @@
 //     still stored and still answered `ok` — a notification that cannot be
 //     delivered must never cost the studio the enquiry itself.
 import { TelegramClient, escapeHtml, type InlineKeyboard } from '../../channels/telegram/api';
+import { LEAD_BUDGET_LABELS } from '../../../src/shared/lead-budget';
 import type { BridgeEnv } from './bridge-env';
 
 export interface OwnerNotifyConfig {
@@ -68,22 +69,33 @@ export interface LeadAlert {
   shareConversation: boolean;
   /** Ignored entirely unless shareConversation is true. */
   transcript?: TranscriptTurn[];
-  /** gpt_leads.source: 'gpt_chat' | 'calculator' | 'page_form'. Absent on old rows. */
+  /** gpt_leads.source (LEAD_SOURCES in validate.ts). Absent on old rows. */
   source?: string | null;
   /** Service slug from utm_json.attribution.service, when the form sent one. */
   service?: string | null;
+  /** gpt_leads.budget (src/shared/lead-budget.ts), when the visitor chose one. */
+  budget?: string | null;
 }
 
 const SOURCE_LABELS = new Map<string, string>([
   ['gpt_chat', 'AI-чат'],
+  ['chat_b2b', 'AI-чат: бизнес-строка'],
   ['calculator', 'калькулятор'],
   ['page_form', 'форма на странице'],
+  ['unknown', 'источник не указан'],
 ]);
 
 const SOURCE_HEADS = new Map<string, string>([
   ['calculator', 'Заявка из калькулятора'],
   ['page_form', 'Заявка с сайта'],
+  ['unknown', 'Заявка с сайта'],
 ]);
+
+/** The chat's own lead forms: a conversation stands behind each of them. */
+const CHAT_SOURCES: ReadonlySet<string> = new Set(['gpt_chat', 'chat_b2b']);
+
+/** The owner reads the budget in Russian, whatever the visitor's language. */
+const BUDGET_LABELS: ReadonlyMap<string, string> = new Map(Object.entries(LEAD_BUDGET_LABELS.ru));
 
 /** One line: where the lead came from, what it is about, and on which page. */
 export function sourceSummary(alert: Pick<LeadAlert, 'source' | 'service' | 'pageUrl'>): string | null {
@@ -165,13 +177,17 @@ export interface RenderedAlert {
  * and — only with consent — what was actually said.
  */
 export function buildLeadAlert(alert: LeadAlert): RenderedAlert {
-  const fromChat = !alert.source || alert.source === 'gpt_chat';
+  // A chat form, an old row without a source, or any lead that carries a chat
+  // session (an 'unknown' one from a tab opened before the forms named
+  // themselves): there is a conversation, so its absence is stated.
+  const fromChat = !alert.source || CHAT_SOURCES.has(alert.source) || !!alert.sessionId;
   const head = `🔔 <b>${(alert.source && SOURCE_HEADS.get(alert.source)) || 'Заявка из AI-чата'}</b>\n\n`;
   const body =
     line('Источник', sourceSummary(alert)) +
     line('Имя', alert.name || 'не указано') +
     line('Контакт', `${alert.contactValue} (${alert.contactType})`) +
     line('Запрос', alert.intent || 'не указан') +
+    line('Бюджет', alert.budget ? BUDGET_LABELS.get(alert.budget) ?? alert.budget : null) +
     line('Язык', alert.locale === 'uz' ? 'узбекский' : 'русский') +
     line('Страница', alert.pageUrl || 'не передана') +
     line('UTM', alert.utmJson) +

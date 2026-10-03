@@ -283,6 +283,11 @@ test("2. a week starts on Monday 00:00 in Tashkent: Sunday 19:30Z is the next we
   f.db.prepare("INSERT INTO gpt_ui_events(org_id,id,type,view_id,detail,created_at) VALUES(?,?,?,?,?,?)")
     .bind(BILLING_ORG, randomUUID(), "pack_viewed", null, "limit_card", Date.parse("2026-09-30T08:00:00Z"))
     .runSync();
+  // The business line (WP-20) counts in the same table, whatever billing does:
+  // it neither starts the pack window's funnel nor counts in it.
+  f.db.prepare("INSERT INTO gpt_ui_events(org_id,id,type,view_id,detail,created_at) VALUES(?,?,?,?,?,?)")
+    .bind(BILLING_ORG, randomUUID(), "b2b_line_shown", null, "bot", Date.parse("2026-09-22T08:00:00Z"))
+    .runSync();
   const { weeks } = await new AiChatAdminStore(f.binding).overview(BILLING_ORG, { now, weeks: 8, capUsd: 1 });
   assert.ok(weeks.ok);
   const byWeek = new Map(weeks.data.map((week) => [week.week, week]));

@@ -1,13 +1,14 @@
-// Two-field lead form for the commercial landings of two clusters.
+// Lead form for the commercial landings of two clusters and the B2B pages.
 //
 // Until now a visitor on a service page had exactly two ways to enquire: call,
 // or leave the site for Telegram. Both work for someone ready to talk; neither
 // catches the visitor who would leave a number and wait. This form does: name
-// (optional), phone or Telegram (required), consent. It posts to the same
-// /api/gpt/lead endpoint as the AI chat and the calculator, with
-// source:'page_form', the page's service slug and the first-touch record the
-// head snippet stored (scripts/attribution-snippet.ts). The endpoint validates
-// everything again (functions/lib/gpt-chat/validate.ts) and alerts the owner.
+// (optional), phone or Telegram (required), budget (optional, a closed list:
+// src/shared/lead-budget.ts), consent. It posts to the same /api/gpt/lead
+// endpoint as the AI chat and the calculator, with source:'page_form', the
+// page's service slug and the first-touch record the head snippet stored
+// (scripts/attribution-snippet.ts). The endpoint validates everything again
+// (functions/lib/gpt-chat/validate.ts) and alerts the owner.
 //
 // Rendered by scripts/prerender.ts ONLY on the pages in LEAD_FORM_PAGES, near
 // the end of <main>, before the FAQ.
@@ -15,6 +16,7 @@ import { MEASUREMENT_HOLD_PATHS } from './measurement-hold';
 import { PROTECTED_PATHS } from './seo-protection';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS } from '../src/shared/lead-budget';
 
 /**
  * Explicit allowlist: page URL → service slug sent with the lead
@@ -60,6 +62,13 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   // The agency page, both locales
   '/boss-digital/': 'boss-digital',
   '/uz/boss-digital/': 'boss-digital',
+  // The B2B pages (paid-chat plan WP-20): AI bots and chat bots for business.
+  // The H1 of /ru/luchshie-razrabotchiki-chat-botov-tashkent/ is an anchor in
+  // the protected homepage's body and stays as it is.
+  '/ru/ai-bot-dlya-biznesa/': 'ai-bot',
+  '/uz/biznes-uchun-ai-bot/': 'ai-bot',
+  '/ru/gpt-dlya-biznesa/': 'ai-bot',
+  '/ru/luchshie-razrabotchiki-chat-botov-tashkent/': 'chat-bot',
 };
 
 /** Pages that must never carry the form, whatever the allowlist says. */
@@ -197,6 +206,7 @@ export function renderLeadForm(page: LeadFormPage): string {
   if (!service) return '';
   const locale = page.locale === 'uz' ? 'uz' : 'ru';
   const t = COPY[locale];
+  const budget = LEAD_BUDGET_FIELD[locale];
   const label = telegramServiceLabel(page.breadcrumbLabel || page.h1);
   const fallback = leadFormFallback(locale, label, page.url);
   return `<section id="lead-form" data-testid="page-lead-form" aria-labelledby="lead-form-heading" class="mt-16 scroll-mt-24 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-5 sm:p-8">
@@ -214,6 +224,13 @@ export function renderLeadForm(page: LeadFormPage): string {
             <input name="contact" type="text" autocomplete="tel" required aria-required="true" maxlength="100" placeholder="${escapeAttr(t.placeholder)}" class="${INPUT_CLASS}" />
           </label>
         </div>
+        <label class="grid gap-2 text-sm text-white/80">
+          <span>${escapeText(budget.label)} <span class="text-white/45">${escapeText(budget.optional)}</span></span>
+          <select name="budget" class="${INPUT_CLASS}">
+            <option value="">${escapeText(budget.empty)}</option>${LEAD_BUDGETS.map((value) => `
+            <option value="${value}">${escapeText(LEAD_BUDGET_LABELS[locale][value])}</option>`).join('')}
+          </select>
+        </label>
         <label class="flex min-h-[44px] cursor-pointer items-start gap-3 text-sm leading-relaxed text-white/70">
           <input name="consent" type="checkbox" required aria-required="true" class="mt-0.5 h-5 w-5 shrink-0 accent-[#2FE6D1]" />
           <span>${escapeText(t.consentBefore)}<a href="${PRIVACY_PAGE[locale]}" class="text-brand-cyan underline underline-offset-2 hover:no-underline">${escapeText(t.consentLink)}</a>${escapeText(t.consentAfter)}</span>
@@ -240,7 +257,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   var service=form.getAttribute('data-service')||'',label=form.getAttribute('data-label')||'';
   var fbHref=form.getAttribute('data-fallback')||'',fbText=form.getAttribute('data-fallback-text')||'';
   var section=form.parentNode,status=section&&section.querySelector('[data-lead-form-status]');
-  var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]');
+  var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]'),budgetEl=form.querySelector('[name=budget]');
   var UTM=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],CLICK=['gclid','yclid','fbclid'];
   var busy=false,rid='',ridFor='';
   function newId(){
@@ -331,6 +348,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     var ft=readFt();
     var body={consent:true,contactValue:contact,source:'page_form',service:service,intent:label,pageUrl:window.location.pathname,locale:uz?'uz':'ru',requestId:rid,utm:utm(ft),attribution:attribution(ft)};
     if(name)body.name=name.slice(0,80);
+    if(budgetEl&&budgetEl.value)body.budget=budgetEl.value;
     var request;
     try{request=window.fetch('/api/gpt/lead',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(body)});}
     catch(err){fail('network','');return;}

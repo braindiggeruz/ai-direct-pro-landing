@@ -10,7 +10,8 @@
 //   - the calculator's real payload is accepted (phone and @handle);
 //   - an untyped contact is routed by its shape, so digits inside a handle or
 //     an e-mail are never stored as somebody's phone number;
-//   - the source is whitelisted, and the chat still lands as 'gpt_chat';
+//   - the source is whitelisted, and a body that names none is 'unknown'
+//     (paid-chat WP-20: it used to be credited to the chat as 'gpt_chat');
 //   - bad service / attribution values are dropped, never stored;
 //   - attribution can never replace a utm key the client sent;
 //   - the owner alert names the source, service and page.
@@ -151,15 +152,18 @@ test('the broken pre-fix payload is still rejected, and the calculator no longer
   assert.match(submit, /requestId: requestIdRef\.current/);
 });
 
-test('an unknown or missing source is the AI chat', () => {
-  assert.equal(normalizeLeadSource(undefined), 'gpt_chat');
-  assert.equal(normalizeLeadSource('admin'), 'gpt_chat');
-  assert.equal(normalizeLeadSource('CALCULATOR'), 'gpt_chat');
-  assert.equal(normalizeLeadSource(' calculator'), 'gpt_chat');
-  assert.equal(normalizeLeadSource(['calculator']), 'gpt_chat');
-  assert.equal(normalizeLeadSource('page_form'), 'page_form');
-  assert.equal(validateLead({ consent: true, phone: '901234567' }).value?.source, 'gpt_chat');
-  assert.equal(validateLead({ consent: true, phone: '901234567', source: 'telegram' }).value?.source, 'gpt_chat');
+test('an unknown or missing source is stored as unknown, never credited to the chat', () => {
+  assert.equal(normalizeLeadSource(undefined), 'unknown');
+  assert.equal(normalizeLeadSource('admin'), 'unknown');
+  assert.equal(normalizeLeadSource('CALCULATOR'), 'unknown');
+  assert.equal(normalizeLeadSource(' calculator'), 'unknown');
+  assert.equal(normalizeLeadSource(['calculator']), 'unknown');
+  for (const source of ['gpt_chat', 'chat_b2b', 'calculator', 'page_form', 'unknown'] as const) {
+    assert.equal(normalizeLeadSource(source), source);
+  }
+  assert.equal(validateLead({ consent: true, phone: '901234567' }).value?.source, 'unknown');
+  assert.equal(validateLead({ consent: true, phone: '901234567', source: 'telegram' }).value?.source, 'unknown');
+  assert.equal(validateLead({ consent: true, phone: '901234567', source: 'chat_b2b' }).value?.source, 'chat_b2b');
 });
 
 test('a chat lead without the new fields keeps its utm_json byte for byte', () => {
@@ -400,7 +404,7 @@ for (const [label, contact, stored] of [
   });
 }
 
-test('a chat lead through the endpoint is still stored as gpt_chat', async () => {
+test('a lead that names no known source is stored as unknown and says so to the owner', async () => {
   const db = await database();
   const stub = stubTelegram();
   try {
@@ -408,9 +412,39 @@ test('a chat lead through the endpoint is still stored as gpt_chat', async () =>
     const res = await leadPost(ctx as never);
     assert.equal(res.status, 200);
     await settle();
-    assert.equal(db.value('SELECT source FROM gpt_leads'), 'gpt_chat');
+    assert.equal(db.value('SELECT source FROM gpt_leads'), 'unknown');
     assert.equal(db.value('SELECT utm_json FROM gpt_leads'), null);
-    assert.match(stub.texts[0], /Заявка из AI-чата/);
+    assert.match(stub.texts[0], /Заявка с сайта/);
+    assert.match(stub.texts[0], /<b>Источник:<\/b> источник не указан\n/);
+    // No chat session came with it: there is no conversation to withhold.
+    assert.doesNotMatch(stub.texts[0], /Переписку/);
+  } finally {
+    stub.restore();
+  }
+});
+
+test('the chat names its forms: the business card as gpt_chat, the business line as chat_b2b', async () => {
+  const db = await database();
+  const stub = stubTelegram();
+  try {
+    for (const [source, requestId] of [['gpt_chat', 'lead_card_0123456789abcdef'], ['chat_b2b', 'lead_line_0123456789abcdef']] as const) {
+      const { ctx, settle } = context(db, {
+        consent: true, phone: source === 'gpt_chat' ? '901234567' : '901234568', locale: 'ru', source, requestId,
+        sessionId: 'sess_b2b', pageUrl: '/ru/gpt-chat/', intent: source === 'chat_b2b' ? 'business_bot' : 'ai_bot_for_business',
+      });
+      assert.equal((await leadPost(ctx as never)).status, 200);
+      await settle();
+    }
+    assert.deepEqual(
+      db.rows<{ source: string; intent: string }>('SELECT source, intent FROM gpt_leads ORDER BY request_id').map((row) => ({ ...row })),
+      [{ source: 'gpt_chat', intent: 'ai_bot_for_business' }, { source: 'chat_b2b', intent: 'business_bot' }],
+    );
+    assert.equal(stub.texts.length, 2);
+    const line = stub.texts.find((text) => text.includes('business_bot'))!;
+    assert.match(line, /Заявка из AI-чата/);
+    assert.match(line, /<b>Источник:<\/b> AI-чат: бизнес-строка · \/ru\/gpt-chat\/\n/);
+    // A conversation stands behind the line: without consent its absence is stated.
+    assert.match(line, /Переписку передавать не разрешили/);
   } finally {
     stub.restore();
   }

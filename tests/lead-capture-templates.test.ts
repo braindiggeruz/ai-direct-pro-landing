@@ -8,8 +8,9 @@
 //     configured (L14) the form falls back to the studio phone;
 //   - a first-touch record is written once per browser, sends nothing, and the
 //     copy in index.html cannot drift (scripts/attribution-snippet.ts);
-//   - the two-field page form posts exactly the /api/gpt/lead contract, and a
-//     goal/generate_lead fires only on a literal ok:true (scripts/lead-form.ts);
+//   - the page form (name, contact, an optional budget) posts exactly the
+//     /api/gpt/lead contract, and a goal/generate_lead fires only on a literal
+//     ok:true (scripts/lead-form.ts);
 //   - no form, navigation row or other visible change reaches a protected page
 //     or a page on measurement hold. The 2026-09-19 hold was lifted on
 //     2026-09-29 (scripts/measurement-hold.ts), so the hold checks guard an
@@ -34,6 +35,7 @@ import { ensureSchema } from '../functions/lib/gpt-chat/schema';
 import { onRequestPost as leadPost } from '../functions/api/gpt/lead';
 import { SqliteD1 } from './helpers/sqlite-d1';
 import type { Page } from '../src/shared/types';
+import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS } from '../src/shared/lead-budget';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const read = (relative: string) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
@@ -256,6 +258,28 @@ test('every allowlisted page is a published landing with a valid service slug', 
   }
 });
 
+test('the four B2B pages carry the form, and every call to action on them leads to it (WP-20)', () => {
+  const B2B = {
+    '/ru/ai-bot-dlya-biznesa/': 'ai-bot',
+    '/uz/biznes-uchun-ai-bot/': 'ai-bot',
+    '/ru/gpt-dlya-biznesa/': 'ai-bot',
+    '/ru/luchshie-razrabotchiki-chat-botov-tashkent/': 'chat-bot',
+  } as const;
+  for (const [url, service] of Object.entries(B2B)) {
+    const page = PAGES.get(url)!;
+    assert.equal(LEAD_FORM_PAGES[url], service, url);
+    assert.equal(leadFormServiceFor(page), service, url);
+    assert.equal(page.pageType, 'money', url);
+    assert.equal(page.ctaPrimaryHref, '#lead-form', url);
+    const json = JSON.stringify(page);
+    assert.ok(!json.includes('#contact'), `${url}: a call to action still leads to the contact card`);
+    assert.ok(!/t\.me\//.test(json), `${url}: a Telegram link`);
+    assert.match(renderLeadForm(page), new RegExp(`data-service="${service}"`), url);
+  }
+  // Its H1 is an anchor in the protected homepage's body: unchanged.
+  assert.equal(PAGES.get('/ru/luchshie-razrabotchiki-chat-botov-tashkent/')!.h1, 'Разработка чат-ботов на заказ в Ташкенте');
+});
+
 test('after the hold lift the two Uzbek advertising landings carry the form of their RU twins', () => {
   // The 2026-09-19 measurement hold kept these two out of the allowlist until
   // it was lifted on 2026-09-29 (scripts/measurement-hold.ts).
@@ -282,11 +306,19 @@ test('the rendered form is labelled, 44 px, and links the privacy policy of its 
     assert.ok(html.includes(`href="${PRIVACY_PAGE[locale]}"`), url);
     assert.equal((html.match(/<form\b/g) ?? []).length, 1);
     assert.equal((html.match(/<input\b/g) ?? []).length, 3, 'name, contact, consent');
-    assert.equal((html.match(/<label\b/g) ?? []).length, 3, 'every input sits in a label');
+    assert.equal((html.match(/<select\b/g) ?? []).length, 1, 'the budget');
+    assert.equal((html.match(/<label\b/g) ?? []).length, 4, 'every field sits in a label');
     assert.match(html, /name="contact"[^>]*required/);
     assert.match(html, /name="consent" type="checkbox" required/);
     assert.match(html, /role="status" aria-live="polite"/);
-    assert.equal((html.match(/min-h-\[44px\]/g) ?? []).length, 4, 'two fields, the consent row and the button');
+    assert.equal((html.match(/min-h-\[44px\]/g) ?? []).length, 5, 'three fields, the consent row and the button');
+    // The budget: optional (an empty first option, no required), the closed list in the page's language.
+    const select = html.match(/<select name="budget"[^>]*>([\s\S]*?)<\/select>/);
+    assert.ok(select, url);
+    assert.doesNotMatch(select[0], /required/);
+    const options = [...select[1].matchAll(/<option value="([^"]*)">([^<]*)<\/option>/g)].map((m) => [m[1], m[2]]);
+    assert.deepEqual(options, [['', LEAD_BUDGET_FIELD[locale].empty], ...LEAD_BUDGETS.map((value) => [value, LEAD_BUDGET_LABELS[locale][value]])]);
+    assert.ok(html.includes(`${LEAD_BUDGET_FIELD[locale].label} <span class="text-white/45">${LEAD_BUDGET_FIELD[locale].optional}</span>`), url);
     assert.match(html, /ym-disable-keys/);
     assert.match(html, /ym-disable-submit/);
     assert.match(html, new RegExp(`data-locale="${locale}"`));
@@ -377,12 +409,13 @@ function formHarness(options: {
   const contact = element({ value: '' });
   const name = element({ value: '' });
   const consent = element({ checked: false });
+  const budget = element({ value: '' });
   const button = element({ disabled: true }); // as rendered: the script enables it
   const status = statusElement();
   const listeners: Record<string, (event: unknown) => void> = {};
   const section = { querySelector: (s: string) => (s === '[data-lead-form-status]' ? status : null) };
   const controls: Record<string, FakeElement> = {
-    'button[type=submit]': button, '[name=contact]': contact, '[name=name]': name, '[name=consent]': consent,
+    'button[type=submit]': button, '[name=contact]': contact, '[name=name]': name, '[name=consent]': consent, '[name=budget]': budget,
   };
   const form = {
     hidden: false,
@@ -417,7 +450,7 @@ function formHarness(options: {
     listeners.submit({ preventDefault() {} });
     for (let i = 0; i < 5; i += 1) await new Promise((resolve) => setTimeout(resolve, 0));
   };
-  return { contact, name, consent, button, status, form, requests, ymCalls, window, submit };
+  return { contact, name, consent, budget, button, status, form, requests, ymCalls, window, submit };
 }
 
 const FIRST_TOUCH = {
@@ -460,6 +493,36 @@ test('the page form posts the shared lead contract and the server accepts it as 
   assert.equal(validated.value!.service, 'smm');
   assert.equal(validated.value!.contactValue, '+998901234567');
   assert.deepEqual(JSON.parse(validated.value!.utmJson!).attribution, { service: 'smm', ...body.attribution });
+});
+
+test('the budget goes with the lead only when chosen, and the server keeps only the closed list', async () => {
+  const none = formHarness();
+  none.contact.value = '901234567';
+  none.consent.checked = true;
+  await none.submit();
+  const plain = JSON.parse(none.requests[0].init.body) as LeadInput;
+  assert.equal('budget' in plain, false, 'the empty option sends nothing');
+  assert.equal(validateLead(plain).value!.budget, null);
+
+  for (const value of LEAD_BUDGETS) {
+    const h = formHarness();
+    h.contact.value = '901234567';
+    h.consent.checked = true;
+    h.budget.value = value;
+    await h.submit();
+    const body = JSON.parse(h.requests[0].init.body) as LeadInput;
+    assert.equal(body.budget, value);
+    assert.equal(validateLead(body).value!.budget, value);
+  }
+  // A value someone typed into the DOM is dropped by the server, the lead kept.
+  const forged = formHarness();
+  forged.contact.value = '901234567';
+  forged.consent.checked = true;
+  forged.budget.value = '100 mln';
+  await forged.submit();
+  const body = JSON.parse(forged.requests[0].init.body) as LeadInput;
+  assert.equal(validateLead(body).ok, true);
+  assert.equal(validateLead(body).value!.budget, null);
 });
 
 test('success is a literal ok:true: only then generate_lead and lead_form_success fire', async () => {

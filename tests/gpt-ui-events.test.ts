@@ -1,7 +1,9 @@
-// The pack window's funnel counter (plan WP-17): POST /api/gpt/event and
-// functions/lib/gpt-chat/ui-event-store.ts. Real SQLite through the billing
+// The chat's step counter: POST /api/gpt/event and
+// functions/lib/gpt-chat/ui-event-store.ts. The pack window's funnel (plan
+// WP-17) and the business line (plan WP-20). Real SQLite through the billing
 // fixture (tests/helpers/gpt-billing-fixture.ts): billing in test, so only a
-// rehearsal session is offered a provider, and so only it reaches the counter.
+// rehearsal session is offered a provider, and so only it reaches the pack
+// window's steps; the business line is counted for everyone.
 //
 // Run: node --import tsx --test tests/gpt-ui-events.test.ts
 import { test } from "node:test";
@@ -9,7 +11,7 @@ import assert from "node:assert/strict";
 import { billingFixture } from "./helpers/gpt-billing-fixture";
 import { onRequest as eventOther, onRequestPost as event } from "../functions/api/gpt/event";
 import { BILLING_ORG, type BillingEnv } from "../functions/lib/gpt-chat/billing-config";
-import { parseUiEvent, UI_EVENTS, UiEventStore, type UiEvent } from "../functions/lib/gpt-chat/ui-event-store";
+import { PACK_WINDOW_EVENTS, parseUiEvent, UI_EVENTS, UiEventStore, type UiEvent } from "../functions/lib/gpt-chat/ui-event-store";
 import { maintainBilling, TELEMETRY_RETENTION_DAYS } from "../functions/lib/gpt-chat/billing-maintenance-store";
 
 const ORIGIN = "https://gpt.test";
@@ -85,7 +87,8 @@ test("every type with every qualifier of its closed list, and nothing outside th
     }
   assert.equal(rows().length, sent);
   for (const broken of [
-    { type: "b2b_line_shown", detail: "bot" }, // WP-20 adds its own steps
+    { type: "b2b_line_shown", detail: "shop" },
+    { type: "b2b_line_dismissed", detail: "limit_card" },
     { type: "purchase", detail: "click" },
     { type: "pack_viewed", detail: "paid" },
     { type: "checkout_result", detail: "limit_card" },
@@ -104,19 +107,43 @@ test("every type with every qualifier of its closed list, and nothing outside th
   assert.equal(parseUiEvent([fresh()]), null);
 });
 
-test("out of reach while no provider is offered: 404 before the body and D1; another origin 403; only POST", async () => {
+test("a pack-window step is out of reach while no provider is offered: 404 before D1; another origin 403; only POST", async () => {
   const { f, send, rows } = await counter();
   const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } } as unknown as D1Database;
   // Billing in test: a visitor outside the rehearsal session is offered nothing.
   assert.equal((await send(fresh(), { cookie: f.cookie }, { ...f.env, GPTBOT_DRAFTS_DB: bomb })).status, 404);
-  // Billing off, as in production after R4: nobody is.
+  // Billing off, as in production after R4: nobody is, for any step of the window.
   const off = { ...f.env, GPTBOT_DRAFTS_DB: bomb, GPT_BILLING_MODE: "", GPT_BILLING_MODE_CLICK: "", GPT_BILLING_MODE_UZUM: "" };
-  assert.equal((await send(fresh(), {}, off)).status, 404);
-  assert.equal((await send("not even JSON", {}, off)).status, 404, "the body is never read");
+  for (const type of PACK_WINDOW_EVENTS)
+    assert.equal((await send(fresh({ type, detail: UI_EVENTS[type][0] }), {}, off)).status, 404, type);
+  // The body (at most 1 kB) is read first, because its type decides; D1 never is.
+  assert.equal((await send("not even JSON", {}, off)).status, 400);
+  assert.equal((await send(fresh({ pad: "x".repeat(2_000) }), {}, off)).status, 400);
   for (const origin of ["https://evil.example", ""])
     assert.equal((await send(fresh(), { Origin: origin })).status, 403, origin || "no Origin");
   assert.equal((await eventOther({} as Parameters<typeof eventOther>[0])).status, 405);
   assert.equal(rows().length, 0);
+});
+
+test("the business line is counted whatever billing does: off, in test outside a rehearsal, and in a rehearsal", async () => {
+  const { f, send, rows } = await counter();
+  assert.deepEqual([...UI_EVENTS.b2b_line_shown], ["bot", "site", "ads", "crm"]);
+  assert.deepEqual([...UI_EVENTS.b2b_line_dismissed], ["bot", "site", "ads", "crm"]);
+  assert.equal(PACK_WINDOW_EVENTS.has("b2b_line_shown") || PACK_WINDOW_EVENTS.has("b2b_line_dismissed"), false);
+  const off = { ...f.env, GPT_BILLING_MODE: "", GPT_BILLING_MODE_CLICK: "", GPT_BILLING_MODE_UZUM: "" };
+  const shown = fresh({ type: "b2b_line_shown", detail: "site" });
+  assert.equal((await send(shown, {}, off)).status, 200);
+  assert.equal((await send(shown, {}, off)).status, 200, "a resent event");
+  assert.equal((await send(fresh({ type: "b2b_line_dismissed", detail: "site" }), { cookie: f.cookie })).status, 200);
+  assert.equal((await send(fresh({ type: "b2b_line_shown", detail: "ads" }))).status, 200);
+  assert.deepEqual(
+    rows().map((row) => `${row.org_id}/${row.type}/${row.detail}`).sort(),
+    [`${BILLING_ORG}/b2b_line_dismissed/site`, `${BILLING_ORG}/b2b_line_shown/ads`, `${BILLING_ORG}/b2b_line_shown/site`],
+  );
+  // Still same-origin only, and still nothing but the four fields is stored.
+  assert.equal((await send(fresh({ type: "b2b_line_shown", detail: "bot" }), { Origin: "https://evil.example" }, off)).status, 403);
+  assert.equal((await send(fresh({ type: "b2b_line_shown", detail: "bot", text: "нужен бот" }), {}, off)).status, 200);
+  assert.doesNotMatch(JSON.stringify(rows()), /нужен/);
 });
 
 test("60 events an hour per IP hash, then 429; another address is counted on its own", async () => {

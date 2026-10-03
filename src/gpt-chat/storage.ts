@@ -8,6 +8,7 @@ const HIST_KEY = "gptchat_history";
 const REMAINING_KEY = "gptchat_remaining";
 const OFFER_KEY = "gptchat_offer_dismissed";
 const DRAFT_KEY = "gptchat_draft";
+const BUSINESS_LINE_KEY = "gptchat_b2b_line";
 /** A refused question waits in the composer this long, e.g. across a trip to the payment page. */
 export const DRAFT_TTL_MS = 60 * 60_000;
 
@@ -140,6 +141,29 @@ export function saveOfferDismissed(locale: Locale, scope?: string): void {
       localeKey(OFFER_KEY, locale, scope),
       new Date().toISOString().slice(0, 10),
     );
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * The business line (plan WP-20) shows once per browser session, in either
+ * language: once it has shown, a new conversation or a reload does not bring
+ * it back. sessionStorage, so the next visit may ask once more; closing it
+ * keeps it away for the day (saveOfferDismissed, shared with the business card).
+ */
+export function loadBusinessLineShown(): boolean {
+  try {
+    return sessionStorage.getItem(BUSINESS_LINE_KEY) !== null;
+  } catch {
+    // Unknown is "shown": without storage the line would come back on every reload.
+    return true;
+  }
+}
+
+export function saveBusinessLineShown(): void {
+  try {
+    sessionStorage.setItem(BUSINESS_LINE_KEY, "1");
   } catch {
     /* noop */
   }

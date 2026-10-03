@@ -28,6 +28,7 @@ import { CATALOGUE_INTERVAL_MS } from "./billing-operations-store";
 import { receiptLink } from "./fiscal-config";
 import { FREE_PAID_BUCKET, spendDay } from "./model-spend-store";
 import { REHEARSAL_ACCOUNT_PREFIX } from "./rehearsal";
+import { PACK_WINDOW_EVENTS } from "./ui-event-store";
 import { WATCHDOG_LEASE_MS } from "./watchdog-store";
 import {
   AI_CHAT_MODES,
@@ -100,6 +101,9 @@ function text(value: unknown): string | null {
 function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback: T): T {
   return (allowed as readonly unknown[]).includes(value) ? (value as T) : fallback;
 }
+
+/** The pack window's step types as SQL literals: closed, never a visitor's value. */
+const PACK_TYPES_SQL = [...PACK_WINDOW_EVENTS].map((type) => `'${type}'`).join(",");
 
 /** Key of a count bucket that came from a free-text column: [a-z0-9_] or "other". */
 function bucket(value: unknown): string {
@@ -286,9 +290,15 @@ export class AiChatAdminStore {
             )
             .bind(orgId, since),
         );
+        // From the window's first step on: the business line (WP-20) counts in
+        // the same table from R6, while the window can stay out of reach.
         add(
           "funnelSince",
-          db.prepare("SELECT MIN(created_at) AS at FROM gpt_ui_events WHERE org_id=?").bind(orgId),
+          db
+            .prepare(
+              `SELECT MIN(created_at) AS at FROM gpt_ui_events WHERE org_id=? AND type IN (${PACK_TYPES_SQL})`,
+            )
+            .bind(orgId),
         );
       }
       if (has.has("gpt_payment_orders_all"))

@@ -1,0 +1,17 @@
+-- B2B leads, paid-chat plan WP-20 (release R6): the budget a lead form asks
+-- for. Additive only. gpt_leads.budget holds one value of a closed list
+-- (src/shared/lead-budget.ts: lt1m, 1-2m, 2-5m, gt5m, unknown) or NULL, which
+-- means the form did not ask or the visitor chose nothing. No text: the
+-- server stores only a value of that list (normalizeLeadBudget in
+-- functions/lib/gpt-chat/validate.ts).
+-- Runtime parity: LEAD_COLUMNS in functions/lib/gpt-chat/schema.ts
+-- (ensureSchema), tested in tests/gpt-lead-budget.test.ts.
+-- Order: apply this migration BEFORE deploying the code, previews included (a
+-- preview shares the production D1). The runtime bootstrap adds the same
+-- column when it is missing; once it has run, the ALTER below fails with
+-- "duplicate column name" and the migration cannot be recorded. If that
+-- happens, record the file in d1_migrations by hand; the column is already
+-- there. Do not drop anything.
+-- Rollback: roll the application back; the column stays. The previous code
+-- neither reads nor writes it. No DROP.
+ALTER TABLE gpt_leads ADD COLUMN budget TEXT;
