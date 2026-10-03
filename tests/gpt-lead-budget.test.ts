@@ -48,6 +48,11 @@ test('the closed list: five values, labelled in both languages; anything else is
     for (const label of [...Object.values(LEAD_BUDGET_LABELS[locale]), ...Object.values(LEAD_BUDGET_FIELD[locale])]) {
       assert.ok(label.trim() && !/\u00a0/.test(label), `${locale}: ${label}`);
     }
+    // One select, one style: every option starts as its empty first option
+    // does, with a capital, or with a digit.
+    for (const option of [LEAD_BUDGET_FIELD[locale].empty, ...Object.values(LEAD_BUDGET_LABELS[locale])]) {
+      assert.match(option, /^[0-9A-Z\u0410-\u042f\u0401]/, `${locale}: ${option}`);
+    }
   }
   for (const value of LEAD_BUDGETS) assert.equal(normalizeLeadBudget(value), value);
   for (const bad of [undefined, null, '', 'LT1M', ' lt1m', '1–2m', '5000000', 2, ['lt1m'], { value: 'lt1m' }, 'toString']) {

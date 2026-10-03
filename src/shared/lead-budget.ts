@@ -11,14 +11,18 @@ import type { Locale } from './types';
 export const LEAD_BUDGETS = ['lt1m', '1-2m', '2-5m', 'gt5m', 'unknown'] as const;
 export type LeadBudget = (typeof LEAD_BUDGETS)[number];
 
-/** What the select shows, in the order of LEAD_BUDGETS. Sums in so‘m, as on the price pages. */
+/**
+ * What the select shows, in the order of LEAD_BUDGETS. Sums in so‘m, as on the
+ * price pages. Each option starts with a capital or a digit, as its empty first
+ * option does, in both languages.
+ */
 export const LEAD_BUDGET_LABELS: Readonly<Record<Locale, Readonly<Record<LeadBudget, string>>>> = {
   ru: {
-    lt1m: 'до 1 млн сум',
+    lt1m: 'До 1 млн сум',
     '1-2m': '1–2 млн сум',
     '2-5m': '2–5 млн сум',
-    gt5m: 'больше 5 млн сум',
-    unknown: 'пока не знаю',
+    gt5m: 'Больше 5 млн сум',
+    unknown: 'Пока не знаю',
   },
   uz: {
     lt1m: '1 mln so‘mgacha',
