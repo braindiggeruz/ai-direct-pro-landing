@@ -693,11 +693,16 @@ export interface RunOptions extends RehearsalContext {
   providers: Provider[];
   /** GPT_BILLING_MAINTENANCE_SECRET: one tick for the provider modes; null skips it. */
   bearer: string | null;
+  /** A training alert through the maintenance tick: needs `bearer`. */
   drill: boolean;
 }
 
 /** Layer 2, step 3: the rehearsal itself. */
 export async function runRehearsal(options: RunOptions): Promise<Receipt> {
+  // Refused before any request: a drill nobody sent must not reach the
+  // receipt's owner checks as one to confirm.
+  if (options.drill && !options.bearer)
+    throw new Error("--drill needs --bearer-file (GPT_BILLING_MAINTENANCE_SECRET): the training alert goes through the maintenance tick");
   const startedAt = Date.now();
   const phases: Record<string, Phase> = {};
   if (options.providers.includes("click")) phases.click = phase(await rehearseClick(options));

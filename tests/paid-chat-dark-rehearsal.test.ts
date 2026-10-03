@@ -184,6 +184,12 @@ test("guards: production only, the operator's files required; a wrong admin toke
     writeFileSync(path.join(dir, "short.txt"), "short");
     assert.match((await run("verify-off", "--site", "https://gptbot.uz", "--bearer-file", path.join(dir, "short.txt"))).text, /--bearer-file does not hold a usable value/);
     assert.match((await run("verify-off", "--site", "https://gptbot.uz", "--admin-token-file", path.join(dir, "short.txt"))).text, /--admin-token-file does not hold a usable value/);
+    // A drill goes through the maintenance tick: without the Bearer it is
+    // refused up front, not skipped while the receipt asks the owner about it.
+    writeFileSync(path.join(dir, "token.txt"), "aaaa.bbbb.cccc");
+    const drillOnly = await run("run", "--site", "https://gptbot.uz", "--credentials", path.join(dir, "keys"), "--admin-token-file", path.join(dir, "token.txt"), "--drill");
+    assert.equal(drillOnly.code, 1);
+    assert.match(drillOnly.text, /--drill needs --bearer-file/);
     assert.match((await run("deploy")).text, /usage:/);
     assert.deepEqual(requested, [], "nothing was requested");
   } finally {

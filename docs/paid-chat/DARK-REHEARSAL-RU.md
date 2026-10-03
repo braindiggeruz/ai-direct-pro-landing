@@ -52,15 +52,15 @@
      python F:/Claude/gptbot-tools/wr.py --stdin <dir>/GPT_CLICK_CREDENTIALS_JSON.json -- pages secret put GPT_CLICK_CREDENTIALS_JSON --project-name ai-direct-pro-landing
      python F:/Claude/gptbot-tools/wr.py --stdin <dir>/UZUM_CREDENTIALS_JSON.json -- pages secret put UZUM_CREDENTIALS_JSON --project-name ai-direct-pro-landing
      ```
-     Сейчас этих секретов в Pages нет. Если владелец уже прислал свои ключи, секреты собирает WP-23 (`ingest-keys`): блок `test` идёт рядом с `live`, вслепую ничего не перетирать.
+     По квитанции R4 этих секретов в Pages нет. Перед `put` проверить по именам: `python F:/Claude/gptbot-tools/wr.py -- pages secret list --project-name ai-direct-pro-landing`. Если хоть один уже есть, его не перетирать: там могут быть ключи владельца. Тогда секреты собирает WP-23 (`ingest-keys`), блок `test` идёт рядом с `live`.
    - В `wrangler.toml`, в упакованном JSON и во вложенной таблице: `GPT_BILLING_MODE_CLICK="test"`, `UZUM_API="merchant"`, `GPT_BILLING_MODE_UZUM="test"` (`DARK_REHEARSAL_SETTINGS` в скрипте).
    - Это временный коммит. Тест `gpt-live-readiness` «the committed configuration is inert» на нём падает так и задумано, после шага 4 снова зелёный. `runtime-config` и `pages-config-parity` должны быть зелёными.
    - `npm run build:production` → `deploy_runner.py check` → `deploy`. Live-гейт режим `test` не держит.
 3. **Прогон.** Нужен один из двух файлов вне Git:
-   - **токен админки** (предпочтительно). Владелец входит на `https://gptbot.uz/admin-tools/login`, значение `localStorage.gptbot_admin_token` сохраняют в файл, например `C:/Users/Borinio/.config/gptbot-private/admin-token.txt`. Токен живёт 12 ч, файл удалить после прогона;
+   - **токен админки** (предпочтительно). Владелец входит на `https://gptbot.uz/admin-tools/login`, значение `localStorage.gptbot_admin_token` сохраняют в файл, например `C:/Users/Borinio/.config/gptbot-private/admin-token.txt`. Токен живёт 12 ч. Он нужен и в шаге 5, файл удалить после него. Если 12 ч к шагу 5 прошли, `verify-off` идёт с `--bearer-file`;
    - **Bearer** `C:/Users/Borinio/.config/gptbot-private/gpt-billing-maintenance-secret.txt`. Без токена админки по нему идут сессия и возврат через внутренние маршруты, но без проверок списка оплат.
 
-   Bearer ещё запускает один тик обслуживания (режимы провайдеров в квитанции), а с `--drill` — учебный алерт.
+   Bearer ещё запускает один тик обслуживания (режимы провайдеров в квитанции), а с `--drill` — учебный алерт. Без `--bearer-file` скрипт `--drill` не примет и не сделает ни одного запроса. Учебный алерт записывается не чаще раза в час (по часу UTC). Если в этом часу его уже отправляли, шаг `drill` упадёт с `drill not sent`: повторить прогон в следующем часу.
    ```
    node --import tsx scripts/paid-chat/dark-rehearsal.ts run --site https://gptbot.uz \
      --credentials C:/Users/Borinio/.config/gptbot-private/dark-rehearsal \
@@ -75,7 +75,7 @@
 4. **Выключение.** Вернуть три настройки в `""` (`git revert` временного коммита) → сборка → деплой.
 5. **Проверка выключения:**
    ```
-   node --import tsx scripts/paid-chat/dark-rehearsal.ts verify-off --site https://gptbot.uz --admin-token-file <файл>
+   node --import tsx scripts/paid-chat/dark-rehearsal.ts verify-off --site https://gptbot.uz --admin-token-file <файл>   # или --bearer-file <файл>
    ```
    Проверяется:
    - `providers: []`, входа нет;
@@ -104,4 +104,4 @@ node --import tsx scripts/paid-chat/dark-rehearsal.ts run --simulate local [--re
 - Настоящие серверы Click и Uzum: их подписи, тайминги и ответы кабинета. Это S1 и S3 по runbook WP-23 с ключами владельца: 15 сценариев Click и тесты Uzum.
 - Фискализацию в проде: тестовые заказы `skipped_test`. Печать проверена слоем 1 на заглушках, живой чек будет на первой покупке владельца (S2).
 - Ход в чате в проде: вызов модели тратит бюджет, а списание из пакета проверяет слой 1.
-- Deep link Telegram на iOS и Android: только если владелец пройдёт шаг 4.
+- Deep link Telegram на iOS и Android: только если владелец пройдёт экраны в шаге 3.
