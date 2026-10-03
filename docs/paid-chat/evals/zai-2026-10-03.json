@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-03",
+  "decision": "approved",
+  "sheets": [
+    "docs/paid-chat/eval/zai-check-2026-10-03-free.md"
+  ],
+  "summary": "Owner directive 2026-10-03: Z.ai is the primary model for answers. Not a blind A/B (no OpenRouter key on the agent machine): 20 fixture prompts through the chat code path; zai/glm-4.7-flash 20/20, median 2524 ms; agent scores uz 36/35/35, ru 47/48/49 of 50 (correctness/language/usefulness). zai/glm-4.5-flash 19/20, median 4081 ms, also factual errors. Free tier: glm-4.7-flash with the OpenRouter free chain as fallback; paid tier glm-4.7-flash until the Z.ai balance is topped up (paid models answer 1113 now), then glm-4.5-air. Rated by the agent, not independently."
+}
