@@ -3,7 +3,7 @@
     "wp": "WP-22",
     "release": "R7 (with the R5..R7 build after the live R4); no migration; layer 2 runs after that deploy",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "6f299b80069b4cf3c8f2b6743d79a0bc9ab6d2e8",
     "commit_note": "feat(paid-chat): rehearse a whole purchase in the dark, in tests and by script (parent 4755df9e, the WP-20 review); the next commit only records this SHA (rule D-006).",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-22 (decision L7); the lead task: layer 1 complete on real SQLite (rehearsal session, bot sign-in through Telegram updates, Click subscribe, Prepare/Complete signed with a test secret, period, a turn charged from the pack, the fiscal queue with a stub api.click.uz in test and a separate live run, the Seller's technical refund record in the admin since WP-25 removed the buyer's request, period revoked; the same for Uzum Checkout and the Merchant API; negatives), layer 2 prepared only (scripts/paid-chat/dark-rehearsal.ts with an offline mode tested against a local stub), never run against production.",
     "scope": [
@@ -1455,7 +1455,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "6f299b80069b4cf3c8f2b6743d79a0bc9ab6d2e8",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
