@@ -12,18 +12,18 @@ import type { AiChatPaymentsFilter } from '../../lib/ai-chat-api';
 import type { OwnerApiError } from '../../lib/owner-api';
 import type {
   AiChatOverview,
-  AiChatPaymentsPage,
+  AiChatPayments,
   AiChatRefundRecordInput,
   AiChatRefundRecordResult,
   AiChatRehearsalResult,
-  AiChatSection,
-  AiChatVisitorRow,
+  AiChatVisitors,
 } from '../../../shared/ai-chat-admin';
 
 export interface AiChatViewProps {
   overview: AiChatOverview | null;
-  payments: AiChatSection<AiChatPaymentsPage> | null;
-  visitors: AiChatSection<AiChatVisitorRow[]> | null;
+  /** The last answers of the lists (null while they load); a failed query shows their request id. */
+  payments: AiChatPayments | null;
+  visitors: AiChatVisitors | null;
   /** Requests that failed as a whole (no access, network): code and request id. */
   failures: Array<Pick<OwnerApiError, 'code' | 'requestId'>>;
   refreshing: boolean;
@@ -59,8 +59,8 @@ export function AiChatView(props: AiChatViewProps) {
           </Button>
         </div>
       </header>
-      {props.failures.map((failure) => (
-        <Card key={`${failure.code}:${failure.requestId}`} className="!p-4 border-red-500/30" role="alert">
+      {props.failures.map((failure, index) => (
+        <Card key={index} className="!p-4 border-red-500/30" role="alert">
           <p className="text-sm text-red-300">
             Запрос не прошёл: <code>{failure.code}</code>
             {failure.requestId && <span className="text-white/40"> · {failure.requestId}</span>}
@@ -71,20 +71,21 @@ export function AiChatView(props: AiChatViewProps) {
         <Card><p className="text-sm text-white/40">{props.refreshing ? 'Загрузка…' : 'Нет данных.'}</p></Card>
       ) : (
         <>
-          <ReadinessCard section={overview.readiness} onOpenRehearsal={props.onOpenRehearsal}/>
-          <WeeksCard section={overview.weeks}/>
-          <ModelsCard models={overview.models} alerts={overview.alerts} primary={primary}/>
+          <ReadinessCard section={overview.readiness} requestId={overview.request_id} onOpenRehearsal={props.onOpenRehearsal}/>
+          <WeeksCard section={overview.weeks} requestId={overview.request_id}/>
+          <ModelsCard models={overview.models} alerts={overview.alerts} primary={primary} requestId={overview.request_id}/>
         </>
       )}
       <PaymentsCard
-        page={props.payments}
+        page={props.payments?.payments ?? null}
+        requestId={props.payments?.request_id}
         filter={props.filter}
         loadingMore={props.loadingMore}
         onFilter={props.onFilter}
         onMore={props.onMore}
         onRecord={props.onRecordRefund}
       />
-      <VisitorsCard section={props.visitors} days={props.days} onDays={props.onDays}/>
+      <VisitorsCard section={props.visitors?.visitors ?? null} requestId={props.visitors?.request_id} days={props.days} onDays={props.onDays}/>
     </div>
   );
 }

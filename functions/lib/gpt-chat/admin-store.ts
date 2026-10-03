@@ -145,6 +145,13 @@ export interface OverviewOptions {
   weeks: number;
   /** GPT_FREE_PAID_DAILY_USD: the cap the spend of today is shown against. */
   capUsd: number;
+  /** The request's id: a query_failed section is logged with it (the page shows it). */
+  requestId?: string;
+}
+
+/** A section that D1 could not answer, logged with the request id and no detail of the error. */
+function queryFailed(event: string, requestId: string | undefined): void {
+  console.warn(JSON.stringify({ event, request_id: requestId ?? null }));
 }
 
 export interface OverviewSections {
@@ -172,7 +179,7 @@ export class AiChatAdminStore {
     try {
       return await this.loadOverview(orgId, options);
     } catch {
-      console.warn(JSON.stringify({ event: "gpt_admin_overview_failed" }));
+      queryFailed("gpt_admin_overview_failed", options.requestId);
       return {
         weeks: sectionError("query_failed"),
         models: sectionError("query_failed"),
@@ -519,7 +526,7 @@ export class AiChatAdminStore {
   async payments(
     orgId: string,
     query: AiChatPaymentsQuery,
-    options: { now: number; salt: string | null },
+    options: { now: number; salt: string | null; requestId?: string },
   ): Promise<AiChatSection<AiChatPaymentsPage>> {
     try {
       const has = await this.objects();
@@ -612,7 +619,7 @@ export class AiChatAdminStore {
             : null,
       });
     } catch {
-      console.warn(JSON.stringify({ event: "gpt_admin_payments_failed" }));
+      queryFailed("gpt_admin_payments_failed", options.requestId);
       return sectionError("query_failed");
     }
   }
@@ -624,7 +631,7 @@ export class AiChatAdminStore {
    */
   async visitors(
     orgId: string,
-    options: { now: number; days: number; salt: string | null },
+    options: { now: number; days: number; salt: string | null; requestId?: string },
   ): Promise<AiChatSection<AiChatVisitorRow[]>> {
     if (!options.salt) return sectionError("salt_missing");
     try {
@@ -672,7 +679,7 @@ export class AiChatAdminStore {
       }
       return sectionOk(out);
     } catch {
-      console.warn(JSON.stringify({ event: "gpt_admin_visitors_failed" }));
+      queryFailed("gpt_admin_visitors_failed", options.requestId);
       return sectionError("query_failed");
     }
   }

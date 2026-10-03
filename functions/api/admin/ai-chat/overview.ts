@@ -30,6 +30,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
     now,
     weeks,
     capUsd: resolveConfig(env).freePaidDailyUsd,
+    requestId: ctx.requestId,
   });
   const body: AiChatOverview = {
     generatedAt: now,

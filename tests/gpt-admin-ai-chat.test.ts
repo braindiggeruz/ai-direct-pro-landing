@@ -571,6 +571,32 @@ test("8. before migrations/0065 the payments are schema_pending and every other 
   assert.deepEqual([none.status, none.body.error], [503, "storage_unavailable"]);
 });
 
+test("8b. a query D1 cannot answer is query_failed in its section and logged with the request id, without detail", async () => {
+  const failing = {
+    prepare: () => ({
+      bind: () => ({ all: async () => { throw new Error("D1_ERROR: SECRETDETAIL"); } }),
+    }),
+  } as unknown as D1Database;
+  const logged: string[] = [];
+  const original = console.warn;
+  console.warn = (line: unknown) => { logged.push(String(line)); };
+  try {
+    const store = new AiChatAdminStore(failing);
+    const now = Date.now();
+    assert.equal((await store.overview(BILLING_ORG, { now, weeks: 1, capUsd: 1, requestId: "req_ov" })).weeks.error, "query_failed");
+    assert.equal((await store.payments(BILLING_ORG, { cursor: null, provider: null, state: null, mode: null }, { now, salt: null, requestId: "req_pay" })).error, "query_failed");
+    assert.equal((await store.visitors(BILLING_ORG, { now, days: 7, salt: hex(32), requestId: "req_vis" })).error, "query_failed");
+  } finally {
+    console.warn = original;
+  }
+  assert.deepEqual(logged.map((line) => JSON.parse(line)), [
+    { event: "gpt_admin_overview_failed", request_id: "req_ov" },
+    { event: "gpt_admin_payments_failed", request_id: "req_pay" },
+    { event: "gpt_admin_visitors_failed", request_id: "req_vis" },
+  ]);
+  assert.ok(!logged.join("").includes("SECRETDETAIL"));
+});
+
 test("9. refund-record (Click): typed order number and confirmation, one journal row, a repeat changes nothing, a closed order is refused", async () => {
   const f = await adminFixture();
   const guard = noNetwork();
@@ -760,31 +786,52 @@ function viewProps(extra: Partial<AiChatViewProps> = {}): AiChatViewProps {
       },
     },
     payments: {
-      ok: true,
-      error: null,
-      data: {
-        rows: [{
-          id: `pay_${"a".repeat(32)}`,
-          provider: "click",
-          mode: "test",
-          state: "paid",
-          amountUzs: 20000,
-          createdAt: at,
-          paidAt: at,
-          cancelledAt: null,
-          buyer: "B-ABCDEFGH",
-          rehearsal: true,
-          pack: { endsAt: at + 30 * DAY, limit: 300, used: 12, revokedAt: null },
-          receipt: { status: 0, url: "https://ofd.soliq.uz/epi?t=EZ1" },
-          refundReceipt: null,
-        }],
-        next: `${at}.click.pay_${"a".repeat(32)}`,
+      request_id: "req_list",
+      payments: {
+        ok: true,
+        error: null,
+        data: {
+          rows: [{
+            id: `pay_${"a".repeat(32)}`,
+            provider: "click",
+            mode: "test",
+            state: "paid",
+            amountUzs: 20000,
+            createdAt: at,
+            paidAt: at,
+            cancelledAt: null,
+            buyer: "B-ABCDEFGH",
+            rehearsal: true,
+            pack: { endsAt: at + 30 * DAY, limit: 300, used: 12, revokedAt: null },
+            receipt: { status: 0, url: "https://ofd.soliq.uz/epi?t=EZ1" },
+            refundReceipt: null,
+          }, {
+            id: `uzm_${"b".repeat(32)}`,
+            provider: "uzum",
+            mode: "live",
+            state: "refunded",
+            amountUzs: 20000,
+            createdAt: at - 2 * DAY,
+            paidAt: at - 2 * DAY,
+            cancelledAt: Date.parse("2026-10-02T09:15:00Z"),
+            buyer: "B-IJKLMNOP",
+            rehearsal: false,
+            pack: { endsAt: at + 28 * DAY, limit: 300, used: 3, revokedAt: Date.parse("2026-10-02T09:15:00Z") },
+            receipt: null,
+            refundReceipt: null,
+          }],
+          next: `${at}.click.pay_${"a".repeat(32)}`,
+        },
       },
     },
     visitors: {
-      ok: true,
-      error: null,
-      data: [{ alias: "N-QRSTUVWX", firstAt: at - DAY, lastAt: at, days: 2, turns: 5, answered: 4, limitHits: 1, account: false, paid: false, locale: "uz" }],
+      request_id: "req_groups",
+      days: 7,
+      visitors: {
+        ok: true,
+        error: null,
+        data: [{ alias: "N-QRSTUVWX", firstAt: at - DAY, lastAt: at, days: 2, turns: 5, answered: 4, limitHits: 1, account: false, paid: false, locale: "uz" }],
+      },
     },
     failures: [],
     refreshing: false,
@@ -813,13 +860,24 @@ test("10. the page shows pseudonyms and setting names, no raw id; the menu has �
   assert.match(markup, /data-testid="ai-chat-refresh"/);
   // The order number is typed by hand: the refund form starts empty.
   assert.match(markup, /id="ai-chat-refund-order"[^>]*value=""/);
-  // A section without data says why, the others still render.
+  // An order shows when it was created, paid and closed (a refund: its time, Tashkent).
+  assert.ok(markup.includes("Создан / оплачен / закрыт"));
+  assert.ok(markup.includes("возврат 02.10, 14:15"));
+  // The filters have Russian accessible names.
+  for (const name of ["Провайдер", "Состояние", "Режим"]) assert.ok(markup.includes(`aria-label="${name}"`), name);
+  // A section without data says why, the others still render; only a failed
+  // query names its request id (the server logs it).
+  const base = viewProps().overview!;
   const gaps = renderToStaticMarkup(React.createElement(AiChatView, viewProps({
-    visitors: { ok: false, data: null, error: "salt_missing" },
-    payments: { ok: false, data: null, error: "schema_pending" },
+    overview: { ...base, weeks: { ok: false, data: null, error: "schema_pending" } },
+    visitors: { request_id: "req_groups", days: 7, visitors: { ok: false, data: null, error: "salt_missing" } },
+    payments: { request_id: "req_list", payments: { ok: false, data: null, error: "query_failed" } },
   })));
-  assert.match(gaps, /data-testid="ai-chat-gap-salt_missing"/);
   assert.match(gaps, /data-testid="ai-chat-gap-schema_pending"/);
+  assert.match(gaps, /data-testid="ai-chat-gap-salt_missing"/);
+  assert.match(gaps, /data-testid="ai-chat-gap-query_failed"/);
+  assert.ok(gaps.includes("req_list"));
+  assert.ok(!gaps.includes("req_groups") && !gaps.includes("req_view"));
   assert.ok(gaps.includes("Готовность"));
 
   const sidebar = (role?: string) =>

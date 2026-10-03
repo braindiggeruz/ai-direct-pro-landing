@@ -2,7 +2,11 @@
   "paid_chat_prod_2026": {
     "wp": "WP-19",
     "release": "R5 build (after the live R4; with WP-24, WP-25, WP-20..WP-23), no migration",
-    "status": "committed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
+    "review": "WP-19 adversarial review 2026-10-03 of 38d200ab and c82055b1 against plan section 4 WP-19, map 05 section 2 (A1-A6, contract 2.4, SQL 2.5, privacy 2.6, refund record 2.7, tests 2.8), plan sections 1, 2 (L7, L12, L17), 5 and 6, and AGENTS.md 2-8 and 11. These hold: all five routes are withOwnerRole('platform_owner') (401 without a token, 403 support_readonly, legacy admin = owner, 405 with Allow, no-store and noindex); SQL only in admin-store.ts, SELECT only, bound parameters, orgId first and org-filtered, no content/contact_*/gpt_messages, legacy gpt_sessions/gpt_leads only for BILLING_ORG; the Tashkent week agrees in JS and SQL; the keyset (created_at, provider, id) is correct for DESC; the pack's used count is the PACK_USED predicate; no IP, hash, subject, session, account, Telegram id or secret value in any answer; readiness does not throw on malformed settings; the refund record never moves money, Uzum Checkout records only on a full REFUNDED, paid->refunded is version-gated and a repeat writes nothing; the Bearer endpoints answer as before; the admin rehearsal sets __Host- cookies whose values travel only in Set-Cookie; SQLite evaluates the visitors' correlated subqueries only for the 50 rows returned; no migration, no new setting, Javob untouched. No security, money or data defect. Five low defects fixed: (1) a query_failed section was logged without the request id the contract promised and SectionGap's requestId prop was dead: the store now logs {event, request_id} without error detail and the page shows the request id of a failed query; (2) the payments list did not show when an order was closed or refunded (map 05 2.3 block 4: created/paid/cancelled): it does now; (3) an error section on «Показать ещё» was dropped silently: it is a failure card now; (4) failure cards had duplicate React keys (request_failed:null) on a network loss: keyed by index; (5) the payments filters had English accessible names: Russian now, as elsewhere in the admin.",
+    "review_commit": "HEAD = fix(admin): address WP-19 review findings (parent c82055b1)",
+    "review_open_issues": "Not defects that block R5; for the lead: (1) tests/react-router-v8-migration.test.ts fails 3/26 before WP-19 too (24 react-router imports against 20 expected, equal at 445b728a and HEAD; route and sitemap counts), not in npm test, not WP-19 files; (2) tests/agent-boundaries.test.ts fails before WP-19, as recorded; (3) NS-1 needs 14 days of history before a cohort, so the first two weeks after the reservations began (0064) stay grey although their groups are new, by design (ADMIN-RU.md); (4) the rehearsal's «войти тестовым аккаунтом» is on by default and replaces the owner's own __Host-gpt_account in that browser for two hours: worth telling the owner.",
+    "review_verification": "tsc -b 0 and typecheck:functions 0; eslint 0 on the 35 TS/TSX files of WP-19 and the review's files; git diff --check clean; Telegram token and Z.ai key regexes on the diffs 0; test:secret-scan 16/16. One file at a time (NODE_OPTIONS=--max-old-space-size=1400): gpt-admin-ai-chat 13/13 (12 before, new 8b), owner-control-center 71/71, signal-radar-admin-integration 26/26, gpt-rehearsal 5/5, gpt-uzum-payments 26/26, gpt-uzum-merchant 13/13, gpt-uzum-rehearsal 3/3, gpt-uzum-fiscal 10/10, gpt-billing 21/21, gpt-operations 8/8, gpt-live-readiness 10/10, gpt-click-fiscal 14/14, gpt-watchdog 15/15, pages-production-release 8/8, functions-type-safety 38/38, error-disclosure 16/16, gpt-backend-security 31/31, gpt-readiness 9/9, telegram-assistant 77/77, web-security-hardening 13/13, bormi-admin 45/45. build:fast 0; seo-protection check 10/10 unchanged; chat bundle within budget (start 106.7 kB br); inspectArtifact on dist passes every REQUIRED_FEATURE including ai_chat_admin and stops only at admin/index.html (build:production).",
     "commit": "38d200ab9cd41e521790277f35938373e56fca4b",
     "commit_note": "feat(admin): the owner's AI chat section (parent 445b728a, the WP-25 review); the next commit only records this SHA (rule D-006).",
     "resume_note": "Clean tree at 445b728a, no interrupted WP-19 attempt and no wp19 backup.",
@@ -36,9 +40,10 @@
     "open_issues": [
       "Two date-dependent lead-radar tests, as before.",
       "tests/agent-boundaries.test.ts fails before WP-19 too (functions/agents/sotuvchi/* and functions/channels/telegram/* import lib/observability); not in npm test, not WP-19 files.",
-      "Pseudonyms change when GPT_HASH_SALT changes (by design)."
+      "Pseudonyms change when GPT_HASH_SALT changes (by design).",
+      "tests/react-router-v8-migration.test.ts fails 3/26 before WP-19 too (react-router import, route and sitemap counts); not in npm test (WP-19 review)."
     ],
-    "next_wp": "Review of WP-19, then WP-20 (B2B, R6), as the lead decides",
+    "next_wp": "WP-20 (B2B, R6), as the lead decides",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "6502224ccab347a0b8947849924a57f0475beafe (R4 live, manifest; receipts commit 2cdea35f)",
@@ -1088,10 +1093,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-19 (admin section AI-чат at /admin-tools/ai-chat: readiness by name, Tashkent weeks, models and alerts, payments with the Seller's refund record, IP groups as pseudonyms, rehearsal session) committed on paid-chat/prod-readiness, not deployed; R4 live (6502224c)",
+  "current_stage": "Paid AI chat production readiness: WP-19 (admin section AI-чат at /admin-tools/ai-chat: readiness by name, Tashkent weeks, models and alerts, payments with the Seller's refund record, IP groups as pseudonyms, rehearsal session) committed on paid-chat/prod-readiness, reviewed (five low fixes), not deployed; R4 live (6502224c)",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-19 on paid-chat/prod-readiness; not pushed, not deployed",
-  "next_stage": "Paid AI chat: review of WP-19, then WP-20 (B2B, R6), as the lead decides, per 10-PROD-PLAN.md",
+  "last_completed_stage": "Paid AI chat WP-19 on paid-chat/prod-readiness, reviewed (no security, money or data defect; request ids of failed queries, the closing time of an order, page-2 errors, failure keys and filter names fixed); not pushed, not deployed",
+  "next_stage": "Paid AI chat: WP-20 (B2B, R6), as the lead decides, per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

@@ -7,11 +7,13 @@ const DAY_CHOICES = [1, 7, 14, 30] as const;
 
 export function VisitorsCard({
   section,
+  requestId,
   days,
   onDays,
 }: {
   /** null while it loads. */
   section: AiChatSection<AiChatVisitorRow[]> | null;
+  requestId?: string;
   days: number;
   onDays: (days: number) => void;
 }) {
@@ -26,7 +28,7 @@ export function VisitorsCard({
         </Select>
       </CardHead>
       {section === null ? <p className="text-sm text-white/40">Загрузка…</p>
-        : !section.ok ? <SectionGap error={section.error}/>
+        : !section.ok ? <SectionGap error={section.error} requestId={requestId}/>
         : section.data.length === 0 ? <p className="text-sm text-white/40">За этот период ходов не было.</p> : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm whitespace-nowrap">

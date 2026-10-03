@@ -32,7 +32,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   const payments = await new AiChatAdminStore(ctx.db).payments(
     BILLING_ORG,
     { cursor, provider, state, mode },
-    { now: Date.now(), salt: resolveHashSalt(ctx.env).hashSalt || null },
+    { now: Date.now(), salt: resolveHashSalt(ctx.env).hashSalt || null, requestId: ctx.requestId },
   );
   const body: AiChatPayments = { request_id: ctx.requestId, payments };
   return ownerJson(body, ctx.requestId);

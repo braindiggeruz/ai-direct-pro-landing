@@ -10,15 +10,14 @@ import type { OwnerApiError } from '../lib/owner-api';
 import {
   AI_CHAT_VISITOR_DAYS,
   type AiChatOverview,
-  type AiChatPaymentsPage,
-  type AiChatSection,
-  type AiChatVisitorRow,
+  type AiChatPayments,
+  type AiChatVisitors,
 } from '../../shared/ai-chat-admin';
 
 export default function AiChat() {
   const [overview, setOverview] = useState<AiChatOverview | null>(null);
-  const [payments, setPayments] = useState<AiChatSection<AiChatPaymentsPage> | null>(null);
-  const [visitors, setVisitors] = useState<AiChatSection<AiChatVisitorRow[]> | null>(null);
+  const [payments, setPayments] = useState<AiChatPayments | null>(null);
+  const [visitors, setVisitors] = useState<AiChatVisitors | null>(null);
   const [failures, setFailures] = useState<AiChatViewProps['failures']>([]);
   const [refreshing, setRefreshing] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -38,7 +37,7 @@ export default function AiChat() {
     setPayments(null);
     try {
       const answer = await aiChatApi.payments(next);
-      if (ticket === paymentsTicket.current) setPayments(answer.payments);
+      if (ticket === paymentsTicket.current) setPayments(answer);
     } catch (error) {
       if (ticket === paymentsTicket.current) fail(error);
     }
@@ -49,7 +48,7 @@ export default function AiChat() {
     setVisitors(null);
     try {
       const answer = await aiChatApi.visitors(n);
-      if (ticket === visitorsTicket.current) setVisitors(answer.visitors);
+      if (ticket === visitorsTicket.current) setVisitors(answer);
     } catch (error) {
       if (ticket === visitorsTicket.current) fail(error);
     }
@@ -75,16 +74,22 @@ export default function AiChat() {
   }, [refresh]);
 
   const more = async () => {
-    if (!payments?.ok || !payments.data.next) return;
+    const current = payments?.payments;
+    if (!current?.ok || !current.data.next) return;
     const ticket = paymentsTicket.current;
     setLoadingMore(true);
     try {
-      const answer = await aiChatApi.payments(filter, payments.data.next);
-      if (ticket === paymentsTicket.current && answer.payments.ok) {
-        const page = answer.payments.data;
-        setPayments((prev) => (prev?.ok
-          ? { ok: true, error: null, data: { rows: [...prev.data.rows, ...page.rows], next: page.next } }
-          : answer.payments));
+      const answer = await aiChatApi.payments(filter, current.data.next);
+      if (ticket === paymentsTicket.current) {
+        const next = answer.payments;
+        if (!next.ok) fail({ code: next.error, requestId: answer.request_id });
+        else
+          setPayments((prev) => (prev?.payments.ok
+            ? {
+                ...answer,
+                payments: { ok: true, error: null, data: { rows: [...prev.payments.data.rows, ...next.data.rows], next: next.data.next } },
+              }
+            : answer));
       }
     } catch (error) {
       fail(error);

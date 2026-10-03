@@ -92,9 +92,11 @@ export function RehearsalPanel({
 
 export function ReadinessCard({
   section,
+  requestId,
   onOpenRehearsal,
 }: {
   section: AiChatSection<AiChatReadiness>;
+  requestId?: string;
   onOpenRehearsal: (account: boolean) => Promise<AiChatRehearsalResult>;
 }) {
   return (
@@ -103,7 +105,7 @@ export function ReadinessCard({
         title="Готовность"
         hint="Только имена настроек: значения ключей и секретов сюда не попадают. Live включается, когда у провайдера список «не хватает» пуст."
       />
-      {!section.ok ? <SectionGap error={section.error}/> : (
+      {!section.ok ? <SectionGap error={section.error} requestId={requestId}/> : (
         <>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

@@ -27,6 +27,7 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
     now: Date.now(),
     days,
     salt: resolveHashSalt(ctx.env).hashSalt || null,
+    requestId: ctx.requestId,
   });
   const body: AiChatVisitors = { request_id: ctx.requestId, days, visitors };
   return ownerJson(body, ctx.requestId);

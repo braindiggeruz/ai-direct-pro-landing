@@ -69,12 +69,12 @@ const SECTION_ERROR: Readonly<Record<AiChatSectionError, string>> = {
   salt_missing: 'Псевдонимы считаются с солью GPT_HASH_SALT. Пока её нет, список не показывается.',
 };
 
-/** The card body of a section that has no data, with the request id for the log. */
+/** The card body of a section that has no data; a failed query names its request id (the server log has it). */
 export function SectionGap({ error, requestId }: { error: AiChatSectionError; requestId?: string }) {
   return (
     <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200" data-testid={`ai-chat-gap-${error}`}>
       {SECTION_ERROR[error]}
-      {requestId && <span className="block text-xs text-amber-200/60 mt-1">Запрос: {requestId}</span>}
+      {error === 'query_failed' && requestId && <span className="block text-xs text-amber-200/60 mt-1">Запрос: {requestId}</span>}
     </div>
   );
 }

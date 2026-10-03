@@ -60,16 +60,18 @@ export function ModelsCard({
   models,
   alerts,
   primary,
+  requestId,
 }: {
   models: AiChatSection<AiChatModels>;
   alerts: AiChatSection<AiChatAlerts>;
   /** The first model of the free chain (from readiness), for its share of answers. */
   primary: string | null;
+  requestId?: string;
 }) {
   return (
     <Card data-testid="ai-chat-models">
       <CardHead title="Модели и алерты" hint="Ходы с итогом (с релиза R1): какая модель ответила, сколько ждали первый токен и сколько это стоило по прайсу."/>
-      {!models.ok ? <SectionGap error={models.error}/> : (
+      {!models.ok ? <SectionGap error={models.error} requestId={requestId}/> : (
         <>
           <div className="grid gap-6 xl:grid-cols-2">
             <ModelTable title="За 24 часа" rows={models.data.last24h} primary={primary}/>
@@ -100,7 +102,7 @@ export function ModelsCard({
       )}
       <div className="mt-6" data-testid="ai-chat-alerts">
         <h3 className="text-sm text-white mb-2">Алерты за 7 дней</h3>
-        {!alerts.ok ? <SectionGap error={alerts.error}/> : (
+        {!alerts.ok ? <SectionGap error={alerts.error} requestId={requestId}/> : (
           <>
             <p className="text-xs text-white/45 mb-2">
               Сторож тишины: {dateTime(alerts.data.watchdogLastRun)} · проверка моделей: {dateTime(alerts.data.catalogueLastRun)}.

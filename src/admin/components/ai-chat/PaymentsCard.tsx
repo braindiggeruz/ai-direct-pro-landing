@@ -150,6 +150,7 @@ export function RefundRecordForm({
 
 export function PaymentsCard({
   page,
+  requestId,
   filter,
   loadingMore,
   onFilter,
@@ -158,15 +159,16 @@ export function PaymentsCard({
 }: {
   /** null while the first page loads. */
   page: AiChatSection<AiChatPaymentsPage> | null;
+  requestId?: string;
   filter: AiChatPaymentsFilter;
   loadingMore: boolean;
   onFilter: (filter: AiChatPaymentsFilter) => void;
   onMore: () => void;
   onRecord: (input: AiChatRefundRecordInput) => Promise<AiChatRefundRecordResult>;
 }) {
-  const select = <K extends keyof AiChatPaymentsFilter>(key: K, values: readonly string[], label: (v: string) => string) => (
+  const select = <K extends keyof AiChatPaymentsFilter>(key: K, name: string, values: readonly string[], label: (v: string) => string) => (
     <Select
-      aria-label={key}
+      aria-label={name}
       className="!w-auto text-sm"
       value={filter[key] ?? ''}
       onChange={(e) => onFilter({ ...filter, [key]: e.target.value || null })}
@@ -183,13 +185,13 @@ export function PaymentsCard({
         hint="Номер заказа — ключ поддержки: покупатель видит его в «Paketim». Покупатель показан псевдонимом, без аккаунта и Telegram."
       >
         <div className="flex flex-wrap gap-2">
-          {select('provider', AI_CHAT_PROVIDERS, (v) => PROVIDER_LABEL[v as keyof typeof PROVIDER_LABEL])}
-          {select('state', AI_CHAT_ORDER_STATES, (v) => STATE_LABEL[v as keyof typeof STATE_LABEL])}
-          {select('mode', AI_CHAT_MODES, (v) => modeLabel(v as 'test' | 'live'))}
+          {select('provider', 'Провайдер', AI_CHAT_PROVIDERS, (v) => PROVIDER_LABEL[v as keyof typeof PROVIDER_LABEL])}
+          {select('state', 'Состояние', AI_CHAT_ORDER_STATES, (v) => STATE_LABEL[v as keyof typeof STATE_LABEL])}
+          {select('mode', 'Режим', AI_CHAT_MODES, (v) => modeLabel(v as 'test' | 'live'))}
         </div>
       </CardHead>
       {page === null ? <p className="text-sm text-white/40">Загрузка…</p>
-        : !page.ok ? <SectionGap error={page.error}/>
+        : !page.ok ? <SectionGap error={page.error} requestId={requestId}/>
         : rows.length === 0 ? <p className="text-sm text-white/40">Заказов нет.</p> : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -198,7 +200,7 @@ export function PaymentsCard({
                   <th className="py-1.5 pr-3 font-medium">Заказ</th>
                   <th className="py-1.5 px-2 font-medium">Состояние</th>
                   <th className="py-1.5 px-2 font-medium text-right">Сумма</th>
-                  <th className="py-1.5 px-2 font-medium">Создан / оплачен</th>
+                  <th className="py-1.5 px-2 font-medium">Создан / оплачен / закрыт</th>
                   <th className="py-1.5 px-2 font-medium">Пакет</th>
                   <th className="py-1.5 px-2 font-medium">Чеки</th>
                   <th className="py-1.5 pl-2 font-medium">Покупатель</th>
@@ -216,6 +218,11 @@ export function PaymentsCard({
                     <td className="py-1.5 px-2 whitespace-nowrap text-white/70">
                       {dateTime(row.createdAt)}
                       <span className="block text-xs text-white/45">{row.paidAt ? dateTime(row.paidAt) : '—'}</span>
+                      {row.cancelledAt && (
+                        <span className="block text-xs text-white/45">
+                          {row.state === 'refunded' ? 'возврат' : 'закрыт'} {dateTime(row.cancelledAt)}
+                        </span>
+                      )}
                     </td>
                     <td className="py-1.5 px-2 whitespace-nowrap text-white/70">
                       {row.pack

@@ -75,14 +75,14 @@ const METRICS: readonly Metric[] = [
   },
 ];
 
-export function WeeksCard({ section }: { section: AiChatSection<AiChatWeek[]> }) {
+export function WeeksCard({ section, requestId }: { section: AiChatSection<AiChatWeek[]>; requestId?: string }) {
   return (
     <Card data-testid="ai-chat-weeks">
       <CardHead
         title="Недели"
         hint="Неделя — с понедельника 00:00 по Ташкенту. «—» значит, что метрика в ту неделю ещё не писалась. NS-1 серым — когорта ещё не дозрела (14 дней) или старше хранимой истории."
       />
-      {!section.ok ? <SectionGap error={section.error}/> : (
+      {!section.ok ? <SectionGap error={section.error} requestId={requestId}/> : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm whitespace-nowrap">
             <thead>
