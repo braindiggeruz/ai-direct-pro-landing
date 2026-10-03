@@ -277,6 +277,7 @@ export interface Env extends FirecrawlEnvironment {
   ZAI_MODEL_FREE?: string;       // public: default glm-4.7-flash ($0 models only)
   ZAI_MODEL_PAID?: string;       // public: default glm-4.5-air (paid allowlist only)
   ZAI_TIERS?: string;            // public: default "free,paid"
+  ZAI_PREPAID_MODELS?: string;   // public: bare codes with a prepaid Z.ai usage bundle (e.g. glm-5.3-flash)
   ZAI_TIMEOUT_MS?: string;       // public: default 12000, clamped 3000..15000
   // Public. "true" shows the limit card's "continue in the Telegram bot"
   // button (account view `botHandoff`); any other value hides it. Stays

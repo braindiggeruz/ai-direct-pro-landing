@@ -82,6 +82,22 @@ export const ZAI_PAID_ALLOWED: ReadonlySet<string> = new Set([
   'glm-4.5-flash',
 ]);
 
+/**
+ * Z.ai models bought as a prepaid usage bundle. Either tier may use one only
+ * while the owner lists it in ZAI_PREPAID_MODELS: the bundle is already paid,
+ * so a turn costs nothing extra, and when it runs out Z.ai answers 1113, which
+ * blocks zai/* and pages the owner while OpenRouter keeps answering. Listed
+ * here only after a live check that the lowest reasoning effort keeps the
+ * first word inside the 12 s budget (glm-5.3-flash, 2026-10-03: ≈ 2–3 s).
+ */
+export const ZAI_PREPAID_CAPABLE: ReadonlySet<string> = new Set(['glm-5.3-flash']);
+
+/** Whether a tier may call this bare Z.ai model under this config. */
+export function zaiModelAllowed(cfg: GptChatConfig, tier: 'free' | 'paid', id: string): boolean {
+  if (ZAI_PREPAID_CAPABLE.has(id) && cfg.zaiPrepaidModels.includes(id)) return true;
+  return tier === 'free' ? ZAI_ZERO_PRICE.has(id) : ZAI_PAID_ALLOWED.has(id);
+}
+
 export function hasProviderKey(
   env: Pick<Env, 'OPENROUTER_API_KEY' | 'ZAI_API_KEY'>,
   provider: ModelProvider,
@@ -134,7 +150,7 @@ export function webChatChain(
   )
     return base;
   const id = tier === 'free' ? cfg.zaiModelFree : cfg.zaiModelPaid;
-  const allowed = tier === 'free' ? ZAI_ZERO_PRICE.has(id) : ZAI_PAID_ALLOWED.has(id);
+  const allowed = zaiModelAllowed(cfg, tier, id);
   if (!allowed) {
     if (!warnedRejected) {
       warnedRejected = true;

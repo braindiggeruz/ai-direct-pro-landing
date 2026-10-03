@@ -55,6 +55,11 @@ export interface GptChatConfig extends HashSalt {
   zaiModelPaid: string;
   /** Tiers that may put one Z.ai model in front of the OpenRouter chain. */
   zaiTiers: Array<'free' | 'paid'>;
+  /**
+   * ZAI_PREPAID_MODELS: bare Z.ai codes the owner holds a prepaid usage bundle
+   * for. Only models in ZAI_PREPAID_CAPABLE (model-provider.ts) take effect.
+   */
+  zaiPrepaidModels: string[];
   /** Per-attempt Z.ai budget (JSON: whole call; stream: first content). 3000..15000 ms. */
   zaiTimeoutMs: number;
 }
@@ -179,6 +184,7 @@ export function resolveConfig(env: Env): GptChatConfig {
     zaiModelPaid: (env.ZAI_MODEL_PAID || '').trim().toLowerCase() || 'glm-4.5-air',
     zaiEvalApproved: isoDay(env.GPT_ZAI_EVAL_APPROVED),
     zaiTiers: zaiTiers(env.ZAI_TIERS),
+    zaiPrepaidModels: list((env.ZAI_PREPAID_MODELS || '').toLowerCase()),
     zaiTimeoutMs: clampedInt(env.ZAI_TIMEOUT_MS, 12_000, 3_000, 15_000),
   };
 }
