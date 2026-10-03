@@ -1,7 +1,7 @@
 # Платный AI-чат: WP-23 — runbook ключей и скрипт приёма `ingest-keys` (R7), 2026-10-03
 
 **Итог.**
-- WP-23 сделан на ветке `paid-chat/prod-readiness` поверх `766cc7d3` (ревью WP-22), коммит `HEAD` (`feat(paid-chat): …`). Следующий коммит только записывает его SHA в STATE и сюда (правило D-006).
+- WP-23 сделан на ветке `paid-chat/prod-readiness` поверх `766cc7d3` (ревью WP-22), коммит `41d392be` (`41d392beaaf7823883cd9fb55f294bc096ea7767`). Следующий коммит только записывает его SHA в STATE и сюда (правило D-006).
 - **`scripts/paid-chat/ingest-keys.ts`** принимает ключи владельца из папки вне Git (`F:/Claude/gptbot-keys-inbox`): `click.json`, `uzum.json`, `zai.txt` и `business.json`.
   - `--dry-run` проверяет файлы по схемам. Печатает имена полей с `ok`, `missing`, `invalid (expected …)` или `unknown field`, план и `liveReadiness()` по провайдерам. Ничего не пишет, процессов не запускает, ключей Cloudflare не читает.
   - `--apply` отказывает при любой проблеме. Иначе читает имена секретов Pages, кладёт `GPT_CLICK_CREDENTIALS_JSON`, `UZUM_CREDENTIALS_JSON` и `ZAI_API_KEY` через stdin `wrangler pages secret put`. Затем пишет несекретное: обе копии runtime-конфига `wrangler.toml` и `content/global/legal-entity.json`. В конце печатает `liveReadiness()` против имён в Pages и напоминает владельцу удалить файлы.

@@ -3,7 +3,7 @@
     "wp": "WP-23",
     "release": "R7 (with the R5..R7 build); no migration, no setting; the script runs when the owner puts keys",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "41d392beaaf7823883cd9fb55f294bc096ea7767",
     "commit_note": "feat(paid-chat): take the owner's keys from a folder outside Git (parent 766cc7d3, the WP-22 review); the next commit only records this SHA (rule D-006).",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-23 and section 7 (decisions L7, L9, L10, L12, L13, L14); the lead task: docs/paid-chat/ONBOARDING-KEYS-RU.md (plain Russian where the owner acts, exact commands for the agent; go-live order test -> rehearsal purchase -> live -> one real purchase by the owner reversed through the provider cabinet and the admin refund record; buyers get no refunds per the offer; the Z.ai switch with its evaluation step) and scripts/paid-chat/ingest-keys.ts (--dry-run validates click.json, uzum.json, zai.txt and business.json by schema and prints names and ok/missing only; --apply puts the secrets through stdin, writes the non-secret values to wrangler.toml and content/global/legal-entity.json, prints liveReadiness() per provider, never prints values, reminds the owner to delete the files); tests/paid-chat-ingest-keys.test.ts; --apply never run.",
     "scope": [
@@ -1507,7 +1507,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "41d392beaaf7823883cd9fb55f294bc096ea7767",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
