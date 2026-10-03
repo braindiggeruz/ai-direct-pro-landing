@@ -49,6 +49,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Rasmiy ChatGPT hisobingizga kirmoqchi bo‘lsangiz, {login}ni oching. Bu qo‘llanma GPTBot.uz’ning mustaqil chatiga tegishli; OpenAI parolini bu yerga kiritmang.",
+      "links": [
+        {
+          "token": "login",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "ChatGPT’ga kirish yo‘riqnomasi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "AI chat nima qila oladi"
     },
@@ -94,6 +105,39 @@
     {
       "type": "p",
       "text": "Xizmat O‘zbekistonning o‘zbek va rus tilli auditoriyasi uchun mo‘ljallangan. Qulay tilda yozing — AI sizning tilingizda javob beradi. Bu Toshkent, Samarqand, Buxoro va butun mamlakat bo‘ylab biznes va o‘qish uchun qulay."
+    },
+    {
+      "type": "h2",
+      "text": "Uchta mashq: so‘rov yozing va javobni tekshiring"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagilar — o‘quv misollari. So‘rovni chatga nusxalashdan oldin shaxsiy ma’lumotlarni olib tashlang. Javobni jadvaldagi mezon bilan tekshiring; xato bo‘lsa, qaysi joyini tuzatish kerakligini aniq yozing."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Nusxalash uchun so‘rov",
+        "Javobni tekshirish"
+      ],
+      "rows": [
+        [
+          "O‘qish",
+          "Sinfda 12 nafar o‘quvchi bor. Har biriga 3 tadan daftar kerak. Jami nechta daftar kerak? Avval yechish yo‘lini tushunishim uchun bitta savol ber, keyin hisobni ko‘rsat.",
+          "Hisobni o‘zingiz bajaring: 12 × 3 = 36 ta daftar. Izohda o‘quvchilar soni va har biriga kerak bo‘lgan daftarlar soni almashtirilmaganini tekshiring."
+        ],
+        [
+          "Tarjima",
+          "Matnni o‘zbek tiliga lotin yozuvida tarjima qil: «Встреча состоится во вторник в 15:00. Возьмите список вопросов». Kun, vaqt va topshiriqni o‘zgartirma.",
+          "Natijada seshanba, 15:00 va savollar ro‘yxatini olib kelish mazmuni saqlansin. Yangi joy yoki sana qo‘shilmaganini tekshiring."
+        ],
+        [
+          "Ishdagi yozishma",
+          "Faqat shu ma’lumot bilan mijozga qisqa javob yoz: buyurtma qabul qilindi; yetkazib berish sanasi hali tasdiqlanmadi. Aniq sana yoki chegirma va’da qilma. Yetishmayotgan ma’lumotni so‘rash uchun bitta savol qo‘sh.",
+          "Javobda tasdiqlanmagan sana, narx yoki chegirma paydo bo‘lmasin. Mijozga yuborishdan oldin buyurtmaning haqiqiy holati bilan solishtiring."
+        ]
+      ]
     },
     {
       "type": "h2",
@@ -278,7 +322,7 @@
     "Article",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-01",
+  "lastReviewedAt": "2026-10-03",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-10-01"
+  "updatedAt": "2026-10-03"
 }
