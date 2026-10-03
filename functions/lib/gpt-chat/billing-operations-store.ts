@@ -60,6 +60,8 @@ export async function inspectBilling(env: BillingEnv, now = Date.now()) {
   };
 }
 const OPENROUTER_API = "https://openrouter.ai/api/v1";
+/** The catalogue check runs at most hourly (task 'catalogue'); next_at minus this is its last run. */
+export const CATALOGUE_INTERVAL_MS = 3600_000;
 /** The chain is at most two tiers of three; never fan out further than that. */
 const MAX_CHECKED_MODELS = 6;
 /** 'vendor/model' or 'vendor/model:variant' — the only shape put into a URL. */
@@ -158,7 +160,7 @@ export async function checkBillingProviders(env: BillingEnv, now = Date.now()) {
       `INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES(?,'catalogue',?)
     ON CONFLICT(org_id,task) DO UPDATE SET next_at=excluded.next_at WHERE next_at<=? RETURNING task`,
     )
-    .bind(BILLING_ORG, now + 3600_000, now)
+    .bind(BILLING_ORG, now + CATALOGUE_INTERVAL_MS, now)
     .first();
   if (!claimed) return { ran: false, unavailable: [] as string[] };
   const cfg = resolveConfig(env);

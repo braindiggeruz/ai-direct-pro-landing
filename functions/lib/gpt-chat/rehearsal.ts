@@ -15,14 +15,17 @@
 // identity behind it). Such an account never gets a live order
 // (BillingStore.createOrder).
 import {
+  BILLING_ORG,
   loginMethods,
   offeredProviders,
   providersInMode,
   type BillingEnv,
   type BillingMode,
+  type LocalProvider,
   type LoginMethod,
 } from "./billing-config";
-import { authCookie, cookieValue } from "./identity-store";
+import { ensureBillingSchema } from "./billing-schema";
+import { authCookie, cookieValue, IdentityStore } from "./identity-store";
 
 export const REHEARSAL_COOKIE = "__Host-gpt_rehearsal";
 export const REHEARSAL_TTL_MS = 2 * 3600_000;
@@ -74,6 +77,62 @@ export async function mintRehearsal(
 /** The Set-Cookie value that carries a rehearsal token. */
 export function rehearsalCookie(token: string): string {
   return authCookie(REHEARSAL_COOKIE, token, REHEARSAL_TTL_MS / 1000);
+}
+
+export type RehearsalOpening =
+  | {
+      ok: true;
+      expiresAt: number;
+      /** What the session is offered: the ready test providers. */
+      providers: LocalProvider[];
+      /** The synthetic account it is signed in as, or null. */
+      account: string | null;
+      /** Set-Cookie values: the rehearsal cookie, then the account's. */
+      cookies: string[];
+    }
+  | { ok: false; code: "no_test_provider" | "identity_secret_missing" | "unavailable" };
+
+/**
+ * Open a rehearsal session: the rehearsal cookie and, with `account`, a fresh
+ * synthetic account acct_rh_… signed in for the same two hours, without
+ * Telegram. Only while some provider is in test. The Bearer endpoint
+ * internal/gpt-rehearsal-session and the admin (api/admin/ai-chat) open it
+ * the same way; the cookie values travel only in Set-Cookie.
+ */
+export async function openRehearsal(
+  env: BillingEnv,
+  options: { account: boolean },
+  now = Date.now(),
+): Promise<RehearsalOpening> {
+  if (!providersInMode(env, "test").length) return { ok: false, code: "no_test_provider" };
+  const rehearsal = await mintRehearsal(env, now);
+  if (!rehearsal) return { ok: false, code: "identity_secret_missing" };
+  let account: { id: string; token: string } | null = null;
+  if (options.account) {
+    if (!env.GPTBOT_DRAFTS_DB) return { ok: false, code: "unavailable" };
+    try {
+      await ensureBillingSchema(env.GPTBOT_DRAFTS_DB);
+      account = await new IdentityStore(env.GPTBOT_DRAFTS_DB, BILLING_ORG).syntheticLogin(
+        REHEARSAL_ACCOUNT_PREFIX,
+        REHEARSAL_TTL_MS,
+        now,
+      );
+    } catch {
+      return { ok: false, code: "unavailable" };
+    }
+  }
+  return {
+    ok: true,
+    expiresAt: rehearsal.expiresAt,
+    providers: offeredProviders(env, "test"),
+    account: account?.id ?? null,
+    cookies: [
+      rehearsalCookie(rehearsal.token),
+      ...(account
+        ? [authCookie("__Host-gpt_account", account.token, REHEARSAL_TTL_MS / 1000)]
+        : []),
+    ],
+  };
 }
 
 /**

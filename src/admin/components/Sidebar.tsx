@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router';
-import { Search, LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar, Radio } from 'lucide-react';
+import { Search, LayoutDashboard, FileText, BookOpen, Link2, ArrowRightLeft, Settings, LogOut, GitBranch, Gauge, Inbox, PlayCircle, Send, ShieldCheck, Radar, Radio, MessageSquare } from 'lucide-react';
 import { setToken } from '../lib/api';
 import { useT } from '../i18n';
 
@@ -28,6 +28,7 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
       title: t.nav.group_overview,
       items: [
         { to: '/admin-tools/', label: t.nav.cockpit, icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
+        { to: '/admin-tools/ai-chat', label: t.nav.ai_chat, icon: MessageSquare, testId: 'nav-ai-chat' },
       ],
     },
     {
@@ -66,7 +67,7 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
   ];
 
   const filtered = role === 'support_readonly'
-    ? groups.map((g) => ({ ...g, items: g.items.filter((it) => it.testId === 'nav-owner-center') })).filter((g) => g.items.length > 0)
+    ? groups.map((g) => ({ ...g, items: g.items.filter((item) => item.testId === 'nav-owner-center') })).filter((g) => g.items.length > 0)
     : groups;
 
   return (
@@ -81,27 +82,27 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
             <div className="hidden lg:block px-3 py-1 text-[10px] uppercase tracking-widest text-white/30 font-medium">
               {group.title}
             </div>
-            {group.items.map((it) => {
-              const Icon = it.icon;
-              const active = it.end ? loc.pathname === it.to : loc.pathname.startsWith(it.to);
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const active = item.end ? loc.pathname === item.to : loc.pathname.startsWith(item.to);
               return (
                 <Link
-                  key={it.to}
-                  to={it.to}
-                  data-testid={it.testId}
-                  aria-label={it.label}
-                  title={it.label}
+                  key={item.to}
+                  to={item.to}
+                  data-testid={item.testId}
+                  aria-label={item.label}
+                  title={item.label}
                   className={`flex min-h-12 items-center justify-center lg:justify-start gap-3 px-3 py-2 rounded-xl text-sm transition-colors ${active ? 'bg-brand-blue/15 text-brand-cyan' : 'text-white/70 hover:bg-white/5 hover:text-white'}`}
                 >
                   <span className="relative">
                     <Icon size={16} />
-                    {(it.badge ?? 0) > 0 && (
+                    {(item.badge ?? 0) > 0 && (
                       <span className="absolute -top-1.5 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-bg-base">
-                        {it.badge! > 9 ? '9+' : it.badge}
+                        {item.badge! > 9 ? '9+' : item.badge}
                       </span>
                     )}
                   </span>
-                  <span className="hidden lg:inline">{it.label}</span>
+                  <span className="hidden lg:inline">{item.label}</span>
                 </Link>
               );
             })}

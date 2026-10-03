@@ -40,7 +40,8 @@ import { BILLING_ORG } from "./billing-config";
 import { recordServiceAlert } from "./billing-maintenance-store";
 import { HOUR_MS } from "./rate-limit";
 
-const LEASE_MS = 10 * 60_000;
+/** The lease of one run (task 'watchdog'): its next_at minus this is when it last ran. */
+export const WATCHDOG_LEASE_MS = 10 * 60_000;
 const DEGRADED_MIN_TURNS = 4;
 const STALE_MAX = 3;
 const TRUNCATION_WINDOW_MS = 24 * HOUR_MS;
@@ -143,7 +144,7 @@ export class WatchdogStore {
         `INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES(?,'watchdog',?)
       ON CONFLICT(org_id,task) DO UPDATE SET next_at=excluded.next_at WHERE next_at<=? RETURNING task`,
       )
-      .bind(this.org, now + LEASE_MS, now)
+      .bind(this.org, now + WATCHDOG_LEASE_MS, now)
       .first();
     return !!row;
   }

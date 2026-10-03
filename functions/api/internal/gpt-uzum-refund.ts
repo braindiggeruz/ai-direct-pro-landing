@@ -31,11 +31,20 @@ import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { uzumCartParams, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
-import { getOrderStatus, refund } from "../../lib/gpt-chat/uzum-checkout";
-import { UzumStore, UZUM_REASON_RETURNED } from "../../lib/gpt-chat/uzum-store";
+import { refund } from "../../lib/gpt-chat/uzum-checkout";
+import { UzumStore } from "../../lib/gpt-chat/uzum-store";
+import { recordSellerRefund, type SellerRefundFailure } from "../../lib/gpt-chat/seller-refund";
 
 /** Uzum "Operation already exists": the same X-Operation-Id was accepted before. */
 const OPERATION_EXISTS = 3028;
+
+/** The answer to a record the ledger refused, as before seller-refund.ts. */
+const RECORD_FAILURES: Record<SellerRefundFailure, [message: string, status: number]> = {
+  invalid_order: ["Order not eligible", 409],
+  uzum_not_configured: ["Uzum Checkout is not configured", 409],
+  upstream_unavailable: ["Uzum status unavailable; retry", 502],
+  not_refunded_at_uzum: ["Uzum does not report this order as fully refunded", 409],
+};
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
@@ -95,46 +104,26 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     if (row.state === "refunded")
       return json({ ok: true, state: "refunded", recorded: recordOnly });
 
-    if (row.api === "merchant") {
-      if (!recordOnly)
-        return fail(
-          "uzum_merchant_refund",
-          "Uzum returns an app payment and sends /reverse; record a refund it made otherwise with merchantRefundReference",
-          409,
-        );
-      await store.billing.transition(row.id, "cancelled", `owner_refund_record:${reference}`, {
-        reason: UZUM_REASON_RETURNED,
-      });
+    if (recordOnly) {
+      // The same record as the admin's «Отметить возврат» (seller-refund.ts).
+      const outcome = await recordSellerRefund(env, "uzum", row.id, reference);
+      if (!outcome.ok) {
+        const [message, status] = RECORD_FAILURES[outcome.code];
+        return fail(outcome.code, message, status);
+      }
       settle();
       return json({ ok: true, recorded: true, state: "refunded" });
     }
+    if (row.api === "merchant")
+      return fail(
+        "uzum_merchant_refund",
+        "Uzum returns an app payment and sends /reverse; record a refund it made otherwise with merchantRefundReference",
+        409,
+      );
 
     const cfg = uzumCheckoutConfig(env, row.mode, { settleOnly: true });
     if (!cfg)
       return fail("uzum_not_configured", "Uzum Checkout is not configured", 409);
-
-    if (recordOnly) {
-      const pulled = await getOrderStatus(cfg, row.external_id);
-      if (!pulled.ok)
-        return fail("upstream_unavailable", "Uzum status unavailable; retry", 502);
-      const s = pulled.status;
-      if (
-        s.status !== "REFUNDED" ||
-        s.refundedAmount !== row.amount ||
-        s.merchantOrderId !== row.id ||
-        s.amount !== row.amount
-      )
-        return fail(
-          "not_refunded_at_uzum",
-          "Uzum does not report this order as fully refunded",
-          409,
-        );
-      await store.billing.transition(row.id, "cancelled", `owner_refund_record:${reference}`, {
-        reason: UZUM_REASON_RETURNED,
-      });
-      settle();
-      return json({ ok: true, recorded: true, state: "refunded" });
-    }
 
     // The cart goes with the refund exactly when it went with the payment.
     const cart = row.autofiscal === 1 ? uzumCartParams(env) : null;

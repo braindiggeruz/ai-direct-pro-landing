@@ -1,6 +1,6 @@
 import AeoWorkspace from './pages/AeoWorkspace';
 import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, lazy, Suspense, useContext, useEffect, useState } from 'react';
 import Login from './pages/Login';
 import Cockpit from './pages/Cockpit';
 import PagesList from './pages/PagesList';
@@ -29,6 +29,10 @@ import { Sidebar } from './components/Sidebar';
 import { AdminErrorBoundary } from './components/AdminErrorBoundary';
 import { api, getToken } from './lib/api';
 import { ADMIN_HOME, ADMIN_ROUTE_PATHS } from './routes';
+
+// The AI chat section is its own chunk: owner only, opened rarely, and its
+// tables should not weigh on every other admin page.
+const AiChat = lazy(() => import('./pages/AiChat'));
 
 interface AdminSession {
   email: string;
@@ -110,6 +114,7 @@ export default function AdminApp() {
       <Routes>
         <Route path={ADMIN_ROUTE_PATHS.login} element={<Login />} />
         <Route index element={<RequireAuth><Shell><Cockpit/></Shell></RequireAuth>} />
+        <Route path={ADMIN_ROUTE_PATHS.aiChat} element={<RequireAuth><Shell><Suspense fallback={<div className="p-8 text-white/60">Загрузка…</div>}><AiChat/></Suspense></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.pages} element={<RequireAuth><Shell><PagesList/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.pageNew} element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />
         <Route path={ADMIN_ROUTE_PATHS.pageEdit} element={<RequireAuth><Shell><PageEditor/></Shell></RequireAuth>} />

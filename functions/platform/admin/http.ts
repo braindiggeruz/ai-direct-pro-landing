@@ -50,6 +50,8 @@ export interface OwnerHandlerContext {
   requestId: string;
   url: URL;
   params: Record<string, string | string[]>;
+  /** Work that may finish after the answer (a notification, a receipt). */
+  waitUntil: (task: Promise<unknown>) => void;
 }
 
 /**
@@ -60,7 +62,7 @@ export function withOwnerRole(
   minimum: PlatformRole,
   handler: (ctx: OwnerHandlerContext) => Promise<Response>,
 ): PagesFunction<Env> {
-  return async ({ request, env, params }) => {
+  return async ({ request, env, params, waitUntil }) => {
     const requestId = newRequestId();
     const actor = await requirePlatformRole(request, env, minimum, requestId);
     if (actor instanceof Response) return actor;
@@ -74,6 +76,7 @@ export function withOwnerRole(
         requestId,
         url: new URL(request.url),
         params: (params ?? {}) as Record<string, string | string[]>,
+        waitUntil: (task) => waitUntil(task),
       });
     } catch (error) {
       if (error instanceof OwnerValidationError) {

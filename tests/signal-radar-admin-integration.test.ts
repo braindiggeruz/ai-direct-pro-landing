@@ -240,7 +240,7 @@ test('no radar action when the module is not installed, has no new leads, or is 
 // ─────────────────────────────────────────────────────────────────────────────
 
 const NAV_TEST_IDS = [
-  'nav-cockpit', 'nav-lead-radar', 'nav-signal-radar', 'nav-owner-center',
+  'nav-cockpit', 'nav-ai-chat', 'nav-lead-radar', 'nav-signal-radar', 'nav-owner-center',
   'nav-pages', 'nav-blog', 'nav-ai-drafts', 'nav-seo-autopilot',
   'nav-internal-links', 'nav-seo-booster', 'nav-indexnow', 'nav-redirects', 'nav-settings',
 ];

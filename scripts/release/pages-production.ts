@@ -24,6 +24,9 @@ export const REQUIRED_FEATURES = [
   ['sending_readiness', 'Готовность выбранных контактов'],
   ['campaign_preflight', '/telegram-campaigns/preflight'],
   ['async_media_check', '/telegram-campaigns/media/check'],
+  // Paid-chat plan WP-19: the owner's AI chat section (its lazy chunk is
+  // reachable from the entry, so an admin bundle without it is rejected).
+  ['ai_chat_admin', '/api/admin/ai-chat/overview'],
 ] as const;
 
 interface Artifact {

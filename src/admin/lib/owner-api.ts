@@ -61,6 +61,9 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
   return res.json() as Promise<T>;
 }
 
+/** The same call, one error vocabulary, for the other owner-only sections (src/admin/lib/ai-chat-api.ts). */
+export { call as ownerCall };
+
 function query(params: Record<string, string | number | null | undefined>): string {
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {

@@ -53,6 +53,25 @@ export class SqliteD1Statement {
     } as unknown as D1Result<unknown>;
   }
 
+  /**
+   * A statement inside batch(). Like D1, one that returns rows (a SELECT, or
+   * a write with RETURNING) answers them in `results`; `changes` counts the
+   * rows it wrote.
+   */
+  batchSync(): D1Result<unknown> {
+    const prepared = this.sqlite.prepare(this.sql);
+    if (!prepared.columns().length) return this.runSync();
+    const totalChanges = () =>
+      Number((this.sqlite.prepare('SELECT total_changes() AS n').get() as { n: number }).n);
+    const before = totalChanges();
+    const rows = prepared.all(...this.bindings);
+    return {
+      success: true,
+      results: rows,
+      meta: { changes: totalChanges() - before },
+    } as unknown as D1Result<unknown>;
+  }
+
   async first<T>(): Promise<T | null> {
     const row = this.sqlite.prepare(this.sql).get(...this.bindings);
     return (row ?? null) as T | null;
@@ -88,7 +107,7 @@ export class SqliteD1 {
         if (!(statement instanceof SqliteD1Statement)) {
           throw new Error('foreign statement in sqlite fixture');
         }
-        return statement.runSync();
+        return statement.batchSync();
       });
       this.sqlite.exec('COMMIT');
       return results;

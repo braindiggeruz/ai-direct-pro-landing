@@ -1,15 +1,13 @@
-import {
-  BILLING_ORG,
-  providerMode,
-  type BillingEnv,
-} from "../../lib/gpt-chat/billing-config";
-import { ensureBillingSchema } from "../../lib/gpt-chat/billing-schema";
-import { BillingStore } from "../../lib/gpt-chat/billing-store";
+import { type BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
+import { recordSellerRefund } from "../../lib/gpt-chat/seller-refund";
 // Operator reconciliation only. Does not call a refund API or move funds.
 // Record this AFTER the merchant dashboard confirms the external refund.
+// The admin's «Отметить возврат» records through the same function
+// (seller-refund.ts); the order's mode no longer has to match Click's current
+// mode, so a refund made after sales were switched off can still be recorded.
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
@@ -40,22 +38,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     return fail("invalid_request", "Merchant refund confirmation required");
   if (!env.GPTBOT_DRAFTS_DB) return fail("unavailable", "Unavailable", 503);
   try {
-    await ensureBillingSchema(env.GPTBOT_DRAFTS_DB);
-    const store = new BillingStore(env.GPTBOT_DRAFTS_DB, BILLING_ORG);
-    const order = await store.order(p.orderId);
-    if (
-      !order ||
-      order.provider !== "click" ||
-      order.mode !== providerMode(env, "click") ||
-      !["paid", "refunded"].includes(order.state)
-    )
-      return fail("invalid_order", "Order not eligible", 409);
-    await store.transition(
-      order.id,
-      "cancelled",
-      `owner_refund_record:${p.merchantRefundReference}`,
-      { reason: 5 },
-    );
+    const outcome = await recordSellerRefund(env, "click", p.orderId, p.merchantRefundReference);
+    if (!outcome.ok) return fail("invalid_order", "Order not eligible", 409);
     waitUntil(
       maintainBilling(env).catch(() =>
         console.warn("gpt_billing_delivery_failed"),

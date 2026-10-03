@@ -14,6 +14,7 @@ export const ru = {
   // ─── Nav / Shell ────────────────────────────────────────────────────
   nav: {
     cockpit:        'SEO-пульт',
+    ai_chat:        'AI-чат',
     seo_autopilot:  'SEO Автопилот',
     lead_radar:     'Lead Radar',
     signal_radar:   'Signal Radar',

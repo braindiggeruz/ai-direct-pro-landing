@@ -123,6 +123,11 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   drill: "учебный алерт: канал доставки работает",
 };
 
+/** The fixed explanation of a code (the admin shows it beside the count), or null. */
+export function alertText(code: string): string | null {
+  return Object.prototype.hasOwnProperty.call(ALERT_TEXT, code) ? ALERT_TEXT[code] : null;
+}
+
 export interface UrgentLine {
   code: string;
   /** Rows claimed for this code: the hours (days for state alerts) it fired in. */
