@@ -6,7 +6,9 @@ Prepared from production-matching commit `9a8b9ff0609c91835524d83d07b40e20d400dc
 
 The 3–30 September GSC property totals were 1,338 clicks and 124,315 impressions worldwide; Uzbekistan contributed 1,109 clicks and 112,886 impressions. These observations predate this candidate. They cannot establish its effect. Query/page rows are an incomplete, differently aggregated view of the same property, not market search volumes.
 
-GSC URL Inspection returned `PASS` and a self Google canonical for nine sampled URLs. The public audit found no critical indexing blocker in its initial 27-page sample. SE Ranking authentication works; its Uzbekistan domain/AI databases returned no usable metrics for this target. Missing provider coverage is not evidence of no demand. GA4 returned permission denied, so conversion results are unavailable.
+GSC URL Inspection returned `PASS` and a self Google canonical for nine sampled URLs. The subsequent full HTTP crawl covered all 290 sitemap URLs: all returned 200, were indexable, had self canonicals and one H1, with no exact duplicate titles/descriptions. SE Ranking authentication works; its Uzbekistan domain/AI databases returned no usable metrics for this target. Missing provider coverage is not evidence of no demand.
+
+The initial service-account GA4 request returned permission denied. The owner's later OpenSEO authorization restored read access to the same property and confirmed the GPTBot.uz web stream. The current 28-day Organic Search overview reports 1,555 sessions, 1,066 engaged sessions and zero recorded key events. The separate all-channel event report also records zero key events. These are analytics observations, not proof of zero real business inquiries. Preserve both the initial access failure and subsequent successful evidence.
 
 ## Changes
 
@@ -34,7 +36,9 @@ After commit, run `npm run build:production`, then use the established guarded r
 
 After any approved publication, verify the live release manifest, Article markup on both guides, the updated RU article, mobile rendering and the protected-ten contract. Keep the predecessor artifact/commit as the rollback reference; do not overwrite newer concurrent production changes.
 
-The high-traffic login/download/chat pages already received intent changes on 30 September–1 October. Preserve those changes while evaluating comparable 14/28-day windows after crawl. For this article, compare its query/page/device results over a full post-indexing 28-day window with the current baseline (4 clicks, 405 impressions, 0.99% CTR, average position 11.63, all countries). Confirm conversion instrumentation and GA4 access before attributing business results.
+The high-traffic login/download/chat pages already received intent changes on 30 September–1 October. Preserve those changes while evaluating comparable 14/28-day windows after crawl. For this article, compare its query/page/device results over a full post-indexing 28-day window with the current baseline (4 clicks, 405 impressions, 0.99% CTR, average position 11.63, all countries). GA4 access is now confirmed; verify conversion ingestion before attributing business results.
+
+The subsequent service-form measurement correction and its separate tests are documented in `analytics-fix.md`. It fixes a currently verified event transport gap; it does not establish the cause of September's missing key events or verify a live customer submission.
 
 ## Local evidence
 

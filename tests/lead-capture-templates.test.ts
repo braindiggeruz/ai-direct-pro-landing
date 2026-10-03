@@ -390,6 +390,7 @@ function formHarness(options: {
   locale?: 'ru' | 'uz';
   response?: unknown;
   rejectFetch?: boolean;
+  gtag?: (...args: unknown[]) => void;
   storage?: unknown;
   search?: string;
   /** The form's fallback as leadFormFallback() builds it for a work Telegram. */
@@ -432,11 +433,12 @@ function formHarness(options: {
     localStorage: options.storage ?? memoryStorage(),
     crypto: { randomUUID: () => '123e4567-e89b-12d3-a456-426614174000' },
     dataLayer: [] as Array<Record<string, unknown>>,
+    gtag: options.gtag,
     ym: (...args: unknown[]) => { ymCalls.push(args); },
     fetch: (url: string, init: { method: string; headers: Record<string, string>; body: string }) => {
       requests.push({ url, init });
       if (options.rejectFetch) return Promise.reject(new Error('offline'));
-      return Promise.resolve({ json: () => Promise.resolve(options.response ?? { ok: true, id: 'lead_1', delivery: 'pending' }) });
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(options.response ?? { ok: true, id: 'lead_1', delivery: 'pending' }) });
     },
   };
   const document = {
@@ -548,6 +550,55 @@ test('success is a literal ok:true: only then generate_lead and lead_form_succes
     assert.ok(!rejected.window.dataLayer.some((e) => e.event === 'generate_lead'), JSON.stringify(response));
     assert.equal(rejected.form.hidden, false);
     assert.equal(rejected.button.disabled, false, 'the visitor can try again');
+  }
+});
+
+test('GA4 receives one acknowledged page-form lead without requiring a GTM event tag', async () => {
+  const calls: unknown[][] = [];
+  let acknowledge!: (value: unknown) => void;
+  const response = new Promise<unknown>((resolve) => { acknowledge = resolve; });
+  const h = formHarness({ response, gtag: (...args) => { calls.push(args); } });
+  h.contact.value = '@alisher_uz';
+  h.name.value = 'Private form name';
+  h.consent.checked = true;
+
+  await h.submit();
+  assert.equal(h.requests.length, 1);
+  assert.deepEqual(calls, [], 'a pending request is not a generated lead');
+  await h.submit();
+  assert.equal(h.requests.length, 1, 'a second submit while pending must not send another request');
+  assert.deepEqual(calls, []);
+
+  acknowledge({ ok: true, id: 'lead_1', delivery: 'pending' });
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.deepEqual(calls, [['event', 'generate_lead', {
+    lead_source: 'page_form', service_slug: 'smm', page_path: '/ru/smm-prodvizhenie-tashkent/',
+  }]]);
+  assert.deepEqual(h.window.dataLayer, [], 'gtag already owns its queue; do not push a second event');
+  assert.deepEqual(h.ymCalls, [[111312750, 'reachGoal', 'lead_form_success']]);
+  assert.ok(!JSON.stringify(calls).includes('alisher') && !JSON.stringify(calls).includes('Private form name'));
+});
+
+test('GA4 never receives generate_lead on a failed request or HTTP 200 without literal acknowledgement', async () => {
+  for (const options of [
+    { rejectFetch: true },
+    { response: {} },
+    { response: { ok: 'true' } },
+    { response: { ok: 1 } },
+    { response: { ok: false, code: 'store_failed' } },
+  ]) {
+    const calls: unknown[][] = [];
+    const h = formHarness({ ...options, gtag: (...args) => { calls.push(args); } });
+    h.contact.value = '@alisher_uz';
+    h.consent.checked = true;
+    await h.submit();
+    assert.equal(h.requests.length, 1);
+    assert.equal(calls.length, 1, 'only the failure diagnostic should be sent');
+    assert.equal(calls[0][0], 'event');
+    assert.equal(calls[0][1], 'lead_form_failed');
+    assert.deepEqual(h.window.dataLayer, [], 'the same failure must not be queued twice');
+    assert.deepEqual(h.ymCalls, []);
+    assert.equal(h.form.hidden, false);
   }
 });
 
