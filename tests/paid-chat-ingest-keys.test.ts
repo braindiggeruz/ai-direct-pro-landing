@@ -421,6 +421,22 @@ test("--apply refuses on any issue and stops before the repository files when a 
     assert.match(second.text, /stopped: put GPT_CLICK_CREDENTIALS_JSON; not put: UZUM_CREDENTIALS_JSON, ZAI_API_KEY\. The repository files were not written\./);
     assert.equal(files(), before);
 
+    // A value the site accepts but wrangler.toml cannot carry (a quote mark in
+    // the path) is an issue of --dry-run already: --apply puts nothing.
+    const quoted = freshKeys();
+    quoted.uzum.baseUrls.checkoutLive = "https://chk.uzumcheckout.uz/api'v1";
+    const quotedInbox = writeInbox(path.join(dir, "quoted"), { uzum: quoted.uzum });
+    const checked = await run(["--inbox", quotedInbox, "--dry-run"], { root, pagesSecrets: bomb });
+    assert.equal(checked.code, 1);
+    assert.match(checked.text, /wrangler\.toml:\n {2}\(runtime config\): UZUM_CHECKOUT_BASE_URL: the value cannot be written to wrangler\.toml/);
+    const untouched = fakePages();
+    const fourth = await run(["--inbox", quotedInbox, "--apply"], { root, pagesSecrets: () => untouched.pages });
+    assert.equal(fourth.code, 1);
+    assert.match(fourth.text, /refusing --apply: 1 issue\(s\) above/);
+    assert.equal(untouched.listed(), 0);
+    assert.deepEqual(untouched.puts, []);
+    assert.equal(files(), before);
+
     // Nothing new in the inbox: nothing to apply, Cloudflare not asked.
     const idle = fakePages();
     const same = freshKeys();
@@ -467,6 +483,21 @@ test("--test-credentials keeps the dark rehearsal's test blocks beside the owner
     const plain = fakePages([...LIVE_SECRETS, CLICK]);
     const noted = await run(["--inbox", writeInbox(path.join(dir, "plain"), { click: keys.click }), "--apply"], { root, pagesSecrets: () => plain.pages });
     assert.match(noted.text, /note: GPT_CLICK_CREDENTIALS_JSON exists in Pages and is replaced without a test block/);
+    assert.doesNotMatch(noted.text, /without a live block/);
+
+    // A file with a test block only replaces the whole secret too: the live keys go, and it says so.
+    const testOnly = fakePages([...LIVE_SECRETS, CLICK]);
+    const partial = await run(["--inbox", writeInbox(path.join(dir, "test-only"), { click: { test: owner.click.test } as unknown as Keys["click"] }), "--apply"], { root, pagesSecrets: () => testOnly.pages });
+    assert.equal(partial.code, 0, partial.text);
+    assert.match(partial.text, /note: GPT_CLICK_CREDENTIALS_JSON exists in Pages and is replaced without a live block/);
+    assert.match(partial.text, /click: missing for live: GPT_CLICK_CREDENTIALS_JSON\.live/);
+
+    // An empty or mistyped rehearsal folder is refused, not ignored.
+    const empty = path.join(dir, "no-rehearsal");
+    mkdirSync(empty);
+    const refused = await run(["--inbox", writeInbox(path.join(dir, "refused"), { click: keys.click }), "--dry-run", "--test-credentials", empty], { root, pagesSecrets: bomb });
+    assert.equal(refused.code, 1);
+    assert.match(refused.text, /--test-credentials holds neither GPT_CLICK_CREDENTIALS_JSON\.json nor UZUM_CREDENTIALS_JSON\.json/);
   } finally {
     done();
   }

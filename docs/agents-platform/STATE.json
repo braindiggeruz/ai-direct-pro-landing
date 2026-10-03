@@ -2,7 +2,7 @@
   "paid_chat_prod_2026": {
     "wp": "WP-23",
     "release": "R7 (with the R5..R7 build); no migration, no setting; the script runs when the owner puts keys",
-    "status": "committed_not_deployed",
+    "status": "committed_reviewed_not_deployed",
     "commit": "41d392beaaf7823883cd9fb55f294bc096ea7767",
     "commit_note": "feat(paid-chat): take the owner's keys from a folder outside Git (parent 766cc7d3, the WP-22 review); the next commit only records this SHA (rule D-006).",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-23 and section 7 (decisions L7, L9, L10, L12, L13, L14); the lead task: docs/paid-chat/ONBOARDING-KEYS-RU.md (plain Russian where the owner acts, exact commands for the agent; go-live order test -> rehearsal purchase -> live -> one real purchase by the owner reversed through the provider cabinet and the admin refund record; buyers get no refunds per the offer; the Z.ai switch with its evaluation step) and scripts/paid-chat/ingest-keys.ts (--dry-run validates click.json, uzum.json, zai.txt and business.json by schema and prints names and ok/missing only; --apply puts the secrets through stdin, writes the non-secret values to wrangler.toml and content/global/legal-entity.json, prints liveReadiness() per provider, never prints values, reminds the owner to delete the files); tests/paid-chat-ingest-keys.test.ts; --apply never run.",
@@ -46,7 +46,7 @@
       "The S1/S2 commits must rewrite gpt-live-readiness \"the committed configuration is inert\" for the new mode (written in the runbook).",
       "WP-21 (security review) not done; the two date-dependent lead-radar tests as before."
     ],
-    "next_wp": "Review of WP-23, then WP-21 (security review), as the lead decides",
+    "next_wp": "WP-21 (security review), as the lead decides",
     "branch": "paid-chat/prod-readiness",
     "baseline_commit": "f53cabcb",
     "production_commit": "6502224ccab347a0b8947849924a57f0475beafe (R4 live, manifest; receipts commit 2cdea35f)",
@@ -1072,7 +1072,11 @@
       ],
       "next_wp": "R4 release on the owner command per the HANDOFF checklist, or WP-19 (admin AI chat, R5), as the lead decides",
       "release_record": "Released to production from a clean worktree of the R4 tip at 6502224c; receipts in docs/paid-chat/releases/R4-live-verification.json and R4-migration-rehearsal.json, recorded by 2cdea35f (bundle baseline re-recorded from the released build)."
-    }
+    },
+    "review": "WP-23 adversarial review 2026-10-03 of 41d392be and a39a85dc against plan section 4 WP-23 and section 7, sections 1, 2 (L9, L10, L13, L14), 3 and 6, and AGENTS.md 2-8 and 11. These hold: no inbox value is printed (report, broken-JSON message, wrangler failure redacted of the value, its leaves and the token); --dry-run writes nothing, starts nothing and reads no Cloudflare credential; the secret travels on stdin only (wrangler 4.118 reads stdin when non-interactive; the list parser matches its '  - NAME: Value Encrypted' lines); the schemas match the site's parsers and the planned secrets are read back by them with the same 4096/8192 limits; every setting the script writes exists in both copies of wrangler.toml; UZUM_API without a mode stays inert (404); deviations 1-8 hold; the real inbox dry-run is exit 0, 0 issues, no change. Fixed: (1) a value the site accepts but wrangler.toml cannot carry (an apostrophe in an Uzum base URL path) passed --dry-run, then --apply put UZUM_CREDENTIALS_JSON and failed before the repository files; the new wrangler.toml is now built in examine() (plan.toml), so it is an issue of --dry-run and --apply refuses before any put; (2) an empty or mistyped --test-credentials folder was ignored silently and the rehearsal's test blocks were dropped; it is now an error; (3) a file with test blocks only replaced the whole secret and dropped its live keys without a word; --apply now notes it before the put when the secret exists in Pages, the readiness names GPT_CLICK_CREDENTIALS_JSON.live, and the runbook says every file is put complete and not to deploy after that note.",
+    "review_commit": "HEAD = fix(paid-chat): address WP-23 review findings (parent a39a85dc)",
+    "review_open_issues": "Not defects that block R7: (1) pages secret list names secret_text variables only, while the deploy gate reads every Pages variable, so a LIVE_SECRETS name kept as a plain variable would be reported missing after --apply (fails safe; R1-R4 receipts have them as secrets); (2) the offline --dry-run readiness uses stand-ins and says 'nothing missing for live' beside its 'unconfirmed' line, read together; (3) the runbook forbids building the test block from live keys while the script only notes an equal secret_key (Click's playground on the live service), for the lead; (4) the test evaluates readiness at NOW 2026-10-20, to move if GPT_BILLING_TERMS_APPROVED_AT goes later; (5) WP-21 still open; two date-dependent lead-radar tests as before.",
+    "review_verification": "tsc -b 0 and typecheck:functions 0; ingest-keys.ts, its test and live-gate.ts under a one-off strict tsconfig outside the repo (noUnused*) 0 own errors; eslint 0; git diff --check clean. One file at a time: paid-chat-ingest-keys 9/9 with the new cases (reverting any of the three fixes fails it), legal-oferta 18/18, paid-chat-dark-rehearsal 4/4, gpt-live-readiness 10/10, runtime-config 4/4, pages-config-parity 7/7, secret-scan 16/16. Real inbox --dry-run exit 0, 0 issues. scan:secrets clean (3290 files); Telegram token regex 0. build:fast 0; seo-protection check 10/10 unchanged on 2026-10-01-paid-chat-honesty."
   },
   "gsc_driven_20260930": {
     "status": "deployed_and_verified",
@@ -1234,10 +1238,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: WP-23 (keys runbook docs/paid-chat/ONBOARDING-KEYS-RU.md and scripts/paid-chat/ingest-keys.ts: --dry-run checks the owner's click.json, uzum.json, zai.txt and business.json by schema and prints names only; --apply puts the secrets through stdin and writes the public values; never run against Cloudflare) committed on paid-chat/prod-readiness, not deployed; R4 live (6502224c)",
+  "current_stage": "Paid AI chat production readiness: WP-23 (keys runbook docs/paid-chat/ONBOARDING-KEYS-RU.md and scripts/paid-chat/ingest-keys.ts) committed and reviewed on paid-chat/prod-readiness; review fixes: the wrangler.toml write is planned before any put, an empty --test-credentials folder is an error, a secret replaced without a live block is noted. Not deployed.",
   "stage_status": "complete",
-  "last_completed_stage": "Paid AI chat WP-23 on paid-chat/prod-readiness (keys runbook and intake script with tests; no production code, migration or setting changed)",
-  "next_stage": "Paid AI chat: review of WP-23, then WP-21 (security review), as the lead decides, per 10-PROD-PLAN.md",
+  "last_completed_stage": "Paid AI chat WP-23 on paid-chat/prod-readiness (keys runbook and intake script with tests; no production code, migration or setting changed), reviewed (no value leak, no secret in Git; three intake defects fixed)",
+  "next_stage": "Paid AI chat: WP-21 (security review), as the lead decides, per 10-PROD-PLAN.md",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

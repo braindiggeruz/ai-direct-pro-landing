@@ -442,6 +442,12 @@ export interface SecretPlan {
 export interface Plan {
   /** Settings whose value changes: name → new value (written to both copies). */
   settings: Record<string, string>;
+  /**
+   * wrangler.toml with `settings` in both copies, built before anything is
+   * put, so a value it cannot carry is an issue of --dry-run, not a failure
+   * after the secrets; null when no setting changes.
+   */
+  toml: string | null;
   /** Settings the inbox sets to the value they already have. */
   unchanged: string[];
   /** The new legal-entity.json, or null when nothing in it changes. */
@@ -504,6 +510,8 @@ interface Contribution {
 
 /** A block label holds test credentials ("test", "merchant.test (dark rehearsal)" …). */
 const isTestBlock = (label: string) => /(^|\.)test\b/.test(label);
+/** A block label holds live credentials ("live", "checkout.live" …). */
+const isLiveBlock = (label: string) => /(^|\.)live\b/.test(label);
 
 function examineClick(inbox: Inbox, report: Report, test: GeneratedTest | null): Contribution | null {
   const file = "click.json";
@@ -821,10 +829,20 @@ export function examine(inbox: Inbox, repo: Repo, test: GeneratedTest | null = n
     if (repo.config[name] === value) unchanged.push(name);
     else settings[name] = value;
   }
+  let toml: string | null = null;
+  if (Object.keys(settings).length) {
+    try {
+      toml = setRuntimeSettings(repo.toml, settings);
+    } catch (error) {
+      // setRuntimeSettings names the setting, never its value.
+      report.issue("wrangler.toml", "(runtime config)", error instanceof Error ? error.message : "cannot be written");
+    }
+  }
   return {
     report,
     plan: {
       settings,
+      toml,
       unchanged,
       entity: business?.changed.length ? business.entity : null,
       entityFields: business?.changed ?? [],
@@ -1023,6 +1041,10 @@ export async function main(args: string[], log: (line: string) => void = console
 
     const repo = loadRepo(root);
     const test = testArg ? generatedTest(path.resolve(testArg)) : null;
+    // Asked to keep the rehearsal's test blocks: a mistyped or empty folder
+    // must not drop them silently.
+    if (test && !test.click && !test.uzumMerchant)
+      throw new Error(`--test-credentials holds neither ${CLICK_SECRET}.json nor ${UZUM_SECRET}.json: leave the option out if the dark rehearsal has not run`);
     const inbox = readInbox(inboxDir);
     const { report, plan } = examine(inbox, repo, test, deps.now);
     log(`inbox: ${inboxDir.replace(/\\/g, "/")} (outside the repository)`);
@@ -1055,6 +1077,9 @@ export async function main(args: string[], log: (line: string) => void = console
     for (const secret of plan.secrets) {
       if (production.has(secret.name) && secret.name !== ZAI_SECRET && !secret.blocks.some(isTestBlock))
         log(`note: ${secret.name} exists in Pages and is replaced without a test block; pass --test-credentials <dark rehearsal folder> to keep one.`);
+      // A put replaces the whole secret: a file with test blocks only drops the live keys.
+      if (production.has(secret.name) && secret.name !== ZAI_SECRET && !secret.blocks.some(isLiveBlock))
+        log(`note: ${secret.name} exists in Pages and is replaced without a live block: live keys it holds are dropped; the owner's file must be complete.`);
       try {
         await pages.put(secret.name, secret.value);
       } catch (error) {
@@ -1066,8 +1091,7 @@ export async function main(args: string[], log: (line: string) => void = console
       put.push(secret.name);
       log(`put ${secret.name} (${secret.blocks.join(", ")}): values not shown`);
     }
-    if (Object.keys(plan.settings).length)
-      writeFileSync(path.join(root, "wrangler.toml"), setRuntimeSettings(repo.toml, plan.settings));
+    if (plan.toml !== null) writeFileSync(path.join(root, "wrangler.toml"), plan.toml);
     if (plan.entity) writeFileSync(path.join(root, ENTITY_FILE), `${JSON.stringify(plan.entity, null, 2)}\n`);
     printPlan(plan, true, log);
     log("liveReadiness() after this intake, against the Pages secrets by name:");
