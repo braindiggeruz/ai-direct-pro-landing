@@ -3,7 +3,7 @@
     "wp": "WP-19",
     "release": "R5 build (after the live R4; with WP-24, WP-25, WP-20..WP-23), no migration",
     "status": "committed_not_deployed",
-    "commit": "HEAD",
+    "commit": "38d200ab9cd41e521790277f35938373e56fca4b",
     "commit_note": "feat(admin): the owner's AI chat section (parent 445b728a, the WP-25 review); the next commit only records this SHA (rule D-006).",
     "resume_note": "Clean tree at 445b728a, no interrupted WP-19 attempt and no wp19 backup.",
     "source": "Plan 10-PROD-PLAN.md section 4 WP-19 and map 05 section 2; the lead's WP-19 task (refund-record for the Seller's technical refunds only, per the owner decision of 2026-10-03 and WP-25). The run was triggered by the owner's Z.ai key message; the key is not used, stored or committed by WP-19.",
@@ -1361,7 +1361,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "38d200ab9cd41e521790277f35938373e56fca4b",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
