@@ -1,0 +1,21 @@
+{
+  "submittedAt": "2026-10-03T09:00:38.809Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "r5r7_release",
+  "releaseCommit": "b69f953ec65704e6f610398d9c5794bd6cbc3448",
+  "reason": "R5-R7: offer v2, policies, B2B lead forms",
+  "count": 9,
+  "urls": [
+    "https://gptbot.uz/ru/oferta/",
+    "https://gptbot.uz/uz/oferta/",
+    "https://gptbot.uz/ru/politika-konfidentsialnosti/",
+    "https://gptbot.uz/uz/maxfiylik-siyosati/",
+    "https://gptbot.uz/ru/tarify-ai-chat/",
+    "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+    "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+    "https://gptbot.uz/ru/gpt-dlya-biznesa/",
+    "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/"
+  ],
+  "responseExcerpt": ""
+}

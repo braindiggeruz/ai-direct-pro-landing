@@ -1,0 +1,95 @@
+{
+  "release": "R5+R6+R7 (WP-24, WP-25, WP-19, WP-20, WP-22, WP-23, WP-21) as one release",
+  "date": "2026-10-03",
+  "production_commit": "b69f953ec65704e6f610398d9c5794bd6cbc3448",
+  "deploys": [
+    "58265bf2 (release)",
+    "93b1ee27 (dark rehearsal: Click and Uzum Merchant in test)",
+    "b69f953e (revert: all providers off again)"
+  ],
+  "previous_production": "a69ab2c084e96d9fe7eb312064506dfa55492076 (R4 + Z.ai GLM-5.3-Flash)",
+  "released_from": "main checkout F:/Claude/gptbot-gsc-audit-20260917 at the verified tip (the build workflow had finished; tree clean)",
+  "owner_decisions_in_this_release": [
+    "no refunds: offer edition ai-paket-2026-10-v2, section 8 (owner, 2026-10-03)",
+    "Z.ai GLM-5.3-Flash from the prepaid bundle stays the primary model"
+  ],
+  "d1": {
+    "backup_sha256": "2da8305cfdaa100990723067029873af2f032c8e8d66de66d704ad089e9b5f44",
+    "backup_location": "outside Git (F:/Claude/gptbot-production-backups/paid-chat-R5R7-2026-10-03T08-46-54Z/before-0069.sql)",
+    "rehearsal": {
+      "status": "pass",
+      "failures": [],
+      "runs": 2,
+      "pending": [
+        "0069_gpt_events_retention.sql",
+        "0070_gpt_leads_budget.sql"
+      ]
+    },
+    "applied_remote": [
+      "0069_gpt_events_retention.sql",
+      "0070_gpt_leads_budget.sql"
+    ],
+    "readback": {
+      "d1_migrations": 71,
+      "last": "0070_gpt_leads_budget.sql",
+      "gpt_leads_columns": 15,
+      "budget_column": 1,
+      "idx_gpt_events_created": 1,
+      "payment_orders_before": 0,
+      "fiscal_receipts": 0
+    }
+  },
+  "build": {
+    "build_production": "0, features include ai_chat_admin",
+    "seo_protection": "10/10 unchanged (2026-10-01-paid-chat-honesty)",
+    "seo_audit": "0 critical",
+    "bundle": "within budget; baseline re-recorded from the final build",
+    "live_gate": "live false, issues []"
+  },
+  "live_checks": {
+    "inert_smoke": "40/40 PASS after the release and again after the rehearsal (providers [], payment/sign-in/subscribe 404, admin API 401 without a token, 4 B2B forms with the budget select, offer edition v2)",
+    "live_still_lacks": {
+      "click": [
+        "GPT_BILLING_MODE_CLICK",
+        "GPT_BILLING_LIVE_READY",
+        "GPT_CLICK_CREDENTIALS_JSON (owner live keys)"
+      ],
+      "uzum": [
+        "GPT_BILLING_MODE_UZUM",
+        "GPT_BILLING_LIVE_READY",
+        "UZUM_API"
+      ]
+    },
+    "admin_shell": "/admin-tools/ai-chat 200, X-Robots-Tag noindex nofollow, Cache-Control no-store; data behind API 401",
+    "bot": "gpt-model-probe javob 4/4 ok; javob-setup matches true",
+    "chat_browser_375": "business question answered by zai/glm-5.3-flash, then one \"Услуга GPTBot.uz\" line with \"Оставить заявку\" and \"Об услуге\"; no console errors; gpt_ui_events b2b_line_shown/bot = 1",
+    "protected_live": "10/10 with Cloudflare e-mail obfuscation undone (after the final deploy)",
+    "test_leads": "not sent: the four B2B test leads need the owner's consent (they notify the owner)"
+  },
+  "dark_rehearsal": {
+    "receipt": "docs/paid-chat/releases/R7-dark-rehearsal.json",
+    "result": "pass: 48/48 steps, then after_off 6/6 (54/54 in total)",
+    "auth": "Bearer (maintenance secret); no admin token, so the admin list checks were not part of the run",
+    "test_credentials": "generated outside Git (C:/Users/Borinio/.config/gptbot-private/dark-rehearsal/); Pages secrets GPT_CLICK_CREDENTIALS_JSON (test) and UZUM_CREDENTIALS_JSON (merchant.test) stay, inert without a mode; the owner keys are added next to them by ingest-keys.ts --apply",
+    "aggregates_after": {
+      "orders_by_mode": "test/click/refunded 1, test/uzum/refunded 2, test/uzum/cancelled 1, no live row",
+      "pack_window_events_since_run": 0,
+      "test_order_notices_delivered": 0
+    },
+    "drill_alert": "sent (owner Telegram)"
+  },
+  "recrawl": {
+    "indexnow": "HTTP 200, 9 URLs verified live (reports/indexnow-receipts/2026-10-03T09-00-38-809Z_r5r7_release.json)",
+    "gsc_sitemaps_submitted": [
+      "https://gptbot.uz/sitemap.xml",
+      "https://gptbot.uz/sitemap-updates.xml"
+    ]
+  },
+  "follow_up": [
+    "after 2026-10-04T22:30Z: pages secret delete TELEGRAM_ASSISTANT_BOT_USERNAME + guarded redeploy (R4 checklist step 12)",
+    "owner keys into F:/Claude/gptbot-keys-inbox (click.json, uzum.json) -> ingest-keys.ts --dry-run, then --apply -> S1..S5 of docs/paid-chat/ONBOARDING-KEYS-RU.md",
+    "lawyer: offer v2 section 8 and both policies; then legalReviewedAt on the policies",
+    "optional: Cloudflare rate-limiting rule for /api/gpt/* (WP-21 S3/S4)"
+  ],
+  "rollback": "git revert + guarded deploy; 0069 (index) and 0070 (column) stay"
+}

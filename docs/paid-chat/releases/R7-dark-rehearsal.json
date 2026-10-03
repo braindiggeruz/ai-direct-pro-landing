@@ -1,0 +1,331 @@
+{
+  "release": "R7",
+  "kind": "dark-rehearsal",
+  "plan": "10-PROD-PLAN.md section 4 WP-22, layer 2 (decision L7)",
+  "site": "https://gptbot.uz",
+  "production_commit": "93b1ee273530bd0dd392cb7cbc50ceeb96767c53",
+  "operator": "bearer",
+  "started_at": "2026-10-03T08:57:10.677Z",
+  "finished_at": "2026-10-03T08:59:46.209Z",
+  "status": "pass",
+  "phases": {
+    "click": {
+      "steps": [
+        {
+          "step": "click: test credentials loaded",
+          "ok": true,
+          "got": "ok"
+        },
+        {
+          "step": "visitor: account offers no provider and no sign-in",
+          "ok": true,
+          "got": "200 providers=0 login=0"
+        },
+        {
+          "step": "visitor: subscribe click -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "visitor: a pack-window event -> 404 (not counted)",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "bearer: rehearsal session with a synthetic account, offered click",
+          "ok": true,
+          "got": "200 providers=click,uzum"
+        },
+        {
+          "step": "session: account in test, signed in, no pack yet",
+          "ok": true,
+          "got": "200 mode=test"
+        },
+        {
+          "step": "session: subscribe click -> a test order of 20 000 UZS",
+          "ok": true,
+          "got": "200 mode=test"
+        },
+        {
+          "step": "click: Prepare with a forged signature -> -1",
+          "ok": true,
+          "got": "200 error=-1"
+        },
+        {
+          "step": "click: Prepare with another amount -> -2",
+          "ok": true,
+          "got": "200 error=-2"
+        },
+        {
+          "step": "click: Prepare signed with the test secret -> 0",
+          "ok": true,
+          "got": "200 error=0"
+        },
+        {
+          "step": "click: two Completes at once -> each 0 or -4",
+          "ok": true,
+          "got": "0,0"
+        },
+        {
+          "step": "click: the Complete replayed -> -4",
+          "ok": true,
+          "got": "200 error=-4"
+        },
+        {
+          "step": "session: the pack is on (300 answers, one pack)",
+          "ok": true,
+          "got": "200 payment=paid remaining=300"
+        },
+        {
+          "step": "bearer: the Seller's refund record",
+          "ok": true,
+          "got": "200 recorded=true"
+        },
+        {
+          "step": "bearer: the refund record repeated changes nothing",
+          "ok": true,
+          "got": "200 recorded=true"
+        },
+        {
+          "step": "session: the pack is revoked, the order refunded",
+          "ok": true,
+          "got": "200 payment=refunded"
+        },
+        {
+          "step": "another browser with the account cookie only: no provider, no test order",
+          "ok": true,
+          "got": "200 providers=0 payment=none"
+        }
+      ],
+      "passed": 17,
+      "failed": 0
+    },
+    "uzum_merchant": {
+      "steps": [
+        {
+          "step": "uzum: test credentials loaded",
+          "ok": true,
+          "got": "ok"
+        },
+        {
+          "step": "visitor: account offers no provider and no sign-in",
+          "ok": true,
+          "got": "200 providers=0 login=0"
+        },
+        {
+          "step": "visitor: subscribe uzum -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "visitor: a pack-window event -> 404 (not counted)",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "bearer: rehearsal session with a synthetic account, offered uzum",
+          "ok": true,
+          "got": "200 providers=click,uzum"
+        },
+        {
+          "step": "session: account in test, signed in, no pack yet",
+          "ok": true,
+          "got": "200 mode=test"
+        },
+        {
+          "step": "session: subscribe uzum -> the payment code for the Uzum Bank app",
+          "ok": true,
+          "got": "200 flow=code mode=code"
+        },
+        {
+          "step": "uzum: wrong Basic password -> 10001",
+          "ok": true,
+          "got": "400 FAILED 10001"
+        },
+        {
+          "step": "uzum: another service id -> 10006",
+          "ok": true,
+          "got": "400 FAILED 10006"
+        },
+        {
+          "step": "uzum: mistyped code (check digit) -> 10007",
+          "ok": true,
+          "got": "400 FAILED 10007"
+        },
+        {
+          "step": "uzum: check: code as a number, scheme 'basic' -> OK",
+          "ok": true,
+          "got": "200 OK"
+        },
+        {
+          "step": "uzum: create with a wrong amount -> 10011",
+          "ok": true,
+          "got": "400 FAILED 10011"
+        },
+        {
+          "step": "uzum: create -> CREATED",
+          "ok": true,
+          "got": "200 CREATED"
+        },
+        {
+          "step": "uzum: the same transId again -> 10010",
+          "ok": true,
+          "got": "400 FAILED 10010"
+        },
+        {
+          "step": "uzum: status -> CREATED",
+          "ok": true,
+          "got": "200 CREATED"
+        },
+        {
+          "step": "uzum: confirm sent, its answer lost",
+          "ok": true,
+          "got": "-"
+        },
+        {
+          "step": "uzum: status after the lost confirm -> CONFIRMED (U8)",
+          "ok": true,
+          "got": "200 CONFIRMED"
+        },
+        {
+          "step": "uzum: confirm again -> 10016",
+          "ok": true,
+          "got": "400 FAILED 10016"
+        },
+        {
+          "step": "uzum: check after a payment -> OK (a new pack may follow)",
+          "ok": true,
+          "got": "200 OK"
+        },
+        {
+          "step": "uzum: reverse -> REVERSED",
+          "ok": true,
+          "got": "200 REVERSED"
+        },
+        {
+          "step": "uzum: reverse again -> 10018",
+          "ok": true,
+          "got": "400 FAILED 10018"
+        },
+        {
+          "step": "uzum: status after reverse -> REVERSED",
+          "ok": true,
+          "got": "200 REVERSED"
+        },
+        {
+          "step": "uzum: create B -> CREATED",
+          "ok": true,
+          "got": "200 CREATED"
+        },
+        {
+          "step": "uzum: create D replaces the unconfirmed B -> CREATED",
+          "ok": true,
+          "got": "200 CREATED"
+        },
+        {
+          "step": "uzum: confirm B -> 10015",
+          "ok": true,
+          "got": "400 FAILED 10015"
+        },
+        {
+          "step": "uzum: status B -> FAILED 10015",
+          "ok": true,
+          "got": "400 FAILED 10015"
+        },
+        {
+          "step": "uzum: confirm D -> CONFIRMED",
+          "ok": true,
+          "got": "200 CONFIRMED"
+        },
+        {
+          "step": "uzum: reverse D -> REVERSED",
+          "ok": true,
+          "got": "200 REVERSED"
+        },
+        {
+          "step": "uzum: status of an unknown transId -> 10014",
+          "ok": true,
+          "got": "400 FAILED 10014"
+        },
+        {
+          "step": "session: both paid transactions reversed, no pack left",
+          "ok": true,
+          "got": "200 payment=refunded"
+        }
+      ],
+      "passed": 30,
+      "failed": 0
+    },
+    "drill": {
+      "steps": [
+        {
+          "step": "maintenance tick with a drill alert",
+          "ok": true,
+          "got": "200 alerts=sent drill sent"
+        }
+      ],
+      "passed": 1,
+      "failed": 0
+    },
+    "after_off": {
+      "steps": [
+        {
+          "step": "account: providers [] and no sign-in",
+          "ok": true,
+          "got": "200 providers=0"
+        },
+        {
+          "step": "subscribe click -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "subscribe uzum -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "Click callback -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "Uzum Merchant API webhook -> 404",
+          "ok": true,
+          "got": "404"
+        },
+        {
+          "step": "bearer: no rehearsal session while nothing is in test -> 404",
+          "ok": true,
+          "got": "404"
+        }
+      ],
+      "passed": 6,
+      "failed": 0
+    }
+  },
+  "provider_modes": {
+    "click": "test",
+    "uzum": "test",
+    "payme": null
+  },
+  "rows_by_mode": null,
+  "owner_checks": [
+    "No owner Telegram message 'GPTBot.uz · AI paket: …' for this rehearsal: the outbox delivers live orders only.",
+    "The training alert 'drill' reached the owner's alert chat."
+  ],
+  "lead_aggregates": [
+    {
+      "sql": "SELECT mode, provider, state, COUNT(*) AS n FROM gpt_payment_orders_all GROUP BY 1,2,3",
+      "expect": "no live row; the test rows are this rehearsal's (rows_by_mode)"
+    },
+    {
+      "sql": "SELECT type, COUNT(*) AS n FROM gpt_ui_events WHERE created_at >= 1791017830677 AND type IN ('pack_viewed','login_started','login_result','checkout_started','checkout_result') GROUP BY 1",
+      "expect": "none, unless the owner walked the screens in a rehearsal session: visitors cannot send these steps"
+    },
+    {
+      "sql": "SELECT COUNT(*) AS n FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.org_id=o.org_id AND p.id=o.order_id WHERE p.org_id='gptbot-consumer' AND p.mode='test' AND o.delivered_at IS NOT NULL",
+      "expect": "0: a test order never reaches the owner's chat"
+    }
+  ]
+}
