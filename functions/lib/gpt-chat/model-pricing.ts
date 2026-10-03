@@ -65,6 +65,9 @@ export const PRICE_USD_PER_MTOK: Readonly<Record<string, ModelPrice>> = {
   "zai/glm-4.7-flashx": { in: 0.07, out: 0.4 },
   "zai/glm-4.5-air": { in: 0.2, out: 1.1 },
   "zai/glm-4.7": { in: 0.6, out: 2.2 },
+  // Prepaid usage bundle (ZAI_PREPAID_MODELS): the tokens are already paid for,
+  // so a turn adds nothing; when the bundle is empty Z.ai answers 1113.
+  "zai/glm-5.3-flash": { in: 0, out: 0 },
   "google/gemma-4-26b-a4b-it": { in: 0.09, out: 0.3 },
   "mistralai/mistral-small-3.2-24b-instruct": { in: 0.09375, out: 0.25 },
   "meta-llama/llama-3.3-70b-instruct": { in: 0.1, out: 0.32 },

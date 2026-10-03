@@ -51,22 +51,35 @@ export type ZaiFailure =
   | "bad_request"
   | "provider_error";
 
+/**
+ * GLM-5.x always thinks: `thinking: {type: "disabled"}` is refused with 1210
+ * ("cannot be disabled; please use low, high, or max"). For them the lowest
+ * reasoning effort is sent instead; measured on glm-5.3-flash 2026-10-03:
+ * reasoning_tokens 0, first content ≈ 2–3 s (without it: 611 reasoning
+ * tokens and 16 s to the first word).
+ */
+export function zaiAlwaysThinks(bare: string): boolean {
+  return /^glm-5(\.|-|$)/.test(bare);
+}
+
 export function buildZaiBody(
   bare: string,
   messages: ChatMessage[],
   maxTokens: number,
   stream: boolean,
 ) {
-  return {
+  const base = {
     model: bare,
     messages,
     temperature: 0.6,
     max_tokens: maxTokens,
     stream,
-    // GLM-4.5/4.7 think by default; the web chat has a 12 s first-content
-    // budget, and reasoning text is never shown to the visitor.
-    thinking: { type: "disabled" as const },
   };
+  // GLM-4.5/4.7 think by default; the web chat has a 12 s first-content
+  // budget, and reasoning text is never shown to the visitor.
+  return zaiAlwaysThinks(bare)
+    ? { ...base, reasoning_effort: "low" as const }
+    : { ...base, thinking: { type: "disabled" as const } };
 }
 
 export function zaiHeaders(env: Pick<Env, "ZAI_API_KEY">): Record<string, string> {

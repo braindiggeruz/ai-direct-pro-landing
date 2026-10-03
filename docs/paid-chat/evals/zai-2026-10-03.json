@@ -2,7 +2,8 @@
   "date": "2026-10-03",
   "decision": "approved",
   "sheets": [
-    "docs/paid-chat/eval/zai-check-2026-10-03-free.md"
+    "docs/paid-chat/eval/zai-check-2026-10-03-free.md",
+    "docs/paid-chat/eval/zai-check-2026-10-03-glm-5.3-flash.md"
   ],
-  "summary": "Owner directive 2026-10-03: Z.ai is the primary model for answers. Not a blind A/B (no OpenRouter key on the agent machine): 20 fixture prompts through the chat code path; zai/glm-4.7-flash 20/20, median 2524 ms; agent scores uz 36/35/35, ru 47/48/49 of 50 (correctness/language/usefulness). zai/glm-4.5-flash 19/20, median 4081 ms, also factual errors. Free tier: glm-4.7-flash with the OpenRouter free chain as fallback; paid tier glm-4.7-flash until the Z.ai balance is topped up (paid models answer 1113 now), then glm-4.5-air. Rated by the agent, not independently."
+  "summary": "Owner directive 2026-10-03: Z.ai is the primary model for answers. Not a blind A/B (no OpenRouter key on the agent machine): 20 fixture prompts through the chat code path; zai/glm-4.7-flash 20/20, median 2524 ms; agent scores uz 36/35/35, ru 47/48/49 of 50 (correctness/language/usefulness). zai/glm-4.5-flash 19/20, median 4081 ms, also factual errors. Free tier: glm-4.7-flash with the OpenRouter free chain as fallback; paid tier glm-4.7-flash until the Z.ai balance is topped up (paid models answer 1113 now), then glm-4.5-air. Rated by the agent, not independently. Same day, switched both tiers to zai/glm-5.3-flash from the owner's prepaid GLM-5.3-Flash Premium bundle (ZAI_PREPAID_MODELS), sent with reasoning_effort \"low\": JSON 15/20 within the 12 s whole-call budget (5 long answers fall back to OpenRouter in JSON mode), stream first content 3.2-3.8 s; correctness clearly above glm-4.7-flash."
 }

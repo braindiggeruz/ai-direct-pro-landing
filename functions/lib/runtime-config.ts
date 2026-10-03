@@ -72,6 +72,7 @@ export const RUNTIME_CONFIG_KEYS = [
   'ZAI_MODEL_FREE',
   'ZAI_MODEL_PAID',
   'ZAI_TIERS',
+  'ZAI_PREPAID_MODELS',
   'ZAI_TIMEOUT_MS',
   // Uzum Bank payments (functions/lib/gpt-chat/uzum-config.ts). Public only; the
   // terminal/API key and Merchant API login live in the secret UZUM_CREDENTIALS_JSON.

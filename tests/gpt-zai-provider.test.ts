@@ -23,7 +23,7 @@ import {
 } from '../functions/lib/gpt-chat/model-provider';
 import { chatComplete, buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { chatStreamStart, parseSseChunk, type SseEvent } from '../functions/lib/gpt-chat/openrouter-stream';
-import { ZAI_ENDPOINT, classifyZaiFailure, callZaiOnce } from '../functions/lib/gpt-chat/zai-chat';
+import { ZAI_ENDPOINT, classifyZaiFailure, callZaiOnce, buildZaiBody } from '../functions/lib/gpt-chat/zai-chat';
 import { availableModels, modelFailed } from '../functions/lib/gpt-chat/model-health-store';
 import { estimateCostUsd } from '../functions/lib/gpt-chat/model-pricing';
 import { alertOperator } from '../functions/lib/gpt-chat/operator-alert';
@@ -292,6 +292,29 @@ test('4 the free tier only takes $0 Z.ai models; GLM-5 never enters a chain', (t
   assert.equal(rejected.length, 1, 'warned once per isolate');
   const flash = zaiEnv(undefined, { ZAI_MODEL_FREE: 'GLM-4.5-Flash' });
   assert.equal(webChatChain(resolveConfig(flash), flash, 'free')[0], 'zai/glm-4.5-flash');
+});
+
+test('4b a prepaid GLM-5.3-Flash enters a chain only when listed, and is sent with the lowest reasoning effort', () => {
+  _resetZaiWarning();
+  const listed = zaiEnv(undefined, { ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'GLM-5.3-Flash', ZAI_PREPAID_MODELS: ' GLM-5.3-Flash ' });
+  const cfg = resolveConfig(listed);
+  for (const tier of ['free', 'paid'] as const) assert.equal(webChatChain(cfg, listed, tier)[0], 'zai/glm-5.3-flash');
+  // Not listed as prepaid: the free tier must not spend on it.
+  const unlisted = zaiEnv(undefined, { ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'glm-5.3-flash' });
+  const cfgU = resolveConfig(unlisted);
+  for (const tier of ['free', 'paid'] as const) assert.deepEqual(webChatChain(cfgU, unlisted, tier), modelChain(cfgU, tier));
+  // Listed but never checked live: still refused (the 12 s budget is unknown).
+  const unknown = zaiEnv(undefined, { ZAI_MODEL_FREE: 'glm-5.3', ZAI_PREPAID_MODELS: 'glm-5.3' });
+  const cfgX = resolveConfig(unknown);
+  assert.deepEqual(webChatChain(cfgX, unknown, 'free'), modelChain(cfgX, 'free'));
+
+  const glm5 = buildZaiBody('glm-5.3-flash', [{ role: 'user', content: 'Salom' }], 1600, true) as Record<string, unknown>;
+  assert.equal(glm5.reasoning_effort, 'low');
+  assert.equal('thinking' in glm5, false, 'GLM-5.x refuses thinking:{type:"disabled"} with 1210');
+  const glm4 = buildZaiBody('glm-4.7-flash', [{ role: 'user', content: 'Salom' }], 1600, false) as Record<string, unknown>;
+  assert.deepEqual(glm4.thinking, { type: 'disabled' });
+  assert.equal('reasoning_effort' in glm4, false);
+  assert.equal(estimateCostUsd('zai/glm-5.3-flash', 1500, 500), 0);
 });
 
 // ── 5. JSON success ────────────────────────────────────────────────────────
@@ -685,13 +708,13 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
 });
 
 // ── 16. Runtime config ─────────────────────────────────────────────────────
-test('16 the Z.ai switches are allowlisted public config, committed on with $0 models', () => {
-  const keys = ['GPT_MODEL_PROVIDER', 'GPT_ZAI_EVAL_APPROVED', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_TIMEOUT_MS'];
+test('16 the Z.ai switches are allowlisted public config, committed on with the prepaid glm-5.3-flash', () => {
+  const keys = ['GPT_MODEL_PROVIDER', 'GPT_ZAI_EVAL_APPROVED', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_PREPAID_MODELS', 'ZAI_TIMEOUT_MS'];
   for (const key of keys) assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes(key), key);
   assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes('ZAI_API_KEY'), 'the key is a secret, never runtime config');
-  // On since 2026-10-03 (owner directive). Both tiers use a $0 model until the
-  // Z.ai balance is topped up: a paid model would answer 1113 and block zai/*.
-  const expected = { GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-10-03', ZAI_MODEL_FREE: 'glm-4.7-flash', ZAI_MODEL_PAID: 'glm-4.7-flash', ZAI_TIERS: 'free,paid', ZAI_TIMEOUT_MS: '12000' };
+  // On since 2026-10-03 (owner directive). Both tiers use glm-5.3-flash from
+  // the owner's prepaid usage bundle; pay-as-you-go models would answer 1113.
+  const expected = { GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-10-03', ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'glm-5.3-flash', ZAI_TIERS: 'free,paid', ZAI_PREPAID_MODELS: 'glm-5.3-flash', ZAI_TIMEOUT_MS: '12000' };
   const packed = packedRuntimeConfig();
   const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
   const table = source.slice(source.indexOf('[vars.GPTBOT_RUNTIME_CONFIG]'));
@@ -704,13 +727,13 @@ test('16 the Z.ai switches are allowlisted public config, committed on with $0 m
   assert.equal(env.ZAI_API_KEY, undefined);
   const cfg = resolveConfig(env);
   assert.deepEqual(
-    [cfg.modelProvider, cfg.zaiEvalApproved, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiTimeoutMs],
-    ['zai', '2026-10-03', 'glm-4.7-flash', 'glm-4.7-flash', ['free', 'paid'], 12_000],
+    [cfg.modelProvider, cfg.zaiEvalApproved, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiPrepaidModels, cfg.zaiTimeoutMs],
+    ['zai', '2026-10-03', 'glm-5.3-flash', 'glm-5.3-flash', ['free', 'paid'], ['glm-5.3-flash'], 12_000],
   );
   // With the Pages secret, both tiers put that one Z.ai model in front of the
   // OpenRouter chain; without it they stay on OpenRouter.
   for (const tier of ['free', 'paid'] as const) {
-    assert.deepEqual(webChatChain(cfg, { ZAI_API_KEY: 'k' } as Env, tier), ['zai/glm-4.7-flash', ...modelChain(cfg, tier).filter((m) => !m.startsWith('zai/'))]);
+    assert.deepEqual(webChatChain(cfg, { ZAI_API_KEY: 'k' } as Env, tier), ['zai/glm-5.3-flash', ...modelChain(cfg, tier).filter((m) => !m.startsWith('zai/'))]);
     assert.deepEqual(webChatChain(cfg, {} as Env, tier), modelChain(cfg, tier));
   }
 });
