@@ -652,6 +652,8 @@ const MASKED: [string, string][] = [
   ['src/gpt-chat/components/ImagePromptTool.tsx', 'ym-disable-submit'],
   ['src/calculator/CalculatorApp.tsx', 'ym-disable-keys'],
   ['src/calculator/CalculatorApp.tsx', 'ym-disable-submit'],
+  ['src/gpt-chat/account/BotLoginScreen.tsx', 'ym-disable-keys'],
+  ['src/gpt-chat/account/BotLoginScreen.tsx', 'ym-disable-submit'],
 ];
 
 for (const [file, cls] of MASKED) {
@@ -678,6 +680,16 @@ test('metrika: the chat textarea and both contact fields disable key recording',
     2,
     'the name and contact fields',
   );
+});
+
+test('metrika: the sign-in code typed on the site is never recorded (code mode of the bot login)', async () => {
+  const screen = await source('src/gpt-chat/account/BotLoginScreen.tsx');
+  assert.match(screen, /<form className="[^"]*\bgpt-login-form\b[^"]*\bym-disable-submit\b[^"]*"/);
+  assert.match(screen, /<input\s+className="[^"]*\bgpt-login-input\b[^"]*\bym-disable-keys\b[^"]*"/);
+  // Every typed field of the screen, not only the one there is today.
+  const inputs = screen.match(/<input\b[\s\S]*?\/>/g) ?? [];
+  assert.ok(inputs.length > 0);
+  for (const input of inputs) assert.match(input, /ym-disable-keys/, input);
 });
 
 test('metrika: no user-facing field opts into key recording', async () => {

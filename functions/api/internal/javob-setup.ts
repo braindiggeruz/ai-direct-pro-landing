@@ -16,7 +16,7 @@
 // bot and shows what Telegram holds now; it never carries the token.
 import type { BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { fail, json, readTextLimited } from "../../lib/gpt-chat/http";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import {
   JAVOB_PROFILE,
   PROFILE_LANGUAGES,
@@ -79,11 +79,7 @@ async function applyProfile(tg: TelegramClient, language: ProfileLanguage): Prom
 }
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env }) => {
-  const secret = env.GPT_BILLING_MAINTENANCE_SECRET;
-  if (
-    !secret ||
-    !sameSecret(request.headers.get("authorization") || "", `Bearer ${secret}`)
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   const body = await readTextLimited(request, 256);
   if (!body.ok && body.code === "payload_too_large")

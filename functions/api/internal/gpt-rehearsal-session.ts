@@ -14,17 +14,11 @@
 // (api/admin/ai-chat/rehearsal-session.ts); both go through openRehearsal().
 import { providersInMode, type BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { openRehearsal } from "../../lib/gpt-chat/rehearsal";
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env }) => {
-  if (
-    !env.GPT_BILLING_MAINTENANCE_SECRET ||
-    !sameSecret(
-      request.headers.get("authorization") || "",
-      `Bearer ${env.GPT_BILLING_MAINTENANCE_SECRET}`,
-    )
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   if (!providersInMode(env, "test").length) return fail("not_found", "Not found", 404);
   const body = request.body

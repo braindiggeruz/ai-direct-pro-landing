@@ -41,7 +41,7 @@ import {
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
 import type { BillingEnv } from "../../lib/gpt-chat/billing-config";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { fail, json, readTextLimited } from "../../lib/gpt-chat/http";
 import {
   inspectBilling,
@@ -92,11 +92,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
 }) => {
-  const secret = env.GPT_BILLING_MAINTENANCE_SECRET;
-  if (
-    !secret ||
-    !sameSecret(request.headers.get("authorization") || "", `Bearer ${secret}`)
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   if (!env.GPTBOT_DRAFTS_DB) return fail("unavailable", "Unavailable", 503);
   const body = await readTextLimited(request, 256);

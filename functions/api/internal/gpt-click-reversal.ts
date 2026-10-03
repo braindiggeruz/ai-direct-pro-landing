@@ -33,7 +33,7 @@ import {
   FISCAL_PRINTED,
 } from "../../lib/gpt-chat/fiscal-store";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 
 /** gpt_payment_orders.reason of a refund (the same as the recorded one). */
 const REASON_REFUND = 5;
@@ -43,13 +43,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  if (
-    !env.GPT_BILLING_MAINTENANCE_SECRET ||
-    !sameSecret(
-      request.headers.get("authorization") || "",
-      `Bearer ${env.GPT_BILLING_MAINTENANCE_SECRET}`,
-    )
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{
     orderId?: unknown;

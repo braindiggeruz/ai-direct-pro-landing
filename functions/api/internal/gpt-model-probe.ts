@@ -50,7 +50,7 @@ import { fail, json, readTextLimited } from "../../lib/gpt-chat/http";
 import { providerOf } from "../../lib/gpt-chat/model-provider";
 import { OPENROUTER_ENDPOINT, classifyFailureResponse } from "../../lib/gpt-chat/openrouter-chat";
 import { openRouterRequest, parseSseChunk } from "../../lib/gpt-chat/openrouter-stream";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { buildMessages } from "../../lib/gpt-chat/prompt";
 import { buildJavobReplyPrompt } from "../../lib/telegram/prompts";
 import { resolveTelegramConfig } from "../../lib/telegram/config";
@@ -243,11 +243,7 @@ async function probeJavob(env: BillingEnv): Promise<JavobProbeRun[]> {
 }
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env }) => {
-  const secret = env.GPT_BILLING_MAINTENANCE_SECRET;
-  if (
-    !secret ||
-    !sameSecret(request.headers.get("authorization") || "", `Bearer ${secret}`)
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   const body = await readTextLimited(request, 256);
   if (!body.ok && body.code === "payload_too_large")

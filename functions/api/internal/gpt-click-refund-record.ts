@@ -1,5 +1,5 @@
 import { type BillingEnv } from "../../lib/gpt-chat/billing-config";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { recordSellerRefund } from "../../lib/gpt-chat/seller-refund";
@@ -13,13 +13,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  if (
-    !env.GPT_BILLING_MAINTENANCE_SECRET ||
-    !sameSecret(
-      request.headers.get("authorization") || "",
-      `Bearer ${env.GPT_BILLING_MAINTENANCE_SECRET}`,
-    )
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{
     orderId?: string;

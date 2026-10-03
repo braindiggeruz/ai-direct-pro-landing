@@ -26,7 +26,7 @@
 // en_merchant.yaml (1.0.0).
 import { BILLING_ORG, type BillingEnv } from "../../lib/gpt-chat/billing-config";
 import { ensureUzumSchema } from "../../lib/gpt-chat/billing-schema";
-import { sameSecret } from "../../lib/gpt-chat/payment-protocol";
+import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
@@ -51,13 +51,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  if (
-    !env.GPT_BILLING_MAINTENANCE_SECRET ||
-    !sameSecret(
-      request.headers.get("authorization") || "",
-      `Bearer ${env.GPT_BILLING_MAINTENANCE_SECRET}`,
-    )
-  )
+  if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{
     orderId?: unknown;

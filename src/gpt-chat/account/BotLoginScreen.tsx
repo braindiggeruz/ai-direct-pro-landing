@@ -245,11 +245,13 @@ export function BotLoginScreen({
           : copy.botLoginWaiting(clock(attempt.expiresAt - now))}
       </p>
       {!pick && status === 'claimed' && (
-        <form className="gpt-login-form" onSubmit={(event) => void submitCode(event)}>
+        // ym-disable-submit / ym-disable-keys: Webvisor records neither the
+        // form nor the keys of the sign-in code (scripts/analytics-metrika.ts).
+        <form className="gpt-login-form ym-disable-submit" onSubmit={(event) => void submitCode(event)}>
           <label>
             <span>{copy.botLoginCodeLabel}</span>
             <input
-              className="gpt-login-input"
+              className="gpt-login-input ym-disable-keys"
               inputMode="numeric"
               autoComplete="one-time-code"
               pattern="\d{6}"

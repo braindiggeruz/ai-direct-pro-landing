@@ -1672,10 +1672,16 @@ function setupCall(env: any, auth: string, body?: string) {
 
 test('javob-setup: bearer first; check reads only; apply sets RU and UZ and reads them back; the token never leaves', async () => {
   const token = 'bot-token-SECRET-123';
-  const secret = 'maintenance-secret-xyz';
+  const secret = 'maintenance-secret-'.repeat(2);
   const env = { TELEGRAM_ASSISTANT_BOT_TOKEN: token, GPT_BILLING_MAINTENANCE_SECRET: secret };
   const calls = profileFetch();
   assert.equal((await setupCall({ TELEGRAM_ASSISTANT_BOT_TOKEN: token }, `Bearer ${secret}`)).status, 403, 'no secret configured');
+  const short = secret.slice(0, 31);
+  assert.equal(
+    (await setupCall({ TELEGRAM_ASSISTANT_BOT_TOKEN: token, GPT_BILLING_MAINTENANCE_SECRET: short }, `Bearer ${short}`)).status,
+    403,
+    'a secret shorter than 32 characters counts as unset',
+  );
   assert.equal((await setupCall(env, 'Bearer wrong')).status, 403);
   assert.equal((await setupCall(env, '')).status, 403);
   assert.equal(calls.length, 0, 'nothing reaches Telegram before the bearer');
@@ -1705,9 +1711,10 @@ test('javob-setup: bearer first; check reads only; apply sets RU and UZ and read
 });
 
 test('javob-setup refuses a protected bot before writing anything', async () => {
-  const env = { TELEGRAM_ASSISTANT_BOT_TOKEN: 'lead-bot-token', GPT_BILLING_MAINTENANCE_SECRET: 's3' };
+  const secret = 's3'.repeat(16);
+  const env = { TELEGRAM_ASSISTANT_BOT_TOKEN: 'lead-bot-token', GPT_BILLING_MAINTENANCE_SECRET: secret };
   const calls = profileFetch('aidirectprobot');
-  const response = await setupCall(env, 'Bearer s3', '{"apply":true}');
+  const response = await setupCall(env, `Bearer ${secret}`, '{"apply":true}');
   assert.equal(response.status, 409);
   assert.deepEqual(calls.map((c) => c.method), ['getMe']);
 });
