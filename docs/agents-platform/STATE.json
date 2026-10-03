@@ -3,7 +3,7 @@
     "wp": "WP-25",
     "release": "R5 build (after the live R4; with WP-24, WP-19..WP-23), no migration",
     "status": "committed_not_reviewed_not_deployed",
-    "commit": "HEAD",
+    "commit": "1ebf5e021224b4cce40a900c102c53c3fdb94193",
     "commit_note": "feat(legal): a paid AI pack is not refundable: offer edition ai-paket-2026-10-v2, no refund request (parent bd65b94b, the lead's Z.ai switch); the next commit only records this SHA (rule D-006).",
     "resume_note": "Clean tree at bd65b94b, no interrupted WP-25 attempt and no wp25 backup.",
     "source": "The lead's WP-25 task: owner decision of 2026-10-03 (overrides WP-24 item 9 and every earlier refund rule). WP-25 is not in plan section 4. The run that carried it was triggered by the owner's Z.ai key message; the no-refund decision itself reached this agent only through the lead's task text, so the lead confirms it with the owner before the R5 release.",
@@ -1316,7 +1316,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "HEAD",
+  "last_commit": "1ebf5e021224b4cce40a900c102c53c3fdb94193",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
