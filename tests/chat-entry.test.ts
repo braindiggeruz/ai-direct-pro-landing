@@ -3,7 +3,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
 import { CHAT_ENTRIES, chatEntryForArticle, chatEntryFromHash, chatEntryHref, chatEntryArticleHref } from '../src/shared/chat-entry';
-import { renderChatEntry } from '../scripts/chat-entry-cta';
+import {
+  renderChatEntry, CHAT_BRIDGES, chatBridgeArticleHref, chatBridgeForArticle, chatBridgeHref, articleHasChatEntry, chatEntryPosition,
+} from '../scripts/chat-entry-cta';
+import { PROTECTED_PATHS } from '../scripts/seo-protection';
+import { detectBusinessTopic } from '../src/gpt-chat/business-intent';
 
 test('every entry has a published article and resolves to a fixed prompt and local return path', () => {
   for (const entry of CHAT_ENTRIES) {
@@ -43,8 +47,53 @@ test('arbitrary prompts, external return URLs and unknown IDs are never consumed
     assert.equal(chatEntryFromHash(hash), undefined);
   }
   assert.equal(chatEntryFromHash('#entry=essay&prompt=private&return=https://evil.test')?.prompt, CHAT_ENTRIES.find(e => e.id === 'essay')?.prompt);
-  assert.equal(renderChatEntry('/uz/blog/chat-gpt-uzbek-biznes-uchun/'), '');
+  assert.equal(renderChatEntry('/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/'), '');
   assert.equal(renderChatEntry('/'), '');
+});
+
+test('chat bridges open the chat page itself and print the sample question in the article', () => {
+  const entryIds = new Set<string>(CHAT_ENTRIES.map(entry => entry.id));
+  const bridgeIds = new Set<string>();
+  for (const bridge of CHAT_BRIDGES) {
+    const article = JSON.parse(readFileSync(`content/blog/${bridge.locale}/${bridge.slug}.json`, 'utf8'));
+    const url = chatBridgeArticleHref(bridge);
+    assert.equal(article.url, url);
+    assert.equal(article.status, 'published');
+    assert.notEqual(article.robotsIndex, false);
+    // A bridge never sits on a protected page, and never doubles a chat entry.
+    assert.ok(!(PROTECTED_PATHS as readonly string[]).includes(url), url);
+    assert.equal(chatEntryForArticle(url), undefined, url);
+    assert.equal(chatBridgeForArticle(url), bridge);
+    assert.ok(articleHasChatEntry(url));
+    assert.ok(!entryIds.has(bridge.id) && !bridgeIds.has(bridge.id), `${bridge.id}: id is unique`);
+    bridgeIds.add(bridge.id);
+    // The chat does not know these ids, so nothing travels in the link.
+    assert.equal(chatEntryFromHash(`#entry=${bridge.id}`), undefined);
+    assert.equal(chatBridgeHref(bridge), bridge.locale === 'uz' ? '/uz/gpt-uzbek-tilida/' : '/ru/gpt-chat/');
+    const html = renderChatEntry(url);
+    assert.ok(html.includes(`href="${chatBridgeHref(bridge)}" data-chat-entry="${bridge.id}"`), url);
+    assert.doesNotMatch(html, /#entry=|\?|target="_blank"/);
+    assert.ok(html.includes(`«${bridge.prompt}»`), `${url}: the sample question is printed`);
+    assert.match(html, bridge.locale === 'ru' ? /GPTBot\.uz · На русском[\s\S]*не продукт OpenAI/ : /GPTBot\.uz · O‘zbek tilida[\s\S]*mustaqil AI-xizmat/);
+    assert.doesNotMatch(html, /официальн|rasmiy|ChatGPT Plus/i);
+    for (const value of [bridge.title, bridge.prompt]) assert.doesNotMatch(value, /[<>&"]/);
+    // Copying the sample question into the chat must not open the business form.
+    assert.equal(detectBusinessTopic(bridge.prompt), null, bridge.prompt);
+  }
+  assert.ok(CHAT_BRIDGES.length >= 5);
+});
+
+test('the block keeps its place on articles with a chat entry and follows the first text on a bridge', () => {
+  for (const entry of CHAT_ENTRIES) {
+    const article = JSON.parse(readFileSync(`content/blog/${entry.locale}/${entry.slug}.json`, 'utf8'));
+    assert.equal(chatEntryPosition(article.url, article.body), Math.min(1, article.body.length - 1), article.url);
+  }
+  for (const bridge of CHAT_BRIDGES) {
+    const article = JSON.parse(readFileSync(`content/blog/${bridge.locale}/${bridge.slug}.json`, 'utf8'));
+    const at = chatEntryPosition(article.url, article.body);
+    assert.ok(at >= 1 && ['p', 'list'].includes(article.body[at].type), article.url);
+  }
+  assert.equal(articleHasChatEntry('/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/'), false);
 });
 
 test('account readiness never auto-starts checkout or login, and New Chat preserves the free session and quota', () => {

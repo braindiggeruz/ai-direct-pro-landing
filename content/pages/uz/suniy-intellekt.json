@@ -39,6 +39,22 @@
       "text": "Sun’iy intellekt — bu fikrlovchi mashina emas. Bu katta hajmdagi namunalar asosida eng ehtimoliy javobni hisoblab topadigan model."
     },
     {
+      "type": "linkp",
+      "text": "Sun’iy intellekt matn bilan qanday ishlashini o‘zingiz sinab ko‘rishingiz mumkin. {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas. Masalan, {try} oching va «Sun’iy intellekt nima? Uchta oddiy misol bilan tushuntir» deb yozing, keyin javobni shu sahifadagi ta’rif bilan solishtiring.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        },
+        {
+          "token": "try",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbekcha AI chatni"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "qanday-ishlaydi",
       "text": "Sun’iy intellekt qanday ishlaydi?"
@@ -306,7 +322,7 @@
     },
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPT kirish",
+      "anchor": "ChatGPT’ga kirish (login)",
       "locale": "uz",
       "type": "contextual"
     },

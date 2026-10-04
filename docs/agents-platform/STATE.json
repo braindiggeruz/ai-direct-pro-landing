@@ -1,4 +1,15 @@
 {
+  "seo_week1_20261004": {
+    "status": "committed_not_deployed",
+    "branch": "seo/week1-20261004",
+    "baseline_commit": "9a8b9ff0",
+    "scope": "SEO roadmap 2026-10-04, week 1, roll-out no. 1 of unprotected pages: intent manifest (C22 final, C18, C10, C6, new pairs C23-C28), collision keywords removed from the Russian satellites and guide C6, chat bridges on 16 unprotected pages, kirish/uzbekcha anchors, /ru/gpt-na-russkom/ section, llms.txt with both directions, two B2B titles <= 60 characters",
+    "owner_decisions": "2026-10-04: roadmap section 2.0 decisions 1, 2, 3, 5 = yes; 4 done (spam report on chatgpt.uz sent 2026-10-04); 7 = no; 6 = yes on the roadmap data conditions",
+    "protected_pages": "unchanged: seo-protection 10/10 on 2026-10-01-paid-chat-honesty; byte diff of the ten protected HTML files against the 9a8b9ff0 build = 0",
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №1 незащищённых страниц)",
+    "deferred_to_R_S1": "chat-side prefill for the five new bridge ids (changes the chat bundle); first-screen chat block on /uz/ and the line on /; anchor and keyword fixes on protected pages",
+    "deferred_to_home_release_20261019": "title and H1 of /ru/blog/chat-gpt-online/, H1 of /uz/gpt-chat-qollanma/ and of guide C6 (all listed on /)"
+  },
   "paid_chat_prod_2026": {
     "wp": "R5R7-verification",
     "release": "R5+R6+R7 as one release (WP-24, WP-25, WP-19, WP-20, WP-22, WP-23, WP-21 with their reviews; migrations 0069 and 0070)",

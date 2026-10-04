@@ -1,4 +1,4 @@
-import { renderChatEntry, CHAT_ENTRY_TRACKING } from './chat-entry-cta';
+import { renderChatEntry, CHAT_ENTRY_TRACKING, articleHasChatEntry, chatEntryPosition } from './chat-entry-cta';
 import { chatEntryForArticle, chatEntryHref } from '../src/shared/chat-entry';
 import { publishedRelatedLinks } from './blog-related-links';
 // scripts/prerender-blog.ts
@@ -482,7 +482,7 @@ ${METRIKA_NOSCRIPT}
       ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
     </div>
     <div class="prose-invert">
-      ${(a.body || []).map((block, index) => renderBlock(block) + (index === Math.min(1, (a.body || []).length - 1) ? renderChatEntry(a.url) : '')).join('\n')}
+      ${(a.body || []).map((block, index) => renderBlock(block) + (index === chatEntryPosition(a.url, a.body || []) ? renderChatEntry(a.url) : '')).join('\n')}
     </div>
   </article>
 
@@ -506,7 +506,7 @@ ${METRIKA_NOSCRIPT}
   </div>
 </footer>
 ${renderStickyCta(a)}
-${chatEntryForArticle(a.url) ? CHAT_ENTRY_TRACKING : ''}
+${articleHasChatEntry(a.url) ? CHAT_ENTRY_TRACKING : ''}
 </body>
 </html>
 `;

@@ -106,7 +106,7 @@
   ],
   "internalLinks": [
     { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "GPT o‘zbek tilida AI chat", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "O‘zbek tilida prompt yozish qo‘llanmasi", "locale": "uz", "type": "contextual" },
     { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
     { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },

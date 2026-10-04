@@ -33,6 +33,17 @@
       "text": "GPTBot.uz — Toshkentdagi studiya. O‘zbekistonda kichik va o‘rta biznes uchun AI/GPT botlar ishga tushiramiz. Botlar mijozlarga Telegram, Instagram Direct va WhatsApp’da rus va o‘zbek tillarida kunu tun javob beradi, ism va telefonni yig‘ib, tayyor arizani menejerga uzatadi."
     },
     {
+      "type": "linkp",
+      "text": "Buyurtma berishdan oldin AI javoblarini o‘zingiz sinab ko‘rishingiz mumkin: {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Biznes uchun AI bot nima"
     },
@@ -329,7 +340,7 @@
     },
     {
       "target": "/uz/gpt-uzbek-tilida-ai-chat/",
-      "anchor": "GPT o‘zbek tilida — AI-chat",
+      "anchor": "O‘zbek tilida prompt yozish qo‘llanmasi",
       "locale": "uz",
       "type": "block"
     },
@@ -366,7 +377,7 @@
     },
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPT kirish",
+      "anchor": "ChatGPT’ga kirish (login)",
       "locale": "uz",
       "type": "contextual"
     }

@@ -7,7 +7,6 @@
   "primaryKeyword": "AI chatdan qanday foydalanish",
   "secondaryKeywords": [
     "ai chat imkoniyatlari",
-    "gpt uzbek tilida qollanma",
     "ai chat limitlari",
     "ai chat xavfsizligi"
   ],
@@ -45,6 +44,17 @@
           "token": "chat",
           "target": "/uz/gpt-uzbek-tilida/",
           "anchor": "GPTBot.uz AI-chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Birinchi savolni hoziroq yozish mumkin: {try} bepul limit doirasida ishlaydi, savolni o‘zbek yoki rus tilida yozasiz — javob shu tilda keladi.",
+      "links": [
+        {
+          "token": "try",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbekcha AI chat"
         }
       ]
     },

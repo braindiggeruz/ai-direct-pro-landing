@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-04",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -273,14 +273,14 @@
       "commercial": {
         "url": "/ru/gpt-na-russkom/",
         "owns": "the «чат гпт на русском» head cluster — the product surface",
-        "mustNotTarget": []
+        "mustNotTarget": ["чат жпт", "чат джипити"]
       },
       "informational": {
         "url": "/ru/blog/chat-gpt-na-russkom/",
         "owns": "how to use an AI chat in Russian: prompts, checking answers",
         "mustNotTarget": ["чат гпт на русском", "chat gpt на русском", "gpt на русском", "чат gpt онлайн"]
       },
-      "gscNote": "Found on 2026-08-01. The article was carrying the money page's whole head cluster in its keyword list and losing it at positions 74-85 while the money page sits at 4.6. The article's keywords were narrowed to instructional terms; no redirect between these two surviving owners, because the article has real how-to value. On 2026-08-25, the third URL /ru/gpt-na-russkom-kak-zadavat-zaprosy/ was confirmed by OpenSEO as Crawled - currently not indexed with no Search Console rows. Its five-part prompt formula, weak-versus-strong examples, iterative refinement and Russian-to-Uzbek-Latin scenario were moved into this informational owner, all published donor links were repointed, and the redundant URL was retired with an exact 301.",
+      "gscNote": "Found on 2026-08-01. The article was carrying the money page's whole head cluster in its keyword list and losing it at positions 74-85 while the money page sits at 4.6. The article's keywords were narrowed to instructional terms; no redirect between these two surviving owners, because the article has real how-to value. On 2026-08-25, the third URL /ru/gpt-na-russkom-kak-zadavat-zaprosy/ was confirmed by OpenSEO as Crawled - currently not indexed with no Search Console rows. Its five-part prompt formula, weak-versus-strong examples, iterative refinement and Russian-to-Uzbek-Latin scenario were moved into this informational owner, all published donor links were repointed, and the redundant URL was retired with an exact 301. 2026-10-04 (SEO roadmap 2.1 п.1.7): the page gains the section «Чат GPT на русском: как писать и что умеет» — how to write a question in Russian, what the chat can and cannot do, the spellings «чат гпт на русском» and «chat gpt na russkom» in one sentence. The bare colloquial «чат жпт» and «чат джипити» are not this page's: at hl=ru they are navigational queries for ChatGPT, and their one honest block lives on /ru/gpt-chat/ (release R-S1). This page names them once and links to the RU chat. Two pages that mention one spelling in their text are not a doorway; the modifier decides the owner («на русском» here).",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-08-01"
     },
@@ -293,10 +293,10 @@
       },
       "informational": {
         "url": "/uz/gpt-uzbek-tilida-ai-chat/",
-        "owns": "how to use GPT in Uzbek: prompt formula, examples, limits",
-        "mustNotTarget": []
+        "owns": "how to write prompts in Uzbek: the prompt formula, examples, checking answers and translation; the chat's own features, limits and safety are the chat manual's (pair C28)",
+        "mustNotTarget": ["chatgpt o‘zbek tilida", "chat gpt o‘zbek tilida", "gpt uzbekcha", "ai chat o‘zbek tilida"]
       },
-      "gscNote": "Near-duplicate slugs, but only one shared query across the whole history at one impression each. The guide holds position 10.12 independently. Assessed as different intent on 2026-08-01 and deliberately not merged.",
+      "gscNote": "Near-duplicate slugs, but only one shared query across the whole history at one impression each. The guide holds position 10.12 independently. Assessed as different intent on 2026-08-01 and deliberately not merged. 2026-10-04 (SEO roadmap 1(a) п.2): the guide declared «chatgpt o‘zbek tilida», «chat gpt o‘zbek tilida», «gpt uzbekcha» and «ai chat o‘zbek tilida» — family A, which the UZ chat owns (pair C22, roadmap owner table). They were removed from the guide and are fenced here; nothing else on the guide changed that day except two body links into the chat and one to the chat manual.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-08-01"
     },
@@ -415,7 +415,7 @@
       },
       "informational": {
         "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-        "owns": "how to sign in to ChatGPT — the login long tail «chatgpt kirish login», «chatgptga kirish», «chatgpt ga kirish», «chat gpt kirish», «chatgpt saytiga kirish», «chatgpt ochish uzbek tilida» — plus Log in versus Sign up, the official domain, the login code not arriving, the site not opening and clone-site safety. The bare head «chatgpt kirish» is routed to /uz/gpt-uzbek-tilida/ (pair C22) and «chatgpt ochish» to the download article (pair C11)",
+        "owns": "how to sign in to ChatGPT — the login long tail «chatgpt kirish login», «chatgptga kirish», «chatgpt ga kirish», «chat gpt kirish», «chatgpt saytiga kirish», «chatgpt ochish uzbek tilida» — plus Log in versus Sign up, the official domain, the login code not arriving, the site not opening and clone-site safety. The bare head «chatgpt kirish» follows Google's routing — no URL is pulled toward it (pair C22, final 2026-10-04) — and «chatgpt ochish» belongs to the download article (pair C11)",
         "mustNotTarget": [
           "chatgpt o‘zbekistonda",
           "chatgpt o'zbekistonda ishlaydimi",
@@ -424,7 +424,7 @@
         ]
       },
       "gscNote": "GSC audit 2026-09-17 (28 days to 2026-09-14): «chatgpt kirish» 24 641 impressions / 80 clicks / CTR 0.32% / position 7.4, routed by Google to the login article; the VPN/availability article collected 2 246 impressions / 7 clicks / CTR 0.31% / position 8.4 with «kirish» leading its title; «chatgpt ochish» (3 365 impressions over 90 days) was split between the login and download articles. The 2026-09-04 fence awarded the head terms to the VPN article, but the measured routing went the other way, so the fence was reversed on 2026-09-18 (docs/seo/gsc-audit-2026-09-17/QUICK_WINS.md QW-1 and QW-2, CANNIBALIZATION.md).",
-      "observedOwnerNote": "Ownership follows the measured routing. On 2026-09-18 the login article took «kirish (login)» into its title, H1, description and intro and gained an «ochish» section; the VPN/availability article dropped «kirish» from title, H1, description and keywords and now answers «ishlaydimi / VPN kerakmi», linking to the login article for sign-in. No redirect; both pages answer distinct questions. Success after 28 full days from the recrawl: CTR of «chatgpt kirish» ≥ 0.6% at position 6–9 and login-article share of ochish/kirish queries ≥ 80%; the title is rolled back if CTR < 0.3% two weeks running (QUICK_WINS.md). The download article stays fenced by C11; /uz/gpt-uzbek-tilida/ owns the product-page variants «chatgpt bepul kirish» and «chatgpt kirish uzbek tilida», not the bare head term. Superseded 2026-09-29 for the head terms: success criteria failed (login-article share of «chatgpt kirish» 28.0% vs ≥80%, of «chatgpt ochish» 8.2%; query CTR 0.46% vs ≥0.6%). Bare head → C22; «chatgpt ochish» → C11 download article. The VPN-article fence in this pair still holds.",
+      "observedOwnerNote": "Ownership follows the measured routing. On 2026-09-18 the login article took «kirish (login)» into its title, H1, description and intro and gained an «ochish» section; the VPN/availability article dropped «kirish» from title, H1, description and keywords and now answers «ishlaydimi / VPN kerakmi», linking to the login article for sign-in. No redirect; both pages answer distinct questions. Success after 28 full days from the recrawl: CTR of «chatgpt kirish» ≥ 0.6% at position 6–9 and login-article share of ochish/kirish queries ≥ 80%; the title is rolled back if CTR < 0.3% two weeks running (QUICK_WINS.md). The download article stays fenced by C11; /uz/gpt-uzbek-tilida/ owns the product-page variants «chatgpt bepul kirish» and «chatgpt kirish uzbek tilida», not the bare head term. Superseded 2026-09-29 for the head terms: success criteria failed (login-article share of «chatgpt kirish» 28.0% vs ≥80%, of «chatgpt ochish» 8.2%; query CTR 0.46% vs ≥0.6%). Bare head → C22 (Google's routing, no URL pulled toward it; final 2026-10-04, no stage 2); «chatgpt ochish» → C11 download article. The VPN-article fence in this pair still holds.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-09-18"
     },
@@ -509,7 +509,7 @@
       "id": "C22-uz-chatgpt-kirish-chat-vs-login",
       "commercial": {
         "url": "/uz/gpt-uzbek-tilida/",
-        "owns": "the bare head «chatgpt kirish» as Google has routed it since 2026-09-13, plus «chatgpt kirish uzbek tilida», «chatgpt bepul kirish», «chatgpt online kirish» and the uzbekcha / o‘zbek tilida / bepul / jaji piti / chachipiti family, answered with an honest two-path block (#chatgpt-kirish): official chatgpt.com, or this independent GPTBot.uz chat",
+        "owns": "the bare head «chatgpt kirish» only as far as Google routes it here (since 2026-09-13; no URL is pulled toward it — final 2026-10-04, no stage 2), plus «chatgpt kirish uzbek tilida», «chatgpt bepul kirish», «chatgpt online kirish» and the uzbekcha / o‘zbek tilida / bepul / jaji piti / chachipiti family, answered with an honest two-path block (#chatgpt-kirish): official chatgpt.com, or this independent GPTBot.uz chat",
         "mustNotTarget": [
           "chatgpt kirish login",
           "chatgptga kirish",
@@ -532,9 +532,105 @@
         ]
       },
       "gscNote": "GSC pulled 2026-09-29 (dataState=all), PRE 09-04..17 vs POST 09-20..28: «chatgpt kirish» ~1,830 impressions/day in POST; share UZ chat 8%→59% (pos 7.4, CTR 0.44%), login article 90%→28% (pos 8.6), RU chat 0%→13% (pos 5.8). Google switched the leading URL on 09-13 and rotates it (6 changes in 25 days); query-level and page-summed impressions differ by 0.01%, so Google shows one of our URLs at a time. Query level, all URLs combined: 09-04..12 (login article alone) 6.44 clicks/day, CTR 0.34% on ~1,894 impressions/day; 09-04..17 4.86/day, 0.28%, pos 7.63; POST 8.44/day, 0.46%, of which 09-20..23 leaned on the RU chat at pos ~5.8 (14 clicks on 1,671 impressions); 09-24..28 4.6/day, 0.30%, pos 7.48, UZ chat leading, RU chat 0 clicks on 422 impressions; pre-release 14 days 09-16..29 6.86/day, 0.42%, pos 7.65.",
-      "observedOwnerNote": "Ownership follows Google's routing. No canonical change and no redirect (Google canonical = ours). Release 2026-09-30: the UZ chat page opens its summary with the two-path «ChatGPT kirish» section and gets a description that states its independence; the login article keeps its title and H1 (prefix «ChatGPT kirish (login):») and changes only its description, a first FAQ and the in-body link to the UZ chat. PROVISIONAL until the stage-2 gate: the login article still declares «chatgpt kirish», so «chatgpt kirish» is deliberately absent from this pair's informational mustNotTarget, and /uz/gpt-uzbek-tilida/ does not yet declare «chatgpt kirish» or «chatgpt online kirish». Expected effect 0 to +1 click/day on «chatgpt kirish», counted once across the UZ chat, login-article and RU chat changes; the POST 8.44/day level depended on the RU chat's temporary pos-5.8 exposure, which this release does not target. Measurement (the same rules are in docs/seo/CHANGE_LOG_2026-09.md, section «30.09», and in the 2026-09-30-gsc-driven revision note): query-level «chatgpt kirish», all URLs combined, 14-day reads at T0+14 and T0+28 (T0 = the later post-release recrawl of /uz/gpt-uzbek-tilida/ and the login article), each judged only at impression-weighted position 7.2–8.1 and ≥ 1,400 impressions/day (otherwise recorded without a verdict), never against the 09-24..28 trough. Base 2026-09-16..29: 96 clicks / 23 098 impressions, CTR 0.42%, position 7.65, 6.86 clicks/day (API 2026-09-30; re-pull once final); 1 SD of a 14-day CTR at this volume ≈ 0.04 pp, of the 14-day mean clicks ≈ 0.7/day. Keep, the only gate for stage 2: CTR ≥ 0.50% (base + 2 SD; the earlier 0.40% sat below the base and would have passed a zero effect about 65% of the time). Hold: 0.33% ≤ CTR < 0.50% → no stage 2, read T0+28. Loss: CTR < 0.33% (base − 2 SD) → revert when confirmed (14-day mean clicks more than 2 SD, ≈ 1.4/day, below the base and the CHANGE_LOG control set not down the same way) or when both T0+14 and T0+28 are below 0.33%; an unconfirmed single loss read counts as a hold. After T0+28 with neither keep nor loss: no measurable effect, so stage 1 stays, with no stage 2 and no revert. Stage 2, only on keep: (1) move the «chatgpt kirish» and «chatgpt online kirish» declarations from the login article to /uz/gpt-uzbek-tilida/ and add «chatgpt kirish» to this pair's informational mustNotTarget; (2) decide the login-article title demotion; (3) re-point the three bare «ChatGPT kirish» anchors (content/pages/uz/hub.json, content/pages/uz/suniy-intellekt.json, content/blog/uz/insho-yozish-suniy-intellekt-bilan.json) to /uz/gpt-uzbek-tilida/#chatgpt-kirish. Revert set, because the release is read as one intervention: restore the e4742c7e values (git show e4742c7e:<file>) of every «chatgpt kirish» lever it changed — /uz/gpt-uzbek-tilida/: description and ogDescription, the summary bodyBlocks this release changed (the #chatgpt-kirish section — H2 «ChatGPT’ga o‘zbek tilida qanday kirish mumkin?», its paragraph and the guide-link anchor «ChatGPT kirish yo‘riqnomasi» — back to its e4742c7e place and wording, the #jaji-piti H2 removed and the spellings paragraph restored, the #chatgpt-bepul H2 «ChatGPT o‘zbek tilida bepulmi?» restored and the added sentence removed), the guide-link anchor in internalLinks and secondaryKeywords; /uz/blog/chatgptga-qanday-kirish-mumkin/: description and ogDescription, FAQ[0], the in-body link paragraph and keywords; /ru/gpt-chat/: description and ogDescription and the chatgpt.com login paragraph; both chats' resting-screen line (premium.officialLead / officialTail in src/gpt-chat/i18n.ts and its render in src/gpt-chat/components/AiChatConsole.tsx). Not reverted, because they are not «chatgpt kirish» levers: the RU chat's download-guide and Telegram-bot links and its «O‘zbekcha» entry, the payment-article link targets, the removal of the hidden FAQPage JSON-LD from both chats, and the download article (its own rule in C11). Then bump the pages' dates, write a new reviewed revision under docs/seo/evidence/<date>-<name>/ and point BASELINE to it; never repoint BASELINE to an old revision.",
+      "observedOwnerNote": "Ownership follows Google's routing. No canonical change and no redirect (Google canonical = ours). Release 2026-09-30: the UZ chat page opens its summary with the two-path «ChatGPT kirish» section and gets a description that states its independence; the login article keeps its title and H1 (prefix «ChatGPT kirish (login):») and changes only its description, a first FAQ and the in-body link to the UZ chat. FINAL since 2026-10-04 — no stage 2 (the owner approved the SEO roadmap of 2026-10-04; docs/seo/CHANGE_LOG_2026-10.md). The owner of the bare «chatgpt kirish» is whichever of our URLs Google routes it to; no anchor, keyword or redirect pulls it toward one URL, because the query's CTR was 0.34% while the login article alone led it (09-04..12) and 0.46% after Google moved it to the chat (09-20..28), and pulling it back would hand it to the URL with the lowest CTR. Declarations stay as they are: the login article keeps «chatgpt kirish» inside its login long tail, so «chatgpt kirish» stays absent from this pair's informational mustNotTarget, and /uz/gpt-uzbek-tilida/ does not declare «chatgpt kirish» or «chatgpt online kirish». Anchors: «ChatGPT’ga kirish (login)» leads to the login article, and the bare «ChatGPT kirish» is not used as an anchor — the three bare anchors of content/pages/uz/hub.json, content/pages/uz/suniy-intellekt.json and content/blog/uz/insho-yozish-suniy-intellekt-bilan.json became «ChatGPT’ga kirish (login)» on 2026-10-04 and still lead to the login article. The only revert rule is the roadmap's П-CTR; the T0+14/T0+28 reads, the keep/hold/loss thresholds and the stage-2 steps below are the record of the 2026-09-30 release and gate nothing (CHANGE_LOG_2026-10, 2026-10-01). Ownership may be reconsidered only on the roadmap's Б13 base: message_sent per 100 entrances on each URL, weighted by that URL's share of «chatgpt kirish» impressions. Expected effect 0 to +1 click/day on «chatgpt kirish», counted once across the UZ chat, login-article and RU chat changes; the POST 8.44/day level depended on the RU chat's temporary pos-5.8 exposure, which this release does not target. Measurement (the same rules are in docs/seo/CHANGE_LOG_2026-09.md, section «30.09», and in the 2026-09-30-gsc-driven revision note): query-level «chatgpt kirish», all URLs combined, 14-day reads at T0+14 and T0+28 (T0 = the later post-release recrawl of /uz/gpt-uzbek-tilida/ and the login article), each judged only at impression-weighted position 7.2–8.1 and ≥ 1,400 impressions/day (otherwise recorded without a verdict), never against the 09-24..28 trough. Base 2026-09-16..29: 96 clicks / 23 098 impressions, CTR 0.42%, position 7.65, 6.86 clicks/day (API 2026-09-30; re-pull once final); 1 SD of a 14-day CTR at this volume ≈ 0.04 pp, of the 14-day mean clicks ≈ 0.7/day. Keep, the only gate for stage 2: CTR ≥ 0.50% (base + 2 SD; the earlier 0.40% sat below the base and would have passed a zero effect about 65% of the time). Hold: 0.33% ≤ CTR < 0.50% → no stage 2, read T0+28. Loss: CTR < 0.33% (base − 2 SD) → revert when confirmed (14-day mean clicks more than 2 SD, ≈ 1.4/day, below the base and the CHANGE_LOG control set not down the same way) or when both T0+14 and T0+28 are below 0.33%; an unconfirmed single loss read counts as a hold. After T0+28 with neither keep nor loss: no measurable effect, so stage 1 stays, with no stage 2 and no revert. Stage 2, only on keep: (1) move the «chatgpt kirish» and «chatgpt online kirish» declarations from the login article to /uz/gpt-uzbek-tilida/ and add «chatgpt kirish» to this pair's informational mustNotTarget; (2) decide the login-article title demotion; (3) re-point the three bare «ChatGPT kirish» anchors (content/pages/uz/hub.json, content/pages/uz/suniy-intellekt.json, content/blog/uz/insho-yozish-suniy-intellekt-bilan.json) to /uz/gpt-uzbek-tilida/#chatgpt-kirish. Revert set, because the release is read as one intervention: restore the e4742c7e values (git show e4742c7e:<file>) of every «chatgpt kirish» lever it changed — /uz/gpt-uzbek-tilida/: description and ogDescription, the summary bodyBlocks this release changed (the #chatgpt-kirish section — H2 «ChatGPT’ga o‘zbek tilida qanday kirish mumkin?», its paragraph and the guide-link anchor «ChatGPT kirish yo‘riqnomasi» — back to its e4742c7e place and wording, the #jaji-piti H2 removed and the spellings paragraph restored, the #chatgpt-bepul H2 «ChatGPT o‘zbek tilida bepulmi?» restored and the added sentence removed), the guide-link anchor in internalLinks and secondaryKeywords; /uz/blog/chatgptga-qanday-kirish-mumkin/: description and ogDescription, FAQ[0], the in-body link paragraph and keywords; /ru/gpt-chat/: description and ogDescription and the chatgpt.com login paragraph; both chats' resting-screen line (premium.officialLead / officialTail in src/gpt-chat/i18n.ts and its render in src/gpt-chat/components/AiChatConsole.tsx). Not reverted, because they are not «chatgpt kirish» levers: the RU chat's download-guide and Telegram-bot links and its «O‘zbekcha» entry, the payment-article link targets, the removal of the hidden FAQPage JSON-LD from both chats, and the download article (its own rule in C11). Then bump the pages' dates, write a new reviewed revision under docs/seo/evidence/<date>-<name>/ and point BASELINE to it; never repoint BASELINE to an old revision.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-09-29"
+    },
+    {
+      "id": "C23-ru-chat-vs-chat-gpt-online",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "mustNotTarget": []
+      },
+      "informational": {
+        "url": "/ru/blog/chat-gpt-online/",
+        "owns": "a walkthrough of an AI chat online in Russian — what to ask and which study, SMM and business tasks it covers — until the homepage release of 2026-10-19 decides the URL: a 301 into /ru/gpt-chat/ if it has no queries of its own, otherwise a «как пользоваться» rename",
+        "mustNotTarget": ["ии чат", "ии чат онлайн", "ии онлайн", "чат гпт онлайн", "чат gpt онлайн", "chat gpt онлайн", "chatgpt онлайн", "ai чат онлайн", "gpt онлайн", "нейросеть онлайн", "gpt онлайн бесплатно", "нейросеть онлайн бесплатно", "ии чат бесплатно", "чат гпт бесплатно"]
+      },
+      "gscNote": "Found 2026-10-04 (keyword briefs, keywords-wave2/KEYWORD-BRIEFS-2026-10-04.md §3; SEO roadmap 1(a)). The article declared the RU chat's head «чат гпт онлайн» (5 400 a month on average, 2 900 in August 2026) with «чат gpt онлайн», «chat gpt онлайн», «chatgpt онлайн», «gpt онлайн», «gpt чат онлайн», «ai чат онлайн», «нейросеть онлайн» and «искусственный интеллект онлайн»; «gpt онлайн» and «нейросеть онлайн» are declared by the RU chat itself. It also carried «чат с искусственным интеллектом» (the chat-s-ii article's, pair C25) and «ai-чат на русском» (the primary keyword of /ru/gpt-na-russkom/, pair C10). 82 impressions at position 12.8 in the 28 days to 2026-10-03. All of them were removed from the article on 2026-10-04; its title and H1 «Чат GPT онлайн бесплатно в Узбекистане — русский AI чат» stay until 2026-10-19 because the homepage lists every article title.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C24-ru-chat-vs-ii-chat-article",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "mustNotTarget": ["ии чат что это", "какие бывают ии чаты", "ии чат бот"]
+      },
+      "informational": {
+        "url": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+        "owns": "what an AI chat is and which kinds exist — «ии чат что это», «какие бывают ии чаты», «ии чат бот»",
+        "mustNotTarget": ["ии чат", "ии чат онлайн", "ии онлайн", "чат гпт онлайн", "чат gpt онлайн", "chat gpt онлайн", "chatgpt онлайн", "ai чат онлайн", "gpt онлайн", "нейросеть онлайн", "gpt онлайн бесплатно", "нейросеть онлайн бесплатно", "ии чат бесплатно", "чат гпт бесплатно"]
+      },
+      "gscNote": "Found 2026-10-04 (keyword briefs §3–4). «ии чат» — 1 600 a month on average, 3 600 in August 2026, trend ×7.12 — is the RU chat's planned head for R-S1, and this article declared it bare (6 impressions in 28 days). Removed from the article on 2026-10-04 with «ии чат на русском» (the /ru/gpt-na-russkom/ phrase, pair C10) and «чат с ии» (the chat-s-ii article's, pair C25). The article now links to the RU chat.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C25-ru-chat-vs-chat-s-ii-article",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "mustNotTarget": ["чат с ии", "пообщаться с ии", "чат с нейросетью"]
+      },
+      "informational": {
+        "url": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+        "owns": "where to talk to an AI and what to expect — «чат с ии», «пообщаться с ии», «чат с нейросетью»; the RU chat takes only «чат с ии онлайн»",
+        "mustNotTarget": ["ии чат", "ии чат онлайн", "ии онлайн", "чат гпт онлайн", "чат gpt онлайн", "chat gpt онлайн", "chatgpt онлайн", "ai чат онлайн", "gpt онлайн", "нейросеть онлайн", "gpt онлайн бесплатно", "нейросеть онлайн бесплатно", "ии чат бесплатно", "чат гпт бесплатно"]
+      },
+      "gscNote": "Found 2026-10-04 (keyword briefs §3). 468 impressions at position 11.2 in 28 days. The article declared «ии чат бесплатно», which belongs to the chat («чат … бесплатно»); removed on 2026-10-04. The article now links to the RU chat and carries the article chat block.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C26-ru-chat-vs-chat-guide",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "mustNotTarget": ["ai чат возможности", "ai чат лимиты", "ai чат безопасность"]
+      },
+      "informational": {
+        "url": "/ru/gpt-chat-guide/",
+        "owns": "the GPTBot.uz chat's own manual in Russian: features, languages, limits, the AI pack and safety",
+        "mustNotTarget": ["ии чат", "ии чат онлайн", "ии онлайн", "чат гпт онлайн", "чат gpt онлайн", "chat gpt онлайн", "chatgpt онлайн", "ai чат онлайн", "gpt онлайн", "нейросеть онлайн", "gpt онлайн бесплатно", "нейросеть онлайн бесплатно", "ии чат бесплатно", "чат гпт бесплатно"]
+      },
+      "gscNote": "Found 2026-10-04 (keyword briefs §3, collision table). The guide declared «нейросеть онлайн бесплатно», a «… онлайн бесплатно» phrase of the chat; removed on 2026-10-04. The guide already links to the RU chat in its first paragraph.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C27-ru-chat-vs-free-gpt-article",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "mustNotTarget": ["где пользоваться gpt бесплатно", "gpt бесплатно", "chatgpt бесплатно", "ai-чат бесплатно"]
+      },
+      "informational": {
+        "url": "/ru/gde-polzovatsya-gpt-besplatno/",
+        "owns": "where and on what terms GPT can be used for free — «gpt бесплатно», «где пользоваться gpt бесплатно», «chatgpt бесплатно», «ai-чат бесплатно» in their informational sense; the RU chat takes «… онлайн бесплатно» and «чат гпт / чат джипити / чат жпт бесплатно» (use it now)",
+        "mustNotTarget": ["ии чат", "ии чат онлайн", "ии онлайн", "чат гпт онлайн", "чат gpt онлайн", "chat gpt онлайн", "chatgpt онлайн", "ai чат онлайн", "gpt онлайн", "нейросеть онлайн", "gpt онлайн бесплатно", "нейросеть онлайн бесплатно", "ии чат бесплатно", "чат гпт бесплатно"]
+      },
+      "gscNote": "Found 2026-10-04 (keyword briefs §3, collision table). The article declared «GPT онлайн бесплатно», which moves to the chat; removed on 2026-10-04. «ChatGPT бесплатно» and «AI-чат бесплатно» keep their informational and pricing sense here. Without this record the three «чат … бесплатно» phrases may not be added to the RU chat.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C28-uz-chat-manual-vs-prompt-guide",
+      "commercial": {
+        "url": "/uz/gpt-chat-qollanma/",
+        "owns": "the GPTBot.uz chat itself, in Uzbek: what it can do, its languages, the free limit and the AI pack, privacy and safety — «ai chat imkoniyatlari», «ai chat limitlari», «ai chat xavfsizligi», «AI chatdan qanday foydalanish» in the sense of using this service",
+        "mustNotTarget": ["gpt o‘zbek tilida", "gpt uzbek tilida qollanma", "o‘zbek tilida prompt yozish", "prompt formulasi"]
+      },
+      "informational": {
+        "url": "/uz/gpt-uzbek-tilida-ai-chat/",
+        "owns": "how to write prompts in Uzbek: the prompt formula, examples, checking answers and translation (the C6 guide)",
+        "mustNotTarget": ["ai chat imkoniyatlari", "ai chat limitlari", "ai chat xavfsizligi", "ai chatdan qanday foydalanish"]
+      },
+      "gscNote": "Found 2026-10-04 (SEO roadmap 1(a)). The manual (pageType money, primaryKeyword «AI chatdan qanday foydalanish», 13 impressions in 28 days) repeats the guide's H1 «GPT o‘zbek tilida: AI chatdan qanday foydalanish mumkin» and declared «gpt uzbek tilida qollanma», which is the guide's title phrase. Split on 2026-10-04 by keywords and links only: the manual dropped «gpt uzbek tilida qollanma», the guide links to the manual. Both H1s are listed on the homepage, so titles and H1s wait for the homepage release of 2026-10-19, where the manual either keeps this split or is merged into the guide with a 301.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-04"
     }
   ],
   "architectureDecisions": [

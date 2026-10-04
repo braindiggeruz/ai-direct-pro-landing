@@ -6,10 +6,6 @@
   "pageType": "blog",
   "primaryKeyword": "gpt o‘zbek tilida",
   "secondaryKeywords": [
-    "chat gpt o‘zbek tilida",
-    "ai chat o‘zbek tilida",
-    "gpt uzbekcha",
-    "chatgpt o‘zbek tilida",
     "chatgpt tarjima",
     "chatgpt o‘zbekcha tarjima",
     "Uzbek Latin AI"
@@ -35,6 +31,7 @@
   "bodyBlocks": [
     { "type": "p", "text": "GPT o‘zbek tilida — bu til modeli bilan o‘zbek tilida AI chat orqali ishlash: siz vazifani oddiy so‘zlar bilan yozasiz, model esa mos javob yaratadi. Maxsus kod yoki inglizcha buyruq shart emas — vazifani Uzbek Latin yozuvida aniq tushuntirish kifoya." },
     { "type": "p", "text": "Quyida amaliy qo‘llanma: GPT o‘zbek tilini qanday tushunadi, prompt nima, yaxshi so‘rov qanday tuziladi, qanday vazifalarni bajaradi va javobni qayerda tekshirish kerak. ChatGPT va OpenAI mashhur texnologiyalar sifatida tilga olinadi; GPTBot.uz — til modellari asosidagi mustaqil AI servis, u OpenAI yoki ChatGPTning rasmiy mahsuloti emas." },
+    { "type": "linkp", "text": "Har bir maslahatni darhol sinab ko‘rish mumkin: {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas. {try} oching va quyidagi misollardan birini yuboring — masalan, «O‘zbek tilida oddiy qilib GPT nima ekanini besh qatorda tushuntir».", "links": [{"token": "chat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPTBot.uz bepul AI chati"},{"token": "try", "target": "/uz/gpt-uzbek-tilida/", "anchor": "O‘zbekcha AI chatni"}] },
     { "type": "toc", "text": "Maqola mazmuni", "links": [
       { "anchor": "gpt-nima", "label": "GPT o‘zbek tilida nima" },
       { "anchor": "qanday-ishlaydi", "label": "AI chat qanday ishlaydi" },
@@ -122,6 +119,7 @@
 
     { "type": "h2", "text": "GPTBot.uz O‘zbekistondagi foydalanuvchilar uchun nimasi bilan qulay?" },
     { "type": "p", "text": "GPTBot.uz — til modellari asosidagi mustaqil AI servis. U o‘zbek va rus tilida AI chat beradi: talabalar, marketologlar, tadbirkorlar va Telegram hamda Instagram orqali savdo qiluvchilar uchun qulay. Shaxsiy chatdan biznes darajasiga o‘tish mumkin: saytga AI chat qo‘yish, Telegram bot yaratish va arizalarni CRM’ga uzatish." },
+    { "type": "linkp", "text": "Chatning imkoniyatlari, tillari, limitlari va xavfsizlik qoidalari alohida sahifada jamlangan: {manual}.", "links": [{"token": "manual", "target": "/uz/gpt-chat-qollanma/", "anchor": "GPTBot.uz AI-chat qo‘llanmasi"}] },
     { "type": "linkp", "text": "Amaliyotni davom ettirish uchun {prompts}ni nusxalang, talabalarga mos yondashuvni {students}dan o‘qing. Telefon va kompyuterda xavfsiz kirish uchun {download}, AI servis tanlash uchun {compare} qo‘llanmalari tayyorlangan.", "links": [
       { "token": "prompts", "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/", "anchor": "50 ta o‘zbekcha prompt" },
       { "token": "students", "target": "/uz/blog/chatgpt-talabalar-uchun/", "anchor": "ChatGPT talabalar uchun" },
@@ -172,6 +170,7 @@
     { "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/", "anchor": "ChatGPT, Claude va Gemini", "locale": "uz", "type": "contextual" },
     { "target": "/ru/gpt-chat/", "anchor": "GPT chat online", "locale": "uz", "type": "contextual" },
     { "target": "/ru/gpt-na-russkom/", "anchor": "Rus tilida GPT", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-chat-qollanma/", "anchor": "GPTBot.uz AI-chat qo‘llanmasi", "locale": "uz", "type": "contextual" },
     { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
     { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
