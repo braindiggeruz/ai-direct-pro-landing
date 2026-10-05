@@ -100,6 +100,10 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_FISCAL_PACKAGE_CODE',
   'GPT_FISCAL_VAT_PERCENT',
   'GPT_FISCAL_TIN',
+  // Who prints the Click receipt and when ours goes out (fiscal-config.ts
+  // clickFiscalPolicy): "" check first, "true" Click's own, "false" ours at once.
+  'GPT_CLICK_AUTOFISCAL',
+  'GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES',
   // Limit card -> assistant bot button (functions/api/gpt/account.ts botHandoff).
   'GPT_BOT_HANDOFF_ENABLED',
   // Sign-in through the bot: "pick" | "code" (functions/lib/gpt-chat/billing-config.ts).

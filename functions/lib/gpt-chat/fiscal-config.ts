@@ -13,6 +13,24 @@
 // Everything fails closed: a missing or malformed value is reported by name
 // and never replaced by a default. The hosts a printed receipt may link to
 // are named here too (ofdReceiptLink, receiptLink).
+//
+// Who prints a Click receipt (clickFiscalPolicy). On 2026-10-05 Click set up
+// OFD for our service on its side, from our letter, and may now print the
+// receipt of every payment itself; it has not said whether it does. Two
+// receipts for one payment, or none, are both wrong, so:
+//   GPT_CLICK_AUTOFISCAL     "true": Click prints them; we only read the link
+//                            (ofd_data) and never send our receipt line;
+//                            "false": we send ours right after the payment,
+//                            as before 2026-10-05;
+//                            "" or anything else: check first. We look for
+//                            Click's link right after the payment and send
+//                            ours only when there is still none after the
+//                            delay, checking once more right before.
+//   GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES  that delay, counted from the
+//                            payment: whole minutes 0..1440 (more is 1440),
+//                            10 when empty or malformed.
+// These two fall back to the safe default instead of failing closed: the
+// check-first path never sends a receipt blindly and never leaves one unsent.
 
 import { OFD_RECEIPT_HOST, receiptHost } from "../../../src/shared/payment-hosts";
 
@@ -21,6 +39,8 @@ export interface FiscalEnv {
   GPT_FISCAL_PACKAGE_CODE?: string;
   GPT_FISCAL_VAT_PERCENT?: string;
   GPT_FISCAL_TIN?: string;
+  GPT_CLICK_AUTOFISCAL?: string;
+  GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES?: string;
 }
 
 /**
@@ -74,6 +94,33 @@ export function fiscalIssues(env: FiscalEnv, options: { tin: boolean }): string[
   if (vatPercent(env) === null) issues.push("GPT_FISCAL_VAT_PERCENT");
   if (options.tin && !fiscalTin(env)) issues.push("GPT_FISCAL_TIN");
   return issues;
+}
+
+/**
+ * auto: only Click's own receipt (read its link); submit: ours at once;
+ * check: Click's first, ours after the delay when Click has none.
+ */
+export type ClickFiscalMode = "auto" | "submit" | "check";
+export interface ClickFiscalPolicy {
+  mode: ClickFiscalMode;
+  /** From the payment to the earliest submit of ours (check mode). */
+  delayMs: number;
+}
+export const CLICK_FISCAL_DELAY_MINUTES = 10;
+const MAX_CLICK_FISCAL_DELAY_MINUTES = 1440;
+
+/** GPT_CLICK_AUTOFISCAL and GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES, read the safe way. */
+export function clickFiscalPolicy(env: FiscalEnv): ClickFiscalPolicy {
+  const flag = (env.GPT_CLICK_AUTOFISCAL ?? "").trim().toLowerCase();
+  const minutes = (env.GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES ?? "").trim();
+  return {
+    mode: flag === "true" ? "auto" : flag === "false" ? "submit" : "check",
+    delayMs:
+      Math.min(
+        /^\d{1,6}$/.test(minutes) ? Number(minutes) : CLICK_FISCAL_DELAY_MINUTES,
+        MAX_CLICK_FISCAL_DELAY_MINUTES,
+      ) * 60_000,
+  };
 }
 
 /**

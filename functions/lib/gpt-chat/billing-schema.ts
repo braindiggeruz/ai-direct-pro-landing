@@ -67,7 +67,8 @@ export const CHAT_RUNTIME_DDL = [
 // gpt_fiscal_receipts becomes a retry queue (fiscal-store.ts) for Click and
 // for the Uzum Fiscalization API. The columns come after the six of 0064; a
 // row written before keeps provider NULL and is never queued. operation_id is
-// the Uzum receipt's own idempotency key, stored before the receipt is sent.
+// the Uzum receipt's own idempotency key, stored before the receipt is sent;
+// on a Click row, the mark that our receipt line went out (fiscal-store.ts).
 // Sign-in through the bot (WP-16): gpt_bot_logins in PAID_CHAT_DDL; the pack
 // window's funnel counter (WP-17): gpt_ui_events.
 export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = [

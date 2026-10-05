@@ -3,7 +3,8 @@
 // Not configured (Click off, outside GPT_PAYMENT_PROVIDERS or without the
 // credentials of its mode): a missing route, before the body or D1.
 // A live Complete queues the fiscal receipt in the same batch that marks the
-// order paid and starts printing it once Click has its answer.
+// order paid and starts on it once Click has its answer: by default it first
+// looks for a receipt Click printed itself (fiscal-store.ts, check first).
 import {
   BILLING_ORG,
   clickCredentials,
@@ -144,8 +145,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         console.warn("gpt_billing_delivery_failed"),
       ),
     );
-    // The fiscal receipt, after the answer to Click; the maintenance tick
-    // retries what fails here (fiscal-store.ts).
+    // The fiscal receipt, after the answer to Click: Click's own or, after
+    // GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES, ours; the maintenance tick
+    // carries on from here (fiscal-store.ts).
     waitUntil(
       fiscalizeDue(env).catch(() => console.warn("gpt_click_fiscal_failed")),
     );
