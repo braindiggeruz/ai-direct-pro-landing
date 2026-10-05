@@ -53,13 +53,15 @@ async function guestPays(f: Fixture, ip = "198.51.100.7", until: "pending" | "pr
   assert.equal(order.mode, "test");
   const row = f.db.value(`SELECT seq FROM gpt_payment_orders WHERE id='${order.attemptId}'`) as number;
   const tx = String(randomBytes(4).readUInt32BE(0));
+  // Click's payment number: the one in the buyer's SMS and receipt.
+  const doc = String(randomBytes(4).readUInt32BE(0));
   if (until !== "pending")
-    assert.equal((await f.clickCall(order.attemptId, "0", { click_trans_id: tx })).error, 0);
+    assert.equal((await f.clickCall(order.attemptId, "0", { click_trans_id: tx, click_paydoc_id: doc })).error, 0);
   if (until === "paid")
-    assert.equal((await f.clickCall(order.attemptId, "1", { click_trans_id: tx, merchant_prepare_id: String(row) })).error, 0);
+    assert.equal((await f.clickCall(order.attemptId, "1", { click_trans_id: tx, click_paydoc_id: doc, merchant_prepare_id: String(row) })).error, 0);
   const guest = f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order.attemptId}'`) as string;
   assert.ok(isGuestAccount(guest));
-  return { cookie: `__Host-gpt_account=${token}; ${f.rehearsal}`, order: order.attemptId, guest, tx };
+  return { cookie: `__Host-gpt_account=${token}; ${f.rehearsal}`, order: order.attemptId, guest, tx, doc };
 }
 
 /** A Telegram account signed in (its identity hash and id). */
@@ -151,6 +153,10 @@ test("signing in through Telegram moves the guest's pack once, and never another
   assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_auth_sessions WHERE user_id='${guest}'`), 0);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods"), 1, "moved, not copied");
   assert.equal(await restoreNotice(f.binding, order), "", "a Telegram account's order needs no restore");
+  // Support's link: the order is found, but it is no longer a guest's running pack.
+  const kept = await issueLink(f, order);
+  assert.equal(kept.status, 409);
+  assert.equal(((await kept.json()) as { code: string }).code, "invalid_order");
   // A repeat finds nothing; a Telegram account signed in on the browser keeps its pack.
   await f.identity.adoptGuest(request, hash);
   const other = randomBytes(32).toString("hex");
@@ -242,17 +248,30 @@ test("a payment settling while sign-in moves its order opens the pack for the ac
 
 test("support's restore link moves a lost guest pack once, into an account the browser already holds", async () => {
   const f = await guestFixture();
-  const { order, tx, guest } = await guestPays(f);
-  // The owner's "paid" notice of a guest order: Click's payment id, no link.
+  const { order, tx, doc, guest } = await guestPays(f);
+  // The owner's "paid" notice of a guest order: the payment number the buyer
+  // sees in the Click SMS, the transaction id and the time paid in Tashkent;
+  // no link.
   const notice = await restoreNotice(f.binding, order);
-  assert.match(notice, new RegExp(`Click ID ${tx}`));
+  const paid = new Date((f.db.value(`SELECT perform_time FROM gpt_payment_orders WHERE id='${order}'`) as number) + 5 * 3600_000);
+  const two = (n: number) => String(n).padStart(2, "0");
+  const stamp = `${two(paid.getUTCHours())}:${two(paid.getUTCMinutes())} ${two(paid.getUTCDate())}.${two(paid.getUTCMonth() + 1)}`;
+  assert.equal(notice, `\nКуплен без входа · Click: номер платежа (SMS) ${doc} · trans ${tx} · оплачен ${stamp} (Ташкент)`);
   assert.doesNotMatch(notice, /restore\?t=/);
-  assert.equal((await findOrder(f.binding, tx))?.id, order);
+  // Found by either of Click's numbers, or by ours.
+  for (const query of [doc, tx, order]) assert.equal((await findOrder(f.binding, query))?.id, order, query);
+  assert.equal((await findOrder(f.binding, "1"))?.id, undefined);
   // Support asks for a link when a buyer needs one: 48 hours at most.
-  assert.equal((await issueLink(f, tx, randomBytes(32).toString("hex"))).status, 403);
+  assert.equal((await issueLink(f, doc, randomBytes(32).toString("hex"))).status, 403);
   assert.equal((await issueLink(f, "not-an-order")).status, 400);
-  const issued = (await (await issueLink(f, tx)).json()) as { order: string; url: string; expiresAt: number };
+  // A number no Click order has is "not found", not "already moved".
+  const unknown = await issueLink(f, "1");
+  assert.equal(unknown.status, 404);
+  assert.equal(((await unknown.json()) as { code: string }).code, "not_found");
+  assert.equal(((await (await issueLink(f, tx)).json()) as { order: string }).order, order);
+  const issued = (await (await issueLink(f, doc)).json()) as { order: string; url: string; expiresAt: number; clickId: string; paydocId: string };
   assert.equal(issued.order, order);
+  assert.deepEqual([issued.clickId, issued.paydocId], [tx, doc]);
   assert.ok(issued.expiresAt <= Date.now() + RESTORE_LINK_MS && issued.expiresAt > Date.now() + RESTORE_LINK_MS - 60_000);
   assert.ok(issued.url.startsWith("https://gptbot.uz/api/gpt/restore?t="));
   const token = new URL(issued.url).searchParams.get("t")!;
@@ -287,6 +306,32 @@ test("support's restore link moves a lost guest pack once, into an account the b
   // Used once: another browser moves nothing.
   assert.equal((await restorePost(f, token, f.cookie)).status, 410);
   assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${order}'`), owner);
+});
+
+test("Click's payment number is kept from Prepare, once, and never changes what Click is answered", async () => {
+  const f = await guestFixture();
+  const { order, tx, doc } = await guestPays(f, "198.51.100.40", "prepared");
+  const stored = () => f.db.value(`SELECT provider_doc_id FROM gpt_payment_orders WHERE id='${order}'`);
+  assert.equal(stored(), doc);
+  const seq = f.db.value(`SELECT seq FROM gpt_payment_orders WHERE id='${order}'`) as number;
+  // Click repeats Prepare, then completes with another paydoc in the form:
+  // the answers are the protocol's, and the first number stays.
+  assert.deepEqual(await f.clickCall(order, "0", { click_trans_id: tx, click_paydoc_id: "999" }), {
+    click_trans_id: Number(tx), merchant_trans_id: order, merchant_prepare_id: seq, error: 0, error_note: "Success",
+  });
+  assert.deepEqual(await f.clickCall(order, "1", { click_trans_id: tx, click_paydoc_id: "999", merchant_prepare_id: String(seq) }), {
+    click_trans_id: Number(tx), merchant_trans_id: order, merchant_confirm_id: seq, error: 0, error_note: "Success",
+  });
+  assert.equal(stored(), doc);
+  assert.equal(f.db.value(`SELECT state FROM gpt_payment_orders WHERE id='${order}'`), "paid");
+  // An order Click never prepared has none.
+  const open = await guestPays(f, "198.51.100.41", "pending");
+  assert.equal(f.db.value(`SELECT provider_doc_id FROM gpt_payment_orders WHERE id='${open.order}'`), null);
+  // The Uzum table has no such column: the store refuses rather than guess.
+  await assert.rejects(
+    new BillingStore(f.binding, BILLING_ORG, "gpt_uzum_orders").transition("uzm_x", "prepared", "Prepare", { docId: "1" }),
+    /doc_id_unsupported/,
+  );
 });
 
 test("a valid restore link that meets the limit on new guests says to try later, and still works", async () => {

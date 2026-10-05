@@ -81,6 +81,15 @@ export const FISCAL_RECEIPT_COLUMNS: ReadonlyArray<readonly [string, string]> = 
   ["submitted_at", "INTEGER"],
   ["operation_id", "TEXT"],
 ];
+// Click's payment number (migrations/0071): click_paydoc_id, the number the
+// buyer sees in the Click SMS and receipt, stored at Prepare beside
+// external_id (click_trans_id, one payment attempt). Support finds a guest's
+// order by it (guest-restore.ts). Nullable: Payme rows and Click rows from
+// before keep NULL. gpt_payment_orders_all lists its columns, so it is not
+// affected.
+export const PAYMENT_ORDER_COLUMNS: ReadonlyArray<readonly [string, string]> = [
+  ["provider_doc_id", "TEXT"],
+];
 export const PAID_CHAT_DDL = [
   // fiscal-store.ts claims due rows of one provider.
   `CREATE INDEX IF NOT EXISTS idx_gpt_fiscal_due ON gpt_fiscal_receipts(org_id,provider,status_code,next_at)`,
@@ -105,7 +114,7 @@ export const PAID_CHAT_DDL = [
  */
 async function addMissingColumns(
   db: D1Database,
-  table: "gpt_turn_reservations" | "gpt_fiscal_receipts" | "gpt_uzum_orders",
+  table: "gpt_turn_reservations" | "gpt_fiscal_receipts" | "gpt_uzum_orders" | "gpt_payment_orders",
   columns: ReadonlyArray<readonly [string, string]>,
 ): Promise<void> {
   const info = await db
@@ -184,7 +193,8 @@ function once(
 const billingBootstraps = new WeakMap<D1Database, Promise<void>>();
 const uzumBootstraps = new WeakMap<D1Database, Promise<void>>();
 /**
- * The 0064 ledger, the 0066 chat runtime and the 0068 paid-chat objects.
+ * The 0064 ledger, the 0066 chat runtime, the 0068 paid-chat objects and
+ * the 0071 Click payment number.
  * Every billing path runs it, the chat turn included. A release applies the
  * migrations first; this bootstrap then only confirms them.
  */
@@ -195,6 +205,7 @@ export function ensureBillingSchema(db: D1Database): Promise<void> {
     await db.batch(CHAT_RUNTIME_DDL.map((sql) => db.prepare(sql)));
     await addMissingColumns(db, "gpt_fiscal_receipts", FISCAL_RECEIPT_COLUMNS);
     await db.batch(PAID_CHAT_DDL.map((sql) => db.prepare(sql)));
+    await addMissingColumns(db, "gpt_payment_orders", PAYMENT_ORDER_COLUMNS);
   });
 }
 /**

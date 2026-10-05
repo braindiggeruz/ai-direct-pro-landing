@@ -4,7 +4,8 @@
 // gpt_uzum_orders columns and gpt_payment_codes (bootstrapped by
 // ensureUzumSchema only); WP-16 gpt_bot_logins (sign-in through the bot,
 // ensureBillingSchema); WP-17 gpt_ui_events (the pack window's funnel,
-// ensureBillingSchema).
+// ensureBillingSchema). migrations/0071 adds Click's payment number
+// (provider_doc_id) to gpt_payment_orders, ensureBillingSchema too.
 // Real SQLite (tests/helpers/sqlite-d1.ts); nothing here touches a remote
 // database.
 // Run: node --import tsx --test tests/gpt-paid-chat-schema.test.ts
@@ -17,6 +18,7 @@ import {
   ensureBillingSchema,
   ensureUzumSchema,
   FISCAL_RECEIPT_COLUMNS,
+  PAYMENT_ORDER_COLUMNS,
   PAID_CHAT_DDL,
   UZUM_ORDER_COLUMNS,
   UZUM_PAID_CHAT_DDL,
@@ -236,4 +238,32 @@ test("code deployed before 0068: the bootstrap adds the columns, and the migrati
   assert.deepEqual(shape(db), shape(reference));
   assert.throws(() => apply(db, "0068_gpt_paid_chat.sql", M0068), /duplicate column name/);
   assert.equal(db.value("SELECT COUNT(*) FROM d1_migrations"), 0);
+});
+
+// migrations/0071: Click's payment number (click_paydoc_id) on the order.
+const M0071 = migration("0071_gpt_click_paydoc.sql");
+const orderColumns = (db: SqliteD1) =>
+  db.rows<{ name: string; type: string; notnull: number; dflt_value: unknown }>("PRAGMA table_info('gpt_payment_orders')")
+    .map(({ name, type, notnull, dflt_value }) => ({ name, type, notnull, dflt_value }));
+
+test("0071 adds exactly the bootstrap's order column, keeps every row, and the cross-provider view reads on", async () => {
+  const sql = statements(M0071);
+  assert.deepEqual(sql, PAYMENT_ORDER_COLUMNS.map(([name, type]) => `ALTER TABLE gpt_payment_orders ADD COLUMN ${name} ${type}`));
+  assert.doesNotMatch(M0071.replace(SQL_COMMENT, ""), /\b(DROP|DELETE|UPDATE|INSERT|TRUNCATE)\b/i);
+  const db = productionShape();
+  db.exec(M0068);
+  db.sqlite
+    .prepare("INSERT INTO gpt_payment_orders(org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,created_at,expires_at) VALUES('gptbot-consumer','pay_a','acct_a','click','live','r1',2000000,'UZS','paid','777',1,2)")
+    .run();
+  assert.equal(apply(db, "0071_gpt_click_paydoc.sql", M0071), "applied");
+  assert.deepEqual({ ...db.rows("SELECT id,external_id,provider_doc_id FROM gpt_payment_orders")[0] as object }, { id: "pay_a", external_id: "777", provider_doc_id: null });
+  assert.equal(db.value("SELECT COUNT(*) FROM gpt_payment_orders_all"), 1);
+  // The runtime bootstrap on an empty database builds the same table.
+  const bootstrapped = new SqliteD1();
+  await bootstrap(bootstrapped);
+  assert.deepEqual(orderColumns(bootstrapped), orderColumns(db));
+  await bootstrap(db);
+  assert.deepEqual(orderColumns(db).at(-1), { name: "provider_doc_id", type: "TEXT", notnull: 0, dflt_value: null });
+  // Code before the migration: the bootstrap added it, the migration refuses.
+  assert.throws(() => apply(bootstrapped, "0071_gpt_click_paydoc.sql", M0071), /duplicate column name/);
 });

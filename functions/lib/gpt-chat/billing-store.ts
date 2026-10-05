@@ -302,6 +302,12 @@ export class BillingStore {
     method: string,
     options: {
       externalId?: string;
+      /**
+       * Click's click_paydoc_id, the number the buyer sees in the SMS and
+       * receipt (gpt_payment_orders.provider_doc_id). Kept like externalId:
+       * the first value stays. gpt_payment_orders only.
+       */
+      docId?: string;
       providerTime?: number;
       reason?: number;
       now?: number;
@@ -321,6 +327,8 @@ export class BillingStore {
     } = {},
   ): Promise<Order> {
     const now = options.now ?? Date.now();
+    if (options.docId !== undefined && this.table === UZUM_ORDERS) throw new Error("doc_id_unsupported");
+    const docColumn = options.docId !== undefined ? ",provider_doc_id=COALESCE(provider_doc_id,?)" : "";
     for (let attempt = 0; attempt < 8; attempt++) {
       const row = await this.order(id);
       if (!row) throw new Error("not_found");
@@ -384,7 +392,7 @@ export class BillingStore {
         audit,
         this.db
           .prepare(
-            `UPDATE ${this.table} SET state=?,version=version+1,external_id=COALESCE(external_id,?),provider_time=COALESCE(provider_time,?),
+            `UPDATE ${this.table} SET state=?,version=version+1,external_id=COALESCE(external_id,?)${docColumn},provider_time=COALESCE(provider_time,?),
           expires_at=CASE WHEN ?='prepared' AND provider='payme' THEN ? ELSE expires_at END,
           create_time=CASE WHEN ?='prepared' THEN ? ELSE create_time END,
           perform_time=CASE WHEN ?='paid' THEN ? ELSE perform_time END,
@@ -394,6 +402,7 @@ export class BillingStore {
           .bind(
             nextState,
             options.externalId ?? null,
+            ...(docColumn ? [options.docId!] : []),
             options.providerTime ?? null,
             target,
             (options.providerTime ?? now) + PAYMENT_TTL_MS,

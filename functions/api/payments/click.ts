@@ -5,6 +5,15 @@
 // A live Complete queues the fiscal receipt in the same batch that marks the
 // order paid and starts on it once Click has its answer: by default it first
 // looks for a receipt Click printed itself (fiscal-store.ts, check first).
+// Every refusal is logged as gpt_click_rejected with the action, the code and
+// one reason word, never an id or an amount, so a Click that refuses buyers
+// (a wrong live secret_key, a wrong Prepare URL) is told apart from buyers who
+// left. A signed request about an order we do not have, or with another
+// amount, only Click can send: it also records an alert (click_* is urgent,
+// one row per code an hour). A bad signature under our own service_id records
+// click_sign_failed, which a forger can trigger too: at most one D1 write per
+// isolate an hour and one page a day (alert-policy.ts DAILY_ALERTS). None of
+// this changes an answer Click gets.
 import {
   BILLING_ORG,
   clickCredentials,
@@ -25,6 +34,11 @@ import {
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
+import { HOUR_MS } from "../../lib/gpt-chat/rate-limit";
+
+/** When this isolate last recorded click_sign_failed (epoch ms). */
+let signFailedAt = 0;
+
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
@@ -50,19 +64,34 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         } as Record<number, string>
       )[code],
     });
+  // The action once it is known to be one ("0" Prepare, "1" Complete).
+  let action: "0" | "1" | null = null;
+  /** Every refusal, logged: the action, the code and a reason word only. */
+  const reject = (code: number, why: string) => {
+    console.warn(JSON.stringify({ event: "gpt_click_rejected", action, code, why }));
+    return error(code);
+  };
+  /** An alert in the background: recorded, then delivered by the maintenance pass. */
+  const alert = (code: string) =>
+    waitUntil(
+      recordServiceAlert(env, code)
+        .then(() => maintainBilling(env))
+        .catch(() => console.warn("gpt_billing_delivery_failed")),
+    );
   if (
     !request.headers
       .get("content-type")
       ?.includes("application/x-www-form-urlencoded")
   )
-    return error(-8);
+    return reject(-8, "format");
   const raw = await readTextLimited(request, 8192);
-  if (!raw.ok) return error(-8);
+  if (!raw.ok) return reject(-8, "format");
   const form = new URLSearchParams(raw.value);
   const p = Object.fromEntries(form);
   if ([...form.keys()].some((k) => form.getAll(k).length !== 1))
-    return error(-8);
-  if (p.action !== "0" && p.action !== "1") return error(-3);
+    return reject(-8, "format");
+  if (p.action !== "0" && p.action !== "1") return reject(-3, "action");
+  action = p.action;
   const required = [
     "click_trans_id",
     "click_paydoc_id",
@@ -81,35 +110,46 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     !Number.isSafeInteger(Number(p.click_trans_id)) ||
     !/^-?\d+$/.test(p.error)
   )
-    return error(-8);
-  if (
-    p.service_id !== credentials.serviceId ||
-    !sameSecret(p.sign_string.toLowerCase(), clickSignature(p, credentials.secretKey))
-  )
-    return error(-1);
+    return reject(-8, "format");
+  if (p.service_id !== credentials.serviceId) return reject(-1, "service");
+  if (!sameSecret(p.sign_string.toLowerCase(), clickSignature(p, credentials.secretKey))) {
+    // Our service_id, a signature that does not match: a wrong live
+    // secret_key refuses every buyer exactly like this.
+    const now = Date.now();
+    if (env.GPTBOT_DRAFTS_DB && now - signFailedAt >= HOUR_MS) {
+      signFailedAt = now;
+      alert("click_sign_failed");
+    }
+    return reject(-1, "sign");
+  }
   // Do not add a short sign_time TTL: delayed authentic retries must settle.
   // Invoice expiry applies at Prepare; durable external IDs prevent replay.
-  if (!env.GPTBOT_DRAFTS_DB) return error(-7);
+  if (!env.GPTBOT_DRAFTS_DB) return reject(-7, "unavailable");
   try {
     const db = env.GPTBOT_DRAFTS_DB;
     await ensureSchema(db);
     await ensureBillingSchema(db);
     const store = new BillingStore(db, BILLING_ORG);
     let row = await store.order(p.merchant_trans_id);
-    if (!row || row.provider !== "click" || row.mode !== mode) return error(-5);
-    if (parseClickAmount(p.amount) !== row.amount || row.currency !== "UZS")
-      return error(-2);
+    if (!row || row.provider !== "click" || row.mode !== mode) {
+      alert("click_unknown_order");
+      return reject(-5, "unknown_order");
+    }
+    if (parseClickAmount(p.amount) !== row.amount || row.currency !== "UZS") {
+      alert("click_amount_mismatch");
+      return reject(-2, "amount");
+    }
     if (row.external_id && row.external_id !== p.click_trans_id)
-      return error(-4);
+      return reject(-4, "already");
     const existing = await store.external("click", mode, p.click_trans_id);
-    if (existing && existing.id !== row.id) return error(-8);
+    if (existing && existing.id !== row.id) return reject(-8, "trans_reused");
     if (
       p.action === "1" &&
       (String(row.seq) !== p.merchant_prepare_id || !row.external_id)
     )
-      return error(-6);
-    if (row.state === "paid") return error(-4);
-    if (row.state === "cancelled" || row.state === "refunded") return error(-9);
+      return reject(-6, "no_prepare");
+    if (row.state === "paid") return reject(-4, "already");
+    if (row.state === "cancelled" || row.state === "refunded") return reject(-9, "cancelled");
     if (Number(p.error) < 0) {
       await store.transition(
         row.id,
@@ -122,13 +162,16 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
           console.warn("gpt_billing_delivery_failed"),
         ),
       );
-      return error(-9);
+      return reject(-9, "click_cancelled");
     }
-    if (Number(p.error) !== 0) return error(-8);
+    if (Number(p.error) !== 0) return reject(-8, "format");
     if (p.action === "0") {
-      if (row.expires_at <= Date.now()) return error(-5);
+      if (row.expires_at <= Date.now()) return reject(-5, "expired");
       row = await store.transition(row.id, "prepared", "Prepare", {
         externalId: p.click_trans_id,
+        // The number the buyer sees in the Click SMS and receipt (support
+        // finds a guest's order by it, guest-restore.ts).
+        docId: p.click_paydoc_id,
         providerTime: Date.now(),
       });
       return json({
@@ -161,12 +204,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   } catch (cause) {
     // A second Prepare with another click_trans_id lost the race for this
     // order: the same answer as when it comes second (-4), and no alert.
-    if (cause instanceof Error && cause.message === "conflict") return error(-4);
-    waitUntil(
-      recordServiceAlert(env, "click_processing")
-        .then(() => maintainBilling(env))
-        .catch(() => console.warn("gpt_billing_delivery_failed")),
-    );
-    return error(-7);
+    if (cause instanceof Error && cause.message === "conflict") return reject(-4, "already");
+    alert("click_processing");
+    return reject(-7, "processing");
   }
 };

@@ -15,9 +15,11 @@ import {
 import { ACCOUNT_FREE_ID, TurnStore } from "../functions/lib/gpt-chat/turn-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
 import {
+  clickSignature,
   md5,
   parseClickAmount,
 } from "../functions/lib/gpt-chat/payment-protocol";
+import { alertRowId, isUrgentAlert } from "../functions/lib/gpt-chat/alert-policy";
 import { onRequestPost as payme } from "../functions/api/payments/payme";
 import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
@@ -634,6 +636,70 @@ test("Click Prepare/Complete, repeat -4, cancellation -9 and amount tampering", 
   assert.deepEqual(answers.map((r) => r.error).sort(), [-4, 0]);
   await Promise.all(f.background);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='click_processing'"), 0);
+});
+
+test("every Click refusal is logged with a reason word only, signed oddities page, and Click's answers stay the same", async (t) => {
+  const f = await billingFixture();
+  const logged: string[] = [];
+  t.mock.method(console, "warn", (line: unknown) => { logged.push(String(line)); });
+  const o = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
+  const tx = String(randomBytes(4).readUInt32BE(0));
+  const doc = String(randomBytes(4).readUInt32BE(0));
+  const form = (over: Record<string, string> = {}, secret = f.env.GPT_CLICK_TEST_SECRET!) => {
+    const p: Record<string, string> = {
+      click_trans_id: tx, click_paydoc_id: doc, service_id: f.env.GPT_CLICK_TEST_SERVICE_ID!, merchant_trans_id: o.id,
+      amount: "20000.00", action: "0", sign_time: "2026-10-05 20:00:00", error: "0", ...over,
+    };
+    return new URLSearchParams({ ...p, sign_string: clickSignature(p, secret) });
+  };
+  const send = async (body: string | URLSearchParams, type = "application/x-www-form-urlencoded") =>
+    (await click(f.ctx(new Request("https://gpt.test/api/payments/click", { method: "POST", headers: { "Content-Type": type }, body })))).json();
+  const rejected = () => logged.flatMap((line) => {
+    try {
+      const value = JSON.parse(line) as { event?: string };
+      return value.event === "gpt_click_rejected" ? [value] : [];
+    } catch { return []; }
+  });
+  const note = (error: number, error_note: string) => ({ error, error_note });
+  const alerts = (code: string) => f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code=?", code);
+
+  // The answers are the Shop API's, exactly as before.
+  assert.deepEqual(await send(form().toString(), "text/plain"), note(-8, "Error in request from click"));
+  assert.deepEqual(await send(form({ action: "2" })), note(-3, "Action not found"));
+  assert.deepEqual(await send(form({ click_paydoc_id: "" })), note(-8, "Error in request from click"));
+  assert.deepEqual(await send(form({ service_id: "1" })), note(-1, "SIGN CHECK FAILED!"));
+  const background = f.background.length;
+  assert.deepEqual(await send(form({}, randomBytes(32).toString("hex"))), note(-1, "SIGN CHECK FAILED!"));
+  assert.deepEqual(await send(form({ merchant_trans_id: `pay_${"0".repeat(32)}` })), note(-5, "User does not exist"));
+  assert.deepEqual(await send(form({ amount: "19999.00" })), note(-2, "Incorrect parameter amount"));
+  assert.deepEqual(await send(form({ action: "1", merchant_prepare_id: String(o.seq) })), note(-6, "Transaction does not exist"));
+  await Promise.all(f.background);
+  assert.deepEqual(
+    rejected().map(({ action, code, why }: { action?: unknown; code?: unknown; why?: unknown }) => [action, code, why]),
+    [
+      [null, -8, "format"], [null, -3, "action"], ["0", -8, "format"], ["0", -1, "service"], ["0", -1, "sign"],
+      ["0", -5, "unknown_order"], ["0", -2, "amount"], ["1", -6, "no_prepare"],
+    ],
+  );
+  // The reason word only: no order, transaction, payment number, amount or service id.
+  for (const line of rejected()) assert.deepEqual(Object.keys(line).sort(), ["action", "code", "event", "why"]);
+  const wire = JSON.stringify(rejected());
+  for (const secret of [o.id, tx, doc, "20000", "19999", f.env.GPT_CLICK_TEST_SERVICE_ID!]) assert.ok(!wire.includes(secret), secret);
+  // Only Click can sign an unknown order or another amount: those page. A
+  // wrong service_id is a log line; a bad signature under ours is recorded once.
+  assert.equal(alerts("click_unknown_order"), 1);
+  assert.equal(alerts("click_amount_mismatch"), 1);
+  assert.equal(alerts("click_sign_failed"), 1);
+  assert.ok(isUrgentAlert("click_sign_failed") && isUrgentAlert("click_unknown_order") && isUrgentAlert("click_amount_mismatch"));
+  assert.match(alertRowId("click_sign_failed", Date.now()), /^click_sign_failed:d\d+$/, "a forger pages once a day at most");
+  // Within the hour this isolate does not even reach D1 for another forgery.
+  const before = f.background.length;
+  assert.deepEqual(await send(form({}, randomBytes(32).toString("hex"))), note(-1, "SIGN CHECK FAILED!"));
+  assert.equal(f.background.length, before);
+  assert.ok(before > background);
+  // A good Prepare is untouched by all of it.
+  const ok = await send(form());
+  assert.deepEqual(ok, { click_trans_id: Number(tx), merchant_trans_id: o.id, merchant_prepare_id: o.seq, error: 0, error_note: "Success" });
 });
 test("test checkout is dark, authenticates account, ignores client amount and never returns live URL", async () => {
   const f = await billingFixture();

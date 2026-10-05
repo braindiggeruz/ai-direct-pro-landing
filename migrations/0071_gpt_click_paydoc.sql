@@ -1,0 +1,22 @@
+-- Click's payment number on the order (guest checkout, review of 05.10).
+-- Additive only. gpt_payment_orders.provider_doc_id holds click_paydoc_id,
+-- the number the buyer sees in the Click SMS and receipt; external_id keeps
+-- click_trans_id (one payment attempt). functions/api/payments/click.ts
+-- stores it at Prepare (COALESCE: the first value stays) and never changes an
+-- answer to Click for it; support finds a guest's order by either number
+-- (functions/lib/gpt-chat/guest-restore.ts findOrder). Nullable: Payme rows
+-- and Click rows prepared before this migration keep NULL. The view
+-- gpt_payment_orders_all lists its columns, so it is not affected. Digits
+-- only: no card, phone or name.
+-- Runtime parity: PAYMENT_ORDER_COLUMNS in
+-- functions/lib/gpt-chat/billing-schema.ts (ensureBillingSchema), tested in
+-- tests/gpt-paid-chat-schema.test.ts.
+-- Order: apply this migration BEFORE deploying the code, previews included (a
+-- preview shares the production D1). The runtime bootstrap adds the same
+-- column when it is missing; once it has run, the ALTER below fails with
+-- "duplicate column name" and the migration cannot be recorded. If that
+-- happens, record the file in d1_migrations by hand; the column is already
+-- there. Do not drop anything.
+-- Rollback: roll the application back; the column stays. The previous code
+-- neither reads nor writes it. Financial rows are never dropped.
+ALTER TABLE gpt_payment_orders ADD COLUMN provider_doc_id TEXT;

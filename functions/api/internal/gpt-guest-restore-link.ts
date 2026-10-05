@@ -4,11 +4,14 @@ import { findOrder, restorable, restoreLink } from "../../lib/gpt-chat/guest-res
 import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 // Support's restore link for a guest's lost pack (guest-restore.ts), made
-// when a buyer asks: body {order} with Click's payment id (from the owner's
-// "AI paket: paid" notice and the buyer's receipt) or our pay_ number. The
-// link works 48 hours at most, the pack's end at the latest, and only while
-// the order is a guest's running pack. It moves nothing itself; the buyer's
-// button does (api/gpt/restore.ts). Operator only: the internal Bearer.
+// when a buyer asks: body {order} with Click's payment number (the one in the
+// buyer's SMS and receipt, also in the owner's "AI paket: paid" notice),
+// Click's transaction id, or our pay_ number. The link works 48 hours at
+// most, the pack's end at the latest, and only while the order is a guest's
+// running pack. It moves nothing itself; the buyer's button does
+// (api/gpt/restore.ts). 404 not_found: no Click order has that number; 409
+// invalid_order: the order is not a guest's running pack (moved to a
+// Telegram account, ended or refunded). Operator only: the internal Bearer.
 export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env }) => {
   if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
@@ -24,11 +27,12 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env })
     await ensureBillingSchema(db);
     const now = Date.now();
     const order = await findOrder(db, query);
-    if (!order || !restorable(order, now))
+    if (!order) return fail("not_found", "No Click order with this number", 404);
+    if (!restorable(order, now))
       return fail("invalid_order", "Not a running pack bought without signing in", 409);
     const link = await restoreLink(secret, order, now);
     console.log(JSON.stringify({ event: "gpt_guest_restore_link", order: order.id, expiresAt: link.expiresAt }));
-    return json({ ok: true, order: order.id, clickId: order.external_id, ...link });
+    return json({ ok: true, order: order.id, clickId: order.external_id, paydocId: order.provider_doc_id, ...link });
   } catch {
     return fail("link_failed", "Try later", 503);
   }
