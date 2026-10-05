@@ -60,8 +60,8 @@ const BILLING_SETTING =
 /**
  * The billing settings committed in wrangler.toml, hydrated from
  * GPTBOT_RUNTIME_CONFIG_JSON the way production reads them
- * (functions/lib/runtime-config.ts): every provider off, the offer, the
- * fiscal codes, the bot sign-in.
+ * (functions/lib/runtime-config.ts): the providers' modes (Click live since
+ * runbook S2, Uzum off), the offer, the fiscal codes, the bot sign-in.
  */
 export function committedBillingSettings(): Partial<BillingEnv> {
   const source = readFileSync(new URL("../../wrangler.toml", import.meta.url), "utf8");

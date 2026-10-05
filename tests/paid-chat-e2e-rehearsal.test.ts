@@ -105,8 +105,8 @@ type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 
 /**
  * Production: the secrets it holds (random here), the billing settings
- * committed in wrangler.toml (every provider off, GPT_BILLING_LIVE_READY
- * "false"), no OIDC client, no legacy Click variables, the bot
+ * committed in wrangler.toml (since runbook S2: Click live,
+ * GPT_BILLING_LIVE_READY "true", Uzum off), no OIDC client, no legacy Click variables, the bot
  * @gptbotuz_bot; then `extra`, the rehearsal's or the live sale's settings.
  */
 function productionLike(env: BillingEnv, extra: Partial<BillingEnv>): void {

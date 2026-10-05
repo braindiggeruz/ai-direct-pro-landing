@@ -1,6 +1,6 @@
 // Live readiness of the AI pack's payments (plan WP-13): liveReadiness()
 // names every missing setting and only names it, per-provider modes and the
-// provider allowlist, the committed (inert) configuration, VAT included in
+// provider allowlist, the committed configuration (Click live, S2), VAT included in
 // the price, the product name and the guest JSON path.
 // Run: node --import tsx --test tests/gpt-live-readiness.test.ts
 import { test } from "node:test";
@@ -240,18 +240,39 @@ test("modes per provider over the global one; the allowlist keeps Payme off and 
   assert.equal(providerReady(payme, "payme"), false);
 });
 
-test("the committed configuration is inert: no provider runs, credentials are never public config", async () => {
+test("the committed configuration: Click live, Uzum and Payme off, credentials are never public config", async () => {
+  // Runbook docs/paid-chat/ONBOARDING-KEYS-RU.md, S2 (owner's order of 2026-10-05):
+  // Click sells live, Uzum and Payme are off. The stop switch is
+  // GPT_BILLING_LIVE_READY = "false" or GPT_BILLING_MODE_CLICK = "" (both places) and a deploy.
   const source = fs.readFileSync(path.join(ROOT, "wrangler.toml"), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
   assert.equal(packed.GPT_PAYMENT_PROVIDERS, "click,uzum");
-  for (const key of ["GPT_BILLING_MODE", "GPT_BILLING_MODE_CLICK", "GPT_BILLING_MODE_UZUM"]) assert.equal(packed[key], "", key);
-  assert.equal(packed.GPT_BILLING_LIVE_READY, "false");
-  assert.equal(billingActive(env), false);
-  for (const provider of ["click", "uzum", "payme"] as const) {
+  assert.equal(packed.GPT_BILLING_MODE, "");
+  assert.equal(packed.GPT_BILLING_MODE_CLICK, "live");
+  assert.equal(packed.GPT_BILLING_MODE_UZUM, "");
+  assert.equal(packed.GPT_BILLING_LIVE_READY, "true");
+  assert.equal(packed.UZUM_API, "");
+  assert.equal(billingActive(env), true);
+  assert.equal(providerMode(env, "click"), "live");
+  for (const provider of ["uzum", "payme"] as const) {
     assert.equal(providerMode(env, provider), null);
     assert.equal(providerReady(env, provider), false);
   }
+  // The public config settles everything it can: with D1 bound, Click live lacks
+  // only what the Pages secrets hold, and without them it fails closed.
+  const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };
+  assert.deepEqual(liveReadiness({ ...env, GPTBOT_DRAFTS_DB: bomb } as unknown as BillingEnv, "click"), [
+    "GPT_CLICK_CREDENTIALS_JSON",
+    "GPT_NOTIFY_BOT_TOKEN",
+    "GPT_NOTIFY_CHAT_ID",
+    "GPT_HASH_SALT",
+    "GPT_IDENTITY_SECRET",
+    "GPT_BILLING_MAINTENANCE_SECRET",
+    "TELEGRAM_ASSISTANT_BOT_TOKEN",
+    "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
+  ]);
+  assert.equal(providerReady(env, "click"), false);
   // The owner's fiscal decision of 2026-10-01: complete, VAT 12 % included.
   assert.deepEqual(fiscalIssues(env, { tin: true }), []);
   assert.deepEqual(fiscalParams(env), { ikpu: "10305008002000000", packageCode: "1514296", vatPercent: 12 });
@@ -267,23 +288,24 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     Object.keys(packed).filter((key) => key.startsWith("UZUM_FISCAL_")),
     ["UZUM_FISCAL_BASE_URL", "UZUM_FISCAL_TEST_BASE_URL"],
   );
-  // Every payment route is a missing route, before any D1 access.
-  const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };
-  const post = (handler: typeof click, url: string) =>
+  const post = (handler: typeof click, url: string, routeEnv: BillingEnv) =>
     handler({
       request: new Request(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }),
-      env: { ...env, GPTBOT_DRAFTS_DB: bomb },
+      env: { ...routeEnv, GPTBOT_DRAFTS_DB: bomb },
       params: {},
       waitUntil() {},
     } as unknown as Parameters<typeof click>[0]);
-  for (const [handler, url] of [
-    [click, "https://gptbot.uz/api/payments/click"],
+  const offRoutes = [
     [payme, "https://gptbot.uz/api/payments/payme"],
     [uzumCallback, "https://gptbot.uz/api/payments/uzum"],
-  ] as Array<[typeof click, string]>)
-    assert.equal((await post(handler, url)).status, 404, url);
-  // Sign-in exists to pay: with billing off both ways in are missing routes
-  // too, before the body and D1, whatever the bot's own settings.
+  ] as Array<[typeof click, string]>;
+  // Public config alone (no Pages secret): every payment route is a missing
+  // route, before any D1 access; Click has no credentials to check a signature with.
+  for (const [handler, url] of [[click, "https://gptbot.uz/api/payments/click"], ...offRoutes] as Array<[typeof click, string]>)
+    assert.equal((await post(handler, url, env)).status, 404, url);
+  // Sign-in exists to pay: while Click is not ready (its secrets missing) no
+  // provider is offered, so both ways in are missing routes too, before the
+  // body and D1, whatever the bot's own settings.
   const signIn = { ...env, GPTBOT_DRAFTS_DB: bomb, GPT_IDENTITY_SECRET: hex(32), TELEGRAM_ASSISTANT_BOT_TOKEN: "t", TELEGRAM_ASSISTANT_WEBHOOK_SECRET: "s", GPT_TELEGRAM_CLIENT_ID: "1", GPT_TELEGRAM_CLIENT_SECRET: "c" };
   for (const [handler, url] of [
     [botLoginStart, "https://gptbot.uz/api/gpt/auth/bot/start"],
@@ -310,21 +332,59 @@ test("the committed configuration is inert: no provider runs, credentials are ne
     } as unknown as Parameters<typeof uiEvent>[0]);
     assert.equal(response.status, 404, type);
   }
-  const view = (await (
-    await account({ request: new Request("https://gptbot.uz/api/gpt/account"), env: { ...signIn } } as unknown as Parameters<typeof account>[0])
-  ).json()) as { providers: unknown[]; mode: unknown; pack: unknown; loginAvailable: boolean; loginMethods: unknown[] };
+  const guestView = async (viewEnv: BillingEnv) =>
+    (await (
+      await account({ request: new Request("https://gptbot.uz/api/gpt/account"), env: { ...viewEnv }, waitUntil() {} } as unknown as Parameters<typeof account>[0])
+    ).json()) as { providers: unknown[]; mode: unknown; pack: unknown; loginAvailable: boolean; loginMethods: unknown[] };
+  const view = await guestView(signIn as unknown as BillingEnv);
   assert.deepEqual(view.providers, []);
   assert.equal(view.mode, null);
   assert.equal(view.loginAvailable, false);
   assert.deepEqual(view.loginMethods, []);
   assert.equal(packed.GPT_BOT_LOGIN_MODE, "pick");
-  assert.deepEqual(view.pack, {
+  const pack = {
     priceUzs: 20000,
     messageLimit: 300,
     dailyLimit: 50,
     months: 1,
     vat: { percent: 12, includedTiyin: 214286 },
-  });
+  };
+  assert.deepEqual(view.pack, pack);
+  // With the Pages secrets production holds (random here; no Telegram OIDC
+  // client): Click is live-ready and offered to everyone, signed in through
+  // the bot; Uzum and Payme stay off, and nothing is in test.
+  const production = {
+    ...env,
+    GPTBOT_DRAFTS_DB: bomb,
+    GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({
+      live: { service_id: 41001, merchant_id: 32002, secret_key: marked(), merchant_user_id: 50003 },
+    }),
+    GPT_NOTIFY_BOT_TOKEN: marked(),
+    GPT_NOTIFY_CHAT_ID: "123456789",
+    GPT_HASH_SALT: marked(),
+    GPT_IDENTITY_SECRET: marked(),
+    GPT_BILLING_MAINTENANCE_SECRET: marked(),
+    TELEGRAM_ASSISTANT_BOT_TOKEN: marked(),
+    TELEGRAM_ASSISTANT_WEBHOOK_SECRET: marked(),
+  } as unknown as BillingEnv;
+  assert.deepEqual(liveReadiness(production, "click"), []);
+  assert.equal(providerReady(production, "click"), true);
+  assert.deepEqual(offeredProviders(production, "live"), ["click"]);
+  assert.deepEqual(offeredProviders(production, "test"), []);
+  for (const provider of ["uzum", "payme"] as const) assert.equal(providerReady(production, provider), false);
+  const live = await guestView(production);
+  assert.deepEqual(live.providers, ["click"]);
+  assert.equal(live.mode, "live");
+  assert.equal(live.loginAvailable, true);
+  assert.deepEqual(live.loginMethods, ["bot"]);
+  assert.deepEqual(live.pack, pack);
+  assert.doesNotMatch(JSON.stringify(live), new RegExp(MARK));
+  // Uzum and Payme remain missing routes before any D1 access; Click checks
+  // the request (a Click protocol error here) before it reads D1.
+  for (const [handler, url] of offRoutes) assert.equal((await post(handler, url, production)).status, 404, url);
+  const clickAnswer = await post(click, "https://gptbot.uz/api/payments/click", production);
+  assert.equal(clickAnswer.status, 200);
+  assert.equal(((await clickAnswer.json()) as { error: number }).error, -8);
 });
 
 test("VAT is included in the price, rounded half up", () => {

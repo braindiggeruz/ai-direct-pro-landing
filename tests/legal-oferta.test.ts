@@ -104,7 +104,7 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   assert.equal(offers.ru.lastReviewedAt, offers.uz.lastReviewedAt);
   // The lawyer's approval of the offer (docs/paid-chat/OFFER-RU.md): none, or one date in both
   // copies of GPT_BILLING_TERMS_APPROVED_AT and on both offers; never half recorded. The
-  // policies carry their own review date (or none yet): the live gate demands it at deploy.
+  // policies carry their own review date: the live gate demands it at deploy.
   const approvedAt = config.GPT_BILLING_TERMS_APPROVED_AT;
   assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
   for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
@@ -113,6 +113,8 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   // approved v1 on 2026-10-01 (docs/paid-chat/OFFER-RU.md).
   assert.equal(approvedAt, '2026-10-03');
   for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
+  // The lawyer approved both policies on 2026-10-05, before Click's live switch (runbook S2).
+  for (const doc of Object.values(policies)) assert.equal(doc.legalReviewedAt, '2026-10-05', doc.url);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -388,9 +390,18 @@ function liveFixture(change: Partial<LiveGateInput> = {}): LiveGateInput {
   };
 }
 
-test('live gate: the committed build passes, the offline check defers nothing, live is off', () => {
+test('live gate: the committed build passes with Click live; offline it defers only the secret names', () => {
+  // Runbook S2 (2026-10-05): GPT_BILLING_LIVE_READY="true", Click live, Uzum off.
   const report = liveGate(loadLiveGateInput(ROOT, path.join(ROOT, 'dist'), null));
-  assert.deepEqual(report, { live: false, providers: [], issues: [], deferred: [] });
+  assert.deepEqual(report, {
+    live: true,
+    providers: ['click'],
+    issues: [],
+    deferred: [
+      'GPT_BILLING_MAINTENANCE_SECRET', 'GPT_CLICK_CREDENTIALS_JSON', 'GPT_HASH_SALT', 'GPT_IDENTITY_SECRET',
+      'GPT_NOTIFY_BOT_TOKEN', 'GPT_NOTIFY_CHAT_ID', 'TELEGRAM_ASSISTANT_BOT_TOKEN', 'TELEGRAM_ASSISTANT_WEBHOOK_SECRET',
+    ],
+  });
 });
 
 test('live gate: a complete build with every secret in production may go live', () => {
@@ -410,7 +421,7 @@ test('live gate: each missing piece refuses live by name, and never prints a val
     ['no approval', { config: { ...live.config, GPT_BILLING_TERMS_APPROVED_AT: '' } }, /GPT_BILLING_TERMS_APPROVED_AT/],
     ['approval of another text', { config: { ...live.config, GPT_BILLING_TERMS_APPROVED_AT: '2026-11-03' } }, /legalReviewedAt differs from GPT_BILLING_TERMS_APPROVED_AT/],
     ['offer not reviewed', { offers: { ...live.offers, uz: offers.uz } }, /\/uz\/oferta\/: legalReviewedAt/],
-    ['policy not reviewed', { policies: { ...live.policies, ru: policies.ru } }, /politika-konfidentsialnosti\/: legalReviewedAt/],
+    ['policy not reviewed', { policies: { ...live.policies, ru: { ...policies.ru, legalReviewedAt: undefined } } }, /politika-konfidentsialnosti\/: legalReviewedAt/],
     ['offer draft', { offers: { ...live.offers, ru: { ...offers.ru, legalReviewedAt: DAY, status: 'draft' } } }, /\/ru\/oferta\/: not published/],
     ['edition changed in config only', { config: { ...live.config, GPT_BILLING_TERMS_VERSION: 'ai-paket-2026-11-v2' } }, /termsVersion differs/],
     ['terms URL elsewhere', { config: { ...live.config, GPT_BILLING_TERMS_UZ: 'https://gptbot.uz/uz/terms/' } }, /GPT_BILLING_TERMS_UZ is not https:\/\/gptbot\.uz\/uz\/oferta\//],

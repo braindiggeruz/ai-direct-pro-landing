@@ -1,3 +1,33 @@
+# Платный AI-чат: Click → живой режим (S2, шаг 1), подготовлено 2026-10-05
+
+**Итог.** Ветка `paid/click-live-s2` (база `0605521e`, код = прод `4765c560`). `GPT_BILLING_MODE_CLICK = "live"` и `GPT_BILLING_LIVE_READY = "true"` стоят в обоих местах `wrangler.toml`: в упакованном `GPTBOT_RUNTIME_CONFIG_JSON` и во вложенной таблице. Uzum и Payme выключены. Ветка не выкачена. Выкатывать после слияния `paid/free-first-20261005` (порядок расхода пакета на сервере), затем эту ветку, guarded-деплоем.
+
+1. **Причина.** Распоряжение владельца 05.10.2026. Click активировал боевой сервис после ОФД (письмо одобрено), в кабинете Click адрес Prepare и Complete — `https://gptbot.uz/api/payments/click`. Юрист одобрил документы 05.10: в обеих политиках стоит `legalReviewedAt: "2026-10-05"`. На страницах поле не выводится, HTML политик не изменился. Редакция оферты `ai-paket-2026-10-v2` и `GPT_BILLING_TERMS_APPROVED_AT = "2026-10-03"` прежние.
+2. **Секрет.** Боевые ключи Click и тестовый блок репетиции лежат в секрете Pages `GPT_CLICK_CREDENTIALS_JSON`. Их положили через `wr.py --stdin` (OAuth wrangler), а не `ingest-keys --apply`: в `F:/Claude/.env` нет `CLOUDFLARE_API_TOKEN` (`ONBOARDING-KEYS-RU.md`, раздел 1, шаг 3). Секрет начнёт действовать с деплоем.
+3. **Тесты.** `gpt-live-readiness`: «the committed configuration is inert» переписан в «the committed configuration: Click live, Uzum and Payme off, credentials are never public config». Без секретов Pages Click закрыт: все маршруты оплаты, входа и окна пакета отвечают 404 до D1, а `liveReadiness` называет только имена секретов. С секретами Click предлагается всем, вход через бота. Uzum и Payme отвечают 404 до D1, проверки фискальных параметров и того, что секретов нет в публичном конфиге, прежние. `legal-oferta`: закоммиченная сборка проходит гейт с `live: true`, `providers: ["click"]`; даты политик закреплены. Остальное — комментарии в `tests/helpers/paid-chat-site.ts` и `paid-chat-e2e-rehearsal`.
+4. **Проверка** (дерево этого коммита, LF-копия, `NODE_OPTIONS=--max-old-space-size=1400`):
+   - `build:fast` 0;
+   - `live-gate.ts --assume-live click` и `live-gate.ts` без флага: оба `live: true`, `providers: ["click"]`, `issues: []`. В `deferred` восемь имён секретов: `GPT_BILLING_MAINTENANCE_SECRET`, `GPT_CLICK_CREDENTIALS_JSON`, `GPT_HASH_SALT`, `GPT_IDENTITY_SECRET`, `GPT_NOTIFY_BOT_TOKEN`, `GPT_NOTIFY_CHAT_ID`, `TELEGRAM_ASSISTANT_BOT_TOKEN`, `TELEGRAM_ASSISTANT_WEBHOOK_SECRET`. По `pastDay()` сегодняшняя дата проходит: 2026-10-05T00:00Z уже наступило;
+   - полный список `npm test`, каждый файл отдельно: 1288/1290. Два падения — известные `tests/lead-radar.test.ts`;
+   - `seo-protection check` 10/10. HTML десяти защищённых страниц и имена всех 41 файла `dist/assets` побайтово равны сборке прода `4765c560` (`F:/Claude/gptbot-tools/tmp/paid-baseline-dist`). Весь `dist` совпадает с ней, у 53 статических файлов базы (собрана в CRLF-копии) отличаются только концы строк. Обе политики тоже побайтово те же;
+   - `build:production` до коммита дошёл до штампа, и штамп отказал из-за незакоммиченных файлов, как задумано. Сборку со штампом этого коммита прогоняет агент после коммита.
+5. **После выката (ведущий).**
+   - `deploy_runner.py check` сверяет имена восьми секретов из `deferred` с проектом Pages.
+   - В админке, блок «Готовность», у Click должно быть пусто. В тике обслуживания `payments.click.mode = "live"`, а `missing` пуст. Настоящие ключи проверяются только здесь, после деплоя. Если что-то названо, Click никому не предлагается (закрыт сам), и названное нужно исправить.
+   - `F:/Claude/gptbot-tools/paid-chat/inert-smoke.mjs` лежит вне Git и ждёт выключенную оплату, поэтому после выката покажет ложные сбои. Я его не менял: до этого выката им ещё проверяют релиз free-first. Что меняется:
+     - `/api/gpt/account`: `providers: ["click"]`, `mode: "live"`, `loginMethods: ["bot"]`;
+     - `POST /api/payments/click`: 200 и ошибка Click `-8` вместо 404;
+     - `POST /api/gpt/subscribe` с `click` без `termsVersion`: 409 `terms_changed`;
+     - `auth/bot/start`, `auth/bot/status` и шаг окна `pack_viewed` больше не 404. `auth/bot/start` с `{"consent":true}` и `pack_viewed` пишут в D1, из смоука их нужно убрать;
+     - тик: «every provider off» теперь неверно.
+
+     Uzum, Payme, `uzum-merchant`, `auth/start` (пока клиент Telegram OIDC не настроен) и `gpt-rehearsal-session` (провайдеров в test нет) — 404, как раньше.
+   - Дальше по S2, шаги 3–6: покупка картой владельца, чек `ofd.soliq.uz` и запрос из `CLICK-FISCAL-RU.md`, возврат с отметкой в админке, 7 дней наблюдения.
+   - Тёмную репетицию после S2 без правок не запускать: шаг 4 и `verify-off` ждут, что все провайдеры выключены. Click после неё возвращается в `"live"`.
+6. **Стоп-кран.** `GPT_BILLING_LIVE_READY = "false"` или `GPT_BILLING_MODE_CLICK = ""` в обоих местах `wrangler.toml` → коммит → guarded-деплой. Гейт стоп-кран не держит. Колбэки по открытым заказам продолжают работать. Тест «the committed configuration» в том же коммите переписывается на выключенный режим.
+
+---
+
 # SEO: школьные страницы «реферат» и «резюме» + директор в реквизитах, подготовлено 2026-10-05
 
 **Итог.** Кандидат выкладки на ветке `seo/school-20261005` (база `435c7256` = прод `be2d2955` с R-S1 + записи о выкате). Коммит выкладки `74c3a45a`, запись проверки `a836e340`, затем коммит правок по трём ревью `a836e340` — `9c7d2700` (гейты, честность, SEO/язык — все PASS; 13 minor, все приняты) и запись его проверки: `build:production` 0 (штамп `9c7d2700`), гейт 10/10, полный `npm test` — только 2 известных падения lead-radar (`STATE.json` → `seo_school_20261005.review_fixes_20261005`, `verification_review_fixes`, `build_production_review_fixes`). Ревизия гейта та же (`/` не изменился), девять защищённых побайтно равны `be2d2955`. Не выкачен. Распоряжение владельца 05.10: выкладывать, как только проверено; ревью носителя снято владельцем (запись в CHANGE_LOG). Журнал: `docs/seo/CHANGE_LOG_2026-10.md`, раздел «Школьные страницы».
