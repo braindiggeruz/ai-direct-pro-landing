@@ -250,6 +250,10 @@ test('L13: the offers are published with complete requisites, and a page naming 
   assert.equal(LEGAL_ENTITY.mfo, '01095');
   assert.equal(LEGAL_ENTITY.bank, 'Asia Alliance Bank');
   assert.match(LEGAL_ENTITY.shortName.ru, /FREEDOM IS HEAVEN/);
+  // The director as the owner corrected it on 2026-10-05 (no patronymic was
+  // given); a correction of the requisites, not a new edition of the offer.
+  assert.deepEqual(LEGAL_ENTITY.director, { ru: 'Ахмедов Ильдар', uz: 'Axmedov Ildar' });
+  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
   // Every malformed field is named, never its value.
   const broken = { ...LEGAL_ENTITY, account: '2020800010567083500', mfo: '', address: { ru: 'x', uz: '' } } as LegalEntity;
   assert.deepEqual(legalEntityIssues(broken), ['address.uz', 'account', 'mfo']);
@@ -497,6 +501,14 @@ test('built site: the offers carry their edition and requisites, are indexable a
   }
   for (const file of ['dist/ru/politika-konfidentsialnosti/index.html', 'dist/uz/maxfiylik-siyosati/index.html']) {
     assert.ok(read(file).includes('data-testid="legal-requisites"'), file);
+  }
+  // Both offers and both policies name the director of the one source, and the
+  // name it replaced is gone from all four.
+  for (const [file, locale] of [['dist/ru/oferta/index.html', 'ru'], ['dist/uz/oferta/index.html', 'uz'],
+    ['dist/ru/politika-konfidentsialnosti/index.html', 'ru'], ['dist/uz/maxfiylik-siyosati/index.html', 'uz']] as const) {
+    const html = read(file);
+    assert.ok(html.includes(`<dd class="text-white/85 break-words">${LEGAL_ENTITY.director[locale]}</dd>`), file);
+    assert.doesNotMatch(html, /Рубцов|Rubtsov/, file);
   }
   for (const pathname of PROTECTED_PATHS) {
     assert.doesNotMatch(read(path.join('dist', pathname, 'index.html')), /\/oferta\//, pathname);

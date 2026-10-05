@@ -12,8 +12,7 @@
     "chatgpt talabalar uchun",
     "chatgpt o‘qish uchun",
     "ai student uzbek",
-    "o‘zbek tilida chatgpt",
-    "chatgpt referat"
+    "o‘zbek tilida chatgpt"
   ],
   "intro": "AI chat tayyor uy vazifasini ko‘chirish vositasi emas. Uni mavzuni boshqa usulda tushuntiradigan repetitor, savol beradigan imtihonchi va qoralamani tanqid qiladigan muharrir sifatida ishlatsangiz, o‘rganish jarayoni kuchayadi.",
   "body": [
@@ -148,17 +147,14 @@
       "text": "Referat va kurs ishida AI’dan halol foydalanish"
     },
     {
-      "type": "p",
-      "text": "O‘quv muassasasining AI bo‘yicha qoidasi birinchi o‘rinda. Ruxsat etilgan bo‘lsa, AI mavzu tanlash, reja, savol va til tahririda yordam berishi mumkin. Biroq mavjud bo‘lmagan maqola, muallif, DOI yoki iqtibosni yaratishi mumkin; bibliografiyaga faqat o‘zingiz ochib tekshirgan manbani kiriting."
-    },
-    {
-      "type": "list",
-      "items": [
-        "AI yordamidan foydalanganingizni talab etilsa oshkor qiling.",
-        "AI yaratgan matnni o‘z fikringiz va tekshirilgan dalil bilan qayta ishlang.",
-        "Iqtibosni asl manbadan so‘zma-so‘z tekshiring.",
-        "Tayyor ishni mualliflikni yashirib topshirmang.",
-        "Rahbar bergan metodologiya va formatdan chetga chiqmang."
+      "type": "linkp",
+      "text": "O‘quv muassasasining AI bo‘yicha qoidasi birinchi o‘rinda: ruxsat bo‘lsa, AI mavzu, reja va til tahririda yordam beradi, lekin mavjud bo‘lmagan manba yoki iqtibosni ham yozib qo‘yishi mumkin. Halol ishlash tartibi, tuzilma namunasi va tekshiruv ro‘yxati {referat} qo‘llanmasida.",
+      "links": [
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
+        }
       ]
     },
     {
@@ -229,7 +225,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
       "links": [
         {
           "token": "chat",
@@ -255,6 +251,11 @@
           "token": "esse",
           "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
           "anchor": "insho va esse yozish"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash"
         }
       ]
     },
@@ -271,11 +272,7 @@
   "faq": [
     {
       "q": "ChatGPTdan uy vazifasi uchun foydalanish mumkinmi?",
-      "a": "Muassasa qoidasi ruxsat etsa, tushuntirish, mashq va tahrir uchun mumkin. Tayyor javobni o‘zingizniki sifatida topshirish akademik halollik talabiga zid bo‘lishi mumkin."
-    },
-    {
-      "q": "AI yozgan referatni topshirsa bo‘ladimi?",
-      "a": "Tavsiya etilmaydi. Model xato va soxta manba yaratishi mumkin; ish mualliflik hamda muassasa qoidalariga mos bo‘lishi kerak."
+      "a": "Muassasa qoidasi ruxsat etsa, tushuntirish, mashq va tahrir uchun mumkin. Tayyor javobni o‘zingizniki sifatida topshirish akademik halollik qoidalariga zid."
     },
     {
       "q": "ChatGPT o‘zbek tilida dars tushuntiradimi?",
@@ -347,6 +344,18 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish: namuna va reja",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume tayyorlash: namuna va maslahatlar",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "ChatGPT talabalar uchun: halol va foydali 20 usul",
@@ -362,7 +371,7 @@
   },
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-09-19",
+  "dateModified": "2026-10-05",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -371,7 +380,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "updatedAt": "2026-10-05T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",

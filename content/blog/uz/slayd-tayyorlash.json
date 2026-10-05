@@ -303,12 +303,17 @@
     },
     {
       "type": "linkp",
-      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma — «{esse}» qo‘llanmasida. AI qanday ishlashi «{ai}» sahifasida sodda tushuntirilgan.",
+      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma — «{esse}» qo‘llanmasida, titul varaqdan adabiyotlargacha namuna esa «{referat}» sahifasida. AI qanday ishlashi «{ai}» sahifasida sodda tushuntirilgan.",
       "links": [
         {
           "token": "esse",
           "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
           "anchor": "insho va esse yozish"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
         },
         {
           "token": "ai",
@@ -382,6 +387,12 @@
     {
       "target": "/uz/suniy-intellekt/",
       "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish: tuzilma namunasi",
       "locale": "uz",
       "type": "contextual"
     }

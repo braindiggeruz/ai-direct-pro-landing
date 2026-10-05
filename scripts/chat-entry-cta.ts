@@ -48,7 +48,23 @@ const BRIDGE_PLACES = {
   reply: { before: 'AI biznesda qaysi vazifalarni bajaradi?', title: 'Mijozga javob matnini AI bilan tayyorlang' },
 } as const satisfies Record<typeof CHAT_BRIDGE_ENTRIES[number]['id'], { before: string; title: string }>;
 
-export const CHAT_BRIDGES = CHAT_BRIDGE_ENTRIES.map(entry => ({ ...entry, ...BRIDGE_PLACES[entry.id] }));
+// Bridges of the school-pages release (2026-10-05): the referat and résumé
+// guides. The chat does not know these ids yet: a new row in
+// CHAT_BRIDGE_ENTRIES changes the chat's script and with it the HTML of both
+// protected chat pages, which this release leaves as they are. So they work as
+// the week-1 bridges did before R-S1: the link opens the chat with nothing in
+// its address, and the article prints the sample question for the reader to
+// copy. The chats are released again in R-S3 (≈2026-11-18); then these rows
+// move into CHAT_BRIDGE_ENTRIES and the chat fills the question in.
+export const ARTICLE_ONLY_BRIDGES = [
+  { locale: 'uz', id: 'referat', slug: 'referat-va-mustaqil-ish', before: 'Mustaqil ish: topshiriqni tahlil qilish va reja', title: 'Referat rejasini AI bilan tuzing', prompt: 'Referat rejasini tuzishga yordam ber. Avval mavzuni, sinfim yoki kursimni va o‘qituvchi talablarini so‘ra.' },
+  { locale: 'uz', id: 'rezyume', slug: 'rezyume-tayyorlash', before: 'Shablon va format: Word yoki PDF, bir sahifa', title: 'Rezyume matnini AI bilan tayyorlang', prompt: 'Rezyume matnini tayyorlashga yordam ber. Avval qaysi lavozimga topshirayotganimni va tajribamni so‘ra. Shaxsiy ma’lumot so‘rama.' },
+] as const;
+
+export const CHAT_BRIDGES = [
+  ...CHAT_BRIDGE_ENTRIES.map(entry => ({ ...entry, ...BRIDGE_PLACES[entry.id], chatFillsQuestion: true as const })),
+  ...ARTICLE_ONLY_BRIDGES.map(bridge => ({ ...bridge, chatFillsQuestion: false as const })),
+];
 
 export type ChatBridge = typeof CHAT_BRIDGES[number];
 
@@ -60,9 +76,13 @@ export function chatBridgeForArticle(url: string): ChatBridge | undefined {
   return chatEntryForArticle(url) ? undefined : CHAT_BRIDGES.find(bridge => url === chatBridgeArticleHref(bridge));
 }
 
-/** The chat page with the bridge's fixed id: no question, no return address. */
+/**
+ * The chat page with the bridge's fixed id when the chat knows it, the bare
+ * chat page otherwise; never a question, never a return address.
+ */
 export function chatBridgeHref(bridge: ChatBridge): string {
-  return chatEntryHref(bridge);
+  if (bridge.chatFillsQuestion) return chatEntryHref(bridge);
+  return bridge.locale === 'uz' ? '/uz/gpt-uzbek-tilida/' : '/ru/gpt-chat/';
 }
 
 /** Whether the article carries a chat block at all (a chat entry or a bridge). */
@@ -103,7 +123,7 @@ function renderChatBridge(url: string): string {
     <p>GPTBot.uz — самостоятельный AI-сервис, не продукт OpenAI. Можно попробовать без установки и регистрации в пределах бесплатного лимита.</p>
     <p>Пример вопроса: «${bridge.prompt}»</p>
     <a href="${chatBridgeHref(bridge)}" data-chat-entry="${bridge.id}" class="article-chat-button">Открыть AI-чат <span aria-hidden="true">↗</span></a>
-    <small>Пример появится в чате — его можно изменить или написать свой вопрос. Вы отправляете его сами.</small>
+    <small>${bridge.chatFillsQuestion ? 'Пример появится в чате — его можно изменить или написать свой вопрос.' : 'Скопируйте пример в чат или напишите свой вопрос.'} Вы отправляете его сами.</small>
   </aside>`;
   return `<aside class="article-chat-entry" aria-label="GPTBot.uz AI-chati" data-testid="article-chat-entry">
     <span class="article-chat-kicker">GPTBot.uz · O‘zbek tilida</span>
@@ -111,7 +131,7 @@ function renderChatBridge(url: string): string {
     <p>GPTBot.uz — mustaqil AI-xizmat. O‘rnatish va ro‘yxatdan o‘tish shart emas. Bepul limit doirasida foydalaning.</p>
     <p>Savol namunasi: «${bridge.prompt}»</p>
     <a href="${chatBridgeHref(bridge)}" data-chat-entry="${bridge.id}" class="article-chat-button">AI-chatni ochish <span aria-hidden="true">↗</span></a>
-    <small>Namuna chatda tayyor bo‘ladi: uni tahrirlang yoki o‘z savolingizni yozing, keyin o‘zingiz yuboring.</small>
+    <small>${bridge.chatFillsQuestion ? 'Namuna chatda tayyor bo‘ladi: uni tahrirlang yoki o‘z savolingizni yozing, keyin o‘zingiz yuboring.' : 'Namunani chatga ko‘chiring yoki o‘z savolingizni yozing. Uni o‘zingiz yuborasiz.'}</small>
   </aside>`;
 }
 

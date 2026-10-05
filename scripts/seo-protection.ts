@@ -77,7 +77,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // around its e-mail addresses (scripts/email-off.ts), which the contract does
 // not see; the download guide stays byte for byte as it was, because its own
 // P-CTR window is open. reviewedChanges and invisibleToGate list it all.
-export const BASELINE = 'docs/seo/evidence/2026-10-12-r-s1/reviewed-protected-pages.json';
+// The 2026-10-05-school revision adds the Uzbek referat and résumé guides. It
+// changes one page: the homepage shell lists them (internalLinks +2, body
+// text +2 lines); the other nine protected pages are byte-identical to the
+// be2d2955 build, and their chat bridges stay outside the chat's code.
+export const BASELINE = 'docs/seo/evidence/2026-10-05-school/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

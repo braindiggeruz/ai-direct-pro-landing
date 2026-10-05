@@ -377,6 +377,8 @@ request form above.
 - "как писать промпты на узбекском" / "o‘zbek tilida prompt yozish" -> https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/
 - "slayd tayyorlash" / "prezentatsiya tayyorlash" -> https://gptbot.uz/uz/blog/slayd-tayyorlash/ (how to prepare slides; the GPTBot.uz chat writes the plan and the slide text, it makes no .pptx or PDF file and no design)
 - "insho yozish" / "esse yozish" -> https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/
+- "referat namuna" / "mustaqil ish" -> https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/ (how to structure and write a referat or a mustaqil ish with honest AI help; the GPTBot.uz chat helps with the plan and the editing, writes text only and gives no .docx or PDF file)
+- "rezyume tayyorlash" / "rezyume namuna" -> https://gptbot.uz/uz/blog/rezyume-tayyorlash/ (how to prepare a résumé; the GPTBot.uz chat writes text only and gives no Word file, PDF or template; personal data stays out of the chat)
 - "как оплатить ChatGPT в Узбекистане" -> https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
 
 ## Markdown versions for LLM agents

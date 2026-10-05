@@ -175,14 +175,43 @@ test('the R-S1 revision: honest snippets and H1s on both chats and the login gui
   assert.match(page('/').bodyText, /Чат для себя, а не для бизнеса, — бесплатно и без регистрации: O‘zbekcha bepul AI chat · ИИ-чат онлайн/);
 });
 
+const SCHOOL = 'docs/seo/evidence/2026-10-05-school/reviewed-protected-pages.json';
+
+test('the school-pages revision changes only the homepage list: two new guides, nothing else on the ten', () => {
+  const current = readRevision(SCHOOL);
+  const previous = readRevision(R_S1);
+  assert.equal(current.previousRevision, R_S1);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/', ['bodyTextSha256', 'internalLinks']]]);
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    if (page.pathname === '/') continue;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+  }
+  const home = current.pages.find((p) => p.pathname === '/')!;
+  const homeBefore = previous.pages.find((p) => p.pathname === '/')!;
+  const links = (p: typeof home) => p.contract.internalLinks as string[];
+  assert.deepEqual(links(home).filter((l) => !links(homeBefore).includes(l)), ['/uz/blog/referat-va-mustaqil-ish/', '/uz/blog/rezyume-tayyorlash/']);
+  assert.deepEqual(links(homeBefore).filter((l) => !links(home).includes(l)), []);
+  // The two article titles are the whole text change, right before the slide guide.
+  const added = 'Referat namunasi va mustaqil ish: reja tuzish tartibi Rezyume tayyorlash: namuna, tuzilma va maslahatlar ';
+  assert.ok(home.bodyText.includes(`${added}Slayd tayyorlash`));
+  assert.equal(home.bodyText.replace(added, ''), homeBefore.bodyText);
+});
+
 // School guides declare their own audience and a short breadcrumb (R-S1
 // review, 2026-10-05); every article without the optional fields keeps the
 // template's defaults, so the protected download guide does not change.
 test('school guides name a student audience; articles without the field keep the default', { skip: !fs.existsSync(path.join(process.cwd(), 'dist', 'uz', 'blog', 'slayd-tayyorlash', 'index.html')) && 'no dist/ build present' }, () => {
   const html = (slug: string) => fs.readFileSync(path.join(process.cwd(), 'dist', 'uz', 'blog', slug, 'index.html'), 'utf8');
-  for (const slug of ['slayd-tayyorlash', 'insho-yozish-suniy-intellekt-bilan', 'chatgpt-talabalar-uchun']) {
+  for (const slug of ['slayd-tayyorlash', 'insho-yozish-suniy-intellekt-bilan', 'chatgpt-talabalar-uchun', 'referat-va-mustaqil-ish']) {
     assert.match(html(slug), /"audience":\{"@type":"EducationalAudience","educationalRole":"student"\}/, slug);
   }
+  // The résumé guide speaks to job seekers, students among them (school-pages
+  // release, 2026-10-05); never the studio's business audience.
+  assert.match(html('rezyume-tayyorlash'), /"audience":\{"@type":"Audience","audienceType":"Job seekers in Uzbekistan, including students and graduates"\}/);
+  assert.match(html('referat-va-mustaqil-ish'), /<span class="text-white\/70">Referat va mustaqil ish<\/span>/);
+  assert.match(html('rezyume-tayyorlash'), /<span class="text-white\/70">Rezyume tayyorlash<\/span>/);
   const download = html('chatgpt-telefon-va-kompyuterga-yuklab-olish');
   assert.match(download, /"audience":\{"@type":"BusinessAudience","audienceType":"Small and medium business in Uzbekistan"\}/);
   assert.match(html('slayd-tayyorlash'), /<span class="text-white\/70">Slayd tayyorlash<\/span>/);

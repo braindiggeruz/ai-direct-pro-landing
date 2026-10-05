@@ -268,12 +268,12 @@
     },
     {
       "type": "linkp",
-      "text": "Referat — boshqa ish: unda bir nechta manbani umumlashtirasiz va har birini alohida tekshirasiz. Bu haqda {referat} bo‘limida batafsil yozilgan.",
+      "text": "Referat — boshqa ish: unda bir nechta manbani umumlashtirasiz va har birini alohida tekshirasiz. Uning tuzilma namunasi va AI bilan tayyorlash tartibi {referat} qo‘llanmasida.",
       "links": [
         {
           "token": "referat",
-          "target": "/uz/blog/chatgpt-talabalar-uchun/#referat",
-          "anchor": "referat va kurs ishida AI’dan halol foydalanish"
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
         }
       ]
     },
@@ -469,6 +469,12 @@
     {
       "target": "/uz/blog/slayd-tayyorlash/",
       "anchor": "Slayd tayyorlash: reja va slayd matni",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish",
       "locale": "uz",
       "type": "contextual"
     }

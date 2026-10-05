@@ -236,6 +236,67 @@
 
 **Откат.** `git revert` коммита R-S1 возвращает контент, шаблоны, код чата и `BASELINE` вместе, затем guarded-деплой. Старые ревизии не редактируются.
 
+## Школьные страницы: реферат и резюме, правка реквизитов (05.10, не выкачено)
+
+**Основание.** Роадмап `gptbot.uz-audit/raw/seo-2026-10-04/ROADMAP-DETAILED-2026-10-04.md`, 2.3 п. 3.1, правила 1(f), раздел 5; бриф `keywords-wave2/KEYWORD-BRIEFS-2026-10-04.md` §6–7. Тексты, реестры и ссылки — финальные черновики после трёх ревью: `gptbot.uz-audit/raw/seo-2026-10-04/execution/drafts/` (`referat-va-mustaqil-ish.json`, `rezyume-tayyorlash.json`, `registry-snippets.md`, `REVIEW-DECISIONS.md`). Распоряжение владельца 05.10: выкладывать, как только проверено. R-S1 уже в проде (`be2d2955`), поэтому реферат может выйти: ссылка на слайды живая, insho/esse уже без реферата.
+
+**Ревью носителя.** `requiresHumanReview` снят владельцем 2026-10-05; ревью носителя — следующей правкой. Тексты выходят без непроверенных чисел («ko‘pincha 2–3 bob» убрано в ревью); слова на проверку носителю — `REVIEW-NOTES.md` §4 (muqova, paragraf, JShShIR, O‘zim haqimda, Familiya I.Sh., uslubiy qo‘llanma). Правки носителя потом выходят обычной правкой страниц; title и H1 при этом не трогать — это снова релиз `/`.
+
+Ветка `seo/school-20261005` от `435c7256` (прод `be2d2955` + записи о выкате R-S1). Новая база гейта: `docs/seo/evidence/2026-10-05-school/reviewed-protected-pages.json` (`BASELINE` в `scripts/seo-protection.ts`), предыдущая `2026-10-12-r-s1` не тронута. **День выкладки D = 2026-10-05**: `datePublished`, `dateModified`, `createdAt`, `updatedAt` обеих статей; `dateModified`/`updatedAt` talabalar.
+
+| URL | Отметка | Что изменилось | Сниппет/H1 |
+|---|---|---|---|
+| `/uz/blog/referat-va-mustaqil-ish/` | — | **Новая статья** (05.10): «Qisqa javob» в первом экране; честно «чат пишет только текст, .docx/PDF не даёт»; образец структуры на выдуманной теме; 6 шагов; промпты; mustaqil ish, kurs ishi, правила оформления; честное использование AI без смягчения («…akademik halollik qoidalariga zid: bunda ishning muallifi siz emassiz»); детекторы — через сохранение доказательств авторства; 8 FAQ (вопрос о сдаче AI-реферата переехал с talabalar); мост `referat`; `audience` EducationalAudience (student), крошка «Referat va mustaqil ish»; без картинки в теле (скриншот — позже) | новые: title (53), description (147), H1 (65) |
+| `/uz/blog/rezyume-tayyorlash/` | — | **Новая статья** (05.10): образец структуры с условными данными; 5 шагов; студент без опыта; промпты; PDF или Word; приватность (что не писать в чат); cover letter; obyektivka — раздел и FAQ; блок кириллицей; 9 FAQ; мост `rezyume`; без B2B-карточки; `audience` — Audience «Job seekers in Uzbekistan, including students and graduates» вместо студийного BusinessAudience; крошка «Rezyume tayyorlash»; `ogImage` — изображение промптов (без голоса и камеры) до своего скриншота | новые: title (50), description (153), H1 (57) |
+| `/uz/blog/chatgpt-talabalar-uchun/` | — | Раздел `#referat`: абзац и список из 5 пунктов заменены одной фразой со ссылкой на реферат; FAQ «AI yozgan referatni topshirsa bo‘ladimi?» и ключ «chatgpt referat» переехали (FAQ 6 → 5); FAQ об уроках без смягчения: «…akademik halollik qoidalariga zid.»; в последней ссылочной фразе — резюме; 2 карточки; `dateModified` 2026-10-05 | нет |
+| `/uz/blog/insho-yozish-suniy-intellekt-bilan/` | — | Временная ссылка `#referat` на talabalar → страница реферата («…tuzilma namunasi va AI bilan tayyorlash tartibi {referat} qo‘llanmasida»); 1 карточка; дата не меняется | нет |
+| `/uz/blog/slayd-tayyorlash/` | — | В последней фразе перед CTA — ссылка на реферат («…titul varaqdan adabiyotlargacha namuna esa «referat va mustaqil ish» sahifasida»; анкор в кавычках, как остальные анкоры этой фразы после языкового ревью R-S1); 1 карточка; дата не меняется | нет |
+| `/uz/gpt-uzbek-tilida-ai-chat/` | — | «…ishga topshirish uchun {rezyume} qo‘llanmasidan foydalaning»; 1 карточка; дата не меняется | нет |
+| `/` | **[P]** | Оболочка: 2 новые строки в списке UZ-блога (анкор — title статьи), перед слайдами. Больше в HTML ничего | нет |
+| `/uz/blog/`, `/uz/blog/feed.xml`, `sitemap.xml`, `sitemap-updates.xml` | — | Автоматически: 2 карточки (подпись «maktab-va-talabalar»), 2 элемента ленты, 2 URL с lastmod 2026-10-05; talabalar — в «недавно обновлённых» | — |
+| `/ru/oferta/`, `/uz/oferta/`, `/ru/politika-konfidentsialnosti/`, `/uz/maxfiylik-siyosati/` | — | Реквизиты: директор «Рубцов Сергей Викторович» / «Rubtsov Sergey Viktorovich» → «Ахмедов Ильдар» / «Axmedov Ildar» (владелец, 05.10; отчества нет). В HTML меняется только эта строка | нет |
+| `/llms.txt`, `/llms-full.txt` | — | Две строки в «Recommended page for each intent»: «referat namuna / mustaqil ish» и «rezyume tayyorlash / rezyume namuna» (как у слайдов и insho/esse в R-S1) | — |
+
+**Шаблон (`scripts/chat-entry-cta.ts`).** Реестр предлагал строки `referat` и `rezyume` в `CHAT_BRIDGES`, но R-S1 перенёс вопросы мостиков в `CHAT_BRIDGE_ENTRIES` (`src/shared/chat-entry.ts`), а этот файл импортирует чат: новая строка там переименовала бы `gpt-chat-*.js` и изменила HTML обоих защищённых чатов. Поэтому новые мостики — в `ARTICLE_ONLY_BRIDGES` того же файла, как мостики недели 1 до R-S1: ссылка ведёт на `/uz/gpt-uzbek-tilida/` без `#entry`, пример вопроса напечатан в статье, подпись «Namunani chatga ko‘chiring yoki o‘z savolingizni yozing. Uni o‘zingiz yuborasiz.». Место: у реферата — перед H2 «Mustaqil ish: topshiriqni tahlil qilish va reja», у резюме — перед «Shablon va format: Word yoki PDF, bir sahifa». Пять мостиков R-S1 рендерятся побайтно как раньше. `tests/chat-entry.test.ts` проверяет оба вида: id, известный чату, — `#entry=<id>`; неизвестный — адрес без хеша, `chatEntryFromHash` его не находит, подпись просит скопировать. В R-S3 (≈18.11, чаты выходят всё равно) обе строки переезжают в `CHAT_BRIDGE_ENTRIES`. Липкой кнопки нет (`topicCluster` не из кластеров чата), `sticky-cta` в HTML 0.
+
+**Чат перед мостиками: «без ответа» (D1).** Тот же запрос, что в выкладке №1 (`wr.py … d1 execute gptbot-ai-drafts --remote`, только чтение, тексты переписки не читались), 05.10 в 12:37 по Ташкенту, окно — с перехода на Z.ai (03.10 05:09 UTC):
+
+| Сутки по Ташкенту | Ходов | С ответом | Без ответа | % |
+|---|---|---|---|---|
+| 03.10 с 10:09 | 73 | 70 | 3 | 4,1% |
+| 04.10 | 75 | 72 | 3 | 4,0% |
+| 05.10 до 11:37 (неполные сутки) | 34 | 29 | 5 (2 отпущены, 3 не завершились) | 14,7% |
+| **С перехода на Z.ai** | **182** | **171** | **11** | **6,0%** |
+
+Порог 10% за окно не превышен, мостики вносятся. Неполные сутки 05.10 выше порога на 34 ходах; правило отката прежнее (больше 10% за 3 полных суток подряд — мостики откатываются), агент смотрит 06–08.10.
+
+**Карта интентов и спрос.** [IM]: пары реестра §2.2. C31 (реферат ↔ UZ-чат) и C32 (резюме ↔ UZ-чат) — с прежними номерами; **C33 и C34 реестра заняты ревью R-S1**, поэтому talabalar ↔ реферат — `C35-uz-talabalar-vs-referat-guide`, промпты 🔒 ↔ резюме — `C36-uz-promptlar-vs-rezyume-guide` (ссылка «fenced by C33» в C31 исправлена на C35). A4: текст реестра §2.3, но R-S1 — «on 2026-10-05», пары C35/C36. В `gscNote` C30 «(planned 2026-10-19)» → «опубликована в этой выкладке». `updatedAt` 2026-10-05. [DP]: 4 строки реестра §1 («referat namuna», «mustaqil ish», «rezyume tayyorlash», «rezyume namuna»).
+
+**Что R-S1 уже сделал (дублей нет).** insho/esse без ключей и H2 реферата и без FAQ «Referat uchun AI’dan qanday foydalangan ma’qul?» (он теперь только на реферате); FAQ «AI yozgan referatni topshirsa bo‘ladimi?» снят с talabalar в этой выкладке. Проверка скриптом по всем опубликованным страницам: ни один вопрос FAQ реферата и резюме не повторяется на другой странице.
+
+**Защищённые.** Меняется только `/`: `internalLinks` +2 (`/uz/blog/referat-va-mustaqil-ish/`, `/uz/blog/rezyume-tayyorlash/`), `bodyTextSha256` `dd0a43a4…` → `c59a3384…` (17 567 → 17 672 символа). Остальные девять — HTML побайтно равен сборке `be2d2955` (`F:/Claude/gptbot-tools/tmp/school-baseline-dist`), включая `<script src>` и `<link rel=stylesheet>`, и `.md`-двойники восьми из них (гайд по скачиванию — `index.html` и `index.html.md`). CSS `index-yIq7NheZ.css` и бандл чата не меняются (старт 108 679 Б, +0 Б). Промпты 🔒 только принимают ссылку с резюме и стоят в паре C36 — их HTML тот же.
+
+**Реквизиты — правка, не новая редакция оферты.** Блок реквизитов рендерится из `content/global/legal-entity.json` (`scripts/legal-entity.ts`); тексты оферты и политик не менялись, поэтому редакция `ai-paket-2026-10-v2`, `GPT_BILLING_TERMS_APPROVED_AT` 2026-10-03 и `legalReviewedAt` страниц остаются: ни код, ни тест не связывают редакцию с реквизитами (live-gate проверяет полноту реквизитов и STIR = `GPT_FISCAL_TIN`). JSON четырёх страниц не правился, их даты те же. `_source` файла называет правку. `business.json` владельца (вне Git) уже содержит «Ахмедов Ильдар»; его поле `directorNote` внутри `legalEntity` `ingest-keys.ts --dry-run` назовёт «unknown field» — перенести заметку в верхний `_source` перед следующим `--apply`. JSON-LD и Markdown-двойников с директором нет.
+
+**Сборка против `be2d2955`.** По содержанию отличаются: `/`, 2 новые статьи, talabalar, insho/esse, слайды, гайд C6, индекс UZ-блога, лента, оба sitemap, `llms*.txt`, 4 страницы с реквизитами. Ещё 51 статический файл из `public/` (`404.html`, `_routes.json`, `icons.svg`, svg) отличаются только концами строк (CRLF в снимке, LF в этой копии) — это не правка; деплойная сборка делается в основной копии.
+
+**Проверка (05.10, рабочее дерево = содержимое коммита).** `tsc -b` 0; eslint 5 изменённых TS-файлов 0; `git diff --check` чисто; `build:fast` 0; `seo-protection check` 10/10 на `2026-10-05-school`; побайтовое сравнение 9 защищённых и `.md`-двойников с `be2d2955` — равны; `seo:audit` — 123 страницы, 0 critical, 0 сирот, 0 битых ссылок; ссылки собранных страниц выкладки — 0 битых, 0 через редирект, 0 потерянных якорей; входящие: реферат — `/`, индекс блога, talabalar, insho/esse, слайды; резюме — `/`, индекс блога, talabalar, гайд C6; `chat-bundle-budget` — в бюджете (+0 Б); тесты: chat-entry 6/6, seo-protection 9/9, legal-oferta 18/18 (со сборкой), seo-intent-manifest 5/5, seo-demand-gate 8/8, seo-cluster-quality 19/19, seo-content-guards 7/7, seo-link-graph 17/17, seo-page-integrity 17/17, blog-feed 5/5, blog-related-links 4/4, gpt-chat-business-intent 5/5, studio-contact 17/17, homepage-crawler-shell 7/7, gpt-chat-prerender-links 14/14, email-off 10/10, site-stylesheets 5/5. Полный список `npm test` и `build:production` — после коммита (штамп пишет HEAD), запись — следующим коммитом.
+
+**Чек-лист выката (агент, только по команде владельца).**
+1. Слить в основную копию, `npm run build:production` там, `deploy_runner.py check` → `deploy`.
+2. После: оба новых URL — 200, canonical на себя; `seo-protection` вживую 10/10; HTML девяти защищённых равен прежнему; на 4 страницах реквизитов — новый директор.
+3. IndexNow: 2 новых URL, talabalar, insho/esse, слайды, гайд C6, `/uz/blog/`, `/`, 4 страницы реквизитов; sitemaps и `uz/blog/feed.xml` переотправить; строка в «Выкаты».
+4. Владелец: «Запросить индексирование» в GSC для двух новых URL и talabalar.
+5. Агент: запрос D1 «без ответа» 06–08.10 по полным суткам; больше 10% за 3 суток подряд — откат мостиков (сначала строк `ARTICLE_ONLY_BRIDGES`).
+6. Чтение ≈ через 21 день после индексации: ≥ 100 показов в Узбекистане = страница «заработала» (роадмап 3.12); правило 42 дней для школьных страниц не действует до конца декабря.
+
+**Не вошло.**
+- Ревью носителя — следующей правкой (требование снято владельцем 05.10).
+- Скриншоты ответа чата для обеих статей (`figure` и свой `ogImage`) — нужен пример от владельца; агент не пишет в живой чат.
+- Ссылки на реферат и резюме с UZ-чата и перенос мостиков в `CHAT_BRIDGE_ENTRIES` — R-S3 (≈18.11).
+
+**Откат.** `git revert` коммита выкладки возвращает статьи, ссылки, реестры, мостики, реквизиты и `BASELINE` вместе, затем guarded-деплой. Старые ревизии не редактируются. Если откатывать нужно только директора — отдельной правкой `content/global/legal-entity.json`.
+
 ## Выкаты
 
 - **2026-10-01, R2+R3 в проде** (`26b058e5`, затем `0ca0a699`): ревизия `2026-10-01-paid-chat-honesty` вживую 10/10 после снятия обфускации e-mail Cloudflare (сама обфускация меняет HTML у всех страниц с адресом). IndexNow — 288 URL (HTTP 200), в GSC переотправлены `sitemap.xml`, `sitemap-updates.xml` и обе RSS. Окна C22/C11 гейтами больше не служат (решение roadmap v2); этот выкат — отметка для недельного сравнения «до/после».

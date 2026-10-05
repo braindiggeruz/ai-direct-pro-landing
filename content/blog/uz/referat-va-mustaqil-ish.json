@@ -1,0 +1,456 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "referat-va-mustaqil-ish",
+  "url": "/uz/blog/referat-va-mustaqil-ish/",
+  "title": "Referat namunasi va mustaqil ish: reja tuzish tartibi",
+  "description": "Referat namunasi (tuzilma): titul varaq, reja, kirish, asosiy qism, xulosa, adabiyotlar. Mustaqil ish uchun AI bilan 6 qadam va tekshiruv ro‘yxati.",
+  "h1": "Referat va mustaqil ish: reja, namuna va AI’dan halol foydalanish",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "referat namuna",
+    "mustaqil ish",
+    "mustaqil ish namuna",
+    "referat yozish tartibi",
+    "referat yozish qoidalari",
+    "referat tayyorlash",
+    "referat yozish namuna",
+    "referat yozish",
+    "referat qanday yoziladi",
+    "referat ai"
+  ],
+  "intro": "Referat — mavzu bo‘yicha bir nechta manbadagi asosiy fikrlarni o‘z so‘zlaringiz bilan umumlashtirib yoziladigan ish. Quyida shartli mavzudagi tuzilma namunasi, reja tuzish tartibi, referat, mustaqil ish va kurs ishi o‘rtasidagi farq, AI chat uchun tayyor so‘rovlar va topshirishdan oldingi tekshiruv ro‘yxati berilgan. AI reja va tahrirda yordam beradi, matnni esa o‘zingiz yozasiz.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: referat odatda olti qismdan iborat — titul varaq, reja, kirish, asosiy qism, xulosa va adabiyotlar ro‘yxati. Mustaqil ish ham ko‘pincha shu shaklda topshiriladi. GPTBot.uz AI chati reja va tahrirda yordam beradi, lekin faqat matn yozadi: .docx yoki PDF fayl bermaydi — ishni Word yoki Google Docs’da o‘zingiz rasmiylashtirasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Rejani hoziroq {chat} yordamida tuzib ko‘ring, ro‘yxatdan o‘tish shart emas. Masalan, shunday yozing: «Mavzu: Maktab kutubxonasi va kitobxonlik madaniyati. 9-sinf uchun referat rejasini tuz: kirish, 3 bob (har birida 2 tadan band), xulosa va adabiyotlar. Matn yozma, faqat reja.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Referat, mustaqil ish va kurs ishi: farqi nimada"
+    },
+    {
+      "type": "p",
+      "text": "Uchala ish ham yozma topshiriq, lekin maqsadi va hajmi har xil. Hajm, manbalar soni, shakl va muddatni har bir maktab, kollej yoki oliygohda o‘qituvchi yoki kafedra belgilaydi. Jadval umumiy farqni ko‘rsatadi, me’yorni emas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ish turi",
+        "Asosiy vazifa",
+        "Odatdagi shakli"
+      ],
+      "rows": [
+        [
+          "Referat",
+          "Mavzu bo‘yicha bir nechta manbani o‘qib, asosiy fikrlarni o‘z so‘zlaringiz bilan umumlashtirish",
+          "Titul varaq, reja, kirish, asosiy qism, xulosa, adabiyotlar"
+        ],
+        [
+          "Mustaqil ish",
+          "O‘qituvchi bergan topshiriqni darsdan tashqari, mustaqil bajarish",
+          "Ko‘pincha referat; ba’zan taqdimot, esse, masala yechish yoki tahlil"
+        ],
+        [
+          "Kurs ishi",
+          "Mavzuni chuqurroq o‘rganish: manbalardan tashqari o‘z tahlilingiz yoki kichik tadqiqot",
+          "Kengroq tuzilma, ilmiy rahbar bilan ishlash, ko‘pincha himoya"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tuzilishi",
+      "text": "Referat tuzilishi — namuna: titul varaqdan adabiyotlargacha"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi referat namunasi — tuzilma namunasi, tayyor referat emas. Mavzu shartli: «Maktab kutubxonasi va kitobxonlik madaniyati». Kvadrat qavsdagi joylarga o‘z ma’lumotlaringizni qo‘yasiz, har bir qism matnini esa manbalarni o‘qib, o‘zingiz yozasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Namuna (shartli mavzu)"
+      ],
+      "rows": [
+        [
+          "Titul varaq (muqova)",
+          "Muassasa, fan, mavzu, bajaruvchi, tekshiruvchi, shahar va yil",
+          "[Muassasa nomi] · Fan: [fan nomi] · Mavzu: Maktab kutubxonasi va kitobxonlik madaniyati · Bajardi: [Ism Familiya], [sinf yoki guruh] · Tekshirdi: [o‘qituvchi] · [Shahar], [yil]"
+        ],
+        [
+          "Reja (mundarija)",
+          "Qismlar va boblar ro‘yxati, talab qilinsa sahifa raqamlari bilan",
+          "Kirish · I bob. Kitobxonlik tushunchasi · II bob. Maktab kutubxonasining vazifalari · III bob. Kitobxonlikni rivojlantirish yo‘llari · Xulosa · Foydalanilgan adabiyotlar"
+        ],
+        [
+          "Kirish",
+          "Mavzu nega muhim, ishning maqsadi va vazifalari, qaysi manbalar o‘rganilgani",
+          "Maqsad: maktab kutubxonasi o‘quvchilarda kitob o‘qish odatini shakllantirishga qanday yordam berishini manbalar asosida ko‘rsatish. Vazifalar: [2–3 vazifa]"
+        ],
+        [
+          "Asosiy qism",
+          "Boblar va paragraflar; har bir fikr manbaga tayanadi",
+          "1.1. Kitobxonlik nima · 1.2. Kitob o‘qishning foydasi · 2.1. Kutubxona fondi · 2.2. Kutubxonadagi tadbirlar · 3.1. Oilada kitob o‘qish · 3.2. Sinfdagi kitob klubi"
+        ],
+        [
+          "Xulosa",
+          "Har bir bobdan asosiy xulosa va o‘z fikringiz; yangi fakt qo‘shilmaydi",
+          "[3–5 gap: har bir bobdan bitta xulosa va o‘z fikringiz]"
+        ],
+        [
+          "Foydalanilgan adabiyotlar",
+          "Siz o‘qigan va tekshirgan kitob, maqola va saytlar; qanday yozilishini o‘qituvchidan so‘rang",
+          "[Familiya I.Sh.] [Kitob nomi]. — [Shahar]: [Nashriyot], [yil]. — [betlar soni] b."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shrift, qator oralig‘i, hoshiya va titul varaq ko‘rinishi muassasaga qarab farq qiladi. Ularni qayerdan aniqlash kerakligi pastdagi «Referat yozish qoidalari» bo‘limida yozilgan."
+    },
+    {
+      "type": "h2",
+      "id": "6-qadam",
+      "text": "Referat yozish tartibi: AI bilan 6 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Referat tayyorlash olti qadamdan iborat. AI ularning ko‘pida yordam beradi, lekin manbalarni topish va yakuniy matnni yozish — sizning ishingiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Mavzu. O‘qituvchi bergan mavzuni o‘zgartirmang, faqat qaysi jihatini yoritishni aniqlang. Mavzuni o‘zingiz tanlasangiz, uni toraytiring: «Kitob» emas, «Maktab kutubxonasi va kitobxonlik madaniyati».",
+        "2. Reja. AI’dan faqat reja so‘rang: kirish, boblar, har bobda 2–3 band, xulosa. Rejani o‘zingiz qisqartiring yoki to‘ldiring.",
+        "3. Manbalar. Darslik, kutubxona yoki ishonchli saytdan manbalarni o‘zingiz toping. AI’dan faqat qaysi turdagi manba kerakligini so‘rang: u mavjud bo‘lmagan kitob yoki maqola nomini «topib» berishi mumkin.",
+        "4. O‘z matningiz. Har bir bandni manbani o‘qib, o‘z so‘zlaringiz bilan yozing. Tushunmagan joyingizni AI’dan sodda tilda tushuntirib berishni so‘rang.",
+        "5. Tahrir. Yozganingizni AI’ga berib, imlo xatolari, takrorlar va mantiqiy uzilishlarni ko‘rsatishni so‘rang — ma’noni o‘zgartirmasin.",
+        "6. Rasmiylashtirish. Matnni Word yoki Google Docs’ga ko‘chiring, titul varaq, reja va adabiyotlar ro‘yxatini talab bo‘yicha rasmiylashtiring. Chat fayl bermaydi — faylni o‘zingiz tayyorlaysiz."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, undan bepul limit (kunlik va soatlik) doirasida foydalanish mumkin. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana va iqtiboslarni manbadan tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "Tayyor so‘rovlar: reja, kirish, xulosa va manbani tushunish"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavsdagi joylarni o‘z mavzungiz bilan almashtiring. Bu so‘rovlar AI’dan tayyor matn emas, yo‘nalish va tekshiruv so‘raydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Mavzuni toraytirish",
+          "«Mavzu: Maktab kutubxonasi. 9-sinf referati uchun 4 ta torroq mavzu taklif qil va har biri qaysi savolga javob berishini bir gap bilan yoz.»"
+        ],
+        [
+          "Reja",
+          "«Mavzu: [mavzu]. Referat rejasini tuz: kirish, 3 bob (har birida 2 tadan band), xulosa va adabiyotlar. Matn yozma, faqat reja.»"
+        ],
+        [
+          "Kirish tuzilmasi",
+          "«Referatning kirish qismi uchun reja tuz: mavzuning dolzarbligi, maqsad va 2–3 vazifa. Tayyor matn yozma — har bir qismda nima yozishim kerakligini ayt.»"
+        ],
+        [
+          "Manbani tushunish",
+          "«Quyidagi parchani 9-sinf o‘quvchisi tushunadigan sodda tilda tushuntir, yangi fakt qo‘shma: [darslikdan parcha].»"
+        ],
+        [
+          "Xulosa tekshiruvi",
+          "«Men yozgan xulosani o‘qi: u har bir bobning asosiy fikrini aks ettiradimi? Faqat yetishmayotgan joyni ko‘rsat, o‘rnimga qayta yozma: [xulosa].»"
+        ],
+        [
+          "Tahrir",
+          "«Matnimdagi imlo xatolari, takror so‘zlar va uzun gaplarni ro‘yxat qilib ko‘rsat, ma’noni o‘zgartirma: [matn].»"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa o‘quv vazifalari uchun shablonlar {prompts} sahifasida, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "links": [
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbekcha promptlar to‘plami"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun AI: 20 usul"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mustaqil-ish",
+      "text": "Mustaqil ish: topshiriqni tahlil qilish va reja"
+    },
+    {
+      "type": "p",
+      "text": "Mustaqil ish namunasi kerak bo‘lsa, yuqoridagi referat tuzilmasidan foydalaning: mustaqil ish ko‘p hollarda shu shaklda topshiriladi. Yozishni boshlashdan oldin topshiriqni to‘g‘ri tushunib olish muhim, shuning uchun uni qismlarga ajrating:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shakl: referat, taqdimot, esse, masala yechish yoki tahlil — o‘qituvchi aynan nimani so‘ragan?",
+        "Hajm va muddat: necha bet yoki slayd, qachongacha topshiriladi.",
+        "Manbalar: nechta manba kerak va qaysi turdagi (darslik, maqola, hujjat).",
+        "Baholash: nimaga ball beriladi — mazmun, rasmiylashtirish yoki og‘zaki himoya.",
+        "Noaniq joy qolsa, o‘qituvchidan so‘rang: AI muassasangiz talabini bilmaydi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Topshiriq matnini chatga yozib, reja so‘rashingiz mumkin: «Topshiriq: [o‘qituvchi bergan matn]. Shu topshiriq bo‘yicha mustaqil ish rejasini tuz va aniqlashtirish uchun menga 3 ta savol ber.» Topshiriq taqdimot shaklida bo‘lsa, {slayd} qo‘llanmasidan foydalaning.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kurs-ishi",
+      "text": "Kurs ishi: AI nimada yordam beradi, nimada bermaydi"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishi referatdan hajmliroq va chuqurroq: unda o‘z tahlilingiz, ba’zan kichik tadqiqot bo‘ladi, ish esa ilmiy rahbar nazoratida yoziladi. AI bu yerda yordamchi bo‘lishi mumkin, muallif emas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "AI yordam beradi",
+        "AI o‘rningizga qilmaydi"
+      ],
+      "rows": [
+        [
+          "Mavzu va tadqiqot savolini aniqlashtirish",
+          "Ilmiy rahbar bilan kelishish"
+        ],
+        [
+          "Reja va boblar ketma-ketligi",
+          "Manbalarni topish va o‘qish"
+        ],
+        [
+          "Murakkab manbani sodda tilda tushuntirish",
+          "O‘z tahlilingiz, hisob-kitob va xulosalar"
+        ],
+        [
+          "Matndagi imlo va mantiq xatolarini ko‘rsatish",
+          "Himoyada savollarga javob berish"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishiga qo‘yiladigan talablar va uning tuzilmasini odatda kafedra belgilaydi — ishni shu talablarni o‘qib chiqishdan boshlang."
+    },
+    {
+      "type": "h2",
+      "id": "rasmiylashtirish",
+      "text": "Referat yozish qoidalari: rasmiylashtirish va qo‘lda yozish"
+    },
+    {
+      "type": "p",
+      "text": "Hajm, shrift, qator oralig‘i, hoshiya, titul varaq ko‘rinishi va adabiyotlar formati muassasaga qarab farq qiladi. Umumiy «me’yor» qidirmang: talablarni o‘qituvchi, kafedra yoki uslubiy qo‘llanmadan bilib oling va ish boshida yozib qo‘ying."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hajm: necha bet, titul varaq va adabiyotlar hajmga kiradimi.",
+        "Shrift va oraliq: qaysi shrift, o‘lcham va qator oralig‘i.",
+        "Adabiyotlar: qaysi formatda yoziladi va nechta manba kerak.",
+        "Topshirish: qog‘ozda, faylda yoki ikkalasida; qo‘lda yozish shartmi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Referatni qo‘lda yozish talab qilinsa, AI faqat tayyorgarlikda yordam beradi: rejani tuzasiz, manbani tushunasiz va qoralamangizni tekshirasiz, so‘ng yakuniy matnni qo‘lda yozasiz. Qo‘lda yozilgan ish ham sizniki bo‘lishi kerak: AI matnini so‘zma-so‘z ko‘chirmang."
+    },
+    {
+      "type": "h2",
+      "id": "halol-foydalanish",
+      "text": "Halol foydalanish, antiplagiat va tekshiruv ro‘yxati"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi o‘rinda — maktab yoki oliygohning AI bo‘yicha qoidasi. Ruxsat bo‘lsa, AI’dan mavzu, reja, tushuntirish va tahrirda foydalaning; talab qilinsa, buni ochiq ayting. AI yozgan matnni o‘zingizniki sifatida topshirish akademik halollik qoidalariga zid: bunda ishning muallifi siz emassiz."
+    },
+    {
+      "type": "p",
+      "text": "Ish antiplagiat dasturida tekshirilishi mumkin. AI matnini «aniqlaydigan» dasturlar esa xato qilishi mumkin: OpenAI o‘z tadqiqotida ularni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan. Shuning uchun ish sizniki ekanini ko‘rsata oladigan bo‘ling: reja, qoralamalar va o‘qigan manbalaringizni saqlang. Ba’zi o‘qituvchilar AI bilan yozishmani ko‘rsatishni yoki AI’dan qayerda foydalanganingizni yozib qo‘yishni so‘raydi, mavzu bo‘yicha savol ham berishi mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Topshirishdan oldin tekshiring:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Referat o‘qituvchi bergan mavzu va talabga (hajm, shakl, muddat) mosmi?",
+        "Titul varaq, reja, kirish, asosiy qism, xulosa va adabiyotlar — hammasi bormi?",
+        "Har bir fakt, sana, raqam va iqtibos siz o‘zingiz ochib ko‘rgan manbada bormi?",
+        "Adabiyotlar ro‘yxatidagi har bir kitob yoki maqola haqiqatan mavjudmi va matnda ishlatilganmi?",
+        "Matn o‘z so‘zlaringiz bilan yozilganmi va har bir bobni og‘zaki tushuntira olasizmi?",
+        "Imlo xatolari tuzatilganmi, takror so‘zlar olib tashlanganmi, uzun gaplar qisqartirilganmi?",
+        "Fayl yoki qo‘lyozma o‘qituvchi so‘ragan ko‘rinishda tayyormi?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Fikr bildiradigan yozma ish so‘ralsa, reja va tuzilma {esse} qo‘llanmasida.",
+      "links": [
+        {
+          "token": "esse",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Referat rejasini AI chatda tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Referat qanday yoziladi?",
+      "a": "Tartib: mavzuni aniqlang, reja tuzing, manbalarni toping va o‘qing, har bir bandni o‘z so‘zlaringiz bilan yozing, xulosa chiqaring, so‘ng titul varaq va adabiyotlar ro‘yxatini o‘qituvchi talabi bo‘yicha rasmiylashtiring. AI chat reja, tushuntirish va tahrir bosqichida yordam beradi, matnni esa o‘zingiz yozasiz."
+    },
+    {
+      "q": "Referat tuzilishi qanday bo‘ladi?",
+      "a": "Odatda: titul varaq, reja (mundarija), kirish, asosiy qism (boblar va paragraflar), xulosa va foydalanilgan adabiyotlar ro‘yxati. Kirishda mavzuning dolzarbligi, maqsad va vazifalar, xulosada har bir bobning asosiy fikri yoziladi. Muassasangiz boshqa tartib bergan bo‘lsa, o‘shanga amal qiling."
+    },
+    {
+      "q": "Referat va mustaqil ishning farqi nima?",
+      "a": "Referat — ishning shakli: mavzu bo‘yicha manbalarni umumlashtirish. Mustaqil ish — topshiriq turi: fan bo‘yicha darsdan tashqari bajariladigan ish. Mustaqil ish ko‘pincha referat ko‘rinishida topshiriladi, lekin taqdimot yoki masala yechish ham bo‘lishi mumkin — shaklni o‘qituvchi belgilaydi."
+    },
+    {
+      "q": "Kurs ishi referatdan nimasi bilan farq qiladi?",
+      "a": "Kurs ishi hajmliroq va chuqurroq: unda manbalarni umumlashtirishdan tashqari o‘z tahlilingiz yoki kichik tadqiqot bo‘ladi, ish ilmiy rahbar nazoratida yoziladi va ko‘pincha himoya qilinadi. Talablar va tuzilmani kafedradan bilib oling."
+    },
+    {
+      "q": "Referat uchun AI’dan qanday foydalangan ma’qul?",
+      "a": "Yordamchi sifatida: mavzuni toraytirish, reja tuzish, murakkab manbani sodda tilda tushuntirish va o‘zingiz yozgan matnni tahrir qilish uchun. AI mavjud bo‘lmagan kitob, maqola yoki iqtibosni yozib qo‘yishi mumkin, shuning uchun manbalarni kutubxona yoki ishonchli saytdan o‘zingiz toping va har bir iqtibosni asl matn bilan solishtiring."
+    },
+    {
+      "q": "AI yozgan referatni topshirsa bo‘ladimi?",
+      "a": "O‘zingizniki sifatida — yo‘q. Bu akademik halollik qoidalariga zid, buning ustiga AI xato fakt va mavjud bo‘lmagan manba yozishi mumkin. Avval maktab yoki oliygohingizning AI bo‘yicha qoidasini bilib oling: ruxsat bo‘lsa, AI’dan reja va tahrirda foydalaning, talab qilinsa buni ochiq ayting, matnni esa o‘zingiz yozing."
+    },
+    {
+      "q": "Referatni qo‘lda yozish talab qilinsa-chi?",
+      "a": "Unda AI faqat tayyorgarlikda yordam beradi: reja tuzish, manbani tushunish va qoralamangizni tekshirish. Yakuniy matnni qo‘lda o‘zingiz yozasiz; hajm va rasmiylashtirish talablarini o‘qituvchidan bilib oling."
+    },
+    {
+      "q": "Referat necha betdan iborat bo‘ladi?",
+      "a": "Hajmni o‘qituvchi, maktab yoki kafedra belgilaydi, shuning uchun u muassasa va topshiriqqa qarab farq qiladi. Topshiriqda yozilmagan bo‘lsa, o‘qituvchidan so‘rang va titul varaq bilan adabiyotlar ro‘yxati hajmga kiradimi — buni ham aniqlang."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda reja tuzish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi bepul AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI: 20 usul",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho va esse yozish: reja va tuzilma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Slayd tayyorlash: reja va slayd matni",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "O‘qish uchun tayyor promptlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Referat va mustaqil ish: tuzilma namunasi va AI bilan reja",
+  "ogDescription": "Shartli mavzudagi referat tuzilmasi, 6 qadamli tartib, mustaqil ish va kurs ishidan farqi, tayyor so‘rovlar va AI’dan halol foydalanish qoidalari.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+  "hreflangUz": "/uz/blog/referat-va-mustaqil-ish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Referat va mustaqil ish",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-05",
+  "dateModified": "2026-10-05",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu GPTBot.uz chati ham kiradigan barcha til modellariga tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — How can educators respond to students presenting AI-generated content as their own?",
+      "url": "https://help.openai.com/en/articles/8313351-how-can-educators-respond-to-students-presenting-ai-generated-content-as-their-own",
+      "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "createdAt": "2026-10-05T00:00:00.000Z"
+}

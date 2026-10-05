@@ -1,0 +1,423 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "rezyume-tayyorlash",
+  "url": "/uz/blog/rezyume-tayyorlash/",
+  "title": "Rezyume tayyorlash: namuna, tuzilma va maslahatlar",
+  "description": "Rezyume tayyorlash: namuna tuzilmasi (aloqa, o‘zim haqimda, tajriba, ta’lim, ko‘nikmalar, tillar) va AI bilan 5 qadam. Shaxsiy ma’lumotni chatga yozmang.",
+  "h1": "Rezyume tayyorlash: tuzilma, namuna va AI bilan tekshiruv",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "rezyume tayyorlash",
+    "rezyume namuna",
+    "rezyume",
+    "rezyume shablon",
+    "resume tayyorlash",
+    "rezyume nima",
+    "rezyume tayyorlash bepul",
+    "cv tayyorlash",
+    "rezyume to‘ldirish",
+    "cv namuna"
+  ],
+  "intro": "Rezyume — ish beruvchiga yuboriladigan qisqa hujjat: kim ekaningiz, nima qilganingiz va qanday natijaga erishganingiz. Quyida shartli ma’lumotlar asosidagi tuzilma namunasi, AI bilan 5 qadamli tartib, ish tajribasi yo‘q talaba uchun maslahatlar, tayyor so‘rovlar, format tanlash, maxfiylik qoidalari va cover letter haqida qisqacha ma’lumot berilgan. Rezyume, CV va obyektivka o‘rtasidagi farq ham shu yerda tushuntirilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: rezyume — ish beruvchiga yuboriladigan 1–2 sahifalik hujjat: ism va aloqa ma’lumotlari, o‘zingiz haqingizda 2–3 gap, tajriba (natijalar bilan), ta’lim, ko‘nikmalar va tillar. GPTBot.uz AI chati tajribangizni aniq bandlarga aylantiradi va vakansiyaga moslaydi, lekin faqat matn yozadi: Word, PDF yoki shablon bermaydi. Pasport ma’lumotlari, telefon raqami va manzilni chatga yozmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Matnni hoziroq {chat} yordamida tayyorlab ko‘ring, ro‘yxatdan o‘tish shart emas. Masalan: «Lavozim: ofis administratori. Tajribam: o‘quv markazida 8 oy administrator bo‘lib ishladim — qo‘ng‘iroqlarga javob berdim, dars jadvalini yuritdim, yangi o‘quvchilarni ro‘yxatga oldim. Shuni rezyume uchun 3–4 qisqa bandga aylantir: har bir bandda nima qilganim aniq yozilsin va bandlar bir xil shaklda bo‘lsin, masalan: Dars jadvalini yuritdim. O‘zingdan raqam yoki yutuq qo‘shma.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Rezyume, CV va obyektivka: qaysi biri qachon kerak"
+    },
+    {
+      "type": "p",
+      "text": "Uchala hujjat ham siz haqingizda ma’lumot beradi, lekin shakli va qayerda so‘ralishi har xil. Qaysi biri kerakligini vakansiya e’lonidan yoki tashkilotning o‘zidan bilib oling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Hujjat",
+        "Qayerda so‘raladi",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Rezyume",
+          "Xususiy kompaniyalar va vakansiya e’lonlari",
+          "1–2 sahifa: o‘zingiz haqingizda qisqacha, tajriba va natijalar, ta’lim, ko‘nikmalar, tillar"
+        ],
+        [
+          "CV",
+          "Ko‘pincha «rezyume» ma’nosida ishlatiladi; xalqaro tashkilotlar, ilmiy va ta’lim muassasalarida uzunroq bo‘lishi mumkin",
+          "Rezyume bilan bir xil yoki kengroq: nashrlar, tadqiqotlar, konferensiyalardagi ma’ruzalar"
+        ],
+        [
+          "Obyektivka (ma’lumotnoma)",
+          "Ko‘pincha davlat tashkilotlari va idoralari",
+          "Belgilangan shakldagi anketa: rasm, shaxsiy ma’lumotlar, ta’lim, mehnat faoliyati; ko‘pincha yaqin qarindoshlar haqida ma’lumot"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Obyektivka shaklini ishga oladigan tashkilotdan oling: u asosan shaxsiy ma’lumotlardan iborat, bunday ma’lumotni esa AI chatga yozmaslik kerak. Shuning uchun quyidagi maslahatlar rezyume va CV haqida."
+    },
+    {
+      "type": "h3",
+      "id": "kirill",
+      "text": "Кирилл ёзувида: резюме ва объективка"
+    },
+    {
+      "type": "p",
+      "text": "Резюме — иш берувчига юбориладиган 1–2 саҳифалик ҳужжат: ўзингиз ҳақингизда қисқача маълумот, иш тажрибаси, таълим, кўникмалар ва тиллар. Объективка (маълумотнома) эса белгиланган шаклдаги анкета бўлиб, уни кўпинча давлат ташкилотлари сўрайди. Резюме матнини GPTBot.uz AI чатида тайёрлаш мумкин, объективка шаклини эса ташкилотнинг ўзидан олинг."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilmasi",
+      "text": "Rezyume tuzilmasi — namuna: sarlavhadan tillargacha"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi rezyume (CV) namunasi — tuzilma namunasi, tayyor rezyume emas. Ma’lumotlar shartli: kvadrat qavsdagi joylarga o‘zingiznikini yozasiz. Tajribangizda bo‘lmagan narsani qo‘shmang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bo‘lim",
+        "Nima yoziladi",
+        "Namuna (shartli)"
+      ],
+      "rows": [
+        [
+          "Sarlavha va aloqa",
+          "Ism va familiya, istalgan lavozim, shahar, telefon, e-mail; bo‘lsa — portfolio havolasi",
+          "[Ism Familiya] · Ofis administratori · [shahar] · [telefon] · [e-mail]"
+        ],
+        [
+          "O‘zim haqimda",
+          "2–3 gap: kim ekaningiz, nimani yaxshi bilishingiz va qanday ish izlayotganingiz",
+          "Mijozlar bilan ishlash va hujjat yuritishda tajribaga ega administrator. Jamoada ofis ishlarini tartibli yuritishga hissa qo‘shmoqchiman."
+        ],
+        [
+          "Ish tajribasi",
+          "Oxirgi ishdan boshlab: tashkilot, lavozim, muddat va 2–4 band — nima qildingiz va natija",
+          "[Tashkilot nomi], administrator, [oy, yil] — [oy, yil] · Qo‘ng‘iroqlarga javob berdim va kursga yozilmoqchi bo‘lganlarni ro‘yxatga oldim · Dars jadvalini Excel’da yuritdim · [natija: o‘zingiz bilgan aniq raqam yoki o‘zgarish]"
+        ],
+        [
+          "Ta’lim",
+          "O‘quv yurti, yo‘nalish, yillar; tajriba kam bo‘lsa — kurslar va sertifikatlar",
+          "[O‘quv yurti nomi], [yo‘nalish], [yil] — [yil]"
+        ],
+        [
+          "Ko‘nikmalar",
+          "Vakansiyaga mos 5–8 ta aniq ko‘nikma",
+          "Word va Excel · Hujjat yuritish · Telefon orqali muloqot · [boshqa ko‘nikma]"
+        ],
+        [
+          "Tillar",
+          "Til va daraja; sertifikat bo‘lsa — nomi",
+          "O‘zbek tili — ona tili · Rus tili — [daraja] · Ingliz tili — [daraja]"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Pasport raqami va JShShIRni rezyumega yozmang — kerak bo‘lsa, ish beruvchi ularni alohida so‘raydi. Rasm, tug‘ilgan sana yoki oilaviy ahvol kerakmi — buni vakansiya talabidan bilib oling."
+    },
+    {
+      "type": "h2",
+      "id": "5-qadam",
+      "text": "Rezyume tayyorlash: AI bilan 5 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Rezyume yoki CV’ni AI yordamida besh qadamda tayyorlash va to‘ldirish qulay. Har bir qadamda chatga faqat ish bilan bog‘liq matnni yozing, shaxsiy ma’lumotni esa faylga o‘zingiz qo‘shasiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Xom ma’lumot. Qayerda, qachon va nima ish qilganingizni oddiy so‘zlar bilan yozib chiqing. Ism, telefon va manzil o‘rniga [Ism Familiya] kabi belgi qo‘ying.",
+        "2. Natijaga aylantirish. AI’dan har bir ishni «nima qildim → qanday natija» ko‘rinishidagi qisqa bandga aylantirishni so‘rang. Raqam yoki yutuq bo‘lmasa, AI uni o‘ylab topmasin — buni so‘rovda aniq yozing.",
+        "3. Vakansiyaga moslash. Vakansiya e’lonini chatga qo‘yib, qaysi ko‘nikma va bandlarni oldinga chiqarish kerakligini so‘rang. Talabga moslash uchun o‘zingizda yo‘q tajribani qo‘shmang.",
+        "4. Tekshiruv. Imlo, takror so‘zlar va uslubni tekshiring: bandlar qisqa va bir xil shaklda bo‘lsin. Har bir sana, lavozim va raqamni o‘zingiz solishtiring.",
+        "5. Faylga joylash. Matnni Word, Google Docs yoki rezyume konstruktoriga ko‘chiring, aloqa ma’lumotlarini qo‘shing va ish beruvchi so‘ragan formatda saqlang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, undan bepul limit (kunlik va soatlik) doirasida foydalanish mumkin. U xato qilishi yoki tajribangizni bo‘rttirib yozishi mumkin, shuning uchun har bir bandni o‘zingiz tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "talaba",
+      "text": "Tajribasiz talaba uchun rezyume: nimani yozish mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Ish tajribasi bo‘lmasa ham rezyume bo‘sh qolmaydi: o‘qish davridagi faoliyatingizni yozish mumkin. Ta’lim bo‘limini yuqoriga qo‘ying va quyidagilardan foydalaning:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Amaliyot va stajirovka: qayerda, qancha muddat, nima qildingiz.",
+        "O‘quv loyihalari va kurs ishlari: mavzu va sizning hissangiz.",
+        "Volontyorlik, talabalar kengashi, tadbir tashkil qilish.",
+        "Kurslar va sertifikatlar: til, kompyuter dasturlari, kasbiy kurslar.",
+        "Olimpiada, tanlov va musobaqalardagi ishtirok yoki natija.",
+        "Qisqa muddatli yoki yarim kunlik ishlar — ular ham tajriba."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chatga shunday yozing: «Men talabaman, ish tajribam yo‘q. O‘qish davridagi ishlarim: [ro‘yxat]. Shundan rezyume uchun 3–4 band tuz, faqat men yozgan faktlardan foydalan.»"
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "Tayyor so‘rovlar: tajriba, ko‘nikmalar, vakansiya va cover letter"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavsdagi joylarni o‘z ma’lumotingiz bilan almashtiring. Ism, telefon va manzil o‘rniga belgini qoldiring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Tajribani bandlarga aylantirish",
+          "«Lavozim: [lavozim]. Ishim: [nima qilganingiz]. Shuni rezyume uchun 3–4 qisqa bandga aylantir: har bir bandda aniq ish-harakat bo‘lsin va hammasi bir xil shaklda yozilsin. O‘zingdan raqam qo‘shma.»"
+        ],
+        [
+          "O‘zim haqimda",
+          "«[Lavozim] vakansiyasi uchun rezyumeda o‘zim haqimda 2–3 gap yoz. Tajribam: [qisqacha]. Maqtov so‘zlarini ko‘paytirma.»"
+        ],
+        [
+          "Vakansiyaga moslash",
+          "«Vakansiya matni: [e’lon]. Rezyumem: [matn, shaxsiy ma’lumotsiz]. Qaysi bandlarni oldinga chiqarish va qaysi ko‘nikmalarni ko‘rsatish kerakligini ayt. Yo‘q tajribani qo‘shma.»"
+        ],
+        [
+          "Ko‘nikmalar ro‘yxati",
+          "«Mana ishlarim: [ro‘yxat]. Shundan rezyume uchun 5–8 ta aniq ko‘nikma ajratib ber: dasturlar, tillar, ish usullari.»"
+        ],
+        [
+          "Tekshiruv",
+          "«Rezyume matnimdagi imlo xatolari, takror so‘zlar va har xil shakldagi bandlarni ko‘rsat, ma’noni o‘zgartirma: [matn].»"
+        ],
+        [
+          "Cover letter",
+          "«[Lavozim] vakansiyasi uchun qisqa motivatsion xat yoz: nega aynan shu ishni tanlaganim, shu ishga mos 2 ta tajribam va suhbatga tayyor ekanim. Tajribam: [qisqacha]. Uch xatboshidan oshmasin.»"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ish va hujjatlar uchun yana shablonlar {prompts} sahifasida.",
+      "links": [
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbekcha promptlar to‘plami"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "format",
+      "text": "Shablon va format: Word yoki PDF, bir sahifa"
+    },
+    {
+      "type": "p",
+      "text": "Rezyume shabloni oddiy bo‘lgani ma’qul: bitta ustun, aniq sarlavhalar va o‘qilishi oson shrift. Tajriba kam bo‘lsa, odatda bir sahifa yetadi; tajriba ko‘p bo‘lsa, ikki sahifa ham bo‘lishi mumkin."
+    },
+    {
+      "type": "list",
+      "items": [
+        "PDF: ko‘rinishi boshqa qurilmada ham o‘zgarmaydi, shuning uchun ish beruvchi boshqacha so‘ramasa, PDF yuborgan ma’qul.",
+        "Word (.docx): ish beruvchi yoki kadrlar agentligi tahrir qilish uchun so‘rasa yuboriladi.",
+        "Fayl nomi: [Ism-Familiya]-rezyume kabi aniq nom bering.",
+        "Vakansiya saytidagi anketani to‘ldirish so‘ralsa, shu matnning kerakli qismlarini ko‘chirib qo‘ying."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yuborishdan oldin yana bir bor tekshiring: ism va aloqa ma’lumotlari to‘g‘rimi, sanalar ketma-ket va aniqmi, imlo xatosi yo‘qmi, fayl ochiladimi va nomi tushunarlimi."
+    },
+    {
+      "type": "h2",
+      "id": "maxfiylik",
+      "text": "Maxfiylik: AI chatga nimani yozmaslik kerak"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz chatida savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi. Shuning uchun rezyume ustida ishlaganda chatga faqat ish bilan bog‘liq matnni yozing:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Pasport seriyasi va raqami, JShShIR — yozmang.",
+        "Telefon, uy manzili va e-mail — o‘rniga [telefon], [manzil] kabi belgi qo‘ying.",
+        "Oila a’zolari va boshqa odamlar haqidagi ma’lumot — yozmang.",
+        "Ish joyingizning ichki hujjatlari va maxfiy ko‘rsatkichlari — yozmang.",
+        "Login, parol va karta raqami — hech qachon yozmang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ma’lumot qanday ishlatilishi {privacy} sahifasida yozilgan. Aloqa ma’lumotlarini AI tayyorlagan matnga faylda o‘zingiz qo‘shasiz.",
+      "links": [
+        {
+          "token": "privacy",
+          "target": "/uz/maxfiylik-siyosati/",
+          "anchor": "GPTBot.uz maxfiylik siyosati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "cover-letter",
+      "text": "Cover letter (motivatsion xat): qisqacha"
+    },
+    {
+      "type": "p",
+      "text": "Cover letter — rezyumega ilova qilinadigan qisqa xat. U vakansiya e’lonida so‘ralganda yoki rezyumeni o‘z tashabbusingiz bilan yuborganingizda foydali. Rezyumeni takrorlamang: nega aynan shu ishni va shu tashkilotni tanlaganingizni yozing."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-xatboshi: qaysi vakansiyaga yozayotganingiz va qisqacha kim ekaningiz.",
+        "2-xatboshi: vakansiyaga mos 2 ta tajriba yoki yutuq — rezyumedagi eng kuchli bandlar.",
+        "3-xatboshi: suhbatga tayyorligingiz va siz bilan qanday bog‘lanish mumkinligi.",
+        "Hajmi: bir necha qisqa xatboshi; e’londa talab bo‘lsa, o‘shanga amal qiling."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Talaba bo‘lsangiz, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "links": [
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun AI: 20 usul"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Rezyume matnini AI chatda tayyorlash",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Rezyume qanday tayyorlanadi va to‘ldiriladi?",
+      "a": "Tartib: tajribangizni oddiy so‘zlar bilan yozib chiqing, har bir ishni «nima qildim → qanday natija» bandiga aylantiring, bandlarni vakansiyaga moslang, sana va imloni tekshiring, so‘ng matnni Word, Google Docs yoki rezyume konstruktoriga joylab, aloqa ma’lumotlarini o‘zingiz qo‘shing. AI chat bandlarni tuzish va tekshirishda yordam beradi, lekin u yozgan har bir bandni o‘z tajribangiz bilan solishtiring."
+    },
+    {
+      "q": "Rezyume nima va CV’dan farqi bormi?",
+      "a": "Rezyume — ish beruvchiga yuboriladigan 1–2 sahifalik qisqa hujjat: o‘zingiz haqingizda qisqacha, tajriba, ta’lim, ko‘nikmalar va tillar. Ko‘p ish beruvchilar «CV» deganda ham shuni nazarda tutadi. Xalqaro tashkilotlarda, ilmiy va ta’lim muassasalarida CV uzunroq bo‘lishi mumkin: unga nashrlar, tadqiqotlar va konferensiyalardagi ma’ruzalar ham yoziladi."
+    },
+    {
+      "q": "Obyektivka nima va u rezyumedan nimasi bilan farq qiladi?",
+      "a": "Obyektivka (ma’lumotnoma) — belgilangan shakldagi anketa: rasm, shaxsiy ma’lumotlar, ta’lim, mehnat faoliyati va ko‘pincha yaqin qarindoshlar haqida ma’lumot. Uni ko‘pincha davlat tashkilotlari so‘raydi. Rezyume esa erkin shaklda yoziladi va natijalaringizni ko‘rsatadi. Obyektivka shaklini ishga oladigan tashkilotdan oling: u asosan shaxsiy ma’lumotlardan iborat, bunday ma’lumotni AI chatga yozmaslik kerak."
+    },
+    {
+      "q": "Tajribasiz talaba rezyumeni qanday yozadi?",
+      "a": "Ta’lim bo‘limini yuqoriga qo‘yadi va o‘qish davridagi ishlarni yozadi: amaliyot, o‘quv loyihalari, volontyorlik, kurslar, sertifikatlar va tanlovlar. AI bu ro‘yxatni qisqa va aniq bandlarga aylantirishga yordam beradi — faqat siz bergan faktlar asosida."
+    },
+    {
+      "q": "Rezyumeni bepul qayerda tayyorlash mumkin?",
+      "a": "Matnni GPTBot.uz AI chatida bepul limit (kunlik va soatlik) doirasida tayyorlash mumkin: chat tuzilma beradi, tajribangizni bandlarga aylantiradi va xatolarni ko‘rsatadi. Faylni esa Word, Google Docs yoki rezyume konstruktorida o‘zingiz tayyorlaysiz — chat fayl yoki shablon bermaydi."
+    },
+    {
+      "q": "Rezyume PDF’da yuboriladimi yoki Word’da?",
+      "a": "Ish beruvchi boshqacha so‘ramasa, PDF yuborgan ma’qul: uning ko‘rinishi boshqa qurilmada ham o‘zgarmaydi. Word fayl tahrir qilish uchun so‘ralganda yuboriladi. Ikkala holatda ham fayl nomida ismingiz va «rezyume» so‘zi bo‘lsin."
+    },
+    {
+      "q": "Rezyumeni rus yoki ingliz tiliga tarjima qilsa bo‘ladimi?",
+      "a": "Ha, vakansiya shu tilda bo‘lsa, rezyume ham shu tilda bo‘lgani ma’qul. AI tarjimaning birinchi qoralamasini berishi mumkin, lekin lavozim nomlari, atamalar va grammatikani shu tilni yaxshi biladigan odam bilan tekshiring: rezyumedagi tarjima xatosi tez ko‘zga tashlanadi."
+    },
+    {
+      "q": "AI chatga shaxsiy ma’lumot yozish xavfsizmi?",
+      "a": "Yozmagan ma’qul. GPTBot.uz chatida savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi. Pasport ma’lumotlari, JShShIR, telefon raqami, manzil va boshqa odamlar haqidagi ma’lumot o‘rniga [Ism Familiya] kabi belgi qo‘ying va ularni faylga o‘zingiz qo‘shing."
+    },
+    {
+      "q": "Cover letter (motivatsion xat) nima va qachon kerak?",
+      "a": "Rezyumega ilova qilinadigan qisqa xat: nega aynan shu vakansiyaga topshirayotganingiz va qaysi tajribangiz mos kelishi. Vakansiya e’lonida so‘ralsa, albatta yozing; so‘ralmasa ham, rezyumeni o‘z tashabbusingiz bilan yuborganda qo‘shsangiz bo‘ladi. AI xat tuzilmasini beradi, faktlar va ohangni o‘zingiz tekshirasiz."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda rezyume yozish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi bepul AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "Ish va hujjatlar uchun promptlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI: 20 usul",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Rezyume tayyorlash: tuzilma namunasi va AI bilan 5 qadam",
+  "ogDescription": "Shartli ma’lumotlar asosidagi rezyume tuzilmasi, tajribasiz talaba uchun maslahatlar, tayyor so‘rovlar, PDF yoki Word, maxfiylik va cover letter.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+  "hreflangUz": "/uz/blog/rezyume-tayyorlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Job seekers in Uzbekistan, including students and graduates"
+  },
+  "breadcrumbLabel": "Rezyume tayyorlash",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-05",
+  "dateModified": "2026-10-05",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu GPTBot.uz chati ham kiradigan barcha til modellariga tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "createdAt": "2026-10-05T00:00:00.000Z"
+}

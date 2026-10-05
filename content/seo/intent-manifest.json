@@ -660,7 +660,7 @@
         "owns": "how to write an insho or an esse with honest AI help — «insho yozish», «insho yozish tartibi», «esse yozish tartibi», «esse yozish», «insho rejasi», «esse mavzulari»: the difference between insho and esse, simple and complex plans, the esse order (introduction, thesis, 2–3 arguments, conclusion), a structure template, prompts, checklist",
         "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "slayd tayyorlash", "prezentatsiya tayyorlash", "referat yozish", "referat tayyorlash", "referat namuna", "mustaqil ish"]
       },
-      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-05) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (planned 2026-10-19), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
+      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-05) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (published in the school-pages release; its date is in docs/seo/CHANGE_LOG_2026-10.md), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-04"
     },
@@ -694,6 +694,70 @@
       },
       "gscNote": "Found 2026-10-05 (R-S1 SEO review). R-S1 gives the UZ chat, as roadmap 2.1 requires, the H2 «GPTBot.uz AI chatidan qanday foydalaniladi?», the published free limits and a visible FAQ on limits, languages and privacy — the topics C28 gives the manual, whose primaryKeyword «AI chatdan qanday foydalanish» is close to that H2, and the C6 guide's H1 ends with «AI chatdan qanday foydalanish mumkin»: three URLs near one head. The split is by declared keywords: the chat states its own terms but declares none of the manual's heads, and the manual declares none of the chat's family-A keys. The manual had 13 impressions in 28 days. Decision for the homepage release of 2026-10-19 (roadmap 1(a) item 3, C28): keep this split, or merge the manual with a 301 — then the UZ chat, not only the C6 guide, is a candidate target.",
       "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-05"
+    },
+    {
+      "id": "C31-uz-referat-chat-vs-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; a reader may ask it for a referat plan or an edit of their own text, but the chat page does not answer «referat namuna» or «mustaqil ish». It links the guide from its «Talaba…» section only in R-S3 (≈2026-11-18): the chat page does not change in the school-pages release",
+        "mustNotTarget": ["referat namuna", "mustaqil ish", "mustaqil ish namuna", "referat yozish tartibi", "referat tayyorlash", "referat yozish"]
+      },
+      "informational": {
+        "url": "/uz/blog/referat-va-mustaqil-ish/",
+        "owns": "how to structure and write a referat or a mustaqil ish with honest AI help — «referat namuna» (a structure template on an invented neutral topic, not a finished paper), «mustaqil ish», «mustaqil ish namuna», «referat yozish tartibi», «referat yozish qoidalari», «referat tayyorlash», «referat qanday yoziladi»; kurs ishi only as one section and one FAQ; carries the FAQ «AI yozgan referatni topshirsa bo‘ladimi?» (moved from /uz/blog/chatgpt-talabalar-uchun/) and «Referat uchun AI’dan qanday foydalangan ma’qul?» (left the insho/esse article in R-S1); states in its first screen that the chat writes text only and gives no .docx or PDF",
+        "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "insho yozish", "esse yozish", "esse yozish tartibi", "slayd tayyorlash", "prezentatsiya tayyorlash", "rezyume tayyorlash", "mustaqil ish rejasi"]
+      },
+      "gscNote": "New URL of the school-pages release (its date is in docs/seo/CHANGE_LOG_2026-10.md), no Search Console history; gptbot.uz appeared in none of the 30 school SERPs pulled on 2026-10-04 (keywords-wave2/school-pages/NOTES.md §0). Demand (demand-policy rows of 2026-10-04): referat namuna 2 900/mo, Oct–Dec 2025 5 200, peak 6 600 in Nov 2025; mustaqil ish 1 900/mo; referat yozish 320 (row of 2026-08-01). The referat keys left the insho/esse article in R-S1 (fenced there by C30); «chatgpt referat» (10/mo) leaves /uz/blog/chatgpt-talabalar-uchun/ in this release (fenced by C35) and is deliberately not declared here, because no page of ours declares a keyword that leads with the ChatGPT brand. «mustaqil ish rejasi» (3 600/mo) is fenced on the informational side: its SERP is teachers’ annual plans. Read: at least 100 Uzbekistan impressions within 21 days of indexation means the page works (roadmap 3.12, gates the second wave); the 42-day merge rule is suspended for school pages until the end of December 2026.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-05"
+    },
+    {
+      "id": "C32-uz-rezyume-chat-vs-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; a reader may ask it to rewrite their own experience, but the chat page does not answer «rezyume tayyorlash» or «rezyume namuna». It links the guide from its «Talaba…» section only in R-S3 (≈2026-11-18)",
+        "mustNotTarget": ["rezyume tayyorlash", "rezyume namuna", "rezyume", "rezyume shablon", "cv tayyorlash"]
+      },
+      "informational": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "how to prepare a résumé with honest AI help — «rezyume tayyorlash» (leads the title), «rezyume namuna» (a structure template with invented placeholder data), «rezyume», «rezyume shablon», «resume tayyorlash», «rezyume nima», «rezyume tayyorlash bepul», «cv tayyorlash», «rezyume to‘ldirish», «cv namuna»; obyektivka and the cover letter only as one section each and one FAQ each, plus one short Uzbek-Cyrillic block; privacy rules for what not to type into the chat; states in its first screen that the chat writes text only and gives no Word, PDF or template",
+        "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "referat namuna", "slayd tayyorlash", "insho yozish", "obyektivka namuna", "obyektivka tayyorlash"]
+      },
+      "gscNote": "New URL of the school-pages release (its date is in docs/seo/CHANGE_LOG_2026-10.md), no Search Console history; no page of the site declared rezyume or CV before it (repository grep 2026-10-04). Demand (demand-policy rows of 2026-10-04): rezyume tayyorlash 1 900/mo, competition 0.42, not seasonal (peak 2 900 in Jan 2026); rezyume namuna 1 600/mo. Obyektivka (namuna 2 400, tayyorlash 1 600, Cyrillic объективка 1 600) is answered only in one section and one FAQ and is fenced in this informational mustNotTarget: a separate obyektivka page is an owner decision, honest only once the site can offer the official form itself (KEYWORD-BRIEFS-2026-10-04 §7, school-pages/NOTES.md §6.4). Same 21-day read as C31.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-05"
+    },
+    {
+      "id": "C35-uz-talabalar-vs-referat-guide",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-talabalar-uchun/",
+        "owns": "the 20 ways a student can use an AI chat honestly — «chatgpt talabalar uchun», «chatgpt o‘qish uchun»; since the school-pages release its referat section is two sentences that link the referat guide, and its FAQ «AI yozgan referatni topshirsa bo‘ladimi?» lives on that guide",
+        "mustNotTarget": ["referat namuna", "mustaqil ish", "referat yozish", "referat tayyorlash", "chatgpt referat"]
+      },
+      "informational": {
+        "url": "/uz/blog/referat-va-mustaqil-ish/",
+        "owns": "the referat and mustaqil ish how-to (see C31)",
+        "mustNotTarget": ["chatgpt talabalar uchun", "chatgpt o‘qish uchun", "ai student uzbek"]
+      },
+      "gscNote": "No measured overlap: «chatgpt referat» measured 10/mo (2026-10-04); over 2026-09-06..10-03 the student article had 36 impressions, and the query × page export of that window (1 413 rows) has no referat or rezyume row for any page. The pair records the move of the referat section, FAQ and keyword (KEYWORD-BRIEFS-2026-10-04 §6) so that the student article does not drift back onto referat terms.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-05"
+    },
+    {
+      "id": "C36-uz-promptlar-vs-rezyume-guide",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+        "owns": "the library of 50 Uzbek prompts; its section «Ish, rezyume va hujjatlar uchun 10 ta prompt» is a supporting mention of the résumé, not the owner. Protected page: this entry changes nothing in its HTML",
+        "mustNotTarget": ["rezyume tayyorlash", "rezyume namuna", "rezyume", "cv tayyorlash"]
+      },
+      "informational": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "the résumé how-to (see C32); it links the prompt library, the library does not link back",
+        "mustNotTarget": ["chatgpt uzbek tilida prompt", "o‘zbekcha promptlar", "ai uchun prompt"]
+      },
+      "gscNote": "No measured overlap on 2026-10-04: the prompt library declares no rezyume or CV keyword (repository grep). Recorded because KEYWORD-BRIEFS-2026-10-04 §7 names the library as a supporting mention, not the owner of the résumé intent.",
+      "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-05"
     }
   ],
@@ -734,7 +798,7 @@
       "decision": "PAIRS_NOT_CLUSTER",
       "decidedAt": "2026-10-04",
       "evidence": "tests/seo-cluster-quality.test.ts requires every cluster hub to declare Service, FAQPage and BreadcrumbList schema with at least four visible questions. The natural hub of the school pages, /uz/gpt-uzbek-tilida/, is a gpt-chat page: a free chat, not a service offer, so its schemaTypes are Organization, WebSite and BreadcrumbList and it declares no Service. Since R-S1 (2026-10-05) its template shows the FAQ and the page carries FAQPage markup for exactly those visible questions, but a Service node for the free chat would be a commercial claim the page does not make. A «school-uz» cluster with the chat as hub therefore cannot pass the hub gate.",
-      "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-05, then referat and rezyume on 2026-10-19 (next free ids C31 and C32; C23–C28 were taken by the week-1 roll-out, released 2026-10-05). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat; the chat links each spoke from its «Talaba…» section in the same release as the spoke."
+      "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-05, then C31 (referat) and C32 (rezyume) from the school-pages release (its date is in docs/seo/CHANGE_LOG_2026-10.md), with C35 and C36 fencing the student article and the prompt library (C33 and C34 were taken by the R-S1 review). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat. The chat links slayd and insho/esse from its «Talaba…» section in R-S1; it links referat and rezyume only in R-S3 (≈2026-11-18), because the chat page does not change in the school-pages release."
     }
   ]
 }

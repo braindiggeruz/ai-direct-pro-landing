@@ -191,6 +191,38 @@
       "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
       "measuredAt": "2026-10-04",
       "note": "Google Ads competition index 0. Peak 8 100 in Sep 2025, Oct–Dec 2025 average 3 800. Same owner and the same 28-day read as «esse yozish tartibi». The bare head «esse» (4 400) is deliberately not recorded: its SERP is mixed and the article does not target it."
+    },
+    {
+      "keyword": "referat namuna",
+      "volumePerMonth": 2900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0. Oct–Dec 2025 average 5 200, peak 6 600 (Nov 2025), Aug 2026 210. Owned by /uz/blog/referat-va-mustaqil-ish/ (new URL of the school-pages release; its date is in docs/seo/CHANGE_LOG_2026-10.md). «namuna» there is a structure template on an invented neutral topic, not a finished paper. Across the ten referat SERPs in school-pages/NOTES.md §5.2, 64 of the top-10 slots are files and marketplaces; one formatting guide (mustaqilish.uz) holds rank 6 for this query. The bare head «referat» (2 900, the same series as «referats») is deliberately not recorded: its SERP is a definition plus files."
+    },
+    {
+      "keyword": "mustaqil ish",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0. Oct–Dec 2025 average 3 200, peak 3 600 (Nov and Dec 2025). Same owner as «referat namuna». Ranks 1–3 of the 2026-10-04 SERP are AI document generators; the page is a guide, not a generator, and says so. «mustaqil ish rejasi» (3 600) is deliberately not recorded and not used in the page’s title or meta description: its SERP is teachers’ annual plans, a different intent."
+    },
+    {
+      "keyword": "rezyume tayyorlash",
+      "volumePerMonth": 1900,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0.42, CPC 0.18 USD. Oct–Dec 2025 average 1 867, Aug 2026 1 600, peak 2 900 (Jan 2026): not seasonal. Owned by /uz/blog/rezyume-tayyorlash/ (new URL of the school-pages release), whose title leads with this query. Its SERP snapshot (school-pages/NOTES.md §6.2) is videos, instructions and free CV builders; the page is a text guide with honest limits (the chat writes text only, no file or template)."
+    },
+    {
+      "keyword": "rezyume namuna",
+      "volumePerMonth": 1600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0.12, CPC 0.17 USD; the same 12-month series as «rezyume namunasi» (grouped close variants, not summed). Same owner as «rezyume tayyorlash». Its SERP snapshot (school-pages/NOTES.md §6.2) is builders and templates (cvbox.uz 1, resum.uz 2); the page offers a structure template with invented placeholder data. «obyektivka namuna» (2 400) and «cv nima» (3 600) are deliberately not recorded: obyektivka is answered in one section and one FAQ only, and the cv nima SERP is unrelated."
     }
   ],
   "qualityRequirements": {
