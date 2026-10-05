@@ -256,26 +256,6 @@ export interface AiChatRefundRecordResult {
   request_id: string;
 }
 
-/** «Восстановить пакет гостя»: our order number or Click's payment id. */
-export const RESTORE_QUERY = /^(?:pay_[0-9a-f]{32}|\d{1,19})$/;
-
-export interface AiChatRestoreLinkResult {
-  ok: true;
-  order: {
-    id: string;
-    state: string;
-    /** Bought without signing in: the pack lives in one browser. */
-    guest: boolean;
-    paidAt: number | null;
-    /** The running pack's end; null without one or after a refund. */
-    packEndsAt: number | null;
-  };
-  /** One-time link for the buyer; null unless a paid guest order with a running pack. */
-  link: string | null;
-  expiresAt: number | null;
-  request_id: string;
-}
-
 export interface AiChatRehearsalResult {
   ok: true;
   expiresAt: number;

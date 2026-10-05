@@ -11,8 +11,6 @@ import {
   AI_CHAT_PROVIDERS,
   ORDER_ID,
   REFUND_REFERENCE,
-  RESTORE_QUERY,
-  type AiChatRestoreLinkResult,
   type AiChatPaymentRow,
   type AiChatPaymentsPage,
   type AiChatRefundRecordInput,
@@ -150,84 +148,6 @@ export function RefundRecordForm({
   );
 }
 
-const RESTORE_REFUSAL: Readonly<Record<string, string>> = {
-  invalid_query: 'Введите номер заказа pay_… или ID платежа Click (только цифры).',
-  not_found: 'Заказа Click с таким номером или ID платежа нет.',
-  identity_secret_missing: 'Не задан GPT_IDENTITY_SECRET: ссылку не подписать.',
-};
-
-/**
- * «Восстановить пакет гостя»: a buyer who paid without signing in and lost
- * the browser. Find the order by our number or Click's payment id; for a
- * paid guest order with a running pack, a one-time link for 24 hours. The
- * buyer opens it in the browser that should have the pack.
- */
-export function RestoreLinkForm({ onFind }: { onFind: (query: string) => Promise<AiChatRestoreLinkResult> }) {
-  const [query, setQuery] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [found, setFound] = useState<AiChatRestoreLinkResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const q = query.trim();
-  const submit = async () => {
-    setBusy(true);
-    setError(null);
-    setFound(null);
-    try {
-      setFound(await onFind(q));
-    } catch (cause) {
-      const code = (cause as { code?: string }).code ?? 'query_failed';
-      setError(RESTORE_REFUSAL[code] ?? `Не удалось: ${code}`);
-    }
-    setBusy(false);
-  };
-  const order = found?.order;
-  return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4" data-testid="ai-chat-restore-link">
-      <div className="text-sm text-white font-medium">Восстановить пакет гостя</div>
-      <p className="text-xs text-white/50 mt-1 max-w-3xl">
-        Покупатель платил через Click без входа и потерял браузер. Найдите заказ по номеру или ID платежа
-        Click из его чека. Если пакет действует, появится одноразовая ссылка на 24 часа: отправьте её
-        покупателю, он откроет её на своём телефоне и нажмёт кнопку. Пакет перейдёт в этот браузер.
-      </p>
-      <div className="grid gap-3 sm:grid-cols-2 mt-3">
-        <div>
-          <Label htmlFor="ai-chat-restore-query" hint="pay_… или цифры">Номер заказа или ID платежа Click</Label>
-          <Input
-            id="ai-chat-restore-query"
-            value={query}
-            autoComplete="off"
-            spellCheck={false}
-            onChange={(e) => { setQuery(e.target.value); setFound(null); setError(null); }}
-          />
-        </div>
-      </div>
-      <Button className="mt-3" size="sm" variant="secondary" disabled={!RESTORE_QUERY.test(q) || busy} onClick={() => void submit()}>
-        {busy ? 'Ищем…' : 'Найти заказ'}
-      </Button>
-      {order && (
-        <div className="text-sm mt-3 text-white/70" role="status">
-          <code className="text-xs text-white/85 select-all">{order.id}</code>
-          <span className="block text-xs text-white/45">
-            {STATE_LABEL[order.state as keyof typeof STATE_LABEL] ?? order.state}
-            {order.paidAt ? `, оплачен ${dateTime(order.paidAt)}` : ''}
-            {order.packEndsAt ? `, пакет до ${day(order.packEndsAt)}` : ', пакета нет'}
-            {order.guest ? ', гость' : ', аккаунт Telegram: пакет и так на любом телефоне после входа'}
-          </span>
-          {found?.link ? (
-            <span className="block mt-3">
-              Ссылка до {dateTime(found.expiresAt ?? 0)}:{' '}
-              <code className="text-xs text-white/85 select-all">{found.link}</code>
-            </span>
-          ) : (
-            <span className="block text-xs text-white/45">Ссылку сделать нельзя: нужен оплаченный заказ гостя с действующим пакетом.</span>
-          )}
-        </div>
-      )}
-      {error && <p className="text-sm mt-3 text-red-300" role="status">{error}</p>}
-    </div>
-  );
-}
-
 export function PaymentsCard({
   page,
   requestId,
@@ -236,7 +156,6 @@ export function PaymentsCard({
   onFilter,
   onMore,
   onRecord,
-  onRestore,
 }: {
   /** null while the first page loads. */
   page: AiChatSection<AiChatPaymentsPage> | null;
@@ -246,7 +165,6 @@ export function PaymentsCard({
   onFilter: (filter: AiChatPaymentsFilter) => void;
   onMore: () => void;
   onRecord: (input: AiChatRefundRecordInput) => Promise<AiChatRefundRecordResult>;
-  onRestore?: (query: string) => Promise<AiChatRestoreLinkResult>;
 }) {
   const select = <K extends keyof AiChatPaymentsFilter>(key: K, name: string, values: readonly string[], label: (v: string) => string) => (
     <Select
@@ -321,7 +239,6 @@ export function PaymentsCard({
                     <td className="py-1.5 pl-2 whitespace-nowrap">
                       <code className="text-xs text-white/70">{row.buyer ?? 'нет соли'}</code>
                       {row.rehearsal && <span className="ml-1"><Badge tone="info">репетиция</Badge></span>}
-                      {row.guest && <span className="ml-1"><Badge tone="neutral">гость</Badge></span>}
                     </td>
                   </tr>
                 ))}
@@ -337,11 +254,6 @@ export function PaymentsCard({
       <div className="mt-5">
         <RefundRecordForm rows={rows} onRecord={onRecord}/>
       </div>
-      {onRestore && (
-        <div className="mt-5">
-          <RestoreLinkForm onFind={onRestore}/>
-        </div>
-      )}
     </Card>
   );
 }

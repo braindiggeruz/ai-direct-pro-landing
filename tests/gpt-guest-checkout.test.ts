@@ -11,7 +11,7 @@ import { onRequestGet as restorePage, onRequestPost as restore } from "../functi
 import { BILLING_ORG } from "../functions/lib/gpt-chat/billing-config";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
-import { findOrder, restoreToken } from "../functions/lib/gpt-chat/guest-restore";
+import { findOrder, restoreNotice } from "../functions/lib/gpt-chat/guest-restore";
 import { isGuestAccount } from "../functions/lib/gpt-chat/identity-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
 
@@ -81,6 +81,7 @@ test("signing in through Telegram moves the guest's pack once, and never another
   assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_consents WHERE order_id='${order}'`), tg);
   assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_auth_sessions WHERE user_id='${guest}'`), 0);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods"), 1, "moved, not copied");
+  assert.equal(await restoreNotice(f.binding, f.env.GPT_IDENTITY_SECRET, order), "", "a Telegram account's order needs no link");
   // A repeat finds nothing; a Telegram account signed in on the browser keeps its pack.
   await f.identity.adoptGuest(request, hash);
   const other = randomBytes(32).toString("hex");
@@ -93,10 +94,13 @@ test("signing in through Telegram moves the guest's pack once, and never another
 test("a restore link moves a lost guest pack to another browser once", async () => {
   const f = await billingFixture();
   const { order, tx } = await guestPays(f);
-  // Support finds it by our number or Click's payment id.
+  // The owner's "paid" notice of a guest order: Click's payment id and the link.
   assert.equal((await findOrder(f.binding, tx))?.id, order);
   const found = (await findOrder(f.binding, order))!;
-  const { token } = await restoreToken(f.env.GPT_IDENTITY_SECRET!, found);
+  const notice = await restoreNotice(f.binding, f.env.GPT_IDENTITY_SECRET, order);
+  assert.match(notice, new RegExp(`Click ID ${tx}`));
+  const token = /restore\?t=(\S+)$/.exec(notice)![1];
+  assert.equal(await restoreNotice(f.binding, undefined, order), "", "no secret, no link");
   const page = await restorePage(f.ctx(new Request(`${ORIGIN}/api/gpt/restore?t=${token}`)));
   assert.equal(page.status, 200);
   assert.equal(page.headers.get("X-Robots-Tag"), "noindex, nofollow, noarchive");

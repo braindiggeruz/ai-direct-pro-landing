@@ -13,6 +13,7 @@ import {
 } from "./alert-policy";
 import { spendDay } from "./model-spend-store";
 import { resolveOwnerNotify } from "./notify";
+import { restoreNotice } from "./guest-restore";
 import { consumeRateLimit, DAY_MS, HOUR_MS } from "./rate-limit";
 
 /**
@@ -275,11 +276,16 @@ export async function maintainBilling(
       .bind(now + 60_000, lease, BILLING_ORG, row.id, now)
       .first();
     if (!claimed) continue;
+    // A guest's paid order: Click's payment id and the restore link (guest-restore.ts).
+    const guest =
+      row.event === "paid" && row.provider === "click"
+        ? await restoreNotice(db, env.GPT_IDENTITY_SECRET, row.order_id, now)
+        : "";
     const result = await new TelegramClient(token).call(
       "sendMessage",
       {
         chat_id: chat,
-        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.`,
+        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.${guest}`,
       },
       { timeoutMs: 4000, maxRetries: 0 },
     );

@@ -1,18 +1,20 @@
 // Restoring a guest's pack (guest checkout, identity-store.ts). A browser
 // that paid without signing in and then lost its cookie (another phone,
-// cleared data) loses the pack with it. Support finds the order in the admin
-// by our order number or Click's payment id (click_trans_id) and makes a
-// link; the buyer opens it in the browser that should have the pack, and the
-// order with its pack moves to that browser's account (api/gpt/restore.ts).
+// cleared data) loses the pack with it. The owner's "AI paket: paid" notice
+// of a guest order (billing-maintenance-store.ts) carries Click's payment id
+// and a restore link; support matches the buyer's Click receipt to it and
+// sends the link; the buyer opens it in the browser that should have the
+// pack, and the order with its pack moves there (api/gpt/restore.ts).
 //
 // The link is stateless and single-use: an HMAC (GPT_IDENTITY_SECRET) over
-// the order, the account holding it now and the expiry. Once the order has
-// moved, its holder is another account and the same link no longer matches.
+// the order, the account holding it now and the expiry, the pack's end at
+// the latest. Once the order has moved (restored, or kept through Telegram),
+// its holder is another account and the same link no longer matches.
 import { BILLING_ORG } from "./billing-config";
 import { isGuestAccount } from "./identity-store";
 
-/** How long a restore link works. */
-export const RESTORE_TTL_MS = 24 * 3_600_000;
+/** Where the owner's notice points the buyer (the production site). */
+const SITE = "https://gptbot.uz";
 const TOKEN = /^v1\.(\d{13})\.(pay_[0-9a-f]{32})\.([0-9a-f]{64})$/;
 
 /** The paid Click order a link can restore: its holder and its running pack. */
@@ -71,17 +73,41 @@ export function restorable(order: RestorableOrder, now = Date.now()): boolean {
   );
 }
 
-/** The link's token for the order as it is held now. */
+/** The link's token for the order as it is held now, valid until `expiresAt`. */
 export async function restoreToken(
   secret: string,
   order: RestorableOrder,
+  expiresAt: number,
+): Promise<string> {
+  return `v1.${expiresAt}.${order.id}.${await mac(secret, order.id, order.user_id, expiresAt)}`;
+}
+
+/**
+ * The lines the owner's "paid" notice gets for a guest order: Click's
+ * payment id and a restore link until the pack ends. Empty for an account's
+ * order, without the secret, or on any failure: the notice goes out anyway.
+ */
+export async function restoreNotice(
+  db: D1Database,
+  secret: string | undefined,
+  orderId: string,
   now = Date.now(),
-): Promise<{ token: string; expiresAt: number }> {
-  const expiresAt = now + RESTORE_TTL_MS;
-  return {
-    token: `v1.${expiresAt}.${order.id}.${await mac(secret, order.id, order.user_id, expiresAt)}`,
-    expiresAt,
-  };
+): Promise<string> {
+  try {
+    if (!secret || secret.length < 32) return "";
+    const order = await findOrder(db, orderId);
+    if (!order || !restorable(order, now)) return "";
+    const until = order.ends_at!;
+    const token = await restoreToken(secret, order, until);
+    const date = new Date(until).toISOString().slice(0, 10);
+    return (
+      `\nКуплен без входа · Click ID ${order.external_id ?? "—"}` +
+      `\nЕсли покупатель потеряет браузер, отправьте ему эту одноразовую ссылку (до ${date}):` +
+      `\n${SITE}/api/gpt/restore?t=${token}`
+    );
+  } catch {
+    return "";
+  }
 }
 
 /** The order a token names, if the token is current and still matches its holder. */
@@ -94,9 +120,9 @@ export async function verifyRestoreToken(
   const parts = TOKEN.exec(token);
   if (!parts || !secret) return null;
   const expires = Number(parts[1]);
-  if (expires <= now || expires > now + RESTORE_TTL_MS) return null;
+  if (expires <= now) return null;
   const order = await findOrder(db, parts[2]);
-  if (!order || !restorable(order, now)) return null;
+  if (!order || !restorable(order, now) || expires > order.ends_at!) return null;
   const expected = await mac(secret, order.id, order.user_id, expires);
   let diff = 0;
   for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ parts[3].charCodeAt(i);
