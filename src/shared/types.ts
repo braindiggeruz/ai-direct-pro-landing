@@ -118,6 +118,8 @@ export interface Page {
   heroImage?: { src: string; alt: string; width: number; height: number };
   /** Optional page-scoped trust chips under the primary CTA; falls back to the global default set. */
   heroTrust?: string[];
+  /** Existing trust-chip label to a related internal content page. */
+  heroTrustLinks?: Record<string, string>;
   /** Optional static visual treatment for flagship commercial pages. */
   designVariant?: 'digital-command-center' | 'warm-market-signals';
   /** Compact long flagship headings on desktop/mobile; preserves the full H1. */

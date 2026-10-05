@@ -248,7 +248,8 @@ export function renderLeadForm(page: LeadFormPage): string {
 // no dependencies, one form per page. It reads storage and input values —
 // which is why it is its own block and never part of the analytics snippets.
 // Success is only a literal { ok: true } from the endpoint; only then do
-// generate_lead (dataLayer) and the Metrika goal lead_form_success fire.
+// generate_lead (Google tag, with a dataLayer fallback) and the Metrika goal
+// lead_form_success fire.
 export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
 (function(){
   var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;
@@ -305,7 +306,18 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
       status.appendChild(document.createTextNode(' '));status.appendChild(a);
     }
   }
-  function track(obj){try{window.dataLayer=window.dataLayer||[];window.dataLayer.push(obj);}catch(e){}}
+  function track(obj){
+    try{
+      // The Google tag queues events itself; a plain dataLayer object needs a GTM tag.
+      if(typeof window.gtag==='function'){
+        var payload={};
+        for(var key in obj)if(key!=='event'&&Object.prototype.hasOwnProperty.call(obj,key))payload[key]=obj[key];
+        window.gtag('event',obj.event,payload);
+      }else{
+        window.dataLayer=window.dataLayer||[];window.dataLayer.push(obj);
+      }
+    }catch(e){}
+  }
   function done(){
     busy=false;
     if(button){button.disabled=false;button.removeAttribute('aria-busy');}

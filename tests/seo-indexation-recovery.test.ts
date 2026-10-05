@@ -74,7 +74,10 @@ test('the GPT definition has a distinct explainer intent, original visual and pr
   assert.equal(page.url, DEFINITION_URL);
   assert.equal(page.status, 'published');
   assert.equal(page.robotsIndex, true);
-  assert.equal(page.lastReviewedAt, '2026-08-25');
+  // The explainer was reviewed again on 2026-10-03. Later content reviews
+  // must remain possible without accepting a version older than recovery.
+  assert.match(String(page.lastReviewedAt), /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(String(page.lastReviewedAt) >= '2026-08-25');
   assert.match(String(page.h1), /^Что такое GPT простыми словами/);
   assert.ok(blocks.some((block) => block.type === 'figure' && block.src === '/assets/guides/gpt-how-it-works-ru.svg'));
   assert.ok(sources.length >= 3);

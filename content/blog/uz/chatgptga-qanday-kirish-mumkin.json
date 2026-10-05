@@ -23,36 +23,20 @@
     "chatgpt rasmiy sayt",
     "chatgpt hisob xavfsizligi"
   ],
-  "intro": "ChatGPT’ga kirish uchun brauzerda chatgpt.com manzilini oching va Log in tugmasini bosing; hisobingiz bo‘lmasa — Sign up. ChatGPT ochish uchun VPN odatda kerak emas: 2026-yil holatiga ko‘ra O‘zbekiston OpenAI qo‘llab-quvvatlaydigan mamlakatlar ro‘yxatida. Eng muhimi — rasmiy domenni tekshirish va parol yoki karta ma’lumotlarini klon saytlarga kiritmaslik.",
+  "intro": "ChatGPT’ga kirishni chatgpt.com saytidan boshlang. Hisobga kirish uchun Log in, yangi hisob ochish uchun Sign up tugmasi ishlatiladi; hisobsiz sinash imkoniyati ham taklif etilishi mumkin. O‘zbekiston qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida. Quyida kirish usuli, tasdiqlash kodi va sayt ochilmasa tekshiriladigan qadamlar bor.",
   "body": [
     {
-      "type": "figure",
-      "src": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
-      "srcSet": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-480.webp 480w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-800.webp 800w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp 1200w",
-      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
-      "alt": "O‘zbekistonda ChatGPTga xavfsiz kirish bo‘yicha qo‘llanma",
-      "width": 1200,
-      "height": 630,
-      "loading": "eager",
-      "caption": "Rasmiy domen va login oynasini tekshirish — xavfsiz kirishning birinchi qadami."
-    },
-    {
       "type": "quote",
-      "text": "Qisqa javob: chatgpt.com domenini oching, Log in tugmasini bosing va hisobingiz bilan kiring. VPN odatda kerak emas."
+      "text": "Qisqa javob: rasmiy ChatGPT uchun chatgpt.com saytini oching. Hisobga kirish — Log in, yangi hisob ochish — Sign up."
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ni biznes jarayoniga ulash kerak bo‘lsa, {call} yoki {mail}: vazifani eshitamiz va qaysi yechim mosligini aytamiz.",
+      "text": "Rasmiy xizmat: {official}. Kirishni shu yerdan boshlang. Tasdiqlash oynasi auth.openai.com yoki tanlangan Google, Apple yoxud Microsoft sahifasida ochilishi mumkin. GPTBot.uz — mustaqil AI-xizmat; bu yerga OpenAI parolini kiritmang.",
       "links": [
         {
-          "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "Qo‘ng‘iroq qilish"
-        },
-        {
-          "token": "mail",
-          "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail yozish"
+          "token": "official",
+          "target": "https://chatgpt.com/",
+          "anchor": "chatgpt.com"
         }
       ]
     },
@@ -96,25 +80,30 @@
       "text": "ChatGPT kirish: eng qisqa yo‘l"
     },
     {
-      "type": "list",
-      "items": [
-        "Brauzer manzil satriga chatgpt.com yozing.",
-        "OpenAI sahifasida Log in tugmasini bosing.",
-        "Email, Google, Apple yoki boshqa taklif qilingan usul orqali kiring.",
-        "Agar hisob bo‘lmasa, Sign up orqali ro‘yxatdan o‘ting.",
-        "Kirish kodi va parolni Telegram bot yoki noma’lum saytga yubormang."
-      ]
+      "type": "p",
+      "text": "Avval vazifani aniqlang: mavjud hisobga kirish, yangi hisob ochish yoki sahifada taklif etilsa, hisobsiz sinab ko‘rish. Quyidagi bo‘limlar shu yo‘llarni ajratib beradi."
     },
     {
       "type": "linkp",
-      "text": "Qidiruv natijasidagi reklamaga emas, manzil satridagi domen nomiga qarang. Rasmiy kirish sahifasi {official} domenida bo‘lishi kerak. OpenAI nomiga o‘xshash, lekin boshqa harflar bilan yozilgan saytlar login ma’lumotini o‘g‘irlashi mumkin.",
+      "text": "Ba’zi foydalanuvchilarda ChatGPT’ni hisobga kirmasdan sinash mumkin. Bu imkoniyat bosqichma-bosqich ochiladi; sizda Log in yoki Sign up so‘ralishi mumkin. Hisobsiz suhbat tarixi joriy brauzer seansi bilan cheklanadi. Batafsil — {guestHelp}.",
       "links": [
         {
-          "token": "official",
-          "target": "https://chatgpt.com/",
-          "anchor": "chatgpt.com"
+          "token": "guestHelp",
+          "target": "https://help.openai.com/en/articles/9125172-the-chatgpt-home-page",
+          "anchor": "OpenAI’ning hisobsiz foydalanish yo‘riqnomasi"
         }
       ]
+    },
+    {
+      "type": "figure",
+      "src": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
+      "srcSet": "/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-480.webp 480w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-800.webp 800w, /assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "O‘zbekistonda ChatGPTga xavfsiz kirish bo‘yicha qo‘llanma",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Rasmiy domen va login oynasini tekshirish — xavfsiz kirishning birinchi qadami."
     },
     {
       "type": "h2",
@@ -124,9 +113,9 @@
     {
       "type": "list",
       "items": [
-        "Brauzerda chatgpt.com manzilini qo‘lda kiriting — reklama yoki «chatgpt uz» ko‘rinishidagi klon havolalarni ochmang.",
-        "Log in tugmasini bosing va Google, Apple yoki e-mail orqali kiring; hisob yo‘q bo‘lsa — Sign up.",
-        "Kirgandan keyin chat oynasida o‘zbek tilida yozing — til sozlamasi shart emas, model so‘rov tilini o‘zi tushunadi."
+        "chatgpt.com sahifasida mavjud hisob uchun Log in, yangi hisob uchun Sign up tugmasini tanlang.",
+        "Hisobingizga mos kirish usulidan foydalaning; parol yoki tasdiqlash kodini faqat rasmiy oynaga kiriting.",
+        "Chat oynasi ochilgach, vazifani o‘zbek tilida yozing. Kerak bo‘lsa, «O‘zbek tilida javob ber» deb aniqlashtiring."
       ]
     },
     {
@@ -156,17 +145,17 @@
         [
           "Log in",
           "Oldin hisob ochgan bo‘lsangiz",
-          "Email va parol to‘g‘ri, domen chatgpt.com"
+          "Hisob emaili va avvalgi kirish usuli"
         ],
         [
           "Sign up",
-          "Yangi hisob ochsangiz",
-          "Ishlaydigan email, tasdiqlash kodi, rasmiy sahifa"
+          "Yangi hisob ochmoqchi bo‘lsangiz",
+          "O‘zingiz foydalana oladigan email"
         ],
         [
-          "Continue with Google/Apple",
-          "Tez kirish kerak bo‘lsa",
-          "Qaysi akkaunt tanlanayotganini tekshiring"
+          "Continue with Google / Apple / Microsoft",
+          "Shu usul bilan ro‘yxatdan o‘tgan bo‘lsangiz",
+          "O‘sha provayderdagi hisobni tanlang"
         ]
       ]
     },
@@ -201,14 +190,49 @@
       "text": "ChatGPT ochilmasa nima qilish kerak?"
     },
     {
-      "type": "list",
-      "items": [
-        "Manzilni qayta yozing: chatgpt.com.",
-        "Brauzer keshini tozalang yoki boshqa brauzerda sinang.",
-        "Internet provayderi yoki ofis tarmog‘i cheklovini tekshiring.",
-        "OpenAI status sahifasida servisda uzilish yo‘qligini tekshiring.",
-        "Login kodi kelmasa, spam papkasi va email yozilishini tekshiring.",
-        "To‘lov yoki obuna xatosida karta limiti va 3-D Secure sozlamalarini tekshiring."
+      "type": "table",
+      "headers": [
+        "Ekrandagi holat",
+        "Keyingi qadam"
+      ],
+      "rows": [
+        [
+          "«Wrong authentication method»",
+          "Ro‘yxatdan o‘tgan usulingizni tanlang. Apple’da Hide My Email ishlatilgan bo‘lsa, o‘sha Apple hisobi bilan kiring."
+        ],
+        [
+          "Kod kelmadi yoki eskirdi",
+          "Hisob emaili va spam papkasini tekshiring. Yangi kod so‘rab, eng so‘nggi kelgan kodni kiriting; uni hech kimga yubormang."
+        ],
+        [
+          "«Checking your browser…» takrorlanadi",
+          "Inkognito oynani sinang. chatgpt.com va auth.openai.com uchun JavaScript va cookie ruxsatlarini tekshiring; VPN yoki bloklovchi kengaytmani vaqtincha o‘chirib sinang."
+        ],
+        [
+          "«Something went wrong» yoki vaqtinchalik uzilish",
+          "Quyidagi rasmiy holat sahifasini tekshiring. Uzilish bo‘lsa, biroz kutib qayta urinib ko‘ring."
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Uzilishlar uchun {status}, hisobga kirish uchun {loginHelp}, kodni tasdiqlash uchun {verificationHelp} manbasini tekshiring.",
+      "links": [
+        {
+          "token": "status",
+          "target": "https://status.openai.com/",
+          "anchor": "status.openai.com"
+        },
+        {
+          "token": "loginHelp",
+          "target": "https://help.openai.com/en/articles/7426629-why-cant-i-log-in-to-chatgpt",
+          "anchor": "OpenAI kirish yo‘riqnomasi"
+        },
+        {
+          "token": "verificationHelp",
+          "target": "https://help.openai.com/en/articles/9889414-why-am-i-being-asked-to-verify-my-login",
+          "anchor": "OpenAI tasdiqlash kodi yo‘riqnomasi"
+        }
       ]
     },
     {
@@ -237,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "ChatGPT tilni odatda so‘rovdan tushunadi. Javob o‘zbek tilida kerak bo‘lsa, topshiriq boshida «Uzbek Latin tilida javob ber» deb yozing. Natijani yaxshilash uchun vazifa, auditoriya, format, hajm va cheklovni qo‘shing."
+      "text": "ChatGPT tilni odatda so‘rovdan tushunadi. Javob o‘zbek tilida kerak bo‘lsa, topshiriq boshida «O‘zbek tilida, lotin yozuvida javob ber» deb yozing. Natijani yaxshilash uchun vazifa, auditoriya, format, hajm va cheklovni qo‘shing."
     },
     {
       "type": "table",
@@ -248,7 +272,7 @@
       "rows": [
         [
           "Matn yozish",
-          "Uzbek Latin tilida 700 belgilik post yoz, ohang sodda bo‘lsin."
+          "O‘zbek tilida, lotin yozuvida 700 belgilik post yoz, ohang sodda bo‘lsin."
         ],
         [
           "Tarjima",
@@ -262,12 +286,17 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbek tilida alohida sahifa: {uzchat}. Tayyor promptlar esa {prompts} materialida.",
+      "text": "Mustaqil chatda mashq qilish uchun {uzchat}ni oching; foydalanish tartibi va javobni tekshirish misollari {guide}da. Yana ko‘proq namunalar — {prompts} materialida.",
       "links": [
         {
           "token": "uzchat",
           "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "ChatGPT o‘zbek tilida online"
+          "anchor": "GPTBot.uz o‘zbekcha AI-chati"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "GPTBot.uz chat qo‘llanmasi"
         },
         {
           "token": "prompts",
@@ -286,7 +315,23 @@
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ga kirdingiz. Keling, endi biznesingiz uchun {sayt} ochamiz.",
+      "text": "ChatGPT’ni biznes jarayoniga ulash kerak bo‘lsa, {call} yoki {mail}: vazifani eshitamiz va qaysi yechim mosligini aytamiz.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Qo‘ng‘iroq qilish"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "e-mail yozish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Biznesingiz uchun alohida veb-sayt ham kerak bo‘lsa, {sayt} xizmatini ko‘ring.",
       "links": [
         {
           "token": "sayt",
@@ -325,15 +370,15 @@
   "faq": [
     {
       "q": "ChatGPT’ga qanday kirish mumkin?",
-      "a": "Brauzerda chatgpt.com manzilini oching, hisobingiz bo‘lsa Log in, bo‘lmasa Sign up tugmasini bosing va email, Google yoki Apple orqali kiring. O‘zbekistondan odatiy kirish uchun VPN kerak emas."
+      "a": "Mavjud hisobga kirish uchun Log in, yangi hisob ochish uchun Sign up tugmasini tanlang. Oldin hisob ochgan bo‘lsangiz, avvalgi kirish usulingizdan foydalaning. Hisobsiz rejim taklif etilsa, uni ham sinash mumkin."
     },
     {
       "q": "ChatGPT kirish uchun qaysi sayt rasmiy?",
-      "a": "Rasmiy kirish domeni chatgpt.com. Login ma’lumotini o‘xshash nomli klon saytlar yoki Telegram botlarga bermang."
+      "a": "Kirishni chatgpt.com saytidan boshlang. Tasdiqlash auth.openai.com yoki tanlangan hisob provayderi sahifasida davom etishi mumkin. Parolni klon saytlar yoki Telegram botlarga bermang."
     },
     {
       "q": "O‘zbekistonda ChatGPT VPNsiz ochiladimi?",
-      "a": "Ha, odatiy web va mobil kirish uchun VPN shart emas. Agar ochilmasa, avval tarmoq, DNS, brauzer va vaqtinchalik servis holatini tekshiring."
+      "a": "O‘zbekiston qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida, VPN odatda kerak emas. Sayt ochilmasa, tarmoq va brauzerni hamda rasmiy servis holatini tekshiring."
     },
     {
       "q": "ChatGPTga telefon raqamsiz kirsa bo‘ladimi?",
@@ -341,15 +386,19 @@
     },
     {
       "q": "ChatGPT login kodi kelmasa nima qilish kerak?",
-      "a": "Email yozilishini, spam papkasini va internetni tekshiring. Kodni uchinchi tomon saytiga yubormang."
+      "a": "Hisob emaili va spam papkasini tekshiring. Kod eskirgan bo‘lsa, yangisini so‘rang va eng so‘nggi kodni ishlating. Uni faqat rasmiy tasdiqlash oynasiga kiriting."
     },
     {
       "q": "ChatGPT o‘zbek tilida ishlaydimi?",
-      "a": "Ha. So‘rovni o‘zbek tilida yozing va kerak bo‘lsa «Uzbek Latin tilida javob ber» deb aniqlashtiring."
+      "a": "Ha. So‘rovni o‘zbek tilida yozing va kerak bo‘lsa «O‘zbek tilida, lotin yozuvida javob ber» deb aniqlashtiring."
     },
     {
       "q": "GPTBot.uz rasmiy ChatGPTmi?",
       "a": "Yo‘q. GPTBot.uz mustaqil AI-servis va biznes uchun AI-botlar studiyasi; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas."
+    },
+    {
+      "q": "«GPT kirish» uchun alohida rasmiy sayt bormi?",
+      "a": "GPT — AI modeliga oid atama; «GPT kirish» yagona rasmiy kirish manzilini anglatmaydi. ChatGPT — OpenAI xizmati, GPTBot.uz esa mustaqil xizmat. Ularning hisoblarini aralashtirmang."
     }
   ],
   "cta": {
@@ -359,10 +408,17 @@
   "internalLinks": [
     {
       "target": "/uz/gpt-uzbek-tilida/",
-      "anchor": "ChatGPT o‘zbek tilida online",
+      "anchor": "GPTBot.uz o‘zbekcha AI-chati",
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "GPTBot.uz chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     },
     {
       "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
@@ -416,7 +472,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-30",
+  "dateModified": "2026-10-03",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -439,8 +495,23 @@
       "title": "OpenAI Help Center — Data Controls FAQ",
       "url": "https://help.openai.com/en/articles/7730893-data-controls-faq",
       "note": "Ma’lumotlarni yuborish va maxfiylik bo‘yicha rasmiy tushuntirish."
+    },
+    {
+      "title": "OpenAI Help Center — Why can’t I log in to ChatGPT?",
+      "url": "https://help.openai.com/en/articles/7426629-why-cant-i-log-in-to-chatgpt",
+      "note": "Kirish usuli va brauzer tekshiruvi."
+    },
+    {
+      "title": "OpenAI Help Center — The ChatGPT home page",
+      "url": "https://help.openai.com/en/articles/9125172-the-chatgpt-home-page",
+      "note": "Hisobsiz foydalanish va suhbat tarixining chegaralari."
+    },
+    {
+      "title": "OpenAI Help Center — Why Am I Being Asked to Verify My Login?",
+      "url": "https://help.openai.com/en/articles/9889414-why-am-i-being-asked-to-verify-my-login",
+      "note": "Kodni olish va yangilash."
     }
   ],
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-03",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

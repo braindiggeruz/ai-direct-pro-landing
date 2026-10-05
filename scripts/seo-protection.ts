@@ -57,7 +57,12 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // links of all ten pages are unchanged; reviewedChanges lists every diff and
 // invisibleToGate what R1–R3 changed outside the gate (React screens, <head>
 // handlers, JSON-LD, the login guide's chatgpt.com link, Markdown twins).
-export const BASELINE = 'docs/seo/evidence/2026-10-01-paid-chat-honesty/reviewed-protected-pages.json';
+// The 2026-10-03-uzbek-login revision changes only the login article's body and
+// internal links: the official route comes first, troubleshooting follows
+// current primary sources, and the independent GPTBot guide is linked clearly.
+// All search metadata and the other nine contracts stay unchanged. This body
+// intervention is recorded separately from the pending C22 ownership decision.
+export const BASELINE = 'docs/seo/evidence/2026-10-03-uzbek-login/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

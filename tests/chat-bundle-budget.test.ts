@@ -211,7 +211,7 @@ test('nothing the start imports statically reaches a lazy part; each part reache
 });
 
 test('the gate runs where a release is built: vite manifest, the guarded Pages release, release-preflight', () => {
-  assert.match(read('vite.config.ts'), /\n {4}manifest: true,\n/);
+  assert.match(read('vite.config.ts'), /\r?\n {4}manifest: true,\r?\n/);
   const pages = read('scripts/release/pages-production.ts');
   const main = pages.slice(pages.indexOf('async function main()'));
   // The live billing gate (WP-18) runs between the budget and the clean-tree check.

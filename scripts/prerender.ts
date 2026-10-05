@@ -22,6 +22,7 @@ import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
+import { renderHeroTrustChip } from './hero-trust';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -835,7 +836,7 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
     : page.locale === 'uz'
     ? ['RU + UZ', 'Telegram demo', 'Murakkab sozlash yo\u2018q', 'Lid menejerga uzatiladi']
     : ['RU + UZ', 'Telegram demo', 'Без сложной настройки', 'Передаёт обращение менеджеру'];
-  const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map((c) => `<li class="px-3 py-1 rounded-full border border-white/10 bg-white/5">${escapeText(c)}</li>`).join('')}</ul>`;
+  const trustHtml = `<ul aria-label="${page.locale === 'uz' ? 'Ishonch belgilari' : 'Trust-маркеры'}" class="flex flex-wrap gap-2 text-xs text-white/70 mt-4 mb-10">${trustChips.map(c => renderHeroTrustChip(c, page.heroTrustLinks?.[c])).join('')}</ul>`;
 
   // Derive the in-page anchor id from ctaSecondaryHref (e.g. "#how" / "#chto-umeet")
   // so the secondary CTA scrolls to the main content article instead of a dead fragment.
