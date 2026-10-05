@@ -174,11 +174,17 @@ function isPricingTable(headers: string[]): boolean {
   return headers.some((h) => PRICING_HEADER_RE.test(h || ''));
 }
 
+// Optional lang of a paragraph written in another language than the article;
+// empty for every block without it, so those render as before.
+function blockLang(b: BodyBlock): string {
+  return b.lang ? ` lang="${escapeHtml(b.lang)}"` : '';
+}
+
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
     case 'h2': return `<h2${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
     case 'h3': return `<h3${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
-    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
+    case 'p': return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;
     case 'linkp': {
@@ -186,10 +192,11 @@ function renderBlock(b: BodyBlock): string {
       for (const l of (b.links || [])) {
         if (!l.token || !l.target || !l.anchor) continue;
         const _ext = l.target.startsWith('http');
-        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        const _lang = l.lang ? ` lang="${escapeHtml(l.lang)}" hreflang="${escapeHtml(l.lang)}"` : '';
+        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
-      return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
+      return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
     }
     case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
@@ -299,7 +306,9 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
     image: a.ogImage || global.defaultOgImage,
     keywords: (a.keywords || []).join(', '),
     articleSection: a.topicCluster,
-    audience: { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
+    // The default audience is the studio's; school guides set their own
+    // (EducationalAudience). Articles without the field render as before.
+    audience: a.audience ?? { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
     ...(a.sources?.length ? { citation: a.sources.map((source) => source.url) } : {}),
   });
   if (a.faq?.length) {
@@ -472,7 +481,7 @@ ${METRIKA_NOSCRIPT}
     <span class="px-2">/</span>
     <a href="${blogIndexHref}" class="hover:text-white">${escapeHtml(t.blog)}</a>
     <span class="px-2">/</span>
-    <span class="text-white/70">${escapeText(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}</span>
+    <span class="text-white/70">${a.breadcrumbLabel ? escapeText(a.breadcrumbLabel) : `${escapeText(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}`}</span>
   </nav>
 
   <article>

@@ -167,6 +167,25 @@ test('the R-S1 revision: honest snippets and H1s on both chats and the login gui
   assert.doesNotMatch(uz.bodyText, /ChatGPT o‘zbek tilida online|raqam yozmaymiz|biznesingizga ulash|ChatGPT узбекча/);
   assert.doesNotMatch(ru.bodyText, /Chat GPT онлайн в Узбекистане|Конкретных чисел/);
   assert.doesNotMatch(page('/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/').bodyText, /biznesingizga ulash|15 daqiqada/);
+  // Review of 2026-10-05: the chat's language claim is hedged (decision Ф-5),
+  // and the VPN article no longer stacks «yo‘riqnomasi qo‘llanmasini».
+  assert.match(uz.bodyText, /mustaqil xizmati: odatda o‘zbek tilida javob beradi/);
+  assert.doesNotMatch(page('/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/').bodyText, /yo‘riqnomasi qo‘llanmasini|Batafsi /);
   // The homepage shell links both chats in one line, without the word ChatGPT.
-  assert.match(page('/').bodyText, /ИИ-чат для себя, а не для бизнеса — бесплатно, без регистрации: O‘zbekcha bepul AI chat · ИИ-чат онлайн/);
+  assert.match(page('/').bodyText, /Чат для себя, а не для бизнеса, — бесплатно и без регистрации: O‘zbekcha bepul AI chat · ИИ-чат онлайн/);
+});
+
+// School guides declare their own audience and a short breadcrumb (R-S1
+// review, 2026-10-05); every article without the optional fields keeps the
+// template's defaults, so the protected download guide does not change.
+test('school guides name a student audience; articles without the field keep the default', { skip: !fs.existsSync(path.join(process.cwd(), 'dist', 'uz', 'blog', 'slayd-tayyorlash', 'index.html')) && 'no dist/ build present' }, () => {
+  const html = (slug: string) => fs.readFileSync(path.join(process.cwd(), 'dist', 'uz', 'blog', slug, 'index.html'), 'utf8');
+  for (const slug of ['slayd-tayyorlash', 'insho-yozish-suniy-intellekt-bilan', 'chatgpt-talabalar-uchun']) {
+    assert.match(html(slug), /"audience":\{"@type":"EducationalAudience","educationalRole":"student"\}/, slug);
+  }
+  const download = html('chatgpt-telefon-va-kompyuterga-yuklab-olish');
+  assert.match(download, /"audience":\{"@type":"BusinessAudience","audienceType":"Small and medium business in Uzbekistan"\}/);
+  assert.match(html('slayd-tayyorlash'), /<span class="text-white\/70">Slayd tayyorlash<\/span>/);
+  assert.match(html('slayd-tayyorlash'), /"name":"Slayd tayyorlash sun’iy intellekt bilan: rejadan tayyor matngacha"/);
+  assert.match(html('slayd-tayyorlash'), /<img src="\/assets\/blog\/slayd-tayyorlash-reja-gptbot-1200\.webp"[^>]*alt="GPTBot\.uz AI chatida slayd rejasi uchun tayyor so‘rov"/);
 });

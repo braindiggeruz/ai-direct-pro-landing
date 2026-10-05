@@ -9,9 +9,7 @@
   "topicCluster": "ai-bot-basics",
   "targetMoneyPage": "/ru/ai-bot-dlya-biznesa/",
   "keywords": [
-    "аналог чат гпт",
     "аналоги ChatGPT",
-    "аналог chatgpt бесплатно",
     "нейросети как chatgpt",
     "ии чат аналоги",
     "chatgpt альтернативы Узбекистан"
@@ -215,6 +213,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/gpt-chat/",
+      "anchor": "ИИ-чат онлайн",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Аналоги ChatGPT, которые работают в Узбекистане",

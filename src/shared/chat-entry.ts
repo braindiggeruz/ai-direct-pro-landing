@@ -33,7 +33,7 @@ export const CHAT_ENTRIES = [
 export const CHAT_BRIDGE_ENTRIES = [
   { locale: 'ru', id: 'online-ru', slug: 'chat-gpt-online', prompt: 'Объясни простыми словами, чем ты можешь помочь в учёбе и работе. Приведи три примера запросов.' },
   { locale: 'ru', id: 'russian-ru', slug: 'chat-gpt-na-russkom', prompt: 'Помоги составить точный запрос. Сначала спроси, какая у меня задача, для кого результат и в каком виде он нужен.' },
-  { locale: 'ru', id: 'analogs-ru', slug: 'analogi-chatgpt-kotorye-rabotayut-v-uzbekistane', prompt: 'Ответь на мой вопрос по-русски, а в конце коротко перечисли, что в ответе стоит проверить. Сначала спроси, какой у меня вопрос.' },
+  { locale: 'ru', id: 'analogs-ru', slug: 'analogi-chatgpt-kotorye-rabotayut-v-uzbekistane', prompt: 'Сначала спроси, какой у меня вопрос. Потом ответь на него по-русски и в конце коротко перечисли, что в ответе стоит проверить.' },
   { locale: 'ru', id: 'talk-ru', slug: 'chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom', prompt: 'Давай пообщаемся. Спроси, что меня сейчас интересует, и предложи три темы для разговора.' },
   { locale: 'uz', id: 'reply', slug: 'chat-gpt-uzbek-biznes-uchun', prompt: 'Mijozga xushmuomala javob matnini yozishga yordam ber. Avval vaziyatni va javob uslubini so‘ra.' },
 ] as const;

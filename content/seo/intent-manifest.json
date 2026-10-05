@@ -663,6 +663,38 @@
       "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-12) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (planned 2026-10-19), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C33-ru-chat-vs-analogi-article",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use a ChatGPT alternative right now — «аналог chatgpt онлайн», «аналог chatgpt бесплатно», «бесплатный аналог chatgpt»: the RU chat's R-S1 title «Аналог ChatGPT онлайн бесплатно — без регистрации» and H1 «ИИ-чат онлайн — бесплатный аналог ChatGPT»",
+        "mustNotTarget": ["аналоги chatgpt", "chatgpt альтернативы узбекистан", "нейросети как chatgpt"]
+      },
+      "informational": {
+        "url": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+        "owns": "the list and comparison of ChatGPT alternatives that work in Uzbekistan — «аналоги chatgpt», «какие аналоги ChatGPT работают в Узбекистане», «chatgpt альтернативы Узбекистан», «нейросети как chatgpt»",
+        "mustNotTarget": ["аналог chatgpt бесплатно", "аналог chatgpt онлайн", "бесплатный аналог chatgpt", "аналог чат гпт", "ии чат", "чат гпт онлайн"]
+      },
+      "gscNote": "Found 2026-10-05 (R-S1 SEO review). R-S1 retargets the protected RU chat to «аналог ChatGPT … бесплатно» (title and H1, roadmap 2.2), while the unprotected article declared «аналог chatgpt бесплатно» and «аналог чат гпт» in its keywords, which its BlogPosting JSON-LD prints; roadmap 1(b) ships the RU retargeting only together with its manifest pairs, and C23–C27 cover «ии чат», «чат гпт онлайн» and «… бесплатно» but not «аналог». Both keys left the article in the same release (its visible text is unchanged), and the article links the RU chat from «Читайте также» besides its chat bridge (#entry=analogs-ru). The plural list intent stays with the article; the chat names no competitor list.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-05"
+    },
+    {
+      "id": "C34-uz-chat-vs-chat-manual",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface with its own terms stated where it is used: the four steps «GPTBot.uz AI chatidan qanday foydalaniladi?», the free limits (15 a day, 5 an hour) and the visible FAQ that roadmap 2.1 requires",
+        "mustNotTarget": ["ai chat imkoniyatlari", "ai chat limitlari", "ai chat xavfsizligi", "ai chatdan qanday foydalanish"]
+      },
+      "informational": {
+        "url": "/uz/gpt-chat-qollanma/",
+        "owns": "the deeper manual of the GPTBot.uz chat in Uzbek: capabilities, languages, the free limit and the AI pack, privacy and safety (pair C28 against the C6 prompt guide)",
+        "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "chatgpt bepul", "chatgpt yozish"]
+      },
+      "gscNote": "Found 2026-10-05 (R-S1 SEO review). R-S1 gives the UZ chat, as roadmap 2.1 requires, the H2 «GPTBot.uz AI chatidan qanday foydalaniladi?», the published free limits and a visible FAQ on limits, languages and privacy — the topics C28 gives the manual, whose primaryKeyword «AI chatdan qanday foydalanish» is close to that H2, and the C6 guide's H1 ends with «AI chatdan qanday foydalanish mumkin»: three URLs near one head. The split is by declared keywords: the chat states its own terms but declares none of the manual's heads, and the manual declares none of the chat's family-A keys. The manual had 13 impressions in 28 days. Decision for the homepage release of 2026-10-19 (roadmap 1(a) item 3, C28): keep this split, or merge the manual with a 301 — then the UZ chat, not only the C6 guide, is a candidate target.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-05"
     }
   ],
   "architectureDecisions": [

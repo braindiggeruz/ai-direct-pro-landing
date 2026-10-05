@@ -111,7 +111,7 @@ function renderChatBridge(url: string): string {
     <p>GPTBot.uz — mustaqil AI-xizmat. O‘rnatish va ro‘yxatdan o‘tish shart emas. Bepul limit doirasida foydalaning.</p>
     <p>Savol namunasi: «${bridge.prompt}»</p>
     <a href="${chatBridgeHref(bridge)}" data-chat-entry="${bridge.id}" class="article-chat-button">AI-chatni ochish <span aria-hidden="true">↗</span></a>
-    <small>Namuna chatda tayyor bo‘ladi — uni tahrirlang yoki o‘z savolingizni yozing. Uni o‘zingiz yuborasiz.</small>
+    <small>Namuna chatda tayyor bo‘ladi: uni tahrirlang yoki o‘z savolingizni yozing, keyin o‘zingiz yuboring.</small>
   </aside>`;
 }
 

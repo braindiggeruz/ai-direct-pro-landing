@@ -67,8 +67,9 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // get honest snippets with «muqobil / аналог» first, their H1 moves into the
 // chat's first screen (the only <h1> sits in #gpt-chat-root, and the chat
 // shows it on its resting screen), and the text under the chat gains a visible
-// FAQ, an update date, the published free limits (15 a day, 5 an hour) and
-// links to the new slide guide and the insho/esse guide. The login guide's
+// FAQ, an update date and the published free limits (15 a day, 5 an hour); the
+// Uzbek chat also links the new slide guide and the insho/esse guide, the
+// Russian chat links /ru/gpt-dlya-ucheby/. The login guide's
 // title, description and H1 say chatgpt.com instead of «rasmiy sayt», with its
 // sign-in facts re-checked. The homepage shell adds one line to both chats and
 // the slide guide to its list; the VPN article's login anchor and business

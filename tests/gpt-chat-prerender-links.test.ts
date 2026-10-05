@@ -220,3 +220,23 @@ test('both chat pages and llms.txt state the free limits the chat server applies
   const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8');
   assert.match(llms, new RegExp(`up to ${daily} messages a day and up to ${hourly} an hour`));
 });
+
+// A line or a link in the other language names its language (R-S1 review,
+// 2026-10-05): the Uzbek line at the top of the Russian chat and the Russian
+// anchor on the Uzbek chat. Markup only — the visible text stays the same.
+test('a paragraph or anchor in the other language carries lang on the chat pages', { skip: built.length === 0 && 'no dist/ build present' }, () => {
+  const html = (url: string) => fs.readFileSync(built.find((c) => c.url === url)!.file, 'utf8');
+  assert.match(html('/ru/gpt-chat/'), /<p lang="uz" class="[^"]*">O‘zbekcha yozmoqchimisiz\?/);
+  assert.match(html('/ru/gpt-chat/'), /<a href="\/uz\/gpt-uzbek-tilida\/" lang="uz" hreflang="uz"[^>]*>AI-chat o‘zbek tilida<\/a>/);
+  assert.match(html('/uz/gpt-uzbek-tilida/'), /<a href="\/ru\/gpt-na-russkom\/" lang="ru" hreflang="ru"[^>]*>AI-чат на русском<\/a>/);
+});
+
+// The chat's resting screen does not advertise translation before the blind
+// check of the model scores it 4/5 or better (SEO roadmap 2026-10-04 §5, 3.3).
+test('the chat’s first screen offers no translation starter', () => {
+  const i18n = fs.readFileSync(path.join(ROOT, 'src', 'gpt-chat', 'i18n.ts'), 'utf8');
+  const intros = [...i18n.matchAll(/intro:'([^']*)'/g)].map((m) => m[1]);
+  assert.equal(intros.length, 2);
+  for (const intro of intros) assert.doesNotMatch(intro, /перев|tarjima/i, intro);
+  assert.doesNotMatch(i18n, /\{ id: 'translate'/);
+});

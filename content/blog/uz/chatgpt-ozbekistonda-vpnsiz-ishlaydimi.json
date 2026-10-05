@@ -54,7 +54,7 @@
     },
     {
       "type": "linkp",
-      "text": "Kirishning har bir qadami ekranma-ekran kerakmi? Batafsi {kirish} maqolasida.",
+      "text": "Kirishning har bir qadami ekranma-ekran kerakmi? Batafsil — {kirish} maqolasida.",
       "links": [
         {
           "token": "kirish",
@@ -103,7 +103,7 @@
     },
     {
       "type": "linkp",
-      "text": "Agar siz aynan login bosqichini izlayotgan bo‘lsangiz, alohida {kirish} qo‘llanmasini oching: unda rasmiy domen, Log in, Sign up, xatolar va xavfsizlik qisqa berilgan.",
+      "text": "Agar siz aynan login bosqichini izlayotgan bo‘lsangiz, alohida {kirish}ni oching: unda rasmiy domen, Log in, Sign up, xatolar va xavfsizlik qisqa berilgan.",
       "links": [
         {
           "token": "kirish",

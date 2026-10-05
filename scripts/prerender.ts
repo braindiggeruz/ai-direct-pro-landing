@@ -185,6 +185,13 @@ function renderArticle(blocks: BodyBlock[], anchor: string): string {
   </article>`;
 }
 
+// A paragraph in another language than the page (an Uzbek line on the Russian
+// chat) carries lang, so it is not read with the page's pronunciation. Empty
+// for every block without the optional field: those render as before.
+function blockLang(b: BodyBlock): string {
+  return b.lang ? ` lang="${escapeHtml(b.lang)}"` : '';
+}
+
 function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()): string {
   switch (b.type) {
     case 'h2': { const _id = uniqueHeadingId(b.id || slugifyId(b.text || ''), headingIds); return `<h2 id="${escapeHtml(_id)}" class="font-display text-3xl sm:text-4xl mt-16 mb-6 text-white scroll-mt-24 break-words">${escapeText(b.text || '')}</h2>`; }
@@ -202,12 +209,15 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
       for (const l of (b.links || [])) {
         if (!l.token || !l.target || !l.anchor) continue;
         const _ext = l.target.startsWith('http');
-        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        // An anchor in another language than the page (a Russian link on an
+        // Uzbek page) names its language for screen readers and crawlers.
+        const _lang = l.lang ? ` lang="${escapeHtml(l.lang)}" hreflang="${escapeHtml(l.lang)}"` : '';
+        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
-      return `<p class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
+      return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
     }
-    case 'p': return `<p class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
+    case 'p': return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${escapeText(b.text || '')}</p>`;
     case 'list': {
       if (b.copyableItems) {
         const items = (b.items || []).map((item) => `<li data-copy-item class="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">

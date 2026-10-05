@@ -4,7 +4,7 @@
   "slug": "slayd-tayyorlash",
   "url": "/uz/blog/slayd-tayyorlash/",
   "title": "Slayd tayyorlash: reja va slayd matni AI yordamida",
-  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz chati matn yozadi, .pptx va dizaynni o‘zingiz qilasiz.",
+  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni, bezash. GPTBot.uz chati matn yozadi, .pptx va dizaynni o‘zingiz qilasiz.",
   "h1": "Slayd tayyorlash sun’iy intellekt bilan: rejadan tayyor matngacha",
   "topicCluster": "maktab-va-talabalar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -18,7 +18,7 @@
     "prezentatsiya tayyorlash ai",
     "slayd tayyorlash sun’iy intellekt"
   ],
-  "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chati shu qismni tezlashtiradi, lekin faylni tayyorlash, dizayn va faktlarni tekshirish sizning ishingiz. Quyida 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
+  "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chati shu qismni tezlashtiradi, lekin faylni yig‘ish va bezash, faktlarni tekshirish — sizning ishingiz. Quyida 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
   "body": [
     {
       "type": "p",
@@ -87,7 +87,18 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — kuniga 15 tagacha, soatiga 5 tagacha xabar. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va vaqtni birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — kuniga 15 tagacha, soatiga 5 tagacha xabar. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va chiqish vaqtini birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi."
+    },
+    {
+      "type": "figure",
+      "src": "/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+      "srcSet": "/assets/blog/slayd-tayyorlash-reja-gptbot-480.webp 480w, /assets/blog/slayd-tayyorlash-reja-gptbot-800.webp 800w, /assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "GPTBot.uz AI chatida slayd rejasi uchun tayyor so‘rov",
+      "width": 1200,
+      "height": 630,
+      "loading": "lazy",
+      "caption": "«AI-chatni ochish» tugmasi GPTBot.uz chatini shu tayyor so‘rov bilan ochadi: uni tahrirlab, o‘zingiz yuborasiz. Chat reja va matn yozadi, .pptx faylni o‘zingiz tayyorlaysiz."
     },
     {
       "type": "h2",
@@ -152,7 +163,7 @@
       "items": [
         "6×6 qoidasi: bir slaydda 6 tadan ortiq band bo‘lmasin, har bir band esa 6 so‘zdan oshmasin. Bu qat’iy standart emas, amaliy qoida: maqsad — matnni qisqa qilish.",
         "Bitta slayd — bitta fikr. Sarlavha shu fikrni aytsin: «Suv» emas, «Suvning ko‘p qismi qayerga sarflanadi?».",
-        "Shrift: Arial yoki Calibri kabi oddiy shrift, matn kamida 18 pt. Microsoft’ning PowerPoint taqdimotini imkoniyati cheklangan odamlar uchun qulay qilish bo‘yicha tavsiyalarida ham shunday deyilgan.",
+        "Shrift: Arial yoki Calibri kabi oddiy shrift, matn kamida 18 pt. Microsoft ham PowerPoint taqdimotlarini nogironligi bo‘lgan odamlar uchun qulay qilish bo‘yicha tavsiyalarida shuni maslahat beradi.",
         "Kontrast: och fonda to‘q matn yoki aksincha. Muhim ma’lumotni faqat rang bilan ajratmang.",
         "Rasm matnni takrorlamasin, uni tushuntirsin: sxema, xarita, grafik yoki fotosurat.",
         "Har bir rasm, jadval va raqamning manbasini qisqa ko‘rsating.",
@@ -216,7 +227,7 @@
     },
     {
       "type": "linkp",
-      "text": "Boshqa vazifalar uchun shablonlar {prompts} sahifasida, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "text": "Boshqa vazifalar uchun shablonlar — {prompts} sahifasida, o‘qishda AI’dan halol foydalanish qoidalari esa «{students}» maqolasida.",
       "links": [
         {
           "token": "prompts",
@@ -292,7 +303,7 @@
     },
     {
       "type": "linkp",
-      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma {esse} qo‘llanmasida. AI qanday ishlashi {ai} sahifasida sodda tushuntirilgan.",
+      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma — «{esse}» qo‘llanmasida. AI qanday ishlashi «{ai}» sahifasida sodda tushuntirilgan.",
       "links": [
         {
           "token": "esse",
@@ -377,11 +388,16 @@
   ],
   "ogTitle": "Slayd tayyorlash: reja va slayd matni AI yordamida",
   "ogDescription": "Reja, slayd matni va ma’ruza matni AI bilan; 6×6 qoidasi, tayyor so‘rovlar, tekshiruv ro‘yxati. Faylni PowerPoint, Google Slides yoki Canva’da tayyorlaysiz.",
-  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
   "hreflangUz": "/uz/blog/slayd-tayyorlash/",
   "robotsIndex": true,
   "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Slayd tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-12",
   "dateModified": "2026-10-12",

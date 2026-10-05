@@ -1,8 +1,10 @@
-import { ArrowUpRight, BookOpen, Languages, PenLine, Sparkles } from 'lucide-react';
+import { ArrowUpRight, BookOpen, ListChecks, PenLine, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PromptChip } from '../i18n';
 
-const icons = [PenLine, Languages, Sparkles, BookOpen];
+// Second starter: a plan, not a translation (SEO roadmap 2026-10-04 §5: the chat
+// does not advertise translation until a blind check scores it 4/5 or better).
+const icons = [PenLine, ListChecks, Sparkles, BookOpen];
 
 export function AiPromptChips({ chips, onPick, disabled, label }: {
   chips: PromptChip[]; onPick: (chip: PromptChip) => void; disabled?: boolean; label: string;

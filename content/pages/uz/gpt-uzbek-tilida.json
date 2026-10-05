@@ -66,7 +66,7 @@
     },
     {
       "type": "linkp",
-      "text": "{kirish}: chatgpt.com’da Log in va Sign up, kod kelmasa nima qilish va klon saytlardan qanday ehtiyot bo‘lish — bosqichma-bosqich.",
+      "text": "{kirish}da chatgpt.com’dagi Log in va Sign up, kod kelmasa nima qilish kerakligi va klon saytlardan qanday saqlanish bosqichma-bosqich tushuntirilgan.",
       "links": [
         {
           "token": "kirish",
@@ -106,7 +106,7 @@
     },
     {
       "type": "p",
-      "text": "«Chachipiti», «jaji piti» (yoki «jajipiti»), «chati piti» va «chaji piti» — bularning hammasi ChatGPT nomining talaffuzga qarab yozilgan shakllari. Kirill yozuvida ham shunday yozishadi: «жажипити», «чачи пити», «чати пити», «чат жпт»; «чат жпт узбекча» esa o‘zbek tilidagi ChatGPT degani. Rasmiy ChatGPT — chatgpt.com sayti va OpenAI ilovasi. Shu sahifadagi AI chat esa GPTBot.uz’ning mustaqil xizmati: o‘zbek tilida javob beradi, ro‘yxatdan o‘tish va VPN talab qilmaydi."
+      "text": "«Chachipiti», «jaji piti» (yoki «jajipiti»), «chati piti» va «chaji piti» — bularning hammasi ChatGPT nomining talaffuzga qarab yozilgan shakllari. Kirill yozuvida ham shunday yozishadi: «жажипити», «чачи пити», «чати пити», «чат жпт»; «чат жпт узбекча» esa o‘zbek tilidagi ChatGPT degani. Rasmiy ChatGPT — chatgpt.com sayti va OpenAI ilovasi. Shu sahifadagi AI chat esa GPTBot.uz’ning mustaqil xizmati: odatda o‘zbek tilida javob beradi, ro‘yxatdan o‘tish va VPN talab qilmaydi."
     },
     {
       "type": "linkp",
@@ -172,7 +172,7 @@
     },
     {
       "type": "p",
-      "text": "Qisqa javob: ha, rasmiy ChatGPT’ning bepul tarifi bor — Free. chatgpt.com/pricing sahifasida yozilishicha, unda matnli suhbatlar cheklanmagan (suiiste’moldan himoya qoidalari bilan), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish (deep research) esa cheklangan. Shartlar o‘zgarib turadi, shuning uchun to‘lov qilishdan oldin sahifani o‘zingiz tekshiring."
+      "text": "Qisqa javob: ha, rasmiy ChatGPT’ning bepul tarifi bor — Free. chatgpt.com/pricing sahifasida yozilishicha, unda matnli suhbatlar cheklanmagan (suiiste’molning oldini olish qoidalari doirasida), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish (deep research) esa cheklangan. Shartlar o‘zgarib turadi, shuning uchun to‘lov qilishdan oldin sahifani o‘zingiz tekshiring."
     },
     {
       "type": "table",
@@ -183,7 +183,7 @@
       "rows": [
         [
           "Matnli suhbatlar",
-          "Cheklanmagan, suiiste’moldan himoya qoidalari bilan"
+          "Cheklanmagan (qoidalar doirasida)"
         ],
         [
           "Fayl biriktirish",
@@ -240,7 +240,8 @@
         {
           "token": "ru",
           "target": "/ru/gpt-na-russkom/",
-          "anchor": "AI-чат на русском"
+          "anchor": "AI-чат на русском",
+          "lang": "ru"
         }
       ]
     },
@@ -407,7 +408,7 @@
         [
           "Bepul limit",
           "Kuniga 15 tagacha, soatiga 5 tagacha xabar (IP-manzil bo‘yicha)",
-          "Free tarifi: matnli suhbatlar cheklanmagan (suiiste’moldan himoya qoidalari bilan); fayl, rasm va ovoz — cheklangan"
+          "Free tarifi: matnli suhbatlar cheklanmagan (qoidalar doirasida); fayl, rasm va ovoz — cheklangan"
         ],
         [
           "Til",
@@ -555,7 +556,7 @@
   "faq": [
     {
       "q": "ChatGPT bepulmi? Qanday limitlar bor?",
-      "a": "Ha, rasmiy ChatGPT’ning bepul tarifi bor — Free: 04.10.2026 holatiga chatgpt.com/pricing sahifasida matnli suhbatlar cheklanmagan deb yozilgan (suiiste’moldan himoya qoidalari bilan), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish esa cheklangan. Bu sahifadagi GPTBot.uz chati — alohida mustaqil servis: bepul, ro‘yxatsiz, kuniga 15 tagacha va soatiga 5 tagacha xabar."
+      "a": "Ha, rasmiy ChatGPT’ning bepul tarifi bor — Free: 04.10.2026 holatiga chatgpt.com/pricing sahifasida matnli suhbatlar cheklanmagan deb yozilgan (suiiste’molning oldini olish qoidalari doirasida), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish esa cheklangan. Bu sahifadagi GPTBot.uz chati — mustaqil servis: bepul, ro‘yxatsiz, kuniga 15 tagacha va soatiga 5 tagacha xabar."
     },
     {
       "q": "GPTBot.uz rasmiy ChatGPT’mi?",
@@ -563,7 +564,7 @@
     },
     {
       "q": "Bu ChatGPT-4 yoki GPT-5mi?",
-      "a": "Yo‘q, GPTBot.uz boshqa model ishlatadi. Javoblarni OpenAI’ga tegishli bo‘lmagan kompaniyalarning modellari beradi; qaysi model javob bergani har bir javob ostida yozilgan. OpenAI modellari kerak bo‘lsa, rasmiy chatgpt.com’ni oching."
+      "a": "Yo‘q, GPTBot.uz boshqa modellardan foydalanadi. Javoblarni OpenAI’ga tegishli bo‘lmagan kompaniyalarning modellari beradi; qaysi model javob bergani har bir javob ostida yozilgan. OpenAI modellari kerak bo‘lsa, rasmiy chatgpt.com’ni oching."
     },
     {
       "q": "Limit tugasa nima bo‘ladi?",
@@ -571,7 +572,7 @@
     },
     {
       "q": "Chat qaysi tillarda ishlaydi?",
-      "a": "O‘zbek va rus tilida. Javob odatda so‘rov tilida keladi; boshqa tilda kelsa, «faqat o‘zbekcha javob ber» deb yozing. Sifat so‘rov aniqligi va vazifa murakkabligiga bog‘liq."
+      "a": "O‘zbek va rus tillarida. Javob odatda so‘rov tilida keladi; boshqa tilda kelsa, «faqat o‘zbekcha javob ber» deb yozing. Sifat so‘rov aniqligi va vazifa murakkabligiga bog‘liq."
     },
     {
       "q": "Bu chat VPNsiz ishlaydimi?",

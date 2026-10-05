@@ -58,7 +58,7 @@
         [
           "Maqsad",
           "Mavzuni reja asosida to‘liq ochish",
-          "Bitta savolga shaxsiy pozitsiya bildirish va uni asoslash"
+          "Bitta savolga o‘z munosabatini bildirish va uni asoslash"
         ],
         [
           "Tuzilma",
@@ -136,7 +136,7 @@
         "Dalillar (2–3 xatboshi): har bir xatboshida bitta dalil — misol, fakt, kitobdan yoki hayotdan voqea. Fakt va iqtibosni manbadan tekshiring.",
         "Qarshi fikr (ixtiyoriy, 1 xatboshi): boshqa nuqtai nazarni ko‘rsating va nega u sizni ishontirmasligini tushuntiring.",
         "Xulosa (2–3 gap): tezisni boshqa so‘zlar bilan qaytaring va umumiy fikr yoki taklif bilan yakunlang.",
-        "Fikrlarni bog‘laydigan so‘zlar: «birinchidan», «bundan tashqari», «shunga qaramay», «xulosa qilib aytganda» — fikrlar bir-biriga ulansin."
+        "Bog‘lovchi so‘zlardan foydalaning: «birinchidan», «bundan tashqari», «shunga qaramay», «xulosa qilib aytganda» — shunda fikrlar bir-biriga ulanadi."
       ]
     },
     {
@@ -214,10 +214,10 @@
       "items": [
         "Mavzuni aniq yozing va kim uchun yozilayotganini ko‘rsating: maktab, kollej yoki universitet.",
         "Talabni kiriting: ish turi (insho yoki esse), hajm, til, uslub, nechta dalil kerakligi.",
-        "AI’dan faqat reja so‘rang (esse uchun — tezis va dalillar ro‘yxati), tayyor matn emas.",
+        "AI’dan avval reja so‘rang (esse uchun — tezis va dalillar ro‘yxati), butun tayyor matnni emas.",
         "Rejani o‘qing, keraksiz bandni olib tashlang, o‘z fikringizni qo‘shing.",
         "Har bir band bo‘yicha alohida qoralama so‘rang va uni o‘z so‘zingiz bilan qayta yozing.",
-        "Oxirida AI’dan faqat tahrir so‘rang: takror, uslub, bog‘lovchilar."
+        "Oxirida AI’dan tahrir so‘rang: takror, uslub, bog‘lovchilar."
       ]
     },
     {
@@ -333,7 +333,7 @@
     },
     {
       "type": "p",
-      "text": "Mavzu berilgan bo‘lsa, uni savolga aylantiring: «Do‘stlik» emas, «Haqiqiy do‘stni qanday tanib olish mumkin?». Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bo‘lgan va misol keltira oladigan mavzuni oling. Bu bosqichda AI foydali: savollar, turli nuqtai nazarlar va dalil yo‘nalishlarini taklif qiladi."
+      "text": "Mavzu berilgan bo‘lsa, uni savolga aylantiring: «Do‘stlik» emas, «Haqiqiy do‘stni qanday tanib olish mumkin?». Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bor va o‘zingiz misol keltira oladigan mavzuni tanlang. Bu bosqichda AI foydali: savollar, turli nuqtai nazarlar va dalil yo‘nalishlarini taklif qiladi."
     },
     {
       "type": "list",
@@ -399,7 +399,7 @@
   "faq": [
     {
       "q": "Esse nima va inshodan farqi nima?",
-      "a": "Esse — bitta savolga muallifning shaxsiy javobi (tezis) va uni 2–3 dalil bilan asoslash. Insho mavzuni reja bo‘yicha kengroq ochadi. Ikkalasida ham kirish, asosiy qism va xulosa bor; aniq talabni o‘qituvchi yoki imtihon topshirig‘i belgilaydi."
+      "a": "Esse — muallif bitta savolga shaxsiy javob (tezis) berib, uni 2–3 dalil bilan asoslaydigan yozma ish. Insho mavzuni reja bo‘yicha kengroq ochadi. Ikkalasida ham kirish, asosiy qism va xulosa bor; aniq talabni o‘qituvchi yoki imtihon topshirig‘i belgilaydi."
     },
     {
       "q": "Esse qanday yoziladi?",
@@ -427,7 +427,7 @@
     },
     {
       "q": "Esse mavzularini qayerdan topish mumkin?",
-      "a": "Avvalo o‘qituvchi bergan ro‘yxatdan va darslikdan, imtihonga tayyorlanayotgan bo‘lsangiz — imtihon tashkilotchisi e’lon qilgan namunaviy topshiriqlardan. Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bo‘lgan va misol keltira oladigan mavzuni oling; AI mavzu bo‘yicha bahsli savollar taklif qila oladi."
+      "a": "Avvalo o‘qituvchi bergan ro‘yxatdan va darslikdan, imtihonga tayyorlanayotgan bo‘lsangiz — imtihon tashkilotchisi e’lon qilgan namunaviy topshiriqlardan. Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bor va o‘zingiz misol keltira oladigan mavzuni tanlang; AI mavzu bo‘yicha bahsli savollar taklif qila oladi."
     }
   ],
   "cta": {
@@ -480,6 +480,11 @@
   "hreflangUz": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
   "robotsIndex": true,
   "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Insho va esse yozish",
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
   "dateModified": "2026-10-12",

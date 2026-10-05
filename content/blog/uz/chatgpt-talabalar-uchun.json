@@ -356,6 +356,10 @@
   "hreflangUz": "/uz/blog/chatgpt-talabalar-uchun/",
   "robotsIndex": true,
   "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
   "dateModified": "2026-09-19",

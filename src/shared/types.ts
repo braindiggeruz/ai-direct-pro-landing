@@ -51,7 +51,14 @@ export interface BodyBlock {
    * {token} placeholder in `text` is replaced by an <a href="target">anchor</a>.
    * Only trusted, build-time content is used here (no user HTML injection).
    */
-  links?: { anchor?: string; label?: string; token?: string; target?: string }[];
+  links?: { anchor?: string; label?: string; token?: string; target?: string; lang?: string }[];
+  /**
+   * p/linkp: language of a paragraph written in another language than the page
+   * (BCP 47, e.g. 'uz' on a Russian page), emitted as lang on the <p>. On a
+   * linkp link: the language of the anchor text, emitted as lang and hreflang
+   * on the <a>, so screen readers and crawlers read it in the right language.
+   */
+  lang?: string;
 }
 
 export interface InternalLink {
@@ -202,6 +209,18 @@ export interface BlogArticle {
   author?: string;
   /** Visible primary sources used to verify technical or factual claims. */
   sources?: SourceReference[];
+  /**
+   * BlogPosting audience (schema.org Audience). Optional: without it the
+   * template keeps its default BusinessAudience, so articles that do not set
+   * it render byte for byte as before.
+   */
+  audience?: Record<string, unknown>;
+  /**
+   * Short visible breadcrumb label. Optional: without it the breadcrumb shows
+   * the first 50 characters of the H1 as before; the BreadcrumbList JSON-LD
+   * always names the full H1.
+   */
+  breadcrumbLabel?: string;
   datePublished?: string;
   dateModified?: string;
   schemaTypes: SchemaType[];
