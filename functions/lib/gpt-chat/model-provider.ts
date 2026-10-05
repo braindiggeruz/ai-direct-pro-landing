@@ -15,7 +15,7 @@
 // With the committed config webChatChain() returns the OpenRouter chain of the
 // tier, so the chat's outbound requests go to OpenRouter only.
 //
-// Only functions/api/gpt/chat.ts calls webChatChain(). Javob
+// Only functions/api/gpt/chat.ts calls webChatChain() and holderFreeChain(). Javob
 // (functions/lib/telegram/service.ts) calls freeTierChain(), the OpenRouter
 // catalogue check (billing-operations-store.ts) modelChain()/freeChain(); none
 // of them ever contains a 'zai/' id.
@@ -92,8 +92,15 @@ export const ZAI_PAID_ALLOWED: ReadonlySet<string> = new Set([
  */
 export const ZAI_PREPAID_CAPABLE: ReadonlySet<string> = new Set(['glm-5.3-flash']);
 
-/** Whether a tier may call this bare Z.ai model under this config. */
-export function zaiModelAllowed(cfg: GptChatConfig, tier: 'free' | 'paid', id: string): boolean {
+/**
+ * Whether a tier may call this bare Z.ai model under this config. For the
+ * free tier that means it costs nothing extra: $0, or a listed prepaid bundle.
+ */
+export function zaiModelAllowed(
+  cfg: Pick<GptChatConfig, 'zaiPrepaidModels'>,
+  tier: 'free' | 'paid',
+  id: string,
+): boolean {
   if (ZAI_PREPAID_CAPABLE.has(id) && cfg.zaiPrepaidModels.includes(id)) return true;
   return tier === 'free' ? ZAI_ZERO_PRICE.has(id) : ZAI_PAID_ALLOWED.has(id);
 }
@@ -161,4 +168,23 @@ export function webChatChain(
     return base;
   }
   return [`${ZAI_PREFIX}${id}`, ...base.filter((m) => providerOf(m) === 'openrouter')];
+}
+
+/**
+ * A pack holder's free answer (decision R2): the pack's chain, so a holder is
+ * answered alike whichever allowance a turn draws on, except for a Z.ai head
+ * the free tier may not call. Such a model (glm-4.5-air, glm-4.7-flashx)
+ * bills per token, and no guard of a free answer counts that: the free
+ * tier's day budget reserves OpenRouter's max_price only, and the pack's
+ * attempt ceiling is not spent by a free answer. The free tier's own Z.ai
+ * model takes its place when the free tier uses Z.ai; otherwise the
+ * OpenRouter part answers, its paid models under the free tier's day budget
+ * (freePaidBudget, which skips a billable Z.ai model as well).
+ */
+export function holderFreeChain(cfg: GptChatConfig, env: Pick<Env, 'ZAI_API_KEY'>): string[] {
+  const chain = webChatChain(cfg, env, 'paid');
+  const head = chain[0];
+  if (!head || providerOf(head) !== 'zai' || zaiModelAllowed(cfg, 'free', bareModel(head))) return chain;
+  const free = webChatChain(cfg, env, 'free')[0];
+  return [...(free && providerOf(free) === 'zai' ? [free] : []), ...chain.slice(1)];
 }

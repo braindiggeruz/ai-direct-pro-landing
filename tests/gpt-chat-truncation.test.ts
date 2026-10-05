@@ -12,7 +12,7 @@ import { randomBytes } from 'node:crypto';
 import { billingFixture } from './helpers/gpt-billing-fixture';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { BILLING_ORG } from '../functions/lib/gpt-chat/billing-config';
-import { TurnStore } from '../functions/lib/gpt-chat/turn-store';
+import { ACCOUNT_FREE_ID, TurnStore } from '../functions/lib/gpt-chat/turn-store';
 import {
   failureOutcome,
   isTruncated,
@@ -168,20 +168,38 @@ test('stream: an answer cut at the length limit is marked, not charged, and rema
   );
 });
 
-test('stream: a pack answer cut at the limit gives the answer back to the pack', async (t) => {
+test('stream: a pack holder\'s answer cut at the limit is given back, to the free day or to the pack', async (t) => {
   const f = await fixture();
   const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());
   await f.store.transition(order.id, 'prepared', 'prepare');
   await f.store.transition(order.id, 'paid', 'perform');
   openrouter(t, () => upstream('Uzun pullik javob...', 'length', { prompt_tokens: 1000, completion_tokens: 1600 }));
-  const done = events(await (await chat(f.ctx(request({ stream: true }, { cookie: f.testCookie })))).text()).at(-1)!;
-  await drain(f);
-  assert.deepEqual([done.truncated, done.charged, done.remaining, done.hourRemaining], [true, false, 300, null]);
+  const turn = async () => {
+    const done = events(await (await chat(f.ctx(request({ stream: true }, { cookie: f.testCookie })))).text()).at(-1)!;
+    await drain(f);
+    return [done.truncated, done.charged, done.remaining, done.hourRemaining];
+  };
+  const settled = () =>
+    f.db
+      .rows<Row>("SELECT id, period_id, status, outcome, model, cost_micro_usd FROM gpt_turn_reservations WHERE outcome IS NOT NULL ORDER BY rowid")
+      .map((r) => [String(r.id).startsWith(ACCOUNT_FREE_ID), r.period_id, r.status, r.outcome, r.model, r.cost_micro_usd]);
+  // The holder's first answer of the hour is a free one (decision R2): cut,
+  // the free day has it back and the pack was never touched.
+  assert.deepEqual(await turn(), [true, false, 300, null]);
+  // The free day spent, the next answer is the pack's: cut, the pack has it back.
+  const now = Date.now();
+  const since = Math.max(Math.floor(now / 86_400_000) * 86_400_000, now - 60_000);
+  for (let i = 0; i < 15; i++)
+    f.db
+      .prepare("INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)")
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, since, since + 120_000)
+      .runSync();
+  assert.deepEqual(await turn(), [true, false, 300, null]);
   // The model was paid for all the same: 1000 × 0.09 + 1600 × 0.30 = 570 micro-USD.
-  assert.deepEqual(
-    rows(f).map((r) => [r.status, r.outcome, r.model, r.cost_micro_usd]),
-    [['released', 'truncated', 'google/gemma-4-26b-a4b-it', 570]],
-  );
+  assert.deepEqual(settled(), [
+    [true, null, 'released', 'truncated', 'google/gemma-4-26b-a4b-it', 570],
+    [false, order.id, 'released', 'truncated', 'google/gemma-4-26b-a4b-it', 570],
+  ]);
 });
 
 /** Upstream: `n` deltas of 100 characters each, then no end until the request is aborted. */
@@ -346,10 +364,11 @@ test('failed turns are recorded with their outcome and attempts, never charged',
   await drain(g);
   assert.equal(none.code, 'no_key');
   assert.deepEqual(rows(g).map((r) => [r.status, r.outcome, r.attempts]), [['released', 'no_model', 0]]);
-  // A message that cannot fit the context is released as context_too_large.
-  const h = await fixture();
-  // 3000 characters pass validation, but 6000 bytes do not fit next to the system prompt.
-  const response = await chat(h.ctx(request({ message: 'Я'.repeat(3000) })));
+  // A message the prompt cannot take whole is released as context_too_large.
+  // 3000 characters always fit (gpt-chat-limits.test.ts); 5000 pass a
+  // raised GPT_MAX_INPUT_CHARS, but 10 000 bytes are past the message ceiling.
+  const h = await fixture({ GPT_MAX_INPUT_CHARS: '5000' });
+  const response = await chat(h.ctx(request({ message: 'Я'.repeat(5000) })));
   assert.equal(response.status, 400);
   assert.deepEqual(rows(h).map((r) => [r.status, r.outcome, r.charged]), [['released', 'context_too_large', 0]]);
 });

@@ -20,8 +20,19 @@ export interface ChatMessage {
   content: string;
 }
 
-/** buildMessages keeps promptBytes() of its result at or below this. */
+/**
+ * buildMessages keeps promptBytes() of its result at or below this, or at
+ * what the system prompt and a new message within MESSAGE_BYTE_CEILING take
+ * when that is more: the history makes room, the message is never cut.
+ */
 const PROMPT_BYTE_BUDGET = 5700;
+/**
+ * The most a new message may take whole: GPT_MAX_INPUT_CHARS' 3000
+ * characters at 3 UTF-8 bytes per UTF-16 unit, the most one takes (Cyrillic
+ * takes 2, the Uzbek ‘ and ’ take 3, an emoji's pair 4). A longer message
+ * (a raised GPT_MAX_INPUT_CHARS) is still cut, and the chat refuses it.
+ */
+const MESSAGE_BYTE_CEILING = 3 * 3000;
 /** Tokens reserved for the chat template around the messages. */
 const FRAMING_TOKENS = 256;
 const encoder = new TextEncoder();
@@ -71,10 +82,19 @@ export function buildMessages(
     { role: "user", content: userMessage },
   ];
   // Byte bound is conservative for byte-fallback tokenisers; FRAMING_TOKENS
-  // stay reserved on top. Drop oldest turns before trimming the new input.
+  // stay reserved on top. Drop oldest turns before trimming the new input,
+  // which only a message past MESSAGE_BYTE_CEILING ever needs. Before, a
+  // Russian message past ≈4 400 bytes (2 200–2 700 characters) was cut, and
+  // the chat refused it as context_too_large.
+  const budget = Math.max(
+    PROMPT_BYTE_BUDGET,
+    promptBytes([result[0]]) +
+      Math.min(encoder.encode(userMessage).length, MESSAGE_BYTE_CEILING) +
+      32,
+  );
   const size = () => promptBytes(result);
-  while (result.length > 2 && size() > PROMPT_BYTE_BUDGET) result.splice(1, 1);
-  while (size() > PROMPT_BYTE_BUDGET && result[result.length - 1].content.length > 1)
+  while (result.length > 2 && size() > budget) result.splice(1, 1);
+  while (size() > budget && result[result.length - 1].content.length > 1)
     result[result.length - 1].content = result[result.length - 1].content.slice(
       0,
       -64,

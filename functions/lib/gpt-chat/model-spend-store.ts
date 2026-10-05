@@ -16,11 +16,16 @@
 // reservation skips the paid model to ':free' and records
 // free_paid_budget_exhausted (one row a day, alert-policy.ts).
 //
-// Pack turns never touch this budget: they walk the paid chain under
-// TurnStore.admitModelAttempt. Money is integer micro-USD (1e-6 USD). SQL
-// lives only in ModelSpendStore, every statement scoped to its org.
+// Pack answers never touch this budget: they walk the paid chain under
+// TurnStore.admitModelAttempt. A pack holder's free answer (decision R2)
+// walks the pack's chain under this budget, like any free answer. A Z.ai
+// model passes it only when the free tier may call it ($0 or a listed
+// prepaid bundle, zaiModelAllowed): any other bills per token with no
+// max_price to reserve against, so a free answer skips it. Money is integer
+// micro-USD (1e-6 USD). SQL lives only in ModelSpendStore, every statement
+// scoped to its org.
 import type { GptChatConfig } from "./config";
-import { isPaidOpenRouterModel } from "./model-provider";
+import { bareModel, isPaidOpenRouterModel, providerOf, zaiModelAllowed } from "./model-provider";
 import { PAID_PRICE_CEILING } from "./model-pricing";
 import type { AdmitAttempt } from "./openrouter-chat";
 import { promptTokenBound, type ChatMessage } from "./prompt";
@@ -79,7 +84,11 @@ export class ModelSpendStore {
 }
 
 export interface FreePaidBudget {
-  /** The free turn's admitAttempt: ':free' and Z.ai models pass, a paid one needs a reservation. */
+  /**
+   * The free turn's admitAttempt: ':free' models and the free tier's Z.ai
+   * models pass, a paid OpenRouter one needs a reservation, any other Z.ai
+   * model is skipped.
+   */
   admit: AdmitAttempt;
   /**
    * After the answer: replace the reservation of the model that answered by
@@ -97,7 +106,8 @@ export interface FreePaidBudget {
  */
 export function freePaidBudget(
   store: ModelSpendStore,
-  cfg: Pick<GptChatConfig, "freePaidDailyUsd" | "maxOutputTokens">,
+  cfg: Pick<GptChatConfig, "freePaidDailyUsd" | "maxOutputTokens"> &
+    Partial<Pick<GptChatConfig, "zaiPrepaidModels">>,
   messages: ChatMessage[],
   onExhausted: () => void,
   now = Date.now(),
@@ -108,6 +118,13 @@ export function freePaidBudget(
   const reserved = new Set<string>();
   return {
     async admit(model) {
+      // A Z.ai model the free tier may not call is skipped without
+      // onExhausted: the budget is not what refuses it. Without the list
+      // (Javob, which never walks a Z.ai model) no prepaid bundle passes.
+      if (providerOf(model) === "zai")
+        return zaiModelAllowed({ zaiPrepaidModels: cfg.zaiPrepaidModels ?? [] }, "free", bareModel(model))
+          ? "ok"
+          : "skip";
       if (!isPaidOpenRouterModel(model)) return "ok";
       let admitted: boolean;
       try {

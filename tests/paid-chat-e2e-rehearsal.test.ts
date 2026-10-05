@@ -205,6 +205,29 @@ async function turn(h: Harness, f: Fixture, browser: Browser) {
 }
 
 /**
+ * A turn from the pack. Free answers come first (decision R2): the holder's
+ * first five answers of the hour are free ones, counted by the account and
+ * marked as such, and the pack keeps all its answers; the sixth is the pack's.
+ */
+async function packTurn(h: Harness, f: Fixture, browser: Browser) {
+  const free = () => f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE id LIKE 'acct-free:%' AND period_id IS NULL AND status='done'");
+  const before = free();
+  for (let i = 0; i < 5; i++) assert.equal((await turn(h, f, browser)).period_id, null, `free answer ${i + 1}`);
+  assert.equal(free(), Number(before) + 5);
+  assert.equal(((await browser.get("/api/gpt/account")).body.access as { remaining: number }).remaining, PAID_MESSAGES);
+  return turn(h, f, browser);
+}
+
+/**
+ * A turn refused before any reservation: the 429's status, reason and tier.
+ * After packTurn() the account's free hour is spent, wherever it signs in.
+ */
+async function refused(browser: Browser) {
+  const answer = await browser.post("/api/gpt/chat", { message: "Salom", stream: true });
+  return [answer.status, answer.body.reason, answer.body.tier];
+}
+
+/**
  * Sign-in through @gptbotuz_bot, first half: the site starts it, the person
  * opens the deep link (/start login_… through the webhook) and the bot asks
  * for the number. Returns the attempt and the bot's number buttons.
@@ -361,7 +384,7 @@ test("Click in test, start to end: rehearsal session, sign-in through the bot, P
   const paid = await owner.get("/api/gpt/account");
   const access = paid.body.access as { remaining: number; packs: number };
   assert.deepEqual([(paid.body.payment as { state: string }).state, access.remaining, access.packs], ["paid", PAID_MESSAGES, 1]);
-  assert.deepEqual({ ...(await turn(h, f, owner)) }, { period_id: order, status: "done", charged: 1 });
+  assert.deepEqual({ ...(await packTurn(h, f, owner)) }, { period_id: order, status: "done", charged: 1 });
   assert.equal(((await owner.get("/api/gpt/account")).body.access as { remaining: number }).remaining, PAID_MESSAGES - 1);
 
   // The account cookie carried to a browser without the rehearsal cookie:
@@ -370,7 +393,9 @@ test("Click in test, start to end: rehearsal session, sign-in through the bot, P
   const carriedView = await carried.get("/api/gpt/account");
   assert.deepEqual([carriedView.body.providers, carriedView.body.payment, carriedView.body.access], [[], null, null]);
   assert.equal((await subscribe(carried, "click", view.body.termsVersion)).status, 404);
-  assert.equal((await turn(h, f, carried)).period_id, null, "a free turn there");
+  // No pack there, and the free hour the account spent as the test pack's
+  // holder counts there too: free answers are counted by the account.
+  assert.deepEqual(await refused(carried), [429, "hourly", "free"], "no pack, the account's free hour spent");
 
   // The receipt of a test payment is skipped; nothing reached Click.
   assert.deepEqual(receipts(f, order), [{ kind: "PERFORM", status_code: -2, last_error: "skipped_test", receipt_url: null }]);
@@ -392,7 +417,8 @@ test("Click in test, start to end: rehearsal session, sign-in through the bot, P
   await h.drain();
   const after = await owner.get("/api/gpt/account");
   assert.deepEqual([after.body.access, (after.body.payment as { state: string }).state], [null, "refunded"]);
-  assert.equal((await turn(h, f, owner)).period_id, null, "the revoked pack draws nothing");
+  assert.deepEqual(await refused(owner), [429, "hourly", "free"], "the revoked pack draws nothing");
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE period_id=?", order), 1);
   assert.deepEqual(periods(f, order), [{ revoked: 1 }]);
   assert.deepEqual(journal(f, order).at(-1), { to_state: "refunded", actor: "owner", method: "owner_refund_record:rehearsal-click-1" });
   const revoked = await h.admin.paymentRow(order, "click");
@@ -484,7 +510,7 @@ test("Click live against a stub of api.click.uz: the checkout link, a test signa
   const paid = await buyer.get("/api/gpt/account");
   assert.deepEqual(paid.body.receipts, [{ kind: "PERFORM", receipt_url: clickFake.qrUrl(paymentId) }]);
   assert.equal((paid.body.access as { remaining: number }).remaining, PAID_MESSAGES);
-  assert.deepEqual({ ...(await turn(h, f, buyer)) }, { period_id: order, status: "done", charged: 1 });
+  assert.deepEqual({ ...(await packTurn(h, f, buyer)) }, { period_id: order, status: "done", charged: 1 });
   await maintainBilling(f.env);
   assert.deepEqual(h.ownerMessages().filter((line) => line.includes("AI paket")), ["GPTBot.uz · AI paket: paid"]);
 
@@ -564,7 +590,7 @@ test("Uzum Checkout in test: callback -> pull, a forged callback and another amo
   await h.drain();
   assert.deepEqual(journal(f, order.id).map((row) => row.to_state), ["pending", "prepared", "paid"]);
   assert.equal(((await owner.get("/api/gpt/account")).body.access as { remaining: number }).remaining, PAID_MESSAGES);
-  assert.deepEqual({ ...(await turn(h, f, owner)) }, { period_id: order.id, status: "done", charged: 1 });
+  assert.deepEqual({ ...(await packTurn(h, f, owner)) }, { period_id: order.id, status: "done", charged: 1 });
   // The sale receipt, printed by the Fiscalization API on its test host.
   assert.equal(f.receipt(order.id).status_code, 0);
   assert.ok([...f.fiscalReceipts.values()].some((r) => r.kind === "PERFORM"));
@@ -631,7 +657,7 @@ test("Uzum Merchant API in test: check -> create -> confirm (twice at once) -> s
   assert.deepEqual(journal(f, order.id).map((row) => row.to_state), ["pending", "prepared", "paid"]);
   assert.deepEqual(periods(f, order.id), [{ revoked: 0 }]);
   assert.equal(((await owner.get("/api/gpt/account")).body.access as { remaining: number }).remaining, PAID_MESSAGES);
-  assert.deepEqual({ ...(await turn(h, f, owner)) }, { period_id: order.id, status: "done", charged: 1 });
+  assert.deepEqual({ ...(await packTurn(h, f, owner)) }, { period_id: order.id, status: "done", charged: 1 });
   assert.equal(f.receipt(order.id).status_code, 0, "the sale receipt, on the test host");
 
   // Uzum returns the money: /reverse revokes the pack and prints the refund receipt.
