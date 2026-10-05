@@ -1,0 +1,24 @@
+{
+  "submittedAt": "2026-10-05T08:54:01.621Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "seo_school_pages",
+  "releaseCommit": "4765c560b3e0bb0f735cdaf1e2d2116c2a6cb869",
+  "reason": "School pages referat + rezyume, director correction 2026-10-05",
+  "count": 12,
+  "urls": [
+    "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+    "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/",
+    "https://gptbot.uz/ru/oferta/",
+    "https://gptbot.uz/uz/oferta/",
+    "https://gptbot.uz/ru/politika-konfidentsialnosti/",
+    "https://gptbot.uz/uz/maxfiylik-siyosati/"
+  ],
+  "responseExcerpt": ""
+}
