@@ -164,6 +164,14 @@ test('a free turn: ":free" passes untouched, the paid model reserves, a spent bu
   const first = freePaidBudget(store, cfg, messages, () => exhausted++, T0);
   assert.equal(await first.admit('google/gemma-4-31b-it:free'), 'ok');
   assert.equal(await first.admit('zai/glm-4.7-flash'), 'ok');
+  // A Z.ai model that bills per token has no max_price to reserve against:
+  // a free answer (a pack holder's walks the pack's chain, R2) skips it, and
+  // a prepaid bundle passes only while listed. Neither is a spent budget.
+  assert.equal(await first.admit('zai/glm-4.5-air'), 'skip');
+  assert.equal(await first.admit('zai/glm-4.7-flashx'), 'skip');
+  assert.equal(await first.admit('zai/glm-5.3-flash'), 'skip');
+  assert.equal(await freePaidBudget(store, { ...cfg, zaiPrepaidModels: ['glm-5.3-flash'] }, messages, () => exhausted++, T0).admit('zai/glm-5.3-flash'), 'ok');
+  assert.equal(exhausted, 0);
   assert.equal(spend(f, BILLING_ORG, DAY), null, 'no row for free models');
   assert.equal(await first.admit(PAID), 'ok');
   assert.deepEqual(spend(f, BILLING_ORG, DAY), { reserved_micro: estimate, actual_micro: 0, attempts: 1 });

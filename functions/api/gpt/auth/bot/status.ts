@@ -8,8 +8,10 @@
 // without it 403. "done" happens once per attempt: it starts a new account
 // session (__Host-gpt_account, a fresh token; this browser's previous session
 // ends) and clears the attempt's cookie and the chat-session cookies, as
-// Telegram's OIDC callback does. Signing in leaves the free allowance as it
-// was: it counts by IP hash as well (turn-store.ts).
+// Telegram's OIDC callback does. Signing in gives a visitor without a pack
+// no new free answers: the free tier counts by account and by IP hash. A
+// pack holder's free answers count by the account alone (decision R2,
+// turn-store.ts), so what the address spent as a guest does not reduce them.
 import { BILLING_ORG, type BillingEnv } from "../../../../lib/gpt-chat/billing-config";
 import { ensureBillingSchema } from "../../../../lib/gpt-chat/billing-schema";
 import { BOT_LOGIN_COOKIE } from "../../../../lib/gpt-chat/bot-login";

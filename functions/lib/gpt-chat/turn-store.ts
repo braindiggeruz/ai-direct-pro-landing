@@ -5,8 +5,9 @@
 // Admission rules (plan WP-05, decisions L3, L5 and R2), all at once:
 //   free tier   per UTC day and per rolling hour (GPT_FREE_DAILY_LIMIT,
 //               GPT_FREE_HOURLY_LIMIT), counted by account AND by IP hash
-//               among turns without a pack: signing in or out gives no new
-//               allowance, and a spent pack does not touch it;
+//               among turns without a pack: for a visitor without a pack,
+//               signing in or out gives no new allowance, and a spent pack
+//               does not touch it;
 //   pack holder free answers first (decision R2): the same day and hour,
 //               counted by the account alone. Only a turn they refuse is an
 //               answer from the pack: PACK_DAILY_LIMIT pack answers a UTC day
@@ -14,7 +15,11 @@
 //               pack's terms). One statement picks the allowance and reserves
 //               on it. A holder's free answer is marked (ACCOUNT_FREE_ID) and
 //               never counts against the address: the neighbours behind it
-//               keep their free answers;
+//               keep their free answers. The other way round, what the
+//               address spent as a guest (the holder signed out or not yet
+//               signed in, or a neighbour) does not count against the
+//               holder: at most one more free day's answers a day, the price
+//               of never taking the neighbours' (docs/paid-chat/LIMITS-RU.md);
 //   both        at most MAX_CONCURRENT_TURNS in flight per subject, and an
 //               abuse ceiling of requests per IP hash and rolling hour.
 // A refusal is explained by the same rules (explain): the precise reason and
@@ -114,6 +119,14 @@ export interface LimitExplanation {
   retryAt: number | null;
   /** Answers left today (free tier) or in every pack the account can draw from. */
   remaining: number;
+  /**
+   * A pack holder refused as 'pack_daily' while the free day still has
+   * answers (only the free hour, or a turn in flight, refuses those): when a
+   * free answer fits again, before `retryAt`. `retryAt` stays the pack's
+   * day, which the unchanged chat bundle needs to keep its card; it does not
+   * read this yet (R-S3). Absent otherwise.
+   */
+  freeRetryAt?: number;
 }
 
 /** A reservation and the allowance it draws on, or why there is none. */
@@ -365,7 +378,7 @@ export class TurnStore {
    * chat keeps that card while the pack has answers left, where it lifts an
    * 'hourly' one at once (src/gpt-chat/limit-state.ts). A free hour that
    * frees up sooner is still admitted to the next turn sent, from another
-   * tab for one.
+   * tab for one; `freeRetryAt` says when.
    */
   async explain(
     subject: string,
@@ -422,15 +435,23 @@ export class TurnStore {
       });
     const freeRefusals = refusing(0, free.length);
     const packRefusals = refusing(free.length, free.length + pack.length);
+    const sharedRefusals = refusing(free.length + pack.length, rules.length);
     const candidates = [
       // A holder is refused by the free tier only when the pack's day refuses too.
       ...(period ? (freeRefusals.length ? packRefusals : []) : freeRefusals),
-      ...refusing(free.length + pack.length, rules.length),
+      ...sharedRefusals,
     ];
     let refusal: { reason: LimitReason; retryAt: number } | null = null;
     for (const candidate of candidates)
       if (!refusal || candidate.retryAt > refusal.retryAt) refusal = candidate;
-    return refusal && { ...refusal, remaining };
+    if (!refusal) return null;
+    // A holder's free answers lift with the latest of the free rules and the
+    // shared ones; the free day's is the pack's own midnight, so only an
+    // earlier time is news.
+    const freeLifts = Math.max(...[...freeRefusals, ...sharedRefusals].map((r) => r.retryAt));
+    return period && refusal.reason === "pack_daily" && freeLifts < refusal.retryAt
+      ? { ...refusal, remaining, freeRetryAt: freeLifts }
+      : { ...refusal, remaining };
   }
   /**
    * The day's (or the packs') and, for the free tier, the rolling hour's

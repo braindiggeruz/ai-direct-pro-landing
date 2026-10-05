@@ -16,11 +16,14 @@ import { ensureBillingSchema } from '../functions/lib/gpt-chat/billing-schema';
 import { resolveConfig, modelChain } from '../functions/lib/gpt-chat/config';
 import {
   webChatChain,
+  holderFreeChain,
   providerOf,
   bareModel,
   _resetZaiWarning,
   ZAI_WILDCARD,
 } from '../functions/lib/gpt-chat/model-provider';
+import { BILLING_ORG } from '../functions/lib/gpt-chat/billing-config';
+import { ACCOUNT_FREE_ID } from '../functions/lib/gpt-chat/turn-store';
 import { chatComplete, buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { chatStreamStart, parseSseChunk, type SseEvent } from '../functions/lib/gpt-chat/openrouter-stream';
 import { ZAI_ENDPOINT, classifyZaiFailure, callZaiOnce, buildZaiBody } from '../functions/lib/gpt-chat/zai-chat';
@@ -673,13 +676,15 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
   }
 
   // Paid tier through the streaming endpoint: glm-4.5-air, usage from the
-  // last chunk, 1500/500 tokens → $0.00085 on the assistant row.
+  // last chunk, 1500/500 tokens → $0.00085 on the assistant row. The
+  // holder's free day is spent, so the answer is the pack's (decision R2).
   {
     const f = await billingFixture();
     Object.assign(f.env, { OPENROUTER_API_KEY: secret(), ZAI_API_KEY: secret(), GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-09-30' });
     const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());
     await f.store.transition(order.id, 'prepared', 'prepare');
     await f.store.transition(order.id, 'paid', 'perform');
+    spendFreeDay(f);
     const { seen } = route(t, {
       zai: () => sseResponse(
         zaiData({ choices: [{ delta: { content: 'Pullik javob' } }] }),
@@ -705,6 +710,70 @@ test('15 estimateCostUsd and cost_usd on the assistant row', async (t) => {
       ],
     );
   }
+});
+
+/** The account's free answers of the day, as a pack holder's (decision R2): its next answer is the pack's. */
+function spendFreeDay(f: Awaited<ReturnType<typeof billingFixture>>) {
+  const now = Date.now();
+  for (let i = 0; i < resolveConfig(f.env).freeDailyLimit; i++)
+    f.db
+      .prepare("INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)")
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, now, now + 120_000)
+      .runSync();
+}
+
+// ── 15b. A pack holder's free answer (decision R2) ─────────────────────────
+test('15b a pack holder\'s free answer never calls a Z.ai model that bills per token; his pack answer does', async (t) => {
+  // The chain: the pack's, save a billable Z.ai head (the code's default
+  // glm-4.5-air, or glm-4.7-flashx), which the free tier's Z.ai model
+  // replaces, or nothing when the free tier does not use Z.ai.
+  const billable = zaiEnv();
+  const cfg = resolveConfig(billable);
+  assert.deepEqual(holderFreeChain(cfg, billable), ['zai/glm-4.7-flash', ...modelChain(cfg, 'paid')]);
+  const flashx = zaiEnv(undefined, { ZAI_MODEL_PAID: 'glm-4.7-flashx' });
+  assert.deepEqual(holderFreeChain(resolveConfig(flashx), flashx), ['zai/glm-4.7-flash', ...modelChain(cfg, 'paid')]);
+  const paidOnly = zaiEnv(undefined, { ZAI_TIERS: 'paid' });
+  assert.deepEqual(holderFreeChain(resolveConfig(paidOnly), paidOnly), modelChain(cfg, 'paid'));
+  // A $0 or prepaid paid model is the pack's chain as it is: today's
+  // production config (glm-5.3-flash, prepaid) answers both alike.
+  const prepaid = zaiEnv(undefined, { ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'glm-5.3-flash', ZAI_PREPAID_MODELS: 'glm-5.3-flash' });
+  assert.deepEqual(holderFreeChain(resolveConfig(prepaid), prepaid), webChatChain(resolveConfig(prepaid), prepaid, 'paid'));
+  assert.equal(holderFreeChain(resolveConfig(prepaid), prepaid)[0], 'zai/glm-5.3-flash');
+  const zero = zaiEnv(undefined, { ZAI_MODEL_PAID: 'glm-4.5-flash' });
+  assert.deepEqual(holderFreeChain(resolveConfig(zero), zero), webChatChain(resolveConfig(zero), zero, 'paid'));
+  // Without Z.ai the chain is the pack's OpenRouter one.
+  const openrouterOnly = { OPENROUTER_API_KEY: secret() } as Env;
+  assert.deepEqual(holderFreeChain(resolveConfig(openrouterOnly), openrouterOnly), modelChain(cfg, 'paid'));
+
+  // Through the chat, ZAI_MODEL_PAID unset (glm-4.5-air) and no prepaid list.
+  const f = await billingFixture();
+  Object.assign(f.env, { OPENROUTER_API_KEY: secret(), ZAI_API_KEY: secret(), GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-09-30', ZAI_PREPAID_MODELS: '' });
+  const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());
+  await f.store.transition(order.id, 'prepared', 'prepare');
+  await f.store.transition(order.id, 'paid', 'perform');
+  const { seen } = route(t, {
+    zai: () => Response.json({ choices: [{ message: { content: 'Javob' }, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 5 } }),
+  });
+  const ask = async () => {
+    const response = await chat(f.ctx(new Request('https://gpt.test/api/gpt/chat', {
+      method: 'POST',
+      headers: { cookie: f.testCookie, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Salom', locale: 'uz' }),
+    })));
+    const body = await response.json() as { ok: boolean; modelUsed: string; remaining: number };
+    await drain(f.background);
+    return [body.ok, body.modelUsed, body.remaining];
+  };
+  // Five free answers of the hour: the free tier's $0 model, the pack whole.
+  for (let i = 0; i < 5; i++) assert.deepEqual(await ask(), [true, 'zai/glm-4.7-flash', 300]);
+  // The sixth is the pack's, on the pack's own Z.ai model.
+  assert.deepEqual(await ask(), [true, 'zai/glm-4.5-air', 299]);
+  assert.deepEqual(seen.filter((s) => s.host === 'api.z.ai').map((s) => s.body!.model), [...Array(5).fill('glm-4.7-flash'), 'glm-4.5-air']);
+  assert.equal(seen.some((s) => s.host === 'openrouter.ai'), false);
+  // Only the pack's answer spent an attempt of its ceiling; no budget row (both $0 or the pack's).
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_spend'), 0);
+  assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_turn_reservations WHERE id LIKE '${ACCOUNT_FREE_ID}%' AND model='zai/glm-4.7-flash'`), 5);
 });
 
 // ── 16. Runtime config ─────────────────────────────────────────────────────

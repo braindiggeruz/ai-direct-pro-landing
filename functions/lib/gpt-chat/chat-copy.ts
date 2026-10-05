@@ -21,6 +21,11 @@ export interface LimitFacts {
   remaining: number;
   /** Seconds until a turn fits again; null when time does not lift the limit. */
   retryAfterSec: number | null;
+  /**
+   * 'pack_daily' only: seconds until a pack holder's free answer fits again,
+   * when that comes before the pack's day (decision R2); else null or absent.
+   */
+  freeRetryAfterSec?: number | null;
 }
 
 /** Why the turn was refused and when the visitor can write again. */
@@ -44,6 +49,14 @@ export function limitMessage(
         ? `Kunlik ${daily} ta bepul xabar tugadi. ${today ? "Bugun" : "Ertaga"} soat 05:00 dan (Toshkent vaqti bilan) yana yozishingiz mumkin.`
         : `Бесплатные сообщения закончились (в день — ${daily}). Снова писать можно ${today ? "сегодня" : "завтра"} с 05:00 по Ташкенту.`;
     case "pack_daily":
+      // The pack's 50 are used up, but the free day is not: the holder can
+      // write again once the free hour lets an answer through.
+      if (typeof facts.freeRetryAfterSec === "number") {
+        const freeMinutes = Math.max(1, Math.ceil(facts.freeRetryAfterSec / 60));
+        return uz
+          ? `Paketning kunlik limiti (${daily} ta javob) tugadi; paketda ${facts.remaining} ta javob qoldi. Bugun bepul javoblar hali bor: ${freeMinutes} daqiqadan keyin yana yozasiz.`
+          : `Дневной лимит пакета исчерпан (ответов в день: ${daily}); ответов в пакете осталось: ${facts.remaining}. Бесплатные ответы на сегодня ещё есть: снова написать можно через ${freeMinutes} мин.`;
+      }
       return uz
         ? `Paketning kunlik limiti (${daily} ta javob) tugadi. ${today ? "Bugun" : "Ertaga"} soat 05:00 dan (Toshkent vaqti bilan) davom ettirasiz; paketda ${facts.remaining} ta javob qoldi.`
         : `Дневной лимит пакета исчерпан (ответов в день: ${daily}). Продолжить можно ${today ? "сегодня" : "завтра"} с 05:00 по Ташкенту; ответов в пакете осталось: ${facts.remaining}.`;

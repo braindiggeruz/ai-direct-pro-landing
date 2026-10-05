@@ -25,18 +25,22 @@
 // free answer while the holder's own free day and hour allow it, counted by
 // the account and never against the address, and an answer from the pack
 // only once they refuse (TurnStore.reserve decides and reserves at once).
-// Every turn of a holder walks the pack's chain; which allowance it drew on
-// picks the money guard above.
+// Every turn of a holder walks the pack's chain, save a Z.ai head the free
+// tier may not call, which a free answer never reaches (holderFreeChain);
+// which allowance the turn drew on picks the money guard above.
 //
 // A refused turn answers 429 with the precise reason, the tier's limits and
 // when a turn fits again (retryAt, retryAfterSec, Retry-After), in the
-// visitor's language (chat-copy.ts), and is counted in gpt_limit_hits. The
-// free tier counts by account and by IP hash, so signing in gives no new
-// allowance; a spent or ended pack leaves the free tier open (turn-store.ts).
+// visitor's language (chat-copy.ts), and is counted in gpt_limit_hits. A
+// holder refused as pack_daily whose free answers come back sooner also gets
+// freeRetryAt and freeRetryAfterSec. Without a pack the free tier counts by
+// account and by IP hash, so signing in gives no new allowance; a holder's
+// free answers count by the account alone (turn-store.ts, LIMITS-RU.md); a
+// spent or ended pack leaves the free tier open.
 import type { Env } from "../../_types";
 import type { Locale } from "../../../src/shared/types";
 import { resolveConfig, type GptChatConfig } from "../../lib/gpt-chat/config";
-import { webChatChain } from "../../lib/gpt-chat/model-provider";
+import { holderFreeChain, webChatChain } from "../../lib/gpt-chat/model-provider";
 import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
 import {
   FREE_PAID_BUDGET_ALERT,
@@ -139,10 +143,14 @@ function limitReached(
   locale: Locale,
   now = Date.now(),
 ): Response {
-  const retryAfterSec =
-    limit.retryAt === null
+  const seconds = (at: number) => Math.max(1, Math.ceil((at - now) / 1000));
+  const retryAfterSec = limit.retryAt === null ? null : seconds(limit.retryAt);
+  // A holder's free answers that come back before the pack's day (R2). The
+  // chat bundle does not read it yet and keeps the pack_daily card (R-S3).
+  const free =
+    limit.freeRetryAt === undefined
       ? null
-      : Math.max(1, Math.ceil((limit.retryAt - now) / 1000));
+      : { freeRetryAt: limit.freeRetryAt, freeRetryAfterSec: seconds(limit.freeRetryAt) };
   const limits =
     tier === "paid"
       ? { daily: PACK_DAILY_LIMIT, hourly: null }
@@ -157,10 +165,12 @@ function limitReached(
       limits,
       retryAt: limit.retryAt,
       retryAfterSec,
+      ...free,
       message: limitMessage(limit.reason, locale, {
         limits,
         remaining: limit.remaining,
         retryAfterSec,
+        freeRetryAfterSec: free?.freeRetryAfterSec ?? null,
       }),
     },
     429,
@@ -331,8 +341,10 @@ export const onRequestPost: PagesFunction<Env> = async ({
     ? budget.admit
     : async () => ((await turns!.admitModelAttempt(period!)) ? "ok" : "stop");
   // A pack holder's free answers walk the pack's chain too: R2 changes what a
-  // turn draws on, not how it is answered.
-  const chain = webChatChain(cfg, env, plan);
+  // turn draws on, not how it is answered. Only a Z.ai head that bills per
+  // token gives way to the free tier's Z.ai model (holderFreeChain).
+  const chain =
+    bucket === "free" && plan === "paid" ? holderFreeChain(cfg, env) : webChatChain(cfg, env, plan);
   // OpenRouter credits (402 on a paid model) and Z.ai balance / key failures
   // page the owner (operator-alert.ts). Runs in the background and never
   // throws into the turn.

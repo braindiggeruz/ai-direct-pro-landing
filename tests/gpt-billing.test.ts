@@ -302,7 +302,7 @@ test("the panel asks to renew only when the last running pack ends soon", async 
   assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, true]);
 });
 
-test("the Paketim panel: what is left in the pack, what its day cap still lets through today, and the free answers that come first (WP-17, R2)", async () => {
+test("the Paketim panel: what is left in the pack, what today still lets through (free answers first, then the pack's day), and the free answers apart (WP-17, R2)", async () => {
   const f = await billingFixture();
   const turns = new TurnStore(f.binding, BILLING_ORG);
   const cfg = resolveConfig(f.env);
@@ -335,17 +335,29 @@ test("the Paketim panel: what is left in the pack, what its day cap still lets t
   for (let i = 0; i < 3; i++) assert.equal(await turn(), "pack");
   // A released answer (cut at the length limit, a provider error) gives its place back.
   assert.equal(await turn("truncated"), "pack");
-  assert.deepEqual(await view(), [297, 47, 300, 10, 0]);
-  // Near the end of the pack, today's room is never more than what is left in it.
+  // Today: the pack's 47 and ten free answers; the line names the pack's 50
+  // a day and never says more.
+  assert.deepEqual(await view(), [297, 50, 300, 10, 0]);
+  // Near the end of the pack: its last two and the ten free answers.
   await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=5 WHERE order_id=?").bind(order.id).run();
-  assert.deepEqual((await view()).slice(0, 3), [2, 2, 5]);
+  assert.deepEqual((await view()).slice(0, 3), [2, 12, 5]);
   // The same numbers reserve() goes by: with the free hour spent, the pack's
-  // day cap refuses its 51st answer of the day.
+  // day cap refuses its 51st answer of the day. The ten free answers are
+  // still today's (the free hour gives them back), so the line is not 0.
   await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=300 WHERE order_id=?").bind(order.id).run();
   for (let i = 0; i < 47; i++) assert.equal(await turn(), "pack");
-  assert.deepEqual(await view(), [250, 0, 300, 10, 0]);
+  assert.deepEqual(await view(), [250, 10, 300, 10, 0]);
   const period = (await f.store.access(f.user, "test"))!;
   assert.equal((await turns.reserve(f.user, "ip", period, cfg)).limit?.reason, "pack_daily");
+  // The pack's store numbers stay its own.
+  assert.equal((await turns.allowance(f.user, "ip", period, cfg)).dayRemaining, 0);
+  // Free day spent too: nothing more today.
+  for (let i = 0; i < 10; i++)
+    f.db
+      .prepare("INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)")
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, Date.now() - 1000, Date.now() + 119_000)
+      .runSync();
+  assert.deepEqual(await view(), [250, 0, 300, 0, 0]);
 });
 
 /** `n` answers of pack `order` already given (status done), as TurnStore writes them. */

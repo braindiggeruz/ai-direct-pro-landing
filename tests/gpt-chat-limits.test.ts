@@ -359,7 +359,46 @@ test('the pack day: 429 pack_daily with the pack tier, limits and what is left i
   assert.ok((body.retryAfterSec as number) <= untilMidnight && (body.retryAfterSec as number) >= untilMidnight - 30, String(body.retryAfterSec));
   // 'сегодня' when this runs between 00:00 and 05:00 in Tashkent (pinned by the day-word test below).
   assert.match(body.message as string, /ответов в день: 50.*(сегодня|завтра) с 05:00 по Ташкенту.*осталось: 250\.$/);
+  // The free day is spent too: no free answer comes back before the pack's day.
+  assert.equal('freeRetryAt' in body || 'freeRetryAfterSec' in body, false);
   assert.deepEqual(limitHits(f).map((row) => [row.reason, row.tier, row.subject, row.n]), [['pack_daily', 'paid', f.user, 1]]);
+});
+
+test('the pack day with free answers left today: the 429 keeps the pack\'s day for the chat and says when a free answer fits (R2)', async () => {
+  const f = await fixture();
+  const now = Date.now();
+  const today = Math.floor(now / DAY) * DAY;
+  pack(f, 'pack-free-left', 300, { from: now - DAY, to: now + 20 * DAY });
+  seed(f, times(PACK_DAILY_LIMIT, (i) => Math.max(today, now - 2 * HOUR + i * 1000), { subject: f.user, ip: 'ip-p', period: 'pack-free-left' }));
+  // Five free answers in the last hour, ten left today.
+  const free = times(5, (i) => Math.max(today, now - (50 - 10 * i) * MIN), { subject: f.user, ip: 'ip-p', accountFree: true });
+  seed(f, free);
+  const freeRetryAt = Math.min(...free.map((turn) => turn.at)) + HOUR;
+  for (const locale of ['ru', 'uz'] as const) {
+    const response = await chat(request(f, { locale }, { cookie: f.testCookie }));
+    await drain(f);
+    assert.equal(response.status, 429);
+    const body = (await response.json()) as Row;
+    // retryAt and Retry-After stay the pack's day: the chat bundle keeps its
+    // pack_daily card by them (an earlier time would read «сегодня с 05:00»).
+    assert.deepEqual([body.reason, body.tier, body.remaining, body.retryAt, body.freeRetryAt], ['pack_daily', 'paid', 250, today + DAY, freeRetryAt]);
+    assert.equal(response.headers.get('retry-after'), String(body.retryAfterSec));
+    const untilFree = Math.ceil((freeRetryAt - now) / 1000);
+    assert.ok((body.freeRetryAfterSec as number) <= untilFree && (body.freeRetryAfterSec as number) >= untilFree - 30, String(body.freeRetryAfterSec));
+    const minutes = Math.max(1, Math.ceil((body.freeRetryAfterSec as number) / 60));
+    assert.equal(
+      body.message,
+      locale === 'ru'
+        ? `Дневной лимит пакета исчерпан (ответов в день: 50); ответов в пакете осталось: 250. Бесплатные ответы на сегодня ещё есть: снова написать можно через ${minutes} мин.`
+        : `Paketning kunlik limiti (50 ta javob) tugadi; paketda 250 ta javob qoldi. Bugun bepul javoblar hali bor: ${minutes} daqiqadan keyin yana yozasiz.`,
+    );
+  }
+  // «Мой пакет» does not say 0 for today: the ten free answers are left.
+  const view = (await (
+    await account(f.ctx(new Request('https://gpt.test/api/gpt/account', { headers: { cookie: f.testCookie, 'CF-Connecting-IP': IP } })) as never)
+  ).json()) as Row;
+  const access = view.access as Row;
+  assert.deepEqual([access.remaining, access.dayRemaining, access.freeRemaining, access.freeHourRemaining], [250, 10, 10, 0]);
 });
 
 // ── Free answers first, then the pack (decision R2) ─────────────────────────
@@ -468,16 +507,40 @@ test('free first (R2): the pack\'s 50 leave the holder\'s free answers; both spe
   // Fifty pack answers early today, and five free ones in the last hour.
   seed(f, times(PACK_DAILY_LIMIT, (i) => T0 - 8 * HOUR + i * MIN, { subject: f.user, ip: 'ip-e', period: 'pack-e' }));
   seed(f, times(5, (i) => T0 - (50 - 10 * i) * MIN, { subject: f.user, ip: 'ip-e', accountFree: true }));
-  // Both refuse: 'pack_daily' until the pack's day turns, though the free
-  // hour lifts at 10:10 UTC. The chat keeps a pack_daily card while the pack
-  // has answers left; it would lift an 'hourly' one at once.
-  assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
-  assert.deepEqual((await turns.reserve(f.user, 'ip-e', p, cfg, T0)).limit, { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+  // Both refuse: 'pack_daily' until the pack's day turns, which the chat
+  // keeps while the pack has answers left (it would lift an 'hourly' card at
+  // once). The free hour lifts at 10:10 UTC: freeRetryAt says so.
+  const both = { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250, freeRetryAt: T0 + 10 * MIN };
+  assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0), both);
+  assert.deepEqual((await turns.reserve(f.user, 'ip-e', p, cfg, T0)).limit, both);
   // The free hour lifted: the holder's free answers are his again, past the pack's 50.
   const freed = await turns.reserve(f.user, 'ip-e', p, cfg, T0 + 10 * MIN + 1);
   assert.equal(drawn(freed), 'free');
-  // That one in flight fills the hour again: the pack's day once more.
+  // That one in flight fills the hour again: the pack's day once more, and
+  // the next free answer when the second oldest leaves the hour.
+  assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0 + 10 * MIN + 2), { ...both, freeRetryAt: T0 + 20 * MIN });
+  // The free day spent too (5 + the one in flight + 9 this morning): nothing
+  // comes back before the pack's day.
+  seed(f, times(9, (i) => T0 - 9 * HOUR + i * MIN, { subject: f.user, ip: 'ip-e', accountFree: true }));
   assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0 + 10 * MIN + 2), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+});
+
+test('free first (R2): past the pack\'s 50, the next free answer also waits for a turn in flight to end', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-b', 300);
+  seed(f, times(PACK_DAILY_LIMIT, (i) => T0 - 8 * HOUR + i * MIN, { subject: f.user, ip: 'ip-b', period: 'pack-b' }));
+  seed(f, times(5, (i) => T0 - (50 - 10 * i) * MIN, { subject: f.user, ip: 'ip-b', accountFree: true }));
+  // Two answers still being prepared (another tab), until 10:11:40 UTC: the
+  // free hour lifts at 10:10, but a turn fits only once a slot is free.
+  seed(f, times(2, () => T0 + 10 * MIN - 20_000, { subject: f.user, ip: 'ip-b', period: 'pack-b', status: 'reserved' }));
+  assert.deepEqual(await turns.explain(f.user, 'ip-b', p, cfg, T0 + 10 * MIN - 10_000), {
+    reason: 'pack_daily',
+    retryAt: MIDNIGHT,
+    remaining: 248,
+    freeRetryAt: T0 + 10 * MIN + 100_000,
+  });
 });
 
 test('free first (R2): two tabs at once take the last free answer and one from the pack, never both one; a failed or cut answer goes back where it came from', async () => {
@@ -561,14 +624,16 @@ test('free first at the chat (R2): free answers leave the pack whole and walk th
   assert.deepEqual([...new Set(models)], [modelChain(cfg, 'paid')[0]]);
   assert.equal(f.db.value("SELECT attempts FROM gpt_model_spend WHERE bucket='free_paid'"), 5);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_attempts WHERE period_id='pack-chat'"), 1);
-  // The account view: the pack's numbers count its own answer, the free ones apart.
+  // The account view: what is left in the pack counts its own answer, the
+  // free ones apart. Today the pack's 49 and ten free answers remain: the
+  // day line says the pack's 50 a day at most.
   const view = (await (
     await account(f.ctx(new Request('https://gpt.test/api/gpt/account', { headers: { cookie: f.testCookie, 'CF-Connecting-IP': IP } })) as never)
   ).json()) as Row;
   const access = view.access as Row;
   assert.deepEqual(
     [view.remaining, access.remaining, access.dayRemaining, access.freeRemaining, access.freeHourRemaining],
-    [299, 299, 49, 10, 0],
+    [299, 299, 50, 10, 0],
   );
   // A guest behind the same address still has his whole hour.
   const guest = (await (await chat(request(f))).json()) as Row;
@@ -632,6 +697,16 @@ test('the texts: every reason and failure in RU and UZ, no plan names, letter ap
   assert.match(limitMessage('ip', 'uz', { ...facts, retryAfterSec: 1 }), /^Tarmog‘ingizdan .* 1 daqiqadan keyin/);
   assert.match(limitMessage('daily', 'uz', { ...facts, retryAfterSec: 14 * 3600 }), /^Kunlik 15 ta bepul xabar tugadi\. Ertaga soat 05:00 dan \(Toshkent vaqti bilan\)/);
   assert.match(limitMessage('pack_daily', 'uz', { ...facts, limits: { daily: 50, hourly: null } }), /\(50 ta javob\).* paketda 7 ta javob qoldi\.$/);
+  // A holder whose free answers come back before the pack's day (R2): the
+  // same rules, minutes rounded up.
+  const freeLeft = { ...facts, limits: { daily: 50, hourly: null }, retryAfterSec: 9 * 3600, freeRetryAfterSec: 61 };
+  for (const locale of ['ru', 'uz'] as const) {
+    const text = limitMessage('pack_daily', locale, freeLeft);
+    assert.doesNotMatch(text, /Plus|obuna|подписк|ChatGPT|OpenAI|AI[ -]?(paket|пакет)|so‘m|сум|05:00/i, text);
+    assert.match(text, locale === 'ru' ? /через 2 мин\.$/ : /^Paketning .* 2 daqiqadan keyin yana yozasiz\.$/);
+    if (locale === 'uz') assert.doesNotMatch(text, /[А-Яа-яЁё]|'|[og]’/, text);
+  }
+  assert.equal(limitMessage('pack_daily', 'ru', { ...freeLeft, freeRetryAfterSec: null }), limitMessage('pack_daily', 'ru', { ...freeLeft, freeRetryAfterSec: undefined }));
   assert.match(providerMessage('rate_limit', 'uz'), /^Hozir so‘rovlar ko‘p\./);
   // The chat endpoint carries no plan names of its own.
   assert.doesNotMatch(readFileSync(new URL('../functions/api/gpt/chat.ts', import.meta.url), 'utf8'), /Plus|оформите/);
