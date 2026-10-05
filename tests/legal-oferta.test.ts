@@ -458,7 +458,7 @@ test('live gate: switching live off always ships, and no Pages variable may shad
     assert.deepEqual(liveGate(stopped), { live: false, providers: [], issues: [], deferred: [] }, mode || 'cleared');
   }
   // A secret named like a billing setting overrides the reviewed JSON at runtime.
-  for (const name of ['GPT_BILLING_LIVE_READY', 'GPT_BILLING_MODE_CLICK', 'GPT_PAYMENT_PROVIDERS', 'GPT_FISCAL_TIN', 'UZUM_API']) {
+  for (const name of ['GPT_BILLING_LIVE_READY', 'GPT_BILLING_MODE_CLICK', 'GPT_PAYMENT_PROVIDERS', 'GPT_FISCAL_TIN', 'UZUM_API', 'GPT_GUEST_CHECKOUT']) {
     const report = liveGate({ ...off, production: new Set([name]) });
     assert.deepEqual(report.issues, [`Pages variable ${name} overrides the reviewed GPTBOT_RUNTIME_CONFIG_JSON: remove it`]);
   }

@@ -4,13 +4,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { billingFixture } from "./helpers/gpt-billing-fixture";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import { onRequestGet as restorePage, onRequestPost as restore } from "../functions/api/gpt/restore";
 import { onRequestPost as restoreLink } from "../functions/api/internal/gpt-guest-restore-link";
 import { onRequest as middleware } from "../functions/_middleware";
-import { BILLING_ORG, PAYMENT_TTL_MS } from "../functions/lib/gpt-chat/billing-config";
+import { BILLING_ORG, guestCheckoutOn, PAYMENT_TTL_MS, type BillingEnv } from "../functions/lib/gpt-chat/billing-config";
 import { BILLING_NOTICES_PER_HOUR, maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
@@ -18,6 +19,8 @@ import { findOrder, RESTORE_LINK_MS, restoreNotice } from "../functions/lib/gpt-
 import { addressKey } from "../functions/lib/gpt-chat/hash";
 import { isGuestAccount, moveOrders } from "../functions/lib/gpt-chat/identity-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
+import { hydrateRuntimeConfig, RUNTIME_CONFIG_KEYS } from "../functions/lib/runtime-config";
+import { BILLING_SETTINGS, committedRuntimeConfig } from "../scripts/release/live-gate";
 
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 
@@ -97,6 +100,20 @@ test("guest checkout stays off unless GPT_GUEST_CHECKOUT is exactly \"true\"", a
     assert.equal(view.guestCheckout, false);
   }
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE id LIKE 'acct_guest_%'"), 0);
+});
+
+test("the committed config lists GPT_GUEST_CHECKOUT as \"false\": turning it on is one word in both copies", () => {
+  const toml = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
+  const packed = committedRuntimeConfig(toml);
+  assert.equal(packed.GPT_GUEST_CHECKOUT, "false");
+  assert.match(toml, /^GPT_GUEST_CHECKOUT = "false"$/m);
+  assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes("GPT_GUEST_CHECKOUT"));
+  const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
+  assert.equal(env.GPT_GUEST_CHECKOUT, "false");
+  assert.equal(guestCheckoutOn(env), false);
+  assert.equal(guestCheckoutOn({ ...env, GPT_GUEST_CHECKOUT: "true" }), true);
+  // A Pages variable of the same name would override the reviewed JSON.
+  assert.ok(BILLING_SETTINGS.has("GPT_GUEST_CHECKOUT"));
 });
 
 test("a guest pays with Click, the pack is the browser's, and its free answers spare the neighbours", async () => {
