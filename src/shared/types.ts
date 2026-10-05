@@ -54,7 +54,9 @@ export interface BodyBlock {
   links?: { anchor?: string; label?: string; token?: string; target?: string; lang?: string }[];
   /**
    * p/linkp: language of a paragraph written in another language than the page
-   * (BCP 47, e.g. 'uz' on a Russian page), emitted as lang on the <p>. On a
+   * (BCP 47, e.g. 'uz' on a Russian page), emitted as lang on the <p>. Blog h3
+   * (scripts/prerender-blog.ts): the same for a heading, e.g. 'uz-Cyrl' on a
+   * Latin-script Uzbek page. On a
    * linkp link: the language of the anchor text, emitted as lang and hreflang
    * on the <a>, so screen readers and crawlers read it in the right language.
    */

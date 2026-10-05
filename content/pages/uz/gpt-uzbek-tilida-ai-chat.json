@@ -120,7 +120,7 @@
     { "type": "h2", "text": "GPTBot.uz O‘zbekistondagi foydalanuvchilar uchun nimasi bilan qulay?" },
     { "type": "p", "text": "GPTBot.uz — til modellari asosidagi mustaqil AI servis. U o‘zbek va rus tilida AI chat beradi: talabalar, marketologlar, tadbirkorlar va Telegram hamda Instagram orqali savdo qiluvchilar uchun qulay. Shaxsiy chatdan biznes darajasiga o‘tish mumkin: saytga AI chat qo‘yish, Telegram bot yaratish va arizalarni CRM’ga uzatish." },
     { "type": "linkp", "text": "Chatning imkoniyatlari, tillari, limitlari va xavfsizlik qoidalari alohida sahifada jamlangan: {manual}.", "links": [{"token": "manual", "target": "/uz/gpt-chat-qollanma/", "anchor": "GPTBot.uz AI-chat qo‘llanmasi"}] },
-    { "type": "linkp", "text": "Amaliyotni davom ettirish uchun {prompts}ni nusxalang, talabalarga mos yondashuvni {students}dan o‘qing, ishga topshirish uchun {rezyume} qo‘llanmasidan foydalaning. Telefon va kompyuterda xavfsiz kirish uchun {download}, AI servis tanlash uchun {compare} qo‘llanmalari tayyorlangan.", "links": [
+    { "type": "linkp", "text": "Amaliyotni davom ettirish uchun {prompts}ni nusxalang, talabalarga mos yondashuvni {students}dan o‘qing, ishga hujjat topshirish uchun {rezyume} qo‘llanmasidan foydalaning. Telefon va kompyuterda xavfsiz kirish uchun {download}, AI servis tanlash uchun {compare} qo‘llanmalari tayyorlangan.", "links": [
       { "token": "prompts", "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/", "anchor": "50 ta o‘zbekcha prompt" },
       { "token": "students", "target": "/uz/blog/chatgpt-talabalar-uchun/", "anchor": "ChatGPT talabalar uchun" },
       { "token": "rezyume", "target": "/uz/blog/rezyume-tayyorlash/", "anchor": "rezyume tayyorlash" },

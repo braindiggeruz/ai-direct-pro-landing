@@ -174,8 +174,9 @@ function isPricingTable(headers: string[]): boolean {
   return headers.some((h) => PRICING_HEADER_RE.test(h || ''));
 }
 
-// Optional lang of a paragraph written in another language than the article;
-// empty for every block without it, so those render as before.
+// Optional lang of a paragraph or h3 written in another language or script than
+// the article (e.g. uz-Cyrl on a Latin-script Uzbek page); empty for every
+// block without it, so those render as before.
 function blockLang(b: BodyBlock): string {
   return b.lang ? ` lang="${escapeHtml(b.lang)}"` : '';
 }
@@ -183,7 +184,7 @@ function blockLang(b: BodyBlock): string {
 function renderBlock(b: BodyBlock): string {
   switch (b.type) {
     case 'h2': return `<h2${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-3xl sm:text-4xl mt-14 mb-5 text-white">${escapeText(b.text || '')}</h2>`;
-    case 'h3': return `<h3${b.id ? ` id="${escapeHtml(b.id)}"` : ''} class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
+    case 'h3': return `<h3${b.id ? ` id="${escapeHtml(b.id)}"` : ''}${blockLang(b)} class="font-display text-2xl mt-10 mb-4 text-white">${escapeText(b.text || '')}</h3>`;
     case 'p': return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-5">${escapeText(b.text || '')}</p>`;
     case 'list': return `<ul class="space-y-3 text-white/80 mb-6 pl-1">${(b.items || []).map((i) => `<li class="flex gap-3 items-start"><span class="mt-1 shrink-0 inline-flex h-5 w-5 items-center justify-center rounded-md bg-brand-cyan/12 border border-brand-cyan/30"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#2FE6D1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>${escapeText(i)}</span></li>`).join('')}</ul>`;
     case 'quote': return `<blockquote class="border-l-2 border-brand-cyan pl-5 italic text-white/85 my-8 text-lg">${escapeText(b.text || '')}</blockquote>`;

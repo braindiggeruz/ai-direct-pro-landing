@@ -78,10 +78,12 @@
     {
       "type": "h3",
       "id": "kirill",
+      "lang": "uz-Cyrl",
       "text": "Кирилл ёзувида: резюме ва объективка"
     },
     {
       "type": "p",
+      "lang": "uz-Cyrl",
       "text": "Резюме — иш берувчига юбориладиган 1–2 саҳифалик ҳужжат: ўзингиз ҳақингизда қисқача маълумот, иш тажрибаси, таълим, кўникмалар ва тиллар. Объективка (маълумотнома) эса белгиланган шаклдаги анкета бўлиб, уни кўпинча давлат ташкилотлари сўрайди. Резюме матнини GPTBot.uz AI чатида тайёрлаш мумкин, объективка шаклини эса ташкилотнинг ўзидан олинг."
     },
     {
@@ -103,7 +105,7 @@
       "rows": [
         [
           "Sarlavha va aloqa",
-          "Ism va familiya, istalgan lavozim, shahar, telefon, e-mail; bo‘lsa — portfolio havolasi",
+          "Ism va familiya, mo‘ljallangan lavozim, shahar, telefon, e-mail; bo‘lsa — portfolio havolasi",
           "[Ism Familiya] · Ofis administratori · [shahar] · [telefon] · [e-mail]"
         ],
         [
@@ -152,7 +154,7 @@
         "1. Xom ma’lumot. Qayerda, qachon va nima ish qilganingizni oddiy so‘zlar bilan yozib chiqing. Ism, telefon va manzil o‘rniga [Ism Familiya] kabi belgi qo‘ying.",
         "2. Natijaga aylantirish. AI’dan har bir ishni «nima qildim → qanday natija» ko‘rinishidagi qisqa bandga aylantirishni so‘rang. Raqam yoki yutuq bo‘lmasa, AI uni o‘ylab topmasin — buni so‘rovda aniq yozing.",
         "3. Vakansiyaga moslash. Vakansiya e’lonini chatga qo‘yib, qaysi ko‘nikma va bandlarni oldinga chiqarish kerakligini so‘rang. Talabga moslash uchun o‘zingizda yo‘q tajribani qo‘shmang.",
-        "4. Tekshiruv. Imlo, takror so‘zlar va uslubni tekshiring: bandlar qisqa va bir xil shaklda bo‘lsin. Har bir sana, lavozim va raqamni o‘zingiz solishtiring.",
+        "4. Tekshiruv. Imlo, takror so‘zlar va uslubni tekshiring: bandlar qisqa va bir xil shaklda bo‘lsin. Har bir sana, lavozim va raqamni hujjatlaringiz bilan solishtiring.",
         "5. Faylga joylash. Matnni Word, Google Docs yoki rezyume konstruktoriga ko‘chiring, aloqa ma’lumotlarini qo‘shing va ish beruvchi so‘ragan formatda saqlang."
       ]
     },
@@ -191,7 +193,7 @@
     },
     {
       "type": "p",
-      "text": "Kvadrat qavsdagi joylarni o‘z ma’lumotingiz bilan almashtiring. Ism, telefon va manzil o‘rniga belgini qoldiring."
+      "text": "Kvadrat qavsdagi joylarni o‘z ma’lumotingiz bilan almashtiring. Ism, telefon va manzil o‘rniga belgini qoldiring. Matn uzun bo‘lsa, uni bo‘limlarga bo‘lib yuboring: bitta xabar hajmi cheklangan."
     },
     {
       "type": "table",
@@ -206,7 +208,7 @@
         ],
         [
           "O‘zim haqimda",
-          "«[Lavozim] vakansiyasi uchun rezyumeda o‘zim haqimda 2–3 gap yoz. Tajribam: [qisqacha]. Maqtov so‘zlarini ko‘paytirma.»"
+          "«[Lavozim] vakansiyasi uchun rezyumeda o‘zim haqimda 2–3 gap yoz. Tajribam: [qisqacha]. Maqtov so‘zlarini ko‘paytirma. Faqat men yozgan faktlardan foydalan.»"
         ],
         [
           "Vakansiyaga moslash",
@@ -222,13 +224,13 @@
         ],
         [
           "Cover letter",
-          "«[Lavozim] vakansiyasi uchun qisqa motivatsion xat yoz: nega aynan shu ishni tanlaganim, shu ishga mos 2 ta tajribam va suhbatga tayyor ekanim. Tajribam: [qisqacha]. Uch xatboshidan oshmasin.»"
+          "«[Lavozim] vakansiyasi uchun qisqa motivatsion xat yoz: nega aynan shu ishni tanlaganim, shu ishga mos 2 ta tajribam va suhbatga tayyor ekanim. Sababim: [qisqacha]. Tajribam: [qisqacha]. O‘zingdan fakt qo‘shma. Uch xatboshidan oshmasin.»"
         ]
       ]
     },
     {
       "type": "linkp",
-      "text": "Ish va hujjatlar uchun yana shablonlar {prompts} sahifasida.",
+      "text": "Ish va hujjatlar uchun yana shablonlar «{prompts}» sahifasida.",
       "links": [
         {
           "token": "prompts",
@@ -240,7 +242,7 @@
     {
       "type": "h2",
       "id": "format",
-      "text": "Shablon va format: Word yoki PDF, bir sahifa"
+      "text": "Shablon va format: Word yoki PDF, 1–2 sahifa"
     },
     {
       "type": "p",
@@ -266,7 +268,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz chatida savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi. Shuning uchun rezyume ustida ishlaganda chatga faqat ish bilan bog‘liq matnni yozing:"
+      "text": "GPTBot.uz chatida savol va javoblar matni serverimizda saqlanadi, javob olish uchun esa savol xorijdagi AI-provayderlarga yuboriladi. Shuning uchun rezyume ustida ishlaganda chatga faqat ish bilan bog‘liq matnni yozing:"
     },
     {
       "type": "list",
@@ -309,7 +311,7 @@
     },
     {
       "type": "linkp",
-      "text": "Talaba bo‘lsangiz, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "text": "Talaba bo‘lsangiz, o‘qishda AI’dan halol foydalanish qoidalari «{students}» maqolasida.",
       "links": [
         {
           "token": "students",
@@ -354,12 +356,12 @@
       "a": "Ha, vakansiya shu tilda bo‘lsa, rezyume ham shu tilda bo‘lgani ma’qul. AI tarjimaning birinchi qoralamasini berishi mumkin, lekin lavozim nomlari, atamalar va grammatikani shu tilni yaxshi biladigan odam bilan tekshiring: rezyumedagi tarjima xatosi tez ko‘zga tashlanadi."
     },
     {
-      "q": "AI chatga shaxsiy ma’lumot yozish xavfsizmi?",
-      "a": "Yozmagan ma’qul. GPTBot.uz chatida savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi. Pasport ma’lumotlari, JShShIR, telefon raqami, manzil va boshqa odamlar haqidagi ma’lumot o‘rniga [Ism Familiya] kabi belgi qo‘ying va ularni faylga o‘zingiz qo‘shing."
+      "q": "Rezyume tayyorlashda AI chatga pasport yoki telefon raqamini yozsa bo‘ladimi?",
+      "a": "Yo‘q. Pasport ma’lumotlari, JShShIR, telefon raqami, manzil va boshqa odamlar haqidagi ma’lumotni yozmang: GPTBot.uz chatida savol va javoblar matni serverimizda saqlanadi, javob olish uchun esa savol xorijdagi AI-provayderlarga yuboriladi. Bu ma’lumotlar o‘rniga [Ism Familiya], [telefon] kabi belgi qo‘ying va ularni faylga o‘zingiz qo‘shing."
     },
     {
       "q": "Cover letter (motivatsion xat) nima va qachon kerak?",
-      "a": "Rezyumega ilova qilinadigan qisqa xat: nega aynan shu vakansiyaga topshirayotganingiz va qaysi tajribangiz mos kelishi. Vakansiya e’lonida so‘ralsa, albatta yozing; so‘ralmasa ham, rezyumeni o‘z tashabbusingiz bilan yuborganda qo‘shsangiz bo‘ladi. AI xat tuzilmasini beradi, faktlar va ohangni o‘zingiz tekshirasiz."
+      "a": "Rezyumega ilova qilinadigan qisqa xat: nega aynan shu vakansiyaga ariza berayotganingiz va qaysi tajribangiz mos kelishi. Vakansiya e’lonida so‘ralsa, albatta yozing; so‘ralmasa ham, rezyumeni o‘z tashabbusingiz bilan yuborganda qo‘shsangiz bo‘ladi. AI xat tuzilmasini beradi, faktlar va ohangni o‘zingiz tekshirasiz."
     }
   ],
   "cta": {
@@ -415,7 +417,7 @@
     {
       "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
       "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
-      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu GPTBot.uz chati ham kiradigan barcha til modellariga tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
   "updatedAt": "2026-10-05T00:00:00.000Z",

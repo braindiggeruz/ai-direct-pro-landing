@@ -58,7 +58,7 @@ const BRIDGE_PLACES = {
 // move into CHAT_BRIDGE_ENTRIES and the chat fills the question in.
 export const ARTICLE_ONLY_BRIDGES = [
   { locale: 'uz', id: 'referat', slug: 'referat-va-mustaqil-ish', before: 'Mustaqil ish: topshiriqni tahlil qilish va reja', title: 'Referat rejasini AI bilan tuzing', prompt: 'Referat rejasini tuzishga yordam ber. Avval mavzuni, sinfim yoki kursimni va o‘qituvchi talablarini so‘ra.' },
-  { locale: 'uz', id: 'rezyume', slug: 'rezyume-tayyorlash', before: 'Shablon va format: Word yoki PDF, bir sahifa', title: 'Rezyume matnini AI bilan tayyorlang', prompt: 'Rezyume matnini tayyorlashga yordam ber. Avval qaysi lavozimga topshirayotganimni va tajribamni so‘ra. Shaxsiy ma’lumot so‘rama.' },
+  { locale: 'uz', id: 'rezyume', slug: 'rezyume-tayyorlash', before: 'Shablon va format: Word yoki PDF, 1–2 sahifa', title: 'Rezyume matnini AI bilan tayyorlang', prompt: 'Rezyume matnini tayyorlashga yordam ber. Avval qaysi lavozimga ariza berayotganimni va tajribamni so‘ra. Shaxsiy ma’lumot so‘rama.' },
 ] as const;
 
 export const CHAT_BRIDGES = [

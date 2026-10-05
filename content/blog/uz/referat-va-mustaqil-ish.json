@@ -4,7 +4,7 @@
   "slug": "referat-va-mustaqil-ish",
   "url": "/uz/blog/referat-va-mustaqil-ish/",
   "title": "Referat namunasi va mustaqil ish: reja tuzish tartibi",
-  "description": "Referat namunasi (tuzilma): titul varaq, reja, kirish, asosiy qism, xulosa, adabiyotlar. Mustaqil ish uchun AI bilan 6 qadam va tekshiruv ro‘yxati.",
+  "description": "Referat namunasi (tuzilma): titul varaq, reja, kirish, asosiy qism, xulosa, adabiyotlar. Referat va mustaqil ish: AI bilan 6 qadam, tekshiruv ro‘yxati.",
   "h1": "Referat va mustaqil ish: reja, namuna va AI’dan halol foydalanish",
   "topicCluster": "maktab-va-talabalar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -140,7 +140,7 @@
         "2. Reja. AI’dan faqat reja so‘rang: kirish, boblar, har bobda 2–3 band, xulosa. Rejani o‘zingiz qisqartiring yoki to‘ldiring.",
         "3. Manbalar. Darslik, kutubxona yoki ishonchli saytdan manbalarni o‘zingiz toping. AI’dan faqat qaysi turdagi manba kerakligini so‘rang: u mavjud bo‘lmagan kitob yoki maqola nomini «topib» berishi mumkin.",
         "4. O‘z matningiz. Har bir bandni manbani o‘qib, o‘z so‘zlaringiz bilan yozing. Tushunmagan joyingizni AI’dan sodda tilda tushuntirib berishni so‘rang.",
-        "5. Tahrir. Yozganingizni AI’ga berib, imlo xatolari, takrorlar va mantiqiy uzilishlarni ko‘rsatishni so‘rang — ma’noni o‘zgartirmasin.",
+        "5. Tahrir. Yozganingizni AI’ga berib, imlo xatolari, takrorlar va mantiqiy uzilishlarni ko‘rsatishni so‘rang — ma’noni o‘zgartirmasin. Matn uzun bo‘lsa, uni bo‘limlarga bo‘lib yuboring: bitta xabar hajmi cheklangan.",
         "6. Rasmiylashtirish. Matnni Word yoki Google Docs’ga ko‘chiring, titul varaq, reja va adabiyotlar ro‘yxatini talab bo‘yicha rasmiylashtiring. Chat fayl bermaydi — faylni o‘zingiz tayyorlaysiz."
       ]
     },
@@ -186,13 +186,13 @@
         ],
         [
           "Tahrir",
-          "«Matnimdagi imlo xatolari, takror so‘zlar va uzun gaplarni ro‘yxat qilib ko‘rsat, ma’noni o‘zgartirma: [matn].»"
+          "«Matnimdagi imlo xatolari, takror so‘zlar va uzun gaplarni ro‘yxat qilib ko‘rsat, ma’noni o‘zgartirma: [bir bob yoki bo‘lim matni].»"
         ]
       ]
     },
     {
       "type": "linkp",
-      "text": "Boshqa o‘quv vazifalari uchun shablonlar {prompts} sahifasida, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "text": "Boshqa o‘quv vazifalari uchun shablonlar «{prompts}» sahifasida, o‘qishda AI’dan halol foydalanish qoidalari «{students}» maqolasida.",
       "links": [
         {
           "token": "prompts",
@@ -443,7 +443,7 @@
     {
       "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
       "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
-      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu GPTBot.uz chati ham kiradigan barcha til modellariga tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     },
     {
       "title": "OpenAI Help Center — How can educators respond to students presenting AI-generated content as their own?",
