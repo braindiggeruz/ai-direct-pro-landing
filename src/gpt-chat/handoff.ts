@@ -14,9 +14,10 @@
 //   configured:false, a link to some other bot or account)
 //                                   → the PUBLIC bot deep link
 //                                     t.me/<bot>?start=site_ru|site_uz
-// No person's Telegram account is ever produced here. A consumer who asked
-// the chat for "ChatGPT" belongs in the bot, which has its own allowance and
-// answers at once; the studio's work Telegram, when one is configured, is
+// No person's Telegram account is ever produced here. A consumer whose free
+// messages ran out is offered the bot, which has its own allowance and drafts
+// a reply to a message the person forwards there (it does not take the
+// chat's questions over); the studio's work Telegram, when one is configured, is
 // reserved for the explicit B2B card (studioBusinessLink in contact.ts), where
 // a human sale is the right outcome. The button is never dead and never claims
 // context it does not have.

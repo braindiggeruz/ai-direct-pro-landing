@@ -147,16 +147,19 @@ export const GROUP_NOTICE: Record<Locale, string> = {
  * way the site's chat does) and that it has its own separate daily
  * allowance — separate, NOT unlimited; say plainly that the site
  * conversation was not carried over, so nobody waits for the bot to
- * "remember" something it was never given; and send ordinary questions back
- * to the AI chat on gptbot.uz, which answers them.
+ * "remember" something it was never given; and say that ordinary questions
+ * are not for this bot. Only the AI chat's limit card leads here, so it does
+ * not send the person straight back to that chat: its questions wait until
+ * the chat's free messages are back (SITE_WELCOME, reached by other links
+ * too, keeps the plain pointer to the chat).
  *
  * It names nothing the person did not say here: no page, no session, no
  * transcript. The payload is public, so a greeting that quoted stored context
  * would hand it to whoever typed the link.
  */
 export const HANDOFF_WELCOME: Record<Locale, string> = {
-  ru: 'Вы пришли из AI-чата на сайте gptbot.uz.\n\nЭтот бот помогает отвечать на сообщения: перешлите сюда сообщение или голосовое, на которое нужно ответить (или вставьте его текст), — подготовлю готовый ответ от вашего имени. У бота свой отдельный дневной лимит.\n\nПереписку с сайта я сюда не переношу. На обычные вопросы отвечает AI-чат на сайте gptbot.uz.',
-  uz: 'Siz gptbot.uz saytidagi AI-chatdan keldingiz.\n\nBu bot xabarlarga javob yozishga yordam beradi: javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring (yoki matnini joylang) — sizning nomingizdan tayyor javob yozib beraman. Botning alohida kunlik limiti bor.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Oddiy savollarga gptbot.uz saytidagi AI-chat javob beradi.',
+  ru: 'Вы пришли из AI-чата на сайте gptbot.uz.\n\nЭтот бот помогает отвечать на сообщения: перешлите сюда сообщение или голосовое, на которое нужно ответить (или вставьте его текст), — подготовлю готовый ответ от вашего имени. У бота свой отдельный дневной лимит.\n\nПереписку с сайта я сюда не переношу. На обычные вопросы этот бот не отвечает: их можно задать AI-чату на сайте gptbot.uz, когда там вернутся бесплатные сообщения.',
+  uz: 'Siz gptbot.uz saytidagi AI-chatdan keldingiz.\n\nBu bot xabarlarga javob yozishga yordam beradi: javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring (yoki matnini joylang) — sizning nomingizdan tayyor javob yozib beraman. Botning alohida kunlik limiti bor.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Bu bot oddiy savollarga javob bermaydi: ularni bepul xabarlar qaytgach gptbot.uz saytidagi AI-chatga berishingiz mumkin.',
 };
 
 /**

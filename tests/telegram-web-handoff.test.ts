@@ -41,6 +41,7 @@ import {
   type WebArrival,
 } from '../functions/lib/telegram/web-handoff';
 import { mintHandoff, resolveHandoffConfig } from '../functions/lib/gpt-chat/handoff';
+import { strings } from '../src/gpt-chat/i18n';
 import { _resetNotifyWarning } from '../functions/lib/gpt-chat/notify';
 import { consumeRateLimit, HOUR_MS } from '../functions/lib/gpt-chat/rate-limit';
 
@@ -375,14 +376,18 @@ test('the site welcome never claims the web conversation was carried over', () =
   assert.ok(!SITE_WELCOME.uz.includes("'"), 'Uzbek copy uses letter apostrophes');
 });
 
-test('both welcomes say what the bot really does and send ordinary questions to the AI chat on gptbot.uz', () => {
+test('both welcomes say what the bot really does and where ordinary questions go', () => {
   // Every text goes to the Javob prompt, which writes a reply to the other
   // side of a forwarded message: a welcome that invites questions misleads.
+  assert.match(SITE_WELCOME.ru, /На обычные вопросы отвечает AI-чат на сайте gptbot\.uz\./);
+  assert.match(SITE_WELCOME.uz, /Oddiy savollarga gptbot\.uz saytidagi AI-chat javob beradi\./);
+  // Only the chat's limit card leads to HANDOFF_WELCOME: it does not send the
+  // person straight back to the chat that just refused them.
+  assert.match(HANDOFF_WELCOME.ru, /На обычные вопросы этот бот не отвечает: их можно задать AI-чату на сайте gptbot\.uz, когда там вернутся бесплатные сообщения\./);
+  assert.match(HANDOFF_WELCOME.uz, /Bu bot oddiy savollarga javob bermaydi: ularni bepul xabarlar qaytgach gptbot\.uz saytidagi AI-chatga berishingiz mumkin\./);
   for (const welcome of [SITE_WELCOME, HANDOFF_WELCOME]) {
     assert.match(welcome.ru, /перешлите сюда сообщение или голосовое, на которое нужно ответить/);
-    assert.match(welcome.ru, /На обычные вопросы отвечает AI-чат на сайте gptbot\.uz\./);
     assert.match(welcome.uz, /javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring/);
-    assert.match(welcome.uz, /Oddiy savollarga gptbot\.uz saytidagi AI-chat javob beradi\./);
     for (const text of [welcome.ru, welcome.uz]) {
       assert.doesNotMatch(text, /вопрос своими словами|savolingizni|продолжаем разговор|davom ettir/i, text);
       assert.doesNotMatch(text, /ChatGPT|OpenAI|\d/, text);
@@ -392,6 +397,25 @@ test('both welcomes say what the bot really does and send ordinary questions to 
   // A claimed handoff still says the site conversation stayed on the site.
   assert.match(HANDOFF_WELCOME.ru, /Переписку с сайта я сюда не переношу\./);
   assert.match(HANDOFF_WELCOME.uz, /Saytdagi yozishmalarni bu yerga ko‘chirmayman\./);
+});
+
+test('the limit card and the bot it leads to say the same: a reply to a forwarded message, not this chat continued', () => {
+  // The card (src/gpt-chat/i18n.ts, AiLimitTelegram) is the only way to
+  // HANDOFF_WELCOME; a card that promised to carry on the conversation would
+  // meet a bot that says it does not answer ordinary questions.
+  const forwarded = { ru: /ответ на сообщение, которое вы ему перешлёте/, uz: /siz uzatgan xabarga javob tayyorlaydi/ };
+  const notQuestions = { ru: /На обычные вопросы этот бот не отвечает/, uz: /Bu bot oddiy savollarga javob bermaydi/ };
+  const notStraightBack = { ru: /когда там вернутся бесплатные сообщения/, uz: /bepul xabarlar qaytgach/ };
+  for (const locale of ['ru', 'uz'] as const) {
+    const t = strings(locale);
+    for (const text of [t.capTelegramCta, t.capTelegramNote])
+      assert.doesNotMatch(text, /Продолжить|продолжить|davom ettir|сразу|hoziroq/, text);
+    assert.match(t.capTelegramCta, /Подготовить ответ|javob tayyorlash/);
+    assert.match(t.capTelegramNote, forwarded[locale]);
+    assert.match(HANDOFF_WELCOME[locale], notQuestions[locale]);
+    assert.match(HANDOFF_WELCOME[locale], notStraightBack[locale]);
+    for (const text of [t.capTelegramCta, t.capTelegramNote]) assert.ok(!text.includes("'"), 'letter apostrophes only');
+  }
 });
 
 test('a limit-card arrival is greeted, recorded, and never spends the owner-alert budget', async () => {

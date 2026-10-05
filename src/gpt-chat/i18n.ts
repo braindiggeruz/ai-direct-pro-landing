@@ -199,8 +199,8 @@ const RU: ChatStrings = {
   partLoading: 'Загружаем…',
   partFailed: 'Не удалось загрузить этот раздел. Проверьте интернет и обновите страницу.',
   partReload: 'Обновить страницу',
-  capTelegramCta: 'Продолжить в Telegram-боте',
-  capTelegramNote: 'У Telegram-бота свой дневной лимит — продолжить можно сразу. Бесплатные сообщения здесь вернутся позже.',
+  capTelegramCta: 'Подготовить ответ в Telegram-боте',
+  capTelegramNote: 'Бот готовит ответ на сообщение, которое вы ему перешлёте; у него свой дневной лимит. Бесплатные сообщения здесь вернутся позже.',
   telegramContextNote: 'К сообщению добавится короткий код этого разговора — по нему мы поймём, о чём вы спрашивали здесь.',
   hourlyTitle: 'Часовой бесплатный лимит исчерпан',
   hourlyBody: (hourly) => hourly === null
@@ -292,8 +292,8 @@ const UZ: ChatStrings = {
   partLoading: 'Yuklanmoqda…',
   partFailed: 'Bu bo‘limni yuklab bo‘lmadi. Internetni tekshirib, sahifani yangilang.',
   partReload: 'Sahifani yangilash',
-  capTelegramCta: 'Telegram-botda davom ettirish',
-  capTelegramNote: 'Telegram-botning o‘z kunlik limiti bor — hoziroq davom ettirish mumkin. Bu yerdagi bepul xabarlar keyinroq qaytadi.',
+  capTelegramCta: 'Telegram-botda javob tayyorlash',
+  capTelegramNote: 'Bot siz uzatgan xabarga javob tayyorlaydi; uning o‘z kunlik limiti bor. Bu yerdagi bepul xabarlar keyinroq qaytadi.',
   telegramContextNote: 'Xabarga shu suhbatning qisqa kodi qo‘shiladi — shu orqali nima so‘raganingizni tushunamiz.',
   hourlyTitle: 'Soatlik bepul limit tugadi',
   hourlyBody: (hourly) => hourly === null

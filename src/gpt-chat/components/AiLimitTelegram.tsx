@@ -13,7 +13,9 @@ const SOURCE: Record<LimitCardReason, HandoffSource> = {
 
 /**
  * The Telegram route on the limit card AiChatConsole renders when a cap is
- * hit: continue in the assistant bot, which has its own separate allowance.
+ * hit: the assistant bot, which drafts a reply to a forwarded message and has
+ * its own separate allowance. The copy says so, and does not promise to
+ * continue this chat there (HANDOFF_WELCOME, the bot's greeting, agrees).
  *
  * Mount this only while the limit card is on screen — the handoff hook mints
  * a single-use link (one D1 row) per mount, and the per-IP minting budget is
@@ -21,8 +23,8 @@ const SOURCE: Record<LimitCardReason, HandoffSource> = {
  * and whenever it fails, the anchor already holds the public bot link, so a
  * tap never lands on a personal account (handoff.ts).
  *
- * Copy follows the destination, never the other way round: the "continue in
- * the bot" label and the note about the bot's own allowance only when the
+ * Copy follows the destination, never the other way round: the "reply in
+ * the bot" label and the note about what the bot does only when the
  * link goes to the bot; the "this conversation travels with you" line only
  * when the server confirmed that it does.
  */
