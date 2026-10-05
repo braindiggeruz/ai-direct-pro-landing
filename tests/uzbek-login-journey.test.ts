@@ -39,9 +39,12 @@ test('the login instruction and independent chat guide provide a reciprocal lear
 });
 
 test('the Uzbek login revision changes one protected body while keeping all search metadata and nine peers', () => {
-  // Since release R-S1 (2026-10-05) the gate compares builds with the R-S1
-  // revision, which names this one as its predecessor; this one stays a record.
-  assert.ok(BASELINE === NEXT || JSON.parse(read(BASELINE)).previousRevision === NEXT, 'the current revision follows the reviewed login correction');
+  // Since release R-S1 (2026-10-05) the gate compares builds with a later
+  // revision; each names its predecessor (R-S1 names this one, the school-pages
+  // revision names R-S1), and this one stays a record in that chain.
+  const chain: string[] = [];
+  for (let file: string | undefined = BASELINE; file && !chain.includes(file); file = JSON.parse(read(file)).previousRevision) chain.push(file);
+  assert.ok(chain.includes(NEXT), 'the current revision descends from the reviewed login correction');
   const previous = JSON.parse(read(PREVIOUS));
   const current = JSON.parse(read(NEXT));
   assert.equal(current.previousRevision, PREVIOUS);
