@@ -12,7 +12,7 @@ import {
   PendingElsewhereError,
   type AccessPeriod,
 } from "../functions/lib/gpt-chat/billing-store";
-import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
+import { ACCOUNT_FREE_ID, TurnStore } from "../functions/lib/gpt-chat/turn-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
 import {
   md5,
@@ -26,6 +26,20 @@ import { renderMarkdown } from "../src/gpt-chat/markdown";
 import { strings } from "../src/gpt-chat/i18n";
 import { accountStrings } from "../src/gpt-chat/account-strings";
 import { BILLING_DDL, UZUM_BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
+
+/**
+ * The account's free answers of the day, spent just now (as a pack holder's,
+ * ACCOUNT_FREE_ID): its next answers come from a pack (decision R2).
+ */
+function spendFreeDay(f: Awaited<ReturnType<typeof billingFixture>>, cfg: { freeDailyLimit: number }, now = Date.now()) {
+  for (let i = 0; i < cfg.freeDailyLimit; i++)
+    f.db
+      .prepare(
+        "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,?,NULL,'done',?,?)",
+      )
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, "ip", now, now + 120_000)
+      .runSync();
+}
 
 test("Click MD5 matches independent Node reference, exact amount parser", () => {
   for (const text of [
@@ -245,7 +259,9 @@ test("a repeat purchase starts at once, side by side; turns draw from the pack t
   assert.deepEqual(period(first.id), { starts_at: t0, ends_at: addCalendarMonth(t0) });
   assert.deepEqual(period(second.id), { starts_at: t1, ends_at: addCalendarMonth(t1) });
   assert.equal((await f.store.access(f.user, "test"))?.order_id, first.id);
-  // The first pack spent: the second one carries on at once.
+  // The first pack spent: the second one carries on at once. (The free day
+  // is spent first: a holder's turns are free answers before the pack's.)
+  spendFreeDay(f, cfg);
   await f.binding
     .prepare("UPDATE gpt_access_periods SET message_limit=1 WHERE order_id=?")
     .bind(first.id)
@@ -286,43 +302,49 @@ test("the panel asks to renew only when the last running pack ends soon", async 
   assert.deepEqual(await view().then((a) => [a?.order_id, a?.renewSoon]), [first.id, true]);
 });
 
-test("the Paketim panel: what is left in the pack and what its day cap still lets through today (WP-17)", async () => {
+test("the Paketim panel: what is left in the pack, what its day cap still lets through today, and the free answers that come first (WP-17, R2)", async () => {
   const f = await billingFixture();
   const turns = new TurnStore(f.binding, BILLING_ORG);
   const cfg = resolveConfig(f.env);
-  // A free answer earlier today: the pack's day counts every answer of the
-  // account today, as reserve() does (turn-store.ts pack_daily).
+  // A free answer earlier today, before the pack: the account's free day
+  // counts it; the pack's day counts only the pack's own answers.
   const free = await turns.reserve(f.user, "ip", null, cfg);
   await turns.finish(free.id!, { outcome: "answered", charged: true });
   const order = await f.store.createOrder(f.user, "click", "test", crypto.randomUUID());
   await f.store.transition(order.id, "prepared", "prepare", { externalId: crypto.randomUUID() });
   await f.store.transition(order.id, "paid", "perform");
   const view = async () => {
-    const access = ((await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as {
-      access: { remaining: number; dayRemaining: number; message_limit: number };
-    }).access;
-    return [access.remaining, access.dayRemaining, access.message_limit];
+    const body = (await (await account(f.ctx(new Request("https://gpt.test/api/gpt/account", { headers: { cookie: f.testCookie } })))).json()) as {
+      remaining: number;
+      access: { remaining: number; dayRemaining: number; message_limit: number; freeRemaining: number; freeHourRemaining: number };
+    };
+    const { access } = body;
+    assert.equal(body.remaining, access.remaining, "the chat's count is the pack's");
+    return [access.remaining, access.dayRemaining, access.message_limit, access.freeRemaining, access.freeHourRemaining];
   };
-  assert.deepEqual(await view(), [300, 49, 300]);
-  for (let i = 0; i < 3; i++) {
-    const turn = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
-    await turns.finish(turn.id!, { outcome: "answered", charged: true });
-  }
+  const turn = async (outcome: "answered" | "truncated" = "answered") => {
+    const reserved = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
+    if (!reserved.id) return reserved.limit.reason;
+    await turns.finish(reserved.id, { outcome, charged: outcome === "answered" });
+    return reserved.bucket;
+  };
+  assert.deepEqual(await view(), [300, 50, 300, 14, 4]);
+  // Free answers first (decision R2): the rest of the free hour leaves the pack whole.
+  for (let i = 0; i < 4; i++) assert.equal(await turn(), "free");
+  assert.deepEqual(await view(), [300, 50, 300, 10, 0]);
+  for (let i = 0; i < 3; i++) assert.equal(await turn(), "pack");
   // A released answer (cut at the length limit, a provider error) gives its place back.
-  const cut = await turns.reserve(f.user, "ip", (await f.store.access(f.user, "test"))!, cfg);
-  await turns.finish(cut.id!, { outcome: "truncated", charged: false });
-  assert.deepEqual(await view(), [297, 46, 300]);
+  assert.equal(await turn("truncated"), "pack");
+  assert.deepEqual(await view(), [297, 47, 300, 10, 0]);
   // Near the end of the pack, today's room is never more than what is left in it.
   await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=5 WHERE order_id=?").bind(order.id).run();
-  assert.deepEqual(await view(), [2, 2, 5]);
-  // The same numbers reserve() goes by: the day cap refuses the 50th answer of the day.
+  assert.deepEqual((await view()).slice(0, 3), [2, 2, 5]);
+  // The same numbers reserve() goes by: with the free hour spent, the pack's
+  // day cap refuses its 51st answer of the day.
   await f.binding.prepare("UPDATE gpt_access_periods SET message_limit=300 WHERE order_id=?").bind(order.id).run();
+  for (let i = 0; i < 47; i++) assert.equal(await turn(), "pack");
+  assert.deepEqual(await view(), [250, 0, 300, 10, 0]);
   const period = (await f.store.access(f.user, "test"))!;
-  for (let i = 0; i < 46; i++) {
-    const turn = await turns.reserve(f.user, "ip", period, cfg);
-    await turns.finish(turn.id!, { outcome: "answered", charged: true });
-  }
-  assert.deepEqual(await view(), [251, 0, 300]);
   assert.equal((await turns.reserve(f.user, "ip", period, cfg)).limit?.reason, "pack_daily");
 });
 
@@ -372,11 +394,19 @@ test("two packs side by side: the panel and the chat count every running pack, p
   // The chat's own count after a turn is the same total (TurnStore.allowance).
   const period = (await f.store.access(f.user, "test"))!;
   assert.equal(period.order_id, first.id);
+  // A pack answer: the free day is spent (free answers come first, R2).
+  spendFreeDay(f, cfg);
   const turn = await turns.reserve(f.user, "ip", period, cfg);
   if (!turn.id) throw new Error("the turn was refused");
-  assert.equal(turn.remaining, 419);
+  assert.deepEqual([turn.bucket, turn.remaining], ["pack", 419]);
   await turns.finish(turn.id, { outcome: "answered", charged: true });
-  assert.deepEqual((await turns.allowance(f.user, "ip", period, cfg)), { remaining: 419, hourRemaining: null, dayRemaining: 49 });
+  assert.deepEqual((await turns.allowance(f.user, "ip", period, cfg)), {
+    remaining: 419,
+    hourRemaining: null,
+    dayRemaining: 49,
+    freeRemaining: 0,
+    freeHourRemaining: 0,
+  });
   // The first pack spent: one pack left, its own numbers again.
   spend(f, first.id, 119);
   const one = await view();
@@ -415,9 +445,10 @@ test("a paid pack is not refundable (WP-25): no refund request, the pack keeps w
   const period = (await f.store.access(f.user, "test"))!;
   assert.equal(period.order_id, order.id);
   assert.deepEqual(Object.keys(period).sort(), ["ends_at", "message_limit", "order_id", "starts_at"]);
+  spendFreeDay(f, cfg);
   const turn = await turns.reserve(f.user, "ip", period, cfg);
   assert.ok(turn.id);
-  assert.equal(turn.remaining, 199);
+  assert.deepEqual([turn.bucket, turn.remaining], ["pack", 199]);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE order_id=? AND actor='user'", order.id), 0);
   assert.deepEqual(f.db.rows<{ event: string }>("SELECT event FROM gpt_billing_outbox WHERE order_id=?", order.id).map((row) => row.event), ["paid"]);
   // The account view offers no refund: no list of refundable packs, no refund days.
@@ -683,6 +714,8 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   await f.store.transition(o.id, "paid", "perform");
   const period = (await f.store.access(f.user, "test"))!;
   const tiny = { ...period, message_limit: 1 };
+  // The free day spent: the turns below are the pack's (free answers first, R2).
+  spendFreeDay(f, cfg);
   assert.deepEqual(
     await Promise.all(
       Array.from({ length: 10 }, () => turns.admitModelAttempt(tiny)),
@@ -691,6 +724,7 @@ test("atomic quota admits only two parallel turns, releases failures and keeps p
   );
   const paid = await turns.reserve(f.user, "new-ip", tiny, cfg);
   assert.ok(paid.id);
+  assert.equal(paid.bucket, "pack");
   await turns.finish(paid.id!, { outcome: "answered", charged: true });
   assert.equal(
     (await turns.reserve(f.user, "another-ip", tiny, cfg)).limit?.reason,
@@ -719,6 +753,8 @@ test("a pack turn draws from the valid pack with answers left that ends first; a
     const turn = await turns.reserve(f.user, "ip", pack(order), cfg);
     await turns.finish(turn.id!, { outcome: "answered", charged: true });
   };
+  // The free day spent: these turns are the packs' (free answers first, R2).
+  spendFreeDay(f, cfg);
   period("later", 20 * day, 300);
   period("sooner-spent", 5 * day, 1);
   period("sooner-revoked", 2 * day, 300, now - 1000);

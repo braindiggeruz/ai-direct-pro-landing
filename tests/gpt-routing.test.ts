@@ -12,6 +12,7 @@ import { buildMessages } from "../functions/lib/gpt-chat/prompt";
 import { onRequestPost as chat } from "../functions/api/gpt/chat";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { BILLING_ORG } from "../functions/lib/gpt-chat/billing-config";
+import { ACCOUNT_FREE_ID } from "../functions/lib/gpt-chat/turn-store";
 const sse = (text: string) =>
   new Response(
     `data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\ndata: [DONE]\n\n`,
@@ -158,6 +159,15 @@ test("real chat endpoint uses paid account, bounds context, charges one answer a
   );
   await f.store.transition(order.id, "prepared", "prepare");
   await f.store.transition(order.id, "paid", "perform");
+  // The holder's free answers of the day are spent, so this one is the
+  // pack's (free answers come first, decision R2).
+  for (let i = 0; i < resolveConfig(f.env).freeDailyLimit; i++)
+    f.db
+      .prepare(
+        "INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)",
+      )
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, Date.now(), Date.now() + 120_000)
+      .runSync();
   const original = globalThis.fetch;
   let calls = 0;
   globalThis.fetch = async () =>
@@ -183,7 +193,7 @@ test("real chat endpoint uses paid account, bounds context, charges one answer a
     await Promise.all(f.background);
     assert.equal(
       f.db.value(
-        "SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='done'",
+        "SELECT COUNT(*) FROM gpt_turn_reservations WHERE status='done' AND period_id IS NOT NULL",
       ),
       1,
     );
@@ -191,26 +201,29 @@ test("real chat endpoint uses paid account, bounds context, charges one answer a
     // One charged answer, settled with the model that gave it and both attempts;
     // a pack turn never touches the free tier's daily budget.
     assert.deepEqual(
-      { ...f.db.rows("SELECT outcome, charged, model, attempts FROM gpt_turn_reservations")[0] as object },
+      { ...f.db.rows("SELECT outcome, charged, model, attempts FROM gpt_turn_reservations WHERE period_id IS NOT NULL")[0] as object },
       { outcome: "answered", charged: 1, model: modelChain(resolveConfig(f.env), "paid")[1], attempts: 2 },
     );
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_spend"), 0);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_messages"), 0);
-    const messages = buildMessages(
-      Array.from({ length: 20 }, () => ({
-        role: "user" as const,
-        content: "Я".repeat(8000),
-      })),
-      "Я".repeat(3000),
+    const history = Array.from({ length: 20 }, () => ({
+      role: "user" as const,
+      content: "Я".repeat(8000),
+    }));
+    const bytes = (list: Array<{ content: string }>) =>
+      list.reduce((n, m) => n + new TextEncoder().encode(m.content).length + 32, 0);
+    // 3000 letters of Cyrillic (6000 bytes) go whole: the history makes room.
+    const messages = buildMessages(history, "Я".repeat(3000), 10, "ru");
+    assert.deepEqual(messages.map((m) => m.role), ["system", "user"]);
+    assert.equal(messages[1].content, "Я".repeat(3000));
+    // A short message keeps the 5700-byte bound, with what history fits in it.
+    const short = buildMessages(
+      Array.from({ length: 20 }, (_, i) => ({ role: i % 2 ? "assistant" as const : "user" as const, content: "Я".repeat(500) })),
+      "Salom",
       10,
       "ru",
     );
-    assert.ok(
-      messages.reduce(
-        (n, m) => n + new TextEncoder().encode(m.content).length + 32,
-        0,
-      ) <= 5700,
-    );
+    assert.ok(short.length > 2 && bytes(short) <= 5700, String(bytes(short)));
     assert.equal(
       buildChatBody("vendor/model:free", messages, 900).provider.max_price
         .prompt,

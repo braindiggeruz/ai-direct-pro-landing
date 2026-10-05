@@ -1,8 +1,9 @@
-// Limits and an honest 429 (plan WP-05, decisions L3, L5 and L18): the
+// Limits and an honest 429 (plan WP-05, decisions L3, L5, L18 and R2): the
 // precise reason and when a turn fits again; signing in does not reset the
 // free tier; a spent or ended pack does not block it; a pack has no hourly
-// cap; refusals are counted without text; the visitor reads it in RU or UZ
-// with no plan names.
+// cap; a pack holder's free answers come first, counted by the account and
+// never against the address, and the pack only after them; refusals are
+// counted without text; the visitor reads it in RU or UZ with no plan names.
 // Run: node --import tsx --test tests/gpt-chat-limits.test.ts
 //
 // Real SQLite behind the billing fixture; fetch is mocked where a turn is admitted.
@@ -11,13 +12,13 @@ import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { billingFixture } from './helpers/gpt-billing-fixture';
-import { resolveConfig } from '../functions/lib/gpt-chat/config';
+import { modelChain, resolveConfig } from '../functions/lib/gpt-chat/config';
 import { BILLING_ORG } from '../functions/lib/gpt-chat/billing-config';
 import { BillingStore, type AccessPeriod } from '../functions/lib/gpt-chat/billing-store';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { spendDay } from '../functions/lib/gpt-chat/model-spend-store';
 import { limitMessage, providerMessage } from '../functions/lib/gpt-chat/chat-copy';
-import { PACK_DAILY_LIMIT, TurnStore, type LimitReason } from '../functions/lib/gpt-chat/turn-store';
+import { ACCOUNT_FREE_ID, PACK_DAILY_LIMIT, TurnStore, type LimitReason } from '../functions/lib/gpt-chat/turn-store';
 import { onRequestPost as chat } from '../functions/api/gpt/chat';
 import { onRequestGet as account } from '../functions/api/gpt/account';
 
@@ -45,6 +46,8 @@ interface Turn {
   status?: 'done' | 'reserved' | 'released';
   period?: string | null;
   org?: string;
+  /** A pack holder's free answer (decision R2): counted by the account alone. */
+  accountFree?: boolean;
 }
 
 /** Reservations as the chat leaves them (expires_at = created_at + 120 s). */
@@ -56,7 +59,7 @@ function seed(f: Fixture, turns: Turn[]) {
       )
       .bind(
         turn.org ?? BILLING_ORG,
-        crypto.randomUUID(),
+        (turn.accountFree ? ACCOUNT_FREE_ID : '') + crypto.randomUUID(),
         turn.subject,
         turn.ip,
         turn.period ?? null,
@@ -179,10 +182,14 @@ test('a pack: 50 a day, no hourly cap; spent or ended it is "monthly", which tim
   const turns = new TurnStore(f.binding, BILLING_ORG);
   const cfg = resolveConfig(f.env);
   const p = pack(f, 'pack-a', 300);
+  // The holder's free day is spent early today, so these answers are the
+  // pack's (decision R2: free answers come first).
+  seed(f, times(15, (i) => T0 - 9 * HOUR + i * 20 * MIN, { subject: f.user, ip: 'ip-p', accountFree: true }));
   // Thirty answers in the last hour: the removed hourly cap (was 20) does not refuse the 31st.
   seed(f, times(30, (i) => T0 - HOUR + (i + 1) * MIN, { subject: f.user, ip: 'ip-p', period: 'pack-a' }));
   const admitted = await turns.reserve(f.user, 'ip-p', p, cfg, T0);
   assert.ok(admitted.id);
+  assert.equal(admitted.bucket, 'pack');
   assert.equal(admitted.remaining, 269);
   await turns.finish(admitted.id!, { outcome: 'answered', charged: true });
   seed(f, times(PACK_DAILY_LIMIT - 31, (i) => T0 - 2 * HOUR - i * MIN, { subject: f.user, ip: 'ip-p', period: 'pack-a' }));
@@ -339,6 +346,8 @@ test('the pack day: 429 pack_daily with the pack tier, limits and what is left i
   const now = Date.now();
   const today = Math.floor(now / DAY) * DAY;
   pack(f, 'pack-live', 300, { from: now - DAY, to: now + 20 * DAY });
+  // The holder's free answers of the day, then the pack's fifty (decision R2).
+  seed(f, times(15, (i) => Math.max(today, now - (PACK_DAILY_LIMIT + i + 1) * 1000), { subject: f.user, ip: 'ip-p', accountFree: true }));
   seed(f, times(PACK_DAILY_LIMIT, (i) => Math.max(today, now - (i + 1) * 1000), { subject: f.user, ip: 'ip-p', period: 'pack-live' }));
   const response = await chat(request(f, {}, { cookie: f.testCookie }));
   await drain(f);
@@ -351,6 +360,256 @@ test('the pack day: 429 pack_daily with the pack tier, limits and what is left i
   // 'сегодня' when this runs between 00:00 and 05:00 in Tashkent (pinned by the day-word test below).
   assert.match(body.message as string, /ответов в день: 50.*(сегодня|завтра) с 05:00 по Ташкенту.*осталось: 250\.$/);
   assert.deepEqual(limitHits(f).map((row) => [row.reason, row.tier, row.subject, row.n]), [['pack_daily', 'paid', f.user, 1]]);
+});
+
+// ── Free answers first, then the pack (decision R2) ─────────────────────────
+
+/** The bucket an admitted turn drew on, or the reason it was refused. */
+function drawn(decision: Awaited<ReturnType<TurnStore['reserve']>>): string {
+  return decision.id ? decision.bucket : decision.limit.reason;
+}
+
+test('free first (R2): a holder answers from the free tier while the account\'s own hour allows, then from the pack', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-r2', 300);
+  // Guests behind the same address spent its free hour: a holder's free
+  // answers are counted by the account alone, so that does not touch them.
+  seed(f, times(5, (i) => T0 - (50 - 10 * i) * MIN, { subject: 'guest-home', ip: 'ip-home' }));
+  const buckets: string[] = [];
+  for (let i = 0; i < 7; i++) {
+    const turn = await turns.reserve(f.user, 'ip-home', p, cfg, T0 + i * MIN);
+    buckets.push(drawn(turn));
+    if (turn.id) await turns.finish(turn.id, { outcome: 'answered', charged: true });
+  }
+  // The sixth answer of the hour is the pack's first.
+  assert.deepEqual(buckets, ['free', 'free', 'free', 'free', 'free', 'pack', 'pack']);
+  assert.deepEqual(
+    f.db
+      .rows<{ id: string; period_id: string | null }>('SELECT id, period_id FROM gpt_turn_reservations WHERE subject=? ORDER BY created_at', f.user)
+      .map((row) => [row.id.startsWith(ACCOUNT_FREE_ID), row.period_id]),
+    [...Array.from({ length: 5 }, () => [true, null]), [false, 'pack-r2'], [false, 'pack-r2']],
+  );
+  // The pack lost only the answers past the free hour; ten free answers are left today.
+  assert.deepEqual(await turns.allowance(f.user, 'ip-home', p, cfg, T0 + 7 * MIN), {
+    remaining: 298,
+    hourRemaining: null,
+    dayRemaining: 48,
+    freeRemaining: 10,
+    freeHourRemaining: 0,
+  });
+  // Once the oldest free answers leave the hour, the next answer is free again.
+  assert.equal(drawn(await turns.reserve(f.user, 'ip-home', p, cfg, T0 + HOUR + MIN)), 'free');
+});
+
+test('free first (R2): a holder\'s free answers never spend the free answers of the others behind the same address', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-n', 300);
+  for (let i = 0; i < 5; i++) {
+    const turn = await turns.reserve(f.user, 'ip-shared', p, cfg, T0 + i * MIN);
+    assert.equal(drawn(turn), 'free');
+    await turns.finish(turn.id!, { outcome: 'answered', charged: true });
+  }
+  const at = T0 + 5 * MIN;
+  // A guest on that address keeps his whole hour and day, and so does a
+  // neighbour who signs in there without a pack.
+  assert.deepEqual(await turns.allowance('guest-shared', 'ip-shared', null, cfg, at), { remaining: 15, hourRemaining: 5 });
+  assert.equal(await turns.explain('guest-shared', 'ip-shared', null, cfg, at), null);
+  assert.equal(await turns.explain('acct_neighbour', 'ip-shared', null, cfg, at), null);
+  // The holder's own free answers stay his: once the pack is gone his
+  // account has spent its hour, on that address or any other.
+  assert.deepEqual(await turns.explain(f.user, 'ip-shared', null, cfg, at), { reason: 'hourly', retryAt: T0 + HOUR, remaining: 10 });
+  assert.deepEqual(await turns.explain(f.user, 'ip-elsewhere', null, cfg, at), { reason: 'hourly', retryAt: T0 + HOUR, remaining: 10 });
+  // The address's abuse ceiling still counts every request on it.
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE ip_hash='ip-shared'"), 5);
+});
+
+test('free first (R2): the day\'s free answers come first, those spent before buying included; then the pack to its 50; then pack_daily', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  // Twelve free answers this morning, signed in without a pack: buying one
+  // gives no new free answers.
+  seed(f, times(12, (i) => T0 - 9 * HOUR + i * 20 * MIN, { subject: f.user, ip: 'ip-morning' }));
+  const p = pack(f, 'pack-d', 300);
+  const buckets: string[] = [];
+  for (let i = 0; i < 3 + PACK_DAILY_LIMIT + 1; i++) {
+    const turn = await turns.reserve(f.user, 'ip-day', p, cfg, T0 + i * 10_000);
+    buckets.push(drawn(turn));
+    if (turn.id) await turns.finish(turn.id, { outcome: 'answered', charged: true });
+  }
+  assert.deepEqual(buckets, [
+    ...Array.from({ length: 3 }, () => 'free'),
+    ...Array.from({ length: PACK_DAILY_LIMIT }, () => 'pack'),
+    'pack_daily',
+  ]);
+  // Two hours on, the free hour is back but the free day is not.
+  const at = T0 + 2 * HOUR;
+  assert.deepEqual(await turns.explain(f.user, 'ip-day', p, cfg, at), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+  assert.deepEqual(await turns.allowance(f.user, 'ip-day', p, cfg, at), {
+    remaining: 250,
+    hourRemaining: null,
+    dayRemaining: 0,
+    freeRemaining: 0,
+    freeHourRemaining: 5,
+  });
+  // The next UTC day (05:00 in Tashkent) starts free again.
+  assert.equal(drawn(await turns.reserve(f.user, 'ip-day', p, cfg, MIDNIGHT)), 'free');
+});
+
+test('free first (R2): the pack\'s 50 leave the holder\'s free answers; both spent, the card names the pack\'s day', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-e', 300);
+  // Fifty pack answers early today, and five free ones in the last hour.
+  seed(f, times(PACK_DAILY_LIMIT, (i) => T0 - 8 * HOUR + i * MIN, { subject: f.user, ip: 'ip-e', period: 'pack-e' }));
+  seed(f, times(5, (i) => T0 - (50 - 10 * i) * MIN, { subject: f.user, ip: 'ip-e', accountFree: true }));
+  // Both refuse: 'pack_daily' until the pack's day turns, though the free
+  // hour lifts at 10:10 UTC. The chat keeps a pack_daily card while the pack
+  // has answers left; it would lift an 'hourly' one at once.
+  assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+  assert.deepEqual((await turns.reserve(f.user, 'ip-e', p, cfg, T0)).limit, { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+  // The free hour lifted: the holder's free answers are his again, past the pack's 50.
+  const freed = await turns.reserve(f.user, 'ip-e', p, cfg, T0 + 10 * MIN + 1);
+  assert.equal(drawn(freed), 'free');
+  // That one in flight fills the hour again: the pack's day once more.
+  assert.deepEqual(await turns.explain(f.user, 'ip-e', p, cfg, T0 + 10 * MIN + 2), { reason: 'pack_daily', retryAt: MIDNIGHT, remaining: 250 });
+});
+
+test('free first (R2): two tabs at once take the last free answer and one from the pack, never both one; a failed or cut answer goes back where it came from', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-c', 300);
+  seed(f, times(4, (i) => T0 - (40 - 10 * i) * MIN, { subject: f.user, ip: 'ip-c', accountFree: true }));
+  const both = await Promise.all([turns.reserve(f.user, 'ip-c', p, cfg, T0), turns.reserve(f.user, 'ip-c', p, cfg, T0)]);
+  assert.deepEqual(both.map(drawn).sort(), ['free', 'pack']);
+  // A third tab waits: two answers at most are prepared at once.
+  assert.equal(drawn(await turns.reserve(f.user, 'ip-c', p, cfg, T0)), 'busy');
+  // The free answer failed and the pack's was cut at the length limit:
+  // each goes back to its own allowance.
+  const free = both.find((turn) => turn.id && turn.bucket === 'free')!;
+  const paid = both.find((turn) => turn.id && turn.bucket === 'pack')!;
+  await turns.finish(free.id!, { outcome: 'upstream_error', charged: false });
+  await turns.finish(paid.id!, { outcome: 'truncated', charged: false });
+  assert.deepEqual(await turns.allowance(f.user, 'ip-c', p, cfg, T0), {
+    remaining: 300,
+    hourRemaining: null,
+    dayRemaining: 50,
+    freeRemaining: 11,
+    freeHourRemaining: 1,
+  });
+  // The retry is free again; settled twice, nothing changes.
+  const retry = await turns.reserve(f.user, 'ip-c', p, cfg, T0 + 1000);
+  assert.equal(drawn(retry), 'free');
+  await turns.finish(retry.id!, { outcome: 'answered', charged: true });
+  await turns.finish(retry.id!, { outcome: 'upstream_error', charged: false });
+  assert.equal((await turns.allowance(f.user, 'ip-c', p, cfg, T0 + 1000)).freeHourRemaining, 0);
+});
+
+test('free first (R2): racing turns never overdraw a pack, and its last answer taken, the rest read as a spent pack', async () => {
+  const f = await fixture();
+  const turns = new TurnStore(f.binding, BILLING_ORG);
+  const cfg = resolveConfig(f.env);
+  const p = pack(f, 'pack-last', 1);
+  seed(f, times(15, (i) => T0 - 9 * HOUR + i * 20 * MIN, { subject: f.user, ip: 'ip-l', accountFree: true }));
+  const decisions = await Promise.all(Array.from({ length: 6 }, () => turns.reserve(f.user, 'ip-l', p, cfg, T0)));
+  assert.deepEqual(decisions.map(drawn).sort(), ['monthly', 'monthly', 'monthly', 'monthly', 'monthly', 'pack']);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE period_id='pack-last'"), 1);
+  // Revoked (a refund the Seller made), the pack takes no turn, free or not.
+  const q = pack(f, 'pack-revoked', 300);
+  f.db.exec("UPDATE gpt_access_periods SET revoked_at=1 WHERE order_id='pack-revoked'");
+  assert.equal(drawn(await turns.reserve(f.user, 'ip-l', q, cfg, T0 + HOUR)), 'monthly');
+});
+
+test('free first at the chat (R2): free answers leave the pack whole and walk the pack\'s chain on the free budget; the sixth is the pack\'s', async (t) => {
+  const f = await fixture();
+  const cfg = resolveConfig(f.env);
+  const now = Date.now();
+  pack(f, 'pack-chat', 300, { from: now - DAY, to: now + 20 * DAY });
+  const models: string[] = [];
+  t.mock.method(globalThis, 'fetch', async (input: RequestInfo | URL, init?: RequestInit) => {
+    const host = new URL(input instanceof Request ? input.url : String(input)).host;
+    if (host !== 'openrouter.ai') throw new Error(`unexpected host ${host}`);
+    models.push(String((JSON.parse(String(init?.body)) as Row).model));
+    return Response.json({
+      choices: [{ message: { content: 'Javob' }, finish_reason: 'stop' }],
+      usage: { prompt_tokens: 40, completion_tokens: 5 },
+    });
+  });
+  const answers: Row[] = [];
+  for (let i = 0; i < 6; i++) answers.push((await (await chat(request(f, {}, { cookie: f.testCookie }))).json()) as Row);
+  await drain(f);
+  // What is left is the pack's after each answer; a holder has no hourly count.
+  assert.deepEqual(
+    answers.map((a) => [a.ok, a.remaining, a.hourRemaining]),
+    [...Array.from({ length: 5 }, () => [true, 300, null]), [true, 299, null]],
+  );
+  assert.deepEqual(
+    f.db
+      .rows<{ id: string; period_id: string | null; status: string }>('SELECT id, period_id, status FROM gpt_turn_reservations ORDER BY created_at, rowid')
+      .map((row) => [row.id.startsWith(ACCOUNT_FREE_ID), row.period_id, row.status]),
+    [...Array.from({ length: 5 }, () => [true, null, 'done']), [false, 'pack-chat', 'done']],
+  );
+  // Every answer of a holder walks the pack's chain. The free ones paid for
+  // the paid model out of the free tier's day budget; only the pack's answer
+  // spent an attempt of the pack's ceiling.
+  assert.deepEqual([...new Set(models)], [modelChain(cfg, 'paid')[0]]);
+  assert.equal(f.db.value("SELECT attempts FROM gpt_model_spend WHERE bucket='free_paid'"), 5);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_attempts WHERE period_id='pack-chat'"), 1);
+  // The account view: the pack's numbers count its own answer, the free ones apart.
+  const view = (await (
+    await account(f.ctx(new Request('https://gpt.test/api/gpt/account', { headers: { cookie: f.testCookie, 'CF-Connecting-IP': IP } })) as never)
+  ).json()) as Row;
+  const access = view.access as Row;
+  assert.deepEqual(
+    [view.remaining, access.remaining, access.dayRemaining, access.freeRemaining, access.freeHourRemaining],
+    [299, 299, 49, 10, 0],
+  );
+  // A guest behind the same address still has his whole hour.
+  const guest = (await (await chat(request(f))).json()) as Row;
+  await drain(f);
+  assert.deepEqual([guest.ok, guest.remaining, guest.hourRemaining], [true, 14, 4]);
+  assert.deepEqual(limitHits(f), []);
+});
+
+test('a message of 3000 characters reaches the model whole in Russian and in Uzbek with ‘ and ’; past the history it drops', async (t) => {
+  const f = await fixture();
+  const seen: Array<Array<{ role: string; content: string }>> = [];
+  t.mock.method(globalThis, 'fetch', async (_input: RequestInfo | URL, init?: RequestInit) => {
+    seen.push((JSON.parse(String(init?.body)) as { messages: Array<{ role: string; content: string }> }).messages);
+    return Response.json({
+      choices: [{ message: { content: 'Javob' }, finish_reason: 'stop' }],
+      usage: { prompt_tokens: 40, completion_tokens: 5 },
+    });
+  });
+  const exactly = (unit: string) => unit.repeat(Math.ceil(3000 / unit.length)).slice(0, 3000).trim().padEnd(3000, 'я');
+  const russian = exactly('Пожалуйста, проверьте этот длинный текст и исправьте ошибки. ');
+  const uzbek = exactly('O‘zbekiston bo‘yicha so‘rov: ma’lumotlarni tekshiring va to‘g‘rilang. ');
+  const apostrophes = '‘’'.repeat(1500);
+  const history = Array.from({ length: 4 }, (_, i) => ({ role: i % 2 ? 'assistant' : 'user', content: 'Я'.repeat(500) }));
+  for (const message of [russian, uzbek, apostrophes, 'Я'.repeat(3000)]) {
+    assert.equal(message.length, 3000);
+    const answer = (await (await chat(request(f, { message, history }))).json()) as Row;
+    assert.equal(answer.ok, true, `${message.slice(0, 20)}…: ${String(answer.code)}`);
+    const messages = seen.at(-1)!;
+    assert.equal(messages.at(-1)!.content, message);
+    assert.equal(messages[0].role, 'system');
+  }
+  await drain(f);
+  // The history makes room: a short message keeps it, a long one drops it.
+  await chat(request(f, { message: 'Davom et', history }));
+  await drain(f);
+  assert.equal(seen.at(-1)!.length, 2 + history.length);
+  assert.ok(seen.slice(0, 4).every((messages) => messages.length < 2 + history.length));
+  // 3001 characters are still refused before any reservation.
+  const long = await chat(request(f, { message: 'Я'.repeat(3001) }));
+  assert.deepEqual([long.status, ((await long.json()) as Row).code], [400, 'invalid_message']);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_turn_reservations WHERE outcome='context_too_large'"), 0);
 });
 
 test('the texts: every reason and failure in RU and UZ, no plan names, letter apostrophes, minutes rounded up', () => {

@@ -185,8 +185,10 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     });
     // Without a pack the free tier counts by account and by IP hash, as the
     // chat does; with one, what is left in every running pack and what the
-    // day cap still lets through today (the Paketim panel).
-    const { remaining, dayRemaining } = await new TurnStore(db, BILLING_ORG).allowance(
+    // pack's day cap still lets through today (the Paketim panel), and the
+    // holder's own free answers, which turns draw on first (decision R2):
+    // a free answer leaves the pack's numbers as they are.
+    const { remaining, dayRemaining, freeRemaining, freeHourRemaining } = await new TurnStore(db, BILLING_ORG).allowance(
       user,
       await hashIp(getClientIp(request), cfg),
       access,
@@ -204,6 +206,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
             ...access,
             remaining,
             dayRemaining: dayRemaining ?? remaining,
+            freeRemaining,
+            freeHourRemaining,
             renewSoon: (paidThrough ?? access.ends_at) - Date.now() < 3 * 86400_000,
             packs: Math.max(1, packs.length),
             totalLimit: packs.reduce((sum, pack) => sum + pack.message_limit, 0) || access.message_limit,

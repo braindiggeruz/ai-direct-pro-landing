@@ -198,11 +198,18 @@ test("the chat draws a test pack only in a rehearsal session", async () => {
       await response.text();
       await Promise.all(f.background);
     };
+    // Outside a rehearsal session there is no pack: a free answer. Inside
+    // it, the test pack's holder answers free first (decision R2), and the
+    // pack takes the sixth answer of the hour.
     await turn(f.cookie);
-    await turn(f.testCookie);
+    for (let i = 0; i < 5; i++) await turn(f.testCookie);
+    // The live context has no pack to go on with: its free hour is spent.
+    await turn(f.cookie);
     assert.deepEqual(
-      f.db.rows<{ period_id: string | null }>("SELECT period_id FROM gpt_turn_reservations ORDER BY created_at").map((r) => r.period_id),
-      [null, order.id],
+      f.db
+        .rows<{ id: string; period_id: string | null }>("SELECT id, period_id FROM gpt_turn_reservations ORDER BY created_at, rowid")
+        .map((r) => [r.id.startsWith("acct-free:"), r.period_id]),
+      [[false, null], [true, null], [true, null], [true, null], [true, null], [false, order.id]],
     );
   } finally {
     globalThis.fetch = original;

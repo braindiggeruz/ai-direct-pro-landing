@@ -10,7 +10,8 @@ import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { billingFixture } from './helpers/gpt-billing-fixture';
 import { BILLING_ORG } from '../functions/lib/gpt-chat/billing-config';
-import { freeChain, resolveConfig } from '../functions/lib/gpt-chat/config';
+import { freeChain, modelChain, resolveConfig } from '../functions/lib/gpt-chat/config';
+import { ACCOUNT_FREE_ID } from '../functions/lib/gpt-chat/turn-store';
 import { webChatChain } from '../functions/lib/gpt-chat/model-provider';
 import { PAID_PRICE_CEILING } from '../functions/lib/gpt-chat/model-pricing';
 import { alertRowId, isUrgentAlert } from '../functions/lib/gpt-chat/alert-policy';
@@ -114,14 +115,16 @@ test('the worst case prices the prompt bound and the whole answer at the ceiling
     worstCaseMicroUsd(messages, 1600),
     Math.ceil(bound * PAID_PRICE_CEILING.prompt + 1600 * PAID_PRICE_CEILING.completion),
   );
-  // The longest prompt buildMessages lets through, at the committed 1600 tokens: about $0.0011.
-  const longest = buildMessages(
-    Array.from({ length: 20 }, (_, i) => ({ role: i % 2 ? 'assistant' as const : 'user' as const, content: 'Я'.repeat(8000) })),
-    'Я'.repeat(3000),
-    10,
-    'ru',
-  );
-  assert.ok(worstCaseMicroUsd(longest, 1600) <= 1_200);
+  // The longest prompt buildMessages lets through, at the committed 1600
+  // tokens: a 3000-character message at 3 bytes a character (all ‘ and ’),
+  // whole, beside the system prompt; about $0.0016. Any shorter message,
+  // with all the history it has room for, costs less.
+  const history = Array.from({ length: 20 }, (_, i) => ({ role: i % 2 ? 'assistant' as const : 'user' as const, content: 'Я'.repeat(8000) }));
+  const longest = buildMessages(history, '‘’'.repeat(1500), 10, 'uz');
+  assert.equal(longest.at(-1)!.content, '‘’'.repeat(1500));
+  assert.ok(worstCaseMicroUsd(longest, 1600) <= 1_600, String(worstCaseMicroUsd(longest, 1600)));
+  for (const message of ['Я'.repeat(3000), 'Salom', 'Я'.repeat(2000)])
+    assert.ok(worstCaseMicroUsd(buildMessages(history, message, 10, 'ru'), 1600) <= worstCaseMicroUsd(longest, 1600));
   assert.equal(spendDay(Date.UTC(2026, 8, 30, 23, 59)), '2026-09-30');
   assert.equal(spendDay(Date.UTC(2026, 9, 1, 0, 0)), '2026-10-01');
 });
@@ -304,16 +307,49 @@ test('web chat: a failed paid attempt keeps its reservation (it may be billed) a
   assert.equal(f.db.value('SELECT attempts FROM gpt_turn_reservations'), 2);
 });
 
-test('web chat: a pack turn walks the paid chain under its own attempt ceiling and never spends the free budget', async (t) => {
-  const f = await paidPrimaryFixture();
+/** A test pack for the fixture's account, which a rehearsal session (f.testCookie) draws on. */
+async function buyPack(f: Fixture) {
   const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());
   await f.store.transition(order.id, 'prepared', 'prepare');
   await f.store.transition(order.id, 'paid', 'perform');
+  return order.id;
+}
+
+test('web chat: a pack turn walks the paid chain under its own attempt ceiling and never spends the free budget', async (t) => {
+  const f = await paidPrimaryFixture();
+  await buyPack(f);
+  // The holder's free answers of the day are spent: this one is the pack's (R2).
+  const now = Date.now();
+  for (let i = 0; i < resolveConfig(f.env).freeDailyLimit; i++)
+    f.db
+      .prepare("INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)")
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, now, now + 120_000)
+      .runSync();
   const bodies = openrouter(t, () => sse('Pullik javob'));
-  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"/);
+  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"[^\n]*"remaining":299/);
   assert.deepEqual(bodies.map((b) => b.model), [PAID]);
   assert.equal(spend(f), null);
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
+});
+
+test('web chat: a pack holder\'s free answer walks the pack\'s chain on the free budget, never the pack\'s attempt ceiling (R2)', async (t) => {
+  const f = await paidPrimaryFixture();
+  await buyPack(f);
+  const bodies = openrouter(t, () => sse('Pullik javob'));
+  // The pack keeps all 300: the answer was a free one.
+  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"[^\n]*"remaining":300/);
+  assert.deepEqual(bodies.map((b) => b.model), [PAID]);
+  assert.equal(spend(f)?.attempts, 1);
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 0);
+  // With the free budget at 0 the holder's free answers skip the paid models
+  // to the chain's ':free' one, like everyone's free answers.
+  const g = await paidPrimaryFixture('0');
+  await buyPack(g);
+  const chain = modelChain(resolveConfig(g.env), 'paid');
+  const skipped = openrouter(t, () => sse('Bepul javob'));
+  assert.match(await turn(g, { cookie: g.testCookie }), /"type":"done"[^\n]*"remaining":300/);
+  assert.deepEqual(skipped.map((b) => b.model), [chain.find((model) => model.endsWith(':free'))]);
+  assert.equal(g.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 0);
 });
 
 test('retention: the maintenance cron drops spend and limit-hit days older than 93 days, in its own org only', async () => {

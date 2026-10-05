@@ -2,13 +2,19 @@
 // SELECT is both the admission decision and the reservation, atomic across
 // isolates; reservations count before any upstream work.
 //
-// Admission rules (plan WP-05, decisions L3 and L5), all at once:
+// Admission rules (plan WP-05, decisions L3, L5 and R2), all at once:
 //   free tier   per UTC day and per rolling hour (GPT_FREE_DAILY_LIMIT,
 //               GPT_FREE_HOURLY_LIMIT), counted by account AND by IP hash
 //               among turns without a pack: signing in or out gives no new
 //               allowance, and a spent pack does not touch it;
-//   pack        PACK_DAILY_LIMIT a UTC day and the pack's own message_limit;
-//               no hourly cap (none in the pack's terms);
+//   pack holder free answers first (decision R2): the same day and hour,
+//               counted by the account alone. Only a turn they refuse is an
+//               answer from the pack: PACK_DAILY_LIMIT pack answers a UTC day
+//               and the pack's own message_limit; no hourly cap (none in the
+//               pack's terms). One statement picks the allowance and reserves
+//               on it. A holder's free answer is marked (ACCOUNT_FREE_ID) and
+//               never counts against the address: the neighbours behind it
+//               keep their free answers;
 //   both        at most MAX_CONCURRENT_TURNS in flight per subject, and an
 //               abuse ceiling of requests per IP hash and rolling hour.
 // A refusal is explained by the same rules (explain): the precise reason and
@@ -43,12 +49,21 @@ export interface Allowance {
   /** Free tier only: answers left in the rolling hour; null for a pack. */
   hourRemaining: number | null;
   /**
-   * A pack only: answers its day cap (PACK_DAILY_LIMIT) still lets through
-   * today, never more than `remaining`. The free tier's `remaining` is the
-   * day's already.
+   * A pack only: pack answers its day cap (PACK_DAILY_LIMIT) still lets
+   * through today, never more than `remaining`. The holder's free answers
+   * come on top. The free tier's `remaining` is the day's already.
    */
   dayRemaining?: number;
+  /**
+   * A pack only: the holder's own free answers left today and in the rolling
+   * hour, counted by the account. Turns draw on them before the pack (R2).
+   */
+  freeRemaining?: number;
+  freeHourRemaining?: number;
 }
+
+/** Which allowance a reservation draws on: the free tier, or a pack (period_id). */
+export type Bucket = "free" | "pack";
 
 /** Answers a pack gives in one UTC day (decision L3). */
 export const PACK_DAILY_LIMIT = 50;
@@ -62,10 +77,24 @@ const RESERVATION_MS = 120_000;
 const BUSY_RETRY_MS = 5_000;
 
 /**
+ * Reservation-id prefix of a pack holder's free answer (decision R2). Such a
+ * row is counted by the account alone: the free tier's IP-hash rules skip it,
+ * so a holder never spends the free answers of the neighbours behind the same
+ * address. Every other id is a random UUID, which never contains ':'.
+ */
+export const ACCOUNT_FREE_ID = "acct-free:";
+/** Rows the free tier's IP-hash rules leave out: a pack holder's free answers. */
+const NOT_ACCOUNT_FREE = `id NOT LIKE '${ACCOUNT_FREE_ID}%'`;
+
+/**
  * Why a turn was refused (the 429's `reason`):
  *   hourly      the free tier's rolling hour, by account or by IP hash
  *   daily       the free tier's UTC day, by account or by IP hash
- *   pack_daily  the pack's UTC day (PACK_DAILY_LIMIT)
+ *   pack_daily  a pack holder's free answers are spent for the hour or the
+ *               day, and so is the pack's UTC day (PACK_DAILY_LIMIT); it
+ *               lifts with the pack's day. A holder never gets 'hourly' or
+ *               'daily': the chat lifts those as soon as it sees a pack
+ *               with answers left (src/gpt-chat/limit-state.ts)
  *   monthly     the pack is spent or no longer valid; the free tier still
  *               applies, so the chat retries the turn there
  *   busy        MAX_CONCURRENT_TURNS answers are still being prepared
@@ -87,9 +116,9 @@ export interface LimitExplanation {
   remaining: number;
 }
 
-/** A reservation, or why there is none. */
+/** A reservation and the allowance it draws on, or why there is none. */
 export type Admission =
-  | { id: string; remaining: number; limit?: undefined }
+  | { id: string; bucket: Bucket; remaining: number; limit?: undefined }
   | { id: null; limit: LimitExplanation };
 
 // Counts as spent: answered, or reserved and not yet expired.
@@ -114,13 +143,23 @@ function dayStart(now: number): number {
   return Math.floor(now / DAY_MS) * DAY_MS;
 }
 
+/** The rules of one turn, by what they guard. */
+interface Rules {
+  /** The free tier's day and hour. */
+  free: Rule[];
+  /** A pack answer's day cap; empty without a pack. */
+  pack: Rule[];
+  /** Every turn, whatever it draws on: answers in flight and the address's ceiling. */
+  shared: Rule[];
+}
+
 function admissionRules(
   subject: string,
   ip: string,
   period: AccessPeriod | null,
   cfg: GptChatConfig,
   now: number,
-): Rule[] {
+): Rules {
   const day = dayStart(now);
   const hour = now - HOUR_MS;
   // expires_at is created_at + RESERVATION_MS, so the created_at bound only
@@ -139,47 +178,67 @@ function admissionRules(
     limit: IP_HOURLY_CEILING[period ? "paid" : "free"],
     frees: "hour",
   };
-  if (period)
-    return [
-      {
-        reason: "pack_daily",
-        rows: `subject=? AND created_at>=? AND ${ACTIVE}`,
-        binds: [subject, day, now],
-        limit: PACK_DAILY_LIMIT,
-        frees: "day",
-      },
-      busy,
-      ipCeiling,
-    ];
-  // Decision L5: by the account AND by the IP hash, among turns without a pack.
+  // The free tier's day and hour among turns without a pack, by `key`. By
+  // the IP hash, a pack holder's free answers are left out (ACCOUNT_FREE_ID).
   const free = (
     reason: "daily" | "hourly",
     key: "subject" | "ip_hash",
     value: string,
-  ): Rule =>
-    reason === "daily"
+  ): Rule => {
+    const rows = `period_id IS NULL${key === "ip_hash" ? ` AND ${NOT_ACCOUNT_FREE}` : ""} AND ${ACTIVE}`;
+    return reason === "daily"
       ? {
           reason,
-          rows: `${key}=? AND created_at>=? AND period_id IS NULL AND ${ACTIVE}`,
+          rows: `${key}=? AND created_at>=? AND ${rows}`,
           binds: [value, day, now],
           limit: cfg.freeDailyLimit,
           frees: "day",
         }
       : {
           reason,
-          rows: `${key}=? AND created_at>? AND period_id IS NULL AND ${ACTIVE}`,
+          rows: `${key}=? AND created_at>? AND ${rows}`,
           binds: [value, hour, now],
           limit: cfg.freeHourlyLimit,
           frees: "hour",
         };
-  return [
-    free("daily", "subject", subject),
-    free("daily", "ip_hash", ip),
-    free("hourly", "subject", subject),
-    free("hourly", "ip_hash", ip),
-    busy,
-    ipCeiling,
-  ];
+  };
+  if (period)
+    return {
+      // Decision R2: the holder's own free answers, by the account alone.
+      free: [free("daily", "subject", subject), free("hourly", "subject", subject)],
+      // The pack's day counts the account's pack answers, of every pack.
+      pack: [
+        {
+          reason: "pack_daily",
+          rows: `subject=? AND created_at>=? AND period_id IS NOT NULL AND ${ACTIVE}`,
+          binds: [subject, day, now],
+          limit: PACK_DAILY_LIMIT,
+          frees: "day",
+        },
+      ],
+      shared: [busy, ipCeiling],
+    };
+  // Decision L5: by the account AND by the IP hash, among turns without a pack.
+  return {
+    free: [
+      free("daily", "subject", subject),
+      free("daily", "ip_hash", ip),
+      free("hourly", "subject", subject),
+      free("hourly", "ip_hash", ip),
+    ],
+    pack: [],
+    shared: [busy, ipCeiling],
+  };
+}
+
+/** `rules` as guards on gpt_turn_reservations, each true while the rule admits, and their binds. */
+function guards(org: string, rules: Rule[]): { sql: string[]; binds: unknown[] } {
+  return {
+    sql: rules.map(
+      (rule) => `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${rule.rows})<?`,
+    ),
+    binds: rules.flatMap((rule) => [org, ...rule.binds, rule.limit]),
+  };
 }
 
 // The pack's own ceiling: answers spent in it, and whether it is still valid
@@ -212,8 +271,12 @@ export class TurnStore {
     readonly org: string,
   ) {}
   /**
-   * Reserve one answer for `subject` (an account, or the IP hash of a guest)
-   * on `period`'s pack or, without one, on the free tier. `ip` is the IP hash.
+   * Reserve one answer for `subject` (an account, or the IP hash of a guest).
+   * `ip` is the IP hash. Without `period` the answer is the free tier's. With
+   * it (decision R2) the holder's own free answers come first and the pack
+   * only once they refuse; a spent or ended pack refuses both ('monthly').
+   * One statement decides which and reserves on it, so two tabs at once can
+   * neither both take the last free answer nor both the pack's last one.
    */
   async reserve(
     subject: string,
@@ -223,13 +286,27 @@ export class TurnStore {
     now = Date.now(),
   ): Promise<Admission> {
     const rules = admissionRules(subject, ip, period, cfg, now);
-    const guards = rules.map(
-      (rule) => `(SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${rule.rows})<?`,
-    );
-    const binds = rules.flatMap((rule) => [this.org, ...rule.binds, rule.limit]);
-    if (period) {
-      guards.push(`${PACK_USED}<?`, PACK_VALID);
-      binds.push(
+    const shared = guards(this.org, rules.shared);
+    const free = guards(this.org, rules.free);
+    let select: string;
+    let binds: unknown[];
+    if (!period) {
+      select = `SELECT ?,?,?,?,NULL,'reserved',?,? WHERE ${[...free.sql, ...shared.sql].join(" AND ")}`;
+      binds = [...free.binds, ...shared.binds];
+    } else {
+      // g.free: the holder's free day and hour admit the turn; g.pack: the
+      // pack's day does; g.open: the turn may run at all, and the pack is
+      // valid with an answer left. A free answer is marked ACCOUNT_FREE_ID,
+      // a pack answer carries the pack. The SELECT list's binds come first.
+      const pack = guards(this.org, rules.pack);
+      select = `SELECT ?,CASE WHEN g.free THEN ? ELSE ? END,?,?,CASE WHEN g.free THEN NULL ELSE ? END,'reserved',?,?
+        FROM (SELECT (${free.sql.join(" AND ")}) AS free, (${pack.sql.join(" AND ")}) AS pack,
+          (${[...shared.sql, `${PACK_USED}<?`, PACK_VALID].join(" AND ")}) AS open) g
+        WHERE g.open AND (g.free OR g.pack)`;
+      binds = [
+        ...free.binds,
+        ...pack.binds,
+        ...shared.binds,
         this.org,
         period.order_id,
         now,
@@ -238,30 +315,30 @@ export class TurnStore {
         period.order_id,
         now,
         now,
-      );
+      ];
     }
     // A refusal whose cause cleared before explain() read it (a concurrent
     // turn settled in between) is retried once.
     for (let attempt = 0; attempt < 2; attempt++) {
+      const id = crypto.randomUUID();
       const row = await this.db
         .prepare(
           `INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at)
-        SELECT ?,?,?,?,?,'reserved',?,? WHERE ${guards.join(" AND ")} RETURNING id`,
+        ${select} RETURNING id,period_id`,
         )
         .bind(
-          this.org,
-          crypto.randomUUID(),
-          subject,
-          ip,
-          period?.order_id ?? null,
+          ...(period
+            ? [this.org, ACCOUNT_FREE_ID + id, id, subject, ip, period.order_id]
+            : [this.org, id, subject, ip]),
           now,
           now + RESERVATION_MS,
           ...binds,
         )
-        .first<{ id: string }>();
+        .first<{ id: string; period_id: string | null }>();
       if (row)
         return {
           id: row.id,
+          bucket: row.period_id === null ? "free" : "pack",
           remaining: (await this.allowance(subject, ip, period, cfg, now)).remaining,
         };
       const limit = await this.explain(subject, ip, period, cfg, now);
@@ -282,6 +359,13 @@ export class TurnStore {
    * Why reserve() refuses a turn right now, in one SELECT over the same
    * rules; null when nothing refuses it. When several rules refuse, the one
    * that lifts last is the reason; a spent or ended pack ('monthly') wins.
+   *
+   * A pack holder's free answers and the pack's day refuse only together,
+   * and the reason is then 'pack_daily', which lifts with the pack's day: the
+   * chat keeps that card while the pack has answers left, where it lifts an
+   * 'hourly' one at once (src/gpt-chat/limit-state.ts). A free hour that
+   * frees up sooner is still admitted to the next turn sent, from another
+   * tab for one.
    */
   async explain(
     subject: string,
@@ -290,7 +374,8 @@ export class TurnStore {
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<LimitExplanation | null> {
-    const rules = admissionRules(subject, ip, period, cfg, now);
+    const { free, pack, shared } = admissionRules(subject, ip, period, cfg, now);
+    const rules = [...free, ...pack, ...shared];
     // A 'day' rule yields its count; any other yields the edge row's time
     // when the rule refuses (the limit-th newest matching row), else NULL.
     const columns = rules.map((rule, i) => {
@@ -313,10 +398,16 @@ export class TurnStore {
       .bind(...binds)
       .first<Record<string, number | null>>();
     if (!row) return null;
-    const found = (i: number) => row[`r${i}`];
+    // When each rule lets a turn through again; null while it admits one.
+    const retry = rules.map((rule, i): number | null => {
+      const value = row[`r${i}`];
+      if (rule.frees === "day")
+        return Number(value) >= rule.limit ? dayStart(now) + DAY_MS : null;
+      return value === null ? null : Number(value) + (rule.frees === "hour" ? HOUR_MS : 0);
+    });
     const spentToday = Math.max(
       0,
-      ...rules.flatMap((rule, i) => (rule.frees === "day" ? [Number(found(i))] : [])),
+      ...free.flatMap((rule, i) => (rule.frees === "day" ? [Number(row[`r${i}`])] : [])),
     );
     const remaining = Math.max(
       0,
@@ -324,27 +415,31 @@ export class TurnStore {
     );
     if (period && (Number(row.used) >= period.message_limit || !row.valid))
       return { reason: "monthly", retryAt: null, remaining };
+    const refusing = (from: number, to: number) =>
+      rules.slice(from, to).flatMap((rule, i) => {
+        const retryAt = retry[from + i];
+        return retryAt === null ? [] : [{ reason: rule.reason, retryAt }];
+      });
+    const freeRefusals = refusing(0, free.length);
+    const packRefusals = refusing(free.length, free.length + pack.length);
+    const candidates = [
+      // A holder is refused by the free tier only when the pack's day refuses too.
+      ...(period ? (freeRefusals.length ? packRefusals : []) : freeRefusals),
+      ...refusing(free.length + pack.length, rules.length),
+    ];
     let refusal: { reason: LimitReason; retryAt: number } | null = null;
-    for (const [i, rule] of rules.entries()) {
-      const value = found(i);
-      let retryAt: number | null = null;
-      if (rule.frees === "day") {
-        if (Number(value) >= rule.limit) retryAt = dayStart(now) + DAY_MS;
-      } else if (value !== null) {
-        retryAt = Number(value) + (rule.frees === "hour" ? HOUR_MS : 0);
-      }
-      if (retryAt !== null && (!refusal || retryAt > refusal.retryAt))
-        refusal = { reason: rule.reason, retryAt };
-    }
+    for (const candidate of candidates)
+      if (!refusal || candidate.retryAt > refusal.retryAt) refusal = candidate;
     return refusal && { ...refusal, remaining };
   }
   /**
    * The day's (or the packs') and, for the free tier, the rolling hour's
    * answers left, in one read; the free tier counts by account and by IP
-   * hash, like reserve(). With a pack, what is left in every pack the
-   * account can still draw from: a turn draws from `period` first and then
-   * from the next one. The chat reads it after the settlement, so a released
-   * turn is already given back.
+   * hash, like reserve(). With a pack: what is left in every pack the
+   * account can still draw from (a turn draws from `period` first and then
+   * from the next one), the pack's day, and the holder's own free day and
+   * hour, which turns draw on first. The chat reads it after the settlement,
+   * so a released turn is already given back.
    */
   async allowance(
     subject: string,
@@ -353,36 +448,39 @@ export class TurnStore {
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<Allowance> {
+    const day = dayStart(now);
+    const hour = now - HOUR_MS;
+    const since = Math.min(day, hour);
+    // The free tier's day and hour by `key`, counted as reserve() counts them.
+    const counts = (key: "subject" | "ip_hash") =>
+      `SELECT COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS day,
+        COALESCE(SUM(CASE WHEN created_at>? THEN 1 ELSE 0 END),0) AS hour
+        FROM gpt_turn_reservations WHERE org_id=? AND ${key}=? AND created_at>=? AND period_id IS NULL${key === "ip_hash" ? ` AND ${NOT_ACCOUNT_FREE}` : ""} AND ${ACTIVE}`;
+    const countBinds = (value: string) => [day, hour, this.org, value, since, now];
     if (period) {
       // The pack's day is reserve()'s own pack_daily rule, counted the same way.
-      const daily = admissionRules(subject, ip, period, cfg, now).find(
-        (rule) => rule.reason === "pack_daily",
-      )!;
+      const daily = admissionRules(subject, ip, period, cfg, now).pack[0];
       const row = await this.db
         .prepare(
-          `SELECT ${PACKS_LEFT} AS packs_left, (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${daily.rows}) AS today`,
+          `SELECT ${PACKS_LEFT} AS packs_left, (SELECT COUNT(*) FROM gpt_turn_reservations WHERE org_id=? AND ${daily.rows}) AS today,
+          s.day AS free_day, s.hour AS free_hour FROM (${counts("subject")}) s`,
         )
-        .bind(now, this.org, period.order_id, now, now, this.org, ...daily.binds)
-        .first<{ packs_left: number; today: number }>();
+        .bind(now, this.org, period.order_id, now, now, this.org, ...daily.binds, ...countBinds(subject))
+        .first<{ packs_left: number; today: number; free_day: number; free_hour: number }>();
       const remaining = Math.max(0, row?.packs_left ?? 0);
       return {
         remaining,
         hourRemaining: null,
         dayRemaining: Math.min(remaining, Math.max(0, daily.limit - (row?.today ?? 0))),
+        freeRemaining: Math.max(0, cfg.freeDailyLimit - (row?.free_day ?? 0)),
+        freeHourRemaining: Math.max(0, cfg.freeHourlyLimit - (row?.free_hour ?? 0)),
       };
     }
-    const day = dayStart(now);
-    const hour = now - HOUR_MS;
-    const counts = (key: "subject" | "ip_hash") =>
-      `SELECT COALESCE(SUM(CASE WHEN created_at>=? THEN 1 ELSE 0 END),0) AS day,
-        COALESCE(SUM(CASE WHEN created_at>? THEN 1 ELSE 0 END),0) AS hour
-        FROM gpt_turn_reservations WHERE org_id=? AND ${key}=? AND created_at>=? AND period_id IS NULL AND ${ACTIVE}`;
-    const since = Math.min(day, hour);
     const row = await this.db
       .prepare(
         `SELECT MAX(s.day,i.day) AS day, MAX(s.hour,i.hour) AS hour FROM (${counts("subject")}) s, (${counts("ip_hash")}) i`,
       )
-      .bind(day, hour, this.org, subject, since, now, day, hour, this.org, ip, since, now)
+      .bind(...countBinds(subject), ...countBinds(ip))
       .first<{ day: number; hour: number }>();
     return {
       remaining: Math.max(0, cfg.freeDailyLimit - (row?.day ?? 0)),

@@ -17,9 +17,16 @@
 // the length limit is never charged and says so (done.truncated); a stopped
 // answer is charged only past GPT_STOP_CHARGE_MIN_CHARS delivered characters
 // (turn-outcome.ts). `remaining` / `hourRemaining` are read after that
-// settlement. A free turn may start on the paid primary only through the
-// day's budget (model-spend-store.ts); a pack turn walks under its attempt
-// ceiling (TurnStore.admitModelAttempt).
+// settlement. A free answer may use a paid model only through the free
+// tier's day budget (model-spend-store.ts); a pack answer walks under the
+// pack's attempt ceiling (TurnStore.admitModelAttempt).
+//
+// Free answers first, then the pack (decision R2): a pack holder's turn is a
+// free answer while the holder's own free day and hour allow it, counted by
+// the account and never against the address, and an answer from the pack
+// only once they refuse (TurnStore.reserve decides and reserves at once).
+// Every turn of a holder walks the pack's chain; which allowance it drew on
+// picks the money guard above.
 //
 // A refused turn answers 429 with the precise reason, the tier's limits and
 // when a turn fits again (retryAt, retryAfterSec, Retry-After), in the
@@ -58,6 +65,7 @@ import {
   PACK_DAILY_LIMIT,
   TurnStore,
   type Allowance,
+  type Bucket,
   type LimitExplanation,
   type TurnSettlement,
 } from "../../lib/gpt-chat/turn-store";
@@ -233,6 +241,8 @@ export const onRequestPost: PagesFunction<Env> = async ({
   let subject = hashedIp;
   let period: AccessPeriod | null = null;
   let reservation: string | null = null;
+  // What the reservation draws on: a pack holder's turn is free first (R2).
+  let bucket: Bucket;
   let admittedRemaining = -1;
   const turns = db ? new TurnStore(db, BILLING_ORG) : null;
   // Fail closed: the provider's own limit does not bound our money.
@@ -268,6 +278,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
         return limitReached(refused, plan, cfg, locale);
       }
       reservation = decision.id;
+      bucket = decision.bucket;
       admittedRemaining = decision.remaining;
     } catch {
       return fail("quota_unavailable", "Try again later", 503);
@@ -301,20 +312,26 @@ export const onRequestPost: PagesFunction<Env> = async ({
     await settle({ outcome: "context_too_large", charged: false });
     return fail("context_too_large", "Shorten the message", 400);
   }
-  // A free turn pays for a paid model only out of the day's budget; its
-  // exhaustion is recorded once a day (informational, alert-policy.ts).
-  const budget = period
-    ? null
-    : freePaidBudget(new ModelSpendStore(db, BILLING_ORG), cfg, messages, () =>
-        waitUntil(
-          recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() =>
-            console.warn("gpt_operator_alert_record_failed"),
+  // A free answer, a pack holder's included, pays for a paid model only out
+  // of the free tier's day budget; its exhaustion is recorded once a day
+  // (informational, alert-policy.ts). A pack answer is bounded by the pack's
+  // attempt ceiling instead, which a free answer never spends: every answer
+  // the pack holds stays reachable.
+  const budget =
+    bucket === "pack"
+      ? null
+      : freePaidBudget(new ModelSpendStore(db, BILLING_ORG), cfg, messages, () =>
+          waitUntil(
+            recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() =>
+              console.warn("gpt_operator_alert_record_failed"),
+            ),
           ),
-        ),
-      );
+        );
   const admitAttempt: AdmitAttempt = budget
     ? budget.admit
     : async () => ((await turns!.admitModelAttempt(period!)) ? "ok" : "stop");
+  // A pack holder's free answers walk the pack's chain too: R2 changes what a
+  // turn draws on, not how it is answered.
   const chain = webChatChain(cfg, env, plan);
   // OpenRouter credits (402 on a paid model) and Z.ai balance / key failures
   // page the owner (operator-alert.ts). Runs in the background and never
