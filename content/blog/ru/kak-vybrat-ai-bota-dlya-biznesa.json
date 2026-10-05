@@ -233,8 +233,8 @@
     },
     {
       "type": "cta",
-      "text": "Открыть демо в Telegram",
-      "href": "https://t.me/gptbotuz_bot?start=tgads_demo"
+      "text": "Узнать, как это работает для вашего бизнеса",
+      "href": "/ru/ai-bot-dlya-biznesa/"
     },
     {
       "type": "h2",
@@ -251,9 +251,8 @@
     }
   ],
   "cta": {
-    "label": "Открыть демо в Telegram",
-    "href": "https://t.me/gptbotuz_bot?start=tgads_demo",
-    "note": "Хотите проверить, как AI-бот может отвечать клиентам вашего бизнеса в Telegram? Откройте демо GPTBot и посмотрите пример сценария: бот принимает обращение, уточняет запрос и передаёт заявку менеджеру."
+    "label": "Обсудить проект",
+    "href": "#contact"
   },
   "faq": [
     {
