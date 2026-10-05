@@ -17,8 +17,11 @@ export interface FakeClickCall {
   path: string;
   body: Record<string, unknown> | null;
 }
-/** A queued failure: an HTTP 500, a dropped connection, or a Click error_code. */
-export type FakeFailure = "http" | "network" | number;
+/**
+ * A queued failure: an HTTP 500, a dropped connection, a Click error_code
+ * (HTTP 200), or any HTTP status with or without an error_code.
+ */
+export type FakeFailure = "http" | "network" | number | { status: number; code?: number };
 type Operation = "mti" | "submit" | "ofd" | "reversal";
 
 const PREFIX = "/v2/merchant/payment";
@@ -51,8 +54,9 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     latencyMs: 0,
     /**
      * How ofd_data answers for a payment without a receipt: Click's error
-     * code (with HTTP 404), a bare HTTP 404, or the payment without a link.
-     * Click does not document it; each must read as "no receipt".
+     * code with HTTP 404, a bare HTTP 404, or the payment without a link.
+     * Click does not document it; each must read as "no receipt" (and
+     * nothing else may: fiscal-store.ts noClickReceipt).
      */
     noReceipt: "click" as "click" | "http404" | "empty",
     qrUrl: (paymentId: number) =>
@@ -118,6 +122,8 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     if (failure === "network") throw new TypeError("fetch failed");
     if (failure === "http") return reply({ error: "internal" }, 500);
     if (typeof failure === "number") return reply({ error_code: failure, error_note: "fixture error" });
+    if (typeof failure === "object")
+      return reply(failure.code === undefined ? {} : { error_code: failure.code, error_note: "fixture error" }, failure.status);
 
     if (operation === "mti" && method === "GET") {
       const [, , mti, day] = parts;

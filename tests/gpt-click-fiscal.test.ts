@@ -282,6 +282,93 @@ test("Click printed the receipt itself: its link is kept as 'auto' and our recei
   assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE }), { ...IDLE, skipped: 1 });
   assert.equal(c.receipt(refunded.id).last_error, "skipped_refunded");
   assert.equal(c.fake.count("POST", "submit_items"), 0);
+
+  // Refunded during the wait after Click printed its own: the sale is on the
+  // OFD, so its link is kept (its refund is the accountant's), never ours.
+  const printedThenRefunded = await c.paidAt(T0);
+  assert.equal((await fiscalizeDue(c.f.env, { now: T0 })).waiting, 1);
+  c.fake.autoPrint(printedThenRefunded.paymentId);
+  await c.f.store.transition(printedThenRefunded.id, "cancelled", "owner_refund_record:cabinet", { reason: 5, now: T0 + MIN });
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE }), { ...IDLE, printed: 1 });
+  assert.deepEqual(
+    [c.receipt(printedThenRefunded.id).status_code, c.receipt(printedThenRefunded.id).last_error],
+    [0, "auto"],
+  );
+  assert.equal(c.fake.count("POST", "submit_items"), 0);
+});
+
+test("a refund before the receipt printed never sends ours; one read records a sale receipt that exists, and it never pages", async (t) => {
+  const c = await liveClick(t);
+  const refund = (id: string, at: number) =>
+    c.f.store.transition(id, "cancelled", "owner_refund_record:cabinet", { reason: 5, now: at });
+  // Ours went out and Click accepted it, its link is late: the sale is (or
+  // will be) on the OFD and no link says so yet.
+  const accepted = await c.paidAt(T0);
+  c.fake.qrDelay = 5;
+  assert.equal((await fiscalizeDue(c.f.env, { now: DUE })).retried, 1);
+  assert.equal(c.receipt(accepted.id).last_error, "qr_pending");
+  await refund(accepted.id, DUE + MIN);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE + MIN }), { ...IDLE, skipped: 1 });
+  assert.deepEqual([c.receipt(accepted.id).status_code, c.receipt(accepted.id).last_error], [-2, "refunded_unknown"]);
+
+  // Its answer was lost, but Click holds it: the link is kept, as "unknown".
+  c.fake.qrDelay = 0;
+  const lost = await c.paidAt(T0);
+  c.fake.loseSubmitAnswers = 1;
+  assert.equal((await fiscalizeDue(c.f.env, { now: DUE })).retried, 1);
+  assert.equal(c.receipt(lost.id).last_error, "submit:network");
+  await refund(lost.id, DUE + MIN);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE + MIN }), { ...IDLE, printed: 1 });
+  assert.deepEqual([c.receipt(lost.id).status_code, c.receipt(lost.id).last_error], [0, "unknown"]);
+
+  // Click cannot be read: retried without a page, closed as refunded_unknown at the sixth attempt.
+  const unread = await c.paidAt(T0);
+  await refund(unread.id, T0 + MIN);
+  c.fake.failures.ofd.push("network", "http", { status: 500, code: -500 }, { status: 200, code: -9 }, "network", "network");
+  let now = T0 + 2 * MIN;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, retried: 1, queued: 1 }, `attempt ${attempt}`);
+    assert.match(String(c.receipt(unread.id).last_error), /^ofd:/u);
+    now = Number(c.receipt(unread.id).next_at);
+  }
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, skipped: 1 });
+  assert.deepEqual([c.receipt(unread.id).status_code, c.receipt(unread.id).last_error], [-2, "refunded_unknown"]);
+  assert.deepEqual(c.alerts(), []);
+  // Only the two receipts that went out before their refunds.
+  assert.equal(c.fake.count("POST", "submit_items"), 2);
+});
+
+test("a paid order without a payment time counts the delay from Prepare, or from long ago: it never waits for ever, and never stays silent", async (t) => {
+  const c = await liveClick(t);
+  const times = (id: string, performTime: number, providerTime: number | null) =>
+    c.f.db.prepare("UPDATE gpt_payment_orders SET perform_time=?,provider_time=? WHERE id=?").bind(performTime, providerTime, id).runSync();
+  const prepared = await c.paidAt(T0);
+  times(prepared.id, 0, T0 - 5 * MIN);
+  assert.equal((await fiscalizeDue(c.f.env, { now: T0 })).waiting, 1);
+  assert.equal(c.receipt(prepared.id).next_at, T0 + 5 * MIN);
+  assert.equal((await fiscalizeDue(c.f.env, { now: T0 + 5 * MIN })).printed, 1);
+  // Neither: Click's payment id cannot be looked up by day, and that pages at once.
+  const unknown = await c.paidAt(T0);
+  times(unknown.id, 0, null);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: T0 }), { ...IDLE, retried: 1, queued: 1 });
+  assert.equal(c.receipt(unknown.id).last_error, "payment_id:shape");
+  assert.deepEqual(c.alerts(), ["click_fiscal_failed"]);
+  c.f.db.exec("DELETE FROM gpt_service_alerts");
+  // With the payment id known (the reversal keeps it): the delay is over,
+  // Click is asked and ours goes out at once.
+  const keepId = (id: string, paymentId: number) =>
+    c.f.db.prepare("UPDATE gpt_fiscal_receipts SET payment_id=? WHERE order_id=?").bind(String(paymentId), id).runSync();
+  keepId(unknown.id, unknown.paymentId);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: T0 + MIN }), { ...IDLE, printed: 1 });
+  assert.equal(c.receipt(unknown.id).last_error, "ours");
+  // With "true" Click's missing receipt pages at once rather than never.
+  c.f.env.GPT_CLICK_AUTOFISCAL = "true";
+  const pending = await c.paidAt(T0);
+  times(pending.id, 0, null);
+  keepId(pending.id, pending.paymentId);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: T0 + MIN }), { ...IDLE, waiting: 1, queued: 1 });
+  assert.equal(c.receipt(pending.id).last_error, "auto_pending");
+  assert.deepEqual(c.alerts(), ["click_fiscal_failed"]);
 });
 
 test("check-first sends our receipt only on Click's own word that it has none: a failed read never leads to a submit", async (t) => {
@@ -301,8 +388,8 @@ test("check-first sends our receipt only on Click's own word that it has none: a
   assert.equal(c.receipt(order.id).last_error, "ours");
   assert.equal(c.fake.count("POST", "submit_items"), 1);
 
-  // How Click says "no receipt" is not documented: an error code, a bare 404
-  // and an answer without a link all let ours go out after the delay.
+  // How Click says "no receipt" is not documented: a 404 with its error code,
+  // a bare 404 and an answer without a link all let ours go out after the delay.
   for (const answer of ["click", "http404", "empty"] as const) {
     c.fake.noReceipt = answer;
     const other = await c.paidAt(T0);
@@ -311,6 +398,40 @@ test("check-first sends our receipt only on Click's own word that it has none: a
     assert.equal(c.receipt(other.id).last_error, "ours", answer);
   }
   assert.equal(c.fake.count("POST", "submit_items"), 4);
+
+  // Nothing else is: an error code on a 5xx, another 4xx or a 200 says
+  // nothing about a receipt. Here Click printed its own during the wait; any
+  // of those answers at the check right before ours must not let ours out.
+  c.fake.noReceipt = "click";
+  for (const answer of [{ status: 500, code: -500 }, { status: 503, code: -16 }, { status: 400, code: -8 }, { status: 200, code: -500 }]) {
+    const auto = await c.paidAt(T0);
+    assert.equal((await fiscalizeDue(c.f.env, { now: T0 })).waiting, 1);
+    c.fake.autoPrint(auto.paymentId);
+    c.fake.failures.ofd.push(answer);
+    assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE }), { ...IDLE, retried: 1, queued: 1 }, JSON.stringify(answer));
+    assert.equal(c.receipt(auto.id).last_error, `ofd:click_${answer.code}`);
+    assert.equal(c.receipt(auto.id).operation_id, null, "ours never went out");
+    assert.deepEqual(await fiscalizeDue(c.f.env, { now: DUE + MIN }), { ...IDLE, printed: 1 });
+    assert.equal(c.receipt(auto.id).last_error, "auto");
+  }
+  assert.equal(c.fake.count("POST", "submit_items"), 4);
+
+  // An answer that keeps saying nothing: ours never goes out on it, and the
+  // owner is paged from the sixth attempt instead.
+  const stuck = await c.paidAt(T0);
+  assert.equal((await fiscalizeDue(c.f.env, { now: T0 })).waiting, 1);
+  c.fake.failures.ofd.push(...Array<{ status: number; code: number }>(6).fill({ status: 200, code: -9 }));
+  let now = DUE;
+  for (let attempt = 1; attempt <= 6; attempt++) {
+    assert.equal((await fiscalizeDue(c.f.env, { now })).retried, 1);
+    assert.deepEqual(c.alerts(), attempt < 6 ? [] : ["click_fiscal_failed"], `attempt ${attempt}`);
+    now = Number(c.receipt(stuck.id).next_at);
+  }
+  assert.deepEqual([c.receipt(stuck.id).last_error, c.receipt(stuck.id).attempts], ["ofd:click_-9", 6]);
+  assert.equal(c.fake.count("POST", "submit_items"), 4);
+  // Once Click answers plainly (404), ours goes out.
+  assert.equal((await fiscalizeDue(c.f.env, { now })).printed, 1);
+  assert.equal(c.receipt(stuck.id).last_error, "ours");
 });
 
 test("GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES sets the wait; 0 checks and submits in one attempt", async (t) => {
@@ -329,25 +450,36 @@ test("GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES sets the wait; 0 checks and submits 
   assert.deepEqual([c.receipt(now.id).last_error, c.receipt(now.id).attempts], ["ours", 1]);
 });
 
-test("GPT_CLICK_AUTOFISCAL=true never sends a receipt: it reads Click's link on the usual schedule and pages a day after the payment", async (t) => {
+test("GPT_CLICK_AUTOFISCAL=true never sends a receipt: it reads Click's link on the usual schedule without spending attempts, and pages a day after the payment", async (t) => {
   const c = await liveClick(t, { GPT_CLICK_AUTOFISCAL: "true" });
   // Only the Merchant API is needed when Click prints: no receipt line.
   c.f.env.GPT_FISCAL_TIN = "";
   const order = await c.paidAt(T0);
   let now = T0;
   const waits: number[] = [];
-  for (let attempt = 1; attempt <= 8; attempt++) {
-    assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, retried: 1, queued: 1, failing: attempt >= 6 ? 1 : 0 });
+  for (let read = 1; read <= 7; read++) {
+    assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, waiting: 1, queued: 1 });
     const row = c.receipt(order.id);
-    assert.deepEqual([row.last_error, row.attempts, row.status_code], ["auto_pending", attempt, -1]);
+    // Click's "not yet" is no failed attempt: the six-attempt page stays for real failures.
+    assert.deepEqual([row.last_error, row.attempts, row.status_code], ["auto_pending", 0, -1]);
     waits.push(Number(row.next_at) - now);
     now = Number(row.next_at);
   }
-  assert.deepEqual(waits, [MIN, 5 * MIN, 15 * MIN, HOUR, 6 * HOUR, 6 * HOUR, 6 * HOUR, 6 * HOUR]);
-  // 8 attempts in 19.35 hours: Click may still print it, no page yet.
+  // The failure schedule, counted by the payment's age.
+  assert.deepEqual(waits, [MIN, 5 * MIN, 15 * MIN, HOUR, 6 * HOUR, 6 * HOUR, 6 * HOUR]);
+  // 7 reads in 13.35 hours, the next at 19.35: a failed read there is one
+  // failure, not the eighth, and pages nobody.
+  c.fake.failures.ofd.push("network");
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, retried: 1, queued: 1 });
+  assert.deepEqual([c.receipt(order.id).last_error, c.receipt(order.id).attempts], ["ofd:network", 1]);
+  now = Number(c.receipt(order.id).next_at);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, waiting: 1, queued: 1 });
+  assert.equal(c.receipt(order.id).next_at, now + 6 * HOUR);
+  // Click may still print it: no page within the day.
   assert.deepEqual(c.alerts(), []);
+  now = Number(c.receipt(order.id).next_at);
   assert.ok(now - T0 > 24 * HOUR);
-  assert.equal((await fiscalizeDue(c.f.env, { now })).retried, 1);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now }), { ...IDLE, waiting: 1, queued: 1 });
   assert.deepEqual(c.alerts(), ["click_fiscal_failed"]);
   // Click prints it: the link is kept, ours never went out.
   c.fake.autoPrint(order.paymentId);
@@ -355,7 +487,7 @@ test("GPT_CLICK_AUTOFISCAL=true never sends a receipt: it reads Click's link on 
   assert.equal((await fiscalizeDue(c.f.env, { now })).printed, 1);
   assert.deepEqual([c.receipt(order.id).last_error, c.receipt(order.id).submitted_at], ["auto", null]);
   assert.equal(c.fake.count("POST", "submit_items"), 0);
-  assert.equal(c.fake.count("GET", "/ofd_data/"), 10);
+  assert.equal(c.fake.count("GET", "/ofd_data/"), 11);
 
   // A read that fails is no "not yet": it pages from the sixth attempt as any failure.
   c.f.db.exec("DELETE FROM gpt_service_alerts");
@@ -624,7 +756,8 @@ test("a receipt of an order refunded before it was printed is skipped; another o
     { status: c.receipt(order.id).status_code, error: c.receipt(order.id).last_error },
     { status: -2, error: "skipped_refunded" },
   );
-  assert.equal(c.fake.calls.length, 0);
+  // One look whether Click printed a sale receipt anyway; nothing is sent.
+  assert.deepEqual(c.calls(), ["GET /status_by_mti/41001", "GET /ofd_data/41001"]);
   assert.equal(c.receipt(foreign.id, OTHER_ORG).attempts, 0);
   assert.equal((await new FiscalStore(c.f.binding, BILLING_ORG).claim(T0)), null);
   assert.equal((await new FiscalStore(c.f.binding, OTHER_ORG).claim(T0))?.order_id, foreign.id);
@@ -737,6 +870,8 @@ test("reversal: Bearer only, confirmed body, current version; a paid order is re
     state: "refunded",
     paymentId: String(order.paymentId),
     receiptPrinted: false,
+    // Still queued: the queue's next run tells whether a sale receipt exists.
+    receiptPending: true,
   });
   await Promise.all(c.f.background);
   assert.ok(c.fake.reversed.has(order.paymentId));
@@ -780,7 +915,8 @@ test("reversal of a printed payment reuses its payment id and says the sale rece
     ),
   );
   assert.equal(response.status, 200);
-  assert.equal(((await response.json()) as { receiptPrinted: boolean }).receiptPrinted, true);
+  const answer = (await response.json()) as { receiptPrinted: boolean; receiptPending: boolean };
+  assert.deepEqual([answer.receiptPrinted, answer.receiptPending], [true, false]);
   assert.equal(c.fake.count("GET", "status_by_mti"), lookups);
   // Without Merchant API access the endpoint says so and calls nobody.
   const second = await c.paidAt(Date.now());

@@ -29,8 +29,10 @@
 //   3. check first: until GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES after the
 //      payment a missing receipt is waited for (auto_wait: no attempt, no
 //      failure); after it, ours goes out only when Click itself said it has
-//      none (no link, its error code, or 404), never after a failed read;
-//      "true" never sends one (auto_pending, paged a day after the payment);
+//      none (an answer without a link, or HTTP 404: noClickReceipt), never
+//      after a read that said nothing (a network failure, a 5xx, another
+//      error code); "true" never sends one (auto_pending: a wait on the retry
+//      schedule by the payment's age, paged a day after the payment);
 //   4. the receipt line goes out (submit_items) unless an earlier submit was
 //      accepted (submitted_at): a receipt is never sent twice on purpose.
 //      operation_id = click:submit_items is written before the first one
@@ -40,6 +42,11 @@
 //      a printed Click row says who printed it: auto (we never sent ours),
 //      ours (Click accepted ours), unknown (ours went out, Click never
 //      accepted it: a lost answer or a refusal).
+//   A paid order whose money went back before its receipt printed never gets
+//   ours, but a sale receipt may exist all the same (Click's own, or ours that
+//   went out): one ofd_data read keeps its link, or closes the row as
+//   skipped_refunded (Click has none, ours never went out) or refunded_unknown
+//   (check the Click cabinet).
 // Uzum (uzum-fiscal.ts):
 //   1. the receipt's operation_id is written before the first call and reused;
 //   2. a retry first asks receipt_url by that operation_id;
@@ -53,7 +60,8 @@
 // failed attempt, or once the payment is more than 24 hours old, a failure of
 // a live receipt records the urgent alert click_fiscal_failed or
 // uzum_fiscal_failed (one row per hour); Click's own receipt not there yet
-// (auto_pending) pages only by age. last_error keeps a coarse code only
+// (auto_pending) is no failed attempt and pages only by age. A refunded
+// order's row never pages. last_error keeps a coarse code only
 // (payment_id:network, submit:click_-5, qr_pending): never a message, a key
 // or a card detail.
 import {
@@ -71,6 +79,7 @@ import {
   ofdData,
   submitItems,
   type ClickCallOptions,
+  type ClickFailure,
   type ClickMerchantAuth,
   type ClickResult,
 } from "./click-merchant";
@@ -142,6 +151,21 @@ interface UzumOrderFacts {
 
 export function fiscalBackoff(attempts: number): number {
   return FISCAL_BACKOFF_MS[Math.min(Math.max(attempts, 1), FISCAL_BACKOFF_MS.length) - 1];
+}
+
+/**
+ * The same schedule counted by the payment's age instead of the attempts: the
+ * wait after Click's "not yet" with GPT_CLICK_AUTOFISCAL "true", a read that
+ * gives its attempt back (1, 5, 15, 60 minutes, then 6 hours after a payment
+ * read on time).
+ */
+export function fiscalBackoffByAge(ageMs: number): number {
+  let elapsed = 0;
+  for (const step of FISCAL_BACKOFF_MS) {
+    elapsed += step;
+    if (ageMs < elapsed) return step;
+  }
+  return FISCAL_BACKOFF_MS[FISCAL_BACKOFF_MS.length - 1];
 }
 
 export class FiscalStore {
@@ -218,9 +242,10 @@ export class FiscalStore {
     ]);
   }
   /**
-   * Check first: Click may still print it itself. The row comes back at
-   * `until`; the claim does not count as an attempt, so the retry schedule
-   * and the alerts start from the first real failure.
+   * Click may still print it itself (check first: auto_wait; "true":
+   * auto_pending). The row comes back at `until`; the claim does not count as
+   * an attempt, so the retry schedule and the six-attempt alert count real
+   * failures only.
    */
   wait(row: FiscalRow, reason: string, until: number, now: number): Promise<void> {
     return this.leased(
@@ -254,7 +279,7 @@ export class FiscalStore {
       .bind(paymentId, this.org, orderId)
       .run();
   }
-  /** Receipts still waiting, and how many of them are past the alert threshold. */
+  /** Receipts still waiting, and how many of them failed six attempts or more. */
   async queue(): Promise<{ queued: number; failing: number }> {
     const row = await this.db
       .prepare(
@@ -282,18 +307,17 @@ export function clickMerchantAuth(
     : null;
 }
 
+/** `source`: who printed a Click receipt. */
+type Printed = { link: string; source?: ClickReceiptSource } | { error: string };
 /**
- * `source`: who printed a Click receipt. `patient`: a failure that pages only
- * by the payment's age, not by the attempts (Click's own receipt not there yet).
+ * One claimed row's fate: printed, failed (retried), waiting, or skipped with
+ * a reason. A wait gives its attempt back; `pages`: it still pages once the
+ * payment is a day old (Click's own receipt missing with "true").
  */
-type Printed =
-  | { link: string; source?: ClickReceiptSource }
-  | { error: string; patient?: boolean };
-/** One claimed row's fate: printed, failed (retried), waiting, or skipped with a reason. */
-type Outcome = Printed | { skip: string } | { wait: string; until: number };
+type Outcome = Printed | { skip: string } | { wait: string; until: number; pages?: boolean };
 interface Due {
   outcome: Outcome;
-  /** The alert a failure records once it is old or repeated; null for a test receipt. */
+  /** The alert a failure records once it is old or repeated; null: never paged. */
   alert: string | null;
   /** When the money moved: the age that raises the alert. */
   since: number;
@@ -304,24 +328,55 @@ function callTimeout(limitMs: number, deadline: number): number {
   return Math.max(MIN_CALL_MS, Math.min(limitMs, deadline - Date.now()));
 }
 
-/**
- * Click's own word that it holds no receipt link for the payment (yet): an
- * answer without one, its error code, or 404. Click does not document how
- * ofd_data answers for a payment without a receipt. A network failure, a
- * timeout or another HTTP status says nothing: a receipt may exist.
- */
-function noClickReceipt(result: ClickResult<{ qrCodeUrl: string | null }>): boolean {
-  return result.ok
-    ? !result.qrCodeUrl
-    : result.error === "click" || (result.error === "http" && result.code === 404);
+/** Each Click call's options: the Auth clock and what is left of the run. */
+function clickOptions(now: number, deadline: number): () => ClickCallOptions {
+  return () => ({ now, timeoutMs: callTimeout(CLICK_TIMEOUT_MS, deadline) });
 }
 
-/** Handles one leased Click receipt: the link, a wait, or a coarse failure code. */
+/**
+ * A failed ofd_data read that is still Click's own word that it holds no
+ * receipt for the payment (yet): HTTP 404, bare or with an error_code. An
+ * answer without a link (error_code 0) is the other one. Click documents its
+ * errors as HTTP statuses and lists no ofd_data codes, so nothing else
+ * counts: a network failure, a timeout, a 5xx or another 4xx (with or
+ * without an error_code) and a 2xx carrying a non-zero error_code (-500, -9,
+ * any) say nothing about a receipt that may exist. Ours never goes out on
+ * them: the row retries and pages after six attempts or a day.
+ */
+function noClickReceipt(failure: ClickFailure): boolean {
+  return (
+    (failure.error === "http" && failure.code === 404) ||
+    (failure.error === "click" && failure.status === 404)
+  );
+}
+
+/** Who printed a receipt found at Click before our submit of this attempt. */
+function foundSource(row: FiscalRow): ClickReceiptSource {
+  // Ours only if Click accepted one of ours; Click's own if none ever went out.
+  return row.submitted_at !== null ? "ours" : row.operation_id ? "unknown" : "auto";
+}
+
+/** Click's payment id of the order: kept, or looked up (status_by_mti) and kept. */
+async function clickPaymentId(
+  auth: ClickMerchantAuth,
+  store: FiscalStore,
+  row: FiscalRow,
+  order: ClickOrderFacts,
+  options: ClickCallOptions,
+): Promise<ClickResult<{ paymentId: string }>> {
+  if (row.payment_id) return { ok: true, paymentId: row.payment_id };
+  const found = await findClickPaymentId(auth, order, options);
+  if (found.ok) await store.keepPaymentId(row, found.paymentId);
+  return found;
+}
+
+/** Handles one leased Click receipt of a paid order: the link, a wait, or a coarse failure code. */
 async function printClickReceipt(
   env: BillingEnv,
   store: FiscalStore,
   row: FiscalRow,
   order: ClickOrderFacts,
+  paidAt: number,
   now: number,
   deadline: number,
 ): Promise<Outcome> {
@@ -331,45 +386,35 @@ async function printClickReceipt(
   const tin = fiscalTin(env);
   // Reading Click's own receipt needs the Merchant API only; ours needs the line too.
   if (!auth || (policy.mode !== "auto" && (!params || !tin))) return { error: "config_missing" };
-  const options = (): ClickCallOptions => ({
-    now,
-    timeoutMs: callTimeout(CLICK_TIMEOUT_MS, deadline),
-  });
+  const options = clickOptions(now, deadline);
   // Check first: before this, a missing receipt is Click's to print.
-  const submitFrom = (order.perform_time || now) + policy.delayMs;
+  const submitFrom = paidAt + policy.delayMs;
   const waiting = policy.mode === "check" && now < submitFrom;
-  const wait = { wait: "auto_wait", until: submitFrom };
-  let payment = row.payment_id;
-  if (!payment) {
-    const found = await findClickPaymentId(auth, order, options());
-    if (!found.ok) return waiting ? wait : { error: `payment_id:${clickFailureCode(found)}` };
-    payment = found.paymentId;
-    await store.keepPaymentId(row, payment);
-  }
+  const wait: Outcome = { wait: "auto_wait", until: submitFrom };
+  const found = await clickPaymentId(auth, store, row, order, options());
+  if (!found.ok) return waiting ? wait : { error: `payment_id:${clickFailureCode(found)}` };
+  const payment = found.paymentId;
   const link = (url: string, source: ClickReceiptSource): Printed => {
     const checked = ofdReceiptLink(url);
     return checked ? { link: checked, source } : { error: "qr_host" };
   };
-  // A receipt found before our submit of this attempt: ours only if one of
-  // ours went out before; Click's own if none ever did.
-  const found: ClickReceiptSource =
-    row.submitted_at !== null ? "ours" : row.operation_id ? "unknown" : "auto";
   // Check first and "true": always; "false": a retry (a lost answer, a slow OFD).
   if (policy.mode !== "submit" || row.attempts > 1) {
     const existing = await ofdData(auth, payment, options());
-    if (existing.ok && existing.qrCodeUrl) return link(existing.qrCodeUrl, found);
+    if (existing.ok && existing.qrCodeUrl) return link(existing.qrCodeUrl, foundSource(row));
     // Click accepted ours before: wait for its link, never resend it.
     if (row.submitted_at !== null)
       return { error: existing.ok ? "qr_pending" : `ofd:${clickFailureCode(existing)}` };
-    const none = noClickReceipt(existing);
+    // A read that did not say whether Click holds a receipt.
+    const unclear =
+      existing.ok || noClickReceipt(existing) ? null : `ofd:${clickFailureCode(existing)}`;
     if (policy.mode === "auto")
-      return none || existing.ok
-        ? { error: "auto_pending", patient: true }
-        : { error: `ofd:${clickFailureCode(existing)}` };
+      return unclear
+        ? { error: unclear }
+        : { wait: "auto_pending", until: now + fiscalBackoffByAge(now - paidAt), pages: true };
     if (waiting) return wait;
     // Right before ours: only on Click's word that it has none.
-    if (policy.mode === "check" && !existing.ok && !none)
-      return { error: `ofd:${clickFailureCode(existing)}` };
+    if (policy.mode === "check" && unclear) return { error: unclear };
   }
   // Never reached with GPT_CLICK_AUTOFISCAL "true"; the others checked these above.
   if (!params || !tin) return { error: "config_missing" };
@@ -388,6 +433,43 @@ async function printClickReceipt(
   return receipt.qrCodeUrl ? link(receipt.qrCodeUrl, "ours") : { error: "qr_pending" };
 }
 
+/**
+ * A Click order whose money went back before its receipt printed. Ours never
+ * goes out now, but a sale receipt may be on the OFD all the same: Click's
+ * own, or ours whose answer was lost or whose link came late. One ofd_data
+ * read decides:
+ *   - a link on ofd.soliq.uz: kept as printed (with who printed it), so the
+ *     sale is on record and its refund is settled with the accountant;
+ *   - Click's "no receipt": skipped_refunded, or refunded_unknown when ours
+ *     went out before (Click may still print it);
+ *   - no answer: retried (never paged), then refunded_unknown from the sixth
+ *     attempt.
+ * refunded_unknown asks for a look at the Click cabinet (CLICK-FISCAL-RU.md).
+ */
+async function refundedClickReceipt(
+  env: BillingEnv,
+  store: FiscalStore,
+  row: FiscalRow,
+  order: ClickOrderFacts,
+  now: number,
+  deadline: number,
+): Promise<Outcome> {
+  const unclear = (error: string): Outcome =>
+    row.attempts < FISCAL_ALERT_ATTEMPTS ? { error } : { skip: "refunded_unknown" };
+  const auth = clickMerchantAuth(env, "live");
+  if (!auth) return unclear("config_missing");
+  const options = clickOptions(now, deadline);
+  const found = await clickPaymentId(auth, store, row, order, options());
+  if (!found.ok) return unclear(`payment_id:${clickFailureCode(found)}`);
+  const existing = await ofdData(auth, found.paymentId, options());
+  if (existing.ok && existing.qrCodeUrl) {
+    const checked = ofdReceiptLink(existing.qrCodeUrl);
+    return checked ? { link: checked, source: foundSource(row) } : unclear("qr_host");
+  }
+  if (!existing.ok && !noClickReceipt(existing)) return unclear(`ofd:${clickFailureCode(existing)}`);
+  return { skip: row.operation_id ? "refunded_unknown" : "skipped_refunded" };
+}
+
 async function dueClick(
   env: BillingEnv,
   store: FiscalStore,
@@ -396,18 +478,21 @@ async function dueClick(
   deadline: number,
 ): Promise<Due> {
   const order = await store.clickOrder(row.order_id);
-  if (!order || order.mode !== "live" || order.state !== "paid")
+  if (!order || order.mode !== "live")
+    return { outcome: { skip: !order ? "order_missing" : "skipped_test" }, alert: null, since: now };
+  // When the money moved: Complete, else Prepare (a paid order has both).
+  // Unknown counts as long ago: the delay is over and a failure pages.
+  const paidAt = order.perform_time || order.provider_time || 0;
+  if (order.state !== "paid")
     return {
-      outcome: {
-        skip: !order ? "order_missing" : order.mode !== "live" ? "skipped_test" : "skipped_refunded",
-      },
+      outcome: await refundedClickReceipt(env, store, row, order, now, deadline),
       alert: null,
-      since: now,
+      since: paidAt,
     };
   return {
-    outcome: await printClickReceipt(env, store, row, order, now, deadline),
+    outcome: await printClickReceipt(env, store, row, order, paidAt, now, deadline),
     alert: "click_fiscal_failed",
-    since: order.perform_time || now,
+    since: paidAt,
   };
 }
 
@@ -518,10 +603,13 @@ export interface FiscalTick {
   printed: number;
   /** Failed this time; each waits for its next attempt. */
   retried: number;
-  /** Click check first: no receipt of Click's own yet, ours not due (auto_wait). */
+  /**
+   * No receipt of Click's own yet: ours not due (check first, auto_wait) or
+   * never ours (GPT_CLICK_AUTOFISCAL "true", auto_pending). Not an attempt.
+   */
   waiting: number;
   skipped: number;
-  /** Still queued after the run, and of them past the alert threshold. */
+  /** Still queued after the run, and of them failed six attempts or more. */
   queued: number;
   failing: number;
 }
@@ -559,11 +647,16 @@ export async function fiscalizeDue(
     } else if ("wait" in outcome) {
       await store.wait(row, outcome.wait, outcome.until, now);
       tick.waiting++;
+      // "true": Click's own receipt still missing a day after the payment.
+      if (outcome.pages && due.alert && now - due.since > FISCAL_ALERT_AGE_MS)
+        await recordServiceAlert(env, due.alert, now);
     } else {
       await store.retry(row, outcome.error, now);
       tick.retried++;
-      const repeated = !outcome.patient && row.attempts >= FISCAL_ALERT_ATTEMPTS;
-      if (due.alert && (repeated || now - due.since > FISCAL_ALERT_AGE_MS))
+      if (
+        due.alert &&
+        (row.attempts >= FISCAL_ALERT_ATTEMPTS || now - due.since > FISCAL_ALERT_AGE_MS)
+      )
         await recordServiceAlert(env, due.alert, now);
     }
   }
