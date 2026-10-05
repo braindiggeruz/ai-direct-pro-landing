@@ -34,7 +34,7 @@
     },
     {
       "type": "linkp",
-      "text": "Buyurtma berishdan oldin AI javoblarini o‘zingiz sinab ko‘rishingiz mumkin: {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas.",
+      "text": "AI matn bilan qanday ishlashini o‘zingiz sinab ko‘rishingiz mumkin: {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas. Biznes bot esa kompaniyangiz ma’lumotlari asosida alohida sozlanadi.",
       "links": [
         {
           "token": "chat",

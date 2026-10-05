@@ -83,15 +83,30 @@ test('chat bridges open the chat page itself and print the sample question in th
   assert.ok(CHAT_BRIDGES.length >= 5);
 });
 
-test('the block keeps its place on articles with a chat entry and follows the first text on a bridge', () => {
+test('the block keeps its place on articles with a chat entry and closes a section on a bridge', () => {
   for (const entry of CHAT_ENTRIES) {
     const article = JSON.parse(readFileSync(`content/blog/${entry.locale}/${entry.slug}.json`, 'utf8'));
     assert.equal(chatEntryPosition(article.url, article.body), Math.min(1, article.body.length - 1), article.url);
   }
+  type Block = { type: string; text?: string; href?: string };
+  const isHeading = (block?: Block) => block?.type === 'h2' || block?.type === 'h3';
   for (const bridge of CHAT_BRIDGES) {
     const article = JSON.parse(readFileSync(`content/blog/${bridge.locale}/${bridge.slug}.json`, 'utf8'));
-    const at = chatEntryPosition(article.url, article.body);
-    assert.ok(at >= 1 && ['p', 'list'].includes(article.body[at].type), article.url);
+    const body: Block[] = article.body;
+    const at = chatEntryPosition(article.url, body);
+    // The editorial heading exists, so the fallback rule is not in use.
+    assert.equal(body.filter(block => isHeading(block) && block.text === bridge.before).length, 1, `${article.url}: «${bridge.before}»`);
+    // The block closes a section: text before it, the named heading right after it.
+    assert.ok(at >= 1, article.url);
+    assert.ok(!isHeading(body[at]) && !['figure', 'toc'].includes(body[at].type), `${article.url}: text before the block`);
+    assert.ok(isHeading(body[at + 1]) && body[at + 1].text === bridge.before, `${article.url}: a heading after the block`);
+    // No second button into the same chat in the section that holds the block.
+    let first = at;
+    while (first > 0 && body[first].type !== 'h2') first--;
+    let last = at + 1;
+    while (last < body.length && body[last].type !== 'h2') last++;
+    const section = body.slice(first, last);
+    assert.equal(section.filter(block => block.type === 'cta' && block.href === chatBridgeHref(bridge)).length, 0, `${article.url}: one chat button per section`);
   }
   assert.equal(articleHasChatEntry('/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/'), false);
 });

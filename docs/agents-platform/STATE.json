@@ -3,12 +3,19 @@
     "status": "committed_not_deployed",
     "branch": "seo/week1-20261004",
     "baseline_commit": "9a8b9ff0",
-    "scope": "SEO roadmap 2026-10-04, week 1, roll-out no. 1 of unprotected pages: intent manifest (C22 final, C18, C10, C6, new pairs C23-C28), collision keywords removed from the Russian satellites and guide C6, chat bridges on 16 unprotected pages, kirish/uzbekcha anchors, /ru/gpt-na-russkom/ section, llms.txt with both directions, two B2B titles <= 60 characters",
+    "commit": "8266af67 plus the review follow-up commit of 2026-10-05 on top of it (a commit cannot carry its own SHA, rule D-006: read it with git log -1 seo/week1-20261004)",
+    "scope": "SEO roadmap 2026-10-04, week 1, roll-out no. 1 of unprotected pages: intent manifest (C22 final with its 2026-09-30 record marked HISTORICAL, C18, C10, C6, new pairs C23-C28), collision keywords removed from the Russian satellites and guide C6, chat bridges on all 16 unprotected pages of [RM] B6 (5 new article blocks, each closing the section before a named heading; 2 body links before the first H2 on 7 content pages; 1 body link on /uz/), kirish/uzbekcha anchors including the author page, /ru/gpt-na-russkom/ section without a translation claim, llms.txt and llms-full.txt with both directions, /ru/ as a 301 and a not-ChatGPT qualifier on ChatGPT-query lines, two B2B titles <= 60 characters",
     "owner_decisions": "2026-10-04: roadmap section 2.0 decisions 1, 2, 3, 5 = yes; 4 done (spam report on chatgpt.uz sent 2026-10-04); 7 = no; 6 = yes on the roadmap data conditions",
-    "protected_pages": "unchanged: seo-protection 10/10 on 2026-10-01-paid-chat-honesty; byte diff of the ten protected HTML files against the 9a8b9ff0 build = 0",
+    "protected_pages": "unchanged: seo-protection 10/10 on 2026-10-01-paid-chat-honesty; byte diff of the ten protected HTML files against the 9a8b9ff0 build = 0 in a CRLF and in an LF checkout, each against a base with the same line endings; dist/assets names unchanged",
+    "changed_html": 20,
+    "deploy_precondition": "met 2026-10-05: D1 no-answer share since the Z.ai switch (2026-10-03 05:09 UTC) = 7 of 152 turns = 4.6% <= 10% (query of execution/KPI-BASELINE-2026-10-04.md section 5); the roadmap (already decided by the lead) dropped the 07-08.10 date of [RM] B6",
+    "post_deploy_guard": "every morning re-run the same D1 query by full Tashkent days; if the no-answer share exceeds 10% over any 3 consecutive full days, git revert the follow-up commit and then 8266af67, guarded deploy, CHANGE_LOG row; re-land the non-bridge parts later in a separate commit without bridges",
+    "deploy_how": "owner command only; merge into the LF main checkout F:/Claude/gptbot-gsc-audit-20260917 (fast-forward from 9a8b9ff0), npm run build:production there, deploy_runner.py check then deploy; never build the release in the CRLF branch worktree",
+    "verification": "F:/Claude/gptbot-tools/tmp/week1-verification.txt; npm test in the LF checkout 1250/1252, the two tests/lead-radar.test.ts failures also fail at 9a8b9ff0",
     "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №1 незащищённых страниц)",
-    "deferred_to_R_S1": "chat-side prefill for the five new bridge ids (changes the chat bundle); first-screen chat block on /uz/ and the line on /; anchor and keyword fixes on protected pages",
-    "deferred_to_home_release_20261019": "title and H1 of /ru/blog/chat-gpt-online/, H1 of /uz/gpt-chat-qollanma/ and of guide C6 (all listed on /)"
+    "after_deploy_owner": "GSC Request indexing for 17 URLs in the CHANGE_LOG order, 8-9 per day, ordinary button (not the Indexing API)",
+    "deferred_to_R_S1": "chat-side prefill for the five new bridge ids (changes the chat bundle); first-screen chat block on /uz/ and the line on /; anchors and keywords on protected pages: VPN article anchor and keywords «ChatGPT o‘zbek tilida», «AI chat o‘zbekcha»; ai-chat-nima keyword «ai chat o‘zbek tilida»; «chatgpt uz», «chat gpt uz», «чат gpt онлайн» on the chat pages; limit numbers in llms.txt",
+    "deferred_to_home_release_20261019": "title and H1 of /ru/blog/chat-gpt-online/, H1 of /uz/gpt-chat-qollanma/ and of guide C6 (all listed on /); candidate, decided on that day's data: the bare «gpt o‘zbek tilida» to the UZ chat with the guide's primaryKeyword and H1 changed together"
   },
   "paid_chat_prod_2026": {
     "wp": "R5R7-verification",

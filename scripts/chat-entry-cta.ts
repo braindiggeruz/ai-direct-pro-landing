@@ -33,12 +33,17 @@ export function renderChatEntry(url: string): string {
 // and the sample question is printed in the article for the reader to copy.
 // Once a reviewed chat release adds these ids to CHAT_ENTRIES (R-S1), the
 // chat can fill the question in and the entries move there.
+//
+// `before` is an editorial position: the block closes the section that ends
+// right before this heading (h2 or h3) of the article. A rule such as "after the
+// first paragraph" split paragraphs that continue each other, so text about
+// ChatGPT's own limits or sign-up read as if it were about GPTBot.uz.
 export const CHAT_BRIDGES = [
-  { locale: 'ru', id: 'online-ru', slug: 'chat-gpt-online', title: 'Задайте вопрос ИИ-чату на русском', prompt: 'Объясни простыми словами, чем ты можешь помочь в учёбе и работе. Приведи три примера запросов.' },
-  { locale: 'ru', id: 'russian-ru', slug: 'chat-gpt-na-russkom', title: 'Проверьте формулу запроса на своей задаче', prompt: 'Помоги составить точный запрос. Сначала спроси, какая у меня задача, для кого результат и в каком виде он нужен.' },
-  { locale: 'ru', id: 'analogs-ru', slug: 'analogi-chatgpt-kotorye-rabotayut-v-uzbekistane', title: 'Сравните сами: задайте вопрос независимому ИИ-чату', prompt: 'Ответь на мой вопрос по-русски, а в конце коротко перечисли, что в ответе стоит проверить. Сначала спроси, какой у меня вопрос.' },
-  { locale: 'ru', id: 'talk-ru', slug: 'chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom', title: 'Пообщайтесь с ИИ на русском', prompt: 'Давай пообщаемся. Спроси, что меня сейчас интересует, и предложи три темы для разговора.' },
-  { locale: 'uz', id: 'reply', slug: 'chat-gpt-uzbek-biznes-uchun', title: 'Mijozga javob matnini AI bilan tayyorlang', prompt: 'Mijozga xushmuomala javob matnini yozishga yordam ber. Avval vaziyatni va javob uslubini so‘ra.' },
+  { locale: 'ru', id: 'online-ru', slug: 'chat-gpt-online', before: 'Как пользоваться чатом GPT онлайн', title: 'Задайте вопрос ИИ-чату на русском', prompt: 'Объясни простыми словами, чем ты можешь помочь в учёбе и работе. Приведи три примера запросов.' },
+  { locale: 'ru', id: 'russian-ru', slug: 'chat-gpt-na-russkom', before: 'Плохой запрос и улучшенный запрос', title: 'Проверьте формулу запроса на своей задаче', prompt: 'Помоги составить точный запрос. Сначала спроси, какая у меня задача, для кого результат и в каком виде он нужен.' },
+  { locale: 'ru', id: 'analogs-ru', slug: 'analogi-chatgpt-kotorye-rabotayut-v-uzbekistane', before: 'Основные аналоги ChatGPT: краткий обзор', title: 'Сравните сами: задайте вопрос независимому ИИ-чату', prompt: 'Ответь на мой вопрос по-русски, а в конце коротко перечисли, что в ответе стоит проверить. Сначала спроси, какой у меня вопрос.' },
+  { locale: 'ru', id: 'talk-ru', slug: 'chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom', before: 'О чём помнить при общении с ИИ', title: 'Пообщайтесь с ИИ на русском', prompt: 'Давай пообщаемся. Спроси, что меня сейчас интересует, и предложи три темы для разговора.' },
+  { locale: 'uz', id: 'reply', slug: 'chat-gpt-uzbek-biznes-uchun', before: 'AI biznesda qaysi vazifalarni bajaradi?', title: 'Mijozga javob matnini AI bilan tayyorlang', prompt: 'Mijozga xushmuomala javob matnini yozishga yordam ber. Avval vaziyatni va javob uslubini so‘ra.' },
 ] as const;
 
 export type ChatBridge = typeof CHAT_BRIDGES[number];
@@ -61,18 +66,28 @@ export function articleHasChatEntry(url: string): boolean {
   return Boolean(chatEntryForArticle(url) || chatBridgeForArticle(url));
 }
 
-type BodyLike = { type?: string };
+type BodyLike = { type?: string; text?: string };
+
+const isHeading = (part: BodyLike): boolean => part.type === 'h2' || part.type === 'h3';
 
 /**
- * Where the block goes: after the second body element for the chat entries,
- * as it always has (protected articles included); after the first plain paragraph
- * or list for a bridge, so it never lands between a heading and its text.
+ * Index of the body element the block follows. Chat entries keep their place
+ * after the second body element, as they always have (protected articles
+ * included). A bridge closes the section that ends right before its `before`
+ * heading; should that heading ever be renamed, it closes the first section
+ * that has text instead. Either way the next element is a heading, so the
+ * block never splits a paragraph from its continuation.
  */
 export function chatEntryPosition(url: string, body: readonly BodyLike[]): number {
   const fallback = Math.min(1, body.length - 1);
-  if (!chatBridgeForArticle(url)) return fallback;
-  const index = body.findIndex((part, i) => i >= 1 && ['p', 'list'].includes(part.type || ''));
-  return index === -1 ? fallback : index;
+  const bridge = chatBridgeForArticle(url);
+  if (!bridge) return fallback;
+  const heading = body.findIndex(part => isHeading(part) && part.text === bridge.before);
+  if (heading > 1) return heading - 1;
+  const firstText = body.findIndex((part, i) => i >= 1 && ['p', 'list'].includes(part.type || ''));
+  if (firstText === -1) return fallback;
+  const nextH2 = body.findIndex((part, i) => i > firstText && part.type === 'h2');
+  return nextH2 === -1 ? body.length - 1 : nextH2 - 1;
 }
 
 function renderChatBridge(url: string): string {
