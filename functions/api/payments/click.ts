@@ -10,10 +10,10 @@
 // (a wrong live secret_key, a wrong Prepare URL) is told apart from buyers who
 // left. A signed request about an order we do not have, or with another
 // amount, only Click can send: it also records an alert (click_* is urgent,
-// one row per code an hour). A bad signature under our own service_id records
-// click_sign_failed, which a forger can trigger too: at most one D1 write per
-// isolate an hour and one page a day (alert-policy.ts DAILY_ALERTS). None of
-// this changes an answer Click gets.
+// one row per code an hour). A bad signature records no alert, only the log
+// line: anyone who knows the public service_id can send one, and an alert a
+// forger can raise would also hide the real one for the rest of its row.
+// None of this changes an answer Click gets.
 import {
   BILLING_ORG,
   clickCredentials,
@@ -34,10 +34,6 @@ import {
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
-import { HOUR_MS } from "../../lib/gpt-chat/rate-limit";
-
-/** When this isolate last recorded click_sign_failed (epoch ms). */
-let signFailedAt = 0;
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
@@ -112,16 +108,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   )
     return reject(-8, "format");
   if (p.service_id !== credentials.serviceId) return reject(-1, "service");
-  if (!sameSecret(p.sign_string.toLowerCase(), clickSignature(p, credentials.secretKey))) {
-    // Our service_id, a signature that does not match: a wrong live
-    // secret_key refuses every buyer exactly like this.
-    const now = Date.now();
-    if (env.GPTBOT_DRAFTS_DB && now - signFailedAt >= HOUR_MS) {
-      signFailedAt = now;
-      alert("click_sign_failed");
-    }
+  if (!sameSecret(p.sign_string.toLowerCase(), clickSignature(p, credentials.secretKey)))
     return reject(-1, "sign");
-  }
   // Do not add a short sign_time TTL: delayed authentic retries must settle.
   // Invoice expiry applies at Prepare; durable external IDs prevent replay.
   if (!env.GPTBOT_DRAFTS_DB) return reject(-7, "unavailable");

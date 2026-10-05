@@ -63,10 +63,7 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
  * up keep it true on every watchdog run of the next day, which hourly rows
  * would turn into a page an hour. So is uzum_receipt_missing: the Uzum step
  * of every tick finds the same receipt missing until Uzum prints it or a
- * person settles it (uzum-maintenance.ts). So is click_sign_failed: anyone
- * who knows the public service_id can send a request that fails the
- * signature, so it pages once a day at most (a wrong live secret_key still
- * pages on the first buyer).
+ * person settles it (uzum-maintenance.ts).
  */
 const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "openrouter_key_credit_low",
@@ -74,7 +71,6 @@ const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "free_paid_budget_exhausted",
   "bot_silent",
   "uzum_receipt_missing",
-  "click_sign_failed",
 ]);
 
 function globMatch(pattern: string, code: string): boolean {
@@ -116,7 +112,6 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
   click_fiscal_failed: "Click: чек ОФД не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",
-  click_sign_failed: "Click: запрос с нашим service_id не прошёл подпись (ответ -1). Если это оплата покупателя, проверьте secret_key в GPT_CLICK_CREDENTIALS_JSON",
   click_unknown_order: "Click: подписанный запрос о заказе, которого у нас нет в этом режиме (ответ -5); сверьте кабинет Click",
   click_amount_mismatch: "Click: подписанный запрос с другой суммой (ответ -2), доступ не выдан; сверьте кабинет Click",
   uzum_fiscal_failed: "Uzum: чек через Fiscalization API не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",

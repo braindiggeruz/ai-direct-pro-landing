@@ -668,8 +668,11 @@ test("every Click refusal is logged with a reason word only, signed oddities pag
   assert.deepEqual(await send(form({ action: "2" })), note(-3, "Action not found"));
   assert.deepEqual(await send(form({ click_paydoc_id: "" })), note(-8, "Error in request from click"));
   assert.deepEqual(await send(form({ service_id: "1" })), note(-1, "SIGN CHECK FAILED!"));
+  // A bad signature under our public service_id is a log line only: no
+  // background task, no alert row a forger could raise or use to hide a real one.
   const background = f.background.length;
   assert.deepEqual(await send(form({}, randomBytes(32).toString("hex"))), note(-1, "SIGN CHECK FAILED!"));
+  assert.equal(f.background.length, background);
   assert.deepEqual(await send(form({ merchant_trans_id: `pay_${"0".repeat(32)}` })), note(-5, "User does not exist"));
   assert.deepEqual(await send(form({ amount: "19999.00" })), note(-2, "Incorrect parameter amount"));
   assert.deepEqual(await send(form({ action: "1", merchant_prepare_id: String(o.seq) })), note(-6, "Transaction does not exist"));
@@ -686,17 +689,17 @@ test("every Click refusal is logged with a reason word only, signed oddities pag
   const wire = JSON.stringify(rejected());
   for (const secret of [o.id, tx, doc, "20000", "19999", f.env.GPT_CLICK_TEST_SERVICE_ID!]) assert.ok(!wire.includes(secret), secret);
   // Only Click can sign an unknown order or another amount: those page. A
-  // wrong service_id is a log line; a bad signature under ours is recorded once.
+  // wrong service_id or a bad signature under ours is a log line only.
   assert.equal(alerts("click_unknown_order"), 1);
   assert.equal(alerts("click_amount_mismatch"), 1);
-  assert.equal(alerts("click_sign_failed"), 1);
-  assert.ok(isUrgentAlert("click_sign_failed") && isUrgentAlert("click_unknown_order") && isUrgentAlert("click_amount_mismatch"));
-  assert.match(alertRowId("click_sign_failed", Date.now()), /^click_sign_failed:d\d+$/, "a forger pages once a day at most");
-  // Within the hour this isolate does not even reach D1 for another forgery.
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code NOT IN ('click_unknown_order','click_amount_mismatch')"), 0);
+  assert.ok(isUrgentAlert("click_unknown_order") && isUrgentAlert("click_amount_mismatch"));
+  assert.match(alertRowId("click_unknown_order", Date.now()), /^click_unknown_order:\d+$/);
+  // Another forgery, at once or later, still adds nothing.
   const before = f.background.length;
   assert.deepEqual(await send(form({}, randomBytes(32).toString("hex"))), note(-1, "SIGN CHECK FAILED!"));
   assert.equal(f.background.length, before);
-  assert.ok(before > background);
+  assert.deepEqual(rejected().at(-1), { event: "gpt_click_rejected", action: "0", code: -1, why: "sign" });
   // A good Prepare is untouched by all of it.
   const ok = await send(form());
   assert.deepEqual(ok, { click_trans_id: Number(tx), merchant_trans_id: o.id, merchant_prepare_id: o.seq, error: 0, error_note: "Success" });
