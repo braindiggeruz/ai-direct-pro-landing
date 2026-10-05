@@ -10,13 +10,16 @@
 //                         code to type in there (code).
 //   lg:<n>:<id>           a number pressed: the one press an attempt gets.
 //   lgx:<id>              «Это не я»: the attempt ends.
-//   lgout:<locale>        «Выйти на всех устройствах»: asks first, since it is
-//                         the only button under «Вход подтверждён» and people
-//                         tap a lone button to «finish». Old messages carry
-//                         this form too, so it never revokes by itself.
+//   lgout:<locale>        «Выйти на всех устройствах»: asks first, in a new
+//                         message, since it is the only button under «Вход
+//                         подтверждён» and people tap a lone button to
+//                         «finish». The message it sits under stays as it is
+//                         (in code mode: the code and «Это не я»). Old
+//                         messages carry this form too, so it never revokes
+//                         by itself.
 //   lgout:<locale>:yes    confirmed: every web session of the presser's own
-//                         account ends.
-//   lgout:<locale>:no     cancelled: the message is «Вход подтверждён» again.
+//                         account ends; the question says so.
+//   lgout:<locale>:no     cancelled: the question says nothing changed.
 //
 // None of this calls a model or touches Javob's allowance, so it works while
 // the models are down. Only private chats get here (handler.ts). The payload
@@ -179,11 +182,12 @@ export async function handleWebLoginCallback(
     if (logout) {
       const shown = logout[1] as Locale;
       if (logout[2] !== 'yes') {
-        // The first press asks; «Отмена» puts the confirmed message back.
+        // The first press asks in a message of its own, so the one it sits
+        // under keeps its text and buttons: a code still waiting to be typed
+        // in is not replaced. «Отмена» edits only the question.
         await tg.answerCallbackQuery(cq.id);
-        if (logout[2] === 'no')
-          await tg.editMessageText(chatId, messageId, C.LOGIN_CONFIRMED[shown], C.loginLogoutKeyboard(shown));
-        else await tg.editMessageText(chatId, messageId, C.LOGOUT_ASK[shown], C.loginLogoutConfirmKeyboard(shown));
+        if (logout[2] === 'no') await tg.editMessageText(chatId, messageId, C.LOGOUT_KEPT[shown]);
+        else await tg.sendMessage(chatId, C.LOGOUT_ASK[shown], { keyboard: C.loginLogoutConfirmKeyboard(shown) });
         return;
       }
       await store.revokeSessions(tgHash);

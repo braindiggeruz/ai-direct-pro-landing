@@ -471,13 +471,14 @@ export function loginCodeKeyboard(locale: Locale, loginId: string): InlineKeyboa
 
 /**
  * «Выйти на всех устройствах»: the locale rides along, the button needs no
- * row. A press only asks (LOGOUT_ASK, loginLogoutConfirmKeyboard).
+ * row. A press only asks, in a message of its own (LOGOUT_ASK,
+ * loginLogoutConfirmKeyboard), so the message it sits under stays as it is.
  */
 export function loginLogoutKeyboard(locale: Locale): InlineKeyboard {
   return [[{ text: LOGIN_BUTTONS[locale].logout, callback_data: `lgout:${locale}` }]];
 }
 
-/** The answer to LOGOUT_ASK: yes signs out everywhere, no puts LOGIN_CONFIRMED back. */
+/** The answer to LOGOUT_ASK: yes signs out everywhere, no turns the question into LOGOUT_KEPT. */
 export function loginLogoutConfirmKeyboard(locale: Locale): InlineKeyboard {
   return [[
     { text: LOGIN_BUTTONS[locale].logoutYes, callback_data: `lgout:${locale}:yes` },
@@ -490,10 +491,20 @@ export const LOGIN_CONFIRMED: Record<Locale, string> = {
   uz: 'Kirish tasdiqlandi. Brauzerga qayting — kirish o‘zi yakunlanadi, bu yerda boshqa hech narsani bosish shart emas.\n\nAgar siz kirmagan bo‘lsangiz, quyidagi tugmani bosing.',
 };
 
-/** «Выйти на всех устройствах» pressed: the question before anything ends. */
+/**
+ * «Выйти на всех устройствах» pressed: the question before anything ends. It
+ * names no confirmed browser: in code mode the button sits under the code,
+ * while the sign-in still waits for it.
+ */
 export const LOGOUT_ASK: Record<Locale, string> = {
-  ru: 'Выйти из gptbot.uz на всех устройствах? Вход в браузере, который вы только что подтвердили, тоже будет отменён.',
-  uz: 'gptbot.uz akkauntidan barcha qurilmalarda chiqilsinmi? Hozir tasdiqlagan brauzeringizdagi kirish ham bekor bo‘ladi.',
+  ru: 'Выйти из gptbot.uz на всех устройствах? Начатый вход в браузере тоже будет отменён.',
+  uz: 'gptbot.uz akkauntidan barcha qurilmalarda chiqilsinmi? Brauzerda boshlangan kirish ham bekor bo‘ladi.',
+};
+
+/** «Отмена» under LOGOUT_ASK: the question becomes this, the message above it is untouched. */
+export const LOGOUT_KEPT: Record<Locale, string> = {
+  ru: 'Ничего не изменилось.',
+  uz: 'Hech narsa o‘zgarmadi.',
 };
 
 export const LOGIN_REJECTED: Record<Locale, string> = {

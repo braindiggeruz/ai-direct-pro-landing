@@ -376,26 +376,28 @@ test('«sign out everywhere» ends only the presser\'s own sessions and attempts
     const s = await attempt(db);
     await handleUpdate(deps(db), start(s.payload, STRANGER));
 
-    // The lone button under «Вход подтверждён» only asks: nothing ends yet,
-    // and the browser still collects its sign-in. Old messages carry the
-    // same lgout:ru, so they ask too.
+    // The lone button under «Вход подтверждён» only asks, in a message of its
+    // own: «Вход подтверждён» stays, nothing ends yet, and the browser still
+    // collects its sign-in. Old messages carry the same lgout:ru, so they ask too.
     calls.length = 0;
     assert.equal(await handleUpdate(deps(db), press('lgout:ru')), 'done');
     assert.deepEqual(toasts(calls), [undefined]);
-    assert.equal(edits(calls).length, 1);
-    assert.equal(edits(calls)[0].body.text, C.LOGOUT_ASK.ru);
-    assert.deepEqual(buttons(edits(calls)[0]), [
+    assert.equal(edits(calls).length, 0);
+    assert.deepEqual(sends(calls).map((c) => c.body.text), [C.LOGOUT_ASK.ru]);
+    assert.deepEqual(buttons(sends(calls)[0]), [
       { text: 'Да, выйти везде', callback_data: 'lgout:ru:yes' },
       { text: 'Отмена', callback_data: 'lgout:ru:no' },
     ]);
     assert.equal(sessions(mine), 2);
     assert.equal(row(db, a.id).status, 'confirmed');
-    // «Отмена»: the confirmed message and its button come back, nothing ends.
+    // «Отмена» (pressed under the question): the question says nothing
+    // changed and loses its buttons; nothing ends.
     calls.length = 0;
     await handleUpdate(deps(db), press('lgout:ru:no'));
     assert.deepEqual(toasts(calls), [undefined]);
-    assert.equal(edits(calls)[0].body.text, C.LOGIN_CONFIRMED.ru);
-    assert.deepEqual(buttons(edits(calls)[0]), [{ text: 'Выйти на всех устройствах', callback_data: 'lgout:ru' }]);
+    assert.equal(sends(calls).length, 0);
+    assert.deepEqual(edits(calls).map((c) => c.body.text), [C.LOGOUT_KEPT.ru]);
+    assert.equal(edits(calls)[0].body.reply_markup, undefined);
     assert.equal(sessions(mine), 2);
     assert.equal(row(db, a.id).status, 'confirmed');
     assert.equal(db.value("SELECT COUNT(*) FROM telegram_events WHERE event='web_login_revoked'"), 0);
@@ -489,6 +491,20 @@ test('code mode: the bot sends the code with «not me» and «sign out everywher
     // A number press cannot confirm a code attempt.
     calls.length = 0;
     await handleUpdate(deps(db), press(`lg:${a.code.slice(0, 2)}:${a.id}`));
+    assert.equal(row(db, a.id).status, 'claimed');
+    // «Выйти на всех устройствах» under the code, by mistake, then «Отмена»:
+    // the code and «Это не я» are never edited away, nothing claims the
+    // sign-in was confirmed, and the attempt still waits for the code.
+    calls.length = 0;
+    await handleUpdate(deps(db), press('lgout:ru'));
+    assert.equal(edits(calls).length, 0);
+    assert.deepEqual(sends(calls).map((c) => c.body.text), [C.LOGOUT_ASK.ru]);
+    assert.deepEqual(buttons(sends(calls)[0]).map((key) => key.callback_data), ['lgout:ru:yes', 'lgout:ru:no']);
+    calls.length = 0;
+    await handleUpdate(deps(db), press('lgout:ru:no'));
+    assert.deepEqual(edits(calls).map((c) => c.body.text), [C.LOGOUT_KEPT.ru]);
+    assert.equal(sends(calls).length, 0);
+    assert.ok(!calls.some((c) => c.body.text === C.LOGIN_CONFIRMED.ru), 'never «Вход подтверждён»');
     assert.equal(row(db, a.id).status, 'claimed');
   } finally { restore(); }
 });

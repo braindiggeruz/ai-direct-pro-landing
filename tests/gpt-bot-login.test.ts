@@ -415,6 +415,49 @@ test("sign out everywhere: the account's sessions and its attempts in flight end
   assert.deepEqual(await f.logins.revokeSessions("f".repeat(64)), { attempts: 0, sessions: 0 });
 });
 
+test("sign out everywhere while a sign-in fails: the failed sign-in's release cannot bring the attempt back", async (t) => {
+  const f = await setup();
+  const browserHash = (attempt: Started) => sha256(attempt.cookie.split("__Host-gpt_botlogin=")[1]);
+  const confirmed = async () => {
+    const attempt = await begin(f);
+    await f.logins.openByNonce(attempt.nonce, f.tgHash);
+    await f.logins.decide(attempt.id, f.tgHash, attempt.code!);
+    return attempt;
+  };
+  const statusOf = (attempt: Started) => f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", attempt.id);
+  // A consumed attempt past its lifetime stays as it is: release cannot touch it anyway.
+  const old = await confirmed();
+  assert.equal((await f.logins.consume(old.id, browserHash(old))).status, "done");
+  assert.equal((await f.logins.revokeSessions(f.tgHash, Date.now() + BOT_LOGIN_TTL_MS)).attempts, 0);
+  assert.equal(statusOf(old), "consumed");
+  // The store: consumed, then «Да, выйти везде», then the release of the failed sign-in.
+  const a = await confirmed();
+  assert.equal((await f.logins.consume(a.id, browserHash(a))).status, "done");
+  assert.equal((await f.logins.revokeSessions(f.tgHash)).attempts, 2, "the consumed attempts still in their lifetime");
+  await f.logins.release(a.id, browserHash(a));
+  assert.equal(statusOf(a), "rejected");
+  assert.deepEqual(await f.logins.consume(a.id, browserHash(a)), { status: "rejected" });
+  // The endpoint: the press lands between the consume and the end of the
+  // guest session, which then fails on D1.
+  const b = await confirmed();
+  const adopt = t.mock.method(IdentityStore.prototype, "adoptGuest", async () => {
+    await f.logins.revokeSessions(f.tgHash);
+    throw new Error("D1_ERROR");
+  });
+  const failed = await poll(f, b);
+  assert.equal(failed.response.status, 503);
+  adopt.mock.restore();
+  assert.equal(statusOf(b), "rejected");
+  const next = await poll(f, b);
+  assert.deepEqual(next.body, { ok: true, status: "rejected" });
+  assert.ok(!next.response.headers.getSetCookie().some((line) => line.startsWith("__Host-gpt_account=")), "no account cookie");
+  assert.equal(
+    f.db.value("SELECT COUNT(*) FROM gpt_auth_sessions s JOIN gpt_accounts a ON a.id=s.user_id WHERE a.identity_hash=?", f.tgHash),
+    0,
+    "the session started before the press ended with it",
+  );
+});
+
 test("the maintenance tick sweeps attempts a day after they expire", async () => {
   const f = await setup();
   const now = Date.now();
@@ -536,7 +579,7 @@ test("the bot's copy is plain and in both languages: no price, plan or link", ()
     C.loginPrompt("uz", null, Date.UTC(2026, 9, 3, 9, 7)),
     C.loginCodePrompt("ru", null, 0, "123456"),
     C.loginCodePrompt("uz", null, 0, "123456"),
-    ...[C.LOGIN_CONFIRMED, C.LOGIN_REJECTED, C.LOGIN_DENIED, C.LOGIN_STALE, C.LOGIN_TAKEN, C.LOGIN_LIMITED, C.LOGIN_FAILED, C.LOGIN_REVOKED, C.LOGOUT_ASK]
+    ...[C.LOGIN_CONFIRMED, C.LOGIN_REJECTED, C.LOGIN_DENIED, C.LOGIN_STALE, C.LOGIN_TAKEN, C.LOGIN_LIMITED, C.LOGIN_FAILED, C.LOGIN_REVOKED, C.LOGOUT_ASK, C.LOGOUT_KEPT]
       .flatMap((copy) => [copy.ru, copy.uz]),
     ...Object.values(C.LOGIN_TOAST.ru), ...Object.values(C.LOGIN_TOAST.uz),
   ];

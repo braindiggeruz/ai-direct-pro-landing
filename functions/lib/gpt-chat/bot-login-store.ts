@@ -329,8 +329,10 @@ export class BotLoginStore {
   /**
    * «Выйти на всех устройствах»: every web session of the account behind
    * `identityHash` ends, and its attempts still in flight are rejected, so a
-   * browser that was about to consume one gets nothing. Repeating it changes
-   * nothing more.
+   * browser that was about to consume one gets nothing. So is a consumed
+   * attempt still in its lifetime: `release` only brings back a consumed
+   * one, so a sign-in that fails after this press cannot be retried into a
+   * new session. Repeating it changes nothing more.
    */
   async revokeSessions(
     identityHash: string,
@@ -344,9 +346,10 @@ export class BotLoginStore {
       this.db
         .prepare(
           `UPDATE gpt_bot_logins SET status='rejected', decided_at=?
-           WHERE org_id=? AND tg_hash=? AND status IN ('claimed','confirmed')`,
+           WHERE org_id=? AND tg_hash=?
+             AND (status IN ('claimed','confirmed') OR (status='consumed' AND expires_at>?))`,
         )
-        .bind(now, this.org, identityHash),
+        .bind(now, this.org, identityHash, now),
     ];
     if (account)
       statements.push(
