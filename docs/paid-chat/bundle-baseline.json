@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "recordedAt": "2026-10-03T09:00:45.818Z",
-  "source": "local build",
+  "recordedAt": "2026-10-05T07:30:18.760Z",
+  "source": "production be2d2955 (R-S1)",
   "entry": "src/gpt-chat/main.tsx",
-  "startBytes": 107808,
+  "startBytes": 108679,
   "parts": {
-    "chat-account": 10205,
-    "chat-lead": 5364,
-    "chat-tools": 6240
+    "chat-account": 10201,
+    "chat-lead": 5369,
+    "chat-tools": 6259
   }
 }

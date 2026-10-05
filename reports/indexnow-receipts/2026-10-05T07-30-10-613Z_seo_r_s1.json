@@ -1,0 +1,29 @@
+{
+  "submittedAt": "2026-10-05T07:30:10.613Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "seo_r_s1",
+  "releaseCommit": "be2d29559d952541b40d69c5fff3ea593f322239",
+  "reason": "R-S1 2026-10-05: honest chat snippets, H1 in chat first screen, slide guide, esse, email_off",
+  "count": 17,
+  "urls": [
+    "https://gptbot.uz/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "https://gptbot.uz/ru/gpt-chat/",
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/ru/gpt-na-russkom/",
+    "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+    "https://gptbot.uz/ru/blog/chat-gpt-online/",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/"
+  ],
+  "responseExcerpt": ""
+}
