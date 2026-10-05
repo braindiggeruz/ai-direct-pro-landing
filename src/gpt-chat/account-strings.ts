@@ -202,7 +202,7 @@ const UZ: AccountStrings = {
   noRefund: 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.',
   loginWhy: 'Paket akkauntingizga biriktiriladi, shuning uchun avval Telegram orqali kiring.',
   guestPayNote: 'Kirish shart emas: paket to‘lovdan keyin shu brauzerda darhol ishlaydi.',
-  haveAccount: 'Paketni Telegram orqali kirib olganmisiz? Kiring — u shu yerda ko‘rinadi.',
+  haveAccount: 'Paketni avval Telegram orqali kirib sotib olganmisiz? Kiring — u shu yerda ko‘rinadi.',
   saveLine: 'Paketni Telegram orqali saqlang — boshqa telefonda ham ishlaydi.',
   saveButton: 'Telegram orqali saqlash',
   login: 'Telegram orqali kirish',
