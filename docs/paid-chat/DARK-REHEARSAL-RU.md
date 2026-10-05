@@ -2,6 +2,12 @@
 
 *Платный AI-чат, WP-22, 2026-10-03. Код: `scripts/paid-chat/dark-rehearsal.ts`, `tests/helpers/paid-chat-site.ts`. Тесты: `tests/paid-chat-e2e-rehearsal.test.ts` (слой 1), `tests/paid-chat-dark-rehearsal.test.ts` (слой 2 офлайн). План: `10-PROD-PLAN.md` §4 WP-22, решение L7.*
 
+> **После S2 (Click в live, с 05.10.2026, `ONBOARDING-KEYS-RU.md`) слой 2 ниже без правок не запускать.**
+> - Секрет Click уже держит боевой блок и блок `test` репетиции. Шаг 2 «Секреты» не выполнять: файл шага 1 содержит только блок `test` и заменил бы боевые ключи. Тестовый блок кладут только вместе с боевым (`ONBOARDING-KEYS-RU.md`, раздел 1).
+> - Click-часть слоя 2 после S2 не проводится: перевести Click в `test` значит остановить живые продажи. Если репетиция нужна для Uzum, в шаге 2 меняются только `UZUM_API` и `GPT_BILLING_MODE_UZUM`, а `GPT_BILLING_MODE_CLICK` остаётся `"live"`. В шаге 4 Click тоже остаётся в `"live"`: `""` у Click закрывает продажи и колбэк по открытым счетам.
+> - `verify-off` (шаг 5) ждёт, что все провайдеры выключены, и после S2 не подходит. Проверка вместо него: `/api/gpt/account` — `providers: ["click"]`, `mode: "live"`; тик — `payments.click.missing` пуст; `F:/Claude/gptbot-tools/paid-chat/inert-smoke.mjs` — с ключом `--click-live`.
+> - Слой 1 (тест в процессе) запускается как раньше.
+
 Покупку проходим целиком, пока ключей владельца нет и до того, как её увидят люди. Провайдер в режиме `test` виден и оплачивается только в сессии репетиции (cookie `__Host-gpt_rehearsal`). Её выдаёт админка или внутренний эндпоинт с Bearer-секретом. Остальные посетители видят `providers: []`, а `subscribe`, вход и шаги окна пакета отвечают им 404.
 
 ## Слой 1: тест в процессе
@@ -54,7 +60,7 @@
      ```
      По квитанции R4 этих секретов в Pages нет. Перед `put` проверить по именам: `python F:/Claude/gptbot-tools/wr.py -- pages secret list --project-name ai-direct-pro-landing`. Если хоть один уже есть, его не перетирать: там могут быть ключи владельца. Тогда секреты собирает `scripts/paid-chat/ingest-keys.ts --apply --test-credentials <эта папка>` (WP-23, `ONBOARDING-KEYS-RU.md`): блок `test` идёт рядом с `live`.
    - В `wrangler.toml`, в упакованном JSON и во вложенной таблице: `GPT_BILLING_MODE_CLICK="test"`, `UZUM_API="merchant"`, `GPT_BILLING_MODE_UZUM="test"` (`DARK_REHEARSAL_SETTINGS` в скрипте).
-   - Это временный коммит. Тест `gpt-live-readiness` «the committed configuration is inert» на нём падает так и задумано, после шага 4 снова зелёный. `runtime-config` и `pages-config-parity` должны быть зелёными.
+   - Это временный коммит. Тест `gpt-live-readiness` «the committed configuration…» (до S2 — «… is inert») на нём падает так и задумано, после шага 4 снова зелёный. `runtime-config` и `pages-config-parity` должны быть зелёными.
    - `npm run build:production` → `deploy_runner.py check` → `deploy`. Live-гейт режим `test` не держит.
 3. **Прогон.** Нужен один из двух файлов вне Git:
    - **токен админки** (предпочтительно). Владелец входит на `https://gptbot.uz/admin-tools/login`, значение `localStorage.gptbot_admin_token` сохраняют в файл, например `C:/Users/Borinio/.config/gptbot-private/admin-token.txt`. Токен живёт 12 ч. Он нужен и в шаге 5, файл удалить после него. Если 12 ч к шагу 5 прошли, `verify-off` идёт с `--bearer-file`;

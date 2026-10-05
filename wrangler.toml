@@ -463,8 +463,11 @@ UZUM_FISCAL_TEST_BASE_URL = "https://test-ofd.ipt-merch.com"
 # their callback routes answer 404 before they read the request. Click is
 # offered only while liveReadiness(click) is empty at runtime (its Pages
 # secrets included); otherwise it fails closed and offers nothing.
-# Stop: GPT_BILLING_LIVE_READY = "false" or GPT_BILLING_MODE_CLICK = "" in
-# both places, then a deploy; callbacks of orders already open keep working.
+# Stop (both places, then a deploy): GPT_BILLING_LIVE_READY = "false" stops
+# new sales, and Click's Prepare/Complete still settle invoices already open
+# (they stay valid 12 h). GPT_BILLING_MODE_CLICK = "" is the hard stop: the
+# callback route answers 404 too, so those invoices fail at Click; use it only
+# when the callback itself must close (for example a leaked secret).
 # GPT_PAYMENT_PROVIDERS lists the providers that may run at all (Payme only
 # when listed, and test-only: it sends no receipt detail).
 # GPT_BILLING_MODE_CLICK / GPT_BILLING_MODE_UZUM = "test" | "live" | "off" for

@@ -27,6 +27,7 @@ import {
   UZUM_PRODUCT_TITLE,
 } from "../functions/lib/gpt-chat/uzum-checkout";
 import { CLICK_RECEIPT_NAME } from "../functions/lib/gpt-chat/click-merchant";
+import { clickSignature } from "../functions/lib/gpt-chat/payment-protocol";
 import { inspectBilling } from "../functions/lib/gpt-chat/billing-operations-store";
 import { RUNTIME_CONFIG_KEYS, hydrateRuntimeConfig } from "../functions/lib/runtime-config";
 import { onRequestGet as account } from "../functions/api/gpt/account";
@@ -35,6 +36,7 @@ import { onRequestPost as chat } from "../functions/api/gpt/chat";
 import { onRequestPost as click } from "../functions/api/payments/click";
 import { onRequestPost as payme } from "../functions/api/payments/payme";
 import { onRequestPost as uzumCallback } from "../functions/api/payments/uzum";
+import { onRequestPost as uzumMerchant } from "../functions/api/payments/uzum-merchant/[op]";
 import { onRequestPost as botLoginStart } from "../functions/api/gpt/auth/bot/start";
 import { onRequestPost as botLoginStatus } from "../functions/api/gpt/auth/bot/status";
 import { onRequestPost as oidcStart } from "../functions/api/gpt/auth/start";
@@ -242,8 +244,10 @@ test("modes per provider over the global one; the allowlist keeps Payme off and 
 
 test("the committed configuration: Click live, Uzum and Payme off, credentials are never public config", async () => {
   // Runbook docs/paid-chat/ONBOARDING-KEYS-RU.md, S2 (owner's order of 2026-10-05):
-  // Click sells live, Uzum and Payme are off. The stop switch is
-  // GPT_BILLING_LIVE_READY = "false" or GPT_BILLING_MODE_CLICK = "" (both places) and a deploy.
+  // Click sells live, Uzum and Payme are off. The stop switches (both places
+  // and a deploy) are pinned by the next test: GPT_BILLING_LIVE_READY = "false"
+  // stops new sales and still settles open invoices; GPT_BILLING_MODE_CLICK = ""
+  // closes the callback too.
   const source = fs.readFileSync(path.join(ROOT, "wrangler.toml"), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
@@ -292,12 +296,13 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
     handler({
       request: new Request(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }),
       env: { ...routeEnv, GPTBOT_DRAFTS_DB: bomb },
-      params: {},
+      params: { op: url.split("/").pop() },
       waitUntil() {},
     } as unknown as Parameters<typeof click>[0]);
   const offRoutes = [
     [payme, "https://gptbot.uz/api/payments/payme"],
     [uzumCallback, "https://gptbot.uz/api/payments/uzum"],
+    [uzumMerchant, "https://gptbot.uz/api/payments/uzum-merchant/check"],
   ] as Array<[typeof click, string]>;
   // Public config alone (no Pages secret): every payment route is a missing
   // route, before any D1 access; Click has no credentials to check a signature with.
@@ -352,13 +357,25 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   assert.deepEqual(view.pack, pack);
   // With the Pages secrets production holds (random here; no Telegram OIDC
   // client): Click is live-ready and offered to everyone, signed in through
-  // the bot; Uzum and Payme stay off, and nothing is in test.
+  // the bot; Uzum and Payme stay off, and nothing is in test. The secrets are
+  // a superset of production's: Click's carries the dark rehearsal's test
+  // block, and Uzum's and Payme's credentials are present in every flow and
+  // mode, so "off" below rests on the modes and the allowlist alone.
   const production = {
     ...env,
     GPTBOT_DRAFTS_DB: bomb,
     GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({
       live: { service_id: 41001, merchant_id: 32002, secret_key: marked(), merchant_user_id: 50003 },
+      test: { service_id: 941001, merchant_id: 932002, secret_key: marked(), merchant_user_id: 950003 },
     }),
+    UZUM_CREDENTIALS_JSON: JSON.stringify({
+      checkout: { test: { terminalId: randomUUID(), apiKey: marked() }, live: { terminalId: randomUUID(), apiKey: marked() } },
+      merchant: { test: { serviceId: 77, login: "fixture", password: marked() }, live: { serviceId: 78, login: "fixture", password: marked() } },
+      fiscal: { test: { apiKey: marked() }, live: { apiKey: marked() } },
+    }),
+    GPT_PAYME_KEY: marked(),
+    GPT_PAYME_TEST_KEY: marked(),
+    GPT_PAYME_MERCHANT_ID: "1",
     GPT_NOTIFY_BOT_TOKEN: marked(),
     GPT_NOTIFY_CHAT_ID: "123456789",
     GPT_HASH_SALT: marked(),
@@ -379,12 +396,84 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   assert.deepEqual(live.loginMethods, ["bot"]);
   assert.deepEqual(live.pack, pack);
   assert.doesNotMatch(JSON.stringify(live), new RegExp(MARK));
-  // Uzum and Payme remain missing routes before any D1 access; Click checks
-  // the request (a Click protocol error here) before it reads D1.
-  for (const [handler, url] of offRoutes) assert.equal((await post(handler, url, production)).status, 404, url);
+  // Uzum and Payme remain missing routes before any D1 access, whichever Uzum
+  // flow a later intake might set; Click checks the request (a Click protocol
+  // error here) before it reads D1.
+  for (const uzumApi of ["", "checkout", "merchant"])
+    for (const [handler, url] of offRoutes)
+      assert.equal((await post(handler, url, { ...production, UZUM_API: uzumApi } as BillingEnv)).status, 404, `${url} UZUM_API=${uzumApi}`);
   const clickAnswer = await post(click, "https://gptbot.uz/api/payments/click", production);
   assert.equal(clickAnswer.status, 200);
   assert.equal(((await clickAnswer.json()) as { error: number }).error, -8);
+});
+
+test("the stop switches (S2): LIVE_READY off stops new Click sales and settles an open invoice; mode off closes the callback", async () => {
+  const f = await billingFixture();
+  const secret = marked();
+  Object.assign(f.env, liveEnv({
+    GPTBOT_DRAFTS_DB: f.binding,
+    GPT_IDENTITY_SECRET: f.env.GPT_IDENTITY_SECRET,
+    GPT_PAYMENT_PROVIDERS: "click,uzum",
+    GPT_BILLING_MODE: "",
+    GPT_BILLING_MODE_CLICK: "live",
+    GPT_BILLING_MODE_UZUM: "",
+    UZUM_API: "",
+    GPT_CLICK_TEST_SERVICE_ID: "",
+    GPT_CLICK_TEST_SECRET: "",
+    GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({ live: { service_id: 41001, merchant_id: 32002, secret_key: secret, merchant_user_id: 50003 } }),
+  }));
+  const buy = () =>
+    subscribe(f.ctx(new Request("https://gptbot.uz/api/gpt/subscribe", {
+      method: "POST",
+      headers: { cookie: f.cookie, Origin: "https://gptbot.uz", "Content-Type": "application/json" },
+      body: JSON.stringify({ provider: "click", requestId: randomUUID(), locale: "ru", acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION }),
+    })));
+  const callback = async (order: string, action: "0" | "1", prepareId = "") => {
+    const p: Record<string, string> = {
+      click_trans_id: "880001",
+      click_paydoc_id: "7001",
+      service_id: "41001",
+      merchant_trans_id: order,
+      amount: "20000.00",
+      action,
+      sign_time: "2026-10-05 12:00:00",
+      error: "0",
+      ...(action === "1" ? { merchant_prepare_id: prepareId } : {}),
+    };
+    const response = await click(f.ctx(new Request("https://gptbot.uz/api/payments/click", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ ...p, sign_string: clickSignature(p, secret) }),
+    })));
+    return { status: response.status, body: response.status === 200 ? ((await response.json()) as { error: number; merchant_prepare_id?: number }) : null };
+  };
+  // Receipts and owner messages go out in the background: no network here.
+  const original = globalThis.fetch;
+  globalThis.fetch = (async () => Response.json({ ok: false }, { status: 503 })) as typeof fetch;
+  try {
+    const opened = await buy();
+    const { attemptId } = (await opened.json()) as { attemptId: string };
+    assert.equal(opened.status, 200);
+    // The usual stop: no new sale, nothing offered, but the invoice already
+    // open (valid 12 h) is prepared and completed into a pack.
+    f.env.GPT_BILLING_LIVE_READY = "false";
+    assert.deepEqual(offeredProviders(f.env, "live"), []);
+    assert.equal((await buy()).status, 404);
+    const prepared = await callback(attemptId, "0");
+    assert.equal(prepared.status, 200);
+    assert.equal(prepared.body?.error, 0);
+    const prepareId = String(prepared.body?.merchant_prepare_id);
+    const completed = await callback(attemptId, "1", prepareId);
+    assert.equal(completed.body?.error, 0);
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE order_id=?", attemptId), 1);
+    // The hard stop: the callback route itself is missing, even for a
+    // correctly signed repeat of that Complete.
+    f.env.GPT_BILLING_MODE_CLICK = "";
+    assert.equal((await callback(attemptId, "1", prepareId)).status, 404);
+    while (f.background.length) await Promise.allSettled(f.background.splice(0));
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test("VAT is included in the price, rounded half up", () => {
