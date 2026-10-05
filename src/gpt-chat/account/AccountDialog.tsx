@@ -136,10 +136,10 @@ export function AccountDialog({
   const [consent, setConsent] = useState(false);
   // Sign-in through Telegram, opened on request: beside guest checkout, and
   // for a guest's pack, to keep it on any phone (IdentityStore.adoptGuest).
-  const [signIn, setSignIn] = useState(false);
-  // A sign-in through the bot this tab was in before a reload: open, so its
-  // screen polls it to the end (AiAccountPanel reopened the window for it).
-  const [resuming] = useState(() => loadBotLogin() !== null);
+  // Open by itself while this tab is in a sign-in through the bot (a reload,
+  // or an account read that failed and came back): its screen polls it to
+  // the end (AiAccountPanel reopened the window for it).
+  const [signIn, setSignIn] = useState(() => loadBotLogin() !== null);
   // The browser did not keep the guest account's cookie (guest checkout).
   const [cookiesBlocked, setCookiesBlocked] = useState(false);
   const [terms, setTerms] = useState(false);
@@ -152,7 +152,7 @@ export function AccountDialog({
   const [choosing, setChoosing] = useState(false);
   const currentTerms = data?.terms[locale];
   useEffect(() => { setTerms(false); }, [data?.termsVersion, currentTerms, data?.user?.storageKey, locale]);
-  useEffect(() => { setSignIn(false); }, [data?.user?.storageKey]);
+  useEffect(() => { setSignIn(loadBotLogin() !== null); }, [data?.user?.storageKey]);
   // Back from the payment page out of the browser's page cache: the page is
   // as it was left, mid-way to the payment page; now it waits for the result.
   useEffect(() => {
@@ -478,7 +478,7 @@ export function AccountDialog({
           {guestPay ? (
             <>
               {payStep}
-              {data.loginAvailable && (signIn || resuming ? (
+              {data.loginAvailable && (signIn ? (
                 <>
                   <p className="gpt-panel-note">{copy.haveAccount}</p>
                   {loginBlock}
@@ -506,13 +506,13 @@ export function AccountDialog({
             <>
               <div className="gpt-panel-note" data-testid="ai-pack-save">
                 <p>{data.access ? copy.saveLine : copy.haveAccount}</p>
-                {!(signIn || resuming) && (
+                {!signIn && (
                   <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>
                     {data.access ? copy.saveButton : copy.login}
                   </button>
                 )}
               </div>
-              {(signIn || resuming) && loginBlock}
+              {signIn && loginBlock}
             </>
           )}
           {payStep}

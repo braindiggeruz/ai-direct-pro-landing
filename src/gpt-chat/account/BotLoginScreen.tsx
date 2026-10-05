@@ -15,10 +15,10 @@ import { recordUiEvent } from '../ui-events';
 /** How often the window asks while the tab is visible. */
 const POLL_MS = 2_000;
 
-const STATUSES: readonly string[] = ['pending', 'claimed', 'rejected', 'expired', 'done'];
-/** The attempt is over: signed in, refused or out of time. */
-const isOver = (status: BotLoginStatus): status is 'done' | 'rejected' | 'expired' =>
-  status === 'done' || status === 'rejected' || status === 'expired';
+const STATUSES: readonly string[] = ['pending', 'claimed', 'rejected', 'expired', 'done', 'failed'];
+/** The attempt is over: signed in, refused, out of time or failed on the server. */
+const isOver = (status: BotLoginStatus): status is 'done' | 'rejected' | 'expired' | 'failed' =>
+  status === 'done' || status === 'rejected' || status === 'expired' || status === 'failed';
 
 /** POST /api/gpt/auth/bot/start; throws on anything but a valid attempt. */
 async function startBotLogin(apiBase: string, locale: 'ru' | 'uz'): Promise<BotLoginAttempt> {
@@ -213,10 +213,12 @@ export function BotLoginScreen({
     );
 
   if (status === 'done') return <p role="status" className="gpt-notice">{copy.botLoginDone}</p>;
-  if (status === 'rejected' || status === 'expired')
+  if (status === 'rejected' || status === 'expired' || status === 'failed')
     return (
       <>
-        <p role="alert" className="gpt-error">{status === 'rejected' ? copy.botLoginRejected : copy.botLoginExpired}</p>
+        <p role="alert" className="gpt-error">
+          {status === 'rejected' ? copy.botLoginRejected : status === 'failed' ? copy.loginFailed : copy.botLoginExpired}
+        </p>
         <button type="button" className="gpt-primary" onClick={restart}>{copy.botLoginRestart}</button>
       </>
     );

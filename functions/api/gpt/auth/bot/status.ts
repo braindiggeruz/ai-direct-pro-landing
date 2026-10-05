@@ -3,7 +3,9 @@
 // {id, code} once the person has the code from the bot.
 //
 // Answers {status}: pending (the bot link is not opened yet) | claimed (opened,
-// waiting for the number or the code) | rejected | expired | done. Only the
+// waiting for the number or the code) | rejected | expired | done | failed
+// (signed in, but a guest's pack could not move: the guest stays as it was,
+// IdentityStore.adoptGuest). Only the
 // browser holding the attempt's __Host-gpt_botlogin cookie learns anything:
 // without it 403. "done" happens once per attempt: it starts a new account
 // session (__Host-gpt_account, a fresh token; this browser's previous session
@@ -14,6 +16,9 @@
 // turn-store.ts), so what the address spent as a guest does not reduce them.
 // A pack bought here without signing in (guest checkout) moves to the
 // account with the guest's answers of the day (IdentityStore.adoptGuest).
+// A sign-in that fails on our side after the attempt was consumed (D1) gives
+// it back (BotLoginStore.release) and answers 503: the browser's next poll
+// signs in, instead of reading "expired" after the bot said "confirmed".
 import { BILLING_ORG, type BillingEnv } from "../../../../lib/gpt-chat/billing-config";
 import { ensureBillingSchema } from "../../../../lib/gpt-chat/billing-schema";
 import { BOT_LOGIN_COOKIE } from "../../../../lib/gpt-chat/bot-login";
@@ -58,13 +63,24 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env })
       windowMs: 60_000,
     });
     if (!pace.allowed || pace.degraded) return fail("try_later", "Try later", 429);
-    const poll = await new BotLoginStore(db, BILLING_ORG).consume(id, browserHash, Date.now(), code);
+    const store = new BotLoginStore(db, BILLING_ORG);
+    const poll = await store.consume(id, browserHash, Date.now(), code);
     if (poll.status !== "done") return json({ ok: true, status: poll.status });
     const identity = new IdentityStore(db, BILLING_ORG);
-    const token = await identity.login(poll.identityHash);
-    // A pack this browser bought as a guest moves to the account (adoptGuest).
-    await identity.adoptGuest(request, poll.identityHash);
-    await identity.logout(request);
+    let token: string;
+    try {
+      token = await identity.login(poll.identityHash);
+      // A pack this browser bought as a guest moves to the account (adoptGuest).
+      await identity.adoptGuest(request, poll.identityHash);
+      await identity.logout(request);
+    } catch (error) {
+      // The pack cannot move now (an invoice of the account Click holds): an
+      // answer, not a retry. The guest keeps its session and its pack.
+      if (error instanceof Error && error.message === "guest_not_moved")
+        return json({ ok: true, status: "failed" });
+      await store.release(id, browserHash).catch(() => {});
+      return fail("store_unavailable", "Try later", 503);
+    }
     const response = json({ ok: true, status: "done" }, 200, {
       "Set-Cookie": authCookie("__Host-gpt_account", token, 30 * 86400),
     });

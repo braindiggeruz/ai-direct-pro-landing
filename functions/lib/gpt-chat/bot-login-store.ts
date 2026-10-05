@@ -19,6 +19,9 @@
 //           that started the attempt types it in, once;
 // consumed  the browser holding the attempt's cookie signed in. Exactly once:
 //           every step is one conditional UPDATE and decides on its own result.
+//           A sign-in that then fails on our side (D1, after the consume) gives
+//           the attempt back as confirmed (release), so that browser's next
+//           poll signs in while the attempt lives.
 //
 // Expiry is read from expires_at, never written. Only hashes are stored: the
 // nonce (sha256), the browser's cookie (sha256) and the Telegram identity
@@ -304,6 +307,23 @@ export class BotLoginStore {
       .first<{ tg_hash: string }>();
     // Another poll of the same browser consumed it in between: that one signed in.
     return done ? { status: "done", identityHash: done.tg_hash } : { status: "expired" };
+  }
+
+  /**
+   * The sign-in after `consume` failed on our side (a D1 error while the
+   * session started or the guest's pack moved): the attempt goes back to
+   * confirmed, in either mode, so the same browser's next poll consumes it
+   * again instead of reading "expired". Only that browser, only while the
+   * attempt lives; anything else changes nothing.
+   */
+  async release(id: string, browserHash: string, now = Date.now()): Promise<void> {
+    await this.db
+      .prepare(
+        `UPDATE gpt_bot_logins SET status='confirmed', consumed_at=NULL
+         WHERE org_id=? AND id=? AND browser_hash=? AND status='consumed' AND expires_at>?`,
+      )
+      .bind(this.org, id, browserHash, now)
+      .run();
   }
 
   /**

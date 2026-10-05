@@ -8,7 +8,8 @@
 // analytics script's own outbound-link tracking may still see the link).
 import { isBotLoginUrl } from './handoff';
 
-export type BotLoginStatus = 'pending' | 'claimed' | 'rejected' | 'expired' | 'done';
+/** failed: signed in, but a guest's pack could not move; the guest stays as it was. */
+export type BotLoginStatus = 'pending' | 'claimed' | 'rejected' | 'expired' | 'done' | 'failed';
 
 export interface BotLoginAttempt {
   id: string;

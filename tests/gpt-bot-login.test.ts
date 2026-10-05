@@ -237,6 +237,62 @@ test("pick: pending, claimed, confirmed, then done exactly once with a new sessi
   assert.deepEqual(results.map((result) => result.status).sort(), ["done", "expired"]);
 });
 
+test("a sign-in that fails on our side after the consume is given back: the next poll signs in, not «expired»", async (t) => {
+  const f = await setup();
+  const browserHash = (attempt: Started) => sha256(attempt.cookie.split("__Host-gpt_botlogin=")[1]);
+  const confirmed = async (mode?: string) => {
+    const attempt = await begin(f);
+    await f.logins.openByNonce(attempt.nonce, f.tgHash);
+    if (mode !== "code") await f.logins.decide(attempt.id, f.tgHash, attempt.code!);
+    return attempt;
+  };
+  // A D1 error after the attempt was consumed (here the old session's end):
+  // 503, and the attempt is confirmed again.
+  const attempt = await confirmed();
+  const logout = t.mock.method(IdentityStore.prototype, "logout", async () => { throw new Error("D1_ERROR"); });
+  const failed = await poll(f, attempt);
+  assert.equal(failed.response.status, 503);
+  assert.deepEqual(failed.body, { ok: false, code: "store_unavailable", message: "Try later" });
+  assert.equal(f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", attempt.id), "confirmed");
+  assert.equal(f.db.value("SELECT consumed_at FROM gpt_bot_logins WHERE id=?", attempt.id), null);
+  logout.mock.restore();
+  const { response, body } = await poll(f, attempt);
+  assert.deepEqual(body, { ok: true, status: "done" });
+  assert.match(response.headers.getSetCookie()[0], /^__Host-gpt_account=[a-f0-9]{64};/);
+  assert.equal(f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", attempt.id), "consumed");
+  assert.deepEqual((await poll(f, attempt)).body, { ok: true, status: "expired" }, "still once");
+
+  // A guest's pack that cannot move is an answer, not a retry: "failed" at
+  // once, and the attempt stays used.
+  const held = await confirmed();
+  const adopt = t.mock.method(IdentityStore.prototype, "adoptGuest", async () => { throw new Error("guest_not_moved"); });
+  const refused = await poll(f, held);
+  assert.equal(refused.response.status, 200);
+  assert.deepEqual(refused.body, { ok: true, status: "failed" });
+  assert.equal(refused.response.headers.getSetCookie().length, 0, "no session for the browser");
+  assert.equal(f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", held.id), "consumed");
+  assert.deepEqual((await poll(f, held)).body, { ok: true, status: "expired" });
+  adopt.mock.restore();
+
+  // The store: only the browser that consumed it, only while it lives, only
+  // a consumed attempt; code mode comes back confirmed as well.
+  const code = await setup({ GPT_BOT_LOGIN_MODE: "code" });
+  const typed = await begin(code);
+  await code.logins.openByNonce(typed.nonce, code.tgHash);
+  const codeOf = code.db.value("SELECT code FROM gpt_bot_logins WHERE id=?", typed.id) as string;
+  assert.equal((await code.logins.consume(typed.id, browserHash(typed), Date.now(), codeOf)).status, "done");
+  await code.logins.release(typed.id, "f".repeat(64));
+  assert.equal(code.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", typed.id), "consumed", "another browser");
+  await code.logins.release(typed.id, browserHash(typed), Date.now() + BOT_LOGIN_TTL_MS);
+  assert.equal(code.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", typed.id), "consumed", "past its time");
+  await code.logins.release(typed.id, browserHash(typed));
+  assert.equal(code.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", typed.id), "confirmed");
+  assert.equal((await code.logins.consume(typed.id, browserHash(typed))).status, "done");
+  const pending = await begin(f);
+  await f.logins.release(pending.id, browserHash(pending));
+  assert.equal(f.db.value("SELECT status FROM gpt_bot_logins WHERE id=?", pending.id), "pending");
+});
+
 test("one press: a wrong number or «not me» rejects for good; a foreign or late press changes nothing", async () => {
   const f = await setup();
   const other = (await telegramIdentityHash(f.env.GPT_IDENTITY_SECRET!, TELEGRAM_ID + 1))!;

@@ -455,9 +455,40 @@ test('guest checkout waits for a browser that keeps cookies, and a sign-in throu
       const copy = accountStrings(locale);
       const saving = await window(locale, kept);
       assert.ok(has(saving, copy.loginConsent) && !has(saving, copy.saveButton), `${locale}: the save screen polls on`);
-      assert.ok(has(await window(locale, guest({ guestCheckout: true })), copy.loginConsent), `${locale}: so does the guest's sign-in`);
+      // BotLoginScreen is mounted on the saved attempt: its number, so its poll runs.
+      assert.match(saving, /<strong class="gpt-login-code">47<\/strong>/);
+      const paying = await window(locale, guest({ guestCheckout: true }));
+      assert.ok(has(paying, copy.loginConsent) && /gpt-login-code">47</.test(paying), `${locale}: so does the guest's sign-in`);
     }
   } finally {
     delete g.sessionStorage;
   }
+  // Live, not fixed when the window opened: an account read that fails on
+  // the way back from Telegram (storageKey gone) and comes back (storageKey
+  // again) re-reads the saved attempt, so the screen that polls it opens
+  // again instead of the save button; a finished or ended attempt is cleared
+  // before onSignedIn, so the block closes after a sign-in.
+  const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
+  assert.match(dialog, /const \[signIn, setSignIn\] = useState\(\(\) => loadBotLogin\(\) !== null\);/);
+  assert.match(dialog, /useEffect\(\(\) => \{ setSignIn\(loadBotLogin\(\) !== null\); \}, \[data\?\.user\?\.storageKey\]\);/);
+  assert.doesNotMatch(dialog, /setSignIn\(false\)|resuming/);
+  const screen = read('src/gpt-chat/account/BotLoginScreen.tsx');
+  assert.match(screen, /ended\.current = true;\s*saveBotLogin\(null\);[\s\S]*?if \(next === 'done'\) void onSignedIn\(\);/);
+});
+
+test('sign-in through the bot: Telegram\'s Start button is named, and a pack that could not move says so', () => {
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    // A first visit shows only Telegram's Start / «Запустить»: the bot sends nothing before it.
+    const start = locale === 'ru' ? /Если там есть кнопка «Запустить» \(Start\), нажмите её\.$/ : /U yerda «Start» \(«Запустить»\) tugmasi bo‘lsa, uni bosing\.$/;
+    assert.match(copy.botLoginSteps('gptbotuz_bot')[0], start, locale);
+    assert.match(copy.botLoginCodeSteps('gptbotuz_bot')[0], start, locale);
+    assert.match(copy.botLoginWaiting('9:59'), locale === 'ru' ? /^Ждём подтверждения… 9:59\. Бот молчит — нажмите в нём «Запустить» или Start\.$/ : /^Tasdiqlash kutilmoqda… 9:59\. Bot jim bo‘lsa, unda «Start» yoki «Запустить» tugmasini bosing\.$/);
+  }
+  // status.ts answers "failed" when the guest's pack could not move: the
+  // attempt is over, with the sign-in error instead of «link expired».
+  const screen = read('src/gpt-chat/account/BotLoginScreen.tsx');
+  assert.match(screen, /const STATUSES: readonly string\[\] = \['pending', 'claimed', 'rejected', 'expired', 'done', 'failed'\];/);
+  assert.match(screen, /status === 'done' \|\| status === 'rejected' \|\| status === 'expired' \|\| status === 'failed'/);
+  assert.match(screen, /status === 'failed' \? copy\.loginFailed : copy\.botLoginExpired/);
 });
