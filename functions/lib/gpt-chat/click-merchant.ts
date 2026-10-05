@@ -42,11 +42,15 @@ export interface ClickMerchantAuth {
   merchantUserId: string;
   secretKey: string;
 }
-/** `click` = Click answered with error_code != 0 (code carries it). */
+/**
+ * `click` = Click answered with error_code != 0 (code carries it, status the
+ * HTTP status it came with: a 5xx with an error_code is still a server error).
+ */
 export type ClickFailure = {
   ok: false;
   error: "network" | "http" | "shape" | "click";
   code?: number;
+  status?: number;
 };
 export type ClickResult<T> = ({ ok: true } & T) | ClickFailure;
 export interface ClickCallOptions {
@@ -146,7 +150,8 @@ async function call(
     reply = null;
   }
   const code = errorCode(reply?.error_code);
-  if (code !== null && code !== 0) return { ok: false, error: "click", code };
+  if (code !== null && code !== 0)
+    return { ok: false, error: "click", code, status: response.status };
   if (!response.ok) return { ok: false, error: "http", code: response.status };
   if (!reply) return { ok: false, error: "shape" };
   return { ok: true, reply };

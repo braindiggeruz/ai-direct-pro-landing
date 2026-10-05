@@ -1,8 +1,9 @@
 // A fake Click Merchant API (https://api.click.uz/v2/merchant/payment) behind
 // globalThis.fetch, for the fiscal receipt and reversal tests. It checks the
 // Auth header of every call the way Click documents it, keeps the payments
-// it "knows", the receipts it accepted and the reversals it made, and can be
-// told to fail. Runtime-only random credentials, never real ones.
+// it "knows", the receipts it accepted or printed itself (autoPrint: Click's
+// own OFD set-up, 2026-10-05) and the reversals it made, and can be told to
+// fail. Runtime-only random credentials, never real ones.
 import { createHash } from "node:crypto";
 import { clickPaymentDate } from "../../functions/lib/gpt-chat/click-merchant";
 
@@ -16,8 +17,11 @@ export interface FakeClickCall {
   path: string;
   body: Record<string, unknown> | null;
 }
-/** A queued failure: an HTTP 500, a dropped connection, or a Click error_code. */
-export type FakeFailure = "http" | "network" | number;
+/**
+ * A queued failure: an HTTP 500, a dropped connection, a Click error_code
+ * (HTTP 200), or any HTTP status with or without an error_code.
+ */
+export type FakeFailure = "http" | "network" | number | { status: number; code?: number };
 type Operation = "mti" | "submit" | "ofd" | "reversal";
 
 const PREFIX = "/v2/merchant/payment";
@@ -30,7 +34,8 @@ export function refuseLikeWorkerd(init?: RequestInit): void {
 
 export function fakeClickMerchant(accounts: ClickAccess[]) {
   const payments = new Map<string, { paymentId: number; day: string; serviceId: string }>();
-  const receipts = new Map<number, { items: unknown[]; pendingReads: number }>();
+  /** items is null for a receipt Click printed on its own (autoPrint). */
+  const receipts = new Map<number, { items: unknown[] | null; pendingReads: number }>();
   const reversed = new Set<number>();
   const calls: FakeClickCall[] = [];
   const telegram: string[] = [];
@@ -47,6 +52,13 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     qrDelay: 0,
     /** Every Click call takes this long; the caller's timeout aborts it, as with a real fetch. */
     latencyMs: 0,
+    /**
+     * How ofd_data answers for a payment without a receipt: Click's error
+     * code with HTTP 404, a bare HTTP 404, or the payment without a link.
+     * Click does not document it; each must read as "no receipt" (and
+     * nothing else may: fiscal-store.ts noClickReceipt).
+     */
+    noReceipt: "click" as "click" | "http404" | "empty",
     qrUrl: (paymentId: number) =>
       `https://ofd.soliq.uz/epi?t=EZ000000000030&r=${paymentId}&c=20261001120000&s=854971301623`,
     /** Click learns of a payment of our order at `at` (it answers status_by_mti for that day). */
@@ -54,6 +66,10 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
       const paymentId = nextPaymentId++;
       payments.set(merchantTransId, { paymentId, day: clickPaymentDate(at), serviceId });
       return paymentId;
+    },
+    /** Click prints the receipt of a payment itself, without our submit_items. */
+    autoPrint(paymentId: number): void {
+      receipts.set(paymentId, { items: null, pendingReads: 0 });
     },
     count(method: string, pathPart: string): number {
       return calls.filter((c) => c.method === method && c.path.includes(pathPart)).length;
@@ -106,6 +122,8 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     if (failure === "network") throw new TypeError("fetch failed");
     if (failure === "http") return reply({ error: "internal" }, 500);
     if (typeof failure === "number") return reply({ error_code: failure, error_note: "fixture error" });
+    if (typeof failure === "object")
+      return reply(failure.code === undefined ? {} : { error_code: failure.code, error_note: "fixture error" }, failure.status);
 
     if (operation === "mti" && method === "GET") {
       const [, , mti, day] = parts;
@@ -129,7 +147,12 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     if (operation === "ofd" && method === "GET" && parts[0] === "ofd_data") {
       const paymentId = Number(parts[2]);
       const receipt = receipts.get(paymentId);
-      if (!receipt) return reply({ error_code: -16, error_note: "Receipt not found" }, 404);
+      if (!receipt)
+        return fake.noReceipt === "http404"
+          ? reply({}, 404)
+          : fake.noReceipt === "empty"
+            ? reply({ paymentId })
+            : reply({ error_code: -16, error_note: "Receipt not found" }, 404);
       if (receipt.pendingReads > 0) {
         receipt.pendingReads--;
         return reply({ paymentId });

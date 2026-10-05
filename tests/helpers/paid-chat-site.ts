@@ -55,7 +55,7 @@ export type SiteDispatch = (request: Request) => Promise<Response>;
 
 /** The public settings a purchase depends on; hosts and model chains stay the caller's. */
 const BILLING_SETTING =
-  /^(?:GPT_PAYMENT_PROVIDERS|GPT_BILLING_[A-Z_]+|GPT_FISCAL_[A-Z_]+|GPT_BOT_LOGIN_MODE|GPT_HANDOFF_BOT_USERNAME|GPT_ALERTS_ENABLED|GPT_HASH_SALT_SINCE|UZUM_API|UZUM_AUTOFISCAL)$/;
+  /^(?:GPT_PAYMENT_PROVIDERS|GPT_BILLING_[A-Z_]+|GPT_FISCAL_[A-Z_]+|GPT_CLICK_AUTOFISCAL|GPT_CLICK_FISCAL_[A-Z_]+|GPT_BOT_LOGIN_MODE|GPT_HANDOFF_BOT_USERNAME|GPT_ALERTS_ENABLED|GPT_HASH_SALT_SINCE|UZUM_API|UZUM_AUTOFISCAL)$/;
 
 /**
  * The billing settings committed in wrangler.toml, hydrated from

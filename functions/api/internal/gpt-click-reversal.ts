@@ -15,6 +15,9 @@
 // month (the previous one only on the 1st), UZCARD may refuse.
 // The answer says whether the sale receipt was already printed: Click does not
 // document a refund receipt, so then the owner settles it with the accountant.
+// receiptPending: the sale receipt was still queued (Click may have printed
+// its own, or ours went out): the queue's next run reads ofd_data once and
+// records what is there (fiscal-store.ts refundedClickReceipt).
 import {
   BILLING_ORG,
   type BillingEnv,
@@ -31,6 +34,7 @@ import {
   clickMerchantAuth,
   FiscalStore,
   FISCAL_PRINTED,
+  FISCAL_QUEUED,
 } from "../../lib/gpt-chat/fiscal-store";
 import { fail, json, readJsonLimited } from "../../lib/gpt-chat/http";
 import { internalAuthorized } from "../../lib/gpt-chat/internal-auth";
@@ -123,6 +127,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       state: "refunded",
       paymentId,
       receiptPrinted: receipt?.status_code === FISCAL_PRINTED,
+      receiptPending: receipt?.status_code === FISCAL_QUEUED,
     });
   } catch {
     return fail("reversal_failed", "Check the order before retrying", 503);

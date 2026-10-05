@@ -65,7 +65,7 @@ test("the receipt: the payment's uuid, our operation_id, the Tashkent payment ti
       { ...f.receipt(row.id), receipt_url: undefined },
       { provider: "uzum", status_code: -1, receipt_url: undefined, attempts: 0, next_at: T0, payment_id: null, operation_id: null, last_error: null, submitted_at: null },
     );
-    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + MIN }), { printed: 1, retried: 0, skipped: 0, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + MIN }), { printed: 1, retried: 0, waiting: 0, skipped: 0, queued: 0, failing: 0 });
     const receipt = f.receipt(row.id);
     assert.match(String(receipt.operation_id), /^[0-9a-f-]{36}$/);
     assert.deepEqual(
@@ -89,7 +89,7 @@ test("the receipt: the payment's uuid, our operation_id, the Tashkent payment ti
     const sent = Date.parse(String(call.body.date_time));
     assert.ok(sent >= row.perform_time - 1000 && sent - row.perform_time < 24 * HOUR);
     // Nothing is due any more; a replayed transition adds no row.
-    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + 2 * MIN }), { printed: 0, retried: 0, skipped: 0, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + 2 * MIN }), { printed: 0, retried: 0, waiting: 0, skipped: 0, queued: 0, failing: 0 });
     await row.store.billing.transition(row.id, "paid", "uzum_confirm", { now: T0 });
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_fiscal_receipts WHERE order_id=?", row.id), 1);
     // The account panel shows the link.
@@ -182,7 +182,7 @@ test("failures back off 1/5/15/60 minutes then 6 hours; a live receipt alerts fr
     assert.deepEqual(f.alerts(), ["uzum_fiscal_failed", "uzum_fiscal_failed"]);
     assert.ok(isUrgentAlert("uzum_fiscal_failed"));
     f.fake.fiscalDown = false;
-    assert.deepEqual(await fiscalizeDue(f.env, { now }), { printed: 1, retried: 0, skipped: 0, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now }), { printed: 1, retried: 0, waiting: 0, skipped: 0, queued: 0, failing: 0 });
     // Uzum names a refused IKPU or package code (400, code 1).
     const refused = await paidAt(f, now);
     f.fake.fiscalFailures.push({ code: 1 });
@@ -265,7 +265,7 @@ test("a refund receipt follows its sale: same payment_id, the refund time; none 
     const sold = await paidAt(f, T0);
     await fiscalizeDue(f.env, { now: T0 });
     await sold.store.billing.transition(sold.id, "cancelled", "uzum_reverse", { reason: 5, now: T0 + HOUR });
-    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + HOUR }), { printed: 1, retried: 0, skipped: 0, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + HOUR }), { printed: 1, retried: 0, waiting: 0, skipped: 0, queued: 0, failing: 0 });
     const refund = posts(f, "/v2/refund_receipt");
     assert.equal(refund.length, 1);
     const back = f.receipt(sold.id, "CANCEL");
@@ -281,7 +281,7 @@ test("a refund receipt follows its sale: same payment_id, the refund time; none 
     // Returned before its sale receipt printed: no sale, so no refund receipt either.
     const quick = await paidAt(f, T0 + 2 * HOUR);
     await quick.store.billing.transition(quick.id, "cancelled", "uzum_reverse", { reason: 5, now: T0 + 2 * HOUR });
-    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + 2 * HOUR }), { printed: 0, retried: 0, skipped: 2, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + 2 * HOUR }), { printed: 0, retried: 0, waiting: 0, skipped: 2, queued: 0, failing: 0 });
     assert.deepEqual(
       [f.receipt(quick.id).last_error, f.receipt(quick.id, "CANCEL").last_error],
       ["skipped_refunded", "sale_unprinted"],
@@ -355,7 +355,7 @@ test("two workers never print one receipt, and another org's receipts are never 
     assert.equal(posts(f).length, 1);
     assert.equal(f.receipt(row.id).attempts, 1);
     const foreign = await paidAt(f, T0 + MIN, randomUUID(), "org_other");
-    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + MIN }), { printed: 0, retried: 0, skipped: 0, queued: 0, failing: 0 });
+    assert.deepEqual(await fiscalizeDue(f.env, { now: T0 + MIN }), { printed: 0, retried: 0, waiting: 0, skipped: 0, queued: 0, failing: 0 });
     assert.equal(f.db.value("SELECT attempts FROM gpt_fiscal_receipts WHERE org_id='org_other' AND order_id=?", foreign.id), 0);
     assert.equal(await new FiscalStore(f.binding, BILLING_ORG).claim(T0 + MIN), null);
     assert.equal((await new FiscalStore(f.binding, "org_other").claim(T0 + MIN))?.order_id, foreign.id);
