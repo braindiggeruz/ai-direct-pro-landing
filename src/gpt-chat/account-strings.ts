@@ -21,6 +21,12 @@ export interface AccountStrings {
   noRefund: string;
   /** Why a guest signs in before paying. */
   loginWhy: string;
+  /** Guest checkout: no sign-in, the pack starts in this browser. */
+  guestPayNote: string;
+  /** Beside guest checkout: a pack bought after signing in is reached by signing in. */
+  haveAccount: string;
+  /** A guest's pack: keep it through Telegram for any phone. */
+  saveLine: string; saveButton: string;
   login: string; loginConsent: string; loginFailed: string; refunded: string;
   unavailable: string; logout: string; terms: string;
   active: string;
@@ -96,6 +102,10 @@ const RU: AccountStrings = {
   honesty: 'Это ответы в чате GPTBot.uz, а не доступ к ChatGPT. Сервис не связан с OpenAI.',
   noRefund: 'Деньги за оплаченный пакет не возвращаются: он начинает действовать сразу после оплаты.',
   loginWhy: 'Пакет закрепляется за аккаунтом, поэтому сначала войдите через Telegram.',
+  guestPayNote: 'Входить не нужно: пакет заработает в этом браузере сразу после оплаты.',
+  haveAccount: 'Уже покупали пакет со входом через Telegram? Войдите — он появится здесь.',
+  saveLine: 'Сохраните пакет через Telegram — чтобы он работал и на другом телефоне.',
+  saveButton: 'Сохранить через Telegram',
   login: 'Войти через Telegram',
   loginConsent: 'Согласен на создание аккаунта по идентификатору Telegram. Не запрашиваем телефон, имя и доступ к переписке.',
   loginFailed: 'Вход не завершён. Попробуйте войти через Telegram ещё раз.',
@@ -191,6 +201,10 @@ const UZ: AccountStrings = {
   honesty: 'Bu GPTBot.uz chatidagi javoblar, ChatGPT’ga kirish emas. Xizmat OpenAI bilan bog‘liq emas.',
   noRefund: 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.',
   loginWhy: 'Paket akkauntingizga biriktiriladi, shuning uchun avval Telegram orqali kiring.',
+  guestPayNote: 'Kirish shart emas: paket to‘lovdan keyin shu brauzerda darhol ishlaydi.',
+  haveAccount: 'Paketni Telegram orqali kirib olganmisiz? Kiring — u shu yerda ko‘rinadi.',
+  saveLine: 'Paketni Telegram orqali saqlang — boshqa telefonda ham ishlaydi.',
+  saveButton: 'Telegram orqali saqlash',
   login: 'Telegram orqali kirish',
   loginConsent: 'Telegram identifikatori orqali akkaunt yaratishga roziman. Telefon, ism va yozishmalarga ruxsat so‘ramaymiz.',
   loginFailed: 'Kirish yakunlanmadi. Telegram orqali yana kirib ko‘ring.',

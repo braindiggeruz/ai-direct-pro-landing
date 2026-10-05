@@ -118,6 +118,30 @@ export class IdentityStore {
     ]);
     return { id, token };
   }
+  /**
+   * Signing in through Telegram from a browser that paid as a guest: the
+   * guest's orders and packs move to the Telegram account just signed in
+   * (`identityHash`), with the guest's answers of the day, and the guest
+   * account is left with no session. Only a guest account moves, and only
+   * into the account this sign-in proved: a Telegram account signed in
+   * before on this browser keeps its pack. A repeat finds nothing to move.
+   */
+  async adoptGuest(request: Request, identityHash: string, now = Date.now()): Promise<void> {
+    const guest = await this.user(request, now);
+    if (!guest || !isGuestAccount(guest)) return;
+    const account = await this.db
+      .prepare("SELECT id FROM gpt_accounts WHERE org_id=? AND identity_hash=?")
+      .bind(this.org, identityHash)
+      .first<{ id: string }>();
+    if (!account || account.id === guest) return;
+    await this.db.batch([
+      ...moveOrders(this.db, this.org, guest, account.id, null),
+      this.db
+        .prepare("UPDATE gpt_turn_reservations SET subject=? WHERE org_id=? AND subject=?")
+        .bind(account.id, this.org, guest),
+      this.db.prepare("DELETE FROM gpt_auth_sessions WHERE org_id=? AND user_id=?").bind(this.org, guest),
+    ]);
+  }
   async logout(request: Request) {
     await this.db
       .prepare("DELETE FROM gpt_auth_sessions WHERE org_id=? AND token_hash=?")
@@ -128,6 +152,47 @@ export class IdentityStore {
       .run();
   }
 }
+/**
+ * Guest checkout: a browser pays without signing in. Its pack belongs to a
+ * guest account (syntheticLogin, no identity behind it) whose only key is
+ * this browser's __Host-gpt_account session: a random token stored hashed,
+ * httpOnly, minted by the server. A year, past the pack's month and a
+ * renewal. Signing in through Telegram later moves the pack over
+ * (adoptGuest); support moves a lost one with a restore link (guest-restore.ts).
+ */
+export const GUEST_ACCOUNT_PREFIX = "acct_guest_";
+export const GUEST_SESSION_MS = 365 * 86400_000;
+export function isGuestAccount(user: string): boolean {
+  return user.startsWith(GUEST_ACCOUNT_PREFIX);
+}
+
+/**
+ * Hand orders of `from` to `to`: the orders (one, or all), their packs and
+ * offer acceptances, in one atomic batch. An open invoice that would make
+ * `to` hold two open ones of a provider stays where it is (OR IGNORE).
+ * Packs follow only the orders that moved, so a pack is never in two places.
+ * The statements, for the caller's batch.
+ */
+export function moveOrders(
+  db: D1Database,
+  org: string,
+  from: string,
+  to: string,
+  order: string | null,
+): D1PreparedStatement[] {
+  const one = order ? " AND id=?" : "";
+  const only = (sql: string, ...binds: unknown[]) =>
+    db.prepare(sql + (order ? " AND order_id=?" : "")).bind(...binds, ...(order ? [order] : []));
+  const moved = "order_id IN (SELECT id FROM gpt_payment_orders WHERE org_id=? AND user_id=?)";
+  return [
+    db
+      .prepare(`UPDATE OR IGNORE gpt_payment_orders SET user_id=? WHERE org_id=? AND user_id=?${one}`)
+      .bind(to, org, from, ...(order ? [order] : [])),
+    only(`UPDATE gpt_access_periods SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, org, to),
+    only(`UPDATE gpt_payment_consents SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, org, to),
+  ];
+}
+
 export function randomToken(): string {
   return Array.from(crypto.getRandomValues(new Uint8Array(32)), (v) =>
     v.toString(16).padStart(2, "0"),

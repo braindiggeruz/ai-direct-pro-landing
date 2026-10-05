@@ -401,3 +401,26 @@ test('the local preview (scripts/pack-window-preview.ts) answers with views the 
   assert.match(read('scripts/pack-window-preview.ts'), /const inside = \(file: string\) => file === dist \|\| file\.startsWith\(dist \+ path\.sep\);/);
   assert.doesNotMatch(read('scripts/pack-window-preview.ts'), /\.startsWith\(dist\)/);
 });
+
+test('guest checkout: the pack, the offer and Click without signing in; a guest pack is kept through Telegram', async () => {
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    const page = await window(locale, guest({ guestCheckout: true }));
+    for (const line of [copy.price('20 000', 1, 300), copy.noRefund, copy.honesty, copy.terms, copy.payVia('Click'), copy.guestPayNote, copy.haveAccount])
+      assert.ok(has(page, line), `${locale}: ${line}`);
+    assert.deepEqual(payButtons(page), ['click'], 'Click alone: Uzum still needs the account');
+    assert.ok(!has(page, copy.loginWhy), locale);
+    // The offer box is explicit and starts unticked; the button waits for it.
+    assert.match(page, /<input type="checkbox"\/>/);
+    assert.match(page, /data-provider="click" disabled=""/);
+    // The guest's pack: the save line, no sign-out that would leave the pack behind.
+    const pack = await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }));
+    for (const line of [copy.saveLine, copy.saveButton]) assert.ok(has(pack, line), `${locale}: ${line}`);
+    assert.ok(!has(pack, copy.logout), locale);
+    assert.ok(has(await window(locale, withPack()), copy.logout), locale);
+    assert.ok(!has(await window(locale, withPack()), copy.saveLine), locale);
+    // Paid: the one optional line under the way back to the chat.
+    const paid = await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }), { watch: watchOf(), outcome: 'paid' });
+    assert.ok(has(paid, copy.payPaid) && has(paid, copy.saveLine), locale);
+  }
+});

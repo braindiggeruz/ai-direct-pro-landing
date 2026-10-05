@@ -11,6 +11,7 @@ import type {
   AiChatRefundRecordInput,
   AiChatRefundRecordResult,
   AiChatRehearsalResult,
+  AiChatRestoreLinkResult,
   AiChatVisitors,
 } from '../../shared/ai-chat-admin';
 
@@ -44,6 +45,9 @@ export const aiChatApi = {
 
   recordRefund: (input: AiChatRefundRecordInput) =>
     ownerCall<AiChatRefundRecordResult>('POST', '/api/admin/ai-chat/refund-record', input),
+
+  restoreLink: (query: string) =>
+    ownerCall<AiChatRestoreLinkResult>('POST', '/api/admin/ai-chat/restore-link', { query }),
 
   openRehearsal: (account: boolean) =>
     ownerCall<AiChatRehearsalResult>('POST', '/api/admin/ai-chat/rehearsal-session', { account }),

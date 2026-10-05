@@ -18,7 +18,7 @@ import {
   ensureBillingSchema,
   ensureUzumSchema,
 } from "../../lib/gpt-chat/billing-schema";
-import { IdentityStore, sameOrigin, cookieValue } from "../../lib/gpt-chat/identity-store";
+import { IdentityStore, sameOrigin, cookieValue, isGuestAccount } from "../../lib/gpt-chat/identity-store";
 import { getClientIp, hashIp, sha256Hex } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { PACK_DAILY_LIMIT, TurnStore } from "../../lib/gpt-chat/turn-store";
@@ -139,6 +139,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
     providers,
+    // Click needs no sign-in: subscribe makes this browser a guest account
+    // (guest checkout); Telegram later keeps the pack on any phone.
+    guestCheckout: providers.includes("click") && !!env.GPTBOT_DRAFTS_DB,
     // How Uzum is paid when offered: its card page, or the payment code for
     // the Uzum Bank app (Merchant API).
     uzumFlow: flow,
@@ -195,7 +198,12 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     );
     return json({
       ...base,
-      user: { signedIn: true, storageKey: await sha256Hex(`local-history:${BILLING_ORG}:${user}`) },
+      user: {
+        signedIn: true,
+        storageKey: await sha256Hex(`local-history:${BILLING_ORG}:${user}`),
+        // Paid without signing in: the pack lives in this browser until Telegram keeps it.
+        ...(isGuestAccount(user) ? { guest: true } : {}),
+      },
       // Issued by /api/gpt/subscribe once its owner accepted the offer.
       paymentCode: flow === "code" ? await currentPaymentCode(env, db, user) : null,
       remaining,

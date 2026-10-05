@@ -75,7 +75,8 @@ export function PackPanel({
   data: AccountView;
   busy: boolean;
   date: (at: number) => string;
-  onLogout: () => void;
+  /** null for a guest's pack: signing out would leave it behind. */
+  onLogout: (() => void) | null;
   children: ReactNode;
 }) {
   const receipts = (data.receipts ?? []).flatMap((receipt) => {
@@ -99,9 +100,11 @@ export function PackPanel({
         </a>
       ))}
       <SupportLine copy={copy} />
-      <button type="button" className="gpt-text-button" disabled={busy} onClick={onLogout}>
-        {copy.logout}
-      </button>
+      {onLogout && (
+        <button type="button" className="gpt-text-button" disabled={busy} onClick={onLogout}>
+          {copy.logout}
+        </button>
+      )}
     </>
   );
 }

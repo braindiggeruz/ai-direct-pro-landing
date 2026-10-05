@@ -193,6 +193,8 @@ export interface AiChatPaymentRow {
   buyer: string | null;
   /** A synthetic rehearsal account bought it (test only). */
   rehearsal: boolean;
+  /** Bought without signing in (guest checkout). */
+  guest?: boolean;
   pack: { endsAt: number; limit: number; used: number; revokedAt: number | null } | null;
   receipt: { status: number; url: string | null } | null;
   refundReceipt: { status: number; url: string | null } | null;
@@ -251,6 +253,26 @@ export interface AiChatRefundRecordResult {
   state: 'refunded';
   /** false: the order was already refunded, nothing changed. */
   recorded: boolean;
+  request_id: string;
+}
+
+/** «Восстановить пакет гостя»: our order number or Click's payment id. */
+export const RESTORE_QUERY = /^(?:pay_[0-9a-f]{32}|\d{1,19})$/;
+
+export interface AiChatRestoreLinkResult {
+  ok: true;
+  order: {
+    id: string;
+    state: string;
+    /** Bought without signing in: the pack lives in one browser. */
+    guest: boolean;
+    paidAt: number | null;
+    /** The running pack's end; null without one or after a refund. */
+    packEndsAt: number | null;
+  };
+  /** One-time link for the buyer; null unless a paid guest order with a running pack. */
+  link: string | null;
+  expiresAt: number | null;
   request_id: string;
 }
 

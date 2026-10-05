@@ -49,7 +49,10 @@ export interface AccountView {
   loginMethods?: LoginMethod[];
   mode: 'test' | 'live' | null;
   providers: PaymentProvider[];
-  user: { signedIn: true; storageKey: string } | null;
+  /** `guest`: paid without signing in; the pack lives in this browser until Telegram keeps it. */
+  user: { signedIn: true; storageKey: string; guest?: boolean } | null;
+  /** Click can be paid without signing in (guest checkout). */
+  guestCheckout?: boolean;
   remaining?: number;
   /** The free tier's allowance from the config (a guest's view never reads D1). */
   freeLimits?: FreeLimits;
@@ -178,8 +181,13 @@ export function showsAccountPill(account: AccountView | null): boolean {
   return billingOpen(account) || !!account?.user || !!account?.access;
 }
 
+/** A visitor without an account may pay with Click alone (guest checkout). */
+export function canPayAsGuest(account: AccountView): boolean {
+  return account.guestCheckout === true && account.providers.includes('click');
+}
+
 export function canStartCheckout(account: AccountView | null, locale: Locale): boolean {
-  return !!account && validAccountView(account) && !!account.user && !!account.pack
+  return !!account && validAccountView(account) && (!!account.user || canPayAsGuest(account)) && !!account.pack
     && account.providers.length > 0 && !!account.mode
     && !!account.termsVersion?.trim() && !!safeTermsLink(account.terms[locale])
     && !['pending', 'prepared'].includes(account.payment?.state || '');

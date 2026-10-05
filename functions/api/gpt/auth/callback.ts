@@ -69,6 +69,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     const hash = await telegramIdentityHash(env.GPT_IDENTITY_SECRET!, payload.id);
     if (!hash) throw new Error("telegram_id_missing");
     const token = await store.login(hash);
+    // A pack this browser bought as a guest moves to the account (adoptGuest).
+    await store.adoptGuest(request, hash);
     await store.logout(request);
     const headers = new Headers({
       Location: locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/",

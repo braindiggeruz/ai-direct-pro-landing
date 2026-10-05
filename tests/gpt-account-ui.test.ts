@@ -21,6 +21,9 @@ test('checkout requires valid identity, current locale terms, version and mercha
   for (const value of [null, { ...account(), user: null }, { ...account(), providers: [] }, { ...account(), mode: null }, { ...account(), termsVersion: null }, { ...account(), termsVersion: ' ' }, { ...account(), terms: { ru: null, uz: '/uz/offer/' } }, { ...account(), terms: { ru: 'https://evil.example/offer/', uz: null } }, { ...account(), pack: undefined }]) {
     assert.equal(canStartCheckout(value as AccountView | null, 'ru'), false);
   }
+  // Guest checkout: Click without an account, when the server offers it.
+  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true }, 'ru'), true);
+  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true, providers: ['payme'] }, 'ru'), false);
   const uzOnly = { ...account(), terms: { ru: null, uz: '/uz/offer/' } };
   assert.equal(canStartCheckout(uzOnly, 'uz'), true);
 });

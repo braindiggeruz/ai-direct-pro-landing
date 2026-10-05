@@ -10,6 +10,7 @@ import {
   PAYMENT_CODE,
   allowedCheckoutUrl,
   billingOpen,
+  canPayAsGuest,
   canResumeCheckout,
   canStartCheckout,
   isPaymentProvider,
@@ -132,6 +133,9 @@ export function AccountDialog({
   // On the way to the payment page: nothing to check before the browser leaves.
   const [leaving, setLeaving] = useState(false);
   const [consent, setConsent] = useState(false);
+  // Sign-in through Telegram, opened on request: beside guest checkout, and
+  // for a guest's pack, to keep it on any phone (IdentityStore.adoptGuest).
+  const [signIn, setSignIn] = useState(false);
   const [terms, setTerms] = useState(false);
   const [termsChanged, setTermsChanged] = useState(() => memoryRef.current.refusedForTerms);
   const [elsewhere, setElsewhere] = useState<PaymentProvider | null>(null);
@@ -142,6 +146,7 @@ export function AccountDialog({
   const [choosing, setChoosing] = useState(false);
   const currentTerms = data?.terms[locale];
   useEffect(() => { setTerms(false); }, [data?.termsVersion, currentTerms, data?.user?.storageKey, locale]);
+  useEffect(() => { setSignIn(false); }, [data?.user?.storageKey]);
   // Back from the payment page out of the browser's page cache: the page is
   // as it was left, mid-way to the payment page; now it waits for the result.
   useEffect(() => {
@@ -304,16 +309,23 @@ export function AccountDialog({
         onCheck={() => void refresh()}
         onAgain={checkout.dismiss}
         onChange={() => setChoosing(true)}
+        onSave={() => {
+          setSignIn(true);
+          checkout.dismiss();
+        }}
         onClose={onClose}
       />
     );
 
-  const offered = data?.providers ?? [];
+  // Without an account, Click alone: subscribe makes this browser a guest.
+  const guestPay = !!data && !data.user && billingAvailable && !!pack && canPayAsGuest(data);
+  const clickOnly = data?.user ? !!data.user.guest : guestPay;
+  const offered = (data?.providers ?? []).filter((provider) => !clickOnly || provider === "click");
   const openPayment = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment : null;
   const appFlow = (provider: PaymentProvider) => provider === "uzum" && data?.uzumFlow === "code";
-  const payStep = billingAvailable && pack && data?.user && (
+  const payStep = billingAvailable && pack && (data?.user || guestPay) && (
     <>
-      {data.access ? (
+      {data?.access ? (
         <>
           <p className="gpt-panel-note">
             {copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. {t.premium.manual}
@@ -321,12 +333,13 @@ export function AccountDialog({
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
         </>
       ) : (
-        <PlanCard t={t} copy={copy} pack={pack} />
+        // A guest saw the price card above the pay step already.
+        !guestPay && <PlanCard t={t} copy={copy} pack={pack} />
       )}
       <label className="gpt-check">
         <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
         <span>
-          {termsUrl && data.termsVersion ? (
+          {termsUrl && data?.termsVersion ? (
             <a href={termsUrl} target="_blank" rel="noopener noreferrer">{copy.terms}</a>
           ) : (
             copy.terms
@@ -349,6 +362,7 @@ export function AccountDialog({
         ))}
       </div>
       <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
+      {guestPay && <p className="gpt-panel-note" data-testid="ai-pay-guest">{copy.guestPayNote}</p>}
       {openPayment?.provider && (
         <div className="gpt-panel-note" data-testid="ai-pay-open">
           <p>{copy.resumeNote}</p>
@@ -366,6 +380,48 @@ export function AccountDialog({
             <p>{copy.invoiceHeld(PROVIDER_NAMES[openPayment.provider])}</p>
           )}
         </div>
+      )}
+    </>
+  );
+  const loginBlock = (
+    <>
+      <label className="gpt-check">
+        <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+        <span>
+          {copy.loginConsent}{" "}
+          <a href={t.privacyHref}>{t.leadPrivacy}</a>
+        </span>
+      </label>
+      {/* The bot first (no BotFather client needed); Telegram's OIDC
+          when the server offers only that. */}
+      {data?.loginMethods?.includes("bot") ? (
+        <BotLoginScreen
+          locale={locale}
+          apiBase={apiBase}
+          copy={copy}
+          consent={consent}
+          disabled={busy || error || loading}
+          onSignedIn={refresh}
+        />
+      ) : (
+        <button
+          type="button"
+          className="gpt-primary"
+          disabled={busy || error || loading || !consent}
+          onClick={() =>
+            void run(async () => {
+              if (!data?.loginAvailable || !consent) return;
+              track(EV.loginStarted, { method: "oidc", locale });
+              recordUiEvent(apiBase, "login_started", "oidc");
+              const result = await post("/api/gpt/auth/start", { locale, consent });
+              const url = new URL(result.url);
+              if (url.origin !== "https://oauth.telegram.org") throw new Error();
+              location.assign(url.href);
+            })
+          }
+        >
+          {copy.login}
+        </button>
       )}
     </>
   );
@@ -398,53 +454,44 @@ export function AccountDialog({
         <>
           {/* A price only while the pack can really be bought (F6). */}
           {billingAvailable && pack && <PlanCard t={t} copy={copy} pack={pack} />}
-          {data.loginAvailable && (
+          {guestPay ? (
+            <>
+              {payStep}
+              {data.loginAvailable && (signIn ? (
+                <>
+                  <p className="gpt-panel-note">{copy.haveAccount}</p>
+                  {loginBlock}
+                </>
+              ) : (
+                <div className="gpt-panel-note" data-testid="ai-pack-have-account">
+                  <p>{copy.haveAccount}</p>
+                  <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>{copy.login}</button>
+                </div>
+              ))}
+            </>
+          ) : data.loginAvailable && (
             <>
               <p className="gpt-panel-note">{copy.loginWhy}</p>
-              <label className="gpt-check">
-                <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-                <span>
-                  {copy.loginConsent}{" "}
-                  <a href={t.privacyHref}>{t.leadPrivacy}</a>
-                </span>
-              </label>
-              {/* The bot first (no BotFather client needed); Telegram's OIDC
-                  when the server offers only that. */}
-              {data.loginMethods?.includes("bot") ? (
-                <BotLoginScreen
-                  locale={locale}
-                  apiBase={apiBase}
-                  copy={copy}
-                  consent={consent}
-                  disabled={busy || error || loading}
-                  onSignedIn={refresh}
-                />
-              ) : (
-                <button
-                  type="button"
-                  className="gpt-primary"
-                  disabled={busy || error || loading || !consent}
-                  onClick={() =>
-                    void run(async () => {
-                      if (!data.loginAvailable || !consent) return;
-                      track(EV.loginStarted, { method: "oidc", locale });
-                      recordUiEvent(apiBase, "login_started", "oidc");
-                      const result = await post("/api/gpt/auth/start", { locale, consent });
-                      const url = new URL(result.url);
-                      if (url.origin !== "https://oauth.telegram.org") throw new Error();
-                      location.assign(url.href);
-                    })
-                  }
-                >
-                  {copy.login}
-                </button>
-              )}
+              {loginBlock}
             </>
           )}
         </>
       )}
       {data?.user && (
-        <PackPanel copy={copy} data={data} busy={busy} date={date} onLogout={logout}>
+        <PackPanel copy={copy} data={data} busy={busy} date={date} onLogout={data.user.guest ? null : logout}>
+          {data.user.guest && data.loginAvailable && (
+            <>
+              <div className="gpt-panel-note" data-testid="ai-pack-save">
+                <p>{data.access ? copy.saveLine : copy.haveAccount}</p>
+                {!signIn && (
+                  <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>
+                    {data.access ? copy.saveButton : copy.login}
+                  </button>
+                )}
+              </div>
+              {signIn && loginBlock}
+            </>
+          )}
           {payStep}
           {paymentState && <p className="gpt-panel-note" role="status">{paymentState}</p>}
         </PackPanel>

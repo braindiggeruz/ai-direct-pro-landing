@@ -28,6 +28,7 @@ import { CATALOGUE_INTERVAL_MS } from "./billing-operations-store";
 import { receiptLink } from "./fiscal-config";
 import { FREE_PAID_BUCKET, spendDay } from "./model-spend-store";
 import { REHEARSAL_ACCOUNT_PREFIX } from "./rehearsal";
+import { GUEST_ACCOUNT_PREFIX } from "./identity-store";
 import { PACK_WINDOW_EVENTS } from "./ui-event-store";
 import { WATCHDOG_LEASE_MS } from "./watchdog-store";
 import {
@@ -601,6 +602,7 @@ export class AiChatAdminStore {
           cancelledAt: num(row.cancel_time) || null,
           buyer: alias ? await alias("B", `admin-buyer:v1:${user}`) : null,
           rehearsal: user.startsWith(REHEARSAL_ACCOUNT_PREFIX),
+          guest: user.startsWith(GUEST_ACCOUNT_PREFIX),
           pack:
             row.ends_at === null || row.ends_at === undefined
               ? null

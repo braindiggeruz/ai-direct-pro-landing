@@ -17,7 +17,16 @@ import {
   ensureBillingSchema,
   ensureUzumSchema,
 } from "../../lib/gpt-chat/billing-schema";
-import { IdentityStore, sameOrigin } from "../../lib/gpt-chat/identity-store";
+import {
+  authCookie,
+  GUEST_ACCOUNT_PREFIX,
+  GUEST_SESSION_MS,
+  IdentityStore,
+  isGuestAccount,
+  sameOrigin,
+} from "../../lib/gpt-chat/identity-store";
+import { resolveConfig } from "../../lib/gpt-chat/config";
+import { getClientIp, hashIp } from "../../lib/gpt-chat/hash";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
@@ -154,11 +163,19 @@ async function subscribeUzum(
   });
 }
 
-export const onRequestPost: PagesFunction<BillingEnv> = async ({
-  request,
-  env,
-  waitUntil,
-}) => {
+export const onRequestPost: PagesFunction<BillingEnv> = async (context) => {
+  const guest: { cookie: string | null } = { cookie: null };
+  const response = await subscribe(context, guest);
+  // A guest account made for this checkout is this browser's from now on,
+  // whatever became of the order: a retry reuses it.
+  if (guest.cookie) response.headers.append("Set-Cookie", guest.cookie);
+  return response;
+};
+
+async function subscribe(
+  { request, env, waitUntil }: Parameters<PagesFunction<BillingEnv>>[0],
+  guest: { cookie: string | null },
+): Promise<Response> {
   if (!sameOrigin(request)) return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{
     provider?: string;
@@ -198,8 +215,26 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     await (p.provider === "uzum"
       ? ensureUzumSchema(db)
       : ensureBillingSchema(db));
-    const user = await new IdentityStore(db, BILLING_ORG).user(request);
-    if (!user) return fail("login_required", "Login required", 401);
+    const identity = new IdentityStore(db, BILLING_ORG);
+    let user = await identity.user(request);
+    if (!user) {
+      // Guest checkout (Click): the pack goes to a new guest account of this
+      // browser, at most five an hour per address (identity-store.ts).
+      if (p.provider !== "click") return fail("login_required", "Login required", 401);
+      const address = await hashIp(getClientIp(request), resolveConfig(env));
+      const pace = await consumeRateLimit(db, "guest_account", address, {
+        limit: 5,
+        windowMs: HOUR_MS,
+      });
+      if (!pace.allowed || pace.degraded) return fail("try_later", "Try later", 429);
+      const minted = await identity.syntheticLogin(GUEST_ACCOUNT_PREFIX, GUEST_SESSION_MS);
+      user = minted.id;
+      guest.cookie = authCookie("__Host-gpt_account", minted.token, GUEST_SESSION_MS / 1000);
+    }
+    // A guest pays with Click only: its pack moves to Telegram with the
+    // orders of gpt_payment_orders alone (IdentityStore.adoptGuest).
+    if (p.provider !== "click" && isGuestAccount(user))
+      return fail("login_required", "Login required", 401);
     // A synthetic rehearsal account never buys live (rehearsal.ts).
     if (mode === "live" && isRehearsalAccount(user))
       return fail("not_found", "Not found", 404);
@@ -263,6 +298,6 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       return fail('terms_changed', 'An existing invoice uses different terms; check its status first', 409);
     return fail("checkout_unavailable", "Check status before retrying", 503);
   }
-};
+}
 export const onRequest: PagesFunction<BillingEnv> = async () =>
   fail("method_not_allowed", "Use POST", 405);

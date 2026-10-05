@@ -12,6 +12,8 @@
 // no new free answers: the free tier counts by account and by IP hash. A
 // pack holder's free answers count by the account alone (decision R2,
 // turn-store.ts), so what the address spent as a guest does not reduce them.
+// A pack bought here without signing in (guest checkout) moves to the
+// account with the guest's answers of the day (IdentityStore.adoptGuest).
 import { BILLING_ORG, type BillingEnv } from "../../../../lib/gpt-chat/billing-config";
 import { ensureBillingSchema } from "../../../../lib/gpt-chat/billing-schema";
 import { BOT_LOGIN_COOKIE } from "../../../../lib/gpt-chat/bot-login";
@@ -60,6 +62,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env })
     if (poll.status !== "done") return json({ ok: true, status: poll.status });
     const identity = new IdentityStore(db, BILLING_ORG);
     const token = await identity.login(poll.identityHash);
+    // A pack this browser bought as a guest moves to the account (adoptGuest).
+    await identity.adoptGuest(request, poll.identityHash);
     await identity.logout(request);
     const response = json({ ok: true, status: "done" }, 200, {
       "Set-Cookie": authCookie("__Host-gpt_account", token, 30 * 86400),

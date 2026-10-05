@@ -117,6 +117,7 @@ export default function AiChat() {
         return result;
       }}
       onOpenRehearsal={(account) => aiChatApi.openRehearsal(account)}
+      onRestoreLink={(query) => aiChatApi.restoreLink(query)}
     />
   );
 }

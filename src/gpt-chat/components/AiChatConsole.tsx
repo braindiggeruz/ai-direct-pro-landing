@@ -132,8 +132,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     shownRef.current = { messages, busy };
   }, [messages, busy]);
   const onAccount = useCallback((account: AccountView | null) => {
-    const identity = account ? (account.user?.storageKey || "guest") : null;
-    const scope = account?.user?.storageKey;
+    // A guest's pack (guest checkout) is this browser's: its chats stay
+    // where they were before paying, and signing in later keeps the composer.
+    const scope = account?.user?.guest ? undefined : account?.user?.storageKey;
+    const identity = account ? (scope || "guest") : null;
     if (accountIdentityRef.current !== identity) {
       const shown = shownRef.current;
       if (

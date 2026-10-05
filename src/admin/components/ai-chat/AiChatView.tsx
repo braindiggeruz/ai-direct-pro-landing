@@ -16,6 +16,7 @@ import type {
   AiChatRefundRecordInput,
   AiChatRefundRecordResult,
   AiChatRehearsalResult,
+  AiChatRestoreLinkResult,
   AiChatVisitors,
 } from '../../../shared/ai-chat-admin';
 
@@ -36,6 +37,8 @@ export interface AiChatViewProps {
   onDays: (days: number) => void;
   onRecordRefund: (input: AiChatRefundRecordInput) => Promise<AiChatRefundRecordResult>;
   onOpenRehearsal: (account: boolean) => Promise<AiChatRehearsalResult>;
+  /** «Восстановить пакет гостя»: the order and a one-time link. */
+  onRestoreLink?: (query: string) => Promise<AiChatRestoreLinkResult>;
 }
 
 export function AiChatView(props: AiChatViewProps) {
@@ -84,6 +87,7 @@ export function AiChatView(props: AiChatViewProps) {
         onFilter={props.onFilter}
         onMore={props.onMore}
         onRecord={props.onRecordRefund}
+        onRestore={props.onRestoreLink}
       />
       <VisitorsCard section={props.visitors?.visitors ?? null} requestId={props.visitors?.request_id} days={props.days} onDays={props.onDays}/>
     </div>

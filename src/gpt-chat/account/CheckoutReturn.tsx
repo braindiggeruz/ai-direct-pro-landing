@@ -35,6 +35,7 @@ export function CheckoutReturn({
   onCheck,
   onAgain,
   onChange,
+  onSave,
   onClose,
 }: {
   t: ChatStrings;
@@ -49,6 +50,8 @@ export function CheckoutReturn({
   onAgain: () => void;
   /** Back to the pay step, the watched invoice still open. */
   onChange: () => void;
+  /** A guest's pack: open sign-in through Telegram to keep it on any phone. */
+  onSave?: () => void;
   onClose: () => void;
 }) {
   const result = settledCheckout(data, watch);
@@ -83,6 +86,12 @@ export function CheckoutReturn({
         </DialogDescription>
         {data?.access && <AccessSummary copy={copy} access={data.access} pack={data.pack} date={date} />}
         {back(true)}
+        {data?.user?.guest && data.loginAvailable && onSave && (
+          <div className="gpt-panel-note" data-testid="ai-pack-save">
+            <p>{copy.saveLine}</p>
+            <button type="button" className="gpt-text-button" onClick={onSave}>{copy.saveButton}</button>
+          </div>
+        )}
       </>
     );
   if (result === "cancelled")
