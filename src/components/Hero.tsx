@@ -93,6 +93,41 @@ export default function Hero({ t }: Props) {
 
               <p className="text-xs text-white/60">{t.hero.micro}</p>
 
+              {/* The free AI chat, for a visitor who came for a chat and not for a
+                  business bot (owner decision 3, R-S1). One muted line right under
+                  the demo button and its micro text: the button stays the first and
+                  strongest action, and the line sits above the ghost "how it works"
+                  link so that it reaches the first screen of a 390×664 phone
+                  (measured 2026-10-05; see CHANGES.md §2.2). Plain hrefs: index.html
+                  reports the Metrika goal gpt_chat_open for both, and
+                  click_hero_chat names which chat was chosen. Only classes the site
+                  stylesheet already carries: a new utility would change the shared
+                  CSS file name and with it the HTML of every page. */}
+              <p data-testid="hero-chat-line" className="max-w-xl text-xs leading-relaxed text-white/60">
+                {t.hero.chatLine.lead}{' '}
+                <a
+                  data-testid="hero-chat-uz"
+                  href="/uz/gpt-uzbek-tilida/"
+                  hrefLang="uz"
+                  lang="uz"
+                  onClick={() => track('click_hero_chat', { chat_locale: 'uz' })}
+                  className="text-white/70 underline underline-offset-2 transition-colors duration-200 hover:text-brand-cyan"
+                >
+                  {t.hero.chatLine.uz}
+                </a>
+                {t.hero.chatLine.between}
+                <a
+                  data-testid="hero-chat-ru"
+                  href="/ru/gpt-chat/"
+                  hrefLang="ru"
+                  lang="ru"
+                  onClick={() => track('click_hero_chat', { chat_locale: 'ru' })}
+                  className="text-white/70 underline underline-offset-2 transition-colors duration-200 hover:text-brand-cyan"
+                >
+                  {t.hero.chatLine.ru}
+                </a>
+              </p>
+
               {/* Secondary CTA — subtle ghost link instead of competing button */}
               <a
                 data-testid="hero-cta-secondary"

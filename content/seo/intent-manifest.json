@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-10-12",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -631,6 +631,38 @@
       "gscNote": "Found 2026-10-04 (SEO roadmap 1(a)). The manual (pageType money, 13 impressions in 28 days) has its own H1 «GPTBot AI-chat qo‘llanmasi: imkoniyatlar, tillar, tariflar va xavfsizlik», but its primaryKeyword «AI chatdan qanday foydalanish» repeats the second half of the guide's H1 «GPT o‘zbek tilida: AI chatdan qanday foydalanish mumkin», and it declared «gpt uzbek tilida qollanma», the guide's title phrase. Split on 2026-10-04 by keywords and links only: the manual dropped «gpt uzbek tilida qollanma», the guide links to the manual. Both H1s are listed on the homepage, so titles and H1s wait for the homepage release of 2026-10-19, where the manual either keeps this split or is merged into the guide with a 301.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C29-uz-slayd-chat-vs-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; a reader may ask it for a slide plan and slide text, and its «Talaba…» section links the guide instead of answering «slayd tayyorlash» on the chat page",
+        "mustNotTarget": ["slayd tayyorlash", "prezentatsiya tayyorlash", "taqdimot tayyorlash", "slayd tayyorlash telefonda", "slayd yaratish"]
+      },
+      "informational": {
+        "url": "/uz/blog/slayd-tayyorlash/",
+        "owns": "how to prepare slides — «slayd tayyorlash» with its synonyms «prezentatsiya tayyorlash» and «taqdimot tayyorlash» on one URL: plan, slide count, 6×6 rule, slide text, speaker notes, assembling in PowerPoint, Google Slides or Canva (also on a phone), checklist; it states in its first screen that the chat writes text only and makes no .pptx or PDF file and no design",
+        "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "insho yozish", "esse yozish", "esse yozish tartibi"]
+      },
+      "gscNote": "New URL with no Search Console history. Before it, no page on the site declared slayd, prezentatsiya or taqdimot (repository grep 2026-10-04), and gptbot.uz appeared in none of the 30 school SERPs pulled on 2026-10-04 (keywords-wave2/school-pages/NOTES.md §0). Demand: slayd tayyorlash 5 400/mo, Oct–Dec 9 300 (demand-policy rows of 2026-10-04). The sibling keys of the insho/esse article are listed in this informational mustNotTarget so the two school spokes never converge; the manifest has no cluster for them because a cluster hub must declare Service schema, and the free gpt-chat page makes no service offer (architecture decision A4).",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-04"
+    },
+    {
+      "id": "C30-uz-insho-esse-chat-vs-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; it links the insho/esse guide from its «Talaba…» section and does not answer the writing how-to on the chat page",
+        "mustNotTarget": ["insho yozish", "esse yozish", "esse yozish tartibi", "insho rejasi", "esse mavzulari"]
+      },
+      "informational": {
+        "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "owns": "how to write an insho or an esse with honest AI help — «insho yozish», «insho yozish tartibi», «esse yozish tartibi», «esse yozish», «insho rejasi», «esse mavzulari»: the difference between insho and esse, simple and complex plans, the esse order (introduction, thesis, 2–3 arguments, conclusion), a structure template, prompts, checklist",
+        "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "slayd tayyorlash", "prezentatsiya tayyorlash", "referat yozish", "referat tayyorlash", "referat namuna", "mustaqil ish"]
+      },
+      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-12) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (planned 2026-10-19), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-04"
     }
   ],
   "architectureDecisions": [
@@ -664,6 +696,13 @@
       "decidedAt": "2026-09-18",
       "evidence": "GSC audit 2026-09-17 (docs/seo/gsc-audit-2026-09-17/TECHNICAL_SEO.md, CANNIBALIZATION.md): the brand query «gptbot» and its variants were split between / and /ru/ — two Russian documents with the same intent, / carrying only canonical + x-default and /ru/ carrying the ru/uz pair with /uz/. Google had two candidates for every Russian brand or category query and no hreflang cluster that included the real homepage.",
       "note": "One Russian home. / is the ru member and the x-default of the homepage hreflang set (src/shared/site-config.ts HOME_HREFLANG); /uz/ is the uz member and points back; /ru/ keeps its content and stays indexable but canonicalises to / and declares no alternates, and it is no longer listed in the sitemap. No redirect and no title, H1 or description change on either page. Re-check after 28 days: the brand query lands on / only and /ru/ reports «Alternate page with proper canonical tag» in Search Console."
+    },
+    {
+      "id": "A4-school-uz-as-pairs",
+      "decision": "PAIRS_NOT_CLUSTER",
+      "decidedAt": "2026-10-04",
+      "evidence": "tests/seo-cluster-quality.test.ts requires every cluster hub to declare Service, FAQPage and BreadcrumbList schema with at least four visible questions. The natural hub of the school pages, /uz/gpt-uzbek-tilida/, is a gpt-chat page: a free chat, not a service offer, so its schemaTypes are Organization, WebSite and BreadcrumbList and it declares no Service. Since R-S1 (2026-10-12) its template shows the FAQ and the page carries FAQPage markup for exactly those visible questions, but a Service node for the free chat would be a commercial claim the page does not make. A «school-uz» cluster with the chat as hub therefore cannot pass the hub gate.",
+      "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-12, then referat and rezyume on 2026-10-19 (next free ids C31 and C32; C23–C28 were taken by the week-1 roll-out, released 2026-10-05). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat; the chat links each spoke from its «Talaba…» section in the same release as the spoke."
     }
   ]
 }

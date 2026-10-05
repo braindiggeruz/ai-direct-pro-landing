@@ -131,7 +131,7 @@
       "links": [
         {
           "token": "ruchat",
-          "target": "/ru/gpt-chat/",
+          "target": "/ru/gpt-chat/#chat-zhpt",
           "anchor": "ИИ-чат GPTBot.uz"
         }
       ]

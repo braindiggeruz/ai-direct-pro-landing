@@ -128,3 +128,45 @@ test('protected page sources keep the honest wording outside the HTML too: FAQ, 
   const official = guide.body.flatMap((b) => b.links || []).filter((l) => l.target === 'https://chatgpt.com/');
   assert.deepEqual(official.map((l) => l.anchor), ['chatgpt.com']);
 });
+
+const UZBEK_LOGIN = 'docs/seo/evidence/2026-10-03-uzbek-login/reviewed-protected-pages.json';
+const R_S1 = 'docs/seo/evidence/2026-10-12-r-s1/reviewed-protected-pages.json';
+
+test('the R-S1 revision: honest snippets and H1s on both chats and the login guide, the download guide untouched', () => {
+  const current = readRevision(R_S1);
+  const previous = readRevision(UZBEK_LOGIN);
+  assert.equal(current.previousRevision, UZBEK_LOGIN);
+  const page = (pathname: string) => current.pages.find((p) => p.pathname === pathname)!;
+  const before = (pathname: string) => previous.pages.find((p) => p.pathname === pathname)!;
+  // The download guide's P-CTR window is open: not one field of it changes.
+  const download = '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/';
+  assert.deepEqual(page(download).contract, before(download).contract);
+  assert.ok(!current.reviewedChanges.some((c) => c.pathname === download));
+  // The strings of roadmap 2.2, exactly.
+  const uz = page('/uz/gpt-uzbek-tilida/');
+  const ru = page('/ru/gpt-chat/');
+  const login = page('/uz/blog/chatgptga-qanday-kirish-mumkin/');
+  assert.deepEqual(uz.contract.title, ['ChatGPT uzbekcha muqobili: AI chat, bepul kirish']);
+  assert.deepEqual(uz.contract.h1, ['O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil']);
+  assert.deepEqual(ru.contract.title, ['Аналог ChatGPT онлайн бесплатно — без регистрации']);
+  assert.deepEqual(ru.contract.h1, ['ИИ-чат онлайн — бесплатный аналог ChatGPT']);
+  assert.deepEqual(login.contract.title, ['ChatGPT kirish (login): chatgpt.com, 3 qadam (2026)']);
+  assert.deepEqual(login.contract.h1, ['ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar']);
+  // GPTBot.uz is never the official ChatGPT: the chats' snippets name it an
+  // alternative, and no changed title or H1 says «rasmiy» or «официальный».
+  for (const p of [uz, ru, login]) {
+    for (const s of [...(p.contract.title as string[]), ...(p.contract.h1 as string[]), ...(p.contract.description as string[])]) {
+      assert.doesNotMatch(s, /rasmiy|официальн|official|GPT-4|GPT-5/i, `${p.pathname}: ${s}`);
+    }
+  }
+  assert.match((uz.contract.description as string[])[0], /mustaqil servis, OpenAI emas/);
+  assert.match((ru.contract.description as string[])[0], /независимый сервис, не OpenAI и не ChatGPT/);
+  // The published free limits, and none of the lines R-S1 replaces.
+  assert.match(uz.bodyText, /kuniga 15 tagacha, soatiga 5 tagacha/);
+  assert.match(ru.bodyText, /до 15 сообщений в день и до 5 в час/);
+  assert.doesNotMatch(uz.bodyText, /ChatGPT o‘zbek tilida online|raqam yozmaymiz|biznesingizga ulash|ChatGPT узбекча/);
+  assert.doesNotMatch(ru.bodyText, /Chat GPT онлайн в Узбекистане|Конкретных чисел/);
+  assert.doesNotMatch(page('/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/').bodyText, /biznesingizga ulash|15 daqiqada/);
+  // The homepage shell links both chats in one line, without the word ChatGPT.
+  assert.match(page('/').bodyText, /ИИ-чат для себя, а не для бизнеса — бесплатно, без регистрации: O‘zbekcha bepul AI chat · ИИ-чат онлайн/);
+});

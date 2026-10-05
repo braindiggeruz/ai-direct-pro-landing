@@ -62,7 +62,21 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // current primary sources, and the independent GPTBot guide is linked clearly.
 // All search metadata and the other nine contracts stay unchanged. This body
 // intervention is recorded separately from the pending C22 ownership decision.
-export const BASELINE = 'docs/seo/evidence/2026-10-03-uzbek-login/reviewed-protected-pages.json';
+// The 2026-10-12-r-s1 revision is the one revision of release R-S1 (SEO
+// roadmap 2026-10-04 §2.2; owner decisions 1, 2, 3 and 5). The two chat pages
+// get honest snippets with «muqobil / аналог» first, their H1 moves into the
+// chat's first screen (the only <h1> sits in #gpt-chat-root, and the chat
+// shows it on its resting screen), and the text under the chat gains a visible
+// FAQ, an update date, the published free limits (15 a day, 5 an hour) and
+// links to the new slide guide and the insho/esse guide. The login guide's
+// title, description and H1 say chatgpt.com instead of «rasmiy sayt», with its
+// sign-in facts re-checked. The homepage shell adds one line to both chats and
+// the slide guide to its list; the VPN article's login anchor and business
+// line change. Every page except the download guide also gets <!--email_off-->
+// around its e-mail addresses (scripts/email-off.ts), which the contract does
+// not see; the download guide stays byte for byte as it was, because its own
+// P-CTR window is open. reviewedChanges and invisibleToGate list it all.
+export const BASELINE = 'docs/seo/evidence/2026-10-12-r-s1/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

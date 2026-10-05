@@ -8,6 +8,13 @@ export type Dict = {
     bullets: readonly string[];
     cta: string; ctaSecondary: string; micro: string;
     stats: readonly { k: string; v: string }[];
+    /** One muted line under the demo button and its micro text (owner decision
+     *  3, R-S1): the free AI chat for people who came for a chat, not for a
+     *  business bot. The two link texts are the chats' own names; neither says
+     *  ChatGPT. Keep the whole line within two lines at 360 px: a third line
+     *  pushes it out of the first screen of a 390×664 phone. `between` labels
+     *  only a link whose text does not already name its language. */
+    chatLine: { lead: string; uz: string; between: string; ru: string };
   };
   pain: { h: string; t: string; cards: readonly string[] };
   solution: {
@@ -58,6 +65,12 @@ export const i18n: Record<Lang, Dict> = {
       cta: 'Запросить демо',
       ctaSecondary: 'Посмотреть, как работает',
       micro: 'Без сложной настройки. Покажем сценарий под вашу нишу.',
+      chatLine: {
+        lead: 'ИИ-чат для себя, а не для бизнеса — бесплатно, без регистрации:',
+        uz: 'O‘zbekcha bepul AI chat',
+        between: ' · ',
+        ru: 'ИИ-чат онлайн',
+      },
       stats: [
         { k: 'Ответ клиенту', v: 'сразу' },
         { k: 'Сбор контактов', v: 'автоматически' },
@@ -198,6 +211,12 @@ export const i18n: Record<Lang, Dict> = {
       cta: 'Demo so‘rash',
       ctaSecondary: 'Qanday ishlashini ko‘rish',
       micro: 'Murakkab sozlash kerak emas. Nishingiz uchun ssenariy ko‘rsatamiz.',
+      chatLine: {
+        lead: 'O‘zingiz uchun AI chat kerakmi? Ro‘yxatdan o‘tish shart emas:',
+        uz: 'O‘zbekcha bepul AI chat',
+        between: ' · rus tilida: ',
+        ru: 'ИИ-чат онлайн',
+      },
       stats: [
         { k: 'Mijozga javob', v: 'darhol' },
         { k: 'Kontakt yig‘ish', v: 'avtomatik' },

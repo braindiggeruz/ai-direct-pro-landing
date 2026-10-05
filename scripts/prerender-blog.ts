@@ -24,6 +24,7 @@ import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { withStudioTelegramPrefill } from './telegram-cta';
+import { withEmailOff } from './email-off';
 import {
   articleLinksContactCard,
   CONTACT_ANCHOR,
@@ -676,11 +677,13 @@ async function main() {
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     // Bare studio-contact links get a prefilled first message naming the topic
     // and the page (scripts/telegram-cta.ts); protected articles are unchanged.
-    fs.writeFileSync(outPath, withStudioTelegramPrefill(renderArticle(a, global, cssLinks, publishedArticleUrls), {
+    // Every e-mail address is then wrapped in <!--email_off-->, except on the
+    // pages scripts/email-off.ts holds back (the download guide until R-S2).
+    fs.writeFileSync(outPath, withEmailOff(withStudioTelegramPrefill(renderArticle(a, global, cssLinks, publishedArticleUrls), {
       locale: a.locale === 'uz' ? 'uz' : 'ru',
       label: a.h1,
       path: a.url,
-    }), 'utf-8');
+    }), a.url), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }
@@ -691,12 +694,12 @@ async function main() {
     const sorted = [...localeArticles].sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''));
     const indexPath = path.join(DIST_DIR, locale, 'blog', 'index.html');
     fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-    fs.writeFileSync(indexPath, withStudioTelegramPrefill(renderBlogIndex(sorted, locale, global, cssLinks), {
+    fs.writeFileSync(indexPath, withEmailOff(withStudioTelegramPrefill(renderBlogIndex(sorted, locale, global, cssLinks), {
       locale,
       // The topic half of the index title ("… — AI-боты и автоматизация заявок").
       label: STRINGS[locale].blogIndexTitle.split(' — ')[1] || STRINGS[locale].blogTitle,
       path: `/${locale}/blog/`,
-    }), 'utf-8');
+    }), `/${locale}/blog/`), 'utf-8');
     console.log(`  + dist/${locale}/blog/index.html (${localeArticles.length} cards)`);
   }
   console.log(`Prerendered ${written} article(s), skipped ${articles.length - published.length} draft(s).`);

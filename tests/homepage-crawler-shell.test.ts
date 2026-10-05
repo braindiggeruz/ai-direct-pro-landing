@@ -102,3 +102,37 @@ test('the sitemap advertises the images a crawler can actually find in the marku
   assert.match(generateSitemap, /function imagesOf/);
   assert.match(generateSitemap, /<img\\b\[\^>\]\*\\bsrc="\(\[\^"\]\+\)"/);
 });
+
+test('the first screen offers the free AI chat in one line, from i18n, in the shell and in React alike', () => {
+  // Owner decision 3 (R-S1, 2026-10-12): one muted line under the demo button
+  // links both chats. The shell must say what the landing says, so the line is
+  // built from the same i18n strings in both places, and neither link text
+  // names the chat «ChatGPT».
+  const hero = read('src/components/Hero.tsx');
+  for (const lang of ['ru', 'uz'] as const) {
+    const line = i18n[lang].hero.chatLine;
+    assert.ok(line.lead && line.uz && line.ru, `${lang}: chat line strings`);
+    assert.doesNotMatch(`${line.lead} ${line.uz} ${line.between} ${line.ru}`, /chatgpt|openai|rasmiy|официальн/i, lang);
+  }
+  assert.match(prerenderHome, /RU\.hero\.chatLine\.lead/);
+  assert.match(prerenderHome, /<a href="\/uz\/gpt-uzbek-tilida\/" hreflang="uz" lang="uz">\$\{escapeText\(RU\.hero\.chatLine\.uz\)\}<\/a>/);
+  assert.match(prerenderHome, /<a href="\/ru\/gpt-chat\/">\$\{escapeText\(RU\.hero\.chatLine\.ru\)\}<\/a>/);
+  assert.match(hero, /data-testid="hero-chat-line"/);
+  assert.match(hero, /href="\/uz\/gpt-uzbek-tilida\/"/);
+  assert.match(hero, /href="\/ru\/gpt-chat\/"/);
+  // The demo button stays first. The line follows the button and its micro
+  // text and precedes the ghost secondary link, which keeps it in the first
+  // screen of a 390×664 phone (R-S1 review, 2026-10-05).
+  const primary = hero.indexOf('data-testid="hero-cta-primary"');
+  const micro = hero.indexOf('{t.hero.micro}');
+  const chatLine = hero.indexOf('data-testid="hero-chat-line"');
+  const secondary = hero.indexOf('data-testid="hero-cta-secondary"');
+  assert.ok(primary >= 0 && micro > primary, 'the demo button and its micro text come first');
+  assert.ok(chatLine > micro, 'the chat line comes after the micro text');
+  assert.ok(secondary > chatLine, 'the ghost secondary link comes after the chat line');
+});
+
+test('the homepage shell wraps the studio address for the edge, once, at write time', () => {
+  assert.match(prerenderHome, /import \{ withEmailOff \} from '\.\/email-off';/);
+  assert.match(prerenderHome, /fs\.writeFileSync\(DIST_INDEX, withEmailOff\(html, '\/'\), 'utf-8'\);/);
+});

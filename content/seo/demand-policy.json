@@ -151,6 +151,46 @@
       "source": "Live UZ-Latin SERP review 2026-08-28 (web search, Tashkent commercial intent): mkrokus.uz, oqila.uz/narxlar and 101digital.uz rank with commercial pages/posts, confirming an active commercial SERP; the RU twin cluster was approved by the commercial digital-cluster strategy reviewed 2026-08-20 (see the 'контекстная реклама в Ташкенте' row). No verified Uzbekistan volume/KD/CPC export was available in this environment.",
       "measuredAt": "2026-08-28",
       "note": "UZ pilot page /uz/internet-reklama-toshkent/ ships with volume UNMEASURED, following the documented UNMEASURED-approval precedent in this file. Re-measure with OpenSEO/DataForSEO location 2860 when access is available and replace this row with real volume. Kill-rule: if GSC shows zero impressions for the cluster after 42 days of indexation, consolidate the page into /uz/telegram-reklama/."
+    },
+    {
+      "keyword": "slayd tayyorlash",
+      "volumePerMonth": 5400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0.14, CPC 0.33 USD. Strongly seasonal: Oct–Dec 2025 average 9 300, peaks 9 900 (Oct and Dec 2025, Feb 2026), Aug 2026 480. Owned by the new article /uz/blog/slayd-tayyorlash/ (R-S1, 2026-10-12) together with its synonyms «prezentatsiya tayyorlash» and «taqdimot tayyorlash» — one URL for the three spellings, never one page per synonym. Live SERP 2026-10-04: AI generators and their guides hold ranks 1–5; a guide (salom-ai.uz) at 2–3 is the precedent for an article. The demand gate scores money and niche pages only, so the article is not blocked by this row; it is recorded for the 42-day rule, from which seasonal school pages are exempt until the end of December 2026 (ROADMAP-DETAILED-2026-10-04 §1(f))."
+    },
+    {
+      "keyword": "prezentatsiya tayyorlash",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0.07, CPC 0.58 USD. Oct–Dec 2025 average 3 367. Synonym of «slayd tayyorlash», owned by the same article /uz/blog/slayd-tayyorlash/; no separate page."
+    },
+    {
+      "keyword": "taqdimot tayyorlash",
+      "volumePerMonth": 1000,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0.05, CPC 0.19 USD. Oct–Dec 2025 average 1 500. Synonym of «slayd tayyorlash», owned by the same article /uz/blog/slayd-tayyorlash/; no separate page."
+    },
+    {
+      "keyword": "esse yozish tartibi",
+      "volumePerMonth": 3600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0. Oct–Dec 2025 average 5 200, peaks 6 600 (Dec 2025, Apr 2026). Owned by the expanded /uz/blog/insho-yozish-suniy-intellekt-bilan/ (insho → esse, same URL, R-S1 2026-10-12). The live SERP of 2026-10-04 has no AI service in it, only instruction pages. Read 28 days after the recrawl: if the article collects no esse queries, a separate esse URL becomes an owner decision for January 2027 (KEYWORD-BRIEFS-2026-10-04 §8)."
+    },
+    {
+      "keyword": "esse yozish",
+      "volumePerMonth": 2900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword-research wave 2 of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0. Peak 8 100 in Sep 2025, Oct–Dec 2025 average 3 800. Same owner and the same 28-day read as «esse yozish tartibi». The bare head «esse» (4 400) is deliberately not recorded: its SERP is mixed and the article does not target it."
     }
   ],
   "qualityRequirements": {

@@ -1,6 +1,23 @@
 {
-  "seo_week1_20261004": {
+  "seo_r_s1_20261012": {
     "status": "committed_not_deployed",
+    "branch": "seo/r-s1-20261012",
+    "baseline_commit": "238654bf (production 284b0c67 plus the week-1 release record)",
+    "commit": "the one R-S1 commit on seo/r-s1-20261012 (a commit cannot carry its own SHA, rule D-006: read it with git log -1 seo/r-s1-20261012)",
+    "scope": "SEO roadmap 2026-10-04 §2.2 (R-S1): snippets and H1s of /uz/gpt-uzbek-tilida/, /ru/gpt-chat/ and the login guide (strings of the roadmap table); the chats' H1 in the chat's first screen (owner decision 2); visible FAQ (= FAQPage), update date and published free limits under both chats; new /uz/blog/slayd-tayyorlash/ and insho → esse on the same URL; homepage line to both chats and the /uz/ first-screen chat button (decision 3); email_off on every page except the download guide; week-1 deferred items: chat-side prefill for the five bridges (CHAT_BRIDGE_ENTRIES), anchors and keywords of the VPN article and ai-chat-nima, chat keywords, limit numbers in llms.txt and llms-full.txt; intent manifest C29, C30, A4; demand policy 5 rows",
+    "owner_decisions": "2026-10-04: 1, 2, 3, 5 yes; 6 yes on data conditions (not R-S1); 7 no",
+    "protected_pages": "new baseline docs/seo/evidence/2026-10-12-r-s1/reviewed-protected-pages.json (previous 2026-10-03-uzbek-login untouched), seo-protection 10/10; contract fields change on the two chats, the login guide, / and the VPN article; bytes only on ai-chat-nima, chatgpt-i-claude, kak-oplatit and promptlar; the download guide byte-identical to the 284b0c67 build (F:/Claude/gptbot-tools/tmp/rs1-baseline-dist/), shared CSS index-yIq7NheZ.css unchanged",
+    "first_screen": "360x640 and 375x667, both chats: H1 216-268 px, textarea 476-528 / 503-555 px fully in view, CLS <= 0.012, one <h1>; screenshots F:/Claude/gptbot-tools/tmp/rs1-shots/",
+    "bundle": "start 108740 B brotli (+932 B vs docs/paid-chat/bundle-baseline.json, +578 B vs the 284b0c67 build); lazy parts +-15 B; within budget",
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (R-S1)",
+    "owner_open_before_release": "homepage line below the fold in RU at 360x640/375x667 (keep under the demo button by default or move it above); native Uzbek review of the new texts; optional chat screenshots for the slide guide (separate unprotected roll-out); RU chat badge «ВАШ AI-ПОМОЩНИК»",
+    "release_day_agent": "recheck the facts and replace «04.10.2026» (UZ chat 5, RU chat 3, login guide 13 places) or rewrite; /api/gpt/account 15/5; dates if the release moves; pull the «85%» control base for 14.09-11.10; build:production in the LF main checkout, deploy_runner check/deploy only on the owner command; then chat-bundle-budget --record, curl the ten protected pages (/cdn-cgi/l/email-protection only on the download guide), IndexNow, sitemaps, recrawl date in CHANGE_LOG",
+    "deploy_how": "owner command only; merge into the LF main checkout F:/Claude/gptbot-gsc-audit-20260917, npm run build:production there, F:/Claude/gptbot-tools/deploy_runner.py check then deploy",
+    "verification": "Before the commit (working tree = commit content), NODE_OPTIONS=--max-old-space-size=1400: tsc -b 0; eslint of the 19 changed TS/TSX files 0; build:fast 0; seo-protection check 10/10 on 2026-10-12-r-s1; download guide HTML sha256 b1199edc... = the 284b0c67 build, index-yIq7NheZ.css byte-identical; seo:audit 123 pages, 0 critical, 0 orphans; chat bundle start 108740 B (+932 B), lazy parts within 15 B; the npm test list (102 files) sequentially (--test-concurrency=1, the machine had < 1 GB free memory): 1242 pass, 2 fail = the two known date-fixture failures of tests/lead-radar.test.ts, 4 files killed by out-of-memory (gpt-chat-bridge, gpt-chat-truncation, pages-config-parity, paid-chat-ingest-keys) and re-run one by one: 66/66; outside the list seo-page-integrity 17/17, seo-content-guards 7/7. First screen with Playwright on the local dist (account API mocked with the live guest payload): see first_screen; send + New chat at 1366x768: one sr-only H1 while a thread is open, the resting screen back at the top after New chat, no console errors; #entry=online-ru, reply, slides, essay prefill their question. build:production after the commit: see build_production.",
+    "build_production": "run after the commit (the stamp records HEAD): result in the follow-up metadata commit, rule D-006"
+  },
+  "seo_week1_20261004": {
+    "status": "deployed",
     "branch": "seo/week1-20261004",
     "baseline_commit": "9a8b9ff0",
     "commit": "8266af67 plus the review follow-up commit of 2026-10-05 on top of it (a commit cannot carry its own SHA, rule D-006: read it with git log -1 seo/week1-20261004)",
@@ -15,7 +32,8 @@
     "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №1 незащищённых страниц)",
     "after_deploy_owner": "GSC Request indexing for 17 URLs in the CHANGE_LOG order, 8-9 per day, ordinary button (not the Indexing API)",
     "deferred_to_R_S1": "chat-side prefill for the five new bridge ids (changes the chat bundle); first-screen chat block on /uz/ and the line on /; anchors and keywords on protected pages: VPN article anchor and keywords «ChatGPT o‘zbek tilida», «AI chat o‘zbekcha»; ai-chat-nima keyword «ai chat o‘zbek tilida»; «chatgpt uz», «chat gpt uz», «чат gpt онлайн» on the chat pages; limit numbers in llms.txt",
-    "deferred_to_home_release_20261019": "title and H1 of /ru/blog/chat-gpt-online/, H1 of /uz/gpt-chat-qollanma/ and of guide C6 (all listed on /); candidate, decided on that day's data: the bare «gpt o‘zbek tilida» to the UZ chat with the guide's primaryKeyword and H1 changed together"
+    "deferred_to_home_release_20261019": "title and H1 of /ru/blog/chat-gpt-online/, H1 of /uz/gpt-chat-qollanma/ and of guide C6 (all listed on /); candidate, decided on that day's data: the bare «gpt o‘zbek tilida» to the UZ chat with the guide's primaryKeyword and H1 changed together",
+    "deployed": "2026-10-05: production 284b0c67 (the roll-out merged with release 2733635f), record commit 238654bf; see docs/seo/CHANGE_LOG_2026-10.md, section «Выкаты»"
   },
   "paid_chat_prod_2026": {
     "wp": "R5R7-verification",

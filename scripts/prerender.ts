@@ -20,6 +20,7 @@ import { renderRequisites, renderTermsEdition } from './legal-entity';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
+import { withEmailOff } from './email-off';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
@@ -383,10 +384,11 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
     if (page.sources?.length) articleNode.citation = page.sources.map((source) => source.url);
     graph.push(articleNode);
   }
-  // FAQPage only where the template shows the questions. renderGptChatMain has
-  // no FAQ block, so a gpt-chat page's faq would be markup for content no
-  // visitor can see (Google: marked-up content must be visible on the page).
-  if (page.faq?.length && page.pageType !== 'gpt-chat') {
+  // FAQPage only where the template shows the questions (Google: marked-up
+  // content must be visible on the page). Every template renders page.faq:
+  // renderGptChatMain shows it under the chat since release R-S1 (2026-10-12);
+  // until then it had no FAQ block and gpt-chat pages emitted no FAQPage.
+  if (page.faq?.length) {
     graph.push({
       '@type': 'FAQPage',
       '@id': `${fullUrl}#faq`,
@@ -423,6 +425,10 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
   const links = gptChatNavLinks(page);
+  // The visible «Yangilangan / Обновлено» line: the same human-curated date as
+  // dateModified in the JSON-LD (release R-S1). It moves only with a real edit.
+  const rawUpdated = page.lastReviewedAt || page.updatedAt || '';
+  const updatedIso = rawUpdated ? new Date(rawUpdated).toISOString().slice(0, 10) : '';
 
   // NAP: gpt-chat pages deliberately get no big footer (see the footer branch
   // further down), so the compact footer in this template is the ONLY place the
@@ -432,23 +438,36 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   // footer (studioFooterLinks). Do not drop it: without it these pages ship no
   // NAP at all — both a lost conversion (GA4 shows every recorded conversion
   // comes from mobile) and an E-E-A-T signal loss.
+  //
+  // The page H1 stands in the chat's first screen (roadmap R-S1, owner
+  // decisions 1 and 2): before JavaScript it is centred in the full-height
+  // shell, and data-h1 hands the same text to the chat, whose resting screen
+  // shows it as its heading (src/gpt-chat/components/AiChatConsole.tsx). One
+  // H1 in the HTML and one in the live page. Under the chat: the visible
+  // update date, the text, and the FAQ that the FAQPage markup repeats. Only
+  // classes the site stylesheet already carries: a new utility would rename
+  // the shared CSS file and with it the HTML of every page.
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
        the model answered. The mount point carries the class so the masking
        survives React replacing its children. -->
-  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" class="h-full ym-hide-content">
-    <noscript><p class="p-6 text-sm text-white/70">${escapeText(noscript)}</p></noscript>
-    <div class="flex h-full items-center justify-center text-sm text-white/40">${loading}</div>
+  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}" class="h-full ym-hide-content">
+    <div class="flex h-full flex-col items-center justify-center gap-4 px-4 text-center">
+      <h1 data-testid="page-h1" class="font-display text-2xl sm:text-4xl text-white max-w-2xl leading-tight">${escapeText(page.h1)}</h1>
+      <noscript><p class="text-sm text-white/70">${escapeText(noscript)}</p></noscript>
+      <p class="text-sm text-white/40">${loading}</p>
+    </div>
   </div>
 </main>
 
 <section data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-    <h1 data-testid="page-h1" class="font-display text-xl text-white mb-4">${escapeText(page.h1)}</h1>
+    ${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
-      ${(page.bodyBlocks || []).map((block) => renderBlock(block)).join('\n')}
+      ${renderBlocks(page.bodyBlocks || [])}
     </div>
+    ${renderFaq(page.faq || [], uz ? 'uz' : 'ru')}
     <nav aria-label="${escapeHtml(navLabel)}" class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
       ${links.map((l) => `<a href="${escapeHtml(l.href)}" class="text-brand-cyan hover:underline underline-offset-4">${escapeText(l.text)}</a>`).join('\n      ')}
     </nav>
@@ -1041,12 +1060,13 @@ async function main() {
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref);
     // Every bare studio-contact link gets a prefilled first message naming the
-    // service and the page; protected pages come back unchanged.
-    fs.writeFileSync(outPath, withStudioTelegramPrefill(html, {
+    // service and the page; protected pages come back unchanged. Then every
+    // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).
+    fs.writeFileSync(outPath, withEmailOff(withStudioTelegramPrefill(html, {
       locale: page.locale === 'uz' ? 'uz' : 'ru',
       label: page.breadcrumbLabel || page.h1,
       path: page.url,
-    }), 'utf-8');
+    }), page.url), 'utf-8');
     written++;
     console.log(`  + ${outPath.replace(DIST_DIR, 'dist')}`);
   }

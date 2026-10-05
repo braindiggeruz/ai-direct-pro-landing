@@ -229,7 +229,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor.",
       "links": [
         {
           "token": "chat",
@@ -245,6 +245,16 @@
           "token": "compare",
           "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
           "anchor": "ChatGPT, Claude va Gemini taqqoslovi"
+        },
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "esse",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish"
         }
       ]
     },
@@ -326,10 +336,17 @@
     },
     {
       "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
-      "anchor": "insho yozish",
+      "anchor": "insho va esse yozish",
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "slayd tayyorlash: reja va matn",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "ChatGPT talabalar uchun: halol va foydali 20 usul",

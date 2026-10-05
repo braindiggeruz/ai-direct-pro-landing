@@ -37,6 +37,7 @@ import {
   buildWebPageLd,
   buildAuthorPersonLd,
 } from './jsonld-helpers';
+import { withEmailOff } from './email-off';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -166,6 +167,8 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     ${list(RU.hero.bullets)}
 
     <p><a href="#contact">${escapeText(RU.hero.cta)}</a></p>
+
+    <p>${escapeText(RU.hero.chatLine.lead)} <a href="/uz/gpt-uzbek-tilida/" hreflang="uz" lang="uz">${escapeText(RU.hero.chatLine.uz)}</a>${escapeText(RU.hero.chatLine.between)}<a href="/ru/gpt-chat/">${escapeText(RU.hero.chatLine.ru)}</a></p>
 
     <section aria-label="Проблема">
       <h2>${escapeText(RU.pain.h)}</h2>
@@ -326,7 +329,9 @@ async function main(): Promise<void> {
       + html.slice(ldEnd + '</script>'.length);
   }
 
-  fs.writeFileSync(DIST_INDEX, html, 'utf-8');
+  // The studio address in the shell (contact section and footer) is wrapped in
+  // <!--email_off--> so the edge leaves it a plain mailto: (scripts/email-off.ts).
+  fs.writeFileSync(DIST_INDEX, withEmailOff(html, '/'), 'utf-8');
   const liveMoneyCount = pages.filter((p) => inShellIndex(global, p, 'ru')).length;
   const liveBlogCount = blog.filter((a) => a.status === 'published' && a.robotsIndex !== false && a.locale === 'ru').length;
   console.log(`Homepage SEO shell injected: ${liveMoneyCount} money links + ${liveBlogCount} blog links. JSON-LD upgraded to @graph(Organization+WebSite+WebPage+Service).`);

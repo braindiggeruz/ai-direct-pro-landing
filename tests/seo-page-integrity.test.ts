@@ -271,20 +271,24 @@ test('a document declaring FAQPage actually shows the questions', () => {
   }
 });
 
-// renderGptChatMain (scripts/prerender.ts) has no FAQ block, so a gpt-chat
-// page's faq never reaches the visible HTML. Until 2026-09-30 both chat pages
-// still shipped FAQPage JSON-LD for those hidden questions (15 on
-// /uz/gpt-uzbek-tilida/, 8 on /ru/gpt-chat/), which breaks Google's rule that
-// marked-up content must be visible. The content check below keeps the
-// declaration honest; the built-site check catches any template that marks up
-// questions it does not show.
-test('a gpt-chat page declares no FAQPage, because its template shows no FAQ', () => {
+// Until 2026-09-30 both chat pages shipped FAQPage JSON-LD for questions their
+// template never showed (15 on /uz/gpt-uzbek-tilida/, 8 on /ru/gpt-chat/),
+// which breaks Google's rule that marked-up content must be visible; from then
+// until release R-S1 they emitted no FAQPage. Since R-S1 (2026-10-12)
+// renderGptChatMain shows the FAQ under the chat and the markup repeats exactly
+// those questions. The template check below keeps the two together; the
+// built-site check catches any template that marks up questions it does not
+// show.
+test('the gpt-chat template shows the FAQ it marks up', () => {
+  const prerender = fs.readFileSync(path.join(ROOT, 'scripts', 'prerender.ts'), 'utf8');
+  const chatTemplate = prerender.slice(prerender.indexOf('function renderGptChatMain('), prerender.indexOf('function renderDigitalCommandHero('));
+  assert.match(chatTemplate, /\$\{renderFaq\(page\.faq \|\| \[\]/, 'renderGptChatMain renders page.faq');
   for (const doc of indexable) {
     if ((doc as Page).pageType !== 'gpt-chat') continue;
-    assert.ok(
-      !(doc.schemaTypes || []).includes('FAQPage' as never),
-      `${doc.url} declares FAQPage, but the gpt-chat template renders no FAQ`,
-    );
+    // The FAQ is markup only through buildJsonLd, from page.faq; the page does
+    // not declare FAQPage as a schema type of its own.
+    assert.ok(!(doc.schemaTypes || []).includes('FAQPage' as never), `${doc.url}: FAQPage comes from page.faq, not schemaTypes`);
+    assert.ok((doc.faq?.length || 0) >= 4, `${doc.url}: a chat page shows its questions`);
   }
 });
 

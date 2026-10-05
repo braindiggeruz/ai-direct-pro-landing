@@ -3,25 +3,146 @@
   "locale": "uz",
   "slug": "insho-yozish-suniy-intellekt-bilan",
   "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
-  "title": "Insho yozish sun’iy intellekt bilan: reja, namuna, tekshiruv",
-  "description": "Insho va referat yozishda AIdan qanday foydalanish kerak: reja tuzish, fikrni kengaytirish va matnni tahrirlash. Tayyor so‘rov namunalari va tekshiruv tartibi.",
-  "h1": "Insho yozish sun’iy intellekt bilan: reja, namuna va tekshiruv",
-  "topicCluster": "chatgpt-ozbekistonda",
+  "title": "Insho va esse yozish: reja, namuna va tekshiruv",
+  "description": "Esse yozish tartibi: kirish, tezis, 2–3 dalil va xulosa. Insho rejasi, esse tuzilmasi namunasi, AI uchun tayyor so‘rovlar va tekshiruv ro‘yxati.",
+  "h1": "Insho va esse yozish sun’iy intellekt bilan: reja, namuna va tekshiruv",
+  "topicCluster": "maktab-va-talabalar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
     "insho yozish",
-    "insho yozish sun’iy intellekt",
-    "referat yozish",
+    "esse yozish",
+    "esse yozish tartibi",
+    "esse yozish namuna",
+    "esse namunalari",
+    "insho rejasi",
+    "esse mavzulari",
+    "insho yozish tartibi",
+    "esse qanday yoziladi",
     "insho namuna",
-    "referat tayyorlash",
-    "AI bilan insho"
+    "insho yozish sun’iy intellekt"
   ],
-  "intro": "Insho yozishda sun’iy intellekt eng ko‘p vaqt oladigan qismni — reja tuzish va birinchi qoralamani — tezlashtiradi. Yakuniy matn muallifniki bo‘lishi kerak: AI tayyor inshoni «yozib berishi» emas, fikrni shakllantirishga yordam berishi to‘g‘ri. Quyida bosqichma-bosqich tartib, tayyor so‘rov namunalari va tekshiruv ro‘yxati.",
+  "intro": "Insho va esse yozishda sun’iy intellekt eng ko‘p vaqt oladigan qismni — reja, tezis va birinchi qoralamani — tezlashtiradi. Yakuniy matn muallifniki bo‘lishi kerak: AI tayyor ishni «yozib berishi» emas, fikrni shakllantirishga yordam berishi to‘g‘ri. Quyida insho va essening farqi, reja va esse tuzilmasi namunalari, tayyor so‘rovlar va tekshiruv ro‘yxati.",
   "body": [
     {
+      "type": "p",
+      "text": "Qisqa javob: insho — berilgan mavzu bo‘yicha rejaga tayangan yozma ish, esse — bitta asosiy fikr (tezis) atrofida qurilgan yozma ish. Essening tartibi: kirish → tezis → 2–3 dalil → xulosa. AI reja tuzish, dalil yo‘nalishini topish va tahrirda yordam beradi, matnni esa o‘z so‘zingiz bilan yozasiz: imtihonda AI yoningizda bo‘lmaydi, shuning uchun yozishni o‘zingiz mashq qiling."
+    },
+    {
+      "type": "linkp",
+      "text": "Rejani hoziroq {chat}da tuzib ko‘ring. Masalan: «Mavzu: Telefon va dars. Esse uchun tezis va 3 ta dalil yo‘nalishini taklif qil, tayyor matn yozma.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        }
+      ]
+    },
+    {
       "type": "h2",
-      "id": "ai-nima-qiladi",
-      "text": "AI insho yozishda nima qila oladi?"
+      "id": "insho-va-esse",
+      "text": "Insho va esse: farqi nimada"
+    },
+    {
+      "type": "p",
+      "text": "Ikkalasi ham muallif fikriga tayangan yozma ish va ikkalasida ham kirish, asosiy qism va xulosa bor. Farq maqsad va erkinlikda: insho mavzuni reja bo‘yicha to‘liq ochadi, esse esa bitta savolga shaxsiy javob beradi va uni dalillar bilan himoya qiladi. Hajm, mavzu va baholash mezonlarini o‘qituvchi yoki imtihon topshirig‘idan aniqlang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "Insho",
+        "Esse"
+      ],
+      "rows": [
+        [
+          "Maqsad",
+          "Mavzuni reja asosida to‘liq ochish",
+          "Bitta savolga shaxsiy pozitsiya bildirish va uni asoslash"
+        ],
+        [
+          "Tuzilma",
+          "Reja: kirish, asosiy qism (bandlar), xulosa",
+          "Kirish, tezis, 2–3 dalil, xulosa"
+        ],
+        [
+          "Uslub",
+          "Mavzuga qarab: badiiy yoki publitsistik",
+          "Erkinroq, muallifning shaxsiy nuqtai nazari bilan"
+        ],
+        [
+          "Reja yoziladimi?",
+          "Maktabda ko‘pincha ha — ish boshida",
+          "Talabga qarab; tezis va dalillar ro‘yxatini oldindan tuzish baribir foydali"
+        ],
+        [
+          "Ko‘p uchraydigan xato",
+          "Rejadan chetga chiqish",
+          "Tezissiz yoki dalilsiz «umumiy gaplar»"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "insho-rejasi",
+      "text": "Insho yozish tartibi va rejasi: sodda va murakkab reja"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Mavzuni o‘qib, asosiy savolni aniqlang.",
+        "2. Reja tuzing: sodda yoki murakkab.",
+        "3. Kirish: mavzuga olib kiruvchi 2–3 gap.",
+        "4. Asosiy qism: reja bandlari bo‘yicha, har bir bandda bitta fikr va misol.",
+        "5. Xulosa: asosiy fikrni umumlashtiring.",
+        "6. Imlo va tinish belgilarini tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Sodda reja faqat asosiy qismlarni ko‘rsatadi, murakkab rejada asosiy qism kichik bandlarga bo‘linadi. Qaysi biri kerakligini o‘qituvchi aytadi. Quyidagi namuna — tuzilma, tayyor matn emas:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Reja turi",
+        "Namuna: «Ona tabiatni asraylik»"
+      ],
+      "rows": [
+        [
+          "Sodda reja",
+          "1. Kirish. 2. Tabiat — hayot manbai. 3. Xulosa."
+        ],
+        [
+          "Murakkab reja",
+          "1. Kirish. 2. Asosiy qism: a) toza suv va havo; b) daraxt ekish; d) chiqindini kamaytirish. 3. Xulosa."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "AI’dan reja so‘raganda mavzu, sinf va reja turini yozing: «“Ona tabiatni asraylik” mavzusida 8-sinf uchun murakkab insho rejasi tuz, asosiy qism 3 ta kichik banddan iborat bo‘lsin». Keyin rejani o‘z fikringizga moslang: keraksiz bandni olib tashlang, o‘zingiz bilgan misolni qo‘shing."
+    },
+    {
+      "type": "h2",
+      "id": "esse-tartibi",
+      "text": "Esse yozish tartibi: kirish, tezis, dalillar, xulosa"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kirish (2–3 gap): mavzuni oching va savol qo‘ying — o‘quvchi nima haqida o‘qishini tushunsin.",
+        "Tezis (1 gap): savolga sizning javobingiz. Butun esse shu gapni isbotlaydi.",
+        "Dalillar (2–3 xatboshi): har bir xatboshida bitta dalil — misol, fakt, kitobdan yoki hayotdan voqea. Fakt va iqtibosni manbadan tekshiring.",
+        "Qarshi fikr (ixtiyoriy, 1 xatboshi): boshqa nuqtai nazarni ko‘rsating va nega u sizni ishontirmasligini tushuntiring.",
+        "Xulosa (2–3 gap): tezisni boshqa so‘zlar bilan qaytaring va umumiy fikr yoki taklif bilan yakunlang.",
+        "Fikrlarni bog‘laydigan so‘zlar: «birinchidan», «bundan tashqari», «shunga qaramay», «xulosa qilib aytganda» — fikrlar bir-biriga ulansin."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bosqichlar",
+      "text": "Bosqichma-bosqich: insho yoki esseni AI bilan qanday yozish kerak"
     },
     {
       "type": "p",
@@ -29,8 +150,13 @@
     },
     {
       "type": "linkp",
-      "text": "Ishni boshlashdan oldin AI chatning o‘zi ochiq bo‘lishi kerak. Agar hali kirmagan bo‘lsangiz, {acc} qo‘llanmasiga qarang; ilovani telefon yoki kompyuterga o‘rnatish {dl} sahifasida tushuntirilgan.",
+      "text": "Ishni boshlash uchun AI chat kerak: {chat} shu saytning o‘zida ochiladi. Agar chatgpt.com’dan foydalanmoqchi bo‘lsangiz, {acc} qo‘llanmasiga qarang; uning ilovasini telefon yoki kompyuterga o‘rnatish esa {dl} sahifasida tushuntirilgan.",
       "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
         {
           "token": "acc",
           "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
@@ -62,6 +188,11 @@
           "Rejani o‘z fikriga moslash"
         ],
         [
+          "Tezis (esse)",
+          "Bir nechta tezis variantini taklif qiladi",
+          "O‘z nuqtai nazariga mosini tanlash"
+        ],
+        [
           "Dalil",
           "Qaysi turdagi dalil kerakligini aytadi",
           "Manbani topish va tekshirish"
@@ -79,29 +210,24 @@
       ]
     },
     {
-      "type": "h2",
-      "id": "bosqichlar",
-      "text": "Bosqichma-bosqich: inshoni AI bilan qanday yozish kerak"
-    },
-    {
       "type": "list",
       "items": [
         "Mavzuni aniq yozing va kim uchun yozilayotganini ko‘rsating: maktab, kollej yoki universitet.",
-        "Talabni kiriting: hajm, til, uslub, nechta dalil kerakligi.",
-        "AI dan faqat reja so‘rang — matn emas.",
+        "Talabni kiriting: ish turi (insho yoki esse), hajm, til, uslub, nechta dalil kerakligi.",
+        "AI’dan faqat reja so‘rang (esse uchun — tezis va dalillar ro‘yxati), tayyor matn emas.",
         "Rejani o‘qing, keraksiz bandni olib tashlang, o‘z fikringizni qo‘shing.",
         "Har bir band bo‘yicha alohida qoralama so‘rang va uni o‘z so‘zingiz bilan qayta yozing.",
-        "Oxirida AI dan faqat tahrir so‘rang: takror, uslub, bog‘lovchilar."
+        "Oxirida AI’dan faqat tahrir so‘rang: takror, uslub, bog‘lovchilar."
       ]
     },
     {
       "type": "quote",
-      "text": "Tayyor inshoni so‘rash o‘rniga reja va tahrir so‘rang: natija ham halol, ham sifatli chiqadi."
+      "text": "Tayyor insho yoki esseni so‘rash o‘rniga reja va tahrir so‘rang: natija ham halol, ham sifatli chiqadi."
     },
     {
       "type": "h2",
       "id": "namunalar",
-      "text": "Insho va referat uchun tayyor so‘rov namunalari"
+      "text": "Insho va esse uchun tayyor so‘rov namunalari"
     },
     {
       "type": "table",
@@ -115,40 +241,111 @@
           "«“Kitob — bilim manbai” mavzusida 5 bandli insho rejasi tuzib ber, har bir bandga bitta dalil taklif qil.»"
         ],
         [
+          "Tezis",
+          "«“Telefon va dars” mavzusidagi esse uchun 3 xil tezis taklif qil: biri yoqlovchi, biri qarshi, biri murosali. Tayyor matn yozma.»"
+        ],
+        [
           "Dalil",
-          "«Shu band uchun 3 xil dalil turi taklif qil: misol, statistika, iqtibos. Statistika uchun manba ko‘rsatma, o‘zing uydirma.»"
+          "«Shu band uchun 3 xil dalil turi taklif qil: misol, statistika, iqtibos. Raqam yoki manbani o‘ylab topma — kerakli joyga [manba kerak] deb yoz.»"
+        ],
+        [
+          "Qarshi fikr",
+          "«Mening tezisim: … Bunga qarshi eng kuchli 2 ta e’tirozni yoz, men ularga o‘zim javob beraman.»"
         ],
         [
           "Kirish",
-          "«Inshoga 2 gapli kirish yoz: birinchi gap mavzuni ochadi, ikkinchisi muammoni qo‘yadi. Tayyor javob berma, faqat tuzilma ber.»"
+          "«Inshoga 2 gapli kirishning faqat tuzilmasini ber: birinchi gap nimani ochishi, ikkinchisi qanday muammo qo‘yishi kerak. Gaplarni o‘zim yozaman.»"
+        ],
+        [
+          "Xulosa",
+          "«Tezisim va dalillarim: … Xulosa uchun 2 ta variantning faqat tuzilmasini ber, gaplarni o‘zim yozaman.»"
         ],
         [
           "Tahrir",
           "«Quyidagi matndagi takror so‘zlarni va zaif bog‘lovchilarni ko‘rsat, ma’noni o‘zgartirma: …»"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Referat — boshqa ish: unda bir nechta manbani umumlashtirasiz va har birini alohida tekshirasiz. Bu haqda {referat} bo‘limida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "referat",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/#referat",
+          "anchor": "referat va kurs ishida AI’dan halol foydalanish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "esse-tuzilmasi",
+      "text": "Esse tuzilmasi namunasi"
+    },
+    {
+      "type": "p",
+      "text": "Quyida tayyor esse emas, qolip berilgan: har bir qatorga o‘z fikringiz va dalilingizni yozasiz. Mavzu misol uchun olingan — «Telefon darsga yordam beradimi yoki xalaqit beradimi?»."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Qisqa namuna"
+      ],
+      "rows": [
+        [
+          "Kirish",
+          "Mavzuni ochish va savol",
+          "Deyarli har bir o‘quvchida telefon bor. U darsda yordam beradimi yoki chalg‘itadimi?"
         ],
         [
-          "Referat",
-          "«“Sun’iy intellekt” mavzusida referat rejasi tuz: kirish, 3 asosiy bob, xulosa. Har bobga 2 ta kichik mavzu yoz.»"
+          "Tezis",
+          "Savolga sizning javobingiz — 1 gap",
+          "Telefon kelishilgan qoida bilan ishlatilsa, darsga yordam beradi."
+        ],
+        [
+          "1-dalil",
+          "Misol yoki fakt",
+          "Lug‘at va elektron darslik … (o‘z misolingiz)"
+        ],
+        [
+          "2-dalil",
+          "Kuzatuv yoki tajriba",
+          "… (sinfingiz yoki o‘z hayotingizdan misol)"
+        ],
+        [
+          "Qarshi fikr",
+          "Boshqa nuqtai nazar va unga javob",
+          "Bildirishnomalar chalg‘itadi — lekin dars paytida ovozsiz rejim buni kamaytiradi."
+        ],
+        [
+          "Xulosa",
+          "Tezisni boshqa so‘zlar bilan qaytarish va taklif",
+          "Telefonni taqiqlash emas, foydalanish qoidasini kelishib olish kerak."
         ]
       ]
     },
     {
       "type": "h2",
-      "id": "referat",
-      "text": "Referat yozish: inshodan farqi nimada"
+      "id": "esse-mavzulari",
+      "text": "Esse mavzulari bilan ishlash: AI fikr va dalil topishga yordam beradi"
     },
     {
       "type": "p",
-      "text": "Insho — muallif fikri va uslubi, referat esa mavzu bo‘yicha manbalarni umumlashtirish. Referatda asosiy xavf — AI manba uydirishi. Shuning uchun har bir manba alohida tekshirilishi kerak: AI dan faqat tuzilma va yo‘nalish so‘rash, manbalarni esa kutubxona yoki ilmiy bazadan olish to‘g‘ri."
+      "text": "Mavzu berilgan bo‘lsa, uni savolga aylantiring: «Do‘stlik» emas, «Haqiqiy do‘stni qanday tanib olish mumkin?». Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bo‘lgan va misol keltira oladigan mavzuni oling. Bu bosqichda AI foydali: savollar, turli nuqtai nazarlar va dalil yo‘nalishlarini taklif qiladi."
     },
     {
       "type": "list",
       "items": [
-        "AI dan reja va boblar tuzilmasini so‘rang, manbalarni o‘zingiz toping.",
-        "Har bir iqtibosni asl manba bilan solishtiring.",
-        "Hajm va rasmiylashtirish talabini o‘qituvchi yoki kafedradan oling.",
-        "Xulosa qismini o‘z so‘zingiz bilan yozing — u eng ko‘p tekshiriladigan qism."
+        "«Shu mavzu bo‘yicha esse uchun 5 ta savol taklif qil — har biri bahsli bo‘lsin.»",
+        "«Shu savolga uch xil nuqtai nazarni qisqa yoz, qaysi biri menga yaqinligini o‘zim hal qilaman.»",
+        "«Tezisim uchun qanday turdagi dalil kerak: misol, fakt yoki tajriba? Faktlarni o‘zim tekshiraman.»"
       ]
+    },
+    {
+      "type": "p",
+      "text": "Mavzular ro‘yxatini o‘qituvchidan, darslikdan yoki imtihon tashkilotchisi e’lon qilgan namunaviy topshiriqlardan oling. Tayyor esse to‘plamidan ko‘chirilgan matn sizniki bo‘lmaydi va yozishni o‘rganishga yordam bermaydi."
     },
     {
       "type": "h2",
@@ -158,16 +355,18 @@
     {
       "type": "list",
       "items": [
-        "Har bir fakt va raqam rasmiy manbada bormi?",
+        "O‘qituvchi yoki imtihon qoidasi AI’dan foydalanishga ruxsat beradimi? Talab qilinsa, AI qayerda yordam berganini ayting.",
+        "Har bir fakt va raqam birlamchi yoki ishonchli manbada bormi?",
         "Matn o‘z so‘zingiz bilan yozilganmi yoki shunchaki AI qoralamasi qolganmi?",
         "O‘qituvchining hajm, til va rasmiylashtirish talabiga mosmi?",
+        "Esseda tezis bitta gap bilan aniq aytilganmi va har bir dalil aynan shu tezisni isbotlaydimi?",
         "Kirish va xulosa bir-biriga bog‘langanmi?",
         "Takror so‘z va uzun gaplar tozalanganmi?"
       ]
     },
     {
       "type": "linkp",
-      "text": "Tayyor so‘rovlarni {chat} sahifasida sinab ko‘rish mumkin. Ko‘proq namuna {prompts} materialida, o‘qish ssenariylari {students} maqolasida.",
+      "text": "Tayyor so‘rovlarni {chat} sahifasida sinab ko‘rish mumkin. Ko‘proq namuna {prompts} materialida, o‘qish ssenariylari {students} maqolasida, taqdimot uchun reja va slayd matni {slayd} qo‘llanmasida.",
       "links": [
         {
           "token": "chat",
@@ -183,22 +382,11 @@
           "token": "students",
           "target": "/uz/blog/chatgpt-talabalar-uchun/",
           "anchor": "talabalar uchun ChatGPT"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {mail}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
-      "links": [
-        {
-          "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "Qo‘ng‘iroq qilish"
         },
         {
-          "token": "mail",
-          "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail yozish"
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
         }
       ]
     },
@@ -210,8 +398,20 @@
   ],
   "faq": [
     {
+      "q": "Esse nima va inshodan farqi nima?",
+      "a": "Esse — bitta savolga muallifning shaxsiy javobi (tezis) va uni 2–3 dalil bilan asoslash. Insho mavzuni reja bo‘yicha kengroq ochadi. Ikkalasida ham kirish, asosiy qism va xulosa bor; aniq talabni o‘qituvchi yoki imtihon topshirig‘i belgilaydi."
+    },
+    {
+      "q": "Esse qanday yoziladi?",
+      "a": "Tartib: kirish (mavzu va savol), tezis (1 gap), 2–3 dalil (har biri alohida xatboshida), xohlasangiz qarshi fikr va unga javob, so‘ng xulosa. AI’dan tezis variantlari va dalil yo‘nalishlarini so‘rash mumkin, lekin gaplarni o‘zingiz yozing."
+    },
+    {
+      "q": "Insho qanday yoziladi va qaysi qoidalarga amal qilinadi?",
+      "a": "Reja asosida: kirish, asosiy qism va xulosa. Mavzudan chetga chiqmang, har bir bandda bitta fikr va misol bering, hajm va boshqa talablarni o‘qituvchidan aniqlang, oxirida imloni tekshiring."
+    },
+    {
       "q": "Sun’iy intellekt bilan insho yozish mumkinmi?",
-      "a": "Ha, lekin yordamchi sifatida: reja tuzish, fikrni kengaytirish va matnni tahrirlash. Tayyor inshoni AI ga yozdirib topshirish o‘qish maqsadiga zid — yakuniy matn muallifniki bo‘lishi kerak."
+      "a": "Ha, lekin yordamchi sifatida: reja tuzish, fikrni kengaytirish va matnni tahrirlash. Tayyor inshoni AI’ga yozdirib topshirish o‘qish maqsadiga zid — yakuniy matn muallifniki bo‘lishi kerak."
     },
     {
       "q": "AI yozgan inshoni o‘qituvchi aniqlay oladimi?",
@@ -219,15 +419,15 @@
     },
     {
       "q": "AI manba va iqtibos uydirishi mumkinmi?",
-      "a": "Ha, bu eng keng tarqalgan xato. Model haqiqiy ko‘rinadigan, lekin mavjud bo‘lmagan kitob yoki maqola nomini berishi mumkin. Har bir manbani alohida tekshirish shart."
-    },
-    {
-      "q": "Referat uchun AI dan qanday foydalangan ma’qul?",
-      "a": "Faqat tuzilma va yo‘nalish: reja, boblar, qaysi turdagi dalil kerakligi. Manbalarni kutubxona yoki ilmiy bazadan o‘zingiz toping va har bir iqtibosni asl matn bilan solishtiring."
+      "a": "Ha, bu AI’ning ko‘p uchraydigan xatolaridan biri. Model haqiqiy ko‘rinadigan, lekin mavjud bo‘lmagan kitob yoki maqola nomini berishi mumkin. Har bir manbani alohida tekshirish shart."
     },
     {
       "q": "Insho uchun qaysi so‘rov eng yaxshi natija beradi?",
       "a": "Aniq va cheklangan: mavzu, hajm, til, nechta dalil va qaysi uslub kerakligi ko‘rsatilgan so‘rov. «Insho yozib ber» degan umumiy so‘rov o‘rniga avval reja, keyin alohida bandlar so‘rash yaxshiroq ishlaydi."
+    },
+    {
+      "q": "Esse mavzularini qayerdan topish mumkin?",
+      "a": "Avvalo o‘qituvchi bergan ro‘yxatdan va darslikdan, imtihonga tayyorlanayotgan bo‘lsangiz — imtihon tashkilotchisi e’lon qilgan namunaviy topshiriqlardan. Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bo‘lgan va misol keltira oladigan mavzuni oling; AI mavzu bo‘yicha bahsli savollar taklif qila oladi."
     }
   ],
   "cta": {
@@ -265,18 +465,24 @@
       "anchor": "Sun’iy intellekt nima",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Slayd tayyorlash: reja va slayd matni",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
-  "ogTitle": "Insho va referat yozishda AI: reja, namuna, tekshiruv",
-  "ogDescription": "Insho yozishda AIdan to‘g‘ri foydalanish: reja, dalil, qoralama va tahrir. Tayyor so‘rov namunalari va topshirishdan oldin tekshiruv ro‘yxati.",
-  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
+  "ogTitle": "Insho va esse yozishda AI: reja, namuna, tekshiruv",
+  "ogDescription": "Insho va esse yozishda AI’dan halol foydalanish: reja, tezis va dalillar, esse tuzilmasi namunasi, tayyor so‘rovlar va topshirishdan oldin tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
   "hreflangUz": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-19",
+  "dateModified": "2026-10-12",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -286,10 +492,11 @@
   ],
   "sources": [
     {
-      "title": "OpenAI Help Center — What is ChatGPT?",
-      "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-09-01T00:00:00.000Z",
+  "updatedAt": "2026-10-12T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

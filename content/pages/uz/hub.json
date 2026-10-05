@@ -25,8 +25,8 @@
   "heroSubtitle": "GPTBot.uz — Toshkentdagi studiya. Kichik va o‘rta biznes uchun AI/GPT botlar ishlab chiqamiz: Telegram, Instagram Direct, WhatsApp va sayt, rus va o‘zbek tillarida.",
   "ctaPrimaryLabel": "Demo so‘rash",
   "ctaPrimaryHref": "#contact",
-  "ctaSecondaryLabel": "Blog",
-  "ctaSecondaryHref": "/uz/blog/",
+  "ctaSecondaryLabel": "O‘zbekcha bepul AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
     {
       "type": "p",
@@ -380,6 +380,12 @@
       "anchor": "ChatGPT’ga kirish (login)",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/",
+      "anchor": "GPTBot.uz blogi",
+      "locale": "uz",
+      "type": "block"
     }
   ],
   "schemaTypes": [

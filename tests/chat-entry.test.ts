@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
-import { CHAT_ENTRIES, chatEntryForArticle, chatEntryFromHash, chatEntryHref, chatEntryArticleHref } from '../src/shared/chat-entry';
+import { CHAT_BRIDGE_ENTRIES, CHAT_ENTRIES, chatEntryForArticle, chatEntryFromHash, chatEntryHref, chatEntryArticleHref } from '../src/shared/chat-entry';
 import {
   renderChatEntry, CHAT_BRIDGES, chatBridgeArticleHref, chatBridgeForArticle, chatBridgeHref, articleHasChatEntry, chatEntryPosition,
 } from '../scripts/chat-entry-cta';
@@ -51,7 +51,7 @@ test('arbitrary prompts, external return URLs and unknown IDs are never consumed
   assert.equal(renderChatEntry('/'), '');
 });
 
-test('chat bridges open the chat page itself and print the sample question in the article', () => {
+test('chat bridges open the chat with their fixed id, and the chat fills in the question the article prints', () => {
   const entryIds = new Set<string>(CHAT_ENTRIES.map(entry => entry.id));
   const bridgeIds = new Set<string>();
   for (const bridge of CHAT_BRIDGES) {
@@ -67,12 +67,22 @@ test('chat bridges open the chat page itself and print the sample question in th
     assert.ok(articleHasChatEntry(url));
     assert.ok(!entryIds.has(bridge.id) && !bridgeIds.has(bridge.id), `${bridge.id}: id is unique`);
     bridgeIds.add(bridge.id);
-    // The chat does not know these ids, so nothing travels in the link.
-    assert.equal(chatEntryFromHash(`#entry=${bridge.id}`), undefined);
-    assert.equal(chatBridgeHref(bridge), bridge.locale === 'uz' ? '/uz/gpt-uzbek-tilida/' : '/ru/gpt-chat/');
+    // Since R-S1 the chat knows the id, in the bridge's language only, and the
+    // id is all that travels: the question comes from the registry, the way
+    // back is the article itself.
+    const link = new URL(chatBridgeHref(bridge), 'https://gptbot.uz');
+    assert.equal(link.pathname, bridge.locale === 'uz' ? '/uz/gpt-uzbek-tilida/' : '/ru/gpt-chat/');
+    assert.equal(link.search, '');
+    assert.equal(link.hash, `#entry=${bridge.id}`);
+    const resolved = chatEntryFromHash(link.hash, bridge.locale);
+    assert.ok(resolved, `${bridge.id}: the chat resolves the bridge id`);
+    assert.equal(resolved.prompt, bridge.prompt);
+    assert.equal(chatEntryArticleHref(resolved), url);
+    assert.equal(chatEntryFromHash(link.hash, bridge.locale === 'uz' ? 'ru' : 'uz'), undefined);
+    assert.ok(CHAT_BRIDGE_ENTRIES.some(entry => entry.id === bridge.id && entry.prompt === bridge.prompt));
     const html = renderChatEntry(url);
     assert.ok(html.includes(`href="${chatBridgeHref(bridge)}" data-chat-entry="${bridge.id}"`), url);
-    assert.doesNotMatch(html, /#entry=|\?|target="_blank"/);
+    assert.doesNotMatch(html, /\?|target="_blank"/);
     assert.ok(html.includes(`«${bridge.prompt}»`), `${url}: the sample question is printed`);
     assert.match(html, bridge.locale === 'ru' ? /GPTBot\.uz · На русском[\s\S]*не продукт OpenAI/ : /GPTBot\.uz · O‘zbek tilida[\s\S]*mustaqil AI-xizmat/);
     assert.doesNotMatch(html, /официальн|rasmiy|ChatGPT Plus/i);
@@ -80,6 +90,7 @@ test('chat bridges open the chat page itself and print the sample question in th
     // Copying the sample question into the chat must not open the business form.
     assert.equal(detectBusinessTopic(bridge.prompt), null, bridge.prompt);
   }
+  assert.equal(CHAT_BRIDGES.length, CHAT_BRIDGE_ENTRIES.length);
   assert.ok(CHAT_BRIDGES.length >= 5);
 });
 

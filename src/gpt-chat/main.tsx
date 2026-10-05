@@ -13,6 +13,7 @@ function readConfig(el: HTMLElement): MountConfig {
     locale,
     apiBase: el.dataset.apiBase || '',
     turnstileSiteKey: el.dataset.turnstileSitekey || undefined,
+    h1: el.dataset.h1 || undefined,
   };
 }
 

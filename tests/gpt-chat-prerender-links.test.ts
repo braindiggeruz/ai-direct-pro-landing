@@ -156,3 +156,67 @@ test('every prerendered chat page loads the built chat entry', { skip: (!manifes
     assert.deepEqual(scripts.filter((s) => s.includes('chat')), [src], url);
   }
 });
+
+// ── Release R-S1 (2026-10-12): the H1 in the chat's first screen, the FAQ and
+// the free limits under the chat ─────────────────────────────────────────────
+// Owner decisions 1 and 2: the page H1 stands in the chat's first screen, not
+// in the text below the 100dvh app. Before JavaScript it is the only <h1> and
+// sits inside #gpt-chat-root; data-h1 hands the same text to the chat, which
+// shows it as the resting screen's heading.
+const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+
+test('the gpt-chat H1 stands in the chat’s first screen, once, and the chat receives the same text', { skip: built.length === 0 && 'no dist/ build present' }, () => {
+  for (const { file, page, url } of built) {
+    const html = fs.readFileSync(file, 'utf8');
+    const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+    assert.equal(h1s.length, 1, `${url}: one H1`);
+    assert.equal(decode(h1s[0][1].trim()), page.h1, `${url}: the H1 is the page H1`);
+    const root = html.indexOf('id="gpt-chat-root"');
+    const summary = html.indexOf('data-testid="seo-summary"');
+    assert.ok(root > 0 && h1s[0].index! > root && h1s[0].index! < summary, `${url}: the H1 is inside #gpt-chat-root, above the summary`);
+    const dataH1 = html.match(/id="gpt-chat-root"[^>]*\sdata-h1="([^"]*)"/)?.[1];
+    assert.equal(decode(dataH1 ?? ''), page.h1, `${url}: data-h1 carries the H1 to the chat`);
+  }
+});
+
+test('the gpt-chat summary shows its FAQ, every marked-up question and the update date', { skip: built.length === 0 && 'no dist/ build present' }, () => {
+  for (const { file, page, url } of built) {
+    const html = fs.readFileSync(file, 'utf8');
+    const summary = html.slice(html.indexOf('data-testid="seo-summary"'));
+    assert.ok((page.faq || []).length >= 4, `${url}: the chat page carries a visible FAQ`);
+    assert.ok(summary.includes('data-testid="page-faq"'), `${url}: the FAQ is rendered under the chat`);
+    for (const item of page.faq || []) {
+      assert.ok(decode(summary).includes(item.q), `${url}: «${item.q}» is visible`);
+    }
+    const ld = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+      .flatMap((m) => (JSON.parse(m[1])['@graph'] || []) as Array<Record<string, unknown>>);
+    const faqPage = ld.find((node) => node['@type'] === 'FAQPage') as { mainEntity: Array<{ name: string }> } | undefined;
+    assert.deepEqual(faqPage?.mainEntity.map((q) => q.name), (page.faq || []).map((f) => f.q), `${url}: FAQPage = the visible questions`);
+    const iso = new Date(page.lastReviewedAt || page.updatedAt || '').toISOString().slice(0, 10);
+    assert.ok(summary.includes(`<time datetime="${iso}">${iso.split('-').reverse().join('.')}</time>`), `${url}: visible update date`);
+  }
+});
+
+// The numbers in the text must be the chat server's own, or a changed limit
+// would leave the pages silently wrong (roadmap 2.1/2.2: «15 in a day, 5 an
+// hour» after checking the live configuration).
+const configSource = fs.readFileSync(path.join(ROOT, 'functions', 'lib', 'gpt-chat', 'config.ts'), 'utf8');
+const freeDefault = (name: string) => Number(configSource.match(new RegExp(`num\\(env\\.${name}, (\\d+)\\)`))?.[1]);
+
+test('both chat pages and llms.txt state the free limits the chat server applies', () => {
+  const daily = freeDefault('GPT_FREE_DAILY_LIMIT');
+  const hourly = freeDefault('GPT_FREE_HOURLY_LIMIT');
+  assert.ok(daily > 0 && hourly > 0, 'config.ts defaults found');
+  // No deployment setting overrides the defaults.
+  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8'), /GPT_FREE_(DAILY|HOURLY)_LIMIT/);
+  const text = (url: string) => JSON.stringify(PAGES.find(({ page }) => page.url === url)!.page);
+  const uz = text('/uz/gpt-uzbek-tilida/');
+  const ru = text('/ru/gpt-chat/');
+  assert.match(uz, new RegExp(`kuniga ${daily} tagacha,? (va )?soatiga ${hourly} tagacha`, 'i'));
+  assert.match(ru, new RegExp(`до ${daily} сообщений в день и (до )?${hourly} в час`, 'i'));
+  for (const [url, body] of [['/uz/gpt-uzbek-tilida/', uz], ['/ru/gpt-chat/', ru]] as const) {
+    assert.doesNotMatch(body, /raqam yozmaymiz|Конкретных чисел/, `${url}: no «we publish no numbers» line`);
+  }
+  const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8');
+  assert.match(llms, new RegExp(`up to ${daily} messages a day and up to ${hourly} an hour`));
+});

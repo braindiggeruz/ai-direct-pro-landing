@@ -14,10 +14,8 @@
     "chatgpt uzbekistan",
     "openai o'zbekiston",
     "ChatGPT O‘zbekistonda",
-    "ChatGPT o‘zbek tilida",
     "O‘zbekistonda AI chat",
-    "ChatGPT alternativalari",
-    "AI chat o‘zbekcha"
+    "ChatGPT alternativalari"
   ],
   "intro": "ChatGPTni O‘zbekistonda ochish uchun brauzerda chatgpt.com manziliga kiring: 2026-yil 20-avgust holatiga ko‘ra, O‘zbekiston OpenAI qo‘llab-quvvatlaydigan mamlakatlar ro‘yxatida va odatiy kirish uchun VPN shart emas. Quyida akkauntga kirish, ro‘yxatdan o‘tish, o‘zbek tilida ishlash, to‘lov va keng tarqalgan xatolar rasmiy manbalar asosida tushuntirilgan.",
   "body": [
@@ -67,7 +65,7 @@
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ni biznesingizga ulash kerakmi? {call} yoki {mail}: 15 daqiqada vazifangizni eshitamiz va yechim taklif qilamiz.",
+      "text": "Biznesingiz uchun AI-bot kerakmi? {call} yoki {mail}: vazifangizni eshitamiz va yechim taklif qilamiz.",
       "links": [
         {
           "token": "call",
@@ -110,7 +108,7 @@
         {
           "token": "kirish",
           "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-          "anchor": "ChatGPT kirish yo‘riqnomasi"
+          "anchor": "ChatGPT’ga kirish (login) yo‘riqnomasi"
         }
       ]
     },
@@ -494,7 +492,7 @@
   "internalLinks": [
     {
       "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPT’ga kirish",
+      "anchor": "ChatGPT’ga kirish (login)",
       "locale": "uz",
       "type": "contextual",
       "priority": 1

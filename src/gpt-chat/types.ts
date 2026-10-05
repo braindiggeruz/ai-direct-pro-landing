@@ -215,6 +215,8 @@ export interface MountConfig {
   /** absolute or root-relative API base; defaults to same origin */
   apiBase: string;
   turnstileSiteKey?: string;
+  /** The page's H1 (data-h1 on #gpt-chat-root, from the page JSON): the resting screen's heading. */
+  h1?: string;
 }
 
 export interface ChatApiResponse {

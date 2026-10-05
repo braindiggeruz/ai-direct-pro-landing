@@ -244,6 +244,17 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     [messages],
   );
   const empty = messages.length === 0;
+  // The page H1 heads the resting screen (roadmap R-S1, owner decision 2). Its
+  // text comes from data-h1 on the mount point, so it is not in this bundle;
+  // the part after « — » keeps the accent of the old welcome line.
+  const h1 = config.h1 || "";
+  const h1Cut = h1.indexOf(" — ");
+  // The resting screen opens at the top and does not follow the bottom, so the
+  // H1 stays in the first screen of a small phone. With the first message the
+  // scroller follows the answer as before; emptying the thread (New chat)
+  // remounts it, so the resting screen opens at the top again.
+  const [rest, setRest] = useState({ empty, key: 0 });
+  if (rest.empty !== empty) setRest({ empty, key: rest.key + (empty ? 1 : 0) });
   const turnstileReady =
     turnstileConfig?.required === false || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
@@ -881,8 +892,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           </p>
         )}
 
-        {/* Messages area */}
-        <MessageScrollerProvider autoScroll defaultScrollPosition="end">
+        {/* Messages area. Off the resting screen the H1 stays in the page for
+            readers of the outline, out of sight. */}
+        {h1 && !(empty && activeTool === "chat") && <h1 className="sr-only">{h1}</h1>}
+        <MessageScrollerProvider key={rest.key} autoScroll={!empty} defaultScrollPosition={empty ? "start" : "end"}>
         <MessageScroller className="gpt-thread-scroll">
         <MessageScrollerViewport
           className="gpt-viewport min-h-0 flex-1 overflow-y-auto overscroll-contain"
@@ -935,11 +948,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   </svg>
                 </div>
                 <Badge variant="outline" className="gpt-intro-badge">{t.premium.eyebrow}</Badge>
-                <EmptyTitle className="gpt-welcome-title" role="heading" aria-level={2}>
-                  {t.premium.welcome}
-                  <br />
-                  <span>{t.premium.welcomeAccent}</span>
-                </EmptyTitle>
+                {h1 ? (
+                  // Sized inline: a new rule in premium.css would rename the
+                  // site's shared stylesheet and with it every page's HTML.
+                  <h1 className="gpt-welcome-title" data-testid="chat-h1" style={{ fontSize: "clamp(23px, 2.6vw + 14px, 44px)" }}>
+                    {h1Cut > 0 ? <>{h1.slice(0, h1Cut + 2)} <span>{h1.slice(h1Cut + 3)}</span></> : h1}
+                  </h1>
+                ) : (
+                  <EmptyTitle className="gpt-welcome-title" role="heading" aria-level={2}>
+                    {t.premium.welcome}
+                    <br />
+                    <span>{t.premium.welcomeAccent}</span>
+                  </EmptyTitle>
+                )}
                 <EmptyDescription className="gpt-intro-copy">{t.premium.intro}</EmptyDescription>
                 </EmptyHeader>
                 <EmptyContent className="gpt-intro-content">

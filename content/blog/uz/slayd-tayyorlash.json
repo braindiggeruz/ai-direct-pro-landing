@@ -1,0 +1,444 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "slayd-tayyorlash",
+  "url": "/uz/blog/slayd-tayyorlash/",
+  "title": "Slayd tayyorlash: reja va slayd matni AI yordamida",
+  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz chati matn yozadi, .pptx va dizaynni o‘zingiz qilasiz.",
+  "h1": "Slayd tayyorlash sun’iy intellekt bilan: rejadan tayyor matngacha",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "slayd tayyorlash",
+    "prezentatsiya tayyorlash",
+    "taqdimot tayyorlash",
+    "slayd tayyorlash telefonda",
+    "slayd yaratish",
+    "slayd qanday tayyorlanadi",
+    "prezentatsiya tayyorlash ai",
+    "slayd tayyorlash sun’iy intellekt"
+  ],
+  "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chati shu qismni tezlashtiradi, lekin faylni tayyorlash, dizayn va faktlarni tekshirish sizning ishingiz. Quyida 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chati reja va matnni o‘zbek tilida yozadi, lekin .pptx yoki PDF fayl va dizayn yaratmaydi: faylni PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Rejani hoziroq {chat}da tuzib ko‘ring. Masalan, shunday yozing: «Mavzu: Suvni tejash usullari. 8-sinf o‘quvchilari uchun 10 slaydli reja tuz: har bir slaydga sarlavha va 3–4 ta qisqa band yoz.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz bepul AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-nima-qiladi",
+      "text": "GPTBot.uz chati slayd tayyorlashda nima qiladi va nima qilmaydi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "GPTBot.uz chati qiladimi?",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "Slaydlar rejasi",
+          "Ha",
+          "Har bir slayd sarlavhasi va asosiy fikri"
+        ],
+        [
+          "Har bir slayd matni",
+          "Ha",
+          "Sarlavha va 3–5 qisqa band"
+        ],
+        [
+          "Ma’ruza matni",
+          "Ha",
+          "Har bir slaydda nima deyish kerakligi — 3–5 gap"
+        ],
+        [
+          "Rasm uchun g‘oya",
+          "Ha, so‘z bilan",
+          "Qaysi rasm, sxema yoki grafik mos kelishini yozib beradi"
+        ],
+        [
+          ".pptx yoki PDF fayl",
+          "Yo‘q",
+          "Faylni PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz"
+        ],
+        [
+          "Dizayn va fon",
+          "Yo‘q",
+          "Dasturdagi tayyor shablondan foydalaning"
+        ],
+        [
+          "Faktlarni tekshirish",
+          "Yo‘q",
+          "Sana, raqam va ismlarni darslik yoki ishonchli manbadan tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — kuniga 15 tagacha, soatiga 5 tagacha xabar. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va vaqtni birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi."
+    },
+    {
+      "type": "h2",
+      "id": "5-qadam",
+      "text": "Slayd tayyorlash 5 qadamda: mavzudan chiqishgacha"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Mavzu va talab. Mavzuni, kim oldida gapirishingizni, chiqish vaqtini va o‘qituvchi talabini yozib oling: slaydlar soni, til va manbalarni ko‘rsatish kerakmi-yo‘qmi.",
+        "2. Reja. AI’dan avval faqat reja so‘rang: slaydlar ro‘yxati va har biriga bitta asosiy fikr. Rejani o‘zingiz qisqartiring yoki to‘ldiring.",
+        "3. Slayd matni. Har bir slayd uchun sarlavha va 3–5 qisqa band so‘rang. Uzun xatboshini slaydga ko‘chirmang.",
+        "4. Ma’ruza matni. Har bir slaydda nima deyishingizni alohida so‘rang va javobni o‘z so‘zlaringiz bilan qayta yozing.",
+        "5. Bezash va tekshirish. Matnni PowerPoint, Google Slides yoki Canva’ga ko‘chiring, shablon tanlang, rasm qo‘ying va har bir fakt, sana va raqamni darslikdan tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "slaydlar-soni",
+      "text": "Nechta slayd kerak va har bir slaydga nima yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Amaliy mo‘ljal: chiqishning har bir daqiqasiga taxminan bitta slayd. 5–7 daqiqalik maktab chiqishiga 6–8 slayd, 10 daqiqalik seminarga 10–12 slayd yetadi. O‘qituvchi aniq son aytgan bo‘lsa, shunga amal qiling. 10 slaydli ish uchun namunaviy tuzilma:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Slayd",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "1. Sarlavha slaydi",
+          "Mavzu, ismingiz, sinf yoki guruh, o‘qituvchi, sana"
+        ],
+        [
+          "2. Reja yoki maqsad",
+          "3–4 band: nima haqida gapirasiz"
+        ],
+        [
+          "3–8. Asosiy qism",
+          "Har bir slaydda bitta fikr: sarlavha, 3–5 band va mos rasm, sxema yoki jadval"
+        ],
+        [
+          "9. Xulosa",
+          "2–3 asosiy fikr va tinglovchilarga savol yoki taklif"
+        ],
+        [
+          "10. Manbalar",
+          "Darslik, sayt yoki maqola nomi, rasmlar manbasi; shu slaydda savollarga javob berasiz"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qoidalar",
+      "text": "6×6 qoidasi va yaxshi slaydning boshqa qoidalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "6×6 qoidasi: bir slaydda 6 tadan ortiq band bo‘lmasin, har bir band esa 6 so‘zdan oshmasin. Bu qat’iy standart emas, amaliy qoida: maqsad — matnni qisqa qilish.",
+        "Bitta slayd — bitta fikr. Sarlavha shu fikrni aytsin: «Suv» emas, «Suvning ko‘p qismi qayerga sarflanadi?».",
+        "Shrift: Arial yoki Calibri kabi oddiy shrift, matn kamida 18 pt. Microsoft’ning PowerPoint taqdimotini imkoniyati cheklangan odamlar uchun qulay qilish bo‘yicha tavsiyalarida ham shunday deyilgan.",
+        "Kontrast: och fonda to‘q matn yoki aksincha. Muhim ma’lumotni faqat rang bilan ajratmang.",
+        "Rasm matnni takrorlamasin, uni tushuntirsin: sxema, xarita, grafik yoki fotosurat.",
+        "Har bir rasm, jadval va raqamning manbasini qisqa ko‘rsating.",
+        "Animatsiya va o‘tish effektlarini kam ishlating: ular tinglovchini mazmundan chalg‘itadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "maruza-matni",
+      "text": "Ma’ruza matni: nimani slaydga, nimani eslatmaga yozish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Slaydga qisqa bandlar yoziladi, aytadigan gaplaringiz esa ma’ruzachi eslatmalariga (Speaker notes). PowerPoint’da eslatma har bir slayd ostidagi Notes maydoniga yoziladi: Presenter View rejimida u faqat sizning ekraningizda ko‘rinadi, tinglovchilar ko‘rmaydi. PowerPoint for the web’da eslatma yozish mumkin, lekin namoyish paytida u ko‘rsatilmaydi. Google Slides’da eslatmalarni Presenter view rejimida ochasiz."
+    },
+    {
+      "type": "p",
+      "text": "AI’dan ma’ruza matnini alohida so‘rang: «Har bir slayd uchun 3–5 gapdan iborat, 1 daqiqalik ma’ruza matnini sodda tilda yoz». Keyin uni ovoz chiqarib o‘qing va o‘zingizga xos so‘zlar bilan qayta yozing: o‘qituvchi savol berganda aynan shu tayyorgarlik yordam beradi."
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "Tayyor so‘rov namunalari: maktab, talaba va ish taqdimoti"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vaziyat",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Maktab: reja",
+          "«Mavzu: Suvni tejash usullari. Maktab o‘quvchilari uchun 8 slaydli reja tuz. Har bir slaydga sarlavha va 3 ta qisqa band yoz. Sana va raqamlarni o‘zim darslikdan tekshiraman, ularni alohida belgilab qo‘y.»"
+        ],
+        [
+          "Talaba: seminar",
+          "«Mavzu: Raqamli iqtisodiyot. 10 daqiqalik seminar uchun 10 slaydli reja tuz: kirish, 3 ta asosiy bo‘lim, xulosa va manbalar slaydi. Har bir slaydga bitta asosiy fikr yoz.»"
+        ],
+        [
+          "Slayd matni",
+          "«Rejadagi 3–5-slaydlar uchun matn yoz: sarlavha va ko‘pi bilan 4 ta band, har bir band 6 so‘zdan oshmasin.»"
+        ],
+        [
+          "Ma’ruza matni",
+          "«Har bir slayd uchun 3–4 gapdan iborat ma’ruza matni yoz. Oddiy so‘zlar bilan, yodlash oson bo‘lsin.»"
+        ],
+        [
+          "Rasm g‘oyasi",
+          "«Har bir slayd uchun qanday rasm, sxema yoki grafik mos kelishini bitta gap bilan taklif qil.»"
+        ],
+        [
+          "Ish uchun",
+          "«Mavzu: bo‘limimizning choraklik hisoboti. 7 slaydli reja tuz: natijalar, muammolar, keyingi qadamlar. Raqamlarni o‘zim qo‘yaman, ularning o‘rniga [raqam] deb yoz.»"
+        ],
+        [
+          "Tekshiruv",
+          "«Quyidagi slayd matnida takror so‘zlar, juda uzun bandlar va noaniq sarlavhalarni ko‘rsat, ma’noni o‘zgartirma: …»"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa vazifalar uchun shablonlar {prompts} sahifasida, o‘qishda AI’dan halol foydalanish qoidalari {students} maqolasida.",
+      "links": [
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "o‘zbekcha promptlar to‘plami"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun AI: 20 usul"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yigish",
+      "text": "Faylni PowerPoint, Google Slides yoki Canva’da tayyorlash — telefonda ham"
+    },
+    {
+      "type": "p",
+      "text": "Matn tayyor bo‘lgach, uni dasturga ko‘chirasiz. Dizaynni GPTBot.uz chatidan kutmang: dasturdagi tayyor shablondan foydalaning, so‘ng matnni slaydma-slayd joylang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Dastur",
+        "Qayerda ishlaydi",
+        "Nimaga e’tibor bering"
+      ],
+      "rows": [
+        [
+          "PowerPoint",
+          "Kompyuter dasturi va brauzer (PowerPoint for the web)",
+          "Ma’ruzachi eslatmalari — Notes maydonida; brauzer versiyasi namoyish paytida eslatmani ko‘rsatmaydi"
+        ],
+        [
+          "Google Slides",
+          "Brauzer, Android va iPhone ilovasi",
+          "Ilova PowerPoint (PPT, PPTX) fayllarini ochadi va tahrirlaydi, tayyor ishni PPTX yoki PDF sifatida saqlaydi"
+        ],
+        [
+          "Canva",
+          "Brauzer, Windows va Mac dasturi, Android va iPhone ilovasi",
+          "Tayyor ishni PPTX (PowerPoint) yoki PDF formatida yuklab olasiz; PPTX’da ko‘rinish va shrift o‘zgarishi, animatsiya esa ishlamasligi mumkin, shuning uchun faylni PowerPoint’da ochib tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Telefonda slayd tayyorlash ham shu tartibda: avval AI chatda reja va matnni oling, keyin Google Slides ilovasida (Android yoki iPhone) shablon tanlab, matnni slaydma-slayd ko‘chiring. Tayyor faylni o‘qituvchi so‘ragan formatda — PPTX yoki PDF — saqlang."
+    },
+    {
+      "type": "p",
+      "text": "Fon va rasmlar. Eng xavfsiz yo‘l — o‘zingiz olgan fotosurat, o‘zingiz chizgan sxema yoki dastur ichidagi shablon. Internetdagi rasm boshqa birovniki bo‘lishi mumkin, shuning uchun litsenziyasini tekshiring. Masalan, Wikimedia Commons’dagi fayllarning aksariyatidan qayta foydalanishga ruxsat bor, lekin har bir faylning litsenziyasini uning sahifasida ko‘rish va kerak bo‘lsa muallifini ko‘rsatish lozim. Rasm manbasini «Manbalar» slaydiga yozing."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Chiqishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘qituvchi AI’dan foydalanishga ruxsat beradimi va buni aytish kerakmi?",
+        "Har bir sana, raqam, ism va iqtibos darslik yoki ishonchli manbada bormi? AI xato qilishi va mavjud bo‘lmagan manbani «topib» berishi mumkin.",
+        "Slaydlar soni va chiqish vaqti o‘qituvchi talabiga mosmi?",
+        "Har bir slaydda bitta fikr va ko‘pi bilan 6 ta band bormi?",
+        "Shrift kamida 18 pt bo‘lib, matn orqa qatordan ham yaxshi o‘qiladimi?",
+        "Rasmlar va jadvallar manbasi ko‘rsatilganmi?",
+        "Ma’ruza matnini kamida bir marta ovoz chiqarib mashq qildingizmi?",
+        "Fayl o‘qituvchi so‘ragan formatda saqlanganmi va boshqa kompyuterda ochiladimi?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma {esse} qo‘llanmasida. AI qanday ishlashi {ai} sahifasida sodda tushuntirilgan.",
+      "links": [
+        {
+          "token": "esse",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish"
+        },
+        {
+          "token": "ai",
+          "target": "/uz/suniy-intellekt/",
+          "anchor": "sun’iy intellekt nima"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Slayd rejasini AI chatda tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Slayd qanday tayyorlanadi?",
+      "a": "5 qadamda: mavzu va talabni aniqlang, reja tuzing (chiqish vaqtiga qarab, odatda 6–12 slayd), har bir slaydga sarlavha va 3–5 band yozing, ma’ruza matnini tayyorlang, so‘ng PowerPoint, Google Slides yoki Canva’da bezab, faktlarni tekshiring. GPTBot.uz chati reja va matn bosqichini tezlashtiradi."
+    },
+    {
+      "q": "Telefonda slayd qanday tayyorlanadi?",
+      "a": "Reja va slayd matnini AI chatda oling, keyin telefondagi Google Slides ilovasida (Android yoki iPhone) shablon tanlab, matnni slaydma-slayd ko‘chiring. Ilova PowerPoint fayllarini ochadi va tahrirlaydi, tayyor ishni PPTX yoki PDF sifatida saqlaydi."
+    },
+    {
+      "q": "GPTBot.uz chati tayyor .pptx fayl beradimi?",
+      "a": "Yo‘q: chat faqat matn yozadi — reja, slayd matni va ma’ruza matni. Faylni (.pptx yoki PDF) PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz. Fayl yaratadigan boshqa AI servislar ham bor, lekin ularning matni va faktlarini ham tekshirish kerak."
+    },
+    {
+      "q": "Bir slaydda qancha matn bo‘lishi kerak?",
+      "a": "Qisqa: sarlavha va 3–5 band. Ko‘p ishlatiladigan 6×6 qoidasiga ko‘ra slaydda 6 tadan ortiq band bo‘lmaydi, har bir band esa 6 so‘zdan oshmaydi. To‘liq gaplarni ma’ruzachi eslatmalariga yozing."
+    },
+    {
+      "q": "Slayd uchun fon va rasmlarni qayerdan olish mumkin?",
+      "a": "Fon uchun dasturdagi tayyor shablon yoki oddiy bir rangli fon yetarli — asosiysi, matn yaxshi o‘qilsin. Rasm uchun o‘zingiz olgan fotosurat, o‘z sxemangiz yoki litsenziyasi ruxsat bergan rasm (masalan, Wikimedia Commons’dan) mos: litsenziyani tekshiring va manbani yozing. GPTBot.uz chati qanday rasm mos kelishini so‘z bilan taklif qiladi."
+    },
+    {
+      "q": "Prezentatsiya, taqdimot va slayd — farqi bormi?",
+      "a": "Kundalik tilda deyarli farqi yo‘q: prezentatsiya va taqdimot — butun chiqish yoki fayl, slayd — uning bitta sahifasi. «Slayd tayyorlash», «slayd yaratish», «prezentatsiya tayyorlash» va «taqdimot tayyorlash» deganda bir xil ish tushuniladi (kirill yozuvida — «слайд тайёрлаш»)."
+    }
+  ],
+  "cta": {
+    "label": "AI chatni o‘zbek tilida ochish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi bepul AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho va esse yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI: 20 usul",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "O‘zbekcha promptlar to‘plami",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Slayd tayyorlash: reja va slayd matni AI yordamida",
+  "ogDescription": "Reja, slayd matni va ma’ruza matni AI bilan; 6×6 qoidasi, tayyor so‘rovlar, tekshiruv ro‘yxati. Faylni PowerPoint, Google Slides yoki Canva’da tayyorlaysiz.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+  "hreflangUz": "/uz/blog/slayd-tayyorlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-12",
+  "dateModified": "2026-10-12",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Support — Add speaker notes to your slides",
+      "url": "https://support.microsoft.com/en-us/office/add-speaker-notes-to-your-slides-26985155-35f5-45ba-812b-e1bd3c48928e",
+      "note": "PowerPoint’da eslatma slayd ostidagi Notes maydoniga yoziladi; Presenter View’da u ma’ruzachi ekranida ko‘rinadi, tinglovchilarga ko‘rinmaydi; PowerPoint for the web namoyish paytida eslatmani ko‘rsatmaydi; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Microsoft Support — Make your PowerPoint presentations accessible to people with disabilities",
+      "url": "https://support.microsoft.com/en-us/office/make-your-powerpoint-presentations-accessible-to-people-with-disabilities-6f7772b2-2f33-4bd2-8ca7-dae3b2b3ef25",
+      "note": "Shrift kamida 18 pt, Arial yoki Calibri kabi oddiy (sans serif) shrift, matn va fon o‘rtasida yetarli kontrast, ma’lumotni faqat rang bilan bermaslik; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Google Docs Editors Help — Present slides",
+      "url": "https://support.google.com/docs/answer/1696787?hl=en",
+      "note": "Eslatmalar bilan ko‘rsatish: Slideshow yonidagi strelka → Presenter view → Speaker notes; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Google Docs Editors Help — How to use Google Slides (Android)",
+      "url": "https://support.google.com/docs/answer/2763168?hl=en&co=GENIE.Platform%3DAndroid",
+      "note": "Google Slides ilovasi Android’da PowerPoint fayllarini (PPT, PPTX) ochadi va tahrirlaydi, PPTX yoki PDF sifatida eksport qiladi; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Google Docs Editors Help — How to use Google Slides (iPhone & iPad)",
+      "url": "https://support.google.com/docs/answer/2763168?hl=en&co=GENIE.Platform%3DiOS",
+      "note": "Google Slides ilovasi iPhone va iPad’da PPT va PPTX fayllarini ochadi va tahrirlaydi, PDF yoki PPTX sifatida eksport qiladi; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Canva Help Center — Choose the right download file type for your Canva design",
+      "url": "https://www.canva.com/help/download-file-types/",
+      "note": "PPTX (Microsoft PowerPoint) faqat taqdimotlar uchun, PDF ham bor; PPTX faylda ko‘rinish va shrift o‘zgarishi, animatsiya ishlamasligi mumkin; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "Canva — Download Canva for Windows",
+      "url": "https://www.canva.com/download/windows/",
+      "note": "Canva Windows uchun kompyuter dasturi sifatida bor; Mac OS, iOS, Android va Chromebook’da ham ishlaydi; 2026-10-05 kuni tekshirildi."
+    },
+    {
+      "title": "Wikimedia Commons — Reusing content outside Wikimedia",
+      "url": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+      "note": "Commons’dagi deyarli barcha fayllardan shartlar bilan qayta foydalanish mumkin; litsenziya fayl sahifasida ko‘rsatiladi, ba’zi litsenziyalar muallifni ko‘rsatishni talab qiladi; 2026-10-04 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-12T00:00:00.000Z",
+  "createdAt": "2026-10-12T00:00:00.000Z"
+}
