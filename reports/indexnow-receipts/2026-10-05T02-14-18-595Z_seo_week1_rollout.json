@@ -1,0 +1,32 @@
+{
+  "submittedAt": "2026-10-05T02:14:18.595Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "seo_week1_rollout",
+  "releaseCommit": "284b0c677b1cae39b382a1b9390b152df56f59f1",
+  "reason": "Week-1 SEO roll-out: chat bridges, intent owners, /ru/gpt-na-russkom/ section, B2B titles",
+  "count": 20,
+  "urls": [
+    "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+    "https://gptbot.uz/ru/blog/chat-gpt-online/",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+    "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+    "https://gptbot.uz/ru/gpt-dlya-ucheby/",
+    "https://gptbot.uz/ru/gpt-na-russkom/",
+    "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+    "https://gptbot.uz/ru/stoimost-chat-bota/",
+    "https://gptbot.uz/uz/",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "https://gptbot.uz/uz/gpt-chat-qollanma/",
+    "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+    "https://gptbot.uz/uz/muallif-boris-gerasimov/",
+    "https://gptbot.uz/uz/suniy-intellekt/"
+  ],
+  "responseExcerpt": ""
+}
