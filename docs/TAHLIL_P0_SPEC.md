@@ -197,7 +197,8 @@ And the analysis usage row remains for quota integrity.
 Given a user has voice items, reports, consent, and usage
 When `/delete_me` is processed
 Then all user-owned rows including reports and preferences are deleted
-And only content-free pseudonymous aggregate events may remain.
+And only content-free pseudonymous aggregate events may remain
+And the content-free usage rows of the current Tashkent month, unlinked from items and results, so the quota is not reset.
 
 ### AC-15: Lie question boundary (FR-32)
 Given a private text message asks whether a person is lying
@@ -404,7 +405,7 @@ Deletion:
 
 ### Usage ledger extension
 
-`usage_ledger.usage_type` accepts the additional logical value `analysis`. Existing schema is TEXT and requires no column migration. P0 usage decisions count successful `analysis` rows since UTC day start. Ledger rows are retained for quota integrity until `/delete_me`.
+`usage_ledger.usage_type` accepts the additional logical value `analysis`. Existing schema is TEXT and requires no column migration. P0 usage decisions count successful `analysis` rows since UTC day start. Ledger rows are retained for quota integrity. `/delete_me` deletes the rows of earlier months and keeps those of the current Tashkent month, without their item and result links, so it does not reset a quota (`deleteUserData` in `functions/lib/telegram/store.ts`).
 
 ## Out of Scope
 

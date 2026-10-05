@@ -120,8 +120,8 @@ export const HELP: Record<Locale, string> = {
 };
 
 const PRIVACY_BASE: Record<Locale, string> = {
-  ru: 'GPTBot видит только сообщения, которые вы сами отправили или переслали боту. Бот не получает доступ к остальным чатам Telegram.\n\nПересланный текст временно хранится (около суток) для обработки и повторных действий, затем очищается. Не отправляйте данные, на обработку которых у вас нет права.\n\nКоманда /delete_me удаляет ваши данные.',
-  uz: 'GPTBot faqat siz yuborgan yoki unga uzatgan xabarlarni ko‘radi. Bot boshqa Telegram chatlaringizga kira olmaydi.\n\nUzatilgan matn qayta ishlash va takroriy amallar uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. O‘zingizda huquqi bo‘lmagan ma’lumotlarni yubormang.\n\n/delete_me buyrug‘i ma’lumotlaringizni o‘chiradi.',
+  ru: 'GPTBot видит только сообщения, которые вы сами отправили или переслали боту. Бот не получает доступ к остальным чатам Telegram.\n\nПересланный текст временно хранится (около суток) для обработки и повторных действий, затем очищается. Не отправляйте данные, на обработку которых у вас нет права.\n\nКоманда /delete_me удаляет ваши данные. Счётчик лимита за текущий месяц (без текстов) сохраняется.',
+  uz: 'GPTBot faqat siz yuborgan yoki unga uzatgan xabarlarni ko‘radi. Bot boshqa Telegram chatlaringizga kira olmaydi.\n\nUzatilgan matn qayta ishlash va takroriy amallar uchun vaqtincha (taxminan bir kun) saqlanadi, so‘ng o‘chiriladi. O‘zingizda huquqi bo‘lmagan ma’lumotlarni yubormang.\n\n/delete_me buyrug‘i ma’lumotlaringizni o‘chiradi. Joriy oy uchun limit hisoblagichi (matnlarsiz) saqlanib qoladi.',
 };
 
 export const PRIVACY: Record<Locale, string> = {
@@ -130,8 +130,8 @@ export const PRIVACY: Record<Locale, string> = {
 };
 
 export const DELETED: Record<Locale, string> = {
-  ru: 'Ваши данные удалены. Можете начать заново в любой момент — просто перешлите сообщение.',
-  uz: 'Ma’lumotlaringiz o‘chirildi. Istalgan vaqtda qaytadan boshlashingiz mumkin — shunchaki xabar yuboring.',
+  ru: 'Ваши данные удалены. Счётчик лимита за текущий месяц сохраняется. Можете начать заново в любой момент — просто перешлите сообщение.',
+  uz: 'Ma’lumotlaringiz o‘chirildi. Joriy oy uchun limit hisoblagichi saqlanib qoladi. Istalgan vaqtda qaytadan boshlashingiz mumkin — shunchaki xabar yuboring.',
 };
 
 export const GROUP_NOTICE: Record<Locale, string> = {
@@ -142,19 +142,21 @@ export const GROUP_NOTICE: Record<Locale, string> = {
 /**
  * First message after `/start w_…` — a claimed handoff from the web chat.
  *
- * Three jobs, in order: say this is the same conversation continuing, so the
- * tap did what it promised; say what is actually different here (the bot has
- * its own separate daily allowance — separate, NOT unlimited); and say plainly
- * that the site conversation itself was not carried over, so nobody waits for
- * the bot to "remember" something it was never given.
+ * Three jobs, in order: say what this bot really does (it drafts a reply to
+ * a message the person forwards or pastes; it does not answer questions the
+ * way the site's chat does) and that it has its own separate daily
+ * allowance — separate, NOT unlimited; say plainly that the site
+ * conversation was not carried over, so nobody waits for the bot to
+ * "remember" something it was never given; and send ordinary questions back
+ * to the AI chat on gptbot.uz, which answers them.
  *
  * It names nothing the person did not say here: no page, no session, no
  * transcript. The payload is public, so a greeting that quoted stored context
  * would hand it to whoever typed the link.
  */
 export const HANDOFF_WELCOME: Record<Locale, string> = {
-  ru: 'Продолжаем разговор с сайта gptbot.uz.\n\nЗдесь, в Telegram, у бота свой отдельный дневной лимит — так что можно продолжить прямо сейчас, не дожидаясь, пока обновится лимит на сайте.\n\nПереписку с сайта я сюда не переношу. Напишите вопрос своими словами или перешлите любое сообщение — подготовлю ответ. Голосовые тоже понимаю.',
-  uz: 'gptbot.uz saytidagi suhbatni davom ettiramiz.\n\nTelegramda botning alohida kunlik limiti bor — shuning uchun saytdagi limit yangilanishini kutmasdan, hoziroq davom ettirish mumkin.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Savolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
+  ru: 'Вы пришли из AI-чата на сайте gptbot.uz.\n\nЭтот бот помогает отвечать на сообщения: перешлите сюда сообщение или голосовое, на которое нужно ответить (или вставьте его текст), — подготовлю готовый ответ от вашего имени. У бота свой отдельный дневной лимит.\n\nПереписку с сайта я сюда не переношу. На обычные вопросы отвечает AI-чат на сайте gptbot.uz.',
+  uz: 'Siz gptbot.uz saytidagi AI-chatdan keldingiz.\n\nBu bot xabarlarga javob yozishga yordam beradi: javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring (yoki matnini joylang) — sizning nomingizdan tayyor javob yozib beraman. Botning alohida kunlik limiti bor.\n\nSaytdagi yozishmalarni bu yerga ko‘chirmayman. Oddiy savollarga gptbot.uz saytidagi AI-chat javob beradi.',
 };
 
 /**
@@ -162,14 +164,16 @@ export const HANDOFF_WELCOME: Record<Locale, string> = {
  * the website's chat uses whenever a session-carrying handoff was not minted.
  *
  * Sent in the SITE's language (the payload says which page the tap came
- * from), not the Telegram client's. It says where the person came from and
- * what is different here — the bot's own daily allowance, separate but not
- * unlimited — and it does NOT say the web conversation was carried over,
- * because on this link it never is.
+ * from), not the Telegram client's. It says where the person came from, what
+ * this bot really does (a ready reply to a forwarded or pasted message, not
+ * answers to questions) and that it has its own daily allowance, separate
+ * but not unlimited; ordinary questions go back to the AI chat on gptbot.uz.
+ * It does NOT say the web conversation was carried over, because on this
+ * link it never is.
  */
 export const SITE_WELCOME: Record<Locale, string> = {
-  ru: 'Вы пришли с сайта gptbot.uz.\n\nЗдесь, в Telegram, у бота свой отдельный дневной лимит — можно продолжать прямо сейчас.\n\nНапишите вопрос своими словами или перешлите любое сообщение — подготовлю ответ. Голосовые тоже понимаю.',
-  uz: 'Siz gptbot.uz saytidan keldingiz.\n\nTelegramda botning alohida kunlik limiti bor — hoziroq davom ettirishingiz mumkin.\n\nSavolingizni o‘z so‘zlaringiz bilan yozing yoki istalgan xabarni yuboring — javob tayyorlayman. Ovozli xabarlarni ham tushunaman.',
+  ru: 'Вы пришли с сайта gptbot.uz.\n\nЭтот бот помогает отвечать на сообщения: перешлите сюда сообщение или голосовое, на которое нужно ответить (или вставьте его текст), — подготовлю готовый ответ от вашего имени. У бота свой отдельный дневной лимит.\n\nНа обычные вопросы отвечает AI-чат на сайте gptbot.uz.',
+  uz: 'Siz gptbot.uz saytidan keldingiz.\n\nBu bot xabarlarga javob yozishga yordam beradi: javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring (yoki matnini joylang) — sizning nomingizdan tayyor javob yozib beraman. Botning alohida kunlik limiti bor.\n\nOddiy savollarga gptbot.uz saytidagi AI-chat javob beradi.',
 };
 
 const ACTION_LABELS: Record<Locale, Record<TgAction, string>> = {
@@ -444,9 +448,9 @@ export function loginCodePrompt(locale: Locale, client: string | null, at: numbe
     : `gptbot.uz saytiga kirish\n\n${loginRequest(locale, client, at)}\n\nKirish kodi: ${code}\n\nUni saytdagi kirish oynasiga kiriting. Bu kodni hech kimga aytmang — o‘zini yordam xizmati deb tanishtirganlarga ham. gptbot.uz saytida «Kirish»ni bosmagan bo‘lsangiz, «Bu men emas»ni bosing.`;
 }
 
-const LOGIN_BUTTONS: Record<Locale, { deny: string; logout: string }> = {
-  ru: { deny: 'Это не я', logout: 'Выйти на всех устройствах' },
-  uz: { deny: 'Bu men emas', logout: 'Barcha qurilmalardan chiqish' },
+const LOGIN_BUTTONS: Record<Locale, { deny: string; logout: string; logoutYes: string; logoutNo: string }> = {
+  ru: { deny: 'Это не я', logout: 'Выйти на всех устройствах', logoutYes: 'Да, выйти везде', logoutNo: 'Отмена' },
+  uz: { deny: 'Bu men emas', logout: 'Barcha qurilmalardan chiqish', logoutYes: 'Ha, hammasidan chiqish', logoutNo: 'Bekor qilish' },
 };
 
 /** Three numbers (one is right) and «not me»; callback_data stays far below 64 bytes. */
@@ -465,14 +469,31 @@ export function loginCodeKeyboard(locale: Locale, loginId: string): InlineKeyboa
   ];
 }
 
-/** «Выйти на всех устройствах»: the locale rides along, the button needs no row. */
+/**
+ * «Выйти на всех устройствах»: the locale rides along, the button needs no
+ * row. A press only asks (LOGOUT_ASK, loginLogoutConfirmKeyboard).
+ */
 export function loginLogoutKeyboard(locale: Locale): InlineKeyboard {
   return [[{ text: LOGIN_BUTTONS[locale].logout, callback_data: `lgout:${locale}` }]];
 }
 
+/** The answer to LOGOUT_ASK: yes signs out everywhere, no puts LOGIN_CONFIRMED back. */
+export function loginLogoutConfirmKeyboard(locale: Locale): InlineKeyboard {
+  return [[
+    { text: LOGIN_BUTTONS[locale].logoutYes, callback_data: `lgout:${locale}:yes` },
+    { text: LOGIN_BUTTONS[locale].logoutNo, callback_data: `lgout:${locale}:no` },
+  ]];
+}
+
 export const LOGIN_CONFIRMED: Record<Locale, string> = {
-  ru: 'Вход подтверждён. Вернитесь в браузер — вход завершится сам.\n\nЕсли это были не вы, нажмите «Выйти на всех устройствах».',
-  uz: 'Kirish tasdiqlandi. Brauzerga qayting — kirish o‘zi yakunlanadi.\n\nBu siz bo‘lmasangiz, «Barcha qurilmalardan chiqish»ni bosing.',
+  ru: 'Вход подтверждён. Вернитесь в браузер — вход завершится сам, здесь больше ничего нажимать не нужно.\n\nЕсли входили не вы, нажмите кнопку ниже.',
+  uz: 'Kirish tasdiqlandi. Brauzerga qayting — kirish o‘zi yakunlanadi, bu yerda boshqa hech narsani bosish shart emas.\n\nAgar siz kirmagan bo‘lsangiz, quyidagi tugmani bosing.',
+};
+
+/** «Выйти на всех устройствах» pressed: the question before anything ends. */
+export const LOGOUT_ASK: Record<Locale, string> = {
+  ru: 'Выйти из gptbot.uz на всех устройствах? Вход в браузере, который вы только что подтвердили, тоже будет отменён.',
+  uz: 'gptbot.uz akkauntidan barcha qurilmalarda chiqilsinmi? Hozir tasdiqlagan brauzeringizdagi kirish ham bekor bo‘ladi.',
 };
 
 export const LOGIN_REJECTED: Record<Locale, string> = {

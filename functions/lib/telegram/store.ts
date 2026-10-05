@@ -1,6 +1,7 @@
 // D1 data access for the Telegram assistant. All queries are parameterized;
 // no SQL is ever built from AI output. Ownership is enforced on item reads.
 import { activeSalt, saltedPseudo, sha256Hex, type HashSalt } from '../gpt-chat/hash';
+import { tashkentPeriodStarts } from './period';
 
 export type Locale = 'ru' | 'uz';
 export type TgAction = 'reply' | 'explain' | 'summarize' | 'translate';
@@ -336,12 +337,21 @@ export async function cleanupExpired(db: D1Database): Promise<void> {
   } catch { /* best-effort */ }
 }
 
-/** /delete_me — wipe this user's rows. Aggregated pseudonymous events stay. */
-export async function deleteUserData(db: D1Database, userId: number): Promise<void> {
+/**
+ * /delete_me — wipe this user's rows. Aggregated pseudonymous events stay,
+ * and so do the usage counters of the current Tashkent month, for quota
+ * integrity: the free limits count those usage_ledger rows (billing.ts
+ * decideUsage, decideAnalysisUsage), so wiping them would hand out a fresh
+ * allowance, voice transcription included, on every /delete_me. They keep
+ * no text and lose their links to the deleted item and result; rows of
+ * earlier months go.
+ */
+export async function deleteUserData(db: D1Database, userId: number, now = new Date()): Promise<void> {
   await db.batch([
     db.prepare('DELETE FROM payment_transactions WHERE payment_order_id IN (SELECT id FROM payment_orders WHERE telegram_user_id = ?)').bind(userId),
     db.prepare('DELETE FROM payment_orders WHERE telegram_user_id = ?').bind(userId),
-    db.prepare('DELETE FROM usage_ledger WHERE telegram_user_id = ?').bind(userId),
+    db.prepare('DELETE FROM usage_ledger WHERE telegram_user_id = ? AND created_at < ?').bind(userId, tashkentPeriodStarts(now).month),
+    db.prepare('UPDATE usage_ledger SET item_id = NULL, result_id = NULL WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM entitlements WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM subscriptions WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM user_preferences WHERE telegram_user_id = ?').bind(userId),

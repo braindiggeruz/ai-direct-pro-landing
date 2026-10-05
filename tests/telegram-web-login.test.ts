@@ -1,6 +1,7 @@
 // The Telegram end of signing in on gptbot.uz through the bot (plan WP-16,
 // decision L11; map 04 §7 cases 11–21): `/start login_<nonce>`, the number
-// buttons `lg:`, «Это не я» `lgx:` and «Выйти на всех устройствах» `lgout:`.
+// buttons `lg:`, «Это не я» `lgx:` and «Выйти на всех устройствах» `lgout:`
+// (asked first, then `lgout:<locale>:yes` or `:no`).
 //
 // Run: node --import tsx --test tests/telegram-web-login.test.ts
 //
@@ -120,7 +121,7 @@ test('only login_ + 32 lowercase hex is a sign-in payload; lg:, lgx: and lgout: 
   assert.equal(isWebLoginPayload(`login_${'a1'.repeat(16)}`), true);
   for (const payload of ['login_XYZ', `login_${'A'.repeat(32)}`, `login_${'a'.repeat(31)}`, `login_${'a'.repeat(33)}`, `login_${'a'.repeat(59)}`, `w_${'a'.repeat(32)}`, 'site_uz', ''])
     assert.equal(isWebLoginPayload(payload), false, payload);
-  for (const data of ['lg:47:0123456789abcdef', 'lgx:0123456789abcdef', 'lgout:uz', 'lg:junk'])
+  for (const data of ['lg:47:0123456789abcdef', 'lgx:0123456789abcdef', 'lgout:uz', 'lgout:ru:yes', 'lgout:uz:no', 'lg:junk'])
     assert.equal(isWebLoginCallback(data), true, data);
   for (const data of ['lang:ru', 'jmod:softer:x', 'restart:x', 'lgo', ''])
     assert.equal(isWebLoginCallback(data), false, data);
@@ -375,8 +376,33 @@ test('«sign out everywhere» ends only the presser\'s own sessions and attempts
     const s = await attempt(db);
     await handleUpdate(deps(db), start(s.payload, STRANGER));
 
+    // The lone button under «Вход подтверждён» only asks: nothing ends yet,
+    // and the browser still collects its sign-in. Old messages carry the
+    // same lgout:ru, so they ask too.
     calls.length = 0;
     assert.equal(await handleUpdate(deps(db), press('lgout:ru')), 'done');
+    assert.deepEqual(toasts(calls), [undefined]);
+    assert.equal(edits(calls).length, 1);
+    assert.equal(edits(calls)[0].body.text, C.LOGOUT_ASK.ru);
+    assert.deepEqual(buttons(edits(calls)[0]), [
+      { text: 'Да, выйти везде', callback_data: 'lgout:ru:yes' },
+      { text: 'Отмена', callback_data: 'lgout:ru:no' },
+    ]);
+    assert.equal(sessions(mine), 2);
+    assert.equal(row(db, a.id).status, 'confirmed');
+    // «Отмена»: the confirmed message and its button come back, nothing ends.
+    calls.length = 0;
+    await handleUpdate(deps(db), press('lgout:ru:no'));
+    assert.deepEqual(toasts(calls), [undefined]);
+    assert.equal(edits(calls)[0].body.text, C.LOGIN_CONFIRMED.ru);
+    assert.deepEqual(buttons(edits(calls)[0]), [{ text: 'Выйти на всех устройствах', callback_data: 'lgout:ru' }]);
+    assert.equal(sessions(mine), 2);
+    assert.equal(row(db, a.id).status, 'confirmed');
+    assert.equal(db.value("SELECT COUNT(*) FROM telegram_events WHERE event='web_login_revoked'"), 0);
+
+    // «Да, выйти везде»: every session of the presser's own account ends.
+    calls.length = 0;
+    assert.equal(await handleUpdate(deps(db), press('lgout:ru:yes')), 'done');
     assert.deepEqual(toasts(calls), [C.LOGIN_TOAST.ru.revoked]);
     assert.equal(edits(calls)[0].body.text, C.LOGIN_REVOKED.ru);
     assert.equal(sessions(mine), 0);
@@ -385,13 +411,14 @@ test('«sign out everywhere» ends only the presser\'s own sessions and attempts
     assert.equal(row(db, s.id).status, 'claimed');
 
     calls.length = 0;
-    await handleUpdate(deps(db), press('lgout:ru'));
+    await handleUpdate(deps(db), press('lgout:ru:yes'));
     assert.equal(sessions(theirs), 1);
     assert.deepEqual(toasts(calls), [C.LOGIN_TOAST.ru.revoked]);
     // A malformed sign-in button is stale, never Javob's.
     calls.length = 0;
     await handleUpdate(deps(db), press('lgout:en'));
-    assert.deepEqual(toasts(calls), [C.LOGIN_TOAST.ru.stale]);
+    await handleUpdate(deps(db), press('lgout:ru:maybe'));
+    assert.deepEqual(toasts(calls), [C.LOGIN_TOAST.ru.stale, C.LOGIN_TOAST.ru.stale]);
     assert.equal(sends(calls).length, 0);
   } finally { restore(); }
 });
@@ -409,6 +436,7 @@ test('events name the outcome and the locale only: no nonce, number, code or Tel
     await handleUpdate(deps(db), start(c.payload));
     await handleUpdate(deps(db), press(`lgx:${c.id}`));
     await handleUpdate(deps(db), press('lgout:uz'));
+    await handleUpdate(deps(db), press('lgout:uz:yes'));
     await handleUpdate(deps(db), start(`login_${randomBytes(16).toString('hex')}`, STRANGER));
     const events = db.rows<{ event: string; pseudo_user: string; meta_json: string }>(
       "SELECT event, pseudo_user, meta_json FROM telegram_events WHERE event LIKE 'web_login_%' ORDER BY rowid");

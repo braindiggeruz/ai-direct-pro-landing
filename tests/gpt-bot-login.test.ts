@@ -480,7 +480,7 @@ test("the bot's copy is plain and in both languages: no price, plan or link", ()
     C.loginPrompt("uz", null, Date.UTC(2026, 9, 3, 9, 7)),
     C.loginCodePrompt("ru", null, 0, "123456"),
     C.loginCodePrompt("uz", null, 0, "123456"),
-    ...[C.LOGIN_CONFIRMED, C.LOGIN_REJECTED, C.LOGIN_DENIED, C.LOGIN_STALE, C.LOGIN_TAKEN, C.LOGIN_LIMITED, C.LOGIN_FAILED, C.LOGIN_REVOKED]
+    ...[C.LOGIN_CONFIRMED, C.LOGIN_REJECTED, C.LOGIN_DENIED, C.LOGIN_STALE, C.LOGIN_TAKEN, C.LOGIN_LIMITED, C.LOGIN_FAILED, C.LOGIN_REVOKED, C.LOGOUT_ASK]
       .flatMap((copy) => [copy.ru, copy.uz]),
     ...Object.values(C.LOGIN_TOAST.ru), ...Object.values(C.LOGIN_TOAST.uz),
   ];
@@ -492,6 +492,10 @@ test("the bot's copy is plain and in both languages: no price, plan or link", ()
   assert.match(C.loginPrompt("ru", "Chrome, Android", Date.UTC(2026, 9, 3, 7, 7)), /Время запроса: 12:07 по Ташкенту/);
   assert.match(C.loginPrompt("uz", null, 0), /Brauzer: aniqlanmadi/);
   for (const toast of [...Object.values(C.LOGIN_TOAST.ru), ...Object.values(C.LOGIN_TOAST.uz)]) assert.ok(toast.length <= 200);
-  const keys = [...C.loginPickKeyboard("uz", "f".repeat(16), ["10", "55", "99"]), ...C.loginCodeKeyboard("ru", "f".repeat(16))].flat();
+  const keys = [
+    ...C.loginPickKeyboard("uz", "f".repeat(16), ["10", "55", "99"]),
+    ...C.loginCodeKeyboard("ru", "f".repeat(16)),
+    ...C.loginLogoutConfirmKeyboard("uz"),
+  ].flat();
   for (const key of keys) assert.ok(Buffer.byteLength(key.callback_data!) <= 64, key.callback_data);
 });

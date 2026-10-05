@@ -375,6 +375,25 @@ test('the site welcome never claims the web conversation was carried over', () =
   assert.ok(!SITE_WELCOME.uz.includes("'"), 'Uzbek copy uses letter apostrophes');
 });
 
+test('both welcomes say what the bot really does and send ordinary questions to the AI chat on gptbot.uz', () => {
+  // Every text goes to the Javob prompt, which writes a reply to the other
+  // side of a forwarded message: a welcome that invites questions misleads.
+  for (const welcome of [SITE_WELCOME, HANDOFF_WELCOME]) {
+    assert.match(welcome.ru, /перешлите сюда сообщение или голосовое, на которое нужно ответить/);
+    assert.match(welcome.ru, /На обычные вопросы отвечает AI-чат на сайте gptbot\.uz\./);
+    assert.match(welcome.uz, /javob berish kerak bo‘lgan xabar yoki ovozli xabarni shu yerga yuboring/);
+    assert.match(welcome.uz, /Oddiy savollarga gptbot\.uz saytidagi AI-chat javob beradi\./);
+    for (const text of [welcome.ru, welcome.uz]) {
+      assert.doesNotMatch(text, /вопрос своими словами|savolingizni|продолжаем разговор|davom ettir/i, text);
+      assert.doesNotMatch(text, /ChatGPT|OpenAI|\d/, text);
+      assert.ok(!text.includes("'"), 'letter apostrophes only');
+    }
+  }
+  // A claimed handoff still says the site conversation stayed on the site.
+  assert.match(HANDOFF_WELCOME.ru, /Переписку с сайта я сюда не переношу\./);
+  assert.match(HANDOFF_WELCOME.uz, /Saytdagi yozishmalarni bu yerga ko‘chirmayman\./);
+});
+
 test('a limit-card arrival is greeted, recorded, and never spends the owner-alert budget', async () => {
   const db = await database();
   const calls: TgCall[] = []; const restore = installFetch(calls);

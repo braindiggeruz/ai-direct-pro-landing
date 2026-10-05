@@ -10,8 +10,13 @@
 //                         code to type in there (code).
 //   lg:<n>:<id>           a number pressed: the one press an attempt gets.
 //   lgx:<id>              «Это не я»: the attempt ends.
-//   lgout:<locale>        «Выйти на всех устройствах»: every web session of the
-//                         presser's own account ends.
+//   lgout:<locale>        «Выйти на всех устройствах»: asks first, since it is
+//                         the only button under «Вход подтверждён» and people
+//                         tap a lone button to «finish». Old messages carry
+//                         this form too, so it never revokes by itself.
+//   lgout:<locale>:yes    confirmed: every web session of the presser's own
+//                         account ends.
+//   lgout:<locale>:no     cancelled: the message is «Вход подтверждён» again.
 //
 // None of this calls a model or touches Javob's allowance, so it works while
 // the models are down. Only private chats get here (handler.ts). The payload
@@ -54,7 +59,7 @@ const OPENS_PER_HOUR = 10;
 const MIN_SECRET_LENGTH = 32;
 const PRESS = /^lg:(\d{2}):([0-9a-f]{16})$/;
 const DENY = /^lgx:([0-9a-f]{16})$/;
-const LOGOUT = /^lgout:(ru|uz)$/;
+const LOGOUT = /^lgout:(ru|uz)(?::(yes|no))?$/;
 
 /** Shape test before anything touches D1: `login_` + 32 lowercase hex. */
 export function isWebLoginPayload(payload: string): boolean {
@@ -173,6 +178,14 @@ export async function handleWebLoginCallback(
     const store = new BotLoginStore(db, BILLING_ORG);
     if (logout) {
       const shown = logout[1] as Locale;
+      if (logout[2] !== 'yes') {
+        // The first press asks; «Отмена» puts the confirmed message back.
+        await tg.answerCallbackQuery(cq.id);
+        if (logout[2] === 'no')
+          await tg.editMessageText(chatId, messageId, C.LOGIN_CONFIRMED[shown], C.loginLogoutKeyboard(shown));
+        else await tg.editMessageText(chatId, messageId, C.LOGOUT_ASK[shown], C.loginLogoutConfirmKeyboard(shown));
+        return;
+      }
       await store.revokeSessions(tgHash);
       await tg.answerCallbackQuery(cq.id, C.LOGIN_TOAST[shown].revoked);
       await tg.editMessageText(chatId, messageId, C.LOGIN_REVOKED[shown]);

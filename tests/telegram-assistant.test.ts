@@ -23,8 +23,8 @@ import { localeFromCode, isForward, handleUpdate } from '../functions/lib/telegr
 import * as C from '../functions/lib/telegram/i18n';
 import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, plansText } from '../functions/lib/telegram/i18n';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
-import { claimUpdate, pseudoUser } from '../functions/lib/telegram/store';
-import { decideUsage, consumeUsage, grantEntitlement, resolveBillingFlags, tashkentPeriodStarts, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
+import { claimUpdate, deleteUserData, pseudoUser } from '../functions/lib/telegram/store';
+import { decideUsage, decideAnalysisUsage, consumeUsage, grantEntitlement, resolveBillingFlags, tashkentPeriodStarts, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
 import { runJavobValidated } from '../functions/lib/telegram/service';
 import { buildJavobReplyPrompt } from '../functions/lib/telegram/prompts';
 import { JAVOB_PROFILE } from '../functions/lib/telegram/bot-profile';
@@ -431,7 +431,8 @@ function makeD1() {
     if (/CREATE TABLE|CREATE (UNIQUE )?INDEX|ALTER TABLE|INSERT OR IGNORE INTO plans/.test(sql)) return { meta: { changes: 0 } };
     if (/DELETE FROM payment_transactions/.test(sql)) { const ids = new Set(t.orders.filter((x) => x.telegram_user_id === a[0]).map((x) => x.id)); t.txs = t.txs.filter((x) => !ids.has(x.payment_order_id)); return { meta: { changes: 1 } }; }
     if (/DELETE FROM payment_orders/.test(sql)) { t.orders = t.orders.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
-    if (/DELETE FROM usage_ledger/.test(sql)) { t.ledger = t.ledger.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
+    if (/DELETE FROM usage_ledger WHERE telegram_user_id = \? AND created_at < \?/.test(sql)) { t.ledger = t.ledger.filter((x) => !(x.telegram_user_id === a[0] && x.created_at < a[1])); return { meta: { changes: 1 } }; }
+    if (/UPDATE usage_ledger SET item_id = NULL, result_id = NULL WHERE telegram_user_id = \?/.test(sql)) { for (const x of t.ledger) if (x.telegram_user_id === a[0]) { x.item_id = null; x.result_id = null; } return { meta: { changes: 1 } }; }
     if (/DELETE FROM entitlements/.test(sql)) { t.ents = t.ents.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM subscriptions/.test(sql)) { t.subs = t.subs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM user_preferences/.test(sql)) { t.prefs = t.prefs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
@@ -891,7 +892,7 @@ test('feedback callback enforces result ownership', async () => {
   assert.ok(!(db as any)._t.events.some((e: any) => e.event === 'javob_feedback_submitted' && e.meta_json.includes(resultId)));
 });
 
-test('/delete_me wipes user rows; /plans shows the free limit, not the catalogue', async () => {
+test('/delete_me wipes user rows but not this month\'s quota; /plans shows the free limit, not the catalogue', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
   const d = deps(db);
@@ -909,17 +910,49 @@ test('/delete_me wipes user rows; /plans shows the free limit, not the catalogue
   t.txs.push({ id: 'tx', payment_order_id: 'order' });
   t.prefs.push({ telegram_user_id: 18 });
   t.refs.push({ referrer_user_id: 18, referred_user_id: 19 });
+  // A reply of last month: no quota counts it any more.
+  t.ledger.push({ id: 'old', telegram_user_id: 18, usage_type: 'main_generation', item_id: 'old-item', result_id: null, entitlement_id: null, created_at: '2020-01-15T10:00:00.000Z', idempotency_key: 'old' });
   await handleUpdate(d, { update_id: 82, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/delete_me' } } as any);
   assert.equal(t.users.length, 0);
   assert.equal(t.items.length, 0);
   assert.equal(t.results.length, 0);
-  assert.equal(t.ledger.length, 0);
   assert.equal(t.ents.length, 0);
   assert.equal(t.subs.length, 0);
   assert.equal(t.orders.length, 0);
   assert.equal(t.txs.length, 0);
   assert.equal(t.prefs.length, 0);
   assert.equal(t.refs.length, 0);
+  // This month's counter stays, without its links to the deleted item: the
+  // free limit is not reset by /delete_me.
+  assert.deepEqual(t.ledger.map((l: any) => [l.usage_type, l.item_id, l.result_id]), [['main_generation', null, null]]);
+  await handleUpdate(d, { update_id: 83, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/plans' } } as any);
+  assert.match(rec.tg.filter((c) => c.method === 'sendMessage').pop().body.text, /Сегодня осталось ответов: 2\./);
+});
+
+test('/delete_me keeps the usage_ledger rows of the current Tashkent month only (real SQLite)', async () => {
+  const db = new SqliteD1();
+  await ensureTelegramSchema(db.asD1());
+  const now = new Date('2026-10-05T12:00:00.000Z');
+  const month = tashkentPeriodStarts(now).month;
+  assert.equal(month, '2026-09-30T19:00:00.000Z', '00:00 of 1 October in Tashkent');
+  const row = (id: string, user: number, at: string, type = 'main_generation') =>
+    db.prepare(`INSERT INTO usage_ledger (id, telegram_user_id, usage_type, quantity, item_id, result_id, entitlement_id, created_at, idempotency_key)
+      VALUES (?,?,?,1,?,?,NULL,?,?)`).bind(id, user, type, `item-${id}`, `res-${id}`, at, `k-${id}`).runSync();
+  row('september', 18, '2026-09-30T18:59:59.000Z');
+  row('october', 18, month);
+  row('today', 18, '2026-10-05T11:00:00.000Z', 'analysis');
+  row('neighbour', 19, '2026-09-01T00:00:00.000Z');
+  await deleteUserData(db.asD1(), 18, now);
+  assert.deepEqual(
+    db.rows<Record<string, unknown>>('SELECT id, item_id, result_id FROM usage_ledger ORDER BY id').map((r) => ({ ...r })),
+    [
+      { id: 'neighbour', item_id: 'item-neighbour', result_id: 'res-neighbour' },
+      { id: 'october', item_id: null, result_id: null },
+      { id: 'today', item_id: null, result_id: null },
+    ],
+  );
+  // The quotas read the same after the wipe as before it.
+  assert.equal((await decideAnalysisUsage(db.asD1(), 18, 1, now)).allowed, false);
 });
 
 test('analytics never contain raw message text or raw telegram id', async () => {
@@ -1531,6 +1564,7 @@ test('no keyboard, limit text or command in the bot leads to a price, an offer o
       C.loginPickKeyboard(locale, id, ['47', '12', '85']),
       C.loginCodeKeyboard(locale, id),
       C.loginLogoutKeyboard(locale),
+      C.loginLogoutConfirmKeyboard(locale),
     ]),
   ];
   for (const keyboard of keyboards) {

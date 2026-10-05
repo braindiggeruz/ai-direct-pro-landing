@@ -8,7 +8,10 @@
 //
 // Source of truth is the append-only usage_ledger (idempotency_key UNIQUE) —
 // counters are derived, never authoritative.
+import { tashkentPeriodStarts } from './period';
 import { shortId } from './store';
+
+export { tashkentPeriodStarts };
 
 export type UsageType = 'main_generation' | 'modifier' | 'analysis';
 
@@ -36,25 +39,7 @@ export interface UsageDecision {
 
 export const MAX_MODIFIERS_PER_ITEM = 8; // callback-spam cap, config-in-code
 
-/** Tashkent keeps UTC+5 all year (no daylight saving). */
-const TASHKENT_OFFSET_MS = 5 * 3600_000;
-
 function nowIso(): string { return new Date().toISOString(); }
-
-/**
- * Where the Tashkent day and month holding `now` began, as the ISO instants
- * the ledger's created_at is compared with. The bot's limits turn at 00:00 in
- * Tashkent (19:00 UTC the day before), which is what the bot tells people.
- */
-export function tashkentPeriodStarts(now = new Date()): { day: string; month: string } {
-  const local = new Date(now.getTime() + TASHKENT_OFFSET_MS);
-  const year = local.getUTCFullYear();
-  const month = local.getUTCMonth();
-  return {
-    day: new Date(Date.UTC(year, month, local.getUTCDate()) - TASHKENT_OFFSET_MS).toISOString(),
-    month: new Date(Date.UTC(year, month, 1) - TASHKENT_OFFSET_MS).toISOString(),
-  };
-}
 
 interface EntRow { id: string; remaining: number; expires_at: string; source: string }
 
