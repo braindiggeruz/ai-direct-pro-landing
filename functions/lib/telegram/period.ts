@@ -19,3 +19,13 @@ export function tashkentPeriodStarts(now = new Date()): { day: string; month: st
     month: new Date(Date.UTC(year, month, 1) - TASHKENT_OFFSET_MS).toISOString(),
   };
 }
+
+/**
+ * SQL for the start of the Tashkent day that holds the ISO instant in
+ * `column`, in the same form as tashkentPeriodStarts().day (store.ts groups
+ * the /delete_me carry-over by it). Same UTC+5 offset as above.
+ */
+export function tashkentDayStartSql(column: string): string {
+  const minutes = TASHKENT_OFFSET_MS / 60_000;
+  return `strftime('%Y-%m-%dT%H:%M:%fZ', date(${column}, '+${minutes} minutes'), '-${minutes} minutes')`;
+}

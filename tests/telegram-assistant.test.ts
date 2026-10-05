@@ -23,7 +23,7 @@ import { localeFromCode, isForward, handleUpdate } from '../functions/lib/telegr
 import * as C from '../functions/lib/telegram/i18n';
 import { START, PRIVACY, resultKeyboard, clarifyKeyboard, feedbackKeyboard, langKeyboard, plansText } from '../functions/lib/telegram/i18n';
 import { ensureTelegramSchema } from '../functions/lib/telegram/schema';
-import { claimUpdate, deleteUserData, pseudoUser } from '../functions/lib/telegram/store';
+import { claimUpdate, cleanupExpired, deleteUserData, pseudoUser, usageCarryKey } from '../functions/lib/telegram/store';
 import { decideUsage, decideAnalysisUsage, consumeUsage, grantEntitlement, resolveBillingFlags, tashkentPeriodStarts, ClickBillingProvider, PaymeBillingProvider } from '../functions/lib/telegram/billing';
 import { runJavobValidated } from '../functions/lib/telegram/service';
 import { buildJavobReplyPrompt } from '../functions/lib/telegram/prompts';
@@ -323,6 +323,8 @@ function makeD1() {
   const t = {
     users: [] as any[], items: [] as any[], results: [] as any[], updates: [] as any[],
     events: [] as any[], ledger: [] as any[], ents: [] as any[], analyses: [] as any[],
+    // usage_carryover: what /delete_me kept of the month, per type and Tashkent day.
+    carry: [] as any[],
     platformEvents: [] as any[],
     // gpt_* tables the reply path reads and writes (WP-08).
     health: [] as any[], alerts: [] as any[], spend: [] as any[],
@@ -431,8 +433,18 @@ function makeD1() {
     if (/CREATE TABLE|CREATE (UNIQUE )?INDEX|ALTER TABLE|INSERT OR IGNORE INTO plans/.test(sql)) return { meta: { changes: 0 } };
     if (/DELETE FROM payment_transactions/.test(sql)) { const ids = new Set(t.orders.filter((x) => x.telegram_user_id === a[0]).map((x) => x.id)); t.txs = t.txs.filter((x) => !ids.has(x.payment_order_id)); return { meta: { changes: 1 } }; }
     if (/DELETE FROM payment_orders/.test(sql)) { t.orders = t.orders.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
-    if (/DELETE FROM usage_ledger WHERE telegram_user_id = \? AND created_at < \?/.test(sql)) { t.ledger = t.ledger.filter((x) => !(x.telegram_user_id === a[0] && x.created_at < a[1])); return { meta: { changes: 1 } }; }
-    if (/UPDATE usage_ledger SET item_id = NULL, result_id = NULL WHERE telegram_user_id = \?/.test(sql)) { for (const x of t.ledger) if (x.telegram_user_id === a[0]) { x.item_id = null; x.result_id = null; } return { meta: { changes: 1 } }; }
+    if (/INSERT INTO usage_carryover/.test(sql)) {
+      const [key, user, since] = a;
+      for (const l of t.ledger) {
+        if (l.telegram_user_id !== user || l.created_at < since || !['main_generation', 'analysis'].includes(l.usage_type)) continue;
+        const day = tashkentPeriodStarts(new Date(l.created_at)).day;
+        const row = t.carry.find((x) => x.user_key === key && x.usage_type === l.usage_type && x.day === day);
+        if (row) row.used += 1;
+        else t.carry.push({ user_key: key, usage_type: l.usage_type, day, used: 1 });
+      }
+      return { meta: { changes: 1 } };
+    }
+    if (/DELETE FROM usage_ledger WHERE telegram_user_id = \?$/.test(sql)) { t.ledger = t.ledger.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM entitlements/.test(sql)) { t.ents = t.ents.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM subscriptions/.test(sql)) { t.subs = t.subs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
     if (/DELETE FROM user_preferences/.test(sql)) { t.prefs = t.prefs.filter((x) => x.telegram_user_id !== a[0]); return { meta: { changes: 1 } }; }
@@ -492,8 +504,10 @@ function makeD1() {
     }
     if (/SELECT id FROM entitlements WHERE source = \?/.test(sql)) { return t.ents.find((e) => e.source === a[0] && e.source_id === a[1]) || null; }
     if (/FROM plans WHERE code = 'free'/.test(sql)) { return t.plans.find((p) => p.code === 'free' && p.is_active === 1) || null; }
-    if (/COUNT\(\*\) AS c FROM usage_ledger WHERE telegram_user_id = \? AND usage_type = \?/.test(sql)) {
-      return { c: t.ledger.filter((l) => l.telegram_user_id === a[0] && l.usage_type === a[1] && l.created_at >= a[2]).length };
+    if (/COUNT\(\*\) FROM usage_ledger WHERE telegram_user_id = \? AND usage_type = \? AND created_at >= \?\)\s+\+ \(SELECT COALESCE\(SUM\(used\), 0\) FROM usage_carryover/.test(sql)) {
+      const ledger = t.ledger.filter((l) => l.telegram_user_id === a[0] && l.usage_type === a[1] && l.created_at >= a[2]).length;
+      const carried = t.carry.filter((x) => x.user_key === a[3] && x.usage_type === a[4] && x.day >= a[5]).reduce((sum, x) => sum + x.used, 0);
+      return { c: ledger + carried };
     }
     if (/usage_type = 'modifier'/.test(sql)) { return { c: t.ledger.filter((l) => l.telegram_user_id === a[0] && l.item_id === a[1] && l.usage_type === 'modifier').length }; }
     // ModelSpendStore.reserve: one upsert that refuses to pass the cap.
@@ -621,6 +635,8 @@ function installFetch(rec: Rec) {
 }
 
 const baseEnv = { OPENROUTER_API_KEY: 'test', TELEGRAM_ASSISTANT_BOT_TOKEN: 't', GPT_HASH_SALT: 's' } as any;
+/** A usable GPT_IDENTITY_SECRET (32+ characters) for /delete_me's carry-over. */
+const IDENTITY_SECRET = 'identity-secret-for-tests-0123456789';
 function deps(db: any, envOver: any = {}) {
   const env = { ...baseEnv, ...envOver };
   return { env, db, cfg: resolveTelegramConfig(env), tg: new TelegramClient('t') };
@@ -895,7 +911,7 @@ test('feedback callback enforces result ownership', async () => {
 test('/delete_me wipes user rows but not this month\'s quota; /plans shows the free limit, not the catalogue', async () => {
   const db = makeD1(); await ensureTelegramSchema(db);
   const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
-  const d = deps(db);
+  const d = deps(db, { GPT_IDENTITY_SECRET: IDENTITY_SECRET });
   await handleUpdate(d, { update_id: 80, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: 'Вопрос про оплату заказа', forward_date: 1 } } as any);
   await handleUpdate(d, { update_id: 81, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/plans' } } as any);
   const plansMsg = rec.tg.filter((c) => c.method === 'sendMessage').pop();
@@ -922,37 +938,107 @@ test('/delete_me wipes user rows but not this month\'s quota; /plans shows the f
   assert.equal(t.txs.length, 0);
   assert.equal(t.prefs.length, 0);
   assert.equal(t.refs.length, 0);
-  // This month's counter stays, without its links to the deleted item: the
-  // free limit is not reset by /delete_me.
-  assert.deepEqual(t.ledger.map((l: any) => [l.usage_type, l.item_id, l.result_id]), [['main_generation', null, null]]);
+  // No usage_ledger row keeps the Telegram id. This month's reply is carried
+  // over as a count under the account HMAC, so /delete_me does not reset the
+  // free limit; last month's reply is not carried.
+  assert.equal(t.ledger.length, 0);
+  const key = createHmac('sha256', IDENTITY_SECRET).update('tg:18').digest('hex');
+  assert.deepEqual(t.carry.map((x: any) => [x.user_key, x.usage_type, x.used]), [[key, 'main_generation', 1]]);
   await handleUpdate(d, { update_id: 83, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/plans' } } as any);
   assert.match(rec.tg.filter((c) => c.method === 'sendMessage').pop().body.text, /Сегодня осталось ответов: 2\./);
 });
 
-test('/delete_me keeps the usage_ledger rows of the current Tashkent month only (real SQLite)', async () => {
+test('/delete_me without GPT_IDENTITY_SECRET keeps nothing: the data goes, the allowance starts again', async () => {
+  const db = makeD1(); await ensureTelegramSchema(db);
+  const rec: Rec = { tg: [], ai: 0, aiReplies: [RU_REPLY] }; installFetch(rec);
+  const d = deps(db, { GPT_IDENTITY_SECRET: 'short' });
+  await handleUpdate(d, { update_id: 84, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: 'Вопрос про оплату заказа', forward_date: 1 } } as any);
+  assert.equal((db as any)._t.ledger.length, 1);
+  await handleUpdate(d, { update_id: 85, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/delete_me' } } as any);
+  assert.equal((db as any)._t.ledger.length, 0);
+  assert.equal((db as any)._t.carry.length, 0);
+  await handleUpdate(d, { update_id: 86, message: { chat: { id: 18, type: 'private' }, from: { id: 18 }, text: '/plans' } } as any);
+  assert.match(rec.tg.filter((c) => c.method === 'sendMessage').pop().body.text, /Сегодня осталось ответов: 3\./);
+});
+
+test('/delete_me leaves no row with the Telegram id, carries the month over under the HMAC, and the carry-over ends with the month (real SQLite)', async () => {
   const db = new SqliteD1();
-  await ensureTelegramSchema(db.asD1());
+  const d1 = db.asD1();
+  await ensureTelegramSchema(d1);
+  const user = 731_005_118;
+  const key = (await usageCarryKey({ GPT_IDENTITY_SECRET: IDENTITY_SECRET }, user))!;
+  assert.equal(key, createHmac('sha256', IDENTITY_SECRET).update(`tg:${user}`).digest('hex'), 'the account HMAC, not the salted pseudonym');
+  assert.equal(await usageCarryKey({ GPT_IDENTITY_SECRET: 'x'.repeat(31) }, user), null, 'a short secret counts as unset');
   const now = new Date('2026-10-05T12:00:00.000Z');
   const month = tashkentPeriodStarts(now).month;
   assert.equal(month, '2026-09-30T19:00:00.000Z', '00:00 of 1 October in Tashkent');
-  const row = (id: string, user: number, at: string, type = 'main_generation') =>
+  const row = (id: string, who: number, at: string, type = 'main_generation') =>
     db.prepare(`INSERT INTO usage_ledger (id, telegram_user_id, usage_type, quantity, item_id, result_id, entitlement_id, created_at, idempotency_key)
-      VALUES (?,?,?,1,?,?,NULL,?,?)`).bind(id, user, type, `item-${id}`, `res-${id}`, at, `k-${id}`).runSync();
-  row('september', 18, '2026-09-30T18:59:59.000Z');
-  row('october', 18, month);
-  row('today', 18, '2026-10-05T11:00:00.000Z', 'analysis');
-  row('neighbour', 19, '2026-09-01T00:00:00.000Z');
-  await deleteUserData(db.asD1(), 18, now);
+      VALUES (?,?,?,1,?,?,NULL,?,?)`).bind(id, who, type, `item-${id}`, `res-${id}`, at, `k-${id}`).runSync();
+  row('september', user, '2026-09-30T18:59:59.000Z');
+  row('october', user, month);
+  row('yesterday', user, '2026-10-04T18:59:59.000Z');
+  row('today-1', user, '2026-10-04T19:00:00.000Z');
+  row('today-2', user, '2026-10-05T11:00:00.000Z');
+  row('analysis', user, '2026-10-05T11:30:00.000Z', 'analysis');
+  row('modifier', user, '2026-10-05T11:40:00.000Z', 'modifier');
+  row('neighbour', 19, '2026-10-05T10:00:00.000Z');
+  db.prepare('INSERT INTO telegram_users (telegram_user_id, locale, created_at, last_seen_at) VALUES (?, ?, ?, ?)').bind(user, 'ru', month, month).runSync();
+  const limits = { daily: 10, monthly: 100 };
+  const before = await decideUsage(d1, user, limits, now, key);
+  const analysisBefore = await decideAnalysisUsage(d1, user, 1, now, key);
+  assert.deepEqual([before.remainingToday, before.remainingPeriod, analysisBefore.allowed], [8, 96, false]);
+
+  await deleteUserData(d1, user, key, now);
+  // No bot table keeps the raw id in any column; the neighbour is untouched.
+  for (const { name } of db.rows<{ name: string }>("SELECT name FROM sqlite_master WHERE type = 'table'")) {
+    for (const { name: column } of db.rows<{ name: string }>(`SELECT name FROM pragma_table_info('${name}')`))
+      assert.equal(db.value(`SELECT COUNT(*) FROM "${name}" WHERE "${column}" = ? OR "${column}" = ?`, user, String(user)), 0, `${name}.${column}`);
+  }
+  assert.deepEqual(db.rows<{ id: string }>('SELECT id FROM usage_ledger').map((r) => r.id), ['neighbour']);
+  // A count per type and Tashkent day, under the HMAC; earlier months and
+  // modifiers (no limit counts them) are not carried.
   assert.deepEqual(
-    db.rows<Record<string, unknown>>('SELECT id, item_id, result_id FROM usage_ledger ORDER BY id').map((r) => ({ ...r })),
+    db.rows<Record<string, unknown>>('SELECT user_key, usage_type, day, used FROM usage_carryover ORDER BY usage_type, day').map((r) => ({ ...r })),
     [
-      { id: 'neighbour', item_id: 'item-neighbour', result_id: 'res-neighbour' },
-      { id: 'october', item_id: null, result_id: null },
-      { id: 'today', item_id: null, result_id: null },
+      { user_key: key, usage_type: 'analysis', day: '2026-10-04T19:00:00.000Z', used: 1 },
+      { user_key: key, usage_type: 'main_generation', day: '2026-09-30T19:00:00.000Z', used: 1 },
+      { user_key: key, usage_type: 'main_generation', day: '2026-10-03T19:00:00.000Z', used: 1 },
+      { user_key: key, usage_type: 'main_generation', day: '2026-10-04T19:00:00.000Z', used: 2 },
     ],
   );
   // The quotas read the same after the wipe as before it.
-  assert.equal((await decideAnalysisUsage(db.asD1(), 18, 1, now)).allowed, false);
+  assert.deepEqual(await decideUsage(d1, user, limits, now, key), before);
+  assert.deepEqual(await decideAnalysisUsage(d1, user, 1, now, key), analysisBefore);
+  // A second /delete_me in the month adds to the carry-over.
+  row('again', user, '2026-10-05T12:00:00.000Z');
+  await deleteUserData(d1, user, key, now);
+  assert.equal(db.value("SELECT used FROM usage_carryover WHERE usage_type = 'main_generation' AND day = '2026-10-04T19:00:00.000Z'"), 3);
+  assert.equal((await decideUsage(d1, user, limits, now, key)).remainingToday, 7);
+  // The carry-over counts only its month: the next Tashkent month starts
+  // fresh, and cleanupExpired deletes it.
+  const november = new Date('2026-10-31T19:00:00.000Z');
+  assert.equal((await decideUsage(d1, user, limits, november, key)).remainingPeriod, 100);
+  await cleanupExpired(d1, new Date('2026-10-31T18:59:59.000Z'));
+  assert.equal(db.value('SELECT COUNT(*) FROM usage_carryover'), 4);
+  await cleanupExpired(d1, november);
+  assert.equal(db.value('SELECT COUNT(*) FROM usage_carryover'), 0);
+});
+
+test('migration 0072 creates the usage_carryover table of the runtime bootstrap', async () => {
+  const sql = fs.readFileSync('migrations/0072_javob_usage_carryover.sql', 'utf8');
+  assert.doesNotMatch(sql.replace(/--.*$/gm, ''), /\b(DROP|DELETE|UPDATE|INSERT|ALTER)\b/i);
+  const shape = (db: SqliteD1) => ({
+    columns: db.rows<Record<string, unknown>>("SELECT name, type, \"notnull\", pk FROM pragma_table_info('usage_carryover') ORDER BY cid").map((r) => ({ ...r })),
+    indexes: db.rows<{ name: string }>("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'usage_carryover' AND sql IS NOT NULL").map((r) => r.name),
+  });
+  const migrated = new SqliteD1();
+  migrated.exec(sql);
+  const bootstrapped = new SqliteD1();
+  await ensureTelegramSchema(bootstrapped.asD1());
+  assert.deepEqual(shape(migrated), shape(bootstrapped));
+  // Either order: the migration runs again over the bootstrap's table.
+  bootstrapped.exec(sql);
 });
 
 test('analytics never contain raw message text or raw telegram id', async () => {

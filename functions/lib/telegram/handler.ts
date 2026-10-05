@@ -17,7 +17,7 @@ import {
   runJavobValidated,
   type JavobRunResult,
 } from './service';
-import { decideUsage, decideAnalysisUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM, type ConfiguredLimits } from './billing';
+import { decideUsage, decideAnalysisUsage, consumeUsage, modifierCount, MAX_MODIFIERS_PER_ITEM, type ConfiguredLimits, type UsageDecision } from './billing';
 import { downloadTelegramFile, transcribeAudio, VoicePipelineError } from './transcription';
 import {
   analyzeTranscript,
@@ -102,6 +102,11 @@ function replyDeadline(deps: Deps): number {
 
 function freeLimits(cfg: TelegramConfig): ConfiguredLimits {
   return { daily: cfg.freeDailyLimit, monthly: cfg.freeMonthlyLimit };
+}
+
+/** The free reply limit of `userId`, counting what /delete_me carried over (store.ts usageCarryKey). */
+async function replyUsage(deps: Deps, userId: number): Promise<UsageDecision> {
+  return decideUsage(deps.db, userId, freeLimits(deps.cfg), new Date(), await S.usageCarryKey(deps.env, userId));
 }
 
 export function localeFromCode(code?: string): Locale {
@@ -250,7 +255,7 @@ async function handleVoiceMessage(
   }
 
   // Avoid paying for download/STT when the user's generation quota is gone.
-  const usage = await decideUsage(db, userId, freeLimits(cfg));
+  const usage = await replyUsage(deps, userId);
   if (!usage.allowed) {
     await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
     await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));
@@ -342,7 +347,7 @@ async function handleVoiceMessage(
 }
 
 async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: Locale, text: string, pseudo: string): Promise<Failure> {
-  const { db, cfg, tg } = deps;
+  const { db, tg } = deps;
   const userId = from.id;
   const cmd = text.split(/\s+/)[0].toLowerCase().replace(/@.*$/, '');
   const payload = text.slice(cmd.length).trim();
@@ -391,13 +396,13 @@ async function handleCommand(deps: Deps, chatId: number, from: TgFrom, locale: L
       return;
     case '/plans': {
       // The free limit and what is left today. No catalogue, no price (D11).
-      const usage = await decideUsage(db, userId, freeLimits(cfg));
+      const usage = await replyUsage(deps, userId);
       await S.logEvent(db, 'javob_plans_viewed', pseudo, { locale });
       await tg.sendMessage(chatId, C.plansText(locale, usage.freeLimits, usage.planCode === 'free' ? usage.remainingToday : null));
       return;
     }
     case '/delete_me':
-      await S.deleteUserData(db, userId);
+      await S.deleteUserData(db, userId, await S.usageCarryKey(deps.env, userId));
       await S.logEvent(db, 'javob_data_deleted', pseudo, {});
       await tg.sendMessage(chatId, C.DELETED[locale]);
       return;
@@ -487,7 +492,7 @@ async function generateReply(
 ): Promise<Failure> {
   const { db, cfg, tg, env } = deps;
 
-  const usage = await decideUsage(db, userId, freeLimits(cfg));
+  const usage = await replyUsage(deps, userId);
   if (!usage.allowed) {
     await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
     await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));
@@ -819,7 +824,7 @@ async function runAnalysis(
     return;
   }
 
-  const quota = await decideAnalysisUsage(db, userId, cfg.analysisFreeDaily);
+  const quota = await decideAnalysisUsage(db, userId, cfg.analysisFreeDaily, new Date(), await S.usageCarryKey(env, userId));
   if (!quota.allowed) {
     await S.logEvent(db, 'analysis_limit_reached', pseudo, { locale, limit: cfg.analysisFreeDaily });
     await tg.sendMessage(chatId, C.ANALYSIS_LIMIT[locale]);
@@ -911,7 +916,7 @@ async function runModifier(
   const isAlternative = modifier === 'alternative';
   if (isAlternative) {
     // «Другой» = new main generation: counts against the free limit.
-    const usage = await decideUsage(db, userId, freeLimits(cfg));
+    const usage = await replyUsage(deps, userId);
     if (!usage.allowed) {
       await S.logEvent(db, 'javob_limit_reached', pseudo, { locale, plan: usage.planCode, reason: usage.reason || 'period' });
       await tg.sendMessage(chatId, C.limitReached(locale, usage.reason));

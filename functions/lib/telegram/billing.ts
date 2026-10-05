@@ -6,8 +6,9 @@
 //   "modifier"         = Короче / Мягче / Увереннее / RU-UZ on the current
 //                        result. Free for MVP but ledgered + capped per item.
 //
-// Source of truth is the append-only usage_ledger (idempotency_key UNIQUE) —
-// counters are derived, never authoritative.
+// Source of truth is the append-only usage_ledger (idempotency_key UNIQUE),
+// plus the per-day counts /delete_me carries over (usage_carryover, store.ts
+// deleteUserData) — counters are derived, never authoritative.
 import { tashkentPeriodStarts } from './period';
 import { shortId } from './store';
 
@@ -54,10 +55,15 @@ async function activeEntitlement(db: D1Database, userId: number): Promise<EntRow
   return row || null;
 }
 
-async function ledgerCount(db: D1Database, userId: number, usageType: UsageType, sinceIso: string): Promise<number> {
+/**
+ * Units used since `sinceIso`: the user's usage_ledger rows plus what an
+ * earlier /delete_me carried over under `carryKey` (store.ts deleteUserData).
+ */
+async function ledgerCount(db: D1Database, userId: number, usageType: UsageType, sinceIso: string, carryKey: string | null): Promise<number> {
   const row = await db
-    .prepare('SELECT COUNT(*) AS c FROM usage_ledger WHERE telegram_user_id = ? AND usage_type = ? AND created_at >= ?')
-    .bind(userId, usageType, sinceIso)
+    .prepare(`SELECT (SELECT COUNT(*) FROM usage_ledger WHERE telegram_user_id = ? AND usage_type = ? AND created_at >= ?)
+              + (SELECT COALESCE(SUM(used), 0) FROM usage_carryover WHERE user_key = ? AND usage_type = ? AND day >= ?) AS c`)
+    .bind(userId, usageType, sinceIso, carryKey, usageType, sinceIso)
     .first<{ c: number }>();
   return row?.c ?? 0;
 }
@@ -85,12 +91,16 @@ async function freeAllowance(db: D1Database, configured: ConfiguredLimits): Prom
   return { daily: configured.daily ?? plan.daily, monthly: configured.monthly ?? plan.monthly };
 }
 
-/** Decide whether a main generation is allowed, WITHOUT consuming it. */
+/**
+ * Decide whether a main generation is allowed, WITHOUT consuming it.
+ * `carryKey` (store.ts usageCarryKey) finds what /delete_me carried over.
+ */
 export async function decideUsage(
   db: D1Database,
   userId: number,
   configured: ConfiguredLimits,
   now = new Date(),
+  carryKey: string | null = null,
 ): Promise<UsageDecision> {
   const ent = await activeEntitlement(db, userId);
   if (ent) {
@@ -102,8 +112,8 @@ export async function decideUsage(
   // Missing/invalid limits must never turn into unlimited usage.
   if (!free) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period', freeLimits: null };
   const starts = tashkentPeriodStarts(now);
-  const usedToday = await ledgerCount(db, userId, 'main_generation', starts.day);
-  const usedMonth = await ledgerCount(db, userId, 'main_generation', starts.month);
+  const usedToday = await ledgerCount(db, userId, 'main_generation', starts.day, carryKey);
+  const usedMonth = await ledgerCount(db, userId, 'main_generation', starts.month, carryKey);
   if (usedMonth >= free.monthly) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: 0, reason: 'period', freeLimits: free };
   if (usedToday >= free.daily) return { allowed: false, planCode: 'free', remainingToday: 0, remainingPeriod: free.monthly - usedMonth, reason: 'daily', freeLimits: free };
   return {
@@ -121,9 +131,10 @@ export async function decideAnalysisUsage(
   userId: number,
   dailyLimit = 1,
   now = new Date(),
+  carryKey: string | null = null,
 ): Promise<{ allowed: boolean; remainingToday: number }> {
   const limit = Math.max(1, Math.min(Math.floor(dailyLimit), 1));
-  const used = await ledgerCount(db, userId, 'analysis', tashkentPeriodStarts(now).day);
+  const used = await ledgerCount(db, userId, 'analysis', tashkentPeriodStarts(now).day, carryKey);
   return { allowed: used < limit, remainingToday: Math.max(0, limit - used) };
 }
 

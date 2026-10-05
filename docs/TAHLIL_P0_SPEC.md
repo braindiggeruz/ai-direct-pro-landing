@@ -198,7 +198,7 @@ Given a user has voice items, reports, consent, and usage
 When `/delete_me` is processed
 Then all user-owned rows including reports and preferences are deleted
 And only content-free pseudonymous aggregate events may remain
-And the content-free usage rows of the current Tashkent month, unlinked from items and results, so the quota is not reset.
+And no row keeps the Telegram ID: the current Tashkent month's usage is kept only as a count per type and Tashkent day under the account HMAC (`usage_carryover`), so the quota is not reset.
 
 ### AC-15: Lie question boundary (FR-32)
 Given a private text message asks whether a person is lying
@@ -405,7 +405,7 @@ Deletion:
 
 ### Usage ledger extension
 
-`usage_ledger.usage_type` accepts the additional logical value `analysis`. Existing schema is TEXT and requires no column migration. P0 usage decisions count successful `analysis` rows since UTC day start. Ledger rows are retained for quota integrity. `/delete_me` deletes the rows of earlier months and keeps those of the current Tashkent month, without their item and result links, so it does not reset a quota (`deleteUserData` in `functions/lib/telegram/store.ts`).
+`usage_ledger.usage_type` accepts the additional logical value `analysis`. Existing schema is TEXT and requires no column migration. P0 usage decisions count successful `analysis` rows since UTC day start. Ledger rows are retained for quota integrity until `/delete_me`. `/delete_me` deletes every ledger row of the user; in the same batch it first counts the current Tashkent month's `main_generation` and `analysis` rows per Tashkent day into `usage_carryover`, keyed by HMAC-SHA256(`GPT_IDENTITY_SECRET`, "tg:" + id) (`functions/lib/gpt-chat/telegram-identity.ts`), so it does not reset a quota and keeps no Telegram ID. The limits add those counts; `cleanupExpired` deletes them once their month is over. Without a usable `GPT_IDENTITY_SECRET` nothing is carried over (`deleteUserData` in `functions/lib/telegram/store.ts`, migration `0072_javob_usage_carryover.sql`).
 
 ## Out of Scope
 

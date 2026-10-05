@@ -1,7 +1,9 @@
 // D1 data access for the Telegram assistant. All queries are parameterized;
 // no SQL is ever built from AI output. Ownership is enforced on item reads.
+import type { BillingEnv } from '../gpt-chat/billing-config';
 import { activeSalt, saltedPseudo, sha256Hex, type HashSalt } from '../gpt-chat/hash';
-import { tashkentPeriodStarts } from './period';
+import { telegramIdentityHash } from '../gpt-chat/telegram-identity';
+import { tashkentDayStartSql, tashkentPeriodStarts } from './period';
 
 export type Locale = 'ru' | 'uz';
 export type TgAction = 'reply' | 'explain' | 'summarize' | 'translate';
@@ -325,33 +327,59 @@ export async function deleteAnalysisData(db: D1Database, itemId: string, userId:
 
 // ── Retention / GDPR ─────────────────────────────────────────────────────
 /** Opportunistic cleanup: clear expired source_text + prune old rows. */
-export async function cleanupExpired(db: D1Database): Promise<void> {
-  const now = nowIso();
+export async function cleanupExpired(db: D1Database, at = new Date()): Promise<void> {
+  const now = at.toISOString();
   try {
     await db.batch([
       db.prepare('DELETE FROM telegram_results WHERE item_id IN (SELECT id FROM telegram_items WHERE expires_at < ?)').bind(now),
       db.prepare('DELETE FROM analysis_reports WHERE expires_at < ?').bind(now),
       db.prepare('DELETE FROM telegram_items WHERE expires_at < ?').bind(now),
-      db.prepare("DELETE FROM telegram_updates WHERE processed_at < ?").bind(new Date(Date.now() - 7 * 864e5).toISOString()),
+      db.prepare("DELETE FROM telegram_updates WHERE processed_at < ?").bind(new Date(at.getTime() - 7 * 864e5).toISOString()),
+      // /delete_me's carry-over counts only the month it was made in.
+      db.prepare('DELETE FROM usage_carryover WHERE day < ?').bind(tashkentPeriodStarts(at).month),
     ]);
   } catch { /* best-effort */ }
 }
 
+/** Below this GPT_IDENTITY_SECRET counts as unset, as everywhere else. */
+const MIN_IDENTITY_SECRET_LENGTH = 32;
+
 /**
- * /delete_me — wipe this user's rows. Aggregated pseudonymous events stay,
- * and so do the usage counters of the current Tashkent month, for quota
- * integrity: the free limits count those usage_ledger rows (billing.ts
- * decideUsage, decideAnalysisUsage), so wiping them would hand out a fresh
- * allowance, voice transcription included, on every /delete_me. They keep
- * no text and lose their links to the deleted item and result; rows of
- * earlier months go.
+ * The key /delete_me's carry-over is filed under (usage_carryover): the
+ * account HMAC of telegram-identity.ts, which the GPT_HASH_SALT rekey does
+ * not change. Null without a usable GPT_IDENTITY_SECRET.
  */
-export async function deleteUserData(db: D1Database, userId: number, now = new Date()): Promise<void> {
+export async function usageCarryKey(env: BillingEnv, userId: number): Promise<string | null> {
+  const secret = env.GPT_IDENTITY_SECRET || '';
+  return secret.length >= MIN_IDENTITY_SECRET_LENGTH ? telegramIdentityHash(secret, userId) : null;
+}
+
+/**
+ * /delete_me — wipe this user's rows; no row keeps the Telegram id.
+ * Aggregated pseudonymous events stay. The free limits count usage_ledger
+ * rows (billing.ts decideUsage, decideAnalysisUsage), so wiping them would
+ * hand out a fresh allowance, voice transcription included, on every
+ * /delete_me. In the same batch the current Tashkent month's counted rows
+ * become a count per type and Tashkent day under `carryKey`
+ * (usageCarryKey), which the limits add, and then every usage_ledger row of
+ * the user goes. Without a key (no GPT_IDENTITY_SECRET) nothing is carried
+ * over: the data goes and the month's allowance starts again.
+ */
+export async function deleteUserData(db: D1Database, userId: number, carryKey: string | null, now = new Date()): Promise<void> {
+  const carry = carryKey
+    ? [db.prepare(
+        `INSERT INTO usage_carryover (user_key, usage_type, day, used)
+         SELECT ?, usage_type, ${tashkentDayStartSql('created_at')}, COUNT(*) FROM usage_ledger
+         WHERE telegram_user_id = ? AND created_at >= ? AND usage_type IN ('main_generation', 'analysis')
+         GROUP BY 2, 3
+         ON CONFLICT (user_key, usage_type, day) DO UPDATE SET used = used + excluded.used`,
+      ).bind(carryKey, userId, tashkentPeriodStarts(now).month)]
+    : [];
   await db.batch([
     db.prepare('DELETE FROM payment_transactions WHERE payment_order_id IN (SELECT id FROM payment_orders WHERE telegram_user_id = ?)').bind(userId),
     db.prepare('DELETE FROM payment_orders WHERE telegram_user_id = ?').bind(userId),
-    db.prepare('DELETE FROM usage_ledger WHERE telegram_user_id = ? AND created_at < ?').bind(userId, tashkentPeriodStarts(now).month),
-    db.prepare('UPDATE usage_ledger SET item_id = NULL, result_id = NULL WHERE telegram_user_id = ?').bind(userId),
+    ...carry,
+    db.prepare('DELETE FROM usage_ledger WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM entitlements WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM subscriptions WHERE telegram_user_id = ?').bind(userId),
     db.prepare('DELETE FROM user_preferences WHERE telegram_user_id = ?').bind(userId),

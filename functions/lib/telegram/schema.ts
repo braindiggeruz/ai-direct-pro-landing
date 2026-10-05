@@ -112,6 +112,16 @@ const DDL: string[] = [
   )`,
   `CREATE INDEX IF NOT EXISTS idx_analysis_user_expiry ON analysis_reports (telegram_user_id, expires_at)`,
   `CREATE INDEX IF NOT EXISTS idx_analysis_expiry ON analysis_reports (expires_at)`,
+  // What /delete_me keeps of the current Tashkent month's usage_ledger rows
+  // (store.ts deleteUserData): a count per type and Tashkent day under the
+  // account HMAC (telegram-identity.ts), never the Telegram id. The free
+  // limits add it (billing.ts); cleanupExpired drops the previous months.
+  // migrations/0072_javob_usage_carryover.sql creates the same table.
+  `CREATE TABLE IF NOT EXISTS usage_carryover (
+    user_key TEXT NOT NULL, usage_type TEXT NOT NULL, day TEXT NOT NULL,
+    used INTEGER NOT NULL, PRIMARY KEY (user_key, usage_type, day)
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_carryover_day ON usage_carryover (day)`,
   // Javob sells nothing inside Telegram (decision D11): day_pass and plus are
   // seeded inactive, as migrations/0067 leaves them in production. The free
   // row is the fallback for limits that TELEGRAM_FREE_* does not set.
