@@ -301,6 +301,52 @@ test('a closed tab (request.signal, enable_request_signal) ends the model call a
   }
 });
 
+test('a visitor who leaves before the first token: waitUntil holds the start, and the turn settles as client_gone', async (t) => {
+  // Once the visitor is gone the runtime keeps only what waitUntil holds. The
+  // wait for the first token (about 3.5 s with Z.ai) used to hold nothing, so
+  // the settlement of an abort there never reached D1.
+  for (const stream of [true, false]) {
+    const label = stream ? 'stream' : 'JSON';
+    const f = await fixture();
+    const controller = new AbortController();
+    let reached!: () => void;
+    const upstream = new Promise<void>((resolve) => { reached = resolve; });
+    // No token yet: the model call ends only when the visitor's request aborts it.
+    openrouter(t, (init) => {
+      reached();
+      return new Promise<Response>((_, reject) => {
+        const fail = () => reject(new DOMException('The operation was aborted', 'AbortError'));
+        if (init?.signal?.aborted) fail();
+        init?.signal?.addEventListener('abort', fail);
+      });
+    });
+    const answer = chat(f.ctx(request(stream ? { stream: true } : {}, { signal: controller.signal })));
+    await upstream;
+    const held = f.background.slice();
+    const state = await Promise.race([
+      Promise.all(held).then(() => 'settled'),
+      new Promise((resolve) => setTimeout(() => resolve('open'), 50)),
+    ]);
+    assert.equal(state, 'open', `${label}: the start phase is held by waitUntil`);
+    controller.abort();
+    // Only what waitUntil held: the turn is settled, not left 'reserved'.
+    await Promise.all(held);
+    const [row] = rows(f);
+    assert.deepEqual(
+      [row.status, row.outcome, row.charged, row.cancel_reason, row.model, row.attempts],
+      ['released', 'client_gone', 0, 'client_gone', null, 1],
+      label,
+    );
+    // The answer is what it was: plain JSON, ok false; no service alert.
+    const response = await answer;
+    assert.match(response.headers.get('Content-Type') ?? '', /application\/json/, label);
+    assert.equal(((await response.json()) as Row).ok, false, label);
+    await drain(f);
+    assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_service_alerts'), 0, label);
+    t.mock.restoreAll();
+  }
+});
+
 test('JSON: the length limit is marked and free, a finished answer is charged, a visitor who left pays nothing', async (t) => {
   const f = await fixture();
   let finishReason = 'length';

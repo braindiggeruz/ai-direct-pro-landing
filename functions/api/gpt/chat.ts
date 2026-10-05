@@ -356,26 +356,46 @@ export const onRequestPost: PagesFunction<Env> = async ({
     waitUntil(alertOperator(env, "chat_" + code, { watchdog: true }));
 
   const turnStarted = Date.now();
+  // Until the first token nothing holds the invocation open: a visitor who
+  // leaves during the wait (Z.ai takes ~3.5 s to start) ends it, and a
+  // failure settled after that never reached D1 (the reservation stayed
+  // 'reserved' and the watchdog read it as unanswered). The start phase and
+  // its failure's settlement run under waitUntil, so an abort before the
+  // first token is settled as client_gone. Nothing else changes: the turn
+  // still waits for it, in the same order.
+  const holdStart = <T extends { ok: boolean; errorCode?: string; attempts?: number }>(phase: Promise<T>): Promise<T> => {
+    const started = (async () => {
+      const result = await phase;
+      if (!result.ok) {
+        const failure = result.errorCode ?? "provider_error";
+        await settle({
+          outcome: failureOutcome(failure),
+          charged: false,
+          cancelReason: failure === "aborted" ? "client_gone" : null,
+          totalMs: Date.now() - turnStarted,
+          attempts: result.attempts,
+        });
+      }
+      return result;
+    })();
+    waitUntil(started.then(() => undefined, () => undefined));
+    return started;
+  };
   if (wantStream) {
-    const start = await chatStreamStart(
-      env,
-      cfg,
-      chain,
-      messages,
-      cfg.maxOutputTokens,
-      60_000,
-      request.signal,
-      admitAttempt,
-      onOperatorEvent,
-    ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 }));
+    const start = await holdStart(
+      chatStreamStart(
+        env,
+        cfg,
+        chain,
+        messages,
+        cfg.maxOutputTokens,
+        60_000,
+        request.signal,
+        admitAttempt,
+        onOperatorEvent,
+      ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 })),
+    );
     if (!start.ok) {
-      await settle({
-        outcome: failureOutcome(start.errorCode),
-        charged: false,
-        cancelReason: start.errorCode === "aborted" ? "client_gone" : null,
-        totalMs: Date.now() - turnStarted,
-        attempts: start.attempts,
-      });
       if (!NOT_A_SERVICE_FAILURE.has(start.errorCode))
         reportFailure(start.errorCode);
       // Plain JSON (not SSE) — the client falls back on Content-Type.
@@ -599,27 +619,21 @@ export const onRequestPost: PagesFunction<Env> = async ({
     });
   }
 
-  const result = await chatComplete(
-    env,
-    cfg,
-    chain,
-    messages,
-    cfg.maxOutputTokens,
-    45_000,
-    request.signal,
-    admitAttempt,
-    onOperatorEvent,
-  ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 }));
+  const result = await holdStart(
+    chatComplete(
+      env,
+      cfg,
+      chain,
+      messages,
+      cfg.maxOutputTokens,
+      45_000,
+      request.signal,
+      admitAttempt,
+      onOperatorEvent,
+    ).catch(() => ({ ok: false as const, errorCode: "provider_error", attempts: 0 })),
+  );
 
   if (!result.ok) {
-    const failure = result.errorCode ?? "provider_error";
-    await settle({
-      outcome: failureOutcome(failure),
-      charged: false,
-      cancelReason: failure === "aborted" ? "client_gone" : null,
-      totalMs: Date.now() - turnStarted,
-      attempts: result.attempts,
-    });
     if (!NOT_A_SERVICE_FAILURE.has(result.errorCode ?? ""))
       reportFailure(result.errorCode ?? "provider_error");
     // 200 with ok:false so the client renders an error state, not a crash.
