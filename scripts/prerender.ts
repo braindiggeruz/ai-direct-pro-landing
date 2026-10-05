@@ -396,7 +396,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   }
   // FAQPage only where the template shows the questions (Google: marked-up
   // content must be visible on the page). Every template renders page.faq:
-  // renderGptChatMain shows it under the chat since release R-S1 (2026-10-12);
+  // renderGptChatMain shows it under the chat since release R-S1 (2026-10-05);
   // until then it had no FAQ block and gpt-chat pages emitted no FAQPage.
   if (page.faq?.length) {
     graph.push({

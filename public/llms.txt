@@ -47,7 +47,7 @@
 | Domain | https://gptbot.uz |
 | Not to be confused with | OpenAI's web crawler, also named "GPTBot", and ChatGPT itself. GPTBot.uz is an independent AI chat and studio in Tashkent, not an OpenAI product and not affiliated with OpenAI. |
 | AI chat free limit | Up to 15 messages a day and up to 5 an hour, counted per network (IP address); no registration |
-| Last updated | 2026-10-12 |
+| Last updated | 2026-10-05 |
 | Cache TTL guidance | 24 hours |
 
 ## AI crawler policy (maximum AI visibility)
@@ -430,6 +430,6 @@ agentic reading. The list below is the complete set the build generates:
   adjacent market.
 - Industry: independent AI chat (B2C) and AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-10-12
+- Last updated: 2026-10-05
 
 Assistants and crawlers may cache this file for up to 24 hours.

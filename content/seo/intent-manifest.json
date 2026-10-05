@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-05",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -540,7 +540,7 @@
       "id": "C23-ru-chat-vs-chat-gpt-online",
       "commercial": {
         "url": "/ru/gpt-chat/",
-        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-05); until then Google's routing decides",
         "mustNotTarget": []
       },
       "informational": {
@@ -556,7 +556,7 @@
       "id": "C24-ru-chat-vs-ii-chat-article",
       "commercial": {
         "url": "/ru/gpt-chat/",
-        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-05); until then Google's routing decides",
         "mustNotTarget": ["ии чат что это", "какие бывают ии чаты", "ии чат бот"]
       },
       "informational": {
@@ -572,7 +572,7 @@
       "id": "C25-ru-chat-vs-chat-s-ii-article",
       "commercial": {
         "url": "/ru/gpt-chat/",
-        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-05); until then Google's routing decides",
         "mustNotTarget": ["чат с ии", "пообщаться с ии", "чат с нейросетью"]
       },
       "informational": {
@@ -588,7 +588,7 @@
       "id": "C26-ru-chat-vs-chat-guide",
       "commercial": {
         "url": "/ru/gpt-chat/",
-        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-05); until then Google's routing decides",
         "mustNotTarget": ["ai чат возможности", "ai чат лимиты", "ai чат безопасность"]
       },
       "informational": {
@@ -604,7 +604,7 @@
       "id": "C27-ru-chat-vs-free-gpt-article",
       "commercial": {
         "url": "/ru/gpt-chat/",
-        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-12); until then Google's routing decides",
+        "owns": "use the AI chat in Russian right now — the bare «ии чат», «чат гпт онлайн» and its spellings, «… онлайн бесплатно» and «чат … бесплатно». The RU chat is protected: these phrases enter its own keyword fields only with its reviewed release R-S1 (planned 2026-10-05); until then Google's routing decides",
         "mustNotTarget": ["где пользоваться gpt бесплатно", "gpt бесплатно", "chatgpt бесплатно", "ai-чат бесплатно"]
       },
       "informational": {
@@ -660,7 +660,7 @@
         "owns": "how to write an insho or an esse with honest AI help — «insho yozish», «insho yozish tartibi», «esse yozish tartibi», «esse yozish», «insho rejasi», «esse mavzulari»: the difference between insho and esse, simple and complex plans, the esse order (introduction, thesis, 2–3 arguments, conclusion), a structure template, prompts, checklist",
         "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "slayd tayyorlash", "prezentatsiya tayyorlash", "referat yozish", "referat tayyorlash", "referat namuna", "mustaqil ish"]
       },
-      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-12) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (planned 2026-10-19), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
+      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-05) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (planned 2026-10-19), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-04"
     },
@@ -733,8 +733,8 @@
       "id": "A4-school-uz-as-pairs",
       "decision": "PAIRS_NOT_CLUSTER",
       "decidedAt": "2026-10-04",
-      "evidence": "tests/seo-cluster-quality.test.ts requires every cluster hub to declare Service, FAQPage and BreadcrumbList schema with at least four visible questions. The natural hub of the school pages, /uz/gpt-uzbek-tilida/, is a gpt-chat page: a free chat, not a service offer, so its schemaTypes are Organization, WebSite and BreadcrumbList and it declares no Service. Since R-S1 (2026-10-12) its template shows the FAQ and the page carries FAQPage markup for exactly those visible questions, but a Service node for the free chat would be a commercial claim the page does not make. A «school-uz» cluster with the chat as hub therefore cannot pass the hub gate.",
-      "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-12, then referat and rezyume on 2026-10-19 (next free ids C31 and C32; C23–C28 were taken by the week-1 roll-out, released 2026-10-05). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat; the chat links each spoke from its «Talaba…» section in the same release as the spoke."
+      "evidence": "tests/seo-cluster-quality.test.ts requires every cluster hub to declare Service, FAQPage and BreadcrumbList schema with at least four visible questions. The natural hub of the school pages, /uz/gpt-uzbek-tilida/, is a gpt-chat page: a free chat, not a service offer, so its schemaTypes are Organization, WebSite and BreadcrumbList and it declares no Service. Since R-S1 (2026-10-05) its template shows the FAQ and the page carries FAQPage markup for exactly those visible questions, but a Service node for the free chat would be a commercial claim the page does not make. A «school-uz» cluster with the chat as hub therefore cannot pass the hub gate.",
+      "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-05, then referat and rezyume on 2026-10-19 (next free ids C31 and C32; C23–C28 were taken by the week-1 roll-out, released 2026-10-05). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat; the chat links each spoke from its «Talaba…» section in the same release as the spoke."
     }
   ]
 }

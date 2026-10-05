@@ -104,7 +104,7 @@ test('the sitemap advertises the images a crawler can actually find in the marku
 });
 
 test('the first screen offers the free AI chat in one line, from i18n, in the shell and in React alike', () => {
-  // Owner decision 3 (R-S1, 2026-10-12): one muted line under the demo button
+  // Owner decision 3 (R-S1, 2026-10-05): one muted line under the demo button
   // links both chats. The shell must say what the landing says, so the line is
   // built from the same i18n strings in both places, and neither link text
   // names the chat «ChatGPT».

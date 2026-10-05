@@ -157,7 +157,7 @@ test('every prerendered chat page loads the built chat entry', { skip: (!manifes
   }
 });
 
-// ── Release R-S1 (2026-10-12): the H1 in the chat's first screen, the FAQ and
+// ── Release R-S1 (2026-10-05): the H1 in the chat's first screen, the FAQ and
 // the free limits under the chat ─────────────────────────────────────────────
 // Owner decisions 1 and 2: the page H1 stands in the chat's first screen, not
 // in the text below the 100dvh app. Before JavaScript it is the only <h1> and

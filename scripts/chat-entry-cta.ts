@@ -30,7 +30,7 @@ export function renderChatEntry(url: string): string {
 // did, and the block sits at an editorial place instead of after the second
 // body element. Until release R-S1 the chat did not know their ids, so the
 // link carried nothing and the article printed the sample question for the
-// reader to copy. R-S1 (2026-10-12) adds the ids to CHAT_BRIDGE_ENTRIES in
+// reader to copy. R-S1 (2026-10-05) adds the ids to CHAT_BRIDGE_ENTRIES in
 // src/shared/chat-entry.ts, which the chat reads: the link now names the id
 // (#entry=…, never text) and the chat fills in the same question the article
 // prints. The question itself lives in that registry; this file keeps the

@@ -477,7 +477,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-12",
+  "dateModified": "2026-10-05",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -537,6 +537,6 @@
       "note": "Ikki bosqichli himoya ChatGPT sozlamalarida: Settings → Security and login (04.10.2026 holatiga)."
     }
   ],
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-05",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

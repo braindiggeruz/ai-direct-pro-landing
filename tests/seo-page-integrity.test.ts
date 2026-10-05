@@ -274,7 +274,7 @@ test('a document declaring FAQPage actually shows the questions', () => {
 // Until 2026-09-30 both chat pages shipped FAQPage JSON-LD for questions their
 // template never showed (15 on /uz/gpt-uzbek-tilida/, 8 on /ru/gpt-chat/),
 // which breaks Google's rule that marked-up content must be visible; from then
-// until release R-S1 they emitted no FAQPage. Since R-S1 (2026-10-12)
+// until release R-S1 they emitted no FAQPage. Since R-S1 (2026-10-05)
 // renderGptChatMain shows the FAQ under the chat and the markup repeats exactly
 // those questions. The template check below keeps the two together; the
 // built-site check catches any template that marks up questions it does not
