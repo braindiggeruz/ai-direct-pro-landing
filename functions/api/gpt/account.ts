@@ -1,5 +1,6 @@
 import {
   BILLING_ORG,
+  guestCheckoutOn,
   loginMethods,
   offeredProviders,
   PAID_MESSAGES,
@@ -139,9 +140,9 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
     providers,
-    // Click needs no sign-in: subscribe makes this browser a guest account
-    // (guest checkout); Telegram later keeps the pack on any phone.
-    guestCheckout: providers.includes("click") && !!env.GPTBOT_DRAFTS_DB,
+    // Click needs no sign-in while guest checkout is on: subscribe makes this
+    // browser a guest account; Telegram later keeps the pack on any phone.
+    guestCheckout: guestCheckoutOn(env) && providers.includes("click") && !!env.GPTBOT_DRAFTS_DB,
     // How Uzum is paid when offered: its card page, or the payment code for
     // the Uzum Bank app (Merchant API).
     uzumFlow: flow,

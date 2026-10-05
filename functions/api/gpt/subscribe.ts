@@ -1,6 +1,7 @@
 import {
   BILLING_ORG,
   clickCredentials,
+  guestCheckoutOn,
   PRICE_TIYIN,
   providerMode,
   providerReady,
@@ -23,10 +24,11 @@ import {
   GUEST_SESSION_MS,
   IdentityStore,
   isGuestAccount,
+  paceGuestAccount,
   sameOrigin,
 } from "../../lib/gpt-chat/identity-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
-import { getClientIp, hashIp } from "../../lib/gpt-chat/hash";
+import { addressKey, getClientIp, hashIp } from "../../lib/gpt-chat/hash";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
@@ -218,14 +220,12 @@ async function subscribe(
     const identity = new IdentityStore(db, BILLING_ORG);
     let user = await identity.user(request);
     if (!user) {
-      // Guest checkout (Click): the pack goes to a new guest account of this
-      // browser, at most five an hour per address (identity-store.ts).
-      if (p.provider !== "click") return fail("login_required", "Login required", 401);
-      const address = await hashIp(getClientIp(request), resolveConfig(env));
-      const pace = await consumeRateLimit(db, "guest_account", address, {
-        limit: 5,
-        windowMs: HOUR_MS,
-      });
+      // Guest checkout (Click, while it is on): the pack goes to a new guest
+      // account of this browser, paced by paceGuestAccount (identity-store.ts).
+      if (p.provider !== "click" || !guestCheckoutOn(env))
+        return fail("login_required", "Login required", 401);
+      const address = await hashIp(addressKey(getClientIp(request)), resolveConfig(env));
+      const pace = await paceGuestAccount(db, address);
       if (!pace.allowed || pace.degraded) return fail("try_later", "Try later", 429);
       const minted = await identity.syntheticLogin(GUEST_ACCOUNT_PREFIX, GUEST_SESSION_MS);
       user = minted.id;

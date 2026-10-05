@@ -410,6 +410,10 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
       assert.ok(has(page, line), `${locale}: ${line}`);
     assert.deepEqual(payButtons(page), ['click'], 'Click alone: Uzum still needs the account');
     assert.ok(!has(page, copy.loginWhy), locale);
+    // Paid without signing in in another browser (Telegram's own, say): where
+    // the pack is, and who to write to with the Click receipt.
+    assert.ok(has(page, copy.otherBrowser), locale);
+    assert.match(page, /data-testid="ai-pack-support"/);
     // The offer box is explicit and starts unticked; the button waits for it.
     assert.match(page, /<input type="checkbox"\/>/);
     assert.match(page, /data-provider="click" disabled=""/);
@@ -422,5 +426,38 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
     // Paid: the one optional line under the way back to the chat.
     const paid = await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }), { watch: watchOf(), outcome: 'paid' });
     assert.ok(has(paid, copy.payPaid) && has(paid, copy.saveLine), locale);
+  }
+});
+
+test('guest checkout waits for a browser that keeps cookies, and a sign-in through the bot carries on after a reload', async () => {
+  const nav = globalThis.navigator as Navigator & { cookieEnabled?: boolean };
+  Object.defineProperty(nav, 'cookieEnabled', { value: false, configurable: true });
+  try {
+    for (const locale of LOCALES) {
+      const page = await window(locale, guest({ guestCheckout: true }));
+      assert.deepEqual(payButtons(page), [], `${locale}: no guest checkout without cookies`);
+      assert.ok(has(page, accountStrings(locale).loginWhy), locale);
+    }
+  } finally {
+    delete nav.cookieEnabled;
+  }
+  // pay(): the guest cookie subscribe set is confirmed before the browser leaves for Click.
+  assert.match(read('src/gpt-chat/account/AccountDialog.tsx'),
+    /if \(!data\.user\) \{[\s\S]*?if \(\(await probe\.json\(\)\)\?\.user\?\.guest !== true\) \{\s*setCookiesBlocked\(true\);/);
+  const kept = withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } });
+  for (const locale of LOCALES) assert.ok(!has(await window(locale, kept), accountStrings(locale).loginConsent), 'closed until asked');
+  // The tab reloaded while Telegram was in front: the attempt is still in sessionStorage.
+  const attempt = { id: '0123456789abcdef', mode: 'pick', code: '47', deepLink: `https://t.me/gptbotuz_bot?start=login_${'ab'.repeat(16)}`, expiresAt: Date.now() + 600_000 };
+  const g = globalThis as { sessionStorage?: unknown };
+  g.sessionStorage = { getItem: () => JSON.stringify(attempt), setItem: () => {}, removeItem: () => {} };
+  try {
+    for (const locale of LOCALES) {
+      const copy = accountStrings(locale);
+      const saving = await window(locale, kept);
+      assert.ok(has(saving, copy.loginConsent) && !has(saving, copy.saveButton), `${locale}: the save screen polls on`);
+      assert.ok(has(await window(locale, guest({ guestCheckout: true })), copy.loginConsent), `${locale}: so does the guest's sign-in`);
+    }
+  } finally {
+    delete g.sessionStorage;
   }
 });

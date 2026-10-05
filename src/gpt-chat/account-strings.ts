@@ -27,6 +27,10 @@ export interface AccountStrings {
   haveAccount: string;
   /** A guest's pack: keep it through Telegram for any phone. */
   saveLine: string; saveButton: string;
+  /** Beside guest checkout: a pack bought without signing in lives in the browser that paid. */
+  otherBrowser: string;
+  /** The browser did not keep the guest account's cookie: no guest checkout here. */
+  cookiesBlocked: string;
   login: string; loginConsent: string; loginFailed: string; refunded: string;
   unavailable: string; logout: string; terms: string;
   active: string;
@@ -104,8 +108,10 @@ const RU: AccountStrings = {
   loginWhy: 'Пакет закрепляется за аккаунтом, поэтому сначала войдите через Telegram.',
   guestPayNote: 'Входить не нужно: пакет заработает в этом браузере сразу после оплаты.',
   haveAccount: 'Уже покупали пакет со входом через Telegram? Войдите — он появится здесь.',
-  saveLine: 'Сохраните пакет через Telegram — чтобы он работал и на другом телефоне.',
+  saveLine: 'Сохраните пакет через Telegram — чтобы он работал в другом браузере и на другом телефоне.',
   saveButton: 'Сохранить через Telegram',
+  otherBrowser: 'Оплатили без входа в другом браузере (например, внутри Telegram)? Откройте сайт там и нажмите «Сохранить через Telegram» — или напишите нам и приложите чек Click.',
+  cookiesBlocked: 'Браузер не сохраняет cookie — оплата без входа здесь не сработает. Разрешите cookie или войдите через Telegram.',
   login: 'Войти через Telegram',
   loginConsent: 'Согласен на создание аккаунта по идентификатору Telegram. Не запрашиваем телефон, имя и доступ к переписке.',
   loginFailed: 'Вход не завершён. Попробуйте войти через Telegram ещё раз.',
@@ -203,8 +209,10 @@ const UZ: AccountStrings = {
   loginWhy: 'Paket akkauntingizga biriktiriladi, shuning uchun avval Telegram orqali kiring.',
   guestPayNote: 'Kirish shart emas: paket to‘lovdan keyin shu brauzerda darhol ishlaydi.',
   haveAccount: 'Paketni avval Telegram orqali kirib sotib olganmisiz? Kiring — u shu yerda ko‘rinadi.',
-  saveLine: 'Paketni Telegram orqali saqlang — boshqa telefonda ham ishlaydi.',
+  saveLine: 'Paketni Telegram orqali saqlang — boshqa brauzer va telefonda ham ishlaydi.',
   saveButton: 'Telegram orqali saqlash',
+  otherBrowser: 'Boshqa brauzerda (masalan, Telegram ichida) kirmasdan to‘lagan bo‘lsangiz, saytni o‘sha yerda oching va «Telegram orqali saqlash»ni bosing yoki Click chekini bizga yuboring.',
+  cookiesBlocked: 'Brauzer cookie saqlamayapti — bu yerda kirmasdan to‘lab bo‘lmaydi. Cookie’ga ruxsat bering yoki Telegram orqali kiring.',
   login: 'Telegram orqali kirish',
   loginConsent: 'Telegram identifikatori orqali akkaunt yaratishga roziman. Telefon, ism va yozishmalarga ruxsat so‘ramaymiz.',
   loginFailed: 'Kirish yakunlanmadi. Telegram orqali yana kirib ko‘ring.',

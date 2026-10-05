@@ -11,6 +11,7 @@ import { MIN_INTERNAL_SECRET_LENGTH } from "../functions/lib/gpt-chat/internal-a
 import { onRequestPost as maintenance } from "../functions/api/internal/gpt-billing-maintenance";
 import { onRequestPost as clickRefundRecord } from "../functions/api/internal/gpt-click-refund-record";
 import { onRequestPost as clickReversal } from "../functions/api/internal/gpt-click-reversal";
+import { onRequestPost as guestRestoreLink } from "../functions/api/internal/gpt-guest-restore-link";
 import { onRequestPost as modelProbe } from "../functions/api/internal/gpt-model-probe";
 import { onRequestPost as rehearsalSession } from "../functions/api/internal/gpt-rehearsal-session";
 import { onRequestPost as uzumRefund } from "../functions/api/internal/gpt-uzum-refund";
@@ -27,6 +28,7 @@ const ROUTES: ReadonlyArray<[path: string, route: Route, past: number]> = [
   ["gpt-billing-maintenance", maintenance as Route, 503],
   ["gpt-click-refund-record", clickRefundRecord as Route, 400],
   ["gpt-click-reversal", clickReversal as Route, 400],
+  ["gpt-guest-restore-link", guestRestoreLink as Route, 400],
   ["gpt-model-probe", modelProbe as Route, 503],
   ["gpt-rehearsal-session", rehearsalSession as Route, 404],
   ["gpt-uzum-refund", uzumRefund as Route, 400],

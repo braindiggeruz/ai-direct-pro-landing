@@ -17,13 +17,14 @@ import {
   safeTermsLink,
 } from "../types";
 import type { AccountHandle } from "../use-account";
+import { loadBotLogin } from "../bot-login";
 import { orderId, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
 import { track, EV } from "../analytics";
 import { recordUiEvent } from "../ui-events";
 import { BotLoginScreen } from "./BotLoginScreen";
 import { CheckoutReturn } from "./CheckoutReturn";
 import { UzumCodeScreen } from "./UzumCodeScreen";
-import { PackPanel } from "./PackPanel";
+import { PackPanel, SupportLine } from "./PackPanel";
 
 /**
  * What the window must not forget when it closes and opens again: it unmounts
@@ -136,6 +137,11 @@ export function AccountDialog({
   // Sign-in through Telegram, opened on request: beside guest checkout, and
   // for a guest's pack, to keep it on any phone (IdentityStore.adoptGuest).
   const [signIn, setSignIn] = useState(false);
+  // A sign-in through the bot this tab was in before a reload: open, so its
+  // screen polls it to the end (AiAccountPanel reopened the window for it).
+  const [resuming] = useState(() => loadBotLogin() !== null);
+  // The browser did not keep the guest account's cookie (guest checkout).
+  const [cookiesBlocked, setCookiesBlocked] = useState(false);
   const [terms, setTerms] = useState(false);
   const [termsChanged, setTermsChanged] = useState(() => memoryRef.current.refusedForTerms);
   const [elsewhere, setElsewhere] = useState<PaymentProvider | null>(null);
@@ -237,6 +243,17 @@ export function AccountDialog({
       if (result.mode === "checkout") {
         const url = allowedCheckoutUrl(result.checkoutUrl);
         if (!url) throw new Error();
+        // A guest's pack is this browser's cookie: never leave for Click
+        // unless the browser kept the one subscribe just set.
+        if (!data.user) {
+          const probe = await fetch(`${apiBase}/api/gpt/account`, { cache: "no-store", signal: AbortSignal.timeout(15_000) });
+          if (!probe.ok) throw new Error();
+          if ((await probe.json())?.user?.guest !== true) {
+            setCookiesBlocked(true);
+            await refresh();
+            return;
+          }
+        }
         started();
         setLeaving(true);
         checkout.start({ provider, flow: "redirect", at: Date.now(), attemptId, before: null });
@@ -261,6 +278,8 @@ export function AccountDialog({
   const logout = () =>
     void run(async () => {
       await post("/api/gpt/auth/logout", {});
+      // The next account must not send this one's payment request keys.
+      memoryRef.current.requestKeys = {};
       account.forget();
       setConsent(false);
       setTerms(false);
@@ -318,7 +337,8 @@ export function AccountDialog({
     );
 
   // Without an account, Click alone: subscribe makes this browser a guest.
-  const guestPay = !!data && !data.user && billingAvailable && !!pack && canPayAsGuest(data);
+  const guestPay = !!data && !data.user && billingAvailable && !!pack && canPayAsGuest(data)
+    && !cookiesBlocked && globalThis.navigator?.cookieEnabled !== false;
   const clickOnly = data?.user ? !!data.user.guest : guestPay;
   const offered = (data?.providers ?? []).filter((provider) => !clickOnly || provider === "click");
   const openPayment = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment : null;
@@ -450,6 +470,7 @@ export function AccountDialog({
       {termsChanged && <p role="alert" className="gpt-notice">{copy.termsChanged}</p>}
       {elsewhere && <p role="alert" className="gpt-notice">{copy.payPendingElsewhere(PROVIDER_NAMES[elsewhere])}</p>}
       {held && <p role="alert" className="gpt-notice">{copy.cancelFailed}</p>}
+      {cookiesBlocked && !data?.user && <p role="alert" className="gpt-notice" data-testid="ai-pay-cookies">{copy.cookiesBlocked}</p>}
       {data && !data.user && (
         <>
           {/* A price only while the pack can really be bought (F6). */}
@@ -457,7 +478,7 @@ export function AccountDialog({
           {guestPay ? (
             <>
               {payStep}
-              {data.loginAvailable && (signIn ? (
+              {data.loginAvailable && (signIn || resuming ? (
                 <>
                   <p className="gpt-panel-note">{copy.haveAccount}</p>
                   {loginBlock}
@@ -468,6 +489,8 @@ export function AccountDialog({
                   <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>{copy.login}</button>
                 </div>
               ))}
+              <p className="gpt-panel-note" data-testid="ai-pack-other-browser">{copy.otherBrowser}</p>
+              <SupportLine copy={copy} />
             </>
           ) : data.loginAvailable && (
             <>
@@ -483,13 +506,13 @@ export function AccountDialog({
             <>
               <div className="gpt-panel-note" data-testid="ai-pack-save">
                 <p>{data.access ? copy.saveLine : copy.haveAccount}</p>
-                {!signIn && (
+                {!(signIn || resuming) && (
                   <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>
                     {data.access ? copy.saveButton : copy.login}
                   </button>
                 )}
               </div>
-              {signIn && loginBlock}
+              {(signIn || resuming) && loginBlock}
             </>
           )}
           {payStep}

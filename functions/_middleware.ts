@@ -211,7 +211,9 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   // Security headers for every response (not only API routes).
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('X-Frame-Options', 'DENY');
-  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // The default, unless the route chose a stricter one (the restore link's
+  // page and redirect, the sign-in callback, the admin shell).
+  if (!headers.has('Referrer-Policy')) headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   // Pin HTTPS for 1 year (no preload — owner controls preload submission).
   headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   if (isLoginPage) {

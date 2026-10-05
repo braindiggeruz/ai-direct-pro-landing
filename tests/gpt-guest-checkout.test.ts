@@ -8,27 +8,43 @@ import { billingFixture } from "./helpers/gpt-billing-fixture";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import { onRequestGet as restorePage, onRequestPost as restore } from "../functions/api/gpt/restore";
-import { BILLING_ORG } from "../functions/lib/gpt-chat/billing-config";
+import { onRequestPost as restoreLink } from "../functions/api/internal/gpt-guest-restore-link";
+import { onRequest as middleware } from "../functions/_middleware";
+import { BILLING_ORG, PAYMENT_TTL_MS } from "../functions/lib/gpt-chat/billing-config";
+import { BILLING_NOTICES_PER_HOUR, maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
-import { findOrder, restoreNotice } from "../functions/lib/gpt-chat/guest-restore";
-import { isGuestAccount } from "../functions/lib/gpt-chat/identity-store";
+import { findOrder, RESTORE_LINK_MS, restoreNotice } from "../functions/lib/gpt-chat/guest-restore";
+import { addressKey } from "../functions/lib/gpt-chat/hash";
+import { isGuestAccount, moveOrders } from "../functions/lib/gpt-chat/identity-store";
 import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
+
+type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 
 const ORIGIN = "https://gpt.test";
 const cookieOf = (response: Response) =>
   /__Host-gpt_account=([a-f0-9]{64})/.exec(response.headers.get("Set-Cookie") || "")?.[1] ?? null;
+const browser = (cookie: string) => new Request(ORIGIN, { headers: { cookie } });
 
-async function guestPays(f: Awaited<ReturnType<typeof billingFixture>>, ip = "198.51.100.7") {
-  const buy = (provider: string, cookie: string) =>
-    subscribe(f.ctx(new Request(`${ORIGIN}/api/gpt/subscribe`, {
-      method: "POST",
-      headers: { cookie, Origin: ORIGIN, "Content-Type": "application/json", "CF-Connecting-IP": ip },
-      body: JSON.stringify({ provider, requestId: crypto.randomUUID(), acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION, locale: "uz" }),
-    })));
+/** Guest checkout is off unless GPT_GUEST_CHECKOUT is exactly "true". */
+async function guestFixture() {
+  const f = await billingFixture();
+  f.env.GPT_GUEST_CHECKOUT = "true";
+  f.env.GPT_BILLING_MAINTENANCE_SECRET = randomBytes(32).toString("hex");
+  return f;
+}
+
+const checkout = (f: Fixture, provider: string, cookie: string, ip: string) =>
+  subscribe(f.ctx(new Request(`${ORIGIN}/api/gpt/subscribe`, {
+    method: "POST",
+    headers: { cookie, Origin: ORIGIN, "Content-Type": "application/json", "CF-Connecting-IP": ip },
+    body: JSON.stringify({ provider, requestId: crypto.randomUUID(), acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION, locale: "uz" }),
+  })));
+
+async function guestPays(f: Fixture, ip = "198.51.100.7", until: "pending" | "prepared" | "paid" = "paid") {
   // Other providers still need the account: no guest is made for them.
-  assert.equal((await buy("payme", f.rehearsal)).status, 401);
-  const response = await buy("click", f.rehearsal);
+  assert.equal((await checkout(f, "payme", f.rehearsal, ip)).status, 401);
+  const response = await checkout(f, "click", f.rehearsal, ip);
   assert.equal(response.status, 200);
   const token = cookieOf(response);
   assert.ok(token, "the guest's session cookie");
@@ -37,15 +53,52 @@ async function guestPays(f: Awaited<ReturnType<typeof billingFixture>>, ip = "19
   assert.equal(order.mode, "test");
   const row = f.db.value(`SELECT seq FROM gpt_payment_orders WHERE id='${order.attemptId}'`) as number;
   const tx = String(randomBytes(4).readUInt32BE(0));
-  assert.equal((await f.clickCall(order.attemptId, "0", { click_trans_id: tx })).error, 0);
-  assert.equal((await f.clickCall(order.attemptId, "1", { click_trans_id: tx, merchant_prepare_id: String(row) })).error, 0);
+  if (until !== "pending")
+    assert.equal((await f.clickCall(order.attemptId, "0", { click_trans_id: tx })).error, 0);
+  if (until === "paid")
+    assert.equal((await f.clickCall(order.attemptId, "1", { click_trans_id: tx, merchant_prepare_id: String(row) })).error, 0);
   const guest = f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order.attemptId}'`) as string;
   assert.ok(isGuestAccount(guest));
   return { cookie: `__Host-gpt_account=${token}; ${f.rehearsal}`, order: order.attemptId, guest, tx };
 }
 
-test("a guest pays with Click, the pack is the browser's, and its free answers spare the neighbours", async () => {
+/** A Telegram account signed in (its identity hash and id). */
+async function telegram(f: Fixture) {
+  const hash = randomBytes(32).toString("hex");
+  await f.identity.login(hash);
+  return { hash, id: f.db.value(`SELECT id FROM gpt_accounts WHERE identity_hash='${hash}'`) as string };
+}
+
+/** Support's restore link, by Click's payment id or our number (internal/gpt-guest-restore-link). */
+const issueLink = (f: Fixture, query: string, bearer = f.env.GPT_BILLING_MAINTENANCE_SECRET) =>
+  restoreLink(f.ctx(new Request(`${ORIGIN}/api/internal/gpt-guest-restore-link`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${bearer}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ order: query }),
+  })));
+
+const restorePost = (f: Fixture, token: string, cookie = "", ip = "192.0.2.4", path = "/api/gpt/restore") =>
+  restore(f.ctx(new Request(`${ORIGIN}${path}`, {
+    method: "POST",
+    headers: { Origin: ORIGIN, cookie, "Content-Type": "application/x-www-form-urlencoded", "CF-Connecting-IP": ip },
+    body: new URLSearchParams({ t: token }),
+  })));
+
+test("guest checkout stays off unless GPT_GUEST_CHECKOUT is exactly \"true\"", async () => {
   const f = await billingFixture();
+  for (const flag of [undefined, "", "1", "TRUE"]) {
+    f.env.GPT_GUEST_CHECKOUT = flag;
+    const response = await checkout(f, "click", f.rehearsal, "198.51.100.8");
+    assert.equal(response.status, 401, String(flag));
+    assert.equal(cookieOf(response), null);
+    const view = (await (await account(f.ctx(new Request(`${ORIGIN}/api/gpt/account`, { headers: { cookie: f.rehearsal } })))).json()) as { guestCheckout: boolean };
+    assert.equal(view.guestCheckout, false);
+  }
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE id LIKE 'acct_guest_%'"), 0);
+});
+
+test("a guest pays with Click, the pack is the browser's, and its free answers spare the neighbours", async () => {
+  const f = await guestFixture();
   const { cookie, guest } = await guestPays(f);
   const view = (await (await account(f.ctx(new Request(`${ORIGIN}/api/gpt/account`, { headers: { cookie } })))).json()) as {
     user: { guest?: boolean }; access: { remaining: number } | null; guestCheckout: boolean;
@@ -69,11 +122,27 @@ test("a guest pays with Click, the pack is the browser's, and its free answers s
   await assert.rejects(guestPays(f, "203.0.113.9"));
 });
 
+test("new guests count an IPv6 network as one address, and the site has a ceiling", async () => {
+  assert.equal(addressKey("2001:db8:1:2:3:4:5:6"), "2001:db8:1:2::/64");
+  assert.equal(addressKey("2001:DB8:1:2::9"), "2001:db8:1:2::/64");
+  assert.equal(addressKey("2001:db8::"), "2001:db8:0:0::/64");
+  assert.equal(addressKey("203.0.113.9"), "203.0.113.9");
+  assert.equal(addressKey("::ffff:203.0.113.9"), "::ffff:203.0.113.9");
+  assert.equal(addressKey(undefined), undefined);
+  const f = await guestFixture();
+  for (let i = 1; i <= 5; i++) assert.equal((await checkout(f, "click", f.rehearsal, `2001:db8:1:2::${i}`)).status, 200);
+  assert.equal((await checkout(f, "click", f.rehearsal, "2001:db8:1:2:ffff::7")).status, 429, "another address of the same /64");
+  assert.equal((await checkout(f, "click", f.rehearsal, "2001:db8:1:3::1")).status, 200, "another network");
+  // Sixty an hour across the site, whatever the addresses.
+  f.db.exec("UPDATE gpt_rate_limits SET count=60 WHERE action='guest_account_global'");
+  assert.equal((await checkout(f, "click", f.rehearsal, "198.51.100.200")).status, 429);
+});
+
 test("signing in through Telegram moves the guest's pack once, and never another account's", async () => {
-  const f = await billingFixture();
+  const f = await guestFixture();
   const { cookie, order, guest } = await guestPays(f);
   const hash = randomBytes(32).toString("hex");
-  const request = new Request(ORIGIN, { headers: { cookie } });
+  const request = browser(cookie);
   await f.identity.login(hash);
   await f.identity.adoptGuest(request, hash);
   const tg = f.db.value(`SELECT id FROM gpt_accounts WHERE identity_hash='${hash}'`) as string;
@@ -81,7 +150,7 @@ test("signing in through Telegram moves the guest's pack once, and never another
   assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_consents WHERE order_id='${order}'`), tg);
   assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_auth_sessions WHERE user_id='${guest}'`), 0);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods"), 1, "moved, not copied");
-  assert.equal(await restoreNotice(f.binding, f.env.GPT_IDENTITY_SECRET, order), "", "a Telegram account's order needs no link");
+  assert.equal(await restoreNotice(f.binding, order), "", "a Telegram account's order needs no restore");
   // A repeat finds nothing; a Telegram account signed in on the browser keeps its pack.
   await f.identity.adoptGuest(request, hash);
   const other = randomBytes(32).toString("hex");
@@ -91,35 +160,187 @@ test("signing in through Telegram moves the guest's pack once, and never another
   assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${order}'`), tg);
 });
 
-test("a restore link moves a lost guest pack to another browser once", async () => {
-  const f = await billingFixture();
-  const { order, tx } = await guestPays(f);
-  // The owner's "paid" notice of a guest order: Click's payment id and the link.
-  assert.equal((await findOrder(f.binding, tx))?.id, order);
-  const found = (await findOrder(f.binding, order))!;
-  const notice = await restoreNotice(f.binding, f.env.GPT_IDENTITY_SECRET, order);
+test("sign-in moves a guest's open invoice past the account's forgotten one, or fails and leaves the guest as it was", async () => {
+  const f = await guestFixture();
+  const store = new BillingStore(f.binding, BILLING_ORG);
+  const userOf = (order: string) => f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`);
+  const stateOf = (order: string) => f.db.value(`SELECT state FROM gpt_payment_orders WHERE id='${order}'`);
+  const clickTx = () => String(randomBytes(4).readUInt32BE(0));
+  {
+    // The account's own invoice no provider has seen gives way to the guest's.
+    const g = await guestPays(f, "198.51.100.11", "pending");
+    const a = await telegram(f);
+    const forgotten = await store.createOrder(a.id, "click", "test", crypto.randomUUID());
+    await f.identity.adoptGuest(browser(g.cookie), a.hash);
+    assert.equal(stateOf(forgotten.id), "cancelled");
+    assert.equal(userOf(g.order), a.id);
+    assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_auth_sessions WHERE user_id='${g.guest}'`), 0);
+    // It moved no money: the owner hears nothing of it.
+    assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_billing_outbox WHERE order_id='${forgotten.id}'`), 0);
+  }
+  {
+    // One past its time is closed as createOrder closes it, even one Click took up.
+    const g = await guestPays(f, "198.51.100.12", "prepared");
+    const a = await telegram(f);
+    const old = await store.createOrder(a.id, "click", "test", crypto.randomUUID(), Date.now() - PAYMENT_TTL_MS - 60_000);
+    await store.transition(old.id, "prepared", "Prepare", { externalId: clickTx() });
+    await f.identity.adoptGuest(browser(g.cookie), a.hash);
+    assert.equal(stateOf(old.id), "cancelled");
+    assert.equal(userOf(g.order), a.id);
+  }
+  {
+    // One Click holds now keeps the guest's invoice where it is: sign-in fails,
+    // nothing moves, and the guest keeps its session.
+    const g = await guestPays(f, "198.51.100.13", "prepared");
+    const a = await telegram(f);
+    const held = await store.createOrder(a.id, "click", "test", crypto.randomUUID());
+    await store.transition(held.id, "prepared", "Prepare", { externalId: clickTx() });
+    await assert.rejects(f.identity.adoptGuest(browser(g.cookie), a.hash), /guest_not_moved/);
+    assert.equal(stateOf(held.id), "prepared");
+    assert.equal(userOf(g.order), g.guest);
+    assert.equal(await f.identity.user(browser(g.cookie)), g.guest);
+  }
+  {
+    // A paid guest order whose request id the account used already does not
+    // stay behind in silence: sign-in fails, the pack stays with the guest.
+    const g = await guestPays(f, "198.51.100.14");
+    const a = await telegram(f);
+    await store.createOrder(a.id, "click", "test", f.db.value(`SELECT request_id FROM gpt_payment_orders WHERE id='${g.order}'`) as string);
+    await assert.rejects(f.identity.adoptGuest(browser(g.cookie), a.hash), /guest_not_moved/);
+    assert.equal(userOf(g.order), g.guest);
+    assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${g.order}'`), g.guest);
+    assert.equal(await f.identity.user(browser(g.cookie)), g.guest);
+  }
+});
+
+test("a payment settling while sign-in moves its order opens the pack for the account holding it now", async () => {
+  const f = await guestFixture();
+  const g = await guestPays(f, "198.51.100.21", "prepared");
+  const a = await telegram(f);
+  let race = true;
+  // Sign-in commits between the payment's read of the order and its batch.
+  const raced = new Proxy(f.binding, {
+    get(target, name) {
+      if (name === "batch")
+        return async (statements: D1PreparedStatement[]) => {
+          if (race) {
+            race = false;
+            await target.batch(moveOrders(target, BILLING_ORG, g.guest, a.id, null));
+          }
+          return target.batch(statements);
+        };
+      const value = Reflect.get(target, name);
+      return typeof value === "function" ? value.bind(target) : value;
+    },
+  });
+  await new BillingStore(raced, BILLING_ORG).transition(g.order, "paid", "Complete");
+  assert.equal(race, false);
+  assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${g.order}'`), a.id);
+  assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${g.order}'`), a.id);
+  assert.ok(await new BillingStore(f.binding, BILLING_ORG).access(a.id, "test"));
+});
+
+test("support's restore link moves a lost guest pack once, into an account the browser already holds", async () => {
+  const f = await guestFixture();
+  const { order, tx, guest } = await guestPays(f);
+  // The owner's "paid" notice of a guest order: Click's payment id, no link.
+  const notice = await restoreNotice(f.binding, order);
   assert.match(notice, new RegExp(`Click ID ${tx}`));
-  const token = /restore\?t=(\S+)$/.exec(notice)![1];
-  assert.equal(await restoreNotice(f.binding, undefined, order), "", "no secret, no link");
+  assert.doesNotMatch(notice, /restore\?t=/);
+  assert.equal((await findOrder(f.binding, tx))?.id, order);
+  // Support asks for a link when a buyer needs one: 48 hours at most.
+  assert.equal((await issueLink(f, tx, randomBytes(32).toString("hex"))).status, 403);
+  assert.equal((await issueLink(f, "not-an-order")).status, 400);
+  const issued = (await (await issueLink(f, tx)).json()) as { order: string; url: string; expiresAt: number };
+  assert.equal(issued.order, order);
+  assert.ok(issued.expiresAt <= Date.now() + RESTORE_LINK_MS && issued.expiresAt > Date.now() + RESTORE_LINK_MS - 60_000);
+  assert.ok(issued.url.startsWith("https://gptbot.uz/api/gpt/restore?t="));
+  const token = new URL(issued.url).searchParams.get("t")!;
   const page = await restorePage(f.ctx(new Request(`${ORIGIN}/api/gpt/restore?t=${token}`)));
   assert.equal(page.status, 200);
   assert.equal(page.headers.get("X-Robots-Tag"), "noindex, nofollow, noarchive");
-  assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`), found.user_id, "a GET moves nothing");
-  const post = (cookie = "") =>
-    restore(f.ctx(new Request(`${ORIGIN}/api/gpt/restore`, {
-      method: "POST",
-      headers: { Origin: ORIGIN, cookie, "Content-Type": "application/x-www-form-urlencoded", "CF-Connecting-IP": "192.0.2.4" },
-      body: new URLSearchParams({ t: token }),
-    })));
-  const moved = await post();
+  assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`), guest, "a GET moves nothing");
+  // No account yet: a guest account first, its cookie with a 307 that repeats
+  // the POST. Nothing moves before the browser holds that account.
+  const minted = await restorePost(f, token);
+  assert.equal(minted.status, 307);
+  assert.equal(minted.headers.get("Location"), "/api/gpt/restore?guest=1");
+  assert.equal(minted.headers.get("Referrer-Policy"), "same-origin");
+  const fresh = cookieOf(minted);
+  assert.ok(fresh);
+  assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`), guest);
+  // A browser that did not keep the cookie is told so; no second guest is made.
+  const guests = f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE id LIKE 'acct_guest_%'");
+  assert.equal((await restorePost(f, token, "", "192.0.2.4", "/api/gpt/restore?guest=1")).status, 400);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE id LIKE 'acct_guest_%'"), guests);
+  const moved = await restorePost(f, token, `__Host-gpt_account=${fresh}`, "192.0.2.4", "/api/gpt/restore?guest=1");
   assert.equal(moved.status, 303);
   assert.equal(moved.headers.get("Location"), "/uz/gpt-uzbek-tilida/");
-  const fresh = cookieOf(moved);
-  assert.ok(fresh);
-  const owner = (await f.identity.user(new Request(ORIGIN, { headers: { cookie: `__Host-gpt_account=${fresh}` } })))!;
-  assert.notEqual(owner, found.user_id);
+  const owner = (await f.identity.user(browser(`__Host-gpt_account=${fresh}`)))!;
+  assert.notEqual(owner, guest);
   assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${order}'`), owner);
-  // Used once: the same link moves nothing again.
-  assert.equal((await post(f.cookie)).status, 410);
+  // The chat it opens gets no referrer: the site's middleware keeps the route's policy.
+  const served = await middleware({ request: new Request(`${ORIGIN}/api/gpt/restore`, { method: "POST" }), env: {}, next: async () => moved } as never);
+  assert.equal(served.headers.get("Referrer-Policy"), "no-referrer");
+  // A second tap, or a retry after a lost answer: the chat, not "link used".
+  assert.equal((await restorePost(f, token, `__Host-gpt_account=${fresh}`)).status, 303);
+  // Used once: another browser moves nothing.
+  assert.equal((await restorePost(f, token, f.cookie)).status, 410);
   assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${order}'`), owner);
+});
+
+test("a valid restore link that meets the limit on new guests says to try later, and still works", async () => {
+  const f = await guestFixture();
+  const { tx, order, guest } = await guestPays(f, "198.51.100.31");
+  const token = new URL(((await (await issueLink(f, tx)).json()) as { url: string }).url).searchParams.get("t")!;
+  // Five new guests from one address this hour: checkout made them.
+  for (let i = 0; i < 5; i++) assert.equal((await checkout(f, "click", f.rehearsal, "192.0.2.50")).status, 200);
+  const busy = await restorePost(f, token, "", "192.0.2.50");
+  assert.equal(busy.status, 429);
+  assert.ok(Number(busy.headers.get("Retry-After")) > 0);
+  assert.match(await busy.text(), /Откройте эту ссылку снова через час/);
+  assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`), guest, "nothing moved");
+  // The link was not spent: from another network it goes on.
+  assert.equal((await restorePost(f, token, "", "192.0.2.51")).status, 307);
+});
+
+test("an invoice closed before any provider saw it tells the owner nothing; other notices wait past the hour's share, paid ones first", async () => {
+  const f = await billingFixture();
+  Object.assign(f.env, {
+    GPT_BILLING_MODE: "live",
+    GPT_NOTIFY_BOT_TOKEN: randomBytes(32).toString("hex"),
+    GPT_NOTIFY_CHAT_ID: "123456789",
+  });
+  for (let i = 0; i < 3; i++) {
+    const invoice = await f.store.createOrder(f.user, "click", "live", crypto.randomUUID());
+    assert.equal(await f.store.cancelInvoice(f.user, "live", invoice.id), "cancelled");
+  }
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_outbox"), 0);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE method='invoice_cancelled'"), 3, "the journal keeps them");
+  // A backlog of other notices, and one sale after them.
+  const order = f.db.value("SELECT id FROM gpt_payment_orders LIMIT 1") as string;
+  const now = Date.now();
+  const queue = (event: string, at: number) =>
+    f.binding
+      .prepare("INSERT INTO gpt_billing_outbox(org_id,id,order_id,event,created_at,available_at) VALUES(?,?,?,?,?,?)")
+      .bind(BILLING_ORG, crypto.randomUUID(), order, event, at, at)
+      .run();
+  for (let i = 0; i < BILLING_NOTICES_PER_HOUR + 5; i++) await queue("cancelled", now - 60_000 + i);
+  await queue("paid", now - 1000);
+  const original = globalThis.fetch;
+  const sent: string[] = [];
+  globalThis.fetch = async (_input, init) => {
+    sent.push(String((JSON.parse(String(init?.body)) as { text: string }).text));
+    return Response.json({ ok: true, result: { message_id: sent.length } });
+  };
+  try {
+    for (let i = 0; i < 20; i++) await maintainBilling(f.env, now);
+  } finally {
+    globalThis.fetch = original;
+  }
+  assert.match(sent[0], /AI paket: paid/);
+  assert.equal(sent.length, 1 + BILLING_NOTICES_PER_HOUR);
+  const waiting = f.db.rows<{ available_at: number }>("SELECT available_at FROM gpt_billing_outbox WHERE delivered_at IS NULL");
+  assert.equal(waiting.length, 5);
+  for (const row of waiting) assert.ok(row.available_at > now, "the next hour");
 });

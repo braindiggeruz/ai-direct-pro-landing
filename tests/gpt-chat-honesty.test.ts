@@ -199,7 +199,7 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   assert.match(window, /\{billingAvailable && pack && <PlanCard t=\{t\} copy=\{copy\} pack=\{pack\} \/>\}/);
   // Guest checkout (Click without an account) is a pay step too, under the same condition.
   assert.match(window, /const payStep = billingAvailable && pack && \(data\?\.user \|\| guestPay\) && \(/);
-  assert.match(window, /const guestPay = !!data && !data\.user && billingAvailable && !!pack && canPayAsGuest\(data\);/);
+  assert.match(window, /const guestPay = !!data && !data\.user && billingAvailable && !!pack && canPayAsGuest\(data\)\s*&& !cookiesBlocked && globalThis\.navigator\?\.cookieEnabled !== false;/);
   assert.match(window, /copy\.packFeatures\(pack\.months, pack\.messageLimit, pack\.dailyLimit\)\.map/);
   assert.match(window, /copy\.price\(groupDigits\(pack\.priceUzs\), pack\.months, pack\.messageLimit\)/);
   assert.match(window, /const copy = accountStrings\(locale\);/);

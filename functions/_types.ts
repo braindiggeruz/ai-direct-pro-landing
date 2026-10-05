@@ -283,6 +283,11 @@ export interface Env extends FirecrawlEnvironment {
   // button (account view `botHandoff`); any other value hides it. Stays
   // "false" until the assistant bot answers reliably.
   GPT_BOT_HANDOFF_ENABLED?: string;
+  // Public. "true" sells the AI pack through Click without signing in (guest
+  // checkout, functions/api/gpt/subscribe.ts); any other value keeps sign-in
+  // before paying. Stays off until an offer edition that describes the guest
+  // account is approved (docs/paid-chat/LOGIN-RU.md).
+  GPT_GUEST_CHECKOUT?: string;
   // Public. Sign-in on the site through the bot (functions/lib/gpt-chat/
   // bot-login-store.ts): "pick" (default; the bot offers three numbers, the
   // person presses the one the site shows) or "code" (the bot sends 6 digits

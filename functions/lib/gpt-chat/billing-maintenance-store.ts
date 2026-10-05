@@ -166,6 +166,12 @@ export async function deliverServiceAlerts(
 export const TELEMETRY_RETENTION_DAYS = 93;
 
 /**
+ * Owner notices of the outbox other than "paid" sent an hour, across the
+ * site; the rest wait for the next hour. "paid" notices go first and always.
+ */
+export const BILLING_NOTICES_PER_HOUR = 30;
+
+/**
  * Retention sweeps and the payment outbox. Service alerts are delivered by
  * deliverServiceAlerts; only the outbox is gated on live billing (some
  * provider live), and it carries live orders only.
@@ -255,7 +261,7 @@ export async function maintainBilling(
   const rows = await db
     .prepare(
       `SELECT o.id,o.order_id,o.event,p.provider,p.mode FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.id=o.order_id AND p.org_id=o.org_id
-    WHERE o.org_id=? AND p.mode='live' AND o.delivered_at IS NULL AND o.available_at<=? AND o.lease_until<=? ORDER BY o.created_at LIMIT 3`,
+    WHERE o.org_id=? AND p.mode='live' AND o.delivered_at IS NULL AND o.available_at<=? AND o.lease_until<=? ORDER BY o.event='paid' DESC,o.created_at LIMIT 3`,
     )
     .bind(BILLING_ORG, now, now)
     .all<{
@@ -276,10 +282,28 @@ export async function maintainBilling(
       .bind(now + 60_000, lease, BILLING_ORG, row.id, now)
       .first();
     if (!claimed) continue;
-    // A guest's paid order: Click's payment id and the restore link (guest-restore.ts).
+    if (row.event !== "paid") {
+      const slot = await consumeRateLimit(
+        db,
+        "billing_notice",
+        "global",
+        { limit: BILLING_NOTICES_PER_HOUR, windowMs: HOUR_MS },
+        new Date(now),
+      );
+      if (!slot.allowed) {
+        await db
+          .prepare(
+            "UPDATE gpt_billing_outbox SET available_at=?,lease_until=0 WHERE org_id=? AND id=? AND lease_token=?",
+          )
+          .bind(now + slot.retryAfterSeconds * 1000, BILLING_ORG, row.id, lease)
+          .run();
+        continue;
+      }
+    }
+    // A guest's paid order: Click's payment id (guest-restore.ts).
     const guest =
       row.event === "paid" && row.provider === "click"
-        ? await restoreNotice(db, env.GPT_IDENTITY_SECRET, row.order_id, now)
+        ? await restoreNotice(db, row.order_id, now)
         : "";
     const result = await new TelegramClient(token).call(
       "sendMessage",

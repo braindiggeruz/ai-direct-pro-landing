@@ -511,7 +511,16 @@ export class BillingStore {
             .bind(new Date(now).toISOString(), id, this.org, event),
         );
       }
-      if (target !== "prepared")
+      // An invoice closed before any provider saw it (the visitor closed it,
+      // it expired, another invoice took its place) moved no money: the
+      // journal keeps it, the owner hears nothing. Opening and closing
+      // invoices without signing in cannot flood the owner's chat.
+      const unseenClose =
+        target === "cancelled" &&
+        row.state === "pending" &&
+        !row.external_id &&
+        ["invoice_cancelled", "invoice_expired", "invoice_superseded"].includes(method);
+      if (target !== "prepared" && !unseenClose)
         statements.push(
           this.db
             .prepare(

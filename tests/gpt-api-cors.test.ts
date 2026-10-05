@@ -40,3 +40,12 @@ test('GPT API never reflects a foreign origin on normal responses', async () => 
   assert.equal(allowed.headers.get('Access-Control-Allow-Origin'), 'https://gptbot.uz');
   assert.equal(allowed.headers.get('Access-Control-Allow-Credentials'), 'true');
 });
+
+test("a route's own Referrer-Policy survives the middleware; the rest get the default", async () => {
+  // The restore link's redirect: the chat it opens must not see the link in its referrer.
+  const own = await call(new Request('https://gptbot.uz/api/gpt/restore', { method: 'POST' }), async () =>
+    new Response(null, { status: 303, headers: { Location: '/ru/gpt-chat/', 'Referrer-Policy': 'no-referrer' } }));
+  assert.equal(own.headers.get('Referrer-Policy'), 'no-referrer');
+  const plain = await call(new Request('https://gptbot.uz/api/gpt/history?sessionId=s'));
+  assert.equal(plain.headers.get('Referrer-Policy'), 'strict-origin-when-cross-origin');
+});

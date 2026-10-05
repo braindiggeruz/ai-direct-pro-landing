@@ -190,6 +190,14 @@ export function termsUrl(value: string | undefined): string | null {
     return null;
   }
 }
+/**
+ * Guest checkout (identity-store.ts): Click without signing in, only while
+ * GPT_GUEST_CHECKOUT is exactly "true". The offer edition the buyer accepts
+ * must describe the guest account first.
+ */
+export function guestCheckoutOn(env: BillingEnv): boolean {
+  return env.GPT_GUEST_CHECKOUT === "true";
+}
 export function termsVersion(env: BillingEnv): string | null {
   const value = env.GPT_BILLING_TERMS_VERSION || "";
   return /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value : null;
