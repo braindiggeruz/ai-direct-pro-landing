@@ -52,7 +52,9 @@ export type StudioAlert =
   | "studio_free_budget_spent"
   | "studio_ramp_full"
   | "studio_free_decks_high"
-  | "studio_free_photos_high";
+  | "studio_free_photos_high"
+  /** STUDIO_PAID_DAILY_USD_STOP reached (spend.ts): an error or an attack, paid calls fail as a server fault. */
+  | "studio_paid_stop";
 
 export type LimitVerdict =
   | { readonly ok: true }
@@ -101,7 +103,11 @@ export type BudgetVerdict =
 
 /**
  * The free tier's budget of the UTC day (gpt_model_spend "studio_free",
- * reserved + actual, micro-USD) against STUDIO_FREE_DAILY_USD:
+ * micro-USD) against STUDIO_FREE_DAILY_USD. ModelSpendStore keeps the
+ * committed total in reserved_micro: open reservations plus every settled
+ * cost (settle() lowers it only by the unused part of a reservation).
+ * actual_micro is a separate tally of the settled part, already inside
+ * reserved_micro, so it is not added again:
  *   - spent, or a budget of 0: refused for everybody;
  *   - 80% or more: an alert, and a young identity is refused while older
  *     ones are still served;
@@ -115,10 +121,10 @@ export async function freeBudgetGate(db: D1Database, config: StudioConfig, young
   let spent: number;
   try {
     const row = await db
-      .prepare("SELECT reserved_micro, actual_micro FROM gpt_model_spend WHERE org_id=? AND day=? AND bucket=?")
+      .prepare("SELECT reserved_micro FROM gpt_model_spend WHERE org_id=? AND day=? AND bucket=?")
       .bind(STUDIO_ORG, spendDay(now), STUDIO_FREE_BUCKET)
-      .first<{ reserved_micro: number; actual_micro: number }>();
-    spent = Number(row?.reserved_micro ?? 0) + Number(row?.actual_micro ?? 0);
+      .first<{ reserved_micro: number }>();
+    spent = Number(row?.reserved_micro ?? 0);
   } catch {
     return { ok: false, code: "studio_busy", alerts: [] };
   }

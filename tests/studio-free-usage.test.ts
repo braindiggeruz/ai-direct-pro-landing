@@ -11,7 +11,6 @@ import { STUDIO_ORG, ensureStudioSchema } from "../functions/lib/studio/schema";
 import { parseStudioConfig } from "../functions/lib/studio/config";
 import {
   FREE_RESETS_AT,
-  FreeUsageStore,
   RETURNED_DAILY_CAP,
   SITE_SUBJECT,
   admitFreeUnit,
@@ -31,6 +30,7 @@ import {
   studioAddress,
 } from "../functions/lib/studio/limits";
 import { STUDIO_BID_COOKIE, mintIdentity, verifyIdentityValue } from "../functions/lib/studio/identity";
+import { releaseJob, startJob } from "../functions/lib/studio/jobs";
 import { onRequest as meEndpoint } from "../functions/api/studio/me";
 import { onRequest as identityEndpoint } from "../functions/api/studio/identity";
 
@@ -163,16 +163,20 @@ test("the site counter alerts once when it reaches STUDIO_FREE_ALERT_DECKS, and 
 test("the free budget: spent → busy for all; from 80% young identities are refused and the owner is told", async () => {
   const db = await database();
   const budget = config({ STUDIO_RAMP_DECKS_DAILY: "", STUDIO_FREE_DAILY_USD: "0.3" }); // 300 000 micro-USD
+  // reserved_micro is the committed total (open reservations and settled
+  // cost, ModelSpendStore); actual_micro, the settled part, is inside it.
   spend(db, 239_999);
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: true, alerts: [] });
-  spend(db, 200_000, 40_000);
+  spend(db, 200_000, 200_000);
+  assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: true, alerts: [] });
+  spend(db, 240_000, 40_000);
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: false, code: "studio_busy", alerts: ["studio_free_budget_80"] });
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, false, NOW), { ok: true, alerts: ["studio_free_budget_80"] });
   const youngRefused = await admit(db, { config: budget, subject: subject(1), young: true });
   assert.deepEqual(youngRefused, { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: ["studio_free_budget_80"] });
   assert.equal(counter(db, subject(1), "presentation_free"), 0);
   assert.deepEqual(await admit(db, { config: budget, subject: subject(2) }), { ok: true, day: freeDay(NOW), alerts: ["studio_free_budget_80"] });
-  spend(db, 0, 300_000);
+  spend(db, 300_000, 300_000);
   for (const young of [true, false]) {
     assert.deepEqual(await admit(db, { config: budget, subject: subject(3), young }), { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: ["studio_free_budget_spent"] });
   }
@@ -187,38 +191,51 @@ test("the free budget: spent → busy for all; from 80% young identities are ref
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, false, NOW), { ok: false, code: "studio_busy", alerts: [] });
 });
 
-test("handing a unit back: the person's own counter only, plus 'returned'; 5 a day, then try_later", async () => {
+test("handing a unit back goes through the ledger: the person's own counter only, plus 'returned'; 5 a day, then try_later", async () => {
   const db = await database();
-  const store = new FreeUsageStore(db.asD1());
-  const day = freeDay(NOW);
   const person = subject(9);
-  assert.equal((await admit(db, { subject: person, young: true })).ok, true);
+  let n = 0;
+  const begin = (over: { subject?: string; now?: number } = {}) =>
+    startJob(db.asD1(), {
+      config: OPEN,
+      subject: person,
+      requestId: `req_back_${++n}`,
+      tool: "presentation",
+      shape: "free",
+      inputMac: "0".repeat(32),
+      source: { kind: "free", young: true, address: ADDRESS },
+      now: NOW,
+      ...over,
+    });
+  const first = await begin();
+  assert.ok(first.ok);
   assert.deepEqual([counter(db, person, "presentation_free"), counter(db, ipSubject(ADDRESS), "presentation_free"), counter(db, SITE_SUBJECT, "presentation_free")], [1, 1, 1]);
-  await store.release(day, person, "presentation_free");
+  assert.equal(await releaseJob(db.asD1(), first.job, "fault", NOW + 1000), true);
   // The address and the site keep what was taken: whatever the attempt cost, it cost.
   assert.deepEqual(
     [counter(db, person, "presentation_free"), counter(db, ipSubject(ADDRESS), "presentation_free"), counter(db, SITE_SUBJECT, "presentation_free"), counter(db, person, "returned")],
     [0, 1, 1, 1],
   );
-  // Never below zero.
-  await store.release(day, person, "presentation_free");
+  // A job hands its unit back once: never twice, never below zero.
+  assert.equal(await releaseJob(db.asD1(), first.job, "fault", NOW + 2000), false);
   assert.equal(counter(db, person, "presentation_free"), 0);
-  assert.equal(counter(db, person, "returned"), 2);
-  for (let i = 2; i < RETURNED_DAILY_CAP; i++) {
-    assert.equal((await admit(db, { subject: person })).ok, true);
-    await store.release(day, person, "presentation_free");
+  assert.equal(counter(db, person, "returned"), 1);
+  for (let i = 1; i < RETURNED_DAILY_CAP; i++) {
+    const again = await begin({ now: NOW + i * 10_000 });
+    assert.ok(again.ok);
+    assert.equal(await releaseJob(db.asD1(), again.job, "fault", NOW + i * 10_000 + 1000), true);
   }
   assert.equal(counter(db, person, "returned"), 5);
   const tired = await admit(db, { subject: person });
   assert.equal(tired.ok ? "" : tired.code, "try_later");
   assert.equal(counter(db, person, "presentation_free"), 0);
-  // A paid unit handed back counts too (the ledger credits the entitlement itself).
-  await store.noteReturned(day, subject(10));
-  assert.equal(counter(db, subject(10), "returned"), 1);
-  // Only a person's counter is ever handed back.
-  await assert.rejects(store.release(day, SITE_SUBJECT, "presentation_free"));
-  await assert.rejects(store.release(day, ipSubject(ADDRESS), "presentation_free"));
-  await assert.rejects(store.noteReturned(day, "all"));
+  // Only a person's job exists, so only a person's counter is ever handed back
+  // (a paid unit handed back counts too: tests/studio-ledger.test.ts).
+  for (const who of [SITE_SUBJECT, ipSubject(ADDRESS)]) {
+    const refused = await begin({ subject: who });
+    assert.equal(refused.ok ? "" : refused.code, "invalid");
+  }
+  assert.equal(counter(db, SITE_SUBJECT, "returned"), 0);
 });
 
 /** The database, but statements whose SQL and bindings match `fails` throw like a failing D1. */

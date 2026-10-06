@@ -18,10 +18,12 @@
 // request costs nobody a unit, and the site counter never counts refusals.
 // Before that, the budget (limits.ts) and the 'returned' cap (5 a day) are read.
 //
-// Handing a unit back after a reservation (the ledger, T1.4) lowers only the
-// subject's own counter and adds one to 'returned'. The address and site
-// counters and the money spent are never lowered: whatever the attempt cost,
-// it cost (spec §4.3).
+// Handing a unit back after a reservation lowers only the subject's own
+// counter and adds one to 'returned'. It happens only inside the ledger's
+// guarded transition (ledger.ts LedgerStore.close, one D1 transaction), so
+// no code path can return a unit without closing its job. The address and
+// site counters and the money spent are never lowered: whatever the attempt
+// cost, it cost (spec §4.3).
 //
 // Any D1 failure is a refusal (503 studio_busy): nothing free is handed out
 // while the database is in trouble.
@@ -130,37 +132,6 @@ export class FreeUsageStore {
       presentation_free: Number(decks.results?.[0]?.used ?? 0),
       photo_task: Number(photos.results?.[0]?.used ?? 0),
     };
-  }
-
-  /**
-   * Hand back a free unit after its reservation was released (the ledger
-   * calls this only when its guarded transition returned a row): the
-   * subject's own counter of `day` goes down by one, never below zero, and
-   * 'returned' goes up, in one batch. Address and site counters stay.
-   */
-  async release(day: string, subject: string, unit: FreeUnit): Promise<void> {
-    if (!isPersonSubject(subject)) throw new Error("studio_free_usage: release needs a person's subject");
-    await this.db.batch([
-      this.db
-        .prepare("UPDATE studio_free_usage SET used=used-1 WHERE org_id=? AND day=? AND subject=? AND unit=? AND used>0")
-        .bind(this.org, day, subject, unit),
-      this.returnedStatement(day, subject),
-    ]);
-  }
-
-  /** One more 'returned' for `subject` on `day` (a paid unit handed back: the entitlement is credited by the ledger). */
-  async noteReturned(day: string, subject: string): Promise<void> {
-    if (!isPersonSubject(subject)) throw new Error("studio_free_usage: returned needs a person's subject");
-    await this.returnedStatement(day, subject).run();
-  }
-
-  private returnedStatement(day: string, subject: string): D1PreparedStatement {
-    return this.db
-      .prepare(
-        `INSERT INTO studio_free_usage(org_id,day,subject,unit,used) VALUES(?,?,?,?,1)
-      ON CONFLICT(org_id,day,subject,unit) DO UPDATE SET used=used+1`,
-      )
-      .bind(this.org, day, subject, RETURNED_UNIT);
   }
 }
 
