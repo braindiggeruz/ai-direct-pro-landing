@@ -168,6 +168,26 @@ test('target launch package and diagnostic stage keep their distinct scopes', ()
   assert.equal(diagnostic?.[1], 'Продукт, аудитория, прошлые кампании, аналитика');
 });
 
+test('the Uzbek target page repeats the overview #target rows and the Russian tariff', () => {
+  const page = read<Page>('pages/uz/instagram-target-yoqish');
+  const overview = read<Page>('pages/uz/internet-reklama-toshkent');
+  const ru = read<Page>('pages/ru/targetirovannaya-reklama-tashkent');
+  const priceTable = (blocks: Page['bodyBlocks']) => blocks.find(block => block.type === 'table' && block.headers?.some(header => /^(Narx|Цена)/.test(header)));
+  const summary = overview.bodyBlocks.findIndex(block => block.id === 'target');
+  assert.ok(summary >= 0);
+  assert.deepEqual(priceTable(page.bodyBlocks), priceTable(overview.bodyBlocks.slice(summary)));
+  const uzPrices = priceTable(page.bodyBlocks)!.rows!.map(row => row.at(-1)!.replace(/ dan$/, ''));
+  const ruPrices = priceTable(ru.bodyBlocks)!.rows!.map(row => row.at(-1)!.replace(/^от /, ''));
+  assert.deepEqual(uzPrices, ['1 990 000', '1 490 000']);
+  assert.deepEqual(uzPrices, ruPrices);
+  assert.equal(page.heroTrust?.[0], 'Ishga tushirish 1 990 000 so‘mdan');
+  assert.equal(page.hreflangRu, ru.url);
+  assert.equal(ru.hreflangUz, page.url);
+  assert.equal(page.ctaPrimaryHref, '#lead-form');
+  assert.equal(LEAD_FORM_PAGES[page.url], 'target');
+  assert.match(JSON.stringify(page.bodyBlocks), /yuborilgan ariza degani emas/);
+});
+
 test('compact advertising heroes are opt-in and preserve the full search heading', () => {
   for (const key of ['ru/targetirovannaya-reklama-tashkent', 'ru/telegram-ads-uzbekistan']) {
     const page = read<Page>(`pages/${key}`);

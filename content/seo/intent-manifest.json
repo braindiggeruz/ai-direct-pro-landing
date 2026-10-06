@@ -178,7 +178,28 @@
         }
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
-      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent. On 2026-10-06 the hub also claimed smm agentlik, smm toshkent and smm kompaniya and gained an «agentlik» section: Google Ads returns 0 for the first two and 30/mo for smm kompaniya, but their live SERPs are agency result sets (an AI Overview with agency lists for smm agentlik, a local pack for smm toshkent), and the first inbound Uzbek SMM lead arrived the same day (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md). /uz/blog/smm-xizmati-narxi-ozbekiston-2026/ is deliberately not a spoke yet: its title still carries ASCII apostrophes and is printed on the protected homepage, so it joins with the revision that fixes that title."
+      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/, the Uzbek targeting service /uz/instagram-target-yoqish/ (cluster target-uz, decision A5) and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent. On 2026-10-06 the hub also claimed smm agentlik, smm toshkent and smm kompaniya and gained an «agentlik» section: Google Ads returns 0 for the first two and 30/mo for smm kompaniya, but their live SERPs are agency result sets (an AI Overview with agency lists for smm agentlik, a local pack for smm toshkent), and the first inbound Uzbek SMM lead arrived the same day (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md). /uz/blog/smm-xizmati-narxi-ozbekiston-2026/ is deliberately not a spoke yet: its title still carries ASCII apostrophes and is printed on the protected homepage, so it joins with the revision that fixes that title."
+    },
+    {
+      "id": "target-uz",
+      "hub": "/uz/instagram-target-yoqish/",
+      "hubIntent": "commercial — commission Instagram and Facebook targeted advertising in Uzbek",
+      "hubKeywords": [
+        "target yoqish",
+        "instagram target",
+        "target xizmati",
+        "targetolog xizmati",
+        "target yoqish narxi"
+      ],
+      "spokes": [
+        {
+          "url": "/uz/blog/target-reklama-nima/",
+          "ownsIntent": "understand what targeted social ads are before commissioning them",
+          "primaryKeyword": "target nima"
+        }
+      ],
+      "evidence": "gptbot.uz-audit/raw/smm-cluster-2026-10-06/: Google Ads location 2860 pulled 2026-10-06 (target yoqish 260/mo at competition 0.34, targetolog 170, instagram target 50 at CPC 2.79, targetolog kerak 40, target yoqish narxi 20 — about 540 a month); Search Console 2026-07-08..2026-10-05 shows /uz/blog/target-reklama-nima/ at 165 impressions, average position 6.8 and 0 clicks, a distinct Uzbek targeting intent with no commercial page behind it; the live SERP for target xizmati has no agency page in the top ten (OLX, birbir, Instagram) and target yoqish has an OLX service listing at 2.",
+      "note": "Registered with decision A5. The hub prints the same launch and management prices as /uz/internet-reklama-toshkent/#target and /ru/targetirovannaya-reklama-tashkent/ (tests/advertising-seo-content.test.ts) and is the reciprocal hreflang pair of the Russian targeting page. The article keeps the definitional intent (target nima, target reklama nima, таргет нима) and hands «target yoqish narxi» and «instagramda target yoqish» to the hub. /uz/internet-reklama-toshkent/#target stays as a channel-overview summary with its price table and links here. Organic social management stays with smm-uz; the Biznes and Pro SMM packages include target management and link here as a separate service. Still rejected (A2): targetolog as a primary keyword and target reklama as a hub keyword."
     },
     {
       "id": "seo-uz",
@@ -842,6 +863,14 @@
       "decidedAt": "2026-10-04",
       "evidence": "tests/seo-cluster-quality.test.ts requires every cluster hub to declare Service, FAQPage and BreadcrumbList schema with at least four visible questions. The natural hub of the school pages, /uz/gpt-uzbek-tilida/, is a gpt-chat page: a free chat, not a service offer, so its schemaTypes are Organization, WebSite and BreadcrumbList and it declares no Service. Since R-S1 (2026-10-05) its template shows the FAQ and the page carries FAQPage markup for exactly those visible questions, but a Service node for the free chat would be a commercial claim the page does not make. A «school-uz» cluster with the chat as hub therefore cannot pass the hub gate.",
       "note": "The school pages proposed in KEYWORD-BRIEFS-2026-10-04 (cluster «school-uz») are recorded as one pair per spoke with the UZ chat as the commercial side: C29 (slayd) and C30 (insho/esse) from R-S1 on 2026-10-05, then C31 (referat) and C32 (rezyume) from the school-pages release (its date is in docs/seo/CHANGE_LOG_2026-10.md), with C35 and C36 fencing the student article and the prompt library (C33 and C34 were taken by the R-S1 review). Each spoke's informational mustNotTarget lists the chat family keys and its siblings' heads, so the spokes stay apart without a cluster entry. Every spoke links the chat. The chat links slayd and insho/esse from its «Talaba…» section in R-S1; it links referat and rezyume only in R-S3 (≈2026-11-18), because the chat page does not change in the school-pages release."
+    },
+    {
+      "id": "A5-uz-target-service-2026-10-06",
+      "url": "/uz/instagram-target-yoqish/",
+      "decision": "BUILD_ON_ACTIVATION_BRANCH",
+      "decidedAt": "2026-10-06",
+      "evidence": "A review of A2 (2026-08-22, which rejected targetolog and target reklama) with what changed since: Search Console now shows a separate Uzbek targeting intent (/uz/blog/target-reklama-nima/ at 165 impressions, position 6.8, 0 clicks over 2026-07-08..2026-10-05); Google Ads measures about 540 a month for the service phrasing (target yoqish 260, targetolog 170, instagram target 50, targetolog kerak 40, target yoqish narxi 20); the target xizmati SERP has no agency page in its top ten; the Russian pair /ru/targetirovannaya-reklama-tashkent/ had no Uzbek counterpart; and the launch and management prices were already published on /uz/internet-reklama-toshkent/#target. Source: gptbot.uz-audit/raw/smm-cluster-2026-10-06/SMM-CLUSTER-PLAN.md §4.",
+      "note": "Built as /uz/instagram-target-yoqish/ (primary keyword target yoqish) on the activation branch seo/smm-target-uz-20261006 and released only with a reviewed homepage revision, because every published page adds a row to the protected homepage list. Still rejected: targetolog as a primary keyword (vacancies and courses) and target reklama as a hub keyword (Russian-language theory)."
     }
   ]
 }

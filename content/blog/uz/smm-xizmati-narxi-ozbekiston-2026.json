@@ -152,12 +152,17 @@
     },
     {
       "type": "linkp",
-      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan.",
+      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan. Mutaxassis ishining narxi — {xizmat} sahifasida.",
       "links": [
         {
           "token": "target",
           "target": "/uz/blog/target-reklama-nima/",
           "anchor": "target qanday ishlaydi"
+        },
+        {
+          "token": "xizmat",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "target yoqish narxi"
         }
       ]
     },
