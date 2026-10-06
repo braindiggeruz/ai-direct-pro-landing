@@ -367,6 +367,17 @@
       "text": "Kimga mos kelmasligini ham aytamiz: agar taklifingiz murakkab va uzoq tushuntirish talab qilsa, Telegram reklama birinchi qadam sifatida qimmatga tushishi mumkin. Bunday holatda avval sayt va kontent kerak bo‘ladi."
     },
     {
+      "type": "linkp",
+      "text": "Mahsulot vizual bo‘lsa va auditoriyani qiziqish yoki yosh bo‘yicha tanlash kerak bo‘lsa, Instagram reklamasi mos kelishi mumkin — {target} haqida alohida maqola bor.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/blog/target-reklama-nima/",
+          "anchor": "Instagram target qanday ishlashi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "keyin",
       "text": "Bosishdan keyin nima bo‘ladi"
@@ -684,9 +695,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-28",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "heroTrust": [
     "Ads va kanal postlari alohida",
     "Media byudjet alohida",

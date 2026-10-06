@@ -271,7 +271,7 @@
     },
     {
       "type": "linkp",
-      "text": "Masalan, {marketing} degan so‘rov — bu o‘rganish, xizmat buyurtma qilish emas. Shuning uchun bunday so‘rovlar maqolada qoladi, tijorat sahifasida esa buyurtma tili turadi. Xuddi shu tamoyil {smm} yo‘nalishida ham qo‘llanadi.",
+      "text": "Masalan, {marketing} degan so‘rov — bu o‘rganish, xizmat buyurtma qilish emas. Shuning uchun bunday so‘rovlar maqolada qoladi, tijorat sahifasida esa buyurtma tili turadi. Xuddi shu tamoyil {smm} xizmatida ham qo‘llanadi.",
       "links": [
         {
           "token": "marketing",
@@ -281,7 +281,7 @@
         {
           "token": "smm",
           "target": "/uz/smm-xizmatlari/",
-          "anchor": "SMM xizmatlari"
+          "anchor": "Instagram va Telegram yuritish"
         }
       ]
     },
@@ -628,9 +628,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-28",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "heroTrust": [
     "Audit 990 000 so‘mdan",
     "Oyiga 2 490 000 so‘mdan",
