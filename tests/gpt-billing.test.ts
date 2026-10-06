@@ -704,7 +704,7 @@ test("every Click refusal is logged with a reason word only, signed oddities pag
   const ok = await send(form());
   assert.deepEqual(ok, { click_trans_id: Number(tx), merchant_trans_id: o.id, merchant_prepare_id: o.seq, error: 0, error_note: "Success" });
 });
-test("test checkout is dark, authenticates account, ignores client amount and never returns live URL", async () => {
+test("test checkout is dark, authenticates account, ignores client amount and never returns a live URL", async () => {
   const f = await billingFixture();
   const id = crypto.randomUUID();
   const request = (cookie = f.testCookie) =>
@@ -730,9 +730,15 @@ test("test checkout is dark, authenticates account, ignores client amount and ne
   const forged = await subscribe(f.ctx(request(`${f.cookie}; __Host-gpt_rehearsal=v1.${Date.now() + 60_000}.${"0".repeat(32)}.${"0".repeat(64)}`)));
   assert.equal(forged.status, 404);
   const first = await (await subscribe(f.ctx(request()))).json();
-  assert.equal(first.mode, "test");
-  assert.equal(first.amount, 2000000);
-  assert.equal(first.checkoutUrl, undefined);
+  // Payme's sandbox page (payme-checkout.ts), never checkout.paycom.uz, with
+  // the server's amount whatever the client sent.
+  assert.equal(first.mode, "checkout");
+  const page = new URL(first.checkoutUrl);
+  assert.equal(page.origin, "https://test.paycom.uz");
+  assert.equal(
+    atob(page.pathname.slice(1)),
+    `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${first.attemptId};a=2000000;c=https://gpt.test/ru/gpt-chat/?pay=return;l=ru;ct=15000`,
+  );
   assert.equal(
     (await (await subscribe(f.ctx(request()))).json()).attemptId,
     first.attemptId,

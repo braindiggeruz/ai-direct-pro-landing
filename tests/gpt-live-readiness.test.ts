@@ -49,8 +49,8 @@ const hex = (bytes: number) => randomBytes(bytes).toString("hex");
 /** Every secret below starts with this, so a leaked value is easy to find. */
 const MARK = "SECRETMARK";
 const marked = () => `${MARK}${hex(16)}`;
-/** A setting name, a field inside a JSON secret, or the one code-level gap. */
-const NAME = /^(?:[A-Z][A-Z0-9_]*(?:\.[a-z][A-Za-z_]*){0,3}|payme_receipt_detail)$/;
+/** A setting name or a field inside a JSON secret. */
+const NAME = /^[A-Z][A-Z0-9_]*(?:\.[a-z][A-Za-z_]*){0,3}$/;
 
 /** A configuration in which Click and Uzum Checkout may both sell live. */
 function liveEnv(extra: Partial<BillingEnv> = {}): BillingEnv {
@@ -220,7 +220,7 @@ test("Click credentials: one secret, the legacy variables only while it is unset
   );
 });
 
-test("modes per provider over the global one; the allowlist keeps Payme off and test-only", () => {
+test("modes per provider over the global one; Payme runs only when listed and sells live only by its own switch", () => {
   const env = (extra: Partial<BillingEnv>) => extra as BillingEnv;
   assert.equal(providerMode(env({}), "click"), null);
   assert.equal(billingActive(env({})), false);
@@ -234,12 +234,48 @@ test("modes per provider over the global one; the allowlist keeps Payme off and 
   assert.equal(providerMode(env({ GPT_BILLING_MODE: "live", GPT_BILLING_MODE_CLICK: "LIVE" }), "click"), null);
   assert.equal(providerMode(env({ GPT_BILLING_MODE: "live", GPT_PAYMENT_PROVIDERS: "uzum" }), "click"), null);
   assert.equal(providerMode(env({ GPT_BILLING_MODE: "test", GPT_PAYMENT_PROVIDERS: "" }), "uzum"), null);
-  // Payme has only the global mode and runs only when listed.
+  // Payme runs only when listed; its own mode wins over the global one, which
+  // stays its fallback as for Click and Uzum (decision L7).
   assert.equal(providerMode(env({ GPT_BILLING_MODE: "test" }), "payme"), null);
+  assert.equal(providerMode(env({ GPT_BILLING_MODE_PAYME: "test" }), "payme"), null);
   assert.equal(providerMode(env({ GPT_BILLING_MODE: "test", GPT_PAYMENT_PROVIDERS: " click , payme " }), "payme"), "test");
-  const payme = liveEnv({ GPT_PAYMENT_PROVIDERS: "click,uzum,payme", GPT_PAYME_KEY: marked(), GPT_PAYME_MERCHANT_ID: "1" });
-  assert.deepEqual(liveReadiness(payme, "payme"), ["payme_receipt_detail"]);
+  assert.equal(providerMode(env({ GPT_BILLING_MODE_PAYME: "test", GPT_PAYMENT_PROVIDERS: "click,uzum,payme" }), "payme"), "test");
+  assert.equal(providerMode(env({ GPT_BILLING_MODE: "live", GPT_BILLING_MODE_PAYME: "test", GPT_PAYMENT_PROVIDERS: "payme" }), "payme"), "test");
+  assert.equal(providerMode(env({ GPT_BILLING_MODE: "test", GPT_BILLING_MODE_PAYME: "off", GPT_PAYMENT_PROVIDERS: "payme" }), "payme"), null);
+  assert.equal(providerMode(env({ GPT_BILLING_MODE: "test", GPT_BILLING_MODE_PAYME: "Test", GPT_PAYMENT_PROVIDERS: "payme" }), "payme"), null);
+  // Payme's own mode moves neither Click nor Uzum.
+  const paymeOnly = env({ GPT_PAYMENT_PROVIDERS: "click,uzum,payme", GPT_BILLING_MODE_PAYME: "test", GPT_BILLING_MODE_CLICK: "live" });
+  assert.deepEqual([providerMode(paymeOnly, "click"), providerMode(paymeOnly, "uzum"), providerMode(paymeOnly, "payme")], ["live", null, "test"]);
+  // Live: Payme sends the receipt detail itself (payme-checkout.ts), so what it
+  // needs are its own switch, its production key, a cash desk id of Payme's
+  // format (24 hex) and the fiscal codes; the global live mode alone is not enough.
+  const merchant = hex(12);
+  const payme = liveEnv({ GPT_PAYMENT_PROVIDERS: "click,uzum,payme", GPT_PAYME_KEY: marked(), GPT_PAYME_MERCHANT_ID: merchant });
+  assert.equal(providerMode(payme, "payme"), "live");
+  assert.deepEqual(liveReadiness(payme, "payme"), ["GPT_BILLING_MODE_PAYME"]);
   assert.equal(providerReady(payme, "payme"), false);
+  const paymeLive = { ...payme, GPT_BILLING_MODE_PAYME: "live" } as BillingEnv;
+  assert.deepEqual(liveReadiness(paymeLive, "payme"), []);
+  assert.equal(providerReady(paymeLive, "payme"), true);
+  assert.deepEqual(offeredProviders(paymeLive, "live"), ["click", "uzum", "payme"]);
+  for (const [change, name] of [
+    [{ GPT_BILLING_MODE_PAYME: "test" }, "GPT_BILLING_MODE_PAYME"],
+    [{ GPT_PAYME_KEY: undefined }, "GPT_PAYME_KEY"],
+    [{ GPT_PAYME_KEY: "short" }, "GPT_PAYME_KEY"],
+    [{ GPT_PAYME_KEY: `${marked()} with spaces` }, "GPT_PAYME_KEY"],
+    [{ GPT_PAYME_MERCHANT_ID: "1" }, "GPT_PAYME_MERCHANT_ID"],
+    [{ GPT_PAYME_MERCHANT_ID: `${merchant}0` }, "GPT_PAYME_MERCHANT_ID"],
+    [{ GPT_FISCAL_IKPU: "" }, "GPT_FISCAL_IKPU"],
+    [{ GPT_FISCAL_VAT_PERCENT: "" }, "GPT_FISCAL_VAT_PERCENT"],
+  ] as Array<[Partial<BillingEnv>, string]>) {
+    const missing = liveReadiness({ ...paymeLive, ...change } as BillingEnv, "payme");
+    assert.ok(missing.includes(name), `${name}: ${JSON.stringify(missing)}`);
+    assert.ok(!JSON.stringify(missing).includes(MARK));
+  }
+  // The receipt's TIN is not Payme's question (the cash desk is the seller's own).
+  assert.deepEqual(liveReadiness({ ...paymeLive, GPT_FISCAL_TIN: "" } as BillingEnv, "payme"), []);
+  // A key pasted with a newline is the same key.
+  assert.deepEqual(liveReadiness({ ...paymeLive, GPT_PAYME_KEY: `${marked()}\n` } as BillingEnv, "payme"), []);
 });
 
 test("the committed configuration: Click live, Uzum and Payme off, credentials are never public config", async () => {
@@ -489,7 +525,7 @@ test("the product is the AI pack: no GPT, Plus, Pro or subscription in its names
   for (const name of names) assert.doesNotMatch(name, /gpt|chatgpt|plus|\bpro\b|obuna|подписк/i, name);
 });
 
-test("a live-ready Click checkout: Click's page with the return marker; Payme is never sold live", async () => {
+test("a live-ready Click checkout: Click's page with the return marker; Payme sells live only by its own switch", async () => {
   const f = await billingFixture();
   Object.assign(f.env, liveEnv({ GPTBOT_DRAFTS_DB: f.binding, GPT_IDENTITY_SECRET: f.env.GPT_IDENTITY_SECRET, GPT_PAYMENT_PROVIDERS: "click,uzum,payme", GPT_PAYME_KEY: marked() }));
   const buy = (provider: string, cookie = f.cookie, locale = "uz") =>
@@ -511,9 +547,10 @@ test("a live-ready Click checkout: Click's page with the return marker; Payme is
     transaction_param: body.attemptId,
     return_url: "https://gptbot.uz/uz/gpt-uzbek-tilida/?pay=return",
   });
+  // The global live mode alone never sells Payme: its own switch is missing.
   assert.equal((await buy("payme")).status, 404);
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE provider='payme'"), 0);
-  // The live view offers Click and Uzum, never Payme.
+  // The live view offers Click and Uzum, not Payme.
   const view = (await (await account(f.ctx(new Request("https://gptbot.uz/api/gpt/account", { headers: { cookie: f.cookie } })))).json()) as { providers: string[]; mode: string };
   assert.deepEqual(view.providers, ["click", "uzum"]);
   assert.equal(view.mode, "live");
@@ -523,8 +560,28 @@ test("a live-ready Click checkout: Click's page with the return marker; Payme is
   assert.deepEqual(payments, {
     click: { mode: "live", missing: [] },
     uzum: { mode: "live", missing: [] },
-    payme: { mode: "live", missing: ["payme_receipt_detail"] },
+    payme: { mode: "live", missing: ["GPT_BILLING_MODE_PAYME"] },
   });
+  // With its own switch, Payme live sends a signed-in payer to checkout.paycom.uz.
+  // (The deploy gate still refuses it while the offer does not name Payme.)
+  f.env.GPT_BILLING_MODE_PAYME = "live";
+  const paymeResponse = await buy("payme", f.cookie, "ru");
+  const paymeBody = (await paymeResponse.json()) as { mode: string; checkoutUrl: string; attemptId: string; code?: string };
+  // The account still holds the open Click invoice (U7): it is closed first.
+  assert.equal(paymeResponse.status, 409, JSON.stringify(paymeBody));
+  assert.equal(paymeBody.code, "pending_elsewhere");
+  await f.store.transition(body.attemptId, "cancelled", "invoice_cancelled", { from: ["pending"], unseen: true });
+  const paid = await buy("payme", f.cookie, "ru");
+  const paidBody = (await paid.json()) as { mode: string; checkoutUrl: string; attemptId: string };
+  assert.equal(paidBody.mode, "checkout");
+  const page = new URL(paidBody.checkoutUrl);
+  assert.equal(page.origin, "https://checkout.paycom.uz");
+  assert.equal(
+    atob(page.pathname.slice(1)),
+    `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${paidBody.attemptId};a=2000000;c=https://gptbot.uz/ru/gpt-chat/?pay=return;l=ru;ct=15000`,
+  );
+  assert.equal(f.db.value("SELECT mode FROM gpt_payment_orders WHERE id=?", paidBody.attemptId), "live");
+  f.env.GPT_BILLING_MODE_PAYME = "";
   f.env.GPT_BILLING_LIVE_READY = "false";
   f.env.GPT_BILLING_MODE_UZUM = "off";
   assert.deepEqual((await inspectBilling(f.env)).payments.uzum, {

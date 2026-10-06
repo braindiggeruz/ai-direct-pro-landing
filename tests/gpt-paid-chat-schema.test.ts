@@ -6,6 +6,8 @@
 // ensureBillingSchema); WP-17 gpt_ui_events (the pack window's funnel,
 // ensureBillingSchema). migrations/0071 adds Click's payment number
 // (provider_doc_id) to gpt_payment_orders, ensureBillingSchema too.
+// migrations/0074 adds Payme's fiscal receipts (gpt_payme_fiscal), bootstrapped
+// by ensurePaymeSchema on the Payme route only.
 // Real SQLite (tests/helpers/sqlite-d1.ts); nothing here touches a remote
 // database.
 // Run: node --import tsx --test tests/gpt-paid-chat-schema.test.ts
@@ -16,9 +18,11 @@ import { SqliteD1 } from "./helpers/sqlite-d1";
 import { ensureSchema } from "../functions/lib/gpt-chat/schema";
 import {
   ensureBillingSchema,
+  ensurePaymeSchema,
   ensureUzumSchema,
   FISCAL_RECEIPT_COLUMNS,
   PAYMENT_ORDER_COLUMNS,
+  PAYME_FISCAL_DDL,
   PAID_CHAT_DDL,
   UZUM_ORDER_COLUMNS,
   UZUM_PAID_CHAT_DDL,
@@ -266,4 +270,45 @@ test("0071 adds exactly the bootstrap's order column, keeps every row, and the c
   assert.deepEqual(orderColumns(db).at(-1), { name: "provider_doc_id", type: "TEXT", notnull: 0, dflt_value: null });
   // Code before the migration: the bootstrap added it, the migration refuses.
   assert.throws(() => apply(bootstrapped, "0071_gpt_click_paydoc.sql", M0071), /duplicate column name/);
+});
+
+// migrations/0074: Payme's fiscal receipts (SetFiscalData), its own table.
+const M0074 = migration("0074_gpt_payme_fiscal.sql");
+const paymeFiscalColumns = (db: SqliteD1) =>
+  db.rows<{ name: string; type: string; notnull: number; pk: number }>("PRAGMA table_info('gpt_payme_fiscal')")
+    .map(({ name, type, notnull, pk }) => ({ name, type, notnull, pk }));
+
+test("0074 is the Payme route's bootstrap, only creates, and is recorded before or after it ran", async () => {
+  assert.deepEqual(statements(M0074), PAYME_FISCAL_DDL);
+  assert.doesNotMatch(M0074.replace(SQL_COMMENT, ""), /\b(DROP|DELETE|UPDATE|INSERT|TRUNCATE|ALTER)\b/i);
+  // Migration first (the release order), then the bootstrap changes nothing.
+  const migrated = productionShape();
+  migrated.exec(M0068);
+  migrated.exec(M0071);
+  assert.equal(apply(migrated, "0074_gpt_payme_fiscal.sql", M0074), "applied");
+  const columns = paymeFiscalColumns(migrated);
+  assert.deepEqual(columns.map((column) => column.name), [
+    "org_id", "order_id", "kind", "transaction_id", "status_code", "message", "receipt_id",
+    "terminal_id", "fiscal_sign", "qr_code_url", "fiscal_date", "created_at", "updated_at",
+  ]);
+  await ensureSchema(migrated.asD1());
+  await ensurePaymeSchema(migrated.asD1());
+  assert.deepEqual(paymeFiscalColumns(migrated), columns);
+  // Code first: the bootstrap made the table and the migration still records (IF NOT EXISTS).
+  const bootstrapped = new SqliteD1();
+  await ensureSchema(bootstrapped.asD1());
+  await ensurePaymeSchema(bootstrapped.asD1());
+  assert.deepEqual(paymeFiscalColumns(bootstrapped), columns);
+  assert.equal(apply(bootstrapped, "0074_gpt_payme_fiscal.sql", M0074), "applied");
+  assert.equal(apply(bootstrapped, "0074_gpt_payme_fiscal.sql", M0074), "skipped");
+  // A chat turn's bootstrap never creates it.
+  const chat = new SqliteD1();
+  await ensureSchema(chat.asD1());
+  await ensureBillingSchema(chat.asD1());
+  assert.equal(chat.value("SELECT COUNT(*) FROM sqlite_master WHERE name='gpt_payme_fiscal'"), 0);
+  // One report per order and kind: the PERFORM and the CANCEL receipt.
+  assert.throws(
+    () => bootstrapped.exec("INSERT INTO gpt_payme_fiscal(org_id,order_id,kind,transaction_id,status_code,created_at,updated_at) VALUES('o','pay_a','REFUND','t',0,1,1)"),
+    /CHECK constraint failed/,
+  );
 });

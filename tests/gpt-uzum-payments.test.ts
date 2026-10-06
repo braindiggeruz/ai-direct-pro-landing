@@ -225,12 +225,14 @@ test("config: host allowlist, fiscal completeness and key gates fail closed", ()
   const merchant = { ...ready, UZUM_API: "merchant", UZUM_CREDENTIALS_JSON: JSON.stringify({ merchant: { live: { serviceId: 77, login: "fixture", password: randomBytes(12).toString("hex") } } }) };
   assert.deepEqual(liveReadiness(merchant, "uzum"), ["UZUM_CREDENTIALS_JSON.fiscal.live.apiKey"]);
   // Click/Payme branches are untouched by the Uzum settings; Payme is off
-  // unless listed and never live (no receipt detail).
+  // unless listed, and live only by its own switch (GPT_BILLING_MODE_PAYME).
   assert.equal(providerReady({ ...ready, GPT_CLICK_SECRET: "x".repeat(20) }, "click"), false);
   const payme = { ...ready, GPT_PAYME_KEY: "x".repeat(20), GPT_PAYME_MERCHANT_ID: "1" };
   assert.equal(providerReady(payme, "payme"), false);
-  assert.deepEqual(liveReadiness(payme, "payme"), ["GPT_PAYMENT_PROVIDERS", "payme_receipt_detail"]);
-  assert.deepEqual(liveReadiness({ ...payme, GPT_PAYMENT_PROVIDERS: "click,uzum,payme" }, "payme"), ["payme_receipt_detail"]);
+  assert.deepEqual(liveReadiness(payme, "payme"), ["GPT_PAYMENT_PROVIDERS", "GPT_BILLING_MODE_PAYME", "GPT_PAYME_MERCHANT_ID"]);
+  const listed = { ...payme, GPT_PAYMENT_PROVIDERS: "click,uzum,payme", GPT_BILLING_MODE_PAYME: "live", GPT_PAYME_MERCHANT_ID: randomBytes(12).toString("hex") };
+  assert.deepEqual(liveReadiness(listed, "payme"), []);
+  assert.deepEqual(liveReadiness({ ...listed, GPT_FISCAL_IKPU: "" }, "payme"), ["GPT_FISCAL_IKPU"]);
   // The browser redirect check and the server allowlist agree.
   assert.equal(UZUM_CHECKOUT_HOST.source, UZUM_HOST_PATTERN.source);
   assert.equal(allowedCheckoutUrl("https://pay.uzumbank.uz/p/1"), "https://pay.uzumbank.uz/p/1");

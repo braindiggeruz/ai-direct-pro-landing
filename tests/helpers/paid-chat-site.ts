@@ -21,6 +21,7 @@ import * as clickRefundRecord from "../../functions/api/internal/gpt-click-refun
 import * as internalRehearsal from "../../functions/api/internal/gpt-rehearsal-session";
 import * as uzumRefund from "../../functions/api/internal/gpt-uzum-refund";
 import * as click from "../../functions/api/payments/click";
+import * as payme from "../../functions/api/payments/payme";
 import * as uzum from "../../functions/api/payments/uzum";
 import * as uzumMerchant from "../../functions/api/payments/uzum-merchant/[op]";
 import * as assistant from "../../functions/api/telegram/assistant";
@@ -47,6 +48,7 @@ const ROUTES: ReadonlyArray<readonly [RegExp, RouteModule]> = [
   [/^\/api\/gpt\/auth\/bot\/status$/, botStatus],
   [/^\/api\/telegram\/assistant$/, assistant],
   [/^\/api\/payments\/click$/, click],
+  [/^\/api\/payments\/payme$/, payme],
   [/^\/api\/payments\/uzum$/, uzum],
   [/^\/api\/payments\/uzum-merchant\/(?<op>[a-z]+)$/, uzumMerchant],
 ];
