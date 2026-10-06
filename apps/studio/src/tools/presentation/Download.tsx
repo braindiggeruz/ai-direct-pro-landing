@@ -5,14 +5,22 @@
  * an <a download> of an object URL. No server keeps the file; there is no
  * link to send in v1.
  *
- * The button waits for the pictures to arrive or fail, so the file has every
- * picture the preview shows. `ym-hide-content`: Webvisor records nothing here.
+ * The button waits for the pictures to arrive or fail, at most
+ * flow.ts PICTURE_DEADLINE_MS after the deck, so the file has every picture
+ * the preview shows. `ym-hide-content`: Webvisor records nothing here.
+ *
+ * A click proves nothing about the file: an in-app WebView cannot hand a
+ * blob: link to its download manager, and iOS asks first. So after the click
+ * the line is neutral («Yuklab olish boshlandi…», state 'started'), never
+ * "saved", and in an in-app browser there is no such line at all, only the
+ * guidance to open the page in Chrome or Safari and make the deck there
+ * again. The deck stays in memory and the button stays enabled for a retry.
  */
 import type { InAppBrowser } from '../../inapp';
 import { InAppNotice } from './InAppNotice';
 import type { ToolTexts } from './texts';
 
-export type DownloadState = 'waiting' | 'idle' | 'building' | 'saved' | 'failed';
+export type DownloadState = 'waiting' | 'idle' | 'building' | 'started' | 'failed';
 
 export interface DownloadProps {
   readonly texts: ToolTexts;
@@ -23,6 +31,7 @@ export interface DownloadProps {
 
 export function Download({ texts, state, inApp, onDownload }: DownloadProps) {
   const busy = state === 'waiting' || state === 'building';
+  const line = state === 'failed' ? texts.buildFailed : state === 'started' && !inApp ? texts.started : null;
   return (
     <div className="ym-hide-content st:space-y-3" data-studio-download={state}>
       <button
@@ -33,9 +42,9 @@ export function Download({ texts, state, inApp, onDownload }: DownloadProps) {
       >
         {state === 'waiting' ? texts.downloadWait : state === 'building' ? texts.building : texts.download}
       </button>
-      {state === 'saved' || state === 'failed' ? (
-        <p className={state === 'saved' ? 'st:text-sm st:text-studio-cyan' : 'st:text-sm st:text-studio-danger'} role="status">
-          {state === 'saved' ? texts.saved : texts.buildFailed}
+      {line ? (
+        <p className={state === 'failed' ? 'st:text-sm st:text-studio-danger' : 'st:text-sm st:text-studio-muted'} role="status">
+          {line}
         </p>
       ) : null}
       {inApp ? <InAppNotice texts={texts} compact /> : null}
@@ -43,7 +52,7 @@ export function Download({ texts, state, inApp, onDownload }: DownloadProps) {
   );
 }
 
-/** Saves `blob` as `filename` through a temporary <a download>. */
+/** Saves `blob` as `filename` through a temporary <a download>. Nothing tells whether the browser kept it. */
 export function saveFile(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

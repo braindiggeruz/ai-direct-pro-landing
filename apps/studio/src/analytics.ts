@@ -42,9 +42,13 @@ const YM_GOALS: ReadonlySet<string> = new Set(Object.values(STUDIO_YM_GOALS));
 export const STUDIO_GA4_EVENTS = {
   toolStarted: 'studio_tool_started',
   resultReady: 'studio_result_ready',
-  /** The .pptx was saved; `images` = pictures in it. */
-  download: 'studio_download',
-  /** The server refused a start for a limit; `code` free_limit | ip_ceiling | try_later. */
+  /**
+   * The download button was clicked and the browser was asked to save the
+   * .pptx; whether it did is unknown (an in-app WebView often cannot).
+   * `images` = pictures in it, `inapp` = instagram | facebook | telegram | none.
+   */
+  download: 'studio_download_clicked',
+  /** The server refused a start for a limit; `code` free_limit | ip_ceiling | try_later | free_closed. */
   limitHit: 'studio_limit_hit',
   /** A step failed; `code` is the coarse code, never a text. */
   error: 'studio_error',
@@ -138,7 +142,7 @@ export interface Funnel {
   tariffsViewed(where: 'after_result' | 'limit'): void;
   checkoutStarted(plan: 'kunlik' | 'oylik'): void;
   checkoutResult(status: 'paid' | 'pending' | 'cancelled'): void;
-  download(tool: Tool, images: number): void;
+  download(tool: Tool, images: number, inapp: string): void;
   limitHit(code: string): void;
   error(code: string): void;
 }
@@ -183,8 +187,8 @@ export function createFunnel(send: (body: EventBody) => void, viewId: string = r
       trackGa4(STUDIO_GA4_EVENTS.checkoutResult, { status });
       server('studio_checkout_result', status);
     },
-    download(tool, images) {
-      trackGa4(STUDIO_GA4_EVENTS.download, { tool, images });
+    download(tool, images, inapp) {
+      trackGa4(STUDIO_GA4_EVENTS.download, { tool, images, inapp });
     },
     limitHit(code) {
       trackGa4(STUDIO_GA4_EVENTS.limitHit, { code });

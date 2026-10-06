@@ -35,13 +35,27 @@
  *            and the funnel events in order and with the contract's bodies;
  *            pictures shown from blob: URLs; pptxgenjs fetched only on
  *            download; the saved .pptx unzips with the cover, the six slides,
- *            both pictures and the AI label; Webvisor classes in place; no
- *            CSP violation and no console error throughout.
+ *            both pictures and the AI label, and the line after the click is
+ *            the neutral «Yuklab olish boshlandi…»; Webvisor classes in place;
+ *            no CSP violation and no console error throughout.
  *            A second submit the same day (/me: none left) shows the limit
  *            with its reset time at once, without Turnstile or a start, and
  *            the first deck stays on the page.
+ *            The deck's heading has the focus when it arrives, the hidden
+ *            status line says «Taqdimot tayyor», and the progress block was
+ *            in view while the deck was made.
+ *   early    the island's script held back while the person types a topic
+ *            and picks 4 slides and «Talaba» in the prerendered form: after
+ *            hydration the fields still hold them, and the start sends them.
  *   in-app   with an Instagram user agent, «Brauzerda oching» stands before
- *            the submit button, and still nothing is fetched on load.
+ *            the submit button, and still nothing is fetched on load. On the
+ *            real page at 360 × 640 the notice is there from the first paint
+ *            (layout shift < 0.05) and the submit button ends on the first
+ *            screen. In an ordinary browser the notice is in the markup but
+ *            not displayed.
+ *   preview  the result cards of the stub deck and of a deck of 5 bullets of
+ *            110 characters at 360, 768 and 1280 px: every card holds its
+ *            last bullet (nothing clipped), at most two cards a row.
  * T2.3 checks (the pages):
  *   pages    every studio page as the release writes it, with /api/* cut off
  *            (every request to it fails, as when robots.txt keeps a crawler
@@ -50,8 +64,10 @@
  *            a mismatch, ≥400 words outside the island, no error text, no
  *            /api/* request during load, layout shift < 0.05 over the first
  *            3 s. Then a focus in the form (/config and /me are tried and
- *            fail) still shows no error, and only a submit shows «Vaqtincha
- *            ishlamayapti» in the form's line, with the page around it intact.
+ *            fail) still shows no error, and only a submit shows «Aloqa
+ *            uzildi» (no answer reads as a lost connection; «Vaqtincha
+ *            ishlamayapti» is accepted too) in the form's line, with the page
+ *            around it intact.
  *            A published page is read from dist/<url>/index.html; a draft is
  *            rendered in memory by studio-page.ts as if published (with its
  *            translation), so the check passes before the release day.
@@ -66,7 +82,11 @@ import type { AddressInfo } from 'node:net';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
 import { readStudioPages, type StudioPageRecord } from '../shared/published-urls';
+import { INAPP_HEAD_SCRIPT } from '../src/inapp';
 import { AI_LABEL } from '../src/pptx/build';
+import { createElement } from 'react';
+import { renderToString } from 'react-dom/server';
+import { Preview } from '../src/tools/presentation/Preview';
 import { renderForm } from '../src/tools/presentation/static';
 import { TEXTS } from '../src/tools/presentation/texts';
 import { STUDIO_ASSET_DIR, readStudioSite } from './prerender-studio';
@@ -167,12 +187,52 @@ export function islandFixture(siteStyles: string[], entry: StudioEntryFiles, loc
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Studio island check</title>
 ${styles}
+<script>${INAPP_HEAD_SCRIPT}</script>
 <script type="module" src="${entry.script}"></script>
 </head>
 <body data-studio>
 <main>
 <h1>${locale === 'uz' ? 'Mavzuni yozing — tayyor taqdimot (.pptx)' : 'Напишите тему — получите готовую презентацию (.pptx)'}</h1>
 <div id="studio-root" data-tool="presentation">${islandHtml}</div>
+</main>
+</body>
+</html>
+`;
+}
+
+/** A deck whose every slide has 5 bullets of 110 characters, the most a free deck may have (deck-schema.ts DECK_LIMITS). */
+export const LONG_DECK = {
+  title: 'Amir Temur davlati',
+  subtitle: 'Eng uzun punktlar bilan tekshiruv',
+  slides: [1, 2, 3, 4, 5, 6].map((index) => ({
+    index,
+    title: `Uzun sarlavhali ${index}-slayd: davlat boshqaruvi va madaniyat`,
+    layout: index <= 2 ? ('image-right' as const) : ('title-bullets' as const),
+    bullets: Array.from({ length: 5 }, (_, i) => `${i + 1}. ${'Samarqand ilm-fan va madaniyat markaziga aylandi, '.repeat(3)}`.slice(0, 110)),
+  })),
+};
+
+/**
+ * The result cards as the island renders them (Preview.tsx), inside the
+ * page's own wrappers (main, the tool box), with a loading picture on the
+ * first two slides: the layout is CSS only, so the static markup measures
+ * exactly what the browser shows.
+ */
+export function previewFixture(siteStyles: string[], entry: StudioEntryFiles): string {
+  const styles = [...siteStyles, entry.style].map((href) => `<link rel="stylesheet" href="${href}" />`).join('\n');
+  const pictures = new Map([[1, { status: 'loading' as const }], [2, { status: 'none' as const }]]);
+  const decks = [STUB_DECK, LONG_DECK].map((deck, i) => `<div class="st:rounded-2xl st:border st:border-studio-line st:bg-studio-surface st:p-4 st:sm:p-6" data-check-deck="${i}">${renderToString(createElement(Preview, { texts: TEXTS.uz, deck: deck as never, pictures }))}</div>`);
+  return `<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio preview check</title>
+${styles}
+</head>
+<body data-studio>
+<main class="st:mx-auto st:max-w-3xl st:px-4 st:sm:px-6">
+${decks.join('\n')}
 </main>
 </body>
 </html>
@@ -332,7 +392,9 @@ export interface CheckReport {
   control: CascadeProbe;
   hydrate: { uz: { loadRequests: string[] }; ru: { loadRequests: string[] } };
   flow: { apiCalls: string[]; turnstile: unknown; download: { name: string; bytes: number; slides: number; media: number } | null; seconds: number };
-  inApp: { noticeBeforeSubmit: boolean };
+  inApp: { noticeBeforeSubmit: boolean; pages: Array<{ url: string; layoutShift: number; noticeHeight: number; submitBottom: number; viewportHeight: number }> };
+  early: { topic: string; slides: string; audience: string; sent: unknown };
+  preview: Array<{ width: number; deck: number; cards: number; clipped: number; perRow: number }>;
   pages: PageProbe[];
   failures: string[];
 }
@@ -384,7 +446,9 @@ export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
   if (probe.apiOnLoad.length) failures.push(`${at}: /api/* requested on load: ${probe.apiOnLoad.join(', ')}`);
   if (!probe.afterFocus.api.length) failures.push(`${at}: a focus in the form asked nothing of /api/studio (config and me are lazy, not absent)`);
   if (probe.afterFocus.errors.length) failures.push(`${at}: error text after a mere focus: ${probe.afterFocus.errors.join(' | ')}`);
-  if (probe.afterSubmit.message !== TEXTS[locale].messages.busy) failures.push(`${at}: after a submit with /api/* down the form says «${probe.afterSubmit.message}», expected «${TEXTS[locale].messages.busy}»`);
+  // /api/* answers nothing here: the browser reads that as a lost connection (or, for an off switch, busy).
+  const expected = [TEXTS[locale].messages.connection_lost, TEXTS[locale].messages.busy];
+  if (!expected.includes(probe.afterSubmit.message)) failures.push(`${at}: after a submit with /api/* down the form says «${probe.afterSubmit.message}», expected «${expected[0]}»`);
   if (probe.afterSubmit.h1 !== 1) failures.push(`${at}: the page lost its H1 after the submit`);
   return failures;
 }
@@ -584,7 +648,11 @@ async function stubApi(context: Context, jpeg: Buffer, calls: ApiCall[], turnsti
     if (apiPath === 'presentations') {
       return json(201, { ok: true, jobId: STUB_JOB, source: 'free', shape: { slides: 6, images: 2, notes: false, palette: 1, parts: 1 }, next: 'slides', expiresAt: new Date(Date.now() + 600_000).toISOString() });
     }
-    if (apiPath === `presentations/${STUB_JOB}/slides`) return json(200, { ok: true, part: 1, deck: STUB_DECK, images: STUB_IMAGES, done: true });
+    if (apiPath === `presentations/${STUB_JOB}/slides`) {
+      // As long as a real one takes a moment: the progress block is measured meanwhile.
+      await new Promise((resolve) => setTimeout(resolve, 1_200));
+      return json(200, { ok: true, part: 1, deck: STUB_DECK, images: STUB_IMAGES, done: true });
+    }
     if (apiPath === `presentations/${STUB_JOB}/images`) {
       const index = (body as { index?: number }).index;
       if (index === 2 && !refusedOnce) {
@@ -651,6 +719,7 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
   const controlPage = `${FIXTURE_PREFIX}control.html`;
   const uzPage = `${FIXTURE_PREFIX}uz.html`;
   const ruPage = `${FIXTURE_PREFIX}ru.html`;
+  const previewPage = `${FIXTURE_PREFIX}preview.html`;
   const studioPages = pagesUnderCheck(root, dist, entry);
   const server = await serve(
     dist,
@@ -659,6 +728,7 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
       [controlPage]: cascadeFixture(siteStyles, entry, false),
       [uzPage]: islandFixture(siteStyles, entry, 'uz', renderForm('uz')),
       [ruPage]: islandFixture(siteStyles, entry, 'ru', renderForm('ru')),
+      [previewPage]: previewFixture(siteStyles, entry),
       ...Object.fromEntries(studioPages.filter((target) => target.html !== null).map((target) => [target.url, target.html as string])),
     },
     { 'Content-Security-Policy': csp },
@@ -719,12 +789,17 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
       await tab.goto(server.origin + target, { waitUntil: 'load' });
       await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 10_000 });
       await tab.waitForTimeout(500);
-      const state = await tab.evaluate(() => ({
-        recovered: document.getElementById('studio-root')?.dataset.hydration ?? null,
-        submitDisabled: (document.querySelector('#studio-root button[type="submit"]') as HTMLButtonElement | null)?.disabled ?? null,
-        forms: document.querySelectorAll('#studio-root form').length,
-      }));
+      const state = await tab.evaluate(() => {
+        const notice = document.querySelector('#studio-root [data-studio-inapp-slot]');
+        return {
+          recovered: document.getElementById('studio-root')?.dataset.hydration ?? null,
+          submitDisabled: (document.querySelector('#studio-root button[type="submit"]') as HTMLButtonElement | null)?.disabled ?? null,
+          forms: document.querySelectorAll('#studio-root form').length,
+          notice: notice ? getComputedStyle(notice).display : 'absent',
+        };
+      });
       if (state.recovered) failures.push(`hydrate ${locale}: React recovered from a hydration mismatch`);
+      if (state.notice !== 'none') failures.push(`hydrate ${locale}: the in-app notice is ${state.notice} in an ordinary browser, expected in the markup and not displayed`);
       if (state.forms !== 1) failures.push(`hydrate ${locale}: ${state.forms} forms in the island`);
       if (state.submitDisabled !== false) failures.push(`hydrate ${locale}: the submit button is not enabled after hydration`);
       hydrate[locale].loadRequests = [...server.requests];
@@ -754,7 +829,28 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     if (turnstileFetches.length) failures.push('flow: Turnstile loaded before the submit');
     const submitAt = Date.now() - flowStarted;
     await tab.click('#studio-root button[type="submit"]');
+    await tab.waitForSelector('#studio-root [data-studio-progress]', { timeout: 10_000 }).catch(() => failures.push('flow: no progress block after the submit'));
+    await tab.waitForTimeout(700);
+    const progress = await tab.evaluate(() => {
+      const box = document.querySelector('#studio-root [data-studio-progress]');
+      const rect = box?.getBoundingClientRect();
+      return {
+        inView: !!rect && rect.top >= 0 && rect.bottom <= window.innerHeight,
+        live: !!box?.closest('[aria-live]') || !!box?.querySelector('[aria-live]'),
+        secondsHidden: box?.querySelector('[data-studio-seconds]')?.getAttribute('aria-hidden') === 'true',
+        announce: (document.querySelector('#studio-root [data-studio-announce]')?.textContent ?? '').trim(),
+      };
+    });
+    if (!progress.inView) failures.push('flow: the progress block is not in view while the deck is made');
+    if (progress.live || !progress.secondsHidden) failures.push('flow: the clock is read out (a live region around it, or not aria-hidden)');
+    if (progress.announce !== TEXTS.uz.steps.write) failures.push(`flow: the status line says «${progress.announce}» while the slides are written`);
     await tab.waitForSelector('#studio-root [data-studio-download="idle"]', { timeout: 20_000 });
+    const arrived = await tab.evaluate(() => ({
+      focus: document.activeElement?.id ?? document.activeElement?.tagName ?? '',
+      announce: (document.querySelector('#studio-root [data-studio-announce]')?.textContent ?? '').trim(),
+    }));
+    if (arrived.focus !== 'studio-result-title') failures.push(`flow: the focus is on ${arrived.focus} when the deck arrives, expected its heading`);
+    if (arrived.announce !== TEXTS.uz.steps.ready) failures.push(`flow: the status line says «${arrived.announce}» when the deck arrives`);
     const seconds = Math.round((Date.now() - flowStarted - submitAt) / 100) / 10;
     failures.push(...flowFailures([...calls], focusAt, submitAt));
     if (turnstileFetches.length !== 1) failures.push(`flow: the Turnstile script was fetched ${turnstileFetches.length} times`);
@@ -814,7 +910,9 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     } catch (error) {
       failures.push(`flow: the saved file does not unzip (${error instanceof Error ? error.message : 'unknown'})`);
     }
-    await tab.waitForSelector('#studio-root [data-studio-download="saved"]', { timeout: 10_000 }).catch(() => failures.push('flow: the download block never said saved'));
+    await tab.waitForSelector('#studio-root [data-studio-download="started"]', { timeout: 10_000 }).catch(() => failures.push('flow: the download block never reached "started"'));
+    const afterClick = await tab.evaluate(() => document.querySelector('#studio-root [data-studio-download] [role="status"]')?.textContent ?? '');
+    if (afterClick !== TEXTS.uz.started) failures.push(`flow: after the click the download says «${afterClick}», expected the neutral «${TEXTS.uz.started}»`);
 
     // A second deck the same day: /me says none left, so the limit shows at once
     // (no Turnstile, no start), and the first deck stays on the page.
@@ -853,6 +951,115 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     for (const request of unexpectedLoadRequests(server.requests, pageFiles(uzPage))) failures.push(`in-app: unexpected request on load: ${request}`);
     await inAppContext.close();
 
+    // The real pages on a short phone screen: the notice from the first paint, the button on the first screen.
+    const inAppPages: CheckReport['inApp']['pages'] = [];
+    for (const realPage of studioPages) {
+      const phone = await browser.newContext({
+        viewport: { width: 360, height: 640 },
+        userAgent: 'Mozilla/5.0 (Linux; Android 14; SM-A145F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 Instagram 337.0.0.0.0 Android',
+      });
+      await phone.route('**/api/**', (route) => route.abort('failed'));
+      const real = await phone.newPage();
+      await watch(real, `in-app ${realPage.url}`, failures);
+      await real.addInitScript(() => {
+        const state = ((window as unknown as { __shift?: { value: number } }).__shift = { value: 0 });
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries() as unknown as Array<{ value: number; hadRecentInput: boolean }>) {
+            if (!entry.hadRecentInput) state.value += entry.value;
+          }
+        }).observe({ type: 'layout-shift', buffered: true });
+      });
+      await real.goto(server.origin + realPage.url, { waitUntil: 'load' });
+      await real.waitForSelector('#studio-root[data-island="ready"]', { timeout: 15_000 }).catch(() => failures.push(`in-app ${realPage.url}: the island never became ready`));
+      await real.waitForTimeout(1_500);
+      const inAppGeometry = await real.evaluate(() => {
+        const notice = document.querySelector('#studio-root [data-studio-inapp-slot]') as HTMLElement | null;
+        const submit = document.querySelector('#studio-root button[type="submit"]') as HTMLElement | null;
+        return {
+          layoutShift: Math.round(((window as unknown as { __shift?: { value: number } }).__shift?.value ?? 0) * 10_000) / 10_000,
+          noticeHeight: notice ? Math.round(notice.getBoundingClientRect().height) : 0,
+          submitBottom: submit ? Math.round(submit.getBoundingClientRect().bottom + window.scrollY) : Number.POSITIVE_INFINITY,
+          viewportHeight: window.innerHeight,
+        };
+      });
+      const at = `in-app ${realPage.url}`;
+      if (!(inAppGeometry.noticeHeight > 0)) failures.push(`${at}: the notice is not displayed`);
+      if (!(inAppGeometry.layoutShift < LAYOUT_SHIFT_LIMIT)) failures.push(`${at}: layout shift ${inAppGeometry.layoutShift}, expected < ${LAYOUT_SHIFT_LIMIT}`);
+      if (!(inAppGeometry.submitBottom <= inAppGeometry.viewportHeight)) failures.push(`${at}: the submit button ends at ${inAppGeometry.submitBottom}px, below the first screen (${inAppGeometry.viewportHeight}px)`);
+      inAppPages.push({ url: realPage.url, ...inAppGeometry });
+      await phone.close();
+    }
+
+    // --- early input (typed before the island's script ran) -----------------------------
+    const earlyContext = await browser.newContext({ viewport: VIEWPORT });
+    const earlyCalls: ApiCall[] = [];
+    await stubApi(earlyContext, jpeg, earlyCalls, []);
+    let releaseScript = () => {};
+    const scriptHeld = new Promise<void>((resolve) => {
+      releaseScript = resolve;
+    });
+    await earlyContext.route(`**${entry.script}`, async (route) => {
+      await scriptHeld;
+      await route.continue();
+    });
+    const early = await earlyContext.newPage();
+    await watch(early, 'early', failures);
+    await early.goto(server.origin + uzPage, { waitUntil: 'commit' });
+    await early.waitForSelector('#studio-root input[name="topic"]', { timeout: 10_000 });
+    await early.fill('#studio-root input[name="topic"]', 'Amir Temur davlati');
+    await early.selectOption('#studio-root select[name="slides"]', '4');
+    await early.selectOption('#studio-root select[name="audience"]', 'talaba');
+    releaseScript();
+    await early.waitForSelector('#studio-root[data-island="ready"]', { timeout: 15_000 }).catch(() => failures.push('early: the island never became ready'));
+    await early.waitForTimeout(500);
+    const fields = await early.evaluate(() => ({
+      topic: (document.querySelector('#studio-root input[name="topic"]') as HTMLInputElement).value,
+      slides: (document.querySelector('#studio-root select[name="slides"]') as HTMLSelectElement).value,
+      audience: (document.querySelector('#studio-root select[name="audience"]') as HTMLSelectElement).value,
+    }));
+    if (fields.topic !== 'Amir Temur davlati' || fields.slides !== '4' || fields.audience !== 'talaba') {
+      failures.push(`early: hydration wiped what was typed before it: ${JSON.stringify(fields)}`);
+    }
+    await early.click('#studio-root button[type="submit"]');
+    await early.waitForFunction(() => document.querySelector('#studio-root [data-studio-download]') || document.querySelector('#studio-root [data-studio-message]')?.getAttribute('data-studio-message'), undefined, { timeout: 20_000 }).catch(() => failures.push('early: the submit led nowhere'));
+    const earlyMessage = await early.evaluate(() => document.querySelector('#studio-root [data-studio-message]')?.getAttribute('data-studio-message') ?? '');
+    if (earlyMessage === 'topic_length') failures.push('early: the submit says the visibly filled topic has the wrong length');
+    const sent = earlyCalls.find((call) => call.path === 'presentations')?.body as Record<string, unknown> | undefined;
+    if (!sent || sent.topic !== 'Amir Temur davlati' || sent.slides !== 4 || sent.audience !== 'talaba') failures.push(`early: the start sent ${JSON.stringify(sent ?? null)}`);
+    await earlyContext.close();
+
+    // --- preview (no clipped bullets) -------------------------------------------------------
+    const previewProbes: CheckReport['preview'] = [];
+    const previewContext = await browser.newContext({ viewport: VIEWPORT });
+    const previewTab = await previewContext.newPage();
+    await previewTab.goto(server.origin + previewPage, { waitUntil: 'load' });
+    for (const width of [360, 768, 1280]) {
+      await previewTab.setViewportSize({ width, height: 900 });
+      await previewTab.waitForTimeout(100);
+      const measured = await previewTab.evaluate(() =>
+        Array.from(document.querySelectorAll('[data-check-deck]')).map((deck) => {
+          const cards = Array.from(deck.querySelectorAll('li[data-slide]')) as HTMLElement[];
+          let clipped = 0;
+          for (const card of cards) {
+            const box = card.getBoundingClientRect();
+            const padding = parseFloat(getComputedStyle(card).paddingBottom) || 0;
+            const last = card.querySelector('ul > li:last-child');
+            if (!last || last.getBoundingClientRect().bottom > box.bottom - padding + 0.5) clipped++;
+          }
+          const tops = cards.map((card) => Math.round(card.getBoundingClientRect().top));
+          const perRow = Math.max(0, ...tops.map((top) => tops.filter((other) => other === top).length));
+          return { deck: Number((deck as HTMLElement).dataset.checkDeck), cards: cards.length, clipped, perRow };
+        }),
+      );
+      for (const probe of measured) {
+        previewProbes.push({ width, ...probe });
+        if (probe.cards !== 6) failures.push(`preview ${width}px deck ${probe.deck}: ${probe.cards} slide cards`);
+        if (probe.clipped) failures.push(`preview ${width}px deck ${probe.deck}: ${probe.clipped} cards clip their last bullet`);
+        if (probe.perRow > 2) failures.push(`preview ${width}px deck ${probe.deck}: ${probe.perRow} cards a row`);
+      }
+    }
+    await previewContext.close();
+
     // --- pages (/api/* cut off) -------------------------------------------------------------
     const pages = await checkClosedApi(browser, server.origin, studioPages, failures, (target) => (target.html === null ? 'dist' : 'memory'));
 
@@ -863,7 +1070,9 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
       control,
       hydrate,
       flow: { apiCalls: calls.map((call) => `${call.method} ${call.path} @${call.at}ms`), turnstile, download: report, seconds },
-      inApp: { noticeBeforeSubmit },
+      inApp: { noticeBeforeSubmit, pages: inAppPages },
+      early: { ...fields, sent: sent ?? null },
+      preview: previewProbes,
       pages,
       failures,
     };

@@ -57,3 +57,16 @@
  * Page-level overrides for the studio pages go here, unlayered, under
  * body[data-studio], so they apply to studio pages only.
  */
+
+/*
+ * The in-app notice stands in every form from the build on (Form.tsx),
+ * hidden, and shows where the head script (src/inapp.ts INAPP_HEAD_SCRIPT)
+ * marked <html data-inapp>: it is there from the first paint, so nothing
+ * shifts when the island hydrates.
+ */
+body[data-studio] [data-studio-inapp-slot] {
+  display: none;
+}
+html[data-inapp] body[data-studio] [data-studio-inapp-slot] {
+  display: block;
+}

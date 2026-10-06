@@ -37,9 +37,11 @@ import {
 } from '../apps/studio/src/attribution';
 import { createStudioSession } from '../apps/studio/src/config';
 import { obtainIdentity, turnstileToken, type StudioTurnstileAction, type TokenResult } from '../apps/studio/src/identity';
-import { detectInApp, pageLink } from '../apps/studio/src/inapp';
+import { INAPP_HEAD_SCRIPT, detectInApp, pageLink } from '../apps/studio/src/inapp';
 import {
   FREE_SLIDES,
+  PICTURE_DEADLINE_MS,
+  SLIDES_CALLS,
   drawPictures,
   newRequestId,
   normalizeTopic,
@@ -48,7 +50,8 @@ import {
   type StartDeps,
 } from '../apps/studio/src/tools/presentation/flow';
 import { renderForm } from '../apps/studio/src/tools/presentation/static';
-import { TEXTS, messageKey, pageLocale, tashkentTime } from '../apps/studio/src/tools/presentation/texts';
+import { TEXTS, UNTIL_RESET, messageKey, pageLocale, tashkentTime } from '../apps/studio/src/tools/presentation/texts';
+import { IMAGE_RULES } from '../functions/lib/studio/safety';
 import type { TurnstileApi } from '../apps/studio/src/turnstile';
 import { cleanTopic } from '../functions/lib/studio/prompts';
 import { REQUEST_ID, isJobId, newJobId } from '../functions/lib/studio/ledger';
@@ -462,21 +465,111 @@ test('flow: limits and refusals come back as such, with the reset time and categ
   assert.deepEqual(await startFreeDeck(INPUT, 'uz', harness({ token: { ok: false, code: 'turnstile_failed' } }).deps), { kind: 'error', code: 'turnstile_failed' });
 });
 
-test('flow: a fault the server marks `retry` is asked once more; without it, never', async () => {
+const slideCalls = (log: string[]) => log.filter((entry) => entry.startsWith('slides:'));
+
+test('flow: /slides is asked again after a fault the server marks `retry`, up to SLIDES_CALLS calls; without it, never', async () => {
+  assert.equal(SLIDES_CALLS, 3);
   const again = harness({ slides: [no('model_failed', { retry: true }), ok(SLIDES)] });
   assert.equal((await startFreeDeck(INPUT, 'uz', again.deps)).kind, 'ready');
-  assert.equal(again.log.filter((entry) => entry.startsWith('slides:')).length, 2);
-  const twice = harness({ slides: [no('model_failed', { retry: true }), no('model_failed', { retry: true })] });
-  assert.deepEqual(await startFreeDeck(INPUT, 'uz', twice.deps), { kind: 'error', code: 'model_failed' });
-  assert.equal(twice.log.filter((entry) => entry.startsWith('slides:')).length, 2, 'at most one retry');
+  assert.equal(slideCalls(again.log).length, 2);
+  const thrice = harness({ slides: [no('model_failed', { retry: true }), no('studio_busy', { retry: true }), no('model_failed', { retry: true })] });
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', thrice.deps), { kind: 'error', code: 'model_failed' });
+  assert.equal(slideCalls(thrice.log).length, SLIDES_CALLS, 'the client bound');
   const final = harness({ slides: [no('studio_busy', { retry: false })] });
   assert.deepEqual(await startFreeDeck(INPUT, 'uz', final.deps), { kind: 'error', code: 'studio_busy' });
-  assert.equal(final.log.filter((entry) => entry.startsWith('slides:')).length, 1);
+  assert.equal(slideCalls(final.log).length, 1);
+});
+
+test('flow: a /slides request that got no answer (a locked phone, a switched app) is sent again for the same job', async () => {
+  const dropped = harness({ slides: [no('network'), ok(SLIDES)] });
+  assert.equal((await startFreeDeck(INPUT, 'uz', dropped.deps)).kind, 'ready');
+  assert.deepEqual(slideCalls(dropped.log), [`slides:${JOB}`, `slides:${JOB}`]);
+  assert.equal(dropped.log.filter((entry) => entry.startsWith('create:')).length, 1, 'no second start, no second unit');
+  const mixed = harness({ slides: [no('timeout'), no('model_failed', { retry: true }), ok(SLIDES)] });
+  assert.equal((await startFreeDeck(INPUT, 'uz', mixed.deps)).kind, 'ready');
+  assert.equal(slideCalls(mixed.log).length, 3);
+  // The lost request reached the server and its deck went out: the job is closed for this page.
+  const lost = harness({ slides: [no('network'), no('job_state')] });
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', lost.deps), { kind: 'error', code: 'job_lost' });
+  // job_state without a lost answer stays what it is.
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', harness({ slides: [no('job_state')] }).deps), { kind: 'error', code: 'job_state' });
+});
+
+test('flow: a cancelled run is never sent again; after a failure once the job exists, /me is read again on the next try', async () => {
+  const controller = new AbortController();
+  const cancelled = harness({ slides: [no('aborted'), ok(SLIDES)] });
+  const deps = { ...cancelled.deps, signal: controller.signal };
+  controller.abort();
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', deps), { kind: 'error', code: 'aborted' });
+  assert.equal(slideCalls(cancelled.log).length, 1);
+  let refreshed = 0;
+  const failed = harness({ slides: [no('network'), no('network'), no('network')] });
+  const outcome = await startFreeDeck(INPUT, 'uz', { ...failed.deps, session: { ...failed.deps.session, refreshMe: () => { refreshed++; } } });
+  assert.deepEqual(outcome, { kind: 'error', code: 'network' });
+  assert.equal(refreshed, 1);
+  // A refusal before any job exists leaves /me as it is.
+  let untouched = 0;
+  const early = harness({ create: [no('free_limit')] });
+  await startFreeDeck(INPUT, 'uz', { ...early.deps, session: { ...early.deps.session, refreshMe: () => { untouched++; } } });
+  assert.equal(untouched, 0);
+});
+
+test('flow: a unit an open job holds is "try after HH:MM", not "used for today"; a day-long busy carries the reset time', async () => {
+  const until = '2026-10-06T10:10:00.000Z';
+  const held = harness({ me: ok({ ...ME(true, 0), free: { ...ME(true, 0).free, presentation: { left: 0, limit: 1, openUntil: until } } }) });
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', held.deps), { kind: 'error', code: 'job_in_progress', resetsAt: until });
+  assert.deepEqual(held.log, ['phase:check', 'config', 'me'], 'no Turnstile, no start');
+  // The server's 409 says the same, with the open job's expiry.
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', harness({ create: [no('job_in_progress', { resetsAt: until })] }).deps), { kind: 'error', code: 'job_in_progress', resetsAt: until });
+  // The ramp or the budget: closed until 05:00, said as a limit with its time.
+  const closed = await startFreeDeck(INPUT, 'uz', harness({ create: [no('studio_busy', { resetsAt: '2026-10-07T00:00:00.000Z' })] }).deps);
+  assert.deepEqual(closed, { kind: 'limit', code: 'free_closed', resetsAt: '2026-10-07T00:00:00.000Z' });
+  assert.deepEqual(await startFreeDeck(INPUT, 'uz', harness({ create: [no('studio_busy')] }).deps), { kind: 'error', code: 'studio_busy' });
+  // The messages: "closed for today" with 05:00; "busy" only without a time.
+  assert.equal(messageKey('free_closed'), 'free_closed');
+  assert.ok(UNTIL_RESET.has('free_closed') && UNTIL_RESET.has('free_limit'));
+  assert.equal(TEXTS.uz.messages.free_closed, 'Bugungi bepul taqdimotlar tugadi.');
+  assert.equal(TEXTS.uz.resetAt(tashkentTime('2026-10-07T00:00:00.000Z')), 'Yangi bepul taqdimot soat 05:00 da (Toshkent vaqti).');
+  assert.equal(TEXTS.uz.jobOpenUntil(tashkentTime(until)), 'Oldingi so‘rov hali yakunlanmagan. Soat 15:10 dan keyin qayta urinib ko‘ring.');
+  assert.match(TEXTS.ru.jobOpenUntil('15:10'), /15:10/);
 });
 
 test('flow: request ids are ones the ledger accepts', () => {
   for (let i = 0; i < 20; i++) assert.match(newRequestId(() => crypto.randomUUID()), REQUEST_ID);
   assert.equal(FREE_SLIDES.initial, 6);
+});
+
+test('pictures: the client deadline is the server\'s, 35 s after the deck', () => {
+  assert.equal(PICTURE_DEADLINE_MS, IMAGE_RULES.deadlineAfterOutlineMs);
+  assert.equal(PICTURE_DEADLINE_MS, 35_000);
+});
+
+test('pictures: past the deadline whatever is still drawing goes without, once; a late answer is ignored', async () => {
+  const seen: Array<[number, Blob | null]> = [];
+  const signals: AbortSignal[] = [];
+  // Picture 1 answers at once; picture 2 never does unless cancelled; picture 3 answers late, ignoring the cancel.
+  const api: Pick<StudioApi, 'image'> = {
+    image: (_job, image, options) => {
+      if (options?.signal) signals.push(options.signal);
+      if (image.index === 1) return Promise.resolve(ok(new Blob(['one'])));
+      if (image.index === 2) return new Promise((resolve) => options?.signal?.addEventListener('abort', () => resolve(no('aborted')), { once: true }));
+      return new Promise((resolve) => setTimeout(() => resolve(ok(new Blob(['late']))), 120));
+    },
+  };
+  const started = Date.now();
+  await drawPictures(api, JOB, [1, 2, 3].map((index) => ({ index, prompt: 'p', sig: 's' })), (index, blob) => seen.push([index, blob]), undefined, 40);
+  assert.ok(Date.now() - started < 110, 'the deadline, not the slowest picture');
+  assert.deepEqual(seen.map(([index, blob]) => [index, blob === null]).sort(), [[1, false], [2, true], [3, true]]);
+  assert.ok(signals.every((signal) => signal.aborted), 'what was still drawing is cancelled');
+  await new Promise((resolve) => setTimeout(resolve, 150));
+  assert.equal(seen.length, 3, 'the late picture is not added to a deck already settled');
+  // A newer deck (the caller's signal) settles the rest the same way, before the deadline.
+  const replaced = new AbortController();
+  const later: number[] = [];
+  const run = drawPictures(api, JOB, [{ index: 2, prompt: 'p', sig: 's' }], (index) => later.push(index), replaced.signal, 60_000);
+  replaced.abort();
+  await run;
+  assert.deepEqual(later, [2]);
 });
 
 test('pictures: each is redrawn once after a refusal or failure, then the slide goes without; a cap is final', async () => {
@@ -518,6 +611,28 @@ test('in-app: Instagram, Facebook and Telegram are recognised; ordinary browsers
   assert.equal(detectInApp('Mozilla/5.0 Telegrammatic/1.0'), null, 'a longer word is not Telegram');
   assert.equal(detectInApp('Mozilla/5.0 Telegram/11.2'), 'telegram');
   assert.equal(detectInApp(''), null);
+});
+
+test('in-app: the head script marks <html> exactly as detectInApp reads the browser', () => {
+  const cases: Array<[string, Record<string, unknown>]> = [
+    ['Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 337.0.3.23.54', {}],
+    ['Mozilla/5.0 (Linux; Android 14; SM-A145F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 [FBAN/EMA;FBLC/ru_RU;FBAV/412.0]', {}],
+    ['Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Mobile Safari/537.36', { TelegramWebviewProxy: {} }],
+    ['Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Telegram-iOS', {}],
+    ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36', {}],
+    ['', {}],
+  ];
+  for (const [userAgent, win] of cases) {
+    const attributes: Record<string, string> = {};
+    const document = { documentElement: { setAttribute: (name: string, value: string) => { attributes[name] = value; } } };
+    new Function('navigator', 'window', 'document', INAPP_HEAD_SCRIPT)({ userAgent }, win, document);
+    assert.equal(attributes['data-inapp'] ?? null, detectInApp(userAgent, win), userAgent);
+  }
+  // It never throws, whatever the page gives it.
+  assert.doesNotThrow(() => new Function('navigator', 'window', 'document', INAPP_HEAD_SCRIPT)(undefined, undefined, undefined));
+  // Every studio page carries it in <head>, before the island's script.
+  const page = read('apps/studio/scripts/studio-page.ts');
+  assert.ok(page.indexOf('<script>${INAPP_HEAD_SCRIPT}</script>') > 0 && page.indexOf('<script>${INAPP_HEAD_SCRIPT}</script>') < page.indexOf('<script type="module"'));
 });
 
 test('in-app: the copied link keeps the campaign tags and drops the fragment', () => {
@@ -616,7 +731,14 @@ test('form: the static first state is the form only, with Webvisor classes and a
     assert.ok(html.includes(label.replace(/&/g, '&amp;')), label);
   }
   assert.ok(!html.includes('ym-hide-content'), 'no preview or download in the first state');
-  assert.ok(!html.includes(TEXTS.uz.inAppTitle), 'the in-app notice appears only after hydration, in an in-app browser');
+  // The in-app notice is in the markup for everybody, hidden unless the head script marked an in-app browser (styles.css).
+  assert.match(html, /<div class="[^"]*" role="note" data-studio-inapp="" data-studio-inapp-slot="">/);
+  assert.ok(html.includes(TEXTS.uz.inAppTitle));
+  const css = read('apps/studio/src/styles.css');
+  assert.match(css, /body\[data-studio\] \[data-studio-inapp-slot\] \{\s*display: none;\s*\}/);
+  assert.match(css, /html\[data-inapp\] body\[data-studio\] \[data-studio-inapp-slot\] \{\s*display: block;\s*\}/);
+  // A status line for screen readers is there from the first render (empty), so every change is announced.
+  assert.match(html, /<p role="status" class="st:sr-only" data-studio-announce=""><\/p>/);
   assert.match(html, /<option value="6" selected="">6<\/option>/);
   const ru = renderForm('ru');
   assert.ok(ru.includes(TEXTS.ru.submit) && !ru.includes(TEXTS.uz.submit));
@@ -648,15 +770,84 @@ test('form: the result and the download hide their content from Webvisor; pictur
   assert.match(waiting, /disabled=""/);
 });
 
+test('download: after the click the line is neutral, never "saved"; in an in-app browser only the guidance', async () => {
+  const { Download } = await import('../apps/studio/src/tools/presentation/Download');
+  for (const locale of ['uz', 'ru'] as const) {
+    const texts = TEXTS[locale];
+    const started = renderToString(createElement(Download, { texts, state: 'started', inApp: null, onDownload: () => {} }));
+    assert.ok(started.includes(texts.started), locale);
+    assert.doesNotMatch(started, /saqlandi|сохранён/);
+    assert.doesNotMatch(started, /disabled=""/, 'the button stays enabled for another try');
+    const inApp = renderToString(createElement(Download, { texts, state: 'started', inApp: 'instagram', onDownload: () => {} }));
+    assert.ok(!inApp.includes(texts.started), `${locale}: no success line in an in-app browser`);
+    assert.ok(inApp.includes(texts.inAppDownload.replace(/«/g, '&laquo;').replace(/»/g, '&raquo;')) || inApp.includes(texts.inAppDownload), locale);
+    assert.ok(!('saved' in texts), 'no "saved" text left');
+  }
+  assert.equal(TEXTS.uz.started, 'Yuklab olish boshlandi. Fayl ko‘rinmasa, qayta bosing.');
+  // The in-app guidance says the deck has to be made again in the real browser.
+  assert.match(TEXTS.uz.inAppDownload, /qayta tayyorlang/);
+  assert.match(TEXTS.ru.inAppDownload, /заново/);
+  // The funnel names the click, not a save, and says where it happened.
+  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  assert.match(form, /funnel\.download\('presentation', encoded\.size, inApp \?\? 'none'\)/);
+  assert.match(form, /setDownload\('started'\)/);
+});
+
+test('progress: no live region around the clock; the active step is aria-current; the form announces each step and the result', async () => {
+  const { Progress } = await import('../apps/studio/src/tools/presentation/Progress');
+  const html = renderToString(createElement(Progress, { texts: TEXTS.uz, step: 'write', startedAt: Date.now() - 12_000 }));
+  assert.doesNotMatch(html, /aria-live/);
+  assert.match(html, /<span class="st:tabular-nums" aria-hidden="true" data-studio-seconds="">12 soniya<\/span>/);
+  assert.match(html, /<li class="[^"]*" data-state="active" aria-current="step">/);
+  assert.equal((html.match(/aria-current/g) ?? []).length, 1);
+  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  assert.match(form, /status\.kind === 'working' \? texts\.steps\[status\.step\] : status\.kind === 'ready' \? texts\.steps\.ready : ''/);
+  // The deck's heading takes the focus when it arrives (the submit button was disabled meanwhile).
+  const preview = read('apps/studio/src/tools/presentation/Preview.tsx');
+  assert.match(preview, /<h2 id="studio-result-title" ref=\{heading\} tabIndex=\{-1\}/);
+  assert.match(preview, /heading\.current\?\.focus\(\);\s*\}, \[deck\]\);/);
+});
+
+test('preview: a card grows with its bullets (no 16:9 frame that clips them); at most two cards a row', async () => {
+  const { Preview } = await import('../apps/studio/src/tools/presentation/Preview');
+  const long = { ...DECK, slides: DECK.slides.map((slide) => ({ ...slide, bullets: Array.from({ length: 5 }, (_, i) => `${i + 1}. ${'Uzun matnli band '.repeat(6)}`.slice(0, 110)) })) };
+  const html = renderToString(createElement(Preview, { texts: TEXTS.uz, deck: long, pictures: new Map([[1, { status: 'loading' as const }]]) }));
+  assert.doesNotMatch(html, /aspect-video/);
+  assert.doesNotMatch(html, /<li class="[^"]*overflow-hidden[^"]*" data-slide/);
+  assert.doesNotMatch(html, /lg:grid-cols-3/);
+  assert.match(html, /st:aspect-\[4\/3\]/);
+  for (const slide of long.slides) for (const bullet of slide.bullets) assert.ok(html.includes(bullet), 'every bullet is in the card');
+});
+
 test('form: in an in-app browser the notice stands before the submit button', async () => {
   const { InAppNotice } = await import('../apps/studio/src/tools/presentation/InAppNotice');
   const notice = renderToString(createElement(InAppNotice, { texts: TEXTS.uz }));
   assert.ok(notice.includes(TEXTS.uz.inAppTitle) && notice.includes(TEXTS.uz.copyLink));
-  // The order in the form's source: the notice, then the submit button.
-  const form = read('apps/studio/src/tools/presentation/Form.tsx');
-  const noticeAt = form.indexOf('{inApp ? <InAppNotice texts={texts} /> : null}');
-  const buttonAt = form.indexOf('type="submit"');
+  // The order in the form's markup: the notice, then the submit button.
+  const html = renderForm('uz');
+  const noticeAt = html.indexOf('data-studio-inapp-slot');
+  const buttonAt = html.indexOf('type="submit"');
   assert.ok(noticeAt > 0 && buttonAt > noticeAt);
+  // When the copy fails, the way out is the in-app menu, never an address bar these browsers do not have.
+  for (const locale of ['uz', 'ru'] as const) {
+    for (const text of [TEXTS[locale].copyFailed, TEXTS[locale].inAppBody, TEXTS[locale].inAppDownload]) {
+      assert.match(text, /⋮|…/, `${locale}: ${text}`);
+      assert.doesNotMatch(text, /brauzer satri|строки браузера/, `${locale}: ${text}`);
+    }
+  }
+  assert.match(TEXTS.uz.copyFailed, /«Brauzerda ochish»/);
+  assert.match(TEXTS.ru.copyFailed, /«Открыть в браузере»/);
+});
+
+test('form: typed before the script ran is read into the state on hydration, so it is never wiped', () => {
+  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  for (const [field, ref] of [['topic', 'topicField'], ['audience', 'audienceField'], ['slides', 'slidesField']]) {
+    assert.match(form, new RegExp(`ref=\\{${ref}\\}\\s*id=\\{\`\\$\\{id\\}-${field}\``), field);
+  }
+  const effect = form.slice(form.indexOf('useEffect(() => {'), form.indexOf('setHydrated(true);'));
+  assert.match(effect, /topicField\.current\?\.value/);
+  assert.match(effect, /audienceField\.current\?\.value/);
+  assert.match(effect, /slidesField\.current\?\.value/);
 });
 
 // --- words -----------------------------------------------------------------------------------
@@ -685,6 +876,13 @@ test('words: honest brand, no forbidden tariff words, Uzbek apostrophes as on th
   assert.equal(messageKey('turnstile_required'), 'turnstile');
   assert.equal(messageKey('model_failed'), 'busy');
   assert.equal(messageKey('free_limit'), 'free_limit');
+  // A lost answer is a lost connection, not "temporarily down".
+  assert.equal(messageKey('network'), 'connection_lost');
+  assert.equal(messageKey('timeout'), 'connection_lost');
+  assert.equal(messageKey('job_lost'), 'job_lost');
+  // The free allowance says "up to", as the code allows (0–2 pictures).
+  assert.match(TEXTS.uz.freeNote, /2 tagacha rasm/);
+  assert.match(TEXTS.ru.freeNote, /до 2 картинок/);
   assert.equal(tashkentTime('2026-10-07T00:00:00.000Z'), '05:00');
   assert.equal(tashkentTime(undefined), '05:00');
 });

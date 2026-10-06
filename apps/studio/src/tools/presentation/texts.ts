@@ -23,6 +23,9 @@ export type MessageKey =
   | 'topic_refused'
   | 'job_in_progress'
   | 'turnstile'
+  | 'free_closed'
+  | 'connection_lost'
+  | 'job_lost'
   | 'busy';
 
 export interface ToolTexts {
@@ -38,6 +41,8 @@ export interface ToolTexts {
   readonly inAppTitle: string;
   readonly inAppBody: string;
   readonly copyLink: string;
+  /** The copy button in the form's one-row notice (its accessible name is copyLink, which contains it). */
+  readonly copyShort: string;
   readonly copied: string;
   readonly copyFailed: string;
   readonly steps: Readonly<Record<Step, string>>;
@@ -51,11 +56,14 @@ export interface ToolTexts {
   readonly download: string;
   readonly downloadWait: string;
   readonly building: string;
-  readonly saved: string;
+  /** After the click: the browser was asked to save the file; nothing says it did. */
+  readonly started: string;
   readonly buildFailed: string;
   readonly inAppDownload: string;
   readonly messages: Readonly<Record<MessageKey, string>>;
   readonly resetAt: (time: string) => string;
+  /** job_in_progress with the time the open job expires (HH:MM, Tashkent). */
+  readonly jobOpenUntil: (time: string) => string;
 }
 
 export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
@@ -68,15 +76,16 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     slidesLabel: 'Slaydlar soni',
     submit: 'Taqdimot tayyorlash',
     submitBusy: 'Tayyorlanmoqda…',
-    freeNote: 'Bepul: kuniga 1 ta taqdimot, 6 slaydgacha, 2 ta rasm. Ro‘yxatdan o‘tish shart emas.',
+    freeNote: 'Bepul: kuniga 1 ta taqdimot, 6 slaydgacha, 2 tagacha rasm. Ro‘yxatdan o‘tish shart emas.',
     inAppTitle: 'Brauzerda oching',
     inAppBody:
-      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — unda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching.',
+      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — unda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching yoki yuqoridagi ⋮ / … menyusidan «Brauzerda ochish»ni tanlang.',
     copyLink: 'Havolani nusxalash',
+    copyShort: 'Nusxalash',
     copied: 'Havola nusxalandi',
-    copyFailed: 'Nusxalab bo‘lmadi. Manzilni brauzer satridan nusxalang.',
+    copyFailed: 'Nusxalab bo‘lmadi. Yuqoridagi ⋮ yoki … menyusidan «Brauzerda ochish»ni tanlang.',
     steps: { check: 'Tekshiruv', write: 'Slaydlar yozilmoqda', images: 'Rasmlar chizilmoqda', ready: 'Taqdimot tayyor' },
-    progressNote: 'Odatda 30–40 soniya. Sahifani yopmang.',
+    progressNote: 'Odatda 30–40 soniya. Sahifani yopmang va ilovadan chiqmang.',
     seconds: (n) => `${n} soniya`,
     resultTitle: 'Taqdimot tayyor',
     draftNote: 'Bu qoralama: faktlarni tekshiring va o‘zingiz to‘ldiring.',
@@ -86,9 +95,10 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     download: 'Yuklab olish (.pptx)',
     downloadWait: 'Rasmlar tayyorlanmoqda…',
     building: 'Fayl tayyorlanmoqda…',
-    saved: 'Fayl saqlandi',
+    started: 'Yuklab olish boshlandi. Fayl ko‘rinmasa, qayta bosing.',
     buildFailed: 'Faylni yaratib bo‘lmadi. Qayta urinib ko‘ring.',
-    inAppDownload: 'Fayl saqlanmasa, havolani nusxalab, sahifani Chrome yoki Safari’da oching.',
+    inAppDownload:
+      'Fayl saqlanmasa: havolani nusxalang yoki ⋮ / … menyusidan «Brauzerda ochish»ni tanlang va taqdimotni Chrome yoki Safari’da qayta tayyorlang. Bu yerdagi taqdimot u yerga o‘tmaydi.',
     messages: {
       topic_length: 'Mavzu 3 tadan 200 tagacha belgidan iborat bo‘lsin.',
       free_limit: 'Bugungi bepul taqdimot ishlatildi.',
@@ -96,11 +106,15 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
       try_later: 'Bugun urinishlar juda ko‘p bo‘ldi. Ertaga qayta urinib ko‘ring.',
       rate_limited: 'Juda ko‘p urinish. Bir necha daqiqadan so‘ng qayta urinib ko‘ring.',
       topic_refused: 'Bu mavzuda taqdimot tayyorlay olmaymiz. Boshqa mavzu yozing.',
-      job_in_progress: 'Oldingi taqdimot hali tayyorlanmoqda. Bir necha daqiqadan so‘ng qayta urinib ko‘ring.',
+      job_in_progress: 'Oldingi so‘rov hali yakunlanmagan. Bir necha daqiqadan so‘ng qayta urinib ko‘ring.',
       turnstile: 'Tekshiruvdan o‘tib bo‘lmadi. Sahifani yangilab, qayta urinib ko‘ring.',
+      free_closed: 'Bugungi bepul taqdimotlar tugadi.',
+      connection_lost: 'Aloqa uzildi. Internetni tekshirib, qayta urinib ko‘ring.',
+      job_lost: 'Aloqa uzilgan paytda taqdimot yopildi va uni qayta ochib bo‘lmaydi.',
       busy: 'Vaqtincha ishlamayapti. Birozdan so‘ng qayta urinib ko‘ring.',
     },
     resetAt: (time) => `Yangi bepul taqdimot soat ${time} da (Toshkent vaqti).`,
+    jobOpenUntil: (time) => `Oldingi so‘rov hali yakunlanmagan. Soat ${time} dan keyin qayta urinib ko‘ring.`,
   },
   ru: {
     topicLabel: 'Тема презентации',
@@ -111,15 +125,16 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     slidesLabel: 'Слайдов',
     submit: 'Сделать презентацию',
     submitBusy: 'Готовим…',
-    freeNote: 'Бесплатно: 1 презентация в день, до 6 слайдов, 2 картинки. Без регистрации.',
+    freeNote: 'Бесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.',
     inAppTitle: 'Откройте в браузере',
     inAppBody:
-      'Встроенный браузер Instagram или Telegram может не сохранить файл — тогда пропадёт и бесплатная презентация. Скопируйте ссылку и откройте её в Chrome или Safari.',
+      'Встроенный браузер Instagram или Telegram может не сохранить файл — тогда пропадёт и бесплатная презентация. Скопируйте ссылку и откройте её в Chrome или Safari или нажмите ⋮ / … вверху и выберите «Открыть в браузере».',
     copyLink: 'Скопировать ссылку',
+    copyShort: 'Скопировать',
     copied: 'Ссылка скопирована',
-    copyFailed: 'Не удалось скопировать. Скопируйте адрес из строки браузера.',
+    copyFailed: 'Не удалось скопировать. Нажмите ⋮ или … вверху и выберите «Открыть в браузере».',
     steps: { check: 'Проверка', write: 'Пишем слайды', images: 'Рисуем картинки', ready: 'Презентация готова' },
-    progressNote: 'Обычно 30–40 секунд. Не закрывайте страницу.',
+    progressNote: 'Обычно 30–40 секунд. Не закрывайте страницу и не сворачивайте приложение.',
     seconds: (n) => `${n} с`,
     resultTitle: 'Презентация готова',
     draftNote: 'Это черновик: проверьте факты и доработайте сами.',
@@ -129,9 +144,10 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     download: 'Скачать (.pptx)',
     downloadWait: 'Дорисовываем картинки…',
     building: 'Собираем файл…',
-    saved: 'Файл сохранён',
+    started: 'Скачивание началось. Если файла нет, нажмите ещё раз.',
     buildFailed: 'Не удалось собрать файл. Попробуйте ещё раз.',
-    inAppDownload: 'Если файл не сохранился, скопируйте ссылку и откройте страницу в Chrome или Safari.',
+    inAppDownload:
+      'Если файл не сохранился: скопируйте ссылку или выберите в меню ⋮ / … «Открыть в браузере» и сделайте презентацию заново в Chrome или Safari. Эта презентация туда не перейдёт.',
     messages: {
       topic_length: 'Тема — от 3 до 200 символов.',
       free_limit: 'Бесплатная презентация на сегодня уже использована.',
@@ -139,11 +155,15 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
       try_later: 'Сегодня было слишком много попыток. Попробуйте завтра.',
       rate_limited: 'Слишком много попыток. Попробуйте через несколько минут.',
       topic_refused: 'На эту тему презентацию сделать не можем. Напишите другую тему.',
-      job_in_progress: 'Предыдущая презентация ещё готовится. Попробуйте через несколько минут.',
+      job_in_progress: 'Предыдущий запрос ещё не завершён. Попробуйте через несколько минут.',
       turnstile: 'Не удалось пройти проверку. Обновите страницу и попробуйте снова.',
+      free_closed: 'Бесплатные презентации на сегодня закончились.',
+      connection_lost: 'Связь прервалась. Проверьте интернет и попробуйте ещё раз.',
+      job_lost: 'Пока связь прерывалась, презентация закрылась, и открыть её снова нельзя.',
       busy: 'Временно не работает. Попробуйте чуть позже.',
     },
     resetAt: (time) => `Новая бесплатная презентация — в ${time} по Ташкенту.`,
+    jobOpenUntil: (time) => `Предыдущий запрос ещё не завершён. Попробуйте после ${time}.`,
   },
 };
 
@@ -152,7 +172,11 @@ export function pageLocale(lang: string | null | undefined): StudioLocale {
   return (lang ?? '').toLowerCase().startsWith('ru') ? 'ru' : 'uz';
 }
 
-/** The message for an API or form code. */
+/**
+ * The message for an API or form code. `free_closed` and `job_lost` are the
+ * island's own (flow.ts): a studio_busy that lasts the day, and a deck that
+ * closed while the connection was down.
+ */
 export function messageKey(code: string): MessageKey {
   switch (code) {
     case 'topic_length':
@@ -162,15 +186,23 @@ export function messageKey(code: string): MessageKey {
     case 'rate_limited':
     case 'topic_refused':
     case 'job_in_progress':
+    case 'free_closed':
+    case 'job_lost':
       return code;
     case 'turnstile_failed':
     case 'turnstile_required':
     case 'turnstile_unavailable':
       return 'turnstile';
+    case 'network':
+    case 'timeout':
+      return 'connection_lost';
     default:
       return 'busy';
   }
 }
+
+/** Codes whose message ends with the time the free day starts again. */
+export const UNTIL_RESET: ReadonlySet<string> = new Set(['free_limit', 'free_closed']);
 
 /** HH:MM of `iso` in Tashkent; "05:00" (the free day's start) when it cannot be read. */
 export function tashkentTime(iso: string | undefined): string {

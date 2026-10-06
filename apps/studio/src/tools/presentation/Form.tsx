@@ -9,10 +9,16 @@
  * storage, no user agent, no clock, no network.
  *
  * After hydration, on load:
+ *   - whatever the person typed or chose before the script ran (slow 3G, an
+ *     in-app WebView) is read from the fields into the state first, in the
+ *     same render that enables the button, so React never writes the empty
+ *     first state back over it;
  *   - the submit button is enabled (until then it is disabled, so a click
  *     before the script ran cannot send the form as a plain POST);
- *   - an in-app browser is recognised and «Brauzerda oching» appears above
- *     the button (inapp.ts);
+ *   - «Brauzerda oching» above the button is already shown from the first
+ *     paint in an in-app browser (inapp.ts INAPP_HEAD_SCRIPT, styles.css):
+ *     it is in the static markup for everybody, hidden elsewhere, so nothing
+ *     shifts; the island only marks <html> itself if a page lacks the script;
  *   - a paid visit is recorded as the last touch (attribution.ts,
  *     localStorage only).
  * Still no network request: /config and /me are asked for on the first
@@ -20,6 +26,13 @@
  *
  * Webvisor: the form carries `ym-disable-submit`, the topic field
  * `ym-disable-keys`; the preview and download blocks `ym-hide-content`.
+ *
+ * Screen readers: a visually hidden status line, there from the first
+ * render, says each step and then «Taqdimot tayyor»; the deck's heading
+ * takes the focus when it arrives (Preview.tsx).
+ *
+ * Pictures: the download waits for them at most PICTURE_DEADLINE_MS after the
+ * deck (flow.ts drawPictures); then the slides still without one go without.
  */
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { createStudioApi, type CreatedJob, type Deck, type DeckTask, type StudioApi, type StudioAudience, type StudioLocale } from '../../api';
@@ -27,14 +40,14 @@ import { captureLastTouch } from '../../attribution';
 import { createFunnel, randomId, type Funnel } from '../../analytics';
 import { createStudioSession, type StudioSession } from '../../config';
 import { turnstileToken } from '../../identity';
-import { currentInApp, type InAppBrowser } from '../../inapp';
+import { currentInApp, INAPP_ATTRIBUTE, type InAppBrowser } from '../../inapp';
 import { blobToBase64, buildDeck, deckFileName } from '../../pptx/build';
 import { Download, saveFile, type DownloadState } from './Download';
 import { drawPictures, FREE_SLIDES, newRequestId, startFreeDeck, TOPIC_MAX, topicProblem, type StartOutcome } from './flow';
-import { InAppNotice } from './InAppNotice';
+import { InAppNote, InAppNotice } from './InAppNotice';
 import { Preview, type PictureState } from './Preview';
 import { Progress } from './Progress';
-import { messageKey, tashkentTime, TEXTS, type Step } from './texts';
+import { messageKey, tashkentTime, TEXTS, UNTIL_RESET, type Step } from './texts';
 
 export interface FormProps {
   readonly locale: StudioLocale;
@@ -60,7 +73,9 @@ interface Result {
 type Status =
   | { readonly kind: 'idle' }
   | { readonly kind: 'working'; readonly step: Step; readonly startedAt: number }
-  | { readonly kind: 'message'; readonly code: string; readonly resetsAt?: string; readonly tone: 'limit' | 'error' };
+  | { readonly kind: 'message'; readonly code: string; readonly resetsAt?: string; readonly tone: 'limit' | 'error' }
+  /** A deck just arrived: the hidden status line says so. */
+  | { readonly kind: 'ready' };
 
 const FIELD =
   'st:w-full st:rounded-xl st:border st:border-studio-line st:bg-studio-bg st:px-3.5 st:py-3 st:text-base st:text-studio-text st:placeholder:text-studio-muted st:outline-none st:focus:border-studio-blue st:disabled:opacity-60';
@@ -83,13 +98,27 @@ export function Form({ locale }: FormProps) {
   const [download, setDownload] = useState<DownloadState>('waiting');
   const runtime = useRef<Runtime | null>(null);
   const turnstileBox = useRef<HTMLDivElement>(null);
+  const topicField = useRef<HTMLInputElement>(null);
+  const audienceField = useRef<HTMLSelectElement>(null);
+  const slidesField = useRef<HTMLSelectElement>(null);
   const run = useRef<AbortController | null>(null);
   const drawing = useRef<AbortController | null>(null);
   const urls = useRef<string[]>([]);
 
   useEffect(() => {
+    // Typed or chosen before the script ran: into the state, in the same
+    // batched render as the rest, so the fields keep it.
+    const typed = topicField.current?.value ?? '';
+    if (typed) setTopic(typed);
+    const chosenAudience = audienceField.current?.value;
+    if (chosenAudience && (AUDIENCES as readonly string[]).includes(chosenAudience)) setAudience(chosenAudience as StudioAudience);
+    const chosenSlides = Number(slidesField.current?.value);
+    if (SLIDE_CHOICES.includes(chosenSlides)) setSlides(chosenSlides);
     setHydrated(true);
-    setInApp(currentInApp());
+    const browser = currentInApp();
+    setInApp(browser);
+    // A page without the head script still shows the notice (late, but shown).
+    if (browser && !document.documentElement.hasAttribute(INAPP_ATTRIBUTE)) document.documentElement.setAttribute(INAPP_ATTRIBUTE, browser);
     captureLastTouch();
     const root = document.getElementById('studio-root');
     if (root) root.dataset.island = 'ready';
@@ -120,7 +149,7 @@ export function Form({ locale }: FormProps) {
       setStatus({ kind: 'message', code: 'topic_refused', tone: 'error' });
     } else {
       if (outcome.code !== 'topic_length' && outcome.code !== 'aborted') funnel.error(outcome.code);
-      setStatus({ kind: 'message', code: outcome.code, tone: 'error' });
+      setStatus({ kind: 'message', code: outcome.code, tone: 'error', ...(outcome.resetsAt ? { resetsAt: outcome.resetsAt } : {}) });
     }
   };
 
@@ -169,10 +198,11 @@ export function Form({ locale }: FormProps) {
     setPictures(new Map<number, PictureState>(outcome.images.map((image) => [image.index, { status: 'loading' }])));
     setDownload(outcome.images.length ? 'waiting' : 'idle');
     setResult({ job: outcome.job, task: outcome.task, deck: outcome.deck, aiLabel: outcome.aiLabel });
-    setStatus({ kind: 'idle' });
+    setStatus({ kind: 'ready' });
     funnel.resultReady('presentation', 'free', { slides: outcome.deck.slides.length, audience, seconds: Math.round((Date.now() - startedAt) / 1000) });
     if (!outcome.images.length) return;
 
+    // drawPictures settles every picture by PICTURE_DEADLINE_MS: the download never waits longer.
     await drawPictures(
       api,
       outcome.job.jobId,
@@ -202,8 +232,9 @@ export function Form({ locale }: FormProps) {
       }
       const blob = await buildDeck({ locale, deck: result.deck, palette: result.task.palette, pictures: encoded, aiLabel: result.aiLabel });
       saveFile(blob, deckFileName(result.task.topic));
-      live().funnel.download('presentation', encoded.size);
-      setDownload('saved');
+      // The browser was asked to save it; nothing says it did (in-app WebViews, a cancelled iOS sheet).
+      live().funnel.download('presentation', encoded.size, inApp ?? 'none');
+      setDownload('started');
     } catch {
       live().funnel.error('build_failed');
       setDownload('failed');
@@ -211,10 +242,14 @@ export function Form({ locale }: FormProps) {
   };
 
   const working = status.kind === 'working';
-  const message =
-    status.kind === 'message'
-      ? `${texts.messages[messageKey(status.code)]}${status.code === 'free_limit' ? ` ${texts.resetAt(tashkentTime(status.resetsAt))}` : ''}`
-      : '';
+  let message = '';
+  if (status.kind === 'message') {
+    const key = messageKey(status.code);
+    if (key === 'job_in_progress' && status.resetsAt) message = texts.jobOpenUntil(tashkentTime(status.resetsAt));
+    else message = `${texts.messages[key]}${UNTIL_RESET.has(status.code) ? ` ${texts.resetAt(tashkentTime(status.resetsAt))}` : ''}`;
+  }
+  // The hidden status line: the step while a deck is made, then «ready».
+  const announce = status.kind === 'working' ? texts.steps[status.step] : status.kind === 'ready' ? texts.steps.ready : '';
 
   return (
     <div className="st:scheme-dark st:rounded-2xl st:border st:border-studio-line st:bg-studio-surface st:p-4 st:text-studio-text st:sm:p-6" data-studio-tool="presentation">
@@ -224,6 +259,7 @@ export function Form({ locale }: FormProps) {
             {texts.topicLabel}
           </label>
           <input
+            ref={topicField}
             id={`${id}-topic`}
             name="topic"
             type="text"
@@ -247,6 +283,7 @@ export function Form({ locale }: FormProps) {
               {texts.audienceLabel}
             </label>
             <select
+              ref={audienceField}
               id={`${id}-audience`}
               name="audience"
               className={FIELD}
@@ -266,6 +303,7 @@ export function Form({ locale }: FormProps) {
               {texts.slidesLabel}
             </label>
             <select
+              ref={slidesField}
               id={`${id}-slides`}
               name="slides"
               className={FIELD}
@@ -281,14 +319,18 @@ export function Form({ locale }: FormProps) {
             </select>
           </div>
         </div>
-        {inApp ? <InAppNotice texts={texts} /> : null}
-        <button
-          type="submit"
-          disabled={!hydrated || working}
-          className="st:w-full st:rounded-xl st:bg-linear-to-br st:from-studio-blue st:to-studio-cyan st:px-4 st:py-3.5 st:text-base st:font-semibold st:text-studio-bg st:transition-opacity st:disabled:opacity-60 st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan"
-        >
-          {working ? texts.submitBusy : texts.submit}
-        </button>
+        {/* The notice sits 8 px above the button (not the form's 16): in an in-app browser both still fit the first screen. */}
+        <div className="st:space-y-2">
+          <InAppNotice texts={texts} />
+          <button
+            type="submit"
+            disabled={!hydrated || working}
+            className="st:w-full st:rounded-xl st:bg-linear-to-br st:from-studio-blue st:to-studio-cyan st:px-4 st:py-3.5 st:text-base st:font-semibold st:text-studio-bg st:transition-opacity st:disabled:opacity-60 st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan"
+          >
+            {working ? texts.submitBusy : texts.submit}
+          </button>
+        </div>
+        <InAppNote texts={texts} />
         <p className="st:text-xs st:leading-snug st:text-studio-muted">{texts.freeNote}</p>
         <div ref={turnstileBox} className="st:flex st:justify-center st:empty:hidden" data-studio-turnstile="" />
         <p
@@ -298,6 +340,9 @@ export function Form({ locale }: FormProps) {
           data-studio-message={status.kind === 'message' ? status.code : ''}
         >
           {message}
+        </p>
+        <p role="status" className="st:sr-only" data-studio-announce="">
+          {announce}
         </p>
       </form>
       {status.kind === 'working' ? <Progress texts={texts} step={status.step} startedAt={status.startedAt} /> : null}

@@ -182,7 +182,7 @@ test('check-pages: a page that keeps the closed-API contract passes; every breac
     [{ apiOnLoad: ['/api/studio/config'] }, /requested on load/],
     [{ afterFocus: { api: [], errors: [] } }, /asked nothing of \/api\/studio/],
     [{ afterFocus: { api: ['/api/studio/config'], errors: [TEXTS.uz.messages.busy] } }, /after a mere focus/],
-    [{ afterSubmit: { message: '', h1: 1 } }, /expected «Vaqtincha ishlamayapti/],
+    [{ afterSubmit: { message: '', h1: 1 } }, /expected «Aloqa uzildi/],
     [{ afterSubmit: { message: TEXTS.uz.messages.busy, h1: 0 } }, /lost its H1/],
   ];
   for (const [change, error] of breaches) {
@@ -191,7 +191,9 @@ test('check-pages: a page that keeps the closed-API contract passes; every breac
     assert.match(failures[0], error);
   }
   assert.deepEqual(errorTexts('ru'), Object.values(TEXTS.ru.messages));
-  assert.match(pageFailures({ ...passing(), afterSubmit: { message: TEXTS.uz.messages.busy, h1: 1 } }, 'ru')[0], /Временно не работает/);
+  assert.match(pageFailures({ ...passing(), afterSubmit: { message: TEXTS.uz.messages.busy, h1: 1 } }, 'ru')[0], /Связь прервалась/);
+  // No answer from /api/* reads as a lost connection; a studio that answers "off" says busy: both pass.
+  assert.deepEqual(pageFailures({ ...passing(), afterSubmit: { message: TEXTS.uz.messages.connection_lost, h1: 1 } }, 'uz'), []);
 });
 
 test('check-pages: a draft is checked as the release will write it, a published page from dist', t => {

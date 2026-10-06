@@ -16,7 +16,9 @@
 //   4. the reservation is settled at what the calls cost.
 // Whatever happens to a picture, the unit is not touched: the browser redraws
 // a slot once, then the slide goes without a picture. The browser also stops
-// waiting 35 s after the text (IMAGE_RULES.deadlineAfterOutlineMs); the
+// waiting 35 s after the text (IMAGE_RULES.deadlineAfterOutlineMs, mirrored
+// in the island as flow.ts PICTURE_DEADLINE_MS: drawPictures cancels what is
+// still being drawn, the slide goes without and the file can be saved); the
 // server's limit is the job's own life (15 minutes from its start).
 //
 // The bytes go to the browser as image/jpeg and are never written anywhere:

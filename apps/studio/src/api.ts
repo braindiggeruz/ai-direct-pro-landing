@@ -31,7 +31,10 @@ export interface Failure {
   readonly code: string;
   /** /:job/slides: the job has a call left for this part. */
   readonly retry?: boolean;
-  /** 429 free_limit / ip_ceiling / try_later: when the free day starts again. */
+  /**
+   * 429 free_limit / ip_ceiling / try_later and a day-long 503 studio_busy:
+   * when the free day starts again; 409 job_in_progress: when the open job expires.
+   */
   readonly resetsAt?: string;
   /** 422 topic_refused: the refusal's coarse category. */
   readonly category?: string;
@@ -61,12 +64,22 @@ export interface StudioPublicConfig {
   readonly aiLabel: boolean;
 }
 
+/**
+ * What is left of one free unit today. `openUntil` (ISO): an open job of this
+ * person still holds one, until then; it may still be delivered, or it comes back.
+ */
+export interface FreeUnitLeft {
+  readonly left: number;
+  readonly limit: number;
+  readonly openUntil?: string;
+}
+
 /** GET /me, the free part (functions/api/studio/me.ts). */
 export interface StudioMe {
   readonly identity: boolean;
   readonly free: {
-    readonly presentation: { readonly left: number; readonly limit: number };
-    readonly photo: { readonly left: number; readonly limit: number };
+    readonly presentation: FreeUnitLeft;
+    readonly photo: FreeUnitLeft;
     readonly resetsAt: string;
   };
 }

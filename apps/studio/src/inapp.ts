@@ -6,7 +6,8 @@
  * reloads when the person switches to a real browser. They are recognised
  * when the page loads, before anything is generated, and the form shows
  * «Brauzerda oching» with a «Havolani nusxalash» button above its submit
- * button. Generating is still allowed.
+ * button, from the first paint (INAPP_HEAD_SCRIPT). Generating is still
+ * allowed.
  *
  *   Instagram   "Instagram" in the user agent
  *   Facebook    "FBAN" or "FBAV" in the user agent (Facebook, Messenger)
@@ -30,6 +31,23 @@ export function detectInApp(userAgent: string, win: InAppWindow | null = null): 
   }
   return null;
 }
+
+/** The attribute on <html> that names an in-app browser (the head script sets it). */
+export const INAPP_ATTRIBUTE = 'data-inapp';
+
+/**
+ * detectInApp as a classic inline script for the page's <head>
+ * (scripts/studio-page.ts). It runs before the first paint and marks <html>
+ * with data-inapp="instagram|facebook|telegram", so the notice the form
+ * always carries (hidden, src/styles.css) shows from the first paint: no
+ * layout shift after hydration, no tap landing on a notice that just
+ * appeared. ES5 on purpose (old in-app WebViews); never throws.
+ * tests/studio-island.test.ts holds it equal to detectInApp.
+ */
+export const INAPP_HEAD_SCRIPT =
+  "(function(){try{var u=navigator.userAgent||'',w=window,k=/Instagram/i.test(u)?'instagram':/FBAN|FBAV/.test(u)?'facebook'" +
+  ":(w.TelegramWebviewProxy!==undefined||w.TelegramWebviewProxyProto!==undefined||/\\bTelegram\\b/i.test(u))?'telegram':'';" +
+  "if(k)document.documentElement.setAttribute('data-inapp',k)}catch(e){}})();";
 
 /** This page's browser, read once at load; null outside a browser. */
 export function currentInApp(): InAppBrowser | null {

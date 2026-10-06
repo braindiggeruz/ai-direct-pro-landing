@@ -12,7 +12,9 @@
  * The page:
  *   <head>   title, description, robots, canonical, hreflang only for a
  *            published pair, og/twitter, the site's icons and fonts, the site
- *            stylesheet and then the studio's, JSON-LD (Organization from
+ *            stylesheet and then the studio's, the in-app mark (src/inapp.ts
+ *            INAPP_HEAD_SCRIPT: <html data-inapp> before the first paint, so
+ *            the form's «Brauzerda oching» never shifts it), JSON-LD (Organization from
  *            scripts/jsonld-helpers.ts, so its @id is the site's; WebApplication
  *            free of charge; BreadcrumbList; FAQPage for the visible FAQ), the
  *            first-touch, GA4 and Metrika blocks of the site (no GTM), and the
@@ -36,6 +38,7 @@ import { FIRST_TOUCH_SCRIPT } from '../../../scripts/attribution-snippet';
 import { withEmailOff } from '../../../scripts/email-off';
 import { buildBreadcrumbLd, buildOrganizationLd } from '../../../scripts/jsonld-helpers';
 import type { GlobalSEO } from '../../../src/shared/types';
+import { INAPP_HEAD_SCRIPT } from '../src/inapp';
 import { renderForm } from '../src/tools/presentation/static';
 import { studioAlternates, type StudioLocale, type StudioPageRecord } from '../shared/published-urls';
 
@@ -387,6 +390,7 @@ ${fonts}
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
 ${stylesheets}
+<script>${INAPP_HEAD_SCRIPT}</script>
 <script type="application/ld+json">${studioJsonLd(content, global)}</script>
 ${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}

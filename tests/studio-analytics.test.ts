@@ -109,7 +109,7 @@ function fireStep(funnel: Funnel, step: keyof Funnel): void {
     case 'tariffsViewed': return funnel.tariffsViewed('limit');
     case 'checkoutStarted': return funnel.checkoutStarted('oylik');
     case 'checkoutResult': return funnel.checkoutResult('paid');
-    case 'download': return funnel.download('presentation', 2);
+    case 'download': return funnel.download('presentation', 2, 'none');
     case 'limitHit': return funnel.limitHit('free_limit');
     case 'error': return funnel.error('studio_busy');
   }
@@ -217,7 +217,7 @@ test('ga4: only catalogued events, only listed parameters, never the topic', () 
 test('ga4: without gtag the event goes to dataLayer once; a throwing gtag is harmless', () => {
   const calls = fakeWindow({ gtag: false });
   trackGa4(STUDIO_GA4_EVENTS.download, { tool: 'presentation', images: 2 });
-  assert.deepEqual(calls.dataLayer, [{ event: 'studio_download', tool: 'presentation', images: 2 }]);
+  assert.deepEqual(calls.dataLayer, [{ event: 'studio_download_clicked', tool: 'presentation', images: 2 }]);
   (globalThis as { window?: unknown }).window = { gtag: () => { throw new Error('blocked'); } };
   assert.doesNotThrow(() => trackGa4(STUDIO_GA4_EVENTS.download, {}));
 });
