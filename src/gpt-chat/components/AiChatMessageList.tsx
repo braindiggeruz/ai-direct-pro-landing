@@ -74,7 +74,7 @@ export function AiChatMessageList({
   onRetry?: () => void;
   /** The last question back into the composer, out of the thread. */
   onEdit?: () => void;
-  onAsk?: (action: AnswerAction, text: string, request: string) => void;
+  onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)

@@ -332,6 +332,48 @@ test('the bubble shows a button’s name; the model gets its instruction with th
   assert.match(answerStrings('uz').toUzbek, /O‘zbekchaga/);
 });
 
+test('«simpler» and «continue» keep the answer’s language: the page’s name on the button, the answer’s lines for the model', () => {
+  const ruAnswer = 'Чтобы открыть счёт в банке, возьмите паспорт и ИНН. Сотрудник проверит документы и выдаст карту.';
+  const uzAnswer = 'Bank hisobini ochish uchun pasport va STIR kerak bo‘ladi. Xodim hujjatlarni tekshirib, karta beradi.';
+  // A Russian answer on the Uzbek page.
+  const [label, request, frame] = answerAsk('shorter', ruAnswer, 'uz', 'ru');
+  assert.equal(label, answerStrings('uz').simpler, 'the button keeps its Uzbek name in the bubble');
+  assert.equal(frame, 'ru');
+  assert.ok(request.startsWith(`${answerStrings('ru').ask.shorter}\n\n`), request.slice(0, 60));
+  const sent = applyRole(request, 'general', frame);
+  assert.ok(sent.startsWith('Работай как универсальный AI-помощник.\nОтвечай на языке вопроса'), sent.slice(0, 80));
+  assert.ok(sent.includes('Задача: Объясни следующий ответ проще'));
+  assert.doesNotMatch(sent, /Vazifa|shu tilda/);
+  // The mirror: an Uzbek answer on the Russian page.
+  const [ruLabel, uzRequest, uzFrame] = answerAsk('shorter', uzAnswer, 'ru', 'uz');
+  assert.equal(ruLabel, 'Объяснить проще');
+  assert.ok(uzRequest.startsWith('Quyidagi javobni oddiyroq tushuntir'));
+  assert.ok(applyRole(uzRequest, 'general', uzFrame).includes('Vazifa: Quyidagi javobni oddiyroq tushuntir'));
+  const [, contRequest, contFrame] = answerAsk('continue', uzAnswer, 'ru', 'uz');
+  assert.ok(contRequest.startsWith(answerStrings('uz').ask.continue) && contFrame === 'uz');
+  // A translation names its language: the page's instruction and frame, whatever the answer's.
+  const [, toRu, toRuFrame] = answerAsk('russian', uzAnswer, 'uz', 'uz');
+  assert.ok(toRu.startsWith(answerStrings('uz').ask.russian) && toRuFrame === 'uz');
+  const [, toUz, toUzFrame] = answerAsk('uzbek', ruAnswer, 'ru', 'ru');
+  assert.ok(toUz.startsWith(answerStrings('ru').ask.uzbek) && toUzFrame === 'ru');
+  assert.equal(answerAsk('russian', uzAnswer, 'ru', 'uz')[2], 'ru', 'a translation ignores the answer’s frame');
+  // The row reads the answer's language once, for the last answer; the console frames the request with it, and a retry too.
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /const frame = isLast \? frameLocale\(content, locale\) : locale;/);
+  assert.match(source, /const \[text, request, own\] = answerAsk\(kind, content, locale, frame\);/);
+  assert.match(source, /onAsk\?\.\(kind, text, request, own\)/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /void doSend\(text, \{ answerAction: action, request, frame, tool: activeTool \}\);/);
+  assert.match(consoleSource, /const ask = meta\.answerAction && meta\.request \? \{ request: meta\.request, action: meta\.answerAction, frame: meta\.frame \} : undefined;/);
+  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  // Every button, in every frame, with the longest role, fits the server's 3000.
+  const long = `${'Birinchi qism. '.repeat(100)}\n\n${'Последняя часть. '.repeat(100)}`;
+  for (const locale of LOCALES) for (const f of LOCALES) for (const kind of ['shorter', 'continue', 'russian', 'uzbek'] as const) {
+    const [, req, own] = answerAsk(kind, long, locale, f);
+    for (const role of ['business', 'translator', 'teacher'] as const) assert.ok(applyRole(req, role, own).length <= 3000, `${locale}/${f}/${kind}/${role}`);
+  }
+});
+
 test('a translation goes the other way from the answer’s script, without the language line', () => {
   assert.equal(translationOf('Salom! Bu javob o‘zbek tilida.'), 'russian');
   assert.equal(translationOf('Привет! Это ответ на русском.'), 'uzbek');
@@ -344,12 +386,12 @@ test('a translation goes the other way from the answer’s script, without the l
     assert.match(answerAsk('uzbek', 'Привет', locale)[1], locale === 'uz' ? /o‘zbek tiliga \(lotin yozuvida\)/ : /Uzbek Latin/);
   }
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /applyRole\(\s*meta\.request \?\? trimmed,\s*role,\s*meta\.request \|\| role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\),\s*\{ guard: meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \},\s*\)/);
+  assert.match(consoleSource, /applyRole\(\s*meta\.request \?\? trimmed,\s*role,\s*meta\.request \? meta\.frame \?\? config\.locale : role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\),\s*\{ guard: role !== "translator" && meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \},\s*\)/);
 });
 
 test('retry and «Qayta yozish» replace the last answer: the question is in the thread and the history once', () => {
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action \}\);/);
+  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
   assert.match(consoleSource, /const history = \(meta\.base \?\? messages\)\.filter\(\(m\) => !m\.pending && !m\.error\);/);
   // The thread drops the old pair; the history sent is built from the same base.
   assert.match(consoleSource, /const withUser: ChatMessage\[\] = \[\s*\.\.\.history,\s*\{ role: "user", content: trimmed, ask \},/);

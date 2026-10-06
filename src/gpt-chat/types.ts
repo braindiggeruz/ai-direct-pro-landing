@@ -210,8 +210,8 @@ export type AnswerAction = "shorter" | "continue" | "russian" | "uzbek";
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
-  /** In memory only: what an answer button asked the model; `content` is the button's name. */
-  ask?: { request: string; action: AnswerAction };
+  /** In memory only: what an answer button asked the model, and in which language its lines go; `content` is the button's name. */
+  ask?: { request: string; action: AnswerAction; frame?: Locale };
   model?: string | null;
   /** transient UI state for the pending assistant turn */
   pending?: boolean;

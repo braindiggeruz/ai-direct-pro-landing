@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
+import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
 import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
@@ -431,19 +431,23 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       base?: ChatMessage[];
       /** What the model gets instead of `text` (an answer button's instruction). */
       request?: string;
+      /** The language of the lines around `request`: the answer's for «simpler» and «continue». */
+      frame?: Locale;
     } = {},
   ) => {
     const trimmed = text.trim();
     if (!trimmed || sendDisabled) return;
-    // A translation names its language, so it gets no language line. A typed
-    // question gets its lines in its own language when its letters say so
-    // (frameLocale); a button's instruction and the translator, whose page
-    // says which way to go, keep the page's.
+    // A typed question gets its lines in its own language when its letters
+    // say so (frameLocale); a button's in the language answerAsk chose (the
+    // answer's for «simpler» and «continue», the page's for a translation);
+    // the translator's in the page's, which says which way to go. A
+    // translation, a button's or the translator's, gets no «answer in the
+    // language of the question» line: it would undo the translation.
     const requestMessage = applyRole(
       meta.request ?? trimmed,
       role,
-      meta.request || role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
-      { guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
+      meta.request ? meta.frame ?? config.locale : role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
+      { guard: role !== "translator" && meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
     );
     // Over the server's limit (a role with longer lines after a long paste, an
     // older draft, a retry under another role): nothing is sent, so nothing
@@ -467,7 +471,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // The question and «AI o‘ylayapti…» show at the tap, before the session
     // request: on 3G the composer used to empty half a second before them.
     const history = (meta.base ?? messages).filter((m) => !m.pending && !m.error);
-    const ask = meta.answerAction && meta.request ? { request: meta.request, action: meta.answerAction } : undefined;
+    const ask = meta.answerAction && meta.request ? { request: meta.request, action: meta.answerAction, frame: meta.frame } : undefined;
     const withUser: ChatMessage[] = [
       ...history,
       { role: "user", content: trimmed, ask },
@@ -781,8 +785,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   // A button under the last answer: its name goes into the bubble, and its
   // instruction with the answer (or its end) to the model (plan ACT-02).
-  const onAsk = (action: AnswerAction, text: string, request: string) => {
-    void doSend(text, { answerAction: action, request, tool: activeTool });
+  const onAsk = (action: AnswerAction, text: string, request: string, frame: Locale) => {
+    void doSend(text, { answerAction: action, request, frame, tool: activeTool });
   };
 
   // "New chat": clears the visible conversation + stored history, but keeps
@@ -812,7 +816,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const idx = lastQuestion();
     if (sendDisabled || idx < 0) return;
     const { content, ask } = messages[idx];
-    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action });
+    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action, frame: ask?.frame });
   };
   // Under an error: the question back into the composer, out of the thread.
   const onEdit = () => {

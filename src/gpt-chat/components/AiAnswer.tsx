@@ -6,6 +6,7 @@
 import { useState } from "react";
 import type { AnswerAction, Locale } from "../types";
 import { answerStrings } from "../answer-strings";
+import { frameLocale } from "../roles";
 import { renderMarkdown } from "../markdown";
 import { plainText } from "../plain-text";
 import { track, EV } from "../analytics";
@@ -37,9 +38,15 @@ export function translationOf(content: string): "uzbek" | "russian" {
  * What a button sends: its name for the visitor's bubble, and for the model
  * its instruction with the answer, or with the answer's last 1200
  * characters to continue from. A long answer goes back cut at a paragraph.
+ * The name is in the page's language. «Simpler» and «Continue» work on the
+ * answer, so their instruction, and the lines around it (the third value),
+ * are in the answer's language (`frame`, from frameLocale): a Russian answer
+ * on the Uzbek page came back simpler in Uzbek. A translation names its
+ * language: the page's.
  */
-export function answerAsk(action: AnswerAction, content: string, locale: Locale): [text: string, request: string] {
+export function answerAsk(action: AnswerAction, content: string, locale: Locale, frame: Locale = locale): [text: string, request: string, frame: Locale] {
   const s = answerStrings(locale);
+  const own = action === "shorter" || action === "continue" ? frame : locale;
   let body = content;
   if (action === "continue") body = content.slice(-1200);
   else if (content.length > 1900) {
@@ -48,7 +55,7 @@ export function answerAsk(action: AnswerAction, content: string, locale: Locale)
     if (at > 400) body = body.slice(0, at);
   }
   const text = { shorter: s.simpler, continue: s.continue, uzbek: s.toUzbek, russian: s.toRussian }[action];
-  return [text, `${s.ask[action]}\n\n${body}`];
+  return [text, `${answerStrings(own).ask[action]}\n\n${body}`, own];
 }
 
 /**
@@ -132,10 +139,11 @@ export function MessageActions({
   /** Say once that each button sends a message. */
   costNote?: boolean;
   onRetry?: () => void;
-  /** `text` goes into the visitor's bubble, `request` to the model. */
-  onAsk?: (action: AnswerAction, text: string, request: string) => void;
+  /** `text` goes into the visitor's bubble, `request` to the model, framed in `frame`. */
+  onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
 }) {
   const s = answerStrings(locale);
+  const frame = isLast ? frameLocale(content, locale) : locale;
   const [copyStatus, setCopyStatus] = useState<"idle" | "done" | "failed">(
     "idle",
   );
@@ -165,9 +173,9 @@ export function MessageActions({
     }
   };
   const action = (kind: AnswerAction) => {
-    const [text, request] = answerAsk(kind, content, locale);
+    const [text, request, own] = answerAsk(kind, content, locale, frame);
     return (
-      <button type="button" className="gpt-action" disabled={locked} onClick={() => onAsk?.(kind, text, request)}>
+      <button type="button" className="gpt-action" disabled={locked} onClick={() => onAsk?.(kind, text, request, own)}>
         {text}
       </button>
     );

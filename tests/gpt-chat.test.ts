@@ -254,7 +254,8 @@ test('AI cabinet roles are localized and affect the request without user data', 
   assert.match(uz, /Vazifa: Post yoz/);
   for (const role of getRoles('uz')) assert.doesNotMatch(role.instruction, /faqat Uzbek Latin ishlating|Javobni faqat Uzbek Latin/i, role.id);
   // The translator still writes Uzbek in Latin script: that line is about Uzbek text only.
-  assert.match(getRoles('uz').find((role) => role.id === 'translator')!.instruction, /O‘zbekcha matnni faqat Uzbek Latin yozuvida bering/);
+  assert.match(getRoles('uz').find((role) => role.id === 'translator')!.instruction, /o‘zbek tiliga \(faqat lotin yozuvida\)/);
+  assert.match(getRoles('ru').find((role) => role.id === 'translator')!.instruction, /на узбекский \(только латиницей\)/);
 });
 
 test('the language line: the question decides, the page only when unclear; formulas without LaTeX; none on a translation', () => {
@@ -277,7 +278,8 @@ test('the language line: the question decides, the page only when unclear; formu
     for (const role of getRoles(locale)) {
       const prefix = rolePrefixLength(role.id as RoleId, locale);
       assert.ok(prefix > 0 && prefix < 600, `${locale}/${role.id}: ${prefix}`);
-      assert.equal(applyRole('x'.repeat(3000 - prefix), role.id as RoleId, locale).length, 3000);
+      // As doSend frames a typed question: the translator gets no language line.
+      assert.equal(applyRole('x'.repeat(3000 - prefix), role.id as RoleId, locale, { guard: role.id !== 'translator' }).length, 3000);
     }
   }
   // A question may get either language's lines (frameLocale): the limit leaves room for the longer.
@@ -285,7 +287,7 @@ test('the language line: the question decides, the page only when unclear; formu
     const id = role.id as RoleId;
     const longest = maxRolePrefixLength(id);
     assert.equal(longest, Math.max(rolePrefixLength(id, 'uz'), rolePrefixLength(id, 'ru')));
-    for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole('x'.repeat(3000 - longest), id, locale).length <= 3000, `${locale}/${id}`);
+    for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole('x'.repeat(3000 - longest), id, locale, { guard: id !== 'translator' }).length <= 3000, `${locale}/${id}`);
   }
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(consoleSource, /maxChars=\{MAX_INPUT - maxRolePrefixLength\(role\)\}/);
@@ -338,10 +340,42 @@ test('the lines around a typed question are in its language when its letters say
   assert.equal(frameLocale('', 'uz'), 'uz');
   // The majority of letters decides a mixed question.
   assert.equal(frameLocale('Instagram uchun post yoz: «Скидка»', 'uz'), 'uz');
+  // English with acronyms, names and o'clock keeps the Russian page's frame.
+  for (const q of ['Write a QA checklist', 'What is QA testing?', 'Tell me about Qatar', "Meet me at 5 o'clock please", "Explain o'clock usage", 'What is Iraqi cuisine?', 'Iraqi oil prices', "Write a letter to O'Brien", 'Cover letter for a job in Arlington, VA', 'A unique request, frequently asked']) {
+    assert.equal(frameLocale(q, 'ru'), 'ru', q);
+  }
+  // Uzbek Latin without o‘ or g‘: a q, a common word, a suffix-free verb.
+  for (const q of ['Salom', 'Qanday?', "o'chirib tashla", 'Qaysi biri yaxshi', 'Biznes reja tuzib ber', 'Mening ismim Ali', 'Rezyume yozib ber', 'Ishga ariza yozib ber', 'olmoqchiman']) {
+    assert.equal(frameLocale(q, 'ru'), 'uz', q);
+  }
+  // A Russian question with code or English terms: two Cyrillic words decide, however much Latin.
+  assert.equal(frameLocale('Напиши SQL запрос: SELECT * FROM users WHERE id = 1', 'uz'), 'ru');
+  assert.equal(frameLocale('Сравни Python и JavaScript для backend: async/await, event loop, performance', 'uz'), 'ru');
+  // …unless the Latin part is marked Uzbek: a Russian title quoted in an Uzbek question.
+  assert.equal(frameLocale('Menga «Отчёт о продажах» shablonini yozib ber', 'ru'), 'uz');
   assert.equal(applyRole('Привет', 'general', frameLocale('Привет', 'uz')).startsWith('Работай как универсальный AI-помощник.'), true);
   // A button's instruction and the translator keep the page's frame; a typed question gets its own.
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
-  assert.match(consoleSource, /meta\.request \|\| role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\)/);
+  assert.match(consoleSource, /meta\.request \? meta\.frame \?\? config\.locale : role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\)/);
+});
+
+test('the translator translates: no «answer in the language of the question», and it says which way to go', () => {
+  const direction = {
+    uz: 'Ruscha matnni o‘zbek tiliga (faqat lotin yozuvida), o‘zbekcha matnni rus tiliga tarjima qiling; vazifada boshqacha ko‘rsatilgan bo‘lsa, shunga amal qiling.',
+    ru: 'Русский текст переводи на узбекский (только латиницей), узбекский — на русский; если в задаче сказано иначе — следуй задаче.',
+  };
+  for (const locale of ['ru', 'uz'] as const) {
+    const sent = applyRole('Привет, как дела?', 'translator', locale, { guard: false });
+    assert.doesNotMatch(sent, /shu tilda|на языке вопроса/, locale);
+    assert.ok(sent.includes(direction[locale]), locale);
+    assert.ok(!direction[locale].includes("'"));
+    // Its composer limit counts the lines it really gets, and still fits 3000.
+    const room = 3000 - maxRolePrefixLength('translator');
+    assert.equal(rolePrefixLength('translator', locale), applyRole('', 'translator', locale, { guard: false }).length);
+    assert.ok(applyRole('x'.repeat(room), 'translator', locale, { guard: false }).length <= 3000);
+  }
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /\{ guard: role !== "translator" && meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \}/);
 });
 
 test('AI cabinet shares the quota between the RU and UZ chats and clears only the chat session', () => {
