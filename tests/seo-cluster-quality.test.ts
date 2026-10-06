@@ -340,32 +340,56 @@ test('titles and descriptions are unique inside a cluster', () => {
   }
 });
 
-test('cluster articles quote no invented price', () => {
-  // A currency figure in an Uzbek article is a made-up price unless it repeats,
-  // word for word, a figure from the price table («Narx…» header) of a published
-  // Uzbek service page: the SMM price article (a spoke since the 2026-10-06
-  // homepage revision) quotes the package rows; every other spoke quotes none.
-  const money = /\d[\d\s.,]*\s*(so‘m|som|сум|\$|usd|доллар)/gi;
-  const printed = new Set<string>();
+// Uzbek spokes allowed to print prices, each mapped to the hub whose package
+// table it quotes. A listed article may also quote the «Narx…» table of an
+// Uzbek service page it links (the SMM price article's target FAQ quotes
+// /uz/instagram-target-yoqish/). Every other spoke prints no currency figure.
+const PRICE_ARTICLES = new Map([['/uz/blog/smm-xizmati-narxi-ozbekiston-2026/', '/uz/smm-xizmatlari/']]);
+const MONEY = /\d[\d\s.,]*\s*(so‘m|som|сум|\$|usd|доллар)/gi;
+const CONTEXT_CHARS = 150;
+
+/** Figures printed in the «Narx…» tables of each published Uzbek money page. */
+function priceFiguresByUrl(): Map<string, Set<string>> {
+  const byPage = new Map<string, Set<string>>();
   for (const page of pages) {
     if (page.status !== 'published' || page.locale !== 'uz' || page.pageType !== 'money') continue;
+    const figures = new Set<string>();
     for (const block of page.bodyBlocks || []) {
       if (block.type !== 'table' || !block.headers?.some((header) => /^Narx/.test(header))) continue;
-      for (const cell of (block.rows || []).flat()) for (const figure of cell.matchAll(/\d{1,3}(?: \d{3})+/g)) printed.add(figure[0]);
+      for (const cell of (block.rows || []).flat()) for (const figure of cell.matchAll(/\d{1,3}(?: \d{3})+/g)) figures.add(figure[0]);
     }
+    if (figures.size) byPage.set(page.url, figures);
   }
-  assert.ok(printed.has('2 490 000') && printed.has('1 990 000'), 'the Uzbek price tables were not found');
+  return byPage;
+}
+
+test('cluster articles quote no invented price', () => {
+  const figuresByUrl = priceFiguresByUrl();
+  assert.ok(figuresByUrl.get('/uz/smm-xizmatlari/')?.has('2 490 000'), 'the SMM package table was not found');
   for (const cluster of manifest.clusters) {
     for (const spoke of cluster.spokes) {
       if (!spoke.url.startsWith('/uz/blog/')) continue; // only the articles authored in this sprint
       const doc = byUrl.get(spoke.url) as BlogArticle | undefined;
       if (!doc) continue;
-      for (const match of JSON.stringify(doc).matchAll(money)) {
+      const text = JSON.stringify(doc);
+      const matches = [...text.matchAll(MONEY)];
+      const hub = PRICE_ARTICLES.get(spoke.url);
+      if (!hub) {
+        assert.equal(matches.length, 0, `${spoke.url} quotes «${matches[0]?.[0].trim()}» but is not a listed price article`);
+        continue;
+      }
+      assert.equal(hub, cluster.hub, `${spoke.url} quotes the table of ${hub}, not of its own hub`);
+      const linked = [...targetsOf(spoke.url)].filter((url) => url !== hub && figuresByUrl.has(url));
+      for (const match of matches) {
         const figure = match[0].match(/\d{1,3}(?: \d{3})+(?=\D*$)/)?.[0];
-        assert.ok(
-          figure && printed.has(figure),
-          `${spoke.url} quotes «${match[0].trim()}», which no published Uzbek price table prints`,
-        );
+        if (figure && figuresByUrl.get(hub)!.has(figure)) continue;
+        // A figure from a linked service page must stand next to that service's
+        // own word (its primary keyword's first word, e.g. «target»), so an SMM
+        // sentence cannot borrow the target tariff.
+        const before = text.slice(Math.max(0, match.index! - CONTEXT_CHARS), match.index!).toLowerCase();
+        const source = linked.find((url) => figure && figuresByUrl.get(url)!.has(figure)
+          && before.includes((byUrl.get(url) as Page).primaryKeyword.split(' ')[0].toLowerCase()));
+        assert.ok(source, `${spoke.url} quotes «${match[0].trim()}», which neither ${hub} nor a linked service page (${linked.join(', ') || 'none'}) prints in that context`);
       }
     }
   }
