@@ -26,7 +26,9 @@ export interface ChatStrings {
     close: string; check: string; manual: string;
     /** Under the header while a pack is active. */
     activeLine: (left: number) => string;
-    copyFailed: string; partial: string; simpler: string; translate: string; continue: string;
+    partial: string;
+    /** The error bubble's second button: the question back into the composer. */
+    editQuestion: string;
     historyNote: string; savedChats: string;
     answerReady: string; monthlyLimit: string; offer: string;
     contextTooLarge: string;
@@ -56,7 +58,6 @@ export interface ChatStrings {
   turnstileRetry: string;
   turnstileError: string;
   stop: string;
-  regenerate: string;
   /** The menu's link to the price page this locale's visitor should see. */
   pricingLink: string;
   chips: PromptChip[];
@@ -89,8 +90,6 @@ export interface ChatStrings {
   /** Its short name next to the composer's line. */
   privacyLink: string;
   newChat: string;
-  copy: string;
-  copied: string;
   retry: string;
   /** A lazy part of the chat (the pack window, the tools) is on its way. */
   partLoading: string;
@@ -145,7 +144,7 @@ const RU: ChatStrings = {
     trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'AI-пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,
-    copyFailed:'Копирование недоступно. Выделите текст и скопируйте вручную.',partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',simpler:'Объяснить проще',translate:'Перевести на узбекский',continue:'Продолжить',
+    partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
     accountUnstable:'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.',recheck:'Проверить снова',
@@ -164,7 +163,6 @@ const RU: ChatStrings = {
   turnstileRetry: 'Проверка истекла или уже использована. Выполните её ещё раз.',
   turnstileError: 'Проверка безопасности недоступна. Обновите страницу.',
   stop: 'Остановить',
-  regenerate: 'Повторить ответ',
   pricingLink: 'Тарифы AI-чата',
   chips: [
     { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
@@ -198,8 +196,6 @@ const RU: ChatStrings = {
   privacyHref: '/ru/politika-konfidentsialnosti/',
   privacyLink: 'Конфиденциальность',
   newChat: 'Новый чат',
-  copy: 'Копировать',
-  copied: 'Скопировано',
   retry: 'Повторить',
   partLoading: 'Загружаем…',
   partFailed: 'Не удалось загрузить этот раздел. Проверьте интернет и обновите страницу.',
@@ -238,7 +234,7 @@ const UZ: ChatStrings = {
     trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'AI paket',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,
-    copyFailed:'Nusxalab bo‘lmadi. Matnni belgilab, qo‘lda nusxalang.',partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',simpler:'Oddiyroq tushuntir',translate:'Rus tiliga tarjima',continue:'Davom ettir',
+    partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
     accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',
@@ -256,7 +252,6 @@ const UZ: ChatStrings = {
   turnstileRetry: 'Tekshiruv muddati tugagan yoki avval ishlatilgan. Qayta bajaring.',
   turnstileError: 'Xavfsizlik tekshiruvi ishlamayapti. Sahifani yangilang.',
   stop: 'To‘xtatish',
-  regenerate: 'Javobni qayta yaratish',
   // The Uzbek menu links to the business bot price list, and says so: a
   // visitor of the free chat is not sent to it as «Tariflar» (F10).
   pricingLink: 'Biznes bot narxlari',
@@ -292,8 +287,6 @@ const UZ: ChatStrings = {
   privacyHref: '/uz/maxfiylik-siyosati/',
   privacyLink: 'Maxfiylik',
   newChat: 'Yangi chat',
-  copy: 'Nusxalash',
-  copied: 'Nusxalandi',
   retry: 'Qayta urinish',
   partLoading: 'Yuklanmoqda…',
   partFailed: 'Bu bo‘limni yuklab bo‘lmadi. Internetni tekshirib, sahifani yangilang.',

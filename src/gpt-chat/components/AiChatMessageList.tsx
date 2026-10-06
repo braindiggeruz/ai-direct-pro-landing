@@ -1,12 +1,13 @@
 import { Message, MessageContent } from '@/components/ui/message';
 import { Bubble, BubbleContent } from '@/components/ui/bubble';
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
-import type { ChatMessage } from "../types";
+import type { AnswerAction, ChatMessage, Locale } from "../types";
 import type { ChatStrings } from "../i18n";
 import { LazyPart, answerPart } from "../lazy-part";
 
-export type AnswerAction =
-  "shorter" | "instagram" | "uzbek" | "bot" | "continue";
+/** The error bubble's buttons: the retry and «change the question». */
+const ERROR_ACTION =
+  "min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40";
 
 /**
  * Which model produced an answer, shown verbatim minus the routing suffix.
@@ -30,15 +31,27 @@ function PlainAnswer({ content }: { content: string }) {
 export function AiChatMessageList({
   messages,
   t,
+  locale = "ru",
   busy,
+  locked = busy,
+  costNote,
   onRetry,
-  onAnswerAction,
+  onEdit,
+  onAsk,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
+  locale?: Locale;
   busy?: boolean;
+  /** Sending is paused (a turn, a limit, a check): the buttons that send are off. */
+  locked?: boolean;
+  /** Say once under the last answer that each of its buttons sends a message. */
+  costNote?: boolean;
+  /** The last question again, in place of its answer or error. */
   onRetry?: () => void;
-  onAnswerAction?: (action: AnswerAction, content: string) => void;
+  /** The last question back into the composer, out of the thread. */
+  onEdit?: () => void;
+  onAsk?: (action: AnswerAction, text: string, request: string) => void;
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
@@ -141,11 +154,13 @@ export function AiChatMessageList({
                       {({ MessageActions }) => (
                         <MessageActions
                           content={m.content}
+                          locale={locale}
                           isLast={i === lastAssistant}
-                          busy={busy}
+                          broken={m.truncated || m.partial}
+                          locked={locked}
+                          costNote={costNote}
                           onRetry={onRetry}
-                          onAnswerAction={onAnswerAction}
-                          t={t}
+                          onAsk={onAsk}
                         />
                       )}
                     </LazyPart>
@@ -163,12 +178,12 @@ export function AiChatMessageList({
                   {m.content}
                 </span>
                 {i === messages.length - 1 && onRetry && (
-                  <div className="mt-2.5">
+                  <div className="mt-2.5 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={onRetry}
-                      disabled={busy}
-                      className="min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40"
+                      disabled={locked}
+                      className={ERROR_ACTION}
                     >
                       <svg
                         width="13"
@@ -185,6 +200,11 @@ export function AiChatMessageList({
                       </svg>
                       {t.retry}
                     </button>
+                    {onEdit && (
+                      <button type="button" onClick={onEdit} disabled={busy} className={ERROR_ACTION}>
+                        {t.premium.editQuestion}
+                      </button>
+                    )}
                   </div>
                 )}
               </>

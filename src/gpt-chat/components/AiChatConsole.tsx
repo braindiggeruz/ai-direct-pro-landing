@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
+import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
 import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
@@ -23,11 +23,11 @@ import {
   clearDraft,
   loadBusinessLineShown,
   saveBusinessLineShown,
+  onceThisSession,
 } from "../storage";
 import { inApp, track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
-import type { AnswerAction } from "./AiChatMessageList";
 import { AiChatInput } from "./AiChatInput";
 import { AiPromptChips } from "./AiPromptChips";
 import { AiUsageBadge } from "./AiUsageBadge";
@@ -297,6 +297,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const limitBlocked = !canSendNow(limit, clock);
   const sendDisabled = busy || limitBlocked || !turnstileReady;
 
+  // Once a session, while few messages are left: every button under an
+  // answer sends one (map 03 §3.6). Gone with the next message.
+  const fewLeft = !paid && ((remaining >= 0 && remaining <= 3) || (hourLeft !== null && hourLeft <= 2));
+  const [costNote, setCostNote] = useState(false);
+  useEffect(() => {
+    if (fewLeft && onceThisSession("gptchat_cost_note")) setCostNote(true);
+  }, [fewLeft]);
+
   // The limit outlives a reload and a trip to the payment page.
   useEffect(() => {
     saveLimit(limit);
@@ -373,22 +381,28 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       tool?: AiToolId;
       answerAction?: AnswerAction;
       retry?: boolean;
+      /** The thread before this question (a retry drops the old answer); else what is on screen. */
+      base?: ChatMessage[];
+      /** What the model gets instead of `text` (an answer button's instruction). */
+      request?: string;
     } = {},
   ) => {
     const trimmed = text.trim();
     if (!trimmed || sendDisabled) return;
     setBusy(true);
     setInput("");
+    setCostNote(false);
     // The business line was an offer for the first answer: a next message
     // takes it away, unless its form is open.
     setBusinessLine((line) => (line?.open ? line : null));
     setTurnstileServerError(null);
     // The question and «AI o‘ylayapti…» show at the tap, before the session
     // request: on 3G the composer used to empty half a second before them.
-    const history = messages.filter((m) => !m.pending && !m.error);
+    const history = (meta.base ?? messages).filter((m) => !m.pending && !m.error);
+    const ask = meta.answerAction && meta.request ? { request: meta.request, action: meta.answerAction } : undefined;
     const withUser: ChatMessage[] = [
       ...history,
-      { role: "user", content: trimmed },
+      { role: "user", content: trimmed, ask },
       { role: "assistant", content: "", pending: true },
     ];
     setMessages(withUser);
@@ -416,11 +430,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       ...entryMeta,
       source: meta.templateId
         ? "template"
-        : meta.answerAction
-          ? "answer_action"
-          : meta.retry
-            ? "retry"
+        : meta.retry
+          ? "retry"
+          : meta.answerAction
+            ? "answer_action"
             : "composer",
+      // Which answer button: shorter | continue | russian | uzbek.
+      mode: meta.answerAction,
       message_number: messageNumber,
       tool: meta.tool || activeTool,
       role_id: role,
@@ -430,8 +446,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       in_app: inApp(),
     });
 
-    // The composer already holds the question to what fits with the role's lines.
-    const requestMessage = applyRole(trimmed, role, config.locale);
+    // The composer already holds the question to what fits with the role's
+    // lines. A translation names its language, so it gets no language line.
+    const requestMessage = applyRole(meta.request ?? trimmed, role, config.locale, {
+      guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian",
+    });
 
     const base = withUser.filter((m) => !m.pending);
     const handleJson = (res: ChatApiResponse) => {
@@ -680,32 +699,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     void doSend(prompt, { templateId: `image-${presetId}`, tool: "images" });
   };
 
-  const onAnswerAction = (action: AnswerAction, content: string) => {
-    const source = content.slice(0, 1900);
-    const instructions: Record<AnswerAction, string> = uz
-      ? {
-          shorter:
-            "Quyidagi javobni oddiyroq tushuntir. Kundalik hayotdan misol keltir:",
-          continue: "Quyidagi javobni takrorlamasdan davom ettir:",
-          instagram:
-            "Quyidagi javobni Instagram posti uchun moslashtir. Sarlavha va yumshoq CTA qo‘sh:",
-          uzbek: "Quyidagi matnni rus tiliga tarjima qil. Yangi fakt qo‘shma:",
-          bot: "Quyidagi g‘oya asosida Telegram-bot ssenariysini tuz: kirish, savollar, ariza va menejerga uzatish:",
-        }
-      : {
-          shorter:
-            "Объясни следующий ответ проще, добавь один понятный бытовой пример:",
-          continue: "Продолжи следующий ответ, не повторяя уже написанное:",
-          instagram:
-            "Адаптируй следующий ответ для Instagram: добавь заголовок и мягкий CTA, не придумывай факты:",
-          uzbek:
-            "Переведи следующий текст на естественный Uzbek Latin. Не добавляй новые факты:",
-          bot: "На основе следующей идеи составь сценарий Telegram-бота: вход, вопросы, заявка и передача менеджеру:",
-        };
-    void doSend(`${instructions[action]}\n\n${source}`, {
-      answerAction: action,
-      tool: activeTool,
-    });
+  // A button under the last answer: its name goes into the bubble, and its
+  // instruction with the answer (or its end) to the model (plan ACT-02).
+  const onAsk = (action: AnswerAction, text: string, request: string) => {
+    void doSend(text, { answerAction: action, request, tool: activeTool });
   };
 
   // "New chat": clears the visible conversation + stored history, but keeps
@@ -723,16 +720,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     focusInput();
   };
 
+  // The last question again, in place of its answer or error: the thread and
+  // the history sent hold it once (plan ACT-01). A new call of the model, so
+  // it costs a message like any other.
+  const lastQuestion = () => {
+    for (let i = messages.length - 1; i >= 0; i--) if (messages[i].role === "user") return i;
+    return -1;
+  };
   const onRetry = () => {
-    if (sendDisabled) return;
-    let lastUser = "";
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === "user") {
-        lastUser = messages[i].content;
-        break;
-      }
-    }
-    if (lastUser) void doSend(lastUser, { retry: true });
+    const idx = lastQuestion();
+    if (sendDisabled || idx < 0) return;
+    const { content, ask } = messages[idx];
+    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action });
+  };
+  // Under an error: the question back into the composer, out of the thread.
+  const onEdit = () => {
+    const idx = lastQuestion();
+    if (busy || idx < 0) return;
+    setInput(messages[idx].content);
+    persist(messages.slice(0, idx));
+    focusInput();
   };
 
   // Closing the business card or the business line closes both for the day:
@@ -1051,9 +1058,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               <AiChatMessageList
                 messages={messages}
                 t={t}
+                locale={config.locale}
                 busy={busy}
+                locked={sendDisabled}
+                costNote={costNote}
                 onRetry={onRetry}
-                onAnswerAction={onAnswerAction}
+                onEdit={onEdit}
+                onAsk={onAsk}
               />
             )}
             {/* The business line: under the first answer to a question about a

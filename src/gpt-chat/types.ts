@@ -204,9 +204,14 @@ export function canResumeCheckout(account: AccountView | null, locale: Locale): 
   return canStartCheckout({ ...account, payment: null }, locale);
 }
 
+/** A button under an answer (components/AiAnswer.tsx): to Russian, to Uzbek, simpler, continue. */
+export type AnswerAction = "shorter" | "continue" | "russian" | "uzbek";
+
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
+  /** In memory only: what an answer button asked the model; `content` is the button's name. */
+  ask?: { request: string; action: AnswerAction };
   model?: string | null;
   /** transient UI state for the pending assistant turn */
   pending?: boolean;

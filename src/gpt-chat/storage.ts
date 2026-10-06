@@ -170,6 +170,20 @@ export function saveBusinessLineShown(): void {
 }
 
 /**
+ * True the first time `key` is asked in this browser session, false after
+ * (sessionStorage). Without storage, true: said once on this page instead.
+ */
+export function onceThisSession(key: string): boolean {
+  try {
+    if (sessionStorage.getItem(key) !== null) return false;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    /* noop */
+  }
+  return true;
+}
+
+/**
  * Whether the conversation on screen stays when the account view answers
  * again after failed reads (F11, plan WP-06). Meanwhile the chat answered as
  * a guest with the same cookies, so what was said belongs to the identity

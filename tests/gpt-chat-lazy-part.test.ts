@@ -18,6 +18,7 @@ import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } fro
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
+import { answerStrings } from '../src/gpt-chat/answer-strings';
 import type { AccountHandle } from '../src/gpt-chat/use-account';
 import type { AccountView } from '../src/gpt-chat/types';
 
@@ -245,7 +246,7 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
   const list = (locale: 'ru' | 'uz') => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
     React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
       React.createElement(AiChatMessageList, {
-        t: strings(locale), onRetry: () => {}, onAnswerAction: () => {},
+        t: strings(locale), locale, onRetry: () => {}, onAsk: () => {},
         messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: '**Javob**\n- bir', model: 'model-a' }],
       })))));
   // Before the part: the text as written, the brand above it, no action row yet.
@@ -260,7 +261,8 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
     assert.ok(html.includes('<div class="gpt-answer-body" dir="auto"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
     assert.ok(html.includes('<li>bir</li>'), locale);
     assert.match(html, /class="gpt-action-row"/);
-    assert.ok(html.includes(t.copy) && html.includes(t.regenerate), locale);
+    assert.ok(html.includes(answerStrings(locale).copy) && html.includes(answerStrings(locale).regenerate), locale);
+    assert.ok(html.includes(t.brand), locale);
   }
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(chat, /const writing = !empty \|\| !!input\.trim\(\);\s*useEffect\(\(\) => \{\s*if \(writing\) answerPart\.preload\(\);\s*\}, \[writing\]\);/);
