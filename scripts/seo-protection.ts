@@ -101,9 +101,10 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // referat and résumé guides (R3-6); the login guide's clone section gains one
 // sentence about domains with «chatgpt» in the name (R3-9); every site header
 // names the chat of its language (R3-10, src/shared/site-chat-nav.ts) — on /
-// and six protected articles that is the whole text change. Title, H1,
-// description, robots, canonical and hreflang of all ten are unchanged; the
-// download guide (its P-CTR window) and the RU chat are byte for byte the same.
+// and five protected articles that is the whole text change (the login guide
+// also gains the R3-9 sentence). Title, H1, description, robots, canonical
+// and hreflang of all ten are unchanged; the download guide (its P-CTR
+// window) and the RU chat are byte for byte the same.
 export const BASELINE = 'docs/seo/evidence/2026-10-06-seo-push/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
