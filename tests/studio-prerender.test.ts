@@ -593,3 +593,24 @@ test('og image: a 1200×630 PNG in apps/studio/public under the versioned name t
     assert.ok(png.length < 400_000, `${og} is ${png.length} bytes`);
   }
 });
+
+test('copy: pictures are "up to 2" and their rules a best effort, as the code allows (0–2, a check that can miss)', () => {
+  const uz = fs.readFileSync(path.join(REPO, 'content/studio/pages/uz/taqdimot-ai.json'), 'utf8');
+  const ru = fs.readFileSync(path.join(REPO, 'content/studio/pages/ru/prezentatsiya-ai.json'), 'utf8');
+  assert.match(uz, /2 tagacha rasm/);
+  assert.match(ru, /до 2 картинок/);
+  assert.doesNotMatch(uz, /2 ta rasm|ikki slaydda AI|Rasmlarda odamlar, yozuv va bayroqlar bo‘lmaydi/);
+  assert.doesNotMatch(ru, /2 картинки|на двух слайдах|Людей, надписей и флагов на картинках нет/);
+  assert.match(uz, /bo‘lmasligiga harakat qilamiz/);
+  assert.match(ru, /Стараемся, чтобы на картинках не было/);
+  assert.match(GUIDE_NEW_TEXT.faq, /2 tagacha rasm bilan/);
+});
+
+test('copy: the processing is named next to the form (the privacy policy has no studio section before R-ST3)', () => {
+  for (const file of ['content/studio/pages/uz/taqdimot-ai.json', 'content/studio/pages/ru/prezentatsiya-ai.json']) {
+    const text = fs.readFileSync(path.join(REPO, file), 'utf8');
+    for (const name of ['Z.ai', 'OpenRouter', 'Cloudflare Workers AI', 'Cloudflare Turnstile', 'cookie']) assert.ok(text.includes(name), `${file}: ${name}`);
+    assert.match(text, /1 yilga|на 1 год/, file);
+    assert.doesNotMatch(text, /Batafsil — \{privacy\}|Подробнее — в \{privacy\}/, `${file}: the policy is a general link, not "the details"`);
+  }
+});

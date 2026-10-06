@@ -24,7 +24,7 @@
   "tariffsVisible": false,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, ikki slaydda AI chizgan rasm. Natija PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
+  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, ikki slaydgacha AI chizgan rasm. Natija PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
   "sections": [
     {
       "id": "qanday-ishlaydi",
@@ -36,7 +36,7 @@
         },
         {
           "title": "AI slaydlarni yozadi",
-          "text": "Mavzu qisqa tekshiruvdan o‘tadi, keyin sarlavhalar va bandlar o‘zbek tilida yoziladi, ikki slayd uchun rasm chiziladi. Odatda bu 30–40 soniya davom etadi — sahifani yopmang."
+          "text": "Mavzu qisqa tekshiruvdan o‘tadi, keyin sarlavhalar va bandlar o‘zbek tilida yoziladi, ikki slaydgacha rasm chiziladi. Odatda bu 30–40 soniya davom etadi — sahifani yopmang."
         },
         {
           "title": "Faylni yuklab oling",
@@ -50,7 +50,7 @@
       "items": [
         "Kuniga 1 ta taqdimot. Yangi kun Toshkent vaqti bilan soat 05:00 da boshlanadi.",
         "Muqova va 4–6 slayd: har birida sarlavha va 2–5 ta qisqa band.",
-        "2 ta rasm: buyumlar, binolar yoki tabiat manzarasi. Rasmlarda odamlar, yozuv va bayroqlar bo‘lmaydi.",
+        "2 tagacha rasm: buyumlar, binolar yoki tabiat manzarasi. Rasmlarda odamlar, yozuv va bayroqlar bo‘lmasligiga harakat qilamiz; tekshiruv shunday rasmni topsa, slayd rasmsiz qoladi.",
         "Bitta oddiy dizayn: o‘qilishi oson ranglar va yirik shrift.",
         "Ro‘yxatdan o‘tish va to‘lov kerak emas. Bot emasligingizni Cloudflare qisqa tekshiradi.",
         "Ma’ruza matni (slayd ostidagi eslatmalar) bepul taqdimotga kirmaydi.",
@@ -64,7 +64,7 @@
         "AI tez yozadi, lekin adashishi mumkin. Sana, raqam, ism va atamalarni darslik yoki ishonchli manbadan tekshiring. Taqdimot — ishning rejasi va asosi, topshirishga tayyor ish emas: unga o‘z fikringiz, misollaringiz va xulosangizni qo‘shing.",
         "AI kitob va manba nomlarini to‘qib chiqarishi mumkin. Shuning uchun manbalar ro‘yxatini o‘qituvchi tavsiya qilgan darslik va kitoblardan o‘zingiz tuzing.",
         {
-          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi va fayl shu yerda yig‘iladi. Matnni yozish uchun mavzu AI modeliga yuboriladi. Batafsil — {privacy}.",
+          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi va fayl shu yerda yig‘iladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga, u javob bermasa OpenRouter orqali boshqa AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga belgi (cookie) saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
           "links": [
             {
               "token": "privacy",
@@ -80,7 +80,7 @@
   "faq": [
     {
       "q": "Taqdimot AI bepulmi?",
-      "a": "Ha. Kuniga 1 ta taqdimot — 6 slaydgacha va 2 ta rasm bilan — bepul, ro‘yxatdan o‘tmasdan. Bugungi taqdimot ishlatilgan bo‘lsa, keyingisi Toshkent vaqti bilan soat 05:00 dan keyin ochiladi."
+      "a": "Ha. Kuniga 1 ta taqdimot — 6 slaydgacha va 2 tagacha rasm bilan — bepul, ro‘yxatdan o‘tmasdan. Bugungi taqdimot ishlatilgan bo‘lsa, keyingisi Toshkent vaqti bilan soat 05:00 dan keyin ochiladi."
     },
     {
       "q": "Faylni qaysi dasturda ochsa bo‘ladi?",
@@ -99,8 +99,8 @@
       "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mavzular, o‘ziga zarar yetkazish, giyohvand moddalar, nafratga chaqiriq va qurol yasash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi — mumkin."
     },
     {
-      "q": "Nega rasmlarda odamlar yo‘q?",
-      "a": "AI chizgan odam yuzi ko‘pincha g‘alati chiqadi, tarixiy shaxsni esa noto‘g‘ri ko‘rsatishi mumkin. Shuning uchun rasmlarda buyumlar, binolar va tabiat bo‘ladi. Kerak bo‘lsa, o‘zingiz olgan yoki litsenziyasi ruxsat bergan rasmni qo‘shing."
+      "q": "Nega rasmlarda odamlar chizilmaydi?",
+      "a": "AI odamlarni chizmaslikka yo‘naltirilgan: AI chizgan odam yuzi ko‘pincha g‘alati chiqadi, tarixiy shaxsni esa noto‘g‘ri ko‘rsatishi mumkin. Shuning uchun rasmlarda buyumlar, binolar va tabiat bo‘ladi. Har bir rasm tekshiriladi, lekin tekshiruv ham adashishi mumkin: rasmda odam, yozuv yoki bayroq ko‘rsangiz, uni fayldan o‘chiring va bizga xabar bering. Kerak bo‘lsa, o‘zingiz olgan yoki litsenziyasi ruxsat bergan rasmni qo‘shing."
     }
   ],
   "links": {

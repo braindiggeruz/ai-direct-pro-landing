@@ -61,7 +61,7 @@ export const GUIDE_NEW_TEXT = {
   firstScreen: 'Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chati reja va matnni o‘zbek tilida yozadi, fayl yaratmaydi. Tayyor .pptx qoralamasi kerak bo‘lsa — {tool} sahifasi: mavzuni yozasiz, 6 slaydgacha fayl bepul yig‘iladi, keyin uni PowerPoint, Google Slides yoki Canva’da tekshirib, o‘zingiz to‘ldirasiz.',
   table: 'Chat fayl yaratmaydi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida',
   caption: 'Chat reja va matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida.',
-  faq: 'Chatning o‘zi fayl bermaydi: u reja, slayd matni va ma’ruza matnini yozadi. Tayyor .pptx qoralamasi — Taqdimot AI sahifasida: mavzuni yozasiz, kuniga 1 ta taqdimot (6 slaydgacha, 2 ta rasm bilan) bepul. Faylni PowerPoint, Google Slides yoki Canva’da ochib, faktlarni tekshiring va o‘zingiz to‘ldiring.',
+  faq: 'Chatning o‘zi fayl bermaydi: u reja, slayd matni va ma’ruza matnini yozadi. Tayyor .pptx qoralamasi — Taqdimot AI sahifasida: mavzuni yozasiz, kuniga 1 ta taqdimot (6 slaydgacha, 2 tagacha rasm bilan) bepul. Faylni PowerPoint, Google Slides yoki Canva’da ochib, faktlarni tekshiring va o‘zingiz to‘ldiring.',
 } as const;
 
 /** The one link the guide gains, with the brand as its anchor (§11.5). */

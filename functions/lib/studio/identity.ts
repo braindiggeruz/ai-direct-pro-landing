@@ -16,9 +16,13 @@
 // against the IP ceiling (spec §5.4), so a school's Wi-Fi or a mobile
 // operator's NAT does not lock out people who have been here before.
 //
-// The cookie lives a year (Max-Age=31536000), as the privacy policy says.
-// After that the browser drops it and the visitor passes Turnstile again; a
-// value older than that is refused here as well.
+// The cookie lives a year (Max-Age=31536000), as the studio pages say next to
+// the form (content/studio/pages/*: the year-long mark, Turnstile, Z.ai and
+// OpenRouter, Workers AI). The site's privacy policy has no studio section
+// yet: it comes with T5.1 (R-ST3), and T2.4 must not publish the pages on a
+// claim the policy does not make. After a year the browser drops the cookie
+// and the visitor passes Turnstile again; a value older than that is refused
+// here as well.
 import type { BillingEnv } from "../gpt-chat/billing-config";
 import { cookieValue } from "../gpt-chat/identity-store";
 
