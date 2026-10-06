@@ -3,7 +3,7 @@
     "status": "committed_not_deployed",
     "branch": "seo/compete-20261006",
     "baseline_commit": "e60bfb06 (production 2ed9e812 plus its release record)",
-    "commit": "the release no. 2 commit, then the metadata-only record of its build:production verification (rule D-006: read it with git log seo/compete-20261006)",
+    "commit": "a12d81e8 (release no. 2), then the metadata-only record of its build:production verification (rule D-006: read it with git log -1 seo/compete-20261006)",
     "scope": "Competitor study gptbot.uz-audit/raw/seo-compete-2026-10-06 (STRATEGY-BEAT-CHATGPT-UZ.md section 2, NOW-TASKS.json), release no. 2 of unprotected pages: N2 intent manifest (new pairs C37 and C38 with evidence, C6 tarjima keys out of the guide and fenced, observed routes on C34/C11/C18/C22, claude-gemini article without «chatgpt uzbek tilida», one RU-chat link from the B2B article), N4 five «аналог ChatGPT» anchors to /ru/gpt-chat/, N5 six links to /uz/blog/ai-chat-nima-va-qanday-turlari-bor/, N6 school-guide links from /uz/, /uz/suniy-intellekt/, /uz/gpt-chat-qollanma/ and guide C6, N7 Russian cross links and the uzbek-language article link to the RU chat, N8 descriptions of /ru/gpt-vs-chatgpt-sravnenie/ and chat-s-ii plus chat-s-ii intro and FAQ 4 -> 6, N9 schema check only, N10 seven llms.txt/llms-full.txt intent lines",
     "owner_rules": "white-hat only; GPTBot.uz is an independent AI chat, never ChatGPT, OpenAI, «rasmiy» or «официальный»; chatgpt.uz not mentioned; no new pages; no Indexing API; no production D1 query; OpenSEO credits 0",
     "protected_pages": "unchanged, outside the R-S1 P-CTR window: seo-protection 10/10 on 2026-10-05-school; byte diff of the ten protected HTML files (/, <head>, JSON-LD, <script>) against the production 2ed9e812 build F:/Claude/gptbot-tools/tmp/studio-baseline-dist = 0; Markdown twins, .vite/manifest.json and every dist/assets name and JS/CSS byte the same",
@@ -12,7 +12,8 @@
     "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №2 незащищённых страниц — соперник chatgpt.uz)",
     "deploy_how": "owner command only: merge into the LF main checkout, npm run build:production there, deploy_runner.py check then deploy; IndexNow from F:/Claude/gptbot-tools/tmp/compete-v2-indexnow.json, resubmit sitemap.xml and sitemap-updates.xml",
     "after_deploy_owner": "N11 GSC Request indexing in the three-day order of the CHANGE_LOG (ordinary button), N12 Yandex Webmaster CSV, N13 one doorway spam report from seo-compete-2026-10-06/N13-doorway-spam-report.md",
-    "pending": "N1 on or after 2026-10-10 with seo-compete-2026-10-06/02-raw/_scripts/n1_family_a_check.py, then owner question 3.1 (A or B); N3 is release no. 3 on branch seo/compete-n3-20261010 (on top of this branch), after N1; N14 weekly report 2026-10-12"
+    "pending": "N1 on or after 2026-10-10 with seo-compete-2026-10-06/02-raw/_scripts/n1_family_a_check.py, then owner question 3.1 (A or B); N3 is release no. 3 on branch seo/compete-n3-20261010 (on top of this branch), after N1; N14 weekly report 2026-10-12",
+    "build": "npm run build:production on a12d81e8: stamped, 953 files (the stamp runs seo-protection and the chat bundle budget); HTML identical to the pre-commit build; copy in F:/Claude/gptbot-tools/tmp/compete-v2-dist"
   },
   "seo_school_20261005": {
     "status": "committed_not_deployed",
