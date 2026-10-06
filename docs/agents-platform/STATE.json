@@ -3,12 +3,13 @@
     "status": "committed_not_deployed",
     "branch": "seo/compete-n3-20261010 (on top of seo/compete-20261006, release no. 2)",
     "baseline_commit": "f3b5e35f (release no. 2 with its verification record)",
-    "commit": "the release no. 3 commit, then the metadata-only record of its verification (rule D-006: read it with git log seo/compete-n3-20261010)",
+    "commit": "79dde1eb (release no. 3), then the metadata-only record of its build:production verification (rule D-006: read it with git log -1 seo/compete-n3-20261010)",
     "scope": "NOW-TASKS.json N3: one honest «ChatGPT … muqobil / o‘rniga» anchor into /uz/gpt-uzbek-tilida/ on five unprotected pages (guide C6, chat manual, /uz/suniy-intellekt/, the ChatGPT/Claude/Gemini comparison, the students article), each rewriting an existing chat link; /uz/suniy-intellekt/ also gains «GPTBot.uz mustaqil servis, OpenAI emas»",
     "release_rule": "after the N1 read (2026-10-10..11); with the owner's option B (extra UZ-chat title revision) on the same day as one CHANGE_LOG event; never before release no. 2",
     "pctr_note": "external signal for the UZ chat inside the R-S1 P-CTR window; the UZ chat HTML is byte-identical to production 2ed9e812",
     "protected_pages": "unchanged: seo-protection 10/10 on 2026-10-05-school; the ten protected HTML files byte-identical to the 2ed9e812 build; against the release no. 2 build only the five page HTML files changed",
-    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №3 — честные анкоры «ChatGPT … muqobil / o‘rniga» на UZ-чат)"
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №3 — честные анкоры «ChatGPT … muqobil / o‘rniga» на UZ-чат)",
+    "verification": "seo:audit 0 critical; npm test file list with --test-concurrency=2: 1335/1337, the two known tests/lead-radar.test.ts failures only; npm run build:production on 79dde1eb stamped (953 files); copy in F:/Claude/gptbot-tools/tmp/compete-n3-dist; IndexNow list F:/Claude/gptbot-tools/tmp/compete-n3-indexnow.json"
   },
   "seo_compete_20261006": {
     "status": "committed_not_deployed",
