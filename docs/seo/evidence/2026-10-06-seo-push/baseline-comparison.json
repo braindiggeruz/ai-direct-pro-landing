@@ -48,6 +48,7 @@
         "added": []
       },
       "markdownTwin": "changed",
+      "markdownTwinNote": "Besides the R3-4 and R3-6 sentences, the «Shuningdek qarang» list gains two lines from internalLinks: «- [Referat va mustaqil ish yozish](https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/)» and «- [Rezyume tayyorlash](https://gptbot.uz/uz/blog/rezyume-tayyorlash/)». The HTML does not repeat them (the gpt-chat renderer drops links the body already has).",
       "htmlIdentical": false,
       "htmlSameExceptAssetNames": false,
       "htmlSha256": "ede56c958a33189fc1aafaf2b4e373ee85a151073139057a91d9bb0231be6cd4 → e2bc0e1acf0b648eeb3236063a04f4e73cd6363d6013a6284161a5226f4a7539"

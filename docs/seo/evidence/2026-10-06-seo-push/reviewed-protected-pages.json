@@ -165,7 +165,7 @@
       ]
     },
     {
-      "change": "Markdown twins: /uz/gpt-uzbek-tilida/index.html.md and /uz/blog/chatgptga-qanday-kirish-mumkin/index.html.md carry the new sentences (R3-4, R3-6, R3-9); the other twins are the same. JSON-LD: only the BlogPosting keywords of /ru/blog/chatgpt-i-claude-v-uzbekistane/ (R3-12).",
+      "change": "Markdown twins: /uz/gpt-uzbek-tilida/index.html.md and /uz/blog/chatgptga-qanday-kirish-mumkin/index.html.md carry the new sentences (R3-4, R3-6, R3-9). /uz/gpt-uzbek-tilida/index.html.md also gains two lines in its «Shuningdek qarang» list, «- [Referat va mustaqil ish yozish](https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/)» and «- [Rezyume tayyorlash](https://gptbot.uz/uz/blog/rezyume-tayyorlash/)»: they come from the page's internalLinks list (R3-6, the rule already used for the slayd and insho guides), and the HTML does not show them again, because the gpt-chat renderer (scripts/gpt-chat-nav.ts) drops links the body already has. The other twins are the same. JSON-LD: only the BlogPosting keywords of /ru/blog/chatgpt-i-claude-v-uzbekistane/ (R3-12).",
       "pages": [
         "/uz/gpt-uzbek-tilida/",
         "/uz/blog/chatgptga-qanday-kirish-mumkin/",
