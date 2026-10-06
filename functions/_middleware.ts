@@ -34,6 +34,10 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   const isMarketApi = url.pathname.startsWith('/api/market/v1/');
   const isLeadRadarApi = url.pathname.startsWith('/api/admin/lead-radar');
   const isGptApi = url.pathname.startsWith('/api/gpt/');
+  // The studio's API (functions/api/studio/*) answers like the chat's: CORS
+  // for its own origin only, no-store, CORP same-origin. In the catch-all
+  // branch below it would reflect any Origin.
+  const isStudioApi = url.pathname === '/api/studio' || url.pathname.startsWith('/api/studio/');
 
   // GSC fix: strip ?lang= query-parameter variants.
   // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
@@ -126,7 +130,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
         },
       });
     }
-    if (isGptApi) {
+    if (isGptApi || isStudioApi) {
       const origin = request.headers.get('Origin');
       if (origin !== url.origin) {
         return new Response(null, {
@@ -186,7 +190,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
       headers.delete('Access-Control-Allow-Origin');
       headers.delete('Access-Control-Allow-Headers');
     }
-  } else if (isGptApi) {
+  } else if (isGptApi || isStudioApi) {
     const origin = request.headers.get('Origin');
     if (origin === url.origin) {
       headers.set('Access-Control-Allow-Origin', origin);
