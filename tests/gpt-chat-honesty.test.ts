@@ -95,14 +95,17 @@ test('no line the chat can show, in either language, names a tier or the old bra
   }
 });
 
-test('the brand is GPTBot.uz in the header, the composer and above every answer', () => {
+test('the brand is GPTBot.uz in the header and above every answer; the composer’s line says what it is not', () => {
   for (const locale of LOCALES) {
     const t = strings(locale);
     assert.equal(t.brand, 'GPTBot.uz');
     const input = renderToStaticMarkup(React.createElement(AiChatInput, {
       value: '', onChange: () => {}, onSend: () => {}, maxChars: 3000, t, inputRef: React.createRef<HTMLTextAreaElement>(),
     }));
-    assert.match(input, /class="gpt-input-identity">.*GPTBot\.uz<\/span>/);
+    // The header and every answer carry the brand (chat design §5.3): the
+    // composer's line no longer repeats it, and says «not OpenAI» instead.
+    assert.doesNotMatch(input, /gpt-input-identity/);
+    assert.ok(input.includes(t.inputMicrocopy));
     // The list lives inside the console's scroller, as it does on the page.
     const list = React.createElement(AiChatMessageList, {
       t, messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: 'Javob', model: 'model-a' }],
@@ -227,8 +230,9 @@ test('with the pack button in the header, the Russian chat’s switch is never c
   const css = read('src/gpt-chat/premium.css');
   const rule = css.match(/@media \(max-width: 389px\) \{([^@]*)\}/);
   assert.ok(rule, 'a 389px rule exists');
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-full \{ display: none; \}/);
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-short \{ display: inline; \}/);
+  // The word gives way to «UZ», and the header's honest line to its short form («не OpenAI»), never cut.
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-full, \.gpt-sub-full\) \{ display: none; \}/);
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-short, \.gpt-sub-short\) \{ display: inline; \}/);
   // The class it keys on is the one the pill carries.
   assert.match(read('src/gpt-chat/components/AiAccountPanel.tsx'), /className="gpt-account-trigger"/);
 });
@@ -268,7 +272,7 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
     assert.ok(html.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
     // The limit fell under the text (another role, an older draft, a question put back): not sent, not cut, said.
     const over = input('x'.repeat(2643), 2541, locale);
-    assert.ok(over.includes(`<span role="status">${t.charsOver(102)}</span>`), `${locale}: by how much`);
+    assert.ok(over.includes(`<p class="gpt-input-status" data-over="true" role="status">${t.charsOver(102)}</p>`), `${locale}: by how much`);
     assert.match(over, /<button[^>]*disabled=""[^>]*aria-label="[^"]*"/, `${locale}: the send button is off`);
     assert.match(over, />x{2643}<\/textarea>/, `${locale}: the text stays whole`);
     assert.doesNotMatch(input('x'.repeat(10), 2541, locale), /<button[^>]*disabled=""/);
@@ -276,7 +280,7 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
   assert.equal(strings('uz').inputCut, 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.');
   assert.equal(strings('ru').inputCut, 'Текст был слишком длинным — конец обрезан. Отправьте частями.');
   const source = read('src/gpt-chat/components/AiChatInput.tsx');
-  assert.match(source, /<InputGroupTextarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
+  assert.match(source, /<textarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
   // A paste that does not fit is said for 8 s.
   assert.match(source, /if \(el\.value\.length - \(el\.selectionEnd - el\.selectionStart\) \+ pasted\.length > maxChars\) setCutAt\(Date\.now\(\)\);/);
   assert.match(source, /window\.setTimeout\(\(\) => setCutAt\(0\), 8_000\)/);
@@ -284,9 +288,11 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
   assert.match(source, /if \(next\.length > maxChars && next\.length > value\.length\) \{\s*setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, Math\.max\(maxChars, value\.length\)\)\);\s*\} else onChange\(next\);/);
   // Neither Enter nor the button sends text over the limit.
   assert.match(source, /if \(!disabled && !busy && value\.trim\(\) && !over\) onSend\(\);/);
-  assert.match(source, /disabled=\{disabled \|\| busy \|\| !value\.trim\(\) \|\| over\}/);
+  // An empty field leaves the button bright: it focuses the field and sends nothing (chat design §5.3).
+  assert.match(source, /onClick=\{\(\) => \(empty \? inputRef\.current\?\.focus\(\) : onSend\(\)\)\}\s*disabled=\{disabled \|\| busy \|\| over\} aria-disabled=\{empty \|\| undefined\}/);
   // Over the limit says by how much at once, even within the 8 s of a cut paste's line.
-  assert.match(source, /\{over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
+  assert.match(source, /const status = over \? t\.charsOver\(-left\) : cutAt \? t\.inputCut : left <= 200 \? t\.charsLeft\(left\) : null;/);
+  assert.match(source, /\{status && <p className="gpt-input-status" data-over=\{over \|\| undefined\} role="status">\{status\}<\/p>\}/);
 });
 
 test('a message too long for the server offers «change the question», not a retry that fails the same way', () => {
@@ -366,7 +372,7 @@ test('«simpler» and «continue» keep the answer’s language: the page’s na
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /void doSend\(text, \{ answerAction: action, request, frame, tool: activeTool \}\);/);
   assert.match(consoleSource, /const ask = meta\.answerAction && meta\.request \? \{ request: meta\.request, action: meta\.answerAction, frame: meta\.frame \} : undefined;/);
-  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame, prior \}\);/);
   // Every button, in every frame, with the longest role, fits the server's 3000.
   const long = `${'Birinchi qism. '.repeat(100)}\n\n${'Последняя часть. '.repeat(100)}`;
   for (const locale of LOCALES) for (const f of LOCALES) for (const kind of ['shorter', 'continue', 'russian', 'uzbek'] as const) {
@@ -392,7 +398,7 @@ test('a translation goes the other way from the answer’s script, without the l
 
 test('retry and «Qayta yozish» replace the last answer: the question is in the thread and the history once', () => {
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame, prior \}\);/);
   assert.match(consoleSource, /const history = \(meta\.base \?\? messages\)\.filter\(\(m\) => !m\.pending && !m\.error\);/);
   // The thread drops the old pair; the history sent is built from the same base.
   assert.match(consoleSource, /const withUser: ChatMessage\[\] = \[\s*\.\.\.history,\s*\{ role: "user", content: trimmed, ask \},/);
@@ -468,41 +474,67 @@ test('every button that sends is off while sending is paused; copying and sharin
   assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 2);
 });
 
-test('on a phone the row is copy, continue on a cut answer and «⋯»; with a mouse, the whole row', (t) => {
+// REV-7 (revision 2026-10-06-chat-design): on a phone «⋯» opens the rest of
+// the row as a menu above it, instead of growing the row (NOW-04).
+test('on a phone the row is copy, continue on a cut answer and «⋯», the rest a menu; with a mouse, the whole row', (t) => {
   const g = globalThis as Record<string, unknown>;
   const s = answerStrings('uz');
   t.after(() => { delete g.window; });
-  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace('<span aria-hidden="true">⋯</span> ', ''));
+  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace(/<\/?span[^>]*>/g, ''));
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   const phone = actions();
-  assert.deepEqual(labels(phone), [s.copy, s.share, s.more]);
-  assert.match(phone, /aria-expanded="false"/);
-  // A screen reader says «Yana», not «midline horizontal ellipsis».
-  assert.ok(phone.includes(`<span aria-hidden="true">⋯</span> ${s.more}</button>`));
+  assert.deepEqual(labels(phone), [s.copy, s.share, '⋯']);
+  // A screen reader says «Yana», not «midline horizontal ellipsis»; the menu is closed.
+  assert.match(phone, /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana">/);
+  assert.ok(!phone.includes('gpt-action-menu'));
   assert.deepEqual([answerStrings('uz').more, answerStrings('ru').more], ['Yana', 'Ещё']);
-  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, s.more]);
-  // Locked (a limit, a turn): «Yana» would open a row of disabled buttons.
-  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action" aria-expanded="false" disabled="">/);
+  assert.deepEqual(labels(actions({ broken: true })).slice(0, 3), [s.copy, s.share, s.continue]);
+  // Locked (a limit, a turn): «⋯» would open a menu of disabled buttons.
+  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana" disabled="">/);
   g.window = { matchMedia: () => ({ matches: false }) };
   assert.equal((actions().match(/<button/g) ?? []).length, 6);
-  // Opening the row: every button keyed (no node turns into another), focus on
-  // the first one revealed, and a second tap within 350 ms sends nothing.
+  // The menu: every button keyed (no node turns into another), focus on its
+  // first item, Escape and a tap outside close it, Escape gives the focus back
+  // to «⋯», a choice closes it, and a second tap within 350 ms sends nothing.
   const source = read('src/gpt-chat/components/AiAnswer.tsx');
   assert.match(source, /<button key=\{kind\} ref=\{first \? firstRef : undefined\}/);
   assert.match(source, /key="more"/);
   assert.match(source, /<button key="regenerate"/);
-  assert.match(source, /useEffect\(\(\) => \{\s*if \(open\) firstRef\.current\?\.focus\(\);\s*\}, \[open\]\);/);
+  assert.match(source, /if \(!open\) return;\s*firstRef\.current\?\.focus\(\);/);
+  assert.match(source, /document\.addEventListener\("pointerdown", away\);\s*document\.addEventListener\("keydown", away\);/);
+  assert.match(source, /if \(event\.type === "keydown"\) moreRef\.current\?\.focus\(\);/);
+  assert.match(source, /<div key="menu" ref=\{menuRef\} className="gpt-action-menu" data-below=\{below \|\| undefined\} onClick=\{\(\) => setOpen\(false\)\}>/);
   assert.match(source, /action\("shorter", true\)/);
-  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(true\);/);
+  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(!open\);/);
   assert.match(source, /const settled = \(\) => Date\.now\(\) - openedAt\.current > 350;/);
   assert.match(source, /onClick=\{\(\) => settled\(\) && onAsk\?\.\(kind, text, request, own\)\}/);
   assert.match(source, /onClick=\{\(\) => settled\(\) && onRetry\(\)\}/);
   assert.doesNotMatch(source, /<>\s*\{broken && action/, 'no unkeyed fragments in the row');
+  // The model line stays under every answer, as the chat pages' FAQ says.
+  assert.match(read('src/gpt-chat/components/AiChatMessageList.tsx'), /\{t\.answeredBy\}: \{modelLabel\(m\.model\)\}/);
+});
+
+test('«‹ 1/2 ›»: the versions «Qayta yozish» made, at most 3, kept in this browser and never sent', () => {
+  const u = answerStrings('uz');
+  const two = actions({ versions: 2, version: 1, onVersion: () => {} });
+  assert.match(two, new RegExp(`<div class="gpt-versions" role="group" aria-label="${u.versions}">`));
+  assert.match(two, new RegExp(`<button type="button" aria-label="${u.versionBack}">‹</button><span>2/2</span><button type="button" disabled="" aria-label="${u.versionNext}">›</button>`));
+  assert.ok(!actions().includes('gpt-versions'), 'one version, no switch');
+  assert.match(actions({ versions: 3, version: 0, onVersion: () => {}, locked: true }), /<button type="button" disabled="" aria-label="[^"]+">‹<\/button>/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  // Only a finished answer in place of an old one keeps the old one; the last 3.
+  assert.match(consoleSource, /const versions = \[\.\.\.\(prior\.versions \?\? \[\{ content: prior\.content, model: prior\.model \?\? null, truncated: prior\.truncated \}\]\), \{ content: answer\.content, model: answer\.model \?\? null, truncated: answer\.truncated \}\]\.slice\(-3\);/);
+  assert.match(consoleSource, /const prior = messages\[idx \+ 1\]\?\.role === "assistant" && !messages\[idx \+ 1\]\.error \? messages\[idx \+ 1\] : undefined;/);
+  // Showing another version spends nothing and is refused during a turn.
+  assert.match(consoleSource, /if \(busy \|\| !shown\) return;\s*persist\(messages\.map\(\(x, i\) => \(i === index \? \{ \.\.\.x, \.\.\.shown, version \} : x\)\)\);/);
+  // The server gets the shown text only.
+  assert.match(read('src/gpt-chat/api.ts'), /history: params\.history\.map\(\(m\) => \(\{ role: m\.role, content: m\.content \}\)\),/);
+  for (const locale of LOCALES) for (const line of [answerStrings(locale).versions, answerStrings(locale).versionBack, answerStrings(locale).versionNext]) assert.doesNotMatch(line, DISHONEST);
 });
 
 test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {
   const s = answerStrings('ru');
-  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="mt-2 text-[12px] text-white/35">${s.buttonCost}</p>`));
+  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="gpt-cost-note">${s.buttonCost}</p>`));
   assert.ok(!actions({ locale: 'ru' }).includes(s.buttonCost));
   assert.equal(s.buttonCost, 'Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.');
   assert.equal(answerStrings('uz').buttonCost, 'AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.');
@@ -512,12 +544,17 @@ test('while few messages are left, once a session: the buttons that make the AI 
     // It names the free ones by the names they have on the row.
     assert.ok(a.buttonCost.includes(`«${a.copy}»`) && a.buttonCost.includes(`«${a.share}»`), locale);
   }
-  // On a phone the short row has no button that costs: the note waits for «Yana» (or comes with «Continue»).
+  // On a phone the row's «⋯» menu says it in its caption (chat design §5.6), not a line under the row;
+  // a cut answer's «Continue» stands in the row, outside the menu, so the line says it for that one.
   const g = globalThis as Record<string, unknown>;
   t.after(() => { delete g.window; });
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
   assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  assert.ok(actions({ locale: 'uz', costNote: true, broken: true }).includes(answerStrings('uz').buttonCost));
+  assert.ok(!actions({ locale: 'uz', costNote: true }).includes(answerStrings('uz').buttonCost));
+  assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /<p className="gpt-menu-cost">\{s\.menuCost\}<\/p>/);
+  assert.equal(answerStrings('ru').menuCost, 'Каждый пункт тратит 1 сообщение');
   delete g.window;
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourShown !== null && hourShown <= 2\)\);/);

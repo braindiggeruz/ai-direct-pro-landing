@@ -1,0 +1,24 @@
+/* The text under the chat app (chat design §6.4): the update date, the article, the
+   FAQ and the links. #seo-summary is on the two chat pages only, so these rules
+   touch no other page; the HTML and its words are prerender.ts's, unchanged. */
+#seo-summary { background: var(--bg); border-top: 1px solid var(--line); }
+#seo-summary > div { max-width: 680px; padding: 40px 20px 48px; }
+#seo-summary [data-testid="page-updated"] { margin: 0 0 28px; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--text-3); }
+#seo-summary :is(p, li) { font-size: 16.5px; line-height: 28px; color: var(--prose); }
+#seo-summary :is(h2, h3) { margin: 48px 0 14px; font-size: 22px; line-height: 29px; font-weight: 600; letter-spacing: -.01em; color: var(--text); scroll-margin-top: 16px; }
+#seo-summary a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+#seo-summary [role="region"] { border-color: var(--line); border-radius: 12px; }
+#seo-summary th { background: var(--surface-2); color: var(--text); text-transform: none; letter-spacing: 0; }
+#seo-summary .faq-item { margin: 0; padding: 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; }
+#seo-summary .faq-item summary { min-height: 56px; padding: 14px 0; }
+#seo-summary .faq-item h3 { margin: 0; font-size: 16.5px; line-height: 24px; }
+/* The «+» stays in the HTML; a chevron in a circle is drawn over it. */
+#seo-summary .faq-item summary > span { position: relative; width: 28px; height: 28px; border-color: var(--line-strong); background: var(--surface); font-size: 0; color: transparent; transform: none; }
+#seo-summary .faq-item summary > span::before { content: ""; position: absolute; top: 9px; left: 10px; width: 7px; height: 7px; border: solid var(--accent-text); border-width: 0 2px 2px 0; transform: rotate(45deg); transition: transform var(--dur-2); }
+#seo-summary .faq-item[open] summary > span::before { top: 12px; transform: rotate(-135deg); }
+#seo-summary > div > nav { gap: 8px; margin-top: 40px; }
+#seo-summary > div > nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line-strong); color: var(--text); font-size: 14px; text-decoration: none; }
+@media (min-width: 900px) { #seo-summary h2 { font-size: 26px; line-height: 33px; } }
+#seo-summary + footer { background: var(--bg); border-color: var(--line); }
+#seo-summary + footer > div { max-width: 680px; font-size: 14px; color: var(--text-3); }
+#seo-summary + footer a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-2); }

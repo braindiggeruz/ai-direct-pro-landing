@@ -224,6 +224,19 @@ export interface ChatMessage {
   partial?: boolean;
   /** Cut at the length limit and not charged: the answer says so. */
   truncated?: boolean;
+  /**
+   * The versions «Qayta yozish» made of this answer, oldest first, at most 3
+   * (REV-7); `version` is the one shown, whose text, model and cut are the
+   * message's own. Kept in this browser only; the server gets `content`.
+   */
+  versions?: AnswerVersion[];
+  version?: number;
+}
+
+export interface AnswerVersion {
+  content: string;
+  model: string | null;
+  truncated?: boolean;
 }
 
 export interface MountConfig {

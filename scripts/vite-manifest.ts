@@ -44,3 +44,39 @@ export function entryScript(manifest: ViteManifest, src: string): string {
   }
   return `/${chunk.file}`;
 }
+
+/**
+ * The stylesheets an entry brings with its static imports, as root-relative
+ * URLs: the chat's own sheet (src/gpt-chat/main.tsx imports it), which the
+ * chat pages link after the site's (chat design 2026-10-06).
+ */
+export function entryStyles(manifest: ViteManifest, src: string): string[] {
+  const keys = [src, ...entryImportKeys(manifest, src)];
+  const hrefs = keys.flatMap((key) => manifest[key]?.css ?? []).map((file) => `/${file}`);
+  for (const href of hrefs) {
+    if (!/^\/assets\/[\w.-]+\.css$/.test(href)) throw new Error(`Unsupported entry stylesheet: ${href}`);
+  }
+  return [...new Set(hrefs)];
+}
+
+function entryImportKeys(manifest: ViteManifest, src: string): string[] {
+  const seen = new Set<string>();
+  const visit = (key: string) => {
+    for (const next of manifest[key]?.imports ?? []) {
+      if (seen.has(next) || !manifest[next]) continue;
+      seen.add(next);
+      visit(next);
+    }
+  };
+  visit(src);
+  return [...seen];
+}
+
+/**
+ * What an entry imports statically, as root-relative URLs, in the order the
+ * manifest lists them (depth first): the files a page can ask for with
+ * <link rel="modulepreload"> before the entry itself has been parsed.
+ */
+export function entryImports(manifest: ViteManifest, src: string): string[] {
+  return entryImportKeys(manifest, src).map((key) => `/${manifest[key].file}`).filter((file) => /^\/assets\/[\w.-]+\.js$/.test(file));
+}

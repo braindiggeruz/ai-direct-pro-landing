@@ -1,0 +1,14 @@
+{
+  "submittedAt": "2026-10-06T16:33:51.205Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "chat-design",
+  "releaseCommit": "20229600",
+  "reason": "UZ chat title T-B + chat redesign",
+  "count": 2,
+  "urls": [
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "https://gptbot.uz/ru/gpt-chat/"
+  ],
+  "responseExcerpt": ""
+}

@@ -1,0 +1,243 @@
+{
+  "comparedAt": "2026-10-06T16:07:15.851026Z",
+  "baseline": "F:/Claude/gptbot-tools/tmp/rev-baseline-dist (production 0f983c1c build, CRLF checkout)",
+  "candidate": "npm run build of branch chat/rev-design-20261006 (chat design commit 40fbf6e8 + the commit of its review fixes)",
+  "method": "Per protected page: the seoContract fields of scripts/seo-protection.ts, the visible body text, every application/ld+json block, every <meta>/<link> of <head> except stylesheet and modulepreload links, the Markdown twin (index.html.md), and the whole HTML with line endings, blank lines and /assets/<name>-<hash> normalised.",
+  "result": "Both chat pages: indexable text, FAQ, JSON-LD, meta description, canonical, hreflang, robots and internal links identical; the UZ chat differs by title, og:title and twitter:title only (plus the viewport tag, the chat frame and asset links outside the gate). The other eight protected pages: HTML identical except asset names.",
+  "pages": {
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "b1199edc88a244d6b4848dc1226508221b4d8640fefb4678d399998a033dd28c → 2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/uz/gpt-uzbek-tilida/": {
+      "contractFieldsChanged": [
+        "title"
+      ],
+      "title": [
+        [
+          "ChatGPT uzbekcha muqobili: AI chat, bepul kirish"
+        ],
+        [
+          "ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish"
+        ]
+      ],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [
+          "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />",
+          "<meta property=\"og:title\" content=\"ChatGPT uzbekcha muqobili: AI chat, bepul kirish\" />",
+          "<meta name=\"twitter:title\" content=\"ChatGPT uzbekcha muqobili: AI chat, bepul kirish\" />"
+        ],
+        "added": [
+          "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content\" />",
+          "<meta property=\"og:title\" content=\"ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish\" />",
+          "<meta name=\"twitter:title\" content=\"ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish\" />"
+        ]
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": false,
+      "htmlDiff": "9 lines out, 40 in",
+      "htmlSha256": "2878dcd36718834d95d132ecd8f6e87c0b80c0cf8d382494b368204c8b97cfd7 → ede56c958a33189fc1aafaf2b4e373ee85a151073139057a91d9bb0231be6cd4",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css",
+          "/assets/gpt-chat-lSg1hedS.css"
+        ]
+      ]
+    },
+    "/ru/gpt-chat/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [
+          "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />"
+        ],
+        "added": [
+          "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content\" />"
+        ]
+      },
+      "markdownTwin": "none",
+      "htmlSameExceptAssetNames": false,
+      "htmlDiff": "6 lines out, 37 in",
+      "htmlSha256": "160ee0b40366ff0c4c40b681c703d07ea3b0fe4526f95a7da6715878bd72f84d → ccab10fc3cb1e9641eec6e25c9b5f946228c13523b349b3d9ed1cb6aa4d7f03e",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css",
+          "/assets/gpt-chat-lSg1hedS.css"
+        ]
+      ]
+    },
+    "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "d6b7e7da481238cd7de572abcd394b60f16b2a96daccecce348221e451d6b1d2 → 15f6a1a993e92ea2b93db4b7e5ad14a91ec93ea5f030a00f79c0e55ae276441e",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "90ba95b873be820f8ee79a8e087844593b81b8b29aa129cd2e9d9b9ea602813a → dd7c6b404b3a37fea07ded5325809c54f28da970a63ee5b42d527d0c15315b9e",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "bbd28a08bdb2f92596f66d8f0e0a48d427f65b62cbd3f44907f4111362a6707a → 6d55494d25b198e1d052ed154cce1dcab73cf85b894fb6694a3ff7d93f14c95d",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "30b44932a02bb1c95a5bd7527dcb1f35f0b2e12a9320a6a2aa79ea29318e0318 → 75101aa5c0f12910166fe33509d5b86bf409689c1440e9cd0223ac6576ca8706",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "none",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "a3e1996cb8dc378d24c23a11d74042bf651ee12ef0764cc9b15c236ef843afc0 → 79d30fd4dc4883cd12363e205c3fe4d39b6d10a4603cf366fde47c5c2029ecc4",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "8109c764d9fee1e13eb2080aa1e4d7ffc5469fd968469967436e96bd75251c9e → 853e49147d4cc5f6a367aba87e77b808b4ab4e8886db522ad34357fc2b3efcb5",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    },
+    "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlSameExceptAssetNames": true,
+      "htmlDiff": "",
+      "htmlSha256": "8356be4e28ab96c806f00bc3487f2d3f20e4f1cac9e02b2c0cd0daa8ebb77357 → 402a50fe23fa717026d564d1f6354b80cc661eb57314c4e2a3007587c7a3b871",
+      "stylesheets": [
+        [
+          "/assets/index-yIq7NheZ.css"
+        ],
+        [
+          "/assets/index-CCI9zJ-Z.css"
+        ]
+      ]
+    }
+  }
+}

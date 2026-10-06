@@ -12,7 +12,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import { strings } from '../src/gpt-chat/i18n';
 import { limitCard, liftsToday, tashkentTime } from '../src/gpt-chat/limit-card';
-import { AiUsageBadge } from '../src/gpt-chat/components/AiUsageBadge';
+import { usageLine } from '../src/gpt-chat/usage-line';
 import {
   LIMIT_TICK_MS,
   canSendNow,
@@ -193,53 +193,42 @@ test('the wait says the minutes and the time in Tashkent, the same in a WebView 
 
 test('the header counts what runs out first: this hour or today, and 0 while the hour is up', () => {
   const uz = strings('uz');
-  const badge = (remaining: number, hourLeft: number | null, hourBlocked = false, locale: 'ru' | 'uz' = 'uz') =>
-    renderToStaticMarkup(React.createElement(AiUsageBadge, { remaining, hourLeft, hourBlocked, t: strings(locale) }));
-  const twoThisHour = badge(10, 2);
-  assert.match(twoThisHour, /<span class="sm:hidden" aria-hidden="true">2<\/span>/);
-  assert.ok(twoThisHour.includes(`<span class="sr-only" role="status">${uz.hourRemaining(2)}</span>`));
+  // The header's subtitle (chat design §5.1) says what the AiUsageBadge pill said.
+  const line = (remaining: number, hourLeft: number | null, hourBlocked = false, locale: 'ru' | 'uz' = 'uz') => usageLine(remaining, hourLeft, hourBlocked, strings(locale));
+  assert.deepEqual(line(10, 2), { text: uz.hourRemaining(2), short: uz.hourRemainingShort(2), low: true }, 'saffron at 2 left this hour, as the warning');
   assert.equal(uz.hourRemaining(2), 'Bu soatda yana 2 ta xabar');
   assert.equal(strings('ru').hourRemaining(2), 'В этот час ещё 2 сообщения');
-  assert.match(twoThisHour, /bg-brand-saffron\/\[0\.06\] text-brand-saffron/, 'saffron at 2 left this hour, as the warning');
   // The hourly limit stands: 0, not the day's 10.
-  const blockedNow = badge(10, null, true);
-  assert.match(blockedNow, /aria-hidden="true">0<\/span>/);
-  assert.ok(blockedNow.includes(uz.hourRemaining(0)));
+  assert.deepEqual(line(10, null, true), { text: uz.hourRemaining(0), short: uz.hourRemainingShort(0), low: true });
   // The day runs out first: the day's count, saffron from 3.
-  assert.ok(badge(3, 5).includes(uz.remaining(3)) && badge(3, 5).includes('text-brand-saffron'));
-  assert.ok(!badge(4, null).includes('text-brand-saffron') && badge(4, null).includes(uz.remaining(4)));
-  assert.ok(!badge(10, 3).includes('text-brand-saffron'), '3 left this hour is not low yet');
-  // No label on a div without a role: the sentence is a status of its own, and the title.
-  for (const html of [twoThisHour, blockedNow, badge(7, null)]) {
-    assert.match(html, /^<div class="[^"]*" title="[^"]*">/);
-    assert.doesNotMatch(html, /aria-label|aria-live/);
-  }
-  assert.equal(badge(-1, 2), '', 'unknown until the server counts');
+  assert.deepEqual(line(3, 5), { text: uz.remaining(3), short: uz.remainingShort(3), low: true });
+  assert.deepEqual(line(4, null), { text: uz.remaining(4), short: uz.remainingShort(4), low: false });
+  assert.equal(line(10, 3).low, false, '3 left this hour is not low yet');
+  assert.equal(line(-1, 2), null, 'unknown until the server counts');
+  // The sentence is said to a screen reader as a status of its own; the visible line is hidden from it.
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /const usage = paid \? null : usageLine\(remaining, hourShown, hourBlocked, t\);/);
+  assert.match(consoleSource, /const srStatus = paid \? t\.premium\.activeLine\(remaining\) : usage\?\.text;/);
+  assert.match(consoleSource, /\{srStatus && <span className="sr-only" role="status">\{srStatus\}<\/span>\}/);
+  assert.match(consoleSource, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\s*\{sub\.short \? <><span className="gpt-sub-full">\{sub\.text\}<\/span><span className="gpt-sub-short">\{sub\.short\}<\/span><\/> : sub\.text\}\s*<\/span>/);
 });
 
 test('once the hourly limit lifts, the header says the day’s count, not the hour’s stale 0', () => {
   const uz = strings('uz');
-  const badge = (hourLeft: number | null, hourBlocked: boolean) =>
-    renderToStaticMarkup(React.createElement(AiUsageBadge, { remaining: 10, hourLeft, hourBlocked, t: uz }));
   // A turn answered with hourRemaining 0 and remaining 10, then a 429 hourly with a short wait.
   const state = blocked('hourly', 6);
   assert.equal(hourCountShown(state, 0, NOW), 0, 'while the limit stands the count stays');
-  const during = badge(hourCountShown(state, 0, NOW), !canSendNow(state, NOW));
-  assert.match(during, new RegExp(`title="${uz.hourRemaining(0)}"`));
-  assert.match(during, /aria-hidden="true">0<\/span>/);
+  assert.equal(usageLine(10, hourCountShown(state, 0, NOW), !canSendNow(state, NOW), uz)?.text, uz.hourRemaining(0));
   // After retryAt the send button is back, and so is the day's count.
   const after = NOW + 6_000;
   assert.equal(canSendNow(state, after), true);
   assert.equal(hourCountShown(state, 0, after), null);
-  const lifted = badge(hourCountShown(state, 0, after), false);
-  assert.match(lifted, new RegExp(`title="${uz.remaining(10)}"`));
-  assert.ok(!lifted.includes(uz.hourRemaining(0)));
+  assert.equal(usageLine(10, hourCountShown(state, 0, after), false, uz)?.text, uz.remaining(10));
   // Any other limit, or none, leaves the hour's count alone.
   assert.equal(hourCountShown(null, 2, after), 2);
   assert.equal(hourCountShown(blocked('busy', 5), 1, after), 1);
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(consoleSource, /const hourShown = hourCountShown\(limit, hourLeft, clock\);/);
-  assert.match(consoleSource, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourShown\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
   assert.match(consoleSource, /\(hourShown !== null && hourShown <= 2\)/);
   assert.match(consoleSource, /hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT/);
   // The 429 itself says the reported count is stale.
@@ -305,7 +294,7 @@ test('the 429 fields are validated before they reach the card', () => {
   for (const odd of [undefined, null, 'x', {}, { daily: -1, hourly: 1.5 }]) assert.equal(limitCounts(odd), null);
 });
 
-test('after a reload the card stands above the composer, which holds the refused question', async (t) => {
+test('after a reload the card stands in the thread above the composer, which holds the refused question', async (t) => {
   const session = memoryStorage('sessionStorage');
   const local = memoryStorage('localStorage');
   const g = globalThis as Record<string, unknown>;

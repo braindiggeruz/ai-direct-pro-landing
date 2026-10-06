@@ -24,6 +24,10 @@ export interface LimitCard {
   body: string;
   /** When a turn fits again, from the clock; null when the body already says it or time does not lift the limit. */
   wait: string | null;
+  /** The card in one line while the keyboard is open (REV-13): when sending comes back, else the title, else the body. */
+  short: string;
+  /** The header's line: the clock alone while it fits there, else what `short` says. */
+  header: string;
   /** The limit has lifted: the send button is back, the server decides. */
   ready: boolean;
   /** Offer the pack window: only while a pack can really be bought. */
@@ -98,6 +102,8 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
   }
 
   let wait: string | null = null;
+  let short: string | null = null;
+  let header: string | null = null;
   if (ready) wait = t.limitReady;
   else if (limit.retryAt !== null && limit.reason !== 'daily' && limit.reason !== 'pack_daily') {
     const left = limit.retryAt - now;
@@ -105,6 +111,10 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     const at = tashkentTime(limit.retryAt);
     // Minutes and the clock (map 04 U-01): «41 daqiqadan keyin (soat 14:35 da)».
     wait = left < 60_000 ? t.limitLessMinute : at ? t.limitWaitAt(minutes, at) : t.limitWait(minutes);
+    if (left >= 60_000 && at) {
+      short = t.limitWaitShort(minutes, at);
+      header = t.limitWaitHeader(at);
+    }
   }
 
   const account = s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid));
@@ -113,6 +123,8 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     title,
     body,
     wait,
+    short: short ?? wait ?? title ?? body,
+    header: header ?? short ?? wait ?? title ?? body,
     ready,
     account,
     // The 'monthly' body already says the pack ran out; the value line is for a free cap.

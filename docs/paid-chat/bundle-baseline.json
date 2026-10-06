@@ -1,12 +1,17 @@
 {
-  "schema": 1,
-  "recordedAt": "2026-10-05T07:30:18.760Z",
-  "source": "production be2d2955 (R-S1)",
+  "schema": 2,
+  "recordedAt": "2026-10-06T16:33:48.675Z",
+  "source": "production 20229600 (chat design)",
   "entry": "src/gpt-chat/main.tsx",
-  "startBytes": 108679,
+  "startBytes": 107631,
+  "startCssBytes": 6499,
   "parts": {
-    "chat-account": 10201,
-    "chat-lead": 5369,
-    "chat-tools": 6259
+    "chat-account": 11147,
+    "chat-answer": 6358,
+    "chat-lead": 6689,
+    "chat-limit": 1003,
+    "chat-role": 1311,
+    "chat-tools": 6261,
+    "chat-turnstile": 719
   }
 }

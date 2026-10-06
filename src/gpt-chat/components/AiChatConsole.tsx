@@ -1,9 +1,6 @@
 import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { Sparkles, ShieldCheck } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
-import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
+import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton, useMessageScroller } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
 import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
@@ -28,11 +25,10 @@ import {
 import { inApp, track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
-import { AiChatInput } from "./AiChatInput";
+import { AiChatInput, CLOCK } from "./AiChatInput";
 import { AiPromptChips } from "./AiPromptChips";
-import { AiUsageBadge } from "./AiUsageBadge";
-import { AiQuotaThread } from "./AiQuotaThread";
-import { AiLimitTelegram } from "./AiLimitTelegram";
+import { BrandMark } from "./BrandMark";
+import { usageLine } from "../usage-line";
 import { limitCard } from "../limit-card";
 import {
   LIMIT_TICK_MS,
@@ -53,14 +49,17 @@ import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
-import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, toolsPart, turnstilePart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
+import { useKeyboardOpen } from "../keyboard";
 
 /** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
 const LIMIT_CARD_ID = "ai-limit-card";
+/** A tick: the terms on the resting screen, a lifted limit. */
+const TICK = "M5 12.5l4.5 4.5L19 7.5";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
 /** The free tier's rolling hour: warn while this many messages or fewer are left in it (after the 3rd of 5). */
@@ -69,6 +68,23 @@ const HOUR_WARNING_AT = 2;
 const DAY_WARNING_AT = 3;
 /** A rolling-hour count says nothing an hour after the turn that reported it. */
 const HOUR_WARNING_TTL_MS = 3_600_000;
+
+/** Smooth, unless the visitor asked for less motion. */
+const smooth = (): ScrollBehavior => (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
+
+/**
+ * The thread goes to the limit card when a limit is set (its last item), and
+ * again when the keyboard opens over it. Through the scroller, inside its
+ * provider: scrollToEnd drops the spacer left by the refused question (which
+ * giveBack() took out of the thread) and follows the bottom from then on.
+ */
+function LimitScroll({ since, keyboard }: { since: number | null; keyboard: boolean }) {
+  const { scrollToEnd } = useMessageScroller();
+  useEffect(() => {
+    if (since !== null) scrollToEnd({ behavior: smooth() });
+  }, [since, keyboard, scrollToEnd]);
+  return null;
+}
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
@@ -132,6 +148,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     string | null
   >(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const keyboard = useKeyboardOpen(inputRef);
   const abortRef = useRef<AbortController | null>(null);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
   // What the screen holds, for onAccount, which outlives the render it was made in.
@@ -145,6 +162,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const storeRef = useRef<{ ready: boolean; scope?: string }>({ ready: false });
   // The session on screen, for onAccount, which keeps it with the conversation.
   const sessionIdRef = useRef<string | null>(null);
+  // The build does not run the React Compiler; this lint check reads the
+  // composer's setter (a stable useState setter) into this callback's scope.
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const onAccount = useCallback((account: AccountView | null, cause: AccountCause) => {
     // A read that failed once someone is known (a flaky network after an
     // answer, a tab shown again offline) says nothing about who is asking:
@@ -293,11 +313,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     if (writing || hasStoredHistory(config.locale)) answerPart.preload();
   }, [writing, config.locale]);
-  // The page H1 heads the resting screen (roadmap R-S1, owner decision 2). Its
-  // text comes from data-h1 on the mount point, so it is not in this bundle;
-  // the part after « — » keeps the accent of the old welcome line.
+  // The page H1 heads the resting screen (roadmap R-S1, owner decision 2), as
+  // a quiet kicker above the greeting (chat design §5.2). Its text comes from
+  // data-h1 on the mount point, so it is not in this bundle.
   const h1 = config.h1 || "";
-  const h1Cut = h1.indexOf(" — ");
+  const resting = empty && activeTool === "chat";
+  // The example question in the empty field only where it fits on one line:
+  // the field never grows on the first key (chat design §5.3).
+  const [wide] = useState(() => !!window.matchMedia?.("(min-width: 420px)").matches);
   // The resting screen opens at the top and does not follow the bottom, so the
   // H1 stays in the first screen of a small phone. With the first message the
   // scroller follows the answer as before; emptying the thread (New chat)
@@ -435,6 +458,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       request?: string;
       /** The language of the lines around `request`: the answer's for «simpler» and «continue». */
       frame?: Locale;
+      /** «Qayta yozish»: the answer the new one replaces, kept as a version (REV-7). */
+      prior?: ChatMessage;
     } = {},
   ) => {
     const trimmed = text.trim();
@@ -537,6 +562,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // come («Qayta yozish», a retry) leaves the old one where it was; only a
     // finished answer replaces it.
     const held = meta.base ? before.filter((m) => !m.error) : base;
+    // A finished answer in place of an old one keeps the old one as a version,
+    // the last 3 in all (REV-7).
+    const answered = (answer: ChatMessage): ChatMessage => {
+      const prior = meta.prior;
+      if (!prior) return answer;
+      const versions = [...(prior.versions ?? [{ content: prior.content, model: prior.model ?? null, truncated: prior.truncated }]), { content: answer.content, model: answer.model ?? null, truncated: answer.truncated }].slice(-3);
+      return { ...answer, versions, version: versions.length - 1 };
+    };
     const handleJson = (res: ChatApiResponse) => {
       if (generation !== identityGeneration.current) return;
       // Any answer but a limit refusal or a failed check means no limit stands.
@@ -552,12 +585,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         if (res.sessionId && res.sessionId !== sid) keepSession(res.sessionId);
         persist([
           ...base,
-          {
+          answered({
             role: "assistant",
             content: res.answer,
             model: res.modelUsed ?? null,
             truncated: res.truncated === true,
-          },
+          }),
         ]);
         revealLine();
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
@@ -695,12 +728,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       setHourLeft(outcome.hourRemaining ?? null);
       persist([
         ...base,
-        {
+        answered({
           role: "assistant",
           content: acc,
           model: outcome.modelUsed ?? null,
           truncated: outcome.truncated === true,
-        },
+        }),
       ]);
       revealLine();
       track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, message_number: messageNumber, finish: outcome.truncated === true ? "length" : "stop" });
@@ -818,7 +851,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const idx = lastQuestion();
     if (sendDisabled || idx < 0) return;
     const { content, ask } = messages[idx];
-    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action, frame: ask?.frame });
+    const prior = messages[idx + 1]?.role === "assistant" && !messages[idx + 1].error ? messages[idx + 1] : undefined;
+    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action, frame: ask?.frame, prior });
+  };
+  // «‹ 1/2 ›»: another version of an answer is shown, and the thread goes on from it.
+  const onVersion = (index: number, version: number) => {
+    const m = messages[index];
+    const shown = m?.versions?.[version];
+    if (busy || !shown) return;
+    persist(messages.map((x, i) => (i === index ? { ...x, ...shown, version } : x)));
   };
   // Under an error: the question back into the composer, out of the thread.
   const onEdit = () => {
@@ -837,14 +878,25 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     saveOfferDismissed(config.locale, storageScope);
   };
 
-  // First-screen routing. Both carry a goal name and UI metadata only.
+  // Routing: the chatgpt.com line (in the menu since the chat design release)
+  // and the switch to the Uzbek chat. Both carry a goal name and UI metadata only.
   const onOfficialClick = () => {
     reachYandexGoal(YANDEX_GOALS.officialChatgptClick);
-    track(EV.officialLinkClicked, { surface: "empty" });
+    track(EV.officialLinkClicked, { surface: "menu" });
   };
   const onLocaleSwitch = (surface: "header" | "empty") => {
     reachYandexGoal(YANDEX_GOALS.chatLocaleSwitch);
     track(EV.localeSwitched, { from: "ru", surface });
+  };
+  // The text under the chat (the prerendered summary, #seo-summary): from the
+  // resting screen and from the menu, which closes first so its scroll lock
+  // does not hold the page (REV-5).
+  const toSummary = (event: { preventDefault: () => void }) => {
+    const summary = document.getElementById("seo-summary");
+    if (!summary) return;
+    event.preventDefault();
+    setDrawerOpen(false);
+    window.setTimeout(() => summary.scrollIntoView({ behavior: smooth() }), 60);
   };
 
   // Limit card only: a package that can really be bought leads; the Telegram
@@ -857,7 +909,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [detailsFor, setDetailsFor] = useState<string | null>(null);
   const details = !!limit && detailsFor === limit.reason;
   const bodyShown = !!card && (!card.title || !card.wait);
-  const kept = input.trim() ? ` ${t.limitDraftKept}` : "";
   // «Batafsil» ends the card's last line of text instead of taking a 44px
   // row of its own (an inline link in a sentence).
   const moreButton = !!card && !!limit && (!bodyShown || !!card.offer || (card.account && !!card.bot)) && (
@@ -873,6 +924,125 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     >
       {t.limitMore}
     </button>
+  );
+  // The slim bar under the wait: how much of the hour has passed (chat design §5.10).
+  const waited = limit && limit.reason === "hourly" && limit.retryAt !== null && limit.retryAt > limit.since
+    ? Math.min(1, Math.max(0, (clock - limit.since) / (limit.retryAt - limit.since)))
+    : null;
+  // The thread goes to the card when a limit is set (LimitScroll): it is the thread's last item.
+  const limitSince = limit?.since ?? null;
+
+  // The limit card: the last item of the thread, or in the tasks' place on
+  // the resting screen (chat design §5.10). The composer keeps the refused
+  // question and its send button shows a clock until the time the server
+  // gave (F1–F3). Its exits: the pack window only while a pack can really be
+  // bought, the Telegram bot only while the server says botHandoff, and never
+  // a personal Telegram account (AiLimitTelegram). A retry button is gone:
+  // the send button comes back when the limit lifts.
+  const limitCardEl = limit && card && (
+    <div
+      id={LIMIT_CARD_ID}
+      className="gpt-limit-card"
+      role="status"
+      data-testid="ai-limit-card"
+      data-reason={limit.reason}
+      data-ready={card.ready ? "true" : undefined}
+    >
+      {/* With the keyboard open, or on a screen 460px high, the card is this
+          one line (REV-13): it left the thread no room. A screen reader
+          still hears why. */}
+      <p className="gpt-limit-short">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d={CLOCK} /></svg>
+        <span>
+          <span className="sr-only">{card.title} {card.body} </span>
+          {/* Not announced on every minute's tick; the line that replaces it once the limit lifts is. */}
+          <span key={card.ready ? "ready" : "wait"} aria-live={card.ready ? undefined : "off"}>{card.short}</span>
+          {moreButton && <> · {moreButton}</>}
+        </span>
+      </p>
+      <div className="gpt-limit-full">
+        {card.title && (
+          <p className="gpt-limit-head">
+            <span className="gpt-limit-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={card.ready ? TICK : CLOCK} /></svg>
+            </span>
+            {card.title}
+          </p>
+        )}
+        {/* Without a title (a pack's cap, a busy server) the body is the card. */}
+        {!card.title && (
+          <p className="gpt-limit-body">
+            {card.body}
+            {card.wait ? null : moreButton}
+          </p>
+        )}
+        {/* The wait, said once: the time, or the day's cap's own sentence. */}
+        {(card.wait || card.title) && (
+          // The countdown is not announced on every tick; the line that
+          // replaces it once the limit lifts is.
+          <p
+            key={card.ready ? "ready" : "wait"}
+            className="gpt-limit-wait"
+            aria-live={card.ready ? undefined : "off"}
+          >
+            {card.wait ?? card.body}
+            {moreButton}
+          </p>
+        )}
+        {waited !== null && !card.ready && (
+          <span className="gpt-limit-progress" aria-hidden="true"><span style={{ transform: `scaleX(${waited})` }} /></span>
+        )}
+        {/* Why, under «Batafsil»; the composer's aria-describedby points
+            here, so a screen reader hears it though the eye sees the time. */}
+        {!!card.title && !!card.wait && (bodyShown || details ? (
+          <p className="gpt-limit-body">{card.body}</p>
+        ) : (
+          <span className="sr-only">{card.body}</span>
+        ))}
+        {card.offer && details && (
+          <p className="gpt-limit-body" data-testid="limit-offer">
+            {card.offer}
+          </p>
+        )}
+        {(card.account || card.bot) && (
+          <div className="gpt-limit-exits">
+            {card.account && (
+              <button
+                type="button"
+                className="gpt-primary"
+                data-testid="limit-account"
+                onClick={() => openAccount("limit_card")}
+              >
+                {card.cta}
+              </button>
+            )}
+            {card.bot && (!card.account || details) && (
+              // The lazy part chat-limit: only while the server
+              // enables the bot; a route that cannot load is not shown.
+              <LazyPart part={limitPart} fallback={null} failed={null}>
+                {({ AiLimitTelegram }) => (
+                  <AiLimitTelegram
+                    t={t}
+                    locale={config.locale}
+                    apiBase={config.apiBase}
+                    sessionId={sessionId}
+                    reason={card.bot!}
+                    variant={card.account ? "secondary" : "primary"}
+                  />
+                )}
+              </LazyPart>
+            )}
+          </div>
+        )}
+        {/* Said only while the refused question is back in the composer. */}
+        {!!input.trim() && (
+          <p className="gpt-limit-draft">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6" /></svg>
+            {t.limitDraftKept}
+          </p>
+        )}
+      </div>
+    </div>
   );
 
   const showOffer =
@@ -904,6 +1074,28 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     </div>
   );
 
+  // What premium.css lays out (chat design §2): the resting screen, a
+  // conversation, or a limit that stands; and a phone's keyboard, open.
+  const state = limitBlocked ? "limit" : resting ? "empty" : "chat";
+  // The header's second line says one fact at a time (chat design §5.1): who
+  // we are on the resting screen, the count in a conversation, the wait in a
+  // limit (the clock first: the card says the rest), the pack's answers while
+  // one is active. It is one line beside the language switch and «new chat»,
+  // so a conversation says the honest line short until the server has counted,
+  // and below 340px (premium.css) the resting screen does too.
+  const usage = paid ? null : usageLine(remaining, hourShown, hourBlocked, t);
+  const sub: { text: string; short?: string; tone?: string } = paid
+    ? { text: t.premium.activeShort(remaining), tone: "pack" }
+    : limitBlocked && card
+      ? { text: card.header, tone: "warn" }
+      : !resting && usage
+        ? { text: usage.short, tone: usage.low ? "warn" : undefined }
+        : resting
+          ? { text: t.brandSub, short: t.brandSubShort }
+          : { text: t.brandSubShort };
+  // What a screen reader hears of it, when it changes: the count, or a pack's answers left.
+  const srStatus = paid ? t.premium.activeLine(remaining) : usage?.text;
+
   return (
     // ym-hide-content: Webvisor is enabled on counter 111312750. Everything the
     // console renders is a prompt, an answer or a saved conversation title, so
@@ -912,9 +1104,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // and without this the UA paints checkboxes, scrollbars and autofill in
     // light-mode colours on top of it.
     <div
-      className="gpt-premium flex h-full min-h-0 bg-bg-base text-white ym-hide-content"
+      className="gpt-premium gpt-app ym-hide-content"
       style={{ colorScheme: "dark" }}
       data-testid="ai-console"
+      data-state={state}
+      data-keyboard={keyboard ? "open" : undefined}
     >
       <AiSidebar
         locale={config.locale}
@@ -929,134 +1123,100 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         onToggleCollapsed={() => setCollapsed((c) => !c)}
         mobileOpen={drawerOpen}
         onCloseMobile={() => setDrawerOpen(false)}
+        onAbout={toSummary}
+        onOfficial={onOfficialClick}
       />
 
-      <div className="flex h-full min-w-0 flex-1 flex-col">
-        {/* App header */}
-        <header className="gpt-header flex h-14 shrink-0 items-center gap-2 border-b border-white/[0.06] px-3 sm:px-4">
+      <div className="gpt-main">
+        {/* The app's header: opaque, one row; nothing of the page passes under it. */}
+        <header className="gpt-header">
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
+            onPointerDown={rolePart.preload}
             aria-label={t.menuOpen}
-            className="grid h-11 w-11 place-items-center rounded-xl text-white/60 hover:text-white hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan lg:hidden"
+            className="gpt-header-button gpt-menu-button"
             data-testid="ai-menu-button"
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
               <path d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
           <div className="gpt-header-brand" data-testid="ai-header-brand">
-            <span className="gpt-brand-symbol" aria-hidden="true"><Sparkles /></span>
-            <span>{t.brand}</span>
+            <BrandMark />
+            <span className="gpt-brand-text">
+              <span>{t.brand}</span>
+              <span className="gpt-header-sub" data-tone={sub.tone} aria-hidden="true">
+                {sub.short ? <><span className="gpt-sub-full">{sub.text}</span><span className="gpt-sub-short">{sub.short}</span></> : sub.text}
+              </span>
+            </span>
+            {/* The count (or a pack's answers) for a screen reader, said when it changes. */}
+            {srStatus && <span className="sr-only" role="status">{srStatus}</span>}
           </div>
-          <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
-            {!paid && <AiUsageBadge remaining={remaining} hourLeft={hourShown} hourBlocked={hourBlocked} t={t} />}
-            <nav
-              className={`flex items-center overflow-hidden rounded-xl bg-white/[0.04] ${uzEntry ? "text-xs" : "text-[11px]"}`}
-              aria-label={uz ? "Til" : "Язык"}
+          {/* The other language's chat, on every screen. On the Russian chat the
+              word, not the code: most of its search impressions are Uzbek
+              queries. Below 375px (390px while the pack button shows) the
+              header has no room for it, so the code comes back and the resting
+              screen's «O‘zbekcha sahifa →» carries the word (premium.css). */}
+          {uzEntry ? (
+            <a
+              href="/uz/gpt-uzbek-tilida/"
+              hrefLang="uz"
+              lang="uz"
+              data-testid="lang-uz"
+              onClick={() => onLocaleSwitch("header")}
+              className="gpt-header-button gpt-lang-switch min-h-11 min-w-11"
             >
-              {(
-                [
-                  {
-                    code: "RU",
-                    href: "/ru/gpt-chat/",
-                    lang: "ru",
-                    active: !uz,
-                  },
-                  {
-                    code: "UZ",
-                    href: "/uz/gpt-uzbek-tilida/",
-                    lang: "uz",
-                    active: uz,
-                  },
-                ] as const
-              ).map((l) =>
-                l.active ? (
-                  <span
-                    key={l.code}
-                    aria-current="page"
-                    className="grid min-h-11 min-w-11 place-items-center bg-white/10 text-white"
-                  >
-                    {l.code}
-                  </span>
-                ) : l.lang === "uz" && uzEntry ? (
-                  // The word, not the code, on the Russian chat. Below 375px
-                  // (390px while the pack button shows) the header has no room
-                  // for it, so the code comes back and the resting screen's
-                  // «O‘zbekcha sahifa →» carries the word (premium.css).
-                  <a
-                    key={l.code}
-                    href={l.href}
-                    hrefLang={l.lang}
-                    lang="uz"
-                    data-testid={`lang-${l.lang}`}
-                    onClick={() => onLocaleSwitch("header")}
-                    className="gpt-lang-switch grid min-h-11 min-w-11 place-items-center px-2.5 text-white/45 hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
-                  >
-                    <span className="gpt-lang-full">{uzEntry.nav}</span>
-                    <span className="gpt-lang-short">{l.code}</span>
-                  </a>
-                ) : (
-                  <a
-                    key={l.code}
-                    href={l.href}
-                    hrefLang={l.lang}
-                    data-testid={`lang-${l.lang}`}
-                    className="grid min-h-11 min-w-11 place-items-center text-white/45 hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan"
-                  >
-                    {l.code}
-                  </a>
-                ),
-              )}
-            </nav>
-            <AiAccountPanel
-              t={t}
-              locale={config.locale}
-              apiBase={config.apiBase}
-              onAccount={onAccount}
-              refreshKey={accountRefresh}
-              openRequest={accountOpen}
-              remaining={remaining}
-              limited={limited}
-              onLeave={keepDraft}
-            />
-          </div>
+              <span className="gpt-lang-full">{uzEntry.nav}</span>
+              <span className="gpt-lang-short">UZ</span>
+            </a>
+          ) : (
+            <a
+              href="/ru/gpt-chat/"
+              hrefLang="ru"
+              lang="ru"
+              data-testid="lang-ru"
+              className="gpt-header-button gpt-lang-switch min-h-11 min-w-11"
+            >
+              RU
+            </a>
+          )}
+          <AiAccountPanel
+            t={t}
+            locale={config.locale}
+            apiBase={config.apiBase}
+            onAccount={onAccount}
+            refreshKey={accountRefresh}
+            openRequest={accountOpen}
+            remaining={remaining}
+            limited={limited}
+            onLeave={keepDraft}
+          />
+          {!empty && (
+            <button
+              type="button"
+              onClick={onNewChat}
+              disabled={busy}
+              aria-label={t.newChat}
+              title={t.newChat}
+              className="gpt-header-button gpt-new-chat"
+              data-testid="ai-header-new-chat"
+            >
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5M17.5 3.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z" />
+              </svg>
+            </button>
+          )}
         </header>
 
-        {/* The free allowance as a thread, so the cap is watched rather than
-            sprung. Its size is the server's freeLimits.daily; the component
-            hides itself while that is unknown. */}
-        {!paid && (
-          <AiQuotaThread
-            remaining={remaining}
-            total={freeLimits?.daily ?? 0}
-            t={t}
-          />
-        )}
-        {paid && (
-          <p className="px-4 pt-2 text-xs text-brand-cyan" role="status">
-            {t.premium.activeLine(remaining)}
-          </p>
-        )}
-
-        {/* Messages area. Off the resting screen the H1 stays in the page for
-            readers of the outline, out of sight. */}
-        {h1 && !(empty && activeTool === "chat") && <h1 className="sr-only">{h1}</h1>}
+        {/* Off the resting screen the H1 stays in the page for readers of the
+            outline, out of sight. */}
+        {h1 && !resting && <h1 className="sr-only">{h1}</h1>}
         <MessageScrollerProvider key={rest.key} autoScroll={!empty} defaultScrollPosition={empty ? "start" : "end"}>
+          <LimitScroll since={resting ? null : limitSince} keyboard={keyboard} />
         <MessageScroller className="gpt-thread-scroll">
-        <MessageScrollerViewport
-          className="gpt-viewport min-h-0 flex-1 overflow-y-auto overscroll-contain"
-        >
-          <div className="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
+        <MessageScrollerViewport className="gpt-viewport" aria-label={uz ? "Suhbat" : "Переписка"}>
+          <div className="gpt-column">
             {!!savedChats.length && (
               <details className="gpt-history">
                 <summary>
@@ -1081,89 +1241,56 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               </details>
             )}
             {toolPanel}
-            {empty && activeTool === "chat" ? (
+            {resting ? (
               // The resting screen is the first thing ~89% of this site's search
-              // traffic sees. It used to centre a title, a hint and four chips
-              // in 45vh of empty dark, which left the product looking like a
-              // demo. The height is now what the content needs, and the space
-              // under the chips carries the terms instead of nothing: free, no
-              // signup, the server's daily and hourly allowance — stated once,
-              // before anyone invests a question in it.
-              <Empty className="gpt-intro">
-                <EmptyHeader className="gpt-intro-header">
-                <div className="gpt-mark" aria-hidden="true">
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                  >
-                    <path d="M12 2l2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7L12 2z" />
-                  </svg>
-                </div>
-                <Badge variant="outline" className="gpt-intro-badge">{t.premium.eyebrow}</Badge>
-                {h1 ? (
-                  // Sized inline: a new rule in premium.css would rename the
-                  // site's shared stylesheet and with it every page's HTML.
-                  <h1 className="gpt-welcome-title" data-testid="chat-h1" style={{ fontSize: "clamp(23px, 2.6vw + 14px, 44px)" }}>
-                    {h1Cut > 0 ? <>{h1.slice(0, h1Cut + 2)} <span>{h1.slice(h1Cut + 3)}</span></> : h1}
-                  </h1>
-                ) : (
-                  <EmptyTitle className="gpt-welcome-title" role="heading" aria-level={2}>
+              // traffic sees: one idea per block (chat design §5.2). The H1 as a
+              // kicker, a two-line greeting, the terms with the server's daily
+              // and hourly allowance, four tasks and the link to the text under
+              // the chat. On a tall phone the greeting centres in the free space
+              // and the tasks sit above the composer, in the thumb's reach.
+              <div className="gpt-empty">
+                <div className="gpt-hello">
+                  {h1 && <h1 className="gpt-kicker" data-testid="chat-h1">{h1}</h1>}
+                  {/* One block of text, as the frame draws it before the chat
+                      mounts (premium.css): the largest text of the first
+                      screen is there from the first paint. */}
+                  <p className="gpt-greet">
                     {t.premium.welcome}
                     <br />
                     <span>{t.premium.welcomeAccent}</span>
-                  </EmptyTitle>
-                )}
-                <EmptyDescription className="gpt-intro-copy">{t.premium.intro}</EmptyDescription>
-                </EmptyHeader>
-                <EmptyContent className="gpt-intro-content">
+                  </p>
+                  <p className="gpt-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={TICK} /></svg>
+                    <span>{paid ? t.premium.manual : t.emptyMeta(freeLimits)}</span>
+                  </p>
+                </div>
+                {/* A returning visitor whose hour is spent: the card in the tasks' place. */}
+                {limitCardEl || (
                   <AiPromptChips
                     chips={t.chips}
                     onPick={onChipPick}
                     disabled={busy || limitBlocked}
                     label={t.emptyPrompt}
                   />
-                </EmptyContent>
-                <p className="gpt-trust">
-                  <ShieldCheck aria-hidden="true" />
-                  {t.premium.trust}
-                </p>
-                {/* Many visitors of both chat pages searched «chatgpt kirish»
-                    and may want OpenAI itself. Say where that is, and say
-                    plainly that this chat is not it, on the first screen
-                    rather than below a full-height app. */}
-                <p className="gpt-official" data-testid="gpt-official">
-                  {t.premium.officialLead}
-                  <a
-                    href="https://chatgpt.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={onOfficialClick}
-                  >
-                    chatgpt.com
-                  </a>
-                  {t.premium.officialTail}
-                </p>
-                {uzEntry && (
-                  <p className="gpt-official">
-                    <a
-                      href="/uz/gpt-uzbek-tilida/"
-                      hrefLang="uz"
-                      lang="uz"
-                      data-testid="gpt-uz-entry"
-                      onClick={() => onLocaleSwitch("empty")}
-                    >
-                      {uzEntry.page}
-                    </a>
-                  </p>
                 )}
-                <p className="mt-2 text-[12px] leading-relaxed text-white/35">
-                  {paid ? t.premium.manual : t.emptyMeta(freeLimits)}
+                <p className="gpt-empty-links">
+                  <a href="#seo-summary" onClick={toSummary}>{t.aboutChat}</a>
+                  {uzEntry && (
+                    <>
+                      <span aria-hidden="true"> · </span>
+                      <a
+                        href="/uz/gpt-uzbek-tilida/"
+                        hrefLang="uz"
+                        lang="uz"
+                        data-testid="gpt-uz-entry"
+                        onClick={() => onLocaleSwitch("empty")}
+                      >
+                        {uzEntry.page}
+                      </a>
+                    </>
+                  )}
                 </p>
-              </Empty>
+              </div>
             ) : (
               <AiChatMessageList
                 messages={messages}
@@ -1175,194 +1302,109 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 onRetry={onRetry}
                 onEdit={onEdit}
                 onAsk={onAsk}
-              />
-            )}
-            {/* The business line: under the first answer to a question about a
-                bot, a site, ads or a CRM, once per browser session (WP-20). */}
-            {businessLine && !limit && activeTool !== "business" && (
-              // The lazy part chat-lead; a line that cannot load is not shown.
-              <LazyPart part={leadPart} fallback={null} failed={null}>
-                {({ AiBusinessLine }) => (
-                  <AiBusinessLine
-                    t={t}
-                    locale={config.locale}
-                    apiBase={config.apiBase}
-                    sessionId={sessionId}
-                    topic={businessLine.topic}
-                    open={businessLine.open}
-                    onOpen={() => setBusinessLine((line) => line && { ...line, open: true })}
-                    onDismiss={onDismissOffer}
-                  />
+                onVersion={onVersion}
+              >
+                {/* The business line: under the first answer to a question about a
+                    bot, a site, ads or a CRM, once per browser session (WP-20). */}
+                {businessLine && !limit && activeTool !== "business" && (
+                  // The lazy part chat-lead; a line that cannot load is not shown.
+                  <LazyPart part={leadPart} fallback={null} failed={null}>
+                    {({ AiBusinessLine }) => (
+                      <AiBusinessLine
+                        t={t}
+                        locale={config.locale}
+                        apiBase={config.apiBase}
+                        sessionId={sessionId}
+                        topic={businessLine.topic}
+                        open={businessLine.open}
+                        onOpen={() => setBusinessLine((line) => line && { ...line, open: true })}
+                        onDismiss={onDismissOffer}
+                      />
+                    )}
+                  </LazyPart>
                 )}
-              </LazyPart>
-            )}
-            {/* Stage 2 of the funnel: one offer, after the chat has already
-                been useful, closable and gone for the day once closed. */}
-            {showOffer && (
-              // The lazy part chat-lead; a card that cannot load is not shown.
-              <LazyPart part={leadPart} fallback={null} failed={null}>
-                {({ AiOfferCard }) => (
-                  <AiOfferCard
-                    t={t}
-                    locale={config.locale}
-                    apiBase={config.apiBase}
-                    sessionId={sessionId}
-                    onDismiss={onDismissOffer}
-                  />
+                {/* Stage 2 of the funnel: one offer, after the chat has already
+                    been useful, closable and gone for the day once closed. */}
+                {showOffer && (
+                  // The lazy part chat-lead; a card that cannot load is not shown.
+                  <LazyPart part={leadPart} fallback={null} failed={null}>
+                    {({ AiOfferCard }) => (
+                      <AiOfferCard
+                        t={t}
+                        locale={config.locale}
+                        apiBase={config.apiBase}
+                        sessionId={sessionId}
+                        onDismiss={onDismissOffer}
+                      />
+                    )}
+                  </LazyPart>
                 )}
-              </LazyPart>
+                {!paid &&
+                  billingAvailable &&
+                  !limit &&
+                  assistantCount >= 10 &&
+                  remaining > 2 && (
+                    <div className="gpt-notice">
+                      <p>{t.premium.offer}</p>
+                      <button
+                        type="button"
+                        className="gpt-text-button"
+                        onClick={() => openAccount("after_10")}
+                      >
+                        {t.premium.account}
+                      </button>
+                    </div>
+                  )}
+                {/* The free allowance running low, at the end of the thread: one
+                    saffron line, the one warm colour of this palette, the same one
+                    the header's count turns. */}
+                {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
+                  <div className="gpt-low-line" role="status">
+                    <span>{t.lowWarning(remaining)}</span>
+                    {/* The pack only while it can really be bought (F6). */}
+                    {billingAvailable && (
+                      <button
+                        type="button"
+                        onClick={() => openAccount("low_limit")}
+                        className="gpt-text-button"
+                      >
+                        {t.premium.account}
+                      </button>
+                    )}
+                  </div>
+                )}
+                {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
+                  hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT && (
+                  // The hourly cap is the one people meet (about twice a day):
+                  // said before the refusal, in the same quiet line.
+                  <div className="gpt-low-line" role="status" data-testid="ai-hour-warning">
+                    <span>{t.hourWarning(hourShown)}</span>
+                  </div>
+                )}
+                {limitCardEl}
+              </AiChatMessageList>
             )}
-            {!paid &&
-              billingAvailable &&
-              !limit &&
-              assistantCount >= 10 &&
-              remaining > 2 && (
-                <div className="gpt-partial">
-                  <p>{t.premium.offer}</p>
-                  <button
-                    type="button"
-                    className="gpt-text-button"
-                    onClick={() => openAccount("after_10")}
-                  >
-                    {t.premium.account}
-                  </button>
-                </div>
-              )}
           </div>
         </MessageScrollerViewport>
-        <MessageScrollerButton className="gpt-jump-latest" aria-label={uz ? 'Oxirgi xabarga' : 'К последнему сообщению'}>
+        <MessageScrollerButton behavior={smooth()} className="gpt-jump-latest" aria-label={uz ? 'Oxirgi xabarga' : 'К последнему сообщению'}>
           <ArrowDown data-icon="inline-start" />
         </MessageScrollerButton>
         </MessageScroller>
         </MessageScrollerProvider>
 
-        {/* Composer */}
-        <div className="gpt-composer shrink-0">
-          <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
+        {/* The composer: in the app's column, on an opaque surface. The thread
+            ends at its top edge, so no text passes under it (chat design §0). */}
+        <div className="gpt-composer">
+          <div className="gpt-composer-inner">
             {/* A guest's button only reads the account again; an account's opens its window too. */}
-            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}
-            {limit && card && (
-              // The limit card sits above the composer, which keeps the
-              // refused question; sending waits for the time the server gave
-              // (F1–F3). Its exits: the pack window only while a pack can
-              // really be bought, the Telegram bot only while the server says
-              // botHandoff, and never a personal Telegram account
-              // (AiLimitTelegram). A retry button is gone: the send button
-              // comes back when the limit lifts.
-              <div
-                id={LIMIT_CARD_ID}
-                className="gpt-partial mb-2"
-                role="status"
-                data-testid="ai-limit-card"
-                data-reason={limit.reason}
-                data-ready={card.ready ? "true" : undefined}
-              >
-                {card.title && <p className="font-medium text-white">{card.title}</p>}
-                {bodyShown || details ? (
-                  <p>
-                    {card.body}
-                    {card.wait ? "" : kept}
-                    {card.wait ? null : moreButton}
-                  </p>
-                ) : (
-                  // The composer's aria-describedby points here: a screen
-                  // reader hears why, though the eye sees only the time.
-                  <span className="sr-only">{card.body}</span>
-                )}
-                {card.wait && (
-                  // The countdown is not announced on every tick; the line
-                  // that replaces it once the limit lifts is.
-                  <p
-                    key={card.ready ? "ready" : "wait"}
-                    className="mt-1 text-brand-cyan"
-                    aria-live={card.ready ? undefined : "off"}
-                  >
-                    {card.wait}
-                    {kept}
-                    {moreButton}
-                  </p>
-                )}
-                {card.offer && details && (
-                  <p className="mt-2 text-white" data-testid="limit-offer">
-                    {card.offer}
-                  </p>
-                )}
-                {(card.account || card.bot) && (
-                  <div className="mt-2 flex flex-col gap-2">
-                    {card.account && (
-                      <button
-                        type="button"
-                        className="gpt-primary"
-                        data-testid="limit-account"
-                        onClick={() => openAccount("limit_card")}
-                      >
-                        {card.cta}
-                      </button>
-                    )}
-                    {card.bot && (!card.account || details) && (
-                      <AiLimitTelegram
-                        t={t}
-                        locale={config.locale}
-                        apiBase={config.apiBase}
-                        sessionId={sessionId}
-                        reason={card.bot}
-                        variant={card.account ? "secondary" : "primary"}
-                      />
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-            {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
-              // Saffron, the one warm colour in this palette, and the same
-              // one the quota thread turns above — so the warning and the
-              // thread read as one fact stated twice, not two alerts. The
-              // emoji that used to sit here said nothing the colour and the
-              // sentence did not already say.
-              <div
-                className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron"
-                role="status"
-              >
-                <span
-                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
-                  aria-hidden="true"
-                />
-                <span>{t.lowWarning(remaining)}</span>
-                {/* The pack only while it can really be bought (F6). */}
-                {billingAvailable && (
-                  <button
-                    type="button"
-                    onClick={() => openAccount("low_limit")}
-                    className="ml-auto inline-flex min-h-11 items-center whitespace-nowrap text-brand-cyan hover:underline"
-                  >
-                    {t.premium.account}
-                  </button>
-                )}
-              </div>
-            )}
-            {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
-              hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT && (
-              // The hourly cap is the one people meet (about twice a day):
-              // said before the refusal, in the same quiet line as above.
-              <div
-                className="mb-2 flex items-center gap-2 rounded-2xl border border-brand-saffron/20 bg-brand-saffron/[0.06] px-4 py-2.5 text-[12px] text-brand-saffron"
-                role="status"
-                data-testid="ai-hour-warning"
-              >
-                <span
-                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
-                  aria-hidden="true"
-                />
-                <span>{t.hourWarning(hourShown)}</span>
-              </div>
-            )}
+            {accountState === "unknown" && <p role="status" className="gpt-dock-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}
             {turnstileKey && (
               // The lazy part chat-turnstile: only a page whose server asks
               // for the check downloads it. Sending waits for its token.
               <LazyPart
                 part={turnstilePart}
-                fallback={<p className="mb-2 text-center text-xs text-white/45" role="status">{t.turnstileLoading}</p>}
-                failed={<p className="mb-2 text-center text-xs text-red-300" role="status">{t.turnstileError}</p>}
+                fallback={<p className="gpt-dock-note" role="status">{t.turnstileLoading}</p>}
+                failed={<p className="gpt-dock-note" data-tone="error" role="status">{t.turnstileError}</p>}
               >
                 {({ TurnstileChallenge }) => (
                   <TurnstileChallenge
@@ -1378,15 +1420,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               </LazyPart>
             )}
             {turnstileConfigError && (
-              <p className="mb-2 text-center text-xs text-red-300" role="status" aria-live="polite">
+              <p className="gpt-dock-note" data-tone="error" role="status" aria-live="polite">
                 {t.turnstileError}
               </p>
             )}
             {turnstileServerError && (
-              <p
-                className="mb-2 text-center text-xs text-red-300"
-                role="alert"
-              >
+              <p className="gpt-dock-note" data-tone="error" role="alert">
                 {turnstileServerError}
               </p>
             )}
@@ -1398,10 +1437,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               onStop={onStop}
               disabled={sendDisabled}
               busy={busy}
+              limited={limitBlocked}
               maxChars={MAX_INPUT - maxRolePrefixLength(role)}
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}
+              placeholder={resting && wide ? t.inputExample : undefined}
             />
           </div>
         </div>

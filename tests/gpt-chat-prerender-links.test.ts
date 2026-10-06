@@ -235,8 +235,8 @@ test('a paragraph or anchor in the other language carries lang on the chat pages
 // check of the model scores it 4/5 or better (SEO roadmap 2026-10-04 §5, 3.3).
 test('the chat’s first screen offers no translation starter', () => {
   const i18n = fs.readFileSync(path.join(ROOT, 'src', 'gpt-chat', 'i18n.ts'), 'utf8');
-  const intros = [...i18n.matchAll(/intro:'([^']*)'/g)].map((m) => m[1]);
-  assert.equal(intros.length, 2);
-  for (const intro of intros) assert.doesNotMatch(intro, /перев|tarjima/i, intro);
+  // The intro line left the first screen with the chat design release; the four tasks stay without translation.
+  assert.doesNotMatch(i18n, /intro:'/);
   assert.doesNotMatch(i18n, /\{ id: 'translate'/);
+  for (const label of [...i18n.matchAll(/\{ id: '\w+', label: '([^']*)'/g)].map((m) => m[1])) assert.doesNotMatch(label, /перев|tarjima/i, label);
 });

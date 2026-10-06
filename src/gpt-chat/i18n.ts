@@ -18,14 +18,16 @@ export interface PromptChip {
 export interface ChatStrings {
   /** The chat's own lines of the pack: the pack window's copy is account-strings.ts. */
   premium: {
-    eyebrow: string; welcome: string; welcomeAccent: string; intro: string; trust: string;
+    /** The resting screen's greeting, two lines: a question, then the promise (not a heading). */
+    welcome: string; welcomeAccent: string;
     /** The pack's name: the header pill and the buttons that open its window. */
     account: string;
     /** The header pill while a pack is active. */
     accountActive: string;
     close: string; check: string; manual: string;
-    /** Under the header while a pack is active. */
+    /** Under the header while a pack is active: the sentence a screen reader hears, and the header's short line. */
     activeLine: (left: number) => string;
+    activeShort: (left: number) => string;
     partial: string;
     /** The error bubble's second button: the question back into the composer. */
     editQuestion: string;
@@ -36,7 +38,7 @@ export interface ChatStrings {
     historyNote: string; savedChats: string;
     answerReady: string; monthlyLimit: string; offer: string;
     contextTooLarge: string;
-    /** Resting screen: the text around the chatgpt.com link, for a visitor who
+    /** The menu (☰): the text around the chatgpt.com link, for a visitor who
      *  searched for the official ChatGPT. Lead + link + tail read as one line. */
     officialLead: string; officialTail: string;
     /** Above the composer once the account view failed twice (F11): the chat answers, nothing is stored. */
@@ -46,10 +48,18 @@ export interface ChatStrings {
   };
   /** RU chat only: the visible way to the Uzbek chat on the first screen —
    *  the header label (`nav`) and the resting-screen link (`page`). The Uzbek
-   *  chat has no counterpart, so its header keeps the short «RU». */
+   *  chat's header says «RU». */
   uzEntry?: { nav: string; page: string };
   brand: string;
+  /** Under the brand in the header while nothing else needs saying there: independent, not OpenAI. */
+  brandSub: string;
+  /** The same where the header has no room for it: a conversation before the server's count, a screen under 340px. */
+  brandSubShort: string;
   inputPlaceholder: string;
+  /** The empty field's example on the resting screen (REV-2); the field's name stays inputPlaceholder. */
+  inputExample: string;
+  /** The resting screen's last line and the menu's: the text under the chat (REV-5). */
+  aboutChat: string;
   /** Under the composer on every screen size: not OpenAI, and where questions go. */
   inputMicrocopy: string;
   send: string;
@@ -80,6 +90,9 @@ export interface ChatStrings {
   remaining: (n: number) => string;
   /** The header's count while this hour runs out before the day does. */
   hourRemaining: (n: number) => string;
+  /** The same two in the header's one line, which shares 320px with the language switch and «new chat». */
+  remainingShort: (n: number) => string;
+  hourRemainingShort: (n: number) => string;
   lowWarning: (n: number) => string;
   /** The free tier's last messages in the rolling hour (map 03 §3.7). */
   hourWarning: (n: number) => string;
@@ -122,6 +135,10 @@ export interface ChatStrings {
   limitWait: (minutes: number) => string;
   /** The wait with the time it ends in Tashkent, «14:35». */
   limitWaitAt: (minutes: number, at: string) => string;
+  /** The same in one short line, for the limit card while the keyboard is open (REV-13). */
+  limitWaitShort: (minutes: number, at: string) => string;
+  /** The header's line in a limit: the clock alone, which fits beside the language switch and «new chat» at 320px. */
+  limitWaitHeader: (at: string) => string;
   /** The limit card's toggle for why, the pack's value and the second way. */
   limitMore: string;
   limitLessMinute: string;
@@ -151,11 +168,9 @@ const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
     answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
-    eyebrow:'ВАШ AI-ПОМОЩНИК',welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',
-    intro:'Написать текст, составить план или разобраться в теме. Просто спросите на русском или узбекском.',
-    trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'AI-пакет',accountActive:'Мой пакет',
+    welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',account:'AI-пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
-    manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,
+    manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,activeShort:(n) => `Ещё ${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`,
     partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',slow:'Ответ готовится дольше обычного. Можно остановить и отправить заново.',
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
@@ -163,7 +178,11 @@ const RU: ChatStrings = {
   },
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
+  brandSub: 'независимый сервис, не OpenAI',
+  brandSubShort: 'не OpenAI',
   inputPlaceholder: 'Напишите сообщение…',
+  inputExample: 'Например: объясни задачу за 7 класс',
+  aboutChat: 'Подробнее о чате ↓',
   inputMicrocopy: 'Не продукт OpenAI · Вопросы отправляются зарубежным AI-провайдерам — не пишите личные данные',
   send: 'Отправить',
   thinking: 'AI думает…',
@@ -176,11 +195,14 @@ const RU: ChatStrings = {
   turnstileError: 'Проверка безопасности недоступна. Обновите страницу.',
   stop: 'Остановить',
   pricingLink: 'Тарифы AI-чата',
+  // By what people ask first (REV-2): a problem to solve leads, the offer
+  // chip (≤5% of interest) left; business help stays in the menu and in the
+  // line after an answer about a business.
   chips: [
+    { id: 'math', label: 'Решить задачу', insert: 'Реши задачу по шагам: ' },
     { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
-    { id: 'plan', label: 'Составить план', insert: 'Составь план. Тема и цель: ' },
-    { id: 'offer', label: 'Придумать оффер', insert: 'Придумай 3 варианта рекламного оффера. Продукт: ' },
     { id: 'explain', label: 'Объяснить тему', insert: 'Объясни простыми словами: ' },
+    { id: 'plan', label: 'Составить план', insert: 'Составь план. Тема и цель: ' },
   ],
   menuOpen: 'Открыть меню',
   menuClose: 'Закрыть меню',
@@ -195,6 +217,8 @@ const RU: ChatStrings = {
   contactTelegram: 'Написать нам в Telegram',
   remaining: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} сегодня`,
   hourRemaining: (n) => `В этот час ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}`,
+  remainingShort: (n) => `Сегодня ещё ${n}`,
+  hourRemainingShort: (n) => `Ещё ${n} в этот час`,
   lowWarning: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} на сегодня.`,
   hourWarning: (n) => `В этот час можно отправить ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}.`,
   charsLeft: (n) => `${n} ${ru(n, 'символ', 'символа', 'символов')} до лимита`,
@@ -230,6 +254,8 @@ const RU: ChatStrings = {
   ipBody: 'Из вашей сети слишком много запросов.',
   limitWait: (minutes) => `Снова написать можно через ${minutes} мин.`,
   limitWaitAt: (minutes, at) => `Снова написать можно через ${minutes} мин (в ${at} по Ташкенту).`,
+  limitWaitShort: (minutes, at) => `Через ${minutes} мин (в ${at})`,
+  limitWaitHeader: (at) => `Пауза до ${at}`,
   limitMore: 'Подробнее',
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
@@ -245,18 +271,20 @@ const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
     answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
-    eyebrow:'SIZNING AI YORDAMCHINGIZ',welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',
-    intro:'Matn yozish, reja tuzish yoki mavzuni tushunish. O‘zbekcha yoki ruscha so‘rang.',
-    trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'AI paket',accountActive:'Paketim',
+    welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',account:'AI paket',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
-    manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,
+    manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,activeShort:(n) => `${n} ta javob qoldi`,
     partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',slow:'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.',
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
     accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',
   },
   brand: 'GPTBot.uz',
+  brandSub: 'mustaqil servis, OpenAI emas',
+  brandSubShort: 'OpenAI emas',
   inputPlaceholder: 'Xabar yozing…',
+  inputExample: 'Masalan: 7-sinf masalasini tushuntirib ber',
+  aboutChat: 'Batafsil: chat haqida ↓',
   inputMicrocopy: 'OpenAI mahsuloti emas · Savollar xorijdagi AI-provayderlarga yuboriladi — shaxsiy ma’lumot yozmang',
   send: 'Yuborish',
   thinking: 'AI o‘ylayapti…',
@@ -272,10 +300,10 @@ const UZ: ChatStrings = {
   // visitor of the free chat is not sent to it as «Tariflar» (F10).
   pricingLink: 'Biznes bot narxlari',
   chips: [
+    { id: 'math', label: 'Masalani yechish', insert: 'Masalani qadamma-qadam yech: ' },
     { id: 'text', label: 'Matn yozish', insert: 'Matn yoz. Format va mavzu: ' },
-    { id: 'plan', label: 'Reja tuzish', insert: 'Reja tuz. Mavzu va maqsad: ' },
-    { id: 'offer', label: 'Taklif yaratish', insert: '3 xil reklama taklifini yoz. Mahsulot: ' },
     { id: 'explain', label: 'Mavzuni tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
+    { id: 'plan', label: 'Reja tuzish', insert: 'Reja tuz. Mavzu va maqsad: ' },
   ],
   menuOpen: 'Menyuni ochish',
   menuClose: 'Menyuni yopish',
@@ -290,6 +318,8 @@ const UZ: ChatStrings = {
   contactTelegram: 'Telegramda bizga yozing',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
   hourRemaining: (n) => `Bu soatda yana ${n} ta xabar`,
+  remainingShort: (n) => `Bugun yana ${n} ta`,
+  hourRemainingShort: (n) => `Bu soatda yana ${n} ta`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi.`,
   hourWarning: (n) => `Bu soat ichida yana ${n} ta xabar yuborishingiz mumkin.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
@@ -325,6 +355,8 @@ const UZ: ChatStrings = {
   ipBody: 'Tarmog‘ingizdan so‘rovlar juda ko‘p.',
   limitWait: (minutes) => `${minutes} daqiqadan keyin yana yozasiz.`,
   limitWaitAt: (minutes, at) => `${minutes} daqiqadan keyin (Toshkent vaqti bilan soat ${at} da) yana yozasiz.`,
+  limitWaitShort: (minutes, at) => `${minutes} daqiqadan keyin (soat ${at} da)`,
+  limitWaitHeader: (at) => `Tanaffus ${at} gacha`,
   limitMore: 'Batafsil',
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',

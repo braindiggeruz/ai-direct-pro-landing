@@ -13,8 +13,12 @@ export interface AnswerStrings {
   continue: string;
   /** A new answer in place of the last one: a new call of the model, so it costs a message. */
   regenerate: string;
-  /** On a phone: the rest of the row (after a «⋯» a screen reader skips). */
+  /** On a phone: the name of «⋯», which opens the rest of the row as a menu. */
   more: string;
+  /** «‹ 1/2 ›»: the versions «Qayta yozish» made of an answer (REV-7). */
+  versions: string;
+  versionBack: string;
+  versionNext: string;
   /** The translation goes the other way from the answer's script. */
   toRussian: string;
   toUzbek: string;
@@ -24,6 +28,8 @@ export interface AnswerStrings {
    * and Telegram do not.
    */
   buttonCost: string;
+  /** The caption of the «⋯» menu on a phone: each of its items makes the AI write, so each costs a message. */
+  menuCost: string;
   /** The Telegram button: short on the button, whole for a screen reader. */
   share: string;
   shareLabel: string;
@@ -41,9 +47,13 @@ const RU: AnswerStrings = {
   continue: "Продолжить",
   regenerate: "Другой ответ",
   more: "Ещё",
+  versions: "Версии ответа",
+  versionBack: "Предыдущая версия",
+  versionNext: "Следующая версия",
   toRussian: "Перевести на русский",
   toUzbek: "Перевести на узбекский",
   buttonCost: "Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.",
+  menuCost: "Каждый пункт тратит 1 сообщение",
   share: "В Telegram",
   shareLabel: "Отправить в Telegram",
   shareCut: "Ответ длинный — в Telegram ушло начало. Весь текст можно скопировать.",
@@ -63,9 +73,13 @@ const UZ: AnswerStrings = {
   continue: "Davom ettir",
   regenerate: "Qayta yozish",
   more: "Yana",
+  versions: "Javob versiyalari",
+  versionBack: "Oldingi versiya",
+  versionNext: "Keyingi versiya",
   toRussian: "Rus tiliga tarjima",
   toUzbek: "O‘zbekchaga tarjima",
   buttonCost: "AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.",
+  menuCost: "Har biri 1 ta xabar sarflaydi",
   share: "Telegramga",
   shareLabel: "Telegramga yuborish",
   shareCut: "Javob uzun — Telegramga boshi yuborildi. To‘liq matn uchun «Nusxalash»ni bosing.",

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
@@ -5,9 +6,10 @@ import type { Locale } from '../types';
 import type { ChatStrings } from '../i18n';
 import type { AiToolId } from '../templates';
 import type { RoleId } from '../roles';
-import { RoleSelector } from './RoleSelector';
+import { LazyPart, rolePart } from '../lazy-part';
 import { track, EV } from '../analytics';
 import { telegramDeepLink } from '../../lib/telegram';
+import { BrandMark } from './BrandMark';
 
 const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
   { id: 'chat', ru: 'Chat', uz: 'Chat', icon: 'M4 5h16v11H9l-5 4V5z' },
@@ -16,6 +18,9 @@ const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
   { id: 'business', ru: 'Бизнес', uz: 'Biznes', icon: 'M4 8h16v11H4zM9 8V5h6v3m-2 5h-2' },
   { id: 'study', ru: 'Учёба', uz: 'O‘qish', icon: 'M3 9l9-5 9 5-9 5-9-5zm4 3v4c3 2 7 2 10 0v-4' },
 ];
+
+/** A link of the menu's «Bo‘limlar» list. */
+const LINK = "flex min-h-11 items-center rounded-xl px-3 text-[13px] text-white/55 hover:bg-white/[0.03] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan";
 
 interface SidebarProps {
   locale: Locale;
@@ -30,10 +35,14 @@ interface SidebarProps {
   onToggleCollapsed: () => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
+  /** «Batafsil: chat haqida ↓»: to the text under the chat (REV-5). */
+  onAbout: (event: { preventDefault: () => void }) => void;
+  /** The chatgpt.com link was followed (its line moved here from the first screen, chat design §5.12). */
+  onOfficial: () => void;
 }
 
 function SidebarBody({
-  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway,
+  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway, onAbout, onOfficial,
 }: {
   locale: Locale;
   t: ChatStrings;
@@ -46,6 +55,8 @@ function SidebarBody({
   collapsed: boolean;
   inDrawer: boolean;
   onNavigateAway?: () => void;
+  onAbout: SidebarProps['onAbout'];
+  onOfficial: SidebarProps['onOfficial'];
 }) {
   const uz = locale === 'uz';
   const botHref = telegramDeepLink(locale);
@@ -65,7 +76,7 @@ function SidebarBody({
       {/* Logo */}
       <div className={`flex h-14 shrink-0 items-center border-b border-white/[0.06] ${showLabels ? 'px-4' : 'justify-center px-2'}`}>
         <a href="/" className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-lg">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-grad-cta text-sm font-bold text-[#04101A]" aria-hidden="true">G</span>
+          <BrandMark className="gpt-brand-mark-lg" />
           {showLabels && <span className="font-display text-[15px] text-white">{t.brand}</span>}
         </a>
       </div>
@@ -108,8 +119,12 @@ function SidebarBody({
           </ul>
         </nav>
 
-        {/* AI role */}
-        {showLabels && <RoleSelector locale={locale} value={role} onChange={onRoleChange} disabled={busy} />}
+        {/* AI role: the lazy part chat-role, its place held at its height. */}
+        {showLabels && (
+          <LazyPart part={rolePart} fallback={<div className="h-[92px]" />} failed={null}>
+            {({ RoleSelector }) => <RoleSelector locale={locale} value={role} onChange={onRoleChange} disabled={busy} />}
+          </LazyPart>
+        )}
 
         {/* Telegram CTA — the assistant bot, whose username always has a value
             (src/lib/telegram.ts). It used to vanish entirely, which left the
@@ -133,13 +148,18 @@ function SidebarBody({
           <nav aria-label={t.sidebarLinks} className="mt-3">
             <p className="mb-2 px-1 text-[11px] font-semibold uppercase tracking-wider text-white/35">{t.sidebarLinks}</p>
             <ul className="space-y-0.5">
+              <li>
+                <a href="#seo-summary" onClick={onAbout} className={LINK}>
+                  {t.aboutChat}
+                </a>
+              </li>
               {links.map((l) => (
                 <li key={l.key}>
                   <a
                     href={l.href}
                     onClick={() => onLinkClick(l.event)}
                     data-testid={`sidebar-${l.key}`}
-                    className="flex min-h-11 items-center rounded-xl px-3 text-[13px] text-white/55 hover:bg-white/[0.03] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
+                    className={LINK}
                   >
                     {l.label}
                   </a>
@@ -148,11 +168,30 @@ function SidebarBody({
             </ul>
           </nav>
         )}
+
+        {/* Many visitors of both chat pages searched «chatgpt kirish» and may
+            want OpenAI itself: where that is, and that this chat is not it.
+            It stood on the first screen until the chat design release; the
+            header and the composer's line say «not OpenAI» there now. */}
+        {showLabels && (
+          <p className="gpt-official" data-testid="gpt-official">
+            {t.premium.officialLead}
+            <a
+              href="https://chatgpt.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onOfficial}
+            >
+              chatgpt.com
+            </a>
+            {t.premium.officialTail}
+          </p>
+        )}
       </div>
 
       {/* Footer disclaimer */}
       {showLabels && (
-        <p className="shrink-0 border-t border-white/[0.06] px-4 py-3 text-[10px] leading-relaxed text-white/30">{t.disclaimer}</p>
+        <p className="gpt-disclaimer">{t.disclaimer}</p>
       )}
     </div>
   );
@@ -160,6 +199,10 @@ function SidebarBody({
 
 export function AiSidebar(props: SidebarProps) {
   const { collapsed, onToggleCollapsed, mobileOpen, onCloseMobile, t } = props;
+  // A wide screen shows the menu, and so the role picker, from the start.
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 1024px)').matches) rolePart.preload();
+  }, []);
   return (
     <>
       {/* Desktop sidebar */}

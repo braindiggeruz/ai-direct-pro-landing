@@ -199,6 +199,47 @@ test('the school-pages revision changes only the homepage list: two new guides, 
   assert.equal(home.bodyText.replace(added, ''), homeBefore.bodyText);
 });
 
+const CHAT_DESIGN = 'docs/seo/evidence/2026-10-06-chat-design/reviewed-protected-pages.json';
+
+test('the chat design revision changes one field, the UZ chat title; no text on the ten; it records every HTML it changes', () => {
+  const current = readRevision(CHAT_DESIGN) as Revision & { invisibleToGate: Array<{ change: string; pages?: string[]; htmlSha256?: Record<string, string> }> };
+  const previous = readRevision(SCHOOL);
+  assert.equal(current.previousRevision, SCHOOL);
+  // The one reviewed change: the UZ chat's title, strategy 2026-10-06 variant B (T-B), with og:title and twitter:title.
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/uz/gpt-uzbek-tilida/', ['title']]]);
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    const { title, ...rest } = page.contract;
+    const { title: titleBefore, ...restBefore } = before.contract;
+    assert.deepEqual(rest, restBefore, page.pathname);
+    if (page.pathname !== '/uz/gpt-uzbek-tilida/') assert.deepEqual(title, titleBefore, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+  }
+  const uz = current.pages.find((p) => p.pathname === '/uz/gpt-uzbek-tilida/')!;
+  assert.deepEqual(uz.contract.title, ['ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish']);
+  assert.deepEqual(uz.contract.h1, ['O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil'], 'the H1 is an honesty element and stays');
+  assert.doesNotMatch((uz.contract.title as string[])[0], /rasmiy|official|GPT-4|GPT-5/i);
+  assert.match((uz.contract.title as string[])[0], /Muqobil/);
+  const page = JSON.parse(fs.readFileSync(path.join(REPO, 'content/pages/uz/gpt-uzbek-tilida.json'), 'utf8')) as Page;
+  assert.equal(page.title, 'ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish');
+  assert.equal(page.ogTitle, page.title);
+  // The RU chat keeps its R-S1 title.
+  assert.deepEqual(current.pages.find((p) => p.pathname === '/ru/gpt-chat/')!.contract.title, ['Аналог ChatGPT онлайн бесплатно — без регистрации']);
+  // Every protected page's HTML changes (the stylesheet's name), each with its hashes before and after.
+  const hashes = current.invisibleToGate.find((c) => c.htmlSha256)!.htmlSha256!;
+  assert.deepEqual(Object.keys(hashes), [...PROTECTED_PATHS]);
+  for (const value of Object.values(hashes)) assert.match(value, /^[0-9a-f]{64} → [0-9a-f]{64}$/);
+  const chats = current.invisibleToGate.filter((c) => JSON.stringify(c.pages) === JSON.stringify(['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/']));
+  assert.ok(chats.some((c) => /frame adds no text/.test(c.change)), 'the prerendered frame is reviewed');
+  assert.ok(chats.some((c) => /interactive-widget=resizes-content/.test(c.change) && /modulepreload/.test(c.change)), 'the <head> tags are reviewed');
+  // P-CTR: a second UZ-chat release in the R-S1 window leaves its «chatgpt kirish» reading without a verdict.
+  assert.match((current as unknown as { measurement: string }).measurement, /no verdict/);
+  // A generator that failed to read a value writes «undefined»: the record names what it reviews.
+  const texts = [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c))];
+  for (const text of texts) assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  assert.match(current.invisibleToGate.find((c) => c.htmlSha256)!.change, /\/assets\/index-[\w-]+\.css → \/assets\/index-[\w-]+\.css/);
+});
+
 // School guides declare their own audience and a short breadcrumb (R-S1
 // review, 2026-10-05); every article without the optional fields keeps the
 // template's defaults, so the protected download guide does not change.
