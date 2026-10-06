@@ -52,6 +52,19 @@ export function liftsToday(retryAt: number, now: number): boolean {
   return tashkentDate(retryAt) === tashkentDate(now);
 }
 
+/**
+ * When a limit lifts on Tashkent's clock, «14:35»: UTC+5 by arithmetic, so
+ * an old WebView without time-zone data says the same. Null if the time is
+ * not a date; the card then gives the minutes alone.
+ */
+export function tashkentTime(at: number): string | null {
+  try {
+    return new Date(at + TASHKENT_OFFSET_MS).toISOString().slice(11, 16);
+  } catch {
+    return null;
+  }
+}
+
 export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, now: number): LimitCard {
   const t = strings(locale);
   const ready = limit.retryAt !== null && now >= limit.retryAt;
@@ -88,7 +101,10 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
   if (ready) wait = t.limitReady;
   else if (limit.retryAt !== null && limit.reason !== 'daily' && limit.reason !== 'pack_daily') {
     const left = limit.retryAt - now;
-    wait = left < 60_000 ? t.limitLessMinute : t.limitWait(Math.ceil(left / 60_000));
+    const minutes = Math.ceil(left / 60_000);
+    const at = tashkentTime(limit.retryAt);
+    // Minutes and the clock (map 04 U-01): «41 daqiqadan keyin (soat 14:35 da)».
+    wait = left < 60_000 ? t.limitLessMinute : at ? t.limitWaitAt(minutes, at) : t.limitWait(minutes);
   }
 
   const account = s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid));

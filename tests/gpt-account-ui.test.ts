@@ -204,7 +204,29 @@ test('the chat feeds the card from the limit state; the account view only report
   assert.match(refused, /setMessages\(history\);\s*setInput\(trimmed\);/, 'the question goes back into the composer');
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
-  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(\s*$/);
+  // Second to the pack button it waits behind «Batafsil» (NOW-05); alone it leads.
+  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(!card\.account \|\| details\) && \(\s*$/);
+});
+
+test('the limit card is short: title, the time and one way on; why, the pack value and the second way behind «Batafsil»', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const cardJsx = source.slice(source.indexOf('id={LIMIT_CARD_ID}'), source.indexOf('{!limit && !paid && remaining >= 0'));
+  assert.match(source, /const bodyShown = !!card && \(!card\.title \|\| !card\.wait\);/);
+  assert.match(cardJsx, /\{bodyShown \|\| details \? \(/);
+  assert.match(cardJsx, /<span className="sr-only">\{card\.body\}<\/span>/);
+  assert.match(cardJsx, /\{card\.offer && details && \(/);
+  assert.match(cardJsx, /aria-expanded=\{details\}\s*onClick=\{\(\) => setDetailsFor\(details \? null : limit\.reason\)\}/);
+  // Opened for one reason, closed for the next.
+  assert.match(source, /const details = !!limit && detailsFor === limit\.reason;/);
+  // The pack's price stays on its button; without a pack for sale no price and no button (F4, F6).
+  assert.match(cardJsx, /\{card\.account && \(\s*<button[^>]*?\s*type="button"\s*className="gpt-primary"/);
+  assert.deepEqual([strings('uz').limitMore, strings('ru').limitMore], ['Batafsil', 'Подробнее']);
+  // The warnings: 2 left this hour (after the 3rd), 3 left today.
+  assert.match(source, /const HOUR_WARNING_AT = 2;/);
+  assert.match(source, /const DAY_WARNING_AT = 3;/);
+  assert.match(source, /\{!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && \(/);
+  assert.match(source, /const hourBlocked = limit\?\.reason === "hourly" && limitBlocked;/);
+  assert.match(source, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourLeft\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
 });
 
 test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {

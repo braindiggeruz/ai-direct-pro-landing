@@ -38,8 +38,9 @@ export function AiQuotaThread({ remaining, total, t }: Props) {
   return (
     <div
       className="shrink-0 px-3 pt-px sm:px-4"
-      // The number is already announced by AiUsageBadge in the header; a second
-      // live region repeating it after every message would double-speak.
+      // The header's AiUsageBadge says the count to a screen reader (its
+      // sr-only status); a second live region repeating it after every
+      // message would double-speak.
       aria-hidden="true"
       data-testid="ai-quota-thread"
       title={t.remaining(Math.max(0, remaining))}

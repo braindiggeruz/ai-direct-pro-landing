@@ -10,7 +10,8 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { strings } from '../src/gpt-chat/i18n';
-import { limitCard, liftsToday } from '../src/gpt-chat/limit-card';
+import { limitCard, liftsToday, tashkentTime } from '../src/gpt-chat/limit-card';
+import { AiUsageBadge } from '../src/gpt-chat/components/AiUsageBadge';
 import {
   LIMIT_TICK_MS,
   canSendNow,
@@ -154,11 +155,12 @@ test('the card counts down tick by tick, then says the visitor can write again',
     limitCard(locale, state, { billingAvailable: false, paid: false, botHandoff: false, remaining: 10 }, at);
   const t = strings('uz');
   const state = blocked('hourly', 12 * 60);
-  assert.equal(card(state, NOW).wait, t.limitWait(12));
+  // Minutes and the clock in Tashkent (NOW is 15:00 there).
+  assert.equal(card(state, NOW).wait, t.limitWaitAt(12, '15:12'));
   assert.equal(card(state, NOW).title, t.hourlyTitle);
   assert.equal(card(state, NOW).body, t.hourlyBody(5));
   // Four ticks later the minute has changed; the text follows the clock.
-  assert.equal(card(state, NOW + 4 * LIMIT_TICK_MS).wait, t.limitWait(11));
+  assert.equal(card(state, NOW + 4 * LIMIT_TICK_MS).wait, t.limitWaitAt(11, '15:12'));
   assert.equal(card(state, NOW + 11 * MIN + 1).wait, t.limitLessMinute);
   assert.equal(card(state, NOW + 12 * MIN - 1).ready, false);
   const ready = card(state, NOW + 12 * MIN);
@@ -166,8 +168,50 @@ test('the card counts down tick by tick, then says the visitor can write again',
   assert.equal(ready.wait, t.limitReady);
   assert.equal(card(blocked('busy', 5), NOW).wait, t.limitLessMinute);
   assert.equal(card(blocked('monthly', null), NOW).wait, null, 'time does not lift a spent pack');
-  assert.match(card(state, NOW, 'ru').wait ?? '', /через 12 мин/);
-  assert.match(card(state, NOW).wait ?? '', /12 daqiqadan keyin/);
+  assert.match(card(state, NOW, 'ru').wait ?? '', /через 12 мин \(в 15:12\)/);
+  assert.match(card(state, NOW).wait ?? '', /12 daqiqadan keyin \(soat 15:12 da\)/);
+});
+
+test('the wait says the minutes and the time in Tashkent, the same in a WebView without time-zone data', () => {
+  // 41 minutes from 15:00 in Tashkent (10:00 UTC), and across midnight there.
+  assert.equal(tashkentTime(NOW + 41 * MIN), '15:41');
+  assert.equal(tashkentTime(Date.parse('2026-10-01T19:05:00Z')), '00:05');
+  assert.equal(tashkentTime(Number.NaN), null, 'no date, no clock');
+  for (const locale of ['ru', 'uz'] as const) {
+    const t = strings(locale);
+    const card = limitCard(locale, blocked('hourly', 41 * 60), { billingAvailable: false, paid: false, botHandoff: false, remaining: 10 }, NOW);
+    assert.equal(card.wait, t.limitWaitAt(41, '15:41'));
+    assert.match(card.wait ?? '', locale === 'uz' ? /^41 daqiqadan keyin \(soat 15:41 da\) yana yozasiz\.$/ : /^Снова написать можно через 41 мин \(в 15:41\)\.$/);
+    // Every other reason with a time to wait says it the same way.
+    assert.equal(limitCard(locale, blocked('ip', 30 * 60), { billingAvailable: false, paid: false, botHandoff: false, remaining: 10 }, NOW).wait, t.limitWaitAt(30, '15:30'));
+  }
+  assert.ok(!strings('uz').limitWaitAt(5, '15:05').includes("'"));
+});
+
+test('the header counts what runs out first: this hour or today, and 0 while the hour is up', () => {
+  const uz = strings('uz');
+  const badge = (remaining: number, hourLeft: number | null, hourBlocked = false, locale: 'ru' | 'uz' = 'uz') =>
+    renderToStaticMarkup(React.createElement(AiUsageBadge, { remaining, hourLeft, hourBlocked, t: strings(locale) }));
+  const twoThisHour = badge(10, 2);
+  assert.match(twoThisHour, /<span class="sm:hidden" aria-hidden="true">2<\/span>/);
+  assert.ok(twoThisHour.includes(`<span class="sr-only" role="status">${uz.hourRemaining(2)}</span>`));
+  assert.equal(uz.hourRemaining(2), 'Bu soatda yana 2 ta xabar');
+  assert.equal(strings('ru').hourRemaining(2), 'В этот час ещё 2 сообщения');
+  assert.match(twoThisHour, /bg-brand-saffron\/\[0\.06\] text-brand-saffron/, 'saffron at 2 left this hour, as the warning');
+  // The hourly limit stands: 0, not the day's 10.
+  const blockedNow = badge(10, null, true);
+  assert.match(blockedNow, /aria-hidden="true">0<\/span>/);
+  assert.ok(blockedNow.includes(uz.hourRemaining(0)));
+  // The day runs out first: the day's count, saffron from 3.
+  assert.ok(badge(3, 5).includes(uz.remaining(3)) && badge(3, 5).includes('text-brand-saffron'));
+  assert.ok(!badge(4, null).includes('text-brand-saffron') && badge(4, null).includes(uz.remaining(4)));
+  assert.ok(!badge(10, 3).includes('text-brand-saffron'), '3 left this hour is not low yet');
+  // No label on a div without a role: the sentence is a status of its own, and the title.
+  for (const html of [twoThisHour, blockedNow, badge(7, null)]) {
+    assert.match(html, /^<div class="[^"]*" title="[^"]*">/);
+    assert.doesNotMatch(html, /aria-label|aria-live/);
+  }
+  assert.equal(badge(-1, 2), '', 'unknown until the server counts');
 });
 
 test('a day limit says today or tomorrow in Tashkent instead of a countdown', () => {
@@ -253,7 +297,10 @@ test('after a reload the card stands above the composer, which holds the refused
   const card = html.slice(cardAt, inputAt);
   assert.ok(card.includes(uz.hourlyTitle) && card.includes(uz.hourlyBody(5)));
   assert.ok(card.includes(uz.limitDraftKept));
-  assert.ok(card.includes(uz.limitWait(13)));
+  assert.ok(card.includes(uz.limitWaitAt(13, tashkentTime(now + 12 * MIN + 30_000)!)));
+  // Short: the title and the time are seen; why is behind «Batafsil», and said to a screen reader.
+  assert.ok(card.includes(`<span class="sr-only">${uz.hourlyBody(5)}</span>`));
+  assert.match(card, /<button type="button" class="gpt-text-button" aria-expanded="false">Batafsil<\/button>/);
   assert.ok(!card.includes(uz.retry), 'no retry button: the send button returns by the clock');
   assert.ok(!card.includes('biznes-uchun-ai-bot'), 'no business link on a consumer limit');
   assert.ok(!card.includes('t.me/'), 'no Telegram route unless the server enables the bot');

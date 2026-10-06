@@ -62,8 +62,10 @@ const MAX_INPUT = 3000;
 const LIMIT_CARD_ID = "ai-limit-card";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
-/** The free tier's rolling hour: warn while this many messages or fewer are left in it. */
-const HOUR_WARNING_AT = 1;
+/** The free tier's rolling hour: warn while this many messages or fewer are left in it (after the 3rd of 5). */
+const HOUR_WARNING_AT = 2;
+/** The day: warn while this many or fewer are left (the header's count turns saffron at the same points). */
+const DAY_WARNING_AT = 3;
 /** A rolling-hour count says nothing an hour after the turn that reported it. */
 const HOUR_WARNING_TTL_MS = 3_600_000;
 
@@ -295,6 +297,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const turnstileReady =
     turnstileConfig === null || !turnstileConfig.required || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
+  // The header counts 0 while the hourly limit stands, not the day's rest.
+  const hourBlocked = limit?.reason === "hourly" && limitBlocked;
   const sendDisabled = busy || limitBlocked || !turnstileReady;
 
   // Once a session, while few messages are left: every button under an
@@ -764,6 +768,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // bot follows, or leads, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
   const card =
     limit && limitCard(config.locale, limit, { billingAvailable, paid, botHandoff, remaining, pack: packTerms }, clock);
+  // The card is short (map 01 M-03, M-12: 235px left no thread above an open
+  // keyboard): its title, when a turn fits again and the one way on. Why,
+  // the pack's value and the second way are behind «Batafsil», for this reason.
+  const [detailsFor, setDetailsFor] = useState<string | null>(null);
+  const details = !!limit && detailsFor === limit.reason;
+  const bodyShown = !!card && (!card.title || !card.wait);
+  const kept = input.trim() ? ` ${t.limitDraftKept}` : "";
 
   const showOffer =
     activeTool === "business" &&
@@ -849,7 +860,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <span>{t.brand}</span>
           </div>
           <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
-            {!paid && <AiUsageBadge remaining={remaining} t={t} />}
+            {!paid && <AiUsageBadge remaining={remaining} hourLeft={hourLeft} hourBlocked={hourBlocked} t={t} />}
             <nav
               className={`flex items-center overflow-hidden rounded-xl bg-white/[0.04] ${uzEntry ? "text-xs" : "text-[11px]"}`}
               aria-label={uz ? "Til" : "Язык"}
@@ -1148,10 +1159,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 data-ready={card.ready ? "true" : undefined}
               >
                 {card.title && <p className="font-medium text-white">{card.title}</p>}
-                <p>
-                  {card.body}
-                  {input.trim() ? ` ${t.limitDraftKept}` : ""}
-                </p>
+                {bodyShown || details ? (
+                  <p>
+                    {card.body}
+                    {card.wait ? "" : kept}
+                  </p>
+                ) : (
+                  // The composer's aria-describedby points here: a screen
+                  // reader hears why, though the eye sees only the time.
+                  <span className="sr-only">{card.body}</span>
+                )}
                 {card.wait && (
                   // The countdown is not announced on every tick; the line
                   // that replaces it once the limit lifts is.
@@ -1161,9 +1178,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     aria-live={card.ready ? undefined : "off"}
                   >
                     {card.wait}
+                    {kept}
                   </p>
                 )}
-                {card.offer && (
+                {card.offer && details && (
                   <p className="mt-2 text-white" data-testid="limit-offer">
                     {card.offer}
                   </p>
@@ -1180,7 +1198,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                         {card.cta}
                       </button>
                     )}
-                    {card.bot && (
+                    {card.bot && (!card.account || details) && (
                       <AiLimitTelegram
                         t={t}
                         locale={config.locale}
@@ -1192,9 +1210,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </div>
                 )}
+                {(!bodyShown || card.offer || (card.account && card.bot)) && (
+                  <button
+                    type="button"
+                    className="gpt-text-button"
+                    aria-expanded={details}
+                    onClick={() => setDetailsFor(details ? null : limit.reason)}
+                  >
+                    {t.limitMore}
+                  </button>
+                )}
               </div>
             )}
-            {!limit && !paid && remaining >= 0 && remaining <= 2 && (
+            {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
               // Saffron, the one warm colour in this palette, and the same
               // one the quota thread turns above — so the warning and the
               // thread read as one fact stated twice, not two alerts. The
@@ -1221,7 +1249,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
               </div>
             )}
-            {!limit && !paid && !(remaining >= 0 && remaining <= 2) &&
+            {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
               hourLeft !== null && hourLeft > 0 && hourLeft <= HOUR_WARNING_AT && (
               // The hourly cap is the one people meet (about twice a day):
               // said before the refusal, in the same quiet line as above.

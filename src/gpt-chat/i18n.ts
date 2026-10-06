@@ -74,6 +74,8 @@ export interface ChatStrings {
   /** Label used when the link goes to the studio's own Telegram, not the bot. */
   contactTelegram: string;
   remaining: (n: number) => string;
+  /** The header's count while this hour runs out before the day does. */
+  hourRemaining: (n: number) => string;
   lowWarning: (n: number) => string;
   /** The free tier's last messages in the rolling hour (map 03 §3.7). */
   hourWarning: (n: number) => string;
@@ -112,6 +114,10 @@ export interface ChatStrings {
   busyBody: string;
   ipBody: string;
   limitWait: (minutes: number) => string;
+  /** The wait with the time it ends in Tashkent, «14:35». */
+  limitWaitAt: (minutes: number, at: string) => string;
+  /** The limit card's toggle for why, the pack's value and the second way. */
+  limitMore: string;
   limitLessMinute: string;
   limitReady: string;
   /** Said only while the refused question is back in the composer. */
@@ -182,6 +188,7 @@ const RU: ChatStrings = {
   telegramCta: 'Открыть в Telegram',
   contactTelegram: 'Написать нам в Telegram',
   remaining: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} сегодня`,
+  hourRemaining: (n) => `В этот час ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}`,
   lowWarning: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} на сегодня.`,
   hourWarning: (n) => `В этот час можно отправить ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}.`,
   charsLeft: (n) => `${n} ${ru(n, 'символ', 'символа', 'символов')} до лимита`,
@@ -215,6 +222,8 @@ const RU: ChatStrings = {
   busyBody: 'Предыдущий ответ ещё готовится.',
   ipBody: 'Из вашей сети слишком много запросов.',
   limitWait: (minutes) => `Снова написать можно через ${minutes} мин.`,
+  limitWaitAt: (minutes, at) => `Снова написать можно через ${minutes} мин (в ${at}).`,
+  limitMore: 'Подробнее',
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
   limitDraftKept: 'Ваш вопрос остался в поле ввода.',
@@ -273,6 +282,7 @@ const UZ: ChatStrings = {
   telegramCta: 'Telegramda ochish',
   contactTelegram: 'Telegramda bizga yozing',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
+  hourRemaining: (n) => `Bu soatda yana ${n} ta xabar`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi.`,
   hourWarning: (n) => `Bu soat ichida yana ${n} ta xabar yuborishingiz mumkin.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
@@ -306,6 +316,8 @@ const UZ: ChatStrings = {
   busyBody: 'Oldingi javob hali tayyorlanmoqda.',
   ipBody: 'Tarmog‘ingizdan so‘rovlar juda ko‘p.',
   limitWait: (minutes) => `${minutes} daqiqadan keyin yana yozasiz.`,
+  limitWaitAt: (minutes, at) => `${minutes} daqiqadan keyin (soat ${at} da) yana yozasiz.`,
+  limitMore: 'Batafsil',
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',
   limitDraftKept: 'Savolingiz yozish maydonida turibdi.',
