@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { Message, MessageContent } from '@/components/ui/message';
 import { Bubble, BubbleContent } from '@/components/ui/bubble';
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
 import type { ChatMessage } from "../types";
 import type { ChatStrings } from "../i18n";
-import { renderMarkdown } from "../markdown";
-import { track, EV } from "../analytics";
+import { LazyPart, answerPart } from "../lazy-part";
 
 export type AnswerAction =
   "shorter" | "instagram" | "uzbek" | "bot" | "continue";
@@ -20,97 +18,13 @@ function modelLabel(model: string): string {
   return model.replace(/:free$/, "");
 }
 
-function MessageActions({
-  content,
-  isLast,
-  busy,
-  onRetry,
-  onAnswerAction,
-  t,
-}: {
-  content: string;
-  isLast: boolean;
-  busy?: boolean;
-  onRetry?: () => void;
-  onAnswerAction?: (action: AnswerAction, content: string) => void;
-  t: ChatStrings;
-}) {
-  const [copyStatus, setCopyStatus] = useState<"idle" | "done" | "failed">(
-    "idle",
-  );
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopyStatus("done");
-      track(EV.messageCopied, { surface: "answer_actions" });
-    } catch {
-      setCopyStatus("failed");
-    }
-  };
-  return (
-    <>
-      <div className="gpt-action-row">
-        <button type="button" onClick={copy} className="gpt-action">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            aria-hidden="true"
-          >
-            <rect x="9" y="9" width="11" height="11" rx="2" />
-            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-          </svg>
-          {copyStatus === "done" ? t.copied : t.copy}
-        </button>
-        {isLast && onAnswerAction && (
-          <>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("shorter", content)}
-            >
-              {t.premium.simpler}
-            </button>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("uzbek", content)}
-            >
-              {t.premium.translate}
-            </button>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("continue", content)}
-            >
-              {t.premium.continue}
-            </button>
-          </>
-        )}
-        {isLast && onRetry && (
-          <button
-            type="button"
-            className="gpt-action"
-            disabled={busy}
-            onClick={onRetry}
-          >
-            {t.regenerate}
-          </button>
-        )}
-      </div>
-      {copyStatus === "failed" && (
-        <p role="status" className="gpt-partial">
-          {t.premium.copyFailed}
-        </p>
-      )}
-    </>
-  );
+/**
+ * An answer's text before the lazy part chat-answer is here (or if it cannot
+ * come): as written, without Markdown. The console fetches the part as soon
+ * as a question is being written, so this is rarely seen.
+ */
+function PlainAnswer({ content }: { content: string }) {
+  return <div className="gpt-answer-body whitespace-pre-wrap">{content}</div>;
 }
 
 export function AiChatMessageList({
@@ -195,12 +109,9 @@ export function AiChatMessageList({
                 <div className="gpt-answer-head">
                   <span aria-hidden="true">✦</span>{t.brand}
                 </div>
-                <div
-                  className="gpt-answer-body"
-                  dangerouslySetInnerHTML={{
-                    __html: renderMarkdown(m.content),
-                  }}
-                />
+                <LazyPart part={answerPart} fallback={<PlainAnswer content={m.content} />} failed={<PlainAnswer content={m.content} />}>
+                  {({ AnswerBody }) => <AnswerBody content={m.content} />}
+                </LazyPart>
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action
                   // row. Mounting six buttons under text that grows every frame
@@ -226,14 +137,18 @@ export function AiChatMessageList({
                         {t.truncated}
                       </p>
                     )}
-                    <MessageActions
-                      content={m.content}
-                      isLast={i === lastAssistant}
-                      busy={busy}
-                      onRetry={onRetry}
-                      onAnswerAction={onAnswerAction}
-                      t={t}
-                    />
+                    <LazyPart part={answerPart} fallback={null} failed={null}>
+                      {({ MessageActions }) => (
+                        <MessageActions
+                          content={m.content}
+                          isLast={i === lastAssistant}
+                          busy={busy}
+                          onRetry={onRetry}
+                          onAnswerAction={onAnswerAction}
+                          t={t}
+                        />
+                      )}
+                    </LazyPart>
                     {m.model && (
                       <p className="gpt-model" title={m.model}>
                         {t.answeredBy}: {modelLabel(m.model)}

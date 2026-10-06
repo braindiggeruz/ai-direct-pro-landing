@@ -1,7 +1,7 @@
 // The chat's lazy parts (plan WP-10): screens most visitors never open load
 // when first needed, so the start bundle carries only what answers a question.
 // Each part is one import() of a module in ./parts, which names its chunk
-// (chat-account, chat-lead, chat-tools, chat-turnstile); scripts/chat-bundle-budget.ts holds
+// (chat-account, chat-answer, chat-lead, chat-tools, chat-turnstile); scripts/chat-bundle-budget.ts holds
 // each to its budget and fails if one is ever pulled back into the start.
 import { Component, lazy, Suspense, useState, type ComponentType, type ReactNode } from 'react';
 
@@ -47,6 +47,7 @@ export function part<M>(importer: () => Promise<M>): Part<M> {
 }
 
 export const accountPart = part(() => import('./parts/chat-account'));
+export const answerPart = part(() => import('./parts/chat-answer'));
 export const leadPart = part(() => import('./parts/chat-lead'));
 export const toolsPart = part(() => import('./parts/chat-tools'));
 export const turnstilePart = part(() => import('./parts/chat-turnstile'));

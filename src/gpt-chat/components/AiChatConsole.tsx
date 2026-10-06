@@ -52,7 +52,7 @@ import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
-import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart, turnstilePart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 
@@ -270,6 +270,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     [messages],
   );
   const empty = messages.length === 0;
+  // How an answer reads (the lazy part chat-answer) is fetched once a
+  // question is being written or a conversation is on screen: it is here
+  // before the first answer, and an answer shows as plain text until then.
+  const writing = !empty || !!input.trim();
+  useEffect(() => {
+    if (writing) answerPart.preload();
+  }, [writing]);
   // The page H1 heads the resting screen (roadmap R-S1, owner decision 2). Its
   // text comes from data-h1 on the mount point, so it is not in this bundle;
   // the part after « — » keeps the accent of the old welcome line.

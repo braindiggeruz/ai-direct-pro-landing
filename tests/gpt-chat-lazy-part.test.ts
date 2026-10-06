@@ -12,7 +12,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { prerender } from 'react-dom/static';
 import { Dialog } from '../src/components/ui/dialog';
 
-import { LazyPart, PartFailed, PartLoading, accountPart, leadPart, part, toolsPart, turnstilePart } from '../src/gpt-chat/lazy-part';
+import { LazyPart, PartFailed, PartLoading, accountPart, answerPart, leadPart, part, toolsPart, turnstilePart } from '../src/gpt-chat/lazy-part';
+import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
+import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } from '../src/components/ui/message-scroller';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
@@ -237,6 +239,31 @@ test('chat-tools: each tool behind the menu, as before the split', async () => {
     }
     assert.match(render('business'), locale === 'uz' ? /href="\/uz\/biznes-uchun-ai-bot\/"/ : /href="\/ru\/gpt-dlya-biznesa\/"/);
   }
+});
+
+test('chat-answer: an answer reads as plain text until the part is here, then as Markdown with its actions', async () => {
+  const list = (locale: 'ru' | 'uz') => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, {
+        t: strings(locale), onRetry: () => {}, onAnswerAction: () => {},
+        messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: '**Javob**\n- bir', model: 'model-a' }],
+      })))));
+  // Before the part: the text as written, the brand above it, no action row yet.
+  const before = list('uz');
+  assert.match(before, /<div class="gpt-answer-body whitespace-pre-wrap">\*\*Javob\*\*\n- bir<\/div>/);
+  assert.match(before, /class="gpt-answer-head">.*GPTBot\.uz<\/div>/);
+  assert.ok(!before.includes('gpt-action-row'));
+  await answerPart.load();
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const html = list(locale);
+    assert.ok(html.includes('<div class="gpt-answer-body"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
+    assert.ok(html.includes('<li>bir</li>'), locale);
+    assert.match(html, /class="gpt-action-row"/);
+    assert.ok(html.includes(t.copy) && html.includes(t.regenerate), locale);
+  }
+  const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(chat, /const writing = !empty \|\| !!input\.trim\(\);\s*useEffect\(\(\) => \{\s*if \(writing\) answerPart\.preload\(\);\s*\}, \[writing\]\);/);
 });
 
 test('chat-turnstile: the security check, loaded only where the server asks for it', async () => {
