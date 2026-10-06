@@ -382,6 +382,36 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Slayd va taqdimot tayyorlash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho va esse yozish rejasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume tayyorlash namunasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "anchor": "AI-chat nima — oddiy tushuntirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/blog/",
       "anchor": "GPTBot.uz blogi",
       "locale": "uz",
@@ -394,7 +424,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
-  "updatedAt": "2026-09-18",
+  "lastReviewedAt": "2026-10-06",
+  "updatedAt": "2026-10-06",
   "createdAt": "2026-07-01"
 }

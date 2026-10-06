@@ -150,7 +150,7 @@ queue = "gptbot-automation"
 # this JSON serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
 # functions/_middleware.ts expands only its explicit allowlist at request time.
 [vars]
-GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"nvidia/nemotron-3-super-120b-a12b:free","OPENROUTER_MODEL_FREE_FALLBACKS":"dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"1","GPT_STOP_CHARGE_MIN_CHARS":"600","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"zai","GPT_ZAI_EVAL_APPROVED":"2026-10-03","ZAI_MODEL_FREE":"glm-5.3-flash","ZAI_MODEL_PAID":"glm-5.3-flash","ZAI_TIERS":"free,paid","ZAI_PREPAID_MODELS":"glm-5.3-flash","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_BASE_URL":"https://ofd-key.inplat-tech.com","UZUM_FISCAL_TEST_BASE_URL":"https://test-ofd.ipt-merch.com","GPT_PAYMENT_PROVIDERS":"click,uzum","GPT_BILLING_MODE":"","GPT_BILLING_MODE_CLICK":"live","GPT_BILLING_MODE_UZUM":"","GPT_BILLING_LIVE_READY":"true","GPT_BILLING_TERMS_RU":"https://gptbot.uz/ru/oferta/","GPT_BILLING_TERMS_UZ":"https://gptbot.uz/uz/oferta/","GPT_BILLING_TERMS_VERSION":"ai-paket-2026-10-v2","GPT_BILLING_TERMS_APPROVED_AT":"2026-10-03","GPT_GUEST_CHECKOUT":"false","GPT_FISCAL_IKPU":"10305008002000000","GPT_FISCAL_PACKAGE_CODE":"1514296","GPT_FISCAL_VAT_PERCENT":"12","GPT_FISCAL_TIN":"310618348","GPT_CLICK_AUTOFISCAL":"","GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES":"10","GPT_BOT_HANDOFF_ENABLED":"false","GPT_BOT_LOGIN_MODE":"pick","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3","GPT_HASH_SALT_SINCE":"2026-10-02T00:00:00Z","GPT_MESSAGES_RETENTION_DAYS":"","TELEGRAM_FREE_DAILY_LIMIT":"10","TELEGRAM_FREE_MONTHLY_LIMIT":"100","TELEGRAM_ASSISTANT_BOT_USERNAME":"gptbotuz_bot"}'''
+GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"nvidia/nemotron-3-super-120b-a12b:free","OPENROUTER_MODEL_FREE_FALLBACKS":"dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"1","GPT_STOP_CHARGE_MIN_CHARS":"600","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"zai","GPT_ZAI_EVAL_APPROVED":"2026-10-03","ZAI_MODEL_FREE":"glm-5.3-flash","ZAI_MODEL_PAID":"glm-5.3-flash","ZAI_TIERS":"free,paid","ZAI_PREPAID_MODELS":"glm-5.3-flash","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_BASE_URL":"https://ofd-key.inplat-tech.com","UZUM_FISCAL_TEST_BASE_URL":"https://test-ofd.ipt-merch.com","GPT_PAYMENT_PROVIDERS":"click,uzum,payme","GPT_BILLING_MODE":"","GPT_BILLING_MODE_CLICK":"live","GPT_BILLING_MODE_UZUM":"","GPT_BILLING_MODE_PAYME":"test","GPT_BILLING_LIVE_READY":"true","GPT_BILLING_TERMS_RU":"https://gptbot.uz/ru/oferta/","GPT_BILLING_TERMS_UZ":"https://gptbot.uz/uz/oferta/","GPT_BILLING_TERMS_VERSION":"ai-paket-2026-10-v2","GPT_BILLING_TERMS_APPROVED_AT":"2026-10-03","GPT_GUEST_CHECKOUT":"false","GPT_FISCAL_IKPU":"10305008002000000","GPT_FISCAL_PACKAGE_CODE":"1514296","GPT_FISCAL_VAT_PERCENT":"12","GPT_FISCAL_TIN":"310618348","GPT_CLICK_AUTOFISCAL":"","GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES":"10","GPT_BOT_HANDOFF_ENABLED":"false","GPT_BOT_LOGIN_MODE":"pick","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3","GPT_HASH_SALT_SINCE":"2026-10-02T00:00:00Z","GPT_MESSAGES_RETENTION_DAYS":"","TELEGRAM_FREE_DAILY_LIMIT":"10","TELEGRAM_FREE_MONTHLY_LIMIT":"100","TELEGRAM_ASSISTANT_BOT_USERNAME":"gptbotuz_bot"}'''
 
 # Studio (apps/studio; functions/lib/studio/config.ts reads it). Its own text
 # variable, so the chat's packed JSON above keeps its room and its parity
@@ -465,22 +465,30 @@ UZUM_AUTOFISCAL = "false"
 UZUM_FISCAL_BASE_URL = "https://ofd-key.inplat-tech.com"
 UZUM_FISCAL_TEST_BASE_URL = "https://test-ofd.ipt-merch.com"
 
-# ── Consumer AI chat: payments of the AI pack (Click, Uzum) ─────────────────
+# ── Consumer AI chat: payments of the AI pack (Click, Uzum, Payme) ──────────
 # CLICK LIVE since 2026-10-05 (runbook docs/paid-chat/ONBOARDING-KEYS-RU.md,
 # S2; owner's order of 2026-10-05: Click activated the live service, the
-# lawyer approved both privacy policies the same day). Uzum and Payme stay off:
-# their callback routes answer 404 before they read the request. Click is
-# offered only while liveReadiness(click) is empty at runtime (its Pages
-# secrets included); otherwise it fails closed and offers nothing.
+# lawyer approved both privacy policies the same day). Uzum stays off: its
+# callback routes answer 404 before they read the request. Click is offered
+# only while liveReadiness(click) is empty at runtime (its Pages secrets
+# included); otherwise it fails closed and offers nothing.
+# PAYME IN TEST since 2026-10-06 (owner's order; runbook
+# docs/paid-chat/PAYME-RU.md): GPT_BILLING_MODE_PAYME = "test" opens
+# /api/payments/payme to Payme's sandbox (test.paycom.uz, the Pages secret
+# GPT_PAYME_TEST_KEY) and offers Payme in a rehearsal session only; normal
+# visitors are offered Click alone. Live takes GPT_BILLING_MODE_PAYME = "live"
+# (never the global fallback), Payme's approval of the sandbox and an offer
+# edition that names Payme (the deploy gate refuses one that does not).
 # Stop (both places, then a deploy): GPT_BILLING_LIVE_READY = "false" stops
 # new sales, and Click's Prepare/Complete still settle invoices already open
 # (they stay valid 12 h). GPT_BILLING_MODE_CLICK = "" is the hard stop: the
 # callback route answers 404 too, so those invoices fail at Click; use it only
 # when the callback itself must close (for example a leaked secret).
 # GPT_PAYMENT_PROVIDERS lists the providers that may run at all (Payme only
-# when listed, and test-only: it sends no receipt detail).
-# GPT_BILLING_MODE_CLICK / GPT_BILLING_MODE_UZUM = "test" | "live" | "off" for
-# one provider; empty falls back to GPT_BILLING_MODE (empty = off). "test" is
+# when listed).
+# GPT_BILLING_MODE_CLICK / GPT_BILLING_MODE_UZUM / GPT_BILLING_MODE_PAYME =
+# "test" | "live" | "off" for one provider; empty falls back to
+# GPT_BILLING_MODE (empty = off). "test" is
 # dark: only a rehearsal session (POST /api/internal/gpt-rehearsal-session)
 # is offered a test provider. A new live checkout needs
 # GPT_BILLING_LIVE_READY = "true" AND every other name liveReadiness()
@@ -508,10 +516,11 @@ UZUM_FISCAL_TEST_BASE_URL = "https://test-ofd.ipt-merch.com"
 # 10305008002000000 and package code 1514296 "услуга (раз)" (tasnif.soliq.uz),
 # VAT 12 % INCLUDED in the price (20 000 сум carries 2 142,86 сум of VAT), the
 # seller's TIN. Owner decision of 2026-10-01.
-GPT_PAYMENT_PROVIDERS = "click,uzum"
+GPT_PAYMENT_PROVIDERS = "click,uzum,payme"
 GPT_BILLING_MODE = ""
 GPT_BILLING_MODE_CLICK = "live"
 GPT_BILLING_MODE_UZUM = ""
+GPT_BILLING_MODE_PAYME = "test"
 GPT_BILLING_LIVE_READY = "true"
 GPT_BILLING_TERMS_RU = "https://gptbot.uz/ru/oferta/"
 GPT_BILLING_TERMS_UZ = "https://gptbot.uz/uz/oferta/"

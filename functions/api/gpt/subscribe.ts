@@ -42,6 +42,7 @@ import { PaymentCodeStore } from "../../lib/gpt-chat/payment-code-store";
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { isRehearsalAccount, viewerMode } from "../../lib/gpt-chat/rehearsal";
+import { paymeCheckoutUrl } from "../../lib/gpt-chat/payme-checkout";
 
 /** The chat page a payment page sends the visitor back to (CheckoutReturn, plan WP-17). */
 function returnUrl(origin: string, locale: "ru" | "uz"): string {
@@ -269,8 +270,25 @@ async function subscribe(
       row.expires_at <= Date.now()
     )
       return json({ ok: true, mode: "status", attemptId: row.id });
-    // Test mode never produces a live checkout URL. Sandbox callbacks and the
-    // local protocol rehearsal exercise the same ledger without moving money.
+    // Payme's page, in either mode: the sandbox test.paycom.uz for a test
+    // order (a rehearsal session only, checked above), checkout.paycom.uz
+    // live. Once Payme holds a transaction for the order (prepared), a new
+    // page would only meet -31008: the visitor follows its status instead.
+    if (p.provider === "payme") {
+      if (row.state === "prepared")
+        return json({ ok: true, mode: "status", attemptId: row.id });
+      const checkoutUrl = paymeCheckoutUrl(
+        env,
+        row.mode,
+        row.id,
+        locale,
+        returnUrl(new URL(request.url).origin, locale),
+      );
+      if (!checkoutUrl) throw new Error("payme_checkout");
+      return json({ ok: true, mode: "checkout", checkoutUrl, attemptId: row.id });
+    }
+    // Click in test mode never produces a checkout URL. Sandbox callbacks and
+    // the local protocol rehearsal exercise the same ledger without moving money.
     if (row.mode === "test")
       return json({
         ok: true,
@@ -279,8 +297,7 @@ async function subscribe(
         amount: row.amount,
         currency: row.currency,
       });
-    // Live is Click here: Payme never passes liveReadiness() (it sends no
-    // receipt detail), and Uzum took its own branch above.
+    // Live is Click here: Uzum and Payme took their own branches above.
     if (p.provider !== "click") throw new Error("not_live_capable");
     return json({
       ok: true,

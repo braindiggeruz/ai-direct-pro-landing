@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Message, MessageContent } from '@/components/ui/message';
 import { Bubble, BubbleContent } from '@/components/ui/bubble';
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
-import type { ChatMessage } from "../types";
+import type { AnswerAction, ChatMessage, Locale } from "../types";
 import type { ChatStrings } from "../i18n";
-import { renderMarkdown } from "../markdown";
-import { track, EV } from "../analytics";
+import { LazyPart, PartFailed, answerPart } from "../lazy-part";
 
-export type AnswerAction =
-  "shorter" | "instagram" | "uzbek" | "bot" | "continue";
+/** The error bubble's buttons: the retry and «change the question». */
+const ERROR_ACTION =
+  "min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40";
+const ERROR_BUBBLE =
+  "max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200";
 
 /**
  * Which model produced an answer, shown verbatim minus the routing suffix.
@@ -20,117 +22,108 @@ function modelLabel(model: string): string {
   return model.replace(/:free$/, "");
 }
 
-function MessageActions({
-  content,
-  isLast,
-  busy,
-  onRetry,
-  onAnswerAction,
-  t,
-}: {
-  content: string;
-  isLast: boolean;
-  busy?: boolean;
-  onRetry?: () => void;
-  onAnswerAction?: (action: AnswerAction, content: string) => void;
-  t: ChatStrings;
-}) {
-  const [copyStatus, setCopyStatus] = useState<"idle" | "done" | "failed">(
-    "idle",
-  );
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopyStatus("done");
-      track(EV.messageCopied, { surface: "answer_actions" });
-    } catch {
-      setCopyStatus("failed");
-    }
-  };
+/**
+ * «AI o‘ylayapti…», and after 8 s without a first word an honest line: it
+ * takes longer than usual, and Stop is there (plan STREAM-01). The server
+ * tries up to 3 models of about 12 s each for a first word, within 60 s;
+ * the client waits 65 s for the stream to start (api.ts STREAM_HEADERS_MS)
+ * and 30 s of silence once it has.
+ */
+export function PendingLine({ t, slow }: { t: ChatStrings; slow?: boolean }) {
   return (
-    <>
-      <div className="gpt-action-row">
-        <button type="button" onClick={copy} className="gpt-action">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            aria-hidden="true"
-          >
-            <rect x="9" y="9" width="11" height="11" rx="2" />
-            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-          </svg>
-          {copyStatus === "done" ? t.copied : t.copy}
-        </button>
-        {isLast && onAnswerAction && (
-          <>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("shorter", content)}
-            >
-              {t.premium.simpler}
-            </button>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("uzbek", content)}
-            >
-              {t.premium.translate}
-            </button>
-            <button
-              type="button"
-              className="gpt-action"
-              disabled={busy}
-              onClick={() => onAnswerAction("continue", content)}
-            >
-              {t.premium.continue}
-            </button>
-          </>
-        )}
-        {isLast && onRetry && (
-          <button
-            type="button"
-            className="gpt-action"
-            disabled={busy}
-            onClick={onRetry}
-          >
-            {t.regenerate}
-          </button>
-        )}
-      </div>
-      {copyStatus === "failed" && (
-        <p role="status" className="gpt-partial">
-          {t.premium.copyFailed}
-        </p>
-      )}
-    </>
+    <span className="inline-flex items-center gap-2 text-white/60 text-sm">
+      <span className="neural-typing" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+      {slow ? t.premium.slow : t.thinking}
+    </span>
   );
+}
+
+/**
+ * An answer's text before the lazy part chat-answer is here (or if it cannot
+ * come): as written, without Markdown. The console fetches the part as soon
+ * as a question is being written, and on load when a conversation is stored
+ * (hasStoredHistory), so a returning visitor's thread does not show it either.
+ */
+function PlainAnswer({ content }: { content: string }) {
+  return <div className="gpt-answer-body whitespace-pre-wrap" dir="auto">{content}</div>;
 }
 
 export function AiChatMessageList({
   messages,
   t,
+  locale = "ru",
   busy,
+  locked = busy,
+  costNote,
   onRetry,
-  onAnswerAction,
+  onEdit,
+  onAsk,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
+  locale?: Locale;
   busy?: boolean;
+  /** Sending is paused (a turn, a limit, a check): the buttons that send are off. */
+  locked?: boolean;
+  /** Say once under the last answer which of its buttons cost a message (those that make the AI write) and which do not. */
+  costNote?: boolean;
+  /** The last question again, in place of its answer or error. */
   onRetry?: () => void;
-  onAnswerAction?: (action: AnswerAction, content: string) => void;
+  /** The last question back into the composer, out of the thread. */
+  onEdit?: () => void;
+  onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
       if (messages[i].role === "assistant") return i;
     return -1;
   })();
+  // The last question has no answer and none is on its way: the tab was
+  // closed or unloaded mid-turn, or the turn failed before a reload. Shown,
+  // never stored; it does not say whether a message was spent.
+  const unanswered = !busy && messages[messages.length - 1]?.role === "user";
+  // 8 s without a first word: the line under the question and the status a
+  // screen reader hears say it together, once (WCAG 4.1.3).
+  const waiting = messages.some((m) => m.pending);
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    setSlow(false);
+    if (!waiting) return;
+    const timer = window.setTimeout(() => setSlow(true), 8_000);
+    return () => window.clearTimeout(timer);
+  }, [waiting]);
+  // Too long for the server: sending it again fails the same way, so only
+  // «change the question» is offered.
+  const resend = messages[messages.length - 1]?.content !== t.premium.contextTooLarge;
+  const errorActions = onRetry && (
+    <div className="mt-2.5 flex flex-wrap gap-2">
+      {resend && <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
+        </svg>
+        {t.retry}
+      </button>}
+      {onEdit && (
+        <button type="button" onClick={onEdit} disabled={busy} className={ERROR_ACTION}>
+          {t.premium.editQuestion}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     // ym-hide-content: the transcript is user prompts and model answers. It is
@@ -150,7 +143,9 @@ export function AiChatMessageList({
         {busy
           ? messages.some((m) => m.streaming)
             ? t.writing
-            : t.thinking
+            : slow
+              ? t.premium.slow
+              : t.thinking
           : messages.length
             ? t.premium.answerReady
             : ""}
@@ -171,7 +166,7 @@ export function AiChatMessageList({
               m.role === "user"
                 ? "gpt-user-message max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]"
                 : m.error
-                  ? "max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200"
+                  ? ERROR_BUBBLE
                   : // Answers are the only long-form reading on this surface, so
                     // they get reading type rather than UI type: a larger size, a
                     // looser line, and a measure capped near 68 characters. At the
@@ -182,25 +177,15 @@ export function AiChatMessageList({
             }
           >
             {m.pending ? (
-              <span className="inline-flex items-center gap-2 text-white/60 text-sm">
-                <span className="neural-typing" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                {t.thinking}
-              </span>
+              <PendingLine t={t} slow={slow} />
             ) : m.role === "assistant" && !m.error ? (
               <>
                 <div className="gpt-answer-head">
                   <span aria-hidden="true">✦</span>{t.brand}
                 </div>
-                <div
-                  className="gpt-answer-body"
-                  dangerouslySetInnerHTML={{
-                    __html: renderMarkdown(m.content),
-                  }}
-                />
+                <LazyPart part={answerPart} fallback={<PlainAnswer content={m.content} />} failed={<PlainAnswer content={m.content} />}>
+                  {({ AnswerBody }) => <AnswerBody content={m.content} />}
+                </LazyPart>
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action
                   // row. Mounting six buttons under text that grows every frame
@@ -226,14 +211,23 @@ export function AiChatMessageList({
                         {t.truncated}
                       </p>
                     )}
-                    <MessageActions
-                      content={m.content}
-                      isLast={i === lastAssistant}
-                      busy={busy}
-                      onRetry={onRetry}
-                      onAnswerAction={onAnswerAction}
-                      t={t}
-                    />
+                    {/* If the part cannot load (a dropped 3G request, a release that
+                        removed its file), the buttons are gone for this page view:
+                        said once, under the last answer, with the way back. */}
+                    <LazyPart part={answerPart} fallback={null} failed={i === lastAssistant ? <PartFailed message={t.partFailed} reload={t.partReload} /> : null}>
+                      {({ MessageActions }) => (
+                        <MessageActions
+                          content={m.content}
+                          locale={locale}
+                          isLast={i === lastAssistant}
+                          broken={m.truncated || m.partial}
+                          locked={locked}
+                          costNote={costNote}
+                          onRetry={onRetry}
+                          onAsk={onAsk}
+                        />
+                      )}
+                    </LazyPart>
                     {m.model && (
                       <p className="gpt-model" title={m.model}>
                         {t.answeredBy}: {modelLabel(m.model)}
@@ -247,34 +241,11 @@ export function AiChatMessageList({
                 <span className="whitespace-pre-wrap" role="alert">
                   {m.content}
                 </span>
-                {i === messages.length - 1 && onRetry && (
-                  <div className="mt-2.5">
-                    <button
-                      type="button"
-                      onClick={onRetry}
-                      disabled={busy}
-                      className="min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40"
-                    >
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
-                      </svg>
-                      {t.retry}
-                    </button>
-                  </div>
-                )}
+                {i === messages.length - 1 && errorActions}
               </>
             ) : (
-              <span className="whitespace-pre-wrap">{m.content}</span>
+              // dir="auto": an Arabic or mixed question aligns by its own first letters.
+              <span className="whitespace-pre-wrap" dir="auto">{m.content}</span>
             )}
           </BubbleContent>
         </Bubble>
@@ -282,6 +253,22 @@ export function AiChatMessageList({
         </Message>
         </MessageScrollerItem>
       ))}
+      {unanswered && (
+        <MessageScrollerItem messageId="unanswered">
+        <Message align="start">
+        <MessageContent>
+        <Bubble variant="destructive" align="start" className="gpt-answer-bubble">
+          <BubbleContent className={ERROR_BUBBLE} data-testid="ai-unanswered">
+            <span className="whitespace-pre-wrap" role="alert">
+              {t.premium.unanswered}
+            </span>
+            {errorActions}
+          </BubbleContent>
+        </Bubble>
+        </MessageContent>
+        </Message>
+        </MessageScrollerItem>
+      )}
       </MessageScrollerContent>
     </div>
   );

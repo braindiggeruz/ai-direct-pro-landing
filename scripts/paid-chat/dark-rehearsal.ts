@@ -815,8 +815,12 @@ export async function startLocalStub(): Promise<LocalStub> {
   const secretFile = (name: string) => readFileSync(path.join(credentialsDir, `${name}.json`), "utf8");
   const f = await billingFixture();
   // The secrets production holds (random here), the billing settings
-  // committed in wrangler.toml, then step 2's settings and secrets.
+  // committed in wrangler.toml, then step 2's settings and secrets. This
+  // rehearsal covers Click and Uzum: Payme's sandbox has its own runbook
+  // (docs/paid-chat/PAYME-RU.md), so Payme is off here and step 5 still
+  // means "nothing is in test".
   Object.assign(f.env, liveSettings(), committedBillingSettings(), DARK_REHEARSAL_SETTINGS, {
+    GPT_BILLING_MODE_PAYME: "",
     GPT_CLICK_CREDENTIALS_JSON: secretFile(CLICK_SECRET),
     UZUM_CREDENTIALS_JSON: secretFile(UZUM_SECRET),
     // Production has no Telegram OIDC client and no legacy Click variables.

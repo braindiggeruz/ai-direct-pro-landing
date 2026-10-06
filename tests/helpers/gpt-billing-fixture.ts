@@ -63,7 +63,8 @@ export async function billingFixture() {
     GPT_PAYME_TEST_KEY: secret(),
     GPT_CLICK_TEST_SECRET: secret(),
     GPT_CLICK_TEST_SERVICE_ID: numeric(),
-    GPT_PAYME_MERCHANT_ID: numeric(),
+    // A cash desk id has Payme's format: 24 hex.
+    GPT_PAYME_MERCHANT_ID: randomBytes(12).toString("hex"),
     GPT_IDENTITY_SECRET: secret(),
     GPT_TELEGRAM_CLIENT_ID: numeric(),
     GPT_TELEGRAM_CLIENT_SECRET: secret(),

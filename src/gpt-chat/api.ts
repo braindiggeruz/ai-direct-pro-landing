@@ -34,6 +34,26 @@ export async function fetchTurnstileConfig(apiBase: string): Promise<TurnstilePu
   };
 }
 
+/**
+ * The check's config, asked up to three times: now, 1 s and then 3 s after a
+ * failure. If it never arrives no check is assumed, so sending is not held:
+ * the server checks every turn itself, and its turnstile_* answer makes the
+ * chat ask for the config again.
+ */
+export async function loadTurnstileConfig(
+  apiBase: string,
+  wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms)),
+): Promise<TurnstilePublicConfig> {
+  for (const pause of [1_000, 3_000, 0]) {
+    try {
+      return await fetchTurnstileConfig(apiBase);
+    } catch {
+      if (pause) await wait(pause);
+    }
+  }
+  return { required: false, siteKey: null };
+}
+
 export async function createSession(apiBase: string, locale: Locale): Promise<string | null> {
   try {
     const data = await postJson<{ ok: boolean; sessionId?: string }>(`${apiBase}/api/gpt/session`, {
@@ -94,6 +114,20 @@ function answerCount(value: unknown): number | null {
   return typeof value === 'number' && Number.isInteger(value) && value >= 0 ? value : null;
 }
 
+/**
+ * The wait for the response to start. The server sends nothing, not even
+ * headers, until a model gives its first content: up to 3 models, each
+ * given about 12 s (at most 15-20 s by config), within its 60 s deadline,
+ * after the checks before them. So a fallback answer can start after 36 s
+ * of silence; this covers the deadline with a margin.
+ */
+export const STREAM_HEADERS_MS = 65_000;
+/**
+ * Once the stream has started, silence this long between two chunks means it
+ * has stalled: a mobile connection can freeze without an error.
+ */
+export const STREAM_SILENCE_MS = 30_000;
+
 // Streaming chat turn. Sends stream:true; if the server answers with SSE the
 // deltas are delivered via callbacks, otherwise the parsed JSON response is
 // returned for the regular non-stream handling path.
@@ -105,7 +139,24 @@ export async function sendChatStream(
 ): Promise<StreamOutcome> {
   let gotText = false;
   let hasAnswerText = false;
+  // Its own controller, so the watchdog can end the request and still tell
+  // a stall (code network) from the visitor's Stop (aborted). Linked by an
+  // event: AbortSignal.any is missing from older WebViews.
+  const inner = new AbortController();
+  const stop = () => inner.abort();
+  if (signal.aborted) inner.abort();
+  else signal.addEventListener('abort', stop, { once: true });
+  let stalled = false;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const watch = (ms = STREAM_SILENCE_MS) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      stalled = true;
+      inner.abort();
+    }, ms);
+  };
   try {
+    watch(STREAM_HEADERS_MS);
     const res = await fetch(`${apiBase}/api/gpt/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -117,8 +168,9 @@ export async function sendChatStream(
         turnstileToken: params.turnstileToken,
         stream: true,
       }),
-      signal,
+      signal: inner.signal,
     });
+    watch();
     const type = res.headers.get('Content-Type') || '';
     if (!type.includes('text/event-stream')) {
       const body = (await res.json()) as ChatApiResponse;
@@ -137,6 +189,7 @@ export async function sendChatStream(
     let outcome: StreamOutcome = { mode: 'stream', ok: false, code: 'provider_error', gotText };
     for (;;) {
       const { done, value } = await reader.read();
+      watch();
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
       let idx: number;
@@ -171,8 +224,11 @@ export async function sendChatStream(
     }
     return { ...outcome, gotText };
   } catch (e) {
-    if ((e as Error).name === 'AbortError') return { mode: 'stream', ok: false, aborted: true, gotText };
+    if (!stalled && (e as Error).name === 'AbortError') return { mode: 'stream', ok: false, aborted: true, gotText };
     return { mode: 'stream', ok: false, code: 'network', gotText };
+  } finally {
+    clearTimeout(timer);
+    signal.removeEventListener('abort', stop);
   }
 }
 

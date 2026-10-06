@@ -10,7 +10,9 @@ import { buildMessages } from '../functions/lib/gpt-chat/prompt';
 import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
-import { applyRole, getRoles } from '../src/gpt-chat/roles';
+import { latexLite } from '../src/gpt-chat/latex-lite';
+import { plainText } from '../src/gpt-chat/plain-text';
+import { applyRole, frameLocale, getRoles, maxRolePrefixLength, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 import { strings } from '../src/gpt-chat/i18n';
@@ -190,16 +192,201 @@ test('renderMarkdown: escapes HTML (no XSS), keeps bold + lists', () => {
   assert.ok(html.includes('<li>one</li>'));
 });
 
+// Math is the chat's first topic: steps must count 1, 2, 3 and formulas read
+// as text (plan MD-01..03, NOW-06). Every class is one the site's CSS has.
+test('renderMarkdown: numbering survives text between items, lists nest, rules, quotes and tables render', () => {
+  const split = renderMarkdown('1. A\n\nТекст\n\n2. B');
+  assert.ok(split.includes('<ol class="list-decimal"><li>A</li></ol>'));
+  assert.ok(split.includes('<ol class="list-decimal" start="2"><li>B</li></ol>'), split);
+  // GLM's loose list (a blank line between steps) is one list.
+  assert.equal(renderMarkdown('1. A\n\n2. B\n\n3. C'), '<ol class="list-decimal"><li>A</li><li>B</li><li>C</li></ol>');
+  const nested = renderMarkdown('1. **Qadam**\n   Izoh satri\n2. Ikkinchi\n   - ichki a\n   - ichki b\n3. Uchinchi');
+  assert.equal(nested, '<ol class="list-decimal"><li><strong>Qadam</strong><br>Izoh satri</li><li>Ikkinchi<ul class="list-disc"><li>ichki a</li><li>ichki b</li></ul></li><li>Uchinchi</li></ol>');
+  assert.equal(renderMarkdown('---'), '<hr class="my-3 border-white/10">');
+  assert.equal(renderMarkdown('* * *'), '<hr class="my-3 border-white/10">');
+  assert.equal(renderMarkdown('> q\n> w'), '<blockquote class="border-l-2 border-brand-cyan/25 pl-3 text-white/70">q<br>w</blockquote>');
+  assert.match(renderMarkdown('|a|b|\n|--|--|\n|1|2|'), /<table><thead><tr><th scope="col">a<\/th><th scope="col">b<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>2<\/td><\/tr><\/tbody><\/table>/);
+  assert.equal(renderMarkdown('a\nb\n\nc'), '<p class="mb-2 last:mb-0">a<br>b</p>\n<p class="mb-2 last:mb-0">c</p>');
+  assert.equal(renderMarkdown('__b__ ~~d~~ *e*'), '<p class="mb-2 last:mb-0"><strong>b</strong> <del>d</del> <em>e</em></p>');
+  assert.doesNotMatch(renderMarkdown('2 * 3 * 4 = 24'), /<em>/);
+  // A link stays text with its address (owner decision 4): nothing clickable from a model.
+  assert.equal(renderMarkdown('[sayt](https://gptbot.uz)'), '<p class="mb-2 last:mb-0">sayt (https://gptbot.uz)</p>');
+  // One pair of parentheses in the address, as Wikipedia writes them.
+  assert.equal(renderMarkdown('[Toshkent](https://uz.wikipedia.org/wiki/Toshkent_(shahar))'), '<p class="mb-2 last:mb-0">Toshkent (https://uz.wikipedia.org/wiki/Toshkent_(shahar))</p>');
+  assert.equal(plainText('[Toshkent](https://uz.wikipedia.org/wiki/Toshkent_(shahar))'), 'Toshkent (https://uz.wikipedia.org/wiki/Toshkent_(shahar))');
+  // A line of unclosed brackets (a pasted log, minified data) stays linear: it runs on every streamed frame.
+  for (const line of ['['.repeat(20_000), '[a]('.repeat(5_000), '[a](b('.repeat(4_000), '[a](b(c)'.repeat(3_000)]) {
+    const started = performance.now();
+    renderMarkdown(line);
+    plainText(line);
+    assert.ok(performance.now() - started < 200, `${line.slice(0, 8)}… took ${Math.round(performance.now() - started)} ms`);
+  }
+  // A code block inside a list item stays a code block.
+  assert.match(renderMarkdown('1. Step\n   ```\n   code\n   ```\n2. Next'), /<pre class="gpt-code" tabindex="0"><code> {3}code<\/code><\/pre>\n<ol class="list-decimal" start="2">/);
+  // The only value in an attribute is a list's first number.
+  const hostile = renderMarkdown('7. <img src=x onerror=alert(1)>\n> <script>x</script>\n[a](javascript:alert(1))');
+  assert.ok(!hostile.includes('<img') && !hostile.includes('<script') && !hostile.includes('href'));
+  assert.ok(hostile.includes('start="7"'));
+  // Every class the renderer can write is one the site's stylesheet already has.
+  const known = new Set(['px-1', 'py-0.5', 'rounded', 'bg-white/10', 'text-brand-cyan', 'gpt-code', 'gpt-table-scroll', 'list-decimal', 'list-disc',
+    'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70']);
+  const everything = renderMarkdown('# H\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq');
+  for (const [, list] of everything.matchAll(/class="([^"]*)"/g)) for (const name of list.split(' ')) assert.ok(known.has(name), name);
+});
+
+test('latexLite: formulas read as plain text; code and prices stay as written', () => {
+  assert.equal(latexLite('\\(\\frac{a}{b}\\)'), 'a/b');
+  assert.equal(latexLite('x^2 + \\sqrt{9}'), 'x² + √9');
+  assert.equal(latexLite('$5'), '$5');
+  assert.equal(latexLite('$5 va $10'), '$5 va $10');
+  assert.equal(latexLite('$x_1 = \\frac{1}{2}$'), 'x_1 = 1/2');
+  assert.equal(latexLite('$$x = \\frac{-b \\pm \\sqrt{D}}{2a}$$'), 'x = (-b ± √D)/2a');
+  assert.equal(latexLite('10^23 and x^{n+1} and 90^\\circ'), '10^23 and x^(n+1) and 90°');
+  assert.equal(latexLite('a \\cdot b \\times c \\le d \\neq e \\approx \\pi \\left( x \\right)'), 'a · b × c ≤ d ≠ e ≈ π ( x )');
+  assert.equal(latexLite('`x^2` and x^3'), '`x^2` and x³');
+  // In an answer: no raw \(, \frac or $$ is left outside a code block.
+  const html = renderMarkdown('Yechim:\n\n$$x = \\frac{-b \\pm \\sqrt{D}}{2a}$$\n\n1. \\(D = b^2 - 4ac = 49\\)\n2. \\(x_1 = \\frac{-5 + 7}{4} = \\frac{1}{2}\\)\n```\n\\frac{a}{b}\n```');
+  assert.ok(html.includes('<li>D = b² - 4ac = 49</li><li>x_1 = (-5 + 7)/4 = 1/2</li>'), html);
+  assert.ok(html.includes('<code>\\frac{a}{b}</code>'), 'code keeps its LaTeX');
+  assert.doesNotMatch(html.replace(/<pre[\s\S]*?<\/pre>/g, ''), /\\\(|\\frac|\$\$/);
+});
+
 test('AI cabinet roles are localized and affect the request without user data', () => {
   assert.equal(getRoles('ru').length, 7);
   assert.equal(getRoles('uz').length, 7);
   const prompt = applyRole('Напиши пост', 'smm', 'ru');
   assert.match(prompt, /SMM-специалист/);
   assert.match(prompt, /Задача: Напиши пост/);
-  assert.match(prompt, /естественном русском языке/);
+  // The answer follows the question's language, not the page's (plan LANG-01).
+  assert.match(prompt, /на языке вопроса/);
+  assert.doesNotMatch(prompt, /естественном русском языке/);
   const uz = applyRole('Post yoz', 'teacher', 'uz');
-  assert.match(uz, /Uzbek Latin/);
+  assert.match(uz, /lotin yozuvida/);
   assert.match(uz, /Vazifa: Post yoz/);
+  for (const role of getRoles('uz')) assert.doesNotMatch(role.instruction, /faqat Uzbek Latin ishlating|Javobni faqat Uzbek Latin/i, role.id);
+  // The translator still writes Uzbek in Latin script: that line is about Uzbek text only.
+  assert.match(getRoles('uz').find((role) => role.id === 'translator')!.instruction, /o‘zbek tiliga \(faqat lotin yozuvida\)/);
+  assert.match(getRoles('ru').find((role) => role.id === 'translator')!.instruction, /на узбекский \(только латиницей\)/);
+});
+
+test('the language line: the question decides, the page only when unclear; formulas without LaTeX; none on a translation', () => {
+  const uz = applyRole('Привет', 'general', 'uz');
+  assert.match(uz, /Savol qaysi tilda yozilgan bo‘lsa, javobni shu tilda bering/);
+  assert.match(uz, /Til aniq bo‘lmasa, o‘zbekcha \(lotin\) javob bering/);
+  assert.match(uz, /LaTeX belgilarisiz/);
+  const ru = applyRole('Salom', 'general', 'ru');
+  assert.match(ru, /по-узбекски — только латиницей/);
+  assert.match(ru, /Если язык неясен — отвечай по-русски/);
+  assert.match(ru, /без LaTeX/);
+  for (const locale of ['ru', 'uz'] as const) {
+    const plain = applyRole('Matn', 'general', locale, { guard: false });
+    assert.doesNotMatch(plain, /LaTeX/, `${locale}: a translation names its own language`);
+    assert.ok(plain.endsWith(locale === 'uz' ? 'Vazifa: Matn' : 'Задача: Matn'));
+    assert.ok(!strings(locale).inputCut.includes("'"));
+  }
+  // The composer's limit is the server's 3000 less what the role adds, for every role.
+  for (const locale of ['ru', 'uz'] as const) {
+    for (const role of getRoles(locale)) {
+      const prefix = rolePrefixLength(role.id as RoleId, locale);
+      assert.ok(prefix > 0 && prefix < 600, `${locale}/${role.id}: ${prefix}`);
+      // As doSend frames a typed question: the translator gets no language line.
+      assert.equal(applyRole('x'.repeat(3000 - prefix), role.id as RoleId, locale, { guard: role.id !== 'translator' }).length, 3000);
+    }
+  }
+  // A question may get either language's lines (frameLocale): the limit leaves room for the longer.
+  for (const role of getRoles('uz')) {
+    const id = role.id as RoleId;
+    const longest = maxRolePrefixLength(id);
+    assert.equal(longest, Math.max(rolePrefixLength(id, 'uz'), rolePrefixLength(id, 'ru')));
+    for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole('x'.repeat(3000 - longest), id, locale, { guard: id !== 'translator' }).length <= 3000, `${locale}/${id}`);
+  }
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /maxChars=\{MAX_INPUT - maxRolePrefixLength\(role\)\}/);
+  assert.doesNotMatch(consoleSource, /\.slice\(\s*0,\s*MAX_INPUT,?\s*\)/, 'the request is never cut behind the visitor’s back');
+  // Nothing over the server's limit is sent: checked on the request itself, before anything is shown or counted.
+  const send = consoleSource.slice(consoleSource.indexOf('const doSend = async ('), consoleSource.indexOf('const onStop ='));
+  const guard = send.indexOf('if (requestMessage.length > MAX_INPUT) {');
+  assert.ok(guard > 0 && guard < send.indexOf('setBusy(true);') && guard < send.indexOf('track(EV.messageSent'), 'refused before busy, the thread and message_sent');
+  assert.match(send, /if \(requestMessage\.length > MAX_INPUT\) \{\s*if \(meta\.base && !meta\.request\) setInput\(trimmed\);\s*track\(EV\.aiResponseError, \{ code: "too_long" \}\);\s*focusInput\(\);\s*return;\s*\}/);
+});
+
+test('a long question under a role with longer lines is never sent over 3000 characters', () => {
+  // Pasted under «Universal yordamchi» (cut to its limit), then «Biznes maslahatchi» is chosen.
+  const general = 3000 - maxRolePrefixLength('general');
+  const business = 3000 - maxRolePrefixLength('business');
+  assert.ok(business < general, `${business} < ${general}`);
+  const question = 'x'.repeat(general);
+  // The request it would make is over the server's limit on either page…
+  for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole(question, 'business', locale).length > 3000, locale);
+  // …so doSend refuses it (above), and the composer neither sends nor cuts it: it says by how much.
+  // An older draft of 3000 characters is refused the same way, before any fetch.
+  for (const locale of ['ru', 'uz'] as const) {
+    assert.ok(applyRole('x'.repeat(3000), 'general', locale).length > 3000);
+    assert.ok(!strings(locale).charsOver(102).includes("'"));
+  }
+  assert.equal(strings('ru').charsOver(102), 'Текст длиннее лимита на 102 символа — сократите или отправьте частями');
+  assert.equal(strings('uz').charsOver(102), 'Matn limitdan 102 belgiga uzun — qisqartiring yoki qismlarga bo‘lib yuboring');
+  // A server that still finds it too long (invalid_message) is said so, never «the AI service is down».
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /res\.code === "context_too_large" \|\| res\.code === "invalid_message"\s*\? t\.premium\.contextTooLarge/);
+});
+
+test('the lines around a typed question are in its language when its letters say so, else the page’s', () => {
+  // Russian on the Uzbek page (the live check of 06.10 came back half Uzbek with an Uzbek frame).
+  assert.equal(frameLocale('Как вежливо попросить начальника перенести встречу на завтра?', 'uz'), 'ru');
+  assert.equal(frameLocale('Привет', 'ru'), 'ru');
+  // Uzbek in Latin script on the Russian page, with o‘/g‘, q or a common word.
+  assert.equal(frameLocale('Menga Instagram uchun post yozib ber', 'ru'), 'uz');
+  assert.equal(frameLocale('to‘g‘ri javob qaysi', 'ru'), 'uz');
+  assert.equal(frameLocale("O'zbekcha reja tuz", 'ru'), 'uz');
+  assert.equal(frameLocale('2x² + 5x − 3 = 0 tenglamani yeching', 'uz'), 'uz');
+  // Uzbek in Cyrillic script: the Uzbek frame, which asks for Latin script.
+  assert.equal(frameLocale('Менга бизнес режа тузиб беринг', 'ru'), 'uz');
+  assert.equal(frameLocale('Ўзбекча матн ёзинг', 'uz'), 'uz');
+  // English, acronyms, possessives and numbers keep the page's frame.
+  assert.equal(frameLocale('Write a short poem about my dog\'s birthday', 'ru'), 'ru');
+  assert.equal(frameLocale('Explain SQL and FAQ pages', 'ru'), 'ru');
+  assert.equal(frameLocale('2+2', 'ru'), 'ru');
+  assert.equal(frameLocale('SMM', 'uz'), 'uz');
+  assert.equal(frameLocale('', 'uz'), 'uz');
+  // The majority of letters decides a mixed question.
+  assert.equal(frameLocale('Instagram uchun post yoz: «Скидка»', 'uz'), 'uz');
+  // English with acronyms, names and o'clock keeps the Russian page's frame.
+  for (const q of ['Write a QA checklist', 'What is QA testing?', 'Tell me about Qatar', "Meet me at 5 o'clock please", "Explain o'clock usage", 'What is Iraqi cuisine?', 'Iraqi oil prices', "Write a letter to O'Brien", 'Cover letter for a job in Arlington, VA', 'A unique request, frequently asked']) {
+    assert.equal(frameLocale(q, 'ru'), 'ru', q);
+  }
+  // Uzbek Latin without o‘ or g‘: a q, a common word, a suffix-free verb.
+  for (const q of ['Salom', 'Qanday?', "o'chirib tashla", 'Qaysi biri yaxshi', 'Biznes reja tuzib ber', 'Mening ismim Ali', 'Rezyume yozib ber', 'Ishga ariza yozib ber', 'olmoqchiman']) {
+    assert.equal(frameLocale(q, 'ru'), 'uz', q);
+  }
+  // A Russian question with code or English terms: two Cyrillic words decide, however much Latin.
+  assert.equal(frameLocale('Напиши SQL запрос: SELECT * FROM users WHERE id = 1', 'uz'), 'ru');
+  assert.equal(frameLocale('Сравни Python и JavaScript для backend: async/await, event loop, performance', 'uz'), 'ru');
+  // …unless the Latin part is marked Uzbek: a Russian title quoted in an Uzbek question.
+  assert.equal(frameLocale('Menga «Отчёт о продажах» shablonini yozib ber', 'ru'), 'uz');
+  assert.equal(applyRole('Привет', 'general', frameLocale('Привет', 'uz')).startsWith('Работай как универсальный AI-помощник.'), true);
+  // A button's instruction and the translator keep the page's frame; a typed question gets its own.
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /meta\.request \? meta\.frame \?\? config\.locale : role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\)/);
+});
+
+test('the translator translates: no «answer in the language of the question», and it says which way to go', () => {
+  const direction = {
+    uz: 'Ruscha matnni o‘zbek tiliga (faqat lotin yozuvida), o‘zbekcha matnni rus tiliga tarjima qiling; vazifada boshqacha ko‘rsatilgan bo‘lsa, shunga amal qiling.',
+    ru: 'Русский текст переводи на узбекский (только латиницей), узбекский — на русский; если в задаче сказано иначе — следуй задаче.',
+  };
+  for (const locale of ['ru', 'uz'] as const) {
+    const sent = applyRole('Привет, как дела?', 'translator', locale, { guard: false });
+    assert.doesNotMatch(sent, /shu tilda|на языке вопроса/, locale);
+    assert.ok(sent.includes(direction[locale]), locale);
+    assert.ok(!direction[locale].includes("'"));
+    // Its composer limit counts the lines it really gets, and still fits 3000.
+    const room = 3000 - maxRolePrefixLength('translator');
+    assert.equal(rolePrefixLength('translator', locale), applyRole('', 'translator', locale, { guard: false }).length);
+    assert.ok(applyRole('x'.repeat(room), 'translator', locale, { guard: false }).length <= 3000);
+  }
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /\{ guard: role !== "translator" && meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \}/);
 });
 
 test('AI cabinet shares the quota between the RU and UZ chats and clears only the chat session', () => {

@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useState, type RefObject } from 'react';
 import { ArrowUp, Square, Sparkles } from 'lucide-react';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/components/ui/input-group';
 import type { ChatStrings } from '../i18n';
@@ -16,20 +16,45 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
     el.style.height = 'auto';
     el.style.height = Math.min(el.scrollHeight, 160) + 'px';
   }, [value, inputRef]);
+  const left = maxChars - value.length;
+  // Text longer than the limit was not typed: the limit fell under it (a role
+  // with longer lines, an older draft, a question put back). It is never cut
+  // by itself; sending waits until it is shortened, and the line says by how much.
+  const over = left < 0;
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing &&
       !window.matchMedia('(pointer: coarse)').matches) {
       e.preventDefault();
-      if (!disabled && !busy && value.trim()) onSend();
+      if (!disabled && !busy && value.trim() && !over) onSend();
     }
   };
-  const left = maxChars - value.length;
+  // The browser stops typing at the limit and cuts a paste at the caret
+  // (maxLength); a paste that did not fit is said for 8 s, which maxLength
+  // alone never did (INPUT-01).
+  const [cutAt, setCutAt] = useState(0);
+  useEffect(() => {
+    if (!cutAt) return;
+    const timer = window.setTimeout(() => setCutAt(0), 8_000);
+    return () => window.clearTimeout(timer);
+  }, [cutAt]);
   return (
     <div className="gpt-input-wrap">
       <InputGroup className="gpt-input-surface" aria-busy={busy}>
-        <InputGroupTextarea ref={inputRef} value={value}
-          onChange={(e) => onChange(e.target.value.slice(0, maxChars))}
-          onKeyDown={onKeyDown} rows={1} maxLength={maxChars}
+        <InputGroupTextarea ref={inputRef} value={value} maxLength={maxChars}
+          onChange={(e) => {
+            const next = e.target.value;
+            // A safety net: an Android keyboard can pass maxLength while composing.
+            if (next.length > maxChars && next.length > value.length) {
+              setCutAt(Date.now());
+              onChange(next.slice(0, Math.max(maxChars, value.length)));
+            } else onChange(next);
+          }}
+          onPaste={(e) => {
+            const el = e.currentTarget;
+            const pasted = e.clipboardData.getData('text/plain').replace(/\r\n?/g, '\n');
+            if (el.value.length - (el.selectionEnd - el.selectionStart) + pasted.length > maxChars) setCutAt(Date.now());
+          }}
+          onKeyDown={onKeyDown} rows={1}
           placeholder={t.inputPlaceholder} aria-label={t.inputPlaceholder}
           aria-describedby={describedBy}
           className="ym-disable-keys" />
@@ -43,7 +68,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
             </InputGroupButton>
           ) : (
             <InputGroupButton variant="default" size="icon-sm" className="gpt-send-button"
-              onClick={onSend} disabled={disabled || busy || !value.trim()} aria-label={t.send}>
+              onClick={onSend} disabled={disabled || busy || !value.trim() || over} aria-label={t.send}>
               <ArrowUp data-icon="inline-start" />
             </InputGroupButton>
           )}
@@ -56,7 +81,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
         <span data-testid="ai-input-microcopy">
           {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
         </span>
-        {left <= 200 && <span role="status">{t.charsLeft(Math.max(0, left))}</span>}
+        {over ? <span role="status">{t.charsOver(-left)}</span> : cutAt ? <span role="status">{t.inputCut}</span> : left <= 200 && <span role="status">{t.charsLeft(left)}</span>}
       </div>
     </div>
   );

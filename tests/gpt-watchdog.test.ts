@@ -375,6 +375,10 @@ test("only urgent codes page; background codes ride along and stay undelivered",
     "bot_no_key",
     "click_processing",
     "uzum_amount_mismatch",
+    // Payme pages like Click and Uzum: a live receipt it could not print, or
+    // a server error on its request (every payment refused without fiscal codes).
+    "payme_fiscal_failed",
+    "payme_processing",
     "drill",
   ])
     assert.equal(isUrgentAlert(code), true, code);
@@ -393,7 +397,8 @@ test("only urgent codes page; background codes ride along and stay undelivered",
     "bot_validation_failed",
     "bot_truncated",
     "bot_provider_error",
-    "payme_processing",
+    // The old unprefixed name is not a code any more; it would be background.
+    "fiscalization_failed",
     "catalogue",
     "chat_silence_x",
   ])

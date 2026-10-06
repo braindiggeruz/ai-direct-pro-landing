@@ -170,6 +170,20 @@ export function saveBusinessLineShown(): void {
 }
 
 /**
+ * True the first time `key` is asked in this browser session, false after
+ * (sessionStorage). Without storage, true: said once on this page instead.
+ */
+export function onceThisSession(key: string): boolean {
+  try {
+    if (sessionStorage.getItem(key) !== null) return false;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    /* noop */
+  }
+  return true;
+}
+
+/**
  * Whether the conversation on screen stays when the account view answers
  * again after failed reads (F11, plan WP-06). Meanwhile the chat answered as
  * a guest with the same cookies, so what was said belongs to the identity
@@ -203,6 +217,24 @@ export function keepsShownConversation(
  */
 export function keepsComposer(established: string, next: string): boolean {
   return established === next || (established === "guest" && next !== "guest");
+}
+
+/**
+ * Whether a conversation of this locale is stored in this browser, a guest's
+ * or an account's: the chat fetches how answers read before the account view
+ * says whose it is.
+ */
+export function hasStoredHistory(locale: Locale): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i) ?? "";
+      if (((key.startsWith(HIST_KEY) && key.endsWith(`_${locale}`)) || (locale === "ru" && key === HIST_KEY))
+        && (localStorage.getItem(key) ?? "[]") !== "[]") return true;
+    }
+  } catch {
+    /* storage denied */
+  }
+  return false;
 }
 
 export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {

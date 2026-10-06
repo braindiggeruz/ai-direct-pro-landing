@@ -26,15 +26,23 @@ export interface ChatStrings {
     close: string; check: string; manual: string;
     /** Under the header while a pack is active. */
     activeLine: (left: number) => string;
-    copyFailed: string; partial: string; simpler: string; translate: string; continue: string;
+    partial: string;
+    /** The error bubble's second button: the question back into the composer. */
+    editQuestion: string;
+    /** Under a last question that has no answer, e.g. after the tab was unloaded mid-turn. */
+    unanswered: string;
+    /** In place of «AI o‘ylayapti…» after 8 s without a first word. */
+    slow: string;
     historyNote: string; savedChats: string;
     answerReady: string; monthlyLimit: string; offer: string;
     contextTooLarge: string;
     /** Resting screen: the text around the chatgpt.com link, for a visitor who
      *  searched for the official ChatGPT. Lead + link + tail read as one line. */
     officialLead: string; officialTail: string;
-    /** Above the composer once the account view failed twice (F11). */
-    accountCheck: string;
+    /** Above the composer once the account view failed twice (F11): the chat answers, nothing is stored. */
+    accountUnstable: string;
+    /** Its button: read the account again. */
+    recheck: string;
   };
   /** RU chat only: the visible way to the Uzbek chat on the first screen —
    *  the header label (`nav`) and the resting-screen link (`page`). The Uzbek
@@ -54,7 +62,6 @@ export interface ChatStrings {
   turnstileRetry: string;
   turnstileError: string;
   stop: string;
-  regenerate: string;
   /** The menu's link to the price page this locale's visitor should see. */
   pricingLink: string;
   chips: PromptChip[];
@@ -71,10 +78,16 @@ export interface ChatStrings {
   /** Label used when the link goes to the studio's own Telegram, not the bot. */
   contactTelegram: string;
   remaining: (n: number) => string;
+  /** The header's count while this hour runs out before the day does. */
+  hourRemaining: (n: number) => string;
   lowWarning: (n: number) => string;
   /** The free tier's last messages in the rolling hour (map 03 §3.7). */
   hourWarning: (n: number) => string;
   charsLeft: (n: number) => string;
+  /** The text is longer than the limit by n (the limit fell under it): sending waits. */
+  charsOver: (n: number) => string;
+  /** Under the composer for 8 s after a paste longer than the limit was cut. */
+  inputCut: string;
   emptyPrompt: string;
   /** The honest terms, stated once on the resting screen, with the server's numbers. */
   emptyMeta: (limits: FreeLimits | null) => string;
@@ -85,8 +98,6 @@ export interface ChatStrings {
   /** Its short name next to the composer's line. */
   privacyLink: string;
   newChat: string;
-  copy: string;
-  copied: string;
   retry: string;
   /** A lazy part of the chat (the pack window, the tools) is on its way. */
   partLoading: string;
@@ -109,6 +120,10 @@ export interface ChatStrings {
   busyBody: string;
   ipBody: string;
   limitWait: (minutes: number) => string;
+  /** The wait with the time it ends in Tashkent, «14:35». */
+  limitWaitAt: (minutes: number, at: string) => string;
+  /** The limit card's toggle for why, the pack's value and the second way. */
+  limitMore: string;
   limitLessMinute: string;
   limitReady: string;
   /** Said only while the refused question is back in the composer. */
@@ -141,10 +156,10 @@ const RU: ChatStrings = {
     trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'AI-пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,
-    copyFailed:'Копирование недоступно. Выделите текст и скопируйте вручную.',partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',simpler:'Объяснить проще',translate:'Перевести на узбекский',continue:'Продолжить',
+    partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',slow:'Ответ готовится дольше обычного. Можно остановить и отправить заново.',
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
-    accountCheck:'Проверьте состояние аккаунта.',
+    accountUnstable:'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.',recheck:'Проверить снова',
   },
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
@@ -160,7 +175,6 @@ const RU: ChatStrings = {
   turnstileRetry: 'Проверка истекла или уже использована. Выполните её ещё раз.',
   turnstileError: 'Проверка безопасности недоступна. Обновите страницу.',
   stop: 'Остановить',
-  regenerate: 'Повторить ответ',
   pricingLink: 'Тарифы AI-чата',
   chips: [
     { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
@@ -180,9 +194,12 @@ const RU: ChatStrings = {
   telegramCta: 'Открыть в Telegram',
   contactTelegram: 'Написать нам в Telegram',
   remaining: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} сегодня`,
+  hourRemaining: (n) => `В этот час ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}`,
   lowWarning: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} на сегодня.`,
   hourWarning: (n) => `В этот час можно отправить ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}.`,
   charsLeft: (n) => `${n} ${ru(n, 'символ', 'символа', 'символов')} до лимита`,
+  charsOver: (n) => `Текст длиннее лимита на ${n} ${ru(n, 'символ', 'символа', 'символов')} — сократите или отправьте частями`,
+  inputCut: 'Текст был слишком длинным — конец обрезан. Отправьте частями.',
   emptyPrompt: 'Что хотите сделать?',
   emptyMeta: (limits) => limits === null
     ? 'Бесплатно, без регистрации.'
@@ -193,8 +210,6 @@ const RU: ChatStrings = {
   privacyHref: '/ru/politika-konfidentsialnosti/',
   privacyLink: 'Конфиденциальность',
   newChat: 'Новый чат',
-  copy: 'Копировать',
-  copied: 'Скопировано',
   retry: 'Повторить',
   partLoading: 'Загружаем…',
   partFailed: 'Не удалось загрузить этот раздел. Проверьте интернет и обновите страницу.',
@@ -214,6 +229,8 @@ const RU: ChatStrings = {
   busyBody: 'Предыдущий ответ ещё готовится.',
   ipBody: 'Из вашей сети слишком много запросов.',
   limitWait: (minutes) => `Снова написать можно через ${minutes} мин.`,
+  limitWaitAt: (minutes, at) => `Снова написать можно через ${minutes} мин (в ${at} по Ташкенту).`,
+  limitMore: 'Подробнее',
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
   limitDraftKept: 'Ваш вопрос остался в поле ввода.',
@@ -233,10 +250,10 @@ const UZ: ChatStrings = {
     trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'AI paket',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,
-    copyFailed:'Nusxalab bo‘lmadi. Matnni belgilab, qo‘lda nusxalang.',partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',simpler:'Oddiyroq tushuntir',translate:'Rus tiliga tarjima',continue:'Davom ettir',
+    partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',slow:'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.',
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
-    accountCheck:'Akkaunt holatini tekshiring.',
+    accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',
   },
   brand: 'GPTBot.uz',
   inputPlaceholder: 'Xabar yozing…',
@@ -251,7 +268,6 @@ const UZ: ChatStrings = {
   turnstileRetry: 'Tekshiruv muddati tugagan yoki avval ishlatilgan. Qayta bajaring.',
   turnstileError: 'Xavfsizlik tekshiruvi ishlamayapti. Sahifani yangilang.',
   stop: 'To‘xtatish',
-  regenerate: 'Javobni qayta yaratish',
   // The Uzbek menu links to the business bot price list, and says so: a
   // visitor of the free chat is not sent to it as «Tariflar» (F10).
   pricingLink: 'Biznes bot narxlari',
@@ -273,9 +289,12 @@ const UZ: ChatStrings = {
   telegramCta: 'Telegramda ochish',
   contactTelegram: 'Telegramda bizga yozing',
   remaining: (n) => `Bugun ${n} ta xabar qoldi`,
+  hourRemaining: (n) => `Bu soatda yana ${n} ta xabar`,
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi.`,
   hourWarning: (n) => `Bu soat ichida yana ${n} ta xabar yuborishingiz mumkin.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
+  charsOver: (n) => `Matn limitdan ${n} belgiga uzun — qisqartiring yoki qismlarga bo‘lib yuboring`,
+  inputCut: 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.',
   emptyPrompt: 'Nima qilmoqchisiz?',
   emptyMeta: (limits) => limits === null
     ? 'Bepul, ro‘yxatdan o‘tmasdan.'
@@ -286,8 +305,6 @@ const UZ: ChatStrings = {
   privacyHref: '/uz/maxfiylik-siyosati/',
   privacyLink: 'Maxfiylik',
   newChat: 'Yangi chat',
-  copy: 'Nusxalash',
-  copied: 'Nusxalandi',
   retry: 'Qayta urinish',
   partLoading: 'Yuklanmoqda…',
   partFailed: 'Bu bo‘limni yuklab bo‘lmadi. Internetni tekshirib, sahifani yangilang.',
@@ -307,6 +324,8 @@ const UZ: ChatStrings = {
   busyBody: 'Oldingi javob hali tayyorlanmoqda.',
   ipBody: 'Tarmog‘ingizdan so‘rovlar juda ko‘p.',
   limitWait: (minutes) => `${minutes} daqiqadan keyin yana yozasiz.`,
+  limitWaitAt: (minutes, at) => `${minutes} daqiqadan keyin (Toshkent vaqti bilan soat ${at} da) yana yozasiz.`,
+  limitMore: 'Batafsil',
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',
   limitDraftKept: 'Savolingiz yozish maydonida turibdi.',

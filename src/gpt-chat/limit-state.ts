@@ -131,6 +131,16 @@ export function canSendNow(state: LimitState | null, now: number): boolean {
   return !state || (state.retryAt !== null && now >= state.retryAt);
 }
 
+/**
+ * The rolling hour's count the header and the warning show: the last answered
+ * turn's, or null once an hourly limit has lifted. The limit lifts an hour
+ * after the oldest message of that hour, up to an hour before that count
+ * expires, so it would say 0 next to «you can write again».
+ */
+export function hourCountShown(state: LimitState | null, hourLeft: number | null, now: number): number | null {
+  return state?.reason === 'hourly' && canSendNow(state, now) ? null : hourLeft;
+}
+
 function validState(value: unknown): value is LimitState {
   if (!value || typeof value !== 'object') return false;
   const s = value as Record<string, unknown>;

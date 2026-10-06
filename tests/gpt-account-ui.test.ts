@@ -13,6 +13,9 @@ import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId,
 import { GA4_PARAMS, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { useAccount, type AccountCause, type AccountHandle } from '../src/gpt-chat/use-account';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06', pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null } });
 
@@ -198,10 +201,35 @@ test('the chat feeds the card from the limit state; the account view only report
   const dispatches = [...onAccount.matchAll(/dispatchLimit\(\{\s*type: "(\w+)"/g)].map((m) => m[1]);
   assert.deepEqual(dispatches, ['account'], 'the account view can only report, never block or admit');
   const refused = source.slice(source.indexOf('} else if (res.code === "limit_reached") {'), source.indexOf('track(EV.limitHit'));
-  assert.match(refused, /setMessages\(history\);\s*setInput\(trimmed\);/, 'the question goes back into the composer');
+  assert.match(refused, /giveBack\(\);/, 'the question goes back into the composer');
+  // A typed question: out of the thread (and storage), back into the composer.
+  assert.match(source, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*store\(\(scope\) => saveHistory\(before, config\.locale, scope\)\);\s*\};/);
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
-  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(\s*$/);
+  // Second to the pack button it waits behind «Batafsil» (NOW-05); alone it leads.
+  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(!card\.account \|\| details\) && \(\s*$/);
+});
+
+test('the limit card is short: title, the time and one way on; why, the pack value and the second way behind «Batafsil»', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const cardJsx = source.slice(source.indexOf('id={LIMIT_CARD_ID}'), source.indexOf('{!limit && !paid && remaining >= 0'));
+  assert.match(source, /const bodyShown = !!card && \(!card\.title \|\| !card\.wait\);/);
+  assert.match(cardJsx, /\{bodyShown \|\| details \? \(/);
+  assert.match(cardJsx, /<span className="sr-only">\{card\.body\}<\/span>/);
+  assert.match(cardJsx, /\{card\.offer && details && \(/);
+  assert.match(source, /aria-expanded=\{details\}\s*onClick=\{\(\) => setDetailsFor\(details \? null : limit\.reason\)\}/);
+  assert.match(cardJsx, /\{card\.wait\}\s*\{kept\}\s*\{moreButton\}/);
+  // Opened for one reason, closed for the next.
+  assert.match(source, /const details = !!limit && detailsFor === limit\.reason;/);
+  // The pack's price stays on its button; without a pack for sale no price and no button (F4, F6).
+  assert.match(cardJsx, /\{card\.account && \(\s*<button[^>]*?\s*type="button"\s*className="gpt-primary"/);
+  assert.deepEqual([strings('uz').limitMore, strings('ru').limitMore], ['Batafsil', 'Подробнее']);
+  // The warnings: 2 left this hour (after the 3rd), 3 left today.
+  assert.match(source, /const HOUR_WARNING_AT = 2;/);
+  assert.match(source, /const DAY_WARNING_AT = 3;/);
+  assert.match(source, /\{!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && \(/);
+  assert.match(source, /const hourBlocked = limit\?\.reason === "hourly" && limitBlocked;/);
+  assert.match(source, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourShown\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
 });
 
 test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {
@@ -219,6 +247,39 @@ test('the account answering again after failed reads keeps the guest-mode conver
   assert.match(changed, /identityGeneration\.current\+\+;\s*abortRef\.current\?\.abort\(\);/);
   assert.match(changed, /setMessages\(account \? loadHistory\(config\.locale, scope\) : \[\]\)/);
   assert.match(source, /shownRef\.current = \{ messages, busy \};/);
+});
+
+test('a turn stores when and where the account view says at that moment, also when the view answers mid-turn', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
+  // Set in onAccount itself, not in an effect: a stream can end before the next render.
+  assert.match(onAccount, /storeRef\.current = account \? \{ ready: true, scope \} : \{ ready: false, scope: storeRef\.current\.scope \};\s*setStorageScope\(scope\);/);
+  // The conversation kept when the view answers keeps its session too.
+  const kept = onAccount.slice(onAccount.indexOf('keepsShownConversation('), onAccount.indexOf('} else {'));
+  assert.match(kept, /saveHistory\(shown\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\);\s*if \(sessionIdRef\.current\) saveSessionId\(sessionIdRef\.current, config\.locale, scope\);/);
+  // Every write of a turn asks storeRef when it writes; none uses the render the tap happened in.
+  assert.match(source, /const store = \(save: \(scope\?: string\) => void\) => \{\s*const s = storeRef\.current;\s*if \(s\.ready\) save\(s\.scope\);\s*\};/);
+  const turn = source.slice(source.indexOf('const store = ('), source.indexOf('const onStop ='));
+  assert.doesNotMatch(turn, /accountReady|storageScope/);
+  assert.match(turn, /const keepSession = \(id: string\) => \{\s*sessionIdRef\.current = id;\s*setSessionId\(id\);\s*store\(\(scope\) => saveSessionId\(id, config\.locale, scope\)\);\s*\};/);
+  assert.match(turn, /const keepRemaining = \(n: number\) => \{\s*setRemaining\(n\);\s*store\(\(scope\) => saveRemaining\(n, scope\)\);\s*\};/);
+  assert.match(turn, /const persist = \(next: ChatMessage\[\]\) => \{\s*setMessages\(next\);\s*store\(\(scope\) => saveHistory\(next, config\.locale, scope\)\);\s*\};/);
+  for (const call of ['if (id) keepSession(id);', 'if (res.sessionId && res.sessionId !== sid) keepSession(res.sessionId);', 'if (m.sessionId && m.sessionId !== sid) keepSession(m.sessionId);']) assert.ok(turn.includes(call), call);
+  assert.equal((turn.match(/keepRemaining\((res|outcome)\.remaining\)/g) ?? []).length, 3, 'an answer, a 429 and a finished stream');
+});
+
+test('«Qayta yozish» or a retry that fails leaves the old answer on screen and in storage', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const send = source.slice(source.indexOf('const doSend = async ('), source.indexOf('const onStop ='));
+  assert.match(send, /const held = meta\.base \? before\.filter\(\(m\) => !m\.error\) : base;/);
+  // A failure, a broken-off stream, Stop with text and the 2-s store add to it…
+  assert.match(send, /persist\(\[\.\.\.held, \{ role: "assistant", content: friendly, error: true \}\]\);/);
+  assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{ role: "assistant", content: friendly, error: true \},\s*\]\);/);
+  assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{\s*role: "assistant",\s*content: acc,\s*model: answeringModel,\s*partial: true,/);
+  assert.match(send, /if \(acc\)\s*persist\(\[\s*\.\.\.held,/);
+  // …and only a finished answer replaces the old one.
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: res\.answer,/);
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: acc,\s*model: outcome\.modelUsed \?\? null,/);
 });
 
 test('a pack is buyable only with a mode and a provider; every opening of its window says where from', () => {
@@ -462,4 +523,76 @@ test('every funnel step the window sends is one the server counts', (t) => {
   }
   assert.equal(new Set(events.map((e) => e.id)).size, events.length, 'a fresh id per event');
   assert.equal(new Set(events.map((e) => e.view)).size, 1, 'one tab, one view id');
+});
+
+// ── a failed account read after an answer (plan M-01, NOW-01) ──
+
+test('a failed read after someone was known leaves the screen, the counters and the pack button alone', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
+  // First thing in onAccount, before any branch that clears or loads.
+  const guard = onAccount.slice(0, onAccount.indexOf('const scope ='));
+  assert.match(guard, /if \(account === null && cause === "unreachable" && establishedIdentityRef\.current !== null\) \{\s*unstableRef\.current = true;\s*storeRef\.current = \{ ready: false, scope: storeRef\.current\.scope \};\s*setAccountState\("unknown"\);\s*return;\s*\}/);
+  assert.doesNotMatch(guard, /setMessages|setSavedChats|setSessionId|setRemaining|setHourLeft|setFreeLimits|setBillingAvailable|setPaid|setPackTerms|setBotHandoff|setInput|abort\(/);
+  // The same visitor answers again: the screen becomes the stored conversation, once.
+  assert.match(onAccount, /if \(account && unstableRef\.current && accountIdentityRef\.current === identity\)\s*saveHistory\(shownRef\.current\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\);\s*if \(account\) unstableRef\.current = false;/);
+  // Back online: read the account again at once.
+  assert.match(source, /const online = \(\) => setAccountRefresh\(\(n\) => n \+ 1\);\s*window\.addEventListener\("online", online\);\s*return \(\) => window\.removeEventListener\("online", online\);/);
+  // The line above the composer; a guest's button only reads again.
+  assert.match(source, /\{accountState === "unknown" && <p role="status" className="gpt-panel-note">\{t\.premium\.accountUnstable\} <button type="button" className="gpt-text-button" onClick=\{\(\) => \{ if \(signedIn\) openAccount\("account_check"\); setAccountRefresh\(n => n \+ 1\); \}\}>\{t\.premium\.recheck\}<\/button><\/p>\}/);
+  assert.equal(strings('uz').premium.accountUnstable, 'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.');
+  assert.equal(strings('ru').premium.accountUnstable, 'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.');
+  assert.deepEqual([strings('uz').premium.recheck, strings('ru').premium.recheck], ['Qayta tekshirish', 'Проверить снова']);
+});
+
+test('use-account: a failed read says unreachable and keeps the view; signing out says so and forgets it', async (t) => {
+  (globalThis as typeof globalThis & { React: typeof React }).React = React;
+  const heard: Array<[boolean, AccountCause]> = [];
+  let handle: AccountHandle | null = null;
+  function Probe() {
+    handle = useAccount('', (view, cause) => heard.push([view !== null, cause]), 0, null);
+    return null;
+  }
+  // Rendered once on the server: effects do not run, the handle's callbacks do.
+  renderToStaticMarkup(React.createElement(Probe));
+  const answers: Response[] = [Response.json(account()), Response.json({ ok: false }, { status: 503 }), Response.json({ ok: false }, { status: 503 })];
+  t.mock.method(globalThis, 'fetch', async () => answers.shift() ?? assert.fail('one read and one retry only'));
+  await handle!.refresh();
+  assert.deepEqual(heard, [[true, 'read']]);
+  await handle!.refresh(); // fails, and fails again after the 1.5 s retry
+  assert.deepEqual(heard.at(-1), [false, 'unreachable']);
+  handle!.fail();
+  assert.deepEqual(heard.at(-1), [false, 'unreachable']);
+  handle!.forget();
+  assert.deepEqual(heard.at(-1), [false, 'signed_out']);
+  // Only signing out forgets the last view; a failure keeps it (and the pack button).
+  const source = readFileSync(new URL('../src/gpt-chat/use-account.ts', import.meta.url), 'utf8');
+  const failed = source.slice(source.indexOf('} catch {\n      // The last view stays'), source.indexOf('} finally {'));
+  assert.match(failed, /setError\(true\);\s*onAccount\(null, 'unreachable'\);/);
+  assert.doesNotMatch(failed, /setData/);
+  assert.match(source, /const fail = useCallback\(\(\) => \{\s*setError\(true\);\s*onAccount\(null, 'unreachable'\);\s*\}, \[onAccount\]\);/);
+  assert.match(source, /const forget = useCallback\(\(\) => \{\s*setData\(null\);\s*onAccount\(null, 'signed_out'\);\s*\}, \[onAccount\]\);/);
+});
+
+// ── writing at once (NOW-02: plan NET-01, M-10, M-11) ──
+
+test('sending waits for nothing it does not need; the question shows at the tap', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // Not the account view, not a config on its way: only a check the server asked for.
+  assert.match(source, /const turnstileReady =\s*turnstileConfig === null \|\| !turnstileConfig\.required \|\| !!turnstileToken;/);
+  assert.match(source, /const sendDisabled = busy \|\| limitBlocked \|\| !turnstileReady;/);
+  assert.doesNotMatch(source, /accountState === "loading"/);
+  // The bubble and «AI o‘ylayapti…» are set before the session request is awaited.
+  const send = source.slice(source.indexOf('const doSend = async ('), source.indexOf('const handleJson ='));
+  const shown = send.indexOf('setMessages(withUser);');
+  assert.ok(shown > 0 && shown < send.indexOf('await ensureSession()'), 'setMessages(withUser) before await ensureSession()');
+  assert.match(send, /const sid = await ensureSession\(\);\s*if \(generation !== identityGeneration\.current\) return;/);
+  // No «loading the security check» line for everyone; an error line only when a required check has no key.
+  assert.doesNotMatch(source, /!turnstileConfig \|\| turnstileConfigError/);
+  assert.match(source, /setTurnstileConfigError\(next\.required && !next\.siteKey\);/);
+  assert.equal((source.match(/t\.turnstileLoading/g) ?? []).length, 2, 'the lazy check\'s placeholder and its own loading text only');
+  // A refused check asks for the config again.
+  const refusedCheck = source.slice(source.indexOf('res.code === "turnstile_failed" ? t.turnstileRetry'), source.indexOf('track(EV.aiResponseError', source.indexOf('res.code === "turnstile_failed" ? t.turnstileRetry')));
+  assert.match(refusedCheck, /setConfigRead\(\(n\) => n \+ 1\);/);
+  assert.match(source, /\}, \[config\.apiBase, configRead\]\);/);
 });

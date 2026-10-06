@@ -1,0 +1,28 @@
+{
+  "submittedAt": "2026-10-06T05:34:12.546Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "seo-compete-r2",
+  "releaseCommit": "a63ecaad",
+  "reason": "chatgpt.uz study release 2: honest anchors, hubs, llms",
+  "count": 16,
+  "urls": [
+    "https://gptbot.uz/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+    "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+    "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+    "https://gptbot.uz/ru/gpt-na-russkom/",
+    "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/uz/gpt-chat-qollanma/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+    "https://gptbot.uz/uz/",
+    "https://gptbot.uz/uz/suniy-intellekt/"
+  ],
+  "responseExcerpt": ""
+}

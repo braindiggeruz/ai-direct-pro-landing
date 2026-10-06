@@ -5,9 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from '@/components/ui/empty';
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
+import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
-import { createSession, fetchTurnstileConfig, sendChatStream } from "../api";
+import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
 import {
   loadHistory,
@@ -20,14 +20,14 @@ import {
   saveOfferDismissed,
   loadDraft,
   saveDraft,
-  clearDraft,
   loadBusinessLineShown,
   saveBusinessLineShown,
+  onceThisSession,
+  hasStoredHistory,
 } from "../storage";
-import { track, trackOnce, EV } from "../analytics";
+import { inApp, track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
-import type { AnswerAction } from "./AiChatMessageList";
 import { AiChatInput } from "./AiChatInput";
 import { AiPromptChips } from "./AiPromptChips";
 import { AiUsageBadge } from "./AiUsageBadge";
@@ -37,6 +37,7 @@ import { limitCard } from "../limit-card";
 import {
   LIMIT_TICK_MS,
   canSendNow,
+  hourCountShown,
   limitCounts,
   limitReasonOf,
   loadLimit,
@@ -44,26 +45,28 @@ import {
   saveLimit,
 } from "../limit-state";
 import { AiSidebar } from "./AiSidebar";
-import {
-  TurnstileChallenge,
-  type TurnstileChallengeHandle,
-} from "./TurnstileChallenge";
-import { applyRole, type RoleId } from "../roles";
+import type { TurnstileChallengeHandle } from "./TurnstileChallenge";
+import { loadTurnstile } from "../../shared/turnstile";
+import { applyRole, frameLocale, maxRolePrefixLength, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
+import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
-import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 
+/** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
 const LIMIT_CARD_ID = "ai-limit-card";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
-/** The free tier's rolling hour: warn while this many messages or fewer are left in it. */
-const HOUR_WARNING_AT = 1;
+/** The free tier's rolling hour: warn while this many messages or fewer are left in it (after the 3rd of 5). */
+const HOUR_WARNING_AT = 2;
+/** The day: warn while this many or fewer are left (the header's count turns saffron at the same points). */
+const DAY_WARNING_AT = 3;
 /** A rolling-hour count says nothing an hour after the turn that reported it. */
 const HOUR_WARNING_TTL_MS = 3_600_000;
 
@@ -76,7 +79,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
   // 'unknown': the account view failed even after a retry. The chat still
-  // answers, as a guest whose history is neither loaded nor written (F11).
+  // answers, as a guest whose history is neither loaded nor written (F11);
+  // a conversation already on screen stays there (plan M-01).
   const [accountState, setAccountState] = useState<"loading" | "ready" | "unknown">("loading");
   const accountReady = accountState === "ready";
   const [freeLimits, setFreeLimits] = useState<FreeLimits | null>(null);
@@ -96,6 +100,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const openAccount = (from: PackFrom) => setAccountOpen((last) => ({ seq: (last?.seq ?? 0) + 1, from }));
   const accountIdentityRef = useRef<string | null>(null);
   const establishedIdentityRef = useRef<string | null>(null);
+  // Reads failed after someone was known; the next view that names them again stores the screen.
+  const unstableRef = useRef(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(-1);
   // Free messages left in the rolling hour, from the last answered turn.
@@ -119,6 +125,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     siteKey: string | null;
   } | null>(null);
   const [turnstileConfigError, setTurnstileConfigError] = useState(false);
+  // Bumped to ask for the config again after the server refused a check.
+  const [configRead, setConfigRead] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileServerError, setTurnstileServerError] = useState<
     string | null
@@ -131,11 +139,31 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     shownRef.current = { messages, busy };
   }, [messages, busy]);
-  const onAccount = useCallback((account: AccountView | null) => {
+  // Whether a turn may store, and under which scope: read when it stores, not
+  // when it began. A question sent before the account view answers (NOW-02)
+  // is stored once the view says who is asking, in the middle of the turn too.
+  const storeRef = useRef<{ ready: boolean; scope?: string }>({ ready: false });
+  // The session on screen, for onAccount, which keeps it with the conversation.
+  const sessionIdRef = useRef<string | null>(null);
+  const onAccount = useCallback((account: AccountView | null, cause: AccountCause) => {
+    // A read that failed once someone is known (a flaky network after an
+    // answer, a tab shown again offline) says nothing about who is asking:
+    // the conversation, the counters and the pack button stay as they are,
+    // and nothing is stored until the account answers again (F11, plan M-01).
+    if (account === null && cause === "unreachable" && establishedIdentityRef.current !== null) {
+      unstableRef.current = true;
+      storeRef.current = { ready: false, scope: storeRef.current.scope };
+      setAccountState("unknown");
+      return;
+    }
     // A guest's pack (guest checkout) is this browser's: its chats stay
     // where they were before paying, and signing in later keeps the composer.
     const scope = account?.user?.guest ? undefined : account?.user?.storageKey;
     const identity = account ? (scope || "guest") : null;
+    // The same visitor answers again: what was said meanwhile is stored now.
+    if (account && unstableRef.current && accountIdentityRef.current === identity)
+      saveHistory(shownRef.current.messages.filter((m) => !m.streaming), config.locale, scope);
+    if (account) unstableRef.current = false;
     if (accountIdentityRef.current !== identity) {
       const shown = shownRef.current;
       if (
@@ -147,13 +175,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           shown.busy || shown.messages.length > 0,
         )
       ) {
-        // The account answers again after failed reads (F11), and the chat
-        // was answering this visitor meanwhile: what was said, an answer
-        // still arriving and the session stay. It becomes the stored
-        // conversation; the one stored before moves to the saved chats, as
-        // "New chat" would do. The turn in flight stores nothing itself.
+        // The account answers for the first time, or again after failed
+        // reads (F11), and the chat was answering this visitor meanwhile:
+        // what was said, an answer still arriving and the session stay. It
+        // becomes the stored conversation; the one stored before moves to the
+        // saved chats, as "New chat" would do. The turn in flight stores its
+        // answer here itself when it ends (storeRef).
         setSavedChats(archiveChat(loadHistory(config.locale, scope), config.locale, scope));
         saveHistory(shown.messages.filter((m) => !m.streaming), config.locale, scope);
+        if (sessionIdRef.current) saveSessionId(sessionIdRef.current, config.locale, scope);
       } else {
         identityGeneration.current++;
         abortRef.current?.abort();
@@ -164,7 +194,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // Auth redirects revoke session cookies. Never restore an old account's
         // session reference on a new identity; quota stays authoritative on server.
         const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
-        setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+        sessionIdRef.current = firstGuest ? loadSessionId(config.locale) : null;
+        setSessionId(sessionIdRef.current);
       }
       // A failed account read says nothing about who is asking, so the
       // composer (and a question a limit put back into it) stays, and so it
@@ -175,6 +206,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
       accountIdentityRef.current = identity;
     }
+    // Here, not in an effect: a turn can end before the next render.
+    storeRef.current = account ? { ready: true, scope } : { ready: false, scope: storeRef.current.scope };
     setStorageScope(scope);
     setAccountState(account ? "ready" : "unknown");
     setSignedIn(!!account?.user);
@@ -213,11 +246,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     }
   }, []);
 
+  // Back online: read the account at once rather than at the next turn or focus.
+  useEffect(() => {
+    const online = () => setAccountRefresh((n) => n + 1);
+    window.addEventListener("online", online);
+    return () => window.removeEventListener("online", online);
+  }, []);
+
   // On mount, once per page view: a visitor whose account view never
   // answers has still opened the chat (F18). Whether they are signed in is
   // not known yet; message_sent carries that.
   useEffect(() => {
-    trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta });
+    trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta, in_app: inApp() });
     reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
   // Entry is fixed for this navigation; no prompt text enters analytics.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,19 +265,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   useEffect(() => {
     let cancelled = false;
-    void fetchTurnstileConfig(config.apiBase)
-      .then((next) => {
-        if (cancelled) return;
-        setTurnstileConfig(next);
-        if (next.required && !next.siteKey) setTurnstileConfigError(true);
-      })
-      .catch(() => {
-        if (!cancelled) setTurnstileConfigError(true);
-      });
+    void loadTurnstileConfig(config.apiBase).then((next) => {
+      if (cancelled) return;
+      setTurnstileConfig(next);
+      // Said only when the server asks for a check it cannot show.
+      setTurnstileConfigError(next.required && !next.siteKey);
+      // Cloudflare's script loads while the lazy part chat-turnstile does.
+      if (next.required && next.siteKey) void loadTurnstile().catch(() => undefined);
+    });
     return () => {
       cancelled = true;
     };
-  }, [config.apiBase]);
+  }, [config.apiBase, configRead]);
 
   const assistantCount = useMemo(
     () =>
@@ -246,6 +285,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     [messages],
   );
   const empty = messages.length === 0;
+  // How an answer reads (the lazy part chat-answer) is fetched once a
+  // question is being written or a conversation is on screen, and at once
+  // when one is stored, beside the account view that loads it: it is here
+  // before the answers are, which show as plain text until then.
+  const writing = !empty || !!input.trim();
+  useEffect(() => {
+    if (writing || hasStoredHistory(config.locale)) answerPart.preload();
+  }, [writing, config.locale]);
   // The page H1 heads the resting screen (roadmap R-S1, owner decision 2). Its
   // text comes from data-h1 on the mount point, so it is not in this bundle;
   // the part after « — » keeps the accent of the old welcome line.
@@ -257,11 +304,27 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // remounts it, so the resting screen opens at the top again.
   const [rest, setRest] = useState({ empty, key: 0 });
   if (rest.empty !== empty) setRest({ empty, key: rest.key + (empty ? 1 : 0) });
+  const turnstileKey = turnstileConfig?.required ? turnstileConfig.siteKey : null;
+  // Sending waits for nothing it does not need: not the account view (F11
+  // covers a guest who writes before it answers) and not a config still on
+  // its way. Only a check the server asked for holds it until its token.
   const turnstileReady =
-    turnstileConfig?.required === false || !!turnstileToken;
+    turnstileConfig === null || !turnstileConfig.required || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
-  const sendDisabled =
-    busy || limitBlocked || !turnstileReady || accountState === "loading";
+  // The header counts 0 while the hourly limit stands, not the day's rest,
+  // and the day's rest once it has lifted.
+  const hourBlocked = limit?.reason === "hourly" && limitBlocked;
+  const hourShown = hourCountShown(limit, hourLeft, clock);
+  const sendDisabled = busy || limitBlocked || !turnstileReady;
+
+  // Once a session, while few messages are left: the buttons under an answer
+  // that make the AI write a new one cost one each (map 03 §3.6). Gone with
+  // the next message.
+  const fewLeft = !paid && ((remaining >= 0 && remaining <= 3) || (hourShown !== null && hourShown <= 2));
+  const [costNote, setCostNote] = useState(false);
+  useEffect(() => {
+    if (fewLeft && onceThisSession("gptchat_cost_note")) setCostNote(true);
+  }, [fewLeft]);
 
   // The limit outlives a reload and a trip to the payment page.
   useEffect(() => {
@@ -296,15 +359,31 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     };
   }, [retryAt]);
 
-  // The refused question is kept while the limit stands (DRAFT_TTL_MS), so a
-  // reload or the payment page does not lose it (F2); it goes with the limit.
+  // What is typed waits in the browser for an hour (DRAFT_TTL_MS), limit or
+  // not: a phone that unloads the tab, a reload or the payment page does not
+  // lose it (F2, PERSIST-01). An article's question, untouched, is not a
+  // draft; sending empties the composer, and so the draft.
   const limited = limit !== null;
   useEffect(() => {
-    if (limited) saveDraft(input);
-  }, [limited, input]);
+    if (input === entry?.prompt) return;
+    const timer = window.setTimeout(() => saveDraft(input), 500);
+    return () => window.clearTimeout(timer);
+  }, [input, entry]);
+
+  // A phone that hides or unloads the tab mid-answer: what has arrived is
+  // stored at once (doSend sets what to store while a turn runs).
+  const flushRef = useRef<(() => void) | null>(null);
   useEffect(() => {
-    if (!limited) clearDraft();
-  }, [limited]);
+    const flush = (event: Event) => {
+      if (event.type === "pagehide" || document.visibilityState === "hidden") flushRef.current?.();
+    };
+    document.addEventListener("visibilitychange", flush);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      document.removeEventListener("visibilitychange", flush);
+      window.removeEventListener("pagehide", flush);
+    };
+  }, []);
 
   // A rolling-hour count is dropped an hour after the turn that reported it.
   useEffect(() => {
@@ -314,22 +393,33 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   }, [hourLeft]);
 
   // Nothing is stored while the account view has not answered: who is
-  // asking, and so the storage scope, is unknown (F11).
+  // asking, and so the storage scope, is unknown (F11). Asked at the moment
+  // of storing, so a turn under way stores once the view has answered.
+  const store = (save: (scope?: string) => void) => {
+    const s = storeRef.current;
+    if (s.ready) save(s.scope);
+  };
+  const keepSession = (id: string) => {
+    sessionIdRef.current = id;
+    setSessionId(id);
+    store((scope) => saveSessionId(id, config.locale, scope));
+  };
+  const keepRemaining = (n: number) => {
+    setRemaining(n);
+    store((scope) => saveRemaining(n, scope));
+  };
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
     const generation = identityGeneration.current;
     const id = await createSession(config.apiBase, config.locale);
     if (generation !== identityGeneration.current) return null;
-    if (id) {
-      setSessionId(id);
-      if (accountReady) saveSessionId(id, config.locale, storageScope);
-    }
+    if (id) keepSession(id);
     return id;
   };
 
   const persist = (next: ChatMessage[]) => {
     setMessages(next);
-    if (accountReady) saveHistory(next, config.locale, storageScope);
+    store((scope) => saveHistory(next, config.locale, scope));
   };
 
   const doSend = async (
@@ -339,26 +429,63 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       tool?: AiToolId;
       answerAction?: AnswerAction;
       retry?: boolean;
+      /** The thread before this question (a retry drops the old answer); else what is on screen. */
+      base?: ChatMessage[];
+      /** What the model gets instead of `text` (an answer button's instruction). */
+      request?: string;
+      /** The language of the lines around `request`: the answer's for «simpler» and «continue». */
+      frame?: Locale;
     } = {},
   ) => {
     const trimmed = text.trim();
     if (!trimmed || sendDisabled) return;
+    // A typed question gets its lines in its own language when its letters
+    // say so (frameLocale); a button's in the language answerAsk chose (the
+    // answer's for «simpler» and «continue», the page's for a translation);
+    // the translator's in the page's, which says which way to go. A
+    // translation, a button's or the translator's, gets no «answer in the
+    // language of the question» line: it would undo the translation.
+    const requestMessage = applyRole(
+      meta.request ?? trimmed,
+      role,
+      meta.request ? meta.frame ?? config.locale : role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
+      { guard: role !== "translator" && meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
+    );
+    // Over the server's limit (a role with longer lines after a long paste, an
+    // older draft, a retry under another role): nothing is sent, so nothing
+    // fails the same way on every retry. The text waits in the composer,
+    // whose line says by how much it is too long.
+    if (requestMessage.length > MAX_INPUT) {
+      if (meta.base && !meta.request) setInput(trimmed);
+      track(EV.aiResponseError, { code: "too_long" });
+      focusInput();
+      return;
+    }
     setBusy(true);
     setInput("");
+    // At once, not after the draft's 500 ms: the question is in the thread now.
+    saveDraft("");
+    setCostNote(false);
     // The business line was an offer for the first answer: a next message
     // takes it away, unless its form is open.
     setBusinessLine((line) => (line?.open ? line : null));
     setTurnstileServerError(null);
-    const generation = identityGeneration.current;
-    const sid = await ensureSession();
-    if (generation !== identityGeneration.current) return;
-    const history = messages.filter((m) => !m.pending && !m.error);
+    // The question and «AI o‘ylayapti…» show at the tap, before the session
+    // request: on 3G the composer used to empty half a second before them.
+    const history = (meta.base ?? messages).filter((m) => !m.pending && !m.error);
+    const ask = meta.answerAction && meta.request ? { request: meta.request, action: meta.answerAction, frame: meta.frame } : undefined;
     const withUser: ChatMessage[] = [
       ...history,
-      { role: "user", content: trimmed },
+      { role: "user", content: trimmed, ask },
       { role: "assistant", content: "", pending: true },
     ];
     setMessages(withUser);
+    // Stored at once (the pending bubble is not): an answer takes 11-22 s,
+    // and a tab unloaded meanwhile used to come back without the question.
+    store((scope) => saveHistory(withUser, config.locale, scope));
+    const generation = identityGeneration.current;
+    const sid = await ensureSession();
+    if (generation !== identityGeneration.current) return;
     const messageNumber = history.filter((m) => m.role === "user").length + 1;
     // Read here, in the browser, and never sent: only the topic is counted,
     // and only once the line shows (AiBusinessLine).
@@ -380,25 +507,36 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       ...entryMeta,
       source: meta.templateId
         ? "template"
-        : meta.answerAction
-          ? "answer_action"
-          : meta.retry
-            ? "retry"
+        : meta.retry
+          ? "retry"
+          : meta.answerAction
+            ? "answer_action"
             : "composer",
+      // Which answer button: shorter | continue | russian | uzbek.
+      mode: meta.answerAction,
       message_number: messageNumber,
       tool: meta.tool || activeTool,
       role_id: role,
       template_id: meta.templateId,
       locale: config.locale,
       anonymous: !signedIn,
+      in_app: inApp(),
     });
 
-    const requestMessage = applyRole(trimmed, role, config.locale).slice(
-      0,
-      MAX_INPUT,
-    );
-
     const base = withUser.filter((m) => !m.pending);
+    // A refused or stopped turn: the thread as it was before the tap, and a
+    // typed question back in the composer. A retry or an answer button gave
+    // up no text to give back, and its old answer stays where it was.
+    const before = meta.base ? messages : history;
+    const giveBack = () => {
+      setMessages(before);
+      if (!meta.base && !meta.answerAction) setInput(trimmed);
+      store((scope) => saveHistory(before, config.locale, scope));
+    };
+    // What a failed or broken-off turn adds to: a new answer that did not
+    // come («Qayta yozish», a retry) leaves the old one where it was; only a
+    // finished answer replaces it.
+    const held = meta.base ? before.filter((m) => !m.error) : base;
     const handleJson = (res: ChatApiResponse) => {
       if (generation !== identityGeneration.current) return;
       // Any answer but a limit refusal or a failed check means no limit stands.
@@ -409,15 +547,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       )
         dispatchLimit({ type: "admitted" });
       if (res.ok && res.answer) {
-        if (typeof res.remaining === "number" && res.remaining >= 0) {
-          setRemaining(res.remaining);
-          if (accountReady) saveRemaining(res.remaining, storageScope);
-        }
+        if (typeof res.remaining === "number" && res.remaining >= 0) keepRemaining(res.remaining);
         setHourLeft(typeof res.hourRemaining === "number" ? res.hourRemaining : null);
-        if (res.sessionId && res.sessionId !== sid) {
-          setSessionId(res.sessionId);
-          if (accountReady) saveSessionId(res.sessionId, config.locale, storageScope);
-        }
+        if (res.sessionId && res.sessionId !== sid) keepSession(res.sessionId);
         persist([
           ...base,
           {
@@ -431,6 +563,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
+        // The count an answered turn reported is stale now: 0 while the limit
+        // stands (hourBlocked), the day's once it lifts.
+        if (reason === "hourly") setHourLeft(null);
         dispatchLimit({
           type: "blocked",
           reason,
@@ -440,14 +575,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         });
         // What is left today (or in the pack): an hourly pause leaves the
         // day's count as it is.
-        if (typeof res.remaining === "number" && res.remaining >= 0) {
-          setRemaining(res.remaining);
-          if (accountReady) saveRemaining(res.remaining, storageScope);
-        }
+        if (typeof res.remaining === "number" && res.remaining >= 0) keepRemaining(res.remaining);
         // The question goes back into the composer (and, while the limit
         // stands, into the draft) instead of a bubble that gets no answer.
-        setMessages(history);
-        setInput(trimmed);
+        giveBack();
         // One event per refusal; the Metrika goal once per reason per view.
         track(EV.limitHit, { reason, locale: config.locale });
         reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, reason);
@@ -455,22 +586,25 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         res.code === "turnstile_failed" ||
         res.code === "turnstile_unavailable"
       ) {
-        setMessages(history);
-        setInput(trimmed);
+        giveBack();
         setTurnstileServerError(
           res.code === "turnstile_failed" ? t.turnstileRetry : t.turnstileError,
         );
+        // The server wanted a check: the config may say so now.
+        setConfigRead((n) => n + 1);
         track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
       } else {
-        // Curated copy only — never surface raw backend/provider strings.
+        // Curated copy only — never surface raw backend/provider strings. A
+        // message the server finds too long (invalid_message: it never gets
+        // an empty one) is said so, not «the service is down».
         const friendly =
-          res.code === "context_too_large"
+          res.code === "context_too_large" || res.code === "invalid_message"
             ? t.premium.contextTooLarge
             : res.code === "network"
               ? t.errorNetwork
               : t.errorGeneric;
         persist([
-          ...base,
+          ...held,
           { role: "assistant", content: friendly, error: true },
         ]);
         track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
@@ -488,6 +622,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // rendering each one is how a stream turns into stutter.
     let frame = 0;
     const raf = typeof requestAnimationFrame === "function";
+    // What has arrived, stored as a broken-off answer every 2 s and when the
+    // tab is hidden: after an unload the question and that part are there,
+    // with the «Javob uzilib qoldi» note. The end of the turn overwrites it.
+    let storedAt = 0;
+    const keep = () => {
+      if (!acc || generation !== identityGeneration.current) return;
+      storedAt = Date.now();
+      store((scope) => saveHistory([...held, { role: "assistant", content: acc, model: answeringModel, partial: true }], config.locale, scope));
+    };
+    flushRef.current = keep;
     const paint = () => {
       if (generation !== identityGeneration.current) return;
       frame = 0;
@@ -521,14 +665,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           // The stream opens only once the server has admitted the turn.
           dispatchLimit({ type: "admitted" });
           answeringModel = m.model || null;
-          if (m.sessionId && m.sessionId !== sid) {
-            setSessionId(m.sessionId);
-            if (accountReady) saveSessionId(m.sessionId, config.locale, storageScope);
-          }
+          if (m.sessionId && m.sessionId !== sid) keepSession(m.sessionId);
         },
         onDelta: (text) => {
           if (generation !== identityGeneration.current) return;
           acc += text;
+          // Here, not in paint(): a hidden tab paints no frames.
+          if (Date.now() - storedAt >= 2_000) keep();
           if (!raf) {
             paint();
             return;
@@ -538,6 +681,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       },
       controller.signal,
     );
+    if (flushRef.current === keep) flushRef.current = null;
     if (generation !== identityGeneration.current) { stopPainting(); return; }
     abortRef.current = null;
     // A frame queued by the last delta would otherwise land after the final
@@ -547,10 +691,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (outcome.mode === "json") {
       handleJson(outcome.res);
     } else if (outcome.ok) {
-      if (typeof outcome.remaining === "number" && outcome.remaining >= 0) {
-        setRemaining(outcome.remaining);
-        if (accountReady) saveRemaining(outcome.remaining, storageScope);
-      }
+      if (typeof outcome.remaining === "number" && outcome.remaining >= 0) keepRemaining(outcome.remaining);
       setHourLeft(outcome.hourRemaining ?? null);
       persist([
         ...base,
@@ -567,15 +708,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       // User pressed Stop: keep whatever was generated, never an error state.
       if (acc)
         persist([
-          ...base,
+          ...held,
           { role: "assistant", content: acc, model: answeringModel },
         ]);
-      else setMessages(base);
+      // Stopped before the first word, most likely to reword it (STOP-01).
+      else giveBack();
       track(EV.generationStopped, { locale: config.locale, message_number: messageNumber });
     } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
       persist([
-        ...base,
+        ...held,
         {
           role: "assistant",
           content: acc,
@@ -587,7 +729,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } else {
       const friendly =
         outcome.code === "network" ? t.errorNetwork : t.errorGeneric;
-      persist([...base, { role: "assistant", content: friendly, error: true }]);
+      persist([...held, { role: "assistant", content: friendly, error: true }]);
       track(EV.aiResponseError, { code: outcome.code, message_number: messageNumber });
     }
     if (turnstileConfig?.required) {
@@ -643,32 +785,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     void doSend(prompt, { templateId: `image-${presetId}`, tool: "images" });
   };
 
-  const onAnswerAction = (action: AnswerAction, content: string) => {
-    const source = content.slice(0, 1900);
-    const instructions: Record<AnswerAction, string> = uz
-      ? {
-          shorter:
-            "Quyidagi javobni oddiyroq tushuntir. Kundalik hayotdan misol keltir:",
-          continue: "Quyidagi javobni takrorlamasdan davom ettir:",
-          instagram:
-            "Quyidagi javobni Instagram posti uchun moslashtir. Sarlavha va yumshoq CTA qo‘sh:",
-          uzbek: "Quyidagi matnni rus tiliga tarjima qil. Yangi fakt qo‘shma:",
-          bot: "Quyidagi g‘oya asosida Telegram-bot ssenariysini tuz: kirish, savollar, ariza va menejerga uzatish:",
-        }
-      : {
-          shorter:
-            "Объясни следующий ответ проще, добавь один понятный бытовой пример:",
-          continue: "Продолжи следующий ответ, не повторяя уже написанное:",
-          instagram:
-            "Адаптируй следующий ответ для Instagram: добавь заголовок и мягкий CTA, не придумывай факты:",
-          uzbek:
-            "Переведи следующий текст на естественный Uzbek Latin. Не добавляй новые факты:",
-          bot: "На основе следующей идеи составь сценарий Telegram-бота: вход, вопросы, заявка и передача менеджеру:",
-        };
-    void doSend(`${instructions[action]}\n\n${source}`, {
-      answerAction: action,
-      tool: activeTool,
-    });
+  // A button under the last answer: its name goes into the bubble, and its
+  // instruction with the answer (or its end) to the model (plan ACT-02).
+  const onAsk = (action: AnswerAction, text: string, request: string, frame: Locale) => {
+    void doSend(text, { answerAction: action, request, frame, tool: activeTool });
   };
 
   // "New chat": clears the visible conversation + stored history, but keeps
@@ -677,7 +797,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (busy || !accountReady) return;
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
-    setInput("");
+    // The limit card says the refused question waits in the composer: it does.
+    if (!limited) setInput("");
     setBusinessLine(null);
     // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
     // pitch the same person again; neither is the business line, which shows
@@ -686,16 +807,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     focusInput();
   };
 
+  // The last question again, in place of its answer or error: the thread and
+  // the history sent hold it once (plan ACT-01). A new call of the model, so
+  // it costs a message like any other.
+  const lastQuestion = () => {
+    for (let i = messages.length - 1; i >= 0; i--) if (messages[i].role === "user") return i;
+    return -1;
+  };
   const onRetry = () => {
-    if (sendDisabled) return;
-    let lastUser = "";
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === "user") {
-        lastUser = messages[i].content;
-        break;
-      }
-    }
-    if (lastUser) void doSend(lastUser, { retry: true });
+    const idx = lastQuestion();
+    if (sendDisabled || idx < 0) return;
+    const { content, ask } = messages[idx];
+    void doSend(content, { retry: true, base: messages.slice(0, idx), request: ask?.request, answerAction: ask?.action, frame: ask?.frame });
+  };
+  // Under an error: the question back into the composer, out of the thread.
+  const onEdit = () => {
+    const idx = lastQuestion();
+    if (busy || idx < 0) return;
+    setInput(messages[idx].content);
+    persist(messages.slice(0, idx));
+    focusInput();
   };
 
   // Closing the business card or the business line closes both for the day:
@@ -720,6 +851,29 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // bot follows, or leads, while the server enables it (GPT_BOT_HANDOFF_ENABLED).
   const card =
     limit && limitCard(config.locale, limit, { billingAvailable, paid, botHandoff, remaining, pack: packTerms }, clock);
+  // The card is short (map 01 M-03, M-12: 235px left no thread above an open
+  // keyboard): its title, when a turn fits again and the one way on. Why,
+  // the pack's value and the second way are behind «Batafsil», for this reason.
+  const [detailsFor, setDetailsFor] = useState<string | null>(null);
+  const details = !!limit && detailsFor === limit.reason;
+  const bodyShown = !!card && (!card.title || !card.wait);
+  const kept = input.trim() ? ` ${t.limitDraftKept}` : "";
+  // «Batafsil» ends the card's last line of text instead of taking a 44px
+  // row of its own (an inline link in a sentence).
+  const moreButton = !!card && !!limit && (!bodyShown || !!card.offer || (card.account && !!card.bot)) && (
+    <button
+      type="button"
+      className="gpt-text-button"
+      // A 44px tap target in the line's own height: 12 + 19.5 + 13 px of
+      // padding, taken back by the margins (an inline-block's margin box
+      // sets the line), so the card does not grow.
+      style={{ minHeight: 0, display: "inline-block", padding: "12px 0 13px 6px", margin: "-12px 0 -13px" }}
+      aria-expanded={details}
+      onClick={() => setDetailsFor(details ? null : limit.reason)}
+    >
+      {t.limitMore}
+    </button>
+  );
 
   const showOffer =
     activeTool === "business" &&
@@ -805,7 +959,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <span>{t.brand}</span>
           </div>
           <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
-            {!paid && <AiUsageBadge remaining={remaining} t={t} />}
+            {!paid && <AiUsageBadge remaining={remaining} hourLeft={hourShown} hourBlocked={hourBlocked} t={t} />}
             <nav
               className={`flex items-center overflow-hidden rounded-xl bg-white/[0.04] ${uzEntry ? "text-xs" : "text-[11px]"}`}
               aria-label={uz ? "Til" : "Язык"}
@@ -1014,9 +1168,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               <AiChatMessageList
                 messages={messages}
                 t={t}
+                locale={config.locale}
                 busy={busy}
+                locked={sendDisabled}
+                costNote={costNote}
                 onRetry={onRetry}
-                onAnswerAction={onAnswerAction}
+                onEdit={onEdit}
+                onAsk={onAsk}
               />
             )}
             {/* The business line: under the first answer to a question about a
@@ -1081,7 +1239,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {/* Composer */}
         <div className="gpt-composer shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
-            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountCheck} <button type="button" className="gpt-text-button" onClick={() => { openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
+            {/* A guest's button only reads the account again; an account's opens its window too. */}
+            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}
             {limit && card && (
               // The limit card sits above the composer, which keeps the
               // refused question; sending waits for the time the server gave
@@ -1099,10 +1258,17 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 data-ready={card.ready ? "true" : undefined}
               >
                 {card.title && <p className="font-medium text-white">{card.title}</p>}
-                <p>
-                  {card.body}
-                  {input.trim() ? ` ${t.limitDraftKept}` : ""}
-                </p>
+                {bodyShown || details ? (
+                  <p>
+                    {card.body}
+                    {card.wait ? "" : kept}
+                    {card.wait ? null : moreButton}
+                  </p>
+                ) : (
+                  // The composer's aria-describedby points here: a screen
+                  // reader hears why, though the eye sees only the time.
+                  <span className="sr-only">{card.body}</span>
+                )}
                 {card.wait && (
                   // The countdown is not announced on every tick; the line
                   // that replaces it once the limit lifts is.
@@ -1112,15 +1278,17 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     aria-live={card.ready ? undefined : "off"}
                   >
                     {card.wait}
+                    {kept}
+                    {moreButton}
                   </p>
                 )}
-                {card.offer && (
+                {card.offer && details && (
                   <p className="mt-2 text-white" data-testid="limit-offer">
                     {card.offer}
                   </p>
                 )}
                 {(card.account || card.bot) && (
-                  <div className="mt-3 flex flex-col gap-2">
+                  <div className="mt-2 flex flex-col gap-2">
                     {card.account && (
                       <button
                         type="button"
@@ -1131,7 +1299,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                         {card.cta}
                       </button>
                     )}
-                    {card.bot && (
+                    {card.bot && (!card.account || details) && (
                       <AiLimitTelegram
                         t={t}
                         locale={config.locale}
@@ -1145,7 +1313,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
               </div>
             )}
-            {!limit && !paid && remaining >= 0 && remaining <= 2 && (
+            {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
               // Saffron, the one warm colour in this palette, and the same
               // one the quota thread turns above — so the warning and the
               // thread read as one fact stated twice, not two alerts. The
@@ -1172,8 +1340,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
               </div>
             )}
-            {!limit && !paid && !(remaining >= 0 && remaining <= 2) &&
-              hourLeft !== null && hourLeft > 0 && hourLeft <= HOUR_WARNING_AT && (
+            {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
+              hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT && (
               // The hourly cap is the one people meet (about twice a day):
               // said before the refusal, in the same quiet line as above.
               <div
@@ -1185,33 +1353,33 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
                   aria-hidden="true"
                 />
-                <span>{t.hourWarning(hourLeft)}</span>
+                <span>{t.hourWarning(hourShown)}</span>
               </div>
             )}
-            {turnstileConfig?.required && turnstileConfig.siteKey && (
-              <TurnstileChallenge
-                ref={turnstileRef}
-                siteKey={turnstileConfig.siteKey}
-                loadingText={t.turnstileLoading}
-                promptText={t.turnstilePrompt}
-                verifiedText={t.turnstileVerified}
-                errorText={t.turnstileError}
-                onTokenChange={onTurnstileTokenChange}
-              />
-            )}
-            {(!turnstileConfig || turnstileConfigError) && (
-              <p
-                className={
-                  turnstileConfigError
-                    ? "mb-2 text-center text-xs text-red-300"
-                    : "mb-2 text-center text-xs text-white/45"
-                }
-                role="status"
-                aria-live="polite"
+            {turnstileKey && (
+              // The lazy part chat-turnstile: only a page whose server asks
+              // for the check downloads it. Sending waits for its token.
+              <LazyPart
+                part={turnstilePart}
+                fallback={<p className="mb-2 text-center text-xs text-white/45" role="status">{t.turnstileLoading}</p>}
+                failed={<p className="mb-2 text-center text-xs text-red-300" role="status">{t.turnstileError}</p>}
               >
-                {turnstileConfigError
-                  ? t.turnstileError
-                  : t.turnstileLoading}
+                {({ TurnstileChallenge }) => (
+                  <TurnstileChallenge
+                    ref={turnstileRef}
+                    siteKey={turnstileKey}
+                    loadingText={t.turnstileLoading}
+                    promptText={t.turnstilePrompt}
+                    verifiedText={t.turnstileVerified}
+                    errorText={t.turnstileError}
+                    onTokenChange={onTurnstileTokenChange}
+                  />
+                )}
+              </LazyPart>
+            )}
+            {turnstileConfigError && (
+              <p className="mb-2 text-center text-xs text-red-300" role="status" aria-live="polite">
+                {t.turnstileError}
               </p>
             )}
             {turnstileServerError && (
@@ -1230,7 +1398,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               onStop={onStop}
               disabled={sendDisabled}
               busy={busy}
-              maxChars={MAX_INPUT}
+              maxChars={MAX_INPUT - maxRolePrefixLength(role)}
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}

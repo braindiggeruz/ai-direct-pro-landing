@@ -7,16 +7,20 @@
 // may run at all ("click,uzum" when unset). Payme runs only when listed. A
 // provider outside the list sells nothing and its callback route is a 404.
 //
-// Modes (decision L7): GPT_BILLING_MODE_CLICK and GPT_BILLING_MODE_UZUM
-// ("test" | "live" | "off") set one provider's mode; empty falls back to
-// GPT_BILLING_MODE, any other value is "off". Test is dark: only a rehearsal
-// session (rehearsal.ts) sees a test provider and pays it.
+// Modes (decision L7): GPT_BILLING_MODE_CLICK, GPT_BILLING_MODE_UZUM and
+// GPT_BILLING_MODE_PAYME ("test" | "live" | "off") set one provider's mode;
+// empty falls back to GPT_BILLING_MODE, any other value is "off". Test is
+// dark: only a rehearsal session (rehearsal.ts) sees a test provider and pays
+// it. Payme sells live only with its own GPT_BILLING_MODE_PAYME = "live",
+// never through the global fallback (liveReadiness).
 //
 // Credentials (decision L9): one secret per provider. Click reads
 // GPT_CLICK_CREDENTIALS_JSON {"test"|"live": {service_id, merchant_id,
 // secret_key, merchant_user_id}}; only while that secret is unset or empty,
 // the legacy GPT_CLICK_* variables. Uzum reads UZUM_CREDENTIALS_JSON
-// (uzum-config.ts). Payme keeps GPT_PAYME_*.
+// (uzum-config.ts). Payme reads the secrets GPT_PAYME_MERCHANT_ID (the cash
+// desk, the same in test and live), GPT_PAYME_TEST_KEY and GPT_PAYME_KEY
+// (the cash desk's test and production keys).
 //
 // Live (liveReadiness): a new live checkout needs every setting it lists.
 import type { Env } from "../../_types";
@@ -49,6 +53,7 @@ export type BillingEnv = Env &
     GPT_BILLING_MODE?: string;
     GPT_BILLING_MODE_CLICK?: string;
     GPT_BILLING_MODE_UZUM?: string;
+    GPT_BILLING_MODE_PAYME?: string;
     GPT_BILLING_LIVE_READY?: string;
     /** Optional Telegram OIDC client; sign-in through the bot needs none. */
     GPT_TELEGRAM_CLIENT_ID?: string;
@@ -84,11 +89,11 @@ export const PLAN_ID = "ai_paket";
 /** Every provider the code knows, in the order the pack window offers them. */
 export const PROVIDERS: readonly LocalProvider[] = ["click", "uzum", "payme"];
 const DEFAULT_PROVIDERS = "click,uzum";
-/** The setting that holds a provider's mode; Payme has only the global one. */
-const MODE_SETTING = {
+/** The setting that holds a provider's own mode (GPT_BILLING_MODE is the fallback). */
+export const MODE_SETTING = {
   click: "GPT_BILLING_MODE_CLICK",
   uzum: "GPT_BILLING_MODE_UZUM",
-  payme: "GPT_BILLING_MODE",
+  payme: "GPT_BILLING_MODE_PAYME",
 } as const satisfies Record<LocalProvider, keyof BillingEnv>;
 /** Secrets shorter than this count as unset. */
 const MIN_SECRET_LENGTH = 32;
@@ -317,8 +322,21 @@ export function clickCredentials(
   };
 }
 
+/**
+ * The Payme cash desk's key for `mode` (the password of Basic auth, login
+ * "Paycom"), or "" when it is unset or not a printable ASCII word of 16..128
+ * characters. Surrounding whitespace (a newline pasted with the secret) is
+ * not part of it.
+ */
 export function paymeKey(env: BillingEnv, mode: BillingMode): string {
-  return (mode === "test" ? env.GPT_PAYME_TEST_KEY : env.GPT_PAYME_KEY) || "";
+  const value = ((mode === "test" ? env.GPT_PAYME_TEST_KEY : env.GPT_PAYME_KEY) || "").trim();
+  return /^[\x21-\x7e]{16,128}$/.test(value) ? value : "";
+}
+
+/** The Payme cash desk id (24 hex, the same in test and live), or null. */
+export function paymeMerchantId(env: BillingEnv): string | null {
+  const value = (env.GPT_PAYME_MERCHANT_ID || "").trim();
+  return /^[0-9a-fA-F]{24}$/.test(value) ? value : null;
 }
 
 /** The provider's protocol credentials for `mode` are present and valid. */
@@ -335,8 +353,7 @@ export function providerConfigured(
       ? !!uzumCheckoutConfig(env, mode)
       : api === "merchant" && !!merchantCredentials(env, mode);
   }
-  if (provider === "payme")
-    return !!paymeKey(env, mode) && !!env.GPT_PAYME_MERCHANT_ID;
+  if (provider === "payme") return !!paymeKey(env, mode) && !!paymeMerchantId(env);
   const click = clickCredentials(env, mode);
   return !!click && (mode === "test" || !!click.merchantId);
 }
@@ -344,12 +361,16 @@ export function providerConfigured(
 /** Names of the provider's own live settings that are missing or invalid. */
 function providerLiveIssues(env: BillingEnv, provider: LocalProvider): string[] {
   if (provider === "payme")
-    // Payme fiscalizes from the receipt `detail` of CheckPerformTransaction,
-    // which this code does not send: Payme stays test-only.
+    // Payme prints both receipts itself, from the `detail` our
+    // CheckPerformTransaction sends (payme-checkout.ts): its line needs the
+    // fiscal codes, not the TIN (the cash desk is the seller's own). Live
+    // takes Payme's own switch: a global GPT_BILLING_MODE = "live" alone
+    // never sells Payme.
     return [
+      ...(env.GPT_BILLING_MODE_PAYME === "live" ? [] : ["GPT_BILLING_MODE_PAYME"]),
       ...(paymeKey(env, "live") ? [] : ["GPT_PAYME_KEY"]),
-      ...(env.GPT_PAYME_MERCHANT_ID ? [] : ["GPT_PAYME_MERCHANT_ID"]),
-      "payme_receipt_detail",
+      ...(paymeMerchantId(env) ? [] : ["GPT_PAYME_MERCHANT_ID"]),
+      ...fiscalIssues(env, { tin: false }),
     ];
   if (provider === "click") {
     const source = clickSource(env, "live");

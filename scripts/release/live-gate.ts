@@ -14,6 +14,8 @@
 //   - complete requisites (content/global/legal-entity.json) whose STIR is
 //     the receipts' GPT_FISCAL_TIN, which must be set for Uzum too;
 //   - a legalReviewedAt on both privacy policies;
+//   - for Payme, both offers and both policies naming Payme (the editions
+//     of 2026-10 name only Click and Uzum Bank);
 //   - the secrets of the live providers and of the shared machinery, by NAME,
 //     in Cloudflare Pages production. `check-production` and `deploy` read the
 //     names from the Pages project; offline (`stamp`, `check`) they are listed
@@ -35,6 +37,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   liveReadiness,
+  MODE_SETTING,
   PROVIDERS,
   providerMode,
   type BillingEnv,
@@ -84,13 +87,16 @@ const SECRET_STAND_INS: Record<string, string> = {
   GPT_NOTIFY_CHAT_ID: LONG,
   TELEGRAM_ADMIN_CHAT_ID: LONG,
   GPT_TELEGRAM_CLIENT_SECRET: LONG,
+  // Payme's cash desk: its id (24 hex) and its production key.
+  GPT_PAYME_MERCHANT_ID: '0'.repeat(24),
+  GPT_PAYME_KEY: LONG,
 };
 export const LIVE_SECRETS: readonly string[] = Object.keys(SECRET_STAND_INS);
 
 /** Settings the reviewed GPTBOT_RUNTIME_CONFIG_JSON owns; no Pages variable may shadow them. */
 export const BILLING_SETTINGS: ReadonlySet<string> = new Set([
   'GPT_PAYMENT_PROVIDERS', 'GPT_BILLING_MODE', 'GPT_BILLING_MODE_CLICK', 'GPT_BILLING_MODE_UZUM',
-  'GPT_BILLING_LIVE_READY', 'GPT_BILLING_TERMS_RU', 'GPT_BILLING_TERMS_UZ', 'GPT_BILLING_TERMS_VERSION',
+  'GPT_BILLING_MODE_PAYME', 'GPT_BILLING_LIVE_READY', 'GPT_BILLING_TERMS_RU', 'GPT_BILLING_TERMS_UZ', 'GPT_BILLING_TERMS_VERSION',
   'GPT_BILLING_TERMS_APPROVED_AT', 'GPT_FISCAL_IKPU', 'GPT_FISCAL_PACKAGE_CODE', 'GPT_FISCAL_VAT_PERCENT',
   'GPT_FISCAL_TIN', 'UZUM_API', 'UZUM_AUTOFISCAL', 'UZUM_CHECKOUT_BASE_URL', 'UZUM_FISCAL_BASE_URL',
   'GPT_GUEST_CHECKOUT',
@@ -189,6 +195,9 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
     if (offer.status !== 'published' || offer.robotsIndex !== true) issues.push(`${url}: not published and indexable`);
     if (offer.url !== url || offer.canonical !== href) issues.push(`${url}: url or canonical differs from ${href}`);
     if (input.config[TERMS_SETTING[locale]] !== href) issues.push(`${TERMS_SETTING[locale]} is not ${href}`);
+    // The offer names the ways to pay ("Click или Uzum Bank"); the edition
+    // that adds Payme comes before Payme sells live.
+    if (providers.includes('payme') && !JSON.stringify(offer).includes('Payme')) issues.push(`${url}: does not name Payme as a way to pay`);
     if (!version || offer.termsVersion !== version) issues.push(`${url}: termsVersion differs from GPT_BILLING_TERMS_VERSION`);
     if (offer.requisites !== 'seller') issues.push(`${url}: does not show the seller's requisites`);
     if (!pastDay(offer.legalReviewedAt, now)) issues.push(`${url}: legalReviewedAt (the lawyer's approval) is missing`);
@@ -206,7 +215,11 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
     if (!sitemap.includes(`<loc>${href}</loc>`)) issues.push(`dist/sitemap.xml lacks ${href}`);
     const policy = input.policies[locale];
     if (!policy || policy.status !== 'published') issues.push(`${POLICY_FILES[locale]}: the privacy policy is not published`);
-    else if (!pastDay(policy.legalReviewedAt, now)) issues.push(`${policy.url}: legalReviewedAt (the lawyer's approval) is missing`);
+    else {
+      if (!pastDay(policy.legalReviewedAt, now)) issues.push(`${policy.url}: legalReviewedAt (the lawyer's approval) is missing`);
+      // The policies name the payment providers that receive data.
+      if (providers.includes('payme') && !JSON.stringify(policy).includes('Payme')) issues.push(`${policy.url}: does not name Payme among the recipients`);
+    }
   }
   issues.push(...legalEntityIssues(input.entity).map((field) => `content/global/legal-entity.json: ${field}`));
   // Set and equal whatever the provider: liveReadiness() asks only Click's
@@ -269,8 +282,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
   } else {
     const input = loadLiveGateInput(ROOT, path.join(ROOT, 'dist'), null);
     if (assumed) {
-      const setting = assumed === 'click' ? 'GPT_BILLING_MODE_CLICK' : assumed === 'uzum' ? 'GPT_BILLING_MODE_UZUM' : 'GPT_BILLING_MODE';
-      input.config = { ...input.config, GPT_BILLING_LIVE_READY: 'true', [setting]: 'live' };
+      input.config = { ...input.config, GPT_BILLING_LIVE_READY: 'true', [MODE_SETTING[assumed]]: 'live' };
     }
     const report = liveGate(input);
     console.log(JSON.stringify({ assumedLive: assumed, ...report }, null, 2));

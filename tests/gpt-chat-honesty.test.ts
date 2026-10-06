@@ -13,13 +13,17 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 
-import { EV, GA4_PARAMS, track } from '../src/gpt-chat/analytics';
+import { EV, GA4_PARAMS, inAppOf, track } from '../src/gpt-chat/analytics';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
+import { answerStrings } from '../src/gpt-chat/answer-strings';
+import { answerAsk, copyText, MessageActions, SHARE_SIGNATURE, telegramShare, translationOf } from '../src/gpt-chat/components/AiAnswer';
+import { plainText } from '../src/gpt-chat/plain-text';
+import { applyRole } from '../src/gpt-chat/roles';
 import { showsAccountPill, type AccountView } from '../src/gpt-chat/types';
 import { AiChatInput } from '../src/gpt-chat/components/AiChatInput';
-import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
+import { AiChatMessageList, PendingLine } from '../src/gpt-chat/components/AiChatMessageList';
 import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } from '../src/components/ui/message-scroller';
 
 // tsx compiles .tsx with the classic transform in tests (as in
@@ -78,8 +82,8 @@ test('no file of the chat or its server says Plus, obuna, подписк or GPTB
 
 test('no line the chat can show, in either language, names a tier or the old brand', () => {
   for (const locale of LOCALES) {
-    // The chat's lines, and those of its lazy parts: the pack window and the business card.
-    for (const line of [...allCopy(strings(locale)), ...allCopy(accountStrings(locale)), ...allCopy(leadStrings(locale))]) {
+    // The chat's lines, and those of its lazy parts: the pack window, the business card and the answer's row.
+    for (const line of [...allCopy(strings(locale)), ...allCopy(accountStrings(locale)), ...allCopy(leadStrings(locale)), ...allCopy(answerStrings(locale))]) {
       assert.doesNotMatch(line, DISHONEST, `${locale}: ${line}`);
       assert.doesNotMatch(line, /\bPro\b|Tez orada|Скоро/, `${locale}: ${line}`);
     }
@@ -172,7 +176,7 @@ test('the resting screen states the server’s daily and hourly allowance, in ag
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /t\.emptyMeta\(freeLimits\)/);
   assert.match(consoleSource, /setHourLeft\(outcome\.hourRemaining \?\? null\)/);
-  assert.match(consoleSource, /t\.hourWarning\(hourLeft\)/);
+  assert.match(consoleSource, /t\.hourWarning\(hourShown\)/);
   assert.match(consoleSource, /t\.premium\.activeLine\(remaining\)/);
   assert.doesNotMatch(consoleSource, /15 сообщений|kuniga 15/);
 });
@@ -252,6 +256,341 @@ test('the console renders without a pill, a tier or the old brand before the acc
   }
 });
 
+test('the composer stops at the limit, says when a paste did not fit, and never sends or cuts text over it', () => {
+  const input = (value: string, maxChars: number, locale: 'ru' | 'uz' = 'uz') => renderToStaticMarkup(React.createElement(AiChatInput, {
+    value, onChange: () => {}, onSend: () => {}, maxChars, t: strings(locale), inputRef: React.createRef<HTMLTextAreaElement>(),
+  }));
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const html = input('x'.repeat(2900), 2950, locale);
+    // The browser blocks typing past the limit and cuts a paste at the caret: no character of the visitor's own text goes.
+    assert.match(html, /maxLength="2950"|maxlength="2950"/, locale);
+    assert.ok(html.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
+    // The limit fell under the text (another role, an older draft, a question put back): not sent, not cut, said.
+    const over = input('x'.repeat(2643), 2541, locale);
+    assert.ok(over.includes(`<span role="status">${t.charsOver(102)}</span>`), `${locale}: by how much`);
+    assert.match(over, /<button[^>]*disabled=""[^>]*aria-label="[^"]*"/, `${locale}: the send button is off`);
+    assert.match(over, />x{2643}<\/textarea>/, `${locale}: the text stays whole`);
+    assert.doesNotMatch(input('x'.repeat(10), 2541, locale), /<button[^>]*disabled=""/);
+  }
+  assert.equal(strings('uz').inputCut, 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.');
+  assert.equal(strings('ru').inputCut, 'Текст был слишком длинным — конец обрезан. Отправьте частями.');
+  const source = read('src/gpt-chat/components/AiChatInput.tsx');
+  assert.match(source, /<InputGroupTextarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
+  // A paste that does not fit is said for 8 s.
+  assert.match(source, /if \(el\.value\.length - \(el\.selectionEnd - el\.selectionStart\) \+ pasted\.length > maxChars\) setCutAt\(Date\.now\(\)\);/);
+  assert.match(source, /window\.setTimeout\(\(\) => setCutAt\(0\), 8_000\)/);
+  // The safety net cuts only text that grew past the limit, never what was over it before.
+  assert.match(source, /if \(next\.length > maxChars && next\.length > value\.length\) \{\s*setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, Math\.max\(maxChars, value\.length\)\)\);\s*\} else onChange\(next\);/);
+  // Neither Enter nor the button sends text over the limit.
+  assert.match(source, /if \(!disabled && !busy && value\.trim\(\) && !over\) onSend\(\);/);
+  assert.match(source, /disabled=\{disabled \|\| busy \|\| !value\.trim\(\) \|\| over\}/);
+  // Over the limit says by how much at once, even within the 8 s of a cut paste's line.
+  assert.match(source, /\{over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
+});
+
+test('a message too long for the server offers «change the question», not a retry that fails the same way', () => {
+  const uz = strings('uz');
+  const list = (last: string) => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, {
+        t: uz, onRetry: () => {}, onEdit: () => {},
+        messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: last, error: true }],
+      })))));
+  const tooLong = list(uz.premium.contextTooLarge);
+  assert.ok(tooLong.includes(uz.premium.editQuestion));
+  assert.ok(!tooLong.includes(uz.retry), 'no retry');
+  const network = list(uz.errorNetwork);
+  assert.ok(network.includes(uz.retry) && network.includes(uz.premium.editQuestion));
+  for (const locale of LOCALES) assert.doesNotMatch(strings(locale).premium.contextTooLarge, /vaqtincha|временно/);
+});
+
+// ── the buttons under an answer (NOW-04: plan ACT-01..03, M-09) ─────────────
+
+const actions = (props: Partial<Parameters<typeof MessageActions>[0]> = {}) => renderToStaticMarkup(React.createElement(MessageActions, {
+  content: 'Javob matni', locale: 'uz', isLast: true, onRetry: () => {}, onAsk: () => {}, ...props,
+}));
+
+test('the bubble shows a button’s name; the model gets its instruction with the answer, or with its end to continue', () => {
+  const answer = `${'Birinchi qism. '.repeat(100)}\n\n${'Oxirgi qism. '.repeat(100)}`;
+  for (const locale of LOCALES) {
+    const s = answerStrings(locale);
+    const [cont, contRequest] = answerAsk('continue', answer, locale);
+    assert.equal(cont, s.continue);
+    assert.ok(contRequest.startsWith(`${s.ask.continue}\n\n`) && contRequest.endsWith(answer.slice(-1200)), `${locale}: continue sends the end`);
+    assert.ok(!contRequest.includes('Birinchi qism. Birinchi'), `${locale}: not the start`);
+    const [simpler, simplerRequest] = answerAsk('shorter', answer, locale);
+    assert.equal(simpler, s.simpler);
+    assert.ok(simplerRequest.length <= s.ask.shorter.length + 2 + 1900);
+    assert.ok(simplerRequest.endsWith('Birinchi qism. '), `${locale}: a long answer goes back cut at a paragraph`);
+    // Nothing a button sends is too long for the server with the longest role.
+    for (const kind of ['shorter', 'continue', 'russian', 'uzbek'] as const) {
+      assert.ok(applyRole(answerAsk(kind, answer, locale)[1], 'business', locale).length <= 3000, `${locale}/${kind}`);
+    }
+    for (const line of Object.values(s.ask)) assert.doesNotMatch(line, DISHONEST);
+  }
+  assert.ok(!JSON.stringify(answerStrings('uz')).includes("'"), 'Uzbek copy uses ‘ (U+2018)');
+  assert.match(answerStrings('uz').toUzbek, /O‘zbekchaga/);
+});
+
+test('«simpler» and «continue» keep the answer’s language: the page’s name on the button, the answer’s lines for the model', () => {
+  const ruAnswer = 'Чтобы открыть счёт в банке, возьмите паспорт и ИНН. Сотрудник проверит документы и выдаст карту.';
+  const uzAnswer = 'Bank hisobini ochish uchun pasport va STIR kerak bo‘ladi. Xodim hujjatlarni tekshirib, karta beradi.';
+  // A Russian answer on the Uzbek page.
+  const [label, request, frame] = answerAsk('shorter', ruAnswer, 'uz', 'ru');
+  assert.equal(label, answerStrings('uz').simpler, 'the button keeps its Uzbek name in the bubble');
+  assert.equal(frame, 'ru');
+  assert.ok(request.startsWith(`${answerStrings('ru').ask.shorter}\n\n`), request.slice(0, 60));
+  const sent = applyRole(request, 'general', frame);
+  assert.ok(sent.startsWith('Работай как универсальный AI-помощник.\nОтвечай на языке вопроса'), sent.slice(0, 80));
+  assert.ok(sent.includes('Задача: Объясни следующий ответ проще'));
+  assert.doesNotMatch(sent, /Vazifa|shu tilda/);
+  // The mirror: an Uzbek answer on the Russian page.
+  const [ruLabel, uzRequest, uzFrame] = answerAsk('shorter', uzAnswer, 'ru', 'uz');
+  assert.equal(ruLabel, 'Объяснить проще');
+  assert.ok(uzRequest.startsWith('Quyidagi javobni oddiyroq tushuntir'));
+  assert.ok(applyRole(uzRequest, 'general', uzFrame).includes('Vazifa: Quyidagi javobni oddiyroq tushuntir'));
+  const [, contRequest, contFrame] = answerAsk('continue', uzAnswer, 'ru', 'uz');
+  assert.ok(contRequest.startsWith(answerStrings('uz').ask.continue) && contFrame === 'uz');
+  // A translation names its language: the page's instruction and frame, whatever the answer's.
+  const [, toRu, toRuFrame] = answerAsk('russian', uzAnswer, 'uz', 'uz');
+  assert.ok(toRu.startsWith(answerStrings('uz').ask.russian) && toRuFrame === 'uz');
+  const [, toUz, toUzFrame] = answerAsk('uzbek', ruAnswer, 'ru', 'ru');
+  assert.ok(toUz.startsWith(answerStrings('ru').ask.uzbek) && toUzFrame === 'ru');
+  assert.equal(answerAsk('russian', uzAnswer, 'ru', 'uz')[2], 'ru', 'a translation ignores the answer’s frame');
+  // The row reads the answer's language once, for the last answer; the console frames the request with it, and a retry too.
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /const frame = isLast \? frameLocale\(content, locale\) : locale;/);
+  assert.match(source, /const \[text, request, own\] = answerAsk\(kind, content, locale, frame\);/);
+  assert.match(source, /onAsk\?\.\(kind, text, request, own\)/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /void doSend\(text, \{ answerAction: action, request, frame, tool: activeTool \}\);/);
+  assert.match(consoleSource, /const ask = meta\.answerAction && meta\.request \? \{ request: meta\.request, action: meta\.answerAction, frame: meta\.frame \} : undefined;/);
+  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  // Every button, in every frame, with the longest role, fits the server's 3000.
+  const long = `${'Birinchi qism. '.repeat(100)}\n\n${'Последняя часть. '.repeat(100)}`;
+  for (const locale of LOCALES) for (const f of LOCALES) for (const kind of ['shorter', 'continue', 'russian', 'uzbek'] as const) {
+    const [, req, own] = answerAsk(kind, long, locale, f);
+    for (const role of ['business', 'translator', 'teacher'] as const) assert.ok(applyRole(req, role, own).length <= 3000, `${locale}/${f}/${kind}/${role}`);
+  }
+});
+
+test('a translation goes the other way from the answer’s script, without the language line', () => {
+  assert.equal(translationOf('Salom! Bu javob o‘zbek tilida.'), 'russian');
+  assert.equal(translationOf('Привет! Это ответ на русском.'), 'uzbek');
+  assert.equal(translationOf('Ўзбекча кирилл ёзуви'), 'uzbek');
+  for (const locale of LOCALES) {
+    const s = answerStrings(locale);
+    assert.ok(actions({ locale, content: 'Salom, bu javob.' }).includes(s.toRussian), locale);
+    assert.ok(actions({ locale, content: 'Привет, это ответ.' }).includes(s.toUzbek), locale);
+    assert.match(answerAsk('russian', 'Salom', locale)[1], locale === 'uz' ? /rus tiliga/ : /на естественный русский/);
+    assert.match(answerAsk('uzbek', 'Привет', locale)[1], locale === 'uz' ? /o‘zbek tiliga \(lotin yozuvida\)/ : /Uzbek Latin/);
+  }
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /applyRole\(\s*meta\.request \?\? trimmed,\s*role,\s*meta\.request \? meta\.frame \?\? config\.locale : role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\),\s*\{ guard: role !== "translator" && meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \},\s*\)/);
+});
+
+test('retry and «Qayta yozish» replace the last answer: the question is in the thread and the history once', () => {
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  assert.match(consoleSource, /const history = \(meta\.base \?\? messages\)\.filter\(\(m\) => !m\.pending && !m\.error\);/);
+  // The thread drops the old pair; the history sent is built from the same base.
+  assert.match(consoleSource, /const withUser: ChatMessage\[\] = \[\s*\.\.\.history,\s*\{ role: "user", content: trimmed, ask \},/);
+  assert.match(consoleSource, /history,\s*turnstileToken: turnstileToken \|\| undefined,/);
+  // «Savolni o‘zgartirish»: the question back into the composer, out of the thread.
+  assert.match(consoleSource, /setInput\(messages\[idx\]\.content\);\s*persist\(messages\.slice\(0, idx\)\);/);
+  // message_sent says which button, never the text.
+  assert.match(consoleSource, /mode: meta\.answerAction,/);
+  assert.equal(strings('uz').premium.editQuestion, 'Savolni o‘zgartirish');
+  assert.equal(strings('ru').premium.editQuestion, 'Изменить вопрос');
+  const list = renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, {
+        t: strings('uz'), locked: true, onRetry: () => {}, onEdit: () => {},
+        messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: strings('uz').errorNetwork, error: true }],
+      })))));
+  assert.ok(list.includes(strings('uz').premium.editQuestion));
+  assert.match(list, /<button type="button" disabled="" class="[^"]*">.*Qayta urinish<\/button>/, 'no retry during a limit');
+});
+
+test('a long wait says so after 8 s; Stop before the first word gives the question back', () => {
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const line = renderToStaticMarkup(React.createElement(PendingLine, { t }));
+    assert.ok(line.includes(t.thinking) && !line.includes(t.premium.slow), `${locale}: «thinking» first`);
+    assert.doesNotMatch(t.premium.slow, DISHONEST);
+  }
+  assert.equal(strings('uz').premium.slow, 'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.');
+  assert.equal(strings('ru').premium.slow, 'Ответ готовится дольше обычного. Можно остановить и отправить заново.');
+  const list = read('src/gpt-chat/components/AiChatMessageList.tsx');
+  assert.match(list, /const timer = window\.setTimeout\(\(\) => setSlow\(true\), 8_000\);\s*return \(\) => window\.clearTimeout\(timer\);/);
+  assert.match(list, /\{slow \? t\.premium\.slow : t\.thinking\}/);
+  assert.match(list, /\{m\.pending \? \(\s*<PendingLine t=\{t\} slow=\{slow\} \/>/);
+  // A screen reader hears the same line at the same moment: the list's status, not a second live region.
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    assert.ok(renderToStaticMarkup(React.createElement(PendingLine, { t, slow: true })).includes(t.premium.slow), locale);
+  }
+  assert.match(list, /const waiting = messages\.some\(\(m\) => m\.pending\);/);
+  assert.match(list, /: slow\s*\? t\.premium\.slow\s*: t\.thinking/);
+  assert.doesNotMatch(list.slice(list.indexOf('export function PendingLine'), list.indexOf('function PlainAnswer')), /role="status"|aria-live|setTimeout/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  const stopped = consoleSource.slice(consoleSource.indexOf('} else if (outcome.aborted) {'), consoleSource.indexOf('track(EV.generationStopped'));
+  assert.match(stopped, /if \(acc\)[\s\S]*else giveBack\(\);/);
+  // giveBack: the thread as before the tap; a typed question back in the composer.
+  assert.match(consoleSource, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);/);
+});
+
+test('a last question without an answer says so, with a retry and the way back to the composer', () => {
+  const list = (props: Record<string, unknown>) => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, { t: strings('uz'), onRetry: () => {}, onEdit: () => {}, messages: [], ...props })))));
+  const uz = strings('uz');
+  const reloaded = list({ messages: [{ role: 'user', content: 'Savol' }] });
+  assert.match(reloaded, /data-testid="ai-unanswered"/);
+  assert.ok(reloaded.includes(uz.premium.unanswered) && reloaded.includes(uz.retry) && reloaded.includes(uz.premium.editQuestion));
+  // Not while the answer is on its way, and not under an answer.
+  assert.doesNotMatch(list({ busy: true, messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: '', pending: true }] }), /ai-unanswered/);
+  assert.doesNotMatch(list({ messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: 'Javob' }] }), /ai-unanswered/);
+  // It promises nothing about whether a message was spent.
+  for (const locale of LOCALES) assert.doesNotMatch(strings(locale).premium.unanswered, /limit|лимит|списан|hisoblan/i);
+  assert.equal(uz.premium.unanswered, 'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.');
+});
+
+test('every button that sends is off while sending is paused; copying and sharing never are', () => {
+  const html = actions({ locked: true });
+  const buttons = html.match(/<button[^>]*>/g) ?? [];
+  assert.equal(buttons.length, 6, 'copy, Telegram, simpler, translate, continue, another answer');
+  for (const button of buttons.slice(0, 2)) assert.ok(!button.includes('disabled'), 'copy and Telegram work during a limit');
+  for (const button of buttons.slice(2)) assert.match(button, /disabled=""/);
+  assert.ok(!actions().includes('disabled'));
+  // Only the last answer has the rest; every answer can be copied and shared.
+  assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 2);
+});
+
+test('on a phone the row is copy, continue on a cut answer and «⋯»; with a mouse, the whole row', (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const s = answerStrings('uz');
+  t.after(() => { delete g.window; });
+  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace('<span aria-hidden="true">⋯</span> ', ''));
+  g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
+  const phone = actions();
+  assert.deepEqual(labels(phone), [s.copy, s.share, s.more]);
+  assert.match(phone, /aria-expanded="false"/);
+  // A screen reader says «Yana», not «midline horizontal ellipsis».
+  assert.ok(phone.includes(`<span aria-hidden="true">⋯</span> ${s.more}</button>`));
+  assert.deepEqual([answerStrings('uz').more, answerStrings('ru').more], ['Yana', 'Ещё']);
+  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, s.more]);
+  // Locked (a limit, a turn): «Yana» would open a row of disabled buttons.
+  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action" aria-expanded="false" disabled="">/);
+  g.window = { matchMedia: () => ({ matches: false }) };
+  assert.equal((actions().match(/<button/g) ?? []).length, 6);
+  // Opening the row: every button keyed (no node turns into another), focus on
+  // the first one revealed, and a second tap within 350 ms sends nothing.
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /<button key=\{kind\} ref=\{first \? firstRef : undefined\}/);
+  assert.match(source, /key="more"/);
+  assert.match(source, /<button key="regenerate"/);
+  assert.match(source, /useEffect\(\(\) => \{\s*if \(open\) firstRef\.current\?\.focus\(\);\s*\}, \[open\]\);/);
+  assert.match(source, /action\("shorter", true\)/);
+  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(true\);/);
+  assert.match(source, /const settled = \(\) => Date\.now\(\) - openedAt\.current > 350;/);
+  assert.match(source, /onClick=\{\(\) => settled\(\) && onAsk\?\.\(kind, text, request, own\)\}/);
+  assert.match(source, /onClick=\{\(\) => settled\(\) && onRetry\(\)\}/);
+  assert.doesNotMatch(source, /<>\s*\{broken && action/, 'no unkeyed fragments in the row');
+});
+
+test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {
+  const s = answerStrings('ru');
+  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="mt-2 text-[12px] text-white/35">${s.buttonCost}</p>`));
+  assert.ok(!actions({ locale: 'ru' }).includes(s.buttonCost));
+  assert.equal(s.buttonCost, 'Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.');
+  assert.equal(answerStrings('uz').buttonCost, 'AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.');
+  for (const locale of LOCALES) {
+    const a = answerStrings(locale);
+    assert.doesNotMatch(a.buttonCost, /Har bir tugma|Каждая кнопка/);
+    // It names the free ones by the names they have on the row.
+    assert.ok(a.buttonCost.includes(`«${a.copy}»`) && a.buttonCost.includes(`«${a.share}»`), locale);
+  }
+  // On a phone the short row has no button that costs: the note waits for «Yana» (or comes with «Continue»).
+  const g = globalThis as Record<string, unknown>;
+  t.after(() => { delete g.window; });
+  g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
+  assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
+  assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  delete g.window;
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourShown !== null && hourShown <= 2\)\);/);
+  assert.match(consoleSource, /if \(fewLeft && onceThisSession\("gptchat_cost_note"\)\) setCostNote\(true\);/);
+  assert.match(read('src/gpt-chat/storage.ts'), /export function onceThisSession\(key: string\): boolean \{\s*try \{\s*if \(sessionStorage\.getItem\(key\) !== null\) return false;\s*sessionStorage\.setItem\(key, "1"\);\s*\} catch \{/);
+});
+
+// ── copy and share (NOW-08: plan COPY-01, M-08, map 03 §3.2–3.3) ─────────────
+
+test('copying gives plain text: no #, **, table rules or LaTeX; bullets, table rows and links read as text', () => {
+  const text = plainText('### Sarlavha\n**Dushanba** — post\n| a | b |\n|---|---|\n| 1 | 2 |\n- bir\n* ikki\n> iqtibos\n[sayt](https://gptbot.uz) va `kod`\n---\n2 * 3 * 4, *muhim*, \\(x^2\\)\n```\n**kod** # qoladi\n```');
+  assert.doesNotMatch(text.split('**kod**')[0], /#|\*\*|\|---\||```|\\\(/);
+  for (const line of ['Sarlavha', 'Dushanba — post', 'a — b', '1 — 2', '• bir', '• ikki', 'iqtibos', 'sayt (https://gptbot.uz) va kod', '2 * 3 * 4, muhim, x²', '**kod** # qoladi']) {
+    assert.ok(text.split('\n').includes(line), `${line} in:\n${text}`);
+  }
+  assert.doesNotMatch(plainText('a\n\n\n\nb'), /\n{3}/);
+});
+
+test('copying falls back to a hidden textarea when the WebView refuses the clipboard', async (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const calls: string[] = [];
+  const box = { value: '', readOnly: false, style: {} as Record<string, string>, select: () => calls.push('select'), remove: () => calls.push('remove') };
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { clipboard: { writeText: async () => { throw new Error('denied'); } } } });
+  g.document = { createElement: () => box, body: { appendChild: () => calls.push('append') }, execCommand: (command: string) => { calls.push(command); return true; } };
+  t.after(() => {
+    delete g.document;
+    if (previous) Object.defineProperty(globalThis, 'navigator', previous);
+  });
+  assert.equal(await copyText('Toza matn'), true);
+  assert.deepEqual(calls, ['append', 'select', 'copy', 'remove']);
+  assert.equal(box.value, 'Toza matn');
+  assert.deepEqual(box.style, { position: 'fixed', opacity: '0' });
+  // Both ways refused: only then «Nusxalab bo‘lmadi».
+  (g.document as { execCommand: () => boolean }).execCommand = () => false;
+  assert.equal(await copyText('x'), false);
+});
+
+test('«Telegramga yuborish»: t.me picker, plain text within 6000 encoded characters, the signature and the chat link', () => {
+  const page = 'https://gptbot.uz/uz/gpt-uzbek-tilida/';
+  const short = telegramShare('**Salom**, bu javob.', page);
+  const url = new URL(short.href);
+  assert.equal(`${url.origin}${url.pathname}`, 'https://t.me/share/url');
+  assert.equal(url.searchParams.get('url'), `${page}?utm_source=telegram&utm_medium=share`);
+  assert.equal(url.searchParams.get('text'), `Salom, bu javob.${SHARE_SIGNATURE}`);
+  assert.equal(short.cut, false);
+  // A long Cyrillic answer: whole paragraphs while they fit, then «…» and the signature.
+  const long = Array.from({ length: 30 }, (_, i) => `Абзац ${i + 1}. ${'Длинный русский текст ответа. '.repeat(4)}`).join('\n\n');
+  const shared = telegramShare(long, page);
+  const text = new URL(shared.href).searchParams.get('text')!;
+  assert.equal(shared.cut, true);
+  assert.ok(encodeURIComponent(text).length <= 6000, String(encodeURIComponent(text).length));
+  assert.ok(text.endsWith(`\n\n…${SHARE_SIGNATURE}`));
+  assert.match(text, /^Абзац 1\./);
+  assert.ok(long.includes(text.slice(0, text.indexOf('\n\n…'))), 'cut at a paragraph');
+  // One paragraph too long alone is cut by characters, never in the middle of an emoji.
+  const wall = telegramShare(`a${'😀'.repeat(3000)}`, page);
+  assert.doesNotThrow(() => decodeURIComponent(new URL(wall.href).search));
+  assert.equal(wall.cut, true);
+  for (const locale of LOCALES) {
+    const s = answerStrings(locale);
+    for (const line of [s.share, s.shareLabel, s.shareCut, SHARE_SIGNATURE]) assert.doesNotMatch(line, /ChatGPT|OpenAI|rasmiy|официальн/i);
+  }
+  assert.deepEqual([answerStrings('uz').share, answerStrings('uz').shareLabel], ['Telegramga', 'Telegramga yuborish']);
+  // answer_shared carries the method only.
+  const shares = trackCalls().filter((call) => call.event === 'EV.answerShared');
+  assert.deepEqual(shares.map((call) => call.keys), [['method']]);
+  assert.equal(EV.answerShared, 'answer_shared');
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /window\.open\(href, "_blank", "noopener"\);/);
+  assert.doesNotMatch(source, /navigator\.share/);
+});
+
 // ── analytics: one event per entity ─────────────────────────────────────────
 
 /** Every track()/trackOnce() call in the chat: the event expression and its parameter names. */
@@ -312,7 +651,7 @@ test('every track call names a catalogued event and sends only parameters GA4 ke
   assert.match(cta, /track\(EV\.telegramCtaClicked, \{ from: stage, channel: link\.channel, with_session: link\.withSession \}\)/);
   // chat_opened fires on mount, whatever the account view does (F18).
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /useEffect\(\(\) => \{\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta \}\);/);
+  assert.match(consoleSource, /useEffect\(\(\) => \{\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta, in_app: inApp\(\) \}\);/);
   assert.match(consoleSource, /const entryMeta = entry \? \{ entry: entry\.id \} : \{\};/);
 });
 
@@ -330,4 +669,19 @@ test('track() keeps catalogued snake_case parameters and drops anything else', (
     Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'route' && key !== 'lang')),
     { message_number: 2, source: 'composer', anonymous: true },
   );
+});
+
+test('in_app names the in-app browser with a fixed word, never the user agent', () => {
+  const telegram = 'Mozilla/5.0 (Linux; Android 12; SM-A125F Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/129.0.6668.100 Mobile Safari/537.36 Telegram-Android/11.1.3 (Samsung SM-A125F; Android 12; SDK 31; LOW)';
+  const instagram = 'Mozilla/5.0 (Linux; Android 13; SM-A145F Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/128.0.6613.146 Mobile Safari/537.36 Instagram 349.0.0.39.106 Android';
+  const chrome = 'Mozilla/5.0 (Linux; Android 12; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36';
+  assert.equal(inAppOf(telegram, {}), 'telegram');
+  assert.equal(inAppOf(instagram, {}), 'instagram');
+  assert.equal(inAppOf(chrome, {}), 'other');
+  // Telegram's WebView without its name in the user agent still exposes its proxy.
+  assert.equal(inAppOf(chrome, { TelegramWebviewProxy: {} }), 'telegram');
+  assert.ok(GA4_PARAMS.has('in_app'));
+  // chat_opened and message_sent carry it; nothing else does.
+  const calls = trackCalls().filter((call) => call.keys.includes('in_app')).map((call) => call.event).sort();
+  assert.deepEqual(calls, ['EV.chatOpened', 'EV.messageSent']);
 });

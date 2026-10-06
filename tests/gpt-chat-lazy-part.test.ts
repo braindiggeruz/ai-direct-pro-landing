@@ -12,10 +12,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { prerender } from 'react-dom/static';
 import { Dialog } from '../src/components/ui/dialog';
 
-import { LazyPart, PartFailed, PartLoading, accountPart, leadPart, part, toolsPart } from '../src/gpt-chat/lazy-part';
+import { LazyPart, PartFailed, PartLoading, accountPart, answerPart, leadPart, part, toolsPart, turnstilePart } from '../src/gpt-chat/lazy-part';
+import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
+import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } from '../src/components/ui/message-scroller';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
+import { answerStrings } from '../src/gpt-chat/answer-strings';
 import type { AccountHandle } from '../src/gpt-chat/use-account';
 import type { AccountView } from '../src/gpt-chat/types';
 
@@ -237,4 +240,94 @@ test('chat-tools: each tool behind the menu, as before the split', async () => {
     }
     assert.match(render('business'), locale === 'uz' ? /href="\/uz\/biznes-uchun-ai-bot\/"/ : /href="\/ru\/gpt-dlya-biznesa\/"/);
   }
+});
+
+test('chat-answer: an answer reads as plain text until the part is here, then as Markdown with its actions', async () => {
+  const list = (locale: 'ru' | 'uz') => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, {
+        t: strings(locale), locale, onRetry: () => {}, onAsk: () => {},
+        messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: '**Javob**\n- bir', model: 'model-a' }],
+      })))));
+  // Before the part: the text as written, the brand above it, no action row yet.
+  const before = list('uz');
+  assert.match(before, /<div class="gpt-answer-body whitespace-pre-wrap" dir="auto">\*\*Javob\*\*\n- bir<\/div>/);
+  assert.match(before, /class="gpt-answer-head">.*GPTBot\.uz<\/div>/);
+  assert.ok(!before.includes('gpt-action-row'));
+  await answerPart.load();
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const html = list(locale);
+    assert.ok(html.includes('<div class="gpt-answer-body" dir="auto"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
+    assert.ok(html.includes('<li>bir</li>'), locale);
+    assert.match(html, /class="gpt-action-row"/);
+    assert.ok(html.includes(answerStrings(locale).copy) && html.includes(answerStrings(locale).regenerate), locale);
+    assert.ok(html.includes(t.brand), locale);
+  }
+  const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
+  // Fetched while a question is written, a conversation is on screen, or one is stored (beside the account view).
+  assert.match(chat, /const writing = !empty \|\| !!input\.trim\(\);\s*useEffect\(\(\) => \{\s*if \(writing \|\| hasStoredHistory\(config\.locale\)\) answerPart\.preload\(\);\s*\}, \[writing, config\.locale\]\);/);
+  // A finished answer is not parsed again on every frame of the next one, or on every key typed.
+  const { AnswerBody } = await answerPart.load();
+  assert.equal((AnswerBody as unknown as { $$typeof: symbol }).$$typeof, Symbol.for('react.memo'));
+  // A part that cannot load: the buttons are gone for the page view, said once under the last answer.
+  const listSource = read('src/gpt-chat/components/AiChatMessageList.tsx');
+  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{null\} failed=\{i === lastAssistant \? <PartFailed message=\{t\.partFailed\} reload=\{t\.partReload\} \/> : null\}>/);
+  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{<PlainAnswer content=\{m\.content\} \/>\} failed=\{<PlainAnswer content=\{m\.content\} \/>\}>/);
+});
+
+test('chat-answer is fetched on load when a conversation of this page is stored, a guest’s or an account’s', async () => {
+  const { hasStoredHistory } = await import('../src/gpt-chat/storage');
+  const values = new Map<string, string>();
+  const storage = {
+    get length() { return values.size; },
+    key: (i: number) => [...values.keys()][i] ?? null,
+    getItem: (k: string) => values.get(k) ?? null,
+    setItem: (k: string, v: string) => { values.set(k, v); },
+    removeItem: (k: string) => { values.delete(k); },
+  };
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: storage });
+  try {
+    assert.equal(hasStoredHistory('uz'), false);
+    values.set('gptchat_history_ru', '[{"role":"user","content":"Savol"}]');
+    assert.equal(hasStoredHistory('uz'), false, 'another page’s conversation');
+    assert.equal(hasStoredHistory('ru'), true);
+    values.clear();
+    values.set(`gptchat_history_account_${'a'.repeat(64)}_uz`, '[{"role":"user","content":"Savol"}]');
+    assert.equal(hasStoredHistory('uz'), true, 'an account’s, before the view says whose');
+    values.clear();
+    values.set('gptchat_history', '[{"role":"user","content":"old"}]');
+    assert.equal(hasStoredHistory('ru'), true, 'the legacy Russian key');
+    assert.equal(hasStoredHistory('uz'), false);
+    values.set('gptchat_history', '[]');
+    values.set('gptchat_dialogs_ru', '[{"id":"x"}]');
+    assert.equal(hasStoredHistory('ru'), false, 'an emptied conversation or saved chats only');
+    Object.defineProperty(globalThis, 'localStorage', { configurable: true, get() { throw new Error('denied'); } });
+    assert.equal(hasStoredHistory('ru'), false);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
+    else delete (globalThis as { localStorage?: Storage }).localStorage;
+  }
+});
+
+test('chat-turnstile: the security check, loaded only where the server asks for it', async () => {
+  const { TurnstileChallenge } = await turnstilePart.load();
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const html = renderToStaticMarkup(React.createElement(TurnstileChallenge, {
+      siteKey: 'site-key', loadingText: t.turnstileLoading, promptText: t.turnstilePrompt,
+      verifiedText: t.turnstileVerified, errorText: t.turnstileError, onTokenChange: () => {},
+    }));
+    assert.ok(html.includes('data-testid="gpt-chat-turnstile"') && html.includes(t.turnstileLoading), locale);
+  }
+  const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
+  // Rendered only when the server requires the check and gave a site key; the
+  // console keeps only the handle's type, which the build erases.
+  assert.match(chat, /const turnstileKey = turnstileConfig\?\.required \? turnstileConfig\.siteKey : null;/);
+  assert.match(chat, /\{turnstileKey && \(\s*(?:\/\/.*\s*)*<LazyPart\s+part=\{turnstilePart\}/);
+  assert.match(chat, /^import type \{ TurnstileChallengeHandle \} from "\.\/TurnstileChallenge";$/m);
+  // Cloudflare's script is fetched beside the part, and shared/turnstile stays
+  // in the start: moving it would rename the chunk the landing page shares.
+  assert.match(chat, /if \(next\.required && next\.siteKey\) void loadTurnstile\(\)\.catch\(\(\) => undefined\);/);
 });

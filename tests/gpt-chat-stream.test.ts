@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { retryAfterSeconds, sendChatStream } from '../src/gpt-chat/api';
+import { loadTurnstileConfig, retryAfterSeconds, sendChatStream, STREAM_HEADERS_MS, STREAM_SILENCE_MS } from '../src/gpt-chat/api';
 import { parseSseChunk } from '../functions/lib/gpt-chat/openrouter-stream';
+import { readFileSync } from 'node:fs';
 
 const params = { sessionId: null, message: 'fixture', locale: 'uz' as const, history: [] };
 const sse = (...events: unknown[]) => events.map(event => `data: ${JSON.stringify(event)}\n\n`).join('');
@@ -152,9 +153,120 @@ test('stopping after a delta preserves the explicit aborted outcome', async (t) 
   assert.deepEqual(outcome, { mode: 'stream', ok: false, aborted: true, gotText: true });
 });
 
+/** A stream that sends meta and then nothing, until the request is aborted (as fetch does). */
+function silentStream(t: { mock: { method: (o: object, m: string, f: unknown) => unknown } }) {
+  t.mock.method(globalThis, 'fetch', async (_url: string, init: RequestInit) => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(sse({ type: 'meta', sessionId: 's', model: 'm' })));
+        init.signal!.addEventListener('abort', () => controller.error(new DOMException('aborted', 'AbortError')));
+      },
+    });
+    return new Response(body, { headers: { 'Content-Type': 'text/event-stream' } });
+  });
+}
+const settle = async () => { for (let i = 0; i < 20; i++) await Promise.resolve(); };
+
+test('a stream that goes silent ends after 30 s as a network failure, not an endless wait (STREAM-01)', async (t) => {
+  assert.equal(STREAM_SILENCE_MS, 30_000);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  silentStream(t);
+  const metas: unknown[] = [];
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onMeta: (m) => metas.push(m), onDelta: () => assert.fail('no text') }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  assert.deepEqual(metas, [{ sessionId: 's', model: 'm' }]);
+  t.mock.timers.tick(STREAM_SILENCE_MS - 1);
+  await settle();
+  assert.equal(outcome, null, 'still waiting just before 30 s of silence');
+  t.mock.timers.tick(1);
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: false });
+});
+
+/** The server answers only after `ms`: no headers until a model's first content (up to 3 models within 60 s). */
+function lateStart(t: { mock: { method: (o: object, m: string, f: unknown) => unknown } }, ms: number) {
+  t.mock.method(globalThis, 'fetch', (_url: string, init: RequestInit) => new Promise<Response>((resolve, reject) => {
+    const timer = setTimeout(() => resolve(new Response(sse(
+      { type: 'meta', sessionId: 's', model: 'third-model' }, { type: 'delta', text: 'Javob' }, { type: 'done', remaining: 9 },
+    ), { headers: { 'Content-Type': 'text/event-stream' } })), ms);
+    init.signal!.addEventListener('abort', () => { clearTimeout(timer); reject(new DOMException('aborted', 'AbortError')); });
+  }));
+}
+
+test('an answer the server starts after 35 s, from its third model, still arrives: the start has its own 65 s limit', async (t) => {
+  assert.equal(STREAM_HEADERS_MS, 65_000);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  lateStart(t, 35_000);
+  let answer = '';
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: (text) => { answer += text; } }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(STREAM_SILENCE_MS);
+  await settle();
+  assert.equal(outcome, null, 'no stall at 30 s while the server is still trying models');
+  t.mock.timers.tick(5_000);
+  for (let i = 0; i < 5; i++) await settle();
+  assert.equal(answer, 'Javob');
+  assert.deepEqual(outcome, { mode: 'stream', ok: true, remaining: 9, hourRemaining: null, truncated: false, charged: true, modelUsed: undefined, gotText: true });
+});
+
+test('a response that has not started after 65 s is a network failure', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  lateStart(t, 120_000);
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: () => assert.fail('no text') }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(STREAM_HEADERS_MS - 1);
+  await settle();
+  assert.equal(outcome, null);
+  t.mock.timers.tick(1);
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: false });
+  const api = readFileSync(new URL('../src/gpt-chat/api.ts', import.meta.url), 'utf8');
+  // The longer limit is for the start only; every chunk after it re-arms the 30 s one.
+  assert.match(api, /watch\(STREAM_HEADERS_MS\);\s*const res = await fetch\(/);
+  assert.match(api, /signal: inner\.signal,\s*\}\);\s*watch\(\);/);
+  assert.match(api, /const \{ done, value \} = await reader\.read\(\);\s*watch\(\);/);
+  assert.doesNotMatch(api, /ends a wait for the first token at 12 s/);
+});
+
+test('the visitor’s Stop is still aborted, never a network failure', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  silentStream(t);
+  const controller = new AbortController();
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: () => {} }, controller.signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(10_000);
+  controller.abort();
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, aborted: true, gotText: false });
+  const api = readFileSync(new URL('../src/gpt-chat/api.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(api, /AbortSignal\.any\(/, 'older WebViews have no AbortSignal.any');
+});
+
 test('plain JSON responses keep the existing compatibility path', async (t) => {
   const res = { ok: true, answer: 'JSON answer', remaining: 3 };
   t.mock.method(globalThis, 'fetch', async () => Response.json(res));
   const outcome = await sendChatStream('', params, { onDelta: () => assert.fail('JSON does not emit deltas') }, new AbortController().signal);
   assert.deepEqual(outcome, { mode: 'json', res });
+});
+
+test('the check config is asked three times, then no check is assumed', async (t) => {
+  const pauses: number[] = [];
+  const wait = async (ms: number) => { pauses.push(ms); };
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => { calls++; return new Response('{}', { status: 500 }); });
+  assert.deepEqual(await loadTurnstileConfig('', wait), { required: false, siteKey: null });
+  assert.equal(calls, 3);
+  assert.deepEqual(pauses, [1_000, 3_000]);
+  // A config that arrives on the second try is the config.
+  calls = 0;
+  pauses.length = 0;
+  t.mock.method(globalThis, 'fetch', async () => (++calls === 1
+    ? new Response('{}', { status: 503 })
+    : Response.json({ turnstileRequired: true, turnstileSiteKey: 'site-key' })));
+  assert.deepEqual(await loadTurnstileConfig('', wait), { required: true, siteKey: 'site-key' });
+  assert.deepEqual(pauses, [1_000]);
 });
