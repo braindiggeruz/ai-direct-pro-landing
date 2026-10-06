@@ -179,3 +179,49 @@ test('the Pages project name and output directory are unchanged', () => {
   assert.match(config, /^name = "ai-direct-pro-landing"$/m);
   assert.match(config, /^pages_build_output_dir = "dist"$/m);
 });
+
+// The studio's settings (functions/lib/studio/config.ts) are their own text
+// variable. Written below [vars.GPTBOT_RUNTIME_CONFIG] the line would belong
+// to that table, production would never see it, and the studio would stay off
+// without a word; a key in the chat's packed JSON would eat the chat's room.
+test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON, every studio switch off', async () => {
+  const { STUDIO_CONFIG_DEFAULTS, STUDIO_CONFIG_KEYS, parseStudioConfig } = await import('../functions/lib/studio/config');
+  const { RUNTIME_CONFIG_KEYS } = await import('../functions/lib/runtime-config');
+  const lines = config.split(/\r?\n/);
+  const start = lines.indexOf('[vars]');
+  const end = lines.findIndex((line, index) => index > start && line.startsWith('['));
+  assert.ok(start !== -1 && end > start, 'wrangler.toml has no [vars] table followed by another table');
+  const studioLines = lines.flatMap((line, index) => (line.includes('STUDIO_RUNTIME_CONFIG_JSON') && !line.startsWith('#') ? [index] : []));
+  assert.equal(studioLines.length, 1, 'STUDIO_RUNTIME_CONFIG_JSON must be set exactly once');
+  assert.ok(studioLines[0] > start && studioLines[0] < end, 'STUDIO_RUNTIME_CONFIG_JSON must sit between [vars] and the next table');
+
+  // Wrangler itself reads it as a top-level var, outside the nested table.
+  const { experimental_readRawConfig } = await import('wrangler');
+  const vars = (experimental_readRawConfig({ config: path.join(process.cwd(), 'wrangler.toml') }).rawConfig as { vars?: Record<string, unknown> }).vars ?? {};
+  const raw = vars.STUDIO_RUNTIME_CONFIG_JSON;
+  assert.equal(typeof raw, 'string');
+  assert.ok(!('STUDIO_RUNTIME_CONFIG_JSON' in ((vars.GPTBOT_RUNTIME_CONFIG ?? {}) as object)));
+
+  const packed = JSON.parse(raw as string) as Record<string, unknown>;
+  assert.equal(JSON.stringify(packed), raw, 'keep the JSON compact, like the chat packed variable');
+  assert.ok(Buffer.byteLength(raw as string) <= 5120, 'Pages caps a text variable at 5 KiB');
+  assert.deepEqual(Object.keys(packed), [...STUDIO_CONFIG_KEYS]);
+  assert.deepEqual(packed, STUDIO_CONFIG_DEFAULTS);
+  const studio = parseStudioConfig(raw);
+  assert.deepEqual(
+    [studio.api, studio.paidService, studio.freeDeck, studio.fullDeck, studio.photo, studio.payments, studio.events,
+      studio.clickAmountsConfirmed, studio.turnstilePaid, studio.ga4Mp],
+    [false, false, false, false, false, 'off', false, false, false, false],
+  );
+  // No secret ever lives in a public variable.
+  assert.doesNotMatch(raw as string, /SECRET|CREDENTIALS|API_KEY|TOKEN/);
+
+  // Tools split wrangler.toml on the nested table's header (scripts/paid-chat/ingest-keys.ts,
+  // tests/legal-oferta.test.ts): it must appear once, never quoted in a comment above it.
+  assert.equal(config.split('[vars.GPTBOT_RUNTIME_CONFIG]').length, 2);
+  // The chat's config carries no studio key, in either copy or in its allowlist.
+  const chat = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(config)![1]) as Record<string, string>;
+  assert.deepEqual(Object.keys(chat).filter((key) => key.startsWith('STUDIO_')), []);
+  assert.deepEqual([...declaredVars().keys()].filter((key) => key.startsWith('STUDIO_')), []);
+  assert.deepEqual(RUNTIME_CONFIG_KEYS.filter((key: string) => key.startsWith('STUDIO_')), []);
+});
