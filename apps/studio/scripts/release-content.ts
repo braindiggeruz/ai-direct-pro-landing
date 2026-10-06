@@ -10,7 +10,7 @@
  * their `published`: a link to a draft studio page is a broken link (the SEO
  * audit gate and tests/seo-link-graph.test.ts fail the build on it), and an
  * intent pair naming a draft fails tests/seo-intent-manifest.test.ts. So the
- * guide's new sentences, the link from /ru/gpt-dlya-ucheby/, pair C37, the
+ * guide's new sentences, the link from /ru/gpt-dlya-ucheby/, pair C40, the
  * architecture decision A5 and the C29 wording wait here, next to the two
  * status flips, as exact text edits. tests/studio-release.test.ts applies
  * them to a copy of content/ on every run and runs the SEO suites on the
@@ -69,8 +69,13 @@ export const GUIDE_TOOL_LINK = { token: 'tool', target: '/uz/taqdimot-ai/', anch
 /** The one link /ru/gpt-dlya-ucheby/ gains in its body (§11.7). */
 export const STUDY_TOOL_LINK = { token: 'deck', target: '/ru/prezentatsiya-ai/', anchor: 'генератор презентаций GPTBot.uz' } as const;
 
-const C37 = `    {
-      "id": "C37-uz-taqdimot-tool-vs-guide",
+/**
+ * The studio pair is C40: C37 and C38 are the pairs of the chatgpt.uz SEO
+ * release no. 2 (2026-10-06), and C39 is taken by its release no. 3. It is
+ * appended after whatever pair is last, so later SEO pairs do not move it.
+ */
+const C40 = `    {
+      "id": "C40-uz-taqdimot-tool-vs-guide",
       "commercial": {
         "url": "/uz/taqdimot-ai/",
         "owns": "make the .pptx itself — «slayd ai», «ai slayd», «slayd yaratish», «slayd yasash», «taqdimot yaratish», «prezentatsiya ai», «ai prezentatsiya», «sun’iy intellekt slayd»: a tool that turns a topic into a file",
@@ -113,7 +118,7 @@ export const R_ST1: ContentRelease = {
     },
     {
       file: GUIDE,
-      why: '«slayd yaratish» moves to the tool (pair C37)',
+      why: '«slayd yaratish» moves to the tool (pair C40)',
       find: '    "slayd yaratish",\n',
       replace: '',
     },
@@ -168,16 +173,12 @@ export const R_ST1: ContentRelease = {
     },
     {
       file: MANIFEST,
-      why: 'pair C37: the tool owns making the file, the guide owns how to prepare slides',
-      find: `      "decision": "KEEP_DIFFERENT_INTENT",
-      "decidedAt": "2026-10-05"
-    }
+      why: 'pair C40: the tool owns making the file, the guide owns how to prepare slides',
+      find: `    }
   ],
   "architectureDecisions": [`,
-      replace: `      "decision": "KEEP_DIFFERENT_INTENT",
-      "decidedAt": "2026-10-05"
-    },
-${C37}
+      replace: `    },
+${C40}
   ],
   "architectureDecisions": [`,
     },
@@ -185,7 +186,7 @@ ${C37}
       file: MANIFEST,
       why: 'C29: the guide no longer says that no .pptx can be had',
       find: 'it states in its first screen that the chat writes text only and makes no .pptx or PDF file and no design"',
-      replace: 'it states in its first screen that the chat writes text and that a ready .pptx draft is on the studio page /uz/taqdimot-ai/ (pair C37)"',
+      replace: 'it states in its first screen that the chat writes text and that a ready .pptx draft is on the studio page /uz/taqdimot-ai/ (pair C40)"',
     },
     {
       file: MANIFEST,
@@ -193,7 +194,7 @@ ${C37}
       find: '    }\n  ]\n}\n',
       replace: `    },\n${A5}\n  ]\n}\n`,
     },
-    { file: MANIFEST, why: 'the manifest changed on the release day', find: '  "updatedAt": "2026-10-05",', replace: `  "updatedAt": "${RELEASE_DATE}",` },
+    { file: MANIFEST, why: 'the manifest changed on the release day', find: '  "updatedAt": "2026-10-06",', replace: `  "updatedAt": "${RELEASE_DATE}",` },
   ],
 };
 

@@ -515,25 +515,25 @@ const RELEASED = applyRelease(R_ST1, '2026-10-22', readFrom(REPO));
 const releasedManifest = JSON.parse(RELEASED.get('content/seo/intent-manifest.json') as string) as {
   pairs: Array<{ id: string; commercial: { url: string; mustNotTarget: string[] }; informational: { url: string; mustNotTarget: string[] } }>;
 };
-const C37 = releasedManifest.pairs.find(pair => pair.id === 'C37-uz-taqdimot-tool-vs-guide');
+const C40 = releasedManifest.pairs.find(pair => pair.id === 'C40-uz-taqdimot-tool-vs-guide');
 const releasedGuide = JSON.parse(RELEASED.get('content/blog/uz/slayd-tayyorlash.json') as string) as {
   description: string; faq: Array<{ q: string }>; keywords: string[];
   body: Array<{ type: string; text?: string; links?: Array<{ target: string; anchor: string }> }>;
 };
 
-test('cannibalisation: no C37 «… tayyorlash» phrase in the tool page\'s title, H1, H2 or description', () => {
-  assert.ok(C37, 'R-ST1 adds pair C37');
-  assert.equal(C37.commercial.url, '/uz/taqdimot-ai/');
+test('cannibalisation: no C40 «… tayyorlash» phrase in the tool page\'s title, H1, H2 or description', () => {
+  assert.ok(C40, 'R-ST1 adds pair C40');
+  assert.equal(C40.commercial.url, '/uz/taqdimot-ai/');
   const html = rendered('uz');
   const surfaces = [strip(/<title>([^<]*)<\/title>/.exec(html)?.[1] ?? ''), ...headings(html, 1), ...headings(html, 2), meta(html, 'description') ?? '']
     .map(text => text.toLowerCase());
   assert.equal(surfaces.length >= 5, true);
-  for (const phrase of C37.commercial.mustNotTarget) {
+  for (const phrase of C40.commercial.mustNotTarget) {
     for (const surface of surfaces) assert.ok(!surface.includes(phrase.toLowerCase()), `«${phrase}» in «${surface}»`);
   }
-  // The tool declares exactly the keys C37 gives it, and none the guide keeps.
+  // The tool declares exactly the keys C40 gives it, and none the guide keeps.
   const tool = real(UZ_FILE);
-  assert.deepEqual(declaredKeywords(tool).sort(), [...C37.informational.mustNotTarget, 'sun’iy intellekt slayd'].sort());
+  assert.deepEqual(declaredKeywords(tool).sort(), [...C40.informational.mustNotTarget, 'sun’iy intellekt slayd'].sort());
   assert.deepEqual(declaredKeywords(tool).filter(k => releasedGuide.keywords.includes(k)), []);
 });
 

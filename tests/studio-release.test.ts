@@ -114,7 +114,7 @@ test('r-st1: the guide keeps its frozen fields; /ru/gpt-dlya-ucheby/ changes in 
   }
   const manifest = json(files, 'content/seo/intent-manifest.json') as { updatedAt: string; pairs: Array<{ id: string; decidedAt: string }>; architectureDecisions: Array<{ id: string; decidedAt: string }> };
   assert.equal(manifest.updatedAt, DAY);
-  assert.equal(manifest.pairs.at(-1)?.id, 'C37-uz-taqdimot-tool-vs-guide');
+  assert.equal(manifest.pairs.at(-1)?.id, 'C40-uz-taqdimot-tool-vs-guide');
   assert.equal(manifest.pairs.at(-1)?.decidedAt, DAY);
   assert.equal(manifest.architectureDecisions.at(-1)?.id, 'A5-ru-prezentatsiya-tool-vs-gpt-chat');
   assert.equal(manifest.architectureDecisions.at(-1)?.decidedAt, DAY);
