@@ -95,9 +95,12 @@ export function AiChatMessageList({
     const timer = window.setTimeout(() => setSlow(true), 8_000);
     return () => window.clearTimeout(timer);
   }, [waiting]);
+  // Too long for the server: sending it again fails the same way, so only
+  // «change the question» is offered.
+  const resend = messages[messages.length - 1]?.content !== t.premium.contextTooLarge;
   const errorActions = onRetry && (
     <div className="mt-2.5 flex flex-wrap gap-2">
-      <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
+      {resend && <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
         <svg
           width="13"
           height="13"
@@ -112,7 +115,7 @@ export function AiChatMessageList({
           <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
         </svg>
         {t.retry}
-      </button>
+      </button>}
       {onEdit && (
         <button type="button" onClick={onEdit} disabled={busy} className={ERROR_ACTION}>
           {t.premium.editQuestion}

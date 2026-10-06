@@ -256,21 +256,52 @@ test('the console renders without a pill, a tier or the old brand before the acc
   }
 });
 
-test('a paste longer than the limit is cut and said so, never cut silently by maxlength', () => {
+test('the composer stops at the limit, says when a paste did not fit, and never sends or cuts text over it', () => {
+  const input = (value: string, maxChars: number, locale: 'ru' | 'uz' = 'uz') => renderToStaticMarkup(React.createElement(AiChatInput, {
+    value, onChange: () => {}, onSend: () => {}, maxChars, t: strings(locale), inputRef: React.createRef<HTMLTextAreaElement>(),
+  }));
   for (const locale of LOCALES) {
     const t = strings(locale);
-    const input = renderToStaticMarkup(React.createElement(AiChatInput, {
-      value: 'x'.repeat(2900), onChange: () => {}, onSend: () => {}, maxChars: 2950, t, inputRef: React.createRef<HTMLTextAreaElement>(),
-    }));
-    assert.doesNotMatch(input, /maxlength/i, locale);
-    assert.ok(input.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
+    const html = input('x'.repeat(2900), 2950, locale);
+    // The browser blocks typing past the limit and cuts a paste at the caret: no character of the visitor's own text goes.
+    assert.match(html, /maxLength="2950"|maxlength="2950"/, locale);
+    assert.ok(html.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
+    // The limit fell under the text (another role, an older draft, a question put back): not sent, not cut, said.
+    const over = input('x'.repeat(2643), 2541, locale);
+    assert.ok(over.includes(`<span role="status">${t.charsOver(102)}</span>`), `${locale}: by how much`);
+    assert.match(over, /<button[^>]*disabled=""[^>]*aria-label="[^"]*"/, `${locale}: the send button is off`);
+    assert.match(over, />x{2643}<\/textarea>/, `${locale}: the text stays whole`);
+    assert.doesNotMatch(input('x'.repeat(10), 2541, locale), /<button[^>]*disabled=""/);
   }
   assert.equal(strings('uz').inputCut, 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.');
   assert.equal(strings('ru').inputCut, 'Текст был слишком длинным — конец обрезан. Отправьте частями.');
   const source = read('src/gpt-chat/components/AiChatInput.tsx');
-  assert.match(source, /if \(next\.length > maxChars\) setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, maxChars\)\);/);
+  assert.match(source, /<InputGroupTextarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
+  // A paste that does not fit is said for 8 s.
+  assert.match(source, /if \(el\.value\.length - \(el\.selectionEnd - el\.selectionStart\) \+ pasted\.length > maxChars\) setCutAt\(Date\.now\(\)\);/);
   assert.match(source, /window\.setTimeout\(\(\) => setCutAt\(0\), 8_000\)/);
-  assert.match(source, /\{cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(Math\.max\(0, left\)\)\}<\/span>\}/);
+  // The safety net cuts only text that grew past the limit, never what was over it before.
+  assert.match(source, /if \(next\.length > maxChars && next\.length > value\.length\) \{\s*setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, Math\.max\(maxChars, value\.length\)\)\);\s*\} else onChange\(next\);/);
+  // Neither Enter nor the button sends text over the limit.
+  assert.match(source, /if \(!disabled && !busy && value\.trim\(\) && !over\) onSend\(\);/);
+  assert.match(source, /disabled=\{disabled \|\| busy \|\| !value\.trim\(\) \|\| over\}/);
+  assert.match(source, /\{cutAt \? <span role="status">\{t\.inputCut\}<\/span> : over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
+});
+
+test('a message too long for the server offers «change the question», not a retry that fails the same way', () => {
+  const uz = strings('uz');
+  const list = (last: string) => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, {
+        t: uz, onRetry: () => {}, onEdit: () => {},
+        messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: last, error: true }],
+      })))));
+  const tooLong = list(uz.premium.contextTooLarge);
+  assert.ok(tooLong.includes(uz.premium.editQuestion));
+  assert.ok(!tooLong.includes(uz.retry), 'no retry');
+  const network = list(uz.errorNetwork);
+  assert.ok(network.includes(uz.retry) && network.includes(uz.premium.editQuestion));
+  for (const locale of LOCALES) assert.doesNotMatch(strings(locale).premium.contextTooLarge, /vaqtincha|временно/);
 });
 
 // ── the buttons under an answer (NOW-04: plan ACT-01..03, M-09) ─────────────

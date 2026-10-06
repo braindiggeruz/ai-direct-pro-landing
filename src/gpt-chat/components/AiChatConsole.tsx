@@ -435,6 +435,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   ) => {
     const trimmed = text.trim();
     if (!trimmed || sendDisabled) return;
+    // A translation names its language, so it gets no language line. A typed
+    // question gets its lines in its own language when its letters say so
+    // (frameLocale); a button's instruction and the translator, whose page
+    // says which way to go, keep the page's.
+    const requestMessage = applyRole(
+      meta.request ?? trimmed,
+      role,
+      meta.request || role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
+      { guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
+    );
+    // Over the server's limit (a role with longer lines after a long paste, an
+    // older draft, a retry under another role): nothing is sent, so nothing
+    // fails the same way on every retry. The text waits in the composer,
+    // whose line says by how much it is too long.
+    if (requestMessage.length > MAX_INPUT) {
+      if (meta.base && !meta.request) setInput(trimmed);
+      track(EV.aiResponseError, { code: "too_long" });
+      focusInput();
+      return;
+    }
     setBusy(true);
     setInput("");
     // At once, not after the draft's 500 ms: the question is in the thread now.
@@ -496,18 +516,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       anonymous: !signedIn,
       in_app: inApp(),
     });
-
-    // The composer already holds the question to what fits with the role's
-    // lines. A translation names its language, so it gets no language line.
-    // A typed question gets its lines in its own language when its letters
-    // say so (frameLocale); a button's instruction and the translator, whose
-    // page says which way to go, keep the page's.
-    const requestMessage = applyRole(
-      meta.request ?? trimmed,
-      role,
-      meta.request || role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
-      { guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
-    );
 
     const base = withUser.filter((m) => !m.pending);
     // A refused or stopped turn: the thread as it was before the tap, and a
@@ -580,9 +588,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         setConfigRead((n) => n + 1);
         track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
       } else {
-        // Curated copy only — never surface raw backend/provider strings.
+        // Curated copy only — never surface raw backend/provider strings. A
+        // message the server finds too long (invalid_message: it never gets
+        // an empty one) is said so, not «the service is down».
         const friendly =
-          res.code === "context_too_large"
+          res.code === "context_too_large" || res.code === "invalid_message"
             ? t.premium.contextTooLarge
             : res.code === "network"
               ? t.errorNetwork

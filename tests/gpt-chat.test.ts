@@ -289,7 +289,33 @@ test('the language line: the question decides, the page only when unclear; formu
   }
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(consoleSource, /maxChars=\{MAX_INPUT - maxRolePrefixLength\(role\)\}/);
-  assert.doesNotMatch(consoleSource, /\.slice\(\s*0,\s*MAX_INPUT,?\s*\)/, 'the request is not cut a second time');
+  assert.doesNotMatch(consoleSource, /\.slice\(\s*0,\s*MAX_INPUT,?\s*\)/, 'the request is never cut behind the visitor’s back');
+  // Nothing over the server's limit is sent: checked on the request itself, before anything is shown or counted.
+  const send = consoleSource.slice(consoleSource.indexOf('const doSend = async ('), consoleSource.indexOf('const onStop ='));
+  const guard = send.indexOf('if (requestMessage.length > MAX_INPUT) {');
+  assert.ok(guard > 0 && guard < send.indexOf('setBusy(true);') && guard < send.indexOf('track(EV.messageSent'), 'refused before busy, the thread and message_sent');
+  assert.match(send, /if \(requestMessage\.length > MAX_INPUT\) \{\s*if \(meta\.base && !meta\.request\) setInput\(trimmed\);\s*track\(EV\.aiResponseError, \{ code: "too_long" \}\);\s*focusInput\(\);\s*return;\s*\}/);
+});
+
+test('a long question under a role with longer lines is never sent over 3000 characters', () => {
+  // Pasted under «Universal yordamchi» (cut to its limit), then «Biznes maslahatchi» is chosen.
+  const general = 3000 - maxRolePrefixLength('general');
+  const business = 3000 - maxRolePrefixLength('business');
+  assert.ok(business < general, `${business} < ${general}`);
+  const question = 'x'.repeat(general);
+  // The request it would make is over the server's limit on either page…
+  for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole(question, 'business', locale).length > 3000, locale);
+  // …so doSend refuses it (above), and the composer neither sends nor cuts it: it says by how much.
+  // An older draft of 3000 characters is refused the same way, before any fetch.
+  for (const locale of ['ru', 'uz'] as const) {
+    assert.ok(applyRole('x'.repeat(3000), 'general', locale).length > 3000);
+    assert.ok(!strings(locale).charsOver(102).includes("'"));
+  }
+  assert.equal(strings('ru').charsOver(102), 'Текст длиннее лимита на 102 символа — сократите или отправьте частями');
+  assert.equal(strings('uz').charsOver(102), 'Matn limitdan 102 belgiga uzun — qisqartiring yoki qismlarga bo‘lib yuboring');
+  // A server that still finds it too long (invalid_message) is said so, never «the AI service is down».
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /res\.code === "context_too_large" \|\| res\.code === "invalid_message"\s*\? t\.premium\.contextTooLarge/);
 });
 
 test('the lines around a typed question are in its language when its letters say so, else the page’s', () => {
