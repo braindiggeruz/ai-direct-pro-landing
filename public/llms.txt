@@ -386,6 +386,7 @@ request form above.
 - "сколько стоит ведение Instagram" -> https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/
 - "таргетированная реклама Ташкент" / "заказать таргет" -> https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
 - "target nima" / "таргет нима" -> https://gptbot.uz/uz/blog/target-reklama-nima/
+- "target narxi" / "instagram target sozlash" -> https://gptbot.uz/uz/internet-reklama-toshkent/#target
 - "Telegram reklama" -> https://gptbot.uz/uz/telegram-reklama/
 - "chat-bot narxi" -> https://gptbot.uz/uz/chat-bot-narxi/
 - "chatgpt kirish (login)" / "chatgptga kirish" -> https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/
