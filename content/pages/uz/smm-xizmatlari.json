@@ -12,17 +12,20 @@
     "telegram kanal yuritish",
     "ijtimoiy tarmoqlarda reklama",
     "smm mutaxassisi",
-    "kontent reja"
+    "kontent reja",
+    "smm agentlik",
+    "smm toshkent",
+    "smm kompaniya"
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda SMM xizmatlari",
   "title": "SMM xizmatlari Toshkentda — oyiga 2 490 000 so‘mdan | GPTBot.uz",
-  "description": "Toshkentda SMM xizmatlari: o‘zbek va rus tilida kontent, Reels, target va Direct’da AI-bot javoblari. Oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
+  "description": "SMM agentligi Toshkentda: Instagram va Telegram yuritish, kontent, Reels, target va Direct’da AI-bot javoblari. Oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
   "canonical": "https://gptbot.uz/uz/smm-xizmatlari/",
   "hreflangRu": "/ru/smm-prodvizhenie-tashkent/",
   "hreflangUz": "/uz/smm-xizmatlari/",
   "ogTitle": "SMM xizmatlari Toshkentda — oyiga 2 490 000 so‘mdan | GPTBot.uz",
-  "ogDescription": "Toshkentda SMM xizmatlari: o‘zbek va rus tilida kontent, Reels, target va Direct’da AI-bot javoblari. Oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
+  "ogDescription": "SMM agentligi Toshkentda: Instagram va Telegram yuritish, kontent, Reels, target va Direct’da AI-bot javoblari. Oyiga 2 490 000 so‘mdan, reklama byudjeti alohida.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -63,6 +66,10 @@
           "label": "Murojaatlarni AI yordamida qayta ishlash"
         },
         {
+          "anchor": "direct-namuna",
+          "label": "Direct’da AI-bot javobi — namuna"
+        },
+        {
           "anchor": "jarayon",
           "label": "Ish jarayoni"
         },
@@ -76,7 +83,11 @@
         },
         {
           "anchor": "olchov",
-          "label": "Natijani qanday o‘lchaymiz"
+          "label": "Oylik hisobot namunasi"
+        },
+        {
+          "anchor": "agentlik",
+          "label": "Agentlik, frilanser yoki SMM menejer"
         },
         {
           "anchor": "narx",
@@ -235,6 +246,17 @@
       "text": "Amaliy tartib oddiy: avval sahifani tartibga solamiz va javob berish yo‘lini sozlaymiz, keyin reklamani yoqamiz. Shunda har bir bosish qayerga borishi va nima bilan tugashi oldindan ma’lum bo‘ladi."
     },
     {
+      "type": "linkp",
+      "text": "Instagram va Facebook’dagi pullik reklamani SMM paketisiz, alohida ham buyurtma qilish mumkin: ishga tushirish va yuritish tarkibi hamda narxi {target} bo‘limida yozilgan.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/internet-reklama-toshkent/#target",
+          "anchor": "Instagram target sozlash xizmati"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "ai",
       "text": "Murojaatlarni AI yordamida qayta ishlash"
@@ -267,6 +289,37 @@
     {
       "type": "p",
       "text": "Bu majburiy emas. SMM avtomatlashtirishsiz ham ishlaydi — bot faqat murojaat ko‘payganda yoki ish vaqtidan tashqari javob kerak bo‘lganda foyda beradi."
+    },
+    {
+      "type": "h2",
+      "id": "direct-namuna",
+      "text": "Direct’da AI-bot javobi — namuna"
+    },
+    {
+      "type": "p",
+      "text": "Bu real mijoz yozishmasi emas: bot sizning praysingiz va savollaringiz asosida sozlanadi. Namuna faqat suhbat qanday qadamlardan o‘tishini ko‘rsatadi; narx va shartlarni bot sizning prays-varag‘ingizdan oladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz: «Assalomu alaykum, narxi qancha?»",
+        "Bot: «Va alaykum assalom! Qaysi xizmat yoki mahsulot qiziqtiryapti? Shunga qarab aniq javob beraman.»",
+        "Mijoz xizmatni aytadi — bot narx va shartlarni prays-varag‘ingizdagi satrdan aytadi, o‘zidan raqam o‘ylab topmaydi.",
+        "Bot: «Yozilish yoki batafsil maslahat uchun ismingiz va telefon raqamingizni qoldiring.»",
+        "Mijoz ism va telefonni yozadi — bot arizani butun yozishma bilan birga menejerga uzatadi.",
+        "Bot javob bera olmaydigan savol kelsa (shikoyat, nostandart buyurtma, chegirma so‘rovi), suhbat darhol insonga o‘tadi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Javoblar qanday sozlanishi, qaysi savollar insonga o‘tishi va ariza qayerga borishi {menejer} sahifasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "menejer",
+          "target": "/uz/instagram-uchun-ai-menejer/",
+          "anchor": "Direct uchun AI-menejer qanday ishlaydi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -426,33 +479,53 @@
     {
       "type": "h2",
       "id": "olchov",
-      "text": "Natijani qanday o‘lchaymiz"
+      "text": "Oylik hisobot namunasi: natijani qanday o‘lchaymiz"
+    },
+    {
+      "type": "p",
+      "text": "Hisobot har oy beriladi. Quyida — namuna: ustunlar va manbalar shu ko‘rinishda bo‘ladi, satrlar tarkibi paketga bog‘liq, raqamlar esa har bir loyihada o‘z sahifalaringiz, yozishmalaringiz va reklama kabinetingizdan olinadi."
     },
     {
       "type": "table",
       "headers": [
         "Ko‘rsatkich",
+        "Qayerdan olinadi",
         "Nimani ko‘rsatadi"
       ],
       "rows": [
         [
-          "Yozgan odamlar soni",
+          "Yozgan odamlar",
+          "Direct, izohlar, Telegram va saytdagi forma",
           "Sahifa murojaat keltirayaptimi"
         ],
         [
-          "Javob tezligi",
+          "Javob vaqti",
+          "Direct va Telegram yozishmalari vaqti",
           "Murojaat sovib qolmayaptimi"
         ],
         [
-          "Saytga o‘tishlar",
+          "Malakali murojaat",
+          "Menejer belgisi yoki CRM statusi",
+          "Yozganlarning qanchasi haqiqiy xaridorga o‘xshaydi"
+        ],
+        [
+          "Saytga o‘tish",
+          "Havolalardagi UTM belgilar va sayt analitikasi",
           "Kontent keyingi qadamga olib boryaptimi"
         ],
         [
           "Saqlash va ulashish",
+          "Instagram va Telegram statistikasi",
           "Kontent foydali deb topilyaptimi"
         ],
         [
+          "Reklama xarajati",
+          "Reklama kabineti (Biznes va Pro paketlarida)",
+          "Byudjet qayerga ketgani va bitta murojaat narxi"
+        ],
+        [
           "Qamrov va obunachi",
+          "Platforma statistikasi",
           "Yordamchi ko‘rsatkich, asosiy maqsad emas"
         ]
       ]
@@ -460,6 +533,71 @@
     {
       "type": "p",
       "text": "Obunachi va qamrov yordamchi signallardir. Hisobotda boshlangan dialog, malakali murojaat, javob vaqti, keyingi qadam va CRM statusi alohida ko‘rsatiladi. Sun’iy auditoriya bu metrikalarni buzadi, shuning uchun nakrutka ishlatilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "agentlik",
+      "text": "SMM agentligi, frilanser yoki shtatdagi SMM menejer"
+    },
+    {
+      "type": "p",
+      "text": "SMM’ni uch yo‘l bilan yuritish mumkin: shtatga menejer olish, frilanser bilan kelishish yoki agentlikka topshirish. Farq ko‘pincha post sonida emas, post atrofidagi ishda: kim suratga oladi, kim reklamani yuritadi, kechqurun Direct’ga kim javob beradi va oy oxirida nima hisobot qilinadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Shtatdagi SMM menejer",
+        "Frilanser",
+        "GPTBot.uz"
+      ],
+      "rows": [
+        [
+          "Dizayn va suratga olish",
+          "Ko‘pincha alohida dizayner yoki mobilograf kerak bo‘ladi",
+          "Kelishuvga bog‘liq; ko‘pincha matn va joylash bilan cheklanadi",
+          "Dizayn — barcha paketlarda; suratga olish kuni — Pro paketida"
+        ],
+        [
+          "Target yuritish",
+          "Har bir menejer ham reklama kabinetini yuritmaydi",
+          "Odatda alohida mutaxassis yoki alohida kelishuv",
+          "Biznes va Pro paketlarida; reklama byudjeti alohida"
+        ],
+        [
+          "Direct’dagi savollarga javob",
+          "Ish vaqtida; ta’til va kasallikda javob to‘xtaydi",
+          "Ko‘pincha kelishuvga kirmaydi",
+          "Start paketidan Direct’da AI-bot javoblari, murakkab savol — insonga"
+        ],
+        [
+          "Oylik hisobot",
+          "Mezon va formatni o‘zingiz belgilaysiz",
+          "Ko‘pincha post soni va qamrov bilan cheklanadi",
+          "Har oy; Biznes va Pro paketlarida — murojaatlar bo‘yicha hisobot"
+        ],
+        [
+          "Xarajat tarkibi",
+          "Maosh, ish joyi va soliq; dizayn, suratga olish va target alohida",
+          "Har bir ish alohida kelishiladi",
+          "Oyiga 2 490 000 so‘mdan; reklama byudjeti alohida"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hamma uchun to‘g‘ri yagona javob yo‘q. Ichki jamoangizda dizayner va sotuv menejeri bo‘lsa, strategiya va moderatsiyani topshirish kifoya qilishi mumkin. Bitta odam hammasini bajarishi kerak bo‘lsa, ishning qaysi qismi qolib ketishini oldindan ko‘rib chiqing."
+    },
+    {
+      "type": "linkp",
+      "text": "Tanlov mezonlari va shartnomada nimani tekshirish kerakligi — {tanlov} maqolasida.",
+      "links": [
+        {
+          "token": "tanlov",
+          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "anchor": "agentlik, frilanser yoki birja: kimni tanlash"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -506,6 +644,53 @@
     {
       "type": "p",
       "text": "«Dan» narxi tanlangan paket tarkibiga tegishli. «Biznes» target yuritishni, «Pro» esa retarget, suratga olish kuni va CRM bilan bog‘lashni ham o‘z ichiga oladi. Ularning hajmi smetada yoziladi va qayta qo‘shimcha haq sifatida hisoblanmaydi. Media byudjet, CRM litsenziyasi va tashqi servislar alohida to‘lanadi. Paketdan tashqari kanallar, suratga olish va integratsiyalar oldindan kelishiladi. Sotuv kafolatlanmaydi."
+    },
+    {
+      "type": "h3",
+      "text": "Nimaga javob beramiz va nimani kafolatlamaymiz"
+    },
+    {
+      "type": "p",
+      "text": "Biz sotuv yoki obunachi o‘sishini kafolatlamaymiz. Kelishilgan kontent hajmi, nashr jarayoni, moderatsiya, hodisalar, hisobot va xatolarni ko‘rib chiqish tartibi uchun javob beramiz. Murojaatni yetkazish bo‘yicha texnik va operatsion cheklovlar smetada ochiq yoziladi."
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz javob beradi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kelishilgan kontent hajmi va nashr jadvali bajarilishi",
+        "Izohlar va Direct bo‘yicha javob tartibi hamda murakkab savolni menejerga uzatish",
+        "Oylik hisobot va xatolarni ko‘rib chiqish",
+        "Sahifa, kanal va reklama kabinetiga kirish huquqlari sizda qolishi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Va’da qilinmaydi, kafolat emas:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sotuv soni va daromad — ular mahsulot, narx va sotuv jamoangizga ham bog‘liq",
+        "Obunachi o‘sishi — obunachi sotib olinmaydi",
+        "Aniq murojaat soni yoki bitta murojaatning oldindan aytilgan narxi",
+        "Post yoki Reels ko‘rishlar soni"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ariza qoldirsangiz, ish vaqtida (Du–Sha 10:00–19:00) bog‘lanamiz, sahifalaringizni ko‘rib chiqamiz va qaysi paket mos kelishini aytamiz."
+    },
+    {
+      "type": "cta",
+      "text": "Qaysi paket mos kelishini aytamiz — ariza qoldiring",
+      "href": "#lead-form"
+    },
+    {
+      "type": "p",
+      "text": "Paket ichida yakuniy hajm va narxga quyidagilar ta’sir qiladi:"
     },
     {
       "type": "list",
@@ -603,7 +788,7 @@
     },
     {
       "type": "p",
-      "text": "Biz sotuv yoki obunachi o‘sishini kafolatlamaymiz. Kelishilgan kontent hajmi, nashr jarayoni, moderatsiya, hodisalar, hisobot va xatolarni ko‘rib chiqish tartibi uchun javob beramiz. Murojaatni yetkazish bo‘yicha texnik va operatsion cheklovlar smetada ochiq yoziladi."
+      "text": "Jamoa Toshkentda ishlaydi. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent. Ish vaqti: Du–Sha 10:00–19:00."
     },
     {
       "type": "h2",
@@ -668,6 +853,22 @@
     {
       "q": "SMM taklifini qanday solishtirish kerak?",
       "a": "Kanal va til soni, post, stories va Reels hajmi, suratga olish, dizayn, moderatsiya vaqti, pullik reklama, hisobot va tashqi xarajatlarni bir xil satrlarda solishtiring."
+    },
+    {
+      "q": "SMM agentligi yoki shtatdagi SMM menejer — qaysi biri qulay?",
+      "a": "Hajmga bog‘liq. Shtatdagi menejer bitta brendga to‘liq vaqt beradi, lekin dizayn, suratga olish, target va kechki Direct uchun ko‘pincha qo‘shimcha odam kerak bo‘ladi. Agentlikda bu ishlar bitta smetada: GPTBot.uz paketlarida dizayn bor, Biznes va Pro’da target yuritish, Pro’da suratga olish kuni. Ichki jamoangiz bo‘lsa, faqat strategiya va moderatsiyani topshirish ham mumkin."
+    },
+    {
+      "q": "Faqat Telegram kanal yuritishni buyurtma qilsa bo‘ladimi?",
+      "a": "Ha. Faqat Telegram kanalini yuritish mumkin: rubrikalar, post jadvali va kanaldan botga yoki menejerga o‘tish yo‘li. Kanallar soni va tili smetaga ta’sir qiladi, shuning uchun hajm va narx brifdan keyin aytiladi."
+    },
+    {
+      "q": "Reels uchun suratga olish (mobilograf) xizmati bormi?",
+      "a": "Ha, Pro paketida: oyiga suratga olish kuni va 12 ta Reels. Biznes paketida 8 ta Reels sizning materiallaringizdan tayyorlanadi. Paketdan tashqari qo‘shimcha suratga olish oldindan kelishiladi."
+    },
+    {
+      "q": "Sahifa va reklama kabineti kimga tegishli bo‘ladi?",
+      "a": "Sizga. Instagram sahifasi, Telegram kanali va reklama kabineti sizning nomingizda qoladi, bizga esa ish uchun kerakli rollar beriladi. Shunday qilib to‘lovlar, tarix, auditoriya va kirish huquqlari ustidan nazorat sizda qoladi."
     }
   ],
   "internalLinks": [
@@ -760,9 +961,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-28",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "heroTrust": [
     "Oyiga 2 490 000 so‘mdan",
     "UZ + RU",

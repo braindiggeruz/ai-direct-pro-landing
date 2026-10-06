@@ -160,7 +160,10 @@
         "smm agentligi",
         "smm xizmatlari toshkent",
         "ijtimoiy tarmoqlarni yuritish",
-        "instagram sahifasini yuritish"
+        "instagram sahifasini yuritish",
+        "smm agentlik",
+        "smm toshkent",
+        "smm kompaniya"
       ],
       "spokes": [
         {
@@ -170,7 +173,7 @@
         }
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
-      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent."
+      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent. On 2026-10-06 the hub also claimed smm agentlik, smm toshkent and smm kompaniya and gained an «agentlik» section: Google Ads returns 0 for the first two and 30/mo for smm kompaniya, but their live SERPs are agency result sets (an AI Overview with agency lists for smm agentlik, a local pack for smm toshkent), and the first inbound Uzbek SMM lead arrived the same day (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md). /uz/blog/smm-xizmati-narxi-ozbekiston-2026/ is deliberately not a spoke yet: its title still carries ASCII apostrophes and is printed on the protected homepage, so it joins with the revision that fixes that title."
     },
     {
       "id": "seo-uz",
