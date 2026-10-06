@@ -354,6 +354,48 @@ test("an expired job that never got its deck gives the unit back (the sweep), an
   assert.equal(site.sent.length, 0);
 });
 
+test("before the maintenance sweep runs, a person's next start closes their own expired jobs: a deck never written or left faulted gives the unit back", async (context) => {
+  const site = await studioSite(context);
+  const { cookie, subject } = await browser();
+  const stranger = await browser();
+  const theirs = await create(site, stranger.cookie, {}, { ip: "198.51.100.50" });
+  // Never written: the job expires with nothing delivered.
+  const empty = await create(site, cookie);
+  assert.equal((await create(site, cookie, { topic: "Amir Temur" })).body.code, "job_in_progress");
+  site.db.exec(`UPDATE studio_unit_ledger SET expires_at=${Date.now() - 1}`);
+  const next = await create(site, cookie, { topic: "Amir Temur" });
+  assert.equal(next.response.status, 201, JSON.stringify(next.body));
+  const emptyRow = ledger(site, empty.body.jobId as string);
+  assert.equal(emptyRow.state, "released");
+  assert.equal(emptyRow.reason, "expired_empty");
+  assert.equal(used(site, subject), 1);
+  assert.equal(used(site, subject, "returned"), 1);
+  // Another person's expired job is theirs to close (or the sweep's).
+  assert.equal(ledger(site, theirs.body.jobId as string).state, "reserved");
+  // Left after a fault with a call to spare: the unit comes back too.
+  site.zai.push(zaiError(500, "1234"), zaiError(500, "1234"));
+  const faulted = await slides(site, cookie, next.body.jobId as string, { ...TASK, topic: "Amir Temur" });
+  assert.equal(faulted.body.retry, true);
+  site.db.exec(`UPDATE studio_unit_ledger SET expires_at=${Date.now() - 1} WHERE id='${next.body.jobId as string}'`);
+  const third = await create(site, cookie, { topic: "Quyosh sistemasi" });
+  assert.equal(third.response.status, 201);
+  const faultedRow = ledger(site, next.body.jobId as string);
+  assert.equal(faultedRow.state, "released");
+  // Nothing was delivered, so it reads as an empty expiry (jobs.ts expiryOutcome); the unit is back either way.
+  assert.equal(faultedRow.reason, "expired_empty");
+  assert.equal(faultedRow.reserved_micro, 0);
+  assert.equal(used(site, subject), 1);
+  assert.equal(used(site, subject, "returned"), 2);
+  // A delivered deck is spent: the next start the same day is refused.
+  site.zai.push(deckAnswer());
+  assert.equal((await slides(site, cookie, third.body.jobId as string, { ...TASK, topic: "Quyosh sistemasi" })).response.status, 200);
+  site.db.exec(`UPDATE studio_unit_ledger SET expires_at=${Date.now() - 1} WHERE id='${third.body.jobId as string}'`);
+  const fourth = await create(site, cookie, { topic: "Fotosintez" });
+  assert.equal(fourth.response.status, 429);
+  assert.equal(fourth.body.code, "free_limit");
+  assert.equal(ledger(site, third.body.jobId as string).state, "done");
+});
+
 // ── Pictures dropped, text kept ─────────────────────────────────────────────
 
 test("Llama Guard refuses, fails or the AI binding is missing: the deck goes out without pictures", async (context) => {

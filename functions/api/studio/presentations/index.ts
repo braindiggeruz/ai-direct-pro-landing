@@ -21,7 +21,9 @@
 //   8. pace: 6 starts in 10 minutes per person, STUDIO_JOB_GLOBAL_PER_MIN
 //      for the site (429 / 503); a D1 failure refuses;
 //   9. Turnstile, action studio_free_deck (403 / 503);
-//  10. the unit (jobs.ts startJob): one open job per person (409), the free
+//  10. the person's own expired jobs are closed by the expiry rules
+//      (presentation.ts expireOwnJobs), so a unit owed back is back;
+//  11. the unit (jobs.ts startJob): one open job per person (409), the free
 //      day's unit, the IP ceiling of young identities, the ramp, the budget,
 //      5 returns a day (429 free_limit / ip_ceiling / try_later + resetsAt,
 //      503 studio_busy); the ledger row in 'reserved' for 10 minutes.
@@ -35,7 +37,7 @@ import { identityConfigured, readIdentity } from "../../../lib/studio/identity";
 import { startJob } from "../../../lib/studio/jobs";
 import { LedgerStore, deckInputMac } from "../../../lib/studio/ledger";
 import { paceJobStart, recordStudioAlerts, studioAddress, type StudioAlert } from "../../../lib/studio/limits";
-import { createdAnswer, ensureDeckSchema, readCreateRequest } from "../../../lib/studio/presentation";
+import { createdAnswer, ensureDeckSchema, expireOwnJobs, readCreateRequest } from "../../../lib/studio/presentation";
 import { refusalKey, screenTopic, topicRefusals } from "../../../lib/studio/safety";
 import { studioTurnstileConfigured, verifyStudioTurnstile } from "../../../lib/studio/turnstile";
 
@@ -106,6 +108,9 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
     return fail(check.code);
   }
 
+  // The person's own expired jobs first: a job that faulted or was never
+  // written gives its unit back before the day's counter is read.
+  await expireOwnJobs(db, identity.subject, now);
   const started = await startJob(db, {
     config,
     subject: identity.subject,
