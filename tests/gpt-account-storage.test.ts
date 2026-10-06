@@ -123,8 +123,9 @@ test('nothing is lost when Telegram unloads the tab: the question at once, the a
   assert.match(console, /if \(event\.type === "pagehide" \|\| document\.visibilityState === "hidden"\) flushRef\.current\?\.\(\);/);
   assert.match(console, /document\.addEventListener\("visibilitychange", flush\);\s*window\.addEventListener\("pagehide", flush\);/);
   assert.match(console, /if \(flushRef\.current === keep\) flushRef\.current = null;/);
-  // A refusal takes the stored question back too: it is in the composer now.
-  assert.equal((console.match(/setMessages\(history\);\s*setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(history, config\.locale, storageScope\);/g) ?? []).length, 2);
+  // A refusal (a limit, a check) or Stop before the first word takes the stored question back too.
+  assert.match(console, /if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);/);
+  assert.equal((console.match(/giveBack\(\);/g) ?? []).length, 3);
   // «Yangi chat» during a limit keeps the question the card says is kept (LIMIT-01).
   const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));
   assert.match(newChat, /if \(!limited\) setInput\(""\);/);

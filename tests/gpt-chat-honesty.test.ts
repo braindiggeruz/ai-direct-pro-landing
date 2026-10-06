@@ -354,7 +354,9 @@ test('a long wait says so after 8 s; Stop before the first word gives the questi
   assert.match(list, /\{m\.pending \? \(\s*<PendingLine t=\{t\} \/>/);
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   const stopped = consoleSource.slice(consoleSource.indexOf('} else if (outcome.aborted) {'), consoleSource.indexOf('track(EV.generationStopped'));
-  assert.match(stopped, /const before = meta\.base \? messages : history;\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);/);
+  assert.match(stopped, /if \(acc\)[\s\S]*else giveBack\(\);/);
+  // giveBack: the thread as before the tap; a typed question back in the composer.
+  assert.match(consoleSource, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);/);
 });
 
 test('a last question without an answer says so, with a retry and the way back to the composer', () => {

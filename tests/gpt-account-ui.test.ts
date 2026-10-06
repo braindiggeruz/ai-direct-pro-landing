@@ -201,7 +201,9 @@ test('the chat feeds the card from the limit state; the account view only report
   const dispatches = [...onAccount.matchAll(/dispatchLimit\(\{\s*type: "(\w+)"/g)].map((m) => m[1]);
   assert.deepEqual(dispatches, ['account'], 'the account view can only report, never block or admit');
   const refused = source.slice(source.indexOf('} else if (res.code === "limit_reached") {'), source.indexOf('track(EV.limitHit'));
-  assert.match(refused, /setMessages\(history\);\s*setInput\(trimmed\);/, 'the question goes back into the composer');
+  assert.match(refused, /giveBack\(\);/, 'the question goes back into the composer');
+  // A typed question: out of the thread (and storage), back into the composer.
+  assert.match(source, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);\s*\};/);
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
   // Second to the pack button it waits behind «Batafsil» (NOW-05); alone it leads.

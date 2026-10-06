@@ -477,6 +477,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     });
 
     const base = withUser.filter((m) => !m.pending);
+    // A refused or stopped turn: the thread as it was before the tap, and a
+    // typed question back in the composer. A retry or an answer button gave
+    // up no text to give back, and its old answer stays where it was.
+    const before = meta.base ? messages : history;
+    const giveBack = () => {
+      setMessages(before);
+      if (!meta.base && !meta.answerAction) setInput(trimmed);
+      if (accountReady) saveHistory(before, config.locale, storageScope);
+    };
     const handleJson = (res: ChatApiResponse) => {
       if (generation !== identityGeneration.current) return;
       // Any answer but a limit refusal or a failed check means no limit stands.
@@ -524,9 +533,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         }
         // The question goes back into the composer (and, while the limit
         // stands, into the draft) instead of a bubble that gets no answer.
-        setMessages(history);
-        setInput(trimmed);
-        if (accountReady) saveHistory(history, config.locale, storageScope);
+        giveBack();
         // One event per refusal; the Metrika goal once per reason per view.
         track(EV.limitHit, { reason, locale: config.locale });
         reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, reason);
@@ -534,9 +541,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         res.code === "turnstile_failed" ||
         res.code === "turnstile_unavailable"
       ) {
-        setMessages(history);
-        setInput(trimmed);
-        if (accountReady) saveHistory(history, config.locale, storageScope);
+        giveBack();
         setTurnstileServerError(
           res.code === "turnstile_failed" ? t.turnstileRetry : t.turnstileError,
         );
@@ -665,15 +670,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           ...base,
           { role: "assistant", content: acc, model: answeringModel },
         ]);
-      else {
-        // Stopped before the first word, most likely to reword it (STOP-01):
-        // a typed question goes back into the composer and out of the thread;
-        // a retry or a button leaves the thread as it was before.
-        const before = meta.base ? messages : history;
-        setMessages(before);
-        if (!meta.base && !meta.answerAction) setInput(trimmed);
-        if (accountReady) saveHistory(before, config.locale, storageScope);
-      }
+      // Stopped before the first word, most likely to reword it (STOP-01).
+      else giveBack();
       track(EV.generationStopped, { locale: config.locale, message_number: messageNumber });
     } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
