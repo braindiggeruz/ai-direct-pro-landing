@@ -217,7 +217,8 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   assert.match(cardJsx, /\{bodyShown \|\| details \? \(/);
   assert.match(cardJsx, /<span className="sr-only">\{card\.body\}<\/span>/);
   assert.match(cardJsx, /\{card\.offer && details && \(/);
-  assert.match(cardJsx, /aria-expanded=\{details\}\s*onClick=\{\(\) => setDetailsFor\(details \? null : limit\.reason\)\}/);
+  assert.match(source, /aria-expanded=\{details\}\s*onClick=\{\(\) => setDetailsFor\(details \? null : limit\.reason\)\}/);
+  assert.match(cardJsx, /\{card\.wait\}\s*\{kept\}\s*\{moreButton\}/);
   // Opened for one reason, closed for the next.
   assert.match(source, /const details = !!limit && detailsFor === limit\.reason;/);
   // The pack's price stays on its button; without a pack for sale no price and no button (F4, F6).

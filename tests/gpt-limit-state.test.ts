@@ -300,7 +300,8 @@ test('after a reload the card stands above the composer, which holds the refused
   assert.ok(card.includes(uz.limitWaitAt(13, tashkentTime(now + 12 * MIN + 30_000)!)));
   // Short: the title and the time are seen; why is behind «Batafsil», and said to a screen reader.
   assert.ok(card.includes(`<span class="sr-only">${uz.hourlyBody(5)}</span>`));
-  assert.match(card, /<button type="button" class="gpt-text-button" aria-expanded="false">Batafsil<\/button>/);
+  // «Batafsil» ends the wait line: no row of its own.
+  assert.match(card, /yana yozasiz\.( [^<]*)?<button type="button" class="gpt-text-button" style="min-height:0;padding:0 0 0 6px" aria-expanded="false">Batafsil<\/button><\/p>/);
   assert.ok(!card.includes(uz.retry), 'no retry button: the send button returns by the clock');
   assert.ok(!card.includes('biznes-uchun-ai-bot'), 'no business link on a consumer limit');
   assert.ok(!card.includes('t.me/'), 'no Telegram route unless the server enables the bot');

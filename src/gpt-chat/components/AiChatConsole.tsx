@@ -817,6 +817,19 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const details = !!limit && detailsFor === limit.reason;
   const bodyShown = !!card && (!card.title || !card.wait);
   const kept = input.trim() ? ` ${t.limitDraftKept}` : "";
+  // «Batafsil» ends the card's last line of text instead of taking a 44px
+  // row of its own (an inline link in a sentence).
+  const moreButton = !!card && !!limit && (!bodyShown || !!card.offer || (card.account && !!card.bot)) && (
+    <button
+      type="button"
+      className="gpt-text-button"
+      style={{ minHeight: 0, padding: "0 0 0 6px" }}
+      aria-expanded={details}
+      onClick={() => setDetailsFor(details ? null : limit.reason)}
+    >
+      {t.limitMore}
+    </button>
+  );
 
   const showOffer =
     activeTool === "business" &&
@@ -1205,6 +1218,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   <p>
                     {card.body}
                     {card.wait ? "" : kept}
+                    {card.wait ? null : moreButton}
                   </p>
                 ) : (
                   // The composer's aria-describedby points here: a screen
@@ -1221,6 +1235,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   >
                     {card.wait}
                     {kept}
+                    {moreButton}
                   </p>
                 )}
                 {card.offer && details && (
@@ -1229,7 +1244,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   </p>
                 )}
                 {(card.account || card.bot) && (
-                  <div className="mt-3 flex flex-col gap-2">
+                  <div className="mt-2 flex flex-col gap-2">
                     {card.account && (
                       <button
                         type="button"
@@ -1251,16 +1266,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                       />
                     )}
                   </div>
-                )}
-                {(!bodyShown || card.offer || (card.account && card.bot)) && (
-                  <button
-                    type="button"
-                    className="gpt-text-button"
-                    aria-expanded={details}
-                    onClick={() => setDetailsFor(details ? null : limit.reason)}
-                  >
-                    {t.limitMore}
-                  </button>
                 )}
               </div>
             )}
