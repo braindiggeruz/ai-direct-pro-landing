@@ -1,0 +1,1218 @@
+{
+  "measuredAt": "2026-10-07",
+  "build": "npm run build:fast of 353f1d43 (the header fix of review findings 1 and 7; the later commits of 2026-10-07 change docs only), compared with the production 20229600 build F:/Claude/gptbot-tools/tmp/push-baseline-dist",
+  "method": "Chromium (playwright-core) on the built dist served from 127.0.0.1; every other host and /api/** aborted, so nothing reaches production or its database. Widths are layout widths (headless Chromium has no classic scrollbar): a window with a classic 15-17px scrollbar is that much wider. Prerendered pages with JavaScript off; the React landing on / with JavaScript on and «UZ» pressed for Uzbek. A label wraps when its text box is taller than 24px. scripts/chat-layout-check.mjs does not cover this: it loads only the two chat pages, which have no site header.",
+  "reactLanding": {
+    "page": "/ (src/components/Header.tsx, desktop menu from 1024px)",
+    "beforeFix": "with gap-1 and px-3 links without whitespace-nowrap, the Uzbek «O‘zbekcha AI chat» wraps onto two lines inside its 44px pill from 1024px to a 1052px layout width (113px wide at 1024px, 129px at 1040px); from 1053px it is one line. Production has no wrap there.",
+    "afterFix": "gap-0, px-2, whitespace-nowrap: no item wraps and nothing overflows at 1024, 1030, 1040, 1050, 1053, 1054, 1060, 1070, 1080, 1090, 1100, 1140, 1180 and 1280px in RU and UZ; the header button ends at width - 32px, as in production.",
+    "rows": [
+      {
+        "lang": "ru",
+        "width": 1024,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 992,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1030,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 998,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1040,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1008,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1050,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1018,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1053,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1021,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1054,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1022,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1060,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1028,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1070,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1038,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1080,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1048,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1090,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1058,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1100,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1068,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1140,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1108,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1180,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1148,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "ru",
+        "width": 1280,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1248,
+        "chatItem": "66x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1024,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 992,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1030,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 998,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1040,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1008,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1050,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1018,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1053,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1021,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1054,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1022,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1060,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1028,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1070,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1038,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1080,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1048,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1090,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1058,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1100,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1068,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1140,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1108,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1180,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1148,
+        "chatItem": "134x44"
+      },
+      {
+        "lang": "uz",
+        "width": 1280,
+        "wrapped": [],
+        "overflow": false,
+        "ctaRight": 1248,
+        "chatItem": "134x44"
+      }
+    ]
+  },
+  "market": {
+    "pages": [
+      "/uz/sotuvchi/",
+      "/uz/market-ishonch/",
+      "/ru/sotuvchi/",
+      "/ru/market-doverie/"
+    ],
+    "summary": "The Market menu is hidden up to 1024px (@media (max-width:64rem)), so the item shows from 1025px. Uzbek pages: with the new last item, «Xaridor uchun» and «Sotuvchi uchun» become 65px-tall two-line pills from 1025px to a 1144px layout width (window about 1160px); one line from 1145px. The header stays 77px, nothing overflows. Russian pages: no wrap. Production: no wrap at these widths. Left as is (cosmetic): only a wider breakpoint would remove it, and the label may not be shortened in this revision.",
+    "rows": [
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1024,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "hidden"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1025,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(87x65)",
+          "Sotuvchi uchun(94x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1040,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(91x65)",
+          "Sotuvchi uchun(99x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1080,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(104x65)",
+          "Sotuvchi uchun(114x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1100,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(111x65)",
+          "Sotuvchi uchun(121x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1120,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(117x65)",
+          "Sotuvchi uchun(128x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1130,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(121x65)",
+          "Sotuvchi uchun(132x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1140,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(124x65)",
+          "Sotuvchi uchun(135x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1144,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(125x65)",
+          "Sotuvchi uchun(137x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1145,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1150,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1160,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1180,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1200,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/sotuvchi/",
+        "width": 1280,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1024,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "hidden"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1025,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(87x65)",
+          "Sotuvchi uchun(94x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1040,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(91x65)",
+          "Sotuvchi uchun(99x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1080,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(104x65)",
+          "Sotuvchi uchun(114x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1100,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(111x65)",
+          "Sotuvchi uchun(121x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1120,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(117x65)",
+          "Sotuvchi uchun(128x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1130,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(121x65)",
+          "Sotuvchi uchun(132x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1140,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(124x65)",
+          "Sotuvchi uchun(135x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1144,
+        "headerHeight": 77,
+        "wrapped": [
+          "Xaridor uchun(125x65)",
+          "Sotuvchi uchun(137x65)"
+        ],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1145,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1150,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1160,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1180,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1200,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/uz/market-ishonch/",
+        "width": 1280,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "155x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1024,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "hidden"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1025,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1040,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1080,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1100,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1120,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1130,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1140,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1144,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1145,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1150,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1160,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1180,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1200,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/sotuvchi/",
+        "width": 1280,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1024,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "hidden"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1025,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1040,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1080,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1100,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1120,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1130,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1140,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1144,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1145,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1150,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1160,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1180,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1200,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      },
+      {
+        "url": "/ru/market-doverie/",
+        "width": 1280,
+        "headerHeight": 77,
+        "wrapped": [],
+        "overflow": false,
+        "chatItem": "80x44"
+      }
+    ]
+  },
+  "articleHeaders": {
+    "summary": "Articles, /ru/blog/, /uz/blog/ and /uz/: below 640px the item is display:none (hidden sm:inline-flex). From 640px it is a 44px target on one line: 115x44 (UZ) and 49x44 (RU), was 111x20 (111x36 on /uz/). Articles keep a 77px header; /ru/blog/, /uz/blog/ and /uz/ grow from 69px to 77px from 640px. On /uz/ the CTA label is centred (inline-flex items-center) and RU/UZ stay 44px-tall targets; below 640px /uz/ is as in production. No overflow at 320-1024px.",
+    "rows": [
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 320,
+        "headerHeight": 89,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "AI chatni o‘zbek tilida : 189x56"
+        ]
+      },
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 360,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "AI chatni o‘zbek tilida : 216x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 412,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "AI chatni o‘zbek tilida : 216x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "AI chatni o‘zbek tilida : 224x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "AI chatni o‘zbek tilida : 224x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "AI chatni o‘zbek tilida : 224x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 320,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Открыть AI-чат: 131x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 360,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Открыть AI-чат: 131x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 412,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Открыть AI-чат: 131x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Открыть AI-чат: 139x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Открыть AI-чат: 139x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Открыть AI-чат: 139x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 320,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Demo so‘rash: 115x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 360,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Demo so‘rash: 115x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 412,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Demo so‘rash: 115x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Demo so‘rash: 123x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Demo so‘rash: 123x44"
+        ]
+      },
+      {
+        "url": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Demo so‘rash: 123x44"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 320,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 360,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 412,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Блог: hidden",
+          "ИИ-чат: hidden",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/ru/blog/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Блог: 32x20",
+          "ИИ-чат: 49x44",
+          "Связаться с нами: 156x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 320,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 360,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 412,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "Blog: hidden",
+          "O‘zbekcha AI chat: hidden",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/blog/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "Blog: 29x20",
+          "O‘zbekcha AI chat: 115x44",
+          "Biz bilan bog‘lanish: 162x36"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 320,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: hidden",
+          "RU: 19x36",
+          "UZ: 17x36",
+          "Demo so‘rash: 123x36"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 360,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: hidden",
+          "RU: 19x36",
+          "UZ: 17x36",
+          "Demo so‘rash: 123x36"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 412,
+        "headerHeight": 69,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: hidden",
+          "RU: 19x36",
+          "UZ: 17x36",
+          "Demo so‘rash: 123x36"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 640,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: 115x44",
+          "RU: 19x44",
+          "UZ: 17x44",
+          "Demo so‘rash: 123x44"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 768,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: 115x44",
+          "RU: 19x44",
+          "UZ: 17x44",
+          "Demo so‘rash: 123x44"
+        ]
+      },
+      {
+        "url": "/uz/",
+        "width": 1024,
+        "headerHeight": 77,
+        "overflow": false,
+        "items": [
+          "O‘zbekcha AI chat: 115x44",
+          "RU: 19x44",
+          "UZ: 17x44",
+          "Demo so‘rash: 123x44"
+        ]
+      }
+    ]
+  },
+  "phones": {
+    "summary": "All 291 built pages with a site header, JavaScript off, without scrolling. The item is in the HTML of 290 (not on the download guide). At 360px it is fully in view on 29 pages: / (crawler shell; with JavaScript the React header puts it in the menu behind the 44px menu button) and 28 Russian landings without a language switch. It is display:none on 173 (166 articles, /ru/blog/, /uz/blog/ and /uz/ below 640px; the 4 Market pages up to 1024px). On the 116 landings it is the fifth and last entry of the section row that scrolls sideways: on the 83 landings with a language switch (42 RU, 41 UZ) it is past the clipped edge at 320 and 360px and shows 30 of 65px (RU) or 22 of 131px (UZ) at 412px; on the 5 Uzbek landings without a switch 30, 70 and 122 of 131px show at 320, 360 and 412px; the 28 Russian ones without a switch show 38 of 65px at 320px and all of it from 360px.",
+    "groupsByWidth": {
+      "320": {
+        "ru/switch/out-of-view/0of65": 42,
+        "ru/-/in-view/56of56": 1,
+        "ru/noswitch/partly/38of65": 28,
+        "ru/-/display-none": 116,
+        "uz/switch/out-of-view/0of131": 41,
+        "uz/noswitch/partly/30of131": 5,
+        "uz/-/display-none": 57,
+        "uz/-/no-item": 1
+      },
+      "360": {
+        "ru/switch/out-of-view/0of65": 42,
+        "ru/-/in-view/56of56": 1,
+        "ru/noswitch/in-view/65of65": 28,
+        "ru/-/display-none": 116,
+        "uz/switch/out-of-view/0of131": 41,
+        "uz/noswitch/partly/70of131": 5,
+        "uz/-/display-none": 57,
+        "uz/-/no-item": 1
+      },
+      "412": {
+        "ru/switch/partly/30of65": 42,
+        "ru/-/in-view/56of56": 1,
+        "ru/noswitch/in-view/65of65": 28,
+        "ru/-/display-none": 116,
+        "uz/switch/partly/22of131": 41,
+        "uz/noswitch/partly/122of131": 5,
+        "uz/-/display-none": 57,
+        "uz/-/no-item": 1
+      }
+    },
+    "groupKey": "locale/switch|noswitch|-/state[/visible px of item width]; '-' rows are not landings: display-none = articles, blog indexes and /uz/ (below 640px) and the Market pages; in-view/56of56 = /; no-item = the download guide"
+  }
+}
