@@ -53,7 +53,44 @@ export function applyRole(prompt: string, roleId: RoleId, locale: Locale, opts: 
   return `${role.instruction}${guard}\n\n${taskLabel}: ${prompt.trim()}`;
 }
 
+const CYRILLIC = /[А-Яа-яЁёЎўҚқҒғҲҳ]/g;
+const LATIN = /[A-Za-z]/g;
+/** Letters only Uzbek writes in Cyrillic script. */
+const UZ_CYRILLIC = /[ЎўҚқҒғҲҳ]/;
+/** Common Uzbek words in Cyrillic script that need none of those letters. */
+const UZ_CYRILLIC_WORDS = /(^|[^а-яё])(менга|учун|нима|билан|керак|беринг|ёрдам|салом|ёзинг|ёзиб|ҳақида|бўйича)(?=$|[^а-яё])/i;
+/**
+ * Uzbek in Latin script: o‘ or g‘ (any apostrophe) inside a word, q before
+ * a, e, i or o, or a common word. An English possessive (dog's) or an
+ * acronym (SQL, FAQ) is not a mark.
+ */
+const UZ_LATIN = /[og][‘'ʻ’`](?=[a-z]{2})|q(?=[aeio])|(^|[^a-z])(va|uchun|nima|qanday|menga|bilan|haqida|kerak|bering|yozing|yordam|salom)(?=$|[^a-z])/i;
+
+/**
+ * Which language the lines around a question are written in: the
+ * question's, when its letters say so clearly, else the page's. The same
+ * question with a frame in the other language came back half in that
+ * language (a live check on 06.10: a Russian question on the Uzbek page got
+ * an Uzbek lead-in and a Russian example), since those lines outweigh a
+ * short question. Cyrillic is Russian unless it is Uzbek Cyrillic (then the
+ * Uzbek frame asks for Latin script); Latin is Uzbek only with Uzbek marks,
+ * so an English question keeps the page's frame.
+ */
+export function frameLocale(question: string, page: Locale): Locale {
+  const cyrillic = (question.match(CYRILLIC) ?? []).length;
+  const latin = (question.match(LATIN) ?? []).length;
+  if (cyrillic >= 3 && cyrillic > latin)
+    return UZ_CYRILLIC.test(question) || UZ_CYRILLIC_WORDS.test(question) ? 'uz' : 'ru';
+  if (latin >= 3 && latin > cyrillic && UZ_LATIN.test(question)) return 'uz';
+  return page;
+}
+
 /** What applyRole adds around a question: the composer's limit is the server's less this. */
 export function rolePrefixLength(roleId: RoleId, locale: Locale): number {
   return applyRole('', roleId, locale).length;
+}
+
+/** The longer of the two: a question may get either language's lines (frameLocale). */
+export function maxRolePrefixLength(roleId: RoleId): number {
+  return Math.max(rolePrefixLength(roleId, 'uz'), rolePrefixLength(roleId, 'ru'));
 }

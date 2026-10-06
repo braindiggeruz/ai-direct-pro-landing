@@ -313,7 +313,7 @@ test('a translation goes the other way from the answer’s script, without the l
     assert.match(answerAsk('uzbek', 'Привет', locale)[1], locale === 'uz' ? /o‘zbek tiliga \(lotin yozuvida\)/ : /Uzbek Latin/);
   }
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /applyRole\(meta\.request \?\? trimmed, role, config\.locale, \{\s*guard: meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian",\s*\}\)/);
+  assert.match(consoleSource, /applyRole\(\s*meta\.request \?\? trimmed,\s*role,\s*meta\.request \|\| role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\),\s*\{ guard: meta\.answerAction !== "uzbek" && meta\.answerAction !== "russian" \},\s*\)/);
 });
 
 test('retry and «Qayta yozish» replace the last answer: the question is in the thread and the history once', () => {

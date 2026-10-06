@@ -11,7 +11,7 @@ import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
 import { latexLite } from '../src/gpt-chat/latex-lite';
-import { applyRole, getRoles, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
+import { applyRole, frameLocale, getRoles, maxRolePrefixLength, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 import { strings } from '../src/gpt-chat/i18n';
@@ -280,9 +280,42 @@ test('the language line: the question decides, the page only when unclear; formu
       assert.equal(applyRole('x'.repeat(3000 - prefix), role.id as RoleId, locale).length, 3000);
     }
   }
+  // A question may get either language's lines (frameLocale): the limit leaves room for the longer.
+  for (const role of getRoles('uz')) {
+    const id = role.id as RoleId;
+    const longest = maxRolePrefixLength(id);
+    assert.equal(longest, Math.max(rolePrefixLength(id, 'uz'), rolePrefixLength(id, 'ru')));
+    for (const locale of ['ru', 'uz'] as const) assert.ok(applyRole('x'.repeat(3000 - longest), id, locale).length <= 3000, `${locale}/${id}`);
+  }
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
-  assert.match(consoleSource, /maxChars=\{MAX_INPUT - rolePrefixLength\(role, config\.locale\)\}/);
+  assert.match(consoleSource, /maxChars=\{MAX_INPUT - maxRolePrefixLength\(role\)\}/);
   assert.doesNotMatch(consoleSource, /\.slice\(\s*0,\s*MAX_INPUT,?\s*\)/, 'the request is not cut a second time');
+});
+
+test('the lines around a typed question are in its language when its letters say so, else the page’s', () => {
+  // Russian on the Uzbek page (the live check of 06.10 came back half Uzbek with an Uzbek frame).
+  assert.equal(frameLocale('Как вежливо попросить начальника перенести встречу на завтра?', 'uz'), 'ru');
+  assert.equal(frameLocale('Привет', 'ru'), 'ru');
+  // Uzbek in Latin script on the Russian page, with o‘/g‘, q or a common word.
+  assert.equal(frameLocale('Menga Instagram uchun post yozib ber', 'ru'), 'uz');
+  assert.equal(frameLocale('to‘g‘ri javob qaysi', 'ru'), 'uz');
+  assert.equal(frameLocale("O'zbekcha reja tuz", 'ru'), 'uz');
+  assert.equal(frameLocale('2x² + 5x − 3 = 0 tenglamani yeching', 'uz'), 'uz');
+  // Uzbek in Cyrillic script: the Uzbek frame, which asks for Latin script.
+  assert.equal(frameLocale('Менга бизнес режа тузиб беринг', 'ru'), 'uz');
+  assert.equal(frameLocale('Ўзбекча матн ёзинг', 'uz'), 'uz');
+  // English, acronyms, possessives and numbers keep the page's frame.
+  assert.equal(frameLocale('Write a short poem about my dog\'s birthday', 'ru'), 'ru');
+  assert.equal(frameLocale('Explain SQL and FAQ pages', 'ru'), 'ru');
+  assert.equal(frameLocale('2+2', 'ru'), 'ru');
+  assert.equal(frameLocale('SMM', 'uz'), 'uz');
+  assert.equal(frameLocale('', 'uz'), 'uz');
+  // The majority of letters decides a mixed question.
+  assert.equal(frameLocale('Instagram uchun post yoz: «Скидка»', 'uz'), 'uz');
+  assert.equal(applyRole('Привет', 'general', frameLocale('Привет', 'uz')).startsWith('Работай как универсальный AI-помощник.'), true);
+  // A button's instruction and the translator keep the page's frame; a typed question gets its own.
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /meta\.request \|\| role === "translator" \? config\.locale : frameLocale\(trimmed, config\.locale\)/);
 });
 
 test('AI cabinet shares the quota between the RU and UZ chats and clears only the chat session', () => {

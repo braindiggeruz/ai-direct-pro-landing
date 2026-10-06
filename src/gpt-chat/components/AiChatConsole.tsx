@@ -45,7 +45,7 @@ import {
 import { AiSidebar } from "./AiSidebar";
 import type { TurnstileChallengeHandle } from "./TurnstileChallenge";
 import { loadTurnstile } from "../../shared/turnstile";
-import { applyRole, rolePrefixLength, type RoleId } from "../roles";
+import { applyRole, frameLocale, maxRolePrefixLength, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
@@ -472,9 +472,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
     // The composer already holds the question to what fits with the role's
     // lines. A translation names its language, so it gets no language line.
-    const requestMessage = applyRole(meta.request ?? trimmed, role, config.locale, {
-      guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian",
-    });
+    // A typed question gets its lines in its own language when its letters
+    // say so (frameLocale); a button's instruction and the translator, whose
+    // page says which way to go, keep the page's.
+    const requestMessage = applyRole(
+      meta.request ?? trimmed,
+      role,
+      meta.request || role === "translator" ? config.locale : frameLocale(trimmed, config.locale),
+      { guard: meta.answerAction !== "uzbek" && meta.answerAction !== "russian" },
+    );
 
     const base = withUser.filter((m) => !m.pending);
     // A refused or stopped turn: the thread as it was before the tap, and a
@@ -1354,7 +1360,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               onStop={onStop}
               disabled={sendDisabled}
               busy={busy}
-              maxChars={MAX_INPUT - rolePrefixLength(role, config.locale)}
+              maxChars={MAX_INPUT - maxRolePrefixLength(role)}
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}
