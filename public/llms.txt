@@ -177,6 +177,9 @@ must be confirmed for the specific project.
 - SEO service, "SEO xizmati" (UZ): https://gptbot.uz/uz/seo-xizmati/
 - SMM promotion in Tashkent (RU): https://gptbot.uz/ru/smm-prodvizhenie-tashkent/
 - SMM services, "SMM xizmatlari" (UZ): https://gptbot.uz/uz/smm-xizmatlari/
+- SMM prices 2026, "SMM xizmati narxi" (UZ article): https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/
+- SMM and Instagram management prices (RU article): https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/
+- What targeted ads are, "target nima" (UZ article): https://gptbot.uz/uz/blog/target-reklama-nima/
 - Internet advertising in Tashkent (RU): https://gptbot.uz/ru/internet-reklama-tashkent/
 - Internet advertising in Tashkent (UZ): https://gptbot.uz/uz/internet-reklama-toshkent/
 - Telegram advertising, "Telegram reklama" (UZ): https://gptbot.uz/uz/telegram-reklama/
@@ -188,6 +191,17 @@ must be confirmed for the specific project.
 Starting prices are printed on these service pages and repeated in each
 page's Service -> Offer JSON-LD as `minPrice` in UZS. Quote them as "from"
 prices; the final quote depends on the agreed scope.
+
+SMM packages (identical on https://gptbot.uz/uz/smm-xizmatlari/ and
+https://gptbot.uz/ru/smm-prodvizhenie-tashkent/): Start from 2 490 000 UZS a
+month (12 posts and 16 stories a month, design, AI-bot replies in Instagram
+Direct); Biznes from 4 490 000 UZS (20 posts, 8 Reels from the client's
+material, targeting management, an enquiry report); Pro from 7 900 000 UZS
+(strategy, a shooting day, 12 Reels, targeting and retargeting, a CRM link).
+The advertising budget is never included. Targeted ads in Instagram and
+Facebook: launch from 1 990 000 UZS one-off, management from 1 490 000 UZS a
+month. GPTBot.uz does not sell followers and does not guarantee sales or
+follower growth.
 
 ### Blog
 
@@ -367,6 +381,12 @@ request form above.
 - "sayt yaratish" -> https://gptbot.uz/uz/sayt-yaratish/
 - "SEO xizmati" -> https://gptbot.uz/uz/seo-xizmati/
 - "SMM xizmatlari" -> https://gptbot.uz/uz/smm-xizmatlari/
+- "SMM xizmati narxi" / "smm narxlari" -> https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/
+- "SMM продвижение Ташкент" / "SMM услуги" -> https://gptbot.uz/ru/smm-prodvizhenie-tashkent/
+- "сколько стоит ведение Instagram" -> https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/
+- "таргетированная реклама Ташкент" / "заказать таргет" -> https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
+- "target nima" / "таргет нима" -> https://gptbot.uz/uz/blog/target-reklama-nima/
+- "target narxi" / "instagram target sozlash" -> https://gptbot.uz/uz/internet-reklama-toshkent/#target
 - "Telegram reklama" -> https://gptbot.uz/uz/telegram-reklama/
 - "chat-bot narxi" -> https://gptbot.uz/uz/chat-bot-narxi/
 - "chatgpt kirish (login)" / "chatgptga kirish" -> https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/
@@ -406,6 +426,8 @@ agentic reading. The list below is the complete set the build generates:
 - https://gptbot.uz/ru/telegram-bot-dlya-biznesa/index.html.md
 - https://gptbot.uz/ru/avtomatizatsiya-zayavok/index.html.md
 - https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/index.html.md
+- https://gptbot.uz/ru/smm-prodvizhenie-tashkent/index.html.md
+- https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/index.html.md
 
 ### Service pages (UZ)
 

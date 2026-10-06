@@ -276,8 +276,8 @@
     }
   ],
   "cta": {
-    "label": "Обсудить SMM-продвижение",
-    "href": "#contact"
+    "label": "Получить расчёт — оставить заявку",
+    "href": "/ru/smm-prodvizhenie-tashkent/#lead-form"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижение в Ташкенте" },
@@ -296,6 +296,7 @@
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
   "hreflangRu": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+  "hreflangUz": "/uz/blog/smm-nima/",
   "robotsIndex": true,
   "robotsFollow": true,
   "author": "Борис Герасимов",

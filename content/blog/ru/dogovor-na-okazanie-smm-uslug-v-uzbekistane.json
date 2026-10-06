@@ -263,8 +263,8 @@
     }
   ],
   "cta": {
-    "label": "Обсудить условия работы",
-    "href": "#contact"
+    "label": "Получить расчёт — оставить заявку",
+    "href": "/ru/smm-prodvizhenie-tashkent/#lead-form"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-сопровождение в Ташкенте" },

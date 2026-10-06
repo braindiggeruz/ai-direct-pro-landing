@@ -1,0 +1,30 @@
+{
+  "submittedAt": "2026-10-06T20:07:05.888Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "smm-cluster",
+  "releaseCommit": "44074e0f",
+  "reason": "SMM cluster: hubs, articles, FAQ, honest packages",
+  "count": 18,
+  "urls": [
+    "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+    "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+    "https://gptbot.uz/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+    "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+    "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+    "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+    "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+    "https://gptbot.uz/uz/blog/",
+    "https://gptbot.uz/uz/blog/marketing-nima/",
+    "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+    "https://gptbot.uz/uz/blog/smm-nima/",
+    "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+    "https://gptbot.uz/uz/blog/target-reklama-nima/",
+    "https://gptbot.uz/uz/seo-xizmati/",
+    "https://gptbot.uz/uz/smm-xizmatlari/",
+    "https://gptbot.uz/uz/telegram-reklama/"
+  ],
+  "responseExcerpt": ""
+}

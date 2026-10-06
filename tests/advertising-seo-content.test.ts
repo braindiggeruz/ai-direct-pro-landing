@@ -34,10 +34,17 @@ test('advertising refresh keeps all existing article identities and working comm
     assert.ok(article.targetMoneyPage);
     assert.ok(article.internalLinks.some(link => link.target === article.targetMoneyPage));
     assert.ok(article.body.some(block => block.type === 'linkp' && block.links?.some(link => link.target?.startsWith(`/${locale}/`) && !link.target.includes('/blog/'))));
-    // The studio contact card (phone, e-mail; the work Telegram once one is
-    // configured), not the owner's personal Telegram (paid-chat plan, L14).
-    assert.equal(article.cta?.href, CONTACT_ANCHOR);
-    assert.equal(article.dateModified, '2026-09-28');
+    // The header CTA leads to the studio contact card (phone, e-mail; the work
+    // Telegram once one is configured) or to the lead form of the article's own
+    // service page (SMM cluster 2026-10-06), never to the owner's personal
+    // Telegram (paid-chat plan, L14). The body CTA blocks below stay on the card.
+    const ctaHref = article.cta?.href;
+    assert.ok(
+      ctaHref === CONTACT_ANCHOR
+        || (ctaHref === `${article.targetMoneyPage}#lead-form` && article.targetMoneyPage! in LEAD_FORM_PAGES),
+      `${key}: header CTA ${ctaHref} is neither the contact card nor its service page form`,
+    );
+    assert.ok(article.dateModified! >= '2026-09-28', `${key}: dateModified ${article.dateModified}`);
     assert.ok(article.datePublished! < article.dateModified!);
     const ids = article.body.filter(block => block.id).map(block => block.id);
     assert.equal(ids.length, new Set(ids).size);
@@ -71,6 +78,43 @@ test('SMM price articles repeat the actual package rows in both languages', () =
     const copy = JSON.stringify(article);
     assert.match(copy, /Медиабюджет не входит|Media byudjet hech bir paketga kirmaydi/);
     assert.doesNotMatch(copy, /полное ведение плюс рекламный бюджет|to'liq yuritish va reklama byudjeti/);
+  }
+});
+
+// The package rows do not say the packages build on each other, so the agency
+// comparison, the FAQs and the price articles may credit a package only with a
+// part of the scope that its own row lists (review of 2026-10-06: design, the
+// Direct AI bot and the enquiry report were credited to every package).
+const SMM_PACKAGE_FACTS = {
+  uz: { hub: 'smm-xizmatlari', article: 'smm-xizmati-narxi-ozbekiston-2026', names: ['Start', 'Biznes', 'Pro'], terms: [/dizayn/i, /AI-bot/, /murojaatlar bo‘yicha hisobot/, /suratga olish kuni/] },
+  ru: { hub: 'smm-prodvizhenie-tashkent', article: 'skolko-stoit-smm-i-vedenie-instagram-uzbekistan', names: ['Старт', 'Бизнес', 'Про'], terms: [/дизайн/i, /AI-бот/, /отч[её]т по обращениям/, /съ[её]мочный день/] },
+} as const;
+const EVERY_PACKAGE = /barcha paketlar|hamma paketlar|har bir paketda|paketidan boshlab|Start paketidan|во вс[еёи]х? пакет|входит во все|в каждом пакете|начиная со? «?Старт/i;
+
+const visibleCopy = (doc: { bodyBlocks?: Page['bodyBlocks']; body?: BlogArticle['body']; faq?: Page['faq'] }, skip: unknown) => [
+  ...(doc.bodyBlocks ?? doc.body ?? []).filter(block => block !== skip)
+    .flatMap(block => [block.text ?? '', ...(block.items ?? []), ...(block.rows ?? []).flat()]),
+  ...(doc.faq ?? []).flatMap(item => [item.q, item.a]),
+];
+
+test('SMM pages credit each package only with what its own row lists', () => {
+  for (const [locale, facts] of Object.entries(SMM_PACKAGE_FACTS)) {
+    const hub = read<Page>(`pages/${locale}/${facts.hub}`);
+    const table = hub.bodyBlocks.find(block => block.rows?.some(row => row[0] === facts.names[0]))!;
+    const scope = new Map(table.rows!.map(row => [row[0], row[1]]));
+    const article = read<BlogArticle>(`blog/${locale}/${facts.article}`);
+    const articleTable = article.body.find(block => block.rows?.some(row => row[0] === facts.names[0]));
+    const clauses = [...visibleCopy(hub, table), ...visibleCopy(article, articleTable)].flatMap(text => text.split(/[.;,]/));
+    for (const clause of clauses) {
+      const named = facts.names.filter(name => new RegExp(`(^|[^\\p{L}])${name}(?![\\p{L}])`, 'u').test(clause));
+      if (named.length) assert.doesNotMatch(clause, EVERY_PACKAGE, `${locale}: «${clause.trim()}»`);
+      for (const term of facts.terms.filter(term => term.test(clause))) {
+        assert.doesNotMatch(clause, EVERY_PACKAGE, `${locale}: «${clause.trim()}» credits every package with ${term}`);
+        const listed = facts.names.filter(name => term.test(scope.get(name)!));
+        const extra = named.filter(name => !listed.includes(name));
+        assert.deepEqual(extra, [], `${locale}: «${clause.trim()}» credits ${extra.join(', ')} with ${term}; only ${listed.join(', ')} lists it`);
+      }
+    }
   }
 });
 

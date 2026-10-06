@@ -17,6 +17,10 @@ export const LLM_MARKDOWN_SLUGS_RU: string[] = [
   'telegram-bot-dlya-biznesa',
   'avtomatizatsiya-zayavok',
   'ai-bot-s-crm-amocrm-bitrix24',
+  // SMM cluster 2026-10-06: the Russian SMM hub and the targeting page, the
+  // service pages behind the SMM package and target price facts in llms.txt.
+  'smm-prodvizhenie-tashkent',
+  'targetirovannaya-reklama-tashkent',
 ];
 
 /**

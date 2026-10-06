@@ -190,5 +190,21 @@
     "statusCode": 301,
     "reason": "GSC Page indexing lists the slug variant as 404 (last crawl 2026-06-22). The published article answers the same Telegram bot price question for Uzbekistan (advertising audit follow-up 2026-09-28).",
     "createdAt": "2026-09-28"
+  },
+  {
+    "id": "gsc-404-uz-blog-target-reklama-nima-h1-slug",
+    "from": "/uz/blog/target-reklama-nima-va-u-ozbekistonda-qanday-ishlaydi",
+    "to": "/uz/blog/target-reklama-nima/",
+    "statusCode": 301,
+    "reason": "URL built from the H1 got an impression in Search Console on 2026-09-25 and returns 404 (smm-cluster-2026-10-06, 01-OUR-DATA §14).",
+    "createdAt": "2026-10-06"
+  },
+  {
+    "id": "gsc-404-uz-blog-target-reklama-nima-h1-slug-slash",
+    "from": "/uz/blog/target-reklama-nima-va-u-ozbekistonda-qanday-ishlaydi/",
+    "to": "/uz/blog/target-reklama-nima/",
+    "statusCode": 301,
+    "reason": "URL built from the H1 got an impression in Search Console on 2026-09-25 and returns 404 (smm-cluster-2026-10-06, 01-OUR-DATA §14).",
+    "createdAt": "2026-10-06"
   }
 ]

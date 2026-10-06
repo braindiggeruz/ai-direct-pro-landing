@@ -127,10 +127,15 @@
           "url": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
           "ownsIntent": "contracting for SMM services under Uzbek law",
           "primaryKeyword": "договор на оказание smm услуг"
+        },
+        {
+          "url": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+          "ownsIntent": "what managing Instagram and SMM costs per month in Uzbekistan, read from the published packages",
+          "primaryKeyword": "ведение инстаграм цена узбекистан"
         }
       ],
       "evidence": "docs/seo/smm-cluster-20260804/ — SEMrush seed list reviewed 2026-08-04, live SERP review of the same day, Search Console over 2026-02-01..2026-08-01, and primary-source verification against the Uzbek Civil Code chapter 38 and the Advertising Law ZRU-776.",
-      "note": "The SMM hub owns organic social strategy, content production, publishing and moderation. Paid audience campaigns moved to /ru/targetirovannaya-reklama-tashkent/ on 2026-08-20; this page may mention paid distribution only as a separate connected service. The boundary with /ru/blog/chto-takoe-smm-prodvizhenie/ remains question-based. No new SMM spoke is justified until impressions demonstrate a distinct intent."
+      "note": "The SMM hub owns organic social strategy, content production, publishing and moderation. Paid audience campaigns moved to /ru/targetirovannaya-reklama-tashkent/ on 2026-08-20; this page may mention paid distribution only as a separate connected service. The boundary with /ru/blog/chto-takoe-smm-prodvizhenie/ remains question-based. No new SMM article is justified until impressions demonstrate a distinct intent. /ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/ is an existing article that was recorded as a spoke on 2026-10-06; no new page was created. It is recorded so that the monthly Instagram-management price phrasing has one tracked owner beside «стоимость smm услуг», which /ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/ keeps. The evidence for that phrasing is thin. Search Console over 2026-07-08..2026-10-05 shows the page at 109 impressions, 1 click and average position 7.5 in total, but only 25 of those impressions carry a visible query (15 queries; the other 84 are anonymised). The «ведение инстаграм(ма) цена в месяц / стоимость / цена / заказать» queries account for 8 of the 25 (3+2+2+1) at positions 13–20, or 9 with the bare «ведение инстаграм» at position 28. The largest visible query, «монетизация инстаграм в узбекистане» (6 impressions at 6.5, plus 1 for «есть ли монетизация инстаграм в узбекистане» at 11), is off-intent. This record does not clear the distinct-intent gate for any new SMM page (gptbot.uz-audit/raw/smm-cluster-2026-10-06/01-OUR-DATA.md)."
     },
     {
       "id": "digital-paid-media-ru",
@@ -160,7 +165,10 @@
         "smm agentligi",
         "smm xizmatlari toshkent",
         "ijtimoiy tarmoqlarni yuritish",
-        "instagram sahifasini yuritish"
+        "instagram sahifasini yuritish",
+        "smm agentlik",
+        "smm toshkent",
+        "smm kompaniya"
       ],
       "spokes": [
         {
@@ -170,7 +178,7 @@
         }
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
-      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent."
+      "note": "The Russian SMM hub at /ru/smm-prodvizhenie-tashkent/ keeps every Cyrillic term; this hub owns only the Uzbek-language ones and the two are declared as an hreflang pair. Uzbek demand for the commercial phrase is higher than the Russian equivalent (110 against 50 for «смм ташкент») at roughly a tenth of the Google Ads competition, which is why the Uzbek page was authored rather than translated. Paid audience work stays with /uz/telegram-reklama/ and the Russian paid-media cluster; this hub may reference paid distribution only as a connected service. One spoke is deliberate: no second Uzbek SMM article is justified until Search Console shows a distinct intent. On 2026-10-06 the hub also claimed smm agentlik, smm toshkent and smm kompaniya and gained an «agentlik» section: Google Ads returns 0 for the first two and 30/mo for smm kompaniya, but their live SERPs are agency result sets (an AI Overview with agency lists for smm agentlik, a local pack for smm toshkent), and the first inbound Uzbek SMM lead arrived the same day (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md). /uz/blog/smm-xizmati-narxi-ozbekiston-2026/ is deliberately not a spoke yet: its title still carries ASCII apostrophes and is printed on the protected homepage, so it joins with the revision that fixes that title."
     },
     {
       "id": "seo-uz",
