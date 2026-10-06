@@ -127,10 +127,15 @@
           "url": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
           "ownsIntent": "contracting for SMM services under Uzbek law",
           "primaryKeyword": "договор на оказание smm услуг"
+        },
+        {
+          "url": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+          "ownsIntent": "what managing Instagram and SMM costs per month in Uzbekistan, read from the published packages",
+          "primaryKeyword": "ведение инстаграм цена узбекистан"
         }
       ],
       "evidence": "docs/seo/smm-cluster-20260804/ — SEMrush seed list reviewed 2026-08-04, live SERP review of the same day, Search Console over 2026-02-01..2026-08-01, and primary-source verification against the Uzbek Civil Code chapter 38 and the Advertising Law ZRU-776.",
-      "note": "The SMM hub owns organic social strategy, content production, publishing and moderation. Paid audience campaigns moved to /ru/targetirovannaya-reklama-tashkent/ on 2026-08-20; this page may mention paid distribution only as a separate connected service. The boundary with /ru/blog/chto-takoe-smm-prodvizhenie/ remains question-based. No new SMM spoke is justified until impressions demonstrate a distinct intent."
+      "note": "The SMM hub owns organic social strategy, content production, publishing and moderation. Paid audience campaigns moved to /ru/targetirovannaya-reklama-tashkent/ on 2026-08-20; this page may mention paid distribution only as a separate connected service. The boundary with /ru/blog/chto-takoe-smm-prodvizhenie/ remains question-based. No new SMM spoke is justified until impressions demonstrate a distinct intent. /ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/ was registered on 2026-10-06 as the accounting of an existing article, not a new spoke: Search Console over 2026-07-08..2026-10-05 shows it at 109 impressions, average position 7.5, and its visible queries are «ведение инстаграм(ма) цена в месяц», «ведение инстаграм стоимость / цена / заказать» — a monthly Instagram-management price intent distinct from «стоимость smm услуг», which /ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/ keeps (gptbot.uz-audit/raw/smm-cluster-2026-10-06/01-OUR-DATA.md)."
     },
     {
       "id": "digital-paid-media-ru",

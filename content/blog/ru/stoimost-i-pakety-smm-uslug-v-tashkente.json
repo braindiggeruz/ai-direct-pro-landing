@@ -30,12 +30,12 @@
     },
     {
       "type": "linkp",
-      "text": "Опубликованные пакеты GPTBot.uz: «Старт» — от 2 490 000 сум в месяц, «Бизнес» — от 4 490 000, «Про» — от 7 900 000; рекламный бюджет отдельно. Состав пакетов и бриф — на странице {smm}.",
+      "text": "Опубликованные пакеты GPTBot.uz: «Старт» — от 2 490 000 сум в месяц, «Бизнес» — от 4 490 000, «Про» — от 7 900 000; рекламный бюджет отдельно. Подробный состав пакетов и бриф: {smm}.",
       "links": [
         {
           "token": "smm",
           "target": "/ru/smm-prodvizhenie-tashkent/",
-          "anchor": "SMM-продвижения в Ташкенте"
+          "anchor": "SMM-услуги в Ташкенте под ключ"
         }
       ]
     },
@@ -296,8 +296,8 @@
     }
   ],
   "cta": {
-    "label": "Получить расчёт под свой бизнес",
-    "href": "#contact"
+    "label": "Получить расчёт — оставить заявку",
+    "href": "/ru/smm-prodvizhenie-tashkent/#lead-form"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-услуги в Ташкенте" },
@@ -334,8 +334,8 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-04",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-06",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "createdAt": "2026-08-04T00:00:00.000Z"
 }

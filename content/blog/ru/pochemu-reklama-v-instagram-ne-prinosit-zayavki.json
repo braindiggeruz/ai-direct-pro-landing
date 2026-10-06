@@ -804,8 +804,8 @@
     }
   ],
   "cta": {
-    "label": "Обсудить рекламную воронку",
-    "href": "#contact"
+    "label": "Обсудить рекламу — оставить заявку",
+    "href": "/ru/targetirovannaya-reklama-tashkent/#lead-form"
   },
   "internalLinks": [
     {
@@ -917,7 +917,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -925,7 +925,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "createdAt": "2026-07-14T00:00:00.000Z",
   "sources": [
     {

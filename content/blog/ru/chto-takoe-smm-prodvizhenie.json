@@ -276,8 +276,8 @@
     }
   ],
   "cta": {
-    "label": "Обсудить SMM-продвижение",
-    "href": "#contact"
+    "label": "Получить расчёт — оставить заявку",
+    "href": "/ru/smm-prodvizhenie-tashkent/#lead-form"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-продвижение в Ташкенте" },
@@ -301,7 +301,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-02",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -309,6 +309,6 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "createdAt": "2026-08-02T00:00:00.000Z"
 }

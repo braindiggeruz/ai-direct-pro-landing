@@ -4,7 +4,7 @@
   "slug": "chto-vhodit-v-uslugi-smm-specialista",
   "url": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
   "title": "Что входит в услуги SMM-специалиста: состав работ",
-  "description": "Обязанности SMM-специалиста: стратегия, контент, публикация, Direct, аналитика. Что в зоне ответственности, что оплачивается отдельно и как принимать работу.",
+  "description": "Что входит в услуги SMM-специалиста: стратегия, контент, публикации, Direct и аналитика. Что оплачивается отдельно, как принять работу и где посмотреть пакеты.",
   "h1": "Что входит в услуги SMM-специалиста",
   "topicCluster": "Digital-маркетинг и продвижение",
   "targetMoneyPage": "/ru/smm-prodvizhenie-tashkent/",
@@ -300,8 +300,8 @@
     }
   ],
   "cta": {
-    "label": "Заказать аудит текущего SMM",
-    "href": "#contact"
+    "label": "Получить расчёт — оставить заявку",
+    "href": "/ru/smm-prodvizhenie-tashkent/#lead-form"
   },
   "internalLinks": [
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "Ведение соцсетей в Ташкенте" },
@@ -332,8 +332,8 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-08-04",
-  "dateModified": "2026-09-29",
+  "dateModified": "2026-10-06",
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "updatedAt": "2026-09-29T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "createdAt": "2026-08-04T00:00:00.000Z"
 }
