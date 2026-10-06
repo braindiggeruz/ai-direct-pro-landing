@@ -9,8 +9,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
-import { buildKnownUrls, collectOutgoingLinks, resolveRedirect } from '../src/shared/audit';
+import { buildKnownUrls, collectOutgoingLinks, resolveRedirect, STATIC_ROUTES } from '../src/shared/audit';
 import type { BlogArticle, Page, Redirect } from '../src/shared/types';
+import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 
 const ROOT = process.cwd();
 const CONTENT = path.join(ROOT, 'content');
@@ -42,7 +43,8 @@ const pages = readAll<Page>(path.join(CONTENT, 'pages'));
 const blog = readAll<BlogArticle>(path.join(CONTENT, 'blog'));
 const all: (Page | BlogArticle)[] = [...pages, ...blog];
 const byUrl = new Map(all.map((d) => [d.url, d]));
-const knownUrls = buildKnownUrls(pages, { blog });
+// Published studio pages (content/studio/pages) are served URLs; drafts are not.
+const knownUrls = buildKnownUrls(pages, { blog, extraUrls: [...STATIC_ROUTES, ...publishedStudioUrls(ROOT)] });
 
 /** Outgoing link targets of one document, across every link surface. */
 function targetsOf(url: string): Set<string> {

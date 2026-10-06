@@ -8,8 +8,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, GlobalSEO, Redirect, BlogArticle } from '../src/shared/types';
-import { buildCockpit, buildKnownUrls } from '../src/shared/audit';
+import { buildCockpit, buildKnownUrls, STATIC_ROUTES } from '../src/shared/audit';
 import { evaluateDemandGate, type DemandPolicy } from '../src/shared/demand-gate';
+import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -28,7 +29,11 @@ const redirects: Redirect[] = fs.existsSync(redirectsFile)
   ? JSON.parse(fs.readFileSync(redirectsFile, 'utf-8'))
   : [];
 
-const cockpit = buildCockpit(pages, globalSeo, { blog, redirects });
+// Published studio tool pages (content/studio/pages, apps/studio) are served
+// URLs too. A draft is not, so a link to one still reads as broken.
+const cockpit = buildCockpit(pages, globalSeo, {
+  blog, redirects, extraUrls: [...STATIC_ROUTES, ...publishedStudioUrls(ROOT)],
+});
 
 console.log('========================================');
 console.log('  SEO AUDIT REPORT');

@@ -1,0 +1,133 @@
+{
+  "_review": "DRAFT for the native speaker: every visible word of /uz/taqdimot-ai/ outside the form is in this file (the form's words are in apps/studio/src/tools/presentation/texts.ts). Release R-ST1 publishes it with apps/studio/scripts/release-content.ts after the reading (IMPLEMENTATION-PLAN T2.4).",
+  "status": "draft",
+  "locale": "uz",
+  "url": "/uz/taqdimot-ai/",
+  "tool": "presentation",
+  "toolName": "Taqdimot AI",
+  "title": "Taqdimot AI: mavzudan tayyor slayd (.pptx) | GPTBot.uz",
+  "h1": "Mavzuni yozing — tayyor taqdimot (.pptx)",
+  "description": "Mavzuni yozing — AI kuniga 1 ta taqdimotni (.pptx, 6 slaydgacha) bepul tayyorlaydi. Ro‘yxatdan o‘tmasdan. Natijani tekshirib, o‘zingiz to‘ldiring.",
+  "honesty": "GPTBot.uz — mustaqil AI yordamchi, ChatGPT yoki OpenAI mahsuloti emas.",
+  "primaryKeyword": "slayd ai",
+  "secondaryKeywords": [
+    "ai slayd",
+    "slayd yaratish",
+    "slayd yasash",
+    "taqdimot yaratish",
+    "prezentatsiya ai",
+    "ai prezentatsiya",
+    "sun’iy intellekt slayd"
+  ],
+  "hreflangRu": "/ru/prezentatsiya-ai/",
+  "hreflangUz": "/uz/taqdimot-ai/",
+  "tariffsVisible": false,
+  "ogImage": "/assets/studio/og-taqdimot-v1.png",
+  "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
+  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, ikki slaydgacha AI chizgan rasm. Natija PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
+  "sections": [
+    {
+      "id": "qanday-ishlaydi",
+      "h2": "Qanday ishlaydi",
+      "steps": [
+        {
+          "title": "Mavzuni yozing",
+          "text": "Masalan, «Amir Temur davlati» yoki «Suvning tabiatda aylanishi». Kim uchun ekanini — maktab o‘quvchisi, talaba yoki umumiy — va slaydlar sonini (4, 5 yoki 6) tanlang."
+        },
+        {
+          "title": "AI slaydlarni yozadi",
+          "text": "Mavzu qisqa tekshiruvdan o‘tadi, keyin sarlavhalar va bandlar o‘zbek tilida yoziladi, ikki slaydgacha rasm chiziladi. Odatda bu 30–40 soniya davom etadi — sahifani yopmang."
+        },
+        {
+          "title": "Faylni yuklab oling",
+          "text": "«Yuklab olish (.pptx)» tugmasi faylni shu brauzerning o‘zida yig‘adi. Uni PowerPoint, Google Slides, WPS Office yoki Keynote’da ochib, kerakli joylarini o‘zgartiring."
+        }
+      ]
+    },
+    {
+      "id": "bepul",
+      "h2": "Bepul taqdimotda nima bor",
+      "items": [
+        "Kuniga 1 ta taqdimot. Yangi kun Toshkent vaqti bilan soat 05:00 da boshlanadi.",
+        "Muqova va 4–6 slayd: har birida sarlavha va 2–5 ta qisqa band.",
+        "2 tagacha rasm: buyumlar, binolar yoki tabiat manzarasi. Rasmlarda odamlar, yozuv va bayroqlar bo‘lmasligiga harakat qilamiz; tekshiruv shunday rasmni topsa, slayd rasmsiz qoladi.",
+        "Bitta oddiy dizayn: o‘qilishi oson ranglar va yirik shrift.",
+        "Ro‘yxatdan o‘tish va to‘lov kerak emas. Bot emasligingizni Cloudflare qisqa tekshiradi.",
+        "Ma’ruza matni (slayd ostidagi eslatmalar) bepul taqdimotga kirmaydi.",
+        "Oxirgi slaydda taqdimot AI yordamida yozilgani ko‘rsatiladi."
+      ]
+    },
+    {
+      "id": "qoralama",
+      "h2": "Natija — qoralama",
+      "paragraphs": [
+        "AI tez yozadi, lekin adashishi mumkin. Sana, raqam, ism va atamalarni darslik yoki ishonchli manbadan tekshiring. Taqdimot — ishning rejasi va asosi, topshirishga tayyor ish emas: unga o‘z fikringiz, misollaringiz va xulosangizni qo‘shing.",
+        "AI kitob va manba nomlarini to‘qib chiqarishi mumkin. Shuning uchun manbalar ro‘yxatini o‘qituvchi tavsiya qilgan darslik va kitoblardan o‘zingiz tuzing.",
+        {
+          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi va fayl shu yerda yig‘iladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga, u javob bermasa OpenRouter orqali boshqa AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga belgi (cookie) saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
+          "links": [
+            {
+              "token": "privacy",
+              "target": "/uz/maxfiylik-siyosati/",
+              "anchor": "maxfiylik siyosati"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "faqTitle": "Savol-javob",
+  "faq": [
+    {
+      "q": "Taqdimot AI bepulmi?",
+      "a": "Ha. Kuniga 1 ta taqdimot — 6 slaydgacha va 2 tagacha rasm bilan — bepul, ro‘yxatdan o‘tmasdan. Bugungi taqdimot ishlatilgan bo‘lsa, keyingisi Toshkent vaqti bilan soat 05:00 dan keyin ochiladi."
+    },
+    {
+      "q": "Faylni qaysi dasturda ochsa bo‘ladi?",
+      "a": ".pptx — PowerPoint fayli. Uni Microsoft PowerPoint, Google Slides, WPS Office va Keynote ochadi, telefonda ham. Matnni tahrirlash uchun kompyuter qulayroq, lekin kichik o‘zgarishlarni telefonda ham qilsa bo‘ladi."
+    },
+    {
+      "q": "Instagram yoki Telegram ichida ochsam nima bo‘ladi?",
+      "a": "Ilova ichidagi brauzer faylni saqlamasligi mumkin, unda bepul taqdimot ham yo‘qoladi. Sahifa buni sezsa, tugma ustida «Brauzerda oching» degan ogohlantirish chiqadi: havolani nusxalab, Chrome yoki Safari’da oching."
+    },
+    {
+      "q": "Taqdimotni o‘qituvchiga shundayligicha topshirsa bo‘ladimi?",
+      "a": "Tavsiya qilmaymiz. Bu qoralama: faktlarni tekshiring, o‘z so‘zlaringiz va misollaringizni qo‘shing, o‘qituvchi so‘ragan slaydlar soni va manbalarni o‘zingiz to‘ldiring."
+    },
+    {
+      "q": "Nega ba’zi mavzular rad etiladi?",
+      "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mavzular, o‘ziga zarar yetkazish, giyohvand moddalar, nafratga chaqiriq va qurol yasash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi — mumkin."
+    },
+    {
+      "q": "Nega rasmlarda odamlar chizilmaydi?",
+      "a": "AI odamlarni chizmaslikka yo‘naltirilgan: AI chizgan odam yuzi ko‘pincha g‘alati chiqadi, tarixiy shaxsni esa noto‘g‘ri ko‘rsatishi mumkin. Shuning uchun rasmlarda buyumlar, binolar va tabiat bo‘ladi. Har bir rasm tekshiriladi, lekin tekshiruv ham adashishi mumkin: rasmda odam, yozuv yoki bayroq ko‘rsangiz, uni fayldan o‘chiring va bizga xabar bering. Kerak bo‘lsa, o‘zingiz olgan yoki litsenziyasi ruxsat bergan rasmni qo‘shing."
+    }
+  ],
+  "links": {
+    "text": "Slaydni qo‘lda yig‘ish, 6×6 qoidasi va ma’ruza matni haqida — {guide}. Reja yoki ma’ruza matnini chat bilan yozmoqchi bo‘lsangiz — {chat}.",
+    "links": [
+      {
+        "token": "guide",
+        "target": "/uz/blog/slayd-tayyorlash/",
+        "anchor": "slayd bo‘yicha qo‘llanma"
+      },
+      {
+        "token": "chat",
+        "target": "/uz/gpt-uzbek-tilida/",
+        "anchor": "GPTBot.uz bepul AI chati"
+      }
+    ]
+  },
+  "business": {
+    "text": "Biznesingiz uchun AI-bot kerakmi? {b2b}.",
+    "links": [
+      {
+        "token": "b2b",
+        "target": "/uz/biznes-uchun-ai-bot/",
+        "anchor": "Biznes uchun AI bot"
+      }
+    ]
+  },
+  "createdAt": "2026-10-06",
+  "updatedAt": "2026-10-06"
+}

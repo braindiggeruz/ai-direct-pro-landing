@@ -303,6 +303,30 @@ export interface Env extends FirecrawlEnvironment {
   GPT_WATCHDOG_WINDOW_MINUTES?: string;
   GPT_WATCHDOG_MIN_TURNS?: string;
 
+  // ─── Studio (apps/studio, functions/lib/studio/*) ─────────────────────
+  // Every studio name, declared once here. It also reuses the chat's
+  // GPT_IDENTITY_SECRET, GPT_HASH_SALT, ZAI_API_KEY, OPENROUTER_API_KEY,
+  // GPT_CLICK_CREDENTIALS_JSON (Click variant A), GPT_BILLING_MAINTENANCE_SECRET
+  // and GPT_NOTIFY_* (BillingEnv), and the AI and GPTBOT_DRAFTS_DB bindings.
+  // Public. Every studio switch and tuning value as one JSON text at the top
+  // level of [vars] in wrangler.toml; functions/lib/studio/config.ts reads
+  // only its own key list, and invalid JSON keeps everything off. Honoured
+  // only on the host gptbot.uz.
+  STUDIO_RUNTIME_CONFIG_JSON?: string;
+  // Local only (.dev.vars, never committed): "true" lets localhost and
+  // 127.0.0.1 see the studio under `wrangler pages dev`.
+  STUDIO_LOCAL_DEV?: string;
+  // Secret. The studio's own Turnstile widget (not TURNSTILE_SECRET_KEY,
+  // which would switch the chat's check on). Unset = the free paths answer
+  // 503 studio_not_configured: fail-closed, unlike functions/lib/turnstile.ts.
+  STUDIO_TURNSTILE_SECRET_KEY?: string;
+  // Secret, optional: Click variant B only, the Studio service's own
+  // credentials (shape fixed by functions/lib/studio/click-studio.ts).
+  STUDIO_CLICK_CREDENTIALS_JSON?: string;
+  // Secret, weeks 6–7: the GA4 Measurement Protocol API secret, read only
+  // with STUDIO_GA4_MP=true.
+  STUDIO_GA4_API_SECRET?: string;
+
   // ─── Railway backend gateway (optional) ───────────────────────────────
   // When BOTH are set, /api/gpt/* proxies to the Railway production backend
   // (Fastify + Supabase). When absent or the proxy fails, the Cloudflare

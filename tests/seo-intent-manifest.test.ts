@@ -7,6 +7,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import type { BlogArticle, Page } from '../src/shared/types';
+import { readStudioPages } from '../apps/studio/shared/published-urls';
 
 const ROOT = process.cwd();
 const CONTENT = path.join(ROOT, 'content');
@@ -38,6 +39,9 @@ for (const doc of [
 ]) {
   byUrl.set(doc.url, doc);
 }
+// The studio's tool pages live in content/studio/pages (drafts included, like
+// content/pages): a pair may name one, and a draft fails «separately indexable».
+for (const page of readStudioPages(ROOT)) byUrl.set(page.url, page.data as unknown as Page);
 
 /** Every keyword field a document can declare, lowercased. */
 function declaredKeywords(doc: Page | BlogArticle): string[] {
