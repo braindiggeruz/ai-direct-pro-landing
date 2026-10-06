@@ -3,6 +3,8 @@
  *
  *   npx tsx apps/studio/scripts/check-pages.ts               checks dist/
  *   npx tsx apps/studio/scripts/check-pages.ts --dist <dir>
+ *   npx tsx apps/studio/scripts/check-pages.ts --origin https://gptbot.uz
+ *            the pages check only, against a live site (after a deploy)
  *
  * Needs a finished build (npm run build:production, or the root build plus
  * npm run build:studio) and a local Chrome (CHROME_PATH, or the usual install
@@ -40,8 +42,19 @@
  *            the first deck stays on the page.
  *   in-app   with an Instagram user agent, «Brauzerda oching» stands before
  *            the submit button, and still nothing is fetched on load.
- * T2.3 adds the published pages with /api/* cut off (H1, form, ≥400 words, no
- * error text, layout shift < 0.05 over the first 3 s).
+ * T2.3 checks (the pages):
+ *   pages    every studio page as the release writes it, with /api/* cut off
+ *            (every request to it fails, as when robots.txt keeps a crawler
+ *            out of /api/ or the studio is switched off): one H1, the form in
+ *            #studio-root and on the first screen at 360 px, hydrated without
+ *            a mismatch, ≥400 words outside the island, no error text, no
+ *            /api/* request during load, layout shift < 0.05 over the first
+ *            3 s. Then a focus in the form (/config and /me are tried and
+ *            fail) still shows no error, and only a submit shows «Vaqtincha
+ *            ishlamayapti» in the form's line, with the page around it intact.
+ *            A published page is read from dist/<url>/index.html; a draft is
+ *            rendered in memory by studio-page.ts as if published (with its
+ *            translation), so the check passes before the release day.
  *
  * The class names in the test page are real studio utilities: Tailwind reads
  * this file (@source "../scripts" in src/styles.css), so they are in the CSS.
@@ -52,9 +65,12 @@ import path from 'node:path';
 import type { AddressInfo } from 'node:net';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
+import { readStudioPages, type StudioPageRecord } from '../shared/published-urls';
 import { AI_LABEL } from '../src/pptx/build';
 import { renderForm } from '../src/tools/presentation/static';
-import { STUDIO_ASSET_DIR } from './prerender-studio';
+import { TEXTS } from '../src/tools/presentation/texts';
+import { STUDIO_ASSET_DIR, readStudioSite } from './prerender-studio';
+import { MIN_WORDS_OUTSIDE_ISLAND, renderStudioPage } from './studio-page';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 const VIEWPORT = { width: 360, height: 800 } as const;
@@ -247,13 +263,14 @@ async function serve(dist: string, pages: Record<string, string>, pageHeaders: R
       response.end(pages[pathname]);
       return;
     }
-    const file = path.resolve(base, `.${pathname}`);
+    const file = path.resolve(base, `.${pathname}${pathname.endsWith('/') ? 'index.html' : ''}`);
     if (!file.startsWith(base + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
       response.writeHead(404, { 'content-type': 'text/plain' });
       response.end('not found');
       return;
     }
-    response.writeHead(200, { 'content-type': CONTENT_TYPES[path.extname(file)] ?? 'application/octet-stream' });
+    const type = CONTENT_TYPES[path.extname(file)] ?? 'application/octet-stream';
+    response.writeHead(200, { 'content-type': type, ...(path.extname(file) === '.html' ? pageHeaders : {}) });
     fs.createReadStream(file).pipe(response);
   });
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
@@ -316,7 +333,190 @@ export interface CheckReport {
   hydrate: { uz: { loadRequests: string[] }; ru: { loadRequests: string[] } };
   flow: { apiCalls: string[]; turnstile: unknown; download: { name: string; bytes: number; slides: number; media: number } | null; seconds: number };
   inApp: { noticeBeforeSubmit: boolean };
+  pages: PageProbe[];
   failures: string[];
+}
+
+// --- the pages with /api/* cut off (T2.3) -----------------------------------------------
+
+/** What the browser measured on one studio page. */
+export interface PageProbe {
+  url: string;
+  source: 'dist' | 'memory' | 'origin';
+  h1: string[];
+  formsInIsland: number;
+  submitEnabled: boolean;
+  hydration: string | null;
+  wordsOutsideIsland: number;
+  /** Error messages of the form found anywhere in the page's text after load. */
+  errorsOnLoad: string[];
+  /** Layout shift over the first 3 s (inputs excluded). */
+  layoutShift: number;
+  formTop: number;
+  viewportHeight: number;
+  /** /api/* requests made before any action (all failed). */
+  apiOnLoad: string[];
+  /** After a focus in the form: /api/* requests tried, error messages shown. */
+  afterFocus: { api: string[]; errors: string[] };
+  /** After a submit: the form's message line, and whether the H1 is still there. */
+  afterSubmit: { message: string; h1: number };
+}
+
+export const LAYOUT_SHIFT_LIMIT = 0.05;
+
+/** The form's error and limit messages in `locale`: none of them may show before an action. */
+export function errorTexts(locale: 'uz' | 'ru'): string[] {
+  return Object.values(TEXTS[locale].messages);
+}
+
+/** Every way one measured page breaks the closed-API contract; empty when it keeps it. */
+export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
+  const at = `pages ${probe.url}`;
+  const failures: string[] = [];
+  if (probe.h1.length !== 1 || !probe.h1[0]) failures.push(`${at}: ${probe.h1.length} H1, expected one with text`);
+  if (probe.formsInIsland !== 1) failures.push(`${at}: ${probe.formsInIsland} forms in #studio-root`);
+  if (!probe.submitEnabled) failures.push(`${at}: the submit button is not enabled after hydration`);
+  if (probe.hydration) failures.push(`${at}: React recovered from a hydration mismatch`);
+  if (probe.wordsOutsideIsland < MIN_WORDS_OUTSIDE_ISLAND) failures.push(`${at}: ${probe.wordsOutsideIsland} words outside the island, expected ≥${MIN_WORDS_OUTSIDE_ISLAND}`);
+  if (probe.errorsOnLoad.length) failures.push(`${at}: error text on load: ${probe.errorsOnLoad.join(' | ')}`);
+  if (!(probe.layoutShift < LAYOUT_SHIFT_LIMIT)) failures.push(`${at}: layout shift ${probe.layoutShift} over the first 3 s, expected < ${LAYOUT_SHIFT_LIMIT}`);
+  if (!(probe.formTop < probe.viewportHeight)) failures.push(`${at}: the form starts at ${probe.formTop}px, below the first screen (${probe.viewportHeight}px)`);
+  if (probe.apiOnLoad.length) failures.push(`${at}: /api/* requested on load: ${probe.apiOnLoad.join(', ')}`);
+  if (!probe.afterFocus.api.length) failures.push(`${at}: a focus in the form asked nothing of /api/studio (config and me are lazy, not absent)`);
+  if (probe.afterFocus.errors.length) failures.push(`${at}: error text after a mere focus: ${probe.afterFocus.errors.join(' | ')}`);
+  if (probe.afterSubmit.message !== TEXTS[locale].messages.busy) failures.push(`${at}: after a submit with /api/* down the form says «${probe.afterSubmit.message}», expected «${TEXTS[locale].messages.busy}»`);
+  if (probe.afterSubmit.h1 !== 1) failures.push(`${at}: the page lost its H1 after the submit`);
+  return failures;
+}
+
+export interface PageUnderCheck {
+  url: string;
+  locale: 'uz' | 'ru';
+  /** HTML to serve from memory; null when the page is read from dist/ (or the origin). */
+  html: string | null;
+}
+
+/**
+ * The studio pages to check against `dist`: a published page from its file, a
+ * draft rendered in memory as the release will write it (every record taken
+ * as published, so the translation, the switch and hreflang are there too).
+ */
+export function pagesUnderCheck(root: string, dist: string, entry: StudioEntryFiles): PageUnderCheck[] {
+  const pages = readStudioPages(root);
+  const asReleased: StudioPageRecord[] = pages.map((page) => ({ ...page, status: 'published' }));
+  const site = pages.some((page) => page.status === 'draft') ? readStudioSite(root) : null;
+  return pages.map((page) => {
+    if (page.status === 'published') return { url: page.url, locale: page.locale, html: null };
+    const html = renderStudioPage(asReleased.find((other) => other.url === page.url) as StudioPageRecord, {
+      site: site as NonNullable<typeof site>,
+      pages: asReleased,
+      siteStyles: siteStylesheetHrefs(dist),
+      assets: { script: entry.script, styles: [entry.style] },
+    });
+    return { url: page.url, locale: page.locale, html };
+  });
+}
+
+/** Opens each page with /api/* failing and measures it; failures are appended to `failures`. */
+async function checkClosedApi(
+  browser: Browser,
+  origin: string,
+  targets: PageUnderCheck[],
+  failures: string[],
+  source: (target: PageUnderCheck) => PageProbe['source'],
+): Promise<PageProbe[]> {
+  const probes: PageProbe[] = [];
+  for (const target of targets) {
+    const context = await browser.newContext({ viewport: VIEWPORT });
+    const api: string[] = [];
+    await context.route('**/api/**', async (route) => {
+      api.push(new URL(route.request().url()).pathname);
+      await route.abort('failed');
+    });
+    const tab = await context.newPage();
+    await watch(tab, `pages ${target.url}`, failures);
+    await tab.addInitScript(() => {
+      const state = ((window as unknown as { __shift?: { value: number } }).__shift = { value: 0 });
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries() as unknown as Array<{ value: number; hadRecentInput: boolean }>) {
+          if (!entry.hadRecentInput) state.value += entry.value;
+        }
+      }).observe({ type: 'layout-shift', buffered: true });
+    });
+    const started = Date.now();
+    await tab.goto(origin + target.url, { waitUntil: 'load' });
+    await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 15_000 }).catch(() => failures.push(`pages ${target.url}: the island never became ready`));
+    await tab.waitForTimeout(Math.max(0, 3_000 - (Date.now() - started)));
+    const errors = errorTexts(target.locale);
+    const measure = () => tab.evaluate((messages: string[]) => {
+      const root = document.getElementById('studio-root');
+      const clone = document.body.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('#studio-root, script, style, noscript, template').forEach((node) => node.remove());
+      const words = (clone.textContent ?? '').match(/[\p{L}\p{N}]+(?:[‘’'-][\p{L}\p{N}]+)*/gu) ?? [];
+      const text = document.body.innerText;
+      const form = root?.querySelector('form');
+      return {
+        h1: Array.from(document.querySelectorAll('h1')).map((h1) => (h1.textContent ?? '').trim()),
+        formsInIsland: root ? root.querySelectorAll('form').length : 0,
+        submitEnabled: (root?.querySelector('button[type="submit"]') as HTMLButtonElement | null)?.disabled === false,
+        hydration: root?.dataset.hydration ?? null,
+        wordsOutsideIsland: words.length,
+        errors: messages.filter((message) => text.includes(message)),
+        layoutShift: Math.round(((window as unknown as { __shift?: { value: number } }).__shift?.value ?? 0) * 10_000) / 10_000,
+        formTop: form ? Math.round(form.getBoundingClientRect().top + window.scrollY) : Number.POSITIVE_INFINITY,
+        viewportHeight: window.innerHeight,
+      };
+    }, errors);
+    const loaded = await measure();
+    const apiOnLoad = [...api];
+    await tab.click('#studio-root input[name="topic"]');
+    await tab.waitForTimeout(1_500);
+    const focused = await measure();
+    const afterFocus = { api: api.slice(apiOnLoad.length), errors: focused.errors };
+    await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
+    await tab.click('#studio-root button[type="submit"]');
+    const message = await tab.waitForFunction(() => {
+      const line = document.querySelector('#studio-root [data-studio-message]');
+      return line && line.getAttribute('data-studio-message') ? (line.textContent ?? '').trim() : null;
+    }, undefined, { timeout: 20_000 }).then((handle) => handle.jsonValue() as Promise<string>).catch(() => '');
+    const h1After = await tab.evaluate(() => document.querySelectorAll('h1').length);
+    for (const violation of await cspViolations(tab)) failures.push(`pages ${target.url}: CSP violation: ${violation}`);
+    const probe: PageProbe = {
+      url: target.url,
+      source: source(target),
+      h1: loaded.h1,
+      formsInIsland: loaded.formsInIsland,
+      submitEnabled: loaded.submitEnabled,
+      hydration: loaded.hydration,
+      wordsOutsideIsland: loaded.wordsOutsideIsland,
+      errorsOnLoad: loaded.errors,
+      layoutShift: loaded.layoutShift,
+      formTop: loaded.formTop,
+      viewportHeight: loaded.viewportHeight,
+      apiOnLoad,
+      afterFocus,
+      afterSubmit: { message, h1: h1After },
+    };
+    failures.push(...pageFailures(probe, target.locale));
+    probes.push(probe);
+    await context.close();
+  }
+  return probes;
+}
+
+/** The pages check alone, against a live origin (after a deploy): the published pages only. */
+export async function checkOrigin(origin: string, root: string = ROOT): Promise<{ status: 'pass' | 'fail'; pages: PageProbe[]; failures: string[] }> {
+  const { chromium } = await import('playwright-core');
+  const targets = readStudioPages(root).filter((page) => page.status === 'published').map((page) => ({ url: page.url, locale: page.locale, html: null }));
+  const failures: string[] = [];
+  if (!targets.length) failures.push('origin: no published studio page to check');
+  const browser = await chromium.launch({ executablePath: findChrome(), headless: true });
+  try {
+    const pages = await checkClosedApi(browser, origin.replace(/\/+$/, ''), targets, failures, () => 'origin');
+    return { status: failures.length ? 'fail' : 'pass', pages, failures };
+  } finally {
+    await browser.close();
+  }
 }
 
 type Playwright = typeof import('playwright-core');
@@ -441,7 +641,7 @@ export function flowFailures(calls: ApiCall[], focusAt: number, submitAt: number
   return failures;
 }
 
-export async function checkPages(dist: string): Promise<CheckReport> {
+export async function checkPages(dist: string, root: string = ROOT): Promise<CheckReport> {
   const { chromium } = await import('playwright-core');
   const { default: JSZip } = await import('jszip');
   const entry = findStudioEntry(dist);
@@ -451,6 +651,7 @@ export async function checkPages(dist: string): Promise<CheckReport> {
   const controlPage = `${FIXTURE_PREFIX}control.html`;
   const uzPage = `${FIXTURE_PREFIX}uz.html`;
   const ruPage = `${FIXTURE_PREFIX}ru.html`;
+  const studioPages = pagesUnderCheck(root, dist, entry);
   const server = await serve(
     dist,
     {
@@ -458,6 +659,7 @@ export async function checkPages(dist: string): Promise<CheckReport> {
       [controlPage]: cascadeFixture(siteStyles, entry, false),
       [uzPage]: islandFixture(siteStyles, entry, 'uz', renderForm('uz')),
       [ruPage]: islandFixture(siteStyles, entry, 'ru', renderForm('ru')),
+      ...Object.fromEntries(studioPages.filter((target) => target.html !== null).map((target) => [target.url, target.html as string])),
     },
     { 'Content-Security-Policy': csp },
   );
@@ -651,6 +853,9 @@ export async function checkPages(dist: string): Promise<CheckReport> {
     for (const request of unexpectedLoadRequests(server.requests, pageFiles(uzPage))) failures.push(`in-app: unexpected request on load: ${request}`);
     await inAppContext.close();
 
+    // --- pages (/api/* cut off) -------------------------------------------------------------
+    const pages = await checkClosedApi(browser, server.origin, studioPages, failures, (target) => (target.html === null ? 'dist' : 'memory'));
+
     return {
       status: failures.length ? 'fail' : 'pass',
       viewport: VIEWPORT,
@@ -659,6 +864,7 @@ export async function checkPages(dist: string): Promise<CheckReport> {
       hydrate,
       flow: { apiCalls: calls.map((call) => `${call.method} ${call.path} @${call.at}ms`), turnstile, download: report, seconds },
       inApp: { noticeBeforeSubmit },
+      pages,
       failures,
     };
   } finally {
@@ -668,6 +874,15 @@ export async function checkPages(dist: string): Promise<CheckReport> {
 }
 
 async function main(): Promise<void> {
+  const originFlag = process.argv.indexOf('--origin');
+  if (originFlag > 0) {
+    const origin = process.argv[originFlag + 1] ?? '';
+    if (!/^https?:\/\/[^/]+\/?$/.test(origin)) throw new Error('--origin takes a site origin, e.g. https://gptbot.uz');
+    const report = await checkOrigin(origin);
+    console.log(JSON.stringify(report, null, 2));
+    if (report.status !== 'pass') process.exitCode = 1;
+    return;
+  }
   const flag = process.argv.indexOf('--dist');
   const dist = flag > 0 && process.argv[flag + 1] ? path.resolve(process.argv[flag + 1]) : path.join(ROOT, 'dist');
   const report = await checkPages(dist);

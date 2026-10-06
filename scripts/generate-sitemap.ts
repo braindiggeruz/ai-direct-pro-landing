@@ -7,8 +7,14 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import type { Page, BlogArticle } from '../src/shared/types';
 import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
+import { studioSitemapEntries } from '../apps/studio/shared/published-urls';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
+// `--root <dir>` reads <dir>/content and writes <dir>/dist; only the studio
+// sitemap test passes it, to compare the output with and without studio pages.
+const rootFlag = process.argv.indexOf('--root');
+const ROOT = rootFlag > 0 && process.argv[rootFlag + 1]
+  ? path.resolve(process.argv[rootFlag + 1])
+  : path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
 const DIST_DIR = path.join(ROOT, 'dist');
 
@@ -151,6 +157,11 @@ const entries: Entry[] = [
     lastmod: dateOnly(a.dateModified || a.updatedAt || a.datePublished || a.createdAt),
     alternates: alternatesOf(a),
   })),
+  // Studio tool pages (content/studio/pages, apps/studio): published ones only,
+  // with their RU↔UZ pair when both members are published. A draft is never
+  // listed. They are left out of latestSiteChange above, so publishing one
+  // does not move the homepage lastmod.
+  ...studioSitemapEntries(ROOT),
 ];
 
 let entriesWithImages = 0;

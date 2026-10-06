@@ -13,6 +13,7 @@ import test from 'node:test';
 import { auditPage, buildCockpit, buildKnownUrls, resolveRedirect, STATIC_ROUTES } from '../src/shared/audit';
 import { LLM_MARKDOWN_URLS } from '../scripts/llm-pages';
 import type { BlogArticle, Page, Redirect } from '../src/shared/types';
+import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 
 const ROOT = process.cwd();
 const CONTENT = path.join(ROOT, 'content');
@@ -33,6 +34,9 @@ function readAll<T>(dir: string): T[] {
 const pages = readAll<Page>(path.join(CONTENT, 'pages'));
 const blog = readAll<BlogArticle>(path.join(CONTENT, 'blog'));
 const redirects: Redirect[] = JSON.parse(fs.readFileSync(path.join(CONTENT, 'seo', 'redirects.json'), 'utf8'));
+// The studio's published pages (content/studio/pages) are served URLs; a draft
+// is not, so a link to a draft studio page still counts as broken.
+const extraUrls = [...STATIC_ROUTES, ...publishedStudioUrls(ROOT)];
 
 function page(overrides: Partial<Page>): Page {
   return {
@@ -172,7 +176,7 @@ test('a reciprocal hreflang counterpart may be a blog article', () => {
 // ---------------------------------------------------------------------------
 
 test('the repository has no broken internal links', () => {
-  const stats = buildCockpit(pages, undefined, { blog, redirects });
+  const stats = buildCockpit(pages, undefined, { blog, redirects, extraUrls });
 
   assert.deepEqual(stats.brokenInternalLinkDetails, [], 'every internal link must resolve to a served URL');
 });
@@ -190,7 +194,7 @@ test('no published page is orphaned', () => {
 });
 
 test('every redirect target is served and is not itself a redirect source', () => {
-  const served = buildKnownUrls(pages, { blog });
+  const served = buildKnownUrls(pages, { blog, extraUrls });
   const sources = new Set(redirects.map((r) => r.from));
 
   for (const r of redirects) {

@@ -8,9 +8,15 @@ import {
   cascadeFailures,
   cascadeFixture,
   controlFailures,
+  errorTexts,
   findStudioEntry,
+  pageFailures,
+  pagesUnderCheck,
   unexpectedLoadRequests,
+  type PageProbe,
 } from '../apps/studio/scripts/check-pages';
+import { TEXTS } from '../apps/studio/src/tools/presentation/texts';
+import { inspectArtifact, REQUIRED_FEATURES, verifyStampedArtifact } from '../scripts/release/pages-production';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const read = (file: string) => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -140,4 +146,116 @@ test('check-pages: the entry is found by name, exactly one of each, or the check
   assert.deepEqual(findStudioEntry(dist), { script: '/assets/studio/studio-Ab1_x.js', style: '/assets/studio/studio-Cd2-y.css' });
   fs.writeFileSync(path.join(dir, 'studio-old.js'), '');
   assert.throws(() => findStudioEntry(dist), /Expected one studio entry \.js/);
+});
+
+// --- the pages check with /api/* cut off (T2.3) ------------------------------------
+
+const passing = (): PageProbe => ({
+  url: '/uz/taqdimot-ai/',
+  source: 'memory',
+  h1: ['Mavzuni yozing — tayyor taqdimot (.pptx)'],
+  formsInIsland: 1,
+  submitEnabled: true,
+  hydration: null,
+  wordsOutsideIsland: 520,
+  errorsOnLoad: [],
+  layoutShift: 0.01,
+  formTop: 260,
+  viewportHeight: 800,
+  apiOnLoad: [],
+  afterFocus: { api: ['/api/studio/config', '/api/studio/me'], errors: [] },
+  afterSubmit: { message: TEXTS.uz.messages.busy, h1: 1 },
+});
+
+test('check-pages: a page that keeps the closed-API contract passes; every breach is named', () => {
+  assert.deepEqual(pageFailures(passing(), 'uz'), []);
+  const breaches: Array<[Partial<PageProbe>, RegExp]> = [
+    [{ h1: [] }, /0 H1/],
+    [{ h1: ['A', 'B'] }, /2 H1/],
+    [{ formsInIsland: 0 }, /0 forms in #studio-root/],
+    [{ submitEnabled: false }, /not enabled after hydration/],
+    [{ hydration: 'recovered' }, /hydration mismatch/],
+    [{ wordsOutsideIsland: 399 }, /399 words outside the island/],
+    [{ errorsOnLoad: [TEXTS.uz.messages.busy] }, /error text on load/],
+    [{ layoutShift: 0.05 }, /layout shift 0\.05/],
+    [{ formTop: 800 }, /below the first screen/],
+    [{ apiOnLoad: ['/api/studio/config'] }, /requested on load/],
+    [{ afterFocus: { api: [], errors: [] } }, /asked nothing of \/api\/studio/],
+    [{ afterFocus: { api: ['/api/studio/config'], errors: [TEXTS.uz.messages.busy] } }, /after a mere focus/],
+    [{ afterSubmit: { message: '', h1: 1 } }, /expected «Vaqtincha ishlamayapti/],
+    [{ afterSubmit: { message: TEXTS.uz.messages.busy, h1: 0 } }, /lost its H1/],
+  ];
+  for (const [change, error] of breaches) {
+    const failures = pageFailures({ ...passing(), ...change }, 'uz');
+    assert.equal(failures.length, 1, JSON.stringify(change));
+    assert.match(failures[0], error);
+  }
+  assert.deepEqual(errorTexts('ru'), Object.values(TEXTS.ru.messages));
+  assert.match(pageFailures({ ...passing(), afterSubmit: { message: TEXTS.uz.messages.busy, h1: 1 } }, 'ru')[0], /Временно не работает/);
+});
+
+test('check-pages: a draft is checked as the release will write it, a published page from dist', t => {
+  const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'gpt-studio-check-'));
+  t.after(() => fs.rmSync(dist, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(dist, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(dist, 'index.html'), '<head><link rel="stylesheet" href="/assets/index-site.css"></head>');
+  fs.writeFileSync(path.join(dist, 'assets/index-site.css'), 'body{margin:0}');
+  const entry = { script: '/assets/studio/studio-a.js', style: '/assets/studio/studio-a.css' };
+  const targets = pagesUnderCheck(ROOT, dist, entry);
+  assert.deepEqual(targets.map(target => [target.url, target.locale]), [['/ru/prezentatsiya-ai/', 'ru'], ['/uz/taqdimot-ai/', 'uz']]);
+  for (const target of targets) {
+    if (target.html === null) continue; // already published: read from dist
+    assert.match(target.html, /<link rel="stylesheet" href="\/assets\/index-site\.css" \/>\n<link rel="stylesheet" href="\/assets\/studio\/studio-a\.css" \/>/);
+    assert.match(target.html, /<script type="module" src="\/assets\/studio\/studio-a\.js"><\/script>/);
+    // As released: the translation is there, so are hreflang and the switch.
+    assert.match(target.html, /hreflang="x-default" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"/);
+  }
+});
+
+// --- the release stamp checks the published studio pages (T2.3) --------------------
+
+function releaseFixture(t: { after: (fn: () => void) => void }): string {
+  const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'gpt-studio-stamp-'));
+  t.after(() => fs.rmSync(dist, { recursive: true, force: true }));
+  const put = (file: string, content: string) => {
+    fs.mkdirSync(path.dirname(path.join(dist, file)), { recursive: true });
+    fs.writeFileSync(path.join(dist, file), content);
+  };
+  const css = '<link rel="stylesheet" href="/assets/index-fixture.css">';
+  put('assets/AdminRoot-fixture.js', REQUIRED_FEATURES.map(([, marker]) => marker).join('\n'));
+  put('assets/index-fixture.js', 'import("./AdminRoot-fixture.js")');
+  put('assets/index-fixture.css', 'body{margin:0}');
+  put('index.html', `<script src="/assets/index-fixture.js"></script>${css}`);
+  put('admin/index.html', '<div id="root"></div>');
+  put('uz/internet-reklama-toshkent/index.html', `Reklama xizmatlari${css}`);
+  put('ru/internet-reklama-tashkent/index.html', `Услуги продвижения${css}`);
+  return dist;
+}
+
+test('release stamp: each published studio page must be in the artifact with its island root', t => {
+  const dist = releaseFixture(t);
+  const commit = 'a'.repeat(40);
+  const studio = ['/uz/taqdimot-ai/'];
+  assert.throws(() => inspectArtifact(dist, commit, studio), /Missing production page\/section: uz\/taqdimot-ai\/index\.html/);
+  fs.mkdirSync(path.join(dist, 'uz/taqdimot-ai'), { recursive: true });
+  fs.writeFileSync(path.join(dist, 'uz/taqdimot-ai/index.html'), '<link rel="stylesheet" href="/assets/index-fixture.css"><main></main>');
+  assert.throws(() => inspectArtifact(dist, commit, studio), /Missing production page\/section: uz\/taqdimot-ai\/index\.html/);
+  fs.writeFileSync(path.join(dist, 'uz/taqdimot-ai/index.html'), '<link rel="stylesheet" href="/assets/index-fixture.css"><div id="studio-root" data-tool="presentation"></div>');
+  const stamp = inspectArtifact(dist, commit, studio);
+  assert.ok(stamp.probes.some(probe => probe.path === 'uz/taqdimot-ai/index.html'));
+  fs.writeFileSync(path.join(dist, 'gptbot-release.json'), JSON.stringify(stamp));
+  assert.deepEqual(verifyStampedArtifact(dist, commit, studio), stamp);
+  // Without the studio list the probes differ, so a stamp cannot be checked against another list.
+  assert.throws(() => verifyStampedArtifact(dist, commit, []), /stale/);
+  // A page of the site needs no studio root (the default list is empty).
+  assert.doesNotThrow(() => inspectArtifact(dist, commit));
+});
+
+test('release stamp: stamp, check and deploy pass the published studio pages from content/studio/pages', () => {
+  const source = read('scripts/release/pages-production.ts');
+  assert.match(source, /import \{ publishedStudioUrls \} from '\.\.\/\.\.\/apps\/studio\/shared\/published-urls';/);
+  assert.match(source, /const studioPages = publishedStudioUrls\(ROOT\);/);
+  assert.match(source, /inspectArtifact\(dist, commit, studioPages\)/);
+  assert.match(source, /verifyStampedArtifact\(dist, commit, studioPages\)/);
+  assert.match(source, /\.\.\.studioPages\.map\(\(url\) => \[`\$\{url\.slice\(1\)\}index\.html`, 'id="studio-root"'\]\)/);
 });

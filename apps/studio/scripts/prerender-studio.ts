@@ -5,31 +5,47 @@
  *   npx tsx apps/studio/scripts/prerender-studio.ts --dist <d>
  *
  * Runs last in `npm run build:studio`, after the root build has written dist/
- * and `vite build` in apps/studio has written dist/assets/studio/. In order:
+ * (generate-sitemap included) and `vite build` in apps/studio has written
+ * dist/assets/studio/. In order:
  *   1. reads dist/assets/studio/.vite/manifest.json, then deletes .vite/ so the
  *      manifest is never published;
  *   2. checks the bundle budget: the island's first load (entry JS, the chunks
  *      it imports statically, their CSS) is ≤ 90 kB gzip, and pptxgenjs/jszip
  *      are reachable only through import();
- *   3. writes dist/<url>/index.html for each content/studio/pages record with
- *      status "published", and nothing for a draft;
+ *   3. checks every record in content/studio/pages (drafts too, so a broken
+ *      draft fails long before its release), then writes dist/<url>/index.html
+ *      for each record with status "published" and nothing for a draft
+ *      (studio-page.ts: head, JSON-LD, header and footer, the form's first
+ *      state inside #studio-root, the text around it);
  *   4. refuses to write to any of the ten protected paths and over any file
  *      that already exists: a studio page never replaces a page of the site;
- *   5. checks that every published page now has its file.
- *
- * T0.3 skeleton: the page body is the minimum around the island. The full page
- * (head, JSON-LD, header and footer, the prerendered form, ≥400 words outside
- * the island, sitemap ↔ HTML checks) comes with T2.3.
+ *   5. checks each written page: ≥ 400 words outside the island, its og image
+ *      in dist/assets/studio;
+ *   6. checks the sitemap against the HTML (generate-sitemap ran earlier, in
+ *      build:fast): every published page is listed and has its file, no draft
+ *      is listed, and every studio URL in sitemap*.xml has its file.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { legalEntityIssues } from '../../../scripts/legal-entity';
 import { PROTECTED_PATHS } from '../../../scripts/seo-protection';
 import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
 import { staticClosure } from '../../../scripts/chat-bundle-budget';
 import type { ViteManifest } from '../../../scripts/vite-manifest';
+import type { GlobalSEO } from '../../../src/shared/types';
 import { readStudioPages, STUDIO_URL, type StudioPageRecord } from '../shared/published-urls';
+import {
+  MIN_WORDS_OUTSIDE_ISLAND,
+  countWords,
+  renderStudioPage,
+  studioPageProblems,
+  textOutsideIsland,
+  type StudioSiteContext,
+} from './studio-page';
+
+export { renderStudioPage } from './studio-page';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 
@@ -152,49 +168,66 @@ export function writeStudioPage(dist: string, url: string, html: string): string
   return file;
 }
 
-const escapeHtml = (value: string) => value
-  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/** The site facts the page needs: content/global/site.json and legal-entity.json of `root`. */
+export function readStudioSite(root: string): StudioSiteContext {
+  const read = (file: string) => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8')) as Record<string, unknown>;
+  const global = read('content/global/site.json') as unknown as GlobalSEO;
+  const entity = read('content/global/legal-entity.json');
+  const phone = `+${String(global.phone ?? '').replace(/\D/g, '')}`;
+  const email = String(global.email ?? '').trim();
+  const issues = legalEntityIssues(entity, { email, phone });
+  if (issues.length) throw new Error(`The studio footer needs complete site and legal-entity data (${issues.join(', ')}).`);
+  return { global, phone, email, entity: entity as unknown as StudioSiteContext['entity'] };
+}
 
-const text = (page: StudioPageRecord, field: string): string => {
-  const value = page.data[field];
-  if (typeof value !== 'string' || !value.trim()) throw new Error(`${page.file}: ${field} is required to publish.`);
-  return value.trim();
-};
+/** Every record's problems, by file; throws when any record cannot be rendered. */
+export function assertStudioRecords(pages: readonly StudioPageRecord[]): void {
+  const problems = pages.flatMap((page) => studioPageProblems(page).map((problem) => `${page.file}: ${problem}`));
+  if (problems.length) throw new Error(`Studio page records are not renderable:\n  ${problems.join('\n  ')}`);
+}
 
-/** T0.3 skeleton page: site CSS first, studio CSS after it, the island root, nothing else. */
-export function renderStudioPage(
-  page: StudioPageRecord,
-  siteUrl: string,
-  siteStyles: string[],
-  assets: Pick<StudioEntryAssets, 'script' | 'styles'>,
-): string {
-  const tool = page.data.tool === 'photo' ? 'photo' : 'presentation';
-  const stylesheets = [...siteStyles, ...assets.styles]
-    .map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n');
-  return `<!doctype html>
-<html lang="${page.locale}">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>${escapeHtml(text(page, 'title'))}</title>
-<meta name="description" content="${escapeHtml(text(page, 'description'))}" />
-<link rel="canonical" href="${escapeHtml(siteUrl + page.url)}" />
-${stylesheets}
-<script type="module" src="${escapeHtml(assets.script)}"></script>
-</head>
-<body data-studio>
-<main>
-<h1>${escapeHtml(text(page, 'h1'))}</h1>
-<div id="studio-root" data-tool="${tool}"></div>
-</main>
-</body>
-</html>
-`;
+/** The site paths listed in a sitemap file of dist/, or null when the file is not there. */
+export function sitemapPaths(dist: string, file: string, siteUrl: string): string[] | null {
+  const absolute = path.join(dist, file);
+  if (!fs.existsSync(absolute)) return null;
+  return [...fs.readFileSync(absolute, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => match[1].trim())
+    .map((loc) => (loc.startsWith(siteUrl) ? loc.slice(siteUrl.length) || '/' : loc));
+}
+
+/**
+ * Sitemap ↔ HTML for the studio, every way they disagree; empty when they
+ * agree. generate-sitemap.ts runs before this script, so a page it listed and
+ * this script did not write would otherwise ship as a 404 in the sitemap.
+ */
+export function studioSitemapFailures(dist: string, pages: readonly StudioPageRecord[], siteUrl: string): string[] {
+  const sitemap = sitemapPaths(dist, 'sitemap.xml', siteUrl);
+  if (!sitemap) return ['dist/sitemap.xml is missing; scripts/generate-sitemap.ts runs before the studio prerender'];
+  const listed = new Set(sitemap);
+  const failures: string[] = [];
+  const hasFile = (url: string) => fs.existsSync(studioPageFile(dist, url));
+  for (const page of pages) {
+    if (page.status === 'published') {
+      if (!listed.has(page.url)) failures.push(`${page.url} is published but not in sitemap.xml`);
+      if (!hasFile(page.url)) failures.push(`${page.url} is published but has no HTML`);
+    } else if (listed.has(page.url)) {
+      failures.push(`${page.url} is a draft but sitemap.xml lists it`);
+    }
+  }
+  const studioUrls = new Set(pages.map((page) => page.url));
+  for (const file of ['sitemap.xml', 'sitemap-updates.xml']) {
+    for (const url of sitemapPaths(dist, file, siteUrl) ?? []) {
+      if (studioUrls.has(url) && !hasFile(url)) failures.push(`${file} lists ${url} without its HTML`);
+    }
+  }
+  return [...new Set(failures)];
 }
 
 export interface PrerenderResult {
   written: string[];
   drafts: string[];
+  /** Visible words outside the island, per written page. */
+  words: Record<string, number>;
   firstLoadGzip: number;
   lazyFiles: string[];
 }
@@ -212,21 +245,35 @@ export function prerenderStudio(root: string = ROOT, dist: string = path.join(ro
   if (failures.length) throw new Error(`Studio bundle over budget:\n${failures.join('\n')}`);
 
   const pages = readStudioPages(root);
+  assertStudioRecords(pages);
   const published = pages.filter((page) => page.status === 'published');
   const written: string[] = [];
+  const words: Record<string, number> = {};
   if (published.length) {
-    const site = JSON.parse(fs.readFileSync(path.join(root, 'content/global/site.json'), 'utf8')) as { siteUrl: string };
+    const site = readStudioSite(root);
     const siteStyles = siteStylesheetHrefs(dist);
     for (const page of published) {
-      writeStudioPage(dist, page.url, renderStudioPage(page, site.siteUrl, siteStyles, assets));
+      const ogImage = String(page.data.ogImage);
+      if (!fs.existsSync(path.join(dist, ogImage.slice(1)))) throw new Error(`${page.url}: its og image ${ogImage} is not in dist (apps/studio/public).`);
+      const html = renderStudioPage(page, { site, pages, siteStyles, assets });
+      const count = countWords(textOutsideIsland(html));
+      if (count < MIN_WORDS_OUTSIDE_ISLAND) {
+        throw new Error(`${page.url}: ${count} visible words outside the island, at least ${MIN_WORDS_OUTSIDE_ISLAND} are needed.`);
+      }
+      writeStudioPage(dist, page.url, html);
       written.push(page.url);
+      words[page.url] = count;
     }
   }
   const missing = published.filter((page) => !fs.existsSync(studioPageFile(dist, page.url)));
   if (missing.length) throw new Error(`Published studio pages without HTML: ${missing.map((page) => page.url).join(', ')}`);
+  const siteUrl = (JSON.parse(fs.readFileSync(path.join(root, 'content/global/site.json'), 'utf8')) as { siteUrl: string }).siteUrl;
+  const sitemap = studioSitemapFailures(dist, pages, siteUrl);
+  if (sitemap.length) throw new Error(`Studio sitemap and HTML disagree:\n${sitemap.join('\n')}`);
   return {
     written,
     drafts: pages.filter((page) => page.status === 'draft').map((page) => page.url),
+    words,
     firstLoadGzip: assets.firstLoadGzip,
     lazyFiles: assets.lazyFiles,
   };

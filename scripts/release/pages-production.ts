@@ -9,6 +9,7 @@ import { assertPublicStylesheets } from '../site-stylesheets';
 import { assertSeoProtection } from '../seo-protection';
 import { assertChatBundleBudget } from '../chat-bundle-budget';
 import { assertLiveGate, loadLiveGateInput } from './live-gate';
+import { publishedStudioUrls } from '../../apps/studio/shared/published-urls';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -95,7 +96,11 @@ function artifactFiles(dist: string): Artifact[] {
   return files.sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
 }
 
-export function inspectArtifact(dist: string, commit: string): PagesRelease {
+/**
+ * `studioPages`: the published studio URLs (content/studio/pages). main()
+ * passes them; each one's HTML must be in the artifact around the island root.
+ */
+export function inspectArtifact(dist: string, commit: string, studioPages: readonly string[] = []): PagesRelease {
   if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Invalid build commit.');
   const files = artifactFiles(dist);
   // Inspect only code reachable from the served entry point. A leftover new
@@ -128,6 +133,7 @@ export function inspectArtifact(dist: string, commit: string): PagesRelease {
     ['admin/index.html', '<div id="root">'],
     ['uz/internet-reklama-toshkent/index.html', 'Reklama xizmatlari'],
     ['ru/internet-reklama-tashkent/index.html', 'Услуги продвижения'],
+    ...studioPages.map((url) => [`${url.slice(1)}index.html`, 'id="studio-root"']),
   ];
   for (const [filename, marker] of htmlChecks) {
     const file = files.find((item) => item.path === filename);
@@ -141,9 +147,9 @@ export function inspectArtifact(dist: string, commit: string): PagesRelease {
     features: REQUIRED_FEATURES.map(([id]) => id), probes };
 }
 
-export function verifyStampedArtifact(dist: string, commit: string): PagesRelease {
+export function verifyStampedArtifact(dist: string, commit: string, studioPages: readonly string[] = []): PagesRelease {
   const stamped: PagesRelease = JSON.parse(fs.readFileSync(path.join(dist, MANIFEST), 'utf8'));
-  const actual = inspectArtifact(dist, commit);
+  const actual = inspectArtifact(dist, commit, studioPages);
   if (JSON.stringify(stamped) !== JSON.stringify(actual)) {
     throw new Error('Build stamp is stale or files changed. Rebuild the combined production artifact.');
   }
@@ -284,13 +290,14 @@ async function main(): Promise<void> {
   // the secrets are confirmed by name in check-production and deploy.
   assertLiveGate(loadLiveGateInput(ROOT, dist, null));
   assertCleanRuntime(ROOT);
+  const studioPages = publishedStudioUrls(ROOT);
   if (mode === 'stamp') {
-    const release = inspectArtifact(dist, commit);
+    const release = inspectArtifact(dist, commit, studioPages);
     fs.writeFileSync(path.join(dist, MANIFEST), `${JSON.stringify(release, null, 2)}\n`);
     console.log(JSON.stringify({ status: 'stamped', commit, files: release.fileCount, features: release.features }));
     return;
   }
-  const release = verifyStampedArtifact(dist, commit);
+  const release = verifyStampedArtifact(dist, commit, studioPages);
   if (mode === 'deploy') await deploy(ROOT, dist, release);
   else console.log(JSON.stringify({ status: 'pass', commit, files: release.fileCount,
     ...(mode === 'check-production' ? { previousProductionCommit: await checkProduction(ROOT, dist) } : {}) }));

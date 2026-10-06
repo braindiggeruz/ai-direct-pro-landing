@@ -80,3 +80,57 @@ export function readStudioPages(root: string = REPO_ROOT): StudioPageRecord[] {
 export function publishedStudioUrls(root: string = REPO_ROOT): string[] {
   return readStudioPages(root).filter((page) => page.status === 'published').map((page) => page.url);
 }
+
+/** A studio page's RU↔UZ pair; x-default is the Russian member, as everywhere on the site. */
+export interface StudioAlternates {
+  ru: string;
+  uz: string;
+  xDefault: string;
+}
+
+/**
+ * The hreflang pair of `page` among `pages`, or null. A pair exists only when
+ * both members are published studio pages that name each other (hreflangRu,
+ * hreflangUz) and `page` is one of them: a page whose translation is still a
+ * draft has no pair, no language switch and no alternates in the sitemap.
+ * The page's HTML and the sitemap both ask this function, so they agree.
+ */
+export function studioAlternates(page: StudioPageRecord, pages: readonly StudioPageRecord[]): StudioAlternates | null {
+  const { hreflangRu: ru, hreflangUz: uz } = page.data;
+  if (page.status !== 'published' || typeof ru !== 'string' || typeof uz !== 'string') return null;
+  if (page.url !== ru && page.url !== uz) return null;
+  const counterpart = pages.find((other) => other.url === (page.url === ru ? uz : ru));
+  if (!counterpart || counterpart.status !== 'published' || counterpart.locale === page.locale) return null;
+  if (counterpart.data.hreflangRu !== ru || counterpart.data.hreflangUz !== uz) return null;
+  if (!ru.startsWith('/ru/') || !uz.startsWith('/uz/')) return null;
+  return { ru, uz, xDefault: ru };
+}
+
+export interface StudioSitemapEntry {
+  url: string;
+  /** YYYY-MM-DD of updatedAt (or createdAt), when the record has one. */
+  lastmod?: string;
+  alternates?: StudioAlternates;
+}
+
+const dateOnly = (value: unknown): string | undefined => {
+  if (typeof value !== 'string' || !value) return undefined;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.valueOf()) ? undefined : parsed.toISOString().slice(0, 10);
+};
+
+/**
+ * The sitemap entries of the published studio pages, sorted by URL. A draft is
+ * never listed. scripts/generate-sitemap.ts appends them to the site's entries;
+ * they do not count towards the homepage's lastmod.
+ */
+export function studioSitemapEntries(root: string = REPO_ROOT): StudioSitemapEntry[] {
+  const pages = readStudioPages(root);
+  return pages
+    .filter((page) => page.status === 'published')
+    .map((page) => {
+      const lastmod = dateOnly(page.data.updatedAt) ?? dateOnly(page.data.createdAt);
+      const alternates = studioAlternates(page, pages);
+      return { url: page.url, ...(lastmod ? { lastmod } : {}), ...(alternates ? { alternates } : {}) };
+    });
+}
