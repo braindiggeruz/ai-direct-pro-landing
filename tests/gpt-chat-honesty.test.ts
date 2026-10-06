@@ -176,7 +176,7 @@ test('the resting screen states the server’s daily and hourly allowance, in ag
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /t\.emptyMeta\(freeLimits\)/);
   assert.match(consoleSource, /setHourLeft\(outcome\.hourRemaining \?\? null\)/);
-  assert.match(consoleSource, /t\.hourWarning\(hourLeft\)/);
+  assert.match(consoleSource, /t\.hourWarning\(hourShown\)/);
   assert.match(consoleSource, /t\.premium\.activeLine\(remaining\)/);
   assert.doesNotMatch(consoleSource, /15 сообщений|kuniga 15/);
 });
@@ -351,7 +351,15 @@ test('a long wait says so after 8 s; Stop before the first word gives the questi
   const list = read('src/gpt-chat/components/AiChatMessageList.tsx');
   assert.match(list, /const timer = window\.setTimeout\(\(\) => setSlow\(true\), 8_000\);\s*return \(\) => window\.clearTimeout\(timer\);/);
   assert.match(list, /\{slow \? t\.premium\.slow : t\.thinking\}/);
-  assert.match(list, /\{m\.pending \? \(\s*<PendingLine t=\{t\} \/>/);
+  assert.match(list, /\{m\.pending \? \(\s*<PendingLine t=\{t\} slow=\{slow\} \/>/);
+  // A screen reader hears the same line at the same moment: the list's status, not a second live region.
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    assert.ok(renderToStaticMarkup(React.createElement(PendingLine, { t, slow: true })).includes(t.premium.slow), locale);
+  }
+  assert.match(list, /const waiting = messages\.some\(\(m\) => m\.pending\);/);
+  assert.match(list, /: slow\s*\? t\.premium\.slow\s*: t\.thinking/);
+  assert.doesNotMatch(list.slice(list.indexOf('export function PendingLine'), list.indexOf('function PlainAnswer')), /role="status"|aria-live|setTimeout/);
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   const stopped = consoleSource.slice(consoleSource.indexOf('} else if (outcome.aborted) {'), consoleSource.indexOf('track(EV.generationStopped'));
   assert.match(stopped, /if \(acc\)[\s\S]*else giveBack\(\);/);
@@ -407,7 +415,7 @@ test('while few messages are left, once a session: every button costs a message'
   assert.equal(s.buttonCost, 'Каждая кнопка — 1 сообщение.');
   assert.equal(answerStrings('uz').buttonCost, 'Har bir tugma — 1 ta xabar.');
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourLeft !== null && hourLeft <= 2\)\);/);
+  assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourShown !== null && hourShown <= 2\)\);/);
   assert.match(consoleSource, /if \(fewLeft && onceThisSession\("gptchat_cost_note"\)\) setCostNote\(true\);/);
   assert.match(read('src/gpt-chat/storage.ts'), /export function onceThisSession\(key: string\): boolean \{\s*try \{\s*if \(sessionStorage\.getItem\(key\) !== null\) return false;\s*sessionStorage\.setItem\(key, "1"\);\s*\} catch \{/);
 });

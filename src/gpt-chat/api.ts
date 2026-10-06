@@ -115,9 +115,16 @@ function answerCount(value: unknown): number | null {
 }
 
 /**
- * A stream that stays silent this long, before its first bytes or between
- * two chunks, has stalled: a mobile connection can freeze without an error.
- * The server already ends a wait for the first token at 12 s.
+ * The wait for the response to start. The server sends nothing, not even
+ * headers, until a model gives its first content: up to 3 models, each
+ * given about 12 s (at most 15-20 s by config), within its 60 s deadline,
+ * after the checks before them. So a fallback answer can start after 36 s
+ * of silence; this covers the deadline with a margin.
+ */
+export const STREAM_HEADERS_MS = 65_000;
+/**
+ * Once the stream has started, silence this long between two chunks means it
+ * has stalled: a mobile connection can freeze without an error.
  */
 export const STREAM_SILENCE_MS = 30_000;
 
@@ -141,15 +148,15 @@ export async function sendChatStream(
   else signal.addEventListener('abort', stop, { once: true });
   let stalled = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
-  const watch = () => {
+  const watch = (ms = STREAM_SILENCE_MS) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       stalled = true;
       inner.abort();
-    }, STREAM_SILENCE_MS);
+    }, ms);
   };
   try {
-    watch();
+    watch(STREAM_HEADERS_MS);
     const res = await fetch(`${apiBase}/api/gpt/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

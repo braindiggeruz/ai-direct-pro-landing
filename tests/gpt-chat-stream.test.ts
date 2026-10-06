@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadTurnstileConfig, retryAfterSeconds, sendChatStream, STREAM_SILENCE_MS } from '../src/gpt-chat/api';
+import { loadTurnstileConfig, retryAfterSeconds, sendChatStream, STREAM_HEADERS_MS, STREAM_SILENCE_MS } from '../src/gpt-chat/api';
 import { parseSseChunk } from '../functions/lib/gpt-chat/openrouter-stream';
 import { readFileSync } from 'node:fs';
 
@@ -182,6 +182,53 @@ test('a stream that goes silent ends after 30 s as a network failure, not an end
   t.mock.timers.tick(1);
   await settle();
   assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: false });
+});
+
+/** The server answers only after `ms`: no headers until a model's first content (up to 3 models within 60 s). */
+function lateStart(t: { mock: { method: (o: object, m: string, f: unknown) => unknown } }, ms: number) {
+  t.mock.method(globalThis, 'fetch', (_url: string, init: RequestInit) => new Promise<Response>((resolve, reject) => {
+    const timer = setTimeout(() => resolve(new Response(sse(
+      { type: 'meta', sessionId: 's', model: 'third-model' }, { type: 'delta', text: 'Javob' }, { type: 'done', remaining: 9 },
+    ), { headers: { 'Content-Type': 'text/event-stream' } })), ms);
+    init.signal!.addEventListener('abort', () => { clearTimeout(timer); reject(new DOMException('aborted', 'AbortError')); });
+  }));
+}
+
+test('an answer the server starts after 35 s, from its third model, still arrives: the start has its own 65 s limit', async (t) => {
+  assert.equal(STREAM_HEADERS_MS, 65_000);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  lateStart(t, 35_000);
+  let answer = '';
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: (text) => { answer += text; } }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(STREAM_SILENCE_MS);
+  await settle();
+  assert.equal(outcome, null, 'no stall at 30 s while the server is still trying models');
+  t.mock.timers.tick(5_000);
+  for (let i = 0; i < 5; i++) await settle();
+  assert.equal(answer, 'Javob');
+  assert.deepEqual(outcome, { mode: 'stream', ok: true, remaining: 9, hourRemaining: null, truncated: false, charged: true, modelUsed: undefined, gotText: true });
+});
+
+test('a response that has not started after 65 s is a network failure', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  lateStart(t, 120_000);
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: () => assert.fail('no text') }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(STREAM_HEADERS_MS - 1);
+  await settle();
+  assert.equal(outcome, null);
+  t.mock.timers.tick(1);
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: false });
+  const api = readFileSync(new URL('../src/gpt-chat/api.ts', import.meta.url), 'utf8');
+  // The longer limit is for the start only; every chunk after it re-arms the 30 s one.
+  assert.match(api, /watch\(STREAM_HEADERS_MS\);\s*const res = await fetch\(/);
+  assert.match(api, /signal: inner\.signal,\s*\}\);\s*watch\(\);/);
+  assert.match(api, /const \{ done, value \} = await reader\.read\(\);\s*watch\(\);/);
+  assert.doesNotMatch(api, /ends a wait for the first token at 12 s/);
 });
 
 test('the visitor’s Stop is still aborted, never a network failure', async (t) => {

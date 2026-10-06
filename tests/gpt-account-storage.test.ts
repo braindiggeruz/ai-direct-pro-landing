@@ -116,15 +116,15 @@ test('nothing is lost when Telegram unloads the tab: the question at once, the a
   // Sending empties it at once.
   assert.match(console, /setInput\(""\);\s*\/\/[^\n]*\n\s*saveDraft\(""\);/);
   // The question is stored as it is sent, only while the account is known (F11).
-  assert.match(console, /setMessages\(withUser\);\s*(?:\/\/[^\n]*\n\s*)*if \(accountReady\) saveHistory\(withUser, config\.locale, storageScope\);/);
+  assert.match(console, /setMessages\(withUser\);\s*(?:\/\/[^\n]*\n\s*)*store\(\(scope\) => saveHistory\(withUser, config\.locale, scope\)\);/);
   // What has arrived: every 2 s from the deltas and when the tab is hidden or unloaded.
-  assert.match(console, /const keep = \(\) => \{\s*if \(!accountReady \|\| !acc \|\| generation !== identityGeneration\.current\) return;\s*storedAt = Date\.now\(\);\s*saveHistory\(\[\.\.\.base, \{ role: "assistant", content: acc, model: answeringModel, partial: true \}\], config\.locale, storageScope\);/);
+  assert.match(console, /const keep = \(\) => \{\s*if \(!acc \|\| generation !== identityGeneration\.current\) return;\s*storedAt = Date\.now\(\);\s*store\(\(scope\) => saveHistory\(\[\.\.\.held, \{ role: "assistant", content: acc, model: answeringModel, partial: true \}\], config\.locale, scope\)\);/);
   assert.match(console, /if \(Date\.now\(\) - storedAt >= 2_000\) keep\(\);/);
   assert.match(console, /if \(event\.type === "pagehide" \|\| document\.visibilityState === "hidden"\) flushRef\.current\?\.\(\);/);
   assert.match(console, /document\.addEventListener\("visibilitychange", flush\);\s*window\.addEventListener\("pagehide", flush\);/);
   assert.match(console, /if \(flushRef\.current === keep\) flushRef\.current = null;/);
   // A refusal (a limit, a check) or Stop before the first word takes the stored question back too.
-  assert.match(console, /if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);/);
+  assert.match(console, /store\(\(scope\) => saveHistory\(before, config\.locale, scope\)\);/);
   assert.equal((console.match(/giveBack\(\);/g) ?? []).length, 3);
   // «Yangi chat» during a limit keeps the question the card says is kept (LIMIT-01).
   const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));

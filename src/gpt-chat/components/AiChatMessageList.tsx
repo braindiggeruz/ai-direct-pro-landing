@@ -25,14 +25,11 @@ function modelLabel(model: string): string {
 /**
  * «AI o‘ylayapti…», and after 8 s without a first word an honest line: it
  * takes longer than usual, and Stop is there (plan STREAM-01). The server
- * gives up on a first token at 12 s, the stream's watchdog on silence at 30 s.
+ * tries up to 3 models of about 12 s each for a first word, within 60 s;
+ * the client waits 65 s for the stream to start (api.ts STREAM_HEADERS_MS)
+ * and 30 s of silence once it has.
  */
-export function PendingLine({ t }: { t: ChatStrings }) {
-  const [slow, setSlow] = useState(false);
-  useEffect(() => {
-    const timer = window.setTimeout(() => setSlow(true), 8_000);
-    return () => window.clearTimeout(timer);
-  }, []);
+export function PendingLine({ t, slow }: { t: ChatStrings; slow?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2 text-white/60 text-sm">
       <span className="neural-typing" aria-hidden="true">
@@ -88,6 +85,16 @@ export function AiChatMessageList({
   // closed or unloaded mid-turn, or the turn failed before a reload. Shown,
   // never stored; it does not say whether a message was spent.
   const unanswered = !busy && messages[messages.length - 1]?.role === "user";
+  // 8 s without a first word: the line under the question and the status a
+  // screen reader hears say it together, once (WCAG 4.1.3).
+  const waiting = messages.some((m) => m.pending);
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    setSlow(false);
+    if (!waiting) return;
+    const timer = window.setTimeout(() => setSlow(true), 8_000);
+    return () => window.clearTimeout(timer);
+  }, [waiting]);
   const errorActions = onRetry && (
     <div className="mt-2.5 flex flex-wrap gap-2">
       <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
@@ -132,7 +139,9 @@ export function AiChatMessageList({
         {busy
           ? messages.some((m) => m.streaming)
             ? t.writing
-            : t.thinking
+            : slow
+              ? t.premium.slow
+              : t.thinking
           : messages.length
             ? t.premium.answerReady
             : ""}
@@ -164,7 +173,7 @@ export function AiChatMessageList({
             }
           >
             {m.pending ? (
-              <PendingLine t={t} />
+              <PendingLine t={t} slow={slow} />
             ) : m.role === "assistant" && !m.error ? (
               <>
                 <div className="gpt-answer-head">

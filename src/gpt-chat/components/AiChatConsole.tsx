@@ -36,6 +36,7 @@ import { limitCard } from "../limit-card";
 import {
   LIMIT_TICK_MS,
   canSendNow,
+  hourCountShown,
   limitCounts,
   limitReasonOf,
   loadLimit,
@@ -137,6 +138,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     shownRef.current = { messages, busy };
   }, [messages, busy]);
+  // Whether a turn may store, and under which scope: read when it stores, not
+  // when it began. A question sent before the account view answers (NOW-02)
+  // is stored once the view says who is asking, in the middle of the turn too.
+  const storeRef = useRef<{ ready: boolean; scope?: string }>({ ready: false });
+  // The session on screen, for onAccount, which keeps it with the conversation.
+  const sessionIdRef = useRef<string | null>(null);
   const onAccount = useCallback((account: AccountView | null, cause: AccountCause) => {
     // A read that failed once someone is known (a flaky network after an
     // answer, a tab shown again offline) says nothing about who is asking:
@@ -144,6 +151,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // and nothing is stored until the account answers again (F11, plan M-01).
     if (account === null && cause === "unreachable" && establishedIdentityRef.current !== null) {
       unstableRef.current = true;
+      storeRef.current = { ready: false, scope: storeRef.current.scope };
       setAccountState("unknown");
       return;
     }
@@ -166,13 +174,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           shown.busy || shown.messages.length > 0,
         )
       ) {
-        // The account answers again after failed reads (F11), and the chat
-        // was answering this visitor meanwhile: what was said, an answer
-        // still arriving and the session stay. It becomes the stored
-        // conversation; the one stored before moves to the saved chats, as
-        // "New chat" would do. The turn in flight stores nothing itself.
+        // The account answers for the first time, or again after failed
+        // reads (F11), and the chat was answering this visitor meanwhile:
+        // what was said, an answer still arriving and the session stay. It
+        // becomes the stored conversation; the one stored before moves to the
+        // saved chats, as "New chat" would do. The turn in flight stores its
+        // answer here itself when it ends (storeRef).
         setSavedChats(archiveChat(loadHistory(config.locale, scope), config.locale, scope));
         saveHistory(shown.messages.filter((m) => !m.streaming), config.locale, scope);
+        if (sessionIdRef.current) saveSessionId(sessionIdRef.current, config.locale, scope);
       } else {
         identityGeneration.current++;
         abortRef.current?.abort();
@@ -183,7 +193,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // Auth redirects revoke session cookies. Never restore an old account's
         // session reference on a new identity; quota stays authoritative on server.
         const firstGuest = identity === 'guest' && establishedIdentityRef.current === null;
-        setSessionId(firstGuest ? loadSessionId(config.locale) : null);
+        sessionIdRef.current = firstGuest ? loadSessionId(config.locale) : null;
+        setSessionId(sessionIdRef.current);
       }
       // A failed account read says nothing about who is asking, so the
       // composer (and a question a limit put back into it) stays, and so it
@@ -194,6 +205,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       setOfferDismissed(account ? loadOfferDismissed(config.locale, scope) : false);
       accountIdentityRef.current = identity;
     }
+    // Here, not in an effect: a turn can end before the next render.
+    storeRef.current = account ? { ready: true, scope } : { ready: false, scope: storeRef.current.scope };
     setStorageScope(scope);
     setAccountState(account ? "ready" : "unknown");
     setSignedIn(!!account?.user);
@@ -296,13 +309,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const turnstileReady =
     turnstileConfig === null || !turnstileConfig.required || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
-  // The header counts 0 while the hourly limit stands, not the day's rest.
+  // The header counts 0 while the hourly limit stands, not the day's rest,
+  // and the day's rest once it has lifted.
   const hourBlocked = limit?.reason === "hourly" && limitBlocked;
+  const hourShown = hourCountShown(limit, hourLeft, clock);
   const sendDisabled = busy || limitBlocked || !turnstileReady;
 
-  // Once a session, while few messages are left: every button under an
-  // answer sends one (map 03 §3.6). Gone with the next message.
-  const fewLeft = !paid && ((remaining >= 0 && remaining <= 3) || (hourLeft !== null && hourLeft <= 2));
+  // Once a session, while few messages are left: the buttons under an answer
+  // that make the AI write a new one cost one each (map 03 §3.6). Gone with
+  // the next message.
+  const fewLeft = !paid && ((remaining >= 0 && remaining <= 3) || (hourShown !== null && hourShown <= 2));
   const [costNote, setCostNote] = useState(false);
   useEffect(() => {
     if (fewLeft && onceThisSession("gptchat_cost_note")) setCostNote(true);
@@ -375,22 +391,33 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   }, [hourLeft]);
 
   // Nothing is stored while the account view has not answered: who is
-  // asking, and so the storage scope, is unknown (F11).
+  // asking, and so the storage scope, is unknown (F11). Asked at the moment
+  // of storing, so a turn under way stores once the view has answered.
+  const store = (save: (scope?: string) => void) => {
+    const s = storeRef.current;
+    if (s.ready) save(s.scope);
+  };
+  const keepSession = (id: string) => {
+    sessionIdRef.current = id;
+    setSessionId(id);
+    store((scope) => saveSessionId(id, config.locale, scope));
+  };
+  const keepRemaining = (n: number) => {
+    setRemaining(n);
+    store((scope) => saveRemaining(n, scope));
+  };
   const ensureSession = async (): Promise<string | null> => {
     if (sessionId) return sessionId;
     const generation = identityGeneration.current;
     const id = await createSession(config.apiBase, config.locale);
     if (generation !== identityGeneration.current) return null;
-    if (id) {
-      setSessionId(id);
-      if (accountReady) saveSessionId(id, config.locale, storageScope);
-    }
+    if (id) keepSession(id);
     return id;
   };
 
   const persist = (next: ChatMessage[]) => {
     setMessages(next);
-    if (accountReady) saveHistory(next, config.locale, storageScope);
+    store((scope) => saveHistory(next, config.locale, scope));
   };
 
   const doSend = async (
@@ -429,7 +456,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setMessages(withUser);
     // Stored at once (the pending bubble is not): an answer takes 11-22 s,
     // and a tab unloaded meanwhile used to come back without the question.
-    if (accountReady) saveHistory(withUser, config.locale, storageScope);
+    store((scope) => saveHistory(withUser, config.locale, scope));
     const generation = identityGeneration.current;
     const sid = await ensureSession();
     if (generation !== identityGeneration.current) return;
@@ -490,8 +517,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const giveBack = () => {
       setMessages(before);
       if (!meta.base && !meta.answerAction) setInput(trimmed);
-      if (accountReady) saveHistory(before, config.locale, storageScope);
+      store((scope) => saveHistory(before, config.locale, scope));
     };
+    // What a failed or broken-off turn adds to: a new answer that did not
+    // come («Qayta yozish», a retry) leaves the old one where it was; only a
+    // finished answer replaces it.
+    const held = meta.base ? before.filter((m) => !m.error) : base;
     const handleJson = (res: ChatApiResponse) => {
       if (generation !== identityGeneration.current) return;
       // Any answer but a limit refusal or a failed check means no limit stands.
@@ -502,15 +533,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       )
         dispatchLimit({ type: "admitted" });
       if (res.ok && res.answer) {
-        if (typeof res.remaining === "number" && res.remaining >= 0) {
-          setRemaining(res.remaining);
-          if (accountReady) saveRemaining(res.remaining, storageScope);
-        }
+        if (typeof res.remaining === "number" && res.remaining >= 0) keepRemaining(res.remaining);
         setHourLeft(typeof res.hourRemaining === "number" ? res.hourRemaining : null);
-        if (res.sessionId && res.sessionId !== sid) {
-          setSessionId(res.sessionId);
-          if (accountReady) saveSessionId(res.sessionId, config.locale, storageScope);
-        }
+        if (res.sessionId && res.sessionId !== sid) keepSession(res.sessionId);
         persist([
           ...base,
           {
@@ -524,6 +549,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
+        // The count an answered turn reported is stale now: 0 while the limit
+        // stands (hourBlocked), the day's once it lifts.
+        if (reason === "hourly") setHourLeft(null);
         dispatchLimit({
           type: "blocked",
           reason,
@@ -533,10 +561,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         });
         // What is left today (or in the pack): an hourly pause leaves the
         // day's count as it is.
-        if (typeof res.remaining === "number" && res.remaining >= 0) {
-          setRemaining(res.remaining);
-          if (accountReady) saveRemaining(res.remaining, storageScope);
-        }
+        if (typeof res.remaining === "number" && res.remaining >= 0) keepRemaining(res.remaining);
         // The question goes back into the composer (and, while the limit
         // stands, into the draft) instead of a bubble that gets no answer.
         giveBack();
@@ -563,7 +588,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               ? t.errorNetwork
               : t.errorGeneric;
         persist([
-          ...base,
+          ...held,
           { role: "assistant", content: friendly, error: true },
         ]);
         track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
@@ -586,9 +611,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // with the «Javob uzilib qoldi» note. The end of the turn overwrites it.
     let storedAt = 0;
     const keep = () => {
-      if (!accountReady || !acc || generation !== identityGeneration.current) return;
+      if (!acc || generation !== identityGeneration.current) return;
       storedAt = Date.now();
-      saveHistory([...base, { role: "assistant", content: acc, model: answeringModel, partial: true }], config.locale, storageScope);
+      store((scope) => saveHistory([...held, { role: "assistant", content: acc, model: answeringModel, partial: true }], config.locale, scope));
     };
     flushRef.current = keep;
     const paint = () => {
@@ -624,10 +649,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           // The stream opens only once the server has admitted the turn.
           dispatchLimit({ type: "admitted" });
           answeringModel = m.model || null;
-          if (m.sessionId && m.sessionId !== sid) {
-            setSessionId(m.sessionId);
-            if (accountReady) saveSessionId(m.sessionId, config.locale, storageScope);
-          }
+          if (m.sessionId && m.sessionId !== sid) keepSession(m.sessionId);
         },
         onDelta: (text) => {
           if (generation !== identityGeneration.current) return;
@@ -653,10 +675,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (outcome.mode === "json") {
       handleJson(outcome.res);
     } else if (outcome.ok) {
-      if (typeof outcome.remaining === "number" && outcome.remaining >= 0) {
-        setRemaining(outcome.remaining);
-        if (accountReady) saveRemaining(outcome.remaining, storageScope);
-      }
+      if (typeof outcome.remaining === "number" && outcome.remaining >= 0) keepRemaining(outcome.remaining);
       setHourLeft(outcome.hourRemaining ?? null);
       persist([
         ...base,
@@ -673,7 +692,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       // User pressed Stop: keep whatever was generated, never an error state.
       if (acc)
         persist([
-          ...base,
+          ...held,
           { role: "assistant", content: acc, model: answeringModel },
         ]);
       // Stopped before the first word, most likely to reword it (STOP-01).
@@ -682,7 +701,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
       persist([
-        ...base,
+        ...held,
         {
           role: "assistant",
           content: acc,
@@ -694,7 +713,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } else {
       const friendly =
         outcome.code === "network" ? t.errorNetwork : t.errorGeneric;
-      persist([...base, { role: "assistant", content: friendly, error: true }]);
+      persist([...held, { role: "assistant", content: friendly, error: true }]);
       track(EV.aiResponseError, { code: outcome.code, message_number: messageNumber });
     }
     if (turnstileConfig?.required) {
@@ -829,7 +848,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     <button
       type="button"
       className="gpt-text-button"
-      style={{ minHeight: 0, padding: "0 0 0 6px" }}
+      // A 44px tap target in the line's own height: 12 + 19.5 + 13 px of
+      // padding, taken back by the margins (an inline-block's margin box
+      // sets the line), so the card does not grow.
+      style={{ minHeight: 0, display: "inline-block", padding: "12px 0 13px 6px", margin: "-12px 0 -13px" }}
       aria-expanded={details}
       onClick={() => setDetailsFor(details ? null : limit.reason)}
     >
@@ -921,7 +943,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <span>{t.brand}</span>
           </div>
           <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
-            {!paid && <AiUsageBadge remaining={remaining} hourLeft={hourLeft} hourBlocked={hourBlocked} t={t} />}
+            {!paid && <AiUsageBadge remaining={remaining} hourLeft={hourShown} hourBlocked={hourBlocked} t={t} />}
             <nav
               className={`flex items-center overflow-hidden rounded-xl bg-white/[0.04] ${uzEntry ? "text-xs" : "text-[11px]"}`}
               aria-label={uz ? "Til" : "Язык"}
@@ -1303,7 +1325,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               </div>
             )}
             {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
-              hourLeft !== null && hourLeft > 0 && hourLeft <= HOUR_WARNING_AT && (
+              hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT && (
               // The hourly cap is the one people meet (about twice a day):
               // said before the refusal, in the same quiet line as above.
               <div
@@ -1315,7 +1337,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                   className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-saffron"
                   aria-hidden="true"
                 />
-                <span>{t.hourWarning(hourLeft)}</span>
+                <span>{t.hourWarning(hourShown)}</span>
               </div>
             )}
             {turnstileKey && (

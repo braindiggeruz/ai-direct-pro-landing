@@ -203,7 +203,7 @@ test('the chat feeds the card from the limit state; the account view only report
   const refused = source.slice(source.indexOf('} else if (res.code === "limit_reached") {'), source.indexOf('track(EV.limitHit'));
   assert.match(refused, /giveBack\(\);/, 'the question goes back into the composer');
   // A typed question: out of the thread (and storage), back into the composer.
-  assert.match(source, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);\s*\};/);
+  assert.match(source, /const before = meta\.base \? messages : history;\s*const giveBack = \(\) => \{\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*store\(\(scope\) => saveHistory\(before, config\.locale, scope\)\);\s*\};/);
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
   // Second to the pack button it waits behind «Batafsil» (NOW-05); alone it leads.
@@ -229,7 +229,7 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   assert.match(source, /const DAY_WARNING_AT = 3;/);
   assert.match(source, /\{!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && \(/);
   assert.match(source, /const hourBlocked = limit\?\.reason === "hourly" && limitBlocked;/);
-  assert.match(source, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourLeft\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
+  assert.match(source, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourShown\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
 });
 
 test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {
@@ -247,6 +247,39 @@ test('the account answering again after failed reads keeps the guest-mode conver
   assert.match(changed, /identityGeneration\.current\+\+;\s*abortRef\.current\?\.abort\(\);/);
   assert.match(changed, /setMessages\(account \? loadHistory\(config\.locale, scope\) : \[\]\)/);
   assert.match(source, /shownRef\.current = \{ messages, busy \};/);
+});
+
+test('a turn stores when and where the account view says at that moment, also when the view answers mid-turn', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
+  // Set in onAccount itself, not in an effect: a stream can end before the next render.
+  assert.match(onAccount, /storeRef\.current = account \? \{ ready: true, scope \} : \{ ready: false, scope: storeRef\.current\.scope \};\s*setStorageScope\(scope\);/);
+  // The conversation kept when the view answers keeps its session too.
+  const kept = onAccount.slice(onAccount.indexOf('keepsShownConversation('), onAccount.indexOf('} else {'));
+  assert.match(kept, /saveHistory\(shown\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\);\s*if \(sessionIdRef\.current\) saveSessionId\(sessionIdRef\.current, config\.locale, scope\);/);
+  // Every write of a turn asks storeRef when it writes; none uses the render the tap happened in.
+  assert.match(source, /const store = \(save: \(scope\?: string\) => void\) => \{\s*const s = storeRef\.current;\s*if \(s\.ready\) save\(s\.scope\);\s*\};/);
+  const turn = source.slice(source.indexOf('const store = ('), source.indexOf('const onStop ='));
+  assert.doesNotMatch(turn, /accountReady|storageScope/);
+  assert.match(turn, /const keepSession = \(id: string\) => \{\s*sessionIdRef\.current = id;\s*setSessionId\(id\);\s*store\(\(scope\) => saveSessionId\(id, config\.locale, scope\)\);\s*\};/);
+  assert.match(turn, /const keepRemaining = \(n: number\) => \{\s*setRemaining\(n\);\s*store\(\(scope\) => saveRemaining\(n, scope\)\);\s*\};/);
+  assert.match(turn, /const persist = \(next: ChatMessage\[\]\) => \{\s*setMessages\(next\);\s*store\(\(scope\) => saveHistory\(next, config\.locale, scope\)\);\s*\};/);
+  for (const call of ['if (id) keepSession(id);', 'if (res.sessionId && res.sessionId !== sid) keepSession(res.sessionId);', 'if (m.sessionId && m.sessionId !== sid) keepSession(m.sessionId);']) assert.ok(turn.includes(call), call);
+  assert.equal((turn.match(/keepRemaining\((res|outcome)\.remaining\)/g) ?? []).length, 3, 'an answer, a 429 and a finished stream');
+});
+
+test('«Qayta yozish» or a retry that fails leaves the old answer on screen and in storage', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const send = source.slice(source.indexOf('const doSend = async ('), source.indexOf('const onStop ='));
+  assert.match(send, /const held = meta\.base \? before\.filter\(\(m\) => !m\.error\) : base;/);
+  // A failure, a broken-off stream, Stop with text and the 2-s store add to it…
+  assert.match(send, /persist\(\[\.\.\.held, \{ role: "assistant", content: friendly, error: true \}\]\);/);
+  assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{ role: "assistant", content: friendly, error: true \},\s*\]\);/);
+  assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{\s*role: "assistant",\s*content: acc,\s*model: answeringModel,\s*partial: true,/);
+  assert.match(send, /if \(acc\)\s*persist\(\[\s*\.\.\.held,/);
+  // …and only a finished answer replaces the old one.
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: res\.answer,/);
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: acc,\s*model: outcome\.modelUsed \?\? null,/);
 });
 
 test('a pack is buyable only with a mode and a provider; every opening of its window says where from', () => {
@@ -499,7 +532,7 @@ test('a failed read after someone was known leaves the screen, the counters and 
   const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
   // First thing in onAccount, before any branch that clears or loads.
   const guard = onAccount.slice(0, onAccount.indexOf('const scope ='));
-  assert.match(guard, /if \(account === null && cause === "unreachable" && establishedIdentityRef\.current !== null\) \{\s*unstableRef\.current = true;\s*setAccountState\("unknown"\);\s*return;\s*\}/);
+  assert.match(guard, /if \(account === null && cause === "unreachable" && establishedIdentityRef\.current !== null\) \{\s*unstableRef\.current = true;\s*storeRef\.current = \{ ready: false, scope: storeRef\.current\.scope \};\s*setAccountState\("unknown"\);\s*return;\s*\}/);
   assert.doesNotMatch(guard, /setMessages|setSavedChats|setSessionId|setRemaining|setHourLeft|setFreeLimits|setBillingAvailable|setPaid|setPackTerms|setBotHandoff|setInput|abort\(/);
   // The same visitor answers again: the screen becomes the stored conversation, once.
   assert.match(onAccount, /if \(account && unstableRef\.current && accountIdentityRef\.current === identity\)\s*saveHistory\(shownRef\.current\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\);\s*if \(account\) unstableRef\.current = false;/);
