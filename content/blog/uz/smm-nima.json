@@ -19,7 +19,7 @@
   "body": [
     {
       "type": "p",
-      "text": "SMM (Social Media Marketing, ijtimoiy media marketing) — Instagram, Telegram, Facebook va TikTok kabi ijtimoiy tarmoqlar orqali biznesni tanitish va mijoz olish. U sahifani yuritish, kontent tayyorlash, izoh va Direct’dagi savollarga javob berish, pullik reklama hamda natijani o‘lchashni o‘z ichiga oladi. Maqsad — obunachi emas, murojaat va sotuv. SMM’da odatda besh ish qilinadi:"
+      "text": "SMM (Social Media Marketing, ijtimoiy media marketing) — Instagram, Telegram, Facebook va TikTok kabi ijtimoiy tarmoqlar orqali biznesni tanitish va mijoz olish. U sahifani yuritish, kontent tayyorlash, izoh va Direct’dagi savollarga javob berish hamda natijani o‘lchashni o‘z ichiga oladi; pullik reklama (target) unga alohida byudjet bilan ulanadi. Maqsad — obunachi emas, murojaat va sotuv. SMM’da odatda besh ish qilinadi:"
     },
     {
       "type": "list",
@@ -27,13 +27,13 @@
         "Strategiya: auditoriya, kanal va asosiy xabarni tanlash",
         "Kontent: post, stories, Reels va Telegram postlari uchun matn va dizayn",
         "Nashr va moderatsiya: jadval bo‘yicha joylash, izoh va Direct’ga javob",
-        "Reklama: tayyor postlarni pullik target orqali kerakli auditoriyaga ko‘rsatish",
+        "Reklama bilan bog‘lash: tayyor postlarni pullik target orqali kerakli auditoriyaga ko‘rsatish — bu alohida byudjet va alohida kelishuv",
         "O‘lchash: kim yozdi, qancha murojaat keldi va qaysi kontent ishladi"
       ]
     },
     {
       "type": "p",
-      "text": "SMM inglizcha Social Media Marketing so‘zlarining qisqartmasi. Ma’nosi oddiy: siz odamlar allaqachon vaqt o‘tkazayotgan joyda — Instagram, Telegram, Facebook yoki TikTok’da — biznes haqida gapirasiz va u yerdan murojaat olasiz."
+      "text": "Ma’nosi oddiy: siz odamlar allaqachon vaqt o‘tkazayotgan joyda biznes haqida gapirasiz va murojaatni o‘sha yerning o‘zida olasiz."
     },
     {
       "type": "p",

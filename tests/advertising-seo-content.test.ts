@@ -81,6 +81,43 @@ test('SMM price articles repeat the actual package rows in both languages', () =
   }
 });
 
+// The package rows do not say the packages build on each other, so the agency
+// comparison, the FAQs and the price articles may credit a package only with a
+// part of the scope that its own row lists (review of 2026-10-06: design, the
+// Direct AI bot and the enquiry report were credited to every package).
+const SMM_PACKAGE_FACTS = {
+  uz: { hub: 'smm-xizmatlari', article: 'smm-xizmati-narxi-ozbekiston-2026', names: ['Start', 'Biznes', 'Pro'], terms: [/dizayn/i, /AI-bot/, /murojaatlar bo‘yicha hisobot/, /suratga olish kuni/] },
+  ru: { hub: 'smm-prodvizhenie-tashkent', article: 'skolko-stoit-smm-i-vedenie-instagram-uzbekistan', names: ['Старт', 'Бизнес', 'Про'], terms: [/дизайн/i, /AI-бот/, /отч[её]т по обращениям/, /съ[её]мочный день/] },
+} as const;
+const EVERY_PACKAGE = /barcha paketlar|hamma paketlar|har bir paketda|paketidan boshlab|Start paketidan|во вс[еёи]х? пакет|входит во все|в каждом пакете|начиная со? «?Старт/i;
+
+const visibleCopy = (doc: { bodyBlocks?: Page['bodyBlocks']; body?: BlogArticle['body']; faq?: Page['faq'] }, skip: unknown) => [
+  ...(doc.bodyBlocks ?? doc.body ?? []).filter(block => block !== skip)
+    .flatMap(block => [block.text ?? '', ...(block.items ?? []), ...(block.rows ?? []).flat()]),
+  ...(doc.faq ?? []).flatMap(item => [item.q, item.a]),
+];
+
+test('SMM pages credit each package only with what its own row lists', () => {
+  for (const [locale, facts] of Object.entries(SMM_PACKAGE_FACTS)) {
+    const hub = read<Page>(`pages/${locale}/${facts.hub}`);
+    const table = hub.bodyBlocks.find(block => block.rows?.some(row => row[0] === facts.names[0]))!;
+    const scope = new Map(table.rows!.map(row => [row[0], row[1]]));
+    const article = read<BlogArticle>(`blog/${locale}/${facts.article}`);
+    const articleTable = article.body.find(block => block.rows?.some(row => row[0] === facts.names[0]));
+    const clauses = [...visibleCopy(hub, table), ...visibleCopy(article, articleTable)].flatMap(text => text.split(/[.;,]/));
+    for (const clause of clauses) {
+      const named = facts.names.filter(name => new RegExp(`(^|[^\\p{L}])${name}(?![\\p{L}])`, 'u').test(clause));
+      if (named.length) assert.doesNotMatch(clause, EVERY_PACKAGE, `${locale}: «${clause.trim()}»`);
+      for (const term of facts.terms.filter(term => term.test(clause))) {
+        assert.doesNotMatch(clause, EVERY_PACKAGE, `${locale}: «${clause.trim()}» credits every package with ${term}`);
+        const listed = facts.names.filter(name => term.test(scope.get(name)!));
+        const extra = named.filter(name => !listed.includes(name));
+        assert.deepEqual(extra, [], `${locale}: «${clause.trim()}» credits ${extra.join(', ')} with ${term}; only ${listed.join(', ')} lists it`);
+      }
+    }
+  }
+});
+
 test('Telegram article sources the direct-platform boundary instead of a universal reseller deposit', () => {
   const article = read<BlogArticle>('blog/ru/telegram-ads-stoimost-i-zapusk-uzbekistan');
   assert.ok(article.sources?.some(source => source.url === 'https://ads.telegram.org/getting-started'));
