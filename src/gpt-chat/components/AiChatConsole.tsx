@@ -20,7 +20,6 @@ import {
   saveOfferDismissed,
   loadDraft,
   saveDraft,
-  clearDraft,
   loadBusinessLineShown,
   saveBusinessLineShown,
   onceThisSession,
@@ -342,15 +341,31 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     };
   }, [retryAt]);
 
-  // The refused question is kept while the limit stands (DRAFT_TTL_MS), so a
-  // reload or the payment page does not lose it (F2); it goes with the limit.
+  // What is typed waits in the browser for an hour (DRAFT_TTL_MS), limit or
+  // not: a phone that unloads the tab, a reload or the payment page does not
+  // lose it (F2, PERSIST-01). An article's question, untouched, is not a
+  // draft; sending empties the composer, and so the draft.
   const limited = limit !== null;
   useEffect(() => {
-    if (limited) saveDraft(input);
-  }, [limited, input]);
+    if (input === entry?.prompt) return;
+    const timer = window.setTimeout(() => saveDraft(input), 500);
+    return () => window.clearTimeout(timer);
+  }, [input, entry]);
+
+  // A phone that hides or unloads the tab mid-answer: what has arrived is
+  // stored at once (doSend sets what to store while a turn runs).
+  const flushRef = useRef<(() => void) | null>(null);
   useEffect(() => {
-    if (!limited) clearDraft();
-  }, [limited]);
+    const flush = (event: Event) => {
+      if (event.type === "pagehide" || document.visibilityState === "hidden") flushRef.current?.();
+    };
+    document.addEventListener("visibilitychange", flush);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      document.removeEventListener("visibilitychange", flush);
+      window.removeEventListener("pagehide", flush);
+    };
+  }, []);
 
   // A rolling-hour count is dropped an hour after the turn that reported it.
   useEffect(() => {
@@ -395,6 +410,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (!trimmed || sendDisabled) return;
     setBusy(true);
     setInput("");
+    // At once, not after the draft's 500 ms: the question is in the thread now.
+    saveDraft("");
     setCostNote(false);
     // The business line was an offer for the first answer: a next message
     // takes it away, unless its form is open.
@@ -410,6 +427,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       { role: "assistant", content: "", pending: true },
     ];
     setMessages(withUser);
+    // Stored at once (the pending bubble is not): an answer takes 11-22 s,
+    // and a tab unloaded meanwhile used to come back without the question.
+    if (accountReady) saveHistory(withUser, config.locale, storageScope);
     const generation = identityGeneration.current;
     const sid = await ensureSession();
     if (generation !== identityGeneration.current) return;
@@ -506,6 +526,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         // stands, into the draft) instead of a bubble that gets no answer.
         setMessages(history);
         setInput(trimmed);
+        if (accountReady) saveHistory(history, config.locale, storageScope);
         // One event per refusal; the Metrika goal once per reason per view.
         track(EV.limitHit, { reason, locale: config.locale });
         reachYandexGoalOnce(YANDEX_GOALS.chatLimitHit, reason);
@@ -515,6 +536,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       ) {
         setMessages(history);
         setInput(trimmed);
+        if (accountReady) saveHistory(history, config.locale, storageScope);
         setTurnstileServerError(
           res.code === "turnstile_failed" ? t.turnstileRetry : t.turnstileError,
         );
@@ -548,6 +570,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // rendering each one is how a stream turns into stutter.
     let frame = 0;
     const raf = typeof requestAnimationFrame === "function";
+    // What has arrived, stored as a broken-off answer every 2 s and when the
+    // tab is hidden: after an unload the question and that part are there,
+    // with the «Javob uzilib qoldi» note. The end of the turn overwrites it.
+    let storedAt = 0;
+    const keep = () => {
+      if (!accountReady || !acc || generation !== identityGeneration.current) return;
+      storedAt = Date.now();
+      saveHistory([...base, { role: "assistant", content: acc, model: answeringModel, partial: true }], config.locale, storageScope);
+    };
+    flushRef.current = keep;
     const paint = () => {
       if (generation !== identityGeneration.current) return;
       frame = 0;
@@ -589,6 +621,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         onDelta: (text) => {
           if (generation !== identityGeneration.current) return;
           acc += text;
+          // Here, not in paint(): a hidden tab paints no frames.
+          if (Date.now() - storedAt >= 2_000) keep();
           if (!raf) {
             paint();
             return;
@@ -598,6 +632,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       },
       controller.signal,
     );
+    if (flushRef.current === keep) flushRef.current = null;
     if (generation !== identityGeneration.current) { stopPainting(); return; }
     abortRef.current = null;
     // A frame queued by the last delta would otherwise land after the final
@@ -715,7 +750,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (busy || !accountReady) return;
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
-    setInput("");
+    // The limit card says the refused question waits in the composer: it does.
+    if (!limited) setInput("");
     setBusinessLine(null);
     // A dismissed offer stays dismissed — "new chat" is not a fresh chance to
     // pitch the same person again; neither is the business line, which shows

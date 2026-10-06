@@ -108,6 +108,28 @@ test('the question in the composer survives signing in, and nothing else (WP-17)
   assert.match(console, /onLeave=\{keepDraft\}/);
 });
 
+test('nothing is lost when Telegram unloads the tab: the question at once, the answer as it comes, the draft always (PERSIST-01)', () => {
+  const console = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // The draft: one effect, 500 ms after typing, limit or not; an article's untouched question is no draft.
+  assert.match(console, /useEffect\(\(\) => \{\s*if \(input === entry\?\.prompt\) return;\s*const timer = window\.setTimeout\(\(\) => saveDraft\(input\), 500\);\s*return \(\) => window\.clearTimeout\(timer\);\s*\}, \[input, entry\]\);/);
+  assert.doesNotMatch(console, /if \(limited\) saveDraft|clearDraft/, 'the limit-only draft effects are gone');
+  // Sending empties it at once.
+  assert.match(console, /setInput\(""\);\s*\/\/[^\n]*\n\s*saveDraft\(""\);/);
+  // The question is stored as it is sent, only while the account is known (F11).
+  assert.match(console, /setMessages\(withUser\);\s*(?:\/\/[^\n]*\n\s*)*if \(accountReady\) saveHistory\(withUser, config\.locale, storageScope\);/);
+  // What has arrived: every 2 s from the deltas and when the tab is hidden or unloaded.
+  assert.match(console, /const keep = \(\) => \{\s*if \(!accountReady \|\| !acc \|\| generation !== identityGeneration\.current\) return;\s*storedAt = Date\.now\(\);\s*saveHistory\(\[\.\.\.base, \{ role: "assistant", content: acc, model: answeringModel, partial: true \}\], config\.locale, storageScope\);/);
+  assert.match(console, /if \(Date\.now\(\) - storedAt >= 2_000\) keep\(\);/);
+  assert.match(console, /if \(event\.type === "pagehide" \|\| document\.visibilityState === "hidden"\) flushRef\.current\?\.\(\);/);
+  assert.match(console, /document\.addEventListener\("visibilitychange", flush\);\s*window\.addEventListener\("pagehide", flush\);/);
+  assert.match(console, /if \(flushRef\.current === keep\) flushRef\.current = null;/);
+  // A refusal takes the stored question back too: it is in the composer now.
+  assert.equal((console.match(/setMessages\(history\);\s*setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(history, config\.locale, storageScope\);/g) ?? []).length, 2);
+  // «Yangi chat» during a limit keeps the question the card says is kept (LIMIT-01).
+  const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));
+  assert.match(newChat, /if \(!limited\) setInput\(""\);/);
+});
+
 test('authenticated history never silently imports legacy guest history or accepts malformed identity', () => {
   const values = storage();
   values.set('gptchat_history', JSON.stringify([{ role: 'user', content: 'old guest secret' }]));

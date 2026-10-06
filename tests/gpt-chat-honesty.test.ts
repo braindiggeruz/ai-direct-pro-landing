@@ -338,6 +338,22 @@ test('retry and «Qayta yozish» replace the last answer: the question is in the
   assert.match(list, /<button type="button" disabled="" class="[^"]*">.*Qayta urinish<\/button>/, 'no retry during a limit');
 });
 
+test('a last question without an answer says so, with a retry and the way back to the composer', () => {
+  const list = (props: Record<string, unknown>) => renderToStaticMarkup(React.createElement(MessageScrollerProvider, null,
+    React.createElement(MessageScroller, null, React.createElement(MessageScrollerViewport, null,
+      React.createElement(AiChatMessageList, { t: strings('uz'), onRetry: () => {}, onEdit: () => {}, messages: [], ...props })))));
+  const uz = strings('uz');
+  const reloaded = list({ messages: [{ role: 'user', content: 'Savol' }] });
+  assert.match(reloaded, /data-testid="ai-unanswered"/);
+  assert.ok(reloaded.includes(uz.premium.unanswered) && reloaded.includes(uz.retry) && reloaded.includes(uz.premium.editQuestion));
+  // Not while the answer is on its way, and not under an answer.
+  assert.doesNotMatch(list({ busy: true, messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: '', pending: true }] }), /ai-unanswered/);
+  assert.doesNotMatch(list({ messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: 'Javob' }] }), /ai-unanswered/);
+  // It promises nothing about whether a message was spent.
+  for (const locale of LOCALES) assert.doesNotMatch(strings(locale).premium.unanswered, /limit|лимит|списан|hisoblan/i);
+  assert.equal(uz.premium.unanswered, 'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.');
+});
+
 test('every button that sends is off while sending is paused; copying never is', () => {
   const html = actions({ locked: true });
   const buttons = html.match(/<button[^>]*>/g) ?? [];

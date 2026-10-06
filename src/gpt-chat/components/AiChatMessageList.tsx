@@ -8,6 +8,8 @@ import { LazyPart, answerPart } from "../lazy-part";
 /** The error bubble's buttons: the retry and «change the question». */
 const ERROR_ACTION =
   "min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40";
+const ERROR_BUBBLE =
+  "max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200";
 
 /**
  * Which model produced an answer, shown verbatim minus the routing suffix.
@@ -58,6 +60,35 @@ export function AiChatMessageList({
       if (messages[i].role === "assistant") return i;
     return -1;
   })();
+  // The last question has no answer and none is on its way: the tab was
+  // closed or unloaded mid-turn, or the turn failed before a reload. Shown,
+  // never stored; it does not say whether a message was spent.
+  const unanswered = !busy && messages[messages.length - 1]?.role === "user";
+  const errorActions = onRetry && (
+    <div className="mt-2.5 flex flex-wrap gap-2">
+      <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
+        </svg>
+        {t.retry}
+      </button>
+      {onEdit && (
+        <button type="button" onClick={onEdit} disabled={busy} className={ERROR_ACTION}>
+          {t.premium.editQuestion}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     // ym-hide-content: the transcript is user prompts and model answers. It is
@@ -98,7 +129,7 @@ export function AiChatMessageList({
               m.role === "user"
                 ? "gpt-user-message max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]"
                 : m.error
-                  ? "max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200"
+                  ? ERROR_BUBBLE
                   : // Answers are the only long-form reading on this surface, so
                     // they get reading type rather than UI type: a larger size, a
                     // looser line, and a measure capped near 68 characters. At the
@@ -177,36 +208,7 @@ export function AiChatMessageList({
                 <span className="whitespace-pre-wrap" role="alert">
                   {m.content}
                 </span>
-                {i === messages.length - 1 && onRetry && (
-                  <div className="mt-2.5 flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={onRetry}
-                      disabled={locked}
-                      className={ERROR_ACTION}
-                    >
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" />
-                      </svg>
-                      {t.retry}
-                    </button>
-                    {onEdit && (
-                      <button type="button" onClick={onEdit} disabled={busy} className={ERROR_ACTION}>
-                        {t.premium.editQuestion}
-                      </button>
-                    )}
-                  </div>
-                )}
+                {i === messages.length - 1 && errorActions}
               </>
             ) : (
               // dir="auto": an Arabic or mixed question aligns by its own first letters.
@@ -218,6 +220,22 @@ export function AiChatMessageList({
         </Message>
         </MessageScrollerItem>
       ))}
+      {unanswered && (
+        <MessageScrollerItem messageId="unanswered">
+        <Message align="start">
+        <MessageContent>
+        <Bubble variant="destructive" align="start" className="gpt-answer-bubble">
+          <BubbleContent className={ERROR_BUBBLE} data-testid="ai-unanswered">
+            <span className="whitespace-pre-wrap" role="alert">
+              {t.premium.unanswered}
+            </span>
+            {errorActions}
+          </BubbleContent>
+        </Bubble>
+        </MessageContent>
+        </Message>
+        </MessageScrollerItem>
+      )}
       </MessageScrollerContent>
     </div>
   );
