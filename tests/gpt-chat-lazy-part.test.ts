@@ -265,7 +265,50 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
     assert.ok(html.includes(t.brand), locale);
   }
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(chat, /const writing = !empty \|\| !!input\.trim\(\);\s*useEffect\(\(\) => \{\s*if \(writing\) answerPart\.preload\(\);\s*\}, \[writing\]\);/);
+  // Fetched while a question is written, a conversation is on screen, or one is stored (beside the account view).
+  assert.match(chat, /const writing = !empty \|\| !!input\.trim\(\);\s*useEffect\(\(\) => \{\s*if \(writing \|\| hasStoredHistory\(config\.locale\)\) answerPart\.preload\(\);\s*\}, \[writing, config\.locale\]\);/);
+  // A finished answer is not parsed again on every frame of the next one, or on every key typed.
+  const { AnswerBody } = await answerPart.load();
+  assert.equal((AnswerBody as unknown as { $$typeof: symbol }).$$typeof, Symbol.for('react.memo'));
+  // A part that cannot load: the buttons are gone for the page view, said once under the last answer.
+  const listSource = read('src/gpt-chat/components/AiChatMessageList.tsx');
+  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{null\} failed=\{i === lastAssistant \? <PartFailed message=\{t\.partFailed\} reload=\{t\.partReload\} \/> : null\}>/);
+  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{<PlainAnswer content=\{m\.content\} \/>\} failed=\{<PlainAnswer content=\{m\.content\} \/>\}>/);
+});
+
+test('chat-answer is fetched on load when a conversation of this page is stored, a guest’s or an account’s', async () => {
+  const { hasStoredHistory } = await import('../src/gpt-chat/storage');
+  const values = new Map<string, string>();
+  const storage = {
+    get length() { return values.size; },
+    key: (i: number) => [...values.keys()][i] ?? null,
+    getItem: (k: string) => values.get(k) ?? null,
+    setItem: (k: string, v: string) => { values.set(k, v); },
+    removeItem: (k: string) => { values.delete(k); },
+  };
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: storage });
+  try {
+    assert.equal(hasStoredHistory('uz'), false);
+    values.set('gptchat_history_ru', '[{"role":"user","content":"Savol"}]');
+    assert.equal(hasStoredHistory('uz'), false, 'another page’s conversation');
+    assert.equal(hasStoredHistory('ru'), true);
+    values.clear();
+    values.set(`gptchat_history_account_${'a'.repeat(64)}_uz`, '[{"role":"user","content":"Savol"}]');
+    assert.equal(hasStoredHistory('uz'), true, 'an account’s, before the view says whose');
+    values.clear();
+    values.set('gptchat_history', '[{"role":"user","content":"old"}]');
+    assert.equal(hasStoredHistory('ru'), true, 'the legacy Russian key');
+    assert.equal(hasStoredHistory('uz'), false);
+    values.set('gptchat_history', '[]');
+    values.set('gptchat_dialogs_ru', '[{"id":"x"}]');
+    assert.equal(hasStoredHistory('ru'), false, 'an emptied conversation or saved chats only');
+    Object.defineProperty(globalThis, 'localStorage', { configurable: true, get() { throw new Error('denied'); } });
+    assert.equal(hasStoredHistory('ru'), false);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
+    else delete (globalThis as { localStorage?: Storage }).localStorage;
+  }
 });
 
 test('chat-turnstile: the security check, loaded only where the server asks for it', async () => {

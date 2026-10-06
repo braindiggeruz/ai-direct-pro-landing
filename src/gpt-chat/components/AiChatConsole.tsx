@@ -23,6 +23,7 @@ import {
   loadBusinessLineShown,
   saveBusinessLineShown,
   onceThisSession,
+  hasStoredHistory,
 } from "../storage";
 import { inApp, track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
@@ -285,12 +286,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   );
   const empty = messages.length === 0;
   // How an answer reads (the lazy part chat-answer) is fetched once a
-  // question is being written or a conversation is on screen: it is here
-  // before the first answer, and an answer shows as plain text until then.
+  // question is being written or a conversation is on screen, and at once
+  // when one is stored, beside the account view that loads it: it is here
+  // before the answers are, which show as plain text until then.
   const writing = !empty || !!input.trim();
   useEffect(() => {
-    if (writing) answerPart.preload();
-  }, [writing]);
+    if (writing || hasStoredHistory(config.locale)) answerPart.preload();
+  }, [writing, config.locale]);
   // The page H1 heads the resting screen (roadmap R-S1, owner decision 2). Its
   // text comes from data-h1 on the mount point, so it is not in this bundle;
   // the part after « — » keeps the accent of the old welcome line.

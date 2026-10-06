@@ -219,6 +219,24 @@ export function keepsComposer(established: string, next: string): boolean {
   return established === next || (established === "guest" && next !== "guest");
 }
 
+/**
+ * Whether a conversation of this locale is stored in this browser, a guest's
+ * or an account's: the chat fetches how answers read before the account view
+ * says whose it is.
+ */
+export function hasStoredHistory(locale: Locale): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i) ?? "";
+      if (((key.startsWith(HIST_KEY) && key.endsWith(`_${locale}`)) || (locale === "ru" && key === HIST_KEY))
+        && (localStorage.getItem(key) ?? "[]") !== "[]") return true;
+    }
+  } catch {
+    /* storage denied */
+  }
+  return false;
+}
+
 export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
   try {
     const raw =

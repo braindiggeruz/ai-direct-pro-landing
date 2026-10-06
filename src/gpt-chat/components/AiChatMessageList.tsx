@@ -4,7 +4,7 @@ import { Bubble, BubbleContent } from '@/components/ui/bubble';
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
 import type { AnswerAction, ChatMessage, Locale } from "../types";
 import type { ChatStrings } from "../i18n";
-import { LazyPart, answerPart } from "../lazy-part";
+import { LazyPart, PartFailed, answerPart } from "../lazy-part";
 
 /** The error bubble's buttons: the retry and «change the question». */
 const ERROR_ACTION =
@@ -45,7 +45,8 @@ export function PendingLine({ t, slow }: { t: ChatStrings; slow?: boolean }) {
 /**
  * An answer's text before the lazy part chat-answer is here (or if it cannot
  * come): as written, without Markdown. The console fetches the part as soon
- * as a question is being written, so this is rarely seen.
+ * as a question is being written, and on load when a conversation is stored
+ * (hasStoredHistory), so a returning visitor's thread does not show it either.
  */
 function PlainAnswer({ content }: { content: string }) {
   return <div className="gpt-answer-body whitespace-pre-wrap" dir="auto">{content}</div>;
@@ -210,7 +211,10 @@ export function AiChatMessageList({
                         {t.truncated}
                       </p>
                     )}
-                    <LazyPart part={answerPart} fallback={null} failed={null}>
+                    {/* If the part cannot load (a dropped 3G request, a release that
+                        removed its file), the buttons are gone for this page view:
+                        said once, under the last answer, with the way back. */}
+                    <LazyPart part={answerPart} fallback={null} failed={i === lastAssistant ? <PartFailed message={t.partFailed} reload={t.partReload} /> : null}>
                       {({ MessageActions }) => (
                         <MessageActions
                           content={m.content}

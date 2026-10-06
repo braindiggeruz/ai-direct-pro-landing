@@ -11,6 +11,7 @@ import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
 import { latexLite } from '../src/gpt-chat/latex-lite';
+import { plainText } from '../src/gpt-chat/plain-text';
 import { applyRole, frameLocale, getRoles, maxRolePrefixLength, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
@@ -210,6 +211,16 @@ test('renderMarkdown: numbering survives text between items, lists nest, rules, 
   assert.doesNotMatch(renderMarkdown('2 * 3 * 4 = 24'), /<em>/);
   // A link stays text with its address (owner decision 4): nothing clickable from a model.
   assert.equal(renderMarkdown('[sayt](https://gptbot.uz)'), '<p class="mb-2 last:mb-0">sayt (https://gptbot.uz)</p>');
+  // One pair of parentheses in the address, as Wikipedia writes them.
+  assert.equal(renderMarkdown('[Toshkent](https://uz.wikipedia.org/wiki/Toshkent_(shahar))'), '<p class="mb-2 last:mb-0">Toshkent (https://uz.wikipedia.org/wiki/Toshkent_(shahar))</p>');
+  assert.equal(plainText('[Toshkent](https://uz.wikipedia.org/wiki/Toshkent_(shahar))'), 'Toshkent (https://uz.wikipedia.org/wiki/Toshkent_(shahar))');
+  // A line of unclosed brackets (a pasted log, minified data) stays linear: it runs on every streamed frame.
+  for (const line of ['['.repeat(20_000), '[a]('.repeat(5_000), '[a](b('.repeat(4_000), '[a](b(c)'.repeat(3_000)]) {
+    const started = performance.now();
+    renderMarkdown(line);
+    plainText(line);
+    assert.ok(performance.now() - started < 200, `${line.slice(0, 8)}… took ${Math.round(performance.now() - started)} ms`);
+  }
   // A code block inside a list item stays a code block.
   assert.match(renderMarkdown('1. Step\n   ```\n   code\n   ```\n2. Next'), /<pre class="gpt-code" tabindex="0"><code> {3}code<\/code><\/pre>\n<ol class="list-decimal" start="2">/);
   // The only value in an attribute is a list's first number.

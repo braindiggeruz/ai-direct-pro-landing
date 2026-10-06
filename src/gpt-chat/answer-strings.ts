@@ -13,12 +13,16 @@ export interface AnswerStrings {
   continue: string;
   /** A new answer in place of the last one: a new call of the model, so it costs a message. */
   regenerate: string;
-  /** On a phone: the rest of the row. */
+  /** On a phone: the rest of the row (after a «⋯» a screen reader skips). */
   more: string;
   /** The translation goes the other way from the answer's script. */
   toRussian: string;
   toUzbek: string;
-  /** Under the row once a session while few messages are left. */
+  /**
+   * Under the row once a session while few messages are left, while a button
+   * that costs one shows: those that make the AI write a new answer do, copy
+   * and Telegram do not.
+   */
   buttonCost: string;
   /** The Telegram button: short on the button, whole for a screen reader. */
   share: string;
@@ -36,10 +40,10 @@ const RU: AnswerStrings = {
   simpler: "Объяснить проще",
   continue: "Продолжить",
   regenerate: "Другой ответ",
-  more: "⋯ Ещё",
+  more: "Ещё",
   toRussian: "Перевести на русский",
   toUzbek: "Перевести на узбекский",
-  buttonCost: "Каждая кнопка — 1 сообщение.",
+  buttonCost: "Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.",
   share: "В Telegram",
   shareLabel: "Отправить в Telegram",
   shareCut: "Ответ длинный — в Telegram ушло начало. Весь текст можно скопировать.",
@@ -58,10 +62,10 @@ const UZ: AnswerStrings = {
   simpler: "Oddiyroq tushuntir",
   continue: "Davom ettir",
   regenerate: "Qayta yozish",
-  more: "⋯ Yana",
+  more: "Yana",
   toRussian: "Rus tiliga tarjima",
   toUzbek: "O‘zbekchaga tarjima",
-  buttonCost: "Har bir tugma — 1 ta xabar.",
+  buttonCost: "AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.",
   share: "Telegramga",
   shareLabel: "Telegramga yuborish",
   shareCut: "Javob uzun — Telegramga boshi yuborildi. To‘liq matn uchun «Nusxalash»ni bosing.",

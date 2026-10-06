@@ -24,7 +24,8 @@ export function renderMarkdown(src: string): string {
           ? `<code class="px-1 py-0.5 rounded bg-white/10 text-brand-cyan">${part.slice(1, -1)}</code>`
           : part
               // A link stays text, its address beside it (owner decision 4).
-              .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, "$1 ($2)")
+              // Bounded, so a line of unclosed «[» stays linear on every frame.
+              .replace(/\[([^[\]\n]{1,300})\]\(([^()\s]{1,2000}(?:\([^()\s]{0,200}\)[^()\s]{0,200})?)\)/g, "$1 ($2)")
               .replace(/\*\*([^*]+)\*\*|__([^_]+)__/g, (_, a?: string, b?: string) => `<strong>${a ?? b}</strong>`)
               .replace(/~~([^~]+)~~/g, "<del>$1</del>")
               // Emphasis only hugs its text: 2 * 3 * 4 stays arithmetic.

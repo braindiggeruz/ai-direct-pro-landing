@@ -3,7 +3,7 @@
 // start bundle and shows the plain text until this part is here; the console
 // fetches it as soon as a question is being written or a conversation is on
 // screen, so it arrives before the first answer does.
-import { useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { AnswerAction, Locale } from "../types";
 import { answerStrings } from "../answer-strings";
 import { frameLocale } from "../roles";
@@ -11,8 +11,12 @@ import { renderMarkdown } from "../markdown";
 import { plainText } from "../plain-text";
 import { track, EV } from "../analytics";
 
-/** The answer as the chat renders it: escaped first, then our own Markdown (markdown.ts). */
-export function AnswerBody({ content }: { content: string }) {
+/**
+ * The answer as the chat renders it: escaped first, then our own Markdown
+ * (markdown.ts). Memoized on its text: a finished answer is not parsed again
+ * on every frame of the one arriving, or on every key typed.
+ */
+export const AnswerBody = memo(function AnswerBody({ content }: { content: string }) {
   return (
     <div
       className="gpt-answer-body"
@@ -22,7 +26,7 @@ export function AnswerBody({ content }: { content: string }) {
       }}
     />
   );
-}
+});
 
 /**
  * Which way a translation goes: Cyrillic text to Uzbek in Latin script,
@@ -136,7 +140,7 @@ export function MessageActions({
   broken?: boolean;
   /** Sending is paused (a turn under way, a limit, a check): every button that sends is off. */
   locked?: boolean;
-  /** Say once that each button sends a message. */
+  /** Say once that the buttons that make the AI write cost a message, and copy and Telegram do not. */
   costNote?: boolean;
   onRetry?: () => void;
   /** `text` goes into the visitor's bubble, `request` to the model, framed in `frame`. */
@@ -153,6 +157,15 @@ export function MessageActions({
   const [open, setOpen] = useState(false);
   const short =
     isLast && !open && typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches;
+  // «⋯ Yana» opens the row and is gone: focus moves to the first button it
+  // revealed, so a screen reader says where it is, and a second tap on the
+  // same spot within 350 ms sends nothing.
+  const firstRef = useRef<HTMLButtonElement>(null);
+  const openedAt = useRef(0);
+  useEffect(() => {
+    if (open) firstRef.current?.focus();
+  }, [open]);
+  const settled = () => Date.now() - openedAt.current > 350;
   // Plain text, so no ** or ### lands in Telegram or Instagram (M-08).
   const copy = async () => {
     if (await copyText(plainText(content))) {
@@ -172,10 +185,11 @@ export function MessageActions({
       /* a malformed answer: nothing to send */
     }
   };
-  const action = (kind: AnswerAction) => {
+  // Keyed, so React never turns one button into another when the row opens.
+  const action = (kind: AnswerAction, first?: boolean) => {
     const [text, request, own] = answerAsk(kind, content, locale, frame);
     return (
-      <button type="button" className="gpt-action" disabled={locked} onClick={() => onAsk?.(kind, text, request, own)}>
+      <button key={kind} ref={first ? firstRef : undefined} type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onAsk?.(kind, text, request, own)}>
         {text}
       </button>
     );
@@ -214,25 +228,31 @@ export function MessageActions({
           </svg>
           {s.share}
         </button>
-        {isLast && onAsk && (short ? (
-          <>
-            {broken && action("continue")}
-            <button type="button" className="gpt-action" aria-expanded={false} onClick={() => setOpen(true)}>
-              {s.more}
+        {isLast && onAsk && (short ? [
+          broken && action("continue"),
+          <button
+            key="more"
+            type="button"
+            className="gpt-action"
+            aria-expanded={false}
+            disabled={locked}
+            onClick={() => {
+              openedAt.current = Date.now();
+              setOpen(true);
+            }}
+          >
+            <span aria-hidden="true">⋯</span> {s.more}
+          </button>,
+        ] : [
+          action("shorter", true),
+          action(translationOf(content)),
+          action("continue"),
+          onRetry && (
+            <button key="regenerate" type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onRetry()}>
+              {s.regenerate}
             </button>
-          </>
-        ) : (
-          <>
-            {action("shorter")}
-            {action(translationOf(content))}
-            {action("continue")}
-            {onRetry && (
-              <button type="button" className="gpt-action" disabled={locked} onClick={onRetry}>
-                {s.regenerate}
-              </button>
-            )}
-          </>
-        ))}
+          ),
+        ])}
       </div>
       {copyStatus === "failed" && (
         <p role="status" className="gpt-partial">
@@ -244,7 +264,8 @@ export function MessageActions({
           {s.shareCut}
         </p>
       )}
-      {isLast && costNote && <p className="mt-2 text-[12px] text-white/35">{s.buttonCost}</p>}
+      {/* Only while a button that costs a message shows: on a phone, once the row is open or «Continue» is in it. */}
+      {isLast && costNote && onAsk && (!short || broken) && <p className="mt-2 text-[12px] text-white/35">{s.buttonCost}</p>}
     </>
   );
 }

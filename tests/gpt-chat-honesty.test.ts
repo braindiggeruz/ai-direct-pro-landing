@@ -471,22 +471,53 @@ test('on a phone the row is copy, continue on a cut answer and «⋯»; with a m
   const g = globalThis as Record<string, unknown>;
   const s = answerStrings('uz');
   t.after(() => { delete g.window; });
-  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, ''));
+  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace('<span aria-hidden="true">⋯</span> ', ''));
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   const phone = actions();
   assert.deepEqual(labels(phone), [s.copy, s.share, s.more]);
   assert.match(phone, /aria-expanded="false"/);
+  // A screen reader says «Yana», not «midline horizontal ellipsis».
+  assert.ok(phone.includes(`<span aria-hidden="true">⋯</span> ${s.more}</button>`));
+  assert.deepEqual([answerStrings('uz').more, answerStrings('ru').more], ['Yana', 'Ещё']);
   assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, s.more]);
+  // Locked (a limit, a turn): «Yana» would open a row of disabled buttons.
+  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action" aria-expanded="false" disabled="">/);
   g.window = { matchMedia: () => ({ matches: false }) };
   assert.equal((actions().match(/<button/g) ?? []).length, 6);
+  // Opening the row: every button keyed (no node turns into another), focus on
+  // the first one revealed, and a second tap within 350 ms sends nothing.
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /<button key=\{kind\} ref=\{first \? firstRef : undefined\}/);
+  assert.match(source, /key="more"/);
+  assert.match(source, /<button key="regenerate"/);
+  assert.match(source, /useEffect\(\(\) => \{\s*if \(open\) firstRef\.current\?\.focus\(\);\s*\}, \[open\]\);/);
+  assert.match(source, /action\("shorter", true\)/);
+  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(true\);/);
+  assert.match(source, /const settled = \(\) => Date\.now\(\) - openedAt\.current > 350;/);
+  assert.match(source, /onClick=\{\(\) => settled\(\) && onAsk\?\.\(kind, text, request, own\)\}/);
+  assert.match(source, /onClick=\{\(\) => settled\(\) && onRetry\(\)\}/);
+  assert.doesNotMatch(source, /<>\s*\{broken && action/, 'no unkeyed fragments in the row');
 });
 
-test('while few messages are left, once a session: every button costs a message', () => {
+test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {
   const s = answerStrings('ru');
   assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="mt-2 text-[12px] text-white/35">${s.buttonCost}</p>`));
   assert.ok(!actions({ locale: 'ru' }).includes(s.buttonCost));
-  assert.equal(s.buttonCost, 'Каждая кнопка — 1 сообщение.');
-  assert.equal(answerStrings('uz').buttonCost, 'Har bir tugma — 1 ta xabar.');
+  assert.equal(s.buttonCost, 'Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.');
+  assert.equal(answerStrings('uz').buttonCost, 'AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.');
+  for (const locale of LOCALES) {
+    const a = answerStrings(locale);
+    assert.doesNotMatch(a.buttonCost, /Har bir tugma|Каждая кнопка/);
+    // It names the free ones by the names they have on the row.
+    assert.ok(a.buttonCost.includes(`«${a.copy}»`) && a.buttonCost.includes(`«${a.share}»`), locale);
+  }
+  // On a phone the short row has no button that costs: the note waits for «Yana» (or comes with «Continue»).
+  const g = globalThis as Record<string, unknown>;
+  t.after(() => { delete g.window; });
+  g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
+  assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
+  assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  delete g.window;
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourShown !== null && hourShown <= 2\)\);/);
   assert.match(consoleSource, /if \(fewLeft && onceThisSession\("gptchat_cost_note"\)\) setCostNote\(true\);/);
