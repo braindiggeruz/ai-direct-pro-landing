@@ -45,8 +45,15 @@ export type StudioTier = "free" | "paid";
 
 /** One call; T0.1's slowest was 22.4 s. */
 export const CALL_TIMEOUT_MS = 45_000;
-/** An answer longer than this is not one of ours (max_tokens 1950 ≈ 8 KB). */
+/** An answer (its content) longer than this is not one of ours (max_tokens 1950 ≈ 8 KB). */
 export const MAX_ANSWER_BYTES = 64 * 1024;
+/**
+ * A stream longer than this is not one of ours either. The wire is far
+ * larger than the answer: Z.ai sends one SSE event of ≈150–250 bytes (id,
+ * model, choices …) per token, reasoning included, so a 1 100-token deck is
+ * ≈200 KB on the wire for ≈5 KB of content.
+ */
+export const MAX_STREAM_BYTES = 2 * 1024 * 1024;
 export const ZAI_PREFIX = "zai/";
 export const OPENROUTER_PREFIX = "openrouter:";
 const SITE = "https://gptbot.uz";
@@ -228,7 +235,10 @@ async function readZaiStream(res: Response): Promise<RawCall> {
     }
     if (data.error) return failed(outcomeOf(classifyZaiFailure(0, data.error.code)));
     const choice = data.choices?.[0];
-    if (typeof choice?.delta?.content === "string") content += choice.delta.content;
+    if (typeof choice?.delta?.content === "string") {
+      content += choice.delta.content;
+      if (content.length > MAX_ANSWER_BYTES) return failed("provider_error");
+    }
     if (typeof choice?.finish_reason === "string" && choice.finish_reason) finishReason = choice.finish_reason;
     if (data.usage) usage = readUsage(data.usage);
     return null;
@@ -238,7 +248,7 @@ async function readZaiStream(res: Response): Promise<RawCall> {
       const part = await reader.read();
       if (part.done) break;
       bytes += part.value.byteLength;
-      if (bytes > MAX_ANSWER_BYTES) return failed("provider_error");
+      if (bytes > MAX_STREAM_BYTES) return failed("provider_error");
       buffer += decoder.decode(part.value, { stream: true });
       let newline: number;
       while ((newline = buffer.indexOf("\n")) >= 0) {

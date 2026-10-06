@@ -6,7 +6,7 @@
 // Run: node --import tsx --test tests/studio-llm.test.ts
 import { test, type TestContext } from "node:test";
 import assert from "node:assert/strict";
-import { CALL_TIMEOUT_MS, runTextStep, textChain, type StepOptions } from "../functions/lib/studio/llm";
+import { CALL_TIMEOUT_MS, MAX_ANSWER_BYTES, MAX_STREAM_BYTES, runTextStep, textChain, type StepOptions } from "../functions/lib/studio/llm";
 import { checkOutline, type Outline } from "../functions/lib/studio/deck-schema";
 import { parseStudioConfig } from "../functions/lib/studio/config";
 import { STEP_LIMITS } from "../functions/lib/studio/plans";
@@ -299,6 +299,41 @@ test("an answer larger than any of ours is a provider error, not read to the end
   const result = await step(fn);
   assert.ok(!result.ok && result.kind === "fault" && result.code === "model_failed");
   assert.deepEqual(result.calls.map((call) => call.outcome), ["provider_error", "provider_error"]);
+});
+
+/** A stream shaped like Z.ai's: one SSE event per token with its id, time and model, reasoning first. */
+function tokenStream(content: string, reasoningTokens = 40, padding = 0): Response {
+  const meta = { id: "20261006130000a1b2c3d4e5f6a7b8c9d0e1f2", object: "chat.completion.chunk", created: 1_791_000_000, model: "glm-5.3-flash" };
+  const event = (delta: object, extra: object = {}) =>
+    `data: ${JSON.stringify({ ...meta, choices: [{ index: 0, delta, ...extra }], ...(padding ? { pad: "p".repeat(padding) } : {}) })}\n\n`;
+  const tokens = content.match(/[\s\S]{1,4}/g) ?? [];
+  const wire = [
+    ...Array.from({ length: reasoningTokens }, () => event({ role: "assistant", reasoning_content: "hm" })),
+    ...tokens.map((token) => event({ role: "assistant", content: token })),
+    event({}, { finish_reason: "stop" }),
+    `data: ${JSON.stringify({ ...meta, choices: [], usage: { prompt_tokens: 950, completion_tokens: tokens.length + reasoningTokens } })}\n\n`,
+    "data: [DONE]\n\n",
+  ].join("");
+  return new Response(wire, { status: 200, headers: { "content-type": "text/event-stream" } });
+}
+
+test("a real-sized stream (one event per token, far more wire than answer) is read to its answer; a runaway one is cut", async () => {
+  // The T2.1 local run found it: a 6-slide deck is ≈5 KB of content but well over 64 KB on the wire.
+  const answer = JSON.stringify(OUTLINE);
+  const real = tokenStream(answer.repeat(1), 200, 120);
+  const wire = (await real.clone().text()).length;
+  assert.ok(wire > MAX_ANSWER_BYTES, `wire ${wire}`);
+  const { fn } = mockFetch([real]);
+  const result = await step(fn);
+  assert.ok(result.ok, JSON.stringify(!result.ok && result.calls));
+  assert.equal(result.calls[0].outcome, "ok");
+  // Past MAX_STREAM_BYTES the stream is cut, whatever its content.
+  const runaway = tokenStream(answer, 4000, 600);
+  assert.ok((await runaway.clone().text()).length > MAX_STREAM_BYTES);
+  const { fn: runawayFetch } = mockFetch([runaway, tokenStream(answer, 4000, 600)]);
+  const cut = await step(runawayFetch);
+  assert.ok(!cut.ok);
+  assert.deepEqual(cut.calls.map((call) => call.outcome), ["provider_error", "provider_error"]);
 });
 
 test("logs carry {event, code} only: never the topic, the answer or a key", async (t) => {

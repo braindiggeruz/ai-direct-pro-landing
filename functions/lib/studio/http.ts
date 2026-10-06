@@ -48,11 +48,15 @@ export const STUDIO_ERRORS = {
   invalid_output: 422,
   unreadable: 422,
   photo_refused: 422,
+  /** The finished picture failed its check (a person, text, a flag …): not handed out; the unit is not touched. */
+  image_refused: 422,
   free_limit: 429,
   ip_ceiling: 429,
   try_later: 429,
   rate_limited: 429,
   model_failed: 502,
+  /** Flux or the picture check failed, or the day's budget refused the picture: the slide goes without one. */
+  image_failed: 502,
   studio_busy: 503,
   model_unavailable: 503,
   studio_not_configured: 503,
