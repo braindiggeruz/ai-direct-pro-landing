@@ -341,16 +341,32 @@ test('titles and descriptions are unique inside a cluster', () => {
 });
 
 test('cluster articles quote no invented price', () => {
-  // Any bare currency figure in an article we authored would be a made-up price:
-  // the whole point of the pricing article is that the number depends on scope.
-  const money = /\d[\d\s.,]*\s*(so‘m|som|сум|\$|usd|доллар)/i;
+  // A currency figure in an Uzbek article is a made-up price unless it repeats,
+  // word for word, a figure from the price table («Narx…» header) of a published
+  // Uzbek service page: the SMM price article (a spoke since the 2026-10-06
+  // homepage revision) quotes the package rows; every other spoke quotes none.
+  const money = /\d[\d\s.,]*\s*(so‘m|som|сум|\$|usd|доллар)/gi;
+  const printed = new Set<string>();
+  for (const page of pages) {
+    if (page.status !== 'published' || page.locale !== 'uz' || page.pageType !== 'money') continue;
+    for (const block of page.bodyBlocks || []) {
+      if (block.type !== 'table' || !block.headers?.some((header) => /^Narx/.test(header))) continue;
+      for (const cell of (block.rows || []).flat()) for (const figure of cell.matchAll(/\d{1,3}(?: \d{3})+/g)) printed.add(figure[0]);
+    }
+  }
+  assert.ok(printed.has('2 490 000') && printed.has('1 990 000'), 'the Uzbek price tables were not found');
   for (const cluster of manifest.clusters) {
     for (const spoke of cluster.spokes) {
       if (!spoke.url.startsWith('/uz/blog/')) continue; // only the articles authored in this sprint
       const doc = byUrl.get(spoke.url) as BlogArticle | undefined;
       if (!doc) continue;
-      const text = JSON.stringify(doc);
-      assert.doesNotMatch(text, money, `${spoke.url} contains what looks like a concrete price`);
+      for (const match of JSON.stringify(doc).matchAll(money)) {
+        const figure = match[0].match(/\d{1,3}(?: \d{3})+(?=\D*$)/)?.[0];
+        assert.ok(
+          figure && printed.has(figure),
+          `${spoke.url} quotes «${match[0].trim()}», which no published Uzbek price table prints`,
+        );
+      }
     }
   }
 });
