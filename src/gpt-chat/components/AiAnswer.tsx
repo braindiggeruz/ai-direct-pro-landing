@@ -14,6 +14,7 @@ export function AnswerBody({ content }: { content: string }) {
   return (
     <div
       className="gpt-answer-body"
+      dir="auto"
       dangerouslySetInnerHTML={{
         __html: renderMarkdown(content),
       }}

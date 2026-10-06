@@ -250,14 +250,14 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
       })))));
   // Before the part: the text as written, the brand above it, no action row yet.
   const before = list('uz');
-  assert.match(before, /<div class="gpt-answer-body whitespace-pre-wrap">\*\*Javob\*\*\n- bir<\/div>/);
+  assert.match(before, /<div class="gpt-answer-body whitespace-pre-wrap" dir="auto">\*\*Javob\*\*\n- bir<\/div>/);
   assert.match(before, /class="gpt-answer-head">.*GPTBot\.uz<\/div>/);
   assert.ok(!before.includes('gpt-action-row'));
   await answerPart.load();
   for (const locale of LOCALES) {
     const t = strings(locale);
     const html = list(locale);
-    assert.ok(html.includes('<div class="gpt-answer-body"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
+    assert.ok(html.includes('<div class="gpt-answer-body" dir="auto"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
     assert.ok(html.includes('<li>bir</li>'), locale);
     assert.match(html, /class="gpt-action-row"/);
     assert.ok(html.includes(t.copy) && html.includes(t.regenerate), locale);

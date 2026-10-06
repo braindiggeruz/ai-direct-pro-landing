@@ -10,6 +10,7 @@ import { buildMessages } from '../functions/lib/gpt-chat/prompt';
 import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
+import { latexLite } from '../src/gpt-chat/latex-lite';
 import { applyRole, getRoles, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
@@ -188,6 +189,55 @@ test('renderMarkdown: escapes HTML (no XSS), keeps bold + lists', () => {
   assert.ok(html.includes('&lt;script&gt;'));
   assert.ok(html.includes('<strong>bold</strong>'));
   assert.ok(html.includes('<li>one</li>'));
+});
+
+// Math is the chat's first topic: steps must count 1, 2, 3 and formulas read
+// as text (plan MD-01..03, NOW-06). Every class is one the site's CSS has.
+test('renderMarkdown: numbering survives text between items, lists nest, rules, quotes and tables render', () => {
+  const split = renderMarkdown('1. A\n\nТекст\n\n2. B');
+  assert.ok(split.includes('<ol class="list-decimal"><li>A</li></ol>'));
+  assert.ok(split.includes('<ol class="list-decimal" start="2"><li>B</li></ol>'), split);
+  // GLM's loose list (a blank line between steps) is one list.
+  assert.equal(renderMarkdown('1. A\n\n2. B\n\n3. C'), '<ol class="list-decimal"><li>A</li><li>B</li><li>C</li></ol>');
+  const nested = renderMarkdown('1. **Qadam**\n   Izoh satri\n2. Ikkinchi\n   - ichki a\n   - ichki b\n3. Uchinchi');
+  assert.equal(nested, '<ol class="list-decimal"><li><strong>Qadam</strong><br>Izoh satri</li><li>Ikkinchi<ul class="list-disc"><li>ichki a</li><li>ichki b</li></ul></li><li>Uchinchi</li></ol>');
+  assert.equal(renderMarkdown('---'), '<hr class="my-3 border-white/10">');
+  assert.equal(renderMarkdown('* * *'), '<hr class="my-3 border-white/10">');
+  assert.equal(renderMarkdown('> q\n> w'), '<blockquote class="border-l-2 border-brand-cyan/25 pl-3 text-white/70">q<br>w</blockquote>');
+  assert.match(renderMarkdown('|a|b|\n|--|--|\n|1|2|'), /<table><thead><tr><th scope="col">a<\/th><th scope="col">b<\/th><\/tr><\/thead><tbody><tr><td>1<\/td><td>2<\/td><\/tr><\/tbody><\/table>/);
+  assert.equal(renderMarkdown('a\nb\n\nc'), '<p class="mb-2 last:mb-0">a<br>b</p>\n<p class="mb-2 last:mb-0">c</p>');
+  assert.equal(renderMarkdown('__b__ ~~d~~ *e*'), '<p class="mb-2 last:mb-0"><strong>b</strong> <del>d</del> <em>e</em></p>');
+  assert.doesNotMatch(renderMarkdown('2 * 3 * 4 = 24'), /<em>/);
+  // A link stays text with its address (owner decision 4): nothing clickable from a model.
+  assert.equal(renderMarkdown('[sayt](https://gptbot.uz)'), '<p class="mb-2 last:mb-0">sayt (https://gptbot.uz)</p>');
+  // A code block inside a list item stays a code block.
+  assert.match(renderMarkdown('1. Step\n   ```\n   code\n   ```\n2. Next'), /<pre class="gpt-code" tabindex="0"><code> {3}code<\/code><\/pre>\n<ol class="list-decimal" start="2">/);
+  // The only value in an attribute is a list's first number.
+  const hostile = renderMarkdown('7. <img src=x onerror=alert(1)>\n> <script>x</script>\n[a](javascript:alert(1))');
+  assert.ok(!hostile.includes('<img') && !hostile.includes('<script') && !hostile.includes('href'));
+  assert.ok(hostile.includes('start="7"'));
+  // Every class the renderer can write is one the site's stylesheet already has.
+  const known = new Set(['px-1', 'py-0.5', 'rounded', 'bg-white/10', 'text-brand-cyan', 'gpt-code', 'gpt-table-scroll', 'list-decimal', 'list-disc',
+    'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70']);
+  const everything = renderMarkdown('# H\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq');
+  for (const [, list] of everything.matchAll(/class="([^"]*)"/g)) for (const name of list.split(' ')) assert.ok(known.has(name), name);
+});
+
+test('latexLite: formulas read as plain text; code and prices stay as written', () => {
+  assert.equal(latexLite('\\(\\frac{a}{b}\\)'), 'a/b');
+  assert.equal(latexLite('x^2 + \\sqrt{9}'), 'x² + √9');
+  assert.equal(latexLite('$5'), '$5');
+  assert.equal(latexLite('$5 va $10'), '$5 va $10');
+  assert.equal(latexLite('$x_1 = \\frac{1}{2}$'), 'x_1 = 1/2');
+  assert.equal(latexLite('$$x = \\frac{-b \\pm \\sqrt{D}}{2a}$$'), 'x = (-b ± √D)/2a');
+  assert.equal(latexLite('10^23 and x^{n+1} and 90^\\circ'), '10^23 and x^(n+1) and 90°');
+  assert.equal(latexLite('a \\cdot b \\times c \\le d \\neq e \\approx \\pi \\left( x \\right)'), 'a · b × c ≤ d ≠ e ≈ π ( x )');
+  assert.equal(latexLite('`x^2` and x^3'), '`x^2` and x³');
+  // In an answer: no raw \(, \frac or $$ is left outside a code block.
+  const html = renderMarkdown('Yechim:\n\n$$x = \\frac{-b \\pm \\sqrt{D}}{2a}$$\n\n1. \\(D = b^2 - 4ac = 49\\)\n2. \\(x_1 = \\frac{-5 + 7}{4} = \\frac{1}{2}\\)\n```\n\\frac{a}{b}\n```');
+  assert.ok(html.includes('<li>D = b² - 4ac = 49</li><li>x_1 = (-5 + 7)/4 = 1/2</li>'), html);
+  assert.ok(html.includes('<code>\\frac{a}{b}</code>'), 'code keeps its LaTeX');
+  assert.doesNotMatch(html.replace(/<pre[\s\S]*?<\/pre>/g, ''), /\\\(|\\frac|\$\$/);
 });
 
 test('AI cabinet roles are localized and affect the request without user data', () => {

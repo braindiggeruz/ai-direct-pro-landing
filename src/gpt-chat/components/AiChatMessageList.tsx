@@ -24,7 +24,7 @@ function modelLabel(model: string): string {
  * as a question is being written, so this is rarely seen.
  */
 function PlainAnswer({ content }: { content: string }) {
-  return <div className="gpt-answer-body whitespace-pre-wrap">{content}</div>;
+  return <div className="gpt-answer-body whitespace-pre-wrap" dir="auto">{content}</div>;
 }
 
 export function AiChatMessageList({
@@ -189,7 +189,8 @@ export function AiChatMessageList({
                 )}
               </>
             ) : (
-              <span className="whitespace-pre-wrap">{m.content}</span>
+              // dir="auto": an Arabic or mixed question aligns by its own first letters.
+              <span className="whitespace-pre-wrap" dir="auto">{m.content}</span>
             )}
           </BubbleContent>
         </Bubble>
