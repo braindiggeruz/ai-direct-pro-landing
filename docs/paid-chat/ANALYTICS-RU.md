@@ -9,8 +9,8 @@
 | Действие | Событие | Параметры |
 |---|---|---|
 | Просмотр страницы | `page_view` (загрузчик gtag в `<head>`) | — |
-| Чат открылся (при монтировании, раз за просмотр) | `chat_opened` | `locale`, `entry` |
-| Сообщение | `message_sent` | `source` (composer / template / answer_action / retry), `message_number`, `tool`, `role_id`, `template_id`, `anonymous`, `entry` |
+| Чат открылся (при монтировании, раз за просмотр) | `chat_opened` | `locale`, `entry`, `in_app` |
+| Сообщение | `message_sent` | `source` (composer / template / answer_action / retry), `message_number`, `tool`, `role_id`, `template_id`, `anonymous`, `entry`, `in_app` |
 | Ответ | ровно одно из `ai_response_success` (`finish` stop / length), `ai_response_error` (`code`), `generation_stopped` | `model`, `message_number` |
 | Отказ сервера (429) | `limit_hit` | `reason`, `locale` |
 | Окно пакета открыто | `pack_viewed` | `from`: header / limit_card / low_limit / after_10 / account_check / login_failed / login_resume / pay_return |
@@ -52,7 +52,7 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 ## Что сделать владельцу (после выката R3)
 
 1. GTM `GTM-NLR4WFX8`: убрать второй тег GA4, иначе `page_view` считается дважды.
-2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`, а после R6 и `topic`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
+2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`, а после R6 и `topic`. После выпуска chat-UX NOW ещё `in_app`: `telegram` (браузер Telegram на Android: в user agent есть `Telegram-Android` или в окне есть `TelegramWebviewProxy`), `instagram`, `other`. Telegram на iOS по user agent не отличить от Safari, он попадает в `other`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
 3. Метрика, счётчик 111312750: создать цели «JavaScript-событие» `chat_opened` и `chat_limit_hit` (остальные четыре уже есть).
 
 ## Проверка после деплоя

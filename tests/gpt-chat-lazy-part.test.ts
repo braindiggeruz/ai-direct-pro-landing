@@ -12,7 +12,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { prerender } from 'react-dom/static';
 import { Dialog } from '../src/components/ui/dialog';
 
-import { LazyPart, PartFailed, PartLoading, accountPart, leadPart, part, toolsPart } from '../src/gpt-chat/lazy-part';
+import { LazyPart, PartFailed, PartLoading, accountPart, leadPart, part, toolsPart, turnstilePart } from '../src/gpt-chat/lazy-part';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
@@ -237,4 +237,25 @@ test('chat-tools: each tool behind the menu, as before the split', async () => {
     }
     assert.match(render('business'), locale === 'uz' ? /href="\/uz\/biznes-uchun-ai-bot\/"/ : /href="\/ru\/gpt-dlya-biznesa\/"/);
   }
+});
+
+test('chat-turnstile: the security check, loaded only where the server asks for it', async () => {
+  const { TurnstileChallenge } = await turnstilePart.load();
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const html = renderToStaticMarkup(React.createElement(TurnstileChallenge, {
+      siteKey: 'site-key', loadingText: t.turnstileLoading, promptText: t.turnstilePrompt,
+      verifiedText: t.turnstileVerified, errorText: t.turnstileError, onTokenChange: () => {},
+    }));
+    assert.ok(html.includes('data-testid="gpt-chat-turnstile"') && html.includes(t.turnstileLoading), locale);
+  }
+  const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
+  // Rendered only when the server requires the check and gave a site key; the
+  // console keeps only the handle's type, which the build erases.
+  assert.match(chat, /const turnstileKey = turnstileConfig\?\.required \? turnstileConfig\.siteKey : null;/);
+  assert.match(chat, /\{turnstileKey && \(\s*(?:\/\/.*\s*)*<LazyPart\s+part=\{turnstilePart\}/);
+  assert.match(chat, /^import type \{ TurnstileChallengeHandle \} from "\.\/TurnstileChallenge";$/m);
+  // Cloudflare's script is fetched beside the part, and shared/turnstile stays
+  // in the start: moving it would rename the chunk the landing page shares.
+  assert.match(chat, /if \(next\.required && next\.siteKey\) void loadTurnstile\(\)\.catch\(\(\) => undefined\);/);
 });

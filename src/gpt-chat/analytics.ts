@@ -8,9 +8,28 @@ export const GA4_PARAMS: ReadonlySet<string> = new Set([
   'route', 'lang', 'locale', 'tool', 'template_id', 'role_id', 'status', 'source',
   'from', 'mode', 'channel', 'preset_id', 'reason', 'code', 'model', 'surface',
   'message_number', 'anonymous', 'chip_id', 'method', 'intent',
-  'with_session', 'provider', 'finish', 'resume', 'entry', 'topic',
+  'with_session', 'provider', 'finish', 'resume', 'entry', 'topic', 'in_app',
 ]);
 const onceKeys = new Set<string>();
+
+/**
+ * The in-app browser the chat runs in, for `in_app` on chat_opened and
+ * message_sent: a fixed word, never the user agent. Telegram on Android names
+ * itself in the user agent or exposes TelegramWebviewProxy; Telegram on iOS
+ * looks like Safari to both, so it counts as 'other'.
+ */
+export function inAppOf(ua: string, w: object): 'telegram' | 'instagram' | 'other' {
+  if (ua.includes('Telegram-Android') || 'TelegramWebviewProxy' in w) return 'telegram';
+  return ua.includes('Instagram') ? 'instagram' : 'other';
+}
+
+export function inApp(): string {
+  try {
+    return inAppOf(navigator.userAgent, window);
+  } catch {
+    return 'other';
+  }
+}
 
 function safePayload(data: Payload): Payload {
   const route = typeof location !== 'undefined' ? location.pathname : undefined;

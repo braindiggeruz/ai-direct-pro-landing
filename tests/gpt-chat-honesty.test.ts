@@ -13,7 +13,7 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 
-import { EV, GA4_PARAMS, track } from '../src/gpt-chat/analytics';
+import { EV, GA4_PARAMS, inAppOf, track } from '../src/gpt-chat/analytics';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
@@ -312,7 +312,7 @@ test('every track call names a catalogued event and sends only parameters GA4 ke
   assert.match(cta, /track\(EV\.telegramCtaClicked, \{ from: stage, channel: link\.channel, with_session: link\.withSession \}\)/);
   // chat_opened fires on mount, whatever the account view does (F18).
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /useEffect\(\(\) => \{\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta \}\);/);
+  assert.match(consoleSource, /useEffect\(\(\) => \{\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta, in_app: inApp\(\) \}\);/);
   assert.match(consoleSource, /const entryMeta = entry \? \{ entry: entry\.id \} : \{\};/);
 });
 
@@ -330,4 +330,19 @@ test('track() keeps catalogued snake_case parameters and drops anything else', (
     Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'route' && key !== 'lang')),
     { message_number: 2, source: 'composer', anonymous: true },
   );
+});
+
+test('in_app names the in-app browser with a fixed word, never the user agent', () => {
+  const telegram = 'Mozilla/5.0 (Linux; Android 12; SM-A125F Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/129.0.6668.100 Mobile Safari/537.36 Telegram-Android/11.1.3 (Samsung SM-A125F; Android 12; SDK 31; LOW)';
+  const instagram = 'Mozilla/5.0 (Linux; Android 13; SM-A145F Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/128.0.6613.146 Mobile Safari/537.36 Instagram 349.0.0.39.106 Android';
+  const chrome = 'Mozilla/5.0 (Linux; Android 12; SM-A125F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36';
+  assert.equal(inAppOf(telegram, {}), 'telegram');
+  assert.equal(inAppOf(instagram, {}), 'instagram');
+  assert.equal(inAppOf(chrome, {}), 'other');
+  // Telegram's WebView without its name in the user agent still exposes its proxy.
+  assert.equal(inAppOf(chrome, { TelegramWebviewProxy: {} }), 'telegram');
+  assert.ok(GA4_PARAMS.has('in_app'));
+  // chat_opened and message_sent carry it; nothing else does.
+  const calls = trackCalls().filter((call) => call.keys.includes('in_app')).map((call) => call.event).sort();
+  assert.deepEqual(calls, ['EV.chatOpened', 'EV.messageSent']);
 });

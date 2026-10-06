@@ -24,7 +24,7 @@ import {
   loadBusinessLineShown,
   saveBusinessLineShown,
 } from "../storage";
-import { track, trackOnce, EV } from "../analytics";
+import { inApp, track, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
 import type { AnswerAction } from "./AiChatMessageList";
@@ -44,16 +44,14 @@ import {
   saveLimit,
 } from "../limit-state";
 import { AiSidebar } from "./AiSidebar";
-import {
-  TurnstileChallenge,
-  type TurnstileChallengeHandle,
-} from "./TurnstileChallenge";
+import type { TurnstileChallengeHandle } from "./TurnstileChallenge";
+import { loadTurnstile } from "../../shared/turnstile";
 import { applyRole, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
-import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 
@@ -217,7 +215,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // answers has still opened the chat (F18). Whether they are signed in is
   // not known yet; message_sent carries that.
   useEffect(() => {
-    trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta });
+    trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta, in_app: inApp() });
     reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
   // Entry is fixed for this navigation; no prompt text enters analytics.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,6 +228,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         if (cancelled) return;
         setTurnstileConfig(next);
         if (next.required && !next.siteKey) setTurnstileConfigError(true);
+        // Cloudflare's script loads while the lazy part chat-turnstile does.
+        if (next.required && next.siteKey) void loadTurnstile().catch(() => undefined);
       })
       .catch(() => {
         if (!cancelled) setTurnstileConfigError(true);
@@ -257,6 +257,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // remounts it, so the resting screen opens at the top again.
   const [rest, setRest] = useState({ empty, key: 0 });
   if (rest.empty !== empty) setRest({ empty, key: rest.key + (empty ? 1 : 0) });
+  const turnstileKey = turnstileConfig?.required ? turnstileConfig.siteKey : null;
   const turnstileReady =
     turnstileConfig?.required === false || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
@@ -391,6 +392,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       template_id: meta.templateId,
       locale: config.locale,
       anonymous: !signedIn,
+      in_app: inApp(),
     });
 
     const requestMessage = applyRole(trimmed, role, config.locale).slice(
@@ -1188,16 +1190,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 <span>{t.hourWarning(hourLeft)}</span>
               </div>
             )}
-            {turnstileConfig?.required && turnstileConfig.siteKey && (
-              <TurnstileChallenge
-                ref={turnstileRef}
-                siteKey={turnstileConfig.siteKey}
-                loadingText={t.turnstileLoading}
-                promptText={t.turnstilePrompt}
-                verifiedText={t.turnstileVerified}
-                errorText={t.turnstileError}
-                onTokenChange={onTurnstileTokenChange}
-              />
+            {turnstileKey && (
+              // The lazy part chat-turnstile: only a page whose server asks
+              // for the check downloads it. Sending waits for its token.
+              <LazyPart
+                part={turnstilePart}
+                fallback={<p className="mb-2 text-center text-xs text-white/45" role="status">{t.turnstileLoading}</p>}
+                failed={<p className="mb-2 text-center text-xs text-red-300" role="status">{t.turnstileError}</p>}
+              >
+                {({ TurnstileChallenge }) => (
+                  <TurnstileChallenge
+                    ref={turnstileRef}
+                    siteKey={turnstileKey}
+                    loadingText={t.turnstileLoading}
+                    promptText={t.turnstilePrompt}
+                    verifiedText={t.turnstileVerified}
+                    errorText={t.turnstileError}
+                    onTokenChange={onTurnstileTokenChange}
+                  />
+                )}
+              </LazyPart>
             )}
             {(!turnstileConfig || turnstileConfigError) && (
               <p
