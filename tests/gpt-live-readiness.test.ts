@@ -1,7 +1,8 @@
 // Live readiness of the AI pack's payments (plan WP-13): liveReadiness()
 // names every missing setting and only names it, per-provider modes and the
-// provider allowlist, the committed configuration (Click live, S2), VAT included in
-// the price, the product name and the guest JSON path.
+// provider allowlist, the committed configuration (Click live, S2; Payme in
+// test, rehearsal only), VAT included in the price, the product name and the
+// guest JSON path.
 // Run: node --import tsx --test tests/gpt-live-readiness.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -43,6 +44,7 @@ import { onRequestPost as oidcStart } from "../functions/api/gpt/auth/start";
 import { onRequestPost as uiEvent } from "../functions/api/gpt/event";
 import { PACK_WINDOW_EVENTS, UI_EVENTS } from "../functions/lib/gpt-chat/ui-event-store";
 import { SqliteD1 } from "./helpers/sqlite-d1";
+import { mintRehearsal, REHEARSAL_COOKIE } from "../functions/lib/gpt-chat/rehearsal";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const hex = (bytes: number) => randomBytes(bytes).toString("hex");
@@ -278,27 +280,32 @@ test("modes per provider over the global one; Payme runs only when listed and se
   assert.deepEqual(liveReadiness({ ...paymeLive, GPT_PAYME_KEY: `${marked()}\n` } as BillingEnv, "payme"), []);
 });
 
-test("the committed configuration: Click live, Uzum and Payme off, credentials are never public config", async () => {
+test("the committed configuration: Click live, Payme in test (rehearsal only), Uzum off, credentials are never public config", async () => {
   // Runbook docs/paid-chat/ONBOARDING-KEYS-RU.md, S2 (owner's order of 2026-10-05):
-  // Click sells live, Uzum and Payme are off. The stop switches (both places
-  // and a deploy) are pinned by the next test: GPT_BILLING_LIVE_READY = "false"
-  // stops new sales and still settles open invoices; GPT_BILLING_MODE_CLICK = ""
-  // closes the callback too.
+  // Click sells live, Uzum is off. Payme is in test (owner's order of
+  // 2026-10-06, docs/paid-chat/PAYME-RU.md): its callback answers Payme's
+  // sandbox and a rehearsal session is offered Payme; nobody else sees it.
+  // The stop switches (both places and a deploy) are pinned by the next test:
+  // GPT_BILLING_LIVE_READY = "false" stops new sales and still settles open
+  // invoices; GPT_BILLING_MODE_CLICK = "" closes the callback too.
   const source = fs.readFileSync(path.join(ROOT, "wrangler.toml"), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
-  assert.equal(packed.GPT_PAYMENT_PROVIDERS, "click,uzum");
+  assert.equal(packed.GPT_PAYMENT_PROVIDERS, "click,uzum,payme");
   assert.equal(packed.GPT_BILLING_MODE, "");
   assert.equal(packed.GPT_BILLING_MODE_CLICK, "live");
   assert.equal(packed.GPT_BILLING_MODE_UZUM, "");
+  assert.equal(packed.GPT_BILLING_MODE_PAYME, "test");
   assert.equal(packed.GPT_BILLING_LIVE_READY, "true");
   assert.equal(packed.UZUM_API, "");
   assert.equal(billingActive(env), true);
   assert.equal(providerMode(env, "click"), "live");
-  for (const provider of ["uzum", "payme"] as const) {
-    assert.equal(providerMode(env, provider), null);
-    assert.equal(providerReady(env, provider), false);
-  }
+  assert.equal(providerMode(env, "uzum"), null);
+  assert.equal(providerMode(env, "payme"), "test");
+  // Without the Pages secrets neither of the other two is ready.
+  for (const provider of ["uzum", "payme"] as const) assert.equal(providerReady(env, provider), false);
+  // Payme never sells live from this config: its own switch is "test".
+  assert.equal(liveReadiness(env, "payme")[0], "GPT_BILLING_MODE_PAYME");
   // The public config settles everything it can: with D1 bound, Click live lacks
   // only what the Pages secrets hold, and without them it fails closed.
   const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };
@@ -316,7 +323,7 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   // The owner's fiscal decision of 2026-10-01: complete, VAT 12 % included.
   assert.deepEqual(fiscalIssues(env, { tin: true }), []);
   assert.deepEqual(fiscalParams(env), { ikpu: "10305008002000000", packageCode: "1514296", vatPercent: 12 });
-  for (const secret of ["GPT_CLICK_CREDENTIALS_JSON", "UZUM_CREDENTIALS_JSON", "GPT_IDENTITY_SECRET", "GPT_HASH_SALT", "GPT_BILLING_MAINTENANCE_SECRET", "GPT_CLICK_SECRET", "GPT_PAYME_KEY"]) {
+  for (const secret of ["GPT_CLICK_CREDENTIALS_JSON", "UZUM_CREDENTIALS_JSON", "GPT_IDENTITY_SECRET", "GPT_HASH_SALT", "GPT_BILLING_MAINTENANCE_SECRET", "GPT_CLICK_SECRET", "GPT_PAYME_KEY", "GPT_PAYME_TEST_KEY", "GPT_PAYME_MERCHANT_ID"]) {
     assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes(secret), secret);
     assert.doesNotMatch(source, new RegExp(`^\\s*${secret}\\s*=`, "mu"), secret);
   }
@@ -393,10 +400,11 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   assert.deepEqual(view.pack, pack);
   // With the Pages secrets production holds (random here; no Telegram OIDC
   // client): Click is live-ready and offered to everyone, signed in through
-  // the bot; Uzum and Payme stay off, and nothing is in test. The secrets are
-  // a superset of production's: Click's carries the dark rehearsal's test
-  // block, and Uzum's and Payme's credentials are present in every flow and
-  // mode, so "off" below rests on the modes and the allowlist alone.
+  // the bot; Uzum stays off; Payme is offered in a rehearsal session only.
+  // The secrets are a superset of production's: Click's carries the dark
+  // rehearsal's test block, and Uzum's and Payme's credentials are present in
+  // every flow and mode, so what is offered below rests on the modes and the
+  // allowlist alone.
   const production = {
     ...env,
     GPTBOT_DRAFTS_DB: bomb,
@@ -411,7 +419,7 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
     }),
     GPT_PAYME_KEY: marked(),
     GPT_PAYME_TEST_KEY: marked(),
-    GPT_PAYME_MERCHANT_ID: "1",
+    GPT_PAYME_MERCHANT_ID: hex(12),
     GPT_NOTIFY_BOT_TOKEN: marked(),
     GPT_NOTIFY_CHAT_ID: "123456789",
     GPT_HASH_SALT: marked(),
@@ -423,8 +431,10 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   assert.deepEqual(liveReadiness(production, "click"), []);
   assert.equal(providerReady(production, "click"), true);
   assert.deepEqual(offeredProviders(production, "live"), ["click"]);
-  assert.deepEqual(offeredProviders(production, "test"), []);
-  for (const provider of ["uzum", "payme"] as const) assert.equal(providerReady(production, provider), false);
+  assert.deepEqual(offeredProviders(production, "test"), ["payme"]);
+  assert.equal(providerReady(production, "uzum"), false);
+  assert.equal(providerReady(production, "payme"), true);
+  assert.equal(liveReadiness(production, "payme")[0], "GPT_BILLING_MODE_PAYME");
   const live = await guestView(production);
   assert.deepEqual(live.providers, ["click"]);
   assert.equal(live.mode, "live");
@@ -432,15 +442,35 @@ test("the committed configuration: Click live, Uzum and Payme off, credentials a
   assert.deepEqual(live.loginMethods, ["bot"]);
   assert.deepEqual(live.pack, pack);
   assert.doesNotMatch(JSON.stringify(live), new RegExp(MARK));
-  // Uzum and Payme remain missing routes before any D1 access, whichever Uzum
-  // flow a later intake might set; Click checks the request (a Click protocol
-  // error here) before it reads D1.
+  // Uzum remains a missing route before any D1 access, whichever Uzum flow a
+  // later intake might set; Click checks the request (a Click protocol error
+  // here) and Payme its Basic auth (-32504, HTTP 200) before either reads D1.
   for (const uzumApi of ["", "checkout", "merchant"])
-    for (const [handler, url] of offRoutes)
+    for (const [handler, url] of offRoutes.filter(([handler]) => handler !== payme))
       assert.equal((await post(handler, url, { ...production, UZUM_API: uzumApi } as BillingEnv)).status, 404, `${url} UZUM_API=${uzumApi}`);
   const clickAnswer = await post(click, "https://gptbot.uz/api/payments/click", production);
   assert.equal(clickAnswer.status, 200);
   assert.equal(((await clickAnswer.json()) as { error: number }).error, -8);
+  const paymeAnswer = await post(payme, "https://gptbot.uz/api/payments/payme", production);
+  assert.equal(paymeAnswer.status, 200);
+  assert.equal(((await paymeAnswer.json()) as { error: { code: number } }).error.code, -32504);
+  // A rehearsal session, and only it, is offered Payme in test.
+  const rehearsal = `${REHEARSAL_COOKIE}=${(await mintRehearsal(production))!.token}`;
+  const inRehearsal = (await (
+    await account({ request: new Request("https://gptbot.uz/api/gpt/account", { headers: { cookie: rehearsal } }), env: production, waitUntil() {} } as unknown as Parameters<typeof account>[0])
+  ).json()) as { providers: unknown[]; mode: unknown };
+  assert.deepEqual([inRehearsal.providers, inRehearsal.mode], [["payme"], "test"]);
+  // Outside it, Payme is a missing route at subscribe too, before D1.
+  const outside = await subscribe({
+    request: new Request("https://gptbot.uz/api/gpt/subscribe", {
+      method: "POST",
+      headers: { Origin: "https://gptbot.uz", "Content-Type": "application/json" },
+      body: JSON.stringify({ provider: "payme", requestId: randomUUID(), locale: "uz", acceptTerms: true, termsVersion: packed.GPT_BILLING_TERMS_VERSION }),
+    }),
+    env: production,
+    waitUntil() {},
+  } as unknown as Parameters<typeof subscribe>[0]);
+  assert.equal(outside.status, 404);
 });
 
 test("the stop switches (S2): LIVE_READY off stops new Click sales and settles an open invoice; mode off closes the callback", async () => {
