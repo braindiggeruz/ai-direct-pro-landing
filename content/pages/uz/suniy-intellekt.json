@@ -175,12 +175,12 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbek tilida bepul sinash uchun {chat} sahifasini oching. Tayyor so‘rov namunalari {prompts} materialida, o‘qish ssenariylari {students} maqolasida.",
+      "text": "O‘zbek tilida sinab ko‘rish uchun {chat} sahifasini oching — GPTBot.uz mustaqil servis, OpenAI emas. Tayyor so‘rov namunalari {prompts} materialida, o‘qish ssenariylari {students} maqolasida.",
       "links": [
         {
           "token": "chat",
           "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "o‘zbek tilidagi AI chat"
+          "anchor": "ChatGPT o‘rniga bepul o‘zbekcha AI chat"
         },
         {
           "token": "prompts",

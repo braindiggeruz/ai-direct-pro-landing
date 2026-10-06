@@ -225,12 +225,12 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini sinash uchun {chat} bor, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
       "links": [
         {
           "token": "chat",
           "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "o‘zbek tilidagi AI chat"
+          "anchor": "ChatGPT’ga bepul muqobil AI chat"
         },
         {
           "token": "prompts",

@@ -2,6 +2,28 @@
 
 Что и когда менялось на страницах gptbot.uz в октябре 2026. Правила те же, что в `CHANGE_LOG_2026-09.md`. Шаблонные правки (`scripts/`, `src/`, `index.html`, `content/global/site.json`) меняют сразу много страниц, поэтому у каждого коммита они перечислены словами. **[P]** — одна из десяти защищённых страниц (`PROTECTED_PATHS` в `scripts/seo-protection.ts`).
 
+## Выкладка №3 — честные анкоры «ChatGPT … muqobil / o‘rniga» на UZ-чат (N3), ветка `seo/compete-n3-20261010` (не выкачена)
+
+**Основание.** `gptbot.uz-audit/raw/seo-compete-2026-10-06/STRATEGY-BEAT-CHATGPT-UZ.md` §2.1 (N3, рычаг L1) и `03-OUR-GSC-AND-PAGES.md` §8: из 86 ссылок на `/uz/gpt-uzbek-tilida/` ни одна не несла слова «ChatGPT», а после R-S1 его нет и в title UZ-чата.
+
+**Когда выпускать.** После чтения N1 (10–11.10, `seo-compete-2026-10-06/02-raw/_scripts/n1_family_a_check.py`). Если владелец выберет вариант Б (внеочередная ревизия title UZ-чата, стратегия §3.1) — в тот же день и одной записью с ней; если вариант А — отдельным выкатом 10–11.10. Ветка стоит поверх `seo/compete-20261006` (выкладка №2), поэтому выходит вместе с ней или после неё.
+
+**Окно П-CTR R-S1.** Это внешний сигнал для UZ-чата внутри окна П-CTR R-S1: HTML самого UZ-чата не менялся (побайтно равен сборке прода `2ed9e812`), меняются только анкоры ссылок на него с пяти незащищённых страниц. Дату выката — строкой в «Выкаты»: при чтении П-CTR (≈05–07.11) это «вторая правка рядом с окном»; она про семью A, а П-CTR меряет «chatgpt kirish» (семья B).
+
+| URL | Отметка | Анкор ссылки на `/uz/gpt-uzbek-tilida/`: было → стало | Сниппет/H1 |
+|---|---|---|---|
+| `/uz/gpt-uzbek-tilida-ai-chat/` | — | «GPTBot.uz bepul AI chati» → «GPTBot.uz — **ChatGPT’ga o‘zbekcha muqobil**, u o‘zbek va rus tillaridagi…». Оговорка «mustaqil AI servis, OpenAI yoki ChatGPTning rasmiy mahsuloti emas» — в абзаце прямо над ней | нет |
+| `/uz/gpt-chat-qollanma/` | — | «o‘zbekcha AI chat» → «**o‘zbek tilidagi ChatGPT muqobili**». Следующий абзац: «mustaqil chat; OpenAI parolini bu yerga kiritmang» | нет |
+| `/uz/suniy-intellekt/` | — | «o‘zbek tilidagi AI chat» → «**ChatGPT o‘rniga bepul o‘zbekcha AI chat**»; в той же фразе — «GPTBot.uz mustaqil servis, OpenAI emas» (на странице этого не было) | нет |
+| `/uz/blog/chatgpt-claude-gemini-ozbekistonda/` | — | «mustaqil o‘zbek tilidagi AI chat» → «**ChatGPT’ning mustaqil muqobili — GPTBot.uz chati**». Следующий абзац: «GPTBot.uz mustaqil AI-xizmat; OpenAI, ChatGPT… rasmiy mahsuloti emas» | нет |
+| `/uz/blog/chatgpt-talabalar-uchun/` | — | «o‘zbek tilidagi AI chat» → «**ChatGPT’ga bepul muqobil AI chat**». Следующий абзац: «GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas» | нет |
+
+**Правила соблюдены:** на каждой из пяти страниц ровно один новый или изменённый анкор со словом «ChatGPT», и это переписанная существующая ссылка в чат, не новая; в каждом анкоре «muqobil» или «o‘rniga»; формулировки не повторяются; нет «ChatGPT o‘zbek tilida» без «muqobil», нет «rasmiy» о GPTBot.uz, нет голого «ChatGPT kirish» (C22). Школьные гайды (slayd, referat, rezyume, insho; пары C29–C32) не тронуты; ключи страниц и даты не менялись (правка — только текст ссылок).
+
+**Проверка (06.10):** `seo-protection check` — 10/10; побайтовый diff HTML десяти защищённых со сборкой прода `2ed9e812` = 0, имена и содержимое `dist/assets` те же; против сборки выкладки №2 (`F:/Claude/gptbot-tools/tmp/compete-v2-dist`) изменились ровно эти 5 HTML, больше ни одного файла. Новых `<a>` нет (меняются только тексты пяти ссылок), у ссылок в чат нет query. `seo:audit` — 0 critical. Тесты (весь список `npm test`, `--test-concurrency=2`): 1335 из 1337, два известных падения `tests/lead-radar.test.ts`. Штамп выпуска — запись проверки после коммита (`STATE.json` → `seo_compete_n3_20261010`).
+
+**После выката:** IndexNow по 5 URL выше; «Запросить индексирование» — по одной кнопке на те из пяти страниц, которые владелец уже запросил до выката №3 (N11), чтобы Google прочитал новую версию.
+
 ## Выкладка №2 незащищённых страниц — соперник chatgpt.uz: карта интентов, честные анкоры, ссылки, `llms.txt` (06.10, не выкачена)
 
 **Основание.** Исследование `gptbot.uz-audit/raw/seo-compete-2026-10-06/`: `STRATEGY-BEAT-CHATGPT-UZ.md` §2 и `NOW-TASKS.json` (задачи N2, N4–N10), данные — `03-OUR-GSC-AND-PAGES.md` §5.2, §7, §8. Белые методы: GPTBot.uz везде — независимый AI-чат, не ChatGPT и не OpenAI; «rasmiy» и «официальный» о себе не пишем, chatgpt.uz на сайте не упоминаем, новых страниц нет.
