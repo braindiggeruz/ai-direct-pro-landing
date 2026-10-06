@@ -34,10 +34,17 @@ test('advertising refresh keeps all existing article identities and working comm
     assert.ok(article.targetMoneyPage);
     assert.ok(article.internalLinks.some(link => link.target === article.targetMoneyPage));
     assert.ok(article.body.some(block => block.type === 'linkp' && block.links?.some(link => link.target?.startsWith(`/${locale}/`) && !link.target.includes('/blog/'))));
-    // The studio contact card (phone, e-mail; the work Telegram once one is
-    // configured), not the owner's personal Telegram (paid-chat plan, L14).
-    assert.equal(article.cta?.href, CONTACT_ANCHOR);
-    assert.equal(article.dateModified, '2026-09-28');
+    // The header CTA leads to the studio contact card (phone, e-mail; the work
+    // Telegram once one is configured) or to the lead form of the article's own
+    // service page (SMM cluster 2026-10-06), never to the owner's personal
+    // Telegram (paid-chat plan, L14). The body CTA blocks below stay on the card.
+    const ctaHref = article.cta?.href;
+    assert.ok(
+      ctaHref === CONTACT_ANCHOR
+        || (ctaHref === `${article.targetMoneyPage}#lead-form` && article.targetMoneyPage! in LEAD_FORM_PAGES),
+      `${key}: header CTA ${ctaHref} is neither the contact card nor its service page form`,
+    );
+    assert.ok(article.dateModified! >= '2026-09-28', `${key}: dateModified ${article.dateModified}`);
     assert.ok(article.datePublished! < article.dateModified!);
     const ids = article.body.filter(block => block.id).map(block => block.id);
     assert.equal(ids.length, new Set(ids).size);
