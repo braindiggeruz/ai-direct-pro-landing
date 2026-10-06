@@ -85,14 +85,14 @@ export default function Header({ t, lang, onSwitchLang }: Props) {
           </span>
         </a>
 
-        <nav data-testid="primary-nav" className="hidden lg:flex items-center gap-1 text-sm font-medium">
+        <nav data-testid="primary-nav" className="hidden lg:flex items-center gap-0 text-sm font-medium">
           {navItems.map((item) => (
             <a
               key={item.testid}
               data-testid={item.testid}
               href={item.href}
               onClick={() => track('click_nav', { item: item.testid })}
-              className="control-pill inline-flex min-h-11 items-center px-3 rounded-full text-white/75 hover:text-white hover:bg-white/[0.04]"
+              className="control-pill inline-flex min-h-11 items-center whitespace-nowrap px-2 rounded-full text-white/75 hover:text-white hover:bg-white/[0.04]"
             >
               {item.label}
             </a>

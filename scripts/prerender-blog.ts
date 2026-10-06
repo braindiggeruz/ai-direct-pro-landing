@@ -375,7 +375,8 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
   // Without its own call to action an article leads to the studio contact card.
   const headerCtaHref = entry ? chatEntryHref(entry) : a.cta?.href || CONTACT_ANCHOR;
   // The header's chat item (revision 2026-10-06-seo-push): next to «Blog»,
-  // hidden below 640px like it; none on the download guide (its P-CTR window).
+  // hidden below 640px like it, a 44px target from 640px; none on the
+  // download guide (its P-CTR window).
   const headerChat = headerChatLink(lang, a.url);
   const endChatEntry = entry && a.cta && ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(a.cta.href) ? entry : undefined;
   // The card (phone, e-mail, the work Telegram once configured) renders where
@@ -473,7 +474,7 @@ ${METRIKA_NOSCRIPT}
     <a href="${lang === 'uz' ? '/uz/' : '/'}" class="font-display text-lg sm:text-xl text-white shrink-0">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-2 sm:gap-3 text-sm items-center">
       <a href="${blogIndexHref}" data-testid="header-blog" class="hidden sm:inline text-white/70 hover:text-white">${escapeHtml(t.blog)}</a>${headerChat ? `
-      <a href="${escapeHtml(headerChat.href)}" data-testid="header-chat" class="hidden sm:inline whitespace-nowrap text-white/70 hover:text-white">${escapeHtml(headerChat.label)}</a>` : ''}
+      <a href="${escapeHtml(headerChat.href)}" data-testid="header-chat" class="hidden sm:inline-flex min-h-[44px] items-center whitespace-nowrap text-white/70 hover:text-white">${escapeHtml(headerChat.label)}</a>` : ''}
       <a href="${escapeHtml(headerCtaHref)}" ${entry ? `data-chat-entry="${entry.id}"` : ''} data-testid="header-cta"${headerCtaHref.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-3 sm:px-4 py-2 rounded-full min-h-[44px] inline-flex items-center justify-center text-center">
         ${escapeHtml(entry?.locale === 'ru' ? 'Открыть AI-чат' : a.cta?.label || CONTACT_CTA_LABEL[lang])}
       </a>
@@ -644,7 +645,7 @@ ${METRIKA_NOSCRIPT}
     <a href="${locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm items-center">
       <a href="/${locale}/blog/" data-testid="header-blog-active" class="hidden sm:inline text-brand-cyan">${escapeHtml(t.blog)}</a>
-      <a href="${escapeHtml(SITE_CHAT_NAV[locale].href)}" data-testid="header-chat" class="hidden sm:inline whitespace-nowrap text-white/70 hover:text-white">${escapeHtml(SITE_CHAT_NAV[locale].label)}</a>
+      <a href="${escapeHtml(SITE_CHAT_NAV[locale].href)}" data-testid="header-chat" class="hidden sm:inline-flex min-h-[44px] items-center whitespace-nowrap text-white/70 hover:text-white">${escapeHtml(SITE_CHAT_NAV[locale].label)}</a>
       <a href="${CONTACT_ANCHOR}" data-testid="header-cta" class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">${escapeHtml(CONTACT_CTA_LABEL[locale])}</a>
     </nav>
   </div>

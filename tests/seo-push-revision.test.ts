@@ -58,10 +58,13 @@ test('R3-10: every header template reads the shared item', () => {
   assert.match(nav, /\{ href: '\/uz\/blog\/', text: 'Blog' \},\n\s+\{ href: SITE_CHAT_NAV\.uz\.href, text: SITE_CHAT_NAV\.uz\.label \},\n\s+\],/);
   const legacy = prerender.slice(prerender.indexOf('function renderLandingHeader'), prerender.indexOf('const locale = page.locale', prerender.indexOf('function renderLandingHeader')));
   assert.match(legacy, /headerChatLink\(page\.locale === 'uz' \? 'uz' : 'ru', page\.url\)/);
-  assert.match(legacy, /data-testid="header-chat" class="hidden sm:inline whitespace-nowrap text-white\/70 hover:text-white"/);
+  // A 44px target from 640px (hidden below, like «Blog»); one line.
+  const itemClass = /data-testid="header-chat" class="hidden sm:inline-flex min-h-\[44px\] items-center whitespace-nowrap text-white\/70 hover:text-white"/g;
+  assert.equal((legacy.match(itemClass) ?? []).length, 1, '/uz/');
   const blog = read('scripts/prerender-blog.ts');
   assert.match(blog, /const headerChat = headerChatLink\(lang, a\.url\);/);
   assert.equal((blog.match(/data-testid="header-chat"/g) ?? []).length, 2, 'articles and the two blog indexes');
+  assert.equal((blog.match(itemClass) ?? []).length, 2, 'articles and the two blog indexes: 44px targets');
   assert.match(read('scripts/prerender-home.ts'), /<a href="\/ru\/blog\/">Блог<\/a>\n\s+<a href="\$\{SITE_CHAT_NAV\.ru\.href\}">\$\{escapeText\(SITE_CHAT_NAV\.ru\.label\)\}<\/a>\n\s+<a href="#contact">/);
 });
 
@@ -74,6 +77,10 @@ test('R3-10: the React landing menu names the chat of its language, after the bl
     assert.ok(html.indexOf(`data-testid="nav-chat"`) > html.indexOf('data-testid="header-blog-link"'), lang);
     assert.ok(html.includes(`>${chat.label}</a>`), lang);
     assert.ok(!html.includes(SITE_CHAT_NAV[lang === 'ru' ? 'uz' : 'ru'].href), `${lang}: the other language's chat`);
+    // One line per item from 1024px: without gap-0, px-2 and whitespace-nowrap
+    // «O‘zbekcha AI chat» wrapped inside its pill up to a 1053px layout width.
+    assert.ok(html.includes('data-testid="primary-nav" class="hidden lg:flex items-center gap-0 text-sm font-medium"'), lang);
+    assert.ok(html.includes(`data-testid="nav-chat" href="${chat.href}" class="control-pill inline-flex min-h-11 items-center whitespace-nowrap px-2 rounded-full`), lang);
   }
 });
 

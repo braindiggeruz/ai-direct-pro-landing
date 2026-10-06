@@ -789,15 +789,18 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
   if (isMeasurementHoldPath(page.url) || LEGACY_HEADER_PATHS.has(page.url)) {
     // The chat item hides below 640px, like the articles' «Blog»: logo, RU, UZ
     // and the CTA already fill a 320px row (revision 2026-10-06-seo-push).
+    // From 640px it is a 44px target, so the row is 44px tall: the nav keeps
+    // align-items: stretch (RU and UZ stay 44px tall targets) and the CTA
+    // centres its label with inline-flex items-center.
     const chat = headerChatLink(page.locale === 'uz' ? 'uz' : 'ru', page.url);
     return `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
     <nav class="flex gap-3 text-sm">${chat ? `
-      <a href="${escapeHtml(chat.href)}" data-testid="header-chat" class="hidden sm:inline whitespace-nowrap text-white/70 hover:text-white">${escapeText(chat.label)}</a>` : ''}
+      <a href="${escapeHtml(chat.href)}" data-testid="header-chat" class="hidden sm:inline-flex min-h-[44px] items-center whitespace-nowrap text-white/70 hover:text-white">${escapeText(chat.label)}</a>` : ''}
       ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
-      <a href="${escapeHtml(page.ctaPrimaryHref || CONTACT_ANCHOR)}"${isExternalHref(page.ctaPrimaryHref || CONTACT_ANCHOR) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">
+      <a href="${escapeHtml(page.ctaPrimaryHref || CONTACT_ANCHOR)}"${isExternalHref(page.ctaPrimaryHref || CONTACT_ANCHOR) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full inline-flex items-center">
         ${escapeText(page.ctaPrimaryLabel || CONTACT_CTA_LABEL[page.locale === 'uz' ? 'uz' : 'ru'])}
       </a>
     </nav>
