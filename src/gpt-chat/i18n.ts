@@ -31,6 +31,8 @@ export interface ChatStrings {
     editQuestion: string;
     /** Under a last question that has no answer, e.g. after the tab was unloaded mid-turn. */
     unanswered: string;
+    /** In place of «AI o‘ylayapti…» after 8 s without a first word. */
+    slow: string;
     historyNote: string; savedChats: string;
     answerReady: string; monthlyLimit: string; offer: string;
     contextTooLarge: string;
@@ -152,7 +154,7 @@ const RU: ChatStrings = {
     trust:'Ничего скачивать не нужно. Работает прямо здесь.',account:'AI-пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,
-    partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',
+    partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',slow:'Ответ готовится дольше обычного. Можно остановить и отправить заново.',
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
     accountUnstable:'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.',recheck:'Проверить снова',
@@ -245,7 +247,7 @@ const UZ: ChatStrings = {
     trust:'Yuklab olish shart emas. Shu yerning o‘zida ishlaydi.',account:'AI paket',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,
-    partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',
+    partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',slow:'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.',
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
     accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',

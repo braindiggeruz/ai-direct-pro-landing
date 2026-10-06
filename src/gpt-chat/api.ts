@@ -114,6 +114,13 @@ function answerCount(value: unknown): number | null {
   return typeof value === 'number' && Number.isInteger(value) && value >= 0 ? value : null;
 }
 
+/**
+ * A stream that stays silent this long, before its first bytes or between
+ * two chunks, has stalled: a mobile connection can freeze without an error.
+ * The server already ends a wait for the first token at 12 s.
+ */
+export const STREAM_SILENCE_MS = 30_000;
+
 // Streaming chat turn. Sends stream:true; if the server answers with SSE the
 // deltas are delivered via callbacks, otherwise the parsed JSON response is
 // returned for the regular non-stream handling path.
@@ -125,7 +132,24 @@ export async function sendChatStream(
 ): Promise<StreamOutcome> {
   let gotText = false;
   let hasAnswerText = false;
+  // Its own controller, so the watchdog can end the request and still tell
+  // a stall (code network) from the visitor's Stop (aborted). Linked by an
+  // event: AbortSignal.any is missing from older WebViews.
+  const inner = new AbortController();
+  const stop = () => inner.abort();
+  if (signal.aborted) inner.abort();
+  else signal.addEventListener('abort', stop, { once: true });
+  let stalled = false;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const watch = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      stalled = true;
+      inner.abort();
+    }, STREAM_SILENCE_MS);
+  };
   try {
+    watch();
     const res = await fetch(`${apiBase}/api/gpt/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -137,8 +161,9 @@ export async function sendChatStream(
         turnstileToken: params.turnstileToken,
         stream: true,
       }),
-      signal,
+      signal: inner.signal,
     });
+    watch();
     const type = res.headers.get('Content-Type') || '';
     if (!type.includes('text/event-stream')) {
       const body = (await res.json()) as ChatApiResponse;
@@ -157,6 +182,7 @@ export async function sendChatStream(
     let outcome: StreamOutcome = { mode: 'stream', ok: false, code: 'provider_error', gotText };
     for (;;) {
       const { done, value } = await reader.read();
+      watch();
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
       let idx: number;
@@ -191,8 +217,11 @@ export async function sendChatStream(
     }
     return { ...outcome, gotText };
   } catch (e) {
-    if ((e as Error).name === 'AbortError') return { mode: 'stream', ok: false, aborted: true, gotText };
+    if (!stalled && (e as Error).name === 'AbortError') return { mode: 'stream', ok: false, aborted: true, gotText };
     return { mode: 'stream', ok: false, code: 'network', gotText };
+  } finally {
+    clearTimeout(timer);
+    signal.removeEventListener('abort', stop);
   }
 }
 

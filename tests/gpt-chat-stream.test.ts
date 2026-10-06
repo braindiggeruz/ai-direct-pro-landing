@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadTurnstileConfig, retryAfterSeconds, sendChatStream } from '../src/gpt-chat/api';
+import { loadTurnstileConfig, retryAfterSeconds, sendChatStream, STREAM_SILENCE_MS } from '../src/gpt-chat/api';
 import { parseSseChunk } from '../functions/lib/gpt-chat/openrouter-stream';
+import { readFileSync } from 'node:fs';
 
 const params = { sessionId: null, message: 'fixture', locale: 'uz' as const, history: [] };
 const sse = (...events: unknown[]) => events.map(event => `data: ${JSON.stringify(event)}\n\n`).join('');
@@ -150,6 +151,52 @@ test('stopping after a delta preserves the explicit aborted outcome', async (t) 
   const outcome = await sendChatStream('', params, { onDelta: text => { answer += text; controller.abort(); } }, controller.signal);
   assert.equal(answer, 'Partial');
   assert.deepEqual(outcome, { mode: 'stream', ok: false, aborted: true, gotText: true });
+});
+
+/** A stream that sends meta and then nothing, until the request is aborted (as fetch does). */
+function silentStream(t: { mock: { method: (o: object, m: string, f: unknown) => unknown } }) {
+  t.mock.method(globalThis, 'fetch', async (_url: string, init: RequestInit) => {
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(sse({ type: 'meta', sessionId: 's', model: 'm' })));
+        init.signal!.addEventListener('abort', () => controller.error(new DOMException('aborted', 'AbortError')));
+      },
+    });
+    return new Response(body, { headers: { 'Content-Type': 'text/event-stream' } });
+  });
+}
+const settle = async () => { for (let i = 0; i < 20; i++) await Promise.resolve(); };
+
+test('a stream that goes silent ends after 30 s as a network failure, not an endless wait (STREAM-01)', async (t) => {
+  assert.equal(STREAM_SILENCE_MS, 30_000);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  silentStream(t);
+  const metas: unknown[] = [];
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onMeta: (m) => metas.push(m), onDelta: () => assert.fail('no text') }, new AbortController().signal).then((o) => { outcome = o; });
+  await settle();
+  assert.deepEqual(metas, [{ sessionId: 's', model: 'm' }]);
+  t.mock.timers.tick(STREAM_SILENCE_MS - 1);
+  await settle();
+  assert.equal(outcome, null, 'still waiting just before 30 s of silence');
+  t.mock.timers.tick(1);
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: false });
+});
+
+test('the visitor’s Stop is still aborted, never a network failure', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  silentStream(t);
+  const controller = new AbortController();
+  let outcome: unknown = null;
+  void sendChatStream('', params, { onDelta: () => {} }, controller.signal).then((o) => { outcome = o; });
+  await settle();
+  t.mock.timers.tick(10_000);
+  controller.abort();
+  await settle();
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, aborted: true, gotText: false });
+  const api = readFileSync(new URL('../src/gpt-chat/api.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(api, /AbortSignal\.any\(/, 'older WebViews have no AbortSignal.any');
 });
 
 test('plain JSON responses keep the existing compatibility path', async (t) => {

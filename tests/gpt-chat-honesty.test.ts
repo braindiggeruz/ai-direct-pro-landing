@@ -23,7 +23,7 @@ import { plainText } from '../src/gpt-chat/plain-text';
 import { applyRole } from '../src/gpt-chat/roles';
 import { showsAccountPill, type AccountView } from '../src/gpt-chat/types';
 import { AiChatInput } from '../src/gpt-chat/components/AiChatInput';
-import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
+import { AiChatMessageList, PendingLine } from '../src/gpt-chat/components/AiChatMessageList';
 import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } from '../src/components/ui/message-scroller';
 
 // tsx compiles .tsx with the classic transform in tests (as in
@@ -337,6 +337,24 @@ test('retry and «Qayta yozish» replace the last answer: the question is in the
       })))));
   assert.ok(list.includes(strings('uz').premium.editQuestion));
   assert.match(list, /<button type="button" disabled="" class="[^"]*">.*Qayta urinish<\/button>/, 'no retry during a limit');
+});
+
+test('a long wait says so after 8 s; Stop before the first word gives the question back', () => {
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const line = renderToStaticMarkup(React.createElement(PendingLine, { t }));
+    assert.ok(line.includes(t.thinking) && !line.includes(t.premium.slow), `${locale}: «thinking» first`);
+    assert.doesNotMatch(t.premium.slow, DISHONEST);
+  }
+  assert.equal(strings('uz').premium.slow, 'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.');
+  assert.equal(strings('ru').premium.slow, 'Ответ готовится дольше обычного. Можно остановить и отправить заново.');
+  const list = read('src/gpt-chat/components/AiChatMessageList.tsx');
+  assert.match(list, /const timer = window\.setTimeout\(\(\) => setSlow\(true\), 8_000\);\s*return \(\) => window\.clearTimeout\(timer\);/);
+  assert.match(list, /\{slow \? t\.premium\.slow : t\.thinking\}/);
+  assert.match(list, /\{m\.pending \? \(\s*<PendingLine t=\{t\} \/>/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  const stopped = consoleSource.slice(consoleSource.indexOf('} else if (outcome.aborted) {'), consoleSource.indexOf('track(EV.generationStopped'));
+  assert.match(stopped, /const before = meta\.base \? messages : history;\s*setMessages\(before\);\s*if \(!meta\.base && !meta\.answerAction\) setInput\(trimmed\);\s*if \(accountReady\) saveHistory\(before, config\.locale, storageScope\);/);
 });
 
 test('a last question without an answer says so, with a retry and the way back to the composer', () => {

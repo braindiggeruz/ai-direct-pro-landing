@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Message, MessageContent } from '@/components/ui/message';
 import { Bubble, BubbleContent } from '@/components/ui/bubble';
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
@@ -19,6 +20,29 @@ const ERROR_BUBBLE =
  */
 function modelLabel(model: string): string {
   return model.replace(/:free$/, "");
+}
+
+/**
+ * «AI o‘ylayapti…», and after 8 s without a first word an honest line: it
+ * takes longer than usual, and Stop is there (plan STREAM-01). The server
+ * gives up on a first token at 12 s, the stream's watchdog on silence at 30 s.
+ */
+export function PendingLine({ t }: { t: ChatStrings }) {
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setSlow(true), 8_000);
+    return () => window.clearTimeout(timer);
+  }, []);
+  return (
+    <span className="inline-flex items-center gap-2 text-white/60 text-sm">
+      <span className="neural-typing" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+      {slow ? t.premium.slow : t.thinking}
+    </span>
+  );
 }
 
 /**
@@ -140,14 +164,7 @@ export function AiChatMessageList({
             }
           >
             {m.pending ? (
-              <span className="inline-flex items-center gap-2 text-white/60 text-sm">
-                <span className="neural-typing" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                {t.thinking}
-              </span>
+              <PendingLine t={t} />
             ) : m.role === "assistant" && !m.error ? (
               <>
                 <div className="gpt-answer-head">

@@ -665,7 +665,15 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           ...base,
           { role: "assistant", content: acc, model: answeringModel },
         ]);
-      else setMessages(base);
+      else {
+        // Stopped before the first word, most likely to reword it (STOP-01):
+        // a typed question goes back into the composer and out of the thread;
+        // a retry or a button leaves the thread as it was before.
+        const before = meta.base ? messages : history;
+        setMessages(before);
+        if (!meta.base && !meta.answerAction) setInput(trimmed);
+        if (accountReady) saveHistory(before, config.locale, storageScope);
+      }
       track(EV.generationStopped, { locale: config.locale, message_number: messageNumber });
     } else if (acc.trim()) {
       // Stream broke mid-answer — the partial text is still useful.
