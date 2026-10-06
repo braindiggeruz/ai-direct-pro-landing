@@ -1,0 +1,78 @@
+/** @jsxRuntime automatic @jsxImportSource react */
+/**
+ * The finished deck on the page, before the file is saved: a cover card and
+ * one card per slide in the free palette's colours, with the pictures as
+ * they arrive.
+ *
+ * The whole block carries `ym-hide-content`: Webvisor (on across the site,
+ * scripts/analytics-metrika.ts) never records a deck (STUDIO-SPEC §10.5).
+ * Pictures are shown from object URLs (URL.createObjectURL of the JPEG
+ * bytes), never as data: URLs, which Webvisor could copy.
+ */
+import type { ReactNode } from 'react';
+import type { Deck } from '../../api';
+import type { ToolTexts } from './texts';
+
+export type PictureState =
+  | { readonly status: 'loading' }
+  | { readonly status: 'ready'; readonly url: string; readonly blob: Blob }
+  | { readonly status: 'none' };
+
+export interface PreviewProps {
+  readonly texts: ToolTexts;
+  readonly deck: Deck;
+  /** By slide index; a slide that never had a picture is absent. */
+  readonly pictures: ReadonlyMap<number, PictureState>;
+  /** The download block, under the heading and above the slides, so it is in view without scrolling past them. */
+  readonly actions?: ReactNode;
+}
+
+export function Preview({ texts, deck, pictures, actions }: PreviewProps) {
+  return (
+    <section className="ym-hide-content st:mt-6" data-studio-preview="" aria-labelledby="studio-result-title">
+      <h2 id="studio-result-title" className="st:mb-1 st:text-xl st:font-semibold st:text-studio-text">
+        {texts.resultTitle}
+      </h2>
+      <p className="st:mb-4 st:text-sm st:text-studio-muted">{texts.draftNote}</p>
+      {actions}
+      <ol className="st:mt-4 st:grid st:gap-3 st:sm:grid-cols-2 st:lg:grid-cols-3">
+        <li className="st:flex st:aspect-video st:flex-col st:items-center st:justify-center st:rounded-lg st:bg-white st:p-4 st:text-center st:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.7)]">
+          <p className="st:text-lg st:leading-tight st:font-bold st:text-[#14213d]">{deck.title}</p>
+          <span className="st:my-2 st:block st:h-1 st:w-10 st:rounded st:bg-[#229ed9]" aria-hidden="true" />
+          <p className="st:text-xs st:text-[#263241]">{deck.subtitle}</p>
+        </li>
+        {deck.slides.map((slide) => {
+          const picture = pictures.get(slide.index);
+          return (
+            <li
+              key={slide.index}
+              className="st:flex st:aspect-video st:gap-3 st:overflow-hidden st:rounded-lg st:bg-white st:p-3 st:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.7)]"
+              data-slide={slide.index}
+            >
+              <div className="st:min-w-0 st:flex-1">
+                <p className="st:text-[10px] st:font-medium st:tracking-wide st:text-[#5b6675] st:uppercase">{texts.slide(slide.index)}</p>
+                <p className="st:mb-1 st:text-sm st:leading-tight st:font-bold st:text-[#14213d]">{slide.title}</p>
+                <ul className="st:list-disc st:space-y-0.5 st:pl-4 st:text-[11px] st:leading-snug st:text-[#263241]">
+                  {slide.bullets.map((bullet, i) => (
+                    <li key={i}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
+              {picture ? (
+                <div className="st:flex st:w-2/5 st:shrink-0 st:items-center st:justify-center st:overflow-hidden st:rounded-md st:bg-[#eef2f6]">
+                  {picture.status === 'ready' ? (
+                    <img src={picture.url} alt="" className="st:size-full st:object-cover" data-picture={slide.index} />
+                  ) : (
+                    <span className="st:px-1 st:text-center st:text-[10px] st:text-[#5b6675]">
+                      {picture.status === 'loading' ? texts.pictureLoading : texts.pictureNone}
+                    </span>
+                  )}
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}

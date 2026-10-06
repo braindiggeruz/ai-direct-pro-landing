@@ -1,9 +1,19 @@
 # Third-party notices — GPTBot.uz Studio
 
-The studio ships two third-party libraries to visitors' browsers, both in the
-lazy deck-building chunk (`dist/assets/studio/pptxgen.es-*.js`), which loads
-only when a visitor builds a presentation. Versions are pinned in
-`package.json` and `package-lock.json`.
+The studio ships these third-party libraries to visitors' browsers. React,
+react-dom and scheduler are in the island's entry chunk
+(`dist/assets/studio/studio-*.js`); pptxgenjs and jszip are in the lazy
+deck-building chunk (`dist/assets/studio/pptxgen.es-*.js`), which loads only
+when a visitor saves a presentation. Versions are pinned in `package.json`
+and `package-lock.json`.
+
+## React 19.2.7, react-dom 19.2.7, scheduler 0.27.0
+
+- Project: <https://github.com/facebook/react>
+- Copyright © Meta Platforms, Inc. and affiliates
+- Licence: MIT (full text: `node_modules/react/LICENSE`)
+- Used for: the generator form, hydrated over its prerendered markup
+  (`src/main.tsx`, `src/tools/presentation/`).
 
 ## pptxgenjs 4.0.1
 
@@ -34,7 +44,8 @@ only when a visitor builds a presentation. Versions are pinned in
 
 ## Build-time only (not shipped)
 
-React and react-dom 19.2.7 (MIT), Vite 8, @vitejs/plugin-react, Tailwind CSS 4
-and @tailwindcss/postcss (MIT), PostCSS (MIT) and TypeScript (Apache-2.0) build
-the island; the Tailwind CSS output carries its own `/*! tailwindcss … MIT */`
-banner. React will ship with the generator form (T2.2), under its MIT licence.
+Vite 8, @vitejs/plugin-react, Tailwind CSS 4 and @tailwindcss/postcss (MIT),
+PostCSS (MIT) and TypeScript (Apache-2.0) build the island; the Tailwind CSS
+output carries its own `/*! tailwindcss … MIT */` banner. react-dom/server
+renders the form's static markup at build time (`src/tools/presentation/
+static.ts`) and is not in the browser build.

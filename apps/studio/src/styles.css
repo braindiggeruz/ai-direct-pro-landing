@@ -35,6 +35,25 @@
 @source "../scripts";
 
 /*
+ * The studio's colours, as theme variables (prefixed: --st-color-studio-*),
+ * from the site's palette (tailwind.config.js: bg.base, bg.surface,
+ * bg.elevated, brand.blue, brand.cyan, brand.saffron). Saffron keeps the
+ * site's one meaning: the free allowance running out.
+ */
+@theme {
+  --color-studio-bg: #05070d;
+  --color-studio-surface: #08111f;
+  --color-studio-elevated: #0c1828;
+  --color-studio-line: #1f2b3d;
+  --color-studio-text: #e6eef7;
+  --color-studio-muted: #9fb0c3;
+  --color-studio-blue: #229ed9;
+  --color-studio-cyan: #2fe6d1;
+  --color-studio-saffron: #e8a33d;
+  --color-studio-danger: #ff9e9e;
+}
+
+/*
  * Page-level overrides for the studio pages go here, unlayered, under
  * body[data-studio], so they apply to studio pages only.
  */

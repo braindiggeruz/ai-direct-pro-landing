@@ -11,7 +11,9 @@
  *
  * The files are served from dist/ by a throwaway server on 127.0.0.1, so the
  * browser loads exactly the bytes that would be deployed. Nothing is written
- * into dist/: the test pages below are served from memory.
+ * into dist/: the test pages below are served from memory, with the site's
+ * own Content-Security-Policy (dist/_headers, `/*`; without
+ * upgrade-insecure-requests, which would send 127.0.0.1 to https).
  *
  * T0.3 checks:
  *   cascade  at 360 px, on a test page that loads the site stylesheet and then
@@ -19,9 +21,25 @@
  *            `st:border` element and the padding of an `st:p-3` button are the
  *            studio's values. The same page without the studio stylesheet must
  *            show the site reset's values instead, or the check proves nothing.
- *   island   the entry loads and marks #studio-root ready without a single
- *            request beyond its own files (no /api/*, no pptxgenjs); asked for a
- *            deck, it loads pptxgenjs then and saves a .pptx that unzips.
+ * T2.2 checks (the generator):
+ *   hydrate  a page with the form's prerendered markup (static.ts renderForm),
+ *            in Uzbek and in Russian: the island hydrates it without a
+ *            mismatch, enables the submit button, and fetches nothing but its
+ *            own files: no /api/*, no Turnstile, no pptxgenjs.
+ *   flow     the whole free deck against a stub of the API contract (§6),
+ *            answered in the browser (page routes), and a stub Turnstile:
+ *            /config and /me only after the first focus; Turnstile only after
+ *            submit; identity, start, slides, pictures (one refused, redrawn)
+ *            and the funnel events in order and with the contract's bodies;
+ *            pictures shown from blob: URLs; pptxgenjs fetched only on
+ *            download; the saved .pptx unzips with the cover, the six slides,
+ *            both pictures and the AI label; Webvisor classes in place; no
+ *            CSP violation and no console error throughout.
+ *            A second submit the same day (/me: none left) shows the limit
+ *            with its reset time at once, without Turnstile or a start, and
+ *            the first deck stays on the page.
+ *   in-app   with an Instagram user agent, «Brauzerda oching» stands before
+ *            the submit button, and still nothing is fetched on load.
  * T2.3 adds the published pages with /api/* cut off (H1, form, ≥400 words, no
  * error text, layout shift < 0.05 over the first 3 s).
  *
@@ -34,6 +52,8 @@ import path from 'node:path';
 import type { AddressInfo } from 'node:net';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
+import { AI_LABEL } from '../src/pptx/build';
+import { renderForm } from '../src/tools/presentation/static';
 import { STUDIO_ASSET_DIR } from './prerender-studio';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
@@ -90,7 +110,11 @@ export function findStudioEntry(dist: string): StudioEntryFiles {
   return { script: pick('js'), style: pick('css') };
 }
 
-/** A page shaped like a studio page: site CSS, then (optionally) studio CSS, then the island. */
+/**
+ * A page shaped like a studio page: site CSS, then (optionally) studio CSS,
+ * then the island. The probes sit next to #studio-root, not inside it: the
+ * island owns its root and renders the form there.
+ */
 export function cascadeFixture(siteStyles: string[], entry: StudioEntryFiles, withStudio: boolean): string {
   const styles = [...siteStyles, ...(withStudio ? [entry.style] : [])]
     .map((href) => `<link rel="stylesheet" href="${href}" />`).join('\n');
@@ -106,10 +130,33 @@ ${withStudio ? `<script type="module" src="${entry.script}"></script>` : ''}
 <body data-studio>
 <main>
 <h1 id="probe-h1" class="st:text-3xl">Mavzuni yozing — tayyor taqdimot (.pptx)</h1>
-<div id="studio-root" data-tool="presentation">
+<div id="studio-probes">
 <div id="probe-border" class="st:border">Taqdimot</div>
 <button id="probe-button" type="button" class="st:p-3">Tayyorlash</button>
 </div>
+<div id="studio-root" data-tool="presentation"></div>
+</main>
+</body>
+</html>
+`;
+}
+
+/** A studio page with the form's prerendered first state inside #studio-root, as prerender-studio writes it (T2.3). */
+export function islandFixture(siteStyles: string[], entry: StudioEntryFiles, locale: 'uz' | 'ru', islandHtml: string): string {
+  const styles = [...siteStyles, entry.style].map((href) => `<link rel="stylesheet" href="${href}" />`).join('\n');
+  return `<!doctype html>
+<html lang="${locale}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio island check</title>
+${styles}
+<script type="module" src="${entry.script}"></script>
+</head>
+<body data-studio>
+<main>
+<h1>${locale === 'uz' ? 'Mavzuni yozing — tayyor taqdimot (.pptx)' : 'Напишите тему — получите готовую презентацию (.pptx)'}</h1>
+<div id="studio-root" data-tool="presentation">${islandHtml}</div>
 </main>
 </body>
 </html>
@@ -155,6 +202,23 @@ export function unexpectedLoadRequests(requests: string[], pageFiles: string[]):
   return requests.filter((request) => !allowed.has(request) && !SITE_STYLE_ASSET.test(request));
 }
 
+/** The site's Content-Security-Policy for HTML pages (the `/*` block of _headers), minus upgrade-insecure-requests. */
+export function siteCsp(headersFile: string): string {
+  let inRoot = false;
+  for (const line of headersFile.split(/\r?\n/)) {
+    if (/^\S/.test(line)) inRoot = line.trim() === '/*';
+    const match = /^\s+Content-Security-Policy:\s*(.+)$/.exec(line);
+    if (inRoot && match) {
+      return match[1]
+        .split(';')
+        .map((directive) => directive.trim())
+        .filter((directive) => directive && directive !== 'upgrade-insecure-requests')
+        .join('; ');
+    }
+  }
+  throw new Error('No Content-Security-Policy in the /* block of _headers.');
+}
+
 const CONTENT_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -172,14 +236,14 @@ interface Served {
   close: () => Promise<void>;
 }
 
-async function serve(dist: string, pages: Record<string, string>): Promise<Served> {
+async function serve(dist: string, pages: Record<string, string>, pageHeaders: Record<string, string> = {}): Promise<Served> {
   const requests: string[] = [];
   const base = path.resolve(dist);
   const server = http.createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://127.0.0.1').pathname);
     requests.push(pathname);
     if (pages[pathname] !== undefined) {
-      response.writeHead(200, { 'content-type': CONTENT_TYPES['.html'] });
+      response.writeHead(200, { 'content-type': CONTENT_TYPES['.html'], ...pageHeaders });
       response.end(pages[pathname]);
       return;
     }
@@ -201,30 +265,209 @@ async function serve(dist: string, pages: Record<string, string>): Promise<Serve
   };
 }
 
+// --- the stub API (STUDIO-SPEC §6) ------------------------------------------------------
+
+export const STUB_JOB = `sj_${'0123456789abcdef'.repeat(2)}`;
+export const STUB_SITE_KEY = '1x00000000000000000000AA';
+const TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+
+/** A real free deck of the local T2.1 run (Amir Temur), as /:job/slides answers it. */
+export const STUB_DECK = {
+  title: 'Amir Temur',
+  subtitle: 'Buyuk sarkarda va davlat arbobi haqida maktab taqdimoti',
+  slides: [
+    { index: 1, title: 'Mavzuga kirish', layout: 'image-right', bullets: ['Amir Temur — buyuk sarkarda va davlat arbobi', 'U Temuriylar saltanatiga asos solgan', 'Movarounnahr tarixida alohida o‘rin egallaydi', 'Bugungi darsimiz maqsadi: uning hayotini o‘rganish'] },
+    { index: 2, title: 'Bolaligi va yoshligi', layout: 'image-right', bullets: ['Amir Temur 1336-yilda Xo‘ja Ilg‘or qishlog‘ida tug‘ilgan', 'Yoshligidan harbiy sohada shuhrat qozondi', 'Qat’iyatli va maqsadga intiluvchan bo‘lgan', 'Turkiy-mo‘g‘ul zodagonlar oilasidan chiqqan'] },
+    { index: 3, title: 'Davlatning barpo etilishi', layout: 'title-bullets', bullets: ['Temur Movarounnahrni birlashtirdi', 'Markazi Samarqand shahri bo‘ldi', 'Katta saltanat hududini yaratdi', 'Harbiy yurishlar orqali hokimiyatni mustahkamladi'] },
+    { index: 4, title: 'Ilm-fan va madaniyat', layout: 'title-bullets', bullets: ['Samarqandni buyuk ilmiy markazga aylantirdi', 'Buyuk ipak yo‘li karvonlarini himoya qildi', 'Mashhur hunarmandlar va olimlarni Samarqandga taklif qildi', 'Binolar koshin bilan bezatilgan'] },
+    { index: 5, title: 'Buyuk binolar', layout: 'title-bullets', bullets: ['Bibixonim masjidi qurilgan', 'Go‘ri Amir maqbarasi Temur dafn etilgan joy', 'Peshtoq va gumbazlar ulug‘vor ko‘rinadi', 'Ushbu yodgorliklar bugungi kungacha saqlangan'] },
+    { index: 6, title: 'Xulosa', layout: 'title-bullets', bullets: ['Amir Temur kuchli va birlashgan davlat yaratdi', 'Uning davrida ilm-fan rivojlandi', 'Samarqand jahon madaniyat markaziga aylandi', 'Biz buyuk ajdodlarimizdan misol olamiz'] },
+  ],
+} as const;
+const STUB_IMAGES = [
+  { index: 1, prompt: 'Ancient stone fortress walls in Samarkand under blue sky', sig: 'stub-signature-1' },
+  { index: 2, prompt: 'Green valley with poplar trees and small village houses in Central Asia', sig: 'stub-signature-2' },
+];
+
+/** A Turnstile that passes every widget at once and records what it was asked. */
+const STUB_TURNSTILE = `window.__turnstile = { rendered: [], removed: 0 };
+window.turnstile = {
+  render: function (element, options) {
+    window.__turnstile.rendered.push({ action: options.action, sitekey: options.sitekey, appearance: options.appearance });
+    setTimeout(function () { options.callback('stub-' + options.action); }, 50);
+    return String(window.__turnstile.rendered.length);
+  },
+  reset: function () {},
+  remove: function () { window.__turnstile.removed += 1; }
+};`;
+
+export interface ApiCall {
+  method: string;
+  path: string;
+  body: unknown;
+  at: number;
+}
+
 export interface CheckReport {
   status: 'pass' | 'fail';
   viewport: typeof VIEWPORT;
   studio: CascadeProbe;
   control: CascadeProbe;
-  island: { loadRequests: string[]; lazyRequests: string[]; download: { name: string; bytes: number } | null };
+  hydrate: { uz: { loadRequests: string[] }; ru: { loadRequests: string[] } };
+  flow: { apiCalls: string[]; turnstile: unknown; download: { name: string; bytes: number; slides: number; media: number } | null; seconds: number };
+  inApp: { noticeBeforeSubmit: boolean };
   failures: string[];
+}
+
+type Playwright = typeof import('playwright-core');
+type Browser = Awaited<ReturnType<Playwright['chromium']['launch']>>;
+type Context = Awaited<ReturnType<Browser['newContext']>>;
+type Page = Awaited<ReturnType<Context['newPage']>>;
+
+/** Records console errors, page errors and CSP violations of a page. */
+async function watch(page: Page, label: string, failures: string[]): Promise<void> {
+  page.on('console', (message) => {
+    if (message.type() !== 'error') return;
+    // The browser logs every 4xx answer of the stub API (a refused picture is part of the contract).
+    if (message.text().startsWith('Failed to load resource') && message.location().url.includes('/api/studio/')) return;
+    failures.push(`${label}: console error: ${message.text().slice(0, 200)}`);
+  });
+  page.on('pageerror', (error) => failures.push(`${label}: page error: ${error.message.slice(0, 200)}`));
+  await page.addInitScript(() => {
+    document.addEventListener('securitypolicyviolation', (event) => {
+      const list = ((window as unknown as { __csp?: string[] }).__csp ??= []);
+      list.push(`${event.violatedDirective} ${event.blockedURI}`);
+    });
+  });
+}
+
+async function cspViolations(page: Page): Promise<string[]> {
+  return page.evaluate(() => (window as unknown as { __csp?: string[] }).__csp ?? []);
+}
+
+/** Answers /api/studio/* by the contract and the Turnstile script with the stub; records every call. */
+async function stubApi(context: Context, jpeg: Buffer, calls: ApiCall[], turnstileFetches: number[]): Promise<void> {
+  const started = Date.now();
+  let refusedOnce = false;
+  let meCalls = 0;
+  await context.route(`${TURNSTILE_URL}**`, async (route) => {
+    turnstileFetches.push(Date.now() - started);
+    await route.fulfill({ status: 200, contentType: 'text/javascript', body: STUB_TURNSTILE });
+  });
+  await context.route('**/api/studio/**', async (route) => {
+    const request = route.request();
+    const apiPath = new URL(request.url()).pathname.replace('/api/studio/', '');
+    const raw = request.postData();
+    const body: unknown = raw ? JSON.parse(raw) : undefined;
+    calls.push({ method: request.method(), path: apiPath, body, at: Date.now() - started });
+    const json = (status: number, data: unknown) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(data) });
+    if (apiPath === 'config') {
+      return json(200, {
+        ok: true,
+        tools: { freeDeck: true, fullDeck: false, photo: false },
+        payments: { mode: null, providers: ['click'] },
+        plans: [],
+        free: { presentation: 1, photo: 2, resetsAt: '05:00 Asia/Tashkent' },
+        shapes: { free: { minSlides: 4, maxSlides: 6, images: 2, notes: false, palettes: 1 }, full: { minSlides: 6, maxSlides: 12, images: 8, notes: true, palettes: 3 } },
+        turnstileSiteKey: STUB_SITE_KEY,
+        termsVersion: null,
+        terms: { ru: null, uz: null },
+        aiLabel: true,
+      });
+    }
+    if (apiPath === 'me') {
+      // First a new browser with the day's deck; after it, an identity with none left.
+      const fresh = meCalls++ === 0;
+      return json(200, { ok: true, identity: !fresh, free: { presentation: { left: fresh ? 1 : 0, limit: 1 }, photo: { left: 2, limit: 2 }, resetsAt: '05:00 Asia/Tashkent' }, account: null, entitlements: [], latestOrder: null, receipts: [] });
+    }
+    if (apiPath === 'identity') return json(200, { ok: true });
+    if (apiPath === 'presentations') {
+      return json(201, { ok: true, jobId: STUB_JOB, source: 'free', shape: { slides: 6, images: 2, notes: false, palette: 1, parts: 1 }, next: 'slides', expiresAt: new Date(Date.now() + 600_000).toISOString() });
+    }
+    if (apiPath === `presentations/${STUB_JOB}/slides`) return json(200, { ok: true, part: 1, deck: STUB_DECK, images: STUB_IMAGES, done: true });
+    if (apiPath === `presentations/${STUB_JOB}/images`) {
+      const index = (body as { index?: number }).index;
+      if (index === 2 && !refusedOnce) {
+        refusedOnce = true;
+        return json(422, { ok: false, code: 'image_refused', error: 'image refused' });
+      }
+      return route.fulfill({ status: 200, contentType: 'image/jpeg', body: jpeg, headers: { 'X-Robots-Tag': 'noindex, nofollow, noarchive', 'Cache-Control': 'no-store' } });
+    }
+    if (apiPath === 'event') return route.fulfill({ status: 204, body: '' });
+    return json(404, { ok: false, code: 'not_found', error: 'not found' });
+  });
+}
+
+const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+
+/** Every way the recorded calls of one free deck break the contract; empty when they keep it. */
+export function flowFailures(calls: ApiCall[], focusAt: number, submitAt: number): string[] {
+  const failures: string[] = [];
+  const paths = calls.map((call) => `${call.method} ${call.path}`);
+  const first = (name: string) => calls.findIndex((call) => call.path === name);
+  const before = calls.filter((call) => call.at < focusAt);
+  if (before.length) failures.push(`flow: /api/studio called before the first focus: ${before.map((call) => call.path).join(', ')}`);
+  const reads = calls.filter((call) => call.path === 'config' || call.path === 'me');
+  if (reads.length !== 2 || reads.some((call) => call.method !== 'GET' || call.at >= submitAt)) {
+    failures.push(`flow: expected one GET /config and one GET /me between focus and submit, got ${reads.map((call) => `${call.method} ${call.path}@${call.at}`).join(', ')}`);
+  }
+  const order = ['identity', 'presentations', `presentations/${STUB_JOB}/slides`].map(first);
+  if (order.some((at) => at < 0) || !(order[0] < order[1] && order[1] < order[2])) failures.push(`flow: identity → start → slides out of order: ${paths.join(' | ')}`);
+  const identity = calls[order[0]];
+  if (identity && !sameJson(identity.body, { turnstileToken: 'stub-studio_identity' })) failures.push(`flow: /identity body ${JSON.stringify(identity.body)}`);
+  const start = calls[order[1]]?.body as Record<string, unknown> | undefined;
+  const task = { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 6, palette: 1 };
+  if (start) {
+    const { requestId, ...rest } = start;
+    if (typeof requestId !== 'string' || !/^[A-Za-z0-9_-]{8,64}$/.test(requestId)) failures.push('flow: the start has no valid requestId');
+    if (!sameJson(Object.fromEntries(Object.entries(rest).sort()), Object.fromEntries(Object.entries({ ...task, shape: 'free', turnstileToken: 'stub-studio_free_deck' }).sort()))) {
+      failures.push(`flow: /presentations body ${JSON.stringify(rest)}`);
+    }
+  }
+  const slides = calls[order[2]];
+  if (slides && !sameJson(slides.body, task)) failures.push(`flow: /slides body ${JSON.stringify(slides.body)}`);
+  const pictures = calls.filter((call) => call.path.endsWith('/images')).map((call) => (call.body as { index: number }).index).sort();
+  if (!sameJson(pictures, [1, 2, 2])) failures.push(`flow: pictures asked ${JSON.stringify(pictures)}, expected 1 once and 2 twice (one redraw)`);
+  for (const call of calls.filter((entry) => entry.path.endsWith('/images'))) {
+    const image = STUB_IMAGES.find((entry) => entry.index === (call.body as { index: number }).index);
+    if (!image || !sameJson(call.body, image)) failures.push(`flow: picture body ${JSON.stringify(call.body)}`);
+  }
+  const events = calls.filter((call) => call.path === 'event').map((call) => call.body as { type: string; detail: string; id: string; viewId: string });
+  const kinds = events.map((event) => `${event.type}:${event.detail}`);
+  if (!sameJson(kinds, ['studio_tool_started:presentation', 'studio_result_ready:free'])) failures.push(`flow: funnel events ${JSON.stringify(kinds)}`);
+  if (new Set(events.map((event) => event.viewId)).size > 1) failures.push('flow: the events of one view carry different view ids');
+  const unknown = calls.filter((call) => !['config', 'me', 'identity', 'presentations', 'event'].includes(call.path) && !call.path.startsWith(`presentations/${STUB_JOB}/`));
+  if (unknown.length) failures.push(`flow: unexpected calls ${unknown.map((call) => call.path).join(', ')}`);
+  return failures;
 }
 
 export async function checkPages(dist: string): Promise<CheckReport> {
   const { chromium } = await import('playwright-core');
+  const { default: JSZip } = await import('jszip');
   const entry = findStudioEntry(dist);
   const siteStyles = siteStylesheetHrefs(dist);
+  const csp = siteCsp(fs.readFileSync(path.join(dist, '_headers'), 'utf8'));
   const studioPage = `${FIXTURE_PREFIX}cascade.html`;
   const controlPage = `${FIXTURE_PREFIX}control.html`;
-  const server = await serve(dist, {
-    [studioPage]: cascadeFixture(siteStyles, entry, true),
-    [controlPage]: cascadeFixture(siteStyles, entry, false),
-  });
+  const uzPage = `${FIXTURE_PREFIX}uz.html`;
+  const ruPage = `${FIXTURE_PREFIX}ru.html`;
+  const server = await serve(
+    dist,
+    {
+      [studioPage]: cascadeFixture(siteStyles, entry, true),
+      [controlPage]: cascadeFixture(siteStyles, entry, false),
+      [uzPage]: islandFixture(siteStyles, entry, 'uz', renderForm('uz')),
+      [ruPage]: islandFixture(siteStyles, entry, 'ru', renderForm('ru')),
+    },
+    { 'Content-Security-Policy': csp },
+  );
   const browser = await chromium.launch({ executablePath: findChrome(), headless: true });
   const failures: string[] = [];
+  const pageFiles = (page: string) => [page, entry.script, entry.style, ...siteStyles];
   try {
-    const context = await browser.newContext({ viewport: VIEWPORT, acceptDownloads: true });
-    const page = await context.newPage();
+    // --- cascade -------------------------------------------------------------------
+    const cascadeContext = await browser.newContext({ viewport: VIEWPORT });
+    const page = await cascadeContext.newPage();
     // No named helper inside `evaluate`: tsx compiles this file with
     // `keepNames`, which wraps a declared function in a `__name(...)` call,
     // and `__name` does not exist in the page.
@@ -237,52 +480,185 @@ export async function checkPages(dist: string): Promise<CheckReport> {
         buttonPadding: [button.paddingTop, button.paddingRight, button.paddingBottom, button.paddingLeft],
       };
     });
-
     await page.goto(server.origin + controlPage, { waitUntil: 'load' });
     const control = await measure();
     failures.push(...controlFailures(control).map((failure) => `control: ${failure}`));
-
-    server.requests.length = 0;
     await page.goto(server.origin + studioPage, { waitUntil: 'load' });
     await page.waitForSelector('#studio-root[data-island="ready"]', { timeout: 10_000 });
     const studio = await measure();
     failures.push(...cascadeFailures(studio).map((failure) => `cascade: ${failure}`));
+    // A picture for the stub API: a real JPEG, drawn by this browser.
+    const jpeg = Buffer.from(await page.evaluate(async () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+      context.fillStyle = '#229ed9';
+      context.fillRect(0, 0, 256, 256);
+      context.fillStyle = '#2fe6d1';
+      context.fillRect(64, 64, 128, 128);
+      const blob = await new Promise<Blob>((resolve) => canvas.toBlob((made) => resolve(made as Blob), 'image/jpeg', 0.85));
+      return Array.from(new Uint8Array(await blob.arrayBuffer()));
+    }));
+    await cascadeContext.close();
 
-    const loadRequests = [...server.requests];
-    for (const request of unexpectedLoadRequests(loadRequests, [studioPage, entry.script, entry.style, ...siteStyles])) {
-      failures.push(`island: unexpected request on load: ${request}`);
+    // --- hydrate (uz, ru) -----------------------------------------------------------
+    const hydrate = { uz: { loadRequests: [] as string[] }, ru: { loadRequests: [] as string[] } };
+    for (const locale of ['uz', 'ru'] as const) {
+      const context = await browser.newContext({ viewport: VIEWPORT });
+      const tab = await context.newPage();
+      await watch(tab, `hydrate ${locale}`, failures);
+      const external: string[] = [];
+      tab.on('request', (request) => {
+        if (!request.url().startsWith(server.origin)) external.push(request.url());
+      });
+      server.requests.length = 0;
+      const target = locale === 'uz' ? uzPage : ruPage;
+      await tab.goto(server.origin + target, { waitUntil: 'load' });
+      await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 10_000 });
+      await tab.waitForTimeout(500);
+      const state = await tab.evaluate(() => ({
+        recovered: document.getElementById('studio-root')?.dataset.hydration ?? null,
+        submitDisabled: (document.querySelector('#studio-root button[type="submit"]') as HTMLButtonElement | null)?.disabled ?? null,
+        forms: document.querySelectorAll('#studio-root form').length,
+      }));
+      if (state.recovered) failures.push(`hydrate ${locale}: React recovered from a hydration mismatch`);
+      if (state.forms !== 1) failures.push(`hydrate ${locale}: ${state.forms} forms in the island`);
+      if (state.submitDisabled !== false) failures.push(`hydrate ${locale}: the submit button is not enabled after hydration`);
+      hydrate[locale].loadRequests = [...server.requests];
+      for (const request of unexpectedLoadRequests(server.requests, pageFiles(target))) failures.push(`hydrate ${locale}: unexpected request on load: ${request}`);
+      for (const request of external) failures.push(`hydrate ${locale}: request to another host on load: ${request}`);
+      for (const violation of await cspViolations(tab)) failures.push(`hydrate ${locale}: CSP violation: ${violation}`);
+      await context.close();
     }
 
+    // --- flow ------------------------------------------------------------------------
+    const flowContext = await browser.newContext({ viewport: VIEWPORT, acceptDownloads: true });
+    const calls: ApiCall[] = [];
+    const turnstileFetches: number[] = [];
+    await stubApi(flowContext, jpeg, calls, turnstileFetches);
+    const tab = await flowContext.newPage();
+    await watch(tab, 'flow', failures);
+    const flowStarted = Date.now();
     server.requests.length = 0;
-    const deck = {
-      lang: 'uz-Latn',
-      title: 'Amir Temur',
-      slides: [{ title: 'Hayoti', bullets: ['1336-yil Keshda tug‘ilgan', 'Samarqandni poytaxt qilgan'] }],
-    };
-    const [download] = await Promise.all([
-      page.waitForEvent('download', { timeout: 30_000 }),
-      page.evaluate((detail) => {
-        document.getElementById('studio-root')?.dispatchEvent(new CustomEvent('studio:download', { detail }));
-      }, deck),
-    ]);
-    const saved = await download.path();
-    const bytes = fs.readFileSync(saved);
-    const lazyRequests = [...server.requests];
-    if (!lazyRequests.some((request) => /^\/assets\/studio\/pptxgen[\w.-]*\.js$/.test(request))) {
-      failures.push('island: building a deck did not load the pptxgenjs chunk');
-    }
-    if (bytes.subarray(0, 2).toString('latin1') !== 'PK' || !bytes.includes(Buffer.from('ppt/presentation.xml'))) {
-      failures.push('island: the saved file is not a .pptx archive');
-    }
-    if (!download.suggestedFilename().endsWith('.pptx')) failures.push(`island: saved as ${download.suggestedFilename()}`);
+    await tab.goto(server.origin + uzPage, { waitUntil: 'load' });
+    await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 10_000 });
+    await tab.waitForTimeout(500);
+    if (calls.length || turnstileFetches.length) failures.push('flow: the API or Turnstile was called on load');
+    const focusAt = Date.now() - flowStarted;
+    await tab.click('#studio-root input[name="topic"]');
+    await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
+    await tab.waitForTimeout(300);
+    if (turnstileFetches.length) failures.push('flow: Turnstile loaded before the submit');
+    const submitAt = Date.now() - flowStarted;
+    await tab.click('#studio-root button[type="submit"]');
+    await tab.waitForSelector('#studio-root [data-studio-download="idle"]', { timeout: 20_000 });
+    const seconds = Math.round((Date.now() - flowStarted - submitAt) / 100) / 10;
+    failures.push(...flowFailures([...calls], focusAt, submitAt));
+    if (turnstileFetches.length !== 1) failures.push(`flow: the Turnstile script was fetched ${turnstileFetches.length} times`);
+    const turnstile = await tab.evaluate(() => (window as unknown as { __turnstile?: unknown }).__turnstile ?? null);
+    const rendered = (turnstile as { rendered?: { action: string; sitekey: string; appearance: string }[]; removed?: number } | null) ?? {};
+    if (!sameJson((rendered.rendered ?? []).map((widget) => widget.action), ['studio_identity', 'studio_free_deck'])) failures.push(`flow: Turnstile widgets ${JSON.stringify(rendered.rendered)}`);
+    if ((rendered.rendered ?? []).some((widget) => widget.sitekey !== STUB_SITE_KEY || widget.appearance !== 'interaction-only')) failures.push('flow: a widget without the site key or interaction-only');
+    if (rendered.removed !== 2) failures.push(`flow: ${rendered.removed} widgets removed after their tokens, expected 2`);
 
-    await context.close();
+    const dom = await tab.evaluate(() => {
+      const root = document.getElementById('studio-root') as HTMLElement;
+      return {
+        slides: root.querySelectorAll('[data-studio-preview] li[data-slide]').length,
+        pictures: Array.from(root.querySelectorAll('img[data-picture]')).map((img) => (img as HTMLImageElement).src),
+        loaded: Array.from(root.querySelectorAll('img[data-picture]')).every((img) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0),
+        formClass: root.querySelector('form')?.className ?? '',
+        topicClass: root.querySelector('input[name="topic"]')?.className ?? '',
+        previewClass: root.querySelector('[data-studio-preview]')?.className ?? '',
+        downloadClass: root.querySelector('[data-studio-download]')?.className ?? '',
+        dataUrls: root.innerHTML.includes('data:image'),
+      };
+    });
+    if (dom.slides !== 6) failures.push(`flow: the preview shows ${dom.slides} slides`);
+    if (dom.pictures.length !== 2 || !dom.pictures.every((src) => src.startsWith('blob:'))) failures.push(`flow: pictures ${JSON.stringify(dom.pictures)} are not two object URLs`);
+    if (!dom.loaded) failures.push('flow: a picture did not load');
+    if (dom.dataUrls) failures.push('flow: a data: URL in the island');
+    if (!/(^| )ym-disable-submit( |$)/.test(dom.formClass)) failures.push('webvisor: the form lacks ym-disable-submit');
+    if (!/(^| )ym-disable-keys( |$)/.test(dom.topicClass)) failures.push('webvisor: the topic field lacks ym-disable-keys');
+    if (!/(^| )ym-hide-content( |$)/.test(dom.previewClass)) failures.push('webvisor: the preview lacks ym-hide-content');
+    if (!/(^| )ym-hide-content( |$)/.test(dom.downloadClass)) failures.push('webvisor: the download block lacks ym-hide-content');
+
+    const beforeDownload = [...server.requests];
+    if (beforeDownload.some((request) => /^\/assets\/studio\/pptxgen[\w.-]*\.js$/.test(request))) failures.push('flow: pptxgenjs loaded before the download');
+    const [download] = await Promise.all([
+      tab.waitForEvent('download', { timeout: 30_000 }),
+      tab.click('#studio-root [data-studio-download] button'),
+    ]);
+    const bytes = fs.readFileSync(await download.path());
+    if (!server.requests.some((request) => /^\/assets\/studio\/pptxgen[\w.-]*\.js$/.test(request))) failures.push('flow: the download did not load the pptxgenjs chunk');
+    if (download.suggestedFilename() !== 'taqdimot-amir-temur.pptx') failures.push(`flow: saved as ${download.suggestedFilename()}`);
+    let report = { name: download.suggestedFilename(), bytes: bytes.length, slides: 0, media: 0 };
+    try {
+      const zip = await JSZip.loadAsync(bytes);
+      const names = Object.keys(zip.files);
+      const slideFiles = names.filter((name) => /^ppt\/slides\/slide\d+\.xml$/.test(name)).sort((a, b) => Number(/(\d+)\.xml/.exec(a)![1]) - Number(/(\d+)\.xml/.exec(b)![1]));
+      const media = names.filter((name) => name.startsWith('ppt/media/') && !name.endsWith('/'));
+      report = { ...report, slides: slideFiles.length, media: media.length };
+      if (!zip.file('ppt/presentation.xml') || !zip.file('[Content_Types].xml')) failures.push('flow: the file is not a presentation');
+      if (slideFiles.length !== 8) failures.push(`flow: ${slideFiles.length} slides in the file, expected cover + 6 + label`);
+      if (media.length !== 2) failures.push(`flow: ${media.length} pictures in the file, expected 2`);
+      const xml = await Promise.all(slideFiles.map((name) => zip.file(name)!.async('string')));
+      if (!xml[0]?.includes(STUB_DECK.title)) failures.push('flow: the cover lacks the title');
+      STUB_DECK.slides.forEach((slide, i) => {
+        if (!xml[i + 1]?.includes(slide.title)) failures.push(`flow: slide ${i + 1} lacks its title`);
+      });
+      if (!xml.at(-1)?.includes(AI_LABEL.uz)) failures.push('flow: the last slide is not the AI label');
+    } catch (error) {
+      failures.push(`flow: the saved file does not unzip (${error instanceof Error ? error.message : 'unknown'})`);
+    }
+    await tab.waitForSelector('#studio-root [data-studio-download="saved"]', { timeout: 10_000 }).catch(() => failures.push('flow: the download block never said saved'));
+
+    // A second deck the same day: /me says none left, so the limit shows at once
+    // (no Turnstile, no start), and the first deck stays on the page.
+    const firstDeckCalls = calls.length;
+    await tab.click('#studio-root button[type="submit"]');
+    await tab.waitForSelector('#studio-root [data-studio-message="free_limit"]', { timeout: 10_000 }).catch(() => failures.push('again: no free_limit message'));
+    const again = calls.slice(firstDeckCalls);
+    if (!sameJson(again.map((call) => `${call.method} ${call.path}`), ['GET me'])) failures.push(`again: calls ${JSON.stringify(again.map((call) => call.path))}, expected only GET me`);
+    const afterLimit = await tab.evaluate(() => ({
+      slides: document.querySelectorAll('#studio-root [data-studio-preview] li[data-slide]').length,
+      message: document.querySelector('#studio-root [data-studio-message]')?.textContent ?? '',
+      widgets: ((window as unknown as { __turnstile?: { rendered: unknown[] } }).__turnstile?.rendered ?? []).length,
+    }));
+    if (afterLimit.slides !== 6) failures.push('again: the first deck left the page');
+    if (!afterLimit.message.includes('05:00')) failures.push(`again: the limit message lacks the reset time: ${afterLimit.message}`);
+    if (afterLimit.widgets !== 2) failures.push('again: Turnstile ran for a start that could not happen');
+    for (const violation of await cspViolations(tab)) failures.push(`flow: CSP violation: ${violation}`);
+    await flowContext.close();
+
+    // --- in-app ----------------------------------------------------------------------
+    const inAppContext = await browser.newContext({
+      viewport: VIEWPORT,
+      userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 337.0.3.23.54',
+    });
+    const inApp = await inAppContext.newPage();
+    await watch(inApp, 'in-app', failures);
+    server.requests.length = 0;
+    await inApp.goto(server.origin + uzPage, { waitUntil: 'load' });
+    await inApp.waitForSelector('#studio-root [data-studio-inapp]', { timeout: 10_000 }).catch(() => failures.push('in-app: no «Brauzerda oching» notice'));
+    const noticeBeforeSubmit = await inApp.evaluate(() => {
+      const notice = document.querySelector('#studio-root [data-studio-inapp]');
+      const submit = document.querySelector('#studio-root button[type="submit"]');
+      return !!notice && !!submit && (notice.compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+    });
+    if (!noticeBeforeSubmit) failures.push('in-app: the notice does not stand before the submit button');
+    for (const request of unexpectedLoadRequests(server.requests, pageFiles(uzPage))) failures.push(`in-app: unexpected request on load: ${request}`);
+    await inAppContext.close();
+
     return {
       status: failures.length ? 'fail' : 'pass',
       viewport: VIEWPORT,
       studio,
       control,
-      island: { loadRequests, lazyRequests, download: { name: download.suggestedFilename(), bytes: bytes.length } },
+      hydrate,
+      flow: { apiCalls: calls.map((call) => `${call.method} ${call.path} @${call.at}ms`), turnstile, download: report, seconds },
+      inApp: { noticeBeforeSubmit },
       failures,
     };
   } finally {
