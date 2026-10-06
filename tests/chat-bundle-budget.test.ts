@@ -152,12 +152,15 @@ test('the gate reads a built dist/ and its baseline, and refuses a build without
   assert.equal(readBaseline(baselineFile)?.startCssBytes, 1);
 });
 
-test('the recorded baseline is within budget and knows the three parts', () => {
+test('the recorded baseline is within budget and knows the lazy parts', () => {
   const recorded = readBaseline();
   assert.ok(recorded, `${BASELINE_FILE} is committed`);
   assert.equal(recorded.entry, ENTRIES.chat);
   assert.ok(recorded.startBytes > 50_000 && recorded.startBytes <= CHAT_BUDGET.start, `start ${recorded.startBytes}`);
-  assert.deepEqual(Object.keys(recorded.parts).sort(), ['chat-account', 'chat-lead', 'chat-tools']);
+  // The chat design release (20229600) recorded the parts it split out of the start bundle.
+  assert.deepEqual(Object.keys(recorded.parts).sort(), [
+    'chat-account', 'chat-answer', 'chat-lead', 'chat-limit', 'chat-role', 'chat-tools', 'chat-turnstile',
+  ]);
   for (const [name, bytes] of Object.entries(recorded.parts)) assert.ok(bytes > 0 && bytes <= CHAT_BUDGET.lazyPart, name);
 });
 
