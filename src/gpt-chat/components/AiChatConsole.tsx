@@ -7,7 +7,7 @@ import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, Mess
 import { ArrowDown } from 'lucide-react';
 import { billingOpen, type ChatMessage, type FreeLimits, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
-import { createSession, fetchTurnstileConfig, sendChatStream } from "../api";
+import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
 import {
   loadHistory,
@@ -121,6 +121,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     siteKey: string | null;
   } | null>(null);
   const [turnstileConfigError, setTurnstileConfigError] = useState(false);
+  // Bumped to ask for the config again after the server refused a check.
+  const [configRead, setConfigRead] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileServerError, setTurnstileServerError] = useState<
     string | null
@@ -247,21 +249,18 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   useEffect(() => {
     let cancelled = false;
-    void fetchTurnstileConfig(config.apiBase)
-      .then((next) => {
-        if (cancelled) return;
-        setTurnstileConfig(next);
-        if (next.required && !next.siteKey) setTurnstileConfigError(true);
-        // Cloudflare's script loads while the lazy part chat-turnstile does.
-        if (next.required && next.siteKey) void loadTurnstile().catch(() => undefined);
-      })
-      .catch(() => {
-        if (!cancelled) setTurnstileConfigError(true);
-      });
+    void loadTurnstileConfig(config.apiBase).then((next) => {
+      if (cancelled) return;
+      setTurnstileConfig(next);
+      // Said only when the server asks for a check it cannot show.
+      setTurnstileConfigError(next.required && !next.siteKey);
+      // Cloudflare's script loads while the lazy part chat-turnstile does.
+      if (next.required && next.siteKey) void loadTurnstile().catch(() => undefined);
+    });
     return () => {
       cancelled = true;
     };
-  }, [config.apiBase]);
+  }, [config.apiBase, configRead]);
 
   const assistantCount = useMemo(
     () =>
@@ -282,11 +281,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [rest, setRest] = useState({ empty, key: 0 });
   if (rest.empty !== empty) setRest({ empty, key: rest.key + (empty ? 1 : 0) });
   const turnstileKey = turnstileConfig?.required ? turnstileConfig.siteKey : null;
+  // Sending waits for nothing it does not need: not the account view (F11
+  // covers a guest who writes before it answers) and not a config still on
+  // its way. Only a check the server asked for holds it until its token.
   const turnstileReady =
-    turnstileConfig?.required === false || !!turnstileToken;
+    turnstileConfig === null || !turnstileConfig.required || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
-  const sendDisabled =
-    busy || limitBlocked || !turnstileReady || accountState === "loading";
+  const sendDisabled = busy || limitBlocked || !turnstileReady;
 
   // The limit outlives a reload and a trip to the payment page.
   useEffect(() => {
@@ -374,9 +375,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // takes it away, unless its form is open.
     setBusinessLine((line) => (line?.open ? line : null));
     setTurnstileServerError(null);
-    const generation = identityGeneration.current;
-    const sid = await ensureSession();
-    if (generation !== identityGeneration.current) return;
+    // The question and «AI o‘ylayapti…» show at the tap, before the session
+    // request: on 3G the composer used to empty half a second before them.
     const history = messages.filter((m) => !m.pending && !m.error);
     const withUser: ChatMessage[] = [
       ...history,
@@ -384,6 +384,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       { role: "assistant", content: "", pending: true },
     ];
     setMessages(withUser);
+    const generation = identityGeneration.current;
+    const sid = await ensureSession();
+    if (generation !== identityGeneration.current) return;
     const messageNumber = history.filter((m) => m.role === "user").length + 1;
     // Read here, in the browser, and never sent: only the topic is counted,
     // and only once the line shows (AiBusinessLine).
@@ -486,6 +489,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         setTurnstileServerError(
           res.code === "turnstile_failed" ? t.turnstileRetry : t.turnstileError,
         );
+        // The server wanted a check: the config may say so now.
+        setConfigRead((n) => n + 1);
         track(EV.aiResponseError, { code: res.code, message_number: messageNumber });
       } else {
         // Curated copy only — never surface raw backend/provider strings.
@@ -1236,19 +1241,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
               </LazyPart>
             )}
-            {(!turnstileConfig || turnstileConfigError) && (
-              <p
-                className={
-                  turnstileConfigError
-                    ? "mb-2 text-center text-xs text-red-300"
-                    : "mb-2 text-center text-xs text-white/45"
-                }
-                role="status"
-                aria-live="polite"
-              >
-                {turnstileConfigError
-                  ? t.turnstileError
-                  : t.turnstileLoading}
+            {turnstileConfigError && (
+              <p className="mb-2 text-center text-xs text-red-300" role="status" aria-live="polite">
+                {t.turnstileError}
               </p>
             )}
             {turnstileServerError && (

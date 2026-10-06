@@ -34,6 +34,26 @@ export async function fetchTurnstileConfig(apiBase: string): Promise<TurnstilePu
   };
 }
 
+/**
+ * The check's config, asked up to three times: now, 1 s and then 3 s after a
+ * failure. If it never arrives no check is assumed, so sending is not held:
+ * the server checks every turn itself, and its turnstile_* answer makes the
+ * chat ask for the config again.
+ */
+export async function loadTurnstileConfig(
+  apiBase: string,
+  wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms)),
+): Promise<TurnstilePublicConfig> {
+  for (const pause of [1_000, 3_000, 0]) {
+    try {
+      return await fetchTurnstileConfig(apiBase);
+    } catch {
+      if (pause) await wait(pause);
+    }
+  }
+  return { required: false, siteKey: null };
+}
+
 export async function createSession(apiBase: string, locale: Locale): Promise<string | null> {
   try {
     const data = await postJson<{ ok: boolean; sessionId?: string }>(`${apiBase}/api/gpt/session`, {

@@ -515,3 +515,26 @@ test('use-account: a failed read says unreachable and keeps the view; signing ou
   assert.match(source, /const fail = useCallback\(\(\) => \{\s*setError\(true\);\s*onAccount\(null, 'unreachable'\);\s*\}, \[onAccount\]\);/);
   assert.match(source, /const forget = useCallback\(\(\) => \{\s*setData\(null\);\s*onAccount\(null, 'signed_out'\);\s*\}, \[onAccount\]\);/);
 });
+
+// ── writing at once (NOW-02: plan NET-01, M-10, M-11) ──
+
+test('sending waits for nothing it does not need; the question shows at the tap', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // Not the account view, not a config on its way: only a check the server asked for.
+  assert.match(source, /const turnstileReady =\s*turnstileConfig === null \|\| !turnstileConfig\.required \|\| !!turnstileToken;/);
+  assert.match(source, /const sendDisabled = busy \|\| limitBlocked \|\| !turnstileReady;/);
+  assert.doesNotMatch(source, /accountState === "loading"/);
+  // The bubble and «AI o‘ylayapti…» are set before the session request is awaited.
+  const send = source.slice(source.indexOf('const doSend = async ('), source.indexOf('const handleJson ='));
+  const shown = send.indexOf('setMessages(withUser);');
+  assert.ok(shown > 0 && shown < send.indexOf('await ensureSession()'), 'setMessages(withUser) before await ensureSession()');
+  assert.match(send, /const sid = await ensureSession\(\);\s*if \(generation !== identityGeneration\.current\) return;/);
+  // No «loading the security check» line for everyone; an error line only when a required check has no key.
+  assert.doesNotMatch(source, /!turnstileConfig \|\| turnstileConfigError/);
+  assert.match(source, /setTurnstileConfigError\(next\.required && !next\.siteKey\);/);
+  assert.equal((source.match(/t\.turnstileLoading/g) ?? []).length, 2, 'the lazy check\'s placeholder and its own loading text only');
+  // A refused check asks for the config again.
+  const refusedCheck = source.slice(source.indexOf('res.code === "turnstile_failed" ? t.turnstileRetry'), source.indexOf('track(EV.aiResponseError', source.indexOf('res.code === "turnstile_failed" ? t.turnstileRetry')));
+  assert.match(refusedCheck, /setConfigRead\(\(n\) => n \+ 1\);/);
+  assert.match(source, /\}, \[config\.apiBase, configRead\]\);/);
+});

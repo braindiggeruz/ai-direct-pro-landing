@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { retryAfterSeconds, sendChatStream } from '../src/gpt-chat/api';
+import { loadTurnstileConfig, retryAfterSeconds, sendChatStream } from '../src/gpt-chat/api';
 import { parseSseChunk } from '../functions/lib/gpt-chat/openrouter-stream';
 
 const params = { sessionId: null, message: 'fixture', locale: 'uz' as const, history: [] };
@@ -157,4 +157,22 @@ test('plain JSON responses keep the existing compatibility path', async (t) => {
   t.mock.method(globalThis, 'fetch', async () => Response.json(res));
   const outcome = await sendChatStream('', params, { onDelta: () => assert.fail('JSON does not emit deltas') }, new AbortController().signal);
   assert.deepEqual(outcome, { mode: 'json', res });
+});
+
+test('the check config is asked three times, then no check is assumed', async (t) => {
+  const pauses: number[] = [];
+  const wait = async (ms: number) => { pauses.push(ms); };
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => { calls++; return new Response('{}', { status: 500 }); });
+  assert.deepEqual(await loadTurnstileConfig('', wait), { required: false, siteKey: null });
+  assert.equal(calls, 3);
+  assert.deepEqual(pauses, [1_000, 3_000]);
+  // A config that arrives on the second try is the config.
+  calls = 0;
+  pauses.length = 0;
+  t.mock.method(globalThis, 'fetch', async () => (++calls === 1
+    ? new Response('{}', { status: 503 })
+    : Response.json({ turnstileRequired: true, turnstileSiteKey: 'site-key' })));
+  assert.deepEqual(await loadTurnstileConfig('', wait), { required: true, siteKey: 'site-key' });
+  assert.deepEqual(pauses, [1_000]);
 });
