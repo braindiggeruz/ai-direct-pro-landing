@@ -18,7 +18,8 @@ import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { leadStrings } from '../src/gpt-chat/lead-strings';
 import { answerStrings } from '../src/gpt-chat/answer-strings';
-import { answerAsk, MessageActions, translationOf } from '../src/gpt-chat/components/AiAnswer';
+import { answerAsk, copyText, MessageActions, SHARE_SIGNATURE, telegramShare, translationOf } from '../src/gpt-chat/components/AiAnswer';
+import { plainText } from '../src/gpt-chat/plain-text';
 import { applyRole } from '../src/gpt-chat/roles';
 import { showsAccountPill, type AccountView } from '../src/gpt-chat/types';
 import { AiChatInput } from '../src/gpt-chat/components/AiChatInput';
@@ -354,15 +355,15 @@ test('a last question without an answer says so, with a retry and the way back t
   assert.equal(uz.premium.unanswered, 'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.');
 });
 
-test('every button that sends is off while sending is paused; copying never is', () => {
+test('every button that sends is off while sending is paused; copying and sharing never are', () => {
   const html = actions({ locked: true });
   const buttons = html.match(/<button[^>]*>/g) ?? [];
-  assert.equal(buttons.length, 5, 'copy, simpler, translate, continue, another answer');
-  assert.ok(!buttons[0].includes('disabled'), 'copy works during a limit');
-  for (const button of buttons.slice(1)) assert.match(button, /disabled=""/);
+  assert.equal(buttons.length, 6, 'copy, Telegram, simpler, translate, continue, another answer');
+  for (const button of buttons.slice(0, 2)) assert.ok(!button.includes('disabled'), 'copy and Telegram work during a limit');
+  for (const button of buttons.slice(2)) assert.match(button, /disabled=""/);
   assert.ok(!actions().includes('disabled'));
-  // Only the last answer has them.
-  assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 1);
+  // Only the last answer has the rest; every answer can be copied and shared.
+  assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 2);
 });
 
 test('on a phone the row is copy, continue on a cut answer and «⋯»; with a mouse, the whole row', (t) => {
@@ -372,11 +373,11 @@ test('on a phone the row is copy, continue on a cut answer and «⋯»; with a m
   const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, ''));
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   const phone = actions();
-  assert.deepEqual(labels(phone), [s.copy, s.more]);
+  assert.deepEqual(labels(phone), [s.copy, s.share, s.more]);
   assert.match(phone, /aria-expanded="false"/);
-  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.continue, s.more]);
+  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, s.more]);
   g.window = { matchMedia: () => ({ matches: false }) };
-  assert.equal((actions().match(/<button/g) ?? []).length, 5);
+  assert.equal((actions().match(/<button/g) ?? []).length, 6);
 });
 
 test('while few messages are left, once a session: every button costs a message', () => {
@@ -389,6 +390,72 @@ test('while few messages are left, once a session: every button costs a message'
   assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourLeft !== null && hourLeft <= 2\)\);/);
   assert.match(consoleSource, /if \(fewLeft && onceThisSession\("gptchat_cost_note"\)\) setCostNote\(true\);/);
   assert.match(read('src/gpt-chat/storage.ts'), /export function onceThisSession\(key: string\): boolean \{\s*try \{\s*if \(sessionStorage\.getItem\(key\) !== null\) return false;\s*sessionStorage\.setItem\(key, "1"\);\s*\} catch \{/);
+});
+
+// ── copy and share (NOW-08: plan COPY-01, M-08, map 03 §3.2–3.3) ─────────────
+
+test('copying gives plain text: no #, **, table rules or LaTeX; bullets, table rows and links read as text', () => {
+  const text = plainText('### Sarlavha\n**Dushanba** — post\n| a | b |\n|---|---|\n| 1 | 2 |\n- bir\n* ikki\n> iqtibos\n[sayt](https://gptbot.uz) va `kod`\n---\n2 * 3 * 4, *muhim*, \\(x^2\\)\n```\n**kod** # qoladi\n```');
+  assert.doesNotMatch(text.split('**kod**')[0], /#|\*\*|\|---\||```|\\\(/);
+  for (const line of ['Sarlavha', 'Dushanba — post', 'a — b', '1 — 2', '• bir', '• ikki', 'iqtibos', 'sayt (https://gptbot.uz) va kod', '2 * 3 * 4, muhim, x²', '**kod** # qoladi']) {
+    assert.ok(text.split('\n').includes(line), `${line} in:\n${text}`);
+  }
+  assert.doesNotMatch(plainText('a\n\n\n\nb'), /\n{3}/);
+});
+
+test('copying falls back to a hidden textarea when the WebView refuses the clipboard', async (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const calls: string[] = [];
+  const box = { value: '', readOnly: false, style: {} as Record<string, string>, select: () => calls.push('select'), remove: () => calls.push('remove') };
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { clipboard: { writeText: async () => { throw new Error('denied'); } } } });
+  g.document = { createElement: () => box, body: { appendChild: () => calls.push('append') }, execCommand: (command: string) => { calls.push(command); return true; } };
+  t.after(() => {
+    delete g.document;
+    if (previous) Object.defineProperty(globalThis, 'navigator', previous);
+  });
+  assert.equal(await copyText('Toza matn'), true);
+  assert.deepEqual(calls, ['append', 'select', 'copy', 'remove']);
+  assert.equal(box.value, 'Toza matn');
+  assert.deepEqual(box.style, { position: 'fixed', opacity: '0' });
+  // Both ways refused: only then «Nusxalab bo‘lmadi».
+  (g.document as { execCommand: () => boolean }).execCommand = () => false;
+  assert.equal(await copyText('x'), false);
+});
+
+test('«Telegramga yuborish»: t.me picker, plain text within 6000 encoded characters, the signature and the chat link', () => {
+  const page = 'https://gptbot.uz/uz/gpt-uzbek-tilida/';
+  const short = telegramShare('**Salom**, bu javob.', page);
+  const url = new URL(short.href);
+  assert.equal(`${url.origin}${url.pathname}`, 'https://t.me/share/url');
+  assert.equal(url.searchParams.get('url'), `${page}?utm_source=telegram&utm_medium=share`);
+  assert.equal(url.searchParams.get('text'), `Salom, bu javob.${SHARE_SIGNATURE}`);
+  assert.equal(short.cut, false);
+  // A long Cyrillic answer: whole paragraphs while they fit, then «…» and the signature.
+  const long = Array.from({ length: 30 }, (_, i) => `Абзац ${i + 1}. ${'Длинный русский текст ответа. '.repeat(4)}`).join('\n\n');
+  const shared = telegramShare(long, page);
+  const text = new URL(shared.href).searchParams.get('text')!;
+  assert.equal(shared.cut, true);
+  assert.ok(encodeURIComponent(text).length <= 6000, String(encodeURIComponent(text).length));
+  assert.ok(text.endsWith(`\n\n…${SHARE_SIGNATURE}`));
+  assert.match(text, /^Абзац 1\./);
+  assert.ok(long.includes(text.slice(0, text.indexOf('\n\n…'))), 'cut at a paragraph');
+  // One paragraph too long alone is cut by characters, never in the middle of an emoji.
+  const wall = telegramShare(`a${'😀'.repeat(3000)}`, page);
+  assert.doesNotThrow(() => decodeURIComponent(new URL(wall.href).search));
+  assert.equal(wall.cut, true);
+  for (const locale of LOCALES) {
+    const s = answerStrings(locale);
+    for (const line of [s.share, s.shareLabel, s.shareCut, SHARE_SIGNATURE]) assert.doesNotMatch(line, /ChatGPT|OpenAI|rasmiy|официальн/i);
+  }
+  assert.deepEqual([answerStrings('uz').share, answerStrings('uz').shareLabel], ['Telegramga', 'Telegramga yuborish']);
+  // answer_shared carries the method only.
+  const shares = trackCalls().filter((call) => call.event === 'EV.answerShared');
+  assert.deepEqual(shares.map((call) => call.keys), [['method']]);
+  assert.equal(EV.answerShared, 'answer_shared');
+  const source = read('src/gpt-chat/components/AiAnswer.tsx');
+  assert.match(source, /window\.open\(href, "_blank", "noopener"\);/);
+  assert.doesNotMatch(source, /navigator\.share/);
 });
 
 // ── analytics: one event per entity ─────────────────────────────────────────

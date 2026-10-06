@@ -186,7 +186,7 @@ const LAZY_ONLY = {
   ],
   'chat-tools': ['src/gpt-chat/components/AiToolPanel.tsx', 'src/gpt-chat/components/PromptTemplateGrid.tsx', 'src/gpt-chat/components/ImagePromptTool.tsx', 'src/gpt-chat/templates.ts'],
   // Fetched once a question is being written: here before the first answer.
-  'chat-answer': ['src/gpt-chat/components/AiAnswer.tsx', 'src/gpt-chat/markdown.ts', 'src/gpt-chat/latex-lite.ts', 'src/gpt-chat/answer-strings.ts'],
+  'chat-answer': ['src/gpt-chat/components/AiAnswer.tsx', 'src/gpt-chat/markdown.ts', 'src/gpt-chat/latex-lite.ts', 'src/gpt-chat/answer-strings.ts', 'src/gpt-chat/plain-text.ts'],
   // Off in production: only a page whose server asks for the check loads it.
   'chat-turnstile': ['src/gpt-chat/components/TurnstileChallenge.tsx'],
 };

@@ -147,6 +147,8 @@ export const EV = {
   promptChipClicked: 'prompt_chip_clicked',
   templateUsed: 'template_used',
   messageCopied: 'message_copied',
+  /** «Telegramga yuborish» under an answer: `method` tme. The text goes only into the t.me link. */
+  answerShared: 'answer_shared',
   newChat: 'new_chat',
   roleSelected: 'role_selected',
   toolOpened: 'tool_opened',

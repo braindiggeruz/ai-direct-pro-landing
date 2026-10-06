@@ -20,6 +20,11 @@ export interface AnswerStrings {
   toUzbek: string;
   /** Under the row once a session while few messages are left. */
   buttonCost: string;
+  /** The Telegram button: short on the button, whole for a screen reader. */
+  share: string;
+  shareLabel: string;
+  /** Once a long answer went to Telegram cut: only its start fits the link. */
+  shareCut: string;
   /** What each button asks the model, followed by the answer (or its end). */
   ask: { shorter: string; continue: string; russian: string; uzbek: string };
 }
@@ -35,6 +40,9 @@ const RU: AnswerStrings = {
   toRussian: "Перевести на русский",
   toUzbek: "Перевести на узбекский",
   buttonCost: "Каждая кнопка — 1 сообщение.",
+  share: "В Telegram",
+  shareLabel: "Отправить в Telegram",
+  shareCut: "Ответ длинный — в Telegram ушло начало. Весь текст можно скопировать.",
   ask: {
     shorter: "Объясни следующий ответ проще, добавь один понятный бытовой пример:",
     continue: "Продолжи свой ответ ровно с этого места, не повторяя написанное. Конец ответа:",
@@ -54,6 +62,9 @@ const UZ: AnswerStrings = {
   toRussian: "Rus tiliga tarjima",
   toUzbek: "O‘zbekchaga tarjima",
   buttonCost: "Har bir tugma — 1 ta xabar.",
+  share: "Telegramga",
+  shareLabel: "Telegramga yuborish",
+  shareCut: "Javob uzun — Telegramga boshi yuborildi. To‘liq matn uchun «Nusxalash»ni bosing.",
   ask: {
     shorter: "Quyidagi javobni oddiyroq tushuntir. Kundalik hayotdan misol keltir:",
     continue: "Javobingni aynan shu joydan davom ettir, takrorlama. Oxirgi qismi:",
