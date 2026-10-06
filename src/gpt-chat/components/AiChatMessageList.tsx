@@ -69,7 +69,7 @@ export function AiChatMessageList({
   busy?: boolean;
   /** Sending is paused (a turn, a limit, a check): the buttons that send are off. */
   locked?: boolean;
-  /** Say once under the last answer that each of its buttons sends a message. */
+  /** Say once under the last answer which of its buttons cost a message (those that make the AI write) and which do not. */
   costNote?: boolean;
   /** The last question again, in place of its answer or error. */
   onRetry?: () => void;

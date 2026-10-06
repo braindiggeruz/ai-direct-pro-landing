@@ -81,7 +81,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
         <span data-testid="ai-input-microcopy">
           {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
         </span>
-        {cutAt ? <span role="status">{t.inputCut}</span> : over ? <span role="status">{t.charsOver(-left)}</span> : left <= 200 && <span role="status">{t.charsLeft(left)}</span>}
+        {over ? <span role="status">{t.charsOver(-left)}</span> : cutAt ? <span role="status">{t.inputCut}</span> : left <= 200 && <span role="status">{t.charsLeft(left)}</span>}
       </div>
     </div>
   );

@@ -285,7 +285,8 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
   // Neither Enter nor the button sends text over the limit.
   assert.match(source, /if \(!disabled && !busy && value\.trim\(\) && !over\) onSend\(\);/);
   assert.match(source, /disabled=\{disabled \|\| busy \|\| !value\.trim\(\) \|\| over\}/);
-  assert.match(source, /\{cutAt \? <span role="status">\{t\.inputCut\}<\/span> : over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
+  // Over the limit says by how much at once, even within the 8 s of a cut paste's line.
+  assert.match(source, /\{over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
 });
 
 test('a message too long for the server offers «change the question», not a retry that fails the same way', () => {
