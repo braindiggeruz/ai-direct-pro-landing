@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
@@ -5,7 +6,7 @@ import type { Locale } from '../types';
 import type { ChatStrings } from '../i18n';
 import type { AiToolId } from '../templates';
 import type { RoleId } from '../roles';
-import { RoleSelector } from './RoleSelector';
+import { LazyPart, rolePart } from '../lazy-part';
 import { track, EV } from '../analytics';
 import { telegramDeepLink } from '../../lib/telegram';
 
@@ -16,6 +17,9 @@ const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
   { id: 'business', ru: 'Бизнес', uz: 'Biznes', icon: 'M4 8h16v11H4zM9 8V5h6v3m-2 5h-2' },
   { id: 'study', ru: 'Учёба', uz: 'O‘qish', icon: 'M3 9l9-5 9 5-9 5-9-5zm4 3v4c3 2 7 2 10 0v-4' },
 ];
+
+/** A link of the menu's «Bo‘limlar» list. */
+const LINK = "flex min-h-11 items-center rounded-xl px-3 text-[13px] text-white/55 hover:bg-white/[0.03] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan";
 
 interface SidebarProps {
   locale: Locale;
@@ -30,10 +34,12 @@ interface SidebarProps {
   onToggleCollapsed: () => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
+  /** «Batafsil: chat haqida ↓»: to the text under the chat (REV-5). */
+  onAbout: (event: { preventDefault: () => void }) => void;
 }
 
 function SidebarBody({
-  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway,
+  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway, onAbout,
 }: {
   locale: Locale;
   t: ChatStrings;
@@ -46,6 +52,7 @@ function SidebarBody({
   collapsed: boolean;
   inDrawer: boolean;
   onNavigateAway?: () => void;
+  onAbout: SidebarProps['onAbout'];
 }) {
   const uz = locale === 'uz';
   const botHref = telegramDeepLink(locale);
@@ -108,8 +115,12 @@ function SidebarBody({
           </ul>
         </nav>
 
-        {/* AI role */}
-        {showLabels && <RoleSelector locale={locale} value={role} onChange={onRoleChange} disabled={busy} />}
+        {/* AI role: the lazy part chat-role, its place held at its height. */}
+        {showLabels && (
+          <LazyPart part={rolePart} fallback={<div className="h-[92px]" />} failed={null}>
+            {({ RoleSelector }) => <RoleSelector locale={locale} value={role} onChange={onRoleChange} disabled={busy} />}
+          </LazyPart>
+        )}
 
         {/* Telegram CTA — the assistant bot, whose username always has a value
             (src/lib/telegram.ts). It used to vanish entirely, which left the
@@ -133,13 +144,18 @@ function SidebarBody({
           <nav aria-label={t.sidebarLinks} className="mt-3">
             <p className="mb-2 px-1 text-[11px] font-semibold uppercase tracking-wider text-white/35">{t.sidebarLinks}</p>
             <ul className="space-y-0.5">
+              <li>
+                <a href="#seo-summary" onClick={onAbout} className={LINK}>
+                  {t.aboutChat}
+                </a>
+              </li>
               {links.map((l) => (
                 <li key={l.key}>
                   <a
                     href={l.href}
                     onClick={() => onLinkClick(l.event)}
                     data-testid={`sidebar-${l.key}`}
-                    className="flex min-h-11 items-center rounded-xl px-3 text-[13px] text-white/55 hover:bg-white/[0.03] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
+                    className={LINK}
                   >
                     {l.label}
                   </a>
@@ -160,6 +176,10 @@ function SidebarBody({
 
 export function AiSidebar(props: SidebarProps) {
   const { collapsed, onToggleCollapsed, mobileOpen, onCloseMobile, t } = props;
+  // A wide screen shows the menu, and so the role picker, from the start.
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 1024px)').matches) rolePart.preload();
+  }, []);
   return (
     <>
       {/* Desktop sidebar */}

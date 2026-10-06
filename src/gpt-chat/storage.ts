@@ -1,6 +1,6 @@
 // localStorage persistence for the anonymous chat session + history.
 // Fails silently in private mode / storage-disabled browsers.
-import type { ChatMessage, Locale } from "./types";
+import type { AnswerVersion, ChatMessage, Locale } from "./types";
 import { isOpaqueStorageKey } from "./types";
 
 const SID_KEY = "gptchat_sid";
@@ -237,29 +237,37 @@ export function hasStoredHistory(locale: Locale): boolean {
   return false;
 }
 
-export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
-  try {
-    const raw =
-      localStorage.getItem(localeKey(HIST_KEY, locale, scope)) ??
-      (!scope && locale === "ru" ? localStorage.getItem(HIST_KEY) : null);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed
-      .filter(
-        (m) =>
-          m &&
-          (m.role === "user" || m.role === "assistant") &&
-          typeof m.content === "string",
-      )
-      .slice(-40)
-      .map((m) => ({
+/**
+ * A stored conversation as the chat may show it: questions and answers only,
+ * the last 40, each text capped, and an answer's versions (REV-7) only while
+ * they are 2 or 3 well-formed ones with the shown one among them.
+ */
+function restore(list: unknown): ChatMessage[] {
+  return (Array.isArray(list) ? list : [])
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+    .slice(-40)
+    .map((m) => {
+      const versions = Array.isArray(m.versions) && m.versions.length > 1 && m.versions.length < 4
+        && m.versions.every((v: AnswerVersion) => v && typeof v.content === "string") && m.versions[m.version]
+        ? (m.versions as AnswerVersion[]).map((v) => ({ content: v.content.slice(0, 100_000), model: typeof v.model === "string" ? v.model : null, truncated: v.truncated === true }))
+        : undefined;
+      return {
         role: m.role,
         content: m.content.slice(0, 100_000),
         model: typeof m.model === "string" ? m.model : null,
         partial: m.partial === true,
         truncated: m.truncated === true,
-      }));
+        ...(versions && { versions, version: m.version as number }),
+      };
+    });
+}
+
+export function loadHistory(locale: Locale, scope?: string): ChatMessage[] {
+  try {
+    const raw =
+      localStorage.getItem(localeKey(HIST_KEY, locale, scope)) ??
+      (!scope && locale === "ru" ? localStorage.getItem(HIST_KEY) : null);
+    return raw ? restore(JSON.parse(raw)) : [];
   } catch {
     return [];
   }
@@ -275,6 +283,8 @@ export function saveHistory(messages: ChatMessage[], locale: Locale, scope?: str
         model: m.model ?? null,
         partial: m.partial === true,
         truncated: m.truncated === true,
+        versions: m.versions,
+        version: m.version,
       }))
       .slice(-40);
     localStorage.setItem(localeKey(HIST_KEY, locale, scope), JSON.stringify(clean));
@@ -316,21 +326,7 @@ export function loadChats(locale: Locale, scope?: string): SavedChat[] {
           .map((c) => ({
             ...c,
             title: c.title.slice(0, 80),
-            messages: c.messages
-              .filter(
-                (m: ChatMessage) =>
-                  m &&
-                  (m.role === "user" || m.role === "assistant") &&
-                  typeof m.content === "string",
-              )
-              .slice(-40)
-              .map((m: ChatMessage) => ({
-                role: m.role,
-                content: m.content.slice(0, 100_000),
-                model: typeof m.model === "string" ? m.model : null,
-                partial: m.partial === true,
-                truncated: m.truncated === true,
-              })),
+            messages: restore(c.messages),
           }))
       : [];
   } catch {

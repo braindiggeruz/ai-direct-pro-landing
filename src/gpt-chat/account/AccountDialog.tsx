@@ -356,30 +356,33 @@ export function AccountDialog({
         // A guest saw the price card above the pay step already.
         !guestPay && <PlanCard t={t} copy={copy} pack={pack} />
       )}
-      <label className="gpt-check">
-        <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
-        <span>
-          {termsUrl && data?.termsVersion ? (
-            <a href={termsUrl} target="_blank" rel="noopener noreferrer">{copy.terms}</a>
-          ) : (
-            copy.terms
-          )}
-        </span>
-      </label>
-      <div className="gpt-payment-buttons">
-        {offered.map((provider) => (
-          <button
-            type="button"
-            key={provider}
-            className="gpt-primary"
-            data-provider={provider}
-            disabled={busy || !terms || !checkoutReady}
-            onClick={() => void pay(provider)}
-          >
-            {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
-            {!appFlow(provider) && <span aria-hidden="true">↗</span>}
-          </button>
-        ))}
+      {/* The consent and the pay buttons stay in sight at the bottom of the window (REV-9). */}
+      <div className="gpt-sticky-action">
+        <label className="gpt-check">
+          <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
+          <span>
+            {termsUrl && data?.termsVersion ? (
+              <a href={termsUrl} target="_blank" rel="noopener noreferrer">{copy.terms}</a>
+            ) : (
+              copy.terms
+            )}
+          </span>
+        </label>
+        <div className="gpt-payment-buttons">
+          {offered.map((provider) => (
+            <button
+              type="button"
+              key={provider}
+              className="gpt-primary"
+              data-provider={provider}
+              disabled={busy || !terms || !checkoutReady}
+              onClick={() => void pay(provider)}
+            >
+              {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
+              {!appFlow(provider) && <span aria-hidden="true">↗</span>}
+            </button>
+          ))}
+        </div>
       </div>
       <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
       {guestPay && <p className="gpt-panel-note" data-testid="ai-pay-guest">{copy.guestPayNote}</p>}
@@ -403,8 +406,10 @@ export function AccountDialog({
       )}
     </>
   );
+  // The consent and the sign-in button stay in sight at the bottom of the
+  // window (REV-9); the bot's steps, once started, scroll with the rest.
   const loginBlock = (
-    <>
+    <div className="gpt-sticky-action">
       <label className="gpt-check">
         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
         <span>
@@ -443,7 +448,7 @@ export function AccountDialog({
           {copy.login}
         </button>
       )}
-    </>
+    </div>
   );
   const paymentState = data?.payment
     ? ["pending", "prepared"].includes(data.payment.state)

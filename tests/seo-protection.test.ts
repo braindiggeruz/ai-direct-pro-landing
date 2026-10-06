@@ -199,6 +199,27 @@ test('the school-pages revision changes only the homepage list: two new guides, 
   assert.equal(home.bodyText.replace(added, ''), homeBefore.bodyText);
 });
 
+const CHAT_DESIGN = 'docs/seo/evidence/2026-10-06-chat-design/reviewed-protected-pages.json';
+
+test('the chat design revision changes no contract and no text on the ten; it records every HTML it changes', () => {
+  const current = readRevision(CHAT_DESIGN) as Revision & { invisibleToGate: Array<{ change: string; pages?: string[]; htmlSha256?: Record<string, string> }> };
+  const previous = readRevision(SCHOOL);
+  assert.equal(current.previousRevision, SCHOOL);
+  assert.deepEqual(current.reviewedChanges, []);
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+  }
+  // Every protected page's HTML changes (the shared stylesheet's name), each with its hashes before and after.
+  const hashes = current.invisibleToGate.find((c) => c.htmlSha256)!.htmlSha256!;
+  assert.deepEqual(Object.keys(hashes), [...PROTECTED_PATHS]);
+  for (const value of Object.values(hashes)) assert.match(value, /^[0-9a-f]{64} → [0-9a-f]{64}$/);
+  const chats = current.invisibleToGate.filter((c) => JSON.stringify(c.pages) === JSON.stringify(['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/']));
+  assert.ok(chats.some((c) => /frame adds no text/.test(c.change)), 'the prerendered frame is reviewed');
+  assert.ok(chats.some((c) => /interactive-widget=resizes-content/.test(c.change) && /modulepreload/.test(c.change)), 'the <head> tags are reviewed');
+});
+
 // School guides declare their own audience and a short breadcrumb (R-S1
 // review, 2026-10-05); every article without the optional fields keeps the
 // template's defaults, so the protected download guide does not change.

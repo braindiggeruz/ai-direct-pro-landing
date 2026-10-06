@@ -1,20 +1,23 @@
 import { useEffect, useState, type RefObject } from 'react';
-import { ArrowUp, Square, Sparkles } from 'lucide-react';
+import { ArrowUp, Square } from 'lucide-react';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/components/ui/input-group';
 import type { ChatStrings } from '../i18n';
 
-export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, maxChars, t, inputRef, describedBy }: {
+export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, maxChars, t, inputRef, describedBy, placeholder = t.inputPlaceholder }: {
   value: string; onChange: (v: string) => void; onSend: () => void;
   onStop?: () => void; disabled?: boolean; busy?: boolean; maxChars: number;
   t: ChatStrings; inputRef: RefObject<HTMLTextAreaElement | null>;
   /** Id of what explains why sending is paused (the limit card). */
   describedBy?: string;
+  /** What the empty field shows: an example question on the resting screen (REV-2). Its name stays t.inputPlaceholder. */
+  placeholder?: string;
 }) {
   useEffect(() => {
     const el = inputRef.current;
     if (!el) return;
     el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+    // Empty, the field keeps its CSS height: the example question is not text to make room for.
+    if (value) el.style.height = Math.min(el.scrollHeight, 160) + 'px';
   }, [value, inputRef]);
   const left = maxChars - value.length;
   // Text longer than the limit was not typed: the limit fell under it (a role
@@ -55,11 +58,10 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
             if (el.value.length - (el.selectionEnd - el.selectionStart) + pasted.length > maxChars) setCutAt(Date.now());
           }}
           onKeyDown={onKeyDown} rows={1}
-          placeholder={t.inputPlaceholder} aria-label={t.inputPlaceholder}
+          placeholder={placeholder} aria-label={t.inputPlaceholder}
           aria-describedby={describedBy}
           className="ym-disable-keys" />
         <InputGroupAddon align="block-end" className="gpt-input-toolbar">
-          <span className="gpt-input-identity"><Sparkles aria-hidden="true" /> {t.brand}</span>
           <span className="gpt-key-hint" aria-hidden="true">Enter ↵</span>
           {busy && onStop ? (
             <InputGroupButton variant="secondary" size="icon-sm" className="gpt-send-button"
@@ -74,12 +76,18 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
           )}
         </InputGroupAddon>
       </InputGroup>
-      {/* Not OpenAI, and where the question goes: on every screen size, not
-          only inside the menu a phone keeps closed (F8). The privacy policy
-          says what is kept and who receives it (plan WP-18). */}
+      {/* Whose chat this is, not OpenAI, and where the question goes: on every
+          screen size, not only inside the menu a phone keeps closed (F8). The
+          privacy policy says what is kept and who receives it (plan WP-18).
+          The brand moved here from beside the send button: on a phone the
+          composer is one row (REV-1). */}
       <div className="gpt-input-footnote">
-        <span data-testid="ai-input-microcopy">
-          {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
+        <span>
+          <span className="gpt-input-identity"><span aria-hidden="true">✦</span> {t.brand}</span>
+          {' · '}
+          <span data-testid="ai-input-microcopy">
+            {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
+          </span>
         </span>
         {over ? <span role="status">{t.charsOver(-left)}</span> : cutAt ? <span role="status">{t.inputCut}</span> : left <= 200 && <span role="status">{t.charsLeft(left)}</span>}
       </div>

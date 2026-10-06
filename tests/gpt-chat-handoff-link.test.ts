@@ -231,8 +231,10 @@ test('wiring: B2B uses the business link, the limit card uses the bot route', ()
   assert.doesNotMatch(offer, /hourly|daily|pricingHref|onRetry/);
 
   const consoleSource = source('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /import \{ AiLimitTelegram \} from "\.\/AiLimitTelegram";/);
-  assert.match(consoleSource, /<AiLimitTelegram/);
+  // The lazy part chat-limit (revision 2026-10-06-chat-design): fetched only
+  // when the server enables the bot route on the limit card.
+  assert.match(consoleSource, /<LazyPart part=\{limitPart\} fallback=\{null\} failed=\{null\}>\s*\{\(\{ AiLimitTelegram \}\) => \(\s*<AiLimitTelegram/);
+  assert.match(source('src/gpt-chat/parts/chat-limit.ts'), /^export \{ AiLimitTelegram \} from '\.\.\/components\/AiLimitTelegram';$/m);
   assert.match(consoleSource, /track\(EV\.limitHit, \{ reason, locale: config\.locale \}\)/);
   assert.doesNotMatch(consoleSource, /t\.premium\.unavailable/, 'the limit card no longer says the free chat is available');
 

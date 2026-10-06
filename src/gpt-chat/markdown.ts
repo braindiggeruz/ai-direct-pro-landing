@@ -3,7 +3,8 @@ import { latexLite } from "./latex-lite";
 // Escape before parsing. Only our fixed HTML templates can become elements;
 // model HTML, URLs and language labels never become attributes or scripts.
 // The one value that reaches an attribute is a list's first number, digits only.
-export function renderMarkdown(src: string): string {
+// `copy`, the label of a code block's own copy button (REV-6), is ours.
+export function renderMarkdown(src: string, copy?: string): string {
   const escape = (s: string) =>
     s.replace(
       /[&<>"']/g,
@@ -105,9 +106,8 @@ export function renderMarkdown(src: string): string {
       const code: string[] = [];
       while (++i < lines.length && !/^\s*```/.test(lines[i]))
         code.push(lines[i]);
-      out.push(
-        `<pre class="gpt-code" tabindex="0"><code>${code.join("\n")}</code></pre>`,
-      );
+      const pre = `<pre class="gpt-code" tabindex="0"><code>${code.join("\n")}</code></pre>`;
+      out.push(copy ? `<div class="gpt-code-wrap">${pre}<button type="button" class="gpt-code-copy" data-copy-code>${copy}</button></div>` : pre);
     } else if (
       line.includes("|") &&
       i + 1 < lines.length &&
@@ -136,8 +136,10 @@ export function renderMarkdown(src: string): string {
       out.push(html);
       i = next - 1;
     } else if (/^#{1,6}\s+/.test(line)) {
+      // # and ## are the answer's sections, ### and below their parts (REV-6).
       flush();
-      out.push(`<h3>${inline(line.replace(/^#{1,6}\s+/, ""))}</h3>`);
+      const tag = /^#{3}/.test(line) ? "h4" : "h3";
+      out.push(`<${tag}>${inline(line.replace(/^#{1,6}\s+/, ""))}</${tag}>`);
     } else if (/^\s*&gt;/.test(line)) {
       flush();
       const quote: string[] = [];

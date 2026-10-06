@@ -13,8 +13,12 @@ export interface AnswerStrings {
   continue: string;
   /** A new answer in place of the last one: a new call of the model, so it costs a message. */
   regenerate: string;
-  /** On a phone: the rest of the row (after a «⋯» a screen reader skips). */
+  /** On a phone: the name of «⋯», which opens the rest of the row as a menu. */
   more: string;
+  /** «‹ 1/2 ›»: the versions «Qayta yozish» made of an answer (REV-7). */
+  versions: string;
+  versionBack: string;
+  versionNext: string;
   /** The translation goes the other way from the answer's script. */
   toRussian: string;
   toUzbek: string;
@@ -41,6 +45,9 @@ const RU: AnswerStrings = {
   continue: "Продолжить",
   regenerate: "Другой ответ",
   more: "Ещё",
+  versions: "Версии ответа",
+  versionBack: "Предыдущая версия",
+  versionNext: "Следующая версия",
   toRussian: "Перевести на русский",
   toUzbek: "Перевести на узбекский",
   buttonCost: "Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.",
@@ -63,6 +70,9 @@ const UZ: AnswerStrings = {
   continue: "Davom ettir",
   regenerate: "Qayta yozish",
   more: "Yana",
+  versions: "Javob versiyalari",
+  versionBack: "Oldingi versiya",
+  versionNext: "Keyingi versiya",
   toRussian: "Rus tiliga tarjima",
   toUzbek: "O‘zbekchaga tarjima",
   buttonCost: "AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.",

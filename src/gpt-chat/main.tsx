@@ -21,7 +21,9 @@ function mount() {
   const el = document.getElementById('gpt-chat-root');
   if (!el) return;
   const config = readConfig(el);
-  el.innerHTML = ''; // clear the no-JS fallback
+  // The prerendered frame stays until React's first commit, which replaces it
+  // in one go (createRoot clears its container then): no blank frame between
+  // the frame and the chat, and the H1 stays where it is (UX plan REV-3).
   createRoot(el).render(
     <StrictMode>
       <AiChatConsole config={config} />

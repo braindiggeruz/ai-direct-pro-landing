@@ -29,8 +29,9 @@ const LOW_AT = 3;
 
 export function AiQuotaThread({ remaining, total, t }: Props) {
   // Unknown allowance, or a paid plan with a large cap: a 600-segment thread is
-  // noise, not information. Say nothing rather than draw something wrong.
-  if (remaining < 0 || total <= 0 || total > 40 || remaining > total) return null;
+  // noise, not information. Say nothing rather than draw something wrong, but
+  // keep its 4px, so the screen under it does not move when it arrives (REV-3).
+  if (remaining < 0 || total <= 0 || total > 40 || remaining > total) return <div className="h-1 shrink-0" aria-hidden="true" />;
 
   const left = Math.min(remaining, total);
   const low = left > 0 && left <= LOW_AT;

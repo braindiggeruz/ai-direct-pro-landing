@@ -62,6 +62,7 @@ export function AiChatMessageList({
   onRetry,
   onEdit,
   onAsk,
+  onVersion,
 }: {
   messages: ChatMessage[];
   t: ChatStrings;
@@ -76,6 +77,8 @@ export function AiChatMessageList({
   /** The last question back into the composer, out of the thread. */
   onEdit?: () => void;
   onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
+  /** «‹ 1/2 ›»: show version `version` of the answer at `index` (REV-7). */
+  onVersion?: (index: number, version: number) => void;
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
@@ -184,7 +187,7 @@ export function AiChatMessageList({
                   <span aria-hidden="true">✦</span>{t.brand}
                 </div>
                 <LazyPart part={answerPart} fallback={<PlainAnswer content={m.content} />} failed={<PlainAnswer content={m.content} />}>
-                  {({ AnswerBody }) => <AnswerBody content={m.content} />}
+                  {({ AnswerBody }) => <AnswerBody content={m.content} locale={locale} />}
                 </LazyPart>
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action
@@ -223,6 +226,9 @@ export function AiChatMessageList({
                           broken={m.truncated || m.partial}
                           locked={locked}
                           costNote={costNote}
+                          versions={m.versions?.length}
+                          version={m.version}
+                          onVersion={onVersion && ((v) => onVersion(i, v))}
                           onRetry={onRetry}
                           onAsk={onAsk}
                         />

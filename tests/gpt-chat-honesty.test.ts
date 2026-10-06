@@ -366,7 +366,7 @@ test('«simpler» and «continue» keep the answer’s language: the page’s na
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /void doSend\(text, \{ answerAction: action, request, frame, tool: activeTool \}\);/);
   assert.match(consoleSource, /const ask = meta\.answerAction && meta\.request \? \{ request: meta\.request, action: meta\.answerAction, frame: meta\.frame \} : undefined;/);
-  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  assert.match(consoleSource, /answerAction: ask\?\.action, frame: ask\?\.frame, prior \}\);/);
   // Every button, in every frame, with the longest role, fits the server's 3000.
   const long = `${'Birinchi qism. '.repeat(100)}\n\n${'Последняя часть. '.repeat(100)}`;
   for (const locale of LOCALES) for (const f of LOCALES) for (const kind of ['shorter', 'continue', 'russian', 'uzbek'] as const) {
@@ -392,7 +392,7 @@ test('a translation goes the other way from the answer’s script, without the l
 
 test('retry and «Qayta yozish» replace the last answer: the question is in the thread and the history once', () => {
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame \}\);/);
+  assert.match(consoleSource, /void doSend\(content, \{ retry: true, base: messages\.slice\(0, idx\), request: ask\?\.request, answerAction: ask\?\.action, frame: ask\?\.frame, prior \}\);/);
   assert.match(consoleSource, /const history = \(meta\.base \?\? messages\)\.filter\(\(m\) => !m\.pending && !m\.error\);/);
   // The thread drops the old pair; the history sent is built from the same base.
   assert.match(consoleSource, /const withUser: ChatMessage\[\] = \[\s*\.\.\.history,\s*\{ role: "user", content: trimmed, ask \},/);
@@ -468,36 +468,62 @@ test('every button that sends is off while sending is paused; copying and sharin
   assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 2);
 });
 
-test('on a phone the row is copy, continue on a cut answer and «⋯»; with a mouse, the whole row', (t) => {
+// REV-7 (revision 2026-10-06-chat-design): on a phone «⋯» opens the rest of
+// the row as a menu above it, instead of growing the row (NOW-04).
+test('on a phone the row is copy, continue on a cut answer and «⋯», the rest a menu; with a mouse, the whole row', (t) => {
   const g = globalThis as Record<string, unknown>;
   const s = answerStrings('uz');
   t.after(() => { delete g.window; });
-  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace('<span aria-hidden="true">⋯</span> ', ''));
+  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, ''));
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   const phone = actions();
-  assert.deepEqual(labels(phone), [s.copy, s.share, s.more]);
-  assert.match(phone, /aria-expanded="false"/);
-  // A screen reader says «Yana», not «midline horizontal ellipsis».
-  assert.ok(phone.includes(`<span aria-hidden="true">⋯</span> ${s.more}</button>`));
+  assert.deepEqual(labels(phone), [s.copy, s.share, '<span aria-hidden="true">⋯</span>']);
+  // A screen reader says «Yana», not «midline horizontal ellipsis»; the menu is closed.
+  assert.match(phone, /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana">/);
+  assert.ok(!phone.includes('gpt-action-menu'));
   assert.deepEqual([answerStrings('uz').more, answerStrings('ru').more], ['Yana', 'Ещё']);
-  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, s.more]);
-  // Locked (a limit, a turn): «Yana» would open a row of disabled buttons.
-  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action" aria-expanded="false" disabled="">/);
+  assert.deepEqual(labels(actions({ broken: true })).slice(0, 3), [s.copy, s.share, s.continue]);
+  // Locked (a limit, a turn): «⋯» would open a menu of disabled buttons.
+  assert.match(actions({ locked: true }), /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana" disabled="">/);
   g.window = { matchMedia: () => ({ matches: false }) };
   assert.equal((actions().match(/<button/g) ?? []).length, 6);
-  // Opening the row: every button keyed (no node turns into another), focus on
-  // the first one revealed, and a second tap within 350 ms sends nothing.
+  // The menu: every button keyed (no node turns into another), focus on its
+  // first item, Escape and a tap outside close it, Escape gives the focus back
+  // to «⋯», a choice closes it, and a second tap within 350 ms sends nothing.
   const source = read('src/gpt-chat/components/AiAnswer.tsx');
   assert.match(source, /<button key=\{kind\} ref=\{first \? firstRef : undefined\}/);
   assert.match(source, /key="more"/);
   assert.match(source, /<button key="regenerate"/);
-  assert.match(source, /useEffect\(\(\) => \{\s*if \(open\) firstRef\.current\?\.focus\(\);\s*\}, \[open\]\);/);
+  assert.match(source, /if \(!open\) return;\s*firstRef\.current\?\.focus\(\);/);
+  assert.match(source, /document\.addEventListener\("pointerdown", away\);\s*document\.addEventListener\("keydown", away\);/);
+  assert.match(source, /if \(event\.type === "keydown"\) moreRef\.current\?\.focus\(\);/);
+  assert.match(source, /<div key="menu" className="gpt-action-menu" onClick=\{\(\) => setOpen\(false\)\}>/);
   assert.match(source, /action\("shorter", true\)/);
-  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(true\);/);
+  assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(!open\);/);
   assert.match(source, /const settled = \(\) => Date\.now\(\) - openedAt\.current > 350;/);
   assert.match(source, /onClick=\{\(\) => settled\(\) && onAsk\?\.\(kind, text, request, own\)\}/);
   assert.match(source, /onClick=\{\(\) => settled\(\) && onRetry\(\)\}/);
   assert.doesNotMatch(source, /<>\s*\{broken && action/, 'no unkeyed fragments in the row');
+  // The model line stays under every answer, as the chat pages' FAQ says.
+  assert.match(read('src/gpt-chat/components/AiChatMessageList.tsx'), /\{t\.answeredBy\}: \{modelLabel\(m\.model\)\}/);
+});
+
+test('«‹ 1/2 ›»: the versions «Qayta yozish» made, at most 3, kept in this browser and never sent', () => {
+  const u = answerStrings('uz');
+  const two = actions({ versions: 2, version: 1, onVersion: () => {} });
+  assert.match(two, new RegExp(`<div class="gpt-versions" role="group" aria-label="${u.versions}">`));
+  assert.match(two, new RegExp(`<button type="button" aria-label="${u.versionBack}">‹</button><span>2/2</span><button type="button" disabled="" aria-label="${u.versionNext}">›</button>`));
+  assert.ok(!actions().includes('gpt-versions'), 'one version, no switch');
+  assert.match(actions({ versions: 3, version: 0, onVersion: () => {}, locked: true }), /<button type="button" disabled="" aria-label="[^"]+">‹<\/button>/);
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  // Only a finished answer in place of an old one keeps the old one; the last 3.
+  assert.match(consoleSource, /const versions = \[\.\.\.\(prior\.versions \?\? \[\{ content: prior\.content, model: prior\.model \?\? null, truncated: prior\.truncated \}\]\), \{ content: answer\.content, model: answer\.model \?\? null, truncated: answer\.truncated \}\]\.slice\(-3\);/);
+  assert.match(consoleSource, /const prior = messages\[idx \+ 1\]\?\.role === "assistant" && !messages\[idx \+ 1\]\.error \? messages\[idx \+ 1\] : undefined;/);
+  // Showing another version spends nothing and is refused during a turn.
+  assert.match(consoleSource, /if \(busy \|\| !shown\) return;\s*persist\(messages\.map\(\(x, i\) => \(i === index \? \{ \.\.\.x, \.\.\.shown, version \} : x\)\)\);/);
+  // The server gets the shown text only.
+  assert.match(read('src/gpt-chat/api.ts'), /history: params\.history\.map\(\(m\) => \(\{ role: m\.role, content: m\.content \}\)\),/);
+  for (const locale of LOCALES) for (const line of [answerStrings(locale).versions, answerStrings(locale).versionBack, answerStrings(locale).versionNext]) assert.doesNotMatch(line, DISHONEST);
 });
 
 test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {

@@ -207,7 +207,9 @@ test('the chat feeds the card from the limit state; the account view only report
   const mounts = [...source.matchAll(/<AiLimitTelegram\s/g)];
   assert.equal(mounts.length, 1);
   // Second to the pack button it waits behind «Batafsil» (NOW-05); alone it leads.
-  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(!card\.account \|\| details\) && \(\s*$/);
+  // It is the lazy part chat-limit (revision 2026-10-06-chat-design): the bot
+  // route shows only while the server enables it, so nobody else downloads it.
+  assert.match(source.slice(0, mounts[0].index), /\{card\.bot && \(!card\.account \|\| details\) && \([\s\S]{0,300}<LazyPart part=\{limitPart\} fallback=\{null\} failed=\{null\}>\s*\{\(\{ AiLimitTelegram \}\) => \(\s*$/);
 });
 
 test('the limit card is short: title, the time and one way on; why, the pack value and the second way behind «Batafsil»', () => {
@@ -277,9 +279,11 @@ test('«Qayta yozish» or a retry that fails leaves the old answer on screen and
   assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{ role: "assistant", content: friendly, error: true \},\s*\]\);/);
   assert.match(send, /persist\(\[\s*\.\.\.held,\s*\{\s*role: "assistant",\s*content: acc,\s*model: answeringModel,\s*partial: true,/);
   assert.match(send, /if \(acc\)\s*persist\(\[\s*\.\.\.held,/);
-  // …and only a finished answer replaces the old one.
-  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: res\.answer,/);
-  assert.match(send, /persist\(\[\s*\.\.\.base,\s*\{\s*role: "assistant",\s*content: acc,\s*model: outcome\.modelUsed \?\? null,/);
+  // …and only a finished answer replaces the old one, which «Qayta yozish»
+  // keeps as a version (REV-7).
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*answered\(\{\s*role: "assistant",\s*content: res\.answer,/);
+  assert.match(send, /persist\(\[\s*\.\.\.base,\s*answered\(\{\s*role: "assistant",\s*content: acc,\s*model: outcome\.modelUsed \?\? null,/);
+  assert.equal((send.match(/answered\(\{/g) ?? []).length, 2, 'a failed or broken-off turn makes no version');
 });
 
 test('a pack is buyable only with a mode and a provider; every opening of its window says where from', () => {

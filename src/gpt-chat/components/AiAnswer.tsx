@@ -14,15 +14,26 @@ import { track, EV } from "../analytics";
 /**
  * The answer as the chat renders it: escaped first, then our own Markdown
  * (markdown.ts). Memoized on its text: a finished answer is not parsed again
- * on every frame of the one arriving, or on every key typed.
+ * on every frame of the one arriving, or on every key typed. A code block's
+ * own button copies that block (REV-6), through one listener here.
  */
-export const AnswerBody = memo(function AnswerBody({ content }: { content: string }) {
+export const AnswerBody = memo(function AnswerBody({ content, locale = "ru" }: { content: string; locale?: Locale }) {
+  const s = answerStrings(locale);
   return (
     <div
       className="gpt-answer-body"
       dir="auto"
+      onClick={(event) => {
+        const button = (event.target as HTMLElement).closest?.("[data-copy-code]");
+        const code = button?.parentElement?.querySelector("code")?.textContent;
+        if (!button || code == null) return;
+        void copyText(code).then((ok) => {
+          button.textContent = ok ? s.copied : s.copyFailed;
+          window.setTimeout(() => { button.textContent = s.copy; }, 2_000);
+        });
+      }}
       dangerouslySetInnerHTML={{
-        __html: renderMarkdown(content),
+        __html: renderMarkdown(content, s.copy),
       }}
     />
   );
@@ -130,6 +141,9 @@ export function MessageActions({
   broken,
   locked,
   costNote,
+  versions = 1,
+  version = versions - 1,
+  onVersion,
   onRetry,
   onAsk,
 }: {
@@ -142,6 +156,11 @@ export function MessageActions({
   locked?: boolean;
   /** Say once that the buttons that make the AI write cost a message, and copy and Telegram do not. */
   costNote?: boolean;
+  /** How many versions «Qayta yozish» has made of this answer, and which one shows (REV-7). */
+  versions?: number;
+  version?: number;
+  /** Show another version: no message is spent, the thread goes on from the one shown. */
+  onVersion?: (index: number) => void;
   onRetry?: () => void;
   /** `text` goes into the visitor's bubble, `request` to the model, framed in `frame`. */
   onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
@@ -152,18 +171,33 @@ export function MessageActions({
     "idle",
   );
   const [shareCut, setShareCut] = useState(false);
-  // On a phone the row is copy (and continue on a cut answer) plus «⋯»:
-  // all six buttons took three lines, about 150px, under every last answer.
+  // On a phone the row is copy, Telegram, «continue» on a cut answer and «⋯»
+  // (REV-7): all six buttons took three lines, about 150px, under every last
+  // answer. «⋯» opens the rest as a menu above the row.
   const [open, setOpen] = useState(false);
-  const short =
-    isLast && !open && typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches;
-  // «⋯ Yana» opens the row and is gone: focus moves to the first button it
-  // revealed, so a screen reader says where it is, and a second tap on the
-  // same spot within 350 ms sends nothing.
+  const phone = isLast && typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches;
+  // The menu takes the focus to its first item, so a screen reader says where
+  // it is; Escape and a tap outside close it, and a second tap on the same
+  // spot within 350 ms sends nothing.
   const firstRef = useRef<HTMLButtonElement>(null);
+  const moreRef = useRef<HTMLButtonElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
   const openedAt = useRef(0);
   useEffect(() => {
-    if (open) firstRef.current?.focus();
+    if (!open) return;
+    firstRef.current?.focus();
+    const away = (event: Event) => {
+      if (event instanceof KeyboardEvent ? event.key !== "Escape" : rowRef.current?.contains(event.target as Node)) return;
+      setOpen(false);
+      // Escape gives the focus back to «⋯».
+      if (event.type === "keydown") moreRef.current?.focus();
+    };
+    document.addEventListener("pointerdown", away);
+    document.addEventListener("keydown", away);
+    return () => {
+      document.removeEventListener("pointerdown", away);
+      document.removeEventListener("keydown", away);
+    };
   }, [open]);
   const settled = () => Date.now() - openedAt.current > 350;
   // Plain text, so no ** or ### lands in Telegram or Instagram (M-08).
@@ -185,7 +219,7 @@ export function MessageActions({
       /* a malformed answer: nothing to send */
     }
   };
-  // Keyed, so React never turns one button into another when the row opens.
+  // Keyed, so React never turns one button into another when the menu opens.
   const action = (kind: AnswerAction, first?: boolean) => {
     const [text, request, own] = answerAsk(kind, content, locale, frame);
     return (
@@ -194,9 +228,27 @@ export function MessageActions({
       </button>
     );
   };
+  const rest = [
+    action("shorter", true),
+    action(translationOf(content)),
+    !phone && action("continue"),
+    onRetry && (
+      <button key="regenerate" type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onRetry()}>
+        {s.regenerate}
+      </button>
+    ),
+  ];
   return (
     <>
-      <div className="gpt-action-row">
+      {/* «‹ 2/2 ›» in the answer's head row (REV-7). */}
+      {versions > 1 && onVersion && (
+        <div className="gpt-versions" role="group" aria-label={s.versions}>
+          <button type="button" disabled={locked || version < 1} onClick={() => onVersion(version - 1)} aria-label={s.versionBack}>‹</button>
+          <span>{version + 1}/{versions}</span>
+          <button type="button" disabled={locked || version >= versions - 1} onClick={() => onVersion(version + 1)} aria-label={s.versionNext}>›</button>
+        </div>
+      )}
+      <div className="gpt-action-row" ref={rowRef}>
         <button type="button" onClick={copy} className="gpt-action">
           <svg
             width="14"
@@ -228,31 +280,29 @@ export function MessageActions({
           </svg>
           {s.share}
         </button>
-        {isLast && onAsk && (short ? [
+        {isLast && onAsk && (phone ? [
           broken && action("continue"),
           <button
             key="more"
+            ref={moreRef}
             type="button"
-            className="gpt-action"
-            aria-expanded={false}
+            className="gpt-action gpt-action-more"
+            aria-expanded={open}
+            aria-label={s.more}
             disabled={locked}
             onClick={() => {
               openedAt.current = Date.now();
-              setOpen(true);
+              setOpen(!open);
             }}
           >
-            <span aria-hidden="true">⋯</span> {s.more}
+            <span aria-hidden="true">⋯</span>
           </button>,
-        ] : [
-          action("shorter", true),
-          action(translationOf(content)),
-          action("continue"),
-          onRetry && (
-            <button key="regenerate" type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onRetry()}>
-              {s.regenerate}
-            </button>
+          open && (
+            <div key="menu" className="gpt-action-menu" onClick={() => setOpen(false)}>
+              {rest}
+            </div>
           ),
-        ])}
+        ] : rest)}
       </div>
       {copyStatus === "failed" && (
         <p role="status" className="gpt-partial">
@@ -264,8 +314,8 @@ export function MessageActions({
           {s.shareCut}
         </p>
       )}
-      {/* Only while a button that costs a message shows: on a phone, once the row is open or «Continue» is in it. */}
-      {isLast && costNote && onAsk && (!short || broken) && <p className="mt-2 text-[12px] text-white/35">{s.buttonCost}</p>}
+      {/* Only while a button that costs a message shows: on a phone, once the menu is open or «Continue» is in the row. */}
+      {isLast && costNote && onAsk && (!phone || open || broken) && <p className="mt-2 text-[12px] text-white/35">{s.buttonCost}</p>}
     </>
   );
 }

@@ -189,6 +189,10 @@ const LAZY_ONLY = {
   'chat-answer': ['src/gpt-chat/components/AiAnswer.tsx', 'src/gpt-chat/markdown.ts', 'src/gpt-chat/latex-lite.ts', 'src/gpt-chat/answer-strings.ts', 'src/gpt-chat/plain-text.ts'],
   // Off in production: only a page whose server asks for the check loads it.
   'chat-turnstile': ['src/gpt-chat/components/TurnstileChallenge.tsx'],
+  // The limit card's bot route, only while the server enables it (revision 2026-10-06-chat-design).
+  'chat-limit': ['src/gpt-chat/components/AiLimitTelegram.tsx', 'src/gpt-chat/components/AiTelegramCta.tsx'],
+  // The menu's role picker: a phone fetches it as the menu button is pressed.
+  'chat-role': ['src/gpt-chat/components/RoleSelector.tsx'],
 };
 
 test('nothing the start imports statically reaches a lazy part; each part reaches its screens', () => {

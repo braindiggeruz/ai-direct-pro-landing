@@ -44,3 +44,21 @@ export function entryScript(manifest: ViteManifest, src: string): string {
   }
   return `/${chunk.file}`;
 }
+
+/**
+ * What an entry imports statically, as root-relative URLs, in the order the
+ * manifest lists them (depth first): the files a page can ask for with
+ * <link rel="modulepreload"> before the entry itself has been parsed.
+ */
+export function entryImports(manifest: ViteManifest, src: string): string[] {
+  const seen = new Set<string>();
+  const visit = (key: string) => {
+    for (const next of manifest[key]?.imports ?? []) {
+      if (seen.has(next) || !manifest[next]) continue;
+      seen.add(next);
+      visit(next);
+    }
+  };
+  visit(src);
+  return [...seen].map((key) => `/${manifest[key].file}`).filter((file) => /^\/assets\/[\w.-]+\.js$/.test(file));
+}

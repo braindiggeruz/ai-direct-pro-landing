@@ -50,6 +50,10 @@ export interface ChatStrings {
   uzEntry?: { nav: string; page: string };
   brand: string;
   inputPlaceholder: string;
+  /** The empty field's example on the resting screen (REV-2); the field's name stays inputPlaceholder. */
+  inputExample: string;
+  /** The resting screen's last line and the menu's: the text under the chat (REV-5). */
+  aboutChat: string;
   /** Under the composer on every screen size: not OpenAI, and where questions go. */
   inputMicrocopy: string;
   send: string;
@@ -122,6 +126,8 @@ export interface ChatStrings {
   limitWait: (minutes: number) => string;
   /** The wait with the time it ends in Tashkent, «14:35». */
   limitWaitAt: (minutes: number, at: string) => string;
+  /** The same in one short line, for the limit card while the keyboard is open (REV-13). */
+  limitWaitShort: (minutes: number, at: string) => string;
   /** The limit card's toggle for why, the pack's value and the second way. */
   limitMore: string;
   limitLessMinute: string;
@@ -164,6 +170,8 @@ const RU: ChatStrings = {
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
   inputPlaceholder: 'Напишите сообщение…',
+  inputExample: 'Например: объясни задачу за 7 класс',
+  aboutChat: 'Подробнее о чате ↓',
   inputMicrocopy: 'Не продукт OpenAI · Вопросы отправляются зарубежным AI-провайдерам — не пишите личные данные',
   send: 'Отправить',
   thinking: 'AI думает…',
@@ -176,11 +184,14 @@ const RU: ChatStrings = {
   turnstileError: 'Проверка безопасности недоступна. Обновите страницу.',
   stop: 'Остановить',
   pricingLink: 'Тарифы AI-чата',
+  // By what people ask first (REV-2): a problem to solve leads, the offer
+  // chip (≤5% of interest) left; business help stays in the menu and in the
+  // line after an answer about a business.
   chips: [
+    { id: 'math', label: 'Решить задачу', insert: 'Реши задачу по шагам: ' },
     { id: 'text', label: 'Написать текст', insert: 'Напиши текст. Формат и тема: ' },
-    { id: 'plan', label: 'Составить план', insert: 'Составь план. Тема и цель: ' },
-    { id: 'offer', label: 'Придумать оффер', insert: 'Придумай 3 варианта рекламного оффера. Продукт: ' },
     { id: 'explain', label: 'Объяснить тему', insert: 'Объясни простыми словами: ' },
+    { id: 'plan', label: 'Составить план', insert: 'Составь план. Тема и цель: ' },
   ],
   menuOpen: 'Открыть меню',
   menuClose: 'Закрыть меню',
@@ -230,6 +241,7 @@ const RU: ChatStrings = {
   ipBody: 'Из вашей сети слишком много запросов.',
   limitWait: (minutes) => `Снова написать можно через ${minutes} мин.`,
   limitWaitAt: (minutes, at) => `Снова написать можно через ${minutes} мин (в ${at} по Ташкенту).`,
+  limitWaitShort: (minutes, at) => `Через ${minutes} мин (в ${at})`,
   limitMore: 'Подробнее',
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
@@ -257,6 +269,8 @@ const UZ: ChatStrings = {
   },
   brand: 'GPTBot.uz',
   inputPlaceholder: 'Xabar yozing…',
+  inputExample: 'Masalan: 7-sinf masalasini tushuntirib ber',
+  aboutChat: 'Batafsil: chat haqida ↓',
   inputMicrocopy: 'OpenAI mahsuloti emas · Savollar xorijdagi AI-provayderlarga yuboriladi — shaxsiy ma’lumot yozmang',
   send: 'Yuborish',
   thinking: 'AI o‘ylayapti…',
@@ -272,10 +286,10 @@ const UZ: ChatStrings = {
   // visitor of the free chat is not sent to it as «Tariflar» (F10).
   pricingLink: 'Biznes bot narxlari',
   chips: [
+    { id: 'math', label: 'Masalani yechish', insert: 'Masalani qadamma-qadam yech: ' },
     { id: 'text', label: 'Matn yozish', insert: 'Matn yoz. Format va mavzu: ' },
-    { id: 'plan', label: 'Reja tuzish', insert: 'Reja tuz. Mavzu va maqsad: ' },
-    { id: 'offer', label: 'Taklif yaratish', insert: '3 xil reklama taklifini yoz. Mahsulot: ' },
     { id: 'explain', label: 'Mavzuni tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
+    { id: 'plan', label: 'Reja tuzish', insert: 'Reja tuz. Mavzu va maqsad: ' },
   ],
   menuOpen: 'Menyuni ochish',
   menuClose: 'Menyuni yopish',
@@ -325,6 +339,7 @@ const UZ: ChatStrings = {
   ipBody: 'Tarmog‘ingizdan so‘rovlar juda ko‘p.',
   limitWait: (minutes) => `${minutes} daqiqadan keyin yana yozasiz.`,
   limitWaitAt: (minutes, at) => `${minutes} daqiqadan keyin (Toshkent vaqti bilan soat ${at} da) yana yozasiz.`,
+  limitWaitShort: (minutes, at) => `${minutes} daqiqadan keyin (soat ${at} da)`,
   limitMore: 'Batafsil',
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',

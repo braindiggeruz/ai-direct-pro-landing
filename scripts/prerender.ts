@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import { renderSiteStylesheets } from './site-stylesheets';
-import { ENTRIES, entryScript, readViteManifest } from './vite-manifest';
+import { ENTRIES, entryImports, entryScript, readViteManifest } from './vite-manifest';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -450,28 +450,59 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   // comes from mobile) and an E-E-A-T signal loss.
   //
   // The page H1 stands in the chat's first screen (roadmap R-S1, owner
-  // decisions 1 and 2): before JavaScript it is centred in the full-height
-  // shell, and data-h1 hands the same text to the chat, whose resting screen
-  // shows it as its heading (src/gpt-chat/components/AiChatConsole.tsx). One
-  // H1 in the HTML and one in the live page. Under the chat: the visible
-  // update date, the text, and the FAQ that the FAQPage markup repeats. Only
-  // classes the site stylesheet already carries: a new utility would rename
-  // the shared CSS file and with it the HTML of every page.
+  // decisions 1 and 2): data-h1 hands the same text to the chat, whose resting
+  // screen shows it as its heading (src/gpt-chat/components/AiChatConsole.tsx).
+  // One H1 in the HTML and one in the live page. Under the chat: the visible
+  // update date, the text, and the FAQ that the FAQPage markup repeats.
+  //
+  // Before JavaScript the mount point holds the chat's own frame (UX plan
+  // REV-3, revision 2026-10-06-chat-design): the header, the H1 where the
+  // resting screen puts it, outlines of the cards and of the composer, from
+  // the same premium.css classes. The chat replaces it in one commit
+  // (src/gpt-chat/main.tsx), so the H1 and the composer do not move when it
+  // mounts. The frame adds no text: what a crawler reads before JavaScript is
+  // the H1, the no-JavaScript line and «AI-chat yuklanmoqda…», as before.
+  const bar = (cls: string) => `<span class="gpt-shell-lines ${cls}" aria-hidden="true"><span></span><span></span></span>`;
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
        the model answered. The mount point carries the class so the masking
        survives React replacing its children. -->
   <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}" class="h-full ym-hide-content">
-    <div class="flex h-full flex-col items-center justify-center gap-4 px-4 text-center">
-      <h1 data-testid="page-h1" class="font-display text-2xl sm:text-4xl text-white max-w-2xl leading-tight">${escapeText(page.h1)}</h1>
-      <noscript><p class="text-sm text-white/70">${escapeText(noscript)}</p></noscript>
-      <p class="text-sm text-white/40">${loading}</p>
+    <div class="gpt-premium gpt-shell bg-bg-base text-white" style="color-scheme:dark">
+      <div class="gpt-shell-aside" aria-hidden="true"></div>
+      <div class="gpt-shell-main">
+        <div class="gpt-header gpt-shell-header flex h-14 shrink-0 items-center gap-2 px-3 sm:px-4" aria-hidden="true"></div>
+        <div class="gpt-shell-quota" aria-hidden="true"></div>
+        <div class="gpt-thread-scroll gpt-shell-thread">
+          <div class="gpt-viewport">
+            <div class="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
+              <div class="gpt-intro">
+                <div class="gpt-mark" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7L12 2z"/></svg></div>
+                <span class="gpt-intro-badge gpt-shell-badge gpt-shell-bar" aria-hidden="true"></span>
+                <h1 data-testid="page-h1" class="gpt-welcome-title">${escapeText(page.h1)}</h1>
+                <noscript><p class="gpt-intro-copy">${escapeText(noscript)}</p></noscript>
+                ${bar('gpt-intro-copy gpt-shell-copy')}
+                ${bar('gpt-intro-terms gpt-shell-terms')}
+                <div class="gpt-intro-content" aria-hidden="true"><div class="gpt-prompt-grid"><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gpt-composer shrink-0">
+          <div class="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
+            <div class="gpt-input-wrap">
+              <div class="gpt-input-surface gpt-shell-input" aria-hidden="true"></div>
+              <div class="gpt-input-footnote gpt-shell-footnote"><p>${loading}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
 
-<section data-testid="seo-summary" class="border-t border-white/[0.06]">
+<section id="seo-summary" data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
     ${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
@@ -789,7 +820,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
 </div>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = []): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -912,8 +943,13 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
 <head>
 <meta charset="UTF-8" />
 <script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />
+${page.pageType === 'gpt-chat'
+  // The chat (UX plan REV-4): an Android keyboard shrinks the page as Telegram
+  // does, so the header stays and the composer sits on the keyboard; the
+  // browser bar takes the chat's own background (#090c14, premium.css).
+  ? '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n<meta name="theme-color" content="#090c14" />'
+  : `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />`}
 <title>${escapeText(page.title)}</title>
 <meta name="description" content="${escapeHtml(page.description)}" />
 <meta name="robots" content="${robotsContent}" />
@@ -953,6 +989,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
 ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}
+${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
@@ -1062,13 +1099,16 @@ async function main() {
   // static money pages stay JS-free; the calculator island only on the page
   // with interactiveTool="telegram-cost-calculator".
   const chatHref = entryScript(manifest, ENTRIES.chat);
+  // The chat's start chunks, asked for with the HTML rather than after the
+  // entry is parsed (UX plan REV-4): one round trip less on 3G.
+  const chatPreloads = entryImports(manifest, ENTRIES.chat);
   const calculatorHref = entryScript(manifest, ENTRIES.calculator);
   let written = 0, skipped = 0;
   for (const page of pages) {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref);
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads);
     // Every bare studio-contact link gets a prefilled first message naming the
     // service and the page; protected pages come back unchanged. Then every
     // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).
