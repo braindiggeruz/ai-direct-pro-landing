@@ -231,7 +231,9 @@ test('renderMarkdown: numbering survives text between items, lists nest, rules, 
   const known = new Set(['px-1', 'py-0.5', 'rounded', 'bg-white/10', 'text-brand-cyan', 'gpt-code', 'gpt-table-scroll', 'list-decimal', 'list-disc',
     'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70',
     // The answer's maths (chat design §5.5), in the chat's own stylesheet.
-    'gpt-step-head', 'gpt-step', 'gpt-math', 'gpt-frac', 'gpt-result', 'gpt-result-label', 'gpt-result-value', 'gpt-check-line', 'gpt-code-wrap', 'gpt-code-copy']);
+    'gpt-step-head', 'gpt-step', 'gpt-math', 'gpt-frac', 'gpt-result', 'gpt-result-label', 'gpt-result-value', 'gpt-check-line', 'gpt-code-wrap', 'gpt-code-copy',
+    // A drawn formula's linear form for a screen reader: the site's own utility.
+    'sr-only']);
   const sheet = readFileSync(new URL('../src/gpt-chat/premium.css', import.meta.url), 'utf8');
   for (const name of known) if (name.startsWith('gpt-')) assert.ok(sheet.includes(`.${name}`), name);
   const everything = renderMarkdown('# H\n## 1. Step\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq\n\n$$\\frac{1}{2}$$\n\nJavob: 1\n\nTekshirish: ok', 'Nusxalash');

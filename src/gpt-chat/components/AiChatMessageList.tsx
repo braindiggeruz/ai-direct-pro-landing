@@ -154,7 +154,9 @@ export function AiChatMessageList({
       </span>
       <MessageScrollerContent className="gpt-message-content" aria-live="off">
       {messages.map((m, i) => (
-        <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"}>
+        // The last answer's «⋯» menu draws outside its item: that item only
+        // keeps no content-visibility (premium.css .gpt-item-menu).
+        <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"} className={i === lastAssistant ? "gpt-item-menu" : undefined}>
         {m.role === "user" ? (
           // dir="auto": an Arabic or mixed question aligns by its own first letters.
           <div className="gpt-user-message" dir="auto">{m.content}</div>
@@ -180,7 +182,7 @@ export function AiChatMessageList({
             ) : (
               <>
                 <LazyPart part={answerPart} fallback={<PlainAnswer content={m.content} />} failed={<PlainAnswer content={m.content} />}>
-                  {({ AnswerBody }) => <AnswerBody content={m.content} locale={locale} />}
+                  {({ AnswerBody }) => <AnswerBody content={m.content} locale={locale} streaming={!!m.streaming} />}
                 </LazyPart>
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action

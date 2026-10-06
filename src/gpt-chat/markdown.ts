@@ -11,13 +11,18 @@ const STEP = /^(?:(\d{1,2})[.)]\s+|(\d{1,2})-(?:qadam|шаг)(?=[\s.:)]|$)[.:)]?
 /** The answer box and the check line: a paragraph that starts with its word (optionally bold, after ✅). */
 const RESULT = /^(?:✅\s*)?(<strong>)?\s*(javob|ответ)\s*(<\/strong>)?\s*:\s*(<\/strong>)?\s*/i;
 const CHECK = /^(?:✅\s*)?(?:<strong>)?\s*(?:tekshirish|tekshiramiz|проверка)\s*(?:<\/strong>)?\s*:/i;
+/** What a display formula never holds: where the opener of an answer still arriving was left unclosed. */
+const FORMULA_END = /^\s*(?:$|```|#{1,6}\s|[-*+]\s|\d+[.)]\s)/;
+/** The answer box holds a short value (a number, an equation, a few words), never a letter that starts with «Ответ:». */
+const RESULT_MAX = 80;
 
 // Escape before parsing. Only our fixed HTML templates can become elements;
 // model HTML, URLs and language labels never become attributes or scripts.
 // The values that reach an attribute are a list's first number and the
 // counter it starts from, digits only. `copy`, the label of a code block's
-// own copy button (REV-6), is ours.
-export function renderMarkdown(src: string, copy?: string): string {
+// own copy button (REV-6), is ours. `streaming`: the answer is still
+// arriving, so a display formula it opened may not be closed yet.
+export function renderMarkdown(src: string, copy?: string, streaming = false): string {
   const escape = (s: string) =>
     s.replace(
       /[&<>"']/g,
@@ -87,8 +92,10 @@ export function renderMarkdown(src: string, copy?: string): string {
           i = j;
           continue;
         }
-        // The end of an answer still arriving: what came so far is the formula.
-        if (j >= source.length) {
+        // The end of an answer still arriving: what came so far is the formula,
+        // unless a blank line, a fence, a heading or a list item came after the
+        // opener. A finished answer's opener without a closer is text.
+        if (streaming && j >= source.length && !source.slice(i + 1).some((next) => FORMULA_END.test(next))) {
           prepared.push(indent + formula([rest, ...source.slice(i + 1)]));
           break;
         }
@@ -149,21 +156,44 @@ export function renderMarkdown(src: string, copy?: string): string {
     ];
   };
   // Lines next to each other are one paragraph (a poem, a post); a blank line
-  // ends it. «Javob:» opens the answer box, «Tekshirish:» the check line.
+  // ends it. «Javob:» opens the answer box, «Tekshirish:» the check line; a
+  // line that starts with either starts a block of its own.
   let para: string[] = [];
+  const paragraph = (rows: string[]) => {
+    const text = rows.join("<br>");
+    // One text block beside the tick: bold, code and line breaks stay inside it.
+    out.push(CHECK.test(text) ? `<p class="gpt-check-line"><span>${text}</span></p>` : `<p class="mb-2 last:mb-0">${text}</p>`);
+  };
+  const block = (rows: string[]) => {
+    const result = RESULT.exec(rows[0]);
+    if (!result) return paragraph(rows);
+    // The box holds its own line's value («**Javob:**» alone: the next line's);
+    // the lines after it are a paragraph.
+    let value = rows[0].slice(result[0].length);
+    let rest = rows.slice(1);
+    if (!value.trim() && rest.length) [value, rest] = [rest[0], rest.slice(1)];
+    // «**Javob: x = 3**»: the bold that opened before the word goes on in the value.
+    if (result[1] && !result[3] && !result[4]) value = `<strong>${value}`;
+    const plain = value.replace(/<[^>]*>/g, "").trim();
+    const short = plain.length > 0 && plain.length <= RESULT_MAX
+      && (/[\d=±√≈≠≤≥×÷π∞]|&[lg]t;/.test(plain) || (plain.split(/\s+/).length <= 3 && !/[,;!?]|\.(?!$)/.test(plain)));
+    if (!short) return paragraph(rows);
+    // x_1, x_{1,2}: the roots the box names read with their indices lowered.
+    value = value.replace(/([A-Za-z])_\{?(\d{1,2}(?:,\d{1,2})?)\}?/g, "$1<sub>$2</sub>");
+    const word = result[2];
+    out.push(`<div class="gpt-result"><span class="gpt-result-label">${word[0].toUpperCase()}${word.slice(1).toLowerCase()}</span><span class="gpt-result-value">${value}</span></div>`);
+    if (rest.length) paragraph(rest);
+  };
   const flush = () => {
-    if (!para.length) return;
-    const text = para.join("<br>");
-    const result = RESULT.exec(text);
-    if (result) {
-      let value = text.slice(result[0].length);
-      // «**Javob: x = 3**»: the bold that opened before the word goes on in the value.
-      if (result[1] && !result[3] && !result[4]) value = `<strong>${value}`;
-      // x_1, x_{1,2}: the roots the box names read with their indices lowered.
-      value = value.replace(/([A-Za-z])_\{?(\d{1,2}(?:,\d{1,2})?)\}?/g, "$1<sub>$2</sub>");
-      const word = result[2];
-      out.push(`<div class="gpt-result"><span class="gpt-result-label">${word[0].toUpperCase()}${word.slice(1).toLowerCase()}</span><span class="gpt-result-value">${value}</span></div>`);
-    } else out.push(`<p class="${CHECK.test(text) ? "gpt-check-line" : "mb-2 last:mb-0"}">${text}</p>`);
+    let rows: string[] = [];
+    for (const row of para) {
+      if (rows.length && (RESULT.test(row) || CHECK.test(row))) {
+        block(rows);
+        rows = [];
+      }
+      rows.push(row);
+    }
+    if (rows.length) block(rows);
     para = [];
   };
   for (let i = 0; i < lines.length; i++) {
@@ -214,7 +244,7 @@ export function renderMarkdown(src: string, copy?: string): string {
       const step = STEP.exec(text.replace(/\*\*/g, ""));
       const rest = step && text.replace(/\*\*/g, "").slice(step[0].length).trim();
       out.push(step && rest
-        ? `<${tag} class="gpt-step-head"><span class="gpt-step">${step[1] ?? step[2] ?? step[3]}</span>${inline(rest)}</${tag}>`
+        ? `<${tag} class="gpt-step-head"><span class="gpt-step">${step[1] ?? step[2] ?? step[3]}</span><span>${inline(rest)}</span></${tag}>`
         : `<${tag}>${inline(text)}</${tag}>`);
     } else if (/^\s*&gt;/.test(line)) {
       flush();

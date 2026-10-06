@@ -234,6 +234,10 @@ test('the chat design revision changes one field, the UZ chat title; no text on 
   assert.ok(chats.some((c) => /interactive-widget=resizes-content/.test(c.change) && /modulepreload/.test(c.change)), 'the <head> tags are reviewed');
   // P-CTR: a second UZ-chat release in the R-S1 window leaves its «chatgpt kirish» reading without a verdict.
   assert.match((current as unknown as { measurement: string }).measurement, /no verdict/);
+  // A generator that failed to read a value writes «undefined»: the record names what it reviews.
+  const texts = [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c))];
+  for (const text of texts) assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  assert.match(current.invisibleToGate.find((c) => c.htmlSha256)!.change, /\/assets\/index-[\w-]+\.css → \/assets\/index-[\w-]+\.css/);
 });
 
 // School guides declare their own audience and a short breadcrumb (R-S1

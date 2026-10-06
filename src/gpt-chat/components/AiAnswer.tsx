@@ -14,10 +14,11 @@ import { track, EV } from "../analytics";
 /**
  * The answer as the chat renders it: escaped first, then our own Markdown
  * (markdown.ts). Memoized on its text: a finished answer is not parsed again
- * on every frame of the one arriving, or on every key typed. A code block's
- * own button copies that block (REV-6), through one listener here.
+ * on every frame of the one arriving, or on every key typed; the one arriving
+ * is parsed once more when it ends. A code block's own button copies that
+ * block (REV-6), through one listener here.
  */
-export const AnswerBody = memo(function AnswerBody({ content, locale = "ru" }: { content: string; locale?: Locale }) {
+export const AnswerBody = memo(function AnswerBody({ content, locale = "ru", streaming = false }: { content: string; locale?: Locale; streaming?: boolean }) {
   const s = answerStrings(locale);
   return (
     <div
@@ -33,7 +34,8 @@ export const AnswerBody = memo(function AnswerBody({ content, locale = "ru" }: {
         });
       }}
       dangerouslySetInnerHTML={{
-        __html: renderMarkdown(content, s.copy),
+        // While it arrives, a formula it opened may close in a later frame.
+        __html: renderMarkdown(content, s.copy, streaming),
       }}
     />
   );
@@ -324,8 +326,9 @@ export function MessageActions({
           {s.shareCut}
         </p>
       )}
-      {/* With a mouse, under the whole row; on a phone the menu's caption says it. */}
-      {isLast && costNote && onAsk && !phone && <p className="gpt-cost-note">{s.buttonCost}</p>}
+      {/* With a mouse, under the whole row. On a phone the menu's caption covers
+          what is inside «⋯», and this line «Continue» in the row of a cut answer. */}
+      {isLast && costNote && onAsk && (!phone || broken) && <p className="gpt-cost-note">{s.buttonCost}</p>}
     </>
   );
 }

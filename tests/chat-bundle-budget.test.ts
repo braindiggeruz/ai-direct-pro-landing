@@ -40,12 +40,13 @@ const MANIFEST: ViteManifest = {
     file: 'assets/chat-lead.js', name: 'chat-lead', isDynamicEntry: true, imports: ['_check.js', 'src/gpt-chat/main.tsx'],
   },
   'src/gpt-chat/parts/chat-tools.ts': { file: 'assets/chat-tools.js', name: 'chat-tools', isDynamicEntry: true, imports: ['src/gpt-chat/main.tsx'] },
-  'index.html': { file: 'assets/index-landing.js', name: 'index', src: 'index.html', isEntry: true, imports: ['_vendor.js'] },
+  'index.html': { file: 'assets/index-landing.js', name: 'index', src: 'index.html', isEntry: true, imports: ['_vendor.js'], css: ['assets/index.css'] },
 };
 const SIZES: Record<string, number> = {
   'assets/gpt-chat-entry.js': 40_000, 'assets/vendor.js': 57_000, 'assets/runtime.js': 400,
   'assets/check.js': 300, 'assets/chat-account.js': 4_000, 'assets/chat-uzum.js': 1_500,
   'assets/chat-lead.js': 3_000, 'assets/chat-tools.js': 6_000, 'assets/index-landing.js': 12_000,
+  'assets/site.css': 6_000, 'assets/index.css': 20_000,
 };
 const size = (file: string) => SIZES[file] ?? assert.fail(`unexpected file ${file}`);
 const baseline = (over: Partial<BundleBaseline> = {}): BundleBaseline => ({
@@ -89,13 +90,13 @@ test('a module import()ed by the start but also imported statically is no part: 
 });
 
 test('the thresholds: start ≤ 110 kB, every part ≤ 12 kB, start growth ≤ 3 kB per release', () => {
-  assert.deepEqual(CHAT_BUDGET, { start: 110_000, lazyPart: 12_000, startGrowth: 3_000 });
+  assert.deepEqual(CHAT_BUDGET, { start: 110_000, lazyPart: 12_000, startGrowth: 3_000, startCss: 7_000, startCssGrowth: 1_000, pageCss: 27_000 });
   const report = measureChatBundle(MANIFEST, size);
   assert.deepEqual(budgetFailures(report, baseline()), [], 'the fixture passes');
   assert.deepEqual(budgetFailures(report, baseline({ startBytes: 94_400 })), [], 'exactly +3 kB passes');
   assert.deepEqual(budgetFailures(report, baseline({ startBytes: 94_399 })), ['start grew 3.0 kB since the baseline (94.4 kB) > 3.0 kB']);
-  assert.deepEqual(budgetFailures(report, baseline(), { start: 97_399, lazyPart: 12_000, startGrowth: 3_000 }), ['start 97.4 kB > 97.4 kB']);
-  assert.deepEqual(budgetFailures(report, baseline(), { start: 110_000, lazyPart: 5_000, startGrowth: 3_000 }), [
+  assert.deepEqual(budgetFailures(report, baseline(), { ...CHAT_BUDGET, start: 97_399 }), ['start 97.4 kB > 97.4 kB']);
+  assert.deepEqual(budgetFailures(report, baseline(), { ...CHAT_BUDGET, lazyPart: 5_000 }), [
     'lazy part chat-tools 6.0 kB > 5.0 kB',
     'lazy part chat-uzum 5.8 kB > 5.0 kB',
   ]);
@@ -103,6 +104,21 @@ test('the thresholds: start ≤ 110 kB, every part ≤ 12 kB, start growth ≤ 3
   assert.deepEqual(budgetFailures(report, baseline({ startBytes: 120_000, parts: {} })), []);
   assert.deepEqual(budgetFailures(report, null), [`no baseline: record one with --record (${BASELINE_FILE})`]);
   assert.deepEqual(budgetFailures(report, baseline({ entry: ENTRIES.calculator })), [`baseline is for ${ENTRIES.calculator}, not ${ENTRIES.chat}`]);
+});
+
+test('the chat’s own stylesheet and the page’s render-blocking CSS: measured, capped, and the sheet’s growth per release', () => {
+  const report = measureChatBundle(MANIFEST, size);
+  // The CSS the start's chunks import is the chat's sheet; the landing entry's is the site's, on every page.
+  assert.deepEqual(report.startCss, { bytes: 6_000, files: ['assets/site.css'] });
+  assert.deepEqual(report.pageCss, { bytes: 26_000, files: ['assets/index.css', 'assets/site.css'] });
+  assert.deepEqual(budgetFailures(report, baseline()), [], 'a schema 1 baseline has no CSS to grow from');
+  assert.deepEqual(budgetFailures(report, baseline({ schema: 2, startCssBytes: 5_000 })), [], 'exactly +1 kB passes');
+  assert.deepEqual(budgetFailures(report, baseline({ schema: 2, startCssBytes: 4_999 })), ['start CSS grew 1.0 kB since the baseline (5.0 kB) > 1.0 kB']);
+  assert.deepEqual(budgetFailures(report, baseline(), { ...CHAT_BUDGET, startCss: 5_999 }), ['start CSS 6.0 kB > 6.0 kB']);
+  // Moving rules from the chat's sheet into the site's cannot hide growth: the page's total is capped too.
+  assert.deepEqual(budgetFailures(report, baseline(), { ...CHAT_BUDGET, pageCss: 25_999 }), ['page CSS 26.0 kB > 26.0 kB']);
+  // The current build's sheet within its cap (chat design 2026-10-06: about 6.5 kB).
+  assert.ok(CHAT_BUDGET.startCss >= 6_500 && CHAT_BUDGET.pageCss < 24_267 + 3_000);
 });
 
 test('brotli quality 11 per file, the same size every time', () => {
@@ -130,6 +146,10 @@ test('the gate reads a built dist/ and its baseline, and refuses a build without
   assert.throws(() => assertChatBundleBudget(dist, baselineFile), /lazy part chat-billing is gone/);
   fs.writeFileSync(baselineFile, JSON.stringify({ schema: 2 }));
   assert.throws(() => readBaseline(baselineFile), /Invalid bundle baseline/);
+  fs.writeFileSync(baselineFile, JSON.stringify(baseline({ schema: 2 })));
+  assert.throws(() => readBaseline(baselineFile), /Invalid bundle baseline/, 'schema 2 records the chat sheet');
+  fs.writeFileSync(baselineFile, JSON.stringify({ ...baseline({ schema: 2, startCssBytes: 1 }), parts: { 'chat-account': 1 } }));
+  assert.equal(readBaseline(baselineFile)?.startCssBytes, 1);
 });
 
 test('the recorded baseline is within budget and knows the three parts', () => {

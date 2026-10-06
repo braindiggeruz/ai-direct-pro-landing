@@ -460,11 +460,17 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   // its subtitle drawn by CSS (::before/::after, not text of the HTML), the H1
   // as the resting screen's kicker, outlines of the greeting, the terms, the
   // four tasks and the links row, and the composer with «AI-chat
-  // yuklanmoqda…» as its footnote, from the same premium.css classes. The
-  // chat replaces it in one commit (src/gpt-chat/main.tsx), so nothing moves
-  // when it mounts. The frame adds no text: what a crawler reads before
+  // yuklanmoqda…» as its footnote, from the same premium.css classes, with the
+  // same heights (a 3-line footnote, a 2-line tile). The chat replaces it in
+  // one commit (src/gpt-chat/main.tsx); CLS cannot see that swap, so
+  // scripts/chat-layout-check.mjs compares the frame with the mounted chat at
+  // seven sizes (the tops of the H1, the greeting and the tasks, the composer's
+  // height, the task rows). The frame adds no text: what a crawler reads before
   // JavaScript is the H1, the no-JavaScript line and «AI-chat yuklanmoqda…».
-  const tile = '<li class="gpt-task"></li>';
+  // From 720px the tasks are chips in one row: each outline is as wide as the
+  // chip that replaces it (premium.css --w, measured on the mounted chat in
+  // Geist); below that they are the 2x2 tiles, whose width the grid sets.
+  const tiles = (uz ? [167, 131, 193, 124] : [156, 159, 164, 162]).map((w) => `<li class="gpt-task" style="--w:${w}px"></li>`).join('');
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
@@ -485,7 +491,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
                   <p class="gpt-greet gpt-shell-greet" aria-hidden="true"></p>
                   <span class="gpt-meta"><span class="gpt-shell-bar gpt-shell-meta" aria-hidden="true"></span></span>
                 </div>
-                <ul class="gpt-tasks gpt-shell-tasks" aria-hidden="true">${tile.repeat(4)}</ul>
+                <ul class="gpt-tasks gpt-shell-tasks" aria-hidden="true">${tiles}</ul>
                 <span class="gpt-shell-bar gpt-shell-links" aria-hidden="true"></span>
               </div>
             </div>

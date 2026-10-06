@@ -195,21 +195,22 @@ test('the header counts what runs out first: this hour or today, and 0 while the
   const uz = strings('uz');
   // The header's subtitle (chat design §5.1) says what the AiUsageBadge pill said.
   const line = (remaining: number, hourLeft: number | null, hourBlocked = false, locale: 'ru' | 'uz' = 'uz') => usageLine(remaining, hourLeft, hourBlocked, strings(locale));
-  assert.deepEqual(line(10, 2), { text: uz.hourRemaining(2), low: true }, 'saffron at 2 left this hour, as the warning');
+  assert.deepEqual(line(10, 2), { text: uz.hourRemaining(2), short: uz.hourRemainingShort(2), low: true }, 'saffron at 2 left this hour, as the warning');
   assert.equal(uz.hourRemaining(2), 'Bu soatda yana 2 ta xabar');
   assert.equal(strings('ru').hourRemaining(2), 'В этот час ещё 2 сообщения');
   // The hourly limit stands: 0, not the day's 10.
-  assert.deepEqual(line(10, null, true), { text: uz.hourRemaining(0), low: true });
+  assert.deepEqual(line(10, null, true), { text: uz.hourRemaining(0), short: uz.hourRemainingShort(0), low: true });
   // The day runs out first: the day's count, saffron from 3.
-  assert.deepEqual(line(3, 5), { text: uz.remaining(3), low: true });
-  assert.deepEqual(line(4, null), { text: uz.remaining(4), low: false });
+  assert.deepEqual(line(3, 5), { text: uz.remaining(3), short: uz.remainingShort(3), low: true });
+  assert.deepEqual(line(4, null), { text: uz.remaining(4), short: uz.remainingShort(4), low: false });
   assert.equal(line(10, 3).low, false, '3 left this hour is not low yet');
   assert.equal(line(-1, 2), null, 'unknown until the server counts');
   // The sentence is said to a screen reader as a status of its own; the visible line is hidden from it.
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   assert.match(consoleSource, /const usage = paid \? null : usageLine\(remaining, hourShown, hourBlocked, t\);/);
-  assert.match(consoleSource, /\{usage && <span className="sr-only" role="status">\{usage\.text\}<\/span>\}/);
-  assert.match(consoleSource, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\{sub\.text\}<\/span>/);
+  assert.match(consoleSource, /const srStatus = paid \? t\.premium\.activeLine\(remaining\) : usage\?\.text;/);
+  assert.match(consoleSource, /\{srStatus && <span className="sr-only" role="status">\{srStatus\}<\/span>\}/);
+  assert.match(consoleSource, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\s*\{sub\.short \? <><span className="gpt-sub-full">\{sub\.text\}<\/span><span className="gpt-sub-short">\{sub\.short\}<\/span><\/> : sub\.text\}\s*<\/span>/);
 });
 
 test('once the hourly limit lifts, the header says the day’s count, not the hour’s stale 0', () => {

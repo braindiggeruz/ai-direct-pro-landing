@@ -18,11 +18,24 @@
 // behind it, a page wider than the screen, the thread running below the
 // composer's top, the composer off screen, not in flow or not opaque; and
 // the honesty lines: the footnote (not OpenAI, the privacy link) in every
-// state, the header's subtitle whole on the resting screen from 360px, no
-// pack button, no price and no Telegram bot while the server offers none.
-// A negative control puts back the rejected composer (fixed, a transparent
-// gradient) and must be caught. CLS and LCP are read at 360x612 and 390x844
-// under 4x CPU and Fast 3G. Any failure exits 1.
+// state, the header's subtitle whole in every state at every size, no pack
+// button, no price and no Telegram bot while the server offers none. The
+// answer's maths: the check line and a step heading one text block beside
+// the tick or the circle (bold, italic and code inside), no LaTeX left as
+// text, no answer box that starts with a line break. The limit card in sight
+// at the thread's end, with the keyboard open too, also right after an
+// answered question.
+//
+// Then, on their own pages: the «⋯» menu under a one-line answer (it opens
+// below) and under a long question (above), every item reachable by a tap;
+// a pinch-zoom with the field focused is no keyboard; the way back to an
+// article (#entry=); the header with the pack button (billing on) and the
+// pack window's price contrast; and the prerendered frame against the
+// mounted chat (the tops of the H1, the greeting and the tasks, the
+// composer's height, the task rows) at seven sizes, since CLS cannot see a
+// DOM swap. A negative control puts back the rejected composer (fixed, a
+// transparent gradient) and must be caught. CLS and LCP are read at 360x612
+// and 390x844 under 4x CPU and Fast 3G. Any failure exits 1.
 import { createServer } from 'node:http';
 import { mkdirSync, readFileSync, existsSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -67,39 +80,48 @@ const ANSWER = {
     '### 1-qadam. Koeffitsiyentlarni aniqlaymiz',
     'Tenglama \\(x^2 - 4x + 3 = 0\\): a = 1, b = −4, c = 3.',
     '',
-    '### 2-qadam. Diskriminantni hisoblaymiz',
-    '$$D = b^2 - 4ac = (-4)^2 - 4 \\cdot 1 \\cdot 3$$',
+    '### 2-qadam. `D` ni hisoblaymiz',
+    '$$D = b^{2} - 4ac = (-4)^2 - 4 \\cdot 1 \\cdot 3$$',
     '$$D = 16 - 12 = 4$$',
     '',
     '### 3-qadam. Ildizlarni topamiz',
-    '$$x_{1,2} = \\frac{4 \\pm \\sqrt{4}}{2} = \\frac{4 \\pm 2}{2}$$',
+    '$$x_{1,2} = \\frac{-b \\pm \\sqrt{b^{2} - 4ac}}{2a} = \\frac{4 \\pm 2}{2}$$',
     '$$x_1 = 3, \\quad x_2 = 1$$',
     '',
     '**Javob:** \\(x_1 = 3\\), \\(x_2 = 1\\)',
     '',
-    'Tekshirish: 3² − 4·3 + 3 = 9 − 12 + 3 = 0 ✓',
+    '**Tekshirish:** x = **3** bo‘lsa, 3² − 4·3 + 3 = 9 − 12 + 3 = 0, ya’ni *tenglik* to‘g‘ri ✓',
   ].join('\n'),
   ru: [
     '### Шаг 1. Находим коэффициенты',
     'Уравнение \\(x^2 - 4x + 3 = 0\\): a = 1, b = −4, c = 3.',
     '',
-    '### Шаг 2. Считаем дискриминант',
-    '$$D = b^2 - 4ac = (-4)^2 - 4 \\cdot 1 \\cdot 3$$',
+    '### Шаг 2. Считаем дискриминант `D`',
+    '$$D = b^{2} - 4ac = (-4)^2 - 4 \\cdot 1 \\cdot 3$$',
     '$$D = 16 - 12 = 4$$',
     '',
     '### Шаг 3. Находим корни',
-    '$$x_{1,2} = \\frac{4 \\pm \\sqrt{4}}{2} = \\frac{4 \\pm 2}{2}$$',
+    '$$x_{1,2} = \\frac{-b \\pm \\sqrt{b^{2} - 4ac}}{2a} = \\frac{4 \\pm 2}{2}$$',
     '$$x_1 = 3, \\quad x_2 = 1$$',
     '',
     '**Ответ:** \\(x_1 = 3\\), \\(x_2 = 1\\)',
     '',
-    'Проверка: 3² − 4·3 + 3 = 9 − 12 + 3 = 0 ✓',
+    '**Проверка:** при x = **3**: 3² − 4·3 + 3 = 9 − 12 + 3 = 0, то есть *равенство* верно ✓',
   ].join('\n'),
 };
 const QUESTION = { uz: 'x² − 4x + 3 = 0', ru: 'x² − 4x + 3 = 0' };
+// The one-line answer under which «⋯» opens below, and a question long enough that it opens above.
+const SHORT = { uz: 'Salom! Qanday yordam bera olaman?', ru: 'Привет! Чем могу помочь?' };
+const HELLO = { uz: 'Salom', ru: 'Привет' };
+const LONG_QUESTION = {
+  uz: 'Salom! Men 9-sinfda o‘qiyman va ertaga algebra bo‘yicha nazorat ishi bor. Kvadrat tenglamalarni yechishni tushunmayapman: diskriminant nima, qachon ildiz bo‘lmaydi, Viet teoremasi qanday ishlaydi? Iltimos, oddiy so‘zlar bilan, misollar bilan tushuntirib ber, keyin menga o‘zim yechishim uchun uchta masala ham ber.',
+  ru: 'Привет! Я учусь в 9 классе, и завтра контрольная по алгебре. Не понимаю квадратные уравнения: что такое дискриминант, когда корней нет, как работает теорема Виета? Объясни, пожалуйста, простыми словами и на примерах, а потом дай мне три задачи, чтобы я решил их сам.',
+};
 const GUEST = { ok: true, loginAvailable: false, mode: null, providers: [], user: null, terms: { ru: null, uz: null }, termsVersion: null, freeLimits: { daily: 15, hourly: 5 }, botHandoff: false };
+// Billing on (Click in test mode, a guest may buy): the header's pack button and the pack window.
+const BILLING = { ...GUEST, loginAvailable: true, mode: 'test', providers: ['click'], terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, termsVersion: '2026-10-01', guestCheckout: true, pack: { priceUzs: 29000, messageLimit: 300, dailyLimit: 30, months: 1 } };
 const sse = (locale) => {
-  const text = ANSWER[locale];
+  const text = mode === 'short' ? SHORT[locale] : ANSWER[locale];
   const parts = text.match(/[\s\S]{1,90}/g);
   return [
     { type: 'meta', sessionId: 'layout-check', model: 'glm-5.3-flash' },
@@ -241,7 +263,15 @@ function audit() {
     const k = inter(box(r), clipBox(el));
     return k.r - k.l > 1 && k.b - k.t > 1;
   });
-  const inSentence = (el) => el.tagName === 'A' && [...el.parentElement.childNodes].some((n) => n !== el && n.textContent.trim());
+  // A link inside a sentence: text runs beside it that are rendered (a text
+  // node, or an inline element with text); a hidden hint is no sentence.
+  const inSentence = (el) => el.tagName === 'A' && [...el.parentElement.childNodes].some((n) => {
+    if (n === el || !n.textContent.trim()) return false;
+    if (n.nodeType === 3) return true;
+    if (n.nodeType !== 1) return false;
+    const st = getComputedStyle(n), r = n.getBoundingClientRect();
+    return st.display.startsWith('inline') && r.width > 0 && r.height > 0;
+  });
   for (const el of controls) {
     const r = el.getBoundingClientRect();
     const need = inSentence(el) ? [1, 24] : [43.5, 43.5];
@@ -300,6 +330,45 @@ function audit() {
   out.layout.composer = Math.round(cRect.height);
   out.layout.thread = Math.round(tRect.height);
   out.layout.header = Math.round(document.querySelector('#gpt-chat-root .gpt-header').getBoundingClientRect().height);
+  // (5b) the answer's maths: one text block beside the tick and the circle,
+  // whose wrapped lines start at its left edge; no LaTeX left as text; the
+  // box's value without a leading break.
+  out.answerFormat = [];
+  for (const line of document.querySelectorAll('#gpt-chat-root .gpt-check-line, #gpt-chat-root .gpt-step-head')) {
+    const want = line.classList.contains('gpt-check-line') ? 1 : 2;
+    if (line.children.length !== want) { out.answerFormat.push({ el: name(line), children: line.children.length }); continue; }
+    const block = line.lastElementChild;
+    const left = block.getBoundingClientRect().left;
+    // The boxes of its text and inline elements, grouped into lines by their middle.
+    const boxes = [];
+    const walk = document.createTreeWalker(block, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      if (n.nodeType === 3) { const range = document.createRange(); range.selectNodeContents(n); boxes.push(...range.getClientRects()); }
+      else if (n.tagName !== 'BR') boxes.push(...n.getClientRects());
+    }
+    const lines = [];
+    for (const r of boxes.filter((x) => x.width >= 1).sort((x, y) => x.top - y.top)) {
+      const mid = (r.top + r.bottom) / 2;
+      const at = lines.find((l) => Math.abs(l.mid - mid) < 8);
+      if (at) at.left = Math.min(at.left, r.left); else lines.push({ mid, left: r.left });
+    }
+    const off = lines.map((l) => l.left).filter((x) => Math.abs(x - left) > 2);
+    if (off.length) out.answerFormat.push({ el: name(line), text: block.textContent.slice(0, 40), lineStartsOff: off.map(Math.round) });
+  }
+  for (const body of document.querySelectorAll('#gpt-chat-root .gpt-answer-body')) {
+    const raw = body.textContent.match(/\\(?:d?frac|sqrt|cdot|pm|left|right)\b|\^\{|_\{/);
+    if (raw) out.answerFormat.push({ el: 'gpt-answer-body', raw: raw[0] });
+  }
+  for (const value of document.querySelectorAll('#gpt-chat-root .gpt-result-value')) {
+    if (/^\s*<br/i.test(value.innerHTML)) out.answerFormat.push({ el: 'gpt-result-value', leadingBreak: true });
+  }
+  // (5c) the limit card at the thread's end: whole in sight, no empty space under it.
+  const card = document.querySelector('#gpt-chat-root .gpt-message-content [data-testid="ai-limit-card"]');
+  if (card) {
+    const v = document.querySelector('#gpt-chat-root .gpt-viewport').getBoundingClientRect();
+    const k = card.getBoundingClientRect();
+    out.limitCard = { top: Math.round(k.top - v.top), gapBelow: Math.round(v.bottom - k.bottom), ok: k.top >= v.top - 0.5 && v.bottom - k.bottom <= 24 };
+  }
   // (6) honesty.
   const note = document.querySelector('[data-testid="ai-input-microcopy"]');
   const privacy = document.querySelector('[data-testid="ai-input-privacy"]');
@@ -322,14 +391,17 @@ const shots = [];
 const unexpected = [];
 let mode = 'answer';
 
-async function open({ w, h, ua, theme, locale, dpr = 2, init }) {
-  const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: dpr, isMobile: true, hasTouch: true, userAgent: UA[ua], colorScheme: theme, locale: locale === 'uz' ? 'uz-UZ' : 'ru-RU' });
+async function open({ w, h, ua, theme, locale, dpr = 2, init, account = GUEST, hash = '', frame = false }) {
+  const phone = w < 700;
+  const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: dpr, isMobile: phone, hasTouch: phone, userAgent: UA[ua], colorScheme: theme, locale: locale === 'uz' ? 'uz-UZ' : 'ru-RU' });
   await ctx.route('**/*', async (route) => {
     const url = new URL(route.request().url());
     if (url.origin !== ORIGIN) return route.abort();
+    // The prerendered frame alone: no script runs.
+    if (frame && route.request().resourceType() === 'script') return route.abort();
     if (!url.pathname.startsWith('/api/')) return route.continue();
     const json = (status, body) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
-    if (url.pathname === '/api/gpt/account') return json(200, GUEST);
+    if (url.pathname === '/api/gpt/account') return json(200, account);
     if (url.pathname === '/api/auth/config') return json(200, { turnstileRequired: false, turnstileSiteKey: null });
     if (url.pathname === '/api/gpt/session') return json(200, { ok: true, sessionId: 'layout-check' });
     if (url.pathname === '/api/gpt/event') return json(200, { ok: true });
@@ -344,9 +416,10 @@ async function open({ w, h, ua, theme, locale, dpr = 2, init }) {
   });
   const page = await ctx.newPage();
   if (init) await page.addInitScript(init);
-  await page.goto(`${ORIGIN}${PAGES[locale]}`, { waitUntil: 'load' });
-  await page.waitForSelector('[data-testid="ai-console"]');
+  await page.goto(`${ORIGIN}${PAGES[locale]}${hash}`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
+  if (frame) return { ctx, page };
+  await page.waitForSelector('[data-testid="ai-console"]');
   await page.waitForFunction(() => /\d/.test(document.querySelector('.gpt-meta')?.textContent || ''));
   return { ctx, page };
 }
@@ -392,11 +465,16 @@ for (const size of PERF_ONLY ? [] : QUICK ? SIZES.filter((s) => s.w === 360 && s
     await record(page, kbRun, 'empty-keyboard', true);
     await page.evaluate(() => document.activeElement?.blur());
     await page.setViewportSize({ width: size.w, height: size.h });
-    // A task, a question, the answer.
+    // A task, a question: «AI o‘ylayapti…» before the server has counted anything, then the answer.
+    mode = 'slow';
     await page.click('.gpt-task');
     await page.type('.gpt-input-surface textarea', QUESTION[locale]);
     await page.click('.gpt-send-button');
-    await page.waitForSelector('.gpt-action-row');
+    await page.waitForSelector('.gpt-pending');
+    await page.evaluate(() => document.activeElement?.blur());
+    await record(page, run, 'thinking-first', size.w === 360 && size.h === 612);
+    await page.waitForSelector('.gpt-action-row', { timeout: 15_000 });
+    mode = 'answer';
     await page.evaluate(() => document.activeElement?.blur());
     await record(page, run, 'chat-end', true);
     // The «⋯» menu.
@@ -433,10 +511,156 @@ for (const size of PERF_ONLY ? [] : QUICK ? SIZES.filter((s) => s.w === 360 && s
     await page.evaluate(() => document.activeElement?.blur());
     await page.waitForTimeout(500);
     await record(page, run, 'limit', true);
+    // The keyboard over the card: the chat keeps it in sight by itself.
     await keyboard(page, size);
-    await page.evaluate(() => { const v = document.querySelector('.gpt-viewport'); v.scrollTop = v.scrollHeight; });
+    await page.waitForTimeout(400);
     await record(page, kbRun, 'limit-keyboard', true);
     await ctx.close();
+  }
+}
+
+// Every item of the open «⋯» menu is what a tap at its centre reaches.
+const MENU_REACH = () => {
+  const menu = document.querySelector('.gpt-action-menu');
+  if (!menu) return { open: false, missed: [] };
+  const missed = [menu.querySelector('.gpt-menu-cost'), ...menu.querySelectorAll('.gpt-action')].filter((el) => {
+    const r = el.getBoundingClientRect();
+    const top = document.elementFromPoint((r.left + r.right) / 2, (r.top + r.bottom) / 2);
+    return !(top === el || el.contains(top));
+  }).map((el) => el.textContent.trim().slice(0, 30));
+  return { open: true, below: menu.hasAttribute('data-below'), missed };
+};
+const menuChecks = [];
+const limitChecks = [];
+const zoomChecks = [];
+const billingChecks = [];
+const frameChecks = [];
+const PHONE = { tg: SIZES[1], big: SIZES[4], ios: SIZES[3] };
+if (!PERF_ONLY) {
+  for (const size of [PHONE.tg, PHONE.big]) for (const locale of ['uz', 'ru']) {
+    const run = { size: `${size.w}x${size.h}`, ua: size.ua, theme: 'dark', locale };
+    // A one-line answer high in the thread: the menu opens below it.
+    mode = 'short';
+    const { ctx, page } = await open({ ...size, theme: 'dark', locale });
+    await send(page, HELLO[locale]);
+    await page.waitForSelector('.gpt-action-more');
+    await page.evaluate(() => document.activeElement?.blur());
+    await page.click('.gpt-action-more');
+    await page.waitForSelector('.gpt-action-menu');
+    await record(page, run, 'menu-short', size === PHONE.tg);
+    menuChecks.push({ ...run, state: 'menu-short', ...(await page.evaluate(MENU_REACH)) });
+    await page.keyboard.press('Escape');
+    // A long question, the same answer: the menu opens above it, over the question.
+    await page.click('[data-testid="ai-header-new-chat"]');
+    await page.waitForSelector('.gpt-empty');
+    await send(page, LONG_QUESTION[locale]);
+    await page.waitForSelector('.gpt-action-more');
+    await page.evaluate(() => document.activeElement?.blur());
+    await page.click('.gpt-action-more');
+    await page.waitForSelector('.gpt-action-menu');
+    await record(page, run, 'menu-up', size === PHONE.tg);
+    menuChecks.push({ ...run, state: 'menu-up', ...(await page.evaluate(MENU_REACH)) });
+    await ctx.close();
+  }
+  // An answered question, then one refused at the limit: the card in sight, the scroller's spacer gone.
+  for (const size of [PHONE.tg, PHONE.ios]) for (const locale of ['uz', 'ru']) {
+    const run = { size: `${size.w}x${size.h}`, ua: size.ua, theme: 'dark', locale };
+    mode = 'answer';
+    const { ctx, page } = await open({ ...size, theme: 'dark', locale });
+    await send(page, QUESTION[locale]);
+    await page.waitForSelector('.gpt-action-row');
+    mode = 'limit';
+    await send(page, locale === 'uz' ? 'Yana bir savol' : 'Ещё один вопрос');
+    await page.waitForSelector('[data-testid="ai-limit-card"]');
+    await page.evaluate(() => document.activeElement?.blur());
+    await page.waitForTimeout(800);
+    await record(page, run, 'limit-direct', size === PHONE.tg);
+    await keyboard(page, size);
+    await page.waitForTimeout(400);
+    await record(page, { ...run, size: `${size.w}x${size.kb}` }, 'limit-direct-keyboard', size === PHONE.tg);
+    await ctx.close();
+  }
+  // A pinch-zoom with the field focused is no keyboard (WCAG 1.4.4).
+  for (const locale of ['uz', 'ru']) {
+    mode = 'answer';
+    const { ctx, page } = await open({ ...PHONE.tg, theme: 'dark', locale });
+    await page.focus('.gpt-input-surface textarea');
+    const before = await page.evaluate(() => document.getElementById('main')?.style.height ?? '');
+    const cdp = await ctx.newCDPSession(page);
+    await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 2 });
+    await page.waitForTimeout(600);
+    const zoomed = await page.evaluate(() => {
+      const tasks = document.querySelector('.gpt-tasks');
+      return { keyboard: document.querySelector('#gpt-chat-root .gpt-premium')?.getAttribute('data-keyboard') || null, main: document.getElementById('main')?.style.height ?? '', tasks: !!tasks && getComputedStyle(tasks).display !== 'none' };
+    });
+    await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 1 });
+    zoomChecks.push({ locale, before, ...zoomed, ok: zoomed.keyboard === null && zoomed.main === before && zoomed.tasks });
+    await ctx.close();
+  }
+  // From an article: the way back in the composer.
+  for (const [locale, hash] of [['uz', '#entry=students'], ['ru', '#entry=compare-ru']]) {
+    mode = 'answer';
+    const run = { size: `${PHONE.tg.w}x${PHONE.tg.h}`, ua: PHONE.tg.ua, theme: 'dark', locale };
+    const { ctx, page } = await open({ ...PHONE.tg, theme: 'dark', locale, hash });
+    await page.waitForSelector('.gpt-entry-context a');
+    await record(page, run, 'entry', true);
+    await ctx.close();
+  }
+  // Billing on: the header with the pack button at 320 and 360, and the pack window's price.
+  for (const size of [SIZES[0], PHONE.tg]) for (const locale of ['uz', 'ru']) {
+    mode = 'answer';
+    const run = { size: `${size.w}x${size.h}`, ua: size.ua, theme: 'dark', locale };
+    const { ctx, page } = await open({ ...size, theme: 'dark', locale, account: BILLING });
+    await page.waitForSelector('[data-testid="ai-account-trigger"]');
+    const header = await page.evaluate(audit);
+    await page.click('[data-testid="ai-account-trigger"]');
+    await page.waitForSelector('.gpt-account-dialog .gpt-price');
+    await page.waitForTimeout(400);
+    const price = await page.evaluate(() => {
+      const parse = (v) => { const m = v.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] === undefined ? 1 : p[3] }; };
+      const lum = (v) => { const f = (x) => { x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(v.r) + 0.7152 * f(v.g) + 0.0722 * f(v.b); };
+      const el = document.querySelector('.gpt-account-dialog .gpt-price');
+      // Through a canvas: computed colours may come as lab()/oklch(), which parse() does not read.
+      const rgb = (css) => { const c = document.createElement('canvas').getContext('2d'); c.fillStyle = '#000'; c.fillStyle = css; c.fillRect(0, 0, 1, 1); const d = c.getImageData(0, 0, 1, 1).data; return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 }; };
+      const fg = rgb(getComputedStyle(el).color);
+      const bg = rgb(getComputedStyle(el.closest('.gpt-plan-card')).backgroundColor);
+      const ratio = (Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05);
+      return { text: el.textContent.trim(), ratio: +ratio.toFixed(2), parsed: !!parse(getComputedStyle(el).color) };
+    });
+    if (size === PHONE.tg) {
+      await page.screenshot({ path: join(SHOTS, `${run.size}-${run.ua}-dark-${locale}-pack-window.png`) });
+      shots.push(`${run.size}-${run.ua}-dark-${locale}-pack-window.png`);
+    }
+    billingChecks.push({ ...run, smallTargets: header.smallTargets, headerSpill: header.layout.headerSpill, subtitleWhole: header.layout.subtitleWhole, price });
+    await ctx.close();
+  }
+  // The prerendered frame against the mounted chat: nothing moves when it mounts.
+  const GEOMETRY = () => {
+    const q = (sel) => document.querySelector(`#gpt-chat-root ${sel}`)?.getBoundingClientRect();
+    const r = (b) => (b ? { top: Math.round(b.top * 10) / 10, height: Math.round(b.height * 10) / 10 } : null);
+    const rows = new Set([...document.querySelectorAll('#gpt-chat-root .gpt-tasks > li')].map((li) => Math.round(li.getBoundingClientRect().top))).size;
+    return { kicker: r(q('.gpt-kicker')), greet: r(q('.gpt-greet')), tasks: r(q('.gpt-tasks')), composer: r(q('.gpt-composer')), footnote: r(q('.gpt-input-footnote')), rows };
+  };
+  const WIDE = [{ w: 768, h: 1024, ua: 'android', name: 'tablet' }, { w: 1280, h: 800, ua: 'android', name: 'desktop' }];
+  for (const size of [...SIZES, ...WIDE]) for (const locale of ['uz', 'ru']) {
+    mode = 'answer';
+    const framed = await open({ ...size, theme: 'dark', locale, frame: true });
+    const before = await framed.page.evaluate(GEOMETRY);
+    await framed.ctx.close();
+    const mounted = await open({ ...size, theme: 'dark', locale });
+    await mounted.page.waitForTimeout(300);
+    const after = await mounted.page.evaluate(GEOMETRY);
+    if (size.name) {
+      const file = `${size.w}x${size.h}-${size.name}-dark-${locale}-empty.png`;
+      await mounted.page.screenshot({ path: join(SHOTS, file) });
+      shots.push(file);
+    }
+    await mounted.ctx.close();
+    const moved = [];
+    for (const key of ['kicker', 'greet', 'tasks']) if (!before[key] || !after[key] || Math.abs(before[key].top - after[key].top) > 1) moved.push(`${key} top ${before[key]?.top} → ${after[key]?.top}`);
+    for (const key of ['composer', 'footnote']) if (!before[key] || !after[key] || Math.abs(before[key].height - after[key].height) > 1) moved.push(`${key} height ${before[key]?.height} → ${after[key]?.height}`);
+    if (before.rows !== after.rows) moved.push(`task rows ${before.rows} → ${after.rows}`);
+    frameChecks.push({ size: `${size.w}x${size.h}`, locale, frame: before, mounted: after, moved });
   }
 }
 
@@ -493,7 +717,9 @@ await browser.close();
 server.close();
 
 // ── Summary ────────────────────────────────────────────────────────────────
-const count = (key) => results.reduce((n, r) => n + r[key].length, 0);
+const count = (key) => results.reduce((n, r) => n + (r[key]?.length ?? 0), 0);
+// The header's one line, whole: every state, every size.
+const SUBTITLE_STATES = ['empty', 'chat-end', 'chat-top', 'thinking-first', 'thinking', 'menu', 'limit', 'limit-keyboard', 'limit-direct', 'limit-direct-keyboard', 'menu-short', 'menu-up', 'entry'];
 const summary = {
   pages: Object.values(PAGES),
   runs: results.length,
@@ -510,16 +736,30 @@ const summary = {
   headerSpill: results.filter((r) => r.layout.headerSpill.length).length,
   composerOffScreen: results.filter((r) => r.layout.composerOnScreen === false).length,
   composerNotInFlowOrNotOpaque: results.filter((r) => !['relative', 'static'].includes(r.layout.composerPosition) || !r.layout.composerOpaque).length,
-  subtitleCutOnRestingScreen: results.filter((r) => r.state === 'empty' && parseInt(r.size, 10) >= 360 && r.layout.subtitleWhole === false).length,
+  subtitleCut: results.filter((r) => SUBTITLE_STATES.includes(r.state) && r.layout.subtitleWhole === false).map((r) => `${r.size} ${r.locale} ${r.state}: ${r.layout.subtitle}`),
+  answerFormat: count('answerFormat'),
+  limitCardOutOfSight: results.filter((r) => r.state.startsWith('limit') && (!r.limitCard || !r.limitCard.ok)).map((r) => `${r.size} ${r.locale} ${r.state}: ${JSON.stringify(r.limitCard ?? null)}`),
+  menuUnreachable: menuChecks.filter((m) => !m.open || m.missed.length).map((m) => `${m.size} ${m.locale} ${m.state}: ${m.missed.join(' | ') || 'closed'}`),
+  menuDirections: { below: menuChecks.filter((m) => m.below).length, above: menuChecks.filter((m) => m.open && !m.below).length },
+  zoom: zoomChecks,
+  billing: billingChecks.map((b) => ({ size: b.size, locale: b.locale, smallTargets: b.smallTargets.length, headerSpill: b.headerSpill.length, subtitleWhole: b.subtitleWhole, price: b.price })),
+  frameVsMounted: frameChecks.map((f) => ({ size: f.size, locale: f.locale, moved: f.moved, composer: f.mounted.composer?.height, footnote: f.mounted.footnote?.height, rows: f.mounted.rows })),
   keyboardNotDetected: results.filter((r) => r.state.endsWith('keyboard') && r.layout.keyboard !== 'open').length,
   unexpectedApiCalls: [...new Set(unexpected)],
   negativeControl,
-  heights: Object.fromEntries(results.filter((r) => r.theme === 'dark' && r.locale === 'uz' && ['empty', 'empty-keyboard'].includes(r.state)).map((r) => [`${r.size} ${r.state}`, { header: r.layout.header, thread: r.layout.thread, composer: r.layout.composer }])),
+  heights: Object.fromEntries(results.filter((r) => r.theme === 'dark' && ['empty', 'empty-keyboard'].includes(r.state)).map((r) => [`${r.size} ${r.locale} ${r.state}`, { header: r.layout.header, thread: r.layout.thread, composer: r.layout.composer }])),
   perf,
 };
-const failures = results.filter((r) => r.textUnderComposer.length || r.textOverlaps.length || r.controlOverlaps.length || r.smallTargets.length || r.contrast.length || r.honesty.length || r.hOverflow || !r.layout.threadEndsAboveComposer || r.layout.composerOnScreen === false || r.layout.headerSpill.length)
-  .map(({ size, ua, theme, locale, state, textUnderComposer, textOverlaps, controlOverlaps, smallTargets, contrast, honesty, hOverflow, layout }) => ({ size, ua, theme, locale, state, textUnderComposer, textOverlaps, controlOverlaps, smallTargets, contrast, honesty, hOverflow, headerSpill: layout.headerSpill }));
-const ok = failures.length === 0 && summary.composerNotInFlowOrNotOpaque === 0 && summary.subtitleCutOnRestingScreen === 0
+const failures = results.filter((r) => r.textUnderComposer.length || r.textOverlaps.length || r.controlOverlaps.length || r.smallTargets.length || r.contrast.length || r.honesty.length || r.hOverflow || !r.layout.threadEndsAboveComposer || r.layout.composerOnScreen === false || r.layout.headerSpill.length || r.answerFormat?.length)
+  .map(({ size, ua, theme, locale, state, textUnderComposer, textOverlaps, controlOverlaps, smallTargets, contrast, honesty, hOverflow, layout, answerFormat }) => ({ size, ua, theme, locale, state, textUnderComposer, textOverlaps, controlOverlaps, smallTargets, contrast, honesty, hOverflow, headerSpill: layout.headerSpill, answerFormat }));
+const pageChecksOk = PERF_ONLY || (
+  !summary.limitCardOutOfSight.length && !summary.menuUnreachable.length && menuChecks.length === 8
+  && summary.menuDirections.below >= 1 && summary.menuDirections.above >= 1
+  && zoomChecks.length === 2 && zoomChecks.every((z) => z.ok)
+  && billingChecks.length === 4 && billingChecks.every((b) => !b.smallTargets.length && !b.headerSpill.length && b.subtitleWhole && b.price.ratio >= 4.5)
+  && frameChecks.length === 14 && frameChecks.every((f) => !f.moved.length)
+  && results.filter((r) => r.state === 'entry').length === 2);
+const ok = failures.length === 0 && summary.composerNotInFlowOrNotOpaque === 0 && !summary.subtitleCut.length && pageChecksOk
   && summary.keyboardNotDetected === 0 && !summary.unexpectedApiCalls.length && (PERF_ONLY || negativeControl.textUnderComposer >= 1)
   && perf.every((p) => p.cls <= 0.1 && (p.lcp?.t ?? Infinity) <= 2_500);
 mkdirSync(dirname(REPORT), { recursive: true });

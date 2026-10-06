@@ -1,6 +1,6 @@
 import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton } from '@/components/ui/message-scroller';
+import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton, useMessageScroller } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
 import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms } from "../types";
 import { strings } from "../i18n";
@@ -68,6 +68,23 @@ const HOUR_WARNING_AT = 2;
 const DAY_WARNING_AT = 3;
 /** A rolling-hour count says nothing an hour after the turn that reported it. */
 const HOUR_WARNING_TTL_MS = 3_600_000;
+
+/** Smooth, unless the visitor asked for less motion. */
+const smooth = (): ScrollBehavior => (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
+
+/**
+ * The thread goes to the limit card when a limit is set (its last item), and
+ * again when the keyboard opens over it. Through the scroller, inside its
+ * provider: scrollToEnd drops the spacer left by the refused question (which
+ * giveBack() took out of the thread) and follows the bottom from then on.
+ */
+function LimitScroll({ since, keyboard }: { since: number | null; keyboard: boolean }) {
+  const { scrollToEnd } = useMessageScroller();
+  useEffect(() => {
+    if (since !== null) scrollToEnd({ behavior: smooth() });
+  }, [since, keyboard, scrollToEnd]);
+  return null;
+}
 
 export function AiChatConsole({ config }: { config: MountConfig }) {
   const t = strings(config.locale);
@@ -874,7 +891,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // The text under the chat (the prerendered summary, #seo-summary): from the
   // resting screen and from the menu, which closes first so its scroll lock
   // does not hold the page (REV-5).
-  const smooth = (): ScrollBehavior => (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
   const toSummary = (event: { preventDefault: () => void }) => {
     const summary = document.getElementById("seo-summary");
     if (!summary) return;
@@ -913,13 +929,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const waited = limit && limit.reason === "hourly" && limit.retryAt !== null && limit.retryAt > limit.since
     ? Math.min(1, Math.max(0, (clock - limit.since) / (limit.retryAt - limit.since)))
     : null;
-  // The thread goes to the card when a limit is set: it is the thread's last item.
+  // The thread goes to the card when a limit is set (LimitScroll): it is the thread's last item.
   const limitSince = limit?.since ?? null;
-  useEffect(() => {
-    if (limitSince === null) return;
-    const viewport = document.getElementById(LIMIT_CARD_ID)?.closest(".gpt-viewport");
-    viewport?.scrollTo({ top: viewport.scrollHeight, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-  }, [limitSince]);
 
   // The limit card: the last item of the thread, or in the tasks' place on
   // the resting screen (chat design §5.10). The composer keeps the refused
@@ -944,7 +955,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d={CLOCK} /></svg>
         <span>
           <span className="sr-only">{card.title} {card.body} </span>
-          {card.short}
+          {/* Not announced on every minute's tick; the line that replaces it once the limit lifts is. */}
+          <span key={card.ready ? "ready" : "wait"} aria-live={card.ready ? undefined : "off"}>{card.short}</span>
           {moreButton && <> · {moreButton}</>}
         </span>
       </p>
@@ -1067,15 +1079,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const state = limitBlocked ? "limit" : resting ? "empty" : "chat";
   // The header's second line says one fact at a time (chat design §5.1): who
   // we are on the resting screen, the count in a conversation, the wait in a
-  // limit, the pack's answers while one is active.
+  // limit (the clock first: the card says the rest), the pack's answers while
+  // one is active. It is one line beside the language switch and «new chat»,
+  // so a conversation says the honest line short until the server has counted,
+  // and below 340px (premium.css) the resting screen does too.
   const usage = paid ? null : usageLine(remaining, hourShown, hourBlocked, t);
-  const sub: { text: string; tone?: string } = paid
-    ? { text: t.premium.activeLine(remaining), tone: "pack" }
+  const sub: { text: string; short?: string; tone?: string } = paid
+    ? { text: t.premium.activeShort(remaining), tone: "pack" }
     : limitBlocked && card
-      ? { text: card.short, tone: "warn" }
+      ? { text: card.header, tone: "warn" }
       : !resting && usage
-        ? { text: usage.text, tone: usage.low ? "warn" : undefined }
-        : { text: t.brandSub };
+        ? { text: usage.short, tone: usage.low ? "warn" : undefined }
+        : resting
+          ? { text: t.brandSub, short: t.brandSubShort }
+          : { text: t.brandSubShort };
+  // What a screen reader hears of it, when it changes: the count, or a pack's answers left.
+  const srStatus = paid ? t.premium.activeLine(remaining) : usage?.text;
 
   return (
     // ym-hide-content: Webvisor is enabled on counter 111312750. Everything the
@@ -1127,10 +1146,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <BrandMark />
             <span className="gpt-brand-text">
               <span>{t.brand}</span>
-              <span className="gpt-header-sub" data-tone={sub.tone} aria-hidden="true">{sub.text}</span>
+              <span className="gpt-header-sub" data-tone={sub.tone} aria-hidden="true">
+                {sub.short ? <><span className="gpt-sub-full">{sub.text}</span><span className="gpt-sub-short">{sub.short}</span></> : sub.text}
+              </span>
             </span>
-            {/* The count for a screen reader, said when it changes. */}
-            {usage && <span className="sr-only" role="status">{usage.text}</span>}
+            {/* The count (or a pack's answers) for a screen reader, said when it changes. */}
+            {srStatus && <span className="sr-only" role="status">{srStatus}</span>}
           </div>
           {/* The other language's chat, on every screen. On the Russian chat the
               word, not the code: most of its search impressions are Uzbek
@@ -1192,6 +1213,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             outline, out of sight. */}
         {h1 && !resting && <h1 className="sr-only">{h1}</h1>}
         <MessageScrollerProvider key={rest.key} autoScroll={!empty} defaultScrollPosition={empty ? "start" : "end"}>
+          <LimitScroll since={resting ? null : limitSince} keyboard={keyboard} />
         <MessageScroller className="gpt-thread-scroll">
         <MessageScrollerViewport className="gpt-viewport" aria-label={uz ? "Suhbat" : "Переписка"}>
           <div className="gpt-column">
@@ -1364,7 +1386,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             )}
           </div>
         </MessageScrollerViewport>
-        <MessageScrollerButton className="gpt-jump-latest" aria-label={uz ? 'Oxirgi xabarga' : 'К последнему сообщению'}>
+        <MessageScrollerButton behavior={smooth()} className="gpt-jump-latest" aria-label={uz ? 'Oxirgi xabarga' : 'К последнему сообщению'}>
           <ArrowDown data-icon="inline-start" />
         </MessageScrollerButton>
         </MessageScroller>

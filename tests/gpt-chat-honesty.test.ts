@@ -230,8 +230,9 @@ test('with the pack button in the header, the Russian chat’s switch is never c
   const css = read('src/gpt-chat/premium.css');
   const rule = css.match(/@media \(max-width: 389px\) \{([^@]*)\}/);
   assert.ok(rule, 'a 389px rule exists');
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-full \{ display: none; \}/);
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-short \{ display: inline; \}/);
+  // The word gives way to «UZ», and the header's honest line to its short form («не OpenAI»), never cut.
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-full, \.gpt-sub-full\) \{ display: none; \}/);
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-short, \.gpt-sub-short\) \{ display: inline; \}/);
   // The class it keys on is the one the pill carries.
   assert.match(read('src/gpt-chat/components/AiAccountPanel.tsx'), /className="gpt-account-trigger"/);
 });
@@ -543,12 +544,15 @@ test('while few messages are left, once a session: the buttons that make the AI 
     // It names the free ones by the names they have on the row.
     assert.ok(a.buttonCost.includes(`«${a.copy}»`) && a.buttonCost.includes(`«${a.share}»`), locale);
   }
-  // On a phone the row's «⋯» menu says it in its caption (chat design §5.6), not a line under the row.
+  // On a phone the row's «⋯» menu says it in its caption (chat design §5.6), not a line under the row;
+  // a cut answer's «Continue» stands in the row, outside the menu, so the line says it for that one.
   const g = globalThis as Record<string, unknown>;
   t.after(() => { delete g.window; });
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
-  assert.ok(!actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  assert.ok(actions({ locale: 'uz', costNote: true, broken: true }).includes(answerStrings('uz').buttonCost));
+  assert.ok(!actions({ locale: 'uz', costNote: true }).includes(answerStrings('uz').buttonCost));
   assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /<p className="gpt-menu-cost">\{s\.menuCost\}<\/p>/);
   assert.equal(answerStrings('ru').menuCost, 'Каждый пункт тратит 1 сообщение');
   delete g.window;

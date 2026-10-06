@@ -11,6 +11,10 @@
 // iOS Safari does not resize the page under its keyboard: while it is open
 // the app (#main) takes the visible height and the page stays at its top, so
 // the composer sits on the keyboard as it does on Android.
+//
+// The height is read unscaled (the visual viewport's height times its scale):
+// a pinch-zoom shrinks the visual viewport too, and is no keyboard. While the
+// page is zoomed the app's height and scroll are left alone (WCAG 1.4.4).
 import { useEffect, useState, type RefObject } from 'react';
 
 export function useKeyboardOpen(inputRef: RefObject<HTMLTextAreaElement | null>): boolean {
@@ -22,16 +26,18 @@ export function useKeyboardOpen(inputRef: RefObject<HTMLTextAreaElement | null>)
     let tallest = 0;
     let width = 0;
     const check = () => {
-      const visible = view ? view.height : window.innerHeight;
+      const scale = view?.scale ?? 1;
+      const zoomed = scale > 1.01;
+      const visible = view ? view.height * scale : window.innerHeight;
       if (window.innerWidth !== width) {
         width = window.innerWidth;
         tallest = 0;
       }
-      tallest = Math.max(tallest, visible);
+      if (!zoomed) tallest = Math.max(tallest, visible);
       const now = document.activeElement === inputRef.current
         && window.matchMedia('(pointer: coarse)').matches && visible < tallest * 0.84;
       setOpen(now);
-      if (!main) return;
+      if (!main || zoomed) return;
       if (now) {
         main.style.height = `${visible}px`;
         window.scrollTo(0, 0);

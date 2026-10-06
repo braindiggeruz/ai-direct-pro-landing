@@ -6,7 +6,8 @@ import type { ChatStrings } from './i18n';
  * to show the day's «10» to someone the hour had just stopped (map 04 U-01).
  * `low` turns it saffron at the same points as the line at the end of the
  * thread: 2 left this hour, 3 today. Null while the server has not counted.
- * It was the AiUsageBadge pill; the header's subtitle says it now.
+ * It was the AiUsageBadge pill; the header's subtitle says it now, in its
+ * short form (`short`); a screen reader hears the sentence (`text`).
  */
 export function usageLine(
   remaining: number,
@@ -15,9 +16,13 @@ export function usageLine(
   /** The hourly limit stands now. */
   hourBlocked: boolean,
   t: ChatStrings,
-): { text: string; low: boolean } | null {
+): { text: string; short: string; low: boolean } | null {
   if (remaining < 0) return null;
   const hourly = hourBlocked || (hourLeft !== null && hourLeft < remaining);
   const n = hourBlocked ? 0 : hourly && hourLeft !== null ? hourLeft : remaining;
-  return { text: hourly ? t.hourRemaining(n) : t.remaining(n), low: hourly ? n <= 2 : n <= 3 };
+  return {
+    text: hourly ? t.hourRemaining(n) : t.remaining(n),
+    short: hourly ? t.hourRemainingShort(n) : t.remainingShort(n),
+    low: hourly ? n <= 2 : n <= 3,
+  };
 }

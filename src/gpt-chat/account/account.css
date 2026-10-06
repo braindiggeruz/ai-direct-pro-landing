@@ -1,8 +1,15 @@
-/* The pack window's content (lazy part chat-account, chat design §5.11): the plan
-   card, the pay and sign-in steps. The window's frame (its size, the bottom sheet on
-   a phone, the close button) is premium.css's, on the chat's start. */
+/* The pack window (chat design §5.11): its frame, a sheet on a phone (vh before dvh, REV-10),
+   and its content (lazy part chat-account): the plan card, the pay and sign-in steps. */
+.gpt-account-dialog { display: block; width: min(520px,calc(100vw - 24px)); max-width: 520px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 28px; border-radius: 20px; border: 1px solid var(--line-strong); background: var(--bg); box-shadow: var(--shadow-pop); }
+@media (max-width: 700px) {
+ [data-slot="dialog-content"].gpt-account-dialog { top: auto; bottom: 0; left: 0; transform: none; translate: none; width: 100%; max-width: none; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid var(--line-strong); border-radius: 20px 20px 0 0; }
+}
+.gpt-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+.gpt-icon-button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; font-size: 24px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); }
+.gpt-account-dialog [data-slot="badge"] { min-height: 24px; border-radius: 8px; }
+.gpt-account-dialog [data-slot="badge"] > svg { width: 12px; height: 12px; }
 .gpt-account-dialog h2 { margin-bottom: 20px; font-size: 26px; line-height: 1.2; letter-spacing: -.03em; font-weight: 600; }
-.gpt-account-dialog .gpt-plan-card { overflow: hidden; padding: 0; border-radius: 16px; background: var(--surface); border: 1px solid var(--line-strong); }
+.gpt-account-dialog .gpt-plan-card { overflow: hidden; padding: 0; border-radius: 16px; background: var(--surface); border: 1px solid var(--line-strong); color: var(--text); }
 .gpt-plan-card [data-slot="card-header"] { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 0; }
 .gpt-plan-card [data-slot="card-content"] { padding: 12px 22px; }
 .gpt-plan-card [data-slot="card-footer"] { flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 22px; border-top: 1px solid var(--line); }
