@@ -54,6 +54,7 @@
       "Чат-боты в мессенджерах — простой доступ прямо в Telegram без отдельного сайта."
     ] },
     { "type": "p", "text": "Выбирая сервис, смотрите на язык интерфейса, качество ответов на русском и узбекском, прозрачность лимитов и то, как сервис обращается с данными. Не ориентируйтесь только на обещания «безграничного доступа» — их стоит проверять на практике." },
+    { "type": "linkp", "text": "Конкретные сервисы разобраны в {analogi}, а как начать разговор по-русски и проверить ответ, подскажет {talk}. Что вообще называют ИИ-чатом, объясняет {iichat}. Если путаетесь в названиях, {vs} покажет разницу между технологией и продуктом.", "links": [{ "token": "analogi", "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/", "anchor": "обзоре аналогов ChatGPT, доступных в Узбекистане" }, { "token": "talk", "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/", "anchor": "статья про чат с ИИ" }, { "token": "iichat", "target": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/", "anchor": "материал о видах ИИ-чатов на русском" }, { "token": "vs", "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "сравнение GPT и ChatGPT" }] },
 
     { "type": "h2", "id": "ogranicheniya", "text": "Ограничения и риски бесплатных сервисов" },
     { "type": "p", "text": "«Бесплатно» обычно не значит «без ограничений». Реалистичные условия выглядят так:" },
@@ -74,8 +75,8 @@
       "Не вводите секретные данные — как и в любом онлайн-сервисе.",
       "Для бизнеса можно подключить AI-чат на сайт, Telegram-бот и CRM."
     ] },
-    { "type": "linkp", "text": "Начать можно в {chat}. Условия и лимиты — на странице {tariffs}. Для узбекоязычных задач откройте {uzbek}.", "links": [
-      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "GPT-чат онлайн" },
+    { "type": "linkp", "text": "Начать можно сразу: {chat} — открывается в браузере, оплата не нужна. Условия и лимиты — на странице {tariffs}. Для узбекоязычных задач откройте {uzbek}.", "links": [
+      { "token": "chat", "target": "/ru/gpt-chat/", "anchor": "ИИ-чат — аналог ChatGPT без регистрации" },
       { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "тарифы AI-чата" },
       { "token": "uzbek", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida" }
     ] },
@@ -112,7 +113,7 @@
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "разработка Telegram-бота", "locale": "ru", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-10-01",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-10-01"
+  "updatedAt": "2026-10-06"
 }

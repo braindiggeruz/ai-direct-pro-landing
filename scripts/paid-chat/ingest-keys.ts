@@ -74,7 +74,7 @@ const MAX_SECRET_LENGTH = { [CLICK_SECRET]: 4096, [UZUM_SECRET]: 8192 } as const
 const MODE_SETTING: Record<LocalProvider, string> = {
   click: "GPT_BILLING_MODE_CLICK",
   uzum: "GPT_BILLING_MODE_UZUM",
-  payme: "GPT_BILLING_MODE",
+  payme: "GPT_BILLING_MODE_PAYME",
 };
 const WRANGLER_TIMEOUT_MS = 120_000;
 

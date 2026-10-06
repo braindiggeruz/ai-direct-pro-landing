@@ -615,6 +615,62 @@ export class BillingStore {
       .bind(this.org, order, kind, url, status, Date.now())
       .run();
   }
+  /**
+   * Payme's SetFiscalData: the receipt Payme printed for `order`. One batch:
+   * Payme's report in gpt_payme_fiscal (migrations/0074, ensurePaymeSchema)
+   * and the account panel's row in gpt_fiscal_receipts, provider 'payme',
+   * which the receipt queue (fiscal-store.ts, provider IN ('click','uzum'))
+   * never claims. A repeat takes Payme's latest status and message; a link or
+   * fiscal field once known stays when the repeat lacks it.
+   */
+  async paymeFiscal(
+    order: string,
+    kind: "PERFORM" | "CANCEL",
+    report: {
+      transactionId: string;
+      status: number;
+      receiptUrl: string | null;
+      message: string | null;
+      receiptId: string | null;
+      terminalId: string | null;
+      fiscalSign: string | null;
+      date: string | null;
+    },
+    now = Date.now(),
+  ): Promise<void> {
+    await this.db.batch([
+      this.db
+        .prepare(
+          `INSERT INTO gpt_payme_fiscal(org_id,order_id,kind,transaction_id,status_code,message,receipt_id,terminal_id,fiscal_sign,qr_code_url,fiscal_date,created_at,updated_at)
+        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ON CONFLICT(org_id,order_id,kind) DO UPDATE SET transaction_id=excluded.transaction_id,status_code=excluded.status_code,message=excluded.message,
+          receipt_id=COALESCE(excluded.receipt_id,receipt_id),terminal_id=COALESCE(excluded.terminal_id,terminal_id),
+          fiscal_sign=COALESCE(excluded.fiscal_sign,fiscal_sign),qr_code_url=COALESCE(excluded.qr_code_url,qr_code_url),
+          fiscal_date=COALESCE(excluded.fiscal_date,fiscal_date),updated_at=excluded.updated_at`,
+        )
+        .bind(
+          this.org,
+          order,
+          kind,
+          report.transactionId,
+          report.status,
+          report.message,
+          report.receiptId,
+          report.terminalId,
+          report.fiscalSign,
+          report.receiptUrl,
+          report.date,
+          now,
+          now,
+        ),
+      this.db
+        .prepare(
+          `INSERT INTO gpt_fiscal_receipts(org_id,order_id,kind,provider,receipt_url,status_code,updated_at) VALUES(?,?,?,'payme',?,?,?)
+        ON CONFLICT(org_id,order_id,kind) DO UPDATE SET provider='payme',receipt_url=COALESCE(excluded.receipt_url,receipt_url),status_code=excluded.status_code,updated_at=excluded.updated_at`,
+        )
+        .bind(this.org, order, kind, report.receiptUrl, report.status, now),
+    ]);
+  }
   async receipts(user: string, mode: BillingMode) {
     const rows = await this.db
       .prepare(

@@ -19,11 +19,11 @@
   "searchIntent": "informational",
   "h1": "GPT vs ChatGPT: в чём разница простыми словами",
   "title": "GPT и ChatGPT: расшифровка и разница простыми словами",
-  "description": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
+  "description": "GPT — это Generative Pre-trained Transformer, а ChatGPT — сервис OpenAI на его основе. Разница простыми словами, таблица и примеры; где попробовать ИИ-чат.",
   "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
   "hreflangRu": "/ru/gpt-vs-chatgpt-sravnenie/",
   "ogTitle": "GPT и ChatGPT: расшифровка и разница простыми словами",
-  "ogDescription": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
+  "ogDescription": "GPT — это Generative Pre-trained Transformer, а ChatGPT — сервис OpenAI на его основе. Разница простыми словами, таблица и примеры; где попробовать ИИ-чат.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -153,7 +153,7 @@
     },
     {
       "type": "p",
-      "text": "Продукты вроде ChatGPT обычно требуют аккаунта и имеют свои условия доступа и лимиты. Независимые AI-чаты могут отличаться языком интерфейса, доступом и адаптацией под регион. При этом у любой языковой модели есть общее свойство: она может ошибаться и не всегда указывает источник, поэтому важные факты нужно проверять."
+      "text": "ChatGPT можно начать без аккаунта; история чатов, картинки и файлы — после входа, а условия доступа и лимиты у каждого сервиса свои. Независимые AI-чаты могут отличаться языком интерфейса, доступом и адаптацией под регион. При этом у любой языковой модели есть общее свойство: она может ошибаться и не всегда указывает источник, поэтому важные факты нужно проверять."
     },
     {
       "type": "h2",
@@ -166,7 +166,7 @@
     },
     {
       "type": "linkp",
-      "text": "Базовое объяснение технологии — в статье {basics}. Попробовать AI-чат можно в {chat}; условия — на странице {tariffs}.",
+      "text": "Базовое объяснение технологии — в статье {basics}. Если хотите сразу попробовать, откройте {chat}: это независимый сервис, а не ChatGPT; условия — на странице {tariffs}.",
       "links": [
         {
           "token": "basics",
@@ -176,12 +176,43 @@
         {
           "token": "chat",
           "target": "/ru/gpt-chat/",
-          "anchor": "GPT-чат онлайн"
+          "anchor": "аналог ChatGPT онлайн от GPTBot.uz"
         },
         {
           "token": "tariffs",
           "target": "/ru/tarify-ai-chat/",
           "anchor": "тарифы AI-чата"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Если вопрос не в терминах, а в выборе сервиса, пригодятся {analogi}, {free} и статья о том, {talk}. Что такое ИИ-чаты и какими они бывают, рассказано в {iichat}, а как писать запросы, чтобы ответ был точным, — в {howto}.",
+      "links": [
+        {
+          "token": "analogi",
+          "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+          "anchor": "обзор аналогов ChatGPT в Узбекистане"
+        },
+        {
+          "token": "free",
+          "target": "/ru/gde-polzovatsya-gpt-besplatno/",
+          "anchor": "разбор бесплатного доступа к GPT"
+        },
+        {
+          "token": "talk",
+          "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+          "anchor": "где пообщаться с ИИ на русском"
+        },
+        {
+          "token": "iichat",
+          "target": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+          "anchor": "материале об ИИ-чатах на русском"
+        },
+        {
+          "token": "howto",
+          "target": "/ru/blog/chat-gpt-na-russkom/",
+          "anchor": "инструкции по запросам к AI-чату"
         }
       ]
     },
@@ -274,7 +305,7 @@
     "Article",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-30",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-09-30"
+  "updatedAt": "2026-10-06"
 }

@@ -49,6 +49,7 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   "zai_*",
   "click_*",
   "uzum_*",
+  "payme_*",
   // POST /api/internal/gpt-billing-maintenance {"drill":true}.
   "drill",
 ];
@@ -122,6 +123,8 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   uzum_status_conflict: "Uzum: после оплаты пришёл отказ, доступ не тронут, сверьте с кабинетом",
   uzum_confirm_recovered: "Uzum: оплата в приложении завершена после сбоя подтверждения, сверьте её с кабинетом Uzum",
   uzum_processing: "Uzum: ошибка сервера при обработке уведомления, Uzum повторит запрос",
+  payme_fiscal_failed: "Payme: чек по боевой оплате не пробит (SetFiscalData с ошибкой), см. gpt_payme_fiscal и gpt_payment_orders, сверьте кабинет Payme",
+  payme_processing: "Payme: ошибка сервера при обработке запроса Payme (ответ -32400), Payme повторит запрос; если не заданы фискальные коды GPT_FISCAL_*, отклоняется каждая оплата",
   drill: "учебный алерт: канал доставки работает",
 };
 

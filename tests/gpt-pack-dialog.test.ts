@@ -259,6 +259,29 @@ test('an open invoice: resumed, or closed while no provider has seen it, so anot
   assert.match(dialog, /if \(watch && \(!choosing \|\| checkout\.outcome === "paid"\)\)/);
 });
 
+test('Payme in a rehearsal session: its button in the existing classes, its name in the card note, the test notice; Payme is never a guest\'s', async () => {
+  const classes = (page: string) => new Set([...page.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/)));
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    // The committed config offers a rehearsal session Payme alone, in test.
+    const page = await window(locale, member({ mode: 'test', providers: ['payme'] }));
+    assert.deepEqual(payButtons(page), ['payme']);
+    assert.ok(has(page, copy.payVia('Payme')) && has(page, copy.payNote('Payme')) && has(page, copy.test), locale);
+    assert.match(page, /<button type="button" class="gpt-primary" data-provider="payme" disabled="">/);
+    assert.match(page, /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
+    // No class the Click window does not already use: the CSS stays as it is.
+    const known = classes(await window(locale, member({ mode: 'test', providers: ['click'] })));
+    assert.deepEqual([...classes(page)].filter((name) => !known.has(name)), [], locale);
+    // Beside Click (a live Payme some day): Click first, both named in the note.
+    const both = await window(locale, member({ providers: ['click', 'payme'] }));
+    assert.deepEqual(payButtons(both), ['click', 'payme']);
+    assert.ok(has(both, copy.payNote(`Click${copy.or}Payme`)), locale);
+    // A guest pays with Click alone: Payme waits for the sign-in.
+    const guestPage = await window(locale, guest({ providers: ['click', 'payme'], guestCheckout: true }));
+    assert.ok(!payButtons(guestPage).includes('payme'), locale);
+  }
+});
+
 test('test mode is said on the window and on the way back; a pending invoice is resumed, not paid twice', async () => {
   for (const locale of LOCALES) {
     const copy = accountStrings(locale);

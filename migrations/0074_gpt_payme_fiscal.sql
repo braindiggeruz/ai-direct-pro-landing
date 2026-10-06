@@ -1,0 +1,20 @@
+-- Payme's fiscal receipts (Payme Merchant API, SetFiscalData). Additive only.
+-- Payme prints the receipt of a sale (PERFORM) and of its cancellation
+-- (CANCEL) itself, from the `detail` our CheckPerformTransaction sends, and
+-- then reports it: Payme's receipt id, the fiscal terminal and sign, the link
+-- on ofd.soliq.uz, its message and the fiscal date. This table keeps that
+-- report for reconciliation with the tax authority. The link the account
+-- panel shows stays in gpt_fiscal_receipts (provider 'payme'), which our own
+-- receipt queue (functions/lib/gpt-chat/fiscal-store.ts) never claims. No
+-- personal data: no card, phone or name.
+-- Number: 0074, because 0073 is reserved by the studio release (branch
+-- studio/r-st1, migrations/0073_studio.sql). The two are independent and
+-- `wrangler d1 migrations apply` applies whichever is missing.
+-- Runtime parity: PAYME_FISCAL_DDL in functions/lib/gpt-chat/billing-schema.ts
+-- (ensurePaymeSchema, run by functions/api/payments/payme.ts only), tested in
+-- tests/gpt-paid-chat-schema.test.ts.
+-- Order: either way. Both this file and the runtime bootstrap use IF NOT
+-- EXISTS, so this migration can be recorded before or after the bootstrap ran.
+-- Rollback: roll the application back; the table stays. The previous code
+-- neither reads nor writes it. Financial rows are never dropped. No DROP.
+CREATE TABLE IF NOT EXISTS gpt_payme_fiscal (org_id TEXT NOT NULL, order_id TEXT NOT NULL, kind TEXT NOT NULL CHECK(kind IN ('PERFORM','CANCEL')), transaction_id TEXT NOT NULL, status_code INTEGER NOT NULL, message TEXT, receipt_id TEXT, terminal_id TEXT, fiscal_sign TEXT, qr_code_url TEXT, fiscal_date TEXT, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL, PRIMARY KEY(org_id,order_id,kind));

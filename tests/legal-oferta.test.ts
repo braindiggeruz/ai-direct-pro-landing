@@ -444,6 +444,38 @@ test('live gate: each missing piece refuses live by name, and never prints a val
   }
 });
 
+test('live gate: Payme in test never holds a deploy; Payme live needs its own secrets and an offer and policies that name it', () => {
+  const live = liveFixture();
+  // The committed shape (Payme listed, in test): only Click is live, nothing more is asked.
+  const paymeTest = liveGate({ ...live, config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE_PAYME: 'test' } });
+  assert.deepEqual([paymeTest.providers, paymeTest.issues], [['click'], []]);
+  // Payme live: the editions of 2026-10 name Click and Uzum Bank only.
+  const config = { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE_PAYME: 'live' };
+  const report = liveGate({ ...live, config });
+  assert.deepEqual(report.providers, ['click', 'payme']);
+  assert.deepEqual(report.issues.filter((issue) => /Payme/.test(issue)), [
+    '/ru/oferta/: does not name Payme as a way to pay',
+    '/ru/politika-konfidentsialnosti/: does not name Payme among the recipients',
+    '/uz/oferta/: does not name Payme as a way to pay',
+    '/uz/maxfiylik-siyosati/: does not name Payme among the recipients',
+  ]);
+  // Its production key and cash desk are Pages secrets, known by name.
+  const withoutKey = liveGate({ ...live, config, production: new Set([...(live.production ?? [])].filter((name) => name !== 'GPT_PAYME_KEY')) });
+  assert.ok(withoutKey.issues.includes('payme: Pages secret GPT_PAYME_KEY is not set in production'), JSON.stringify(withoutKey.issues));
+  // An edition that names Payme clears those lines; the global live mode alone never makes Payme live.
+  const naming = <T,>(page: T) => ({ ...page, body: 'Click, Uzum Bank yoki Payme / Click, Uzum Bank или Payme' }) as T;
+  const named = liveGate({
+    ...live,
+    config,
+    offers: { ru: naming(live.offers.ru), uz: naming(live.offers.uz) },
+    policies: { ru: naming(live.policies.ru), uz: naming(live.policies.uz) },
+  });
+  assert.deepEqual(named.issues, []);
+  assert.deepEqual(liveGate({ ...live, config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE: 'live', GPT_BILLING_MODE_UZUM: 'off', GPT_BILLING_MODE_PAYME: '' } }).issues.filter((issue) => issue.startsWith('payme:')), ['payme: GPT_BILLING_MODE_PAYME']);
+  assert.ok(BILLING_SETTINGS.has('GPT_BILLING_MODE_PAYME'));
+  assert.ok(LIVE_SECRETS.includes('GPT_PAYME_KEY') && LIVE_SECRETS.includes('GPT_PAYME_MERCHANT_ID'));
+});
+
 test('live gate: switching live off always ships, and no Pages variable may shadow a billing setting', () => {
   // The stop switch: nothing is required while GPT_BILLING_LIVE_READY is not "true".
   const off = liveFixture({

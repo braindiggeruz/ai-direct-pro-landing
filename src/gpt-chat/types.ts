@@ -11,13 +11,16 @@ export function isPaymentProvider(value: unknown): value is PaymentProvider {
 
 // Uzum's domains, one rule with the server (src/shared/payment-hosts.ts).
 export const UZUM_CHECKOUT_HOST = UZUM_HOST;
-/** Where the browser may be sent to pay: the providers' own hosts only. */
+/**
+ * Where the browser may be sent to pay: the providers' own hosts only
+ * (test.paycom.uz is Payme's sandbox, offered in a rehearsal session).
+ */
 export function allowedCheckoutUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   try {
     const url = new URL(value);
     if (url.protocol !== 'https:' || url.username || url.password) return null;
-    return ['checkout.paycom.uz', 'my.click.uz'].includes(url.hostname) || UZUM_CHECKOUT_HOST.test(url.hostname)
+    return ['checkout.paycom.uz', 'test.paycom.uz', 'my.click.uz'].includes(url.hostname) || UZUM_CHECKOUT_HOST.test(url.hostname)
       ? url.href
       : null;
   } catch { return null; }

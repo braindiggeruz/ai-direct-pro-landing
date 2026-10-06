@@ -290,14 +290,20 @@ test("fiscal receipt replay is owned, mode-separated and idempotent; only the pr
   };
   for (let i = 0; i < 2; i++)
     assert.equal((await f.rpc("SetFiscalData", params)).result.success, true);
+  // A link that is not https is never kept, and Payme is not made to repeat
+  // the call for it (gap G7): the receipt is accepted, the link known before stays.
   assert.equal(
     (
       await f.rpc("SetFiscalData", {
         ...params,
         fiscal_data: { status_code: 0, qr_code_url: "javascript:alert(1)" },
       })
-    ).error.code,
-    -32602,
+    ).result.success,
+    true,
+  );
+  assert.deepEqual(
+    (await f.store.receipts(f.user, "test")).map((r) => r.receipt_url),
+    ["https://fiscal.example/fixture"],
   );
   assert.equal((await f.store.receipts(f.user, "test")).length, 1);
   assert.equal((await f.store.receipts("other-user", "test")).length, 0);

@@ -171,6 +171,17 @@ export const UZUM_PAID_CHAT_DDL = [
   `CREATE TABLE IF NOT EXISTS gpt_payment_codes (org_id TEXT NOT NULL, code TEXT NOT NULL, user_id TEXT NOT NULL, created_at INTEGER NOT NULL, terms_version TEXT, terms_url TEXT, terms_locale TEXT, terms_accepted_at INTEGER, PRIMARY KEY(org_id,code), UNIQUE(org_id,user_id))`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_uzum_orders_state ON gpt_uzum_orders(org_id,api,state)`,
 ];
+// Payme's own fiscal receipts (migrations/0074): what SetFiscalData reports
+// after Payme printed the receipt of a sale (PERFORM) or of its cancellation
+// (CANCEL) from our CheckPerformTransaction `detail`. Kept for reconciliation
+// with the tax authority; the link the account panel shows is the
+// gpt_fiscal_receipts row (provider 'payme'), which our queue never claims.
+// No personal data: Payme's receipt id, the fiscal terminal and sign, the
+// receipt link and Payme's message. Bootstrapped on the Payme route only
+// (ensurePaymeSchema), never on a chat turn.
+export const PAYME_FISCAL_DDL = [
+  `CREATE TABLE IF NOT EXISTS gpt_payme_fiscal (org_id TEXT NOT NULL, order_id TEXT NOT NULL, kind TEXT NOT NULL CHECK(kind IN ('PERFORM','CANCEL')), transaction_id TEXT NOT NULL, status_code INTEGER NOT NULL, message TEXT, receipt_id TEXT, terminal_id TEXT, fiscal_sign TEXT, qr_code_url TEXT, fiscal_date TEXT, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL, PRIMARY KEY(org_id,order_id,kind))`,
+];
 // One bootstrap per binding; a failed one is forgotten so the next request
 // retries it instead of replaying the error.
 function once(
@@ -206,6 +217,14 @@ export function ensureBillingSchema(db: D1Database): Promise<void> {
     await addMissingColumns(db, "gpt_fiscal_receipts", FISCAL_RECEIPT_COLUMNS);
     await db.batch(PAID_CHAT_DDL.map((sql) => db.prepare(sql)));
     await addMissingColumns(db, "gpt_payment_orders", PAYMENT_ORDER_COLUMNS);
+  });
+}
+const paymeBootstraps = new WeakMap<D1Database, Promise<void>>();
+/** The 0064 ledger and the 0074 Payme receipts: the Payme route only. */
+export function ensurePaymeSchema(db: D1Database): Promise<void> {
+  return once(paymeBootstraps, db, async () => {
+    await ensureBillingSchema(db);
+    await db.batch(PAYME_FISCAL_DDL.map((sql) => db.prepare(sql)));
   });
 }
 /**
