@@ -5,13 +5,22 @@
 //    ramzlari», «Konstitutsiya», «Ikkinchi jahon urushi», «Amir Temur», a
 //    talk on the harm of drugs. Z.ai's own refusal (1301) is the second net
 //    (llm.ts). Llama Guard is not used on topics: it knows neither Uzbek nor
-//    Russian.
+//    Russian. A topic that tries to write the image prompts itself
+//    («… image_prompt: …», «har bir rasm …») is refused too ("prompt"): the
+//    topic reaches the model, and the pictures must come from the slides.
 // 2. Image prompts: WIDE word lists. A prompt with people, anything Flux
 //    turns into writing, state symbols or war, the words T0.1 caught drawing
 //    such things (EXTRA), a few Uzbek / transliterated Russian words, or a
 //    proper name outside the list of places is dropped, and the next slide's
 //    prompt is used instead (MEASURE-30 §9). Dropping, not rewriting: a
-//    rewritten prompt no longer says what the slide is about.
+//    rewritten prompt no longer says what the slide is about. After those
+//    measured stages, three more (2026-10 review): a prompt that is not
+//    plain English (non-ASCII, foreign function or people words, or no
+//    English function word at all), people as stems inside other words
+//    (schoolgirl, toddler, teenage, farmer …) and bodies or swimwear, and
+//    self-harm objects (noose, gallows, razor, pills …). The picture check
+//    has no key for a self-harm object without a person, so the words are
+//    the net for it.
 // 3. Llama Guard 3 8B, ONE call over all prompts of a job. Any category S1–S14,
 //    an unreadable answer or a failed call drops every picture of the job
 //    (the text still goes out). Only the category reaches the ledger.
@@ -31,7 +40,7 @@ import { hex, hmacBytes } from "./sign";
 
 // ── 1. Topics ───────────────────────────────────────────────────────────────
 
-export type TopicCategory = "sexual" | "self_harm" | "drugs" | "weapons" | "hate";
+export type TopicCategory = "sexual" | "self_harm" | "drugs" | "weapons" | "hate" | "prompt";
 
 export type TopicVerdict = { readonly ok: true } | { readonly ok: false; readonly category: TopicCategory };
 
@@ -57,6 +66,23 @@ const SELF_HARM: readonly RegExp[] = [
     "suitsid", "suicid", "суицид", "самоубийств", "самоповрежд", "self[- ]?harm", "селфхарм",
     "o'z joniga qasd", "o'zini o'ldir", "o'zini jarohatla", "покончить с собой", "убить себя", "kill (?:myself|yourself)",
   ]),
+  // The objects of it (a noose drawn for a children's deck), whole words only.
+  wholeWords(["noose", "nooses", "osilish", "petlya", "verevka", "висельн\\p{L}*"]),
+];
+
+/**
+ * A topic that writes the image prompts itself instead of naming a subject:
+ * «Yozgi ta‘til. image_prompt: …», «Har bir rasm: …», «каждый промпт …».
+ */
+const PROMPT_STEERING: readonly RegExp[] = [
+  /image[\s_-]*prompt/u,
+  new RegExp(`${START}(?:prompt|promt|промпт)\\p{L}*\\s*[:=]`, "u"),
+  // «Har bir rasm: …», «every image should …», «каждый промпт — …»; «Har bir rasmning tarixi» is a topic.
+  new RegExp(
+    `${START}(?:har bir|each|every|all|каждый|каждой|каждая|kazhdyj|kazhdoj)\\s+(?:image|picture|rasm|surat|prompt|promt|промпт|картинк|изображени|kartink)\\p{L}*`
+      + `\\s*(?:[:=—–-]|(?:should|must|kerak|bo'lsin|bo'ladi|должн|пусть|show)${END})`,
+    "u",
+  ),
 ];
 
 const DRUG_TERMS = words([
@@ -123,6 +149,7 @@ export function screenTopic(topic: string): TopicVerdict {
     return { ok: false, category: "drugs" };
   if ((WEAPON_TERMS.test(text) || WEAPON_WORDS.test(text)) && WEAPON_HOW.test(asked)) return { ok: false, category: "weapons" };
   if (HATE.some((pattern) => pattern.test(text))) return { ok: false, category: "hate" };
+  if (PROMPT_STEERING.some((pattern) => pattern.test(text))) return { ok: false, category: "prompt" };
   return { ok: true };
 }
 
@@ -207,9 +234,83 @@ export const PROMPT_PLACES: ReadonlySet<string> = new Set([
 /** Places named after a person, allowed only as the whole name (never «Amir» alone). */
 export const PROMPT_PLACE_NAMES: readonly string[] = ["Gur-e Amir", "Gur-e-Amir", "Gur Emir", "Bibi-Khanym", "Bibi Khanym"];
 
-export type PromptDrop = "empty" | "people" | "text" | "state" | "extra" | "translit" | "proper_name";
+// The stages after the measured ones (2026-10 review). Words are matched in
+// lower case; a stem may sit inside another word («schoolgirl», «babysitter»).
 
-/** Why the image prompt is dropped, or null when it may be drawn. Stage order = MEASURE-30 §7.5 counts. */
+/** English words nearly every English prompt of more than two words has. */
+const ENGLISH_GLUE = new Set(
+  ("a an the of on in at by to from with without into onto over under above below beneath behind beside between among around across "
+    + "along against near through toward towards up down out off inside outside within during for and or as its their this that these those is are")
+    .split(" "),
+);
+/** Function and people words of the other Latin-script languages a prompt could slip into (fr, es, it, pt, de, tr, uz). */
+const FOREIGN = new RegExp(
+  `(?<![a-z])(?:${[
+    "une?", "les?", "la", "des", "du", "sur", "avec", "dans", "et", "femmes?", "hommes?", "filles?", "gar[cç]ons?", "enfants?", "nue?s?", "b[ée]b[ée]s?", "plage",
+    "el", "los", "las", "una", "con", "y", "en", "mujer(?:es)?", "hombres?", "ni[nñ][oa]s?", "desnud[oa]s?", "playa",
+    "il", "della?", "sulla", "donna", "donne", "uomo", "uomini", "bambin[oiae]", "nud[oaie]", "spiaggia",
+    "uma?", "com", "mulher(?:es)?", "crian[cç]as?", "praia",
+    "der", "das", "und", "mit", "eine?", "einen", "frau(?:en)?", "m[aä]nner", "kinder", "m[aä]dchen", "nackt\\w*",
+    "bir", "ve", "kad[ıi]n", "[cç]ocuk\\w*", "[cç]plak", "plaj",
+    "va", "bilan", "ustida", "ichida", "qiz\\w*", "o'?g'?il\\w*", "yalang'?och\\w*", "dengiz", "sohil\\w*",
+  ].join("|")})(?![a-z])`,
+  "i",
+);
+/** People as stems (inside other words too), and a person by their work. */
+const PEOPLE_STEMS = new RegExp(
+  [
+    "girl", "boy(?!cott)", "child", "toddler", "infant", "bab(?:y|ies)", "(?<![a-z])lad(?:y|ies)(?!bug|bird)", "female", "human", "people", "person",
+    "(?<![a-z])teen", "(?<![a-z])kids?(?![a-z])", "(?<![a-z])males?(?![a-z])", "(?<![a-z])bod(?:y|ies)(?![a-z])", "(?<![a-z])figures?(?![a-z])",
+    "famil(?:y|ies)", "mother(?!board)", "father", "(?<![a-z])parents?(?![a-z])", "grand(?:ma|pa|mother|father|parent)", "daughter", "(?<![a-z])sons?(?![a-z])", "brother", "sister",
+    "farmer", "fisher(?:man|men)", "crafts(?:man|men)", "horse(?:man|men)", "(?<![a-z])potters?(?![a-z])", "weaver", "merchant", "trader", "shepherd",
+    "herder", "hunter", "builder", "(?<![a-z])miners?(?![a-z])", "sailor", "doctor", "(?<![a-z])nurses?(?![a-z])", "astronaut", "(?<![a-z])pilots?(?![a-z])",
+    "(?<![a-z])chefs?(?![a-z])", "(?<![a-z])bakers?(?![a-z])", "blacksmith", "artisan", "dancer", "musician", "athlete", "(?<![a-z])players?(?![a-z])", "villager",
+    "citizen", "tourist", "travel+er", "pilgrim", "(?<![a-z])monks?(?![a-z])", "priest", "(?<![a-z])imams?(?![a-z])", "(?<![a-z])nomads?(?![a-z])",
+    "(?<![a-z])riders?(?![a-z])", "knight", "(?<![a-z])guards?(?![a-z])", "police", "officer", "(?<![a-z])judges?(?![a-z])", "(?<![a-z])brides?(?![a-z])",
+    "(?<![a-z])grooms?(?![a-z])", "(?<![a-z])mumm(?:y|ies)(?![a-z])", "(?<![a-z])dolls?(?![a-z])",
+  ].join("|"),
+  "i",
+);
+/** Bodies, nudity, swimwear and bathing. */
+const EXPOSURE = new RegExp(
+  ["nude", "naked", "nudity", "(?<![a-z])nue?s?(?![a-z])", "topless", "bikini", "swim", "underwear", "lingerie", "bath", "(?<!meteor )shower",
+    "breast", "sexy", "sensual", "erotic", "(?<![a-z])kiss"].join("|"),
+  "i",
+);
+/** Self-harm objects: the picture check has no key for them when no person is drawn. */
+const SELF_HARM_OBJECTS = new RegExp(
+  ["noose", "gallows", "hangman", "hanging rope", "rope (?:loop|knot) hang", "razor", "(?:knife|sharp) blades?", "scalpel", "(?<![a-z])pills?(?![a-z])",
+    "tablets? (?:spill|scatter|pile)", "overdose", "syringe", "suicid", "self[- ]?harm", "(?<![a-z])wrists?(?![a-z])", "poison"].join("|"),
+  "i",
+);
+
+export type PromptDrop =
+  | "empty"
+  | "people"
+  | "text"
+  | "state"
+  | "extra"
+  | "translit"
+  | "proper_name"
+  | "not_english"
+  | "people_stem"
+  | "exposure"
+  | "self_harm";
+
+/** A prompt the English lists can read: printable ASCII, no foreign words, and English glue when it is longer than two words. */
+function plainEnglish(text: string): boolean {
+  if (!/^[\x20-\x7E]+$/.test(text)) return false;
+  const lower = text.toLowerCase();
+  if (FOREIGN.test(lower)) return false;
+  const words = lower.match(/[a-z]+/g) ?? [];
+  return words.length <= 2 || words.some((word) => ENGLISH_GLUE.has(word));
+}
+
+/**
+ * Why the image prompt is dropped, or null when it may be drawn. The first
+ * seven stages are the measured ones, in MEASURE-30 §7.5's order (their
+ * counts are pinned by the tests); the last four come after them.
+ */
 export function imagePromptDrop(prompt: string): PromptDrop | null {
   const text = prompt.trim();
   if (!text) return "empty";
@@ -221,6 +322,11 @@ export function imagePromptDrop(prompt: string): PromptDrop | null {
   const named = PROMPT_PLACE_NAMES.reduce((rest, place) => rest.split(place).join("place"), text);
   const tokens = named.match(/[A-Za-z][\w-]*/g) ?? [];
   if (tokens.some((word, i) => i > 0 && /^[A-Z]/.test(word) && !PROMPT_PLACES.has(word))) return "proper_name";
+  if (PEOPLE_STEMS.test(text)) return "people_stem";
+  if (EXPOSURE.test(text)) return "exposure";
+  if (SELF_HARM_OBJECTS.test(text)) return "self_harm";
+  // Last: a prompt the English lists above cannot read is dropped whatever it says.
+  if (!plainEnglish(text)) return "not_english";
   return null;
 }
 
