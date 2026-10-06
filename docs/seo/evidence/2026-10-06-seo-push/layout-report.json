@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-10-06T17:18:18.183Z",
+  "checkedAt": "2026-10-06T20:06:09.621Z",
   "dist": "F:\\Claude\\gptbot-chat-rev-20261006\\dist",
-  "shotsDir": "C:\\Users\\Borinio\\AppData\\Local\\Temp\\claude\\C--Users-Borinio-Desktop-seo-skills-main\\4c4ec689-6c41-4b5e-870e-f56485001961\\scratchpad\\layout-shots",
+  "shotsDir": "C:\\Users\\Borinio\\AppData\\Local\\Temp\\gptbot-chat-layout-shots",
   "ok": true,
   "summary": {
     "pages": [
@@ -370,13 +370,13 @@
         "locale": "uz",
         "cls": 0,
         "lcp": {
-          "t": 2320,
+          "t": 2220,
           "size": 17152,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2320,
+            "t": 2220,
             "size": 17152,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -387,13 +387,13 @@
         "locale": "ru",
         "cls": 0,
         "lcp": {
-          "t": 2268,
+          "t": 2340,
           "size": 16830,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2268,
+            "t": 2340,
             "size": 16830,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -404,13 +404,13 @@
         "locale": "uz",
         "cls": 0,
         "lcp": {
-          "t": 2172,
+          "t": 2352,
           "size": 20148,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2172,
+            "t": 2352,
             "size": 20148,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -421,13 +421,13 @@
         "locale": "ru",
         "cls": 0,
         "lcp": {
-          "t": 2108,
+          "t": 2260,
           "size": 19728,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2108,
+            "t": 2260,
             "size": 19728,
             "el": "p.gpt-greet gpt-shell-greet"
           }
