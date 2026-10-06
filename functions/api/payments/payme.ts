@@ -22,6 +22,15 @@
 // PerformTransaction is the money going back (the owner refunds in the Payme
 // cabinet): state -2, the pack closes, and the owner hears of it like of a
 // Click refund (outbox "refunded", live orders only).
+//
+// Failures page the owner in Telegram like Click's and Uzum's (payme_* is
+// urgent in alert-policy.ts; the maintenance cron delivers urgent rows every
+// 15 minutes, in every mode): payme_fiscal_failed when Payme reports through
+// SetFiscalData that it could not print the receipt of a live payment, and
+// payme_processing for every unexpected server error (D1 during Perform or
+// Cancel, or CheckPerformTransaction refusing every payment because the
+// fiscal codes are missing). Rows are hourly (alertRowId), so Payme's retries
+// do not flood the chat.
 import {
   BILLING_ORG,
   paymeKey,
@@ -150,6 +159,17 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     data: string | null = null,
     message: Localized | string = MESSAGES[code] ?? MESSAGES[-32400],
   ) => json({ id, error: { code, message, data } });
+  /**
+   * An urgent alert in the background, as Click's: recorded now and paged by
+   * the maintenance cron's alert step (every 15 minutes); maintainBilling
+   * meanwhile drains the payment outbox.
+   */
+  const alert = (code: "payme_fiscal_failed" | "payme_processing") =>
+    waitUntil(
+      recordServiceAlert(env, code)
+        .then(() => maintainBilling(env))
+        .catch(() => console.warn("gpt_billing_delivery_failed")),
+    );
   // The body first, size-limited and without D1, so every answer carries its id.
   const body = await readJsonLimited<unknown>(request, 16_384);
   const rpc = body.ok ? record(body.value) : null;
@@ -192,13 +212,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         fiscalSign: fiscalField(data.fiscal_sign),
         date: fiscalField(data.date, 32),
       });
-      // A real receipt Payme could not print: the owner hears of it.
-      if (status !== 0 && mode === "live")
-        waitUntil(
-          recordServiceAlert(env, "fiscalization_failed")
-            .then(() => maintainBilling(env))
-            .catch(() => console.warn("gpt_billing_delivery_failed")),
-        );
+      // A live receipt Payme could not print: an urgent alert, so the owner
+      // is paged in Telegram (alert-policy.ts). A sandbox failure stays quiet.
+      if (status !== 0 && mode === "live") alert("payme_fiscal_failed");
       return ok({ success: true });
     }
     if (method === "GetStatement") {
@@ -237,7 +253,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
           return error(id, -31050, "order_id");
         const detail = paymeReceiptDetail(env);
         // Without the fiscal codes Payme could not print the receipt: refuse
-        // the payment as a dependency failure (liveReadiness names them).
+        // the payment as a dependency failure (liveReadiness names them). The
+        // alert is urgent: every payment is refused until the codes are set.
         if (!detail) {
           waitUntil(
             recordServiceAlert(env, "payme_processing").catch(() =>
@@ -304,12 +321,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     return ok({ transaction: row.id, perform_time: row.perform_time, state: 2 });
   } catch (e) {
     const conflict = e instanceof Error && ["conflict", "state"].includes(e.message);
-    if (!conflict)
-      waitUntil(
-        recordServiceAlert(env, "payme_processing")
-          .then(() => maintainBilling(env))
-          .catch(() => console.warn("gpt_billing_delivery_failed")),
-      );
+    // Payme retries a -32400; the hourly alert row pages the owner at most
+    // once an hour meanwhile.
+    if (!conflict) alert("payme_processing");
     return error(id, conflict ? -31008 : -32400);
   }
 };

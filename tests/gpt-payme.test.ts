@@ -20,7 +20,11 @@ import {
   PRICE_TIYIN,
   type BillingEnv,
 } from "../functions/lib/gpt-chat/billing-config";
-import { maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
+import {
+  deliverServiceAlerts,
+  maintainBilling,
+} from "../functions/lib/gpt-chat/billing-maintenance-store";
+import { isUrgentAlert } from "../functions/lib/gpt-chat/alert-policy";
 import { fiscalizeDue } from "../functions/lib/gpt-chat/fiscal-store";
 import {
   PAYME_CHECKOUT_BASE,
@@ -445,6 +449,9 @@ test("the receipt detail: the pack's one line from GPT_FISCAL_*, sum equal to th
   // The TIN is not on Payme's line (the cash desk is the seller's own).
   assert.deepEqual(paymeReceiptDetail({ ...f.env, GPT_FISCAL_TIN: "" } as BillingEnv), DETAIL);
   await f.settle();
+  // Every payment is refused until the codes are set: one urgent row an hour.
+  assert.deepEqual(f.db.rows<{ code: string }>("SELECT code FROM gpt_service_alerts").map((r) => r.code), ["payme_processing"]);
+  assert.equal(isUrgentAlert("payme_processing"), true);
 });
 
 test("SetFiscalData: Payme's receipt is kept, its link shown, never queued for printing; bad params name themselves", async () => {
@@ -502,6 +509,63 @@ test("SetFiscalData: Payme's receipt is kept, its link shown, never queued for p
   // Our own receipt queue never got a row for this order.
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_fiscal_receipts WHERE order_id=? AND provider<>'payme'", o.id), 0);
   await f.settle();
+});
+
+test("a live receipt Payme could not print pages the owner (payme_fiscal_failed); a sandbox one records nothing", async () => {
+  const liveKey = randomBytes(18).toString("hex");
+  const f = await setup({
+    GPT_PAYME_KEY: liveKey,
+    GPT_NOTIFY_BOT_TOKEN: `123:${randomBytes(16).toString("hex")}`,
+    GPT_NOTIFY_CHAT_ID: "424242",
+  });
+  const sent: string[] = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = String(input instanceof Request ? input.url : input);
+    if (url.startsWith("https://api.telegram.org/")) {
+      sent.push(String(JSON.parse(String(init?.body ?? "{}")).text ?? ""));
+      return Response.json({ ok: true, result: { message_id: sent.length } });
+    }
+    return Response.json({ ok: false }, { status: 503 });
+  }) as typeof fetch;
+  const alerts = () => f.db.rows<{ code: string }>("SELECT code FROM gpt_service_alerts ORDER BY code").map((r) => r.code);
+  try {
+    // Test mode (the sandbox): a failed print is kept, nothing is recorded or sent.
+    const t = await f.order();
+    const ttx = txId();
+    await f.call("CreateTransaction", { id: ttx, time: Date.now(), amount: PRICE_TIYIN, account: { order_id: t.id } });
+    await f.call("PerformTransaction", { id: ttx });
+    assert.deepEqual((await f.call("SetFiscalData", { id: ttx, type: "PERFORM", fiscal_data: { status_code: 5, message: "Ошибка" } })).result, { success: true });
+    await f.settle();
+    assert.equal(f.db.value("SELECT status_code FROM gpt_payme_fiscal WHERE order_id=?", t.id), 5);
+    assert.deepEqual(alerts(), []);
+    assert.deepEqual(await deliverServiceAlerts(f.env), { status: "idle", codes: [] });
+    assert.equal(sent.length, 0);
+
+    // Live: a printed receipt is quiet, a failed one is an urgent row the cron pages.
+    f.env.GPT_BILLING_MODE_PAYME = "live";
+    const liveCall = async (method: string, params: Record<string, unknown>) =>
+      (await f.send({ id: 1, method, params }, { authorization: f.auth(liveKey) })).body;
+    const o = await f.order(f.user, "live");
+    const tx = txId();
+    await liveCall("CreateTransaction", { id: tx, time: Date.now(), amount: PRICE_TIYIN, account: { order_id: o.id } });
+    assert.equal((await liveCall("PerformTransaction", { id: tx })).result?.state, 2);
+    assert.deepEqual((await liveCall("SetFiscalData", { id: tx, type: "PERFORM", fiscal_data: { status_code: 0 } })).result, { success: true });
+    await f.settle();
+    assert.deepEqual(alerts(), []);
+    assert.deepEqual((await liveCall("SetFiscalData", { id: tx, type: "PERFORM", fiscal_data: { status_code: 5, message: "Ошибка" } })).result, { success: true });
+    await f.settle();
+    assert.deepEqual(alerts(), ["payme_fiscal_failed"]);
+    assert.equal(isUrgentAlert("payme_fiscal_failed"), true);
+    assert.deepEqual(await deliverServiceAlerts(f.env), { status: "sent", codes: ["payme_fiscal_failed"] });
+    const page = sent.find((text) => text.startsWith("GPTBot.uz AI-чат: срочно"));
+    assert.ok(page, JSON.stringify(sent));
+    assert.match(page!, /^• payme_fiscal_failed — Payme: чек по боевой оплате не пробит/m);
+    for (const text of sent) assert.ok(!text.includes(tx) && !text.includes(liveKey), "no transaction id or key in Telegram");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE delivered_at IS NULL"), 0);
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test("a live Payme payment and its refund reach the owner like Click's; the test ones never do", async () => {
