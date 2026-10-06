@@ -1,66 +1,79 @@
 {
   "schema": 1,
-  "capturedAt": "2026-10-06T11:01:59.337Z",
-  "source": "Local dist from npm run build:fast on branch chat/rev-design-20261006 over 0f983c1c (= production: the chat UX NOW release, merged with Payme test mode and SEO release no. 2) with the chat design revision, before deploy — the procedure of the 2026-10-05-school revision; capture() reads live HTML and is for after a deploy. UX plan gptbot.uz-audit/raw/chat-ux-2026-10-06/UX-PLAN.md, section REVISION: REV-1 (compact composer), REV-2 (first screen for 360x640 and Telegram 360x612), REV-3 (prerendered frame without a jump), REV-4 (<head> of the two chats), REV-5 (no page slide on a swipe), REV-6 (answer styling), REV-7 (the «⋯» menu and answer versions), REV-8 (menu drawer, 44px targets), REV-9 (the pack window's action in sight), REV-10 (small CSS fixes), REV-13 (the limit card with the keyboard open); REV-11 (voice) and REV-12 (January) are not in it. The ten protected pages were compared with the 0f983c1c production build (F:/Claude/gptbot-tools/tmp/rev-baseline-dist), built in a CRLF checkout: line endings and blank lines are ignored in that comparison.",
+  "capturedAt": "2026-10-06T13:47:15.416Z",
+  "source": "Local dist from npm run build on branch chat/rev-design-20261006 (production 0f983c1c + the unreviewed draft ff49ebf0 + the chat design commit), before deploy — the procedure of the 2026-10-05-school revision; capture() reads live HTML and is for after a deploy. Design: gptbot.uz-audit/raw/chat-design-2026-10-06/DESIGN-SPEC.md («app-calm» with the grafts G1–G18; light theme G19 later). The ten protected pages were compared with the 0f983c1c production build (F:/Claude/gptbot-tools/tmp/rev-baseline-dist, built in a CRLF checkout: line endings and blank lines are ignored in that comparison, asset names are normalised). This file replaces the draft of ff49ebf0 under the same id: that draft was never deployed or reviewed.",
   "previousRevision": "docs/seo/evidence/2026-10-05-school/reviewed-protected-pages.json",
   "previousRevisionSha256": "08dc6e442060407c6aaf4c68899e09809ed50e432706ed553e63eea61bdfbe47",
   "originalEvidence": [
     "docs/seo/evidence/2026-10-05-school/reviewed-protected-pages.json"
   ],
-  "reviewedChanges": [],
+  "reviewedChanges": [
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "fields": [
+        "title"
+      ],
+      "package": "Chat design release, owner decision 2026-10-06 (SEO strategy 2026-10-06 §3.1 variant B, title T-B)",
+      "change": {
+        "title": "[\"ChatGPT uzbekcha muqobili: AI chat, bepul kirish\"] → [\"ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish\"]",
+        "og": "og:title and twitter:title (prerender.ts writes twitter:title from ogTitle) change the same way; og:description, the meta description, the H1 «O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil», the body text, the FAQ, JSON-LD (it names page.h1), canonical, robots, hreflang and internal links are unchanged.",
+        "why": "The exact phrase «ChatGPT o‘zbek tilida» back at the start, as a question, with «Muqobil» saying honestly that this is not ChatGPT but an alternative; «bepul kirish» stays for pair C22. Family A lost about 75% of its impressions after the phrase left the R-S1 title (strategy 2026-10-06, parts 01 and 03)."
+      }
+    }
+  ],
   "invisibleToGate": [
     {
-      "change": "The shared stylesheet changes, and with it the HTML of every page: /assets/index-yIq7NheZ.css → /assets/index-CuLj6YT5.css (src/gpt-chat/premium.css: the chat's new rules; Tailwind's utilities for the classes the new chat code uses). On the seven protected articles this <link rel=\"stylesheet\"> href is the whole difference from the 0f983c1c build (compared with line endings normalised: that build came from a CRLF checkout, this one from an LF one; htmlSha256 below hashes the files as built) — their title, description, robots, canonical, hreflang, H1, internal links, JSON-LD, body text and Markdown twins are unchanged; on / the landing script's name changes too, and on the two chats more (below). The download guide /uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/, whose P-CTR window is open, changes by this href only: its snippet and text do not.",
+      "change": "The chat's styles leave the shared stylesheet: src/index.css no longer imports src/gpt-chat/premium.css; the chat entry (src/gpt-chat/main.tsx) imports premium.css, account/account.css and article.css, which Vite emits as /assets/gpt-chat-MJrrWuyS.css and scripts/prerender.ts links after the site sheet on the two chat pages only (scripts/vite-manifest.ts entryStyles). The shared sheet undefined → undefined also loses the unused «neural» console primitives of the old chat; brotli 24 267 → 20 406 B on every page. On the seven protected articles this <link rel=\"stylesheet\"> href is the whole difference from the 0f983c1c build (HTML compared with line endings and asset names normalised; htmlSha256 below hashes the files as built): title, description, robots, canonical, hreflang, H1, internal links, JSON-LD, body text and Markdown twins are unchanged. The download guide, whose P-CTR window is open, changes by this href only.",
       "htmlSha256": {
-        "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": "b1199edc88a244d6b4848dc1226508221b4d8640fefb4678d399998a033dd28c → 5f069650eb72ca35414c051f2130602e3b4bc94bdb1024754b97145044f8cc1b",
-        "/uz/gpt-uzbek-tilida/": "2878dcd36718834d95d132ecd8f6e87c0b80c0cf8d382494b368204c8b97cfd7 → 3b47cf091d32195367896c19cddd51010d072e1cc2335bc284dc19c7a2f10cfd",
-        "/ru/gpt-chat/": "160ee0b40366ff0c4c40b681c703d07ea3b0fe4526f95a7da6715878bd72f84d → 7bb36d01c8c8d7de79f43c02ddc12e4c9997441c5409334dba13d93ea338674c",
-        "/ru/blog/chatgpt-i-claude-v-uzbekistane/": "d6b7e7da481238cd7de572abcd394b60f16b2a96daccecce348221e451d6b1d2 → d399c3f59987117dfbf394ba05cb1c8ebfcb63a0e549424a409b94d98fcc96db",
-        "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": "90ba95b873be820f8ee79a8e087844593b81b8b29aa129cd2e9d9b9ea602813a → 80377c302df4cd2c20e660edfc706be9d75d42852eee2ab410c8a3d3ecf1ca73",
-        "/uz/blog/chatgptga-qanday-kirish-mumkin/": "bbd28a08bdb2f92596f66d8f0e0a48d427f65b62cbd3f44907f4111362a6707a → 46ac5d7b38b02ad8540da00f6ccc304e0a4fc42d76782b114811399de3998b9f",
-        "/uz/blog/chatgpt-uzbek-tilida-promptlar/": "30b44932a02bb1c95a5bd7527dcb1f35f0b2e12a9320a6a2aa79ea29318e0318 → f9eb60507eb5a33264610737830f8f7e687dba17c3e944dc711cc86bd2826149",
-        "/": "a3e1996cb8dc378d24c23a11d74042bf651ee12ef0764cc9b15c236ef843afc0 → e1ee247bd5d43ae440c5d126270e6de8b53827b840dacfdd459d255715d19cb6",
-        "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": "8109c764d9fee1e13eb2080aa1e4d7ffc5469fd968469967436e96bd75251c9e → 6a73b9981cc0d3f7c2a1e18f8d8bed3bf0fc600fc8a75d3e768c62f55654637a",
-        "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/": "8356be4e28ab96c806f00bc3487f2d3f20e4f1cac9e02b2c0cd0daa8ebb77357 → 380ed219c43993032e121f511c21f201b4cf366134ddba725734cdaf5d7ce9f2"
+        "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": "b1199edc88a244d6b4848dc1226508221b4d8640fefb4678d399998a033dd28c → 08f257b67d46482871a798e2b3026bde3d6b7e01cea062aab40f1f580cf00594",
+        "/uz/gpt-uzbek-tilida/": "2878dcd36718834d95d132ecd8f6e87c0b80c0cf8d382494b368204c8b97cfd7 → 0c48cdc049a41cb968139a69759214356e1f85632979a85fc4d13e3751b83649",
+        "/ru/gpt-chat/": "160ee0b40366ff0c4c40b681c703d07ea3b0fe4526f95a7da6715878bd72f84d → 7e4583d7f60c068c362af690df9affa75ddfd7bbdda6e5c6ea35fc23b322c1dc",
+        "/ru/blog/chatgpt-i-claude-v-uzbekistane/": "d6b7e7da481238cd7de572abcd394b60f16b2a96daccecce348221e451d6b1d2 → 88f4e001d09366b6ffd26f9cf0e96fc12f0541708aa086e197568a5bfffe1b3e",
+        "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": "90ba95b873be820f8ee79a8e087844593b81b8b29aa129cd2e9d9b9ea602813a → eade7bb79c1dc89fdd9119d6b9286b05733d8b111fde910441b2f3963aa828ac",
+        "/uz/blog/chatgptga-qanday-kirish-mumkin/": "bbd28a08bdb2f92596f66d8f0e0a48d427f65b62cbd3f44907f4111362a6707a → 5bc64dbcf797f0747e2e58eefe338d0d1e1e0a6e423283ad3464461d26a4a033",
+        "/uz/blog/chatgpt-uzbek-tilida-promptlar/": "30b44932a02bb1c95a5bd7527dcb1f35f0b2e12a9320a6a2aa79ea29318e0318 → ccf60a51de067250998c78e7032aced178feb459f698cf617469a4781eed4a8a",
+        "/": "a3e1996cb8dc378d24c23a11d74042bf651ee12ef0764cc9b15c236ef843afc0 → a06cc327c020767d8b3950ef06158d4210476610430ea76fe032a66f8b53b3c4",
+        "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": "8109c764d9fee1e13eb2080aa1e4d7ffc5469fd968469967436e96bd75251c9e → 5f0ae6539ebf70250204afcb087cbc6c0521f53d93f9940ce00c9d1e94dbe7ba",
+        "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/": "8356be4e28ab96c806f00bc3487f2d3f20e4f1cac9e02b2c0cd0daa8ebb77357 → add145dd67e55d26d6aa1160f0fc5593157c4adbcdb99ce44851136b98a49c2d"
       }
     },
     {
-      "change": "/: the landing script's name changes, /assets/index-CfzevqFe.js → /assets/index-C_6xi_rK.js. The landing code is the same: the chunks it may load later (the offer, the admin) import a lucide-react chunk shared with the chat, from which the chat dropped the icons it no longer draws, so their names, and the names the landing script holds, change. The crawler shell of / is otherwise identical.",
+      "change": "/: the landing script's name changes, /assets/index-CfzevqFe.js → /assets/index-7G6Ddqz9.js: chunks the landing may load later import a lucide-react chunk shared with the chat, from which the chat dropped icons it no longer draws. The crawler shell of / is otherwise identical.",
       "pages": [
         "/"
       ]
     },
     {
-      "change": "Both chat pages, the prerendered frame (REV-3, scripts/prerender.ts renderGptChatMain): #gpt-chat-root no longer centres the H1 with «AI-chat yuklanmoqda…» under it; it holds the chat's own frame — a 64/76px header bar, the resting screen's mark, a pill where the badge goes, the H1 (class gpt-welcome-title instead of font-display text-2xl sm:text-4xl …), the noscript line, two bars where the intro and the terms go, four card outlines, and the composer's outline with «AI-chat yuklanmoqda…» (RU «AI-чат загружается…») as its footnote. The frame adds no text: the mount point's text is still the H1, the noscript line and the loading line, in that order, so bodyTextSha256 is unchanged; the H1 is still the only <h1>, inside #gpt-chat-root, and data-h1 still hands it to the chat. The chat replaces the frame in React's first commit (src/gpt-chat/main.tsx no longer empties the mount point first); measured at 360x612, 360x740, 390x844, 412x915, 768x1024 and 1280x800, the H1, the first card and the composer stand where the mounted chat puts them.",
+      "change": "Both chat pages, the prerendered frame (chat design §5.13, scripts/prerender.ts renderGptChatMain): #gpt-chat-root holds the resting screen's own frame — a 52px header whose brand and subtitle («mustaqil servis, OpenAI emas» / «независимый сервис, не OpenAI») are drawn by CSS content, the H1 (class gpt-kicker instead of font-display …), the noscript line, the greeting drawn by CSS content (the same words as the chat's; it is the first screen's largest text, so LCP is the first paint, ≈2.1–2.4 s at 4x CPU and Fast 3G instead of ≈2.8–3.0 s), a bar for the terms, four task outlines, a bar for the links row, and the composer's outline with «AI-chat yuklanmoqda…» (RU «AI-чат загружается…») as its footnote. The frame adds no text to the HTML: the mount point's text is still the H1, the noscript line and the loading line, in that order, so bodyTextSha256 is unchanged; the H1 is still the only <h1>, inside #gpt-chat-root, and data-h1 still hands it to the chat. The chat replaces the frame one frame after its first paint (src/gpt-chat/main.tsx).",
       "pages": [
         "/uz/gpt-uzbek-tilida/",
         "/ru/gpt-chat/"
       ]
     },
     {
-      "change": "Both chat pages, <head> (REV-4): the viewport adds interactive-widget=resizes-content (an Android keyboard resizes the page as Telegram's does: the header stays and the composer sits on the keyboard); theme-color #05070D → #090c14, the chat's background (decision 11 as recommended: the chat stays dark); five <link rel=\"modulepreload\"> for the chat's start chunks, taken from the Vite manifest (scripts/vite-manifest.ts entryImports). No other page's <head> changes.",
+      "change": "Both chat pages, <head>: the viewport adds interactive-widget=resizes-content (UX plan REV-4: an Android keyboard resizes the page as Telegram's does); five <link rel=\"modulepreload\"> for the chat's start chunks from the Vite manifest; the chat's own stylesheet link (above). theme-color stays #05070D, the site's and the chat's background (the draft ff49ebf0 had #090c14). No other page's <head> changes.",
       "pages": [
         "/uz/gpt-uzbek-tilida/",
         "/ru/gpt-chat/"
       ]
     },
     {
-      "change": "Both chat pages: the summary section under the chat gets id=\"seo-summary\" (its data-testid stays), the target of the new «Batafsil: chat haqida ↓» / «Подробнее о чате ↓» link that the chat renders on its resting screen and in its menu (REV-5); and the chat script's name changes, /assets/gpt-chat-CFTDoRF9.js → /assets/gpt-chat-BAHOBsu9.js. Same-page fragment links are not internal links for the gate.",
+      "change": "Both chat pages: the summary section under the chat gets id=\"seo-summary\" (its data-testid stays), the target of «Batafsil: chat haqida ↓» / «Подробнее о чате ↓» on the resting screen and in the menu, and the scope of the article's new look (article.css: 680px column, 16.5/28 text, FAQ rows with a CSS chevron over the literal «+», which stays in the HTML; the HTML and its words are unchanged). The chat script's name changes, /assets/gpt-chat-CFTDoRF9.js → /assets/gpt-chat-DS_E00PG.js.",
       "pages": [
         "/uz/gpt-uzbek-tilida/",
         "/ru/gpt-chat/"
       ]
     },
     {
-      "change": "The chat screen (React, both chat pages; not in the HTML a crawler reads before JavaScript): one-row composer on a phone with the brand moved into the line under it, which stays whole (the short footnote of decision 5 is not taken); the first screen fits Telegram 360x612 — badge, H1, intro, the free terms (moved up from under the cards), four cards (maths first: «Masalani yechish» / «Решить задачу» instead of «Taklif yaratish» / «Придумать оффер»), the composer with an example question; the page no longer slides under a swipe on the header or the composer; answers: h3/h4, edge shadows on tables and code, a copy button on code blocks; on a phone «⋯» opens «Oddiyroq tushuntir», the translation and «Qayta yozish» as a menu, and «‹ 1/2 ›» steps through up to three versions; the model line stays under every answer; the menu is a drawer from the left with 44px targets; the pack window keeps its consent and button in sight; the limit card is one line while the keyboard is open. Start JS 109 347 B brotli (production 109 966).",
+      "change": "The chat screen (React, both chat pages; not in the HTML a crawler reads before JavaScript): one 100dvh column — header, thread, and the composer in flow on an opaque surface, so no text passes under it (the owner's «текст на фоне всё наезжает»); the header says GPTBot.uz with one fact under it (independent, the count, the wait); the resting screen is the H1 as a kicker, a two-line greeting, the free terms with the server's numbers, four tasks (maths first) and one link; the chatgpt.com routing line and the disclaimer moved into the menu; the line under the composer («OpenAI mahsuloti emas · … · Maxfiylik») is on every screen; answers get numbered steps in circles, display formulas with stacked fractions, a «JAVOB» box and a check line; the limit card ends the thread; the start JS is 107 443 B brotli (baseline 108 679), the chat's own stylesheet 6 300 B brotli.",
       "pages": [
         "/uz/gpt-uzbek-tilida/",
         "/ru/gpt-chat/"
       ]
     }
   ],
-  "measurement": "No contract field changes on any of the ten pages, so no P-CTR window opens or closes. The two chats and / are in the R-S1 window (from the 05.10 recrawl, read ≈05–07.11): their snippets, H1s and text are unchanged; what changes from the release day is the chat screen itself, so engagement and chat metrics (messages per person, one-answer share, limit hits, Telegram shares) read before/after that day. The download guide changes by its stylesheet href only and keeps its own window.",
-  "note": "The one reviewed revision of the chat design release (UX plan REVISION, REV-1…REV-10 and REV-13). Every contract field and the body text of all ten protected pages equal the 2026-10-05-school revision; what changes is outside the gate: the shared stylesheet's name on every page, the landing script's name on /, and on both chats the prerendered frame, three <head> tags, the summary's id and the chat script's name. Release date: the owner's (with the early UZ-chat title fix ≈12–13.10, or R-S3 ≈18.11). Rollback: git revert of the chat design commits restores the code, the templates and BASELINE together, then a guarded deploy; old revisions are never edited.",
+  "measurement": "P-CTR: the R-S1 window opened on 2026-10-05 (reading ≈05–07.11). This revision is a second release of the UZ chat's title inside that window, so by the one-release-per-window rule the R-S1 reading of «chatgpt kirish» on /uz/gpt-uzbek-tilida/ becomes «no verdict» (no automatic R-S1 rollback by kirish); the title T-B gets its own window from its recrawl date (to be written into CHANGE_LOG), read 28 days after it against family A (15 801 impressions / 171 clicks / CTR 1.08% / position 5.2, 28 days to 05.10) and «chatgpt kirish» (rollback threshold CTR < 0.28% at position 7.2–8.1; rollback string T-A «ChatGPT o‘zbek tilida? Muqobil bepul AI chat»). The RU chat's and the other pages' snippets do not change; from the release day the chat screen of both chats changes, so engagement and chat metrics read before/after that day.",
+  "note": "The one reviewed revision of the chat design release. One contract field changes on one page: the UZ chat's title (with og:title and twitter:title). Every other contract field and the body text of all ten protected pages equal the 2026-10-05-school revision; what changes outside the gate: the stylesheet names on every page (the chat's styles in a sheet of their own), the landing script's name on /, and on both chats the prerendered frame, the viewport, modulepreload and stylesheet links, the summary's id and the chat script's name. Rollback: git revert of the chat design commit restores the code, the templates and BASELINE together, then a guarded deploy; old revisions are never edited.",
   "pages": [
     {
       "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
@@ -108,7 +121,7 @@
       "pathname": "/uz/gpt-uzbek-tilida/",
       "contract": {
         "title": [
-          "ChatGPT uzbekcha muqobili: AI chat, bepul kirish"
+          "ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish"
         ],
         "h1": [
           "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"

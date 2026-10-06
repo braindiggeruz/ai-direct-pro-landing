@@ -19,6 +19,7 @@
     "release:pages:stamp": "tsx scripts/release/pages-production.ts stamp",
     "release:pages:check": "tsx scripts/release/pages-production.ts check-production",
     "deploy:pages:production": "tsx scripts/release/pages-production.ts deploy",
+    "check:chat-layout": "node scripts/chat-layout-check.mjs",
     "test:pages-production": "node --import tsx --test tests/pages-production-release.test.ts",
     "test:signal-radar": "node --import tsx --test tests/signal-radar-triage.test.ts tests/signal-radar-discovery.test.ts tests/signal-radar-join-queue.test.ts tests/signal-radar-schema.test.ts tests/signal-radar-scout.test.ts tests/signal-radar-admin-integration.test.ts tests/signal-radar-mode.test.ts tests/signal-radar-handoff.test.ts tests/signal-radar-lead-detail.test.ts tests/signal-radar-chats.test.ts",
     "preview": "vite preview",

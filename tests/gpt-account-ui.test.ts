@@ -216,11 +216,13 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   const cardJsx = source.slice(source.indexOf('id={LIMIT_CARD_ID}'), source.indexOf('{!limit && !paid && remaining >= 0'));
   assert.match(source, /const bodyShown = !!card && \(!card\.title \|\| !card\.wait\);/);
-  assert.match(cardJsx, /\{bodyShown \|\| details \? \(/);
+  assert.match(cardJsx, /\(bodyShown \|\| details \? \(/);
   assert.match(cardJsx, /<span className="sr-only">\{card\.body\}<\/span>/);
   assert.match(cardJsx, /\{card\.offer && details && \(/);
   assert.match(source, /aria-expanded=\{details\}\s*onClick=\{\(\) => setDetailsFor\(details \? null : limit\.reason\)\}/);
-  assert.match(cardJsx, /\{card\.wait\}\s*\{kept\}\s*\{moreButton\}/);
+  // The wait said once, «Batafsil» at its end; the kept question is a row of its own (chat design §5.10).
+  assert.match(cardJsx, /\{card\.wait \?\? card\.body\}\s*\{moreButton\}/);
+  assert.match(cardJsx, /\{!!input\.trim\(\) && \(\s*<p className="gpt-limit-draft">/);
   // Opened for one reason, closed for the next.
   assert.match(source, /const details = !!limit && detailsFor === limit\.reason;/);
   // The pack's price stays on its button; without a pack for sale no price and no button (F4, F6).
@@ -231,7 +233,7 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   assert.match(source, /const DAY_WARNING_AT = 3;/);
   assert.match(source, /\{!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && \(/);
   assert.match(source, /const hourBlocked = limit\?\.reason === "hourly" && limitBlocked;/);
-  assert.match(source, /<AiUsageBadge remaining=\{remaining\} hourLeft=\{hourShown\} hourBlocked=\{hourBlocked\} t=\{t\} \/>/);
+  assert.match(source, /const usage = paid \? null : usageLine\(remaining, hourShown, hourBlocked, t\);/);
 });
 
 test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {
@@ -543,7 +545,7 @@ test('a failed read after someone was known leaves the screen, the counters and 
   // Back online: read the account again at once.
   assert.match(source, /const online = \(\) => setAccountRefresh\(\(n\) => n \+ 1\);\s*window\.addEventListener\("online", online\);\s*return \(\) => window\.removeEventListener\("online", online\);/);
   // The line above the composer; a guest's button only reads again.
-  assert.match(source, /\{accountState === "unknown" && <p role="status" className="gpt-panel-note">\{t\.premium\.accountUnstable\} <button type="button" className="gpt-text-button" onClick=\{\(\) => \{ if \(signedIn\) openAccount\("account_check"\); setAccountRefresh\(n => n \+ 1\); \}\}>\{t\.premium\.recheck\}<\/button><\/p>\}/);
+  assert.match(source, /\{accountState === "unknown" && <p role="status" className="gpt-dock-note">\{t\.premium\.accountUnstable\} <button type="button" className="gpt-text-button" onClick=\{\(\) => \{ if \(signedIn\) openAccount\("account_check"\); setAccountRefresh\(n => n \+ 1\); \}\}>\{t\.premium\.recheck\}<\/button><\/p>\}/);
   assert.equal(strings('uz').premium.accountUnstable, 'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.');
   assert.equal(strings('ru').premium.accountUnstable, 'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.');
   assert.deepEqual([strings('uz').premium.recheck, strings('ru').premium.recheck], ['Qayta tekshirish', 'Проверить снова']);

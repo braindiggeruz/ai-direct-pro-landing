@@ -95,14 +95,17 @@ test('no line the chat can show, in either language, names a tier or the old bra
   }
 });
 
-test('the brand is GPTBot.uz in the header, the composer and above every answer', () => {
+test('the brand is GPTBot.uz in the header and above every answer; the composer’s line says what it is not', () => {
   for (const locale of LOCALES) {
     const t = strings(locale);
     assert.equal(t.brand, 'GPTBot.uz');
     const input = renderToStaticMarkup(React.createElement(AiChatInput, {
       value: '', onChange: () => {}, onSend: () => {}, maxChars: 3000, t, inputRef: React.createRef<HTMLTextAreaElement>(),
     }));
-    assert.match(input, /class="gpt-input-identity">.*GPTBot\.uz<\/span>/);
+    // The header and every answer carry the brand (chat design §5.3): the
+    // composer's line no longer repeats it, and says «not OpenAI» instead.
+    assert.doesNotMatch(input, /gpt-input-identity/);
+    assert.ok(input.includes(t.inputMicrocopy));
     // The list lives inside the console's scroller, as it does on the page.
     const list = React.createElement(AiChatMessageList, {
       t, messages: [{ role: 'user', content: 'Savol' }, { role: 'assistant', content: 'Javob', model: 'model-a' }],
@@ -268,7 +271,7 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
     assert.ok(html.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
     // The limit fell under the text (another role, an older draft, a question put back): not sent, not cut, said.
     const over = input('x'.repeat(2643), 2541, locale);
-    assert.ok(over.includes(`<span role="status">${t.charsOver(102)}</span>`), `${locale}: by how much`);
+    assert.ok(over.includes(`<p class="gpt-input-status" data-over="true" role="status">${t.charsOver(102)}</p>`), `${locale}: by how much`);
     assert.match(over, /<button[^>]*disabled=""[^>]*aria-label="[^"]*"/, `${locale}: the send button is off`);
     assert.match(over, />x{2643}<\/textarea>/, `${locale}: the text stays whole`);
     assert.doesNotMatch(input('x'.repeat(10), 2541, locale), /<button[^>]*disabled=""/);
@@ -276,7 +279,7 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
   assert.equal(strings('uz').inputCut, 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.');
   assert.equal(strings('ru').inputCut, 'Текст был слишком длинным — конец обрезан. Отправьте частями.');
   const source = read('src/gpt-chat/components/AiChatInput.tsx');
-  assert.match(source, /<InputGroupTextarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
+  assert.match(source, /<textarea ref=\{inputRef\} value=\{value\} maxLength=\{maxChars\}/);
   // A paste that does not fit is said for 8 s.
   assert.match(source, /if \(el\.value\.length - \(el\.selectionEnd - el\.selectionStart\) \+ pasted\.length > maxChars\) setCutAt\(Date\.now\(\)\);/);
   assert.match(source, /window\.setTimeout\(\(\) => setCutAt\(0\), 8_000\)/);
@@ -284,9 +287,11 @@ test('the composer stops at the limit, says when a paste did not fit, and never 
   assert.match(source, /if \(next\.length > maxChars && next\.length > value\.length\) \{\s*setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, Math\.max\(maxChars, value\.length\)\)\);\s*\} else onChange\(next\);/);
   // Neither Enter nor the button sends text over the limit.
   assert.match(source, /if \(!disabled && !busy && value\.trim\(\) && !over\) onSend\(\);/);
-  assert.match(source, /disabled=\{disabled \|\| busy \|\| !value\.trim\(\) \|\| over\}/);
+  // An empty field leaves the button bright: it focuses the field and sends nothing (chat design §5.3).
+  assert.match(source, /onClick=\{\(\) => \(empty \? inputRef\.current\?\.focus\(\) : onSend\(\)\)\}\s*disabled=\{disabled \|\| busy \|\| over\} aria-disabled=\{empty \|\| undefined\}/);
   // Over the limit says by how much at once, even within the 8 s of a cut paste's line.
-  assert.match(source, /\{over \? <span role="status">\{t\.charsOver\(-left\)\}<\/span> : cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(left\)\}<\/span>\}/);
+  assert.match(source, /const status = over \? t\.charsOver\(-left\) : cutAt \? t\.inputCut : left <= 200 \? t\.charsLeft\(left\) : null;/);
+  assert.match(source, /\{status && <p className="gpt-input-status" data-over=\{over \|\| undefined\} role="status">\{status\}<\/p>\}/);
 });
 
 test('a message too long for the server offers «change the question», not a retry that fails the same way', () => {
@@ -474,10 +479,10 @@ test('on a phone the row is copy, continue on a cut answer and «⋯», the rest
   const g = globalThis as Record<string, unknown>;
   const s = answerStrings('uz');
   t.after(() => { delete g.window; });
-  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, ''));
+  const labels = (html: string) => [...html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => m[1].replace(/<svg[\s\S]*<\/svg>/, '').replace(/<\/?span[^>]*>/g, ''));
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   const phone = actions();
-  assert.deepEqual(labels(phone), [s.copy, s.share, '<span aria-hidden="true">⋯</span>']);
+  assert.deepEqual(labels(phone), [s.copy, s.share, '⋯']);
   // A screen reader says «Yana», not «midline horizontal ellipsis»; the menu is closed.
   assert.match(phone, /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana">/);
   assert.ok(!phone.includes('gpt-action-menu'));
@@ -497,7 +502,7 @@ test('on a phone the row is copy, continue on a cut answer and «⋯», the rest
   assert.match(source, /if \(!open\) return;\s*firstRef\.current\?\.focus\(\);/);
   assert.match(source, /document\.addEventListener\("pointerdown", away\);\s*document\.addEventListener\("keydown", away\);/);
   assert.match(source, /if \(event\.type === "keydown"\) moreRef\.current\?\.focus\(\);/);
-  assert.match(source, /<div key="menu" className="gpt-action-menu" onClick=\{\(\) => setOpen\(false\)\}>/);
+  assert.match(source, /<div key="menu" ref=\{menuRef\} className="gpt-action-menu" data-below=\{below \|\| undefined\} onClick=\{\(\) => setOpen\(false\)\}>/);
   assert.match(source, /action\("shorter", true\)/);
   assert.match(source, /openedAt\.current = Date\.now\(\);\s*setOpen\(!open\);/);
   assert.match(source, /const settled = \(\) => Date\.now\(\) - openedAt\.current > 350;/);
@@ -528,7 +533,7 @@ test('«‹ 1/2 ›»: the versions «Qayta yozish» made, at most 3, kept in th
 
 test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {
   const s = answerStrings('ru');
-  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="mt-2 text-[12px] text-white/35">${s.buttonCost}</p>`));
+  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="gpt-cost-note">${s.buttonCost}</p>`));
   assert.ok(!actions({ locale: 'ru' }).includes(s.buttonCost));
   assert.equal(s.buttonCost, 'Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.');
   assert.equal(answerStrings('uz').buttonCost, 'AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.');
@@ -538,12 +543,14 @@ test('while few messages are left, once a session: the buttons that make the AI 
     // It names the free ones by the names they have on the row.
     assert.ok(a.buttonCost.includes(`«${a.copy}»`) && a.buttonCost.includes(`«${a.share}»`), locale);
   }
-  // On a phone the short row has no button that costs: the note waits for «Yana» (or comes with «Continue»).
+  // On a phone the row's «⋯» menu says it in its caption (chat design §5.6), not a line under the row.
   const g = globalThis as Record<string, unknown>;
   t.after(() => { delete g.window; });
   g.window = { matchMedia: (query: string) => ({ matches: query === '(pointer: coarse)' }) };
   assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
-  assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  assert.ok(!actions({ locale: 'ru', costNote: true, broken: true }).includes(s.buttonCost));
+  assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /<p className="gpt-menu-cost">\{s\.menuCost\}<\/p>/);
+  assert.equal(answerStrings('ru').menuCost, 'Каждый пункт тратит 1 сообщение');
   delete g.window;
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(consoleSource, /const fewLeft = !paid && \(\(remaining >= 0 && remaining <= 3\) \|\| \(hourShown !== null && hourShown <= 2\)\);/);

@@ -28,6 +28,8 @@ export interface AnswerStrings {
    * and Telegram do not.
    */
   buttonCost: string;
+  /** The caption of the «⋯» menu on a phone: each of its items makes the AI write, so each costs a message. */
+  menuCost: string;
   /** The Telegram button: short on the button, whole for a screen reader. */
   share: string;
   shareLabel: string;
@@ -51,6 +53,7 @@ const RU: AnswerStrings = {
   toRussian: "Перевести на русский",
   toUzbek: "Перевести на узбекский",
   buttonCost: "Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.",
+  menuCost: "Каждый пункт тратит 1 сообщение",
   share: "В Telegram",
   shareLabel: "Отправить в Telegram",
   shareCut: "Ответ длинный — в Telegram ушло начало. Весь текст можно скопировать.",
@@ -76,6 +79,7 @@ const UZ: AnswerStrings = {
   toRussian: "Rus tiliga tarjima",
   toUzbek: "O‘zbekchaga tarjima",
   buttonCost: "AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.",
+  menuCost: "Har biri 1 ta xabar sarflaydi",
   share: "Telegramga",
   shareLabel: "Telegramga yuborish",
   shareCut: "Javob uzun — Telegramga boshi yuborildi. To‘liq matn uchun «Nusxalash»ni bosing.",

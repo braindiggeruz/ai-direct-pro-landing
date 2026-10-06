@@ -1,0 +1,42 @@
+/* The pack window's content (lazy part chat-account, chat design §5.11): the plan
+   card, the pay and sign-in steps. The window's frame (its size, the bottom sheet on
+   a phone, the close button) is premium.css's, on the chat's start. */
+.gpt-account-dialog h2 { margin-bottom: 20px; font-size: 26px; line-height: 1.2; letter-spacing: -.03em; font-weight: 600; }
+.gpt-account-dialog .gpt-plan-card { overflow: hidden; padding: 0; border-radius: 16px; background: var(--surface); border: 1px solid var(--line-strong); }
+.gpt-plan-card [data-slot="card-header"] { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 0; }
+.gpt-plan-card [data-slot="card-content"] { padding: 12px 22px; }
+.gpt-plan-card [data-slot="card-footer"] { flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 22px; border-top: 1px solid var(--line); }
+/* The footer says no automatic renewal and that a paid pack is not refundable: never smaller than 12px. */
+.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] .gpt-panel-note { margin: 0; font-size: 12px; }
+.gpt-account-dialog .gpt-price { font-size: 28px; line-height: 1.2; font-weight: 600; letter-spacing: -.045em; }
+.gpt-panel-description { font-size: 14px; line-height: 1.7; color: var(--text-2); }
+.gpt-account-dialog .gpt-panel-note a, .gpt-check a { color: var(--accent-text); text-decoration: underline; overflow-wrap: anywhere; }
+.gpt-account-dialog .gpt-panel-note a[href^="tel:"] { white-space: nowrap; }
+.gpt-plan-features { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 8px; padding: 0; list-style: none; }
+.gpt-plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.6; color: var(--text-2); }
+.gpt-plan-features svg { flex: none; width: 14px; height: 14px; margin-top: 3px; color: var(--accent-text); }
+.gpt-check { display: flex; align-items: flex-start; gap: 12px; margin: 20px 0; font-size: 12px; line-height: 1.6; }
+.gpt-check input { flex-shrink: 0; width: 24px; height: 24px; margin-top: 0; accent-color: var(--accent); }
+.gpt-account-dialog a.gpt-text-button { display: block; text-align: center; }
+.gpt-payment-buttons { display: flex; flex-direction: column; gap: 12px; }
+.gpt-access-summary { margin-top: 20px; padding: 24px; border-radius: 16px; background: var(--accent-soft); border: 1px solid var(--accent-line); }
+.gpt-access-summary strong { display: block; font-size: 48px; line-height: 1.1; letter-spacing: -.05em; color: var(--accent-text); }
+.gpt-access-summary :is(span,p) { font-size: 13px; color: var(--text-2); }
+.gpt-access-summary p { margin-top: 12px; }
+.gpt-access-summary strong .gpt-access-size { font-size: 22px; letter-spacing: -.02em; }
+.gpt-pay-checking { min-height: 8px; margin: 18px 0; }
+.gpt-login-steps { margin: 4px 0 18px; padding-left: 20px; list-style: decimal; font-size: 13px; line-height: 1.7; color: var(--text-2); }
+.gpt-login-code { display: block; margin: 10px 0 6px; font-size: 56px; line-height: 1; font-weight: 700; letter-spacing: .06em; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.gpt-login-code.gpt-pay-code { font-size: 36px; letter-spacing: .08em; white-space: nowrap; }
+.gpt-bot-login .gpt-text-button { display: block; margin: 6px auto 0; }
+.gpt-login-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--text-2); }
+.gpt-login-input { width: 100%; min-height: 52px; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--field-line); background: var(--field); color: var(--text); font-size: 24px; letter-spacing: .3em; text-align: center; font-variant-numeric: tabular-nums; }
+/* REV-9: the consent and its button stay in sight while the terms above them scroll. */
+.gpt-account-dialog .gpt-sticky-action { position: sticky; bottom: -28px; z-index: 1; margin: 12px -28px 0; padding: 12px 28px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); box-shadow: 0 -1px 0 var(--line); }
+.gpt-account-dialog .gpt-sticky-action:has(.gpt-bot-login) { position: static; margin: 0; padding: 0; box-shadow: none; }
+.gpt-account-dialog .gpt-sticky-action > .gpt-check { margin: 0 0 12px; }
+/* Two such blocks at once (a guest who pays and then signs in): the later one sticks. */
+.gpt-account-dialog .gpt-sticky-action:has(~ .gpt-sticky-action) { position: static; margin: 12px 0 0; padding: 0; box-shadow: none; }
+@media (max-width: 700px) {
+ .gpt-account-dialog .gpt-sticky-action { bottom: calc(-20px - env(safe-area-inset-bottom)); margin: 12px -20px 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); }
+}

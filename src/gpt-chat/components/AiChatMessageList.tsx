@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { Message, MessageContent } from '@/components/ui/message';
-import { Bubble, BubbleContent } from '@/components/ui/bubble';
+import { useEffect, useState, type ReactNode } from "react";
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
 import type { AnswerAction, ChatMessage, Locale } from "../types";
 import type { ChatStrings } from "../i18n";
 import { LazyPart, PartFailed, answerPart } from "../lazy-part";
+import { BrandMark } from "./BrandMark";
 
-/** The error bubble's buttons: the retry and «change the question». */
-const ERROR_ACTION =
-  "min-h-11 inline-flex items-center gap-1.5 text-[13px] px-3.5 py-2 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40";
-const ERROR_BUBBLE =
-  "max-w-[92%] rounded-2xl px-4 py-3 text-[15px] break-words [overflow-wrap:anywhere] bg-red-500/[0.08] text-red-200";
+/** The error bubble's buttons: the retry and «change the question» (chat design §5.8). */
+const ERROR_ACTION = "gpt-outline-button";
 
 /**
  * Which model produced an answer, shown verbatim minus the routing suffix.
@@ -31,8 +27,8 @@ function modelLabel(model: string): string {
  */
 export function PendingLine({ t, slow }: { t: ChatStrings; slow?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2 text-white/60 text-sm">
-      <span className="neural-typing" aria-hidden="true">
+    <span className="gpt-pending">
+      <span className="gpt-dots" aria-hidden="true">
         <span />
         <span />
         <span />
@@ -63,7 +59,10 @@ export function AiChatMessageList({
   onEdit,
   onAsk,
   onVersion,
+  children,
 }: {
+  /** What ends the thread after the last message (the limit card, the low-allowance line): inside the scroller's content, before its spacer. */
+  children?: ReactNode;
   messages: ChatMessage[];
   t: ChatStrings;
   locale?: Locale;
@@ -103,11 +102,11 @@ export function AiChatMessageList({
   // «change the question» is offered.
   const resend = messages[messages.length - 1]?.content !== t.premium.contextTooLarge;
   const errorActions = onRetry && (
-    <div className="mt-2.5 flex flex-wrap gap-2">
+    <div className="gpt-error-actions">
       {resend && <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
         <svg
-          width="13"
-          height="13"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -156,61 +155,58 @@ export function AiChatMessageList({
       <MessageScrollerContent className="gpt-message-content" aria-live="off">
       {messages.map((m, i) => (
         <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"}>
-        <Message align={m.role === "user" ? "end" : "start"}>
-        <MessageContent>
-        <Bubble variant={m.role === "user" ? "muted" : m.error ? "destructive" : "ghost"} align={m.role === "user" ? "end" : "start"} className={m.role === "user" ? "gpt-user-bubble" : "gpt-answer-bubble"}>
-          <BubbleContent
+        {m.role === "user" ? (
+          // dir="auto": an Arabic or mixed question aligns by its own first letters.
+          <div className="gpt-user-message" dir="auto">{m.content}</div>
+        ) : m.error ? (
+          <div className="gpt-error-bubble">
+            <span role="alert">{m.content}</span>
+            {i === messages.length - 1 && errorActions}
+          </div>
+        ) : (
+          <div
+            className="gpt-answer"
             // A live region that re-reads the whole growing answer on every
             // frame is unusable with a screen reader. The answer is announced
             // once, when it is finished and this subtree stops being 'off'.
             aria-live={m.streaming ? "off" : undefined}
             aria-busy={m.streaming || undefined}
-            className={
-              m.role === "user"
-                ? "gpt-user-message max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-white text-[15px] leading-relaxed break-words [overflow-wrap:anywhere] bg-white/[0.06]"
-                : m.error
-                  ? ERROR_BUBBLE
-                  : // Answers are the only long-form reading on this surface, so
-                    // they get reading type rather than UI type: a larger size, a
-                    // looser line, and a measure capped near 68 characters. At the
-                    // container's full 760px an answer ran to about 95 characters
-                    // per line, which is where the eye starts losing its place on
-                    // the return sweep.
-                    "gpt-answer w-full max-w-[68ch] text-[16.5px] leading-[1.62] break-words [overflow-wrap:anywhere]"
-            }
           >
+            <div className="gpt-answer-head">
+              <BrandMark />{t.brand}
+            </div>
             {m.pending ? (
               <PendingLine t={t} slow={slow} />
-            ) : m.role === "assistant" && !m.error ? (
+            ) : (
               <>
-                <div className="gpt-answer-head">
-                  <span aria-hidden="true">✦</span>{t.brand}
-                </div>
                 <LazyPart part={answerPart} fallback={<PlainAnswer content={m.content} />} failed={<PlainAnswer content={m.content} />}>
                   {({ AnswerBody }) => <AnswerBody content={m.content} locale={locale} />}
                 </LazyPart>
                 {m.streaming ? (
                   // While the answer is arriving: a caret instead of the action
-                  // row. Mounting six buttons under text that grows every frame
+                  // row. Mounting the buttons under text that grows every frame
                   // makes the answer jump under the reader's eyes on a slow
                   // phone — and none of them can be used yet anyway.
-                  <p className="mt-2 flex items-center gap-2 text-[12px] text-white/35">
-                    <span
-                      className="inline-block h-3.5 w-[2px] rounded-full bg-brand-cyan motion-safe:animate-pulse"
-                      aria-hidden="true"
-                    />
+                  <p className="gpt-streaming">
+                    <span aria-hidden="true" />
                     {t.writing}
                   </p>
                 ) : (
                   <>
+                    {/* Which model wrote it, above the row (chat design §5.6). */}
+                    {m.model && (
+                      <p className="gpt-model" title={m.model}>
+                        {t.answeredBy}: {modelLabel(m.model)}
+                      </p>
+                    )}
                     {m.partial && (
-                      <p className="gpt-partial" role="status">
+                      <p className="gpt-notice" role="status">
                         {t.premium.partial}
                       </p>
                     )}
                     {/* Points at «Continue», which only the last answer has. */}
                     {m.truncated && i === lastAssistant && (
-                      <p className="gpt-partial" role="status">
+                      <p className="gpt-notice" role="status">
                         {t.truncated}
                       </p>
                     )}
@@ -234,47 +230,25 @@ export function AiChatMessageList({
                         />
                       )}
                     </LazyPart>
-                    {m.model && (
-                      <p className="gpt-model" title={m.model}>
-                        {t.answeredBy}: {modelLabel(m.model)}
-                      </p>
-                    )}
                   </>
                 )}
               </>
-            ) : m.role === "assistant" && m.error ? (
-              <>
-                <span className="whitespace-pre-wrap" role="alert">
-                  {m.content}
-                </span>
-                {i === messages.length - 1 && errorActions}
-              </>
-            ) : (
-              // dir="auto": an Arabic or mixed question aligns by its own first letters.
-              <span className="whitespace-pre-wrap" dir="auto">{m.content}</span>
             )}
-          </BubbleContent>
-        </Bubble>
-        </MessageContent>
-        </Message>
+          </div>
+        )}
         </MessageScrollerItem>
       ))}
       {unanswered && (
         <MessageScrollerItem messageId="unanswered">
-        <Message align="start">
-        <MessageContent>
-        <Bubble variant="destructive" align="start" className="gpt-answer-bubble">
-          <BubbleContent className={ERROR_BUBBLE} data-testid="ai-unanswered">
-            <span className="whitespace-pre-wrap" role="alert">
+          <div className="gpt-error-bubble" data-testid="ai-unanswered">
+            <span role="alert">
               {t.premium.unanswered}
             </span>
             {errorActions}
-          </BubbleContent>
-        </Bubble>
-        </MessageContent>
-        </Message>
+          </div>
         </MessageScrollerItem>
       )}
+      {children}
       </MessageScrollerContent>
     </div>
   );

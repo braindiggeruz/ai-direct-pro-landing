@@ -9,6 +9,7 @@ import type { RoleId } from '../roles';
 import { LazyPart, rolePart } from '../lazy-part';
 import { track, EV } from '../analytics';
 import { telegramDeepLink } from '../../lib/telegram';
+import { BrandMark } from './BrandMark';
 
 const TOOLS: Array<{ id: AiToolId; ru: string; uz: string; icon: string }> = [
   { id: 'chat', ru: 'Chat', uz: 'Chat', icon: 'M4 5h16v11H9l-5 4V5z' },
@@ -36,10 +37,12 @@ interface SidebarProps {
   onCloseMobile: () => void;
   /** «Batafsil: chat haqida ↓»: to the text under the chat (REV-5). */
   onAbout: (event: { preventDefault: () => void }) => void;
+  /** The chatgpt.com link was followed (its line moved here from the first screen, chat design §5.12). */
+  onOfficial: () => void;
 }
 
 function SidebarBody({
-  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway, onAbout,
+  locale, t, activeTool, onToolChange, onNewChat, role, onRoleChange, busy, collapsed, inDrawer, onNavigateAway, onAbout, onOfficial,
 }: {
   locale: Locale;
   t: ChatStrings;
@@ -53,6 +56,7 @@ function SidebarBody({
   inDrawer: boolean;
   onNavigateAway?: () => void;
   onAbout: SidebarProps['onAbout'];
+  onOfficial: SidebarProps['onOfficial'];
 }) {
   const uz = locale === 'uz';
   const botHref = telegramDeepLink(locale);
@@ -72,7 +76,7 @@ function SidebarBody({
       {/* Logo */}
       <div className={`flex h-14 shrink-0 items-center border-b border-white/[0.06] ${showLabels ? 'px-4' : 'justify-center px-2'}`}>
         <a href="/" className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan rounded-lg">
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-grad-cta text-sm font-bold text-[#04101A]" aria-hidden="true">G</span>
+          <BrandMark className="gpt-brand-mark-lg" />
           {showLabels && <span className="font-display text-[15px] text-white">{t.brand}</span>}
         </a>
       </div>
@@ -164,11 +168,30 @@ function SidebarBody({
             </ul>
           </nav>
         )}
+
+        {/* Many visitors of both chat pages searched «chatgpt kirish» and may
+            want OpenAI itself: where that is, and that this chat is not it.
+            It stood on the first screen until the chat design release; the
+            header and the composer's line say «not OpenAI» there now. */}
+        {showLabels && (
+          <p className="gpt-official" data-testid="gpt-official">
+            {t.premium.officialLead}
+            <a
+              href="https://chatgpt.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onOfficial}
+            >
+              chatgpt.com
+            </a>
+            {t.premium.officialTail}
+          </p>
+        )}
       </div>
 
       {/* Footer disclaimer */}
       {showLabels && (
-        <p className="shrink-0 border-t border-white/[0.06] px-4 py-3 text-[10px] leading-relaxed text-white/30">{t.disclaimer}</p>
+        <p className="gpt-disclaimer">{t.disclaimer}</p>
       )}
     </div>
   );

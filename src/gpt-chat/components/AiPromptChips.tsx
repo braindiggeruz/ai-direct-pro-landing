@@ -1,9 +1,11 @@
 import type { PromptChip } from '../i18n';
 
-// The four starters of the resting screen, by what people ask (REV-2, map 04
+// The four tasks of the resting screen, by what people ask (REV-2, map 04
 // U-04): a problem to solve first (maths is about 15% of first messages),
 // then a text, a topic explained and a plan. Translation is not advertised
 // until a blind check scores it 4/5 or better (SEO roadmap 2026-10-04 §5).
+// A phone shows them as a 2×2 grid of tiles, all four in sight at 360px; from
+// 640px they are one row of chips (chat design §5.2, premium.css).
 // The icons are drawn here, one path each: no icon module on the start bundle.
 const icons: Record<string, string> = {
   math: 'M18 5H6l6 7-6 7h12',
@@ -16,15 +18,13 @@ export function AiPromptChips({ chips, onPick, disabled, label }: {
   chips: PromptChip[]; onPick: (chip: PromptChip) => void; disabled?: boolean; label: string;
 }) {
   return (
-    <ul className="gpt-prompt-grid" aria-label={label}>
-      {chips.slice(0, 4).map((chip, index) => (
+    <ul className="gpt-tasks" aria-label={label}>
+      {chips.slice(0, 4).map((chip) => (
         <li key={chip.id}>
-          {/* Fills the composer and never sends: a chip is a start, not a message. */}
-          <button type="button" disabled={disabled} onClick={() => onPick(chip)} className="gpt-prompt-card" data-tone={index}>
-            <span className="gpt-prompt-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={icons[chip.id]} /></svg>
-            </span>
-            <span className="gpt-prompt-label">{chip.label}</span>
+          {/* Fills the composer and never sends: a task is a start, not a message. */}
+          <button type="button" disabled={disabled} onClick={() => onPick(chip)} className="gpt-task">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={icons[chip.id]} /></svg>
+            <span>{chip.label}</span>
           </button>
         </li>
       ))}

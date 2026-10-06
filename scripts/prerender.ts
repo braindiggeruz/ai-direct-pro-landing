@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import { renderSiteStylesheets } from './site-stylesheets';
-import { ENTRIES, entryImports, entryScript, readViteManifest } from './vite-manifest';
+import { ENTRIES, entryImports, entryScript, entryStyles, readViteManifest } from './vite-manifest';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -455,45 +455,47 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   // One H1 in the HTML and one in the live page. Under the chat: the visible
   // update date, the text, and the FAQ that the FAQPage markup repeats.
   //
-  // Before JavaScript the mount point holds the chat's own frame (UX plan
-  // REV-3, revision 2026-10-06-chat-design): the header, the H1 where the
-  // resting screen puts it, outlines of the cards and of the composer, from
-  // the same premium.css classes. The chat replaces it in one commit
-  // (src/gpt-chat/main.tsx), so the H1 and the composer do not move when it
-  // mounts. The frame adds no text: what a crawler reads before JavaScript is
-  // the H1, the no-JavaScript line and «AI-chat yuklanmoqda…», as before.
-  const bar = (cls: string) => `<span class="gpt-shell-lines ${cls}" aria-hidden="true"><span></span><span></span></span>`;
+  // Before JavaScript the mount point holds the chat's own frame (chat design
+  // §5.13, revision 2026-10-06-chat-design): the header with the brand and
+  // its subtitle drawn by CSS (::before/::after, not text of the HTML), the H1
+  // as the resting screen's kicker, outlines of the greeting, the terms, the
+  // four tasks and the links row, and the composer with «AI-chat
+  // yuklanmoqda…» as its footnote, from the same premium.css classes. The
+  // chat replaces it in one commit (src/gpt-chat/main.tsx), so nothing moves
+  // when it mounts. The frame adds no text: what a crawler reads before
+  // JavaScript is the H1, the no-JavaScript line and «AI-chat yuklanmoqda…».
+  const tile = '<li class="gpt-task"></li>';
   return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
        the model answered. The mount point carries the class so the masking
        survives React replacing its children. -->
   <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}" class="h-full ym-hide-content">
-    <div class="gpt-premium gpt-shell bg-bg-base text-white" style="color-scheme:dark">
+    <div class="gpt-premium gpt-app gpt-shell" data-state="empty" style="color-scheme:dark">
       <div class="gpt-shell-aside" aria-hidden="true"></div>
-      <div class="gpt-shell-main">
-        <div class="gpt-header gpt-shell-header flex h-14 shrink-0 items-center gap-2 px-3 sm:px-4" aria-hidden="true"></div>
-        <div class="gpt-shell-quota" aria-hidden="true"></div>
-        <div class="gpt-thread-scroll gpt-shell-thread">
+      <div class="gpt-main">
+        <div class="gpt-header gpt-shell-header" aria-hidden="true"><span class="gpt-header-button gpt-menu-button"></span><span class="gpt-header-brand"><span class="gpt-brand-mark"></span><span class="gpt-brand-text gpt-shell-brand"></span></span></div>
+        <div class="gpt-thread-scroll">
           <div class="gpt-viewport">
-            <div class="mx-auto w-full max-w-[760px] px-4 py-6 sm:px-6">
-              <div class="gpt-intro">
-                <div class="gpt-mark" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7L12 2z"/></svg></div>
-                <span class="gpt-intro-badge gpt-shell-badge gpt-shell-bar" aria-hidden="true"></span>
-                <h1 data-testid="page-h1" class="gpt-welcome-title">${escapeText(page.h1)}</h1>
-                <noscript><p class="gpt-intro-copy">${escapeText(noscript)}</p></noscript>
-                ${bar('gpt-intro-copy gpt-shell-copy')}
-                ${bar('gpt-intro-terms gpt-shell-terms')}
-                <div class="gpt-intro-content" aria-hidden="true"><div class="gpt-prompt-grid"><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div><div class="gpt-prompt-card"></div></div></div>
+            <div class="gpt-column">
+              <div class="gpt-empty">
+                <div class="gpt-hello">
+                  <h1 data-testid="page-h1" class="gpt-kicker">${escapeText(page.h1)}</h1>
+                  <noscript><p class="gpt-meta">${escapeText(noscript)}</p></noscript>
+                  <p class="gpt-greet gpt-shell-greet" aria-hidden="true"></p>
+                  <span class="gpt-meta"><span class="gpt-shell-bar gpt-shell-meta" aria-hidden="true"></span></span>
+                </div>
+                <ul class="gpt-tasks gpt-shell-tasks" aria-hidden="true">${tile.repeat(4)}</ul>
+                <span class="gpt-shell-bar gpt-shell-links" aria-hidden="true"></span>
               </div>
             </div>
           </div>
         </div>
-        <div class="gpt-composer shrink-0">
-          <div class="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
+        <div class="gpt-composer">
+          <div class="gpt-composer-inner">
             <div class="gpt-input-wrap">
-              <div class="gpt-input-surface gpt-shell-input" aria-hidden="true"></div>
-              <div class="gpt-input-footnote gpt-shell-footnote"><p>${loading}</p></div>
+              <div class="gpt-input-surface gpt-shell-input" aria-hidden="true"><span class="gpt-send-button"></span></div>
+              <p class="gpt-input-footnote gpt-shell-footnote">${loading}</p>
             </div>
           </div>
         </div>
@@ -820,7 +822,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
 </div>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = []): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = []): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -946,8 +948,8 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
 ${page.pageType === 'gpt-chat'
   // The chat (UX plan REV-4): an Android keyboard shrinks the page as Telegram
   // does, so the header stays and the composer sits on the keyboard; the
-  // browser bar takes the chat's own background (#090c14, premium.css).
-  ? '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n<meta name="theme-color" content="#090c14" />'
+  // browser bar takes the chat's background, the site's #05070D (chat design §3.1).
+  ? '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />\n<meta name="theme-color" content="#05070D" />'
   : `<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="${marketVariant ? '#FFF8EC' : '#05070D'}" />`}
 <title>${escapeText(page.title)}</title>
@@ -989,6 +991,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
 ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}
+${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
@@ -1102,13 +1105,17 @@ async function main() {
   // The chat's start chunks, asked for with the HTML rather than after the
   // entry is parsed (UX plan REV-4): one round trip less on 3G.
   const chatPreloads = entryImports(manifest, ENTRIES.chat);
+  // The chat's own stylesheet (chat design 2026-10-06), after the site's: the
+  // prerendered frame needs it before the first paint, and no other page does.
+  const chatStyles = entryStyles(manifest, ENTRIES.chat);
+  if (!chatStyles.length) throw new Error('The chat entry has no stylesheet; refusing to render the chat pages unstyled.');
   const calculatorHref = entryScript(manifest, ENTRIES.calculator);
   let written = 0, skipped = 0;
   for (const page of pages) {
     if (page.status === 'draft') { skipped++; continue; }
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads);
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles);
     // Every bare studio-contact link gets a prefilled first message naming the
     // service and the page; protected pages come back unchanged. Then every
     // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).

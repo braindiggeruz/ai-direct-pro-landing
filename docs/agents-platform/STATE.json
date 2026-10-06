@@ -1,4 +1,15 @@
 {
+  "chat_design_20261006": {
+    "status": "committed_not_deployed",
+    "branch": "chat/rev-design-20261006",
+    "baseline_commit": "0f983c1c (production) + ff49ebf0 (unreviewed draft REV-1..REV-13, kept as mechanics)",
+    "commit": "the chat design commit on chat/rev-design-20261006 (rule D-006: a commit cannot carry its own SHA; read it with git log -1 chat/rev-design-20261006)",
+    "scope": "Chat design release (owner order 2026-10-06; spec gptbot.uz-audit/raw/chat-design-2026-10-06/DESIGN-SPEC.md, app-calm + grafts G1-G18, light theme G19 later): one 100dvh column with the composer in flow on an opaque surface, calm first screen, header subtitle, maths answers (steps, display formulas, JAVOB box, check line), limit card in the thread, drawer with the chatgpt.com line, keyboard and iOS height, article restyle under #seo-summary, chat stylesheet only on the chat pages; UZ chat title/og:title -> «ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish» (strategy 2026-10-06 variant B)",
+    "protected_pages": "new baseline docs/seo/evidence/2026-10-06-chat-design/reviewed-protected-pages.json (2026-10-05-school untouched); seo-protection 10/10; one contract field changes: /uz/gpt-uzbek-tilida/ title (with og:title, twitter:title); baseline-comparison.json: both chats indexable text identical to the 0f983c1c build except that title, the other eight HTML identical except asset names",
+    "p_ctr": "R-S1 reading of «chatgpt kirish» on the UZ chat becomes «no verdict» (second release in the window); title T-B gets its own window from its recrawl date (to be written into CHANGE_LOG); rollback string T-A",
+    "verification": "npm run build 0; tsc -b 0; eslint of the changed files 0; npm test file list one file at a time 1411/1413 (the two known tests/lead-radar.test.ts failures); chat bundle start 107443 B brotli (baseline 108679, cap 110000), chat-answer 5942 B; shared CSS index-*.css brotli 24267 -> 20406 B, chat CSS 6300 B on the chat pages only; npm run check:chat-layout: 220 runs, 0 overlaps, 0 small targets, 0 contrast failures, negative control caught (7), CLS 0, LCP 2.03-2.36 s at 4x CPU + Fast 3G; screenshots gptbot.uz-audit/raw/chat-design-2026-10-06/after/ (124 + 4)",
+    "next": "deploy only on command via the guarded scripts; after deploy: chat-bundle-budget --record, curl both chats, request indexing of the UZ chat and record the recrawl date, owner check on Android in Telegram"
+  },
   "seo_compete_20261006": {
     "status": "committed_not_deployed",
     "branch": "seo/compete-20261006",

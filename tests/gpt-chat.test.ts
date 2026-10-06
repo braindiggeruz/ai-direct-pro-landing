@@ -197,7 +197,7 @@ test('renderMarkdown: escapes HTML (no XSS), keeps bold + lists', () => {
 test('renderMarkdown: numbering survives text between items, lists nest, rules, quotes and tables render', () => {
   const split = renderMarkdown('1. A\n\nТекст\n\n2. B');
   assert.ok(split.includes('<ol class="list-decimal"><li>A</li></ol>'));
-  assert.ok(split.includes('<ol class="list-decimal" start="2"><li>B</li></ol>'), split);
+  assert.ok(split.includes('<ol class="list-decimal" start="2" style="counter-reset:step 1"><li>B</li></ol>'), split);
   // GLM's loose list (a blank line between steps) is one list.
   assert.equal(renderMarkdown('1. A\n\n2. B\n\n3. C'), '<ol class="list-decimal"><li>A</li><li>B</li><li>C</li></ol>');
   const nested = renderMarkdown('1. **Qadam**\n   Izoh satri\n2. Ikkinchi\n   - ichki a\n   - ichki b\n3. Uchinchi');
@@ -222,15 +222,19 @@ test('renderMarkdown: numbering survives text between items, lists nest, rules, 
     assert.ok(performance.now() - started < 200, `${line.slice(0, 8)}… took ${Math.round(performance.now() - started)} ms`);
   }
   // A code block inside a list item stays a code block.
-  assert.match(renderMarkdown('1. Step\n   ```\n   code\n   ```\n2. Next'), /<pre class="gpt-code" tabindex="0"><code> {3}code<\/code><\/pre>\n<ol class="list-decimal" start="2">/);
+  assert.match(renderMarkdown('1. Step\n   ```\n   code\n   ```\n2. Next'), /<pre class="gpt-code" tabindex="0"><code> {3}code<\/code><\/pre>\n<ol class="list-decimal" start="2" style="counter-reset:step 1">/);
   // The only value in an attribute is a list's first number.
   const hostile = renderMarkdown('7. <img src=x onerror=alert(1)>\n> <script>x</script>\n[a](javascript:alert(1))');
   assert.ok(!hostile.includes('<img') && !hostile.includes('<script') && !hostile.includes('href'));
   assert.ok(hostile.includes('start="7"'));
   // Every class the renderer can write is one the site's stylesheet already has.
   const known = new Set(['px-1', 'py-0.5', 'rounded', 'bg-white/10', 'text-brand-cyan', 'gpt-code', 'gpt-table-scroll', 'list-decimal', 'list-disc',
-    'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70']);
-  const everything = renderMarkdown('# H\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq');
+    'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70',
+    // The answer's maths (chat design §5.5), in the chat's own stylesheet.
+    'gpt-step-head', 'gpt-step', 'gpt-math', 'gpt-frac', 'gpt-result', 'gpt-result-label', 'gpt-result-value', 'gpt-check-line', 'gpt-code-wrap', 'gpt-code-copy']);
+  const sheet = readFileSync(new URL('../src/gpt-chat/premium.css', import.meta.url), 'utf8');
+  for (const name of known) if (name.startsWith('gpt-')) assert.ok(sheet.includes(`.${name}`), name);
+  const everything = renderMarkdown('# H\n## 1. Step\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq\n\n$$\\frac{1}{2}$$\n\nJavob: 1\n\nTekshirish: ok', 'Nusxalash');
   for (const [, list] of everything.matchAll(/class="([^"]*)"/g)) for (const name of list.split(' ')) assert.ok(known.has(name), name);
 });
 
@@ -455,19 +459,20 @@ test('chat first screen: only the Russian chat carries the Uzbek entry', () => {
 
 test('chat first screen: links, tap targets and events are wired', () => {
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
-  // chatgpt.com opens in a new tab, without an opener or a referrer.
-  assert.match(consoleSource, /href="https:\/\/chatgpt\.com\/"\s+target="_blank"\s+rel="noopener noreferrer"\s+onClick=\{onOfficialClick\}/);
-  // The header switch keeps its target, hreflang and 44px cell; only the label changes.
-  const header = consoleSource.slice(consoleSource.indexOf('l.lang === "uz" && uzEntry'), consoleSource.indexOf('</nav>'));
-  assert.match(header, /href=\{l\.href\}/);
-  assert.match(header, /hrefLang=\{l\.lang\}/);
-  assert.match(header, /min-h-11 min-w-11/);
-  assert.match(header, /onLocaleSwitch\("header"\)/);
-  assert.match(consoleSource, /code: "UZ",\s+href: "\/uz\/gpt-uzbek-tilida\/"/);
-  assert.match(consoleSource, /code: "RU",\s+href: "\/ru\/gpt-chat\/"/);
+  const sidebar = readFileSync(new URL('../src/gpt-chat/components/AiSidebar.tsx', import.meta.url), 'utf8');
+  // chatgpt.com opens in a new tab, without an opener or a referrer: from the
+  // menu since the chat design release (its line left the first screen).
+  assert.match(sidebar, /href="https:\/\/chatgpt\.com\/"\s+target="_blank"\s+rel="noopener noreferrer"\s+onClick=\{onOfficial\}/);
+  assert.match(consoleSource, /onOfficial=\{onOfficialClick\}/);
+  assert.match(consoleSource, /track\(EV\.officialLinkClicked, \{ surface: "menu" \}\)/);
+  // The header switch: the other chat, its hreflang and language, a 44px cell, on every screen.
+  const header = consoleSource.slice(consoleSource.indexOf('{uzEntry ? ('), consoleSource.indexOf('<AiAccountPanel'));
+  assert.match(header, /href="\/uz\/gpt-uzbek-tilida\/"\s+hrefLang="uz"\s+lang="uz"\s+data-testid="lang-uz"\s+onClick=\{\(\) => onLocaleSwitch\("header"\)\}/);
+  assert.match(header, /href="\/ru\/gpt-chat\/"\s+hrefLang="ru"\s+lang="ru"\s+data-testid="lang-ru"/);
+  assert.equal((header.match(/min-h-11 min-w-11/g) ?? []).length, 2);
+  assert.match(header, /<span className="gpt-lang-full">\{uzEntry\.nav\}<\/span>\s*<span className="gpt-lang-short">UZ<\/span>/);
   // The resting-screen link to the Uzbek chat.
-  assert.match(consoleSource, /href="\/uz\/gpt-uzbek-tilida\/"\s+hrefLang="uz"[\s\S]{0,200}onClick=\{\(\) => onLocaleSwitch\("empty"\)\}/);
-  assert.match(consoleSource, /track\(EV\.officialLinkClicked, \{ surface: "empty" \}\)/);
+  assert.match(consoleSource, /href="\/uz\/gpt-uzbek-tilida\/"\s+hrefLang="uz"\s+lang="uz"\s+data-testid="gpt-uz-entry"\s+onClick=\{\(\) => onLocaleSwitch\("empty"\)\}/);
   assert.match(consoleSource, /track\(EV\.localeSwitched, \{ from: "ru", surface \}\)/);
   assert.equal(EV.officialLinkClicked, 'official_link_clicked');
   assert.equal(EV.localeSwitched, 'locale_switched');

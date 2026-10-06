@@ -81,14 +81,18 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // changes one page: the homepage shell lists them (internalLinks +2, body
 // text +2 lines); the other nine protected pages are byte-identical to the
 // be2d2955 build, and their chat bridges stay outside the chat's code.
-// The 2026-10-06-chat-design revision (chat UX plan REV-1…REV-10, REV-13)
-// changes no contract field and no body text on any of the ten pages. It is
-// a revision because their HTML changes: the shared stylesheet's name on all
-// ten (the chat's new rules in premium.css), the landing script's name on /,
-// and on both chats the prerendered frame inside #gpt-chat-root (the chat's
-// own header, H1, card and composer outlines, no new text), three <head>
-// tags (viewport interactive-widget, theme-color, modulepreload) and the
-// summary's id="seo-summary". invisibleToGate lists it all with htmlSha256.
+// The 2026-10-06-chat-design revision (the chat design release, owner order
+// of 06.10; spec gptbot.uz-audit/raw/chat-design-2026-10-06/DESIGN-SPEC.md)
+// changes one contract field on one page: the UZ chat's title (with og:title
+// and twitter:title) becomes «ChatGPT o‘zbek tilida? Muqobil AI chat, bepul
+// kirish» (strategy 2026-10-06 variant B). Every other field and the body
+// text of all ten pages stay. Their HTML changes outside the gate: the
+// chat's styles move into a stylesheet of their own that only the two chats
+// link, so the shared sheet's name changes on all ten; the landing script's
+// name on /; on both chats the prerendered frame inside #gpt-chat-root (the
+// resting screen's geometry, its brand, subtitle and greeting drawn by CSS,
+// no new text), the viewport's interactive-widget, modulepreload links and
+// the summary's id="seo-summary". invisibleToGate lists it all with htmlSha256.
 export const BASELINE = 'docs/seo/evidence/2026-10-06-chat-design/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
