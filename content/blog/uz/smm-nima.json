@@ -19,6 +19,20 @@
   "body": [
     {
       "type": "p",
+      "text": "SMM (Social Media Marketing, ijtimoiy media marketing) — Instagram, Telegram, Facebook va TikTok kabi ijtimoiy tarmoqlar orqali biznesni tanitish va mijoz olish. U sahifani yuritish, kontent tayyorlash, izoh va Direct’dagi savollarga javob berish, pullik reklama hamda natijani o‘lchashni o‘z ichiga oladi. Maqsad — obunachi emas, murojaat va sotuv. SMM’da odatda besh ish qilinadi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Strategiya: auditoriya, kanal va asosiy xabarni tanlash",
+        "Kontent: post, stories, Reels va Telegram postlari uchun matn va dizayn",
+        "Nashr va moderatsiya: jadval bo‘yicha joylash, izoh va Direct’ga javob",
+        "Reklama: tayyor postlarni pullik target orqali kerakli auditoriyaga ko‘rsatish",
+        "O‘lchash: kim yozdi, qancha murojaat keldi va qaysi kontent ishladi"
+      ]
+    },
+    {
+      "type": "p",
       "text": "SMM inglizcha Social Media Marketing so‘zlarining qisqartmasi. Ma’nosi oddiy: siz odamlar allaqachon vaqt o‘tkazayotgan joyda — Instagram, Telegram, Facebook yoki TikTok’da — biznes haqida gapirasiz va u yerdan murojaat olasiz."
     },
     {
@@ -109,6 +123,111 @@
     },
     {
       "type": "h2",
+      "id": "turlari",
+      "text": "SMM turlari: organik kontent, target, Telegram kanal, blogerlar bilan ishlash"
+    },
+    {
+      "type": "p",
+      "text": "SMM bitta ish emas — u bir nechta yo‘nalishdan iborat, va har birining vazifasi, byudjeti va o‘lchovi alohida. Biznes odatda bittasidan boshlaydi, natija ko‘ringach keyingisini qo‘shadi."
+    },
+    {
+      "type": "h3",
+      "text": "Organik kontent"
+    },
+    {
+      "type": "p",
+      "text": "Organik kontent — reklamaga pul to‘lamasdan postlar, stories va Reels orqali obunachilarga va tavsiyalar lentasiga chiqish. U ishonch yaratadi: odam reklamani ko‘rib sahifaga kirganda jonli va tushunarli profilni ko‘rishi kerak. Natija sekin to‘planadi va izchillik talab qiladi."
+    },
+    {
+      "type": "h3",
+      "text": "Target reklama"
+    },
+    {
+      "type": "linkp",
+      "text": "Target — pullik reklama: e’lon yosh, hudud va qiziqish bo‘yicha tanlangan auditoriyaga ko‘rsatiladi. U tez qamrov beradi, lekin alohida byudjet va alohida mutaxassis ishini talab qiladi. Bu kanal qanday ishlashi, kontekst reklamadan farqi va byudjet qanday rejalashtirilishi {target} maqolasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/blog/target-reklama-nima/",
+          "anchor": "target reklama nima"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Telegram kanal"
+    },
+    {
+      "type": "linkp",
+      "text": "Telegram kanal O‘zbekistonda auditoriyani ushlab turish va takroriy murojaat uchun kuchli vosita: kanal yangilik va foydali postlarni yetkazadi, savol esa bot yoki menejerga boradi. Kanalga yangi obunachi olib kelish uchun boshqa kanallarda yoki Telegram Ads orqali reklama berish mumkin — ikki yo‘l {telegram} sahifasida solishtirilgan.",
+      "links": [
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram kanallarida reklama joylashtirish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Blogerlar bilan ishlash"
+    },
+    {
+      "type": "p",
+      "text": "Blogerlar bilan ishlash — mahsulotni auditoriyasi sizning mijozingizga o‘xshash odamning sahifasida ko‘rsatish. Bu ishonchni tez topish usuli, lekin natija blogerning auditoriyasi qanchalik jonli ekaniga bog‘liq. Avval statistika va izohlarni tekshiring, keyin bitta sinov joylashuvidan boshlang va murojaatlarni alohida havola yoki promokod bilan sanang."
+    },
+    {
+      "type": "h2",
+      "id": "farq",
+      "text": "SMM, target va SEO: farqi nimada"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "SMM (organik)",
+        "Target",
+        "SEO"
+      ],
+      "rows": [
+        [
+          "Nima qilinadi",
+          "Sahifa, kontent va murojaatlar bilan muntazam ish",
+          "Pullik e’lonni tanlangan auditoriyaga ko‘rsatish",
+          "Saytni Google qidiruvida ko‘rsatish"
+        ],
+        [
+          "Kim qidiradi",
+          "Hech kim — odam sizni lentada uchratadi",
+          "Hech kim — e’lon odamning o‘ziga boradi",
+          "Odam xizmatni o‘zi qidiradi"
+        ],
+        [
+          "Pul nimaga ketadi",
+          "Jamoa ishi va kontent tayyorlash",
+          "Jamoa ishi va alohida reklama byudjeti",
+          "Jamoa ishi; bosish uchun to‘lov yo‘q"
+        ],
+        [
+          "Natija tezligi",
+          "Bir necha oy izchil ish",
+          "Birinchi kunlardan, lekin sinov kerak",
+          "Bir necha oy"
+        ],
+        [
+          "Asosiy o‘lchov",
+          "Yozganlar soni va javob vaqti",
+          "Ariza narxi va sifati",
+          "Qidiruvdan kelgan murojaat"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ko‘p biznes uchun to‘g‘ri yo‘l — ularni birlashtirish: SMM ishonch yaratadi, target qamrov beradi, SEO esa xizmatni qidirayotgan odamni ushlaydi. Lekin har birining byudjeti, mas’uli va hisoboti alohida bo‘lishi kerak, aks holda qaysi kanal ishlaganini bilib bo‘lmaydi."
+    },
+    {
+      "type": "h2",
       "id": "mutaxassis",
       "text": "SMM mutaxassisi aslida nima qiladi"
     },
@@ -126,6 +245,49 @@
     {
       "type": "p",
       "text": "Agar ijrochi faqat post qo‘yish haqida gapirsa va ko‘rsatkichlar haqida hech narsa demasa — bu yomon belgi. Kontent vosita, natija esa murojaat."
+    },
+    {
+      "type": "h2",
+      "id": "menejer",
+      "text": "SMM menejer kim va qachon agentlik kerak"
+    },
+    {
+      "type": "p",
+      "text": "SMM menejer (SMM mutaxassisi) — biznesning ijtimoiy tarmoqdagi sahifalari uchun javob beradigan odam: reja tuzadi, kontentni tayyorlaydi yoki tayyorlatadi, nashr qiladi, izoh va xabarlarni kuzatadi hamda oy oxirida natijani hisob qiladi. Yuqoridagi ro‘yxat — uning asosiy vazifalari."
+    },
+    {
+      "type": "p",
+      "text": "Amalda bitta odam bularning hammasini bir xil sifatda qila olmaydi. Ko‘pincha quyidagilar qolib ketadi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Dizayn — post va stories uchun alohida ko‘nikma va vaqt kerak",
+        "Suratga olish va Reels montaji — bu mobilograf ishi",
+        "Target — reklama kabineti, auditoriya va byudjet bilan ishlash",
+        "Kechki va dam olish kunlaridagi Direct — menejer ishlamaydigan vaqtda kelgan savollar",
+        "Hisobot — vaqt yetmaganda birinchi qisqaradigan ish"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agentlik yoki jamoa bir nechta mutaxassisni bitta smetaga yig‘adi. Bu murojaat ko‘payganda, bir vaqtda bir nechta kanal yuritilganda yoki sahifa bilan birga reklama ham kerak bo‘lganda qulay. Sahifa endi boshlanayotgan va murojaat kam bo‘lsa, ishni o‘zingiz yoki bitta mutaxassis bilan boshlash ham normal."
+    },
+    {
+      "type": "linkp",
+      "text": "Ishni topshirishga qaror qilsangiz, {xizmat} sahifasida paketlar tarkibi va ish tartibi yozilgan. SMM qancha turishi kanallar soni, kontent hajmi, suratga olish va targetga bog‘liq: GPTBot.uz paketlari va ularning tarkibi {narx} maqolasida ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "xizmat",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM ishini agentlikka topshirish"
+        },
+        {
+          "token": "narx",
+          "target": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+          "anchor": "SMM xizmati narxi va paketlar tarkibi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -225,12 +387,12 @@
     },
     {
       "type": "linkp",
-      "text": "Znaniyalar yetarli, lekin arizalar kerakmi? {smm} bo‘yicha hisob-kitob va ish rejasi bilan tanishib chiqing.",
+      "text": "Nazariya yetarli, lekin arizalar kerakmi? {smm} bilan hisob-kitob va ish rejasini muhokama qiling.",
       "links": [
         {
           "token": "smm",
           "target": "/uz/smm-xizmatlari/",
-          "anchor": "SMM xizmatlari"
+          "anchor": "Toshkentda SMM agentligi"
         }
       ]
     },
@@ -260,11 +422,23 @@
     {
       "q": "SMM’ni o‘zim olib borsam bo‘ladimi?",
       "a": "Ha, ayniqsa boshida. Agar vaqtingiz bo‘lsa va mijozingiz bilan o‘zingiz gaplashishni yoqtirsangiz, bu hatto yaxshiroq ishlaydi. Jamoaga topshirish murojaat ko‘payib, vaqt yetmay qolganda mantiqan to‘g‘ri bo‘ladi."
+    },
+    {
+      "q": "СММ нима?",
+      "a": "СММ (Social Media Marketing) — Инстаграм, Телеграм ва бошқа ижтимоий тармоқлар орқали бизнесни танитиш ва мижоз олиш. Унга саҳифани юритиш, контент тайёрлаш, изоҳ ва Директдаги саволларга жавоб бериш, пуллик реклама ва натижани ўлчаш киради."
+    },
+    {
+      "q": "SMM menejer nima ish qiladi?",
+      "a": "Kontent rejasini tuzadi, post, stories va Reels uchun matn va ssenariy tayyorlaydi, nashr qiladi, izoh va Direct’dagi xabarlarni kuzatadi hamda oy oxirida qancha odam yozgani va qaysi kontent ishlaganini hisob qiladi. Dizayn, suratga olish va target ko‘pincha alohida mutaxassis ishi."
+    },
+    {
+      "q": "SMM qancha turadi?",
+      "a": "Narx paket tarkibiga bog‘liq: nechta kanal yuritiladi, oyiga qancha post, stories va Reels kerak, suratga olish va target kiradimi. GPTBot.uz paketlari va ularning tarkibi SMM xizmati narxi haqidagi maqolada ko‘rsatilgan; reklama byudjeti har doim alohida."
     }
   ],
   "cta": {
-    "label": "SMM bo‘yicha maslahat olish",
-    "href": "#contact"
+    "label": "SMM bo‘yicha bepul maslahat — ariza",
+    "href": "/uz/smm-xizmatlari/#lead-form"
   },
   "internalLinks": [
     {
@@ -320,7 +494,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-21",
-  "dateModified": "2026-09-01",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -329,5 +503,6 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-09-01"
+  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "hreflangRu": "/ru/blog/chto-takoe-smm-prodvizhenie/"
 }

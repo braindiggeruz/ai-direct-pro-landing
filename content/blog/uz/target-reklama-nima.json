@@ -4,7 +4,7 @@
   "slug": "target-reklama-nima",
   "url": "/uz/blog/target-reklama-nima/",
   "title": "Target nima: target reklama O‘zbekistonda qanday ishlaydi",
-  "description": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Target yoqish narxi kuniga $1 minimal byudjetdan boshlanadi. Kontekstdan farqi, targetolog kim va o‘lchash.",
+  "description": "Target nima — oddiy tilda: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Kontekstdan farqi, minimal byudjet, targetolog nima qiladi va qachon mutaxassis kerak.",
   "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
   "topicCluster": "internet-reklama",
   "targetMoneyPage": "/uz/internet-reklama-toshkent/",
@@ -216,6 +216,64 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Targetolog kontent tayyorlamaydi: sahifani yuritish, postlar va izohlarga javob — SMM ishi. Ikki xizmat qanday bo‘linishi {smm} maqolasida tushuntirilgan.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/blog/smm-nima/",
+          "anchor": "SMM nima va targetdan farqi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ozingiz-yoki-mutaxassis",
+      "text": "Targetni o‘zingiz yoqasizmi yoki mutaxassisga topshirasizmi"
+    },
+    {
+      "type": "p",
+      "text": "Kichik sinov uchun mutaxassis shart emas: Instagram ilovasidagi «Reklama qilish» tugmasi tanlangan postni siz belgilagan auditoriyaga ko‘rsatadi. Bir nechta segment, kreativ sinovi va ariza narxini kuzatish kerak bo‘lganda esa Meta kabinetida tizimli ish talab qilinadi."
+    },
+    {
+      "type": "p",
+      "text": "«Reklama qilish» tugmasi yetarli bo‘ladigan holatlar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta post yoki Reels’ni ko‘proq odamga ko‘rsatish kerak.",
+        "Bitta auditoriya va bitta shahar.",
+        "Kichik byudjet bilan birinchi sinov.",
+        "Natija Direct’ga kelgan yozishmalar bilan baholanadi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mutaxassis kerak bo‘ladigan holatlar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir nechta auditoriya segmentini alohida sinab, solishtirish.",
+        "Kreativ va matn variantlarini muntazam almashtirib sinash.",
+        "UTM belgilar, Meta pikseli va saytdagi maqsadlarni sozlash.",
+        "Arizalarni CRM’ga yoki menejerga uzatish.",
+        "Bitta ariza narxini kuzatish va chegaradan oshganda kampaniyani to‘xtatish."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Targetni topshirmoqchi bo‘lsangiz, ishga nima kirishi va qanday hisoblanishi {target} bo‘limida ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/internet-reklama-toshkent/#target",
+          "anchor": "target sozlash xizmati tarkibi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "xatolar",
       "text": "O‘zbekistonda tez-tez uchraydigan xatolar"
@@ -232,7 +290,7 @@
     },
     {
       "type": "linkp",
-      "text": "Kanalni tanlash, byudjet va o‘lchash tartibi {ads} sahifasida. Ijtimoiy tarmoqlar bo‘yicha muntazam ish {smm} materialida yozilgan.",
+      "text": "Kanalni tanlash, byudjet va o‘lchash tartibi {ads} sahifasida. Pullik reklamadan tashqari muntazam ish — {smm} — alohida xizmat sifatida yuritiladi.",
       "links": [
         {
           "token": "ads",
@@ -242,14 +300,14 @@
         {
           "token": "smm",
           "target": "/uz/smm-xizmatlari/",
-          "anchor": "SMM xizmatlari"
+          "anchor": "Instagram sahifasini yuritish va kontent"
         }
       ]
     },
     {
       "type": "cta",
-      "text": "Reklama kanallarini solishtirish",
-      "href": "/uz/internet-reklama-toshkent/"
+      "text": "Target sozlash narxi va ariza",
+      "href": "/uz/internet-reklama-toshkent/#target"
     }
   ],
   "faq": [
@@ -282,6 +340,10 @@
       "a": "Targetolog — ijtimoiy tarmoqlarda pullik reklamani sozlaydigan va yuritadigan mutaxassis: auditoriyani tanlaydi, kreativlarni sinaydi, byudjetni taqsimlaydi va bitta ariza narxini kuzatadi. U kontent yozuvchi yoki sotuvchi emas."
     },
     {
+      "q": "Таргетолог ким?",
+      "a": "Таргетолог — ижтимоий тармоқларда пуллик рекламани созлайдиган ва юритадиган мутахассис: аудиторияни танлайди, креативларни синайди, бюджетни тақсимлайди ва битта ариза нархини кузатади. У контент ёзувчи ёки сотувчи эмас."
+    },
+    {
       "q": "Instagramda target yoqish qancha turadi?",
       "a": "Instagram Meta kabineti orqali ishlaydi, shuning uchun minimal byudjet ham bir xil — kuniga $1 dan. Real sarf esa auditoriya hajmi, raqobat va tanlangan maqsadga bog‘liq: bir xil byudjetda turli sohalarda ariza narxi bir necha barobar farq qilishi mumkin."
     },
@@ -291,8 +353,8 @@
     }
   ],
   "cta": {
-    "label": "Reklama kanallarini solishtirish",
-    "href": "/uz/internet-reklama-toshkent/"
+    "label": "Target sozlash narxi va ariza",
+    "href": "/uz/internet-reklama-toshkent/#target"
   },
   "internalLinks": [
     {
@@ -328,7 +390,7 @@
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",
-  "ogDescription": "Target nima? Target reklama — e’lonni siz belgilagan auditoriyaga ko‘rsatish usuli. Target yoqish narxi kuniga $1 minimal byudjetdan boshlanadi. Kontekstdan farqi, targetolog kim va o‘lchash.",
+  "ogDescription": "Target nima — oddiy tilda: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Kontekstdan farqi, minimal byudjet, targetolog nima qiladi va qachon mutaxassis kerak.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
   "hreflangUz": "/uz/blog/target-reklama-nima/",
@@ -336,7 +398,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -355,6 +417,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }
