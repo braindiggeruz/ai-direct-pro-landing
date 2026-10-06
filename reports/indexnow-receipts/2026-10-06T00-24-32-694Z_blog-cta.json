@@ -1,0 +1,13 @@
+{
+  "submittedAt": "2026-10-06T00:24:32.694Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "blog-cta",
+  "releaseCommit": "2ed9e812",
+  "reason": "B2B blog CTA now points to the B2B page and contact card",
+  "count": 1,
+  "urls": [
+    "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+  ],
+  "responseExcerpt": ""
+}
