@@ -13,9 +13,7 @@ import { ensureBillingSchema } from "../gpt-chat/billing-schema";
 import { ensureSchema } from "../gpt-chat/schema";
 import type { StudioConfig } from "./config";
 import { withLayouts, type DeckSlide, type FreeDeck } from "./deck-schema";
-import { expiryOutcome } from "./jobs";
-import { LedgerStore, REQUEST_ID, type LedgerJob } from "./ledger";
-import { JobSpend } from "./spend";
+import { REQUEST_ID, type LedgerJob } from "./ledger";
 import { DECK_SHAPES, type DeckShapeName } from "./plans";
 import { cleanTopic, type StudioAudience, type StudioLocale } from "./prompts";
 import { ensureStudioSchema } from "./schema";
@@ -114,38 +112,9 @@ export function readCreateRequest(value: unknown, config: Pick<StudioConfig, "ma
   return task ? { requestId: value.requestId, task, turnstileToken: typeof token === "string" ? token : "" } : null;
 }
 
-/** How far back a start looks for the person's own expired jobs (a job lives 15 minutes at most). */
-export const OWN_EXPIRY_LOOKBACK_MS = 24 * 3_600_000;
-
-/**
- * Closes the person's own expired open jobs by the expiry rules of spec §2.3
- * item 5 (jobs.ts expiryOutcome), through the same guarded transitions the
- * site-wide sweep uses (jobs.ts expireDueJobs, run by the maintenance tick
- * from T4.3 on), so a unit comes back exactly once whoever gets there
- * first. Run at a new start, it gives a person whose last job faulted or
- * was never written their unit back before the free day's counter is read,
- * even while no sweep runs. One indexed read (≤ 20 rows); a close only for
- * an expired job. Never throws: the start goes on either way.
- */
-export async function expireOwnJobs(db: D1Database, subject: string, now: number): Promise<number> {
-  const store = new LedgerStore(db);
-  let closed = 0;
-  try {
-    const recent = await store.recent(subject, now - OWN_EXPIRY_LOOKBACK_MS);
-    for (const row of recent) {
-      if ((row.state !== "reserved" && row.state !== "delivering") || row.expiresAt > now) continue;
-      const job = await store.get(row.id);
-      if (!job || job.subject !== subject) continue;
-      const outcome = expiryOutcome(job);
-      const changed = outcome.kind === "done" ? await store.expireDone(job.id, now) : await store.close(job, "released", outcome.reason, now);
-      if (changed) closed++;
-      if (job.reservedMicro > 0) await new JobSpend(db, job).convertOpen();
-    }
-  } catch {
-    // The expiry sweep closes whatever is left.
-  }
-  return closed;
-}
+// The person's own expired jobs are closed by jobs.ts expireOwnJobs: every
+// start (jobs.ts startJob) and /me run it.
+export { expireOwnJobs, OWN_EXPIRY_LOOKBACK_MS } from "./jobs";
 
 /** The 201 answer of a created (or replayed) job. */
 export function createdAnswer(job: Pick<LedgerJob, "id" | "source" | "entitlementId" | "partsTotal" | "expiresAt">, task: DeckTask) {

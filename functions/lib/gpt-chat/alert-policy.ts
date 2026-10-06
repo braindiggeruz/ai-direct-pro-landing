@@ -51,6 +51,20 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   "uzum_*",
   // POST /api/internal/gpt-billing-maintenance {"drill":true}.
   "drill",
+  // Studio (functions/lib/studio/limits.ts StudioAlert), each code by name,
+  // never "studio_*". Each is a state of the UTC day, so it pages once a day
+  // (DAILY_ALERTS), never once an hour while it lasts. Spec §2.5, §5.4:
+  // "владельцу уходит алерт".
+  //   the paid emergency stop: paid generations fail until 05:00 Tashkent;
+  "studio_paid_stop",
+  //   the free tier is closed for everybody until 05:00 Tashkent;
+  "studio_free_budget_spent",
+  "studio_ramp_full",
+  //   80% of the free budget: new (young) identities are refused from now on;
+  "studio_free_budget_80",
+  //   the site's free counters passed STUDIO_FREE_ALERT_DECKS / _PHOTOS (only told).
+  "studio_free_decks_high",
+  "studio_free_photos_high",
 ];
 
 /**
@@ -63,7 +77,9 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
  * up keep it true on every watchdog run of the next day, which hourly rows
  * would turn into a page an hour. So is uzum_receipt_missing: the Uzum step
  * of every tick finds the same receipt missing until Uzum prints it or a
- * person settles it (uzum-maintenance.ts).
+ * person settles it (uzum-maintenance.ts). So are the studio's codes: each
+ * describes the UTC day's spend or counters, which stay where they are until
+ * the day ends.
  */
 const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "openrouter_key_credit_low",
@@ -71,6 +87,12 @@ const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "free_paid_budget_exhausted",
   "bot_silent",
   "uzum_receipt_missing",
+  "studio_paid_stop",
+  "studio_free_budget_spent",
+  "studio_ramp_full",
+  "studio_free_budget_80",
+  "studio_free_decks_high",
+  "studio_free_photos_high",
 ]);
 
 function globMatch(pattern: string, code: string): boolean {
@@ -123,6 +145,12 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   uzum_confirm_recovered: "Uzum: оплата в приложении завершена после сбоя подтверждения, сверьте её с кабинетом Uzum",
   uzum_processing: "Uzum: ошибка сервера при обработке уведомления, Uzum повторит запрос",
   drill: "учебный алерт: канал доставки работает",
+  studio_paid_stop: "Студия: аварийный стоп платного (STUDIO_PAID_DAILY_USD_STOP), платные генерации отказывают до 05:00 Ташкента",
+  studio_free_budget_spent: "Студия: дневной бюджет бесплатного (STUDIO_FREE_DAILY_USD) израсходован, бесплатные презентации закрыты до 05:00 Ташкента",
+  studio_ramp_full: "Студия: потолок разгона (STUDIO_RAMP_DECKS_DAILY) достигнут, бесплатные презентации закрыты до 05:00 Ташкента",
+  studio_free_budget_80: "Студия: израсходовано 80% бюджета бесплатного, новым посетителям (моложе суток) отказ до 05:00 Ташкента",
+  studio_free_decks_high: "Студия: бесплатных презентаций за сутки больше STUDIO_FREE_ALERT_DECKS, проверьте отчёт",
+  studio_free_photos_high: "Студия: бесплатных фото за сутки больше STUDIO_FREE_ALERT_PHOTOS, проверьте отчёт",
 };
 
 /** The fixed explanation of a code (the admin shows it beside the count), or null. */

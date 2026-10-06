@@ -310,12 +310,12 @@ export class LedgerStore {
   }
 
   /** The subject's jobs started after `since`, newest first (at most 20). */
-  async recent(subject: string, since: number): Promise<Array<Pick<LedgerJob, "id" | "state" | "expiresAt">>> {
+  async recent(subject: string, since: number): Promise<Array<Pick<LedgerJob, "id" | "state" | "expiresAt" | "unit" | "source">>> {
     const { results } = await this.db
-      .prepare("SELECT id, state, expires_at FROM studio_unit_ledger WHERE org_id=? AND subject=? AND created_at>? ORDER BY created_at DESC LIMIT 20")
+      .prepare("SELECT id, state, expires_at, unit, source FROM studio_unit_ledger WHERE org_id=? AND subject=? AND created_at>? ORDER BY created_at DESC LIMIT 20")
       .bind(this.org, subject, since)
-      .all<{ id: string; state: LedgerState; expires_at: number }>();
-    return (results ?? []).map((row) => ({ id: row.id, state: row.state, expiresAt: Number(row.expires_at) }));
+      .all<{ id: string; state: LedgerState; expires_at: number; unit: StudioUnit; source: LedgerSource }>();
+    return (results ?? []).map((row) => ({ id: row.id, state: row.state, expiresAt: Number(row.expires_at), unit: row.unit, source: row.source }));
   }
 
   /** Writes a job in 'reserved', expiring JOB_TTL_MS after its start. Throws on a constraint (request replay, a second regeneration). */

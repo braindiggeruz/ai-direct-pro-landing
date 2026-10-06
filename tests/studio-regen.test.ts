@@ -284,6 +284,51 @@ test("only a done paid job of the same person can be made again", async () => {
   assert.equal(ofFree.ok ? "" : ofFree.code, "regen_window");
 });
 
+test("a regeneration left open past its life frees the unit's one regeneration: the retry starts, the old row is released", async () => {
+  const db = await database();
+  const original = await doneDeck(db);
+  const first = await regen(db, original);
+  assert.ok(first.ok);
+  // The tab closed mid-generation: nothing delivered, nobody released it, no sweep ran.
+  const later = NOW + 2 * HOUR + 11 * 60_000;
+  const retry = await regen(db, original, { now: later });
+  assert.ok(retry.ok, retry.ok ? "" : retry.code);
+  assert.notEqual(retry.job.id, first.job.id);
+  const old = db.rows<{ state: string; reason: string }>("SELECT state, reason FROM studio_unit_ledger WHERE org_id=? AND id=?", STUDIO_ORG, first.job.id)[0];
+  assert.deepEqual({ ...old }, { state: "released", reason: "expired_empty" });
+  assert.equal(used(db, "stu_regen_1"), 1);
+});
+
+test("an expired regeneration that delivered without a fault is done: the unit's one regeneration is used", async () => {
+  const db = await database();
+  const original = await doneDeck(db);
+  const first = await regen(db, original);
+  assert.ok(first.ok);
+  // The outline and two parts went out, then the person left.
+  for (const bit of [OUTLINE_BIT, slidePartBit(1), slidePartBit(2)]) assert.ok((await handOut(db.asD1(), first.job, bit, "text", NOW + 2 * HOUR + 1000)).ok);
+  const retry = await regen(db, original, { now: NOW + 2 * HOUR + 16 * 60_000 });
+  assert.equal(retry.ok ? "" : retry.code, "regen_used");
+  const old = db.rows<{ state: string }>("SELECT state FROM studio_unit_ledger WHERE org_id=? AND id=?", STUDIO_ORG, first.job.id)[0];
+  assert.equal(old.state, "done");
+});
+
+test("a paid start whose only unit an expired empty job holds gets it back and starts", async () => {
+  const db = await database();
+  grant(db, "stu_regen_only", { presentations: 1 });
+  const dropped = await start(db, { inputMac: await mac() });
+  assert.ok(dropped.ok);
+  assert.equal(used(db, "stu_regen_only"), 1);
+  // Before its expiry the one-open-job rule answers; after it, the unit is back and taken again.
+  const early = await start(db, { inputMac: await mac(), now: NOW + 60_000 });
+  assert.equal(early.ok ? "" : early.code, "job_in_progress");
+  const next = await start(db, { inputMac: await mac(), now: NOW + 11 * 60_000 });
+  assert.ok(next.ok, next.ok ? "" : next.code);
+  assert.equal(next.job.entitlementId, "stu_regen_only");
+  assert.equal(used(db, "stu_regen_only"), 1, "one back, one taken: unchanged net");
+  const old = db.rows<{ state: string; reason: string }>("SELECT state, reason FROM studio_unit_ledger WHERE org_id=? AND id=?", STUDIO_ORG, dropped.job.id)[0];
+  assert.deepEqual({ ...old }, { state: "released", reason: "expired_empty" });
+});
+
 test("a regeneration handed back credits no unit; it counts as a returned attempt", async () => {
   const db = await database();
   const original = await doneDeck(db);

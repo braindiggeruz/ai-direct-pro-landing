@@ -4,15 +4,23 @@
 //
 // Start (startJob)
 //   1. the same request id again: the same job, no second unit (idempotent);
-//   2. one open job per person (409 job_in_progress);
-//   3. the unit: free (free-usage.ts admitFreeUnit: daily units, the IP
+//   2. one open job per person (409 job_in_progress, resetsAt = when it
+//      expires);
+//   3. the person's own expired jobs are closed by the expiry rules
+//      (expireOwnJobs), so a unit or a regeneration they owe back is back
+//      before anything is counted, whoever calls this and whether or not
+//      the maintenance sweep ran;
+//   4. the unit: free (free-usage.ts admitFreeUnit: daily units, the IP
 //      ceiling of young identities, the ramp, the budget, 5 returns a day),
 //      an entitlement (the live one that ends soonest, 402 no_units), or a
-//      regeneration (no unit: the rules below);
-//   4. the row in 'reserved' for 10 minutes. If it cannot be written, the
-//      unit this start took goes back.
-//   The endpoint paces starts (limits.ts paceJobStart) and checks Turnstile
-//   before calling this.
+//      regeneration (no unit: the rules below). The site's start pace
+//      (`sitePace`, limits.ts paceSiteJobStart) is counted only after the
+//      cheap refusals, so no refused start fills everybody's minute;
+//   5. the row in 'reserved' for 10 minutes. If the write throws, the row
+//      is read back before anything is given back: D1 can fail after the
+//      statement committed, and a row that exists keeps its unit.
+//   The endpoint paces the person's own starts (limits.ts paceJobStart) and
+//   checks Turnstile before calling this.
 //
 // Steps (jobMeter): every model call takes a step under the job's cap
 //   (outline 2 + 2 per part + 4 spare for a full deck, spec §7.1; 2 + 2 for
@@ -40,7 +48,7 @@ import type { AdmitCall, CallRecord, LedgerFault, TextStep } from "./llm";
 import type { StudioConfig } from "./config";
 import type { StudioErrorCode } from "./http";
 import { studioLog } from "./http";
-import type { StudioAlert } from "./limits";
+import type { LimitVerdict, StudioAlert } from "./limits";
 import {
   admitFreeUnit,
   freeDay,
@@ -187,6 +195,12 @@ export interface StartJobInput {
   readonly consentVersion?: string | null;
   readonly source: JobSourceInput;
   readonly now?: number;
+  /**
+   * The site's start pace (limits.ts paceSiteJobStart), counted once this
+   * start passed its cheap refusals, just before its unit is final. A
+   * refusal is 503 studio_busy with nothing taken.
+   */
+  readonly sitePace?: () => Promise<LimitVerdict>;
 }
 
 export type StartRefusal = Extract<
@@ -216,7 +230,11 @@ export type StartJobResult =
   | {
       readonly ok: false;
       readonly code: StartRefusal;
-      /** free_limit, ip_ceiling, try_later: the next 05:00 in Tashkent, ISO. */
+      /**
+       * free_limit, ip_ceiling, try_later and a studio_busy that lasts the
+       * day: the next 05:00 in Tashkent; job_in_progress: when the open job
+       * expires. ISO.
+       */
       readonly resetsAt?: string;
       readonly retryAfterSeconds?: number;
       readonly alerts: readonly StudioAlert[];
@@ -244,9 +262,10 @@ function sameStart(earlier: LedgerJob, input: StartJobInput): boolean {
   return input.source.kind === "regen" ? earlier.regenOf === input.source.regenOf : earlier.tool === input.tool;
 }
 
-async function hasOpenJob(store: LedgerStore, subject: string, now: number): Promise<boolean> {
+/** The person's open job (one at most), or null. */
+async function openJob(store: LedgerStore, subject: string, now: number): Promise<{ readonly expiresAt: number } | null> {
   const recent = await store.recent(subject, now - JOB_TTL_DELIVERED_MS);
-  return recent.some((job) => isOpen(job, now));
+  return recent.find((job) => isOpen(job, now)) ?? null;
 }
 
 /** The person had RETURNED_DAILY_CAP attempts handed back today: new paid starts wait for 05:00 too. */
@@ -254,10 +273,61 @@ async function returnedCapReached(db: D1Database, subject: string, now: number):
   return (await new FreeUsageStore(db).used(freeDay(now), subject, RETURNED_UNIT)) >= RETURNED_DAILY_CAP;
 }
 
+/** How far back the person's own expired jobs are looked for (a job lives 15 minutes at most). */
+export const OWN_EXPIRY_LOOKBACK_MS = 24 * 3_600_000;
+
+export interface OwnJobs {
+  /** Expired jobs this call closed. */
+  readonly closed: number;
+  /** The person's jobs still open after it: the unit each holds, its source and when it expires. */
+  readonly open: ReadonlyArray<{ readonly unit: StudioUnit; readonly source: LedgerJob["source"]; readonly expiresAt: number }>;
+}
+
+/**
+ * Closes the person's own expired open jobs by the expiry rules of spec §2.3
+ * item 5 (expiryOutcome), through the same guarded transitions the
+ * site-wide sweep uses (expireDueJobs, run by the maintenance tick from T4.3
+ * on), so a unit comes back exactly once whoever gets there first. Run by
+ * every start (startJob) and by /me, it gives a person whose last job
+ * faulted, was dropped or was never written their unit back (and frees the
+ * regeneration an expired one held) even while no sweep runs. One indexed
+ * read (≤ 20 rows); a close only for an expired job. Never throws: whatever
+ * it could not close, the next call or the sweep closes.
+ */
+export async function expireOwnJobs(db: D1Database, subject: string, now: number): Promise<OwnJobs> {
+  const store = new LedgerStore(db);
+  let closed = 0;
+  const open: Array<OwnJobs["open"][number]> = [];
+  let recent: Awaited<ReturnType<LedgerStore["recent"]>>;
+  try {
+    recent = await store.recent(subject, now - OWN_EXPIRY_LOOKBACK_MS);
+  } catch {
+    return { closed, open };
+  }
+  for (const row of recent) {
+    if (row.state !== "reserved" && row.state !== "delivering") continue;
+    if (row.expiresAt > now) {
+      open.push({ unit: row.unit, source: row.source, expiresAt: row.expiresAt });
+      continue;
+    }
+    try {
+      const job = await store.get(row.id);
+      if (!job || job.subject !== subject) continue;
+      const outcome = expiryOutcome(job);
+      const changed = outcome.kind === "done" ? await store.expireDone(job.id, now) : await store.close(job, "released", outcome.reason, now);
+      if (changed) closed++;
+      if (job.reservedMicro > 0) await new JobSpend(db, job).convertOpen();
+    } catch {
+      // The next start, /me or the sweep closes it.
+    }
+  }
+  return { closed, open };
+}
+
 /**
  * Starts a job: one unit reserved (or none for a regeneration) and its row
  * in 'reserved'. Never throws; a D1 failure is 503 studio_busy with the unit
- * given back.
+ * given back, unless the row may exist (then it keeps its unit: fail closed).
  */
 export async function startJob(db: D1Database, input: StartJobInput): Promise<StartJobResult> {
   const now = input.now ?? Date.now();
@@ -279,23 +349,64 @@ export async function startJob(db: D1Database, input: StartJobInput): Promise<St
   if (consentVersion !== null && !CONSENT.test(consentVersion)) return refuse("invalid");
 
   const store = new LedgerStore(db);
-  const replayOrBusy = async (): Promise<StartJobResult> => {
-    try {
-      const earlier = await store.byRequest(subject, requestId);
-      if (earlier && sameStart(earlier, input)) return { ok: true, job: earlier, replay: true, alerts };
-    } catch {
-      /* fall through */
+  /** The row of this request id; undefined when it cannot be read, twice. */
+  const readBack = async (): Promise<LedgerJob | null | undefined> => {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        return await store.byRequest(subject, requestId);
+      } catch {
+        /* once more */
+      }
     }
-    return refuse("studio_busy");
+    return undefined;
+  };
+  /**
+   * The INSERT of `job` threw after this start took a unit (`giveBack`
+   * returns it; null for a regeneration, which took none). The row is read
+   * back BEFORE anything is given back: D1 may have committed the statement
+   * and lost only its answer.
+   *   - our own row (the same id): it committed; the job runs and keeps its unit;
+   *   - another start's row under the same request id (two starts at once:
+   *     UNIQUE(org, subject, request_id)): that start took its own unit, so
+   *     ours goes back; the same task replays that job, another is invalid;
+   *   - no row: ours goes back; null (the caller decides: studio_busy, or
+   *     regen_used for a regeneration the index refused);
+   *   - unreadable: the unit is kept (fail closed) and logged: held until the
+   *     day ends (free) or for good (paid), never handed out twice.
+   */
+  const afterFailedInsert = async (job: NewJob, giveBack: (() => Promise<void>) | null, held: string): Promise<StartJobResult | null> => {
+    const earlier = await readBack();
+    if (earlier === undefined) {
+      if (giveBack) studioLog("studio_job", held);
+      return refuse("studio_busy");
+    }
+    if (earlier && earlier.id === job.id) return { ok: true, job: earlier, replay: false, alerts };
+    if (giveBack) await giveBack();
+    if (earlier) return sameStart(earlier, input) ? { ok: true, job: earlier, replay: true, alerts } : refuse("invalid");
+    return null;
   };
 
+  let open: { readonly expiresAt: number } | null;
   try {
     const earlier = await store.byRequest(subject, requestId);
     if (earlier) return sameStart(earlier, input) ? { ok: true, job: earlier, replay: true, alerts } : refuse("invalid");
-    if (await hasOpenJob(store, subject, now)) return refuse("job_in_progress");
+    open = await openJob(store, subject, now);
   } catch {
     return refuse("studio_busy");
   }
+  if (open) {
+    return refuse("job_in_progress", {
+      resetsAt: new Date(open.expiresAt).toISOString(),
+      retryAfterSeconds: Math.max(1, Math.ceil((open.expiresAt - now) / 1000)),
+    });
+  }
+  // What an expired job of this person still holds (a unit, a regeneration) comes back first.
+  await expireOwnJobs(db, subject, now);
+  const paceSite = async (): Promise<StartJobResult | null> => {
+    if (!input.sitePace) return null;
+    const pace = await input.sitePace();
+    return pace.ok ? null : refuse("studio_busy", { retryAfterSeconds: pace.retryAfterSeconds });
+  };
 
   const base = { id: newJobId(), requestId, subject, inputMac: input.inputMac, reserveDay: reserveDayOf(now), createdAt: now };
 
@@ -311,6 +422,8 @@ export async function startJob(db: D1Database, input: StartJobInput): Promise<St
     }
     const verdict = regenVerdict(original, term, { subject, inputMac: input.inputMac, now });
     if (verdict || !original) return refuse(verdict ?? "not_found");
+    const paced = await paceSite();
+    if (paced) return paced;
     // The full form of the first generation: same tool, unit, shape and parts.
     const job: NewJob = {
       ...base,
@@ -326,8 +439,8 @@ export async function startJob(db: D1Database, input: StartJobInput): Promise<St
     try {
       await store.insert(job);
     } catch (error) {
-      const replay = await replayOrBusy();
-      if (replay.ok) return replay;
+      const settled = await afterFailedInsert(job, null, "");
+      if (settled) return settled;
       // idx_studio_ledger_one_regen: this unit's regeneration exists already.
       return refuse(/regen_of/.test(String(error)) ? "regen_used" : "studio_busy");
     }
@@ -352,7 +465,15 @@ export async function startJob(db: D1Database, input: StartJobInput): Promise<St
 
   if (source.kind === "free") {
     if (unit === "presentation_full") return refuse("invalid");
-    const admission = await admitFreeUnit(db, { config: input.config, subject, young: source.young, address: source.address, unit, now });
+    const admission = await admitFreeUnit(db, {
+      config: input.config,
+      subject,
+      young: source.young,
+      address: source.address,
+      unit,
+      now,
+      ...(input.sitePace ? { sitePace: input.sitePace } : {}),
+    });
     alerts.push(...admission.alerts);
     if (!admission.ok) {
       return refuse(admission.code, { retryAfterSeconds: admission.retryAfterSeconds, ...(admission.resetsAt ? { resetsAt: admission.resetsAt } : {}) });
@@ -361,42 +482,62 @@ export async function startJob(db: D1Database, input: StartJobInput): Promise<St
     try {
       await store.insert(job);
     } catch {
-      try {
-        await new FreeUsageStore(db).untake(admission.day, subject, unit);
-      } catch {
-        studioLog("studio_job", "free_untake_failed");
-      }
-      return replayOrBusy();
+      const settled = await afterFailedInsert(
+        job,
+        async () => {
+          try {
+            await new FreeUsageStore(db).untake(admission.day, subject, unit);
+          } catch {
+            studioLog("studio_job", "free_untake_failed");
+          }
+        },
+        "free_unit_held",
+      );
+      return settled ?? refuse("studio_busy");
     }
     return { ok: true, job: reservedJob(job), replay: false, alerts };
   }
 
   // A paid unit: the live entitlement that ends soonest (spec §2.3); a race
-  // for its last unit gets one more pick.
+  // for its last unit gets one more pick. The site's pace is counted once,
+  // when there is a unit to take.
   if (unit === "presentation_free") return refuse("invalid");
   const paidUnit: PaidUnit = unit;
   let entitlementId: string | null = null;
   try {
     if (await returnedCapReached(db, subject, now)) return refuse("try_later", untilReset());
+    let paced = false;
     for (let round = 0; round < 2 && !entitlementId; round++) {
       const candidate = await store.pickEntitlement(source.userId, source.mode, paidUnit, now);
       if (!candidate) break;
+      if (!paced) {
+        const refused = await paceSite();
+        if (refused) return refused;
+        paced = true;
+      }
       if (await store.debitEntitlement(candidate, paidUnit, now)) entitlementId = candidate;
     }
   } catch {
     return refuse("studio_busy");
   }
   if (!entitlementId) return refuse("no_units");
-  const job: NewJob = { ...common, source: "entitlement", entitlementId };
+  const debited = entitlementId;
+  const job: NewJob = { ...common, source: "entitlement", entitlementId: debited };
   try {
     await store.insert(job);
   } catch {
-    try {
-      await store.undoDebit(entitlementId, paidUnit);
-    } catch {
-      studioLog("studio_job", "paid_undo_failed");
-    }
-    return replayOrBusy();
+    const settled = await afterFailedInsert(
+      job,
+      async () => {
+        try {
+          await store.undoDebit(debited, paidUnit);
+        } catch {
+          studioLog("studio_job", "paid_undo_failed");
+        }
+      },
+      "paid_unit_held",
+    );
+    return settled ?? refuse("studio_busy");
   }
   return { ok: true, job: reservedJob(job), replay: false, alerts };
 }

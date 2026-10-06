@@ -18,15 +18,20 @@
 //   6. the topic: the narrow refusal list and the 10-minute refusal memory
 //      (safety.ts): 422 topic_refused {category}, no unit, no model, no row;
 //   7. the same request id: the job it made;
-//   8. pace: 6 starts in 10 minutes per person, STUDIO_JOB_GLOBAL_PER_MIN
-//      for the site (429 / 503); a D1 failure refuses;
+//   8. pace: 6 starts in 10 minutes per person, counted (429); the site's
+//      STUDIO_JOB_GLOBAL_PER_MIN only READ (503 when the minute is full).
+//      Nothing a request without a valid token does counts for the site,
+//      so a few cookies cannot close the free deck for everybody; a D1
+//      failure refuses;
 //   9. Turnstile, action studio_free_deck (403 / 503);
-//  10. the person's own expired jobs are closed by the expiry rules
-//      (presentation.ts expireOwnJobs), so a unit owed back is back;
-//  11. the unit (jobs.ts startJob): one open job per person (409), the free
-//      day's unit, the IP ceiling of young identities, the ramp, the budget,
-//      5 returns a day (429 free_limit / ip_ceiling / try_later + resetsAt,
-//      503 studio_busy); the ledger row in 'reserved' for 10 minutes.
+//  10. the unit (jobs.ts startJob): one open job per person (409
+//      job_in_progress + resetsAt, when it expires); the person's own
+//      expired jobs closed by the expiry rules (a unit owed back is back);
+//      the free day's unit, the IP ceiling of young identities, the ramp,
+//      the budget, 5 returns a day (429 free_limit / ip_ceiling / try_later
+//      + resetsAt; 503 studio_busy, + resetsAt when it lasts the day); then
+//      the start counts for the site (503 studio_busy past the minute's
+//      ceiling, the unit back); the ledger row in 'reserved' for 10 minutes.
 // Nothing of the topic is written or logged: the row keeps only input_mac.
 import type { BillingEnv } from "../../../lib/gpt-chat/billing-config";
 import { readJsonLimited } from "../../../lib/gpt-chat/http";
@@ -36,8 +41,8 @@ import { fail, json, studioLog } from "../../../lib/studio/http";
 import { identityConfigured, readIdentity } from "../../../lib/studio/identity";
 import { startJob } from "../../../lib/studio/jobs";
 import { LedgerStore, deckInputMac } from "../../../lib/studio/ledger";
-import { paceJobStart, recordStudioAlerts, studioAddress, type StudioAlert } from "../../../lib/studio/limits";
-import { createdAnswer, ensureDeckSchema, expireOwnJobs, readCreateRequest } from "../../../lib/studio/presentation";
+import { paceJobStart, paceSiteJobStart, recordStudioAlerts, siteJobRoom, studioAddress, type StudioAlert } from "../../../lib/studio/limits";
+import { createdAnswer, ensureDeckSchema, readCreateRequest } from "../../../lib/studio/presentation";
 import { refusalKey, screenTopic, topicRefusals } from "../../../lib/studio/safety";
 import { studioTurnstileConfigured, verifyStudioTurnstile } from "../../../lib/studio/turnstile";
 
@@ -97,7 +102,10 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
     return fail("studio_busy");
   }
 
-  const pace = await paceJobStart(db, identity.subject, config, now);
+  // The person's own pace is counted (only they can fill it); the site's is
+  // only read: it counts after Turnstile and the start's own refusals.
+  const own = await paceJobStart(db, identity.subject, now);
+  const pace = own.ok ? await siteJobRoom(db, config, now) : own;
   if (!pace.ok) {
     studioLog(EVENT, pace.code);
     return fail(pace.code, {}, { "Retry-After": String(pace.retryAfterSeconds) });
@@ -108,9 +116,6 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
     return fail(check.code);
   }
 
-  // The person's own expired jobs first: a job that faulted or was never
-  // written gives its unit back before the day's counter is read.
-  await expireOwnJobs(db, identity.subject, now);
   const started = await startJob(db, {
     config,
     subject: identity.subject,
@@ -121,6 +126,7 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
     inputMac,
     source: { kind: "free", young: identity.young, address: await studioAddress(request, env, now) },
     now,
+    sitePace: () => paceSiteJobStart(db, config, now),
   });
   const alerts: readonly StudioAlert[] = started.alerts;
   if (alerts.length) waitUntil(recordStudioAlerts(env, alerts));

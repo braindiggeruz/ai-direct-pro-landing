@@ -9,6 +9,7 @@ import assert from "node:assert/strict";
 import { onRequest as createEndpoint } from "../functions/api/studio/presentations/index";
 import { onRequest as slidesEndpoint } from "../functions/api/studio/presentations/[job]/slides";
 import { onRequest as eventEndpoint } from "../functions/api/studio/event";
+import { onRequest as meEndpoint } from "../functions/api/studio/me";
 import { ZAI_ENDPOINT } from "../functions/lib/gpt-chat/zai-chat";
 import { OPENROUTER_ENDPOINT } from "../functions/lib/gpt-chat/openrouter-chat";
 import { STUDIO_ORG } from "../functions/lib/studio/schema";
@@ -24,6 +25,8 @@ import { parseStudioConfig } from "../functions/lib/studio/config";
 import {
   KASRLAR,
   OPENROUTER_PLACEHOLDER,
+  PASS,
+  SITE,
   TASK,
   browser,
   call,
@@ -47,6 +50,30 @@ async function slides(site: Site, cookie: string, job: string, task: Record<stri
   const response = await call(site, slidesEndpoint, post(slidesPath(job), task, { cookie }), { job });
   return { response, body: (await response.json()) as Record<string, unknown> };
 }
+
+async function me(site: Site, cookie: string) {
+  const response = await call(site, meEndpoint, post("/api/studio/me", null, { cookie, method: "GET" }));
+  return { response, body: (await response.json()) as { free: { presentation: { left: number; limit: number; openUntil?: string } } } };
+}
+
+/** POST /:job/slides that the browser drops while Z.ai is still writing (a phone locked, the app switched). */
+async function droppedSlides(site: Site, cookie: string, job: string) {
+  const controller = new AbortController();
+  site.zai.push(() => {
+    controller.abort();
+    throw new DOMException("The operation was aborted.", "AbortError");
+  });
+  const request = new Request(`${SITE}${slidesPath(job)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: SITE, Cookie: cookie, "CF-Connecting-IP": "203.0.113.7" },
+    body: JSON.stringify(TASK),
+    signal: controller.signal,
+  });
+  return call(site, slidesEndpoint, request, { job });
+}
+
+const expire = (site: Site, id: string) => site.db.exec(`UPDATE studio_unit_ledger SET expires_at=${Date.now() - 1} WHERE id='${id}'`);
+const siteStarts = (site: Site) => Number(site.db.value("SELECT SUM(count) FROM gpt_rate_limits WHERE action='studio_job_global'") ?? 0);
 
 const ledger = (site: Site, id: string) =>
   site.db.rows<Record<string, unknown>>("SELECT * FROM studio_unit_ledger WHERE org_id=? AND id=?", STUDIO_ORG, id)[0];
@@ -537,6 +564,160 @@ test("the site's start pace (STUDIO_JOB_GLOBAL_PER_MIN) answers 503 studio_busy 
   assert.equal(second.body.code, "studio_busy");
   assert.ok(Number(second.response.headers.get("retry-after")) > 0);
   assert.equal(site.siteverify.length, 1);
+});
+
+test("starts without a valid Turnstile token never count for the site's minute: a visitor after them still gets a deck", async (context) => {
+  // The committed ceiling: 3 starts a minute for the whole site.
+  const site = await studioSite(context, { config: { STUDIO_JOB_GLOBAL_PER_MIN: "3" } });
+  const attackers = await Promise.all(Array.from({ length: 5 }, () => browser()));
+  for (const [i, attacker] of attackers.entries()) {
+    const tokenless = await create(site, attacker.cookie, { turnstileToken: "" }, { ip: `198.51.100.${i + 1}` });
+    assert.equal(tokenless.response.status, 403);
+    assert.equal(tokenless.body.code, "turnstile_required");
+  }
+  assert.equal(site.siteverify.length, 0, "an empty token never reaches Siteverify");
+  site.turnstile = { success: false, "error-codes": ["invalid-input-response"] };
+  for (const [i, attacker] of attackers.entries()) {
+    const garbage = await create(site, attacker.cookie, { turnstileToken: `garbage-${i}` }, { ip: `198.51.100.${i + 1}` });
+    assert.equal(garbage.body.code, "turnstile_failed");
+  }
+  // Ten refused starts: nothing on the site's counter, no unit, no row.
+  assert.equal(siteStarts(site), 0);
+  assert.equal(site.db.value("SELECT COUNT(*) FROM studio_unit_ledger"), 0);
+  site.turnstile = { ...PASS };
+  const visitor = await browser();
+  const started = await create(site, visitor.cookie);
+  assert.equal(started.response.status, 201, JSON.stringify(started.body));
+  assert.equal(siteStarts(site), 1);
+  // A start the one-open-job rule refuses does not count for the site either.
+  const again = await create(site, visitor.cookie, { topic: "Amir Temur" });
+  assert.equal(again.response.status, 409);
+  assert.equal(again.body.code, "job_in_progress");
+  assert.equal(again.body.resetsAt, new Date(Number(ledger(site, started.body.jobId as string).expires_at)).toISOString());
+  assert.equal(siteStarts(site), 1);
+  // Nor does a start refused for the day's unit.
+  site.zai.push(deckAnswer());
+  assert.equal((await slides(site, visitor.cookie, started.body.jobId as string)).response.status, 200);
+  assert.equal((await create(site, visitor.cookie, { topic: "Amir Temur" })).body.code, "free_limit");
+  assert.equal(siteStarts(site), 1);
+});
+
+test("a full minute is read before Turnstile (503, no Siteverify call) and counted only for verified starts", async (context) => {
+  const site = await studioSite(context, { config: { STUDIO_JOB_GLOBAL_PER_MIN: "2" } });
+  const people = await Promise.all(Array.from({ length: 3 }, () => browser()));
+  assert.equal((await create(site, people[0].cookie, {}, { ip: "198.51.100.30" })).response.status, 201);
+  assert.equal((await create(site, people[1].cookie, {}, { ip: "198.51.100.31" })).response.status, 201);
+  assert.equal(site.siteverify.length, 2);
+  const third = await create(site, people[2].cookie, {}, { ip: "198.51.100.32" });
+  assert.equal(third.response.status, 503);
+  assert.equal(third.body.code, "studio_busy");
+  assert.equal(third.body.resetsAt, undefined, "a full minute is short: no reset time");
+  assert.ok(Number(third.response.headers.get("retry-after")) <= 60);
+  assert.equal(site.siteverify.length, 2);
+  assert.equal(siteStarts(site), 2);
+  assert.equal(site.db.value("SELECT COUNT(*) FROM studio_free_usage WHERE subject=?", people[2].subject), 0);
+});
+
+test("the ramp full and the budget spent: 503 studio_busy with the reset time (05:00 Tashkent), not a minute", async (context) => {
+  const site = await studioSite(context, { config: { STUDIO_RAMP_DECKS_DAILY: "1" } });
+  const first = await browser();
+  assert.equal((await create(site, first.cookie)).response.status, 201);
+  const second = await browser();
+  const closed = await create(site, second.cookie, {}, { ip: "198.51.100.40" });
+  assert.equal(closed.response.status, 503);
+  assert.equal(closed.body.code, "studio_busy");
+  const reset = nextFreeResetAt(Date.now());
+  assert.equal(closed.body.resetsAt, new Date(reset).toISOString());
+  const retryAfter = Number(closed.response.headers.get("retry-after"));
+  assert.ok(Math.abs(retryAfter - (reset - Date.now()) / 1000) < 5, String(retryAfter));
+  assert.equal(used(site, second.subject), 0);
+
+  const spent = await studioSite(context, { config: { STUDIO_FREE_DAILY_USD: "0.001" } });
+  spent.db.exec(`INSERT INTO gpt_model_spend(org_id,day,bucket,reserved_micro,actual_micro) VALUES('${STUDIO_ORG}','${freeDay(Date.now())}','studio_free',1000,1000)`);
+  const budget = await create(spent, (await browser()).cookie);
+  assert.equal(budget.response.status, 503);
+  assert.equal(budget.body.resetsAt, new Date(reset).toISOString());
+});
+
+// ── /me gives back what an expired job owes ─────────────────────────────────
+
+test("/me closes the person's own expired jobs first: a job left open by two 1302s gives its unit back after expiry", async (context) => {
+  const site = await studioSite(context);
+  const { cookie, subject } = await browser();
+  const started = await create(site, cookie);
+  const jobId = started.body.jobId as string;
+  site.zai.push(zaiError(429, "1302"), zaiError(429, "1302"));
+  for (let i = 0; i < 2; i++) {
+    const busy = await slides(site, cookie, jobId);
+    assert.equal(busy.response.status, 503);
+    assert.equal(busy.body.retry, true);
+  }
+  const open = ledger(site, jobId);
+  assert.deepEqual([open.state, open.steps, open.fault], ["reserved", 2, "1:busy"]);
+  // While the job is open the unit is held, and /me says until when.
+  const held = await me(site, cookie);
+  assert.deepEqual(held.body.free.presentation, { left: 0, limit: 1, openUntil: new Date(Number(open.expires_at)).toISOString() });
+  expire(site, jobId);
+  const back = await me(site, cookie);
+  assert.equal(back.response.status, 200);
+  assert.deepEqual(back.body.free.presentation, { left: 1, limit: 1 });
+  const row = ledger(site, jobId);
+  assert.equal(row.state, "released");
+  assert.equal(row.reason, "expired_empty");
+  assert.equal(used(site, subject), 0);
+  assert.equal(used(site, subject, "returned"), 1);
+});
+
+test("/me gives the unit back after a dropped /slides request and when no text model is configured", async (context) => {
+  // The browser dropped the request mid-call: not a fault, the job is simply left open.
+  const site = await studioSite(context);
+  const { cookie } = await browser();
+  const started = await create(site, cookie);
+  const jobId = started.body.jobId as string;
+  await droppedSlides(site, cookie, jobId);
+  assert.deepEqual([ledger(site, jobId).state, ledger(site, jobId).fault], ["reserved", null]);
+  assert.equal((await me(site, cookie)).body.free.presentation.left, 0);
+  expire(site, jobId);
+  assert.deepEqual((await me(site, cookie)).body.free.presentation, { left: 1, limit: 1 });
+  assert.deepEqual([ledger(site, jobId).state, ledger(site, jobId).reason], ["released", "expired_empty"]);
+
+  // No text model: the step faults before any call, so no step is ever taken and failPart never releases.
+  const bare = await studioSite(context);
+  delete bare.env.ZAI_API_KEY;
+  const person = await browser();
+  const job = (await create(bare, person.cookie)).body.jobId as string;
+  const none = await slides(bare, person.cookie, job);
+  assert.equal(none.body.code, "model_unavailable");
+  assert.equal(ledger(bare, job).steps, 0);
+  assert.equal(bare.sent.length, 0);
+  expire(bare, job);
+  assert.deepEqual((await me(bare, person.cookie)).body.free.presentation, { left: 1, limit: 1 });
+  assert.equal(ledger(bare, job).state, "released");
+});
+
+test("/me after a delivered deck: the job expires as done and the unit stays spent; a unit comes back only once", async (context) => {
+  const site = await studioSite(context);
+  const { cookie, subject } = await browser();
+  const started = await create(site, cookie);
+  const jobId = started.body.jobId as string;
+  site.zai.push(deckAnswer());
+  assert.equal((await slides(site, cookie, jobId)).response.status, 200);
+  expire(site, jobId);
+  assert.deepEqual((await me(site, cookie)).body.free.presentation, { left: 0, limit: 1 });
+  assert.equal(ledger(site, jobId).state, "done");
+
+  // Two /me and a start at once over one expired job: the unit comes back exactly once.
+  const other = await browser();
+  const lost = (await create(site, other.cookie, {}, { ip: "198.51.100.60" })).body.jobId as string;
+  expire(site, lost);
+  const [one, two, next] = await Promise.all([me(site, other.cookie), me(site, other.cookie), create(site, other.cookie, { topic: "Amir Temur" }, { ip: "198.51.100.60" })]);
+  assert.equal(one.response.status, 200);
+  assert.equal(two.response.status, 200);
+  assert.equal(next.response.status, 201, JSON.stringify(next.body));
+  assert.equal(used(site, other.subject, "returned"), 1);
+  assert.equal(used(site, other.subject), 1);
+  assert.equal(ledger(site, lost).state, "released");
+  assert.equal(used(site, subject), 1);
 });
 
 test("the request reader: the cleaned topic, the free shape's limits, unknown fields ignored", () => {

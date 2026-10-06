@@ -121,6 +121,38 @@ function failingOn(db: SqliteD1, pattern: RegExp): D1Database {
   });
 }
 
+/**
+ * A D1 whose statements matching `pattern` run and THEN fail: the write is
+ * committed but its answer is lost (a dropped connection after the commit).
+ */
+function committingThenFailing(db: SqliteD1, pattern: RegExp): D1Database {
+  const d1 = db.asD1();
+  return new Proxy(d1, {
+    get(target, key, receiver) {
+      if (key !== "prepare") return Reflect.get(target, key, receiver);
+      return (sql: string) => {
+        const real = target.prepare(sql);
+        if (!pattern.test(sql)) return real;
+        let bound = real;
+        const lost = async () => {
+          await bound.run();
+          throw new Error("D1_ERROR: Network connection lost.");
+        };
+        const statement = {
+          bind: (...values: unknown[]) => {
+            bound = real.bind(...values);
+            return statement;
+          },
+          run: lost,
+          first: lost,
+          all: lost,
+        };
+        return statement;
+      };
+    },
+  });
+}
+
 function call(over: Partial<CallRecord> = {}): CallRecord {
   return { model: "zai/glm-5.3-flash", maxTokens: 1100, outcome: "ok", valid: true, finishReason: "stop", usage: { input: 900, cachedInput: 0, output: 700, reasoning: 4 }, costMicro: 485, ms: 10, ...over };
 }
@@ -244,7 +276,8 @@ test("a start is idempotent by request id, and a person has one open job at a ti
   assert.equal((await start(db, { subject: subject(5), requestId: id, tool: "photo", shape: "photo", inputMac: OTHER_MAC })).ok, false);
   // A second job while the first is open.
   const second = await start(db, { subject: subject(5), tool: "photo", shape: "photo", now: NOW + 1000 });
-  assert.deepEqual(second, { ok: false, code: "job_in_progress", alerts: [] });
+  // The open job's expiry is when the person can try again.
+  assert.deepEqual(second, { ok: false, code: "job_in_progress", resetsAt: new Date(NOW + JOB_TTL_MS).toISOString(), retryAfterSeconds: Math.ceil((JOB_TTL_MS - 1000) / 1000), alerts: [] });
   assert.equal(counter(db, subject(5), "photo_task"), 1);
   // Once it is done, the next one starts.
   await handOut(db.asD1(), first.job, OUTLINE_BIT, "answer", NOW + 2000);
@@ -504,6 +537,62 @@ test("a row that cannot be written gives the unit back", async () => {
   assert.equal(counter(db, subject(23), "presentation_free"), 0);
 });
 
+test("a row written but its answer lost keeps its unit: the start runs, nothing is handed back twice", async () => {
+  const db = await database();
+  const lost = committingThenFailing(db, /^\s*INSERT INTO studio_unit_ledger/);
+  // Free: the statement committed, then D1 threw.
+  const free = await start(lost, { subject: subject(24) });
+  assert.ok(free.ok, free.ok ? "" : free.code);
+  assert.equal(free.replay, false);
+  assert.equal(row(db, free.job.id).state, "reserved");
+  assert.equal(counter(db, subject(24), "presentation_free"), 1, "the unit stays with the job that holds it");
+  // The same day, no second free deck while that job holds the unit.
+  await releaseJob(db.asD1(), free.job, "expired_empty", NOW + MINUTE);
+  assert.equal(counter(db, subject(24), "presentation_free"), 0);
+  assert.equal(counter(db, subject(24), "returned"), 1);
+  // Paid: presentations_used stays 1, and a later close lowers it exactly once.
+  grant(db, "stu_ent_lost", "acct_studio_24", { presentations: 3 });
+  const paid = await start(lost, { subject: account(24), shape: "full", slides: 12, source: { kind: "entitlement", userId: "acct_studio_24", mode: "live" } });
+  assert.ok(paid.ok, paid.ok ? "" : paid.code);
+  assert.equal(used(db, "stu_ent_lost"), 1);
+  assert.equal(await releaseJob(db.asD1(), paid.job, "expired_empty", NOW + MINUTE), true);
+  assert.equal(await releaseJob(db.asD1(), paid.job, "expired_empty", NOW + 2 * MINUTE), false);
+  assert.equal(used(db, "stu_ent_lost"), 0);
+});
+
+test("two paid starts at once with one request id: one row, one unit", async () => {
+  const db = await database();
+  grant(db, "stu_ent_twice", "acct_studio_25", { presentations: 5 });
+  const id = requestId();
+  const source = { kind: "entitlement" as const, userId: "acct_studio_25", mode: "live" as const };
+  const results = await Promise.all([0, 1].map(() => start(db, { subject: account(25), requestId: id, shape: "full", slides: 12, source })));
+  assert.ok(results.every((result) => result.ok), JSON.stringify(results.map((result) => (result.ok ? "ok" : result.code))));
+  assert.equal(new Set(results.map((result) => (result.ok ? result.job.id : ""))).size, 1);
+  assert.equal(db.value("SELECT COUNT(*) FROM studio_unit_ledger WHERE subject=?", account(25)), 1);
+  assert.equal(used(db, "stu_ent_twice"), 1);
+});
+
+test("the row cannot be written and cannot be read back: studio_busy, the unit held (fail closed), never handed out twice", async (context) => {
+  const logs: string[] = [];
+  context.mock.method(console, "log", (line: unknown) => logs.push(String(line)));
+  const db = await database();
+  // The INSERT fails (before it commits), and so does every read of the
+  // request id after the first one (the replay check, before the unit is taken).
+  const failing = failingOn(db, /^\s*INSERT INTO studio_unit_ledger|request_id=\?/);
+  let reads = 0;
+  const staged = new Proxy(db.asD1(), {
+    get(target, key, receiver) {
+      if (key !== "prepare") return Reflect.get(target, key, receiver);
+      return (sql: string) => (/request_id=\?/.test(sql) && reads++ === 0 ? target.prepare(sql) : failing.prepare(sql));
+    },
+  });
+  const result = await start(staged, { subject: subject(26) });
+  assert.deepEqual(result, { ok: false, code: "studio_busy", alerts: [] });
+  assert.equal(counter(db, subject(26), "presentation_free"), 1, "kept: the row may exist");
+  assert.equal(db.value("SELECT COUNT(*) FROM studio_unit_ledger WHERE subject=?", subject(26)), 0);
+  assert.ok(logs.some((line) => line.includes("free_unit_held")), logs.join("\n"));
+});
+
 // ── Paid units ──────────────────────────────────────────────────────────────
 
 test("a paid unit comes from the live entitlement that ends soonest; the last one goes to one start", async () => {
@@ -611,7 +700,7 @@ test("a settled cost counts once against the free budget; an overrun is counted 
   assert.deepEqual(bucket(db, "2026-10-14", STUDIO_FREE_BUCKET), { reserved_micro: 885, actual_micro: 885 });
   assert.equal(row(db, job.id).cost_micro, 885);
   const young = await freeBudgetGate(db.asD1(), tight, true, NOW + 4000);
-  assert.deepEqual(young, { ok: false, code: "studio_busy", alerts: ["studio_free_budget_80"] });
+  assert.deepEqual(young, { ok: false, code: "studio_busy", alerts: ["studio_free_budget_80"], forTheDay: true });
 });
 
 test("what a call cost: usage when reported, nothing when refused before an answer, the reservation when nobody knows", () => {

@@ -264,14 +264,15 @@ test("identity is issued only after Turnstile, as a valid year-long cookie, with
   assert.ok(await verifyIdentityValue(value, KEYS));
   assert.equal(calls.length, 1);
   assert.equal(calls[0].secret, WIDGET_KEY);
-  // Only the hourly counter of the address was written; nothing in the studio tables.
+  // Only the hourly counters of the address were written (its tries and its
+  // identities); nothing in the studio tables.
   assert.equal(db.value("SELECT COUNT(*) FROM studio_free_usage"), 0);
-  const rows = db.rows<{ action: string; subject: string; count: number }>("SELECT action, subject, count FROM gpt_rate_limits");
-  assert.equal(rows.length, 1);
-  assert.equal(rows[0].action, "studio_identity");
-  assert.equal(rows[0].count, 1);
-  assert.match(rows[0].subject, /^[0-9a-f]{64}$/);
-  assert.ok(!rows[0].subject.includes("203.0.113.7"));
+  const rows = db.rows<{ action: string; subject: string; count: number }>("SELECT action, subject, count FROM gpt_rate_limits ORDER BY action");
+  assert.deepEqual(rows.map((row) => [row.action, row.count]), [["studio_identity", 1], ["studio_identity_try", 1]]);
+  for (const row of rows) {
+    assert.match(row.subject, /^[0-9a-f]{64}$/);
+    assert.ok(!row.subject.includes("203.0.113.7"));
+  }
 });
 
 test("a valid cookie already: {ok} without a new cookie, Turnstile or D1", async (context) => {
@@ -330,7 +331,7 @@ test("fail-closed: no Turnstile secret, no identity secret or no D1 → 503 stud
   assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits"), 0);
 });
 
-test("60 identities an hour per address, counted before Turnstile; an IPv6 /64 is one address", async (context) => {
+test("60 identities an hour per address, counted after Turnstile and read before it; an IPv6 /64 is one address", async (context) => {
   const calls = siteverify(context, PASS);
   const db = await database();
   assert.equal(STUDIO_RATE.identity.limit, 60);
@@ -342,9 +343,71 @@ test("60 identities an hour per address, counted before Turnstile; an IPv6 /64 i
   assert.equal(over.status, 429);
   assert.equal((await over.json()).code, "rate_limited");
   assert.ok(Number(over.headers.get("retry-after")) > 0);
+  // The full hour is read before Turnstile: the 61st costs no Siteverify call.
   assert.equal(calls.length, 60);
+  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity'"), 60);
   // Another network is not affected.
   assert.equal((await call(identityEndpoint, identityRequest({ ip: "2001:db8:1:3::1" }), endpointEnv(db))).status, 200);
+});
+
+/** Siteverify that passes "token-ok" only; every other token fails. */
+function siteverifyByToken(context: TestContext) {
+  const calls: string[] = [];
+  context.mock.method(globalThis, "fetch", async (_url: string | URL | Request, init?: RequestInit) => {
+    const response = String((init?.body as FormData).get("response"));
+    calls.push(response);
+    return Response.json(response === "token-ok" ? PASS : { success: false, "error-codes": ["invalid-input-response"] });
+  });
+  return calls;
+}
+
+test("requests without a valid token never fill the address's identities: a neighbour behind the same NAT still gets one", async (context) => {
+  const calls = siteverifyByToken(context);
+  const db = await database();
+  const shared = "203.0.113.77";
+  // 70 posts with no token at all: refused before Siteverify, never counted as identities.
+  for (let i = 0; i < 70; i++) {
+    const response = await call(identityEndpoint, identityRequest({ ip: shared, body: { turnstileToken: "" } }), endpointEnv(db));
+    assert.equal(response.status, 403, `tokenless ${i}`);
+    assert.equal((await response.json()).code, "turnstile_required");
+  }
+  assert.equal(calls.length, 0);
+  // Malformed tokens cost a Siteverify call each, and are refused there; they are not identities either.
+  for (let i = 0; i < 5; i++) {
+    const response = await call(identityEndpoint, identityRequest({ ip: shared, body: { turnstileToken: `garbage-${i}` } }), endpointEnv(db));
+    assert.equal((await response.json()).code, "turnstile_failed");
+  }
+  assert.equal(calls.length, 5);
+  assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='studio_identity'"), 0);
+  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity_try'"), 75);
+  // A real visitor behind the same address passes Turnstile and gets an identity.
+  const visitor = await call(identityEndpoint, identityRequest({ ip: shared }), endpointEnv(db));
+  assert.equal(visitor.status, 200);
+  assert.match(visitor.headers.get("set-cookie") ?? "", /^__Host-studio_bid=v1\./);
+  assert.equal(calls.length, 6);
+  assert.deepEqual(calls.slice(-1), ["token-ok"]);
+  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity'"), 1);
+});
+
+test("past 600 tries an hour per address: 429 before Siteverify, and the tries never count as identities", async (context) => {
+  const calls = siteverifyByToken(context);
+  const db = await database();
+  assert.deepEqual(STUDIO_RATE.identityTry, { action: "studio_identity_try", limit: 600, windowMs: HOUR });
+  // The hour's 600 tries are spent (seeded, so the test does not post 600 times).
+  const tried = await call(identityEndpoint, identityRequest({ ip: "203.0.113.78", body: { turnstileToken: "" } }), endpointEnv(db));
+  assert.equal((await tried.json()).code, "turnstile_required");
+  db.exec("UPDATE gpt_rate_limits SET count=600 WHERE action='studio_identity_try'");
+  for (const token of ["", "garbage", "token-ok"]) {
+    const over = await call(identityEndpoint, identityRequest({ ip: "203.0.113.78", body: { turnstileToken: token } }), endpointEnv(db));
+    assert.equal(over.status, 429, token);
+    assert.equal((await over.json()).code, "rate_limited");
+    assert.ok(Number(over.headers.get("retry-after")) > 0);
+    assert.equal(over.headers.get("set-cookie"), null);
+  }
+  assert.equal(calls.length, 0);
+  assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='studio_identity'"), 0);
+  // Another address has its own tries.
+  assert.equal((await call(identityEndpoint, identityRequest({ ip: "203.0.113.79" }), endpointEnv(db))).status, 200);
 });
 
 test("a counter D1 cannot write refuses (503): degraded is never a pass", async (context) => {

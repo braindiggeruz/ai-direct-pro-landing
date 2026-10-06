@@ -24,12 +24,19 @@ import {
   STUDIO_FREE_BUCKET,
   STUDIO_RATE,
   freeBudgetGate,
+  identityRoom,
   paceIdentity,
+  paceIdentityTry,
   paceJobStart,
+  paceSiteJobStart,
   recordStudioAlerts,
+  siteJobRoom,
   studioAddress,
+  type StudioAlert,
 } from "../functions/lib/studio/limits";
 import { STUDIO_BID_COOKIE, mintIdentity, verifyIdentityValue } from "../functions/lib/studio/identity";
+import { URGENT_ALERT_PATTERNS, alertRowId, alertText, isUrgentAlert } from "../functions/lib/gpt-chat/alert-policy";
+import { deliverServiceAlerts } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { releaseJob, startJob } from "../functions/lib/studio/jobs";
 import { onRequest as meEndpoint } from "../functions/api/studio/me";
 import { onRequest as identityEndpoint } from "../functions/api/studio/identity";
@@ -135,12 +142,14 @@ test("the IP ceiling binds young identities only, atomically, and a refusal cost
   assert.ok(subjects.every((value) => /^(b:[0-9a-f]{32}|ip:[0-9a-f]{64}|all)$/.test(value)), subjects.join());
 });
 
-test("the ramp's ceiling: past STUDIO_RAMP_DECKS_DAILY decks a day the site is busy; photos are not ramped", async () => {
+test("the ramp's ceiling: past STUDIO_RAMP_DECKS_DAILY decks a day the site is busy until 05:00 Tashkent; photos are not ramped", async () => {
   const db = await database();
   const ramp = config({ STUDIO_RAMP_DECKS_DAILY: "3" });
   for (let i = 0; i < 3; i++) assert.equal((await admit(db, { config: ramp, subject: subject(i) })).ok, true);
   const fourth = await admit(db, { config: ramp, subject: subject(3) });
-  assert.deepEqual(fourth, { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: ["studio_ramp_full"] });
+  // Closed for the rest of the free day: the reset time and a Retry-After to it, not "a minute".
+  const untilReset = Math.ceil((nextFreeResetAt(NOW) - NOW) / 1000);
+  assert.deepEqual(fourth, { ok: false, code: "studio_busy", resetsAt: new Date(nextFreeResetAt(NOW)).toISOString(), retryAfterSeconds: untilReset, alerts: ["studio_ramp_full"] });
   assert.equal(counter(db, subject(3), "presentation_free"), 0);
   assert.equal(counter(db, SITE_SUBJECT, "presentation_free"), 3);
   for (let i = 0; i < 10; i++) assert.equal((await admit(db, { config: ramp, subject: subject(i), unit: "photo_task" })).ok, true);
@@ -160,7 +169,7 @@ test("the site counter alerts once when it reaches STUDIO_FREE_ALERT_DECKS, and 
   assert.deepEqual(photos.map((result) => result.alerts), [[], ["studio_free_photos_high"]]);
 });
 
-test("the free budget: spent → busy for all; from 80% young identities are refused and the owner is told", async () => {
+test("the free budget: spent → busy for all until 05:00; from 80% young identities are refused and the owner is told", async () => {
   const db = await database();
   const budget = config({ STUDIO_RAMP_DECKS_DAILY: "", STUDIO_FREE_DAILY_USD: "0.3" }); // 300 000 micro-USD
   // reserved_micro is the committed total (open reservations and settled
@@ -170,15 +179,16 @@ test("the free budget: spent → busy for all; from 80% young identities are ref
   spend(db, 200_000, 200_000);
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: true, alerts: [] });
   spend(db, 240_000, 40_000);
-  assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: false, code: "studio_busy", alerts: ["studio_free_budget_80"] });
+  assert.deepEqual(await freeBudgetGate(db.asD1(), budget, true, NOW), { ok: false, code: "studio_busy", alerts: ["studio_free_budget_80"], forTheDay: true });
   assert.deepEqual(await freeBudgetGate(db.asD1(), budget, false, NOW), { ok: true, alerts: ["studio_free_budget_80"] });
   const youngRefused = await admit(db, { config: budget, subject: subject(1), young: true });
-  assert.deepEqual(youngRefused, { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: ["studio_free_budget_80"] });
+  const untilReset = { resetsAt: new Date(nextFreeResetAt(NOW)).toISOString(), retryAfterSeconds: Math.ceil((nextFreeResetAt(NOW) - NOW) / 1000) };
+  assert.deepEqual(youngRefused, { ok: false, code: "studio_busy", ...untilReset, alerts: ["studio_free_budget_80"] });
   assert.equal(counter(db, subject(1), "presentation_free"), 0);
   assert.deepEqual(await admit(db, { config: budget, subject: subject(2) }), { ok: true, day: freeDay(NOW), alerts: ["studio_free_budget_80"] });
   spend(db, 300_000, 300_000);
   for (const young of [true, false]) {
-    assert.deepEqual(await admit(db, { config: budget, subject: subject(3), young }), { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: ["studio_free_budget_spent"] });
+    assert.deepEqual(await admit(db, { config: budget, subject: subject(3), young }), { ok: false, code: "studio_busy", ...untilReset, alerts: ["studio_free_budget_spent"] });
   }
   // Another day's or another bucket's spend does not count.
   spend(db, 300_000, 0, "2026-10-13");
@@ -186,9 +196,11 @@ test("the free budget: spent → busy for all; from 80% young identities are ref
   spend(db, 300_000, 0, freeDay(NOW), "studio_paid");
   assert.equal((await freeBudgetGate(db.asD1(), budget, true, NOW)).ok, true);
   // A budget of 0 hands out nothing; an unreadable budget refuses.
-  assert.equal((await freeBudgetGate(db.asD1(), config({ STUDIO_FREE_DAILY_USD: "0" }), false, NOW)).ok, false);
+  assert.deepEqual(await freeBudgetGate(db.asD1(), config({ STUDIO_FREE_DAILY_USD: "0" }), false, NOW), { ok: false, code: "studio_busy", alerts: [], forTheDay: true });
   db.exec("DROP TABLE gpt_model_spend");
-  assert.deepEqual(await freeBudgetGate(db.asD1(), budget, false, NOW), { ok: false, code: "studio_busy", alerts: [] });
+  // An unreadable budget is a refusal for now (a short busy, no reset time), not for the day.
+  assert.deepEqual(await freeBudgetGate(db.asD1(), budget, false, NOW), { ok: false, code: "studio_busy", alerts: [], forTheDay: false });
+  assert.deepEqual(await admit(db, { config: budget, subject: subject(5) }), { ok: false, code: "studio_busy", retryAfterSeconds: 60, alerts: [] });
 });
 
 test("handing a unit back goes through the ledger: the person's own counter only, plus 'returned'; 5 a day, then try_later", async () => {
@@ -290,26 +302,73 @@ test("a D1 failure is a refusal at every step, and what the call took is given b
 
 // ── Rate buckets ────────────────────────────────────────────────────────────
 
-test("job starts: 6 in 10 minutes per subject (429), STUDIO_JOB_GLOBAL_PER_MIN for the site (503); degraded refuses", async () => {
+test("job starts: 6 in 10 minutes per subject (429); the site's STUDIO_JOB_GLOBAL_PER_MIN is read apart and counted apart (503); degraded refuses", async () => {
   const db = await database();
   const site = config({ STUDIO_JOB_GLOBAL_PER_MIN: "20" });
   assert.deepEqual(STUDIO_RATE.job, { action: "studio_job", limit: 6, windowMs: 600_000 });
-  for (let i = 0; i < 6; i++) assert.deepEqual(await paceJobStart(db.asD1(), subject(1), site, NOW + i * 1000), { ok: true });
-  const seventh = await paceJobStart(db.asD1(), subject(1), site, NOW + 7000);
+  for (let i = 0; i < 6; i++) assert.deepEqual(await paceJobStart(db.asD1(), subject(1), NOW + i * 1000), { ok: true });
+  const seventh = await paceJobStart(db.asD1(), subject(1), NOW + 7000);
   assert.equal(seventh.ok ? "" : seventh.code, "rate_limited");
-  // The subject's refusal did not count for the site: 6 used of 20.
-  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_job_global'"), 6);
+  // The person's own pace never touches the site's counter.
+  assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='studio_job_global'"), 0);
+  assert.deepEqual(await siteJobRoom(db.asD1(), site, NOW), { ok: true });
   const busy = config({ STUDIO_JOB_GLOBAL_PER_MIN: "3" });
   const fresh = await database();
   const results = [];
-  for (let i = 0; i < 4; i++) results.push(await paceJobStart(fresh.asD1(), subject(10 + i), busy, NOW));
+  for (let i = 0; i < 4; i++) results.push(await paceSiteJobStart(fresh.asD1(), busy, NOW));
   assert.deepEqual(results.map((result) => (result.ok ? "ok" : result.code)), ["ok", "ok", "ok", "studio_busy"]);
+  // Reading the room counts nothing; a full minute reads as full until it rolls over.
+  const count = () => fresh.value("SELECT count FROM gpt_rate_limits WHERE action='studio_job_global'");
+  const before = count();
+  const full = await siteJobRoom(fresh.asD1(), busy, NOW);
+  assert.equal(full.ok ? "" : full.code, "studio_busy");
+  assert.ok(!full.ok && full.retryAfterSeconds > 0 && full.retryAfterSeconds <= 60);
+  assert.equal(count(), before);
   // The next minute opens again.
-  assert.deepEqual(await paceJobStart(fresh.asD1(), subject(20), busy, NOW + 60_000), { ok: true });
+  assert.deepEqual(await siteJobRoom(fresh.asD1(), busy, NOW + 60_000), { ok: true });
+  assert.deepEqual(await paceSiteJobStart(fresh.asD1(), busy, NOW + 60_000), { ok: true });
   fresh.exec("DROP TABLE gpt_rate_limits");
-  const degraded = await paceJobStart(fresh.asD1(), subject(21), busy, NOW);
+  const degraded = await paceJobStart(fresh.asD1(), subject(21), NOW);
   assert.deepEqual(degraded, { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
+  // An unreadable counter is a refusal too, for every counter, read or counted.
+  assert.deepEqual(await siteJobRoom(fresh.asD1(), busy, NOW), { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
+  assert.deepEqual(await paceSiteJobStart(fresh.asD1(), busy, NOW), { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
   assert.deepEqual(await paceIdentity(fresh.asD1(), ADDRESS, NOW), { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
+  assert.deepEqual(await paceIdentityTry(fresh.asD1(), ADDRESS, NOW), { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
+  assert.deepEqual(await identityRoom(fresh.asD1(), ADDRESS, NOW), { ok: false, code: "studio_busy", retryAfterSeconds: 60 });
+});
+
+test("the site's start pace passed to the admission counts last: a start refused by its own unit, the IP ceiling or the ramp never counts; a full minute gives the unit back", async () => {
+  const db = await database();
+  const tight = config({ STUDIO_RAMP_DECKS_DAILY: "2", STUDIO_IP_YOUNG_DECKS: "1", STUDIO_JOB_GLOBAL_PER_MIN: "2" });
+  let paced = 0;
+  const sitePace = async () => {
+    paced++;
+    return paceSiteJobStart(db.asD1(), tight, NOW);
+  };
+  const siteCount = () => Number(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_job_global'") ?? 0);
+  assert.equal((await admitFreeUnit(db.asD1(), { config: tight, subject: subject(1), young: false, address: ADDRESS, unit: "presentation_free", now: NOW, sitePace })).ok, true);
+  assert.equal(siteCount(), 1);
+  // Its own unit is spent: free_limit, the site's minute untouched.
+  const again = await admitFreeUnit(db.asD1(), { config: tight, subject: subject(1), young: false, address: ADDRESS, unit: "presentation_free", now: NOW, sitePace });
+  assert.equal(again.ok ? "" : again.code, "free_limit");
+  // The IP ceiling of young identities: refused before the site counts.
+  assert.equal((await admitFreeUnit(db.asD1(), { config: tight, subject: subject(2), young: true, address: ADDRESS, unit: "presentation_free", now: NOW, sitePace })).ok, true);
+  const ceiling = await admitFreeUnit(db.asD1(), { config: tight, subject: subject(3), young: true, address: ADDRESS, unit: "presentation_free", now: NOW, sitePace });
+  assert.equal(ceiling.ok ? "" : ceiling.code, "ip_ceiling");
+  assert.equal(siteCount(), 2);
+  assert.equal(paced, 2);
+  // The ramp is full (2): refused for the day, not counted.
+  const ramp = await admitFreeUnit(db.asD1(), { config: tight, subject: subject(4), young: false, address: ADDRESS, unit: "presentation_free", now: NOW, sitePace });
+  assert.ok(!ramp.ok && ramp.code === "studio_busy" && ramp.resetsAt);
+  assert.equal(paced, 2);
+  // The minute is full: the unit and the site's free counter go back; a short busy.
+  const open = config({ STUDIO_RAMP_DECKS_DAILY: "", STUDIO_JOB_GLOBAL_PER_MIN: "2" });
+  const busy = await admitFreeUnit(db.asD1(), { config: open, subject: subject(5), young: true, address: OTHER_ADDRESS, unit: "presentation_free", now: NOW, sitePace });
+  assert.deepEqual(busy, { ok: false, code: "studio_busy", retryAfterSeconds: Math.ceil((60_000 - (NOW % 60_000)) / 1000) || 60, alerts: [] });
+  assert.equal(counter(db, subject(5), "presentation_free"), 0);
+  assert.equal(counter(db, ipSubject(OTHER_ADDRESS), "presentation_free"), 0);
+  assert.equal(counter(db, SITE_SUBJECT, "presentation_free"), 2);
 });
 
 test("the address key is the chat's IP hash of the /64, never the address", async () => {
@@ -322,17 +381,53 @@ test("the address key is the chat's IP hash of the /64, never the address", asyn
   assert.match(ipSubject(one), /^ip:[0-9a-f]{64}$/);
 });
 
-test("alerts are recorded once an hour per code, with nothing but the code; a failure is swallowed", async (context) => {
+test("alerts are recorded once a day per code, with nothing but the code; a failure is swallowed", async (context) => {
   context.mock.method(console, "warn", () => undefined);
   const db = await database();
   await recordStudioAlerts({ GPTBOT_DRAFTS_DB: db.asD1() }, ["studio_free_budget_80", "studio_free_budget_80", "studio_ramp_full"], NOW);
   await recordStudioAlerts({ GPTBOT_DRAFTS_DB: db.asD1() }, ["studio_free_budget_80"], NOW + 60_000);
+  // The state lasts the UTC day: three hours later it is still the same row.
+  await recordStudioAlerts({ GPTBOT_DRAFTS_DB: db.asD1() }, ["studio_ramp_full"], NOW + 3 * 3_600_000);
   const rows = db.rows<{ org_id: string; code: string }>("SELECT org_id, code FROM gpt_service_alerts ORDER BY code");
   assert.deepEqual(rows.map((row) => row.code), ["studio_free_budget_80", "studio_ramp_full"]);
   assert.ok(rows.every((row) => row.org_id === STUDIO_ORG));
   db.exec("DROP TABLE gpt_service_alerts");
   await recordStudioAlerts({ GPTBOT_DRAFTS_DB: db.asD1() }, ["studio_ramp_full"], NOW);
   await recordStudioAlerts({}, ["studio_ramp_full"], NOW);
+});
+
+test("every studio alert pages the owner, once a UTC day; no studio_* glob", async (context) => {
+  const studioCodes: StudioAlert[] = ["studio_paid_stop", "studio_free_budget_spent", "studio_ramp_full", "studio_free_budget_80", "studio_free_decks_high", "studio_free_photos_high"];
+  for (const code of studioCodes) {
+    assert.equal(isUrgentAlert(code), true, code);
+    assert.equal(alertRowId(code, NOW), `${code}:d${Math.floor(NOW / 86_400_000)}`, code);
+    assert.equal(alertRowId(code, NOW + 3 * 3_600_000), alertRowId(code, NOW), code);
+    assert.match(alertText(code) ?? "", /^Студия: /, code);
+  }
+  // Named one by one: an unknown studio code stays background.
+  assert.ok(!URGENT_ALERT_PATTERNS.some((pattern) => pattern.startsWith("studio") && pattern.endsWith("*")));
+  assert.equal(isUrgentAlert("studio_something_else"), false);
+
+  context.mock.method(console, "warn", () => undefined);
+  const sent: Array<{ text: string }> = [];
+  context.mock.method(globalThis, "fetch", async (input: RequestInfo | URL, init?: RequestInit) => {
+    assert.equal(new URL(input instanceof Request ? input.url : String(input)).host, "api.telegram.org");
+    sent.push(JSON.parse(String(init?.body)));
+    return Response.json({ ok: true, result: { message_id: sent.length } });
+  });
+  const db = await database();
+  const env = { GPTBOT_DRAFTS_DB: db.asD1(), GPT_NOTIFY_BOT_TOKEN: "notify-bot-material-for-studio-alert-tests", GPT_NOTIFY_CHAT_ID: "424242" };
+  await recordStudioAlerts(env, ["studio_paid_stop", "studio_ramp_full"], NOW);
+  const delivered = await deliverServiceAlerts(env as never, NOW + 60_000);
+  assert.equal(delivered.status, "sent");
+  assert.deepEqual([...delivered.codes].sort(), ["studio_paid_stop", "studio_ramp_full"]);
+  assert.equal(sent.length, 1);
+  assert.match(sent[0].text, /studio_paid_stop — Студия: аварийный стоп платного/);
+  assert.match(sent[0].text, /studio_ramp_full — Студия: потолок разгона/);
+  // The rest of the day the same state records nothing new and pages nobody.
+  await recordStudioAlerts(env, ["studio_paid_stop"], NOW + 5 * 3_600_000);
+  assert.deepEqual(await deliverServiceAlerts(env as never, NOW + 5 * 3_600_000 + 60_000), { status: "idle", codes: [] });
+  assert.equal(sent.length, 1);
 });
 
 // ── GET /api/studio/me ──────────────────────────────────────────────────────

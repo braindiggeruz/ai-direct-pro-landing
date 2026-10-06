@@ -12,11 +12,19 @@
 //   1. the subject's own unit  (STUDIO_FREE_DAILY)            → 429 free_limit
 //   2. young only: the address (STUDIO_IP_YOUNG_*)            → 429 ip_ceiling
 //   3. the site                (STUDIO_RAMP_DECKS_DAILY, decks) → 503 studio_busy
+//      until 05:00 Tashkent (resetsAt)
+//   4. the site's start pace, when the caller passes it (limits.ts
+//      paceSiteJobStart, through jobs.ts startJob)             → 503 studio_busy
+//      Last, so no start refused by 1–3 counts against everybody's minute.
 // Each counter refuses at its limit inside the statement, so any number of
 // parallel requests in any number of isolates cannot pass it. A step that
 // refuses gives back what the earlier steps of the same call took: a refused
 // request costs nobody a unit, and the site counter never counts refusals.
-// Before that, the budget (limits.ts) and the 'returned' cap (5 a day) are read.
+// Before that, the budget (limits.ts; spent, or 80% for a young identity →
+// 503 studio_busy until 05:00 Tashkent, resetsAt) and the 'returned' cap
+// (5 a day) are read. Only a D1 failure is a short studio_busy (60 s, no
+// resetsAt): the closures above last the rest of the free day, and saying
+// "try again shortly" would send people into retries that cannot pass.
 //
 // Handing a unit back after a reservation lowers only the subject's own
 // counter and adds one to 'returned'. It happens only inside the ledger's
@@ -30,7 +38,7 @@
 import { STUDIO_FREE_DAILY } from "./plans";
 import type { StudioConfig } from "./config";
 import type { StudioErrorCode } from "./http";
-import { freeBudgetGate, ipCeiling, rampCeiling, siteAlertAt, siteAlertCode, type StudioAlert } from "./limits";
+import { freeBudgetGate, ipCeiling, rampCeiling, siteAlertAt, siteAlertCode, type LimitVerdict, type StudioAlert } from "./limits";
 import { STUDIO_ORG } from "./schema";
 
 /** What /config and /me say about the reset, and the offer's «Сутки». */
@@ -145,6 +153,13 @@ export interface FreeAdmissionInput {
   readonly address: string;
   readonly unit: FreeUnit;
   readonly now?: number;
+  /**
+   * The site's start pace (limits.ts paceSiteJobStart), counted after every
+   * counter above passed: a start refused by the person's own unit, the IP
+   * ceiling or the ramp never counts for the site. A refusal gives back what
+   * this call took (a short studio_busy, without resetsAt).
+   */
+  readonly sitePace?: () => Promise<LimitVerdict>;
 }
 
 export type FreeAdmission =
@@ -152,7 +167,12 @@ export type FreeAdmission =
   | {
       readonly ok: false;
       readonly code: Extract<StudioErrorCode, "free_limit" | "ip_ceiling" | "try_later" | "studio_busy">;
-      /** For free_limit, ip_ceiling and try_later: the next reset (00:00 UTC), ISO. */
+      /**
+       * The next reset (00:00 UTC, 05:00 Tashkent), ISO: for free_limit,
+       * ip_ceiling and try_later, and for a studio_busy that lasts the rest of
+       * the day (the ramp is full, the budget is spent or closed to young
+       * identities). A short studio_busy (D1, the site's start pace) has none.
+       */
       readonly resetsAt?: string;
       readonly retryAfterSeconds: number;
       readonly alerts: readonly StudioAlert[];
@@ -174,14 +194,20 @@ export async function admitFreeUnit(db: D1Database, input: FreeAdmissionInput): 
   const untilReset = Math.max(1, Math.ceil((resetAt - now) / 1000));
   const store = new FreeUsageStore(db);
   const alerts: StudioAlert[] = [];
-  const refuse = (code: "free_limit" | "ip_ceiling" | "try_later" | "studio_busy"): FreeAdmission =>
-    code === "studio_busy"
-      ? { ok: false, code, retryAfterSeconds: BUSY_RETRY_SECONDS, alerts }
-      : { ok: false, code, resetsAt: new Date(resetAt).toISOString(), retryAfterSeconds: untilReset, alerts };
+  /** Refused until the free day ends: the reset time and a Retry-After to it. */
+  const refuse = (code: "free_limit" | "ip_ceiling" | "try_later" | "studio_busy"): FreeAdmission => ({
+    ok: false,
+    code,
+    resetsAt: new Date(resetAt).toISOString(),
+    retryAfterSeconds: untilReset,
+    alerts,
+  });
+  /** Refused for now: D1 or the site's start pace; worth another try soon. */
+  const busy = (retryAfterSeconds = BUSY_RETRY_SECONDS): FreeAdmission => ({ ok: false, code: "studio_busy", retryAfterSeconds, alerts });
 
   const budget = await freeBudgetGate(db, config, young, now);
   alerts.push(...budget.alerts);
-  if (!budget.ok) return refuse("studio_busy");
+  if (!budget.ok) return budget.forTheDay ? refuse("studio_busy") : busy();
 
   // What this call took, to give back if a later step refuses or D1 fails.
   const taken: Array<[subject: string, unit: FreeUnit]> = [];
@@ -214,25 +240,64 @@ export async function admitFreeUnit(db: D1Database, input: FreeAdmissionInput): 
     if (site === null) {
       alerts.push("studio_ramp_full");
       await giveBack();
+      // The ramp holds until the free day ends: say when, not "shortly".
       return refuse("studio_busy");
+    }
+    taken.push([SITE_SUBJECT, unit]);
+
+    // Last, once every cheap refusal is behind: the start counts for the site.
+    if (input.sitePace) {
+      const pace = await input.sitePace();
+      if (!pace.ok) {
+        await giveBack();
+        return busy(pace.retryAfterSeconds);
+      }
     }
     if (site === siteAlertAt(config, unit)) alerts.push(siteAlertCode(unit));
     return { ok: true, day, alerts };
   } catch {
     await giveBack();
-    return refuse("studio_busy");
+    return busy();
   }
 }
 
+export interface FreeUnitLeft {
+  readonly left: number;
+  readonly limit: number;
+  /**
+   * An open job of the person still holds one of these units (ISO, when
+   * it expires): it may still be delivered, or it comes back then. Absent
+   * when no open free job holds one.
+   */
+  readonly openUntil?: string;
+}
+
 export interface FreeLeft {
-  readonly presentation: { readonly left: number; readonly limit: number };
-  readonly photo: { readonly left: number; readonly limit: number };
+  readonly presentation: FreeUnitLeft;
+  readonly photo: FreeUnitLeft;
   readonly resetsAt: string;
 }
 
-/** What /me shows: the free units a subject has left today (the full limits without a subject). */
-export async function freeLeft(db: D1Database | null, subject: string | null, now = Date.now()): Promise<FreeLeft> {
+/** An open job as freeLeft reads it (jobs.ts expireOwnJobs `open`). */
+export interface OpenFreeJob {
+  readonly unit: string;
+  readonly source: string;
+  readonly expiresAt: number;
+}
+
+/**
+ * What /me shows: the free units a subject has left today (the full limits
+ * without a subject), and until when an open free job still holds one.
+ */
+export async function freeLeft(db: D1Database | null, subject: string | null, now = Date.now(), open: readonly OpenFreeJob[] = []): Promise<FreeLeft> {
   const used = db && subject ? await new FreeUsageStore(db).usedFree(freeDay(now), subject) : { presentation_free: 0, photo_task: 0 };
-  const left = (unit: FreeUnit) => ({ left: Math.max(0, STUDIO_FREE_DAILY[unit] - used[unit]), limit: STUDIO_FREE_DAILY[unit] });
+  const left = (unit: FreeUnit): FreeUnitLeft => {
+    const holding = open.filter((job) => job.source === "free" && job.unit === unit && job.expiresAt > now).map((job) => job.expiresAt);
+    return {
+      left: Math.max(0, STUDIO_FREE_DAILY[unit] - used[unit]),
+      limit: STUDIO_FREE_DAILY[unit],
+      ...(holding.length ? { openUntil: new Date(Math.min(...holding)).toISOString() } : {}),
+    };
+  };
   return { presentation: left("presentation_free"), photo: left("photo_task"), resetsAt: FREE_RESETS_AT };
 }
