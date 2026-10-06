@@ -152,12 +152,14 @@ test('the gate reads a built dist/ and its baseline, and refuses a build without
   assert.equal(readBaseline(baselineFile)?.startCssBytes, 1);
 });
 
-test('the recorded baseline is within budget and knows the three parts', () => {
+test('the recorded baseline is within budget and knows the lazy parts of the release it was recorded from', () => {
   const recorded = readBaseline();
   assert.ok(recorded, `${BASELINE_FILE} is committed`);
   assert.equal(recorded.entry, ENTRIES.chat);
   assert.ok(recorded.startBytes > 50_000 && recorded.startBytes <= CHAT_BUDGET.start, `start ${recorded.startBytes}`);
-  assert.deepEqual(Object.keys(recorded.parts).sort(), ['chat-account', 'chat-lead', 'chat-tools']);
+  // Recorded from production 20229600 (chat design release, 5ed62fda): the three
+  // parts of R-S1 plus chat-answer, chat-limit, chat-role and chat-turnstile.
+  assert.deepEqual(Object.keys(recorded.parts).sort(), ['chat-account', 'chat-answer', 'chat-lead', 'chat-limit', 'chat-role', 'chat-tools', 'chat-turnstile']);
   for (const [name, bytes] of Object.entries(recorded.parts)) assert.ok(bytes > 0 && bytes <= CHAT_BUDGET.lazyPart, name);
 });
 
