@@ -115,6 +115,41 @@
     },
     {
       "type": "h2",
+      "text": "O‘qish uchun AI: qo‘llanmalar"
+    },
+    {
+      "type": "linkp",
+      "text": "Bepul AI chatdan o‘qishda halol foydalanish bo‘yicha bosqichma-bosqich qo‘llanmalar: {slayd}, {referat}, {insho} va ishga hujjat topshirish uchun {rezyume}. Sun’iy intellekt bilan suhbat qanday ishlashini bilmoqchi bo‘lsangiz, {aichat} maqolasidan boshlang.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd va taqdimot tayyorlash"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish yozish"
+        },
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish rejasi"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash namunasi"
+        },
+        {
+          "token": "aichat",
+          "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "anchor": "AI-chat nima — oddiy tushuntirish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "text": "Asosiy xulosalar"
     },
     {

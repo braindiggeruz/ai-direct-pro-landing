@@ -91,6 +91,37 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {insho} va {rezyume}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
+        },
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash"
+        },
+        {
+          "token": "aichat",
+          "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "anchor": "AI-chat nima va uning turlari"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "AI kabinet: bo‘sh chat o‘rniga tayyor ssenariylar"
     },

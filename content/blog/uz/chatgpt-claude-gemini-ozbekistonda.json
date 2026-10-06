@@ -8,7 +8,7 @@
   "h1":"ChatGPT, Claude va Gemini: O‘zbekistonda qaysi AI chatni tanlash kerak?",
   "topicCluster":"chatgpt-uzbek-tilida",
   "targetMoneyPage":"/uz/gpt-uzbek-tilida/",
-  "keywords":["claude in uzbekistan","chatgpt yoki gemini","claude uzbekistan","ai chat taqqoslash","chatgpt uzbek tilida"],
+  "keywords":["claude in uzbekistan","chatgpt yoki gemini","claude uzbekistan","ai chat taqqoslash"],
   "intro":"Bitta «eng yaxshi» AI chat yo‘q: tanlov vazifa, til, integratsiya, maxfiylik va joriy tarifga bog‘liq. 2026-yil 30-iyul holatiga rasmiy manbalar ChatGPT, Claude va Gemini xizmatlarining O‘zbekistonda mavjudligini ko‘rsatadi, lekin funksiyalar va limitlar reja hamda qurilmaga qarab o‘zgarishi mumkin.",
   "body":[
     {"type":"figure","src":"/assets/blog/chatgpt-claude-gemini-ozbekistonda-1200.webp","srcSet":"/assets/blog/chatgpt-claude-gemini-ozbekistonda-480.webp 480w, /assets/blog/chatgpt-claude-gemini-ozbekistonda-800.webp 800w, /assets/blog/chatgpt-claude-gemini-ozbekistonda-1200.webp 1200w","sizes":"(max-width: 768px) 100vw, 768px","alt":"Uch xil AI yordamchi variantini teng mezonlarda taqqoslayotgan mutaxassis","width":1200,"height":630,"loading":"eager","caption":"Servisni nomi bo‘yicha emas, real vazifa va xavfsizlik talabi bo‘yicha tanlang."},
@@ -33,6 +33,7 @@
     {"type":"p","text":"AI chat yuridik, tibbiy yoki moliyaviy mutaxassis o‘rnini bosmaydi. Muhim qaror uchun javobni birlamchi hujjat va mas’ul inson tekshirishi kerak."},
     {"type":"h2","id":"tanlov","text":"5 qadamda to‘g‘ri AI chatni tanlash"},
     {"type":"list","items":["Birinchi navbatda uchta eng ko‘p takrorlanadigan vazifani yozing.","Maxfiy ma’lumotni olib tashlagan test to‘plamini tayyorlang.","Har bir servisga aynan bir xil prompt bering.","Sifat, vaqt, tekshiruv va yakuniy xarajatni baholang.","Bitta jarayonda ikki hafta pilot o‘tkazib, keyin qaror qiling."]},
+    {"type":"linkp","text":"AI chatning o‘zi qanday turlarga bo‘linishi — umumiy yordamchi va kompaniya bilimlari bilan sozlangan biznes chat — {aichat} maqolasida yozilgan.","links":[{"token":"aichat","target":"/uz/blog/ai-chat-nima-va-qanday-turlari-bor/","anchor":"AI-chat turlari va tanlash mezonlari"}]},
     {"type":"linkp","text":"O‘zbekcha ishlashni darhol {chat}da tekshirish, tayyor testlar uchun {prompts}dan foydalanish, o‘rnatish yo‘li uchun {download}ni o‘qish mumkin.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"mustaqil o‘zbek tilidagi AI chat"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta o‘zbekcha prompt"},{"token":"download","target":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","anchor":"telefon va kompyuter qo‘llanmasi"}]},
     {"type":"p","text":"GPTBot.uz mustaqil AI-xizmat; OpenAI, ChatGPT, Anthropic, Claude, Google yoki Gemini’ning rasmiy mahsuloti emas."},
     {"type":"cta","text":"O‘zbek tilida AI chatni sinab ko‘rish","href":"/uz/gpt-uzbek-tilida/"}

@@ -6,8 +6,6 @@
   "pageType": "blog",
   "primaryKeyword": "gpt o‘zbek tilida",
   "secondaryKeywords": [
-    "chatgpt tarjima",
-    "chatgpt o‘zbekcha tarjima",
     "Uzbek Latin AI"
   ],
   "searchIntent": "informational",
@@ -46,6 +44,7 @@
     { "type": "p", "text": "GPT — generativ til modeli (Generative Pre-trained Transformer). U katta hajmdagi matnlardagi bog‘lanishlarni o‘rgangan sun’iy intellekt tizimi bo‘lib, so‘rov va suhbat kontekstiga qarab yangi javob yaratadi. «GPT o‘zbek tilida» degani — siz vazifani o‘zbek tilida yozasiz va javobni ham o‘zbek tilida olasiz." },
     { "type": "h3", "text": "GPT va ChatGPT: farqi nimada?" },
     { "type": "p", "text": "GPT — texnologiya turi yoki til modellari oilasi. ChatGPT — GPT modellaridan foydalanadigan mashhur chat mahsuloti. AI chat esa inson model bilan muloqot qiladigan interfeys. Boshqa xizmatlar ham o‘z yoki uchinchi tomon modellaridan foydalanishi mumkin, shuning uchun interfeys nomi, model va ishlab chiqaruvchi kompaniya — bu uch xil tushuncha." },
+    { "type": "linkp", "text": "Shaxsiy AI chat va kompaniya ma’lumotlari bilan sozlangan biznes chat farqi alohida maqolada: {aichat}.", "links": [{ "token": "aichat", "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/", "anchor": "AI-chat turlari: shaxsiy va biznes uchun" }] },
 
     { "type": "h2", "id": "qanday-ishlaydi", "text": "AI chat o‘zbek tilida qanday ishlaydi?" },
     { "type": "p", "text": "Til modeli — bu katta matn ma’lumotlari asosida o‘qitilgan neyrotarmoq. U so‘rovni kichik bo‘laklarga (tokenlarga) ajratadi, kontekstni hisobga oladi va matn generatsiyasini bajaradi: eng mos davomni bashorat qiladi. O‘zbek tili ham o‘qitish ma’lumotlarining bir qismi bo‘lgani uchun model o‘zbekcha savolni tushunadi, matn yozadi va tarjima qiladi." },
@@ -92,6 +91,7 @@
     { "type": "h2", "id": "biznes", "text": "GPT o‘qish, marketing va biznes uchun" },
     { "type": "h3", "text": "Ta’lim va o‘qish uchun" },
     { "type": "p", "text": "O‘quvchi va talaba mavzuni sodda tilda tushuntirishni, tayyorgarlik rejasini yoki o‘z-o‘zini tekshirish savollarini so‘rashi mumkin. Modelni tayyor ish manbasi emas, ustoz sifatida ishlatgan foydaliroq: avval o‘zingiz yeching, keyin xatoni tushuntirishni so‘rang." },
+    { "type": "linkp", "text": "O‘qish vazifalari uchun alohida qo‘llanmalar bor: {slayd}, {referat} va {insho}. Ularda reja, tuzilma va AI’dan halol foydalanish qoidalari yozilgan.", "links": [{ "token": "slayd", "target": "/uz/blog/slayd-tayyorlash/", "anchor": "slaydlar uchun reja va matn" }, { "token": "referat", "target": "/uz/blog/referat-va-mustaqil-ish/", "anchor": "referat rejasi va tuzilmasi" }, { "token": "insho", "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/", "anchor": "insho va esse tuzilmasi" }] },
     { "type": "h3", "text": "Marketing, Instagram va Telegram uchun" },
     { "type": "p", "text": "Marketolog AI chatdan sarlavhalar, Instagram va Telegram postlari, reklama g‘oyalari va sotuv ssenariylarini tayyorlashda foydalanadi. Model mahsulotning real afzalliklarini bilmaydi, shuning uchun narx, xususiyat va va’dalarni oshkora bering va e’lon qilishdan oldin tekshiring." },
     { "type": "h3", "text": "Biznes uchun: sayt, CRM va mijozlarga javob" },

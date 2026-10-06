@@ -137,6 +137,37 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Если выбираете, где ещё пообщаться с ИИ, пригодятся {talk}, {analogi}, {iichat} и {free}. Возможности, лимиты и безопасность самого чата GPTBot.uz собраны в {guide}.",
+      "links": [
+        {
+          "token": "talk",
+          "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+          "anchor": "чат с ИИ: где поговорить по-русски"
+        },
+        {
+          "token": "analogi",
+          "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+          "anchor": "аналоги ChatGPT, которые работают в Узбекистане"
+        },
+        {
+          "token": "iichat",
+          "target": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+          "anchor": "какие бывают ИИ-чаты на русском"
+        },
+        {
+          "token": "free",
+          "target": "/ru/gde-polzovatsya-gpt-besplatno/",
+          "anchor": "где пользоваться GPT бесплатно"
+        },
+        {
+          "token": "guide",
+          "target": "/ru/gpt-chat-guide/",
+          "anchor": "гайде по AI-чату: возможности и лимиты"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Безопасность"
     },

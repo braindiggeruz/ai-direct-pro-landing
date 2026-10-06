@@ -19,11 +19,11 @@
   "searchIntent": "informational",
   "h1": "GPT vs ChatGPT: в чём разница простыми словами",
   "title": "GPT и ChatGPT: расшифровка и разница простыми словами",
-  "description": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
+  "description": "GPT — это Generative Pre-trained Transformer, а ChatGPT — сервис OpenAI на его основе. Разница простыми словами, таблица и примеры; где попробовать ИИ-чат.",
   "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
   "hreflangRu": "/ru/gpt-vs-chatgpt-sravnenie/",
   "ogTitle": "GPT и ChatGPT: расшифровка и разница простыми словами",
-  "ogDescription": "Что такое ChatGPT и как расшифровывается GPT: технология против сервиса, таблица, примеры и когда какой вариант нужен для работы или бизнеса.",
+  "ogDescription": "GPT — это Generative Pre-trained Transformer, а ChatGPT — сервис OpenAI на его основе. Разница простыми словами, таблица и примеры; где попробовать ИИ-чат.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -166,7 +166,7 @@
     },
     {
       "type": "linkp",
-      "text": "Базовое объяснение технологии — в статье {basics}. Попробовать AI-чат можно в {chat}; условия — на странице {tariffs}.",
+      "text": "Базовое объяснение технологии — в статье {basics}. Если хотите сразу попробовать, откройте {chat}: это независимый сервис GPTBot.uz, а не ChatGPT; условия — на странице {tariffs}.",
       "links": [
         {
           "token": "basics",
@@ -176,12 +176,43 @@
         {
           "token": "chat",
           "target": "/ru/gpt-chat/",
-          "anchor": "GPT-чат онлайн"
+          "anchor": "бесплатный аналог ChatGPT онлайн"
         },
         {
           "token": "tariffs",
           "target": "/ru/tarify-ai-chat/",
           "anchor": "тарифы AI-чата"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Если вопрос не в терминах, а в выборе сервиса, пригодятся {analogi}, {free} и {talk}. Что такое ИИ-чат и какие они бывают, объясняет {iichat}, а как писать запросы, чтобы ответ был точным, — {howto}.",
+      "links": [
+        {
+          "token": "analogi",
+          "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+          "anchor": "обзор аналогов ChatGPT в Узбекистане"
+        },
+        {
+          "token": "free",
+          "target": "/ru/gde-polzovatsya-gpt-besplatno/",
+          "anchor": "варианты бесплатного доступа к GPT"
+        },
+        {
+          "token": "talk",
+          "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+          "anchor": "где пообщаться с ИИ на русском"
+        },
+        {
+          "token": "iichat",
+          "target": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+          "anchor": "статья об ИИ-чатах на русском"
+        },
+        {
+          "token": "howto",
+          "target": "/ru/blog/chat-gpt-na-russkom/",
+          "anchor": "инструкция по запросам к AI-чату"
         }
       ]
     },

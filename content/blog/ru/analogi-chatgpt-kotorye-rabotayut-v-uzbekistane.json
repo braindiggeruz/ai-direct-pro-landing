@@ -216,7 +216,7 @@
     },
     {
       "target": "/ru/gpt-chat/",
-      "anchor": "ИИ-чат онлайн",
+      "anchor": "Независимый аналог ChatGPT — ИИ-чат GPTBot.uz",
       "locale": "ru",
       "type": "contextual",
       "priority": 4

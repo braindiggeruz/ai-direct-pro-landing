@@ -113,6 +113,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Kundalikda eng ko‘p uchraydigani — matn modeli asosidagi AI-chat: siz savol yozasiz, model javob beradi. U qanday ishlashi va qaysi turlari borligi alohida maqolada: {aichat}.",
+      "links": [
+        {
+          "token": "aichat",
+          "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "anchor": "AI-chat nima va qanday turlari bor"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "dasturdan-farqi",
       "text": "Sun’iy intellekt va oddiy dastur farqi"
@@ -180,6 +191,32 @@
           "token": "students",
           "target": "/uz/blog/chatgpt-talabalar-uchun/",
           "anchor": "talabalar uchun ChatGPT"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘qish va ish uchun alohida qo‘llanmalar ham bor: {slayd}, {referat}, {insho} va {rezyume}.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "AI bilan slayd tayyorlash"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referatda AI’dan halol foydalanish"
+        },
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho yozish sun’iy intellekt bilan"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash bo‘yicha qo‘llanma"
         }
       ]
     },
