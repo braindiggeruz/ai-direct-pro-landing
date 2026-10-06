@@ -234,27 +234,27 @@
     },
     {
       "type": "linkp",
-      "text": "Чем технология GPT отличается от продукта ChatGPT, подробно разобрано в материале {vs}; какие ещё сервисы доступны в Узбекистане — в обзоре {analogi}; где поговорить с ИИ по-русски — в статье {talk}, а бесплатные варианты и их лимиты — в разборе {free}. Попробовать {chat} можно прямо в браузере, без регистрации.",
+      "text": "Подробно о том, {vs}, — в отдельном материале. Какие ещё сервисы работают в Узбекистане, показывает {analogi}, а с чего начать разговор с ИИ по-русски и как проверить ответ, подскажет {talk}. Если не хотите платить, загляните в {free}. Попробовать {chat} можно прямо в браузере, без регистрации.",
       "links": [
         {
           "token": "vs",
           "target": "/ru/gpt-vs-chatgpt-sravnenie/",
-          "anchor": "GPT и ChatGPT: в чём разница"
+          "anchor": "чем GPT отличается от ChatGPT"
         },
         {
           "token": "analogi",
           "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
-          "anchor": "аналоги ChatGPT для Узбекистана"
+          "anchor": "подборка аналогов ChatGPT"
         },
         {
           "token": "talk",
           "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
-          "anchor": "чат с ИИ: где пообщаться на русском"
+          "anchor": "статья о чате с искусственным интеллектом"
         },
         {
           "token": "free",
           "target": "/ru/gde-polzovatsya-gpt-besplatno/",
-          "anchor": "GPT бесплатно: варианты и лимиты"
+          "anchor": "разбор бесплатных вариантов GPT и их лимитов"
         },
         {
           "token": "chat",
@@ -624,7 +624,7 @@
   "robotsFollow": true,
   "author": "GPTBot",
   "datePublished": "2026-07-14",
-  "dateModified": "2026-09-19",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -633,7 +633,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-14T00:00:00Z",
-  "updatedAt": "2026-08-25T00:00:00.000Z",
+  "updatedAt": "2026-10-06T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI API — модели и возможности",

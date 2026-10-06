@@ -115,41 +115,6 @@
     },
     {
       "type": "h2",
-      "text": "O‘qish uchun AI: qo‘llanmalar"
-    },
-    {
-      "type": "linkp",
-      "text": "Bepul AI chatdan o‘qishda halol foydalanish bo‘yicha bosqichma-bosqich qo‘llanmalar: {slayd}, {referat}, {insho} va ishga hujjat topshirish uchun {rezyume}. Sun’iy intellekt bilan suhbat qanday ishlashini bilmoqchi bo‘lsangiz, {aichat} maqolasidan boshlang.",
-      "links": [
-        {
-          "token": "slayd",
-          "target": "/uz/blog/slayd-tayyorlash/",
-          "anchor": "slayd va taqdimot tayyorlash"
-        },
-        {
-          "token": "referat",
-          "target": "/uz/blog/referat-va-mustaqil-ish/",
-          "anchor": "referat va mustaqil ish yozish"
-        },
-        {
-          "token": "insho",
-          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
-          "anchor": "insho va esse yozish rejasi"
-        },
-        {
-          "token": "rezyume",
-          "target": "/uz/blog/rezyume-tayyorlash/",
-          "anchor": "rezyume tayyorlash namunasi"
-        },
-        {
-          "token": "aichat",
-          "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
-          "anchor": "AI-chat nima — oddiy tushuntirish"
-        }
-      ]
-    },
-    {
-      "type": "h2",
       "text": "Asosiy xulosalar"
     },
     {
@@ -417,6 +382,36 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Slayd va taqdimot tayyorlash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho va esse yozish rejasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume tayyorlash namunasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "anchor": "AI-chat nima — oddiy tushuntirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/blog/",
       "anchor": "GPTBot.uz blogi",
       "locale": "uz",
@@ -429,7 +424,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
-  "updatedAt": "2026-09-18",
+  "lastReviewedAt": "2026-10-06",
+  "updatedAt": "2026-10-06",
   "createdAt": "2026-07-01"
 }

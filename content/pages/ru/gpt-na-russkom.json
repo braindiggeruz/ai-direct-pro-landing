@@ -138,17 +138,17 @@
     },
     {
       "type": "linkp",
-      "text": "Если выбираете, где ещё пообщаться с ИИ, пригодятся {talk}, {analogi}, {iichat} и {free}. Возможности, лимиты и безопасность самого чата GPTBot.uz собраны в {guide}.",
+      "text": "Если выбираете, какой сервис открыть, пригодятся статья о том, {talk}, обзор {analogi}, материал о том, {iichat}, и разбор того, {free}. Возможности, лимиты и безопасность самого чата GPTBot.uz собраны в {guide}.",
       "links": [
         {
           "token": "talk",
           "target": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
-          "anchor": "чат с ИИ: где поговорить по-русски"
+          "anchor": "где поговорить с ИИ по-русски"
         },
         {
           "token": "analogi",
           "target": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
-          "anchor": "аналоги ChatGPT, которые работают в Узбекистане"
+          "anchor": "аналогов ChatGPT, которые работают в Узбекистане"
         },
         {
           "token": "iichat",
@@ -163,7 +163,7 @@
         {
           "token": "guide",
           "target": "/ru/gpt-chat-guide/",
-          "anchor": "гайде по AI-чату: возможности и лимиты"
+          "anchor": "гайде по AI-чату"
         }
       ]
     },
@@ -292,7 +292,7 @@
       "inLanguage": "ru"
     }
   ],
-  "lastReviewedAt": "2026-10-04",
+  "lastReviewedAt": "2026-10-06",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-04"
+  "updatedAt": "2026-10-06"
 }
