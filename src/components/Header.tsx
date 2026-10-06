@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Dict } from '../i18n';
 import type { Lang } from '../i18n';
 import { CONTACT_HREF, track } from '../lib/cta';
+import { SITE_CHAT_NAV } from '../shared/site-chat-nav';
 
 type Props = { t: Dict; lang: Lang; onSwitchLang: (l: Lang) => void };
 
@@ -45,10 +46,14 @@ export default function Header({ t, lang, onSwitchLang }: Props) {
   }, [mobileOpen]);
 
   const isUz = lang === 'uz';
+  // The landing stays B2B; its menu also names the chat of the chosen language
+  // (revision 2026-10-06-seo-push, src/shared/site-chat-nav.ts).
+  const chat = SITE_CHAT_NAV[isUz ? 'uz' : 'ru'];
   const navItems = [
     { href: '#solutions', testid: 'nav-solutions', label: isUz ? 'Yechimlar' : 'Решения' },
     { href: '#niches', testid: 'nav-niches', label: isUz ? 'Nishlar' : 'Ниши' },
     { href: isUz ? '/uz/blog/' : '/ru/blog/', testid: 'header-blog-link', label: isUz ? 'Blog' : 'Блог' },
+    { href: chat.href, testid: 'nav-chat', label: chat.label },
     { href: '#faq', testid: 'nav-faq', label: 'FAQ' },
     { href: '#contacts', testid: 'nav-contacts', label: isUz ? 'Kontaktlar' : 'Контакты' },
   ];

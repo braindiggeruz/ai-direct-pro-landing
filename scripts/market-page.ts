@@ -1,4 +1,5 @@
 import type { BodyBlock, FaqItem, Page } from '../src/shared/types';
+import { headerChatLink } from '../src/shared/site-chat-nav';
 
 function e(value: string): string {
   return (value || '').replace(/[&<>"']/g, (character) => ({
@@ -31,6 +32,8 @@ export function renderMarketHeader(
   hrefUz: string,
 ): string {
   const uz = page.locale === 'uz';
+  // The site header's chat item (revision 2026-10-06-seo-push), last in the menu.
+  const chat = headerChatLink(uz ? 'uz' : 'ru', page.url);
   const cta = page.slug === 'sotuvchi'
     ? page.ctaPrimaryHref || '#'
     : `https://t.me/BormiMarketBot?start=buyer_trust_${uz ? 'uz' : 'ru'}`;
@@ -43,7 +46,8 @@ export function renderMarketHeader(
       <a href="${marketPath(page.locale)}#buyer">${uz ? 'Xaridor uchun' : 'Покупателю'}</a>
       <a href="${marketPath(page.locale)}#seller">${uz ? 'Sotuvchi uchun' : 'Продавцу'}</a>
       <a href="${trustPath(page.locale)}">${uz ? 'Ishonch' : 'Доверие'}</a>
-      <a href="${marketPath(page.locale)}#faq">FAQ</a>
+      <a href="${marketPath(page.locale)}#faq">FAQ</a>${chat ? `
+      <a href="${e(chat.href)}" class="whitespace-nowrap">${e(chat.label)}</a>` : ''}
     </nav>
     <div class="market-header-actions">
       <div class="market-locale" role="group" aria-label="${uz ? 'Til' : 'Язык'}">

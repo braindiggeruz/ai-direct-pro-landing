@@ -30,6 +30,7 @@ import {
   STUDIO_PHONE_DISPLAY,
   STUDIO_TELEGRAM_URL,
 } from '../src/shared/studio-contact';
+import { SITE_CHAT_NAV } from '../src/shared/site-chat-nav';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -154,6 +155,7 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
       <a href="/ru/ai-bot-dlya-biznesa/">Решения</a>
       <a href="/ru/ai-bot-dlya-kliniki/">Ниши</a>
       <a href="/ru/blog/">Блог</a>
+      <a href="${SITE_CHAT_NAV.ru.href}">${escapeText(SITE_CHAT_NAV.ru.label)}</a>
       <a href="#contact">${escapeText(RU.nav.cta)}</a>
     </nav>
   </header>

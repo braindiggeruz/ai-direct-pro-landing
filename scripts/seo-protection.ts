@@ -93,7 +93,18 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // resting screen's geometry, its brand, subtitle and greeting drawn by CSS,
 // no new text), the viewport's interactive-widget, modulepreload links and
 // the summary's id="seo-summary". invisibleToGate lists it all with htmlSha256.
-export const BASELINE = 'docs/seo/evidence/2026-10-06-chat-design/reviewed-protected-pages.json';
+// The 2026-10-06-seo-push revision (owner order of 06.10: push the «ChatGPT
+// o‘zbek tilida / uzbekcha» family, honestly; SEO strategy 2026-10-06 §3.2,
+// R-S3 items brought forward) changes body text and links only. The UZ chat's
+// #chatgpt-yozish grows to four paragraphs with three samples and one honest
+// «ChatGPT o‘zbek tilida bormi?» (R3-4), its «Talaba…» section links the
+// referat and résumé guides (R3-6); the login guide's clone section gains one
+// sentence about domains with «chatgpt» in the name (R3-9); every site header
+// names the chat of its language (R3-10, src/shared/site-chat-nav.ts) — on /
+// and six protected articles that is the whole text change. Title, H1,
+// description, robots, canonical and hreflang of all ten are unchanged; the
+// download guide (its P-CTR window) and the RU chat are byte for byte the same.
+export const BASELINE = 'docs/seo/evidence/2026-10-06-seo-push/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

@@ -1,0 +1,585 @@
+{
+  "checkedAt": "2026-10-06T17:18:18.183Z",
+  "dist": "F:\\Claude\\gptbot-chat-rev-20261006\\dist",
+  "shotsDir": "C:\\Users\\Borinio\\AppData\\Local\\Temp\\claude\\C--Users-Borinio-Desktop-seo-skills-main\\4c4ec689-6c41-4b5e-870e-f56485001961\\scratchpad\\layout-shots",
+  "ok": true,
+  "summary": {
+    "pages": [
+      "/uz/gpt-uzbek-tilida/",
+      "/ru/gpt-chat/"
+    ],
+    "runs": 258,
+    "sizes": [
+      "320x568",
+      "320x300",
+      "360x612",
+      "360x330",
+      "360x740",
+      "360x420",
+      "390x844",
+      "390x480",
+      "412x915",
+      "412x530"
+    ],
+    "states": [
+      "empty",
+      "drawer",
+      "empty-keyboard",
+      "thinking-first",
+      "chat-end",
+      "menu",
+      "chat-top",
+      "chat-keyboard",
+      "thinking",
+      "error",
+      "limit",
+      "limit-keyboard",
+      "menu-short",
+      "menu-up",
+      "limit-direct",
+      "limit-direct-keyboard",
+      "entry"
+    ],
+    "textUnderComposer": 0,
+    "textOverlaps": 0,
+    "controlOverlaps": 0,
+    "smallTargets": 0,
+    "contrastFails": 0,
+    "honesty": 0,
+    "horizontalOverflowRuns": 0,
+    "threadBelowComposerTop": 0,
+    "headerSpill": 0,
+    "composerOffScreen": 0,
+    "composerNotInFlowOrNotOpaque": 0,
+    "subtitleCut": [],
+    "answerFormat": 0,
+    "limitCardOutOfSight": [],
+    "menuUnreachable": [],
+    "menuDirections": {
+      "below": 4,
+      "above": 4
+    },
+    "zoom": [
+      {
+        "locale": "uz",
+        "before": "100dvh",
+        "keyboard": null,
+        "main": "100dvh",
+        "tasks": true,
+        "ok": true
+      },
+      {
+        "locale": "ru",
+        "before": "100dvh",
+        "keyboard": null,
+        "main": "100dvh",
+        "tasks": true,
+        "ok": true
+      }
+    ],
+    "billing": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "price": {
+          "text": "29 000 so‘m · 1 oy · 300 ta javob",
+          "ratio": 16.65,
+          "parsed": true
+        }
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "price": {
+          "text": "29 000 сум · 1 месяц · 300 ответов",
+          "ratio": 16.65,
+          "parsed": true
+        }
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "price": {
+          "text": "29 000 so‘m · 1 oy · 300 ta javob",
+          "ratio": 16.65,
+          "parsed": true
+        }
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "price": {
+          "text": "29 000 сум · 1 месяц · 300 ответов",
+          "ratio": 16.65,
+          "parsed": true
+        }
+      }
+    ],
+    "frameVsMounted": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "moved": [],
+        "composer": 122,
+        "footnote": 48,
+        "rows": 2
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "moved": [],
+        "composer": 122,
+        "footnote": 48,
+        "rows": 2
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "moved": [],
+        "composer": 122,
+        "footnote": 48,
+        "rows": 2
+      },
+      {
+        "size": "360x740",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "360x740",
+        "locale": "ru",
+        "moved": [],
+        "composer": 122,
+        "footnote": 48,
+        "rows": 2
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "moved": [],
+        "composer": 122,
+        "footnote": 48,
+        "rows": 2
+      },
+      {
+        "size": "412x915",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "412x915",
+        "locale": "ru",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "768x1024",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 1
+      },
+      {
+        "size": "768x1024",
+        "locale": "ru",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 1
+      },
+      {
+        "size": "1280x800",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 1
+      },
+      {
+        "size": "1280x800",
+        "locale": "ru",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 1
+      }
+    ],
+    "keyboardNotDetected": 0,
+    "unexpectedApiCalls": [],
+    "negativeControl": {
+      "textUnderComposer": 9,
+      "composerOpaque": false,
+      "composerPosition": "fixed",
+      "sample": [
+        {
+          "text": "bo‘lsa, 3² − 4·3 + 3 = 9 − 12 + 3 = 0, ya’ni",
+          "el": "span"
+        },
+        {
+          "text": "tenglik",
+          "el": "em"
+        },
+        {
+          "text": "to‘g‘ri ✓",
+          "el": "span"
+        }
+      ]
+    },
+    "heights": {
+      "320x568 uz empty": {
+        "header": 52,
+        "thread": 394,
+        "composer": 122
+      },
+      "320x300 uz empty-keyboard": {
+        "header": 48,
+        "thread": 130,
+        "composer": 122
+      },
+      "320x568 ru empty": {
+        "header": 52,
+        "thread": 394,
+        "composer": 122
+      },
+      "320x300 ru empty-keyboard": {
+        "header": 48,
+        "thread": 130,
+        "composer": 122
+      },
+      "360x612 uz empty": {
+        "header": 52,
+        "thread": 454,
+        "composer": 106
+      },
+      "360x330 uz empty-keyboard": {
+        "header": 48,
+        "thread": 176,
+        "composer": 106
+      },
+      "360x612 ru empty": {
+        "header": 52,
+        "thread": 438,
+        "composer": 122
+      },
+      "360x330 ru empty-keyboard": {
+        "header": 48,
+        "thread": 160,
+        "composer": 122
+      },
+      "360x740 uz empty": {
+        "header": 52,
+        "thread": 582,
+        "composer": 106
+      },
+      "360x420 uz empty-keyboard": {
+        "header": 48,
+        "thread": 266,
+        "composer": 106
+      },
+      "360x740 ru empty": {
+        "header": 52,
+        "thread": 566,
+        "composer": 122
+      },
+      "360x420 ru empty-keyboard": {
+        "header": 48,
+        "thread": 250,
+        "composer": 122
+      },
+      "390x844 uz empty": {
+        "header": 52,
+        "thread": 686,
+        "composer": 106
+      },
+      "390x480 uz empty-keyboard": {
+        "header": 48,
+        "thread": 326,
+        "composer": 106
+      },
+      "390x844 ru empty": {
+        "header": 52,
+        "thread": 670,
+        "composer": 122
+      },
+      "390x480 ru empty-keyboard": {
+        "header": 48,
+        "thread": 310,
+        "composer": 122
+      },
+      "412x915 uz empty": {
+        "header": 52,
+        "thread": 757,
+        "composer": 106
+      },
+      "412x530 uz empty-keyboard": {
+        "header": 48,
+        "thread": 376,
+        "composer": 106
+      },
+      "412x915 ru empty": {
+        "header": 52,
+        "thread": 757,
+        "composer": 106
+      },
+      "412x530 ru empty-keyboard": {
+        "header": 48,
+        "thread": 376,
+        "composer": 106
+      }
+    },
+    "perf": [
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "cls": 0,
+        "lcp": {
+          "t": 2320,
+          "size": 17152,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2320,
+            "size": 17152,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "cls": 0,
+        "lcp": {
+          "t": 2268,
+          "size": 16830,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2268,
+            "size": 16830,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "cls": 0,
+        "lcp": {
+          "t": 2172,
+          "size": 20148,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2172,
+            "size": 20148,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "cls": 0,
+        "lcp": {
+          "t": 2108,
+          "size": 19728,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2108,
+            "size": 19728,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      }
+    ]
+  },
+  "failures": [],
+  "shots": [
+    "320x568-android-dark-uz-empty.png",
+    "320x300-android-dark-uz-empty-keyboard.png",
+    "320x568-android-dark-uz-chat-end.png",
+    "320x568-android-dark-uz-limit.png",
+    "320x300-android-dark-uz-limit-keyboard.png",
+    "320x568-android-dark-ru-empty.png",
+    "320x300-android-dark-ru-empty-keyboard.png",
+    "320x568-android-dark-ru-chat-end.png",
+    "320x568-android-dark-ru-limit.png",
+    "320x300-android-dark-ru-limit-keyboard.png",
+    "320x568-android-light-uz-empty.png",
+    "320x300-android-light-uz-empty-keyboard.png",
+    "320x568-android-light-uz-chat-end.png",
+    "320x568-android-light-uz-limit.png",
+    "320x300-android-light-uz-limit-keyboard.png",
+    "320x568-android-light-ru-empty.png",
+    "320x300-android-light-ru-empty-keyboard.png",
+    "320x568-android-light-ru-chat-end.png",
+    "320x568-android-light-ru-limit.png",
+    "320x300-android-light-ru-limit-keyboard.png",
+    "360x612-tg-dark-uz-empty.png",
+    "360x612-tg-dark-uz-drawer.png",
+    "360x330-tg-dark-uz-empty-keyboard.png",
+    "360x612-tg-dark-uz-thinking-first.png",
+    "360x612-tg-dark-uz-chat-end.png",
+    "360x612-tg-dark-uz-menu.png",
+    "360x612-tg-dark-uz-chat-top.png",
+    "360x330-tg-dark-uz-chat-keyboard.png",
+    "360x612-tg-dark-uz-thinking.png",
+    "360x612-tg-dark-uz-error.png",
+    "360x612-tg-dark-uz-limit.png",
+    "360x330-tg-dark-uz-limit-keyboard.png",
+    "360x612-tg-dark-ru-empty.png",
+    "360x612-tg-dark-ru-drawer.png",
+    "360x330-tg-dark-ru-empty-keyboard.png",
+    "360x612-tg-dark-ru-thinking-first.png",
+    "360x612-tg-dark-ru-chat-end.png",
+    "360x612-tg-dark-ru-menu.png",
+    "360x612-tg-dark-ru-chat-top.png",
+    "360x330-tg-dark-ru-chat-keyboard.png",
+    "360x612-tg-dark-ru-thinking.png",
+    "360x612-tg-dark-ru-error.png",
+    "360x612-tg-dark-ru-limit.png",
+    "360x330-tg-dark-ru-limit-keyboard.png",
+    "360x612-tg-light-uz-empty.png",
+    "360x612-tg-light-uz-drawer.png",
+    "360x330-tg-light-uz-empty-keyboard.png",
+    "360x612-tg-light-uz-thinking-first.png",
+    "360x612-tg-light-uz-chat-end.png",
+    "360x612-tg-light-uz-menu.png",
+    "360x612-tg-light-uz-chat-top.png",
+    "360x330-tg-light-uz-chat-keyboard.png",
+    "360x612-tg-light-uz-thinking.png",
+    "360x612-tg-light-uz-error.png",
+    "360x612-tg-light-uz-limit.png",
+    "360x330-tg-light-uz-limit-keyboard.png",
+    "360x612-tg-light-ru-empty.png",
+    "360x612-tg-light-ru-drawer.png",
+    "360x330-tg-light-ru-empty-keyboard.png",
+    "360x612-tg-light-ru-thinking-first.png",
+    "360x612-tg-light-ru-chat-end.png",
+    "360x612-tg-light-ru-menu.png",
+    "360x612-tg-light-ru-chat-top.png",
+    "360x330-tg-light-ru-chat-keyboard.png",
+    "360x612-tg-light-ru-thinking.png",
+    "360x612-tg-light-ru-error.png",
+    "360x612-tg-light-ru-limit.png",
+    "360x330-tg-light-ru-limit-keyboard.png",
+    "360x740-android-dark-uz-empty.png",
+    "360x420-android-dark-uz-empty-keyboard.png",
+    "360x740-android-dark-uz-chat-end.png",
+    "360x740-android-dark-uz-limit.png",
+    "360x420-android-dark-uz-limit-keyboard.png",
+    "360x740-android-dark-ru-empty.png",
+    "360x420-android-dark-ru-empty-keyboard.png",
+    "360x740-android-dark-ru-chat-end.png",
+    "360x740-android-dark-ru-limit.png",
+    "360x420-android-dark-ru-limit-keyboard.png",
+    "360x740-android-light-uz-empty.png",
+    "360x420-android-light-uz-empty-keyboard.png",
+    "360x740-android-light-uz-chat-end.png",
+    "360x740-android-light-uz-limit.png",
+    "360x420-android-light-uz-limit-keyboard.png",
+    "360x740-android-light-ru-empty.png",
+    "360x420-android-light-ru-empty-keyboard.png",
+    "360x740-android-light-ru-chat-end.png",
+    "360x740-android-light-ru-limit.png",
+    "360x420-android-light-ru-limit-keyboard.png",
+    "390x844-ios-dark-uz-empty.png",
+    "390x480-ios-dark-uz-empty-keyboard.png",
+    "390x844-ios-dark-uz-chat-end.png",
+    "390x844-ios-dark-uz-limit.png",
+    "390x480-ios-dark-uz-limit-keyboard.png",
+    "390x844-ios-dark-ru-empty.png",
+    "390x480-ios-dark-ru-empty-keyboard.png",
+    "390x844-ios-dark-ru-chat-end.png",
+    "390x844-ios-dark-ru-limit.png",
+    "390x480-ios-dark-ru-limit-keyboard.png",
+    "390x844-ios-light-uz-empty.png",
+    "390x480-ios-light-uz-empty-keyboard.png",
+    "390x844-ios-light-uz-chat-end.png",
+    "390x844-ios-light-uz-limit.png",
+    "390x480-ios-light-uz-limit-keyboard.png",
+    "390x844-ios-light-ru-empty.png",
+    "390x480-ios-light-ru-empty-keyboard.png",
+    "390x844-ios-light-ru-chat-end.png",
+    "390x844-ios-light-ru-limit.png",
+    "390x480-ios-light-ru-limit-keyboard.png",
+    "412x915-android-dark-uz-empty.png",
+    "412x530-android-dark-uz-empty-keyboard.png",
+    "412x915-android-dark-uz-chat-end.png",
+    "412x915-android-dark-uz-limit.png",
+    "412x530-android-dark-uz-limit-keyboard.png",
+    "412x915-android-dark-ru-empty.png",
+    "412x530-android-dark-ru-empty-keyboard.png",
+    "412x915-android-dark-ru-chat-end.png",
+    "412x915-android-dark-ru-limit.png",
+    "412x530-android-dark-ru-limit-keyboard.png",
+    "412x915-android-light-uz-empty.png",
+    "412x530-android-light-uz-empty-keyboard.png",
+    "412x915-android-light-uz-chat-end.png",
+    "412x915-android-light-uz-limit.png",
+    "412x530-android-light-uz-limit-keyboard.png",
+    "412x915-android-light-ru-empty.png",
+    "412x530-android-light-ru-empty-keyboard.png",
+    "412x915-android-light-ru-chat-end.png",
+    "412x915-android-light-ru-limit.png",
+    "412x530-android-light-ru-limit-keyboard.png",
+    "360x612-tg-dark-uz-menu-short.png",
+    "360x612-tg-dark-uz-menu-up.png",
+    "360x612-tg-dark-ru-menu-short.png",
+    "360x612-tg-dark-ru-menu-up.png",
+    "360x612-tg-dark-uz-limit-direct.png",
+    "360x330-tg-dark-uz-limit-direct-keyboard.png",
+    "360x612-tg-dark-ru-limit-direct.png",
+    "360x330-tg-dark-ru-limit-direct-keyboard.png",
+    "360x612-tg-dark-uz-entry.png",
+    "360x612-tg-dark-ru-entry.png",
+    "360x612-tg-dark-uz-pack-window.png",
+    "360x612-tg-dark-ru-pack-window.png",
+    "768x1024-tablet-dark-uz-empty.png",
+    "768x1024-tablet-dark-ru-empty.png",
+    "1280x800-desktop-dark-uz-empty.png",
+    "1280x800-desktop-dark-ru-empty.png"
+  ]
+}

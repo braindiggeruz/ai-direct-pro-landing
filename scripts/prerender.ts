@@ -18,6 +18,7 @@ import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
 import { CONTACT_ANCHOR, CONTACT_CTA_LABEL, renderContactCard, studioFooterLinks } from './contact-card';
 import { renderRequisites, renderTermsEdition } from './legal-entity';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { withEmailOff } from './email-off';
@@ -741,6 +742,9 @@ const STICKY_BAR_EXTRA_URLS: ReadonlySet<string> = new Set(['/boss-digital/', '/
 // Section navigation of the landing header: four hubs per locale. The landing
 // header used to offer the logo, a language switch and one CTA — nothing that
 // leads from one service page to the prices, the other cluster or the blog.
+// The fifth item is the AI chat of the page's language (revision
+// 2026-10-06-seo-push, src/shared/site-chat-nav.ts): last, so the B2B hubs
+// stay first in the row.
 const SITE_NAV = {
   ru: {
     label: 'Разделы сайта',
@@ -750,6 +754,7 @@ const SITE_NAV = {
       { href: '/ru/stoimost-chat-bota/', text: 'Цены' },
       { href: '/ru/internet-reklama-tashkent/', text: 'Реклама' },
       { href: '/ru/blog/', text: 'Блог' },
+      { href: SITE_CHAT_NAV.ru.href, text: SITE_CHAT_NAV.ru.label },
     ],
   },
   uz: {
@@ -760,6 +765,7 @@ const SITE_NAV = {
       { href: '/uz/chat-bot-narxi/', text: 'Narxlar' },
       { href: '/uz/internet-reklama-toshkent/', text: 'Reklama' },
       { href: '/uz/blog/', text: 'Blog' },
+      { href: SITE_CHAT_NAV.uz.href, text: SITE_CHAT_NAV.uz.label },
     ],
   },
 } as const;
@@ -781,10 +787,14 @@ const LEGACY_HEADER_PATHS: ReadonlySet<string> = new Set(['/uz/']);
 
 function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz: string): string {
   if (isMeasurementHoldPath(page.url) || LEGACY_HEADER_PATHS.has(page.url)) {
+    // The chat item hides below 640px, like the articles' «Blog»: logo, RU, UZ
+    // and the CTA already fill a 320px row (revision 2026-10-06-seo-push).
+    const chat = headerChatLink(page.locale === 'uz' ? 'uz' : 'ru', page.url);
     return `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
     <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="font-display text-xl text-white" data-testid="back-home">${escapeHtml(global.siteName)}</a>
-    <nav class="flex gap-3 text-sm">
+    <nav class="flex gap-3 text-sm">${chat ? `
+      <a href="${escapeHtml(chat.href)}" data-testid="header-chat" class="hidden sm:inline whitespace-nowrap text-white/70 hover:text-white">${escapeText(chat.label)}</a>` : ''}
       ${altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru" class="text-white/70 hover:text-white">RU</a>` : ''}
       ${altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz" class="text-white/70 hover:text-white">UZ</a>` : ''}
       <a href="${escapeHtml(page.ctaPrimaryHref || CONTACT_ANCHOR)}"${isExternalHref(page.ctaPrimaryHref || CONTACT_ANCHOR) ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="bg-grad-cta text-bg-base font-semibold px-4 py-2 rounded-full">

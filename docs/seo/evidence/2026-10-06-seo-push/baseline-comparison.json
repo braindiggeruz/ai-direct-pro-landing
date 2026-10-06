@@ -1,0 +1,232 @@
+{
+  "comparedAt": "2026-10-06T17:09:47.458Z",
+  "baseline": "F:/Claude/gptbot-tools/tmp/push-baseline-dist (production 20229600 build, LF checkout)",
+  "candidate": "npm run build:fast of branch seo/push-uz-chat-20261006",
+  "method": "Per protected page: the seoContract fields of scripts/seo-protection.ts, a word-level diff of the visible body text (the contract's bodyText), every application/ld+json block, every <meta>/<link> of <head> except stylesheet and modulepreload links, the Markdown twin (index.html.md), and the whole HTML byte for byte and with /assets/<name>-<hash> normalised.",
+  "result": "Title, H1, description, robots, canonical and hreflang identical on all ten. The download guide and the RU chat: HTML identical byte for byte. Visible text changes only as listed in visibleTextChanges: the header item on / and six articles, R3-4 and R3-6 on the UZ chat, R3-9 on the login guide. JSON-LD changes only on /ru/blog/chatgpt-i-claude-v-uzbekistane/ (keywords, R3-12).",
+  "pages": {
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa → 2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa"
+    },
+    "/uz/gpt-uzbek-tilida/": {
+      "contractFieldsChanged": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "ChatGPT o‘zbek tilida bormi? Ha, chatgpt.com o‘zbekcha javob beradi; bu sahifa esa — unga mustaqil muqobil. Rasmiy ChatGPT’da menyu o‘zbekcha emas, lekin savolni o‘zbek tilida yozsangiz, javob odatda o‘zbekcha keladi. Bu yerdagi chatni OpenAI emas, GPTBot.uz yuritadi: hisob kerak emas, lekin kunlik va soatlik limit bor. Yaxshi so‘rovda to‘rt narsa bor: vazifa, kontekst, format va cheklov. «Matn yoz» o‘rniga kim uchun, qancha hajmda va qanday ohangda kerakligini yozing. So‘rov lotin yozuvida bo‘lsin; javob boshqa tilda kelsa, «faqat o‘zbekcha javob ber» deb qo‘shing. Quyidagi uchta namunani chatgpt.com’ga ham, shu sahifadagi chatga ham yuborsa bo‘ladi: O‘qish: «Fotosintezni 7-sinf o‘quvchisiga 5 ta gapda tushuntir, bitta hayotiy misol keltir va oxirida 3 ta savol ber.» Tarjima: «Quyidagi ruscha xatni rasmiy uslubda o‘zbek tiliga, lotin yozuvida tarjima qil; ism, sana va raqamlarni o‘zgartirma: …» Ish: «Do‘konimiz uchun Telegram e’loni yoz: 60 so‘zgacha, sodda ohangda; narx o‘rniga [narx], manzil o‘rniga [manzil] deb qoldir.» Javobni tekshiring. Sana, narx, ism va raqamlarni birlamchi manba bilan solishtiring; tarjimada ism va raqamlar o‘zgarmaganini ko‘ring. Shubhali joy bo‘lsa, «qaysi faktlarni tekshirish kerak — ro‘yxat qilib ber» deb so‘rang. Javob mos kelmasa, so‘rovni aniqroq qilib qayta yozing yoki bitta aniqlashtiruvchi savol bering."
+        },
+        {
+          "op": "replace",
+          "removed": "yaratmaydi) hamda",
+          "added": "yaratmaydi), referat va mustaqil ish yozish ,"
+        },
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "hamda ishga hujjat topshirish uchun rezyume tayyorlash"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "changed",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "ede56c958a33189fc1aafaf2b4e373ee85a151073139057a91d9bb0231be6cd4 → e2bc0e1acf0b648eeb3236063a04f4e73cd6363d6013a6284161a5226f4a7539"
+    },
+    "/ru/gpt-chat/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "none",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "ccab10fc3cb1e9641eec6e25c9b5f946228c13523b349b3d9ed1cb6aa4d7f03e → ccab10fc3cb1e9641eec6e25c9b5f946228c13523b349b3d9ed1cb6aa4d7f03e"
+    },
+    "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+      "contractFieldsChanged": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "ИИ-чат"
+        }
+      ],
+      "jsonLdSame": false,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "15f6a1a993e92ea2b93db4b7e5ad14a91ec93ea5f030a00f79c0e55ae276441e → f1dcd4ff1f10f07c7d14a338bcbf136a472f8706b92a8891e510164a1d490c7e"
+    },
+    "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+      "contractFieldsChanged": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "ИИ-чат"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "dd7c6b404b3a37fea07ded5325809c54f28da970a63ee5b42d527d0c15315b9e → 255790c91d9645c5a7fc3e67d6aefc52bfcdedc32141cf516a44ddad353b8dac"
+    },
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+      "contractFieldsChanged": [
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "O‘zbekcha AI chat"
+        },
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "Domen nomida «chatgpt» so‘zi borligi sayt rasmiy degani emas: ChatGPT’ning rasmiy manzili — chatgpt.com."
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "changed",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "6d55494d25b198e1d052ed154cce1dcab73cf85b894fb6694a3ff7d93f14c95d → 4a567deaed01c1c014b445b7669cfeb018bddbb073e325effacd34299a41d5a0"
+    },
+    "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+      "contractFieldsChanged": [
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "O‘zbekcha AI chat"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "75101aa5c0f12910166fe33509d5b86bf409689c1440e9cd0223ac6576ca8706 → 8c1d76d4cba4a9609f5d5aa49f66779706b2a0678e121714890708c744528fcf"
+    },
+    "/": {
+      "contractFieldsChanged": [
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "ИИ-чат"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "none",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "79d30fd4dc4883cd12363e205c3fe4d39b6d10a4603cf366fde47c5c2029ecc4 → a5d2ce9c6f249d392c98ca444f841a9d33673182a8995c23c049516f9a766850"
+    },
+    "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": {
+      "contractFieldsChanged": [
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "O‘zbekcha AI chat"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "853e49147d4cc5f6a367aba87e77b808b4ab4e8886db522ad34357fc2b3efcb5 → f6bcd5945d90cfe0701b99d9792063623ed5e616d61bf66f0d7ddec8ffeeaf41"
+    },
+    "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/": {
+      "contractFieldsChanged": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "O‘zbekcha AI chat"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "402a50fe23fa717026d564d1f6354b80cc661eb57314c4e2a3007587c7a3b871 → 697bcca0e05fe87a38417aa0da28f810c02836d57cf202bf8711982dd91cd13e"
+    }
+  }
+}

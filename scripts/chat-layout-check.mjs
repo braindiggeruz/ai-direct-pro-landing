@@ -51,7 +51,9 @@ const arg = (name, fallback) => {
 };
 const DIST = resolve(ROOT, arg('dist', 'dist'));
 const SHOTS = resolve(arg('shots', join(tmpdir(), 'gptbot-chat-layout-shots')));
-const REPORT = resolve(ROOT, arg('report', 'docs/seo/evidence/2026-10-06-chat-design/layout-report.json'));
+// The default report belongs to the current reviewed revision (scripts/seo-protection.ts BASELINE);
+// an older revision's report is never rewritten.
+const REPORT = resolve(ROOT, arg('report', 'docs/seo/evidence/2026-10-06-seo-push/layout-report.json'));
 const QUICK = process.argv.includes('--quick');
 // Only CLS and LCP, e.g. on another build (--dist) to compare with.
 const PERF_ONLY = process.argv.includes('--perf-only');

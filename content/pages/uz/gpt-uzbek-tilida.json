@@ -27,6 +27,7 @@
     "chatgpt uzbekcha bepul",
     "chatgpt bepul",
     "chatgpt yozish",
+    "chatgpt tarjima",
     "chati piti",
     "chaji piti"
   ],
@@ -98,6 +99,26 @@
     {
       "type": "p",
       "text": "Ikki usul bor. Birinchisi — rasmiy ChatGPT: chatgpt.com’ni yoki OpenAI ilovasini oching, savol maydoniga vazifani o‘zbekcha yozing va yuboring; suhbatlar saqlanib qolishi uchun hisobga kiring. Ikkinchisi — shu sahifadagi GPTBot.uz chati: yuqoridagi «Xabar yozing…» maydoniga savolni yozing va yuborish tugmasini bosing — ro‘yxatdan o‘tish shart emas. Bu ChatGPT emas, mustaqil servis; javoblari faqat matn ko‘rinishida, lekin matn yozish, reja tuzish, mavzuni tushuntirish va g‘oya topishda yordam beradi."
+    },
+    {
+      "type": "p",
+      "text": "ChatGPT o‘zbek tilida bormi? Ha, chatgpt.com o‘zbekcha javob beradi; bu sahifa esa — unga mustaqil muqobil. Rasmiy ChatGPT’da menyu o‘zbekcha emas, lekin savolni o‘zbek tilida yozsangiz, javob odatda o‘zbekcha keladi. Bu yerdagi chatni OpenAI emas, GPTBot.uz yuritadi: hisob kerak emas, lekin kunlik va soatlik limit bor."
+    },
+    {
+      "type": "p",
+      "text": "Yaxshi so‘rovda to‘rt narsa bor: vazifa, kontekst, format va cheklov. «Matn yoz» o‘rniga kim uchun, qancha hajmda va qanday ohangda kerakligini yozing. So‘rov lotin yozuvida bo‘lsin; javob boshqa tilda kelsa, «faqat o‘zbekcha javob ber» deb qo‘shing. Quyidagi uchta namunani chatgpt.com’ga ham, shu sahifadagi chatga ham yuborsa bo‘ladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘qish: «Fotosintezni 7-sinf o‘quvchisiga 5 ta gapda tushuntir, bitta hayotiy misol keltir va oxirida 3 ta savol ber.»",
+        "Tarjima: «Quyidagi ruscha xatni rasmiy uslubda o‘zbek tiliga, lotin yozuvida tarjima qil; ism, sana va raqamlarni o‘zgartirma: …»",
+        "Ish: «Do‘konimiz uchun Telegram e’loni yoz: 60 so‘zgacha, sodda ohangda; narx o‘rniga [narx], manzil o‘rniga [manzil] deb qoldir.»"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javobni tekshiring. Sana, narx, ism va raqamlarni birlamchi manba bilan solishtiring; tarjimada ism va raqamlar o‘zgarmaganini ko‘ring. Shubhali joy bo‘lsa, «qaysi faktlarni tekshirish kerak — ro‘yxat qilib ber» deb so‘rang. Javob mos kelmasa, so‘rovni aniqroq qilib qayta yozing yoki bitta aniqlashtiruvchi savol bering."
     },
     {
       "type": "h2",
@@ -471,7 +492,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘qish uchun alohida yo‘riqnomalar bor: {slayd} (chat reja va slayd matnini yozadi, lekin .pptx fayl yaratmaydi) hamda {esse}.",
+      "text": "O‘qish uchun alohida yo‘riqnomalar bor: {slayd} (chat reja va slayd matnini yozadi, lekin .pptx fayl yaratmaydi), {referat}, {esse} hamda ishga hujjat topshirish uchun {rezyume}.",
       "links": [
         {
           "token": "slayd",
@@ -479,9 +500,19 @@
           "anchor": "slayd tayyorlash"
         },
         {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish yozish"
+        },
+        {
           "token": "esse",
           "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
           "anchor": "insho va esse yozish"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash"
         }
       ]
     },
@@ -714,6 +745,18 @@
     {
       "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
       "anchor": "Insho va esse yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume tayyorlash",
       "locale": "uz",
       "type": "contextual"
     },
