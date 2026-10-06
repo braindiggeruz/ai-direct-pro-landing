@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useState, type RefObject } from 'react';
 import { ArrowUp, Square, Sparkles } from 'lucide-react';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/components/ui/input-group';
 import type { ChatStrings } from '../i18n';
@@ -23,13 +23,25 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
       if (!disabled && !busy && value.trim()) onSend();
     }
   };
+  // A paste longer than the limit is cut, and said so for 8 s: the
+  // textarea's maxLength used to drop the end without a word (INPUT-01).
+  const [cutAt, setCutAt] = useState(0);
+  useEffect(() => {
+    if (!cutAt) return;
+    const timer = window.setTimeout(() => setCutAt(0), 8_000);
+    return () => window.clearTimeout(timer);
+  }, [cutAt]);
   const left = maxChars - value.length;
   return (
     <div className="gpt-input-wrap">
       <InputGroup className="gpt-input-surface" aria-busy={busy}>
         <InputGroupTextarea ref={inputRef} value={value}
-          onChange={(e) => onChange(e.target.value.slice(0, maxChars))}
-          onKeyDown={onKeyDown} rows={1} maxLength={maxChars}
+          onChange={(e) => {
+            const next = e.target.value;
+            if (next.length > maxChars) setCutAt(Date.now());
+            onChange(next.slice(0, maxChars));
+          }}
+          onKeyDown={onKeyDown} rows={1}
           placeholder={t.inputPlaceholder} aria-label={t.inputPlaceholder}
           aria-describedby={describedBy}
           className="ym-disable-keys" />
@@ -56,7 +68,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, m
         <span data-testid="ai-input-microcopy">
           {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
         </span>
-        {left <= 200 && <span role="status">{t.charsLeft(Math.max(0, left))}</span>}
+        {cutAt ? <span role="status">{t.inputCut}</span> : left <= 200 && <span role="status">{t.charsLeft(Math.max(0, left))}</span>}
       </div>
     </div>
   );

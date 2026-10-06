@@ -46,7 +46,7 @@ import {
 import { AiSidebar } from "./AiSidebar";
 import type { TurnstileChallengeHandle } from "./TurnstileChallenge";
 import { loadTurnstile } from "../../shared/turnstile";
-import { applyRole, type RoleId } from "../roles";
+import { applyRole, rolePrefixLength, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
@@ -56,6 +56,7 @@ import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart, turnstilePart }
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 
+/** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
 const LIMIT_CARD_ID = "ai-limit-card";
@@ -422,10 +423,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       in_app: inApp(),
     });
 
-    const requestMessage = applyRole(trimmed, role, config.locale).slice(
-      0,
-      MAX_INPUT,
-    );
+    // The composer already holds the question to what fits with the role's lines.
+    const requestMessage = applyRole(trimmed, role, config.locale);
 
     const base = withUser.filter((m) => !m.pending);
     const handleJson = (res: ChatApiResponse) => {
@@ -1262,7 +1261,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               onStop={onStop}
               disabled={sendDisabled}
               busy={busy}
-              maxChars={MAX_INPUT}
+              maxChars={MAX_INPUT - rolePrefixLength(role, config.locale)}
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}

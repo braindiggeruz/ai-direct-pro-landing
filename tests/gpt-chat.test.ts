@@ -10,7 +10,7 @@ import { buildMessages } from '../functions/lib/gpt-chat/prompt';
 import { buildChatBody } from '../functions/lib/gpt-chat/openrouter-chat';
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
-import { applyRole, getRoles } from '../src/gpt-chat/roles';
+import { applyRole, getRoles, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 import { strings } from '../src/gpt-chat/i18n';
@@ -196,10 +196,43 @@ test('AI cabinet roles are localized and affect the request without user data', 
   const prompt = applyRole('Напиши пост', 'smm', 'ru');
   assert.match(prompt, /SMM-специалист/);
   assert.match(prompt, /Задача: Напиши пост/);
-  assert.match(prompt, /естественном русском языке/);
+  // The answer follows the question's language, not the page's (plan LANG-01).
+  assert.match(prompt, /на языке вопроса/);
+  assert.doesNotMatch(prompt, /естественном русском языке/);
   const uz = applyRole('Post yoz', 'teacher', 'uz');
-  assert.match(uz, /Uzbek Latin/);
+  assert.match(uz, /lotin yozuvida/);
   assert.match(uz, /Vazifa: Post yoz/);
+  for (const role of getRoles('uz')) assert.doesNotMatch(role.instruction, /faqat Uzbek Latin ishlating|Javobni faqat Uzbek Latin/i, role.id);
+  // The translator still writes Uzbek in Latin script: that line is about Uzbek text only.
+  assert.match(getRoles('uz').find((role) => role.id === 'translator')!.instruction, /O‘zbekcha matnni faqat Uzbek Latin yozuvida bering/);
+});
+
+test('the language line: the question decides, the page only when unclear; formulas without LaTeX; none on a translation', () => {
+  const uz = applyRole('Привет', 'general', 'uz');
+  assert.match(uz, /Savol qaysi tilda yozilgan bo‘lsa, javobni shu tilda bering/);
+  assert.match(uz, /Til aniq bo‘lmasa, o‘zbekcha \(lotin\) javob bering/);
+  assert.match(uz, /LaTeX belgilarisiz/);
+  const ru = applyRole('Salom', 'general', 'ru');
+  assert.match(ru, /по-узбекски — только латиницей/);
+  assert.match(ru, /Если язык неясен — отвечай по-русски/);
+  assert.match(ru, /без LaTeX/);
+  for (const locale of ['ru', 'uz'] as const) {
+    const plain = applyRole('Matn', 'general', locale, { guard: false });
+    assert.doesNotMatch(plain, /LaTeX/, `${locale}: a translation names its own language`);
+    assert.ok(plain.endsWith(locale === 'uz' ? 'Vazifa: Matn' : 'Задача: Matn'));
+    assert.ok(!strings(locale).inputCut.includes("'"));
+  }
+  // The composer's limit is the server's 3000 less what the role adds, for every role.
+  for (const locale of ['ru', 'uz'] as const) {
+    for (const role of getRoles(locale)) {
+      const prefix = rolePrefixLength(role.id as RoleId, locale);
+      assert.ok(prefix > 0 && prefix < 600, `${locale}/${role.id}: ${prefix}`);
+      assert.equal(applyRole('x'.repeat(3000 - prefix), role.id as RoleId, locale).length, 3000);
+    }
+  }
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /maxChars=\{MAX_INPUT - rolePrefixLength\(role, config\.locale\)\}/);
+  assert.doesNotMatch(consoleSource, /\.slice\(\s*0,\s*MAX_INPUT,?\s*\)/, 'the request is not cut a second time');
 });
 
 test('AI cabinet shares the quota between the RU and UZ chats and clears only the chat session', () => {

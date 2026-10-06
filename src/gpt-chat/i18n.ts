@@ -77,6 +77,8 @@ export interface ChatStrings {
   /** The free tier's last messages in the rolling hour (map 03 §3.7). */
   hourWarning: (n: number) => string;
   charsLeft: (n: number) => string;
+  /** Under the composer for 8 s after a paste longer than the limit was cut. */
+  inputCut: string;
   emptyPrompt: string;
   /** The honest terms, stated once on the resting screen, with the server's numbers. */
   emptyMeta: (limits: FreeLimits | null) => string;
@@ -185,6 +187,7 @@ const RU: ChatStrings = {
   lowWarning: (n) => `Осталось ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')} на сегодня.`,
   hourWarning: (n) => `В этот час можно отправить ещё ${n} ${ru(n, 'сообщение', 'сообщения', 'сообщений')}.`,
   charsLeft: (n) => `${n} ${ru(n, 'символ', 'символа', 'символов')} до лимита`,
+  inputCut: 'Текст был слишком длинным — конец обрезан. Отправьте частями.',
   emptyPrompt: 'Что хотите сделать?',
   emptyMeta: (limits) => limits === null
     ? 'Бесплатно, без регистрации.'
@@ -278,6 +281,7 @@ const UZ: ChatStrings = {
   lowWarning: (n) => `Bugun ${n} ta xabar qoldi.`,
   hourWarning: (n) => `Bu soat ichida yana ${n} ta xabar yuborishingiz mumkin.`,
   charsLeft: (n) => `Limitgacha ${n} belgi`,
+  inputCut: 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.',
   emptyPrompt: 'Nima qilmoqchisiz?',
   emptyMeta: (limits) => limits === null
     ? 'Bepul, ro‘yxatdan o‘tmasdan.'

@@ -252,6 +252,23 @@ test('the console renders without a pill, a tier or the old brand before the acc
   }
 });
 
+test('a paste longer than the limit is cut and said so, never cut silently by maxlength', () => {
+  for (const locale of LOCALES) {
+    const t = strings(locale);
+    const input = renderToStaticMarkup(React.createElement(AiChatInput, {
+      value: 'x'.repeat(2900), onChange: () => {}, onSend: () => {}, maxChars: 2950, t, inputRef: React.createRef<HTMLTextAreaElement>(),
+    }));
+    assert.doesNotMatch(input, /maxlength/i, locale);
+    assert.ok(input.includes(t.charsLeft(50)), `${locale}: the counter counts against the honest limit`);
+  }
+  assert.equal(strings('uz').inputCut, 'Matn juda uzun edi — oxiri kesildi. Qismlarga bo‘lib yuboring.');
+  assert.equal(strings('ru').inputCut, 'Текст был слишком длинным — конец обрезан. Отправьте частями.');
+  const source = read('src/gpt-chat/components/AiChatInput.tsx');
+  assert.match(source, /if \(next\.length > maxChars\) setCutAt\(Date\.now\(\)\);\s*onChange\(next\.slice\(0, maxChars\)\);/);
+  assert.match(source, /window\.setTimeout\(\(\) => setCutAt\(0\), 8_000\)/);
+  assert.match(source, /\{cutAt \? <span role="status">\{t\.inputCut\}<\/span> : left <= 200 && <span role="status">\{t\.charsLeft\(Math\.max\(0, left\)\)\}<\/span>\}/);
+});
+
 // ── analytics: one event per entity ─────────────────────────────────────────
 
 /** Every track()/trackOnce() call in the chat: the event expression and its parameter names. */
