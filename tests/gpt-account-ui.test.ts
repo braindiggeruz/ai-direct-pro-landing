@@ -13,6 +13,9 @@ import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId,
 import { GA4_PARAMS, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { useAccount, type AccountCause, type AccountHandle } from '../src/gpt-chat/use-account';
 
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06', pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null } });
 
@@ -462,4 +465,53 @@ test('every funnel step the window sends is one the server counts', (t) => {
   }
   assert.equal(new Set(events.map((e) => e.id)).size, events.length, 'a fresh id per event');
   assert.equal(new Set(events.map((e) => e.view)).size, 1, 'one tab, one view id');
+});
+
+// ── a failed account read after an answer (plan M-01, NOW-01) ──
+
+test('a failed read after someone was known leaves the screen, the counters and the pack button alone', () => {
+  const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  const onAccount = source.slice(source.indexOf('const onAccount = useCallback('), source.indexOf('}, [config.locale]);'));
+  // First thing in onAccount, before any branch that clears or loads.
+  const guard = onAccount.slice(0, onAccount.indexOf('const scope ='));
+  assert.match(guard, /if \(account === null && cause === "unreachable" && establishedIdentityRef\.current !== null\) \{\s*unstableRef\.current = true;\s*setAccountState\("unknown"\);\s*return;\s*\}/);
+  assert.doesNotMatch(guard, /setMessages|setSavedChats|setSessionId|setRemaining|setHourLeft|setFreeLimits|setBillingAvailable|setPaid|setPackTerms|setBotHandoff|setInput|abort\(/);
+  // The same visitor answers again: the screen becomes the stored conversation, once.
+  assert.match(onAccount, /if \(account && unstableRef\.current && accountIdentityRef\.current === identity\)\s*saveHistory\(shownRef\.current\.messages\.filter\(\(m\) => !m\.streaming\), config\.locale, scope\);\s*if \(account\) unstableRef\.current = false;/);
+  // Back online: read the account again at once.
+  assert.match(source, /const online = \(\) => setAccountRefresh\(\(n\) => n \+ 1\);\s*window\.addEventListener\("online", online\);\s*return \(\) => window\.removeEventListener\("online", online\);/);
+  // The line above the composer; a guest's button only reads again.
+  assert.match(source, /\{accountState === "unknown" && <p role="status" className="gpt-panel-note">\{t\.premium\.accountUnstable\} <button type="button" className="gpt-text-button" onClick=\{\(\) => \{ if \(signedIn\) openAccount\("account_check"\); setAccountRefresh\(n => n \+ 1\); \}\}>\{t\.premium\.recheck\}<\/button><\/p>\}/);
+  assert.equal(strings('uz').premium.accountUnstable, 'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.');
+  assert.equal(strings('ru').premium.accountUnstable, 'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.');
+  assert.deepEqual([strings('uz').premium.recheck, strings('ru').premium.recheck], ['Qayta tekshirish', 'Проверить снова']);
+});
+
+test('use-account: a failed read says unreachable and keeps the view; signing out says so and forgets it', async (t) => {
+  (globalThis as typeof globalThis & { React: typeof React }).React = React;
+  const heard: Array<[boolean, AccountCause]> = [];
+  let handle: AccountHandle | null = null;
+  function Probe() {
+    handle = useAccount('', (view, cause) => heard.push([view !== null, cause]), 0, null);
+    return null;
+  }
+  // Rendered once on the server: effects do not run, the handle's callbacks do.
+  renderToStaticMarkup(React.createElement(Probe));
+  const answers: Response[] = [Response.json(account()), Response.json({ ok: false }, { status: 503 }), Response.json({ ok: false }, { status: 503 })];
+  t.mock.method(globalThis, 'fetch', async () => answers.shift() ?? assert.fail('one read and one retry only'));
+  await handle!.refresh();
+  assert.deepEqual(heard, [[true, 'read']]);
+  await handle!.refresh(); // fails, and fails again after the 1.5 s retry
+  assert.deepEqual(heard.at(-1), [false, 'unreachable']);
+  handle!.fail();
+  assert.deepEqual(heard.at(-1), [false, 'unreachable']);
+  handle!.forget();
+  assert.deepEqual(heard.at(-1), [false, 'signed_out']);
+  // Only signing out forgets the last view; a failure keeps it (and the pack button).
+  const source = readFileSync(new URL('../src/gpt-chat/use-account.ts', import.meta.url), 'utf8');
+  const failed = source.slice(source.indexOf('} catch {\n      // The last view stays'), source.indexOf('} finally {'));
+  assert.match(failed, /setError\(true\);\s*onAccount\(null, 'unreachable'\);/);
+  assert.doesNotMatch(failed, /setData/);
+  assert.match(source, /const fail = useCallback\(\(\) => \{\s*setError\(true\);\s*onAccount\(null, 'unreachable'\);\s*\}, \[onAccount\]\);/);
+  assert.match(source, /const forget = useCallback\(\(\) => \{\s*setData\(null\);\s*onAccount\(null, 'signed_out'\);\s*\}, \[onAccount\]\);/);
 });

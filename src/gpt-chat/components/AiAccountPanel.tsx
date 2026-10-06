@@ -6,7 +6,7 @@ import { Sparkles, X } from 'lucide-react';
 import type { Locale } from "../types";
 import type { ChatStrings } from "../i18n";
 import { showsAccountPill, type AccountView } from "../types";
-import { useAccount } from "../use-account";
+import { useAccount, type AccountCause } from "../use-account";
 import { accountPart, LazyPart, PartFailed, PartLoading } from "../lazy-part";
 import { preloadsAccountWindow } from "../preload";
 import type { AccountWindowMemory, CheckoutControls } from "../account/AccountDialog";
@@ -57,7 +57,7 @@ export function AiAccountPanel({
   t: ChatStrings;
   locale: Locale;
   apiBase: string;
-  onAccount: (account: AccountView | null) => void;
+  onAccount: (account: AccountView | null, cause: AccountCause) => void;
   refreshKey: number;
   openRequest?: PackOpenRequest;
   /** Free messages or pack answers left; -1 while unknown. */

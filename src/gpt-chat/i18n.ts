@@ -33,8 +33,10 @@ export interface ChatStrings {
     /** Resting screen: the text around the chatgpt.com link, for a visitor who
      *  searched for the official ChatGPT. Lead + link + tail read as one line. */
     officialLead: string; officialTail: string;
-    /** Above the composer once the account view failed twice (F11). */
-    accountCheck: string;
+    /** Above the composer once the account view failed twice (F11): the chat answers, nothing is stored. */
+    accountUnstable: string;
+    /** Its button: read the account again. */
+    recheck: string;
   };
   /** RU chat only: the visible way to the Uzbek chat on the first screen —
    *  the header label (`nav`) and the resting-screen link (`page`). The Uzbek
@@ -144,7 +146,7 @@ const RU: ChatStrings = {
     copyFailed:'Копирование недоступно. Выделите текст и скопируйте вручную.',partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',simpler:'Объяснить проще',translate:'Перевести на узбекский',continue:'Продолжить',
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
-    accountCheck:'Проверьте состояние аккаунта.',
+    accountUnstable:'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.',recheck:'Проверить снова',
   },
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
@@ -236,7 +238,7 @@ const UZ: ChatStrings = {
     copyFailed:'Nusxalab bo‘lmadi. Matnni belgilab, qo‘lda nusxalang.',partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',simpler:'Oddiyroq tushuntir',translate:'Rus tiliga tarjima',continue:'Davom ettir',
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
-    accountCheck:'Akkaunt holatini tekshiring.',
+    accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',
   },
   brand: 'GPTBot.uz',
   inputPlaceholder: 'Xabar yozing…',

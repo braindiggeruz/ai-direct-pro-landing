@@ -5,6 +5,13 @@ import { checkoutPollDelay } from './checkout';
 /** Pause before the one retry of a failed account read. */
 const ACCOUNT_RETRY_MS = 1_500;
 
+/**
+ * Why the chat hears from the account view: it answered (`read`), it could
+ * not be read or an account action failed (`unreachable`: the last view is
+ * kept, nothing new is known), or the visitor signed out (`signed_out`).
+ */
+export type AccountCause = 'read' | 'unreachable' | 'signed_out';
+
 /** The account view as the chat and the pack window share it. */
 export interface AccountHandle {
   data: AccountView | null;
@@ -12,7 +19,7 @@ export interface AccountHandle {
   loading: boolean;
   /** Read /api/gpt/account again (one retry); the chat hears every result. */
   refresh: () => Promise<void>;
-  /** An account action failed: nothing is known until the next read answers. */
+  /** An account action failed: nothing new is known until the next read answers. */
   fail: () => void;
   /** Signed out: forget the view; the next read says who is asking now. */
   forget: () => void;
@@ -28,7 +35,7 @@ export interface AccountHandle {
  */
 export function useAccount(
   apiBase: string,
-  onAccount: (account: AccountView | null) => void,
+  onAccount: (account: AccountView | null, cause: AccountCause) => void,
   refreshKey: number,
   watchSince: number | null,
 ): AccountHandle {
@@ -61,13 +68,14 @@ export function useAccount(
       if (generation !== refreshGeneration.current) return;
       if (next.access && next.access.ends_at <= Date.now()) next.access = null;
       setData(next);
-      onAccount(next);
+      onAccount(next, 'read');
       setError(false);
     } catch {
+      // The last view stays (the pack button with it): a read that failed
+      // says nothing about who is asking (plan M-01).
       if (generation === refreshGeneration.current) {
         setError(true);
-        setData(null);
-        onAccount(null);
+        onAccount(null, 'unreachable');
       }
     } finally {
       if (generation === refreshGeneration.current) setLoading(false);
@@ -106,12 +114,11 @@ export function useAccount(
   }, [watchSince, refresh]);
   const fail = useCallback(() => {
     setError(true);
-    setData(null);
-    onAccount(null);
+    onAccount(null, 'unreachable');
   }, [onAccount]);
   const forget = useCallback(() => {
     setData(null);
-    onAccount(null);
+    onAccount(null, 'signed_out');
   }, [onAccount]);
   const clearError = useCallback(() => setError(false), []);
   return { data, error, loading, refresh, fail, forget, clearError };

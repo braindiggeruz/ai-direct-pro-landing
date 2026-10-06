@@ -50,6 +50,7 @@ import { applyRole, type RoleId } from "../roles";
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
+import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
 import { LazyPart, PartFailed, PartLoading, leadPart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
@@ -74,7 +75,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
   // 'unknown': the account view failed even after a retry. The chat still
-  // answers, as a guest whose history is neither loaded nor written (F11).
+  // answers, as a guest whose history is neither loaded nor written (F11);
+  // a conversation already on screen stays there (plan M-01).
   const [accountState, setAccountState] = useState<"loading" | "ready" | "unknown">("loading");
   const accountReady = accountState === "ready";
   const [freeLimits, setFreeLimits] = useState<FreeLimits | null>(null);
@@ -94,6 +96,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const openAccount = (from: PackFrom) => setAccountOpen((last) => ({ seq: (last?.seq ?? 0) + 1, from }));
   const accountIdentityRef = useRef<string | null>(null);
   const establishedIdentityRef = useRef<string | null>(null);
+  // Reads failed after someone was known; the next view that names them again stores the screen.
+  const unstableRef = useRef(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(-1);
   // Free messages left in the rolling hour, from the last answered turn.
@@ -129,11 +133,24 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   useEffect(() => {
     shownRef.current = { messages, busy };
   }, [messages, busy]);
-  const onAccount = useCallback((account: AccountView | null) => {
+  const onAccount = useCallback((account: AccountView | null, cause: AccountCause) => {
+    // A read that failed once someone is known (a flaky network after an
+    // answer, a tab shown again offline) says nothing about who is asking:
+    // the conversation, the counters and the pack button stay as they are,
+    // and nothing is stored until the account answers again (F11, plan M-01).
+    if (account === null && cause === "unreachable" && establishedIdentityRef.current !== null) {
+      unstableRef.current = true;
+      setAccountState("unknown");
+      return;
+    }
     // A guest's pack (guest checkout) is this browser's: its chats stay
     // where they were before paying, and signing in later keeps the composer.
     const scope = account?.user?.guest ? undefined : account?.user?.storageKey;
     const identity = account ? (scope || "guest") : null;
+    // The same visitor answers again: what was said meanwhile is stored now.
+    if (account && unstableRef.current && accountIdentityRef.current === identity)
+      saveHistory(shownRef.current.messages.filter((m) => !m.streaming), config.locale, scope);
+    if (account) unstableRef.current = false;
     if (accountIdentityRef.current !== identity) {
       const shown = shownRef.current;
       if (
@@ -209,6 +226,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (token) {
       setTurnstileServerError(null);
     }
+  }, []);
+
+  // Back online: read the account at once rather than at the next turn or focus.
+  useEffect(() => {
+    const online = () => setAccountRefresh((n) => n + 1);
+    window.addEventListener("online", online);
+    return () => window.removeEventListener("online", online);
   }, []);
 
   // On mount, once per page view: a visitor whose account view never
@@ -1083,7 +1107,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         {/* Composer */}
         <div className="gpt-composer shrink-0">
           <div className="mx-auto w-full max-w-[760px] px-4 pb-2 sm:px-6">
-            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountCheck} <button type="button" className="gpt-text-button" onClick={() => { openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.check}</button></p>}
+            {/* A guest's button only reads the account again; an account's opens its window too. */}
+            {accountState === "unknown" && <p role="status" className="gpt-panel-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}
             {limit && card && (
               // The limit card sits above the composer, which keeps the
               // refused question; sending waits for the time the server gave
