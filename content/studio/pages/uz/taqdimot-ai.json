@@ -24,7 +24,7 @@
   "tariffsVisible": false,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, 2 tagacha AI chizgan rasm. Natija — PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
+  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: titul slayd, har birida sarlavha va qisqa bandlar bo‘lgan 4–6 ta slayd va AI chizgan 2 tagacha rasm. Natija — PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
   "sections": [
     {
       "id": "qanday-ishlaydi",
@@ -49,7 +49,7 @@
       "h2": "Bepul taqdimotda nima bor",
       "items": [
         "Kuniga 1 ta taqdimot. Yangi kun Toshkent vaqti bilan soat 05:00 da boshlanadi.",
-        "Muqova va 4–6 slayd: har birida sarlavha va 2–5 ta qisqa band.",
+        "Titul slayd va 4–6 ta slayd: har birida sarlavha va 2–5 ta qisqa band.",
         "2 tagacha rasm: buyumlar, binolar yoki tabiat manzarasi. Rasmlarda odamlar, yozuv va bayroqlar bo‘lmasligiga harakat qilamiz; tekshiruv shunday rasmni topsa, slayd rasmsiz qoladi.",
         "Bitta oddiy dizayn: o‘qilishi oson ranglar va yirik shrift.",
         "Ro‘yxatdan o‘tish va to‘lov kerak emas. Bot emasligingizni Cloudflare qisqa tekshiradi.",
@@ -84,7 +84,7 @@
     },
     {
       "q": "Faylni qaysi dasturda ochsa bo‘ladi?",
-      "a": ".pptx — PowerPoint fayli. Uni Microsoft PowerPoint, Google Slides, WPS Office va Keynote ochadi, telefonda ham. Matnni tahrirlash uchun kompyuter qulayroq, lekin kichik o‘zgarishlarni telefonda ham qilsa bo‘ladi."
+      "a": ".pptx — PowerPoint fayli. Uni Microsoft PowerPoint, Google Slides, WPS Office va Keynote ochadi, telefonda ham. Matnni tahrirlash uchun kompyuter qulayroq, lekin kichik tuzatishlarni telefonda ham kiritish mumkin."
     },
     {
       "q": "Instagram yoki Telegram ichida ochsam nima bo‘ladi?",
@@ -92,11 +92,11 @@
     },
     {
       "q": "Taqdimotni o‘qituvchiga shundayligicha topshirsa bo‘ladimi?",
-      "a": "Tavsiya qilmaymiz. Bu qoralama: faktlarni tekshiring, o‘z so‘zlaringiz va misollaringizni qo‘shing, o‘qituvchi so‘ragan slaydlar soni va manbalarni o‘zingiz to‘ldiring."
+      "a": "Tavsiya qilmaymiz. Bu qoralama: faktlarni tekshiring, o‘z so‘zlaringiz va misollaringizni qo‘shing, slaydlarni o‘qituvchi so‘ragan songa yetkazing va manbalar ro‘yxatini o‘zingiz tuzing."
     },
     {
       "q": "Nega ba’zi mavzular rad etiladi?",
-      "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mazmundagi mavzular, o‘ziga zarar yetkazish, nafratga chaqiriq, giyohvand modda yoki qurol tayyorlash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi, giyohvandlik zarari — mumkin."
+      "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mazmundagi, o‘ziga zarar yetkazishga oid yoki nafratga chaqiruvchi mavzular, shuningdek giyohvand moddani tayyorlash, topish yoki iste’mol qilish va qurol yasash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi, giyohvandlik zarari — ruxsat etiladi."
     },
     {
       "q": "Nega rasmlarda odamlar chizilmaydi?",

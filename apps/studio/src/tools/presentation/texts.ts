@@ -80,7 +80,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     freeNote: 'Bepul: kuniga 1 ta taqdimot, 6 slaydgacha, 2 tagacha rasm. Ro‘yxatdan o‘tish shart emas.',
     inAppTitle: 'Brauzerda oching',
     inAppBody:
-      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — u holda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching yoki yuqoridagi ⋮ / … menyusidan «Brauzerda ochish»ni tanlang.',
+      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — u holda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching. Yoki yuqoridagi ⋮ / … menyusidan «Brauzerda ochish»ni tanlang.',
     copyLink: 'Havolani nusxalash',
     copyShort: 'Nusxalash',
     copied: 'Havola nusxalandi',
@@ -129,7 +129,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     freeNote: 'Бесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.',
     inAppTitle: 'Откройте в браузере',
     inAppBody:
-      'Встроенный браузер Instagram или Telegram может не сохранить файл — тогда пропадёт и бесплатная презентация. Скопируйте ссылку и откройте её в Chrome или Safari или нажмите ⋮ / … вверху и выберите «Открыть в браузере».',
+      'Встроенный браузер Instagram или Telegram может не сохранить файл — тогда пропадёт и бесплатная презентация. Скопируйте ссылку и откройте её в Chrome или Safari — или нажмите ⋮ / … вверху и выберите «Открыть в браузере».',
     copyLink: 'Скопировать ссылку',
     copyShort: 'Скопировать',
     copied: 'Ссылка скопирована',
@@ -160,7 +160,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
       turnstile: 'Не удалось пройти проверку. Обновите страницу и попробуйте снова.',
       free_closed: 'Бесплатные презентации на сегодня закончились.',
       connection_lost: 'Связь прервалась. Проверьте интернет и попробуйте ещё раз.',
-      job_lost: 'Пока связь прерывалась, презентация закрылась, и открыть её снова нельзя.',
+      job_lost: 'Пока не было связи, презентация закрылась, и открыть её снова нельзя.',
       busy: 'Временно не работает. Попробуйте чуть позже.',
     },
     resetAt: (time) => `Новая бесплатная презентация — в ${time} по Ташкенту.`,
