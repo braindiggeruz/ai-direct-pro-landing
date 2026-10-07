@@ -188,7 +188,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘qish davridagi boshqa yozma ishlar uchun alohida qo‘llanmalar bor: {slayd}, {referat} hamda {insho}.",
+      "text": "O‘qish davridagi boshqa topshiriqlar uchun ham alohida qo‘llanmalar bor: {slayd}, {referat} hamda {insho}.",
       "links": [
         {
           "token": "slayd",

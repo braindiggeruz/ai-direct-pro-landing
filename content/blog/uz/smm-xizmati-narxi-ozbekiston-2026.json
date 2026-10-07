@@ -152,7 +152,7 @@
     },
     {
       "type": "linkp",
-      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan. Mutaxassis ishining narxi — {xizmat} sahifasida.",
+      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan. Mutaxassis ishi qancha turishi — {xizmat} sahifasida.",
       "links": [
         {
           "token": "target",

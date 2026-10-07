@@ -92,7 +92,7 @@
     },
     {
       "type": "linkp",
-      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} va {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
+      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} hamda {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
       "links": [
         {
           "token": "slayd",
