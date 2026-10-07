@@ -38,6 +38,7 @@ import {
 } from '../apps/studio/scripts/studio-page';
 import { GUIDE_NEW_TEXT, GUIDE_TOOL_LINK, R_ST1, applyRelease, readFrom } from '../apps/studio/scripts/release-content';
 import { publishedStudioUrls, readStudioPages, type StudioPageRecord } from '../apps/studio/shared/published-urls';
+import { renderPhotoForm } from '../apps/studio/src/tools/photo/static';
 import { renderForm } from '../apps/studio/src/tools/presentation/static';
 import { declaredKeywords, readDocs } from './helpers/studio-content';
 
@@ -146,7 +147,7 @@ test('page records: a bad URL, locale, status, duplicate or JSON stops the build
 
 test('page records: the repository\'s own studio pages are valid and renderable, in Uzbek as the site writes it', () => {
   const pages = readStudioPages();
-  assert.deepEqual(pages.map(p => p.url), ['/ru/prezentatsiya-ai/', '/uz/taqdimot-ai/']);
+  assert.deepEqual(pages.map(p => p.url), ['/ru/prezentatsiya-ai/', '/uz/rasmdan-yechim/', '/uz/taqdimot-ai/']);
   for (const record of pages) assert.deepEqual(studioPageProblems(record), [], record.file);
   // No studio page lives in content/pages: the site's prerender, sitemap and homepage read that directory.
   const { pages: sitePages, blog } = readDocs(REPO);
@@ -164,7 +165,8 @@ test('page records: every way a record can be wrong is named', () => {
   assert.match(problems({ description: 'Qisqa.' }), /description is 6 characters, expected 120–160/);
   assert.match(problems({ honesty: 'GPTBot.uz — AI yordamchi.' }), /honesty must name GPTBot\.uz, ChatGPT and OpenAI/);
   assert.match(problems({ tariffsVisible: true }), /tariffsVisible must be false/);
-  assert.match(problems({ tool: 'photo' }), /tool must be "presentation"/);
+  assert.match(problems({ tool: 'video' }), /tool must be one of "presentation", "photo"/);
+  assert.doesNotMatch(problems({ tool: 'photo' }), /tool must be/);
   assert.match(problems({ ogImage: '/assets/studio/og.png' }), /versioned/);
   assert.match(problems({ hreflangUz: '/uz/boshqa/' }), /hreflangUz must be the page's own URL/);
   assert.match(problems({ updatedAt: '22.10.2026' }), /updatedAt must be YYYY-MM-DD/);
@@ -366,14 +368,28 @@ test('budget: an asset name outside the studio directory is rejected', () => {
 const SITE_STYLE = '/assets/index-yIq7NheZ.css';
 const ENTRY = { script: '/assets/studio/studio-entry.js', styles: ['/assets/studio/studio-entry.css'] };
 
-/** The repository's records with chosen statuses (default: both published, as on the release day). */
-function records(status: { uz?: 'draft' | 'published'; ru?: 'draft' | 'published' } = {}): StudioPageRecord[] {
-  return readStudioPages(REPO).map(p => ({ ...p, status: status[p.locale] ?? 'published' }));
+/**
+ * The repository's records with chosen statuses: the two deck pages published
+ * (as on the release day R-ST1) unless said otherwise; the photo page stays a
+ * draft here (its own release waits for the photo gate) unless `photo` says so.
+ */
+function records(status: { uz?: 'draft' | 'published'; ru?: 'draft' | 'published'; photo?: 'draft' | 'published' } = {}): StudioPageRecord[] {
+  return readStudioPages(REPO).map(p => ({
+    ...p,
+    status: p.data.tool === 'photo' ? status.photo ?? 'draft' : status[p.locale] ?? 'published',
+  }));
 }
 
-function rendered(locale: 'uz' | 'ru', status: { uz?: 'draft' | 'published'; ru?: 'draft' | 'published' } = {}): string {
+function rendered(locale: 'uz' | 'ru', status: { uz?: 'draft' | 'published'; ru?: 'draft' | 'published'; photo?: 'draft' | 'published' } = {}): string {
   const pages = records(status);
-  const record = pages.find(p => p.locale === locale) as StudioPageRecord;
+  const record = pages.find(p => p.locale === locale && p.data.tool === 'presentation') as StudioPageRecord;
+  return renderStudioPage(record, { site: readStudioSite(REPO), pages, siteStyles: [SITE_STYLE], assets: ENTRY });
+}
+
+/** The photo page (/uz/rasmdan-yechim/) as its release will write it, next to the published deck pages. */
+function renderedPhoto(): string {
+  const pages = records({ photo: 'published' });
+  const record = pages.find(p => p.data.tool === 'photo') as StudioPageRecord;
   return renderStudioPage(record, { site: readStudioSite(REPO), pages, siteStyles: [SITE_STYLE], assets: ENTRY });
 }
 
@@ -612,5 +628,67 @@ test('copy: the processing is named next to the form (the privacy policy has no 
     for (const name of ['Z.ai', 'OpenRouter', 'Cloudflare Workers AI', 'Cloudflare Turnstile', 'cookie']) assert.ok(text.includes(name), `${file}: ${name}`);
     assert.match(text, /1 yilga|на 1 год/, file);
     assert.doesNotMatch(text, /Batafsil — \{privacy\}|Подробнее — в \{privacy\}/, `${file}: the policy is a general link, not "the details"`);
+  }
+});
+
+// --- the photo page (T3.3): a `tool: "photo"` record, the photo island, no translation ---
+
+const PHOTO_FILE = 'content/studio/pages/uz/rasmdan-yechim.json';
+
+test('photo page: a valid draft that renders with data-tool="photo", the photo island\'s first state, no hreflang and no switch, the deck pages linked in the header', () => {
+  const record = readStudioPages(REPO).find(p => p.url === '/uz/rasmdan-yechim/') as StudioPageRecord;
+  assert.ok(record);
+  assert.equal(record.status, 'draft', 'the photo page waits for its gate (PHOTO-EVAL.md)');
+  assert.equal(record.data.tool, 'photo');
+  assert.deepEqual(studioPageProblems(record), []);
+  const html = renderedPhoto();
+  assert.equal(headings(html, 1).length, 1);
+  assert.equal(headings(html, 1)[0], real(PHOTO_FILE).h1);
+  assert.match(html, /<div id="studio-root" data-tool="photo"/);
+  assert.equal(islandHtmlOf(html), renderPhotoForm('uz'));
+  assert.doesNotMatch(head(html), /hreflang=/);
+  assert.doesNotMatch(html, /hreflang="ru" lang="ru"/, 'no language switch: the page has no translation');
+  assert.match(html, /<link rel="canonical" href="https:\/\/gptbot\.uz\/uz\/rasmdan-yechim\/" \/>/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/gptbot\.uz\/assets\/studio\/og-rasmdan-yechim-v1\.png" \/>/);
+  // The header lists the published tools: the deck page and this one.
+  assert.match(html, /<a href="\/uz\/taqdimot-ai\/" class="[^"]*">Taqdimot AI<\/a>/);
+  assert.match(html, /<a href="\/uz\/rasmdan-yechim\/" aria-current="page"/);
+  assert.ok(countWords(textOutsideIsland(html)) >= MIN_WORDS_OUTSIDE_ISLAND);
+  const graph = jsonLd(html)['@graph'];
+  assert.equal((graph.find(node => node['@type'] === 'WebApplication') as { name: string }).name, 'Rasmdan yechim');
+  for (const word of FORBIDDEN_WORDS) assert.doesNotMatch(strip(html.replace(/<script[\s\S]*?<\/script>/g, '')), word, String(word));
+});
+
+test('photo page: the deck pages do not list the photo page while it is a draft; published, it is listed on the Uzbek deck page only', () => {
+  assert.doesNotMatch(rendered('uz'), /rasmdan-yechim/);
+  assert.doesNotMatch(rendered('ru'), /rasmdan-yechim/);
+  assert.match(rendered('uz', { photo: 'published' }), /<a href="\/uz\/rasmdan-yechim\/" class="[^"]*">Rasmdan yechim<\/a>/);
+  assert.doesNotMatch(rendered('ru', { photo: 'published' }), /rasmdan-yechim/, 'the Russian page lists Russian tools only');
+});
+
+test('photo page: the copy names the recipient (Z.ai, Singapur), says nothing is kept, the metadata cut, Turnstile, the cookie, the beta mark and the disclaimer; «tushuntiradi», never «yechib beradi»', () => {
+  const text = fs.readFileSync(path.join(REPO, PHOTO_FILE), 'utf8');
+  for (const piece of ['Z.ai (Singapur)', 'saqlanmaydi', 'Zhipu AI', 'Xitoy', 'metama’lumotlar', 'Cloudflare Turnstile', 'cookie', '1 yilga', 'beta', 'ko‘chirish uchun emas. Javobni tekshiring', 'Kuniga 2 ta rasm', '05:00', 'Odamlarning yuzi tushgan rasmni yubormang']) {
+    assert.ok(text.includes(piece), piece);
+  }
+  assert.doesNotMatch(text, /yechib ber/i);
+  assert.doesNotMatch(text, /hreflang/);
+  assert.equal(real(PHOTO_FILE).tariffsVisible, false);
+});
+
+test('photo page: its og image is a 1200×630 PNG in apps/studio/public; its keywords collide with no other document', () => {
+  const og = String(real(PHOTO_FILE).ogImage);
+  const local = path.join(REPO, 'apps/studio/public', path.basename(og));
+  assert.ok(fs.existsSync(local), og);
+  const png = fs.readFileSync(local);
+  assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1200, 630]);
+  assert.ok(png.length < 400_000, `${og} is ${png.length} bytes`);
+  const keys = declaredKeywords(real(PHOTO_FILE));
+  assert.ok(keys.length >= 4);
+  const { pages, blog } = readDocs(REPO);
+  for (const doc of [...pages, ...blog, real(UZ_FILE), real(RU_FILE)]) {
+    const shared = declaredKeywords(doc as Record<string, unknown>).filter(k => keys.includes(k));
+    assert.deepEqual(shared, [], `${String((doc as { url?: string }).url)} declares ${shared.join(', ')}`);
   }
 });

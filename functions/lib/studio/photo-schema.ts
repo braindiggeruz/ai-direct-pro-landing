@@ -12,8 +12,9 @@
 //   steps              1..12, each cut at 400 characters (soft); none is a problem.
 //   confidence         high | medium | low; anything else is "medium" (soft).
 // An Uzbek answer is Uzbek-normalized (uz-normalize.ts) and must be in the
-// Latin script: Cyrillic letters or an English answer are problems, so the
-// step asks the next model (spec §8.2: the fallback once answered in English).
+// Latin script: an answer written in Cyrillic or in English is a problem, so
+// the step asks again (spec §8.2: the fallback once answered in English); a
+// few Cyrillic words quoted from a Russian task are not.
 import type { Checked } from "./deck-schema";
 import type { StudioLocale } from "./prompts";
 import { addFixes, normalizeUz } from "./uz-normalize";
@@ -61,15 +62,24 @@ function cut(text: string, max: number): string {
   return chars.length <= max ? text : chars.slice(0, max).join("").trimEnd();
 }
 
-const CYRILLIC = /\p{Script=Cyrillic}/u;
+const CYRILLIC = /\p{Script=Cyrillic}/gu;
+const LATIN = /\p{Script=Latin}/gu;
+/** Cyrillic letters above this share of all letters: the answer is written in Russian, not quoting a Russian task. */
+const CYRILLIC_SHARE = 1 / 3;
 /** Words that mark an English sentence; an Uzbek answer has none of them as whole words. */
 const ENGLISH_WORDS = /\b(?:the|and|is|are|was|were|of|to|we|then|so|therefore|answer|step|first|second|find|given|check|which|with|this|that|from|by|for)\b/gi;
 /** Words that mark an Uzbek sentence (Latin script). */
 const UZBEK_WORDS = /(?:^|[^\p{L}])(?:va|bu|uchun|bilan|bo‘ladi|bo‘lsin|teng|demak|javob|berilgan|topish|topamiz|hisoblaymiz|kerak|ya’ni|yoki|qadam|tekshirish|masala|son|soni)(?=$|[^\p{L}])/giu;
 
-/** Why `text` is not an Uzbek Latin text, or null: Cyrillic letters, or more English than Uzbek words. */
+/**
+ * Why `text` is not an Uzbek Latin text, or null: written in Cyrillic (a
+ * third or more of its letters; a Russian task quoted inside an Uzbek
+ * explanation is fine), or more English than Uzbek words.
+ */
 export function uzbekLatinProblem(text: string): "cyrillic" | "not_uzbek" | null {
-  if (CYRILLIC.test(text)) return "cyrillic";
+  const cyrillic = (text.match(CYRILLIC) ?? []).length;
+  const latin = (text.match(LATIN) ?? []).length;
+  if (cyrillic > 0 && cyrillic >= (cyrillic + latin) * CYRILLIC_SHARE) return "cyrillic";
   const english = (text.match(ENGLISH_WORDS) ?? []).length;
   const uzbek = (text.match(UZBEK_WORDS) ?? []).length;
   return english >= 3 && english > uzbek ? "not_uzbek" : null;

@@ -87,6 +87,7 @@ import { AI_LABEL } from '../src/pptx/build';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { Preview } from '../src/tools/presentation/Preview';
+import { PHOTO_TEXTS } from '../src/tools/photo/texts';
 import { renderForm } from '../src/tools/presentation/static';
 import { TEXTS } from '../src/tools/presentation/texts';
 import { STUDIO_ASSET_DIR, readStudioSite } from './prerender-studio';
@@ -426,13 +427,21 @@ export interface PageProbe {
 
 export const LAYOUT_SHIFT_LIMIT = 0.05;
 
-/** The form's error and limit messages in `locale`: none of them may show before an action. */
-export function errorTexts(locale: 'uz' | 'ru'): string[] {
-  return Object.values(TEXTS[locale].messages);
+export type PageTool = 'presentation' | 'photo';
+
+/** The tool's error and limit messages in `locale`: none of them may show before an action. */
+export function errorTexts(locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
+  return Object.values(tool === 'photo' ? PHOTO_TEXTS[locale].messages : TEXTS[locale].messages);
+}
+
+/** What the tool says after a submit with /api/* down: a lost connection, or busy for a studio that answers "off". */
+export function closedApiMessages(locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
+  const messages = tool === 'photo' ? PHOTO_TEXTS[locale].messages : TEXTS[locale].messages;
+  return [messages.connection_lost, messages.busy];
 }
 
 /** Every way one measured page breaks the closed-API contract; empty when it keeps it. */
-export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
+export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
   const at = `pages ${probe.url}`;
   const failures: string[] = [];
   if (probe.h1.length !== 1 || !probe.h1[0]) failures.push(`${at}: ${probe.h1.length} H1, expected one with text`);
@@ -447,7 +456,7 @@ export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
   if (!probe.afterFocus.api.length) failures.push(`${at}: a focus in the form asked nothing of /api/studio (config and me are lazy, not absent)`);
   if (probe.afterFocus.errors.length) failures.push(`${at}: error text after a mere focus: ${probe.afterFocus.errors.join(' | ')}`);
   // /api/* answers nothing here: the browser reads that as a lost connection (or, for an off switch, busy).
-  const expected = [TEXTS[locale].messages.connection_lost, TEXTS[locale].messages.busy];
+  const expected = closedApiMessages(locale, tool);
   if (!expected.includes(probe.afterSubmit.message)) failures.push(`${at}: after a submit with /api/* down the form says «${probe.afterSubmit.message}», expected «${expected[0]}»`);
   if (probe.afterSubmit.h1 !== 1) failures.push(`${at}: the page lost its H1 after the submit`);
   return failures;
@@ -456,8 +465,15 @@ export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
 export interface PageUnderCheck {
   url: string;
   locale: 'uz' | 'ru';
+  /** The island the page holds (its record's `tool`): the deck form, or the photo tool. */
+  tool: PageTool;
   /** HTML to serve from memory; null when the page is read from dist/ (or the origin). */
   html: string | null;
+}
+
+/** The record's tool as a PageTool (studio-page.ts validates the field; anything else here counts as the deck form). */
+export function pageToolOf(data: Record<string, unknown>): PageTool {
+  return data.tool === 'photo' ? 'photo' : 'presentation';
 }
 
 /**
@@ -470,14 +486,15 @@ export function pagesUnderCheck(root: string, dist: string, entry: StudioEntryFi
   const asReleased: StudioPageRecord[] = pages.map((page) => ({ ...page, status: 'published' }));
   const site = pages.some((page) => page.status === 'draft') ? readStudioSite(root) : null;
   return pages.map((page) => {
-    if (page.status === 'published') return { url: page.url, locale: page.locale, html: null };
+    const tool = pageToolOf(page.data);
+    if (page.status === 'published') return { url: page.url, locale: page.locale, tool, html: null };
     const html = renderStudioPage(asReleased.find((other) => other.url === page.url) as StudioPageRecord, {
       site: site as NonNullable<typeof site>,
       pages: asReleased,
       siteStyles: siteStylesheetHrefs(dist),
       assets: { script: entry.script, styles: [entry.style] },
     });
-    return { url: page.url, locale: page.locale, html };
+    return { url: page.url, locale: page.locale, tool, html };
   });
 }
 
@@ -488,6 +505,7 @@ async function checkClosedApi(
   targets: PageUnderCheck[],
   failures: string[],
   source: (target: PageUnderCheck) => PageProbe['source'],
+  photoFixture: Buffer = Buffer.from(PHOTO_FIXTURE_JPEG),
 ): Promise<PageProbe[]> {
   const probes: PageProbe[] = [];
   for (const target of targets) {
@@ -511,7 +529,7 @@ async function checkClosedApi(
     await tab.goto(origin + target.url, { waitUntil: 'load' });
     await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 15_000 }).catch(() => failures.push(`pages ${target.url}: the island never became ready`));
     await tab.waitForTimeout(Math.max(0, 3_000 - (Date.now() - started)));
-    const errors = errorTexts(target.locale);
+    const errors = errorTexts(target.locale, target.tool);
     const measure = () => tab.evaluate((messages: string[]) => {
       const root = document.getElementById('studio-root');
       const clone = document.body.cloneNode(true) as HTMLElement;
@@ -533,12 +551,22 @@ async function checkClosedApi(
     }, errors);
     const loaded = await measure();
     const apiOnLoad = [...api];
-    await tab.click('#studio-root input[name="topic"]');
+    if (target.tool === 'photo') await tab.focus('#studio-root input[name="image"]');
+    else await tab.click('#studio-root input[name="topic"]');
     await tab.waitForTimeout(1_500);
     const focused = await measure();
     const afterFocus = { api: api.slice(apiOnLoad.length), errors: focused.errors };
-    await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
-    await tab.click('#studio-root button[type="submit"]');
+    if (target.tool === 'photo') {
+      // A small JPEG is chosen; the first submit asks for the one-time consent (no storage holds it yet), the second one posts.
+      await tab.setInputFiles('#studio-root input[name="image"]', { name: 'task.jpg', mimeType: 'image/jpeg', buffer: photoFixture });
+      await tab.click('#studio-root button[type="submit"]');
+      await tab.waitForSelector('#studio-root [data-studio-consent]', { timeout: 10_000 }).catch(() => failures.push(`pages ${target.url}: no consent block before the first photo`));
+      if (api.length > apiOnLoad.length + afterFocus.api.length) failures.push(`pages ${target.url}: the photo left before the consent was given`);
+      await tab.click('#studio-root [data-studio-consent-accept]').catch(() => undefined);
+    } else {
+      await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
+      await tab.click('#studio-root button[type="submit"]');
+    }
     const message = await tab.waitForFunction(() => {
       const line = document.querySelector('#studio-root [data-studio-message]');
       return line && line.getAttribute('data-studio-message') ? (line.textContent ?? '').trim() : null;
@@ -561,17 +589,22 @@ async function checkClosedApi(
       afterFocus,
       afterSubmit: { message, h1: h1After },
     };
-    failures.push(...pageFailures(probe, target.locale));
+    failures.push(...pageFailures(probe, target.locale, target.tool));
     probes.push(probe);
     await context.close();
   }
   return probes;
 }
 
+/** A small but well-formed JPEG (SOI, JFIF APP0, EOI) for the photo page's submit; the shrink step may fail to decode it, which is a message too. */
+export const PHOTO_FIXTURE_JPEG: readonly number[] = [
+  0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0xff, 0xd9,
+];
+
 /** The pages check alone, against a live origin (after a deploy): the published pages only. */
 export async function checkOrigin(origin: string, root: string = ROOT): Promise<{ status: 'pass' | 'fail'; pages: PageProbe[]; failures: string[] }> {
   const { chromium } = await import('playwright-core');
-  const targets = readStudioPages(root).filter((page) => page.status === 'published').map((page) => ({ url: page.url, locale: page.locale, html: null }));
+  const targets = readStudioPages(root).filter((page) => page.status === 'published').map((page) => ({ url: page.url, locale: page.locale, tool: pageToolOf(page.data), html: null }));
   const failures: string[] = [];
   if (!targets.length) failures.push('origin: no published studio page to check');
   const browser = await chromium.launch({ executablePath: findChrome(), headless: true });

@@ -23,7 +23,8 @@
  *            header: GPTBot.uz (→ /uz/, or / on a Russian page; never /ru/,
  *            which is a 301 to /), the published tools, a language switch only
  *            when the translation is published; breadcrumb; the H1 and the
- *            honesty line; #studio-root with the form's first state and
+ *            honesty line; #studio-root with the tool's first state (the deck
+ *            form, or the photo island of a `tool: "photo"` record) and
  *            nothing else; the text, the FAQ, the links; the footer from
  *            content/global/legal-entity.json with the e-mail behind
  *            <!--email_off-->.
@@ -39,6 +40,7 @@ import { withEmailOff } from '../../../scripts/email-off';
 import { buildBreadcrumbLd, buildOrganizationLd } from '../../../scripts/jsonld-helpers';
 import type { GlobalSEO } from '../../../src/shared/types';
 import { INAPP_HEAD_SCRIPT } from '../src/inapp';
+import { renderPhotoForm } from '../src/tools/photo/static';
 import { renderForm } from '../src/tools/presentation/static';
 import { studioAlternates, type StudioLocale, type StudioPageRecord } from '../shared/published-urls';
 
@@ -71,10 +73,14 @@ export interface StudioSection {
   paragraphs?: StudioParagraph[];
 }
 
+/** The tools a page may hold; each has its own island and static first state (src/tools/<tool>/static.ts). */
+export const STUDIO_TOOLS = ['presentation', 'photo'] as const;
+export type StudioTool = (typeof STUDIO_TOOLS)[number];
+
 export interface StudioPageContent {
   url: string;
   locale: StudioLocale;
-  tool: 'presentation';
+  tool: StudioTool;
   toolName: string;
   title: string;
   h1: string;
@@ -149,7 +155,7 @@ export function studioPageProblems(page: StudioPageRecord): string[] {
   for (const field of ['toolName', 'title', 'h1', 'description', 'honesty', 'primaryKeyword', 'ogImageAlt', 'lead', 'faqTitle']) {
     if (!isText(data[field])) problems.push(`${field} is required`);
   }
-  if (data.tool !== 'presentation') problems.push('tool must be "presentation" (the photo page arrives with its own tool)');
+  if (!(STUDIO_TOOLS as readonly unknown[]).includes(data.tool)) problems.push(`tool must be one of ${STUDIO_TOOLS.map((tool) => `"${tool}"`).join(', ')}`);
   if (isText(data.title) && (data.title.length < TITLE_LENGTH.min || data.title.length > TITLE_LENGTH.max)) {
     problems.push(`title is ${data.title.length} characters, expected ${TITLE_LENGTH.min}–${TITLE_LENGTH.max}`);
   }
@@ -330,6 +336,11 @@ export function studioJsonLd(content: StudioPageContent, global: GlobalSEO): str
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 }
 
+/** The island's first state for a tool, as its own static.ts renders it. */
+export function renderIsland(tool: StudioTool, locale: StudioLocale): string {
+  return tool === 'photo' ? renderPhotoForm(locale) : renderForm(locale);
+}
+
 /** The whole page, e-mail addresses already behind <!--email_off-->. */
 export function renderStudioPage(page: StudioPageRecord, context: StudioRenderContext): string {
   const content = studioPageContent(page);
@@ -338,7 +349,7 @@ export function renderStudioPage(page: StudioPageRecord, context: StudioRenderCo
   const pageUrl = `${global.siteUrl}${content.url}`;
   const alternates = studioAlternates(page, context.pages);
   const ogImage = `${global.siteUrl}${content.ogImage}`;
-  const island = context.islandHtml ?? renderForm(content.locale);
+  const island = context.islandHtml ?? renderIsland(content.tool, content.locale);
   const tools = context.pages
     .filter((other) => other.locale === content.locale && (other.status === 'published' || other.url === page.url))
     .map((other) => {

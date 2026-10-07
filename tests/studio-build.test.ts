@@ -204,11 +204,17 @@ test('check-pages: a draft is checked as the release will write it, a published 
   fs.writeFileSync(path.join(dist, 'assets/index-site.css'), 'body{margin:0}');
   const entry = { script: '/assets/studio/studio-a.js', style: '/assets/studio/studio-a.css' };
   const targets = pagesUnderCheck(ROOT, dist, entry);
-  assert.deepEqual(targets.map(target => [target.url, target.locale]), [['/ru/prezentatsiya-ai/', 'ru'], ['/uz/taqdimot-ai/', 'uz']]);
+  assert.deepEqual(targets.map(target => [target.url, target.locale, target.tool]), [['/ru/prezentatsiya-ai/', 'ru', 'presentation'], ['/uz/rasmdan-yechim/', 'uz', 'photo'], ['/uz/taqdimot-ai/', 'uz', 'presentation']]);
   for (const target of targets) {
     if (target.html === null) continue; // already published: read from dist
     assert.match(target.html, /<link rel="stylesheet" href="\/assets\/index-site\.css" \/>\n<link rel="stylesheet" href="\/assets\/studio\/studio-a\.css" \/>/);
     assert.match(target.html, /<script type="module" src="\/assets\/studio\/studio-a\.js"><\/script>/);
+    if (target.tool === 'photo') {
+      // The photo page has no translation: no hreflang, no switch; its island is the photo tool's.
+      assert.doesNotMatch(target.html, /hreflang=/);
+      assert.match(target.html, /<div id="studio-root" data-tool="photo"/);
+      continue;
+    }
     // As released: the translation is there, so are hreflang and the switch.
     assert.match(target.html, /hreflang="x-default" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"/);
   }

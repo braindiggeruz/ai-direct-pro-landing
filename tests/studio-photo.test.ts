@@ -185,13 +185,16 @@ test("schema: no steps, an empty answer, a non-object, Cyrillic or English in an
   assert.match(problems({ ...ANSWER, steps: "one" }).join(), /steps: not a list/);
   assert.match(problems({ ...ANSWER, answer: "  " }).join(), /answer: empty/);
   assert.match(problems({ ...ANSWER, given: 5 }).join(), /given: not a string/);
-  assert.match(problems({ ...ANSWER, answer: "25 Дж" }).join(), /language: cyrillic/);
+  assert.match(problems({ ...ANSWER, given: "Масса 500 г, скорость 36 км/ч.", steps: ["Переводим единицы: 0,5 кг и 10 м/с.", "E = m · v² / 2 = 25 Дж."], answer: "25 Дж", check: "Проверьте единицы." }).join(), /language: cyrillic/);
+  // A Russian task quoted inside an Uzbek explanation is fine.
+  assert.deepEqual(problems({ ...ANSWER, given: "«Найдите 15 % от 240» — 240 ning 15 foizini topish kerak.", answer: "36" }), []);
   assert.match(problems({ ...ANSWER, steps: ["First we convert the units to SI, then we apply the formula and the answer is 25 J."] }).join(), /language: not_uzbek/);
   // The same English answer is fine for a Russian page's check of the script (no Uzbek rule there).
   assert.deepEqual(problems({ ...ANSWER, steps: ["First we convert the units to SI, then we apply the formula and the answer is 25 J."] }, "ru"), []);
   assert.equal(uzbekLatinProblem("Javob: 25 J. Tekshirish uchun birliklarni solishtiring."), null);
   assert.equal(uzbekLatinProblem("E = m · v² / 2; the answer is 25 J and we check it"), "not_uzbek");
   assert.equal(uzbekLatinProblem("Ответ 25"), "cyrillic");
+  assert.equal(uzbekLatinProblem("So‘z «весна» ning birinchi bo‘g‘ini urg‘usiz: вес-на."), null);
 });
 
 test("chain: Z.ai vision models only, in the configured order; never ':free', never OpenRouter, nothing without a key", () => {
@@ -365,7 +368,7 @@ test("unreadable: 422 without a single content field, the job refused, the unit 
 test("an answer in Cyrillic or English is asked again once; cut off → one free retry at 2 500 tokens; a second bad answer is 422 invalid_output with the unit back", async (context) => {
   const site = await photoSite(context);
   const { cookie, subject } = await browser();
-  site.zai.push(visionReply({ ...ANSWER, answer: "25 Дж" }), visionReply(ANSWER));
+  site.zai.push(visionReply({ ...ANSWER, given: "Масса 500 г", steps: ["E = m · v² / 2 = 25 Дж"], answer: "25 Дж", check: "Проверьте." }), visionReply(ANSWER));
   const cyrillic = await photo(site, photoRequest({}, { cookie }));
   assert.equal(cyrillic.response.status, 200, JSON.stringify(cyrillic.body));
   assert.equal(site.sent.length, 2);
@@ -408,7 +411,7 @@ test("an answer in Cyrillic or English is asked again once; cut off → one free
   assert.equal(row?.state, "released");
   assert.equal(row?.steps, 3);
   assert.equal(used(site, other.subject), 0);
-  assert.equal(site.siteverify.length, 3, "a continued job passes Turnstile once more (it is a new request)");
+  assert.equal(site.siteverify.length, 3, "a continued job is found by its request id before Turnstile: no second Siteverify call");
 });
 
 test("confidence low: one more try at medium effort; if it fails the first answer is kept; a fault leaves a retry and the same request id continues the job", async (context) => {
