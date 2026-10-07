@@ -51,7 +51,7 @@ import type { BillingEnv } from "../../../lib/gpt-chat/billing-config";
 import { readJsonLimited } from "../../../lib/gpt-chat/http";
 import { sameOrigin } from "../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig, type StudioConfig } from "../../../lib/studio/config";
-import { accountToken, buyerSubject, entitlementMode, readBuyer } from "../../../lib/studio/full-deck";
+import { buyerSubject, entitlementMode, hasBuyerCookie, readBuyer } from "../../../lib/studio/full-deck";
 import { fail, json, studioLog } from "../../../lib/studio/http";
 import { identityConfigured, readIdentity, type StudioIdentity } from "../../../lib/studio/identity";
 import { startJob, type StartJobResult } from "../../../lib/studio/jobs";
@@ -156,18 +156,18 @@ async function startFree(context: StartContext, identity: StudioIdentity): Promi
   return startedAnswer(started, create, env, context.waitUntil);
 }
 
-async function startFull(context: StartContext, token: string | null): Promise<Response> {
-  const { env, db, config, create, now } = context;
+async function startFull(context: StartContext): Promise<Response> {
+  const { request, env, db, config, create, now } = context;
   const { task, requestId } = create;
   // Never bought (no Studio session): nothing to spend. The island shows the tariffs.
-  if (!token) return fail("no_units");
+  if (!hasBuyerCookie(request)) return fail("no_units");
   const inputMac = await deckInputMac(env, task);
   if (!inputMac) return fail("studio_not_configured");
 
   let userId: string | null;
   try {
     await ensureDeckSchema(db);
-    userId = await readBuyer(db, token, now);
+    userId = await readBuyer(request, db, now);
   } catch {
     studioLog(EVENT, "studio_busy");
     return fail("studio_busy");
@@ -219,8 +219,8 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
   const now = Date.now();
 
   const identity = await readIdentity(request, env, now);
-  const token = accountToken(request);
-  if (!identity && !token) return fail("identity_required");
+  const buyerCookie = hasBuyerCookie(request);
+  if (!identity && !buyerCookie) return fail("identity_required");
   const db = env.GPTBOT_DRAFTS_DB;
   if (!db || !identityConfigured(env) || !studioTurnstileConfigured(request, env)) {
     studioLog(EVENT, "studio_not_configured");
@@ -233,7 +233,7 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env, waitU
   if (!create) return fail("invalid");
   if (!deckOpen(config, create.task.shape)) return fail("not_found");
   const context: StartContext = { request, env, db, config, create, now, waitUntil };
-  if (create.task.shape === "full") return startFull(context, token);
+  if (create.task.shape === "full") return startFull(context);
   if (!identity) return fail("identity_required");
   return startFree(context, identity);
 };

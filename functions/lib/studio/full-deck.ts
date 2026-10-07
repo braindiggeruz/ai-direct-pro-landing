@@ -21,53 +21,37 @@
 //
 // The buyer. A paid job belongs to the Studio account, never to a browser:
 // its subject is "a:" + the account id of the session in
-// __Host-studio_account (spec §5.3: an account made at the first checkout
-// by IdentityStore.syntheticLogin("acct_studio_", 365 days); gpt_auth_sessions
-// unchanged). Read here by the session's token hash only, one primary-key
-// read; the account file of T3.2 (account.ts) makes, extends and restores
-// the session. An entitlement's mode is the mode payments run in on this
-// host: "test" only where STUDIO_PAYMENTS=test may run (a local host under
-// STUDIO_LOCAL_DEV), "live" everywhere else, whatever STUDIO_PAYMENTS says
-// now: an entitlement bought live stays usable after sales are switched off.
+// __Host-studio_account (spec §5.3; account.ts makes, extends and restores
+// that session, and reads it: one primary-key read of gpt_auth_sessions by
+// the token's hash). A request without the cookie is answered before D1. An
+// entitlement's mode is the mode payments run in on this host: "test" only
+// where STUDIO_PAYMENTS=test may run (a local host under STUDIO_LOCAL_DEV),
+// "live" everywhere else, whatever STUDIO_PAYMENTS says now: an entitlement
+// bought live stays usable after sales are switched off.
 //
 // The server keeps no text of the deck (spec §4.1): the browser holds the
 // task, the signed outline and the parts, and sends back what a step needs.
-import { cookieValue } from "../gpt-chat/identity-store";
-import { sha256Hex } from "../gpt-chat/hash";
+import { hasAccountCookie, readStudioAccount } from "./account";
 import type { StudioConfig } from "./config";
 import { withLayouts, type DeckSlide, type Outline, type PartSlide } from "./deck-schema";
 import type { EntitlementMode, LedgerJob } from "./ledger";
 import { DECK_SHAPES } from "./plans";
 import { partIndexes } from "./prompts";
 import { pickImagePrompts } from "./safety";
-import { STUDIO_ORG } from "./schema";
 import type { SignedImagePrompt, SignedOutline } from "./sign";
 
-/** The Studio account's own cookie (spec §5.3); the chat reads only __Host-gpt_account. */
-export const STUDIO_ACCOUNT_COOKIE = "__Host-studio_account";
-/** Studio accounts are made with this id prefix (IdentityStore.syntheticLogin). */
-export const STUDIO_ACCOUNT_PREFIX = "acct_studio_";
-/** IdentityStore's session token: 32 random bytes as hex. */
-const ACCOUNT_TOKEN = /^[a-f0-9]{64}$/;
-const ACCOUNT_ID = /^acct_studio_[A-Za-z0-9_]{1,60}$/;
-
-/** The session token of the request's Studio account cookie, or null. Format only: no D1. */
-export function accountToken(request: Request): string | null {
-  const token = cookieValue(request, STUDIO_ACCOUNT_COOKIE);
-  return ACCOUNT_TOKEN.test(token) ? token : null;
+/** The request carries a Studio account cookie at all (its format only, no D1). */
+export function hasBuyerCookie(request: Request): boolean {
+  return hasAccountCookie(request);
 }
 
 /**
- * The Studio account whose live session `token` is, or null (unknown,
- * expired, or a session of a chat account). One read by primary key.
+ * The Studio account whose live session the request's cookie is, or null
+ * (none, unknown, expired, or a session of a chat account): account.ts
+ * readStudioAccount, one read by primary key.
  */
-export async function readBuyer(db: D1Database, token: string, now: number): Promise<string | null> {
-  if (!ACCOUNT_TOKEN.test(token)) return null;
-  const row = await db
-    .prepare("SELECT user_id FROM gpt_auth_sessions WHERE org_id=? AND token_hash=? AND expires_at>?")
-    .bind(STUDIO_ORG, await sha256Hex(token), now)
-    .first<{ user_id: string }>();
-  return row && ACCOUNT_ID.test(row.user_id) ? row.user_id : null;
+export async function readBuyer(request: Request, db: D1Database, now: number): Promise<string | null> {
+  return (await readStudioAccount(request, db, now))?.userId ?? null;
 }
 
 /** The ledger subject of an account's jobs. */

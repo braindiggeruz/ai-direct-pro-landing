@@ -32,8 +32,8 @@ import { sameOrigin } from "../../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig } from "../../../../lib/studio/config";
 import { checkOutline } from "../../../../lib/studio/deck-schema";
 import {
-  accountToken,
   buyerSubject,
+  hasBuyerCookie,
   outlinePicturePicks,
   readBuyer,
   signedOutlineOf,
@@ -61,8 +61,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   if (!sameOrigin(request)) return fail("invalid");
   const jobId = typeof params.job === "string" ? params.job : "";
   if (!isJobId(jobId)) return notFound();
-  const token = accountToken(request);
-  if (!token) return notFound();
+  if (!hasBuyerCookie(request)) return notFound();
   const config = studioRequestConfig(request, env);
   const now = Date.now();
 
@@ -78,7 +77,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   let subject: string;
   try {
     await ensureDeckSchema(db);
-    const userId = await readBuyer(db, token, now);
+    const userId = await readBuyer(request, db, now);
     if (!userId) return notFound();
     subject = buyerSubject(userId);
     job = await new LedgerStore(db).get(jobId);

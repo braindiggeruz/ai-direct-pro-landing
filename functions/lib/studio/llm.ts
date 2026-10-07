@@ -115,7 +115,7 @@ export type StepResult<T> =
   | (Spent & { readonly ok: false; readonly kind: "fault"; readonly fault: LedgerFault; readonly code: StudioErrorCode })
   /** The provider refused the content (Z.ai 1301): 422 topic_refused {category: "provider"}, no content, the unit goes back. */
   | (Spent & { readonly ok: false; readonly kind: "refused"; readonly code: "topic_refused"; readonly reason: "provider_refused" })
-  /** The caller's admit() stopped the step (a spend bucket or the job's step cap). */
+  /** The caller's admit() stopped the step before its first call (the job's step cap, or it closed); after a failed call the step is that call's fault. */
   | (Spent & { readonly ok: false; readonly kind: "halted"; readonly code: StudioErrorCode });
 
 /**
@@ -432,7 +432,10 @@ export async function runTextStep<T>(options: StepOptions<T>): Promise<StepResul
     if (options.admit) {
       const admission = await options.admit({ model, maxTokens, attempt });
       if (admission === "busy") return fault("busy", "studio_busy");
-      if (admission === "stop") return { ok: false, kind: "halted", code: "job_state", ...spent(calls) };
+      // The job's last step went to an attempt that failed: the step ends as
+      // that fault (the caller marks it and, with no call left, gives the
+      // unit back at once). A stop before any call is a halt.
+      if (admission === "stop") return calls.length ? fault(lastFault, lastCode) : { ok: false, kind: "halted", code: "job_state", ...spent(calls) };
     }
 
     const started = Date.now();

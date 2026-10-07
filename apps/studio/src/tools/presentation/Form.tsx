@@ -49,7 +49,7 @@
  * deck (the plan, for a full deck; flow.ts drawPictures); then the slides
  * still without one go without.
  */
-import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { createStudioApi, type CreatedJob, type Deck, type DeckTask, type SignedImagePrompt, type StudioApi, type StudioAudience, type StudioLocale, type StudioPublicConfig } from '../../api';
 import { captureLastTouch } from '../../attribution';
 import { createFunnel, randomId, type Funnel } from '../../analytics';
@@ -57,6 +57,7 @@ import { createStudioSession, type StudioSession } from '../../config';
 import { turnstileToken } from '../../identity';
 import { currentInApp, INAPP_ATTRIBUTE, type InAppBrowser } from '../../inapp';
 import { blobToBase64, buildDeck, deckFileName } from '../../pptx/build';
+import type { IslandSlots } from '../../slots';
 import { createFullDeckApi, fullUnitsLeft, type FullDeckApi } from './api';
 import { Download, saveFile, type DownloadState } from './Download';
 import {
@@ -80,18 +81,12 @@ import { FULL_PROGRESS_STEPS, Progress } from './Progress';
 import { ShapePicker, type DeckChoice } from './ShapePicker';
 import { freeAgainToday, fullMessage, FULL_TEXTS, messageKey, tashkentTime, TEXTS, UNIT_BACK, UNTIL_RESET, type Step } from './texts';
 
-/**
- * What the paid stage puts into the tool (apps/studio/src/slots.ts
- * IslandSlots, T3.2): the tariffs section and "Mening paketim".
- */
-export interface FormSlots {
-  tariffs?(context: 'after_result' | 'limit'): ReactNode;
-  myPack?(): ReactNode;
-}
+/** What the paid stage puts into the tool: the Build-0 contract (slots.ts), filled by main.tsx (T3.2). */
+export type FormSlots = IslandSlots;
 
 export interface FormProps {
   readonly locale: StudioLocale;
-  readonly slots?: FormSlots;
+  readonly slots?: IslandSlots;
 }
 
 export const AUDIENCES: readonly StudioAudience[] = ['maktab', 'talaba', 'umumiy'];

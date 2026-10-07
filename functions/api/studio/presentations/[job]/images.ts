@@ -25,7 +25,7 @@ import { sameOrigin } from "../../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig } from "../../../../lib/studio/config";
 import { fail, notFound, studioLog } from "../../../../lib/studio/http";
 import { identityConfigured, readIdentity } from "../../../../lib/studio/identity";
-import { accountToken, buyerSubject, readBuyer } from "../../../../lib/studio/full-deck";
+import { buyerSubject, hasBuyerCookie, readBuyer } from "../../../../lib/studio/full-deck";
 import { PICTURE_HEADERS, paintPicture } from "../../../../lib/studio/images";
 import { LedgerStore, isJobId, type LedgerJob } from "../../../../lib/studio/ledger";
 import { recordStudioAlerts } from "../../../../lib/studio/limits";
@@ -43,11 +43,11 @@ const isDeck = (job: LedgerJob | null): job is DeckJob =>
   !!job && job.tool === "presentation" && (job.shape === "free" || job.shape === "full");
 
 /** Job `id` if it is the asker's: a free deck the browser's, a full deck the buyer's; else null. */
-async function ownDeck(store: LedgerStore, id: string, owners: { readonly browser: string | null; readonly token: string | null }, now: number): Promise<DeckJob | null> {
+async function ownDeck(store: LedgerStore, id: string, request: Request, browser: string | null, now: number): Promise<DeckJob | null> {
   const job = await store.get(id);
   if (!isDeck(job)) return null;
-  if (job.shape === "free") return job.subject === owners.browser ? job : null;
-  const userId = owners.token ? await readBuyer(store.db, owners.token, now) : null;
+  if (job.shape === "free") return job.subject === browser ? job : null;
+  const userId = hasBuyerCookie(request) ? await readBuyer(request, store.db, now) : null;
   return userId && job.subject === buyerSubject(userId) ? job : null;
 }
 
@@ -62,9 +62,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   const now = Date.now();
 
   const identity = await readIdentity(request, env, now);
-  const token = accountToken(request);
-  if (!identity && !token) return fail("identity_required");
-  const owners = { browser: identity?.subject ?? null, token };
+  if (!identity && !hasBuyerCookie(request)) return fail("identity_required");
   const db = env.GPTBOT_DRAFTS_DB;
   const ai = aiRunner(env);
   if (!db || !ai || !identityConfigured(env) || !signingConfigured(env)) {
@@ -84,7 +82,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   let job: DeckJob | null;
   try {
     await ensureDeckSchema(db);
-    job = await ownDeck(store, jobId, owners, now);
+    job = await ownDeck(store, jobId, request, identity?.subject ?? null, now);
   } catch {
     return fail("studio_busy");
   }

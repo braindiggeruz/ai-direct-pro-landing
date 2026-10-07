@@ -15,6 +15,8 @@ import {
   GLOSSARY_UZ,
   OUTLINE_V3,
   PART_V3,
+  PROOF_SYSTEM,
+  PROOF_TEMPERATURE,
   STUDIO_TEMPERATURE,
   TAIL_A,
   buildSystem,
@@ -26,6 +28,7 @@ import {
   outlineMessages,
   partIndexes,
   partMessages,
+  proofMessages,
   pythonJson,
   userLine,
   type GlossarySubject,
@@ -141,4 +144,21 @@ test("cleanTopic: NFC, no control characters, single spaces, no final full stop,
 
 test("pythonJson matches json.dumps(ensure_ascii=False) separators", () => {
   assert.equal(pythonJson({ a: 1, b: ["x", "o‘"], c: { d: null } }), '{"a": 1, "b": ["x", "o‘"], "c": {"d": null}}');
+});
+
+test("the proofreading pass of paid Uzbek decks: PROOF_SYSTEM is measure30.py's, byte for byte, at 0.2 (MEASURE-30 §6)", () => {
+  // sha256 of measure30.py PROOF_SYSTEM (lines 781–785, its line breaks included), 07.10.2026.
+  assert.equal(sha(PROOF_SYSTEM), "dea8d7f27ecd4d9f70f3b571444485eedd8437177bb597569f61bf46a9d237b5");
+  assert.equal(PROOF_SYSTEM.split("\n").length, 5);
+  assert.equal(PROOF_TEMPERATURE, 0.2);
+  // mode_proof sent json.dumps({"slides": part["slides"]}, ensure_ascii=False) as the user message.
+  const uz = FIXTURE.decks.find((deck: { id: string }) => deck.id === "uz02-kasrlar");
+  const part = uz.parts[1];
+  const messages = proofMessages({ slides: part.slides });
+  assert.deepEqual(messages, [
+    { role: "system", content: PROOF_SYSTEM },
+    { role: "user", content: pythonJson({ slides: part.slides.map((slide: { index: number; title: string; bullets: string[]; notes: string }) => ({ index: slide.index, title: slide.title, bullets: slide.bullets, notes: slide.notes })) }) },
+  ]);
+  assert.ok(!messages[1].content.includes("\\u"), "ensure_ascii=False: letters as they are");
+  assert.match(messages[1].content, /‘/);
 });

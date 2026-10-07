@@ -293,6 +293,42 @@ test("admit() is asked before every call: busy → studio_busy, stop → job_sta
   assert.equal(none.length, 0);
 });
 
+test("a stop after a failed attempt (the job's last step) ends the step as that attempt's fault, not as a halt", async () => {
+  // The fault lets the endpoint mark the part and, with no call left, give the unit back at once.
+  const { fn, sent } = mockFetch([zaiStream("nope")]);
+  let calls = 0;
+  const result = await step(fn, { admit: async () => (++calls === 1 ? "ok" : "stop") });
+  assert.equal(sent.length, 1);
+  assert.ok(!result.ok && result.kind === "fault");
+  assert.equal(result.fault, "invalid_output");
+  assert.equal(result.code, "invalid_output");
+  assert.equal(result.calls.length, 1);
+  const { fn: timeouts } = mockFetch([zaiError(500, "500")]);
+  let again = 0;
+  const failed = await step(timeouts, { admit: async () => (++again === 1 ? "ok" : "stop") });
+  assert.ok(!failed.ok && failed.kind === "fault" && failed.fault === "model_failed" && failed.code === "model_failed");
+});
+
+test("the proofreading step: the same model and JSON mode at 0.2, as long as a part, one attempt and never a length retry", async () => {
+  assert.equal(STEP_LIMITS.proof.attempts, 1);
+  assert.equal(STEP_LIMITS.proof.maxTokens, STEP_LIMITS.part.maxTokens);
+  assert.equal(STEP_LIMITS.proof.lengthRetryMaxTokens, STEP_LIMITS.proof.maxTokens);
+  const { fn, sent } = mockFetch([zaiStream("{\"slides\": [", { finish: "length" }), zaiStream(JSON.stringify(OUTLINE))]);
+  const result = await step(fn, { step: "proof" });
+  assert.equal(sent.length, 1, "one call a part, whatever it answered");
+  assert.equal(sent[0].body.temperature, 0.2);
+  assert.equal(sent[0].body.max_tokens, 1300);
+  assert.equal(sent[0].body.model, "glm-5.3-flash");
+  assert.equal(sent[0].body.reasoning_effort, "low");
+  assert.deepEqual(sent[0].body.response_format, { type: "json_object" });
+  assert.ok(!result.ok && result.kind === "fault" && result.code === "invalid_output");
+  // A paid step: no fallback even with OpenRouter configured.
+  const { fn: busy, sent: once } = mockFetch([zaiError(429, "1302")]);
+  const refused = await step(busy, { step: "proof" });
+  assert.equal(once.length, 1);
+  assert.ok(!refused.ok && refused.kind === "fault" && refused.code === "studio_busy");
+});
+
 test("an answer larger than any of ours is a provider error, not read to the end", async () => {
   const huge = JSON.stringify({ ...OUTLINE, title: "x".repeat(70_000) });
   const { fn } = mockFetch([zaiStream(huge, { split: 4096 }), zaiStream(huge, { split: 4096 })]);

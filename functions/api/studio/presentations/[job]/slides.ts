@@ -40,7 +40,7 @@ import { readJsonLimited } from "../../../../lib/gpt-chat/http";
 import { sameOrigin } from "../../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig, type StudioConfig } from "../../../../lib/studio/config";
 import { checkFreeDeck, checkPart, type PartSlide } from "../../../../lib/studio/deck-schema";
-import { accountToken, buyerSubject, partContent, partPlan, readBuyer } from "../../../../lib/studio/full-deck";
+import { buyerSubject, hasBuyerCookie, partContent, partPlan, readBuyer } from "../../../../lib/studio/full-deck";
 import { fail, json, notFound, studioLog } from "../../../../lib/studio/http";
 import { identityConfigured, readIdentity } from "../../../../lib/studio/identity";
 import { screenPicturePrompts } from "../../../../lib/studio/images";
@@ -202,8 +202,8 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   const now = Date.now();
 
   const identity = await readIdentity(request, env, now);
-  const token = accountToken(request);
-  if (!identity && !token) return fail("identity_required");
+  const buyerCookie = hasBuyerCookie(request);
+  if (!identity && !buyerCookie) return fail("identity_required");
   const db = env.GPTBOT_DRAFTS_DB;
   if (!db || !identityConfigured(env) || !signingConfigured(env)) {
     studioLog(EVENT, "studio_not_configured");
@@ -217,8 +217,8 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   try {
     await ensureDeckSchema(db);
     job = await new LedgerStore(db).get(jobId);
-    if (job?.shape === "full" && token) {
-      const userId = await readBuyer(db, token, now);
+    if (job?.shape === "full" && buyerCookie) {
+      const userId = await readBuyer(request, db, now);
       subject = userId ? buyerSubject(userId) : null;
     } else if (job?.shape === "free") {
       subject = identity?.subject ?? null;

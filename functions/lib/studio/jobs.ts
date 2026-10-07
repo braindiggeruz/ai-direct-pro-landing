@@ -24,10 +24,14 @@
 //
 // Steps (jobMeter): every model call takes a step under the job's cap
 //   (outline 2 + 2 per part + 4 spare for a full deck, spec §7.1; 2 + 2 for
-//   the free deck; 2 + 1 length retry for a photo; the proofreading pass of
-//   a paid Uzbek deck has 2 more per part, proofSteps) and reserves its
-//   worst case on the day's spend bucket (spend.ts). A call the cap or the
-//   bucket refuses is not made.
+//   the free deck; 2 + 1 length retry for a photo) and reserves its worst
+//   case on the day's spend bucket (spend.ts). The proofreading pass of a
+//   paid Uzbek deck counts on the same counter under its own allowance on
+//   top: one call per part (proofSteps; 14 + 4 at 15 slides, plans.ts
+//   maxJobModelCalls). Its calls can use up the parts' spare re-calls, never
+//   the other way round, so the parts never make more than maxSteps calls
+//   and the whole job never more than maxSteps + proofSteps (the worst case
+//   pricing.ts prices). A call the cap or the bucket refuses is not made.
 //
 // Delivery (handOut): content leaves only after its part's bit was written.
 // Faults (failPart): the part's bit goes into the fault mask; when the job
@@ -124,10 +128,11 @@ export function maxSteps(job: Pick<LedgerJob, "shape" | "partsTotal">): number {
 
 /**
  * The proofreading pass's own allowance on top of maxSteps (proofread.ts):
- * one pass of STEP_LIMITS.proof.attempts calls per slide part of a full
- * deck; nothing for the free deck or a photo. A pass takes its steps from
- * the same counter, under maxSteps + this, so the outline and the parts keep
- * their measured cap and the pass can never call more than this beyond it.
+ * STEP_LIMITS.proof.attempts (1) call per slide part of a full deck;
+ * nothing for the free deck or a photo. A pass takes its steps from the same
+ * counter under maxSteps + this: the outline and the parts still stop at
+ * maxSteps (a pass may take their spare re-calls, never the reverse), and
+ * the pass can never call more than this beyond it.
  */
 export function proofSteps(job: Pick<LedgerJob, "shape" | "partsTotal">): number {
   return job.shape === "full" ? STEP_LIMITS.proof.attempts * (job.partsTotal - 1) : 0;

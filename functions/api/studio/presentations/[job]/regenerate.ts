@@ -25,7 +25,7 @@ import type { BillingEnv } from "../../../../lib/gpt-chat/billing-config";
 import { readJsonLimited } from "../../../../lib/gpt-chat/http";
 import { sameOrigin } from "../../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig } from "../../../../lib/studio/config";
-import { accountToken, buyerSubject, readBuyer } from "../../../../lib/studio/full-deck";
+import { buyerSubject, hasBuyerCookie, readBuyer } from "../../../../lib/studio/full-deck";
 import { fail, json, notFound, studioLog } from "../../../../lib/studio/http";
 import { identityConfigured } from "../../../../lib/studio/identity";
 import { startJob } from "../../../../lib/studio/jobs";
@@ -45,8 +45,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   if (!isJobId(jobId)) return notFound();
   const config = studioRequestConfig(request, env);
   if (!deckOpen(config, "full")) return notFound();
-  const token = accountToken(request);
-  if (!token) return notFound();
+  if (!hasBuyerCookie(request)) return notFound();
   const now = Date.now();
 
   const db = env.GPTBOT_DRAFTS_DB;
@@ -65,7 +64,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   let subject: string;
   try {
     await ensureDeckSchema(db);
-    const userId = await readBuyer(db, token, now);
+    const userId = await readBuyer(request, db, now);
     if (!userId) return notFound();
     subject = buyerSubject(userId);
     const earlier = await new LedgerStore(db).byRequest(subject, requestId);
