@@ -370,7 +370,7 @@
   },
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-10-10",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -379,7 +379,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-10-10T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",
