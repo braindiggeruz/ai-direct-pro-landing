@@ -1,0 +1,4170 @@
+{
+  "checkedAt": "2026-10-07T02:06:34.594Z",
+  "purpose": "First screen of the pages whose hero text or chips changed in the traffic revision (T4, T5), the three new guides, the two changed articles and the homepage, before (production 5ad00a6c build) and after (this build). Chromium (playwright-core), JavaScript on, fonts loaded, five viewports. Boxes of the H1, the intro under it (.speakable-intro, the speakable text), the primary and secondary CTA and the trust chips; their pairwise overlaps, boxes outside the viewport width and horizontal page overflow. The two chats are byte-identical and were not re-run (their own check is scripts/chat-layout-check.mjs).",
+  "base": "F:/Claude/gptbot-tools/tmp/prod-5ad00a6c-dist",
+  "candidate": "F:/Claude/gptbot-seo-traffic-20261007/dist (npm run build:fast)",
+  "screenshots": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/first-screen-shots/ (after, 360×640 and 375×667)",
+  "ok": true,
+  "summary": {
+    "runs": 65,
+    "overlaps": 0,
+    "outside": 0,
+    "horizontalOverflow": 0,
+    "ctaBelowFirstScreen": [
+      "/uz/smm-xizmatlari/ 320x568 (also before)",
+      "/ru/smm-prodvizhenie-tashkent/ 320x568 (also before)",
+      "/ru/targetirovannaya-reklama-tashkent/ 320x568 (also before)",
+      "/uz/instagram-target-yoqish/ 320x568 (new page)",
+      "/uz/internet-reklama-toshkent/ 320x568 (also before)",
+      "/uz/ 320x568 (also before)",
+      "/uz/smm-xizmatlari/ 360x640 (also before)",
+      "/ru/smm-prodvizhenie-tashkent/ 360x640 (also before)",
+      "/ru/targetirovannaya-reklama-tashkent/ 360x640 (also before)",
+      "/uz/instagram-target-yoqish/ 360x640 (new page)",
+      "/uz/internet-reklama-toshkent/ 360x640 (also before)",
+      "/uz/smm-xizmatlari/ 375x667 (new)",
+      "/ru/smm-prodvizhenie-tashkent/ 375x667 (also before)",
+      "/ru/targetirovannaya-reklama-tashkent/ 375x667 (also before)",
+      "/uz/instagram-target-yoqish/ 375x667 (new page)",
+      "/uz/internet-reklama-toshkent/ 375x667 (also before)",
+      "/ru/targetirovannaya-reklama-tashkent/ 1280x800 (also before)"
+    ]
+  },
+  "notes": [
+    "No overlap of H1, intro, CTAs and chips, nothing outside the viewport and no horizontal overflow on any page at any size.",
+    "The hero CTA below the first screen is not new on phones: on the SMM and targeting pages it was already below at 320×568 and 360×640 in production. New: on /uz/smm-xizmatlari/ at 375×667 the longer intro (23 → 42 words, five lines → eight) moves it from 626 px to 710 px; on /uz/instagram-target-yoqish/ (a new page) it sits at 682 px. On every one of these pages the header button and the fixed bottom bar («Qo‘ng‘iroq qilish» / «Ariza», «Позвонить» / «Заявка») stay in the first screen, so a contact action is always visible.",
+    "Prices in the new intros wrap at the thousands space at 360–375 px («2» at a line end, «490 000» on the next line), as the existing price chips and the RU targeting intro already did; content uses plain spaces site-wide, no change in this revision."
+  ],
+  "runs": [
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 304,
+            "b": 294,
+            "w": 288,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 304,
+            "b": 566,
+            "w": 288,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 598,
+            "r": 304,
+            "b": 654,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 666,
+            "r": 304,
+            "b": 724,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 740,
+            "r": 304,
+            "b": 800,
+            "w": 288,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 304,
+            "b": 294,
+            "w": 288,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 304,
+            "b": 650,
+            "w": 288,
+            "h": 252
+          },
+          "cta": {
+            "l": 16,
+            "t": 682,
+            "r": 304,
+            "b": 738,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 750,
+            "r": 304,
+            "b": 808,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 824,
+            "r": 304,
+            "b": 884,
+            "w": 288,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 42
+      }
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 322,
+            "r": 304,
+            "b": 502,
+            "w": 288,
+            "h": 181
+          },
+          "intro": {
+            "l": 16,
+            "t": 597,
+            "r": 304,
+            "b": 788,
+            "w": 288,
+            "h": 190
+          },
+          "cta": {
+            "l": 16,
+            "t": 815,
+            "r": 254,
+            "b": 871,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 883,
+            "r": 180,
+            "b": 941,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 957,
+            "r": 304,
+            "b": 1085,
+            "w": 288,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 20
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 322,
+            "r": 304,
+            "b": 502,
+            "w": 288,
+            "h": 181
+          },
+          "intro": {
+            "l": 16,
+            "t": 597,
+            "r": 304,
+            "b": 815,
+            "w": 288,
+            "h": 218
+          },
+          "cta": {
+            "l": 16,
+            "t": 842,
+            "r": 254,
+            "b": 898,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 910,
+            "r": 180,
+            "b": 968,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 984,
+            "r": 304,
+            "b": 1112,
+            "w": 288,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 44
+      }
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 304,
+            "b": 512,
+            "w": 288,
+            "h": 217
+          },
+          "intro": {
+            "l": 16,
+            "t": 606,
+            "r": 304,
+            "b": 770,
+            "w": 288,
+            "h": 163
+          },
+          "cta": {
+            "l": 16,
+            "t": 797,
+            "r": 220,
+            "b": 853,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 865,
+            "r": 279,
+            "b": 923,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 939,
+            "r": 304,
+            "b": 1033,
+            "w": 288,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 29
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 304,
+            "b": 512,
+            "w": 288,
+            "h": 217
+          },
+          "intro": {
+            "l": 16,
+            "t": 606,
+            "r": 304,
+            "b": 824,
+            "w": 288,
+            "h": 218
+          },
+          "cta": {
+            "l": 16,
+            "t": 851,
+            "r": 220,
+            "b": 907,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 919,
+            "r": 279,
+            "b": 977,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 993,
+            "r": 304,
+            "b": 1087,
+            "w": 288,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 37
+      }
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "size": "320x568",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 221,
+            "r": 304,
+            "b": 341,
+            "w": 288,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 445,
+            "r": 304,
+            "b": 669,
+            "w": 288,
+            "h": 224
+          },
+          "cta": {
+            "l": 16,
+            "t": 701,
+            "r": 304,
+            "b": 757,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 769,
+            "r": 304,
+            "b": 827,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 843,
+            "r": 304,
+            "b": 971,
+            "w": 288,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 32
+      }
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 221,
+            "r": 304,
+            "b": 381,
+            "w": 288,
+            "h": 160
+          },
+          "intro": {
+            "l": 16,
+            "t": 485,
+            "r": 304,
+            "b": 681,
+            "w": 288,
+            "h": 196
+          },
+          "cta": {
+            "l": 16,
+            "t": 713,
+            "r": 304,
+            "b": 769,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 781,
+            "r": 304,
+            "b": 839,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 855,
+            "r": 304,
+            "b": 949,
+            "w": 288,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 221,
+            "r": 304,
+            "b": 381,
+            "w": 288,
+            "h": 160
+          },
+          "intro": {
+            "l": 16,
+            "t": 485,
+            "r": 304,
+            "b": 681,
+            "w": 288,
+            "h": 196
+          },
+          "cta": {
+            "l": 16,
+            "t": 713,
+            "r": 304,
+            "b": 769,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 781,
+            "r": 304,
+            "b": 839,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 855,
+            "r": 304,
+            "b": 983,
+            "w": 288,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      }
+    },
+    {
+      "path": "/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 180,
+            "r": 302,
+            "b": 356,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 178,
+            "r": 302,
+            "b": 353,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 304,
+            "b": 281,
+            "w": 288,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 385,
+            "r": 304,
+            "b": 553,
+            "w": 288,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 585,
+            "r": 304,
+            "b": 641,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 653,
+            "r": 304,
+            "b": 711,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 727,
+            "r": 304,
+            "b": 821,
+            "w": 288,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 304,
+            "b": 281,
+            "w": 288,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 385,
+            "r": 304,
+            "b": 553,
+            "w": 288,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 585,
+            "r": 304,
+            "b": 641,
+            "w": 288,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 653,
+            "r": 304,
+            "b": 711,
+            "w": 288,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 727,
+            "r": 304,
+            "b": 821,
+            "w": 288,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 23
+      }
+    },
+    {
+      "path": "/uz/blog/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 304,
+            "b": 201,
+            "w": 288,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 304,
+            "b": 201,
+            "w": 288,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "size": "320x568",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 304,
+            "b": 351,
+            "w": 288,
+            "h": 150
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "size": "320x568",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 304,
+            "b": 331,
+            "w": 288,
+            "h": 150
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "size": "320x568",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 304,
+            "b": 294,
+            "w": 288,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 304,
+            "b": 314,
+            "w": 288,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 304,
+            "b": 351,
+            "w": 288,
+            "h": 150
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "size": "320x568",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 304,
+            "b": 276,
+            "w": 288,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 304,
+            "b": 314,
+            "w": 288,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 344,
+            "b": 294,
+            "w": 328,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 344,
+            "b": 566,
+            "w": 328,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 598,
+            "r": 344,
+            "b": 654,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 666,
+            "r": 344,
+            "b": 724,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 740,
+            "r": 344,
+            "b": 800,
+            "w": 328,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 344,
+            "b": 294,
+            "w": 328,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 344,
+            "b": 622,
+            "w": 328,
+            "h": 224
+          },
+          "cta": {
+            "l": 16,
+            "t": 654,
+            "r": 344,
+            "b": 710,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 722,
+            "r": 344,
+            "b": 780,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 796,
+            "r": 344,
+            "b": 856,
+            "w": 328,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 42
+      }
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 344,
+            "b": 403,
+            "w": 328,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 498,
+            "r": 344,
+            "b": 661,
+            "w": 328,
+            "h": 163
+          },
+          "cta": {
+            "l": 16,
+            "t": 688,
+            "r": 254,
+            "b": 744,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 756,
+            "r": 180,
+            "b": 814,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 830,
+            "r": 344,
+            "b": 924,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 20
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 344,
+            "b": 403,
+            "w": 328,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 498,
+            "r": 344,
+            "b": 688,
+            "w": 328,
+            "h": 190
+          },
+          "cta": {
+            "l": 16,
+            "t": 716,
+            "r": 254,
+            "b": 772,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 784,
+            "r": 180,
+            "b": 842,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 858,
+            "r": 344,
+            "b": 952,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 44
+      }
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 344,
+            "b": 439,
+            "w": 328,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 534,
+            "r": 344,
+            "b": 670,
+            "w": 328,
+            "h": 136
+          },
+          "cta": {
+            "l": 16,
+            "t": 697,
+            "r": 220,
+            "b": 753,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 765,
+            "r": 279,
+            "b": 823,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 839,
+            "r": 344,
+            "b": 933,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 29
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 344,
+            "b": 439,
+            "w": 328,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 534,
+            "r": 344,
+            "b": 725,
+            "w": 328,
+            "h": 190
+          },
+          "cta": {
+            "l": 16,
+            "t": 752,
+            "r": 220,
+            "b": 808,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 820,
+            "r": 279,
+            "b": 878,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 894,
+            "r": 344,
+            "b": 988,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 37
+      }
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "size": "360x640",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 344,
+            "b": 294,
+            "w": 328,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 344,
+            "b": 594,
+            "w": 328,
+            "h": 196
+          },
+          "cta": {
+            "l": 16,
+            "t": 626,
+            "r": 344,
+            "b": 682,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 694,
+            "r": 344,
+            "b": 752,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 768,
+            "r": 344,
+            "b": 862,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 32
+      }
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 344,
+            "b": 334,
+            "w": 328,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 438,
+            "r": 344,
+            "b": 606,
+            "w": 328,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 638,
+            "r": 344,
+            "b": 694,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 706,
+            "r": 344,
+            "b": 764,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 780,
+            "r": 344,
+            "b": 874,
+            "w": 328,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 344,
+            "b": 334,
+            "w": 328,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 438,
+            "r": 344,
+            "b": 606,
+            "w": 328,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 638,
+            "r": 344,
+            "b": 694,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 706,
+            "r": 344,
+            "b": 764,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 780,
+            "r": 344,
+            "b": 908,
+            "w": 328,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      }
+    },
+    {
+      "path": "/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 180,
+            "r": 302,
+            "b": 355,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 178,
+            "r": 302,
+            "b": 353,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 344,
+            "b": 241,
+            "w": 328,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 345,
+            "r": 344,
+            "b": 485,
+            "w": 328,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 517,
+            "r": 344,
+            "b": 573,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 585,
+            "r": 344,
+            "b": 643,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 659,
+            "r": 344,
+            "b": 719,
+            "w": 328,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 344,
+            "b": 241,
+            "w": 328,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 345,
+            "r": 344,
+            "b": 485,
+            "w": 328,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 517,
+            "r": 344,
+            "b": 573,
+            "w": 328,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 585,
+            "r": 344,
+            "b": 643,
+            "w": 328,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 659,
+            "r": 344,
+            "b": 719,
+            "w": 328,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      }
+    },
+    {
+      "path": "/uz/blog/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 344,
+            "b": 201,
+            "w": 328,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 344,
+            "b": 201,
+            "w": 328,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "size": "360x640",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 169,
+            "r": 344,
+            "b": 282,
+            "w": 328,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "size": "360x640",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 344,
+            "b": 294,
+            "w": 328,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "size": "360x640",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 344,
+            "b": 294,
+            "w": 328,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 344,
+            "b": 314,
+            "w": 328,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 344,
+            "b": 351,
+            "w": 328,
+            "h": 150
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "size": "360x640",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 344,
+            "b": 276,
+            "w": 328,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 344,
+            "b": 314,
+            "w": 328,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 359,
+            "b": 294,
+            "w": 343,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 359,
+            "b": 538,
+            "w": 343,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 570,
+            "r": 359,
+            "b": 626,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 638,
+            "r": 359,
+            "b": 696,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 712,
+            "r": 359,
+            "b": 772,
+            "w": 343,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 359,
+            "b": 294,
+            "w": 343,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 359,
+            "b": 622,
+            "w": 343,
+            "h": 224
+          },
+          "cta": {
+            "l": 16,
+            "t": 654,
+            "r": 359,
+            "b": 710,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 722,
+            "r": 359,
+            "b": 780,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 796,
+            "r": 359,
+            "b": 856,
+            "w": 343,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 42
+      }
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 359,
+            "b": 403,
+            "w": 343,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 482,
+            "r": 359,
+            "b": 645,
+            "w": 343,
+            "h": 163
+          },
+          "cta": {
+            "l": 16,
+            "t": 672,
+            "r": 254,
+            "b": 728,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 740,
+            "r": 180,
+            "b": 798,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 814,
+            "r": 359,
+            "b": 908,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 20
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 359,
+            "b": 403,
+            "w": 343,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 482,
+            "r": 359,
+            "b": 672,
+            "w": 343,
+            "h": 190
+          },
+          "cta": {
+            "l": 16,
+            "t": 700,
+            "r": 254,
+            "b": 756,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 768,
+            "r": 180,
+            "b": 826,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 842,
+            "r": 359,
+            "b": 936,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 44
+      }
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 359,
+            "b": 439,
+            "w": 343,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 518,
+            "r": 359,
+            "b": 654,
+            "w": 343,
+            "h": 136
+          },
+          "cta": {
+            "l": 16,
+            "t": 681,
+            "r": 220,
+            "b": 737,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 749,
+            "r": 279,
+            "b": 807,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 823,
+            "r": 359,
+            "b": 917,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 29
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 359,
+            "b": 439,
+            "w": 343,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 518,
+            "r": 359,
+            "b": 709,
+            "w": 343,
+            "h": 190
+          },
+          "cta": {
+            "l": 16,
+            "t": 736,
+            "r": 220,
+            "b": 792,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 804,
+            "r": 279,
+            "b": 862,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 878,
+            "r": 359,
+            "b": 972,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 37
+      }
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "size": "375x667",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 359,
+            "b": 294,
+            "w": 343,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 398,
+            "r": 359,
+            "b": 594,
+            "w": 343,
+            "h": 196
+          },
+          "cta": {
+            "l": 16,
+            "t": 626,
+            "r": 359,
+            "b": 682,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 694,
+            "r": 359,
+            "b": 752,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 768,
+            "r": 359,
+            "b": 862,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 32
+      }
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 359,
+            "b": 334,
+            "w": 343,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 438,
+            "r": 359,
+            "b": 606,
+            "w": 343,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 638,
+            "r": 359,
+            "b": 694,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 706,
+            "r": 359,
+            "b": 764,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 780,
+            "r": 359,
+            "b": 874,
+            "w": 343,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 359,
+            "b": 334,
+            "w": 343,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 438,
+            "r": 359,
+            "b": 606,
+            "w": 343,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 638,
+            "r": 359,
+            "b": 694,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 706,
+            "r": 359,
+            "b": 764,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 780,
+            "r": 359,
+            "b": 908,
+            "w": 343,
+            "h": 128
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 30
+      }
+    },
+    {
+      "path": "/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 180,
+            "r": 302,
+            "b": 356,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 179,
+            "r": 302,
+            "b": 354,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 359,
+            "b": 241,
+            "w": 343,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 345,
+            "r": 359,
+            "b": 485,
+            "w": 343,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 517,
+            "r": 359,
+            "b": 573,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 585,
+            "r": 359,
+            "b": 643,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 659,
+            "r": 359,
+            "b": 719,
+            "w": 343,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 359,
+            "b": 241,
+            "w": 343,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 345,
+            "r": 359,
+            "b": 485,
+            "w": 343,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 517,
+            "r": 359,
+            "b": 573,
+            "w": 343,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 585,
+            "r": 359,
+            "b": 643,
+            "w": 343,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 659,
+            "r": 359,
+            "b": 719,
+            "w": 343,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      }
+    },
+    {
+      "path": "/uz/blog/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 359,
+            "b": 201,
+            "w": 343,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 359,
+            "b": 201,
+            "w": 343,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "size": "375x667",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 169,
+            "r": 359,
+            "b": 282,
+            "w": 343,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "size": "375x667",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 169,
+            "r": 359,
+            "b": 282,
+            "w": 343,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "size": "375x667",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 359,
+            "b": 294,
+            "w": 343,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 359,
+            "b": 314,
+            "w": 343,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 359,
+            "b": 351,
+            "w": 343,
+            "h": 150
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "size": "375x667",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 359,
+            "b": 276,
+            "w": 343,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 201,
+            "r": 359,
+            "b": 314,
+            "w": 343,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 396,
+            "b": 294,
+            "w": 380,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 382,
+            "r": 396,
+            "b": 522,
+            "w": 380,
+            "h": 140
+          },
+          "cta": {
+            "l": 16,
+            "t": 554,
+            "r": 396,
+            "b": 610,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 622,
+            "r": 396,
+            "b": 680,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 696,
+            "r": 396,
+            "b": 756,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 396,
+            "b": 294,
+            "w": 380,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 382,
+            "r": 396,
+            "b": 550,
+            "w": 380,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 582,
+            "r": 396,
+            "b": 638,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 650,
+            "r": 396,
+            "b": 708,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 724,
+            "r": 396,
+            "b": 784,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 42
+      }
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 396,
+            "b": 403,
+            "w": 380,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 482,
+            "r": 396,
+            "b": 618,
+            "w": 380,
+            "h": 136
+          },
+          "cta": {
+            "l": 16,
+            "t": 645,
+            "r": 254,
+            "b": 701,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 713,
+            "r": 180,
+            "b": 771,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 787,
+            "r": 396,
+            "b": 847,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 20
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 396,
+            "b": 403,
+            "w": 380,
+            "h": 108
+          },
+          "intro": {
+            "l": 16,
+            "t": 482,
+            "r": 396,
+            "b": 645,
+            "w": 380,
+            "h": 163
+          },
+          "cta": {
+            "l": 16,
+            "t": 672,
+            "r": 254,
+            "b": 728,
+            "w": 238,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 740,
+            "r": 180,
+            "b": 798,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 814,
+            "r": 396,
+            "b": 874,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 44
+      }
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 396,
+            "b": 439,
+            "w": 380,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 518,
+            "r": 396,
+            "b": 627,
+            "w": 380,
+            "h": 109
+          },
+          "cta": {
+            "l": 16,
+            "t": 654,
+            "r": 220,
+            "b": 710,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 722,
+            "r": 279,
+            "b": 780,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 796,
+            "r": 396,
+            "b": 856,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 29
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 295,
+            "r": 396,
+            "b": 439,
+            "w": 380,
+            "h": 145
+          },
+          "intro": {
+            "l": 16,
+            "t": 518,
+            "r": 396,
+            "b": 681,
+            "w": 380,
+            "h": 163
+          },
+          "cta": {
+            "l": 16,
+            "t": 709,
+            "r": 220,
+            "b": 765,
+            "w": 204,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 777,
+            "r": 279,
+            "b": 835,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 851,
+            "r": 396,
+            "b": 911,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 37
+      }
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "size": "412x915",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 396,
+            "b": 294,
+            "w": 380,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 382,
+            "r": 396,
+            "b": 550,
+            "w": 380,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 582,
+            "r": 396,
+            "b": 638,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 650,
+            "r": 396,
+            "b": 708,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 724,
+            "r": 396,
+            "b": 818,
+            "w": 380,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 32
+      }
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 396,
+            "b": 334,
+            "w": 380,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 422,
+            "r": 396,
+            "b": 590,
+            "w": 380,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 622,
+            "r": 396,
+            "b": 678,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 690,
+            "r": 396,
+            "b": 748,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 764,
+            "r": 396,
+            "b": 824,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 30
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 214,
+            "r": 396,
+            "b": 334,
+            "w": 380,
+            "h": 120
+          },
+          "intro": {
+            "l": 16,
+            "t": 422,
+            "r": 396,
+            "b": 590,
+            "w": 380,
+            "h": 168
+          },
+          "cta": {
+            "l": 16,
+            "t": 622,
+            "r": 396,
+            "b": 678,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 690,
+            "r": 396,
+            "b": 748,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 764,
+            "r": 396,
+            "b": 858,
+            "w": 380,
+            "h": 94
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 30
+      }
+    },
+    {
+      "path": "/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 164,
+            "r": 302,
+            "b": 339,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 163,
+            "r": 302,
+            "b": 338,
+            "w": 286,
+            "h": 175
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 396,
+            "b": 241,
+            "w": 380,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 329,
+            "r": 396,
+            "b": 441,
+            "w": 380,
+            "h": 112
+          },
+          "cta": {
+            "l": 16,
+            "t": 473,
+            "r": 396,
+            "b": 529,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 541,
+            "r": 396,
+            "b": 599,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 615,
+            "r": 396,
+            "b": 675,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 396,
+            "b": 241,
+            "w": 380,
+            "h": 80
+          },
+          "intro": {
+            "l": 16,
+            "t": 329,
+            "r": 396,
+            "b": 441,
+            "w": 380,
+            "h": 112
+          },
+          "cta": {
+            "l": 16,
+            "t": 473,
+            "r": 396,
+            "b": 529,
+            "w": 380,
+            "h": 56
+          },
+          "cta2": {
+            "l": 16,
+            "t": 541,
+            "r": 396,
+            "b": 599,
+            "w": 380,
+            "h": 58
+          },
+          "chips": {
+            "l": 16,
+            "t": 615,
+            "r": 396,
+            "b": 675,
+            "w": 380,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      }
+    },
+    {
+      "path": "/uz/blog/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 396,
+            "b": 201,
+            "w": 380,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 161,
+            "r": 396,
+            "b": 201,
+            "w": 380,
+            "h": 40
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "size": "412x915",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 169,
+            "r": 396,
+            "b": 282,
+            "w": 380,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "size": "412x915",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 169,
+            "r": 396,
+            "b": 282,
+            "w": 380,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "size": "412x915",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 181,
+            "r": 396,
+            "b": 294,
+            "w": 380,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 189,
+            "r": 396,
+            "b": 264,
+            "w": 380,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 189,
+            "r": 396,
+            "b": 302,
+            "w": 380,
+            "h": 113
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "size": "412x915",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 189,
+            "r": 396,
+            "b": 264,
+            "w": 380,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 16,
+            "t": 189,
+            "r": 396,
+            "b": 264,
+            "w": 380,
+            "h": 75
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 246,
+            "r": 1000,
+            "b": 366,
+            "w": 720,
+            "h": 120
+          },
+          "intro": {
+            "l": 280,
+            "t": 454,
+            "r": 952,
+            "b": 538,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 570,
+            "r": 495,
+            "b": 628,
+            "w": 215,
+            "h": 58
+          },
+          "cta2": {
+            "l": 507,
+            "t": 570,
+            "r": 668,
+            "b": 628,
+            "w": 161,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 644,
+            "r": 1000,
+            "b": 670,
+            "w": 720,
+            "h": 26
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 246,
+            "r": 1000,
+            "b": 366,
+            "w": 720,
+            "h": 120
+          },
+          "intro": {
+            "l": 280,
+            "t": 454,
+            "r": 952,
+            "b": 566,
+            "w": 672,
+            "h": 112
+          },
+          "cta": {
+            "l": 280,
+            "t": 598,
+            "r": 495,
+            "b": 656,
+            "w": 215,
+            "h": 58
+          },
+          "cta2": {
+            "l": 507,
+            "t": 598,
+            "r": 668,
+            "b": 656,
+            "w": 161,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 672,
+            "r": 1000,
+            "b": 698,
+            "w": 720,
+            "h": 26
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 42
+      }
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 88,
+            "t": 327,
+            "r": 622,
+            "b": 468,
+            "w": 534,
+            "h": 141
+          },
+          "intro": {
+            "l": 88,
+            "t": 547,
+            "r": 622,
+            "b": 677,
+            "w": 534,
+            "h": 130
+          },
+          "cta": {
+            "l": 88,
+            "t": 704,
+            "r": 326,
+            "b": 762,
+            "w": 238,
+            "h": 58
+          },
+          "cta2": {
+            "l": 338,
+            "t": 704,
+            "r": 502,
+            "b": 762,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 88,
+            "t": 778,
+            "r": 622,
+            "b": 838,
+            "w": 534,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 20
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 88,
+            "t": 327,
+            "r": 622,
+            "b": 468,
+            "w": 534,
+            "h": 141
+          },
+          "intro": {
+            "l": 88,
+            "t": 547,
+            "r": 622,
+            "b": 709,
+            "w": 534,
+            "h": 162
+          },
+          "cta": {
+            "l": 88,
+            "t": 736,
+            "r": 326,
+            "b": 794,
+            "w": 238,
+            "h": 58
+          },
+          "cta2": {
+            "l": 338,
+            "t": 736,
+            "r": 502,
+            "b": 794,
+            "w": 164,
+            "h": 58
+          },
+          "chips": {
+            "l": 88,
+            "t": 810,
+            "r": 622,
+            "b": 870,
+            "w": 534,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 44
+      }
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 88,
+            "t": 327,
+            "r": 622,
+            "b": 515,
+            "w": 534,
+            "h": 188
+          },
+          "intro": {
+            "l": 88,
+            "t": 594,
+            "r": 622,
+            "b": 724,
+            "w": 534,
+            "h": 130
+          },
+          "cta": {
+            "l": 88,
+            "t": 751,
+            "r": 292,
+            "b": 809,
+            "w": 204,
+            "h": 58
+          },
+          "cta2": {
+            "l": 304,
+            "t": 751,
+            "r": 567,
+            "b": 809,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 88,
+            "t": 825,
+            "r": 622,
+            "b": 885,
+            "w": 534,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 29
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 88,
+            "t": 327,
+            "r": 622,
+            "b": 515,
+            "w": 534,
+            "h": 188
+          },
+          "intro": {
+            "l": 88,
+            "t": 594,
+            "r": 622,
+            "b": 756,
+            "w": 534,
+            "h": 162
+          },
+          "cta": {
+            "l": 88,
+            "t": 783,
+            "r": 292,
+            "b": 841,
+            "w": 204,
+            "h": 58
+          },
+          "cta2": {
+            "l": 304,
+            "t": 783,
+            "r": 567,
+            "b": 841,
+            "w": 263,
+            "h": 58
+          },
+          "chips": {
+            "l": 88,
+            "t": 857,
+            "r": 622,
+            "b": 917,
+            "w": 534,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": false,
+        "introWords": 37
+      }
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "size": "1280x800",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 246,
+            "r": 1000,
+            "b": 366,
+            "w": 720,
+            "h": 120
+          },
+          "intro": {
+            "l": 280,
+            "t": 454,
+            "r": 952,
+            "b": 538,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 570,
+            "r": 512,
+            "b": 628,
+            "w": 232,
+            "h": 58
+          },
+          "cta2": {
+            "l": 524,
+            "t": 570,
+            "r": 687,
+            "b": 628,
+            "w": 163,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 644,
+            "r": 1000,
+            "b": 704,
+            "w": 720,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 32
+      }
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 246,
+            "r": 1000,
+            "b": 426,
+            "w": 720,
+            "h": 180
+          },
+          "intro": {
+            "l": 280,
+            "t": 514,
+            "r": 952,
+            "b": 598,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 630,
+            "r": 549,
+            "b": 688,
+            "w": 269,
+            "h": 58
+          },
+          "cta2": {
+            "l": 561,
+            "t": 630,
+            "r": 751,
+            "b": 688,
+            "w": 189,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 704,
+            "r": 1000,
+            "b": 730,
+            "w": 720,
+            "h": 26
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 30
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 246,
+            "r": 1000,
+            "b": 426,
+            "w": 720,
+            "h": 180
+          },
+          "intro": {
+            "l": 280,
+            "t": 514,
+            "r": 952,
+            "b": 598,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 630,
+            "r": 549,
+            "b": 688,
+            "w": 269,
+            "h": 58
+          },
+          "cta2": {
+            "l": 561,
+            "t": 630,
+            "r": 751,
+            "b": 688,
+            "w": 189,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 704,
+            "r": 1000,
+            "b": 764,
+            "w": 720,
+            "h": 60
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 30
+      }
+    },
+    {
+      "path": "/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 32,
+            "t": 186,
+            "r": 564,
+            "b": 506,
+            "w": 532,
+            "h": 320
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 32,
+            "t": 190,
+            "r": 564,
+            "b": 510,
+            "w": 532,
+            "h": 320
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 201,
+            "r": 1000,
+            "b": 321,
+            "w": 720,
+            "h": 120
+          },
+          "intro": {
+            "l": 280,
+            "t": 409,
+            "r": 952,
+            "b": 493,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 525,
+            "r": 440,
+            "b": 583,
+            "w": 160,
+            "h": 58
+          },
+          "cta2": {
+            "l": 452,
+            "t": 525,
+            "r": 690,
+            "b": 583,
+            "w": 239,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 599,
+            "r": 1000,
+            "b": 625,
+            "w": 720,
+            "h": 26
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 201,
+            "r": 1000,
+            "b": 321,
+            "w": 720,
+            "h": 120
+          },
+          "intro": {
+            "l": 280,
+            "t": 409,
+            "r": 952,
+            "b": 493,
+            "w": 672,
+            "h": 84
+          },
+          "cta": {
+            "l": 280,
+            "t": 525,
+            "r": 440,
+            "b": 583,
+            "w": 160,
+            "h": 58
+          },
+          "cta2": {
+            "l": 452,
+            "t": 525,
+            "r": 690,
+            "b": 583,
+            "w": 239,
+            "h": 58
+          },
+          "chips": {
+            "l": 280,
+            "t": 599,
+            "r": 1000,
+            "b": 625,
+            "w": 720,
+            "h": 26
+          }
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": true,
+        "introWords": 23
+      }
+    },
+    {
+      "path": "/uz/blog/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 152,
+            "t": 201,
+            "r": 1128,
+            "b": 249,
+            "w": 976,
+            "h": 48
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 152,
+            "t": 201,
+            "r": 1128,
+            "b": 249,
+            "w": 976,
+            "h": 48
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "size": "1280x800",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 329,
+            "w": 720,
+            "h": 144
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "size": "1280x800",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 281,
+            "w": 720,
+            "h": 96
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "size": "1280x800",
+      "before": null,
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 281,
+            "w": 720,
+            "h": 96
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 281,
+            "w": 720,
+            "h": 96
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 329,
+            "w": 720,
+            "h": 144
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "size": "1280x800",
+      "before": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 281,
+            "w": 720,
+            "h": 96
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      },
+      "after": {
+        "boxes": {
+          "h1": {
+            "l": 280,
+            "t": 185,
+            "r": 1000,
+            "b": 281,
+            "w": 720,
+            "h": 96
+          },
+          "intro": null,
+          "cta": null,
+          "cta2": null,
+          "chips": null
+        },
+        "overlaps": [],
+        "outside": [],
+        "hOverflow": false,
+        "ctaInFirstScreen": null,
+        "introWords": 1
+      }
+    }
+  ]
+}

@@ -105,7 +105,16 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // also gains the R3-9 sentence). Title, H1, description, robots, canonical
 // and hreflang of all ten are unchanged; the download guide (its P-CTR
 // window) and the RU chat are byte for byte the same.
-export const BASELINE = 'docs/seo/evidence/2026-10-06-seo-push/reviewed-protected-pages.json';
+// The 2026-10-07-seo-traffic revision (owner order of 07.10 after the first SMM
+// lead from chatgpt.com; gptbot.uz-audit/raw/seo-traffic-2026-10-07/
+// TRAFFIC-PLAN.md §5) changes one page: the homepage shell lists the new
+// Uzbek targeting page (moneyUz, by its H1), the three new Uzbek guides
+// (blogUz, by title, newest first) and the new title of the Uzbek SMM price
+// article (internalLinks 291 → 295, body text by those lines only). Title, H1,
+// description, robots, canonical, hreflang, JSON-LD and <head> of / stay; the
+// nine other protected pages, both chats included, are byte-identical to the
+// production 5ad00a6c build.
+export const BASELINE = 'docs/seo/evidence/2026-10-07-seo-traffic/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

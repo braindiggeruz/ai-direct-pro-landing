@@ -1,0 +1,184 @@
+{
+  "comparedAt": "2026-10-07T02:08:09.959Z",
+  "baseline": "F:/Claude/gptbot-tools/tmp/prod-5ad00a6c-dist (production 5ad00a6c build = revision 2026-10-06-seo-push, LF checkout)",
+  "candidate": "npm run build:fast of branch seo/traffic-20261007 (worktree F:/Claude/gptbot-seo-traffic-20261007: merges 5e3973bb and d23a33de, 9a7434b8, and the content of tasks T1–T7 of gptbot.uz-audit/raw/seo-traffic-2026-10-07/NOW-TASKS.json)",
+  "method": "Per protected page: the seoContract fields of scripts/seo-protection.ts, a word-level diff of the visible body text (the contract's bodyText), every application/ld+json block, every <meta>/<link> of <head> except stylesheet and modulepreload links, the Markdown twin (index.html.md), and the whole HTML byte for byte and with /assets/<name>-<hash> normalised. The contracts of the production build equal the 2026-10-06-seo-push revision field for field and body text for body text.",
+  "result": "Nine of the ten protected pages are byte-identical to the production 5ad00a6c build, both chats included, and so are their Markdown twins. On / two contract fields change, internalLinks (291 → 295, four added, none removed) and bodyTextSha256, and only by the homepage shell lists: moneyUz gains /uz/instagram-target-yoqish/ (its H1), blogUz gains the three new Uzbek guides at the top (their titles, datePublished 2026-10-07) and shows the new title of the SMM price article. Title, H1, description, robots, canonical, hreflang, JSON-LD and <head> of / are unchanged. dist/assets keeps every name and byte (index-CCI9zJ-Z.css, gpt-chat-lSg1hedS.css, AdminRoot-CvebJVFP.css and all JS).",
+  "pages": {
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa → 2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa"
+    },
+    "/uz/gpt-uzbek-tilida/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "e2bc0e1acf0b648eeb3236063a04f4e73cd6363d6013a6284161a5226f4a7539 → e2bc0e1acf0b648eeb3236063a04f4e73cd6363d6013a6284161a5226f4a7539"
+    },
+    "/ru/gpt-chat/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "none",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "ccab10fc3cb1e9641eec6e25c9b5f946228c13523b349b3d9ed1cb6aa4d7f03e → ccab10fc3cb1e9641eec6e25c9b5f946228c13523b349b3d9ed1cb6aa4d7f03e"
+    },
+    "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "6e3e3969d0e3000da87b71b3030aaeb1d506de5cb9b78358eec76819fc522f6c → 6e3e3969d0e3000da87b71b3030aaeb1d506de5cb9b78358eec76819fc522f6c"
+    },
+    "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "3ad607b417e31f02c1e47c071c414d5e7106e607fde78162e7c6ff90607d1794 → 3ad607b417e31f02c1e47c071c414d5e7106e607fde78162e7c6ff90607d1794"
+    },
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "e8665f98cc919e86187409ca5504e93044dcde48b38d97b4c2d431c6f7107d16 → e8665f98cc919e86187409ca5504e93044dcde48b38d97b4c2d431c6f7107d16"
+    },
+    "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "3d88bca92d13e4267abcce2bd692a862c31edc946fb76c65d0c720b9e5ac7a2e → 3d88bca92d13e4267abcce2bd692a862c31edc946fb76c65d0c720b9e5ac7a2e"
+    },
+    "/": {
+      "contractFieldsChanged": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "bodyTextSame": false,
+      "visibleTextChanges": [
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "Toshkentda Instagram target yoqish xizmati"
+        },
+        {
+          "op": "insert",
+          "removed": "",
+          "added": "Biznes reja tuzish: namuna, tuzilma va AI bilan qoralama Kurs ishi namuna va tuzilma: reja, kirish, xulosa Tushuntirish xati va ariza yozish: namuna va tuzilma"
+        },
+        {
+          "op": "replace",
+          "removed": "O'zbekiston",
+          "added": "va SMM narxlari"
+        }
+      ],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "none",
+      "htmlIdentical": false,
+      "htmlSameExceptAssetNames": false,
+      "htmlSha256": "9f87ea1fbed397afd5f3b6a378595cdd16132413221744a135e6f9526ee17a72 → b6364b3f04b1ca43a667b75d1487feee1630d10401499394b0ae5e959dff6fcf",
+      "internalLinksAdded": [
+        "/uz/blog/biznes-reja-tuzish/",
+        "/uz/blog/kurs-ishi-yozish/",
+        "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "/uz/instagram-target-yoqish/"
+      ],
+      "internalLinksRemoved": [],
+      "internalLinksCount": "291 → 295",
+      "bodyTextLength": "17679 → 17886",
+      "htmlLineDiff": [
+        "+ <li><a href=\"/uz/instagram-target-yoqish/\" hreflang=\"uz\">Toshkentda Instagram target yoqish xizmati</a></li>  (moneyUz 49 → 50)",
+        "+ <li><a href=\"/uz/blog/biznes-reja-tuzish/\" hreflang=\"uz\">Biznes reja tuzish: namuna, tuzilma va AI bilan qoralama</a></li>  (blogUz, top)",
+        "+ <li><a href=\"/uz/blog/kurs-ishi-yozish/\" hreflang=\"uz\">Kurs ishi namuna va tuzilma: reja, kirish, xulosa</a></li>  (blogUz)",
+        "+ <li><a href=\"/uz/blog/tushuntirish-xati-va-ariza-yozish/\" hreflang=\"uz\">Tushuntirish xati va ariza yozish: namuna va tuzilma</a></li>  (blogUz 54 → 57)",
+        "- SMM xizmati narxi O'zbekiston 2026: Instagram yuritish qancha  /  + SMM xizmati narxi va SMM narxlari 2026: Instagram yuritish qancha  (blogUz, same link)"
+      ]
+    },
+    "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "2eb57198394faa410dd8af3da2bd8597cdb32712a44c78c3b4194bc25a5d7579 → 2eb57198394faa410dd8af3da2bd8597cdb32712a44c78c3b4194bc25a5d7579"
+    },
+    "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/": {
+      "contractFieldsChanged": [],
+      "bodyTextSame": true,
+      "visibleTextChanges": [],
+      "jsonLdSame": true,
+      "headTagsChanged": {
+        "removed": [],
+        "added": []
+      },
+      "markdownTwin": "same",
+      "htmlIdentical": true,
+      "htmlSameExceptAssetNames": true,
+      "htmlSha256": "59280b096134c2056e09ff7b4bfc806ffdcd34c017d4340cabfcb14d4038a7d8 → 59280b096134c2056e09ff7b4bfc806ffdcd34c017d4340cabfcb14d4038a7d8"
+    }
+  }
+}
