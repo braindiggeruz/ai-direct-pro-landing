@@ -1,7 +1,7 @@
 # GPTBot.uz — актуальное состояние, 07.10.2026
 
 Рабочее дерево: `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`.
-Production `3d2228d542ca42b2f0e5217f85daf8296a2b3468`; deployment https://20d2c825.ai-direct-pro-landing.pages.dev. Build, release check и deploy — exit0; suite 2057 PASS,0 FAIL,4 исторических SKIP; live marker/asset probes и protected SEO10/10 совпали, Studio3/3 доступны, Click-only /5900/39900/full12/photo-off/offer-v5 подтверждены API. Реальный денежный E2E не проводился.
+Production `3597412854df3a4aab03285db873830d6da0b36f`; deployment https://4ddbdbf0.ai-direct-pro-landing.pages.dev. Build/check/deploy exit0; 126 целевых и release-тестов PASS, layout446/302/0, one-tap18 PASS. Live: marker/assets совпали, SEO10/10, Studio3/3, Click-only и цены подтверждены; RU/UZ на320/390 px — текст CTA виден, фон отображается, окно Click20000 открывается, pageerror/overflow0. Реальных заказов и списаний не создавали.
 Опубликованы платная Studio, новый chat UI и shared Click. SHA релиза указан выше; последующие docs-only commits не меняют runtime.
 
 ## Продукт и решения владельца
@@ -32,4 +32,4 @@ N1: скрипт исправлен и по последней команде з
 
 ## Текущая доработка UI по просьбе владельца, 07.10
 
-В рабочей ветке готова заметная текстовая кнопка «Купить пакет» / «Paket olish» с бирюзовой заливкой и плавный бирюзово-индиговый фон чата. Активным покупателям остаётся «Мой пакет» / «Paketim». Проверено 28 сочетаний RU/UZ/ширины/состояния аккаунта; typecheck, lint,104 targeted tests и18 one-tap сценариев зелёные. Полный layout gate446/302/0 и свежесть/SEO2/2 PASS; изменение пока не опубликовано. Никаких новых тарифов, платёжных операций или модификаций backend. Актуальный следующий шаг — guarded release этого UI. Список31 проверенного URL для переиндексации — `SEO_REINDEX_20261007.txt`; заявки Google не отправлялись.
+Опубликована заметная текстовая кнопка «Купить пакет» / «Paket olish» с бирюзовой заливкой и плавный бирюзово-индиговый фон чата. Активным покупателям остаётся «Мой пакет» / «Paketim». Проверено 28 сочетаний RU/UZ/ширины/состояния аккаунта; typecheck, lint,104 targeted tests и18 one-tap сценариев зелёные. Полный layout gate446/302/0 и свежесть/SEO2/2 PASS; опубликовано и подтверждено live. Никаких новых тарифов, платёжных операций или модификаций backend. Код этого UI-этапа —35974128; docs-only commits после него не требуют нового deploy. Список31 проверенного URL для переиндексации — `SEO_REINDEX_20261007.txt`; заявки Google не отправлялись.

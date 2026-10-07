@@ -1,7 +1,8 @@
 # Передача GPTBot.uz: CTA покупки и градиент, 07.10.2026
 
 ## 1. Состояние
-Ветка `codex/continuation-20261007`, база `be3a41af`; production до этого изменения — `3d2228d5` (https://20d2c825.ai-direct-pro-landing.pages.dev). Текущий UI проверен и ещё не опубликован: layout446/302/0, freshness/SEO2/2 PASS.
+Production `3597412854df3a4aab03285db873830d6da0b36f`; deployment https://4ddbdbf0.ai-direct-pro-landing.pages.dev. Build/check/deploy exit0; 126 целевых и release-тестов PASS, layout446/302/0, one-tap18 PASS. Live: marker/assets совпали, SEO10/10, Studio3/3, Click-only и цены подтверждены; RU/UZ на320/390 px — текст CTA виден, фон отображается, окно Click20000 открывается, pageerror/overflow0. Реальных заказов и списаний не создавали.
+Ветка `codex/continuation-20261007`; код35974128, последующая запись документации runtime не меняет.
 ## 2. Что сделано
 По новым указаниям владельца кнопка покупки получила сплошную бирюзовую заливку и постоянную надпись «Купить пакет» / «Paket olish», включая 320 px. Активным покупателям остаётся «Мой пакет» / «Paketim». Фон чата — спокойные бирюзовый и индиговый радиальные градиенты без анимации и изображений.
 ## 3. Изменённые файлы
@@ -11,18 +12,18 @@
 ## 5. Что сознательно не сделано
 Payme по-прежнему hidden/test; Click live. Реальных списаний/заказов не создавали. Рост конверсии не заявляется: его оценивают по существующей воронке просмотров пакета, переходов и покупок.
 ## 6. Проверки
-`npm run typecheck` exit0; ESLint пяти изменённых JS/TS-файлов exit0; шесть targeted suites 104 PASS/0 FAIL; one-tap18 PASS; приватный cta-smoke:28 PASS на320/360/390/412/480/768/1366 RU/UZ, guest/paid. Контраст CTA10.89:1. Build:fast exit0; JS109155 B br, pageCSS26947/27000 B br. Полный layout gate exit0:446 сценариев,302 снимка,0 ошибок;12/12 CTA видны; свежесть/SEO2/2 PASS. На контролируемых360/390/1366 LCP2.108–2.352с, CLS≤0.0053. На320 RU негейтируемый LCP3.1с. Production build и guarded deploy ещё предстоят.
+`npm run typecheck` exit0; ESLint пяти изменённых JS/TS-файлов exit0; шесть targeted suites 104 PASS/0 FAIL; one-tap18 PASS; приватный cta-smoke:28 PASS на320/360/390/412/480/768/1366 RU/UZ, guest/paid. Контраст CTA10.89:1. Build:fast exit0; JS109155 B br, pageCSS26947/27000 B br. Полный layout gate exit0:446 сценариев,302 снимка,0 ошибок;12/12 CTA видны; свежесть/SEO2/2 PASS. На контролируемых360/390/1366 LCP2.108–2.352с, CLS≤0.0053. На320 RU негейтируемый LCP3.1с. Production build, guarded check/deploy exit0; на финальном артефакте22/22 release-теста PASS. Live-проверки подтверждены отдельными checks/cta-live-*.json.
 ## 7. Известные проблемы
 Новых дефектов в проверенном UI нет. Предыдущие ограничения Studio/денежного E2E и сторонние предупреждения Yandex остаются в `STUDIO_RELEASE_20261007.md`; этот UI-этап их не меняет.
 ## 8. Следующая задача
-Опубликовать проверенный CTA и фон чата: commit, exact-source production build, release guard, push и deploy; live readback маркера, файлов и RU/UZ мобильной шапки.
+Совместная приёмка реального платежа Click: владелец оплачивает, затем проверяются права, генерация, файл и фискальный чек. UI-этап завершён.
 ## 9. Acceptance criteria
-Layout report ok=true; все12 billing проверок purchase=true; release gate exit0; live source совпадает со stamp; надпись видна, Click открывается с ценой20000 без создания заказа при открытии окна. CSS/JS остаются в существующих бюджетах.
+Для следующего этапа: подтверждённый владельцем реальный платёж, соответствующее право продукта, доступный файл и чек; корректная привязка к заказу. Sandbox и простое открытие окна оплаты этого не доказывают.
 ## 10. Команды для старта
 `git status`, `git log -5`; прочитать `PROJECT_STATE.md` и эту передачу. Проверки и screenshots: B=`F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534`, `checks/cta-*`, `cta-390-uz.png`. Deploy только `deploy_runner.py` с DR_ROOT на текущий integration worktree.
 ## 11. Риски
 Не менять тарифы и checkout вместе с косметикой, не показывать Payme, не удалять прежние dirty worktree. Фактическая конверсия зависит от трафика и измеряется после выпуска.
 ## 12. Rollback
-Отменить только отдельный commit CTA/градиента через revert, затем штатные build:production/check/deploy. Исходный production source3d2228d5 и его docs сохранены в Git. Миграций/секретов этот этап не требует; предыдущие резервные копии не затронуты.
+Отменить только commit35974128 CTA/градиента через revert, затем штатные build:production/check/deploy. Исходный production source3d2228d5 и его docs сохранены в Git. Миграций/секретов этот этап не требует; предыдущие резервные копии не затронуты.
 
 Список для владельца: `docs/SEO_REINDEX_20261007.txt` —31 URL после последних SEO/Studio-релизов, проверены live HTTP200/self-canonical/отсутствие noindex. Заявки в Google этим этапом не отправлялись.
