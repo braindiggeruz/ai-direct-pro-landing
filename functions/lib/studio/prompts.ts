@@ -1,14 +1,23 @@
-// The studio's model prompts (spec §7.2), verbatim from the 30-topic
-// measurement T0.1: prompt v3 of studio/measure/measure30.py (lines 178–289),
-// the Flux style tail A and the picture check v2 (studio/MEASURE-30.md,
-// appendix A). tests/studio-prompts.test.ts pins every built system prompt
-// to the hash of the measured one, so an edit here is a new measurement,
-// not a fix.
+// The studio's model prompts (spec §7.2): prompt v3 of the 30-topic
+// measurement T0.1 (studio/measure/measure30.py, lines 178–289; the Flux
+// style tail A and the picture check v2, studio/MEASURE-30.md appendix A),
+// plus the v3.1 additions of the 07.10 language review.
 //
 // v3 = v2 plus an English image_prompt on every outline slide, «never name
 // works or dates outside the textbook», and a talk of 3–4 sentences. The app
 // adds the sources slide itself («Manbalar: …», T2.2), so the model never
 // writes one. Temperature 0.3 for every text step (MEASURE-30 §6).
+//
+// v3.1 (07.10.2026, owner decision 1: model language reviews instead of a
+// native speaker; studio/launch-2026-10-07/LANG-uz-decks.md) only inserts
+// text into v3, never rewrites it: the terms, names and works the review
+// found wrong in the measured and rehearsal decks (bo‘lmacha, aks ta’sir,
+// Temur tuzuklari, Kumush, EKUB …), «-ga after other letters», short
+// sentences, and no English words. No new model call, the same output
+// length; ≈40 more input tokens per call, ≈200 for a literature topic
+// (≤ 30 µ$ ≈ 0.35 sum, ≈1% of a free deck). It is not re-measured:
+// tests/studio-prompts.test.ts proves that v3.1 minus the listed insertions
+// is the measured v3, byte for byte, and pins v3.1 itself.
 //
 // Only the topic a person typed reaches the model, cleaned by cleanTopic();
 // nothing here is logged or stored.
@@ -76,28 +85,28 @@ Rules:
 
 export const LANG_RULE = {
   uz:
-    `Uzbek, Latin script only (never Cyrillic, no Russian words). Write o‘ and g‘ with the character ‘ (U+2018) and the glottal stop with ’ (U+2019), for example: o‘quvchi, g‘oya, ma’ruza, san’at. Use the literary standard of Uzbek school textbooks and common words; if you are not sure a word exists in Uzbek, use a simpler word. Never translate Russian phrases word for word. After a final q or k the dative suffix is -qa / -ka (sharqqa, yurakka), never -ga. Use only Uzbek Latin letters: never ı, ş, ç, ğ, ö, ü, ə and never Russian endings such as -sky or -skiy. Write names as Uzbek textbooks do (Amir Temur, Alisher Navoiy, Mirzo Ulug‘bek).`,
+    `Uzbek, Latin script only (never Cyrillic, no Russian or English words). Write o‘ and g‘ with the character ‘ (U+2018) and the glottal stop with ’ (U+2019), for example: o‘quvchi, g‘oya, ma’ruza, san’at. Use the literary standard of Uzbek school textbooks and common words; if you are not sure a word exists in Uzbek, use a simpler word. Never translate Russian phrases word for word. After a final q or k the dative suffix is -qa / -ka (sharqqa, yurakka), never -ga. After any other letter it stays -ga (fanga, ilmga). Use only Uzbek Latin letters: never ı, ş, ç, ğ, ö, ü, ə and never Russian endings such as -sky or -skiy. Write names as Uzbek textbooks do (Amir Temur, Alisher Navoiy, Mirzo Ulug‘bek). Prefer short, simple sentences with the verb at the end.`,
   ru:
-    `Russian, the literary standard of school textbooks in Uzbekistan. Write names as Russian textbooks do (Амир Темур, Алишер Навои).`,
+    `Russian, the literary standard of school textbooks in Uzbekistan. Write names as Russian textbooks do (Амир Темур, Алишер Навои). Never use an English word where a Russian one exists (влияние, not influence).`,
 } as const;
 
 export const GLOSSARY_UZ = {
   math:
-    `Uzbek school math terms (use exactly these): kasr, surat (numerator), maxraj (denominator), to‘g‘ri kasr, noto‘g‘ri kasr, aralash son (mixed number; never "qo‘shma son", which means composite number), umumiy maxraj, kasrni qisqartirish, foiz, tenglama, ildiz, diskriminant, koeffitsiyent, qo‘shish, ayirish, ko‘paytirish, bo‘lish. The fraction 3/5 is read "beshdan uch" (denominator with -dan first, then numerator); never "uch beshdan". Never use "plus" or "minus" in Uzbek text: write qo‘shish, ayirish or the symbols + and −.`,
+    `Uzbek school math terms (use exactly these): kasr, surat (numerator), maxraj (denominator), to‘g‘ri kasr, noto‘g‘ri kasr, aralash son (mixed number; never "qo‘shma son", which means composite number), umumiy maxraj, kasrni qisqartirish, foiz, tenglama, ildiz, diskriminant, koeffitsiyent, qo‘shish, ayirish, ko‘paytirish, bo‘lish. The fraction 3/5 is read "beshdan uch" (denominator with -dan first, then numerator); never "uch beshdan". Never use "plus" or "minus" in Uzbek text: write qo‘shish, ayirish or the symbols + and −. Also: eng katta umumiy bo‘luvchi (EKUB; a fraction is reduced by it), eng kichik umumiy karrali (EKUK; the least common denominator), aylantirish (to convert: kasrni foizga aylantirish).`,
   geometry:
     `Uzbek school geometry terms (use exactly these): to‘g‘ri burchakli uchburchak, to‘g‘ri burchak, gipotenuza, katet, kvadrat, yuza, perimetr, teorema, isbot. Write formulas with symbols: a² + b² = c².`,
   physics:
-    `Uzbek school physics terms (use exactly these): kuch, massa, tezlik, tezlanish, inersiya, ishqalanish kuchi, og‘irlik kuchi, elektr toki, tok kuchi, kuchlanish, qarshilik, o‘tkazgich, elektr zanjiri. Units with symbols: N, kg, m/s², A, V, Om. Formulas with symbols: F = m · a, I = U / R.`,
+    `Uzbek school physics terms (use exactly these): kuch, massa, tezlik, tezlanish, inersiya, ishqalanish kuchi, og‘irlik kuchi, elektr toki, tok kuchi, kuchlanish, qarshilik, o‘tkazgich, elektr zanjiri. Units with symbols: N, kg, m/s², A, V, Om. Formulas with symbols: F = m · a, I = U / R. Also: inertlik, ta’sir va aks ta’sir (action and reaction), teng ta’sir etuvchi kuch (resultant force), to‘g‘ri chiziqli tekis harakat, erkin tushish tezlanishi, kattalik (magnitude).`,
   geography:
-    `Uzbek school geography terms (use exactly these): iqlim, relyef, tekislik, tog‘, cho‘l, vodiy, daryo, ko‘l, qo‘shni davlatlar, chorraha (crossroads; never "choring‘i"), saksovul (never "saqsoqov").`,
+    `Uzbek school geography terms (use exactly these): iqlim, relyef, tekislik, tog‘, cho‘l, vodiy, daryo, ko‘l, qo‘shni davlatlar, chorraha (crossroads; never "choring‘i"), saksovul (never "saqsoqov"). Also: tabiat zonalari, keskin kontinental iqlim, yog‘in, chuchuk suv (fresh water), buloq, soy, irmoq, qor qoploni (snow leopard). Neighbours of O‘zbekiston: Qozog‘iston (north and west), Qirg‘iziston (east), Tojikiston (south-east), Afg‘oniston (south), Turkmaniston (south-west).`,
   biology:
-    `Uzbek school biology terms (use exactly these): hujayra, hujayra qobig‘i, sitoplazma, yadro, xloroplast, fotosintez, karbonat angidrid gazi, kislorod, to‘qima, organ, yurak, arteriya, vena, kapillyar, katta va kichik qon aylanish doirasi.`,
+    `Uzbek school biology terms (use exactly these): hujayra, hujayra qobig‘i, sitoplazma, yadro, xloroplast, fotosintez, karbonat angidrid gazi, kislorod, to‘qima, organ, yurak, arteriya, vena, kapillyar, katta va kichik qon aylanish doirasi. Also: qon aylanish tizimi, yurak bo‘lmachasi (atrium; never "bo‘g‘imcha"), qorincha (ventricle), klapan, puls (felt at the wrist, bilak), oziqlanish (nutrition), xlorofill, glyukoza; the water cycle: bug‘lanish, kondensatsiya, yog‘in, buloq, chuchuk suv (fresh water).`,
   history:
-    `Uzbek history terms (use exactly these): gumbaz (dome), minora (minaret), peshtoq (portal), koshin (glazed tile), madrasa, maqbara, masjid, rasadxona, karvonsaroy, Go‘ri Amir maqbarasi, Bibixonim masjidi, Registon maydoni, Buyuk ipak yo‘li, Movarounnahr, sulola, saltanat.`,
+    `Uzbek history terms (use exactly these): gumbaz (dome), minora (minaret), peshtoq (portal), koshin (glazed tile), madrasa, maqbara, masjid, rasadxona, karvonsaroy, Go‘ri Amir maqbarasi, Bibixonim masjidi, Registon maydoni, Buyuk ipak yo‘li, Movarounnahr, sulola, saltanat. Amir Temur: born in 1336 in Xo‘ja Ilg‘or near Shahrisabz, the title amir (never sulton or xon), «Temur tuzuklari» (never "tuzoqlari"), avlodlari, Temuriylar; died in 1405 in O‘tror.`,
   literature:
-    `Uzbek literature terms (use exactly these): g‘azal, ruboiy, doston, devon, «Xamsa» (five dostons), roman, qissa, hikoya, she’r, shoir (a poet; "shoira" is only a woman poet), adib, ijod, asar.`,
+    `Uzbek literature terms (use exactly these): g‘azal, ruboiy, doston, devon, «Xamsa» (five dostons), roman, qissa, hikoya, she’r, shoir (a poet; "shoira" is only a woman poet), adib, ijod, asar. Works and characters as textbooks name them. Alisher Navoiy: «Xamsa» = «Hayrat ul-abror», «Farhod va Shirin», «Layli va Majnun», «Sab’ai sayyor», «Saddi Iskandariy»; «Xazoyin ul-maoniy» (four devons); «Lison ut-tayr», «Mahbub ul-qulub», «Muhokamat ul-lug‘atayn». Abdulla Qodiriy: «O‘tkan kunlar» (Otabek, Kumush, Yusufbek hoji, O‘zbek oyim, Zaynab), «Mehrobdan chayon» (Anvar, Ra’no); jadid adabiyoti. Name no other work or character unless you are sure.`,
   chemistry:
-    `Uzbek school chemistry terms (use exactly these): kimyoviy element, davriy jadval, atom, atom massasi, davr, guruh, metall, metallmas, modda, kimyoviy formula.`,
+    `Uzbek school chemistry terms (use exactly these): kimyoviy element, davriy jadval, atom, atom massasi, davr, guruh, metall, metallmas, modda, kimyoviy formula. Also: davriy qonun (the periodic law; the table itself is not a law), tartib raqami, yadro zaryadi, xossalar takrorlanadi, issiqlik va elektr tokini o‘tkazadi.`,
 } as const;
 
 export const TAIL_A = `, realistic photo, quiet empty scene, soft daylight, clean composition`;

@@ -1,8 +1,11 @@
 // The studio's prompts (functions/lib/studio/prompts.ts) are the measured
-// prompt v3 of T0.1, verbatim (spec §7.2, MEASURE-30 appendix A). The hashes
-// below were computed by studio/measure/measure30.py build_system(),
-// user_line() and compact_plan() on 06.10.2026; an edit to a prompt is a new
-// measurement, not a fix, and fails here.
+// prompt v3 of T0.1 (spec §7.2, MEASURE-30 appendix A) plus the v3.1
+// insertions of the 07.10 language review (studio/launch-2026-10-07/
+// LANG-uz-decks.md). The v3 hashes below were computed by
+// studio/measure/measure30.py build_system(), user_line() and compact_plan()
+// on 06.10.2026: a built v3.1 prompt without the listed insertions must be
+// the measured v3 prompt byte for byte, and v3.1 itself is pinned too, so any
+// other edit to a prompt is a new measurement, not a fix, and fails here.
 // Run: node --import tsx --test tests/studio-prompts.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -13,6 +16,7 @@ import {
   CHECK_PROMPT_V2,
   FREE_V3,
   GLOSSARY_UZ,
+  LANG_RULE,
   OUTLINE_V3,
   PART_V3,
   STUDIO_TEMPERATURE,
@@ -55,13 +59,72 @@ const MEASURED: Record<string, string> = {
 };
 const TEMPLATES: Record<string, string> = { OUTLINE_V3, PART_V3, FREE_V3 };
 
-test("every built system prompt is the measured one, byte for byte", () => {
+/**
+ * v3.1 (07.10.2026): the only text added to the measured v3, each inserted
+ * whole into LANG_RULE or GLOSSARY_UZ (the errors behind each one are in
+ * LANG-uz-decks.md). Nothing of v3 is rewritten or removed.
+ */
+const V31_INSERTIONS: Record<string, string> = {
+  "uz: no English words": " or English",
+  "uz: -ga after other letters": " After any other letter it stays -ga (fanga, ilmga).",
+  "uz: short sentences": " Prefer short, simple sentences with the verb at the end.",
+  "ru: no English words": " Never use an English word where a Russian one exists (влияние, not influence).",
+  math: " Also: eng katta umumiy bo‘luvchi (EKUB; a fraction is reduced by it), eng kichik umumiy karrali (EKUK; the least common denominator), aylantirish (to convert: kasrni foizga aylantirish).",
+  physics: " Also: inertlik, ta’sir va aks ta’sir (action and reaction), teng ta’sir etuvchi kuch (resultant force), to‘g‘ri chiziqli tekis harakat, erkin tushish tezlanishi, kattalik (magnitude).",
+  geography: " Also: tabiat zonalari, keskin kontinental iqlim, yog‘in, chuchuk suv (fresh water), buloq, soy, irmoq, qor qoploni (snow leopard). Neighbours of O‘zbekiston: Qozog‘iston (north and west), Qirg‘iziston (east), Tojikiston (south-east), Afg‘oniston (south), Turkmaniston (south-west).",
+  biology: ' Also: qon aylanish tizimi, yurak bo‘lmachasi (atrium; never "bo‘g‘imcha"), qorincha (ventricle), klapan, puls (felt at the wrist, bilak), oziqlanish (nutrition), xlorofill, glyukoza; the water cycle: bug‘lanish, kondensatsiya, yog‘in, buloq, chuchuk suv (fresh water).',
+  history: ' Amir Temur: born in 1336 in Xo‘ja Ilg‘or near Shahrisabz, the title amir (never sulton or xon), «Temur tuzuklari» (never "tuzoqlari"), avlodlari, Temuriylar; died in 1405 in O‘tror.',
+  literature: " Works and characters as textbooks name them. Alisher Navoiy: «Xamsa» = «Hayrat ul-abror», «Farhod va Shirin», «Layli va Majnun», «Sab’ai sayyor», «Saddi Iskandariy»; «Xazoyin ul-maoniy» (four devons); «Lison ut-tayr», «Mahbub ul-qulub», «Muhokamat ul-lug‘atayn». Abdulla Qodiriy: «O‘tkan kunlar» (Otabek, Kumush, Yusufbek hoji, O‘zbek oyim, Zaynab), «Mehrobdan chayon» (Anvar, Ra’no); jadid adabiyoti. Name no other work or character unless you are sure.",
+  chemistry: " Also: davriy qonun (the periodic law; the table itself is not a law), tartib raqami, yadro zaryadi, xossalar takrorlanadi, issiqlik va elektr tokini o‘tkazadi.",
+};
+const withoutV31 = (text: string) => Object.values(V31_INSERTIONS).reduce((out, insertion) => out.split(insertion).join(""), text);
+
+/** sha256 of the same builds with v3.1 (tsx, 07.10.2026). */
+const V31: Record<string, string> = {
+  "OUTLINE_V3|uz|math|15": "6ffdb09ac80c646f8f3d559c23e7b1b79cc89f90f875141ca901d464d2eb8d21",
+  "OUTLINE_V3|uz|history|15": "cc8c669d796be6fe3ed1365bfcecb6e8d1b6f634f623a104c309e2dc1f7170ee",
+  "OUTLINE_V3|uz|literature|15": "4b7f3d11f33ba0d13906f41cc521ac0ff3d84b658560a286388df74862f1fc7b",
+  "OUTLINE_V3|uz|none|15": "d666ff84028eabe654506cdc44080ac542e680f8e1f76f43e46fe0ad93aac19c",
+  "OUTLINE_V3|ru|math|15": "7633f0cc18369b0ea0d299a8bde4e2944f7ad75ea3ebbcfdd156c32d0686c77d",
+  "OUTLINE_V3|ru|none|15": "7633f0cc18369b0ea0d299a8bde4e2944f7ad75ea3ebbcfdd156c32d0686c77d",
+  "PART_V3|uz|math|": "d75c66548a236a5fef3ca577baecea2eaf9cecc22d8e8e9282f970518bef504c",
+  "PART_V3|uz|history|": "571710efe67daacb7def2ac1ad3df21f8dba690f7323aed90aadab7bba919cc4",
+  "PART_V3|uz|literature|": "1e5ffe07b3d223315b084d540fa9fcbef79d8c37ef572da0edc0ce28369a59a8",
+  "PART_V3|uz|none|": "55a2d0565175261c6df9c68d9e98969d5ab38c28182433063f2c2261f821c856",
+  "PART_V3|ru|math|": "233f07b8e2b4b24d7d7508932a8d15be2907bb9b083d4822b05d14e513b67821",
+  "FREE_V3|uz|math|6": "49f3cfbbe906e3d366cf8679c0ad9c72b885175c59fe7867b92143f3b42e082a",
+  "FREE_V3|uz|history|6": "ed01672a29de22475d99b3dd2e8a7a57b6b0becba934ea1915158343fe1d3073",
+  "FREE_V3|uz|literature|6": "a47e4a5b3845ad94bdfa0e52a73c69095b613f7856aa0f8f9d55f2d0ff013f61",
+  "FREE_V3|uz|none|6": "016afd8de4e207a1ecae25843d28eeb0aba69ff0e2dd2324ee9769696e629d2d",
+  "FREE_V3|ru|math|6": "aa2198ba43ccb32981e1940202f33d2189d027cb11ac5461aba10daf41c25aea",
+};
+
+test("every built system prompt is the measured v3 plus only the v3.1 insertions, byte for byte", () => {
   for (const [key, hash] of Object.entries(MEASURED)) {
     const [template, locale, subject, n] = key.split("|");
     const built = buildSystem(TEMPLATES[template], locale as "uz" | "ru", subject === "none" ? null : (subject as GlossarySubject), n ? Number(n) : undefined);
-    assert.equal(sha(built), hash, key);
+    assert.equal(sha(withoutV31(built)), hash, `${key}: v3 under the insertions`);
+    assert.equal(sha(built), V31[key], `${key}: v3.1`);
     assert.doesNotMatch(built, /\{(n|image_rule|facts_rule|numbers_rule|lang_rule|glossary)\}/, key);
   }
+});
+
+test("v3.1: each insertion sits once in its own rule; Russian prompts get only the Russian one", () => {
+  const owner = (name: string): string =>
+    name.startsWith("uz:") ? LANG_RULE.uz : name.startsWith("ru:") ? LANG_RULE.ru : GLOSSARY_UZ[name as GlossarySubject];
+  const rules: string[] = [...Object.values(GLOSSARY_UZ), LANG_RULE.uz, LANG_RULE.ru];
+  for (const [name, insertion] of Object.entries(V31_INSERTIONS)) {
+    assert.equal(owner(name).split(insertion).length, 2, name);
+    for (const other of rules.filter((text) => text !== owner(name))) assert.ok(!other.includes(insertion), `${name} only in its own rule`);
+  }
+  assert.equal(GLOSSARY_UZ.geometry, withoutV31(GLOSSARY_UZ.geometry), "geometry is unchanged");
+  const ru = buildSystem(FREE_V3, "ru", "biology", 6);
+  assert.ok(ru.includes(V31_INSERTIONS["ru: no English words"]));
+  assert.equal(withoutV31(ru).length, ru.length - V31_INSERTIONS["ru: no English words"].length);
+  // The terms the review found wrong now reach the model of their subject.
+  assert.match(buildSystem(FREE_V3, "uz", "biology", 6), /yurak bo‘lmachasi/);
+  assert.match(buildSystem(PART_V3, "uz", "history"), /«Temur tuzuklari»/);
+  assert.match(buildSystem(OUTLINE_V3, "uz", "literature", 12), /Kumush, Yusufbek hoji/);
 });
 
 test("the part prompt carries the measured user line and compact plan (uz02, slides 5–8)", () => {
