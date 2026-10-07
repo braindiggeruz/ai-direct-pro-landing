@@ -11,6 +11,39 @@ export const GA4_PARAMS: ReadonlySet<string> = new Set([
   'with_session', 'provider', 'finish', 'resume', 'entry', 'topic', 'in_app',
 ]);
 const onceKeys = new Set<string>();
+const metaOnceKeys = new Set<string>();
+
+function metaTrackOnce(key: string, method: 'track' | 'trackCustom', event: string, data: Payload): void {
+  try {
+    const w = window as unknown as { fbq?: (...args: unknown[]) => void };
+    if (typeof w.fbq !== 'function') return;
+    const storageKey = `gptbot_meta_${key}_v1`;
+    if (metaOnceKeys.has(storageKey)) return;
+    try {
+      if (sessionStorage.getItem(storageKey) === '1') {
+        metaOnceKeys.add(storageKey);
+        return;
+      }
+    } catch { /* Private browsing can block storage; in-memory dedup still works. */ }
+    w.fbq(method, event, data);
+    metaOnceKeys.add(storageKey);
+    try { sessionStorage.setItem(storageKey, '1'); } catch { /* noop */ }
+  } catch { /* Analytics must never block the chat. */ }
+}
+
+/** A real AI answer, once per browser session and locale; never a mere send or failed turn. */
+export function trackMetaChatEngaged(locale: 'ru' | 'uz'): void {
+  metaTrackOnce(`chat_engaged_${locale}`, 'trackCustom', 'ChatEngaged', { chat_locale: locale });
+}
+
+/** Only a deliberate pack opening, not a return from payment or login. */
+export function trackMetaPackView(from: string, locale: 'ru' | 'uz'): void {
+  if (from !== 'header' && from !== 'limit_card' && from !== 'low_limit' && from !== 'account_check') return;
+  metaTrackOnce(`pack_view_${locale}`, 'track', 'ViewContent', {
+    content_ids: ['ai_paket_300'],
+    content_type: 'product',
+  });
+}
 
 /**
  * The in-app browser the chat runs in, for `in_app` on chat_opened and

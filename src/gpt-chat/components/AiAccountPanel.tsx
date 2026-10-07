@@ -10,7 +10,7 @@ import { useAccount, type AccountCause } from "../use-account";
 import { accountPart, LazyPart, PartFailed, PartLoading } from "../lazy-part";
 import { preloadsAccountWindow } from "../preload";
 import type { AccountWindowMemory, CheckoutControls } from "../account/AccountDialog";
-import { track, trackPurchase, EV } from "../analytics";
+import { track, trackMetaPackView, trackPurchase, EV } from "../analytics";
 import { loadBotLogin } from "../bot-login";
 import { recordUiEvent, type PackFrom } from "../ui-events";
 import {
@@ -84,6 +84,7 @@ export function AiAccountPanel({
   const openPack = useCallback((from: PackFrom) => {
     setOpen(true);
     track(EV.packViewed, { from, locale });
+    trackMetaPackView(from, locale);
     recordUiEvent(apiBase, "pack_viewed", from);
   }, [apiBase, locale]);
   // What the address and this tab bring along, once: a failed Telegram

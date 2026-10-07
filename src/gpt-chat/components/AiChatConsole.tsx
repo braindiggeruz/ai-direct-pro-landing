@@ -22,7 +22,7 @@ import {
   onceThisSession,
   hasStoredHistory,
 } from "../storage";
-import { inApp, track, trackOnce, EV } from "../analytics";
+import { inApp, track, trackMetaChatEngaged, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
 import { AiChatInput, CLOCK } from "./AiChatInput";
@@ -594,6 +594,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         ]);
         revealLine();
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
+        trackMetaChatEngaged(config.locale);
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
         // The count an answered turn reported is stale now: 0 while the limit
@@ -737,6 +738,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       ]);
       revealLine();
       track(EV.aiResponseSuccess, { ...entryMeta, model: outcome.modelUsed, message_number: messageNumber, finish: outcome.truncated === true ? "length" : "stop" });
+      trackMetaChatEngaged(config.locale);
     } else if (outcome.aborted) {
       // User pressed Stop: keep whatever was generated, never an error state.
       if (acc)

@@ -10,7 +10,7 @@ import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals 
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
 import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
-import { GA4_PARAMS, trackMetaCheckout, trackPurchase } from '../src/gpt-chat/analytics';
+import { GA4_PARAMS, trackMetaChatEngaged, trackMetaCheckout, trackMetaPackView, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
 import * as React from 'react';
@@ -523,6 +523,31 @@ test('Meta checkout starts only at a new live invoice and pixel queues before it
   assert.match(dialog, /if \(!resume && data\.mode === "live" && attemptId && data\.pack\)\s*trackMetaCheckout/);
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.ok(html.indexOf("fbq('init', '780400781706074')") < html.indexOf('function loadPixel()'));
+});
+
+test('Meta gets one truthful chat and pack signal per session, never a payment-return view', (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const sent: unknown[][] = [];
+  const stored = new Map<string, string>();
+  g.window = { fbq: (...args: unknown[]) => sent.push(args) };
+  g.sessionStorage = {
+    getItem: (key: string) => stored.get(key) ?? null,
+    setItem: (key: string, value: string) => { stored.set(key, value); },
+  };
+  t.after(() => { delete g.window; delete g.sessionStorage; });
+  trackMetaChatEngaged('uz');
+  trackMetaChatEngaged('uz');
+  trackMetaPackView('header', 'uz');
+  trackMetaPackView('limit_card', 'uz');
+  trackMetaPackView('pay_return', 'ru');
+  assert.deepEqual(sent, [
+    ['trackCustom', 'ChatEngaged', { chat_locale: 'uz' }],
+    ['track', 'ViewContent', { content_ids: ['ai_paket_300'], content_type: 'product' }],
+  ]);
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.equal(chat.match(/trackMetaChatEngaged\(config\.locale\)/g)?.length, 2, 'both successful answer paths emit the signal');
+  const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
+  assert.match(panel, /trackMetaPackView\(from, locale\)/);
 });
 
 test('every funnel step the window sends is one the server counts', (t) => {
