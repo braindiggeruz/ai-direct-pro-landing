@@ -1,9 +1,10 @@
 {
-  "checkedAt": "2026-10-07T02:06:34.594Z",
+  "checkedAt": "2026-10-07T03:52:57.612Z",
   "purpose": "First screen of the pages whose hero text or chips changed in the traffic revision (T4, T5), the three new guides, the two changed articles and the homepage, before (production 5ad00a6c build) and after (this build). Chromium (playwright-core), JavaScript on, fonts loaded, five viewports. Boxes of the H1, the intro under it (.speakable-intro, the speakable text), the primary and secondary CTA and the trust chips; their pairwise overlaps, boxes outside the viewport width and horizontal page overflow. The two chats are byte-identical and were not re-run (their own check is scripts/chat-layout-check.mjs).",
   "base": "F:/Claude/gptbot-tools/tmp/prod-5ad00a6c-dist",
-  "candidate": "F:/Claude/gptbot-seo-traffic-20261007/dist (npm run build:fast)",
+  "candidate": "F:/Claude/gptbot-seo-traffic-20261007/dist (npm run build:fast after the review fixes of 2026-10-07: no-break spaces in the hero prices)",
   "screenshots": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/first-screen-shots/ (after, 360×640 and 375×667)",
+  "previousCheck": "2026-10-07T02:06:34.594Z, the build of 3969a3e5: same 65 runs, same verdicts; the price wraps it noted are fixed here (priceWrap below)",
   "ok": true,
   "summary": {
     "runs": 65,
@@ -30,10 +31,30 @@
       "/ru/targetirovannaya-reklama-tashkent/ 1280x800 (also before)"
     ]
   },
+  "priceWrap": {
+    "checkedAt": "2026-10-07T03:53:32.271Z",
+    "method": "Every price in the hero intro (.speakable-intro) and the trust chips of five pages (/uz/smm-xizmatlari/, /ru/smm-prodvizhenie-tashkent/, /ru/targetirovannaya-reklama-tashkent/, /uz/instagram-target-yoqish/, /uz/internet-reklama-toshkent/) at the same five viewports, before and after: a price is digit groups plus an optional so‘mdan / сум / сум/мес; Range.getClientRects() over it, more than one line top = split. In the lists ⍽ marks U+00A0.",
+    "measured": 85,
+    "after": {
+      "measured": 70,
+      "split": [
+        "/ru/targetirovannaya-reklama-tashkent/ 412x915 intro «1⍽490⍽000⍽сум/мес»"
+      ]
+    },
+    "before": {
+      "measured": 15,
+      "split": [
+        "/ru/targetirovannaya-reklama-tashkent/ 320x568 intro «1 990 000 сум»",
+        "/ru/targetirovannaya-reklama-tashkent/ 320x568 intro «1 490 000 сум/мес»",
+        "/ru/targetirovannaya-reklama-tashkent/ 412x915 intro «1 490 000 сум/мес»"
+      ]
+    }
+  },
   "notes": [
     "No overlap of H1, intro, CTAs and chips, nothing outside the viewport and no horizontal overflow on any page at any size.",
-    "The hero CTA below the first screen is not new on phones: on the SMM and targeting pages it was already below at 320×568 and 360×640 in production. New: on /uz/smm-xizmatlari/ at 375×667 the longer intro (23 → 42 words, five lines → eight) moves it from 626 px to 710 px; on /uz/instagram-target-yoqish/ (a new page) it sits at 682 px. On every one of these pages the header button and the fixed bottom bar («Qo‘ng‘iroq qilish» / «Ariza», «Позвонить» / «Заявка») stay in the first screen, so a contact action is always visible.",
-    "Prices in the new intros wrap at the thousands space at 360–375 px («2» at a line end, «490 000» on the next line), as the existing price chips and the RU targeting intro already did; content uses plain spaces site-wide, no change in this revision."
+    "The hero CTA below the first screen is not new on phones: on the SMM and targeting pages it was already below at 320×568 and 360×640 in production. New: on /uz/smm-xizmatlari/ at 375×667 the longer intro (23 → 42 words) moves it from 626 px to 710 px; on /uz/instagram-target-yoqish/ (a new page) it sits at 682 px. The intro is kept (review of 2026-10-07): the header button «Bepul maslahat olish» leads to the same #lead-form, and the fixed bottom bar («Qo‘ng‘iroq qilish» / «Ariza», «Позвонить» / «Заявка») stays in the first screen on every one of these pages, so a contact action is always visible.",
+    "Prices in the hero intros (heroSubtitle of /uz/smm-xizmatlari/, /ru/smm-prodvizhenie-tashkent/, /ru/targetirovannaya-reklama-tashkent/ and /uz/instagram-target-yoqish/) now join the digit groups and the currency with U+00A0 («2 490 000 so‘mdan», «от 2 490 000 сум/мес»). In the first check (3969a3e5) they wrapped at the thousands space at 360–375 px («2» at a line end, «490 000 so‘mdan» on the next line) and the new targeting page also at 320, 412 and 1280 px. Now no digit group is split at any size. One unit wrap remains: at 412×915 the RU targeting intro breaks after «сум/» (before «мес»), the number «1 490 000» stays on one line; in production the same price broke inside the number at 320×568 and 412×915. Chips, price tables, FAQ and meta keep plain spaces (tests and scripts/service-offers.ts read them).",
+    "The no-break spaces make two intros one line longer: /ru/smm-prodvizhenie-tashkent/ at 360×640 (CTA bottom 772 → 799 px, below the first screen in production too) and /uz/smm-xizmatlari/ at 412×915 (638 → 666 px, still inside 915); /uz/instagram-target-yoqish/ at 320×568 757 → 785 px (below before the change too). The / runs differ from the first check by a few px of the animated H1 only; dist/index.html is byte-identical (sha256 b6364b3f…)."
   ],
   "runs": [
     {
@@ -360,31 +381,31 @@
             "l": 16,
             "t": 445,
             "r": 304,
-            "b": 669,
+            "b": 697,
             "w": 288,
-            "h": 224
+            "h": 252
           },
           "cta": {
             "l": 16,
-            "t": 701,
+            "t": 729,
             "r": 304,
-            "b": 757,
+            "b": 785,
             "w": 288,
             "h": 56
           },
           "cta2": {
             "l": 16,
-            "t": 769,
+            "t": 797,
             "r": 304,
-            "b": 827,
+            "b": 855,
             "w": 288,
             "h": 58
           },
           "chips": {
             "l": 16,
-            "t": 843,
+            "t": 871,
             "r": 304,
-            "b": 971,
+            "b": 999,
             "w": 288,
             "h": 128
           }
@@ -505,9 +526,9 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 180,
+            "t": 174,
             "r": 302,
-            "b": 356,
+            "b": 350,
             "w": 286,
             "h": 175
           },
@@ -526,7 +547,7 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 178,
+            "t": 177,
             "r": 302,
             "b": 353,
             "w": 286,
@@ -1030,31 +1051,31 @@
             "l": 16,
             "t": 498,
             "r": 344,
-            "b": 688,
+            "b": 716,
             "w": 328,
-            "h": 190
+            "h": 218
           },
           "cta": {
             "l": 16,
-            "t": 716,
+            "t": 743,
             "r": 254,
-            "b": 772,
+            "b": 799,
             "w": 238,
             "h": 56
           },
           "cta2": {
             "l": 16,
-            "t": 784,
+            "t": 811,
             "r": 180,
-            "b": 842,
+            "b": 869,
             "w": 164,
             "h": 58
           },
           "chips": {
             "l": 16,
-            "t": 858,
+            "t": 885,
             "r": 344,
-            "b": 952,
+            "b": 979,
             "w": 328,
             "h": 94
           }
@@ -1331,9 +1352,9 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 180,
+            "t": 178,
             "r": 302,
-            "b": 355,
+            "b": 353,
             "w": 286,
             "h": 175
           },
@@ -1352,16 +1373,23 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 178,
+            "t": 175,
             "r": 302,
-            "b": 353,
+            "b": 350,
             "w": 286,
             "h": 175
           },
           "intro": null,
           "cta": null,
           "cta2": null,
-          "chips": null
+          "chips": {
+            "l": 16,
+            "t": 7893,
+            "r": 344,
+            "b": 7933,
+            "w": 328,
+            "h": 40
+          }
         },
         "overlaps": [],
         "outside": [],
@@ -2157,9 +2185,9 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 180,
+            "t": 174,
             "r": 302,
-            "b": 356,
+            "b": 350,
             "w": 286,
             "h": 175
           },
@@ -2580,31 +2608,31 @@
             "l": 16,
             "t": 382,
             "r": 396,
-            "b": 550,
+            "b": 578,
             "w": 380,
-            "h": 168
+            "h": 196
           },
           "cta": {
             "l": 16,
-            "t": 582,
+            "t": 610,
             "r": 396,
-            "b": 638,
+            "b": 666,
             "w": 380,
             "h": 56
           },
           "cta2": {
             "l": 16,
-            "t": 650,
+            "t": 678,
             "r": 396,
-            "b": 708,
+            "b": 736,
             "w": 380,
             "h": 58
           },
           "chips": {
             "l": 16,
-            "t": 724,
+            "t": 752,
             "r": 396,
-            "b": 784,
+            "b": 812,
             "w": 380,
             "h": 60
           }
@@ -2983,9 +3011,9 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 164,
+            "t": 166,
             "r": 302,
-            "b": 339,
+            "b": 341,
             "w": 286,
             "h": 175
           },
@@ -3004,9 +3032,9 @@
         "boxes": {
           "h1": {
             "l": 16,
-            "t": 163,
+            "t": 160,
             "r": 302,
-            "b": 338,
+            "b": 336,
             "w": 286,
             "h": 175
           },
@@ -3809,9 +3837,9 @@
         "boxes": {
           "h1": {
             "l": 32,
-            "t": 186,
+            "t": 196,
             "r": 564,
-            "b": 506,
+            "b": 516,
             "w": 532,
             "h": 320
           },
@@ -3830,9 +3858,9 @@
         "boxes": {
           "h1": {
             "l": 32,
-            "t": 190,
+            "t": 196,
             "r": 564,
-            "b": 510,
+            "b": 516,
             "w": 532,
             "h": 320
           },
