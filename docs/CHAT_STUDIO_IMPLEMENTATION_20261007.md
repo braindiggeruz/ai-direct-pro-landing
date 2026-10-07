@@ -1,6 +1,6 @@
 # Презентации внутри основного чата: локальная реализация
 
-Владелец 07.10.2026 одобрил реализацию roadmap и отдельно запретил push/deploy до следующей команды. Работа продолжена после зависания компьютера в `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Уже сохранённые изменения использованы; история Claude повторно не импортировалась.
+Владелец 07.10.2026 одобрил реализацию roadmap и сначала запретил push/deploy до следующей команды. Затем прямо разрешил завершить production-проверки и выполнить deploy. Работа продолжена после зависания компьютера в `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Уже сохранённые изменения использованы; история Claude повторно не импортировалась.
 
 ## Реализованная поверхность
 
@@ -38,6 +38,10 @@ Studio загружается лениво в существующий React roo
 
 Проверено:191 targeted tests PASS; после последней компоновки40 регрессий PASS; root/functions/lead-radar и Studio typecheck0; scoped lint0. Финальный quick layout:52 сценария, ok=true,0 ошибок, контрольный LCP2.168–2.280с. JS109996 B Brotli, CSS чата6741 B, CSS всей страницы26947 B; все бюджеты PASS. Запас начального JS всего4 B: следующее расширение обязательно проверять тем же gate.
 
-Логи находятся в `F:/Claude/gptbot-tools/chat-embedded-*.log`; скриншоты — `F:/Claude/gptbot-tools/chat-embedded-shots/`. Точная production сборка локального коммита записывается в HANDOFF.md после выполнения. Реальная покупка и проверка денежного цикла/чека остаются отдельной приёмкой владельца после публикации.
+Точная production сборка `8ebb3d30` и guarded check прошли: 991 файл, текущий production `96d2b8b7` является предком. Дополнительные release suites: 40 PASS, 4 ожидаемых skip для уже применённого R-ST1, 0 FAIL. Standalone browser gate PASS после актуализации проверки фокуса для уникальных заголовков. Fixtures release gate теперь проверяют совместную live-конфигурацию Click/Payme и отдельно контракт Click. Логи находятся в `F:/Claude/gptbot-tools/chat-embedded-*.log`; скриншоты — `F:/Claude/gptbot-tools/chat-embedded-shots/`.
 
-Выпуск выполнять только по новой команде владельца: чистый локальный коммит, `npm run build:production`, guarded `deploy_runner.py check`, затем deploy и live readback. До этой команды опубликованная версия остаётся прежней; эта реализация локальная.
+Команда на выпуск получена. Последовательность: чистый локальный коммит, `npm run build:production`, guarded `deploy_runner.py check`, затем deploy и live readback. Доказательство публикации добавляется после выполнения; реальная покупка и проверка денежного цикла/чека остаются отдельной приёмкой владельца.
+
+## Риск прежней зависимости PPTX
+
+`npm --prefix apps/studio audit --json` сообщает 2 high (одна уязвимая транзитивная библиотека `image-size@1.2.1` и её родитель `pptxgenjs@4.0.1`). Зависимости Studio не изменились относительно исходного коммита `0a9350cd`. Уязвимость — бесконечный цикл парсинга отдельных форматов изображений: [JXL/HEIF](https://github.com/advisories/GHSA-5p2g-fcmc-qvqq), [ICNS](https://github.com/advisories/GHSA-w3rx-r6r6-pgpr). В текущей браузерной библиотеке PPTX импортируется только JSZip, `image-size` отключён её browser map; в `functions/` нет импортов PPTX/image-size. Это ограничивает достижимость в действующей архитектуре, но не означает чистый dependency audit. При будущем Node/server-side экспорте нужна совместимая замена/обновление; `npm audit fix --force` не выполнялся.

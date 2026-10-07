@@ -922,9 +922,10 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     await tab.waitForSelector('#studio-root [data-studio-download="idle"]', { timeout: 20_000 });
     const arrived = await tab.evaluate(() => ({
       focus: document.activeElement?.id ?? document.activeElement?.tagName ?? '',
+      headingFocused: document.activeElement === document.querySelector('#studio-root [data-studio-preview] > h2'),
       announce: (document.querySelector('#studio-root [data-studio-announce]')?.textContent ?? '').trim(),
     }));
-    if (arrived.focus !== 'studio-result-title') failures.push(`flow: the focus is on ${arrived.focus} when the deck arrives, expected its heading`);
+    if (!arrived.headingFocused) failures.push(`flow: the focus is on ${arrived.focus} when the deck arrives, expected its heading`);
     if (arrived.announce !== TEXTS.uz.steps.ready) failures.push(`flow: the status line says «${arrived.announce}» when the deck arrives`);
     const seconds = Math.round((Date.now() - flowStarted - submitAt) / 100) / 10;
     await tab.waitForSelector('#studio-root [data-studio-upgrade="after_result"]', { timeout: 10_000 });

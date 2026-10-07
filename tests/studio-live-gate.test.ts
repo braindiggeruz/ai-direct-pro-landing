@@ -9,7 +9,7 @@ import { committedRuntimeConfig } from '../scripts/release/live-gate';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const COMMON = ['GPT_IDENTITY_SECRET', 'STUDIO_TURNSTILE_SECRET_KEY', 'ZAI_API_KEY'];
-const SHARED = new Set([...COMMON, 'GPT_CLICK_CREDENTIALS_JSON']);
+const SHARED = new Set([...COMMON, 'GPT_CLICK_CREDENTIALS_JSON', 'GPT_PAYME_KEY', 'GPT_PAYME_MERCHANT_ID']);
 const STUDIO_PATTERN = /STUDIO_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/;
 const CHAT_PATTERN = /GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/;
 
@@ -42,19 +42,20 @@ function fixture(t: TestContext) {
   return { root, dist, studio, chat, offers, write, config, check: (names: ReadonlySet<string> | null = SHARED) => assertStudioLiveGate(root, dist, names) };
 }
 
-test('Studio live gate: current candidate passes with shared Click names and matching built offers', t => {
+test('Studio live gate: current candidate passes with shared Click and Payme names and matching built offers', t => {
   const f = fixture(t);
   assert.equal(f.studio.STUDIO_PAYMENTS, 'live', 'positive test must exercise the live branch');
-  assert.equal(f.studio.STUDIO_PAYMENT_PROVIDERS, 'click');
+  assert.equal(f.studio.STUDIO_PAYMENT_PROVIDERS, 'click,payme');
   assert.equal(f.studio.STUDIO_CLICK_USE_CHAT_SERVICE, 'true');
   assert.equal(f.chat.GPT_BILLING_MODE_CLICK, 'live');
+  assert.equal(f.chat.GPT_BILLING_MODE_PAYME, 'live');
   assert.doesNotThrow(() => f.check());
 });
 
 test('Studio live gate: shared and separate Click require their own secret names, with no fallback', t => {
   const f = fixture(t);
   for (const shared of [true, false]) {
-    f.config({ STUDIO_CLICK_USE_CHAT_SERVICE: String(shared) });
+    f.config({ STUDIO_PAYMENT_PROVIDERS: 'click', STUDIO_CLICK_USE_CHAT_SERVICE: String(shared) });
     const required = shared ? 'GPT_CLICK_CREDENTIALS_JSON' : 'STUDIO_CLICK_CREDENTIALS_JSON';
     const wrong = shared ? 'STUDIO_CLICK_CREDENTIALS_JSON' : 'GPT_CLICK_CREDENTIALS_JSON';
     assert.doesNotThrow(() => f.check(new Set([...COMMON, required])));
