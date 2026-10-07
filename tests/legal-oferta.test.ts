@@ -161,11 +161,12 @@ test('(v3) the guest account and Payme: what guest checkout and Payme live sell 
   assert.ok(policyUz.includes('Click, Payme va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.'));
   assert.ok(policyRu.includes('Данные карты вы вводите на стороне Click, Payme или Uzum Bank'));
   assert.ok(policyUz.includes('Karta ma’lumotlarini Click, Payme yoki Uzum Bank tomonida kiritasiz'));
-  // The switches these texts allow are the committed ones, in both copies of the config.
+  // The switches these texts allow, in both copies of the config: guest checkout on, Payme
+  // live (2026-10-07) or back in its sandbox (the one-command rollback, PAYME-RU.md section 7).
   assert.equal(config.GPT_GUEST_CHECKOUT, 'true');
   assert.equal(nested.GPT_GUEST_CHECKOUT, 'true');
-  assert.equal(config.GPT_BILLING_MODE_PAYME, 'live');
-  assert.equal(nested.GPT_BILLING_MODE_PAYME, 'live');
+  assert.ok(['live', 'test'].includes(config.GPT_BILLING_MODE_PAYME), config.GPT_BILLING_MODE_PAYME);
+  assert.equal(nested.GPT_BILLING_MODE_PAYME, config.GPT_BILLING_MODE_PAYME);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -429,7 +430,7 @@ function liveFixture(change: Partial<LiveGateInput> = {}): LiveGateInput {
     'sitemap.xml': '<loc>https://gptbot.uz/ru/oferta/</loc><loc>https://gptbot.uz/uz/oferta/</loc>',
   };
   return {
-    config: { ...config, GPT_BILLING_LIVE_READY: 'true', GPT_BILLING_MODE_CLICK: 'live', GPT_BILLING_TERMS_APPROVED_AT: DAY },
+    config: { ...config, GPT_BILLING_LIVE_READY: 'true', GPT_BILLING_MODE_CLICK: 'live', GPT_BILLING_MODE_PAYME: 'live', GPT_BILLING_TERMS_APPROVED_AT: DAY },
     d1Bound: true,
     offers: { ru: { ...offers.ru, legalReviewedAt: DAY }, uz: { ...offers.uz, legalReviewedAt: DAY } },
     policies: { ru: { ...policies.ru, legalReviewedAt: DAY }, uz: { ...policies.uz, legalReviewedAt: DAY } },
@@ -450,9 +451,16 @@ const DEFERRED = [
 
 test('live gate: the committed build passes with Click and Payme live; offline it defers only the secret names', () => {
   // Runbook S2 (2026-10-05): GPT_BILLING_LIVE_READY="true", Click live, Uzum off; Payme live
-  // since 2026-10-07 (PAYME-RU.md section 6), with the v3 editions that name it.
+  // since 2026-10-07 (PAYME-RU.md section 6), with the v3 editions that name it. After the
+  // one-command rollback (Payme back in test) only Click is live and asks for its secrets.
   const report = liveGate(loadLiveGateInput(ROOT, path.join(ROOT, 'dist'), null));
-  assert.deepEqual(report, { live: true, providers: ['click', 'payme'], issues: [], deferred: DEFERRED });
+  const paymeLive = config.GPT_BILLING_MODE_PAYME === 'live';
+  assert.deepEqual(report, {
+    live: true,
+    providers: paymeLive ? ['click', 'payme'] : ['click'],
+    issues: [],
+    deferred: paymeLive ? DEFERRED : DEFERRED.filter((name) => !name.startsWith('GPT_PAYME_')),
+  });
 });
 
 test('live gate: a complete build with every secret in production may go live', () => {

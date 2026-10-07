@@ -14,8 +14,8 @@
 //   - complete requisites (content/global/legal-entity.json) whose STIR is
 //     the receipts' GPT_FISCAL_TIN, which must be set for Uzum too;
 //   - a legalReviewedAt on both privacy policies;
-//   - for Payme, both offers and both policies naming Payme (the editions
-//     of 2026-10 name only Click and Uzum Bank);
+//   - for Payme, both offers and both policies naming Payme (edition
+//     ai-paket-2026-10-v3 and the policies of 2026-10-07 do; v2 did not);
 //   - the secrets of the live providers and of the shared machinery, by NAME,
 //     in Cloudflare Pages production. `check-production` and `deploy` read the
 //     names from the Pages project; offline (`stamp`, `check`) they are listed
@@ -195,8 +195,8 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
     if (offer.status !== 'published' || offer.robotsIndex !== true) issues.push(`${url}: not published and indexable`);
     if (offer.url !== url || offer.canonical !== href) issues.push(`${url}: url or canonical differs from ${href}`);
     if (input.config[TERMS_SETTING[locale]] !== href) issues.push(`${TERMS_SETTING[locale]} is not ${href}`);
-    // The offer names the ways to pay ("Click или Uzum Bank"); the edition
-    // that adds Payme comes before Payme sells live.
+    // The offer names the ways to pay ("Click, Payme или Uzum Bank" since
+    // v3); an edition that names Payme comes before Payme sells live.
     if (providers.includes('payme') && !JSON.stringify(offer).includes('Payme')) issues.push(`${url}: does not name Payme as a way to pay`);
     if (!version || offer.termsVersion !== version) issues.push(`${url}: termsVersion differs from GPT_BILLING_TERMS_VERSION`);
     if (offer.requisites !== 'seller') issues.push(`${url}: does not show the seller's requisites`);

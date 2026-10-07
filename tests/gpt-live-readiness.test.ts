@@ -297,17 +297,20 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
   assert.equal(packed.GPT_BILLING_MODE, "");
   assert.equal(packed.GPT_BILLING_MODE_CLICK, "live");
   assert.equal(packed.GPT_BILLING_MODE_UZUM, "");
-  assert.equal(packed.GPT_BILLING_MODE_PAYME, "live");
+  // "live" since 2026-10-07; "test" is the one-command rollback (PAYME-RU.md section 7),
+  // and every expectation below follows the committed value.
+  const paymeMode = packed.GPT_BILLING_MODE_PAYME as "live" | "test";
+  assert.ok(paymeMode === "live" || paymeMode === "test", paymeMode);
   assert.equal(packed.GPT_BILLING_LIVE_READY, "true");
   assert.equal(packed.UZUM_API, "");
   assert.equal(billingActive(env), true);
   assert.equal(providerMode(env, "click"), "live");
   assert.equal(providerMode(env, "uzum"), null);
-  assert.equal(providerMode(env, "payme"), "live");
+  assert.equal(providerMode(env, "payme"), paymeMode);
   // Without the Pages secrets neither of the other two is ready.
   for (const provider of ["uzum", "payme"] as const) assert.equal(providerReady(env, provider), false);
   // Payme live from this config lacks only what the Pages secrets hold: its
-  // own switch is "live", its receipt line is the committed fiscal codes.
+  // own switch, its receipt line is the committed fiscal codes.
   // The public config settles everything it can: with D1 bound, Click live lacks
   // only what the Pages secrets hold, and without them it fails closed.
   const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };
@@ -322,6 +325,7 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
     "TELEGRAM_ASSISTANT_WEBHOOK_SECRET",
   ]);
   assert.deepEqual(liveReadiness({ ...env, GPTBOT_DRAFTS_DB: bomb } as unknown as BillingEnv, "payme"), [
+    ...(paymeMode === "live" ? [] : ["GPT_BILLING_MODE_PAYME"]),
     "GPT_PAYME_KEY",
     "GPT_PAYME_MERCHANT_ID",
     "GPT_NOTIFY_BOT_TOKEN",
@@ -443,9 +447,9 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
   } as unknown as BillingEnv;
   assert.deepEqual(liveReadiness(production, "click"), []);
   assert.equal(providerReady(production, "click"), true);
-  assert.deepEqual(liveReadiness(production, "payme"), []);
-  assert.deepEqual(offeredProviders(production, "live"), ["click", "payme"]);
-  assert.deepEqual(offeredProviders(production, "test"), []);
+  assert.deepEqual(liveReadiness(production, "payme"), paymeMode === "live" ? [] : ["GPT_BILLING_MODE_PAYME"]);
+  assert.deepEqual(offeredProviders(production, "live"), paymeMode === "live" ? ["click", "payme"] : ["click"]);
+  assert.deepEqual(offeredProviders(production, "test"), paymeMode === "live" ? [] : ["payme"]);
   assert.equal(providerReady(production, "uzum"), false);
   assert.equal(providerReady(production, "payme"), true);
   // The rollback of PAYME-RU.md section 7: Payme back to its sandbox, Click untouched.
@@ -454,7 +458,7 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
   assert.deepEqual(offeredProviders(rolledBack, "test"), ["payme"]);
   assert.equal(liveReadiness(rolledBack, "payme")[0], "GPT_BILLING_MODE_PAYME");
   const live = await guestView(production);
-  assert.deepEqual(live.providers, ["click", "payme"]);
+  assert.deepEqual(live.providers, paymeMode === "live" ? ["click", "payme"] : ["click"]);
   assert.equal(live.mode, "live");
   assert.equal(live.loginAvailable, true);
   assert.deepEqual(live.loginMethods, ["bot"]);
@@ -472,14 +476,17 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
   const paymeAnswer = await post(payme, "https://gptbot.uz/api/payments/payme", production);
   assert.equal(paymeAnswer.status, 200);
   assert.equal(((await paymeAnswer.json()) as { error: { code: number } }).error.code, -32504);
-  // No provider is in test: a rehearsal cookie changes nothing, its browser
-  // is a visitor in live like any other.
+  // Payme live: no provider is in test, a rehearsal cookie changes nothing and
+  // its browser is a visitor in live like any other. Rolled back: the
+  // rehearsal session, and only it, is offered Payme in test.
   const rehearsal = `${REHEARSAL_COOKIE}=${(await mintRehearsal(production))!.token}`;
   const inRehearsal = (await (
     await account({ request: new Request("https://gptbot.uz/api/gpt/account", { headers: { cookie: rehearsal } }), env: production, waitUntil() {} } as unknown as Parameters<typeof account>[0])
   ).json()) as { providers: unknown[]; mode: unknown };
-  assert.deepEqual([inRehearsal.providers, inRehearsal.mode], [["click", "payme"], "live"]);
-  // A Payme subscribe from a stale page (another edition) is refused before D1.
+  assert.deepEqual([inRehearsal.providers, inRehearsal.mode], paymeMode === "live" ? [["click", "payme"], "live"] : [["payme"], "test"]);
+  // A Payme subscribe from a stale page (another edition) is refused before D1:
+  // 409 terms_changed while Payme is live, a missing route (404) outside a
+  // rehearsal once it is back in test.
   const stale = await subscribe({
     request: new Request("https://gptbot.uz/api/gpt/subscribe", {
       method: "POST",
@@ -489,8 +496,8 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
     env: production,
     waitUntil() {},
   } as unknown as Parameters<typeof subscribe>[0]);
-  assert.equal(stale.status, 409);
-  assert.equal(((await stale.json()) as { code: string }).code, "terms_changed");
+  assert.equal(stale.status, paymeMode === "live" ? 409 : 404);
+  assert.equal(((await stale.json()) as { code: string }).code, paymeMode === "live" ? "terms_changed" : "not_found");
 });
 
 test("the stop switches (S2): LIVE_READY off stops new Click sales and settles an open invoice; mode off closes the callback", async () => {
