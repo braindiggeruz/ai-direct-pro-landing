@@ -187,6 +187,27 @@
       "text": "Chatga shunday yozing: «Men talabaman, ish tajribam yo‘q. O‘qish davridagi ishlarim: [ro‘yxat]. Shundan rezyume uchun 3–4 band tuz, faqat men yozgan faktlardan foydalan.»"
     },
     {
+      "type": "linkp",
+      "text": "O‘qish davridagi boshqa yozma ishlar uchun alohida qo‘llanmalar bor: {slayd}, {referat} hamda {insho}.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
+        },
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho va esse yozish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "sorovlar",
       "text": "Tayyor so‘rovlar: tajriba, ko‘nikmalar, vakansiya va cover letter"
@@ -311,6 +332,17 @@
     },
     {
       "type": "linkp",
+      "text": "Ish beruvchi rezyume bilan birga ariza ham so‘rasa, uning tuzilmasi va shartli namunasi {ariza} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "ariza va tushuntirish xati yozish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Talaba bo‘lsangiz, o‘qishda AI’dan halol foydalanish qoidalari «{students}» maqolasida.",
       "links": [
         {
@@ -405,7 +437,7 @@
   "breadcrumbLabel": "Rezyume tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-05",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -420,6 +452,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

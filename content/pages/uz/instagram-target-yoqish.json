@@ -10,16 +10,19 @@
     "target xizmati",
     "targetolog xizmati",
     "target yoqish narxi",
-    "instagram reklama narxi"
+    "instagram reklama narxi",
+    "instagram target yoqish",
+    "instagramda target yoqish",
+    "facebook target yoqish"
   ],
   "searchIntent": "commercial",
   "h1": "Toshkentda Instagram target yoqish xizmati",
-  "title": "Target yoqish Toshkentda — Instagram target 1 990 000 so‘mdan | GPTBot.uz",
+  "title": "Instagram target yoqish Toshkentda — 1 990 000 so‘mdan | GPTBot.uz",
   "description": "Instagram va Facebook’da target yoqish: auditoriya, kreativ, ariza yo‘li. Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, byudjet alohida.",
   "canonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
   "hreflangRu": "/ru/targetirovannaya-reklama-tashkent/",
   "hreflangUz": "/uz/instagram-target-yoqish/",
-  "ogTitle": "Target yoqish Toshkentda — Instagram target 1 990 000 so‘mdan | GPTBot.uz",
+  "ogTitle": "Instagram target yoqish Toshkentda — 1 990 000 so‘mdan | GPTBot.uz",
   "ogDescription": "Instagram va Facebook’da target yoqish: auditoriya, kreativ, ariza yo‘li. Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, byudjet alohida.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
@@ -442,6 +445,10 @@
     {
       "q": "Natijani qachon baholash mumkin?",
       "a": "Texnik signallar ishga tushirilgandan keyin ko‘rinadi, lekin biznes xulosasi uchun yetarli maqsadli harakat va ariza sifati bo‘yicha qayta aloqa kerak. Dastlabki natijalar gipoteza sifatida qaraladi."
+    },
+    {
+      "q": "Target yoqishni qanday buyurtma qilish mumkin va qayerdasiz?",
+      "a": "Telefon: +998 50 587 07 20 (Du–Sha 10:00–19:00), e-mail: ceo@gptbot.uz yoki shu sahifadagi formaga telefon raqamingiz yoki Telegram manzilingizni qoldiring. Jamoa Toshkentda ishlaydi: Yahyo Gulyamov ko‘chasi 35. Hisob-kitob uchun biznes havolasi, shahar, auditoriya tili va kerakli harakat (ariza, qo‘ng‘iroq yoki Direct’dagi yozishma) yetarli — parollar kerak emas."
     }
   ],
   "internalLinks": [
@@ -502,9 +509,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-06",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-10-06T00:00:00Z",
-  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "heroTrust": [
     "Ishga tushirish 1 990 000 so‘mdan",
     "Yuritish oyiga 1 490 000 so‘mdan",

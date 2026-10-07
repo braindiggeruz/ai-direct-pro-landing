@@ -1,0 +1,470 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "kurs-ishi-yozish",
+  "url": "/uz/blog/kurs-ishi-yozish/",
+  "title": "Kurs ishi namuna va tuzilma: reja, kirish, xulosa",
+  "description": "Kurs ishi tuzilmasi: titul varaq, mundarija, kirish, nazariy va amaliy boblar, xulosa, adabiyotlar. Shartli mavzudagi namuna reja, AI bilan 7 qadam va tekshiruv.",
+  "h1": "Kurs ishi: tuzilma namunasi, reja va AI’dan halol foydalanish",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "kurs ishi",
+    "kurs ishi namuna",
+    "kurs ishi tayyorlash",
+    "kurs ishi yozish",
+    "kurs ishi ai"
+  ],
+  "intro": "Kurs ishi — talaba fan yoki mutaxassislik bo‘yicha bitta mavzuni manbalar va o‘z tahlili asosida o‘rganib yozadigan ish. U referatdan hajmliroq: unda nazariy qism, amaliy yoki tahliliy qism va o‘z xulosalaringiz bo‘ladi, ish esa ilmiy rahbar nazoratida yoziladi. Quyida tuzilma namunasi, shartli mavzudagi reja, AI bilan 7 qadam, tayyor so‘rovlar va topshirishdan oldingi tekshiruv ro‘yxati berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: kurs ishi odatda titul varaq, mundarija, kirish, nazariy bob, amaliy yoki tahliliy bob, xulosa va takliflar, adabiyotlar ro‘yxati va kerak bo‘lsa ilovalardan iborat. Hajm va rasmiylashtirishni kafedra belgilaydi. GPTBot.uz AI chati reja tuzish va tahrirda yordam beradi, lekin faqat matn yozadi: .docx yoki PDF fayl bermaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Rejani hoziroq {chat}, ro‘yxatdan o‘tish shart emas. Masalan: «Mavzu: Boshlang‘ich sinf o‘quvchilarida kitobxonlik ko‘nikmasini shakllantirish. Kurs ishi uchun reja tuz: kirish, 2 bob (har birida 2–3 paragraf), xulosa va takliflar, adabiyotlar. Matn yozma, faqat reja.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chatda tuzib ko‘rish mumkin"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Kurs ishi nima va u referatdan nimasi bilan farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishi oliy ta’lim yoki o‘rta maxsus ta’limda o‘quv rejasiga kiritilgan mustaqil ilmiy ish. Talaba mavzuni o‘zi tanlaydi yoki kafedra ro‘yxatidan oladi, ilmiy rahbar bilan kelishadi va ishni belgilangan muddatda topshiradi. Ko‘p oliygohlarda kurs ishi himoya qilinadi: talaba qisqa ma’ruza qiladi va savollarga javob beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Referat",
+        "Kurs ishi"
+      ],
+      "rows": [
+        [
+          "Asosiy vazifa",
+          "Manbalardagi asosiy fikrlarni umumlashtirish",
+          "Mavzuni o‘rganish va o‘z tahlilingizni berish"
+        ],
+        [
+          "Tuzilma",
+          "Kirish, asosiy qism, xulosa, adabiyotlar",
+          "Kirish, nazariy va amaliy boblar, xulosa va takliflar, adabiyotlar, ilovalar"
+        ],
+        [
+          "Rahbar",
+          "Ko‘pincha fan o‘qituvchisi",
+          "Ilmiy rahbar, bosqichma-bosqich nazorat bilan"
+        ],
+        [
+          "Topshirish",
+          "Ko‘pincha yozma ish sifatida",
+          "Ko‘pincha himoya bilan"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Referat va mustaqil ish qanday yozilishi, titul varaqdan adabiyotlargacha namuna bilan, {referat} qo‘llanmasida berilgan. Kurs ishi ham shu asosga quriladi, lekin unga o‘z tahlilingiz qo‘shiladi.",
+      "links": [
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Kurs ishi tuzilmasi: titul varaqdan ilovalargacha"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi jadval — keng tarqalgan tuzilma, majburiy me’yor emas. Kafedrangizning uslubiy ko‘rsatmasi bo‘lsa, qismlar nomi va tartibini o‘shandan oling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Titul varaq",
+          "Oliygoh, fakultet va kafedra nomi, fan, mavzu, bajaruvchi, ilmiy rahbar, shahar va yil"
+        ],
+        [
+          "Mundarija",
+          "Kirish, boblar va paragraflar, xulosa, adabiyotlar va ilovalar — sahifa raqamlari bilan"
+        ],
+        [
+          "Kirish",
+          "Mavzuning dolzarbligi, ishning maqsadi va vazifalari, tadqiqot obyekti va predmeti, tadqiqot metodlari, ishning tuzilishi"
+        ],
+        [
+          "I bob (nazariy)",
+          "Asosiy tushunchalar, mavzu bo‘yicha manbalar va yondashuvlar tahlili; har bir fikr manba bilan"
+        ],
+        [
+          "II bob (amaliy yoki tahliliy)",
+          "O‘z tahlilingiz: kuzatuv, so‘rovnoma, hujjatlar tahlili, hisob-kitob yoki misollar — fanga qarab"
+        ],
+        [
+          "Xulosa va takliflar",
+          "Har bir vazifa bo‘yicha qisqa natija va undan kelib chiqadigan amaliy takliflar"
+        ],
+        [
+          "Foydalanilgan adabiyotlar",
+          "Siz o‘qigan va matnda ishlatgan manbalar — kafedra talab qilgan formatda"
+        ],
+        [
+          "Ilovalar",
+          "Jadval, so‘rovnoma shakli, diagramma yoki hujjat namunalari — kerak bo‘lsa"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Kirish qismida nima yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Kirish kurs ishining «xaritasi»: uni o‘qigan odam nima o‘rganilgani va qanday o‘rganilganini tushunishi kerak. Odatda unda quyidagilar bo‘ladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Dolzarblik: mavzu nega hozir muhim — bir necha aniq gap, umumiy so‘zlarsiz.",
+        "Maqsad: ish oxirida nimaga erishmoqchisiz — bitta gap.",
+        "Vazifalar: maqsadga olib boradigan 3–4 qadam; har biri keyin bob yoki paragrafga aylanadi.",
+        "Obyekt: nima o‘rganiladi (jarayon, hodisa, guruh).",
+        "Predmet: obyektning qaysi tomoni o‘rganiladi.",
+        "Metodlar: manbalar tahlili, kuzatuv, so‘rovnoma, taqqoslash yoki boshqa usul.",
+        "Ishning tuzilishi: nechta bob, paragraf va ilova borligi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kirishni ko‘pincha oxirida yozish qulayroq: boblar tayyor bo‘lgach, vazifalar va xulosalar bir-biriga mos kelishi aniq ko‘rinadi."
+    },
+    {
+      "type": "h3",
+      "text": "Xulosa va takliflar qanday yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Xulosa yangi ma’lumot qo‘shmaydi: u kirishdagi har bir vazifaga qisqa javob beradi. Eng oson yo‘l — vazifalar ro‘yxatini olib, har biriga 1–2 gaplik natija yozish. Takliflar esa amaliy bo‘ladi: kim, nimani va qanday qilishi mumkinligini aytadi va faqat ishdagi tahlilga tayanadi. «Muhim ahamiyatga ega» kabi umumiy iboralar o‘rniga aniq natijani yozing: nima kuzatildi, nima taqqoslandi va undan qanday xulosa chiqdi."
+    },
+    {
+      "type": "h2",
+      "id": "namuna-reja",
+      "text": "Kurs ishi namuna reja: shartli mavzu"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi kurs ishi namunasi — reja namunasi, tayyor kurs ishi emas. Mavzu shartli: «Boshlang‘ich sinf o‘quvchilarida kitobxonlik ko‘nikmasini shakllantirish». Kvadrat qavsdagi joylarga o‘z ma’lumotlaringizni qo‘yasiz, har bir paragraf matnini esa manbalarni o‘qib va o‘z tahlilingiz asosida yozasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Namuna (shartli mavzu)"
+      ],
+      "rows": [
+        [
+          "Titul varaq",
+          "[Oliygoh] · [fakultet], [kafedra] · Fan: [fan nomi] · Kurs ishi · Mavzu: Boshlang‘ich sinf o‘quvchilarida kitobxonlik ko‘nikmasini shakllantirish · Bajardi: [F.I.Sh.], [guruh] · Ilmiy rahbar: [F.I.Sh.] · [shahar], [yil]"
+        ],
+        [
+          "Kirish",
+          "Dolzarblik · Maqsad: kitobxonlik ko‘nikmasini shakllantirish usullarini o‘rganish va tavsiyalar berish · Vazifalar: 1) tushunchalarni aniqlash; 2) usullarni taqqoslash; 3) kuzatuv natijalarini tahlil qilish; 4) takliflar ishlab chiqish · Obyekt · Predmet · Metodlar"
+        ],
+        [
+          "I bob",
+          "1.1. Kitobxonlik ko‘nikmasi tushunchasi · 1.2. Boshlang‘ich sinfda o‘qishga qiziqtirish usullari"
+        ],
+        [
+          "II bob",
+          "2.1. Kuzatuv yoki so‘rovnoma tartibi · 2.2. Natijalar tahlili · 2.3. Tavsiyalar"
+        ],
+        [
+          "Xulosa va takliflar",
+          "Har bir vazifa bo‘yicha 1–2 xulosa va o‘qituvchilar uchun 2–3 amaliy taklif"
+        ],
+        [
+          "Adabiyotlar va ilovalar",
+          "[siz o‘qigan manbalar ro‘yxati] · Ilova: [so‘rovnoma shakli]"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ikkinchi bob uchun ma’lumotni qanday yig‘ish — kuzatuv, so‘rovnoma yoki hujjatlar tahlili — ilmiy rahbar bilan kelishiladi. Odamlardan ma’lumot yig‘sangiz, ularning ruxsatini oling va ism-familiyalarini ishda ko‘rsatmang."
+    },
+    {
+      "type": "h2",
+      "id": "hajm",
+      "text": "Hajm va rasmiylashtirish: kafedra talabi ustun"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishi necha betdan iborat bo‘lishi, qaysi shrift va qator oralig‘i ishlatilishi, hoshiyalar, titul varaq ko‘rinishi va adabiyotlar formati oliygoh va kafedraga qarab farq qiladi. Internetdagi «umumiy me’yor»ga tayanmang: talablarni kafedraning uslubiy ko‘rsatmasidan yoki ilmiy rahbardan oling va ish boshida yozib qo‘ying."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hajm: necha bet, titul varaq, adabiyotlar va ilovalar hajmga kiradimi.",
+        "Format: shrift, o‘lcham, qator oralig‘i, hoshiya va sahifa raqami.",
+        "Adabiyotlar: qaysi formatda yoziladi, nechta manba va qaysi yillardan bo‘lishi kerak.",
+        "Topshirish: qog‘ozda, faylda yoki ikkalasida; antiplagiat tekshiruvi bormi.",
+        "Muddatlar: reja, birinchi bob, to‘liq qoralama va himoya sanasi."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Ilmiy rahbar bilan ishlash"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishi bir kechada yozilmaydi: uni bosqichlarga bo‘lib, har bir bosqichni ilmiy rahbarga ko‘rsatgan ma’qul. Semestr boshida rahbar bilan uchrashuvlar jadvalini kelishing — reja, nazariy bob, amaliy bob va to‘liq qoralama uchun alohida sana belgilang. Har bir uchrashuvdan keyin tuzatishlarni yozib oling va keyingi bosqichga o‘tishdan oldin ularni kiriting. Rahbarning e’tirozi bo‘lsa, AI’dan emas, rahbarning o‘zidan aniqlashtiring: talablarni u qo‘yadi, baholashda ham uning fikri hisobga olinadi."
+    },
+    {
+      "type": "h2",
+      "id": "7-qadam",
+      "text": "Kurs ishi tayyorlash: AI bilan 7 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishi tayyorlash yetti qadamdan iborat. AI ularning ko‘pida yordamchi bo‘lishi mumkin, lekin manbalarni topish, tahlil va yakuniy matn — sizning ishingiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Mavzu. Kafedra ro‘yxatidan mavzu tanlang yoki o‘zingiz taklif qiling va uni ilmiy rahbar bilan kelishing. AI’dan mavzuni toraytirish uchun variantlar so‘rash mumkin.",
+        "2. Talablar. Hajm, format va muddatlarni kafedradan yozib oling. AI muassasangiz talabini bilmaydi.",
+        "3. Reja. AI’dan faqat reja so‘rang: kirish, 2 bob, paragraflar, xulosa. Rejani ilmiy rahbarga ko‘rsating va tuzatishlarini kiriting.",
+        "4. Manbalar. Darslik, ilmiy maqola, kutubxona va ishonchli saytlardan manbalarni o‘zingiz toping. AI’dan faqat qaysi turdagi manba kerakligini so‘rang.",
+        "5. Nazariy bob. Har bir paragrafni manbalarni o‘qib, o‘z so‘zlaringiz bilan yozing. Tushunmagan joyni AI’dan sodda tilda tushuntirishni so‘rang.",
+        "6. Amaliy bob. Ma’lumotni o‘zingiz yig‘asiz va tahlil qilasiz. AI jadval tuzilmasi yoki tahlil tartibini taklif qilishi mumkin, lekin raqamlarni o‘ylab topmasligi kerak.",
+        "7. Tahrir va tekshiruv. O‘zingiz yozgan matnni AI’dan imlo, mantiq va takrorlar bo‘yicha tekshirtiring, so‘ng har bir faktni manba bilan solishtiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (kuniga 15 tagacha, soatiga 5 tagacha xabar) foydalanish mumkin. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana, raqam va iqtiboslarni manbadan tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "Tayyor so‘rovlar: mavzu, reja, kirish va tahrir"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavsdagi joylarni o‘z mavzungiz bilan almashtiring. Bu so‘rovlar AI’dan tayyor kurs ishi emas, yo‘nalish, tuzilma va tekshiruv so‘raydi. Chatdagi «Reja tuzish» tugmasidan ham boshlash mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Mavzuni toraytirish",
+          "«Fan: [fan]. Umumiy mavzu: [mavzu]. Kurs ishi uchun 4 ta torroq mavzu taklif qil va har biri qaysi savolga javob berishini bir gap bilan yoz.»"
+        ],
+        [
+          "Reja",
+          "«Mavzu: [mavzu]. Kurs ishi rejasini tuz: kirish, nazariy va amaliy bob (har birida 2–3 paragraf), xulosa va takliflar, adabiyotlar. Matn yozma, faqat reja.»"
+        ],
+        [
+          "Kirish tuzilmasi",
+          "«Mavzu: [mavzu]. Kurs ishi kirishi uchun tuzilma ber: dolzarblik, maqsad, 3–4 vazifa, obyekt, predmet va metodlar. Har bir qismda nima yozishim kerakligini tushuntir, tayyor matn yozma.»"
+        ],
+        [
+          "Manbani tushunish",
+          "«Quyidagi parchani talaba tushunadigan sodda tilda tushuntir, yangi fakt qo‘shma: [manbadan parcha].»"
+        ],
+        [
+          "Tahrir",
+          "«Men yozgan paragrafda imlo va mantiq xatolarini ko‘rsat, takrorlarni belgila. Mazmunni o‘zgartirma va yangi fakt qo‘shma: [matningiz].»"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "manbalar",
+      "text": "Manbalar: AI adabiyotlar ro‘yxatini o‘ylab topishi mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Til modellari mavjud bo‘lmagan kitob, maqola, muallif yoki iqtibosni ishonarli ko‘rinishda yozib berishi mumkin. Shuning uchun adabiyotlar ro‘yxatini AI’dan tayyor holda olmang. Har bir manbani kutubxona katalogi, elektron kutubxona yoki nashriyot sahifasida o‘zingiz toping, ochib o‘qing va faqat matnda ishlatganlaringizni ro‘yxatga kiriting."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Manba haqiqatan mavjudmi va uning muallifi, nomi va yili to‘g‘rimi?",
+        "Iqtibos asl matnda aynan shunday yozilganmi?",
+        "Raqam va statistika qaysi manbadan olingan va u qaysi yilga tegishli?",
+        "Ro‘yxat kafedra talab qilgan formatda yozilganmi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "himoya",
+      "text": "Himoya uchun slayd va ma’ruza"
+    },
+    {
+      "type": "linkp",
+      "text": "Ko‘p oliygohlarda kurs ishi himoya qilinadi: qisqa ma’ruza va komissiya savollari; ma’ruza vaqtini kafedra belgilaydi. Slaydlarda mavzu, maqsad va vazifalar, ish tuzilishi, asosiy natijalar va takliflar bo‘ladi; matnni slaydga ko‘chirmang, faqat asosiy fikrni qoldiring. Slayd va ma’ruza matnini tayyorlash tartibi {slayd} qo‘llanmasida. Himoyadan oldin har bir bob bo‘yicha 2–3 savolga og‘zaki javob berib ko‘ring.",
+      "links": [
+        {
+          "token": "slayd",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavzu va reja ilmiy rahbar bilan kelishilganmi?",
+        "Kirishda dolzarblik, maqsad, vazifalar, obyekt, predmet va metodlar bormi?",
+        "Har bir vazifa bobda yoki paragrafda yoritilgan va xulosada natijasi yozilganmi?",
+        "Amaliy bobdagi har bir raqam o‘zingiz yig‘gan ma’lumotdan yoki ko‘rsatilgan manbadan olinganmi?",
+        "Adabiyotlar ro‘yxatidagi har bir manba mavjudmi va matnda ishlatilganmi?",
+        "Hajm, format va titul varaq kafedra talabiga mosmi?",
+        "Matn o‘z so‘zlaringiz bilan yozilganmi va har bir bobni og‘zaki tushuntira olasizmi?",
+        "Imlo xatolari tuzatilgan, mundarijadagi sahifa raqamlari to‘g‘rimi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "halollik",
+      "text": "Halollik: AI yordamchi, muallif emas"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi o‘rinda — oliygohingizning AI bo‘yicha qoidasi. Ruxsat bo‘lsa, AI’dan mavzu, reja, tushuntirish va tahrirda foydalaning; talab qilinsa, buni ochiq ayting. AI yozgan matnni o‘zingizniki sifatida topshirish akademik halollik qoidalariga zid: bunda ishning muallifi siz emassiz, himoyada esa savollarga javob bera olmaysiz."
+    },
+    {
+      "type": "p",
+      "text": "Ish antiplagiat dasturida tekshirilishi mumkin. AI matnini «aniqlaydigan» dasturlar esa xato qilishi mumkin, shuning uchun ish sizniki ekanini ko‘rsata oladigan bo‘ling: reja, qoralamalar, yig‘gan ma’lumotlaringiz va o‘qigan manbalaringizni saqlang. Ilmiy rahbar bilan har bir bosqichda uchrashish ham shunga yordam beradi."
+    },
+    {
+      "type": "cta",
+      "text": "Kurs ishi rejasini AI chatda tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Kurs ishi qanday yoziladi?",
+      "a": "Tartib: mavzuni ilmiy rahbar bilan kelishing, kafedra talablarini yozib oling, reja tuzing, manbalarni toping va o‘qing, nazariy bobni o‘z so‘zlaringiz bilan yozing, amaliy bob uchun ma’lumot yig‘ib tahlil qiling, so‘ng xulosa, kirish va adabiyotlar ro‘yxatini yozing. AI chat reja, tushuntirish va tahrir bosqichida yordam beradi, matnni esa o‘zingiz yozasiz."
+    },
+    {
+      "q": "Kurs ishi necha betdan iborat bo‘ladi?",
+      "a": "Hajmni kafedra belgilaydi, shuning uchun u oliygoh, yo‘nalish va fanga qarab farq qiladi. Kafedraning uslubiy ko‘rsatmasidan yoki ilmiy rahbardan so‘rang va titul varaq, adabiyotlar va ilovalar hajmga kiradimi — buni ham aniqlang."
+    },
+    {
+      "q": "Kurs ishi kirish qismida nima yoziladi?",
+      "a": "Odatda mavzuning dolzarbligi, ishning maqsadi va vazifalari, tadqiqot obyekti va predmeti, tadqiqot metodlari hamda ishning tuzilishi. Kirishni boblar tayyor bo‘lgach yozish qulayroq: shunda vazifalar va xulosalar bir-biriga mos keladi."
+    },
+    {
+      "q": "Kurs ishi va referat farqi nima?",
+      "a": "Referat manbalardagi fikrlarni umumlashtiradi. Kurs ishida bundan tashqari o‘z tahlilingiz bo‘ladi: amaliy yoki tahliliy bob, xulosa va takliflar. Kurs ishi ilmiy rahbar nazoratida yoziladi va ko‘pincha himoya qilinadi."
+    },
+    {
+      "q": "AI yozgan kurs ishini topshirsa bo‘ladimi?",
+      "a": "O‘zingizniki sifatida — yo‘q. Bu akademik halollik qoidalariga zid, buning ustiga AI xato fakt, o‘ylab topilgan raqam va mavjud bo‘lmagan manba yozishi mumkin. Oliygohingiz qoidasini bilib oling: ruxsat bo‘lsa, AI’dan reja, tushuntirish va tahrirda foydalaning, matnni esa o‘zingiz yozing."
+    },
+    {
+      "q": "AI adabiyotlar ro‘yxatini to‘g‘ri beradimi?",
+      "a": "Har doim emas: til modeli mavjud bo‘lmagan kitob yoki maqolani ishonarli ko‘rinishda yozib berishi mumkin. Adabiyotlar ro‘yxatini AI’dan tayyor holda olmang — har bir manbani kutubxona yoki elektron katalogda o‘zingiz toping, o‘qing va faqat matnda ishlatganlaringizni yozing."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda kurs ishi rejasini tuzish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi AI chat: reja va tahrir",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish: reja va namuna",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Himoya uchun slayd tayyorlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI: 20 usul",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Kurs ishi: tuzilma namunasi va AI bilan reja",
+  "ogDescription": "Shartli mavzudagi kurs ishi rejasi, kirish qismida nima yoziladi, AI bilan 7 qadam, manbalarni tekshirish va himoyaga tayyorgarlik.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/kurs-ishi-yozish/",
+  "hreflangUz": "/uz/blog/kurs-ishi-yozish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Kurs ishi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-07",
+  "dateModified": "2026-10-07",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — How can educators respond to students presenting AI-generated content as their own?",
+      "url": "https://help.openai.com/en/articles/8313351-how-can-educators-respond-to-students-presenting-ai-generated-content-as-their-own",
+      "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "createdAt": "2026-10-07T00:00:00.000Z"
+}

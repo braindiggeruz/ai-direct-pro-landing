@@ -740,7 +740,7 @@
       },
       "informational": {
         "url": "/uz/blog/referat-va-mustaqil-ish/",
-        "owns": "how to structure and write a referat or a mustaqil ish with honest AI help — «referat namuna» (a structure template on an invented neutral topic, not a finished paper), «mustaqil ish», «mustaqil ish namuna», «referat yozish tartibi», «referat yozish qoidalari», «referat tayyorlash», «referat qanday yoziladi»; kurs ishi only as one section and one FAQ; carries the FAQ «AI yozgan referatni topshirsa bo‘ladimi?» (moved from /uz/blog/chatgpt-talabalar-uchun/) and «Referat uchun AI’dan qanday foydalangan ma’qul?» (left the insho/esse article in R-S1); states in its first screen that the chat writes text only and gives no .docx or PDF",
+        "owns": "how to structure and write a referat or a mustaqil ish with honest AI help — «referat namuna» (a structure template on an invented neutral topic, not a finished paper), «mustaqil ish», «mustaqil ish namuna», «referat yozish tartibi», «referat yozish qoidalari», «referat tayyorlash», «referat qanday yoziladi»; kurs ishi only as one section and one FAQ, which link the kurs ishi guide /uz/blog/kurs-ishi-yozish/ since 2026-10-07 (pair C43); carries the FAQ «AI yozgan referatni topshirsa bo‘ladimi?» (moved from /uz/blog/chatgpt-talabalar-uchun/) and «Referat uchun AI’dan qanday foydalangan ma’qul?» (left the insho/esse article in R-S1); states in its first screen that the chat writes text only and gives no .docx or PDF",
         "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "insho yozish", "esse yozish", "esse yozish tartibi", "slayd tayyorlash", "prezentatsiya tayyorlash", "rezyume tayyorlash", "mustaqil ish rejasi"]
       },
       "gscNote": "New URL of the school-pages release (its date is in docs/seo/CHANGE_LOG_2026-10.md), no Search Console history; gptbot.uz appeared in none of the 30 school SERPs pulled on 2026-10-04 (keywords-wave2/school-pages/NOTES.md §0). Demand (demand-policy rows of 2026-10-04): referat namuna 2 900/mo, Oct–Dec 2025 5 200, peak 6 600 in Nov 2025; mustaqil ish 1 900/mo; referat yozish 320 (row of 2026-08-01). The referat keys left the insho/esse article in R-S1 (fenced there by C30); «chatgpt referat» (10/mo) leaves /uz/blog/chatgpt-talabalar-uchun/ in this release (fenced by C35) and is deliberately not declared here, because no page of ours declares a keyword that leads with the ChatGPT brand. «mustaqil ish rejasi» (3 600/mo) is fenced on the informational side: its SERP is teachers’ annual plans. Read: at least 100 Uzbekistan impressions within 21 days of indexation means the page works (roadmap 3.12, gates the second wave); the 42-day merge rule is suspended for school pages until the end of December 2026.",
@@ -767,8 +767,8 @@
       "id": "C35-uz-talabalar-vs-referat-guide",
       "commercial": {
         "url": "/uz/blog/chatgpt-talabalar-uchun/",
-        "owns": "the 20 ways a student can use an AI chat honestly — «chatgpt talabalar uchun», «chatgpt o‘qish uchun»; since the school-pages release its referat section is two sentences that link the referat guide, and its FAQ «AI yozgan referatni topshirsa bo‘ladimi?» lives on that guide",
-        "mustNotTarget": ["referat namuna", "mustaqil ish", "referat yozish", "referat tayyorlash", "chatgpt referat"]
+        "owns": "the 20 ways a student can use an AI chat honestly — «chatgpt talabalar uchun», «chatgpt o‘qish uchun»; since the school-pages release its referat section is two sentences that link the referat guide (since 2026-10-07 a third sentence links the kurs ishi guide, pairs C42 and C43), and its FAQ «AI yozgan referatni topshirsa bo‘ladimi?» lives on that guide",
+        "mustNotTarget": ["referat namuna", "mustaqil ish", "referat yozish", "referat tayyorlash", "chatgpt referat", "kurs ishi"]
       },
       "informational": {
         "url": "/uz/blog/referat-va-mustaqil-ish/",
@@ -853,6 +853,126 @@
       "evidence": "gptbot.uz-audit/raw/seo-compete-2026-10-06/03-OUR-GSC-AND-PAGES.md §5.2 (7) (the rule applied in C37); review of releases no. 2 and no. 3 of 2026-10-06, finding 3",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-06"
+    },
+    {
+      "id": "C41-uz-chat-vs-tushuntirish-ariza-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; a reader may ask it to draft an explanatory letter or an application from their own facts, but the chat page does not answer «tushuntirish xati» or «ariza namunasi». The chat page does not link the guide (it is protected and off-limits in the traffic revision of 2026-10-07; its «Talaba…» section is on the list for the revision of 2026-10-19)",
+        "mustNotTarget": [
+          "tushuntirish xati",
+          "tushuntirish xati namunasi",
+          "ariza yozish",
+          "ariza namunasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "owns": "how to structure an explanatory letter and an application — «tushuntirish xati», «tushuntirish xati namunasi», «tushuntirish xati yozish», «ariza yozish», «ariza namunasi», «ariza yozish namunasi»; conditional samples with placeholders only; says it is not legal advice, that the organisation's own form (and for state bodies their official form) comes first, that the chat writes text only and gives no .docx or PDF, and that personal data stays out of the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "rezyume tayyorlash",
+          "rezyume namuna"
+        ]
+      },
+      "gscNote": "New URL of the traffic revision of 2026-10-07, no Search Console history; no page of the site declared these keys before it (repository grep 2026-10-07). Demand (demand-policy rows): tushuntirish xati 1 600/mo (Oct–Nov 2025 2 400, Aug 2026 480), ariza yozish 3 600/mo (seasonal, trend 0.21), ariza namunasi 590/mo. The SERP of 2026-10-07 is weak for «tushuntirish xati» and led by the state legal portal for «ariza yozish»; no AI site in either. Read with the school guides: at least 100 Uzbekistan impressions within 21 days of indexation means the page works.",
+      "evidence": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-UZ-GPT-DELTA.md §4.1 and §4.2 (gap 2); TRAFFIC-PLAN.md §3 T1 (planned there as C40, which studio release R-ST1 reserves in apps/studio/scripts/release-content.ts)",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-07"
+    },
+    {
+      "id": "C42-uz-chat-vs-kurs-ishi-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a student may ask it for a plan or an edit of their own text, but the chat page does not answer «kurs ishi» or «kurs ishi namuna». The chat page does not link the guide in this revision (protected; list for the revision of 2026-10-19)",
+        "mustNotTarget": [
+          "kurs ishi",
+          "kurs ishi namuna",
+          "kurs ishi tayyorlash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/kurs-ishi-yozish/",
+        "owns": "how to structure and write a course paper with honest AI help — «kurs ishi», «kurs ishi namuna» (a plan template on an invented neutral topic, not a finished paper), «kurs ishi tayyorlash», «kurs ishi yozish», «kurs ishi ai»; says the department's requirements come first, that AI may invent sources and numbers, and that the chat writes text only",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida"
+        ]
+      },
+      "gscNote": "New URL of the traffic revision of 2026-10-07, no Search Console history. Demand (demand-policy rows of 2026-10-04): kurs ishi 1 300/mo, kurs ishi namuna 1 900/mo, kurs ishi tayyorlash 210/mo, all seasonal (summer 0.3–0.4 of autumn). The SERP of 2026-10-07 is document archives with one AI study assistant at 3, so the intent is open to an honest guide. Same 21-day read as C41.",
+      "evidence": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-UZ-GPT-DELTA.md §4.1 and §4.2 (gap 1); TRAFFIC-PLAN.md §3 T2 (planned there as C41)",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-07"
+    },
+    {
+      "id": "C43-uz-referat-vs-kurs-ishi-guide",
+      "commercial": {
+        "url": "/uz/blog/referat-va-mustaqil-ish/",
+        "owns": "the referat and mustaqil ish how-to (see C31); kurs ishi only as one section and one FAQ, which link the kurs ishi guide since 2026-10-07",
+        "mustNotTarget": [
+          "kurs ishi",
+          "kurs ishi namuna"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/kurs-ishi-yozish/",
+        "owns": "the course-paper how-to (see C42); it links the referat guide for the shared base (title page, plan, sources) and explains the difference",
+        "mustNotTarget": [
+          "referat namuna",
+          "mustaqil ish"
+        ]
+      },
+      "gscNote": "No measured overlap yet: both URLs are new (2026-10-05 and 2026-10-07) and the referat guide never declared a kurs ishi key. The pair stops the two guides drifting onto each other's heads; the referat guide keeps one kurs ishi section, now two sentences and a link.",
+      "evidence": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-UZ-GPT-DELTA.md §5 (new risks from the plans: kurs ishi); TRAFFIC-PLAN.md §3 T2 (planned there as C42)",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-07"
+    },
+    {
+      "id": "C44-uz-chat-vs-biznes-reja-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it for a business-plan outline, but the chat page does not answer «biznes reja». The chat page does not link the guide in this revision (protected)",
+        "mustNotTarget": [
+          "biznes reja",
+          "biznes reja tuzish",
+          "biznes reja namuna"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/biznes-reja-tuzish/",
+        "owns": "how to structure a business plan — «biznes reja», «biznes reja tuzish», «biznes reja namuna», «biznes reja tayyorlash»; a conditional sample where every amount is [summa], the break-even formula, how to check the numbers of an AI draft; no price of ours and no sum in a currency; links the SMM hub, the Uzbek internet-advertising page and the business AI-bot page for the marketing section",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida"
+        ]
+      },
+      "gscNote": "New URL of the traffic revision of 2026-10-07, no Search Console history. Demand (demand-policy rows of 2026-10-07): biznes reja 1 000/mo (October 2025 1 600, CPC 0.80 USD), biznes reja tuzish 260/mo, biznes reja namuna 90/mo. The SERP is document archives and portals. The only one of the three new guides that also leads to the studio's services.",
+      "evidence": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-UZ-GPT-DELTA.md §4.1 and §4.2 (gap 3); TRAFFIC-PLAN.md §3 T3 (planned there as C43)",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-07"
+    },
+    {
+      "id": "C45-uz-biznes-article-vs-biznes-reja-guide",
+      "commercial": {
+        "url": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+        "owns": "the difference between a personal AI chat and a business AI bot — «chatgpt biznes uchun», «chatgpt va ai-bot farqi»; it links the business-plan guide (anchor «biznes reja tuzish») and does not declare its keys",
+        "mustNotTarget": [
+          "biznes reja",
+          "biznes reja tuzish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/biznes-reja-tuzish/",
+        "owns": "the business-plan how-to (see C44); it links the business article for the chat-or-bot question",
+        "mustNotTarget": [
+          "chatgpt biznes uchun"
+        ]
+      },
+      "gscNote": "No measured overlap: the business article never declared a biznes reja key. Both are Uzbek articles about AI in a small business, so the pair records who owns which head before Search Console can mix them.",
+      "evidence": "gptbot.uz-audit/raw/seo-traffic-2026-10-07/TRAFFIC-PLAN.md §3 T3 and §4 T7 (M2; planned there as C44)",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-07"
     }
   ],
   "architectureDecisions": [

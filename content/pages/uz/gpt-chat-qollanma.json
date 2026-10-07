@@ -92,7 +92,7 @@
     },
     {
       "type": "linkp",
-      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {insho} va {rezyume}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
+      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} va {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
       "links": [
         {
           "token": "slayd",
@@ -118,6 +118,21 @@
           "token": "aichat",
           "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
           "anchor": "AI-chat nima va uning turlari"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi tuzilmasi"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "tushuntirish xati va ariza"
+        },
+        {
+          "token": "biznes",
+          "target": "/uz/blog/biznes-reja-tuzish/",
+          "anchor": "biznes reja qoralamasi"
         }
       ]
     },

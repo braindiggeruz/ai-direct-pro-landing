@@ -196,7 +196,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘qish va ish uchun alohida qo‘llanmalar ham bor: {slayd}, {referat}, {insho} va {rezyume}.",
+      "text": "O‘qish va ish uchun alohida qo‘llanmalar ham bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume} va {ariza}.",
       "links": [
         {
           "token": "slayd",
@@ -217,6 +217,16 @@
           "token": "rezyume",
           "target": "/uz/blog/rezyume-tayyorlash/",
           "anchor": "rezyume tayyorlash bo‘yicha qo‘llanma"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi rejasi namunasi"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "tushuntirish xati namunasi"
         }
       ]
     },

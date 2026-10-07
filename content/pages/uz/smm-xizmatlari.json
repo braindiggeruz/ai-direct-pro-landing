@@ -31,7 +31,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "SMM xizmatlari",
   "heroTitle": "Toshkentda SMM xizmatlari",
-  "heroSubtitle": "Instagram va Telegram uchun strategiya, kontent, nashr va moderatsiyani tashkil qilamiz. Direct murojaatlari uchun javob tartibi, insonga uzatish va o‘lchash hodisalari alohida kelishiladi.",
+  "heroSubtitle": "GPTBot.uz — Toshkentdagi jamoa: Instagram va Telegram’ni o‘zbek va rus tilida yuritamiz. Paketlar: Start — oyiga 2 490 000 so‘mdan (Direct’da AI-bot javoblari bilan), Biznes — 4 490 000 so‘mdan (target yuritish bilan), Pro — 7 900 000 so‘mdan; reklama byudjeti alohida.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
   "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Xizmat tarkibi",
@@ -606,7 +606,7 @@
     },
     {
       "type": "p",
-      "text": "Narx ish hajmiga bog‘liq. Biz oldindan «hamma uchun bitta narx» aytmaymiz, chunki bitta Instagram sahifasini yuritish va ikki tilda ikkita kanalni parallel olib borish butunlay boshqa hajmdagi ish."
+      "text": "Boshlang‘ich narxlar quyidagi jadvalda: Start — oyiga 2 490 000 so‘mdan, Biznes — 4 490 000 so‘mdan, Pro — 7 900 000 so‘mdan. Yakuniy narx ish hajmiga bog‘liq: bitta Instagram sahifasini yuritish va ikki tilda ikkita kanalni parallel olib borish — boshqa-boshqa hajmdagi ish."
     },
     {
       "type": "h3",
@@ -820,7 +820,7 @@
   "faq": [
     {
       "q": "SMM xizmatlari narxi qancha?",
-      "a": "GPTBot.uz paketlari: Start — oyiga 2 490 000 so‘mdan, Biznes — 4 490 000 so‘mdan, Pro — 7 900 000 so‘mdan. Tarkib shu sahifadagi jadvalda ko‘rsatilgan. Media byudjet va tashqi litsenziyalar alohida; yakuniy hajm hamda narx brifdan keyin belgilanadi."
+      "a": "GPTBot.uz paketlari: Start — oyiga 2 490 000 so‘mdan, Biznes — 4 490 000 so‘mdan, Pro — 7 900 000 so‘mdan. Instagram sahifasini yuritish — Start paketida oyiga 2 490 000 so‘mdan. Tarkib shu sahifadagi jadvalda ko‘rsatilgan. Media byudjet va tashqi litsenziyalar alohida; yakuniy hajm hamda narx brifdan keyin belgilanadi."
     },
     {
       "q": "Birinchi natijani qachon baholash mumkin?",
@@ -869,6 +869,10 @@
     {
       "q": "Sahifa va reklama kabineti kimga tegishli bo‘ladi?",
       "a": "Sizga. Instagram sahifasi, Telegram kanali va reklama kabineti sizning nomingizda qoladi, bizga esa ish uchun kerakli rollar beriladi. Shunday qilib to‘lovlar, tarix, auditoriya va kirish huquqlari ustidan nazorat sizda qoladi."
+    },
+    {
+      "q": "GPTBot.uz qayerda joylashgan va qanday bog‘lanish mumkin?",
+      "a": "Jamoa Toshkentda ishlaydi: Yahyo Gulyamov ko‘chasi 35. Telefon: +998 50 587 07 20 (Du–Sha 10:00–19:00), e-mail: ceo@gptbot.uz. Shu sahifadagi formaga telefon raqamingiz yoki Telegram manzilingizni qoldirsangiz, ish vaqtida javob beramiz. Maslahat va dastlabki baholash bepul."
     }
   ],
   "internalLinks": [
@@ -968,9 +972,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-06",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "heroTrust": [
     "Oyiga 2 490 000 so‘mdan",
     "UZ + RU",

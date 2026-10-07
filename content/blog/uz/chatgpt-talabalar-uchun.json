@@ -147,12 +147,17 @@
     },
     {
       "type": "linkp",
-      "text": "O‘quv muassasasining AI bo‘yicha qoidasi birinchi o‘rinda: ruxsat bo‘lsa, AI mavzu, reja va til tahririda yordam beradi, lekin mavjud bo‘lmagan manba yoki iqtibosni ham yozib qo‘yishi mumkin. Halol ishlash tartibi, tuzilma namunasi va tekshiruv ro‘yxati {referat} qo‘llanmasida.",
+      "text": "O‘quv muassasasining AI bo‘yicha qoidasi birinchi o‘rinda: ruxsat bo‘lsa, AI mavzu, reja va til tahririda yordam beradi, lekin mavjud bo‘lmagan manba yoki iqtibosni ham yozib qo‘yishi mumkin. Halol ishlash tartibi, tuzilma namunasi va tekshiruv ro‘yxati {referat} qo‘llanmasida. Kurs ishining tuzilmasi va namuna rejasi esa {kurs} qo‘llanmasida.",
       "links": [
         {
           "token": "referat",
           "target": "/uz/blog/referat-va-mustaqil-ish/",
           "anchor": "referat va mustaqil ish"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi yozish tartibi"
         }
       ]
     },

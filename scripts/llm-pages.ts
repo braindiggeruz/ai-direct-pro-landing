@@ -37,6 +37,9 @@ export const LLM_MARKDOWN_SLUGS_UZ: string[] = [
   'biznes-uchun-ai-bot',
   'telegram-bot-biznes-uchun',
   'gpt-uzbek-tilida',
+  // Traffic revision 2026-10-07 (T4, GEO L9): the Uzbek targeting page behind
+  // the «target yoqish» intent and the targeting price facts in llms.txt.
+  'instagram-target-yoqish',
 ];
 
 /**

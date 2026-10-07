@@ -1,0 +1,428 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "biznes-reja-tuzish",
+  "url": "/uz/blog/biznes-reja-tuzish/",
+  "title": "Biznes reja tuzish: namuna, tuzilma va AI bilan qoralama",
+  "description": "Biznes reja qanday tuziladi: rezyume, mahsulot, bozor, marketing, xarajatlar, daromad va risklar. Shartli namuna, AI chat uchun so‘rovlar va raqamlarni tekshirish.",
+  "h1": "Biznes reja: tuzilma, shartli namuna va hisob-kitob tartibi",
+  "topicCluster": "kichik-biznes",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "biznes reja",
+    "biznes reja tuzish",
+    "biznes reja namuna",
+    "biznes reja tayyorlash"
+  ],
+  "intro": "Biznes reja — biznes nima sotishini, kimga, qanday yo‘l bilan va qanday xarajat evaziga daromad olishini yozma ko‘rsatadigan hujjat. U o‘zingizga fikrni tartiblashga, sherikka yoki bankka esa loyihani tushuntirishga yordam beradi. Quyida bo‘limlar tuzilmasi, summalari belgi bilan qoldirilgan shartli namuna, AI chat uchun tayyor so‘rovlar va raqamlarni tekshirish tartibi berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: biznes reja odatda rezyume, mahsulot, bozor va raqobat, marketing va savdo kanallari, operatsion reja, xodimlar, moliyaviy reja va risklardan iborat. Rezyume eng oxirida yoziladi. GPTBot.uz AI chati tuzilma va qoralamada yordam beradi, lekin faqat matn yozadi; raqamlarni esa o‘zingiz hisoblaysiz va tekshirasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Qoralamani {chat}: chatdagi «Reja tuzish» tugmasini bosing yoki so‘rovni o‘zingiz yozing. Masalan: «Mahallada kichik nonvoyxona ochmoqchiman. Biznes reja tuzilmasini ber: har bir bo‘limda qaysi savolga javob berishim kerakligini yoz. Raqam o‘ylab topma, summalar o‘rniga [summa] deb qoldir.»",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chatda tuzib ko‘ring"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kimga",
+      "text": "Biznes reja kimga va nima uchun kerak"
+    },
+    {
+      "type": "p",
+      "text": "Bir xil biznes uchun reja turli o‘quvchiga turlicha yoziladi. Avval kim o‘qishini aniqlang: hajm, tafsilot va hatto bo‘limlar tartibi shunga bog‘liq."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kim uchun",
+        "Nima muhim",
+        "E’tibor bering"
+      ],
+      "rows": [
+        [
+          "O‘zingiz uchun",
+          "Fikrni tekshirish: mijoz bormi, xarajat qoplanadimi, qachon foyda chiqadi",
+          "Qisqa va halol bo‘lsin: o‘zingizni aldash eng qimmat xato"
+        ],
+        [
+          "Sherik yoki investor uchun",
+          "Kim nima qo‘shadi, foyda va qarorlar qanday taqsimlanadi, risklar qanday",
+          "Kelishuvlarni rejaga emas, alohida yozma shartnomaga kiriting"
+        ],
+        [
+          "Bank, lizing yoki davlat dasturi uchun",
+          "To‘lov qobiliyati, garov, pul oqimi va talab qilingan hujjatlar",
+          "Bankning o‘z shakli bor: avval ularning talabini so‘rang"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bank, lizing kompaniyasi yoki davlat dasturi uchun reja tayyorlayotgan bo‘lsangiz, ularning shakli, majburiy jadvallari va ilovalari ustun: bu maqoladagi tuzilma umumiy, u ularning talabini almashtirmaydi. Bu maqola moliyaviy yoki yuridik maslahat emas — soliq, kredit va ro‘yxatdan o‘tish masalalarida buxgalter yoki tegishli idora bilan maslahatlashing."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Biznes reja tuzilmasi: to‘qqiz bo‘lim"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi tuzilma kichik biznes uchun yetarli. Har bir bo‘lim bitta savolga javob beradi; javob bo‘lmasa, bo‘limni sun’iy to‘ldirmang — bu rejadagi bo‘shliqni ko‘rsatadi va uni oldindan bilgan yaxshi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bo‘lim",
+        "Qaysi savolga javob beradi"
+      ],
+      "rows": [
+        [
+          "Rezyume",
+          "Biznes nima, kimga, nega hozir va qancha mablag‘ kerak — bir sahifada; eng oxirida yoziladi"
+        ],
+        [
+          "Mahsulot yoki xizmat",
+          "Nima sotiladi, mijozning qaysi muammosini yechadi, raqobatchilardan nimasi bilan farq qiladi"
+        ],
+        [
+          "Bozor va raqobat",
+          "Mijoz kim va qayerda; yaqin atrofdagi raqobatchilar kim va ular nimani taklif qiladi"
+        ],
+        [
+          "Marketing va savdo kanallari",
+          "Mijoz siz haqingizda qayerdan biladi va qanday xarid qiladi: xarita, Instagram, Telegram, tavsiya, reklama"
+        ],
+        [
+          "Operatsion reja",
+          "Joy, uskuna, yetkazib beruvchilar, ish tartibi, ruxsatnoma va litsenziyalar"
+        ],
+        [
+          "Xodimlar",
+          "Kim nima qiladi, nechta odam kerak, ish haqi qanday hisoblanadi"
+        ],
+        [
+          "Moliyaviy reja",
+          "Boshlang‘ich xarajat, oylik xarajat, daromad prognozi va zararsizlik nuqtasi"
+        ],
+        [
+          "Risklar",
+          "Nima noto‘g‘ri ketishi mumkin va bunda nima qilasiz"
+        ],
+        [
+          "Ilovalar",
+          "Yetkazib beruvchilar takliflari, ijara shartlari, hisob-kitob jadvali"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Moliyaviy reja: to‘rtta hisob"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Boshlang‘ich xarajat: ochilishgacha bir marta sarflanadigan mablag‘ — ta’mir, uskuna, birinchi tovar zaxirasi, ruxsatnomalar.",
+        "Oylik xarajat: ijara, ish haqi, kommunal to‘lovlar, xomashyo, reklama, soliq va boshqa doimiy to‘lovlar.",
+        "Daromad prognozi: kuniga yoki oyiga nechta mijoz va o‘rtacha chek qancha — uchta ssenariyda: past, o‘rta va yuqori.",
+        "Zararsizlik nuqtasi: oyiga qancha sotilganda daromad xarajatlarni to‘liq qoplaydi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Zararsizlik nuqtasi oddiy formula bilan topiladi: oylik doimiy xarajat ÷ (bitta mahsulot narxi − bitta mahsulotning o‘zgaruvchan xarajati). Masalan, oylik doimiy xarajat [summa A], bitta mahsulot narxi [summa B], uning xomashyosi [summa C] bo‘lsa, oyiga kamida [summa A] ÷ ([summa B] − [summa C]) dona sotish kerak. Raqamlarni o‘zingiz qo‘yasiz: AI bu yerda formula va jadval tuzilmasini tushuntirishda yordam beradi, xolos."
+    },
+    {
+      "type": "h2",
+      "id": "namuna",
+      "text": "Biznes reja namuna: shartli nonvoyxona"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi biznes reja namunasi — tuzilma namunasi, tayyor reja emas. Biznes shartli: mahalladagi kichik nonvoyxona. Har bir summa [summa] deb qoldirilgan: ularni o‘z hisob-kitobingiz, yetkazib beruvchilar va ijara takliflari asosida qo‘yasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bo‘lim",
+        "Namuna (shartli)"
+      ],
+      "rows": [
+        [
+          "Rezyume",
+          "Mahallada issiq non va pishiriq sotadigan kichik nonvoyxona. Ochish uchun [summa] kerak: [summa] — o‘z mablag‘, qolgani — [manba]. Zararsizlik nuqtasiga [muddat]da chiqish rejalashtirilgan."
+        ],
+        [
+          "Mahsulot",
+          "Non, somsa va shirin pishiriqlar; ertalab [vaqt]dan issiq non; tadbirlar uchun oldindan buyurtma."
+        ],
+        [
+          "Bozor va raqobat",
+          "Atrofda [son] ta ko‘p qavatli uy va [son] ta maktab; eng yaqin nonvoyxona [masofa] uzoqlikda va [vaqt]da ochiladi."
+        ],
+        [
+          "Marketing",
+          "Ko‘chadagi lavha, mahalla Telegram guruhi, Instagram sahifasi, xaritalardagi kartochka; birinchi hafta — tatib ko‘rish aksiyasi."
+        ],
+        [
+          "Operatsion reja",
+          "[maydon] kv. m joy ijarasi, tandir va pech, ikki xomashyo yetkazib beruvchisi, sanitariya talablari, ish vaqti [vaqt]–[vaqt]."
+        ],
+        [
+          "Xodimlar",
+          "Nonvoy — [son] kishi, sotuvchi — [son] kishi; xarid va hisobni egasi yuritadi."
+        ],
+        [
+          "Moliyaviy reja",
+          "Boshlang‘ich xarajat [summa]; oylik xarajat [summa]; o‘rtacha chek [summa]; kuniga [son] mijoz; zararsizlik nuqtasi — oyiga [son] dona."
+        ],
+        [
+          "Risklar",
+          "Un narxi oshishi — zaxira yetkazib beruvchi; kuchli raqobatchi — assortiment va xizmat; sotuvchining ketishi — ikkinchi xodimni o‘rgatish."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Namunadagi biznes, kanal va risklar — faqat misol. O‘z rejangizda o‘zingiz tekshirgan faktlarni yozing: raqobatchining ish vaqtini borib ko‘ring, ijara shartini egasidan so‘rang, uskuna narxini kamida ikki joydan oling."
+    },
+    {
+      "type": "h2",
+      "id": "ai-bilan",
+      "text": "AI bilan qoralama: tayyor so‘rovlar"
+    },
+    {
+      "type": "p",
+      "text": "AI chat bo‘sh varaqdan qo‘rqmaslikka yordam beradi: savollar ro‘yxatini tuzadi, sizning javoblaringizdan bo‘limlar matnini tartibga soladi va hisob-kitob jadvalining ustunlarini taklif qiladi. Kvadrat qavsdagi joylarni o‘zingiz to‘ldirasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Savollar ro‘yxati",
+          "«[Shahar yoki tuman]da [biznes turi] ochmoqchiman. Biznes reja uchun menga 15 ta savol ber: mahsulot, mijoz, raqobat, marketing, xodimlar va xarajatlar bo‘yicha. Javoblarni o‘zim yozaman.»"
+        ],
+        [
+          "Bo‘lim matni",
+          "«Quyidagi javoblarimdan biznes rejaning “Bozor va raqobat” bo‘limini yoz: [javoblaringiz]. Faqat men bergan faktlardan foydalan, raqam qo‘shma.»"
+        ],
+        [
+          "Moliya jadvali",
+          "«Biznes rejaning moliyaviy qismi uchun jadval tuzilmasini ber: boshlang‘ich xarajat, oylik xarajat, daromad prognozi (past, o‘rta va yuqori ssenariy) va zararsizlik nuqtasi. Raqam yozma, ustun va formulalarni tushuntir.»"
+        ],
+        [
+          "Risklar",
+          "«[Biznes turi] uchun 6 ta asosiy riskni yoz va har biriga bitta amaliy javob taklif qil. Umumiy gaplarsiz.»"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (kuniga 15 tagacha, soatiga 5 tagacha xabar) foydalanish mumkin. U faqat matn yozadi: .docx, Excel yoki PDF fayl bermaydi. Tijorat sirlari, mijozlar ro‘yxati va bank ma’lumotlarini chatga yozmang: savol GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "h2",
+      "id": "raqamlar",
+      "text": "Raqamlarni tekshirish: AI raqam o‘ylab topishi mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Til modeli ijara narxi, bozor hajmi, o‘rtacha chek yoki soliq stavkasini ishonarli ko‘rinishda «aytib» berishi mumkin, lekin bu raqamlar sizning shahringiz va bugungi kun uchun to‘g‘ri bo‘lmasligi mumkin. Biznes rejadagi har bir raqamni o‘zingiz tekshiring:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ijara va kommunal to‘lovlar — e’lonlardan va joy egasi bilan suhbatdan.",
+        "Uskuna va xomashyo — kamida ikki yetkazib beruvchining yozma taklifidan.",
+        "Ish haqi — shu sohadagi vakansiya e’lonlaridan.",
+        "Soliq va majburiy to‘lovlar — soliq idorasining rasmiy manbalaridan yoki buxgalterdan.",
+        "Mijozlar soni — o‘z kuzatuvingizdan: raqobatchi yonida bir necha kun mijozlarni sanash ham foydali.",
+        "Har bir raqam yoniga uning manbasi va sanasini yozib qo‘ying."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "AI’dan raqam emas, usul so‘rang. «Zararsizlik nuqtasi qanday hisoblanadi?» degan savolga u yaxshi javob beradi, «Shahrimda ijara qancha turadi?» degan savolga esa ishonchli javob bera olmaydi: unda sizning ko‘changiz bo‘yicha yangi e’lonlar yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "marketing",
+      "text": "Marketing bo‘limi: o‘zingiz yoki jamoa"
+    },
+    {
+      "type": "p",
+      "text": "Marketing bo‘limida mijoz siz haqingizda qayerdan bilishi, nima uchun aynan sizni tanlashi va qanday xarid qilishi yoziladi. Har bir kanal uchun uchta narsani ko‘rsating: kim yuritadi, oyiga qancha vaqt va mablag‘ ketadi, natija qanday o‘lchanadi. Kichik biznes uchun bir-ikki kanal bilan boshlash ko‘pincha yetarli: masalan, xaritalardagi kartochka va Instagram sahifasi."
+    },
+    {
+      "type": "linkp",
+      "text": "Kanallarni o‘zingiz yuritmasangiz, buni rejada alohida xarajat qatori sifatida ko‘rsating. Masalan, {smm}, {reklama} yoki {bot} — har biri alohida xizmat, tarkibi esa tegishli sahifada yozilgan. Rejaga ularni [summa] deb qo‘yib, aniq taklifni keyin oling.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "Instagram va Telegram’ni yuritish"
+        },
+        {
+          "token": "reklama",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "internet reklamani sozlash"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "mijozlarga javob beruvchi AI-bot"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Oddiy AI chat va mijozlarga javob beradigan biznes-bot o‘rtasidagi farq {farq} maqolasida tushuntirilgan.",
+      "links": [
+        {
+          "token": "farq",
+          "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "anchor": "AI chat va biznes AI-bot farqi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Biznes reja yozishdagi keng tarqalgan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Faqat yaxshi ssenariy. Daromad prognozi bitta, eng optimistik variantda yozilgan bo‘lsa, reja birinchi qiyin oyda ishlamay qoladi. Past ssenariyda ham biznes qancha vaqt chidashini hisoblang.",
+        "Egasining mehnati hisobga olinmagan. Siz o‘zingiz sotuvchi yoki hisobchi bo‘lsangiz ham, bu ishga vaqt ketadi; uni rejada alohida ko‘rsating.",
+        "Zaxira pul yo‘q. Ochilgandan keyin bir necha oy daromad kutilganidan kam bo‘lishi mumkin: shu davr uchun xarajatni oldindan rejalang.",
+        "«Raqobatchi yo‘q». Deyarli har doim muqobil bor — boshqa do‘kon, onlayn buyurtma yoki mijozning o‘zi qilishi. Ularni nomlang va farqingizni yozing.",
+        "Marketing «Instagram» degan bitta so‘z. Kim yuritadi, qancha vaqt va mablag‘ ketadi, natija qanday o‘lchanadi — shu uchta savolsiz kanal reja emas.",
+        "Manbasiz raqamlar. Raqam qayerdan olinganini keyin o‘zingiz ham eslay olmaysiz, bank esa albatta so‘raydi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hajm haqida: o‘zingiz uchun yozilgan reja bir necha sahifa bo‘lishi mumkin, sherik yoki bank uchun esa jadvallar va ilovalar bilan kengroq bo‘ladi. Sahifa soni emas, har bir bo‘limdagi javobning aniqligi va raqamlarning tekshirilgani muhim. Rejani Word yoki Google Docs’da, hisob-kitobni esa elektron jadvalda yuritish qulay: raqam o‘zgarsa, natija ham avtomatik o‘zgaradi."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rezyume bir sahifaga sig‘adimi va unda kerakli mablag‘ hamda uning manbasi yozilganmi?",
+        "Mahsulot mijozning qaysi muammosini yechishi aniq yozilganmi?",
+        "Raqobatchilar haqidagi ma’lumot o‘zingiz tekshirgan faktlarga asoslanganmi?",
+        "Har bir raqam yonida manba va sana bormi?",
+        "Daromad prognozi uchta ssenariyda hisoblanganmi?",
+        "Zararsizlik nuqtasi hisoblangan va u real ko‘rinadimi?",
+        "Risklar va ularga javob yozilganmi?",
+        "Bank yoki dastur uchun bo‘lsa, ularning shakli va ilovalari to‘liq to‘ldirilganmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Biznes reja bir marta yozilib qo‘yiladigan hujjat emas. Ochilgandan keyin har oy rejadagi raqamlarni haqiqiy natija bilan solishtiring: qaysi xarajat ko‘p chiqdi, qaysi kanal mijoz olib keldi, zararsizlik nuqtasi yaqinlashyaptimi. Shunda keyingi qaror taxmin emas, ma’lumotga tayanadi."
+    },
+    {
+      "type": "cta",
+      "text": "Biznes reja tuzilmasini AI chatda tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Biznes reja qanday tuziladi?",
+      "a": "Avval kim o‘qishini aniqlang: o‘zingizmi, sherikmi yoki bank. So‘ng bo‘limlarni to‘ldiring: mahsulot, bozor va raqobat, marketing va savdo kanallari, operatsion reja, xodimlar, moliyaviy reja va risklar. Rezyumeni eng oxirida yozing. Har bir raqamni o‘zingiz tekshiring va manbasini ko‘rsating."
+    },
+    {
+      "q": "Biznes reja necha betdan iborat?",
+      "a": "Yagona me’yor yo‘q: o‘zingiz uchun bir necha sahifa yetishi mumkin, bank yoki dastur esa o‘z shakli va hajmini belgilaydi. Muhimi — har bir bo‘limda aniq javob va tekshirilgan raqamlar bo‘lishi."
+    },
+    {
+      "q": "Bank uchun biznes reja shakli bormi?",
+      "a": "Ko‘pincha bor: bank, lizing kompaniyasi yoki davlat dasturi o‘z shaklini, majburiy jadvallarini va ilovalarini beradi. Avval ularning talabini so‘rang va rejani o‘sha shaklda to‘ldiring. Bu maqoladagi tuzilma umumiy, u bankning shaklini almashtirmaydi."
+    },
+    {
+      "q": "AI biznes reja yozib bera oladimi?",
+      "a": "AI tuzilma, savollar ro‘yxati va bo‘limlar qoralamasini yozishda yordam beradi, lekin sizning bozoringiz, xarajatlaringiz va narxlaringizni bilmaydi. U raqamlarni o‘ylab topishi mumkin, shuning uchun moliyaviy qismni o‘zingiz hisoblang va har bir raqamni tekshiring. GPTBot.uz chati faqat matn yozadi, fayl bermaydi."
+    },
+    {
+      "q": "Marketing bo‘limini qanday yozish kerak?",
+      "a": "Mijoz kim, u siz haqingizda qayerdan biladi va nima uchun sizni tanlaydi — shu uch savolga javob bering. Har bir kanal uchun kim yuritishi, qancha vaqt va mablag‘ ketishi va natija qanday o‘lchanishini yozing. Kanalni tashqi jamoa yuritsa, uni alohida xarajat qatori sifatida ko‘rsating."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda biznes reja tuzilmasini tuzish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi AI chat: reja qoralamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "anchor": "AI chat yoki biznes AI-bot: farqi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: imkoniyatlar va cheklovlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Biznes reja: tuzilma, shartli namuna va hisob-kitob tartibi",
+  "ogDescription": "Biznes rejaning to‘qqiz bo‘limi, summalari belgi bilan qoldirilgan shartli namuna, zararsizlik nuqtasi formulasi va AI qoralamasidagi raqamlarni tekshirish.",
+  "ogImage": "https://gptbot.uz/assets/blog/chat-gpt-uzbek-biznes-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/biznes-reja-tuzish/",
+  "hreflangUz": "/uz/blog/biznes-reja-tuzish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "People starting a small business in Uzbekistan"
+  },
+  "breadcrumbLabel": "Biznes reja",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-07",
+  "dateModified": "2026-10-07",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana, fakt va raqam yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "createdAt": "2026-10-07T00:00:00.000Z"
+}
