@@ -257,6 +257,7 @@ function restore(list: unknown): ChatMessage[] {
         model: typeof m.model === "string" ? m.model : null,
         partial: m.partial === true,
         truncated: m.truncated === true,
+        ...(m.role === 'assistant' && m.kind === 'presentation' && typeof m.artifactId === 'string' && /^[a-zA-Z0-9_-]{16,80}$/.test(m.artifactId) ? { kind: 'presentation' as const, artifactId: m.artifactId } : {}),
         ...(versions && { versions, version: m.version as number }),
       };
     });
@@ -285,6 +286,8 @@ export function saveHistory(messages: ChatMessage[], locale: Locale, scope?: str
         truncated: m.truncated === true,
         versions: m.versions,
         version: m.version,
+        kind: m.kind,
+        artifactId: m.artifactId,
       }))
       .slice(-40);
     localStorage.setItem(localeKey(HIST_KEY, locale, scope), JSON.stringify(clean));

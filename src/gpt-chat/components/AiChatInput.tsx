@@ -1,11 +1,11 @@
-import { useEffect, useState, type RefObject } from 'react';
+import { useEffect, useState, type ReactNode, type RefObject } from 'react';
 import type { ChatStrings } from '../i18n';
 
 /** The send button's icons (chat design §5.3), one path each: an arrow, a stop square, a clock. */
 const ARROW = 'M12 19V5m-6 6 6-6 6 6';
 export const CLOCK = 'M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z';
 
-export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, limited, maxChars, t, inputRef, describedBy, placeholder = t.inputPlaceholder }: {
+export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, limited, maxChars, t, inputRef, describedBy, actions, placeholder = t.inputPlaceholder }: {
   value: string; onChange: (v: string) => void; onSend: () => void;
   onStop?: () => void; disabled?: boolean; busy?: boolean;
   /** A limit stands: the send button shows a clock and points to the card. */
@@ -16,6 +16,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, l
   describedBy?: string;
   /** What the empty field shows: an example question on a wide resting screen (REV-2). Its name stays t.inputPlaceholder. */
   placeholder?: string;
+  actions?: ReactNode;
 }) {
   useEffect(() => {
     const el = inputRef.current;
@@ -51,6 +52,7 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, l
   return (
     <div className="gpt-input-wrap">
       <div className="gpt-input-surface" aria-busy={busy}>
+        {actions}
         <textarea ref={inputRef} value={value} maxLength={maxChars}
           onChange={(e) => {
             const next = e.target.value;

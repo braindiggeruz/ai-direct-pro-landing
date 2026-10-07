@@ -1,37 +1,37 @@
-# Передача GPTBot.uz: Payme опубликован, roadmap презентаций в чате подготовлен
+# Передача GPTBot.uz: презентации в чате подготовлены локально
 
 ## 1. Состояние
-Production source 96d2b8b7e8ee49df575a61cb58266b50f82b802e, deployment https://ecaee3bc.ai-direct-pro-landing.pages.dev. Payme рядом с Click опубликован для чата и обоих тарифов Studio. Последний запрос владельца — архитектурный roadmap презентаций внутри основного чата; код этого нового направления не менялся.
+Владелец одобрил roadmap и локальную реализацию, запретил push/deploy до новой команды. После зависания работа продолжена в F:/Claude/gptbot-codex-integration-20261007, ветка codex/continuation-20261007. Предыдущая публикация Payme: source96d2b8b7, deployment https://ecaee3bc.ai-direct-pro-landing.pages.dev. Этот этап не публиковался.
 
 ## 2. Что сделано
-Payme live в двух формах config; Studio click,payme. Проверены callback keys, суммы и фискальные параметры, один собственный pending chat invoice/idempotency/отрицательные проверки. Подготовлен CHAT_STUDIO_ROADMAP_20261007.md: shared engine, typed tool-card, lazy loading, история/identity, inline purchase/return, контекстная воронка, новый совместный пакет отдельным этапом.
+R0–R3: презентация в RU/UZ диалоге; существующие Studio free/full flow, preview/PPTX/regen; typed history/архивы и IndexedDB с namespace владельца; inline Kunlik/Oylik; durable сохранение перед оплатой; возврат Click/Payme в ту же карточку; актуальный остаток через watchMe; три контекстных предложения тарифов. Рекламные ссылки ?tool=presentation открывают черновик без автоматического создания.
 
 ## 3. Изменённые файлы
-Source release: wrangler.toml и 3 config/readiness/parity tests, PAYME-RU runbook/документация. Финальная документация: PAYME_ACTIVATION_20261007.md, payme receipt, CHAT_STUDIO_ROADMAP_20261007.md, PROJECT_STATE.md, STATE.json и эта передача. Docs-only commit не требует нового deploy.
+src/gpt-chat: типы/storage/LLM filtering/lazy host/плитка/компактная кнопка в поле/return. apps/studio/src/embedded: адаптер и проверенное хранилище; Form/Preview: embedding/restore/async guards/useId. Checkout/Tariffs и functions/lib/studio/checkout.ts: beforeNavigate, повтор того же заказа, allowlisted chat return. Vite: отдельный Tailwind4 compiler, React dedupe. ensure-studio-deps.ts/package scripts/bundle gate, targeted и browser tests. Полный отчёт CHAT_STUDIO_IMPLEMENTATION_20261007.md.
 
 ## 4. Архитектурные решения
-Новый backend для встроенных презентаций не нужен. Переиспользовать Studio flow/API/ledger/Preview/PPTX. SSE чата и JSON flow Studio остаются разными. Сначала единая поверхность с существующими правами; объединённый SKU/аккаунт требует отдельного проверенного изменения. Старые покупки неизменны.
+Один backend/ledger и действующие тарифы. Browser storage не выдаёт прав; /api/studio/me остаётся источником остатка. Карточки исключены из запросов текстовой модели и счётчика ответов. Обычный чат не скачивает Studio/PPTX. Прерванная генерация после reload не повторяется. Оплата требует durable snapshot; ошибка удерживает тот же invoice. Return reference ограничен владельцем, вкладкой и24 часами.
 
 ## 5. Что сознательно не сделано
-Реальная карточная оплата/возврат/чек, фиктивный production PerformTransaction, создание новых Studio invoices или обход Turnstile. Код интеграции в чат, новые цены/состав,15 слайдов/фото не выпускались: пользователь сейчас попросил roadmap.
+Push/deploy, реальные покупки/списания, миграции, новые кассы/цены, совместный SKU R4, фото R5 и облачная синхронизация. Действующие цены20 000/5 900/39 900; full max12, photo off. Общий SKU требует экономики и нового финансового контракта.
 
 ## 6. Проверки
-166 targeted PASS,13 built/release PASS,4 исторических skip; full typecheck/scope lint/build/check/deploy0. Exact live manifest/JS probes совпали.984 dist files: изменился только marker. Public click,payme для обоих продуктов,20 000/5 900/39 900,12 slides/photo off/оферта v5. RU/UZ chat и Kunlik/Oylik UI при360×740; Payme выбирается. Chat pending: allow=true/detail корректны; неверная сумма -31001, test key для live-start -31050, auth -32504, ключи CheckTransaction -31003. Paid access=null/receipts=[].
+191 targeted tests PASS, включая настоящий built chat в8 RU/UZ/ширина-сценариях с offline API, генерацией/PPTX/reload/Click+Payme return/deep links; после последней компоновки40 регрессий PASS. Root/functions/lead-radar и Studio typecheck0, scoped lint0, scoped secret scan0. Полный secret scanner отметил один старый тестовый IDENTITY_SECRET в tests/telegram-assistant.test.ts:639; файл побайтно совпадает с HEAD после нормализации CRLF, в этом этапе не изменялся. Start JS109996 B Brotli, CSS чата6741 B, весь CSS страницы26947 B: бюджеты PASS; PPTX112910 B только при экспорте. Финальный quick layout:52 сценария, ok=true,0 переполнений/перекрытий/контрастных дефектов/ошибок перехода; LCP2.168–2.280с на контрольных размерах. Кнопка встроена в поле ввода и не меняет его вертикальную позицию. Точная production сборка локального коммита дополняется после завершения.
 
-## 7. Известные проблемы
-Реальный платёж и фискальный чек требуют покупки владельца. Studio live checkout POST не проверен новым заказом; его локальные тесты и public UI/config проверены. Встроенной презентации ещё нет. JS start109155/110000 B br, page CSS 26947/27000, lazy limit12kB несовместим с тяжёлым PPTX без отдельного контракта. История чата пока текстовая; Studio payment return пока не включает chat URLs. Google Request indexing дневная квота исчерпана; прежний снимок25/31 indexed,6 unknown.
+## 7. Ограничения
+Локальный файл не переносится между браузерами; скачать PPTX до очистки данных. При отказе IndexedDB переход к оплате удерживается с сообщением и повтором того же заказа. История/результаты владельцев разделены, но права чата и Studio прежние и раздельные. Browser paid fixtures не доказывают реальные деньги или чек.
 
 ## 8. Следующая задача
-Предложенный R0: typed карточка презентации и общий Studio flow adapter, lazy budget, история/identity и корректный return contract. Реализация пока не заказана; текущий запрос закончить roadmap. Не считать этот next_stage автоматическим разрешением менять тарифы/архитектуру. Независимо доступна совместная контрольная покупка Payme/Click.
+По новой команде владельца — guarded выпуск подготовленного изменения и live readback. До команды завершить проверки, локальный коммит и точную production сборку. Не повторять реконструкцию Claude, не менять старые dirty worktrees. После публикации контрольная покупка владельца: деньги → права → генерация/PPTX → чек.
 
 ## 9. Acceptance criteria
-Для roadmap: все этапы имеют порядок, reuse, ограничения и проверяемый результат, текущие и будущие обещания разделены. Для будущей интеграции: генерация/preview/PPTX и покупка в том же диалоге; единые Studio counters; корректный callback/возврат; история и разные владельцы изолированы; стартовая скорость/SEO сохраняются. Детали в CHAT_STUDIO_ROADMAP_20261007.md.
+Презентации в диалоге RU/UZ; free/full используют действующие права; скачивание и reload; разные владельцы/карточки изолированы; inline тарифы/Click+Payme return в задачу; баланс только серверный; предложение после результата можно скрыть; обычный чат/SEO/budgets сохранены. Реальный денежный цикл — отдельная приёмка после публикации.
 
 ## 10. Команды и evidence
-Checkout F:/Claude/gptbot-codex-integration-20261007. Private B=F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534, E=B/payme-enable-20261007. Все logs/old dist/4 UI screenshots там. Публичная квитанция reports/payme-activation-receipts/2026-10-07-live-activation.json без секретов. DR_ROOT и NODE_OPTIONS1400; release только deploy_runner.py check/deploy после committed build:production.
+npm run test:chat-presentation после build; npm run typecheck; npm --prefix apps/studio run typecheck; scoped eslint; npm run check:chat-layout -- --quick; npm run build:production. NODE_OPTIONS=--max-old-space-size=1400. Логи F:/Claude/gptbot-tools/chat-embedded-*.log; browser receipt reports/chat-studio-local/browser.json; скриншоты F:/Claude/gptbot-tools/chat-embedded-shots/. Release только через F:/Claude/gptbot-tools/deploy_runner.py check/deploy по команде владельца.
 
 ## 11. Риски
-Активированная касса/allow=true не доказывает денежный цикл и чек. Обновление UX нельзя свести к ссылке/iframe/статическому import Studio: вес, история, identity и return сломают пользовательский путь. Макет старых фото/15 слайдов не подтверждает действующий состав. Общий пакет не выдавать двумя callbacks с одной transaction ID.
+Минимальный запас стартового JS/CSS: новые зависимости только через проверяемые lazy imports. Нельзя объявлять39 900 совместным пакетом чата/презентаций, обещать15 слайдов/фото из старого макета или считать тестовый callback реальной оплатой. Feature flag действует при сборке.
 
 ## 12. Rollback
-Payme: вернуть только mode=test в обоих местах и guarded release; Click сохранён, endpoint/production key доводят старые settlement/отмены. Ничего не удалять из заказов/прав. Будущий chat tool — отдельный feature flag, standalone Studio и оплата остаются доступными. Исходные dirty worktrees/архив Claude не трогать.
+VITE_CHAT_PRESENTATIONS=false при сборке отключает новый host, сохраняет standalone Studio и callbacks старых заказов. Возврат frontend к прежнему коммиту только guarded выпуском. Не удалять invoices/права/таблицы/чужие незакоммиченные изменения. Production этим локальным этапом не изменялся.

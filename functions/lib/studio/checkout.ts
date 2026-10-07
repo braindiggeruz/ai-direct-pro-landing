@@ -40,8 +40,9 @@ import { STUDIO_PLAN_IDS, planFor, type StudioPlan, type StudioPlanId, type Stud
 /** The order of preference when the browser names no provider: Click (the launch provider), then Payme. */
 export const STUDIO_PROVIDER_ORDER: readonly StudioProvider[] = ["click", "payme"];
 
-/** Studio pages a buyer may come back to (?pay=return); anything else gets the page of the language. */
-export const STUDIO_RETURN_PATHS: readonly string[] = ["/uz/taqdimot-ai/", "/ru/prezentatsiya-ai/", "/uz/rasmdan-yechim/", "/uz/tariflar/"];
+/** Exact paths only: no origins, queries, fragments or encoded alternatives. */
+const STUDIO_CHAT_RETURN_PATHS: readonly string[] = ["/ru/gpt-chat/", "/uz/gpt-uzbek-tilida/"];
+export const STUDIO_RETURN_PATHS: readonly string[] = ["/uz/taqdimot-ai/", "/ru/prezentatsiya-ai/", "/uz/rasmdan-yechim/", "/uz/tariflar/", ...STUDIO_CHAT_RETURN_PATHS];
 const DEFAULT_RETURN_PATH = { uz: "/uz/taqdimot-ai/", ru: "/ru/prezentatsiya-ai/" } as const;
 
 /** Click's payment page. */
@@ -136,10 +137,10 @@ export function readyProviders(env: BillingEnv, config: StudioConfig): StudioPro
   return STUDIO_PROVIDER_ORDER.filter((provider) => readyProvider(env, config, provider) !== null);
 }
 
-/** Where the payment page sends the buyer back: the studio page they paid from, with ?pay=return. */
+/** Chat returns name the product so the chat's own pack does not consume them. */
 export function studioReturnUrl(origin: string, locale: "uz" | "ru", returnPath: unknown): string {
   const path = typeof returnPath === "string" && STUDIO_RETURN_PATHS.includes(returnPath) ? returnPath : DEFAULT_RETURN_PATH[locale];
-  return `${origin}${path}?pay=return`;
+  return `${origin}${path}?pay=return${STUDIO_CHAT_RETURN_PATHS.includes(path) ? "&product=studio" : ""}`;
 }
 
 /**

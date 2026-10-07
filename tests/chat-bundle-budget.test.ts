@@ -11,7 +11,7 @@ import test from 'node:test';
 import ts from 'typescript';
 
 import {
-  BASELINE_FILE, CHAT_BUDGET, assertChatBundleBudget, brotliSize, budgetFailures, measureChatBundle, readBaseline,
+  BASELINE_FILE, CHAT_BUDGET, PRESENTATION_LAZY_BUDGET, assertChatBundleBudget, brotliSize, budgetFailures, measureChatBundle, readBaseline,
   staticClosure, type BundleBaseline,
 } from '../scripts/chat-bundle-budget';
 import { ENTRIES, type ViteManifest } from '../scripts/vite-manifest';
@@ -104,6 +104,19 @@ test('the thresholds: start ≤ 110 kB, every part ≤ 12 kB, start growth ≤ 3
   assert.deepEqual(budgetFailures(report, baseline({ startBytes: 120_000, parts: {} })), []);
   assert.deepEqual(budgetFailures(report, null), [`no baseline: record one with --record (${BASELINE_FILE})`]);
   assert.deepEqual(budgetFailures(report, baseline({ entry: ENTRIES.calculator })), [`baseline is for ${ENTRIES.calculator}, not ${ENTRIES.chat}`]);
+});
+
+test('presentation/export exceptions are named and capped; they cannot enlarge the start or ordinary lazy parts', () => {
+  const report = measureChatBundle(MANIFEST, size);
+  report.parts.push({ name: 'chat-presentation', bytes: PRESENTATION_LAZY_BUDGET['chat-presentation'], files: ['tool.js'], cssBytes: 8000 });
+  report.parts.push({ name: 'pptxgen.es', bytes: PRESENTATION_LAZY_BUDGET['pptxgen.es'], files: ['export.js'] });
+  assert.deepEqual(budgetFailures(report, baseline()), []);
+  report.parts.at(-1)!.bytes++;
+  assert.match(budgetFailures(report, baseline())[0], /pptxgen.es/);
+  report.parts.at(-1)!.name = 'other-tool';
+  assert.match(budgetFailures(report, baseline())[0], /> 12.0 kB/);
+  report.start.bytes = 110001;
+  assert.match(budgetFailures(report, baseline())[0], /start .* > 110.0 kB/);
 });
 
 test('the chat’s own stylesheet and the page’s render-blocking CSS: measured, capped, and the sheet’s growth per release', () => {

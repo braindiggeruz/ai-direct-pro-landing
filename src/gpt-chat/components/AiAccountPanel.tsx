@@ -71,7 +71,7 @@ export function AiAccountPanel({
   /** The browser is about to leave for a payment page or the Uzum Bank app: keep what the chat must find again. */
   onLeave?: () => void;
 }) {
-  const [payReturn] = useState(() => new URLSearchParams(window.location.search).get("pay") === "return");
+  const [payReturn] = useState(() => { const query = new URLSearchParams(window.location.search); return query.get("pay") === "return" && query.get('product') !== 'studio'; });
   // A trip stored by this browser, or, back from a payment page with nothing
   // stored (storage blocked), a wait from now for the newest payment.
   const [checkout, setCheckout] = useState<CheckoutWatch | null>(() =>

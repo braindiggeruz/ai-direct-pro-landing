@@ -29,6 +29,12 @@ import { ENTRIES, readViteManifest, type ViteManifest } from './vite-manifest';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const BASELINE_FILE = 'docs/paid-chat/bundle-baseline.json';
 export const CHAT_BUDGET = { start: 110_000, lazyPart: 12_000, startGrowth: 3_000, startCss: 7_000, startCssGrowth: 1_000, pageCss: 27_000 } as const;
+// Explicit opt-in tools: opening a card and exporting its file are separate
+// downloads. The ordinary chat retains all existing start/page budgets.
+export const PRESENTATION_LAZY_BUDGET: Readonly<Record<string, number>> = {
+  'chat-presentation': 24_000, Tariffs: 31_000, MyPack: 29_000, PayReturn: 30_000, 'pptxgen.es': 120_000,
+};
+export const PRESENTATION_CSS_BUDGET = 8_000;
 export type ChatBudget = { start: number; lazyPart: number; startGrowth: number; startCss: number; startCssGrowth: number; pageCss: number };
 
 export interface BundlePart {
@@ -36,6 +42,7 @@ export interface BundlePart {
   name: string;
   bytes: number;
   files: string[];
+  cssBytes?: number;
 }
 export interface BundleReport {
   entry: string;
@@ -99,7 +106,8 @@ export function measureChatBundle(
     queued.add(root);
     const closure = staticClosure(manifest, [root]);
     const files = scripts(manifest, closure.filter((key) => !loaded.has(key)));
-    parts.push({ name: manifest[root].name ?? root, bytes: sum(files), files });
+    const cssFiles = styles(manifest, closure.filter((key) => !loaded.has(key)));
+    parts.push({ name: manifest[root].name ?? root, bytes: sum(files), files, ...(cssFiles.length ? { cssBytes: sum(cssFiles) } : {}) });
     for (const key of closure) queue.push(...(manifest[key].dynamicImports ?? []));
   }
   const startFiles = scripts(manifest, start);
@@ -127,7 +135,9 @@ export function budgetFailures(
   if (report.startCss.bytes > budget.startCss) failures.push(`start CSS ${kb(report.startCss.bytes)} > ${kb(budget.startCss)}`);
   if (report.pageCss.bytes > budget.pageCss) failures.push(`page CSS ${kb(report.pageCss.bytes)} > ${kb(budget.pageCss)}`);
   for (const part of report.parts) {
-    if (part.bytes > budget.lazyPart) failures.push(`lazy part ${part.name} ${kb(part.bytes)} > ${kb(budget.lazyPart)}`);
+    const limit = PRESENTATION_LAZY_BUDGET[part.name] ?? budget.lazyPart;
+    if (part.bytes > limit) failures.push(`lazy part ${part.name} ${kb(part.bytes)} > ${kb(limit)}`);
+    if (part.cssBytes && part.cssBytes > PRESENTATION_CSS_BUDGET) failures.push(`lazy CSS ${part.name} ${kb(part.cssBytes)} > ${kb(PRESENTATION_CSS_BUDGET)}`);
   }
   if (!baseline) {
     failures.push(`no baseline: record one with --record (${BASELINE_FILE})`);
@@ -224,7 +234,7 @@ function main(): void {
   }
   const failures = budgetFailures(report, baseline);
   if (failures.length) throw new Error(`Chat bundle over budget:\n${failures.join('\n')}`);
-  console.log(`Chat bundle within budget: start ≤ ${kb(CHAT_BUDGET.start)}, lazy parts ≤ ${kb(CHAT_BUDGET.lazyPart)}, growth ≤ ${kb(CHAT_BUDGET.startGrowth)}; start CSS ≤ ${kb(CHAT_BUDGET.startCss)}, page CSS ≤ ${kb(CHAT_BUDGET.pageCss)}.`);
+  console.log(`Chat bundle within budget: start ≤ ${kb(CHAT_BUDGET.start)}, ordinary lazy parts ≤ ${kb(CHAT_BUDGET.lazyPart)}, named presentation/export limits checked, growth ≤ ${kb(CHAT_BUDGET.startGrowth)}; start CSS ≤ ${kb(CHAT_BUDGET.startCss)}, page CSS ≤ ${kb(CHAT_BUDGET.pageCss)}.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

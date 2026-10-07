@@ -26,6 +26,10 @@ export interface CheckoutProps {
   readonly plan: StudioPlanOffer;
   readonly config: StudioPublicConfig;
   readonly onClose: () => void;
+  /** The containing chat supplies its path; the server accepts exact allowlisted paths only. */
+  readonly returnPath?: string;
+  /** Persist the containing conversation before leaving; rejection keeps the checkout here. */
+  readonly beforeNavigate?: () => Promise<void>;
   /** Tests pass their own. */
   readonly runtime?: BillingRuntime;
   /** Where the browser goes for a payment page (tests pass their own). */
@@ -36,6 +40,7 @@ type Status =
   | { readonly kind: 'idle' }
   | { readonly kind: 'working' }
   | { readonly kind: 'message'; readonly message: BillingMessage }
+  | { readonly kind: 'draft_failed' }
   | { readonly kind: 'open'; readonly orderId: string }
   | { readonly kind: 'done'; readonly outcome: Extract<CheckoutOutcome, { kind: 'test' | 'status' }> };
 
@@ -48,7 +53,7 @@ export function newOrderRequestId(): string {
   return `o_${randomId().replace(/[^A-Za-z0-9]/g, '')}`.slice(0, 64);
 }
 
-export function Checkout({ locale, plan, config, onClose, runtime, navigate }: CheckoutProps) {
+export function Checkout({ locale, plan, config, onClose, returnPath, beforeNavigate, runtime, navigate }: CheckoutProps) {
   const texts = BILLING_TEXTS[locale];
   const id = useId();
   const providers = sellingProviders(config);
@@ -56,6 +61,9 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const turnstileBox = useRef<HTMLDivElement>(null);
   const run = useRef<AbortController | null>(null);
+  // A successful checkout already owns an order. A failed draft flush must
+  // retry the handoff to that very payment page, never create another order.
+  const pendingRedirect = useRef<Extract<CheckoutOutcome, { kind: 'redirect' }> | null>(null);
   const termsUrl = config.terms?.[locale] ?? null;
 
   useEffect(() => () => run.current?.abort(), []);
@@ -68,9 +76,9 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
     const controller = new AbortController();
     run.current = controller;
     setStatus({ kind: 'working' });
-    funnel.checkoutStarted(plan.id);
-    const outcome = await startCheckout(
-      { plan: plan.id, provider, locale, returnPath: typeof window !== 'undefined' ? window.location.pathname : '/' },
+    if (!pendingRedirect.current) funnel.checkoutStarted(plan.id);
+    const outcome = pendingRedirect.current ?? await startCheckout(
+      { plan: plan.id, provider, locale, returnPath: returnPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/') },
       {
         api,
         session,
@@ -86,6 +94,19 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
     );
     if (controller.signal.aborted) return;
     if (outcome.kind === 'redirect') {
+      pendingRedirect.current = outcome;
+      try {
+        await beforeNavigate?.();
+      } catch {
+        if (!controller.signal.aborted) {
+          run.current = null;
+          setStatus({ kind: 'draft_failed' });
+        }
+        return;
+      }
+      // Closing or changing the containing conversation while storage waits
+      // must not send a buyer away from the newly opened screen.
+      if (controller.signal.aborted) return;
       rememberPack();
       (navigate ?? ((url: string) => window.location.assign(url)))(outcome.url);
       return;
@@ -146,7 +167,7 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
             <legend className="st:text-sm st:font-medium st:text-studio-text">{texts.providerLabel}</legend>
             {providers.map((option) => (
               <label key={option} className="st:mr-4 st:inline-flex st:items-center st:gap-2 st:text-sm st:text-studio-text">
-                <input type="radio" name={`${id}-provider`} value={option} checked={provider === option} onChange={() => setProvider(option)} disabled={working} />
+                <input type="radio" name={`${id}-provider`} value={option} checked={provider === option} onChange={() => setProvider(option)} disabled={working || pendingRedirect.current !== null} />
                 {option === 'payme' ? 'Payme' : 'Click'}
               </label>
             ))}
@@ -160,8 +181,12 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
           {working ? texts.paying : texts.pay}
         </button>
         <div ref={turnstileBox} className="st:flex st:justify-center st:empty:hidden" data-studio-turnstile="" />
-        <p role="status" aria-live="polite" className="st:text-sm st:text-studio-danger" data-studio-checkout-message={status.kind === 'message' ? status.message : ''}>
-          {status.kind === 'message' ? texts.messages[status.message] : ''}
+        <p role="status" aria-live="polite" className="st:text-sm st:text-studio-danger" data-studio-checkout-message={status.kind === 'message' ? status.message : status.kind === 'draft_failed' ? 'draft_failed' : ''}>
+          {status.kind === 'message' ? texts.messages[status.message] : status.kind === 'draft_failed'
+            ? locale === 'ru'
+              ? 'Не удалось сохранить диалог. Переход к оплате остановлен. Повторите попытку: будет открыт тот же заказ.'
+              : 'Suhbatni saqlab bo‘lmadi. To‘lov sahifasiga o‘tish to‘xtatildi. Qayta urinib ko‘ring: o‘sha buyurtma ochiladi.'
+            : ''}
         </p>
         {status.kind === 'open' ? (
           <div className="st:space-y-2 st:text-sm st:text-studio-text" data-studio-open-order={status.orderId}>
@@ -178,7 +203,7 @@ export function Checkout({ locale, plan, config, onClose, runtime, navigate }: C
             {status.outcome.kind === 'test' ? texts.testOrder(status.outcome.orderId) : texts.statusOrder}
           </p>
         ) : null}
-        <button type="button" className="st:text-sm st:text-studio-muted st:underline" onClick={onClose}>
+        <button type="button" className="st:text-sm st:text-studio-muted st:underline" onClick={() => { run.current?.abort(); onClose(); }}>
           {texts.close}
         </button>
       </form>

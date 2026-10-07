@@ -53,6 +53,7 @@ export const limitPart = part(() => import('./parts/chat-limit'));
 export const rolePart = part(() => import('./parts/chat-role'));
 export const toolsPart = part(() => import('./parts/chat-tools'));
 export const turnstilePart = part(() => import('./parts/chat-turnstile'));
+export const presentationPart = part(() => import('./parts/chat-presentation'));
 
 class PartBoundary extends Component<{ failed: ReactNode; children: ReactNode }, { failed: boolean }> {
   state = { failed: false };

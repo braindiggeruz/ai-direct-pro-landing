@@ -1,13 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
+import postcss from 'postcss'
 
 const here = (p: string) => fileURLToPath(new URL(p, import.meta.url))
+const studioRequire = createRequire(here('./apps/studio/package.json'))
+
+// Studio uses prefixed Tailwind v4; the site uses v3. Compile only Studio's
+// lazy stylesheet with its own pinned compiler before the site's CSS pipeline.
+const studioStyles = () => ({
+  name: 'embedded-studio-styles',
+  enforce: 'pre' as const,
+  async transform(code: string, id: string) {
+    if (id.split('?')[0].replace(/\\/g, '/') !== here('./apps/studio/src/styles.css').replace(/\\/g, '/')) return
+    const result = await postcss([studioRequire('@tailwindcss/postcss')()]).process(code, { from: id.split('?')[0] })
+    return { code: result.css, map: null }
+  },
+})
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [studioStyles(), react()],
   resolve: {
+    dedupe: ['react', 'react-dom', 'scheduler'],
     alias: {
       '@': here('./src'),
     },

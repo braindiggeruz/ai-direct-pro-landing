@@ -50,10 +50,11 @@ import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest }
 import { AiLimitPay } from "./AiLimitPay";
 import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats, type SavedChat } from "../storage";
-import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart, presentationPart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 import { useKeyboardOpen } from "../keyboard";
+import { wantsPresentation } from '../presentation';
 
 /** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
 const MAX_INPUT = 3000;
@@ -319,7 +320,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const assistantCount = useMemo(
     () =>
-      messages.filter((m) => m.role === "assistant" && !m.pending && !m.error)
+      messages.filter((m) => m.role === "assistant" && m.kind !== 'presentation' && !m.pending && !m.error)
         .length,
     [messages],
   );
@@ -483,6 +484,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } = {},
   ) => {
     const trimmed = text.trim();
+    if (!busy && accountReady && !meta.retry && !meta.answerAction && !meta.templateId && wantsPresentation(trimmed) && import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false') {
+      openPresentation(trimmed); setInput(''); saveDraft(''); return;
+    }
     if (!trimmed || sendDisabled) return;
     // A typed question gets its lines in its own language when its letters
     // say so (frameLocale); a button's in the language answerAsk chose (the
@@ -812,6 +816,28 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     track(EV.promptChipClicked, { chip_id: chip.id, locale: config.locale });
     focusInput();
   };
+
+  function openPresentation(topic = '', artifactId: string = crypto.randomUUID()) {
+    if (busy || !accountReady) return;
+    dock();
+    const next: ChatMessage[] = [...messages, { role: 'assistant', kind: 'presentation', artifactId, content: topic.slice(0, 2000) }];
+    setMessages(next);
+    store(scope => saveHistory(next, config.locale, scope));
+    setDrawerOpen(false);
+  }
+
+  useEffect(() => {
+    if (!accountReady || import.meta.env.VITE_CHAT_PRESENTATIONS === 'false') return;
+    if (!/tool=presentation|product=studio/.test(window.location.search)) return;
+    const generation = identityGeneration.current;
+    void presentationPart.load().then(({ presentationEntry }) => {
+      if (generation !== identityGeneration.current) return;
+      const id = presentationEntry(storageScope || 'guest', messages);
+      if (id) openPresentation('', id);
+    }).catch(() => undefined);
+  // Entry is applied once after the authoritative identity has loaded.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountReady]);
 
   const onTemplatePick = (template: PromptTemplate, prompt: string) => {
     if (sendDisabled) return;
@@ -1326,12 +1352,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     onPick={onChipPick}
                     disabled={busy || limitBlocked}
                     label={t.emptyPrompt}
+                    presentation={import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false' ? { label: uz ? 'Taqdimot' : 'Презентация', onOpen: () => openPresentation(input), disabled: busy || !accountReady } : undefined}
                   />
                 )}
               </div>
             ) : (
               <AiChatMessageList
                 messages={messages}
+                ownerKey={storageScope || 'guest'}
                 t={t}
                 locale={config.locale}
                 busy={busy}
@@ -1469,6 +1497,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             )}
             {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
             <AiChatInput
+              actions={(!empty || limitBlocked) && import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={busy || !accountReady} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
               value={input}
               onChange={setInput}
               onSend={() => doSend(input)}

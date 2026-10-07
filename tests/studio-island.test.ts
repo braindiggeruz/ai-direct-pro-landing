@@ -813,7 +813,8 @@ test('progress: no live region around the clock; the active step is aria-current
   assert.match(form, /status\.kind === 'working' \? texts\.steps\[status\.step\] : status\.kind === 'ready' \? texts\.steps\.ready : ''/);
   // The deck's heading takes the focus when it arrives (the submit button was disabled meanwhile).
   const preview = read('apps/studio/src/tools/presentation/Preview.tsx');
-  assert.match(preview, /<h2 id="studio-result-title" ref=\{heading\} tabIndex=\{-1\}/);
+  assert.match(preview, /const headingId = `studio-result-\$\{useId\(\)\}`/);
+  assert.match(preview, /<h2 id=\{headingId\} ref=\{heading\} tabIndex=\{-1\}/);
   assert.match(preview, /heading\.current\?\.focus\(\);\s*\}, \[deck\]\);/);
 });
 

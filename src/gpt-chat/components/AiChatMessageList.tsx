@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { MessageScrollerContent, MessageScrollerItem } from '@/components/ui/message-scroller';
 import type { AnswerAction, ChatMessage, Locale } from "../types";
 import type { ChatStrings } from "../i18n";
-import { LazyPart, PartFailed, answerPart } from "../lazy-part";
+import { LazyPart, PartFailed, answerPart, presentationPart } from "../lazy-part";
 import { BrandMark } from "./BrandMark";
 
 /** The error bubble's buttons: the retry and «change the question» (chat design §5.8). */
@@ -60,9 +60,11 @@ export function AiChatMessageList({
   onAsk,
   onVersion,
   children,
+  ownerKey = 'guest',
 }: {
   /** What ends the thread after the last message (the limit card, the low-allowance line): inside the scroller's content, before its spacer. */
   children?: ReactNode;
+  ownerKey?: string;
   messages: ChatMessage[];
   t: ChatStrings;
   locale?: Locale;
@@ -81,7 +83,7 @@ export function AiChatMessageList({
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
-      if (messages[i].role === "assistant") return i;
+      if (messages[i].role === "assistant" && messages[i].kind !== 'presentation') return i;
     return -1;
   })();
   // The last question has no answer and none is on its way: the tab was
@@ -164,7 +166,11 @@ export function AiChatMessageList({
         // keeps no content-visibility (premium.css .gpt-item-menu).
         // A question opens a turn: more room above it than between it and its answer (chat UI §5.5).
         <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"} className={i === lastAssistant ? "gpt-item-menu" : m.role === "user" ? "gpt-turn-user" : undefined}>
-        {m.role === "user" ? (
+        {m.kind === 'presentation' && m.artifactId ? (
+          <LazyPart part={presentationPart} fallback={<p role="status">{t.thinking}</p>} failed={<PartFailed message={t.partFailed} reload={t.partReload} />}>
+            {({ ChatPresentation }) => <ChatPresentation key={`${ownerKey}:${m.artifactId}`} locale={locale} ownerKey={ownerKey} artifactId={m.artifactId!} topic={m.content} />}
+          </LazyPart>
+        ) : m.role === "user" ? (
           // dir="auto": an Arabic or mixed question aligns by its own first letters.
           <div className="gpt-user-message" dir="auto">{m.content}</div>
         ) : m.error ? (

@@ -197,6 +197,47 @@ test("payment pages: Payme for the order's own amount and number, Click with the
 
 // ── The gate ────────────────────────────────────────────────────────────────
 
+test("chat returns: only exact chat paths carry the Studio marker in both provider links", () => {
+  const env = { ...paidEnv(null), STUDIO_CLICK_CREDENTIALS_JSON: CLICK_CREDENTIALS } as BillingEnv;
+  for (const [locale, path] of [["ru", "/ru/gpt-chat/"], ["uz", "/uz/gpt-uzbek-tilida/"]] as const) {
+    const back = studioReturnUrl("https://gptbot.uz", locale, path);
+    assert.equal(back, `https://gptbot.uz${path}?pay=return&product=studio`);
+    assert.equal(paymeParams(studioPaymeCheckoutUrl(env, "live", "stu_chat", 590_000, locale, back)!).c, back);
+    assert.equal(new URL(studioClickCheckoutUrl(env, "stu_chat", 590_000, back)!).searchParams.get("return_url"), back);
+  }
+  for (const path of ["/ru/prezentatsiya-ai/", "/uz/taqdimot-ai/", "/uz/tariflar/", "/uz/rasmdan-yechim/"]) {
+    assert.equal(studioReturnUrl("https://gptbot.uz", "ru", path), `https://gptbot.uz${path}?pay=return`, "standalone contract stays unchanged");
+  }
+});
+
+test("chat returns reject foreign/same-origin absolute URLs, queries, fragments and encoded paths", () => {
+  for (const path of [undefined, null, {}, "", "/ru/gpt-chat", "/admin/", "https://evil.example/ru/gpt-chat/",
+    "https://gptbot.uz/ru/gpt-chat/", "//evil.example/ru/gpt-chat/", "\\\\evil.example\\ru\\gpt-chat\\",
+    "/ru/gpt-chat/?product=chat", "/ru/gpt-chat/?next=https://evil.example/", "/ru/gpt-chat/#entry=login",
+    "/ru/gpt-chat/%3Fproduct%3Dchat", "/ru/gpt-chat/%253Fproduct%253Dchat", "%2Fru%2Fgpt-chat%2F",
+    "/ru/%67pt-chat/", "/uz/../ru/gpt-chat/", "/ru/gpt-chat/\n"]) {
+    assert.equal(studioReturnUrl("https://gptbot.uz", "ru", path), "https://gptbot.uz/ru/prezentatsiya-ai/?pay=return", String(path));
+  }
+});
+
+test("embedded checkout keeps the return marker on replay and rejects a foreign request Origin", async t => {
+  const db = await paidDatabase();
+  const env = paidEnv(db);
+  siteverify(t, PASS_BY_TOKEN);
+  const cookie = await bidCookie(Date.now());
+  const body = order({ locale: "ru", returnPath: "/ru/gpt-chat/" });
+  const rejected = await post(env, { cookie, body, origin: "https://evil.example" });
+  assert.equal(rejected.response.status, 400);
+  assert.equal(rejected.body.code, "invalid");
+  assert.equal(count(db, "SELECT COUNT(*) FROM studio_orders_v2"), 0);
+  const first = await post(env, { cookie, body });
+  const replay = await post(env, { cookie, body });
+  assert.equal(first.response.status, 200);
+  assert.equal(replay.body.orderId, first.body.orderId);
+  assert.equal(paymeParams(String(replay.body.checkoutUrl)).c, "https://gptbot.uz/ru/gpt-chat/?pay=return&product=studio");
+  assert.equal(count(db, "SELECT COUNT(*) FROM studio_orders_v2"), 1);
+});
+
 test("closed: sales off, another host, a test sale on the site → 404 before the body, D1 or Turnstile", async (context) => {
   const calls = siteverify(context, PASS_BY_TOKEN);
   const throwing = new Proxy({}, { get: () => { throw new Error("D1 touched"); } });

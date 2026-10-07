@@ -1,0 +1,3 @@
+.gpt-presentation{width:100%;min-width:0;border:1px solid #2b4d53;border-radius:20px;padding:16px;background:linear-gradient(145deg,#0b2027,#11172b);color:#e6eef7;isolation:isolate}
+.gpt-presentation>h2{font-size:18px;font-weight:650;margin:0 0 14px}.gpt-presentation details{margin-top:12px}.gpt-presentation summary{cursor:pointer}.gpt-presentation [data-studio-slot="my-pack"] summary{padding:10px 0;color:#68ddcd}
+.gpt-presentation img{max-width:100%}.gpt-presentation form{min-width:0}.gpt-presentation select{max-width:100%}.gpt-presentation [data-studio-inapp-slot]{display:none}.gpt-presentation p{overflow-wrap:anywhere}

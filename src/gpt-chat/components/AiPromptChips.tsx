@@ -11,23 +11,27 @@ const icons: Record<string, string> = {
   math: 'M18 5H6l6 7-6 7h12',
   text: 'M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4',
   explain: 'M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zm16 0h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6z',
-  plan: 'M4 6l1.5 1.5L8 5m3 1.5h9M4 12l1.5 1.5L8 11m3 1.5h9M4 18l1.5 1.5L8 17m3 1.5h9',
+  plan: 'M3 3h18v13H3zM12 16v5m-4 0h8M7 8h10M7 11h6',
 };
 
-export function AiPromptChips({ chips, onPick, disabled, label }: {
+export function AiPromptChips({ chips, onPick, disabled, label, presentation }: {
   chips: PromptChip[]; onPick: (chip: PromptChip) => void; disabled?: boolean; label: string;
+  presentation?: { label: string; onOpen: () => void; disabled: boolean };
 }) {
   return (
     <ul className="gpt-tasks" aria-label={label}>
-      {chips.slice(0, 4).map((chip) => (
+      {chips.slice(0, 4).map((chip) => {
+        const tool = chip.id === 'plan' ? presentation : undefined;
+        return (
         <li key={chip.id}>
           {/* Fills the composer and never sends: a task is a start, not a message. */}
-          <button type="button" disabled={disabled} onClick={() => onPick(chip)} className="gpt-task">
+          <button type="button" disabled={tool ? tool.disabled : disabled} onClick={() => tool ? tool.onOpen() : onPick(chip)} className="gpt-task" data-chat-presentation-open={tool ? '' : undefined}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={icons[chip.id]} /></svg>
-            <span>{chip.label}</span>
+            <span>{tool ? tool.label : chip.label}</span>
           </button>
         </li>
-      ))}
+        );
+      })}
     </ul>
   );
 }

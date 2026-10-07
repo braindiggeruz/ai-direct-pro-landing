@@ -42,6 +42,7 @@ const BOX = 'st:mt-4 st:rounded-2xl st:border st:border-studio-line st:bg-studio
 const LINE = 'st:text-sm st:leading-snug st:text-studio-muted';
 const CHOOSE =
   'st:mt-2 st:min-h-11 st:rounded-xl st:border st:border-studio-line st:bg-studio-bg st:px-3 st:py-2 st:text-sm st:font-medium st:text-studio-text st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan';
+const UPGRADE = 'st:min-h-11 st:rounded-xl st:bg-linear-to-br st:from-studio-blue st:to-studio-cyan st:px-4 st:py-3 st:text-sm st:font-semibold st:text-studio-bg st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan';
 
 export interface TariffListProps {
   readonly locale: StudioLocale;
@@ -112,6 +113,8 @@ export function TariffList({ locale, plans, providers, termsUrl, onChoose, chose
 export interface TariffsProps {
   readonly locale: StudioLocale;
   readonly context: TariffsContext;
+  readonly returnPath?: string;
+  readonly beforeNavigate?: () => Promise<void>;
   /** The tariffs page: the plans and offer link it was prerendered with (tariffs-root.ts). */
   readonly initialPlans?: readonly StudioPlanOffer[];
   readonly initialTermsUrl?: string | null;
@@ -120,7 +123,7 @@ export interface TariffsProps {
 }
 
 /** The section with live prices and the checkout. */
-export function Tariffs({ locale, context, initialPlans, initialTermsUrl = null, runtime }: TariffsProps) {
+export function Tariffs({ locale, context, returnPath, beforeNavigate, initialPlans, initialTermsUrl = null, runtime }: TariffsProps) {
   const texts = BILLING_TEXTS[locale];
   const [expanded, setExpanded] = useState(context !== 'after_result');
   const [dismissed, setDismissed] = useState(false);
@@ -209,7 +212,7 @@ export function Tariffs({ locale, context, initialPlans, initialTermsUrl = null,
       <p className={`st:mt-1 ${LINE}`}>{texts.noSubscription}{providers?.length === 0 ? ` ${texts.paused}` : ''}</p>
       {configNotice}
       <div className="st:mt-2 st:flex st:flex-wrap st:items-center st:gap-3">
-        <button type="button" className={CHOOSE} onClick={()=>setExpanded(true)}>{locale === 'ru' ? 'Посмотреть тарифы' : 'Tariflarni ko‘rish'}</button>
+        <button type="button" className={UPGRADE} onClick={()=>setExpanded(true)}>{locale === 'ru' ? 'Выбрать полный пакет' : 'To‘liq paketni tanlash'}</button>
         {dismissButton}
       </div>
     </section>
@@ -218,7 +221,7 @@ export function Tariffs({ locale, context, initialPlans, initialTermsUrl = null,
     <div data-studio-billing="">
       <TariffList locale={locale} plans={plans} providers={providers} termsUrl={termsUrl} onChoose={choose} chosen={chosen} busy={asking} context={context} />
       {configNotice}
-      {plan && config ? <Checkout key={plan.id} locale={locale} plan={plan} config={config} runtime={runtime} onClose={() => setChosen(null)} /> : null}
+      {plan && config ? <Checkout key={plan.id} locale={locale} plan={plan} config={config} runtime={runtime} returnPath={returnPath} beforeNavigate={beforeNavigate} onClose={() => setChosen(null)} /> : null}
       {dismissButton}
     </div>
   );

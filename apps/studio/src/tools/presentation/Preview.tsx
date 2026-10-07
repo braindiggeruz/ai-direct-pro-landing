@@ -21,7 +21,7 @@
  * A full deck (T3.1) also shows each slide's talk («Qisqa ma’ruza matni»)
  * under its bullets, folded (<details>), so the cards stay short.
  */
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
 import type { Deck } from '../../api';
 import type { ToolTexts } from './texts';
 
@@ -43,13 +43,14 @@ export interface PreviewProps {
 
 export function Preview({ texts, deck, pictures, actions, notesLabel }: PreviewProps) {
   const heading = useRef<HTMLHeadingElement>(null);
+  const headingId = `studio-result-${useId()}`;
   useEffect(() => {
     // A new deck (the object changes only then): the focus moves to it.
     heading.current?.focus();
   }, [deck]);
   return (
-    <section className="ym-hide-content st:mt-6" data-studio-preview="" aria-labelledby="studio-result-title">
-      <h2 id="studio-result-title" ref={heading} tabIndex={-1} className="st:mb-1 st:text-xl st:font-semibold st:text-studio-text st:outline-none">
+    <section className="ym-hide-content st:mt-6" data-studio-preview="" aria-labelledby={headingId}>
+      <h2 id={headingId} ref={heading} tabIndex={-1} className="st:mb-1 st:text-xl st:font-semibold st:text-studio-text st:outline-none">
         {texts.resultTitle}
       </h2>
       <p className="st:mb-4 st:text-sm st:text-studio-muted">{texts.draftNote}</p>

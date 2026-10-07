@@ -50,15 +50,16 @@
  * still without one go without.
  */
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import { type CreatedJob, type Deck, type DeckTask, type SignedImagePrompt, type StudioApi, type StudioAudience, type StudioLocale, type StudioPublicConfig } from '../../api';
+import { type SignedImagePrompt, type StudioApi, type StudioAudience, type StudioLocale, type StudioPublicConfig } from '../../api';
 import { captureLastTouch } from '../../attribution';
 import { randomId, type Funnel } from '../../analytics';
 import { type StudioSession } from '../../config';
-import { billingRuntime } from '../../billing/runtime';
+import { billingRuntime, watchMe } from '../../billing/runtime';
 import { turnstileToken } from '../../identity';
 import { currentInApp, INAPP_ATTRIBUTE, type InAppBrowser } from '../../inapp';
 import { blobToBase64, buildDeck, deckFileName } from '../../pptx/build';
 import type { IslandSlots } from '../../slots';
+import type { PresentationResult, PresentationSnapshot } from '../../embedded/artifact-store';
 import { createFullDeckApi, fullUnitsLeft, type FullDeckApi } from './api';
 import { Download, saveFile, type DownloadState } from './Download';
 import {
@@ -88,6 +89,13 @@ export type FormSlots = IslandSlots;
 export interface FormProps {
   readonly locale: StudioLocale;
   readonly slots?: IslandSlots;
+  /** Supplied only by the embedded adapter; a restored snapshot never starts a job. */
+  readonly embedding?: {
+    readonly initialTopic?: string;
+    readonly initialSnapshot?: PresentationSnapshot | null;
+    readonly returning?: boolean;
+    readonly onSnapshot: (snapshot: PresentationSnapshot) => void;
+  };
 }
 
 export const AUDIENCES: readonly StudioAudience[] = ['maktab', 'talaba', 'umumiy'];
@@ -100,19 +108,12 @@ interface Runtime {
   readonly funnel: Funnel;
 }
 
-interface Result {
-  readonly job: CreatedJob;
-  readonly task: DeckTask;
-  readonly deck: Deck;
-  readonly aiLabel: boolean;
-  readonly shape: DeckChoice;
-  /** A regeneration: the job it made again (it has no regeneration of its own). */
-  readonly regenOf?: string;
-}
+type Result = PresentationResult;
 
 /** The form's own line: idle, a deck in the making, or a message after a failed start. A result is kept apart. */
 type Status =
   | { readonly kind: 'idle' }
+  | { readonly kind: 'interrupted' }
   /** `full`: a full deck (or its regeneration) is being made: its own steps. */
   | { readonly kind: 'working'; readonly step: Step; readonly startedAt: number; readonly full?: boolean }
   /** `full`: after a full deck's run; `unitBack`: a server fault once its job existed, so the unit comes back. */
@@ -133,26 +134,29 @@ function fullSlideChoices(config: StudioPublicConfig | null): number[] {
   return Array.from({ length: Math.max(0, max - min + 1) }, (_, i) => max - i);
 }
 
-export function Form({ locale, slots }: FormProps) {
+export function Form({ locale, slots, embedding }: FormProps) {
   const texts = TEXTS[locale];
   const full = FULL_TEXTS[locale];
   const id = useId();
+  // The adapter keys this component by owner/artifact and validates storage before mounting it.
+  const [initial] = useState(() => embedding?.initialSnapshot?.locale === locale ? embedding.initialSnapshot : null);
+  const embedded = embedding !== undefined;
   const [hydrated, setHydrated] = useState(false);
   const [inApp, setInApp] = useState<InAppBrowser | null>(null);
-  const [topic, setTopic] = useState('');
-  const [audience, setAudience] = useState<StudioAudience>('maktab');
-  const [slides, setSlides] = useState<number>(FREE_SLIDES.initial);
-  const [shape, setShape] = useState<DeckChoice>('free');
-  const [palette, setPalette] = useState(1);
+  const [topic, setTopic] = useState(initial?.draft.topic ?? embedding?.initialTopic?.slice(0, TOPIC_MAX) ?? '');
+  const [audience, setAudience] = useState<StudioAudience>(initial?.draft.audience ?? 'maktab');
+  const [slides, setSlides] = useState<number>(initial?.draft.slides ?? FREE_SLIDES.initial);
+  const [shape, setShape] = useState<DeckChoice>(initial?.draft.shape ?? 'free');
+  const [palette, setPalette] = useState(initial?.draft.palette ?? 1);
   // /config and /me once asked for (first focus or submit): the picker and the units line read them.
   const [config, setConfig] = useState<StudioPublicConfig | null>(null);
   const [unitsLeft, setUnitsLeft] = useState<number | null>(null);
   const [parts, setParts] = useState<FullProgress | null>(null);
-  const [status, setStatus] = useState<Status>({ kind: 'idle' });
+  const [status, setStatus] = useState<Status>(() => initial?.status.kind === 'working' ? { kind: 'interrupted' } : initial?.status ?? { kind: 'idle' });
   // The last deck stays on the page (with its pictures and its download)
   // until a new one replaces it: a second try that hits the day's limit
   // never takes the first deck away.
-  const [result, setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<Result | null>(initial?.result ?? null);
   const [pictures, setPictures] = useState<ReadonlyMap<number, PictureState>>(new Map());
   const [download, setDownload] = useState<DownloadState>('waiting');
   const runtime = useRef<Runtime | null>(null);
@@ -161,12 +165,16 @@ export function Form({ locale, slots }: FormProps) {
   const audienceField = useRef<HTMLSelectElement>(null);
   const slidesField = useRef<HTMLSelectElement>(null);
   const run = useRef<AbortController | null>(null);
+  const lifetime = useRef(0);
+  const mounted = useRef(false);
   // Pictures by job: a full deck draws its pictures while its parts are
   // written, before it replaces the deck on the page.
   const drawings = useRef(new Map<string, { readonly stop: AbortController; readonly map: Map<number, PictureState>; readonly urls: string[]; done: boolean }>());
   const shown = useRef<string | null>(null);
 
   useEffect(() => {
+    mounted.current = true;
+    lifetime.current++;
     // Typed or chosen before the script ran: into the state, in the same
     // batched render as the rest, so the fields keep it.
     const typed = topicField.current?.value ?? '';
@@ -181,17 +189,47 @@ export function Form({ locale, slots }: FormProps) {
     // A page without the head script still shows the notice (late, but shown).
     if (browser && !document.documentElement.hasAttribute(INAPP_ATTRIBUTE)) document.documentElement.setAttribute(INAPP_ATTRIBUTE, browser);
     captureLastTouch();
-    const root = document.getElementById('studio-root');
+    const root = embedded ? null : document.getElementById('studio-root');
     if (root) root.dataset.island = 'ready';
     const jobs = drawings.current;
+    if (initial?.result) {
+      const map = new Map<number, PictureState>();
+      const urls: string[] = [];
+      for (const picture of initial.pictures) {
+        if (picture.status === 'ready') {
+          const url = URL.createObjectURL(picture.blob);
+          urls.push(url);
+          map.set(picture.index, { status: 'ready', blob: picture.blob, url });
+        } else map.set(picture.index, { status: 'none' });
+      }
+      shown.current = initial.result.job.jobId;
+      jobs.set(initial.result.job.jobId, { stop: new AbortController(), map, urls, done: true });
+      setPictures(map);
+      setDownload('idle');
+    }
     return () => {
+      mounted.current = false;
+      // This numeric generation ref deliberately invalidates late async work.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      lifetime.current++;
       run.current?.abort();
       for (const drawing of jobs.values()) {
         drawing.stop.abort();
         for (const url of drawing.urls) URL.revokeObjectURL(url);
       }
+      jobs.clear();
     };
-  }, []);
+  }, [embedded, initial]);
+
+  const onSnapshot = embedding?.onSnapshot;
+  useEffect(() => {
+    if (!hydrated || !onSnapshot) return;
+    onSnapshot({ version: 1, locale, draft: { topic, audience, slides, shape, palette }, result,
+      status: status.kind === 'working' ? { kind: 'working' } : status,
+      pictures: [...pictures].map(([index, picture]) => picture.status === 'ready'
+        ? { index, status: 'ready', blob: picture.blob } : { index, status: picture.status }),
+    });
+  }, [hydrated, onSnapshot, locale, topic, audience, slides, shape, palette, result, status, pictures]);
 
   /** API, session and funnel, made on first use: none of them calls anything until asked. */
   const live = useCallback((): Runtime => {
@@ -203,19 +241,30 @@ export function Form({ locale, slots }: FormProps) {
 
   /** /me again (after a deck), and what it says about full decks left. */
   const readUnits = useCallback((session: StudioSession) => {
+    const epoch = lifetime.current;
     void session.me().then((me) => {
-      if (me.ok) setUnitsLeft(fullUnitsLeft(me.data));
+      if (mounted.current && lifetime.current === epoch && me.ok) setUnitsLeft(fullUnitsLeft(me.data));
     });
   }, []);
 
   const warm = useCallback(() => {
+    const epoch = lifetime.current;
     const { session } = live();
     session.warm();
     void session.config().then((answer) => {
-      if (answer.ok) setConfig(answer.data);
+      if (mounted.current && lifetime.current === epoch && answer.ok) setConfig(answer.data);
     });
     readUnits(session);
   }, [live, readUnits]);
+
+  const returning = embedding?.returning === true;
+  useEffect(() => embedded ? watchMe(me => setUnitsLeft(fullUnitsLeft(me))) : undefined, [embedded]);
+  useEffect(() => {
+    if (embedded) {
+      live().session.refreshMe();
+      warm();
+    }
+  }, [embedded, returning, initial, live, warm]);
 
   const chooseShape = (next: DeckChoice) => {
     setShape(next);
@@ -229,7 +278,7 @@ export function Form({ locale, slots }: FormProps) {
     drawings.current.set(jobId, drawing);
     const finished = () => {
       drawing.done = true;
-      if (shown.current === jobId && !stop.signal.aborted) setDownload('idle');
+      if (mounted.current && shown.current === jobId && !stop.signal.aborted) setDownload('idle');
     };
     if (!images.length) return Promise.resolve();
     // drawPictures settles every picture by PICTURE_DEADLINE_MS: the download never waits longer.
@@ -238,7 +287,7 @@ export function Form({ locale, slots }: FormProps) {
       jobId,
       images,
       (index, blob) => {
-        if (stop.signal.aborted) return;
+        if (!mounted.current || stop.signal.aborted) return;
         let state: PictureState = { status: 'none' };
         if (blob) {
           const url = URL.createObjectURL(blob);
@@ -384,7 +433,7 @@ export function Form({ locale, slots }: FormProps) {
           ? turnstileToken({ container: turnstileBox.current, siteKey, action, signal: controller.signal })
           : Promise.resolve({ ok: false as const, code: 'turnstile_unavailable' as const }),
       requestId: () => newRequestId(randomId),
-      onPhase: (phase) => setStatus({ kind: 'working', step: phase, startedAt }),
+      onPhase: (phase) => { if (mounted.current && !controller.signal.aborted) setStatus({ kind: 'working', step: phase, startedAt }); },
       signal: controller.signal,
     });
     if (controller.signal.aborted) return;
@@ -404,17 +453,20 @@ export function Form({ locale, slots }: FormProps) {
   const onDownload = async () => {
     if (!result || download === 'building' || download === 'waiting') return;
     setDownload('building');
+    const epoch = lifetime.current;
     try {
       const encoded = new Map<number, string>();
       for (const [index, picture] of pictures) {
         if (picture.status === 'ready') encoded.set(index, await blobToBase64(picture.blob));
       }
       const blob = await buildDeck({ locale, deck: result.deck, palette: result.task.palette, pictures: encoded, aiLabel: result.aiLabel });
+      if (!mounted.current || lifetime.current !== epoch) return;
       saveFile(blob, deckFileName(result.task.topic));
       // The browser was asked to save it; nothing says it did (in-app WebViews, a cancelled iOS sheet).
       live().funnel.download('presentation', encoded.size, inApp ?? 'none');
       setDownload('started');
     } catch {
+      if (!mounted.current || lifetime.current !== epoch) return;
       live().funnel.error('build_failed');
       setDownload('failed');
     }
@@ -426,6 +478,9 @@ export function Form({ locale, slots }: FormProps) {
   // The limit card of the paid stage: the free day's limit, or no full deck left; the tariffs follow it.
   const limitCard = hydrated && !!slots?.tariffs && status.kind === 'message' && (UNTIL_RESET.has(status.code) || status.code === 'no_units');
   let message = '';
+  if (status.kind === 'interrupted') message = locale === 'ru'
+    ? 'Создание было прервано. Автоматически оно не продолжается. Проверьте остаток пакета перед новым запуском.'
+    : 'Yaratish uzilgan. U avtomatik davom ettirilmaydi. Qayta boshlashdan oldin paket qoldig‘ini tekshiring.';
   if (status.kind === 'message') {
     const key = messageKey(status.code);
     const own = status.code === 'no_units' ? full.noUnits : status.full ? fullMessage(locale, status.code) : null;
@@ -541,7 +596,7 @@ export function Form({ locale, slots }: FormProps) {
           role="status"
           aria-live="polite"
           className={status.kind === 'message' && status.tone === 'limit' ? 'st:text-sm st:text-studio-saffron' : 'st:text-sm st:text-studio-danger'}
-          data-studio-message={status.kind === 'message' ? status.code : ''}
+          data-studio-message={status.kind === 'message' ? status.code : status.kind === 'interrupted' ? 'interrupted' : ''}
         >
           {message}
         </p>
@@ -549,7 +604,7 @@ export function Form({ locale, slots }: FormProps) {
           {announce}
         </p>
       </form>
-      {limitCard ? <div data-studio-slot="limit">{slots?.tariffs?.('limit')}</div> : null}
+      {limitCard || (embedded && fullChosen && unitsLeft === 0 && !working) ? <div data-studio-slot="limit">{slots?.tariffs?.('limit')}</div> : null}
       {status.kind === 'working' ? (
         status.full ? (
           <Progress

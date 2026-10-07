@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Roadmap презентаций внутри основного чата",
+  "current_stage": "R0–R3: презентации внутри основного чата, локальная реализация",
   "stage_status": "completed",
   "last_completed_stage": "Google discovery и корректный lastmod",
-  "next_stage": "R0: встраивание презентаций в чат — предложено владельцу, реализация пока не заказана",
+  "next_stage": "Guarded выпуск локальной интеграции только по новой команде владельца; затем контрольная реальная покупка",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1742,7 +1742,7 @@
   },
   "next_stage_note": "Google discovery завершён; ручной Request indexing ограничен дневной квотой. Не менять Payme hidden/test. Следующий бизнес-шаг — реальная приёмка Click с владельцем.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
+  "last_commit": "0a9350cd1c66d5419e0c3a61c12006384794d89b",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2174,10 +2174,29 @@
     "studioLiveUnpaidOrderCreated": false
   },
   "chat_studio_roadmap_20261007": {
-    "status": "PROPOSED",
+    "status": "IMPLEMENTED_LOCALLY_NOT_DEPLOYED",
     "report": "docs/CHAT_STUDIO_ROADMAP_20261007.md",
-    "ownerRequest": "Презентации внутри основного чата, покупка более широкого пакета без перехода на отдельную Studio-страницу; сейчас нужен roadmap",
-    "implementationAuthorized": false,
+    "ownerRequest": "Реализовать принятый roadmap локально; запрет push/deploy до следующей команды; безопасно продолжить после зависания компьютера",
+    "implementationAuthorized": true,
+    "pushAuthorized": false,
+    "deployAuthorized": false,
+    "implementationReport": "docs/CHAT_STUDIO_IMPLEMENTATION_20261007.md",
+    "localScope": "R0–R3: typed card, shared Studio flows, local artifacts, inline tariffs/return, contextual offers; advertising tool=presentation entries",
+    "localChecks": {
+      "targetedPassed": 191,
+      "finalRegressionsPassed": 40,
+      "browserScenarios": 8,
+      "quickLayoutRuns": 52,
+      "quickLayoutOk": true,
+      "typecheckExit": 0,
+      "studioTypecheckExit": 0,
+      "lintExit": 0,
+      "startBrotliBytes": 109996,
+      "startCssBrotliBytes": 6741,
+      "pageCssBrotliBytes": 26947,
+      "budgetOk": true,
+      "realPaymentPerformed": false
+    },
     "sourceCommit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
     "proposedFirstStage": "R0: typed tool card, shared Studio flow adapter, lazy budget, history/identity and payment return contract",
     "currentPricesUzs": {

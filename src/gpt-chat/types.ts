@@ -246,6 +246,9 @@ export type AnswerAction = "shorter" | "continue" | "russian" | "uzbek";
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
+  /** Local Studio card; omitted from the text-model conversation. */
+  kind?: 'presentation';
+  artifactId?: string;
   /** In memory only: what an answer button asked the model, and in which language its lines go; `content` is the button's name. */
   ask?: { request: string; action: AnswerAction; frame?: Locale };
   model?: string | null;

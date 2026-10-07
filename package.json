@@ -5,6 +5,13 @@
   "type": "module",
   "packageManager": "yarn@1.22.22",
   "scripts": {
+    "studio:deps": "tsx scripts/ensure-studio-deps.ts",
+    "predev": "npm run studio:deps",
+    "prestart": "npm run studio:deps",
+    "prebuild": "npm run studio:deps",
+    "prebuild:fast": "npm run studio:deps",
+    "prebuild:cf": "npm run studio:deps",
+    "test:chat-presentation": "node --import tsx --test --test-concurrency=1 tests/chat-presentation.test.ts tests/chat-presentation-browser.test.ts tests/studio-checkout.test.ts tests/studio-checkout-embedded.test.ts tests/chat-bundle-budget.test.ts",
     "dev": "vite",
     "start": "vite",
     "build": "tsx scripts/seo-audit.ts && tsc -b && vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/prerender-home.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts && tsx scripts/generate-llm-markdown.ts && tsx scripts/generate-feed.ts && npm run build:studio",
