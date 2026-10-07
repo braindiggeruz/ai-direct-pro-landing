@@ -19,7 +19,15 @@
 
 ## Выпуск и приёмка
 
-Статус: подготовлен к штатной сборке и guarded deploy; фактический результат дополняется после readback. После выпуска проверить providers обоих продуктов, production checkout URLs для всех3 сумм, callback CheckPerformTransaction и fiscal detail, отсутствие выдачи прав без оплаты, idempotency checkout, видимость двух способов оплаты на RU/UZ mobile.
+Статус: **опубликован и проверен на gptbot.uz**. Source `96d2b8b7e8ee49df575a61cb58266b50f82b802e`, deployment https://ecaee3bc.ai-direct-pro-landing.pages.dev. Build, guarded check/deploy — exit0. После166 целевых тестов прошли13 built-release checks,4 исторических skip (уже применённый R-ST1); полный typecheck и scope lint —0.
+
+Exact live manifest совпал с dist, 3 JS probes совпали по SHA-256. Среди984 файлов сборки изменился только release marker: HTML/CSS/JS/sitemap не изменились. Public chat и Studio providers — click,payme, суммы20 000/5 900/39 900 и оферта v5 сохранены.
+
+Создан один собственный **неоплаченный** live invoice чата через штатный guest checkout: checkout.paycom.uz,2 000 000 тийин, верный merchant/order_id/RU return URL. Повтор POST вернул тот же invoice. CheckPerformTransaction production key: allow=true, detail с ИКПУ/упаковкой/НДС; неверная сумма -31001, test key для live-start -31050. Account показывает pending/access=null/receipts=[]: права без оплаты не выданы. Create/Perform/CancelTransaction не вызывались. Заказ истечёт по штатному TTL.
+
+В браузере при360×740 проверены RU/UZ окна AI-пакета и оба тарифа Studio: Click и Payme видны, Payme выбирается, кнопка перехода доступна, Studio без горизонтального overflow. Реальные новые Studio invoices не создавались: серверные checkout/правила обоих планов проверены локальными тестами; UI-выбор тарифа не является подтверждением денежного цикла. Секреты/подписанные cookies/Turnstile не обходились.
+
+Квитанция без секретов: `reports/payme-activation-receipts/2026-10-07-live-activation.json`. Логи, старый dist и4 UI screenshots — private B/payme-enable-20261007.
 
 Реальную оплату картой выполняет владелец. После неё сверить заказ, права нужного продукта и электронный чек. Успешные локальные тесты/страница оплаты/allow=true этого не заменяют. Не отправлять фиктивные PerformTransaction на боевые заказы.
 

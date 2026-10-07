@@ -38,4 +38,9 @@ IndexNow 07.10.2026,17:52 Asia/Karachi:31/31 URL заново проверены
 
 Google discovery07.10: обе sitemap и оба RSS приняты GSC, ошибочная регистрация /uz/feed.xml404 удалена. WebSub204/204;25 из31 URL indexed,6 unknown. Ручной Request indexing отклонён дневной квотой. Lastmod fix опубликован;40 tests/typecheck/lint и2 freshness/SEO tests PASS. Google повторно принял исправленные карты18:53; ожидается обработка. Доказательства: `GOOGLE_DISCOVERY_20261007.md` и `reports/google-discovery-receipts/2026-10-07-google-discovery.json`.
 
-Payme activation:166 targeted tests PASS; оба ключа приняты живым callback без денежных событий. Конфигурация подготовлена к выпуску; реальный платёж и фискальный чек пока не проверены.
+Payme опубликован07.10: source `96d2b8b7`, deployment https://ecaee3bc.ai-direct-pro-landing.pages.dev. Чат и оба тарифа Studio предлагают Click+Payme;166 targeted +13 built checks PASS, typecheck/lint/build/guard/deploy0. Exact marker/JS probes и RU/UZ mobile UI подтверждены. Один live invoice чата pending, правильные checkout/fiscal detail/idempotency, без выдачи прав. Studio live invoices/реальные списания/чеки не выполнялись; требуется контрольная покупка владельца. Отчёт `PAYME_ACTIVATION_20261007.md`.
+
+
+## Новое направление: презентации в основном чате
+
+Владелец07.10 попросил именно roadmap: без редиректа на отдельную Studio-страницу, с предложением более широкого пакета после полезного результата. План `CHAT_STUDIO_ROADMAP_20261007.md` проверен по текущим frontend/backend/live config. Реализация не начата. Первый предлагаемый этап R0 — встроенная typed карточка и общий Studio flow; R1 бесплатный результат/PPTX, R2 платный checkout и возврат в задачу, далее контекстная воронка и отдельный новый совместный SKU. Тарифы20 000/5 900/39 900 пока раздельные; фото off, full max12. Макет15 слайдов/фото/остатка денег не является текущим публичным составом или подтверждённой прибылью. Стартовый bundle чата имеет запас845B, page CSS53B; ленивые модули требуют явного бюджета. Сначала получить принятие направления, затем выполнять R0; общий пакет/новые обещания автоматически не включать.

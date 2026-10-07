@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Подключение Payme для чата и Studio",
-  "stage_status": "verified_ready_for_release",
+  "current_stage": "Roadmap презентаций внутри основного чата",
+  "stage_status": "completed",
   "last_completed_stage": "Google discovery и корректный lastmod",
-  "next_stage": "Публикация Payme и live acceptance",
+  "next_stage": "R0: встраивание презентаций в чат — предложено владельцу, реализация пока не заказана",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1742,7 +1742,7 @@
   },
   "next_stage_note": "Google discovery завершён; ручной Request indexing ограничен дневной квотой. Не менять Payme hidden/test. Следующий бизнес-шаг — реальная приёмка Click с владельцем.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
+  "last_commit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2143,7 +2143,7 @@
     "unchangedJsCss": 71
   },
   "payme_activation_20261007": {
-    "status": "VERIFIED_READY_FOR_RELEASE",
+    "status": "DEPLOYED_VERIFIED",
     "ownerAuthorization": "Включить Payme рядом с Click для чата и обоих тарифов Studio после активации кассы; прямое подтверждение07.10.2026",
     "supersedes": "Предыдущее указание временно оставить только Click и Payme hidden/test",
     "productionBefore": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
@@ -2153,6 +2153,39 @@
     "report": "docs/PAYME_ACTIVATION_20261007.md",
     "evidence": "F:\\Claude\\gptbot-tools\\backups\\codex-continuation-20261007-140534\\payme-enable-20261007",
     "realPaymentVerified": false,
-    "fiscalReceiptVerified": false
+    "fiscalReceiptVerified": false,
+    "sourceCommit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
+    "deploymentUrl": "https://ecaee3bc.ai-direct-pro-landing.pages.dev",
+    "publicProviders": [
+      "click",
+      "payme"
+    ],
+    "checks": {
+      "targetedPassed": 166,
+      "builtChecksPassed": 13,
+      "historicalSkipped": 4,
+      "typecheckExit": 0,
+      "lintExit": 0,
+      "buildExit": 0,
+      "guardExit": 0,
+      "deployExit": 0
+    },
+    "readbackReceipt": "reports/payme-activation-receipts/2026-10-07-live-activation.json",
+    "studioLiveUnpaidOrderCreated": false
+  },
+  "chat_studio_roadmap_20261007": {
+    "status": "PROPOSED",
+    "report": "docs/CHAT_STUDIO_ROADMAP_20261007.md",
+    "ownerRequest": "Презентации внутри основного чата, покупка более широкого пакета без перехода на отдельную Studio-страницу; сейчас нужен roadmap",
+    "implementationAuthorized": false,
+    "sourceCommit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
+    "proposedFirstStage": "R0: typed tool card, shared Studio flow adapter, lazy budget, history/identity and payment return contract",
+    "currentPricesUzs": {
+      "chat": 20000,
+      "kunlik": 5900,
+      "oylik": 39900
+    },
+    "currentFullMaxSlides": 12,
+    "photoEnabled": false
   }
 }

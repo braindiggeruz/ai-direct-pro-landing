@@ -1,26 +1,37 @@
-# Передача GPTBot.uz: подключение Payme, 07.10.2026
+# Передача GPTBot.uz: Payme опубликован, roadmap презентаций в чате подготовлен
 
 ## 1. Состояние
-Production до этого этапа ac68443c (Google sitemap fix), deployment ba19f93c. Владелец подтвердил включение Payme рядом с Click для чата и обоих тарифов Studio. Конфигурация и166 targeted tests готовы; следующий шаг — штатный выпуск.
+Production source 96d2b8b7e8ee49df575a61cb58266b50f82b802e, deployment https://ecaee3bc.ai-direct-pro-landing.pages.dev. Payme рядом с Click опубликован для чата и обоих тарифов Studio. Последний запрос владельца — архитектурный roadmap презентаций внутри основного чата; код этого нового направления не менялся.
+
 ## 2. Что сделано
-Mode Payme test→live в packed JSON/таблице; Studio providers click→click,payme. Проверены оба ключа на живом callback без денежных событий. Тарифы, фискальные коды, текущие права и Click сохранены. Старые pin-тесты hidden/test обновлены под новое прямое решение владельца.
+Payme live в двух формах config; Studio click,payme. Проверены callback keys, суммы и фискальные параметры, один собственный pending chat invoice/idempotency/отрицательные проверки. Подготовлен CHAT_STUDIO_ROADMAP_20261007.md: shared engine, typed tool-card, lazy loading, история/identity, inline purchase/return, контекстная воронка, новый совместный пакет отдельным этапом.
+
 ## 3. Изменённые файлы
-wrangler.toml, tests/gpt-live-readiness.test.ts, tests/pages-config-parity.test.ts, tests/studio-config.test.ts; актуальный PAYME-RU runbook, PAYME_ACTIVATION_20261007.md, PROJECT_STATE/STATE/эта передача.
+Source release: wrangler.toml и 3 config/readiness/parity tests, PAYME-RU runbook/документация. Финальная документация: PAYME_ACTIVATION_20261007.md, payme receipt, CHAT_STUDIO_ROADMAP_20261007.md, PROJECT_STATE.md, STATE.json и эта передача. Docs-only commit не требует нового deploy.
+
 ## 4. Архитектурные решения
-Существующий Merchant API и одна касса для3 продуктов. Нет нового backend/провайдера/таблиц. Денежные состояния и права определяет существующий ledger; Payme выдаёт фискальный чек по detail.
+Новый backend для встроенных презентаций не нужен. Переиспользовать Studio flow/API/ledger/Preview/PPTX. SSE чата и JSON flow Studio остаются разными. Сначала единая поверхность с существующими правами; объединённый SKU/аккаунт требует отдельного проверенного изменения. Старые покупки неизменны.
+
 ## 5. Что сознательно не сделано
-Реальное списание/возврат, фиктивный production PerformTransaction, обход готовности/Turnstile, показ Uzum, изменение цен/лимитов, повторная отправка ключей.
+Реальная карточная оплата/возврат/чек, фиктивный production PerformTransaction, создание новых Studio invoices или обход Turnstile. Код интеграции в чат, новые цены/состав,15 слайдов/фото не выпускались: пользователь сейчас попросил roadmap.
+
 ## 6. Проверки
-166 targeted PASS/0 FAIL (Payme, Click, fiscal, entitlements, guest checkout, config parity, offer). Оба ключа callback CheckTransaction неизвестного ID:HTTP200/-31003. Точный старый dist E/dist-before и wrangler-before.toml сохранены приватно. Typecheck/lint/build/deploy и live acceptance дополняются после завершения.
+166 targeted PASS,13 built/release PASS,4 исторических skip; full typecheck/scope lint/build/check/deploy0. Exact live manifest/JS probes совпали.984 dist files: изменился только marker. Public click,payme для обоих продуктов,20 000/5 900/39 900,12 slides/photo off/оферта v5. RU/UZ chat и Kunlik/Oylik UI при360×740; Payme выбирается. Chat pending: allow=true/detail корректны; неверная сумма -31001, test key для live-start -31050, auth -32504, ключи CheckTransaction -31003. Paid access=null/receipts=[].
+
 ## 7. Известные проблемы
-Настоящий платёж и чек ещё не проверены владельцем. Сообщение активации не доказывает реальную фискализацию. Google Request indexing квота исчерпана;25/31 indexed/6 unknown по прежнему снимку, sitemap/RSS приняты.
+Реальный платёж и фискальный чек требуют покупки владельца. Studio live checkout POST не проверен новым заказом; его локальные тесты и public UI/config проверены. Встроенной презентации ещё нет. JS start109155/110000 B br, page CSS 26947/27000, lazy limit12kB несовместим с тяжёлым PPTX без отдельного контракта. История чата пока текстовая; Studio payment return пока не включает chat URLs. Google Request indexing дневная квота исчерпана; прежний снимок25/31 indexed,6 unknown.
+
 ## 8. Следующая задача
-Завершить публикацию Payme и live acceptance всех3 тарифов. Затем совместная приёмка реального платежа Payme/Click.
+Предложенный R0: typed карточка презентации и общий Studio flow adapter, lazy budget, история/identity и корректный return contract. Реализация пока не заказана; текущий запрос закончить roadmap. Не считать этот next_stage автоматическим разрешением менять тарифы/архитектуру. Независимо доступна совместная контрольная покупка Payme/Click.
+
 ## 9. Acceptance criteria
-Живые chat/Studio providers click,payme, все3 checkout идут в checkout.paycom.uz с верными тиынами/order_id/return URL. CheckPerform даёт правильный detail, без оплаты права не выдаются; старые test settlement доступны. UI RU/UZ mobile работает, SEO/бюджеты сохранены.
-## 10. Команды для старта
-F:/Claude/gptbot-codex-integration-20261007; B=F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534. Новый evidence B/payme-enable-20261007. Build:production и deploy_runner.py check/deploy через run_check.py с DR_ROOT этого checkout. Секреты приватны, не печатать значения.
+Для roadmap: все этапы имеют порядок, reuse, ограничения и проверяемый результат, текущие и будущие обещания разделены. Для будущей интеграции: генерация/preview/PPTX и покупка в том же диалоге; единые Studio counters; корректный callback/возврат; история и разные владельцы изолированы; стартовая скорость/SEO сохраняются. Детали в CHAT_STUDIO_ROADMAP_20261007.md.
+
+## 10. Команды и evidence
+Checkout F:/Claude/gptbot-codex-integration-20261007. Private B=F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534, E=B/payme-enable-20261007. Все logs/old dist/4 UI screenshots там. Публичная квитанция reports/payme-activation-receipts/2026-10-07-live-activation.json без секретов. DR_ROOT и NODE_OPTIONS1400; release только deploy_runner.py check/deploy после committed build:production.
+
 ## 11. Риски
-Реальная касса/чек подтверждаются фактической оплатой. Открытые заказы нельзя бросить при откате. Если deploy post-upload guard не подтвердит домен, сначала readback exact manifest/asset, не повторять upload вслепую.
+Активированная касса/allow=true не доказывает денежный цикл и чек. Обновление UX нельзя свести к ссылке/iframe/статическому import Studio: вес, история, identity и return сломают пользовательский путь. Макет старых фото/15 слайдов не подтверждает действующий состав. Общий пакет не выдавать двумя callbacks с одной transaction ID.
+
 ## 12. Rollback
-Вернуть только Payme mode=test в обоих местах и guarded release. Payme перестаёт продаваться в обоих продуктах, Click сохранён; endpoint и production key оставляют начатые settlement и возвраты доступными. Заказы/права/секреты не удалять.
+Payme: вернуть только mode=test в обоих местах и guarded release; Click сохранён, endpoint/production key доводят старые settlement/отмены. Ничего не удалять из заказов/прав. Будущий chat tool — отдельный feature flag, standalone Studio и оплата остаются доступными. Исходные dirty worktrees/архив Claude не трогать.

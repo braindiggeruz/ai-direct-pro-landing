@@ -1,0 +1,117 @@
+{
+  "at": "2026-10-07T15:14:38.475870+00:00",
+  "status": "PASS",
+  "commit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
+  "artifactSha256": "c340906dfee02e5f583c16c49bfe5f304b435f9d12496c81c83f2d6327bbf521",
+  "fileCount": 983,
+  "assetProbes": [
+    "assets/AdminRoot-DSZuhL67.js",
+    "assets/ui-CQvlsT9M.js",
+    "assets/AiChat-Bd9dfE8N.js"
+  ],
+  "chatProviders": [
+    "click",
+    "payme"
+  ],
+  "studioPayments": {
+    "mode": "live",
+    "providers": [
+      "click",
+      "payme"
+    ]
+  },
+  "plans": [
+    [
+      "kunlik",
+      5900
+    ],
+    [
+      "oylik",
+      39900
+    ]
+  ],
+  "studioPages": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "callback": [
+    {
+      "keyMode": "live",
+      "unknownTransactionCode": -31003
+    },
+    {
+      "keyMode": "test",
+      "unknownTransactionCode": -31003
+    }
+  ],
+  "invalidAuthCode": -32504,
+  "chatCheckout": {
+    "host": "checkout.paycom.uz",
+    "amountTiyin": 2000000,
+    "idempotent": true,
+    "pending": true,
+    "access": null,
+    "receipts": [],
+    "fiscalDetail": {
+      "receipt_type": 0,
+      "items": [
+        {
+          "title": "AI paket 300 (xizmat, 1 oy)",
+          "price": 2000000,
+          "count": 1,
+          "code": "10305008002000000",
+          "package_code": "1514296",
+          "vat_percent": 12
+        }
+      ]
+    },
+    "wrongAmountCode": -31001,
+    "wrongModeCode": -31050
+  },
+  "realPaymentVerified": false,
+  "fiscalReceiptVerified": false,
+  "deploymentUrl": "https://ecaee3bc.ai-direct-pro-landing.pages.dev",
+  "buildComparison": {
+    "oldFiles": 984,
+    "newFiles": 984,
+    "added": [],
+    "removed": [],
+    "changed": [
+      "gptbot-release.json"
+    ]
+  },
+  "ui": {
+    "checkedAt": "2026-10-07T15:27:53.586Z",
+    "width": 360,
+    "height": 740,
+    "chatRu": true,
+    "chatUz": true,
+    "studioKunlik": true,
+    "studioOylik": true,
+    "providers": [
+      "click",
+      "payme"
+    ],
+    "studioHorizontalOverflow": false,
+    "realPayment": false
+  },
+  "checks": {
+    "targetedPassed": 166,
+    "builtChecksPassed": 13,
+    "historicalSkipped": 4,
+    "typecheckExit": 0,
+    "lintExit": 0,
+    "buildExit": 0,
+    "guardExit": 0,
+    "deployExit": 0
+  },
+  "studioServerCheckoutVerifiedLocally": true,
+  "studioLiveUnpaidOrderCreated": false,
+  "financialAcceptanceRequired": [
+    "Платёж картой владельца",
+    "Права купленного продукта",
+    "Реальный электронный чек",
+    "Возврат при необходимости"
+  ]
+}
