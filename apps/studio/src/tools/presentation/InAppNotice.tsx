@@ -11,10 +11,11 @@
  * head script recognised an in-app browser (inapp.ts INAPP_HEAD_SCRIPT):
  * from the first paint, so nothing below ever jumps.
  *   InAppNotice  above the submit button: one row, «Brauzerda oching» and a
- *                small «Nusxalash» copy button, 8 px above the submit
+ *                small «Nusxalash» copy button (an 18 px pill inside a 44 px
+ *                touch target that takes no room), 8 px above the submit
  *                button, so the warning stands before the button and the
- *                button still ends on the first screen of a 360 × 640 phone
- *                (check-pages.ts in-app);
+ *                button still ends on the first screen of Telegram's
+ *                360 × 612 (check-pages.ts in-app, device-check.ts);
  *   InAppNote    right under the submit button: why, and the menu way.
  * Under the download button, `compact`: the line about the file, with the
  * copy button; it renders only in an in-app browser.
@@ -31,6 +32,7 @@ export interface InAppNoticeProps {
 
 const BOX = 'st:rounded-xl st:border st:border-studio-saffron/50 st:bg-studio-saffron/10 st:text-sm st:text-studio-text';
 const FOCUS = 'st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-saffron';
+const GROUP_FOCUS = 'st:group-focus-visible:outline-2 st:group-focus-visible:outline-offset-2 st:group-focus-visible:outline-studio-saffron';
 
 export function InAppNotice({ texts, compact = false }: InAppNoticeProps) {
   const [copy, setCopy] = useState<'idle' | 'copied' | 'failed'>('idle');
@@ -48,13 +50,18 @@ export function InAppNotice({ texts, compact = false }: InAppNoticeProps) {
       <div className={`${BOX} st:px-3 st:py-1.5`} role="note" data-studio-inapp="" data-studio-inapp-slot="">
         <div className="st:flex st:flex-wrap st:items-center st:justify-between st:gap-x-2 st:gap-y-1">
           <span className="st:font-semibold st:text-studio-saffron">{texts.inAppTitle}</span>
+          {/* The pill is 18 px in the row; the button around it is 44 px high (the touch target) and takes no more room. */}
           <button
             type="button"
             onClick={onCopy}
             aria-label={texts.copyLink}
-            className={`st:shrink-0 st:rounded-md st:border st:border-studio-saffron/60 st:px-2 st:text-xs st:leading-4 st:font-semibold st:text-studio-saffron ${FOCUS}`}
+            className="st:group st:-my-[13px] st:flex st:min-h-11 st:shrink-0 st:items-center st:outline-none"
           >
-            {texts.copyShort}
+            <span
+              className={`st:rounded-md st:border st:border-studio-saffron/60 st:px-2 st:text-xs st:leading-4 st:font-semibold st:text-studio-saffron ${GROUP_FOCUS}`}
+            >
+              {texts.copyShort}
+            </span>
           </button>
           {status}
         </div>
@@ -67,7 +74,7 @@ export function InAppNotice({ texts, compact = false }: InAppNoticeProps) {
       <button
         type="button"
         onClick={onCopy}
-        className={`st:rounded-lg st:border st:border-studio-saffron/60 st:px-3 st:py-2 st:text-sm st:font-semibold st:text-studio-saffron ${FOCUS}`}
+        className={`st:min-h-11 st:rounded-lg st:border st:border-studio-saffron/60 st:px-3 st:py-2 st:text-sm st:font-semibold st:text-studio-saffron ${FOCUS}`}
       >
         {texts.copyLink}
       </button>

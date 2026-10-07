@@ -21,14 +21,19 @@
  *            island's module script.
  *   <body data-studio>
  *            header: GPTBot.uz (→ /uz/, or / on a Russian page; never /ru/,
- *            which is a 301 to /), the published tools, the site's AI chat
- *            item of the page's language (src/shared/site-chat-nav.ts: every
- *            site header names the chat once, revision 2026-10-06-seo-push
- *            R3-10; shown from 640 px like the blog header's, so the phone's
- *            header stays one row and the form keeps its place), a language
- *            switch only when the translation is published; breadcrumb; the
- *            H1 and the honesty line; #studio-root with the form's first state and
- *            nothing else; the text, the FAQ, the links; the footer from
+ *            which is a 301 to /), the published tools (the page's own one
+ *            from 640 px: on a phone the breadcrumb and the H1 name it), the
+ *            site's AI chat item of the page's language
+ *            (src/shared/site-chat-nav.ts: every site header names the chat
+ *            once, revision 2026-10-06-seo-push R3-10; shown from 640 px like
+ *            the blog header's), a language switch only when the translation
+ *            is published; every header link 44 px high and the header one
+ *            row on a 320 px phone, so the form keeps its place on the first
+ *            screen (device-check.ts: 320 × 568, Telegram's 360 × 612);
+ *            breadcrumb (its link 44 px high without moving the H1); the H1
+ *            (24 px under 360 px, 26 px under 640 px) and the honesty line;
+ *            #studio-root with the form's first state and nothing else; the
+ *            text, the FAQ, the links; the footer from
  *            content/global/legal-entity.json with the e-mail behind
  *            <!--email_off-->.
  *
@@ -277,6 +282,14 @@ export interface StudioRenderContext {
 
 const LINK = 'st:text-studio-cyan st:underline st:underline-offset-2 st:hover:text-studio-text';
 
+/**
+ * A link that stands alone (header, footer) is at least 44 px high, the touch
+ * target of device-check.ts; links inside a sentence (LINK) are not, as WCAG
+ * 2.5.8 excepts them. TAP_FROM_SM: the same, shown from 640 px only.
+ */
+const TAP = 'st:inline-flex st:min-h-11 st:items-center';
+const TAP_FROM_SM = 'st:hidden st:min-h-11 st:items-center st:sm:inline-flex';
+
 function paragraphHtml(paragraph: StudioParagraph): string {
   if (typeof paragraph === 'string') return escapeHtml(paragraph);
   const byToken = new Map(paragraph.links.map((link) => [link.token, link]));
@@ -288,7 +301,7 @@ function paragraphHtml(paragraph: StudioParagraph): string {
 }
 
 function sectionHtml(section: StudioSection): string {
-  const heading = `<h2 id="${section.id}-title" class="st:text-2xl st:font-semibold st:leading-snug st:text-studio-text">${escapeHtml(section.h2)}</h2>`;
+  const heading = `<h2 id="${section.id}-title" class="st:text-xl st:font-semibold st:leading-snug st:text-studio-text st:sm:text-2xl">${escapeHtml(section.h2)}</h2>`;
   let body = '';
   if (section.steps) {
     body = `<ol class="st:mt-4 st:space-y-4">${section.steps.map((step, i) => `<li class="st:flex st:gap-3">`
@@ -349,13 +362,13 @@ export function renderStudioPage(page: StudioPageRecord, context: StudioRenderCo
     .map((other) => {
       const current = other.url === page.url;
       const name = typeof other.data.toolName === 'string' ? other.data.toolName : other.url;
-      return `<a href="${escapeHtml(other.url)}"${current ? ' aria-current="page"' : ''} class="${current ? 'st:font-semibold st:text-studio-text' : 'st:text-studio-muted st:hover:text-studio-text'}">${escapeHtml(name)}</a>`;
+      return `<a href="${escapeHtml(other.url)}"${current ? ' aria-current="page"' : ''} class="${current ? `${TAP_FROM_SM} st:font-semibold st:text-studio-text` : `${TAP} st:text-studio-muted st:hover:text-studio-text`}">${escapeHtml(name)}</a>`;
     });
   const chat = SITE_CHAT_NAV[content.locale];
-  const chatItem = `<a href="${escapeHtml(chat.href)}" class="st:hidden st:text-studio-muted st:hover:text-studio-text st:sm:inline">${escapeHtml(chat.label)}</a>`;
+  const chatItem = `<a href="${escapeHtml(chat.href)}" class="${TAP_FROM_SM} st:text-studio-muted st:hover:text-studio-text">${escapeHtml(chat.label)}</a>`;
   const other = alternates ? (content.locale === 'uz' ? { url: alternates.ru, locale: 'ru' as const } : { url: alternates.uz, locale: 'uz' as const }) : null;
   const languageSwitch = other
-    ? `<a href="${escapeHtml(other.url)}" hreflang="${other.locale}" lang="${other.locale}" class="st:ml-auto st:rounded-lg st:border st:border-studio-line st:px-3 st:py-1.5 st:text-sm st:text-studio-muted st:hover:text-studio-text">${escapeHtml(CHROME[other.locale].language)}</a>`
+    ? `<a href="${escapeHtml(other.url)}" hreflang="${other.locale}" lang="${other.locale}" class="st:ml-auto ${TAP} st:rounded-lg st:border st:border-studio-line st:px-3 st:text-sm st:text-studio-muted st:hover:text-studio-text">${escapeHtml(CHROME[other.locale].language)}</a>`
     : '';
   const hreflang = alternates
     ? [`<link rel="alternate" hreflang="ru" href="${escapeHtml(global.siteUrl + alternates.ru)}" />`,
@@ -408,21 +421,21 @@ ${METRIKA_HEAD}
 <a href="#main" class="st:sr-only st:focus:not-sr-only st:focus:absolute st:focus:left-2 st:focus:top-2 st:focus:z-50 st:focus:rounded-lg st:focus:bg-studio-text st:focus:px-4 st:focus:py-3 st:focus:text-studio-bg">${escapeHtml(chrome.skip)}</a>
 ${METRIKA_NOSCRIPT}
 <header class="st:border-b st:border-studio-line">
-<div class="st:mx-auto st:flex st:max-w-3xl st:flex-wrap st:items-center st:gap-x-5 st:gap-y-2 st:px-4 st:py-3 st:sm:px-6">
-<a href="${chrome.home}" class="st:text-base st:font-semibold st:text-studio-text">${escapeHtml(global.siteName)}</a>
+<div class="st:mx-auto st:flex st:max-w-3xl st:flex-wrap st:items-center st:gap-x-5 st:gap-y-2 st:px-4 st:py-1.5 st:sm:px-6">
+<a href="${chrome.home}" class="${TAP} st:text-base st:font-semibold st:text-studio-text">${escapeHtml(global.siteName)}</a>
 <nav aria-label="${escapeHtml(chrome.tools)}" class="st:flex st:flex-wrap st:gap-x-4 st:text-sm">${tools.join('')}${chatItem}</nav>
 ${languageSwitch}
 </div>
 </header>
 <main id="main" class="st:mx-auto st:max-w-3xl st:px-4 st:pb-16 st:pt-4 st:sm:px-6">
-<nav aria-label="${escapeHtml(chrome.breadcrumb)}" class="st:text-sm st:text-studio-muted"><ol class="st:flex st:flex-wrap st:gap-x-2"><li><a href="${chrome.home}" class="st:hover:text-studio-text">${escapeHtml(global.siteName)}</a></li><li aria-hidden="true">›</li><li aria-current="page">${escapeHtml(content.toolName)}</li></ol></nav>
-<h1 class="st:mt-3 st:text-3xl st:font-bold st:leading-tight st:text-studio-text st:sm:text-4xl">${escapeHtml(content.h1)}</h1>
+<nav aria-label="${escapeHtml(chrome.breadcrumb)}" class="st:text-sm st:text-studio-muted"><ol class="st:flex st:flex-wrap st:gap-x-2"><li><a href="${chrome.home}" class="st:-my-3 st:flex st:min-h-11 st:items-center st:hover:text-studio-text">${escapeHtml(global.siteName)}</a></li><li aria-hidden="true">›</li><li aria-current="page">${escapeHtml(content.toolName)}</li></ol></nav>
+<h1 class="st:mt-3 st:text-2xl st:font-bold st:leading-tight st:text-studio-text st:min-[360px]:text-[1.625rem] st:sm:text-4xl">${escapeHtml(content.h1)}</h1>
 <p data-studio-honesty class="st:mt-2 st:text-sm st:text-studio-muted">${escapeHtml(content.honesty)}</p>
 <div id="studio-root" data-tool="${content.tool}" class="st:mt-5">${island}</div>
 <p class="st:mt-10 st:text-base st:leading-relaxed st:text-studio-text">${escapeHtml(content.lead)}</p>
 ${content.sections.map(sectionHtml).join('\n')}
 <section id="faq" aria-labelledby="faq-title" class="st:mt-12">
-<h2 id="faq-title" class="st:text-2xl st:font-semibold st:leading-snug st:text-studio-text">${escapeHtml(content.faqTitle)}</h2>
+<h2 id="faq-title" class="st:text-xl st:font-semibold st:leading-snug st:text-studio-text st:sm:text-2xl">${escapeHtml(content.faqTitle)}</h2>
 ${content.faq.map((item) => `<div class="st:mt-4 st:rounded-2xl st:border st:border-studio-line st:bg-studio-surface st:p-4"><h3 class="st:text-lg st:font-semibold st:text-studio-text">${escapeHtml(item.q)}</h3><p class="st:mt-2 st:text-base st:leading-relaxed st:text-studio-muted">${escapeHtml(item.a)}</p></div>`).join('\n')}
 </section>
 <p class="st:mt-12 st:text-base st:leading-relaxed st:text-studio-muted">${paragraphHtml(content.links)}</p>
@@ -431,7 +444,7 @@ ${content.faq.map((item) => `<div class="st:mt-4 st:rounded-2xl st:border st:bor
 <footer class="st:border-t st:border-studio-line">
 <div class="st:mx-auto st:max-w-3xl st:space-y-1 st:px-4 st:py-8 st:text-sm st:text-studio-muted st:sm:px-6">
 <p>${escapeHtml(context.site.entity.shortName[content.locale])} · ${escapeHtml(chrome.taxId)} ${escapeHtml(context.site.entity.stir)}</p>
-<p class="st:flex st:flex-wrap st:gap-x-4 st:gap-y-1"><a href="tel:${escapeHtml(context.site.phone)}" class="st:hover:text-studio-text">${escapeHtml(phoneDisplay)}</a><a href="mailto:${escapeHtml(context.site.email)}" class="st:hover:text-studio-text">${escapeHtml(context.site.email)}</a><a href="${chrome.privacy.href}" class="st:hover:text-studio-text">${escapeHtml(chrome.privacy.label)}</a></p>
+<p class="st:flex st:flex-wrap st:gap-x-4"><a href="tel:${escapeHtml(context.site.phone)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(phoneDisplay)}</a><a href="mailto:${escapeHtml(context.site.email)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(context.site.email)}</a><a href="${chrome.privacy.href}" class="${TAP} st:hover:text-studio-text">${escapeHtml(chrome.privacy.label)}</a></p>
 </div>
 </footer>
 </body>

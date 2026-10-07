@@ -73,7 +73,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     topicPlaceholder: 'Masalan: Amir Temur davlati',
     topicHint: '3 tadan 200 tagacha belgi',
     audienceLabel: 'Kim uchun',
-    audience: { maktab: 'Maktab o‘quvchisi', talaba: 'Talaba', umumiy: 'Hamma uchun' },
+    audience: { maktab: 'O‘quvchi', talaba: 'Talaba', umumiy: 'Hamma uchun' },
     slidesLabel: 'Slaydlar soni',
     submit: 'Taqdimot tayyorlash',
     submitBusy: 'Tayyorlanmoqda…',
@@ -119,7 +119,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
   },
   ru: {
     topicLabel: 'Тема презентации',
-    topicPlaceholder: 'Например: Государство Амира Темура',
+    topicPlaceholder: 'Например: Шёлковый путь',
     topicHint: 'От 3 до 200 символов',
     audienceLabel: 'Для кого',
     audience: { maktab: 'Школьник', talaba: 'Студент', umumiy: 'Для всех' },

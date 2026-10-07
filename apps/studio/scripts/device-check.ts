@@ -5,28 +5,50 @@
  *   npx tsx apps/studio/scripts/device-check.ts --origin http://127.0.0.1:8788 --out <dir>
  *            [--decks ios-safari,android-chrome,...]   profiles that make a real deck (default: none)
  *            [--pages uz,ru]                           pages to open in every profile
+ *            [--schemes light,dark]                    colour schemes each page is opened in (default both)
+ *            [--profiles a,b]                          only these profiles (default: all)
+ *            [--replay <dir>/<profile>-<locale>.recording.json]
+ *                                                      every profile plays a recorded deck (no generation)
  *
  * --origin is a running site: `wrangler pages dev dist` with STUDIO_LOCAL_DEV
  * (the release rehearsal) or https://gptbot.uz after the deploy. A deck is a
  * real generation (Z.ai, Workers AI) and spends that browser's free deck of
  * the day, so --decks is explicit; without it nothing is generated.
  *
+ * Each real deck also leaves <out>/<profile>-<locale>.recording.json (and its
+ * pictures): the studio API's answers in order. --replay serves those answers
+ * to the page instead of the site (Playwright routes every /api/studio/ call,
+ * nothing reaches the server), so the result, the download and the limit
+ * after it are checked on every screen and in both schemes without spending
+ * a deck. The test Turnstile key in a local recording passes on any host.
+ *
  * Every profile is Chromium (the local Chrome) with the device's user agent,
  * screen, pixel ratio and touch; Telegram's in-app bridge
  * (window.TelegramWebviewProxy) is injected the way its in-app browser has it.
  *
- * For each profile and page:
+ * For each profile, page and colour scheme (prefers-color-scheme light and
+ * dark: the studio has one dark look, and nothing may half-switch):
  *   page     200, the island hydrates, one H1, no sideways scroll, the submit
  *            button on the first screen and at least 44 px high, form fields
  *            at least 16 px (smaller makes iOS zoom in on focus), the
  *            «Brauzerda oching» notice shown exactly in an in-app browser and
- *            before the button, layout shift < 0.05, no console error.
- * For each --decks profile, on its first page:
+ *            before the button, layout shift < 0.05, no console error;
+ *   view     nothing overlaps (the line boxes of the visible text, the form
+ *            controls and the pictures; a thing and what it contains do not
+ *            count), no text cut off (a select's chosen option, a field's
+ *            placeholder, a box that hides its overflow), on a touch screen
+ *            every link and control at least 44 × 44 px (a link inside a
+ *            sentence excepted, as WCAG 2.5.8 does), and every text at WCAG
+ *            AA contrast (axe-core color-contrast; skipped if absent); the
+ *            first screen is saved as <out>/shots/<profile>-<locale>-<scheme>.jpg.
+ * For each --decks profile, on its first page (with --replay: every profile,
+ * every scheme):
  *   deck     the real flow: topic, audience, slides, submit, wait (≤150 s);
  *            the result cards hold their text (nothing clipped), the pictures
  *            come from blob: URLs and load, the Uzbek text uses ‘ and ’ (no
- *            ASCII apostrophe in o‘/g‘ and no Cyrillic); the download saves
- *            a .pptx; a second submit the same day shows the limit at once.
+ *            ASCII apostrophe in o‘/g‘ and no Cyrillic); the result passes the
+ *            view checks above; the download saves a .pptx; a second submit
+ *            the same day shows the limit at once.
  *   pptx     the file unzips; cover, the slides and the AI label slide; the
  *            pictures; every text box laid out in the browser with Arial at
  *            its own size, insets, indents and paragraph gaps fits its box
@@ -38,11 +60,14 @@
  * PowerPoint, Google Slides, WPS and Keynote opening the file. The page tells
  * in-app visitors to open the page in a browser first for exactly that reason.
  *
- * Writes <out>/device-check.json and <out>/<profile>-<locale>.pptx; prints a
- * summary. Exit code 1 when any check fails.
+ * Writes <out>/device-check.json, <out>/<profile>-<locale>.pptx and the
+ * screenshots in <out>/shots/; prints a summary. Exit code 1 when any check
+ * fails.
  */
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import type { Browser, BrowserContext, Page } from 'playwright-core';
@@ -51,6 +76,7 @@ import { TEXTS } from '../src/tools/presentation/texts';
 
 type Locale = 'uz' | 'ru';
 type InApp = 'instagram' | 'telegram' | null;
+type Scheme = 'light' | 'dark';
 
 export interface DeviceProfile {
   readonly id: string;
@@ -68,21 +94,37 @@ export interface DeviceProfile {
 const IOS = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)';
 const ANDROID_WEBVIEW = 'Mozilla/5.0 (Linux; Android 14; SM-A145F Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/129.0.6668.81 Mobile Safari/537.36';
 
+/**
+ * The phones and screens of the check. 320 × 568 is the narrowest phone still
+ * met; 360 × 612 is what Telegram's in-app browser leaves of a 360 × 800
+ * Android screen (status bar, its own title bar, the navigation bar), with
+ * the user agent it sends; 768 × 1024 is a tablet held upright.
+ */
 export const PROFILES: readonly DeviceProfile[] = [
+  { id: 'ios-safari-small', label: 'iPhone SE (1st gen), Safari (320×568)', userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.6 Mobile/15E148 Safari/604.1', viewport: { width: 320, height: 568 }, deviceScaleFactor: 2, mobile: true, inApp: null, ios: true },
   { id: 'ios-safari-se', label: 'iPhone SE, Safari (375×667)', userAgent: `${IOS} Version/17.6 Mobile/15E148 Safari/604.1`, viewport: { width: 375, height: 667 }, deviceScaleFactor: 2, mobile: true, inApp: null, ios: true },
   { id: 'ios-safari', label: 'iPhone 14, Safari (390×844)', userAgent: `${IOS} Version/17.6 Mobile/15E148 Safari/604.1`, viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, mobile: true, inApp: null, ios: true },
   { id: 'android-chrome', label: 'Samsung A14, Chrome (360×800)', userAgent: 'Mozilla/5.0 (Linux; Android 14; SM-A145F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36', viewport: { width: 360, height: 800 }, deviceScaleFactor: 2, mobile: true, inApp: null },
+  { id: 'android-chrome-large', label: 'Android, Chrome (412×915)', userAgent: 'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36', viewport: { width: 412, height: 915 }, deviceScaleFactor: 2.625, mobile: true, inApp: null },
   { id: 'instagram-ios', label: 'Instagram, iPhone (390×844)', userAgent: `${IOS} Mobile/15E148 Instagram 337.0.3.23.54 (iPhone14,5; iOS 17_6; uz_UZ; uz; scale=3.00; 1170x2532; 614066429)`, viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, mobile: true, inApp: 'instagram', ios: true },
   { id: 'instagram-android', label: 'Instagram, Android (360×800)', userAgent: `${ANDROID_WEBVIEW} Instagram 337.0.0.35.102 Android (34/14; 450dpi; 1080x2208; samsung; SM-A145F; a14; mt6769; uz_UZ; 614066429)`, viewport: { width: 360, height: 800 }, deviceScaleFactor: 2, mobile: true, inApp: 'instagram' },
   { id: 'telegram-ios', label: 'Telegram, iPhone (390×844)', userAgent: `${IOS} Mobile/15E148`, viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, mobile: true, inApp: 'telegram', telegramBridge: true, ios: true },
-  { id: 'telegram-android', label: 'Telegram, Android (360×800)', userAgent: ANDROID_WEBVIEW, viewport: { width: 360, height: 800 }, deviceScaleFactor: 2, mobile: true, inApp: 'telegram', telegramBridge: true },
+  { id: 'telegram-android', label: 'Telegram, Android (360×612)', userAgent: `${ANDROID_WEBVIEW} Telegram-Android/11.14.1 (Samsung SM-A145F; Android 14; SDK 34; AVERAGE)`, viewport: { width: 360, height: 612 }, deviceScaleFactor: 2, mobile: true, inApp: 'telegram', telegramBridge: true },
+  { id: 'ipad-safari', label: 'iPad, Safari (768×1024)', userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15', viewport: { width: 768, height: 1024 }, deviceScaleFactor: 2, mobile: true, inApp: null, ios: true },
   { id: 'desktop-chrome', label: 'Desktop Chrome (1366×768)', viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1, mobile: false, inApp: null },
 ];
 
 const PAGES: Record<Locale, string> = { uz: '/uz/taqdimot-ai/', ru: '/ru/prezentatsiya-ai/' };
 
-/** The topic each deck profile asks for (school topics of the 30-topic run). */
-export const DECK_TOPICS: Record<string, { locale: Locale; topic: string; audience: 'maktab' | 'talaba' | 'umumiy'; slides: 4 | 5 | 6 }> = {
+export interface DeckPlan {
+  readonly locale: Locale;
+  readonly topic: string;
+  readonly audience: 'maktab' | 'talaba' | 'umumiy';
+  readonly slides: 4 | 5 | 6;
+}
+
+/** The topic each deck profile asks for (school topics: history, maths, science). */
+export const DECK_TOPICS: Record<string, DeckPlan> = {
   'ios-safari': { locale: 'uz', topic: 'Amir Temur davlati', audience: 'maktab', slides: 6 },
   'android-chrome': { locale: 'ru', topic: 'Круговорот воды в природе', audience: 'maktab', slides: 5 },
   'instagram-android': { locale: 'uz', topic: 'Kasrlarni qo‘shish va ayirish', audience: 'maktab', slides: 4 },
@@ -90,7 +132,10 @@ export const DECK_TOPICS: Record<string, { locale: Locale; topic: string; audien
   'desktop-chrome': { locale: 'uz', topic: 'Fotosintez', audience: 'talaba', slides: 6 },
   'ios-safari-se': { locale: 'ru', topic: 'Великий шёлковый путь', audience: 'talaba', slides: 6 },
   'instagram-ios': { locale: 'uz', topic: 'Suvning tabiatda aylanishi', audience: 'maktab', slides: 5 },
-  'telegram-android': { locale: 'ru', topic: 'Солнечная система', audience: 'maktab', slides: 4 },
+  'telegram-android': { locale: 'ru', topic: 'Великий шёлковый путь', audience: 'talaba', slides: 6 },
+  'ios-safari-small': { locale: 'uz', topic: 'Pifagor teoremasi', audience: 'maktab', slides: 5 },
+  'android-chrome-large': { locale: 'ru', topic: 'Квадратные уравнения', audience: 'maktab', slides: 6 },
+  'ipad-safari': { locale: 'ru', topic: 'Солнечная система', audience: 'maktab', slides: 4 },
 };
 
 export const LIMITS = { layoutShift: 0.05, tapTarget: 44, iosFieldFont: 16, deckSeconds: 150 } as const;
@@ -103,9 +148,37 @@ export const LIMITS = { layoutShift: 0.05, tapTarget: 44, iosFieldFont: 16, deck
  */
 export const NAME_SHIM = 'globalThis.__name = globalThis.__name || ((target) => target);';
 
+/** axe-core's browser build (a dev dependency of the site), or null when it is not installed. */
+const AXE_SOURCE: string | null = (() => {
+  try {
+    return fs.readFileSync(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
+  } catch {
+    return null;
+  }
+})();
+
+/** What the view checks found on one screen. */
+export interface ViewAudit {
+  /** Pairs of things drawn over each other. */
+  overlaps: string[];
+  /** Links and controls under 44 × 44 px on a touch screen. */
+  smallTargets: string[];
+  /** Links inside a sentence, excepted from the target size (WCAG 2.5.8 «inline»). */
+  inlineLinks: number;
+  /** Text that does not fit where it is shown. */
+  clipped: string[];
+  /**
+   * axe-core color-contrast at WCAG AA, text over the page's gradient worked
+   * out here (`gradients`: how many); `incomplete`: what neither could judge.
+   * Null when axe-core is absent.
+   */
+  contrast: { violations: string[]; gradients: number; incomplete: number; incompleteSamples: string[] } | null;
+}
+
 export interface PageResult {
   profile: string;
   locale: Locale;
+  scheme: Scheme;
   status: number;
   hydrated: boolean;
   h1: number;
@@ -117,6 +190,15 @@ export interface PageResult {
   noticeShown: boolean;
   noticeBeforeSubmit: boolean;
   layoutShift: number;
+  view: ViewAudit;
+  screenshot: string;
+  /**
+   * A hash of every drawn element's colours (text, background, gradient,
+   * border, color-scheme): the same in both schemes means nothing switched.
+   * (Screenshots are not compared: a gradient's dithering differs by a few
+   * levels from one paint to the next.)
+   */
+  styleSha: string;
   failures: string[];
 }
 
@@ -131,6 +213,8 @@ export interface BoxFit {
 export interface DeckResult {
   profile: string;
   locale: Locale;
+  scheme: Scheme;
+  replayed: boolean;
   topic: string;
   seconds: number | null;
   outcome: string;
@@ -139,6 +223,8 @@ export interface DeckResult {
   clippedCards: number[];
   asciiApostrophes: string[];
   cyrillicInUz: boolean;
+  view: ViewAudit | null;
+  screenshot: string | null;
   file: string | null;
   bytes: number;
   pptx: {
@@ -152,6 +238,29 @@ export interface DeckResult {
   } | null;
   limitAfter: string;
   failures: string[];
+}
+
+/** One answer of the studio API, as the page received it. */
+export interface RecordedCall {
+  method: string;
+  /** The path after /api/studio/, the job id written `:job`. */
+  path: string;
+  /** For a picture: its index in the request. */
+  index: number | null;
+  status: number;
+  contentType: string;
+  /** A text answer. */
+  body: string | null;
+  /** A binary answer (a picture), next to the recording. */
+  file: string | null;
+}
+
+export interface Recording {
+  recordedAt: string;
+  origin: string;
+  profile: string;
+  plan: DeckPlan;
+  calls: RecordedCall[];
 }
 
 function findChrome(): string {
@@ -201,10 +310,238 @@ function watchConsole(page: Page, errors: string[]): void {
   page.on('pageerror', (error) => errors.push(`pageerror: ${error.message.slice(0, 200)}`));
 }
 
-async function checkPage(context: BrowserContext, origin: string, profile: DeviceProfile, locale: Locale): Promise<{ result: PageResult; page: Page }> {
+/** Overlaps, cut-off text and small targets of what the page shows now (runs in the page). */
+async function layoutAudit(page: Page, touch: boolean): Promise<Omit<ViewAudit, 'contrast'>> {
+  return page.evaluate(({ touch, minTarget }) => {
+    const describe = (el: Element): string => {
+      const text = (el.getAttribute('aria-label') || (el as HTMLInputElement).placeholder || el.textContent || (el as HTMLInputElement).name || '')
+        .trim().replace(/\s+/g, ' ').slice(0, 32);
+      return `${el.tagName.toLowerCase()}«${text}»`;
+    };
+    const seen = new Map<Element, boolean>();
+    /** Not drawn: display, visibility, opacity, or visually hidden for screen readers only (sr-only). */
+    const hidden = (el: Element): boolean => {
+      const known = seen.get(el);
+      if (known !== undefined) return known;
+      let result = !(el as HTMLElement).checkVisibility({ opacityProperty: true, visibilityProperty: true });
+      for (let node: Element | null = el; !result && node && node !== document.documentElement; node = node.parentElement) {
+        const style = getComputedStyle(node);
+        if (style.clipPath.startsWith('inset(50%')) result = true;
+        else if (style.position === 'absolute' && style.clip && style.clip !== 'auto') result = true;
+        else if (style.position === 'absolute' && style.overflow === 'hidden' && (node.clientWidth <= 1 || node.clientHeight <= 1)) result = true;
+      }
+      seen.set(el, result);
+      return result;
+    };
+
+    // What is drawn: the line boxes of the visible text, the controls and the pictures.
+    interface Item { el: Element; rect: DOMRect; label: string; box: boolean }
+    const items: Item[] = [];
+    const NOT_TEXT = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'SELECT', 'OPTION', 'OPTGROUP', 'TEXTAREA', 'TITLE']);
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      const text = (node.textContent ?? '').trim();
+      const parent = node.parentElement;
+      if (!text || !parent || NOT_TEXT.has(parent.tagName) || hidden(parent)) continue;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      for (const rect of Array.from(range.getClientRects())) {
+        if (rect.width > 0.5 && rect.height > 0.5) items.push({ el: parent, rect, label: `«${text.slice(0, 32)}»`, box: false });
+      }
+    }
+    for (const el of Array.from(document.querySelectorAll('input:not([type="hidden"]), select, textarea, button, img, svg, iframe, video, canvas'))) {
+      // A decorative icon (aria-hidden) sits on its control on purpose.
+      if (hidden(el) || el.closest('[aria-hidden="true"]')) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.width >= 1 && rect.height >= 1) items.push({ el, rect, label: describe(el), box: true });
+    }
+    const overlaps = new Set<string>();
+    for (let i = 0; i < items.length; i += 1) {
+      for (let j = i + 1; j < items.length; j += 1) {
+        const a = items[i];
+        const b = items[j];
+        if (a.el === b.el) continue;
+        // A control and what it holds (its own text, an icon) are one thing.
+        if ((a.box && a.el.contains(b.el)) || (b.box && b.el.contains(a.el))) continue;
+        const ix = Math.min(a.rect.right, b.rect.right) - Math.max(a.rect.left, b.rect.left);
+        const iy = Math.min(a.rect.bottom, b.rect.bottom) - Math.max(a.rect.top, b.rect.top);
+        if (ix > 2 && iy > Math.max(2, 0.3 * Math.min(a.rect.height, b.rect.height))) {
+          overlaps.add(`${a.label} ↔ ${b.label} at ${Math.round(Math.max(a.rect.left, b.rect.left))},${Math.round(Math.max(a.rect.top, b.rect.top) + window.scrollY)}`);
+        }
+      }
+    }
+
+    // Text that does not fit: every option of a select, a field's placeholder, a box that hides its overflow.
+    const clipped: string[] = [];
+    const context = document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D;
+    const width = (text: string, el: Element) => {
+      const style = getComputedStyle(el);
+      context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      return context.measureText(text).width;
+    };
+    const room = (el: HTMLElement) => {
+      const style = getComputedStyle(el);
+      return el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    };
+    for (const select of Array.from(document.querySelectorAll('select'))) {
+      if (hidden(select)) continue;
+      // A native arrow (appearance: auto) takes about 20 px of the content box.
+      const space = room(select) - (getComputedStyle(select).appearance === 'none' ? 0 : 20);
+      for (const option of Array.from(select.options)) {
+        const need = width(option.text, select);
+        if (need > space + 1) clipped.push(`${describe(select)} option «${option.text}»: ${Math.round(need)} > ${Math.round(space)} px`);
+      }
+    }
+    for (const field of Array.from(document.querySelectorAll('input[placeholder], textarea[placeholder]')) as HTMLInputElement[]) {
+      if (hidden(field) || !field.placeholder) continue;
+      const need = width(field.placeholder, field);
+      if (need > room(field) + 1) clipped.push(`${describe(field)} placeholder: ${Math.round(need)} > ${Math.round(room(field))} px`);
+    }
+    for (const el of Array.from(document.body.querySelectorAll('*')) as HTMLElement[]) {
+      if (NOT_TEXT.has(el.tagName) || el.tagName === 'INPUT' || hidden(el)) continue;
+      if (!Array.from(el.childNodes).some((child) => child.nodeType === Node.TEXT_NODE && (child.textContent ?? '').trim())) continue;
+      const style = getComputedStyle(el);
+      const cutX = style.overflowX !== 'visible' && el.scrollWidth > el.clientWidth + 1;
+      const cutY = style.overflowY !== 'visible' && el.scrollHeight > el.clientHeight + 1;
+      if (cutX || cutY) clipped.push(`${describe(el)}: ${el.scrollWidth}×${el.scrollHeight} in ${el.clientWidth}×${el.clientHeight}`);
+    }
+
+    // Tap targets on a touch screen.
+    const smallTargets: string[] = [];
+    let inlineLinks = 0;
+    if (touch) {
+      for (const el of Array.from(document.querySelectorAll('a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"], [role="link"]'))) {
+        if (hidden(el)) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.width >= minTarget - 0.5 && rect.height >= minTarget - 0.5) continue;
+        if (el.tagName === 'A' && getComputedStyle(el).display === 'inline') {
+          let block = el.parentElement;
+          while (block && getComputedStyle(block).display.startsWith('inline')) block = block.parentElement;
+          if (block && (block.textContent ?? '').trim().length > (el.textContent ?? '').trim().length + 2) {
+            inlineLinks += 1;
+            continue;
+          }
+        }
+        smallTargets.push(`${describe(el)} ${Math.round(rect.width)}×${Math.round(rect.height)}`);
+      }
+    }
+    return { overlaps: [...overlaps].slice(0, 20), smallTargets, inlineLinks, clipped };
+  }, { touch, minTarget: LIMITS.tapTarget });
+}
+
+/**
+ * WCAG AA contrast of every text on the page (axe-core color-contrast), or
+ * null without axe-core. axe cannot judge text over a gradient (the site's
+ * body has three soft radial glows) and leaves it «incomplete»; for those the
+ * worst case is computed here instead: the text against the nearest solid
+ * background, against each gradient colour over it, and against all of them
+ * stacked (the lightest the glows can make a dark page).
+ */
+async function contrastAudit(page: Page): Promise<ViewAudit['contrast']> {
+  if (!AXE_SOURCE) return null;
+  await page.evaluate(AXE_SOURCE);
+  return page.evaluate(async () => {
+    interface AxeNode { target: string[]; any: Array<{ data?: Record<string, unknown>; message?: string }> }
+    interface AxeRule { nodes: AxeNode[] }
+    interface Rgba { r: number; g: number; b: number; a: number }
+    const axe = (window as unknown as { axe: { run: (context: unknown, options: unknown) => Promise<{ violations: AxeRule[]; incomplete: AxeRule[] }> } }).axe;
+    const result = await axe.run(document, {
+      runOnly: { type: 'rule', values: ['color-contrast'] },
+      resultTypes: ['violations', 'incomplete'],
+      iframes: false,
+    });
+    const violations = result.violations.flatMap((rule) => rule.nodes.map((node) => {
+      const data = node.any[0]?.data ?? {};
+      return `${node.target.join(' ')}: ${String(data.fgColor)} on ${String(data.bgColor)} = ${String(data.contrastRatio)}:1, needs ${String(data.expectedContrastRatio)}`;
+    }));
+    const colours = (value: string): Rgba[] => [...value.matchAll(/rgba?\(([^)]+)\)/g)].map((match) => {
+      const [r, g, b, a] = match[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+      return { r, g, b, a: Number.isFinite(a) ? a : 1 };
+    });
+    const over = (top: Rgba, bottom: Rgba): Rgba => ({
+      r: top.r * top.a + bottom.r * (1 - top.a), g: top.g * top.a + bottom.g * (1 - top.a), b: top.b * top.a + bottom.b * (1 - top.a), a: 1,
+    });
+    const luminance = (c: Rgba) => {
+      const channel = (v: number) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; };
+      return 0.2126 * channel(c.r) + 0.7152 * channel(c.g) + 0.0722 * channel(c.b);
+    };
+    const ratio = (x: Rgba, y: Rgba) => {
+      const [light, dark] = [luminance(x), luminance(y)].sort((p, q) => q - p);
+      return (light + 0.05) / (dark + 0.05);
+    };
+    const unresolved: AxeNode[] = [];
+    let gradients = 0;
+    for (const node of result.incomplete.flatMap((rule) => rule.nodes)) {
+      const el = node.any[0]?.data?.messageKey === 'bgGradient' ? document.querySelector(node.target.at(-1) ?? '') : null;
+      if (!el) {
+        unresolved.push(node);
+        continue;
+      }
+      // The see-through layers under the text, top first, down to what hides
+      // everything below: a solid colour, or a gradient of solid colours (each
+      // of its colours may be the one behind a letter).
+      const layers: Rgba[] = [];
+      let floor: Rgba[] = [{ r: 255, g: 255, b: 255, a: 1 }];
+      for (let at: Element | null = el; at; at = at.parentElement) {
+        const style = getComputedStyle(at);
+        const image = colours(style.backgroundImage);
+        if (image.length && image.every((c) => c.a >= 1)) { floor = image; break; }
+        layers.push(...image.filter((c) => c.a > 0));
+        const solid = colours(style.backgroundColor)[0];
+        if (solid && solid.a >= 1) { floor = [solid]; break; }
+        if (solid && solid.a > 0) layers.push(solid);
+      }
+      const style = getComputedStyle(el);
+      const text = colours(style.color)[0];
+      const backgrounds = floor.flatMap((base) => [
+        base,
+        [...layers].reverse().reduce((under, layer) => over(layer, under), base),
+        ...layers.map((layer) => over(layer, base)),
+      ]);
+      const worst = Math.min(...backgrounds.map((background) => ratio(over(text, background), background)));
+      const size = parseFloat(style.fontSize);
+      const large = size >= 24 || (size >= 18.66 && Number(style.fontWeight) >= 700);
+      const needs = large ? 3 : 4.5;
+      gradients += 1;
+      if (worst < needs) violations.push(`${node.target.join(' ')}: ${style.color} over the gradient, worst ${worst.toFixed(2)}:1, needs ${needs}`);
+    }
+    return {
+      violations,
+      gradients,
+      incomplete: unresolved.length,
+      incompleteSamples: unresolved.slice(0, 5).map((node) => `${node.target.join(' ')}: ${String(node.any[0]?.data?.messageKey ?? node.any[0]?.message ?? '')}`),
+    };
+  });
+}
+
+/** Every view check of the page as it is now; the failures go to `failures`, prefixed with `at`. */
+async function auditView(page: Page, profile: DeviceProfile, at: string, failures: string[]): Promise<ViewAudit> {
+  const view: ViewAudit = { ...(await layoutAudit(page, profile.mobile)), contrast: await contrastAudit(page) };
+  for (const overlap of view.overlaps) failures.push(`${at}: overlap ${overlap}`);
+  for (const target of view.smallTargets) failures.push(`${at}: tap target under ${LIMITS.tapTarget} px: ${target}`);
+  for (const cut of view.clipped) failures.push(`${at}: text cut off: ${cut}`);
+  for (const low of view.contrast?.violations ?? []) failures.push(`${at}: contrast below AA: ${low}`);
+  return view;
+}
+
+function sha16(bytes: Buffer): string {
+  return createHash('sha256').update(bytes).digest('hex').slice(0, 16);
+}
+
+async function checkPage(
+  context: BrowserContext,
+  origin: string,
+  profile: DeviceProfile,
+  locale: Locale,
+  scheme: Scheme,
+  outDir: string,
+  prepare?: (page: Page) => Promise<void>,
+): Promise<{ result: PageResult; page: Page }> {
   const page = await context.newPage();
   const errors: string[] = [];
   watchConsole(page, errors);
+  await page.emulateMedia({ colorScheme: scheme });
+  if (prepare) await prepare(page);
   const response = await page.goto(origin + PAGES[locale], { waitUntil: 'load' });
   const hydrated = await page.waitForSelector('#studio-root[data-island="ready"]', { timeout: 20_000 }).then(() => true, () => false);
   await page.waitForTimeout(1_500);
@@ -228,7 +565,7 @@ async function checkPage(context: BrowserContext, origin: string, profile: Devic
     };
   });
   const failures: string[] = [];
-  const at = `${profile.id} ${PAGES[locale]}`;
+  const at = `${profile.id} ${PAGES[locale]} ${scheme}`;
   const status = response?.status() ?? 0;
   if (status !== 200) failures.push(`${at}: HTTP ${status}`);
   if (!hydrated) failures.push(`${at}: the island never became ready`);
@@ -240,8 +577,16 @@ async function checkPage(context: BrowserContext, origin: string, profile: Devic
   if (probe.noticeShown !== (profile.inApp !== null)) failures.push(`${at}: the in-app notice is ${probe.noticeShown ? 'shown' : 'not shown'}`);
   if (profile.inApp && !probe.noticeBeforeSubmit) failures.push(`${at}: the in-app notice is not before the button`);
   if (!(probe.layoutShift < LIMITS.layoutShift)) failures.push(`${at}: layout shift ${probe.layoutShift}`);
+  const shotFile = path.join('shots', `${profile.id}-${locale}-${scheme}.jpg`);
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  fs.writeFileSync(path.join(outDir, shotFile), await page.screenshot({ type: 'jpeg', quality: 70 }));
+  const styles = await page.evaluate(() => Array.from(document.querySelectorAll('html, body, body *')).map((el) => {
+    const style = getComputedStyle(el);
+    return [el.tagName, style.color, style.backgroundColor, style.backgroundImage, style.borderTopColor, style.colorScheme, style.fill].join('|');
+  }).join(' '));
+  const view = await auditView(page, profile, at, failures);
   for (const error of errors) failures.push(`${at}: console: ${error}`);
-  return { result: { profile: profile.id, locale, status, hydrated, ...probe, failures }, page };
+  return { result: { profile: profile.id, locale, scheme, status, hydrated, ...probe, view, screenshot: shotFile.replace(/\\/g, '/'), styleSha: sha16(Buffer.from(styles)), failures }, page };
 }
 
 /** «o'», «g'» and the tutuq belgisi written with an ASCII or modifier apostrophe instead of ‘ / ’. */
@@ -249,15 +594,78 @@ export function asciiApostrophes(text: string): string[] {
   return [...new Set(text.match(/\p{L}*['`ʻʼ]\p{L}*/gu) ?? [])];
 }
 
-async function makeDeck(page: Page, profile: DeviceProfile, outDir: string): Promise<DeckResult> {
-  const plan = DECK_TOPICS[profile.id];
+/** The path of a studio API URL after /api/studio/, with the job id as `:job`. */
+export function apiPath(url: string): string {
+  return new URL(url).pathname.replace(/^\/api\/studio\//, '').replace(/sj_[A-Za-z0-9]+/, ':job');
+}
+
+function pictureIndex(postData: string | null): number | null {
+  try {
+    const data: unknown = postData ? JSON.parse(postData) : null;
+    const index = (data as { index?: unknown } | null)?.index;
+    return typeof index === 'number' ? index : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Keeps every studio API answer the page receives, in order; pictures go to `dir`. */
+function recordCalls(page: Page, dir: string, name: string): { calls: RecordedCall[]; settled: () => Promise<void> } {
+  const calls: RecordedCall[] = [];
+  const pending: Array<Promise<void>> = [];
+  page.on('response', (response) => {
+    if (!response.url().includes('/api/studio/')) return;
+    const request = response.request();
+    const contentType = response.headers()['content-type'] ?? '';
+    const call: RecordedCall = { method: request.method(), path: apiPath(response.url()), index: pictureIndex(request.postData()), status: response.status(), contentType, body: null, file: null };
+    calls.push(call);
+    pending.push(response.body().then((bytes) => {
+      if (contentType.startsWith('image/')) {
+        call.file = `${name}-picture-${call.index ?? calls.indexOf(call)}.jpg`;
+        fs.writeFileSync(path.join(dir, call.file), bytes);
+      } else {
+        call.body = bytes.toString('utf8');
+      }
+    }, () => undefined));
+  });
+  return { calls, settled: async () => { await Promise.all(pending); } };
+}
+
+/** Serves `recording` to the page for every /api/studio/ call: nothing reaches the site. */
+async function replayCalls(page: Page, recording: Recording, dir: string): Promise<void> {
+  const key = (method: string, apiCall: string, index: number | null) => `${method} ${apiCall}${index === null ? '' : `#${index}`}`;
+  const queues = new Map<string, RecordedCall[]>();
+  for (const call of recording.calls) {
+    const name = key(call.method, call.path, call.index);
+    queues.set(name, [...(queues.get(name) ?? []), call]);
+  }
+  await page.route('**/api/studio/**', async (route) => {
+    const request = route.request();
+    const queue = queues.get(key(request.method(), apiPath(request.url()), pictureIndex(request.postData())));
+    if (!queue?.length) {
+      await route.fulfill({ status: 404, contentType: 'application/json', body: '{"ok":false,"code":"not_found","error":"not recorded"}' });
+      return;
+    }
+    // In order; the last answer repeats.
+    const call = queue.length > 1 ? (queue.shift() as RecordedCall) : queue[0];
+    await route.fulfill({
+      status: call.status,
+      contentType: call.contentType || 'application/json',
+      body: call.file ? fs.readFileSync(path.join(dir, call.file)) : call.body ?? '',
+    });
+  });
+}
+
+async function makeDeck(page: Page, profile: DeviceProfile, plan: DeckPlan, scheme: Scheme, outDir: string, replayed: boolean): Promise<DeckResult> {
   const texts = TEXTS[plan.locale];
   const failures: string[] = [];
-  const at = `${profile.id} deck`;
+  const name = replayed ? `${profile.id}-${plan.locale}-${scheme}` : `${profile.id}-${plan.locale}`;
+  const at = `${profile.id} deck${replayed ? ` (replay, ${scheme})` : ''}`;
   const base: DeckResult = {
-    profile: profile.id, locale: plan.locale, topic: plan.topic, seconds: null, outcome: 'not started', slidesShown: 0, pictures: 0,
-    clippedCards: [], asciiApostrophes: [], cyrillicInUz: false, file: null, bytes: 0, pptx: null, limitAfter: '', failures,
+    profile: profile.id, locale: plan.locale, scheme, replayed, topic: plan.topic, seconds: null, outcome: 'not started', slidesShown: 0, pictures: 0,
+    clippedCards: [], asciiApostrophes: [], cyrillicInUz: false, view: null, screenshot: null, file: null, bytes: 0, pptx: null, limitAfter: '', failures,
   };
+  const recorder = replayed ? null : recordCalls(page, outDir, name);
   await page.click('#studio-root input[name="topic"]');
   await page.fill('#studio-root input[name="topic"]', plan.topic);
   await page.selectOption('#studio-root select[name="audience"]', plan.audience);
@@ -308,11 +716,17 @@ async function makeDeck(page: Page, profile: DeviceProfile, outDir: string): Pro
     if (base.asciiApostrophes.length) failures.push(`${at}: ASCII apostrophes in ${base.asciiApostrophes.slice(0, 5).join(', ')}`);
     if (base.cyrillicInUz) failures.push(`${at}: Cyrillic letters in the Uzbek deck`);
   }
+  base.view = await auditView(page, profile, `${at} result`, failures);
+  const shotFile = path.join('shots', `result-${name}.jpg`);
+  await page.locator('#studio-root').screenshot({ path: path.join(outDir, shotFile), type: 'jpeg', quality: 60 }).then(
+    () => { base.screenshot = shotFile.replace(/\\/g, '/'); },
+    () => failures.push(`${at}: no screenshot of the result`),
+  );
   const [download] = await Promise.all([
     page.waitForEvent('download', { timeout: 60_000 }),
     page.click('#studio-root [data-studio-download] button'),
   ]);
-  const file = path.join(outDir, `${profile.id}-${plan.locale}.pptx`);
+  const file = path.join(outDir, `${name}.pptx`);
   await download.saveAs(file);
   base.file = file;
   base.bytes = fs.statSync(file).size;
@@ -324,6 +738,11 @@ async function makeDeck(page: Page, profile: DeviceProfile, outDir: string): Pro
   base.limitAfter = await page.waitForSelector('#studio-root [data-studio-message]', { timeout: 20_000 })
     .then(async (element) => `${(await element.getAttribute('data-studio-message')) ?? ''} «${((await element.textContent()) ?? '').trim()}»`, () => 'none');
   if (!base.limitAfter.startsWith('free_limit') || !base.limitAfter.includes(texts.messages.free_limit)) failures.push(`${at}: the second submit shows ${base.limitAfter}`);
+  if (recorder) {
+    await recorder.settled();
+    const recording: Recording = { recordedAt: new Date().toISOString(), origin: new URL(page.url()).origin, profile: profile.id, plan, calls: recorder.calls };
+    fs.writeFileSync(path.join(outDir, `${name}.recording.json`), `${JSON.stringify(recording, null, 2)}\n`);
+  }
   return base;
 }
 
@@ -422,7 +841,7 @@ function pythonPptx(file: string): string {
 async function checkPptx(browser: Browser, deck: DeckResult): Promise<void> {
   if (!deck.file) return;
   const { default: JSZip } = await import('jszip');
-  const at = `${deck.profile} pptx`;
+  const at = `${deck.profile} pptx${deck.replayed ? ` (replay, ${deck.scheme})` : ''}`;
   try {
     const zip = await JSZip.loadAsync(fs.readFileSync(deck.file));
     const names = Object.keys(zip.files);
@@ -465,36 +884,44 @@ function argument(name: string): string | null {
 async function main(): Promise<void> {
   const origin = (argument('--origin') ?? '').replace(/\/$/, '');
   const outDir = argument('--out');
-  if (!/^https?:\/\/[^/]+$/.test(origin) || !outDir) throw new Error('Usage: device-check.ts --origin <http(s)://host[:port]> --out <dir> [--decks a,b] [--pages uz,ru]');
+  if (!/^https?:\/\/[^/]+$/.test(origin) || !outDir) {
+    throw new Error('Usage: device-check.ts --origin <http(s)://host[:port]> --out <dir> [--decks a,b | --replay <recording.json>] [--pages uz,ru] [--schemes light,dark] [--profiles a,b]');
+  }
   const deckProfiles = (argument('--decks') ?? '').split(',').map((id) => id.trim()).filter(Boolean);
   for (const id of deckProfiles) if (!DECK_TOPICS[id]) throw new Error(`Unknown deck profile ${id}`);
+  const replayFile = argument('--replay');
+  if (replayFile && deckProfiles.length) throw new Error('--decks makes real decks, --replay plays a recorded one: one or the other.');
+  const replay: Recording | null = replayFile ? JSON.parse(fs.readFileSync(replayFile, 'utf8')) as Recording : null;
+  const replayDir = replayFile ? path.dirname(replayFile) : '';
   const locales = (argument('--pages') ?? 'uz,ru').split(',').filter((locale): locale is Locale => locale === 'uz' || locale === 'ru');
-  fs.mkdirSync(outDir, { recursive: true });
+  const schemes = (argument('--schemes') ?? 'light,dark').split(',').filter((scheme): scheme is Scheme => scheme === 'light' || scheme === 'dark');
+  const only = (argument('--profiles') ?? '').split(',').map((id) => id.trim()).filter(Boolean);
+  for (const id of [...only, ...deckProfiles]) if (!PROFILES.some((profile) => profile.id === id)) throw new Error(`Unknown profile ${id}`);
+  const profiles = PROFILES.filter((profile) => (only.length ? only.includes(profile.id) : true) || deckProfiles.includes(profile.id));
+  if (!locales.length || !schemes.length) throw new Error('--pages and --schemes need at least one value.');
+  fs.mkdirSync(path.join(outDir, 'shots'), { recursive: true });
   const { chromium } = await import('playwright-core');
   const browser = await chromium.launch({ executablePath: findChrome(), headless: true });
   const pages: PageResult[] = [];
   const decks: DeckResult[] = [];
   try {
-    for (const profile of PROFILES) {
+    for (const profile of profiles) {
+      // One context per profile: one browser identity, so one real deck at most.
       const context = await profileContext(browser, profile);
-      const deckPlan = deckProfiles.includes(profile.id) ? DECK_TOPICS[profile.id] : null;
-      for (const locale of locales) {
-        const { result, page } = await checkPage(context, origin, profile, locale);
-        pages.push(result);
-        if (deckPlan && deckPlan.locale === locale) {
-          const deck = await makeDeck(page, profile, outDir);
-          await checkPptx(browser, deck);
-          decks.push(deck);
+      const deckPlan = replay ? replay.plan : deckProfiles.includes(profile.id) ? DECK_TOPICS[profile.id] : null;
+      const pageLocales = deckPlan && !locales.includes(deckPlan.locale) ? [...locales, deckPlan.locale] : locales;
+      for (const locale of pageLocales) {
+        for (const [i, scheme] of schemes.entries()) {
+          const prepare = replay ? (page: Page) => replayCalls(page, replay, replayDir) : undefined;
+          const { result, page } = await checkPage(context, origin, profile, locale, scheme, outDir, prepare);
+          pages.push(result);
+          if (deckPlan && deckPlan.locale === locale && (replay || i === 0)) {
+            const deck = await makeDeck(page, profile, deckPlan, scheme, outDir, replay !== null);
+            await checkPptx(browser, deck);
+            decks.push(deck);
+          }
+          await page.close();
         }
-        await page.close();
-      }
-      if (deckPlan && !locales.includes(deckPlan.locale)) {
-        const { result, page } = await checkPage(context, origin, profile, deckPlan.locale);
-        pages.push(result);
-        const deck = await makeDeck(page, profile, outDir);
-        await checkPptx(browser, deck);
-        decks.push(deck);
-        await page.close();
       }
       await context.close();
     }
@@ -502,11 +929,20 @@ async function main(): Promise<void> {
     await browser.close();
   }
   const failures = [...pages.flatMap((page) => page.failures), ...decks.flatMap((deck) => deck.failures)];
+  // The studio has one dark look: colours that differ between the schemes mean something switched.
+  const schemeDiffs = schemes.length < 2 ? [] : pages
+    .filter((page) => page.scheme === schemes[0])
+    .filter((page) => pages.some((other) => other.profile === page.profile && other.locale === page.locale && other.scheme !== page.scheme && other.styleSha !== page.styleSha))
+    .map((page) => `${page.profile} ${page.locale}`);
   const report = {
     status: failures.length ? 'fail' : 'pass',
     origin,
     checkedAt: new Date().toISOString(),
-    profiles: PROFILES.map(({ id, label }) => ({ id, label })),
+    replay: replayFile,
+    profiles: profiles.map(({ id, label }) => ({ id, label })),
+    schemes,
+    contrast: AXE_SOURCE ? 'axe-core color-contrast (WCAG AA)' : 'skipped: axe-core not installed',
+    schemeDiffs,
     pages,
     decks,
     failures,
@@ -515,7 +951,12 @@ async function main(): Promise<void> {
   console.log(JSON.stringify({
     status: report.status,
     pages: pages.length,
-    decks: decks.map((deck) => ({ profile: deck.profile, topic: deck.topic, seconds: deck.seconds, outcome: deck.outcome, pptx: deck.pptx && { slides: deck.pptx.slides, media: deck.pptx.media, overflow: deck.pptx.overflow.length, python: deck.pptx.pythonPptx } })),
+    contrast: report.contrast,
+    schemeDiffs,
+    decks: decks.map((deck) => ({
+      profile: deck.profile, scheme: deck.scheme, replayed: deck.replayed, topic: deck.topic, seconds: deck.seconds, outcome: deck.outcome,
+      pptx: deck.pptx && { slides: deck.pptx.slides, media: deck.pptx.media, overflow: deck.pptx.overflow.length, python: deck.pptx.pythonPptx },
+    })),
     failures,
   }, null, 2));
   if (failures.length) process.exitCode = 1;
