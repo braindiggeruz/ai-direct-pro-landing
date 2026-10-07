@@ -7,7 +7,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { SqliteD1 } from "./helpers/sqlite-d1";
-import { DAY, HOUR, NOW, bidCookie, call, paidDatabase, paidEnv, paidOrder, studioJson } from "./helpers/studio-paid";
+import { DAY, EDITION, HOUR, NOW, bidCookie, call, editionPlan, paidDatabase, paidEnv, paidOrder, studioJson } from "./helpers/studio-paid";
 import {
   SESSION_AFTER_TARIFF_MS,
   STUDIO_ACCOUNT_COOKIE,
@@ -159,9 +159,11 @@ test("/me with an account: running tariffs with what is left, the newest order a
   assert.deepEqual(body.account, { signedIn: true });
   assert.deepEqual(body.entitlements.map((row: { id: string }) => row.id), [oylik.id]);
   const [tariff] = body.entitlements;
+  // Oylik of the edition sold: 10 decks with 3 used; 40 photo tasks with 7 used, or none at all (decks-only edition).
+  const plan = editionPlan("oylik");
   assert.deepEqual(
     { plan: tariff.plan, orderId: tariff.orderId, presentationsLeft: tariff.presentationsLeft, presentationsLimit: tariff.presentationsLimit, photosLeft: tariff.photosLeft, photosLimit: tariff.photosLimit, regen: tariff.regenAvailable },
-    { plan: "oylik", orderId: oylik.id, presentationsLeft: 7, presentationsLimit: 10, photosLeft: 33, photosLimit: 40, regen: [] },
+    { plan: "oylik", orderId: oylik.id, presentationsLeft: plan.presentationFull - 3, presentationsLimit: plan.presentationFull, photosLeft: Math.max(0, plan.photoTask - 7), photosLimit: plan.photoTask, regen: [] },
   );
   assert.equal(Date.parse(tariff.endsAt), db.value("SELECT ends_at FROM studio_entitlements WHERE id=?", oylik.id));
   assert.equal(body.latestOrder.id, refunded.id);
@@ -181,7 +183,7 @@ test("/me shows the newest order's number while it waits and whether the buyer m
   const db = await paidDatabase();
   const { account: made, header } = await account(db, Date.now());
   const store = new StudioStore(db.asD1());
-  const made1 = await store.createOrder({ userId: made.userId, plan: "kunlik", termsVersion: "ai-paket-2026-10-v3", provider: "payme", serviceId: null, mode: "live", requestId: "o_me_000001", consent: { version: "ai-paket-2026-10-v3", url: "https://gptbot.uz/uz/ommaviy-oferta/", locale: "uz" } });
+  const made1 = await store.createOrder({ userId: made.userId, plan: "kunlik", termsVersion: EDITION, provider: "payme", serviceId: null, mode: "live", requestId: "o_me_000001", consent: { version: EDITION, url: "https://gptbot.uz/uz/ommaviy-oferta/", locale: "uz" } });
   const { body } = await me(paidEnv(db), header);
   assert.deepEqual({ id: body.latestOrder.id, state: body.latestOrder.state, cancellable: body.latestOrder.cancellable, paidAt: body.latestOrder.paidAt }, { id: made1.order.id, state: "pending", cancellable: true, paidAt: null });
   assert.deepEqual(body.entitlements, []);

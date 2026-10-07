@@ -11,8 +11,10 @@ import {
   CONSENT,
   DAY,
   EDITION,
+  EDITION_VERSION,
   HOUR,
   NOW,
+  editionPlan,
   journal,
   paidDatabase,
   paidOrder,
@@ -70,7 +72,7 @@ test("an order: the price of the edition's quota version, pending for 12 hours, 
       state: order.state, created: order.created_at, expires: order.expires_at, ga4: order.ga4_state, owner: order.owner_test,
     },
     {
-      user: "acct_studio_a", plan: "kunlik", version: "studio-2026-11-v1", terms: EDITION, provider: "payme", service: null,
+      user: "acct_studio_a", plan: "kunlik", version: EDITION_VERSION, terms: EDITION, provider: "payme", service: null,
       mode: "live", request: id, amount: 590_000, currency: "UZS", state: "pending", created: NOW,
       expires: NOW + STUDIO_ORDER_TTL_MS, ga4: "none", owner: 0,
     },
@@ -211,7 +213,7 @@ test("markPaid: the entitlement of the order's quota version, the sale's receipt
   assert.equal(paid.ga4_state, "pending");
   assert.deepEqual(
     { id: entitlement.id, order: entitlement.order_id, user: entitlement.user_id, mode: entitlement.mode, plan: entitlement.plan, version: entitlement.plan_version, starts: entitlement.starts_at, ends: entitlement.ends_at, presentations: entitlement.presentations_limit, photos: entitlement.photos_limit, revoked: entitlement.revoked_at },
-    { id: order.id, order: order.id, user: order.user_id, mode: "live", plan: "kunlik", version: "studio-2026-11-v1", starts: paidAt, ends: paidAt + 24 * HOUR, presentations: 1, photos: 5, revoked: null },
+    { id: order.id, order: order.id, user: order.user_id, mode: "live", plan: "kunlik", version: EDITION_VERSION, starts: paidAt, ends: paidAt + 24 * HOUR, presentations: editionPlan("kunlik").presentationFull, photos: editionPlan("kunlik").photoTask, revoked: null },
   );
   // Payme prints and reports its own receipt (SetFiscalData): our queue never claims this row.
   const receipt = db.rows<Record<string, unknown>>("SELECT kind, provider, status_code, last_error FROM gpt_fiscal_receipts WHERE org_id=? AND order_id=?", STUDIO_ORG, order.id);
@@ -382,10 +384,12 @@ test("recordRefund on request: the unused units at their published value, by tra
   db.exec(`UPDATE studio_entitlements SET photos_used=2 WHERE id='${kunlik.id}'`);
   const asked = NOW + 3 * DAY;
   const { refund } = await store(db).recordRefund(kunlik.id, { method: "transfer", reference: "p2p-2026-10-17-1", requestedAt: asked, now: asked + HOUR });
-  // 1 presentation (4 720) and 3 photo tasks (3 × 236) of Kunlik with photos.
-  assert.equal(refund.amount, 472_000 + 3 * 23_600);
-  assert.equal(refund.amount, refundValueTiyin("studio-2026-11-v1", "kunlik", 1, 3));
-  assert.deepEqual([refund.method, refund.receipt_state, refund.presentations_unused, refund.photos_unused, refund.requested_at], ["transfer", "due", 1, 3, asked]);
+  // The edition's Kunlik: its one presentation and the photo tasks left after 2 (none in a decks-only edition).
+  const photosUnused = Math.max(0, editionPlan("kunlik").photoTask - 2);
+  assert.equal(refund.amount, refundValueTiyin(EDITION_VERSION, "kunlik", 1, photosUnused));
+  // With photos: 1 presentation (4 720) and 3 photo tasks (3 × 236); decks only: the whole 5 900.
+  assert.equal(refund.amount, photosUnused ? 472_000 + photosUnused * 23_600 : 590_000);
+  assert.deepEqual([refund.method, refund.receipt_state, refund.presentations_unused, refund.photos_unused, refund.requested_at], ["transfer", "due", 1, photosUnused, asked]);
   assert.equal(refundReceiptState("transfer"), "due");
   for (const method of REFUND_METHODS.filter((name) => name !== "transfer")) assert.equal(refundReceiptState(method), "provider");
   assert.equal((await store(db).byId(kunlik.id))?.state, "refunded");

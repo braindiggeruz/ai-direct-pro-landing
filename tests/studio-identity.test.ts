@@ -22,6 +22,8 @@ import {
 } from "../functions/lib/studio/identity";
 import { TURNSTILE_TEST_SECRETS, studioTurnstileConfigured, verifyStudioTurnstile } from "../functions/lib/studio/turnstile";
 import { STUDIO_RATE } from "../functions/lib/studio/limits";
+import { TERMS_PLAN } from "../functions/lib/studio/plans";
+import { publicPlans } from "../functions/lib/studio/checkout";
 import { onRequest as identityEndpoint } from "../functions/api/studio/identity";
 import { onRequest as configEndpoint } from "../functions/api/studio/config";
 
@@ -502,22 +504,26 @@ test("/config: the public settings, the same for everybody, without D1, cookies 
 });
 
 test("/config: prices only while payments are on, and only those of an edition that sells", async () => {
+  // The edition TERMS_PLAN sells (stream F names it), never pinned here.
+  const EDITION = Object.keys(TERMS_PLAN)[0] ?? "";
   const live = {
     STUDIO_API: "on", STUDIO_PAID_SERVICE: "on", STUDIO_FULL_DECK: "true", STUDIO_PHOTO: "true", STUDIO_PAYMENTS: "live",
-    STUDIO_TERMS_VERSION: "ai-paket-2026-10-v3", STUDIO_TERMS_RU: "https://gptbot.uz/ru/oferta/", STUDIO_TERMS_UZ: "https://gptbot.uz/uz/oferta/",
+    STUDIO_TERMS_VERSION: EDITION, STUDIO_TERMS_RU: "https://gptbot.uz/ru/oferta/", STUDIO_TERMS_UZ: "https://gptbot.uz/uz/oferta/",
     STUDIO_TURNSTILE_SITE_KEY: "0x4AAAAAAAStudioSiteKey", STUDIO_MAX_SLIDES: "15", STUDIO_AI_LABEL: "false",
   };
   const body = await (await call(configEndpoint, getConfig(), noBackendEnv(JSON.stringify(live)))).json();
   assert.deepEqual(body.tools, { freeDeck: false, fullDeck: true, photo: true });
   // No provider is listed (STUDIO_PAYMENT_PROVIDERS ""), so none sells: tests/studio-checkout.test.ts covers who does.
   assert.deepEqual(body.payments, { mode: "live", providers: [] });
-  assert.deepEqual(body.plans, [
-    { id: "kunlik", itemId: "studio_kunlik", amountTiyin: 590_000, amountUzs: 5_900, duration: { hours: 24 }, presentationFull: 1, photoTask: 5, regenPerUnit: 1 },
-    { id: "oylik", itemId: "studio_oylik", amountTiyin: 3_990_000, amountUzs: 39_900, duration: { calendarMonths: 1 }, presentationFull: 10, photoTask: 40, regenPerUnit: 1 },
-  ]);
+  // The edition's own tariffs (checkout.ts publicPlans); prices and deck counts are the same in every quota version.
+  assert.deepEqual(body.plans, publicPlans(EDITION));
+  assert.deepEqual(
+    body.plans.map((plan: { id: string; itemId: string; amountTiyin: number; amountUzs: number; presentationFull: number; regenPerUnit: number }) => [plan.id, plan.itemId, plan.amountTiyin, plan.amountUzs, plan.presentationFull, plan.regenPerUnit]),
+    [["kunlik", "studio_kunlik", 590_000, 5_900, 1, 1], ["oylik", "studio_oylik", 3_990_000, 39_900, 10, 1]],
+  );
   assert.equal(body.shapes.full.maxSlides, 15);
   assert.equal(body.turnstileSiteKey, "0x4AAAAAAAStudioSiteKey");
-  assert.equal(body.termsVersion, "ai-paket-2026-10-v3");
+  assert.equal(body.termsVersion, EDITION);
   assert.deepEqual(body.terms, { ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/" });
   assert.equal(body.aiLabel, false);
   // An edition without a quota version sells nothing.

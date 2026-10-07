@@ -7,13 +7,29 @@ import { SqliteD1 } from "./sqlite-d1";
 import { ensureStudioPaidSchema, StudioStore, type NewStudioOrder, type StudioOrder } from "../../functions/lib/studio/store";
 import { mintIdentity, STUDIO_BID_COOKIE } from "../../functions/lib/studio/identity";
 import { STUDIO_ORG } from "../../functions/lib/studio/schema";
+import { TERMS_PLAN, planOfVersion, type StudioPlan, type StudioPlanId, type StudioPlanVersion } from "../../functions/lib/studio/plans";
 
 export const HOUR = 3_600_000;
 export const DAY = 24 * HOUR;
 /** 14.10.2026 09:30 UTC (14:30 in Tashkent). */
 export const NOW = Date.UTC(2026, 9, 14, 9, 30);
-/** The offer edition the tests sell under (plans.ts TERMS_PLAN). */
-export const EDITION = "ai-paket-2026-10-v3";
+// The offer edition the tests sell under: the one plans.ts TERMS_PLAN sells
+// (stream F names it; the Payme release took v3 for the chat, so the Studio
+// edition is v4). Read from the code, never pinned here, so the tests follow
+// the edition and its quota version (with photos or decks only).
+const [firstEdition] = Object.keys(TERMS_PLAN);
+if (!firstEdition) throw new Error("plans.ts TERMS_PLAN sells no edition");
+export const EDITION: string = firstEdition;
+const firstVersion = TERMS_PLAN[EDITION];
+if (!firstVersion) throw new Error(`plans.ts TERMS_PLAN has no quota version for ${EDITION}`);
+/** The quota version that edition sells. */
+export const EDITION_VERSION: StudioPlanVersion = firstVersion;
+/** The tariff `plan` of that edition. */
+export function editionPlan(plan: StudioPlanId): StudioPlan {
+  const found = planOfVersion(EDITION_VERSION, plan);
+  assert.ok(found, `${EDITION_VERSION} has no ${plan}`);
+  return found;
+}
 export const TERMS_UZ = "https://gptbot.uz/uz/ommaviy-oferta/";
 export const TERMS_RU = "https://gptbot.uz/ru/oferta/";
 // Test-only material, never used anywhere else (letters only, so no scanner reads them as keys).

@@ -2,8 +2,9 @@
 // (DECISIONS 07.10.2026 §12; spec §9.2).
 //
 // A provider sells only when all of these hold:
-//   - it is listed in STUDIO_PAYMENT_PROVIDERS (config.ts; "" sells nothing,
-//     the release sets "payme");
+//   - it is listed in STUDIO_PAYMENT_PROVIDERS (config.ts; "" sells nothing;
+//     the release sets "click" first: on 07.10 Payme's cash desk went back
+//     to test, so Payme joins the list when the desk is live again);
 //   - STUDIO_PAYMENTS is "test" or "live" (studioRequestConfig turns "test"
 //     off on gptbot.uz: a test order exists only in a local rehearsal), and
 //     what is sold can be spent: STUDIO_PAID_SERVICE and STUDIO_FULL_DECK
@@ -18,7 +19,8 @@
 //   - Click (variant B, the studio's own service): Click confirmed the
 //     amounts in writing (STUDIO_CLICK_AMOUNTS_CONFIRMED) and the secret
 //     STUDIO_CLICK_CREDENTIALS_JSON has the mode's service, merchant (live)
-//     and key. Until then the studio sells through Payme only.
+//     and key of the service Click creates for the studio. Until both are
+//     there, nothing sells through Click.
 // Nothing here returns or logs a secret value; /config gets provider names.
 //
 // The payment page is built for the order's own amount (5 900 or 39 900
@@ -34,8 +36,8 @@ import type { StudioConfig } from "./config";
 import { REQUEST_ID } from "./ledger";
 import { STUDIO_PLAN_IDS, planFor, type StudioPlan, type StudioPlanId, type StudioProvider } from "./plans";
 
-/** The order of preference when the browser names no provider. */
-export const STUDIO_PROVIDER_ORDER: readonly StudioProvider[] = ["payme", "click"];
+/** The order of preference when the browser names no provider: Click (the launch provider), then Payme. */
+export const STUDIO_PROVIDER_ORDER: readonly StudioProvider[] = ["click", "payme"];
 
 /** Studio pages a buyer may come back to (?pay=return); anything else gets the page of the language. */
 export const STUDIO_RETURN_PATHS: readonly string[] = ["/uz/taqdimot-ai/", "/ru/prezentatsiya-ai/", "/uz/rasmdan-yechim/", "/uz/tariflar/"];

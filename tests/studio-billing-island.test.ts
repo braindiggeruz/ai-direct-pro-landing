@@ -35,6 +35,7 @@ import { renderTariffs } from '../apps/studio/src/billing/static';
 import { REQUEST_ID } from '../functions/lib/studio/ledger';
 import { STUDIO_ERRORS } from '../functions/lib/studio/http';
 import { publicPlans } from '../functions/lib/studio/checkout';
+import { TERMS_PLAN, planOfVersion } from '../functions/lib/studio/plans';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SRC = path.join(ROOT, 'apps/studio/src');
@@ -44,7 +45,8 @@ const { createElement } = studioRequire('react') as typeof import('react');
 const { renderToStaticMarkup, renderToString } = studioRequire('react-dom/server') as typeof import('react-dom/server');
 const read = (file: string) => fs.readFileSync(path.join(SRC, file), 'utf8');
 
-const EDITION = 'ai-paket-2026-10-v3';
+// The edition TERMS_PLAN sells (stream F names it: v4 after the Payme release took v3), never pinned here.
+const EDITION = Object.keys(TERMS_PLAN)[0] ?? '';
 const KUNLIK: StudioPlanOffer = { id: 'kunlik', itemId: 'studio_kunlik', amountTiyin: 590_000, amountUzs: 5_900, duration: { hours: 24 }, presentationFull: 1, photoTask: 5, regenPerUnit: 1 };
 const OYLIK: StudioPlanOffer = { id: 'oylik', itemId: 'studio_oylik', amountTiyin: 3_990_000, amountUzs: 39_900, duration: { calendarMonths: 1 }, presentationFull: 10, photoTask: 40, regenPerUnit: 1 };
 const DECKS_ONLY: StudioPlanOffer[] = [{ ...KUNLIK, photoTask: 0 }, { ...OYLIK, photoTask: 0 }];
@@ -170,7 +172,8 @@ test('section: before /config arrives the live section shows no payment state (n
 
 test('the tariffs page: the prerendered section is exactly the island\'s first render, from the root\'s data attributes', () => {
   const plans = publicPlans(EDITION);
-  assert.deepEqual(plans, [KUNLIK, OYLIK]);
+  // The fixtures of the edition's quota version: with photo tasks, or decks only.
+  assert.deepEqual(plans, planOfVersion(TERMS_PLAN[EDITION] ?? '', 'oylik')?.photoTask ? [KUNLIK, OYLIK] : DECKS_ONLY);
   assert.deepEqual(publicPlans('ai-paket-2026-10-v2'), []);
   const termsUrl = 'https://gptbot.uz/uz/ommaviy-oferta/';
   const attributes = encodeTariffsRoot(plans, termsUrl);

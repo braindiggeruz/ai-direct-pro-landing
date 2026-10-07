@@ -12,6 +12,7 @@ import assert from "node:assert/strict";
 import { SqliteD1 } from "./helpers/sqlite-d1";
 import {
   EDITION,
+  EDITION_VERSION,
   HOUR,
   NOW,
   PASS_BY_TOKEN,
@@ -20,6 +21,7 @@ import {
   TERMS_UZ,
   bidCookie,
   call,
+  editionPlan,
   journal,
   paidDatabase,
   paidEnv,
@@ -114,7 +116,8 @@ test("providers: Payme sells only when listed, in the cash desk's own mode, with
 test("providers: Click (the studio's own service) sells only with the amounts confirmed and its credentials", () => {
   const env = { ...paidEnv(null), STUDIO_CLICK_CREDENTIALS_JSON: CLICK_CREDENTIALS } as BillingEnv;
   const both = parseStudioConfig(studioJson({ STUDIO_PAYMENT_PROVIDERS: "click,payme", STUDIO_CLICK_AMOUNTS_CONFIRMED: "true" }));
-  assert.deepEqual(readyProviders(env, both), ["payme", "click"]);
+  // Click first (the launch provider since 07.10 08:00: Payme's cash desk went back to test), Payme next.
+  assert.deepEqual(readyProviders(env, both), ["click", "payme"]);
   assert.deepEqual(readyProvider(env, both, "click"), { provider: "click", mode: "live", serviceId: "107999" });
   const unconfirmed = parseStudioConfig(studioJson({ STUDIO_PAYMENT_PROVIDERS: "click,payme" }));
   assert.deepEqual(readyProviders(env, unconfirmed), ["payme"]);
@@ -226,7 +229,7 @@ test("a first order needs the browser identity, then a studio_checkout token; on
   assert.match(cookie, new RegExp(`^${STUDIO_ACCOUNT_COOKIE}=[0-9a-f]{64}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=31536000$`));
   const row = (await new StudioStore(db.asD1()).byId(orderId))!;
   assert.match(row.user_id, /^acct_studio_[0-9a-f]{32}$/);
-  assert.deepEqual([row.plan, row.amount, row.provider, row.service_id, row.mode, row.terms_version, row.plan_version], ["oylik", 3_990_000, "payme", null, "live", EDITION, "studio-2026-11-v1"]);
+  assert.deepEqual([row.plan, row.amount, row.provider, row.service_id, row.mode, row.terms_version, row.plan_version], ["oylik", 3_990_000, "payme", null, "live", EDITION, EDITION_VERSION]);
   const consent = db.rows<Record<string, unknown>>("SELECT user_id, version, url, locale FROM gpt_payment_consents WHERE order_id=?", orderId)[0];
   assert.deepEqual({ ...consent }, { user_id: row.user_id, version: EDITION, url: TERMS_UZ, locale: "uz" });
   assert.deepEqual(journal(db, orderId), [{ actor: "account", method: "studio_checkout", from_state: null, to_state: "pending" }]);
@@ -381,6 +384,11 @@ test("Click (variant B) when it sells: an order of the studio's service and Clic
   assert.equal(url.searchParams.get("amount"), "5900.00");
   assert.equal(url.searchParams.get("transaction_param"), made.body.orderId);
   assert.equal((await new StudioStore(db.asD1()).byId(String(made.body.orderId)))?.service_id, "107999");
+  // The browser names nobody: the first of STUDIO_PROVIDER_ORDER that sells, Click (Payme follows when the desk is live).
+  const unnamed = await post(env, { cookie: await bidCookie(Date.now()), body: order({}) });
+  assert.equal(unnamed.response.status, 200);
+  assert.equal(unnamed.body.provider, "click");
+  assert.equal(new URL(String(unnamed.body.checkoutUrl)).origin, "https://my.click.uz");
 });
 
 // ── POST /api/studio/order/cancel ───────────────────────────────────────────
@@ -462,7 +470,9 @@ test("the chain: order → the provider's payment → /me shows the tariff → a
   await store.markPaid(orderId, { method: "payme_perform" });
   const { onRequest: meEndpoint } = await import("../functions/api/studio/me");
   const meBefore = (await (await call(meEndpoint, new Request("https://gptbot.uz/api/studio/me", { headers: { cookie: `${bid}; ${account}` } }), env)).json()) as { entitlements: Array<{ orderId: string; presentationsLeft: number; photosLeft: number }>; latestOrder: { id: string; state: string } };
-  assert.deepEqual(meBefore.entitlements.map((row) => [row.orderId, row.presentationsLeft, row.photosLeft]), [[orderId, 10, 40]]);
+  // Oylik of the edition sold: 10 full decks, and 40 photo tasks or none (decks-only edition).
+  const oylik = editionPlan("oylik");
+  assert.deepEqual(meBefore.entitlements.map((row) => [row.orderId, row.presentationsLeft, row.photosLeft]), [[orderId, oylik.presentationFull, oylik.photoTask]]);
   assert.deepEqual([meBefore.latestOrder.id, meBefore.latestOrder.state], [orderId, "paid"]);
   const { onRequest: presentations } = await import("../functions/api/studio/presentations/index");
   const created = await call(presentations, checkoutRequest({ cookie: account, body: { requestId: "deck_request_0001", topic: "Amir Temur davlati", locale: "uz", audience: "maktab", slides: 12, shape: "full", palette: 2 } }, "/api/studio/presentations"), env);
@@ -470,7 +480,7 @@ test("the chain: order → the provider's payment → /me shows the tariff → a
   assert.equal(created.status, 201, JSON.stringify(job));
   assert.deepEqual([job.source, job.entitlementId, job.next], ["entitlement", orderId, "outline"]);
   const meAfter = (await (await call(meEndpoint, new Request("https://gptbot.uz/api/studio/me", { headers: { cookie: account } }), env)).json()) as { entitlements: Array<{ presentationsLeft: number }> };
-  assert.equal(meAfter.entitlements[0].presentationsLeft, 9);
+  assert.equal(meAfter.entitlements[0].presentationsLeft, oylik.presentationFull - 1);
   // The free day's deck of this browser was not touched.
   assert.equal(count(db, "SELECT COUNT(*) FROM studio_free_usage WHERE unit='presentation_free'"), 0);
 });
