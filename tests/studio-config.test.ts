@@ -30,6 +30,8 @@ const ON = JSON.stringify({
   STUDIO_PHOTO: "true", STUDIO_PAYMENTS: "live", STUDIO_EVENTS: "true",
 });
 const DEFAULTS = parseStudioConfig(undefined);
+/** Every switch off: the code's defaults as the committed variable would carry them. */
+const OFF = JSON.stringify(STUDIO_CONFIG_DEFAULTS);
 const SWITCHES = (config: StudioConfig) => ({
   api: config.api, paidService: config.paidService, freeDeck: config.freeDeck, fullDeck: config.fullDeck,
   photo: config.photo, payments: config.payments, events: config.events,
@@ -37,10 +39,18 @@ const SWITCHES = (config: StudioConfig) => ({
 const ALL_OFF = { api: false, paidService: false, freeDeck: false, fullDeck: false, photo: false, payments: "off", events: false };
 const parse = (values: Record<string, unknown>) => parseStudioConfig(JSON.stringify(values));
 
-test("the committed variable is exactly the defaults, and the defaults keep every switch off", () => {
+test("the defaults keep every switch off; the committed variable is release R-ST1: the free deck and nothing paid", () => {
   assert.ok(COMMITTED, "wrangler.toml has no STUDIO_RUNTIME_CONFIG_JSON");
-  assert.deepEqual(JSON.parse(COMMITTED), STUDIO_CONFIG_DEFAULTS);
-  assert.deepEqual(parseStudioConfig(COMMITTED), DEFAULTS);
+  // R-ST1 (2026-10-07) changes the defaults in four places only: the free
+  // deck's switches (or all three off again: the rollback, studio-switch.ts),
+  // the studio's Turnstile site key and no OpenRouter fallback.
+  // tests/pages-config-parity.test.ts pins the exact values.
+  const committed = parseStudioConfig(COMMITTED);
+  const changed = Object.keys(STUDIO_CONFIG_DEFAULTS).filter((key) => JSON.parse(COMMITTED)[key] !== STUDIO_CONFIG_DEFAULTS[key as keyof typeof STUDIO_CONFIG_DEFAULTS]);
+  assert.ok(changed.every((key) => ["STUDIO_API", "STUDIO_FREE_DECK", "STUDIO_EVENTS", "STUDIO_TURNSTILE_SITE_KEY", "STUDIO_FREE_TEXT_FALLBACK"].includes(key)), changed.join());
+  assert.deepEqual(SWITCHES(committed), { ...ALL_OFF, api: committed.freeDeck, freeDeck: committed.freeDeck, events: committed.freeDeck });
+  assert.equal(committed.freeTextFallback, null);
+  assert.match(committed.turnstileSiteKey, /^0x4[0-9A-Za-z_-]+$/);
   assert.deepEqual(SWITCHES(DEFAULTS), ALL_OFF);
   assert.deepEqual(
     { clickAmountsConfirmed: DEFAULTS.clickAmountsConfirmed, turnstilePaid: DEFAULTS.turnstilePaid, ga4Mp: DEFAULTS.ga4Mp, terms: DEFAULTS.terms, turnstileSiteKey: DEFAULTS.turnstileSiteKey },
@@ -73,7 +83,7 @@ test("unknown keys are ignored: no quota version, no prototype tricks, no Pages 
   assert.ok(!("planVersion" in config));
   assert.deepEqual(parseStudioConfig('{"__proto__":{"STUDIO_API":"on"},"constructor":{"STUDIO_API":"on"}}'), DEFAULTS);
   // A switch set as its own Pages variable does nothing: only the JSON counts.
-  const env = { STUDIO_RUNTIME_CONFIG_JSON: COMMITTED, STUDIO_API: "on", STUDIO_FREE_DECK: "true" } as StudioEnv;
+  const env = { STUDIO_RUNTIME_CONFIG_JSON: OFF, STUDIO_API: "on", STUDIO_FREE_DECK: "true" } as StudioEnv;
   assert.deepEqual(SWITCHES(studioConfig(env)), ALL_OFF);
 });
 
@@ -157,8 +167,8 @@ test("the parsed settings are frozen and cached per value", () => {
   assert.equal(studioConfig({ STUDIO_RUNTIME_CONFIG_JSON: ON }), config);
   assert.ok(Object.isFrozen(config) && Object.isFrozen(config.terms) && Object.isFrozen(config.textModels));
   assert.throws(() => { (config as { api: boolean }).api = false; }, TypeError);
-  assert.notEqual(studioConfig({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED }), config);
-  assert.equal(studioConfig({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED }).api, false);
+  assert.notEqual(studioConfig({ STUDIO_RUNTIME_CONFIG_JSON: OFF }), config);
+  assert.equal(studioConfig({ STUDIO_RUNTIME_CONFIG_JSON: OFF }).api, false);
 });
 
 test("host rule: exactly gptbot.uz; localhost and 127.0.0.1 only with STUDIO_LOCAL_DEV=true", () => {
@@ -242,7 +252,7 @@ function untouchableRequest(url: string): Request {
 test("without its switch every route answers 404 before reading the body or touching D1", async () => {
   for (const route of Object.keys(STUDIO_ROUTES) as StudioRoute[]) {
     for (const url of ["https://gptbot.uz/api/studio/x", "https://ai-direct-pro-landing.pages.dev/api/studio/x"]) {
-      const { env, read } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED });
+      const { env, read } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: OFF });
       const request = untouchableRequest(url);
       const response = studioGate(request, env, route);
       assert.ok(response, `${route} ${url}`);
@@ -277,7 +287,23 @@ function studioEndpointFiles(dir = path.join(ROOT, "functions/api/studio")): str
   });
 }
 
-test("every studio endpoint, with the committed settings, answers 404 without touching the body or D1", async (context) => {
+test("with the committed settings the paid routes stay closed on gptbot.uz, and every route is closed on a preview host", () => {
+  const paid: StudioRoute[] = ["outline", "regenerate", "checkout", "orderCancel", "photo"];
+  for (const route of Object.keys(STUDIO_ROUTES) as StudioRoute[]) {
+    const { env, read } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED });
+    const preview = untouchableRequest("https://ai-direct-pro-landing.pages.dev/api/studio/x");
+    assert.equal(studioGate(preview, env, route)?.status, 404, `${route} on pages.dev`);
+    assert.equal(preview.bodyUsed, false);
+    const site = untouchableRequest("https://gptbot.uz/api/studio/x");
+    const answer = studioGate(site, env, route);
+    if (paid.includes(route)) assert.equal(answer?.status, 404, `${route} on gptbot.uz`);
+    else assert.equal(answer === null, parseStudioConfig(COMMITTED).freeDeck, `${route} on gptbot.uz follows the free deck's switches`);
+    assert.equal(site.bodyUsed, false);
+    for (const key of read) assert.ok(["STUDIO_RUNTIME_CONFIG_JSON", "STUDIO_LOCAL_DEV"].includes(key), `${route} read ${key}`);
+  }
+});
+
+test("every studio endpoint, with every switch off, answers 404 without touching the body or D1", async (context) => {
   const files = studioEndpointFiles();
   context.diagnostic(`${files.length} endpoint file(s) under functions/api/studio/`);
   for (const file of files) {
@@ -286,7 +312,7 @@ test("every studio endpoint, with the committed settings, answers 404 without to
     assert.ok(handlers.length, `${file} exports no onRequest handler`);
     for (const [name, handler] of handlers) {
       for (const url of ["https://gptbot.uz/api/studio/x", "https://ai-direct-pro-landing.pages.dev/api/studio/x"]) {
-        const { env } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED });
+        const { env } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: OFF });
         const request = untouchableRequest(url);
         const response = await (handler as (context: unknown) => Promise<Response>)({
           request, env, params: { job: "sj_00000000000000000000000000000000" }, data: {},

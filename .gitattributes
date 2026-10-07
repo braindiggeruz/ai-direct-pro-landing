@@ -2,3 +2,10 @@
 # Their Markdown ends lines with two spaces as hard breaks; keep the files byte-identical
 # to the published source instead of reporting that as a whitespace error.
 docs/paid-chat/uzum-spec/*.yaml -whitespace
+
+# Studio pragmas and reviewed text use stable LF on Windows.
+apps/studio/scripts/device-check.ts text eol=lf
+apps/studio/scripts/studio-page.ts text eol=lf
+apps/studio/src/tools/presentation/InAppNotice.tsx text eol=lf
+apps/studio/src/tools/presentation/texts.ts text eol=lf
+content/studio/pages/uz/taqdimot-ai.json text eol=lf

@@ -1,3 +1,5 @@
+> Актуализация 07.10: one-tap опубликован (`e3e551af`, `71d2f0f3`), suite 1815/1815, браузер 18/18, layout 258/258, live SEO 10/10. Следующий приоритет владельца — **полноценная платная Studio**, включая тарифы и права; потом UI и внешние хвосты. Studio пока не выпущена.
+
 # Реестр завершения Claude → Codex
 
 07.10.2026. Дерево `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Интеграция и публикация — текущий Codex; источники не меняются. Исторический handoff: `C:/Users/Borinio/Desktop/seo-skills-main/docs/CLAUDE_TO_CODEX_HANDOFF.md`. Спецификации raw разрешаются от `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`.

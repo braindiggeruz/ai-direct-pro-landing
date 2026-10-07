@@ -177,3 +177,45 @@ test('r-st1: on a copy of content/ with the release applied, the SEO suites pass
   assert.equal(run.status, 0, `${summary}\n${run.stdout.split('\n').filter(line => /^not ok|✖|Error/.test(line)).slice(0, 40).join('\n')}\n${run.stderr.slice(0, 2000)}`);
   assert.match(summary, /fail 0/);
 });
+
+// The rollback (docs/studio/LAUNCH-RU.md): one command writes the free deck's
+// three switches off in wrangler.toml and nothing else; the guarded deploy
+// that follows makes every free /api/studio/* path answer 404.
+test('r-st1 rollback: studio-switch flips the three free-deck switches and leaves every other byte', async () => {
+  const { FREE_DECK_SWITCHES, readStudioConfigLine, setSwitches, switchState } = await import('../apps/studio/scripts/studio-switch');
+  const { parseStudioConfig, studioGate } = await import('../functions/lib/studio/config');
+  const toml = fs.readFileSync(path.join(REPO, 'wrangler.toml'), 'utf8');
+  const state = switchState(toml);
+  assert.ok(state === 'on' || state === 'off', `the committed switches are ${state}`);
+
+  const off = setSwitches(toml, 'off');
+  const on = setSwitches(off, 'on');
+  assert.equal(switchState(off), 'off');
+  assert.equal(switchState(on), 'on');
+  assert.equal(setSwitches(on, 'on'), on, 'idempotent');
+  // Only the one line changes, and in it only the three keys.
+  const changed = (a: string, b: string) => a.split('\n').filter((line, index) => line !== b.split('\n')[index]);
+  assert.equal(changed(toml, off).length, state === 'off' ? 0 : 1);
+  assert.equal(off.length, toml.length + (state === 'on' ? 3 : 0), 'on→off is "on"→"off", "true"→"false" twice: +1 +1 +1 characters');
+  const before = readStudioConfigLine(toml);
+  const after = readStudioConfigLine(off);
+  assert.deepEqual(Object.keys(after), Object.keys(before));
+  for (const key of Object.keys(before)) {
+    if (!(key in FREE_DECK_SWITCHES.off)) assert.equal(after[key], before[key], key);
+  }
+  // Switched off, the site answers 404 on every free path before reading anything.
+  const config = parseStudioConfig(JSON.stringify(after));
+  assert.deepEqual([config.api, config.freeDeck, config.events, config.paidService], [false, false, false, false]);
+  const env = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify(after) } as never;
+  for (const route of ['config', 'me', 'identity', 'event', 'presentations', 'slides', 'images'] as const) {
+    const request = new Request('https://gptbot.uz/api/studio/x', { method: 'POST' });
+    assert.equal(studioGate(request, env, route)?.status, 404, route);
+  }
+  // Switched on, the same paths open on gptbot.uz (and stay closed on a preview host).
+  const live = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify(readStudioConfigLine(on)) } as never;
+  for (const route of ['config', 'me', 'identity', 'event', 'presentations', 'slides', 'images'] as const) {
+    assert.equal(studioGate(new Request('https://gptbot.uz/api/studio/x', { method: 'POST' }), live, route), null, route);
+    assert.equal(studioGate(new Request('https://ai-direct-pro-landing.pages.dev/api/studio/x', { method: 'POST' }), live, route)?.status, 404, route);
+  }
+  assert.throws(() => setSwitches('name = "x"\n', 'off'), /no STUDIO_RUNTIME_CONFIG_JSON/);
+});

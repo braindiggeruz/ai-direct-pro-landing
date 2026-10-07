@@ -229,7 +229,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini sinash uchun {chat} bor, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor; mavzudan tayyor .pptx qoralamasini esa {taqdimot} kuniga 1 marta bepul yig‘ib beradi. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
       "links": [
         {
           "token": "chat",
@@ -250,6 +250,11 @@
           "token": "slayd",
           "target": "/uz/blog/slayd-tayyorlash/",
           "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "taqdimot",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Taqdimot AI"
         },
         {
           "token": "esse",

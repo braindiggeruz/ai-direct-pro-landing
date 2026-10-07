@@ -184,8 +184,16 @@ test('the Pages project name and output directory are unchanged', () => {
 // variable. Written below [vars.GPTBOT_RUNTIME_CONFIG] the line would belong
 // to that table, production would never see it, and the studio would stay off
 // without a word; a key in the chat's packed JSON would eat the chat's room.
-test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON, every studio switch off', async () => {
+// The committed values are release R-ST1 (2026-10-07, owner decisions of that
+// day): the code's defaults, which keep everything off, except the free
+// deck's three switches, the studio's own Turnstile site key and no OpenRouter
+// fallback. The free deck's switches may also be off together: that is the
+// one-command rollback (apps/studio/scripts/studio-switch.ts). Anything paid
+// stays off; the 48-hour ramp caps are the defaults ($0.3, 50 decks, 3 starts
+// a minute). R-ST1b (the $3 budget, no ramp ceiling) changes this test.
+test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON, the R-ST1 free deck (or its rollback) and nothing paid', async () => {
   const { STUDIO_CONFIG_DEFAULTS, STUDIO_CONFIG_KEYS, parseStudioConfig } = await import('../functions/lib/studio/config');
+  const { FREE_DECK_SWITCHES } = await import('../apps/studio/scripts/studio-switch');
   const { RUNTIME_CONFIG_KEYS } = await import('../functions/lib/runtime-config');
   const lines = config.split(/\r?\n/);
   const start = lines.indexOf('[vars]');
@@ -206,12 +214,37 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
   assert.equal(JSON.stringify(packed), raw, 'keep the JSON compact, like the chat packed variable');
   assert.ok(Buffer.byteLength(raw as string) <= 5120, 'Pages caps a text variable at 5 KiB');
   assert.deepEqual(Object.keys(packed), [...STUDIO_CONFIG_KEYS]);
-  assert.deepEqual(packed, STUDIO_CONFIG_DEFAULTS);
+  const launch = {
+    ...STUDIO_CONFIG_DEFAULTS,
+    STUDIO_TURNSTILE_SITE_KEY: '0x4AAAAAAFO5Y7cXhqeASg8P',
+    STUDIO_FREE_TEXT_FALLBACK: '',
+  };
+  const on = { ...launch, ...FREE_DECK_SWITCHES.on };
+  const off = { ...launch, ...FREE_DECK_SWITCHES.off };
+  assert.ok(
+    [on, off].some((state) => JSON.stringify(state) === JSON.stringify(packed)),
+    `STUDIO_RUNTIME_CONFIG_JSON is neither the R-ST1 launch nor its rollback: ${JSON.stringify(
+      Object.fromEntries(Object.entries(packed).filter(([key, value]) => (on as Record<string, string>)[key] !== value)),
+    )}`,
+  );
   const studio = parseStudioConfig(raw);
+  assert.equal(studio.api, studio.freeDeck);
+  assert.equal(studio.events, studio.freeDeck);
   assert.deepEqual(
-    [studio.api, studio.paidService, studio.freeDeck, studio.fullDeck, studio.photo, studio.payments, studio.events,
-      studio.clickAmountsConfirmed, studio.turnstilePaid, studio.ga4Mp],
-    [false, false, false, false, false, 'off', false, false, false, false],
+    [studio.paidService, studio.fullDeck, studio.photo, studio.payments, studio.clickAmountsConfirmed, studio.turnstilePaid, studio.ga4Mp],
+    [false, false, false, 'off', false, false, false],
+  );
+  assert.equal(studio.turnstileSiteKey, '0x4AAAAAAFO5Y7cXhqeASg8P');
+  assert.equal(studio.freeTextFallback, null, 'no OpenRouter fallback at launch: the pages do not name it');
+  assert.deepEqual(
+    [studio.freeDailyUsd, studio.rampDecksDaily, studio.jobGlobalPerMin, studio.ipYoungDecks, studio.freeAlertDecks],
+    [0.3, 50, 3, 20, 300],
+  );
+  // The code's defaults still keep every switch off.
+  const defaults = parseStudioConfig(JSON.stringify(STUDIO_CONFIG_DEFAULTS));
+  assert.deepEqual(
+    [defaults.api, defaults.paidService, defaults.freeDeck, defaults.fullDeck, defaults.photo, defaults.payments, defaults.events],
+    [false, false, false, false, false, 'off', false],
   );
   // No secret ever lives in a public variable.
   assert.doesNotMatch(raw as string, /SECRET|CREDENTIALS|API_KEY|TOKEN/);

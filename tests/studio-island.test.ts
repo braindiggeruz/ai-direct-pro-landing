@@ -529,9 +529,10 @@ test('flow: a unit an open job holds is "try after HH:MM", not "used for today";
   assert.equal(messageKey('free_closed'), 'free_closed');
   assert.ok(UNTIL_RESET.has('free_closed') && UNTIL_RESET.has('free_limit'));
   assert.equal(TEXTS.uz.messages.free_closed, 'Bugungi bepul taqdimotlar tugadi.');
-  assert.equal(TEXTS.uz.resetAt(tashkentTime('2026-10-07T00:00:00.000Z')), 'Yangi bepul taqdimot soat 05:00 da (Toshkent vaqti).');
+  assert.equal(TEXTS.uz.resetAt(tashkentTime('2026-10-07T00:00:00.000Z')), 'Keyingi bepul taqdimot Toshkent vaqti bilan soat 05:00 da ochiladi.');
   assert.equal(TEXTS.uz.jobOpenUntil(tashkentTime(until)), 'Oldingi so‘rov hali yakunlanmagan. Soat 15:10 dan keyin qayta urinib ko‘ring.');
   assert.match(TEXTS.ru.jobOpenUntil('15:10'), /15:10/);
+  assert.equal(TEXTS.ru.resetAt(tashkentTime('2026-10-07T00:00:00.000Z')), 'Новую можно сделать с 05:00 по Ташкенту.');
 });
 
 test('flow: request ids are ones the ledger accepts', () => {

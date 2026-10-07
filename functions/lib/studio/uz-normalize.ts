@@ -11,10 +11,12 @@
 // through it and allows only the reviewed fixes, and runs the word list over
 // the site's own content/ and src/ (0 hits).
 //
-// The agent is not a native speaker: the list grows with the native speaker's
-// review before R-ST1 (spec §14.6), and every new entry goes through the same
-// two tests. Context-dependent pairs (auto=false in the dictionary) are never
-// replaced here; UZ_CONTEXT_PAIRS keeps them for tests and future glossaries.
+// The agent is not a native speaker. There is no native reviewer for R-ST1
+// (owner decision 07.10, п. 1): the list grows with the model language
+// reviews instead (13 words on 07.10, studio/launch-2026-10-07/
+// LANG-uz-decks.md), and every new entry goes through the same two tests.
+// Context-dependent pairs (auto=false in the dictionary) are never replaced
+// here; UZ_CONTEXT_PAIRS keeps them for tests and future glossaries.
 
 export interface UzRule {
   readonly id: string;
@@ -74,7 +76,9 @@ export interface UzWordFix {
 }
 
 /**
- * The 40 auto=true entries of uz-error-dictionary.json. A wrong form matches
+ * The 40 auto=true entries of uz-error-dictionary.json, then the 13 of the
+ * 07.10 language review (each checked: no Uzbek word, 0 hits on the site's
+ * content/ and src/). A wrong form matches
  * at the start of a word, in any case, and keeps the suffix that follows it
  * (gaslardan → gazlardan), unless `whole`.
  */
@@ -119,6 +123,22 @@ export const UZ_WORD_FIXES: readonly UzWordFix[] = [
   { wrong: "Jim jism", right: "Tinch jism", type: "nonword" },
   { wrong: "Tasodifiy kuchlar muvozanati", right: "Kuchlar muvozanati", type: "wrongword" },
   { wrong: "Kumushbeka", right: "Kumushbibi", type: "fact" },
+  // 07.10.2026 language review (studio/launch-2026-10-07/LANG-uz-decks.md):
+  // the rehearsal's free decks (prompt as launched, T = 0.3) …
+  { wrong: "Vijon", right: "Vijdon", type: "nonword" },
+  { wrong: "qozirilish", right: "oziqlanish", type: "nonword" },
+  { wrong: "unutmamiz", right: "unutmaymiz", type: "grammar", whole: true },
+  { wrong: "Xoja Ilg‘or", right: "Xo‘ja Ilg‘or", type: "spelling" },
+  // … and the second reading of 10 measured decks.
+  { wrong: "namoyonda", right: "namoyanda", type: "spelling" },
+  { wrong: "Tatir suv", right: "Chuchuk suv", type: "nonword" },
+  { wrong: "oqizloq", right: "soy", type: "nonword" },
+  { wrong: "ustadbekar", right: "ustalik bilan", type: "nonword" },
+  { wrong: "kattasha borsa", right: "kattalasha borsa", type: "nonword" },
+  { wrong: "erta turarish", right: "erta turmushga berish", type: "nonword" },
+  { wrong: "yuza maydalaridan", right: "yuzasidan", type: "nonword" },
+  { wrong: "katta likda", right: "kattalikda", type: "spelling" },
+  { wrong: "o‘zgarmaydan", right: "o‘zgarmasdan", type: "spelling" },
 ];
 
 /**

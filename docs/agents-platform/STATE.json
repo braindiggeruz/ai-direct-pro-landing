@@ -2053,6 +2053,10 @@
     "tracker": "docs/CLAUDE_COMPLETION_TRACKER.md",
     "next": "Точная production-сборка one-tap, полный suite/layout и guarded release; затем бесплатная Studio",
     "checks": "typecheck/lint 0; targeted 158/158; browser 18/18; protected contracts 10/10; первый полный suite1814/1815: обновлён AST-инвариант под явно подтверждённое one-tap действие, нужен повтор",
-    "last_commit": "3173e366134730fe942df3750a8b28576a4a1a95; текущий commit читать через git log -1 (D-006)"
+    "last_commit": "3173e366134730fe942df3750a8b28576a4a1a95; текущий commit читать через git log -1 (D-006)",
+    "activeStage": "Studio: интеграция foundation и платного A–F",
+    "oneTapProductionCommit": "e3e551afe1928159ddb7dca596664f62bb1a29bd",
+    "oneTapDeployment": "71d2f0f3",
+    "priority": "Полноценная платная Studio после one-tap, затем UI и внешние хвосты; продажи закрыты до приёмки."
   }
 }
