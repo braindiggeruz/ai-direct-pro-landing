@@ -6,8 +6,9 @@
 // One text step (outline, part, free deck) is at most STEP_LIMITS[step].
 // attempts calls in all, whatever model answers them:
 //   - Z.ai glm-5.3-flash, streamed, reasoning_effort "low", JSON mode,
-//     temperature 0.3, max_tokens from plans.ts (outline 1300, part 1300,
-//     free 1100), 45 s a call;
+//     temperature 0.3 (the proofreading pass of paid Uzbek decks: 0.2),
+//     max_tokens from plans.ts (outline 1300, part 1300, free 1100, proof
+//     as long as a part), 45 s a call;
 //   - an answer that is not the JSON the step expects (deck-schema.ts) is
 //     asked again once; finish_reason=length is never a result: it is asked
 //     again with ×1.5 max_tokens;
@@ -37,10 +38,11 @@ import { parseModelJson } from "./deck-schema";
 import { studioLog, type StudioErrorCode } from "./http";
 import { STEP_LIMITS } from "./plans";
 import { modelPrice, tokenCostMicro } from "./pricing";
-import { STUDIO_TEMPERATURE, type ChatMessage } from "./prompts";
+import { PROOF_TEMPERATURE, STUDIO_TEMPERATURE, type ChatMessage } from "./prompts";
 
 export type LlmEnv = Pick<Env, "ZAI_API_KEY" | "OPENROUTER_API_KEY">;
-export type TextStep = "outline" | "part" | "free";
+/** "proof": the proofreading pass of a paid Uzbek part (proofread.ts). */
+export type TextStep = "outline" | "part" | "free" | "proof";
 export type StudioTier = "free" | "paid";
 
 /** One call; T0.1's slowest was 22.4 s. */
@@ -113,7 +115,7 @@ export type StepResult<T> =
   | (Spent & { readonly ok: false; readonly kind: "fault"; readonly fault: LedgerFault; readonly code: StudioErrorCode })
   /** The provider refused the content (Z.ai 1301): 422 topic_refused {category: "provider"}, no content, the unit goes back. */
   | (Spent & { readonly ok: false; readonly kind: "refused"; readonly code: "topic_refused"; readonly reason: "provider_refused" })
-  /** The caller's admit() stopped the step (a spend bucket or the job's step cap). */
+  /** The caller's admit() stopped the step before its first call (the job's step cap, or it closed); after a failed call the step is that call's fault. */
   | (Spent & { readonly ok: false; readonly kind: "halted"; readonly code: StudioErrorCode });
 
 /**
@@ -137,6 +139,11 @@ export interface StepOptions<T> {
   /** The request's own signal: the person went away. */
   readonly signal?: AbortSignal;
   readonly timeoutMs?: number;
+}
+
+/** The temperature of a step: 0.3 as measured, 0.2 for the proofreading pass (MEASURE-30 §6). */
+export function stepTemperature(step: TextStep): number {
+  return step === "proof" ? PROOF_TEMPERATURE : STUDIO_TEMPERATURE;
 }
 
 /**
@@ -293,13 +300,19 @@ function fromCompletion(data: ChatCompletion | null, classify: (error: { code?: 
   return finished(content, finishReason, readUsage(data.usage));
 }
 
-async function callZai(fetchFn: typeof fetch, env: LlmEnv, model: string, messages: readonly ChatMessage[], maxTokens: number, signal: AbortSignal): Promise<RawCall> {
+/** What one call asks for, apart from the messages. */
+interface CallShape {
+  readonly maxTokens: number;
+  readonly temperature: number;
+}
+
+async function callZai(fetchFn: typeof fetch, env: LlmEnv, model: string, messages: readonly ChatMessage[], shape: CallShape, signal: AbortSignal): Promise<RawCall> {
   const bare = model.slice(ZAI_PREFIX.length);
   const body = {
     model: bare,
     messages,
-    temperature: STUDIO_TEMPERATURE,
-    max_tokens: maxTokens,
+    temperature: shape.temperature,
+    max_tokens: shape.maxTokens,
     stream: true,
     response_format: { type: "json_object" },
     // GLM-5.x cannot stop thinking; "low" keeps it to a few tokens (T0.1: 52 in 137 calls).
@@ -313,13 +326,13 @@ async function callZai(fetchFn: typeof fetch, env: LlmEnv, model: string, messag
   return readZaiStream(res);
 }
 
-async function callOpenRouter(fetchFn: typeof fetch, env: LlmEnv, model: string, messages: readonly ChatMessage[], maxTokens: number, signal: AbortSignal): Promise<RawCall> {
+async function callOpenRouter(fetchFn: typeof fetch, env: LlmEnv, model: string, messages: readonly ChatMessage[], shape: CallShape, signal: AbortSignal): Promise<RawCall> {
   const id = model.slice(OPENROUTER_PREFIX.length);
   const body = {
     model: id,
     messages,
-    temperature: STUDIO_TEMPERATURE,
-    max_tokens: maxTokens,
+    temperature: shape.temperature,
+    max_tokens: shape.maxTokens,
     response_format: { type: "json_object" },
     provider: {
       // One ':free' endpoint, no silent move to a paid one, no provider that keeps or trains on the text.
@@ -349,7 +362,7 @@ async function callModel(
   env: LlmEnv,
   model: string,
   messages: readonly ChatMessage[],
-  maxTokens: number,
+  shape: CallShape,
   timeoutMs: number,
   outer?: AbortSignal,
 ): Promise<RawCall> {
@@ -358,8 +371,8 @@ async function callModel(
   const signal = outer ? AbortSignal.any([timer.signal, outer]) : timer.signal;
   try {
     return model.startsWith(ZAI_PREFIX)
-      ? await callZai(fetchFn, env, model, messages, maxTokens, signal)
-      : await callOpenRouter(fetchFn, env, model, messages, maxTokens, signal);
+      ? await callZai(fetchFn, env, model, messages, shape, signal)
+      : await callOpenRouter(fetchFn, env, model, messages, shape, signal);
   } catch {
     if (outer?.aborted) return failed("aborted");
     return failed(timer.signal.aborted ? "timeout" : "provider_error");
@@ -419,11 +432,15 @@ export async function runTextStep<T>(options: StepOptions<T>): Promise<StepResul
     if (options.admit) {
       const admission = await options.admit({ model, maxTokens, attempt });
       if (admission === "busy") return fault("busy", "studio_busy");
-      if (admission === "stop") return { ok: false, kind: "halted", code: "job_state", ...spent(calls) };
+      // The job's last step went to an attempt that failed: the step ends as
+      // that fault (the caller marks it and, with no call left, gives the
+      // unit back at once). A stop before any call is a halt.
+      if (admission === "stop") return calls.length ? fault(lastFault, lastCode) : { ok: false, kind: "halted", code: "job_state", ...spent(calls) };
     }
 
     const started = Date.now();
-    const raw = await callModel(fetchFn, options.env, model, messages, maxTokens, options.timeoutMs ?? CALL_TIMEOUT_MS, options.signal);
+    const shape = { maxTokens, temperature: stepTemperature(step) };
+    const raw = await callModel(fetchFn, options.env, model, messages, shape, options.timeoutMs ?? CALL_TIMEOUT_MS, options.signal);
     const checked = raw.outcome === "ok" ? (() => {
       const json = parseModelJson(raw.content);
       return json === undefined ? null : options.check(json);

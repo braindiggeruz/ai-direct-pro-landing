@@ -1,0 +1,136 @@
+{
+  "_review": "DRAFT (owner's decision 07.10.2026: no native reader before the release). Every visible word of /uz/rasmdan-yechim/ outside the island is in this file; the island's words are in apps/studio/src/tools/photo/texts.ts. Published only if the photo gate passes (PHOTO-EVAL.md; DECISIONS §13 п. 7–8), by apps/studio/scripts/release-content.ts.",
+  "status": "draft",
+  "locale": "uz",
+  "url": "/uz/rasmdan-yechim/",
+  "tool": "photo",
+  "toolName": "Rasmdan yechim",
+  "title": "Rasmdan yechim: masala rasmini AI tushuntiradi | GPTBot.uz",
+  "h1": "Masalani suratga oling — AI tushuntiradi",
+  "description": "Masala yoki mashq rasmini yuklang — AI uni o‘zbek tilida bosqichma-bosqich tushuntiradi: berilgan, yechish, javob, tekshirish. Kuniga 2 ta rasm bepul.",
+  "honesty": "GPTBot.uz — mustaqil AI yordamchi, ChatGPT yoki OpenAI mahsuloti emas.",
+  "primaryKeyword": "rasmdan masala yechish",
+  "secondaryKeywords": [
+    "masala rasmini tushuntirish",
+    "rasm orqali masala yechish ai",
+    "uy vazifasi rasmdan",
+    "matematika masala rasm ai",
+    "fizika masala rasmdan yechim"
+  ],
+  "tariffsVisible": false,
+  "ogImage": "/assets/studio/og-rasmdan-yechim-v1.png",
+  "ogImageAlt": "GPTBot.uz: masala rasmidan bosqichma-bosqich tushuntirish",
+  "lead": "Rasmdan yechim — GPTBot.uz saytidagi vosita: masala, mashq yoki test savolining rasmini yuklaysiz, AI uni o‘qib, o‘zbek tilida bosqichma-bosqich tushuntiradi. Bu tayyor javobni ko‘chirish uchun emas: maqsad — yechish yo‘lini tushunib olish va o‘z javobingizni tekshirish. Vosita sinov rejimida (beta) ishlaydi: javobni darslik bilan solishtiring.",
+  "sections": [
+    {
+      "id": "qanday-ishlaydi",
+      "h2": "Qanday ishlaydi",
+      "steps": [
+        {
+          "title": "Masalani suratga oling",
+          "text": "Telefon kamerasi yoki galereyadan bitta rasm tanlang: JPEG, PNG yoki WebP. Yorug‘ joyda, to‘g‘ridan va yaqinroqdan suratga oling — bitta rasmda bitta masala bo‘lsin. Rasm brauzerning o‘zida kichraytiriladi (eng uzun tomoni 1 600 piksel)."
+        },
+        {
+          "title": "Rozilik bering va yuboring",
+          "text": "Birinchi rasmdan oldin bir marta tasdiqlaysiz: rasm faqat tahlil uchun AI modeliga yuboriladi va saqlanmaydi. Keyin «Tushuntirish» tugmasini bosing. Bot emasligingizni Cloudflare qisqa tekshiradi."
+        },
+        {
+          "title": "Tushuntirishni o‘qing",
+          "text": "Odatda 6–15 soniyada javob keladi: nima berilgan, yechish bosqichlari, yakuniy javob va uni qanday tekshirish mumkinligi. Fan va AI ishonch darajasi ham ko‘rsatiladi. Ishonch past bo‘lsa, javobni albatta qayta hisoblang."
+        }
+      ]
+    },
+    {
+      "id": "bepul",
+      "h2": "Bepulda nima bor",
+      "items": [
+        "Kuniga 2 ta rasm. Yangi kun Toshkent vaqti bilan soat 05:00 da boshlanadi.",
+        "Matematika, fizika, kimyo va boshqa maktab fanlari: masala, mashq, test savoli yoki formulali topshiriq.",
+        "Ikki xil javob: «Tushuntirish bilan» — har bir bosqich oldidan qisqa izoh; «Faqat hisob-kitob» — faqat hisoblash qatorlari.",
+        "O‘qilmagan rasm (xira, qorong‘i, bo‘sh varaq, kesilgan) uchun kunlik limit sarflanmaydi: qayta suratga olib yuborasiz.",
+        "Ro‘yxatdan o‘tish shart emas. Brauzeringizda 1 yilga belgi (cookie) saqlanadi: u bepul rasmlarni sanash uchun kerak.",
+        "Sinov rejimi (beta): vosita yangi, javoblarni tekshirib boring va xato ko‘rsangiz bizga yozing."
+      ]
+    },
+    {
+      "id": "tushuntirish",
+      "h2": "Bu tushuntirish, tayyor javob emas",
+      "paragraphs": [
+        "AI rasmni o‘qiydi va yechish yo‘lini ko‘rsatadi, lekin u ham adashishi mumkin: raqamni noto‘g‘ri o‘qishi, birlikni almashtirib yuborishi yoki shartni boshqacha tushunishi mumkin. Shuning uchun har bir javob ostida «Bu tushuntirish — ko‘chirish uchun emas. Javobni tekshiring» degan eslatma turadi. Bosqichlarni o‘zingiz takrorlang, javobni darslikdagi usul bilan solishtiring.",
+        "Eng foydali yo‘l — avval masalani o‘zingiz yechishga urinib ko‘rish, keyin tushuntirish bilan solishtirish. Shunda qaysi bosqichda adashganingiz ko‘rinadi va keyingi masalani o‘zingiz yecha olasiz. O‘qituvchiga topshiriladigan ishni AI javobidan ko‘chirmang: bu o‘rganishga yordam bermaydi va maktab qoidalariga zid bo‘lishi mumkin.",
+        "Bir nechta masala bo‘lgan varaqni yuborsangiz, AI belgilangan yoki birinchi to‘liq masalani tushuntiradi. Har bir masalani alohida suratga olish yaxshiroq natija beradi."
+      ]
+    },
+    {
+      "id": "maxfiylik",
+      "h2": "Rasm bilan nima bo‘ladi",
+      "paragraphs": [
+        {
+          "text": "Rasm faqat tahlil uchun Z.ai (Singapur) AI modeliga yuboriladi va saqlanmaydi: GPTBot.uz serverida ham, boshqa joyda ham rasm va javob matni qolmaydi. Z.ai ma’lumotlari Zhipu AI guruhi kompaniyalariga, shu jumladan Xitoyga ham o‘tishi mumkin. Rasmdagi metama’lumotlar (joy, vaqt, qurilma) yuborishdan oldin serverda o‘chiriladi. Daftardagi ism-familiya, maktab va sinf raqamini AI javobga ko‘chirmaydi. Odamlarning yuzi tushgan rasmni yubormang. Bot emasligingizni Cloudflare Turnstile tekshiradi. Umumiy qoidalar — {privacy}.",
+          "links": [
+            {
+              "token": "privacy",
+              "target": "/uz/maxfiylik-siyosati/",
+              "anchor": "maxfiylik siyosati"
+            }
+          ]
+        },
+        "Jurnalda faqat so‘rov vaqti, model nomi, sarflangan tokenlar va natija kodi qoladi — rasm, matn yoki shaxsiy ma’lumot emas."
+      ]
+    }
+  ],
+  "faqTitle": "Savol-javob",
+  "faq": [
+    {
+      "q": "Rasmdan yechim bepulmi?",
+      "a": "Ha. Kuniga 2 ta rasm bepul, ro‘yxatdan o‘tmasdan. Bugungi rasmlar ishlatilgan bo‘lsa, keyingilari Toshkent vaqti bilan soat 05:00 dan keyin ochiladi. O‘qilmagan rasm uchun limit sarflanmaydi."
+    },
+    {
+      "q": "Qanday rasm yaxshi o‘qiladi?",
+      "a": "Yorug‘ joyda, to‘g‘ridan va yaqinroqdan olingan aniq surat. Bitta rasmda bitta masala bo‘lsin, varaq tekis tursin, soya va yaltirash bo‘lmasin. Qo‘lyozma ham o‘qiladi, lekin bosma matndan ko‘ra xato ehtimoli yuqoriroq: javobni albatta tekshiring."
+    },
+    {
+      "q": "Qaysi fanlar bo‘yicha ishlaydi?",
+      "a": "Eng yaxshisi — matematika va fizika: hisob, kasrlar, tenglamalar, formulali masalalar. Kimyo, ona tili va boshqa fanlardagi mashqlar ham tushuntiriladi, lekin AI ishonchi pastroq bo‘lishi mumkin. Rasm, sxema yoki jadvalga asoslangan savollarda AI adashishi mumkin."
+    },
+    {
+      "q": "Nega javobda «ishonch past» deb yozilgan?",
+      "a": "AI rasmni to‘liq o‘qiy olmaganini yoki yechimga ishonmasligini bildiradi. Bunday javobni asos sifatida emas, faqat yo‘l-yo‘riq sifatida oling: bosqichlarni o‘zingiz qayta hisoblang yoki rasmni yaqinroqdan qayta suratga olib yuboring."
+    },
+    {
+      "q": "Rasm va javob saqlanadimi?",
+      "a": "Yo‘q. Rasm faqat tahlil uchun Z.ai (Singapur) AI modeliga yuboriladi va saqlanmaydi; metama’lumotlar oldindan o‘chiriladi. Jurnalda faqat vaqt, model va natija kodi qoladi. Shuning uchun sahifani yopsangiz, tushuntirishni qayta ochib bo‘lmaydi — kerak bo‘lsa, uni o‘zingiz saqlab oling."
+    },
+    {
+      "q": "Instagram yoki Telegram ichida ochsam nima bo‘ladi?",
+      "a": "Ilova ichidagi brauzerda rasm yuklash ishlamasligi mumkin. Sahifa buni sezsa, «Brauzerda oching» degan ogohlantirish chiqadi: havolani nusxalab, Chrome yoki Safari’da oching."
+    }
+  ],
+  "links": {
+    "text": "Mavzudan tayyor taqdimot kerak bo‘lsa — {deck}. Masalani matn bilan so‘rash yoki qoidani tushuntirib berishini xohlasangiz — {chat}.",
+    "links": [
+      {
+        "token": "deck",
+        "target": "/uz/taqdimot-ai/",
+        "anchor": "Taqdimot AI"
+      },
+      {
+        "token": "chat",
+        "target": "/uz/gpt-uzbek-tilida/",
+        "anchor": "GPTBot.uz bepul AI chati"
+      }
+    ]
+  },
+  "business": {
+    "text": "Biznesingiz uchun AI-bot kerakmi? {b2b}.",
+    "links": [
+      {
+        "token": "b2b",
+        "target": "/uz/biznes-uchun-ai-bot/",
+        "anchor": "Biznes uchun AI bot"
+      }
+    ]
+  },
+  "createdAt": "2026-10-07",
+  "updatedAt": "2026-10-07"
+}

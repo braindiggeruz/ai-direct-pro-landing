@@ -23,6 +23,7 @@ import {
 import { CRAWLER_SCHEMA_FINGERPRINT } from '../functions/platform/lead-radar/crawler';
 import { normalizeSchemaSql } from '../functions/platform/lead-radar/schema-sql';
 import { SqliteD1 } from './helpers/sqlite-d1';
+import { SIGNAL_MIGRATIONS } from './helpers/signal-schema';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SIGNAL_MIGRATION = '0057_lead_radar_signal.sql';
@@ -80,11 +81,23 @@ test('Lead Radar still passes with Signal Radar absent, so an un-migrated databa
   assert.equal(report.status, 'pass', JSON.stringify(report.issues));
 });
 
+test('the complete Signal Radar extension keeps the base pin but an unknown table still blocks', async (t) => {
+  const db = await database(...SIGNAL_MIGRATIONS.map((file) => ({ file })));
+  t.after(() => db.sqlite.close());
+  const installed = await auditLeadRadarD1Schema(db.asD1(), 'target');
+  assert.equal(installed.status, 'pass', JSON.stringify(installed.issues));
+  assert.equal(installed.matchedProfile, 'target');
+
+  db.exec('CREATE TABLE lead_radar_signal_unexpected (org_id TEXT NOT NULL, id TEXT PRIMARY KEY)');
+  const unknown = await auditLeadRadarD1Schema(db.asD1(), 'target');
+  assert.equal(unknown.status, 'blocked');
+  assert.ok(unknown.issues.some((issue) => issue.code === 'schema_fingerprint_mismatch'));
+});
+
 test('Signal Radar and the crawler extension can coexist without breaking either pin', async (t) => {
   const db = await database(
     { file: CRAWLER_MIGRATION },
-    { file: SIGNAL_MIGRATION },
-    { file: RETENTION_MIGRATION },
+    ...SIGNAL_MIGRATIONS.map((file) => ({ file })),
   );
   t.after(() => db.sqlite.close());
   const report = await auditLeadRadarD1Schema(db.asD1(), 'target');

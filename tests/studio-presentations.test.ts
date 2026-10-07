@@ -519,10 +519,17 @@ test("switches and host: off, a preview host or a full deck → 404; malformed r
     assert.equal((await call(off, slidesEndpoint, slidesRequest, { job: `sj_${"a".repeat(32)}` })).status, 404);
     assert.equal(slidesRequest.bodyUsed, false);
   }
-  // The full deck is T3.1's: 404 even with its switches on.
+  // The full deck (T3.1, tests/studio-full-deck.test.ts) is 404 while its own switches are off …
+  const free = await create(site, cookie, { shape: "full", slides: 8, palette: 2 });
+  assert.equal(free.response.status, 404);
+  // … and with them on, a browser that never bought has nothing to spend: 402, no unit, no row, no Turnstile.
   const paid = await studioSite(context, { config: { STUDIO_PAID_SERVICE: "on", STUDIO_FULL_DECK: "true" } });
-  const full = await create(paid, cookie, { shape: "full", slides: 8 });
-  assert.equal(full.response.status, 404);
+  const full = await create(paid, cookie, { shape: "full", slides: 8, palette: 2 });
+  assert.equal(full.response.status, 402);
+  assert.equal(full.body.code, "no_units");
+  assert.equal(paid.db.value("SELECT COUNT(*) FROM studio_unit_ledger"), 0);
+  assert.equal(paid.siteverify.length, 0);
+  // Only the full deck on: a free start is 404.
   const onlyFull = await studioSite(context, { config: { STUDIO_FREE_DECK: "false", STUDIO_PAID_SERVICE: "on", STUDIO_FULL_DECK: "true" } });
   assert.equal((await create(onlyFull, cookie)).response.status, 404);
   for (const over of [

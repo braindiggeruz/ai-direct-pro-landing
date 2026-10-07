@@ -56,6 +56,9 @@ function fixtureRepo(dir: string): string {
   mkdirSync(path.join(root, "content/global"), { recursive: true });
   for (const file of ["wrangler.toml", "content/global/legal-entity.json", "content/global/site.json"])
     writeFileSync(path.join(root, file), readFileSync(path.join(ROOT, file)));
+  // The isolated inbox includes all provider formats; production's allowlist is not modified.
+  const toml = path.join(root, "wrangler.toml");
+  writeFileSync(toml, setRuntimeSettings(readFileSync(toml, "utf8"), { GPT_PAYMENT_PROVIDERS: "click,uzum,payme" }));
   return root;
 }
 

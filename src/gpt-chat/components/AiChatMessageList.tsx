@@ -101,6 +101,12 @@ export function AiChatMessageList({
   // Too long for the server: sending it again fails the same way, so only
   // «change the question» is offered.
   const resend = messages[messages.length - 1]?.content !== t.premium.contextTooLarge;
+  // Which model wrote an answer, beside its action row (chat UI §5.7).
+  const model = (m: ChatMessage) => m.model ? (
+    <p className="gpt-model" title={m.model}>
+      {t.answeredBy}: {modelLabel(m.model)}
+    </p>
+  ) : null;
   const errorActions = onRetry && (
     <div className="gpt-error-actions">
       {resend && <button type="button" onClick={onRetry} disabled={locked} className={ERROR_ACTION}>
@@ -156,7 +162,8 @@ export function AiChatMessageList({
       {messages.map((m, i) => (
         // The last answer's «⋯» menu draws outside its item: that item only
         // keeps no content-visibility (premium.css .gpt-item-menu).
-        <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"} className={i === lastAssistant ? "gpt-item-menu" : undefined}>
+        // A question opens a turn: more room above it than between it and its answer (chat UI §5.5).
+        <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"} className={i === lastAssistant ? "gpt-item-menu" : m.role === "user" ? "gpt-turn-user" : undefined}>
         {m.role === "user" ? (
           // dir="auto": an Arabic or mixed question aligns by its own first letters.
           <div className="gpt-user-message" dir="auto">{m.content}</div>
@@ -195,12 +202,6 @@ export function AiChatMessageList({
                   </p>
                 ) : (
                   <>
-                    {/* Which model wrote it, above the row (chat design §5.6). */}
-                    {m.model && (
-                      <p className="gpt-model" title={m.model}>
-                        {t.answeredBy}: {modelLabel(m.model)}
-                      </p>
-                    )}
                     {m.partial && (
                       <p className="gpt-notice" role="status">
                         {t.premium.partial}
@@ -212,12 +213,15 @@ export function AiChatMessageList({
                         {t.truncated}
                       </p>
                     )}
-                    {/* If the part cannot load (a dropped 3G request, a release that
-                        removed its file), the buttons are gone for this page view:
-                        said once, under the last answer, with the way back. */}
-                    <LazyPart part={answerPart} fallback={null} failed={i === lastAssistant ? <PartFailed message={t.partFailed} reload={t.partReload} /> : null}>
+                    {/* The answer's foot: which model wrote it and the action row
+                        (chat UI §5.7). If the part cannot load (a dropped 3G
+                        request, a release that removed its file), the buttons are
+                        gone for this page view: said once, under the last answer,
+                        with the way back; the model line stays. */}
+                    <LazyPart part={answerPart} fallback={<div className="gpt-answer-foot">{model(m)}</div>} failed={<><div className="gpt-answer-foot">{model(m)}</div>{i === lastAssistant && <PartFailed message={t.partFailed} reload={t.partReload} />}</>}>
                       {({ MessageActions }) => (
                         <MessageActions
+                          model={model(m)}
                           content={m.content}
                           locale={locale}
                           isLast={i === lastAssistant}

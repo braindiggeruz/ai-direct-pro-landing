@@ -100,7 +100,7 @@ function copyContent(t: Cleanup): string {
   return root;
 }
 
-const urlBlock = /  <url>\n    <loc>https:\/\/gptbot\.uz(\/[^<]*)<\/loc>[\s\S]*?\n  <\/url>\n?/g;
+const urlBlock = / {2}<url>\n {4}<loc>https:\/\/gptbot\.uz(\/[^<]*)<\/loc>[\s\S]*?\n {2}<\/url>\n?/g;
 const blocksOf = (xml: string) => [...xml.matchAll(urlBlock)].map(m => ({ url: m[1], block: m[0] }));
 const withoutStudio = (xml: string, urls: string[]) => xml.replace(urlBlock, (block, url: string) => (urls.includes(url) ? '' : block));
 const homeLastmod = (xml: string) => /<loc>https:\/\/gptbot\.uz\/<\/loc>[\s\S]*?<lastmod>([^<]+)<\/lastmod>/.exec(xml)?.[1];
@@ -133,13 +133,21 @@ test('generate-sitemap: drafts change nothing, published pages are only added, a
   assert.equal(homeLastmod(after.sitemap), homeLastmod(bare.sitemap), 'the homepage lastmod stays');
   const added = blocksOf(after.sitemap).filter(b => studioUrls.includes(b.url));
   assert.deepEqual(added.map(b => b.url).sort(), [...studioUrls].sort());
+  const releasedPages = readStudioPages(released);
   for (const { url, block } of added) {
-    assert.match(block, /<xhtml:link rel="alternate" hreflang="ru" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"\/>/, url);
-    assert.match(block, /<xhtml:link rel="alternate" hreflang="uz" href="https:\/\/gptbot\.uz\/uz\/taqdimot-ai\/"\/>/, url);
-    assert.match(block, /<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"\/>/, url);
+    // The deck pair carries its alternates; a page without a translation (the photo page) carries none.
+    const paired = studioAlternates(releasedPages.find(p => p.url === url) as StudioPageRecord, releasedPages) !== null;
+    if (paired) {
+      assert.match(block, /<xhtml:link rel="alternate" hreflang="ru" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"\/>/, url);
+      assert.match(block, /<xhtml:link rel="alternate" hreflang="uz" href="https:\/\/gptbot\.uz\/uz\/taqdimot-ai\/"\/>/, url);
+      assert.match(block, /<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"\/>/, url);
+    } else {
+      assert.doesNotMatch(block, /<xhtml:link/, url);
+    }
     assert.match(block, /<lastmod>2026-10-22<\/lastmod>/, url);
     assert.doesNotMatch(block, /<image:image>/, url);
   }
+  assert.ok(added.some(({ url }) => studioAlternates(releasedPages.find(p => p.url === url) as StudioPageRecord, releasedPages) !== null), 'the deck pair is paired');
   // The recent-changes sitemap is a subset of the main one: the new pages are recent.
   assert.deepEqual(blocksOf(after.updates).filter(b => studioUrls.includes(b.url)).map(b => b.url).sort(), [...studioUrls].sort());
 });
@@ -184,7 +192,9 @@ test('repository: the studio entries are exactly the published records, paired w
   for (const entry of entries) {
     const page = pages.find(p => p.url === entry.url);
     assert.ok(page);
-    const counterpart = pages.find(p => p.locale !== page.locale);
+    // The translation a record names (hreflangRu / hreflangUz); a page without one (the photo page) is never paired.
+    const translation = page.locale === 'uz' ? page.data.hreflangRu : page.data.hreflangUz;
+    const counterpart = typeof translation === 'string' ? pages.find(p => p.url === translation && p.locale !== page.locale) : undefined;
     assert.equal(Boolean(entry.alternates), counterpart?.status === 'published', entry.url);
   }
 });

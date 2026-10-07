@@ -52,6 +52,7 @@ import { rekeySaltedHashes } from "../../lib/gpt-chat/salt-rekey-store";
 import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { maintainUzum } from "../../lib/gpt-chat/uzum-maintenance";
+import { maintainStudio } from "../../lib/studio/maintenance";
 
 // 19 s together, under the Worker's 20 s timeout: fiscal and uzum run beside
 // providers + watchdog (8 s each), then alerts and the rest follow one by one.
@@ -65,6 +66,7 @@ const STEP_BUDGET_MS = {
   rekey: 2_000,
   retention: 1_000,
   diagnostics: 1_000,
+  studio: 1_000,
 } as const;
 type Step = keyof typeof STEP_BUDGET_MS;
 /**
@@ -145,7 +147,10 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   const fiscal = await fiscalRun;
   const uzum = await uzumRun;
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
-  const maintenance = await step("maintenance", () => maintainBilling(env));
+  const [maintenance, studio] = await Promise.all([
+    step("maintenance", () => maintainBilling(env)),
+    step("studio", () => maintainStudio(env)),
+  ]);
   const rekey = await step("rekey", () => rekeySaltedHashes(env));
   const retention = await step("retention", () => purgeChatMessages(env));
   const diagnostics = await step("diagnostics", () => inspectBilling(env));
@@ -159,6 +164,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       uzum,
       alerts,
       ...maintenance,
+      studio,
       rekey,
       retention,
       ...diagnostics,

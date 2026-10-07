@@ -116,6 +116,8 @@ const PAYME_IN_TEST: string[] = committedBillingSettings().GPT_BILLING_MODE_PAYM
 
 function productionLike(env: BillingEnv, extra: Partial<BillingEnv>): void {
   Object.assign(env, liveSettings(), committedBillingSettings(), {
+    // This offline fixture exercises every provider, independently of the production allowlist.
+    GPT_PAYMENT_PROVIDERS: "click,uzum,payme",
     GPT_TELEGRAM_CLIENT_ID: "",
     GPT_TELEGRAM_CLIENT_SECRET: "",
     GPT_CLICK_TEST_SERVICE_ID: "",

@@ -43,6 +43,12 @@ function localDev(request: Request, env: StudioEnv): boolean {
   return url.hostname !== STUDIO_HOST && studioHostAllowed(url, env);
 }
 
+/** Cloudflare's public dummy widget repeats one token. Only local rehearsals
+ * with the public test secret may use it repeatedly; real tokens stay single-use. */
+export function repeatingLocalTestWidget(request: Request, env: TurnstileEnv): boolean {
+  return localDev(request,env) && TURNSTILE_TEST_SECRETS.includes(env.STUDIO_TURNSTILE_SECRET_KEY ?? '');
+}
+
 /** The secret this request may be checked with, or null (fail-closed). */
 function secretFor(request: Request, env: TurnstileEnv): string | null {
   const secret = (env.STUDIO_TURNSTILE_SECRET_KEY || "").trim();

@@ -15,11 +15,25 @@ const CHECK = /^(?:✅\s*)?(?:<strong>)?\s*(?:tekshirish|tekshiramiz|прове�
 const FORMULA_END = /^\s*(?:$|```|#{1,6}\s|[-*+]\s|\d+[.)]\s)/;
 /** The answer box holds a short value (a number, an equation, a few words), never a letter that starts with «Ответ:». */
 const RESULT_MAX = 80;
+/** A code fence's language, «```python»: a short word, written as text beside the copy button. */
+const FENCE_LANG = /^\s*```\s*([\w+#.-]{1,20})/;
+
+/** Where a formula line's first «=» outside brackets stands, or -1; ≤, ≥, ≠, «==» and «=>» are not it. */
+function equalsAt(row: string): number {
+  let depth = 0;
+  for (let k = 0; k < row.length; k++) {
+    const c = row[k];
+    if ("{([".includes(c)) depth++;
+    else if ("})]".includes(c)) depth = Math.max(0, depth - 1);
+    else if (c === "=" && !depth && !"<>!=:".includes(row[k - 1] || " ") && row[k + 1] !== "=" && row[k + 1] !== ">") return k;
+  }
+  return -1;
+}
 
 // Escape before parsing. Only our fixed HTML templates can become elements;
 // model HTML, URLs and language labels never become attributes or scripts.
-// The values that reach an attribute are a list's first number and the
-// counter it starts from, digits only. `copy`, the label of a code block's
+// A formula's accessible label is escaped; a list's number and counter
+// are digits only. `copy`, the label of a code block's
 // own copy button (REV-6), is ours. `streaming`: the answer is still
 // arriving, so a display formula it opened may not be closed yet.
 export function renderMarkdown(src: string, copy?: string, streaming = false): string {
@@ -41,11 +55,19 @@ export function renderMarkdown(src: string, copy?: string, streaming = false): s
   const formulas: string[] = [];
   const formula = (rows: string[]) => {
     // One row per source line or «\\»; an aligned block's environment and «&» go.
-    formulas.push(rows.join("\n").replace(/\\(?:begin|end)\{[a-z*]+\}|&/g, "").split(/\n|\\\\/)
-      .filter((row) => row.trim()).map((row) => `<div>${mathHtml(escape(row.trim()))}</div>`).join(""));
+    const drawn = rows.join("\n").replace(/\\(?:begin|end)\{[a-z*]+\}|&/g, "").split(/\n|\\\\/).map((row) => row.trim()).filter(Boolean);
+    // A derivation over lines (chat UI §5.6): its «=» signs stand in one
+    // column, the left sides right-aligned before them; a line that goes on
+    // with «=» has an empty left side.
+    const cut = drawn.map(equalsAt);
+    const aligned = drawn.length > 1 && cut.some((at) => at >= 0);
+    const inner = aligned
+      ? drawn.map((row, k) => `<span class="l">${cut[k] > 0 ? mathHtml(escape(row.slice(0, cut[k]).trim())) : ""}</span><span class="r">${mathHtml(escape(cut[k] > 0 ? row.slice(cut[k]) : row))}</span>`).join("")
+      : drawn.map((row) => `<div>${mathHtml(escape(row))}</div>`).join("");
+    formulas.push(`<div class="gpt-math${aligned ? " gpt-eq" : ""}" tabindex="0" role="math" aria-label="${escape(latexLite(drawn.join("; ")))}">${inner}</div>`);
     return `\uE000${formulas.length - 1}\uE000`;
   };
-  const marked = (s: string) => s.replace(/\uE000(\d+)\uE000/g, (_, n: string) => `<div class="gpt-math" tabindex="0">${formulas[Number(n)]}</div>`);
+  const marked = (s: string) => s.replace(/\uE000(\d+)\uE000/g, (_, n: string) => formulas[Number(n)]);
   const inline = (s: string): string =>
     marked(s
       .split(/(`[^`]*`)/g)
@@ -148,8 +170,8 @@ export function renderMarkdown(src: string, copy?: string, streaming = false): s
     }
     const tag = numbered ? "ol" : "ul";
     const start = numbered ? parseInt(first[2], 10) : 1;
-    // A numbered list counts its steps in circles from its own first number
-    // (premium.css): a list split by a paragraph goes on 2, 3, not 1 again.
+    // A numbered list counts from its own first number (premium.css): a
+    // list split by a paragraph goes on 2, 3, not 1 again.
     return [
       `<${tag} class="${numbered ? "list-decimal" : "list-disc"}"${start !== 1 ? ` start="${start}" style="counter-reset:step ${start - 1}"` : ""}>${items.map((x) => `<li>${x}</li>`).join("")}</${tag}>`,
       i,
@@ -203,11 +225,14 @@ export function renderMarkdown(src: string, copy?: string, streaming = false): s
       out.push(marked(line.trim()));
     } else if (/^\s*```/.test(line)) {
       flush();
+      // The language is text in the head, never an attribute (escaped, and only [\w+#.-]).
+      const lang = FENCE_LANG.exec(line)?.[1] ?? "";
       const code: string[] = [];
       while (++i < lines.length && !/^\s*```/.test(lines[i]))
         code.push(lines[i]);
       const pre = `<pre class="gpt-code" tabindex="0"><code>${code.join("\n")}</code></pre>`;
-      out.push(copy ? `<div class="gpt-code-wrap">${pre}<button type="button" class="gpt-code-copy" data-copy-code>${copy}</button></div>` : pre);
+      // A head row (chat UI §5.6): the language at the left, the copy button at the right.
+      out.push(copy ? `<div class="gpt-code-wrap"><div class="gpt-code-head"><span>${lang}</span><button type="button" class="gpt-code-copy" data-copy-code>${copy}</button></div>${pre}</div>` : pre);
     } else if (
       line.includes("|") &&
       i + 1 < lines.length &&

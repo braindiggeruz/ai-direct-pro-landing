@@ -14,14 +14,19 @@
 // The answer is the bytes with Content-Type image/jpeg, Cache-Control
 // no-store and X-Robots-Tag noindex. The browser shows them through
 // URL.createObjectURL (never a data: URL, so Webvisor does not record them).
+//
+// Whose job: a free deck is the browser's (__Host-studio_bid); a full deck
+// the buyer's (the session of __Host-studio_account, full-deck.ts). Anyone
+// else's job is 404. A full deck draws up to 8 pictures (plans.ts
+// DECK_SHAPES.full: 8 + 4 redraws), a free one 2 (+ 2).
 import type { BillingEnv } from "../../../../lib/gpt-chat/billing-config";
 import { readJsonLimited } from "../../../../lib/gpt-chat/http";
 import { sameOrigin } from "../../../../lib/gpt-chat/identity-store";
 import { deckOpen, studioGate, studioRequestConfig } from "../../../../lib/studio/config";
 import { fail, notFound, studioLog } from "../../../../lib/studio/http";
 import { identityConfigured, readIdentity } from "../../../../lib/studio/identity";
+import { buyerSubject, hasBuyerCookie, readBuyer } from "../../../../lib/studio/full-deck";
 import { PICTURE_HEADERS, paintPicture } from "../../../../lib/studio/images";
-import { loadJob } from "../../../../lib/studio/jobs";
 import { LedgerStore, isJobId, type LedgerJob } from "../../../../lib/studio/ledger";
 import { recordStudioAlerts } from "../../../../lib/studio/limits";
 import { ensureDeckSchema } from "../../../../lib/studio/presentation";
@@ -37,6 +42,15 @@ type DeckJob = LedgerJob & { readonly shape: "free" | "full" };
 const isDeck = (job: LedgerJob | null): job is DeckJob =>
   !!job && job.tool === "presentation" && (job.shape === "free" || job.shape === "full");
 
+/** Job `id` if it is the asker's: a free deck the browser's, a full deck the buyer's; else null. */
+async function ownDeck(store: LedgerStore, id: string, request: Request, browser: string | null, now: number): Promise<DeckJob | null> {
+  const job = await store.get(id);
+  if (!isDeck(job)) return null;
+  if (job.shape === "free") return job.subject === browser ? job : null;
+  const userId = hasBuyerCookie(request) ? await readBuyer(request, store.db, now) : null;
+  return userId && job.subject === buyerSubject(userId) ? job : null;
+}
+
 export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env, params, waitUntil }) => {
   const closed = studioGate(request, env, "images");
   if (closed) return closed;
@@ -48,7 +62,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   const now = Date.now();
 
   const identity = await readIdentity(request, env, now);
-  if (!identity) return fail("identity_required");
+  if (!identity && !hasBuyerCookie(request)) return fail("identity_required");
   const db = env.GPTBOT_DRAFTS_DB;
   const ai = aiRunner(env);
   if (!db || !ai || !identityConfigured(env) || !signingConfigured(env)) {
@@ -65,14 +79,14 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
   }
 
   const store = new LedgerStore(db);
-  let job: LedgerJob | null;
+  let job: DeckJob | null;
   try {
     await ensureDeckSchema(db);
-    job = await loadJob(db, jobId, identity.subject);
+    job = await ownDeck(store, jobId, request, identity?.subject ?? null, now);
   } catch {
     return fail("studio_busy");
   }
-  if (!isDeck(job) || !deckOpen(config, job.shape)) return notFound();
+  if (!job || !deckOpen(config, job.shape)) return notFound();
   const refusal = checkImageRequest(job, now);
   if (refusal) {
     studioLog(EVENT, refusal);
@@ -83,7 +97,7 @@ export const onRequest: PagesFunction<BillingEnv, "job"> = async ({ request, env
     taken = await store.takeImageCall(job.id, job.subject, imageCallCap(job.shape), now);
     if (taken === null) {
       // Another request took the last call, or the job closed meanwhile.
-      const fresh = await loadJob(db, jobId, identity.subject);
+      const fresh = await store.get(jobId);
       const code = isDeck(fresh) ? checkImageRequest(fresh, now) ?? "image_cap" : "job_state";
       studioLog(EVENT, code);
       return fail(code);

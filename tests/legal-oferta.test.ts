@@ -17,7 +17,7 @@
 //   - edition ai-paket-2026-10-v3 (owner's approval of 2026-10-07): the guest
 //     account of guest checkout and Payme, named in both offers and both
 //     policies, as the Payme live switch and GPT_GUEST_CHECKOUT require;
-//   - edition ai-paket-2026-10-v4 (owner's order of 2026-10-07, one tap):
+//   - edition ai-paket-2026-10-v5 (owner's order of 2026-10-07, one tap):
 //     the offer is accepted by pressing the pay button and paying, not by
 //     ticking a box; the text of sections 7 and 11 says so, the rest is v3.
 import { test } from 'node:test';
@@ -66,6 +66,11 @@ const nested = Object.fromEntries([...read('wrangler.toml').split('[vars.GPTBOT_
 const deployed = config as unknown as Env;
 /** Visible text of a page: what prerender renders from the JSON. */
 const text = (doc: Page) => JSON.stringify([doc.h1, doc.title, doc.description, doc.heroSubtitle, doc.bodyBlocks, doc.faq]);
+// Clauses 1-13 describe chat; Studio has its own prices and refund rules in 14-18.
+const chatText = (doc: Page) => {
+  const cut = doc.bodyBlocks?.findIndex(block => block.type === 'h2' && /^14\. /.test(block.text ?? '')) ?? -1;
+  return text(cut < 0 ? doc : {...doc, bodyBlocks: doc.bodyBlocks!.slice(0,cut)});
+};
 /** The pages scripts/generate-robots.ts lists in _redirects as 404. */
 const answeredWith404 = (doc: Pick<Page, 'status' | 'robotsIndex'>) =>
   doc.status === 'draft' || doc.status === 'noindex' || doc.robotsIndex === false;
@@ -97,10 +102,10 @@ test('(a) both offers are published, indexable legal pages with a reciprocal hre
 });
 
 test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING_TERMS_*', () => {
-  // ai-paket-2026-10-v4: acceptance by pressing the pay button (one tap). v3 added
+  // ai-paket-2026-10-v5: acceptance by pressing the pay button (one tap). v3 added
   // the guest account and Payme; v2 (WP-25) knew only the Telegram account, Click
   // and Uzum Bank; v1, published with R4, still promised refunds.
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v4');
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v5');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -202,7 +207,7 @@ test('(v4) acceptance by action: the offer is accepted by pressing the pay butto
   assert.match(uz.payVia('Click'), /^Click orqali to‘lash$/);
   // v4 is the edition both offers state and the config sells; the studio's own offer must then take v5
   // (TERMS_PLAN in functions/lib/studio/plans.ts maps the chat's v3 to the studio plan: CHANGE_LOG 07.10).
-  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-10-v4', locale);
+  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-10-v5', locale);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -212,8 +217,8 @@ test('(d) every number the offers state is the number the code and the deployed 
   const vatSum = sum(includedVat(PRICE_TIYIN, vat));
   assert.equal(price, '20 000');
   assert.equal(vatSum, '2 142,86');
-  const ru = text(offers.ru);
-  const uz = text(offers.uz);
+  const ru = chatText(offers.ru);
+  const uz = chatText(offers.uz);
   assert.ok(ru.includes(`Цена — ${price} сум, в том числе НДС ${vat} % — ${vatSum} сум`));
   assert.ok(uz.includes(`Narxi — ${price} so‘m, shu jumladan QQS ${vat} % — ${vatSum} so‘m`));
   // The price and its VAT are the only sums: no refund amount or example any more (WP-25).
@@ -309,7 +314,7 @@ test('(h) a paid pack is not refundable: two narrow exceptions, said the same in
   assert.ok(uz.includes('O‘zbekiston Respublikasi qonunchiligi buni bevosita talab qiladigan hollarda ham pul qaytariladi'));
   assert.equal(offers.ru.bodyBlocks!.filter((block) => block.type === 'h2' && block.text === '8. Возврат').length, 1);
   // No refund on request, no share for unused answers, no button, anywhere in either offer.
-  for (const body of [text(offers.ru), text(offers.uz)]) {
+  for (const body of [chatText(offers.ru), chatText(offers.uz)]) {
     assert.doesNotMatch(body, /Запросить возврат|неиспользованн\S* част|делённая на|в момент запроса|13 333/);
     assert.doesNotMatch(body, /qaytarishni so‘rash|ishlatilmagan qism|ga bo‘lish|so‘rov paytida|13 333/);
   }
@@ -525,9 +530,9 @@ test('live gate: each missing piece refuses live by name, and never prints a val
     ['no fiscal code', { config: { ...live.config, GPT_FISCAL_IKPU: '' } }, /click: GPT_FISCAL_IKPU/],
     ['Click secret not in production', { production: new Set(LIVE_SECRETS.filter((name) => name !== 'GPT_CLICK_CREDENTIALS_JSON')) }, /click: Pages secret GPT_CLICK_CREDENTIALS_JSON is not set/],
     ['no salt in production', { production: new Set(LIVE_SECRETS.filter((name) => name !== 'GPT_HASH_SALT')) }, /Pages secret GPT_HASH_SALT is not set/],
-    ['Uzum live without its API', { config: { ...live.config, GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live' } }, /uzum: UZUM_API/],
+    ['Uzum live without its API', { config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'uzum', GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live' } }, /uzum: UZUM_API/],
     // liveReadiness() does not ask Uzum for the TIN; the gate still requires the seller's.
-    ['Uzum live without the receipt TIN', { config: { ...live.config, GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live', UZUM_API: 'merchant', GPT_FISCAL_TIN: '' } }, /GPT_FISCAL_TIN is not the seller's STIR/],
+    ['Uzum live without the receipt TIN', { config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'uzum', GPT_BILLING_MODE_CLICK: '', GPT_BILLING_MODE_UZUM: 'live', UZUM_API: 'merchant', GPT_FISCAL_TIN: '' } }, /GPT_FISCAL_TIN is not the seller's STIR/],
   ];
   for (const [name, change, expected] of cases) {
     const report = liveGate({ ...live, ...change });
@@ -600,7 +605,7 @@ test('live gate: every release mode runs it; check-production and deploy with th
   const release = read('scripts/release/pages-production.ts');
   const main = release.slice(release.indexOf('async function main()'));
   // stamp, check, check-production and deploy all pass through main() before anything else.
-  assert.match(main, /assertLiveGate\(loadLiveGateInput\(ROOT, dist, null\)\);\s*assertCleanRuntime\(ROOT\);/);
+  assert.match(main, /assertLiveGate\(loadLiveGateInput\(ROOT, dist, null\)\);\s*assertStudioLiveGate\(ROOT, dist, null\);\s*assertCleanRuntime\(ROOT\);/);
   const check = release.slice(release.indexOf('async function checkProduction('), release.indexOf('function describeLock('));
   assert.match(check, /assertLiveGate\(loadLiveGateInput\(root, dist, productionVariableNames\(project\)\)\);/);
   assert.match(release, /async function deploy\([^)]*\)[\s\S]*?await checkProduction\(root, dist\);[\s\S]*?'pages', 'deploy'/, 'deploy checks before the upload');

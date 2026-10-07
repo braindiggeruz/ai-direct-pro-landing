@@ -89,7 +89,8 @@ test('metrika: a goal carries its name only; an unknown name is dropped; a missi
  *   checkoutResult   the return from Click (T4.1 billing/PayReturn.tsx)
  * When a task wires one, it must leave this list (the test fails until it does).
  */
-const LATER_STEPS = new Set<keyof Funnel>(['tariffsViewed', 'checkoutStarted', 'checkoutResult']);
+// The paid stage (07.10.2026, stream B) wired all three: Tariffs.tsx, Checkout.tsx, PayReturn.tsx.
+const LATER_STEPS = new Set<keyof Funnel>([]);
 
 const STEP_GOALS: Record<keyof Funnel, string | null> = {
   toolStarted: 'studio_tool_started',

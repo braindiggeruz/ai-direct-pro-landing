@@ -8,6 +8,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
+  IMAGE_CHECK_MODELS,
   STUDIO_CONFIG_DEFAULTS,
   STUDIO_CONFIG_KEYS,
   STUDIO_ROUTES,
@@ -22,6 +23,7 @@ import {
   type StudioRoute,
 } from "../functions/lib/studio/config";
 import { STUDIO_ERRORS, fail, json, notFound, studioLog } from "../functions/lib/studio/http";
+import { alertRowId, alertText, isUrgentAlert, renderAlertMessage } from "../functions/lib/gpt-chat/alert-policy";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const COMMITTED = /STUDIO_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(readFileSync(path.join(ROOT, "wrangler.toml"), "utf8"))?.[1];
@@ -39,16 +41,17 @@ const SWITCHES = (config: StudioConfig) => ({
 const ALL_OFF = { api: false, paidService: false, freeDeck: false, fullDeck: false, photo: false, payments: "off", events: false };
 const parse = (values: Record<string, unknown>) => parseStudioConfig(JSON.stringify(values));
 
-test("the defaults keep every switch off; the committed variable is release R-ST1: the free deck and nothing paid", () => {
+test("the defaults stay off; production sells Studio through the explicitly approved shared Click service", () => {
   assert.ok(COMMITTED, "wrangler.toml has no STUDIO_RUNTIME_CONFIG_JSON");
-  // R-ST1 (2026-10-07) changes the defaults in four places only: the free
-  // deck's switches (or all three off again: the rollback, studio-switch.ts),
-  // the studio's Turnstile site key and no OpenRouter fallback.
-  // tests/pages-config-parity.test.ts pins the exact values.
   const committed = parseStudioConfig(COMMITTED);
-  const changed = Object.keys(STUDIO_CONFIG_DEFAULTS).filter((key) => JSON.parse(COMMITTED)[key] !== STUDIO_CONFIG_DEFAULTS[key as keyof typeof STUDIO_CONFIG_DEFAULTS]);
-  assert.ok(changed.every((key) => ["STUDIO_API", "STUDIO_FREE_DECK", "STUDIO_EVENTS", "STUDIO_TURNSTILE_SITE_KEY", "STUDIO_FREE_TEXT_FALLBACK"].includes(key)), changed.join());
-  assert.deepEqual(SWITCHES(committed), { ...ALL_OFF, api: committed.freeDeck, freeDeck: committed.freeDeck, events: committed.freeDeck });
+  assert.deepEqual(SWITCHES(committed), { api: true, paidService: true, freeDeck: true, fullDeck: true, photo: false, payments: "live", events: true });
+  assert.equal(committed.clickAmountsConfirmed, true);
+  assert.equal(committed.clickUseChatService, true);
+  assert.deepEqual(committed.paymentProviders, ["click"]);
+  assert.deepEqual(committed.terms, { version: "ai-paket-2026-10-v5", ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/", approvedAt: "2026-10-07" });
+  assert.equal(committed.maxSlides, 12);
+  assert.equal(committed.paidProofread, true);
+  assert.equal(committed.ga4Mp, false);
   assert.equal(committed.freeTextFallback, null);
   assert.match(committed.turnstileSiteKey, /^0x4[0-9A-Za-z_-]+$/);
   assert.deepEqual(SWITCHES(DEFAULTS), ALL_OFF);
@@ -75,6 +78,14 @@ test("invalid JSON, a non-object or nothing at all: every switch off", () => {
     assert.deepEqual(parseStudioConfig(value), DEFAULTS, String(value));
   }
   assert.deepEqual(SWITCHES(parseStudioConfig(ON.slice(0, -1))), ALL_OFF);
+});
+
+test("shared Click service requires its exact explicit runtime flag", () => {
+  assert.equal(DEFAULTS.clickUseChatService, false);
+  assert.equal(parse({ STUDIO_CLICK_USE_CHAT_SERVICE: "true" }).clickUseChatService, true);
+  for (const value of ["false", "TRUE", "True", "1", "on", "yes", " true", true, 1, null]) {
+    assert.equal(parse({ STUDIO_CLICK_USE_CHAT_SERVICE: value }).clickUseChatService, false);
+  }
 });
 
 test("unknown keys are ignored: no quota version, no prototype tricks, no Pages variable of the same name", () => {
@@ -141,7 +152,10 @@ test("models stay on the priced lists; the free fallback is OpenRouter ':free' o
   assert.deepEqual(parse({ STUDIO_VISION_MODELS: "openrouter:google/gemma-4-31b-it:free" }).visionModels, ["zai/glm-5.3-flash", "zai/glm-4.6v-flash"]);
   assert.equal(parse({ STUDIO_FREE_TEXT_FALLBACK: "" }).freeTextFallback, null);
   assert.equal(parse({ STUDIO_FREE_TEXT_FALLBACK: "openrouter:openai/gpt-5" }).freeTextFallback, "openrouter:google/gemma-4-31b-it:free");
-  assert.equal(parse({ STUDIO_IMAGE_CHECK_MODEL: "zai/glm-5.3-flash" }).imageCheckModel, "zai/glm-5.3-flash");
+  // Pictures are checked on Workers AI only (DECISIONS 07.10.2026 §16): the R-ST1 pages say so,
+  // and the paid worst case is priced with it. glm-5.3-flash is no longer a choice.
+  assert.deepEqual([...IMAGE_CHECK_MODELS], ["@cf/google/gemma-4-26b-a4b-it"]);
+  assert.equal(parse({ STUDIO_IMAGE_CHECK_MODEL: "zai/glm-5.3-flash" }).imageCheckModel, "@cf/google/gemma-4-26b-a4b-it");
   assert.equal(parse({ STUDIO_IMAGE_CHECK_MODEL: "@cf/meta/llama-3.2-11b-vision-instruct" }).imageCheckModel, "@cf/google/gemma-4-26b-a4b-it");
 });
 
@@ -228,6 +242,74 @@ test("each route opens on exactly its switches (spec §6)", () => {
   assert.deepEqual([deckOpen(full, "free"), deckOpen(full, "full")], [false, true]);
 });
 
+// ── The paid stage's settings (Build-0; DECISIONS 07.10.2026 §12, §13 п. 4) ──
+
+test("STUDIO_PAYMENT_PROVIDERS: '' sells through nobody; payme, click or both, each name exact, in order, once", () => {
+  assert.equal(STUDIO_CONFIG_DEFAULTS.STUDIO_PAYMENT_PROVIDERS, "");
+  assert.deepEqual(DEFAULTS.paymentProviders, []);
+  assert.deepEqual(parseStudioConfig(COMMITTED).paymentProviders, ["click"], "the committed variable sells only through Click");
+  assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "payme" }).paymentProviders, ["payme"]);
+  assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "click" }).paymentProviders, ["click"]);
+  assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "click,payme" }).paymentProviders, ["click", "payme"]);
+  assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: " payme , click ,payme" }).paymentProviders, ["payme", "click"]);
+  // A typo or a provider the studio does not sell through (Uzum stays off) is not a provider.
+  assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "uzum,payme" }).paymentProviders, ["payme"]);
+  for (const value of ["Payme", "PAYME", "paycom", "uzum", "click;payme", "payme click", " ", ",", "true", true, ["payme"], 1, null, {}])
+    assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: value }).paymentProviders, [], JSON.stringify(value));
+  assert.ok(Object.isFrozen(parse({ STUDIO_PAYMENT_PROVIDERS: "payme" }).paymentProviders));
+  // Naming a provider opens nothing by itself: a checkout still needs STUDIO_PAYMENTS.
+  assert.deepEqual(SWITCHES(parse({ STUDIO_PAYMENT_PROVIDERS: "click,payme" })), ALL_OFF);
+  assert.equal(STUDIO_ROUTES.checkout(parse({ STUDIO_PAYMENT_PROVIDERS: "payme" })), false);
+  // A preview host sells through nobody, whatever the settings say.
+  const env = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify({ STUDIO_PAYMENTS: "live", STUDIO_PAYMENT_PROVIDERS: "payme" }) };
+  assert.deepEqual(studioRequestConfig(new Request("https://gptbot.uz/api/studio/checkout"), env).paymentProviders, ["payme"]);
+  const preview = studioRequestConfig(new Request("https://ai-direct-pro-landing.pages.dev/api/studio/checkout"), env);
+  assert.deepEqual([preview.payments, preview.paymentProviders], ["off", []]);
+  assert.ok(Object.isFrozen(preview.paymentProviders));
+});
+
+test("STUDIO_PAID_PROOFREAD: the Uzbek proofreading of paid decks is on unless exactly 'false'", () => {
+  assert.equal(STUDIO_CONFIG_DEFAULTS.STUDIO_PAID_PROOFREAD, "true");
+  assert.equal(DEFAULTS.paidProofread, true);
+  assert.equal(parseStudioConfig(COMMITTED).paidProofread, true);
+  assert.equal(parse({ STUDIO_PAID_PROOFREAD: "false" }).paidProofread, false);
+  for (const value of ["False", "FALSE", "0", "off", "no", "", "true", false, 0, null])
+    assert.equal(parse({ STUDIO_PAID_PROOFREAD: value }).paidProofread, true, JSON.stringify(value));
+  // It is not a switch: it opens no route, and a deck is paid only behind STUDIO_PAID_SERVICE.
+  assert.deepEqual(SWITCHES(parse({ STUDIO_PAID_PROOFREAD: "true" })), ALL_OFF);
+});
+
+test("the paid stage's error codes: 503 provider_unavailable, 409 refund_window and refund_exists", async () => {
+  assert.equal(STUDIO_ERRORS.provider_unavailable, 503);
+  assert.equal(STUDIO_ERRORS.refund_window, 409);
+  assert.equal(STUDIO_ERRORS.refund_exists, 409);
+  assert.deepEqual(await fail("provider_unavailable").json(), { ok: false, code: "provider_unavailable", error: "provider unavailable" });
+  assert.equal(fail("refund_exists").status, 409);
+});
+
+test("the paid stage's alerts page the owner by name: payments and receipts once an hour, a due refund receipt once a day", () => {
+  const NOW = Date.UTC(2026, 9, 7, 9, 15);
+  const hour = Math.floor(NOW / 3_600_000);
+  const day = Math.floor(NOW / 86_400_000);
+  for (const code of ["studio_payme_processing", "studio_click_processing", "studio_click_unknown_order", "studio_fiscal_failed"]) {
+    assert.equal(isUrgentAlert(code), true, code);
+    assert.equal(alertRowId(code, NOW), `${code}:${hour}`, code);
+    assert.match(alertText(code) ?? "", /^Студия: /, code);
+  }
+  // A partial refund waits for a receipt printed by hand: a standing state, reminded daily until it is printed.
+  assert.equal(isUrgentAlert("studio_refund_receipt_due"), true);
+  assert.equal(alertRowId("studio_refund_receipt_due", NOW), `studio_refund_receipt_due:d${day}`);
+  assert.equal(alertRowId("studio_refund_receipt_due", NOW + 5 * 3_600_000), alertRowId("studio_refund_receipt_due", NOW));
+  assert.match(alertText("studio_refund_receipt_due") ?? "", /^Студия: .*чек/);
+  // Studio codes are named one by one: the chat's payme_* / click_* globs never cover them, and no studio_* glob exists.
+  assert.equal(isUrgentAlert("studio_payme_other"), false);
+  assert.equal(isUrgentAlert("studio_click_other"), false);
+  // Fixed texts only: no order number, sum or buyer data can reach the message.
+  const message = renderAlertMessage([{ code: "studio_payme_processing", count: 2 }], []);
+  assert.match(message, /studio_payme_processing ×2 — Студия: /);
+  assert.doesNotMatch(message, /stu_|\d{3} \d{3}/);
+});
+
 // ── The gate: 404 before the body and before D1 ─────────────────────────────
 
 /** An env that records what is read and whose D1 binding throws on any use. */
@@ -287,8 +369,7 @@ function studioEndpointFiles(dir = path.join(ROOT, "functions/api/studio")): str
   });
 }
 
-test("with the committed settings the paid routes stay closed on gptbot.uz, and every route is closed on a preview host", () => {
-  const paid: StudioRoute[] = ["outline", "regenerate", "checkout", "orderCancel", "photo"];
+test("committed paid settings open the production route gates; preview hosts stay closed before body and D1", () => {
   for (const route of Object.keys(STUDIO_ROUTES) as StudioRoute[]) {
     const { env, read } = watchedEnv({ STUDIO_RUNTIME_CONFIG_JSON: COMMITTED });
     const preview = untouchableRequest("https://ai-direct-pro-landing.pages.dev/api/studio/x");
@@ -296,8 +377,7 @@ test("with the committed settings the paid routes stay closed on gptbot.uz, and 
     assert.equal(preview.bodyUsed, false);
     const site = untouchableRequest("https://gptbot.uz/api/studio/x");
     const answer = studioGate(site, env, route);
-    if (paid.includes(route)) assert.equal(answer?.status, 404, `${route} on gptbot.uz`);
-    else assert.equal(answer === null, parseStudioConfig(COMMITTED).freeDeck, `${route} on gptbot.uz follows the free deck's switches`);
+    assert.equal(answer, null, `${route} on gptbot.uz; handlers still check identity and entitlement`);
     assert.equal(site.bodyUsed, false);
     for (const key of read) assert.ok(["STUDIO_RUNTIME_CONFIG_JSON", "STUDIO_LOCAL_DEV"].includes(key), `${route} read ${key}`);
   }

@@ -1,7 +1,9 @@
 // Regeneration at the level of the ledger (spec §2.4): one per spent paid
 // unit, of the same task (input_mac), within 24 hours of the result and the
 // entitlement's term, never of a regeneration, in the full form of the first
-// generation, and never refused for want of units. The endpoint is T3.1.
+// generation, and never refused for want of units. Then the endpoint
+// (T3.1): POST /api/studio/presentations/:job/regenerate, end to end with
+// the full deck's own steps (tests/helpers/studio-full.ts).
 // Real SQLite (tests/helpers/sqlite-d1.ts); no network, no remote database.
 // Run: node --import tsx --test tests/studio-regen.test.ts
 import { test } from "node:test";
@@ -27,6 +29,12 @@ import {
   type StartJobInput,
 } from "../functions/lib/studio/jobs";
 import { bucketOf } from "../functions/lib/studio/spend";
+import { onRequest as createEndpoint } from "../functions/api/studio/presentations/index";
+import { onRequest as outlineEndpoint } from "../functions/api/studio/presentations/[job]/outline";
+import { onRequest as slidesEndpoint } from "../functions/api/studio/presentations/[job]/slides";
+import { onRequest as regenerateEndpoint } from "../functions/api/studio/presentations/[job]/regenerate";
+import { browser, call, createBody, deckAnswer, post, studioSite, type Site } from "./helpers/studio-site";
+import { FULL_TASK, PAID, buyer, presentationsUsed, routeZai, sentFor, type Buyer } from "./helpers/studio-full";
 
 const NOW = Date.UTC(2026, 9, 20, 7, 0);
 const HOUR = 3_600_000;
@@ -342,4 +350,119 @@ test("a regeneration handed back credits no unit; it counts as a returned attemp
   assert.ok(replay.ok && replay.replay);
   assert.equal(replay.job.id, result.job.id);
   assert.equal(replay.job.state, "released");
+});
+
+// ── The endpoint (T3.1) ─────────────────────────────────────────────────────
+
+const pathOf = (job: string, step: string) => `/api/studio/presentations/${job}/${step}`;
+
+/** A full deck made to the end by `who` through the endpoints: its job id. */
+async function madeDeck(site: Site, who: Buyer, over: Record<string, unknown> = {}): Promise<string> {
+  const created = await call(site, createEndpoint, post("/api/studio/presentations", { requestId: requestId(), ...FULL_TASK, shape: "full", ...over }, { cookie: who.cookie }));
+  assert.equal(created.status, 201);
+  const { jobId } = (await created.json()) as { jobId: string };
+  return runDeck(site, who, jobId, { ...FULL_TASK, ...over });
+}
+
+/** The outline and every part of job `jobId`, at once: the job id once it is done. */
+async function runDeck(site: Site, who: Buyer, jobId: string, task: Record<string, unknown> = FULL_TASK): Promise<string> {
+  const outline = await call(site, outlineEndpoint, post(pathOf(jobId, "outline"), task, { cookie: who.cookie }), { job: jobId });
+  assert.equal(outline.status, 200);
+  const plan = (await outline.json()) as { outline: unknown; sig: string; parts: number };
+  const parts = await Promise.all(
+    Array.from({ length: plan.parts }, (_, i) =>
+      call(site, slidesEndpoint, post(pathOf(jobId, "slides"), { ...task, part: i + 1, outline: plan.outline, sig: plan.sig }, { cookie: who.cookie }), { job: jobId }),
+    ),
+  );
+  for (const answer of parts) assert.equal(answer.status, 200);
+  return jobId;
+}
+
+async function regenerate(site: Site, who: Pick<Buyer, "cookie">, jobId: string, over: Record<string, unknown> = {}) {
+  const body = { requestId: requestId(), ...FULL_TASK, shape: "full", ...over };
+  const response = await call(site, regenerateEndpoint, post(pathOf(jobId, "regenerate"), body, { cookie: who.cookie }), { job: jobId });
+  return { response, body: (await response.json()) as Record<string, unknown>, sent: body };
+}
+
+test("the endpoint: the same task once more, without a unit, made like the first (outline, parts at once, proofreading); a second time 409 regen_used", async (context) => {
+  const site = await studioSite(context, { config: PAID });
+  routeZai(site, 80);
+  const who = await buyer(site, { presentations: 1 });
+  const original = await madeDeck(site, who);
+  assert.equal(presentationsUsed(site, who.entitlementId), 1);
+  const proofsBefore = sentFor(site, "proof").length;
+
+  const again = await regenerate(site, who, original);
+  assert.equal(again.response.status, 201, JSON.stringify(again.body));
+  assert.equal(again.body.source, "regen");
+  assert.equal(again.body.regenOf, original);
+  assert.equal(again.body.next, "outline");
+  assert.deepEqual(again.body.shape, { slides: 12, images: 8, notes: true, palette: 2, parts: 4 });
+  // The same request id again: the same job.
+  const replay = await call(site, regenerateEndpoint, post(pathOf(original, "regenerate"), again.sent, { cookie: who.cookie }), { job: original });
+  assert.equal(replay.status, 201);
+  assert.equal(((await replay.json()) as { jobId: string }).jobId, again.body.jobId);
+
+  // It runs exactly like the first generation, proofreading included, and takes no unit even with none left.
+  await runDeck(site, who, again.body.jobId as string);
+  assert.equal(sentFor(site, "proof").length - proofsBefore, 3);
+  assert.equal(presentationsUsed(site, who.entitlementId), 1);
+  const row = site.db.rows<Record<string, unknown>>("SELECT state, source, regen_of, entitlement_id FROM studio_unit_ledger WHERE org_id=? AND id=?", STUDIO_ORG, again.body.jobId)[0];
+  assert.deepEqual({ ...row }, { state: "done", source: "regen", regen_of: original, entitlement_id: who.entitlementId });
+
+  // One per unit; a regeneration has none of its own.
+  assert.equal((await regenerate(site, who, original)).body.code, "regen_used");
+  assert.equal((await regenerate(site, who, again.body.jobId as string)).body.code, "regen_used");
+});
+
+test("the endpoint: another task is 409 regen_mismatch, another buyer's job 404, a job still open 409, a free deck 404", async (context) => {
+  const site = await studioSite(context, { config: PAID });
+  routeZai(site, 80);
+  const who = await buyer(site);
+  const original = await madeDeck(site, who);
+  for (const over of [{ topic: "Amir Temur davlati" }, { palette: 1 }, { slides: 10 }, { audience: "talaba" }, { locale: "ru" }]) {
+    const answer = await regenerate(site, who, original, over);
+    assert.equal(answer.response.status, 409, JSON.stringify(over));
+    assert.equal(answer.body.code, "regen_mismatch", JSON.stringify(over));
+  }
+  const stranger = await buyer(site);
+  const foreign = await regenerate(site, stranger, original);
+  assert.equal(foreign.response.status, 404);
+  assert.equal(foreign.body.code, "not_found");
+  assert.equal((await regenerate(site, { cookie: (await browser()).cookie }, original)).response.status, 404);
+  // (Six starts in ten minutes per buyer, refused ones included: the rest asks as other buyers.)
+  assert.equal((await regenerate(site, stranger, `sj_${"c".repeat(32)}`)).body.code, "not_found");
+  // A free-deck body is not a regeneration.
+  assert.equal((await regenerate(site, who, original, { shape: "free", slides: 6, palette: 1 })).body.code, "invalid");
+
+  // A deck still being made cannot be made again yet.
+  const maker = await buyer(site);
+  const open = await call(site, createEndpoint, post("/api/studio/presentations", { requestId: requestId(), ...FULL_TASK, topic: "Fotosintez", shape: "full" }, { cookie: maker.cookie }));
+  const { jobId: openJob } = (await open.json()) as { jobId: string };
+  const early = await regenerate(site, maker, openJob, { topic: "Fotosintez" });
+  assert.equal(early.response.status, 409);
+  assert.ok(["job_state", "job_in_progress"].includes(early.body.code as string), String(early.body.code));
+
+  // A free deck (Bepul has no regeneration): its owner is a browser, never a buyer.
+  const free = await studioSite(context, { config: PAID });
+  const visitor = await browser();
+  const created = await call(free, createEndpoint, post("/api/studio/presentations", createBody(), { cookie: visitor.cookie }));
+  const { jobId: freeJob } = (await created.json()) as { jobId: string };
+  free.zai.push(deckAnswer());
+  const freeTask = { topic: "Oddiy kasrlar", locale: "uz", audience: "maktab", slides: 6, palette: 1 };
+  assert.equal((await call(free, slidesEndpoint, post(pathOf(freeJob, "slides"), freeTask, { cookie: visitor.cookie }), { job: freeJob })).status, 200);
+  const freeBuyer = await buyer(free);
+  const notTheirs = await regenerate(free, freeBuyer, freeJob, { topic: "Oddiy kasrlar", slides: 6, palette: 1 });
+  assert.equal(notTheirs.body.code, "not_found");
+});
+
+test("the endpoint: 404 before the body while STUDIO_PAID_SERVICE or STUDIO_FULL_DECK is off", async (context) => {
+  for (const config of [{ ...PAID, STUDIO_PAID_SERVICE: "off" }, { ...PAID, STUDIO_FULL_DECK: "false" }]) {
+    const site = await studioSite(context, { config });
+    const who = await buyer(site);
+    const job = `sj_${"d".repeat(32)}`;
+    const request = post(pathOf(job, "regenerate"), { requestId: requestId(), ...FULL_TASK, shape: "full" }, { cookie: who.cookie });
+    assert.equal((await call(site, regenerateEndpoint, request, { job })).status, 404);
+    assert.equal(request.bodyUsed, false);
+  }
 });

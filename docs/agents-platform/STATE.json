@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Paid AI chat production readiness: R1-R7 live (prod b69f953e); payments off until the owner keys arrive",
-  "stage_status": "complete",
+  "current_stage": "Studio Click-only release candidate",
+  "stage_status": "verified_candidate",
   "last_completed_stage": "Paid AI chat R5-R7 integration verification on paid-chat/prod-readiness at 7d44b333 (tests, build, SEO protection, migrations 0069/0070 rehearsal, local smoke); not deployed.",
-  "next_stage": "Owner keys -> ingest-keys.ts -> S1..S5 (docs/paid-chat/ONBOARDING-KEYS-RU.md); delete TELEGRAM_ASSISTANT_BOT_USERNAME after 2026-10-04T22:30Z",
+  "next_stage": "Guarded production build, final suite, deploy and live readback",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1742,7 +1742,7 @@
   },
   "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "7d44b333020cd694f0e4491b457dcab69398500d",
+  "last_commit": "c719494b1bf37d75e6fd8eb83adb5e4e154344aa",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
@@ -1806,12 +1806,10 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-03",
-  "blocked": true,
-  "blocked_stage": "R1 Store Pilot #1 owner evidence and activation inputs",
-  "blockers": [
-    "Store Pilot #1: provide owner Telegram/OCC evidence, legal/native Uzbek decisions, one consented verified seller, 10-30 approved real products with integer UZS prices and inventory, SLA/support/incident ownership and explicit one-store authorization. No real store may be created before that authorization."
-  ],
+  "updated_at": "2026-10-07T16:46:39",
+  "blocked": false,
+  "blocked_stage": null,
+  "blockers": [],
   "parallel_preparation": {
     "R0.4-prep": {
       "status": "completed_locally",
@@ -2045,18 +2043,28 @@
     "deployment_id": "acc1704b-f543-4b94-b15f-01cf43ebdaaf"
   },
   "codex_continuation_20261007": {
-    "status": "IN_PROGRESS",
-    "production_base": "3173e366134730fe942df3750a8b28576a4a1a95",
-    "seo_status": "DEPLOYED_VERIFIED",
-    "onetap_source": "f6d5af1813eab4f45caa1057415e0f580fd0cc1d",
-    "onetap_status": "VERIFIED_LOCAL",
-    "tracker": "docs/CLAUDE_COMPLETION_TRACKER.md",
-    "next": "Точная production-сборка one-tap, полный suite/layout и guarded release; затем бесплатная Studio",
-    "checks": "typecheck/lint 0; targeted 158/158; browser 18/18; protected contracts 10/10; первый полный suite1814/1815: обновлён AST-инвариант под явно подтверждённое one-tap действие, нужен повтор",
-    "last_commit": "3173e366134730fe942df3750a8b28576a4a1a95; текущий commit читать через git log -1 (D-006)",
-    "activeStage": "Studio: интеграция foundation и платного A–F",
-    "oneTapProductionCommit": "e3e551afe1928159ddb7dca596664f62bb1a29bd",
-    "oneTapDeployment": "71d2f0f3",
-    "priority": "Полноценная платная Studio после one-tap, затем UI и внешние хвосты; продажи закрыты до приёмки."
-  }
+    "status": "verified_candidate",
+    "production_before": "e3e551afe1928159ddb7dca596664f62bb1a29bd",
+    "owner_latest": "Payme hidden; Click shared 5900/39900 explicitly confirmed",
+    "report": "docs/STUDIO_RELEASE_20261007.md",
+    "scope": "GPTBot public web, paid Studio, chat UI; prior Bormi pilot blockers remain separate",
+    "next": "final acceptance and guarded release",
+    "money_e2e": "not performed",
+    "click": "live_shared_service_owner_approved",
+    "payme": "test_hidden_public_sandbox_pass_reported",
+    "studio": "decks_only_max12",
+    "layout": {
+      "runs": 446,
+      "screenshots": 302,
+      "failures": 0
+    },
+    "typecheck": "PASS",
+    "lint": "PASS 156 changed code files",
+    "suite": "2061 scenarios; final canonical URL fixture corrected and 21 targeted tests passed; exact committed production suite required before deploy",
+    "real_money_e2e": "NOT_RUN",
+    "ai_quality": "draft_generator_reviewed_with_language_and_fact_limitations"
+  },
+  "previous_stage_blockers": [
+    "Store Pilot #1: provide owner Telegram/OCC evidence, legal/native Uzbek decisions, one consented verified seller, 10-30 approved real products with integer UZS prices and inventory, SLA/support/incident ownership and explicit one-store authorization. No real store may be created before that authorization."
+  ]
 }

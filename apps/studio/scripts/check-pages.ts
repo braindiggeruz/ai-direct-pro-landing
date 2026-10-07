@@ -68,9 +68,9 @@
  *            uzildi» (no answer reads as a lost connection; «Vaqtincha
  *            ishlamayapti» is accepted too) in the form's line, with the page
  *            around it intact.
- *            A published page is read from dist/<url>/index.html; a draft is
- *            rendered in memory by studio-page.ts as if published (with its
- *            translation), so the check passes before the release day.
+ *            Published pages are read from dist/<url>/index.html. Drafts
+ *            must return 404 through the same HTTP server; they are never
+ *            promoted to published test fixtures.
  *
  * The class names in the test page are real studio utilities: Tailwind reads
  * this file (@source "../scripts" in src/styles.css), so they are in the CSS.
@@ -81,16 +81,17 @@ import path from 'node:path';
 import type { AddressInfo } from 'node:net';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
-import { readStudioPages, type StudioPageRecord } from '../shared/published-urls';
+import { readStudioPages } from '../shared/published-urls';
 import { INAPP_HEAD_SCRIPT } from '../src/inapp';
 import { AI_LABEL } from '../src/pptx/build';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { Preview } from '../src/tools/presentation/Preview';
+import { PHOTO_TEXTS } from '../src/tools/photo/texts';
 import { renderForm } from '../src/tools/presentation/static';
 import { TEXTS } from '../src/tools/presentation/texts';
-import { STUDIO_ASSET_DIR, readStudioSite } from './prerender-studio';
-import { MIN_WORDS_OUTSIDE_ISLAND, renderStudioPage } from './studio-page';
+import { STUDIO_ASSET_DIR } from './prerender-studio';
+import { MIN_WORDS_OUTSIDE_ISLAND } from './studio-page';
 
 const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 const VIEWPORT = { width: 360, height: 800 } as const;
@@ -144,6 +145,17 @@ export function findStudioEntry(dist: string): StudioEntryFiles {
     return `/${STUDIO_ASSET_DIR}/${found[0]}`;
   };
   return { script: pick('js'), style: pick('css') };
+}
+
+/** Only a runtime statically imported by this entry is allowed on load. Lazy billing/PPTX chunks are not. */
+export function studioRuntimeFiles(dist: string, entry: StudioEntryFiles): string[] {
+  const script = fs.readFileSync(path.join(dist, entry.script), 'utf8');
+  const imports = [...script.matchAll(/\bfrom\s*["'](\.\/rolldown-runtime-[\w-]+\.js)["']/g)];
+  return [...new Set(imports.map(match => {
+    const file = `/${STUDIO_ASSET_DIR}/${match[1].slice(2)}`;
+    if (!fs.existsSync(path.join(dist, file))) throw new Error(`Missing imported Studio runtime: ${file}`);
+    return file;
+  }))];
 }
 
 /**
@@ -312,7 +324,7 @@ interface Served {
   close: () => Promise<void>;
 }
 
-async function serve(dist: string, pages: Record<string, string>, pageHeaders: Record<string, string> = {}): Promise<Served> {
+export async function serve(dist: string, pages: Record<string, string>, pageHeaders: Record<string, string> = {}): Promise<Served> {
   const requests: string[] = [];
   const base = path.resolve(dist);
   const server = http.createServer((request, response) => {
@@ -396,6 +408,7 @@ export interface CheckReport {
   early: { topic: string; slides: string; audience: string; sent: unknown };
   preview: Array<{ width: number; deck: number; cards: number; clipped: number; perRow: number }>;
   pages: PageProbe[];
+  drafts: Array<{ url: string; status: number }>;
   failures: string[];
 }
 
@@ -426,13 +439,21 @@ export interface PageProbe {
 
 export const LAYOUT_SHIFT_LIMIT = 0.05;
 
-/** The form's error and limit messages in `locale`: none of them may show before an action. */
-export function errorTexts(locale: 'uz' | 'ru'): string[] {
-  return Object.values(TEXTS[locale].messages);
+export type PageTool = 'presentation' | 'photo' | 'tariffs';
+
+/** The tool's error and limit messages in `locale`: none of them may show before an action. */
+export function errorTexts(locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
+  return Object.values(tool === 'photo' ? PHOTO_TEXTS[locale].messages : TEXTS[locale].messages);
+}
+
+/** What the tool says after a submit with /api/* down: a lost connection, or busy for a studio that answers "off". */
+export function closedApiMessages(locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
+  const messages = tool === 'photo' ? PHOTO_TEXTS[locale].messages : TEXTS[locale].messages;
+  return [messages.connection_lost, messages.busy];
 }
 
 /** Every way one measured page breaks the closed-API contract; empty when it keeps it. */
-export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
+export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru', tool: PageTool = 'presentation'): string[] {
   const at = `pages ${probe.url}`;
   const failures: string[] = [];
   if (probe.h1.length !== 1 || !probe.h1[0]) failures.push(`${at}: ${probe.h1.length} H1, expected one with text`);
@@ -447,7 +468,7 @@ export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
   if (!probe.afterFocus.api.length) failures.push(`${at}: a focus in the form asked nothing of /api/studio (config and me are lazy, not absent)`);
   if (probe.afterFocus.errors.length) failures.push(`${at}: error text after a mere focus: ${probe.afterFocus.errors.join(' | ')}`);
   // /api/* answers nothing here: the browser reads that as a lost connection (or, for an off switch, busy).
-  const expected = [TEXTS[locale].messages.connection_lost, TEXTS[locale].messages.busy];
+  const expected = closedApiMessages(locale, tool);
   if (!expected.includes(probe.afterSubmit.message)) failures.push(`${at}: after a submit with /api/* down the form says «${probe.afterSubmit.message}», expected «${expected[0]}»`);
   if (probe.afterSubmit.h1 !== 1) failures.push(`${at}: the page lost its H1 after the submit`);
   return failures;
@@ -456,29 +477,33 @@ export function pageFailures(probe: PageProbe, locale: 'uz' | 'ru'): string[] {
 export interface PageUnderCheck {
   url: string;
   locale: 'uz' | 'ru';
+  /** The island the page holds (its record's `tool`): the deck form, or the photo tool. */
+  tool: PageTool;
   /** HTML to serve from memory; null when the page is read from dist/ (or the origin). */
   html: string | null;
 }
 
-/**
- * The studio pages to check against `dist`: a published page from its file, a
- * draft rendered in memory as the release will write it (every record taken
- * as published, so the translation, the switch and hreflang are there too).
- */
-export function pagesUnderCheck(root: string, dist: string, entry: StudioEntryFiles): PageUnderCheck[] {
-  const pages = readStudioPages(root);
-  const asReleased: StudioPageRecord[] = pages.map((page) => ({ ...page, status: 'published' }));
-  const site = pages.some((page) => page.status === 'draft') ? readStudioSite(root) : null;
-  return pages.map((page) => {
-    if (page.status === 'published') return { url: page.url, locale: page.locale, html: null };
-    const html = renderStudioPage(asReleased.find((other) => other.url === page.url) as StudioPageRecord, {
-      site: site as NonNullable<typeof site>,
-      pages: asReleased,
-      siteStyles: siteStylesheetHrefs(dist),
-      assets: { script: entry.script, styles: [entry.style] },
-    });
-    return { url: page.url, locale: page.locale, html };
-  });
+/** The record's tool as a PageTool (studio-page.ts validates the field; anything else here counts as the deck form). */
+export function pageToolOf(data: Record<string, unknown>): PageTool {
+  return data.tool === 'tariffs' ? 'tariffs' : data.tool === 'photo' ? 'photo' : 'presentation';
+}
+
+/** Only published records participate in public page/form checks. */
+export function pagesUnderCheck(root: string): PageUnderCheck[] {
+  return readStudioPages(root).filter(page => page.status === 'published')
+    .map(page => ({ url: page.url, locale: page.locale, tool: pageToolOf(page.data), html: null }));
+}
+
+/** A draft leaking from a stale artifact or a catch-all rewrite fails the release check. */
+export async function checkDraftPages(root: string, origin: string, failures: string[]): Promise<CheckReport['drafts']> {
+  const drafts: CheckReport['drafts'] = [];
+  for (const page of readStudioPages(root).filter(page => page.status === 'draft')) {
+    const response = await fetch(origin + page.url, { redirect: 'manual' });
+    drafts.push({ url: page.url, status: response.status });
+    await response.body?.cancel();
+    if (response.status !== 404) failures.push(`draft ${page.url}: HTTP ${response.status}, expected 404`);
+  }
+  return drafts;
 }
 
 /** Opens each page with /api/* failing and measures it; failures are appended to `failures`. */
@@ -488,6 +513,7 @@ async function checkClosedApi(
   targets: PageUnderCheck[],
   failures: string[],
   source: (target: PageUnderCheck) => PageProbe['source'],
+  photoFixture: Buffer = Buffer.from(PHOTO_FIXTURE_JPEG),
 ): Promise<PageProbe[]> {
   const probes: PageProbe[] = [];
   for (const target of targets) {
@@ -511,7 +537,21 @@ async function checkClosedApi(
     await tab.goto(origin + target.url, { waitUntil: 'load' });
     await tab.waitForSelector('#studio-root[data-island="ready"]', { timeout: 15_000 }).catch(() => failures.push(`pages ${target.url}: the island never became ready`));
     await tab.waitForTimeout(Math.max(0, 3_000 - (Date.now() - started)));
-    const errors = errorTexts(target.locale);
+    if (target.tool === 'tariffs') {
+      const root = tab.locator('#studio-root');
+      if (await tab.locator('h1').count() !== 1) failures.push(`tariffs ${target.url}: expected one H1`);
+      if (await root.locator('[data-studio-plan]').count() !== 2) failures.push(`tariffs ${target.url}: expected two plans`);
+      if (await root.locator('button').count() !== 2) failures.push(`tariffs ${target.url}: expected two plan buttons`);
+      if (await root.getAttribute('data-hydration')) failures.push(`tariffs ${target.url}: hydration mismatch`);
+      if (api.length) failures.push(`tariffs ${target.url}: API on load`);
+      await root.locator('button').first().click();
+      await tab.waitForTimeout(1000);
+      if (!api.includes('/api/studio/config')) failures.push(`tariffs ${target.url}: no lazy config`);
+      if (api.some(url=>url.includes('/checkout'))) failures.push(`tariffs ${target.url}: premature checkout`);
+      await context.close();
+      continue;
+    }
+    const errors = errorTexts(target.locale, target.tool);
     const measure = () => tab.evaluate((messages: string[]) => {
       const root = document.getElementById('studio-root');
       const clone = document.body.cloneNode(true) as HTMLElement;
@@ -533,12 +573,22 @@ async function checkClosedApi(
     }, errors);
     const loaded = await measure();
     const apiOnLoad = [...api];
-    await tab.click('#studio-root input[name="topic"]');
+    if (target.tool === 'photo') await tab.focus('#studio-root input[name="image"]');
+    else await tab.click('#studio-root input[name="topic"]');
     await tab.waitForTimeout(1_500);
     const focused = await measure();
     const afterFocus = { api: api.slice(apiOnLoad.length), errors: focused.errors };
-    await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
-    await tab.click('#studio-root button[type="submit"]');
+    if (target.tool === 'photo') {
+      // A small JPEG is chosen; the first submit asks for the one-time consent (no storage holds it yet), the second one posts.
+      await tab.setInputFiles('#studio-root input[name="image"]', { name: 'task.jpg', mimeType: 'image/jpeg', buffer: photoFixture });
+      await tab.click('#studio-root button[type="submit"]');
+      await tab.waitForSelector('#studio-root [data-studio-consent]', { timeout: 10_000 }).catch(() => failures.push(`pages ${target.url}: no consent block before the first photo`));
+      if (api.length > apiOnLoad.length + afterFocus.api.length) failures.push(`pages ${target.url}: the photo left before the consent was given`);
+      await tab.click('#studio-root [data-studio-consent-accept]').catch(() => undefined);
+    } else {
+      await tab.fill('#studio-root input[name="topic"]', 'Amir Temur');
+      await tab.click('#studio-root button[type="submit"]');
+    }
     const message = await tab.waitForFunction(() => {
       const line = document.querySelector('#studio-root [data-studio-message]');
       return line && line.getAttribute('data-studio-message') ? (line.textContent ?? '').trim() : null;
@@ -561,21 +611,27 @@ async function checkClosedApi(
       afterFocus,
       afterSubmit: { message, h1: h1After },
     };
-    failures.push(...pageFailures(probe, target.locale));
+    failures.push(...pageFailures(probe, target.locale, target.tool));
     probes.push(probe);
     await context.close();
   }
   return probes;
 }
 
+/** A small but well-formed JPEG (SOI, JFIF APP0, EOI) for the photo page's submit; the shrink step may fail to decode it, which is a message too. */
+export const PHOTO_FIXTURE_JPEG: readonly number[] = [
+  0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0xff, 0xd9,
+];
+
 /** The pages check alone, against a live origin (after a deploy): the published pages only. */
 export async function checkOrigin(origin: string, root: string = ROOT): Promise<{ status: 'pass' | 'fail'; pages: PageProbe[]; failures: string[] }> {
   const { chromium } = await import('playwright-core');
-  const targets = readStudioPages(root).filter((page) => page.status === 'published').map((page) => ({ url: page.url, locale: page.locale, html: null }));
+  const targets = readStudioPages(root).filter((page) => page.status === 'published').map((page) => ({ url: page.url, locale: page.locale, tool: pageToolOf(page.data), html: null }));
   const failures: string[] = [];
   if (!targets.length) failures.push('origin: no published studio page to check');
   const browser = await chromium.launch({ executablePath: findChrome(), headless: true });
   try {
+    await checkDraftPages(root, origin.replace(/\/+$/, ''), failures);
     const pages = await checkClosedApi(browser, origin.replace(/\/+$/, ''), targets, failures, () => 'origin');
     return { status: failures.length ? 'fail' : 'pass', pages, failures };
   } finally {
@@ -676,8 +732,13 @@ export function flowFailures(calls: ApiCall[], focusAt: number, submitAt: number
   const before = calls.filter((call) => call.at < focusAt);
   if (before.length) failures.push(`flow: /api/studio called before the first focus: ${before.map((call) => call.path).join(', ')}`);
   const reads = calls.filter((call) => call.path === 'config' || call.path === 'me');
-  if (reads.length !== 2 || reads.some((call) => call.method !== 'GET' || call.at >= submitAt)) {
-    failures.push(`flow: expected one GET /config and one GET /me between focus and submit, got ${reads.map((call) => `${call.method} ${call.path}@${call.at}`).join(', ')}`);
+  const initialReads = reads.filter(call => call.at < submitAt);
+  if (!sameJson(initialReads.map(call => `${call.method} ${call.path}`).sort(), ['GET config', 'GET me'])) {
+    failures.push(`flow: expected one GET /config and one GET /me between focus and submit, got ${initialReads.map((call) => `${call.method} ${call.path}@${call.at}`).join(', ')}`);
+  }
+  const laterReads = reads.filter(call => call.at >= submitAt);
+  if (laterReads.length) {
+    failures.push('flow: the billing teaser must reuse the first lazy config; no extra config/me read before another action');
   }
   const order = ['identity', 'presentations', `presentations/${STUB_JOB}/slides`].map(first);
   if (order.some((at) => at < 0) || !(order[0] < order[1] && order[1] < order[2])) failures.push(`flow: identity → start → slides out of order: ${paths.join(' | ')}`);
@@ -702,17 +763,30 @@ export function flowFailures(calls: ApiCall[], focusAt: number, submitAt: number
   }
   const events = calls.filter((call) => call.path === 'event').map((call) => call.body as { type: string; detail: string; id: string; viewId: string });
   const kinds = events.map((event) => `${event.type}:${event.detail}`);
-  if (!sameJson(kinds, ['studio_tool_started:presentation', 'studio_result_ready:free'])) failures.push(`flow: funnel events ${JSON.stringify(kinds)}`);
-  if (new Set(events.map((event) => event.viewId)).size > 1) failures.push('flow: the events of one view carry different view ids');
+  if (!sameJson(kinds, ['studio_tool_started:presentation', 'studio_result_ready:free', 'studio_tariffs_viewed:after_result'])) failures.push(`flow: funnel events ${JSON.stringify(kinds)}`);
+  // Generation and billing must correlate as one visitor funnel.
+  if (new Set(events.map(event => event.viewId)).size !== 1) failures.push('flow: generation and billing events carry different view ids');
+  if (events.some(event => !/^[A-Za-z0-9_-]{8,64}$/.test(event.viewId) || !/^[A-Za-z0-9_-]{8,64}$/.test(event.id)) || new Set(events.map(event => event.id)).size !== events.length) failures.push('flow: invalid or duplicate event ids');
   const unknown = calls.filter((call) => !['config', 'me', 'identity', 'presentations', 'event'].includes(call.path) && !call.path.startsWith(`presentations/${STUB_JOB}/`));
   if (unknown.length) failures.push(`flow: unexpected calls ${unknown.map((call) => call.path).join(', ')}`);
   return failures;
+}
+
+export function againFailures(calls: ApiCall[], firstCalls: ApiCall[]): string[] {
+  const event = calls[1]?.body as { type?: string; detail?: string; viewId?: string; id?: string } | undefined;
+  const teaser = firstCalls.find(call => call.path === 'event' && (call.body as { type?: string })?.type === 'studio_tariffs_viewed')?.body as { viewId?: string } | undefined;
+  const oldIds = firstCalls.filter(call => call.path === 'event').map(call => (call.body as { id?: string }).id);
+  return sameJson(calls.map(call => `${call.method} ${call.path}`), ['GET me', 'POST event'])
+    && event?.type === 'studio_tariffs_viewed' && event.detail === 'limit' && event.viewId === teaser?.viewId
+    && /^[A-Za-z0-9_-]{8,64}$/.test(event.id ?? '') && !oldIds.includes(event.id)
+    ? [] : ['again: expected GET me and one correlated limit tariff event, without checkout, generation or extra reads'];
 }
 
 export async function checkPages(dist: string, root: string = ROOT): Promise<CheckReport> {
   const { chromium } = await import('playwright-core');
   const { default: JSZip } = await import('jszip');
   const entry = findStudioEntry(dist);
+  const runtimeFiles = studioRuntimeFiles(dist, entry);
   const siteStyles = siteStylesheetHrefs(dist);
   const csp = siteCsp(fs.readFileSync(path.join(dist, '_headers'), 'utf8'));
   const studioPage = `${FIXTURE_PREFIX}cascade.html`;
@@ -720,7 +794,7 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
   const uzPage = `${FIXTURE_PREFIX}uz.html`;
   const ruPage = `${FIXTURE_PREFIX}ru.html`;
   const previewPage = `${FIXTURE_PREFIX}preview.html`;
-  const studioPages = pagesUnderCheck(root, dist, entry);
+  const studioPages = pagesUnderCheck(root);
   const server = await serve(
     dist,
     {
@@ -735,8 +809,9 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
   );
   const browser = await chromium.launch({ executablePath: findChrome(), headless: true });
   const failures: string[] = [];
-  const pageFiles = (page: string) => [page, entry.script, entry.style, ...siteStyles];
+  const pageFiles = (page: string) => [page, entry.script, entry.style, ...runtimeFiles, ...siteStyles];
   try {
+    const drafts = await checkDraftPages(root, server.origin, failures);
     // --- cascade -------------------------------------------------------------------
     const cascadeContext = await browser.newContext({ viewport: VIEWPORT });
     const page = await cascadeContext.newPage();
@@ -852,6 +927,8 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     if (arrived.focus !== 'studio-result-title') failures.push(`flow: the focus is on ${arrived.focus} when the deck arrives, expected its heading`);
     if (arrived.announce !== TEXTS.uz.steps.ready) failures.push(`flow: the status line says «${arrived.announce}» when the deck arrives`);
     const seconds = Math.round((Date.now() - flowStarted - submitAt) / 100) / 10;
+    await tab.waitForSelector('#studio-root [data-studio-upgrade="after_result"]', { timeout: 10_000 });
+    for (let attempt = 0; attempt < 50 && calls.filter(call => call.path === 'event').length < 3; attempt++) await tab.waitForTimeout(50);
     failures.push(...flowFailures([...calls], focusAt, submitAt));
     if (turnstileFetches.length !== 1) failures.push(`flow: the Turnstile script was fetched ${turnstileFetches.length} times`);
     const turnstile = await tab.evaluate(() => (window as unknown as { __turnstile?: unknown }).__turnstile ?? null);
@@ -919,8 +996,9 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
     const firstDeckCalls = calls.length;
     await tab.click('#studio-root button[type="submit"]');
     await tab.waitForSelector('#studio-root [data-studio-message="free_limit"]', { timeout: 10_000 }).catch(() => failures.push('again: no free_limit message'));
+    for (let attempt = 0; attempt < 50 && calls.length - firstDeckCalls < 2; attempt++) await tab.waitForTimeout(50);
     const again = calls.slice(firstDeckCalls);
-    if (!sameJson(again.map((call) => `${call.method} ${call.path}`), ['GET me'])) failures.push(`again: calls ${JSON.stringify(again.map((call) => call.path))}, expected only GET me`);
+    failures.push(...againFailures(again, calls.slice(0, firstDeckCalls)));
     const afterLimit = await tab.evaluate(() => ({
       slides: document.querySelectorAll('#studio-root [data-studio-preview] li[data-slide]').length,
       message: document.querySelector('#studio-root [data-studio-message]')?.textContent ?? '',
@@ -953,7 +1031,7 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
 
     // The real pages on a short phone screen: the notice from the first paint, the button on the first screen.
     const inAppPages: CheckReport['inApp']['pages'] = [];
-    for (const realPage of studioPages) {
+    for (const realPage of studioPages.filter(target => target.tool !== 'tariffs')) {
       const phone = await browser.newContext({
         viewport: { width: 360, height: 640 },
         userAgent: 'Mozilla/5.0 (Linux; Android 14; SM-A145F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36 Instagram 337.0.0.0.0 Android',
@@ -1074,6 +1152,7 @@ export async function checkPages(dist: string, root: string = ROOT): Promise<Che
       early: { ...fields, sent: sent ?? null },
       preview: previewProbes,
       pages,
+      drafts,
       failures,
     };
   } finally {

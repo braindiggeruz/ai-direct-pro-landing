@@ -40,7 +40,14 @@ const PRICE = sum(PRICE_TIYIN);
 test('the pack the pages describe is the pack the code sells', () => {
   assert.equal(PRICE, '20 000');
   for (const file of CHAT_PAGES) {
-    const text = readFileSync(`content/pages/${file}.json`, 'utf8');
+    const doc = page(file);
+    const studioAt = doc.bodyBlocks.findIndex(block => block.type === 'h2' && /Studio/.test(block.text ?? ''));
+    const text = JSON.stringify(studioAt < 0 ? doc : {...doc, bodyBlocks: doc.bodyBlocks.slice(0,studioAt)});
+    if (studioAt >= 0) {
+      const studio = JSON.stringify(doc.bodyBlocks.slice(studioAt));
+      assert.ok(studio.includes('5 900') && studio.includes('39 900'));
+      assert.ok(studio.includes('Kunlik') && studio.includes('Oylik'));
+    }
     for (const [, amount] of text.matchAll(/(\d{1,3}(?: \d{3})*) (?:сум|so‘m)/g)) {
       assert.ok(amount === PRICE || amount === '0', `${file}: ${amount}`);
     }
@@ -96,7 +103,14 @@ test('pricing sends the free chat to the chat and a business to a business page'
 
 test('no AI-chat page sells a Plus, a Day Pass or a subscription', () => {
   for (const file of CHAT_PAGES) {
-    const text = readFileSync(`content/pages/${file}.json`, 'utf8');
+    const doc = page(file);
+    const studioAt = doc.bodyBlocks.findIndex(block => block.type === 'h2' && /Studio/.test(block.text ?? ''));
+    const text = JSON.stringify(studioAt < 0 ? doc : {...doc, bodyBlocks: doc.bodyBlocks.slice(0,studioAt)});
+    if (studioAt >= 0) {
+      const studio = JSON.stringify(doc.bodyBlocks.slice(studioAt));
+      assert.ok(studio.includes('5 900') && studio.includes('39 900'));
+      assert.ok(studio.includes('Kunlik') && studio.includes('Oylik'));
+    }
     assert.doesNotMatch(text, /\bPlus\b|Day Pass|подписк|\bobuna\b|tarifi mavjud|Онлайн-оплата подключается|to‘lov ulanmoqda/, file);
     assert.doesNotMatch(text, /XGame_changerx/i, file);
   }

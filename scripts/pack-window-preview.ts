@@ -30,7 +30,7 @@ const DAY = 86_400_000;
 export function previewViews(now = Date.now()): Record<string, Record<string, unknown>> {
   const base = {
     ok: true, loginAvailable: true, loginMethods: ['bot'], mode: 'live', providers: ['click', 'uzum'],
-    pack: PACK, termsVersion: 'ai-paket-2026-10-v4', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
+    pack: PACK, termsVersion: 'ai-paket-2026-10-v5', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
     uzumFlow: 'checkout', terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, user: null,
     // Guest checkout is on in production (2026-10-07): a guest pays Click in one tap.
     guestCheckout: true,

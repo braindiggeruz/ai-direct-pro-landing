@@ -40,17 +40,25 @@ import { obtainIdentity, turnstileToken, type StudioTurnstileAction, type TokenR
 import { INAPP_HEAD_SCRIPT, detectInApp, pageLink } from '../apps/studio/src/inapp';
 import {
   FREE_SLIDES,
+  FULL_SLIDES_INITIAL,
+  OUTLINE_CALLS,
+  PART_CALLS,
   PICTURE_DEADLINE_MS,
   SLIDES_CALLS,
   drawPictures,
+  fullTask,
   newRequestId,
   normalizeTopic,
+  regenerateFullDeck,
   startFreeDeck,
+  startFullDeck,
   topicProblem,
+  type FullDeps,
   type StartDeps,
 } from '../apps/studio/src/tools/presentation/flow';
+import { createFullDeckApi, fullUnitsLeft, type OutlineAnswer, type PartAnswer, type RegeneratedJob } from '../apps/studio/src/tools/presentation/api';
 import { renderForm } from '../apps/studio/src/tools/presentation/static';
-import { TEXTS, UNTIL_RESET, messageKey, pageLocale, tashkentTime } from '../apps/studio/src/tools/presentation/texts';
+import { FULL_TEXTS, TEXTS, UNIT_BACK, UNTIL_RESET, freeAgainToday, fullMessage, messageKey, pageLocale, tashkentTime } from '../apps/studio/src/tools/presentation/texts';
 import { IMAGE_RULES } from '../functions/lib/studio/safety';
 import type { TurnstileApi } from '../apps/studio/src/turnstile';
 import { cleanTopic } from '../functions/lib/studio/prompts';
@@ -917,7 +925,270 @@ test('entry: the shipped React packages are named in the notices at their locked
 test('entry: every .tsx sets the automatic JSX runtime, so tsx (prerender, tests) compiles it like Vite does', () => {
   for (const file of fs.readdirSync(SRC, { recursive: true }) as string[]) {
     if (!file.endsWith('.tsx')) continue;
-    const first = fs.readFileSync(path.join(SRC, file), 'utf8').split('\n')[0];
+    const first = fs.readFileSync(path.join(SRC, file), 'utf8').split('\n')[0].replace(/\r$/, '');
     assert.equal(first, '/** @jsxRuntime automatic @jsxImportSource react */', file);
   }
+});
+
+// --- the full deck (T3.1) ----------------------------------------------------------------------
+
+const FULL_JOB = `sj_${'f'.repeat(32)}`;
+const FULL_CONFIG: StudioPublicConfig = { ...CONFIG, tools: { ...CONFIG.tools, fullDeck: true } };
+const FULL_CREATED: CreatedJob = { jobId: FULL_JOB, source: 'entitlement', shape: { slides: 10, images: 8, notes: true, palette: 2, parts: 4 }, next: 'outline', expiresAt: '2026-10-07T10:10:00.000Z' };
+const PLAN: OutlineAnswer = {
+  outline: { title: 'Amir Temur', subtitle: '7-sinf', slides: Array.from({ length: 10 }, (_, i) => ({ index: i + 1, title: `Slayd ${i + 1}`, point: 'Asosiy fikr' })) },
+  sig: 'outline-sig',
+  images: [{ index: 1, prompt: 'Stone walls', sig: 'p1' }, { index: 2, prompt: 'Green valley', sig: 'p2' }],
+  parts: 3,
+};
+const partOf = (part: number, indexes: number[]): PartAnswer => ({
+  part,
+  deck: {
+    ...(part === 1 ? { title: 'Amir Temur (tahrir)', subtitle: '7-sinf' } : {}),
+    slides: indexes.map((index) => ({ index, title: `Slayd ${index}`, bullets: ['a', 'b', 'c'], notes: 'Bir. Ikki. Uch.', layout: 'title-bullets' as const })),
+  },
+  done: part === 3,
+});
+const PARTS = [partOf(1, [1, 2, 3, 4]), partOf(2, [5, 6, 7, 8]), partOf(3, [9, 10])];
+const ENTITLED = (left: number): StudioMe => ({
+  ...ME(true),
+  account: { signedIn: true },
+  entitlements: [{ id: 'se_1', orderId: 'stu_1', plan: 'oylik', startsAt: '2026-10-07T00:00:00.000Z', endsAt: '2026-11-07T00:00:00.000Z', presentationsLeft: left, presentationsLimit: 10, photosLeft: 0, photosLimit: 0, regenAvailable: [] }],
+});
+
+interface FullScript {
+  config?: Result<StudioPublicConfig>;
+  me?: Result<StudioMe>;
+  create?: Result<CreatedJob>[];
+  outline?: Result<OutlineAnswer>[];
+  /** Answers per part number, in order; a part with none left answers its measured part. */
+  parts?: Record<number, Result<PartAnswer>[]>;
+  regenerate?: Result<RegeneratedJob>[];
+}
+
+function fullHarness(script: FullScript = {}) {
+  const log: string[] = [];
+  const bodies: Record<string, unknown[]> = { create: [], outline: [], part: [], regenerate: [] };
+  const progress: string[] = [];
+  const pictures: string[] = [];
+  const create = [...(script.create ?? [ok(FULL_CREATED)])];
+  const outline = [...(script.outline ?? [ok(PLAN)])];
+  const parts = Object.fromEntries(Object.entries(script.parts ?? {}).map(([part, answers]) => [part, [...answers]]));
+  const regenerate = [...(script.regenerate ?? [ok({ ...FULL_CREATED, jobId: `sj_${'e'.repeat(32)}`, source: 'regen', regenOf: FULL_JOB })])];
+  const deps: FullDeps = {
+    api: { createPresentation: async (body) => { log.push(`create:${body.shape}:${body.turnstileToken}`); bodies.create.push(body); return create.shift() ?? ok(FULL_CREATED); } },
+    full: {
+      outline: async (jobId, task) => { log.push(`outline:${jobId}`); bodies.outline.push(task); return outline.shift() ?? ok(PLAN); },
+      part: async (jobId, task, part, plan, sig) => {
+        log.push(`part:${part}`);
+        bodies.part.push({ task, part, plan, sig });
+        return parts[part]?.shift() ?? ok(PARTS[part - 1]);
+      },
+      regenerate: async (jobId, body) => { log.push(`regenerate:${jobId}`); bodies.regenerate.push(body); return regenerate.shift() ?? ok({ ...FULL_CREATED, source: 'regen', regenOf: jobId }); },
+    },
+    session: {
+      config: async () => { log.push('config'); return script.config ?? ok(FULL_CONFIG); },
+      me: async () => { log.push('me'); return script.me ?? ok(ENTITLED(3)); },
+      refreshMe: () => log.push('refreshMe'),
+    },
+    requestId: () => 'r_full0001',
+    onProgress: (step) => progress.push(`${step.phase}:${step.partsDone}/${step.parts}`),
+    onOutline: (jobId, images) => pictures.push(`${jobId}:${images.map((image) => image.index).join(',')}`),
+  };
+  return { deps, log, bodies, progress, pictures };
+}
+
+const FULL_INPUT = { topic: ' Amir  Temur ', audience: 'maktab' as const, slides: 10, palette: 2 };
+
+test('full flow: /config, /me, the start without Turnstile, the outline, then every part at once; pictures start with the outline', async () => {
+  const { deps, log, bodies, progress, pictures } = fullHarness();
+  const outcome = await startFullDeck(FULL_INPUT, 'uz', deps);
+  assert.equal(outcome.kind, 'ready');
+  assert.deepEqual(log.slice(0, 5), ['config', 'me', 'create:full:', `outline:${FULL_JOB}`, 'part:1']);
+  // All three parts are asked before any answer is awaited.
+  assert.deepEqual(log.slice(4, 7), ['part:1', 'part:2', 'part:3']);
+  assert.deepEqual(bodies.create[0], { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 10, palette: 2, requestId: 'r_full0001', shape: 'full', turnstileToken: '' });
+  assert.deepEqual(bodies.outline[0], { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 10, palette: 2 });
+  for (const sent of bodies.part as Array<{ plan: unknown; sig: string }>) {
+    assert.deepEqual(sent.plan, PLAN.outline);
+    assert.equal(sent.sig, PLAN.sig);
+  }
+  assert.deepEqual(pictures, [`${FULL_JOB}:1,2`]);
+  assert.deepEqual(progress.slice(0, 3), ['check:0/0', 'outline:0/0', 'write:0/3']);
+  assert.equal(progress.at(-1), 'write:3/3');
+  if (outcome.kind === 'ready') {
+    // The cover from part 1 (proofread with it), every slide in plan order, the talk kept.
+    assert.equal(outcome.deck.title, 'Amir Temur (tahrir)');
+    assert.deepEqual(outcome.deck.slides.map((slide) => slide.index), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    assert.ok(outcome.deck.slides.every((slide) => slide.notes === 'Bir. Ikki. Uch.'));
+    assert.deepEqual(outcome.images, PLAN.images);
+    assert.equal(outcome.task.palette, 2);
+    assert.ok(!('regenOf' in outcome));
+  }
+});
+
+test('full flow: the slider and palettes stay inside what /config allows', () => {
+  assert.equal(fullTask({ ...FULL_INPUT, slides: 15 }, 'uz', 12).slides, 12);
+  assert.equal(fullTask({ ...FULL_INPUT, slides: 3 }, 'uz', 12).slides, 6);
+  assert.equal(fullTask({ ...FULL_INPUT, slides: 15 }, 'uz', 15).slides, 15);
+  assert.equal(fullTask({ ...FULL_INPUT, palette: 4 }, 'uz', 12).palette, 1);
+  assert.equal(fullTask({ ...FULL_INPUT, palette: 3 }, 'ru', 12).palette, 3);
+  assert.equal(FULL_SLIDES_INITIAL, 12);
+});
+
+test('full flow: no full deck left → the tariffs at once, nothing started; 402 from the server too; the full deck off → busy', async () => {
+  const none = fullHarness({ me: ok(ENTITLED(0)) });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', none.deps), { kind: 'no_units' });
+  assert.deepEqual(none.log, ['config', 'me']);
+  const neverBought = fullHarness({ me: ok({ ...ME(true), account: null, entitlements: [] }) });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', neverBought.deps), { kind: 'no_units' });
+  // /me without the paid part: the server decides.
+  const server = fullHarness({ me: ok(ME(true)), create: [no('no_units')] });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', server.deps), { kind: 'no_units' });
+  const off = fullHarness({ config: ok(CONFIG) });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', off.deps), { kind: 'error', code: 'studio_busy' });
+  assert.deepEqual(off.log, ['config']);
+  const short = fullHarness();
+  assert.deepEqual(await startFullDeck({ ...FULL_INPUT, topic: 'ab' }, 'uz', short.deps), { kind: 'error', code: 'topic_length' });
+  assert.deepEqual(short.log, []);
+  const refused = fullHarness({ create: [no('topic_refused', { category: 'drugs' })] });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', refused.deps), { kind: 'refused', category: 'drugs' });
+});
+
+test('full flow: a part the server marks `retry` is asked again on its own; one that still fails ends the run, its unit coming back', async () => {
+  const again = fullHarness({ parts: { 2: [no('invalid_output', { retry: true })] } });
+  const outcome = await startFullDeck(FULL_INPUT, 'uz', again.deps);
+  assert.equal(outcome.kind, 'ready');
+  assert.equal(again.log.filter((line) => line === 'part:2').length, 2);
+  assert.equal(again.log.filter((line) => line === 'part:1').length, 1);
+
+  const lost = fullHarness({ parts: { 3: [no('timeout'), no('job_state')] } });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', lost.deps), { kind: 'error', code: 'job_lost', afterJob: true });
+
+  const failing = fullHarness({ parts: { 1: Array.from({ length: PART_CALLS + 1 }, () => no('model_failed', { retry: true })) } });
+  const failed = await startFullDeck(FULL_INPUT, 'uz', failing.deps);
+  assert.deepEqual(failed, { kind: 'error', code: 'model_failed', afterJob: true });
+  assert.equal(failing.log.filter((line) => line === 'part:1').length, PART_CALLS);
+  assert.ok(failing.log.includes('refreshMe'), '/me is read again: the unit comes back');
+  assert.ok(UNIT_BACK.has('model_failed') && UNIT_BACK.has('studio_busy') && !UNIT_BACK.has('job_state'));
+
+  // Without `retry` a failed part is never asked again; the outline the same.
+  const final = fullHarness({ parts: { 2: [no('invalid_output', { retry: false })] } });
+  assert.equal((await startFullDeck(FULL_INPUT, 'uz', final.deps)).kind, 'error');
+  assert.equal(final.log.filter((line) => line === 'part:2').length, 1);
+  const plan = fullHarness({ outline: Array.from({ length: OUTLINE_CALLS + 1 }, () => no('studio_busy', { retry: true })) });
+  assert.deepEqual(await startFullDeck(FULL_INPUT, 'uz', plan.deps), { kind: 'error', code: 'studio_busy', afterJob: true });
+  assert.equal(plan.log.filter((line) => line.startsWith('outline:')).length, OUTLINE_CALLS);
+  assert.ok(!plan.log.some((line) => line.startsWith('part:')), 'no part before the outline');
+});
+
+test('full flow: a regeneration posts /regenerate of the original with the same task, then the same steps; no /me units needed', async () => {
+  const { deps, log, bodies } = fullHarness({ me: ok(ENTITLED(0)) });
+  const task: DeckTask = { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 10, palette: 2 };
+  const outcome = await regenerateFullDeck({ jobId: FULL_JOB, task }, deps);
+  assert.equal(outcome.kind, 'ready');
+  assert.deepEqual(log.slice(0, 3), ['config', `regenerate:${FULL_JOB}`, `outline:sj_${'e'.repeat(32)}`]);
+  assert.deepEqual(bodies.regenerate[0], { ...task, requestId: 'r_full0001', shape: 'full' });
+  if (outcome.kind === 'ready') assert.equal(outcome.regenOf, FULL_JOB);
+  const used = fullHarness({ regenerate: [no('regen_used')] });
+  assert.deepEqual(await regenerateFullDeck({ jobId: FULL_JOB, task }, used.deps), { kind: 'error', code: 'regen_used' });
+  assert.equal(fullMessage('uz', 'regen_mismatch'), 'Qayta yaratish faqat o‘sha mavzu uchun.');
+  assert.equal(fullMessage('uz', 'free_limit'), null);
+});
+
+test('full api: same-origin paths, exactly the task (and the part, outline and sig) in the body, only for a ledger job id', async () => {
+  const { calls, fetchImpl } = fakeFetch((url) => {
+    if (url.endsWith('/outline')) return json(200, { ok: true, ...PLAN });
+    if (url.endsWith('/slides')) return json(200, { ok: true, ...PARTS[0] });
+    if (url.endsWith('/regenerate')) return json(201, { ok: true, ...FULL_CREATED, source: 'regen', regenOf: FULL_JOB });
+    return json(404, { ok: false, code: 'not_found' });
+  });
+  const full = createFullDeckApi(fetchImpl);
+  const task = { ...TASK, slides: 10, palette: 2, extra: 'dropped' } as DeckTask;
+  const plan = await full.outline(FULL_JOB, task);
+  assert.ok(plan.ok);
+  const part = await full.part(FULL_JOB, task, 1, PLAN.outline, PLAN.sig);
+  assert.ok(part.ok && part.data.deck.title === 'Amir Temur (tahrir)');
+  const regen = await full.regenerate(FULL_JOB, { ...task, requestId: 'r_full0002', shape: 'full' });
+  assert.ok(regen.ok && regen.data.regenOf === FULL_JOB);
+  assert.deepEqual(calls.map((call) => call.url), [
+    `${STUDIO_API_BASE}presentations/${FULL_JOB}/outline`,
+    `${STUDIO_API_BASE}presentations/${FULL_JOB}/slides`,
+    `${STUDIO_API_BASE}presentations/${FULL_JOB}/regenerate`,
+  ]);
+  const plain = { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 10, palette: 2 };
+  assert.deepEqual(calls[0].body, plain);
+  assert.deepEqual(calls[1].body, { ...plain, part: 1, outline: PLAN.outline, sig: PLAN.sig });
+  assert.deepEqual(calls[2].body, { ...plain, requestId: 'r_full0002', shape: 'full' });
+  for (const call of calls) {
+    assert.equal(call.init.method, 'POST');
+    assert.equal(call.init.credentials, 'same-origin');
+    assert.equal(call.init.cache, 'no-store');
+  }
+  assert.deepEqual(await full.outline('../me', task), { ok: false, status: 0, code: 'invalid' });
+  assert.equal(calls.length, 3);
+  // A failure carries the server's code and `retry`.
+  const failing = createFullDeckApi(async () => json(422, { ok: false, code: 'invalid_output', retry: true }));
+  assert.deepEqual(await failing.part(FULL_JOB, task, 2, PLAN.outline, PLAN.sig), { ok: false, status: 422, code: 'invalid_output', retry: true });
+  // Units left from /me: the sum over running tariffs; nothing said → null (the server decides).
+  assert.equal(fullUnitsLeft(ENTITLED(3)), 3);
+  assert.equal(fullUnitsLeft({ ...ENTITLED(3), entitlements: [...ENTITLED(3).entitlements!, ...ENTITLED(2).entitlements!] }), 5);
+  assert.equal(fullUnitsLeft(ME(true)), null);
+});
+
+test('full words: the unit line before the submit, the free line first on the limit card; honest, no call to buy, nothing asks a parent', () => {
+  assert.equal(FULL_TEXTS.uz.unitNote(4), 'Bu to‘liq taqdimot: 1 ta birlik yechiladi (qoldi: 4)');
+  assert.equal(FULL_TEXTS.uz.freeAgain('05:00', false), 'Ertaga soat 05:00 da yana bepul.');
+  assert.equal(FULL_TEXTS.uz.freeAgain('05:00', true), 'Bugun soat 05:00 da yana bepul.');
+  // The free day restarts at 00:00 UTC (05:00 in Tashkent).
+  assert.equal(freeAgainToday(Date.UTC(2026, 9, 7, 23, 30)), true); // 04:30 Tashkent
+  assert.equal(freeAgainToday(Date.UTC(2026, 9, 7, 1, 0)), false); // 06:00 Tashkent
+  for (const locale of ['uz', 'ru'] as const) {
+    const values: string[] = [];
+    const walk = (value: unknown) => {
+      if (typeof value === 'string') values.push(value);
+      else if (typeof value === 'function') values.push(String((value as (...args: unknown[]) => string)('05:00', 12)));
+      else if (value && typeof value === 'object') Object.values(value).forEach(walk);
+    };
+    walk(FULL_TEXTS[locale]);
+    for (const value of values) {
+      assert.doesNotMatch(value, /chatgpt|openai|\bgpt\b|rasmiy|cheksiz|безлимит|официальн/i, value);
+      assert.doesNotMatch(value, /sotib ol|xarid qil|купи|ota-ona|родител|so‘m|сум|chegirma|скидк/i, value);
+    }
+    if (locale === 'uz') {
+      for (const value of values) {
+        assert.doesNotMatch(value, /['`ʻʼ]/, value);
+        assert.doesNotMatch(value, /[og]’/i, value);
+        assert.doesNotMatch(value, /[а-яё]/i, value);
+      }
+    }
+  }
+  // The full deck's own words never leak into the free tool's (TEXTS has no «to‘liq»: see 'words').
+  assert.match(FULL_TEXTS.uz.shapeFullNote(15), /15 slaydgacha, 8 tagacha rasm, qisqa ma’ruza matni/);
+});
+
+test('full form: the static first state never carries the picker; the preview folds each talk; the parts count', async () => {
+  for (const locale of ['uz', 'ru'] as const) {
+    const html = renderForm(locale);
+    assert.ok(!html.includes(FULL_TEXTS[locale].shapeLabel), 'the picker appears only once /config says the full deck is on');
+    assert.ok(!html.includes('data-studio-shape'));
+  }
+  const { Preview } = await import('../apps/studio/src/tools/presentation/Preview');
+  const deck: Deck = { ...DECK, slides: DECK.slides.map((slide) => ({ ...slide, notes: `Gap ${slide.index}. Ikki. Uch.` })) };
+  const withNotes = renderToString(createElement(Preview, { texts: TEXTS.uz, deck, pictures: new Map(), notesLabel: FULL_TEXTS.uz.notesLabel }));
+  assert.equal((withNotes.match(/<details /g) ?? []).length, 6);
+  assert.ok(withNotes.includes(FULL_TEXTS.uz.notesLabel));
+  const free = renderToString(createElement(Preview, { texts: TEXTS.uz, deck, pictures: new Map() }));
+  assert.ok(!free.includes('<details'), 'no talk without the label (the free deck has none)');
+  const { PartsProgress } = await import('../apps/studio/src/tools/presentation/PartsProgress');
+  const parts = renderToString(createElement(PartsProgress, { done: 2, total: 3, label: FULL_TEXTS.uz.parts }));
+  assert.match(parts, /data-studio-parts="2\/3"/);
+  assert.ok(parts.includes('3 qismdan 2 tasi tayyor'));
+  assert.equal(renderToString(createElement(PartsProgress, { done: 0, total: 0, label: FULL_TEXTS.uz.parts })), '');
+  // The paid stage's slots are the Build-0 contract, and the form calls them only after hydration.
+  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  assert.match(form, /import type \{ IslandSlots \} from '\.\.\/\.\.\/slots';/);
+  assert.match(form, /hydrated && !!slots\?\.tariffs/);
+  assert.match(form, /slots\.tariffs\('after_result'\)/);
+  assert.match(form, /slots\?\.tariffs\?\.\('limit'\)/);
 });

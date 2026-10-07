@@ -1026,10 +1026,11 @@ function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
       'lead_radar_audiences', 'lead_radar_audience_campaigns', 'lead_radar_contact_enrichments',
       'lead_radar_crawler_workers', 'lead_radar_crawler_jobs', 'lead_radar_crawler_receipts',
       'lead_radar_crawler_hosts',
-      // Signal Radar (0057) is an independently gated demand-side module. It
+      // Signal Radar (0057-0060) is an independently gated demand-side module. It
       // shares the org_id boundary but no table shape with the company-centric
       // funnel, so installing it must not move the pinned target fingerprint.
       'lead_radar_signal_targets', 'lead_radar_signal_posts', 'lead_radar_signal_leads',
+      'lead_radar_signal_chats',
     ].includes(tableName)
     && (name.startsWith('lead_radar_') || tableName.startsWith('lead_radar_'));
 }

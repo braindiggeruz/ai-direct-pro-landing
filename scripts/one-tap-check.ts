@@ -133,7 +133,7 @@ try {
         await refresh();
         assert.equal(posts.length, 1);
         assert.equal(posts[0].acceptTerms, true);
-        assert.equal(posts[0].termsVersion, 'ai-paket-2026-10-v4');
+        assert.equal(posts[0].termsVersion, 'ai-paket-2026-10-v5');
         assert.equal(posts[0].locale, locale);
         assert.match(String(posts[0].requestId), /^[0-9a-f-]{36}$/);
       },
@@ -145,7 +145,7 @@ try {
         await tap(page);
         if (changed === 'price') view.pack = { ...(view.pack as object), priceUzs: 30000 };
         if (changed === 'identity') view.user = { signedIn: true, storageKey: 'a'.repeat(64) };
-        if (changed === 'terms') view.termsVersion = 'ai-paket-2026-10-v5';
+        if (changed === 'terms') view.termsVersion = 'fixture-changed-terms';
         if (changed === 'provider') view.providers = ['payme'];
         if (changed === 'pending') view.payment = { id: `pay_${'1'.repeat(32)}`, state: 'pending', provider: 'click', cancellable: true };
         await refresh();

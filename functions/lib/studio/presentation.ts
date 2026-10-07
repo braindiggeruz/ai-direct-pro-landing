@@ -4,7 +4,8 @@
 // (spec §4.1). A job row holds only input_mac, an HMAC of the task (the
 // topic as normalizeTopic sees it, language, audience, slides, palette and
 // kind). So the browser sends the task again with the request that needs it
-// (the free deck's /slides; T3.1's parts), and the server accepts it only if
+// (the free deck's /slides; the full deck's /outline and parts, full-deck.ts;
+// a regeneration), and the server accepts it only if
 // it hashes to the job's input_mac: the model is never asked about anything
 // but the task the unit was reserved for, and a job cannot be reused for
 // another topic. The topic is cleaned once, here (prompts.ts cleanTopic),

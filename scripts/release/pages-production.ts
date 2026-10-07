@@ -9,6 +9,7 @@ import { assertPublicStylesheets } from '../site-stylesheets';
 import { assertSeoProtection } from '../seo-protection';
 import { assertChatBundleBudget } from '../chat-bundle-budget';
 import { assertLiveGate, loadLiveGateInput } from './live-gate';
+import { assertStudioLiveGate } from './studio-live-gate';
 import { publishedStudioUrls } from '../../apps/studio/shared/published-urls';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
@@ -204,6 +205,7 @@ async function checkProduction(root: string, dist: string): Promise<string> {
     { cwd: root, stdio: 'ignore', windowsHide: true }).status === 0);
   // Live billing needs its secrets in production, by name (scripts/release/live-gate.ts).
   assertLiveGate(loadLiveGateInput(root, dist, productionVariableNames(project)));
+  assertStudioLiveGate(root, dist, productionVariableNames(project));
   return current;
 }
 
@@ -289,6 +291,7 @@ async function main(): Promise<void> {
   // Live billing ships only with its offer, requisites and settings (WP-18);
   // the secrets are confirmed by name in check-production and deploy.
   assertLiveGate(loadLiveGateInput(ROOT, dist, null));
+  assertStudioLiveGate(ROOT, dist, null);
   assertCleanRuntime(ROOT);
   const studioPages = publishedStudioUrls(ROOT);
   if (mode === 'stamp') {

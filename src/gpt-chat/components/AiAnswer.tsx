@@ -3,7 +3,7 @@
 // start bundle and shows the plain text until this part is here; the console
 // fetches it as soon as a question is being written or a conversation is on
 // screen, so it arrives before the first answer does.
-import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import type { AnswerAction, Locale } from "../types";
 import { answerStrings } from "../answer-strings";
 import { frameLocale } from "../roles";
@@ -26,7 +26,7 @@ export const AnswerBody = memo(function AnswerBody({ content, locale = "ru", str
       dir="auto"
       onClick={(event) => {
         const button = (event.target as HTMLElement).closest?.("[data-copy-code]");
-        const code = button?.parentElement?.querySelector("code")?.textContent;
+        const code = button?.closest(".gpt-code-wrap")?.querySelector("code")?.textContent;
         if (!button || code == null) return;
         void copyText(code).then((ok) => {
           button.textContent = ok ? s.copied : s.copyFailed;
@@ -149,6 +149,7 @@ const Icon = ({ d }: { d: string }) => (
 );
 
 export function MessageActions({
+  model,
   content,
   locale,
   isLast,
@@ -161,6 +162,8 @@ export function MessageActions({
   onRetry,
   onAsk,
 }: {
+  /** The model line, the action row's neighbour in the answer's foot. */
+  model?: ReactNode;
   content: string;
   locale: Locale;
   isLast: boolean;
@@ -168,7 +171,7 @@ export function MessageActions({
   broken?: boolean;
   /** Sending is paused (a turn under way, a limit, a check): every button that sends is off. */
   locked?: boolean;
-  /** Say once that the buttons that make the AI write cost a message, and copy and Telegram do not. */
+  /** Say once, under a cut answer's row with «Continue» in it, that the buttons that make the AI write cost a message. */
   costNote?: boolean;
   /** How many versions «Qayta yozish» has made of this answer, and which one shows (REV-7). */
   versions?: number;
@@ -191,14 +194,13 @@ export function MessageActions({
     return () => window.clearTimeout(timer);
   }, [copyStatus]);
   const [shareCut, setShareCut] = useState(false);
-  // On a phone the row is copy, Telegram, «continue» on a cut answer and «⋯»
-  // (REV-7): all six buttons took three lines, about 150px, under every last
-  // answer. «⋯» opens the rest as a menu above the row, under a caption that
-  // says each item costs a message (chat design §5.6).
+  // One row on every screen and pointer (chat UI 2026-10-07 §5.7): copy,
+  // Telegram, «continue» on a cut answer and «⋯», never on two lines. «⋯»
+  // opens the rest as a menu above the row, under a caption that says each
+  // item costs a message.
   const [open, setOpen] = useState(false);
   // Below when above would cross the top of the thread.
   const [below, setBelow] = useState(false);
-  const phone = isLast && typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches;
   // The menu takes the focus to its first item, so a screen reader says where
   // it is; Escape and a tap outside close it, and a second tap on the same
   // spot within 350 ms sends nothing.
@@ -250,10 +252,10 @@ export function MessageActions({
     }
   };
   // Keyed, so React never turns one button into another when the menu opens.
-  const action = (kind: AnswerAction, first?: boolean) => {
+  const action = (kind: AnswerAction, first?: boolean, className = "gpt-action") => {
     const [text, request, own] = answerAsk(kind, content, locale, frame);
     return (
-      <button key={kind} ref={first ? firstRef : undefined} type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onAsk?.(kind, text, request, own)}>
+      <button key={kind} ref={first ? firstRef : undefined} type="button" className={className} disabled={locked} onClick={() => settled() && onAsk?.(kind, text, request, own)}>
         {text}
       </button>
     );
@@ -261,7 +263,6 @@ export function MessageActions({
   const rest = [
     action("shorter", true),
     action(translationOf(content)),
-    !phone && action("continue"),
     onRetry && (
       <button key="regenerate" type="button" className="gpt-action" disabled={locked} onClick={() => settled() && onRetry()}>
         {s.regenerate}
@@ -278,43 +279,43 @@ export function MessageActions({
           <button type="button" disabled={locked || version >= versions - 1} onClick={() => onVersion(version + 1)} aria-label={s.versionNext}>›</button>
         </div>
       )}
-      <div className="gpt-action-row" ref={rowRef}>
-        <button type="button" onClick={copy} className="gpt-action">
-          <Icon d={copyStatus === "done" ? ICON.copied : ICON.copy} />
-          <span className="gpt-action-label">{copyStatus === "done" ? s.copied : s.copy}</span>
-        </button>
-        <button type="button" onClick={share} className="gpt-action" aria-label={s.shareLabel}>
-          <Icon d={ICON.share} />
-          <span className="gpt-action-label">{s.share}</span>
-        </button>
-        {isLast && onAsk && (phone ? [
-          broken && action("continue"),
-          <button
-            key="more"
-            ref={moreRef}
-            type="button"
-            className="gpt-action gpt-action-more"
-            aria-expanded={open}
-            aria-label={s.more}
-            disabled={locked}
-            onClick={() => {
-              openedAt.current = Date.now();
-              setOpen(!open);
-            }}
-          >
-            <span aria-hidden="true">⋯</span>
-          </button>,
-          open && (
-            <div key="menu" ref={menuRef} className="gpt-action-menu" data-below={below || undefined} onClick={() => setOpen(false)}>
-              <p className="gpt-menu-cost">{s.menuCost}</p>
-              {rest}
-            </div>
-          ),
-        ] : [
-          // The ones that cost a message after a divider.
-          <span key="divider" className="gpt-action-divider" aria-hidden="true" />,
-          ...rest,
-        ])}
+      <div className="gpt-answer-foot">
+        {model}
+        <div className="gpt-action-row" ref={rowRef}>
+          <button type="button" onClick={copy} className="gpt-action" aria-label={copyStatus === "done" ? s.copied : s.copy} title={s.copy}>
+            <Icon d={copyStatus === "done" ? ICON.copied : ICON.copy} />
+            <span className="gpt-action-label">{copyStatus === "done" ? s.copied : s.copy}</span>
+          </button>
+          <button type="button" onClick={share} className="gpt-action" aria-label={s.shareLabel} title={s.shareLabel}>
+            <Icon d={ICON.share} />
+            <span className="gpt-action-label">{s.share}</span>
+          </button>
+          {isLast && onAsk && [
+            // With it, the row's labels give way to icons below 640px (premium.css).
+            broken && action("continue", false, "gpt-action gpt-action-continue"),
+            <button
+              key="more"
+              ref={moreRef}
+              type="button"
+              className="gpt-action gpt-action-more"
+              aria-expanded={open}
+              aria-label={s.more}
+              disabled={locked}
+              onClick={() => {
+                openedAt.current = Date.now();
+                setOpen(!open);
+              }}
+            >
+              <span aria-hidden="true">⋯</span>
+            </button>,
+            open && (
+              <div key="menu" ref={menuRef} className="gpt-action-menu" data-below={below || undefined} onClick={() => setOpen(false)}>
+                <p className="gpt-menu-cost">{s.menuCost}</p>
+                {rest}
+              </div>
+            ),
+          ]}
+        </div>
       </div>
       {copyStatus === "failed" && (
         <p role="status" className="gpt-notice">
@@ -326,9 +327,9 @@ export function MessageActions({
           {s.shareCut}
         </p>
       )}
-      {/* With a mouse, under the whole row. On a phone the menu's caption covers
-          what is inside «⋯», and this line «Continue» in the row of a cut answer. */}
-      {isLast && costNote && onAsk && (!phone || broken) && <p className="gpt-cost-note">{s.buttonCost}</p>}
+      {/* The menu's caption covers what is inside «⋯»; this line the «Continue»
+          that stands in the row of a cut answer, on every pointer. */}
+      {isLast && costNote && onAsk && broken && <p className="gpt-cost-note">{s.buttonCost}</p>}
     </>
   );
 }

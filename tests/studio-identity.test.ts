@@ -20,8 +20,10 @@ import {
   readIdentity,
   verifyIdentityValue,
 } from "../functions/lib/studio/identity";
-import { TURNSTILE_TEST_SECRETS, studioTurnstileConfigured, verifyStudioTurnstile } from "../functions/lib/studio/turnstile";
+import { repeatingLocalTestWidget, TURNSTILE_TEST_SECRETS, studioTurnstileConfigured, verifyStudioTurnstile } from "../functions/lib/studio/turnstile";
 import { STUDIO_RATE } from "../functions/lib/studio/limits";
+import { TERMS_PLAN } from "../functions/lib/studio/plans";
+import { publicPlans } from "../functions/lib/studio/checkout";
 import { onRequest as identityEndpoint } from "../functions/api/studio/identity";
 import { onRequest as configEndpoint } from "../functions/api/studio/config";
 
@@ -33,6 +35,14 @@ const WIDGET_KEY = "studio-turnstile-test-widget-material";
 const KEYS = { GPT_IDENTITY_SECRET: IDENTITY_KEY };
 const NOW = Date.UTC(2026, 9, 14, 9, 30);
 const API_ON = JSON.stringify({ STUDIO_API: "on" });
+test("repeating dummy tokens are allowed only on explicitly enabled local hosts", () => {
+  const env = { STUDIO_LOCAL_DEV: 'true', STUDIO_TURNSTILE_SECRET_KEY: TURNSTILE_TEST_SECRETS[0] };
+  assert.equal(repeatingLocalTestWidget(new Request('http://localhost:8791/'), env), true);
+  assert.equal(repeatingLocalTestWidget(new Request('https://gptbot.uz/'), env), false);
+  assert.equal(repeatingLocalTestWidget(new Request('https://example.com/'), env), false);
+  assert.equal(repeatingLocalTestWidget(new Request('http://localhost:8791/'), { ...env, STUDIO_LOCAL_DEV: 'false' }), false);
+  assert.equal(repeatingLocalTestWidget(new Request('http://localhost:8791/'), { ...env, STUDIO_TURNSTILE_SECRET_KEY: 'real-secret' }), false);
+});
 const BID_SHAPE = /^v1\.[A-Za-z0-9_-]{22}\.\d+\.[A-Za-z0-9_-]{22}$/;
 
 // ── The value and the cookie ───────────────────────────────────────────────
@@ -268,7 +278,7 @@ test("identity is issued only after Turnstile, as a valid year-long cookie, with
   // identities); nothing in the studio tables.
   assert.equal(db.value("SELECT COUNT(*) FROM studio_free_usage"), 0);
   const rows = db.rows<{ action: string; subject: string; count: number }>("SELECT action, subject, count FROM gpt_rate_limits ORDER BY action");
-  assert.deepEqual(rows.map((row) => [row.action, row.count]), [["studio_identity", 1], ["studio_identity_try", 1]]);
+  assert.deepEqual(rows.map((row) => [row.action, row.count]), [["studio_identity", 1]]);
   for (const row of rows) {
     assert.match(row.subject, /^[0-9a-f]{64}$/);
     assert.ok(!row.subject.includes("203.0.113.7"));
@@ -305,7 +315,7 @@ test("Turnstile refused, missing or unreachable: no cookie", async (context) => 
   assert.equal(calls.length, 1);
   context.mock.restoreAll();
   const downCalls = siteverify(context, new Error("down"));
-  const down = await call(identityEndpoint, identityRequest(), endpointEnv(db));
+  const down = await call(identityEndpoint, identityRequest({body:{turnstileToken:"new-down-token"}}), endpointEnv(db));
   assert.equal(down.status, 503);
   assert.equal((await down.json()).code, "studio_busy");
   assert.equal(down.headers.get("set-cookie"), null);
@@ -336,7 +346,7 @@ test("60 identities an hour per address, counted after Turnstile and read before
   const db = await database();
   assert.equal(STUDIO_RATE.identity.limit, 60);
   for (let i = 0; i < 60; i++) {
-    const response = await call(identityEndpoint, identityRequest({ ip: `2001:db8:1:2:${i.toString(16)}::1` }), endpointEnv(db));
+    const response = await call(identityEndpoint, identityRequest({ ip: `2001:db8:1:2:${i.toString(16)}::1`, body: { turnstileToken: `valid-${i}` } }), endpointEnv(db));
     assert.equal(response.status, 200, `request ${i}`);
   }
   const over = await call(identityEndpoint, identityRequest({ ip: "2001:db8:1:2:ffff::9" }), endpointEnv(db));
@@ -379,7 +389,7 @@ test("requests without a valid token never fill the address's identities: a neig
   }
   assert.equal(calls.length, 5);
   assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='studio_identity'"), 0);
-  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity_try'"), 75);
+  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity_try'"), null);
   // A real visitor behind the same address passes Turnstile and gets an identity.
   const visitor = await call(identityEndpoint, identityRequest({ ip: shared }), endpointEnv(db));
   assert.equal(visitor.status, 200);
@@ -389,25 +399,16 @@ test("requests without a valid token never fill the address's identities: a neig
   assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity'"), 1);
 });
 
-test("past 600 tries an hour per address: 429 before Siteverify, and the tries never count as identities", async (context) => {
-  const calls = siteverifyByToken(context);
-  const db = await database();
-  assert.deepEqual(STUDIO_RATE.identityTry, { action: "studio_identity_try", limit: 600, windowMs: HOUR });
-  // The hour's 600 tries are spent (seeded, so the test does not post 600 times).
-  const tried = await call(identityEndpoint, identityRequest({ ip: "203.0.113.78", body: { turnstileToken: "" } }), endpointEnv(db));
-  assert.equal((await tried.json()).code, "turnstile_required");
-  db.exec("UPDATE gpt_rate_limits SET count=600 WHERE action='studio_identity_try'");
-  for (const token of ["", "garbage", "token-ok"]) {
-    const over = await call(identityEndpoint, identityRequest({ ip: "203.0.113.78", body: { turnstileToken: token } }), endpointEnv(db));
-    assert.equal(over.status, 429, token);
-    assert.equal((await over.json()).code, "rate_limited");
-    assert.ok(Number(over.headers.get("retry-after")) > 0);
-    assert.equal(over.headers.get("set-cookie"), null);
+test("600 unique failed tokens leave no NAT debt for the next verified neighbour", async (context) => {
+  const calls=siteverifyByToken(context); const db=await database();
+  for(let i=0;i<600;i++) {
+    const response=await call(identityEndpoint,identityRequest({ip:"203.0.113.78",body:{turnstileToken:`invalid-${i}`}}),endpointEnv(db));
+    assert.equal(response.status,403);
   }
-  assert.equal(calls.length, 0);
-  assert.equal(db.value("SELECT COUNT(*) FROM gpt_rate_limits WHERE action='studio_identity'"), 0);
-  // Another address has its own tries.
-  assert.equal((await call(identityEndpoint, identityRequest({ ip: "203.0.113.79" }), endpointEnv(db))).status, 200);
+  const next=await call(identityEndpoint,identityRequest({ip:"203.0.113.78"}),endpointEnv(db));
+  assert.equal(next.status,200);assert.equal(calls.length,601);
+  assert.equal(db.value("SELECT count FROM gpt_rate_limits WHERE action='studio_identity'"),1);
+  assert.equal(db.value("SELECT COUNT(*) FROM studio_unit_ledger"),0);
 });
 
 test("a counter D1 cannot write refuses (503): degraded is never a pass", async (context) => {
@@ -486,7 +487,8 @@ test("/config: the public settings, the same for everybody, without D1, cookies 
   assert.deepEqual(await response.json(), {
     ok: true,
     tools: { freeDeck: true, fullDeck: false, photo: false },
-    payments: { mode: null, providers: ["click"] },
+    // Who sells is STUDIO_PAYMENT_PROVIDERS and the cash desks' state (lib/studio/checkout.ts readyProviders): nobody by default.
+    payments: { mode: null, providers: [] },
     plans: [],
     free: { presentation: 1, photo: 2, resetsAt: "05:00 Asia/Tashkent" },
     shapes: {
@@ -501,21 +503,26 @@ test("/config: the public settings, the same for everybody, without D1, cookies 
 });
 
 test("/config: prices only while payments are on, and only those of an edition that sells", async () => {
+  // The edition TERMS_PLAN sells (stream F names it), never pinned here.
+  const EDITION = Object.keys(TERMS_PLAN)[0] ?? "";
   const live = {
     STUDIO_API: "on", STUDIO_PAID_SERVICE: "on", STUDIO_FULL_DECK: "true", STUDIO_PHOTO: "true", STUDIO_PAYMENTS: "live",
-    STUDIO_TERMS_VERSION: "ai-paket-2026-10-v3", STUDIO_TERMS_RU: "https://gptbot.uz/ru/oferta/", STUDIO_TERMS_UZ: "https://gptbot.uz/uz/oferta/",
+    STUDIO_TERMS_VERSION: EDITION, STUDIO_TERMS_RU: "https://gptbot.uz/ru/oferta/", STUDIO_TERMS_UZ: "https://gptbot.uz/uz/oferta/",
     STUDIO_TURNSTILE_SITE_KEY: "0x4AAAAAAAStudioSiteKey", STUDIO_MAX_SLIDES: "15", STUDIO_AI_LABEL: "false",
   };
   const body = await (await call(configEndpoint, getConfig(), noBackendEnv(JSON.stringify(live)))).json();
   assert.deepEqual(body.tools, { freeDeck: false, fullDeck: true, photo: true });
-  assert.deepEqual(body.payments, { mode: "live", providers: ["click"] });
-  assert.deepEqual(body.plans, [
-    { id: "kunlik", itemId: "studio_kunlik", amountTiyin: 590_000, amountUzs: 5_900, duration: { hours: 24 }, presentationFull: 1, photoTask: 5, regenPerUnit: 1 },
-    { id: "oylik", itemId: "studio_oylik", amountTiyin: 3_990_000, amountUzs: 39_900, duration: { calendarMonths: 1 }, presentationFull: 10, photoTask: 40, regenPerUnit: 1 },
-  ]);
+  // No provider is listed (STUDIO_PAYMENT_PROVIDERS ""), so none sells: tests/studio-checkout.test.ts covers who does.
+  assert.deepEqual(body.payments, { mode: "live", providers: [] });
+  // The edition's own tariffs (checkout.ts publicPlans); prices and deck counts are the same in every quota version.
+  assert.deepEqual(body.plans, publicPlans(EDITION));
+  assert.deepEqual(
+    body.plans.map((plan: { id: string; itemId: string; amountTiyin: number; amountUzs: number; presentationFull: number; regenPerUnit: number }) => [plan.id, plan.itemId, plan.amountTiyin, plan.amountUzs, plan.presentationFull, plan.regenPerUnit]),
+    [["kunlik", "studio_kunlik", 590_000, 5_900, 1, 1], ["oylik", "studio_oylik", 3_990_000, 39_900, 10, 1]],
+  );
   assert.equal(body.shapes.full.maxSlides, 15);
   assert.equal(body.turnstileSiteKey, "0x4AAAAAAAStudioSiteKey");
-  assert.equal(body.termsVersion, "ai-paket-2026-10-v3");
+  assert.equal(body.termsVersion, EDITION);
   assert.deepEqual(body.terms, { ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/" });
   assert.equal(body.aiLabel, false);
   // An edition without a quota version sells nothing.

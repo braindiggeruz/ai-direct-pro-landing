@@ -66,6 +66,20 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   //   the site's free counters passed STUDIO_FREE_ALERT_DECKS / _PHOTOS (only told).
   "studio_free_decks_high",
   "studio_free_photos_high",
+  // Studio tariffs (DECISIONS 07.10.2026 §12, §4). Events, not states: one
+  // row an hour, like payme_processing and click_* of the chat:
+  //   a Payme request about a studio order failed on our side (-32400);
+  "studio_payme_processing",
+  //   a request to the studio's own Click service failed on our side;
+  "studio_click_processing",
+  //   a signed Click request about a studio order we do not have (-5);
+  "studio_click_unknown_order",
+  //   a studio receipt was not printed (SetFiscalData with an error, or the
+  //   shared receipt queue gave up on a stu_ order).
+  "studio_fiscal_failed",
+  //   A state: a partial refund paid by transfer still waits for its receipt,
+  //   printed by hand. Once a day until it is printed (DAILY_ALERTS).
+  "studio_refund_receipt_due",
 ];
 
 /**
@@ -94,6 +108,7 @@ const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "studio_free_budget_80",
   "studio_free_decks_high",
   "studio_free_photos_high",
+  "studio_refund_receipt_due",
 ]);
 
 function globMatch(pattern: string, code: string): boolean {
@@ -154,6 +169,11 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   studio_free_budget_80: "Студия: израсходовано 80% бюджета бесплатного, новым посетителям (моложе суток) отказ до 05:00 Ташкента",
   studio_free_decks_high: "Студия: бесплатных презентаций за сутки больше STUDIO_FREE_ALERT_DECKS, проверьте отчёт",
   studio_free_photos_high: "Студия: бесплатных фото за сутки больше STUDIO_FREE_ALERT_PHOTOS, проверьте отчёт",
+  studio_payme_processing: "Студия: ошибка сервера при обработке запроса Payme о заказе студии (ответ -32400), Payme повторит запрос; сверьте кабинет Payme",
+  studio_click_processing: "Студия: ошибка сервера при обработке запроса Click о заказе студии, Click повторит запрос; сверьте кабинет Click",
+  studio_click_unknown_order: "Студия: подписанный запрос Click о заказе студии, которого у нас нет в этом режиме (ответ -5); сверьте кабинет Click",
+  studio_fiscal_failed: "Студия: чек по оплате тарифа не пробит, см. gpt_fiscal_receipts и заказ в studio_orders_v2, сверьте кабинет платёжной системы",
+  studio_refund_receipt_due: "Студия: частичный возврат переводом записан, а чек возврата ещё не пробит вручную; см. studio_refunds (receipt_state='due')",
 };
 
 /** The fixed explanation of a code (the admin shows it beside the count), or null. */

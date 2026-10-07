@@ -183,7 +183,7 @@ test('r-st1: on a copy of content/ with the release applied, the SEO suites pass
 // that follows makes every free /api/studio/* path answer 404.
 test('r-st1 rollback: studio-switch flips the three free-deck switches and leaves every other byte', async () => {
   const { FREE_DECK_SWITCHES, readStudioConfigLine, setSwitches, switchState } = await import('../apps/studio/scripts/studio-switch');
-  const { parseStudioConfig, studioGate } = await import('../functions/lib/studio/config');
+  const { deckOpen, parseStudioConfig, studioGate } = await import('../functions/lib/studio/config');
   const toml = fs.readFileSync(path.join(REPO, 'wrangler.toml'), 'utf8');
   const state = switchState(toml);
   assert.ok(state === 'on' || state === 'off', `the committed switches are ${state}`);
@@ -203,13 +203,23 @@ test('r-st1 rollback: studio-switch flips the three free-deck switches and leave
   for (const key of Object.keys(before)) {
     if (!(key in FREE_DECK_SWITCHES.off)) assert.equal(after[key], before[key], key);
   }
-  // Switched off, the site answers 404 on every free path before reading anything.
+  // Free-only paths close; shared paths keep serving the unchanged paid service.
   const config = parseStudioConfig(JSON.stringify(after));
-  assert.deepEqual([config.api, config.freeDeck, config.events, config.paidService], [false, false, false, false]);
+  assert.deepEqual([config.api, config.freeDeck, config.events], [false, false, false]);
+  assert.equal(config.paidService, parseStudioConfig(JSON.stringify(before)).paidService, 'the free rollback preserves the paid-service switch');
+  assert.equal(deckOpen(config, 'free'), false);
   const env = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify(after) } as never;
+  const freeOnlyOff = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify({ ...after, STUDIO_PAID_SERVICE: 'off' }) } as never;
   for (const route of ['config', 'me', 'identity', 'event', 'presentations', 'slides', 'images'] as const) {
     const request = new Request('https://gptbot.uz/api/studio/x', { method: 'POST' });
-    assert.equal(studioGate(request, env, route)?.status, 404, route);
+    const paidOpen = route === 'config' || route === 'me'
+      ? config.paidService
+      : route === 'identity' || route === 'event' ? false : config.paidService && config.fullDeck;
+    const gated = studioGate(request, env, route);
+    if (paidOpen) assert.equal(gated, null, `${route} remains available to paid users`);
+    else assert.equal(gated?.status, 404, route);
+    assert.equal(studioGate(request, freeOnlyOff, route)?.status, 404, `${route} closes when no paid service remains`);
+    assert.equal(request.bodyUsed, false, `${route} gate never reads the body`);
   }
   // Switched on, the same paths open on gptbot.uz (and stay closed on a preview host).
   const live = { STUDIO_RUNTIME_CONFIG_JSON: JSON.stringify(readStudioConfigLine(on)) } as never;

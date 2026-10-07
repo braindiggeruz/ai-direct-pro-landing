@@ -34,6 +34,10 @@ import {
   recordServiceAlert,
 } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
+import { parseStudioConfig } from "../../lib/studio/config";
+import { handleStudioClick } from "../../lib/studio/click-studio";
+import { ensureStudioPaidSchema } from "../../lib/studio/store";
+import { ensureStudioClickOwnership, isClickOwnershipConflict } from "../../lib/studio/click-ownership";
 
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
@@ -115,6 +119,15 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   if (!env.GPTBOT_DRAFTS_DB) return reject(-7, "unavailable");
   try {
     const db = env.GPTBOT_DRAFTS_DB;
+    if (parseStudioConfig(env.STUDIO_RUNTIME_CONFIG_JSON).clickUseChatService) {
+      // Only authenticated, bounded, unambiguous callbacks reach Studio/D1.
+      // Both products reserve the same provider transaction atomically.
+      await ensureStudioPaidSchema(db);
+      await ensureStudioClickOwnership(db);
+      if (p.merchant_trans_id.startsWith("stu_")) {
+        return handleStudioClick(new Request(request.url, { method: "POST", headers: request.headers, body: raw.value }), env, waitUntil);
+      }
+    }
     await ensureSchema(db);
     await ensureBillingSchema(db);
     const store = new BillingStore(db, BILLING_ORG);
@@ -190,6 +203,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       error_note: "Success",
     });
   } catch (cause) {
+    if (isClickOwnershipConflict(cause)) return reject(-8, "trans_reused");
     // A second Prepare with another click_trans_id lost the race for this
     // order: the same answer as when it comes second (-4), and no alert.
     if (cause instanceof Error && cause.message === "conflict") return reject(-4, "already");

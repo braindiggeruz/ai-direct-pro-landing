@@ -1,0 +1,1525 @@
+{
+  "checkedAt": "2026-10-07T11:42:10.966Z",
+  "dist": "F:\\Claude\\gptbot-codex-integration-20261007\\dist",
+  "shotsDir": "C:\\Users\\Borinio\\AppData\\Local\\Temp\\gptbot-chat-layout-shots",
+  "ok": true,
+  "summary": {
+    "pages": [
+      "/uz/gpt-uzbek-tilida/",
+      "/ru/gpt-chat/"
+    ],
+    "runs": 446,
+    "sizes": [
+      "320x568",
+      "320x300",
+      "360x612",
+      "360x330",
+      "360x740",
+      "360x420",
+      "390x844",
+      "390x480",
+      "412x915",
+      "412x530",
+      "768x1024",
+      "768x690",
+      "1366x768",
+      "1440x900",
+      "1920x1080",
+      "1024x768"
+    ],
+    "states": [
+      "empty",
+      "drawer",
+      "empty-keyboard",
+      "thinking-first",
+      "chat-end",
+      "menu",
+      "chat-top",
+      "chat-keyboard",
+      "thinking",
+      "partial",
+      "error",
+      "limit",
+      "limit-keyboard",
+      "menu-short",
+      "menu-up",
+      "limit-direct",
+      "limit-direct-keyboard",
+      "entry"
+    ],
+    "textUnderComposer": 0,
+    "textOverlaps": 0,
+    "controlOverlaps": 0,
+    "smallTargets": 0,
+    "contrastFails": 0,
+    "honesty": 0,
+    "horizontalOverflowRuns": 0,
+    "threadBelowComposerTop": 0,
+    "headerSpill": 0,
+    "composerOffScreen": 0,
+    "composerNotInFlowOrNotOpaque": 0,
+    "subtitleCut": [],
+    "answerFormat": 0,
+    "sidebarStyle": 0,
+    "composition": {
+      "failures": 0,
+      "byCheck": {}
+    },
+    "limitCardOutOfSight": [],
+    "menuUnreachable": [],
+    "menuDirections": {
+      "below": 4,
+      "above": 4
+    },
+    "zoom": [
+      {
+        "locale": "uz",
+        "before": "100dvh",
+        "keyboard": null,
+        "main": "100dvh",
+        "tasks": true,
+        "ok": true
+      },
+      {
+        "locale": "ru",
+        "before": "100dvh",
+        "keyboard": null,
+        "main": "100dvh",
+        "tasks": true,
+        "ok": true
+      }
+    ],
+    "billing": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 20,
+          "ok": true
+        }
+      },
+      {
+        "size": "640x900",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 24,
+          "ok": true
+        }
+      },
+      {
+        "size": "640x900",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 24,
+          "ok": true
+        }
+      },
+      {
+        "size": "700x900",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 24,
+          "ok": true
+        }
+      },
+      {
+        "size": "700x900",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 24,
+          "ok": true
+        }
+      },
+      {
+        "size": "701x900",
+        "locale": "uz",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 so‘m",
+          "amount": 20000,
+          "providers": [
+            "Click orqali to‘lash↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 28,
+          "ok": true
+        }
+      },
+      {
+        "size": "701x900",
+        "locale": "ru",
+        "smallTargets": 0,
+        "headerSpill": 0,
+        "subtitleWhole": true,
+        "align": [],
+        "price": {
+          "text": "20 000 сум",
+          "amount": 20000,
+          "providers": [
+            "Оплатить через Click↗"
+          ],
+          "ratio": 16.65,
+          "parsed": true
+        },
+        "sheet": {
+          "padding": 28,
+          "ok": true
+        }
+      }
+    ],
+    "frameVsMounted": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "moved": [],
+        "composer": 106,
+        "footnote": 32,
+        "rows": 2
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "360x740",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "360x740",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "412x915",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "412x915",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 2
+      },
+      {
+        "size": "768x1024",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "768x1024",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1366x768",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1440x900",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1440x900",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1920x1080",
+        "locale": "uz",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      },
+      {
+        "size": "1920x1080",
+        "locale": "ru",
+        "moved": [],
+        "composer": 90,
+        "footnote": 16,
+        "rows": 1
+      }
+    ],
+    "transition": [
+      {
+        "size": "768x1024",
+        "locale": "uz",
+        "reducedMotion": false,
+        "before": 619,
+        "end": 942,
+        "frames": [
+          "0ms field 619 bubble 78–122",
+          "120ms field 897.6 bubble 72–116",
+          "240ms field 935.7 bubble 72–116",
+          "400ms field 942 bubble 72–116"
+        ],
+        "problems": []
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "reducedMotion": false,
+        "before": 491,
+        "end": 686,
+        "frames": [
+          "0ms field 491 bubble 78–122",
+          "120ms field 659.2 bubble 72–116",
+          "240ms field 682.2 bubble 72–116",
+          "400ms field 686 bubble 72–116"
+        ],
+        "problems": []
+      },
+      {
+        "size": "1366x768",
+        "locale": "ru",
+        "reducedMotion": false,
+        "before": 491,
+        "end": 686,
+        "frames": [
+          "0ms field 491 bubble 78–122",
+          "120ms field 659.2 bubble 72–116",
+          "240ms field 682.2 bubble 72–116",
+          "400ms field 686 bubble 72–116"
+        ],
+        "problems": []
+      },
+      {
+        "size": "1440x900",
+        "locale": "ru",
+        "reducedMotion": false,
+        "before": 557,
+        "end": 818,
+        "frames": [
+          "0ms field 557 bubble 78–122",
+          "120ms field 782.1 bubble 78–122",
+          "240ms field 812.9 bubble 78–122",
+          "400ms field 818 bubble 78–122"
+        ],
+        "problems": []
+      },
+      {
+        "size": "1920x1080",
+        "locale": "ru",
+        "reducedMotion": false,
+        "before": 647,
+        "end": 998,
+        "frames": [
+          "0ms field 647 bubble 78–122",
+          "120ms field 949.7 bubble 78–122",
+          "240ms field 991.1 bubble 78–122",
+          "400ms field 998 bubble 78–122"
+        ],
+        "problems": []
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "reducedMotion": true,
+        "before": 491,
+        "end": 686,
+        "frames": [
+          "0ms field 686 bubble 72–116",
+          "120ms field 686 bubble 72–116",
+          "240ms field 686 bubble 72–116",
+          "400ms field 686 bubble 72–116"
+        ],
+        "problems": []
+      }
+    ],
+    "classicScrollbars": [
+      {
+        "size": "1024x768",
+        "ua": "desktop",
+        "theme": "dark",
+        "locale": "uz",
+        "scrollbars": "classic",
+        "gutter": 30
+      },
+      {
+        "size": "1024x768",
+        "ua": "desktop",
+        "theme": "dark",
+        "locale": "ru",
+        "scrollbars": "classic",
+        "gutter": 30
+      },
+      {
+        "size": "1366x768",
+        "ua": "desktop",
+        "theme": "dark",
+        "locale": "uz",
+        "scrollbars": "classic",
+        "gutter": 30
+      },
+      {
+        "size": "1366x768",
+        "ua": "desktop",
+        "theme": "dark",
+        "locale": "ru",
+        "scrollbars": "classic",
+        "gutter": 30
+      }
+    ],
+    "lightRendersDark": {
+      "compared": 84,
+      "different": []
+    },
+    "keyboardNotDetected": 0,
+    "unexpectedApiCalls": [],
+    "negativeControl": {
+      "textUnderComposer": 9,
+      "composerOpaque": false,
+      "composerPosition": "fixed",
+      "sample": [
+        {
+          "text": "bo‘lsa, 3² − 4·3 + 3 = 9 − 12 + 3 = 0, ya’ni",
+          "el": "span"
+        },
+        {
+          "text": "tenglik",
+          "el": "em"
+        },
+        {
+          "text": "to‘g‘ri ✓",
+          "el": "span"
+        }
+      ],
+      "align": [
+        "A8: composer background rgba(0, 0, 0, 0) linear-gradient(0deg, rgb(5, 7, 13) 82%, rgba(0, 0, 0, 0))"
+      ]
+    },
+    "negativeControls": [
+      {
+        "name": "fixed transparent composer",
+        "expected": [
+          "A8"
+        ],
+        "got": [
+          "A8",
+          "A15"
+        ],
+        "caught": true
+      },
+      {
+        "name": "06.10 resting screen and conversation",
+        "expected": [
+          "A1",
+          "A2",
+          "A3",
+          "A6",
+          "A10"
+        ],
+        "got": [
+          "A2",
+          "A6",
+          "A1",
+          "A3",
+          "A4",
+          "A10"
+        ],
+        "caught": true,
+        "sample": [
+          "A2: field 12–348 vs content box 16–344",
+          "A6: footnote 2 lines at 360px",
+          "A1: kicker is text-align left",
+          "A1: kicker line centre 166.5 vs axis 180",
+          "A1: greet is text-align left",
+          "A1: greet line centre 114.9 vs axis 180"
+        ]
+      },
+      {
+        "name": "unequal pill columns",
+        "expected": [
+          "A3"
+        ],
+        "got": [
+          "A3"
+        ],
+        "caught": true,
+        "sample": [
+          "A3: pill widths 147/173/147/173",
+          "A3: pill gap centre 167 vs axis 180"
+        ]
+      },
+      {
+        "name": "wrapping action row",
+        "expected": [
+          "A7"
+        ],
+        "got": [
+          "A7"
+        ],
+        "caught": true,
+        "sample": [
+          "A7: action row 3 lines, 136px"
+        ]
+      },
+      {
+        "name": "unnamed button",
+        "expected": [
+          "A16"
+        ],
+        "got": [
+          "A16"
+        ],
+        "caught": true,
+        "sample": [
+          "A16: unnamed button."
+        ]
+      }
+    ],
+    "heights": {
+      "320x568 uz empty": {
+        "header": 52,
+        "thread": 410,
+        "composer": 106,
+        "vertical": {
+          "above": 37,
+          "below": 37,
+          "toDock": 12,
+          "pillsTop": 362,
+          "fieldTop": 470,
+          "scroll": 0
+        }
+      },
+      "320x300 uz empty-keyboard": {
+        "header": 48,
+        "thread": 146,
+        "composer": 106,
+        "vertical": {
+          "above": 27,
+          "below": 23,
+          "scroll": 0
+        }
+      },
+      "320x568 ru empty": {
+        "header": 52,
+        "thread": 410,
+        "composer": 106,
+        "vertical": {
+          "above": 37,
+          "below": 37,
+          "toDock": 12,
+          "pillsTop": 362,
+          "fieldTop": 470,
+          "scroll": 0
+        }
+      },
+      "320x300 ru empty-keyboard": {
+        "header": 48,
+        "thread": 146,
+        "composer": 106,
+        "vertical": {
+          "above": 27,
+          "below": 23,
+          "scroll": 0
+        }
+      },
+      "360x612 uz empty": {
+        "header": 52,
+        "thread": 470,
+        "composer": 90,
+        "vertical": {
+          "above": 75,
+          "below": 75,
+          "toDock": 12,
+          "pillsTop": 422,
+          "fieldTop": 530,
+          "scroll": 0
+        }
+      },
+      "360x330 uz empty-keyboard": {
+        "header": 48,
+        "thread": 192,
+        "composer": 90,
+        "vertical": {
+          "above": 59,
+          "below": 55,
+          "scroll": 0
+        }
+      },
+      "360x612 ru empty": {
+        "header": 52,
+        "thread": 470,
+        "composer": 90,
+        "vertical": {
+          "above": 75,
+          "below": 75,
+          "toDock": 12,
+          "pillsTop": 422,
+          "fieldTop": 530,
+          "scroll": 0
+        }
+      },
+      "360x330 ru empty-keyboard": {
+        "header": 48,
+        "thread": 192,
+        "composer": 90,
+        "vertical": {
+          "above": 59,
+          "below": 55,
+          "scroll": 0
+        }
+      },
+      "360x740 uz empty": {
+        "header": 52,
+        "thread": 598,
+        "composer": 90,
+        "vertical": {
+          "above": 139,
+          "below": 139,
+          "toDock": 12,
+          "pillsTop": 550,
+          "fieldTop": 658,
+          "scroll": 0
+        }
+      },
+      "360x420 uz empty-keyboard": {
+        "header": 48,
+        "thread": 282,
+        "composer": 90,
+        "vertical": {
+          "above": 104,
+          "below": 100,
+          "scroll": 0
+        }
+      },
+      "360x740 ru empty": {
+        "header": 52,
+        "thread": 598,
+        "composer": 90,
+        "vertical": {
+          "above": 139,
+          "below": 139,
+          "toDock": 12,
+          "pillsTop": 550,
+          "fieldTop": 658,
+          "scroll": 0
+        }
+      },
+      "360x420 ru empty-keyboard": {
+        "header": 48,
+        "thread": 282,
+        "composer": 90,
+        "vertical": {
+          "above": 104,
+          "below": 100,
+          "scroll": 0
+        }
+      },
+      "390x844 uz empty": {
+        "header": 52,
+        "thread": 702,
+        "composer": 90,
+        "vertical": {
+          "above": 191,
+          "below": 191,
+          "toDock": 12,
+          "pillsTop": 654,
+          "fieldTop": 762,
+          "scroll": 0
+        }
+      },
+      "390x480 uz empty-keyboard": {
+        "header": 48,
+        "thread": 342,
+        "composer": 90,
+        "vertical": {
+          "above": 134,
+          "below": 130,
+          "scroll": 0
+        }
+      },
+      "390x844 ru empty": {
+        "header": 52,
+        "thread": 702,
+        "composer": 90,
+        "vertical": {
+          "above": 191,
+          "below": 191,
+          "toDock": 12,
+          "pillsTop": 654,
+          "fieldTop": 762,
+          "scroll": 0
+        }
+      },
+      "390x480 ru empty-keyboard": {
+        "header": 48,
+        "thread": 342,
+        "composer": 90,
+        "vertical": {
+          "above": 134,
+          "below": 130,
+          "scroll": 0
+        }
+      },
+      "412x915 uz empty": {
+        "header": 52,
+        "thread": 773,
+        "composer": 90,
+        "vertical": {
+          "above": 226.5,
+          "below": 226.5,
+          "toDock": 12,
+          "pillsTop": 725,
+          "fieldTop": 833,
+          "scroll": 0
+        }
+      },
+      "412x530 uz empty-keyboard": {
+        "header": 48,
+        "thread": 392,
+        "composer": 90,
+        "vertical": {
+          "above": 159,
+          "below": 155,
+          "scroll": 0
+        }
+      },
+      "412x915 ru empty": {
+        "header": 52,
+        "thread": 773,
+        "composer": 90,
+        "vertical": {
+          "above": 226.5,
+          "below": 226.5,
+          "toDock": 12,
+          "pillsTop": 725,
+          "fieldTop": 833,
+          "scroll": 0
+        }
+      },
+      "412x530 ru empty-keyboard": {
+        "header": 48,
+        "thread": 392,
+        "composer": 90,
+        "vertical": {
+          "above": 159,
+          "below": 155,
+          "scroll": 0
+        }
+      },
+      "768x1024 uz empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 339,
+          "fieldTop": 619,
+          "footBottom": 693,
+          "centre": 516,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "768x690 uz empty-keyboard": {
+        "header": 48,
+        "thread": 552,
+        "composer": 90,
+        "vertical": {
+          "above": 239,
+          "below": 235,
+          "scroll": 0
+        }
+      },
+      "768x1024 ru empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 339,
+          "fieldTop": 619,
+          "footBottom": 693,
+          "centre": 516,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "768x690 ru empty-keyboard": {
+        "header": 48,
+        "thread": 552,
+        "composer": 90,
+        "vertical": {
+          "above": 239,
+          "below": 235,
+          "scroll": 0
+        }
+      },
+      "1366x768 uz empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 211,
+          "fieldTop": 491,
+          "footBottom": 565,
+          "centre": 388,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "1366x768 ru empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 211,
+          "fieldTop": 491,
+          "footBottom": 565,
+          "centre": 388,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "1440x900 uz empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 277,
+          "fieldTop": 557,
+          "footBottom": 631,
+          "centre": 454,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "1440x900 ru empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 277,
+          "fieldTop": 557,
+          "footBottom": 631,
+          "centre": 454,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "1920x1080 uz empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 367,
+          "fieldTop": 647,
+          "footBottom": 721,
+          "centre": 544,
+          "toField": 12,
+          "scroll": 0
+        }
+      },
+      "1920x1080 ru empty": {
+        "header": 56,
+        "thread": 288,
+        "composer": 90,
+        "vertical": {
+          "markTop": 367,
+          "fieldTop": 647,
+          "footBottom": 721,
+          "centre": 544,
+          "toField": 12,
+          "scroll": 0
+        }
+      }
+    },
+    "perf": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "cls": 0.002,
+        "lcp": {
+          "t": 2556,
+          "size": 6020,
+          "el": null
+        },
+        "candidates": [
+          {
+            "t": 2556,
+            "size": 6020,
+            "el": null
+          }
+        ]
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "cls": 0.002,
+        "lcp": {
+          "t": 2972,
+          "size": 6405,
+          "el": "h1.gpt-kicker"
+        },
+        "candidates": [
+          {
+            "t": 2004,
+            "size": 6335,
+            "el": "h1.gpt-kicker"
+          },
+          {
+            "t": 2972,
+            "size": 6405,
+            "el": "h1.gpt-kicker"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2324,
+          "size": 6845,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2324,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2244,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2244,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2360,
+          "size": 6845,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2360,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2260,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2260,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2040,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2040,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "ru",
+        "cls": 0.0051,
+        "lcp": {
+          "t": 2192,
+          "size": 8323,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2192,
+            "size": 8323,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      }
+    ]
+  },
+  "failures": [],
+  "shots": [
+    "320x568-android-dark-uz-empty.png",
+    "320x300-android-dark-uz-empty-keyboard.png",
+    "320x568-android-dark-uz-chat-end.png",
+    "320x568-android-dark-uz-chat-top.png",
+    "320x568-android-dark-uz-partial.png",
+    "320x568-android-dark-uz-limit.png",
+    "320x300-android-dark-uz-limit-keyboard.png",
+    "320x568-android-dark-ru-empty.png",
+    "320x300-android-dark-ru-empty-keyboard.png",
+    "320x568-android-dark-ru-chat-end.png",
+    "320x568-android-dark-ru-chat-top.png",
+    "320x568-android-dark-ru-partial.png",
+    "320x568-android-dark-ru-limit.png",
+    "320x300-android-dark-ru-limit-keyboard.png",
+    "320x568-android-light-uz-empty.png",
+    "320x300-android-light-uz-empty-keyboard.png",
+    "320x568-android-light-uz-chat-end.png",
+    "320x568-android-light-uz-chat-top.png",
+    "320x568-android-light-uz-partial.png",
+    "320x568-android-light-uz-limit.png",
+    "320x300-android-light-uz-limit-keyboard.png",
+    "320x568-android-light-ru-empty.png",
+    "320x300-android-light-ru-empty-keyboard.png",
+    "320x568-android-light-ru-chat-end.png",
+    "320x568-android-light-ru-chat-top.png",
+    "320x568-android-light-ru-partial.png",
+    "320x568-android-light-ru-limit.png",
+    "320x300-android-light-ru-limit-keyboard.png",
+    "360x612-tg-dark-uz-empty.png",
+    "360x612-tg-dark-uz-drawer.png",
+    "360x330-tg-dark-uz-empty-keyboard.png",
+    "360x612-tg-dark-uz-thinking-first.png",
+    "360x612-tg-dark-uz-chat-end.png",
+    "360x612-tg-dark-uz-menu.png",
+    "360x612-tg-dark-uz-chat-top.png",
+    "360x330-tg-dark-uz-chat-keyboard.png",
+    "360x612-tg-dark-uz-thinking.png",
+    "360x612-tg-dark-uz-partial.png",
+    "360x612-tg-dark-uz-error.png",
+    "360x612-tg-dark-uz-limit.png",
+    "360x330-tg-dark-uz-limit-keyboard.png",
+    "360x612-tg-dark-ru-empty.png",
+    "360x612-tg-dark-ru-drawer.png",
+    "360x330-tg-dark-ru-empty-keyboard.png",
+    "360x612-tg-dark-ru-thinking-first.png",
+    "360x612-tg-dark-ru-chat-end.png",
+    "360x612-tg-dark-ru-menu.png",
+    "360x612-tg-dark-ru-chat-top.png",
+    "360x330-tg-dark-ru-chat-keyboard.png",
+    "360x612-tg-dark-ru-thinking.png",
+    "360x612-tg-dark-ru-partial.png",
+    "360x612-tg-dark-ru-error.png",
+    "360x612-tg-dark-ru-limit.png",
+    "360x330-tg-dark-ru-limit-keyboard.png",
+    "360x612-tg-light-uz-empty.png",
+    "360x612-tg-light-uz-drawer.png",
+    "360x330-tg-light-uz-empty-keyboard.png",
+    "360x612-tg-light-uz-thinking-first.png",
+    "360x612-tg-light-uz-chat-end.png",
+    "360x612-tg-light-uz-menu.png",
+    "360x612-tg-light-uz-chat-top.png",
+    "360x330-tg-light-uz-chat-keyboard.png",
+    "360x612-tg-light-uz-thinking.png",
+    "360x612-tg-light-uz-partial.png",
+    "360x612-tg-light-uz-error.png",
+    "360x612-tg-light-uz-limit.png",
+    "360x330-tg-light-uz-limit-keyboard.png",
+    "360x612-tg-light-ru-empty.png",
+    "360x612-tg-light-ru-drawer.png",
+    "360x330-tg-light-ru-empty-keyboard.png",
+    "360x612-tg-light-ru-thinking-first.png",
+    "360x612-tg-light-ru-chat-end.png",
+    "360x612-tg-light-ru-menu.png",
+    "360x612-tg-light-ru-chat-top.png",
+    "360x330-tg-light-ru-chat-keyboard.png",
+    "360x612-tg-light-ru-thinking.png",
+    "360x612-tg-light-ru-partial.png",
+    "360x612-tg-light-ru-error.png",
+    "360x612-tg-light-ru-limit.png",
+    "360x330-tg-light-ru-limit-keyboard.png",
+    "360x740-android-dark-uz-empty.png",
+    "360x420-android-dark-uz-empty-keyboard.png",
+    "360x740-android-dark-uz-chat-end.png",
+    "360x740-android-dark-uz-chat-top.png",
+    "360x740-android-dark-uz-partial.png",
+    "360x740-android-dark-uz-limit.png",
+    "360x420-android-dark-uz-limit-keyboard.png",
+    "360x740-android-dark-ru-empty.png",
+    "360x420-android-dark-ru-empty-keyboard.png",
+    "360x740-android-dark-ru-chat-end.png",
+    "360x740-android-dark-ru-chat-top.png",
+    "360x740-android-dark-ru-partial.png",
+    "360x740-android-dark-ru-limit.png",
+    "360x420-android-dark-ru-limit-keyboard.png",
+    "360x740-android-light-uz-empty.png",
+    "360x420-android-light-uz-empty-keyboard.png",
+    "360x740-android-light-uz-chat-end.png",
+    "360x740-android-light-uz-chat-top.png",
+    "360x740-android-light-uz-partial.png",
+    "360x740-android-light-uz-limit.png",
+    "360x420-android-light-uz-limit-keyboard.png",
+    "360x740-android-light-ru-empty.png",
+    "360x420-android-light-ru-empty-keyboard.png",
+    "360x740-android-light-ru-chat-end.png",
+    "360x740-android-light-ru-chat-top.png",
+    "360x740-android-light-ru-partial.png",
+    "360x740-android-light-ru-limit.png",
+    "360x420-android-light-ru-limit-keyboard.png",
+    "390x844-ios-dark-uz-empty.png",
+    "390x480-ios-dark-uz-empty-keyboard.png",
+    "390x844-ios-dark-uz-chat-end.png",
+    "390x844-ios-dark-uz-chat-top.png",
+    "390x844-ios-dark-uz-partial.png",
+    "390x844-ios-dark-uz-limit.png",
+    "390x480-ios-dark-uz-limit-keyboard.png",
+    "390x844-ios-dark-ru-empty.png",
+    "390x480-ios-dark-ru-empty-keyboard.png",
+    "390x844-ios-dark-ru-chat-end.png",
+    "390x844-ios-dark-ru-chat-top.png",
+    "390x844-ios-dark-ru-partial.png",
+    "390x844-ios-dark-ru-limit.png",
+    "390x480-ios-dark-ru-limit-keyboard.png",
+    "390x844-ios-light-uz-empty.png",
+    "390x480-ios-light-uz-empty-keyboard.png",
+    "390x844-ios-light-uz-chat-end.png",
+    "390x844-ios-light-uz-chat-top.png",
+    "390x844-ios-light-uz-partial.png",
+    "390x844-ios-light-uz-limit.png",
+    "390x480-ios-light-uz-limit-keyboard.png",
+    "390x844-ios-light-ru-empty.png",
+    "390x480-ios-light-ru-empty-keyboard.png",
+    "390x844-ios-light-ru-chat-end.png",
+    "390x844-ios-light-ru-chat-top.png",
+    "390x844-ios-light-ru-partial.png",
+    "390x844-ios-light-ru-limit.png",
+    "390x480-ios-light-ru-limit-keyboard.png",
+    "412x915-android-dark-uz-empty.png",
+    "412x530-android-dark-uz-empty-keyboard.png",
+    "412x915-android-dark-uz-chat-end.png",
+    "412x915-android-dark-uz-chat-top.png",
+    "412x915-android-dark-uz-partial.png",
+    "412x915-android-dark-uz-limit.png",
+    "412x530-android-dark-uz-limit-keyboard.png",
+    "412x915-android-dark-ru-empty.png",
+    "412x530-android-dark-ru-empty-keyboard.png",
+    "412x915-android-dark-ru-chat-end.png",
+    "412x915-android-dark-ru-chat-top.png",
+    "412x915-android-dark-ru-partial.png",
+    "412x915-android-dark-ru-limit.png",
+    "412x530-android-dark-ru-limit-keyboard.png",
+    "412x915-android-light-uz-empty.png",
+    "412x530-android-light-uz-empty-keyboard.png",
+    "412x915-android-light-uz-chat-end.png",
+    "412x915-android-light-uz-chat-top.png",
+    "412x915-android-light-uz-partial.png",
+    "412x915-android-light-uz-limit.png",
+    "412x530-android-light-uz-limit-keyboard.png",
+    "412x915-android-light-ru-empty.png",
+    "412x530-android-light-ru-empty-keyboard.png",
+    "412x915-android-light-ru-chat-end.png",
+    "412x915-android-light-ru-chat-top.png",
+    "412x915-android-light-ru-partial.png",
+    "412x915-android-light-ru-limit.png",
+    "412x530-android-light-ru-limit-keyboard.png",
+    "768x1024-tablet-dark-uz-empty.png",
+    "768x1024-tablet-dark-uz-drawer.png",
+    "768x690-tablet-dark-uz-empty-keyboard.png",
+    "768x1024-tablet-dark-uz-chat-end.png",
+    "768x1024-tablet-dark-uz-chat-top.png",
+    "768x1024-tablet-dark-uz-partial.png",
+    "768x1024-tablet-dark-uz-limit.png",
+    "768x690-tablet-dark-uz-limit-keyboard.png",
+    "768x1024-tablet-dark-ru-empty.png",
+    "768x1024-tablet-dark-ru-drawer.png",
+    "768x690-tablet-dark-ru-empty-keyboard.png",
+    "768x1024-tablet-dark-ru-chat-end.png",
+    "768x1024-tablet-dark-ru-chat-top.png",
+    "768x1024-tablet-dark-ru-partial.png",
+    "768x1024-tablet-dark-ru-limit.png",
+    "768x690-tablet-dark-ru-limit-keyboard.png",
+    "768x1024-tablet-light-uz-empty.png",
+    "768x1024-tablet-light-uz-drawer.png",
+    "768x690-tablet-light-uz-empty-keyboard.png",
+    "768x1024-tablet-light-uz-chat-end.png",
+    "768x1024-tablet-light-uz-chat-top.png",
+    "768x1024-tablet-light-uz-partial.png",
+    "768x1024-tablet-light-uz-limit.png",
+    "768x690-tablet-light-uz-limit-keyboard.png",
+    "768x1024-tablet-light-ru-empty.png",
+    "768x1024-tablet-light-ru-drawer.png",
+    "768x690-tablet-light-ru-empty-keyboard.png",
+    "768x1024-tablet-light-ru-chat-end.png",
+    "768x1024-tablet-light-ru-chat-top.png",
+    "768x1024-tablet-light-ru-partial.png",
+    "768x1024-tablet-light-ru-limit.png",
+    "768x690-tablet-light-ru-limit-keyboard.png",
+    "1366x768-desktop-dark-uz-empty.png",
+    "1366x768-desktop-dark-uz-thinking-first.png",
+    "1366x768-desktop-dark-uz-chat-end.png",
+    "1366x768-desktop-dark-uz-menu.png",
+    "1366x768-desktop-dark-uz-chat-top.png",
+    "1366x768-desktop-dark-uz-thinking.png",
+    "1366x768-desktop-dark-uz-partial.png",
+    "1366x768-desktop-dark-uz-error.png",
+    "1366x768-desktop-dark-uz-limit.png",
+    "1366x768-desktop-dark-ru-empty.png",
+    "1366x768-desktop-dark-ru-thinking-first.png",
+    "1366x768-desktop-dark-ru-chat-end.png",
+    "1366x768-desktop-dark-ru-menu.png",
+    "1366x768-desktop-dark-ru-chat-top.png",
+    "1366x768-desktop-dark-ru-thinking.png",
+    "1366x768-desktop-dark-ru-partial.png",
+    "1366x768-desktop-dark-ru-error.png",
+    "1366x768-desktop-dark-ru-limit.png",
+    "1366x768-desktop-light-uz-empty.png",
+    "1366x768-desktop-light-uz-thinking-first.png",
+    "1366x768-desktop-light-uz-chat-end.png",
+    "1366x768-desktop-light-uz-menu.png",
+    "1366x768-desktop-light-uz-chat-top.png",
+    "1366x768-desktop-light-uz-thinking.png",
+    "1366x768-desktop-light-uz-partial.png",
+    "1366x768-desktop-light-uz-error.png",
+    "1366x768-desktop-light-uz-limit.png",
+    "1366x768-desktop-light-ru-empty.png",
+    "1366x768-desktop-light-ru-thinking-first.png",
+    "1366x768-desktop-light-ru-chat-end.png",
+    "1366x768-desktop-light-ru-menu.png",
+    "1366x768-desktop-light-ru-chat-top.png",
+    "1366x768-desktop-light-ru-thinking.png",
+    "1366x768-desktop-light-ru-partial.png",
+    "1366x768-desktop-light-ru-error.png",
+    "1366x768-desktop-light-ru-limit.png",
+    "1440x900-desktop-dark-uz-empty.png",
+    "1440x900-desktop-dark-uz-chat-end.png",
+    "1440x900-desktop-dark-uz-chat-top.png",
+    "1440x900-desktop-dark-uz-partial.png",
+    "1440x900-desktop-dark-uz-limit.png",
+    "1440x900-desktop-dark-ru-empty.png",
+    "1440x900-desktop-dark-ru-chat-end.png",
+    "1440x900-desktop-dark-ru-chat-top.png",
+    "1440x900-desktop-dark-ru-partial.png",
+    "1440x900-desktop-dark-ru-limit.png",
+    "1440x900-desktop-light-uz-empty.png",
+    "1440x900-desktop-light-uz-chat-end.png",
+    "1440x900-desktop-light-uz-chat-top.png",
+    "1440x900-desktop-light-uz-partial.png",
+    "1440x900-desktop-light-uz-limit.png",
+    "1440x900-desktop-light-ru-empty.png",
+    "1440x900-desktop-light-ru-chat-end.png",
+    "1440x900-desktop-light-ru-chat-top.png",
+    "1440x900-desktop-light-ru-partial.png",
+    "1440x900-desktop-light-ru-limit.png",
+    "1920x1080-desktop-dark-uz-empty.png",
+    "1920x1080-desktop-dark-uz-chat-end.png",
+    "1920x1080-desktop-dark-uz-chat-top.png",
+    "1920x1080-desktop-dark-uz-partial.png",
+    "1920x1080-desktop-dark-uz-limit.png",
+    "1920x1080-desktop-dark-ru-empty.png",
+    "1920x1080-desktop-dark-ru-chat-end.png",
+    "1920x1080-desktop-dark-ru-chat-top.png",
+    "1920x1080-desktop-dark-ru-partial.png",
+    "1920x1080-desktop-dark-ru-limit.png",
+    "1920x1080-desktop-light-uz-empty.png",
+    "1920x1080-desktop-light-uz-chat-end.png",
+    "1920x1080-desktop-light-uz-chat-top.png",
+    "1920x1080-desktop-light-uz-partial.png",
+    "1920x1080-desktop-light-uz-limit.png",
+    "1920x1080-desktop-light-ru-empty.png",
+    "1920x1080-desktop-light-ru-chat-end.png",
+    "1920x1080-desktop-light-ru-chat-top.png",
+    "1920x1080-desktop-light-ru-partial.png",
+    "1920x1080-desktop-light-ru-limit.png",
+    "360x612-tg-dark-uz-menu-short.png",
+    "360x612-tg-dark-uz-menu-up.png",
+    "360x612-tg-dark-ru-menu-short.png",
+    "360x612-tg-dark-ru-menu-up.png",
+    "360x612-tg-dark-uz-limit-direct.png",
+    "360x330-tg-dark-uz-limit-direct-keyboard.png",
+    "360x612-tg-dark-ru-limit-direct.png",
+    "360x330-tg-dark-ru-limit-direct-keyboard.png",
+    "360x612-tg-dark-uz-entry.png",
+    "360x612-tg-dark-ru-entry.png",
+    "360x612-tg-dark-uz-pack.png",
+    "360x612-tg-dark-uz-pack-window.png",
+    "360x612-tg-dark-ru-pack.png",
+    "360x612-tg-dark-ru-pack-window.png",
+    "390x844-ios-dark-uz-pack.png",
+    "390x844-ios-dark-ru-pack.png",
+    "640x900-tablet-dark-uz-pack.png",
+    "640x900-tablet-dark-ru-pack.png",
+    "700x900-tablet-dark-uz-pack.png",
+    "700x900-tablet-dark-ru-pack.png",
+    "701x900-tablet-dark-uz-pack.png",
+    "701x900-tablet-dark-ru-pack.png",
+    "360x612-tg-dark-uz-frame.png",
+    "360x612-tg-dark-ru-frame.png",
+    "1366x768-desktop-dark-uz-frame.png",
+    "1366x768-desktop-dark-ru-frame.png",
+    "1024x768-desktop-dark-uz-empty.png",
+    "1024x768-desktop-dark-uz-chat-end.png",
+    "1366x768-desktop-dark-uz-empty.png",
+    "1366x768-desktop-dark-uz-chat-end.png"
+  ]
+}

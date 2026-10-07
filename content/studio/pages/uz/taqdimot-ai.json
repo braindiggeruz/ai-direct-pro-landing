@@ -7,7 +7,7 @@
   "toolName": "Taqdimot AI",
   "title": "Taqdimot AI: mavzudan tayyor slayd (.pptx) | GPTBot.uz",
   "h1": "Mavzuni yozing — tayyor taqdimot (.pptx)",
-  "description": "Mavzuni yozing — AI kuniga 1 ta taqdimotni (.pptx, 6 slaydgacha) bepul tayyorlaydi. Ro‘yxatdan o‘tish shart emas. Natijani tekshirib, o‘zingiz to‘ldiring.",
+  "description": "Slayd AI bilan .pptx taqdimot yarating: bepul namuna — 6 slaydgacha, tarifdagi to‘liq taqdimot — 12 slaydgacha, rasmlar va ma’ruzachi izohlari bilan.",
   "honesty": "GPTBot.uz — mustaqil AI yordamchi, ChatGPT yoki OpenAI mahsuloti emas.",
   "primaryKeyword": "slayd ai",
   "secondaryKeywords": [
@@ -21,10 +21,10 @@
   ],
   "hreflangRu": "/ru/prezentatsiya-ai/",
   "hreflangUz": "/uz/taqdimot-ai/",
-  "tariffsVisible": false,
+  "tariffsVisible": true,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: titul slayd, har birida sarlavha va qisqa bandlar bo‘lgan 4–6 ta slayd hamda AI chizgan 2 tagacha rasm. Natija — PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
+  "lead": "Slayd AI bilan taqdimot qoralamasini tayyorlang va PowerPoint (.pptx) faylini yuklab oling. Bepul namuna — kuniga 1 ta, 6 slaydgacha. To‘liq taqdimot — pullik tarifda: 12 slaydgacha, 8 rasmgacha va ma’ruzachi izohlari. Kunlik — 5 900 so‘m; Oylik — 39 900 so‘m. Natijani tekshiring va o‘zingiz tahrirlang.",
   "sections": [
     {
       "id": "qanday-ishlaydi",
@@ -73,6 +73,14 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "id": "studio-paid",
+      "h2": "To‘liq taqdimot tarifi",
+      "paragraphs": [
+        "Kunlik — 5 900 so‘m, shu jumladan QQS 12 % — 632,14 so‘m. Muddati — to‘lov tizimi to‘lovni tasdiqlagan paytdan boshlab 24 soat: 15-oktabr soat 14:00 da to‘langan tarif 16-oktabr soat 14:00 gacha amal qiladi. Tarkibi: 1 ta to‘liq taqdimot.",
+        "Oylik — 39 900 so‘m, shu jumladan QQS 12 % — 4 275,00 so‘m. Muddati — to‘lov paytidan boshlab bir kalendar oy: 15-oktabr soat 14:00 da to‘langan tarif 15-noyabr soat 14:00 gacha amal qiladi; keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunida xuddi shu soatda tugaydi. Tarkibi: 10 ta to‘liq taqdimot."
       ]
     }
   ],

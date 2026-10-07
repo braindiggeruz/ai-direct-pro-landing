@@ -19,6 +19,8 @@ import {
   LANG_RULE,
   OUTLINE_V3,
   PART_V3,
+  PROOF_SYSTEM,
+  PROOF_TEMPERATURE,
   STUDIO_TEMPERATURE,
   TAIL_A,
   buildSystem,
@@ -30,6 +32,7 @@ import {
   outlineMessages,
   partIndexes,
   partMessages,
+  proofMessages,
   pythonJson,
   userLine,
   type GlossarySubject,
@@ -99,12 +102,16 @@ const V31: Record<string, string> = {
   "FREE_V3|ru|math|6": "aa2198ba43ccb32981e1940202f33d2189d027cb11ac5461aba10daf41c25aea",
 };
 
+const FACTS_V32 = ' Do not guess family background, social origin, motives or anecdotes about historical people; omit them unless explicitly established in the supplied glossary.';
+const HISTORY_V32 = ' «Temur tuzuklari» is attributed to Amir Temur (Amir Temurga nisbat berilgan); do not claim he personally wrote it. Distinguish him from his grandson Mirzo Ulug‘bek: Samarqand rasadxonasi belongs to Ulug‘bek, not Amir Temur.';
+const PROOF_V32 = ' Use the standard forms "yurtimiz" and "allomalar"; never "yurtamiz", "allolar" or "allomlar". Write "g‘alabali" (victorious), never "g‘albali".';
 test("every built system prompt is the measured v3 plus only the v3.1 insertions, byte for byte", () => {
   for (const [key, hash] of Object.entries(MEASURED)) {
     const [template, locale, subject, n] = key.split("|");
     const built = buildSystem(TEMPLATES[template], locale as "uz" | "ru", subject === "none" ? null : (subject as GlossarySubject), n ? Number(n) : undefined);
-    assert.equal(sha(withoutV31(built)), hash, `${key}: v3 under the insertions`);
-    assert.equal(sha(built), V31[key], `${key}: v3.1`);
+    assert.equal(sha(withoutV31(built.replace(FACTS_V32, "").replace(HISTORY_V32, ""))), hash, `${key}: v3 under the insertions`);
+    assert.equal(sha(built.replace(FACTS_V32, "").replace(HISTORY_V32, "")), V31[key], `${key}: v3.1`);
+    assert.equal(built.split(FACTS_V32).length, 2);
     assert.doesNotMatch(built, /\{(n|image_rule|facts_rule|numbers_rule|lang_rule|glossary)\}/, key);
   }
 });
@@ -204,4 +211,22 @@ test("cleanTopic: NFC, no control characters, single spaces, no final full stop,
 
 test("pythonJson matches json.dumps(ensure_ascii=False) separators", () => {
   assert.equal(pythonJson({ a: 1, b: ["x", "o‘"], c: { d: null } }), '{"a": 1, "b": ["x", "o‘"], "c": {"d": null}}');
+});
+
+test("the proofreading pass of paid Uzbek decks: PROOF_SYSTEM is measure30.py's, byte for byte, at 0.2 (MEASURE-30 §6)", () => {
+  // sha256 of measure30.py PROOF_SYSTEM (lines 781–785, its line breaks included), 07.10.2026.
+  assert.equal(sha(PROOF_SYSTEM.replace(PROOF_V32, "")), "dea8d7f27ecd4d9f70f3b571444485eedd8437177bb597569f61bf46a9d237b5");
+  assert.equal(PROOF_SYSTEM.split("\n").length, 5);
+  assert.equal(PROOF_SYSTEM.split(PROOF_V32).length, 2);
+  assert.equal(PROOF_TEMPERATURE, 0.2);
+  // mode_proof sent json.dumps({"slides": part["slides"]}, ensure_ascii=False) as the user message.
+  const uz = FIXTURE.decks.find((deck: { id: string }) => deck.id === "uz02-kasrlar");
+  const part = uz.parts[1];
+  const messages = proofMessages({ slides: part.slides });
+  assert.deepEqual(messages, [
+    { role: "system", content: PROOF_SYSTEM },
+    { role: "user", content: pythonJson({ slides: part.slides.map((slide: { index: number; title: string; bullets: string[]; notes: string }) => ({ index: slide.index, title: slide.title, bullets: slide.bullets, notes: slide.notes })) }) },
+  ]);
+  assert.ok(!messages[1].content.includes("\\u"), "ensure_ascii=False: letters as they are");
+  assert.match(messages[1].content, /‘/);
 });

@@ -15,6 +15,12 @@
 // studio account through IdentityStore, unchanged).
 //
 // No text, photo, contact or IP hash is ever stored here (spec §4.1).
+//
+// The paid studio (migrations/0075_studio_payments.sql) adds two tables in
+// the same way: studio_orders_v2 (orders Payme or Click take; 0073's
+// studio_orders accepts Click only and is never altered, read or written)
+// and studio_refunds. STUDIO_PAYMENTS_DDL is that file's DDL; the paid
+// paths run ensureStudioPaymentsSchema, the free ones never do.
 
 /**
  * The org of every studio row: the consumer billing org, so the shared Click
@@ -135,9 +141,81 @@ export const STUDIO_DDL: readonly string[] = [
   `CREATE INDEX IF NOT EXISTS idx_studio_free_day ON studio_free_usage(org_id,day)`,
 ];
 
+/** The tables of 0075: the paid studio's orders and refunds. */
+export const STUDIO_PAYMENT_TABLES = ["studio_orders_v2", "studio_refunds"] as const;
+export type StudioPaymentTable = (typeof STUDIO_PAYMENT_TABLES)[number];
+
+/** migrations/0075_studio_payments.sql without its comments, statement for statement. */
+export const STUDIO_PAYMENTS_DDL: readonly string[] = [
+  `CREATE TABLE IF NOT EXISTS studio_orders_v2 (
+  seq INTEGER PRIMARY KEY AUTOINCREMENT,
+  org_id TEXT NOT NULL,
+  id TEXT NOT NULL UNIQUE,
+  user_id TEXT NOT NULL,
+  plan TEXT NOT NULL CHECK(plan IN ('kunlik','oylik')),
+  plan_version TEXT NOT NULL,
+  terms_version TEXT NOT NULL,
+  provider TEXT NOT NULL CHECK(provider IN ('payme','click')),
+  service_id TEXT,
+  mode TEXT NOT NULL CHECK(mode IN ('test','live')),
+  request_id TEXT NOT NULL,
+  amount INTEGER NOT NULL CHECK(amount > 0 AND amount <= 100000000),
+  currency TEXT NOT NULL CHECK(currency='UZS'),
+  state TEXT NOT NULL CHECK(state IN ('pending','prepared','paid','cancelled','refunded')),
+  external_id TEXT,
+  provider_doc_id TEXT,
+  provider_time INTEGER,
+  create_time INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL,
+  perform_time INTEGER NOT NULL DEFAULT 0, cancel_time INTEGER NOT NULL DEFAULT 0,
+  reason INTEGER, version INTEGER NOT NULL DEFAULT 0,
+  event_id TEXT,
+  owner_test INTEGER NOT NULL DEFAULT 0 CHECK(owner_test IN (0,1)),
+  restored_at INTEGER,
+  touch TEXT CHECK(touch IN ('last','first') OR touch IS NULL),
+  gclid TEXT, gbraid TEXT, wbraid TEXT, yclid TEXT,
+  utm_source TEXT, utm_medium TEXT, utm_campaign TEXT, utm_term TEXT, utm_content TEXT,
+  landing_path TEXT,
+  referrer_host TEXT, first_seen_at TEXT,
+  ga_client_id TEXT, ga_session_id TEXT, ym_client_id TEXT,
+  attrib_purged_at INTEGER,
+  ga4_state TEXT NOT NULL DEFAULT 'none' CHECK(ga4_state IN ('none','pending','sent','failed','skipped')),
+  ga4_attempts INTEGER NOT NULL DEFAULT 0, ga4_next_at INTEGER NOT NULL DEFAULT 0, ga4_sent_at INTEGER,
+  ga4_refund_state TEXT NOT NULL DEFAULT 'none' CHECK(ga4_refund_state IN ('none','pending','sent','failed','skipped')),
+  UNIQUE(org_id,user_id,request_id),
+  UNIQUE(org_id,provider,mode,external_id)
+)`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS idx_studio_orders_v2_open ON studio_orders_v2(org_id,user_id,mode) WHERE state IN ('pending','prepared')`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_user ON studio_orders_v2(org_id,user_id,created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_statement ON studio_orders_v2(org_id,provider,mode,provider_time)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_report ON studio_orders_v2(org_id,mode,state,perform_time)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_due ON studio_orders_v2(org_id,state,expires_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_ga4 ON studio_orders_v2(org_id,ga4_state,ga4_next_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_doc ON studio_orders_v2(org_id,provider_doc_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_orders_v2_attrib ON studio_orders_v2(org_id,attrib_purged_at,created_at)`,
+  `CREATE TABLE IF NOT EXISTS studio_refunds (
+  org_id TEXT NOT NULL,
+  id TEXT NOT NULL,
+  order_id TEXT NOT NULL,
+  amount INTEGER NOT NULL CHECK(amount > 0 AND amount <= 100000000),
+  method TEXT NOT NULL CHECK(method IN ('payme_cancel','click_reversal','click_cabinet','transfer')),
+  reference TEXT,
+  presentations_unused INTEGER NOT NULL DEFAULT 0 CHECK(presentations_unused >= 0),
+  photos_unused INTEGER NOT NULL DEFAULT 0 CHECK(photos_unused >= 0),
+  receipt_state TEXT NOT NULL CHECK(receipt_state IN ('provider','due','printed')),
+  requested_at INTEGER NOT NULL,
+  created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL,
+  PRIMARY KEY(org_id,id),
+  UNIQUE(org_id,order_id)
+)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_refunds_receipt ON studio_refunds(org_id,receipt_state,created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_studio_refunds_created ON studio_refunds(org_id,created_at)`,
+];
+
 // One bootstrap per binding and isolate; a failed one is forgotten, so the
 // next request retries it instead of replaying the error.
 const bootstraps = new WeakMap<D1Database, Promise<void>>();
+const paymentBootstraps = new WeakMap<D1Database, Promise<void>>();
 
 /**
  * The 0073 objects, in one batch. Idempotent: run it as often as you like,
@@ -155,6 +233,28 @@ export function ensureStudioSchema(db: D1Database): Promise<void> {
         throw error;
       });
     bootstraps.set(db, pending);
+  }
+  return pending;
+}
+
+/**
+ * The 0073 objects and then the 0075 ones (the paid studio's orders and
+ * refunds), each in one batch. Idempotent, in either order with the
+ * migrations. Only the paid paths call it (checkout, /me's paid part, the
+ * order and restore endpoints, the payment callbacks), after their switch
+ * check or their signature.
+ */
+export function ensureStudioPaymentsSchema(db: D1Database): Promise<void> {
+  let pending = paymentBootstraps.get(db);
+  if (!pending) {
+    pending = ensureStudioSchema(db)
+      .then(() => db.batch(STUDIO_PAYMENTS_DDL.map((sql) => db.prepare(sql))))
+      .then(() => undefined)
+      .catch((error: unknown) => {
+        paymentBootstraps.delete(db);
+        throw error;
+      });
+    paymentBootstraps.set(db, pending);
   }
   return pending;
 }

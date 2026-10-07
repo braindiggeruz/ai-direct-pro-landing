@@ -2,11 +2,15 @@
 // gptbot.uz-audit/raw/chat-design-2026-10-06/DESIGN-SPEC.md, «app-calm»), on
 // top of the UX plan's REV-1…REV-10 and REV-13 mechanics. One app column of
 // 100dvh: header, thread, and the composer in flow on an opaque surface, so no
-// text passes under it; a calm first screen; answers that read as maths. The
-// chat is client-rendered, so most of this is pinned on the source, the copy
-// and the stylesheets; the prerendered frame and the <head> of both chat pages
-// are checked on the build when there is one (scripts/chat-layout-check.mjs
-// measures the pages themselves).
+// text passes under it; a calm first screen; answers that read as maths.
+// Revision 2026-10-07-chat-ui («OpenAI level», spec
+// gptbot.uz-audit/raw/chat-openai-2026-10-07/DESIGN-SPEC.md) on top: one axis
+// and one content box (--gutter, --col), a centred first screen with one-line
+// pills, a one-line footnote, one surface, one action row on every pointer,
+// the desktop's centred group. The chat is client-rendered, so most of this is
+// pinned on the source, the copy and the stylesheets; the prerendered frame
+// and the <head> of both chat pages are checked on the build when there is one
+// (scripts/chat-layout-check.mjs measures the pages themselves).
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -37,8 +41,8 @@ const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
 const LOCALES = ['uz', 'ru'] as const;
 const DIST = path.join(ROOT, 'dist');
 const built = fs.existsSync(path.join(DIST, 'uz', 'gpt-uzbek-tilida', 'index.html')) && fs.existsSync(path.join(DIST, '.vite', 'manifest.json'));
-/** What the eye sees of drawn maths (the screen reader's linear text taken out), and what a screen reader reads. */
-const seen = (html: string) => html.replace(/<span class="sr-only">[^<]*<\/span>/g, '');
+/** Visual structure, without screen-reader-only text/attributes. Accessible labels are tested below. */
+const seen = (html: string) => html.replace(/<span class="sr-only">[^<]*<\/span>/g, '').replace(/ role="math" aria-label="[^"]*"/g, '');
 const spoken = (html: string) => html.replace(/<[^>]+>/g, '');
 const input = (props: Partial<Parameters<typeof AiChatInput>[0]> = {}, locale: 'uz' | 'ru' = 'uz') => renderToStaticMarkup(React.createElement(AiChatInput, {
   value: '', onChange: () => {}, onSend: () => {}, maxChars: 3000, t: strings(locale), inputRef: React.createRef<HTMLTextAreaElement>(), ...props,
@@ -46,13 +50,15 @@ const input = (props: Partial<Parameters<typeof AiChatInput>[0]> = {}, locale: '
 
 test('§0 rule 1: the composer is in the app column, opaque and never fixed; the thread ends at its top edge', () => {
   assert.match(css, /\.gpt-header, \.gpt-composer \{ position: relative; z-index: 2; flex: none;/);
-  assert.match(css, /\.gpt-composer \{ padding: 8px 12px calc\(8px \+ env\(safe-area-inset-bottom\)\); background: var\(--surface\); box-shadow: 0 -1px 0 var\(--line\); \}/);
+  // Chat UI §5.4, §9.1: on the page's own colour (one surface), the column's gutter, no hairline.
+  assert.match(css, /\.gpt-composer \{ padding: 8px var\(--gutter\) calc\(8px \+ env\(safe-area-inset-bottom\)\); background: var\(--bg\); \}/);
+  assert.doesNotMatch(css, /\.gpt-composer \{[^}]*box-shadow/);
   assert.match(css, /--surface: #0c1018;/);
   // The rejected pattern: a transparent gradient on a docked composer.
   assert.doesNotMatch(css, /gpt-composer[^{]*\{[^}]*(position: fixed|linear-gradient)/);
   assert.match(css, /\.gpt-thread-scroll \{ flex: 1 1 0%; height: auto; min-height: 0;/);
   assert.match(css, /\.gpt-app \{ display: flex; height: 100%;/);
-  assert.match(chat, /<div className="gpt-composer">\s*<div className="gpt-composer-inner">/);
+  assert.match(chat, /<div className="gpt-composer" ref=\{composerRef\}>\s*<div className="gpt-composer-inner">/);
   // The harness that measures it, with its negative control, runs on the build.
   const harness = read('scripts/chat-layout-check.mjs');
   assert.match(harness, /position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient\(0deg, var\(--bg\) 82%, transparent\)/);
@@ -96,14 +102,25 @@ test('§5.1: the header says GPTBot.uz and one fact under it: independent on the
   assert.match(chat, /\{!empty && \(\s*<button[\s\S]{0,80}onClick=\{onNewChat\}[\s\S]{0,200}aria-label=\{t\.newChat\}/);
 });
 
-test('§5.2: the resting screen is the H1 as a kicker, a two-line greeting, the terms, four tasks and one link', () => {
+test('§5.2: the resting screen is one centred group (mark, the H1 as a kicker, one question, the terms, one link) and four pills', () => {
   const rest = chat.slice(chat.indexOf('<div className="gpt-empty">'), chat.indexOf('<AiChatMessageList'));
   const at = (needle: string) => { const i = rest.indexOf(needle); assert.ok(i > 0, needle); return i; };
+  assert.ok(at('<BrandMark className="gpt-hello-mark" />') < at('<h1 className="gpt-kicker" data-testid="chat-h1">{h1}</h1>'));
   assert.ok(at('<h1 className="gpt-kicker" data-testid="chat-h1">{h1}</h1>') < at('<p className="gpt-greet">'));
   assert.ok(at('<p className="gpt-greet">') < at('<p className="gpt-meta">'));
-  assert.ok(at('<p className="gpt-meta">') < at('<AiPromptChips'));
-  assert.ok(at('<AiPromptChips') < at('<p className="gpt-empty-links">'));
-  assert.match(rest, /<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>/);
+  // Chat UI G2: the links row is the group's last line, before the pills.
+  assert.ok(at('<p className="gpt-meta">') < at('<p className="gpt-empty-links">'));
+  assert.ok(at('<p className="gpt-empty-links">') < at('<AiPromptChips'));
+  assert.ok(rest.indexOf('</div>', at('<p className="gpt-empty-links">')) < at('<AiPromptChips'), 'the links row closes the group');
+  assert.match(rest, /<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<span className="gpt-meta-note">\{t\.providerNote\}<\/span>/);
+  // One question, its two words two inline blocks (the frame's greeting stays the LCP, chat UI A14).
+  assert.equal(strings('uz').premium.welcome, 'Savolingiz bor?');
+  assert.equal(strings('ru').premium.welcome, 'Есть вопрос?');
+  assert.ok(!('welcomeAccent' in strings('uz').premium) && !('welcomeAccent' in strings('ru').premium));
+  assert.match(rest, /<p className="gpt-greet">\{greetCut > 0 \? <><span className="inline-block">\{t\.premium\.welcome\.slice\(0, greetCut\)\}<\/span> <span className="inline-block">\{t\.premium\.welcome\.slice\(greetCut \+ 1\)\}<\/span><\/> : t\.premium\.welcome\}<\/p>/);
+  assert.deepEqual([strings('uz').providerNote, strings('ru').providerNote], ['Savollar xorijdagi AI-provayderlarga yuboriladi.', 'Вопросы идут зарубежным AI-провайдерам.']);
+  // No tick before the centred terms; saved chats left the first screen for the menu (§5.14).
+  assert.doesNotMatch(rest, /d=\{TICK\}|gpt-history|savedChats/);
   assert.equal((rest.match(/t\.emptyMeta\(freeLimits\)/g) ?? []).length, 1, 'stated once');
   // No badge, eyebrow, intro, trust line or chatgpt.com line on the first screen any more.
   for (const gone of ['gpt-intro-badge', 'premium.eyebrow', 'premium.intro', 'premium.trust', 'gpt-trust', 'gpt-mark', 'gpt-official', 'h1Cut']) assert.ok(!chat.includes(gone), gone);
@@ -111,18 +128,27 @@ test('§5.2: the resting screen is the H1 as a kicker, a two-line greeting, the 
   for (const gone of ['eyebrow', 'intro', 'trust']) assert.ok(!keys.includes(gone), gone);
   // A returning visitor whose hour is spent: the limit card stands in the tasks' place.
   assert.match(rest, /\{limitCardEl \|\| \(\s*<AiPromptChips/);
-  // The greeting centres in the free space; the tasks follow it (§4.2).
+  // The group centres in the free height on one axis; the pills follow it (chat UI §4.3).
   assert.match(css, /\.gpt-empty \{ display: flex; flex: 1 0 auto; flex-direction: column; \}/);
   assert.match(css, /\.gpt-hello \{ margin-block: auto; \}/);
-  assert.match(css, /\.gpt-kicker \{ max-width: 34em; margin: 0 0 8px; font-size: 14px; line-height: 20px; font-weight: 600;/);
-  // The keyboard leaves the kicker and the greeting.
-  assert.match(css, /\.gpt-premium\[data-keyboard="open"\] :is\(\.gpt-meta, \.gpt-tasks, \.gpt-empty-links, \.gpt-entry-context\) \{ display: none; \}/);
+  assert.match(css, /\.gpt-hello \{ text-align: center; \}/);
+  assert.match(css, /\.gpt-kicker \{ max-width: 34em; margin: 0 auto 8px; font-size: 13px; line-height: 18px; font-weight: 500;/);
+  assert.match(css, /\.gpt-hello-mark \{ width: 40px; height: 40px; margin: 0 auto 16px; border-radius: 12px; \}/);
+  // The terms reserve their height (62px on a phone, 42px from 640px), so the server's numbers move nothing.
+  assert.match(css, /\.gpt-meta \{ display: block; min-height: 42px;/);
+  assert.match(css, /@media \(max-width: 639px\) \{\s*\.gpt-meta \{ min-height: 62px; \}/);
+  assert.match(css, /\.gpt-premium\[data-state="empty"\] \.gpt-column \{ padding-bottom: 4px; \}/);
+  // The desktop's centred group (≥768×600, the keyboard closed).
+  assert.match(css, /@media \(min-width: 768px\) and \(min-height: 600px\) \{\s*\.gpt-premium\[data-state="empty"\]:not\(\[data-keyboard\]\) \.gpt-main \{ padding-bottom: 56px; \}/);
+  // The keyboard leaves the kicker, the question and the providers' note.
+  assert.match(css, /\.gpt-premium\[data-keyboard="open"\] :is\(\.gpt-meta > :first-child, \.gpt-tasks, \.gpt-empty-links, \.gpt-entry-context, \.gpt-hello-mark\) \{ display: none; \}/);
 });
 
-test('§5.2: four tasks, maths first; a 2×2 grid of tiles on a phone, chips from 640px; each fills the composer and never sends', () => {
+test('§5.3: four one-line pills, maths first; 2×2 of equal width on a phone, one row from 640px; each fills the composer and never sends', () => {
   const uz = strings('uz');
   const ru = strings('ru');
-  assert.deepEqual(uz.chips.map((c) => c.label), ['Masalani yechish', 'Matn yozish', 'Mavzuni tushuntirish', 'Reja tuzish']);
+  // Two Uzbek labels shortened so each fits one line at 360px (chat UI owner flag 2); inserts unchanged.
+  assert.deepEqual(uz.chips.map((c) => c.label), ['Masala yechish', 'Matn yozish', 'Tushuntirish', 'Reja tuzish']);
   assert.deepEqual(ru.chips.map((c) => c.label), ['Решить задачу', 'Написать текст', 'Объяснить тему', 'Составить план']);
   assert.equal(uz.chips[0].insert, 'Masalani qadamma-qadam yech: ');
   const picked: string[] = [];
@@ -130,20 +156,20 @@ test('§5.2: four tasks, maths first; a 2×2 grid of tiles on a phone, chips fro
   assert.match(html, /^<ul class="gpt-tasks" aria-label="Nima qilmoqchisiz\?">/);
   assert.equal((html.match(/<button type="button" class="gpt-task">/g) ?? []).length, 4);
   assert.equal(picked.length, 0);
-  assert.match(css, /\.gpt-tasks \{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px;/);
-  // A 2-line tile is 58px (2 x 20 + 16 + 2), the frame's tile too, so the greeting stays when the chat mounts.
-  assert.match(css, /\.gpt-task \{ align-items: center; gap: 10px; width: 100%; height: 100%; min-height: 58px; padding: 8px 12px;/);
-  // Chips from 720px, where four fit one row of the 680px column (RU «Объяснить тему» included); the frame's outlines match them.
-  assert.match(css, /@media \(min-width: 720px\) \{\s*\.gpt-tasks \{ display: flex; flex-wrap: wrap; gap: 6px; \}\s*\.gpt-task \{ height: 44px; min-height: 44px; gap: 6px; padding: 0 11px 0 9px;/);
-  assert.match(css, /@media \(min-width: 720px\) \{ \.gpt-shell-tasks \.gpt-task \{ width: var\(--w, 160px\); \} \}/);
+  // Equal columns, so the gap sits on the axis and the grid's edges are the field's.
+  assert.match(css, /\.gpt-tasks \{ display: grid; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); gap: 8px; margin: 16px 0 0;/);
+  assert.match(css, /@media \(min-width: 640px\) \{[^@]*\.gpt-tasks \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\); \}/);
+  // One 44px pill, one line; the frame's outline is the same pill, so nothing moves when the chat mounts.
+  assert.match(css, /\.gpt-task \{ justify-content: center; align-items: center; gap: 6px; width: 100%; height: 44px; padding: 0 12px 0 10px; border-radius: 999px;[^}]*white-space: nowrap;/);
+  assert.doesNotMatch(css, /min-width: 720px|var\(--w,|min-height: 58px/);
   assert.match(chat, /const onChipPick = \(chip: PromptChip\) => \{\s*if \(busy \|\| limitBlocked\) return;\s*setInput\(chip\.insert\);/);
 });
 
-test('§5.3: one row; the send button stays bright when empty and focuses the field; a clock in a limit; the footnote on every screen', () => {
+test('§5.3, chat UI §5.4: one row; the send button is muted when empty and focuses the field; a clock in a limit; the footnote on every screen', () => {
   for (const locale of LOCALES) {
     const t = strings(locale);
     const empty = input({}, locale);
-    // Empty: not disabled, aria-disabled, the ready colour.
+    // Empty: not disabled, aria-disabled; muted until there is text (premium.css).
     assert.match(empty, /<button type="button" class="gpt-send-button" data-state="ready" aria-disabled="true" aria-label="[^"]+">/);
     assert.doesNotMatch(empty, /disabled=""/);
     // The footnote without the old brand prefix, the status line only when it says something.
@@ -162,10 +188,12 @@ test('§5.3: one row; the send button stays bright when empty and focuses the fi
   assert.match(chat, /const \[wide\] = useState\(\(\) => !!window\.matchMedia\?\.\("\(min-width: 420px\)"\)\.matches\);/);
   assert.match(chat, /placeholder=\{resting && wide \? t\.inputExample : undefined\}/);
   assert.match(css, /\.gpt-input-surface \{ align-items: flex-end; gap: 4px; min-height: 52px; padding: 3px 3px 3px 16px; border-radius: 26px;/);
-  assert.match(css, /\.gpt-input-footnote \{ min-height: 32px; margin: 6px 4px 0; text-align: center; text-wrap: balance; font-size: 11\.5px;/);
-  // The RU line is 3 lines up to 411px: the frame and the chat keep the same height.
-  assert.match(css, /@media \(max-width: 411px\) \{ #gpt-chat-root\[data-locale="ru"\] \.gpt-input-footnote \{ min-height: 48px; \} \}/);
-  assert.match(css, /@media \(max-width: 359px\) \{ \.gpt-input-wrap \.gpt-input-footnote \{ min-height: 48px; \} \}/);
+  assert.match(css, /\.gpt-send-button \{ width: 44px; height: 44px; border-radius: 99px; background: var\(--surface-2\); color: var\(--text-2\);/);
+  assert.match(css, /\.gpt-send-button\[data-state="ready"\]:not\(\[aria-disabled\]\) \{ background: var\(--accent\); color: var\(--accent-ink\); \}/);
+  // One line from 360px (chat UI §7): 8px of each gutter, centred; two lines, 32px, only below 360px.
+  assert.match(css, /\.gpt-input-footnote \{ margin: 6px -8px 0; text-align: center; text-wrap: balance; font-size: 11\.5px; line-height: 16px;/);
+  assert.match(css, /@media \(max-width: 359px\) \{[^@]*\.gpt-input-footnote \{ min-height: 32px; \}/);
+  assert.doesNotMatch(css, /gpt-input-footnote \{ min-height: 48px|data-locale="ru"\] \.gpt-input-footnote/);
 });
 
 test('§5.5: steps in circles, display formulas on a sheet with stacked fractions, the answer box and the check line; copy keeps a/b', () => {
@@ -174,7 +202,7 @@ test('§5.5: steps in circles, display formulas on a sheet with stacked fraction
   assert.equal(renderMarkdown('## Шаг 2. Корни'), '<h3 class="gpt-step-head"><span class="gpt-step">2</span><span>Корни</span></h3>');
   assert.equal(renderMarkdown('### 3) **Tekshiruv**'), '<h4 class="gpt-step-head"><span class="gpt-step">3</span><span>Tekshiruv</span></h4>');
   assert.equal(renderMarkdown('### 1-qadam'), '<h4>1-qadam</h4>', 'a number alone stays a heading');
-  // A numbered list counts in circles from its own first number.
+  // A numbered list counts from its own first number.
   assert.equal(renderMarkdown('3. C'), '<ol class="list-decimal" start="3" style="counter-reset:step 2"><li>C</li></ol>');
   // Display maths: $$…$$, \[…\] over lines, a line of \(…\) alone; fractions two deep, indices lowered.
   const sheet = renderMarkdown('$$x_{1,2} = \\frac{4 \\pm \\sqrt{4}}{2}$$');
@@ -189,7 +217,7 @@ test('§5.5: steps in circles, display formulas on a sheet with stacked fraction
   // Inline maths in a sentence stays flat.
   assert.equal(renderMarkdown('Bu \\(\\frac{1}{2}\\) ga teng'), '<p class="mb-2 last:mb-0">Bu 1/2 ga teng</p>');
   // An answer still arriving may end inside a formula: what came so far is drawn.
-  assert.equal(renderMarkdown('Hisob:\n$$x = 1', undefined, true), '<p class="mb-2 last:mb-0">Hisob:</p>\n<div class="gpt-math" tabindex="0"><div>x = 1</div></div>');
+  assert.equal(seen(renderMarkdown('Hisob:\n$$x = 1', undefined, true)), '<p class="mb-2 last:mb-0">Hisob:</p>\n<div class="gpt-math" tabindex="0"><div>x = 1</div></div>');
   // The answer box and the check line, bold or not, in both languages.
   assert.equal(renderMarkdown('**Javob:** x = 3'), '<div class="gpt-result"><span class="gpt-result-label">Javob</span><span class="gpt-result-value">x = 3</span></div>');
   assert.equal(renderMarkdown('✅ **Ответ: x_1 = 3**'), '<div class="gpt-result"><span class="gpt-result-label">Ответ</span><span class="gpt-result-value"><strong>x<sub>1</sub> = 3</strong></span></div>');
@@ -199,10 +227,40 @@ test('§5.5: steps in circles, display formulas on a sheet with stacked fraction
   // Copy and Telegram keep plain text: a/b, no sheet.
   assert.equal(plainText('$$x = \\frac{1}{2}$$'), 'x = 1/2');
   assert.equal(latexLite('\\frac{a}{b}'), 'a/b');
-  // The look: one tinted fill (mint, not the allowance's amber), circles from the counter.
+  // The look: one tinted fill (mint, not the allowance's amber); steps in rounded squares, lists in plain numerals (chat UI §5.6).
   assert.match(css, /\.gpt-result \{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 16px 0 12px; padding: 12px 14px; border-radius: 12px; background: var\(--accent-soft\); border: 1px solid var\(--accent-line\); \}/);
-  assert.match(css, /\.gpt-answer-body > ol > li::before \{ content: counter\(step\);/);
+  assert.match(css, /\.gpt-answer-body > ol > li::before \{ content: counter\(step\) "\.";/);
+  assert.match(css, /\.gpt-step \{ width: 24px; height: 24px; border-radius: 7px;/);
+  assert.doesNotMatch(css, /\.gpt-answer-body h4 \{/, 'h4 is no smaller than h3');
   assert.match(css, /\.gpt-math \{ --sheet: var\(--math\); position: relative; padding: 10px 14px; white-space: nowrap; font-size: 17px; line-height: 28px;/);
+});
+
+test('chat UI §5.6: drawn formulas have a linear, escaped accessible name', () => {
+  const simple = renderMarkdown('$$x = \\frac{1}{2}$$');
+  assert.match(simple, /class="gpt-math" tabindex="0" role="math" aria-label="x = 1\/2"/);
+  const aligned = renderMarkdown('$$\nD = b^2 - 4ac\n= 16 - 12\n= 4\n$$');
+  assert.match(aligned, /class="gpt-math gpt-eq" tabindex="0" role="math" aria-label="D = b² - 4ac; = 16 - 12; = 4"/);
+  const hostile = renderMarkdown('$$x = " onfocus="alert(1) <img src=x> \'y$$');
+  assert.match(hostile, /aria-label="x = &quot; onfocus=&quot;alert\(1\) &lt;img src=x&gt; &#39;y"/);
+  assert.doesNotMatch(hostile, /<img|" onfocus="/);
+  assert.match(renderMarkdown('$$x = 1', undefined, true), /role="math" aria-label="x = 1"/);
+});
+
+test('chat UI §5.6: a derivation over lines stands on one «=» column; one line or none stays a plain sheet', () => {
+  // Continuation lines start with «=»: the left side empty, the signs under each other.
+  const derivation = seen(renderMarkdown('$$\nD = b^{2} - 4ac\n= (-4)^2 - 4 \\cdot 1 \\cdot 3\n= 16 - 12 = 4\n$$'));
+  assert.equal(derivation, '<div class="gpt-math gpt-eq" tabindex="0"><span class="l">D</span><span class="r">= b² - 4ac</span><span class="l"></span><span class="r">= (-4)² - 4 · 1 · 3</span><span class="l"></span><span class="r">= 16 - 12 = 4</span></div>');
+  // Each root its own row, its own stacked fraction.
+  const roots = seen(renderMarkdown('$$\nx_1 = \\frac{4 + 2}{2} = 3\nx_2 = \\frac{4 - 2}{2} = 1\n$$'));
+  assert.match(roots, /^<div class="gpt-math gpt-eq" tabindex="0"><span class="l">x<sub>1<\/sub><\/span><span class="r">= <span class="gpt-frac">/);
+  assert.equal((roots.match(/class="gpt-frac"/g) ?? []).length, 2);
+  // «=» inside brackets, ≤, ≥, ≠, «==» and «=>» are no column.
+  assert.equal(seen(renderMarkdown('$$\nf(x=1)\na \\le b\n$$')), '<div class="gpt-math" tabindex="0"><div>f(x=1)</div><div>a ≤ b</div></div>');
+  assert.equal(seen(renderMarkdown('$$x = 1$$')), '<div class="gpt-math" tabindex="0"><div>x = 1</div></div>');
+  // Escaped before it is split: a side cannot make a tag.
+  assert.doesNotMatch(renderMarkdown('$$\n<b> = 1\n= 2\n$$'), /<b>/);
+  assert.match(css, /\.gpt-eq \{ display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; \}/);
+  assert.match(css, /\.gpt-eq > \.l \{ text-align: right; \}/);
 });
 
 test('§5.5: the check line and a step heading are one text block beside the tick or the circle, bold, italic and code inside', () => {
@@ -241,7 +299,7 @@ test('§5.5: an unclosed $$ or \\[ is a formula only while the answer arrives; a
   assert.doesNotMatch(done, /gpt-math/);
   assert.match(done, /<h3>Keyingi bo‘lim<\/h3>\n<ul class="list-disc"><li>band<\/li><\/ul>\n<pre class="gpt-code" tabindex="0"><code>code\(\)<\/code><\/pre>/);
   assert.equal(renderMarkdown('\\[ izoh\nmatn'), '<p class="mb-2 last:mb-0"> izoh<br>matn</p>');
-  assert.equal(renderMarkdown('\\[ izoh\nmatn', undefined, true), '<div class="gpt-math" tabindex="0"><div>izoh</div><div>matn</div></div>');
+  assert.equal(seen(renderMarkdown('\\[ izoh\nmatn', undefined, true)), '<div class="gpt-math" tabindex="0"><div>izoh</div><div>matn</div></div>');
   // Mid-stream, an opener with a blank line, a heading or a list after it was never a formula either.
   assert.doesNotMatch(renderMarkdown(claim, undefined, true), /gpt-math/);
   // A one-character typo (a single $ as the closer) in a finished answer: a paragraph, the box, the check line (production rendered text).
@@ -285,9 +343,19 @@ test('§5.5: a drawn formula says its linear form to a screen reader: (a)/(b), ^
   assert.match(css, /\.gpt-math \{ --sheet: var\(--math\); position: relative;/);
 });
 
-test('§5.6: the model line above the row; on a phone «⋯» opens the paid follow-ups under a caption that says what they cost', () => {
+test('§5.6, chat UI §5.7: the model line and the row are the answer\'s foot; «⋯» opens the paid follow-ups under a caption that says what they cost', () => {
   const list = read('src/gpt-chat/components/AiChatMessageList.tsx');
   assert.ok(list.indexOf('{t.answeredBy}: {modelLabel(m.model)}') < list.indexOf('<MessageActions'), 'model line first');
+  // Until the part arrives (or if it cannot), the foot holds the model line alone.
+  assert.match(list, /fallback=\{<div className="gpt-answer-foot">\{model\(m\)\}<\/div>\}/);
+  assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /<div className="gpt-answer-foot">\s*\{model\}\s*<div className="gpt-action-row" ref=\{rowRef\}>/);
+  // Below 768px the model line stands over the row; from 768px at the row's right end.
+  assert.match(css, /@media \(min-width: 768px\) \{ \.gpt-answer-foot \{ display: flex; flex-direction: row-reverse; justify-content: space-between;/);
+  // A question opens a turn: 28px after an answer (36px from 640px), 16px to its answer.
+  assert.match(list, /m\.role === "user" \? "gpt-turn-user" : undefined/);
+  assert.match(css, /\.gpt-message-content \{ display: flex; flex-direction: column; gap: 16px; \}/);
+  assert.match(css, /\.gpt-turn-user:not\(:first-child\) \{ margin-top: 12px; \}/);
+  assert.match(css, /\.gpt-user-message \{ width: fit-content; max-width: 80%; margin-left: auto; padding: 10px 16px; border-radius: 20px;/);
   assert.match(list, /<div className="gpt-answer-head">\s*<BrandMark \/>\{t\.brand\}\s*<\/div>/);
   assert.deepEqual([answerStrings('uz').menuCost, answerStrings('ru').menuCost], ['Har biri 1 ta xabar sarflaydi', 'Каждый пункт тратит 1 сообщение']);
   const answer = read('src/gpt-chat/components/AiAnswer.tsx');
@@ -295,7 +363,7 @@ test('§5.6: the model line above the row; on a phone «⋯» opens the paid fol
   // The menu flips below when above would cross the top of the thread.
   assert.match(answer, /const edge = rowRef\.current\?\.closest\("\.gpt-viewport"\)\?\.getBoundingClientRect\(\)\.top \?\? 0;\s*setBelow\(top < edge\);/);
   // Its item draws outside its own box: content-visibility (paint containment) would clip the menu.
-  assert.match(list, /className=\{i === lastAssistant \? "gpt-item-menu" : undefined\}/);
+  assert.match(list, /className=\{i === lastAssistant \? "gpt-item-menu" : m\.role === "user" \? "gpt-turn-user" : undefined\}/);
   assert.match(css, /\.gpt-message-content > \[data-slot="message-scroller-item"\]\.gpt-item-menu \{ content-visibility: visible; \}/);
   assert.match(read('src/components/ui/message-scroller.tsx'), /\[content-visibility:auto\]/, 'every other item keeps the saving');
   // «Nusxalandi» for 2 s.
@@ -345,11 +413,19 @@ test('REV-13 and §4.3: with the keyboard open (or 460px of height) the card is 
   assert.match(keyboard, /if \(!main \|\| zoomed\) return;/);
 });
 
-test('§5.12: the chatgpt.com line and the disclaimer live in the menu; the drawer has the mark', () => {
+test('§5.12, chat UI §5.14: the chatgpt.com line, the saved chats and the disclaimer live in the menu; the drawer has the one brand', () => {
   const sidebar = read('src/gpt-chat/components/AiSidebar.tsx');
+  // The disclaimer ends the scrolling list (it no longer stands over «Bo‘limlar»); the collapse control sits in the brand row.
+  assert.ok(sidebar.indexOf('<p className="gpt-disclaimer">') > sidebar.indexOf('data-testid="gpt-official"'));
+  assert.ok(sidebar.indexOf('<p className="gpt-disclaimer">') < sidebar.indexOf('export function AiSidebar'));
+  assert.doesNotMatch(sidebar.slice(sidebar.indexOf('export function AiSidebar')), /onToggleCollapsed\}/);
+  assert.match(sidebar, /\{t\.premium\.savedChats\}[\s\S]{0,400}onOpenSaved\(chat\)[\s\S]{0,400}\{t\.premium\.historyNote\}/);
   assert.match(sidebar, /<p className="gpt-official" data-testid="gpt-official">\s*\{t\.premium\.officialLead\}\s*<a\s+href="https:\/\/chatgpt\.com\/"\s+target="_blank"\s+rel="noopener noreferrer"\s+onClick=\{onOfficial\}/);
   assert.match(sidebar, /<p className="gpt-disclaimer">\{t\.disclaimer\}<\/p>/);
-  assert.match(sidebar, /<BrandMark className="gpt-brand-mark-lg" \/>/);
+  assert.match(sidebar, /<BrandMark \/>\s*\{showLabels && <span className="font-display text-\[15px\] text-white">\{t\.brand\}<\/span>\}/);
+  // The header shows no mark (the first screen and the answers carry it); from 1024px no name either, the sidebar has it.
+  assert.match(css, /\.gpt-header \.gpt-brand-mark \{ display: none; \}/);
+  assert.match(css, /@media \(min-width: 1024px\) \{\s*\.gpt-menu-button, \.gpt-brand-text > span:first-child, \.gpt-shell-brand::before \{ display: none; \}/);
   assert.match(sidebar, /<a href="#seo-summary" onClick=\{onAbout\} className=\{LINK\}>\s*\{t\.aboutChat\}/);
   assert.match(css, /\.gpt-disclaimer \{[^}]*font-size: 12px; line-height: 18px;/);
   assert.match(css, /\[data-slot="dialog-content"\]\.gpt-sidebar-dialog \{ top: 0; left: 0; transform: none; translate: none; max-width: none; width: min\(300px,85vw\);/);
@@ -372,7 +448,11 @@ test('REV-6: # and ## are sections, ### their parts; a code block carries its ow
   assert.equal(renderMarkdown('# Bir\n## Ikki\n### Uch\n#### To‘rt'), '<h3>Bir</h3>\n<h3>Ikki</h3>\n<h4>Uch</h4>\n<h4>To‘rt</h4>');
   assert.equal(renderMarkdown('```\nx < 1\n```'), '<pre class="gpt-code" tabindex="0"><code>x &lt; 1</code></pre>');
   assert.equal(renderMarkdown('```\nx < 1\n```', 'Nusxalash'),
-    '<div class="gpt-code-wrap"><pre class="gpt-code" tabindex="0"><code>x &lt; 1</code></pre><button type="button" class="gpt-code-copy" data-copy-code>Nusxalash</button></div>');
+    '<div class="gpt-code-wrap"><div class="gpt-code-head"><span></span><button type="button" class="gpt-code-copy" data-copy-code>Nusxalash</button></div><pre class="gpt-code" tabindex="0"><code>x &lt; 1</code></pre></div>');
+  // A head row (chat UI §5.6): the fence's language as text at the left, never an attribute.
+  assert.match(renderMarkdown('```python\nprint(1)\n```', 'Nusxalash'), /^<div class="gpt-code-wrap"><div class="gpt-code-head"><span>python<\/span><button/);
+  assert.match(renderMarkdown('```"><img src=x>\nx\n```', 'Nusxalash'), /<div class="gpt-code-head"><span><\/span>/);
+  assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /const code = button\?\.closest\("\.gpt-code-wrap"\)\?\.querySelector\("code"\)\?\.textContent;/);
   assert.doesNotMatch(renderMarkdown('<button data-copy-code>x</button>', 'Nusxalash'), /<button/);
   const answer = read('src/gpt-chat/components/AiAnswer.tsx');
   assert.match(answer, /const button = \(event\.target as HTMLElement\)\.closest\?\.\("\[data-copy-code\]"\);/);
@@ -385,7 +465,9 @@ test('REV-8 and REV-9: 44px targets; the pack window is a bottom sheet on a phon
   // The pack pill keeps 44px when its label is hidden (under 390px).
   assert.match(css, /\.gpt-account-trigger \{ display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px;/);
   assert.match(account, /\.gpt-check input \{ flex-shrink: 0; width: 24px; height: 24px;/);
-  assert.match(css, /\.gpt-input-footnote a \{ position: relative; display: inline-block; padding: 12px 2px; margin: -12px 0;/);
+  // The privacy link's target grows down, not up: 5px above, under the 6px gap, so it never covers the field or the send button.
+  assert.match(css, /\.gpt-input-footnote a \{ position: relative; display: inline-block; padding: 5px 2px 12px; margin: -5px -2px -12px;/);
+  assert.match(css, /\.gpt-empty-links a \{ display: inline-block; margin: -13px -4px; padding: 13px 4px;/);
   assert.match(account, /@media \(max-width: 700px\) \{\s*\[data-slot="dialog-content"\]\.gpt-account-dialog \{ top: auto; bottom: 0; left: 0; transform: none; translate: none; width: 100%;/);
   // The pack window's card text is the chat's, not the site's near-black --card-foreground (the price was 1.05:1).
   assert.match(css, /--card: var\(--surface\); --card-foreground: var\(--text\);/);
@@ -406,7 +488,9 @@ test('REV-10: no dvh without a vh before it; a restored thread hides until it ha
     }
   }
   assert.match(css, /\.gpt-viewport\[data-pending-scroll\] \{ visibility: hidden; \}/);
-  assert.match(css, /\.gpt-header \{ align-items: center; gap: 2px; height: calc\(52px \+ env\(safe-area-inset-top\)\); padding: env\(safe-area-inset-top\) 6px 0;/);
+  assert.match(css, /\.gpt-header \{ align-items: center; gap: 2px; height: calc\(52px \+ env\(safe-area-inset-top\)\); padding: env\(safe-area-inset-top\) 6px 0; \}/);
+  // One surface (chat UI §5.1, A8): no fill and no border on the header in any state.
+  assert.doesNotMatch(css, /\.gpt-header \{[^}]*(background|border)|:not\(\[data-state="empty"\]\) \.gpt-header/);
 });
 
 test('§6: the chat\'s stylesheet is its own: no other page loads it; the article under the app is styled by #seo-summary only', () => {
@@ -422,19 +506,20 @@ test('§6: the chat\'s stylesheet is its own: no other page loads it; the articl
   // The FAQ's «+» stays in the HTML; the chevron is drawn over it.
   assert.match(article, /#seo-summary \.faq-item summary > span \{[^}]*font-size: 0; color: transparent;/);
   // The sizes the spec holds premium.css to.
-  assert.ok(Buffer.byteLength(css) <= 30_000, `premium.css ${Buffer.byteLength(css)} B`);
+  assert.ok(fs.statSync(path.join(ROOT, 'src/gpt-chat/premium.css')).size <= 30_000, `premium.css ${Buffer.byteLength(css)} B`);
 });
 
-test('§5.13: the prerendered frame is the resting screen\'s geometry and adds no text', { skip: !built && 'no dist/ build present' }, () => {
+test('§5.13, chat UI §5.15: the prerendered frame is the resting screen\'s geometry and adds no text', { skip: !built && 'no dist/ build present' }, () => {
   for (const [url, loading] of [['/uz/gpt-uzbek-tilida/', 'AI-chat yuklanmoqda…'], ['/ru/gpt-chat/', 'AI-чат загружается…']] as const) {
     const html = fs.readFileSync(path.join(DIST, url.slice(1), 'index.html'), 'utf8');
     const root = html.slice(html.indexOf('<div id="gpt-chat-root"'), html.indexOf('</main>'));
     assert.match(root, /<div class="gpt-premium gpt-app gpt-shell" data-state="empty" style="color-scheme:dark">/);
-    for (const cls of ['gpt-header gpt-shell-header', 'gpt-thread-scroll', 'gpt-viewport', 'gpt-column', 'gpt-empty', 'gpt-hello', 'gpt-greet gpt-shell-greet', 'gpt-tasks gpt-shell-tasks', 'gpt-composer', 'gpt-input-surface gpt-shell-input', 'gpt-input-footnote gpt-shell-footnote']) {
+    for (const cls of ['gpt-header gpt-shell-header', 'gpt-thread-scroll', 'gpt-viewport', 'gpt-column', 'gpt-empty', 'gpt-hello', 'gpt-brand-mark gpt-hello-mark', 'gpt-greet gpt-shell-greet', 'gpt-tasks gpt-shell-tasks', 'gpt-composer', 'gpt-input-surface gpt-shell-input', 'gpt-input-footnote gpt-shell-footnote']) {
       assert.ok(root.includes(`class="${cls}`), `${url}: ${cls}`);
     }
-    // Four task outlines, each as wide as its chip from 720px (--w), the grid's below.
-    assert.equal((root.match(/<li class="gpt-task" style="--w:\d{3}px"><\/li>/g) ?? []).length, 4);
+    // Four pill outlines the grid sizes; the links bar is the centred group's last line.
+    assert.equal((root.match(/<li class="gpt-task"><\/li>/g) ?? []).length, 4);
+    assert.ok(root.indexOf('gpt-shell-links') < root.indexOf('gpt-shell-tasks') && root.indexOf('gpt-shell-links') > root.indexOf('gpt-shell-meta'));
     // The mount point's text: the H1, the no-JavaScript line and the loading line, as before.
     const text = root.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     const h1 = root.match(/<h1 data-testid="page-h1" class="gpt-kicker">([^<]*)<\/h1>/)?.[1] ?? '';
@@ -447,10 +532,10 @@ test('§5.13: the prerendered frame is the resting screen\'s geometry and adds n
   for (const locale of LOCALES) {
     const t = strings(locale);
     assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-brand::after { content: "${t.brandSub}"; }`), locale);
-    assert.ok(css.includes(` #gpt-chat-root[data-locale="${locale}"] .gpt-shell-brand::after { content: "${t.brandSubShort}"; }`), `${locale} under 340px`);
-    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-greet::before { content: "${t.premium.welcome}\\A"; }`), locale);
-    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-greet::after { content: "${t.premium.welcomeAccent}\\00a0"; }`), locale);
+    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-brand::after { content: "${t.brandSubShort}"; }`), `${locale} under 340px`);
+    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-greet::before { content: "${t.premium.welcome}"; }`), locale);
   }
+  assert.doesNotMatch(css, /gpt-shell-greet::after|gpt-shell-greet \{ white-space/);
   // The frame paints first, then the chat mounts.
   const main = read('src/gpt-chat/main.tsx');
   assert.match(main, /requestAnimationFrame\(\(\) => setTimeout\(go, 0\)\);\s*setTimeout\(go, 200\);/);

@@ -1,0 +1,91 @@
+[
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "INSERT INTO studio_refund_requests(org_id,order_id,presentations_unused,photos_unused,requested_at) SELECT o.org_id,o.id,COALESCE(SUM(e.presentations_limit-e.presentations_used),0),COALESCE(SUM(e.photos_limit-e.photos_used),0),? FROM studio_orders_v2 o LEFT JOIN studio_entitlements e ON e.org_id=o.org_id AND e.order_id=o.id WHERE o.org_id=? AND o.id=? AND o.state='paid' AND o.perform_time<=? AND o.perform_time>=? GROUP BY o.org_id,o.id ON CONFLICT(org_id,order_id) DO NOTHING",
+    "plan": [
+      "SEARCH o USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?)",
+      "SEARCH e USING INDEX idx_studio_ent_order (org_id=? AND order_id=?) LEFT-JOIN"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "INSERT INTO studio_credit_grants(org_id,order_id,request_id,entitlement_id,unit,reason,created_at) SELECT org_id,id,?,id||'_c'||(1+(SELECT COUNT(*) FROM studio_credit_grants WHERE org_id=? AND order_id=?)),?,?,? FROM studio_orders_v2 WHERE org_id=? AND id=? AND state='paid' AND (SELECT COUNT(*) FROM studio_credit_grants WHERE org_id=? AND order_id=?)<10 ON CONFLICT(org_id,order_id,request_id) DO NOTHING",
+    "plan": [
+      "SEARCH studio_orders_v2 USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?)",
+      "SCALAR SUBQUERY 2",
+      "SEARCH studio_credit_grants USING COVERING INDEX sqlite_autoindex_studio_credit_grants_1 (org_id=? AND order_id=?)",
+      "SCALAR SUBQUERY 1",
+      "SEARCH studio_credit_grants USING COVERING INDEX sqlite_autoindex_studio_credit_grants_1 (org_id=? AND order_id=?)"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "INSERT INTO studio_entitlements(org_id,id,order_id,user_id,mode,plan,plan_version,starts_at,ends_at,presentations_limit,photos_limit) SELECT g.org_id,g.entitlement_id,o.id,o.user_id,o.mode,'credit',o.plan_version,?,MAX(?,e.ends_at),CASE WHEN g.unit='presentation_full' THEN 1 ELSE 0 END,CASE WHEN g.unit='photo_task' THEN 1 ELSE 0 END FROM studio_credit_grants g JOIN studio_orders_v2 o ON o.org_id=g.org_id AND o.id=g.order_id JOIN studio_entitlements e ON e.org_id=o.org_id AND e.id=o.id WHERE g.org_id=? AND g.order_id=? AND g.request_id=? AND o.state='paid' ON CONFLICT(org_id,id) DO NOTHING",
+    "plan": [
+      "SEARCH o USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?)",
+      "SEARCH e USING INDEX sqlite_autoindex_studio_entitlements_1 (org_id=? AND id=?)",
+      "SEARCH g USING INDEX sqlite_autoindex_studio_credit_grants_1 (org_id=? AND order_id=? AND request_id=?)"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "INSERT INTO studio_reversal_attempts(org_id,order_id,request_id,state,payment_id,created_at,updated_at) SELECT org_id,id,?,'pending',?,?,? FROM studio_orders_v2 WHERE org_id=? AND id=? AND state='paid' AND provider='click' AND mode='live' AND version=? AND NOT EXISTS(SELECT 1 FROM studio_refunds WHERE org_id=? AND order_id=?) ON CONFLICT DO NOTHING RETURNING order_id",
+    "plan": [
+      "SEARCH studio_orders_v2 USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?)",
+      "SCALAR SUBQUERY 1",
+      "SEARCH studio_refunds USING COVERING INDEX sqlite_autoindex_studio_refunds_2 (org_id=? AND order_id=?)"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "SELECT r.order_id,r.amount,r.method,r.receipt_state,r.requested_at,r.created_at,o.owner_test FROM (SELECT * FROM studio_refunds WHERE org_id=? AND created_at>=? AND created_at<=? ORDER BY created_at LIMIT 501) r JOIN studio_orders_v2 o ON o.org_id=r.org_id AND o.id=r.order_id",
+    "plan": [
+      "CO-ROUTINE r",
+      "SEARCH studio_refunds USING INDEX idx_studio_refunds_created (org_id=? AND created_at>? AND created_at<?)",
+      "SCAN r",
+      "SEARCH o USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?)"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/operations-store.ts",
+    "sql": "SELECT j.state,j.reason,j.source,e.mode,o.owner_test FROM (SELECT org_id,state,reason,source,entitlement_id FROM studio_unit_ledger WHERE org_id=? AND created_at>=? AND created_at<=? ORDER BY created_at LIMIT 5001) j LEFT JOIN studio_entitlements e ON e.org_id=j.org_id AND e.id=j.entitlement_id LEFT JOIN studio_orders_v2 o ON o.org_id=e.org_id AND o.id=e.order_id",
+    "plan": [
+      "CO-ROUTINE j",
+      "SEARCH studio_unit_ledger USING INDEX idx_studio_ledger_created (org_id=? AND created_at>? AND created_at<?)",
+      "SCAN j",
+      "SEARCH e USING INDEX sqlite_autoindex_studio_entitlements_1 (org_id=? AND id=?) LEFT-JOIN",
+      "SEARCH o USING INDEX sqlite_autoindex_studio_orders_v2_1 (id=?) LEFT-JOIN"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/verification-store.ts",
+    "sql": "INSERT INTO studio_verifications(org_id,id,address,token_hash,lease_until,expires_at) SELECT ?,?,?,?,?,? WHERE (SELECT COUNT(*) FROM studio_verifications WHERE org_id=? AND lease_until>?)<? AND (SELECT COUNT(*) FROM studio_verifications WHERE org_id=? AND address=? AND lease_until>?)<? ON CONFLICT(org_id,token_hash) DO NOTHING RETURNING id",
+    "plan": [
+      "SCAN CONSTANT ROW",
+      "SCALAR SUBQUERY 1",
+      "SEARCH studio_verifications USING COVERING INDEX idx_studio_verification_active (org_id=? AND lease_until>?)",
+      "SCALAR SUBQUERY 2",
+      "SEARCH studio_verifications USING COVERING INDEX idx_studio_verification_active (org_id=? AND lease_until>?)"
+    ]
+  },
+  {
+    "file": "functions/lib/studio/payme-ownership.ts",
+    "sql": "CREATE TRIGGER IF NOT EXISTS studio_payme_chat_owner BEFORE UPDATE OF external_id ON gpt_payment_orders WHEN NEW.provider='payme' AND NEW.external_id IS NOT NULL BEGIN SELECT RAISE(ABORT,'payme_transaction_owned') WHERE EXISTS(SELECT 1 FROM studio_orders_v2 WHERE org_id=NEW.org_id AND provider='payme' AND mode=NEW.mode AND external_id=NEW.external_id); END",
+    "plan": []
+  },
+  {
+    "file": "functions/lib/studio/payme-ownership.ts",
+    "sql": "CREATE TRIGGER IF NOT EXISTS studio_payme_studio_owner BEFORE UPDATE OF external_id ON studio_orders_v2 WHEN NEW.provider='payme' AND NEW.external_id IS NOT NULL BEGIN SELECT RAISE(ABORT,'payme_transaction_owned') WHERE EXISTS(SELECT 1 FROM gpt_payment_orders WHERE org_id=NEW.org_id AND provider='payme' AND mode=NEW.mode AND external_id=NEW.external_id); END",
+    "plan": []
+  },
+  {
+    "file": "functions/lib/studio/click-ownership.ts",
+    "sql": "CREATE TRIGGER IF NOT EXISTS studio_click_chat_owner BEFORE UPDATE OF external_id ON gpt_payment_orders WHEN NEW.provider='click' AND NEW.external_id IS NOT NULL BEGIN SELECT RAISE(ABORT,'click_transaction_owned') WHERE EXISTS(SELECT 1 FROM studio_orders_v2 WHERE org_id=NEW.org_id AND provider='click' AND mode=NEW.mode AND external_id=NEW.external_id); END",
+    "plan": []
+  },
+  {
+    "file": "functions/lib/studio/click-ownership.ts",
+    "sql": "CREATE TRIGGER IF NOT EXISTS studio_click_studio_owner BEFORE UPDATE OF external_id ON studio_orders_v2 WHEN NEW.provider='click' AND NEW.external_id IS NOT NULL BEGIN SELECT RAISE(ABORT,'click_transaction_owned') WHERE EXISTS(SELECT 1 FROM gpt_payment_orders WHERE org_id=NEW.org_id AND provider='click' AND mode=NEW.mode AND external_id=NEW.external_id); END",
+    "plan": []
+  }
+]

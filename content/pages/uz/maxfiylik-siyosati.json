@@ -192,6 +192,23 @@
       "type": "cta",
       "text": "Biz bilan bog‘laning",
       "href": "#contact"
+    },
+    {
+      "type": "h2",
+      "text": "Studio: taqdimotlar va xaridlar"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Mavzular, slaydlar va tahlillar matnini saqlamaymiz: server ularni AI modelga uzatadi va natijani brauzeringizga qaytaradi. Natija yaroqsiz bo‘lsa (ofertaning 7-bo‘limi), faylni yoki ekran rasmini yuboring. Birliklarni hisoblash uchun faqat matnsiz texnik jurnalni saqlaymiz («Qanday ma’lumotlarni olamiz» bo‘limi).",
+        ".pptx fayl brauzeringizda yig‘iladi, serverimizda saqlanmaydi.",
+        "Slaydlar uchun rasmlarni Cloudflare Workers AI platformasidagi FLUX.1 [schnell] modeli yaratadi. U faqat rasmning qisqa tavsifini oladi, uni AI slayd mavzusi bo‘yicha tuzadi. Real odamlar, davlat ramzlari, zo‘ravonlik yoki yalang‘ochlik bor so‘rovlar rad etiladi: rasm tavsiflarini Cloudflare Workers AI’dagi Llama Guard modeli tekshiradi; tayyor rasmni yana bitta AI model tekshiradi va odam, matn, bayroq, qon yoki yalang‘ochlik bor rasm ko‘rsatilmaydi. Jurnalga faqat rad etish turi yoziladi.",
+        "Studio bepul birliklari server imzolagan tasodifiy raqamli brauzer cookie’si (bir yilgacha), yangi cookie’lar (bir sutkadan kam vaqt oldin berilgan) uchun esa IP-manzil xeshi bo‘yicha ham hisoblanadi. «Men robot emasman» tekshiruvi — Cloudflare Turnstile: u brauzerning texnik ma’lumotlarini oladi.",
+        "Yandex Metrika Vebvizori Studio xizmatidagi kiritish maydonlari va rasmlarni yozib olmaydi.",
+        "Studio matnini Z.ai (Singapur; Zhipu AI infratuzilmasi Xitoyda bo‘lishi mumkin), rasmlar va xavfsizlik tekshiruvini Cloudflare Workers AI (AQSh va taqsimlangan infratuzilma) qayta ishlaydi. Studio uchun muqobil AI provayder hozir yoqilmagan. Mavzuga shaxsiy yoki maxfiy ma’lumot kiritmang.",
+        "Xarid uchun buyurtma raqami, narx, tarif, qabul qilingan oferta tahriri, to‘lov holati va provayder identifikatori saqlanadi. Karta raqami va CVV bizga kelmaydi. Reklama atributsiyasi 93 kun, birliklarning texnik jurnali 13 oy saqlanadi. To‘lov hujjatlari hisob yuritish talablariga muvofiq alohida saqlanadi. Kirishni tiklashda to‘lov identifikatori, summa va sana tekshiriladi. Studio cookie’si bir yilgacha amal qiladi va amaldagi tarifga kirishni saqlash uchun yangilanadi.",
+        "18 yoshga to‘lmaganlar pullik Studio xizmatidan ota-onasi yoki qonuniy vakili roziligi bilan foydalanadi. Ma’lumotlarni o‘chirish yoki ularga ishlov berish haqida sahifa oxiridagi kontaktlarga murojaat qilish mumkin."
+      ]
     }
   ],
   "faq": [

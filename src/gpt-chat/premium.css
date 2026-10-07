@@ -1,143 +1,134 @@
-/* GPTBot.uz AI chat (chat design 2026-10-06; §n: its DESIGN-SPEC.md). One 100dvh column: header,
-   thread, composer in flow on an opaque surface. Only the chat pages load it (main.tsx). */
-
-/* §3 tokens; the shadcn primitives' names follow them */
+/* GPTBot.uz chat UI 2026-10-07 */
 .gpt-premium, .gpt-account-dialog, .gpt-sidebar-dialog, #seo-summary, #seo-summary + footer {
-  --bg: #05070d; --glow: rgba(47,230,209,.06); --surface: #0c1018; --surface-2: #131a27;
-  --field: #111723; --field-line: #5a6782; --line: #1a2130; --line-strong: #2a3446;
-  --text: #ecf0f6; --text-2: #a7b1c2; --text-3: #8c97aa; --prose: #c8d0dd;
-  --accent: #2fe6d1; --accent-ink: #03201c; --accent-text: #5be7d7; --accent-soft: #0b1e1f; --accent-line: #1d4c48;
-  --user: #172234; --math: #0e141f; --code-bg: #0a0e16;
-  --warn-bg: #18120a; --warn-line: #4a3517; --warn-ico-bg: #2b1f0d; --warn-icon: #e8a33d; --warn-text: #f1c27d;
-  --danger-bg: #1e1116; --danger-line: #4a2230; --danger-text: #ffc9d3;
-  --focus: #5be7d7; --shadow-pop: 0 12px 40px rgba(0,0,0,.55);
-  --dur-1: 120ms; --dur-2: 160ms; --dur-3: 220ms; --ease-out: cubic-bezier(.2,.8,.2,1);
-  --background: var(--bg); --foreground: var(--text); --card: var(--surface); --card-foreground: var(--text); --popover: var(--surface); --popover-foreground: var(--text);
-  --primary: var(--accent); --primary-foreground: var(--accent-ink); --secondary: var(--accent-soft); --secondary-foreground: var(--accent-text);
-  --accent-foreground: var(--accent-ink); --destructive: var(--danger-text);
-  --muted: var(--surface-2); --muted-foreground: var(--text-2); --border: var(--line-strong); --input: var(--field-line); --ring: var(--focus); --radius: 12px;
-  font-family: Geist, Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  color: var(--text); color-scheme: dark;
+--bg: #05070d; --glow: rgba(47,230,209,.045); --surface: #0c1018; --surface-2: #131a27;
+--field: #111723; --field-line: #5a6782; --line: #1a2130; --line-strong: #2a3446;
+--text: #ecf0f6; --text-2: #a7b1c2; --text-3: #8c97aa; --prose: #c8d0dd;
+--accent: #2fe6d1; --accent-ink: #03201c; --accent-text: #5be7d7; --accent-soft: #0b1e1f; --accent-line: #1d4c48;
+--user: #172234; --math: #0e141f; --code-bg: #0a0e16;
+--warn-bg: #18120a; --warn-line: #4a3517; --warn-ico-bg: #2b1f0d; --warn-icon: #e8a33d; --warn-text: #f1c27d;
+--danger-bg: #1e1116; --danger-line: #4a2230; --danger-text: #ffc9d3;
+--focus: #5be7d7; --shadow-pop: 0 12px 40px rgba(0,0,0,.55);
+--dur-1: 120ms; --dur-2: 160ms; --dur-3: 220ms; --ease-out: cubic-bezier(.2,.8,.2,1); --gutter: 16px; --col: 768px;
+--background: var(--bg); --foreground: var(--text); --card: var(--surface); --card-foreground: var(--text); --popover: var(--surface); --popover-foreground: var(--text);
+--primary: var(--accent); --primary-foreground: var(--accent-ink); --secondary: var(--accent-soft); --secondary-foreground: var(--accent-text);
+--accent-foreground: var(--accent-ink); --destructive: var(--danger-text);
+--muted: var(--surface-2); --muted-foreground: var(--text-2); --border: var(--line-strong); --input: var(--field-line); --ring: var(--focus); --radius: 12px;
+font-family: Geist, Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+color: var(--text); color-scheme: dark;
 }
 .gpt-premium :is(button,a,input,summary,[tabindex]):focus-visible, .gpt-account-dialog :is(button,a,input):focus-visible, #seo-summary :is(a,summary,[tabindex]):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.gpt-premium [class*="text-white/"], .gpt-account-dialog [class*="text-white/"] { color: var(--text-2); }
-
-/* §2 the app column */
+:is(.gpt-premium,.gpt-account-dialog,.gpt-sidebar-dialog) [class*="text-white/"] { color: var(--text-2); }
 .gpt-app { display: flex; height: 100%; min-height: 0; background: var(--bg); isolation: isolate; }
-.gpt-main { position: relative; display: flex; flex: 1; flex-direction: column; min-width: 0; height: 100%; }
+.gpt-main { position: relative; display: flex; flex: 1; flex-direction: column; min-width: 0; height: 100%; background: radial-gradient(70% 42% at 50% 0, var(--glow), #0000 70%); }
 .gpt-premium > aside { background: var(--surface); border-color: var(--line); }
 .gpt-header, .gpt-composer { position: relative; z-index: 2; flex: none; touch-action: none; touch-action: pinch-zoom; }
-.gpt-header, .gpt-header-brand, .gpt-brand-text, .gpt-meta, .gpt-task, .gpt-input-surface, .gpt-action-row, .gpt-limit-head, .gpt-limit-short, .gpt-low-line, .gpt-limit-draft { display: flex; }
+.gpt-header, .gpt-header-brand, .gpt-brand-text, .gpt-task, .gpt-input-surface, .gpt-action-row, .gpt-limit-head, .gpt-limit-short, .gpt-low-line, .gpt-limit-draft { display: flex; }
 .gpt-header-button, .gpt-brand-mark, .gpt-send-button, .gpt-limit-ico, .gpt-step { display: grid; flex: none; place-items: center; }
-
-/* §5.1 header; the top safe area is its padding (REV-10) */
-.gpt-header { align-items: center; gap: 2px; height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 6px 0; background: var(--bg); border-bottom: 1px solid transparent; }
-.gpt-premium:not([data-state="empty"]) .gpt-header { border-bottom-color: var(--line); }
+.gpt-header { align-items: center; gap: 2px; height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 6px 0; }
 .gpt-header-button { min-width: 44px; height: 44px; padding: 0 10px; border-radius: 12px; color: var(--text-2); font-size: 14px; font-weight: 600; }
-.gpt-header-button:disabled { opacity: .45; }
+.gpt-header-button:disabled, .gpt-action:disabled, .gpt-outline-button:disabled { opacity: .45; }
 .gpt-menu-button { padding: 0; }
 .gpt-header-brand { flex: 1; align-items: center; gap: 10px; min-width: 0; padding: 0 4px; }
 .gpt-brand-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent-text); }
 .gpt-brand-mark svg { width: 18px; }
-.gpt-brand-mark-lg { width: 32px; height: 32px; }
+.gpt-header .gpt-brand-mark { display: none; }
 .gpt-brand-text { flex-direction: column; min-width: 0; font-size: 16px; line-height: 20px; font-weight: 600; letter-spacing: -.01em; }
 .gpt-header-sub, .gpt-shell-brand::after { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; line-height: 16px; font-weight: 400; color: var(--text-3); }
 .gpt-header-sub[data-tone="warn"] { color: var(--warn-text); }
 .gpt-header-sub[data-tone="pack"] { color: var(--accent-text); }
 .gpt-lang-short, .gpt-sub-short { display: none; }
-@media (min-width: 640px) { .gpt-header { height: calc(56px + env(safe-area-inset-top)); padding-inline: 10px; } }
-@media (min-width: 1024px) { .gpt-menu-button { display: none; } .gpt-header-brand { padding-left: 14px; } }
+@media (min-width: 640px) { .gpt-header { height: calc(56px + env(safe-area-inset-top)); padding-inline: 13px; } }
+@media (min-width: 1024px) {
+.gpt-menu-button, .gpt-brand-text > span:first-child, .gpt-shell-brand::before { display: none; }
+.gpt-header-brand { padding-left: 14px; }
+.gpt-header-sub, .gpt-shell-brand::after { font-size: 13px; line-height: 20px; }
+}
 @media (max-width: 374px) {
- .gpt-lang-full { display: none; }
- .gpt-lang-short { display: inline; }
+.gpt-lang-full { display: none; }
+.gpt-lang-short { display: inline; }
+}
+@media (max-width: 479px) {
+.gpt-header:has(.gpt-account-trigger) .gpt-sub-full { display: none; }
+.gpt-header:has(.gpt-account-trigger) .gpt-sub-short { display: inline; }
 }
 @media (max-width: 389px) {
- .gpt-header:has(.gpt-account-trigger) :is(.gpt-lang-full, .gpt-sub-full) { display: none; }
- .gpt-header:has(.gpt-account-trigger) :is(.gpt-lang-short, .gpt-sub-short) { display: inline; }
- .gpt-header:has(.gpt-account-trigger) .gpt-new-chat { display: none; }
- .gpt-account-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.gpt-header:has(.gpt-account-trigger) .gpt-lang-full { display: none; }
+.gpt-header:has(.gpt-account-trigger) .gpt-lang-short { display: inline; }
+.gpt-header:has(.gpt-account-trigger) .gpt-new-chat { display: none; }
+.gpt-account-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
-.gpt-account-trigger { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent-text); font-size: 13px; font-weight: 600; white-space: nowrap; }
-
-/* §4.2 the thread ends at the composer's top edge */
-.gpt-thread-scroll { flex: 1 1 0%; height: auto; min-height: 0; background: radial-gradient(120% 55% at 0 0, var(--glow), transparent 60%); }
-.gpt-viewport { display: flex; flex-direction: column; height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.gpt-account-trigger { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; border-radius: 12px; background: none; border: 1px solid var(--line-strong); color: var(--text-2); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.gpt-account-trigger svg { color: var(--accent-text); }
+.gpt-thread-scroll { flex: 1 1 0%; height: auto; min-height: 0; }
+.gpt-viewport { display: flex; flex-direction: column; height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable both-edges; }
 .gpt-viewport[data-pending-scroll] { visibility: hidden; }
-.gpt-column { display: flex; flex: 1 0 auto; flex-direction: column; width: 100%; max-width: 720px; margin: 0 auto; padding: 16px 16px 12px; }
-
-/* §5.2 */
+.gpt-column { display: flex; flex: 1 0 auto; flex-direction: column; width: 100%; max-width: calc(var(--col) + 2 * var(--gutter)); margin: 0 auto; padding: 16px var(--gutter) 12px; }
+.gpt-premium[data-state="empty"] .gpt-column { padding-bottom: 4px; }
 .gpt-empty { display: flex; flex: 1 0 auto; flex-direction: column; }
 .gpt-hello { margin-block: auto; }
-.gpt-kicker { max-width: 34em; margin: 0 0 8px; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--text-2); text-wrap: balance; }
+.gpt-hello { text-align: center; }
+.gpt-hello-mark { width: 40px; height: 40px; margin: 0 auto 16px; border-radius: 12px; }
+.gpt-hello-mark svg { width: 22px; }
+.gpt-kicker { max-width: 34em; margin: 0 auto 8px; font-size: 13px; line-height: 18px; font-weight: 500; color: var(--text-2); text-wrap: balance; }
 .gpt-greet { margin: 0; font-size: 26px; line-height: 32px; font-weight: 600; letter-spacing: -.022em; text-wrap: balance; }
-.gpt-greet > span, .gpt-shell-greet::after { font-weight: 500; color: var(--text-2); }
-.gpt-meta { align-items: start; gap: 8px; margin: 12px 0 0; font-size: 15px; line-height: 22px; color: var(--text-2); }
-.gpt-meta svg { flex: none; width: 16px; margin-top: 3px; color: var(--accent-text); }
-.gpt-tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
-.gpt-task { align-items: center; gap: 10px; width: 100%; height: 100%; min-height: 58px; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line-strong); font-size: 15px; line-height: 20px; font-weight: 500; text-align: left; text-wrap: balance; transition: var(--dur-1); }
-.gpt-task svg { flex: none; width: 20px; color: var(--accent-text); }
+.gpt-meta { display: block; min-height: 42px; margin: 12px 0 0; font-size: 14px; line-height: 20px; color: var(--text-2); text-wrap: balance; }
+.gpt-meta-note { display: block; margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--text-3); }
+.gpt-empty-links { margin: 12px 0 0; font-size: 13px; line-height: 18px; font-weight: 500; color: var(--text-3); }
+.gpt-empty-links a { display: inline-block; margin: -13px -4px; padding: 13px 4px; color: var(--text-2); }
+.gpt-tasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.gpt-task { justify-content: center; align-items: center; gap: 6px; width: 100%; height: 44px; padding: 0 12px 0 10px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 14px; line-height: 20px; font-weight: 500; white-space: nowrap; transition: var(--dur-1); }
+.gpt-task svg { flex: none; width: 16px; color: var(--accent-text); }
+.gpt-task span { overflow: hidden; text-overflow: ellipsis; }
 .gpt-task:active { background: var(--accent-soft); border-color: var(--accent-line); }
 .gpt-task:disabled { opacity: .5; }
-.gpt-empty-links { margin: 12px 0 0; text-align: center; font-size: 14px; font-weight: 500; color: var(--text-3); }
-.gpt-empty-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-2); }
-.gpt-history { margin: 0 0 12px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--text-2); }
-.gpt-history summary { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
-.gpt-history summary::after { content: '›'; content: '›' / ''; color: var(--accent-text); }
-.gpt-history[open] summary::after { transform: rotate(90deg); }
-.gpt-history button { display: block; width: 100%; min-height: 44px; padding: 8px; border-radius: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: left; color: var(--text); }
-@media (max-width: 699px) { .gpt-meta { min-height: 44px; } }
+@media (max-width: 359px) { .gpt-task svg { display: none; } .gpt-task { padding: 0 12px; } .gpt-input-footnote { min-height: 32px; } }
+@media (min-width: 360px) { .gpt-greet { font-size: 28px; line-height: 34px; } }
+@media (max-width: 639px) {
+.gpt-meta { min-height: 62px; }
+.gpt-action-row:has(.gpt-action-continue) .gpt-action-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
 @media (max-width: 339px) {
- .gpt-meta { min-height: 40px; font-size: 14px; line-height: 20px; }
- .gpt-task { gap: 8px; padding: 8px 10px; font-size: 14px; line-height: 18px; }
- .gpt-sub-full { display: none; }
- .gpt-sub-short { display: inline; }
- #gpt-chat-root[data-locale="uz"] .gpt-shell-brand::after { content: "OpenAI emas"; }
- #gpt-chat-root[data-locale="ru"] .gpt-shell-brand::after { content: "не OpenAI"; }
- .gpt-action-row .gpt-action-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
- .gpt-action-row > .gpt-action { padding: 0 12px; }
+.gpt-sub-full { display: none; }
+.gpt-sub-short { display: inline; }
+#gpt-chat-root[data-locale="uz"] .gpt-shell-brand::after { content: "OpenAI emas"; }
+#gpt-chat-root[data-locale="ru"] .gpt-shell-brand::after { content: "не OpenAI"; }
+.gpt-action-row .gpt-action-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 }
-@media (min-width: 380px) { .gpt-column { padding-inline: 20px; } .gpt-greet { font-size: 28px; line-height: 36px; } }
-@media (min-width: 640px) { .gpt-greet { font-size: 34px; line-height: 44px; } }
-@media (min-width: 720px) {
- .gpt-tasks { display: flex; flex-wrap: wrap; gap: 6px; }
- .gpt-task { height: 44px; min-height: 44px; gap: 6px; padding: 0 11px 0 9px; border-radius: 999px; white-space: nowrap; }
- .gpt-task svg { width: 18px; }
+@media (min-width: 768px) and (min-height: 600px) {
+.gpt-premium[data-state="empty"]:not([data-keyboard]) .gpt-main { padding-bottom: 56px; }
+.gpt-premium[data-state="empty"]:not([data-keyboard]) .gpt-thread-scroll { flex: 0 1 auto; margin-top: auto; }
+.gpt-premium[data-state="empty"]:not([data-keyboard]) .gpt-composer { margin-bottom: auto; }
+.gpt-premium[data-state="empty"]:not([data-keyboard]) .gpt-hello { margin-block: 0; }
 }
-
-/* §5.3 composer: in flow, opaque */
-.gpt-composer { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); background: var(--surface); box-shadow: 0 -1px 0 var(--line); }
-.gpt-composer-inner { max-width: 720px; margin: 0 auto; }
+.gpt-composer { padding: 8px var(--gutter) calc(8px + env(safe-area-inset-bottom)); background: var(--bg); }
+@media (min-width: 1024px) { .gpt-composer { overflow: hidden; scrollbar-gutter: stable both-edges; } }
+.gpt-composer-inner { max-width: var(--col); margin: 0 auto; }
 .gpt-composer textarea { touch-action: pan-y; touch-action: pan-y pinch-zoom; }
 .gpt-input-surface { align-items: flex-end; gap: 4px; min-height: 52px; padding: 3px 3px 3px 16px; border-radius: 26px; background: var(--field); border: 1px solid var(--field-line); transition: var(--dur-1); }
 .gpt-input-surface:focus-within { border-color: var(--accent); }
 .gpt-input-surface textarea { flex: 1; min-width: 0; height: 44px; max-height: 136px; padding: 11px 0; border: 0; outline: 0; background: none; color: var(--text); font: inherit; font-size: 16px; line-height: 22px; resize: none; }
 .gpt-input-surface textarea::placeholder { color: var(--text-3); opacity: 1; }
 .gpt-input-surface textarea:placeholder-shown { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.gpt-send-button { width: 44px; height: 44px; border-radius: 99px; background: var(--surface-2); color: var(--text); transition: transform var(--dur-1); }
-.gpt-send-button[data-state="ready"], .gpt-shell-input .gpt-send-button { background: var(--accent); color: var(--accent-ink); }
+.gpt-send-button { width: 44px; height: 44px; border-radius: 99px; background: var(--surface-2); color: var(--text-2); transition: transform var(--dur-1); }
+.gpt-send-button[data-state="ready"]:not([aria-disabled]) { background: var(--accent); color: var(--accent-ink); }
 .gpt-send-button[data-state="off"] { color: var(--text-3); }
 .gpt-send-button[data-state="limit"] { color: var(--warn-icon); }
 .gpt-send-button svg { width: 20px; }
 .gpt-send-button:active:not(:disabled) { transform: scale(.94); }
 .gpt-input-status { margin: 6px 8px 0; text-align: right; font-size: 12px; line-height: 16px; color: var(--text-2); }
 .gpt-input-status[data-over] { color: var(--warn-text); }
-/* not OpenAI, where questions go: every screen, ≥ 10px (F8) */
-.gpt-input-footnote { min-height: 32px; margin: 6px 4px 0; text-align: center; text-wrap: balance; font-size: 11.5px; line-height: 16px; color: var(--text-3); }
-/* 3-line footnotes, the frame's too */
-@media (max-width: 359px) { .gpt-input-wrap .gpt-input-footnote { min-height: 48px; } }
-@media (max-width: 411px) { #gpt-chat-root[data-locale="ru"] .gpt-input-footnote { min-height: 48px; } }
-.gpt-input-footnote a { position: relative; display: inline-block; padding: 12px 2px; margin: -12px 0; color: var(--text-2); text-decoration: underline; text-underline-offset: 2px; }
+.gpt-input-footnote { margin: 6px -8px 0; text-align: center; text-wrap: balance; font-size: 11.5px; line-height: 16px; color: var(--text-3); }
+.gpt-input-footnote a { position: relative; display: inline-block; padding: 5px 2px 12px; margin: -5px -2px -12px; color: var(--text-2); text-decoration: underline; text-underline-offset: 2px; }
 .gpt-dock-note { margin: 0 0 8px; text-align: center; font-size: 12px; line-height: 18px; color: var(--text-2); }
 .gpt-dock-note[data-tone="error"] { color: var(--danger-text); }
 .gpt-entry-context { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 12px; margin: 0 0 4px; font-size: 12px; line-height: 18px; color: var(--text-2); }
 .gpt-entry-context a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--accent-text); }
 @media (max-width: 639px) { .gpt-entry-context span { display: none; } }
-
-/* §5.4–5.8 */
-.gpt-message-content { display: flex; flex-direction: column; gap: 22px; }
+.gpt-message-content { display: flex; flex-direction: column; gap: 16px; }
 .gpt-message-content > :is(.gpt-limit-card, .gpt-low-line, .gpt-notice) { margin: 0; }
 .gpt-message-content > [data-slot="message-scroller-item"].gpt-item-menu { content-visibility: visible; }
-.gpt-user-message { width: fit-content; max-width: 86%; margin-left: auto; padding: 10px 15px; border-radius: 20px 20px 6px 20px; background: var(--user); font-size: 16px; line-height: 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.gpt-turn-user:not(:first-child) { margin-top: 12px; }
+.gpt-user-message { width: fit-content; max-width: 80%; margin-left: auto; padding: 10px 16px; border-radius: 20px; background: var(--user); font-size: 16px; line-height: 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .gpt-answer { position: relative; min-width: 0; }
 .gpt-answer-head { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-2); }
 .gpt-answer-head .gpt-brand-mark { width: 20px; height: 20px; border-radius: 6px; }
@@ -147,22 +138,23 @@
 .gpt-answer-body > :first-child { margin-top: 0; }
 .gpt-answer-body > :last-child { margin-bottom: 0; }
 .gpt-answer-body :is(h3,h4) { margin: 20px 0 8px; font-size: 17px; line-height: 24px; font-weight: 600; }
-.gpt-answer-body h4 { margin: 16px 0 6px; font-size: 16px; }
 .gpt-step-head { display: flex; align-items: flex-start; gap: 10px; }
 .gpt-check-line > span, .gpt-step-head > span:last-child { flex: 1; min-width: 0; }
-.gpt-step, .gpt-answer-body > ol > li::before { width: 24px; height: 24px; border-radius: 99px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent-text); font-size: 12px; line-height: 22px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+.gpt-step { width: 24px; height: 24px; border-radius: 7px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent-text); font-size: 12px; line-height: 22px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
 .gpt-answer-body :is(ul,ol) { margin: 12px 0; padding-left: 22px; }
 .gpt-answer-body li { margin: 6px 0; }
 .gpt-answer-body li::marker { color: var(--text-3); }
 .gpt-answer-body > ol { padding: 0; list-style: none; counter-reset: step; }
-.gpt-answer-body > ol > li { position: relative; padding-left: 36px; counter-increment: step; }
-.gpt-answer-body > ol > li::before { content: counter(step); position: absolute; top: 1px; left: 0; }
+.gpt-answer-body > ol > li { position: relative; padding-left: 32px; counter-increment: step; }
+.gpt-answer-body > ol > li::before { content: counter(step) "."; position: absolute; top: 0; left: 0; width: 22px; text-align: right; color: var(--text-2); font-weight: 500; font-variant-numeric: tabular-nums; }
 .gpt-answer-body blockquote { margin: 12px 0; padding-left: 14px; border-left: 3px solid var(--accent-line); color: var(--text-2); }
 .gpt-answer-body hr { margin: 20px 0; border: 0; border-top: 1px solid var(--line); }
 .gpt-math, .gpt-code, .gpt-table-scroll { max-width: 100%; margin: 12px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px;
-  background: linear-gradient(to right, var(--sheet) 30%, #0000) left / 24px 100% no-repeat local, linear-gradient(to left, var(--sheet) 30%, #0000) right / 24px 100% no-repeat local,
-    radial-gradient(farthest-side at 0 50%, #0009, #0000) left / 10px 100% no-repeat scroll, radial-gradient(farthest-side at 100% 50%, #0009, #0000) right / 10px 100% no-repeat scroll, var(--sheet); }
+background: linear-gradient(to right, var(--sheet) 30%, #0000) left / 24px 100% no-repeat local, linear-gradient(to left, var(--sheet) 30%, #0000) right / 24px 100% no-repeat local,
+radial-gradient(farthest-side at 0 50%, #0009, #0000) left / 10px 100% no-repeat scroll, radial-gradient(farthest-side at 100% 50%, #0009, #0000) right / 10px 100% no-repeat scroll, var(--sheet); }
 .gpt-math { --sheet: var(--math); position: relative; padding: 10px 14px; white-space: nowrap; font-size: 17px; line-height: 28px; font-variant-numeric: tabular-nums; }
+.gpt-eq { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; }
+.gpt-eq > .l { text-align: right; }
 .gpt-frac { display: inline-flex; flex-direction: column; align-items: center; padding: 0 5px; vertical-align: middle; font-size: 15px; line-height: 20px; }
 .gpt-frac > span { padding: 0 2px; }
 .gpt-frac > span:first-child { border-bottom: 1.5px solid; }
@@ -172,26 +164,27 @@
 .gpt-result-value { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .gpt-answer-body .gpt-check-line { display: flex; gap: 8px; font-size: 15px; line-height: 24px; color: var(--text-2); }
 .gpt-check-line::before { content: ""; flex: none; width: 10px; height: 5px; margin: 8px 3px 0; border: solid var(--accent-text); border-width: 0 0 2px 2px; transform: rotate(-45deg); }
-.gpt-code { --sheet: var(--code-bg); padding: 14px 16px; white-space: pre; font: 13px/22px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.gpt-code-wrap { position: relative; margin: 12px 0; }
-.gpt-code-wrap .gpt-code { margin: 0; padding-top: 48px; }
-.gpt-code-copy { position: absolute; top: 2px; right: 2px; min-width: 44px; min-height: 44px; padding: 0 12px; border-radius: 10px; color: var(--text-2); font-size: 12px; }
+.gpt-code { --sheet: var(--code-bg); padding: 14px 16px; white-space: pre; font: 13px/20px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.gpt-code-wrap { margin: 12px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--code-bg); overflow: hidden; }
+.gpt-code-head { display: flex; align-items: center; justify-content: space-between; height: 44px; padding-left: 14px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--text-3); }
+.gpt-code-wrap .gpt-code { margin: 0; padding: 12px 14px 14px; border: 0; border-radius: 0; }
+.gpt-code-copy { min-width: 44px; min-height: 44px; padding: 0 14px; border-radius: 10px; color: var(--text-2); font-size: 13px; }
 .gpt-table-scroll { --sheet: var(--bg); }
 .gpt-premium table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 21px; }
-.gpt-premium th { background: var(--surface-2); text-align: left; font-weight: 600; }
-.gpt-premium :is(th,td) { min-width: 120px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.gpt-premium th { background: var(--surface-2); text-align: left; font-weight: 600; white-space: nowrap; }
+.gpt-premium :is(th,td) { padding: 9px 12px; border-bottom: 1px solid var(--line); }
 .gpt-pending { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; line-height: 20px; color: var(--text-2); }
 .gpt-dots { display: inline-flex; gap: 4px; }
 .gpt-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-text); }
 .gpt-streaming { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 12px; line-height: 16px; color: var(--text-3); }
 .gpt-streaming span { width: 2px; height: 14px; border-radius: 2px; background: var(--accent); }
-.gpt-model { margin: 8px 0 0; font-size: 12.5px; line-height: 18px; color: var(--text-3); overflow-wrap: anywhere; }
-.gpt-action-row { position: relative; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 0 -10px; }
-.gpt-action { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 0 12px 0 10px; border-radius: 12px; color: var(--text-2); font-size: 14px; line-height: 20px; font-weight: 500; }
+.gpt-answer-foot { margin-top: 8px; }
+.gpt-model { margin: 0 0 2px; font-size: 12px; line-height: 16px; color: var(--text-3); overflow-wrap: anywhere; }
+.gpt-action-row { position: relative; align-items: center; gap: 2px; margin: 0 0 0 -10px; }
+@media (min-width: 768px) { .gpt-answer-foot { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center; gap: 16px; } .gpt-model { margin: 0; text-align: right; } }
+.gpt-action { display: inline-flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 0 12px 0 10px; border-radius: 10px; color: var(--text-2); font-size: 14px; line-height: 20px; font-weight: 500; white-space: nowrap; }
 .gpt-action svg { flex: none; width: 18px; }
-.gpt-action:disabled, .gpt-outline-button:disabled { opacity: .45; }
 .gpt-action-more { justify-content: center; min-width: 44px; padding: 0; font-size: 18px; letter-spacing: .08em; }
-.gpt-action-divider { width: 1px; height: 20px; margin: 0 4px; background: var(--line-strong); }
 .gpt-action-menu { position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 5; display: flex; flex-direction: column; min-width: 232px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line-strong); box-shadow: var(--shadow-pop); transform-origin: bottom right; }
 .gpt-action-menu[data-below] { top: calc(100% + 6px); bottom: auto; transform-origin: top right; }
 .gpt-action-menu .gpt-action { padding: 0 12px; border-radius: 10px; color: var(--text); font-size: 15px; text-align: left; }
@@ -207,20 +200,28 @@
 .gpt-notice, .gpt-error { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); font-size: 14px; line-height: 21px; color: var(--text-2); }
 .gpt-error { background: var(--danger-bg); border-color: var(--danger-line); color: var(--danger-text); }
 .gpt-text-button { min-height: 44px; padding: 8px 12px; font-size: 13px; color: var(--accent-text); text-decoration: underline; }
-.gpt-part-loading, .gpt-shell-bar { border-radius: 16px; background: linear-gradient(90deg,#ffffff06,#ffffff10,#ffffff06) 0 0 / 200% 100%; animation: gpt-shimmer 1.4s ease-in-out infinite; }
+.gpt-part-loading, .gpt-shell-bar { display: block; border-radius: 16px; background: linear-gradient(90deg,#ffffff06,#ffffff10,#ffffff06) 0 0 / 200% 100%; animation: gpt-shimmer 1.4s ease-in-out infinite; }
 .gpt-part-loading-window { min-height: 300px; }
 .gpt-part-loading-tool { min-height: 280px; }
-.gpt-premium .gpt-jump-latest { left: 50%; bottom: 12px; z-index: 3; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-strong); color: var(--text); box-shadow: var(--shadow-pop); }
+.gpt-premium .gpt-jump-latest { --tw-translate-x: 0; left: auto; right: max(var(--gutter), 50% - var(--col) / 2); bottom: 12px; z-index: 3; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-strong); color: var(--text); box-shadow: var(--shadow-pop); }
 @media (hover: hover) {
- .gpt-header-button:hover, .gpt-history button:hover, .gpt-code-copy:hover, .gpt-action:hover, .gpt-outline-button:hover { background: var(--surface-2); color: var(--text); }
- .gpt-task:hover { background: var(--accent-soft); border-color: var(--accent-line); }
+.gpt-header-button:hover, .gpt-code-copy:hover, .gpt-action:hover, .gpt-outline-button:hover, .gpt-task:hover { background: var(--surface-2); color: var(--text); }
 }
-
-/* §5.9, §5.10: the only warm colour */
+@media (min-width: 640px) {
+.gpt-premium, .gpt-account-dialog { --gutter: 24px; }
+.gpt-greet { font-size: 32px; line-height: 40px; }
+.gpt-kicker { font-size: 14px; line-height: 20px; }
+.gpt-tasks { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gpt-user-message { max-width: 70%; }
+.gpt-turn-user:not(:first-child) { margin-top: 20px; }
+.gpt-answer-body { line-height: 28px; }
+.gpt-answer-body :is(h3,h4) { font-size: 18px; line-height: 26px; }
+}
+@media (min-width: 640px) and (max-width: 700px) { .gpt-task { gap: 4px; padding-inline: 4px; } }
 .gpt-low-line { flex-wrap: wrap; align-items: center; gap: 0 8px; margin: 16px 0 0; font-size: 13px; line-height: 18px; color: var(--warn-text); }
 .gpt-low-line::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--warn-icon); }
 .gpt-limit-card { margin: 16px 0 4px; padding: 16px; border-radius: 16px; background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--text-2); font-size: 14px; line-height: 21px; }
-.gpt-empty .gpt-limit-card { margin: 20px 0 0; }
+.gpt-empty .gpt-limit-card { margin: 16px 0 0; }
 .gpt-limit-card[data-ready] { background: var(--accent-soft); border-color: var(--accent-line); }
 .gpt-limit-card:is([data-reason="busy"],[data-reason="ip"]) { background: var(--surface-2); border-color: var(--line); }
 .gpt-limit-card p { margin: 12px 0 0; }
@@ -239,59 +240,44 @@
 .gpt-limit-exits [data-testid="ai-limit-telegram"] > p { margin-top: 8px; font-size: 13px; color: var(--text-3); }
 .gpt-limit-card .gpt-limit-draft { align-items: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--warn-line); font-size: 13.5px; line-height: 20px; }
 .gpt-limit-draft svg { flex: none; width: 16px; }
-/* keyboard open or 460px high: one line (REV-13) */
 .gpt-limit-short { align-items: center; gap: 8px; font-size: 14.5px; line-height: 20px; font-weight: 500; color: var(--warn-text); }
 .gpt-limit-short svg { flex: none; width: 18px; color: var(--warn-icon); }
 .gpt-premium:not([data-keyboard="open"]) .gpt-limit-card .gpt-limit-short, .gpt-premium[data-keyboard="open"] .gpt-limit-card .gpt-limit-full { display: none; }
 .gpt-premium[data-keyboard="open"] .gpt-limit-card { margin: 8px 0 4px; padding: 10px 14px; border-radius: 12px; }
 @media (max-height: 460px) {
- .gpt-premium[data-state] .gpt-limit-card .gpt-limit-short { display: flex; }
- .gpt-premium[data-state] .gpt-limit-card .gpt-limit-full { display: none; }
- .gpt-premium[data-state] .gpt-limit-card { margin: 8px 0 4px; padding: 10px 14px; border-radius: 12px; }
+.gpt-premium[data-state] .gpt-limit-card .gpt-limit-short { display: flex; }
+.gpt-premium[data-state] .gpt-limit-card .gpt-limit-full { display: none; }
+.gpt-premium[data-state] .gpt-limit-card { margin: 8px 0 4px; padding: 10px 14px; border-radius: 12px; }
 }
-
-/* §4.3 */
 .gpt-premium[data-keyboard="open"] .gpt-header { height: calc(48px + env(safe-area-inset-top)); }
-.gpt-premium[data-keyboard="open"] :is(.gpt-meta, .gpt-tasks, .gpt-empty-links, .gpt-entry-context) { display: none; }
+.gpt-premium[data-keyboard="open"] :is(.gpt-meta > :first-child, .gpt-tasks, .gpt-empty-links, .gpt-entry-context, .gpt-hello-mark) { display: none; }
+.gpt-premium[data-keyboard="open"] .gpt-meta { min-height: 0; }
 .gpt-premium[data-keyboard="open"] .gpt-kicker { font-size: 13px; line-height: 18px; }
-.gpt-premium[data-keyboard="open"] .gpt-greet { font-size: 22px; line-height: 29px; }
+.gpt-premium[data-keyboard="open"] .gpt-greet { font-size: 24px; line-height: 30px; }
 html:has(.gpt-premium) { overscroll-behavior-y: none; scroll-padding-bottom: 0; }
-
-/* §5.13 the prerendered frame: the same geometry, no text */
 .gpt-shell-aside { display: none; }
 .gpt-shell-brand::before { content: "GPTBot.uz"; }
 #gpt-chat-root[data-locale="uz"] .gpt-shell-brand::after { content: "mustaqil servis, OpenAI emas"; }
 #gpt-chat-root[data-locale="ru"] .gpt-shell-brand::after { content: "независимый сервис, не OpenAI"; }
-/* the greeting too (LCP) */
-.gpt-shell-greet { white-space: pre-line; }
-#gpt-chat-root[data-locale="uz"] .gpt-shell-greet::before { content: "Savolingiz bor?\A"; }
-#gpt-chat-root[data-locale="uz"] .gpt-shell-greet::after { content: "Birga yechim topamiz.\00a0"; }
-#gpt-chat-root[data-locale="ru"] .gpt-shell-greet::before { content: "От вопроса —\A"; }
-#gpt-chat-root[data-locale="ru"] .gpt-shell-greet::after { content: "к понятному ответу.\00a0"; }
-.gpt-shell-meta { width: 80%; height: 12px; margin: 5px 0; }
-.gpt-shell-links { display: block; width: 40%; height: 14px; margin: 27px auto 15px; }
+#gpt-chat-root[data-locale="uz"] .gpt-shell-greet::before { content: "Savolingiz bor?"; }
+#gpt-chat-root[data-locale="ru"] .gpt-shell-greet::before { content: "Есть вопрос?"; }
+.gpt-shell-meta { width: 80%; height: 12px; margin: 4px auto; }
+.gpt-shell-links { width: 40%; height: 14px; margin: 14px auto 2px; }
 .gpt-shell-input { justify-content: flex-end; }
-@media (min-width: 720px) { .gpt-shell-tasks .gpt-task { width: var(--w, 160px); } }
 @media (min-width: 1024px) { .gpt-shell-aside { display: block; width: 260px; border-right: 1px solid var(--line); background: var(--surface); } }
-
-/* §5.12 drawer, not the Dialog's centring (REV-8) */
 [data-slot="dialog-content"].gpt-sidebar-dialog { top: 0; left: 0; transform: none; translate: none; max-width: none; width: min(300px,85vw); height: 100vh; height: 100dvh; padding: 0; display: block; border: 0; border-radius: 0 20px 20px 0; background: var(--surface); box-shadow: var(--shadow-pop); }
-.gpt-sidebar-dialog > div:last-child > div:first-child, .gpt-premium > aside > div > div:first-child { height: 56px; border-color: var(--line); }
 .gpt-sidebar-dialog a[href="/"], .gpt-premium > aside a[href="/"] { min-height: 44px; }
 .gpt-sidebar-close { position: absolute; top: 6px; right: 8px; width: 44px; height: 44px; }
-.gpt-premium [data-testid="ai-new-chat"] { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-text); }
-.gpt-premium aside [aria-pressed="true"] { background: var(--surface-2); color: var(--text); box-shadow: inset 3px 0 var(--accent); }
-.gpt-premium aside [data-testid="sidebar-telegram"] { background: none; border-color: var(--line-strong); color: var(--accent-text); }
-.gpt-official { margin: 16px 4px 0; font-size: 12px; line-height: 18px; color: var(--text-3); text-wrap: pretty; }
+:is(.gpt-premium,.gpt-sidebar-dialog) [data-testid="ai-new-chat"] { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-text); }
+:is(.gpt-premium aside,.gpt-sidebar-dialog) [aria-pressed="true"] { background: var(--surface-2); color: var(--text); box-shadow: inset 3px 0 var(--accent); }
+:is(.gpt-premium aside,.gpt-sidebar-dialog) [data-testid="sidebar-telegram"] { background: none; border-color: var(--line-strong); color: var(--accent-text); }
+.gpt-official { margin: 0; padding: 0 10px; font-size: 12px; line-height: 18px; color: var(--text-3); text-wrap: pretty; }
 .gpt-official a { position: relative; padding: 15px 2px; white-space: nowrap; color: var(--accent-text); text-decoration: underline; }
-.gpt-disclaimer { margin: 0; padding: 12px 16px; border-top: 1px solid var(--line); font-size: 12px; line-height: 18px; color: var(--text-3); }
+.gpt-disclaimer { margin: 0; padding: 0 10px 8px; font-size: 12px; line-height: 18px; color: var(--text-3); }
 body:has(.gpt-account-dialog) > [data-slot="dialog-overlay"], body:has(.gpt-sidebar-dialog) > [data-slot="dialog-overlay"] { background: rgba(5,7,13,.8); backdrop-filter: none; }
-
 .gpt-panel-note { margin: 12px 0; font-size: 12px; line-height: 1.6; color: var(--text-2); }
 .gpt-primary { display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; min-height: 48px; padding: 12px 18px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-size: 15px; line-height: 20px; font-weight: 650; text-decoration: none; }
 .gpt-primary:disabled { opacity: .45; cursor: not-allowed; }
-
-/* §7 motion */
 @keyframes gpt-shimmer { to { background-position: -200% 0; } }
 @keyframes gpt-in { from { opacity: 0; transform: translateY(6px); } }
 @keyframes gpt-fade { from { opacity: 0; } }
@@ -300,18 +286,18 @@ body:has(.gpt-account-dialog) > [data-slot="dialog-overlay"], body:has(.gpt-side
 @keyframes gpt-drawer-in { from { transform: translateX(-100%); } }
 @keyframes gpt-sheet-in { from { transform: translateY(100%); } }
 @media (prefers-reduced-motion: no-preference) {
- .gpt-user-message, .gpt-answer-head { animation: gpt-in var(--dur-2) var(--ease-out); }
- .gpt-action-menu { animation: gpt-pop var(--dur-2) var(--ease-out); }
- .gpt-limit-card { animation: gpt-fade var(--dur-3) var(--ease-out); }
- .gpt-dots span { opacity: .3; animation: gpt-dot 1.2s infinite; }
- .gpt-dots span:nth-child(2) { animation-delay: .15s; }
- .gpt-dots span:nth-child(3) { animation-delay: .3s; }
- .gpt-streaming span { animation: gpt-fade 1s infinite alternate; }
- [data-slot="dialog-content"].gpt-sidebar-dialog { animation: gpt-drawer-in var(--dur-3) var(--ease-out); }
+.gpt-user-message, .gpt-answer-head { animation: gpt-in var(--dur-2) var(--ease-out); }
+.gpt-action-menu { animation: gpt-pop var(--dur-2) var(--ease-out); }
+.gpt-limit-card { animation: gpt-fade var(--dur-3) var(--ease-out); }
+.gpt-dots span { opacity: .3; animation: gpt-dot 1.2s infinite; }
+.gpt-dots span:nth-child(2) { animation-delay: .15s; }
+.gpt-dots span:nth-child(3) { animation-delay: .3s; }
+.gpt-streaming span { animation: gpt-fade 1s infinite alternate; }
+[data-slot="dialog-content"].gpt-sidebar-dialog { animation: gpt-drawer-in var(--dur-3) var(--ease-out); }
 }
 @media (prefers-reduced-motion: no-preference) and (max-width: 700px) {
- [data-slot="dialog-content"].gpt-account-dialog { animation: gpt-sheet-in var(--dur-3) var(--ease-out); }
+[data-slot="dialog-content"].gpt-account-dialog { animation: gpt-sheet-in var(--dur-3) var(--ease-out); }
 }
 @media (prefers-reduced-motion: reduce) {
- .gpt-premium *, .gpt-account-dialog *, .gpt-sidebar-dialog *, #seo-summary * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+.gpt-premium *, .gpt-account-dialog *, .gpt-sidebar-dialog *, #seo-summary * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

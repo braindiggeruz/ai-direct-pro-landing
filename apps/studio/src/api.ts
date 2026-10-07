@@ -40,6 +40,8 @@ export interface Failure {
   readonly category?: string;
   /** Retry-After, in seconds. */
   readonly retryAfter?: number;
+  /** 409 order_open: the buyer's open order. */
+  readonly orderId?: string;
 }
 
 export type Result<T> = { readonly ok: true; readonly status: number; readonly data: T } | Failure;
@@ -52,15 +54,39 @@ export interface DeckShapeLimits {
   readonly palettes: number;
 }
 
+export type StudioPlanId = 'kunlik' | 'oylik';
+export type StudioProvider = 'payme' | 'click';
+
+/** One tariff of the offer edition in force (/config `plans`; functions/lib/studio/plans.ts). */
+export interface StudioPlanOffer {
+  readonly id: StudioPlanId;
+  readonly itemId: string;
+  readonly amountTiyin: number;
+  readonly amountUzs: number;
+  readonly duration: { readonly hours: number } | { readonly calendarMonths: number };
+  /** Full presentations. */
+  readonly presentationFull: number;
+  /** Photo tasks; 0 in the edition without the photo tool. */
+  readonly photoTask: number;
+  readonly regenPerUnit: number;
+}
+
 /** GET /config (functions/api/studio/config.ts). */
 export interface StudioPublicConfig {
   readonly tools: { readonly freeDeck: boolean; readonly fullDeck: boolean; readonly photo: boolean };
-  readonly payments: { readonly mode: null | 'test' | 'live'; readonly providers: readonly string[] };
-  readonly plans: readonly unknown[];
+  /**
+   * `mode` null: sales are off (the page still shows prices and «To‘lov
+   * vaqtincha to‘xtatilgan»); `providers` the ones that sell now, in the
+   * order the window offers them (empty: the same message).
+   */
+  readonly payments: { readonly mode: null | 'test' | 'live'; readonly providers: readonly StudioProvider[] };
+  readonly plans: readonly StudioPlanOffer[];
   readonly free: { readonly presentation: number; readonly photo: number; readonly resetsAt: string };
   readonly shapes: { readonly free: DeckShapeLimits; readonly full: DeckShapeLimits };
   readonly turnstileSiteKey: string | null;
   readonly termsVersion: string | null;
+  /** The offer's links (https://gptbot.uz/…), null while unset. */
+  readonly terms?: { readonly ru: string | null; readonly uz: string | null };
   readonly aiLabel: boolean;
 }
 
@@ -74,7 +100,46 @@ export interface FreeUnitLeft {
   readonly openUntil?: string;
 }
 
-/** GET /me, the free part (functions/api/studio/me.ts). */
+/** A running tariff of the account (/me `entitlements`). */
+export interface StudioEntitlementView {
+  readonly id: string;
+  readonly orderId: string;
+  readonly plan: StudioPlanId | 'credit';
+  readonly startsAt: string;
+  readonly endsAt: string;
+  readonly presentationsLeft: number;
+  readonly presentationsLimit: number;
+  readonly photosLeft: number;
+  readonly photosLimit: number;
+  /** Jobs of this tariff that may still be made once more (24 hours after the result). */
+  readonly regenAvailable: readonly string[];
+}
+
+export type StudioOrderState = 'pending' | 'prepared' | 'paid' | 'cancelled' | 'refunded';
+
+/** The account's newest order (/me `latestOrder`). */
+export interface StudioOrderView {
+  /** stu_…: the number the buyer keeps («To‘lov raqamini saqlang»). */
+  readonly id: string;
+  readonly state: StudioOrderState;
+  readonly plan: StudioPlanId;
+  readonly provider: StudioProvider;
+  readonly amountUzs: number;
+  readonly createdAt: string;
+  readonly paidAt: string | null;
+  /** The provider's document number once known (Payme receipt, Click payment), else null. */
+  readonly paymentNumber: string | null;
+  /** The buyer may still close it (no provider holds it). */
+  readonly cancellable: boolean;
+}
+
+export interface StudioReceiptView {
+  readonly orderId: string;
+  readonly kind: 'PERFORM' | 'CANCEL';
+  readonly url: string;
+}
+
+/** GET /me (functions/api/studio/me.ts): the free part and, with a studio account, the paid one. */
 export interface StudioMe {
   readonly identity: boolean;
   readonly free: {
@@ -82,7 +147,36 @@ export interface StudioMe {
     readonly photo: FreeUnitLeft;
     readonly resetsAt: string;
   };
+  /** null: no studio account in this browser (or the paid service is off). */
+  readonly account?: { readonly signedIn: boolean } | null;
+  readonly entitlements?: readonly StudioEntitlementView[];
+  readonly latestOrder?: StudioOrderView | null;
+  readonly receipts?: readonly StudioReceiptView[];
 }
+
+/** POST /checkout (functions/api/studio/checkout.ts). */
+export interface CheckoutBody {
+  readonly plan: StudioPlanId;
+  readonly requestId: string;
+  readonly locale: StudioLocale;
+  readonly acceptTerms: true;
+  readonly termsVersion: string;
+  readonly provider?: StudioProvider;
+  /** The studio page to come back to (the server keeps only its own list). */
+  readonly returnPath?: string;
+  readonly turnstileToken?: string;
+  readonly attribution?: { readonly last?: unknown; readonly first?: unknown };
+  readonly ga?: { readonly clientId?: string; readonly sessionId?: string };
+  readonly ym?: { readonly clientId?: string };
+}
+
+export type CheckoutAnswer =
+  /** Go to the provider's page. */
+  | { readonly mode: 'checkout'; readonly checkoutUrl: string; readonly orderId: string; readonly provider: StudioProvider }
+  /** A local rehearsal: the order exists, the callbacks are simulated. */
+  | { readonly mode: 'test'; readonly orderId: string; readonly amount: number; readonly provider: StudioProvider }
+  /** Paid, closed, or a provider holds it: follow /me. */
+  | { readonly mode: 'status'; readonly orderId: string };
 
 /** What makes a deck; the server hashes exactly these fields into the job's input_mac. */
 export interface DeckTask {
@@ -159,6 +253,8 @@ export const TIMEOUTS = {
   /** Flux (20 s) and the picture check, once. */
   image: 60_000,
   event: 10_000,
+  /** A checkout may make the account first (Turnstile is checked on the server). */
+  checkout: 30_000,
 } as const;
 
 type Fetch = (input: string, init?: RequestInit) => Promise<Response>;
@@ -200,6 +296,7 @@ async function failureOf(response: Response): Promise<Failure> {
     ...(typeof fields.resetsAt === 'string' ? { resetsAt: fields.resetsAt } : {}),
     ...(typeof fields.category === 'string' && CODE.test(fields.category) ? { category: fields.category } : {}),
     ...(retryAfter(response) ? { retryAfter: retryAfter(response) } : {}),
+    ...(typeof fields.orderId === 'string' && ORDER_ID.test(fields.orderId) ? { orderId: fields.orderId } : {}),
   };
 }
 
@@ -218,10 +315,42 @@ export interface StudioApi {
   image(jobId: string, image: SignedImagePrompt, options?: CallOptions): Promise<Result<Blob>>;
   /** Fire and forget: never waits for, nor reports, an answer. */
   event(body: EventBody): void;
+  /** Order a tariff (functions/api/studio/checkout.ts). */
+  checkout(body: CheckoutBody, options?: CallOptions): Promise<Result<CheckoutAnswer>>;
+  /** Close the account's own open order no provider holds yet. */
+  cancelOrder(orderId: string, options?: CallOptions): Promise<Result<{ readonly orderId: string }>>;
 }
 
 /** Job ids are the ledger's (functions/lib/studio/ledger.ts isJobId); nothing else is ever put in a path. */
 export const JOB_ID = /^sj_[0-9a-f]{32}$/;
+
+/** Order numbers are the store's (functions/lib/studio/store.ts STUDIO_ORDER_ID). */
+export const ORDER_ID = /^stu_[0-9a-f]{32}$/;
+
+/** The payment pages a checkout may send the buyer to: Payme (live and sandbox) and Click. */
+export const PAYMENT_HOSTS: readonly string[] = ['checkout.paycom.uz', 'test.paycom.uz', 'my.click.uz'];
+
+/** An https link on a payment host, else false: the browser never follows anything else. */
+export function isPaymentPage(url: unknown): url is string {
+  if (typeof url !== 'string' || url.length > 4096) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' && PAYMENT_HOSTS.includes(parsed.hostname) && !parsed.username && !parsed.password && !parsed.port;
+  } catch {
+    return false;
+  }
+}
+
+function checkoutAnswer(data: Record<string, unknown>): CheckoutAnswer | null {
+  if (typeof data.orderId !== 'string' || !ORDER_ID.test(data.orderId)) return null;
+  const provider = data.provider === 'payme' || data.provider === 'click' ? data.provider : null;
+  if (data.mode === 'checkout') {
+    return isPaymentPage(data.checkoutUrl) && provider ? { mode: 'checkout', checkoutUrl: data.checkoutUrl, orderId: data.orderId, provider } : null;
+  }
+  if (data.mode === 'test') return typeof data.amount === 'number' && provider ? { mode: 'test', orderId: data.orderId, amount: data.amount, provider } : null;
+  if (data.mode === 'status') return { mode: 'status', orderId: data.orderId };
+  return null;
+}
 
 /**
  * The studio's API over `fetchImpl` (the page's fetch by default; tests pass
@@ -324,6 +453,14 @@ export function createStudioApi(fetchImpl?: Fetch, timeouts: typeof TIMEOUTS = T
     event: (body) => {
       // keepalive: a step sent as the page closes still arrives.
       void call('event', { method: 'POST', body, timeout: timeouts.event, keepalive: true });
+    },
+    checkout: (body, options) =>
+      jsonCall('checkout', { method: 'POST', body, timeout: timeouts.checkout, signal: options?.signal }, checkoutAnswer),
+    cancelOrder: (orderId, options) => {
+      if (!ORDER_ID.test(orderId)) return Promise.resolve({ ok: false, status: 0, code: 'invalid' });
+      return jsonCall('order/cancel', { method: 'POST', body: { orderId }, timeout: timeouts.read, signal: options?.signal }, (data) =>
+        data.orderId === orderId ? { orderId } : null,
+      );
     },
   };
 }

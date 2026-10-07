@@ -83,7 +83,7 @@ export function parseClickAmount(value: string): number | null {
   const result = Number(whole) * 100 + Number(fraction.padEnd(2, "0"));
   return Number.isSafeInteger(result) ? result : null;
 }
-export function paymeState(row: Order): number {
+export function paymeState(row: Pick<Order, "state">): number {
   return row.state === "paid"
     ? 2
     : row.state === "refunded"
@@ -92,7 +92,7 @@ export function paymeState(row: Order): number {
         ? -1
         : 1;
 }
-export function paymeCheck(row: Order) {
+export function paymeCheck(row: Pick<Order, "state" | "create_time" | "perform_time" | "cancel_time" | "id" | "reason">) {
   return {
     create_time: row.create_time,
     perform_time: row.perform_time,

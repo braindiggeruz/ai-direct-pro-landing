@@ -698,7 +698,7 @@ async function makeDeck(page: Page, profile: DeviceProfile, plan: DeckPlan, sche
       slides: cards.length,
       clipped,
       pictures: pictures.length,
-      picturesOk: pictures.every((img) => img.src.startsWith('blob:') && img.complete && img.naturalWidth > 0),
+      picturesOk: pictures.length > 0 && pictures.every((img) => img.src.startsWith('blob:') && img.complete && img.naturalWidth > 0),
       text: (root.querySelector('[data-studio-preview]') as HTMLElement | null)?.innerText ?? '',
       overflowX: Math.max(0, document.documentElement.scrollWidth - window.innerWidth),
     };

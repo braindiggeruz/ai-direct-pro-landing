@@ -94,7 +94,7 @@ const DRUG_TERMS = words([
 const DRUG_WORDS = wholeWords(["meth", "weed", "drugs?"]);
 /** How to make, get or use: the instruction that turns a drug topic into a refusal. */
 const DRUG_HOW = words([
-  "tayyorla", "yasa", "sotib ol", "qayerdan", "yetishtir", "retsept", "qanday (?:chek|ich|qabul|tayyorla|yasa)",
+  "tayyorla", "yasa", "sotib ol", "qayerdan", "yetishtir", "retsept", "qanday (?:chek|ich|qabul|tayyorla|yasa|iste'mol)", "iste'mol qilish (?:usul|yo'l)",
   "как (?:сделать|приготовить|изготовить|купить|достать|употреблять|курить|вырастить|колоть)", "где (?:купить|взять|достать)",
   "рецепт", "синтез", "своими руками", "в домашних условиях",
   "how to (?:make|cook|buy|get|grow|use|smoke|inject)", "where to buy", "recipe", "synthes",

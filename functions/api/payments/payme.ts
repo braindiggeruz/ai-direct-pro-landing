@@ -58,6 +58,8 @@ import {
   sameSecret,
 } from "../../lib/gpt-chat/payment-protocol";
 import { paymeReceiptDetail } from "../../lib/gpt-chat/payme-checkout";
+import { studioPaymeStart, studioPaymeStore, studioPaymeTransaction } from "../../lib/studio/payme-studio";
+import { isPaymeOwnershipConflict } from "../../lib/studio/payme-ownership";
 import {
   maintainBilling,
   recordServiceAlert,
@@ -242,7 +244,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       if (p.type !== "PERFORM" && p.type !== "CANCEL") return invalid("type");
       if (!data) return invalid("fiscal_data");
       if (!Number.isSafeInteger(data.status_code)) return invalid("fiscal_data.status_code");
-      const row = await store.external("payme", txMode, p.id);
+      const row = await store.external("payme", txMode, p.id) ?? await (await studioPaymeStore(db)).byExternal("payme", txMode, p.id);
       if (!row) return error(id, -32001, null, "Receipt not found");
       const status = data.status_code as number;
       await store.paymeFiscal(row.id, p.type, {
@@ -256,6 +258,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         fiscalSign: fiscalField(data.fiscal_sign),
         date: fiscalField(data.date, 32),
       });
+      if (row.id.startsWith("stu_") && fiscalField(data.receipt_id)) await (await studioPaymeStore(db)).setDocId(row.id, fiscalField(data.receipt_id)!);
       // A live receipt Payme could not print: an urgent alert, so the owner
       // is paged in Telegram (alert-policy.ts). A sandbox failure stays quiet.
       if (status !== 0 && txMode === "live") alert("payme_fiscal_failed");
@@ -271,7 +274,9 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         return error(id, -32600);
       // By Payme's own creation time, both ends included, in its order;
       // every transaction CreateTransaction accepted, whatever became of it.
-      const rows = await store.statement("payme", txMode, p.from as number, p.to as number);
+      const rows = [...await store.statement("payme", txMode, p.from as number, p.to as number),
+        ...await (await studioPaymeStore(db)).statement("payme", txMode, p.from as number, p.to as number)]
+        .sort((a, b) => Number(a.provider_time) - Number(b.provider_time) || a.seq - b.seq);
       return ok({
         transactions: rows.map((r) => ({
           id: r.external_id,
@@ -287,6 +292,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       const orderId = account?.order_id;
       if (typeof orderId !== "string" || orderId.length > 64)
         return error(id, -31050, "order_id");
+      if (orderId.startsWith("stu_")) return await studioPaymeStart(db, env, txMode, method, orderId, p, { ok, error, id });
       let row = await store.order(orderId);
       if (!row || row.provider !== "payme" || row.mode !== txMode)
         return error(id, -31050, "order_id");
@@ -344,7 +350,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       return error(id, -32601, method);
     if (!transactionId(p.id)) return error(id, -32600);
     let row = await store.external("payme", txMode, p.id);
-    if (!row) return error(id, -31003);
+    if (!row) return await studioPaymeTransaction(db, txMode, method, p, { ok, error, id });
     if (row.state === "prepared" && now - Number(row.provider_time) >= PAYMENT_TTL_MS)
       row = await store.transition(row.id, "cancelled", "timeout", { reason: 4, from: ["prepared"] });
     if (method === "CheckTransaction") return ok(paymeCheck(row));
@@ -364,7 +370,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     );
     return ok({ transaction: row.id, perform_time: row.perform_time, state: 2 });
   } catch (e) {
-    const conflict = e instanceof Error && ["conflict", "state"].includes(e.message);
+    const conflict = isPaymeOwnershipConflict(e) || (e instanceof Error && ["conflict", "state"].includes(e.message));
     // Payme retries a -32400; the hourly alert row pages the owner at most
     // once an hour meanwhile.
     if (!conflict) alert("payme_processing");

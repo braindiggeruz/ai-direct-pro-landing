@@ -46,7 +46,7 @@ const slide = (x: number, y: number, rotate: number, accent: string, picture: bo
   </div>
 </div>`;
 
-export function ogHtml(fontUrl: string): string {
+export function ogHtml(fontUrl: string, locale: 'uz' | 'ru' = 'uz'): string {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Geist;src:url("${fontUrl}") format("woff2");font-weight:100 900}
 html,body{margin:0;width:${OG_SIZE.width}px;height:${OG_SIZE.height}px;overflow:hidden;background:#05070d;font-family:Geist,Arial,sans-serif;color:#e6eef7}
@@ -55,7 +55,7 @@ html,body{margin:0;width:${OG_SIZE.width}px;height:${OG_SIZE.height}px;overflow:
 <div style="position:absolute;left:72px;top:70px;display:flex;align-items:center;gap:12px;font-size:30px;font-weight:600;letter-spacing:-.01em">
   <div style="width:16px;height:16px;border-radius:50%;background:#2fe6d1"></div>GPTBot.uz
 </div>
-<div style="position:absolute;left:72px;top:206px;font-size:104px;font-weight:700;line-height:1;letter-spacing:-.035em">Taqdimot<br>AI</div>
+<div style="position:absolute;left:72px;top:206px;font-size:${locale === 'ru' ? 64 : 104}px;font-weight:700;line-height:1.15;letter-spacing:-.035em">${locale === 'ru' ? 'Презентация<br>с ИИ' : 'Taqdimot<br>AI'}</div>
 <div style="position:absolute;left:72px;top:458px;display:flex;gap:14px">
   <div style="padding:12px 22px;border-radius:999px;background:#229ed9;color:#05070d;font-size:30px;font-weight:700">.pptx</div>
   <div style="padding:12px 22px;border-radius:999px;border:2px solid #2fe6d1;color:#2fe6d1;font-size:30px;font-weight:600">AI</div>
@@ -78,7 +78,7 @@ async function main(): Promise<void> {
   try {
     const page = await browser.newPage({ viewport: OG_SIZE, deviceScaleFactor: 1 });
     // The font as a data: URL: a page made by setContent may not read file: URLs.
-    await page.setContent(ogHtml(`data:font/woff2;base64,${fs.readFileSync(FONT).toString('base64')}`), { waitUntil: 'load' });
+    await page.setContent(ogHtml(`data:font/woff2;base64,${fs.readFileSync(FONT).toString('base64')}`, process.argv[3] === 'ru' ? 'ru' : 'uz'), { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
     fs.mkdirSync(PUBLIC, { recursive: true });
     await page.screenshot({ path: target, type: 'png' });

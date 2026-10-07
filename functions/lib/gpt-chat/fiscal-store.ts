@@ -71,6 +71,9 @@ import {
   type BillingMode,
 } from "./billing-config";
 import { recordServiceAlert } from "./billing-maintenance-store";
+import { studioClickCredentials } from "../studio/checkout";
+import { parseStudioConfig } from "../studio/config";
+import { planOfVersion } from "../studio/plans";
 import {
   CLICK_TIMEOUT_MS,
   clickFailureCode,
@@ -138,6 +141,8 @@ interface ClickOrderFacts {
   amount: number;
   provider_time: number | null;
   perform_time: number;
+  plan?: string;
+  plan_version?: string;
 }
 interface UzumOrderFacts {
   id: string;
@@ -186,6 +191,7 @@ export class FiscalStore {
       .first<FiscalRow>();
   }
   clickOrder(id: string): Promise<ClickOrderFacts | null> {
+    if (id.startsWith("stu_")) return this.db.prepare("SELECT id,state,mode,amount,provider_time,perform_time,plan,plan_version FROM studio_orders_v2 WHERE org_id=? AND id=? AND provider='click'").bind(this.org, id).first<ClickOrderFacts>();
     return this.db
       .prepare(
         "SELECT id,state,mode,amount,provider_time,perform_time FROM gpt_payment_orders WHERE org_id=? AND id=? AND provider='click'",
@@ -296,8 +302,9 @@ export class FiscalStore {
 export function clickMerchantAuth(
   env: BillingEnv,
   mode: BillingMode,
+  orderId = "",
 ): ClickMerchantAuth | null {
-  const credentials = clickCredentials(env, mode);
+  const credentials = orderId.startsWith("stu_") ? studioClickCredentials(env, mode) : clickCredentials(env, mode);
   return credentials?.merchantUserId
     ? {
         serviceId: credentials.serviceId,
@@ -380,10 +387,13 @@ async function printClickReceipt(
   now: number,
   deadline: number,
 ): Promise<Outcome> {
-  const policy = clickFiscalPolicy(env);
-  const auth = clickMerchantAuth(env, "live");
+  const studioConfig = parseStudioConfig(env.STUDIO_RUNTIME_CONFIG_JSON);
+  const policy = clickFiscalPolicy(order.id.startsWith("stu_") && !studioConfig.clickUseChatService ? { ...env, GPT_CLICK_AUTOFISCAL: studioConfig.clickAutofiscal } : env);
+  const auth = clickMerchantAuth(env, "live", order.id);
   const params = fiscalParams(env);
   const tin = fiscalTin(env);
+  const studioPlan = order.id.startsWith("stu_") ? planOfVersion(order.plan_version ?? "", order.plan ?? "") : null;
+  if (order.id.startsWith("stu_") && (!studioPlan || studioPlan.amountTiyin !== order.amount)) return { error: "plan_missing" };
   // Reading Click's own receipt needs the Merchant API only; ours needs the line too.
   if (!auth || (policy.mode !== "auto" && (!params || !tin))) return { error: "config_missing" };
   const options = clickOptions(now, deadline);
@@ -422,7 +432,7 @@ async function printClickReceipt(
   const sent = await submitItems(
     auth,
     payment,
-    [clickReceiptItem(params, tin, order.amount)],
+    [clickReceiptItem(params, tin, order.amount, studioPlan?.receiptName)],
     order.amount,
     options(),
   );
@@ -456,7 +466,7 @@ async function refundedClickReceipt(
 ): Promise<Outcome> {
   const unclear = (error: string): Outcome =>
     row.attempts < FISCAL_ALERT_ATTEMPTS ? { error } : { skip: "refunded_unknown" };
-  const auth = clickMerchantAuth(env, "live");
+  const auth = clickMerchantAuth(env, "live", order.id);
   if (!auth) return unclear("config_missing");
   const options = clickOptions(now, deadline);
   const found = await clickPaymentId(auth, store, row, order, options());
@@ -478,6 +488,7 @@ async function dueClick(
   deadline: number,
 ): Promise<Due> {
   const order = await store.clickOrder(row.order_id);
+  if (!order && row.order_id.startsWith("stu_")) return { outcome: { error: "order_missing" }, alert: "studio_fiscal_failed", since: 0 };
   if (!order || order.mode !== "live")
     return { outcome: { skip: !order ? "order_missing" : "skipped_test" }, alert: null, since: now };
   // When the money moved: Complete, else Prepare (a paid order has both).

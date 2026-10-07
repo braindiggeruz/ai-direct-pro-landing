@@ -232,11 +232,14 @@ test('renderMarkdown: numbering survives text between items, lists nest, rules, 
     'mb-2', 'last:mb-0', 'my-3', 'border-white/10', 'border-l-2', 'border-brand-cyan/25', 'pl-3', 'text-white/70',
     // The answer's maths (chat design §5.5), in the chat's own stylesheet.
     'gpt-step-head', 'gpt-step', 'gpt-math', 'gpt-frac', 'gpt-result', 'gpt-result-label', 'gpt-result-value', 'gpt-check-line', 'gpt-code-wrap', 'gpt-code-copy',
+    // Chat UI 2026-10-07 §5.6: the code block's head row, and a derivation's aligned «=» column (its left and right sides).
+    'gpt-code-head', 'gpt-eq', 'l', 'r',
     // A drawn formula's linear form for a screen reader: the site's own utility.
     'sr-only']);
   const sheet = readFileSync(new URL('../src/gpt-chat/premium.css', import.meta.url), 'utf8');
   for (const name of known) if (name.startsWith('gpt-')) assert.ok(sheet.includes(`.${name}`), name);
-  const everything = renderMarkdown('# H\n## 1. Step\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq\n\n$$\\frac{1}{2}$$\n\nJavob: 1\n\nTekshirish: ok', 'Nusxalash');
+  const everything = renderMarkdown('# H\n## 1. Step\n`c`\n```\nx\n```\n|a|b|\n|-|-|\n|1|2|\n---\n> q\n1. a\n   - b\n\np\nq\n\n$$\\frac{1}{2}$$\n\n$$\nD = 4\n= 2\n$$\n\nJavob: 1\n\nTekshirish: ok', 'Nusxalash');
+  assert.ok(everything.includes('gpt-eq') && everything.includes('gpt-code-head'));
   for (const [, list] of everything.matchAll(/class="([^"]*)"/g)) for (const name of list.split(' ')) assert.ok(known.has(name), name);
 });
 

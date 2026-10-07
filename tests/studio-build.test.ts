@@ -10,10 +10,17 @@ import {
   controlFailures,
   errorTexts,
   findStudioEntry,
+  studioRuntimeFiles,
+  checkDraftPages,
+  serve,
+  flowFailures,
+  againFailures,
+  STUB_JOB,
   pageFailures,
   pagesUnderCheck,
   unexpectedLoadRequests,
   type PageProbe,
+  type ApiCall,
 } from '../apps/studio/scripts/check-pages';
 import { TEXTS } from '../apps/studio/src/tools/presentation/texts';
 import { inspectArtifact, REQUIRED_FEATURES, verifyStampedArtifact } from '../scripts/release/pages-production';
@@ -148,6 +155,66 @@ test('check-pages: the entry is found by name, exactly one of each, or the check
   assert.throws(() => findStudioEntry(dist), /Expected one studio entry \.js/);
 });
 
+test('check-pages: only the entry\'s static Rolldown runtime is allowed; dynamic billing/PPTX and unrelated scripts stay forbidden', t => {
+  const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'gpt-studio-runtime-'));
+  t.after(() => fs.rmSync(dist, { recursive: true, force: true }));
+  const dir = path.join(dist, 'assets/studio'); fs.mkdirSync(dir, { recursive: true });
+  const entry = { script: '/assets/studio/studio-a.js', style: '/assets/studio/studio-a.css' };
+  fs.writeFileSync(path.join(dir, 'studio-a.js'), 'import{t as e}from"./rolldown-runtime-Ab12.js"; import("./Tariffs-lazy.js"); import("./pptxgen.es-lazy.js");');
+  assert.throws(() => studioRuntimeFiles(dist, entry), /Missing imported Studio runtime/);
+  fs.writeFileSync(path.join(dir, 'rolldown-runtime-Ab12.js'), 'export const t = x => x;');
+  const runtime = studioRuntimeFiles(dist, entry);
+  assert.deepEqual(runtime, ['/assets/studio/rolldown-runtime-Ab12.js']);
+  assert.deepEqual(unexpectedLoadRequests([entry.script, ...runtime], [entry.script, ...runtime]), []);
+  const forbidden = ['/assets/studio/rolldown-runtime-other.js', '/assets/studio/Tariffs-lazy.js', '/assets/studio/pptxgen.es-lazy.js', '/api/studio/config'];
+  assert.deepEqual(unexpectedLoadRequests(forbidden, [entry.script, ...runtime]), forbidden);
+});
+
+function flowFixture(): ApiCall[] {
+  const task = { topic: 'Amir Temur', locale: 'uz', audience: 'maktab', slides: 6, palette: 1 };
+  const event = (type: string, detail: string, id: string, viewId = 'generator_view') => ({ type, detail, id, viewId });
+  const image = (index: number) => ({ index, prompt: index === 1 ? 'Ancient stone fortress walls in Samarkand under blue sky' : 'Green valley with poplar trees and small village houses in Central Asia', sig: `stub-signature-${index}` });
+  return [
+    { method: 'GET', path: 'config', body: null, at: 10 },
+    { method: 'GET', path: 'me', body: null, at: 11 },
+    { method: 'POST', path: 'event', body: event('studio_tool_started', 'presentation', 'event_started'), at: 21 },
+    { method: 'POST', path: 'identity', body: { turnstileToken: 'stub-studio_identity' }, at: 22 },
+    { method: 'POST', path: 'presentations', body: { ...task, requestId: 'request_first', shape: 'free', turnstileToken: 'stub-studio_free_deck' }, at: 23 },
+    { method: 'POST', path: `presentations/${STUB_JOB}/slides`, body: task, at: 24 },
+    { method: 'POST', path: `presentations/${STUB_JOB}/images`, body: image(1), at: 25 },
+    { method: 'POST', path: `presentations/${STUB_JOB}/images`, body: image(2), at: 26 },
+    { method: 'POST', path: 'event', body: event('studio_result_ready', 'free', 'event_result'), at: 27 },
+    { method: 'POST', path: `presentations/${STUB_JOB}/images`, body: image(2), at: 28 },
+    { method: 'POST', path: 'event', body: event('studio_tariffs_viewed', 'after_result', 'event_tariffs'), at: 30 },
+  ];
+}
+
+test('check-pages: result teaser reuses the first config and view id; premature reads, duplicated events and orders fail', () => {
+  const good = flowFixture();
+  assert.deepEqual(flowFailures(good, 5, 20), []);
+  const early = structuredClone(good); early[0].at = 1;
+  assert.ok(flowFailures(early, 5, 20).some(failure => failure.includes('before the first focus')));
+  const premature = [...good, { method: 'GET', path: 'config', body: null, at: 21 }];
+  assert.ok(flowFailures(premature, 5, 20).some(failure => failure.includes('no extra config/me')));
+  assert.ok(flowFailures([...good, { ...good[0], at: 31 }], 5, 20).length);
+  const split = structuredClone(good); (split[8].body as { viewId: string }).viewId = 'another_view';
+  assert.ok(flowFailures(split, 5, 20).some(failure => failure.includes('different view ids')));
+  const billingSplit = structuredClone(good); (billingSplit[10].body as { viewId: string }).viewId = 'billing_view';
+  assert.ok(flowFailures(billingSplit, 5, 20).some(failure => failure.includes('different view ids')));
+  assert.ok(flowFailures([...good, { method: 'POST', path: 'checkout', body: {}, at: 32 }], 5, 20).some(failure => failure.includes('unexpected calls')));
+  const duplicate = structuredClone(good); (duplicate[10].body as { id: string }).id = 'event_result';
+  assert.ok(flowFailures(duplicate, 5, 20).some(failure => failure.includes('duplicate event ids')));
+});
+
+test('check-pages: second attempt only refreshes me and records the billing limit context; no order, generation or duplicate event', () => {
+  const first = flowFixture();
+  const again: ApiCall[] = [{ method: 'GET', path: 'me', body: null, at: 40 }, { method: 'POST', path: 'event', body: { type: 'studio_tariffs_viewed', detail: 'limit', id: 'event_limit', viewId: 'generator_view' }, at: 41 }];
+  assert.deepEqual(againFailures(again, first), []);
+  for (const path of ['checkout', 'identity', 'presentations', 'config']) assert.ok(againFailures([...again, { method: 'POST', path, body: {}, at: 42 }], first).length);
+  const wrong = structuredClone(again); (wrong[1].body as { viewId: string }).viewId = 'wrong_view';
+  assert.ok(againFailures(wrong, first).length);
+});
+
 // --- the pages check with /api/* cut off (T2.3) ------------------------------------
 
 const passing = (): PageProbe => ({
@@ -196,22 +263,23 @@ test('check-pages: a page that keeps the closed-API contract passes; every breac
   assert.deepEqual(pageFailures({ ...passing(), afterSubmit: { message: TEXTS.uz.messages.connection_lost, h1: 1 } }, 'uz'), []);
 });
 
-test('check-pages: a draft is checked as the release will write it, a published page from dist', t => {
+test('check-pages: public targets exclude drafts and keep tariffs separate from generator forms', () => {
+  const targets = pagesUnderCheck(ROOT);
+  assert.deepEqual(targets.map(target => [target.url, target.locale, target.tool]), [['/ru/prezentatsiya-ai/', 'ru', 'presentation'], ['/uz/taqdimot-ai/', 'uz', 'presentation'], ['/uz/tariflar/', 'uz', 'tariffs']]);
+  assert.ok(targets.every(target => target.html === null), 'public checks always use built files');
+});
+
+test('check-pages: photo draft is HTTP 404 through routing; leaked artifact or catch-all HTML fails', async t => {
   const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'gpt-studio-check-'));
   t.after(() => fs.rmSync(dist, { recursive: true, force: true }));
-  fs.mkdirSync(path.join(dist, 'assets'), { recursive: true });
-  fs.writeFileSync(path.join(dist, 'index.html'), '<head><link rel="stylesheet" href="/assets/index-site.css"></head>');
-  fs.writeFileSync(path.join(dist, 'assets/index-site.css'), 'body{margin:0}');
-  const entry = { script: '/assets/studio/studio-a.js', style: '/assets/studio/studio-a.css' };
-  const targets = pagesUnderCheck(ROOT, dist, entry);
-  assert.deepEqual(targets.map(target => [target.url, target.locale]), [['/ru/prezentatsiya-ai/', 'ru'], ['/uz/taqdimot-ai/', 'uz']]);
-  for (const target of targets) {
-    if (target.html === null) continue; // already published: read from dist
-    assert.match(target.html, /<link rel="stylesheet" href="\/assets\/index-site\.css" \/>\n<link rel="stylesheet" href="\/assets\/studio\/studio-a\.css" \/>/);
-    assert.match(target.html, /<script type="module" src="\/assets\/studio\/studio-a\.js"><\/script>/);
-    // As released: the translation is there, so are hreflang and the switch.
-    assert.match(target.html, /hreflang="x-default" href="https:\/\/gptbot\.uz\/ru\/prezentatsiya-ai\/"/);
-  }
+  fs.writeFileSync(path.join(dist, 'index.html'), '<html>Public homepage</html>');
+  const server = await serve(dist, {}); t.after(() => server.close());
+  const failures: string[] = [];
+  assert.deepEqual(await checkDraftPages(ROOT, server.origin, failures), [{ url: '/uz/rasmdan-yechim/', status: 404 }]);
+  assert.deepEqual(failures, []);
+  const leaked = await serve(dist, { '/uz/rasmdan-yechim/': '<div id="studio-root">Draft</div>' }); t.after(() => leaked.close());
+  await checkDraftPages(ROOT, leaked.origin, failures);
+  assert.match(failures[0], /draft \/uz\/rasmdan-yechim\/: HTTP 200, expected 404/);
 });
 
 // --- the release stamp checks the published studio pages (T2.3) --------------------

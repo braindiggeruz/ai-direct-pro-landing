@@ -2,7 +2,7 @@
    and its content (lazy part chat-account): the plan card, the pay and sign-in steps. */
 .gpt-account-dialog { display: block; width: min(520px,calc(100vw - 24px)); max-width: 520px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 28px; border-radius: 20px; border: 1px solid var(--line-strong); background: var(--bg); box-shadow: var(--shadow-pop); }
 @media (max-width: 700px) {
- [data-slot="dialog-content"].gpt-account-dialog { top: auto; bottom: 0; left: 0; transform: none; translate: none; width: 100%; max-width: none; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid var(--line-strong); border-radius: 20px 20px 0 0; }
+ [data-slot="dialog-content"].gpt-account-dialog { top: auto; bottom: 0; left: 0; transform: none; translate: none; width: 100%; max-width: none; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 20px max(20px, var(--gutter)) calc(20px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid var(--line-strong); border-radius: 20px 20px 0 0; }
 }
 .gpt-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
 .gpt-icon-button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; font-size: 24px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); }
@@ -21,7 +21,6 @@
 .gpt-plan-more-link { color: var(--accent-text); text-decoration: underline; }
 .gpt-plan-more .gpt-plan-features { margin: 4px 0 10px; }
 .gpt-account-dialog .gpt-plan-more .gpt-panel-note { margin: 6px 0 0; font-size: 12px; }
-.gpt-panel-description { font-size: 14px; line-height: 1.7; color: var(--text-2); }
 .gpt-account-dialog .gpt-panel-note a, .gpt-check a { color: var(--accent-text); text-decoration: underline; overflow-wrap: anywhere; }
 .gpt-account-dialog .gpt-panel-note a[href^="tel:"] { white-space: nowrap; }
 .gpt-plan-features { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 8px; padding: 0; list-style: none; }

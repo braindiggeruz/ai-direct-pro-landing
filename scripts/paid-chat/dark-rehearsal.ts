@@ -820,6 +820,8 @@ export async function startLocalStub(): Promise<LocalStub> {
   // (docs/paid-chat/PAYME-RU.md), so Payme is off here and step 5 still
   // means "nothing is in test".
   Object.assign(f.env, liveSettings(), committedBillingSettings(), DARK_REHEARSAL_SETTINGS, {
+    // Offline simulation covers every protocol independently of production's allowlist.
+    GPT_PAYMENT_PROVIDERS: "click,uzum,payme",
     GPT_BILLING_MODE_PAYME: "",
     GPT_CLICK_CREDENTIALS_JSON: secretFile(CLICK_SECRET),
     UZUM_CREDENTIALS_JSON: secretFile(UZUM_SECRET),

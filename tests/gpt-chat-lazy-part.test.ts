@@ -261,7 +261,8 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
     assert.ok(html.includes('<div class="gpt-answer-body" dir="auto"><p class="mb-2 last:mb-0"><strong>Javob</strong></p>'), locale);
     assert.ok(html.includes('<li>bir</li>'), locale);
     assert.match(html, /class="gpt-action-row"/);
-    assert.ok(html.includes(answerStrings(locale).copy) && html.includes(answerStrings(locale).regenerate), locale);
+    // Copy and Telegram in the row, «Qayta yozish» and the rest behind «⋯» (chat UI §5.7).
+    assert.ok(html.includes(answerStrings(locale).copy) && html.includes(`aria-label="${answerStrings(locale).more}"`), locale);
     assert.ok(html.includes(t.brand), locale);
   }
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
@@ -270,9 +271,10 @@ test('chat-answer: an answer reads as plain text until the part is here, then as
   // A finished answer is not parsed again on every frame of the next one, or on every key typed.
   const { AnswerBody } = await answerPart.load();
   assert.equal((AnswerBody as unknown as { $$typeof: symbol }).$$typeof, Symbol.for('react.memo'));
-  // A part that cannot load: the buttons are gone for the page view, said once under the last answer.
+  // A part that cannot load: the buttons are gone for the page view, said once under the last answer;
+  // the model line stays in the answer's foot, before the part and without it.
   const listSource = read('src/gpt-chat/components/AiChatMessageList.tsx');
-  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{null\} failed=\{i === lastAssistant \? <PartFailed message=\{t\.partFailed\} reload=\{t\.partReload\} \/> : null\}>/);
+  assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{<div className="gpt-answer-foot">\{model\(m\)\}<\/div>\} failed=\{<><div className="gpt-answer-foot">\{model\(m\)\}<\/div>\{i === lastAssistant && <PartFailed message=\{t\.partFailed\} reload=\{t\.partReload\} \/>\}<\/>\}>/);
   assert.match(listSource, /<LazyPart part=\{answerPart\} fallback=\{<PlainAnswer content=\{m\.content\} \/>\} failed=\{<PlainAnswer content=\{m\.content\} \/>\}>/);
 });
 

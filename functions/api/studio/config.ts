@@ -10,33 +10,25 @@
 // Prices appear only while payments are on, and only those of the offer
 // edition in force (TERMS_PLAN): an edition with no quota version sells
 // nothing, so `plans` is empty and checkout answers 503.
+//
+// `payments.providers` names the providers that sell now
+// (lib/studio/checkout.ts readyProviders: STUDIO_PAYMENT_PROVIDERS, the
+// cash desk's mode and the presence of its keys, never a value); an empty
+// list with a mode means «To‘lov vaqtincha to‘xtatilgan».
 import type { BillingEnv } from "../../lib/gpt-chat/billing-config";
+import { publicPlans, readyProviders } from "../../lib/studio/checkout";
 import { studioGate, studioRequestConfig, type StudioConfig } from "../../lib/studio/config";
 import { FREE_RESETS_AT } from "../../lib/studio/free-usage";
 import { fail, json } from "../../lib/studio/http";
-import { DECK_SHAPES, STUDIO_FREE_DAILY, STUDIO_PLAN_IDS, planFor } from "../../lib/studio/plans";
+import { DECK_SHAPES, STUDIO_FREE_DAILY } from "../../lib/studio/plans";
 
+/** The tariffs of the edition in force, only while payments are on (checkout.ts publicPlans). */
 function plansOf(config: StudioConfig) {
-  if (config.payments === "off") return [];
-  return STUDIO_PLAN_IDS.flatMap((id) => {
-    const plan = planFor(config.terms.version, id);
-    return plan
-      ? [{
-          id,
-          itemId: plan.itemId,
-          amountTiyin: plan.amountTiyin,
-          amountUzs: plan.amountTiyin / 100,
-          duration: plan.duration,
-          presentationFull: plan.presentationFull,
-          photoTask: plan.photoTask,
-          regenPerUnit: plan.regenPerUnit,
-        }]
-      : [];
-  });
+  return config.payments === "off" ? [] : publicPlans(config.terms.version);
 }
 
 /** The public answer of /config for these settings. */
-function publicConfig(config: StudioConfig) {
+function publicConfig(config: StudioConfig, env: BillingEnv) {
   return {
     ok: true,
     tools: {
@@ -44,7 +36,7 @@ function publicConfig(config: StudioConfig) {
       fullDeck: config.paidService && config.fullDeck,
       photo: config.photo && (config.api || config.paidService),
     },
-    payments: { mode: config.payments === "off" ? null : config.payments, providers: ["click"] },
+    payments: { mode: config.payments === "off" ? null : config.payments, providers: readyProviders(env, config) },
     plans: plansOf(config),
     free: {
       presentation: STUDIO_FREE_DAILY.presentation_free,
@@ -72,5 +64,5 @@ export const onRequest: PagesFunction<BillingEnv> = async ({ request, env }) => 
   const closed = studioGate(request, env, "config");
   if (closed) return closed;
   if (request.method !== "GET" && request.method !== "HEAD") return fail("method_not_allowed", {}, { Allow: "GET" });
-  return json(publicConfig(studioRequestConfig(request, env)));
+  return json(publicConfig(studioRequestConfig(request, env), env));
 };

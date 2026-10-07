@@ -18,8 +18,8 @@ export interface PromptChip {
 export interface ChatStrings {
   /** The chat's own lines of the pack: the pack window's copy is account-strings.ts. */
   premium: {
-    /** The resting screen's greeting, two lines: a question, then the promise (not a heading). */
-    welcome: string; welcomeAccent: string;
+    /** The resting screen's greeting: one short question (not a heading). */
+    welcome: string;
     /** The pack's name: the header pill and the buttons that open its window. */
     account: string;
     /** The header pill while a pack is active. */
@@ -68,8 +68,10 @@ export interface ChatStrings {
   inputExample: string;
   /** The resting screen's last line and the menu's: the text under the chat (REV-5). */
   aboutChat: string;
-  /** Under the composer on every screen size: not OpenAI, and where questions go. */
+  /** Under the composer on every screen size: not OpenAI, and no personal data. */
   inputMicrocopy: string;
+  /** Under the terms on the resting screen, the keyboard open too: where questions go. */
+  providerNote: string;
   send: string;
   thinking: string;
   errorGeneric: string;
@@ -176,7 +178,7 @@ const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
     answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
-    welcome:'От вопроса —',welcomeAccent:'к понятному ответу.',account:'AI-пакет',accountActive:'Мой пакет',
+    welcome:'Есть вопрос?',account:'AI-пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,activeShort:(n) => `Ещё ${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`,
     partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',slow:'Ответ готовится дольше обычного. Можно остановить и отправить заново.',
@@ -195,7 +197,8 @@ const RU: ChatStrings = {
   inputPlaceholder: 'Напишите сообщение…',
   inputExample: 'Например: объясни задачу за 7 класс',
   aboutChat: 'Подробнее о чате ↓',
-  inputMicrocopy: 'Не продукт OpenAI · Вопросы отправляются зарубежным AI-провайдерам — не пишите личные данные',
+  inputMicrocopy: 'Не продукт OpenAI · Не пишите личные данные',
+  providerNote: 'Вопросы идут зарубежным AI-провайдерам.',
   send: 'Отправить',
   thinking: 'AI думает…',
   errorGeneric: 'AI-сервис временно недоступен. Попробуйте немного позже.',
@@ -244,7 +247,7 @@ const RU: ChatStrings = {
     'GPTBot.uz — независимый AI-сервис, не официальный продукт OpenAI или ChatGPT. Отвечают модели сторонних компаний; название модели указано под ответом.',
   leadPrivacy: 'Политика конфиденциальности',
   privacyHref: '/ru/politika-konfidentsialnosti/',
-  privacyLink: 'Конфиденциальность',
+  privacyLink: 'Приватность',
   newChat: 'Новый чат',
   retry: 'Повторить',
   partLoading: 'Загружаем…',
@@ -283,7 +286,7 @@ const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
     answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
-    welcome:'Savolingiz bor?',welcomeAccent:'Birga yechim topamiz.',account:'AI paket',accountActive:'Paketim',
+    welcome:'Savolingiz bor?',account:'AI paket',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,activeShort:(n) => `${n} ta javob qoldi`,
     partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',slow:'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.',
@@ -301,7 +304,8 @@ const UZ: ChatStrings = {
   inputPlaceholder: 'Xabar yozing…',
   inputExample: 'Masalan: 7-sinf masalasini tushuntirib ber',
   aboutChat: 'Batafsil: chat haqida ↓',
-  inputMicrocopy: 'OpenAI mahsuloti emas · Savollar xorijdagi AI-provayderlarga yuboriladi — shaxsiy ma’lumot yozmang',
+  inputMicrocopy: 'OpenAI mahsuloti emas · Shaxsiy ma’lumot yozmang',
+  providerNote: 'Savollar xorijdagi AI-provayderlarga yuboriladi.',
   send: 'Yuborish',
   thinking: 'AI o‘ylayapti…',
   errorGeneric: 'AI xizmati vaqtincha ishlamayapti. Birozdan keyin qayta urinib ko‘ring.',
@@ -316,9 +320,9 @@ const UZ: ChatStrings = {
   // visitor of the free chat is not sent to it as «Tariflar» (F10).
   pricingLink: 'Biznes bot narxlari',
   chips: [
-    { id: 'math', label: 'Masalani yechish', insert: 'Masalani qadamma-qadam yech: ' },
+    { id: 'math', label: 'Masala yechish', insert: 'Masalani qadamma-qadam yech: ' },
     { id: 'text', label: 'Matn yozish', insert: 'Matn yoz. Format va mavzu: ' },
-    { id: 'explain', label: 'Mavzuni tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
+    { id: 'explain', label: 'Tushuntirish', insert: 'Oddiy tilda tushuntir: ' },
     { id: 'plan', label: 'Reja tuzish', insert: 'Reja tuz. Mavzu va maqsad: ' },
   ],
   menuOpen: 'Menyuni ochish',

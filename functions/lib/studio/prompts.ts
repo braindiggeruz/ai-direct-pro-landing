@@ -6,7 +6,8 @@
 // v3 = v2 plus an English image_prompt on every outline slide, «never name
 // works or dates outside the textbook», and a talk of 3–4 sentences. The app
 // adds the sources slide itself («Manbalar: …», T2.2), so the model never
-// writes one. Temperature 0.3 for every text step (MEASURE-30 §6).
+// writes one. Temperature 0.3 for every text step (MEASURE-30 §6); the
+// proofreading pass of paid Uzbek decks (PROOF_SYSTEM) runs at 0.2.
 //
 // v3.1 (07.10.2026, owner decision 1: model language reviews instead of a
 // native speaker; studio/launch-2026-10-07/LANG-uz-decks.md) only inserts
@@ -31,7 +32,7 @@ export const STUDY_HELPER =
   `You are a study helper for school and university students in Uzbekistan. You give a plan, key points and a short talk the student learns from, not a finished work to hand in.`;
 
 export const FACTS_RULE =
-  `Facts: only well-established school-textbook facts. Never name books, works, titles, quotes or exact dates unless they are in the school textbook; if you are not sure, leave it out.`;
+  `Facts: only well-established school-textbook facts. Never name books, works, titles, quotes or exact dates unless they are in the school textbook; if you are not sure, leave it out. Do not guess family background, social origin, motives or anecdotes about historical people; omit them unless explicitly established in the supplied glossary.`;
 
 export const NUMBERS_RULE =
   `Numbers, fractions, percents and formulas: digits and symbols (3/5, 1 1/2, 25%, a² + b² = c²), never in words.`;
@@ -102,12 +103,28 @@ export const GLOSSARY_UZ = {
   biology:
     `Uzbek school biology terms (use exactly these): hujayra, hujayra qobig‘i, sitoplazma, yadro, xloroplast, fotosintez, karbonat angidrid gazi, kislorod, to‘qima, organ, yurak, arteriya, vena, kapillyar, katta va kichik qon aylanish doirasi. Also: qon aylanish tizimi, yurak bo‘lmachasi (atrium; never "bo‘g‘imcha"), qorincha (ventricle), klapan, puls (felt at the wrist, bilak), oziqlanish (nutrition), xlorofill, glyukoza; the water cycle: bug‘lanish, kondensatsiya, yog‘in, buloq, chuchuk suv (fresh water).`,
   history:
-    `Uzbek history terms (use exactly these): gumbaz (dome), minora (minaret), peshtoq (portal), koshin (glazed tile), madrasa, maqbara, masjid, rasadxona, karvonsaroy, Go‘ri Amir maqbarasi, Bibixonim masjidi, Registon maydoni, Buyuk ipak yo‘li, Movarounnahr, sulola, saltanat. Amir Temur: born in 1336 in Xo‘ja Ilg‘or near Shahrisabz, the title amir (never sulton or xon), «Temur tuzuklari» (never "tuzoqlari"), avlodlari, Temuriylar; died in 1405 in O‘tror.`,
+    `Uzbek history terms (use exactly these): gumbaz (dome), minora (minaret), peshtoq (portal), koshin (glazed tile), madrasa, maqbara, masjid, rasadxona, karvonsaroy, Go‘ri Amir maqbarasi, Bibixonim masjidi, Registon maydoni, Buyuk ipak yo‘li, Movarounnahr, sulola, saltanat. Amir Temur: born in 1336 in Xo‘ja Ilg‘or near Shahrisabz, the title amir (never sulton or xon), «Temur tuzuklari» (never "tuzoqlari"), avlodlari, Temuriylar; died in 1405 in O‘tror. «Temur tuzuklari» is attributed to Amir Temur (Amir Temurga nisbat berilgan); do not claim he personally wrote it. Distinguish him from his grandson Mirzo Ulug‘bek: Samarqand rasadxonasi belongs to Ulug‘bek, not Amir Temur.`,
   literature:
     `Uzbek literature terms (use exactly these): g‘azal, ruboiy, doston, devon, «Xamsa» (five dostons), roman, qissa, hikoya, she’r, shoir (a poet; "shoira" is only a woman poet), adib, ijod, asar. Works and characters as textbooks name them. Alisher Navoiy: «Xamsa» = «Hayrat ul-abror», «Farhod va Shirin», «Layli va Majnun», «Sab’ai sayyor», «Saddi Iskandariy»; «Xazoyin ul-maoniy» (four devons); «Lison ut-tayr», «Mahbub ul-qulub», «Muhokamat ul-lug‘atayn». Abdulla Qodiriy: «O‘tkan kunlar» (Otabek, Kumush, Yusufbek hoji, O‘zbek oyim, Zaynab), «Mehrobdan chayon» (Anvar, Ra’no); jadid adabiyoti. Name no other work or character unless you are sure.`,
   chemistry:
     `Uzbek school chemistry terms (use exactly these): kimyoviy element, davriy jadval, atom, atom massasi, davr, guruh, metall, metallmas, modda, kimyoviy formula. Also: davriy qonun (the periodic law; the table itself is not a law), tartib raqami, yadro zaryadi, xossalar takrorlanadi, issiqlik va elektr tokini o‘tkazadi.`,
 } as const;
+
+/**
+ * The proofreading pass of paid Uzbek decks (MEASURE-30 §6, appendix A
+ * PROOF_SYSTEM; measure30.py lines 781–785, line breaks included): a second
+ * call per part that fixes only the language. Measured: −67% Uzbek errors,
+ * facts untouched, one error of its own in four decks. The owner turned it
+ * on for paid decks on 07.10 (DECISIONS §13 item 4).
+ */
+export const PROOF_SYSTEM = `You are an editor of Uzbek school texts (Uzbek Latin script, the literary standard of school textbooks).
+You get a JSON object with presentation slides. Fix ONLY language mistakes in the Uzbek text: words that do not exist,
+wrong word choices, misspellings, wrong case endings and broken sentences. Use ‘ (U+2018) in o‘ and g‘ and ’ (U+2019)
+for the glottal stop. Use the standard forms "yurtimiz" and "allomalar"; never "yurtamiz", "allolar" or "allomlar". Write "g‘alabali" (victorious), never "g‘albali". Do not add or remove facts, slides, bullets or sentences; keep "index" values; keep numbers and formulas.
+Output ONLY the corrected JSON object with exactly the same shape, no comments.`;
+
+/** The proofreading pass runs at 0.2, as measured (MEASURE-30 §6). */
+export const PROOF_TEMPERATURE = 0.2;
 
 export const TAIL_A = `, realistic photo, quiet empty scene, soft daylight, clean composition`;
 
@@ -246,6 +263,37 @@ export function freeMessages(request: DeckRequest): ChatMessage[] {
   return [
     { role: "system", content: buildSystem(FREE_V3, request.locale, subject, request.slides) },
     { role: "user", content: line },
+  ];
+}
+
+/** One slide of a part as the proofreading pass gets it back (the part's own fields, in the model's order). */
+export interface ProofSlide {
+  readonly index: number;
+  readonly title: string;
+  readonly bullets: readonly string[];
+  readonly notes: string;
+}
+
+/** What one proofreading call reads: a part's slides, and for the first part also the deck's title and subtitle. */
+export interface ProofText {
+  readonly title?: string;
+  readonly subtitle?: string;
+  readonly slides: readonly ProofSlide[];
+}
+
+/**
+ * The proofreading pass of one part: PROOF_SYSTEM, then the part as
+ * measure30.py mode_proof sent it, json.dumps({"slides": …},
+ * ensure_ascii=False). The first part also carries the deck's title and
+ * subtitle (the cover), ahead of its slides, so the cover is read too
+ * without one more call.
+ */
+export function proofMessages(text: ProofText): ChatMessage[] {
+  const slides = text.slides.map((slide) => ({ index: slide.index, title: slide.title, bullets: [...slide.bullets], notes: slide.notes }));
+  const body = text.title !== undefined ? { title: text.title, subtitle: text.subtitle ?? "", slides } : { slides };
+  return [
+    { role: "system", content: PROOF_SYSTEM },
+    { role: "user", content: pythonJson(body) },
   ];
 }
 

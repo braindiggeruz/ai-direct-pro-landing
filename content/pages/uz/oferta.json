@@ -25,7 +25,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Oferta",
   "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish shartlari.",
-  "termsVersion": "ai-paket-2026-10-v4",
+  "termsVersion": "ai-paket-2026-10-v5",
   "legalReviewedAt": "2026-10-07",
   "requisites": "seller",
   "bodyBlocks": [
@@ -187,6 +187,74 @@
     {
       "type": "p",
       "text": "Oferta o‘zbek va rus tillarida e’lon qilingan, ikkala matn teng kuchga ega. Matnlar o‘rtasida farq bo‘lsa, o‘zbek tilidagi matn qo‘llaniladi."
+    },
+    {
+      "type": "h2",
+      "text": "14. Studio: tariflar va tarkib"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Kunlik — 5 900 so‘m, shu jumladan QQS 12 % — 632,14 so‘m. Muddati — to‘lov tizimi to‘lovni tasdiqlagan paytdan boshlab 24 soat: 15-oktabr soat 14:00 da to‘langan tarif 16-oktabr soat 14:00 gacha amal qiladi. Tarkibi: 1 ta to‘liq taqdimot.",
+        "Oylik — 39 900 so‘m, shu jumladan QQS 12 % — 4 275,00 so‘m. Muddati — to‘lov paytidan boshlab bir kalendar oy: 15-oktabr soat 14:00 da to‘langan tarif 15-noyabr soat 14:00 gacha amal qiladi; keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunida xuddi shu soatda tugaydi. Tarkibi: 10 ta to‘liq taqdimot.",
+        "To‘lov bir martalik. Avtomatik yechib olish yo‘q: tarif o‘z-o‘zidan uzaytirilmaydi. Keyingi tarifni Xaridor faqat kerak bo‘lsa sotib oladi.",
+        "Muddat oxirigacha ishlatilmagan birliklar bekor bo‘ladi va keyingi Xaridga o‘tkazilmaydi.",
+        "Yangi tarif, oldingisi tugamagan bo‘lsa ham, to‘lovdan so‘ng darhol amal qila boshlaydi. Birliklar avval muddati oldinroq tugaydigan tarifdan yechiladi.",
+        "Studio bitta brauzer yoki Studio akkaunti uchun bir vaqtda 1 ta topshiriqni bajaradi.",
+        "Tarifga to‘lov sanasida ushbu bo‘limda sanab o‘tilganlargina kiradi. Studio xizmatida keyinroq paydo bo‘ladigan funksiyalar to‘langan tarifga kirmaydi.",
+        "Studio tariflari AI chatda javoblar olish huquqini bermaydi, AI paket esa Studio birliklarini bermaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "15. Studio: birliklar va sifat"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Taqdimot yaratishdan oldin Xaridor uning turini tanlaydi: bepul (sutkalik bepul limitdan) yoki to‘liq (tarifdan). Tanlangan tur yaratish tugmasida ko‘rsatiladi.",
+        "Birlik Studio taqdimotning barcha slaydlari matnini yoki rasm tahlilini ko‘rsatganda yechiladi. Nosozlik sababli slaydlarning faqat bir qismi ko‘rsatilsa, birlik yechilmaydi. Agar Studio natijani ko‘rsata boshlaganidan keyin Xaridor yaratishni o‘zi to‘xtatsa (masalan, sahifani yopsa), birlik yechiladi.",
+        "AI model yoki xizmatdagi nosozlik sababli natija olinmasa, hech narsa yechilmaydi.",
+        "Studio ushbu oferta qoidalariga ko‘ra topshiriqni bajarishdan bosh tortsa, birlik yechilmaydi. Faqat bitta slayd uchun rasm rad etilsa, taqdimot usiz yaratiladi.",
+        "Har bir birlikka xuddi shu topshiriqni (o‘sha parametrlar bilan o‘sha mavzu yoki o‘sha rasm) natijadan keyin 24 soat ichida va tarif muddati doirasida 1 marta bepul qayta yaratish beriladi: yangi variant yana bitta birlikni yechmaydi.",
+        "Natija aniq yaroqsiz bo‘lsa — fayl ochilmasa, slaydlar bo‘sh bo‘lsa, matn tanlangan tilda bo‘lmasa yoki tahlil yuklangan topshiriqqa tegishli bo‘lmasa, — Xaridor sahifa oxiridagi kontaktlar orqali Sotuvchiga yozishi mumkin. Sotuvchi murojaatni tekshiradi va 3 ish kunidan kechiktirmay birlikni qaytaradi. Agar shu vaqtgacha tarif muddati tugagan bo‘lsa, qaytarilgan birlikdan qaytarilgan paytdan boshlab 24 soat ichida foydalanish mumkin.",
+        "Mazmundagi noaniqlik — yechimdagi yoki faktdagi xato — natijani yaroqsiz qilmaydi: AI modellar xato qiladi va natijani tekshirish kerak . Bunday holda Xaridor qayta yaratishdan foydalanishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "16. Studio: bepul namuna va to‘lov"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Bepul namuna: bir brauzer uchun sutkasiga 6 slaydgacha va 2 rasmgacha bo‘lgan 1 ta taqdimot, ma’ruzachi izohlarisiz. Limit Toshkent vaqti bilan soat 05:00 da yangilanadi. Bepul rejim xizmatning umumiy kunlik limitiga bog‘liq. Tarifdagi to‘liq taqdimot: 12 slaydgacha, 8 rasmgacha, ma’ruzachi izohlari va 3 rang palitrasi. Xavfsizlik tekshiruvi rasmni rad etsa, taqdimot usiz saqlanadi.",
+        "To‘lovdan oldin narx, muddat, tarif tarkibi va ushbu ofertaga havola ko‘rsatiladi. «To‘lovga o‘tish» tugmasini bosib, Xaridor ko‘rsatilgan tahrirni qabul qiladi; oferta sahifasiga alohida o‘tish shart emas. 18 yoshga to‘lmaganlar pullik Studio xizmatidan ota-onasi yoki qonuniy vakili roziligi bilan foydalanadi. Faqat to‘lov oynasida ko‘rsatilgan provayder orqali to‘lash mumkin; sotuv to‘xtatilgan bo‘lsa, pul olinmaydi.",
+        "AI xato qilishi mumkin. Faktlar, hisoblar va manbalarni tekshiring; natija mustaqil ishlash uchun qoralama. Baho yoki yechimning to‘g‘riligi kafolatlanmaydi. Studio xizmatidan qonunga zid harakatlar, limitlarni chetlab o‘tish yoki xavfli yo‘riqnomalar yaratish uchun foydalanmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "17. Studio: pulni qaytarish va uzilishlar"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Xaridor to‘lovdan keyin 14 kun ichida ishlatilmagan birliklar uchun pulni qaytarishni so‘rashi mumkin, tarif muddati tugagan bo‘lsa ham. Qoldiq murojaat paytida qayd etiladi. Faqat taqdimotli tarifda summa narx × ishlatilmagan taqdimotlar / tarifdagi taqdimotlar bo‘yicha hisoblanadi, tiyingacha pastga yaxlitlanadi va to‘langan narxdan oshmaydi. Kompensatsiya birliklari qaytariladigan summani oshirmaydi.",
+        "Ariza va qaytarish uchun ma’lumotlar olingach, pul 10 ish kuni ichida qaytariladi. Komissiyani Sotuvchi to‘laydi. Kechiksa, har bir kun uchun qaytariladigan summaning 1 % miqdorida, lekin shu summadan oshmagan tovon to‘lanadi. To‘liq qaytarish to‘lov provayderi orqali, qisman qaytarish esa tasdiqlangan alohida o‘tkazma orqali bajarilishi mumkin. Qaytarishdan keyin xaridning qolgan huquqlari tugaydi.",
+        "Xizmat nosozligi sababli pullik Studio ishlamasa, amaldagi tarif muddati tasdiqlangan uzilish davomiyligiga uzaytiriladi. Bir uzilish bir marta hisoblanadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "18. Studio: kirish va tiklash"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Kirish huquqi brauzerning imzolangan cookie’siga yoki Studio akkauntiga bog‘lanadi. Buyurtma raqami va to‘lov tasdig‘ini saqlang. Kirish yo‘qolsa, Sotuvchiga yozing: buyurtma yoki to‘lov raqami, summa va to‘lov sanasi kerak. Tekshiruvdan keyin 48 soatlik bir martalik havola beriladi; qayta tiklash 7 kunda ko‘pi bilan bir marta amalga oshiriladi.",
+        "Mavzu, slayd matni va .pptx fayl GPTBot.uz serverida saqlanmaydi. Sahifani yopishdan oldin natijani yuklab oling. Birliklar va to‘lovlarga oid texnik ma’lumotlar maxfiylik siyosatiga muvofiq ishlanadi. Yangi tahrir avval to‘langan xarid shartlarini o‘zgartirmaydi."
+      ]
     }
   ],
   "faq": [],

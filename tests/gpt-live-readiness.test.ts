@@ -280,12 +280,10 @@ test("modes per provider over the global one; Payme runs only when listed and se
   assert.deepEqual(liveReadiness({ ...paymeLive, GPT_PAYME_KEY: `${marked()}\n` } as BillingEnv, "payme"), []);
 });
 
-test("the committed configuration: Click and Payme live, Uzum off, credentials are never public config", async () => {
+test("the committed configuration: Click live, Payme test, Uzum off, credentials are never public config", async () => {
   // Runbook docs/paid-chat/ONBOARDING-KEYS-RU.md, S2 (owner's order of 2026-10-05):
-  // Click sells live, Uzum is off. Payme sells live since the owner's order
-  // of 2026-10-07 (docs/paid-chat/PAYME-RU.md, section 6): its callback
-  // answers Payme's production with GPT_PAYME_KEY, every visitor is offered
-  // it next to Click, and no rehearsal session is offered a test provider.
+  // Click sells live, Uzum is off. The owner's latest instruction keeps
+  // Payme in test: it must not appear among a visitor's live providers.
   // The stop switches (both places and a deploy) are pinned by the next test:
   // GPT_BILLING_LIVE_READY = "false" stops new sales and still settles open
   // invoices; GPT_BILLING_MODE_CLICK = "" closes the callback too; Payme's
@@ -293,14 +291,13 @@ test("the committed configuration: Click and Payme live, Uzum off, credentials a
   const source = fs.readFileSync(path.join(ROOT, "wrangler.toml"), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
-  assert.equal(packed.GPT_PAYMENT_PROVIDERS, "click,uzum,payme");
+  assert.equal(packed.GPT_PAYMENT_PROVIDERS, "click,payme");
   assert.equal(packed.GPT_BILLING_MODE, "");
   assert.equal(packed.GPT_BILLING_MODE_CLICK, "live");
   assert.equal(packed.GPT_BILLING_MODE_UZUM, "");
-  // "live" since 2026-10-07; "test" is the one-command rollback (PAYME-RU.md section 7),
-  // and every expectation below follows the committed value.
+  // Payme activation requires a separate approved configuration change.
   const paymeMode = packed.GPT_BILLING_MODE_PAYME as "live" | "test";
-  assert.ok(paymeMode === "live" || paymeMode === "test", paymeMode);
+  assert.equal(paymeMode, "test", "Payme remains hidden from live sales until separately approved");
   assert.equal(packed.GPT_BILLING_LIVE_READY, "true");
   assert.equal(packed.UZUM_API, "");
   assert.equal(billingActive(env), true);

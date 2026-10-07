@@ -1,5 +1,5 @@
 import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton, useMessageScroller } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
 import { billingOpen, offeredProviders, safeTermsLink, checkoutOfferKey, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms, type PaymentProvider } from "../types";
@@ -49,7 +49,7 @@ import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
 import { AiLimitPay } from "./AiLimitPay";
 import type { AccountCause } from "../use-account";
-import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
+import { archiveChat, keepsComposer, keepsShownConversation, loadChats, type SavedChat } from "../storage";
 import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
@@ -59,8 +59,11 @@ import { useKeyboardOpen } from "../keyboard";
 const MAX_INPUT = 3000;
 /** The limit card, which also describes the composer while a limit stands. */
 const LIMIT_CARD_ID = "ai-limit-card";
-/** A tick: the terms on the resting screen, a lifted limit. */
+/** A tick: a lifted limit. */
 const TICK = "M5 12.5l4.5 4.5L19 7.5";
+/** The desktop composer's glide between the centred group and the dock (chat UI 2026-10-07 §8). */
+const DOCK_MS = 380;
+const DOCK_EASE = "cubic-bezier(.32,.72,0,1)";
 
 const B2B_AFTER = 3; // show the commercial offer after this many assistant answers
 /** The free tier's rolling hour: warn while this many messages or fewer are left in it (after the 3rd of 5). */
@@ -112,7 +115,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // Which article sent the visitor here: a fixed slug, never prompt text.
   const entryMeta = entry ? { entry: entry.id } : {};
   const [input, setInput] = useState(() => entry?.prompt || loadDraft());
-  const [savedChats, setSavedChats] = useState<ReturnType<typeof loadChats>>([]);
+  const [savedChats, setSavedChats] = useState<SavedChat[]>([]);
   const [paid, setPaid] = useState(false);
   const [accountRefresh, setAccountRefresh] = useState(0);
   const [accountOpen, setAccountOpen] = useState<PackOpenRequest | undefined>();
@@ -266,6 +269,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const focusInput = () => {
     inputRef.current?.focus();
   };
+  // Where the composer stands before a change of screen, for its glide (§8).
+  const composerRef = useRef<HTMLDivElement>(null);
+  const glide = useRef<{ top: number; at: number } | null>(null);
+  const dock = () => {
+    const el = composerRef.current;
+    if (el && !keyboard && window.matchMedia?.("(min-width: 768px) and (min-height: 600px)").matches)
+      glide.current = { top: el.getBoundingClientRect().top, at: Date.now() };
+  };
   const onTurnstileTokenChange = useCallback((token: string | null) => {
     setTurnstileToken(token);
     if (token) {
@@ -325,6 +336,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // a quiet kicker above the greeting (chat design §5.2). Its text comes from
   // data-h1 on the mount point, so it is not in this bundle.
   const h1 = config.h1 || "";
+  const greetCut = t.premium.welcome.lastIndexOf(" ");
   const resting = empty && activeTool === "chat";
   // The example question in the empty field only where it fits on one line:
   // the field never grows on the first key (chat design §5.3).
@@ -494,6 +506,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       focusInput();
       return;
     }
+    dock();
     setBusy(true);
     setInput("");
     // At once, not after the draft's 500 ms: the question is in the thread now.
@@ -838,6 +851,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // the server session and remaining quota — limits must survive a reset.
   const onNewChat = () => {
     if (busy || !accountReady) return;
+    dock();
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
     // The limit card says the refused question waits in the composer: it does.
@@ -848,6 +862,16 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     // once per browser session.
     track(EV.newChat, { status: "cleared" });
     focusInput();
+  };
+
+  // A saved chat, from the menu (☰) or the sidebar: the one on screen is saved first.
+  const onOpenSaved = (chat: SavedChat) => {
+    if (busy) return;
+    dock();
+    setSavedChats(archiveChat(messages, config.locale, storageScope));
+    persist(chat.messages);
+    setInput("");
+    setBusinessLine(null);
   };
 
   // The last question again, in place of its answer or error: the thread and
@@ -875,6 +899,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const onEdit = () => {
     const idx = lastQuestion();
     if (busy || idx < 0) return;
+    dock();
     setInput(messages[idx].content);
     persist(messages.slice(0, idx));
     focusInput();
@@ -1096,6 +1121,20 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // What premium.css lays out (chat design §2): the resting screen, a
   // conversation, or a limit that stands; and a phone's keyboard, open.
   const state = limitBlocked ? "limit" : resting ? "empty" : "chat";
+  // From the size the empty screen is one centred group (≥768×600, the keyboard
+  // closed), the composer glides between that group and the dock when the
+  // first message goes and when the thread empties again: dock() notes where
+  // it stood before the change, this moves it from there. Under reduced motion
+  // it is at its place at once; a phone's composer never moves (§8).
+  useLayoutEffect(() => {
+    const from = glide.current;
+    glide.current = null;
+    const el = composerRef.current;
+    if (!from || !el || Date.now() - from.at > 1_000 || typeof el.animate !== "function"
+      || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const delta = from.top - el.getBoundingClientRect().top;
+    if (Math.abs(delta) > 1) el.animate([{ transform: `translateY(${delta}px)` }, { transform: "none" }], { duration: DOCK_MS, easing: DOCK_EASE });
+  }, [state]);
   // The header's second line says one fact at a time (chat design §5.1): who
   // we are on the resting screen, the count in a conversation, the wait in a
   // limit (the clock first: the card says the rest), the pack's answers while
@@ -1144,6 +1183,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         onCloseMobile={() => setDrawerOpen(false)}
         onAbout={toSummary}
         onOfficial={onOfficialClick}
+        savedChats={savedChats}
+        onOpenSaved={onOpenSaved}
       />
 
       <div className="gpt-main">
@@ -1236,51 +1277,46 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         <MessageScroller className="gpt-thread-scroll">
         <MessageScrollerViewport className="gpt-viewport" aria-label={uz ? "Suhbat" : "Переписка"}>
           <div className="gpt-column">
-            {!!savedChats.length && (
-              <details className="gpt-history">
-                <summary>
-                  {t.premium.savedChats} · {savedChats.length}
-                </summary>
-                {savedChats.map((chat) => (
-                  <button
-                    type="button"
-                    key={chat.id}
-                    disabled={busy}
-                    onClick={() => {
-                      setSavedChats(archiveChat(messages, config.locale, storageScope));
-                      persist(chat.messages);
-                      setInput("");
-                      setBusinessLine(null);
-                    }}
-                  >
-                    {chat.title}
-                  </button>
-                ))}
-                <p className="gpt-panel-note">{t.premium.historyNote}</p>
-              </details>
-            )}
             {toolPanel}
             {resting ? (
               // The resting screen is the first thing ~89% of this site's search
-              // traffic sees: one idea per block (chat design §5.2). The H1 as a
-              // kicker, a two-line greeting, the terms with the server's daily
-              // and hourly allowance, four tasks and the link to the text under
-              // the chat. On a tall phone the greeting centres in the free space
-              // and the tasks sit above the composer, in the thumb's reach.
+              // traffic sees (chat UI 2026-10-07 §5.2): one centred group on the
+              // column's axis (the mark, the H1 as a kicker, a one-line question,
+              // the terms with the server's allowance and where questions go, the
+              // link to the text under the chat), centred in the free height, and
+              // the four tasks as one-line pills just above the composer.
               <div className="gpt-empty">
                 <div className="gpt-hello">
+                  <BrandMark className="gpt-hello-mark" />
                   {h1 && <h1 className="gpt-kicker" data-testid="chat-h1">{h1}</h1>}
-                  {/* One block of text, as the frame draws it before the chat
-                      mounts (premium.css): the largest text of the first
-                      screen is there from the first paint. */}
-                  <p className="gpt-greet">
-                    {t.premium.welcome}
-                    <br />
-                    <span>{t.premium.welcomeAccent}</span>
-                  </p>
+                  {/* The frame draws the same words before the chat mounts
+                      (premium.css), so the page's largest text paints with the
+                      HTML. Here the words are two inline blocks, each a text
+                      block of its own for LCP: as one block, painted in Geist,
+                      it can be a little larger than the frame's painted in the
+                      fallback font, and LCP would wait for the script (chat UI
+                      §11 A14). */}
+                  <p className="gpt-greet">{greetCut > 0 ? <><span className="inline-block">{t.premium.welcome.slice(0, greetCut)}</span> <span className="inline-block">{t.premium.welcome.slice(greetCut + 1)}</span></> : t.premium.welcome}</p>
                   <p className="gpt-meta">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={TICK} /></svg>
                     <span>{paid ? t.premium.manual : t.emptyMeta(freeLimits)}</span>
+                    <span className="gpt-meta-note">{t.providerNote}</span>
+                  </p>
+                  <p className="gpt-empty-links">
+                    <a href="#seo-summary" onClick={toSummary}>{t.aboutChat}</a>
+                    {uzEntry && (
+                      <>
+                        <span aria-hidden="true"> · </span>
+                        <a
+                          href="/uz/gpt-uzbek-tilida/"
+                          hrefLang="uz"
+                          lang="uz"
+                          data-testid="gpt-uz-entry"
+                          onClick={() => onLocaleSwitch("empty")}
+                        >
+                          {uzEntry.page}
+                        </a>
+                      </>
+                    )}
                   </p>
                 </div>
                 {/* A returning visitor whose hour is spent: the card in the tasks' place. */}
@@ -1292,23 +1328,6 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     label={t.emptyPrompt}
                   />
                 )}
-                <p className="gpt-empty-links">
-                  <a href="#seo-summary" onClick={toSummary}>{t.aboutChat}</a>
-                  {uzEntry && (
-                    <>
-                      <span aria-hidden="true"> · </span>
-                      <a
-                        href="/uz/gpt-uzbek-tilida/"
-                        hrefLang="uz"
-                        lang="uz"
-                        data-testid="gpt-uz-entry"
-                        onClick={() => onLocaleSwitch("empty")}
-                      >
-                        {uzEntry.page}
-                      </a>
-                    </>
-                  )}
-                </p>
               </div>
             ) : (
               <AiChatMessageList
@@ -1413,7 +1432,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
         {/* The composer: in the app's column, on an opaque surface. The thread
             ends at its top edge, so no text passes under it (chat design §0). */}
-        <div className="gpt-composer">
+        <div className="gpt-composer" ref={composerRef}>
           <div className="gpt-composer-inner">
             {/* A guest's button only reads the account again; an account's opens its window too. */}
             {accountState === "unknown" && <p role="status" className="gpt-dock-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}

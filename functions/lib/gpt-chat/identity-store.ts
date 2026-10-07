@@ -103,13 +103,15 @@ export class IdentityStore {
     idPrefix: string,
     ttlMs: number,
     now = Date.now(),
+    stableSuffix?: string,
   ): Promise<{ id: string; token: string }> {
-    const id = `${idPrefix}${randomToken().slice(0, 32)}`;
+    if (stableSuffix !== undefined && !/^[a-f0-9]{32}$/.test(stableSuffix)) throw new Error('invalid_account_suffix');
+    const id = `${idPrefix}${stableSuffix ?? randomToken().slice(0, 32)}`;
     const token = randomToken();
     await this.db.batch([
       this.db
         .prepare(
-          "INSERT INTO gpt_accounts(org_id,id,identity_hash,created_at,last_seen_at) VALUES(?,?,?,?,?)",
+          "INSERT INTO gpt_accounts(org_id,id,identity_hash,created_at,last_seen_at) VALUES(?,?,?,?,?) ON CONFLICT(org_id,id) DO NOTHING",
         )
         .bind(this.org, id, `synthetic:${id}`, now, now),
       this.db

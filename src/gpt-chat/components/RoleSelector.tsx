@@ -51,7 +51,7 @@ export function RoleSelector({ locale, value, onChange, disabled }: { locale: Lo
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
-      <span className="block text-[11px] uppercase tracking-wider text-white/55 mb-1.5">{label}</span>
+      <span className="mb-1 block px-2.5 text-xs font-medium text-white/55">{label}</span>
       <button
         ref={buttonRef}
         type="button"
@@ -70,7 +70,7 @@ export function RoleSelector({ locale, value, onChange, disabled }: { locale: Lo
         <span className="min-w-0 flex-1 truncate font-medium">{selected.label}</span>
         <svg className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
       </button>
-      <span id={descriptionId} className="block mt-1.5 text-xs leading-snug text-white/55">{selected.description}</span>
+      <span id={descriptionId} className="block mt-1.5 px-2.5 text-xs leading-snug text-white/55">{selected.description}</span>
       {open && (
         <div
           id={listboxId}

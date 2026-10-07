@@ -1,24 +1,22 @@
-> Актуализация 07.10: one-tap опубликован (`e3e551af`, `71d2f0f3`), suite 1815/1815, браузер 18/18, layout 258/258, live SEO 10/10. Следующий приоритет владельца — **полноценная платная Studio**, включая тарифы и права; потом UI и внешние хвосты. Studio пока не выпущена.
-
 # Реестр завершения Claude → Codex
 
-07.10.2026. Дерево `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Интеграция и публикация — текущий Codex; источники не меняются. Исторический handoff: `C:/Users/Borinio/Desktop/seo-skills-main/docs/CLAUDE_TO_CODEX_HANDOFF.md`. Спецификации raw разрешаются от `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`.
+Актуально 07.10.2026. Кандидат в `F:/Claude/gptbot-codex-integration-20261007`; последний проверенный production — `e3e551af`/`71d2f0f3`. Историческая матрица ниже сохранена как исходный аудит, её статусы не заменяют эту таблицу.
 
-Статусы: IN_PROGRESS / IMPLEMENTED_UNVERIFIED / VERIFIED_LOCAL / VERIFIED_PREVIEW / DEPLOYED_VERIFIED / BLOCKED_EXTERNAL / SUPERSEDED. SHA и публикация указаны отдельно в каждой строке. Историческая матрица ниже сохраняет исходные статусы аудита.
-
-| Требование | Источник | Исходное дерево/SHA | Статус | Остаток, приёмка, блокер/публикация |
-|---|---|---|---|---|
-| База + SEO | wf_fb6725a4-281; TRAFFIC-PLAN; NOW-TASKS | production `5bbfc97b` + SEO `b757615b` → **`3173e366`** | **DEPLOYED_VERIFIED** | build/typecheck/lint/gates: exit 0; suite 1809/1809; layout 258/258; четыре новых URL 200; JS 3/3; protected 10/10 после декодирования Cloudflare email |
-| One-tap | wf_ffb9b2d3-e9c | saved f6d5af18 → integration | VERIFIED_LOCAL | targeted 158/158, browser 18/18, typecheck/lint 0; финальный SHA/build/suite/layout/guard ещё впереди; реальные деньги отдельно |
-| Payme / Uzum | wf_4b91c3e5-ad9 | production5bbfc97b | BLOCKED_EXTERNAL | Payme test / Uzum off; нужны подтверждение live и отдельное денежное E2E |
-| Бесплатная Studio | wf_18d4b721-821; launch CHECKS/REHEARSAL | studio-launch0f26fc13 | IMPLEMENTED_UNVERIFIED | 6 findings; privacy/legal; реальные6PPTX и бюджетAI; public404 |
-| Chat UI | wf_c56b415c-9f2; DESIGN-SPEC centered-mobile | chat-ui df264eb1 | IMPLEMENTED_UNVERIFIED | Объединить one-tap/Meta; RU/UZ360/390/768/1440; keyboard/stream/errors |
-| Paid Studio A/B | wf_6c34b294-d08; paid BUILD-PLAN A/B | studio-paid9a05db03 | IMPLEMENTED_UNVERIFIED | Full deck; права/orders/account; migration0075; isolation/restore |
-| Paid Studio C | BUILD-PLAN C | studio-paid9a05db03 +19 WIP файлов | IN_PROGRESS | Фото клиент/API, storage/privacy/лимиты/удаление |
-| Paid Studio D/E/F | BUILD-PLAN D/E/F; DECISIONS | studio-paid9a05db03 | IN_PROGRESS | Payments/fiscal/ops/offer; paid dark до отдельного разрешения продаж |
-| GitHub | wf_89ff25a8-723; wf_3537f163-31c | PR65/own/profile/5drafts | IMPLEMENTED_UNVERIFIED | Проверить URL и правила; prepared/submitted/accepted отдельно; без дублей |
-| GSC N1 | gptbot-n1-family-a-check | Claude scheduled task10.10 10:00Karachi | IMPLEMENTED_UNVERIFIED | Scheduler/runtime/доступы/baseline; не переносить |
-| Lead Radar | task_bc4f9153; lead-radar.test.ts | production5bb → SEO3173 | VERIFIED_LOCAL | Baseline 1804/1807, candidate 1809/1809; два TTL fixtures и Meta assertion исправлены. Chip не считается выполненной задачей |
+| Задача / источник | Результат и интеграция | Текущий статус | Доказательство / остаток |
+|---|---|---|---|
+| База, SEO wf_fb6725a4 | SEO + опубликованные Meta в одной линии | DEPLOYED_VERIFIED | 3173e366; 1809 tests, live protected10/10 |
+| One-tap wf_ffb9b2d3 | Удалён отдельный шаг оферты, race/cookie guards | DEPLOYED_VERIFIED | e3e551af; 1815 tests; новые UI scenario18/18 |
+| Free Studio wf_18d4b721 | Две страницы, API, quota, PPTX и картинки | VERIFIED_LOCAL | Реальные samples; финальный browser/release/readback в процессе |
+| Paid A/B wf_6c34b294 | Full12, Kunlik/Oylik, rights/restore/account | VERIFIED_LOCAL | studio tests + real full PPTX, STUDIO_RELEASE_20261007.md |
+| Paid C | Photo code сохранён, запуск заменён decks-only решением | SUPERSEDED | Фото off/draft; не продаётся как готовая функция |
+| Paid D/E/F | Click shared, fiscal, ops/refund/report, terms v5 | VERIFIED_LOCAL | 100 shared Click tests; migration0077 applied; денежный E2E отдельно |
+| Payme wf_4b91c3e5 | Ключи приватно сохранены; adapter готов | SUPERSEDED | Последняя команда владельца: пока не выводить Payme, оставить Click |
+| Uzum | Код сохранён, live off | BLOCKED_EXTERNAL | Нет нового разрешения/подтверждения live |
+| Chat UI wf_c56b415c | df264eb1 + one-tap/Meta, mobile drawer/math | VERIFIED_LOCAL | UI_ACCEPTANCE_20261007.md; полный layout gate выполняется |
+| Conversion | Закрываемые тарифы после результата + retry | VERIFIED_LOCAL | 21/21 billing browser/unit tests; noauto, prices, dismiss/session |
+| Lead Radar task_bc4f9153 | Schema fingerprint учитывает migration0059 | VERIFIED_LOCAL | RED2 → PASS47; scoped исключение, основной contract сохранён |
+| GitHub wf_89ff25a8/wf_3537f163 | own/profile/Pages проверены; отправлены 2 issue | BLOCKED_EXTERNAL | PR65 OPEN, issues77/103 SUBMITTED; не accepted; EXTERNAL_TAILS_20261007.md |
+| GSC N1 | Окна и completeness исправлены, self-test PASS | BLOCKED_EXTERNAL | NOT_DUE; scheduler registration не доказана, перенос не авторизован |
 
 ## Покрытие исторической матрицы
 

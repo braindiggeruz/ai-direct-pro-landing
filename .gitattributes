@@ -5,7 +5,11 @@ docs/paid-chat/uzum-spec/*.yaml -whitespace
 
 # Studio pragmas and reviewed text use stable LF on Windows.
 apps/studio/scripts/device-check.ts text eol=lf
+migrations/0076_studio_operations.sql text eol=lf
 apps/studio/scripts/studio-page.ts text eol=lf
 apps/studio/src/tools/presentation/InAppNotice.tsx text eol=lf
 apps/studio/src/tools/presentation/texts.ts text eol=lf
 content/studio/pages/uz/taqdimot-ai.json text eol=lf
+
+migrations/0077_studio_shared_click.sql text eol=lf
+src/gpt-chat/premium.css text eol=lf

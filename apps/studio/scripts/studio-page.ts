@@ -49,6 +49,11 @@ import { buildBreadcrumbLd, buildOrganizationLd } from '../../../scripts/jsonld-
 import { SITE_CHAT_NAV } from '../../../src/shared/site-chat-nav';
 import type { GlobalSEO } from '../../../src/shared/types';
 import { INAPP_HEAD_SCRIPT } from '../src/inapp';
+import { renderPhotoForm } from '../src/tools/photo/static';
+import { renderTariffs } from '../src/billing/static';
+import { encodeTariffsRoot } from '../src/billing/tariffs-root';
+import { publicPlans } from '../../../functions/lib/studio/checkout';
+import { TERMS_PLAN } from '../../../functions/lib/studio/plans';
 import { renderForm } from '../src/tools/presentation/static';
 import { studioAlternates, type StudioLocale, type StudioPageRecord } from '../shared/published-urls';
 
@@ -81,10 +86,14 @@ export interface StudioSection {
   paragraphs?: StudioParagraph[];
 }
 
+/** The tools a page may hold; each has its own island and static first state (src/tools/<tool>/static.ts). */
+export const STUDIO_TOOLS = ['presentation', 'photo', 'tariffs'] as const;
+export type StudioTool = (typeof STUDIO_TOOLS)[number];
+
 export interface StudioPageContent {
   url: string;
   locale: StudioLocale;
-  tool: 'presentation';
+  tool: StudioTool;
   toolName: string;
   title: string;
   h1: string;
@@ -94,7 +103,7 @@ export interface StudioPageContent {
   secondaryKeywords: string[];
   hreflangRu?: string;
   hreflangUz?: string;
-  tariffsVisible: false;
+  tariffsVisible: boolean;
   ogImage: string;
   ogImageAlt: string;
   lead: string;
@@ -159,7 +168,7 @@ export function studioPageProblems(page: StudioPageRecord): string[] {
   for (const field of ['toolName', 'title', 'h1', 'description', 'honesty', 'primaryKeyword', 'ogImageAlt', 'lead', 'faqTitle']) {
     if (!isText(data[field])) problems.push(`${field} is required`);
   }
-  if (data.tool !== 'presentation') problems.push('tool must be "presentation" (the photo page arrives with its own tool)');
+  if (!(STUDIO_TOOLS as readonly unknown[]).includes(data.tool)) problems.push(`tool must be one of ${STUDIO_TOOLS.map((tool) => `"${tool}"`).join(', ')}`);
   if (isText(data.title) && (data.title.length < TITLE_LENGTH.min || data.title.length > TITLE_LENGTH.max)) {
     problems.push(`title is ${data.title.length} characters, expected ${TITLE_LENGTH.min}–${TITLE_LENGTH.max}`);
   }
@@ -170,7 +179,7 @@ export function studioPageProblems(page: StudioPageRecord): string[] {
     problems.push('honesty must name GPTBot.uz, ChatGPT and OpenAI');
   }
   if (!Array.isArray(data.secondaryKeywords) || !data.secondaryKeywords.every(isText)) problems.push('secondaryKeywords must be a list of phrases');
-  if (data.tariffsVisible !== false) problems.push('tariffsVisible must be false: the tariffs section ships with offer v3 (T5.1)');
+  if (typeof data.tariffsVisible !== 'boolean') problems.push('tariffsVisible must be a boolean');
   if (typeof data.ogImage !== 'string' || !OG_IMAGE_PATH.test(data.ogImage)) problems.push('ogImage must be a versioned /assets/studio/og-*-vN.png');
   for (const [field, locale] of [['hreflangRu', 'ru'], ['hreflangUz', 'uz']] as const) {
     const value = data[field];
@@ -332,7 +341,7 @@ export function studioJsonLd(content: StudioPageContent, global: GlobalSEO): str
       operatingSystem: 'Web',
       isAccessibleForFree: true,
       // Before offer v3 the tool is free only (§11.3); the tariff range arrives with tariffsVisible.
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'UZS' },
+      offers: content.tariffsVisible ? { '@type': 'AggregateOffer', lowPrice: '0', highPrice: '39900', offerCount: 3, priceCurrency: 'UZS' } : { '@type': 'Offer', price: '0', priceCurrency: 'UZS' },
       provider: { '@id': `${global.siteUrl}/#org` },
     },
     buildBreadcrumbLd([
@@ -348,6 +357,14 @@ export function studioJsonLd(content: StudioPageContent, global: GlobalSEO): str
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 }
 
+/** The island's first state for a tool, as its own static.ts renders it. */
+export function renderIsland(tool: StudioTool, locale: StudioLocale): string {
+  if (tool === 'tariffs') return renderTariffs(locale, tariffPlans(), tariffTerms(locale));
+  return tool === 'photo' ? renderPhotoForm(locale) : renderForm(locale);
+}
+const tariffTerms = (locale: StudioLocale) => `https://gptbot.uz/${locale}/${locale === 'uz' ? 'ommaviy-oferta' : 'oferta'}/`;
+const tariffPlans = () => publicPlans(Object.keys(TERMS_PLAN)[0]);
+
 /** The whole page, e-mail addresses already behind <!--email_off-->. */
 export function renderStudioPage(page: StudioPageRecord, context: StudioRenderContext): string {
   const content = studioPageContent(page);
@@ -356,7 +373,7 @@ export function renderStudioPage(page: StudioPageRecord, context: StudioRenderCo
   const pageUrl = `${global.siteUrl}${content.url}`;
   const alternates = studioAlternates(page, context.pages);
   const ogImage = `${global.siteUrl}${content.ogImage}`;
-  const island = context.islandHtml ?? renderForm(content.locale);
+  const island = context.islandHtml ?? renderIsland(content.tool, content.locale);
   const tools = context.pages
     .filter((other) => other.locale === content.locale && (other.status === 'published' || other.url === page.url))
     .map((other) => {
@@ -431,7 +448,8 @@ ${languageSwitch}
 <nav aria-label="${escapeHtml(chrome.breadcrumb)}" class="st:text-sm st:text-studio-muted"><ol class="st:flex st:flex-wrap st:gap-x-2"><li><a href="${chrome.home}" class="st:-my-3 st:flex st:min-h-11 st:items-center st:hover:text-studio-text">${escapeHtml(global.siteName)}</a></li><li aria-hidden="true">›</li><li aria-current="page">${escapeHtml(content.toolName)}</li></ol></nav>
 <h1 class="st:mt-3 st:text-2xl st:font-bold st:leading-tight st:text-studio-text st:min-[360px]:text-[1.625rem] st:sm:text-4xl">${escapeHtml(content.h1)}</h1>
 <p data-studio-honesty class="st:mt-2 st:text-sm st:text-studio-muted">${escapeHtml(content.honesty)}</p>
-<div id="studio-root" data-tool="${content.tool}" class="st:mt-5">${island}</div>
+<div id="studio-root"${content.tool === 'tariffs' ? encodeTariffsRoot(tariffPlans(), tariffTerms(content.locale)) : ` data-tool="${content.tool}"`} class="st:mt-5">${island}</div>
+${content.tariffsVisible && content.tool !== 'tariffs' ? `<p class="st:mt-5 st:text-sm st:text-studio-muted"><a href="/uz/tariflar/" class="${LINK} ${TAP}">${content.locale === 'uz' ? 'Studio tariflari: Kunlik — 5 900 so‘m, Oylik — 39 900 so‘m' : 'Тарифы Studio: Kunlik — 5 900 сум, Oylik — 39 900 сум'}</a></p>` : ''}
 <p class="st:mt-10 st:text-base st:leading-relaxed st:text-studio-text">${escapeHtml(content.lead)}</p>
 ${content.sections.map(sectionHtml).join('\n')}
 <section id="faq" aria-labelledby="faq-title" class="st:mt-12">

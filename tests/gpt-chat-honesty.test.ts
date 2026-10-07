@@ -120,14 +120,23 @@ test('the brand is GPTBot.uz in the header and above every answer; the composer�
   assert.match(consoleSource, /data-testid="ai-header-brand">[\s\S]{0,120}<span>\{t\.brand\}<\/span>/);
 });
 
-test('under the composer, on every screen: not OpenAI, questions go to foreign AI providers, and the privacy policy', () => {
+// Chat UI 2026-10-07 (§7, G12, G19): the line under the composer is one line
+// from 360px — not OpenAI, no personal data, the privacy policy — and the
+// sentence about the foreign AI providers moved to the first screen, under
+// the terms, where it stays while the first question is typed (the keyboard
+// open). In a conversation the menu says it: the disclaimer (third-party
+// models) and the saved chats' note (foreign AI providers).
+test('under the composer, on every screen: not OpenAI, no personal data, and the privacy policy; the providers on the first screen', () => {
   const expected = {
-    ru: ['Не продукт OpenAI', 'зарубежным AI-провайдерам', 'не пишите личные данные'],
-    uz: ['OpenAI mahsuloti emas', 'xorijdagi AI-provayderlarga', 'shaxsiy ma’lumot yozmang'],
+    ru: ['Не продукт OpenAI', 'Не пишите личные данные'],
+    uz: ['OpenAI mahsuloti emas', 'Shaxsiy ma’lumot yozmang'],
   };
+  const providers = { ru: 'зарубежным AI-провайдерам', uz: 'xorijdagi AI-provayderlarga' };
   for (const locale of LOCALES) {
     const t = strings(locale);
     for (const part of expected[locale]) assert.ok(t.inputMicrocopy.includes(part), `${locale}: ${part}`);
+    assert.ok(t.providerNote.includes(providers[locale]), `${locale}: the providers`);
+    assert.ok(t.premium.historyNote.includes(providers[locale].split(' ')[0]), `${locale}: the menu says it too`);
     const input = renderToStaticMarkup(React.createElement(AiChatInput, {
       value: '', onChange: () => {}, onSend: () => {}, maxChars: 3000, t, inputRef: React.createRef<HTMLTextAreaElement>(),
     }));
@@ -135,18 +144,26 @@ test('under the composer, on every screen: not OpenAI, questions go to foreign A
       + `<a href="${t.privacyHref}" data-testid="ai-input-privacy">${t.privacyLink}</a></span>`), locale);
     // The policy of this locale (plan WP-18): what the chat keeps and who receives it.
     assert.equal(t.privacyHref, locale === 'uz' ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/');
-    assert.equal(t.privacyLink, locale === 'uz' ? 'Maxfiylik' : 'Конфиденциальность');
+    assert.equal(t.privacyLink, locale === 'uz' ? 'Maxfiylik' : 'Приватность');
     // The menu's disclaimer (hidden on a phone until ☰) says the same and more.
     assert.match(t.disclaimer, /GPTBot\.uz/);
     assert.match(t.disclaimer, /OpenAI/);
   }
-  // Nothing hides the line on a narrow screen.
+  // Nothing hides the line on a narrow screen, nor the providers' sentence (the keyboard open included).
   const css = read('src/gpt-chat/premium.css');
-  for (const rule of css.matchAll(/([^{}]*gpt-input-footnote[^{}]*)\{([^}]*)\}/g)) {
+  for (const rule of css.matchAll(/([^{}]*gpt-(?:input-footnote|meta-note)[^{}]*)\{([^}]*)\}/g)) {
     assert.doesNotMatch(rule[2], /display:\s*none|visibility:\s*hidden/, rule[0]);
     const size = rule[2].match(/font-size:\s*(\d+)px/);
     if (size) assert.ok(Number(size[1]) >= 10, `${rule[0]}: the line shrinks below 10px`);
   }
+  // The keyboard hides the terms' first line, never the note.
+  const keyboard = css.match(/\.gpt-premium\[data-keyboard="open"\] :is\(([^)]*)\) \{ display: none; \}/);
+  assert.ok(keyboard, 'the keyboard rule');
+  assert.match(keyboard[1], /\.gpt-meta > :first-child/);
+  assert.doesNotMatch(keyboard[1], /gpt-meta-note|gpt-meta,|gpt-input-footnote/);
+  // The resting screen renders it inside the terms.
+  const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
+  assert.match(consoleSource, /<p className="gpt-meta">\s*<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<span className="gpt-meta-note">\{t\.providerNote\}<\/span>\s*<\/p>/);
 });
 
 test('the resting screen states the server’s daily and hourly allowance, in agreement', () => {
@@ -230,9 +247,15 @@ test('with the pack button in the header, the Russian chat’s switch is never c
   const css = read('src/gpt-chat/premium.css');
   const rule = css.match(/@media \(max-width: 389px\) \{([^@]*)\}/);
   assert.ok(rule, 'a 389px rule exists');
-  // The word gives way to «UZ», and the header's honest line to its short form («не OpenAI»), never cut.
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-full, \.gpt-sub-full\) \{ display: none; \}/);
-  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) :is\(\.gpt-lang-short, \.gpt-sub-short\) \{ display: inline; \}/);
+  // The word gives way to «UZ» below 390px, never cut.
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-full \{ display: none; \}/);
+  assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-short \{ display: inline; \}/);
+  // The header's honest line takes its short form («не OpenAI») up to 479px: at 390 and 412 the
+  // word «O‘zbekcha» and the labelled pack button leave the long one no room (chat UI A15).
+  const wide = css.match(/@media \(max-width: 479px\) \{([^@]*)\}/);
+  assert.ok(wide, 'a 479px rule exists');
+  assert.match(wide[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-sub-full \{ display: none; \}/);
+  assert.match(wide[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-sub-short \{ display: inline; \}/);
   // The class it keys on is the one the pill carries.
   assert.match(read('src/gpt-chat/components/AiAccountPanel.tsx'), /className="gpt-account-trigger"/);
 });
@@ -385,10 +408,12 @@ test('a translation goes the other way from the answer’s script, without the l
   assert.equal(translationOf('Salom! Bu javob o‘zbek tilida.'), 'russian');
   assert.equal(translationOf('Привет! Это ответ на русском.'), 'uzbek');
   assert.equal(translationOf('Ўзбекча кирилл ёзуви'), 'uzbek');
+  // The translation is an item of the «⋯» menu (chat UI §5.7), in the direction the answer's script says.
+  assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /const rest = \[\s*action\("shorter", true\),\s*action\(translationOf\(content\)\),/);
   for (const locale of LOCALES) {
     const s = answerStrings(locale);
-    assert.ok(actions({ locale, content: 'Salom, bu javob.' }).includes(s.toRussian), locale);
-    assert.ok(actions({ locale, content: 'Привет, это ответ.' }).includes(s.toUzbek), locale);
+    assert.equal(answerAsk('russian', 'Salom, bu javob.', locale)[0], s.toRussian, locale);
+    assert.equal(answerAsk('uzbek', 'Привет, это ответ.', locale)[0], s.toUzbek, locale);
     assert.match(answerAsk('russian', 'Salom', locale)[1], locale === 'uz' ? /rus tiliga/ : /на естественный русский/);
     assert.match(answerAsk('uzbek', 'Привет', locale)[1], locale === 'uz' ? /o‘zbek tiliga \(lotin yozuvida\)/ : /Uzbek Latin/);
   }
@@ -464,9 +489,9 @@ test('a last question without an answer says so, with a retry and the way back t
 });
 
 test('every button that sends is off while sending is paused; copying and sharing never are', () => {
-  const html = actions({ locked: true });
+  const html = actions({ locked: true, broken: true });
   const buttons = html.match(/<button[^>]*>/g) ?? [];
-  assert.equal(buttons.length, 6, 'copy, Telegram, simpler, translate, continue, another answer');
+  assert.equal(buttons.length, 4, 'copy, Telegram, continue, «⋯» (the menu of the rest is closed)');
   for (const button of buttons.slice(0, 2)) assert.ok(!button.includes('disabled'), 'copy and Telegram work during a limit');
   for (const button of buttons.slice(2)) assert.match(button, /disabled=""/);
   assert.ok(!actions().includes('disabled'));
@@ -474,9 +499,10 @@ test('every button that sends is off while sending is paused; copying and sharin
   assert.equal((actions({ isLast: false }).match(/<button/g) ?? []).length, 2);
 });
 
-// REV-7 (revision 2026-10-06-chat-design): on a phone «⋯» opens the rest of
-// the row as a menu above it, instead of growing the row (NOW-04).
-test('on a phone the row is copy, continue on a cut answer and «⋯», the rest a menu; with a mouse, the whole row', (t) => {
+// REV-7 (revision 2026-10-06-chat-design): «⋯» opens the rest of the row as a
+// menu above it, instead of growing the row (NOW-04). Chat UI 2026-10-07 §5.7
+// (G25): the same one row with a mouse too, so it never wraps.
+test('on every pointer the row is copy, Telegram, continue on a cut answer and «⋯», the rest a menu', (t) => {
   const g = globalThis as Record<string, unknown>;
   const s = answerStrings('uz');
   t.after(() => { delete g.window; });
@@ -492,7 +518,13 @@ test('on a phone the row is copy, continue on a cut answer and «⋯», the rest
   // Locked (a limit, a turn): «⋯» would open a menu of disabled buttons.
   assert.match(actions({ locked: true }), /<button type="button" class="gpt-action gpt-action-more" aria-expanded="false" aria-label="Yana" disabled="">/);
   g.window = { matchMedia: () => ({ matches: false }) };
-  assert.equal((actions().match(/<button/g) ?? []).length, 6);
+  assert.deepEqual(labels(actions()), [s.copy, s.share, '⋯']);
+  assert.deepEqual(labels(actions({ broken: true })), [s.copy, s.share, s.continue, '⋯']);
+  // «Davom ettir» is marked: below 640px it leaves copy and Telegram their icons only (premium.css).
+  assert.match(actions({ broken: true }), /<button type="button" class="gpt-action gpt-action-continue">/);
+  assert.match(read('src/gpt-chat/premium.css'), /@media \(max-width: 639px\) \{[^@]*\.gpt-action-row:has\(\.gpt-action-continue\) \.gpt-action-label \{ position: absolute;/);
+  // No divider and no inline paid buttons any more.
+  assert.doesNotMatch(read('src/gpt-chat/components/AiAnswer.tsx'), /gpt-action-divider|const phone =/);
   // The menu: every button keyed (no node turns into another), focus on its
   // first item, Escape and a tap outside close it, Escape gives the focus back
   // to «⋯», a choice closes it, and a second tap within 350 ms sends nothing.
@@ -534,8 +566,11 @@ test('«‹ 1/2 ›»: the versions «Qayta yozish» made, at most 3, kept in th
 
 test('while few messages are left, once a session: the buttons that make the AI write cost a message, copy and Telegram do not', (t) => {
   const s = answerStrings('ru');
-  assert.ok(actions({ locale: 'ru', costNote: true }).includes(`<p class="gpt-cost-note">${s.buttonCost}</p>`));
-  assert.ok(!actions({ locale: 'ru' }).includes(s.buttonCost));
+  // The menu's caption says it for what is inside «⋯» on every pointer (chat UI §5.7);
+  // the line, for the «Continue» that stands in the row of a cut answer.
+  assert.ok(actions({ locale: 'ru', costNote: true, broken: true }).includes(`<p class="gpt-cost-note">${s.buttonCost}</p>`));
+  assert.ok(!actions({ locale: 'ru', costNote: true }).includes(s.buttonCost));
+  assert.ok(!actions({ locale: 'ru', broken: true }).includes(s.buttonCost));
   assert.equal(s.buttonCost, 'Кнопки, по которым AI пишет новый ответ, — 1 сообщение; «Копировать» и «В Telegram» — бесплатно.');
   assert.equal(answerStrings('uz').buttonCost, 'AI yangi javob yozadigan tugmalar — 1 ta xabar; «Nusxalash» va «Telegramga» — bepul.');
   for (const locale of LOCALES) {

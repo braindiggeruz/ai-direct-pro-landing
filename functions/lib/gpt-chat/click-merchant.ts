@@ -214,9 +214,10 @@ export function clickReceiptItem(
   params: FiscalParams,
   tin: string,
   amount: number,
+  name: string = CLICK_RECEIPT_NAME,
 ): ClickReceiptItem {
   return {
-    Name: CLICK_RECEIPT_NAME,
+    Name: name,
     SPIC: params.ikpu,
     PackageCode: params.packageCode,
     Price: amount,
