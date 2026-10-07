@@ -481,7 +481,11 @@ UZUM_FISCAL_TEST_BASE_URL = "https://test-ofd.ipt-merch.com"
 # offer edition ai-paket-2026-10-v3 and both policies name Payme (the deploy
 # gate refuses Payme live without that). Rollback to the sandbox, the one
 # command of PAYME-RU.md section 7: GPT_BILLING_MODE_PAYME = "test" in both
-# places, then a guarded deploy (Click is untouched by it).
+# places, then a guarded deploy (Click is untouched by it). After it the
+# live key still settles live transactions already started (perform, cancel
+# or refund from the Payme cabinet, receipts, statement) and opens none;
+# GPT_BILLING_MODE_PAYME = "" closes the route to both keys, refunds of live
+# Payme sales included (payme.ts, SETTLE_ONLY).
 # Stop (both places, then a deploy): GPT_BILLING_LIVE_READY = "false" stops
 # new sales, and Click's Prepare/Complete still settle invoices already open
 # (they stay valid 12 h). GPT_BILLING_MODE_CLICK = "" is the hard stop: the

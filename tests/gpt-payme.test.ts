@@ -154,11 +154,20 @@ test("wrong authorization: -32504 on every method, with the request's id, before
       });
       assert.equal(answer.body.result, undefined);
     }
-  // In test, the production key is refused too, and in live the test key.
+  // The other mode's key opens no payment, before any database read: in test
+  // the production key, in live the test key (it only settles, see the
+  // rollback test below). A wrong key is still -32504 with both keys set.
   f.env.GPT_PAYME_KEY = randomBytes(18).toString("hex");
-  assert.equal(code((await f.send({ id: 1, method: "CheckTransaction", params: { id: txId() } }, { authorization: f.auth(f.env.GPT_PAYME_KEY), env })).body), -32504);
-  const live = { ...env, GPT_BILLING_MODE_PAYME: "live", GPT_PAYME_KEY: f.env.GPT_PAYME_KEY } as BillingEnv;
-  assert.equal(code((await f.send({ id: 1, method: "CheckTransaction", params: { id: txId() } }, { env: live })).body), -32504);
+  const both = { ...env, GPT_PAYME_KEY: f.env.GPT_PAYME_KEY } as BillingEnv;
+  const live = { ...both, GPT_BILLING_MODE_PAYME: "live" } as BillingEnv;
+  for (const [other, authorization] of [[both, f.auth(f.env.GPT_PAYME_KEY)], [live, f.auth()]] as const)
+    for (const method of ["CheckPerformTransaction", "CreateTransaction"]) {
+      const answer = (await f.send({ id: 7, method, params: { id: txId(), time: Date.now(), amount: PRICE_TIYIN, account: { order_id: "pay_x" } } }, { authorization, env: other })).body;
+      assert.deepEqual([answer.id, code(answer), answer.error?.data], [7, -31050, "order_id"], method);
+    }
+  for (const other of [both, live])
+    for (const authorization of wrong)
+      assert.equal(code((await f.send({ id: 1, method: "CheckTransaction", params: { id: txId() } }, { authorization, env: other })).body), -32504);
   // Basic in any letter case with the right key passes authentication (then -31003, from D1).
   const right = await f.send({ id: 5, method: "CheckTransaction", params: { id: txId() } }, { authorization: `basic   ${btoa(`Paycom:${f.env.GPT_PAYME_TEST_KEY}`)} ` });
   assert.equal(code(right.body), -31003);
@@ -186,6 +195,9 @@ test("the route exists only with Payme's mode and key; the envelope's own errors
     { GPT_PAYME_TEST_KEY: "" },
     { GPT_PAYME_TEST_KEY: "too-short" },
     { GPT_BILLING_MODE_PAYME: "live" },
+    // The other mode's key alone opens no route, and off is off for both keys.
+    { GPT_PAYME_TEST_KEY: "", GPT_PAYME_KEY: randomBytes(18).toString("hex") },
+    { GPT_BILLING_MODE_PAYME: "", GPT_PAYME_KEY: randomBytes(18).toString("hex") },
   ]) {
     const response = await probe({ ...f.env, ...change });
     assert.equal(response.status, 404, JSON.stringify(change));
@@ -621,6 +633,113 @@ test("a live Payme payment and its refund reach the owner like Click's; the test
     await f.settle();
     await maintainBilling(f.env);
     assert.equal(sent.length, before);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test("rollback to test (PAYME-RU.md section 7): the live key still settles live transactions, refunds included, and opens none", async () => {
+  const liveKey = randomBytes(18).toString("hex");
+  const f = await setup({
+    GPT_BILLING_MODE_PAYME: "live",
+    GPT_BILLING_MODE_CLICK: "live",
+    GPT_PAYME_KEY: liveKey,
+    GPT_NOTIFY_BOT_TOKEN: `123:${randomBytes(16).toString("hex")}`,
+    GPT_NOTIFY_CHAT_ID: "424242",
+  });
+  const sent: string[] = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = String(input instanceof Request ? input.url : input);
+    if (url.startsWith("https://api.telegram.org/")) {
+      sent.push(String(JSON.parse(String(init?.body ?? "{}")).text ?? ""));
+      return Response.json({ ok: true, result: { message_id: sent.length } });
+    }
+    return Response.json({ ok: false }, { status: 503 });
+  }) as typeof fetch;
+  const liveCall = async (method: string, params: Record<string, unknown>, key = liveKey) =>
+    (await f.send({ id: 1, method, params }, { authorization: f.auth(key) })).body;
+  const account = () => `acct_${randomUUID().replace(/-/g, "")}`;
+  try {
+    // While live: one sale paid, one payment Payme holds (prepared), one
+    // invoice Payme has not seen (pending).
+    const paidUser = account();
+    const paid = await f.order(paidUser, "live");
+    const paidTx = txId();
+    await liveCall("CreateTransaction", { id: paidTx, time: Date.now(), amount: PRICE_TIYIN, account: { order_id: paid.id } });
+    assert.equal((await liveCall("PerformTransaction", { id: paidTx })).result?.state, 2);
+    assert.ok(await f.store.access(paidUser, "live"));
+    const heldUser = account();
+    const held = await f.order(heldUser, "live");
+    const heldTx = txId();
+    assert.equal((await liveCall("CreateTransaction", { id: heldTx, time: Date.now(), amount: PRICE_TIYIN, account: { order_id: held.id } })).result?.state, 1);
+    const open = await f.order(account(), "live");
+    await f.settle();
+    await maintainBilling(f.env);
+    const outbox = (order: string) =>
+      f.db.rows<{ event: string }>("SELECT event FROM gpt_billing_outbox WHERE order_id=? ORDER BY created_at,rowid", order).map((r) => r.event);
+    assert.deepEqual(outbox(paid.id), ["paid"]);
+
+    // The one-command rollback: Payme back to test (Click stays live).
+    f.env.GPT_BILLING_MODE_PAYME = "test";
+
+    // A refund from the Payme cabinet of the live sale: state -2, the order
+    // refunded, the pack closed, the owner told.
+    const refund = await liveCall("CancelTransaction", { id: paidTx, reason: 5 });
+    assert.equal(refund.result?.state, -2, JSON.stringify(refund));
+    assert.equal(refund.result?.transaction, paid.id);
+    assert.equal((await f.store.order(paid.id))?.state, "refunded");
+    assert.equal(await f.store.access(paidUser, "live"), null);
+    assert.equal(f.db.value("SELECT status FROM gpt_subscriptions WHERE id=?", paid.id), "cancelled");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_access_periods WHERE order_id=? AND revoked_at IS NULL", paid.id), 0);
+    await f.settle();
+    await maintainBilling(f.env);
+    assert.deepEqual(outbox(paid.id), ["paid", "refunded"]);
+    assert.ok(sent.some((text) => text.includes("AI paket: refunded\npayme · 20 000 UZS")), JSON.stringify(sent));
+    // Its repeat answers the same; CheckTransaction and the statement still see it.
+    assert.deepEqual((await liveCall("CancelTransaction", { id: paidTx, reason: 5 })).result, refund.result);
+    assert.deepEqual([(await liveCall("CheckTransaction", { id: paidTx })).result?.state, (await liveCall("CheckTransaction", { id: paidTx })).result?.reason], [-2, 5]);
+
+    // The payment in flight completes: PerformTransaction on the live prepared row.
+    const performed = await liveCall("PerformTransaction", { id: heldTx });
+    assert.equal(performed.result?.state, 2, JSON.stringify(performed));
+    assert.equal((await f.store.order(held.id))?.state, "paid");
+    assert.ok(await f.store.access(heldUser, "live"));
+    // Its receipt report is kept, and a failed live print still pages the owner.
+    assert.deepEqual((await liveCall("SetFiscalData", { id: heldTx, type: "PERFORM", fiscal_data: { status_code: 5, message: "Ошибка" } })).result, { success: true });
+    assert.equal(f.db.value("SELECT status_code FROM gpt_payme_fiscal WHERE order_id=?", held.id), 5);
+    await f.settle();
+    assert.deepEqual(f.db.rows<{ code: string }>("SELECT code FROM gpt_service_alerts").map((r) => r.code), ["payme_fiscal_failed"]);
+    // GetStatement with the live key lists the live transactions; with the test key, none of them.
+    const range = { from: 0, to: Date.now() + 60_000 };
+    assert.deepEqual(
+      ((await liveCall("GetStatement", range)).result?.transactions as { id: string }[]).map((t) => t.id).sort(),
+      [paidTx, heldTx].sort(),
+    );
+    assert.deepEqual((await f.call("GetStatement", range)).result?.transactions, []);
+    // The test key does not reach live transactions (they are not test ones).
+    assert.equal(code(await f.call("CheckTransaction", { id: heldTx })), -31003);
+
+    // No new live payment: CheckPerform and Create with the live key are -31050,
+    // the pending live invoice stays unseen (its owner may close it in the window).
+    for (const method of ["CheckPerformTransaction", "CreateTransaction"]) {
+      const answer = await liveCall(method, { id: txId(), time: Date.now(), amount: PRICE_TIYIN, account: { order_id: open.id } });
+      assert.deepEqual([code(answer), answer.error?.data], [-31050, "order_id"], method);
+    }
+    const still = await f.store.order(open.id);
+    assert.deepEqual([still?.state, still?.external_id ?? null], ["pending", null]);
+    // A wrong key is still -32504, whatever the method.
+    for (const method of ["CancelTransaction", "PerformTransaction", "CheckTransaction", "CreateTransaction"])
+      assert.equal(code(await liveCall(method, { id: paidTx, reason: 5 }, randomBytes(18).toString("hex"))), -32504, method);
+    // The live key is not a way into test orders either.
+    const testOrder = await f.order();
+    assert.equal(code(await liveCall("CheckPerformTransaction", { amount: PRICE_TIYIN, account: { order_id: testOrder.id } })), -31050);
+    assert.equal((await f.call("CheckPerformTransaction", { amount: PRICE_TIYIN, account: { order_id: testOrder.id } })).result?.allow, true);
+
+    // Payme off (""): the route is gone for both keys.
+    f.env.GPT_BILLING_MODE_PAYME = "";
+    assert.equal((await f.send({ id: 1, method: "CheckTransaction", params: { id: heldTx } }, { authorization: f.auth(liveKey) })).status, 404);
+    await f.settle();
   } finally {
     globalThis.fetch = original;
   }

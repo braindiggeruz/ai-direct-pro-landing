@@ -199,9 +199,11 @@ test("a guest pays with Payme live: checkout.paycom.uz, the pack is the browser'
     };
     assert.deepEqual([pending.user.guest, pending.payment?.id, pending.payment?.state, pending.payment?.provider], [true, order, "pending", "payme"]);
     assert.deepEqual([pending.providers, pending.mode], [["payme"], "live"]);
-    // Payme with the production key: the test key is refused in live.
+    // Payme with the production key: in live the test key opens no payment
+    // (it only settles test transactions, payme.ts SETTLE_ONLY).
     const live = (method: string, params: Record<string, unknown>) => f.rpc(method, params, f.env.GPT_PAYME_KEY);
-    assert.equal(((await f.rpc("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } })) as { error?: { code: number } }).error?.code, -32504);
+    assert.equal(((await f.rpc("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } })) as { error?: { code: number } }).error?.code, -31050);
+    assert.equal(((await f.rpc("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } }, "x".repeat(32))) as { error?: { code: number } }).error?.code, -32504);
     const allowed = (await live("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } })) as { result?: { allow: boolean } };
     assert.equal(allowed.result?.allow, true);
     const id = randomBytes(12).toString("hex");

@@ -6,6 +6,14 @@
 // (test.paycom.uz) with GPT_PAYME_TEST_KEY; live, Payme's production with
 // GPT_PAYME_KEY.
 //
+// After a switch between test and live (the rollback of PAYME-RU.md section
+// 7 puts live back to test), the other mode's key still settles what that
+// mode started, and only that: PerformTransaction, CancelTransaction (a
+// refund from the Payme cabinet), CheckTransaction, SetFiscalData and
+// GetStatement, each on that mode's orders. It opens no new payment:
+// CheckPerformTransaction and CreateTransaction with it are -31050. With
+// Payme off the route is gone for both keys.
+//
 // Every answer is HTTP 200 with the request's id (Payme reads any other
 // status as -32400). The body (at most 16 kB) is read first so that even a
 // refused authorization (-32504) carries the id; authentication still comes
@@ -37,6 +45,7 @@ import {
   providerMode,
   PAYMENT_TTL_MS,
   type BillingEnv,
+  type BillingMode,
 } from "../../lib/gpt-chat/billing-config";
 import { BillingStore } from "../../lib/gpt-chat/billing-store";
 import { ensurePaymeSchema } from "../../lib/gpt-chat/billing-schema";
@@ -113,6 +122,15 @@ const MESSAGES: Record<number, Localized> = {
 /** Payme's cancel reasons (1, 2, 3, 4 timeout, 5 money returned, 10 unknown). */
 const CANCEL_REASONS: readonly number[] = [1, 2, 3, 4, 5, 10];
 
+/** What the other mode's key may still do: settle what that mode started. */
+const SETTLE_ONLY: readonly string[] = [
+  "PerformTransaction",
+  "CancelTransaction",
+  "CheckTransaction",
+  "SetFiscalData",
+  "GetStatement",
+];
+
 /** HTTP Basic with login "Paycom" and the cash desk key, compared in constant time. */
 function paymeAuthorized(header: string, key: string): boolean {
   const match = /^\s*Basic\s+([A-Za-z0-9+/]+={0,2})\s*$/i.exec(header);
@@ -124,6 +142,25 @@ function paymeAuthorized(header: string, key: string): boolean {
     return false;
   }
   return sameSecret(decoded, `Paycom:${key}`);
+}
+
+/**
+ * The mode whose cash desk key signed the request: Payme's current `mode`
+ * first, then the other one (settle only, SETTLE_ONLY); null for any other
+ * authorization. An unset or malformed key matches nothing.
+ */
+function signedMode(header: string, env: BillingEnv, mode: BillingMode): BillingMode | null {
+  for (const candidate of [mode, mode === "live" ? "test" : "live"] as const) {
+    const key = paymeKey(env, candidate);
+    if (key && paymeAuthorized(header, key)) return candidate;
+  }
+  return null;
+}
+
+/** Payme's current mode while its route exists (a mode and that mode's key), else null. */
+function routeMode(env: BillingEnv): BillingMode | null {
+  const mode = providerMode(env, "payme");
+  return mode && paymeKey(env, mode) ? mode : null;
 }
 
 /** A SetFiscalData field kept as text: a short printable string or an integer, else null. */
@@ -150,9 +187,8 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   env,
   waitUntil,
 }) => {
-  const mode = providerMode(env, "payme");
-  const key = mode ? paymeKey(env, mode) : "";
-  if (!mode || !key) return fail("not_found", "Not found", 404);
+  const mode = routeMode(env);
+  if (!mode) return fail("not_found", "Not found", 404);
   const error = (
     id: number | null,
     code: number,
@@ -174,14 +210,22 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
   const body = await readJsonLimited<unknown>(request, 16_384);
   const rpc = body.ok ? record(body.value) : null;
   const id = rpc && Number.isSafeInteger(rpc.id) ? (rpc.id as number) : null;
-  // Authentication precedes schema bootstrap and every database read.
-  if (!paymeAuthorized(request.headers.get("authorization") || "", key))
-    return error(id, -32504);
+  // Authentication precedes schema bootstrap and every database read. The
+  // key decides whose orders the request reaches: `txMode`, Payme's current
+  // mode or, with the other mode's key, that mode's (settle only).
+  const txMode = signedMode(request.headers.get("authorization") || "", env, mode);
+  if (!txMode) return error(id, -32504);
   if (!body.ok) return error(null, -32700);
   const p = rpc ? record(rpc.params) : null;
   if (!rpc || typeof rpc.method !== "string" || !p || id === null)
     return error(id, -32600);
   const method = rpc.method;
+  // The other mode's key opens no new payment (a pending order of that mode
+  // must not take one after a switch), before D1.
+  if (txMode !== mode && !SETTLE_ONLY.includes(method))
+    return method === "CheckPerformTransaction" || method === "CreateTransaction"
+      ? error(id, -31050, "order_id")
+      : error(id, -32601, method);
   const ok = (result: unknown) => json({ id, result });
   if (!env.GPTBOT_DRAFTS_DB) return error(id, -32400);
   try {
@@ -198,7 +242,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       if (p.type !== "PERFORM" && p.type !== "CANCEL") return invalid("type");
       if (!data) return invalid("fiscal_data");
       if (!Number.isSafeInteger(data.status_code)) return invalid("fiscal_data.status_code");
-      const row = await store.external("payme", mode, p.id);
+      const row = await store.external("payme", txMode, p.id);
       if (!row) return error(id, -32001, null, "Receipt not found");
       const status = data.status_code as number;
       await store.paymeFiscal(row.id, p.type, {
@@ -214,7 +258,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       });
       // A live receipt Payme could not print: an urgent alert, so the owner
       // is paged in Telegram (alert-policy.ts). A sandbox failure stays quiet.
-      if (status !== 0 && mode === "live") alert("payme_fiscal_failed");
+      if (status !== 0 && txMode === "live") alert("payme_fiscal_failed");
       return ok({ success: true });
     }
     if (method === "GetStatement") {
@@ -227,7 +271,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
         return error(id, -32600);
       // By Payme's own creation time, both ends included, in its order;
       // every transaction CreateTransaction accepted, whatever became of it.
-      const rows = await store.statement("payme", mode, p.from as number, p.to as number);
+      const rows = await store.statement("payme", txMode, p.from as number, p.to as number);
       return ok({
         transactions: rows.map((r) => ({
           id: r.external_id,
@@ -244,7 +288,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       if (typeof orderId !== "string" || orderId.length > 64)
         return error(id, -31050, "order_id");
       let row = await store.order(orderId);
-      if (!row || row.provider !== "payme" || row.mode !== mode)
+      if (!row || row.provider !== "payme" || row.mode !== txMode)
         return error(id, -31050, "order_id");
       if (!Number.isSafeInteger(p.amount) || p.amount !== row.amount || row.currency !== "UZS")
         return error(id, -31001);
@@ -273,7 +317,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       )
         return error(id, -32600);
       const time = p.time as number;
-      const existing = await store.external("payme", mode, p.id);
+      const existing = await store.external("payme", txMode, p.id);
       if (existing) {
         // Payme's repeat of this transaction: the first answer while it waits
         // to be performed; -31008 once it left state 1 or ran out of time.
@@ -299,7 +343,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     if (!["PerformTransaction", "CancelTransaction", "CheckTransaction"].includes(method))
       return error(id, -32601, method);
     if (!transactionId(p.id)) return error(id, -32600);
-    let row = await store.external("payme", mode, p.id);
+    let row = await store.external("payme", txMode, p.id);
     if (!row) return error(id, -31003);
     if (row.state === "prepared" && now - Number(row.provider_time) >= PAYMENT_TTL_MS)
       row = await store.transition(row.id, "cancelled", "timeout", { reason: 4, from: ["prepared"] });
@@ -327,9 +371,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     return error(id, conflict ? -31008 : -32400);
   }
 };
-export const onRequest: PagesFunction<BillingEnv> = async ({ env }) => {
-  const mode = providerMode(env, "payme");
-  return mode && paymeKey(env, mode)
+export const onRequest: PagesFunction<BillingEnv> = async ({ env }) =>
+  routeMode(env)
     ? json({ id: null, error: { code: -32300, message: MESSAGES[-32300], data: null } })
     : fail("not_found", "Not found", 404);
-};
