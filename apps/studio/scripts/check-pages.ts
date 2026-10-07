@@ -192,7 +192,7 @@ ${styles}
 </head>
 <body data-studio>
 <main>
-<h1>${locale === 'uz' ? 'Mavzuni yozing — tayyor taqdimot (.pptx)' : 'Напишите тему — получите готовую презентацию (.pptx)'}</h1>
+<h1>${locale === 'uz' ? 'Mavzuni yozing — tayyor taqdimot (.pptx)' : 'Напишите тему — получите презентацию в формате .pptx'}</h1>
 <div id="studio-root" data-tool="presentation">${islandHtml}</div>
 </main>
 </body>
