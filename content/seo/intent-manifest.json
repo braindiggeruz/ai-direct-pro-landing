@@ -828,6 +828,31 @@
       "evidence": "gptbot.uz-audit/raw/seo-compete-2026-10-06/03-OUR-GSC-AND-PAGES.md §5.2 (8); §7.3 item 3",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-06"
+    },
+    {
+      "id": "C39-uz-chat-vs-talabalar-article",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat — family A «chatgpt uzbek tilida», «chatgpt uzbekcha», «chatgpt o‘zbek tilida» and its reversed word order «o‘zbek tilida chatgpt» (pairs C22, C6 and C37)",
+        "mustNotTarget": [
+          "chatgpt talabalar uchun",
+          "chatgpt o‘qish uchun"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/chatgpt-talabalar-uchun/",
+        "owns": "the 20 ways a student can use an AI chat honestly — «chatgpt talabalar uchun», «chatgpt o‘qish uchun», «ai student uzbek» (its referat terms are fenced in C35)",
+        "mustNotTarget": [
+          "chatgpt uzbek tilida",
+          "chatgpt uzbekcha",
+          "chatgpt o‘zbek tilida",
+          "o‘zbek tilida chatgpt"
+        ]
+      },
+      "gscNote": "Found 2026-10-06 in the review of releases no. 2 and no. 3. The student article declared «o‘zbek tilida chatgpt», a word-order variant of family A, which the UZ chat owns (pairs C22, C6 and C37), and its BlogPosting JSON-LD prints keywords — the same reason «chatgpt uzbek tilida» left the claude-gemini article in C37. Pair C35 matches the article with the referat guide and fences no family-A phrase, so the manifest test could not see the key. It leaves the article in release no. 3, which already rewrites the article's link into the chat; the article keeps «chatgpt talabalar uchun», «chatgpt o‘qish uchun» and «ai student uzbek». The UZ chat is protected: this entry changes nothing on it.",
+      "evidence": "gptbot.uz-audit/raw/seo-compete-2026-10-06/03-OUR-GSC-AND-PAGES.md §5.2 (7) (the rule applied in C37); review of releases no. 2 and no. 3 of 2026-10-06, finding 3",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-06"
     }
   ],
   "architectureDecisions": [

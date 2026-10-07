@@ -23,6 +23,18 @@
     "next": "deploy only on command via the guarded scripts: fast-forward main (= production 192ff31b) to chat/rev-design-20261006, npm run build:production, deploy_runner.py check -> deploy; after deploy: live protected check (only the UZ chat title differs from before, then 10/10 against the new BASELINE), chat-bundle-budget --record (writes schema 2 with startCssBytes), curl both chats, IndexNow for both chat URLs, request indexing of the UZ chat and record the recrawl date, owner check on Android in Telegram",
     "review_fixes": "26 review findings fixed (menu clipped by content-visibility, check line and step heading flex columns, braced powers in fractions, unclosed formula only while streaming, JAVOB box first-line short value, header short lines at 320px, limit card via scroller scrollToEnd, frame vs mounted heights and chips from 720px, entry link 44px, pinch-zoom no keyboard, screen-reader text for formulas, chat CSS in the bundle budget, evidence generator «undefined», cost note for Continue on a phone, pack price colour, pack pill 44px, reduced motion jump, history chevron, ^{2n}); no indexable text changes"
   },
+  "seo_compete_n3_20261010": {
+    "status": "committed_not_deployed",
+    "branch": "seo/compete-n3-20261010 (on top of seo/compete-20261006, release no. 2)",
+    "baseline_commit": "a63ecaad (release no. 2 with its review fixes 054c70a7 and their verification record); rebased from f3b5e35f on 2026-10-06",
+    "commit": "5e9483bc (release no. 3, was 79dde1eb before the rebase) and 4ca3964d (its first verification record, was 5ab2a304); review fixes f2daef15, then the metadata-only record of their verification (rule D-006: read it with git log -1 seo/compete-n3-20261010)",
+    "scope": "NOW-TASKS.json N3: one honest «ChatGPT … muqobil / o‘rniga» anchor into /uz/gpt-uzbek-tilida/ on five unprotected pages (guide C6, chat manual, /uz/suniy-intellekt/, the ChatGPT/Claude/Gemini comparison, the students article), each rewriting an existing chat link; /uz/suniy-intellekt/ also gains «GPTBot.uz mustaqil servis, OpenAI emas»; review of 2026-10-06: «o‘zbek tilida chatgpt» out of the students article keywords with new pair C39, no «bepul» in the two anchors that had it, content dates of the five pages 2026-10-10",
+    "release_rule": "after the N1 read (2026-10-10..11); with the owner's option B (extra UZ-chat title revision) on the same day as one CHANGE_LOG event; never before release no. 2; never before 2026-10-10 (the five pages carry that date); on 2026-10-11 or later move the dates of the five files to the deploy day first",
+    "pctr_note": "external signal for the UZ chat inside the R-S1 P-CTR window; the UZ chat HTML is byte-identical to production 2ed9e812",
+    "protected_pages": "unchanged: seo-protection 10/10; the ten protected HTML files byte-identical to the 2ed9e812 build, CSS identical; against the reviewed release no. 2 build the five page HTML files and /uz/blog/ changed",
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №3 — честные анкоры «ChatGPT … muqobil / o‘rniga» на UZ-чат)",
+    "verification": "after the review (f2daef15): build:production stamped (953 files); seo:audit 0 critical; tsc -b 0; live-gate issues []; npm test file list with --test-concurrency=2: 1335/1337, the two known tests/lead-radar.test.ts failures only; copy in F:/Claude/gptbot-tools/tmp/compete-n3r-dist; IndexNow list F:/Claude/gptbot-tools/tmp/compete-n3-indexnow.json (6 URLs)"
+  },
   "seo_compete_20261006": {
     "status": "committed_not_deployed",
     "branch": "seo/compete-20261006",
