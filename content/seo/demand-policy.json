@@ -230,7 +230,7 @@
       "competition": "MEDIUM",
       "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
       "measuredAt": "2026-10-06",
-      "note": "Google Ads competition index 0.34, CPC 1.09 USD, August 2026 210. Owned by /uz/instagram-target-yoqish/ (activation branch of the SMM cluster plan, decision A5). Search Console: /uz/blog/target-reklama-nima/ ranks for it at 2.0 on one impression; the SERP has an OLX service listing at 2 and no agency page in the top ten for «target xizmati»."
+      "note": "Google Ads competition index 0.34, CPC 1.09 USD, August 2026 210. Owned by /uz/instagram-target-yoqish/ (activation branch of the SMM cluster plan, decision A7). Search Console: /uz/blog/target-reklama-nima/ ranks for it at 2.0 on one impression; the SERP has an OLX service listing at 2 and no agency page in the top ten for «target xizmati»."
     },
     {
       "keyword": "instagram target",
@@ -286,7 +286,7 @@
       "competition": "LOW",
       "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
       "measuredAt": "2026-10-07",
-      "note": "Google Ads competition index 0, no CPC returned; 12-month average 1 607, Oct and Nov 2025 2 400 each, August 2026 480: seasonal. Owned by /uz/blog/tushuntirish-xati-va-ariza-yozish/ (traffic revision 2026-10-07, pair C40). The SERP of 2026-10-07 (02-UZ-GPT-DELTA §4.1) is weak and has no AI site; the article gives a structure and a conditional sample with placeholders, says it is not legal advice, and never writes for the reader."
+      "note": "Google Ads competition index 0, no CPC returned; 12-month average 1 607, Oct and Nov 2025 2 400 each, August 2026 480: seasonal. Owned by /uz/blog/tushuntirish-xati-va-ariza-yozish/ (traffic revision 2026-10-07, pair C41). The SERP of 2026-10-07 (02-UZ-GPT-DELTA §4.1) is weak and has no AI site; the article gives a structure and a conditional sample with placeholders, says it is not legal advice, and never writes for the reader."
     },
     {
       "keyword": "ariza yozish",
@@ -310,7 +310,7 @@
       "competition": "LOW",
       "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword universe of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords/keyword_universe.json)",
       "measuredAt": "2026-10-04",
-      "note": "Google Ads competition index 0; August 2026 90, trend June–August 2026 against September–November 2025 0.41: seasonal. Owned by /uz/blog/kurs-ishi-yozish/ (traffic revision 2026-10-07, pairs C41 and C42); the referat guide answers it only in one section and one FAQ that link the new guide. The SERP of 2026-10-07 is document archives plus one AI study assistant at 3; the guide gives a structure template on an invented topic, never a finished paper."
+      "note": "Google Ads competition index 0; August 2026 90, trend June–August 2026 against September–November 2025 0.41: seasonal. Owned by /uz/blog/kurs-ishi-yozish/ (traffic revision 2026-10-07, pairs C42 and C43); the referat guide answers it only in one section and one FAQ that link the new guide. The SERP of 2026-10-07 is document archives plus one AI study assistant at 3; the guide gives a structure template on an invented topic, never a finished paper."
     },
     {
       "keyword": "kurs ishi namuna",
@@ -334,7 +334,7 @@
       "competition": "LOW",
       "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
       "measuredAt": "2026-10-07",
-      "note": "Google Ads competition index 0.05, CPC 0.80 USD; October 2025 1 600, August 2026 260. Owned by /uz/blog/biznes-reja-tuzish/ (traffic revision 2026-10-07, pairs C43 and C44); the business article /uz/blog/chat-gpt-uzbek-biznes-uchun/ links it and does not declare it. The article carries no price of ours and no sum in a currency: every amount in its sample is [summa]."
+      "note": "Google Ads competition index 0.05, CPC 0.80 USD; October 2025 1 600, August 2026 260. Owned by /uz/blog/biznes-reja-tuzish/ (traffic revision 2026-10-07, pairs C44 and C45); the business article /uz/blog/chat-gpt-uzbek-biznes-uchun/ links it and does not declare it. The article carries no price of ours and no sum in a currency: every amount in its sample is [summa]."
     },
     {
       "keyword": "biznes reja tuzish",
