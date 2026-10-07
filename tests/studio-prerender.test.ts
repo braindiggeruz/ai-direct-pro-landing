@@ -15,6 +15,7 @@ import { addressesLeftForTheEdge } from '../scripts/email-off';
 import { buildOrganizationLd } from '../scripts/jsonld-helpers';
 import type { ViteManifest } from '../scripts/vite-manifest';
 import { STATIC_ROUTES } from '../src/shared/audit';
+import { SITE_CHAT_NAV } from '../src/shared/site-chat-nav';
 import type { GlobalSEO } from '../src/shared/types';
 import {
   PPTX_CODE_MARKER,
@@ -464,6 +465,12 @@ test('page: no link to /ru/ (a 301 to /); home is /uz/ or /; every internal link
     const hrefs = [...html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].map(m => m[1]);
     assert.ok(!hrefs.includes('/ru/'), `${locale}: links /ru/`);
     assert.match(html, new RegExp(`<header[\\s\\S]*?<a href="${home.replace(/\//g, '\\/')}"[^>]*>GPTBot\\.uz</a>`));
+    // Every site header names the AI chat of its language once (revision 2026-10-06-seo-push R3-10).
+    const header = /<header\b[\s\S]*?<\/header>/.exec(html)?.[0] ?? '';
+    const chat = SITE_CHAT_NAV[locale];
+    assert.equal(header.split(`<a href="${chat.href}"`).length - 1, 1, `${locale}: one chat item in the header`);
+    assert.ok(header.includes(`>${chat.label}</a>`), `${locale}: the chat of its language`);
+    assert.ok(!header.includes(`>${SITE_CHAT_NAV[locale === 'uz' ? 'ru' : 'uz'].label}</a>`), `${locale}: not the other language's chat`);
     const internal = hrefs.filter(href => href.startsWith('/') && !href.startsWith('//')).map(href => href.split('#')[0]);
     assert.ok(internal.length >= 8, `${locale}: ${internal.length} internal links`);
     for (const href of internal) assert.ok(served.has(href), `${locale}: ${href} is not a served URL`);

@@ -21,9 +21,13 @@
  *            island's module script.
  *   <body data-studio>
  *            header: GPTBot.uz (→ /uz/, or / on a Russian page; never /ru/,
- *            which is a 301 to /), the published tools, a language switch only
- *            when the translation is published; breadcrumb; the H1 and the
- *            honesty line; #studio-root with the form's first state and
+ *            which is a 301 to /), the published tools, the site's AI chat
+ *            item of the page's language (src/shared/site-chat-nav.ts: every
+ *            site header names the chat once, revision 2026-10-06-seo-push
+ *            R3-10; shown from 640 px like the blog header's, so the phone's
+ *            header stays one row and the form keeps its place), a language
+ *            switch only when the translation is published; breadcrumb; the
+ *            H1 and the honesty line; #studio-root with the form's first state and
  *            nothing else; the text, the FAQ, the links; the footer from
  *            content/global/legal-entity.json with the e-mail behind
  *            <!--email_off-->.
@@ -37,6 +41,7 @@ import { METRIKA_HEAD, METRIKA_NOSCRIPT } from '../../../scripts/analytics-metri
 import { FIRST_TOUCH_SCRIPT } from '../../../scripts/attribution-snippet';
 import { withEmailOff } from '../../../scripts/email-off';
 import { buildBreadcrumbLd, buildOrganizationLd } from '../../../scripts/jsonld-helpers';
+import { SITE_CHAT_NAV } from '../../../src/shared/site-chat-nav';
 import type { GlobalSEO } from '../../../src/shared/types';
 import { INAPP_HEAD_SCRIPT } from '../src/inapp';
 import { renderForm } from '../src/tools/presentation/static';
@@ -346,6 +351,8 @@ export function renderStudioPage(page: StudioPageRecord, context: StudioRenderCo
       const name = typeof other.data.toolName === 'string' ? other.data.toolName : other.url;
       return `<a href="${escapeHtml(other.url)}"${current ? ' aria-current="page"' : ''} class="${current ? 'st:font-semibold st:text-studio-text' : 'st:text-studio-muted st:hover:text-studio-text'}">${escapeHtml(name)}</a>`;
     });
+  const chat = SITE_CHAT_NAV[content.locale];
+  const chatItem = `<a href="${escapeHtml(chat.href)}" class="st:hidden st:text-studio-muted st:hover:text-studio-text st:sm:inline">${escapeHtml(chat.label)}</a>`;
   const other = alternates ? (content.locale === 'uz' ? { url: alternates.ru, locale: 'ru' as const } : { url: alternates.uz, locale: 'uz' as const }) : null;
   const languageSwitch = other
     ? `<a href="${escapeHtml(other.url)}" hreflang="${other.locale}" lang="${other.locale}" class="st:ml-auto st:rounded-lg st:border st:border-studio-line st:px-3 st:py-1.5 st:text-sm st:text-studio-muted st:hover:text-studio-text">${escapeHtml(CHROME[other.locale].language)}</a>`
@@ -403,7 +410,7 @@ ${METRIKA_NOSCRIPT}
 <header class="st:border-b st:border-studio-line">
 <div class="st:mx-auto st:flex st:max-w-3xl st:flex-wrap st:items-center st:gap-x-5 st:gap-y-2 st:px-4 st:py-3 st:sm:px-6">
 <a href="${chrome.home}" class="st:text-base st:font-semibold st:text-studio-text">${escapeHtml(global.siteName)}</a>
-<nav aria-label="${escapeHtml(chrome.tools)}" class="st:flex st:flex-wrap st:gap-x-4 st:text-sm">${tools.join('')}</nav>
+<nav aria-label="${escapeHtml(chrome.tools)}" class="st:flex st:flex-wrap st:gap-x-4 st:text-sm">${tools.join('')}${chatItem}</nav>
 ${languageSwitch}
 </div>
 </header>
