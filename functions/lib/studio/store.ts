@@ -224,6 +224,36 @@ export function viewerMode(payments: "off" | "test" | "live"): OrderMode {
   return payments === "test" ? "test" : "live";
 }
 
+/**
+ * Where a photo task's unit comes from (spec §2.3, «сначала бесплатное»):
+ * today's free photos first, then the entitlement that ends soonest.
+ *   - a free photo left: free; it needs a Turnstile token unless the
+ *     account holds a running entitlement (`entitled`), and without one the
+ *     answer is 403 turnstile_required: a paid unit never stands in for a
+ *     missing token;
+ *   - none left: the entitlement (jobs.ts startJob picks it; none with a
+ *     photo left is 402 no_units), or 429 free_limit without one.
+ * For the photo endpoint (stream C); a deck has no such order: the free and
+ * the full deck are two products the person chooses between.
+ */
+export function photoUnitSource(input: {
+  /** Free photo tasks left today (free-usage.ts freeLeft). */
+  readonly freeLeft: number;
+  /** The account holds a live, unrevoked entitlement of the viewer's mode. */
+  readonly entitled: boolean;
+  /** The request carries a Turnstile token (checked after this choice). */
+  readonly turnstileToken: boolean;
+}):
+  | { readonly source: "free"; readonly turnstile: boolean }
+  | { readonly source: "entitlement" }
+  | { readonly refuse: "turnstile_required" | "free_limit" } {
+  if (input.freeLeft > 0) {
+    if (input.entitled) return { source: "free", turnstile: false };
+    return input.turnstileToken ? { source: "free", turnstile: true } : { refuse: "turnstile_required" };
+  }
+  return input.entitled ? { source: "entitlement" } : { refuse: "free_limit" };
+}
+
 /** Units of an order not used yet: its entitlements (the main one and the returned units), revoked or not. */
 export interface UnusedUnits {
   readonly presentations: number;
@@ -339,6 +369,21 @@ export class StudioStore {
       .bind(this.org, userId, mode)
       .all<StudioEntitlement>();
     return rows.results ?? [];
+  }
+
+  /**
+   * The buyer holds a running, unrevoked entitlement of `mode` now, with
+   * units left or not (photoUnitSource `entitled`: a buyer's free photos
+   * skip Turnstile). One indexed read.
+   */
+  async hasRunningEntitlement(userId: string, mode: OrderMode, now: number): Promise<boolean> {
+    const row = await this.db
+      .prepare(
+        "SELECT id FROM studio_entitlements WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL AND starts_at<=? AND ends_at>? ORDER BY ends_at LIMIT 1",
+      )
+      .bind(this.org, userId, mode, now, now)
+      .first<{ id: string }>();
+    return row !== null;
   }
 
   /** The entitlements of one order: its own and its returned units. */
@@ -818,20 +863,22 @@ export class StudioStore {
 
   /**
    * For each of up to 10 entitlements: its spent units' jobs that may still
-   * be made once more (spec §2.4): done, paid from it, not a regeneration
-   * themselves, finished after `since` (24 hours ago), and without a live
-   * regeneration of their own. The regenerate endpoint checks the rest
-   * (the same person and task, the entitlement still running).
+   * be made once more (spec §2.4): done by `subject` (the account's own
+   * ledger subject, "a:" + its id: a deck made by the account that held the
+   * order before a support restore is that account's), paid from it, not a
+   * regeneration themselves, finished after `since` (24 hours ago), and
+   * without a live regeneration of their own. The regenerate endpoint checks
+   * the rest (the same task, the entitlement still running).
    */
-  async regenAvailable(entitlementIds: readonly string[], since: number): Promise<Map<string, string[]>> {
+  async regenAvailable(entitlementIds: readonly string[], subject: string, since: number): Promise<Map<string, string[]>> {
     const available = new Map<string, string[]>();
     const originals: string[] = [];
     for (const entitlementId of [...new Set(entitlementIds)].slice(0, 10)) {
       const rows = await this.db
         .prepare(
-          "SELECT id FROM studio_unit_ledger WHERE org_id=? AND entitlement_id=? AND state='done' AND source='entitlement' AND regen_of IS NULL AND settled_at>? ORDER BY settled_at DESC LIMIT 10",
+          "SELECT id FROM studio_unit_ledger WHERE org_id=? AND entitlement_id=? AND state='done' AND subject=? AND source='entitlement' AND regen_of IS NULL AND settled_at>? ORDER BY settled_at DESC LIMIT 10",
         )
-        .bind(this.org, entitlementId, since)
+        .bind(this.org, entitlementId, subject, since)
         .all<{ id: string }>();
       const ids = (rows.results ?? []).map((row) => row.id);
       available.set(entitlementId, ids);

@@ -14,7 +14,13 @@ import { SqliteD1 } from "./helpers/sqlite-d1";
 import { EXPR, findSql, lintSql, tableKeys, type LintOptions } from "./helpers/studio-sql-lint";
 import { ensureSchema } from "../functions/lib/gpt-chat/schema";
 import { ensureBillingSchema } from "../functions/lib/gpt-chat/billing-schema";
-import { STUDIO_DDL, STUDIO_TABLES, ensureStudioSchema } from "../functions/lib/studio/schema";
+import {
+  STUDIO_DDL,
+  STUDIO_PAYMENT_TABLES,
+  STUDIO_PAYMENTS_DDL,
+  STUDIO_TABLES,
+  ensureStudioPaymentsSchema,
+} from "../functions/lib/studio/schema";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 /** The chat's tables the studio reuses unchanged (spec §4.2 header, §5.3). */
@@ -30,7 +36,7 @@ async function fullSchema(): Promise<SqliteD1> {
     db.exec(readFileSync(path.join(migrations, file), "utf8"));
   await ensureSchema(db.asD1());
   await ensureBillingSchema(db.asD1());
-  await ensureStudioSchema(db.asD1());
+  await ensureStudioPaymentsSchema(db.asD1());
   return db;
 }
 
@@ -38,7 +44,7 @@ let options: LintOptions | null = null;
 async function lintOptions(ddl = false): Promise<LintOptions> {
   if (!options) {
     const db = await fullSchema();
-    const tables = [...STUDIO_TABLES, ...REUSED];
+    const tables = [...STUDIO_TABLES, ...STUDIO_PAYMENT_TABLES, ...REUSED];
     const orgTables = tables.filter((table) =>
       db.rows<{ name: string }>(`PRAGMA table_info('${table}')`).some((column) => column.name === "org_id"));
     options = { tables: tableKeys(db.sqlite, tables), orgTables, ddl: false, db: db.sqlite };
@@ -80,10 +86,27 @@ test("every SQL string in the studio's server code keeps the D1 rules", async (c
   assert.deepEqual(problems, []);
 });
 
-test("the scan sees the schema's DDL: one SQL string per STUDIO_DDL statement", () => {
+test("the scan sees the schema's DDL: one SQL string per STUDIO_DDL and STUDIO_PAYMENTS_DDL statement", () => {
   const file = path.join(ROOT, "functions/lib/studio/schema.ts");
   const found = findSql("schema.ts", readFileSync(file, "utf8"));
-  assert.equal(found.length, STUDIO_DDL.length);
+  assert.equal(found.length, STUDIO_DDL.length + STUDIO_PAYMENTS_DDL.length);
+});
+
+test("the studio's code never reads or writes 0073's studio_orders: orders live in studio_orders_v2 (0075)", () => {
+  // studio_orders accepts provider 'click' only (its CHECK) and a migration
+  // never alters a table, so it stays empty forever (DECISIONS §12).
+  const offenders: string[] = [];
+  let orderStatements = 0;
+  for (const file of studioServerFiles()) {
+    const relative = path.relative(ROOT, file).replaceAll("\\", "/");
+    if (relative === "functions/lib/studio/schema.ts") continue;
+    for (const { line, sql } of findSql(relative, readFileSync(file, "utf8"))) {
+      if (/\bstudio_orders\b(?!_v2)/.test(sql)) offenders.push(`${relative}:${line}`);
+      if (/\bstudio_orders_v2\b/.test(sql)) orderStatements++;
+    }
+  }
+  assert.deepEqual(offenders, []);
+  assert.ok(orderStatements > 0, "the store reads and writes studio_orders_v2");
 });
 
 // ── The linter itself ───────────────────────────────────────────────────────
@@ -112,6 +135,20 @@ const CATALOGUE = [
   "INSERT INTO studio_orders(org_id,id,user_id,plan,plan_version,terms_version,provider,click_service_id,mode,request_id,amount,currency,state,created_at,expires_at) VALUES(?,?,?,?,?,?,'click',?,?,?,?,'UZS','pending',?,?)",
   "UPDATE gpt_auth_sessions SET expires_at=? WHERE org_id=? AND token_hash=?",
   "SELECT COUNT(*) AS n FROM studio_free_usage WHERE org_id=? AND day=? AND subject=? AND unit=?",
+  // The paid studio (0075): orders, their guarded moves, the statement and the refunds.
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND id=?",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND provider=? AND mode=? AND external_id=?",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND user_id=? AND request_id=?",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND user_id=? AND mode=? AND state IN ('pending','prepared') LIMIT 1",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC LIMIT 1",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND provider_doc_id=? ORDER BY created_at DESC LIMIT 5",
+  "SELECT * FROM studio_orders_v2 WHERE org_id=? AND provider=? AND mode=? AND provider_time>=? AND provider_time<=? AND create_time>0 ORDER BY provider_time,seq LIMIT 500",
+  "UPDATE studio_orders_v2 SET state='paid',version=version+1,event_id=?,perform_time=? WHERE org_id=? AND id=? AND version=?",
+  "INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,from_state,to_state,created_at) VALUES(?,?,(SELECT id FROM studio_orders_v2 WHERE org_id=? AND id=? AND event_id=?),?,?,?,?,?)",
+  "INSERT INTO studio_refunds(org_id,id,order_id,amount,method,reference,presentations_unused,photos_unused,receipt_state,requested_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+  "SELECT * FROM studio_refunds WHERE org_id=? AND order_id=?",
+  "SELECT * FROM studio_entitlements WHERE org_id=? AND order_id=? LIMIT 20",
+  "UPDATE studio_entitlements SET revoked_at=? WHERE rowid IN (SELECT rowid FROM studio_entitlements WHERE org_id=? AND order_id=? AND revoked_at IS NULL LIMIT 20)",
 ];
 
 test("the query catalogue of spec §4.3 passes the linter", async () => {
@@ -131,6 +168,10 @@ test("the linter refuses what took D1 down and every other unbounded shape", asy
     ["SELECT * FROM gpt_turn_reservations WHERE org_id=? AND id=?", /gpt_turn_reservations is not one/],
     ["SELECT * FROM gpt_payment_orders WHERE org_id=? AND id=?", /gpt_payment_orders is not one/],
     ["SELECT * FROM studio_orders WHERE org_id=?", /without a LIMIT or a full key/],
+    ["SELECT * FROM studio_orders_v2 WHERE org_id=? AND user_id=?", /without a LIMIT or a full key/],
+    ["SELECT * FROM studio_orders_v2 WHERE org_id=? AND gclid=? LIMIT 5", /full scan|org only/],
+    ["SELECT * FROM studio_refunds WHERE org_id=? AND amount>? LIMIT 5", /full scan|org only/],
+    ["UPDATE studio_refunds SET receipt_state='printed' WHERE order_id=?", /outside one org/],
     ["SELECT * FROM studio_orders WHERE org_id=? AND id=? OR 1=1", /without a LIMIT or a full key/],
     ["SELECT COUNT(*) FROM studio_unit_ledger WHERE org_id=? AND subject=? LIMIT 1", /aggregate/],
     ["SELECT subject, COUNT(*) FROM studio_unit_ledger WHERE org_id=? GROUP BY subject LIMIT 10", /aggregate/],

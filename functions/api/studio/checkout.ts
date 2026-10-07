@@ -14,8 +14,8 @@
 // Order, cheapest refusal first:
 //   1. STUDIO_PAYMENTS on, on gptbot.uz (studioGate): 404 before anything;
 //   2. POST from this origin;
-//   3. STUDIO_PAID_SERVICE on: a tariff nobody could spend is never sold
-//      (503 checkout_unavailable);
+//   3. STUDIO_PAID_SERVICE and STUDIO_FULL_DECK on (checkout.ts salesOpen):
+//      a tariff nobody could spend is never sold (503 checkout_unavailable);
 //   4. the body; acceptTerms === true; the edition the buyer saw must be
 //      STUDIO_TERMS_VERSION (409 terms_changed), an edition TERMS_PLAN sells
 //      and with its offer link (503 checkout_unavailable);
@@ -35,7 +35,15 @@ import { readJsonLimited } from "../../lib/gpt-chat/http";
 import { sameOrigin } from "../../lib/gpt-chat/identity-store";
 import { createStudioAccount, paceCheckout, paceStudioAccount, readStudioAccount, type StudioAccount } from "../../lib/studio/account";
 import { orderAttribution } from "../../lib/studio/attribution";
-import { readCheckoutBody, readyProvider, readyProviders, studioClickCheckoutUrl, studioPaymeCheckoutUrl, studioReturnUrl } from "../../lib/studio/checkout";
+import {
+  readCheckoutBody,
+  readyProvider,
+  readyProviders,
+  salesOpen,
+  studioClickCheckoutUrl,
+  studioPaymeCheckoutUrl,
+  studioReturnUrl,
+} from "../../lib/studio/checkout";
 import { studioGate, studioRequestConfig } from "../../lib/studio/config";
 import { fail, json, studioLog } from "../../lib/studio/http";
 import { identityConfigured, readIdentity } from "../../lib/studio/identity";
@@ -63,7 +71,7 @@ async function checkout({ request, env }: Context, cookies: string[]): Promise<R
   if (request.method !== "POST") return fail("method_not_allowed", {}, { Allow: "POST" });
   if (!sameOrigin(request)) return fail("invalid");
   const config = studioRequestConfig(request, env);
-  if (!config.paidService) return refuse("checkout_unavailable");
+  if (!salesOpen(config)) return refuse("checkout_unavailable");
   const now = Date.now();
 
   const body = await readJsonLimited<unknown>(request, MAX_BODY_BYTES);

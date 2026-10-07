@@ -75,11 +75,14 @@ export function sameDayish(paidDate: string, performTime: number): boolean {
   return Number.isFinite(named) && Math.abs(named - actual) <= RESTORE_DATE_SLACK_DAYS * DAY_MS;
 }
 
-/** The live orders `query` may name: our id, a provider transaction id, or a provider document number. */
+/**
+ * The live orders `query` may name: our id, a provider transaction id, or a
+ * provider document number. A test order (a local rehearsal) is never one.
+ */
 export async function ordersFor(store: StudioStore, query: string): Promise<StudioOrder[]> {
   if (STUDIO_ORDER_ID.test(query)) {
     const order = await store.byId(query);
-    return order ? [order] : [];
+    return order && order.mode === "live" ? [order] : [];
   }
   const found = new Map<string, StudioOrder>();
   const byPayme = /^[0-9a-f]{24}$/.test(query) ? await store.byExternal("payme", "live", query) : null;

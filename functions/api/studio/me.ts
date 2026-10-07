@@ -92,7 +92,7 @@ async function paidPart(request: Request, db: D1Database, payments: "off" | "tes
   const running = (await store.entitlements(account.userId, mode)).filter(
     (row) => row.revoked_at === null && row.starts_at <= now && row.ends_at > now,
   );
-  const regen = await store.regenAvailable(running.map((row) => row.id), now - REGEN_WINDOW_MS);
+  const regen = await store.regenAvailable(running.map((row) => row.id), `a:${account.userId}`, now - REGEN_WINDOW_MS);
   const latest = await store.latestOrder(account.userId, mode);
   const orders = [...running.map((row) => row.order_id), ...(latest ? [latest.id] : [])];
   const receipts = (await store.receipts(orders)).flatMap((row) => {

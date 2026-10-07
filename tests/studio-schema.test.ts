@@ -1,6 +1,8 @@
 // migrations/0073_studio.sql against its runtime bootstrap (STUDIO_DDL,
 // ensureStudioSchema), a rehearsal of applying it to the production shape,
-// and the CHECKs and unique indexes the ledger and the orders rely on.
+// and the CHECKs and unique indexes the ledger and the orders rely on; the
+// same for the paid studio's 0075_studio_payments.sql (STUDIO_PAYMENTS_DDL,
+// ensureStudioPaymentsSchema): studio_orders_v2 and studio_refunds.
 // Real SQLite (tests/helpers/sqlite-d1.ts); nothing here touches a remote
 // database.
 // Run: node --import tsx --test tests/studio-schema.test.ts
@@ -8,7 +10,15 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { SqliteD1 } from "./helpers/sqlite-d1";
-import { ensureStudioSchema, STUDIO_DDL, STUDIO_ORG, STUDIO_TABLES } from "../functions/lib/studio/schema";
+import {
+  ensureStudioPaymentsSchema,
+  ensureStudioSchema,
+  STUDIO_DDL,
+  STUDIO_ORG,
+  STUDIO_PAYMENT_TABLES,
+  STUDIO_PAYMENTS_DDL,
+  STUDIO_TABLES,
+} from "../functions/lib/studio/schema";
 import { BILLING_ORG } from "../functions/lib/gpt-chat/billing-config";
 
 const MIGRATIONS = new URL("../migrations/", import.meta.url);
@@ -299,4 +309,185 @@ test("studio_free_usage: one counter per day, subject and unit; only the three u
   insert(db, "studio_free_usage", { ...row, unit: "photo_task" });
   insert(db, "studio_free_usage", { ...row, day: "2026-10-13" });
   assert.throws(() => insert(db, "studio_free_usage", { ...row, unit: "presentation_full" }), /CHECK/);
+});
+
+// ── 0075: the paid studio's orders and refunds ──────────────────────────────
+
+const M0075_NAME = "0075_studio_payments.sql";
+const M0075 = readFileSync(new URL(M0075_NAME, MIGRATIONS), "utf8");
+/** Every migration before 0075 (0073 and Payme's 0074 included), in wrangler's order. */
+const BEFORE_0075 = readdirSync(MIGRATIONS).filter((file) => file.endsWith(".sql") && file < "0075").sort();
+
+function shapeBefore0075(): SqliteD1 {
+  const db = new SqliteD1();
+  for (const file of BEFORE_0075) db.exec(readFileSync(new URL(file, MIGRATIONS), "utf8"));
+  return db;
+}
+
+test("0075 lists exactly the runtime DDL, statement for statement, and only adds the two paid-studio tables", () => {
+  assert.equal(readdirSync(MIGRATIONS).filter((file) => file.startsWith("0075_")).length, 1, "one migration numbered 0075");
+  const sql = statements(M0075);
+  assert.deepEqual(sql.map(normalize), STUDIO_PAYMENTS_DDL.map(normalize));
+  const names = sql.map(objectName);
+  assert.ok(names.every((name) => name !== null && /^(studio_|idx_studio_)/.test(name)), names.join(","));
+  assert.deepEqual(names.filter((name) => name!.startsWith("studio_")), [...STUDIO_PAYMENT_TABLES]);
+  const code = uncommented(M0075);
+  assert.doesNotMatch(code, /\b(DROP|DELETE|UPDATE|INSERT|REPLACE|TRUNCATE|ALTER|PRAGMA|TRIGGER|VIEW)\b/i);
+  assert.doesNotMatch(code, /\bgpt_\w+/);
+  // 0073's studio_orders is neither altered nor touched: only the new table names appear.
+  assert.doesNotMatch(code, /\bstudio_orders\b(?!_v2)/);
+  assert.doesNotMatch(code, /amount\s*=\s*2000000/);
+  assert.match(M0075, /apply BEFORE deploying the code, previews included/);
+  assert.match(M0075, /Rollback: roll the application back; tables stay/);
+  assert.match(M0075, /No DROP/);
+});
+
+test("0075 on the production shape (0001–0074) and the paid bootstrap on an empty database build the same schema", async () => {
+  const migrated = shapeBefore0075();
+  migrated.exec(M0075);
+  const bootstrapped = new SqliteD1();
+  await ensureStudioPaymentsSchema(bootstrapped.asD1());
+  const expected = shape(migrated);
+  assert.deepEqual(shape(bootstrapped), expected);
+  const tables = Object.keys(expected).filter((name) => name.startsWith("studio_"));
+  assert.deepEqual(tables, [...STUDIO_TABLES, ...STUDIO_PAYMENT_TABLES].sort());
+  // The order table of 0075 is 0073's with the Payme columns, without click_service_id.
+  const columns = (table: string) =>
+    (expected[table] as unknown as { columns: Array<{ name: string }> }).columns.map((column) => column.name);
+  const v1 = columns("studio_orders");
+  const v2 = columns("studio_orders_v2");
+  assert.deepEqual(v2.filter((name) => !v1.includes(name)), ["service_id", "create_time", "event_id"]);
+  assert.deepEqual(v1.filter((name) => !v2.includes(name)), ["click_service_id"]);
+  for (const table of STUDIO_PAYMENT_TABLES)
+    for (const name of columns(table))
+      assert.doesNotMatch(name, /topic|prompt|answer|text|photo_bytes|image_data|phone|email|card|^pan$|ip_hash|^ip$/, `${table}.${name}`);
+});
+
+test("the free paths' bootstrap never creates the 0075 tables; the paid one creates 0073 and 0075", async () => {
+  const free = new SqliteD1();
+  await ensureStudioSchema(free.asD1());
+  assert.equal(free.value("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name IN ('studio_orders_v2','studio_refunds')"), 0);
+  const paid = new SqliteD1();
+  await ensureStudioPaymentsSchema(paid.asD1());
+  assert.equal(paid.value("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name LIKE 'studio_%'"), 6);
+});
+
+test("rehearsal: 0075 applied twice through the ledger keeps every row; the bootstrap and the file again change nothing", async () => {
+  const db = shapeBefore0075();
+  const now = Date.UTC(2026, 9, 12, 12);
+  db.sqlite
+    .prepare("INSERT INTO gpt_payment_orders(org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,created_at,expires_at) VALUES('gptbot-consumer','pay_a','acct_a','payme','live','r1',2000000,'UZS','paid','6f00a1b2c3d4e5f6a7b8c9d0',?,?)")
+    .run(now, now + 1);
+  const before = counts(db);
+  const order = { ...(db.rows("SELECT * FROM gpt_payment_orders")[0] as object) };
+  assert.equal(apply(db, M0075_NAME, M0075), "applied");
+  const after = counts(db);
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(after).filter(([table]) => !(table in before))),
+    { d1_migrations: 1, studio_orders_v2: 0, studio_refunds: 0 },
+  );
+  for (const [table, n] of Object.entries(before)) assert.equal(after[table], n, table);
+  assert.deepEqual({ ...(db.rows("SELECT * FROM gpt_payment_orders")[0] as object) }, order);
+  assert.equal(apply(db, M0075_NAME, M0075), "skipped");
+  const schema = shape(db);
+  await ensureStudioPaymentsSchema(db.asD1());
+  assert.deepEqual(shape(db), schema);
+  db.exec(M0075);
+  assert.deepEqual(shape(db), schema);
+});
+
+test("code deployed before 0075: the paid bootstrap creates the tables and the migration then still applies", async () => {
+  const db = shapeBefore0075();
+  await ensureStudioPaymentsSchema(db.asD1());
+  const reference = shapeBefore0075();
+  reference.exec(M0075);
+  assert.deepEqual(shape(db), shape(reference));
+  assert.equal(apply(db, M0075_NAME, M0075), "applied");
+  assert.deepEqual(shape(db), shape(reference));
+});
+
+test("ensureStudioPaymentsSchema is idempotent and a failed run is retried", async () => {
+  const db = new SqliteD1();
+  let failures = 1;
+  const flaky = {
+    prepare: db.prepare.bind(db),
+    batch: (batch: D1PreparedStatement[]) => {
+      if (failures-- > 0) return Promise.reject(new Error("D1 unavailable"));
+      return db.batch(batch);
+    },
+  } as unknown as D1Database;
+  await assert.rejects(ensureStudioPaymentsSchema(flaky), /D1 unavailable/);
+  await ensureStudioPaymentsSchema(flaky);
+  const first = shape(db);
+  await ensureStudioPaymentsSchema(flaky);
+  await ensureStudioPaymentsSchema(db.asD1());
+  assert.deepEqual(shape(db), first);
+  assert.equal(db.value("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name LIKE 'studio_%'"), 6);
+});
+
+const ORDER_V2 = {
+  org_id: STUDIO_ORG, id: "stu_00000000000000000000000000000001", user_id: "acct_studio_a", plan: "oylik",
+  plan_version: "studio-2026-11-v1", terms_version: "ai-paket-2026-10-v4", provider: "payme", service_id: null,
+  mode: "live", request_id: "r1", amount: 3_990_000, currency: "UZS", state: "pending", created_at: 1, expires_at: 2,
+} as const;
+
+async function paidDb(): Promise<SqliteD1> {
+  const db = new SqliteD1();
+  await ensureStudioPaymentsSchema(db.asD1());
+  return db;
+}
+
+test("studio_orders_v2: Payme and Click, Payme without a service, the same checks as 0073 otherwise", async () => {
+  const db = await paidDb();
+  insert(db, "studio_orders_v2", { ...ORDER_V2 });
+  const variant = (changes: Record<string, string | number | null>, n: number) =>
+    ({ ...ORDER_V2, id: `stu_${String(n).padStart(32, "0")}`, request_id: `r${n}`, user_id: `acct_studio_${n}`, ...changes });
+  insert(db, "studio_orders_v2", variant({ provider: "click", service_id: "107999", plan: "kunlik", amount: 590_000 }, 2));
+  const refused: Array<Record<string, string | number | null>> = [
+    { provider: "uzum" }, { provider: "PAYME" }, { plan: "credit" }, { mode: "dev" }, { amount: 0 }, { amount: 100_000_001 },
+    { currency: "USD" }, { state: "done" }, { owner_test: 2 }, { touch: "middle" }, { ga4_state: "queued" },
+  ];
+  refused.forEach((changes, i) =>
+    assert.throws(() => insert(db, "studio_orders_v2", variant(changes, i + 10)), /CHECK constraint failed/, JSON.stringify(changes)));
+  const row = db.rows<Record<string, unknown>>("SELECT create_time, version, event_id, ga4_state, owner_test FROM studio_orders_v2 WHERE id=?", ORDER_V2.id)[0];
+  assert.deepEqual({ ...row }, { create_time: 0, version: 0, event_id: null, ga4_state: "none", owner_test: 0 });
+});
+
+test("studio_orders_v2: one open order per buyer and mode whatever the provider; a provider's transaction id is one order's", async () => {
+  const db = await paidDb();
+  insert(db, "studio_orders_v2", { ...ORDER_V2 });
+  // A Click order of the same buyer and mode while the Payme one is open: refused.
+  assert.throws(() => insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_2", request_id: "r2", provider: "click", service_id: "1" }), /UNIQUE/);
+  insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_3", request_id: "r3", mode: "test" });
+  db.exec(`UPDATE studio_orders_v2 SET state='prepared', external_id='6f00a1b2c3d4e5f6a7b8c9d0' WHERE id='${ORDER_V2.id}'`);
+  assert.throws(() => insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_4", request_id: "r4" }), /UNIQUE/);
+  db.exec(`UPDATE studio_orders_v2 SET state='paid' WHERE id='${ORDER_V2.id}'`);
+  insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_5", request_id: "r5" });
+  // The same Payme transaction on another order: refused; the same characters at Click are another provider's.
+  assert.throws(
+    () => insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_6", request_id: "r6", user_id: "acct_studio_b", state: "paid", external_id: "6f00a1b2c3d4e5f6a7b8c9d0" }),
+    /UNIQUE/,
+  );
+  insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_7", request_id: "r7", user_id: "acct_studio_b", provider: "click", service_id: "1", state: "paid", external_id: "6f00a1b2c3d4e5f6a7b8c9d0" });
+  assert.throws(() => insert(db, "studio_orders_v2", { ...ORDER_V2, id: "stu_8", request_id: "r5", state: "cancelled" }), /UNIQUE/);
+  // 0073's table is still there, empty.
+  assert.equal(db.value("SELECT COUNT(*) FROM studio_orders"), 0);
+});
+
+test("studio_refunds: one refund per order, closed vocabularies, a positive amount and unused units", async () => {
+  const db = await paidDb();
+  const refund = {
+    org_id: STUDIO_ORG, id: "sr_1", order_id: ORDER_V2.id, amount: 319_200, method: "transfer", reference: "p2p-1",
+    presentations_unused: 1, photos_unused: 0, receipt_state: "due", requested_at: 1, created_at: 1, updated_at: 1,
+  } as const;
+  insert(db, "studio_refunds", { ...refund });
+  assert.throws(() => insert(db, "studio_refunds", { ...refund, id: "sr_2" }), /UNIQUE/);
+  const other = (changes: Record<string, string | number | null>, n: number) => ({ ...refund, id: `sr_x${n}`, order_id: `stu_x${n}`, ...changes });
+  const refused: Array<Record<string, string | number | null>> = [
+    { method: "cash" }, { method: "uzum_refund" }, { receipt_state: "none" }, { amount: 0 }, { amount: 100_000_001 },
+    { presentations_unused: -1 }, { photos_unused: -1 },
+  ];
+  refused.forEach((changes, i) => assert.throws(() => insert(db, "studio_refunds", other(changes, i)), /CHECK constraint failed/, JSON.stringify(changes)));
+  for (const [i, method] of ["payme_cancel", "click_reversal", "click_cabinet"].entries())
+    insert(db, "studio_refunds", other({ method, receipt_state: "provider", reference: null }, 100 + i));
 });

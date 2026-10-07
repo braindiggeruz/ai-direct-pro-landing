@@ -486,7 +486,8 @@ test("/config: the public settings, the same for everybody, without D1, cookies 
   assert.deepEqual(await response.json(), {
     ok: true,
     tools: { freeDeck: true, fullDeck: false, photo: false },
-    payments: { mode: null, providers: ["click"] },
+    // Who sells is STUDIO_PAYMENT_PROVIDERS and the cash desks' state (lib/studio/checkout.ts readyProviders): nobody by default.
+    payments: { mode: null, providers: [] },
     plans: [],
     free: { presentation: 1, photo: 2, resetsAt: "05:00 Asia/Tashkent" },
     shapes: {
@@ -508,7 +509,8 @@ test("/config: prices only while payments are on, and only those of an edition t
   };
   const body = await (await call(configEndpoint, getConfig(), noBackendEnv(JSON.stringify(live)))).json();
   assert.deepEqual(body.tools, { freeDeck: false, fullDeck: true, photo: true });
-  assert.deepEqual(body.payments, { mode: "live", providers: ["click"] });
+  // No provider is listed (STUDIO_PAYMENT_PROVIDERS ""), so none sells: tests/studio-checkout.test.ts covers who does.
+  assert.deepEqual(body.payments, { mode: "live", providers: [] });
   assert.deepEqual(body.plans, [
     { id: "kunlik", itemId: "studio_kunlik", amountTiyin: 590_000, amountUzs: 5_900, duration: { hours: 24 }, presentationFull: 1, photoTask: 5, regenPerUnit: 1 },
     { id: "oylik", itemId: "studio_oylik", amountTiyin: 3_990_000, amountUzs: 39_900, duration: { calendarMonths: 1 }, presentationFull: 10, photoTask: 40, regenPerUnit: 1 },

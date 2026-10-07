@@ -5,7 +5,9 @@
 //   - it is listed in STUDIO_PAYMENT_PROVIDERS (config.ts; "" sells nothing,
 //     the release sets "payme");
 //   - STUDIO_PAYMENTS is "test" or "live" (studioRequestConfig turns "test"
-//     off on gptbot.uz: a test order exists only in a local rehearsal);
+//     off on gptbot.uz: a test order exists only in a local rehearsal), and
+//     what is sold can be spent: STUDIO_PAID_SERVICE and STUDIO_FULL_DECK
+//     are on (salesOpen);
 //   - Payme: the chat's cash desk runs in that very mode
 //     (GPT_BILLING_MODE_PAYME through providerMode, so also listed in
 //     GPT_PAYMENT_PROVIDERS), with its key and cash desk id, and in live the
@@ -94,9 +96,20 @@ export interface ReadyProvider {
   readonly serviceId: string | null;
 }
 
+/**
+ * Studio tariffs may be sold at all: payments are on (STUDIO_PAYMENTS), and
+ * what a tariff buys can be spent: STUDIO_PAID_SERVICE (the paid paths) and
+ * STUDIO_FULL_DECK (every quota version holds full decks). Otherwise no
+ * provider sells, /config lists none («To‘lov vaqtincha to‘xtatilgan») and
+ * checkout answers 503 checkout_unavailable.
+ */
+export function salesOpen(config: Pick<StudioConfig, "payments" | "paidService" | "fullDeck">): config is Pick<StudioConfig, "paidService" | "fullDeck"> & { readonly payments: BillingMode } {
+  return config.payments !== "off" && config.paidService && config.fullDeck;
+}
+
 /** `provider` sells now (see the header), or null. */
 export function readyProvider(env: BillingEnv, config: StudioConfig, provider: StudioProvider): ReadyProvider | null {
-  if (config.payments === "off" || !config.paymentProviders.includes(provider)) return null;
+  if (!salesOpen(config) || !config.paymentProviders.includes(provider)) return null;
   const mode: BillingMode = config.payments;
   if (provider === "payme") {
     if (providerMode(env, "payme") !== mode) return null;
