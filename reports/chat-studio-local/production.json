@@ -1,0 +1,295 @@
+{
+  "at": "2026-10-07T17:31:54.119Z",
+  "status": "PASS",
+  "sourceCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+  "artifactSha256": "704d1ac3d04daf800a39ee7e61727aa43e194639a6a8a5e481005982dd15b616",
+  "fileCount": 991,
+  "staticHashChecks": [
+    "admin/index.html",
+    "assets/AdminRoot-B-5ngYv6.js",
+    "assets/AiChat-V22IOcH_.js",
+    "assets/MyPack-DG49JuFE.js",
+    "assets/PayReturn-D0eN2PRO.js",
+    "assets/Tariffs-BL7hwfW4.js",
+    "assets/chat-account-BFscwUfo.js",
+    "assets/chat-answer-DlBCQiZ9.js",
+    "assets/chat-lead-ZDRlUxMs.js",
+    "assets/chat-limit-DOQVggad.js",
+    "assets/chat-presentation-DO4IXNj4.js",
+    "assets/chat-presentation-DODZGjRF.css",
+    "assets/chat-role-D8V3Cyc_.js",
+    "assets/chat-tools-CNPGWOFf.js",
+    "assets/chat-turnstile-WvY_B2RU.js",
+    "assets/gpt-chat-B9v1_mt3.css",
+    "assets/gpt-chat-YpFPuoPR.js",
+    "assets/index-A954P1DX.css",
+    "assets/pptxgen.es-Br1QqE94.js",
+    "assets/preload-helper-BVgr1GO9.js",
+    "assets/rolldown-runtime-kjsH4l9N.js",
+    "assets/studio/studio-7APZNV-Z.css",
+    "assets/studio/studio-BWEDEhf0.js",
+    "assets/turnstile-CxMUGAzk.js",
+    "assets/ui-D0fhQIP1.js",
+    "assets/vendor-DSTW_80r.js",
+    "assets/yandexMetrika-0MW1oVNI.js",
+    "index.html",
+    "ru/gpt-chat/index.html",
+    "ru/internet-reklama-tashkent/index.html",
+    "ru/oferta/index.html",
+    "ru/prezentatsiya-ai/index.html",
+    "sitemap-updates.xml",
+    "sitemap.xml",
+    "uz/gpt-uzbek-tilida/index.html",
+    "uz/internet-reklama-toshkent/index.html",
+    "uz/oferta/index.html",
+    "uz/taqdimot-ai/index.html",
+    "uz/tariflar/index.html"
+  ],
+  "htmlNormalization": "Cloudflare email_off directive comments only",
+  "seoPages": [
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "/uz/gpt-uzbek-tilida/",
+    "/ru/gpt-chat/",
+    "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+    "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "/",
+    "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+  ],
+  "checkoutGuards": [
+    {
+      "locale": "ru",
+      "plan": "kunlik",
+      "provider": "click",
+      "returnPath": "/ru/gpt-chat/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "ru",
+      "plan": "kunlik",
+      "provider": "payme",
+      "returnPath": "/ru/gpt-chat/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "ru",
+      "plan": "oylik",
+      "provider": "click",
+      "returnPath": "/ru/gpt-chat/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "ru",
+      "plan": "oylik",
+      "provider": "payme",
+      "returnPath": "/ru/gpt-chat/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "uz",
+      "plan": "kunlik",
+      "provider": "click",
+      "returnPath": "/uz/gpt-uzbek-tilida/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "uz",
+      "plan": "kunlik",
+      "provider": "payme",
+      "returnPath": "/uz/gpt-uzbek-tilida/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "uz",
+      "plan": "oylik",
+      "provider": "click",
+      "returnPath": "/uz/gpt-uzbek-tilida/",
+      "status": 401,
+      "code": "identity_required"
+    },
+    {
+      "locale": "uz",
+      "plan": "oylik",
+      "provider": "payme",
+      "returnPath": "/uz/gpt-uzbek-tilida/",
+      "status": 401,
+      "code": "identity_required"
+    }
+  ],
+  "pricesUzs": {
+    "chat": 20000,
+    "kunlik": 5900,
+    "oylik": 39900
+  },
+  "paymentProviders": [
+    "click",
+    "payme"
+  ],
+  "ui": [
+    {
+      "locale": "ru",
+      "width": 360,
+      "inlineGenerator": true,
+      "inlineTariffs": true,
+      "providers": [
+        "click",
+        "payme"
+      ],
+      "idleLazy": true,
+      "overflow": false,
+      "initialPosition": {
+        "top": 169,
+        "bottom": 219,
+        "visible": true
+      },
+      "errors": [],
+      "financialWrites": 0,
+      "screenshot": "F:/Claude/gptbot-tools/chat-embedded-shots/live-ru-360.png"
+    },
+    {
+      "locale": "ru",
+      "width": 1366,
+      "inlineGenerator": true,
+      "inlineTariffs": true,
+      "providers": [
+        "click",
+        "payme"
+      ],
+      "idleLazy": true,
+      "overflow": false,
+      "initialPosition": {
+        "top": 181,
+        "bottom": 231,
+        "visible": true
+      },
+      "errors": [],
+      "financialWrites": 0,
+      "screenshot": "F:/Claude/gptbot-tools/chat-embedded-shots/live-ru-1366.png"
+    },
+    {
+      "locale": "uz",
+      "width": 360,
+      "inlineGenerator": true,
+      "inlineTariffs": true,
+      "providers": [
+        "click",
+        "payme"
+      ],
+      "idleLazy": true,
+      "overflow": false,
+      "initialPosition": {
+        "top": 169,
+        "bottom": 219,
+        "visible": true
+      },
+      "errors": [],
+      "financialWrites": 0,
+      "screenshot": "F:/Claude/gptbot-tools/chat-embedded-shots/live-uz-360.png"
+    },
+    {
+      "locale": "uz",
+      "width": 1366,
+      "inlineGenerator": true,
+      "inlineTariffs": true,
+      "providers": [
+        "click",
+        "payme"
+      ],
+      "idleLazy": true,
+      "overflow": false,
+      "initialPosition": {
+        "top": 181,
+        "bottom": 231,
+        "visible": true
+      },
+      "errors": [],
+      "financialWrites": 0,
+      "screenshot": "F:/Claude/gptbot-tools/chat-embedded-shots/live-uz-1366.png"
+    }
+  ],
+  "realPaymentPerformed": false,
+  "ordersCreated": 0,
+  "providerTransactionsPerformed": 0,
+  "deploymentUrl": "https://4842b403.ai-direct-pro-landing.pages.dev",
+  "previousProductionCommit": "96d2b8b7e8ee49df575a61cb58266b50f82b802e",
+  "sourceFeatureCommit": "8ebb3d30ef2f4e610c5c7d3c2749d00a55f9049e",
+  "standaloneLivePageGate": "FIRST_PARTY_PASS_WITH_EXTERNAL_ANALYTICS_WARNINGS",
+  "standaloneRawLiveGateExit": 1,
+  "standaloneNetwork": {
+    "status": "FIRST_PARTY_PASS_WITH_EXTERNAL_ANALYTICS_WARNINGS",
+    "pages": [
+      {
+        "pathname": "/ru/prezentatsiya-ai/",
+        "firstPartyFailures": 0,
+        "optionalExternalFailures": [
+          {
+            "origin": "https://mc.yandex.md",
+            "path": "/cc",
+            "error": "csp"
+          },
+          {
+            "origin": "https://mdd.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          },
+          {
+            "origin": "https://hdrc.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          }
+        ]
+      },
+      {
+        "pathname": "/uz/taqdimot-ai/",
+        "firstPartyFailures": 0,
+        "optionalExternalFailures": [
+          {
+            "origin": "https://mc.yandex.md",
+            "path": "/cc",
+            "error": "csp"
+          },
+          {
+            "origin": "https://mdd.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          },
+          {
+            "origin": "https://hdrc.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          }
+        ]
+      },
+      {
+        "pathname": "/uz/tariflar/",
+        "firstPartyFailures": 0,
+        "optionalExternalFailures": [
+          {
+            "origin": "https://mc.yandex.md",
+            "path": "/cc",
+            "error": "csp"
+          },
+          {
+            "origin": "https://mdd.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          },
+          {
+            "origin": "https://hdrc.yandex.net",
+            "path": "/",
+            "error": "net::ERR_CERT_AUTHORITY_INVALID"
+          }
+        ]
+      }
+    ],
+    "rawLiveGate": "FAIL: optional Yandex resources certificate validation"
+  }
+}
