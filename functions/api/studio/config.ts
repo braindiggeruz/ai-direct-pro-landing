@@ -16,29 +16,15 @@
 // cash desk's mode and the presence of its keys, never a value); an empty
 // list with a mode means «To‘lov vaqtincha to‘xtatilgan».
 import type { BillingEnv } from "../../lib/gpt-chat/billing-config";
-import { readyProviders } from "../../lib/studio/checkout";
+import { publicPlans, readyProviders } from "../../lib/studio/checkout";
 import { studioGate, studioRequestConfig, type StudioConfig } from "../../lib/studio/config";
 import { FREE_RESETS_AT } from "../../lib/studio/free-usage";
 import { fail, json } from "../../lib/studio/http";
-import { DECK_SHAPES, STUDIO_FREE_DAILY, STUDIO_PLAN_IDS, planFor } from "../../lib/studio/plans";
+import { DECK_SHAPES, STUDIO_FREE_DAILY } from "../../lib/studio/plans";
 
+/** The tariffs of the edition in force, only while payments are on (checkout.ts publicPlans). */
 function plansOf(config: StudioConfig) {
-  if (config.payments === "off") return [];
-  return STUDIO_PLAN_IDS.flatMap((id) => {
-    const plan = planFor(config.terms.version, id);
-    return plan
-      ? [{
-          id,
-          itemId: plan.itemId,
-          amountTiyin: plan.amountTiyin,
-          amountUzs: plan.amountTiyin / 100,
-          duration: plan.duration,
-          presentationFull: plan.presentationFull,
-          photoTask: plan.photoTask,
-          regenPerUnit: plan.regenPerUnit,
-        }]
-      : [];
-  });
+  return config.payments === "off" ? [] : publicPlans(config.terms.version);
 }
 
 /** The public answer of /config for these settings. */

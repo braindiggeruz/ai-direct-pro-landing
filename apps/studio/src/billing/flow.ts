@@ -155,21 +155,5 @@ export function packOf(me: StudioMe | null): { readonly running: NonNullable<Stu
   return { running: me?.entitlements ?? [], latest: me?.latestOrder ?? null };
 }
 
-/** localStorage: this browser bought a tariff here (a per-viewer convenience: «Mening paketim» shows its button). */
-export const PACK_HINT_KEY = 'gptbot_studio_pack_v1';
-
-export function rememberPack(): void {
-  try {
-    window.localStorage.setItem(PACK_HINT_KEY, '1');
-  } catch {
-    // Private mode or blocked storage: the button simply appears after the next result.
-  }
-}
-
-export function packRemembered(): boolean {
-  try {
-    return window.localStorage.getItem(PACK_HINT_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
+// The pack hint lives in hint.ts (main.tsx reads it without loading billing code).
+export { PACK_HINT_KEY, packRemembered, rememberPack } from './hint';

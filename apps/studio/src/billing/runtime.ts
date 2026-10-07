@@ -6,11 +6,13 @@
  * after payment, which a buyer opens by coming back from Payme or Click.
  *
  * «Mening paketim» listens here: whenever a part reads /me, it shows what
- * came back, without a request of its own.
+ * came back, without a request of its own; a /me with a studio account is
+ * also announced to main.tsx (hint.ts), which then loads the pack panel.
  */
 import { createStudioApi, type Result, type StudioApi, type StudioMe } from '../api';
 import { createFunnel, type Funnel } from '../analytics';
 import { createStudioSession, type StudioSession } from '../config';
+import { announcePack } from './hint';
 
 export interface BillingRuntime {
   readonly api: StudioApi;
@@ -38,6 +40,8 @@ export function billingRuntime(make: () => StudioApi = () => createStudioApi()):
           if (result.ok) {
             lastMe = result.data;
             for (const listener of listeners) listener(result.data);
+            // A studio account in this browser: «Mening paketim» may load (main.tsx listens).
+            if (result.data.account?.signedIn) announcePack();
           }
           return result;
         }),

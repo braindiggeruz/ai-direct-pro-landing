@@ -32,7 +32,7 @@ import { fiscalParams } from "../gpt-chat/fiscal-config";
 import { PAYME_CHECKOUT_BASE, PAYME_RETURN_DELAY_MS } from "../gpt-chat/payme-checkout";
 import type { StudioConfig } from "./config";
 import { REQUEST_ID } from "./ledger";
-import { STUDIO_PLAN_IDS, type StudioPlanId, type StudioProvider } from "./plans";
+import { STUDIO_PLAN_IDS, planFor, type StudioPlan, type StudioPlanId, type StudioProvider } from "./plans";
 
 /** The order of preference when the browser names no provider. */
 export const STUDIO_PROVIDER_ORDER: readonly StudioProvider[] = ["payme", "click"];
@@ -169,6 +169,42 @@ export function studioClickCheckoutUrl(
     transaction_param: orderId,
     return_url: back,
   })}`;
+}
+
+/** A tariff as /config shows it (apps/studio/src/api.ts StudioPlanOffer). */
+export interface PublicPlan {
+  readonly id: StudioPlanId;
+  readonly itemId: string;
+  readonly amountTiyin: number;
+  readonly amountUzs: number;
+  readonly duration: StudioPlan["duration"];
+  readonly presentationFull: number;
+  readonly photoTask: number;
+  readonly regenPerUnit: number;
+}
+
+/**
+ * The tariffs the offer edition `termsVersion` sells, Kunlik then Oylik, as
+ * /config answers them and the tariffs page prints them (stream F's
+ * prerender, apps/studio/src/billing/static.ts); [] for an edition that
+ * sells none (TERMS_PLAN).
+ */
+export function publicPlans(termsVersion: string): PublicPlan[] {
+  return STUDIO_PLAN_IDS.flatMap((id) => {
+    const plan = planFor(termsVersion, id);
+    return plan
+      ? [{
+          id,
+          itemId: plan.itemId,
+          amountTiyin: plan.amountTiyin,
+          amountUzs: plan.amountTiyin / 100,
+          duration: plan.duration,
+          presentationFull: plan.presentationFull,
+          photoTask: plan.photoTask,
+          regenPerUnit: plan.regenPerUnit,
+        }]
+      : [];
+  });
 }
 
 /** What POST /api/studio/checkout asks for. */

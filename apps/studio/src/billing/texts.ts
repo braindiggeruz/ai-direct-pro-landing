@@ -11,6 +11,9 @@
  * neutral price is required (ЗРУ-792 ст. 16), so it is shown even while
  * sales are off, with «To‘lov vaqtincha to‘xtatilgan».
  *
+ * Sums are written with a no-break space between thousands (formatSum), so
+ * «39 900» never breaks across lines on a narrow phone.
+ *
  * Every line follows the plan the server sends (/config `plans`): a tariff
  * without photo tasks never mentions photos.
  */
@@ -76,7 +79,7 @@ export type BillingMessage =
 
 const PROVIDER_NAME: Readonly<Record<StudioProvider, string>> = { payme: 'Payme', click: 'Click' };
 
-/** 39900 → "39 900" (a narrow no-break space between thousands, as on the site). */
+/** 39900 → "39 900" with a no-break space (U+00A0) between thousands. */
 export function formatSum(amount: number): string {
   return Math.round(amount)
     .toString()
