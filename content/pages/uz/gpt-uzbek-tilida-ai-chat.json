@@ -29,7 +29,7 @@
   "bodyBlocks": [
     { "type": "p", "text": "GPT o‘zbek tilida — bu til modeli bilan o‘zbek tilida AI chat orqali ishlash: siz vazifani oddiy so‘zlar bilan yozasiz, model esa mos javob yaratadi. Maxsus kod yoki inglizcha buyruq shart emas — vazifani Uzbek Latin yozuvida aniq tushuntirish kifoya." },
     { "type": "p", "text": "Quyida amaliy qo‘llanma: GPT o‘zbek tilini qanday tushunadi, prompt nima, yaxshi so‘rov qanday tuziladi, qanday vazifalarni bajaradi va javobni qayerda tekshirish kerak. ChatGPT va OpenAI mashhur texnologiyalar sifatida tilga olinadi; GPTBot.uz — til modellari asosidagi mustaqil AI servis, u OpenAI yoki ChatGPTning rasmiy mahsuloti emas." },
-    { "type": "linkp", "text": "Har bir maslahatni darhol sinab ko‘rish mumkin: {chat} o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas. {try} oching va quyidagi misollardan birini yuboring — masalan, «O‘zbek tilida oddiy qilib GPT nima ekanini besh qatorda tushuntir».", "links": [{"token": "chat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPTBot.uz bepul AI chati"},{"token": "try", "target": "/uz/gpt-uzbek-tilida/", "anchor": "O‘zbekcha AI chatni"}] },
+    { "type": "linkp", "text": "Har bir maslahatni darhol sinab ko‘rish mumkin: GPTBot.uz — {chat}, u o‘zbek va rus tillaridagi matnli savollarga javob beradi, ro‘yxatdan o‘tish shart emas. {try} oching va quyidagi misollardan birini yuboring — masalan, «O‘zbek tilida oddiy qilib GPT nima ekanini besh qatorda tushuntir».", "links": [{"token": "chat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "ChatGPT’ga o‘zbekcha muqobil"},{"token": "try", "target": "/uz/gpt-uzbek-tilida/", "anchor": "O‘zbekcha AI chatni"}] },
     { "type": "toc", "text": "Maqola mazmuni", "links": [
       { "anchor": "gpt-nima", "label": "GPT o‘zbek tilida nima" },
       { "anchor": "qanday-ishlaydi", "label": "AI chat qanday ishlaydi" },
@@ -181,7 +181,7 @@
     { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-10-06",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-10-06"
+  "updatedAt": "2026-10-07"
 }

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { buildServiceLd } from '../scripts/jsonld-helpers';
+import { LEAD_FORM_PAGES } from '../scripts/lead-form';
 import type { BlogArticle, GlobalSEO, Page } from '../src/shared/types';
 
 // Site-wide regression guards added after the 2026-09-28 advertising audit:
@@ -120,6 +121,31 @@ test('only bots declare 24/7 availability; team services follow office hours', (
   assert.match(prerender, /alwaysAvailable: !TEAM_SERVICE_URL_RE\.test\(page\.url\)/);
   const helpers = fs.readFileSync('scripts/jsonld-helpers.ts', 'utf8');
   assert.match(helpers, /opens: '10:00',\s*closes: '19:00'/);
+});
+
+// /uz/instagram-target-yoqish/ shipped with a 24/7 Service while its page says
+// «Du–Sha 10:00–19:00»: its slug was missing from TEAM_SERVICE_URL_RE. Every
+// lead-form page that sells a team service (not a bot) and gets the generated
+// Service node must match the regex prerender.ts uses.
+test('every lead-form page of a team service is excluded from 24/7 availability', () => {
+  const prerender = fs.readFileSync('scripts/prerender.ts', 'utf8');
+  const literal = prerender.match(/const TEAM_SERVICE_URL_RE = \/(.+)\/;\n/);
+  assert.ok(literal, 'TEAM_SERVICE_URL_RE not found in scripts/prerender.ts');
+  const teamService = new RegExp(literal[1]);
+  const botServices = new Set(['telegram-bot', 'chat-bot', 'telegram-mini-app', 'ai-bot']);
+  const byUrl = new Map(pageFiles.map(file => read<Page>(file)).map(page => [page.url, page]));
+  const checked: string[] = [];
+  for (const [url, service] of Object.entries(LEAD_FORM_PAGES)) {
+    if (botServices.has(service)) continue;
+    const page = byUrl.get(url);
+    assert.ok(page, `${url}: no page JSON`);
+    // Same condition as the Service node in scripts/prerender.ts.
+    if (!(page.schemaTypes || []).includes('Service') && page.pageType !== 'money') continue;
+    assert.match(url, teamService, `${url} (${service}) would declare hoursAvailable 24/7`);
+    checked.push(url);
+  }
+  assert.ok(checked.includes('/uz/instagram-target-yoqish/'), 'the Uzbek targeting page was not checked');
+  assert.ok(checked.length >= 13, `only ${checked.length} team-service pages checked`);
 });
 
 test('the homepage main content links every advertising landing in both languages', () => {

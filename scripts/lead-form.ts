@@ -45,6 +45,7 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/internet-reklama-toshkent/': 'internet-reklama',
   '/uz/telegram-reklama/': 'telegram-ads',
   '/uz/smm-xizmatlari/': 'smm',
+  '/uz/instagram-target-yoqish/': 'target',
   // Telegram bots and chat bots — RU
   '/ru/razrabotka-telegram-bota-tashkent/': 'telegram-bot',
   '/ru/telegram-bot-dlya-biznesa/': 'telegram-bot',

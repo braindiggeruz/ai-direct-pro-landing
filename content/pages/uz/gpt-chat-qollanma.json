@@ -54,7 +54,7 @@
         {
           "token": "try",
           "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "o‘zbekcha AI chat"
+          "anchor": "o‘zbek tilidagi ChatGPT muqobili"
         }
       ]
     },
@@ -92,7 +92,7 @@
     },
     {
       "type": "linkp",
-      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {insho} va {rezyume}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
+      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} hamda {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
       "links": [
         {
           "token": "slayd",
@@ -118,6 +118,21 @@
           "token": "aichat",
           "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
           "anchor": "AI-chat nima va uning turlari"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi tuzilmasi"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "tushuntirish xati va ariza"
+        },
+        {
+          "token": "biznes",
+          "target": "/uz/blog/biznes-reja-tuzish/",
+          "anchor": "biznes reja qoralamasi"
         }
       ]
     },
@@ -363,7 +378,7 @@
     "Article",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-06",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-10-06"
+  "updatedAt": "2026-10-07"
 }

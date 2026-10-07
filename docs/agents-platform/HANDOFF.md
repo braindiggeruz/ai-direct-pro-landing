@@ -1,3 +1,55 @@
+# Передача интеграции Codex07.10
+
+## 1. Состояние
+
+07.10.2026; codex/continuation-20261007. База5bbfc97b, включён SEO b757615b. Локальная проверка продолжается; нового релиза нет.
+
+## 2. Что сделано
+
+Сохранены patches/new files/manifest вне repo, проверено восстановление. Создан отдельный production-based worktree. SEO merge без конфликтов; Meta сохранён. 3 baseline test failures воспроизведены и исправлены только в тестах.
+
+## 3. Изменённые файлы
+
+42 исходных SEO файла + отдельная reviewed integration evidence; scripts/seo-protection.ts; tests/lead-radar.test.ts (фиксированные часы), gpt-chat-honesty.test.ts (Meta+GA4). Реестр и память в docs/.
+
+## 4. Архитектурные решения
+
+Новая архитектура не вводилась. Runtime/payments/БД не меняются этим этапом.
+
+## 5. Что сознательно не сделано
+
+Другие WIP пока не интегрированы. Payme/Uzum не включены, тарифы Studio off, денежные операции не выполнялись.
+
+## 6. Проверки
+
+build:fast0; npm run typecheck0 (app/functions/lead-radar); eslint9changedTS0; targeted117/117. Baseline suite1804/1807, причины доказаны. Девять protected HTML побайтно равны production, у главной только reviewed списки; JSON-LD/head сохранены. Финальные build:production/fullsuite/layout/onlineguard ещё предстоят.
+
+## 7. Известные проблемы
+
+Два baseline TTLfixtures + Meta regex исправлены. Внешние live payment/AI приёмки отдельно в реестре.
+
+## 8. Следующая задача
+
+Точная production сборка и все gates этого merge; guarded release SEO.
+
+## 9. Acceptance criteria
+
+Full suite0 новых/старых failures, protected10/10, layout, typecheck/lint, свежийCloudflare lineage, marker/assets/newURLs/chat/payment config после release.
+
+## 10. Команды для старта
+
+git status; читать docs/PROJECT_STATE.md; npm run build:production; DR_ROOT=<этотworktree> python F:/Claude/gptbot-tools/deploy_runner.py check.
+
+## 11. Риски
+
+Не выкатывать старыйSEOdist. Исходные6деревьев не менять. Нельзя считать paid Studio готовой по workflow.
+
+## 12. Rollback
+
+DDL/runtime flags не меняются. Сохранён production dist5bbfc97b вне repo. После релиза — forward revert интеграции поверх новогоproduction, rebuild и guarded runner; старыйartifact напрямую lineage gate не обходит.
+
+## Исторические записи до продолжения
+
 # SEO-рывок по семье «ChatGPT o‘zbek tilida» (ревизия защищённых `2026-10-06-seo-push`), подготовлено 2026-10-06
 
 **Итог.** Ветка `seo/push-uz-chat-20261006` от `origin/main` `5ed62fda` (= прод `20229600`): ревизия `d7869e3a`, исправление устаревшего теста бюджета `f7e658b7`, запись проверки `5f56f614`, правки по ревью 07.10 (`353f1d43` … `fa4f2a19`) и запись итоговой проверки — последним коммитом (SHA — `git log -1 seo/push-uz-chat-20261006`); не выкачено. Ветка — fast-forward от `origin/main` `5ed62fda`. Распоряжение владельца 06.10: давить честно, обойти главного конкурента по «ChatGPT o‘zbek tilida / uzbekcha». Из стратегии `gptbot.uz-audit/raw/seo-compete-2026-10-06/STRATEGY-BEAT-CHATGPT-UZ.md` §3.2 выпущены пункты R-S3: R3-4, R3-6, R3-9, R3-10, R3-11 (проверка), R3-12; R3-2 и R3-7 — нет. Журнал со страницами, текстами и правилами П-CTR: `docs/seo/CHANGE_LOG_2026-10.md`, раздел «SEO-рывок…».

@@ -7,16 +7,14 @@
   "description": "Target nima — oddiy tilda: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Kontekstdan farqi, minimal byudjet, targetolog nima qiladi va qachon mutaxassis kerak.",
   "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
   "topicCluster": "internet-reklama",
-  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "targetMoneyPage": "/uz/instagram-target-yoqish/",
   "keywords": [
     "target nima",
     "target reklama nima",
     "targetlangan reklama",
     "target va kontekst farqi",
     "target reklama O‘zbekiston",
-    "target yoqish narxi",
     "targetolog kim",
-    "instagramda target yoqish",
     "таргет нима"
   ],
   "intro": "Target reklama — e’lonni allaqachon tayyor bo‘lgan odamga emas, balki siz belgilagan xususiyatlarga mos keladigan auditoriyaga ko‘rsatish usuli. Kontekst reklama esa qidiruvdagi so‘rovga javob beradi. Farq shu: kontekst mavjud talabni ushlaydi, target esa talabni shakllantiradi. Quyida ikkalasi qanday tanlanadi, byudjet qanday rejalashtiriladi va qaysi ko‘rsatkichlar haqiqatan muhim.",
@@ -198,6 +196,17 @@
       "text": "Instagramda target yoqish alohida byudjet talab qilmaydi: Instagram va Facebook bitta Meta kabineti orqali boshqariladi, shuning uchun minimal chegara ham bir xil bo‘ladi. Farq faqat joylashuvda — lenta, stories yoki Reels."
     },
     {
+      "type": "linkp",
+      "text": "Bu platformaga to‘lanadigan byudjet; mutaxassis ishining narxi esa {xizmat} sahifasida alohida yozilgan.",
+      "links": [
+        {
+          "token": "xizmat",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target yoqish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Targetolog kim va u nima qiladi"
     },
@@ -264,12 +273,12 @@
     },
     {
       "type": "linkp",
-      "text": "Targetni topshirmoqchi bo‘lsangiz, ishga nima kirishi va qanday hisoblanishi {target} bo‘limida ko‘rsatilgan.",
+      "text": "Targetni topshirmoqchi bo‘lsangiz, ishga nima kirishi va {target} alohida sahifada ko‘rsatilgan.",
       "links": [
         {
           "token": "target",
-          "target": "/uz/internet-reklama-toshkent/#target",
-          "anchor": "target sozlash xizmati tarkibi"
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "target yoqish xizmati narxi"
         }
       ]
     },
@@ -306,8 +315,8 @@
     },
     {
       "type": "cta",
-      "text": "Target sozlash narxi va ariza",
-      "href": "/uz/internet-reklama-toshkent/#target"
+      "text": "Target yoqish xizmati va narxi",
+      "href": "/uz/instagram-target-yoqish/"
     }
   ],
   "faq": [
@@ -353,8 +362,8 @@
     }
   ],
   "cta": {
-    "label": "Target sozlash narxi va ariza",
-    "href": "/uz/internet-reklama-toshkent/#target"
+    "label": "Target yoqish xizmati va narxi",
+    "href": "/uz/instagram-target-yoqish/"
   },
   "internalLinks": [
     {
@@ -387,6 +396,13 @@
       "anchor": "biznes uchun AI bot",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "target yoqish xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",
@@ -398,7 +414,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-06",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -417,6 +433,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

@@ -730,7 +730,7 @@ const DIGITAL_COMMAND_STYLES = `<style>
 
 // Services the team delivers in office hours: they get the organisation's hours,
 // not the 24/7 availability that only an AI bot can honestly declare.
-const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish)/;
+const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|instagram-target|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish)/;
 // Absolute links to our own host are internal: no nofollow, no new tab.
 const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href) && !/^https:\/\/gptbot\.uz(\/|$)/i.test(href);
 

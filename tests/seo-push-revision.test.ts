@@ -228,8 +228,19 @@ type Revision = {
   pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string }>;
 };
 
+// Since the traffic revision of 2026-10-07 the gate compares builds with a later
+// revision; each names its predecessor, and this one stays a record in that chain.
+const revisionChain = () => {
+  const chain: string[] = [];
+  for (let file: string | undefined = BASELINE; file && !chain.includes(file); file = json<{ previousRevision?: string }>(file).previousRevision) chain.push(file);
+  return chain;
+};
+
 test('the seo-push revision: body text and links only, exactly the listed sentences, two pages untouched', () => {
-  assert.equal(BASELINE, SEO_PUSH);
+  const chain = revisionChain();
+  assert.ok(chain.includes(SEO_PUSH), 'the current revision descends from the seo-push revision');
+  const next = chain[chain.indexOf(SEO_PUSH) - 1];
+  if (next) assert.equal(json<Revision>(next).previousRevision, SEO_PUSH, 'the revision after seo-push names it as its predecessor');
   const current = json<Revision>(SEO_PUSH);
   const previous = json<Revision>(CHAT_DESIGN);
   assert.equal(current.previousRevision, CHAT_DESIGN);
@@ -289,6 +300,59 @@ test('the seo-push revision: body text and links only, exactly the listed senten
     assert.equal(before === after, pathname === DOWNLOAD || pathname === RU_CHAT, `${pathname}: changed iff the revision changes it`);
   }
   assert.match(current.measurement, /P-CTR/);
+  const texts = [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c)), current.measurement];
+  for (const text of texts) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+    assert.doesNotMatch(text, /chatgpt\.uz/i, 'the competitor is not named in the record either');
+  }
+});
+
+// ── The traffic revision (2026-10-07-seo-traffic) ────────────────────────────
+// gptbot.uz-audit/raw/seo-traffic-2026-10-07/TRAFFIC-PLAN.md §5: the homepage
+// shell lists the Uzbek targeting page, the three new Uzbek guides and the new
+// title of the SMM price article; nothing else on the ten changes.
+
+const TRAFFIC = 'docs/seo/evidence/2026-10-07-seo-traffic/reviewed-protected-pages.json';
+
+test('the traffic revision changes only the homepage lists: one money page, three guides, one label', () => {
+  assert.ok(revisionChain().includes(TRAFFIC), 'the current revision is, or descends from, the traffic revision');
+  const current = json<Revision>(TRAFFIC);
+  const previous = json<Revision>(SEO_PUSH);
+  // If the parallel chat UI revision reaches main first, this line moves to its file (TRAFFIC-PLAN.md §5).
+  assert.equal(current.previousRevision, SEO_PUSH);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/', ['bodyTextSha256', 'internalLinks']]]);
+  const page = (rev: Revision, pathname: string) => rev.pages.find((p) => p.pathname === pathname)!;
+  for (const pathname of PROTECTED_PATHS) {
+    if (pathname === '/') continue;
+    assert.deepEqual(page(current, pathname).contract, page(previous, pathname).contract, pathname);
+    assert.equal(page(current, pathname).bodyText, page(previous, pathname).bodyText, pathname);
+  }
+  const home = page(current, '/');
+  const before = page(previous, '/');
+  for (const key of ['title', 'h1', 'description', 'robots', 'googlebot', 'canonical', 'hreflang']) {
+    assert.deepEqual(home.contract[key], before.contract[key], key);
+  }
+  const links = (p: typeof home) => p.contract.internalLinks as string[];
+  assert.deepEqual(links(home).filter((l) => !links(before).includes(l)), [
+    '/uz/blog/biznes-reja-tuzish/', '/uz/blog/kurs-ishi-yozish/', '/uz/blog/tushuntirish-xati-va-ariza-yozish/', '/uz/instagram-target-yoqish/',
+  ]);
+  assert.deepEqual(links(before).filter((l) => !links(home).includes(l)), []);
+  // The four list changes are the whole text change.
+  const guides = 'Biznes reja tuzish: namuna, tuzilma va AI bilan qoralama Kurs ishi namuna va tuzilma: reja, kirish, xulosa Tushuntirish xati va ariza yozish: namuna va tuzilma ';
+  const expected = before.bodyText
+    .replace('Instagram Direct bot biznes uchun Instagram uchun AI-menejer', 'Instagram Direct bot biznes uchun Toshkentda Instagram target yoqish xizmati Instagram uchun AI-menejer')
+    .replace('GPTBot.uz blogi — o&#8216;zbek tilida ', `GPTBot.uz blogi — o&#8216;zbek tilida ${guides}`)
+    .replace('SMM xizmati narxi O\'zbekiston 2026: Instagram yuritish qancha', 'SMM xizmati narxi va SMM narxlari 2026: Instagram yuritish qancha');
+  assert.equal(home.bodyText, expected);
+  // Nine pages byte-identical to production 5ad00a6c; only / changes, each recorded before → after.
+  const hashes = current.invisibleToGate.find((c) => c.htmlSha256)!.htmlSha256!;
+  assert.deepEqual(Object.keys(hashes), [...PROTECTED_PATHS]);
+  for (const [pathname, value] of Object.entries(hashes)) {
+    const [from, to] = value.split(' → ');
+    assert.match(from, /^[0-9a-f]{64}$/);
+    assert.equal(from === to, pathname !== '/', `${pathname}: changed iff it is /`);
+  }
+  assert.match(current.measurement, /N1/);
   const texts = [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c)), current.measurement];
   for (const text of texts) {
     assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));

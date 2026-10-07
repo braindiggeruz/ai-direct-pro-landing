@@ -1,0 +1,471 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tushuntirish-xati-va-ariza-yozish",
+  "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+  "title": "Tushuntirish xati va ariza yozish: namuna va tuzilma",
+  "description": "Tushuntirish xati va ariza qanday yoziladi: kimga, kimdan, sarlavha, asosiy matn, sana va imzo. Shartli namunalar, AI chat uchun so‘rovlar va tekshiruv ro‘yxati.",
+  "h1": "Tushuntirish xati va ariza: tuzilma, namuna va AI bilan qoralama",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "tushuntirish xati",
+    "tushuntirish xati namunasi",
+    "tushuntirish xati yozish",
+    "ariza yozish",
+    "ariza namunasi",
+    "ariza yozish namunasi"
+  ],
+  "intro": "Tushuntirish xati — biror holat (kechikish, ishga yoki darsga kelmaslik, topshiriq bajarilmagani) sababini rahbarga yoki o‘qituvchiga yozma ravishda tushuntiradigan qisqa hujjat. Ariza esa biror narsani so‘rash uchun yoziladi: ishga qabul qilish, ta’til, o‘qish bilan bog‘liq masala yoki ma’lumotnoma. Quyida ikkalasining tuzilmasi, shartli namunalar, AI chat uchun tayyor so‘rovlar va topshirishdan oldingi tekshiruv ro‘yxati berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: tushuntirish xati va ariza bir xil tartibda yoziladi — yuqori o‘ng burchakda kimga va kimdan, o‘rtada sarlavha, so‘ng asosiy matn, pastda sana va imzo. Tushuntirish xatida nima bo‘lgani, qachon va nima sababdan bo‘lgani yoziladi, arizada esa nima so‘ralayotgani. GPTBot.uz AI chati qoralama yozishga yordam beradi, lekin faqat matn yozadi: .docx yoki PDF fayl bermaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Hoziroq {chat} mumkin, ro‘yxatdan o‘tish shart emas. Masalan, shunday yozing: «Ishga 40 daqiqa kechikkanim uchun bo‘lim boshlig‘iga tushuntirish xati yoz. Sabab: avtobus yo‘lda buzilib qoldi. Ism, lavozim va sana o‘rniga kvadrat qavsda belgi qoldir, 5–6 gapdan oshmasin.» Haqiqiy ismingiz, telefoningiz va hujjat raqamlarini chatga yozmang.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chatda qoralama yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Tushuntirish xati nima va qachon yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Tushuntirish xati — sodir bo‘lgan holat bo‘yicha xodim, talaba yoki o‘quvchining yozma izohi. Uni odatda rahbar, kadrlar bo‘limi, dekanat yoki sinf rahbari so‘raydi. Xatning vazifasi — aybni yashirish yoki bahona to‘qish emas, balki nima bo‘lganini aniq, qisqa va xotirjam bayon qilish. Yaxshi yozilgan tushuntirish xatini o‘qigan odam qo‘shimcha savol bermasdan holatni tushunadi."
+    },
+    {
+      "type": "p",
+      "text": "Tushuntirish xati ko‘pincha quyidagi holatlarda so‘raladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ishga yoki darsga kechikish.",
+        "Ishga, darsga yoki imtihonga kelmaslik.",
+        "Topshiriq yoki hisobot belgilangan muddatda bajarilmagani.",
+        "Hujjat, jihoz yoki kassa bilan bog‘liq kamchilik aniqlangani.",
+        "Ichki tartib qoidasi buzilgani haqida rahbar izoh so‘ragani."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ba’zi holatlarda, masalan, intizomiy masala ko‘rilayotganda, ish beruvchi xodimdan yozma tushuntirish so‘rashi mumkin. Bunday vaziyatda xatning mazmuni keyingi qarorga ta’sir qilishi mumkin, shuning uchun shubha bo‘lsa, yozishdan oldin kadrlar bo‘limi, kasaba uyushmasi yoki yurist bilan maslahatlashing. Bu maqola yuridik maslahat emas: u faqat matnni tushunarli va tartibli tuzishga yordam beradi."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Tushuntirish xati tuzilmasi: kimga, kimdan, sarlavha, matn, sana va imzo"
+    },
+    {
+      "type": "p",
+      "text": "Tashkilotda o‘z shakli bo‘lmasa, tushuntirish xati quyidagi qismlardan iborat bo‘ladi. Jadvaldagi tartib — keng tarqalgan ko‘rinish, majburiy me’yor emas: tashkilotingiz boshqacha talab qilsa, o‘shanga amal qiling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Qayerda turadi"
+      ],
+      "rows": [
+        [
+          "Kimga",
+          "Rahbarning lavozimi, tashkilot nomi va F.I.Sh. — «… boshlig‘iga», «… direktoriga» yoki «… dekaniga» shaklida",
+          "Yuqori o‘ng burchakda"
+        ],
+        [
+          "Kimdan",
+          "Lavozimingiz yoki guruhingiz va F.I.Sh. — «…dan» shaklida",
+          "«Kimga» qatoridan keyin, o‘ng tomonda"
+        ],
+        [
+          "Sarlavha",
+          "«Tushuntirish xati» — alohida qatorda",
+          "Sahifa o‘rtasida"
+        ],
+        [
+          "Asosiy matn",
+          "Nima bo‘ldi, qachon (sana va vaqt), nima sababdan; tasdiqlovchi hujjat bo‘lsa — uning nomi",
+          "Sarlavhadan keyin"
+        ],
+        [
+          "Xulosa",
+          "Kerak bo‘lsa, holat takrorlanmasligi uchun nima qilishingiz — bitta gap",
+          "Matn oxirida"
+        ],
+        [
+          "Sana va imzo",
+          "Yozilgan sana, imzo va F.I.Sh.",
+          "Pastda: odatda sana chapda, imzo o‘ngda"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Matnni birinchi shaxsda va qisqa gaplar bilan yozing: «Men, [F.I.Sh.], [sana] kuni ishga 40 daqiqa kechikib keldim, chunki …». Bitta holat — bitta xat. Hissiyot, boshqa xodimlarni ayblash va ortiqcha tafsilot xatni uzaytiradi, lekin tushunarliroq qilmaydi. Sana va vaqtni aniq yozing: «kecha» yoki «ertalab» o‘rniga «[sana], soat [vaqt]» deb yozish yaxshiroq."
+    },
+    {
+      "type": "h3",
+      "text": "Uslub: qanday yozish ma’qul"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Faktdan boshlang: avval nima bo‘lganini, keyin sababini yozing.",
+        "Rasmiy, lekin sodda til ishlating: uzun va murakkab iboralar matnni tushunarli qilmaydi.",
+        "Sababni bo‘rttirmang va kichraytirmang — qanday bo‘lgan bo‘lsa, shunday yozing.",
+        "Agar xato sizda bo‘lsa, buni bitta gap bilan tan oling va keyin nima qilishingizni yozing.",
+        "Hajmi: odatda 4–8 gap yetarli; tashkilot batafsilroq izoh so‘ragan bo‘lsa, faktlarni tartib bilan qo‘shing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "namuna-kechikish",
+      "text": "Tushuntirish xati namunasi: ishga kechikish (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi tushuntirish xati namunasi — shartli. Kvadrat qavsdagi joylarga o‘z ma’lumotlaringizni qo‘yasiz, sababni esa qanday bo‘lgan bo‘lsa, shunday yozasiz. Qatorlar «·» belgisi bilan ajratilgan: qog‘ozda har biri alohida qatorda turadi."
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot] [bo‘lim] boshlig‘i [F.I.Sh.]ga · [bo‘lim] [lavozim] [F.I.Sh.]dan · TUSHUNTIRISH XATI · Men, [F.I.Sh.], [sana] kuni ishga soat [vaqt] o‘rniga [vaqt]da, ya’ni [necha] daqiqa kechikib keldim. Sababi: har kuni foydalanadigan avtobusim yo‘lda buzilib qoldi va keyingisini kutishga to‘g‘ri keldi. Kechikishim haqida bo‘lim boshlig‘iga soat [vaqt]da telefon orqali xabar berdim. Bundan keyin uydan oldinroq chiqaman. · [sana] · [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "p",
+      "text": "Namunadagi sabab — faqat misol. O‘z xatingizda haqiqatda bo‘lgan sababni yozing: soxta sabab keyin aniqlansa, holatni og‘irlashtiradi. Sababni tasdiqlaydigan hujjat bo‘lsa (masalan, shifokor ma’lumotnomasi), uni matnda nomlang va ilova qiling."
+    },
+    {
+      "type": "h3",
+      "text": "Talaba uchun qisqa namuna: darsga kelmaslik (shartli)"
+    },
+    {
+      "type": "quote",
+      "text": "[Fakultet] dekani [F.I.Sh.]ga · [kurs], [guruh] talabasi [F.I.Sh.]dan · TUSHUNTIRISH XATI · Men, [F.I.Sh.], [sana] kuni [fan] fanidan darsga kela olmadim, chunki [sabab]. Darsda o‘tilgan mavzuni o‘qituvchidan so‘rab, mustaqil o‘zlashtiraman. Ilova: [hujjat nomi]. · [sana] · [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "p",
+      "text": "Maktab o‘quvchisi uchun tushuntirish xatini ko‘pincha ota-ona yozadi yoki imzolaydi: buni sinf rahbaridan oldindan aniqlang. Kimning nomiga yozish va qanday hujjat ilova qilish kerakligini dekanat yoki maktab ma’muriyati aytadi."
+    },
+    {
+      "type": "h2",
+      "id": "ariza",
+      "text": "Ariza: tuzilma va turlari"
+    },
+    {
+      "type": "p",
+      "text": "Ariza — tashkilotga yoki rahbarga biror narsani so‘rab yoziladigan hujjat. Uning tuzilmasi tushuntirish xatiga o‘xshaydi: kimga, kimdan, sarlavha («Ariza»), so‘rov matni, ilovalar ro‘yxati, sana va imzo. Farqi shundaki, matn «nima bo‘ldi» degan savolga emas, «nimani so‘rayman» degan savolga javob beradi va odatda «… so‘rayman» bilan tugaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ariza turi",
+        "Matnda nima bo‘lishi kerak",
+        "Odatda nima ilova qilinadi"
+      ],
+      "rows": [
+        [
+          "Ishga qabul qilish haqida",
+          "Qaysi lavozimga va qaysi sanadan qabul qilishni so‘rayotganingiz",
+          "Tashkilot so‘ragan hujjatlar — ro‘yxatni kadrlar bo‘limi aytadi"
+        ],
+        [
+          "Ta’til so‘rash",
+          "Ta’til turi (yillik, o‘z hisobidan va boshqalar), boshlanish sanasi va muddati",
+          "Ko‘pincha hech narsa; maxsus ta’tilda — asos bo‘ladigan hujjat"
+        ],
+        [
+          "O‘qish bilan bog‘liq",
+          "Nima so‘ralayotgani: ko‘chirish, akademik ta’til, fanni qayta topshirish yoki boshqa masala",
+          "Dekanat yoki qabul komissiyasi aytgan hujjatlar"
+        ],
+        [
+          "Ma’lumotnoma so‘rash",
+          "Qanday ma’lumotnoma kerak (ish yoki o‘qish joyidan) va u qayerga taqdim etiladi",
+          "Odatda hech narsa"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Muhim: ko‘p tashkilotlarda ariza shakli tayyor bo‘ladi — kadrlar bo‘limi, dekanat yoki qabulxona uni beradi. Davlat idoralari va xizmatlari uchun ularning rasmiy shakli va topshirish tartibi har doim ustun: bunday arizani bu maqoladagi shablon bo‘yicha emas, idora bergan shakl bo‘yicha to‘ldiring. Shuning uchun yozishdan oldin so‘rang: «Arizaning sizda shakli bormi va u kimning nomiga yoziladi?»"
+    },
+    {
+      "type": "h2",
+      "id": "namuna-tatil",
+      "text": "Ariza namunasi: ta’til so‘rash (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Bu ariza namunasi ham shartli. Ta’til turi, muddati va sanalarini mehnat shartnomangiz, tashkilotning ta’tillar jadvali va kadrlar bo‘limi aytganiga moslang."
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot] direktori [F.I.Sh.]ga · [bo‘lim] [lavozim] [F.I.Sh.]dan · ARIZA · Menga [yil] yil uchun yillik mehnat ta’tilining [necha] kalendar kunini [sana]dan boshlab berishingizni so‘rayman. · [sana] · [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "p",
+      "text": "Ariza qisqa bo‘lgani yaxshi: bitta so‘rov, aniq sana va muddat. Sababni yozish talab qilinsa (masalan, o‘z hisobidan ta’til so‘ralganda), uni bitta gap bilan qo‘shing. Ilova bo‘lsa, imzodan oldin «Ilova: [hujjat nomi], [nechta] varaq» deb yozing. Bir arizada bir nechta turli so‘rovni aralashtirmang: har biri alohida ko‘rib chiqiladi."
+    },
+    {
+      "type": "h3",
+      "text": "Tushuntirish xati va ariza: farqi bir qarashda"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Tushuntirish xati",
+        "Ariza"
+      ],
+      "rows": [
+        [
+          "Nima uchun yoziladi",
+          "Bo‘lgan holatni izohlash uchun",
+          "Biror narsani so‘rash uchun"
+        ],
+        [
+          "Kim tashabbus qiladi",
+          "Ko‘pincha rahbar yoki o‘qituvchi so‘raydi",
+          "Ko‘pincha o‘zingiz yozasiz"
+        ],
+        [
+          "Matn nima bilan tugaydi",
+          "Sabab va kerak bo‘lsa, keyingi qadam bilan",
+          "«… so‘rayman» degan so‘rov bilan"
+        ],
+        [
+          "Shakli",
+          "Ko‘pincha erkin, tashkilotda shakl bo‘lishi mumkin",
+          "Ko‘p tashkilotlarda tayyor shakl bor"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qolda",
+      "text": "Qo‘lda yoki kompyuterda: qaysi biri to‘g‘ri"
+    },
+    {
+      "type": "p",
+      "text": "Yagona qoida yo‘q: ba’zi tashkilotlar arizani faqat qo‘lda yozilgan holda qabul qiladi, boshqalari bosma nusxaga imzo qo‘yishni yoki elektron hujjat tizimi orqali yuborishni so‘raydi. Buni topshiradigan joyingizdan oldindan bilib oling. Qo‘lda yozsangiz, AI qoralamasidan foydalanib, matnni o‘zingiz ko‘chirib yozasiz; kompyuterda yozsangiz, Word yoki Google Docs’da hujjatni o‘zingiz rasmiylashtirasiz va chop etasiz."
+    },
+    {
+      "type": "h2",
+      "id": "ai-bilan",
+      "text": "AI chat bilan qoralama: tayyor so‘rovlar"
+    },
+    {
+      "type": "p",
+      "text": "AI chat matnni tez tartibga soladi: sizning xom faktlaringizdan rasmiy uslubdagi qisqa qoralama yozadi, so‘ng uni qisqartiradi yoki ohangini yumshatadi. Chatdagi «Matn yozish» tugmasini bosing yoki quyidagi so‘rovlardan birini o‘zingiz yuboring. Kvadrat qavsdagi joylarni o‘zingiz to‘ldirasiz — haqiqiy ism, telefon va hujjat raqamlarini chatga yozmang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "Tushuntirish xati",
+          "«Holat: [nima bo‘ldi], [sana]. Sabab: [qisqa sabab]. Shu bo‘yicha bo‘lim boshlig‘iga rasmiy uslubda tushuntirish xati yoz: 5–7 gap, birinchi shaxsda, faqat men yozgan faktlar. Ism, lavozim va sana o‘rniga kvadrat qavsda belgi qoldir.»"
+        ],
+        [
+          "Ariza",
+          "«Kadrlar bo‘limiga yillik ta’til so‘rab ariza yoz: [necha] kun, [sana]dan boshlab. Tuzilma: kimga, kimdan, sarlavha, so‘rov matni, sana va imzo. Ism va lavozim o‘rniga belgi qoldir.»"
+        ],
+        [
+          "Qisqartirish",
+          "«Quyidagi tushuntirish xatini 4–5 gapgacha qisqartir, faktlarni o‘zgartirma, his-hayajonli so‘zlarni olib tashla: [matningiz]»"
+        ],
+        [
+          "Uslubni tekshirish",
+          "«Quyidagi arizada imlo va uslub xatolarini ko‘rsat, lekin mazmunni o‘zgartirma. Har bir tuzatishni alohida qatorda yoz: [matningiz]»"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (kuniga 15 tagacha, soatiga 5 tagacha xabar) foydalanish mumkin. U faqat matn yozadi: .docx, PDF yoki imzolangan hujjat bermaydi. Har qanday til modeli kabi u ham xato qilishi yoki faktni o‘zidan qo‘shishi mumkin, shuning uchun har bir sana va dalilni o‘zingiz tekshiring."
+    },
+    {
+      "type": "p",
+      "text": "Shaxsiy ma’lumotni chatga yozmang. Savol GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun pasport seriyasi, JShShIR, telefon, uy manzili va boshqa odamlarning ma’lumotlari o‘rniga [F.I.Sh.], [lavozim], [tashkilot], [sana] kabi belgilardan foydalaning. Haqiqiy ma’lumotni hujjatga o‘zingiz qo‘shasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Chat limitlari, tillari va xavfsizlik qoidalari {qollanma} sahifasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "chatdan foydalanish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xat yoki ariza to‘g‘ri odamga yozilganmi: lavozim, tashkilot nomi va F.I.Sh. aniqmi?",
+        "Sarlavha bormi: «Tushuntirish xati» yoki «Ariza»?",
+        "Matnda faqat haqiqatda bo‘lgan faktlar bormi: sana, vaqt va sabab to‘g‘rimi?",
+        "Arizadagi so‘rov aniqmi: nima, qachondan va qancha muddatga?",
+        "Kvadrat qavsdagi har bir belgi o‘z ma’lumotingiz bilan almashtirilganmi?",
+        "Tasdiqlovchi hujjat bo‘lsa, u ilova qilinganmi va matnda nomlanganmi?",
+        "Sana va imzo bormi, nusxasi o‘zingizda qoladimi?",
+        "Tashkilotning o‘z shakli yoki talabi bo‘lsa, matn unga moslanganmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Imkon bo‘lsa, topshirgan hujjatingizning nusxasini saqlang yoki qabul qilingani haqida belgi (ro‘yxatga olish raqami va sana) so‘rang. Elektron tizim orqali yuborsangiz, yuborilganini tasdiqlovchi xabarni saqlab qo‘ying."
+    },
+    {
+      "type": "h2",
+      "id": "mumkin-emas",
+      "text": "Nimalar mumkin emas"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Soxta sabab yozish yoki hujjatni o‘ylab topish. Matn AI bilan yozilgan bo‘lsa ham, undagi har bir fakt uchun o‘zingiz javob berasiz.",
+        "Boshqa odam nomidan yozish yoki uning imzosini qo‘yish. Ariza va tushuntirish xatini kimning nomidan bo‘lsa, o‘sha odam imzolaydi.",
+        "Rasmiy shaklni o‘zgartirish. Tashkilot yoki davlat idorasi shakl bergan bo‘lsa, ustun va bandlarni o‘zingizcha qisqartirmang.",
+        "Boshqa odamlarning shaxsiy ma’lumotini chatga yozish.",
+        "Haqoratli yoki tahdidli so‘zlar ishlatish: xotirjam, rasmiy uslub ko‘proq ta’sir qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: AI nimani qila olmaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI chat sizning tashkilotingiz qoidalarini, mehnat shartnomangizni va ichki tartibni bilmaydi. U huquqiy oqibatlarni baholamaydi, hujjatni imzolamaydi va hech qayerga yubormaydi. Shuning uchun:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mehnat munosabatlari, intizomiy jazo yoki pul bilan bog‘liq jiddiy masalada xat yozishdan oldin kadrlar bo‘limi, kasaba uyushmasi yoki yurist bilan maslahatlashing.",
+        "Davlat xizmatlari uchun arizani idoraning rasmiy shakli va yo‘riqnomasi bo‘yicha to‘ldiring.",
+        "Talabalar dekanat talabini, maktab o‘quvchilari esa sinf rahbari yoki ma’muriyat talabini ustun qo‘yadi.",
+        "AI qoralamasini topshirishdan oldin to‘liq o‘qing va o‘zingizga xos so‘zlar bilan tuzating."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ishga hujjat topshirayotgan bo‘lsangiz, ariza bilan birga odatda rezyume ham so‘raladi: {rezyume} alohida qo‘llanmada berilgan.",
+      "links": [
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tuzilmasi va namunasi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Tushuntirish xati qoralamasini AI chatda yozish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tushuntirish xati qanday yoziladi?",
+      "a": "Yuqori o‘ng burchakda kimga (rahbarning lavozimi va F.I.Sh.) va kimdan (lavozimingiz va F.I.Sh.) yoziladi, o‘rtada «Tushuntirish xati» sarlavhasi turadi. Asosiy matnda nima bo‘lgani, qachon va nima sababdan bo‘lgani birinchi shaxsda, qisqa gaplar bilan yoziladi. Pastda sana va imzo qo‘yiladi. Tashkilotning o‘z shakli bo‘lsa, o‘sha shakl ustun."
+    },
+    {
+      "q": "Tushuntirish xati kimga yoziladi?",
+      "a": "Izoh so‘ragan odamga yoki uning rahbariga: ishda — bo‘lim boshlig‘i yoki tashkilot rahbariga, o‘qishda — dekan, sinf rahbari yoki maktab direktoriga. Kimning nomiga yozish kerakligini xatni so‘ragan odamdan yoki kadrlar bo‘limidan aniqlang."
+    },
+    {
+      "q": "Ariza qo‘lda yoziladimi yoki kompyuterda?",
+      "a": "Bu tashkilot talabiga bog‘liq: ba’zilari faqat qo‘lda yozilgan arizani qabul qiladi, boshqalari bosma nusxaga imzo qo‘yishni yoki elektron tizim orqali yuborishni so‘raydi. Topshiradigan joyingizdan oldindan so‘rang. Qo‘lda yozsangiz, AI qoralamasini o‘zingiz ko‘chirib yozasiz."
+    },
+    {
+      "q": "AI yozgan arizani topshirsa bo‘ladimi?",
+      "a": "AI qoralama yozishda yordam beradi, lekin topshiriladigan hujjat sizniki: undagi har bir fakt, sana va so‘rov uchun o‘zingiz javob berasiz. Qoralamani o‘qib chiqing, faktlarni tekshiring, tashkilot shakliga moslang va o‘zingiz imzolang."
+    },
+    {
+      "q": "Chat .docx fayl beradimi?",
+      "a": "Yo‘q. GPTBot.uz AI chati faqat matn yozadi: .docx yoki PDF fayl bermaydi. Matnni Word yoki Google Docs’ga ko‘chirib, hujjatni o‘zingiz rasmiylashtirasiz yoki qo‘lda ko‘chirib yozasiz."
+    },
+    {
+      "q": "Bu yuridik maslahatmi?",
+      "a": "Yo‘q, bu yuridik maslahat emas. Maqola tushuntirish xati va arizani tushunarli tuzishga yordam beradi, xolos. Mehnat nizosi, intizomiy jazo yoki davlat idorasi bilan bog‘liq jiddiy holatda kadrlar bo‘limi, kasaba uyushmasi yoki yurist bilan maslahatlashing."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda qoralama yozish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilidagi AI chat: matn qoralamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume tayyorlash: tuzilma va namuna",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va xavfsizlik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Tushuntirish xati va ariza: tuzilma va shartli namunalar",
+  "ogDescription": "Tushuntirish xati va arizaning tuzilmasi, kechikish va ta’til uchun shartli namunalar, AI chatda qoralama yozish va topshirishdan oldingi tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+  "hreflangUz": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Employees, students and job seekers in Uzbekistan"
+  },
+  "breadcrumbLabel": "Tushuntirish xati va ariza",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-07",
+  "dateModified": "2026-10-07",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "createdAt": "2026-10-07T00:00:00.000Z"
+}

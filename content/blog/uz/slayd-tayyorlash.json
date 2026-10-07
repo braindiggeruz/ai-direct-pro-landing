@@ -303,7 +303,7 @@
     },
     {
       "type": "linkp",
-      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma — «{esse}» qo‘llanmasida, titul varaqdan adabiyotlargacha namuna esa «{referat}» sahifasida. AI qanday ishlashi «{ai}» sahifasida sodda tushuntirilgan.",
+      "text": "Yozma ish ham topshirishingiz kerak bo‘lsa, reja va tuzilma — «{esse}» qo‘llanmasida, titul varaqdan adabiyotlargacha namuna esa «{referat}» sahifasida. AI qanday ishlashi «{ai}» sahifasida sodda tushuntirilgan. Kurs ishini himoya qilayotgan bo‘lsangiz, ishning tuzilmasi va {kurs} uchun nimalarni tayyorlash kerakligi alohida qo‘llanmada.",
       "links": [
         {
           "token": "esse",
@@ -319,6 +319,11 @@
           "token": "ai",
           "target": "/uz/suniy-intellekt/",
           "anchor": "sun’iy intellekt nima"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi himoyasi"
         }
       ]
     },
@@ -466,6 +471,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

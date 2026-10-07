@@ -39,6 +39,7 @@
     {"type":"table","headers":["Ko‘rsatkich","Nimani bildiradi"],"rows":[["Birinchi javob vaqti","Mijoz qancha kutadi"],["Yakunlangan dialog","Bot kerakli qadamgacha olib bordimi"],["To‘liq lead ulushi","Majburiy maydonlar to‘g‘ri yig‘ildimi"],["Insonga o‘tkazish","Bot qachon va nega eskalatsiya qiladi"],["Noto‘g‘ri javob","Bilim bazasi yoki qoida qayerda zaif"],["CRMdagi sifatli lead","Menejer uchun murojaat foydalimi"],["Savdo statusi","Avtomatlashtirish biznes natijasiga qanday bog‘langan"]]},
     {"type":"p","text":"Dastlabki 2–4 hafta bazaviy ko‘rsatkichlarni yig‘ish davri bo‘lishi mumkin. Natijani «AI ishlayapti» degan taassurot bilan emas, eski jarayon bilan bir xil ta’rifdagi metrikalar orqali solishtiring."},
     {"type":"linkp","text":"Xodim uchun shaxsiy AI chat kerak bo‘lsa, {chat}ni sinang. Platformalar o‘rtasidagi farqni {compare}, o‘zbekcha topshiriqlarni {prompts} orqali tekshiring.","links":[{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"o‘zbek tilidagi AI chat"},{"token":"compare","target":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/","anchor":"ChatGPT, Claude va Gemini taqqoslovi"},{"token":"prompts","target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"50 ta tayyor prompt"}]},
+    {"type":"linkp","text":"Xodimlar chatdan xavfsiz foydalanishi uchun {qollanma} sahifasidagi limitlar va xavfsizlik qoidalarini o‘qib chiqing. Yangi yo‘nalish ochishdan oldin g‘oyani raqamlar bilan tekshirish tartibi esa {reja} qo‘llanmasida.","links":[{"token":"qollanma","target":"/uz/gpt-chat-qollanma/","anchor":"AI-chat qo‘llanmasi"},{"token":"reja","target":"/uz/blog/biznes-reja-tuzish/","anchor":"biznes reja tuzish"}]},
     {"type":"p","text":"GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Biznes-bot imkoniyati loyiha talabi va integratsiyaga qarab alohida baholanadi."},
     {"type":"cta","text":"Biznes jarayonini bepul muhokama qilish","href":"#contact"}
   ],
@@ -68,9 +69,9 @@
   "canonical":"https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "hreflangUz":"/uz/blog/chat-gpt-uzbek-biznes-uchun/",
   "robotsIndex":true,"robotsFollow":true,"author":"GPTBot Team",
-  "datePublished":"2026-07-27","dateModified":"2026-10-06",
+  "datePublished":"2026-07-27","dateModified":"2026-10-07",
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
-  "createdAt":"2026-07-27T00:00:00.000Z","updatedAt":"2026-10-06T00:00:00.000Z",
+  "createdAt":"2026-07-27T00:00:00.000Z","updatedAt":"2026-10-07T00:00:00.000Z",
   "sources":[
     {"title":"OpenAI Help Center — What is ChatGPT?","url":"https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq","note":"ChatGPTning umumiy imkoniyatlari va javoblarni tekshirish zarurati; 2026-07-30 kuni tekshirildi."}
   ]

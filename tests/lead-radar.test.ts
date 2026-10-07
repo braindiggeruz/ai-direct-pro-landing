@@ -576,7 +576,9 @@ test('JSON-LD Person with a bot sameAs stays bot evidence and cannot be manually
   ), null);
 });
 
-test('manual approval is fail-closed and authoritatively recomputes contactability', async () => {
+test('manual approval is fail-closed and authoritatively recomputes contactability', async (t) => {
+  // Exercise approval while the fixture is fresh; expiry is a separate contract.
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-08-24T12:00:00.000Z') });
   const verifiedAt = '2026-08-24T05:00:00.000Z';
   const facts = extractOfficialSiteContacts(new URL('https://clinic.example.uz/team'), `
     <section><p>Азиза Каримова — коммерческий директор</p>
@@ -749,7 +751,8 @@ test('niche score requires a sourced category instead of a fallback label', () =
   assert.deepEqual(sourcedComponent?.evidenceIds, ['category-fact']);
 });
 
-test('store enforces tenant isolation on reads and lifecycle mutations', async () => {
+test('store enforces tenant isolation on reads and lifecycle mutations', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-08-24T12:00:00.000Z') });
   const fixture = new SqliteD1();
   const db = fixture.asD1();
   const store = new LeadRadarStore(db);

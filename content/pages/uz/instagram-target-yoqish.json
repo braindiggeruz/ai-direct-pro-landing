@@ -1,0 +1,521 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/instagram-target-yoqish/",
+  "slug": "instagram-target-yoqish",
+  "pageType": "money",
+  "primaryKeyword": "target yoqish",
+  "secondaryKeywords": [
+    "instagram target",
+    "target xizmati",
+    "targetolog xizmati",
+    "target yoqish narxi",
+    "instagram reklama narxi",
+    "instagram target yoqish",
+    "instagramda target yoqish",
+    "facebook target yoqish"
+  ],
+  "searchIntent": "commercial",
+  "h1": "Toshkentda Instagram target yoqish xizmati",
+  "title": "Instagram target yoqish Toshkentda — 1 990 000 so‘mdan | GPTBot.uz",
+  "description": "Instagram va Facebook’da target yoqish: auditoriya, kreativ, ariza yo‘li. Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, byudjet alohida.",
+  "canonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
+  "hreflangRu": "/ru/targetirovannaya-reklama-tashkent/",
+  "hreflangUz": "/uz/instagram-target-yoqish/",
+  "ogTitle": "Instagram target yoqish Toshkentda — 1 990 000 so‘mdan | GPTBot.uz",
+  "ogDescription": "Instagram va Facebook’da target yoqish: auditoriya, kreativ, ariza yo‘li. Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, byudjet alohida.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Instagram target yoqish",
+  "heroTitle": "Toshkentda Instagram target yoqish xizmati",
+  "heroSubtitle": "Instagram va Facebook’da reklamani auditoriyadan arizagacha sozlaymiz: kreativ, qo‘nish sahifasi yoki Direct, UTM va arizani menejerga yetkazish. Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan; reklama byudjeti alohida.",
+  "ctaPrimaryLabel": "Bepul hisob-kitob olish",
+  "ctaPrimaryHref": "#lead-form",
+  "ctaSecondaryLabel": "Narx va tarkib",
+  "ctaSecondaryHref": "#narx",
+  "bodyBlocks": [
+    {
+      "type": "toc",
+      "text": "Sahifa bo‘yicha",
+      "links": [
+        {
+          "anchor": "kimga",
+          "label": "Target kimga va qachon kerak"
+        },
+        {
+          "anchor": "tarkib",
+          "label": "Xizmatga nima kiradi"
+        },
+        {
+          "anchor": "narx",
+          "label": "Target yoqish narxi"
+        },
+        {
+          "anchor": "ozingiz",
+          "label": "O‘zingiz yoki mutaxassis"
+        },
+        {
+          "anchor": "ariza",
+          "label": "Klikdan arizagacha"
+        },
+        {
+          "anchor": "olchov",
+          "label": "Qaysi ko‘rsatkichlar muhim"
+        },
+        {
+          "anchor": "smm",
+          "label": "Target va SMM"
+        },
+        {
+          "anchor": "faq",
+          "label": "Ko‘p so‘raladigan savollar"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Target — Instagram va Facebook’dagi pullik reklama: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Biz uni auditoriyadan arizagacha sozlaymiz: kim ko‘radi, e’lon nima va’da qiladi, bosgandan keyin odam qayerga tushadi va ariza menejerga qanday yetib boradi. Reklama byudjeti xizmat narxiga kirmaydi va platformaga to‘g‘ridan-to‘g‘ri to‘lanadi."
+    },
+    {
+      "type": "h2",
+      "id": "kimga",
+      "text": "Target kimga va qachon kerak"
+    },
+    {
+      "type": "p",
+      "text": "Target odam hali qidiruvda so‘rov yozmagan bo‘lsa ham taklifni uning lentasida ko‘rsatadi. U vizual mahsulotlar, mahalliy xizmatlar, tadbirlar, ta’lim, ko‘chmas mulk va qisqa ssenariy yoki namoyish bilan tushuntirish oson bo‘lgan takliflarga mos keladi. Auditoriya va kreativni tanlashdan oldin segment, muammo, isbot va keyingi qadam aniqlanadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Yondashuv",
+        "Nimani o‘lchash kerak"
+      ],
+      "rows": [
+        [
+          "Ariza olish",
+          "Taklif → qo‘nish sahifasi yoki lid-forma",
+          "Malakali lid va sotuv"
+        ],
+        [
+          "Suhbat boshlash",
+          "Kreativ → Direct, WhatsApp yoki bot",
+          "Boshlangan va malakali suhbat"
+        ],
+        [
+          "Yangi taklifni sinash",
+          "Cheklangan auditoriyada xabarning bir necha burchagi",
+          "Reaksiya, o‘tish va maqsadli harakat"
+        ],
+        [
+          "Tashrif buyuruvchilarni qaytarish",
+          "Kelishilgan hodisalar bo‘yicha remarketing",
+          "Takroriy tashrif va konversiya"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Xizmatingizni odamlar allaqachon Google’da qidirayotgan bo‘lsa, kontekst reklama tezroq ishlashi mumkin: kanallarni solishtirish {ads} sahifasida.",
+      "links": [
+        {
+          "token": "ads",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "Toshkentda internet reklama kanallari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tarkib",
+      "text": "Target yoqish xizmatiga nima kiradi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Nima qilinadi",
+        "Natija"
+      ],
+      "rows": [
+        [
+          "Diagnostika",
+          "Mahsulot, auditoriya, oldingi kampaniyalar va analitika",
+          "Xavf va maqsadlar xaritasi"
+        ],
+        [
+          "Test strategiyasi",
+          "Segmentlar, xabarlar, formatlar va byudjet chegaralari",
+          "Gipotezalar matritsasi"
+        ],
+        [
+          "Tayyorlov",
+          "Kreativlar, matnlar, manzil sahifalari va hodisalar",
+          "Ishga tushirishga tayyor to‘plam va tekshiruv ro‘yxati"
+        ],
+        [
+          "Ishga tushirish",
+          "Kampaniya tuzilmasi, auditoriyalar, joylashuvlar va limitlar",
+          "Nazorat ostidagi birinchi sinov"
+        ],
+        [
+          "Optimallashtirish",
+          "Kuchsiz bog‘lamalarni o‘chirish va yangi iteratsiyalar",
+          "Qarorlar jurnali va keyingi gipoteza"
+        ],
+        [
+          "Hisobot",
+          "Reklama va CRM statuslarini solishtirish",
+          "Faqat son emas, ariza sifati bahosi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Reklama kabineti va to‘lov ma’lumotlari sizning nomingizda ochiladi, bizga esa ish uchun kerakli rollar beriladi — tarix, auditoriyalar va nazorat biznesda qoladi. Ishga tushirishdan oldin kirish huquqlari, domen, hodisalar, maxfiylik siyosati va ariza uzatish nuqtalari tekshiriladi."
+    },
+    {
+      "type": "h2",
+      "id": "narx",
+      "text": "Target yoqish narxi"
+    },
+    {
+      "type": "p",
+      "text": "Ishga tushirish — bir martalik ish, yuritish — oylik. Reklama byudjeti hech bir tarifga kirmaydi va platformaga alohida to‘lanadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Ishga tushirish",
+          "Auditoriyalar, kreativlar, qo‘nish sahifasi, UTM va maqsadlar, dastlabki 2 hafta yuritish; hajm smetada qayd etiladi",
+          "bir martalik",
+          "1 990 000 dan"
+        ],
+        [
+          "Yuritish",
+          "Stavka va auditoriyalarni optimallashtirish, kreativ testlari, ariza narxi bo‘yicha hisobot (reklama byudjeti alohida)",
+          "oyiga",
+          "1 490 000 dan"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Narxga nima ta’sir qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Hisob-kitobdan oldin quyidagilar kelishiladi — ular ish hajmini va sinov byudjetini o‘zgartiradi:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nima kelishiladi",
+        "Nega hajmni o‘zgartiradi"
+      ],
+      "rows": [
+        [
+          "Maqsadli harakat va malakali lid mezoni",
+          "Bosish, suhbat va ariza turli manzil va turli hajmdagi ma’lumot talab qiladi"
+        ],
+        [
+          "Mahsulot, hudud va til",
+          "Har bir yangi kombinatsiya alohida gipoteza, kreativ va manzil qo‘shadi"
+        ],
+        [
+          "Nima tayyor",
+          "Yo‘q kreativlar, qo‘nish sahifasi, hodisalar yoki CRM alohida ish hajmiga aylanadi"
+        ],
+        [
+          "Ruxsat etilgan iqtisod",
+          "Murojaat yoki sotuvning chegaraviy narxi boshqa birovning keysidan emas, marja va sotuv konversiyasidan kelib chiqadi"
+        ],
+        [
+          "To‘xtatish va davom ettirish qoidasi",
+          "Qaysi signallar bog‘lamani o‘chirishi va qaysilari keyingi iteratsiyaga ruxsat berishi oldindan kelishiladi"
+        ],
+        [
+          "Sifat bo‘yicha qayta aloqa",
+          "Sotuv statuslarisiz platforma harakatni ko‘radi, lekin lid maqsadli bo‘lganini bilmaydi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ikkinchi reklama kanali, CRM integratsiyasi va tashqi servislar alohida kelishiladi. Muddat kirish huquqlari va materiallar olingandan keyin boshlanadi; arizalar soni va o‘zini oqlash kafolatlanmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "ozingiz",
+      "text": "O‘zingiz yoqasizmi yoki mutaxassisga topshirasizmi"
+    },
+    {
+      "type": "linkp",
+      "text": "Bitta postni kichik auditoriyaga ko‘rsatish uchun Instagram’dagi «Reklama qilish» tugmasi yetarli bo‘lishi mumkin. Bir nechta segment, kreativ sinovlari, UTM va piksel, ariza narxini kuzatish kerak bo‘lsa — bu Meta kabinetidagi tizimli ish. Qaysi holatda nima yetarli ekani {nima} maqolasida batafsil ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "nima",
+          "target": "/uz/blog/target-reklama-nima/",
+          "anchor": "target nima va qachon mutaxassis kerak"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ariza",
+      "text": "Klikdan arizagacha: Direct, forma va AI-bot"
+    },
+    {
+      "type": "p",
+      "text": "Bosish — yuborilgan ariza degani emas. Reklamadan keyin odam qo‘nish sahifasiga, lid-formaga yoki Direct’ga tushadi, va u yerda javob tez bo‘lmasa, to‘langan bosish yo‘qoladi. Shuning uchun ishga tushirishdan oldin har bir yo‘lning oxiri kelishiladi: forma kimga boradi, Direct’da kim javob beradi, ish vaqtidan tashqari nima bo‘ladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Direct’dagi birinchi javobni {bot} berishi mumkin: u savolga javob beradi, ism va telefonni yig‘adi va arizani menejerga uzatadi. Barcha kanallardan kelgan arizalarni bitta oqimga yig‘ish {avtomat} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "bot",
+          "target": "/uz/instagram-uchun-ai-menejer/",
+          "anchor": "Instagram uchun AI-menejer"
+        },
+        {
+          "token": "avtomat",
+          "target": "/uz/arizalarni-avtomatlashtirish/",
+          "anchor": "arizalarni avtomatlashtirish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "olchov",
+      "text": "Qaysi ko‘rsatkichlar qaror qabul qilishga yordam beradi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Nimani ko‘rsatadi",
+        "O‘zi nimani isbotlamaydi"
+      ],
+      "rows": [
+        [
+          "CTR",
+          "Kreativni payqashadimi va xabar tushunarlimi",
+          "Ariza sifatini"
+        ],
+        [
+          "Bosish narxi",
+          "Aniq auktsionda o‘tish qanchaga tushadi",
+          "O‘zini oqlashni"
+        ],
+        [
+          "Manzil konversiyasi",
+          "Keyingi qadam tushunarlimi",
+          "Sotuvni"
+        ],
+        [
+          "Malakali lid",
+          "Murojaat kelishilgan qoidalarga mos keladimi",
+          "Haqiqiy marjani"
+        ],
+        [
+          "Sotuv",
+          "Voronka natijagacha yetadimi",
+          "Sababni qo‘shimcha tahlilsiz"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Oylik hisobot shu satrlar bo‘yicha beriladi. CRM to‘liq to‘ldirilmagan bo‘lsa, hisobotda bu cheklov ochiq yoziladi."
+    },
+    {
+      "type": "h2",
+      "id": "smm",
+      "text": "Target va SMM — alohida xizmatlar"
+    },
+    {
+      "type": "linkp",
+      "text": "Target pullik tarqatish uchun javob beradi: auditoriyalar, kampaniyalar, kreativ sinovlari, byudjet va o‘lchash. SMM esa sahifani muntazam yuritadi: rubrikalar, kontent, nashr va moderatsiya. Sahifa ham kerak bo‘lsa, {smm} ichida Biznes va Pro target yuritishni ham o‘z ichiga oladi; reklama byudjeti bu holatda ham alohida.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "ijtimoiy tarmoqlarni yuritish paketlari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Sinov byudjetini rejalashtirish {byudjet} maqolasida tushuntirilgan, Telegram auditoriyasi uchun esa {telegram} alohida ko‘rib chiqiladi.",
+      "links": [
+        {
+          "token": "byudjet",
+          "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+          "anchor": "reklama byudjeti qancha bo‘lishi kerak"
+        },
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram reklama"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Nimaga javob beramiz va nimani kafolatlamaymiz"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz javob beradi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kelishilgan sozlash va yuritish hajmi bajarilishi",
+        "Kreativ sinovlari va qarorlar jurnali",
+        "Ariza narxi bo‘yicha oylik hisobot",
+        "Reklama kabineti va to‘lov ma’lumotlari sizda qolishi"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Va’da qilinmaydi, kafolat emas:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalar soni va reklamaning o‘zini oqlashi",
+        "Auktsiondagi narx — u platforma, mavsum va raqobatga bog‘liq",
+        "Sotuv — u taklif, narx va sotuv jamoangizga ham bog‘liq"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ariza qoldirsangiz, ish vaqtida (Du–Sha 10:00–19:00) bog‘lanamiz, vazifani aniqlaymiz va ishga tushirish hajmini aytamiz."
+    },
+    {
+      "type": "cta",
+      "text": "Target bo‘yicha bepul hisob-kitob — ariza qoldiring",
+      "href": "#lead-form"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Instagram target yoqish narxi qancha?",
+      "a": "Instagram’da target ishga tushirish 1 990 000 so‘mdan (bir martalik): auditoriyalar, kreativlar, qo‘nish sahifasi, UTM va maqsadlar, dastlabki 2 hafta yuritish. Keyingi yuritish — oyiga 1 490 000 so‘mdan. Reklama byudjeti platformaga alohida to‘lanadi va soha hamda maqsadga bog‘liq: uning hajmi va to‘xtatish qoidasi boshlashdan oldin kelishiladi, o‘zini oqlash oldindan va’da qilinmaydi."
+    },
+    {
+      "q": "Reklama byudjeti xizmat narxiga kiradimi?",
+      "a": "Yo‘q. Platforma byudjeti alohida to‘lanadi. Smetada media byudjet, jamoa ishi, materiallar tayyorlash va texnik servislar alohida satrlarda ko‘rsatiladi."
+    },
+    {
+      "q": "Target uchun minimal byudjet qancha?",
+      "a": "Meta kabinetidagi platforma chegarasi — ko‘rsatishlar bo‘yicha kampaniya uchun kuniga $1. Bu ishga tushirish chegarasi, ishlaydigan byudjet emas: kundalik summa bitta ariza uchun ruxsat etilgan narxdan hisoblanadi. Hisoblash tartibi blogdagi «Reklama byudjeti qancha bo‘lishi kerak» maqolasida yozilgan."
+    },
+    {
+      "q": "Arizalar sonini kafolatlaysizmi?",
+      "a": "Yo‘q. Natija auktsion, talab, taklif, kreativlar, qo‘nish sahifasi va sotuvga bog‘liq. Shuning uchun sinov tartibi, sarf qoidalari, lid mezoni va hisobot oldindan kelishiladi."
+    },
+    {
+      "q": "Kreativlarni kim tayyorlaydi?",
+      "a": "GPTBot.uz jamoasi; hajmi alohida kelishiladi: ssenariy, matn, statik yoki video materiallar. Har bir kreativ uchun gipoteza yoziladi, shunda sinov natijasini tushunish mumkin bo‘ladi."
+    },
+    {
+      "q": "Reklama kabineti kimga tegishli bo‘ladi?",
+      "a": "Sizga. Pudratchiga faqat kerakli rollar beriladi. Shunday qilib to‘lovlar, tarix, auditoriyalar va kirish huquqlari ustidan nazorat sizda qoladi."
+    },
+    {
+      "q": "Target va SMM farqi nimada?",
+      "a": "Target — pullik joylashtirish, auditoriyalar va kampaniyalarni optimallashtirish. SMM — sahifa strategiyasi, kontent tayyorlash, nashr va muloqot. Bular bog‘liq, lekin turli ish hajmlari."
+    },
+    {
+      "q": "Reklamani o‘zbek va rus tilida berish mumkinmi?",
+      "a": "O‘zbekiston hududida tarqatiladigan reklama uchun qonun davlat tilida bo‘lish asosiy talabini belgilaydi; boshqa tillarga tarjima «Reklama to‘g‘risida»gi qonunning 6-moddasi shartlariga rioya qilinganda mumkin. Ishga tushirishdan oldin til sxemasi aniq format, platforma va qo‘nish sahifasi uchun tekshiriladi."
+    },
+    {
+      "q": "Natijani qachon baholash mumkin?",
+      "a": "Texnik signallar ishga tushirilgandan keyin ko‘rinadi, lekin biznes xulosasi uchun yetarli maqsadli harakat va ariza sifati bo‘yicha qayta aloqa kerak. Dastlabki natijalar gipoteza sifatida qaraladi."
+    },
+    {
+      "q": "Target yoqishni qanday buyurtma qilish mumkin va qayerdasiz?",
+      "a": "Telefon: +998 50 587 07 20 (Du–Sha 10:00–19:00), e-mail: ceo@gptbot.uz yoki shu sahifadagi formaga telefon raqamingiz yoki Telegram manzilingizni qoldiring. Jamoa Toshkentda ishlaydi: Yahyo Gulyamov ko‘chasi 35. Hisob-kitob uchun biznes havolasi, shahar, auditoriya tili va kerakli harakat (ariza, qo‘ng‘iroq yoki Direct’dagi yozishma) yetarli — parollar kerak emas."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM paketlari va target yuritish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Toshkentda internet reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/target-reklama-nima/",
+      "anchor": "target nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "anchor": "reklama byudjeti",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-uchun-ai-menejer/",
+      "anchor": "Instagram uchun AI-menejer",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram reklama",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — Minimum budgets",
+      "url": "https://www.facebook.com/business/help/201828586525529",
+      "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
+    },
+    {
+      "title": "O‘zbekiston Respublikasining «Reklama to‘g‘risida»gi qonuni",
+      "url": "https://lex.uz/ru/docs/6052631",
+      "note": "6-modda: reklama tili. 2026-08-20 da tekshirildi."
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Service",
+    "FAQPage"
+  ],
+  "lastReviewedAt": "2026-10-07",
+  "createdAt": "2026-10-07T00:00:00Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "heroTrust": [
+    "Ishga tushirish 1 990 000 so‘mdan",
+    "Yuritish oyiga 1 490 000 so‘mdan",
+    "Reklama byudjeti alohida",
+    "Kabinet sizda qoladi"
+  ]
+}

@@ -33,6 +33,7 @@
   "ctaSecondaryLabel": "Qanday ishlaymiz",
   "ctaSecondaryHref": "#qanday",
   "heroTrust": [
+    "Ishga tushirish 1 990 000 so‘mdan",
     "Kanal vazifaga ko‘ra tanlanadi",
     "Reklama byudjeti alohida",
     "UTM va CRM",
@@ -107,7 +108,7 @@
     {
       "type": "h2",
       "id": "target",
-      "text": "Instagram va Facebook target: sozlash narxi va tarkibi"
+      "text": "Meta (Instagram va Facebook) target — qisqacha"
     },
     {
       "type": "p",
@@ -134,6 +135,17 @@
           "oyiga",
           "1 490 000 dan"
         ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Batafsil tarkib va ariza — {target}.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target yoqish xizmati"
+        }
       ]
     },
     {
@@ -405,7 +417,7 @@
     },
     {
       "q": "Instagram target sozlash narxi qancha?",
-      "a": "Ishga tushirish 1 990 000 so‘mdan (bir martalik), yuritish oyiga 1 490 000 so‘mdan. Reklama byudjeti tarifga kirmaydi va platformaga alohida to‘lanadi."
+      "a": "Ishga tushirish 1 990 000 so‘mdan (bir martalik), yuritish oyiga 1 490 000 so‘mdan. Reklama byudjeti tarifga kirmaydi va platformaga alohida to‘lanadi. Batafsil — Instagram target yoqish sahifasida."
     },
     {
       "q": "Google Ads sozlash narxi qancha?",
@@ -524,6 +536,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "Instagram target yoqish xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "schemaTypes": [
@@ -533,9 +552,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-28",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-09-28T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "sources": [
     {
       "title": "Meta Business Help — Minimum budgets",

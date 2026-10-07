@@ -5,11 +5,12 @@
   "url": "/uz/blog/smm-nima/",
   "title": "SMM nima: ijtimoiy tarmoqlar orqali marketing",
   "description": "SMM nima: ijtimoiy tarmoqlar orqali marketing, qanday ishlaydi, nimalar qilinadi, qaysi ko‘rsatkichlar muhim va qachon bu kanal mos keladi.",
-  "h1": "SMM nima: ijtimoiy tarmoqlar orqali marketing",
+  "h1": "SMM nima: SMM marketing (ijtimoiy media marketing) oddiy tilda",
   "topicCluster": "smm-uz",
   "targetMoneyPage": "/uz/smm-xizmatlari/",
   "keywords": [
     "smm nima",
+    "smm marketing",
     "smm marketing nima",
     "ijtimoiy media marketing",
     "smm qanday ishlaydi",
@@ -19,7 +20,7 @@
   "body": [
     {
       "type": "p",
-      "text": "SMM (Social Media Marketing, ijtimoiy media marketing) — Instagram, Telegram, Facebook va TikTok kabi ijtimoiy tarmoqlar orqali biznesni tanitish va mijoz olish. U sahifani yuritish, kontent tayyorlash, izoh va Direct’dagi savollarga javob berish hamda natijani o‘lchashni o‘z ichiga oladi; pullik reklama (target) unga alohida byudjet bilan ulanadi. Maqsad — obunachi emas, murojaat va sotuv. SMM’da odatda besh ish qilinadi:"
+      "text": "SMM marketing (Social Media Marketing, ijtimoiy media marketing) — Instagram, Telegram, Facebook va TikTok kabi ijtimoiy tarmoqlar orqali biznesni tanitish va mijoz olish. U sahifani yuritish, kontent tayyorlash, izoh va Direct’dagi savollarga javob berish hamda natijani o‘lchashni o‘z ichiga oladi; pullik reklama (target) unga alohida byudjet bilan ulanadi. Maqsad — obunachi emas, murojaat va sotuv. SMM’da odatda besh ish qilinadi:"
     },
     {
       "type": "list",
@@ -494,7 +495,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-21",
-  "dateModified": "2026-10-06",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -503,6 +504,6 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "hreflangRu": "/ru/blog/chto-takoe-smm-prodvizhenie/"
 }

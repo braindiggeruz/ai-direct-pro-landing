@@ -271,8 +271,15 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Kurs ishiga qo‘yiladigan talablar va uning tuzilmasini odatda kafedra belgilaydi — ishni shu talablarni o‘qib chiqishdan boshlang."
+      "type": "linkp",
+      "text": "Kurs ishiga qo‘yiladigan talablar va uning tuzilmasini odatda kafedra belgilaydi — ishni shu talablarni o‘qib chiqishdan boshlang. Tuzilma, shartli mavzudagi namuna reja va himoyaga tayyorgarlik {kurs} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi rejasi va tuzilmasi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -357,7 +364,7 @@
     },
     {
       "q": "Kurs ishi referatdan nimasi bilan farq qiladi?",
-      "a": "Kurs ishi hajmliroq va chuqurroq: unda manbalarni umumlashtirishdan tashqari o‘z tahlilingiz yoki kichik tadqiqot bo‘ladi, ish ilmiy rahbar nazoratida yoziladi va ko‘pincha himoya qilinadi. Talablar va tuzilmani kafedradan bilib oling."
+      "a": "Kurs ishi hajmliroq va chuqurroq: unda manbalarni umumlashtirishdan tashqari o‘z tahlilingiz yoki kichik tadqiqot bo‘ladi, ish ilmiy rahbar nazoratida yoziladi va ko‘pincha himoya qilinadi. Talablar va tuzilmani kafedradan bilib oling. Kurs ishining tuzilmasi va namuna rejasi alohida qo‘llanmada berilgan."
     },
     {
       "q": "Referat uchun AI’dan qanday foydalangan ma’qul?",
@@ -431,7 +438,7 @@
   "breadcrumbLabel": "Referat va mustaqil ish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-05",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -451,6 +458,6 @@
       "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

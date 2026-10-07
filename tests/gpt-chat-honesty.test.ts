@@ -688,7 +688,7 @@ test('every track call names a catalogued event and sends only parameters GA4 ke
   assert.match(cta, /track\(EV\.telegramCtaClicked, \{ from: stage, channel: link\.channel, with_session: link\.withSession \}\)/);
   // chat_opened fires on mount, whatever the account view does (F18).
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /useEffect\(\(\) => \{\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta, in_app: inApp\(\) \}\);/);
+  assert.match(consoleSource, /useEffect\(\(\) => \{\s*initMetaChatPixel\(\);\s*trackOnce\(EV\.chatOpened, \{ locale: config\.locale, \.\.\.entryMeta, in_app: inApp\(\) \}\);/);
   assert.match(consoleSource, /const entryMeta = entry \? \{ entry: entry\.id \} : \{\};/);
 });
 

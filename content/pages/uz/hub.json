@@ -363,6 +363,12 @@
       "type": "block"
     },
     {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "Instagram target yoqish",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
       "target": "/uz/blog/marketing-nima/",
       "anchor": "Marketing nima",
       "locale": "uz",
@@ -424,7 +430,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-06",
-  "updatedAt": "2026-10-06",
+  "lastReviewedAt": "2026-10-07",
+  "updatedAt": "2026-10-07",
   "createdAt": "2026-07-01"
 }

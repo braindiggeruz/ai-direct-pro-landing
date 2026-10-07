@@ -223,6 +223,134 @@
       "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
       "measuredAt": "2026-10-04",
       "note": "Google Ads competition index 0.12, CPC 0.17 USD; the same 12-month series as «rezyume namunasi» (grouped close variants, not summed). Same owner as «rezyume tayyorlash». Its SERP snapshot (school-pages/NOTES.md §6.2) is builders and templates (cvbox.uz 1, resum.uz 2); the page offers a structure template with invented placeholder data. «obyektivka namuna» (2 400) and «cv nima» (3 600) are deliberately not recorded: obyektivka is answered in one section and one FAQ only, and the cv nima SERP is unrelated."
+    },
+    {
+      "keyword": "target yoqish",
+      "volumePerMonth": 260,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.34, CPC 1.09 USD, August 2026 210. Owned by /uz/instagram-target-yoqish/ (activation branch of the SMM cluster plan, decision A7). Search Console: /uz/blog/target-reklama-nima/ ranks for it at 2.0 on one impression; the SERP has an OLX service listing at 2 and no agency page in the top ten for «target xizmati»."
+    },
+    {
+      "keyword": "instagram target",
+      "volumePerMonth": 50,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.33, CPC 2.79 USD (the highest of the targeting set). Secondary keyword of /uz/instagram-target-yoqish/."
+    },
+    {
+      "keyword": "targetolog",
+      "volumePerMonth": 170,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.05, CPC 0.14 USD. Recorded as measured demand only: its SERP is vacancies, courses and Russian-language theory (decision A2), so no page may take it as a primary keyword. The service page declares «targetolog xizmati» instead."
+    },
+    {
+      "keyword": "targetolog kerak",
+      "volumePerMonth": 40,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.24, August 2026 70 (x2.5 trend). Hiring phrasing; the service page answers it with the «o‘zingiz yoki mutaxassis» section, not as a primary keyword."
+    },
+    {
+      "keyword": "target yoqish narxi",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads, x1.75 trend; no competition index returned. Secondary keyword of /uz/instagram-target-yoqish/, removed from the keywords of /uz/blog/target-reklama-nima/ in the same change; the article's platform-budget H2 «Target yoqish narxi: minimal byudjet qancha» stays (plan decision) and links the hub, so the hub owns the declared keyword, not every on-page mention."
+    },
+    {
+      "keyword": "instagram target yoqish",
+      "volumePerMonth": 170,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/01-smm-raw/metrics_2026-10-07.csv)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0.30, CPC 2.64 USD, August 2026 110 (x0.75 trend). Secondary keyword of /uz/instagram-target-yoqish/, whose title leads with this phrase since the traffic revision of 2026-10-07. «instagramda target yoqish» is the same Ads close-variant group with the same series: one volume, never summed with this row. In the live SERP of 2026-10-07 (01-SMM-DELTA §4) the top 30 hold courses, OLX and Instagram, no agency page."
+    },
+    {
+      "keyword": "facebook target yoqish",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/01-smm-raw/metrics_2026-10-07.csv)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0.05, no CPC returned, x1.75 trend over the last months. Secondary keyword of /uz/instagram-target-yoqish/ (the page covers Instagram and Facebook ads)."
+    },
+    {
+      "keyword": "tushuntirish xati",
+      "volumePerMonth": 1600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0, no CPC returned; 12-month average 1 607, Oct and Nov 2025 2 400 each, August 2026 480: seasonal. Owned by /uz/blog/tushuntirish-xati-va-ariza-yozish/ (traffic revision 2026-10-07, pair C41). The SERP of 2026-10-07 (02-UZ-GPT-DELTA §4.1) is weak and has no AI site; the article gives a structure and a conditional sample with placeholders, says it is not legal advice, and never writes for the reader."
+    },
+    {
+      "keyword": "ariza yozish",
+      "volumePerMonth": 3600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword universe of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords/keyword_universe.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0; August 2026 1 000, trend June–August 2026 against September–November 2025 0.21: seasonal. Same owner as «tushuntirish xati». advice.adliya.uz (the state legal portal) is first in the SERP of 2026-10-07; the article sends readers to the organisation's own form first."
+    },
+    {
+      "keyword": "ariza namunasi",
+      "volumePerMonth": 590,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0; August 2026 320, October 2025 880. Same owner as «tushuntirish xati»; the sample in the article is conditional (a leave request with placeholders), not an official form."
+    },
+    {
+      "keyword": "kurs ishi",
+      "volumePerMonth": 1300,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword universe of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords/keyword_universe.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0; August 2026 90, trend June–August 2026 against September–November 2025 0.41: seasonal. Owned by /uz/blog/kurs-ishi-yozish/ (traffic revision 2026-10-07, pairs C42 and C43); the referat guide answers it only in one section and one FAQ that link the new guide. The SERP of 2026-10-07 is document archives plus one AI study assistant at 3; the guide gives a structure template on an invented topic, never a finished paper."
+    },
+    {
+      "keyword": "kurs ishi namuna",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword universe of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords/keyword_universe.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0; August 2026 90, trend 0.29: seasonal. Same owner as «kurs ishi»; «namuna» there is a plan template on an invented neutral topic."
+    },
+    {
+      "keyword": "kurs ishi tayyorlash",
+      "volumePerMonth": 210,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword universe of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords/keyword_universe.json)",
+      "measuredAt": "2026-10-04",
+      "note": "Google Ads competition index 0; August 2026 10, trend 0.42 (the 2026-10-07 call returns the same 210). Same owner as «kurs ishi»."
+    },
+    {
+      "keyword": "biznes reja",
+      "volumePerMonth": 1000,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0.05, CPC 0.80 USD; October 2025 1 600, August 2026 260. Owned by /uz/blog/biznes-reja-tuzish/ (traffic revision 2026-10-07, pairs C44 and C45); the business article /uz/blog/chat-gpt-uzbek-biznes-uchun/ links it and does not declare it. The article carries no price of ours and no sum in a currency: every amount in its sample is [summa]."
+    },
+    {
+      "keyword": "biznes reja tuzish",
+      "volumePerMonth": 260,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0.01; October 2025 590, August 2026 40: seasonal. Same owner as «biznes reja»; its title leads with this phrase."
+    },
+    {
+      "keyword": "biznes reja namuna",
+      "volumePerMonth": 90,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
+      "measuredAt": "2026-10-07",
+      "note": "Google Ads competition index 0.04; December 2025 170. Same owner as «biznes reja»; the sample is a conditional plan for an invented neutral business."
     }
   ],
   "qualityRequirements": {

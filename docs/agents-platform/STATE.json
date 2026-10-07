@@ -1,4 +1,18 @@
 {
+  "seo_traffic_20261007": {
+    "status": "committed_not_deployed",
+    "branch": "seo/traffic-20261007 (worktree F:/Claude/gptbot-seo-traffic-20261007)",
+    "baseline_commit": "origin/main 3e9e9eb1 = production 5ad00a6c (revision 2026-10-06-seo-push) plus its release record",
+    "commit": "5e3973bb (merge of seo/smm-target-uz-20261006 4062a7e9), d23a33de (merge of release no. 3 fd8e2ac4), 9a7434b8 (N3 dates -> 2026-10-07), 742fe043 (content T1-T7), 3969a3e5 (revision 2026-10-07-seo-traffic), then the metadata-only record of the final gate (rule D-006: read it with git log -1 seo/traffic-20261007)",
+    "scope": "Owner order of 2026-10-07 after the first SMM lead from chatgpt.com: ship the Uzbek targeting page and push the SMM and «Uzbek GPT» clusters. gptbot.uz-audit/raw/seo-traffic-2026-10-07/TRAFFIC-PLAN.md and NOW-TASKS.json: M0 (both branches merged, N3 dates 2026-10-07), T4 (target title «Instagram target yoqish Toshkentda — 1 990 000 so‘mdan», keys, demand rows, FAQ 10, Markdown twin, /uz/ block link, Offer on /uz/internet-reklama-toshkent/), T5 (llms.txt/llms-full.txt L1-L9, who-where-price first paragraph on the UZ and RU SMM hubs and the RU targeting page, contact FAQs, the price contradiction on the UZ hub removed), T1-T3 (new guides /uz/blog/tushuntirish-xati-va-ariza-yozish/, /uz/blog/kurs-ishi-yozish/, /uz/blog/biznes-reja-tuzish/ with donors, intent pairs C41-C45 — planned as C40-C44, C40 is reserved by studio release R-ST1 — and 9 demand rows), T6 (smm-nima H1, RU target FAQ «таргетолог», RU hub H2 «Цены и тарифы SMM в Ташкенте», RU price article H1 «прайс», UZ hub FAQ «Instagram sahifasini yuritish»), T7 (résumé guide -> slide, referat, insho; business article -> chat manual and biznes reja)",
+    "protected_pages": "new baseline docs/seo/evidence/2026-10-07-seo-traffic/reviewed-protected-pages.json (2026-10-06-seo-push untouched, its sha256 recorded); seo-protection 10/10; one page changes: / (internalLinks 291 -> 295, bodyTextSha256) by the shell lists only — moneyUz 49 -> 50 (/uz/instagram-target-yoqish/), blogUz 54 -> 57 (three guides on top) and the new label of the UZ SMM price article; the nine other protected pages, both chats included, byte-identical to the production 5ad00a6c build with their Markdown twins; dist/assets names and bytes identical (index-CCI9zJ-Z.css, gpt-chat-lSg1hedS.css, AdminRoot-CvebJVFP.css, all JS)",
+    "p_ctr": "/ has no threshold of its own; the UZ chat is unchanged: N1 on 2026-10-10 reads title T-B and the N3 anchors as one intervention; the download guide window untouched; new URLs, SMM and target pages read on 2026-10-21, school guides again on 2026-11-04",
+    "coordination": "if the parallel chat UI revision (chat/openai-level-20261007) reaches main first, re-chain previousRevision to its file and compare again with the new production build; the studio release R-ST1 still fits (its finds on the slide guide dateModified 2026-10-05 and the manifest updatedAt 2026-10-06 were kept on purpose)",
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Трафик-ревизия 07.10 — ревизия 2026-10-07-seo-traffic)",
+    "indexnow": "F:/Claude/gptbot-tools/tmp/seo-traffic-20261007-indexnow.json (29 URLs)",
+    "verification": "after 742fe043 and 3969a3e5: build:production 0 (stamp 3969a3e5, 972 files; local pages-production check pass); seo-protection 10/10 on 2026-10-07-seo-traffic; whole dist vs production 5ad00a6c by sha256: 968 -> 973 files (+4 HTML, +1 .md), 34 changed (23 HTML, 4 .md, llms.txt, llms-full.txt, 2 sitemaps, 2 blog feeds, gptbot-release.json), assets (595), admin and studio byte-identical, nine protected HTML and their .md byte-identical, / only by the four list lines; tsc -b 0; eslint of the changed code 0; seo:audit 0 critical; npm test one run after the build: 1799/1801, only the two known tests/lead-radar.test.ts failures; first-screen check 65 runs, 0 overlaps, 0 overflow (layout-report.json)",
+    "next": "deploy only on command via the guarded scripts (fast-forward the main LF copy, npm run build:production, deploy_runner.py check -> deploy); after deploy: seo-protection live 10/10, IndexNow for the 29 URLs via indexnow_list.py, owner: Request indexing day 1 and day 2 lists of the CHANGE_LOG, Bing Webmaster Tools, recrawl dates into CHANGE_LOG"
+  },
   "seo_push_20261006": {
     "status": "committed_not_deployed",
     "branch": "seo/push-uz-chat-20261006",
@@ -22,6 +36,19 @@
     "verification": "npm run build 0 and build:production 0; tsc -b 0; eslint of the changed files 0; npm test file list (130 files after the production merge) one file at a time: 1786/1788, only the two known tests/lead-radar.test.ts failures; seo-protection 10/10; ten protected pages vs the 0f983c1c build: indexable text identical except the UZ chat title/og:title/twitter:title, eight pages HTML identical except asset names; chat start JS 107631 B brotli (baseline 108679, cap 110000), chat CSS 6499 B (cap 7000), page CSS 26855 B (cap 27000); live-gate issues []; npm run check:chat-layout: 258 runs, 0 text under the composer, 0 overlaps, 0 small targets, 0 contrast failures, subtitle whole in every state, menu reachable (4 below, 4 above), limit card in sight, frame vs mounted 0 shifts at 7 sizes, zoom no keyboard, pack price 16.65:1, negative control caught (9), CLS 0, LCP 2.21-2.38 s; screenshots gptbot.uz-audit/raw/chat-design-2026-10-06/after/ (144) and before-after/ (4 pairs)",
     "next": "deploy only on command via the guarded scripts: fast-forward main (= production 192ff31b) to chat/rev-design-20261006, npm run build:production, deploy_runner.py check -> deploy; after deploy: live protected check (only the UZ chat title differs from before, then 10/10 against the new BASELINE), chat-bundle-budget --record (writes schema 2 with startCssBytes), curl both chats, IndexNow for both chat URLs, request indexing of the UZ chat and record the recrawl date, owner check on Android in Telegram",
     "review_fixes": "26 review findings fixed (menu clipped by content-visibility, check line and step heading flex columns, braced powers in fractions, unclosed formula only while streaming, JAVOB box first-line short value, header short lines at 320px, limit card via scroller scrollToEnd, frame vs mounted heights and chips from 720px, entry link 44px, pinch-zoom no keyboard, screen-reader text for formulas, chat CSS in the bundle budget, evidence generator «undefined», cost note for Continue on a phone, pack price colour, pack pill 44px, reduced motion jump, history chevron, ^{2n}); no indexable text changes"
+  },
+  "seo_compete_n3_20261010": {
+    "status": "committed_not_deployed",
+    "branch": "seo/compete-n3-20261010 (on top of seo/compete-20261006, release no. 2)",
+    "baseline_commit": "a63ecaad (release no. 2 with its review fixes 054c70a7 and their verification record); rebased from f3b5e35f on 2026-10-06",
+    "commit": "5e9483bc (release no. 3, was 79dde1eb before the rebase) and 4ca3964d (its first verification record, was 5ab2a304); review fixes f2daef15, then the metadata-only record of their verification (rule D-006: read it with git log -1 seo/compete-n3-20261010)",
+    "scope": "NOW-TASKS.json N3: one honest «ChatGPT … muqobil / o‘rniga» anchor into /uz/gpt-uzbek-tilida/ on five unprotected pages (guide C6, chat manual, /uz/suniy-intellekt/, the ChatGPT/Claude/Gemini comparison, the students article), each rewriting an existing chat link; /uz/suniy-intellekt/ also gains «GPTBot.uz mustaqil servis, OpenAI emas»; review of 2026-10-06: «o‘zbek tilida chatgpt» out of the students article keywords with new pair C39, no «bepul» in the two anchors that had it, content dates of the five pages 2026-10-10; on 2026-10-07 merged into seo/traffic-20261007 (merge d23a33de) and the ten content dates of the five files moved to 2026-10-07",
+    "release_rule": "superseded on 2026-10-07: option B (UZ-chat title «ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish») already shipped on 2026-10-06 with revision 2026-10-06-chat-design (production 20229600), so N3 ships with seo/traffic-20261007 instead of waiting for 2026-10-10; the five files carry 2026-10-07; if the deploy is later than 2026-10-07, move those dates to the deploy day first. Original rule: after the N1 read (2026-10-10..11), never before release no. 2",
+    "measurement": "N1 on 2026-10-10 (window 2026-10-07..09 against 2026-09-22..24 and 2026-09-29..10-01) stays the check of family A and reads title T-B and the N3 anchors as one intervention; impressions recorded separately from position",
+    "pctr_note": "external signal for the UZ chat inside the R-S1 P-CTR window; the UZ chat HTML is byte-identical to production 2ed9e812",
+    "protected_pages": "unchanged: seo-protection 10/10; the ten protected HTML files byte-identical to the 2ed9e812 build, CSS identical; against the reviewed release no. 2 build the five page HTML files and /uz/blog/ changed",
+    "changelog": "docs/seo/CHANGE_LOG_2026-10.md (Выкладка №3 — честные анкоры «ChatGPT … muqobil / o‘rniga» на UZ-чат)",
+    "verification": "after the review (f2daef15): build:production stamped (953 files); seo:audit 0 critical; tsc -b 0; live-gate issues []; npm test file list with --test-concurrency=2: 1335/1337, the two known tests/lead-radar.test.ts failures only; copy in F:/Claude/gptbot-tools/tmp/compete-n3r-dist; IndexNow list F:/Claude/gptbot-tools/tmp/compete-n3-indexnow.json (6 URLs)"
   },
   "seo_compete_20261006": {
     "status": "committed_not_deployed",
@@ -2016,5 +2043,12 @@
     "scope": "shadcn UI and seven contextual article entries; no consumer billing activation",
     "release_commit": "efea33aa9c4d44d3fdd2bcc215402a93631a83c7",
     "deployment_id": "acc1704b-f543-4b94-b15f-01cf43ebdaaf"
+  },
+  "codex_continuation_20261007": {
+    "status": "IN_PROGRESS",
+    "production_base": "5bbfc97b",
+    "seo_source": "b757615b",
+    "tracker": "docs/CLAUDE_COMPLETION_TRACKER.md",
+    "next": "Verify integrated SEO and guarded release"
   }
 }
