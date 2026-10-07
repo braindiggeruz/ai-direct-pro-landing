@@ -414,7 +414,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-06",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -433,6 +433,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "updatedAt": "2026-10-07T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }
