@@ -2,6 +2,7 @@ import {
   BILLING_ORG,
   clickCredentials,
   guestCheckoutOn,
+  guestProvider,
   PRICE_TIYIN,
   providerMode,
   providerReady,
@@ -221,9 +222,10 @@ async function subscribe(
     const identity = new IdentityStore(db, BILLING_ORG);
     let user = await identity.user(request);
     if (!user) {
-      // Guest checkout (Click, while it is on): the pack goes to a new guest
-      // account of this browser, paced by paceGuestAccount (identity-store.ts).
-      if (p.provider !== "click" || !guestCheckoutOn(env))
+      // Guest checkout (Click or Payme, while it is on): the pack goes to a
+      // new guest account of this browser, paced by paceGuestAccount
+      // (identity-store.ts).
+      if (!guestProvider(p.provider) || !guestCheckoutOn(env))
         return fail("login_required", "Login required", 401);
       const address = await hashIp(addressKey(getClientIp(request)), resolveConfig(env));
       const pace = await paceGuestAccount(db, address);
@@ -232,9 +234,10 @@ async function subscribe(
       user = minted.id;
       guest.cookie = authCookie("__Host-gpt_account", minted.token, GUEST_SESSION_MS / 1000);
     }
-    // A guest pays with Click only: its pack moves to Telegram with the
-    // orders of gpt_payment_orders alone (IdentityStore.adoptGuest).
-    if (p.provider !== "click" && isGuestAccount(user))
+    // A guest pays with Click or Payme only: its pack moves to Telegram with
+    // the orders of gpt_payment_orders alone (IdentityStore.adoptGuest), and
+    // Uzum keeps its orders elsewhere.
+    if (!guestProvider(p.provider) && isGuestAccount(user))
       return fail("login_required", "Login required", 401);
     // A synthetic rehearsal account never buys live (rehearsal.ts).
     if (mode === "live" && isRehearsalAccount(user))

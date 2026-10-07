@@ -29,7 +29,7 @@
   "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Biz haqimizda",
   "ctaSecondaryHref": "/uz/biz-haqimizda/",
-  "legalReviewedAt": "2026-10-05",
+  "legalReviewedAt": "2026-10-07",
   "requisites": "operator",
   "bodyBlocks": [
     {
@@ -70,11 +70,11 @@
     },
     {
       "type": "h2",
-      "text": "Telegram orqali kirish"
+      "text": "Kirmasdan xarid va Telegram orqali kirish"
     },
     {
       "type": "p",
-      "text": "AI paket akkauntdan sotib olinadi, akkauntga @gptbotuz_bot botimiz yoki Telegram tugmasi orqali kirasiz. Akkaunt uchun Telegram ID’ingizni emas, uning maxfiy kalit bilan olingan xeshini saqlaymiz, kirish sessiyasi esa brauzer cookie’sida saqlanadi."
+      "text": "AI paketni kirmasdan ham sotib olish mumkin: bu holda biz mehmon akkauntini yaratamiz va uni brauzer cookie’sida bir yilgacha saqlaymiz; bitta manzildan ochiladigan yangi mehmon akkauntlari sonini cheklash uchun IP-manzilning maxfiy kalit bilan olingan xeshini hisobga olamiz (manzilning o‘zini saqlamaymiz). Agar @gptbotuz_bot botimiz yoki Telegram tugmasi orqali kirsangiz, Telegram ID’ingizni emas, uning maxfiy kalit bilan olingan xeshini saqlaymiz, kirish sessiyasi brauzer cookie’sida saqlanadi, mehmon akkauntidagi paket esa Telegram akkauntingizga o‘tkaziladi. Mehmon akkauntidagi paketni tiklash uchun to‘lov ma’lumotlarini (to‘lov raqami yoki chek) so‘raymiz va ulardan faqat buyurtmani topish uchun foydalanamiz."
     },
     {
       "type": "h2",
@@ -91,7 +91,7 @@
     {
       "type": "list",
       "items": [
-        "Karta ma’lumotlarini Click yoki Uzum Bank tomonida kiritasiz, ular bizga kelmaydi.",
+        "Karta ma’lumotlarini Click, Payme yoki Uzum Bank tomonida kiritasiz, ular bizga kelmaydi.",
         "Buyurtma raqami, summa, holat, to‘lov tizimidagi tranzaksiya raqami va chek havolasini saqlaymiz.",
         "Elektron chek uchun to‘lov tizimi xarid haqidagi ma’lumotlarni soliq organlarining fiskallashtirish tizimiga uzatadi."
       ]
@@ -133,7 +133,7 @@
         "AI model ishlaydigan kompaniyalar: OpenRouter savol va suhbat tarixini ularga uzatadi. Bu model ishlab chiquvchisi yoki shu modelni OpenRouter orqali taqdim etadigan boshqa provayder bo‘lishi mumkin. Hozir chat va bot NVIDIA (Nemotron), dots-studio (dots), Google (Gemma) va Mistral AI (Mistral Small) modellaridan, botdagi yozuvni tahlil qilish uchun esa OpenAI modelidan foydalanadi. Ro‘yxat chat sozlamalari bilan birga o‘zgaradi; javob bergan model nomi javob ostida ko‘rsatiladi.",
         "Groq (AQSh), u ishlamasa — OpenAI (AQSh) — @gptbotuz_bot botidagi ovozli xabarlarni matnga aylantirish.",
         "Z.ai (Singapur) — faqat chat uning modellariga o‘tkazilgan bo‘lsa; bu ham javob ostidagi model nomidan ko‘rinadi.",
-        "Click va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",
+        "Click, Payme va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",
         "Telegram — bot orqali kirish, bot bilan yozishma va egasiga arizalar hamda to‘lovlar haqida xabarnomalar.",
         "Google Analytics (Google), Yandex Metrika (Yandex) va bosh sahifadagi Meta pikseli — tashriflar bo‘yicha shaxssizlantirilgan statistika."
       ]
@@ -238,7 +238,7 @@
     "BreadcrumbList",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-03",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-10-03"
+  "updatedAt": "2026-10-07"
 }

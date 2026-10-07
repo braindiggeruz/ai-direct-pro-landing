@@ -56,7 +56,15 @@ test('the pack the pages describe is the pack the code sells', () => {
   assert.ok(all.includes(`${PAID_MESSAGES} ответов на месяц за ${PRICE} сум`));
   assert.ok(all.includes(`до ${PACK_DAILY_LIMIT} в день`));
   assert.match(all, /без автосписаний/);
-  assert.match(all, /Click или Uzum Bank/);
+  // The ways to pay as the pack window offers them (2026-10-07): Click, also
+  // without signing in. Payme went back to test the same day (its cash desk is
+  // not active for production yet), so the page does not name it; Uzum Bank is
+  // off, so unnamed.
+  assert.ok(tariffs.bodyBlocks.some((block) => block.type === 'table' && JSON.stringify(block).includes('"Click — можно без входа"')));
+  assert.ok(all.includes('через Click (можно без входа).'));
+  assert.doesNotMatch(all, /Payme/);
+  assert.ok(all.includes('через Click пакет можно оплатить и без входа'));
+  assert.doesNotMatch(all, /Uzum|обязательно: пакет можно оплатить|Click, Payme/);
 });
 
 test('the free limits on the pricing page are the deployed free limits', () => {
@@ -69,7 +77,7 @@ test('the free limits on the pricing page are the deployed free limits', () => {
 test('the pricing page is honest before and after payment opens', () => {
   const payment = tariffs.faq.find((item) => /оплатить/i.test(item.q));
   assert.ok(payment, 'Pricing must explain how and when the pack can be paid');
-  assert.match(payment.a, /Click или Uzum Bank/);
+  assert.match(payment.a, /открывает оплату: Click — можно без входа\./);
   assert.match(payment.a, /Если кнопки нет, оплата сейчас недоступна/);
   const offer = JSON.stringify(tariffs);
   assert.doesNotMatch(offer, /(?:href|target)":\s*"[^"]*(?:checkout|payment|\/api\/gpt\/)/);

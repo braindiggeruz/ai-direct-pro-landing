@@ -700,6 +700,37 @@ test("9b. refund-record (Uzum Checkout): recorded only once Uzum reports the ful
   }
 });
 
+test("9c. refund-record never closes a paid Payme order: Payme's own CancelTransaction records its refunds (PAYME-RU.md section 7)", async () => {
+  const f = await adminFixture();
+  const guard = noNetwork();
+  try {
+    const order = await f.store.createOrder(f.user, "payme", "live", randomUUID());
+    await f.store.transition(order.id, "prepared", "CreateTransaction", { externalId: hex(12) });
+    await f.store.transition(order.id, "paid", "PerformTransaction");
+    const body = { orderId: order.id, merchantRefundReference: "payme-cabinet-1", confirmedRefund: true };
+    const answer = await call(refundRecord, f.env, `${API}/refund-record`, { token: f.tokens.owner, body });
+    assert.deepEqual([answer.status, answer.body.error, answer.body.state], [409, "invalid_order", "paid"]);
+    f.env.GPT_BILLING_MAINTENANCE_SECRET = hex(32);
+    const internal = await clickRefundRecord(
+      f.ctx(
+        new Request("https://gptbot.uz/api/internal/gpt-click-refund-record", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${f.env.GPT_BILLING_MAINTENANCE_SECRET}`, "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }),
+      ) as never,
+    );
+    assert.equal(internal.status, 409);
+    // The pack runs on, nothing was journaled and the owner was told nothing.
+    assert.equal((await f.store.order(order.id))!.state, "paid");
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_journal WHERE order_id=? AND method LIKE 'owner_refund_record:%'", order.id), 0);
+    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_billing_outbox WHERE order_id=? AND event='refunded'", order.id), 0);
+    await Promise.allSettled(f.background);
+  } finally {
+    guard.restore();
+  }
+});
+
 test("rehearsal-session: only while a provider is in test; the cookie works and its value travels only in Set-Cookie", async () => {
   const f = await adminFixture();
   const url = `${API}/rehearsal-session`;

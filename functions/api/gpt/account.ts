@@ -142,6 +142,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     providers,
     // Click needs no sign-in while guest checkout is on: subscribe makes this
     // browser a guest account; Telegram later keeps the pack on any phone.
+    // The pack window keys its guest step on Click (canPayAsGuest);
+    // subscribe takes Payme from a guest as well (guestProvider).
     guestCheckout: guestCheckoutOn(env) && providers.includes("click") && !!env.GPTBOT_DRAFTS_DB,
     // How Uzum is paid when offered: its card page, or the payment code for
     // the Uzum Bank app (Merchant API).

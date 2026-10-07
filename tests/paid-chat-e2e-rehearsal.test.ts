@@ -106,11 +106,14 @@ type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 /**
  * Production: the secrets it holds (random here), the billing settings
  * committed in wrangler.toml (since runbook S2: Click live,
- * GPT_BILLING_LIVE_READY "true", Uzum off; since 2026-10-06 Payme in test for
- * its sandbox, so a rehearsal session is also offered Payme), no OIDC client,
- * no legacy Click variables, the bot @gptbotuz_bot; then `extra`, the
- * rehearsal's or the live sale's settings.
+ * GPT_BILLING_LIVE_READY "true", Uzum off; since 2026-10-07 Payme live, which
+ * sells nothing here without its Pages secrets, and guest checkout on), no
+ * OIDC client, no legacy Click variables, the bot @gptbotuz_bot; then
+ * `extra`, the rehearsal's or the live sale's settings.
  */
+/** ["payme"] while the committed config keeps Payme in test (the rollback), else []. */
+const PAYME_IN_TEST: string[] = committedBillingSettings().GPT_BILLING_MODE_PAYME === "test" ? ["payme"] : [];
+
 function productionLike(env: BillingEnv, extra: Partial<BillingEnv>): void {
   Object.assign(env, liveSettings(), committedBillingSettings(), {
     GPT_TELEGRAM_CLIENT_ID: "",
@@ -336,12 +339,14 @@ test("Click in test, start to end: rehearsal session, sign-in through the bot, P
   const owner = h.browser();
   const opened = await h.admin.openSession(owner, false);
   assert.equal(opened.status, 200);
-  assert.deepEqual([opened.body.providers, opened.body.account], [["click", "uzum", "payme"], false]);
+  // Payme is live since 2026-10-07: a rehearsal session sees the test providers alone
+  // (and Payme again after the one-command rollback, PAYME-RU.md section 7).
+  assert.deepEqual([opened.body.providers, opened.body.account], [["click", "uzum", ...PAYME_IN_TEST], false]);
   assert.ok(owner.has(REHEARSAL_COOKIE) && !owner.has(ACCOUNT_COOKIE));
   const view = await owner.get("/api/gpt/account");
   assert.deepEqual(
     [view.body.mode, view.body.providers, view.body.uzumFlow, view.body.loginMethods, view.body.user],
-    ["test", ["click", "uzum", "payme"], "code", ["bot"], null],
+    ["test", ["click", "uzum", ...PAYME_IN_TEST], "code", ["bot"], null],
   );
 
   // Sign-in through the bot. Telegram retries the /start update: one question.
@@ -467,13 +472,17 @@ test("Click live against a stub of api.click.uz: the checkout link, a test signa
   await f.store.transition(leftover.id, "prepared", "Prepare", { externalId: transId() });
   await f.store.transition(leftover.id, "paid", "Complete");
   await f.store.transition(leftover.id, "cancelled", "owner_refund_record:rehearsal");
-  // Live is offered to everyone; a rehearsal session only to Payme's sandbox
-  // (Payme in test), never Click live.
+  // Live is offered to everyone. No provider is in test while Payme is live
+  // (since 2026-10-07): the owner cannot open a rehearsal session at all;
+  // after the rollback it is offered Payme's sandbox alone.
   const buyer = h.browser();
   const view = await buyer.get("/api/gpt/account");
   assert.deepEqual([view.body.mode, view.body.providers, view.body.loginMethods], ["live", ["click"], ["bot"]]);
   const sandbox = await h.admin.openSession(h.browser(), false);
-  assert.deepEqual([sandbox.status, sandbox.body.providers], [200, ["payme"]]);
+  assert.deepEqual(
+    PAYME_IN_TEST.length ? [sandbox.status, sandbox.body.providers] : [sandbox.status, sandbox.body.error],
+    PAYME_IN_TEST.length ? [200, ["payme"]] : [409, "no_test_provider"],
+  );
   await pressNumber(h, buyer, await openBotLink(h, buyer));
 
   const sub = await subscribe(buyer, "click", view.body.termsVersion, "uz");
@@ -564,7 +573,7 @@ test("Uzum Checkout in test: callback -> pull, a forged callback and another amo
 
   const owner = h.browser();
   const opened = await h.admin.openSession(owner, true);
-  assert.deepEqual([opened.status, opened.body.providers, opened.body.account], [200, ["uzum", "payme"], true]);
+  assert.deepEqual([opened.status, opened.body.providers, opened.body.account], [200, ["uzum", ...PAYME_IN_TEST], true]);
   const view = await owner.get("/api/gpt/account");
   assert.deepEqual([view.body.mode, view.body.uzumFlow], ["test", "checkout"]);
   const sub = await subscribe(owner, "uzum", view.body.termsVersion);

@@ -1,17 +1,25 @@
-// Guest checkout: Click without signing in, the pack bound to a guest
-// account of the browser, moved to Telegram on sign-in, restored by a link.
+// Guest checkout: Click or Payme without signing in, the pack bound to a
+// guest account of the browser, moved to Telegram on sign-in, restored by a
+// link. On in production since 2026-10-07 (edition ai-paket-2026-10-v3).
 // Run: node --import tsx --test tests/gpt-guest-checkout.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { billingFixture } from "./helpers/gpt-billing-fixture";
+import { billingFixture, liveSettings } from "./helpers/gpt-billing-fixture";
 import { onRequestPost as subscribe } from "../functions/api/gpt/subscribe";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import { onRequestGet as restorePage, onRequestPost as restore } from "../functions/api/gpt/restore";
 import { onRequestPost as restoreLink } from "../functions/api/internal/gpt-guest-restore-link";
 import { onRequest as middleware } from "../functions/_middleware";
-import { BILLING_ORG, guestCheckoutOn, PAYMENT_TTL_MS, type BillingEnv } from "../functions/lib/gpt-chat/billing-config";
+import {
+  BILLING_ORG,
+  GUEST_PROVIDERS,
+  guestCheckoutOn,
+  guestProvider,
+  PAYMENT_TTL_MS,
+  type BillingEnv,
+} from "../functions/lib/gpt-chat/billing-config";
 import { BILLING_NOTICES_PER_HOUR, maintainBilling } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { resolveConfig } from "../functions/lib/gpt-chat/config";
@@ -45,8 +53,6 @@ const checkout = (f: Fixture, provider: string, cookie: string, ip: string) =>
   })));
 
 async function guestPays(f: Fixture, ip = "198.51.100.7", until: "pending" | "prepared" | "paid" = "paid") {
-  // Other providers still need the account: no guest is made for them.
-  assert.equal((await checkout(f, "payme", f.rehearsal, ip)).status, 401);
   const response = await checkout(f, "click", f.rehearsal, ip);
   assert.equal(response.status, 200);
   const token = cookieOf(response);
@@ -102,16 +108,18 @@ test("guest checkout stays off unless GPT_GUEST_CHECKOUT is exactly \"true\"", a
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_accounts WHERE id LIKE 'acct_guest_%'"), 0);
 });
 
-test("the committed config lists GPT_GUEST_CHECKOUT as \"false\": turning it on is one word in both copies", () => {
+test("the committed config turns GPT_GUEST_CHECKOUT on (\"true\") in both copies, with the edition that describes the guest account", () => {
   const toml = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
   const packed = committedRuntimeConfig(toml);
-  assert.equal(packed.GPT_GUEST_CHECKOUT, "false");
-  assert.match(toml, /^GPT_GUEST_CHECKOUT = "false"$/m);
+  assert.equal(packed.GPT_GUEST_CHECKOUT, "true");
+  assert.match(toml, /^GPT_GUEST_CHECKOUT = "true"$/m);
+  // The offer edition of 2026-10-07 is the one that describes the guest account.
+  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-10-v3");
   assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes("GPT_GUEST_CHECKOUT"));
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
-  assert.equal(env.GPT_GUEST_CHECKOUT, "false");
-  assert.equal(guestCheckoutOn(env), false);
-  assert.equal(guestCheckoutOn({ ...env, GPT_GUEST_CHECKOUT: "true" }), true);
+  assert.equal(env.GPT_GUEST_CHECKOUT, "true");
+  assert.equal(guestCheckoutOn(env), true);
+  assert.equal(guestCheckoutOn({ ...env, GPT_GUEST_CHECKOUT: "false" }), false);
   // A Pages variable of the same name would override the reviewed JSON.
   assert.ok(BILLING_SETTINGS.has("GPT_GUEST_CHECKOUT"));
 });
@@ -139,6 +147,100 @@ test("a guest pays with Click, the pack is the browser's, and its free answers s
   // At most five new guests an hour per address.
   for (let i = 0; i < 5; i++) await guestPays(f, "203.0.113.9");
   await assert.rejects(guestPays(f, "203.0.113.9"));
+});
+
+test("a guest may pay with Click or Payme, never Uzum: the providers whose orders sign-in and support can move", () => {
+  assert.deepEqual(GUEST_PROVIDERS, ["click", "payme"]);
+  assert.equal(guestProvider("click"), true);
+  assert.equal(guestProvider("payme"), true);
+  for (const provider of ["uzum", "", undefined, "Click"]) assert.equal(guestProvider(provider), false, String(provider));
+});
+
+test("a guest pays with Payme live: checkout.paycom.uz, the pack is the browser's, the owner's notice names Payme's transaction, support restores it by our number, sign-in moves it", async () => {
+  const f = await billingFixture();
+  // Production's shape since 2026-10-07: Payme live by its own switch, guest checkout on.
+  Object.assign(f.env, liveSettings(), {
+    GPT_BILLING_MODE: "",
+    GPT_BILLING_MODE_PAYME: "live",
+    GPT_PAYME_KEY: randomBytes(32).toString("hex"),
+    GPT_GUEST_CHECKOUT: "true",
+  });
+  // The owner's notices go to a stub of the Bot API, never to Telegram.
+  const original = globalThis.fetch;
+  const sent: string[] = [];
+  globalThis.fetch = async (_input, init) => {
+    sent.push(String((JSON.parse(String(init?.body)) as { text: string }).text));
+    return Response.json({ ok: true, result: { message_id: sent.length } });
+  };
+  try {
+    const ip = "198.51.100.77";
+    // No cookie at all: a visitor in live, offered Payme with nothing signed in.
+    const response = await checkout(f, "payme", "", ip);
+    const body = (await response.json()) as { mode: string; checkoutUrl: string; attemptId: string };
+    assert.equal(response.status, 200, JSON.stringify(body));
+    const token = cookieOf(response);
+    assert.ok(token, "the guest's session cookie");
+    assert.match(response.headers.get("Set-Cookie")!, /HttpOnly; Secure; SameSite=Lax; Max-Age=31536000/);
+    assert.equal(body.mode, "checkout");
+    const page = new URL(body.checkoutUrl);
+    assert.equal(page.origin, "https://checkout.paycom.uz");
+    assert.equal(
+      atob(page.pathname.slice(1)),
+      `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${body.attemptId};a=2000000;c=${ORIGIN}/uz/gpt-uzbek-tilida/?pay=return;l=uz;ct=15000`,
+    );
+    const order = body.attemptId;
+    const guest = f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`) as string;
+    assert.ok(isGuestAccount(guest));
+    assert.equal(f.db.value(`SELECT mode FROM gpt_payment_orders WHERE id='${order}'`), "live");
+    const cookie = `__Host-gpt_account=${token}`;
+    // The guest's own open invoice, as the pack window shows it before Payme takes it up.
+    const pending = (await (await account(f.ctx(new Request(`${ORIGIN}/api/gpt/account`, { headers: { cookie } })))).json()) as {
+      user: { guest?: boolean }; payment: { id: string; state: string; provider: string } | null; providers: string[]; mode: string;
+    };
+    assert.deepEqual([pending.user.guest, pending.payment?.id, pending.payment?.state, pending.payment?.provider], [true, order, "pending", "payme"]);
+    assert.deepEqual([pending.providers, pending.mode], [["payme"], "live"]);
+    // Payme with the production key: in live the test key opens no payment
+    // (it only settles test transactions, payme.ts SETTLE_ONLY).
+    const live = (method: string, params: Record<string, unknown>) => f.rpc(method, params, f.env.GPT_PAYME_KEY);
+    assert.equal(((await f.rpc("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } })) as { error?: { code: number } }).error?.code, -31050);
+    assert.equal(((await f.rpc("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } }, "x".repeat(32))) as { error?: { code: number } }).error?.code, -32504);
+    const allowed = (await live("CheckPerformTransaction", { amount: 2_000_000, account: { order_id: order } })) as { result?: { allow: boolean } };
+    assert.equal(allowed.result?.allow, true);
+    const id = randomBytes(12).toString("hex");
+    assert.equal(((await live("CreateTransaction", { id, time: Date.now(), amount: 2_000_000, account: { order_id: order } })) as { result?: { state: number } }).result?.state, 1);
+    assert.equal(((await live("PerformTransaction", { id })) as { result?: { state: number } }).result?.state, 2);
+    const view = (await (await account(f.ctx(new Request(`${ORIGIN}/api/gpt/account`, { headers: { cookie } })))).json()) as {
+      user: { guest?: boolean }; access: { remaining: number } | null; payment: { state: string } | null;
+    };
+    assert.deepEqual([view.user.guest, view.access?.remaining, view.payment?.state], [true, 300, "paid"]);
+    // The owner's "paid" notice: bought without signing in, Payme's transaction, the time in Tashkent.
+    const paid = new Date((f.db.value(`SELECT perform_time FROM gpt_payment_orders WHERE id='${order}'`) as number) + 5 * 3600_000);
+    const two = (n: number) => String(n).padStart(2, "0");
+    const stamp = `${two(paid.getUTCHours())}:${two(paid.getUTCMinutes())} ${two(paid.getUTCDate())}.${two(paid.getUTCMonth() + 1)}`;
+    const line = `\nКуплен без входа · Payme: транзакция ${id} · оплачен ${stamp} (Ташкент)`;
+    assert.equal(await restoreNotice(f.binding, order), line);
+    while (f.background.length) await Promise.allSettled(f.background.splice(0));
+    await maintainBilling(f.env);
+    const notice = sent.find((text) => /AI paket: paid/.test(text));
+    assert.ok(notice, JSON.stringify(sent));
+    assert.ok(notice.includes(`payme · 20 000 UZS\n${order}`) && notice.endsWith(line), notice);
+    // Support finds it by our number (the order_id on the Payme receipt); Payme's id is not a query.
+    assert.equal((await findOrder(f.binding, order))?.provider, "payme");
+    assert.equal((await issueLink(f, id)).status, 400);
+    const issued = (await (await issueLink(f, order)).json()) as {
+      order: string; provider: string; clickId: unknown; paydocId: unknown; paymeId: string; url: string;
+    };
+    assert.deepEqual([issued.order, issued.provider, issued.clickId, issued.paydocId, issued.paymeId], [order, "payme", null, null, id]);
+    assert.ok(issued.url.startsWith("https://gptbot.uz/api/gpt/restore?t="));
+    // Signing in through Telegram moves the Payme pack like a Click one.
+    const a = await telegram(f);
+    await f.identity.adoptGuest(browser(cookie), a.hash);
+    assert.equal(f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`), a.id);
+    assert.equal(f.db.value(`SELECT user_id FROM gpt_access_periods WHERE order_id='${order}'`), a.id);
+    assert.equal(await restoreNotice(f.binding, order), "", "a Telegram account's order needs no restore");
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test("new guests count an IPv6 network as one address, and the site has a ceiling", async () => {

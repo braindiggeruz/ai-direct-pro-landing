@@ -196,12 +196,23 @@ export function termsUrl(value: string | undefined): string | null {
   }
 }
 /**
- * Guest checkout (identity-store.ts): Click without signing in, only while
+ * Guest checkout (identity-store.ts): buying without signing in, only while
  * GPT_GUEST_CHECKOUT is exactly "true". The offer edition the buyer accepts
- * must describe the guest account first.
+ * must describe the guest account first (ai-paket-2026-10-v3 does).
  */
 export function guestCheckoutOn(env: BillingEnv): boolean {
   return env.GPT_GUEST_CHECKOUT === "true";
+}
+/**
+ * The providers a guest account may pay: those whose orders live in
+ * gpt_payment_orders, which IdentityStore.adoptGuest moves to Telegram and a
+ * support restore link finds by our pay_ number (guest-restore.ts). Uzum
+ * keeps its orders in its own table, so it needs a signed-in account. The
+ * pack window offers a guest Click alone until its next release.
+ */
+export const GUEST_PROVIDERS: readonly LocalProvider[] = ["click", "payme"];
+export function guestProvider(provider: unknown): boolean {
+  return (GUEST_PROVIDERS as readonly unknown[]).includes(provider);
 }
 export function termsVersion(env: BillingEnv): string | null {
   const value = env.GPT_BILLING_TERMS_VERSION || "";
