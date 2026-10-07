@@ -93,6 +93,7 @@ async function scenario(name: string, options: {
     await input.fill('Сколько будет два плюс два?');
     await input.press('Enter');
     await page.getByTestId('limit-pay').first().waitFor();
+    assert.equal(posts.length, 0, 'загрузка account и достижение лимита сами не начинают checkout');
     const refresh = async () => {
       const before = reads;
       await page.evaluate(() => window.dispatchEvent(new Event('focus')));

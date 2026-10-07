@@ -143,14 +143,27 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
     'src/gpt-chat/account/BotLoginScreen.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx',
   ];
   const effects: Record<string, number> = {};
+  let explicitOneTapEffects = 0;
   for (const file of files) {
     const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, file.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
     effects[file] = 0;
     const visit = (node: ts.Node) => {
       if (ts.isCallExpression(node) && node.expression.getText(source) === 'useEffect') {
         effects[file]++;
+        const body = node.arguments[0]?.getText(source) ?? '';
         const inspect = (child: ts.Node) => {
-          if (ts.isCallExpression(child)) assert.doesNotMatch(child.expression.getText(source), /^(pay|post|run|location\.(assign|replace))$/, `${file}: effects may refresh status but must not create payment/login actions`);
+          if (ts.isCallExpression(child)) {
+            const called = child.expression.getText(source);
+            if (file === 'src/gpt-chat/account/AccountDialog.tsx' && called === 'pay') {
+              // Owner-approved one-tap continues an explicit user action after
+              // loading the lazy window. Readiness alone must never pay.
+              assert.equal(child.getText(source), 'pay(autoPay.provider)');
+              assert.match(body, /if \(!autoPay \|\| memoryRef\.current\.autoPaid === autoPay\.seq\) return;/);
+              assert.ok(body.indexOf('memoryRef.current.autoPaid = autoPay.seq;') < body.indexOf('pay(autoPay.provider)'));
+              assert.match(body, /if \(!checkoutReady \|\| busy \|\| memoryRef\.current\.inFlight[\s\S]*?autoPay\.offerKey !== checkoutOfferKey\(data, locale\)\) return;/);
+              explicitOneTapEffects++;
+            } else assert.doesNotMatch(called, /^(pay|post|run|location\.(assign|replace))$/, `${file}: readiness effects must not create payment/login actions`);
+          }
           ts.forEachChild(child, inspect);
         };
         if (node.arguments[0]) inspect(node.arguments[0]);
@@ -160,6 +173,7 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
     visit(source);
   }
   for (const file of files) assert.ok(effects[file] > 0, `${file}: account effects were actually inspected`);
+  assert.equal(explicitOneTapEffects, 1, 'only the guarded continuation of an explicit tap may start checkout');
   const window = readFileSync('src/gpt-chat/account/AccountDialog.tsx', 'utf8');
   assert.match(window, /canStartCheckout\(data, locale\)/);
   assert.match(window, /termsVersion: data\.termsVersion/);

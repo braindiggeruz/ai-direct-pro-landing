@@ -26,6 +26,8 @@ AiLimitPay/AccountDialog/AiAccountPanel/AiChatConsole/types/use-account; API acc
 
 ## 7. Известные проблемы
 
+Первый полный one-tap suite: 1814/1815. Старый AST-тест запрещал любой `pay` внутри effect, включая новое явно подтверждённое one-tap действие после lazy загрузки. Разрешён ровно один guarded continuation с проверками autoPay/seq/offerKey; все прочие автоматические платежи остаются запрещены. Browser runner отдельно проверяет 0 checkout при загрузке account и достижении лимита. Требуется полный повтор на новом SHA.
+
 Ранний browser cookie mock не применился — заменён проверяемым init script; продуктовый cookie guard подтвердился. Два устаревших source assertions обновлены под усиленную проверку cookie/order и обе точки принятия оферты. Старые baseline Lead Radar/Meta fixtures исправлены в SEO-релизе.
 
 ## 8. Следующая задача

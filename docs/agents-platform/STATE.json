@@ -2052,7 +2052,7 @@
     "onetap_status": "VERIFIED_LOCAL",
     "tracker": "docs/CLAUDE_COMPLETION_TRACKER.md",
     "next": "Точная production-сборка one-tap, полный suite/layout и guarded release; затем бесплатная Studio",
-    "checks": "typecheck/lint 0; targeted 158/158; browser 18/18; protected contracts 10/10",
+    "checks": "typecheck/lint 0; targeted 158/158; browser 18/18; protected contracts 10/10; первый полный suite1814/1815: обновлён AST-инвариант под явно подтверждённое one-tap действие, нужен повтор",
     "last_commit": "3173e366134730fe942df3750a8b28576a4a1a95; текущий commit читать через git log -1 (D-006)"
   }
 }
