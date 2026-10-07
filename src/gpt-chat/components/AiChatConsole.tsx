@@ -22,7 +22,7 @@ import {
   onceThisSession,
   hasStoredHistory,
 } from "../storage";
-import { inApp, track, trackMetaChatEngaged, trackOnce, EV } from "../analytics";
+import { inApp, initMetaChatPixel, track, trackMetaChatEngaged, trackOnce, EV } from "../analytics";
 import { reachYandexGoal, reachYandexGoalOnce, YANDEX_GOALS } from "../../lib/analytics/yandexMetrika";
 import { AiChatMessageList } from "./AiChatMessageList";
 import { AiChatInput, CLOCK } from "./AiChatInput";
@@ -277,6 +277,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // answers has still opened the chat (F18). Whether they are signed in is
   // not known yet; message_sent carries that.
   useEffect(() => {
+    initMetaChatPixel();
     trackOnce(EV.chatOpened, { locale: config.locale, ...entryMeta, in_app: inApp() });
     reachYandexGoalOnce(YANDEX_GOALS.chatOpened);
   // Entry is fixed for this navigation; no prompt text enters analytics.

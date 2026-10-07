@@ -10,7 +10,7 @@ import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals 
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
 import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
-import { GA4_PARAMS, trackMetaChatEngaged, trackMetaCheckout, trackMetaPackView, trackPurchase } from '../src/gpt-chat/analytics';
+import { GA4_PARAMS, initMetaChatPixel, trackMetaChatEngaged, trackMetaCheckout, trackMetaPackView, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
 import * as React from 'react';
@@ -548,6 +548,26 @@ test('Meta gets one truthful chat and pack signal per session, never a payment-r
   assert.equal(chat.match(/trackMetaChatEngaged\(config\.locale\)/g)?.length, 2, 'both successful answer paths emit the signal');
   const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
   assert.match(panel, /trackMetaPackView\(from, locale\)/);
+});
+
+test('prerendered chat boots the matching Meta pixel and PageView once on paid visits', (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const scripts: Array<{ src: string; async: boolean }> = [];
+  g.location = { hostname: 'gptbot.uz', search: '?fbclid=test_click' };
+  g.window = {};
+  g.document = {
+    querySelector: () => null,
+    createElement: () => ({ src: '', async: false }),
+    head: { appendChild: (script: { src: string; async: boolean }) => { scripts.push(script); } },
+  };
+  t.after(() => { delete g.location; delete g.window; delete g.document; });
+  initMetaChatPixel();
+  initMetaChatPixel();
+  const fbq = (g.window as { fbq: { queue: unknown[][] } }).fbq;
+  assert.deepEqual(fbq.queue, [['init', '780400781706074'], ['track', 'PageView']]);
+  assert.deepEqual(scripts.map((script) => script.src), ['https://connect.facebook.net/en_US/fbevents.js']);
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(chat, /initMetaChatPixel\(\)/, 'the chat mounts the pixel before users engage');
 });
 
 test('every funnel step the window sends is one the server counts', (t) => {

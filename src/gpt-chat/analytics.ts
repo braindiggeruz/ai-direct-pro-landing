@@ -13,8 +13,52 @@ export const GA4_PARAMS: ReadonlySet<string> = new Set([
 const onceKeys = new Set<string>();
 const metaOnceKeys = new Set<string>();
 
+/** Prerendered chat pages do not use index.html, so they need their own pixel bootstrap. */
+export function initMetaChatPixel(): void {
+  try {
+    if (location.hostname !== 'gptbot.uz' && location.hostname !== 'www.gptbot.uz') return;
+    const w = window as unknown as { fbq?: Fbq; _fbq?: Fbq; __gptbotMetaChatPixelStarted?: boolean };
+    if (w.__gptbotMetaChatPixelStarted) return;
+    const alreadyPresent = typeof w.fbq === 'function';
+    if (!alreadyPresent) {
+      const fbq: Fbq = (...args: unknown[]) => {
+        if (fbq.callMethod) fbq.callMethod(...args);
+        else fbq.queue?.push(args);
+      };
+      fbq.queue = [];
+      fbq.loaded = true;
+      fbq.version = '2.0';
+      w.fbq = fbq;
+      w._fbq = fbq;
+      fbq('init', '780400781706074');
+    }
+    w.fbq?.('track', 'PageView');
+    w.__gptbotMetaChatPixelStarted = true;
+    if (alreadyPresent) return;
+    const loadPixel = () => {
+      if (document.querySelector('script[src="https://connect.facebook.net/en_US/fbevents.js"]')) return;
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+    };
+    // Paid visits should register before an impatient visitor leaves; the
+    // stub queues later events even if the network script is still loading.
+    if (new URLSearchParams(location.search).has('fbclid')) loadPixel();
+    else window.setTimeout(loadPixel, 1000);
+  } catch { /* Analytics must never block the chat. */ }
+}
+
+type Fbq = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  queue?: unknown[][];
+  loaded?: boolean;
+  version?: string;
+};
+
 function metaTrackOnce(key: string, method: 'track' | 'trackCustom', event: string, data: Payload): void {
   try {
+    initMetaChatPixel();
     const w = window as unknown as { fbq?: (...args: unknown[]) => void };
     if (typeof w.fbq !== 'function') return;
     const storageKey = `gptbot_meta_${key}_v1`;
@@ -101,6 +145,7 @@ export function track(event: ChatEvent, data: Payload = {}): void {
  */
 export function trackPurchase(order: { transactionId: string; value: number; itemId: string; itemName: string; provider: string }): void {
   try {
+    initMetaChatPixel();
     const w = window as unknown as {
       dataLayer?: Array<Record<string, unknown>>;
       gtag?: (...args: unknown[]) => void;
@@ -136,6 +181,7 @@ export function trackPurchase(order: { transactionId: string; value: number; ite
 /** A new live provider invoice, not a resumed or merely opened payment panel. */
 export function trackMetaCheckout(order: { transactionId: string; value: number; itemId: string }): void {
   try {
+    initMetaChatPixel();
     const w = window as unknown as { fbq?: (...args: unknown[]) => void };
     if (typeof w.fbq === 'function') w.fbq('track', 'InitiateCheckout', {
       value: order.value,
