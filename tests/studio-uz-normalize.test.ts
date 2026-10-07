@@ -62,7 +62,9 @@ function measuredUzbekTexts(): string[] {
  * What the normalizer does to the measured texts, rule by rule. Each fix was
  * checked by hand against the review (studio/measure/review.json): the 35
  * apostrophes, ravnaqga, the Turkish ı, the soft hyphen and the Cyrillic а
- * of MEASURE-30 §9, and the 40 dictionary words.
+ * of MEASURE-30 §9, the 40 dictionary words, and 9 of the 13 words of the
+ * 07.10 language review (studio/launch-2026-10-07/LANG-uz-decks.md; the other
+ * 4 come from the rehearsal decks and are tested below).
  */
 const MEASURED_FIXES: Record<string, number> = {
   "ok-gk-apostrophe": 23,
@@ -111,6 +113,15 @@ const MEASURED_FIXES: Record<string, number> = {
   "word:Jim jism": 4,
   "word:Tasodifiy kuchlar muvozanati": 4,
   "word:Kumushbeka": 10,
+  "word:namoyonda": 2,
+  "word:Tatir suv": 2,
+  "word:oqizloq": 1,
+  "word:ustadbekar": 1,
+  "word:kattasha borsa": 1,
+  "word:erta turarish": 1,
+  "word:yuza maydalaridan": 2,
+  "word:katta likda": 1,
+  "word:o‘zgarmaydan": 1,
 };
 
 test("acceptance: on the 30 measured topics only the reviewed fixes happen (no false corrections)", () => {
@@ -128,9 +139,10 @@ test("acceptance: on the 30 measured topics only the reviewed fixes happen (no f
     if (onlySigns) assert.ok(apostrophesOnly(text, result.text));
   }
   assert.deepEqual(total, MEASURED_FIXES);
-  // MEASURE-30 §9: 35 apostrophes, 1 ravnaqga, 1 ı, 1 soft hyphen, 1 Cyrillic letter, all 40 words.
+  // MEASURE-30 §9: 35 apostrophes, 1 ravnaqga, 1 ı, 1 soft hyphen, 1 Cyrillic letter, all 40 words;
+  // plus the 9 words of the 07.10 review that come from these texts.
   assert.equal(total["ok-gk-apostrophe"] + total["glottal-apostrophe"], 35);
-  assert.equal(Object.keys(total).filter((id) => id.startsWith("word:")).length, 40);
+  assert.equal(Object.keys(total).filter((id) => id.startsWith("word:")).length, 49);
 });
 
 test("acceptance: the word list never fires on the site's own content/ and src/; site Uzbek text gets only apostrophe signs", () => {
@@ -195,8 +207,8 @@ test("dative after a final q or k is -qa / -ka; other -ga and the exceptions lis
   assert.equal(rule.replace("sharqga", "shar", "q"), "sharqqa");
 });
 
-test("each of the 40 words: any case, keeps its suffix; Pulsl only as a whole word", () => {
-  assert.equal(UZ_WORD_FIXES.length, 40);
+test("each of the 53 words: any case, keeps its suffix; Pulsl and unutmamiz only as whole words", () => {
+  assert.equal(UZ_WORD_FIXES.length, 53);
   for (const fix of UZ_WORD_FIXES) {
     const lower = fix.wrong.charAt(0).toLowerCase() + fix.wrong.slice(1);
     const capital = fix.wrong.charAt(0).toUpperCase() + fix.wrong.slice(1);
@@ -209,8 +221,20 @@ test("each of the 40 words: any case, keeps its suffix; Pulsl only as a whole wo
   assert.equal(normalizeUzText("KUMUSHBEKA"), "KUMUSHBIBI");
   assert.equal(normalizeUzText("Pulsl tez"), "Puls tez");
   assert.equal(normalizeUzText("pulslar"), "pulslar", "puls + lar is a real word");
+  assert.equal(normalizeUzText("namoyondalari oqizloqlardan"), "namoyandalari soylardan");
   // Inside another word nothing happens.
   assert.equal(normalizeUzText("ogaslar"), "ogaslar");
+});
+
+test("07.10 review: the slips of the rehearsal's free decks (prompt as launched, T = 0.3) are fixed", () => {
+  // studio/launch-2026-10-07/rehearsal/decks-text.txt, the Uzbek decks.
+  assert.equal(normalizeUzText("Vijon erkinligi va so‘z erkinligi"), "Vijdon erkinligi va so‘z erkinligi");
+  assert.equal(normalizeUzText("Yashil o‘simliklarning qozirilish jarayoni haqida taqdimot"), "Yashil o‘simliklarning oziqlanish jarayoni haqida taqdimot");
+  assert.equal(normalizeUzText("Javobni qisqartirishni unutmamiz"), "Javobni qisqartirishni unutmaymiz");
+  assert.equal(normalizeUzText("Amir Temur 1336-yilda Xoja Ilg'or qishlog‘ida tug‘ilgan"), "Amir Temur 1336-yilda Xo‘ja Ilg‘or qishlog‘ida tug‘ilgan");
+  // Only the village: Xoja as a name part stays (Xoja Ahmad Yassaviy).
+  assert.equal(normalizeUzText("Xoja Ahmad Yassaviy maqbarasi"), "Xoja Ahmad Yassaviy maqbarasi");
+  assert.equal(normalizeUzText("unutmamizdan"), "unutmamizdan", "whole word only");
 });
 
 test("context-dependent pairs (auto=false) are never replaced", () => {
