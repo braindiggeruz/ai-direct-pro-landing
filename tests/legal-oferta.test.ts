@@ -13,7 +13,10 @@
 //     fiscal settings and the live providers' secrets;
 //   - a paid pack is not refundable (owner decision of 2026-10-03, WP-25),
 //     with two narrow exceptions, and the pack window and the pricing page say
-//     the same before anyone pays.
+//     the same before anyone pays;
+//   - edition ai-paket-2026-10-v3 (owner's approval of 2026-10-07): the guest
+//     account of guest checkout and Payme, named in both offers and both
+//     policies, as the Payme live switch and GPT_GUEST_CHECKOUT require.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -40,6 +43,7 @@ import {
 } from '../scripts/release/live-gate';
 import { LEGAL_ENTITY, legalEntityIssues, renderRequisites, renderTermsEdition, type LegalEntity } from '../scripts/legal-entity';
 import { BASELINE, PROTECTED_PATHS } from '../scripts/seo-protection';
+import { GUEST_SESSION_MS } from '../functions/lib/gpt-chat/identity-store';
 import { collectOutgoingLinks } from '../src/shared/audit';
 import { STUDIO_EMAIL, STUDIO_PHONE_DISPLAY } from '../src/shared/studio-contact';
 import { strings } from '../src/gpt-chat/i18n';
@@ -90,8 +94,9 @@ test('(a) both offers are published, indexable legal pages with a reciprocal hre
 });
 
 test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING_TERMS_*', () => {
-  // ai-paket-2026-10-v2 (WP-25): v1, published with R4, still promised refunds.
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v2');
+  // ai-paket-2026-10-v3: the guest account and Payme. v2 (WP-25) knew only the
+  // Telegram account, Click and Uzum Bank; v1, published with R4, still promised refunds.
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v3');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -109,12 +114,58 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
   for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
   assert.match(approvedAt, /^(\d{4}-\d{2}-\d{2})?$/);
-  // v2 is the owner's decision of 2026-10-03 on the refund clause, taken after the lawyer
-  // approved v1 on 2026-10-01 (docs/paid-chat/OFFER-RU.md).
-  assert.equal(approvedAt, '2026-10-03');
+  // v3 and the policies of the same day are the owner's approval of 2026-10-07, given without
+  // a lawyer's review (docs/paid-chat/OFFER-RU.md); v2 was the owner's decision of 2026-10-03
+  // on the refund clause, after the lawyer approved v1 on 2026-10-01.
+  assert.equal(approvedAt, '2026-10-07');
   for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
-  // The lawyer approved both policies on 2026-10-05, before Click's live switch (runbook S2).
-  for (const doc of Object.values(policies)) assert.equal(doc.legalReviewedAt, '2026-10-05', doc.url);
+  for (const doc of Object.values(policies)) assert.equal(doc.legalReviewedAt, '2026-10-07', doc.url);
+});
+
+test('(v3) the guest account and Payme: what guest checkout and Payme live sell is what the offers and policies say', () => {
+  const definition = (doc: Page, start: string) => {
+    const items = doc.bodyBlocks!.flatMap((block) => (block as { items?: string[] }).items ?? []);
+    const found = items.filter((item) => item.startsWith(start));
+    assert.equal(found.length, 1, `${doc.url}: ${start}`);
+    return found[0];
+  };
+  // The account may be a guest account of the browser; Telegram keeps it on every device;
+  // the Seller restores a lost guest pack from the payment data (a restore link, ADMIN-RU.md).
+  const ru = definition(offers.ru, 'Аккаунт — ');
+  assert.ok(ru.includes('Покупатель может оплатить пакет без входа: тогда пакет привязывается к браузеру, в котором он оплачен (гостевой аккаунт).'));
+  assert.ok(ru.includes('После входа через Telegram пакет переносится в аккаунт Telegram и действует на всех устройствах, где выполнен вход.'));
+  assert.ok(ru.includes('Продавец по обращению Покупателя с данными платежа (номер платежа или чек) восстанавливает пакет на оставшийся срок.'));
+  const uz = definition(offers.uz, 'Akkaunt — ');
+  assert.ok(uz.includes('Xaridor paketni kirmasdan to‘lashi mumkin: bu holda paket u to‘langan brauzerga bog‘lanadi (mehmon akkaunti).'));
+  assert.ok(uz.includes('Telegram orqali kirgandan so‘ng paket Telegram akkauntiga o‘tkaziladi va kirilgan barcha qurilmalarda ishlaydi.'));
+  assert.ok(uz.includes('Sotuvchi Xaridorning to‘lov ma’lumotlari (to‘lov raqami yoki chek) bilan qilgan murojaati asosida paketni qolgan muddatga tiklaydi.'));
+  // The defined party is the Seller: no "Исполнитель" / "Ijrochi" from the draft.
+  for (const doc of [offers.ru, offers.uz]) assert.doesNotMatch(text(doc), /Исполнител|Ijrochi/, doc.url);
+  // Payme is a way to pay in both offers (section 6) and the receipt link waits for the provider.
+  assert.ok(definition(offers.ru, 'Пакет оплачивается через ').startsWith('Пакет оплачивается через Click, Payme или Uzum Bank'));
+  assert.ok(definition(offers.uz, 'Paket Click').startsWith('Paket Click, Payme yoki Uzum Bank orqali'));
+  assert.ok(text(offers.ru).includes('Ссылка на чек появляется в разделе «Мой пакет» AI-чата, когда платёжная система её передаст.'));
+  assert.ok(text(offers.uz).includes('To‘lov tizimi chek havolasini uzatgach, u AI chatning «Paketim» bo‘limida paydo bo‘ladi.'));
+  // The policies: the guest account in a cookie for up to a year (GUEST_SESSION_MS), the
+  // salted IP hash that paces new guests, the move to Telegram, Payme among the recipients.
+  assert.equal(GUEST_SESSION_MS, 365 * 86400_000);
+  const policyRu = text(policies.ru);
+  const policyUz = text(policies.uz);
+  assert.ok(policyRu.includes('AI-пакет можно купить без входа: тогда мы создаём гостевой аккаунт и храним его в cookie браузера до года'));
+  assert.ok(policyRu.includes('учитываем хеш IP-адреса с секретным ключом (сам адрес не храним)'));
+  assert.ok(policyRu.includes('а пакет гостевого аккаунта переносим в аккаунт Telegram'));
+  assert.ok(policyUz.includes('AI paketni kirmasdan ham sotib olish mumkin: bu holda biz mehmon akkauntini yaratamiz va uni brauzer cookie’sida bir yilgacha saqlaymiz'));
+  assert.ok(policyUz.includes('IP-manzilning maxfiy kalit bilan olingan xeshini hisobga olamiz (manzilning o‘zini saqlamaymiz)'));
+  assert.ok(policyUz.includes('mehmon akkauntidagi paket esa Telegram akkauntingizga o‘tkaziladi'));
+  assert.ok(policyRu.includes('Click, Payme и Uzum Bank — данные заказа для оплаты, чека и возврата.'));
+  assert.ok(policyUz.includes('Click, Payme va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.'));
+  assert.ok(policyRu.includes('Данные карты вы вводите на стороне Click, Payme или Uzum Bank'));
+  assert.ok(policyUz.includes('Karta ma’lumotlarini Click, Payme yoki Uzum Bank tomonida kiritasiz'));
+  // The switches these texts allow are the committed ones, in both copies of the config.
+  assert.equal(config.GPT_GUEST_CHECKOUT, 'true');
+  assert.equal(nested.GPT_GUEST_CHECKOUT, 'true');
+  assert.equal(config.GPT_BILLING_MODE_PAYME, 'live');
+  assert.equal(nested.GPT_BILLING_MODE_PAYME, 'live');
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -274,7 +325,7 @@ test('the requisites block and the edition line render from the one source', () 
     assert.match(renderRequisites(policies[locale]), locale === 'ru' ? /Реквизиты оператора/ : /Operator rekvizitlari/);
     const edition = renderTermsEdition(offers[locale]);
     assert.ok(edition.includes(`data-terms-version="${config.GPT_BILLING_TERMS_VERSION}"`));
-    assert.ok(edition.includes('<time datetime="2026-10-03">03.10.2026</time>'));
+    assert.ok(edition.includes('<time datetime="2026-10-07">07.10.2026</time>'));
   }
   assert.equal(renderRequisites(page('ru/tarify-ai-chat')), '', 'only pages that ask for it');
   assert.equal(renderTermsEdition(policies.ru), '');
@@ -285,7 +336,7 @@ test('the requisites block and the edition line render from the one source', () 
 test('the privacy policies describe the chat, its recipients, payment, sign-in and retention as the code does', () => {
   const ru = text(policies.ru);
   const uz = text(policies.uz);
-  for (const recipient of ['Cloudflare', 'OpenRouter', 'Z.ai', 'Click', 'Uzum Bank', 'Telegram', 'Google Analytics']) {
+  for (const recipient of ['Cloudflare', 'OpenRouter', 'Z.ai', 'Click', 'Payme', 'Uzum Bank', 'Telegram', 'Google Analytics']) {
     assert.ok(ru.includes(recipient) && uz.includes(recipient), recipient);
   }
   assert.ok(ru.includes('Яндекс Метрика') && uz.includes('Yandex Metrika'));
@@ -320,7 +371,7 @@ test('the privacy policies describe the chat, its recipients, payment, sign-in a
   for (const doc of Object.values(policies)) {
     assert.ok(JSON.stringify(doc).includes(STUDIO_EMAIL), doc.url);
     assert.equal(doc.ctaPrimaryHref, '#contact');
-    assert.equal(doc.lastReviewedAt, '2026-10-03');
+    assert.equal(doc.lastReviewedAt, '2026-10-07');
   }
   // Correct Uzbek apostrophes only (o‘, g‘ with U+2018; ’ for the tutuq belgisi).
   for (const doc of [policies.uz, offers.uz]) assert.doesNotMatch(JSON.stringify(doc), /[a-zA-Z]'[a-zA-Z]/, doc.url);
@@ -390,29 +441,26 @@ function liveFixture(change: Partial<LiveGateInput> = {}): LiveGateInput {
   };
 }
 
-test('live gate: the committed build passes with Click live; offline it defers only the secret names', () => {
-  // Runbook S2 (2026-10-05): GPT_BILLING_LIVE_READY="true", Click live, Uzum off.
+/** The secrets a Click and Payme live sale needs, as the offline gate defers them. */
+const DEFERRED = [
+  'GPT_BILLING_MAINTENANCE_SECRET', 'GPT_CLICK_CREDENTIALS_JSON', 'GPT_HASH_SALT', 'GPT_IDENTITY_SECRET',
+  'GPT_NOTIFY_BOT_TOKEN', 'GPT_NOTIFY_CHAT_ID', 'GPT_PAYME_KEY', 'GPT_PAYME_MERCHANT_ID',
+  'TELEGRAM_ASSISTANT_BOT_TOKEN', 'TELEGRAM_ASSISTANT_WEBHOOK_SECRET',
+];
+
+test('live gate: the committed build passes with Click and Payme live; offline it defers only the secret names', () => {
+  // Runbook S2 (2026-10-05): GPT_BILLING_LIVE_READY="true", Click live, Uzum off; Payme live
+  // since 2026-10-07 (PAYME-RU.md section 6), with the v3 editions that name it.
   const report = liveGate(loadLiveGateInput(ROOT, path.join(ROOT, 'dist'), null));
-  assert.deepEqual(report, {
-    live: true,
-    providers: ['click'],
-    issues: [],
-    deferred: [
-      'GPT_BILLING_MAINTENANCE_SECRET', 'GPT_CLICK_CREDENTIALS_JSON', 'GPT_HASH_SALT', 'GPT_IDENTITY_SECRET',
-      'GPT_NOTIFY_BOT_TOKEN', 'GPT_NOTIFY_CHAT_ID', 'TELEGRAM_ASSISTANT_BOT_TOKEN', 'TELEGRAM_ASSISTANT_WEBHOOK_SECRET',
-    ],
-  });
+  assert.deepEqual(report, { live: true, providers: ['click', 'payme'], issues: [], deferred: DEFERRED });
 });
 
 test('live gate: a complete build with every secret in production may go live', () => {
-  assert.deepEqual(liveGate(liveFixture()), { live: true, providers: ['click'], issues: [], deferred: [] });
+  assert.deepEqual(liveGate(liveFixture()), { live: true, providers: ['click', 'payme'], issues: [], deferred: [] });
   // Offline, the same build passes and names the secrets that check-production confirms.
   const offline = liveGate(liveFixture({ production: null }));
   assert.deepEqual(offline.issues, []);
-  assert.deepEqual(offline.deferred, [
-    'GPT_BILLING_MAINTENANCE_SECRET', 'GPT_CLICK_CREDENTIALS_JSON', 'GPT_HASH_SALT', 'GPT_IDENTITY_SECRET',
-    'GPT_NOTIFY_BOT_TOKEN', 'GPT_NOTIFY_CHAT_ID', 'TELEGRAM_ASSISTANT_BOT_TOKEN', 'TELEGRAM_ASSISTANT_WEBHOOK_SECRET',
-  ]);
+  assert.deepEqual(offline.deferred, DEFERRED);
 });
 
 test('live gate: each missing piece refuses live by name, and never prints a value', () => {
@@ -446,12 +494,20 @@ test('live gate: each missing piece refuses live by name, and never prints a val
 
 test('live gate: Payme in test never holds a deploy; Payme live needs its own secrets and an offer and policies that name it', () => {
   const live = liveFixture();
-  // The committed shape (Payme listed, in test): only Click is live, nothing more is asked.
+  // The rollback shape (PAYME-RU.md section 7: Payme back in test): only Click is live,
+  // nothing more is asked.
   const paymeTest = liveGate({ ...live, config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE_PAYME: 'test' } });
   assert.deepEqual([paymeTest.providers, paymeTest.issues], [['click'], []]);
-  // Payme live: the editions of 2026-10 name Click and Uzum Bank only.
+  // Payme live (the committed shape) with editions that do not name it (v2 named Click and
+  // Uzum Bank only): refused, page by page.
   const config = { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE_PAYME: 'live' };
-  const report = liveGate({ ...live, config });
+  const unnamed = <T,>(page: T) => JSON.parse(JSON.stringify(page).replace(/Payme/g, 'P*yme')) as T;
+  const report = liveGate({
+    ...live,
+    config,
+    offers: { ru: unnamed(live.offers.ru), uz: unnamed(live.offers.uz) },
+    policies: { ru: unnamed(live.policies.ru), uz: unnamed(live.policies.uz) },
+  });
   assert.deepEqual(report.providers, ['click', 'payme']);
   assert.deepEqual(report.issues.filter((issue) => /Payme/.test(issue)), [
     '/ru/oferta/: does not name Payme as a way to pay',
@@ -462,15 +518,9 @@ test('live gate: Payme in test never holds a deploy; Payme live needs its own se
   // Its production key and cash desk are Pages secrets, known by name.
   const withoutKey = liveGate({ ...live, config, production: new Set([...(live.production ?? [])].filter((name) => name !== 'GPT_PAYME_KEY')) });
   assert.ok(withoutKey.issues.includes('payme: Pages secret GPT_PAYME_KEY is not set in production'), JSON.stringify(withoutKey.issues));
-  // An edition that names Payme clears those lines; the global live mode alone never makes Payme live.
-  const naming = <T,>(page: T) => ({ ...page, body: 'Click, Uzum Bank yoki Payme / Click, Uzum Bank или Payme' }) as T;
-  const named = liveGate({
-    ...live,
-    config,
-    offers: { ru: naming(live.offers.ru), uz: naming(live.offers.uz) },
-    policies: { ru: naming(live.policies.ru), uz: naming(live.policies.uz) },
-  });
-  assert.deepEqual(named.issues, []);
+  // The committed v3 editions name Payme: nothing is refused; the global live mode alone
+  // never makes Payme live.
+  assert.deepEqual(liveGate({ ...live, config }).issues, []);
   assert.deepEqual(liveGate({ ...live, config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE: 'live', GPT_BILLING_MODE_UZUM: 'off', GPT_BILLING_MODE_PAYME: '' } }).issues.filter((issue) => issue.startsWith('payme:')), ['payme: GPT_BILLING_MODE_PAYME']);
   assert.ok(BILLING_SETTINGS.has('GPT_BILLING_MODE_PAYME'));
   assert.ok(LIVE_SECRETS.includes('GPT_PAYME_KEY') && LIVE_SECRETS.includes('GPT_PAYME_MERCHANT_ID'));
@@ -486,7 +536,7 @@ test('live gate: switching live off always ships, and no Pages variable may shad
   // The other stop (the R-table rollback): the switch stays "true", the provider's mode is
   // cleared or back to test. Nothing sells live, so nothing is required either.
   for (const mode of ['', 'test']) {
-    const stopped = { ...off, config: { ...off.config, GPT_BILLING_LIVE_READY: 'true', GPT_BILLING_MODE_CLICK: mode } };
+    const stopped = { ...off, config: { ...off.config, GPT_BILLING_LIVE_READY: 'true', GPT_BILLING_MODE_CLICK: mode, GPT_BILLING_MODE_PAYME: mode } };
     assert.deepEqual(liveGate(stopped), { live: false, providers: [], issues: [], deferred: [] }, mode || 'cleared');
   }
   // A secret named like a billing setting overrides the reviewed JSON at runtime.

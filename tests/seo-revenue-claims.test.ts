@@ -56,7 +56,7 @@ test('the pack the pages describe is the pack the code sells', () => {
   assert.ok(all.includes(`${PAID_MESSAGES} ответов на месяц за ${PRICE} сум`));
   assert.ok(all.includes(`до ${PACK_DAILY_LIMIT} в день`));
   assert.match(all, /без автосписаний/);
-  assert.match(all, /Click или Uzum Bank/);
+  assert.match(all, /Click, Payme или Uzum Bank/);
 });
 
 test('the free limits on the pricing page are the deployed free limits', () => {
@@ -69,7 +69,7 @@ test('the free limits on the pricing page are the deployed free limits', () => {
 test('the pricing page is honest before and after payment opens', () => {
   const payment = tariffs.faq.find((item) => /оплатить/i.test(item.q));
   assert.ok(payment, 'Pricing must explain how and when the pack can be paid');
-  assert.match(payment.a, /Click или Uzum Bank/);
+  assert.match(payment.a, /Click, Payme или Uzum Bank/);
   assert.match(payment.a, /Если кнопки нет, оплата сейчас недоступна/);
   const offer = JSON.stringify(tariffs);
   assert.doesNotMatch(offer, /(?:href|target)":\s*"[^"]*(?:checkout|payment|\/api\/gpt\/)/);

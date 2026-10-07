@@ -13,7 +13,7 @@
   "searchIntent": "informational",
   "h1": "AI paket uchun ommaviy oferta",
   "title": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
-  "description": "GPTBot.uz chatidagi AI paket shartlari: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. Click yoki Uzum Bank, chek.",
+  "description": "GPTBot.uz chatidagi AI paket shartlari: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. Click, Payme yoki Uzum Bank.",
   "canonical": "https://gptbot.uz/uz/oferta/",
   "hreflangRu": "/ru/oferta/",
   "hreflangUz": "/uz/oferta/",
@@ -25,8 +25,8 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Oferta",
   "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish shartlari.",
-  "termsVersion": "ai-paket-2026-10-v2",
-  "legalReviewedAt": "2026-10-03",
+  "termsVersion": "ai-paket-2026-10-v3",
+  "legalReviewedAt": "2026-10-07",
   "requisites": "seller",
   "bodyBlocks": [
     {
@@ -43,7 +43,7 @@
         "AI chat — gptbot.uz sayti sahifalaridagi GPTBot.uz chati, unda savollarga AI modellar javob beradi.",
         "Javob — AI modelning AI chatda Xaridorning bitta savoliga yozgan xabari.",
         "AI paket — AI chatda bepul limitdan tashqari javoblar olish huquqi, shartlari 3-bo‘limda. Chekda u «AI paket 300 (xizmat, 1 oy)» deb ataladi.",
-        "Akkaunt — Xaridor Telegram orqali kiradigan AI chat hisobi. Paket akkauntga bog‘langan va unga kirilgan barcha qurilmalarda ishlaydi."
+        "Akkaunt — AI chatdagi hisob. Xaridor paketni kirmasdan to‘lashi mumkin: bu holda paket u to‘langan brauzerga bog‘lanadi (mehmon akkaunti). Telegram orqali kirgandan so‘ng paket Telegram akkauntiga o‘tkaziladi va kirilgan barcha qurilmalarda ishlaydi. Agar kirishdan oldin Xaridor brauzer ma’lumotlarini o‘chirgan yoki boshqa brauzer yoki qurilmaga o‘tgan bo‘lsa, Sotuvchi Xaridorning to‘lov ma’lumotlari (to‘lov raqami yoki chek) bilan qilgan murojaati asosida paketni qolgan muddatga tiklaydi."
       ]
     },
     {
@@ -98,10 +98,10 @@
     {
       "type": "list",
       "items": [
-        "Paket Click yoki Uzum Bank orqali — xarid paytida ulangan usullar bilan to‘lanadi; mavjud tugmalar AI paket oynasida ko‘rsatiladi.",
+        "Paket Click, Payme yoki Uzum Bank orqali — xarid paytida ulangan usullar bilan to‘lanadi; mavjud tugmalar AI paket oynasida ko‘rsatiladi.",
         "Karta ma’lumotlarini Xaridor to‘lov tizimi tomonida kiritadi. Sotuvchi ularni olmaydi va saqlamaydi.",
         "To‘lov tizimi to‘lovni tasdiqlagach, paket amal qila boshlaydi.",
-        "To‘lov va pulni qaytarish uchun elektron fiskal chek shakllantiriladi. Chek havolasi AI chatning «Paketim» bo‘limida paydo bo‘ladi."
+        "To‘lov va pulni qaytarish uchun elektron fiskal chek shakllantiriladi. To‘lov tizimi chek havolasini uzatgach, u AI chatning «Paketim» bo‘limida paydo bo‘ladi."
       ]
     },
     {
@@ -215,7 +215,7 @@
     "WebSite",
     "BreadcrumbList"
   ],
-  "lastReviewedAt": "2026-10-03",
+  "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-10-03T00:00:00Z",
-  "updatedAt": "2026-10-03"
+  "updatedAt": "2026-10-07"
 }

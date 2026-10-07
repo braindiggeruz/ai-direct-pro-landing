@@ -300,9 +300,10 @@ export async function maintainBilling(
         continue;
       }
     }
-    // A guest's paid order: Click's payment id (guest-restore.ts).
+    // A guest's paid order: Click's payment id or Payme's transaction id
+    // (guest-restore.ts).
     const guest =
-      row.event === "paid" && row.provider === "click"
+      row.event === "paid" && (row.provider === "click" || row.provider === "payme")
         ? await restoreNotice(db, row.order_id, now)
         : "";
     const result = await new TelegramClient(token).call(
