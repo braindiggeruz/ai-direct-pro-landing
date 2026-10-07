@@ -190,24 +190,31 @@ s.setItem(K,JSON.stringify(r));
         if (p.indexOf('/admin-tools/')===0 || p.indexOf('/api/')===0) return;
         var h = location.hostname || '';
         if (h==='localhost' || h==='127.0.0.1' || h==='::1' || h==='[::1]' || h==='0.0.0.0' || h.slice(-6)==='.local') return;
+        // Queue conversion events immediately, even when the network script is
+        // deferred: a fast checkout return must not lose Purchase.
+        if(!window.fbq){
+          var n=window.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!window._fbq)window._fbq=n;
+          n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+        }
+        fbq('init', '780400781706074');
+        fbq('track', 'PageView');
         var started=false;
         function loadPixel(){
           if(started)return;started=true;
-          !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '780400781706074');
-          fbq('track', 'PageView');
+          var t=document.createElement('script');t.async=true;
+          t.src='https://connect.facebook.net/en_US/fbevents.js';
+          var s=document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(t,s);
         }
         function idleLoad(){
           if('requestIdleCallback' in window){window.requestIdleCallback(loadPixel,{timeout:3000});}
           else{setTimeout(loadPixel,200);}
         }
+        // Paid Meta visits need PageView promptly for landing-page-view delivery.
+        // Ordinary organic visits keep the existing deferred loading policy.
+        if(new URLSearchParams(location.search).has('fbclid'))setTimeout(loadPixel,100);
         var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];
         // +1200ms stagger after interaction so GTM, gtag and the pixel do not
         // parse/execute in the same main-thread block.

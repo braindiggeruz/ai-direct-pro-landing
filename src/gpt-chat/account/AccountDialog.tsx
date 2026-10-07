@@ -19,7 +19,7 @@ import {
 import type { AccountHandle } from "../use-account";
 import { loadBotLogin } from "../bot-login";
 import { orderId, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
-import { track, EV } from "../analytics";
+import { track, trackMetaCheckout, EV } from "../analytics";
 import { recordUiEvent } from "../ui-events";
 import { BotLoginScreen } from "./BotLoginScreen";
 import { CheckoutReturn } from "./CheckoutReturn";
@@ -255,6 +255,8 @@ export function AccountDialog({
           }
         }
         started();
+        if (!resume && data.mode === "live" && attemptId && data.pack)
+          trackMetaCheckout({ transactionId: attemptId, value: data.pack.priceUzs, itemId: `ai_paket_${data.pack.messageLimit}` });
         setLeaving(true);
         checkout.start({ provider, flow: "redirect", at: Date.now(), attemptId, before: null });
         location.assign(url);

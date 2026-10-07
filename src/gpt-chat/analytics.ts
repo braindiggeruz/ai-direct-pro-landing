@@ -71,6 +71,7 @@ export function trackPurchase(order: { transactionId: string; value: number; ite
     const w = window as unknown as {
       dataLayer?: Array<Record<string, unknown>>;
       gtag?: (...args: unknown[]) => void;
+      fbq?: (...args: unknown[]) => void;
     };
     const ecommerce = {
       transaction_id: order.transactionId,
@@ -86,6 +87,29 @@ export function trackPurchase(order: { transactionId: string; value: number; ite
       w.dataLayer.push({ ecommerce: null });
       w.dataLayer.push({ event: EV.purchase, ...payload, ecommerce });
     }
+    // This is called only after the server confirms a live, paid order, and
+    // firstReport() has deduplicated that order in this browser.
+    if (typeof w.fbq === 'function') w.fbq('track', 'Purchase', {
+      value: order.value,
+      currency: 'UZS',
+      content_ids: [order.itemId],
+      content_type: 'product',
+    }, { eventID: order.transactionId });
+  } catch {
+    /* noop */
+  }
+}
+
+/** A new live provider invoice, not a resumed or merely opened payment panel. */
+export function trackMetaCheckout(order: { transactionId: string; value: number; itemId: string }): void {
+  try {
+    const w = window as unknown as { fbq?: (...args: unknown[]) => void };
+    if (typeof w.fbq === 'function') w.fbq('track', 'InitiateCheckout', {
+      value: order.value,
+      currency: 'UZS',
+      content_ids: [order.itemId],
+      content_type: 'product',
+    }, { eventID: `checkout_${order.transactionId}` });
   } catch {
     /* noop */
   }

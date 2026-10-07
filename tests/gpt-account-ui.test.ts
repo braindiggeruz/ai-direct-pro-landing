@@ -10,7 +10,7 @@ import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals 
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
 import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
-import { GA4_PARAMS, trackPurchase } from '../src/gpt-chat/analytics';
+import { GA4_PARAMS, trackMetaCheckout, trackPurchase } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
 import * as React from 'react';
@@ -486,7 +486,8 @@ test('a purchase reaches GA4 once per order, as ecommerce, without anything pers
   assert.deepEqual(JSON.parse(local.get('gptchat_purchases')!), [OTHER, ORDER]);
   const g = globalThis as Record<string, unknown>;
   const sent: unknown[][] = [];
-  g.window = { gtag: (...args: unknown[]) => sent.push(args) };
+  const meta: unknown[][] = [];
+  g.window = { gtag: (...args: unknown[]) => sent.push(args), fbq: (...args: unknown[]) => meta.push(args) };
   t.after(() => { delete g.window; });
   trackPurchase({ transactionId: ORDER, value: 20000, itemId: 'ai_paket_300', itemName: 'AI paket 300', provider: 'click' });
   const [kind, event, payload] = sent[0] as [string, string, Record<string, unknown>];
@@ -495,6 +496,9 @@ test('a purchase reaches GA4 once per order, as ecommerce, without anything pers
     Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'route' && key !== 'lang')),
     { provider: 'click', transaction_id: ORDER, value: 20000, currency: 'UZS', items: [{ item_id: 'ai_paket_300', item_name: 'AI paket 300', price: 20000, quantity: 1 }] },
   );
+  assert.deepEqual(meta, [['track', 'Purchase', {
+    value: 20000, currency: 'UZS', content_ids: ['ai_paket_300'], content_type: 'product',
+  }, { eventID: ORDER }]]);
   // Through GTM's dataLayer the ecommerce object is replaced, not merged.
   const layer: unknown[] = [];
   g.window = { dataLayer: layer };
@@ -504,6 +508,21 @@ test('a purchase reaches GA4 once per order, as ecommerce, without anything pers
   assert.equal((layer[1] as { ecommerce: { transaction_id: string } }).ecommerce.transaction_id, ORDER);
   // The order id never rides on the catalogue's flat parameters.
   assert.equal(GA4_PARAMS.has('transaction_id'), false);
+});
+
+test('Meta checkout starts only at a new live invoice and pixel queues before its deferred load', (t) => {
+  const g = globalThis as Record<string, unknown>;
+  const sent: unknown[][] = [];
+  g.window = { fbq: (...args: unknown[]) => sent.push(args) };
+  t.after(() => { delete g.window; });
+  trackMetaCheckout({ transactionId: ORDER, value: 20000, itemId: 'ai_paket_300' });
+  assert.deepEqual(sent, [['track', 'InitiateCheckout', {
+    value: 20000, currency: 'UZS', content_ids: ['ai_paket_300'], content_type: 'product',
+  }, { eventID: `checkout_${ORDER}` }]]);
+  const dialog = readFileSync(new URL('../src/gpt-chat/account/AccountDialog.tsx', import.meta.url), 'utf8');
+  assert.match(dialog, /if \(!resume && data\.mode === "live" && attemptId && data\.pack\)\s*trackMetaCheckout/);
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.ok(html.indexOf("fbq('init', '780400781706074')") < html.indexOf('function loadPixel()'));
 });
 
 test('every funnel step the window sends is one the server counts', (t) => {
