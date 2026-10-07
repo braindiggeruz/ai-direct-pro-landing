@@ -1,22 +1,22 @@
 # Реестр завершения Claude → Codex
 
-Актуально 07.10.2026. Кандидат в `F:/Claude/gptbot-codex-integration-20261007`; последний проверенный production — `e3e551af`/`71d2f0f3`. Историческая матрица ниже сохранена как исходный аудит, её статусы не заменяют эту таблицу.
+Актуально 07.10.2026. Кандидат в `F:/Claude/gptbot-codex-integration-20261007`; последний проверенный production — `3d2228d542ca42b2f0e5217f85daf8296a2b3468`. Историческая матрица ниже сохранена как исходный аудит, её статусы не заменяют эту таблицу.
 
 | Задача / источник | Результат и интеграция | Текущий статус | Доказательство / остаток |
 |---|---|---|---|
 | База, SEO wf_fb6725a4 | SEO + опубликованные Meta в одной линии | DEPLOYED_VERIFIED | 3173e366; 1809 tests, live protected10/10 |
 | One-tap wf_ffb9b2d3 | Удалён отдельный шаг оферты, race/cookie guards | DEPLOYED_VERIFIED | e3e551af; 1815 tests; новые UI scenario18/18 |
-| Free Studio wf_18d4b721 | Две страницы, API, quota, PPTX и картинки | VERIFIED_LOCAL | Реальные samples; финальный browser/release/readback в процессе |
-| Paid A/B wf_6c34b294 | Full12, Kunlik/Oylik, rights/restore/account | VERIFIED_LOCAL | studio tests + real full PPTX, STUDIO_RELEASE_20261007.md |
+| Free Studio wf_18d4b721 | Две страницы, API, quota, PPTX и картинки | DEPLOYED_VERIFIED | Реальные samples; browser/build/release/live readback PASS |
+| Paid A/B wf_6c34b294 | Full12, Kunlik/Oylik, rights/restore/account | DEPLOYED_VERIFIED | studio tests + real full PPTX, STUDIO_RELEASE_20261007.md |
 | Paid C | Photo code сохранён, запуск заменён decks-only решением | SUPERSEDED | Фото off/draft; не продаётся как готовая функция |
-| Paid D/E/F | Click shared, fiscal, ops/refund/report, terms v5 | VERIFIED_LOCAL | 100 shared Click tests; migration0077 applied; денежный E2E отдельно |
+| Paid D/E/F | Click shared, fiscal, ops/refund/report, terms v5 | DEPLOYED_VERIFIED | 100 shared Click tests; migration0077 applied; денежный E2E отдельно |
 | Payme wf_4b91c3e5 | Ключи приватно сохранены; adapter готов | SUPERSEDED | Последняя команда владельца: пока не выводить Payme, оставить Click |
 | Uzum | Код сохранён, live off | BLOCKED_EXTERNAL | Нет нового разрешения/подтверждения live |
-| Chat UI wf_c56b415c | df264eb1 + one-tap/Meta, mobile drawer/math | VERIFIED_LOCAL | UI_ACCEPTANCE_20261007.md; полный layout gate выполняется |
-| Conversion | Закрываемые тарифы после результата + retry | VERIFIED_LOCAL | 21/21 billing browser/unit tests; noauto, prices, dismiss/session |
-| Lead Radar task_bc4f9153 | Schema fingerprint учитывает migration0059 | VERIFIED_LOCAL | RED2 → PASS47; scoped исключение, основной contract сохранён |
+| Chat UI wf_c56b415c | df264eb1 + one-tap/Meta, mobile drawer/math | DEPLOYED_VERIFIED | UI_ACCEPTANCE_20261007.md; layout446/302/0 PASS |
+| Conversion | Закрываемые тарифы после результата + retry | DEPLOYED_VERIFIED | 21/21 billing browser/unit tests; noauto, prices, dismiss/session |
+| Lead Radar task_bc4f9153 | Schema fingerprint учитывает migration0059 | DEPLOYED_VERIFIED | RED2 → PASS47; scoped исключение, основной contract сохранён |
 | GitHub wf_89ff25a8/wf_3537f163 | own/profile/Pages проверены; отправлены 2 issue | BLOCKED_EXTERNAL | PR65 OPEN, issues77/103 SUBMITTED; не accepted; EXTERNAL_TAILS_20261007.md |
-| GSC N1 | Окна и completeness исправлены, self-test PASS | BLOCKED_EXTERNAL | NOT_DUE; scheduler registration не доказана, перенос не авторизован |
+| GSC N1 | Окна и completeness исправлены, self-test PASS | BLOCKED_EXTERNAL | Запущен сейчас:NOT_DUE; окно06–08.10 ещё не закончено, scheduler не создан |
 
 ## Покрытие исторической матрицы
 

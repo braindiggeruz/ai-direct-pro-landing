@@ -1,3 +1,5 @@
+> Итоговый выпуск 07.10: Production `3d2228d542ca42b2f0e5217f85daf8296a2b3468`; deployment https://20d2c825.ai-direct-pro-landing.pages.dev. Build, release check и deploy — exit0; suite 2057 PASS,0 FAIL,4 исторических SKIP; live marker/asset probes и protected SEO10/10 совпали, Studio3/3 доступны, Click-only /5900/39900/full12/photo-off/offer-v5 подтверждены API. Реальный денежный E2E не проводился.
+
 > Актуализация 07.10: one-tap опубликован (`e3e551af`, `71d2f0f3`), suite 1815/1815, браузер 18/18, layout 258/258, live SEO 10/10. Следующий приоритет владельца — **полноценная платная Studio**, включая тарифы и права; потом UI и внешние хвосты. Studio пока не выпущена.
 
 # Продолжение GPTBot.uz
@@ -36,3 +38,7 @@ One-tap локально: targeted 158/158, browser 18/18, typecheck/lint 0; в 
 Payme остаётся скрытым test: по запросу владельца созданы3 sandbox заказа, CheckPerformTransaction allow=true; интегратор сообщил владельцу об успешных тестах. Это не live запуск. Click fiscal policy сохранена: сначала получить уже существующий чек, через10 минут при его отсутствии передать позиции; Payme получает detail и возвращает SetFiscalData.
 
 Внешние остатки перечислены в EXTERNAL_TAILS_20261007.md: две GitHub заявки отправлены и прочитаны обратно; принятие зависит от модераторов. N1 scheduler и физический Android приёмкой не подтверждены.
+
+## N1 сейчас
+
+После просьбы выполнять сейчас запущен готовый скрипт: NOT_DUE — 07.10 окно06–08.10 ещё не завершено. API не вызывался, baseline не перезаписывался. Новая автоматизация не создана.

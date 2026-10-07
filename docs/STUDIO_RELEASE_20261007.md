@@ -1,6 +1,6 @@
 # Приёмка Studio и UI — 07.10.2026
 
-Статус: кандидат собран, идёт итоговая проверка; публикация не заявляется по локальным тестам.
+Статус: DEPLOYED_VERIFIED. Production `3d2228d542ca42b2f0e5217f85daf8296a2b3468`; deployment https://20d2c825.ai-direct-pro-landing.pages.dev. Build, release check и deploy — exit0; suite 2057 PASS,0 FAIL,4 исторических SKIP; live marker/asset probes и protected SEO10/10 совпали, Studio3/3 доступны, Click-only /5900/39900/full12/photo-off/offer-v5 подтверждены API. Реальный денежный E2E не проводился.
 
 ## Что интегрировано
 
@@ -54,3 +54,9 @@ Payme остаётся test и исключён из публичных provider
 Первый production stamp остановлен штатным CSS budget: 27 082 > 27 000 bytes Brotli. Найдены и удалены только 26 неиспользуемых деклараций theme tokens `--chart-*` / `--sidebar*` из общего index.css. Ссылок-потребителей в src/apps/config/tailwind и собранном CSS нет; правила, селекторы и геометрия UI не менялись. Бюджет и baseline не повышались; выполняется пересборка.
 
 Typecheck всех трёх частей —0, lint156 изменённых code files —0. Shared Click100, Studio browser, one-tap18 и полный layout446 прошли. Общий suite v3:2061 всего,2056 PASS,1 устаревший assert URL узбекской оферты,4 штатных skip. Assert согласован с canonical /uz/oferta/; повтор config/parity/live-gate/UI:21/21 PASS. Проверяется именно /uz/oferta/, gate не ослаблен. Перед deploy обязателен новый полный suite на committed production artifact.
+
+## Финальный выпуск
+
+Production `3d2228d542ca42b2f0e5217f85daf8296a2b3468`; deployment https://20d2c825.ai-direct-pro-landing.pages.dev. Build, release check и deploy — exit0; suite 2057 PASS,0 FAIL,4 исторических SKIP; live marker/asset probes и protected SEO10/10 совпали, Studio3/3 доступны, Click-only /5900/39900/full12/photo-off/offer-v5 подтверждены API. Реальный денежный E2E не проводился.
+
+CSS после удаления неиспользуемых токенов:26 932/27 000 bytes Brotli. Layout446/302/0 выполнен до семантически нейтрального удаления токенов; потребители удалённых переменных не обнаружены независимой проверкой. Финальный suite и budget guard выполнялись на production build указанного SHA.
