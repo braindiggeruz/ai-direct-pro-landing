@@ -95,6 +95,14 @@ export const DECK_TOPICS: Record<string, { locale: Locale; topic: string; audien
 
 export const LIMITS = { layoutShift: 0.05, tapTarget: 44, iosFieldFont: 16, deckSeconds: 150 } as const;
 
+/**
+ * tsx compiles this file with esbuild's keepNames, which turns a named function
+ * inside page.evaluate into `__name(fn, "name")`; the page has no `__name`
+ * ("ReferenceError: __name is not defined"). Every context gets an identity
+ * `__name` first, as a string so that it is not compiled itself.
+ */
+export const NAME_SHIM = 'globalThis.__name = globalThis.__name || ((target) => target);';
+
 export interface PageResult {
   profile: string;
   locale: Locale;
@@ -169,6 +177,7 @@ async function profileContext(browser: Browser, profile: DeviceProfile): Promise
     locale: 'uz-UZ',
     ...(profile.userAgent ? { userAgent: profile.userAgent } : {}),
   });
+  await context.addInitScript({ content: NAME_SHIM });
   if (profile.telegramBridge) {
     await context.addInitScript(() => {
       (window as unknown as { TelegramWebviewProxy: unknown }).TelegramWebviewProxy = { postEvent: () => undefined };
@@ -372,6 +381,7 @@ export function slideShapes(xml: string, slide: number): ShapeText[] {
 /** Each text box laid out in Chromium with Arial, as a viewer that never shrinks text would show it. */
 async function layoutFits(browser: Browser, shapes: ShapeText[]): Promise<BoxFit[]> {
   const context = await browser.newContext({ viewport: { width: 1600, height: 1200 } });
+  await context.addInitScript({ content: NAME_SHIM });
   const page = await context.newPage();
   const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const html = shapes.map((shape, i) => `<div class="box" data-i="${i}" style="width:${shape.cx}pt;height:${shape.cy}pt;padding:${shape.insets.map((v) => `${v}pt`).join(' ')}">${
