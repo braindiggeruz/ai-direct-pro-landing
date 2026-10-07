@@ -1,31 +1,26 @@
-# Передача GPTBot.uz: CTA покупки и градиент, 07.10.2026
+# Передача GPTBot.uz: Google discovery и lastmod, 07.10.2026
 
 ## 1. Состояние
-Production `3597412854df3a4aab03285db873830d6da0b36f`; deployment https://4ddbdbf0.ai-direct-pro-landing.pages.dev. Build/check/deploy exit0; 126 целевых и release-тестов PASS, layout446/302/0, one-tap18 PASS. Live: marker/assets совпали, SEO10/10, Studio3/3, Click-only и цены подтверждены; RU/UZ на320/390 px — текст CTA виден, фон отображается, окно Click20000 открывается, pageerror/overflow0. Реальных заказов и списаний не создавали.
-Ветка `codex/continuation-20261007`; код35974128, последующая запись документации runtime не меняет.
+Production до исправления3597412854df3a4aab03285db873830d6da0b36f, deployment https://4ddbdbf0.ai-direct-pro-landing.pages.dev. Платная Studio, Click-only, яркая покупка и градиент опубликованы и проверены ранее. Текущий этап прямо назначен владельцем: ускорить обнаружение обновлений Google. Точечное исправление lastmod проверено, требуется штатный выпуск и readback.
 ## 2. Что сделано
-По новым указаниям владельца кнопка покупки получила сплошную бирюзовую заливку и постоянную надпись «Купить пакет» / «Paket olish», включая 320 px. Активным покупателям остаётся «Мой пакет» / «Paketim». Фон чата — спокойные бирюзовый и индиговый радиальные градиенты без анимации и изображений.
+Google принял две sitemap и два RSS; ошибочная RSS-заявка404 удалена из GSC. WebSub204/204.31 live URL корректны; URL Inspection25 indexed/6 unknown. Ручной Request indexing Studio отклонён дневной квотой. Исправлен устаревший updatedAt узбекского чата по содержательному Git-изменению06.10 и приоритет дат генератора sitemap.
 ## 3. Изменённые файлы
-`AiAccountPanel.tsx`: отдельный вид покупки, прежнее открытие окна и аналитика. `i18n.ts`: две подписи. `premium.css`: фон, кнопка, компактная мобильная шапка; новый чат по-прежнему доступен из меню. `chat-layout-check.mjs` и два UI test-файла: проверяется видимость полного текста CTA на 12 сочетаниях экрана/локали. Свежесть отчёта теперь учитывает и AiAccountPanel.
+`scripts/generate-sitemap.ts`, `content/pages/uz/gpt-uzbek-tilida.json`, регрессионный сценарий в `tests/studio-sitemap.test.ts`; отчёт `docs/GOOGLE_DISCOVERY_20261007.md`, receipt Google/WebSub, эта передача, PROJECT_STATE и STATE.
 ## 4. Архитектурные решения
-Архитектура, API, цены и условия оплаты не менялись. Используются существующие палитра, Dialog и события `pack_viewed` с источником `header`. Новых архитектурных решений нет.
+Существующие sitemap/RSS/GSC. Lastmod берётся из curated content dates: max(lastReviewedAt,updatedAt), createdAt только как fallback. Сборка не создаёт искусственную свежесть. Внешних новых сервисов нет.
 ## 5. Что сознательно не сделано
-Payme по-прежнему hidden/test; Click live. Реальных списаний/заказов не создавали. Рост конверсии не заявляется: его оценивают по существующей воронке просмотров пакета, переходов и покупок.
+Не менять массово lastmod; не повторять IndexNow31 (уже принят17:52); не обходить дневную квоту Google. Payme hidden/test. Реальных платежей/заказов/списаний не создавали.
 ## 6. Проверки
-`npm run typecheck` exit0; ESLint пяти изменённых JS/TS-файлов exit0; шесть targeted suites 104 PASS/0 FAIL; one-tap18 PASS; приватный cta-smoke:28 PASS на320/360/390/412/480/768/1366 RU/UZ, guest/paid. Контраст CTA10.89:1. Build:fast exit0; JS109155 B br, pageCSS26947/27000 B br. Полный layout gate exit0:446 сценариев,302 снимка,0 ошибок;12/12 CTA видны; свежесть/SEO2/2 PASS. На контролируемых360/390/1366 LCP2.108–2.352с, CLS≤0.0053. На320 RU негейтируемый LCP3.1с. Production build, guarded check/deploy exit0; на финальном артефакте22/22 release-теста PASS. Live-проверки подтверждены отдельными checks/cta-live-*.json.
+40 targeted tests PASS/0 FAIL, typecheck и scoped ESLint exit0. Live300/94 sitemap,31/31 canonical/indexable. Перед сборкой точная копия прежнего dist сохранена в private backup google-discovery-20261007/dist-before-lastmod. После сборки проверить, что HTML/JS/CSS и SEO contracts byte-identical, изменены только sitemap и release marker; затем guarded check/deploy и повторная GSC submit/readback.
 ## 7. Известные проблемы
-Новых дефектов в проверенном UI нет. Предыдущие ограничения Studio/денежного E2E и сторонние предупреждения Yandex остаются в `STUDIO_RELEASE_20261007.md`; этот UI-этап их не меняет.
+Дневная квота Request indexing исчерпана;6 новых URL ещё неизвестны Google по снимку API. Sitemap pending сразу после submit ожидаем и не означает индексирование. Прежние ограничения реального Click E2E и native PPTX просмотра сохраняются.
 ## 8. Следующая задача
-Совместная приёмка реального платежа Click: владелец оплачивает, затем проверяются права, генерация, файл и фискальный чек. UI-этап завершён.
+Завершить штатный выпуск исправленного sitemap и подтвердить production/GSC. После этого — совместная приёмка реального платежа Click.
 ## 9. Acceptance criteria
-Для следующего этапа: подтверждённый владельцем реальный платёж, соответствующее право продукта, доступный файл и чек; корректная привязка к заказу. Sandbox и простое открытие окна оплаты этого не доказывают.
+Live lastmod узбекского чата06.10 в обеих картах,300/94 entries и31/31 URL сохранены;0 sitemap/GSC ошибок; HTML/JS/CSS прежние; production marker совпадает с новым source; приём уведомления явно отделён от индексации.
 ## 10. Команды для старта
-`git status`, `git log -5`; прочитать `PROJECT_STATE.md` и эту передачу. Проверки и screenshots: B=`F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534`, `checks/cta-*`, `cta-390-uz.png`. Deploy только `deploy_runner.py` с DR_ROOT на текущий integration worktree.
+Рабочее дерево F:/Claude/gptbot-codex-integration-20261007. Backup B=F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534; google_discovery.py / google_gsc.py сохраняют фактические ответы. Production только npm run build:production, deploy_runner.py check/deploy с DR_ROOT на этот checkout.
 ## 11. Риски
-Не менять тарифы и checkout вместе с косметикой, не показывать Payme, не удалять прежние dirty worktree. Фактическая конверсия зависит от трафика и измеряется после выпуска.
+Google сам определяет сроки обхода и индексацию. Не обещать рост позиций; old lastDownloaded не подтверждает чтение нового релиза. Защищённые SEO-страницы и права продуктов не меняются.
 ## 12. Rollback
-Отменить только commit35974128 CTA/градиента через revert, затем штатные build:production/check/deploy. Исходный production source3d2228d5 и его docs сохранены в Git. Миграций/секретов этот этап не требует; предыдущие резервные копии не затронуты.
-
-Список для владельца: `docs/SEO_REINDEX_20261007.txt` —31 URL после последних SEO/Studio-релизов, проверены live HTTP200/self-canonical/отсутствие noindex. Заявки в Google этим этапом не отправлялись.
-
-IndexNow 07.10.2026,17:52 Asia/Karachi:31/31 URL заново проверены и отправлены одним POST; HTTP200. Квитанция: `reports/indexnow-receipts/2026-10-07T12-52-57-441Z_codex-cta-31-20261007.json`. Это подтверждает приём уведомления; переобход/индексация и позиции этим не установлены.
+Revert только commit исправления lastmod, затем штатные build/check/deploy. Прежний dist сохранён отдельно. Миграций и secrets нет; sitemap регистрацию можно снова подать штатным GSC API.

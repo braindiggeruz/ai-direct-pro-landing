@@ -1,0 +1,551 @@
+{
+  "checkedAt": "2026-10-07T13:21:26.023344+00:00",
+  "property": "sc-domain:gptbot.uz",
+  "liveSourceCommit": "3597412854df3a4aab03285db873830d6da0b36f",
+  "liveFiles": {
+    "/sitemap.xml": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/sitemap.xml",
+      "contentType": "application/xml; charset=utf-8",
+      "entries": 300,
+      "duplicates": 0,
+      "missingLastmod": 0,
+      "futureDates": [],
+      "priorityUrlsPresent": 31
+    },
+    "/sitemap-updates.xml": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/sitemap-updates.xml",
+      "contentType": "application/xml; charset=utf-8",
+      "entries": 94,
+      "duplicates": 0,
+      "missingLastmod": 0,
+      "futureDates": [],
+      "priorityUrlsPresent": 31
+    },
+    "/robots.txt": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/robots.txt",
+      "contentType": "text/plain; charset=utf-8"
+    },
+    "/ru/blog/feed.xml": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/ru/blog/feed.xml",
+      "contentType": "application/rss+xml; charset=utf-8",
+      "items": 50,
+      "lastBuildDate": "Wed, 07 Oct 2026 00:00:00 GMT",
+      "hub": [
+        "https://pubsubhubbub.appspot.com/"
+      ]
+    },
+    "/uz/blog/feed.xml": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/uz/blog/feed.xml",
+      "contentType": "application/rss+xml; charset=utf-8",
+      "items": 50,
+      "lastBuildDate": "Wed, 07 Oct 2026 00:00:00 GMT",
+      "hub": [
+        "https://pubsubhubbub.appspot.com/"
+      ]
+    },
+    "/uz/feed.xml": {
+      "status": 404,
+      "finalUrl": "https://gptbot.uz/uz/feed.xml",
+      "contentType": "text/html; charset=utf-8"
+    },
+    "/gptbot-release.json": {
+      "status": 200,
+      "finalUrl": "https://gptbot.uz/gptbot-release.json",
+      "contentType": "application/json"
+    }
+  },
+  "livePriorityUrls": 31,
+  "liveIssues": [],
+  "sitemapSubmissions": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "acceptedAt": "2026-10-07T13:22:31.623981+00:00",
+      "response": ""
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "acceptedAt": "2026-10-07T13:22:31.808663+00:00",
+      "response": ""
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/feed.xml",
+      "acceptedAt": "2026-10-07T13:22:32.000821+00:00",
+      "response": ""
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "acceptedAt": "2026-10-07T13:22:32.200940+00:00",
+      "response": ""
+    }
+  ],
+  "invalidSitemapRecordRemoved": [
+    {
+      "url": "https://gptbot.uz/uz/feed.xml",
+      "reason": "Live HTTP404; correct feed /uz/blog/feed.xml verified and submitted",
+      "removedAt": "2026-10-07T13:22:32.513281+00:00",
+      "response": ""
+    }
+  ],
+  "gscReadback": {
+    "sitemap": [
+      {
+        "path": "https://gptbot.uz/uz/blog/feed.xml",
+        "lastSubmitted": "2026-10-07T13:22:32.021Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-10-05T08:54:06.189Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/ru/blog/feed.xml",
+        "lastSubmitted": "2026-10-07T13:22:31.810Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-10-05T09:21:26.316Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap-updates.xml",
+        "lastSubmitted": "2026-10-07T13:22:31.637Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-10-06T04:19:33.162Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "77",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap.xml",
+        "lastSubmitted": "2026-10-07T13:22:31.456Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-10-06T20:45:53.892Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "293",
+            "indexed": "0"
+          },
+          {
+            "type": "image",
+            "submitted": "140",
+            "indexed": "0"
+          }
+        ]
+      }
+    ]
+  },
+  "inspectionSummary": {
+    "Submitted and indexed": 25,
+    "URL is unknown to Google": 6
+  },
+  "inspection": [
+    {
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "checkedAt": "2026-10-07T13:22:51.334579+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-06T23:16:12Z",
+      "googleCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "userCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/ru/gpt-chat/",
+      "checkedAt": "2026-10-07T13:22:57.946151+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-06T23:38:17Z",
+      "googleCanonical": "https://gptbot.uz/ru/gpt-chat/",
+      "userCanonical": "https://gptbot.uz/ru/gpt-chat/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/taqdimot-ai/",
+      "checkedAt": "2026-10-07T13:23:04.538613+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/ru/prezentatsiya-ai/",
+      "checkedAt": "2026-10-07T13:23:11.117088+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+      "checkedAt": "2026-10-07T13:23:17.892222+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-05T08:30:43Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+      "userCanonical": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/instagram-target-yoqish/",
+      "checkedAt": "2026-10-07T13:23:24.598814+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "checkedAt": "2026-10-07T13:23:31.149836+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/kurs-ishi-yozish/",
+      "checkedAt": "2026-10-07T13:23:37.749015+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/biznes-reja-tuzish/",
+      "checkedAt": "2026-10-07T13:23:44.311699+00:00",
+      "verdict": "NEUTRAL",
+      "coverageState": "URL is unknown to Google",
+      "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+    },
+    {
+      "url": "https://gptbot.uz/uz/smm-xizmatlari/",
+      "checkedAt": "2026-10-07T13:23:50.936033+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-06T04:49:43Z",
+      "googleCanonical": "https://gptbot.uz/uz/smm-xizmatlari/",
+      "userCanonical": "https://gptbot.uz/uz/smm-xizmatlari/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+      "checkedAt": "2026-10-07T13:23:57.593671+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-04T11:54:09Z",
+      "googleCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+      "userCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+      "checkedAt": "2026-10-07T13:24:04.139576+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-06T03:34:42Z",
+      "googleCanonical": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+      "userCanonical": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/",
+      "checkedAt": "2026-10-07T13:24:10.877050+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-07T01:09:53Z",
+      "googleCanonical": "https://gptbot.uz/",
+      "userCanonical": "https://gptbot.uz/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/",
+      "checkedAt": "2026-10-07T13:24:17.578028+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-29T10:33:23Z",
+      "googleCanonical": "https://gptbot.uz/uz/",
+      "userCanonical": "https://gptbot.uz/uz/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/",
+      "checkedAt": "2026-10-07T13:24:24.065406+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-08-01T12:29:27Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/",
+      "userCanonical": "https://gptbot.uz/uz/blog/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/",
+      "checkedAt": "2026-10-07T13:24:30.769677+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-04T16:41:35Z",
+      "googleCanonical": "https://gptbot.uz/ru/blog/",
+      "userCanonical": "https://gptbot.uz/ru/blog/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+      "checkedAt": "2026-10-07T13:24:37.264331+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-29T10:35:23Z",
+      "googleCanonical": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+      "userCanonical": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/smm-nima/",
+      "checkedAt": "2026-10-07T13:24:43.930717+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-03T19:14:36Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/smm-nima/",
+      "userCanonical": "https://gptbot.uz/uz/blog/smm-nima/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "checkedAt": "2026-10-07T13:24:50.518834+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-08-26T22:56:21Z",
+      "googleCanonical": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "userCanonical": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+      "checkedAt": "2026-10-07T13:24:57.129652+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-03T13:48:27Z",
+      "googleCanonical": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+      "userCanonical": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/suniy-intellekt/",
+      "checkedAt": "2026-10-07T13:25:03.738333+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-03T13:48:28Z",
+      "googleCanonical": "https://gptbot.uz/uz/suniy-intellekt/",
+      "userCanonical": "https://gptbot.uz/uz/suniy-intellekt/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+      "checkedAt": "2026-10-07T13:25:10.363736+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-05T09:08:54Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+      "userCanonical": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+      "checkedAt": "2026-10-07T13:25:17.415645+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-19T05:22:40Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+      "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+      "checkedAt": "2026-10-07T13:25:23.973374+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-05T09:08:55Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+      "userCanonical": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "checkedAt": "2026-10-07T13:25:30.640850+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-04T14:51:36Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "userCanonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+      "checkedAt": "2026-10-07T13:25:37.263022+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-08-31T11:59:16Z",
+      "googleCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+      "userCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "checkedAt": "2026-10-07T13:25:43.805886+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-30T08:20:54Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+      "checkedAt": "2026-10-07T13:25:50.415954+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-02T04:31:33Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+      "userCanonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "checkedAt": "2026-10-07T13:25:57.026093+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-02T14:09:08Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "userCanonical": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "checkedAt": "2026-10-07T13:26:03.697763+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-10-05T20:04:44Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "userCanonical": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "checkedAt": "2026-10-07T13:26:10.272060+00:00",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "lastCrawlTime": "2026-09-02T20:34:56Z",
+      "googleCanonical": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "userCanonical": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "pageFetchState": "SUCCESSFUL"
+    }
+  ],
+  "manualIndexingRequest": {
+    "url": "https://gptbot.uz/uz/taqdimot-ai/",
+    "result": "DAILY_QUOTA_EXCEEDED",
+    "accepted": false,
+    "evidence": "Private screenshot and UI snapshot in owner backup folder"
+  },
+  "verification": {
+    "targetedTests": {
+      "pass": 40,
+      "fail": 0
+    },
+    "typecheck": 0,
+    "eslint": 0
+  },
+  "lastmodFix": {
+    "reason": "Substantive Uzbek chat edits in d7869e3a (2026-10-06) retained updatedAt/lastmod 2026-10-05. Older lastReviewedAt also hid newer updatedAt.",
+    "contentUpdatedAt": "2026-10-06",
+    "reviewDateUnchanged": "2026-10-05",
+    "published": false
+  }
+}

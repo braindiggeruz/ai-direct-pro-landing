@@ -118,7 +118,7 @@ function hreflangLinks(alt: Alternates): string {
 // ----------------------------------------------------------------------------
 
 const latestSiteChange = latestDate([
-  ...eligible.map((p) => p.lastReviewedAt || p.updatedAt || p.createdAt),
+  ...eligible.map((p) => latestDate([p.lastReviewedAt, p.updatedAt]) || p.createdAt),
   ...eligibleArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt),
 ]);
 const latestRuArticle = latestDate(ruArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt));
@@ -148,7 +148,9 @@ const entries: Entry[] = [
   // Money pages — hreflang alternates from hreflangRu/hreflangUz content fields.
   ...eligible.map((p) => ({
     url: p.url,
-    lastmod: dateOnly(p.lastReviewedAt || p.updatedAt || p.createdAt),
+    // An editorial review date must not hide a later substantive content edit.
+    // These are curated content dates, never the build or submission timestamp.
+    lastmod: latestDate([p.lastReviewedAt, p.updatedAt]) || dateOnly(p.createdAt),
     alternates: alternatesOf(p),
   })),
   // Blog articles — same, when an RU↔UZ pair exists.

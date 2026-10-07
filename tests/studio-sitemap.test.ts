@@ -105,6 +105,25 @@ const blocksOf = (xml: string) => [...xml.matchAll(urlBlock)].map(m => ({ url: m
 const withoutStudio = (xml: string, urls: string[]) => xml.replace(urlBlock, (block, url: string) => (urls.includes(url) ? '' : block));
 const homeLastmod = (xml: string) => /<loc>https:\/\/gptbot\.uz\/<\/loc>[\s\S]*?<lastmod>([^<]+)<\/lastmod>/.exec(xml)?.[1];
 
+test('generate-sitemap: a later content edit survives an older review date in both maps', t => {
+  const root = tempRoot(t, 'gpt-sitemap-content-edit-');
+  write(root, 'content/pages/uz/edited.json', JSON.stringify({
+    url: '/uz/edited/', locale: 'uz', status: 'published',
+    createdAt: '2026-09-01', lastReviewedAt: '2026-10-04', updatedAt: '2026-10-07',
+  }));
+  write(root, 'content/pages/uz/reviewed.json', JSON.stringify({
+    url: '/uz/reviewed/', locale: 'uz', status: 'published',
+    createdAt: '2026-09-01', lastReviewedAt: '2026-10-09', updatedAt: '2026-10-07',
+  }));
+  const generated = runSitemap(root);
+  for (const xml of [generated.sitemap, generated.updates]) {
+    const blocks = blocksOf(xml);
+    assert.match(blocks.find(b => b.url === '/uz/edited/')!.block, /<lastmod>2026-10-07<\/lastmod>/);
+    assert.match(blocks.find(b => b.url === '/uz/reviewed/')!.block, /<lastmod>2026-10-09<\/lastmod>/);
+    assert.equal(homeLastmod(xml), '2026-10-09');
+  }
+});
+
 test('generate-sitemap: drafts change nothing, published pages are only added, and the homepage lastmod stays', t => {
   const studio = readStudioPages(ROOT);
   const studioUrls = studio.map(p => p.url);
