@@ -1470,9 +1470,9 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Google discovery и корректный lastmod",
-  "stage_status": "verified_ready_for_release",
-  "last_completed_stage": "Заметная покупка пакета и градиент чата",
-  "next_stage": "Публикация sitemap и подтверждение Google Search Console",
+  "stage_status": "completed",
+  "last_completed_stage": "Google discovery и корректный lastmod",
+  "next_stage": "Совместная приёмка реального платежа Click",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1740,9 +1740,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "CTA и градиент опубликованы и проверены. Следующий бизнес-шаг требует владельца: реальный платёж, права, файл и чек. N1 отдельно после завершения окна данных; прежние ограничения Studio см. STUDIO_RELEASE_20261007.md.",
+  "next_stage_note": "Google discovery завершён; ручной Request indexing ограничен дневной квотой. Не менять Payme hidden/test. Следующий бизнес-шаг — реальная приёмка Click с владельцем.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "3597412854df3a4aab03285db873830d6da0b36f",
+  "last_commit": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1805,7 +1805,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-07T13:32:59.853929+00:00",
+  "updated_at": "2026-10-07T13:55:18.235503+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],
@@ -2112,7 +2112,7 @@
     }
   },
   "google_discovery_20261007": {
-    "status": "VERIFIED_READY_FOR_RELEASE",
+    "status": "DEPLOYED_VERIFIED",
     "report": "docs/GOOGLE_DISCOVERY_20261007.md",
     "receipt": "reports/google-discovery-receipts/2026-10-07-google-discovery.json",
     "sitemaps": {
@@ -2130,6 +2130,16 @@
     "manualRequest": "REJECTED_DAILY_QUOTA",
     "lastmodFix": "updatedAt UZ chat 2026-10-06; max review/edit; no HTML changes intended",
     "productionBefore": "3597412854df3a4aab03285db873830d6da0b36f",
-    "runtimeChanged": "sitemap generator and one content date only"
+    "runtimeChanged": "sitemap generator and one content date only",
+    "release_commit": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
+    "deployment": "https://ba19f93c.ai-direct-pro-landing.pages.dev",
+    "postReleaseReadback": "Full manifest and both XML exact match build;31/31 URL PASS",
+    "deployCommandExit": 1,
+    "uploadCompleted": true,
+    "immediateGuard": "custom-domain manifest unconfirmed immediately; later independent readback PASS",
+    "gscFinalSubmittedAt": "2026-10-07T13:53:47.501Z",
+    "sitemapDelta": "9 historical lastmod in main; UZ chat only in updates; no current-date blanket changes",
+    "unchangedHtml": 302,
+    "unchangedJsCss": 71
   }
 }

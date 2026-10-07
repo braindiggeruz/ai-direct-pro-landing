@@ -1,7 +1,7 @@
 # GPTBot.uz — актуальное состояние, 07.10.2026
 
 Рабочее дерево: `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`.
-Production `3597412854df3a4aab03285db873830d6da0b36f`; deployment https://4ddbdbf0.ai-direct-pro-landing.pages.dev. Build/check/deploy exit0; 126 целевых и release-тестов PASS, layout446/302/0, one-tap18 PASS. Live: marker/assets совпали, SEO10/10, Studio3/3, Click-only и цены подтверждены; RU/UZ на320/390 px — текст CTA виден, фон отображается, окно Click20000 открывается, pageerror/overflow0. Реальных заказов и списаний не создавали.
+Production `ac68443c63740a56d32505ecfcd2fb7f262cd259`; deployment https://ba19f93c.ai-direct-pro-landing.pages.dev. Исправление lastmod опубликовано: полный manifest и оба live sitemap совпадают со сборкой,31/31 URL корректны. Build/check exit0; upload завершён, первоначальный post-upload guard exit1, последующий независимый readback PASS.302 HTML и71 JS/CSS совпадают с прежним релизом35974128, включая ранее проверенные Studio/CTA/Click. Реальных заказов и списаний не создавали.
 Опубликованы платная Studio, новый chat UI и shared Click. SHA релиза указан выше; последующие docs-only commits не меняют runtime.
 
 ## Продукт и решения владельца
@@ -36,4 +36,4 @@ N1: скрипт исправлен и по последней команде з
 
 IndexNow 07.10.2026,17:52 Asia/Karachi:31/31 URL заново проверены и отправлены одним POST; HTTP200. Квитанция: `reports/indexnow-receipts/2026-10-07T12-52-57-441Z_codex-cta-31-20261007.json`. Это подтверждает приём уведомления; переобход/индексация и позиции этим не установлены.
 
-Google discovery07.10: обе sitemap и оба RSS приняты GSC, ошибочная регистрация /uz/feed.xml404 удалена. WebSub204/204;25 из31 URL indexed,6 unknown. Ручной Request indexing отклонён дневной квотой. Точечный lastmod fix прошёл40 tests/typecheck/lint; выпуск и readback — текущий этап. Доказательства: `GOOGLE_DISCOVERY_20261007.md` и `reports/google-discovery-receipts/2026-10-07-google-discovery.json`.
+Google discovery07.10: обе sitemap и оба RSS приняты GSC, ошибочная регистрация /uz/feed.xml404 удалена. WebSub204/204;25 из31 URL indexed,6 unknown. Ручной Request indexing отклонён дневной квотой. Lastmod fix опубликован;40 tests/typecheck/lint и2 freshness/SEO tests PASS. Google повторно принял исправленные карты18:53; ожидается обработка. Доказательства: `GOOGLE_DISCOVERY_20261007.md` и `reports/google-discovery-receipts/2026-10-07-google-discovery.json`.

@@ -540,12 +540,194 @@
       "fail": 0
     },
     "typecheck": 0,
-    "eslint": 0
+    "eslint": 0,
+    "uiFreshnessSeoTests": {
+      "pass": 2,
+      "fail": 0
+    },
+    "seoAudit": {
+      "publishedPages": 124,
+      "critical": 0,
+      "orphans": 0,
+      "brokenInternationalLinks": 0
+    }
   },
   "lastmodFix": {
     "reason": "Substantive Uzbek chat edits in d7869e3a (2026-10-06) retained updatedAt/lastmod 2026-10-05. Older lastReviewedAt also hid newer updatedAt.",
     "contentUpdatedAt": "2026-10-06",
     "reviewDateUnchanged": "2026-10-05",
-    "published": false
+    "published": true
+  },
+  "productionRelease": {
+    "sourceCommit": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
+    "deployment": "https://ba19f93c.ai-direct-pro-landing.pages.dev",
+    "buildExit": 0,
+    "guardedCheckExit": 0,
+    "deployCommandExit": 1,
+    "uploadCompleted": true,
+    "immediatePostUploadVerification": "Could not confirm custom-domain manifest; independent later full readback PASS. Default urllib probe received403; owner User-Agent returned200. Exact cause not established, no security changes.",
+    "readbackAt": "2026-10-07T13:53:45.281454+00:00",
+    "fullManifestMatchesBuild": true,
+    "bothLiveXmlMatchBuild": true,
+    "priorityUrls": 31,
+    "liveIssues": [],
+    "distComparison": {
+      "oldFiles": 984,
+      "newFiles": 984,
+      "changed": [
+        "gptbot-release.json",
+        "sitemap-updates.xml",
+        "sitemap.xml"
+      ],
+      "unchangedHtml": 302,
+      "unchangedJsCss": 71,
+      "maps": {
+        "sitemap.xml": {
+          "urls": 300,
+          "delta": {
+            "https://gptbot.uz/ru/ai-bot-dlya-nishi/": {
+              "before": "2026-06-25",
+              "after": "2026-07-30"
+            },
+            "https://gptbot.uz/ru/ai-chat-dlya-sayta/": {
+              "before": "2026-07-11",
+              "after": "2026-07-14"
+            },
+            "https://gptbot.uz/ru/ai-prodavec/": {
+              "before": "2026-06-25",
+              "after": "2026-07-30"
+            },
+            "https://gptbot.uz/ru/chat-bot-v-samarkande/": {
+              "before": "2026-06-25",
+              "after": "2026-07-30"
+            },
+            "https://gptbot.uz/ru/sayt-dlya-zayavok/": {
+              "before": "2026-07-10",
+              "after": "2026-07-14"
+            },
+            "https://gptbot.uz/ru/sayt-s-ai-botom/": {
+              "before": "2026-07-10",
+              "after": "2026-07-14"
+            },
+            "https://gptbot.uz/uz/gpt-uzbek-tilida/": {
+              "before": "2026-10-05",
+              "after": "2026-10-06"
+            },
+            "https://gptbot.uz/uz/samarqandda-chat-bot/": {
+              "before": "2026-06-25",
+              "after": "2026-07-30"
+            },
+            "https://gptbot.uz/uz/sotuvchi/": {
+              "before": "2026-08-01",
+              "after": "2026-08-20"
+            }
+          }
+        },
+        "sitemap-updates.xml": {
+          "urls": 94,
+          "delta": {
+            "https://gptbot.uz/uz/gpt-uzbek-tilida/": {
+              "before": "2026-10-05",
+              "after": "2026-10-06"
+            }
+          }
+        }
+      }
+    },
+    "gscAfterRelease": {
+      "startedAt": "2026-10-07T13:53:47.280566+00:00",
+      "property": "sc-domain:gptbot.uz",
+      "submitted": [
+        {
+          "url": "https://gptbot.uz/sitemap.xml",
+          "acceptedAt": "2026-10-07T13:53:47.473574+00:00",
+          "response": ""
+        },
+        {
+          "url": "https://gptbot.uz/sitemap-updates.xml",
+          "acceptedAt": "2026-10-07T13:53:47.656572+00:00",
+          "response": ""
+        }
+      ],
+      "removed": [],
+      "completedAt": "2026-10-07T13:53:47.857577+00:00",
+      "readback": {
+        "sitemap": [
+          {
+            "path": "https://gptbot.uz/sitemap-updates.xml",
+            "lastSubmitted": "2026-10-07T13:53:47.501Z",
+            "isPending": true,
+            "isSitemapsIndex": false,
+            "type": "sitemap",
+            "lastDownloaded": "2026-10-06T04:19:33.162Z",
+            "warnings": "0",
+            "errors": "0",
+            "contents": [
+              {
+                "type": "web",
+                "submitted": "77",
+                "indexed": "0"
+              }
+            ]
+          },
+          {
+            "path": "https://gptbot.uz/sitemap.xml",
+            "lastSubmitted": "2026-10-07T13:53:47.292Z",
+            "isPending": true,
+            "isSitemapsIndex": false,
+            "type": "sitemap",
+            "lastDownloaded": "2026-10-06T20:45:53.892Z",
+            "warnings": "0",
+            "errors": "0",
+            "contents": [
+              {
+                "type": "web",
+                "submitted": "293",
+                "indexed": "0"
+              },
+              {
+                "type": "image",
+                "submitted": "140",
+                "indexed": "0"
+              }
+            ]
+          },
+          {
+            "path": "https://gptbot.uz/uz/blog/feed.xml",
+            "lastSubmitted": "2026-10-07T13:22:32.021Z",
+            "isPending": true,
+            "isSitemapsIndex": false,
+            "type": "rssFeed",
+            "lastDownloaded": "2026-10-05T08:54:06.189Z",
+            "warnings": "0",
+            "errors": "0",
+            "contents": [
+              {
+                "type": "web",
+                "submitted": "51",
+                "indexed": "0"
+              }
+            ]
+          },
+          {
+            "path": "https://gptbot.uz/ru/blog/feed.xml",
+            "lastSubmitted": "2026-10-07T13:22:31.810Z",
+            "isPending": true,
+            "isSitemapsIndex": false,
+            "type": "rssFeed",
+            "lastDownloaded": "2026-10-05T09:21:26.316Z",
+            "warnings": "0",
+            "errors": "0",
+            "contents": [
+              {
+                "type": "web",
+                "submitted": "51",
+                "indexed": "0"
+              }
+            ]
+          }
+        ]
+      }
+    }
   }
 }

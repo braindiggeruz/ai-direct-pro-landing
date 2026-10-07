@@ -14,7 +14,7 @@
 
 Git `d7869e3a` подтверждает содержательные правки узбекского чата от06.10: новые абзацы, примеры и внутренние ссылки; updatedAt оставался05.10. Исправлен updatedAt на06.10, дата редакционной проверки lastReviewedAt05.10 сохранена. Генератор sitemap теперь берёт более позднюю дату содержательного изменения или проверки, вместо безусловного приоритета lastReviewedAt. Дата сборки/отправки не используется. Новые страницы и Studio уже имеют07.10; массовой замены дат нет.
 
-Проверки до выпуска:40 targeted tests PASS/0 FAIL, включая регрессию генерации обеих карт на реальном fixture; typecheck exit0; ESLint exit0. Статус выпуска дополняется после production readback. Источник runtime до исправления:3597412854df3a4aab03285db873830d6da0b36f.
+Проверки до выпуска:40 targeted tests PASS/0 FAIL, включая регрессию генерации обеих карт на реальном fixture; typecheck exit0; ESLint exit0. Выпуск завершён и подтверждён; подробности ниже. Источник runtime до исправления:3597412854df3a4aab03285db873830d6da0b36f.
 
 ## Проверка индекса31 URL
 
@@ -57,3 +57,11 @@ Git `d7869e3a` подтверждает содержательные правк�
 Новые страницы уже доступны через обе карты и внутренние ссылки. Шесть неизвестных Google URL: две Studio, instagram-target-yoqish и новые tushuntirish/kurs-ishi/biznes-reja. После восстановления дневной квоты первыми подавать их через URL Inspection → «Запросить индексирование», по одному разу. Автоматический API для этого обычным страницам недоступен; sitemap/RSS остаются рабочим массовым каналом. Уведомления и приём карты не доказывают обход, индексацию или рост позиций. Старые sitemap contents.indexed=0 не используются как число индексированных страниц: отдельная URL Inspection уже показывает25 индексированных URL.
 
 Источники: [Google: sitemap и точный lastmod](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap), [Google: запрос повторного обхода](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl), [GSC API: submit](https://developers.google.com/webmaster-tools/v1/sitemaps/submit). Полная обезличенная квитанция: `reports/google-discovery-receipts/2026-10-07-google-discovery.json`.
+
+## Результат выпуска и повторная отправка
+
+Production source `ac68443c63740a56d32505ecfcd2fb7f262cd259`, deployment https://ba19f93c.ai-direct-pro-landing.pages.dev. Build196.2с exit0, guarded check exit0. Cloudflare загрузил3 изменённых файла (978 уже были); непосредственный post-upload guard не смог подтвердить custom-domain manifest, поэтому deploy command exit1. Стандартный urllib probe затем получил403. Дополнительная проверка с явным owner User-Agent получила200: полный manifest совпадает с dist, оба live XML совпадают со сборкой,31/31 URL корректны. Причина403 не установлена; защита Cloudflare не менялась. Успешная публикация подтверждена независимым readback, а не объявлена по upload log.
+
+Сравнение984 файлов старого и нового dist:302 HTML и71 JS/CSS byte-identical; изменены только sitemap.xml, sitemap-updates.xml и release marker. Основная карта сохраняет300 URL: исправлены9 lastmod, включая UZ chat05→06.10 и8 старых июльских/августовских updatedAt, ранее скрытых более ранними lastReviewedAt. Карта обновлений сохраняет94 URL и отличается только датой UZ chat. Остальные даты не менялись. SEO audit124 published pages:0 critical,0 orphans,0 broken intl links; freshness/SEO2/2 PASS поверх прежнего полного layout gate446/302/0.
+
+После production readback обе исправленные карты вновь приняты GSC в13:53:47 UTC (18:53 Asia/Karachi). Readback: свежий lastSubmitted, pending=true, errors=0; RSS сохраняет принятие18:22. У неизменившихся RSS повторной отправки/WebSub не было. Новый lastDownloaded и новый обход шести страниц пока не подтверждены. Реальные заказы, оплаты, secrets и БД этим этапом не затрагивались.
