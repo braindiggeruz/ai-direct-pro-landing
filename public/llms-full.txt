@@ -68,7 +68,7 @@ Pages:
 - https://gptbot.uz/uz/sayt-yaratish/ — website development in Tashkent ("sayt yaratish"), landing page from 2 990 000 so‘m
 - https://gptbot.uz/uz/seo-xizmati/ — SEO service, audit from 990 000 so‘m
 - https://gptbot.uz/uz/smm-xizmatlari/ — SMM services, from 2 490 000 so‘m per month
-- https://gptbot.uz/uz/internet-reklama-toshkent/#target — Instagram and Facebook targeted ads ("target"), launch from 1 990 000 so‘m, management from 1 490 000 so‘m a month
+- https://gptbot.uz/uz/instagram-target-yoqish/ — Instagram and Facebook targeting ("target yoqish"), launch from 1 990 000 so‘m, management from 1 490 000 so‘m a month
 - https://gptbot.uz/uz/telegram-reklama/ — Telegram advertising
 - https://gptbot.uz/uz/internet-reklama-toshkent/ — internet advertising in Tashkent
 - https://gptbot.uz/uz/biznes-uchun-ai-bot/ — AI bot for business, from 1 990 000 so‘m
@@ -108,7 +108,7 @@ Pages with a Markdown twin (<url>index.html.md, text/markdown, noindex) are list
 - "сколько стоит ведение Instagram" -> https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/
 - "таргетированная реклама Ташкент" / "заказать таргет" -> https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
 - "target nima" / "таргет нима" -> https://gptbot.uz/uz/blog/target-reklama-nima/
-- "target narxi" / "instagram target sozlash" -> https://gptbot.uz/uz/internet-reklama-toshkent/#target
+- "target yoqish" / "instagram target" / "target narxi" -> https://gptbot.uz/uz/instagram-target-yoqish/
 - "Telegram reklama" -> https://gptbot.uz/uz/telegram-reklama/
 - "chat-bot narxi" -> https://gptbot.uz/uz/chat-bot-narxi/
 - "chatgpt kirish (login)" / "chatgptga kirish" -> https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/

@@ -247,12 +247,12 @@
     },
     {
       "type": "linkp",
-      "text": "Instagram va Facebook’dagi pullik reklamani SMM paketisiz, alohida ham buyurtma qilish mumkin: ishga tushirish va yuritish tarkibi hamda narxi {target} bo‘limida yozilgan.",
+      "text": "Instagram va Facebook’dagi pullik reklamani SMM paketisiz ham buyurtma qilish mumkin — bu {target}: ishga tushirish va yuritish tarkibi hamda narxi o‘sha sahifada.",
       "links": [
         {
           "token": "target",
-          "target": "/uz/internet-reklama-toshkent/#target",
-          "anchor": "Instagram target sozlash xizmati"
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "alohida Instagram target xizmati"
         }
       ]
     },
@@ -952,6 +952,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "alohida Instagram target xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "schemaTypes": [

@@ -223,6 +223,46 @@
       "source": "OpenSEO/DataForSEO (Google Ads) location 2860, languageCode ru, keyword research of 2026-10-04 (gptbot.uz-audit/raw/seo-2026-10-04/keywords-wave2/school-pages/school_keywords.json)",
       "measuredAt": "2026-10-04",
       "note": "Google Ads competition index 0.12, CPC 0.17 USD; the same 12-month series as «rezyume namunasi» (grouped close variants, not summed). Same owner as «rezyume tayyorlash». Its SERP snapshot (school-pages/NOTES.md §6.2) is builders and templates (cvbox.uz 1, resum.uz 2); the page offers a structure template with invented placeholder data. «obyektivka namuna» (2 400) and «cv nima» (3 600) are deliberately not recorded: obyektivka is answered in one section and one FAQ only, and the cv nima SERP is unrelated."
+    },
+    {
+      "keyword": "target yoqish",
+      "volumePerMonth": 260,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.34, CPC 1.09 USD, August 2026 210. Owned by /uz/instagram-target-yoqish/ (activation branch of the SMM cluster plan, decision A5). Search Console: /uz/blog/target-reklama-nima/ ranks for it at 2.0 on one impression; the SERP has an OLX service listing at 2 and no agency page in the top ten for «target xizmati»."
+    },
+    {
+      "keyword": "instagram target",
+      "volumePerMonth": 50,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.33, CPC 2.79 USD (the highest of the targeting set). Secondary keyword of /uz/instagram-target-yoqish/."
+    },
+    {
+      "keyword": "targetolog",
+      "volumePerMonth": 170,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.05, CPC 0.14 USD. Recorded as measured demand only: its SERP is vacancies, courses and Russian-language theory (decision A2), so no page may take it as a primary keyword. The service page declares «targetolog xizmati» instead."
+    },
+    {
+      "keyword": "targetolog kerak",
+      "volumePerMonth": 40,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads competition index 0.24, August 2026 70 (x2.5 trend). Hiring phrasing; the service page answers it with the «o‘zingiz yoki mutaxassis» section, not as a primary keyword."
+    },
+    {
+      "keyword": "target yoqish narxi",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/smm-cluster-2026-10-06/02-KEYWORDS-SERP.md, table C)",
+      "measuredAt": "2026-10-06",
+      "note": "Google Ads, x1.75 trend; no competition index returned. Secondary keyword of /uz/instagram-target-yoqish/, removed from the keywords of /uz/blog/target-reklama-nima/ in the same change; the article's platform-budget H2 «Target yoqish narxi: minimal byudjet qancha» stays (plan decision) and links the hub, so the hub owns the declared keyword, not every on-page mention."
     }
   ],
   "qualityRequirements": {

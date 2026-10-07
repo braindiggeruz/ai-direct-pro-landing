@@ -96,7 +96,7 @@
     },
     {
       "type": "linkp",
-      "text": "Xizmat tarkibi {ads}, {smm} va {telegram} sahifalarida. Narxni ish hajmi bilan birga solishtiring.",
+      "text": "Xizmat tarkibi {ads}, {smm} va {telegram} sahifalarida, Instagram va Facebook target — {target} sahifasida. Narxni ish hajmi bilan birga solishtiring.",
       "links": [
         {
           "token": "ads",
@@ -112,6 +112,11 @@
           "token": "telegram",
           "target": "/uz/telegram-reklama/",
           "anchor": "Telegram reklama"
+        },
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target yoqish xizmati"
         }
       ]
     },
@@ -299,12 +304,12 @@
   "robotsFollow": true,
   "author": "GPTBot.uz",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-06",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z"
+  "updatedAt": "2026-10-06T00:00:00.000Z"
 }

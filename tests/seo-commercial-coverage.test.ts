@@ -67,6 +67,7 @@ const UZ_COMMERCIAL_LANE = [
   '/uz/smm-xizmatlari/',
   '/uz/seo-xizmati/',
   '/uz/telegram-reklama/',
+  '/uz/instagram-target-yoqish/',
 ];
 
 test('every Uzbek commercial money page is registered as a cluster hub', () => {

@@ -175,12 +175,17 @@
     },
     {
       "type": "linkp",
-      "text": "Instagram yoki Facebook’da birinchi sinovni rejalashtirsangiz, {target} — alohida maqolada: platforma chegarasi va ishlaydigan summa nega farq qilishi u yerda tushuntirilgan.",
+      "text": "Instagram yoki Facebook’da birinchi sinovni rejalashtirsangiz, {target} — alohida maqolada: platforma chegarasi va ishlaydigan summa nega farq qilishi u yerda tushuntirilgan. Mutaxassis ishining narxi va tarkibi — {xizmat} sahifasida.",
       "links": [
         {
           "token": "target",
           "target": "/uz/blog/target-reklama-nima/",
           "anchor": "targetda minimal byudjet qanday belgilanadi"
+        },
+        {
+          "token": "xizmat",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target sozlash xizmati"
         }
       ]
     },

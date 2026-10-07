@@ -3,7 +3,7 @@
   "locale": "uz",
   "slug": "smm-xizmati-narxi-ozbekiston-2026",
   "url": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
-  "title": "SMM xizmati narxi O'zbekiston 2026: Instagram yuritish qancha",
+  "title": "SMM xizmati narxi va SMM narxlari 2026: Instagram yuritish qancha",
   "description": "SMM narxlari 2026: GPTBot.uz paketlari oyiga 2 490 000 so‘mdan — Start, Biznes va Pro tarkibi. Instagram yuritish, target, suratga olish; media byudjet alohida.",
   "h1": "O‘zbekistonda SMM xizmati narxi 2026: qancha turadi",
   "topicCluster": "reklama-narxi",
@@ -152,12 +152,17 @@
     },
     {
       "type": "linkp",
-      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan.",
+      "text": "Target yuritish smetada alohida satr bo‘lishi kerak: auditoriya, kreativ va byudjet bilan ishlash kontent tayyorlashdan boshqa ish. Bu kanal {target} maqolasida oddiy tilda tushuntirilgan. Mutaxassis ishining narxi — {xizmat} sahifasida.",
       "links": [
         {
           "token": "target",
           "target": "/uz/blog/target-reklama-nima/",
           "anchor": "target qanday ishlaydi"
+        },
+        {
+          "token": "xizmat",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "target yoqish narxi"
         }
       ]
     },
