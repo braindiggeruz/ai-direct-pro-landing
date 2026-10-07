@@ -15,7 +15,7 @@ Shared Click100/100, one-tap18/18, typecheck0, targeted legal/prompt69/69 и ope
 ## 7. Известные проблемы
 AI может ошибаться: ошибки samples сохранены в отчёте, усилены glossary/proofreading; последний language-only sample v33 также не безошибочен. Результат явно обозначен как черновик. Реальные browser прогоны нельзя совмещать с изменениями Functions: hot reload прерывает upstream. Studio browser gate на свежем dist прошёл, tariff page и draft photo учитываются; один viewId и lazy config/me проверяются строго.
 ## 8. Следующая задача
-Закончить финальные checks и опубликовать текущий кандидат штатным deploy_runner; проверить live config/страницы/Click-only/assets/SEO.
+Production stamp 84805763 остановлен бюджетом page CSS (27 082 > 27 000). Убраны только 26 неиспользуемых chart/sidebar theme declarations общего index.css; геометрия и правила UI прежние. Пересобрать точный HEAD, закончить suite и опубликовать штатным deploy_runner; проверить live config/страницы/Click-only/assets/SEO.
 ## 9. Acceptance criteria
 Полный suite, typecheck/lint, production build, полный layout и one-tap, Studio browser/export, clean HEAD, production lineage и live readback. Денежный E2E помечается отдельно, не придумывается.
 ## 10. Команды для старта

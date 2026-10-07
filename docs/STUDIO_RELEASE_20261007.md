@@ -51,4 +51,6 @@ Payme остаётся test и исключён из публичных provider
 
 ## Проверки непосредственно перед commit
 
+Первый production stamp остановлен штатным CSS budget: 27 082 > 27 000 bytes Brotli. Найдены и удалены только 26 неиспользуемых деклараций theme tokens `--chart-*` / `--sidebar*` из общего index.css. Ссылок-потребителей в src/apps/config/tailwind и собранном CSS нет; правила, селекторы и геометрия UI не менялись. Бюджет и baseline не повышались; выполняется пересборка.
+
 Typecheck всех трёх частей —0, lint156 изменённых code files —0. Shared Click100, Studio browser, one-tap18 и полный layout446 прошли. Общий suite v3:2061 всего,2056 PASS,1 устаревший assert URL узбекской оферты,4 штатных skip. Assert согласован с canonical /uz/oferta/; повтор config/parity/live-gate/UI:21/21 PASS. Проверяется именно /uz/oferta/, gate не ослаблен. Перед deploy обязателен новый полный suite на committed production artifact.
