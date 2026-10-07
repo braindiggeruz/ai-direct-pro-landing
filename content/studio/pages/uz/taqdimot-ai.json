@@ -1,6 +1,6 @@
 {
-  "_review": "DRAFT for the native speaker: every visible word of /uz/taqdimot-ai/ outside the form is in this file (the form's words are in apps/studio/src/tools/presentation/texts.ts). Release R-ST1 publishes it with apps/studio/scripts/release-content.ts after the reading (IMPLEMENTATION-PLAN T2.4).",
-  "status": "draft",
+  "_review": "Published in release R-ST1 (2026-10-07). Every visible word of /uz/taqdimot-ai/ outside the form is in this file (the form's words are in apps/studio/src/tools/presentation/texts.ts). No native reader was available: by the owner's decision of 2026-10-07 the text passed independent AI language reviews instead (gptbot.uz-audit/raw/ads-growth-2026-10-06/studio/launch-2026-10-07/LANGUAGE-REVIEW.md), and their findings are fixed here. The data paragraph next to the form names what the launch config sends where (tests/studio-prerender.test.ts ties it to wrangler.toml).",
+  "status": "published",
   "locale": "uz",
   "url": "/uz/taqdimot-ai/",
   "tool": "presentation",
@@ -24,7 +24,7 @@
   "tariffsVisible": false,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, ikki slaydgacha AI chizgan rasm. Natija PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
+  "lead": "Taqdimot AI — GPTBot.uz saytidagi bepul vosita. U mavzu bo‘yicha taqdimot qoralamasini yozadi: muqova, 4–6 slayd, har birida sarlavha va qisqa bandlar, 2 tagacha AI chizgan rasm. Natija — PowerPoint fayli (.pptx): uni ochib, o‘zingiz tahrirlaysiz va to‘ldirasiz.",
   "sections": [
     {
       "id": "qanday-ishlaydi",
@@ -32,11 +32,11 @@
       "steps": [
         {
           "title": "Mavzuni yozing",
-          "text": "Masalan, «Amir Temur davlati» yoki «Suvning tabiatda aylanishi». Kim uchun ekanini — maktab o‘quvchisi, talaba yoki umumiy — va slaydlar sonini (4, 5 yoki 6) tanlang."
+          "text": "Masalan, «Amir Temur davlati» yoki «Suvning tabiatda aylanishi». Kim uchun ekanini — «Maktab o‘quvchisi», «Talaba» yoki «Umumiy» — va slaydlar sonini (4, 5 yoki 6) tanlang."
         },
         {
           "title": "AI slaydlarni yozadi",
-          "text": "Mavzu qisqa tekshiruvdan o‘tadi, keyin sarlavhalar va bandlar o‘zbek tilida yoziladi, ikki slaydgacha rasm chiziladi. Odatda bu 30–40 soniya davom etadi — sahifani yopmang."
+          "text": "Mavzu qisqa tekshiruvdan o‘tadi, keyin sarlavhalar va bandlar o‘zbek tilida yoziladi, 2 tagacha rasm chiziladi. Odatda bu 30–40 soniya davom etadi — sahifani yopmang."
         },
         {
           "title": "Faylni yuklab oling",
@@ -64,7 +64,7 @@
         "AI tez yozadi, lekin adashishi mumkin. Sana, raqam, ism va atamalarni darslik yoki ishonchli manbadan tekshiring. Taqdimot — ishning rejasi va asosi, topshirishga tayyor ish emas: unga o‘z fikringiz, misollaringiz va xulosangizni qo‘shing.",
         "AI kitob va manba nomlarini to‘qib chiqarishi mumkin. Shuning uchun manbalar ro‘yxatini o‘qituvchi tavsiya qilgan darslik va kitoblardan o‘zingiz tuzing.",
         {
-          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi va fayl shu yerda yig‘iladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga, u javob bermasa OpenRouter orqali boshqa AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga belgi (cookie) saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
+          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi, fayl ham shu brauzerda yig‘iladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga belgi (cookie) saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
           "links": [
             {
               "token": "privacy",
@@ -88,7 +88,7 @@
     },
     {
       "q": "Instagram yoki Telegram ichida ochsam nima bo‘ladi?",
-      "a": "Ilova ichidagi brauzer faylni saqlamasligi mumkin, unda bepul taqdimot ham yo‘qoladi. Sahifa buni sezsa, tugma ustida «Brauzerda oching» degan ogohlantirish chiqadi: havolani nusxalab, Chrome yoki Safari’da oching."
+      "a": "Ilova ichidagi brauzer faylni saqlamasligi mumkin, u holda bepul taqdimot ham yo‘qoladi. Sahifa buni sezsa, tugma ustida «Brauzerda oching» degan ogohlantirish chiqadi: havolani nusxalab, Chrome yoki Safari’da oching."
     },
     {
       "q": "Taqdimotni o‘qituvchiga shundayligicha topshirsa bo‘ladimi?",
@@ -96,7 +96,7 @@
     },
     {
       "q": "Nega ba’zi mavzular rad etiladi?",
-      "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mavzular, o‘ziga zarar yetkazish, giyohvand moddalar, nafratga chaqiriq va qurol yasash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi — mumkin."
+      "a": "Sahifadan maktab o‘quvchilari ham foydalanadi. Shuning uchun jinsiy mazmundagi mavzular, o‘ziga zarar yetkazish, nafratga chaqiriq, giyohvand modda yoki qurol tayyorlash bo‘yicha ko‘rsatmalar rad etiladi. Oddiy maktab mavzulari — tarix, davlat ramzlari, Konstitutsiya, urushlar tarixi, giyohvandlik zarari — mumkin."
     },
     {
       "q": "Nega rasmlarda odamlar chizilmaydi?",
@@ -129,5 +129,5 @@
     ]
   },
   "createdAt": "2026-10-06",
-  "updatedAt": "2026-10-06"
+  "updatedAt": "2026-10-07"
 }

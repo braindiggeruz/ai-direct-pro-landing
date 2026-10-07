@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-07",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "clusters": [
     {
@@ -649,7 +649,7 @@
       },
       "informational": {
         "url": "/uz/blog/slayd-tayyorlash/",
-        "owns": "how to prepare slides — «slayd tayyorlash» with its synonyms «prezentatsiya tayyorlash» and «taqdimot tayyorlash» on one URL: plan, slide count, 6×6 rule, slide text, speaker notes, assembling in PowerPoint, Google Slides or Canva (also on a phone), checklist; it states in its first screen that the chat writes text only and makes no .pptx or PDF file and no design",
+        "owns": "how to prepare slides — «slayd tayyorlash» with its synonyms «prezentatsiya tayyorlash» and «taqdimot tayyorlash» on one URL: plan, slide count, 6×6 rule, slide text, speaker notes, assembling in PowerPoint, Google Slides or Canva (also on a phone), checklist; it states in its first screen that the chat writes text and that a ready .pptx draft is on the studio page /uz/taqdimot-ai/ (pair C40)",
         "mustNotTarget": ["chatgpt uzbekcha", "chatgpt uzbek tilida", "chatgpt uzbekcha bepul", "chatgpt bepul kirish", "chatgpt kirish uzbek tilida", "bepul ai chat", "insho yozish", "esse yozish", "esse yozish tartibi"]
       },
       "gscNote": "New URL with no Search Console history. Before it, no page on the site declared slayd, prezentatsiya or taqdimot (repository grep 2026-10-04), and gptbot.uz appeared in none of the 30 school SERPs pulled on 2026-10-04 (keywords-wave2/school-pages/NOTES.md §0). Demand: slayd tayyorlash 5 400/mo, Oct–Dec 9 300 (demand-policy rows of 2026-10-04). The sibling keys of the insho/esse article are listed in this informational mustNotTarget so the two school spokes never converge; the manifest has no cluster for them because a cluster hub must declare Service schema, and the free gpt-chat page makes no service offer (architecture decision A4).",
@@ -802,6 +802,22 @@
       "evidence": "gptbot.uz-audit/raw/seo-compete-2026-10-06/03-OUR-GSC-AND-PAGES.md §5.2 (8); §7.3 item 3",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-06"
+    },
+    {
+      "id": "C40-uz-taqdimot-tool-vs-guide",
+      "commercial": {
+        "url": "/uz/taqdimot-ai/",
+        "owns": "make the .pptx itself — «slayd ai», «ai slayd», «slayd yaratish», «slayd yasash», «taqdimot yaratish», «prezentatsiya ai», «ai prezentatsiya», «sun’iy intellekt slayd»: a tool that turns a topic into a file",
+        "mustNotTarget": ["slayd tayyorlash", "prezentatsiya tayyorlash", "taqdimot tayyorlash", "slayd tayyorlash telefonda", "chatgpt uzbekcha", "chatgpt kirish uzbek tilida", "bepul ai chat"]
+      },
+      "informational": {
+        "url": "/uz/blog/slayd-tayyorlash/",
+        "owns": "how to prepare slides — plan, 6×6 rule, speaker notes, assembling by hand; it links the tool for a ready .pptx",
+        "mustNotTarget": ["slayd ai", "ai slayd", "slayd yaratish", "slayd yasash", "taqdimot yaratish", "prezentatsiya ai", "ai prezentatsiya"]
+      },
+      "gscNote": "New studio URL (content/studio/pages/uz/taqdimot-ai.json, release R-ST1) with no Search Console history. In the same release the guide gave up «slayd yaratish» and its first screen, table, figure caption and FAQ say that the chat writes text and a ready .pptx draft is on the Taqdimot AI page (one body link, anchor «Taqdimot AI»). The hybrids «prezentatsiya tayyorlash ai» and «slayd tayyorlash sun’iy intellekt» stay with the guide and the tool declares neither; Search Console decides them together with «slayd tayyorlash bot» (STUDIO-SPEC §11.5, §15). The guide's keys are printed on no protected page.",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-07"
     }
   ],
   "architectureDecisions": [
@@ -853,6 +869,15 @@
       ],
       "evidence": "Competitor study gptbot.uz-audit/raw/seo-compete-2026-10-06, part 03 §5.2 (7) and §9 item 5; STRATEGY-BEAT-CHATGPT-UZ.md §3.2 R3-12. «как оплатить ChatGPT в Узбекистане» was declared by both protected Russian articles, and both print their keywords in BlogPosting JSON-LD. GSC, Uzbekistan, 28 days to 2026-10-04: «как оплатить чат gpt в узбекистане» split 50/50 — the payment article 15 impressions, 4 clicks, position 1.3; the ChatGPT-and-Claude article 15 impressions, 0 clicks, position 4.7. The bare «ai chat» was declared by the RU chat (secondaryKeywords, not printed in the HTML) and by the Uzbek explainer (JSON-LD). The strategy's rule: the RU chat keeps it if it has impressions for «ai chat» in its window, otherwise «AI-chat nima». GSC on 2026-10-06 (query equals «ai chat» and contains «ai chat», all pages, all countries, 2026-07-01..2026-10-06): no rows; part 03 counted 1 impression in 28 days.",
       "note": "Revision 2026-10-06-seo-push (R-S3 item R3-12, brought forward by the owner's order of 2026-10-06): each key now has one declaring page. The ChatGPT-and-Claude article drops the payment phrase from its keywords, so its JSON-LD changes; its visible text, title, H1, description and date do not. The RU chat drops «ai chat» from its secondaryKeywords; its HTML does not change. The owners change nothing. Recorded as a decision, not as pairs: a pair requires its informational side to link the commercial one (tests/seo-intent-manifest.test.ts), and neither protected page links its counterpart; a new link would change their visible text outside this revision's scope. tests/seo-push-revision.test.ts holds each keyword to its single owner."
+    },
+    {
+      "id": "A5-ru-prezentatsiya-tool-vs-gpt-chat",
+      "url": "/ru/prezentatsiya-ai/",
+      "counterpart": "/ru/gpt-chat/",
+      "decision": "KEEP_DIFFERENT_INTENT_NO_PAIR",
+      "decidedAt": "2026-10-07",
+      "evidence": "The Russian studio tool (content/studio/pages/ru/prezentatsiya-ai.json, release R-ST1) makes a .pptx from a topic and declares «презентация ии», «нейросеть для презентаций», «сделать презентацию нейросетью» and «ии для презентаций»; no other document declares them (tests/studio-prerender.test.ts). The protected /ru/gpt-chat/ has a «План и текст презентации» row in its use-case table, says that the chat makes no presentation file, and declares none of the tool's keys.",
+      "note": "An architecture decision, not a pair: a pair requires its informational side to link the commercial one (tests/seo-intent-manifest.test.ts), and /ru/gpt-chat/ is one of the ten protected pages, which link no studio page before the January 2027 reviewed revision (STUDIO-SPEC §11.7). The tool links the chat for a plan and speaker text; /ru/gpt-dlya-ucheby/ links the tool. Reconsider when the protected chat may link the tool, or when Search Console shows the two URLs on the same queries."
     }
   ]
 }

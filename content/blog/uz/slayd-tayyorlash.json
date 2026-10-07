@@ -4,7 +4,7 @@
   "slug": "slayd-tayyorlash",
   "url": "/uz/blog/slayd-tayyorlash/",
   "title": "Slayd tayyorlash: reja va slayd matni AI yordamida",
-  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni, bezash. GPTBot.uz chati matn yozadi, .pptx va dizaynni o‘zingiz qilasiz.",
+  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni, bezash. Chat matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI’da.",
   "h1": "Slayd tayyorlash sun’iy intellekt bilan: rejadan tayyor matngacha",
   "topicCluster": "maktab-va-talabalar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -13,7 +13,6 @@
     "prezentatsiya tayyorlash",
     "taqdimot tayyorlash",
     "slayd tayyorlash telefonda",
-    "slayd yaratish",
     "slayd qanday tayyorlanadi",
     "prezentatsiya tayyorlash ai",
     "slayd tayyorlash sun’iy intellekt"
@@ -21,8 +20,15 @@
   "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chati shu qismni tezlashtiradi, lekin faylni yig‘ish va bezash, faktlarni tekshirish — sizning ishingiz. Quyida 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
   "body": [
     {
-      "type": "p",
-      "text": "Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chati reja va matnni o‘zbek tilida yozadi, lekin .pptx yoki PDF fayl va dizayn yaratmaydi: faylni PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz."
+      "type": "linkp",
+      "text": "Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chati reja va matnni o‘zbek tilida yozadi, fayl yaratmaydi. Tayyor .pptx qoralamasi kerak bo‘lsa — {tool} sahifasi: mavzuni yozasiz, 6 slaydgacha fayl bepul yig‘iladi, keyin uni PowerPoint, Google Slides yoki Canva’da tekshirib, o‘zingiz to‘ldirasiz.",
+      "links": [
+        {
+          "token": "tool",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Taqdimot AI"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -71,7 +77,7 @@
         [
           ".pptx yoki PDF fayl",
           "Yo‘q",
-          "Faylni PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz"
+          "Chat fayl yaratmaydi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida"
         ],
         [
           "Dizayn va fon",
@@ -98,7 +104,7 @@
       "width": 1200,
       "height": 630,
       "loading": "lazy",
-      "caption": "«AI-chatni ochish» tugmasi GPTBot.uz chatini shu tayyor so‘rov bilan ochadi: uni tahrirlab, o‘zingiz yuborasiz. Chat reja va matn yozadi, .pptx faylni o‘zingiz tayyorlaysiz."
+      "caption": "«AI-chatni ochish» tugmasi GPTBot.uz chatini shu tayyor so‘rov bilan ochadi: uni tahrirlab, o‘zingiz yuborasiz. Chat reja va matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida."
     },
     {
       "type": "h2",
@@ -339,7 +345,7 @@
     },
     {
       "q": "GPTBot.uz chati tayyor .pptx fayl beradimi?",
-      "a": "Yo‘q: chat faqat matn yozadi — reja, slayd matni va ma’ruza matni. Faylni (.pptx yoki PDF) PowerPoint, Google Slides yoki Canva’da o‘zingiz tayyorlaysiz. Fayl yaratadigan boshqa AI servislar ham bor, lekin ularning matni va faktlarini ham tekshirish kerak."
+      "a": "Chatning o‘zi fayl bermaydi: u reja, slayd matni va ma’ruza matnini yozadi. Tayyor .pptx qoralamasi — Taqdimot AI sahifasida: mavzuni yozasiz, kuniga 1 ta taqdimot (6 slaydgacha, 2 tagacha rasm bilan) bepul. Faylni PowerPoint, Google Slides yoki Canva’da ochib, faktlarni tekshiring va o‘zingiz to‘ldiring."
     },
     {
       "q": "Bir slaydda qancha matn bo‘lishi kerak?",
@@ -411,7 +417,7 @@
   "breadcrumbLabel": "Slayd tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-05",
+  "dateModified": "2026-10-07",
   "schemaTypes": [
     "Organization",
     "WebSite",

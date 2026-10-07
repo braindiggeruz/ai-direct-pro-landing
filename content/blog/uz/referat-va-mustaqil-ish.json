@@ -227,12 +227,17 @@
     },
     {
       "type": "linkp",
-      "text": "Topshiriq matnini chatga yozib, reja so‘rashingiz mumkin: «Topshiriq: [o‘qituvchi bergan matn]. Shu topshiriq bo‘yicha mustaqil ish rejasini tuz va aniqlashtirish uchun menga 3 ta savol ber.» Topshiriq taqdimot shaklida bo‘lsa, {slayd} qo‘llanmasidan foydalaning.",
+      "text": "Topshiriq matnini chatga yozib, reja so‘rashingiz mumkin: «Topshiriq: [o‘qituvchi bergan matn]. Shu topshiriq bo‘yicha mustaqil ish rejasini tuz va aniqlashtirish uchun menga 3 ta savol ber.» Topshiriq taqdimot shaklida bo‘lsa, {slayd} qo‘llanmasidan foydalaning; mavzudan tayyor .pptx qoralamasi kerak bo‘lsa, uni {taqdimot} sahifasida bepul olasiz va o‘zingiz to‘ldirasiz.",
       "links": [
         {
           "token": "slayd",
           "target": "/uz/blog/slayd-tayyorlash/",
           "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "taqdimot",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Taqdimot AI"
         }
       ]
     },

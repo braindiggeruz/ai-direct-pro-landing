@@ -1,7 +1,8 @@
 /**
  * The words of the presentation tool, Uzbek (Latin, with ‘ in o‘ and g‘ and
- * ’ for the tutuq belgisi, as on the site) and Russian. DRAFTS: a native
- * speaker reads them before the pages are published (T2.4).
+ * ’ for the tutuq belgisi, as on the site) and Russian. Published with R-ST1
+ * (2026-10-07) after independent AI language reviews, which replaced the
+ * native reader by the owner's decision of that day.
  *
  * The brand line is honest: GPTBot.uz is an independent AI service, never
  * ChatGPT, OpenAI or "official"; no tariff word here (cheksiz, безлимит,
@@ -79,7 +80,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     freeNote: 'Bepul: kuniga 1 ta taqdimot, 6 slaydgacha, 2 tagacha rasm. Ro‘yxatdan o‘tish shart emas.',
     inAppTitle: 'Brauzerda oching',
     inAppBody:
-      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — unda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching yoki yuqoridagi ⋮ / … menyusidan «Brauzerda ochish»ni tanlang.',
+      'Instagram yoki Telegram ichidagi brauzer faylni saqlamasligi mumkin — u holda bepul taqdimot ham yo‘qoladi. Havolani nusxalab, Chrome yoki Safari’da oching yoki yuqoridagi ⋮ / … menyusidan «Brauzerda ochish»ni tanlang.',
     copyLink: 'Havolani nusxalash',
     copyShort: 'Nusxalash',
     copied: 'Havola nusxalandi',

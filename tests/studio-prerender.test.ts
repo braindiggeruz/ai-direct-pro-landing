@@ -511,7 +511,12 @@ test('page: the footer names the company from legal-entity.json and keeps the e-
 
 // --- against cannibalising the slide guide (§11.5) ---------------------------------
 
-const RELEASED = applyRelease(R_ST1, '2026-10-22', readFrom(REPO));
+// Before the release day the R-ST1 edits are applied in memory; once they are
+// in the repository (the pages are published), the files are read as they are.
+const RELEASE_APPLIED = R_ST1.publishes.every(url => readStudioPages(REPO).find(page => page.url === url)?.status === 'published');
+const RELEASED: Map<string, string> = RELEASE_APPLIED
+  ? new Map([...new Set(R_ST1.edits.map(edit => edit.file))].map(file => [file, readFrom(REPO)(file)]))
+  : applyRelease(R_ST1, '2026-10-22', readFrom(REPO));
 const releasedManifest = JSON.parse(RELEASED.get('content/seo/intent-manifest.json') as string) as {
   pairs: Array<{ id: string; commercial: { url: string; mustNotTarget: string[] }; informational: { url: string; mustNotTarget: string[] } }>;
 };
@@ -606,10 +611,20 @@ test('copy: pictures are "up to 2" and their rules a best effort, as the code al
   assert.match(GUIDE_NEW_TEXT.faq, /2 tagacha rasm bilan/);
 });
 
-test('copy: the processing is named next to the form (the privacy policy has no studio section before R-ST3)', () => {
+test('copy: the processing named next to the form is the committed config\'s (the privacy policy has no studio section before R-ST3)', async () => {
+  // The paragraph must be exactly true for what ships: the owner approved it
+  // on 2026-10-07 for the launch config (text to Z.ai, pictures drawn and
+  // checked by Workers AI, Turnstile, a cookie for a year) with the OpenRouter
+  // fallback off. Turning the fallback on means naming OpenRouter again.
+  const { parseStudioConfig } = await import('../functions/lib/studio/config');
+  const toml = fs.readFileSync(path.join(REPO, 'wrangler.toml'), 'utf8');
+  const config = parseStudioConfig(/^STUDIO_RUNTIME_CONFIG_JSON = '''(.+?)'''\r?$/m.exec(toml)?.[1]);
+  assert.ok(config.textModels.every(model => model.startsWith('zai/')), 'the text goes to Z.ai only');
+  assert.ok(config.imageCheckModel.startsWith('@cf/'), 'the finished pictures are checked on Workers AI');
   for (const file of ['content/studio/pages/uz/taqdimot-ai.json', 'content/studio/pages/ru/prezentatsiya-ai.json']) {
     const text = fs.readFileSync(path.join(REPO, file), 'utf8');
-    for (const name of ['Z.ai', 'OpenRouter', 'Cloudflare Workers AI', 'Cloudflare Turnstile', 'cookie']) assert.ok(text.includes(name), `${file}: ${name}`);
+    for (const name of ['Z.ai', 'Cloudflare Workers AI', 'Cloudflare Turnstile', 'cookie']) assert.ok(text.includes(name), `${file}: ${name}`);
+    assert.equal(text.includes('OpenRouter'), config.freeTextFallback !== null, `${file}: OpenRouter is named exactly when the free deck may fall back to it`);
     assert.match(text, /1 yilga|на 1 год/, file);
     assert.doesNotMatch(text, /Batafsil — \{privacy\}|Подробнее — в \{privacy\}/, `${file}: the policy is a general link, not "the details"`);
   }

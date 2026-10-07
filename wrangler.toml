@@ -157,8 +157,14 @@ GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREM
 # rules. It must stay HERE, at the top level of [vars]: written below the
 # chat's nested table it would land in that table and the studio would
 # silently stay off (tests/pages-config-parity.test.ts). Honoured only on the
-# host gptbot.uz; every switch is off until a studio release turns it on.
-STUDIO_RUNTIME_CONFIG_JSON = '''{"STUDIO_API":"off","STUDIO_PAID_SERVICE":"off","STUDIO_FREE_DECK":"false","STUDIO_FULL_DECK":"false","STUDIO_PHOTO":"false","STUDIO_PAYMENTS":"off","STUDIO_CLICK_AMOUNTS_CONFIRMED":"false","STUDIO_CLICK_AUTOFISCAL":"","STUDIO_TERMS_VERSION":"","STUDIO_TERMS_RU":"","STUDIO_TERMS_UZ":"","STUDIO_TERMS_APPROVED_AT":"","STUDIO_EVENTS":"false","STUDIO_TURNSTILE_SITE_KEY":"","STUDIO_TURNSTILE_PAID":"false","STUDIO_FREE_DAILY_USD":"0.3","STUDIO_RAMP_DECKS_DAILY":"50","STUDIO_FREE_ALERT_DECKS":"300","STUDIO_FREE_ALERT_PHOTOS":"600","STUDIO_IP_YOUNG_DECKS":"20","STUDIO_IP_YOUNG_PHOTOS":"40","STUDIO_PAID_DAILY_USD_STOP":"20","STUDIO_JOB_GLOBAL_PER_MIN":"3","STUDIO_MAX_SLIDES":"12","STUDIO_TEXT_MODELS":"zai/glm-5.3-flash","STUDIO_FREE_TEXT_FALLBACK":"openrouter:google/gemma-4-31b-it:free","STUDIO_VISION_MODELS":"zai/glm-5.3-flash,zai/glm-4.6v-flash","STUDIO_IMAGE_CHECK_MODEL":"@cf/google/gemma-4-26b-a4b-it","STUDIO_AI_LABEL":"true","STUDIO_GA4_MP":"false"}'''
+# host gptbot.uz. Release R-ST1 (2026-10-07) turns on the free deck only:
+# STUDIO_API, STUDIO_FREE_DECK, STUDIO_EVENTS and the studio's own Turnstile
+# site key, with the 48-hour ramp caps ($0.3 a day, 50 decks a day, 3 job
+# starts a minute) and no OpenRouter fallback (STUDIO_FREE_TEXT_FALLBACK ""),
+# so the pages' data paragraph names Z.ai, Workers AI and Turnstile only.
+# Everything paid stays off. Rollback: docs/studio/LAUNCH-RU.md (one command
+# writes the switches off, then the usual build and guarded deploy).
+STUDIO_RUNTIME_CONFIG_JSON = '''{"STUDIO_API":"on","STUDIO_PAID_SERVICE":"off","STUDIO_FREE_DECK":"true","STUDIO_FULL_DECK":"false","STUDIO_PHOTO":"false","STUDIO_PAYMENTS":"off","STUDIO_CLICK_AMOUNTS_CONFIRMED":"false","STUDIO_CLICK_AUTOFISCAL":"","STUDIO_TERMS_VERSION":"","STUDIO_TERMS_RU":"","STUDIO_TERMS_UZ":"","STUDIO_TERMS_APPROVED_AT":"","STUDIO_EVENTS":"true","STUDIO_TURNSTILE_SITE_KEY":"0x4AAAAAAFO5Y7cXhqeASg8P","STUDIO_TURNSTILE_PAID":"false","STUDIO_FREE_DAILY_USD":"0.3","STUDIO_RAMP_DECKS_DAILY":"50","STUDIO_FREE_ALERT_DECKS":"300","STUDIO_FREE_ALERT_PHOTOS":"600","STUDIO_IP_YOUNG_DECKS":"20","STUDIO_IP_YOUNG_PHOTOS":"40","STUDIO_PAID_DAILY_USD_STOP":"20","STUDIO_JOB_GLOBAL_PER_MIN":"3","STUDIO_MAX_SLIDES":"12","STUDIO_TEXT_MODELS":"zai/glm-5.3-flash","STUDIO_FREE_TEXT_FALLBACK":"","STUDIO_VISION_MODELS":"zai/glm-5.3-flash,zai/glm-4.6v-flash","STUDIO_IMAGE_CHECK_MODEL":"@cf/google/gemma-4-26b-a4b-it","STUDIO_AI_LABEL":"true","STUDIO_GA4_MP":"false"}'''
 
 # Wrangler understands the nested object below for local typing and future
 # runtimes. Pages Direct Upload currently persists the chat's packed text
