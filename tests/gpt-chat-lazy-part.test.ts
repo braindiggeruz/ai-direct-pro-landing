@@ -137,7 +137,7 @@ test('chat-account: the pack window says what it said before the split', async (
       React.createElement(Dialog, { open: true },
         React.createElement(AccountDialog, { ...frame(), t, locale, account, loginFailed })),
     );
-    const price = copy.price('20 000', 1, 300);
+    const price = copy.sum('20 000');
     // A guest while a pack can be bought: title, price card, sign-in.
     const buyable = render(handle(guest()));
     for (const line of [copy.title, price, ...copy.packFeatures(1, 300, 50), t.premium.manual, copy.loginConsent, copy.login, t.premium.check, t.premium.historyNote]) {
@@ -152,7 +152,7 @@ test('chat-account: the pack window says what it said before the split', async (
       user: { signedIn: true, storageKey: 'a'.repeat(64) },
       access: { order_id: 'o', ends_at: Date.parse('2026-11-01T00:00:00Z'), remaining: 120, renewSoon: false },
     })));
-    for (const line of [copy.active, copy.remaining, copy.until('').trim(), copy.terms, copy.logout]) assert.ok(paid.includes(line), `${locale}: ${line}`);
+    for (const line of [copy.active, copy.remaining, copy.until('').trim(), t.premium.acceptByPay.before.trim(), copy.logout]) assert.ok(paid.includes(line), `${locale}: ${line}`);
     assert.match(paid, /<strong>120<span class="gpt-access-size"> \/ 300<\/span><\/strong>/);
     assert.ok(!paid.includes('gpt-plan-card'), 'no price card over an active pack');
     // Reading the account, a failed read, a failed sign-in.

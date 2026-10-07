@@ -3,7 +3,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Sparkles, X } from 'lucide-react';
-import type { Locale } from "../types";
+import type { Locale, PaymentProvider } from "../types";
 import type { ChatStrings } from "../i18n";
 import { showsAccountPill, type AccountView } from "../types";
 import { useAccount, type AccountCause } from "../use-account";
@@ -30,6 +30,8 @@ export type { PackFrom } from "../ui-events";
 export interface PackOpenRequest {
   seq: number;
   from: PackFrom;
+  /** One tap (07.10): pay with this provider as soon as the window can. */
+  pay?: PaymentProvider;
 }
 
 /**
@@ -79,7 +81,7 @@ export function AiAccountPanel({
   const { data } = account;
   const [open, setOpen] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
-  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null, paymentCode: null });
+  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null, paymentCode: null, autoPaid: null });
   // One pack_viewed per opening, with the button that opened it.
   const openPack = useCallback((from: PackFrom) => {
     setOpen(true);
@@ -214,6 +216,7 @@ export function AiAccountPanel({
               memoryRef={windowMemory}
               loginFailed={loginFailed}
               checkout={checkoutControls}
+              autoPay={openRequest?.pay ? { seq: openRequest.seq, provider: openRequest.pay } : null}
               onClose={close}
             />
           )}

@@ -16,7 +16,10 @@
 //     the same before anyone pays;
 //   - edition ai-paket-2026-10-v3 (owner's approval of 2026-10-07): the guest
 //     account of guest checkout and Payme, named in both offers and both
-//     policies, as the Payme live switch and GPT_GUEST_CHECKOUT require.
+//     policies, as the Payme live switch and GPT_GUEST_CHECKOUT require;
+//   - edition ai-paket-2026-10-v4 (owner's order of 2026-10-07, one tap):
+//     the offer is accepted by pressing the pay button and paying, not by
+//     ticking a box; the text of sections 7 and 11 says so, the rest is v3.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -94,9 +97,10 @@ test('(a) both offers are published, indexable legal pages with a reciprocal hre
 });
 
 test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING_TERMS_*', () => {
-  // ai-paket-2026-10-v3: the guest account and Payme. v2 (WP-25) knew only the
-  // Telegram account, Click and Uzum Bank; v1, published with R4, still promised refunds.
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v3');
+  // ai-paket-2026-10-v4: acceptance by pressing the pay button (one tap). v3 added
+  // the guest account and Payme; v2 (WP-25) knew only the Telegram account, Click
+  // and Uzum Bank; v1, published with R4, still promised refunds.
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v4');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -167,6 +171,38 @@ test('(v3) the guest account and Payme: what guest checkout and Payme live sell 
   assert.equal(nested.GPT_GUEST_CHECKOUT, 'true');
   assert.ok(['live', 'test'].includes(config.GPT_BILLING_MODE_PAYME), config.GPT_BILLING_MODE_PAYME);
   assert.equal(nested.GPT_BILLING_MODE_PAYME, config.GPT_BILLING_MODE_PAYME);
+});
+
+test('(v4) acceptance by action: the offer is accepted by pressing the pay button and paying, no box to tick', () => {
+  const paragraph = (doc: Page, after: string) => {
+    const blocks = doc.bodyBlocks as { type: string; text?: string }[];
+    const at = blocks.findIndex((block) => block.type === 'h2' && block.text === after);
+    assert.ok(at >= 0, `${doc.url}: ${after}`);
+    return blocks[at + 1].text ?? '';
+  };
+  // Section 7 (acceptance) names the pay button, not a box; the edition travels with the order.
+  const ru7 = paragraph(offers.ru, '7. Акцепт');
+  assert.ok(ru7.startsWith('Покупатель принимает оферту, когда нажимает в окне AI-пакета кнопку «Оплатить» и оплачивает пакет: под кнопкой написано, что нажатие означает согласие с условиями оферты, и дана ссылка на неё.'), ru7);
+  assert.ok(ru7.includes('Вместе с заказом сохраняется редакция оферты, которую он принял.'));
+  const uz7 = paragraph(offers.uz, '7. Aksept');
+  assert.ok(uz7.startsWith('Xaridor AI paket oynasida «To‘lash» tugmasini bosib, paket uchun to‘laganda ofertani qabul qiladi: tugma ostida bosish oferta shartlariga rozilikni bildirishi yozilgan va ofertaga havola berilgan.'), uz7);
+  assert.ok(uz7.includes('Buyurtma bilan birga u qabul qilgan oferta tahriri saqlanadi.'));
+  // Section 11 (changes): the next payment shows the current edition's link, asks no box.
+  assert.ok(paragraph(offers.ru, '11. Изменение оферты').endsWith('Перед следующей оплатой окно AI-пакета снова показывает ссылку на действующую редакцию.'));
+  assert.ok(paragraph(offers.uz, '11. Ofertaga o‘zgartirish kiritish').endsWith('Keyingi to‘lovdan oldin AI paket oynasi amaldagi tahrirga havolani yana ko‘rsatadi.'));
+  // Nowhere does either offer still speak of ticking or marking consent.
+  for (const doc of [offers.ru, offers.uz]) assert.doesNotMatch(text(doc), /отмеча|галочк|belgilab|снова попросит согласие|yana rozilik so‘raydi/, doc.url);
+  // The pack window says the same line under its buttons, with the offer's link, in both languages.
+  const ru = strings('ru').premium;
+  const uz = strings('uz').premium;
+  assert.deepEqual(ru.acceptByPay, { before: 'Нажимая «Оплатить», вы принимаете ', link: 'оферту', after: '.' });
+  assert.deepEqual(uz.acceptByPay, { before: '«To‘lash» tugmasini bosib, ', link: 'ofertani', after: ' qabul qilasiz.' });
+  // The buttons the line speaks of start with that word, in both languages.
+  assert.match(ru.payVia('Click'), /^Оплатить через Click$/);
+  assert.match(uz.payVia('Click'), /^Click orqali to‘lash$/);
+  // v4 is the edition both offers state and the config sells; the studio's own offer must then take v5
+  // (TERMS_PLAN in functions/lib/studio/plans.ts maps the chat's v3 to the studio plan: CHANGE_LOG 07.10).
+  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-10-v4', locale);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {

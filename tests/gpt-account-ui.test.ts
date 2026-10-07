@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { billingOpen, canStartCheckout, canResumeCheckout, safeAccountLink, safeTermsLink, validAccountView, type AccountView } from '../src/gpt-chat/types';
+import { billingOpen, canPayAsGuest, canStartCheckout, canResumeCheckout, offeredProviders, safeAccountLink, safeTermsLink, validAccountView, type AccountView } from '../src/gpt-chat/types';
+import { AiLimitPay } from '../src/gpt-chat/components/AiLimitPay';
 import { limitCard } from '../src/gpt-chat/limit-card';
 import type { LimitReason, LimitState } from '../src/gpt-chat/limit-state';
 import { strings } from '../src/gpt-chat/i18n';
@@ -17,6 +18,9 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useAccount, type AccountCause, type AccountHandle } from '../src/gpt-chat/use-account';
 
+// tsx compiles .tsx with the classic transform in tests (as in tests/gpt-pack-dialog.test.ts).
+(globalThis as typeof globalThis & { React: typeof React }).React = React;
+
 const account = (): AccountView => ({ ok: true, mode: 'test', loginAvailable: true, providers: ['click', 'payme'], user: { signedIn: true, storageKey: 'a'.repeat(64) }, remaining: 15, terms: { ru: 'https://gptbot.uz/ru/offer/', uz: 'https://gptbot.uz/uz/offer/' }, termsVersion: '2026-09-06', pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null } });
 
 test('checkout requires valid identity, current locale terms, version and merchant availability', () => {
@@ -24,11 +28,78 @@ test('checkout requires valid identity, current locale terms, version and mercha
   for (const value of [null, { ...account(), user: null }, { ...account(), providers: [] }, { ...account(), mode: null }, { ...account(), termsVersion: null }, { ...account(), termsVersion: ' ' }, { ...account(), terms: { ru: null, uz: '/uz/offer/' } }, { ...account(), terms: { ru: 'https://evil.example/offer/', uz: null } }, { ...account(), pack: undefined }]) {
     assert.equal(canStartCheckout(value as AccountView | null, 'ru'), false);
   }
-  // Guest checkout: Click without an account, when the server offers it.
+  // Guest checkout: Click, or a live Payme, without an account, when the server offers it.
   assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true }, 'ru'), true);
-  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true, providers: ['payme'] }, 'ru'), false);
+  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true, providers: ['payme'] }, 'ru'), false, 'Payme in test is a rehearsal\'s');
+  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true, providers: ['payme'], mode: 'live' }, 'ru'), true);
+  assert.equal(canStartCheckout({ ...account(), user: null, guestCheckout: true, providers: ['uzum'] }, 'ru'), false, 'Uzum needs the account');
   const uzOnly = { ...account(), terms: { ru: null, uz: '/uz/offer/' } };
   assert.equal(canStartCheckout(uzOnly, 'uz'), true);
+});
+
+test('one tap: the providers a visitor pays with are the window\'s and the limit card\'s alike; Payme for a guest only live', () => {
+  const live = { ...account(), mode: 'live' as const, providers: ['click', 'uzum', 'payme'] as AccountView['providers'] };
+  // Signed in through Telegram: every provider the server lists, in its order.
+  assert.deepEqual(offeredProviders(live), ['click', 'uzum', 'payme']);
+  assert.deepEqual(offeredProviders({ ...live, providers: ['payme', 'click'] }), ['payme', 'click']);
+  // A guest (no account yet) with guest checkout on: Click and a live Payme; never Uzum (its orders
+  // live elsewhere, so they cannot move to Telegram with the pack).
+  assert.deepEqual(offeredProviders({ ...live, user: null, guestCheckout: true }), ['click', 'payme']);
+  assert.deepEqual(offeredProviders({ ...live, user: null, guestCheckout: true, mode: 'test' }), ['click'], 'in test Payme keeps today\'s rule');
+  assert.deepEqual(offeredProviders({ ...live, user: null }), [], 'guest checkout off: sign in first');
+  assert.deepEqual(offeredProviders({ ...live, user: null, guestCheckout: true, providers: ['uzum'] }), []);
+  // A guest account that already exists (a pack bought without signing in): the same two.
+  assert.deepEqual(offeredProviders({ ...live, user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }), ['click', 'payme']);
+  assert.deepEqual(offeredProviders({ ...live, user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true }, mode: 'test' }), ['click']);
+  // Billing off, or no view: nobody is offered anything.
+  assert.deepEqual(offeredProviders(null), []);
+  assert.deepEqual(offeredProviders({ ...live, mode: null }), []);
+  assert.deepEqual(offeredProviders({ ...live, providers: [] }), []);
+  assert.equal(canPayAsGuest({ ...live, user: null, guestCheckout: true, providers: ['payme'] }), true);
+  assert.equal(canPayAsGuest({ ...live, user: null, guestCheckout: true, providers: ['payme'], mode: 'test' }), false);
+  assert.equal(canPayAsGuest({ ...live, user: null, providers: ['click'] }), false);
+});
+
+test('the limit card pays in one tap: the price line, one big button per provider, the offer accepted by the press', () => {
+  const pack = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null };
+  const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const locale of ['ru', 'uz'] as const) {
+    const t = strings(locale);
+    const page = renderToStaticMarkup(React.createElement(AiLimitPay, {
+      t, pack, again: false, providers: ['click', 'payme'], termsUrl: `https://gptbot.uz/${locale}/oferta/`, onPay: () => {}, onOpen: () => {},
+    }));
+    // The price and the pack's facts in one line, the price first and bold.
+    assert.match(page, new RegExp(`<p class="gpt-limit-pay-line"><strong>${locale === 'ru' ? '20\u00a0000 сум' : '20\u00a0000 so‘m'}</strong> · ${escape(t.premium.packLine(pack))}</p>`));
+    // One primary button per provider, Click first, each a tap to that provider's page; no checkbox.
+    const buttons = [...page.matchAll(/<button type="button" class="gpt-primary" data-testid="limit-pay" data-provider="(\w+)">([^<]*)<span aria-hidden="true">↗<\/span><\/button>/g)];
+    assert.deepEqual(buttons.map((m) => m[1]), ['click', 'payme']);
+    assert.deepEqual(buttons.map((m) => m[2]), [t.premium.payVia('Click'), t.premium.payVia('Payme')]);
+    assert.doesNotMatch(page, /checkbox/);
+    // Under the buttons: pressing «Оплатить» accepts the offer, which is one link away, in a new tab.
+    const accept = t.premium.acceptByPay;
+    assert.ok(page.includes(`<p class="gpt-limit-accept">${accept.before}<a href="https://gptbot.uz/${locale}/oferta/" target="_blank" rel="noopener noreferrer">${accept.link}</a>${accept.after}</p>`), page);
+    // No one-tap provider (Uzum through the app alone, say): the window's own button, as before.
+    const window = renderToStaticMarkup(React.createElement(AiLimitPay, { t, pack, again: true, providers: [], termsUrl: null, onPay: () => {}, onOpen: () => {} }));
+    assert.ok(window.includes('data-testid="limit-account"') && window.includes(t.limitBuy(pack, true)), locale);
+    assert.doesNotMatch(window, /limit-pay|gpt-limit-accept/);
+    // Without the offer's link there is nothing to accept: the window's button again.
+    const noTerms = renderToStaticMarkup(React.createElement(AiLimitPay, { t, pack, again: false, providers: ['click'], termsUrl: null, onPay: () => {}, onOpen: () => {} }));
+    assert.doesNotMatch(noTerms, /limit-pay|gpt-limit-accept/);
+    assert.ok(noTerms.includes('data-testid="limit-account"'));
+  }
+  const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // The tap opens the window with the provider: the window's lazy part creates the order and leaves.
+  assert.match(chat, /onPay=\{\(provider\) => openAccount\("limit_card", provider\)\}/);
+  assert.match(chat, /onOpen=\{\(\) => openAccount\("limit_card"\)\}/);
+  assert.match(chat, /providers=\{payOffer\.providers\}\s*termsUrl=\{payOffer\.termsUrl\}/);
+  // The one-tap offer is read from the account view where everything else is.
+  assert.match(chat, /setPayOffer\(account \? \{ providers: offeredProviders\(account\), termsUrl: safeTermsLink\(account\.terms\[config\.locale\]\) \} : null\)/);
+  const panel = readFileSync(new URL('../src/gpt-chat/components/AiAccountPanel.tsx', import.meta.url), 'utf8');
+  assert.match(panel, /autoPay=\{openRequest\?\.pay \? \{ seq: openRequest\.seq, provider: openRequest\.pay \} : null\}/);
+  const dialog = readFileSync(new URL('../src/gpt-chat/account/AccountDialog.tsx', import.meta.url), 'utf8');
+  // One order per tap: the tap's number is remembered across the window's openings, and the pay
+  // runs only once the view says a checkout can start with that provider.
+  assert.match(dialog, /if \(!autoPay \|\| memoryRef\.current\.autoPaid === autoPay\.seq \|\| !checkoutReady \|\| busy \|\| !offered\.includes\(autoPay\.provider\)\) return;\s*memoryRef\.current\.autoPaid = autoPay\.seq;\s*void pay\(autoPay\.provider\);/);
 });
 
 test('malformed account responses fail closed before identity or receipt UI is consumed', () => {
@@ -225,8 +296,8 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   assert.match(cardJsx, /\{!!input\.trim\(\) && \(\s*<p className="gpt-limit-draft">/);
   // Opened for one reason, closed for the next.
   assert.match(source, /const details = !!limit && detailsFor === limit\.reason;/);
-  // The pack's price stays on its button; without a pack for sale no price and no button (F4, F6).
-  assert.match(cardJsx, /\{card\.account && \(\s*<button[^>]*?\s*type="button"\s*className="gpt-primary"/);
+  // The pack's price and its provider buttons (one tap, 07.10); without a pack for sale no price and no button (F4, F6).
+  assert.match(cardJsx, /\{card\.account && packTerms && payOffer && \(\s*<AiLimitPay/);
   assert.deepEqual([strings('uz').limitMore, strings('ru').limitMore], ['Batafsil', 'Подробнее']);
   // The warnings: 2 left this hour (after the 3rd), 3 left today.
   assert.match(source, /const HOUR_WARNING_AT = 2;/);
@@ -302,7 +373,7 @@ test('a pack is buyable only with a mode and a provider; every opening of its wi
   assert.match(panel, /openPack\("login_failed"\)/);
   assert.match(panel, /onOpenChange=\{\(next\) => \{ if \(!next\) close\(\); \}\}/, 'the Dialog itself only closes');
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
-  const froms = [...chat.matchAll(/openAccount\("(\w+)"\)/g)].map((m) => m[1]).sort();
+  const froms = [...new Set([...chat.matchAll(/openAccount\("(\w+)"(?:, provider)?\)/g)].map((m) => m[1]))].sort();
   assert.deepEqual(froms, ['account_check', 'after_10', 'limit_card', 'low_limit']);
   assert.doesNotMatch(chat, /setAccountOpen\(\(n\) => n \+ 1\)/);
 });

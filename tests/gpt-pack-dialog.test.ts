@@ -5,7 +5,10 @@
 // mode, a pending invoice. WP-24: two packs side by side, and an open invoice
 // resumed, closed or left for another way to pay. WP-25: a paid pack is not
 // refundable, said beside the price; no refund request, a payment problem goes
-// to the studio.
+// to the studio. One tap (owner's order of 07.10): no offer checkbox, the pay
+// buttons are live at once and the line under them says the press accepts the
+// offer; the pack's notes fold behind «Подробнее»; a guest is offered Payme
+// too once it is live.
 // Every number is the server's, every link goes to an allowed place, and the
 // window speaks the visitor's language.
 //
@@ -77,6 +80,11 @@ const html = (text: string) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;
 const has = (page: string, text: string) => page.includes(html(text));
 const date = (locale: Locale, at: number) => new Date(at).toLocaleDateString(locale === 'uz' ? 'uz-UZ' : 'ru-RU');
 const payButtons = (page: string) => [...page.matchAll(/data-provider="(\w+)"/g)].map((m) => m[1]);
+/** The line under the pay buttons: pressing «Оплатить» accepts the offer of this language. */
+const acceptLine = (locale: Locale) => {
+  const accept = strings(locale).premium.acceptByPay;
+  return `<p class="gpt-pay-accept">${html(accept.before)}<a href="https://gptbot.uz/${locale}/oferta/" target="_blank" rel="noopener noreferrer">${html(accept.link)}</a>${html(accept.after)}</p>`;
+};
 
 test('the copy: the pack in plain words, the right Russian forms, o‘ with U+2018, groups of thousands', () => {
   const ru = accountStrings('ru');
@@ -108,15 +116,19 @@ test('a guest sees the pack with the server’s numbers, what it is not, and sig
   for (const locale of LOCALES) {
     const copy = accountStrings(locale);
     const page = await window(locale, guest());
-    for (const line of [copy.title, copy.price('20 000', 1, 300), ...copy.packFeatures(1, 300, 50), copy.noRefund, copy.honesty, copy.loginWhy, copy.loginConsent, copy.login, strings(locale).premium.manual])
+    const t = strings(locale);
+    for (const line of [copy.title, copy.sum('20 000'), t.premium.packLine(PACK), ...copy.packFeatures(1, 300, 50), copy.noRefund, copy.honesty, copy.fine, copy.loginWhy, copy.loginConsent, copy.login, t.premium.manual])
       assert.ok(has(page, line), `${locale}: ${line}`);
-    // Not refundable, said in the price card before anyone signs in or pays (WP-25).
-    assert.match(page, new RegExp(`data-slot="card-footer"[^]*<p class="gpt-panel-note" data-testid="ai-pack-no-refund">${html(copy.noRefund)}</p>`));
+    // The price big, the facts in one line under it; the notes (not refundable, WP-25; what it is
+    // not) fold behind «Подробнее» in the card, in the page for a reader and a screen reader.
+    assert.match(page, new RegExp(`<div data-slot="card-title" class="[^"]*gpt-price[^"]*">${html(copy.sum('20 000'))}</div>`));
+    assert.match(page, new RegExp(`<p class="gpt-plan-line">${html(t.premium.packLine(PACK))}</p>`));
+    assert.match(page, new RegExp(`<details class="gpt-plan-more"><summary><span>${html(copy.fine)}</span> <span class="gpt-plan-more-link">${t.limitMore}</span></summary>[^]*<p class="gpt-panel-note" data-testid="ai-pack-no-refund">${html(copy.noRefund)}</p>[^]*</details>`));
     assert.deepEqual(payButtons(page), [], 'paying waits for the account');
-    assert.ok(!has(page, copy.terms), 'the offer is accepted at the pay step');
+    assert.ok(!page.includes('gpt-pay-accept'), 'nothing to accept without a pay button');
     // The numbers are the server's: another pack, other numbers, no literal left behind.
     const other = await window(locale, guest({ pack: { ...PACK, priceUzs: 25000, messageLimit: 400, dailyLimit: 60 } }));
-    assert.ok(has(other, copy.price('25 000', 1, 400)) && has(other, copy.packFeatures(1, 400, 60)[1]), locale);
+    assert.ok(has(other, copy.sum('25 000')) && has(other, copy.packFeatures(1, 400, 60)[1]), locale);
     assert.doesNotMatch(other, /20 000|300 (ответов|ta javob)|50 (в день|tagacha)/, locale);
   }
 });
@@ -126,7 +138,7 @@ test('billing off: no price, no pay button, no sign-in, and the window says the 
     const copy = accountStrings(locale);
     const page = await window(locale, guest({ mode: null, providers: [], loginAvailable: false, loginMethods: [] }));
     assert.ok(has(page, copy.unavailable), locale);
-    for (const line of [copy.price('20 000', 1, 300), copy.login, copy.honesty, copy.noRefund]) assert.ok(!has(page, line), `${locale}: ${line}`);
+    for (const line of [copy.sum('20 000'), copy.login, copy.honesty, copy.noRefund]) assert.ok(!has(page, line), `${locale}: ${line}`);
     assert.deepEqual(payButtons(page), []);
     // An older server without the pack sells nothing either.
     assert.deepEqual(payButtons(await window(locale, member({ pack: undefined }))), []);
@@ -142,9 +154,12 @@ test('signed in without a pack: the free day left, the price, the offer, Click t
     assert.deepEqual(payButtons(page), ['click', 'uzum'], 'Click first, as the server lists them');
     assert.ok(has(page, copy.payVia('Click')) && has(page, copy.payVia('Uzum Bank')));
     assert.ok(has(page, copy.payNote(`Click${copy.or}Uzum Bank`)));
-    // The offer of this language, in a new tab; the buttons wait for its checkbox.
-    assert.match(page, new RegExp(`<a href="https://gptbot\\.uz/${locale}/oferta/" target="_blank" rel="noopener noreferrer">${copy.terms}</a>`));
-    assert.match(page, /data-provider="click" disabled=""/);
+    // No box to tick: the buttons are live, and the line under them says the press accepts the
+    // offer of this language, one link away in a new tab (one tap, 07.10).
+    assert.ok(page.includes(acceptLine(locale)), locale);
+    assert.match(page, /<button type="button" class="gpt-primary" data-provider="click">/);
+    assert.doesNotMatch(page, /type="checkbox"/, 'a member sees no box at all');
+    assert.match(page, new RegExp(`<div class="gpt-payment-buttons">[^]*</div>\\s*${acceptLine(locale).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*</div>`), 'the line sits under the buttons, in the sticky block');
     assert.ok(page.includes('data-testid="ai-pack-support"') && page.includes('href="mailto:ceo@gptbot.uz"') && page.includes('href="tel:+998505870720"'));
     assert.ok(has(page, `${copy.supportLabel} `), `${locale}: a payment problem goes to the studio`);
     assert.ok(has(page, copy.logout));
@@ -259,7 +274,7 @@ test('an open invoice: resumed, or closed while no provider has seen it, so anot
   assert.match(dialog, /if \(watch && \(!choosing \|\| checkout\.outcome === "paid"\)\)/);
 });
 
-test('Payme in a rehearsal session: its button in the existing classes, its name in the card note, the test notice; Payme is never a guest\'s', async () => {
+test('Payme in a rehearsal session: its button in the existing classes, its name in the card note, the test notice; a guest gets Payme live only', async () => {
   const classes = (page: string) => new Set([...page.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/)));
   for (const locale of LOCALES) {
     const copy = accountStrings(locale);
@@ -267,7 +282,7 @@ test('Payme in a rehearsal session: its button in the existing classes, its name
     const page = await window(locale, member({ mode: 'test', providers: ['payme'] }));
     assert.deepEqual(payButtons(page), ['payme']);
     assert.ok(has(page, copy.payVia('Payme')) && has(page, copy.payNote('Payme')) && has(page, copy.test), locale);
-    assert.match(page, /<button type="button" class="gpt-primary" data-provider="payme" disabled="">/);
+    assert.match(page, /<button type="button" class="gpt-primary" data-provider="payme">/);
     assert.match(page, /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
     // No class the Click window does not already use: the CSS stays as it is.
     const known = classes(await window(locale, member({ mode: 'test', providers: ['click'] })));
@@ -276,9 +291,11 @@ test('Payme in a rehearsal session: its button in the existing classes, its name
     const both = await window(locale, member({ providers: ['click', 'payme'] }));
     assert.deepEqual(payButtons(both), ['click', 'payme']);
     assert.ok(has(both, copy.payNote(`Click${copy.or}Payme`)), locale);
-    // A guest pays with Click alone: Payme waits for the sign-in.
-    const guestPage = await window(locale, guest({ providers: ['click', 'payme'], guestCheckout: true }));
-    assert.ok(!payButtons(guestPage).includes('payme'), locale);
+    // A guest pays with Click, and with Payme once Payme is live (the server takes a guest's
+    // Payme order; in test Payme stays a rehearsal's); never with Uzum.
+    assert.deepEqual(payButtons(await window(locale, guest({ providers: ['click', 'uzum', 'payme'], guestCheckout: true }))), ['click', 'payme'], locale);
+    assert.deepEqual(payButtons(await window(locale, guest({ mode: 'test', providers: ['click', 'payme'], guestCheckout: true }))), ['click'], locale);
+    assert.deepEqual(payButtons(await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true }, providers: ['click', 'uzum', 'payme'] }))), ['click', 'payme'], `${locale}: a guest account too`);
   }
 });
 
@@ -412,7 +429,7 @@ test('the way back: ?pay=return opens the window, leaves the address, and the br
 
 test('the local preview (scripts/pack-window-preview.ts) answers with views the window accepts', async () => {
   const views = previewViews(NOW);
-  assert.deepEqual(Object.keys(views).sort(), ['cancelled', 'code', 'guest', 'member', 'off', 'packs', 'paid', 'pending', 'refunded', 'test', 'unseen']);
+  assert.deepEqual(Object.keys(views).sort(), ['cancelled', 'code', 'guest', 'member', 'off', 'onetap', 'packs', 'paid', 'pending', 'refunded', 'test', 'unseen']);
   for (const [state, view] of Object.entries(views)) {
     assert.ok(validAccountView(view), state);
     for (const locale of LOCALES) assert.ok((await window(locale, view as unknown as AccountView)).length > 500, `${state}/${locale}`);
@@ -429,17 +446,22 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
   for (const locale of LOCALES) {
     const copy = accountStrings(locale);
     const page = await window(locale, guest({ guestCheckout: true }));
-    for (const line of [copy.price('20 000', 1, 300), copy.noRefund, copy.honesty, copy.terms, copy.payVia('Click'), copy.guestPayNote, copy.haveAccount])
+    for (const line of [copy.sum('20 000'), copy.noRefund, copy.honesty, copy.payVia('Click'), copy.guestPayNote, copy.haveAccount])
       assert.ok(has(page, line), `${locale}: ${line}`);
     assert.deepEqual(payButtons(page), ['click'], 'Click alone: Uzum still needs the account');
+    // One price card for the guest, its notes folded once; the guest's notes fold with them.
+    assert.equal((page.match(/gpt-plan-card/g) ?? []).length, 1, locale);
+    const folded = page.slice(page.indexOf('<details class="gpt-plan-more">'), page.indexOf('</details>'));
+    for (const line of [copy.payNote('Click'), copy.guestPayNote, copy.otherBrowser]) assert.ok(has(folded, line), `${locale}: folded ${line}`);
     assert.ok(!has(page, copy.loginWhy), locale);
     // Paid without signing in in another browser (Telegram's own, say): where
     // the pack is, and who to write to with the Click receipt.
     assert.ok(has(page, copy.otherBrowser), locale);
     assert.match(page, /data-testid="ai-pack-support"/);
-    // The offer box is explicit and starts unticked; the button waits for it.
-    assert.match(page, /<input type="checkbox"\/>/);
-    assert.match(page, /data-provider="click" disabled=""/);
+    // One tap: no box, the button is live, and the line under it says the press accepts the offer.
+    assert.doesNotMatch(page, /type="checkbox"/, 'the sign-in consent is behind «Войти», the offer needs no box');
+    assert.match(page, /<button type="button" class="gpt-primary" data-provider="click">/);
+    assert.ok(page.includes(acceptLine(locale)), locale);
     // The guest's pack: the save line, no sign-out that would leave the pack behind.
     const pack = await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }));
     for (const line of [copy.saveLine, copy.saveButton]) assert.ok(has(pack, line), `${locale}: ${line}`);
@@ -449,6 +471,38 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
     // Paid: the one optional line under the way back to the chat.
     const paid = await window(locale, withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } }), { watch: watchOf(), outcome: 'paid' });
     assert.ok(has(paid, copy.payPaid) && has(paid, copy.saveLine), locale);
+  }
+});
+
+test('one tap (07.10): no offer box in the window, the acceptance line in both languages, the window\'s copy folds, and the tap from the limit card pays once', async () => {
+  const ru = accountStrings('ru');
+  const uz = accountStrings('uz');
+  assert.equal(ru.fine, 'Без возврата после оплаты · не ChatGPT');
+  assert.equal(uz.fine, 'To‘lovdan keyin qaytarilmaydi · ChatGPT emas');
+  assert.equal(ru.sum('20 000'), '20 000 сум');
+  assert.equal(uz.sum('20 000'), '20 000 so‘m');
+  assert.equal(strings('ru').premium.packLine(PACK), '1 месяц · 300 ответов · до 50 в день · без автосписаний');
+  assert.equal(strings('uz').premium.packLine(PACK), '1 oy · 300 ta javob · kuniga 50 tagacha · avtomatik to‘lovsiz');
+  assert.equal(strings('ru').premium.packLine({ ...PACK, months: 2, messageLimit: 301 }), '2 месяца · 301 ответ · до 50 в день · без автосписаний');
+  assert.equal(ru.payVia('Click'), strings('ru').premium.payVia('Click'), 'one text for the button, in the window and on the limit card');
+  assert.ok(!('terms' in ru), 'the checkbox label is gone');
+  const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
+  // The pay request still records the acceptance (the edition and the time, on the server) from the tap.
+  assert.match(dialog, /acceptTerms: true,\s*termsVersion: data\.termsVersion,/);
+  assert.doesNotMatch(dialog, /setTerms\(|!terms\b|\[terms, setTerms\]|checked=\{terms\}/, 'no consent state for the offer');
+  // The sticky block holds the buttons and the line, so both stay in sight on a phone (REV-9).
+  assert.match(dialog, /<div className="gpt-sticky-action">\s*<div className="gpt-payment-buttons">/);
+  for (const locale of LOCALES) {
+    // Every pay step, a guest's and a member's, with or without a pack: the line under the buttons.
+    for (const view of [guest({ guestCheckout: true }), member(), withPack()]) {
+      const page = await window(locale, view);
+      assert.ok(page.includes(acceptLine(locale)), `${locale}: ${JSON.stringify(view.user)}`);
+      assert.ok(!page.includes('disabled=""') || view.user === null, `${locale}: the buttons are live`);
+    }
+    // While an invoice is open the buttons wait (resume it instead), and the line still stands.
+    const pending = await window(locale, member({ payment: { id: ORDER, state: 'pending', provider: 'click' } }));
+    assert.match(pending, /data-provider="click" disabled=""/);
+    assert.ok(pending.includes(acceptLine(locale)));
   }
 });
 

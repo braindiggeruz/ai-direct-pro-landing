@@ -184,9 +184,32 @@ export function showsAccountPill(account: AccountView | null): boolean {
   return billingOpen(account) || !!account?.user || !!account?.access;
 }
 
-/** A visitor without an account may pay with Click alone (guest checkout). */
+/**
+ * The providers a guest account pays with (guest checkout): Click, and Payme
+ * once it is live. Their orders live in gpt_payment_orders, which move to
+ * Telegram with the pack (IdentityStore.adoptGuest); Uzum keeps its orders
+ * elsewhere and needs a signed-in account. Payme in test is a rehearsal
+ * session's alone, as before.
+ */
+export function guestProviders(account: AccountView): PaymentProvider[] {
+  return account.providers.filter((provider) => provider === 'click' || (provider === 'payme' && account.mode === 'live'));
+}
+
+/** A visitor without an account may pay (guest checkout) with Click or a live Payme. */
 export function canPayAsGuest(account: AccountView): boolean {
-  return account.guestCheckout === true && account.providers.includes('click');
+  return account.guestCheckout === true && guestProviders(account).length > 0;
+}
+
+/**
+ * The providers this visitor pays with in one tap, as the pack window and the
+ * limit card offer them (owner's order of 07.10): everyone the server lists
+ * for a Telegram account; a guest, with or without a guest account yet, Click
+ * and a live Payme; nobody while billing is closed.
+ */
+export function offeredProviders(account: AccountView | null): PaymentProvider[] {
+  if (!account || !billingOpen(account)) return [];
+  if (account.user) return account.user.guest ? guestProviders(account) : account.providers;
+  return canPayAsGuest(account) ? guestProviders(account) : [];
 }
 
 export function canStartCheckout(account: AccountView | null, locale: Locale): boolean {

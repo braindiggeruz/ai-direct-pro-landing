@@ -30,8 +30,10 @@ const DAY = 86_400_000;
 export function previewViews(now = Date.now()): Record<string, Record<string, unknown>> {
   const base = {
     ok: true, loginAvailable: true, loginMethods: ['bot'], mode: 'live', providers: ['click', 'uzum'],
-    pack: PACK, termsVersion: 'ai-paket-2026-10-v2', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
+    pack: PACK, termsVersion: 'ai-paket-2026-10-v4', freeLimits: { daily: 15, hourly: 5 }, botHandoff: false,
     uzumFlow: 'checkout', terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, user: null,
+    // Guest checkout is on in production (2026-10-07): a guest pays Click in one tap.
+    guestCheckout: true,
   };
   const member = { ...base, user: { signedIn: true, storageKey: 'p'.repeat(64) }, remaining: 3, paymentCode: null, receipts: [], access: null, payment: null };
   const paid = {
@@ -55,6 +57,8 @@ export function previewViews(now = Date.now()): Record<string, Record<string, un
   };
   return {
     guest: base,
+    // Payme live beside Click (its cash desk opened): a guest's two one-tap buttons.
+    onetap: { ...base, providers: ['click', 'payme'] },
     off: { ...base, loginAvailable: false, loginMethods: [], mode: null, providers: [] },
     member,
     test: { ...member, mode: 'test' },

@@ -10,12 +10,17 @@
 .gpt-account-dialog [data-slot="badge"] > svg { width: 12px; height: 12px; }
 .gpt-account-dialog h2 { margin-bottom: 20px; font-size: 26px; line-height: 1.2; letter-spacing: -.03em; font-weight: 600; }
 .gpt-account-dialog .gpt-plan-card { overflow: hidden; padding: 0; border-radius: 16px; background: var(--surface); border: 1px solid var(--line-strong); color: var(--text); }
-.gpt-plan-card [data-slot="card-header"] { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 0; }
-.gpt-plan-card [data-slot="card-content"] { padding: 12px 22px; }
-.gpt-plan-card [data-slot="card-footer"] { flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 22px; border-top: 1px solid var(--line); }
-/* The footer says no automatic renewal and that a paid pack is not refundable: never smaller than 12px. */
-.gpt-account-dialog .gpt-plan-card [data-slot="card-footer"] .gpt-panel-note { margin: 0; font-size: 12px; }
-.gpt-account-dialog .gpt-price { font-size: 28px; line-height: 1.2; font-weight: 600; letter-spacing: -.045em; }
+.gpt-plan-card [data-slot="card-header"] { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px 0; }
+.gpt-plan-card [data-slot="card-content"] { padding: 10px 22px 14px; }
+.gpt-account-dialog .gpt-price { font-size: 32px; line-height: 1.15; font-weight: 600; letter-spacing: -.045em; }
+/* One tap (07.10): the pack's facts in one line under the price; the notes fold behind «Подробнее»,
+   one muted line that is a 44px target; never smaller than 12px (not refundable, not ChatGPT). */
+.gpt-plan-line { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+.gpt-plan-more summary { display: flex; flex-wrap: wrap; gap: 0 6px; align-items: center; min-height: 44px; margin: 0 -6px; padding: 10px 6px; font-size: 12px; line-height: 1.5; color: var(--text-3); list-style: none; cursor: pointer; }
+.gpt-plan-more summary::-webkit-details-marker { display: none; }
+.gpt-plan-more-link { color: var(--accent-text); text-decoration: underline; }
+.gpt-plan-more .gpt-plan-features { margin: 4px 0 10px; }
+.gpt-account-dialog .gpt-plan-more .gpt-panel-note { margin: 6px 0 0; font-size: 12px; }
 .gpt-panel-description { font-size: 14px; line-height: 1.7; color: var(--text-2); }
 .gpt-account-dialog .gpt-panel-note a, .gpt-check a { color: var(--accent-text); text-decoration: underline; overflow-wrap: anywhere; }
 .gpt-account-dialog .gpt-panel-note a[href^="tel:"] { white-space: nowrap; }
@@ -25,7 +30,15 @@
 .gpt-check { display: flex; align-items: flex-start; gap: 12px; margin: 20px 0; font-size: 12px; line-height: 1.6; }
 .gpt-check input { flex-shrink: 0; width: 24px; height: 24px; margin-top: 0; accent-color: var(--accent); }
 .gpt-account-dialog a.gpt-text-button { display: block; text-align: center; }
-.gpt-payment-buttons { display: flex; flex-direction: column; gap: 12px; }
+/* One tap: big provider buttons, and under them that the press accepts the offer (no box). */
+.gpt-payment-buttons { display: flex; flex-direction: column; gap: 10px; }
+.gpt-payment-buttons .gpt-primary { min-height: 56px; font-size: 17px; }
+.gpt-pay-accept, .gpt-limit-accept { margin: 10px 0 0; font-size: 12px; line-height: 1.6; color: var(--text-3); text-align: center; }
+.gpt-pay-accept a, .gpt-limit-accept a { display: inline-block; padding: 12px 2px; margin: -12px 0; color: var(--accent-text); text-decoration: underline; }
+/* The limit card's one tap (components/AiLimitPay.tsx): the price line, then the buttons. */
+.gpt-limit-pay-line { margin: 0 0 2px; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+.gpt-limit-pay-line strong { font-size: 17px; color: var(--text); letter-spacing: -.02em; }
+.gpt-limit-exits .gpt-primary[data-testid="limit-pay"] { min-height: 52px; font-size: 16px; }
 .gpt-access-summary { margin-top: 20px; padding: 24px; border-radius: 16px; background: var(--accent-soft); border: 1px solid var(--accent-line); }
 .gpt-access-summary strong { display: block; font-size: 48px; line-height: 1.1; letter-spacing: -.05em; color: var(--accent-text); }
 .gpt-access-summary :is(span,p) { font-size: 13px; color: var(--text-2); }
@@ -41,7 +54,6 @@
 /* REV-9: the consent and its button stay in sight while the terms above them scroll. */
 .gpt-account-dialog .gpt-sticky-action { position: sticky; bottom: -28px; z-index: 1; margin: 12px -28px 0; padding: 12px 28px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); box-shadow: 0 -1px 0 var(--line); }
 .gpt-account-dialog .gpt-sticky-action:has(.gpt-bot-login) { position: static; margin: 0; padding: 0; box-shadow: none; }
-.gpt-account-dialog .gpt-sticky-action > .gpt-check { margin: 0 0 12px; }
 /* Two such blocks at once (a guest who pays and then signs in): the later one sticks. */
 .gpt-account-dialog .gpt-sticky-action:has(~ .gpt-sticky-action) { position: static; margin: 12px 0 0; padding: 0; box-shadow: none; }
 @media (max-width: 700px) {

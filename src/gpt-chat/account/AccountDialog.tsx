@@ -1,6 +1,6 @@
 import { useEffect, useState, type RefObject } from "react";
 import { DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
 import type { Locale, PackTerms, PaymentProvider } from "../types";
@@ -14,6 +14,7 @@ import {
   canResumeCheckout,
   canStartCheckout,
   isPaymentProvider,
+  offeredProviders,
   safeTermsLink,
 } from "../types";
 import type { AccountHandle } from "../use-account";
@@ -37,6 +38,8 @@ export interface AccountWindowMemory {
   refusedForTerms: string | null;
   /** The Uzum Bank app code subscribe answered with, until the account view carries it. */
   paymentCode: string | null;
+  /** The limit card's tap (PackOpenRequest.seq) this window already paid for: one order per tap. */
+  autoPaid?: number | null;
 }
 
 /** The payment this browser waits for, as AiAccountPanel (start bundle) follows it. */
@@ -66,40 +69,48 @@ class RequestError extends Error {
 }
 
 /**
- * The pack on sale: price, what it gives, no automatic renewal, that a paid
- * pack is not refundable (the offer, section 8), what it is not.
+ * The pack on sale, compact (one tap, 07.10): the price big, the facts in one
+ * line (months, answers, the day cap, no automatic renewal), and the notes
+ * folded behind «Подробнее»: what it gives, that a paid pack is not refundable
+ * (the offer, section 8), what it is not, where the card data goes, and the
+ * caller's `notes` (a guest's). A <details>: the notes are in the page for a
+ * reader who opens them and for a screen reader, without a line of state.
  */
-function PlanCard({ t, copy, pack }: { t: ChatStrings; copy: AccountStrings; pack: PackTerms }) {
+function PlanCard({ t, copy, pack, notes = [] }: { t: ChatStrings; copy: AccountStrings; pack: PackTerms; notes?: string[] }) {
   return (
-    <>
-      <Card className="gpt-plan-card">
-        <CardHeader>
-          <Badge variant="outline">{t.premium.account}</Badge>
-          <CardTitle className="gpt-price">{copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}</CardTitle>
-        </CardHeader>
-        <CardContent>
+    <Card className="gpt-plan-card">
+      <CardHeader>
+        <Badge variant="outline">{t.premium.account}</Badge>
+        <CardTitle className="gpt-price">{copy.sum(groupDigits(pack.priceUzs))}</CardTitle>
+        <p className="gpt-plan-line">{t.premium.packLine(pack)}</p>
+      </CardHeader>
+      <CardContent>
+        <details className="gpt-plan-more">
+          <summary><span>{copy.fine}</span> <span className="gpt-plan-more-link">{t.limitMore}</span></summary>
           <ul className="gpt-plan-features">
             {copy.packFeatures(pack.months, pack.messageLimit, pack.dailyLimit).map((feature) => (
               <li key={feature}><Check aria-hidden="true" /><span>{feature}</span></li>
             ))}
           </ul>
-        </CardContent>
-        <CardFooter>
-          <p className="gpt-panel-note"><Check aria-hidden="true" className="inline size-3 mr-1" />{t.premium.manual}</p>
+          <p className="gpt-panel-note">{t.premium.manual}</p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
-        </CardFooter>
-      </Card>
-      <p className="gpt-panel-note" data-testid="ai-pack-honesty">{copy.honesty}</p>
-    </>
+          <p className="gpt-panel-note" data-testid="ai-pack-honesty">{copy.honesty}</p>
+          {notes.map((note) => <p key={note} className="gpt-panel-note">{note}</p>)}
+        </details>
+      </CardContent>
+    </Card>
   );
 }
 
 /**
  * The pack window's body (lazy part chat-account, plan WP-17, map 03
  * §3.2–3.6): the pack and its price for a guest, sign-in through the bot,
- * then «Paketim» with the pay step (the offer's checkbox and one button per
- * provider the server offers, Click first), the way back from a payment, and
- * the Uzum Bank app code. The Dialog, its top bar, the account data and the
+ * then «Paketim» with the pay step (one button per provider the visitor may
+ * pay with, Click first, live at once; under them, that pressing «Оплатить»
+ * accepts the offer — one tap, owner's order of 07.10), the way back from a
+ * payment, and the Uzum Bank app code. A tap on the limit card's provider
+ * button opens the window with `autoPay`: the order is created and the
+ * browser leaves for the provider's page without a second screen. The Dialog, its top bar, the account data and the
  * checkout watch stay on the chat's start bundle (AiAccountPanel,
  * use-account.ts), so the pill and the limit card never wait for this file.
  * Every number of the pack comes from the account view.
@@ -117,6 +128,7 @@ export function AccountDialog({
   memoryRef,
   loginFailed,
   checkout,
+  autoPay = null,
   onClose,
 }: {
   t: ChatStrings;
@@ -126,6 +138,8 @@ export function AccountDialog({
   memoryRef: RefObject<AccountWindowMemory>;
   loginFailed: boolean;
   checkout: CheckoutControls;
+  /** The limit card's tap: pay with this provider as soon as the view allows (once per `seq`). */
+  autoPay?: { seq: number; provider: PaymentProvider } | null;
   onClose: () => void;
 }) {
   const { data, error, loading, refresh } = account;
@@ -142,7 +156,6 @@ export function AccountDialog({
   const [signIn, setSignIn] = useState(() => loadBotLogin() !== null);
   // The browser did not keep the guest account's cookie (guest checkout).
   const [cookiesBlocked, setCookiesBlocked] = useState(false);
-  const [terms, setTerms] = useState(false);
   const [termsChanged, setTermsChanged] = useState(() => memoryRef.current.refusedForTerms);
   const [elsewhere, setElsewhere] = useState<PaymentProvider | null>(null);
   // The provider took up the invoice the account tried to close.
@@ -151,7 +164,6 @@ export function AccountDialog({
   // UzumCodeScreen): to resume the invoice or to pay another way.
   const [choosing, setChoosing] = useState(false);
   const currentTerms = data?.terms[locale];
-  useEffect(() => { setTerms(false); }, [data?.termsVersion, currentTerms, data?.user?.storageKey, locale]);
   useEffect(() => { setSignIn(loadBotLogin() !== null); }, [data?.user?.storageKey]);
   // Back from the payment page out of the browser's page cache: the page is
   // as it was left, mid-way to the payment page; now it waits for the result.
@@ -193,7 +205,6 @@ export function AccountDialog({
     } catch (cause) {
       const code = cause instanceof RequestError ? cause.code : "request_failed";
       if (code === "terms_changed") {
-        setTerms(false);
         memoryRef.current.refusedForTerms = data?.payment?.id || "offer_changed";
         setTermsChanged(memoryRef.current.refusedForTerms);
         track(EV.accountActionFailed, { locale, code });
@@ -223,7 +234,9 @@ export function AccountDialog({
   const pay = (provider: PaymentProvider) =>
     run(async () => {
       const resume = resumeReady && data?.payment?.provider === provider;
-      if ((!checkoutReady && !resume) || !terms || !data?.providers.includes(provider)) throw new Error();
+      if ((!checkoutReady && !resume) || !data?.providers.includes(provider)) throw new Error();
+      // Pressing the button is the acceptance (the offer, section 7): the
+      // server records the edition and the time on the order, as before.
       if (data.payment && !["pending", "prepared"].includes(data.payment.state))
         memoryRef.current.requestKeys[provider] = undefined;
       memoryRef.current.requestKeys[provider] ??= crypto.randomUUID();
@@ -282,10 +295,21 @@ export function AccountDialog({
       memoryRef.current.requestKeys = {};
       account.forget();
       setConsent(false);
-      setTerms(false);
       track(EV.accountLogout, { locale });
       await refresh();
     });
+
+  // The providers this visitor pays with (types.ts): a guest Click and a live Payme.
+  const offered = offeredProviders(data);
+  // The limit card's tap pays here, once per tap, as soon as a checkout can
+  // start with that provider (never over an open invoice: the pay step then
+  // offers to resume it instead). The tap's number lives in the window's
+  // memory, so reopening the window does not pay again.
+  useEffect(() => {
+    if (!autoPay || memoryRef.current.autoPaid === autoPay.seq || !checkoutReady || busy || !offered.includes(autoPay.provider)) return;
+    memoryRef.current.autoPaid = autoPay.seq;
+    void pay(autoPay.provider);
+  });
 
   const watch = checkout.watch;
   if (watch && leaving)
@@ -336,11 +360,9 @@ export function AccountDialog({
       />
     );
 
-  // Without an account, Click alone: subscribe makes this browser a guest.
+  // Without an account (guest checkout): subscribe makes this browser a guest.
   const guestPay = !!data && !data.user && billingAvailable && !!pack && canPayAsGuest(data)
     && !cookiesBlocked && globalThis.navigator?.cookieEnabled !== false;
-  const clickOnly = data?.user ? !!data.user.guest : guestPay;
-  const offered = (data?.providers ?? []).filter((provider) => !clickOnly || provider === "click");
   const openPayment = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment : null;
   const appFlow = (provider: PaymentProvider) => provider === "uzum" && data?.uzumFlow === "code";
   const payStep = billingAvailable && pack && (data?.user || guestPay) && (
@@ -351,23 +373,16 @@ export function AccountDialog({
             {copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. {t.premium.manual}
           </p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
+          <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
         </>
       ) : (
         // A guest saw the price card above the pay step already.
-        !guestPay && <PlanCard t={t} copy={copy} pack={pack} />
+        !guestPay && <PlanCard t={t} copy={copy} pack={pack} notes={[copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))]} />
       )}
-      {/* The consent and the pay buttons stay in sight at the bottom of the window (REV-9). */}
+      {/* One tap: the pay buttons, live at once, and under them that the press
+          accepts the offer (acceptance by action, the offer's section 7). Both
+          stay in sight at the bottom of the window (REV-9). */}
       <div className="gpt-sticky-action">
-        <label className="gpt-check">
-          <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
-          <span>
-            {termsUrl && data?.termsVersion ? (
-              <a href={termsUrl} target="_blank" rel="noopener noreferrer">{copy.terms}</a>
-            ) : (
-              copy.terms
-            )}
-          </span>
-        </label>
         <div className="gpt-payment-buttons">
           {offered.map((provider) => (
             <button
@@ -375,7 +390,7 @@ export function AccountDialog({
               key={provider}
               className="gpt-primary"
               data-provider={provider}
-              disabled={busy || !terms || !checkoutReady}
+              disabled={busy || !checkoutReady}
               onClick={() => void pay(provider)}
             >
               {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
@@ -383,13 +398,18 @@ export function AccountDialog({
             </button>
           ))}
         </div>
+        {termsUrl && data?.termsVersion && (
+          <p className="gpt-pay-accept">
+            {t.premium.acceptByPay.before}
+            <a href={termsUrl} target="_blank" rel="noopener noreferrer">{t.premium.acceptByPay.link}</a>
+            {t.premium.acceptByPay.after}
+          </p>
+        )}
       </div>
-      <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
-      {guestPay && <p className="gpt-panel-note" data-testid="ai-pay-guest">{copy.guestPayNote}</p>}
       {openPayment?.provider && (
         <div className="gpt-panel-note" data-testid="ai-pay-open">
           <p>{copy.resumeNote}</p>
-          <button type="button" className="gpt-primary" disabled={busy || !terms || !resumeReady} onClick={() => { if (openPayment.provider) void pay(openPayment.provider); }}>
+          <button type="button" className="gpt-primary" disabled={busy || !resumeReady} onClick={() => { if (openPayment.provider) void pay(openPayment.provider); }}>
             {copy.resume}
           </button>
           {openPayment.cancellable ? (
@@ -478,8 +498,8 @@ export function AccountDialog({
       {cookiesBlocked && !data?.user && <p role="alert" className="gpt-notice" data-testid="ai-pay-cookies">{copy.cookiesBlocked}</p>}
       {data && !data.user && (
         <>
-          {/* A price only while the pack can really be bought (F6). */}
-          {billingAvailable && pack && <PlanCard t={t} copy={copy} pack={pack} />}
+          {/* A price only while the pack can really be bought (F6); a guest's notes fold into its card. */}
+          {billingAvailable && pack && <PlanCard t={t} copy={copy} pack={pack} notes={guestPay ? [copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or)), copy.guestPayNote, copy.otherBrowser] : []} />}
           {guestPay ? (
             <>
               {payStep}
@@ -494,7 +514,6 @@ export function AccountDialog({
                   <button type="button" className="gpt-text-button" onClick={() => setSignIn(true)}>{copy.login}</button>
                 </div>
               ))}
-              <p className="gpt-panel-note" data-testid="ai-pack-other-browser">{copy.otherBrowser}</p>
               <SupportLine copy={copy} />
             </>
           ) : data.loginAvailable && (
@@ -525,7 +544,7 @@ export function AccountDialog({
         </PackPanel>
       )}
       {billingAvailable && (!termsUrl || !data?.termsVersion?.trim()) && <p role="status">{copy.termsMissing}</p>}
-      {!loading && !offered.length && <p className="gpt-panel-note">{copy.unavailable}</p>}
+      {!loading && !billingAvailable && <p className="gpt-panel-note">{copy.unavailable}</p>}
       <button type="button" className="gpt-text-button" disabled={busy} onClick={() => void refresh()}>
         {t.premium.check}
       </button>

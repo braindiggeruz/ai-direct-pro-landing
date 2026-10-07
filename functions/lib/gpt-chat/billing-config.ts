@@ -208,7 +208,7 @@ export function guestCheckoutOn(env: BillingEnv): boolean {
  * gpt_payment_orders, which IdentityStore.adoptGuest moves to Telegram and a
  * support restore link finds by our pay_ number (guest-restore.ts). Uzum
  * keeps its orders in its own table, so it needs a signed-in account. The
- * pack window offers a guest Click alone until its next release.
+ * pack window offers a guest Click, and Payme once it is live (one tap, 07.10).
  */
 export const GUEST_PROVIDERS: readonly LocalProvider[] = ["click", "payme"];
 export function guestProvider(provider: unknown): boolean {

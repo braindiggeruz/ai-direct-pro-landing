@@ -392,7 +392,7 @@ test('REV-8 and REV-9: 44px targets; the pack window is a bottom sheet on a phon
   assert.match(css, /--accent-foreground: var\(--accent-ink\); --destructive: var\(--danger-text\);/);
   assert.match(account, /\.gpt-account-dialog \.gpt-plan-card \{[^}]*color: var\(--text\); \}/);
   const window = read('src/gpt-chat/account/AccountDialog.tsx');
-  assert.equal((window.match(/<div className="gpt-sticky-action">/g) ?? []).length, 2, 'the pay step and the sign-in');
+  assert.equal((window.match(/<div className="gpt-sticky-action">/g) ?? []).length, 2, 'the pay step (its buttons and the acceptance line) and the sign-in');
   assert.match(account, /\.gpt-account-dialog \.gpt-sticky-action \{ position: sticky; bottom: -28px;/);
   assert.match(account, /\.gpt-account-dialog \.gpt-sticky-action:has\(\.gpt-bot-login\) \{ position: static;/);
   assert.match(read('src/gpt-chat/components/AiSidebar.tsx'), /<LazyPart part=\{rolePart\} fallback=\{<div className="h-\[92px\]" \/>\} failed=\{null\}>/);
