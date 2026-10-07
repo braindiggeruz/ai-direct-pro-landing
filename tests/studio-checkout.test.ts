@@ -444,3 +444,33 @@ test("an hour's checkouts leave one pending order per buyer and every order jour
   assert.ok(HOUR > 0);
   assert.ok(NOW > 0);
 });
+
+// ── The chain (BUILD-PLAN stream B acceptance, in-process) ──────────────────
+
+test("the chain: order → the provider's payment → /me shows the tariff → a full deck takes one unit of it", async (context) => {
+  siteverify(context, PASS_BY_TOKEN);
+  const db = await paidDatabase();
+  const env = paidEnv(db);
+  const bid = await bidCookie(Date.now());
+  const ordered = await post(env, { cookie: bid, body: order({ plan: "oylik" }) });
+  assert.equal(ordered.response.status, 200);
+  const account = setCookies(ordered.response)[0];
+  const orderId = String(ordered.body.orderId);
+  // Payme's CreateTransaction and PerformTransaction (stream D calls the same store moves).
+  const store = new StudioStore(db.asD1());
+  await store.prepare(orderId, { externalId: "6f00a1b2c3d4e5f6a7b8c9d0", providerTime: Date.now(), method: "payme_create" });
+  await store.markPaid(orderId, { method: "payme_perform" });
+  const { onRequest: meEndpoint } = await import("../functions/api/studio/me");
+  const meBefore = (await (await call(meEndpoint, new Request("https://gptbot.uz/api/studio/me", { headers: { cookie: `${bid}; ${account}` } }), env)).json()) as { entitlements: Array<{ orderId: string; presentationsLeft: number; photosLeft: number }>; latestOrder: { id: string; state: string } };
+  assert.deepEqual(meBefore.entitlements.map((row) => [row.orderId, row.presentationsLeft, row.photosLeft]), [[orderId, 10, 40]]);
+  assert.deepEqual([meBefore.latestOrder.id, meBefore.latestOrder.state], [orderId, "paid"]);
+  const { onRequest: presentations } = await import("../functions/api/studio/presentations/index");
+  const created = await call(presentations, checkoutRequest({ cookie: account, body: { requestId: "deck_request_0001", topic: "Amir Temur davlati", locale: "uz", audience: "maktab", slides: 12, shape: "full", palette: 2 } }, "/api/studio/presentations"), env);
+  const job = (await created.json()) as { ok: boolean; source: string; entitlementId: string; next: string };
+  assert.equal(created.status, 201, JSON.stringify(job));
+  assert.deepEqual([job.source, job.entitlementId, job.next], ["entitlement", orderId, "outline"]);
+  const meAfter = (await (await call(meEndpoint, new Request("https://gptbot.uz/api/studio/me", { headers: { cookie: account } }), env)).json()) as { entitlements: Array<{ presentationsLeft: number }> };
+  assert.equal(meAfter.entitlements[0].presentationsLeft, 9);
+  // The free day's deck of this browser was not touched.
+  assert.equal(count(db, "SELECT COUNT(*) FROM studio_free_usage WHERE unit='presentation_free'"), 0);
+});
