@@ -20,8 +20,10 @@ export interface ChatStrings {
   premium: {
     /** The resting screen's greeting: one short question (not a heading). */
     welcome: string;
-    /** The pack's name: the header pill and the buttons that open its window. */
+    /** The pack's name in the dialog and contextual buttons. */
     account: string;
+    /** Always visible purchase action in the header, including narrow phones. */
+    buyPack: string;
     /** The header pill while a pack is active. */
     accountActive: string;
     close: string; check: string; manual: string;
@@ -178,7 +180,7 @@ const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
     answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
-    welcome:'Есть вопрос?',account:'AI-пакет',accountActive:'Мой пакет',
+    welcome:'Есть вопрос?',account:'AI-пакет',buyPack:'Купить пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,activeShort:(n) => `Ещё ${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`,
     partial:'Ответ прервался. Сохранённая часть доступна; можно попросить продолжить.',editQuestion:'Изменить вопрос',unanswered:'Ответ на этот вопрос не пришёл — возможно, страница закрылась раньше. Попробуйте ещё раз.',slow:'Ответ готовится дольше обычного. Можно остановить и отправить заново.',
@@ -286,7 +288,7 @@ const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
     answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
-    welcome:'Savolingiz bor?',account:'AI paket',accountActive:'Paketim',
+    welcome:'Savolingiz bor?',account:'AI paket',buyPack:'Paket olish',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,activeShort:(n) => `${n} ta javob qoldi`,
     partial:'Javob uzilib qoldi. Kelgan qismi saqlandi. Davom ettirishni so‘rashingiz mumkin.',editQuestion:'Savolni o‘zgartirish',unanswered:'Bu savolga javob kelmadi — ehtimol, sahifa yopilib qolgan. Qayta urinib ko‘ring.',slow:'Javob odatdagidan uzoqroq tayyorlanmoqda. To‘xtatib, qayta yuborishingiz mumkin.',

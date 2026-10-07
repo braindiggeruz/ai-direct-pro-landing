@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Studio Click shared production release",
-  "stage_status": "complete",
+  "current_stage": "Заметная покупка пакета и градиент чата",
+  "stage_status": "verified_not_deployed",
   "last_completed_stage": "Studio Click shared production release",
-  "next_stage": "Owner real payment acceptance and N1 when final data is available",
+  "next_stage": "Опубликовать проверенный CTA и фон чата",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1740,7 +1740,7 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Owner-independent productization is complete at exact source 08c2156 and deployment 68747046. Production is truthful, responsive, automated-accessibility green and data-neutral. Store Pilot #1 now needs one verified consenting seller, 10-30 approved products, legal/native Uzbek decisions, operating owners/SLA and explicit one-store activation; it is blocked on owner evidence, not engineering.",
+  "next_stage_note": "Последние прямые указания владельца: яркая текстовая покупка пакета на мобильном и качественный градиент фона. Никаких изменений тарифа или платёжного backend.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "3d2228d542ca42b2f0e5217f85daf8296a2b3468",
   "state_commit": "9c09e8c6ca260f8fb560b803d41f1bd41367683e",
@@ -1806,7 +1806,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-07T16:58:28",
+  "updated_at": "2026-10-07T17:28:40",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],
@@ -2080,5 +2080,25 @@
   },
   "previous_stage_blockers": [
     "Store Pilot #1: provide owner Telegram/OCC evidence, legal/native Uzbek decisions, one consented verified seller, 10-30 approved real products with integer UZS prices and inventory, SLA/support/incident ownership and explicit one-store authorization. No real store may be created before that authorization."
-  ]
+  ],
+  "chat_cta_20261007": {
+    "status": "VERIFIED_NOT_DEPLOYED",
+    "production_before": "3d2228d542ca42b2f0e5217f85daf8296a2b3468",
+    "source_base": "be3a41af0fff6d470d1e71793e4ac9b393368f79",
+    "scope": "Купить пакет / Paket olish: видимый текст, бирюзовая заливка; активный пакет остаётся нейтральным. Два статичных бирюзово-индиговых радиальных градиента.",
+    "verification": {
+      "typecheck": "PASS",
+      "lint": "PASS 5 файлов",
+      "targeted": "104 PASS / 0 FAIL",
+      "mobile_desktop": "28 сценариев RU/UZ, 320–1366 px, бесплатный и активный пакет; overflow/пересечения нет",
+      "cta_contrast": "10.89:1",
+      "one_tap": "18 PASS, mock API, реальные платежи не создавались",
+      "page_css_brotli": 26947,
+      "start_js_brotli": 109155,
+      "layout": "PASS: 446 сценариев, 302 снимка, 0 ошибок; 12/12 видимый CTA; 2/2 freshness/SEO tests",
+      "reindex": "31 live URL: HTTP200, self-canonical, без noindex; docs/SEO_REINDEX_20261007.txt"
+    },
+    "evidence": "F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534/checks/cta-*",
+    "rollback": "Отдельный commit UI можно revert и опубликовать обычным guarded release; миграций и новых secrets нет."
+  }
 }

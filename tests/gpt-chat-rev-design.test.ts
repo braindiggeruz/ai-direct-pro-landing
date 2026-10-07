@@ -462,7 +462,7 @@ test('REV-6: # and ## are sections, ### their parts; a code block carries its ow
 test('REV-8 and REV-9: 44px targets; the pack window is a bottom sheet on a phone, its consent and button stay in sight', () => {
   assert.match(css, /\.gpt-header-button \{ min-width: 44px; height: 44px;/);
   assert.match(account, /\.gpt-icon-button \{ width: 44px; height: 44px; min-width: 44px; min-height: 44px;/);
-  // The pack pill keeps 44px when its label is hidden (under 390px).
+  // The purchase button keeps a 44px target on narrow phones too.
   assert.match(css, /\.gpt-account-trigger \{ display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px;/);
   assert.match(account, /\.gpt-check input \{ flex-shrink: 0; width: 24px; height: 24px;/);
   // The privacy link's target grows down, not up: 5px above, under the 6px gap, so it never covers the field or the send button.

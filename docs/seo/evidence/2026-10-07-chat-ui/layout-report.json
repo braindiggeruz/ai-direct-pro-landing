@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-10-07T11:42:10.966Z",
+  "checkedAt": "2026-10-07T12:27:33.773Z",
   "dist": "F:\\Claude\\gptbot-codex-integration-20261007\\dist",
-  "shotsDir": "C:\\Users\\Borinio\\AppData\\Local\\Temp\\gptbot-chat-layout-shots",
+  "shotsDir": "F:\\Claude\\gptbot-tools\\backups\\codex-continuation-20261007-140534\\cta-layout-shots",
   "ok": true,
   "summary": {
     "pages": [
@@ -93,6 +93,7 @@
       {
         "size": "320x568",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -114,6 +115,7 @@
       {
         "size": "320x568",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -135,6 +137,7 @@
       {
         "size": "360x612",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -156,6 +159,7 @@
       {
         "size": "360x612",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -177,6 +181,7 @@
       {
         "size": "390x844",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -198,6 +203,7 @@
       {
         "size": "390x844",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -219,6 +225,7 @@
       {
         "size": "640x900",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -240,6 +247,7 @@
       {
         "size": "640x900",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -261,6 +269,7 @@
       {
         "size": "700x900",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -282,6 +291,7 @@
       {
         "size": "700x900",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -303,6 +313,7 @@
       {
         "size": "701x900",
         "locale": "uz",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -324,6 +335,7 @@
       {
         "size": "701x900",
         "locale": "ru",
+        "purchase": true,
         "smallTargets": 0,
         "headerSpill": 0,
         "subtitleWhole": true,
@@ -498,9 +510,9 @@
         "end": 942,
         "frames": [
           "0ms field 619 bubble 78–122",
-          "120ms field 897.6 bubble 72–116",
-          "240ms field 935.7 bubble 72–116",
-          "400ms field 942 bubble 72–116"
+          "120ms field 897.6 bubble 78–122",
+          "240ms field 935.7 bubble 78–122",
+          "400ms field 942 bubble 78–122"
         ],
         "problems": []
       },
@@ -512,9 +524,9 @@
         "end": 686,
         "frames": [
           "0ms field 491 bubble 78–122",
-          "120ms field 659.2 bubble 72–116",
-          "240ms field 682.2 bubble 72–116",
-          "400ms field 686 bubble 72–116"
+          "120ms field 659.2 bubble 78–122",
+          "240ms field 682.2 bubble 78–122",
+          "400ms field 686 bubble 78–122"
         ],
         "problems": []
       },
@@ -540,9 +552,9 @@
         "end": 818,
         "frames": [
           "0ms field 557 bubble 78–122",
-          "120ms field 782.1 bubble 78–122",
-          "240ms field 812.9 bubble 78–122",
-          "400ms field 818 bubble 78–122"
+          "120ms field 782.1 bubble 72–116",
+          "240ms field 812.9 bubble 72–116",
+          "400ms field 818 bubble 72–116"
         ],
         "problems": []
       },
@@ -1079,15 +1091,15 @@
         "locale": "uz",
         "cls": 0.002,
         "lcp": {
-          "t": 2556,
+          "t": 2304,
           "size": 6020,
-          "el": null
+          "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2556,
+            "t": 2304,
             "size": 6020,
-            "el": null
+            "el": "p.gpt-greet gpt-shell-greet"
           }
         ]
       },
@@ -1096,18 +1108,18 @@
         "locale": "ru",
         "cls": 0.002,
         "lcp": {
-          "t": 2972,
+          "t": 3100,
           "size": 6405,
           "el": "h1.gpt-kicker"
         },
         "candidates": [
           {
-            "t": 2004,
+            "t": 2204,
             "size": 6335,
             "el": "h1.gpt-kicker"
           },
           {
-            "t": 2972,
+            "t": 3100,
             "size": 6405,
             "el": "h1.gpt-kicker"
           }
@@ -1118,13 +1130,13 @@
         "locale": "uz",
         "cls": 0.0018,
         "lcp": {
-          "t": 2324,
+          "t": 2280,
           "size": 6845,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2324,
+            "t": 2280,
             "size": 6845,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -1135,13 +1147,13 @@
         "locale": "ru",
         "cls": 0.0018,
         "lcp": {
-          "t": 2244,
+          "t": 2108,
           "size": 6372,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2244,
+            "t": 2108,
             "size": 6372,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -1152,15 +1164,15 @@
         "locale": "uz",
         "cls": 0.0009,
         "lcp": {
-          "t": 2360,
+          "t": 2352,
           "size": 6845,
-          "el": "p.gpt-greet gpt-shell-greet"
+          "el": null
         },
         "candidates": [
           {
-            "t": 2360,
+            "t": 2352,
             "size": 6845,
-            "el": "p.gpt-greet gpt-shell-greet"
+            "el": null
           }
         ]
       },
@@ -1169,13 +1181,13 @@
         "locale": "ru",
         "cls": 0.0009,
         "lcp": {
-          "t": 2260,
+          "t": 2200,
           "size": 6372,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2260,
+            "t": 2200,
             "size": 6372,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -1186,13 +1198,13 @@
         "locale": "uz",
         "cls": 0.0053,
         "lcp": {
-          "t": 2040,
+          "t": 2268,
           "size": 9116,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2040,
+            "t": 2268,
             "size": 9116,
             "el": "p.gpt-greet gpt-shell-greet"
           }
@@ -1203,13 +1215,13 @@
         "locale": "ru",
         "cls": 0.0051,
         "lcp": {
-          "t": 2192,
+          "t": 2348,
           "size": 8323,
           "el": "p.gpt-greet gpt-shell-greet"
         },
         "candidates": [
           {
-            "t": 2192,
+            "t": 2348,
             "size": 8323,
             "el": "p.gpt-greet gpt-shell-greet"
           }

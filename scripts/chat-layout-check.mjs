@@ -1021,6 +1021,16 @@ if (!PERF_ONLY) {
     const { ctx, page } = await open({ ...size, theme: 'dark', locale, account: BILLING });
     await page.waitForSelector('[data-testid="ai-account-trigger"]');
     await page.waitForTimeout(250);
+    const purchase = await page.evaluate((locale) => {
+      const button = document.querySelector('[data-testid="ai-account-trigger"]');
+      const label = button.querySelector('.gpt-account-label');
+      const box = button.getBoundingClientRect(), text = label.getBoundingClientRect();
+      const css = getComputedStyle(label);
+      return label.textContent === (locale === 'ru' ? 'Купить пакет' : 'Paket olish')
+        && css.clipPath === 'none' && css.visibility === 'visible' && css.opacity === '1'
+        && text.width > 40 && text.height > 10 && text.left >= box.left && text.right <= box.right
+        && box.left >= 0 && box.right <= innerWidth && box.height >= 44;
+    }, locale);
     const header = await page.evaluate(audit);
     const composition = await page.evaluate(align, EXPECT[run.size] ?? null);
     if (size !== SIZES[0]) {
@@ -1052,7 +1062,7 @@ if (!PERF_ONLY) {
       const padding = innerWidth < 640 ? 20 : innerWidth <= 700 ? 24 : 28;
       return { padding: parseFloat(css.paddingLeft), ok: parseFloat(css.paddingLeft) === padding && parseFloat(css.paddingRight) === padding && (innerWidth <= 700 ? Math.abs(r.bottom - innerHeight) <= 1 : r.width <= 520 && Math.abs((r.left + r.right) / 2 - innerWidth / 2) <= 1) };
     });
-    billingChecks.push({ ...run, sheet, smallTargets: header.smallTargets, headerSpill: header.layout.headerSpill, subtitleWhole: header.layout.subtitleWhole, align: composition.fails, price });
+    billingChecks.push({ ...run, purchase, sheet, smallTargets: header.smallTargets, headerSpill: header.layout.headerSpill, subtitleWhole: header.layout.subtitleWhole, align: composition.fails, price });
     await ctx.close();
   }
   // The prerendered frame against the mounted chat: nothing moves when it mounts (A11).
@@ -1318,7 +1328,7 @@ const summary = {
   menuUnreachable: menuChecks.filter((m) => !m.open || m.missed.length).map((m) => `${m.size} ${m.locale} ${m.state}: ${m.missed.join(' | ') || 'closed'}`),
   menuDirections: { below: menuChecks.filter((m) => m.below).length, above: menuChecks.filter((m) => m.open && !m.below).length },
   zoom: zoomChecks,
-  billing: billingChecks.map((b) => ({ size: b.size, locale: b.locale, smallTargets: b.smallTargets.length, headerSpill: b.headerSpill.length, subtitleWhole: b.subtitleWhole, align: b.align, price: b.price, sheet: b.sheet })),
+  billing: billingChecks.map((b) => ({ size: b.size, locale: b.locale, purchase: b.purchase, smallTargets: b.smallTargets.length, headerSpill: b.headerSpill.length, subtitleWhole: b.subtitleWhole, align: b.align, price: b.price, sheet: b.sheet })),
   frameVsMounted: frameChecks.map((f) => ({ size: f.size, locale: f.locale, moved: f.moved, composer: f.mounted.composer?.height, footnote: f.mounted.footnote?.height, rows: f.mounted.rows })),
   transition: transitionChecks.map((t) => ({ size: t.size, locale: t.locale, reducedMotion: t.reducedMotion, before: t.before, end: t.end, frames: t.frames.map((f) => `${f.t}ms field ${f.fieldTop}${f.bubble ? ` bubble ${f.bubble.top}–${f.bubble.bottom}` : ''}`), problems: t.problems })),
   classicScrollbars: scrollbarChecks,
@@ -1336,7 +1346,7 @@ const pageChecksOk = PERF_ONLY || (
   !summary.limitCardOutOfSight.length && !summary.menuUnreachable.length && menuChecks.length === 8
   && summary.menuDirections.below >= 1 && summary.menuDirections.above >= 1
   && zoomChecks.length === 2 && zoomChecks.every((z) => z.ok)
-  && billingChecks.length === 12 && billingChecks.every((b) => !b.smallTargets.length && !b.headerSpill.length && b.subtitleWhole && !b.align.length && b.price.ratio >= 4.5 && b.price.amount === 20000 && b.price.providers.length === 1 && b.price.providers.some(p => /Click/.test(p)) && b.sheet.ok)
+  && billingChecks.length === 12 && billingChecks.every((b) => b.purchase && !b.smallTargets.length && !b.headerSpill.length && b.subtitleWhole && !b.align.length && b.price.ratio >= 4.5 && b.price.amount === 20000 && b.price.providers.length === 1 && b.price.providers.some(p => /Click/.test(p)) && b.sheet.ok)
   && frameChecks.length === SIZES.length * 2 && frameChecks.every((f) => !f.moved.length)
   && transitionChecks.length === 6 && transitionChecks.every((t) => !t.problems.length)
   && scrollbarChecks.length === 4 && scrollbarChecks.every((s) => s.gutter > 0)

@@ -20,7 +20,7 @@ type Report = {
     transition: Array<{ problems: string[]; reducedMotion?: string }>;
     lightRendersDark: { compared: number; different: unknown[] };
     classicScrollbars: Array<{ gutter: number }>;
-    billing: Array<{ size: string; sheet: { ok: boolean }; price: { amount: number; providers: string[]; ratio: number } }>;
+    billing: Array<{ size: string; purchase: boolean; sheet: { ok: boolean }; price: { amount: number; providers: string[]; ratio: number } }>;
     perf: Array<{ size: string; cls: number; lcp: { t: number } | null }>;
   };
 };
@@ -39,6 +39,7 @@ test('the fresh integrated UI passes the documented browser acceptance', {
     'src/gpt-chat/premium.css', 'src/gpt-chat/account/account.css', 'src/gpt-chat/i18n.ts',
     'src/gpt-chat/markdown.ts', 'src/gpt-chat/components/AiChatConsole.tsx',
     'src/gpt-chat/components/AiChatMessageList.tsx', 'src/gpt-chat/components/AiSidebar.tsx',
+    'src/gpt-chat/components/AiAccountPanel.tsx',
     'src/gpt-chat/components/AiAnswer.tsx', 'src/gpt-chat/components/RoleSelector.tsx',
     'scripts/prerender.ts', 'scripts/chat-layout-check.mjs',
   ]) assert.ok(Date.parse(report.checkedAt) >= fs.statSync(path.join(ROOT, file)).mtimeMs, `Устаревший отчёт: ${file}`);
@@ -57,6 +58,7 @@ test('the fresh integrated UI passes the documented browser acceptance', {
   assert.ok(s.transition.every(t => !t.problems.length));
   assert.equal(s.billing.length, 12, '13: обе локали, включая 640/700/701 px');
   for (const b of s.billing) {
+    assert.ok(b.purchase, 'Текст покупки виден целиком, кнопка доступна и помещается на экране');
     assert.ok(b.sheet.ok && b.price.ratio >= 4.5);
     assert.equal(b.price.amount, 20000);
     assert.equal(b.price.providers.length, 1);

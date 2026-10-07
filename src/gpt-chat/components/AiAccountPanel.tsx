@@ -185,11 +185,12 @@ export function AiAccountPanel({
         <Button variant="secondary"
           type="button"
           className="gpt-account-trigger"
+          data-purchase={!data?.access}
           onClick={() => openPack("header")}
           data-testid="ai-account-trigger"
         >
-          <Sparkles data-icon="inline-start" />
-          <span className="gpt-account-label">{data?.access ? t.premium.accountActive : t.premium.account}</span>
+          {data?.access && <Sparkles data-icon="inline-start" />}
+          <span className="gpt-account-label">{data?.access ? t.premium.accountActive : t.premium.buyPack}</span>
         </Button>
         </DialogTrigger>
       )}
