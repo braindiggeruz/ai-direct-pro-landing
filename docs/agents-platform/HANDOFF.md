@@ -27,3 +27,5 @@ Payme по-прежнему hidden/test; Click live. Реальных списа
 Отменить только commit35974128 CTA/градиента через revert, затем штатные build:production/check/deploy. Исходный production source3d2228d5 и его docs сохранены в Git. Миграций/секретов этот этап не требует; предыдущие резервные копии не затронуты.
 
 Список для владельца: `docs/SEO_REINDEX_20261007.txt` —31 URL после последних SEO/Studio-релизов, проверены live HTTP200/self-canonical/отсутствие noindex. Заявки в Google этим этапом не отправлялись.
+
+IndexNow 07.10.2026,17:52 Asia/Karachi:31/31 URL заново проверены и отправлены одним POST; HTTP200. Квитанция: `reports/indexnow-receipts/2026-10-07T12-52-57-441Z_codex-cta-31-20261007.json`. Это подтверждает приём уведомления; переобход/индексация и позиции этим не установлены.

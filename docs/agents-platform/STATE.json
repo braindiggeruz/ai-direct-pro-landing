@@ -1805,7 +1805,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-07T17:34:53",
+  "updated_at": "2026-10-07T17:58:39",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],
@@ -2102,6 +2102,13 @@
     "evidence": "F:/Claude/gptbot-tools/backups/codex-continuation-20261007-140534/checks/cta-*",
     "rollback": "Отдельный commit UI можно revert и опубликовать обычным guarded release; миграций и новых secrets нет.",
     "release_commit": "3597412854df3a4aab03285db873830d6da0b36f",
-    "deployment": "https://4ddbdbf0.ai-direct-pro-landing.pages.dev"
+    "deployment": "https://4ddbdbf0.ai-direct-pro-landing.pages.dev",
+    "indexnow": {
+      "submittedAt": "2026-10-07T12:52:57.441Z",
+      "status": 200,
+      "urls": 31,
+      "receipt": "reports/indexnow-receipts/2026-10-07T12-52-57-441Z_codex-cta-31-20261007.json",
+      "indexingVerified": false
+    }
   }
 }
