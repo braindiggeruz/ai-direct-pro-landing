@@ -2067,7 +2067,16 @@
     "release_commit": "3d2228d542ca42b2f0e5217f85daf8296a2b3468",
     "deployment": "https://20d2c825.ai-direct-pro-landing.pages.dev",
     "live_readback": "marker/assets/Studio3/SEO10/API PASS",
-    "n1": "NOT_DUE when run now; new schedule not created"
+    "n1": "NOT_DUE when run now; new schedule not created",
+    "live_browser_smoke": {
+      "viewport": 390,
+      "pages": 2,
+      "appErrors": 0,
+      "overflow": 0,
+      "photoStatus": 404,
+      "previewApiStatus": 404,
+      "thirdPartyWarnings": "Yandex certificate/CSP errors in test browser; see release report"
+    }
   },
   "previous_stage_blockers": [
     "Store Pilot #1: provide owner Telegram/OCC evidence, legal/native Uzbek decisions, one consented verified seller, 10-30 approved real products with integer UZS prices and inventory, SLA/support/incident ownership and explicit one-store authorization. No real store may be created before that authorization."

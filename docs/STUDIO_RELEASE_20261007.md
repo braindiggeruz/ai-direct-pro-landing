@@ -57,6 +57,8 @@ Typecheck всех трёх частей —0, lint156 изменённых code
 
 ## Финальный выпуск
 
+Live mobile smoke (390 px): RU-генератор и UZ-тарифы — HTTP200, без горизонтального скролла, `pageerror[]`, без first-party resource failures. Фото-черновик и Studio API на preview host —404. Заказы и AI-запросы не создавались. В тестовом браузере сторонние `hdrc.yandex.net`/`mdd.yandex.net` дали ERR_CERT_AUTHORITY_INVALID, `mc.yandex.md/cc?wmode=7` блокируется CSP; полностью чистая консоль не заявляется. Это не ошибка собственных страниц. Скриншоты и точные URL сохранены в приватном B/checks/studio-live-mobile*.json и B/studio-live-*-mobile.png.
+
 Production `3d2228d542ca42b2f0e5217f85daf8296a2b3468`; deployment https://20d2c825.ai-direct-pro-landing.pages.dev. Build, release check и deploy — exit0; suite 2057 PASS,0 FAIL,4 исторических SKIP; live marker/asset probes и protected SEO10/10 совпали, Studio3/3 доступны, Click-only /5900/39900/full12/photo-off/offer-v5 подтверждены API. Реальный денежный E2E не проводился.
 
 CSS после удаления неиспользуемых токенов:26 932/27 000 bytes Brotli. Layout446/302/0 выполнен до семантически нейтрального удаления токенов; потребители удалённых переменных не обнаружены независимой проверкой. Финальный suite и budget guard выполнялись на production build указанного SHA.
