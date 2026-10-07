@@ -24,9 +24,10 @@
 //
 // Steps (jobMeter): every model call takes a step under the job's cap
 //   (outline 2 + 2 per part + 4 spare for a full deck, spec §7.1; 2 + 2 for
-//   the free deck; 2 + 1 length retry for a photo) and reserves its worst
-//   case on the day's spend bucket (spend.ts). A call the cap or the bucket
-//   refuses is not made.
+//   the free deck; 2 + 1 length retry for a photo; the proofreading pass of
+//   a paid Uzbek deck has 2 more per part, proofSteps) and reserves its
+//   worst case on the day's spend bucket (spend.ts). A call the cap or the
+//   bucket refuses is not made.
 //
 // Delivery (handOut): content leaves only after its part's bit was written.
 // Faults (failPart): the part's bit goes into the fault mask; when the job
@@ -119,6 +120,17 @@ export function maxSteps(job: Pick<LedgerJob, "shape" | "partsTotal">): number {
     case "photo":
       return STEP_LIMITS.photo.attempts + STEP_LIMITS.photo.lengthRetries;
   }
+}
+
+/**
+ * The proofreading pass's own allowance on top of maxSteps (proofread.ts):
+ * one pass of STEP_LIMITS.proof.attempts calls per slide part of a full
+ * deck; nothing for the free deck or a photo. A pass takes its steps from
+ * the same counter, under maxSteps + this, so the outline and the parts keep
+ * their measured cap and the pass can never call more than this beyond it.
+ */
+export function proofSteps(job: Pick<LedgerJob, "shape" | "partsTotal">): number {
+  return job.shape === "full" ? STEP_LIMITS.proof.attempts * (job.partsTotal - 1) : 0;
 }
 
 /** An open job (it may still deliver). */
@@ -561,13 +573,14 @@ export interface JobMeter {
 
 /**
  * The meter of one step of `job`: `kind` is the text step (outline, part,
- * free) or "photo". Pass `admit` to the model client and call `settle` with
+ * free, proof) or "photo". Pass `admit` to the model client and call `settle` with
  * the step's calls when it returns, whatever the result.
  */
 export function jobMeter(db: D1Database, config: SpendConfig, job: LedgerJob, kind: TextStep | "photo", clock: () => number = Date.now): JobMeter {
   const store = new LedgerStore(db);
   const spend = new JobSpend(db, job);
-  const cap = maxSteps(job);
+  // The proofreading pass may also use its own allowance (proofSteps); every other step stops at maxSteps.
+  const cap = kind === "proof" ? maxSteps(job) + proofSteps(job) : maxSteps(job);
   const reservations: number[] = [];
   const alerts: StudioAlert[] = [];
   return {

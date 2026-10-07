@@ -27,9 +27,10 @@
  *      drawn goes without too, so the file can be saved. A picture never
  *      costs the person anything.
  */
-import type { CreatedJob, Deck, DeckTask, Result, SignedImagePrompt, StudioApi, StudioAudience, StudioLocale } from '../../api';
+import type { CreatedJob, Deck, DeckSlide, DeckTask, Result, SignedImagePrompt, StudioApi, StudioAudience, StudioLocale } from '../../api';
 import type { StudioSession } from '../../config';
 import { obtainIdentity, type StudioTurnstileAction, type TokenResult } from '../../identity';
+import { fullUnitsLeft, type FullDeckApi, type OutlineAnswer, type PartAnswer } from './api';
 
 export const TOPIC_MIN = 3;
 export const TOPIC_MAX = 200;
@@ -232,4 +233,182 @@ export async function drawPictures(
   }
   // Whatever is still being drawn goes without.
   for (const image of images) settle(image.index, null);
+}
+
+// ── The full deck (T3.1) ─────────────────────────────────────────────────────
+//
+//   1. /config (the full deck on) and /me (full decks left; none → the
+//      tariffs, nothing else is called).
+//   2. POST /presentations {shape:"full"} with a fresh request id, no
+//      Turnstile (paid generations go by the buyer's session); no answer →
+//      once more with the SAME id. 402 no_units → the tariffs.
+//      A regeneration: POST /:job/regenerate of the original instead.
+//   3. POST /:job/outline with the task, up to OUTLINE_CALLS times (again
+//      after a fault the server marks `retry`, or no answer). The signed
+//      picture prompts come with it: `onOutline` starts the pictures now,
+//      while the parts are written.
+//   4. POST /:job/slides {part, outline, sig} for every part AT ONCE, each
+//      up to PART_CALLS times the same way. A part that still fails ends
+//      the run: the job keeps the fault, so its unit comes back.
+//   5. The deck: the cover from part 1 (proofread with it on a paid Uzbek
+//      deck), the slides of every part in plan order.
+
+export const FULL_PALETTES: readonly number[] = [1, 2, 3];
+/** The full deck's slider starts here (or at the most STUDIO_MAX_SLIDES allows). */
+export const FULL_SLIDES_INITIAL = 12;
+/** Calls of /:job/outline for one job at most (the server caps the model calls anyway). */
+export const OUTLINE_CALLS = 3;
+/** Calls of /:job/slides for one part at most. */
+export const PART_CALLS = 3;
+
+export interface FullInput extends FormInput {
+  readonly palette: number;
+}
+
+export type FullPhase = 'check' | 'outline' | 'write';
+
+export interface FullProgress {
+  readonly phase: FullPhase;
+  /** Parts written so far, and how many there are (0 until the outline is in). */
+  readonly partsDone: number;
+  readonly parts: number;
+}
+
+export type FullOutcome =
+  | {
+      readonly kind: 'ready';
+      readonly job: CreatedJob;
+      readonly task: DeckTask;
+      readonly deck: Deck;
+      readonly images: readonly SignedImagePrompt[];
+      readonly aiLabel: boolean;
+      /** Set for a regeneration: the job it made again. */
+      readonly regenOf?: string;
+    }
+  /** No full deck left (or never bought): the island shows the tariffs. */
+  | { readonly kind: 'no_units' }
+  | { readonly kind: 'refused'; readonly category?: string }
+  /** `afterJob`: the job existed (the plan or a part failed): a server fault there gives the unit back. */
+  | { readonly kind: 'error'; readonly code: string; readonly resetsAt?: string; readonly afterJob?: boolean };
+
+export interface FullDeps {
+  readonly api: Pick<StudioApi, 'createPresentation'>;
+  readonly full: FullDeckApi;
+  readonly session: Pick<StudioSession, 'config' | 'me'> & Partial<Pick<StudioSession, 'refreshMe'>>;
+  readonly requestId: () => string;
+  readonly onProgress?: (progress: FullProgress) => void;
+  /** The outline is in: its signed picture prompts may be drawn now. */
+  readonly onOutline?: (jobId: string, images: readonly SignedImagePrompt[]) => void;
+  readonly signal?: AbortSignal;
+}
+
+function fullFailure(failure: Extract<Result<unknown>, { ok: false }>, lost = false, afterJob = false): FullOutcome {
+  if (failure.code === 'no_units') return { kind: 'no_units' };
+  if (failure.code === 'topic_refused') return { kind: 'refused', ...(failure.category ? { category: failure.category } : {}) };
+  const job = afterJob ? { afterJob: true } : {};
+  // After an answer was lost, job_state means the job closed or went to that lost request.
+  if (lost && failure.code === 'job_state') return { kind: 'error', code: 'job_lost', ...job };
+  return { kind: 'error', code: failure.code, ...(failure.resetsAt ? { resetsAt: failure.resetsAt } : {}), ...job };
+}
+
+/**
+ * Calls `once` up to `calls` times: again after a fault the server marks
+ * `retry`, and again when the request got no answer, unless the run was
+ * cancelled. `lost` tells whether an answer went missing on the way.
+ */
+async function withRetries<T>(once: () => Promise<Result<T>>, calls: number, signal?: AbortSignal): Promise<{ readonly result: Result<T>; readonly lost: boolean }> {
+  let result = await once();
+  let lost = false;
+  for (let call = 1; !result.ok && call < calls && !signal?.aborted; call++) {
+    const dropped = LOST.has(result.code);
+    if (!dropped && result.retry !== true) break;
+    lost ||= dropped;
+    result = await once();
+  }
+  return { result, lost };
+}
+
+/** The deck of a run: the cover from part 1 (or the outline), the slides of every part in plan order. */
+export function assembleDeck(outline: OutlineAnswer['outline'], parts: readonly PartAnswer[]): Deck {
+  const first = parts.find((part) => part.part === 1);
+  const slides: DeckSlide[] = parts.flatMap((part) => [...part.deck.slides]).sort((a, b) => a.index - b.index);
+  return {
+    title: first?.deck.title || outline.title,
+    subtitle: first?.deck.subtitle ?? outline.subtitle,
+    slides,
+  };
+}
+
+/** Steps 3–5 for a job that exists (a start or a regeneration). */
+async function runFullJob(job: CreatedJob, task: DeckTask, aiLabel: boolean, deps: FullDeps, regenOf?: string): Promise<FullOutcome> {
+  const options = { signal: deps.signal };
+  deps.onProgress?.({ phase: 'outline', partsDone: 0, parts: 0 });
+  const outline = await withRetries(() => deps.full.outline(job.jobId, task, options), OUTLINE_CALLS, deps.signal);
+  if (!outline.result.ok) {
+    deps.session.refreshMe?.();
+    return fullFailure(outline.result, outline.lost, true);
+  }
+  const { outline: plan, sig, images, parts } = outline.result.data;
+  deps.onOutline?.(job.jobId, images);
+  let done = 0;
+  deps.onProgress?.({ phase: 'write', partsDone: 0, parts });
+  const runs = Array.from({ length: parts }, async (_, i) => {
+    const run = await withRetries(() => deps.full.part(job.jobId, task, i + 1, plan, sig, options), PART_CALLS, deps.signal);
+    if (run.result.ok) deps.onProgress?.({ phase: 'write', partsDone: ++done, parts });
+    return run;
+  });
+  const results = await Promise.all(runs);
+  deps.session.refreshMe?.();
+  for (const run of results) {
+    // The job keeps the fault: its unit comes back. The next try reads /me again.
+    if (!run.result.ok) return fullFailure(run.result, run.lost, true);
+  }
+  const answers = results.flatMap((run) => (run.result.ok ? [run.result.data] : []));
+  return { kind: 'ready', job, task, deck: assembleDeck(plan, answers), images, aiLabel, ...(regenOf ? { regenOf } : {}) };
+}
+
+/** The task of a full deck from the form, inside what /config allows. */
+export function fullTask(input: FullInput, locale: StudioLocale, maxSlides: number, minSlides = 6): DeckTask {
+  const top = Math.max(minSlides, maxSlides);
+  return {
+    topic: normalizeTopic(input.topic),
+    locale,
+    audience: input.audience,
+    slides: Math.min(top, Math.max(minSlides, Math.round(input.slides))),
+    palette: FULL_PALETTES.includes(input.palette) ? input.palette : 1,
+  };
+}
+
+export async function startFullDeck(input: FullInput, locale: StudioLocale, deps: FullDeps): Promise<FullOutcome> {
+  const problem = topicProblem(input.topic);
+  if (problem) return { kind: 'error', code: problem };
+  deps.onProgress?.({ phase: 'check', partsDone: 0, parts: 0 });
+  const config = await deps.session.config();
+  if (!config.ok) return { kind: 'error', code: config.code };
+  if (!config.data.tools.fullDeck) return { kind: 'error', code: 'studio_busy' };
+  const me = await deps.session.me();
+  if (me.ok && fullUnitsLeft(me.data) === 0) return { kind: 'no_units' };
+
+  const full = config.data.shapes.full;
+  const task = fullTask(input, locale, full.maxSlides, full.minSlides);
+  const body = { ...task, requestId: deps.requestId(), shape: 'full' as const, turnstileToken: '' };
+  const options = { signal: deps.signal };
+  let created = await deps.api.createPresentation(body, options);
+  if (!created.ok && LOST.has(created.code)) created = await deps.api.createPresentation(body, options);
+  if (!created.ok) return fullFailure(created);
+  return runFullJob(created.data, task, config.data.aiLabel, deps);
+}
+
+/** One regeneration of a full deck the buyer made: the same task, a new job (no unit). */
+export async function regenerateFullDeck(original: { readonly jobId: string; readonly task: DeckTask }, deps: FullDeps): Promise<FullOutcome> {
+  deps.onProgress?.({ phase: 'check', partsDone: 0, parts: 0 });
+  const config = await deps.session.config();
+  if (!config.ok) return { kind: 'error', code: config.code };
+  if (!config.data.tools.fullDeck) return { kind: 'error', code: 'studio_busy' };
+  const body = { ...original.task, requestId: deps.requestId(), shape: 'full' as const };
+  const options = { signal: deps.signal };
+  let created = await deps.full.regenerate(original.jobId, body, options);
+  if (!created.ok && LOST.has(created.code)) created = await deps.full.regenerate(original.jobId, body, options);
+  if (!created.ok) return fullFailure(created);
+  return runFullJob(created.data, original.task, config.data.aiLabel, deps, original.jobId);
 }

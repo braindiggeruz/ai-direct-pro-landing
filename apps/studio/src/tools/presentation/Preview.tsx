@@ -17,6 +17,9 @@
  * scripts/analytics-metrika.ts) never records a deck (STUDIO-SPEC §10.5).
  * Pictures are shown from object URLs (URL.createObjectURL of the JPEG
  * bytes), never as data: URLs, which Webvisor could copy.
+ *
+ * A full deck (T3.1) also shows each slide's talk («Qisqa ma’ruza matni»)
+ * under its bullets, folded (<details>), so the cards stay short.
  */
 import { useEffect, useRef, type ReactNode } from 'react';
 import type { Deck } from '../../api';
@@ -34,9 +37,11 @@ export interface PreviewProps {
   readonly pictures: ReadonlyMap<number, PictureState>;
   /** The download block, under the heading and above the slides, so it is in view without scrolling past them. */
   readonly actions?: ReactNode;
+  /** A full deck: the label of each slide's folded talk (FULL_TEXTS.notesLabel); without it no talk is shown. */
+  readonly notesLabel?: string;
 }
 
-export function Preview({ texts, deck, pictures, actions }: PreviewProps) {
+export function Preview({ texts, deck, pictures, actions, notesLabel }: PreviewProps) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     // A new deck (the object changes only then): the focus moves to it.
@@ -71,6 +76,12 @@ export function Preview({ texts, deck, pictures, actions }: PreviewProps) {
                     <li key={i}>{bullet}</li>
                   ))}
                 </ul>
+                {notesLabel && slide.notes ? (
+                  <details className="st:mt-2 st:text-[11px] st:leading-snug st:text-[#263241]" data-notes={slide.index}>
+                    <summary className="st:cursor-pointer st:font-medium st:text-[#14213d]">{notesLabel}</summary>
+                    <p className="st:mt-1">{slide.notes}</p>
+                  </details>
+                ) : null}
               </div>
               {picture ? (
                 <div className="st:order-first st:flex st:aspect-[4/3] st:w-full st:shrink-0 st:items-center st:justify-center st:self-start st:overflow-hidden st:rounded-md st:bg-[#eef2f6] st:sm:order-none st:sm:w-2/5">

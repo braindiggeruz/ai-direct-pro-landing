@@ -12,7 +12,7 @@
  */
 import type { StudioAudience, StudioLocale } from '../../api';
 
-export type Step = 'check' | 'write' | 'images' | 'ready';
+export type Step = 'check' | 'outline' | 'write' | 'images' | 'ready';
 
 export type MessageKey =
   | 'topic_length'
@@ -84,7 +84,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     copyShort: 'Nusxalash',
     copied: 'Havola nusxalandi',
     copyFailed: 'Nusxalab bo‘lmadi. Yuqoridagi ⋮ yoki … menyusidan «Brauzerda ochish»ni tanlang.',
-    steps: { check: 'Tekshiruv', write: 'Slaydlar yozilmoqda', images: 'Rasmlar chizilmoqda', ready: 'Taqdimot tayyor' },
+    steps: { check: 'Tekshiruv', outline: 'Reja tuzilmoqda', write: 'Slaydlar yozilmoqda', images: 'Rasmlar chizilmoqda', ready: 'Taqdimot tayyor' },
     progressNote: 'Odatda 30–40 soniya. Sahifani yopmang va ilovadan chiqmang.',
     seconds: (n) => `${n} soniya`,
     resultTitle: 'Taqdimot tayyor',
@@ -133,7 +133,7 @@ export const TEXTS: Readonly<Record<StudioLocale, ToolTexts>> = {
     copyShort: 'Скопировать',
     copied: 'Ссылка скопирована',
     copyFailed: 'Не удалось скопировать. Нажмите ⋮ или … вверху и выберите «Открыть в браузере».',
-    steps: { check: 'Проверка', write: 'Пишем слайды', images: 'Рисуем картинки', ready: 'Презентация готова' },
+    steps: { check: 'Проверка', outline: 'Составляем план', write: 'Пишем слайды', images: 'Рисуем картинки', ready: 'Презентация готова' },
     progressNote: 'Обычно 30–40 секунд. Не закрывайте страницу и не сворачивайте приложение.',
     seconds: (n) => `${n} с`,
     resultTitle: 'Презентация готова',
@@ -215,4 +215,116 @@ export function tashkentTime(iso: string | undefined): string {
     const date = new Date(time + 5 * 3_600_000);
     return `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
   }
+}
+
+// ── The full deck and the paid stage (T3.1) ──────────────────────────────────
+//
+// Apart from TEXTS on purpose: the free tool's words never call the free deck
+// "to‘liq" (tests/studio-island.test.ts), while the paid deck's name is
+// exactly that («Bu to‘liq taqdimot: 1 ta birlik yechiladi (qoldi: N)»,
+// spec §2.3). The same honesty rules hold here (tests/studio-full-deck.test.ts):
+// no ChatGPT/OpenAI, no "rasmiy", "cheksiz", "безлимит", no call to buy and
+// nothing that asks a child to ask a parent (DECISIONS 07.10 §1(д)): prices
+// and tariffs are the island's neutral "Tariflar" section (billing/, T3.2).
+
+export interface FullTexts {
+  readonly shapeLabel: string;
+  readonly shapeFree: string;
+  readonly shapeFreeNote: string;
+  readonly shapeFull: string;
+  /** The full deck's allowance, with the most slides this release opens. */
+  readonly shapeFullNote: (maxSlides: number) => string;
+  readonly paletteLabel: string;
+  readonly submit: string;
+  /** Before the submit: one unit goes, `left` remain now (spec §2.3). */
+  readonly unitNote: (left: number) => string;
+  /** The same when /me does not say how many are left. */
+  readonly unitNoteUnknown: string;
+  /** No full deck left (or never bought): the tariffs follow. */
+  readonly noUnits: string;
+  /** Under the "write" step: parts written so far. */
+  readonly parts: (done: number, total: number) => string;
+  readonly progressNote: string;
+  /** The talk under a slide in the preview. */
+  readonly notesLabel: string;
+  readonly regenerate: string;
+  readonly regenerating: string;
+  readonly regenNote: string;
+  /** A fault after the job existed: the unit comes back. */
+  readonly unitBack: string;
+  /** The first line of the free-limit card: when the free deck is back (DECISIONS §1(д)). */
+  readonly freeAgain: (time: string, today: boolean) => string;
+  readonly messages: Readonly<Record<'regen_used' | 'regen_window' | 'regen_mismatch' | 'job_state', string>>;
+}
+
+export const FULL_TEXTS: Readonly<Record<StudioLocale, FullTexts>> = {
+  uz: {
+    shapeLabel: 'Taqdimot turi',
+    shapeFree: 'Bepul',
+    shapeFreeNote: '6 slaydgacha, 2 tagacha rasm',
+    shapeFull: 'To‘liq',
+    shapeFullNote: (max) => `${max} slaydgacha, 8 tagacha rasm, qisqa ma’ruza matni`,
+    paletteLabel: 'Ranglar',
+    submit: 'To‘liq taqdimot tayyorlash',
+    unitNote: (left) => `Bu to‘liq taqdimot: 1 ta birlik yechiladi (qoldi: ${left})`,
+    unitNoteUnknown: 'Bu to‘liq taqdimot: 1 ta birlik yechiladi',
+    noUnits: 'To‘liq taqdimot uchun birlik qolmagan.',
+    parts: (done, total) => `${total} qismdan ${done} tasi tayyor`,
+    progressNote: 'Odatda 40–60 soniya. Sahifani yopmang va ilovadan chiqmang.',
+    notesLabel: 'Qisqa ma’ruza matni',
+    regenerate: 'Qayta yaratish',
+    regenerating: 'Qayta yaratilmoqda…',
+    regenNote: 'Shu mavzuda 1 marta, 24 soat ichida; birlik yechilmaydi.',
+    unitBack: 'Birlik qaytariladi.',
+    freeAgain: (time, today) => (today ? `Bugun soat ${time} da yana bepul.` : `Ertaga soat ${time} da yana bepul.`),
+    messages: {
+      regen_used: 'Bu taqdimot allaqachon qayta yaratilgan.',
+      regen_window: 'Qayta yaratish muddati tugagan.',
+      regen_mismatch: 'Qayta yaratish faqat o‘sha mavzu uchun.',
+      job_state: 'Taqdimot yopildi. Qayta urinib ko‘ring.',
+    },
+  },
+  ru: {
+    shapeLabel: 'Вид презентации',
+    shapeFree: 'Бесплатная',
+    shapeFreeNote: 'до 6 слайдов, до 2 картинок',
+    shapeFull: 'Полная',
+    shapeFullNote: (max) => `до ${max} слайдов, до 8 картинок, текст выступления`,
+    paletteLabel: 'Оформление',
+    submit: 'Сделать полную презентацию',
+    unitNote: (left) => `Это полная презентация: спишется 1 единица (осталось: ${left})`,
+    unitNoteUnknown: 'Это полная презентация: спишется 1 единица',
+    noUnits: 'Единиц для полной презентации не осталось.',
+    parts: (done, total) => `Готово частей: ${done} из ${total}`,
+    progressNote: 'Обычно 40–60 секунд. Не закрывайте страницу и не сворачивайте приложение.',
+    notesLabel: 'Текст выступления',
+    regenerate: 'Сделать заново',
+    regenerating: 'Делаем заново…',
+    regenNote: 'Один раз по той же теме в течение 24 часов; единица не списывается.',
+    unitBack: 'Единица вернётся.',
+    freeAgain: (time, today) => (today ? `Снова бесплатно сегодня в ${time}.` : `Снова бесплатно завтра в ${time}.`),
+    messages: {
+      regen_used: 'Эту презентацию уже делали заново.',
+      regen_window: 'Срок, когда можно сделать заново, прошёл.',
+      regen_mismatch: 'Заново — только по той же теме.',
+      job_state: 'Презентация закрылась. Попробуйте ещё раз.',
+    },
+  },
+};
+
+/** The full deck's own message for a code, or null (then TEXTS.messages by messageKey). */
+export function fullMessage(locale: StudioLocale, code: string): string | null {
+  const messages = FULL_TEXTS[locale].messages;
+  return Object.prototype.hasOwnProperty.call(messages, code) ? messages[code as keyof typeof messages] : null;
+}
+
+/** Codes of a server fault after the job existed: the unit comes back (spec §2.3 item 4). */
+export const UNIT_BACK: ReadonlySet<string> = new Set(['model_failed', 'model_unavailable', 'studio_busy', 'invalid_output']);
+
+/**
+ * Whether the free day restarts today in Tashkent (before 05:00) or tomorrow.
+ * The free day is the UTC date, so it restarts at 00:00 UTC = 05:00 Tashkent.
+ */
+export function freeAgainToday(now: number): boolean {
+  return new Date(now + 5 * 3_600_000).getUTCHours() < 5;
 }

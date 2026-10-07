@@ -8,7 +8,8 @@
 // v3 = v2 plus an English image_prompt on every outline slide, «never name
 // works or dates outside the textbook», and a talk of 3–4 sentences. The app
 // adds the sources slide itself («Manbalar: …», T2.2), so the model never
-// writes one. Temperature 0.3 for every text step (MEASURE-30 §6).
+// writes one. Temperature 0.3 for every text step (MEASURE-30 §6); the
+// proofreading pass of paid Uzbek decks (PROOF_SYSTEM) runs at 0.2.
 //
 // Only the topic a person typed reaches the model, cleaned by cleanTopic();
 // nothing here is logged or stored.
@@ -99,6 +100,22 @@ export const GLOSSARY_UZ = {
   chemistry:
     `Uzbek school chemistry terms (use exactly these): kimyoviy element, davriy jadval, atom, atom massasi, davr, guruh, metall, metallmas, modda, kimyoviy formula.`,
 } as const;
+
+/**
+ * The proofreading pass of paid Uzbek decks (MEASURE-30 §6, appendix A
+ * PROOF_SYSTEM; measure30.py lines 781–785, line breaks included): a second
+ * call per part that fixes only the language. Measured: −67% Uzbek errors,
+ * facts untouched, one error of its own in four decks. The owner turned it
+ * on for paid decks on 07.10 (DECISIONS §13 item 4).
+ */
+export const PROOF_SYSTEM = `You are an editor of Uzbek school texts (Uzbek Latin script, the literary standard of school textbooks).
+You get a JSON object with presentation slides. Fix ONLY language mistakes in the Uzbek text: words that do not exist,
+wrong word choices, misspellings, wrong case endings and broken sentences. Use ‘ (U+2018) in o‘ and g‘ and ’ (U+2019)
+for the glottal stop. Do not add or remove facts, slides, bullets or sentences; keep "index" values; keep numbers and formulas.
+Output ONLY the corrected JSON object with exactly the same shape, no comments.`;
+
+/** The proofreading pass runs at 0.2, as measured (MEASURE-30 §6). */
+export const PROOF_TEMPERATURE = 0.2;
 
 export const TAIL_A = `, realistic photo, quiet empty scene, soft daylight, clean composition`;
 
@@ -237,6 +254,37 @@ export function freeMessages(request: DeckRequest): ChatMessage[] {
   return [
     { role: "system", content: buildSystem(FREE_V3, request.locale, subject, request.slides) },
     { role: "user", content: line },
+  ];
+}
+
+/** One slide of a part as the proofreading pass gets it back (the part's own fields, in the model's order). */
+export interface ProofSlide {
+  readonly index: number;
+  readonly title: string;
+  readonly bullets: readonly string[];
+  readonly notes: string;
+}
+
+/** What one proofreading call reads: a part's slides, and for the first part also the deck's title and subtitle. */
+export interface ProofText {
+  readonly title?: string;
+  readonly subtitle?: string;
+  readonly slides: readonly ProofSlide[];
+}
+
+/**
+ * The proofreading pass of one part: PROOF_SYSTEM, then the part as
+ * measure30.py mode_proof sent it, json.dumps({"slides": …},
+ * ensure_ascii=False). The first part also carries the deck's title and
+ * subtitle (the cover), ahead of its slides, so the cover is read too
+ * without one more call.
+ */
+export function proofMessages(text: ProofText): ChatMessage[] {
+  const slides = text.slides.map((slide) => ({ index: slide.index, title: slide.title, bullets: [...slide.bullets], notes: slide.notes }));
+  const body = text.title !== undefined ? { title: text.title, subtitle: text.subtitle ?? "", slides } : { slides };
+  return [
+    { role: "system", content: PROOF_SYSTEM },
+    { role: "user", content: pythonJson(body) },
   ];
 }
 

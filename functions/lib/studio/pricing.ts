@@ -159,11 +159,20 @@ function picturesMicro(shape: keyof typeof DECK_SHAPES): number {
   return calls * (FLUX_MICRO_PER_IMAGE + check);
 }
 
-/** A full deck at the most slides: the outline, every part, the spare re-calls, the prompt check and every picture. */
-export function worstFullDeckMicro(): number {
+/**
+ * A full deck at the most slides: the outline, every part, the spare
+ * re-calls, the prompt check and every picture; with `proofread` (the
+ * default: a paid Uzbek deck, DECISIONS §13 п. 4) also the proofreading pass
+ * of every part and of every spare re-call of a part (a re-called part is
+ * read again), each at its ceiling. That is more proofreading calls than the
+ * job's step cap lets through (jobs.ts proofSteps), so it bounds them.
+ */
+export function worstFullDeckMicro(proofread = true): number {
   const price = dearest(TEXT_MODELS);
+  const parts = deckParts(DECK_SHAPES.full.maxSlides);
   return textMicro(STEP_LIMITS.outline, price, 1)
-    + textMicro(STEP_LIMITS.part, price, deckParts(DECK_SHAPES.full.maxSlides), SPARE_PART_CALLS.full)
+    + textMicro(STEP_LIMITS.part, price, parts, SPARE_PART_CALLS.full)
+    + (proofread ? textMicro(STEP_LIMITS.proof, price, parts, SPARE_PART_CALLS.full) : 0)
     + promptGuardMicro()
     + picturesMicro("full");
 }

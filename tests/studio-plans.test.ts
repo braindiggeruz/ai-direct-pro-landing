@@ -5,9 +5,12 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   DECK_SHAPES,
+  REFUND_WINDOW_MS,
   STEP_LIMITS,
   STUDIO_FREE_DAILY,
+  STUDIO_ORDER_TTL_MS,
   STUDIO_PLANS,
+  STUDIO_PROVIDERS,
   TERMS_PLAN,
   deckParts,
   entitlementEndsAt,
@@ -15,6 +18,7 @@ import {
   planFor,
   planOfVersion,
   planVatTiyin,
+  refundValueTiyin,
   type StudioPlan,
 } from "../functions/lib/studio/plans";
 import {
@@ -37,6 +41,7 @@ import { FREE_TEXT_FALLBACKS, IMAGE_CHECK_MODELS, TEXT_MODELS, VISION_MODELS } f
 import { includedVat } from "../functions/lib/gpt-chat/fiscal-config";
 
 const V1 = STUDIO_PLANS["studio-2026-11-v1"];
+const DECKS = STUDIO_PLANS["studio-2026-10-decks-v1"];
 const ALL_PLANS: Array<[string, string, StudioPlan]> = Object.entries(STUDIO_PLANS).flatMap(([version, plans]) =>
   Object.entries(plans).map(([id, plan]) => [version, id, plan] as [string, string, StudioPlan]));
 
@@ -61,6 +66,59 @@ test("quotas of studio-2026-11-v1 are the roadmap's", () => {
     { presentationFull: 10, photoTask: 40, regen: 1 },
   );
   assert.deepEqual(STUDIO_FREE_DAILY, { presentation_free: 1, photo_task: 2 });
+});
+
+test("two quota versions: with photos (studio-2026-11-v1) and presentations only (studio-2026-10-decks-v1, DECISIONS §13 п. 2)", () => {
+  assert.deepEqual(Object.keys(STUDIO_PLANS).sort(), ["studio-2026-10-decks-v1", "studio-2026-11-v1"]);
+  assert.deepEqual(
+    { kunlik: [DECKS.kunlik.presentationFull, DECKS.kunlik.photoTask], oylik: [DECKS.oylik.presentationFull, DECKS.oylik.photoTask] },
+    { kunlik: [1, 0], oylik: [10, 0] },
+  );
+  // The same prices, terms, regenerations and receipt lines; only the photos go.
+  for (const id of ["kunlik", "oylik"] as const) {
+    const { photoTask: _photos, ...withoutPhotos } = DECKS[id];
+    const { photoTask: _v1Photos, ...v1WithoutPhotos } = V1[id];
+    assert.deepEqual(withoutPhotos, v1WithoutPhotos, id);
+  }
+  assert.equal(planOfVersion("studio-2026-10-decks-v1", "oylik"), DECKS.oylik);
+});
+
+test("an order waits 12 hours for its payment; a refund may be asked for 14 days after it", () => {
+  assert.equal(STUDIO_ORDER_TTL_MS, 12 * 3_600_000);
+  assert.equal(REFUND_WINDOW_MS, 14 * 86_400_000);
+  assert.deepEqual([...STUDIO_PROVIDERS], ["payme", "click"]);
+});
+
+test("refund value of unused units (DECISIONS §4 п. 2): 80/20 with photos, the whole price over presentations without", () => {
+  // With photos: Kunlik presentation 4 720, photo 236 so‘m; Oylik 3 192 and 199,50 so‘m.
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "kunlik", 1, 0), 472_000);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "kunlik", 0, 1), 23_600);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", 1, 0), 319_200);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", 0, 1), 19_950);
+  // Nothing used: the whole price.
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "kunlik", 1, 5), 590_000);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", 10, 40), 3_990_000);
+  // Mixed: 7 presentations and 13 photos of Oylik = 22 344 + 2 593,50 so‘m.
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", 7, 13), 7 * 319_200 + 13 * 19_950);
+  // Presentations only: Kunlik 5 900 for its one, Oylik 3 990 each.
+  assert.equal(refundValueTiyin("studio-2026-10-decks-v1", "kunlik", 1, 0), 590_000);
+  assert.equal(refundValueTiyin("studio-2026-10-decks-v1", "oylik", 1, 0), 399_000);
+  assert.equal(refundValueTiyin("studio-2026-10-decks-v1", "oylik", 4, 0), 1_596_000);
+  // Photos of an edition without photos are worth nothing.
+  assert.equal(refundValueTiyin("studio-2026-10-decks-v1", "oylik", 0, 3), 0);
+  // Never more than the price: units returned for a defect count as unused (§4 п. 6).
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "kunlik", 3, 9), 590_000);
+  assert.equal(refundValueTiyin("studio-2026-10-decks-v1", "oylik", 12, 0), 3_990_000);
+  // Nothing unused, nonsense counts or an unknown tariff: 0.
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", 0, 0), 0);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", -2, -1), 0);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "oylik", Number.NaN, 1.5), 19_950);
+  assert.equal(refundValueTiyin("studio-2099-01-v9", "oylik", 1, 1), 0);
+  assert.equal(refundValueTiyin("studio-2026-11-v1", "credit", 1, 1), 0);
+  // Always whole tiyin, rounded down.
+  for (const [version, plan] of [["studio-2026-11-v1", "kunlik"], ["studio-2026-11-v1", "oylik"], ["studio-2026-10-decks-v1", "oylik"]] as const)
+    for (let p = 0; p <= 10; p++)
+      for (let f = 0; f <= 40; f += 7) assert.ok(Number.isSafeInteger(refundValueTiyin(version, plan, p, f)), `${version} ${plan} ${p} ${f}`);
 });
 
 test("VAT 12% inside the price: 63 214 and 427 500 tiyin", () => {
@@ -121,6 +179,10 @@ test("deck shapes: free 4–6 slides, 2 pictures, no notes, 1 palette; full 6–
   assert.equal(maxJobModelCalls("full", 15), 14);
   assert.equal(maxJobModelCalls("full", 12), 12);
   assert.equal(maxJobModelCalls("free", 6), 4);
+  // The proofreading pass of a paid Uzbek deck: 2 more calls a part; never for the free deck.
+  assert.equal(maxJobModelCalls("full", 15, true), 14 + 2 * 4);
+  assert.equal(maxJobModelCalls("full", 12, true), 12 + 2 * 3);
+  assert.equal(maxJobModelCalls("free", 6, true), 4);
   // Parts carry bits 1..4 of the ledger's parts_done.
   assert.ok(deckParts(DECK_SHAPES.full.maxSlides) <= 4);
 });
@@ -135,6 +197,11 @@ test("step limits cover what the 30-topic measurement saw, with room for a 1.5×
     assert.ok(limit.inputTokens > seen[step].in, step);
     assert.equal(limit.attempts, 2, step);
   }
+  // The proofreading pass (MEASURE-30 §6): as long as a part, 2 attempts, the part's text and PROOF_SYSTEM in.
+  assert.equal(STEP_LIMITS.proof.maxTokens, STEP_LIMITS.part.maxTokens);
+  assert.equal(STEP_LIMITS.proof.lengthRetryMaxTokens, STEP_LIMITS.proof.maxTokens * 1.5);
+  assert.equal(STEP_LIMITS.proof.attempts, 2);
+  assert.ok(STEP_LIMITS.proof.inputTokens >= STEP_LIMITS.part.lengthRetryMaxTokens + 150);
   assert.deepEqual(STEP_LIMITS.photo, { maxTokens: 1500, attempts: 2, lengthRetries: 1, lengthRetryMaxTokens: 2500, inputTokens: 3200 });
   assert.equal(STEP_LIMITS.promptGuard.attempts, 1);
   assert.equal(STEP_LIMITS.imageCheck.attempts, 1);
@@ -196,6 +263,18 @@ test("the worst case has teeth: it moves with every limit, and doubled quotas wo
   assert.ok(worstPlanCase({ ...V1.oylik, regenPerUnit: 2 }).micro > oylik.micro);
   // The full deck bound includes the 4 spare part calls, the prompt check and 8 + 4 pictures.
   assert.ok(worstFullDeckMicro() > 12 * FLUX_MICRO_PER_IMAGE + 12 * imageCheckMicro("zai/glm-5.3-flash"));
+  // A paid deck is bounded with its proofreading pass (DECISIONS §13 п. 4): every part twice more,
+  // and every spare re-call of a part read again.
+  const glm = MODEL_PRICES["zai/glm-5.3-flash"];
+  const parts = deckParts(DECK_SHAPES.full.maxSlides);
+  const proof = STEP_LIMITS.proof;
+  const spare = 4;
+  const pass = tokenCostMicro(glm, {
+    input: (parts * proof.attempts + spare) * proof.inputTokens,
+    output: parts * proof.maxTokens + (parts * (proof.attempts - 1) + spare) * proof.lengthRetryMaxTokens,
+  });
+  assert.equal(worstFullDeckMicro(true) - worstFullDeckMicro(false), pass);
+  assert.equal(worstFullDeckMicro(), worstFullDeckMicro(true));
   // A quota edition that doubles Oylik's units is refused by the same rule.
   assert.ok(worstPlanCase({ ...V1.oylik, presentationFull: 20, photoTask: 80 }).share > COST_STOP_SHARE);
 });
