@@ -38,6 +38,7 @@ import {
   worstPlanCase,
 } from "../functions/lib/studio/pricing";
 import { FREE_TEXT_FALLBACKS, IMAGE_CHECK_MODELS, TEXT_MODELS, VISION_MODELS } from "../functions/lib/studio/config";
+import { maxSteps, proofSteps } from "../functions/lib/studio/jobs";
 import { includedVat } from "../functions/lib/gpt-chat/fiscal-config";
 
 const V1 = STUDIO_PLANS["studio-2026-11-v1"];
@@ -179,12 +180,23 @@ test("deck shapes: free 4–6 slides, 2 pictures, no notes, 1 palette; full 6–
   assert.equal(maxJobModelCalls("full", 15), 14);
   assert.equal(maxJobModelCalls("full", 12), 12);
   assert.equal(maxJobModelCalls("free", 6), 4);
-  // The proofreading pass of a paid Uzbek deck: 2 more calls a part; never for the free deck.
-  assert.equal(maxJobModelCalls("full", 15, true), 14 + 2 * 4);
-  assert.equal(maxJobModelCalls("full", 12, true), 12 + 2 * 3);
+  // The proofreading pass of a paid Uzbek deck: one more call a part; never for the free deck.
+  assert.equal(maxJobModelCalls("full", 15, true), 14 + 4);
+  assert.equal(maxJobModelCalls("full", 12, true), 12 + 3);
   assert.equal(maxJobModelCalls("free", 6, true), 4);
   // Parts carry bits 1..4 of the ledger's parts_done.
   assert.ok(deckParts(DECK_SHAPES.full.maxSlides) <= 4);
+});
+
+test("the job's step cap in jobs.ts is the one the worst case is priced with (maxSteps, + proofSteps for the pass)", () => {
+  for (let slides = DECK_SHAPES.full.minSlides; slides <= DECK_SHAPES.full.maxSlides; slides++) {
+    // The ledger's parts_total counts the outline's bit too.
+    const job = { shape: "full" as const, partsTotal: deckParts(slides) + 1 };
+    assert.equal(maxSteps(job), maxJobModelCalls("full", slides), `${slides}`);
+    assert.equal(maxSteps(job) + proofSteps(job), maxJobModelCalls("full", slides, true), `${slides}`);
+  }
+  assert.equal(proofSteps({ shape: "free", partsTotal: 1 }), 0);
+  assert.equal(proofSteps({ shape: "photo", partsTotal: 1 }), 0);
 });
 
 test("step limits cover what the 30-topic measurement saw, with room for a 1.5× length retry", () => {
@@ -197,10 +209,11 @@ test("step limits cover what the 30-topic measurement saw, with room for a 1.5×
     assert.ok(limit.inputTokens > seen[step].in, step);
     assert.equal(limit.attempts, 2, step);
   }
-  // The proofreading pass (MEASURE-30 §6): as long as a part, 2 attempts, the part's text and PROOF_SYSTEM in.
+  // The proofreading pass (MEASURE-30 §6; DECISIONS §16): as long as a part, ONE call, never more room
+  // (a cut, invalid or refused answer leaves the part as written); in: the part's text and PROOF_SYSTEM.
   assert.equal(STEP_LIMITS.proof.maxTokens, STEP_LIMITS.part.maxTokens);
-  assert.equal(STEP_LIMITS.proof.lengthRetryMaxTokens, STEP_LIMITS.proof.maxTokens * 1.5);
-  assert.equal(STEP_LIMITS.proof.attempts, 2);
+  assert.equal(STEP_LIMITS.proof.attempts, 1);
+  assert.equal(STEP_LIMITS.proof.lengthRetryMaxTokens, STEP_LIMITS.proof.maxTokens);
   assert.ok(STEP_LIMITS.proof.inputTokens >= STEP_LIMITS.part.lengthRetryMaxTokens + 150);
   assert.deepEqual(STEP_LIMITS.photo, { maxTokens: 1500, attempts: 2, lengthRetries: 1, lengthRetryMaxTokens: 2500, inputTokens: 3200 });
   assert.equal(STEP_LIMITS.promptGuard.attempts, 1);
@@ -262,19 +275,51 @@ test("the worst case has teeth: it moves with every limit, and doubled quotas wo
   assert.ok(worstPlanCase({ ...V1.oylik, photoTask: 41 }).micro > oylik.micro);
   assert.ok(worstPlanCase({ ...V1.oylik, regenPerUnit: 2 }).micro > oylik.micro);
   // The full deck bound includes the 4 spare part calls, the prompt check and 8 + 4 pictures.
-  assert.ok(worstFullDeckMicro() > 12 * FLUX_MICRO_PER_IMAGE + 12 * imageCheckMicro("zai/glm-5.3-flash"));
-  // A paid deck is bounded with its proofreading pass (DECISIONS §13 п. 4): every part twice more,
-  // and every spare re-call of a part read again.
-  const glm = MODEL_PRICES["zai/glm-5.3-flash"];
-  const parts = deckParts(DECK_SHAPES.full.maxSlides);
-  const proof = STEP_LIMITS.proof;
-  const spare = 4;
-  const pass = tokenCostMicro(glm, {
-    input: (parts * proof.attempts + spare) * proof.inputTokens,
-    output: parts * proof.maxTokens + (parts * (proof.attempts - 1) + spare) * proof.lengthRetryMaxTokens,
-  });
-  assert.equal(worstFullDeckMicro(true) - worstFullDeckMicro(false), pass);
-  assert.equal(worstFullDeckMicro(), worstFullDeckMicro(true));
+  const check = Math.max(...IMAGE_CHECK_MODELS.map(imageCheckMicro));
+  assert.ok(worstFullDeckMicro() > 12 * FLUX_MICRO_PER_IMAGE + 12 * check);
+  assert.equal(check, imageCheckMicro("@cf/google/gemma-4-26b-a4b-it"));
   // A quota edition that doubles Oylik's units is refused by the same rule.
   assert.ok(worstPlanCase({ ...V1.oylik, presentationFull: 20, photoTask: 80 }).share > COST_STOP_SHARE);
+});
+
+test("a paid deck is priced with its proofreading pass at the job's step cap, not at the pass's usual 4 calls (DECISIONS §16)", () => {
+  // Every call at its ceiling with the dearest text model. The outline and the parts may make at most
+  // maxJobModelCalls(full) calls; with the pass, all steps together at most maxJobModelCalls(full, …, true),
+  // so a proofreading call may also take a step the outline and the parts left unused (two requests for
+  // the same part at once both proofread it). The bound is the dearest mix under both caps.
+  const glm = MODEL_PRICES["zai/glm-5.3-flash"];
+  const call = (step: { readonly inputTokens: number }, output: number) => tokenCostMicro(glm, { input: step.inputTokens, output });
+  const slides = DECK_SHAPES.full.maxSlides;
+  const parts = deckParts(slides);
+  const { outline, part, proof } = STEP_LIMITS;
+  const shared = [
+    call(outline, outline.maxTokens),
+    ...Array<number>(outline.attempts - 1).fill(call(outline, outline.lengthRetryMaxTokens)),
+    ...Array<number>(parts).fill(call(part, part.maxTokens)),
+    ...Array<number>(parts * (part.attempts - 1) + 4).fill(call(part, part.lengthRetryMaxTokens)),
+  ].sort((a, b) => b - a);
+  assert.equal(shared.length, maxJobModelCalls("full", slides));
+  const cap = maxJobModelCalls("full", slides, true);
+  const proofCall = Math.max(call(proof, proof.maxTokens), call(proof, proof.lengthRetryMaxTokens));
+  const sum = (values: readonly number[]) => values.reduce((total, value) => total + value, 0);
+  let worst = 0;
+  for (let n = 0; n <= shared.length; n++)
+    for (let k = 0; k <= cap - n; k++) worst = Math.max(worst, sum(shared.slice(0, n)) + k * proofCall);
+  // Without the pass the text is the outline and the parts at their cap; the pass adds the rest.
+  assert.equal(worstFullDeckMicro(true) - worstFullDeckMicro(false), worst - sum(shared));
+  // At least the usual pass (one call a part on top of everything else), and more: the cap allows it.
+  assert.ok(worst - sum(shared) > parts * call(proof, proof.maxTokens));
+  assert.equal(worstFullDeckMicro(), worstFullDeckMicro(true));
+  // The free deck is never proofread.
+  assert.ok(worstFreeDeckMicro() < worstFullDeckMicro(false));
+});
+
+test("with the pass, Oylik's worst term still stays under the stop share in both quota versions", (context) => {
+  const withPhotos = worstPlanCase(V1.oylik);
+  const decksOnly = worstPlanCase(DECKS.oylik);
+  context.diagnostic(`Oylik worst term: with photos ${(withPhotos.share * 100).toFixed(1)}%, decks only ${(decksOnly.share * 100).toFixed(1)}%`);
+  assert.ok(withPhotos.share < COST_STOP_SHARE);
+  assert.ok(decksOnly.share < withPhotos.share);
+  // Without the photos' 80 paid and 64 free photo runs the decks-only edition has room to spare.
+  assert.ok(decksOnly.share < 0.4);
 });

@@ -168,11 +168,15 @@ export const STEP_LIMITS = {
   imageCheck: { maxTokens: 90, attempts: 1, inputTokens: 2000 },
   /**
    * The proofreading pass of a paid Uzbek deck (proofread.ts, MEASURE-30 §6;
-   * DECISIONS §13 п. 4): one call a slide part, «fix the language only», T 0.2,
-   * as long as the part it reads; in: PROOF_SYSTEM (≈ 150 tokens) and the
-   * part's JSON, at most its length-retry ceiling (1 950).
+   * DECISIONS §13 п. 4): «fix the language only», T 0.2, as long as the part
+   * it reads; in: PROOF_SYSTEM (≈ 150 tokens) and the part's text, at most
+   * the part's length-retry ceiling (1 950). ONE call a part, never with more
+   * room (lengthRetryMaxTokens = maxTokens): a cut, invalid or refused answer
+   * leaves the part as the part step wrote it. A second try would buy back
+   * ≈ 0.7 % of parts (first-call validity 135/136, MEASURE-30 §4) and price
+   * the worst Oylik term over half of its net (DECISIONS §16).
    */
-  proof: { maxTokens: 1300, lengthRetryMaxTokens: 1950, attempts: 2, inputTokens: 2200 },
+  proof: { maxTokens: 1300, lengthRetryMaxTokens: 1300, attempts: 1, inputTokens: 2200 },
   /** Explaining a photographed task. */
   photo: { maxTokens: 1500, attempts: 2, lengthRetries: 1, lengthRetryMaxTokens: 2500, inputTokens: 3200 },
 } as const;
@@ -181,10 +185,12 @@ export const STEP_LIMITS = {
 export const SPARE_PART_CALLS = { full: 4, free: 2 } as const;
 
 /**
- * The most model calls one job may make (the ledger's `steps` cap). Full:
- * 2 for the outline, 2 per part and 4 spare, `steps ≤ 2 + 2·P + 4` (spec §7.1),
- * and with `proofread` (a paid Uzbek deck) 2 more per part.
- * Free: 2 for its single call and 2 spare; never proofread.
+ * The most model calls one job may make (the ledger's `steps` cap, jobs.ts
+ * maxSteps). Full: 2 for the outline, 2 per part and 4 spare,
+ * `steps ≤ 2 + 2·P + 4` (spec §7.1); with `proofread` (a paid Uzbek deck)
+ * the pass's own allowance on top, STEP_LIMITS.proof.attempts a part
+ * (jobs.ts proofSteps; 1 a part). Free: 2 for its single call and 2 spare;
+ * never proofread.
  */
 export function maxJobModelCalls(shape: DeckShapeName, slides: number, proofread = false): number {
   if (shape === "free") return STEP_LIMITS.free.attempts + SPARE_PART_CALLS.free;
@@ -206,7 +212,7 @@ export function planOfVersion(planVersion: string, plan: string): StudioPlan | n
   return (STUDIO_PLAN_IDS as readonly string[]).includes(plan) ? plans[plan] : null;
 }
 
-/** When an entitlement bought at `performTime` (Click Complete, ms) ends. */
+/** When an entitlement bought at `performTime` (Payme PerformTransaction or Click Complete, ms) ends. */
 export function entitlementEndsAt(plan: StudioPlan, performTime: number): number {
   const { duration } = plan;
   return "hours" in duration ? performTime + duration.hours * 3_600_000 : addCalendarMonth(performTime);

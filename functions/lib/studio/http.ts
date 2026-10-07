@@ -42,6 +42,10 @@ export const STUDIO_ERRORS = {
   in_progress: 409,
   restore_recent: 409,
   credit_cap: 409,
+  /** The order's refund is already recorded (a Payme or Click cancel, or an earlier record). */
+  refund_exists: 409,
+  /** The refund was asked for more than 14 days after the payment (plans.ts REFUND_WINDOW_MS). */
+  refund_window: 409,
   payload_too_large: 413,
   unsupported_media: 415,
   topic_refused: 422,
@@ -61,6 +65,8 @@ export const STUDIO_ERRORS = {
   model_unavailable: 503,
   studio_not_configured: 503,
   checkout_unavailable: 503,
+  /** The chosen payment provider does not sell now (lib/studio/checkout.ts readyProvider). */
+  provider_unavailable: 503,
 } as const satisfies Record<string, number>;
 
 export type StudioErrorCode = keyof typeof STUDIO_ERRORS;

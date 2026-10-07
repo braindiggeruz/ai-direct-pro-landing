@@ -31,12 +31,18 @@ import {
   STUDIO_FREE_DAILY,
   STUDIO_VAT_PERCENT,
   deckParts,
+  maxJobModelCalls,
   type StudioPlan,
 } from "./plans";
 
 /** UZS per USD, Central Bank of Uzbekistan, 06.10.2026. For reports and the worst-case test only. */
 export const UZS_PER_USD = 11_778.45;
-/** Click's commission, the top of its official «services» rate; the minimum fee and the receipt fee are not known yet. */
+/**
+ * Click's commission, the top of its official «services» rate; the minimum
+ * fee and the receipt fee are not known yet. Payme's rate is in the owner's
+ * contract, not in this repository, so the net of every sale (Payme first,
+ * DECISIONS §12) is counted with this rate until the report shows Payme's.
+ */
 export const CLICK_COMMISSION_PERCENT = 2.5;
 /** The roadmap's stop criterion (§7.2 item 7): model cost of a buyer over a term above half of the net. */
 export const COST_STOP_SHARE = 0.5;
@@ -152,6 +158,42 @@ function promptGuardMicro(): number {
   return tokenCostMicro(PROMPT_GUARD_PRICE, { input: step.inputTokens * step.attempts, output: step.maxTokens * step.attempts });
 }
 
+/** One call of `step` at `output` tokens out and the step's most input. */
+function callMicro(step: TextStep, price: TokenPrice, output: number): number {
+  return tokenCostMicro(price, { input: step.inputTokens, output });
+}
+
+/**
+ * The text of a paid full deck with its proofreading pass, at the job's
+ * step cap (jobs.ts): the outline and the parts make at most
+ * maxJobModelCalls(full, S) calls, all steps together at most
+ * maxJobModelCalls(full, S, true). The pass usually makes one call a part,
+ * but two requests for the same part at once both proofread it, so a pass
+ * may also take a step the outline and the parts left unused. The bound is
+ * the dearest mix under both caps: the n dearest outline and part calls
+ * (each at its ceiling, as textMicro counts them) and every other step of
+ * the cap a proofreading call at its ceiling, for the worst n.
+ */
+function proofreadDeckTextMicro(price: TokenPrice, slides: number): number {
+  const { outline, part, proof } = STEP_LIMITS;
+  const parts = deckParts(slides);
+  const shared = [
+    callMicro(outline, price, outline.maxTokens),
+    ...Array<number>(outline.attempts - 1).fill(callMicro(outline, price, outline.lengthRetryMaxTokens)),
+    ...Array<number>(parts).fill(callMicro(part, price, part.maxTokens)),
+    ...Array<number>(parts * (part.attempts - 1) + SPARE_PART_CALLS.full).fill(callMicro(part, price, part.lengthRetryMaxTokens)),
+  ].sort((a, b) => b - a);
+  const cap = maxJobModelCalls("full", slides, true);
+  const proofCall = Math.max(callMicro(proof, price, proof.maxTokens), callMicro(proof, price, proof.lengthRetryMaxTokens));
+  let taken = 0;
+  let worst = cap * proofCall;
+  shared.forEach((micro, index) => {
+    taken += micro;
+    worst = Math.max(worst, taken + (cap - index - 1) * proofCall);
+  });
+  return worst;
+}
+
 /** Flux calls of a job (pictures plus retries), each followed by the dearest allowed check. */
 function picturesMicro(shape: keyof typeof DECK_SHAPES): number {
   const calls = DECK_SHAPES[shape].images + DECK_SHAPES[shape].imageRetries;
@@ -161,20 +203,18 @@ function picturesMicro(shape: keyof typeof DECK_SHAPES): number {
 
 /**
  * A full deck at the most slides: the outline, every part, the spare
- * re-calls, the prompt check and every picture; with `proofread` (the
- * default: a paid Uzbek deck, DECISIONS §13 п. 4) also the proofreading pass
- * of every part and of every spare re-call of a part (a re-called part is
- * read again), each at its ceiling. That is more proofreading calls than the
- * job's step cap lets through (jobs.ts proofSteps), so it bounds them.
+ * re-calls, the prompt check and every picture. With `proofread` (the
+ * default: every paid deck is counted as an Uzbek one, DECISIONS §13 п. 4)
+ * the text is bounded at the job's step cap with the proofreading pass
+ * (proofreadDeckTextMicro, DECISIONS §16).
  */
 export function worstFullDeckMicro(proofread = true): number {
   const price = dearest(TEXT_MODELS);
-  const parts = deckParts(DECK_SHAPES.full.maxSlides);
-  return textMicro(STEP_LIMITS.outline, price, 1)
-    + textMicro(STEP_LIMITS.part, price, parts, SPARE_PART_CALLS.full)
-    + (proofread ? textMicro(STEP_LIMITS.proof, price, parts, SPARE_PART_CALLS.full) : 0)
-    + promptGuardMicro()
-    + picturesMicro("full");
+  const slides = DECK_SHAPES.full.maxSlides;
+  const text = proofread
+    ? proofreadDeckTextMicro(price, slides)
+    : textMicro(STEP_LIMITS.outline, price, 1) + textMicro(STEP_LIMITS.part, price, deckParts(slides), SPARE_PART_CALLS.full);
+  return text + promptGuardMicro() + picturesMicro("full");
 }
 
 /** The free deck: its call, the spare re-call, the prompt check and its pictures. */

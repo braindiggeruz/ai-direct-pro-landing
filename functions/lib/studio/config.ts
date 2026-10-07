@@ -23,7 +23,7 @@
 // full guarded release. The brake that needs no deploy is the WAF rule
 // (spec §13.3).
 import type { Env } from "../../_types";
-import { DECK_SHAPES } from "./plans";
+import { DECK_SHAPES, STUDIO_PROVIDERS, type StudioProvider } from "./plans";
 import { notFound } from "./http";
 
 export type StudioEnv = Pick<Env, "STUDIO_RUNTIME_CONFIG_JSON" | "STUDIO_LOCAL_DEV">;
@@ -40,8 +40,17 @@ export const TEXT_MODELS = ["zai/glm-5.3-flash"] as const;
 export const FREE_TEXT_FALLBACKS = ["openrouter:google/gemma-4-31b-it:free"] as const;
 /** Photos never go to a ':free' provider (spec §8.2). */
 export const VISION_MODELS = ["zai/glm-5.3-flash", "zai/glm-4.6v-flash"] as const;
-/** T0.1 chose Gemma 4 on Workers AI; glm-5.3-flash is the owner's alternative (MEASURE-30 §7.3). */
-export const IMAGE_CHECK_MODELS = ["@cf/google/gemma-4-26b-a4b-it", "zai/glm-5.3-flash"] as const;
+/**
+ * Finished pictures are checked on Workers AI only: T0.1 chose Gemma 4
+ * (MEASURE-30 §7.3), the R-ST1 pages tell visitors that Cloudflare Workers AI
+ * draws and checks the pictures, and the paid worst case (tests/studio-plans)
+ * is priced with this check. glm-5.3-flash, the measurement's alternative,
+ * was taken off the list on 07.10.2026 (DECISIONS §16): it would send every
+ * picture to Z.ai and push the worst Oylik term over half of its net.
+ * image-check.ts keeps its Z.ai path; bringing it back is a code change that
+ * passes that test and a new data paragraph on the pages.
+ */
+export const IMAGE_CHECK_MODELS = ["@cf/google/gemma-4-26b-a4b-it"] as const;
 
 export type TextModel = (typeof TEXT_MODELS)[number];
 export type FreeTextFallback = (typeof FREE_TEXT_FALLBACKS)[number];
@@ -73,7 +82,10 @@ export const STUDIO_CONFIG_DEFAULTS = {
   STUDIO_TERMS_VERSION: "",
   STUDIO_TERMS_RU: "",
   STUDIO_TERMS_UZ: "",
-  /** YYYY-MM-DD of the lawyer's written approval. */
+  /**
+   * YYYY-MM-DD the offer edition was approved. For the Studio edition it is
+   * 2026-10-07, the owner's decision without a lawyer (DECISIONS §10(б)).
+   */
   STUDIO_TERMS_APPROVED_AT: "",
   STUDIO_EVENTS: "false",
   /** Public key of the studio's own Turnstile widget (the secret is STUDIO_TURNSTILE_SECRET_KEY). */
@@ -103,6 +115,20 @@ export const STUDIO_CONFIG_DEFAULTS = {
   STUDIO_AI_LABEL: "true",
   /** Server-side GA4 purchase (weeks 6–7). */
   STUDIO_GA4_MP: "false",
+  // The paid stage (07.10.2026), kept last so the committed line only grows at its end.
+  /**
+   * Who sells tariffs, a comma list of "payme" and "click" (DECISIONS §12):
+   * "" sells through nobody; the release sets "payme"; "click" sells only
+   * with STUDIO_CLICK_AMOUNTS_CONFIRMED and the studio's own Click service
+   * (lib/studio/checkout.ts readyProvider). Uzum is not a studio provider.
+   */
+  STUDIO_PAYMENT_PROVIDERS: "",
+  /**
+   * The «fix the language only» pass over paid Uzbek decks (DECISIONS §13
+   * п. 4, owner's choice «а»; proofread.ts). On unless exactly "false"; the
+   * worst case is priced with it on.
+   */
+  STUDIO_PAID_PROOFREAD: "true",
 } as const satisfies Record<string, string>;
 
 export type StudioConfigKey = keyof typeof STUDIO_CONFIG_DEFAULTS;
@@ -148,6 +174,10 @@ export interface StudioConfig {
   readonly imageCheckModel: ImageCheckModel;
   readonly aiLabel: boolean;
   readonly ga4Mp: boolean;
+  /** The providers that may sell, in the configured order, each once; [] sells through nobody. */
+  readonly paymentProviders: readonly StudioProvider[];
+  /** The Uzbek proofreading pass of paid decks. */
+  readonly paidProofread: boolean;
 }
 
 type Raw = Partial<Record<StudioConfigKey, unknown>>;
@@ -187,13 +217,15 @@ function oneOf<T extends string>(value: string, allowed: readonly T[]): T | null
   return (allowed as readonly string[]).includes(value) ? (value as T) : null;
 }
 
+/** The names of a comma list that are on `allowed`, trimmed, deduplicated, in order. */
+function namesOf<T extends string>(value: string, allowed: readonly T[]): T[] {
+  return [...new Set(value.split(",").map((name) => name.trim()).filter((name): name is T => oneOf(name, allowed) !== null))];
+}
+
 /** A comma list kept to the allowed names (deduplicated, in order); the default when nothing is left. */
 function modelList<T extends string>(raw: Raw, key: StudioConfigKey, allowed: readonly T[]): T[] {
-  const pick = (value: string) => [
-    ...new Set(value.split(",").map((name) => name.trim()).filter((name): name is T => oneOf(name, allowed) !== null)),
-  ];
-  const chosen = pick(text(raw, key));
-  return chosen.length ? chosen : pick(STUDIO_CONFIG_DEFAULTS[key]);
+  const chosen = namesOf(text(raw, key), allowed);
+  return chosen.length ? chosen : namesOf(STUDIO_CONFIG_DEFAULTS[key], allowed);
 }
 
 function calendarDay(value: string): string {
@@ -266,6 +298,9 @@ export function parseStudioConfig(json: unknown): StudioConfig {
       ?? (STUDIO_CONFIG_DEFAULTS.STUDIO_IMAGE_CHECK_MODEL as ImageCheckModel),
     aiLabel: text(raw, "STUDIO_AI_LABEL") !== "false",
     ga4Mp: exactly(raw, "STUDIO_GA4_MP", "true"),
+    // Unlike the model lists, nothing left means nobody: a typo never falls back to a provider.
+    paymentProviders: Object.freeze(namesOf(text(raw, "STUDIO_PAYMENT_PROVIDERS"), STUDIO_PROVIDERS)),
+    paidProofread: text(raw, "STUDIO_PAID_PROOFREAD") !== "false",
   });
 }
 
@@ -302,13 +337,14 @@ const SWITCHES_OFF = {
   photo: false,
   payments: "off",
   events: false,
+  paymentProviders: Object.freeze([] as StudioProvider[]),
 } as const satisfies Partial<StudioConfig>;
 
 /**
  * The settings as `request` sees them. On any host but gptbot.uz (or a local
- * one under STUDIO_LOCAL_DEV) every switch is off. "test" payments exist only
- * on a local host: on the site Click runs live, so a test order would only
- * collect −5 (spec §9.2).
+ * one under STUDIO_LOCAL_DEV) every switch is off and nobody sells. "test"
+ * payments exist only on a local host: a test order is a local rehearsal
+ * (spec §9.2; the cash desks on the site run live).
  */
 export function studioRequestConfig(request: Request, env: StudioEnv): StudioConfig {
   const config = studioConfig(env);
