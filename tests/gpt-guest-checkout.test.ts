@@ -1,6 +1,6 @@
 // Guest checkout: Click or Payme without signing in, the pack bound to a
 // guest account of the browser, moved to Telegram on sign-in, restored by a
-// link. On in production since 2026-10-07 (edition ai-paket-2026-10-v3).
+// link. On in production since 2026-10-07 (edition ai-paket-2026-10-v3; v4 since one tap).
 // Run: node --import tsx --test tests/gpt-guest-checkout.test.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -114,7 +114,7 @@ test("the committed config turns GPT_GUEST_CHECKOUT on (\"true\") in both copies
   assert.equal(packed.GPT_GUEST_CHECKOUT, "true");
   assert.match(toml, /^GPT_GUEST_CHECKOUT = "true"$/m);
   // The offer edition of 2026-10-07 is the one that describes the guest account.
-  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-10-v3");
+  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-10-v4");
   assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes("GPT_GUEST_CHECKOUT"));
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
   assert.equal(env.GPT_GUEST_CHECKOUT, "true");
@@ -175,6 +175,10 @@ test("a guest pays with Payme live: checkout.paycom.uz, the pack is the browser'
   try {
     const ip = "198.51.100.77";
     // No cookie at all: a visitor in live, offered Payme with nothing signed in.
+    const offered = await (await account(f.ctx(new Request(`${ORIGIN}/api/gpt/account`)))).json() as {
+      user: null; guestCheckout: boolean; providers: string[]; mode: string;
+    };
+    assert.deepEqual([offered.user, offered.guestCheckout, offered.providers, offered.mode], [null, true, ["payme"], "live"]);
     const response = await checkout(f, "payme", "", ip);
     const body = (await response.json()) as { mode: string; checkoutUrl: string; attemptId: string };
     assert.equal(response.status, 200, JSON.stringify(body));

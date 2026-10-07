@@ -14,8 +14,8 @@
 //   - complete requisites (content/global/legal-entity.json) whose STIR is
 //     the receipts' GPT_FISCAL_TIN, which must be set for Uzum too;
 //   - a legalReviewedAt on both privacy policies;
-//   - for Payme, both offers and both policies naming Payme (edition
-//     ai-paket-2026-10-v3 and the policies of 2026-10-07 do; v2 did not);
+//   - for Payme, both offers and both policies naming Payme (editions
+//     ai-paket-2026-10-v3 and v4 and the policies of 2026-10-07 do; v2 did not);
 //   - the secrets of the live providers and of the shared machinery, by NAME,
 //     in Cloudflare Pages production. `check-production` and `deploy` read the
 //     names from the Pages project; offline (`stamp`, `check`) they are listed

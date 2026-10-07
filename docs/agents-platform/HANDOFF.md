@@ -1,52 +1,52 @@
-# Передача интеграции Codex07.10
+# Передача интеграции Codex 07.10
 
 ## 1. Состояние
 
-07.10.2026; codex/continuation-20261007. База5bbfc97b, включён SEO b757615b. Локальная проверка продолжается; нового релиза нет.
+Дерево `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Production и origin/main: `3173e366`. One-tap объединён с сохранённой веткой `f6d5af18`; текущий commit — `git log -1`.
 
 ## 2. Что сделано
 
-Сохранены patches/new files/manifest вне repo, проверено восстановление. Создан отдельный production-based worktree. SEO merge без конфликтов; Meta сохранён. 3 baseline test failures воспроизведены и исправлены только в тестах.
+SEO опубликовано и проверено (1809/1809, layout 258/258). One-tap Claude интегрирован с Meta. Исправлены stale intent/смена условий, двойной запрос, поздний redirect после закрытия/смены аккаунта, checkout во время refresh, guest provider capability и проверка cookie своего заказа.
 
 ## 3. Изменённые файлы
 
-42 исходных SEO файла + отдельная reviewed integration evidence; scripts/seo-protection.ts; tests/lead-radar.test.ts (фиксированные часы), gpt-chat-honesty.test.ts (Meta+GA4). Реестр и память в docs/.
+AiLimitPay/AccountDialog/AiAccountPanel/AiChatConsole/types/use-account; API account; оферта v4 RU/UZ; тесты и локальный browser runner; отдельная reviewed SEO revision `2026-10-07-codex-onetap`.
 
 ## 4. Архитектурные решения
 
-Новая архитектура не вводилась. Runtime/payments/БД не меняются этим этапом.
+Использованы текущие checkout, lazy part и D1. Начало checkout одним действием; подтверждение денег остаётся у провайдера. Один shared inFlight; привязка намерения к показанному предложению. Созданный invoice не отменяется автоматически при закрытии UI.
 
 ## 5. Что сознательно не сделано
 
-Другие WIP пока не интегрированы. Payme/Uzum не включены, тарифы Studio off, денежные операции не выполнялись.
+Реальных платежей/возвратов нет. Click live сохранён; Payme test, Uzum off. Новые коммерческие условия Studio не активированы. Исходные шесть worktree не изменены.
 
 ## 6. Проверки
 
-build:fast0; npm run typecheck0 (app/functions/lead-radar); eslint9changedTS0; targeted117/117. Baseline suite1804/1807, причины доказаны. Девять protected HTML побайтно равны production, у главной только reviewed списки; JSON-LD/head сохранены. Финальные build:production/fullsuite/layout/onlineguard ещё предстоят.
+До финального commit: build:fast 0; typecheck 0; lint 0; targeted 158/158; браузер 18/18 с изолированной сетью. Десять SEO-контрактов неизменны; восемь HTML побайтно равны production, две страницы чата отличаются только hash ссылок assets. Финальные build:production/fullsuite/layout/guard ещё предстоят, старые логи не означают их прохождение.
 
 ## 7. Известные проблемы
 
-Два baseline TTLfixtures + Meta regex исправлены. Внешние live payment/AI приёмки отдельно в реестре.
+Ранний browser cookie mock не применился — заменён проверяемым init script; продуктовый cookie guard подтвердился. Два устаревших source assertions обновлены под усиленную проверку cookie/order и обе точки принятия оферты. Старые baseline Lead Radar/Meta fixtures исправлены в SEO-релизе.
 
 ## 8. Следующая задача
 
-Точная production сборка и все gates этого merge; guarded release SEO.
+Финальная проверка и штатная публикация one-tap; затем merge `0f26fc13` бесплатной Studio и её шесть свежих репетиций в действующем cap.
 
 ## 9. Acceptance criteria
 
-Full suite0 новых/старых failures, protected10/10, layout, typecheck/lint, свежийCloudflare lineage, marker/assets/newURLs/chat/payment config после release.
+Production build, typecheck, lint, targeted/fullsuite, protected/layout/browser — успешно на точном SHA; свежий production lineage; marker/assets/оферта/API после release. Полноценное денежное E2E отдельно от локальных provider mocks.
 
 ## 10. Команды для старта
 
-git status; читать docs/PROJECT_STATE.md; npm run build:production; DR_ROOT=<этотworktree> python F:/Claude/gptbot-tools/deploy_runner.py check.
+`git status`; `npm run build:production`; `npm test`; `node --import tsx scripts/one-tap-check.ts <private-report-dir>`; `DR_ROOT=<этот worktree> python F:/Claude/gptbot-tools/deploy_runner.py check`, затем разрешённый deploy при всех gates.
 
 ## 11. Риски
 
-Не выкатывать старыйSEOdist. Исходные6деревьев не менять. Нельзя считать paid Studio готовой по workflow.
+Не выкатывать старые dist и не перетирать Meta/runtime при следующих merge. Внешние live-провайдеры и paid Studio требуют отдельных разрешений. Локальные UI mocks не доказывают реальное списание денег.
 
 ## 12. Rollback
 
-DDL/runtime flags не меняются. Сохранён production dist5bbfc97b вне repo. После релиза — forward revert интеграции поверх новогоproduction, rebuild и guarded runner; старыйartifact напрямую lineage gate не обходит.
+DDL не менялась. Сохранён и проверен ZIP production `3173e366` вне repo. Возврат к старому UI — forward revert поверх последнего production, согласованная оферта/runtime, новая сборка и guarded runner; lineage не обходить.
 
 ## Исторические записи до продолжения
 

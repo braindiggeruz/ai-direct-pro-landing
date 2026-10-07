@@ -117,7 +117,9 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Production Meta 5bbfc97b + traffic b757615b: all reviewed contracts retained;
 // nine protected HTML files are byte-identical to current production. The
 // integration evidence records its actual HTML without rewriting old reviews.
-export const BASELINE = 'docs/seo/evidence/2026-10-07-codex-integration/reviewed-protected-pages.json';
+// One-tap changes only asset hash references on the two chat pages; all
+// contracts and the other eight protected HTML are production-identical.
+export const BASELINE = 'docs/seo/evidence/2026-10-07-codex-onetap/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

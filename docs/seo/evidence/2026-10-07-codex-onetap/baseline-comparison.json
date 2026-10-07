@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "productionCommit": "3173e366134730fe942df3750a8b28576a4a1a95",
+  "capturedAt": "2026-10-07T09:43:55.353Z",
+  "source": "Сравнение с сохранённым и проверенным dist опубликованного SEO-релиза. Контракты и весь HTML после нормализации имён assets должны совпасть; любые другие изменения вызывают ошибку.",
+  "pages": [
+    {
+      "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "beforeHtmlSha256": "2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa",
+      "afterHtmlSha256": "2c12c772ff262f8201ebc98017a8b535c55d5d5cf63c51e1058af369b3679caa",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "beforeHtmlSha256": "989f1099a04b5114557c718e36abc979112cff15873a460f1019ac62ac7aec7c",
+      "afterHtmlSha256": "9575149922ad7d3875b50619a7dbf2d774757bb9b732eda42b27f6789250306f",
+      "bytesEqual": false,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": true
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "beforeHtmlSha256": "2c759434e2cd328f413b3b99d6f92dae0a3656aa42baca52840a7aa6dd7b8f11",
+      "afterHtmlSha256": "bd5c637cc28eaec8f1a11effa32eb15c8a73f663b3cddceecf0f11a1724ea423",
+      "bytesEqual": false,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": true
+    },
+    {
+      "pathname": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "beforeHtmlSha256": "6e3e3969d0e3000da87b71b3030aaeb1d506de5cb9b78358eec76819fc522f6c",
+      "afterHtmlSha256": "6e3e3969d0e3000da87b71b3030aaeb1d506de5cb9b78358eec76819fc522f6c",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "beforeHtmlSha256": "3ad607b417e31f02c1e47c071c414d5e7106e607fde78162e7c6ff90607d1794",
+      "afterHtmlSha256": "3ad607b417e31f02c1e47c071c414d5e7106e607fde78162e7c6ff90607d1794",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "beforeHtmlSha256": "e8665f98cc919e86187409ca5504e93044dcde48b38d97b4c2d431c6f7107d16",
+      "afterHtmlSha256": "e8665f98cc919e86187409ca5504e93044dcde48b38d97b4c2d431c6f7107d16",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "beforeHtmlSha256": "3d88bca92d13e4267abcce2bd692a862c31edc946fb76c65d0c720b9e5ac7a2e",
+      "afterHtmlSha256": "3d88bca92d13e4267abcce2bd692a862c31edc946fb76c65d0c720b9e5ac7a2e",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/",
+      "beforeHtmlSha256": "a034697b2c5ef639540010d9e638026225768a64fb965294b7f5058b2499775c",
+      "afterHtmlSha256": "a034697b2c5ef639540010d9e638026225768a64fb965294b7f5058b2499775c",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "beforeHtmlSha256": "2eb57198394faa410dd8af3da2bd8597cdb32712a44c78c3b4194bc25a5d7579",
+      "afterHtmlSha256": "2eb57198394faa410dd8af3da2bd8597cdb32712a44c78c3b4194bc25a5d7579",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    },
+    {
+      "pathname": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "beforeHtmlSha256": "59280b096134c2056e09ff7b4bfc806ffdcd34c017d4340cabfcb14d4038a7d8",
+      "afterHtmlSha256": "59280b096134c2056e09ff7b4bfc806ffdcd34c017d4340cabfcb14d4038a7d8",
+      "bytesEqual": true,
+      "changedContractFields": [],
+      "onlyAssetReferencesChanged": false
+    }
+  ]
+}

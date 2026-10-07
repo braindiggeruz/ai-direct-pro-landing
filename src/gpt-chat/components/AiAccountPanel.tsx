@@ -3,7 +3,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Sparkles, X } from 'lucide-react';
-import type { Locale } from "../types";
+import type { Locale, PaymentProvider } from "../types";
 import type { ChatStrings } from "../i18n";
 import { showsAccountPill, type AccountView } from "../types";
 import { useAccount, type AccountCause } from "../use-account";
@@ -30,6 +30,10 @@ export type { PackFrom } from "../ui-events";
 export interface PackOpenRequest {
   seq: number;
   from: PackFrom;
+  /** One tap (07.10): pay with this provider as soon as the window can. */
+  pay?: PaymentProvider;
+  /** Offer shown when the visitor pressed the provider button; never persisted. */
+  offerKey?: string | null;
 }
 
 /**
@@ -79,7 +83,7 @@ export function AiAccountPanel({
   const { data } = account;
   const [open, setOpen] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
-  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null, paymentCode: null });
+  const windowMemory = useRef<AccountWindowMemory>({ requestKeys: {}, refusedForTerms: null, paymentCode: null, autoPaid: null });
   // One pack_viewed per opening, with the button that opened it.
   const openPack = useCallback((from: PackFrom) => {
     setOpen(true);
@@ -165,6 +169,9 @@ export function AiAccountPanel({
   }, [reachable, remaining, limited, checkout, paymentPending]);
   // An ended payment is said once: closing the window leaves it behind.
   const close = () => {
+    // A closed or still-loading window must not execute this intent on reopen.
+    if (openRequest?.pay) windowMemory.current.autoPaid = openRequest.seq;
+    windowMemory.current.generation = (windowMemory.current.generation ?? 0) + 1;
     setOpen(false);
     if (outcome) checkoutControls.dismiss();
   };
@@ -215,6 +222,7 @@ export function AiAccountPanel({
               memoryRef={windowMemory}
               loginFailed={loginFailed}
               checkout={checkoutControls}
+              autoPay={openRequest?.pay ? { seq: openRequest.seq, provider: openRequest.pay, offerKey: openRequest.offerKey ?? null } : null}
               onClose={close}
             />
           )}

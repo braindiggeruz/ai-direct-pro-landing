@@ -45,6 +45,14 @@ export interface ChatStrings {
     accountUnstable: string;
     /** Its button: read the account again. */
     recheck: string;
+    /** One tap (07.10): the pay button of a provider, on the limit card and in the pack window. */
+    payVia: (provider: string) => string;
+    /** The price with its currency, «20 000 сум», for the limit card's line. */
+    sum: (uzs: number) => string;
+    /** The pack's facts in one line under its price: months, answers, the day cap, no automatic renewal. */
+    packLine: (pack: PackTerms) => string;
+    /** Under the pay buttons: pressing «Оплатить» accepts the offer (`link` is the offer's link text). */
+    acceptByPay: { before: string; link: string; after: string };
   };
   /** RU chat only: the visible way to the Uzbek chat on the first screen —
    *  the header label (`nav`) and the resting-screen link (`page`). The Uzbek
@@ -175,6 +183,10 @@ const RU: ChatStrings = {
     historyNote:'Список разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.',savedChats:'Ваши разговоры',
     officialLead:'Нужен официальный ChatGPT? ',officialTail:' — сайт OpenAI. Здесь — независимый AI-чат GPTBot.uz: пишите по-русски или O‘zbekcha yozing — ответ на языке вопроса.',
     accountUnstable:'Связь с сервером нестабильна: чат работает, но этот разговор пока не сохраняется в браузере.',recheck:'Проверить снова',
+    payVia:(provider) => `Оплатить через ${provider}`,
+    sum:(uzs) => `${sum(uzs)} сум`,
+    packLine:(p) => `${p.months} ${ru(p.months, 'месяц', 'месяца', 'месяцев')} · ${p.messageLimit} ${ru(p.messageLimit, 'ответ', 'ответа', 'ответов')} · до ${p.dailyLimit} в день · без автосписаний`,
+    acceptByPay:{ before: 'Нажимая «Оплатить», вы принимаете ', link: 'оферту', after: '.' },
   },
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
@@ -278,6 +290,10 @@ const UZ: ChatStrings = {
     historyNote:'Suhbatlar ro‘yxati faqat shu brauzerda saqlanadi. Xabarlar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi.',savedChats:'Suhbatlaringiz',
     officialLead:'Rasmiy ChatGPT kerakmi? ',officialTail:' — OpenAI sayti. Bu yerda esa GPTBot.uz’ning mustaqil AI-chati: o‘zbekcha yozing, ro‘yxatsiz.',
     accountUnstable:'Server bilan aloqa beqaror: chat ishlayveradi, lekin bu suhbat hozircha brauzerda saqlanmaydi.',recheck:'Qayta tekshirish',
+    payVia:(provider) => `${provider} orqali to‘lash`,
+    sum:(uzs) => `${sum(uzs)} so‘m`,
+    packLine:(p) => `${p.months} oy · ${p.messageLimit} ta javob · kuniga ${p.dailyLimit} tagacha · avtomatik to‘lovsiz`,
+    acceptByPay:{ before: '«To‘lash» tugmasini bosib, ', link: 'ofertani', after: ' qabul qilasiz.' },
   },
   brand: 'GPTBot.uz',
   brandSub: 'mustaqil servis, OpenAI emas',

@@ -184,14 +184,37 @@ export function showsAccountPill(account: AccountView | null): boolean {
   return billingOpen(account) || !!account?.user || !!account?.access;
 }
 
-/** A visitor without an account may pay with Click alone (guest checkout). */
+/**
+ * The providers a guest account pays with (guest checkout): Click, and Payme
+ * once it is live. Their orders live in gpt_payment_orders, which move to
+ * Telegram with the pack (IdentityStore.adoptGuest); Uzum keeps its orders
+ * elsewhere and needs a signed-in account. Payme in test is a rehearsal
+ * session's alone, as before.
+ */
+export function guestProviders(account: AccountView): PaymentProvider[] {
+  return account.providers.filter((provider) => provider === 'click' || (provider === 'payme' && account.mode === 'live'));
+}
+
+/** A visitor without an account may pay (guest checkout) with Click or a live Payme. */
 export function canPayAsGuest(account: AccountView): boolean {
-  return account.guestCheckout === true && account.providers.includes('click');
+  return account.guestCheckout === true && guestProviders(account).length > 0;
+}
+
+/**
+ * The providers this visitor pays with in one tap, as the pack window and the
+ * limit card offer them (owner's order of 07.10): everyone the server lists
+ * for a Telegram account; a guest, with or without a guest account yet, Click
+ * and a live Payme; nobody while billing is closed.
+ */
+export function offeredProviders(account: AccountView | null): PaymentProvider[] {
+  if (!account || !billingOpen(account)) return [];
+  if (account.user) return account.user.guest ? guestProviders(account) : account.providers;
+  return canPayAsGuest(account) ? guestProviders(account) : [];
 }
 
 export function canStartCheckout(account: AccountView | null, locale: Locale): boolean {
   return !!account && validAccountView(account) && (!!account.user || canPayAsGuest(account)) && !!account.pack
-    && account.providers.length > 0 && !!account.mode
+    && offeredProviders(account).length > 0 && !!account.mode
     && !!account.termsVersion?.trim() && !!safeTermsLink(account.terms[locale])
     && !['pending', 'prepared'].includes(account.payment?.state || '');
 }
@@ -203,8 +226,18 @@ export function safeTermsLink(value: unknown): string | null {
 
 export function canResumeCheckout(account: AccountView | null, locale: Locale): boolean {
   if (!account?.payment?.provider || !['pending', 'prepared'].includes(account.payment.state)
-    || !account.providers.includes(account.payment.provider)) return false;
+    || !offeredProviders(account).includes(account.payment.provider)) return false;
   return canStartCheckout({ ...account, payment: null }, locale);
+}
+
+/** In-memory snapshot of exactly the offer and identity shown at a one-tap action. */
+export function checkoutOfferKey(account: AccountView | null, locale: Locale): string | null {
+  if (!canStartCheckout(account, locale) || !account?.pack) return null;
+  const pack = account.pack;
+  return JSON.stringify([locale, account.mode, account.user?.storageKey ?? null,
+    account.user?.guest === true, account.termsVersion, safeTermsLink(account.terms[locale]),
+    pack.priceUzs, pack.messageLimit, pack.dailyLimit, pack.months,
+    pack.vat?.percent ?? null, pack.vat?.includedTiyin ?? null]);
 }
 
 /** A button under an answer (components/AiAnswer.tsx): to Russian, to Uzbek, simpler, continue. */

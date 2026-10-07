@@ -25,7 +25,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Oferta",
   "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish shartlari.",
-  "termsVersion": "ai-paket-2026-10-v3",
+  "termsVersion": "ai-paket-2026-10-v4",
   "legalReviewedAt": "2026-10-07",
   "requisites": "seller",
   "bodyBlocks": [
@@ -110,7 +110,7 @@
     },
     {
       "type": "p",
-      "text": "Xaridor AI paket oynasida ommaviy oferta shartlariga roziligini belgilab, paket uchun to‘laganda ofertani qabul qiladi. Buyurtma bilan birga u qabul qilgan oferta tahriri saqlanadi. Aksept shu tahrirning barcha shartlariga rozilikni bildiradi."
+      "text": "Xaridor AI paket oynasida yoki chat limiti kartasida «To‘lash» tugmasini bosib, paket uchun to‘laganda ofertani qabul qiladi: tugma ostida bosish oferta shartlariga rozilikni bildirishi yozilgan va ofertaga havola berilgan. Buyurtma bilan birga u qabul qilgan oferta tahriri saqlanadi. Aksept shu tahrirning barcha shartlariga rozilikni bildiradi."
     },
     {
       "type": "h2",
@@ -170,7 +170,7 @@
     },
     {
       "type": "p",
-      "text": "Sotuvchi ushbu sahifada yangi raqamli yangi tahrirni e’lon qilib, ofertani o‘zgartirishi mumkin. Yangi tahrir e’lon qilinganidan keyingi xaridlarga nisbatan amal qiladi. To‘langan paket o‘z muddati tugaguncha Xaridor qabul qilgan tahrir shartlari asosida amal qiladi. Keyingi to‘lovdan oldin AI paket oynasi yana rozilik so‘raydi."
+      "text": "Sotuvchi ushbu sahifada yangi raqamli yangi tahrirni e’lon qilib, ofertani o‘zgartirishi mumkin. Yangi tahrir e’lon qilinganidan keyingi xaridlarga nisbatan amal qiladi. To‘langan paket o‘z muddati tugaguncha Xaridor qabul qilgan tahrir shartlari asosida amal qiladi. Keyingi to‘lovdan oldin AI paket oynasi amaldagi tahrirga havolani yana ko‘rsatadi."
     },
     {
       "type": "h2",

@@ -45,6 +45,9 @@ export function useAccount(
   const refreshGeneration = useRef(0);
   const refresh = useCallback(async () => {
     const generation = ++refreshGeneration.current;
+    // Focus may follow a sign-in in another tab. Do not start checkout from
+    // the previous account while its replacement is being read.
+    setLoading(true);
     const load = async (): Promise<AccountView> => {
       const res = await fetch(`${apiBase}/api/gpt/account`, {
         cache: 'no-store',

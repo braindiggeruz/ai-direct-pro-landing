@@ -6,13 +6,17 @@
 // the pack (price, answers, day cap, months) comes from the server's account
 // view and is passed in; none is written here.
 import type { Locale } from './types';
-import { ru } from './i18n';
+import { ru, strings } from './i18n';
 
 export interface AccountStrings {
   title: string;
   /** The window's description for screen readers. */
   benefits: (months: number, messages: number, daily: number) => string;
   price: (sum: string, months: number, messages: number) => string;
+  /** The price alone, big: «20 000 сум». The pack's facts follow in i18n premium.packLine. */
+  sum: (sum: string) => string;
+  /** One muted line for the folded notes (not refundable, not ChatGPT), before «Подробнее». */
+  fine: string;
   /** The pack window's list, one fact per line. */
   packFeatures: (months: number, messages: number, daily: number) => string[];
   /** What the pack is and is not: no ChatGPT, no OpenAI. */
@@ -32,7 +36,7 @@ export interface AccountStrings {
   /** The browser did not keep the guest account's cookie: no guest checkout here. */
   cookiesBlocked: string;
   login: string; loginConsent: string; loginFailed: string; refunded: string;
-  unavailable: string; logout: string; terms: string;
+  unavailable: string; logout: string;
   active: string;
   /** "120 / 300", then this. */
   remaining: string;
@@ -63,7 +67,7 @@ export interface AccountStrings {
   cancelFailed: string;
   /** Back from paying, not paid: return to the invoice or choose another way. */
   payChange: string; payChangeNote: string;
-  /** Pay buttons: "Click", "Uzum Bank", "Payme". */
+  /** Pay buttons: "Click", "Uzum Bank", "Payme"; the text is i18n premium.payVia, shared with the limit card. */
   payVia: (provider: string) => string;
   /** Uzum through the Merchant API: a code in the Uzum Bank app. */
   payInApp: string;
@@ -97,6 +101,8 @@ const RU: AccountStrings = {
   title: 'AI-пакет: больше ответов в этом чате',
   benefits: (m, n, d) => `${answers(n)} на ${months(m)} с дня оплаты, до ${d} в день. Без автосписаний.`,
   price: (sum, m, n) => `${sum} сум · ${m} ${ru(m, 'месяц', 'месяца', 'месяцев')} · ${answers(n)}`,
+  sum: (sum) => `${sum} сум`,
+  fine: 'Без возврата после оплаты · не ChatGPT',
   packFeatures: (m, n, d) => [
     `Действует ${months(m)} с дня оплаты.`,
     `${answers(n)}, до ${d} в день.`,
@@ -118,7 +124,6 @@ const RU: AccountStrings = {
   refunded: 'Платёжная система подтвердила возврат. Доступ по этому платежу отключён.',
   unavailable: 'Оплата сейчас недоступна. Бесплатный чат работает.',
   logout: 'Выйти',
-  terms: 'Принимаю условия публичной оферты',
   active: 'AI-пакет активен',
   remaining: 'ответов осталось в пакете',
   remainingPacks: () => 'ответов осталось в пакетах',
@@ -147,7 +152,7 @@ const RU: AccountStrings = {
   cancelFailed: 'Платёжная система уже приняла этот счёт, отменить его нельзя. Проверьте статус.',
   payChange: 'Продолжить или сменить способ оплаты',
   payChangeNote: 'Не оплатили? Можно вернуться к этому счёту или выбрать другой способ оплаты.',
-  payVia: (provider) => `Оплатить через ${provider}`,
+  payVia: strings('ru').premium.payVia,
   payInApp: 'Оплатить в приложении Uzum Bank',
   payNote: (providers) => `Данные карты к нам не попадают: оплата проходит на стороне ${providers}.`,
   or: ' или ',
@@ -198,6 +203,8 @@ const UZ: AccountStrings = {
   title: 'AI paket: shu chatda ko‘proq javob',
   benefits: (m, n, d) => `To‘lov kunidan boshlab ${m} oy davomida ${n} ta javob, kuniga ${d} tagacha. Avtomatik to‘lov yo‘q.`,
   price: (sum, m, n) => `${sum} so‘m · ${m} oy · ${n} ta javob`,
+  sum: (sum) => `${sum} so‘m`,
+  fine: 'To‘lovdan keyin qaytarilmaydi · ChatGPT emas',
   packFeatures: (m, n, d) => [
     `To‘lov kunidan boshlab ${m} kalendar oy amal qiladi.`,
     `${n} ta javob, kuniga ${d} tagacha.`,
@@ -219,7 +226,6 @@ const UZ: AccountStrings = {
   refunded: 'To‘lov tizimi pul qaytarilganini tasdiqladi. Shu to‘lov bo‘yicha paket o‘chirildi.',
   unavailable: 'To‘lov hozircha mavjud emas. Bepul chat ishlayapti.',
   logout: 'Chiqish',
-  terms: 'Ommaviy oferta shartlariga roziman',
   active: 'AI paket faol',
   remaining: 'ta javob paketda qoldi',
   remainingPacks: (packs) => `ta javob ${packs} ta paketda qoldi`,
@@ -248,7 +254,7 @@ const UZ: AccountStrings = {
   cancelFailed: 'To‘lov tizimi bu hisobni allaqachon qabul qilgan, uni bekor qilib bo‘lmaydi. Holatini tekshiring.',
   payChange: 'Davom ettirish yoki to‘lov usulini almashtirish',
   payChangeNote: 'To‘lamadingizmi? Shu hisobga qaytish yoki boshqa to‘lov usulini tanlash mumkin.',
-  payVia: (provider) => `${provider} orqali to‘lash`,
+  payVia: strings('uz').premium.payVia,
   payInApp: 'Uzum Bank ilovasida to‘lash',
   payNote: (providers) => `Karta ma’lumotlari bizga kelmaydi: to‘lov ${providers} tomonida amalga oshiriladi.`,
   or: ' yoki ',

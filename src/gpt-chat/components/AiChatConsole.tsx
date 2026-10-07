@@ -2,7 +2,7 @@ import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton, useMessageScroller } from '@/components/ui/message-scroller';
 import { ArrowDown } from 'lucide-react';
-import { billingOpen, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms } from "../types";
+import { billingOpen, offeredProviders, safeTermsLink, checkoutOfferKey, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms, type PaymentProvider } from "../types";
 import { strings } from "../i18n";
 import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
 import type { ChatApiResponse } from "../types";
@@ -47,6 +47,7 @@ import { applyRole, frameLocale, maxRolePrefixLength, type RoleId } from "../rol
 import type { AiToolId, PromptTemplate } from "../templates";
 import type { PromptChip } from "../i18n";
 import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest } from "./AiAccountPanel";
+import { AiLimitPay } from "./AiLimitPay";
 import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats } from "../storage";
 import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart } from "../lazy-part";
@@ -103,6 +104,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [signedIn, setSignedIn] = useState(false);
   const [billingAvailable, setBillingAvailable] = useState(false);
   const [packTerms, setPackTerms] = useState<PackTerms | null>(null);
+  // One tap (07.10): the providers this visitor pays with and the offer they accept by paying.
+  const [payOffer, setPayOffer] = useState<{ providers: PaymentProvider[]; termsUrl: string | null; offerKey: string | null } | null>(null);
   const [botHandoff, setBotHandoff] = useState(false);
   const identityGeneration = useRef(0);
   const [entry] = useState(() => chatEntryFromHash(window.location.hash, config.locale));
@@ -113,7 +116,10 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [paid, setPaid] = useState(false);
   const [accountRefresh, setAccountRefresh] = useState(0);
   const [accountOpen, setAccountOpen] = useState<PackOpenRequest | undefined>();
-  const openAccount = (from: PackFrom) => setAccountOpen((last) => ({ seq: (last?.seq ?? 0) + 1, from }));
+  // With a provider (the limit card's one tap) the window pays at once.
+  const openAccount = (from: PackFrom, pay?: PaymentProvider) => setAccountOpen((last) => ({
+    seq: (last?.seq ?? 0) + 1, from, pay, offerKey: pay ? payOffer?.offerKey : null,
+  }));
   const accountIdentityRef = useRef<string | null>(null);
   const establishedIdentityRef = useRef<string | null>(null);
   // Reads failed after someone was known; the next view that names them again stores the screen.
@@ -234,6 +240,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     setPaid(!!account?.access && account.access.ends_at > Date.now());
     setBillingAvailable(billingOpen(account));
     setPackTerms(account?.pack ?? null);
+    setPayOffer(account ? { providers: offeredProviders(account), termsUrl: safeTermsLink(account.terms[config.locale]), offerKey: checkoutOfferKey(account, config.locale) } : null);
     setBotHandoff(account?.botHandoff === true);
     setFreeLimits(account?.freeLimits ?? null);
     setRemaining(account?.remaining ?? account?.access?.remaining ?? (account && !account.user ? loadRemaining() : -1));
@@ -1009,13 +1016,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         )}
         {(card.account || card.bot) && (
           <div className="gpt-limit-exits">
-            {card.account && (
-              <button
-                type="button"
-                className="gpt-primary"
-                data-testid="limit-account"
-                onClick={() => openAccount("limit_card")}
-              >
+            {/* One tap (07.10): the price and a button per provider; a tap
+                creates the order in the window's lazy part and leaves for
+                the provider's page. The window's own button without one. */}
+            {card.account && packTerms && payOffer && (
+              <AiLimitPay
+                t={t}
+                pack={packTerms}
+                again={limit.reason === "monthly"}
+                providers={payOffer.providers}
+                termsUrl={payOffer.termsUrl}
+                onPay={(provider) => openAccount("limit_card", provider)}
+                onOpen={() => openAccount("limit_card")}
+              />
+            )}
+            {card.account && !(packTerms && payOffer) && (
+              <button type="button" className="gpt-primary" data-testid="limit-account" onClick={() => openAccount("limit_card")}>
                 {card.cta}
               </button>
             )}

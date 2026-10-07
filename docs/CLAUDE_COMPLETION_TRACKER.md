@@ -2,12 +2,12 @@
 
 07.10.2026. Дерево `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`. Интеграция и публикация — текущий Codex; источники не меняются. Исторический handoff: `C:/Users/Borinio/Desktop/seo-skills-main/docs/CLAUDE_TO_CODEX_HANDOFF.md`. Спецификации raw разрешаются от `C:/Users/Borinio/Desktop/seo-skills-main/gptbot.uz-audit/`.
 
-Статусы: IN_PROGRESS / IMPLEMENTED_UNVERIFIED / VERIFIED_LOCAL / VERIFIED_PREVIEW / DEPLOYED_VERIFIED / BLOCKED_EXTERNAL / SUPERSEDED. SHA ниже исходные; нового проверенного/опубликованного SHA пока нет.
+Статусы: IN_PROGRESS / IMPLEMENTED_UNVERIFIED / VERIFIED_LOCAL / VERIFIED_PREVIEW / DEPLOYED_VERIFIED / BLOCKED_EXTERNAL / SUPERSEDED. SHA и публикация указаны отдельно в каждой строке. Историческая матрица ниже сохраняет исходные статусы аудита.
 
 | Требование | Источник | Исходное дерево/SHA | Статус | Остаток, приёмка, блокер/публикация |
 |---|---|---|---|---|
-| База + SEO | wf_fb6725a4-281; TRAFFIC-PLAN; NOW-TASKS | production5bbfc97b + seo b757615b | IN_PROGRESS | Merge без конфликтов; 4 новых URL; metadata/10 protected/full suite/live |
-| One-tap | wf_ffb9b2d3-e9c | onetap b220f075 + 26 WIP файлов | IN_PROGRESS | Сохранение WIP проверено; callbacks/adoption/fiscal/Meta; реальные деньги отдельно |
+| База + SEO | wf_fb6725a4-281; TRAFFIC-PLAN; NOW-TASKS | production `5bbfc97b` + SEO `b757615b` → **`3173e366`** | **DEPLOYED_VERIFIED** | build/typecheck/lint/gates: exit 0; suite 1809/1809; layout 258/258; четыре новых URL 200; JS 3/3; protected 10/10 после декодирования Cloudflare email |
+| One-tap | wf_ffb9b2d3-e9c | saved f6d5af18 → integration | VERIFIED_LOCAL | targeted 158/158, browser 18/18, typecheck/lint 0; финальный SHA/build/suite/layout/guard ещё впереди; реальные деньги отдельно |
 | Payme / Uzum | wf_4b91c3e5-ad9 | production5bbfc97b | BLOCKED_EXTERNAL | Payme test / Uzum off; нужны подтверждение live и отдельное денежное E2E |
 | Бесплатная Studio | wf_18d4b721-821; launch CHECKS/REHEARSAL | studio-launch0f26fc13 | IMPLEMENTED_UNVERIFIED | 6 findings; privacy/legal; реальные6PPTX и бюджетAI; public404 |
 | Chat UI | wf_c56b415c-9f2; DESIGN-SPEC centered-mobile | chat-ui df264eb1 | IMPLEMENTED_UNVERIFIED | Объединить one-tap/Meta; RU/UZ360/390/768/1440; keyboard/stream/errors |
@@ -16,7 +16,7 @@
 | Paid Studio D/E/F | BUILD-PLAN D/E/F; DECISIONS | studio-paid9a05db03 | IN_PROGRESS | Payments/fiscal/ops/offer; paid dark до отдельного разрешения продаж |
 | GitHub | wf_89ff25a8-723; wf_3537f163-31c | PR65/own/profile/5drafts | IMPLEMENTED_UNVERIFIED | Проверить URL и правила; prepared/submitted/accepted отдельно; без дублей |
 | GSC N1 | gptbot-n1-family-a-check | Claude scheduled task10.10 10:00Karachi | IMPLEMENTED_UNVERIFIED | Scheduler/runtime/доступы/baseline; не переносить |
-| Lead Radar | task_bc4f9153; lead-radar.test.ts | production vs integration | IN_PROGRESS | Воспроизвести полный suite на обеих базах; chip не выполненная задача |
+| Lead Radar | task_bc4f9153; lead-radar.test.ts | production5bb → SEO3173 | VERIFIED_LOCAL | Baseline 1804/1807, candidate 1809/1809; два TTL fixtures и Meta assertion исправлены. Chip не считается выполненной задачей |
 
 ## Покрытие исторической матрицы
 

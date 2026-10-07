@@ -2046,9 +2046,13 @@
   },
   "codex_continuation_20261007": {
     "status": "IN_PROGRESS",
-    "production_base": "5bbfc97b",
-    "seo_source": "b757615b",
+    "production_base": "3173e366134730fe942df3750a8b28576a4a1a95",
+    "seo_status": "DEPLOYED_VERIFIED",
+    "onetap_source": "f6d5af1813eab4f45caa1057415e0f580fd0cc1d",
+    "onetap_status": "VERIFIED_LOCAL",
     "tracker": "docs/CLAUDE_COMPLETION_TRACKER.md",
-    "next": "Verify integrated SEO and guarded release"
+    "next": "Точная production-сборка one-tap, полный suite/layout и guarded release; затем бесплатная Studio",
+    "checks": "typecheck/lint 0; targeted 158/158; browser 18/18; protected contracts 10/10",
+    "last_commit": "3173e366134730fe942df3750a8b28576a4a1a95; текущий commit читать через git log -1 (D-006)"
   }
 }

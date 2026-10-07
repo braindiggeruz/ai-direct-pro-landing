@@ -375,7 +375,7 @@ function audit() {
   const note = document.querySelector('[data-testid="ai-input-microcopy"]');
   const privacy = document.querySelector('[data-testid="ai-input-privacy"]');
   if (!note || hidden(note) || parseFloat(getComputedStyle(note).fontSize) < 10 || !/OpenAI mahsuloti emas|Не продукт OpenAI/.test(note.textContent) || !privacy || hidden(privacy)) out.honesty.push('footnote');
-  if (document.querySelector('[data-testid="ai-account-trigger"], [data-testid="limit-account"]')) out.honesty.push('pack button');
+  if (document.querySelector('[data-testid="ai-account-trigger"], [data-testid="limit-account"], [data-testid="limit-pay"]')) out.honesty.push('pack button');
   if (/\d[\d\s ]*\s?(so‘m|сум)/.test(document.querySelector('#gpt-chat-root').textContent)) out.honesty.push('price');
   if (document.querySelector('[data-testid="ai-limit-telegram"]')) out.honesty.push('telegram bot');
   const sub = document.querySelector('.gpt-header-sub');
