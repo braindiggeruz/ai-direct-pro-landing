@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Google discovery и корректный lastmod",
-  "stage_status": "completed",
+  "current_stage": "Подключение Payme для чата и Studio",
+  "stage_status": "verified_ready_for_release",
   "last_completed_stage": "Google discovery и корректный lastmod",
-  "next_stage": "Совместная приёмка реального платежа Click",
+  "next_stage": "Публикация Payme и live acceptance",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1805,7 +1805,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-07T13:55:18.235503+00:00",
+  "updated_at": "2026-10-07T14:58:56.892360+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],
@@ -2141,5 +2141,18 @@
     "sitemapDelta": "9 historical lastmod in main; UZ chat only in updates; no current-date blanket changes",
     "unchangedHtml": 302,
     "unchangedJsCss": 71
+  },
+  "payme_activation_20261007": {
+    "status": "VERIFIED_READY_FOR_RELEASE",
+    "ownerAuthorization": "Включить Payme рядом с Click для чата и обоих тарифов Studio после активации кассы; прямое подтверждение07.10.2026",
+    "supersedes": "Предыдущее указание временно оставить только Click и Payme hidden/test",
+    "productionBefore": "ac68443c63740a56d32505ecfcd2fb7f262cd259",
+    "config": "Payme live in both GPT config forms; Studio click,payme",
+    "tests": 166,
+    "liveCredentialReadback": "Both keys accepted: unknown CheckTransaction HTTP200/-31003; no financial actions",
+    "report": "docs/PAYME_ACTIVATION_20261007.md",
+    "evidence": "F:\\Claude\\gptbot-tools\\backups\\codex-continuation-20261007-140534\\payme-enable-20261007",
+    "realPaymentVerified": false,
+    "fiscalReceiptVerified": false
   }
 }

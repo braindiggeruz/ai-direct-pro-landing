@@ -191,7 +191,7 @@ test('the Pages project name and output directory are unchanged', () => {
 // one-command rollback (apps/studio/scripts/studio-switch.ts). Anything paid
 // stays off; the 48-hour ramp caps are the defaults ($0.3, 50 decks, 3 starts
 // a minute). R-ST1b (the $3 budget, no ramp ceiling) changes this test.
-test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON, approved Click-only Studio and the unchanged free ramp', async () => {
+test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON, approved Click and Payme Studio and the unchanged free ramp', async () => {
   const { STUDIO_CONFIG_DEFAULTS, STUDIO_CONFIG_KEYS, parseStudioConfig } = await import('../functions/lib/studio/config');
   const { FREE_DECK_SWITCHES } = await import('../apps/studio/scripts/studio-switch');
   const { RUNTIME_CONFIG_KEYS } = await import('../functions/lib/runtime-config');
@@ -219,7 +219,7 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
     STUDIO_TURNSTILE_SITE_KEY: '0x4AAAAAAFO5Y7cXhqeASg8P',
     STUDIO_FREE_TEXT_FALLBACK: '',
     STUDIO_PAID_SERVICE: 'on', STUDIO_FULL_DECK: 'true', STUDIO_PAYMENTS: 'live',
-    STUDIO_PAYMENT_PROVIDERS: 'click', STUDIO_CLICK_AMOUNTS_CONFIRMED: 'true', STUDIO_CLICK_USE_CHAT_SERVICE: 'true',
+    STUDIO_PAYMENT_PROVIDERS: 'click,payme', STUDIO_CLICK_AMOUNTS_CONFIRMED: 'true', STUDIO_CLICK_USE_CHAT_SERVICE: 'true',
     STUDIO_TERMS_VERSION: 'ai-paket-2026-10-v5', STUDIO_TERMS_RU: 'https://gptbot.uz/ru/oferta/',
     STUDIO_TERMS_UZ: 'https://gptbot.uz/uz/oferta/', STUDIO_TERMS_APPROVED_AT: '2026-10-07',
   };

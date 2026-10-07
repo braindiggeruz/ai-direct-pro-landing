@@ -280,10 +280,10 @@ test("modes per provider over the global one; Payme runs only when listed and se
   assert.deepEqual(liveReadiness({ ...paymeLive, GPT_PAYME_KEY: `${marked()}\n` } as BillingEnv, "payme"), []);
 });
 
-test("the committed configuration: Click live, Payme test, Uzum off, credentials are never public config", async () => {
+test("the committed configuration: approved Click and Payme live, Uzum off, credentials are never public config", async () => {
   // Runbook docs/paid-chat/ONBOARDING-KEYS-RU.md, S2 (owner's order of 2026-10-05):
-  // Click sells live, Uzum is off. The owner's latest instruction keeps
-  // Payme in test: it must not appear among a visitor's live providers.
+  // Owner 2026-10-07 approved Payme live for chat and both Studio tariffs
+  // after Payme activated the desk. Click stays live; Uzum stays off.
   // The stop switches (both places and a deploy) are pinned by the next test:
   // GPT_BILLING_LIVE_READY = "false" stops new sales and still settles open
   // invoices; GPT_BILLING_MODE_CLICK = "" closes the callback too; Payme's
@@ -295,9 +295,9 @@ test("the committed configuration: Click live, Payme test, Uzum off, credentials
   assert.equal(packed.GPT_BILLING_MODE, "");
   assert.equal(packed.GPT_BILLING_MODE_CLICK, "live");
   assert.equal(packed.GPT_BILLING_MODE_UZUM, "");
-  // Payme activation requires a separate approved configuration change.
+  // Pin the separately approved Payme activation, not the earlier test hold.
   const paymeMode = packed.GPT_BILLING_MODE_PAYME as "live" | "test";
-  assert.equal(paymeMode, "test", "Payme remains hidden from live sales until separately approved");
+  assert.equal(paymeMode, "live", "Owner approved Payme live on 2026-10-07");
   assert.equal(packed.GPT_BILLING_LIVE_READY, "true");
   assert.equal(packed.UZUM_API, "");
   assert.equal(billingActive(env), true);
@@ -306,8 +306,8 @@ test("the committed configuration: Click live, Payme test, Uzum off, credentials
   assert.equal(providerMode(env, "payme"), paymeMode);
   // Without the Pages secrets neither of the other two is ready.
   for (const provider of ["uzum", "payme"] as const) assert.equal(providerReady(env, provider), false);
-  // Payme live from this config lacks only what the Pages secrets hold: its
-  // own switch, its receipt line is the committed fiscal codes.
+  // Payme live lacks only the Pages secrets; its receipt line uses the
+  // committed fiscal codes. Public switches are already approved.
   // The public config settles everything it can: with D1 bound, Click live lacks
   // only what the Pages secrets hold, and without them it fails closed.
   const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } };

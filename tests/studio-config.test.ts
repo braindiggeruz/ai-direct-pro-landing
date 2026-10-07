@@ -41,13 +41,13 @@ const SWITCHES = (config: StudioConfig) => ({
 const ALL_OFF = { api: false, paidService: false, freeDeck: false, fullDeck: false, photo: false, payments: "off", events: false };
 const parse = (values: Record<string, unknown>) => parseStudioConfig(JSON.stringify(values));
 
-test("the defaults stay off; production sells Studio through the explicitly approved shared Click service", () => {
+test("the defaults stay off; production sells Studio through approved shared Click and Payme", () => {
   assert.ok(COMMITTED, "wrangler.toml has no STUDIO_RUNTIME_CONFIG_JSON");
   const committed = parseStudioConfig(COMMITTED);
   assert.deepEqual(SWITCHES(committed), { api: true, paidService: true, freeDeck: true, fullDeck: true, photo: false, payments: "live", events: true });
   assert.equal(committed.clickAmountsConfirmed, true);
   assert.equal(committed.clickUseChatService, true);
-  assert.deepEqual(committed.paymentProviders, ["click"]);
+  assert.deepEqual(committed.paymentProviders, ["click", "payme"]);
   assert.deepEqual(committed.terms, { version: "ai-paket-2026-10-v5", ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/", approvedAt: "2026-10-07" });
   assert.equal(committed.maxSlides, 12);
   assert.equal(committed.paidProofread, true);
@@ -247,7 +247,7 @@ test("each route opens on exactly its switches (spec §6)", () => {
 test("STUDIO_PAYMENT_PROVIDERS: '' sells through nobody; payme, click or both, each name exact, in order, once", () => {
   assert.equal(STUDIO_CONFIG_DEFAULTS.STUDIO_PAYMENT_PROVIDERS, "");
   assert.deepEqual(DEFAULTS.paymentProviders, []);
-  assert.deepEqual(parseStudioConfig(COMMITTED).paymentProviders, ["click"], "the committed variable sells only through Click");
+  assert.deepEqual(parseStudioConfig(COMMITTED).paymentProviders, ["click", "payme"], "owner approved both providers on 2026-10-07");
   assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "payme" }).paymentProviders, ["payme"]);
   assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "click" }).paymentProviders, ["click"]);
   assert.deepEqual(parse({ STUDIO_PAYMENT_PROVIDERS: "click,payme" }).paymentProviders, ["click", "payme"]);
