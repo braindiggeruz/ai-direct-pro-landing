@@ -1,6 +1,6 @@
 # Восстановление SEO и аналитики GPTBot.uz — 08.10.2026
 
-Статус: локальный кандидат проверен; deployment и последующие IndexNow/GSC действия разрешены владельцем. Факт внешних действий записывается отдельно в PRODUCTION_READBACK.json и DISCOVERY_RECEIPTS.json, когда они выполнены.
+Статус: опубликовано на production после проверок. Source commit `5de9e3850468e1915d99729e4930b8750adcf433`; deployment `https://b50a8d04.ai-direct-pro-landing.pages.dev`; artifact `2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b`, 1002 файла. Exact custom-domain manifest и все 300 URL проверены. Приёмка браузера частичная: подробности ниже.
 
 Исходный код e2280e4494ccc272cc0838e91a77c0a20eb8ef19, production baseline a80dfcbd13212246fb650daa877dd295044bc298. Исходный независимый аудит: ../../audits/2026-10-08-regression/AUDIT_README.md. Handoff использован как карта, а не доказательство.
 
@@ -45,3 +45,16 @@ ARTIFACT_VALIDATION.json:300 HTML, self-canonical/indexable, один H1, valid 
 После clean source commit: stamp→guarded lineage check→deployment→exact custom-domain manifest→protected contracts/headers/changed URLs→browser links. Затем IndexNow и Google sitemap submission, при доступном UI ручные запросы приоритетных страниц. HTTP200/accepted не доказывают индексирование или позиции. Google Indexing API для обычных статей не применяется.
 
 Откат — адресный revert recovery commit и guarded release. D1, оплаты, quotas и secrets не изменялись. Старый public artifact сохранён в BEFORE/manifest.json; чужой production commit не перезаписывать. Продолжить измерения через14/28 завершённых дней после подтверждённого recrawl, отдельно mobile/desktop, UZ/остальные страны и query×page; не считать день deployment началом индексного эксперимента.
+
+
+## Фактический результат выпуска
+
+Guarded lineage check и deploy завершились с exit0, статусом deployed_and_verified. Production manifest точно совпал с собранным артефактом. Live crawl:300/300 HTTP200, self-canonical, один H1 и индексируемость. Protected:10/10; у неизменённого download guide декодирована только стандартная Cloudflare email obfuscation, исходные расхождения сохранены. Независимый reviewer подтвердил11 изменённых/связанных страниц и10 alias/preview ответов. Auth/me401 и пустой auth/login400 имеют no-store/noindex; пустой login выходит до lockout/Turnstile/D1.
+
+Google принял и readback подтвердил4/4 submissions: sitemap.xml, sitemap-updates.xml и2 RSS. Они пока pending; прежние downloaded/indexed counts не выдаются за результаты нового выпуска. В GSC Wizard IndexNow key не настроен; вместо изменения аккаунта использован существующий опубликованный ключ сайта. Ключ HTTP200, содержимое совпало. Все300 canonical URL отправлены через действующий endpoint проекта: HTTP202, success=true, key validation pending. Два WebSub feed publish приняты HTTP204. Никакой приём не назван индексированием или ростом.
+
+Один ручной Request indexing для UZ chat отклонён Google: дневная квота превышена. Повторных попыток и обхода quota/CAPTCHA не было. Сегодняшний переобход не подтверждён. Google рекомендует sitemap для массовых URL и предупреждает, что повторные запросы не ускоряют обход: https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl .
+
+После reload в браузере видны обновлённые условия и дата RU-чата; главная открылась с корректным первым экраном. На попытке проверки нижних ссылок Chrome заблокировал управление из-за открытого интерфейса расширения. Поэтому14 ссылок после hydration, mobile/desktop computed layout и Studio после JS остаются NOT VERIFIED; source/SSR/live HTTP покрытие сохранено отдельно. GA4 UI независимо подтвердил исторические178 Cross-network и внутренний composer source, но переключение на сегодня также заблокировано. См. BROWSER_READBACK.md и GA4_TODAY_UI.md.
+
+Внешние эффекты и подтверждения: RELEASE_RECEIPT.json, PRODUCTION_READBACK.json, PROTECTED_LIVE_READBACK.json, POSTRELEASE_REVIEW.md, DISCOVERY_RECEIPTS.json. Изменений production после этого metadata relay нет; Git push не выполнялся. Ранжирование, восстановление трафика и окончательная причина сегодняшнего нуля пока не установлены.

@@ -1,0 +1,4627 @@
+{
+  "checkedAt": "2026-10-08T13:55:31.370015+00:00",
+  "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+  "manifestExactMatch": true,
+  "manifest": {
+    "schema": 1,
+    "commit": "5de9e3850468e1915d99729e4930b8750adcf433",
+    "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+    "fileCount": 1002,
+    "features": [
+      "audience_directory",
+      "mobile_username_selection",
+      "bridge_pairing",
+      "sending_readiness",
+      "campaign_preflight",
+      "async_media_check",
+      "ai_chat_admin"
+    ],
+    "probes": [
+      {
+        "path": "assets/AdminRoot-Dfs7lPWC.js",
+        "sha256": "6e63acd5d1e22d2073ddcafa2faa125523ed4f22a75ff6cd64b957cc26f59be7"
+      },
+      {
+        "path": "assets/ui-CH_3xdyd.js",
+        "sha256": "46ade24e188120908995aeee9a9be79dfc48885b09d685ff981ca317aec022ce"
+      },
+      {
+        "path": "assets/AiChat-ZQcJi_dL.js",
+        "sha256": "92d62fbf96d23525802f6e68d8ca54c600d8e0a2b9813bf809fb89382d4c002c"
+      },
+      {
+        "path": "index.html",
+        "sha256": "457b513c5a8fe70e78f3ef69a6f6ae8db1e191d050214af96d23db4e8a3910bf"
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "7bdafe8870fc15d5f68048f83abca3e68363494cffc8d4982c58d1e71ebe9c4b"
+      },
+      {
+        "path": "uz/internet-reklama-toshkent/index.html",
+        "sha256": "53fa8f254b6171c296441ed89f520d6c9ca142769faf068428e2f70110885864"
+      },
+      {
+        "path": "ru/internet-reklama-tashkent/index.html",
+        "sha256": "fe535dabe43f0270b4f2f0f27f333c0a278acf24df9dc365ea07e350fb2f7916"
+      },
+      {
+        "path": "ru/prezentatsiya-ai/index.html",
+        "sha256": "3171a2f7078c38be22dbcb8bbff46cb4810ece0a877488ec026d8716c75f491e"
+      },
+      {
+        "path": "uz/taqdimot-ai/index.html",
+        "sha256": "7a3e3f2934b121cc03d2c8a3eb996c8bdac6b7704668078f7e6a6770b37ec2be"
+      },
+      {
+        "path": "uz/tariflar/index.html",
+        "sha256": "0a609da584defbb8b570f7aac6bc2b9b29f4336667c2096379e17ee8a63c3b9a"
+      }
+    ]
+  },
+  "discoveryFiles": {
+    "sitemap.xml": {
+      "status": 200,
+      "bytes": 105471,
+      "sha256": "b31e415409410d213211458d6b466294c862e48883d68b5001ea47884d28fcd6",
+      "equalsArtifact": true,
+      "finalUrl": "https://gptbot.uz/sitemap.xml"
+    },
+    "sitemap-updates.xml": {
+      "status": 200,
+      "bytes": 28367,
+      "sha256": "b8edee208d442d532b7df434482d3f75baaab10ba973d8a78f0eea5e5720c882",
+      "equalsArtifact": true,
+      "finalUrl": "https://gptbot.uz/sitemap-updates.xml"
+    },
+    "ru/blog/feed.xml": {
+      "status": 200,
+      "bytes": 35819,
+      "sha256": "b29386fbfbec3d85d4260e16465134d7b2363abb815a00aeeff18a1b3cc9bb0a",
+      "equalsArtifact": true,
+      "finalUrl": "https://gptbot.uz/ru/blog/feed.xml"
+    },
+    "uz/blog/feed.xml": {
+      "status": 200,
+      "bytes": 29326,
+      "sha256": "eba1483a2bce704109db80ea4661101344ba1297fb016def513b306fd09b8cf4",
+      "equalsArtifact": true,
+      "finalUrl": "https://gptbot.uz/uz/blog/feed.xml"
+    },
+    "robots.txt": {
+      "status": 200,
+      "bytes": 3352,
+      "sha256": "a420f2a74fab5176dea7d65e3a023fb658ad2ec1a34941b7e292f91914d3b815",
+      "equalsArtifact": true,
+      "finalUrl": "https://gptbot.uz/robots.txt"
+    }
+  },
+  "crawl": {
+    "total": 300,
+    "passed": 300,
+    "failed": [],
+    "rows": [
+      {
+        "url": "https://gptbot.uz/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/",
+        "canonical": [
+          "https://gptbot.uz/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bbb585b1396698d493c1734561a293320a3153cda49230855d8b8ba2bfbf571a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "840efab2a0ebcf88c9ba540ec4e953a5ab1570091f12998e6ad95c5652fa078f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1ddd110365ec5556e82038c7b2aa9f1844e90480f1907cb51ad2889584e0d267",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-agentstva-nedvizhimosti/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a3438083b4e7634f29bfd134394fe583fc61f0dd13e202bd87d134d397afc427",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-avtosalona/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-avtosalona/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-avtosalona/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7b38d4a9cec909e6190fe9fc7684d8e8edbf7b546b95974110ff60344421c7e1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b16c4a53865676409337a6ba10af1e2524ec268d56205a33a4730bb11b848ff6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-dostavki-edy/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-dostavki-edy/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-dostavki-edy/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1c5e27b6f56dd967fe8d9f67d988e108a984525b20b3f027f8562a2ee852b694",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-fitnes-kluba/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-fitnes-kluba/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-fitnes-kluba/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "472953945843fd6c75026fd4583639fde6d9683f9a432031e6e0bca5861ada46",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-horeca/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-horeca/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-horeca/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9b99a58ad7ccba45dda0e36527e2e3d58fd759edd13cddc2fbe63eed1d0e3e1a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-kliniki/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-kliniki/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-kliniki/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1e506eb3a3fd24a0f84159c826363f225653a41846f63f6802c08cc0c916ad4a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-magazina/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-magazina/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-magazina/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cb4f1f20f19362b2f9608080a0495102c2588b3cbc7a79c9770564b099a5d300",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-nishi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-nishi/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-nishi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7b90860ab21a2dc0dd3cdc8ccfdcc3ff47de154c25d0e4ba81bb906a1584d9a2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1b2dc36c070e15c077f769bb4a0bc130e24beb61a2052fc366cc662803c86780",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-sayta/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-sayta/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-sayta/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a6f0c0ed8524e30b3445b11cdb7e0146add5f5244d6b6a2fae31d566e7ffdaa1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-uchebnogo-tsentra/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "0b726d1f3957d23a4429d3a476593a004f3d98a0b5fa7df0c05f97c0dc753a8e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-dlya-yurista/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-dlya-yurista/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-dlya-yurista/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "96696d4e0f2355944e6b10257513daad61555f3d73ddf72f637ae1761bcb3cda",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-ili-menedzher/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-ili-menedzher/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-ili-menedzher/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8137e12de76e4d65eb0b3f38467f0e421976c68130f6c7b0f89abc4c56c29181",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f3be35f5a81fc27883e01f0c199fee3d672a92d008b17cf1a49b3364bbcfcf6c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-chat-dlya-sayta-polzovatel-zayavki/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "37211e846de66513c5c1f99c6e6bf68a889cf44c570eca35f7f5102f47504d88",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-chat-dlya-sayta/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-chat-dlya-sayta/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-chat-dlya-sayta/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "854d0f46e5457f43ece8e26c80ba0724ef271c0b50634022248e7d3f411b97b9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-menedzher-dlya-instagram/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d85d7dc768285c9f57362cd0c800e5edde661fdf34700c06fb1f9a19e62cfdd2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/ai-prodavec/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/ai-prodavec/",
+        "canonical": [
+          "https://gptbot.uz/ru/ai-prodavec/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6f2ee1af00d777f594dd39353145ccada96daec0659e40c742998cd3b7bbbe52",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/avtomatizatsiya-prodazh/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/avtomatizatsiya-prodazh/",
+        "canonical": [
+          "https://gptbot.uz/ru/avtomatizatsiya-prodazh/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "24c2e3347a2c6291a3c7f265323c3df15ac1b3de4b230bcb32c8b026ef8c92f7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/avtomatizatsiya-zayavok/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/avtomatizatsiya-zayavok/",
+        "canonical": [
+          "https://gptbot.uz/ru/avtomatizatsiya-zayavok/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7521a51e51121ec29af7753ef015c092060795661b0fa282d07f238effc5d01d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
+        "canonical": [
+          "https://gptbot.uz/ru/avtor-boris-gerasimov/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "530a4c4a4c298a11fa5e448d054c6d3ac6e1218398d5a5e349f17a4c6d4643d3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/boss-digital/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/boss-digital/",
+        "canonical": [
+          "https://gptbot.uz/boss-digital/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "24950983809aba918043e47d6979bb23764cf0c2c34e92ddf4b432ff32d6d922",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/chat-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/chat-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/chat-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c0006b0799151f19ac2dabe66bcb9574f85af11ff222203219cedabd3922bfae",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/chat-bot-po-uzbekistanu/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/chat-bot-po-uzbekistanu/",
+        "canonical": [
+          "https://gptbot.uz/ru/chat-bot-po-uzbekistanu/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6f1f92cdcc72d21810474797537efc38211381a34fa03ef1cef5d6feb608d45f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/chat-bot-v-samarkande/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/chat-bot-v-samarkande/",
+        "canonical": [
+          "https://gptbot.uz/ru/chat-bot-v-samarkande/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "774d36509477e1da13d24532f7ca3eef20b9b60cfce7fc2d1be02dd1f4f333bf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+        "canonical": [
+          "https://gptbot.uz/ru/chto-takoe-gpt-i-kak-polzovatsya/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "035de0fece022f25bd9e74cda6ad2edf7f3b9fd8d2516b617517d3868e63ba69",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/digital-marketing-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/digital-marketing-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/digital-marketing-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f021be576b06eed32d92854d26631692117bb985e2f2ae716959bda0c4a278ea",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/digital-strategiya-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/digital-strategiya-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/digital-strategiya-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "eb13f646f5acfdcaeeffd32f8a1e48983170373c696274057def1a3885ab0333",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+        "canonical": [
+          "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8e1b77fdd939676bc588254df98693a14cbb7bd597ce2dbcdfda03cdbeda2920",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-bot-ili-obychnyy-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d92d332c67b8f7c84a4c0a43efdb57a9d8cb81527f20e4c6c468613d10f0b990",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-chat-guide/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-chat-guide/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-chat-guide/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "abe611ae754dfe2f60a6b613e91043e150f432aed0fabd970e7dfee31496945f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-chat/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-chat/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-chat/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "50b9d478e7d4b04d366997e4cbbfd00f57f0a4dd1cae21ef7558d4ea9a0cecb5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "be599c5dcd3b3d471399ae9fbad5b78fc8aa2808877fe923745fa1e310668ce4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7ffd1c7db01973aeacef143b9bc3f9226d1270d01551d12264415ef4d54638e6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-dlya-ucheby/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-dlya-ucheby/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-dlya-ucheby/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cf4344565fb52e3b21aba60f38441b28ad9701ad5fa59aa92aa299446c1ffe3e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-na-russkom/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-na-russkom/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-na-russkom/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a854686c20bc8a8b1be5cef3637babcf7142c2816c360eaf0e67665d7c2b2850",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-v-marketinge-smm/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-v-marketinge-smm/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-v-marketinge-smm/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7bf6484523cafac3d44f62f165ecb9af841efdf5968a3a7aaacbf7f91fabd8df",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8428ab099d49168c9cb0a0e4a749c9395d5f7cd0009f4ae3945051b6d0d5db65",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/instagram-direct-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/instagram-direct-bot/",
+        "canonical": [
+          "https://gptbot.uz/ru/instagram-direct-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "349f82be10dc4ec4fad2cb9fd26f26112dac7c94ed48b660ae99c3c20e6bf7c8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/internet-reklama-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/internet-reklama-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/internet-reklama-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "28f734d94ab1a1c941b92787e81d5cd825e5cab817789757e0742de0d610835e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/javob/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/javob/",
+        "canonical": [
+          "https://gptbot.uz/ru/javob/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cc8d849d16c1277153b3cfc34ead6a75f3f39385e06ad6b89e6b16882d20842d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/kak-sdelat-ai-bota-telegram-instagram/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/kak-sdelat-ai-bota-telegram-instagram/",
+        "canonical": [
+          "https://gptbot.uz/ru/kak-sdelat-ai-bota-telegram-instagram/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e4cec2879519646f037a606c2472f03194bf65f81712809da3af60a9a9c6039c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6995d72365f25c16b7e8e63704df0c30fc4f1bc29f790037f0dc0a1ba464417b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/komanda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/komanda/",
+        "canonical": [
+          "https://gptbot.uz/ru/komanda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c1a19847a3d54a5d3f8e1b201ddd33cf534863fa026e988085b92e9dec8dd044",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2ab129463df6bf08af3c8978fb4ba77fd4ba08a637eaf813eeb85ccccdaa9dc1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/lokalnoe-seo-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/lokalnoe-seo-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/lokalnoe-seo-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "101c9e48f79033ca411796278851d370c1fd442d7785d54274a5f1bdb2b706cd",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "10fe656dbb3fcc6b9420377e08eb67a3591dfb0244e77c0e6f98ea37290bb063",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/market-doverie/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/market-doverie/",
+        "canonical": [
+          "https://gptbot.uz/ru/market-doverie/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "56e3f091fab3992be0756300726dc2c3da7f8687ca5d4252d8f7d7d0ca92bbe5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/marketingovyi-audit-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/marketingovyi-audit-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/marketingovyi-audit-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b98c8272aacfa483f178e3d173dfa4a2a8bd8c0eec75cc6b59213df072ed954c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/o-kompanii/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/o-kompanii/",
+        "canonical": [
+          "https://gptbot.uz/ru/o-kompanii/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "0e1f82be890307a891aa8d14d658b4c2f1157fcc8e7f5b55b378b44816e98bf6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/oferta/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/oferta/",
+        "canonical": [
+          "https://gptbot.uz/ru/oferta/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "632bee021d81107c2bf378af861f0309d05486855db972a954d12a2d2a8404a6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/okupaemost-chat-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/okupaemost-chat-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/okupaemost-chat-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5ed7577bcecf31f002172a6ce0daca0a9bcb024e36247ccb170e1cb0e48e4163",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/otzyvy/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/otzyvy/",
+        "canonical": [
+          "https://gptbot.uz/ru/otzyvy/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "57b2c3a5ecc03a0c8c204f3738af7d0c81d4a95f1dcd03837e9c7775c33bdb1d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/performance-marketing-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/performance-marketing-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/performance-marketing-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cd47cd47185b5f94146d5db7227d43e0d6f86eccba05da50b0be1b67c8ff7b21",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/pochemu-biznes-teryaet-zayavki/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/pochemu-biznes-teryaet-zayavki/",
+        "canonical": [
+          "https://gptbot.uz/ru/pochemu-biznes-teryaet-zayavki/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2d418054f0a1bb6dc9727ede5e063e61530213178cc25c003deb7fa59356d24b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/politika-konfidentsialnosti/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/politika-konfidentsialnosti/",
+        "canonical": [
+          "https://gptbot.uz/ru/politika-konfidentsialnosti/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ba06d431490a87e2dd9cbe44e1a465b7788a153f28d9844be07321cf0990b0b7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+        "canonical": [
+          "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "69e80d284f952a5153668e06e9f6071b7d54fce5c4b982c2661d7fa0bc76c375",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "562aec8b283c079bf7ea1dde5515020d1e2f25afa4818b7246bb47829947ac70",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "32c67d515c1e505e361bce5187fd2207e2dcff86c3921a5735c39ce644d54105",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "261d26a5b38a22b1417bbdc64f9bd7629a06c4cc0a85369993714aa92d178ca4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/sayt-dlya-zayavok/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/sayt-dlya-zayavok/",
+        "canonical": [
+          "https://gptbot.uz/ru/sayt-dlya-zayavok/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dbeba8c9fd17cc46f6554117685439f071d7b1d5d454cf799ab93f6f4bed5f55",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/sayt-s-ai-botom/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/sayt-s-ai-botom/",
+        "canonical": [
+          "https://gptbot.uz/ru/sayt-s-ai-botom/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fb17d2fe86ed9976ba76ed22f7a668b32130c24ebfcbe1f3c421e50adc6a1d0e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "012a7330394b55bcf76f9980358d52435979b6a6a953017b219daccc5065b895",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dc8aa468daa4a6654e4452ad68c356c6ab9a170b76a66e54215a5123de1c33af",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/sotuvchi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/sotuvchi/",
+        "canonical": [
+          "https://gptbot.uz/ru/sotuvchi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "86be3da275efa58232cfb55621af07560c61613ba8bd484dd3bb149229cff83d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/sozdanie-sayta-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7302a73b6887b9027e5fc5d45f3ff0f6b146f1924003e40bfe9af017fface74d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/stoimost-chat-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/stoimost-chat-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/stoimost-chat-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e2d2eab574063d678496f2c9b9666840345ce00fa8cd17e09f500e4bc8419d43",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+        "canonical": [
+          "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "91a470189b42312deea83ffde01e9cef3360f22acd967b50e7a945cd6120d496",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/tarify-ai-chat/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/tarify-ai-chat/",
+        "canonical": [
+          "https://gptbot.uz/ru/tarify-ai-chat/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dddb0102b1025c35c3f40bbfbbc446401e779dff4fc6e37254d85632bab30147",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "85585df82e0379c11d4a8da1366c73a960d6c9003f7d84e7eda94669850de69d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4ced1ab1ec7e4d9d254aed722ac0b57e3dbb6000de0fbe49234908ecdc3953d1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/whatsapp-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dbcf1f6336c9d09cc7a958336a5c73acb6be313789f3d1e1bfcbc4956d11e1c8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/ai-bot-yoki-menejer/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/ai-bot-yoki-menejer/",
+        "canonical": [
+          "https://gptbot.uz/uz/ai-bot-yoki-menejer/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4649375aff478f33d2cfefaf9ba1593fc457a4a4ebf93d2288a83b269908dd44",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/ai-sotuvchi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/ai-sotuvchi/",
+        "canonical": [
+          "https://gptbot.uz/uz/ai-sotuvchi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "184ac92fd15d58582396fd9fcd90cf71a2831865c2078b29b731de352305c726",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7a8c0a50b279f972052adba1fbf3aa2d75eead8e5834118166f2602597de4b2e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/",
+        "canonical": [
+          "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8a40453b346e38f710436498fecb1f9cc0552fd1ec4c41dc30d6ca63c45f6454",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "61b31e4c0a51f4fc904defaf307a9ffaa63e9f2f571d0d49727722e89ba51397",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/avtosalon-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "154c6124f6b621020139913e2f676762e1382ff37f90865d83591a57fd006751",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/biz-haqimizda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/biz-haqimizda/",
+        "canonical": [
+          "https://gptbot.uz/uz/biz-haqimizda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2c7ba1114725c822b636489e111f3ed8f76aab4af341d6eb5dbe2024461089c9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/",
+        "canonical": [
+          "https://gptbot.uz/uz/biznes-nega-arizalarni-yoqotadi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ac570babd54b54681488655cf90247fa57fb1810e0c0670f9d035e62f6d4bebf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/biznes-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/biznes-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "993d1df2a8eead57bb2d4b174b98c09ebafaae2dbcf8b31426d7a9ad62c14477",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/boss-digital/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/boss-digital/",
+        "canonical": [
+          "https://gptbot.uz/uz/boss-digital/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "338bf7bc07e1924b33ea4d86b934448c29bf34816cdd93fff8a91214113b5f3f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/chat-bot-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/chat-bot-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/chat-bot-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "83e6595a2e7555150025f802b8bf7c7e11d9358152fb0035fa2a09f9f489dd02",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/chat-bot-narxi/",
+        "canonical": [
+          "https://gptbot.uz/uz/chat-bot-narxi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4b0df98925542af029cd2ace87b53d3ce2a3ae0d9178ee3092ff400565da66d5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/dokon-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/dokon-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/dokon-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "12afb3a0a1d4572d8a77200311384582342be3ed16e395407c16a2b789a781c9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/fitnes-klub-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/fitnes-klub-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/fitnes-klub-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ca62720a6fd4087177963949fbcd5dba5d7af9d527a36bb774fbb5376ca229e3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-bot-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2a60d1b943e431a47f334f68c43e64055a887aaf225006a39012e9d993768ae8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-bot-yoki-oddiy-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "676309558ad2fbc9412c2c5bdc9528fe399f7c484f2b327e6d813210ab04ff03",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-chat-qollanma/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1caef5ff87bed96564d2feb0cccec0dca8f920b3b9e96d86387f57cc33924fbb",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b787de87502bb89c90401d95fe8fa457c327b37ab217e9411923feff47bf66b6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2543dd0c64b2ba127e8d7298bd352f6e798eaffb9cd89a61e074a2df63823e29",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e924558a366e3ba12f2354623484461f98a1fc65a4cce44b7924042c1c99be7b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/horeca-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/horeca-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/horeca-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2e74584e7a1e47ac0474975481ea2ffe5838d4309a5ea5afe96bcba5b0c78e88",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/",
+        "canonical": [
+          "https://gptbot.uz/uz/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ac1419addc03da01427dca01a9a615fe8d4eeef1c9b1653dee956f8aadae1049",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/instagram-bot-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/instagram-bot-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/instagram-bot-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "05a8beceec5cfc35b5da4ede38dea7262fde8dfc27547227df47558107de7f83",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/instagram-target-yoqish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/instagram-target-yoqish/",
+        "canonical": [
+          "https://gptbot.uz/uz/instagram-target-yoqish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d1d167bf63f1eeb72f3911cb2e4c1f21abb29ecfe89a9e7290a72bd5fb98c6cb",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/instagram-uchun-ai-menejer/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/instagram-uchun-ai-menejer/",
+        "canonical": [
+          "https://gptbot.uz/uz/instagram-uchun-ai-menejer/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "026ae62aea028016d2e732a5821919b110235346a0ffb36d82419e0bec61d561",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/internet-reklama-toshkent/",
+        "canonical": [
+          "https://gptbot.uz/uz/internet-reklama-toshkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3ac62f7d4a65433a7dd4a9add423bcb2e6db33ac39eb76e06e9b6f73a581d0df",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/jamoa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/jamoa/",
+        "canonical": [
+          "https://gptbot.uz/uz/jamoa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f420ce3188325b1000df808f229e19043aea645024a08dda247cd8fe0a0d2915",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/javob/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/javob/",
+        "canonical": [
+          "https://gptbot.uz/uz/javob/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e62afe988aec3d0fbd15e09994d2fe6cae8445fb3e8b3d0ecd42c2f19774b24e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/klinika-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/klinika-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/klinika-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "da39fb51e6f87e3a0cb70788a828401c134a50dc0fd023f4ca7124511dce37cc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/kochmas-mulk-agentligi-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bdf05e7ceb1a6c19aa5c11ca96ef6b75893f82ea0a8b3e9e2f9debb1849036df",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/market-ishonch/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/market-ishonch/",
+        "canonical": [
+          "https://gptbot.uz/uz/market-ishonch/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "69cc5346f1892db9e1819c6f3ce30036095d8eb361651a36b8c271c00090ecd7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/maxfiylik-siyosati/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/maxfiylik-siyosati/",
+        "canonical": [
+          "https://gptbot.uz/uz/maxfiylik-siyosati/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7d606e73c53e1766566e3c114e897bafcd097755a982f78d414e85ca8c9239ba",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/muallif-boris-gerasimov/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/muallif-boris-gerasimov/",
+        "canonical": [
+          "https://gptbot.uz/uz/muallif-boris-gerasimov/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a2edc2c777c36ba13d769f833bad3d6b03414ca2e899878cee6d8eab448f06a4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/oferta/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/oferta/",
+        "canonical": [
+          "https://gptbot.uz/uz/oferta/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e89998f75bb3dda7896e85f69dd9d3cc6d29d7e37fbd05cfa87ed0ea2efcea96",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/oquv-markazi-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "0a80dd54f0773d40cbe23f6349d6fa9f8474580f9fb34495f9e18197f757a0de",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/ozbekiston-boylab-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/ozbekiston-boylab-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/ozbekiston-boylab-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4ce49b2e042b81088b5ebf5d8dd32d41b4c9346dd8ca0988b3fde424258d14e3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/salon-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/salon-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/salon-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b57f6db189da785afecde0182c05860a49dde5e9e4a2c4566c8e82e37d430cc4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/samarqandda-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/samarqandda-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/samarqandda-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b78f210f1ee3508e3f294be3e88ee61b8e5b62e28ea96db354bf47d2a64584a2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/savdoni-avtomatlashtirish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/savdoni-avtomatlashtirish/",
+        "canonical": [
+          "https://gptbot.uz/uz/savdoni-avtomatlashtirish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "42466560361b55797c1fc7cee6f649bf7456832f25c5ea0a4863250ce6881295",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/sayt-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/sayt-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/sayt-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "69f40cd9019a58a80f63a8b49b94c292cf3eac107e7e79f785ec51d3672bc54e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/sayt-yaratish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/sayt-yaratish/",
+        "canonical": [
+          "https://gptbot.uz/uz/sayt-yaratish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3c1d83f29da87b27b6ea7c67928710dafb15c36f63d81512da9c78ef913f95c1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/seo-xizmati/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/seo-xizmati/",
+        "canonical": [
+          "https://gptbot.uz/uz/seo-xizmati/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "df44a34066204501519cb29c2b79a111d57f8d646fb79fce8b217771b5360747",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/sharhlar/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/sharhlar/",
+        "canonical": [
+          "https://gptbot.uz/uz/sharhlar/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6ba967be6312ef31a86ee2696fe002c3c394fcab32c148bb466beca9812cbf78",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/smm-xizmatlari/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/smm-xizmatlari/",
+        "canonical": [
+          "https://gptbot.uz/uz/smm-xizmatlari/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4b088c2e9c7174de19c44fc530eaee69d54f0c05b2abd9d02e3d528a4243ecdc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/sotuvchi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/sotuvchi/",
+        "canonical": [
+          "https://gptbot.uz/uz/sotuvchi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f4bae2412de2448124879131f54b13fee8bbb62effd3b5a8eee7e237516fa37e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/suniy-intellekt/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/suniy-intellekt/",
+        "canonical": [
+          "https://gptbot.uz/uz/suniy-intellekt/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5b3ce74c4b852fc82891cc5bc5ccce1c2d730e1b05ab37e8883651026dd09b50",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/telegram-bot-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cbc92025b5750ec73ab6cb73f68ddabf83be516328abb7d958c181d5bb0ad28f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/telegram-reklama/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/telegram-reklama/",
+        "canonical": [
+          "https://gptbot.uz/uz/telegram-reklama/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4ff0ad1a99d887fa2baee5cacf7f1f01aefd12d902d4a720fcf7c4c19454bc84",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/whatsapp-bot-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4c4955f09b8caaa9c88e42ee723e4a2080c1a5cd4fcbdde0c32863cd5ee7f8ac",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/yetkazib-berish-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/yetkazib-berish-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/yetkazib-berish-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5d8f871e859453c1d58f20b3fc328ffe55c03f20bb7b4d071d9c4a984a414a77",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/yurist-uchun-ai-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "08256eb5aabdc9150d1b1ec44f0b1d08e638724a81b62f1cd7fd1586e3db7d8f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e8d12c8806fabbb8863df7ee7f404365b8c5c6ebbbacbf1211de927f7bbdabcf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "40e64e1a3f85dcf27b6a9b3413fe8b20477c5b3be6ee9607eccc755e3e760dae",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/agentstvo-ili-frilanser-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c97aa166ea32e1d9f3b9ca0fa1e938a8f5cd8a9d1b654088c5d79ed937c35baf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-agent-ili-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "176c9cc85e34ae41ea47751bf771a2de00e792fa7c566d56cb8be77fde92180c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "10e719f1f2b826c43e20ed4ac7d4b248616e920c0414b017550412a246e0a34f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-internet-magazina-zadachi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "efe9b1ee95a49c77b0dac25f0ba555fd379dbbb0ea6ef28dbec3443ff9b56272",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-kliniki-zadachi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5d07a87152dec2011164ffc3b03319ed71a2d026eb84ca04d71fc6f26741ceed",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f4517e543871b042b42e803bfa23d680e2dc09e585ff3ec69ecce817dbf028cc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9369b16bcc80995c26c7da1217a540969e6dfa065e4f991e7adbef894e52c168",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "966567ad73bb30378a5407f5548c75b8a116b98f4d4e007e86a31d0a0c14cdfc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3a674d748576d7ba9598dc35398b59c95c2fbb3c96bc6f2ca16cbef43e77f301",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c037b3d9776840aa0dc7cdbdf922fad0f93baf52a095a2a96d54a9c62997e056",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-menedzher-dlya-instagram/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9172fc44e346293586bde0a174b78f55321b7aec58d50886dc55dfbd7dfc1a95",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ai-prodavec-i-otdel-prodazh/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ai-prodavec-i-otdel-prodazh/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ai-prodavec-i-otdel-prodazh/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b44b51971a22b4316bc9daf76f83ced4165b1a6e62318c5556f58b74aad250fc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7172a4f6fc6a71e1938ba40d56c678f947771fc07ccadd603deef61184e55bb8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/audit-kartochki-kompanii-na-kartah/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/audit-kartochki-kompanii-na-kartah/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/audit-kartochki-kompanii-na-kartah/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "501848633eebd75b95fb29b6b2d874225073267a9d6f1f1b7bb1e1cfd5b7d9d2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/avtomatizatsiya-zayavok-instruktsiya/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "85a7f78157a64e303e20ec0c6345bb55f84aa161d997f6585e1a11fc912c4a1e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c0a64347cff3aaae9c010faf54447d476797ebe8b5c739fbce0d2da5e711f96b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/biznes-teryaet-zayavki-nochyu/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8711c94d979b3755052071b30b54f1a5ae8496bf00662bc59e224f257bbe80b7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "598fc71d9cdfddd5365838e8aac21e9ba3ce9014bf1c29d80860c8252400a945",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/bot-dlya-zayavok/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/bot-dlya-zayavok/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/bot-dlya-zayavok/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e875221388bd7228067a81b17b39610830887da63d1e884960816a5a207cdc27",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d6c8dd91f115131dc377a5870220be0be68552279ad089f985b524f57a726011",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-samarkande/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-samarkande/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-samarkande/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "db304d73be791361cf3800a61228620a7e7ceb1a672ad351900db5423e99a0c5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bea8ed153cc1e88391f2321c8908f45d769165ee5e66e05c7fdccfccb4ce544f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-bot-dlya-kliniki-s-filiakami/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fd9e85876dec94572fe496fbe0535ed03f421b583c219c840760e7639b23de7a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-bot-dlya-sayta/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4396c28ac1468931581bf9fd06ac57ed59a25d537e18a2d358e2258d168779dc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-gpt-na-russkom/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "635a940aa6f1d1dea2cdd4a8f062dfe9d19b9c88cd67116e67f3489d763433b6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-gpt-online/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-gpt-online/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-gpt-online/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "58974ee626b6b7f6e6fa174f673c081b8cfea163c08ef9553f5a4edb870b1adc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c2055eb2543f7478e51097f05db33f520b3890b627aeedcc7beff47551f0e432",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9714f8636cf93a32de4e5b4ca978b798c874ec5eab5ee3a4b8ca883fd690e212",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7c7ae778f8f90990b99c940645ab1791b49a1742904d4554c3a62f786517840f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-ai-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "131a4a9bafa35790e9c2c767017948477ce7821c1f512bd79f8a0209e5923d48",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "197e30e20509e2523992ef7f9eae8d88ae1941b5e8f670e7606afaf4830a8360",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-lid-v-marketinge/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f3bd01a311a9b7e3e605c93a28146796e1ba87cd39c8857de792d12d5530b31e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-marketing-kit/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4653c69435d06da0983ed757dcf974b8456d60a2b21b80879abb9b63fced5c9d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-seo-prodvizhenie/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c9215598e84577294b8c5c3a20c5c807534d4cc96cea2885be751ba6dd2b0318",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9dc453d5beb38db2757287b7511a9e123d3124700b0059130568eea39a7e22c7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chto-vhodit-v-uslugi-smm-specialista/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d438dbee153a98119332c02d6b105736300f66530f05195a6dcdc11172c00cfb",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/cpa-cpm-cpc-cpl-v-reklame/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "917977df8e805d5265c37af50c12498d2536502ec13f70ec8b326a279b5e6daa",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8fd876e8fc090eeba8b9c1082be102b40141bd8f4cebe421beccf7491306ec47",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a33c1ed6d021f5aeb9a22c0bda941cdf8c22007a8cd2ef385c8ae1a7ead667c8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/etapy-razrabotki-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/etapy-razrabotki-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/etapy-razrabotki-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "943c1668100b46cbb8ffbccec4add710023207a9c1e8459526963d8aae498748",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7e584103279568fcab8521cfa97c23ab4e680c92907e4db2fd2c0ddefacb2d6c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "61f6f3882df94cc6632a33fef4ccba3a370fd755696a3ee5840e7f1b93871c47",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/google-maps-yandex-2gis-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3aefa72f31d4ed724456d3e480deaa6a48072f0fdbff9a894cbbc58e48672838",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/gpt-bot-vs-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "727fda8720274a8739f6c52d5b4aed5e5f44e07669a5ef580cc81cc642c0edba",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "15c72d6217f6fe5c05d5724b975545559c514a040e0bf3ff4d476008e919f6a2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bc851ca1fd1c22fb9afd5390a3c0a0b06b3d52954455c78fa42b5d6a41a44804",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/hosting-dlya-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9a35a14f95e5b4c6d4bf392575de68f5cfb0ad98b63bbc864a219a73ddc41a3b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e192a20bfbbd65e41fea775061e016cdcc2b09ee7611b65a87f38fc248159768",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6b9eb05ad5b0c0e3cecf56a99cc5505c0ae6c6148af15cab7b359a09540c46a7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7f3c9a2bbd8863811489e7f0cdbaaeadeb132722363fdf8c701a0a029a711faa",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bf28d27b914061b6f86807889e0c036665b3ad4e8e46e65983f23d625fe9cbb6",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "0216d3f2b860801414571533f84c647f0b564d0fecf2258134e78643d4e2311e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e8f482c4ae8488b066a9d1436142bc74b193cdb669155376fa297845bfd2350c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c244bac366bf26646f48d19c4bd5bc47d4ff57318338406e8531a5b184ec67d7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3c8a7c571c505521f55933a5d0589858c452491f4aecf9ff02f43c17fd4451b1",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-provesti-audit-digital-marketinga/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-provesti-audit-digital-marketinga/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-provesti-audit-digital-marketinga/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "bb634b017bdc4027ba4af3ac1d1d9dd3f2d546139611cf9eb1d4e0fccf01addd",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-sozdat-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5841126e0b6b826870c50b9afe6171e9d70e3fcb11108d6b5ab1eb7fbc7ffeeb",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9ad86384a6b11a31f83ab810493b9cc8371b1ff36d19af09a0bd791b472aa84a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5909a19f543cc9c6e1b0c9c30781b6a2a72174bc93bb7b76766185d10743c876",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1949d97bdc2b45c7f4d0dc9590fef8caf01be7989196c1b8520ccea4f23dfc7d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4a150d037596f33a98db00ec79aaf34b8228c577a534c59eff94e17361915836",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/keys-cake-city-platforma-kondirterskoy/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6e12cc6fd97b38bac517faa1273c02fb1e9eb005344778813488d7375ea4382c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/keys-graver-studio-seo-sayt-b2b/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "acfaaa429545def2fee41f0f13182dff96613bcc1886d874ac9a879774b49da0",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cb6eb89735fe217698cfff12493d6b7770b1ae49502715e9890def40ed691272",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1651c5e9be3b5995e6baf14e0b4e5c9cc60828e43eb2baaa5543706dc74184a7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fcb216d23c7a7e0b4065830a2fbdd7797225282397ced0e711f473b7872f6161",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/okupaemost-chat-bota-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "cd450d30e3f70d8191946edae00509fccfaad4f123e01bbdfd1aaaac3edf0d1e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4cd3bcffa9c6169f1a82a89d81ee19c94c5c663c249e2803a9a179cbd1e49e75",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/plan-digital-marketinga-na-90-dney/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/plan-digital-marketinga-na-90-dney/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/plan-digital-marketinga-na-90-dney/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5a9392838379854891201b71c163c3c4096e1cbcc3e52880a48f3ce816ae1934",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f89d308fcbe392cdeff24cb79b2791832ff0b4dca74efa469cbf174ae5e9bc8b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4a9b5032645dd992ee4d354568c7a0294cc3c5e6a1b126b0adb1a9bf7f27e370",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/pochemu-sayt-ne-prinosit-zayavki/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8398852559344fe84958f19c254a620e67437ec688b78dc82bb0a48f8c3dc7c3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/podderzhka-telegram-bota-posle-zapuska/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c226c9ccd0ffcbc7f9afdd61b3c309ad7de319126e6c95bf87f7e5cd45ad9219",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/priem-oplaty-payme-click-v-telegram-bote/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "01b877f54f1ed0cc58b2ae68cdc9b12ca74e4be0e1f6d8daf958d3888ede4909",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "426207bd1fae21a6886e764cd2b64af911d9d804edfbf21339e93c90d0a147f8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3abc071551b0b08d967b965565eb04831f899e4220705f99282fad8c6b18c76c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/razrabotka-chat-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/razrabotka-chat-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/razrabotka-chat-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5b14daff4ee8b6ff36cd5a3af5d92e4e5114229adac3b6189c33626386926e04",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "afaac7d72ae4dd26c2f1ab42aed02e69a644de929b1bc58fc1705ad20d8751a3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/seo-audit-sayta-chek-list/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e71b4c39c6f3ac79fa5b34427dea55b9e0bed16e59f04ba392ade64033d74af9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/seo-ili-google-ads-chto-vybrat/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/seo-ili-google-ads-chto-vybrat/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/seo-ili-google-ads-chto-vybrat/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "98e077aa729d60af009f5a428903a5ea5dac9c61fbcd48f003196c787be943c2",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2dc344f034bcdb110a1592165072303279f3892ba091039e35e7bff2f8127728",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "692ca853ce1b1491ff3df9a019f9962dbbdf88bf0c4e24fe3acd3d1b1cb73c49",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fa55e67ab56c03c82678226418c285dcb671aa3f327b39783da13f134561d20b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "29f5e4929706823dcaae7480336b87be4f7b0ab84e79f07d392c28db80d935bc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6a077f760d854841f7b869acedf2bc878472e365dea4854807f96d448801d879",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1c54e44f7f827dd744fefac9c1b4c99ed2158b5ddcaf737b488e1b6a333e3f89",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "408a9818bd91690e9fdf2f1f3c3c5f6564e4f9b2a15541f15825043f9d492e73",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "75df982cf1429958dec1dab11279e142b9cf7743eae5c6807f586ac37ff83bb5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "920292cc82da01ccf176430d51ca474a2c54578218aef3babd458d519394831d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6df264f6703ea8bbd1b50c48664c5b5e995b981a4f562c63a41c009135515ac5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-digital-marketinga-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "de7e7b745c8a6dbee5376ae405210dfebc04347311b9e937cab657ec1a4efe06",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e204b5329a45ce32ea6937780ea34045e4196ca64a7271ab9d726b459e3589c5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-lokalnogo-seo-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "af35bf02fdbaef822a80b3814fde10442978ef434f907b5d7453a19181876df3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "445b58cd22148e8e7e721359926f941a967ad42c615c6c86dcad0cf73182b841",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d59dafb0800717a5727c0b48b7b9316b3edb8d643d2663f5487bbb491dcf2ca5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "598dcc9f1c47e4a433e408faff61585244dcd0893dc2702d9eabeeb69106ccd9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f6903627287410f194fbc2db2b3b1057d1eb20f94d4d216d99dd38428891a336",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-ads-ili-posevy-v-kanalah/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6245e4744145e528f16a826a5070ff730853a433d84f62488e1c6bab17993c7a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7a1794858ee31427cef2335eba5c73707139bbaa142a0428bc9a577a3fe6accd",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-crm-ili-menedzher/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-crm-ili-menedzher/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-crm-ili-menedzher/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "eb73d23f50d960b5ef2db51b75881378da0faeedebcbe8623c69ca32cefb386d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-dlya-biznesa/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8f05cfc31cbe5bec26306a679e990636cfa7abf401237a96fb0fc1985c92b1ca",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "765e9c222e0a66cd1248a8b5347c8e9a1e44b0c35a8dfbfc2a49ac3fce2ccfd7",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-dlya-zayavok/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f293207b98e11a2551fab6c6eafd06983a3e3e551021ce13acb88dadb2669393",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "b1546a3a804982ec8b092441cdedb076d1a94c0e9720462345a6b71108d41646",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-na-python/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-na-python/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-na-python/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "653e1d36e7fd21cb88914d23755465a570c55b1399e24df1badcc871dba30196",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f153f3eb6f4a8fea6b1747cf518e222f3879bbc055a6bbfe258c7ec85b61b547",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a6328afd7d8783b134025fc3622407053f99dc1b6f07ea8c87961d355b09869e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/testirovanie-telegram-bota-pered-zapuskom/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9b30b09de9974fe852e6a4bcf265f54bf6936935002015abd809d7bbc38a1b07",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5e0f9c83c9735e6a26955f2bcc1d5eed9ec11e078c085fe95e1aa314bfb4c8ff",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dbb25deb980913aabe35b829cd55bb482465bf70835c48bf8c6a04082156324e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/zakazat-telegram-bota/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/blog/zakazat-telegram-bota/",
+        "canonical": [
+          "https://gptbot.uz/ru/blog/zakazat-telegram-bota/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "208dd4ff60fadb20eea702adce4e0f28a7113f8b9eef1d5b7ec0566f2f5ebccc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "68038348b06adc5d31ee0d4c1d27f39ce3c784b97cb400251e388a961fae6095",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c3423492a4defd19fb6a0a3142864f602c0079e05cdb2f8f039982f8f8609df3",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "445c4edf64cb7b56b62fdf2df7f14cbbb6cb7337834f40a54760b234f15bdb21",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "aa0ecdad43962c8dea8fcc54f195c90819217716b22e1e32b710080f42e52412",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8ad78cec2c503a575908b5dbe5fd7bdfe1a5b922d854c33f35366f733843d0ac",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3f698833779167ec62d8a1f122a29eb8cae71fe88633d2218089f3596c6d249c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "88de670b1a3b4d0ef0bf805017e785324779552e55e133dc168c5b16764be227",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "db567798806b99a8292a4fcfdcbafe72e1fb88ac5479dc80638998ea092ccc8d",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "27f1b4683d0667510e1d76499f0b5ced38828c4bd7f7827bf791c18dd6c22972",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c016554781c937d3d407c80768ccd6043250ba88711162ddfa70523f0e875470",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/biznes-reja-tuzish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/biznes-reja-tuzish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/biznes-reja-tuzish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "51b68a129eae7e0c9c9b43d629c31d26bd0dde0b3d327b7a7860fda17181dca9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "57c041faba930bc357fd04c405abf7fd54b77263dd8325f879b9cb1635bedbcf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7e230d57f74f92e1e68844d13c4b940407f36110eeb09cde331d10c16a9f8654",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/biznes-uchun-qanday-sayt-kerak/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ff04cabe4b2104862cd71542ed6a32bb31310e5fcd1ffbec9d65ebd5d41977cb",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4617d9bd38cf577f5690266700f55434cfbef09be0d7a0acb5465a8dae927665",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ca941ce84aa00dc185d97cd9caf02ed1e2df0cb6454355d46df9affbc049bf4c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "220024b632b20ed882a54c5ed4f53b8da7b54422d2f26fd8b6046e1da4905842",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c636feb23914b3ec769bafc451ed4112b4214f893c803a6b039986aee719aa53",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c872afba6466be0afa0edcead46d78f9f85f58ef6092918939f32dc85f5a2a37",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7a06344179bd5cf05d64bfd4915ff89bed34ce64c4297487c9166af4bc310abc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "d118f9ce5b618b5b9a221c9f27a3f9dc48dbba083c7970d68f51f2e36d040500",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "be244ac0a43c97a48fd66bb38325ea3e10df26e946bacb14843beb6562a3fb34",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/domen-va-hosting-qanday-tanlanadi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "106ad315d9779f5b1703bbfc8fc1aa2e0f8a1a1e30289890973bac67456d8bf0",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "41e0f3497f6b8d6535e4ebda02742e5502781fbda1176b7b6114e4352424c0b4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8468d27ce87eef83319868da62e4f4a06f14b49ed1bba66796cba6516c9455cf",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dda460f00b67c8417280730fc4c144b0d3f8ab22af9e6d87f17d2b020baeb99a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "883417b644c0b6bd7ec0b8e8e0e102e744ce7f71d6250c905f218ec575598925",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "2e3894eddb259d98dd1614385688f73980bfa046c4633f52e60081976f8e0b9f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "5201b620e26e33cb21b4612dfdcab7bab4638c57ecb9fb0a9d88f0b69f0f4304",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/internet-dokon-yaratish-narxi-toshkent/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c345b0f23521d74e97f5be5d6878a63c4c3ad8c2c76c04ec0bfbf421370d6c9f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/internet-reklama-narxi-ozbekiston-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c0a5f8f679018bd498dae176e1490ef63426ea2abcc65e21a9feee224f87af7f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "6b50820017061d789e26bc949b70a64d4ccf8c44af7e187505bfa9f2a754ff85",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/kontekst-reklama-narxi-toshkent-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "461783e1445ac1c55468a34d1a506f91563e96ea48b1b9eb6c9a98c5699a175f",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/kurs-ishi-yozish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/kurs-ishi-yozish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/kurs-ishi-yozish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "3383c46c814e319704c5b56544a0e99964f854c2ce0d341cacf7e46765043317",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/marketing-nima/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/marketing-nima/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/marketing-nima/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e3f8becdb1bc658b26d0d724ccad054f4a5e2e024f84c3c28d7ed02061939593",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "4bc87ad22c00abfa1f20f80cb5dd930f291a7487b2bfe2e0a0e1f655f88b2f75",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "811459da05ec59c19e0c7b1aa4c2cb1e90b403aefba4db76302116e51d0d2809",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/referat-va-mustaqil-ish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "c50cd4a2369c6ed6d5f702f2642334ed342a00571921569bbcd728cef750de7c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7678e2428b60180b941d2182346ac73e3bfe595027c44f3085b6d52e81d2fca8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/rezyume-tayyorlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "952ba8e45f7008409ca196affc4423e8e9adac6d8c6cbd0c2b34853cfc887b92",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "18cdb815bb38c90257bee0b8f46f8f4e97f20a10e861b4838670e69150e379e8",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/samarqandda-biznes-uchun-chat-bot/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "360129495454d729cabbb4557ed1df192e63fd172357dbf806c3c3404d97a714",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f92b30a9e9cacd5ac74aec43bf61da31a15a23c9d19cb13f019fd22e3bb51eef",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dd88a2cffcb926082dc17c0f83481f4932ffd19251c26659e4e44a38334c885e",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fb02a2eead88f39b6a6f155d7ca5fb0aa514d4325eb60f636598936fa7b9b412",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "06068d100aefb285b6ea1fbf7951442b89718e278fe894104e1db785e8fe9e0c",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/slayd-tayyorlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "9ac2d81e8cda168a2b43dec011bcfc2442bb98997637b8c5d42599af948db1f5",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/smm-nima/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/smm-nima/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/smm-nima/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "ef27c5f54f94063acc2f265f0d8976e55608e7d3c847cdebca67b520ecfa3295",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "f07f2cea5b039afa01e78db91aae73cc755b007c4f136aaded5fe0864b09a6f9",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/target-reklama-nima/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "24e40cbe1517f820f4f7f7d50f9e8edc05c02e4b7cad00f81550be0cfc888881",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "fab1f666b3c77de7a28c17ae0c569af30c592eb5b83c91d1f923620ea462fcda",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/telegram-bot-crm-yoki-menejer/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7371fc0900677b9bdb1dd2a31f4e5db87ec1b4a7264c61bf2cd59302e922dacc",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "dc7278d414c111866637cf90f71f97df5386d2dec6976565427951861dad6b19",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7b22469793ea51605567de8bf9d83ec4bfa2a950d17505ccd64f32962dfceb11",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "1a69fe318eed050ccce71cf6cd428b391e4b83832fc679e89e0e367b415d7e5b",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7d646a4b1ad3189189231b6057aa56f8b77448aa51a07a4d32a15d09a9257b18",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+        "canonical": [
+          "https://gptbot.uz/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "7734305fc71a4239dfc0d42afdf9e09a7c15c78b4bf33332cecdbf4fd610a8f4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/ru/prezentatsiya-ai/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/ru/prezentatsiya-ai/",
+        "canonical": [
+          "https://gptbot.uz/ru/prezentatsiya-ai/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "e1b99c2b87a475fe682498e021547e85d26bdc3db2dcdf0f60c84cc7ee5870b4",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/taqdimot-ai/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/taqdimot-ai/",
+        "canonical": [
+          "https://gptbot.uz/uz/taqdimot-ai/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "a361d083e3798f4fbe95949cee9d401c403db568583ce04c7080f177ad252a2a",
+        "pass": true
+      },
+      {
+        "url": "https://gptbot.uz/uz/tariflar/",
+        "status": 200,
+        "finalUrl": "https://gptbot.uz/uz/tariflar/",
+        "canonical": [
+          "https://gptbot.uz/uz/tariflar/"
+        ],
+        "h1": 1,
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "xRobotsTag": null,
+        "sha256": "8c0d194b3bc89330a773b3f3e8159fd2c852f2bb3111d5901caf1ec8a01bc002",
+        "pass": true
+      }
+    ]
+  },
+  "privateResponses": [
+    {
+      "path": "/api/auth/me",
+      "method": "GET",
+      "status": 401,
+      "cacheControl": "no-store",
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "body": "{\"error\":\"Missing token\"}",
+      "pass": true
+    },
+    {
+      "path": "/api/auth/login",
+      "method": "POST",
+      "status": 400,
+      "cacheControl": "no-store",
+      "xRobotsTag": "noindex, nofollow, noarchive",
+      "body": "{\"error\":\"Missing email or password\"}",
+      "pass": true
+    }
+  ],
+  "pass": true
+}

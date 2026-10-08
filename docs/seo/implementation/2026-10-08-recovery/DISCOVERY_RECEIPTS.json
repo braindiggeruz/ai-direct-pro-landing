@@ -1,0 +1,193 @@
+{
+  "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+  "recordedAt": "2026-10-08T14:02:29.779Z",
+  "gscSitemaps": {
+    "siteUrl": "sc-domain:gptbot.uz",
+    "attempted": 4,
+    "submitted": 4,
+    "failed": 0,
+    "results": [
+      {
+        "sitemapUrl": "https://gptbot.uz/sitemap.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-08T13:56:01.918Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/sitemap-updates.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-08T13:56:02.003Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/ru/blog/feed.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-08T13:56:02.133Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/uz/blog/feed.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-08T13:56:02.204Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "warnings": "0",
+        "errors": "0"
+      }
+    ],
+    "message": "Submitted 4 of 4 sitemap(s) to Search Console for sc-domain:gptbot.uz. Submitting queues a download; it does not index the URLs.",
+    "actions": [
+      "Re-check list_sitemaps in a few hours: warnings, errors and indexed counts appear only after Google has downloaded the sitemap."
+    ]
+  },
+  "gscSitemapReadback": {
+    "siteUrl": "sc-domain:gptbot.uz",
+    "sitemaps": [
+      {
+        "path": "https://gptbot.uz/uz/blog/feed.xml",
+        "lastSubmitted": "2026-10-08T13:56:02.204Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-10-07T13:51:42.600Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/ru/blog/feed.xml",
+        "lastSubmitted": "2026-10-08T13:56:02.133Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-10-07T13:53:01.157Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap-updates.xml",
+        "lastSubmitted": "2026-10-08T13:56:02.003Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-10-07T13:52:44.035Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "94",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap.xml",
+        "lastSubmitted": "2026-10-08T13:56:01.918Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-10-06T20:45:53.892Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "293",
+            "indexed": "0"
+          },
+          {
+            "type": "image",
+            "submitted": "140",
+            "indexed": "0"
+          }
+        ]
+      }
+    ]
+  },
+  "indexnowConnectorAttempt": {
+    "content": [
+      {
+        "type": "text",
+        "text": "bad_request: IndexNow API key not configured for this site. Set one up in the IndexNow settings first."
+      }
+    ],
+    "structuredContent": {
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "isError": true
+  },
+  "directIndexNowAndWebSub": {
+    "submittedAt": "2026-10-08T13:57:57.798139+00:00",
+    "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+    "keyFile": {
+      "status": 200,
+      "bodyMatches": true,
+      "keySha256": "27e93936cbdcc8d8fd5a556b47508b26558707c92cb6546a12e64e37932954dc"
+    },
+    "indexNow": {
+      "endpoint": "https://yandex.com/indexnow",
+      "httpStatus": 202,
+      "urlCount": 300,
+      "accepted": true,
+      "pendingKeyValidation": true,
+      "responseExcerpt": "{\n  \"success\":true\n}",
+      "retryAfter": null,
+      "indexingConfirmed": false
+    },
+    "websub": [
+      {
+        "feed": "https://gptbot.uz/ru/blog/feed.xml",
+        "hub": "https://pubsubhubbub.appspot.com/",
+        "httpStatus": 204,
+        "accepted": true,
+        "responseExcerpt": ""
+      },
+      {
+        "feed": "https://gptbot.uz/uz/blog/feed.xml",
+        "hub": "https://pubsubhubbub.appspot.com/",
+        "httpStatus": 204,
+        "accepted": true,
+        "responseExcerpt": ""
+      }
+    ]
+  },
+  "manualGsc": {
+    "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "status": "DAILY_QUOTA_EXCEEDED",
+    "accepted": false,
+    "uiMessage": "Мы не можем обработать этот запрос, так как вы превысили ежедневную квоту. Попробуйте повторно отправить его завтра.",
+    "noRepeatedAttempts": true
+  },
+  "limits": "Submission acceptance is not crawling, indexing, ranking or traffic proof."
+}

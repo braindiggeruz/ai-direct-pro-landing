@@ -1403,3 +1403,8 @@ Read-only Click: один live paid заказ чата, ошибка поиск
 ## D-SEO-RECOVERY-20261008 — product truth, authored dates and isolated telemetry
 
 Public trial copy follows the already released lifetime allowance, with separate presentation quotas. Shared authored date selection aligns page JSON-LD, visible labels and sitemap without inventing a review. Exact Pages project/preview hosts receive noindex; custom-domain pages stay indexable. Private auth responses are no-store. Google UI labels become ui_source/entry_path; backend and Meta keep their contracts. A new immutable review records two changed description/body contracts. Title/H1/URL ownership awaits mature post-recrawl evidence. Local tests do not prove field CWV or historical GA4 causality.
+
+
+### D-SEO-RECOVERY-20261008 release readback
+
+Source 5de9e3850468e1915d99729e4930b8750adcf433 is deployed to b50a8d04; manifest1002 matches exactly, live300/300 and protected10/10 pass. IndexNow300 HTTP202, GSC4/4 pending, WebSub2 HTTP204. Manual Google request hit daily quota. Browser acceptance remains partial due extension UI blocking; mature indexing/traffic measurement remains pending. Metadata relay records facts only and does not require redeployment.

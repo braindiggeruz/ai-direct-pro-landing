@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+  "productionUrl": "https://gptbot.uz/",
+  "deploymentUrl": "https://b50a8d04.ai-direct-pro-landing.pages.dev",
+  "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+  "fileCount": 1002,
+  "guardedCheck": "PASS",
+  "guardedDeployment": "deployed_and_verified",
+  "manifestExactMatch": true,
+  "liveCrawl": "300/300 PASS",
+  "protectedContracts": "10/10 PASS after explicit Cloudflare public email decoding; raw differences retained",
+  "browserAcceptance": "PARTIAL; RU changed copy rendered, homepage initial render verified; lower links/mobile/Studio JS blocked by extension UI",
+  "gscSitemaps": "4/4 accepted and read back, pending download",
+  "indexNow": "300 URLs HTTP202 accepted; key publicly verified; provider key validation pending",
+  "webSub": "2/2 HTTP204",
+  "googleManualRequest": "daily quota exceeded, not accepted",
+  "publishedAtEvidence": "deploy.log, PRODUCTION_READBACK.json, DISCOVERY_RECEIPTS.json"
+}

@@ -1,9 +1,9 @@
 {
   "seo_recovery_20261008": {
-    "status": "LOCAL_CHECKS_PASSED_DEPLOY_AUTHORIZED",
+    "status": "DEPLOYED_HTTP_VERIFIED_DISCOVERY_SUBMITTED_BROWSER_PARTIAL",
     "sourceBaseHead": "e2280e4494ccc272cc0838e91a77c0a20eb8ef19",
     "productionBaseline": "a80dfcbd13212246fb650daa877dd295044bc298",
-    "sourceCommit": null,
+    "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
     "scope": [
       "R1",
       "R2",
@@ -28,17 +28,41 @@
       "repairSuitePass": 14,
       "bundleBudget": "PASS"
     },
-    "deployment": null,
-    "postDeployDiscovery": "Owner explicitly requested IndexNow and fast Google recrawl submission after deployment",
+    "deployment": {
+      "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+      "productionUrl": "https://gptbot.uz/",
+      "deploymentUrl": "https://b50a8d04.ai-direct-pro-landing.pages.dev",
+      "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+      "fileCount": 1002,
+      "guardedCheck": "PASS",
+      "guardedDeployment": "deployed_and_verified",
+      "manifestExactMatch": true,
+      "liveCrawl": "300/300 PASS",
+      "protectedContracts": "10/10 PASS after explicit Cloudflare public email decoding; raw differences retained",
+      "browserAcceptance": "PARTIAL; RU changed copy rendered, homepage initial render verified; lower links/mobile/Studio JS blocked by extension UI",
+      "gscSitemaps": "4/4 accepted and read back, pending download",
+      "indexNow": "300 URLs HTTP202 accepted; key publicly verified; provider key validation pending",
+      "webSub": "2/2 HTTP204",
+      "googleManualRequest": "daily quota exceeded, not accepted",
+      "publishedAtEvidence": "deploy.log, PRODUCTION_READBACK.json, DISCOVERY_RECEIPTS.json"
+    },
+    "postDeployDiscovery": "DISCOVERY_RECEIPTS.json: GSC 4/4 accepted; IndexNow300 HTTP202; WebSub2 HTTP204; Google manual request daily quota exceeded",
     "deferredPreviousNextStage": "Внешняя денежная приёмка: Merchant readback Click/ОФД и подтверждённая покупка Studio → права → PPTX → receipt",
     "openItems": [
-      "Post-deployment live readback",
-      "Google URL request if browser available",
-      "Mature post-recrawl CTR windows",
+      "Browser acceptance of home resources/mobile/Studio after extension UI allows control",
+      "Retry manual priority URL request after Google daily quota resets",
+      "Mature post-recrawl CTR and attribution windows",
       "Insufficient field CWV data",
       "Native Uzbek editorial signoff",
-      "Today GA4 first-user/hourly report unavailable through current tools"
-    ]
+      "Today GA4 first-user/hourly report blocked by extension UI"
+    ],
+    "previousHistoricalBaseline": {
+      "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; production build exit 0 (223 sitemap entries, 109 articles and 111 pages prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
+      "tests": "full repository 925/925 across 36 suites, 0 failures. P3.1 owner-control-center 69/69; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
+      "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
+      "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
+      "security": "scripts/scan-secrets.ts clean over 2630 files; git diff --check clean; git fsck --full exit 0 with only unreachable dangling objects and no corruption; built browser assets contain no credential value. P3.1 authentication, authorization, legacy-admin boundary, tenant isolation, audit safety, idempotency, migration safety, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
+    }
   },
   "seo_traffic_20261007": {
     "status": "committed_not_deployed",
@@ -1510,10 +1534,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO recovery local candidate checked; guarded deployment authorized",
+  "current_stage": "SEO recovery deployed and HTTP verified; browser acceptance and search measurement pending",
   "stage_status": "in_progress",
-  "last_completed_stage": "SEO recovery code and local regression checks",
-  "next_stage": "Guarded recovery deployment, production readback and IndexNow/GSC submission",
+  "last_completed_stage": "SEO recovery implementation, guarded production deployment and discovery submissions",
+  "next_stage": "Post-release browser acceptance and mature SEO/attribution measurement",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1781,9 +1805,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Final production a80dfcbd подтверждён реальным браузером и exact manifest. Три ответа всего, fourth 429, old hourly/daily cache reconciled, новая Studio UI опубликована. Оплата Click/Payme live; денежная приёмка/возврат/чек отдельно, не подменять их fixtures.",
+  "next_stage_note": "Runtime release complete. Chrome extension UI blocks remaining browser acceptance; Google manual requests hit daily quota. Do not redeploy or resubmit accepted batches without a new change. Prior merchant acceptance is preserved in seo_recovery_20261008.deferredPreviousNextStage.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "a80dfcbd13212246fb650daa877dd295044bc298",
+  "last_commit": "5de9e3850468e1915d99729e4930b8750adcf433",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1846,7 +1870,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-08T13:35:45.137891+00:00",
+  "updated_at": "2026-10-08T14:07:09.207523+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],
@@ -1947,11 +1971,15 @@
     "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "build": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0; production build exit 0 (223 sitemap entries, 109 articles and 111 pages prerendered); backend typecheck and build exit 0; wrangler pages functions build compiled successfully",
-    "tests": "full repository 925/925 across 36 suites, 0 failures. P3.1 owner-control-center 69/69; react-router migration 26/26 with exactly eight allowlisted protected owner routes and zero public/static route delta.",
-    "typecheck": "tsc -b exit 0; tsc -p tsconfig.functions.json exit 0 with 0 errors",
-    "lint": "eslint clean on every file changed in R0.4. Six pre-existing no-explicit-any errors remain at src/admin/lib/api.ts:71 and :76, unchanged by this release and confirmed pre-existing by linting the file at the previous HEAD.",
-    "security": "scripts/scan-secrets.ts clean over 2630 files; git diff --check clean; git fsck --full exit 0 with only unreachable dangling objects and no corruption; built browser assets contain no credential value. P3.1 authentication, authorization, legacy-admin boundary, tenant isolation, audit safety, idempotency, migration safety, no impersonation, no public marketplace, no n8n and no auto-publication all PASS."
+    "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+    "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+    "build": "build:fast, admin, Studio and stamp exit0; guarded release passed",
+    "tests": "284 effective relevant tests passed; 4 historical R-ST1 skips; see FINAL_STATIC_VALIDATION.json",
+    "typecheck": "tsc-b and functions exit0",
+    "lint": "26 changed TS/TSX files clean",
+    "security": "58 staged files secret scan clean; global unchanged test-placeholder false positive recorded",
+    "production": "300/300 crawl and10/10 protected contracts; exact manifest; private/alias headers PASS",
+    "limits": "Browser acceptance partial; no indexing, ranking, traffic recovery or today GA4 claim"
   },
   "n8n_disposition": {
     "value": "RETIRED",

@@ -1,0 +1,35 @@
+{
+  "submittedAt": "2026-10-08T13:57:57.798139+00:00",
+  "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+  "keyFile": {
+    "status": 200,
+    "bodyMatches": true,
+    "keySha256": "27e93936cbdcc8d8fd5a556b47508b26558707c92cb6546a12e64e37932954dc"
+  },
+  "indexNow": {
+    "endpoint": "https://yandex.com/indexnow",
+    "httpStatus": 202,
+    "urlCount": 300,
+    "accepted": true,
+    "pendingKeyValidation": true,
+    "responseExcerpt": "{\n  \"success\":true\n}",
+    "retryAfter": null,
+    "indexingConfirmed": false
+  },
+  "websub": [
+    {
+      "feed": "https://gptbot.uz/ru/blog/feed.xml",
+      "hub": "https://pubsubhubbub.appspot.com/",
+      "httpStatus": 204,
+      "accepted": true,
+      "responseExcerpt": ""
+    },
+    {
+      "feed": "https://gptbot.uz/uz/blog/feed.xml",
+      "hub": "https://pubsubhubbub.appspot.com/",
+      "httpStatus": 204,
+      "accepted": true,
+      "responseExcerpt": ""
+    }
+  ]
+}
