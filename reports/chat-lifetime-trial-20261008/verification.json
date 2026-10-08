@@ -100,8 +100,13 @@
     "reviewedBodyChanges": 2
   },
   "build": {
-    "compilation": "main/admin/Studio completed",
-    "stamp": "pending commit; pre-commit guard refused dirty runtime as designed"
+    "command": "npm run build:production",
+    "exitCode": 0,
+    "source": "build-committed.log",
+    "stamp": "pass",
+    "commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+    "artifactSha256": "3dd048104854b255a93b20de83d0a871b6f942668708b2769dd56b182905e044",
+    "fileCount": 998
   },
   "production": {
     "commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
@@ -135,12 +140,25 @@
     "source": "lint-final.log",
     "scope": "21 изменённый source-файл; глобальный legacy lint не объявляется чистым"
   },
-  "status": "local_verified_stamp_pending",
-  "codeCommit": "Точный feature SHA фиксируется metadata follow-up D-006 после code commit.",
+  "status": "local_verified_release_pending",
+  "codeCommit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
   "secretScan": {
     "exitCode": 0,
     "files": 58,
     "source": "secrets-final.log",
     "redactedOnly": true
+  },
+  "guard": {
+    "exitCode": 0,
+    "source": "guard-code.json",
+    "commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+    "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+    "deployment": false
+  },
+  "metadataRelay": {
+    "rule": "D-006",
+    "stateCommit": "HEAD",
+    "runtimeUnchanged": true,
+    "finalHeadStamp": "После metadata relay stamp/check повторяются без новой сборки; результат — в локальном guard-final.log."
   }
 }

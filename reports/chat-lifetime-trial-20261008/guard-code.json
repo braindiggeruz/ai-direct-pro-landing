@@ -1,0 +1,13 @@
+{
+  "command": "python F:/Claude/gptbot-tools/deploy_runner.py check",
+  "exitCode": 0,
+  "source": "guard-code.log",
+  "receipt": {
+    "status": "pass",
+    "commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+    "files": 998,
+    "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2"
+  },
+  "artifactSha256": "3dd048104854b255a93b20de83d0a871b6f942668708b2769dd56b182905e044",
+  "deployment": false
+}

@@ -8,6 +8,8 @@
 
 Условия в контенте, FAQ, тарифах, оферте, приватности и llms обновлены. Новый reviewed SEO baseline меняет только body fingerprint двух чатовых страниц; metadata/link contracts всех 10 сохранены. Старые baseline immutable. После публикации новая бесплатная политика вмешивается в прежнее окно измерения конверсии/P-CTR; SEO-эффект не утверждать.
 
+Код текущего trial: `485ca4e7697e2cbfb12733082be5c1abad17f8cc`. Локально PASS: 213 targeted tests, 3 actual-build browser suites, 446 layout-сценариев, root/functions typecheck, scoped lint/secret scan, bundle/10 SEO contracts, полный main/admin/Studio build + production stamp + guarded check. Артефакт: 998 файлов, `3dd048104854b255a93b20de83d0a871b6f942668708b2769dd56b182905e044`. Эти проверки не доказывают реальную покупку, чек или публикацию; квитанции — в текущем `verification.json`.
+
 **Новый trial и workspace ещё не опубликованы.** Следующий этап: read-only диагностика фискализации → reviewed D1 backup/migration → guarded release по команде владельца → live readback. Данные прежней реконструкции не перечитывать. Для восстановления реального SHA/результатов смотреть `STATE.json`, `HANDOFF.md` и `reports/chat-lifetime-trial-20261008/verification.json`.
 
 ## Предыдущий локальный этап: рабочее пространство и покупка

@@ -1470,7 +1470,7 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Монетизация веб-чата: всего 3 пробных ответа и banner; roadmap Studio и Click/ОФД",
-  "stage_status": "local_verified_stamp_pending",
+  "stage_status": "local_verified_release_pending",
   "last_completed_stage": "Локальный P0–P4 chat workspace и контекстная воронка покупки (не опубликовано)",
   "next_stage": "Read-only диагностика click_fiscal_failed, затем reviewed migration и guarded release по команде владельца",
   "r0_4_progress": {
@@ -1742,7 +1742,7 @@
   },
   "next_stage_note": "Локальная версия не опубликована. Click и Payme уже live в предыдущем выпуске; не возвращать hidden/test. После release нужна настоящая покупка владельца: деньги → права → PPTX → электронный чек; fixtures не являются её доказательством.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "432608408d11fa0119da33c3a627df9d9f11bc39",
+  "last_commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2275,9 +2275,9 @@
     "bundle_margin": "start JS 461 B Brotli below 110000; page CSS 30 B below 27000; keep existing strict gates"
   },
   "monetization_trial_20261008": {
-    "status": "local_verified_stamp_pending",
+    "status": "local_verified_release_pending",
     "baseline_commit": "b9a54ae02a402d3f91496891c3e895ee5b12b507",
-    "code_commit": "См. последний feature commit и metadata follow-up по D-006",
+    "code_commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
     "migration": "0078_gpt_lifetime_trial.sql",
     "feature_flag": "GPT_FREE_TRIAL_ENABLED=true в подготовленном config, production не менялся",
     "scope": "3 пробных ответа всего; серверная cookie/учёт, banner/Click/Payme, публичные условия; Studio и его тарифы сохранены",
@@ -2295,6 +2295,15 @@
       "scoped_lint": true,
       "seo_contracts": 10,
       "reviewed_body_changes": 2
-    }
-  }
+    },
+    "local_artifact": {
+      "commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+      "artifactSha256": "3dd048104854b255a93b20de83d0a871b6f942668708b2769dd56b182905e044",
+      "fileCount": 998,
+      "build_exit": 0,
+      "guard_exit": 0
+    },
+    "remaining_acceptance": "Read-only причина Click/ОФД, reviewed production backup/migration, guarded release по команде владельца, live readback и контрольная покупка."
+  },
+  "state_commit": "HEAD"
 }
