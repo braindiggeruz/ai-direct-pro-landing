@@ -1,6 +1,12 @@
 # Выпуск GPTBot.uz: 3 пробных ответа и Studio · 08.10.2026
 
-По прямой команде владельца опубликована проверенная версия `edbf3d7385776ea7a06532c86e406e2759072013`. Предыдущий production — `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. Artifact SHA256 `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e`, 1002 файлов; guarded deploy и readback custom domain PASS. Изменения чата, Studio и owner-отчёта теперь на сайте, а не только локально.
+Первый выпуск по прямой команде владельца: проверенная версия `edbf3d7385776ea7a06532c86e406e2759072013`. Предыдущий production — `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. Artifact SHA256 `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e`, 1002 файлов; guarded deploy и readback custom domain PASS. Изменения чата, Studio и owner-отчёта теперь на сайте, а не только локально.
+
+## Финальный production выпуск
+
+Актуальный сайт — `a80dfcbd13212246fb650daa877dd295044bc298`, Pages `https://12460835.ai-direct-pro-landing.pages.dev`, artifact `deeeeb0386102c40f5728ab3d1a0d40a4bbdc5891cf0eaf9a4e076d4119facf3`, 1002 файлов. Последняя правка legacy cache опубликована. Чистая production сборка, stamp, guard, exact readback, 48 unit regression, 29 release/SEO tests и built trial browser (3 случая RU/UZ 320/390/1366 px) PASS. Фактический Brotli бюджет проверен, пороги не подняты.
+
+На финальном выпуске отдельный real browser подтвердил обе cached блокировки hourly/daily → доступная server trial, затем три настоящих ответа → 2/1/0 → баннер → fourth429. Reload/RU→UZ не сбрасывают trial и не открывают презентацию. Studio RU1366/UZ390 и 10 live SEO contracts снова PASS; просмотр тарифа создаёт 0 заказов/AIjobs, owner endpoint anonymous401. Initial и final квитанции разделены; прежние failures не удалены. Full paid purchase/refund/receipt и Merchant Click readback остаются внешней приёмкой.
 
 ## Лимит реально работает на сайте
 
@@ -34,4 +40,4 @@ Production binding `GPTBOT_DRAFTS_DB` сверена с `gptbot-ai-drafts`. Эк
 
 ## Последняя правка для старых вкладок
 
-После первого выпуска найден и исправлен legacy cache: карточки старого hourly/daily лимита больше не блокируют доступную пробу после получения авторитетного server account с `lifetime=3`. IP/busy ограничения сохранены; использованный trial остаётся закрытым. Проверки reducer: 48 PASS, root typecheck и scoped lint PASS. Built browser дополнительно начинает с сохранённой старой карточкой и проверяет доступную пробу, затем исчерпание трёх ответов, reload/язык и paid unlock. Финальный guarded выпуск и новая реальная проверка фиксируются отдельной квитанцией этого же этапа.
+После первого выпуска найден и исправлен legacy cache: карточки старого hourly/daily лимита больше не блокируют доступную пробу после получения авторитетного server account с `lifetime=3`. IP/busy ограничения сохранены; использованный trial остаётся закрытым. Проверки reducer: 48 PASS, root typecheck и scoped lint PASS. Built browser дополнительно начинает с сохранённой старой карточкой и проверяет доступную пробу, затем исчерпание трёх ответов, reload/язык и paid unlock. Финальный guarded выпуск и новая реальная проверка завершены; доказательства ниже.

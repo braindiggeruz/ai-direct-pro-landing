@@ -1,0 +1,63 @@
+{
+  "status": "deployed_and_verified",
+  "checkedAt": "2026-10-08T06:12:07.644417+00:00",
+  "authorizedBy": "08.10.2026: ну конечно выпускай делай всё до конца и доведи полностью до продакшн состояния!",
+  "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+  "productionCommit": "edbf3d7385776ea7a06532c86e406e2759072013",
+  "featureCodeCommit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
+  "trialCodeCommit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+  "artifactSha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+  "files": 1002,
+  "deploymentUrl": "https://14e5867c.ai-direct-pro-landing.pages.dev",
+  "customDomain": "https://gptbot.uz",
+  "trialLimit": 3,
+  "trialResets": "never",
+  "trialFlagVerified": true,
+  "migration": "0078_gpt_lifetime_trial.sql",
+  "realSuccessfulTrialReplies": 3,
+  "fourthRequestStatus": 429,
+  "paywallAfterThird": true,
+  "reloadAndLocaleDoNotReset": true,
+  "studioUiScenarios": 2,
+  "liveSeoContracts": 10,
+  "edgeNormalization": "Decode Cloudflare email protection only; reviewed source contract and baseline unchanged",
+  "localRegressionRecheck": 47,
+  "localTrialBrowserRecheck": "pass",
+  "screenshots": [
+    {
+      "file": "live-trial-desktop.png",
+      "sha256": "a39aab3db4bb5338a7fbbf161b20a51e12c58727e3c670b5a69ff42f786e6790"
+    },
+    {
+      "file": "live-trial-mobile-uz.png",
+      "sha256": "f3d7ecb988e4b07a5fbb745cfd6c68c9efcd5868e4dfa5a4bd5ab6fe9cbeb7bf"
+    },
+    {
+      "file": "live-studio-ru-1366.png",
+      "sha256": "3ea3ebfdc016b92101625d45f04b23fca4285d2f161925986bc4c19604913aef"
+    },
+    {
+      "file": "live-studio-uz-390.png",
+      "sha256": "469ef3abb67cf6d9dfd1c7e8b240dc007731cd7d014db74a75a6b3cd932cd105"
+    }
+  ],
+  "realPaymentCalls": 0,
+  "manualFiscalSubmitCalls": 0,
+  "openAcceptance": {
+    "realPaidStudioPurchaseRefundReceipt": "pending buyer/provider evidence",
+    "clickFiscal": "Merchant readback pending; previous observed payment_id:click_-12"
+  },
+  "initialProbeFailures": [
+    "CDP could not read an SSE body; second real browser observation used fetch clone, no mocks",
+    "raw live HTML includes Cloudflare email protection; decode only that transform, no baseline changes",
+    "Studio probe sent topic before the controller/capabilities were mounted; wait for attached server-backed controls",
+    "offline full backup includes legacy CHECK warnings in lead_radar_signal_posts; preserved, not changed by 0078"
+  ],
+  "backupLinkIncident": {
+    "temporarySignedLinkAccidentallyPrinted": true,
+    "localLogRedacted": true,
+    "gitContainsLink": false,
+    "expiresAt": "2026-10-08T06:43:04Z",
+    "backupAclRestricted": true
+  }
+}

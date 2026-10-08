@@ -1,14 +1,14 @@
 {
   "status": "deployed_and_verified",
-  "checkedAt": "2026-10-08T06:12:07.644417+00:00",
+  "checkedAt": "2026-10-08T06:30:48.411184+00:00",
   "authorizedBy": "08.10.2026: ну конечно выпускай делай всё до конца и доведи полностью до продакшн состояния!",
   "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
-  "productionCommit": "edbf3d7385776ea7a06532c86e406e2759072013",
+  "productionCommit": "a80dfcbd13212246fb650daa877dd295044bc298",
   "featureCodeCommit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
   "trialCodeCommit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
-  "artifactSha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+  "artifactSha256": "deeeeb0386102c40f5728ab3d1a0d40a4bbdc5891cf0eaf9a4e076d4119facf3",
   "files": 1002,
-  "deploymentUrl": "https://14e5867c.ai-direct-pro-landing.pages.dev",
+  "deploymentUrl": "https://12460835.ai-direct-pro-landing.pages.dev",
   "customDomain": "https://gptbot.uz",
   "trialLimit": 3,
   "trialResets": "never",
@@ -21,7 +21,7 @@
   "studioUiScenarios": 2,
   "liveSeoContracts": 10,
   "edgeNormalization": "Decode Cloudflare email protection only; reviewed source contract and baseline unchanged",
-  "localRegressionRecheck": 47,
+  "localRegressionRecheck": 48,
   "localTrialBrowserRecheck": "pass",
   "screenshots": [
     {
@@ -59,5 +59,64 @@
     "gitContainsLink": false,
     "expiresAt": "2026-10-08T06:43:04Z",
     "backupAclRestricted": true
+  },
+  "cacheFixCodeCommit": "a80dfcbd13212246fb650daa877dd295044bc298",
+  "immediatePreviousProductionCommit": "edbf3d7385776ea7a06532c86e406e2759072013",
+  "initialReleaseEvidence": "production-initial.json",
+  "legacyLimitsReconciled": [
+    "hourly",
+    "daily"
+  ],
+  "finalBrowserEvidence": "live-browser-final.json",
+  "finalStudioSeoEvidence": "live-studio-seo-final.json",
+  "finalSchemaEvidence": "schema-final.json",
+  "finalScreenshots": [
+    {
+      "file": "live-trial-final-desktop.png",
+      "sha256": "88a1133439a96ecab37b80021b2c0fb130ae878382126b5f30cbf5913be34ddb"
+    },
+    {
+      "file": "live-trial-final-mobile-uz.png",
+      "sha256": "1c427502e048982572c8b802c3b305be9d581391a89a2d999d7080b624123480"
+    },
+    {
+      "file": "live-studio-final-ru-1366.png",
+      "sha256": "dae0ff25c35600fd0dd938e64ab7224c58cb68a5fdcb05005a4dfc4ae9dd412a"
+    },
+    {
+      "file": "live-studio-final-uz-390.png",
+      "sha256": "469ef3abb67cf6d9dfd1c7e8b240dc007731cd7d014db74a75a6b3cd932cd105"
+    }
+  ],
+  "rootTypecheck": "pass",
+  "scopedLint": "pass",
+  "freshBuiltTrialBrowser": "pass; 3 RU/UZ desktop/mobile cases including legacy cache",
+  "releaseRegressionRecheck": {
+    "pass": 29,
+    "fail": 0,
+    "skip": 0
+  },
+  "productionBuild": "pass; clean code commit; repeat artifact equals published manifest exactly",
+  "productionGuard": "pass",
+  "guardedDeploy": "pass",
+  "builtBundleBudget": "pass; existing caps unchanged",
+  "builtTrialUiScenarios": [
+    {
+      "locale": "ru",
+      "width": 1366
+    },
+    {
+      "locale": "uz",
+      "width": 390
+    },
+    {
+      "locale": "ru",
+      "width": 320
+    }
+  ],
+  "bundleMeasurements": {
+    "startJsBrotliBytes": 109110,
+    "startCssBrotliBytes": 6764,
+    "pageCssBrotliBytes": 26919
   }
 }

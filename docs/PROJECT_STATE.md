@@ -1,6 +1,8 @@
 # Актуальное опубликованное состояние · 08.10.2026
 
-**Production `edbf3d7385776ea7a06532c86e406e2759072013`**. Lifetime trial **3 ответа за всё время**, баннер после третьего, четвёртый 429. Это проверено тремя настоящими ответами Z.ai на gptbot.uz. Перезагрузка/RU↔UZ не сбрасывают лимит. 0078 применена после приватного D1 backup, флаг true; оплаченные права сохранены.
+**Production `a80dfcbd13212246fb650daa877dd295044bc298`**. Lifetime trial **3 ответа за всё время**, баннер после третьего, четвёртый 429. Это проверено тремя настоящими ответами Z.ai на gptbot.uz. Перезагрузка/RU↔UZ не сбрасывают лимит. 0078 применена после приватного D1 backup, флаг true; оплаченные права сохранены.
+
+Последняя правка опубликована: cached «5 в час / 15 в день» снимаются только после server-confirmed доступного lifetime trial. Проверены 48 unit, 29 release/SEO, built browser и реальный final live browser. Код stage и production: a80dfcbd; последующий metadata commit не считать другим опубликованным runtime.
 
 Новый workspace и предложения Studio опубликованы. Live RU/1366 + UZ/390: реальные цены 5 900/39 900, preselected Checkout, пример слайда, no auto-order/AI, no overflow/JS error. 10 protected live SEO PASS с явно указанной нормализацией Cloudflare email protection. Owner-only report для anonymous 401.
 

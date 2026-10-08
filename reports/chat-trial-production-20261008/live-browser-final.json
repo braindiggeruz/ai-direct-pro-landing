@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-10-08T06:24:49.145Z",
+  "mode": "real public site; no API mocks",
+  "expectedRelease": "a80dfcbd13212246fb650daa877dd295044bc298",
+  "paymentCalls": 0,
+  "fiscalCalls": 0,
+  "turns": [
+    {
+      "number": 1,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 2,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 2
+    },
+    {
+      "number": 2,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 1,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 1
+    },
+    {
+      "number": 3,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 0,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 1
+    }
+  ],
+  "errors": [],
+  "release": "a80dfcbd13212246fb650daa877dd295044bc298",
+  "artifactSha256": "deeeeb0386102c40f5728ab3d1a0d40a4bbdc5891cf0eaf9a4e076d4119facf3",
+  "initialTrial": {
+    "limit": 3,
+    "used": 0,
+    "remaining": 3,
+    "available": 3,
+    "resets": "never"
+  },
+  "legacyLimitsReconciled": [
+    "hourly",
+    "daily"
+  ],
+  "bannerAfterThird": true,
+  "paymentProviders": [
+    "click",
+    "payme"
+  ],
+  "bannerDismissible": true,
+  "fourth": {
+    "httpStatus": 429,
+    "reason": "trial",
+    "lifetime": 3,
+    "retryAt": null
+  },
+  "reloadRemainsBlocked": true,
+  "localeRemainsBlocked": true,
+  "localeStaysOrdinaryChat": true,
+  "finalTrial": {
+    "limit": 3,
+    "used": 3,
+    "remaining": 0,
+    "available": 0,
+    "resets": "never"
+  },
+  "status": "pass"
+}

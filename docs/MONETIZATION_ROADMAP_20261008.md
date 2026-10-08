@@ -88,3 +88,5 @@ P0–P3 реализованы локально; конкретные контр
 ## Production выпуск по последующей команде владельца
 
 08.10.2026 опубликован `edbf3d73`: 0078 применена, flag true, real trial 3→баннер→четвёртый 429, reload/locale не сбрасывают. P0–P3 опубликованы; real Studio UI/цены/выбор пакета и protected SEO проверены. P4 платеж/возврат/чек остаётся отдельной внешней приёмкой. Точная квитанция — `reports/chat-trial-production-20261008/production.json`; инструкция — `CHAT_TRIAL_PRODUCTION_20261008.md`.
+
+Финальный production/code `a80dfcbd13212246fb650daa877dd295044bc298`: lifetime3, legacy cache fix и новая Studio монетизация опубликованы; real live проверки PASS. Денежный P4/Click Merchant readback остаются внешней приёмкой. См. `docs/CHAT_TRIAL_PRODUCTION_20261008.md`.

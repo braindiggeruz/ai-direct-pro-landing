@@ -57,3 +57,5 @@ Cloudflare не выдаёт значения уже сохранённых secr
 Code commit `662eab253b24022bbbd36d8f15f0f0fb5a07c62e`. Production build/stamp и read-only production guard **PASS**: 1002 файлов, SHA256 `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e`. Production остаётся `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`; новый код не опубликован.
 
 233 regression теста, 10 focused SQLite/API тестов, три браузерные проверки и 446 layout проверок прошли. После коммита повторно прошли 8 presentation сценариев на свежей сборке. Root/functions typecheck, scoped lint, secret scan, bundle budgets и 10 protected SEO contracts — PASS. Проверки касс используют offline fixtures и не доказывают реальную оплату или чек. Все точные результаты и ограничения: `reports/studio-monetization-20261008/verification.json`.
+
+Финальный production/code `a80dfcbd13212246fb650daa877dd295044bc298`: lifetime3, legacy cache fix и новая Studio монетизация опубликованы; real live проверки PASS. Денежный P4/Click Merchant readback остаются внешней приёмкой. См. `docs/CHAT_TRIAL_PRODUCTION_20261008.md`.

@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-08T06:25:03.051435+00:00",
+  "database": "gptbot-ai-drafts",
+  "bindingVerified": true,
+  "productionTrialFlag": "true",
+  "trialUsageTable": true,
+  "trialSettleTrigger": true,
+  "trialReservationColumn": true,
+  "migration0078Registered": true,
+  "remoteMutations": 0,
+  "queries": "SELECT only",
+  "secretValuesPrinted": false
+}
