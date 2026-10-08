@@ -89,7 +89,7 @@
     },
     {
       "type": "p",
-      "text": "AI paketsiz AI chat bepul ishlaydi: sutkasiga 15 tagacha va soatiga 5 tagacha xabar, sutka bu yerda ham Toshkent vaqti bilan 05:00 da boshlanadi. Paket javoblari tugasa yoki muddati o‘tsa, bepul rejim odatdagidek ishlaydi. Bepul limitlar AI paketga kirmaydi va o‘zgarishi mumkin; amaldagilari chatda ko‘rsatiladi."
+      "text": "AI paketsiz jami 3 ta sinov javobi beriladi. Ular yangi kun, yangi chat yoki til almashganda yangilanmaydi. Uch javobdan keyin davom etish uchun AI paketi kerak; paket tugashi yangi sinov bermaydi. Amaldagi AI paketining oldingi bepul javoblari saqlanadi: sutkasiga 15 tagacha va soatiga 5 tagacha, sutka Toshkent vaqti bilan 05:00 da boshlanadi. Ular paketdagi 300 ta javobdan olinmaydi. Amaldagi huquq va qoldiq chatda ko‘rsatiladi."
     },
     {
       "type": "h2",
@@ -285,5 +285,5 @@
   ],
   "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-10-03T00:00:00Z",
-  "updatedAt": "2026-10-07"
+  "updatedAt": "2026-10-08"
 }

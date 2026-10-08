@@ -63,6 +63,7 @@
         "Savol va javoblar matni serverimizda til, vaqt va model nomi bilan birga saqlanadi.",
         "IP-manzilni saqlamaymiz: uning o‘rniga maxfiy kalit (tuz) bilan olingan xeshi saqlanadi, kalitsiz undan manzilni tiklab bo‘lmaydi. Xesh bepul limitlar va suiiste’moldan himoya uchun kerak.",
         "Limitlar, nosozliklar va yozishmalar matnisiz boshqa texnik hodisalar 93 kun saqlanadi.",
+        "AI chat sinovi alohida hisoblanadi: server imzolagan HttpOnly cookie ichidagi tasodifiy brauzer raqami (400 kungacha), uning xeshi, ishlatilgan javoblar soni va yangilanish vaqti. Kirishda hisob akkauntga ham bog‘lanadi. Unda savol matni yoki asl IP yo‘q. Sinov javoblari har kuni yangilanmaydi; hisob 93 kunlik texnik tarixdan alohida, sinov huquqini hisoblash uchun kerak bo‘lgan davrda saqlanadi. Ro‘yxatsiz cookie tozalash yoki boshqa qurilma yangi identifikator berishi mumkin; yashirin fingerprint ishlatilmaydi.",
         "Suhbatlar ro‘yxati va chat sozlamalari faqat brauzeringizda (localStorage) saqlanadi. AI paket oynasi brauzerda tasodifiy varaq raqamini eslab qoladi va o‘z qadamlarini serverda sanaydi — yozishmalar matni, IP-manzil va akkauntsiz.",
         "Yandex Metrika Vebvizori chat oynasini yozib olmaydi: u yozuvdan yashirilgan.",
         "Iltimos, chatga shaxsiy ma’lumotlarni — o‘zingiznikini ham, boshqalarnikini ham — yozmang: javob berish uchun savol AI provayderlarga yuboriladi."
@@ -257,5 +258,5 @@
   ],
   "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-10-07"
+  "updatedAt": "2026-10-08"
 }

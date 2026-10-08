@@ -122,6 +122,7 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_MAX_OUTPUT_TOKENS',
   'GPT_FIRST_CONTENT_TIMEOUT_MS',
   'GPT_FREE_TIER_PAID_PRIMARY',
+  'GPT_FREE_TRIAL_ENABLED',
   'GPT_FREE_PAID_DAILY_USD',
   'GPT_STOP_CHARGE_MIN_CHARS',
   // Hash salt switch-over and message retention (functions/lib/gpt-chat/hash.ts,

@@ -241,6 +241,7 @@ export interface Env extends FirecrawlEnvironment {
   // Anti-abuse quotas. Strings (env vars are strings); parsed with defaults.
   GPT_FREE_DAILY_LIMIT?: string;   // default 15
   GPT_FREE_HOURLY_LIMIT?: string;  // default 5
+  GPT_FREE_TRIAL_ENABLED?: string; // exactly true: 3 lifetime trial replies on the web
   GPT_PAID_MONTHLY_LIMIT?: string; // maximum 300; access periods snapshot their allowance
   GPT_MAX_INPUT_CHARS?: string;    // default 3000
   // Public. Model runtime (functions/lib/gpt-chat/config.ts): answer length in

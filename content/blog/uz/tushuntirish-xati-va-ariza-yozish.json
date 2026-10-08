@@ -295,7 +295,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (kuniga 15 tagacha, soatiga 5 tagacha xabar) foydalanish mumkin. U faqat matn yozadi: .docx, PDF yoki imzolangan hujjat bermaydi. Har qanday til modeli kabi u ham xato qilishi yoki faktni o‘zidan qo‘shishi mumkin, shuning uchun har bir sana va dalilni o‘zingiz tekshiring."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (jami 3 ta sinov javobi) foydalanish mumkin. U faqat matn yozadi: .docx, PDF yoki imzolangan hujjat bermaydi. Har qanday til modeli kabi u ham xato qilishi yoki faktni o‘zidan qo‘shishi mumkin, shuning uchun har bir sana va dalilni o‘zingiz tekshiring."
     },
     {
       "type": "p",
@@ -451,7 +451,7 @@
   "breadcrumbLabel": "Tushuntirish xati va ariza",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-10-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -466,6 +466,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-08T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

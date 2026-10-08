@@ -305,7 +305,8 @@ test('the limit card is short: title, the time and one way on; why, the pack val
   assert.match(source, /const DAY_WARNING_AT = 3;/);
   assert.match(source, /\{!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && \(/);
   assert.match(source, /const hourBlocked = limit\?\.reason === "hourly" && limitBlocked;/);
-  assert.match(source, /const usage = paid \? null : usageLine\(remaining, hourShown, hourBlocked, t\);/);
+  assert.match(source, /const usage = paid \? null : freeLimits\?\.lifetime === 3/);
+  assert.match(source, /: usageLine\(remaining, hourShown, hourBlocked, t\);/);
 });
 
 test('the account answering again after failed reads keeps the guest-mode conversation (F11)', () => {
@@ -722,7 +723,8 @@ test('sending waits for nothing it does not need; the question shows at the tap'
   const source = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   // Not the account view, not a config on its way: only a check the server asked for.
   assert.match(source, /const turnstileReady =\s*turnstileConfig === null \|\| !turnstileConfig\.required \|\| !!turnstileToken;/);
-  assert.match(source, /const sendDisabled = busy \|\| limitBlocked \|\| !turnstileReady;/);
+  // Lifetime trial requires the server to claim/read the browser before AI work.
+  assert.match(source, /const sendDisabled = busy \|\| limitBlocked \|\| !turnstileReady \|\| accountState !== 'ready';/);
   assert.doesNotMatch(source, /accountState === "loading"/);
   // The bubble and «AI o‘ylayapti…» are set before the session request is awaited.
   const send = source.slice(source.indexOf('const doSend = async ('), source.indexOf('const handleJson ='));

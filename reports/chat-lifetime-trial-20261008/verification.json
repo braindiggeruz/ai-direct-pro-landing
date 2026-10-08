@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-08",
+  "baselineCommit": "b9a54ae02a402d3f91496891c3e895ee5b12b507",
+  "tests": {
+    "tests": 213,
+    "pass": 213,
+    "fail": 0,
+    "source": "regression-pass.log",
+    "lastFocusedRun": {
+      "source": "trial-final.log",
+      "tests": 8,
+      "pass": 8,
+      "fail": 0
+    }
+  },
+  "browser": {
+    "source": "browser-final.log",
+    "offlineOnly": true,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skipped": 0,
+    "suites": [
+      "chat-trial-browser",
+      "chat-conversion-browser",
+      "chat-presentation-browser"
+    ],
+    "viewports": [
+      "RU 1366",
+      "RU 320",
+      "UZ 390"
+    ],
+    "realPayment": false,
+    "screenshots": [
+      "trial-ru-1366.png",
+      "trial-ru-320.png",
+      "trial-uz-390.png"
+    ],
+    "workspaceEvidence": [
+      "workspace-browser.json",
+      "workspace-conversion.json"
+    ]
+  },
+  "layout": {
+    "source": "layout.json",
+    "ok": true,
+    "runs": 446,
+    "failures": 0,
+    "localScreenshots": 302,
+    "sizes": [
+      "320x568",
+      "320x300",
+      "360x612",
+      "360x330",
+      "360x740",
+      "360x420",
+      "390x844",
+      "390x480",
+      "412x915",
+      "412x530",
+      "768x1024",
+      "768x690",
+      "1366x768",
+      "1440x900",
+      "1920x1080",
+      "1024x768"
+    ],
+    "states": [
+      "empty",
+      "drawer",
+      "empty-keyboard",
+      "thinking-first",
+      "chat-end",
+      "menu",
+      "chat-top",
+      "chat-keyboard",
+      "thinking",
+      "partial",
+      "error",
+      "limit",
+      "limit-keyboard",
+      "menu-short",
+      "menu-up",
+      "limit-direct",
+      "limit-direct-keyboard",
+      "entry"
+    ],
+    "thresholdsUnchanged": true
+  },
+  "bundle": {
+    "startJsBrotliBytes": 109940,
+    "startCssBrotliBytes": 6764,
+    "pageCssBrotliBytes": 26970,
+    "thresholdsUnchanged": true
+  },
+  "seo": {
+    "source": "docs/seo/evidence/2026-10-08-chat-trial/comparison.json",
+    "protectedPages": 10,
+    "metadataAndLinkContractsUnchanged": 10,
+    "reviewedBodyChanges": 2
+  },
+  "build": {
+    "compilation": "main/admin/Studio completed",
+    "stamp": "pending commit; pre-commit guard refused dirty runtime as designed"
+  },
+  "production": {
+    "commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+    "artifactSha256": "704d1ac3d04daf800a39ee7e61727aa43e194639a6a8a5e481005982dd15b616",
+    "fileCount": 991
+  },
+  "deployment": false,
+  "realPayments": false,
+  "productionMigration": false,
+  "fiscalFailureResolved": false,
+  "knownLimitations": [
+    "Очистка/истечение cookie и другое устройство не позволяют доказать lifetime одного анонимного человека; fingerprint не добавлялся.",
+    "Условия действующего платного AI-пакета R2 и тарифы Studio сохранены.",
+    "Редкий большой CLS прошлого этапа не воспроизведён; его причина не доказана, старые FAIL evidence сохранены.",
+    "Причина фискальной ошибки требует production D1/Click readback; исправление пока только в roadmap.",
+    "Новая схема не применяется к production автоматически; remote backup/inspection/migration и контрольная покупка остаются отдельной приёмкой.",
+    "Успешные проверки выполнены локально с mocked AI и offline checkout, без реальных списаний."
+  ],
+  "typecheck": {
+    "root": {
+      "exitCode": 0,
+      "source": "tsc-root.log"
+    },
+    "functions": {
+      "exitCode": 0,
+      "source": "tsc-functions.log"
+    }
+  },
+  "lint": {
+    "exitCode": 0,
+    "source": "lint-final.log",
+    "scope": "21 изменённый source-файл; глобальный legacy lint не объявляется чистым"
+  },
+  "status": "local_verified_stamp_pending",
+  "codeCommit": "Точный feature SHA фиксируется metadata follow-up D-006 после code commit.",
+  "secretScan": {
+    "exitCode": 0,
+    "files": 58,
+    "source": "secrets-final.log",
+    "redactedOnly": true
+  }
+}

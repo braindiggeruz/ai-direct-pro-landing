@@ -12,6 +12,8 @@ export interface GptChatConfig extends HashSalt {
   paidFallbacks: string[];
   freeDailyLimit: number;
   freeHourlyLimit: number;
+  /** Lifetime browser/account trial; paid pack terms remain unchanged. */
+  freeTrialEnabled?: boolean;
   paidMonthlyLimit: number;
   maxInputChars: number;
   maxHistoryTurns: number;
@@ -170,6 +172,7 @@ export function resolveConfig(env: Env): GptChatConfig {
       : ['mistralai/mistral-small-3.2-24b-instruct', 'google/gemma-4-31b-it:free'],
     freeDailyLimit: num(env.GPT_FREE_DAILY_LIMIT, 15),
     freeHourlyLimit: num(env.GPT_FREE_HOURLY_LIMIT, 5),
+    freeTrialEnabled: env.GPT_FREE_TRIAL_ENABLED === 'true',
     paidMonthlyLimit: Math.min(num(env.GPT_PAID_MONTHLY_LIMIT, 300), 300),
     maxInputChars: num(env.GPT_MAX_INPUT_CHARS, 3000),
     maxHistoryTurns: 10, // server-side history window cap (per report)

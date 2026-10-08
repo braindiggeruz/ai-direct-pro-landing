@@ -15,14 +15,15 @@
 // chats because the server counts one allowance for both.
 
 /** The 429's `reason` (functions/lib/gpt-chat/turn-store.ts LimitReason). */
-export type LimitReason = 'hourly' | 'daily' | 'pack_daily' | 'monthly' | 'busy' | 'ip';
+export type LimitReason = 'trial' | 'hourly' | 'daily' | 'pack_daily' | 'monthly' | 'busy' | 'ip';
 
-const REASONS: readonly LimitReason[] = ['hourly', 'daily', 'pack_daily', 'monthly', 'busy', 'ip'];
+const REASONS: readonly LimitReason[] = ['trial', 'hourly', 'daily', 'pack_daily', 'monthly', 'busy', 'ip'];
 
 /** The refused tier's limits (the 429's `limits`, or the account's freeLimits). */
 export interface LimitCounts {
   daily: number | null;
   hourly: number | null;
+  lifetime?: number;
 }
 
 export interface LimitState {
@@ -57,7 +58,7 @@ const BUSY_RETRY_MS = 5_000;
 const STORAGE_KEY = 'gptchat_limit';
 
 /** Reasons a pack with answers left lifts: the free tier's caps, and a spent pack. */
-const LIFTED_BY_PACK: ReadonlySet<LimitReason> = new Set(['hourly', 'daily', 'monthly']);
+const LIFTED_BY_PACK: ReadonlySet<LimitReason> = new Set(['trial', 'hourly', 'daily', 'monthly']);
 
 /** The limits' day turns at 00:00 UTC (05:00 in Tashkent). */
 export function nextUtcMidnight(now: number): number {
@@ -76,8 +77,8 @@ function count(value: unknown): number | null {
 /** The 429's `limits`, validated; null when absent or malformed. */
 export function limitCounts(value: unknown): LimitCounts | null {
   if (!value || typeof value !== 'object') return null;
-  const { daily, hourly } = value as Record<string, unknown>;
-  const counts = { daily: count(daily), hourly: count(hourly) };
+  const { daily, hourly, lifetime } = value as Record<string, unknown>;
+  const counts = { daily: count(daily), hourly: count(hourly), ...(lifetime === 3 ? { lifetime } : {}) };
   return counts.daily === null && counts.hourly === null ? null : counts;
 }
 
@@ -92,6 +93,7 @@ function defaultRetryAt(reason: LimitReason, now: number): number | null {
       return now + HOUR_MS;
     case 'busy':
       return now + BUSY_RETRY_MS;
+    case 'trial':
     case 'monthly':
       return null;
   }
@@ -117,6 +119,10 @@ export function reduceLimit(state: LimitState | null, event: LimitEvent): LimitS
       // pack spent or ended, the free tier applies, which the server counts
       // apart from the pack's answers.
       const pack = event.packRemaining !== null && event.packRemaining > 0;
+      if (!pack && event.freeLimits?.lifetime === 3 && event.freeRemaining !== null) {
+        if (event.freeRemaining === 0) return { reason: 'trial', retryAt: null, since: event.now, limits: event.freeLimits };
+        if (state?.reason === 'trial') return null;
+      }
       if (state && !(pack ? LIFTED_BY_PACK.has(state.reason) : state.reason === 'pack_daily')) return state;
       // The server counted this visitor's free day to the end and there is no pack.
       return event.freeRemaining === 0 && event.packRemaining === null
@@ -162,7 +168,7 @@ export function loadLimit(now: number): LimitState | null {
     const parsed: unknown = JSON.parse(raw);
     if (!validState(parsed)) return null;
     if (parsed.retryAt !== null && parsed.retryAt <= now) return null;
-    if (now - parsed.since > DAY_MS) return null;
+    if (parsed.reason !== 'trial' && now - parsed.since > DAY_MS) return null;
     return { ...parsed, limits: parsed.limits === null ? null : limitCounts(parsed.limits) };
   } catch {
     return null;

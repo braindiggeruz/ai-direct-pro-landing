@@ -244,6 +244,7 @@ const RU: ChatStrings = {
   emptyPrompt: 'Что хотите сделать?',
   emptyMeta: (limits) => limits === null
     ? 'Бесплатно, без регистрации.'
+    : limits.lifetime === 3 ? '3 пробных ответа без регистрации. Затем — AI-пакет.'
     : `Бесплатно, без регистрации: до ${limits.daily} ${ru(limits.daily, 'сообщения', 'сообщений', 'сообщений')} в день и ${limits.hourly} в час.`,
   disclaimer:
     'GPTBot.uz — независимый AI-сервис, не официальный продукт OpenAI или ChatGPT. Отвечают модели сторонних компаний; название модели указано под ответом.',
@@ -350,6 +351,7 @@ const UZ: ChatStrings = {
   emptyPrompt: 'Nima qilmoqchisiz?',
   emptyMeta: (limits) => limits === null
     ? 'Bepul, ro‘yxatdan o‘tmasdan.'
+    : limits.lifetime === 3 ? 'Ro‘yxatdan o‘tmasdan 3 ta sinov javobi. Keyin — AI paketi.'
     : `Bepul, ro‘yxatdan o‘tmasdan: kuniga ${limits.daily} ta, soatiga ${limits.hourly} tagacha xabar.`,
   disclaimer:
     'GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Javoblarni boshqa kompaniyalarning modellari beradi; model nomi javob ostida yozilgan.',

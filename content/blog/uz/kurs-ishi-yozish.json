@@ -260,7 +260,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (kuniga 15 tagacha, soatiga 5 tagacha xabar) foydalanish mumkin. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana, raqam va iqtiboslarni manbadan tekshiring."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (jami 3 ta sinov javobi) foydalanish mumkin. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana, raqam va iqtiboslarni manbadan tekshiring."
     },
     {
       "type": "h2",
@@ -445,7 +445,7 @@
   "breadcrumbLabel": "Kurs ishi",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-10-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -465,6 +465,6 @@
       "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-08T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

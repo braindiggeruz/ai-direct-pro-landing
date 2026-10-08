@@ -26,8 +26,8 @@ export const UI_EVENTS = {
     "pay_return",
   ],
   login_started: ["bot", "oidc"],
-  pack_prompt_viewed: ["after_answer", "near_limit"],
-  pack_prompt_dismissed: ["after_answer", "near_limit"],
+  pack_prompt_viewed: ["after_answer", "near_limit", "trial_exhausted"],
+  pack_prompt_dismissed: ["after_answer", "near_limit", "trial_exhausted"],
   login_result: ["done", "rejected", "expired", "failed"],
   /** A checkout began with this provider: its page opened, its app code showed, or a test order. */
   checkout_started: ["click", "uzum", "payme"],

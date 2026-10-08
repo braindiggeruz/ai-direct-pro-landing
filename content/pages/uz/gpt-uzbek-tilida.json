@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "Bu sahifadagi chat bepul va ro‘yxatdan o‘tish talab qilmaydi: brauzerni ochib, savolni o‘zbekcha yoki ruscha yozasiz. Lekin cheksiz emas: kuniga 15 tagacha, soatiga 5 tagacha bepul xabar. Kunlik limit har kuni Toshkent vaqti bilan soat 05:00 da yangilanadi, soatlik limit esa oxirgi 60 daqiqa bo‘yicha hisoblanadi. Limitga yetganda chat buni o‘zi aytadi va qachon yana yozish mumkinligini ko‘rsatadi."
+      "text": "Bu sahifadagi GPTBot.uz chatida ro‘yxatdan o‘tmasdan jami 3 ta sinov javobi olasiz: savolni o‘zbekcha yoki ruscha yozing. Sinov yangi kun, yangi chat yoki til almashganda yangilanmaydi. Uch javobdan keyin davom etish uchun AI paketi kerak. Olingan javoblar o‘qish uchun qoladi."
     },
     {
       "type": "linkp",
@@ -587,7 +587,7 @@
   "faq": [
     {
       "q": "ChatGPT bepulmi? Qanday limitlar bor?",
-      "a": "Ha, rasmiy ChatGPT’ning bepul tarifi bor — Free: 04.10.2026 holatiga chatgpt.com/pricing sahifasida matnli suhbatlar cheklanmagan deb yozilgan (suiiste’molning oldini olish qoidalari doirasida), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish esa cheklangan. Bu sahifadagi GPTBot.uz chati — mustaqil servis: bepul, ro‘yxatsiz, kuniga 15 tagacha va soatiga 5 tagacha xabar."
+      "a": "Ha, rasmiy ChatGPT’ning bepul tarifi bor — Free: 04.10.2026 holatiga chatgpt.com/pricing sahifasida matnli suhbatlar cheklanmagan deb yozilgan (suiiste’molning oldini olish qoidalari doirasida), fayl biriktirish, rasm yaratish, ovozli suhbat va chuqur izlanish esa cheklangan. Bu sahifadagi GPTBot.uz chati — mustaqil servis: bepul, ro‘yxatsiz, jami 3 ta sinov javobi."
     },
     {
       "q": "GPTBot.uz rasmiy ChatGPT’mi?",
@@ -599,7 +599,7 @@
     },
     {
       "q": "Limit tugasa nima bo‘ladi?",
-      "a": "Chat limit tugaganini aytadi va qachon yana yozish mumkinligini ko‘rsatadi: soatlik limit bir soat ichida tiklanadi, kunlik limit esa har kuni Toshkent vaqti bilan soat 05:00 da yangilanadi. Telegramdagi GPTBot Javob botining ham o‘z bepul limiti bor. Pullik AI paket ixtiyoriy: u mavjud bo‘lganda, shartlari chatning o‘zida ko‘rsatiladi."
+      "a": "3 ta sinov javobi har kuni yangilanmaydi. Suhbatni davom ettirish uchun AI paketi kerak: narx, javoblar soni, muddat va to‘lov usullari chatda ko‘rsatiladi. Olingan javoblarni o‘qishingiz mumkin. Telegramdagi GPTBot Javob uchun alohida shartlar amal qiladi; veb-chat paketi botga paket bermaydi."
     },
     {
       "q": "Chat qaysi tillarda ishlaydi?",
@@ -800,5 +800,5 @@
   ],
   "lastReviewedAt": "2026-10-05",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-06"
+  "updatedAt": "2026-10-08"
 }

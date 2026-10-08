@@ -48,7 +48,7 @@ export function useAccount(
     // Focus may follow a sign-in in another tab. Do not start checkout from
     // the previous account while its replacement is being read.
     setLoading(true);
-    const load = async (): Promise<AccountView> => {
+    const read = async (): Promise<AccountView> => {
       const res = await fetch(`${apiBase}/api/gpt/account`, {
         cache: 'no-store',
         signal: AbortSignal.timeout(10_000),
@@ -57,6 +57,8 @@ export function useAccount(
       if (!res.ok || !validAccountView(next)) throw new Error();
       return next;
     };
+    // Serialize the initial cookie claim across tabs where Web Locks exists.
+    const load = () => navigator.locks ? navigator.locks.request('gpt-chat-account', read) : read();
     try {
       let next: AccountView;
       try {

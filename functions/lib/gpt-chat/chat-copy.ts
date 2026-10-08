@@ -40,6 +40,9 @@ export function limitMessage(
   const today =
     facts.retryAfterSec !== null && facts.retryAfterSec <= TASHKENT_DAY_TURN_SEC;
   switch (reason) {
+    case "trial":
+      return uz ? '3 ta sinov javobi tugadi. Shu suhbatni davom ettirish uchun AI paketini tanlang.'
+        : 'Три пробных ответа использованы. Для продолжения этого разговора выберите AI-пакет.';
     case "hourly":
       return uz
         ? `Bir soatda ${hourly} ta bepul xabar yozish mumkin. ${minutes} daqiqadan keyin yana yozasiz.`

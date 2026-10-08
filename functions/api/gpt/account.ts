@@ -24,6 +24,8 @@ import { getClientIp, hashIp, sha256Hex } from "../../lib/gpt-chat/hash";
 import { json, fail, readJsonLimited } from "../../lib/gpt-chat/http";
 import { PACK_DAILY_LIMIT, TurnStore } from "../../lib/gpt-chat/turn-store";
 import { resolveConfig } from "../../lib/gpt-chat/config";
+import { claimTrialIdentity, readTrialKey } from '../../lib/gpt-chat/trial-identity';
+import { FREE_TRIAL_LIMIT, TrialStore } from '../../lib/gpt-chat/trial-store';
 import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { ensureSchema } from "../../lib/gpt-chat/schema";
@@ -101,7 +103,7 @@ async function currentPaymentCode(
   return row && row.terms_version === termsVersion(env) ? row.code : null;
 }
 
-export const onRequestGet: PagesFunction<BillingEnv> = async ({
+const getAccount: PagesFunction<BillingEnv> = async ({
   request,
   env,
   waitUntil,
@@ -133,9 +135,8 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
         : null,
     },
     termsVersion: termsVersion(env),
-    // The free tier's limits from the config: a guest's view never reads D1
-    // (decision L18); what is left comes from the chat's own answers.
-    freeLimits: { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit },
+    // Legacy L18 stays read-free. Lifetime trial requires its durable D1 count.
+    freeLimits: { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit, ...(cfg.freeTrialEnabled ? { lifetime: FREE_TRIAL_LIMIT } : {}) },
     // The limit card's "continue in the Telegram bot" button. Off unless the
     // flag is exactly "true": the bot must answer reliably first.
     botHandoff: env.GPT_BOT_HANDOFF_ENABLED === "true",
@@ -152,10 +153,11 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       uz: termsUrl(env.GPT_BILLING_TERMS_UZ),
     },
   };
+  if (!env.GPTBOT_DRAFTS_DB && cfg.freeTrialEnabled) return fail('account_unavailable', 'Try later', 503);
   if (!env.GPTBOT_DRAFTS_DB)
     return json({ ...base, loginAvailable: false, loginMethods: [], user: null });
-  // Anonymous readiness checks need no schema bootstrap or account DB queries.
-  if (!/^[a-f0-9]{64}$/.test(cookieValue(request, "__Host-gpt_account")))
+  // Legacy anonymous readiness checks need no schema bootstrap or DB query.
+  if (!cfg.freeTrialEnabled && !/^[a-f0-9]{64}$/.test(cookieValue(request, "__Host-gpt_account")))
     return json({ ...base, user: null });
   try {
     const db = env.GPTBOT_DRAFTS_DB;
@@ -163,7 +165,12 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // Uzum routes, while Uzum is on; otherwise it comes from the migration.
     await (uzumApi(env) ? ensureUzumSchema(db) : ensureBillingSchema(db));
     const user = await new IdentityStore(db, BILLING_ORG).user(request);
-    if (!user) return json({ ...base, user: null });
+    const trialKey = cfg.freeTrialEnabled ? await readTrialKey(request, cfg) : null;
+    if (cfg.freeTrialEnabled && !trialKey) return fail('account_unavailable', 'Try later', 503);
+    const trialStore = new TrialStore(db, BILLING_ORG);
+    if (trialKey) await trialStore.initialize(trialKey, user || trialKey);
+    const trial = trialKey ? await trialStore.summary(trialKey, user || trialKey) : null;
+    if (!user) return json({ ...base, user: null, ...(trial ? { trial, remaining: trial.available } : {}) });
     const store = new BillingStore(db, BILLING_ORG);
     let latest = await store.latestAcrossProviders(user, context);
     if (latest && (await reconcileUzum(env, db, user, latest))) {
@@ -192,7 +199,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
     // chat does; with one, what is left in every running pack, the pack's
     // day, and the holder's own free answers, which turns draw on first
     // (decision R2): a free answer leaves `remaining` as it is.
-    const { remaining, dayRemaining, freeRemaining, freeHourRemaining } = await new TurnStore(db, BILLING_ORG).allowance(
+    const { remaining, dayRemaining, freeRemaining, freeHourRemaining } = await new TurnStore(db, BILLING_ORG, trialKey).allowance(
       user,
       await hashIp(getClientIp(request), cfg),
       access,
@@ -209,6 +216,7 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
       // Issued by /api/gpt/subscribe once its owner accepted the offer.
       paymentCode: flow === "code" ? await currentPaymentCode(env, db, user) : null,
       remaining,
+      ...(trial ? { trial } : {}),
       receipts,
       access: access
         ? {
@@ -235,6 +243,24 @@ export const onRequestGet: PagesFunction<BillingEnv> = async ({
   } catch {
     return fail("account_unavailable", "Try later", 503);
   }
+};
+export const onRequestGet: PagesFunction<BillingEnv> = async ctx => {
+  const cfg = resolveConfig(ctx.env);
+  if (!cfg.freeTrialEnabled) return getAccount(ctx);
+  try {
+    const claimed = await claimTrialIdentity(ctx.request, cfg);
+    // Run the existing account flow against exactly the identity being issued.
+    const request = claimed.cookie ? new Request(ctx.request, { headers: new Headers(ctx.request.headers) }) as typeof ctx.request : ctx.request;
+    if (claimed.cookie) {
+      const cookie = claimed.cookie.split(';')[0];
+      // Replace an invalid prior cookie, rather than allowing cookieValue to pick it.
+      request.headers.set('cookie', (ctx.request.headers.get('cookie') || '').split(';').filter(v => !v.trim().startsWith('__Host-gpt_trial=')).concat(cookie).join(';'));
+    }
+    const response = await getAccount({ ...ctx, request });
+    if (!claimed.cookie) return response;
+    const headers = new Headers(response.headers); headers.append('Set-Cookie', claimed.cookie);
+    return new Response(response.body, { status: response.status, headers });
+  } catch { return fail('account_unavailable', 'Try later', 503); }
 };
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,

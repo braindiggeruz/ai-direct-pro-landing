@@ -1,0 +1,26 @@
+{
+  "source": "По прямому решению владельца 08.10: всего 3 пробных ответа. Review исходного diff: на двух чатах заменены только условия бесплатного доступа; title/H1/description/robots/canonical/hreflang/internalLinks сохранены, остальные восемь contracts неизменны. Старый baseline сохранён.",
+  "previousRevision": "docs/seo/evidence/2026-10-07-codex-onetap/reviewed-protected-pages.json",
+  "previousRevisionSha256": "c0341d0a7ad8fe6319b48b020d1c8bc71bd7d3c83547c4101e5a78e8cc3287f4",
+  "approvedFields": [
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "before": "ae94450becd0b6187d12833fac35332b55eea3eab2af682fd97e9a9e95b05bb5",
+      "after": "ed09c39f4633c49cde88e90e5a322049e77673859926116aa2624516c1e8bd04"
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "before": "d444a7f12d4162c18874d3e9ac7757e884472936892976d6f2f1cbb7ed7419c7",
+      "after": "7de16d3fdf6c1a60689daa26b3cc2e338c54b0de3299424f957818d0b020332a"
+    }
+  ],
+  "unchangedContracts": 8,
+  "checkedPages": 10,
+  "notDeployed": true
+}

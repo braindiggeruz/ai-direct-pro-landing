@@ -234,7 +234,7 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   for (const source of [panel, ...screens]) assert.doesNotMatch(source, /locale === ['"]uz['"] \? ['"](?!\/)[^'"]*[a-zа-я]{3}/i);
 
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  const low = consoleSource.slice(consoleSource.indexOf('{t.lowWarning(remaining)}'), consoleSource.indexOf('openAccount("low_limit")'));
+  const low = consoleSource.slice(consoleSource.indexOf('<div className="gpt-low-line"'), consoleSource.indexOf('openAccount("low_limit")'));
   assert.match(low, /\{billingAvailable && \(\s*<button/);
   assert.match(consoleSource, /setBillingAvailable\(billingOpen\(account\)\)/);
   assert.doesNotMatch(consoleSource, /chat-bot-narxi|pricingHref/, 'the free chat sends nobody to the business price list (F10)');

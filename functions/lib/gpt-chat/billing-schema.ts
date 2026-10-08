@@ -1,5 +1,6 @@
 // Additive sidecars: legacy REAL/USD attempts and nullable users are not an
 // authority for UZS money or identity. No old rows are rewritten or promoted.
+import { TRIAL_DDL } from './trial-store';
 export const BILLING_DDL = [
   `CREATE TABLE IF NOT EXISTS gpt_payment_consents (org_id TEXT NOT NULL, order_id TEXT NOT NULL, user_id TEXT NOT NULL, version TEXT NOT NULL, url TEXT NOT NULL, locale TEXT NOT NULL, accepted_at INTEGER NOT NULL, PRIMARY KEY(org_id,order_id))`,
   `CREATE TABLE IF NOT EXISTS gpt_accounts (org_id TEXT NOT NULL, id TEXT NOT NULL, identity_hash TEXT NOT NULL, created_at INTEGER NOT NULL, last_seen_at INTEGER NOT NULL, PRIMARY KEY(org_id,id), UNIQUE(org_id,identity_hash))`,
@@ -213,6 +214,9 @@ export function ensureBillingSchema(db: D1Database): Promise<void> {
   return once(billingBootstraps, db, async () => {
     await db.batch(BILLING_DDL.map((sql) => db.prepare(sql)));
     await addMissingColumns(db, "gpt_turn_reservations", CHAT_RUNTIME_COLUMNS);
+    // 0078 is separate from the immutable 0066 telemetry contract.
+    await addMissingColumns(db, "gpt_turn_reservations", [["trial_key", "TEXT"]]);
+    await db.batch(TRIAL_DDL.map((sql) => db.prepare(sql)));
     await db.batch(CHAT_RUNTIME_DDL.map((sql) => db.prepare(sql)));
     await addMissingColumns(db, "gpt_fiscal_receipts", FISCAL_RECEIPT_COLUMNS);
     await db.batch(PAID_CHAT_DDL.map((sql) => db.prepare(sql)));

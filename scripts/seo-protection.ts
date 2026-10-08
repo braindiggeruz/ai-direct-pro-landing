@@ -119,7 +119,10 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // integration evidence records its actual HTML without rewriting old reviews.
 // One-tap changes only asset hash references on the two chat pages; all
 // contracts and the other eight protected HTML are production-identical.
-export const BASELINE = 'docs/seo/evidence/2026-10-07-codex-onetap/reviewed-protected-pages.json';
+// Owner's 08.10 product decision: 3 lifetime trial replies. Only two chat
+// body fingerprints change; all ten metadata/link contracts stay unchanged.
+// Previous revisions remain immutable; comparison records the reviewed diff.
+export const BASELINE = 'docs/seo/evidence/2026-10-08-chat-trial/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

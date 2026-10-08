@@ -18,8 +18,8 @@ export type PackFrom = (typeof PACK_FROM)[number];
 /** The steps, with the qualifiers functions/lib/gpt-chat/ui-event-store.ts accepts. */
 export interface UiEventDetails {
   pack_viewed: PackFrom;
-  pack_prompt_viewed: 'after_answer'|'near_limit';
-  pack_prompt_dismissed: 'after_answer'|'near_limit';
+  pack_prompt_viewed: 'after_answer'|'near_limit'|'trial_exhausted';
+  pack_prompt_dismissed: 'after_answer'|'near_limit'|'trial_exhausted';
   login_started: 'bot' | 'oidc';
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';

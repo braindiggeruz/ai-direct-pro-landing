@@ -102,9 +102,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const studio = presentationState?.owner === ownerKey ? presentationState : null;
   const activePresentation = studio?.active ?? null;
   const commandRunning = useRef(false);
-  // 'unknown': the account view failed even after a retry. The chat still
-  // answers, as a guest whose history is neither loaded nor written (F11);
-  // a conversation already on screen stays there (plan M-01).
+  // 'unknown': keep the conversation/draft, and let the visitor recheck.
+  // The lifetime trial needs an authoritative identity before sending AI work.
   const [accountState, setAccountState] = useState<"loading" | "ready" | "unknown">("loading");
   const accountReady = accountState === "ready";
   const [freeLimits, setFreeLimits] = useState<FreeLimits | null>(null);
@@ -259,7 +258,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     if (account)
       dispatchLimit({
         type: "account",
-        freeRemaining: account.user && !account.access ? (account.remaining ?? null) : null,
+        freeRemaining: !account.access ? (account.trial?.remaining ?? (account.user ? account.remaining ?? null : null)) : null,
         packRemaining: account.access?.remaining ?? null,
         freeLimits: account.freeLimits ?? null,
         now: Date.now(),
@@ -352,9 +351,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [rest, setRest] = useState({ empty, key: 0 });
   if (rest.empty !== empty) setRest({ empty, key: rest.key + (empty ? 1 : 0) });
   const turnstileKey = turnstileConfig?.required ? turnstileConfig.siteKey : null;
-  // Sending waits for nothing it does not need: not the account view (F11
-  // covers a guest who writes before it answers) and not a config still on
-  // its way. Only a check the server asked for holds it until its token.
+  // The initial account read claims the signed trial cookie. A missing
+  // security configuration is still checked authoritatively on the server.
   const turnstileReady =
     turnstileConfig === null || !turnstileConfig.required || !!turnstileToken;
   const limitBlocked = !canSendNow(limit, clock);
@@ -362,7 +360,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // and the day's rest once it has lifted.
   const hourBlocked = limit?.reason === "hourly" && limitBlocked;
   const hourShown = hourCountShown(limit, hourLeft, clock);
-  const sendDisabled = busy || limitBlocked || !turnstileReady;
+  const sendDisabled = busy || limitBlocked || !turnstileReady || accountState !== 'ready';
 
   // Once a session, while few messages are left: the buttons under an answer
   // that make the AI write a new one cost one each (map 03 §3.6). Gone with
@@ -646,6 +644,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         revealLine();
         track(EV.aiResponseSuccess, { ...entryMeta, model: res.modelUsed, message_number: messageNumber, finish: res.truncated === true ? "length" : "stop" });
         trackMetaChatEngaged(config.locale);
+      } else if (res.code === 'trial_identity_required') {
+        giveBack(); setAccountRefresh(n => n + 1);
       } else if (res.code === "limit_reached") {
         const reason = limitReasonOf(res.reason);
         // The count an answered turn reported is stale now: 0 while the limit
@@ -1198,7 +1198,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // one is active. It is one line beside the language switch and «new chat»,
   // so a conversation says the honest line short until the server has counted,
   // and below 340px (premium.css) the resting screen does too.
-  const usage = paid ? null : usageLine(remaining, hourShown, hourBlocked, t);
+  const usage = paid ? null : freeLimits?.lifetime === 3 && remaining >= 0
+    ? { text: config.locale === 'ru' ? `Пробных ответов: ${remaining} из 3` : `Sinov javoblari: ${remaining}/3`, short: config.locale === 'ru' ? `Проба: ${remaining}/3` : `Sinov: ${remaining}/3`, low: remaining <= 1 }
+    : usageLine(remaining, hourShown, hourBlocked, t);
   const sub: { text: string; short?: string; tone?: string } = paid
     ? { text: t.premium.activeShort(remaining), tone: "pack" }
     : limitBlocked && card
@@ -1441,9 +1443,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </LazyPart>
                 )}
-                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && !limit && !busy && assistantCount >= 1 && !businessLine && !showOffer && (
+                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && !limit && !busy && assistantCount >= 1 && !businessLine && !showOffer && freeLimits?.lifetime !== 3 && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
                     {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
+                  </LazyPart>
+                )}
+                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && limit?.reason === 'trial' && !busy && !accountOpen && (
+                  <LazyPart part={conversionPart} fallback={null} failed={null}>
+                    {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={provider=>openAccount('limit_card',provider)}/>}
                   </LazyPart>
                 )}
                 {/* The free allowance running low, at the end of the thread: one
@@ -1451,7 +1458,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     the header's count turns. */}
                 {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
                   <div className="gpt-low-line" role="status">
-                    <span>{t.lowWarning(remaining)}</span>
+                    <span>{freeLimits?.lifetime === 3 ? usage?.text : t.lowWarning(remaining)}</span>
                     {/* The pack only while it can really be bought (F6). */}
                     {billingAvailable && (
                       <button

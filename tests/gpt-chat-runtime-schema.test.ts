@@ -52,7 +52,9 @@ function shape(db: SqliteD1) {
   const indexNames = [...names(statements(M0066), /CREATE INDEX IF NOT EXISTS (\w+)/i)].sort();
   return {
     tables: Object.fromEntries(
-      TABLES.map((table) => [table, plain(db.rows(`PRAGMA table_info('${table}')`))]),
+      // This suite verifies the historical 0066 subset. 0078's full schema,
+      // trigger and counter are exercised by gpt-lifetime-trial.test.ts.
+      TABLES.map((table) => [table, plain(db.rows<{ name: string }>(`PRAGMA table_info('${table}')`).filter(row => row.name !== 'trial_key'))]),
     ),
     indexes: Object.fromEntries(
       indexNames.map((index) => [

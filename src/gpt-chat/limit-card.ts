@@ -79,6 +79,10 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
   let title: string | null = null;
   let body: string;
   switch (limit.reason) {
+    case 'trial':
+      title = locale === 'ru' ? 'Три пробных ответа использованы' : '3 ta sinov javobi tugadi';
+      body = locale === 'ru' ? 'Продолжите этот разговор с AI-пакетом. Ваша переписка остаётся доступна.' : 'AI paketi bilan shu suhbatni davom ettiring. Yozishmalaringiz saqlanadi.';
+      break;
     case 'hourly':
       title = t.hourlyTitle;
       body = t.hourlyBody(limit.limits?.hourly ?? null);
@@ -117,7 +121,7 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     }
   }
 
-  const account = s.billingAvailable && (limit.reason === 'monthly' || (freeCap !== null && !s.paid));
+  const account = s.billingAvailable && (limit.reason === 'monthly' || ((freeCap !== null || limit.reason === 'trial') && !s.paid));
   const pack = account && s.pack ? s.pack : null;
   return {
     title,
@@ -128,7 +132,7 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     ready,
     account,
     // The 'monthly' body already says the pack ran out; the value line is for a free cap.
-    offer: pack && freeCap !== null ? t.limitOffer(pack) : null,
+    offer: pack && (freeCap !== null || limit.reason === 'trial') ? t.limitOffer(pack) : null,
     cta: pack ? t.limitBuy(pack, limit.reason === 'monthly') : t.premium.account,
     bot: s.botHandoff ? freeCap : null,
   };

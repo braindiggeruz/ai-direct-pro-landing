@@ -169,6 +169,10 @@ export class IdentityStore {
     const live = "SELECT 1 FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND state IN ('pending','prepared','paid')";
     await this.db.batch([
       ...moveOrders(this.db, this.org, guest, account.id, null),
+      this.db.prepare(`INSERT INTO gpt_trial_usage(org_id,identity_key,used,updated_at)
+        SELECT org_id,?,used,? FROM gpt_trial_usage WHERE org_id=? AND identity_key=?
+        ON CONFLICT(org_id,identity_key) DO UPDATE SET used=MAX(used,excluded.used),updated_at=excluded.updated_at`)
+        .bind(account.id, now, this.org, guest),
       this.db
         .prepare("UPDATE gpt_turn_reservations SET subject=? WHERE org_id=? AND subject=?")
         .bind(account.id, this.org, guest),

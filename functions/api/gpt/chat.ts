@@ -40,6 +40,8 @@
 import type { Env } from "../../_types";
 import type { Locale } from "../../../src/shared/types";
 import { resolveConfig, type GptChatConfig } from "../../lib/gpt-chat/config";
+import { claimTrialIdentity, readTrialKey } from '../../lib/gpt-chat/trial-identity';
+import { TrialStore, FREE_TRIAL_LIMIT } from '../../lib/gpt-chat/trial-store';
 import { holderFreeChain, webChatChain } from "../../lib/gpt-chat/model-provider";
 import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
 import {
@@ -154,7 +156,7 @@ function limitReached(
   const limits =
     tier === "paid"
       ? { daily: PACK_DAILY_LIMIT, hourly: null }
-      : { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit };
+      : { daily: cfg.freeDailyLimit, hourly: cfg.freeHourlyLimit, ...(cfg.freeTrialEnabled ? { lifetime: FREE_TRIAL_LIMIT } : {}) };
   return json(
     {
       ok: false,
@@ -228,6 +230,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   // quota too, so the free tier and the pack count in one ledger.
   if (
     !wantStream &&
+    !cfg.freeTrialEnabled &&
     !billingActive(env as BillingEnv) &&
     !cookieValue(request, "__Host-gpt_account")
   ) {
@@ -254,7 +257,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
   // What the reservation draws on: a pack holder's turn is free first (R2).
   let bucket: Bucket;
   let admittedRemaining = -1;
-  const turns = db ? new TurnStore(db, BILLING_ORG) : null;
+  let turns = db ? new TurnStore(db, BILLING_ORG) : null;
   // Fail closed: the provider's own limit does not bound our money.
   if (!db) return fail("quota_unavailable", "Try again later", 503);
   {
@@ -270,8 +273,24 @@ export const onRequestPost: PagesFunction<Env> = async ({
           await viewerMode(request, env as BillingEnv),
         );
       }
+      if (cfg.freeTrialEnabled) {
+        const trialKey = await readTrialKey(request, cfg);
+        // A missing or forged identity may claim a browser, but cannot call AI
+        // on this request. The UI claims it via account before its first turn.
+        if (!trialKey && !period) {
+          const claimed = await claimTrialIdentity(request, cfg);
+          return json({ ok: false, code: 'trial_identity_required', message: 'Refresh account and retry' }, 409,
+            claimed.cookie ? { 'Set-Cookie': claimed.cookie } : {});
+        }
+        if (trialKey) {
+          if (!user) subject = trialKey;
+          await new TrialStore(db, BILLING_ORG).initialize(trialKey, subject);
+          turns = new TurnStore(db, BILLING_ORG, trialKey);
+        }
+      }
       let decision = await turns!.reserve(subject, hashedIp, period, cfg);
       if (decision.limit?.reason === "monthly") {
+        if (cfg.freeTrialEnabled && !turns!.trialKey) return fail('trial_identity_required', 'Refresh account and retry', 409);
         // The pack was spent or ended after access() read it; the free tier
         // still applies (decision L5).
         period = null;

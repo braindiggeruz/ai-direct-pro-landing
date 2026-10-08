@@ -207,7 +207,8 @@ test('the header counts what runs out first: this hour or today, and 0 while the
   assert.equal(line(-1, 2), null, 'unknown until the server counts');
   // The sentence is said to a screen reader as a status of its own; the visible line is hidden from it.
   const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
-  assert.match(consoleSource, /const usage = paid \? null : usageLine\(remaining, hourShown, hourBlocked, t\);/);
+  assert.match(consoleSource, /const usage = paid \? null : freeLimits\?\.lifetime === 3/);
+  assert.match(consoleSource, /: usageLine\(remaining, hourShown, hourBlocked, t\);/);
   assert.match(consoleSource, /const srStatus = paid \? t\.premium\.activeLine\(remaining\) : usage\?\.text;/);
   assert.match(consoleSource, /\{srStatus && <span className="sr-only" role="status">\{srStatus\}<\/span>\}/);
   assert.match(consoleSource, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\s*\{sub\.short \? <><span className="gpt-sub-full">\{sub\.text\}<\/span><span className="gpt-sub-short">\{sub\.short\}<\/span><\/> : sub\.text\}\s*<\/span>/);

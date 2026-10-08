@@ -3,6 +3,9 @@
 // isolates; reservations count before any upstream work.
 //
 // Admission rules (plan WP-05, decisions L3, L5 and R2), all at once:
+//   web trial  when GPT_FREE_TRIAL_ENABLED, unpaid turns use three lifetime
+//              browser/account replies instead of the legacy day/hour tier;
+//              its persistent counter and pending slots share this INSERT.
 //   free tier   per UTC day and per rolling hour (GPT_FREE_DAILY_LIMIT,
 //               GPT_FREE_HOURLY_LIMIT), counted by account AND by IP hash
 //               among turns without a pack: for a visitor without a pack,
@@ -29,6 +32,7 @@ import type { GptChatConfig } from "./config";
 import { spendDay } from "./model-spend-store";
 import { DAY_MS, HOUR_MS } from "./rate-limit";
 import type { TurnOutcome } from "./turn-outcome";
+import { TrialStore, TRIAL_LEASE_MS } from './trial-store';
 
 /** How a turn settled (migrations/0066 columns); counts and ids only, never text. */
 export interface TurnSettlement {
@@ -106,6 +110,7 @@ const NOT_ACCOUNT_FREE = `id NOT LIKE '${ACCOUNT_FREE_ID}%'`;
  *   ip          the IP hash's hourly request ceiling
  */
 export type LimitReason =
+  | "trial"
   | "hourly"
   | "daily"
   | "pack_daily"
@@ -282,6 +287,7 @@ export class TurnStore {
   constructor(
     readonly db: D1Database,
     readonly org: string,
+    readonly trialKey: string | null = null,
   ) {}
   /**
    * Reserve one answer for `subject` (an account, or the IP hash of a guest).
@@ -299,12 +305,19 @@ export class TurnStore {
     now = Date.now(),
   ): Promise<Admission> {
     const rules = admissionRules(subject, ip, period, cfg, now);
+    const trialMode = !!(cfg.freeTrialEnabled && this.trialKey && !period);
+    // The lifetime allowance replaces 15/day and 5/hour. Shared mobile IPs
+    // retain the separate abuse ceiling, not another visitor's trial quota.
+    if (trialMode) rules.free = [];
     const shared = guards(this.org, rules.shared);
     const free = guards(this.org, rules.free);
+    const trial = trialMode
+      ? new TrialStore(this.db, this.org).guards(this.trialKey, subject, now) : null;
+    if (trial) { free.sql.push(...trial.sql); free.binds.push(...trial.binds); }
     let select: string;
     let binds: unknown[];
     if (!period) {
-      select = `SELECT ?,?,?,?,NULL,'reserved',?,? WHERE ${[...free.sql, ...shared.sql].join(" AND ")}`;
+      select = `SELECT ?,?,?,?,NULL,'reserved',?,?${trial ? ',?' : ''} WHERE ${[...free.sql, ...shared.sql].join(" AND ")}`;
       binds = [...free.binds, ...shared.binds];
     } else {
       // g.free: the holder's free day and hour admit the turn; g.pack: the
@@ -336,7 +349,7 @@ export class TurnStore {
       const id = crypto.randomUUID();
       const row = await this.db
         .prepare(
-          `INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at)
+          `INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at${trial ? ',trial_key' : ''})
         ${select} RETURNING id,period_id`,
         )
         .bind(
@@ -344,7 +357,8 @@ export class TurnStore {
             ? [this.org, ACCOUNT_FREE_ID + id, id, subject, ip, period.order_id]
             : [this.org, id, subject, ip]),
           now,
-          now + RESERVATION_MS,
+          now + (trial ? TRIAL_LEASE_MS : RESERVATION_MS),
+          ...(trial ? [this.trialKey] : []),
           ...binds,
         )
         .first<{ id: string; period_id: string | null }>();
@@ -387,7 +401,14 @@ export class TurnStore {
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<LimitExplanation | null> {
+    const trial = cfg.freeTrialEnabled && this.trialKey && !period
+      ? await new TrialStore(this.db, this.org).summary(this.trialKey, subject, now) : null;
+    if (trial) {
+      if (trial.used >= trial.limit) return { reason: 'trial', retryAt: null, remaining: 0 };
+      if (trial.available === 0) return { reason: 'busy', retryAt: now + BUSY_RETRY_MS, remaining: 0 };
+    }
     const { free, pack, shared } = admissionRules(subject, ip, period, cfg, now);
+    if (trial) free.splice(0);
     const rules = [...free, ...pack, ...shared];
     // A 'day' rule yields its count; any other yields the edge row's time
     // when the rule refuses (the limit-th newest matching row), else NULL.
@@ -424,7 +445,7 @@ export class TurnStore {
     );
     const remaining = Math.max(
       0,
-      period ? Number(row.packs_left) : cfg.freeDailyLimit - spentToday,
+      period ? Number(row.packs_left) : trial ? trial.available : cfg.freeDailyLimit - spentToday,
     );
     if (period && (Number(row.used) >= period.message_limit || !row.valid))
       return { reason: "monthly", retryAt: null, remaining };
@@ -469,6 +490,10 @@ export class TurnStore {
     cfg: GptChatConfig,
     now = Date.now(),
   ): Promise<Allowance> {
+    if (cfg.freeTrialEnabled && this.trialKey && !period) {
+      const trial = await new TrialStore(this.db, this.org).summary(this.trialKey, subject, now);
+      return { remaining: trial.available, hourRemaining: null };
+    }
     const day = dayStart(now);
     const hour = now - HOUR_MS;
     const since = Math.min(day, hour);

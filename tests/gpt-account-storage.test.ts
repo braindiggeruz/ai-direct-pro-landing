@@ -125,7 +125,8 @@ test('nothing is lost when Telegram unloads the tab: the question at once, the a
   assert.match(console, /if \(flushRef\.current === keep\) flushRef\.current = null;/);
   // A refusal (a limit, a check) or Stop before the first word takes the stored question back too.
   assert.match(console, /store\(\(scope\) => saveHistory\(before, config\.locale, scope\)\);/);
-  assert.equal((console.match(/giveBack\(\);/g) ?? []).length, 3);
+  // Trial cookie re-claim is a fourth refusal that also preserves the question.
+  assert.equal((console.match(/giveBack\(\);/g) ?? []).length, 4);
   // «Yangi chat» during a limit keeps the question the card says is kept (LIMIT-01).
   const newChat = console.slice(console.indexOf('const onNewChat ='), console.indexOf('const onRetry ='));
   assert.match(newChat, /if \(!limited\) setInput\(""\);/);

@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "P0–P4: рабочее пространство презентаций и контекстная покупка в чате, локальная реализация",
-  "stage_status": "local_verified_release_pending",
+  "current_stage": "Монетизация веб-чата: всего 3 пробных ответа и banner; roadmap Studio и Click/ОФД",
+  "stage_status": "local_verified_stamp_pending",
   "last_completed_stage": "Локальный P0–P4 chat workspace и контекстная воронка покупки (не опубликовано)",
-  "next_stage": "Guarded production-выпуск проверенного chat workspace по команде владельца с независимым live readback",
+  "next_stage": "Read-only диагностика click_fiscal_failed, затем reviewed migration и guarded release по команде владельца",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2273,5 +2273,28 @@
     "code_commit": "432608408d11fa0119da33c3a627df9d9f11bc39",
     "last_verified_production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
     "bundle_margin": "start JS 461 B Brotli below 110000; page CSS 30 B below 27000; keep existing strict gates"
+  },
+  "monetization_trial_20261008": {
+    "status": "local_verified_stamp_pending",
+    "baseline_commit": "b9a54ae02a402d3f91496891c3e895ee5b12b507",
+    "code_commit": "См. последний feature commit и metadata follow-up по D-006",
+    "migration": "0078_gpt_lifetime_trial.sql",
+    "feature_flag": "GPT_FREE_TRIAL_ENABLED=true в подготовленном config, production не менялся",
+    "scope": "3 пробных ответа всего; серверная cookie/учёт, banner/Click/Payme, публичные условия; Studio и его тарифы сохранены",
+    "roadmap": "docs/MONETIZATION_ROADMAP_20261008.md",
+    "verification": "reports/chat-lifetime-trial-20261008/verification.json",
+    "fiscal_issue": "P0 planned; причина по production D1/Click не установлена; не считать алерт отказом оплаты/AI",
+    "production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+    "production_changed": false,
+    "checks": {
+      "targeted_tests": 213,
+      "browser_suites": 3,
+      "layout_runs": 446,
+      "typecheck_root": true,
+      "typecheck_functions": true,
+      "scoped_lint": true,
+      "seo_contracts": 10,
+      "reviewed_body_changes": 2
+    }
   }
 }

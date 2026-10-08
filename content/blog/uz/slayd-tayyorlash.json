@@ -93,7 +93,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — kuniga 15 tagacha, soatiga 5 tagacha xabar. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va chiqish vaqtini birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — jami 3 ta sinov javobi. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va chiqish vaqtini birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi. Uch sinov javobidan keyingi matnli suhbat uchun AI paketi kerak; taqdimot fayli uchun Studio paketi alohida."
     },
     {
       "type": "figure",
@@ -422,7 +422,7 @@
   "breadcrumbLabel": "Slayd tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-10-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -477,6 +477,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-08T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

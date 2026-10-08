@@ -33,6 +33,7 @@ export type LoginMethod = 'bot' | 'oidc';
 export interface FreeLimits {
   daily: number;
   hourly: number;
+  lifetime?: number;
 }
 
 /** The AI pack on sale, as the server states it: the window prints these numbers, never literals. */
@@ -59,6 +60,7 @@ export interface AccountView {
   remaining?: number;
   /** The free tier's allowance from the config (a guest's view never reads D1). */
   freeLimits?: FreeLimits;
+  trial?: { limit: number; used: number; remaining: number; available: number; resets: 'never' };
   terms: { ru: string | null; uz: string | null };
   termsVersion: string | null;
   /** Limit card may offer the Telegram bot. Anything but `true` means no. */
@@ -134,7 +136,11 @@ export function validAccountView(value: unknown): value is AccountView {
     && (account.botHandoff === undefined || typeof account.botHandoff === 'boolean')
     && (account.remaining === undefined || isCount(account.remaining))
     && (account.freeLimits === undefined || (!!account.freeLimits && typeof account.freeLimits === 'object'
-      && isCount(account.freeLimits.daily) && isCount(account.freeLimits.hourly)))
+      && isCount(account.freeLimits.daily) && isCount(account.freeLimits.hourly)
+      && (account.freeLimits.lifetime === undefined || account.freeLimits.lifetime === 3)))
+    && (account.trial === undefined || (!!account.trial && account.trial.limit === 3 && account.trial.resets === 'never'
+      && isCount(account.trial.used) && account.trial.used <= 3 && account.trial.remaining === 3 - account.trial.used
+      && isCount(account.trial.available) && account.trial.available <= account.trial.remaining))
     && (account.pack === undefined || validPack(account.pack))
     && (account.uzumFlow === undefined || account.uzumFlow === null || account.uzumFlow === 'checkout' || account.uzumFlow === 'code')
     && (account.paymentCode === undefined || account.paymentCode === null
