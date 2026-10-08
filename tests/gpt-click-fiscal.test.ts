@@ -584,7 +584,7 @@ test("failures wait 1, 5, 15, 60 minutes, then 6 hours; from the sixth attempt o
   const order = await c.paidAt(T0);
   // The wait for Click's own receipt is no failure: the schedule starts after it.
   assert.equal((await fiscalizeDue(c.f.env, { now: T0 })).waiting, 1);
-  c.fake.failures.submit.push(-5, -5, -5, -5, -5, -5, -5);
+  c.fake.failures.ofd.push(-5, -5, -5, -5, -5, -5, -5);
   let now = DUE;
   const waits: number[] = [];
   for (let attempt = 1; attempt <= 7; attempt++) {
@@ -594,7 +594,7 @@ test("failures wait 1, 5, 15, 60 minutes, then 6 hours; from the sixth attempt o
     assert.equal(tick.retried, 1);
     const row = c.receipt(order.id);
     assert.equal(row.attempts, attempt);
-    assert.equal(row.last_error, "submit:click_-5");
+    assert.equal(row.last_error, "ofd:click_-5");
     assert.equal(row.status_code, -1);
     assert.equal(row.lease_until, 0);
     waits.push(Number(row.next_at) - now);
@@ -608,8 +608,8 @@ test("failures wait 1, 5, 15, 60 minutes, then 6 hours; from the sixth attempt o
   // Every attempt asked ofd_data first (and the wait before them): the receipt
   // might have existed already.
   assert.equal(c.fake.count("GET", "/ofd_data/"), 8);
-  assert.equal(c.fake.count("POST", "submit_items"), 7);
-  // The eighth attempt goes through.
+  assert.equal(c.fake.count("POST", "submit_items"), 0);
+  // The eighth read confirms absence; the first submit can now go through.
   assert.equal((await fiscalizeDue(c.f.env, { now })).printed, 1);
   assert.equal(c.receipt(order.id).status_code, 0);
 
@@ -650,6 +650,93 @@ test("a retry asks ofd_data first: a lost answer is never sent twice, an accepte
   assert.equal(c.receipt(slow.id).last_error, "ours");
   assert.equal(c.fake.count("POST", "submit_items"), 2, "one submit per receipt");
   assert.equal(c.f.db.value("SELECT COUNT(*) FROM gpt_fiscal_receipts WHERE status_code=0"), 2);
+});
+
+for (const mode of ["", "false"] as const) {
+  test(`a lost submit answer followed by delayed 404/empty OFD reads stays reconciliation-only (autofiscal=${mode || "check"})`, async (t) => {
+    const c = await liveClick(t, { GPT_CLICK_AUTOFISCAL: mode });
+    const order = await c.paidAt(T0);
+    c.fake.loseSubmitAnswers = 1;
+    c.fake.qrDelay = 1;
+    assert.equal((await fiscalizeDue(c.f.env, { now: DUE })).retried, 1);
+    assert.equal(c.receipt(order.id).last_error, "submit:network");
+    assert.equal(c.fake.receipts.has(order.paymentId), true, "the lost answer is not a lost receipt");
+    c.fake.failures.ofd.push({ status: 404 }, { status: 404, code: -16 }, { status: 200 });
+    for (let read = 0; read < 4; read++) {
+      const now = Number(c.receipt(order.id).next_at);
+      assert.equal((await fiscalizeDue(c.f.env, { now })).retried, 1);
+      assert.equal(c.receipt(order.id).last_error, "submit_unknown");
+      assert.equal(c.receipt(order.id).submitted_at, null);
+      assert.equal(c.receipt(order.id).operation_id, "click:submit_items");
+      assert.equal(c.fake.count("POST", "submit_items"), 1, `read ${read + 1} must not repost`);
+    }
+    assert.equal((await fiscalizeDue(c.f.env, { now: Number(c.receipt(order.id).next_at) })).printed, 1);
+    assert.equal(c.receipt(order.id).receipt_url, c.fake.qrUrl(order.paymentId));
+    assert.equal(c.receipt(order.id).last_error, "unknown");
+    assert.equal(c.fake.count("POST", "submit_items"), 1);
+  });
+}
+
+test("undocumented submit refusals, 5xx and malformed answers cannot authorize a second receipt", async (t) => {
+  const c = await liveClick(t);
+  t.mock.method(console, "warn", () => undefined);
+  const failures = [-5, -31, { status: 500, code: -5 }, { status: 200 }] as const;
+  for (const failure of failures) {
+    const order = await c.paidAt(T0);
+    c.fake.failures.submit.push(failure);
+    const postsBefore = c.fake.count("POST", "submit_items");
+    assert.equal((await fiscalizeDue(c.f.env, { now: DUE })).retried, 1);
+    assert.equal(c.receipt(order.id).operation_id, "click:submit_items");
+    assert.equal(c.receipt(order.id).submitted_at, null);
+    assert.equal((await fiscalizeDue(c.f.env, { now: Number(c.receipt(order.id).next_at) })).retried, 1);
+    assert.equal(c.receipt(order.id).last_error, "submit_unknown");
+    assert.equal(c.fake.count("POST", "submit_items"), postsBefore + 1);
+    // Provider/cabinet reconciliation can reveal the eventual receipt.
+    c.fake.autoPrint(order.paymentId);
+    assert.equal((await fiscalizeDue(c.f.env, { now: Number(c.receipt(order.id).next_at) })).printed, 1);
+    assert.equal(c.receipt(order.id).last_error, "unknown");
+  }
+});
+
+test("an unresolved submit stays queued with backoff and urgent escalation, without another POST", async (t) => {
+  const c = await liveClick(t);
+  t.mock.method(console, "warn", () => undefined);
+  const order = await c.paidAt(T0);
+  c.fake.failures.submit.push("network");
+  assert.equal((await fiscalizeDue(c.f.env, { now: DUE })).retried, 1);
+  for (let attempt = 2; attempt <= 6; attempt++) {
+    const now = Number(c.receipt(order.id).next_at);
+    assert.equal((await fiscalizeDue(c.f.env, { now })).retried, 1);
+    assert.equal(c.receipt(order.id).last_error, "submit_unknown");
+    assert.equal(c.receipt(order.id).status_code, -1);
+    assert.equal(Number(c.receipt(order.id).next_at) - now, FISCAL_BACKOFF_MS[Math.min(attempt, 5) - 1]);
+  }
+  assert.equal(c.fake.count("POST", "submit_items"), 1);
+  assert.deepEqual(c.alerts(), ["click_fiscal_failed"]);
+});
+
+test("submit reservation rejects a stale lease and survives a worker crash and attempt-counter reset", async (t) => {
+  const c = await liveClick(t, { GPT_CLICK_AUTOFISCAL: "false" });
+  const order = await c.paidAt(T0);
+  const store = new FiscalStore(c.f.binding, BILLING_ORG);
+  const oldLease = (await store.claim(DUE))!;
+  const newLease = (await store.claim(DUE + 61_000))!;
+  assert.equal(await store.markSubmit(oldLease), false, "the old worker must not send");
+  assert.equal(c.receipt(order.id).operation_id, null);
+  assert.equal(await new FiscalStore(c.f.binding, "other-org").markSubmit(newLease), false);
+  assert.equal(await store.markSubmit(newLease), true);
+  assert.equal(await store.markSubmit(newLease), false, "reservation is one-time even within its lease");
+  // The worker could die after sending but before persisting any answer.
+  // A manual attempts reset or immediate-submit policy cannot clear that risk.
+  c.f.db.prepare("UPDATE gpt_fiscal_receipts SET attempts=0 WHERE org_id=? AND order_id=?")
+    .bind(BILLING_ORG, order.id).runSync();
+  const tick = await fiscalizeDue(c.f.env, { now: DUE + 122_000 });
+  assert.equal(tick.retried, 1);
+  assert.equal(c.receipt(order.id).last_error, "submit_unknown");
+  assert.equal(c.fake.count("POST", "submit_items"), 0);
+  c.fake.autoPrint(order.paymentId);
+  assert.equal((await fiscalizeDue(c.f.env, { now: Number(c.receipt(order.id).next_at) })).printed, 1);
+  assert.equal(c.receipt(order.id).last_error, "unknown");
 });
 
 test("two workers lease a due receipt once: one submit, one print", async (t) => {
@@ -792,7 +879,7 @@ test("the maintenance tick retries due receipts before it delivers alerts: a fai
   // One urgent message (the paid-order notifications of the outbox go apart).
   const urgent = c.fake.telegram.filter((text) => text.includes("срочно"));
   assert.equal(urgent.length, 1);
-  assert.match(urgent[0], /click_fiscal_failed — Click: чек ОФД не пробит/);
+  assert.match(urgent[0], /click_fiscal_failed — Click: подтверждение чека ОФД не получено/);
 });
 
 test("a slow Click still fits the tick: receipts run beside providers and watchdog, not in a slice of their own", async (t) => {

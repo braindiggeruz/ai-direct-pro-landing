@@ -1,5 +1,5 @@
 import { TelegramClient } from "../../channels/telegram/api";
-import { FiscalHealthStore } from './fiscal-health-store';
+import { FiscalHealthStore, renderFiscalHealth } from './fiscal-health-store';
 import { boundedNum, type BridgeEnv } from "./bridge-env";
 import {
   BILLING_ORG,
@@ -136,8 +136,7 @@ export async function deliverServiceAlerts(
     .all<{ code: string }>();
   let fiscal: string[] = [];
   if (codes.some(code => /fiscal|receipt/.test(code))) {
-    try { fiscal = (await new FiscalHealthStore(db).pending(BILLING_ORG)).slice(0,8).map(row =>
-      `${row.provider}/${row.product}: ожидают ${row.queued}; ${row.error}; попыток ${row.attempts}.`); }
+    try { fiscal = (await new FiscalHealthStore(db).pending(BILLING_ORG)).slice(0,8).map(renderFiscalHealth); }
     catch { fiscal = ['Сводка очереди чеков недоступна; проверьте gpt_fiscal_receipts.']; }
   }
   const sent = await new TelegramClient(channel.token).call(

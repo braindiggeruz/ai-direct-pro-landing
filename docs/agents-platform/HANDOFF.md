@@ -1,37 +1,37 @@
-# HANDOFF — SEO recovery released · 08.10.2026
+# HANDOFF — Click fiscal incident · 08.10.2026
 
 ## 1. Состояние
-F:/Claude/gptbot-codex-integration-20261007; branch codex/continuation-20261007. Source release 5de9e3850468e1915d99729e4930b8750adcf433. Production https://gptbot.uz/, receipt https://b50a8d04.ai-direct-pro-landing.pages.dev,1002files. Guarded deploy и exact custom-domain readback PASS. Этот commit — metadata relay; не требует нового deployment.
+F:/Claude/gptbot-codex-integration-20261007; branch codex/continuation-20261007. Предыдущий production source 5de9e3850468e1915d99729e4930b8750adcf433. Код защиты чеков проверен, deployment pending. Владелец ранее разрешил деплой после проверок.
 
 ## 2. Что сделано
-R1/R2 lifetime trial3 и отдельные PPTX quotas; R3 offer URL; R5 видимые home resources; R6 authored dates; R7 factual content/primary sources и unpaired different intents; R9 alias/private headers. GA4 UI source переименован только на Google boundary; backend/Meta сохранены.
+Независимая SELECT-only проверка production D1 и GET-only проверка Click. Исправлены повторный submit после неясного ответа, атомарная резервация по lease и вводящие в заблуждение алерты. Очередь и backoff сохранены.
 
 ## 3. Файлы и доказательства
-docs/seo/implementation/2026-10-08-recovery/: IMPLEMENTATION_REPORT.md, RELEASE_RECEIPT.json, PRODUCTION_READBACK.json, PROTECTED_LIVE_READBACK.json, POSTRELEASE_REVIEW.md, DISCOVERY_RECEIPTS.json, CROSS_NETWORK_DIAGNOSIS.md, GA4_TODAY_UI.md, COMPETITOR_PLAN.md. Полный независимый аудит в docs/seo/audits/2026-10-08-regression/. Не стирать RAW/BEFORE и пользовательские untracked files.
+reports/click-fiscal-incident-20261008/: INCIDENT.md, fiscal-readonly.json, merchant-readonly.json, локальные test/typecheck/lint logs. functions/lib/gpt-chat/{fiscal-store,fiscal-health-store,alert-policy,billing-maintenance-store}.ts; tests/gpt-click-fiscal.test.ts, studio-monetization.test.ts. Runbook: docs/paid-chat/CLICK-FISCAL-RU.md.
 
 ## 4. Решения
-D-SEO-RECOVERY-20261008. Protected comparator не ослаблен, predecessor baseline immutable. Source titles/H1/canonical/robots/hreflang/link contracts прежние; двух chat description/body исправлены адресно. Cloudflare email декодируется только в live verification; raw differences сохранены.
+Сохранённый operation_id навсегда блокирует автоматический повтор submit_items; даже 404/empty после потери ответа не доказывает отсутствие чека. Только сверка и эскалация. Stale lease не резервирует отправку. Никаких выдуманных успешных статусов.
 
 ## 5. Внешние действия
-IndexNow300 URL HTTP202 accepted, pending key validation; ключ доступен200. GSC4/4 accepted/readback, pending download. WebSub2/2 HTTP204. Один manual Google Request indexing получил daily quota exceeded; не принят. Indexing/recrawl/ranking не подтверждены. Никаких ads/D1/billing/secrets/push/outreach changes.
+Только SELECT и GET. Ни одного нового фискального POST, платежа, возврата, изменения credentials или production D1. Кабинет Click требует вход владельца. Никаких сообщений поддержке/покупателю не отправлено.
 
 ## 6. Проверки
-Build fast/admin/Studio, tsc-b/functions,scoped26eslint,SEO audit,bundle budgets:PASS.284 effective regression tests,4 исторических skips. Production300/300 canonical/indexable1H1 pages,10/10protected contracts;11changed pages и10alias/preview responses независимо checked. Auth/me401/login empty400 headersPASS. Staged58 scan clean; глобальный old test-placeholder false positive documented.
+99/99 targeted tests PASS; tsc-b и Functions typecheck PASS; ESLint шести изменённых TS PASS. Независимый статический review: новых P1/P2 нет. Build/guarded release/readback ещё должны быть зафиксированы в RELEASE.json.
 
 ## 7. Ограничения
-RU chat after reload rendered new copy/date; home initial screen opens. Chrome extension UI blocked lower links/mobile/Studio JS checks and today GA4 filter. Do not bypass or claim browser acceptance complete. Yesterday Cross-network178 attribution unavailable, not proof of Ads or lost visitors. GSC manual/security no issues; fieldCWV insufficient. Native UZ editorial and matureCTR windows pending.
+Один live chat заказ на 20 000 сум paid, fiscal queue attempts10, payment_id:click_-12. Нашего submit не было; чек у Click/OFD UNKNOWN. GET с локальным owner profile вернул «Неверные данные поставщика». Production secret opaque; равенство его локальному профилю не доказано. Нельзя назвать конкретный неверный реквизит без кабинета.
 
 ## 8. Следующий этап
-Post-release browser acceptance and mature SEO/attribution measurement. Повторить manual priority request после сброса Google quota; не повторять принятые batches без изменения. Предыдущая merchant acceptance сохранена отдельно в STATE, не смешивать её с SEO.
+После выката — восстановить проверенный доступ Click Merchant API и сверить существующий чек. Вход владельца запрошен в открытом https://mc.click.uz/. Пароли и SMS не просить в чате. SEO browser/measurement задачи сохранены в STATE, повторный IndexNow/GSC для этого backend patch не нужен.
 
 ## 9. Acceptance
-Браузер:14 home resources после hydration RU/UZ, mobile/desktop и Studio offer. Аналитика: одинаковые scopes/cutoffs за07–08.10 после обработки; новые event params без reserved source. SEO: фактический post-release recrawl и14/28 completed day windows,query×page,country/device. Технические зелёные gates не равны business acceptance.
+Authoritative реквизиты сервиса107654; успешный read-only lookup; сверка существующего чека; нормальная очередь сохраняет подтверждённую ссылку ОФД, покупатель открывает корректный чек. До этого business acceptance blocked.
 
 ## 10. Старт
-Прочитать STATE/HANDOFF и reports; git status/log; https://gptbot.uz/gptbot-release.json. Не rebuild/deploy текущий артефакт заново без изменений. Для будущего релиза только build:production и F:/Claude/gptbot-tools/deploy_runner.py check|deploy с правильным DR_ROOT.
+STATE/HANDOFF, INCIDENT.md, git status/log и live gptbot-release.json. Для deployment npm run build:production; DR_ROOT задавать этому repo; только F:/Claude/gptbot-tools/deploy_runner.py check|deploy. После потери ответа сначала readback, не слепой повтор.
 
 ## 11. Риски
-Google quota не обходить; тайм-аут сначала reconcile readback. UI labels fix не переписывает прошлые GA4 события. Нельзя обещать топ1/срок индексации. Чужие WIP и production lineage сохранять; lead webhook/secrets/budget caps не трогать.
+Не очищать operation_id/submitted_at, не менять статус на success/manual ради алерта. Не подменять merchant_user_id значением merchant_id; не угадывать реквизиты. Не трогать lead webhook/секреты/чужой WIP. API error -12 существовал до SEO release.
 
 ## 12. Rollback
-Адресный revert recovery commit и новый guarded release после проверки live state. Старый production a80dfcbd и artifact deeeeb0386102c40f5728ab3d1a0d40a4bbdc5891cf0eaf9a4e076d4119facf3 сохранены в BEFORE/ и Git. Не откатывать D1 и не возвращать ложные15/5 claims. Без reset/clean/force push.
+Предыдущий production b50a8d04, artifact2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b. Адресный revert и guarded release только после оценки риска возврата повторного fiscal POST. D1/credentials не изменялись; их rollback не нужен. Без reset/clean/force push.

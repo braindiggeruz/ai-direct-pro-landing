@@ -7,7 +7,7 @@ import { SqliteD1 } from './helpers/sqlite-d1';
 import { StudioStore } from '../functions/lib/studio/store';
 import { STUDIO_ORG } from '../functions/lib/studio/schema';
 import { StudioMonetizationStore } from '../functions/lib/studio/monetization-store';
-import { FiscalHealthStore } from '../functions/lib/gpt-chat/fiscal-health-store';
+import { FiscalHealthStore, renderFiscalHealth } from '../functions/lib/gpt-chat/fiscal-health-store';
 import { renderAlertMessage } from '../functions/lib/gpt-chat/alert-policy';
 import { contribution, type StudioMonetizationData } from '../src/shared/studio-admin';
 import { StudioMonetizationCard } from '../src/admin/components/ai-chat/StudioMonetizationCard';
@@ -76,6 +76,24 @@ test('fiscal health: paid live org rows only, coarse errors, no sensitive provid
   assert.equal((await new FiscalHealthStore(db.asD1()).pending(STUDIO_ORG))[0].error,'unknown');
   const text=renderAlertMessage([{code:'click_fiscal_failed',count:1}],[],['click/chat: payment_id:click_-12; попыток 8.']);
   assert.match(text,/payment_id:click_-12/);assert.match(text,/Merchant API/);assert.doesNotMatch(text,/OpenRouter|баланс/);
+});
+
+test('Click fiscal alerts distinguish lookup refusal from an ambiguous receipt submission',()=>{
+  const base={product:'chat' as const,provider:'click',queued:1,attempts:10,oldestPaidAt:NOW};
+  const lookup=renderFiscalHealth({...base,error:'payment_id:click_-12'});
+  const text=renderAlertMessage([{code:'click_fiscal_failed',count:1}],[],[lookup]);
+  assert.match(text,/данные поставщика \(-12\)/);
+  assert.match(text,/поиск платежа не выполнен/);
+  assert.match(text,/обработок очереди 10/);
+  assert.match(text,/подтверждение чека ОФД не получено/);
+  assert.doesNotMatch(text,/чек ОФД не пробит|payment_id:click_-12|10 попыток/);
+  const unknown=renderFiscalHealth({...base,error:'submit_unknown'});
+  assert.match(unknown,/только сверка с ОФД/);
+  assert.match(unknown,/повторная отправка заблокирована/);
+  assert.doesNotMatch(unknown,/поиск платежа не выполнен/);
+  const other=renderFiscalHealth({...base,provider:'uzum',error:'ofd:http_503'});
+  assert.match(other,/ofd:http_503/);
+  assert.doesNotMatch(other,/данные поставщика/);
 });
 
 test('events: unique views per qualifier, org filter; report never returns view ids',async()=>{

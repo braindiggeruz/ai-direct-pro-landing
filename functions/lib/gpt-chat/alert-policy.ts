@@ -149,7 +149,7 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   bot_silent: "бот @gptbotuz_bot: за сутки 3+ сбоя и ни одного ответа",
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
-  click_fiscal_failed: "Click: чек ОФД не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",
+  click_fiscal_failed: "Click: подтверждение чека ОФД не получено после 6 проверок или за сутки после оплаты; причина — в сводке очереди",
   click_unknown_order: "Click: подписанный запрос о заказе, которого у нас нет в этом режиме (ответ -5); сверьте кабинет Click",
   click_amount_mismatch: "Click: подписанный запрос с другой суммой (ответ -2), доступ не выдан; сверьте кабинет Click",
   uzum_fiscal_failed: "Uzum: чек через Fiscalization API не пробит после 6 попыток или за сутки после оплаты, см. last_error в gpt_fiscal_receipts",

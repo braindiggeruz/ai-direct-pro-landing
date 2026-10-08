@@ -1,4 +1,16 @@
 export interface FiscalHealth { product: 'chat'|'studio'; provider: string; error: string; queued: number; attempts: number; oldestPaidAt: number }
+
+/** Fixed explanations, never raw provider messages or payment identifiers. */
+export function renderFiscalHealth(row: FiscalHealth): string {
+  const reasons: Readonly<Record<string, string>> = {
+    'payment_id:click_-12': 'Merchant API отклонил данные поставщика (-12): сверьте доступ и реквизиты сервиса Click; поиск платежа не выполнен',
+    submit_unknown: 'ответ на отправку чека не подтверждён: выполняется только сверка с ОФД, автоматическая повторная отправка заблокирована',
+    'submit:lease_lost': 'отправка не начата: обработку очереди уже забрал другой процесс',
+  };
+  const detail = row.provider === 'click' ? reasons[row.error] : undefined;
+  return `${row.provider}/${row.product}: ожидают ${row.queued}; ${detail ?? row.error}; обработок очереди ${row.attempts}.`;
+}
+
 /** Read-only aggregate; no order/account/payment ids or provider messages leave storage. */
 export class FiscalHealthStore {
   constructor(readonly db: D1Database) {}

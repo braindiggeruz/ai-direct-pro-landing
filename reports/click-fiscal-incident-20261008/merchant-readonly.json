@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-08T14:34:15.357764+00:00",
+  "readOnly": true,
+  "credentialSource": "existing local owner Click profile; secret not output",
+  "serviceId": "107654",
+  "merchantUserIdEqualsMerchantId": false,
+  "providerCallsAreGetOnly": true,
+  "orders": [
+    {
+      "orderFingerprint": "a9c7340195b11d41",
+      "amountTiyin": 2000000,
+      "state": "paid",
+      "attempts": 10,
+      "lastError": "payment_id:click_-12",
+      "hasOurSubmission": false,
+      "lookups": [
+        {
+          "paymentDate": "2026-10-07",
+          "httpStatus": 200,
+          "errorCode": -12,
+          "errorNote": "Неверные данные поставщика",
+          "hasPaymentId": false
+        }
+      ]
+    }
+  ]
+}

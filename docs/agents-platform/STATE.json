@@ -1,4 +1,24 @@
 {
+  "click_fiscal_incident_20261008": {
+    "status": "CODE_VERIFIED_MERCHANT_ACCESS_BLOCKED_DEPLOY_PENDING",
+    "evidence": "reports/click-fiscal-incident-20261008/INCIDENT.md",
+    "baselineSource": "5de9e3850468e1915d99729e4930b8750adcf433",
+    "verifiedFailure": "GET status_by_mti: HTTP200, error_code -12, supplier data rejected; queued before any application fiscal submission",
+    "externalBlocker": "Click cabinet requires owner login to verify Merchant API credentials/access and actual receipt",
+    "validation": "99 tests pass; tsc-b/functions pass; scoped ESLint pass; independent review clear",
+    "deferredSeoNextStage": "Post-release browser acceptance and mature SEO/attribution measurement",
+    "deferredSeoBaseline": {
+      "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+      "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+      "build": "build:fast, admin, Studio and stamp exit0; guarded release passed",
+      "tests": "284 effective relevant tests passed; 4 historical R-ST1 skips; see FINAL_STATIC_VALIDATION.json",
+      "typecheck": "tsc-b and functions exit0",
+      "lint": "26 changed TS/TSX files clean",
+      "security": "58 staged files secret scan clean; global unchanged test-placeholder false positive recorded",
+      "production": "300/300 crawl and10/10 protected contracts; exact manifest; private/alias headers PASS",
+      "limits": "Browser acceptance partial; no indexing, ranking, traffic recovery or today GA4 claim"
+    }
+  },
   "seo_recovery_20261008": {
     "status": "DEPLOYED_HTTP_VERIFIED_DISCOVERY_SUBMITTED_BROWSER_PARTIAL",
     "sourceBaseHead": "e2280e4494ccc272cc0838e91a77c0a20eb8ef19",
@@ -1534,10 +1554,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO recovery deployed and HTTP verified; browser acceptance and search measurement pending",
-  "stage_status": "in_progress",
+  "current_stage": "Click fiscal incident: safe reconciliation fix verified; Merchant API supplier access unresolved",
+  "stage_status": "blocked",
   "last_completed_stage": "SEO recovery implementation, guarded production deployment and discovery submissions",
-  "next_stage": "Post-release browser acceptance and mature SEO/attribution measurement",
+  "next_stage": "Restore verified Click Merchant API access and reconcile the existing paid order receipt",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1805,7 +1825,7 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Runtime release complete. Chrome extension UI blocks remaining browser acceptance; Google manual requests hit daily quota. Do not redeploy or resubmit accepted batches without a new change. Prior merchant acceptance is preserved in seo_recovery_20261008.deferredPreviousNextStage.",
+  "next_stage_note": "Code mitigation approved for guarded deployment by prior owner instruction. Business acceptance requires owner Click cabinet login and authoritative API identity/access. Preserve SEO follow-up in seo_recovery_20261008; no duplicate fiscal submission or manual success patch.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "5de9e3850468e1915d99729e4930b8750adcf433",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
@@ -1870,10 +1890,12 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-08T14:07:09.207523+00:00",
-  "blocked": false,
-  "blocked_stage": null,
-  "blockers": [],
+  "updated_at": "2026-10-08T14:47:25.883003+00:00",
+  "blocked": true,
+  "blocked_stage": "Click Merchant API access and receipt acceptance",
+  "blockers": [
+    "Merchant API lookup rejects supplier data (-12); Click cabinet requires owner login. Receipt existence at provider is unknown."
+  ],
   "parallel_preparation": {
     "R0.4-prep": {
       "status": "completed_locally",

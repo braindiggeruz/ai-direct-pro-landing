@@ -33,10 +33,11 @@
 //      after a read that said nothing (a network failure, a 5xx, another
 //      error code); "true" never sends one (auto_pending: a wait on the retry
 //      schedule by the payment's age, paged a day after the payment);
-//   4. the receipt line goes out (submit_items) unless an earlier submit was
-//      accepted (submitted_at): a receipt is never sent twice on purpose.
-//      operation_id = click:submit_items is written before the first one
-//      goes out (Uzum keeps its own key there; Click has none);
+//   4. the receipt line goes out (submit_items) only if none may have gone
+//      out before: operation_id = click:submit_items is written atomically
+//      before the first one goes out (Uzum keeps its own key there; Click
+//      has none). A lost/unclear answer stays read-only even while ofd_data
+//      has no link: absence of a link does not prove the submit was rejected;
 //   5. ofd_data gives the link. Printed = error_code 0 and a qrCodeURL on
 //      https://ofd.soliq.uz (fiscal-config.ts ofdReceiptLink). last_error of
 //      a printed Click row says who printed it: auto (we never sent ours),
@@ -228,9 +229,18 @@ export class FiscalStore {
   submitted(row: FiscalRow, now: number, paymentId: string | null = null): Promise<void> {
     return this.leased(row, "submitted_at=?,payment_id=COALESCE(payment_id,?)", [now, paymentId]);
   }
-  /** Click: our receipt line is about to go out; the first mark stays. */
-  markSubmit(row: FiscalRow): Promise<void> {
-    return this.leased(row, "operation_id=COALESCE(operation_id,?)", [CLICK_SUBMIT_MARK]);
+  /** Click: only the current lease may reserve the first and only automatic submit. */
+  async markSubmit(row: FiscalRow): Promise<boolean> {
+    const marked = await this.db
+      .prepare(
+        `UPDATE gpt_fiscal_receipts SET operation_id=?
+         WHERE org_id=? AND order_id=? AND kind=? AND lease_until=?
+           AND operation_id IS NULL AND submitted_at IS NULL
+         RETURNING operation_id`,
+      )
+      .bind(CLICK_SUBMIT_MARK, this.org, row.order_id, row.kind, row.lease_until)
+      .first<{ operation_id: string }>();
+    return marked?.operation_id === CLICK_SUBMIT_MARK;
   }
   /** `source`: who printed a Click receipt (last_error); null for Uzum. */
   printed(row: FiscalRow, url: string, now: number, source: ClickReceiptSource | null = null): Promise<void> {
@@ -408,10 +418,16 @@ async function printClickReceipt(
     const checked = ofdReceiptLink(url);
     return checked ? { link: checked, source } : { error: "qr_host" };
   };
-  // Check first and "true": always; "false": a retry (a lost answer, a slow OFD).
-  if (policy.mode !== "submit" || row.attempts > 1) {
+  // A durable submit mark always reconciles, including after a counter reset
+  // or a switch to immediate-submit mode. A lease expiry cannot erase it.
+  if (policy.mode !== "submit" || row.attempts > 1 || row.operation_id !== null || row.submitted_at !== null) {
     const existing = await ofdData(auth, payment, options());
     if (existing.ok && existing.qrCodeUrl) return link(existing.qrCodeUrl, foundSource(row));
+    // Click has no idempotency key for submit_items. An empty/404 read may
+    // race a delayed receipt, and an undocumented refusal may describe one
+    // that already exists. After any marked send, only reconcile or alert.
+    if (row.operation_id !== null && row.submitted_at === null)
+      return { error: existing.ok || noClickReceipt(existing) ? "submit_unknown" : `ofd:${clickFailureCode(existing)}` };
     // Click accepted ours before: wait for its link, never resend it.
     if (row.submitted_at !== null)
       return { error: existing.ok ? "qr_pending" : `ofd:${clickFailureCode(existing)}` };
@@ -428,7 +444,7 @@ async function printClickReceipt(
   }
   // Never reached with GPT_CLICK_AUTOFISCAL "true"; the others checked these above.
   if (!params || !tin) return { error: "config_missing" };
-  await store.markSubmit(row);
+  if (!(await store.markSubmit(row))) return { error: "submit:lease_lost" };
   const sent = await submitItems(
     auth,
     payment,
