@@ -153,3 +153,18 @@ test('migration and runtime schema match; permanent UI cap lifts only with serve
   assert.equal(reduceLimit(state, { ...event, now: at + 86400_000 })?.reason, 'trial');
   assert.equal(reduceLimit(state, { ...event, packRemaining: 300 }), null);
 });
+
+test('confirmed lifetime trial replaces cached legacy hour/day limits without lifting abuse guards', () => {
+  const account = { type: 'account' as const, freeRemaining: 3, packRemaining: null,
+    freeLimits: { daily: 15, hourly: 5, lifetime: 3 }, now: at };
+  for (const reason of ['hourly', 'daily'] as const) {
+    const legacy = { reason, retryAt: at + 3600_000, since: at, limits: { daily: 15, hourly: 5 } };
+    assert.equal(reduceLimit(legacy, account), null);
+    assert.equal(reduceLimit(legacy, { ...account, freeRemaining: 0 })?.reason, 'trial');
+    assert.deepEqual(reduceLimit(legacy, { ...account, freeLimits: { daily: 15, hourly: 5 } }), legacy);
+  }
+  for (const reason of ['ip', 'busy'] as const) {
+    const guard = { reason, retryAt: at + 60_000, since: at, limits: account.freeLimits };
+    assert.deepEqual(reduceLimit(guard, account), guard);
+  }
+});

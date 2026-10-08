@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Монетизация Studio в основном чате: покупка под задачу, owner-воронка, Click/ОФД диагностика; локально",
-  "stage_status": "local_verified_release_pending",
+  "current_stage": "Production trial 3 / Studio опубликованы; завершается исправление legacy cache и финальный guarded release",
+  "stage_status": "in_progress",
   "last_completed_stage": "Локальный P0–P4 chat workspace и контекстная воронка покупки (не опубликовано)",
-  "next_stage": "Внешняя сверка Merchant API/Click чека; reviewed migration 0078 и guarded release по команде владельца, затем реальная денежная приёмка P4",
+  "next_stage": "Завершить cache fix: regression/browser, guarded release, реальный live readback",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1740,9 +1740,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Локальная версия не опубликована. Click и Payme уже live в предыдущем выпуске; не возвращать hidden/test. После release нужна настоящая покупка владельца: деньги → права → PPTX → электронный чек; fixtures не являются её доказательством.",
+  "next_stage_note": "Первый production выпуск edbf3d73 подтверждён. Новая runtime правка сбрасывает старые hourly/daily карточки только после подтверждения сервером доступного lifetime trial. Затем остаётся внешняя денежная приёмка; не возвращать Click/Payme в hidden/test.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
+  "last_commit": "edbf3d7385776ea7a06532c86e406e2759072013",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2233,7 +2233,7 @@
     }
   },
   "chat_studio_workspace_20261008": {
-    "status": "LOCAL_VERIFIED_NOT_DEPLOYED",
+    "status": "DEPLOYED_AND_LIVE_UI_VERIFIED",
     "branch": "codex/continuation-20261007",
     "baseline_commit": "2a32458f",
     "previous_production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
@@ -2271,21 +2271,22 @@
       "laboratory performance variability: earlier full runs failed LCP/CLS; large CLS not reproduced in 8 isolated traces, cause unconfirmed; retain raw history and verify field behavior"
     ],
     "code_commit": "432608408d11fa0119da33c3a627df9d9f11bc39",
-    "last_verified_production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
-    "bundle_margin": "start JS 461 B Brotli below 110000; page CSS 30 B below 27000; keep existing strict gates"
+    "last_verified_production_commit": "edbf3d7385776ea7a06532c86e406e2759072013",
+    "bundle_margin": "start JS 461 B Brotli below 110000; page CSS 30 B below 27000; keep existing strict gates",
+    "production_evidence": "reports/chat-trial-production-20261008/production.json"
   },
   "monetization_trial_20261008": {
-    "status": "local_verified_release_pending",
+    "status": "deployed_and_live_verified",
     "baseline_commit": "b9a54ae02a402d3f91496891c3e895ee5b12b507",
     "code_commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
     "migration": "0078_gpt_lifetime_trial.sql",
-    "feature_flag": "GPT_FREE_TRIAL_ENABLED=true в подготовленном config, production не менялся",
+    "feature_flag": "GPT_FREE_TRIAL_ENABLED=true, production readback verified",
     "scope": "3 пробных ответа всего; серверная cookie/учёт, banner/Click/Payme, публичные условия; Studio и его тарифы сохранены",
     "roadmap": "docs/MONETIZATION_ROADMAP_20261008.md",
     "verification": "reports/chat-lifetime-trial-20261008/verification.json",
     "fiscal_issue": "P0 planned; причина по production D1/Click не установлена; не считать алерт отказом оплаты/AI",
-    "production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
-    "production_changed": false,
+    "production_commit": "edbf3d7385776ea7a06532c86e406e2759072013",
+    "production_changed": true,
     "checks": {
       "targeted_tests": 213,
       "browser_suites": 3,
@@ -2303,11 +2304,12 @@
       "build_exit": 0,
       "guard_exit": 0
     },
-    "remaining_acceptance": "Read-only причина Click/ОФД, reviewed production backup/migration, guarded release по команде владельца, live readback и контрольная покупка."
+    "remaining_acceptance": "Merchant readback существующего Click/ОФД; реальная подтверждённая покупка Studio, права, full PPTX, возврат и receipt. Backup/0078/initial guarded release/live trial уже завершены.",
+    "production_evidence": "reports/chat-trial-production-20261008/production.json"
   },
   "state_commit": "HEAD",
   "studio_monetization_20261008": {
-    "status": "implemented_locally_not_deployed",
+    "status": "deployed_and_live_ui_verified",
     "source_roadmap": "docs/MONETIZATION_ROADMAP_20261008.md",
     "implementation": "docs/STUDIO_MONETIZATION_IMPLEMENTATION_20261008.md",
     "evidence": "reports/studio-monetization-20261008/verification.json",
@@ -2332,10 +2334,10 @@
       "source": "reports/studio-monetization-20261008/fiscal-readonly.json"
     },
     "external_acceptance": "P4 real purchase/refund/receipt pending",
-    "deployment": false,
-    "remote_mutations": 0,
+    "deployment": true,
+    "remote_mutations": "reviewed migration 0078 and guarded Pages deployment, owner authorized",
     "new_migrations": [],
-    "previous_trial_migration_pending": "0078_gpt_lifetime_trial.sql",
+    "previous_trial_migration_pending": null,
     "policy": "trial=3 lifetime; Studio free/day and PPTX unchanged; preview-only experiment unimplemented",
     "code_commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
     "release_candidate": {
@@ -2343,9 +2345,37 @@
       "files": 1002,
       "build": "pass",
       "production_guard": "pass",
-      "production_commit_verified": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+      "production_commit_verified": "edbf3d7385776ea7a06532c86e406e2759072013",
       "checked_at": "2026-10-08T05:14:01.104420+00:00",
-      "deployed": false
+      "deployed": true
+    },
+    "production_evidence": "reports/chat-trial-production-20261008/production.json"
+  },
+  "chat_trial_production_20261008": {
+    "status": "deployed_and_verified",
+    "production_commit": "edbf3d7385776ea7a06532c86e406e2759072013",
+    "previous_production_commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+    "artifact_sha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+    "files": 1002,
+    "evidence": "reports/chat-trial-production-20261008/production.json",
+    "implementation": "docs/CHAT_TRIAL_PRODUCTION_20261008.md",
+    "trial": "3 lifetime; fourth 429; banner after third; reload/locale no reset",
+    "migration": "0078 applied and readback verified",
+    "remaining_acceptance": {
+      "realPaidStudioPurchaseRefundReceipt": "pending buyer/provider evidence",
+      "clickFiscal": "Merchant readback pending; previous observed payment_id:click_-12"
+    },
+    "cache_rollout": {
+      "status": "implementation_verified_release_pending",
+      "scope": "Server-confirmed lifetime allowance supersedes cached hourly/daily blocks; IP/busy and exhausted trial remain protected",
+      "regressions": {
+        "pass": 48,
+        "fail": 0,
+        "skip": 0
+      },
+      "typecheck": "root tsc -b exit 0",
+      "lint": "src/gpt-chat/limit-state.ts exit 0",
+      "browser": "Fresh built browser PASS: RU/UZ, 320/390/1366 px; cached hourly/daily replaced only after server account; third reply banner, reload/locale, draft, paid unlock"
     }
   }
 }

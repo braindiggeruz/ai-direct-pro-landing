@@ -1,0 +1,21 @@
+{
+  "bytes": 40602168,
+  "sha256": "dd3bc556bf0823be022be427f68c4f34dfe5ff11cf2cc2d73e0bfd32a0d1836f",
+  "offlineRestore": "pass_with_existing_legacy_check_warnings",
+  "btreeIntegrity": "pass",
+  "legacyConstraintWarnings": [
+    "CHECK constraint failed in lead_radar_signal_posts"
+  ],
+  "migrationOnActualBackup": "pass",
+  "existingOrgScopedRowCountsUnchanged": {
+    "gpt_payment_orders": 24,
+    "studio_orders_v2": 0,
+    "gpt_turn_reservations": 2059
+  },
+  "migrationSha256": "b1c8da4cf7c4ae256f3a9f61e9299a48ea8b3018717ed8bdf40d0e1f9fbd9797",
+  "database": "gptbot-ai-drafts",
+  "targetVerified": true,
+  "privateDataOnly": true,
+  "backupContentsCommitted": false,
+  "aclRestricted": true
+}

@@ -48,8 +48,20 @@ test('trial UI: third answer finishes before paywall; close, reload, locale, dra
         }
         return json({ ok: false }, 404);
       });
+      const legacyReason = width >= 390 ? 'hourly' : 'daily';
+      await context.addInitScript(reason => {
+        if (sessionStorage.getItem('trial_legacy_seeded')) return;
+        sessionStorage.setItem('trial_legacy_seeded', '1');
+        sessionStorage.setItem('gptchat_limit', JSON.stringify({ reason, retryAt: Date.now() + 3600_000,
+          since: Date.now(), limits: { daily: 15, hourly: 5 } }));
+      }, legacyReason);
       await page.goto(origin + (locale === 'ru' ? '/ru/gpt-chat/' : '/uz/gpt-uzbek-tilida/'));
       const send = page.locator('.gpt-send-button'), input = page.locator('.gpt-input-surface textarea');
+      await page.waitForFunction(() => {
+        const button = document.querySelector<HTMLButtonElement>('.gpt-send-button');
+        return button && !button.disabled && !sessionStorage.getItem('gptchat_limit');
+      });
+      assert.equal(await page.locator('[data-testid="ai-limit-card"]').count(), 0, 'confirmed trial replaces a legacy cached free limit');
       for (let n = 1; n <= 3; n++) {
         await input.fill(`Question ${n}`); await send.click();
         if (n === 3) {

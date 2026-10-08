@@ -121,7 +121,9 @@ export function reduceLimit(state: LimitState | null, event: LimitEvent): LimitS
       const pack = event.packRemaining !== null && event.packRemaining > 0;
       if (!pack && event.freeLimits?.lifetime === 3 && event.freeRemaining !== null) {
         if (event.freeRemaining === 0) return { reason: 'trial', retryAt: null, since: event.now, limits: event.freeLimits };
-        if (state?.reason === 'trial') return null;
+        // A confirmed lifetime allowance supersedes cached legacy free limits.
+        // Keep IP/busy guards: this account read grants no new abuse allowance.
+        if (state?.reason === 'trial' || state?.reason === 'hourly' || state?.reason === 'daily') return null;
       }
       if (state && !(pack ? LIFTED_BY_PACK.has(state.reason) : state.reason === 'pack_daily')) return state;
       // The server counted this visitor's free day to the end and there is no pack.

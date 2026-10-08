@@ -1,0 +1,129 @@
+{
+  "checkedAt": "2026-10-08T06:05:22.764Z",
+  "mode": "real public HTTP and browser; no mocks",
+  "seo": [
+    {
+      "path": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": true
+    },
+    {
+      "path": "/uz/gpt-uzbek-tilida/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/ru/gpt-chat/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    },
+    {
+      "path": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "httpStatus": 200,
+      "contract": "pass",
+      "emailProtection": false
+    }
+  ],
+  "studio": [
+    {
+      "locale": "ru",
+      "width": 1366,
+      "config": "real server",
+      "kunlikSelected": true,
+      "realSlideExample": true,
+      "palettes": 3,
+      "overflow": false,
+      "runtimeErrors": 0
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "config": "real server",
+      "kunlikSelected": true,
+      "realSlideExample": true,
+      "palettes": 3,
+      "overflow": false,
+      "runtimeErrors": 0
+    }
+  ],
+  "orderCalls": 0,
+  "generationCalls": 0,
+  "edgeNormalization": "Decode Cloudflare email protection only; reviewed source contract and baseline unchanged",
+  "studioConfig": {
+    "free": {
+      "minSlides": 4,
+      "maxSlides": 6,
+      "images": 2,
+      "imageRetries": 2,
+      "notes": false,
+      "palettes": 1
+    },
+    "full": {
+      "minSlides": 6,
+      "maxSlides": 12,
+      "images": 8,
+      "notes": true,
+      "palettes": 3
+    },
+    "plans": [
+      {
+        "id": "kunlik",
+        "amountUzs": 5900,
+        "presentationFull": 1
+      },
+      {
+        "id": "oylik",
+        "amountUzs": 39900,
+        "presentationFull": 10
+      }
+    ],
+    "payments": {
+      "mode": "live",
+      "providers": [
+        "click",
+        "payme"
+      ]
+    }
+  },
+  "ownerReportUnauthenticatedStatus": 401,
+  "status": "pass"
+}

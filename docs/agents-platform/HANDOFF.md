@@ -1,40 +1,41 @@
-# HANDOFF — Studio: монетизация в основном чате, 08.10.2026
+# HANDOFF — production trial 3 / Studio · 08.10.2026
 
 ## 1. Состояние
-Checkout `F:/Claude/gptbot-codex-integration-20261007`, branch `codex/continuation-20261007`, исходный HEAD `321f149b`. Владелец поручил реализовать `MONETIZATION_ROADMAP_20261008.md`. Код реализован и проверен локально; публикация и production migration в этом этапе не выполняются. Точный code SHA — `STATE.json.last_commit` после D-006 metadata relay.
+Checkout `F:/Claude/gptbot-codex-integration-20261007`, branch `codex/continuation-20261007`. По прямой команде владельца production `edbf3d7385776ea7a06532c86e406e2759072013`, предыдущий `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. `STATE.last_commit` — опубликованный SHA; metadata record определяется `state_commit=HEAD`, рекурсивно SHA не править.
 
 ## 2. Что сделано
-В основной чат добавлено сравнение free/full из server config и предложение после бесплатного результата. Для одной задачи первым Kunlik; повторные документы, включая восстановленную историю, рекомендуют Oylik. Выбор сразу открывает существующий Checkout с нужным планом. Пример настоящей геометрии SlideCanvas с палитрами/заметками не вызывает AI. Бесплатный PPTX, правки, сохранение перед кассой и явное подтверждение полной генерации сохранены.
-Owner-only отчёт показывает воронку, реальные платежи/возвраты, источники, генерации и оценку AI; расходы и курс вводит владелец. Диагностика очереди чеков и контекстные алерты добавлены без изменения фискальных статусов.
+Последняя runtime правка для legacy cache подготовлена: server-confirmed trial заменяет cached hourly/daily блокировки. Финальный выпуск этой правки пока pending.
+
+Guarded deploy 1002 файлов, exact manifest readback. Реальная проба: 3 Z.ai ответа, баннер после третьего, четвёртый 429/trial, refresh/locale без сброса. Новые workspace/Studio offers/owner report опубликованы.
 
 ## 3. Изменённые файлы
-`src/gpt-chat/parts/StudioOffer*`, `studio-offer*`, Workspace/Sheets/Host и небольшой Console/answer-part cleanup; `apps/studio/src/analytics.ts`, `api.ts`, `functions/lib/studio/events.ts`; `functions/lib/studio/monetization-store.ts`, `functions/api/admin/ai-chat/studio.ts`, `src/shared/studio-admin.ts`, admin AiChat/View/API/Card; `fiscal-health-store.ts`, alert-policy и billing-maintenance-store. Тесты, package scripts, документы и текущие безопасные отчёты. См. diff feature commit; защищённый Telegram webhook не менялся.
+Runtime: `src/gpt-chat/limit-state.ts`; regression: `tests/gpt-lifetime-trial.test.ts`, `tests/chat-trial-browser.test.ts`. Также операции D1/Pages, production report/скриншоты, STATE/HANDOFF/PROJECT_STATE/implementation/roadmap. Ранее code `662eab25`, trial `485ca4e7`, metadata release `edbf3d7385776ea7a06532c86e406e2759072013`. Protected webhook и secrets не переписывались.
 
 ## 4. Архитектурные решения
-Используются прежние controller, billing runtime, unit ledger, кассы и PPTX renderer. Цены/квоты определяет сервер. Дополнительный UI/CSS ленивый; caps не подняты. Необязательная классификация бизнес-предложения переиспользует lazy answer part и не задерживает AI-запрос. SQL только в store, с org isolation, без runtime schema mutation. Деньги по датам операции, источники по когорте создания; клик не подменяет paid или delivery. D-CHAT-006 фиксирует выбор тарифов и границы доказательств.
+Прежний runtime/controller/billing/ledger. Серверный lifetime=3 важнее legacy freeLimits 15/5. Миграция 0078 строго отдельно от других migrations; backup до операций. Денежный paid/readback не заменяется клиентским событием.
 
-## 5. Что сознательно не сделано
-Нет новой архитектуры, отдельного генератора, новой кассы, автопокупки/генерации, закрытия бесплатного PPTX или выдуманной скидки. Preview-only — отдельное невнедрённое решение. Production D1/secret/кассы не менялись, Submit/платёж/Telegram вручную не вызывались. Claude-реконструкция не повторялась. P4 не объявлена пройденной по offline fixtures.
+## 5. Что не подтверждено
+Реальная покупка Studio/возврат/receipt в этом probe не выполнялись. Click -12 и внешний чек остаются открытыми. Окупаемость не измерена. Preview-only вместо free PPTX не внедрён.
 
 ## 6. Проверки
-Код `662eab253b24022bbbd36d8f15f0f0fb5a07c62e`: production build main/admin/Studio + stamp **PASS**, 1002 файлов, artifact SHA256 `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e`. Guard read-only **PASS**, production по-прежнему `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`; публикация не выполнялась.
-233 regression теста **PASS**, 10 focused SQLite/API тестов **PASS**, три браузерные проверки **PASS / 0 skip**. После code commit на свежем dist повторно прошли все 8 presentation сценариев RU/UZ × 320/360/390/1366: PPTX, правки/заметки, восстановленная история, выбор тарифа, mocked Click/Payme и явный запуск после прав. Последняя защита от покупки до загрузки прав включена в проверенную сборку.
-Full layout **446 PASS**, 302 capture entries / 300 сохранённых PNG; пороги не менялись. Root/functions typecheck, scoped lint и secret scan **PASS**. Bundle 109097 B br / start CSS 6764 / page CSS 26919; caps не подняты. 10 protected SEO contracts неизменны. Точная квитанция — `reports/studio-monetization-20261008/verification.json`; guard — `guard-code.json`. Ранние FAIL и прежние evidence сохранены.
+Production build/stamp/guard были PASS; artifact `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e` неизменен, 1002 файлов. Live browser real 3 replies + fourth 429, dismiss/reload/locale, 0 JS errors. Studio RU1366/UZ390 server config, selected plan, real canvas/palettes, no overflow, no AI/order on selection PASS. 10 live protected SEO PASS после декодирования CF email protection, исходный baseline не менялся. 47 local regression + trial browser PASS; предыдущие 233 regression / 446 layout / 8 presentation сценариев сохранены. Evidence `reports/chat-trial-production-20261008/`.
 
 ## 7. Известные проблемы
-Read-only production доказал один live paid заказ **чата**, `payment_id:click_-12`, 8 попыток; нет payment/operation ID и submit acknowledgement. Это поиск платежа до собственного submit. Внешний чек Click остаётся UNKNOWN; значение `-12` без первичного Merchant ответа не интерпретировать. Secret values Cloudflare не возвращает, локальный Merchant read-профиль не найден. Поддержке Click подготовлен точный текст в implementation doc. Нельзя закрыть очередь или повторить чек вслепую. Старый редкий CLS риск сохраняется до актуальной проверки; старые FAIL не удалять.
+Click fiscal: прежний read-only snapshot одного live paid chat заказа с payment_id:click_-12, без собственного submit ack; нужен Merchant readback, не придумывать смысл кода. Backup содержит историческое CHECK предупреждение в lead_radar_signal_posts; migration не изменила его. Temporary export link случайно попала в служебный вывод, из локального лога удалена, не в Git; expires 06:43:04Z. Backup ACL restricted. Старые FAIL probe сохранены приватно; последние real PASS не fixtures.
 
 ## 8. Следующая задача
-Продолжить только внешнюю приёмку: получить Merchant readback/подтверждение Click по платёжному ID, причине `-12` и существующему чеку. Затем исправить доказанную причину через прежнюю очередь и проверить ОФД. После команды выпуска — production сверка/backup/migration 0078/guarded deploy. Новую реализацию чата/Studio не повторять.
+Сначала завершить cache fix: свежий built browser, guarded выпуск и real live readback. Затем —
 
-## 9. Acceptance criteria следующего этапа
-0078 сверена и применена безопасно до нового runtime; действующие trial/account/paid права сохраняются. Live три пробных ответа и четвёртый без AI; реальные Click/Payme purchase → права → один явный full job → PPTX. Отдельно refund и настоящий receipt URL/readback. Денежный результат не доказывается HTTP200, health, браузерным event или mock.
+Внешняя денежная приёмка: readback Click payment/существующего чека, затем реальная контрольная покупка Studio и доставка результата по действующему billing, с подтверждённым receipt.
+
+## 9. Acceptance criteria
+Провайдер paid → действующие права → один явный full job → PPTX; refund отдельно; receipt URL и ОФД readback. Нет повторной продажи/двойного чека. Нельзя объявлять это пройденным по готовности конфигурации.
 
 ## 10. Команды для старта
-`git status --short`, `git log -5 --oneline`, STATE/HANDOFF и текущий verification.json. `npm run test:studio-monetization`; actual-build browser — `npm run test:studio-monetization:browser`. Browser report override `GPTBOT_BROWSER_REPORT_DIR` сохраняет предыдущие evidence. Для выпуска `NODE_OPTIONS=--max-old-space-size=1400`, `npm run build:production`; затем `DR_ROOT=F:/Claude/gptbot-codex-integration-20261007` и только `python F:/Claude/gptbot-tools/deploy_runner.py check|deploy` по команде. Тяжёлые build/tsc/browser выполнять последовательно.
+Git status/log, STATE/HANDOFF и production.json. Сайт current API: `/api/gpt/account`, `/api/studio/config`. Guard only `DR_ROOT=F:/Claude/gptbot-codex-integration-20261007` / `python F:/Claude/gptbot-tools/deploy_runner.py check|deploy`, по команде. Для нового release stamp требуется актуальный HEAD; не путать последующий metadata SHA с опубликованным.
 
 ## 11. Риски
-Анонимная проба ограничена браузером/cookie, очищенный браузер и другое устройство не доказывают того же человека; fingerprint не добавлять. Месячная цена за единицу условна всеми 10, не фактическая скидка. Стоимость AI — оценка, комиссия/реклама неизвестны без ввода. Browser view не равен человеку или покупке. Реальная фискализация Click остаётся внешним незакрытым шагом. SEO/ROI/Google индексация не гарантируются по локальным тестам. Новые UI — lazy, budget gate обязателен.
+Anonymous identity ограничена браузером/cookie, не человеком после очистки/другого устройства. Не очищать cookie для обновления UI. AI estimate не фактический счёт, ROI не доказан. Legacy backup CHECK не исправлять в этом этапе. Secret/backup URL/тексты пользователей не копировать в Git/вывод.
 
 ## 12. Rollback
-Отменять только собственный feature commit через `git revert` с сохранением чужой работы. Предыдущие trial `485ca4e7`, workspace `43260840`, исходный `321f149b` и опубликованный `c4cd8c70` сохранены в истории. Новые события не требуют DDL. Не удалять аддитивную trial table/column/trigger и не обнулять usage. Фискальные данные не менять при rollback UI; прежнюю production сборку восстанавливать только guarded release по команде.
+Прежний runtime через guarded release по команде; сохранять used trial/0078. Не делать полный D1 restore без сверки поступлений после backup. Private backup SHA `dd3bc556bf0823be022be427f68c4f34dfe5ff11cf2cc2d73e0bfd32a0d1836f` проверен; файлы вне Git. Никакого reset/clean/force push и удаления чужой работы.

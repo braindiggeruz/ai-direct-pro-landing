@@ -1,0 +1,21 @@
+{
+  "appliedAt": "2026-10-08T05:51:23.603289+00:00",
+  "file": "0078_gpt_lifetime_trial.sql",
+  "migrationSha256": "b1c8da4cf7c4ae256f3a9f61e9299a48ea8b3018717ed8bdf40d0e1f9fbd9797",
+  "database": "gptbot-ai-drafts",
+  "onlyReviewedMigration": true,
+  "before": {
+    "usageTable": false,
+    "settleTrigger": false,
+    "trialColumn": false,
+    "migrationRegistered": false
+  },
+  "after": {
+    "usageTable": true,
+    "settleTrigger": true,
+    "trialColumn": true,
+    "migrationRegistered": true
+  },
+  "backupSha256": "dd3bc556bf0823be022be427f68c4f34dfe5ff11cf2cc2d73e0bfd32a0d1836f",
+  "status": "applied_and_readback_verified"
+}

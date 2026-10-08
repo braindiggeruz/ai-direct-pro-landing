@@ -1,3 +1,11 @@
+# Актуальное опубликованное состояние · 08.10.2026
+
+**Production `edbf3d7385776ea7a06532c86e406e2759072013`**. Lifetime trial **3 ответа за всё время**, баннер после третьего, четвёртый 429. Это проверено тремя настоящими ответами Z.ai на gptbot.uz. Перезагрузка/RU↔UZ не сбрасывают лимит. 0078 применена после приватного D1 backup, флаг true; оплаченные права сохранены.
+
+Новый workspace и предложения Studio опубликованы. Live RU/1366 + UZ/390: реальные цены 5 900/39 900, preselected Checkout, пример слайда, no auto-order/AI, no overflow/JS error. 10 protected live SEO PASS с явно указанной нормализацией Cloudflare email protection. Owner-only report для anonymous 401.
+
+Реальная платная Studio покупка/возврат/чек и Click `payment_id:click_-12` остаются внешней приёмкой. Не говорить «фискализация исправлена». Источник текущих фактов: `docs/CHAT_TRIAL_PRODUCTION_20261008.md` и `reports/chat-trial-production-20261008/production.json`. Ниже — история предыдущих локальных этапов; её заявления «не опубликовано» больше не описывают current release.
+
 # GPTBot.uz — актуальное состояние, 08.10.2026
 
 ## Текущий этап: Studio — покупка под задачу и отчёт владельца, локально

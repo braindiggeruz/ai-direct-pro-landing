@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-08T05:54:25.513Z",
+  "mode": "real public site; no API mocks",
+  "expectedRelease": "edbf3d7385776ea7a06532c86e406e2759072013",
+  "paymentCalls": 0,
+  "fiscalCalls": 0,
+  "turns": [
+    {
+      "number": 1,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 2,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 1
+    },
+    {
+      "number": 2,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 1,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 1
+    },
+    {
+      "number": 3,
+      "httpStatus": 200,
+      "charged": true,
+      "remaining": 0,
+      "model": "zai/glm-5.3-flash",
+      "contentEvents": 1
+    }
+  ],
+  "errors": [],
+  "release": "edbf3d7385776ea7a06532c86e406e2759072013",
+  "artifactSha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+  "initialTrial": {
+    "limit": 3,
+    "used": 0,
+    "remaining": 3,
+    "available": 3,
+    "resets": "never"
+  },
+  "bannerAfterThird": true,
+  "paymentProviders": [
+    "click",
+    "payme"
+  ],
+  "bannerDismissible": true,
+  "fourth": {
+    "httpStatus": 429,
+    "reason": "trial",
+    "lifetime": 3,
+    "retryAt": null
+  },
+  "reloadRemainsBlocked": true,
+  "localeRemainsBlocked": true,
+  "localeStaysOrdinaryChat": true,
+  "finalTrial": {
+    "limit": 3,
+    "used": 3,
+    "remaining": 0,
+    "available": 0,
+    "resets": "never"
+  },
+  "status": "pass"
+}
