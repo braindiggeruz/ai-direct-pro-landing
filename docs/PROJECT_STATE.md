@@ -10,7 +10,7 @@ Click read-only: **1 оплаченный live заказ чата**, `payment_i
 
 Предыдущий trial `485ca4e7`: **всего 3 пробных ответа**, org-scoped settlement и подписанная cookie; 0078 ещё требует reviewed production migration. Studio остаётся бесплатной 1 раз/сутки, Kunlik 5 900/Oylik 39 900 сум; тариф чата отдельно. Preview-only вместо бесплатного PPTX не внедрён. Startup performance caps не повышены; optional business classifier переиспользует lazy answer part.
 
-Этот этап **не опубликован**. Production ранее проверен на `c4cd8c70`; перед выпуском сверить заново. Финальная локальная приёмка — `reports/studio-monetization-20261008/verification.json`; код — `docs/agents-platform/STATE.json.last_commit` после D-006 relay. P4 реальная покупка/возврат/receipt остаётся открытой. Внешний Merchant readback, затем по команде владельца backup/0078/full build/guarded release. Повторно не реконструировать Claude и не создавать второй генератор.
+Этот этап **не опубликован**. Code commit `662eab253b24022bbbd36d8f15f0f0fb5a07c62e`. Production read-only guard после сборки подтвердил `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. Combined build/stamp/guard PASS: 1002 файлов; 233 regression / 3 browser / 8 свежих presentation сценариев / 446 layout PASS. Перед фактическим выпуском production сверить заново. Финальная локальная приёмка — `reports/studio-monetization-20261008/verification.json`; код — `docs/agents-platform/STATE.json.last_commit` после D-006 relay. P4 реальная покупка/возврат/receipt остаётся открытой. Внешний Merchant readback, затем по команде владельца backup/0078/full build/guarded release. Повторно не реконструировать Claude и не создавать второй генератор.
 
 ## Предыдущий локальный этап: рабочее пространство и покупка
 

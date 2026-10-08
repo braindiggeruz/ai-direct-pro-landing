@@ -50,3 +50,8 @@ Cloudflare не выдаёт значения уже сохранённых secr
 Текущий этап готовит локальный проверяемый кандидат. Публикация, production D1 migration 0078 и реальная денежная приёмка здесь не выполняются. После отдельной команды владельца — актуальная сверка production, backup D1, reviewed migration, `npm run build:production`, guarded check/deploy и реальные проверки. Миграции для нового отчёта и событий не нужны; 0078 относится к предыдущему lifetime trial.
 
 Не гарантировать окупаемость по 37 ChatEngaged. Сравнить реальную оплату и расходы одной кампании после выпуска. P4 и Click остаются явно открытыми до внешних доказательств.
+
+## Проверенный локальный кандидат
+Code commit `662eab253b24022bbbd36d8f15f0f0fb5a07c62e`. Production build/stamp и read-only production guard **PASS**: 1002 файлов, SHA256 `71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e`. Production остаётся `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`; новый код не опубликован.
+
+233 regression теста, 10 focused SQLite/API тестов, три браузерные проверки и 446 layout проверок прошли. После коммита повторно прошли 8 presentation сценариев на свежей сборке. Root/functions typecheck, scoped lint, secret scan, bundle budgets и 10 protected SEO contracts — PASS. Проверки касс используют offline fixtures и не доказывают реальную оплату или чек. Все точные результаты и ограничения: `reports/studio-monetization-20261008/verification.json`.

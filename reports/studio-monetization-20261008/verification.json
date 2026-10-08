@@ -24,7 +24,16 @@
     "skipped": 0,
     "presentationScenarios": 8,
     "actualPptx": true,
-    "providerMode": "offline fixtures; no real charge"
+    "providerMode": "offline fixtures; no real charge",
+    "postCommitPresentation": {
+      "source": "browser-committed.log",
+      "tests": 1,
+      "passCount": 1,
+      "fail": 0,
+      "skipped": 0,
+      "scenarios": 8,
+      "actualBuiltArtifact": true
+    }
   },
   "layout": {
     "source": "layout.json",
@@ -36,11 +45,11 @@
     "thresholdsUnchanged": true
   },
   "bundle": {
-    "startBrBytes": 109129,
+    "startBrBytes": 109097,
     "startCssBrBytes": 6764,
     "pageCssBrBytes": 26919,
     "capsRaised": false,
-    "source": "bundle.log"
+    "source": "bundle-final.log"
   },
   "typecheck": {
     "root": {
@@ -62,7 +71,7 @@
     ]
   },
   "seo": {
-    "source": "seo.log",
+    "source": "seo-final.log",
     "protectedContracts": 10,
     "changed": 0,
     "baseline": "docs/seo/evidence/2026-10-08-chat-trial/reviewed-protected-pages.json"
@@ -70,7 +79,12 @@
   "secrets": {
     "source": "secrets-final.log",
     "exitCode": 0,
-    "files": 42
+    "files": 42,
+    "metadataFollowup": {
+      "source": "secrets-metadata.log",
+      "files": 6,
+      "exitCode": 0
+    }
   },
   "fiscal": {
     "source": "fiscal-readonly.json",
@@ -83,8 +97,12 @@
     "fixed": false
   },
   "build": {
-    "status": "main/admin/studio built; pre-commit stamp correctly rejects dirty runtime",
-    "source": "build-reviewed.log"
+    "status": "pass",
+    "exitCode": 0,
+    "source": "build-committed.log",
+    "artifactSha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+    "fileCount": 1002,
+    "commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e"
   },
   "externalWrites": {
     "deployment": false,
@@ -105,5 +123,14 @@
     "source contracts updated to lazy optional detector",
     "lint regex escape, fixed",
     "startup budget before lazy split, fixed; caps unchanged"
-  ]
+  ],
+  "verifiedAt": "2026-10-08T05:14:01.104420+00:00",
+  "codeCommit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
+  "guard": {
+    "source": "guard-code.json",
+    "exitCode": 0,
+    "status": "pass",
+    "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+    "deployed": false
+  }
 }

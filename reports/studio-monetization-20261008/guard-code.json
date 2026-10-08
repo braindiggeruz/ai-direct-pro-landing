@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
+  "files": 1002,
+  "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+  "checkedAt": "2026-10-08T05:14:01.104420+00:00",
+  "artifactSha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+  "exitCode": 0,
+  "mode": "read-only production lineage and local artifact check",
+  "deployed": false
+}

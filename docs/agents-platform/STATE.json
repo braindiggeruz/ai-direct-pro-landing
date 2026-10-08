@@ -1742,7 +1742,7 @@
   },
   "next_stage_note": "Локальная версия не опубликована. Click и Payme уже live в предыдущем выпуске; не возвращать hidden/test. После release нужна настоящая покупка владельца: деньги → права → PPTX → электронный чек; fixtures не являются её доказательством.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "485ca4e7697e2cbfb12733082be5c1abad17f8cc",
+  "last_commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2336,6 +2336,16 @@
     "remote_mutations": 0,
     "new_migrations": [],
     "previous_trial_migration_pending": "0078_gpt_lifetime_trial.sql",
-    "policy": "trial=3 lifetime; Studio free/day and PPTX unchanged; preview-only experiment unimplemented"
+    "policy": "trial=3 lifetime; Studio free/day and PPTX unchanged; preview-only experiment unimplemented",
+    "code_commit": "662eab253b24022bbbd36d8f15f0f0fb5a07c62e",
+    "release_candidate": {
+      "artifact_sha256": "71c67c6f2e85a0854da69be1ac933e3a7e75fa31bc78afdd8b3f41210a3f578e",
+      "files": 1002,
+      "build": "pass",
+      "production_guard": "pass",
+      "production_commit_verified": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+      "checked_at": "2026-10-08T05:14:01.104420+00:00",
+      "deployed": false
+    }
   }
 }
