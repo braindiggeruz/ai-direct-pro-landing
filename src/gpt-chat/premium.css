@@ -19,6 +19,7 @@ color: var(--text); color-scheme: dark;
 .gpt-premium :is(button,a,input,summary,[tabindex]):focus-visible, .gpt-account-dialog :is(button,a,input):focus-visible, #seo-summary :is(a,summary,[tabindex]):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 :is(.gpt-premium,.gpt-account-dialog,.gpt-sidebar-dialog) [class*="text-white/"] { color: var(--text-2); }
 .gpt-app { display: flex; height: 100%; min-height: 0; background: var(--bg); isolation: isolate; }
+.gpt-work-area { display: flex; flex: 1; min-width: 0; min-height: 0; position: relative; }
 .gpt-main { position: relative; display: flex; flex: 1; flex-direction: column; min-width: 0; height: 100%; background: radial-gradient(ellipse at 100% 0, var(--glow), #0000 55%), radial-gradient(ellipse at 0 100%, #6251b52e, #0000 60%); }
 .gpt-premium > aside { background: var(--surface); border-color: var(--line); }
 .gpt-header, .gpt-composer { position: relative; z-index: 2; flex: none; touch-action: none; touch-action: pinch-zoom; }

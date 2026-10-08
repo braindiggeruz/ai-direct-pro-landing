@@ -1,0 +1,107 @@
+{
+  "method": "Local standalone HTML prototype, Edge. Not application tests or real mobile keyboards.",
+  "checks": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-1920.png"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-1440.png"
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-1280.png"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-390.png"
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-360.png"
+    },
+    {
+      "width": 320,
+      "height": 700,
+      "result": "PASS",
+      "checks": [
+        "no document overflow",
+        "mobile workspace hides chat composer",
+        "slide selection",
+        "demonstration edit updates version",
+        "settings and focus restoration",
+        "download visible",
+        "pricing cannot charge",
+        "theme switch",
+        "no external requests"
+      ],
+      "screenshot": "concept-ru-320.png"
+    }
+  ]
+}

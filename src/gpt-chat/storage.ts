@@ -258,6 +258,7 @@ function restore(list: unknown): ChatMessage[] {
         partial: m.partial === true,
         truncated: m.truncated === true,
         ...(m.role === 'assistant' && m.kind === 'presentation' && typeof m.artifactId === 'string' && /^[a-zA-Z0-9_-]{16,80}$/.test(m.artifactId) ? { kind: 'presentation' as const, artifactId: m.artifactId } : {}),
+        ...(m.kind === 'artifact-action' && typeof m.artifactId === 'string' && /^[a-zA-Z0-9_-]{16,80}$/.test(m.artifactId) ? { kind: 'artifact-action' as const, artifactId: m.artifactId } : {}),
         ...(versions && { versions, version: m.version as number }),
       };
     });

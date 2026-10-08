@@ -21,7 +21,7 @@
  *   4. a payment page answer is followed only to Payme's or Click's host
  *      (api.ts isPaymentPage).
  */
-import type { CheckoutAnswer, CheckoutBody, Result, StudioApi, StudioLocale, StudioMe, StudioPlanId, StudioProvider, StudioPublicConfig } from '../api';
+import type { CheckoutAnswer, CheckoutBody, Result, StudioApi, StudioLocale, StudioMe, StudioPlanId, StudioProvider } from '../api';
 import { readAnalyticsIds, readFirstTouch, readLastTouch } from '../attribution';
 import type { StudioSession } from '../config';
 import type { TokenResult } from '../identity';
@@ -56,9 +56,8 @@ export type CheckoutOutcome =
   | { readonly kind: 'error'; readonly code: string };
 
 /** The providers the window may offer, or none when sales are off. */
-export function sellingProviders(config: StudioPublicConfig): readonly StudioProvider[] {
-  return config.payments.mode && config.termsVersion && config.plans.length ? config.payments.providers : [];
-}
+import { sellingProviders } from './providers';
+export { sellingProviders } from './providers';
 
 /** The attribution the browser holds, as checkout sends it (each value is cleaned again on the server). */
 export function browserAttribution(): Pick<CheckoutBody, 'attribution' | 'ga' | 'ym'> {

@@ -1,7 +1,6 @@
 import { chatEntryFromHash, chatEntryArticleHref } from '../../shared/chat-entry';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerButton, useMessageScroller } from '@/components/ui/message-scroller';
-import { ArrowDown } from 'lucide-react';
 import { billingOpen, offeredProviders, safeTermsLink, checkoutOfferKey, type AnswerAction, type ChatMessage, type FreeLimits, type Locale, type MountConfig, type PackTerms, type PaymentProvider } from "../types";
 import { strings } from "../i18n";
 import { createSession, loadTurnstileConfig, sendChatStream } from "../api";
@@ -50,11 +49,10 @@ import { AiAccountPanel, type AccountView, type PackFrom, type PackOpenRequest }
 import { AiLimitPay } from "./AiLimitPay";
 import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats, type SavedChat } from "../storage";
-import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart, presentationPart } from "../lazy-part";
+import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart, presentationPart, conversionPart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
 import { businessLineTopic, type BusinessTopic } from "../business-intent";
 import { useKeyboardOpen } from "../keyboard";
-import { wantsPresentation } from '../presentation';
 
 /** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
 const MAX_INPUT = 3000;
@@ -99,6 +97,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const uzEntry = uz ? undefined : t.uzEntry;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
+  const [presentationState, setPresentationState] = useState<{owner: string; active: string|null; artifacts: ChatMessage[]} | null>(null);
+  const ownerKey = storageScope || 'guest';
+  const studio = presentationState?.owner === ownerKey ? presentationState : null;
+  const activePresentation = studio?.active ?? null;
+  const commandRunning = useRef(false);
   // 'unknown': the account view failed even after a retry. The chat still
   // answers, as a guest whose history is neither loaded nor written (F11);
   // a conversation already on screen stays there (plan M-01).
@@ -320,7 +323,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
 
   const assistantCount = useMemo(
     () =>
-      messages.filter((m) => m.role === "assistant" && m.kind !== 'presentation' && !m.pending && !m.error)
+      messages.filter((m) => m.role === "assistant" && !m.kind && !m.pending && !m.error)
         .length,
     [messages],
   );
@@ -484,8 +487,31 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     } = {},
   ) => {
     const trimmed = text.trim();
-    if (!busy && accountReady && !meta.retry && !meta.answerAction && !meta.templateId && wantsPresentation(trimmed) && import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false') {
-      openPresentation(trimmed); setInput(''); saveDraft(''); return;
+    if (activePresentation && trimmed && !meta.retry && !meta.answerAction && !meta.templateId) {
+      if (commandRunning.current) return;
+      commandRunning.current = true;
+      const generation = identityGeneration.current;
+      try {
+        const part = await presentationPart.load();
+        if (generation !== identityGeneration.current) return;
+        persist([...messages, ...part.presentationTurn(ownerKey, activePresentation, trimmed, config.locale)]);
+        setInput(''); saveDraft('');
+      } catch { setTurnstileServerError(t.partFailed); }
+      finally { commandRunning.current = false; }
+      return;
+    }
+    if (!busy && accountReady && !meta.retry && !meta.answerAction && !meta.templateId && /презентац|taqdimot|prezentatsiya/iu.test(trimmed) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false') {
+      if (commandRunning.current) return;
+      commandRunning.current = true;
+      const generation = identityGeneration.current;
+      try {
+        const part = await presentationPart.load();
+        if (generation !== identityGeneration.current) return;
+        if (part.wantsPresentation(trimmed)) {
+          openPresentation(trimmed); setInput(''); saveDraft(''); return;
+        }
+      } catch { setTurnstileServerError(t.partFailed); return; }
+      finally { commandRunning.current = false; }
     }
     if (!trimmed || sendDisabled) return;
     // A typed question gets its lines in its own language when its letters
@@ -820,19 +846,21 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   function openPresentation(topic = '', artifactId: string = crypto.randomUUID()) {
     if (busy || !accountReady) return;
     dock();
-    const next: ChatMessage[] = [...messages, { role: 'assistant', kind: 'presentation', artifactId, content: topic.slice(0, 2000) }];
+    const artifact = messages.find(m => m.kind === 'presentation' && m.artifactId === artifactId) ?? { role: 'assistant' as const, kind: 'presentation' as const, artifactId, content: topic.slice(0, 2000) };
+    const next: ChatMessage[] = messages.includes(artifact) ? messages : [...messages, artifact];
+    setPresentationState(previous => ({owner:ownerKey,active:artifactId,artifacts:[...(previous?.owner === ownerKey ? previous.artifacts.filter(m=>m.artifactId !== artifactId) : []),artifact]}));
     setMessages(next);
     store(scope => saveHistory(next, config.locale, scope));
     setDrawerOpen(false);
   }
 
   useEffect(() => {
-    if (!accountReady || import.meta.env.VITE_CHAT_PRESENTATIONS === 'false') return;
+    if (!accountReady || import.meta.env?.VITE_CHAT_PRESENTATIONS === 'false') return;
     if (!/tool=presentation|product=studio/.test(window.location.search)) return;
     const generation = identityGeneration.current;
     void presentationPart.load().then(({ presentationEntry }) => {
       if (generation !== identityGeneration.current) return;
-      const id = presentationEntry(storageScope || 'guest', messages);
+      const id = presentationEntry(storageScope || 'guest');
       if (id) openPresentation('', id);
     }).catch(() => undefined);
   // Entry is applied once after the authoritative identity has loaded.
@@ -851,6 +879,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   const onToolChange = (tool: AiToolId) => {
+    setPresentationState(previous => previous ? {...previous,active:null} : null);
     setActiveTool(tool);
     track(EV.toolOpened, { tool, from: "sidebar" });
   };
@@ -878,6 +907,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const onNewChat = () => {
     if (busy || !accountReady) return;
     dock();
+    setPresentationState(previous => previous ? {...previous,active:null} : null);
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist([]);
     // The limit card says the refused question waits in the composer: it does.
@@ -894,6 +924,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const onOpenSaved = (chat: SavedChat) => {
     if (busy) return;
     dock();
+    setPresentationState(previous => previous ? {...previous,active:null} : null);
     setSavedChats(archiveChat(messages, config.locale, storageScope));
     persist(chat.messages);
     setInput("");
@@ -947,7 +978,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
   const onLocaleSwitch = (surface: "header" | "empty") => {
     reachYandexGoal(YANDEX_GOALS.chatLocaleSwitch);
-    track(EV.localeSwitched, { from: "ru", surface });
+    track(EV.localeSwitched, { from: config.locale, surface });
   };
   // The text under the chat (the prerendered summary, #seo-summary): from the
   // resting screen and from the menu, which closes first so its scroll lock
@@ -1193,6 +1224,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
       data-testid="ai-console"
       data-state={state}
       data-keyboard={keyboard ? "open" : undefined}
+      data-presentation={activePresentation ? 'active' : undefined}
     >
       <AiSidebar
         locale={config.locale}
@@ -1213,7 +1245,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         onOpenSaved={onOpenSaved}
       />
 
-      <div className="gpt-main">
+      <div className="gpt-work-area"><div className="gpt-main">
         {/* The app's header: opaque, one row; nothing of the page passes under it. */}
         <header className="gpt-header">
           <button
@@ -1259,6 +1291,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           ) : (
             <a
               href="/ru/gpt-chat/"
+              onClick={() => onLocaleSwitch("header")}
               hrefLang="ru"
               lang="ru"
               data-testid="lang-ru"
@@ -1278,6 +1311,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             limited={limited}
             onLeave={keepDraft}
           />
+          <div id="gpt-presentation-header" />
           {!empty && (
             <button
               type="button"
@@ -1294,6 +1328,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             </button>
           )}
         </header>
+        <div id="gpt-presentation-tabs" />
 
         {/* Off the resting screen the H1 stays in the page for readers of the
             outline, out of sight. */}
@@ -1352,7 +1387,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     onPick={onChipPick}
                     disabled={busy || limitBlocked}
                     label={t.emptyPrompt}
-                    presentation={import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false' ? { label: uz ? 'Taqdimot' : 'Презентация', onOpen: () => openPresentation(input), disabled: busy || !accountReady } : undefined}
+                    presentation={import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' ? { label: uz ? 'Taqdimot' : 'Презентация', onOpen: () => openPresentation(input), disabled: busy || !accountReady } : undefined}
                   />
                 )}
               </div>
@@ -1360,10 +1395,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               <AiChatMessageList
                 messages={messages}
                 ownerKey={storageScope || 'guest'}
+                onPresentationOpen={id => openPresentation('', id)}
                 t={t}
                 locale={config.locale}
                 busy={busy}
-                locked={sendDisabled}
+                locked={sendDisabled || !!activePresentation}
                 costNote={costNote}
                 onRetry={onRetry}
                 onEdit={onEdit}
@@ -1405,22 +1441,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </LazyPart>
                 )}
-                {!paid &&
-                  billingAvailable &&
-                  !limit &&
-                  assistantCount >= 10 &&
-                  remaining > 2 && (
-                    <div className="gpt-notice">
-                      <p>{t.premium.offer}</p>
-                      <button
-                        type="button"
-                        className="gpt-text-button"
-                        onClick={() => openAccount("after_10")}
-                      >
-                        {t.premium.account}
-                      </button>
-                    </div>
-                  )}
+                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && !limit && !busy && assistantCount >= 1 && !businessLine && !showOffer && (
+                  <LazyPart part={conversionPart} fallback={null} failed={null}>
+                    {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
+                  </LazyPart>
+                )}
                 {/* The free allowance running low, at the end of the thread: one
                     saffron line, the one warm colour of this palette, the same one
                     the header's count turns. */}
@@ -1453,7 +1478,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
           </div>
         </MessageScrollerViewport>
         <MessageScrollerButton behavior={smooth()} className="gpt-jump-latest" aria-label={uz ? 'Oxirgi xabarga' : 'К последнему сообщению'}>
-          <ArrowDown data-icon="inline-start" />
+          <svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14m-7-7 7 7 7-7"/></svg>
         </MessageScrollerButton>
         </MessageScroller>
         </MessageScrollerProvider>
@@ -1462,6 +1487,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             ends at its top edge, so no text passes under it (chat design §0). */}
         <div className="gpt-composer" ref={composerRef}>
           <div className="gpt-composer-inner">
+            <div id="gpt-presentation-scope"/>
             {/* A guest's button only reads the account again; an account's opens its window too. */}
             {accountState === "unknown" && <p role="status" className="gpt-dock-note">{t.premium.accountUnstable} <button type="button" className="gpt-text-button" onClick={() => { if (signedIn) openAccount("account_check"); setAccountRefresh(n => n + 1); }}>{t.premium.recheck}</button></p>}
             {turnstileKey && (
@@ -1497,22 +1523,26 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             )}
             {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
             <AiChatInput
-              actions={(!empty || limitBlocked) && import.meta.env.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={busy || !accountReady} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
+              actions={(!empty || limitBlocked) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={busy || !accountReady} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
               value={input}
               onChange={setInput}
               onSend={() => doSend(input)}
               onStop={onStop}
-              disabled={sendDisabled}
+              disabled={activePresentation ? false : sendDisabled}
               busy={busy}
-              limited={limitBlocked}
+              limited={!activePresentation && limitBlocked}
               maxChars={MAX_INPUT - maxRolePrefixLength(role)}
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}
-              placeholder={resting && wide ? t.inputExample : undefined}
+              placeholder={!activePresentation && resting && wide ? t.inputExample : undefined}
             />
           </div>
         </div>
+      </div>
+      {studio && <LazyPart part={presentationPart} fallback={null} failed={<PartFailed message={t.partFailed} reload={t.partReload}/>}>
+        {({PresentationWorkspaceHost}) => <PresentationWorkspaceHost key={ownerKey} locale={config.locale} ownerKey={ownerKey} activeId={activePresentation} artifacts={studio.artifacts} onClose={()=>setPresentationState(previous=>previous?{...previous,active:null}:null)} focusInput={focusInput}/>}
+      </LazyPart>}
       </div>
     </div>
   );

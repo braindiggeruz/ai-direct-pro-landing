@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check } from 'lucide-react';
 import type { Locale, PackTerms, PaymentProvider } from "../types";
 import type { ChatStrings } from "../i18n";
 import { accountStrings, groupDigits, type AccountStrings } from "../account-strings";
@@ -94,7 +93,7 @@ function PlanCard({ t, copy, pack, notes = [] }: { t: ChatStrings; copy: Account
           <summary><span>{copy.fine}</span> <span className="gpt-plan-more-link">{t.limitMore}</span></summary>
           <ul className="gpt-plan-features">
             {copy.packFeatures(pack.months, pack.messageLimit, pack.dailyLimit).map((feature) => (
-              <li key={feature}><Check aria-hidden="true" /><span>{feature}</span></li>
+              <li key={feature}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>{feature}</span></li>
             ))}
           </ul>
           <p className="gpt-panel-note">{t.premium.manual}</p>

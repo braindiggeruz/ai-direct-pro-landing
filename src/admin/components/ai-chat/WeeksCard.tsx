@@ -56,6 +56,8 @@ const METRICS: readonly Metric[] = [
     sub: true,
     value: (w: AiChatWeek) => (w.limitHits ? count(w.limitHits[reason] ?? 0) : '—'),
   })),
+  { label: 'Предложение пакета увидели / скрыли', hint: 'События видимости и закрытия; повторные показы не равны уникальным людям. Тире — наблюдений нового блока ещё нет.', value: (w) => `${count(w.funnel?.promptViewed)} / ${count(w.funnel?.promptDismissed)}` },
+  { label: 'Пакет открыт из предложения', value: (w) => count(w.funnel?.afterValueOpened) },
   { label: 'Окно пакета открыто', value: (w) => count(w.funnel?.packViewed) },
   { label: 'Вход начат / успешен', value: (w) => (w.funnel ? `${count(w.funnel.loginStarted)} / ${count(w.funnel.loginDone)}` : '—') },
   { label: 'Оплата начата / прошла', value: (w) => (w.funnel ? `${count(w.funnel.checkoutStarted)} / ${count(w.funnel.checkoutPaid)}` : '—') },

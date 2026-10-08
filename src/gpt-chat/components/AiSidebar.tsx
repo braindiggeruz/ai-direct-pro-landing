@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
 import type { Locale } from '../types';
 import type { SavedChat } from '../storage';
 import type { ChatStrings } from '../i18n';
@@ -252,7 +251,7 @@ export function AiSidebar(props: SidebarProps) {
           <DialogTitle className="sr-only">{t.sidebarLinks}</DialogTitle>
           <DialogDescription className="sr-only">{t.sidebarTools}</DialogDescription>
           <Button type="button" variant="ghost" size="icon-lg" className="gpt-sidebar-close"
-            onClick={onCloseMobile} aria-label={t.menuClose}><X data-icon="inline-start" /></Button>
+            onClick={onCloseMobile} aria-label={t.menuClose}><svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></Button>
           <SidebarBody {...props} inDrawer collapsed={false} onNavigateAway={onCloseMobile} />
         </DialogContent>
       </Dialog>

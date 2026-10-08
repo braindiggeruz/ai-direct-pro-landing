@@ -489,8 +489,14 @@ export class AiChatAdminStore {
           (funnel.get(week) ?? [])
             .filter((row) => row.type === type && (detail === undefined || row.detail === detail))
             .reduce((sum, row) => sum + num(row.n), 0);
+        const promptMeasured = (funnel.get(week) ?? []).some(row =>
+          row.type === 'pack_prompt_viewed' || row.type === 'pack_prompt_dismissed'
+          || (row.type === 'pack_viewed' && row.detail === 'after_value'));
         windowFunnel = {
           packViewed: count("pack_viewed"),
+          promptViewed: promptMeasured ? count('pack_prompt_viewed') : null,
+          promptDismissed: promptMeasured ? count('pack_prompt_dismissed') : null,
+          afterValueOpened: promptMeasured ? count('pack_viewed','after_value') : null,
           loginStarted: count("login_started"),
           loginDone: count("login_result", "done"),
           checkoutStarted: count("checkout_started"),

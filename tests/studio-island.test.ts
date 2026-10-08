@@ -797,7 +797,7 @@ test('download: after the click the line is neutral, never "saved"; in an in-app
   assert.match(TEXTS.uz.inAppDownload, /qayta tayyorlang/);
   assert.match(TEXTS.ru.inAppDownload, /заново/);
   // The funnel names the click, not a save, and says where it happened.
-  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  const form = read('apps/studio/src/tools/presentation/Form.tsx') + read('apps/studio/src/tools/presentation/session.tsx');
   assert.match(form, /funnel\.download\('presentation', encoded\.size, inApp \?\? 'none'\)/);
   assert.match(form, /setDownload\('started'\)/);
 });
@@ -809,7 +809,7 @@ test('progress: no live region around the clock; the active step is aria-current
   assert.match(html, /<span class="st:tabular-nums" aria-hidden="true" data-studio-seconds="">12 soniya<\/span>/);
   assert.match(html, /<li class="[^"]*" data-state="active" aria-current="step">/);
   assert.equal((html.match(/aria-current/g) ?? []).length, 1);
-  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  const form = read('apps/studio/src/tools/presentation/Form.tsx') + read('apps/studio/src/tools/presentation/session.tsx');
   assert.match(form, /status\.kind === 'working' \? texts\.steps\[status\.step\] : status\.kind === 'ready' \? texts\.steps\.ready : ''/);
   // The deck's heading takes the focus when it arrives (the submit button was disabled meanwhile).
   const preview = read('apps/studio/src/tools/presentation/Preview.tsx');
@@ -850,7 +850,7 @@ test('form: in an in-app browser the notice stands before the submit button', as
 });
 
 test('form: typed before the script ran is read into the state on hydration, so it is never wiped', () => {
-  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  const form = read('apps/studio/src/tools/presentation/Form.tsx') + read('apps/studio/src/tools/presentation/session.tsx');
   for (const [field, ref] of [['topic', 'topicField'], ['audience', 'audienceField'], ['slides', 'slidesField']]) {
     assert.match(form, new RegExp(`ref=\\{${ref}\\}\\s*id=\\{\`\\$\\{id\\}-${field}\``), field);
   }
@@ -1187,7 +1187,7 @@ test('full form: the static first state never carries the picker; the preview fo
   assert.ok(parts.includes('3 qismdan 2 tasi tayyor'));
   assert.equal(renderToString(createElement(PartsProgress, { done: 0, total: 0, label: FULL_TEXTS.uz.parts })), '');
   // The paid stage's slots are the Build-0 contract, and the form calls them only after hydration.
-  const form = read('apps/studio/src/tools/presentation/Form.tsx');
+  const form = read('apps/studio/src/tools/presentation/Form.tsx') + read('apps/studio/src/tools/presentation/session.tsx');
   assert.match(form, /import type \{ IslandSlots \} from '\.\.\/\.\.\/slots';/);
   assert.match(form, /hydrated && !!slots\?\.tariffs/);
   assert.match(form, /slots\.tariffs\('after_result'\)/);

@@ -1,9 +1,13 @@
 /** @jsxRuntime automatic @jsxImportSource react */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { StudioLocale } from '../api';
 import type { IslandSlots } from '../slots';
-import { Form } from '../tools/presentation/Form';
+import { usePresentationSession, type PresentationSession, type PresentationSessionProps } from '../tools/presentation/session';
 import { loadArtifact, registerSnapshotFlusher, saveArtifact, type PresentationSnapshot } from './artifact-store';
+function SessionSurface({render,...props}: PresentationSessionProps & {render:(session:PresentationSession)=>ReactNode}) {
+  const session=usePresentationSession(props);
+  return render(session);
+}
 
 export interface PresentationCardProps {
   readonly locale: StudioLocale;
@@ -13,6 +17,7 @@ export interface PresentationCardProps {
   readonly initialTopic?: string;
   readonly returning?: boolean;
   readonly slots?: IslandSlots;
+  readonly render: (session: PresentationSession) => ReactNode;
 }
 
 /** Reuses the host's React root and Studio's existing flow, cookies and quota. */
@@ -20,7 +25,7 @@ export function PresentationCard(props: PresentationCardProps) {
   return <OwnedPresentationCard key={JSON.stringify([props.ownerKey, props.artifactId, props.locale])} {...props} />;
 }
 
-function OwnedPresentationCard({ locale, artifactId, ownerKey, initialTopic, returning, slots }: PresentationCardProps) {
+function OwnedPresentationCard({ locale, artifactId, ownerKey, initialTopic, returning, slots, render }: PresentationCardProps) {
   const [restored, setRestored] = useState<{ snapshot: PresentationSnapshot | null } | null>(null);
   const [persistent, setPersistent] = useState(true);
   const latest = useRef<PresentationSnapshot | null>(null);
@@ -82,7 +87,7 @@ function OwnedPresentationCard({ locale, artifactId, ownerKey, initialTopic, ret
       {!persistent ? <p role="status" data-studio-storage="memory">{locale === 'ru'
         ? 'Браузер не сохранил презентацию на устройстве. Скачайте готовый файл: после перезагрузки данные могут пропасть.'
         : 'Brauzer taqdimotni qurilmada saqlamadi. Tayyor faylni yuklab oling: sahifa yangilansa, ma’lumot yo‘qolishi mumkin.'}</p> : null}
-      {restored ? <Form locale={locale} slots={slots} embedding={{ initialTopic, initialSnapshot: restored.snapshot, returning, onSnapshot: snapshotChanged }} />
+      {restored ? <SessionSurface locale={locale} slots={slots} render={render} embedding={{ initialTopic, initialSnapshot: restored.snapshot, returning, onSnapshot: snapshotChanged }} />
         : <p role="status">{locale === 'ru' ? 'Открываем презентацию…' : 'Taqdimot ochilmoqda…'}</p>}
     </section>
   );

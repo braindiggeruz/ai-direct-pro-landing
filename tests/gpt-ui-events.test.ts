@@ -65,6 +65,22 @@ test("a step of the pack window is one row: closed type and qualifier, the tab's
   assert.doesNotMatch(JSON.stringify(rows()), /secret|hello|203\.0\.113|pay_a|2000000/);
 });
 
+test("contextual offers use closed qualifiers and keep user text out of the purchase funnel", async () => {
+  const { send, rows } = await counter();
+  for (const type of ['pack_prompt_viewed','pack_prompt_dismissed'] as const) {
+    for (const detail of ['after_answer','near_limit']) {
+      const step=fresh({type,detail,text:'private topic',orderId:'private order'});
+      assert.equal((await send(step)).status,200);
+      assert.equal((await send(step)).status,200);
+    }
+    assert.equal((await send(fresh({type,detail:'invented_surface'}))).status,400);
+    assert.ok(PACK_WINDOW_EVENTS.has(type));
+  }
+  assert.equal((await send(fresh({type:'pack_viewed',detail:'after_value'}))).status,200);
+  assert.equal(rows().length,5,'retries do not inflate the funnel');
+  assert.doesNotMatch(JSON.stringify(rows()),/private topic|private order/);
+});
+
 test("a resent event counts once (AGENTS §4): the id is the browser's, per event", async () => {
   const { send, rows } = await counter();
   const step = fresh();

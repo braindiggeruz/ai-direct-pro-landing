@@ -1,0 +1,101 @@
+{
+  "scenarios": [
+    {
+      "locale": "ru",
+      "width": 390,
+      "mode": "live",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "5568b7ab-f898-44d8-93b0-78de0d4340a1",
+          "type": "pack_prompt_viewed",
+          "detail": "after_answer",
+          "view": "d58226a5-bf3c-4fa1-bc36-74f92120a4c5"
+        },
+        {
+          "id": "22452e8f-957f-4c19-ac4f-23c0a965c90f",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "d58226a5-bf3c-4fa1-bc36-74f92120a4c5"
+        },
+        {
+          "id": "3bf94c44-5d8a-4fad-9df9-b07611b2db3c",
+          "type": "pack_prompt_dismissed",
+          "detail": "after_answer",
+          "view": "d58226a5-bf3c-4fa1-bc36-74f92120a4c5"
+        }
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "live",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "e6d686a1-c678-4d9e-9728-46ee678420e6",
+          "type": "pack_prompt_viewed",
+          "detail": "after_answer",
+          "view": "782e3b7e-c170-4537-9eb9-4c2d80bc5264"
+        },
+        {
+          "id": "dfae8a7b-484e-4cf5-b153-0e090a9cffde",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "782e3b7e-c170-4537-9eb9-4c2d80bc5264"
+        },
+        {
+          "id": "9b9f4524-9ff9-453b-bf55-38dc0863afc6",
+          "type": "pack_prompt_dismissed",
+          "detail": "after_answer",
+          "view": "782e3b7e-c170-4537-9eb9-4c2d80bc5264"
+        }
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "near",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "6151f930-ee4f-45d3-b6ff-04b9f023e90f",
+          "type": "pack_prompt_viewed",
+          "detail": "near_limit",
+          "view": "b9f319f6-2d33-4881-84fe-4d3bd640d04c"
+        },
+        {
+          "id": "8f473588-7623-40cb-81f5-8e5b10d7b94d",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "b9f319f6-2d33-4881-84fe-4d3bd640d04c"
+        },
+        {
+          "id": "9f95b6ce-0ee3-4500-b88b-19f0eab35253",
+          "type": "pack_prompt_dismissed",
+          "detail": "near_limit",
+          "view": "b9f319f6-2d33-4881-84fe-4d3bd640d04c"
+        }
+      ]
+    },
+    {
+      "locale": "ru",
+      "width": 1366,
+      "mode": "paid",
+      "answers": 1,
+      "subscribes": 0,
+      "events": []
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "off",
+      "answers": 1,
+      "subscribes": 0,
+      "events": []
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "date": "2026-10-08",
+  "method": "Live GET; generation, orders and telemetry POST blocked; clean anonymous browser contexts. No real mobile keyboard emulation.",
+  "live": {
+    "release": {
+      "http": 200,
+      "data": {
+        "schema": 1,
+        "commit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+        "artifactSha256": "704d1ac3d04daf800a39ee7e61727aa43e194639a6a8a5e481005982dd15b616",
+        "fileCount": 991,
+        "features": [
+          "audience_directory",
+          "mobile_username_selection",
+          "bridge_pairing",
+          "sending_readiness",
+          "campaign_preflight",
+          "async_media_check",
+          "ai_chat_admin"
+        ],
+        "probes": [
+          {
+            "path": "assets/AdminRoot-B-5ngYv6.js",
+            "sha256": "3c43eedaf3a2240cfcc7547fdfe43d84faeb24392ee958a49f61a6eb9a9304cf"
+          },
+          {
+            "path": "assets/ui-D0fhQIP1.js",
+            "sha256": "d6130191716f8f02f48ff3150e02d4d7be966248735b6c856b683b8b0b68c9f9"
+          },
+          {
+            "path": "assets/AiChat-V22IOcH_.js",
+            "sha256": "1150a556aa070e20035e66b18b211f9c1b7e17e34b3f0c912ad814477097b357"
+          },
+          {
+            "path": "index.html",
+            "sha256": "f31ff7f81bd9b3f2c74e090bb2bd7e94d064f5945c7c3d0cb37bd9b75da9fb54"
+          },
+          {
+            "path": "admin/index.html",
+            "sha256": "7bdafe8870fc15d5f68048f83abca3e68363494cffc8d4982c58d1e71ebe9c4b"
+          },
+          {
+            "path": "uz/internet-reklama-toshkent/index.html",
+            "sha256": "57b67d1a0fc2ad057d35245be282107844102c572237359e527103bcbd8948e4"
+          },
+          {
+            "path": "ru/internet-reklama-tashkent/index.html",
+            "sha256": "9f9f185a16d67f9943bdda39d9350c5a5ad7255ae0dc56565cbe444c21502e48"
+          },
+          {
+            "path": "ru/prezentatsiya-ai/index.html",
+            "sha256": "d1775cc3f8102fa5a485ada07112968aaf0de677ae86e76df1c05b4ee4f124fb"
+          },
+          {
+            "path": "uz/taqdimot-ai/index.html",
+            "sha256": "9b0630d155982156246eaae3ea72cbb40013a1f50e78f5ab2f963cb6ed64376d"
+          },
+          {
+            "path": "uz/tariflar/index.html",
+            "sha256": "3ffc029ff7b281a3a3ad5e58a8d74398114ef9b1049409862beea7d7e899c30e"
+          }
+        ]
+      }
+    },
+    "studio": {
+      "http": 200,
+      "data": {
+        "ok": true,
+        "tools": {
+          "freeDeck": true,
+          "fullDeck": true,
+          "photo": false
+        },
+        "payments": {
+          "mode": "live",
+          "providers": [
+            "click",
+            "payme"
+          ]
+        },
+        "plans": [
+          {
+            "id": "kunlik",
+            "itemId": "studio_kunlik",
+            "amountTiyin": 590000,
+            "amountUzs": 5900,
+            "duration": {
+              "hours": 24
+            },
+            "presentationFull": 1,
+            "photoTask": 0,
+            "regenPerUnit": 1
+          },
+          {
+            "id": "oylik",
+            "itemId": "studio_oylik",
+            "amountTiyin": 3990000,
+            "amountUzs": 39900,
+            "duration": {
+              "calendarMonths": 1
+            },
+            "presentationFull": 10,
+            "photoTask": 0,
+            "regenPerUnit": 1
+          }
+        ],
+        "free": {
+          "presentation": 1,
+          "photo": 2,
+          "resetsAt": "05:00 Asia/Tashkent"
+        },
+        "shapes": {
+          "free": {
+            "minSlides": 4,
+            "maxSlides": 6,
+            "images": 2,
+            "imageRetries": 2,
+            "notes": false,
+            "palettes": 1
+          },
+          "full": {
+            "minSlides": 6,
+            "maxSlides": 12,
+            "images": 8,
+            "notes": true,
+            "palettes": 3
+          }
+        },
+        "turnstileSiteKey": "0x4AAAAAAFO5Y7cXhqeASg8P",
+        "termsVersion": "ai-paket-2026-10-v5",
+        "terms": {
+          "ru": "https://gptbot.uz/ru/oferta/",
+          "uz": "https://gptbot.uz/uz/oferta/"
+        },
+        "aiLabel": true
+      }
+    },
+    "chat": {
+      "http": 200,
+      "data": {
+        "ok": true,
+        "loginAvailable": true,
+        "loginMethods": [
+          "bot"
+        ],
+        "mode": "live",
+        "pack": {
+          "priceUzs": 20000,
+          "messageLimit": 300,
+          "dailyLimit": 50,
+          "months": 1,
+          "vat": {
+            "percent": 12,
+            "includedTiyin": 214286
+          }
+        },
+        "termsVersion": "ai-paket-2026-10-v5",
+        "freeLimits": {
+          "daily": 15,
+          "hourly": 5
+        },
+        "botHandoff": false,
+        "providers": [
+          "click",
+          "payme"
+        ],
+        "guestCheckout": true,
+        "uzumFlow": null,
+        "terms": {
+          "ru": "https://gptbot.uz/ru/oferta/",
+          "uz": "https://gptbot.uz/uz/oferta/"
+        },
+        "user": null
+      }
+    }
+  },
+  "cases": [
+    {
+      "locale": "ru",
+      "width": 1920,
+      "height": 1080,
+      "blocked": [
+        "/api/gpt/event",
+        "/api/studio/event"
+      ],
+      "layout": {
+        "card": {
+          "x": 706,
+          "y": 72,
+          "w": 768,
+          "h": 597,
+          "bottom": 669
+        },
+        "topic": {
+          "x": 748,
+          "y": 181,
+          "w": 684,
+          "h": 50,
+          "bottom": 231
+        },
+        "composer": {
+          "x": 706,
+          "y": 998,
+          "w": 768,
+          "h": 74,
+          "bottom": 1072
+        },
+        "create": {
+          "y": 461,
+          "h": 52,
+          "bottom": 513,
+          "text": "Сделать презентацию"
+        },
+        "headerBuy": "Купить пакет",
+        "horizontalOverflow": false,
+        "scrollContainers": []
+      },
+      "screenshot": "ru-1920-initial.png",
+      "headerPurchaseText": "GPTBot.uz\nAI-пакет: больше ответов в этом чате\n\n300 ответов на 1 календарный месяц с дня оплаты, до 50 в день. Без автосписаний.\n\nAI-пакет\n20 000 сум\n\n1 месяц · 300 ответов · до 50 в день · без автосписаний\n\nБез возврата после оплаты · не ChatGPT\nПодробнее\nОплатить через Click\n↗\nОплатить через Payme\n↗\n\nНажимая «Оплатить», вы принимаете оферту.\n\nУже покупали пакет со входом через Telegram? Войдите — он появится здесь.\n\nВойти через Telegram\n\nПроблема с оплатой? Напишите или позвоните: ceo@gptbot.uz, +998 50 587 07 20\n\nПроверить статус\n\nСписок разговоров хранится только в этом браузере. Сами сообщения для ответа отправляются на наш сервер и зарубежным AI-провайдерам.",
+      "fullFormat": {
+        "text": "Презентация в этом чате\nТема презентации\n\nОт 3 до 200 символов\n\nДля кого\nШкольник\nСтудент\nДля всех\nЧисло слайдов\n12\n11\n10\n9\n8\n7\n6\nВид презентации\nБесплатная\nдо 6 слайдов, до 2 картинок\nПолная\nдо 12 слайдов, до 8 картинок, текст выступления\nОформление\nСветлая\nТёмная\nПесочная\n\nЭто полная презентация: спишется 1 единица (осталось: 0)\n\nСделать полную презентацию\n\nБесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.\n\nТарифы\n\nБесплатно: 1 презентация в день (6 слайдов, 2 картинки).\n\n1 месяц: 10 полных презентаций — 39 900 сум\n\nВыбрать Oylik\n\nНужно только сегодня? 24 часа: 1 полная презентация — 5 900 сум\n\nВыбрать Kunlik\n\nТолько для чата: 300 ответов, до 50 в день, 1 месяц — 20 000 сум. AI-чат\n\nБез подписки: деньги не списываются автоматически. Оплата: Click, Payme.\n\nЗа неиспользованные единицы вернём деньги по заявлению в течение 14 дней после оплаты.\n\nПубличная оферта\n\nМои презентации и покупки\n\nРезультат сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.",
+        "height": 1076
+      }
+    },
+    {
+      "locale": "ru",
+      "width": 1440,
+      "height": 900,
+      "blocked": [
+        "/api/studio/event"
+      ],
+      "layout": {
+        "card": {
+          "x": 466,
+          "y": 72,
+          "w": 768,
+          "h": 597,
+          "bottom": 669
+        },
+        "topic": {
+          "x": 508,
+          "y": 181,
+          "w": 684,
+          "h": 50,
+          "bottom": 231
+        },
+        "composer": {
+          "x": 466,
+          "y": 818,
+          "w": 768,
+          "h": 74,
+          "bottom": 892
+        },
+        "create": {
+          "y": 461,
+          "h": 52,
+          "bottom": 513,
+          "text": "Сделать презентацию"
+        },
+        "headerBuy": "Купить пакет",
+        "horizontalOverflow": false,
+        "scrollContainers": [
+          {
+            "tag": "DIV",
+            "class": "flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-2",
+            "viewport": 844,
+            "content": 999
+          }
+        ]
+      },
+      "screenshot": "ru-1440-initial.png",
+      "fullFormat": {
+        "text": "Презентация в этом чате\nТема презентации\n\nОт 3 до 200 символов\n\nДля кого\nШкольник\nСтудент\nДля всех\nЧисло слайдов\n12\n11\n10\n9\n8\n7\n6\nВид презентации\nБесплатная\nдо 6 слайдов, до 2 картинок\nПолная\nдо 12 слайдов, до 8 картинок, текст выступления\nОформление\nСветлая\nТёмная\nПесочная\n\nЭто полная презентация: спишется 1 единица (осталось: 0)\n\nСделать полную презентацию\n\nБесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.\n\nТарифы\n\nБесплатно: 1 презентация в день (6 слайдов, 2 картинки).\n\n1 месяц: 10 полных презентаций — 39 900 сум\n\nВыбрать Oylik\n\nНужно только сегодня? 24 часа: 1 полная презентация — 5 900 сум\n\nВыбрать Kunlik\n\nТолько для чата: 300 ответов, до 50 в день, 1 месяц — 20 000 сум. AI-чат\n\nБез подписки: деньги не списываются автоматически. Оплата: Click, Payme.\n\nЗа неиспользованные единицы вернём деньги по заявлению в течение 14 дней после оплаты.\n\nПубличная оферта\n\nМои презентации и покупки\n\nРезультат сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.",
+        "height": 1076
+      }
+    },
+    {
+      "locale": "ru",
+      "width": 390,
+      "height": 844,
+      "blocked": [
+        "/api/studio/event"
+      ],
+      "layout": {
+        "card": {
+          "x": 31,
+          "y": 68,
+          "w": 328,
+          "h": 665,
+          "bottom": 733
+        },
+        "topic": {
+          "x": 65,
+          "y": 169,
+          "w": 260,
+          "h": 50,
+          "bottom": 219
+        },
+        "composer": {
+          "x": 16,
+          "y": 762,
+          "w": 358,
+          "h": 74,
+          "bottom": 836
+        },
+        "create": {
+          "y": 498,
+          "h": 52,
+          "bottom": 550,
+          "text": "Сделать презентацию"
+        },
+        "headerBuy": "Купить пакет",
+        "horizontalOverflow": false,
+        "scrollContainers": []
+      },
+      "screenshot": "ru-390-initial.png",
+      "fullFormat": {
+        "text": "Презентация в этом чате\nТема презентации\n\nОт 3 до 200 символов\n\nДля кого\nШкольник\nСтудент\nДля всех\nЧисло слайдов\n12\n11\n10\n9\n8\n7\n6\nВид презентации\nБесплатная\nдо 6 слайдов, до 2 картинок\nПолная\nдо 12 слайдов, до 8 картинок, текст выступления\nОформление\nСветлая\nТёмная\nПесочная\n\nЭто полная презентация: спишется 1 единица (осталось: 0)\n\nСделать полную презентацию\n\nБесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.\n\nТарифы\n\nБесплатно: 1 презентация в день (6 слайдов, 2 картинки).\n\n1 месяц: 10 полных презентаций — 39 900 сум\n\nВыбрать Oylik\n\nНужно только сегодня? 24 часа: 1 полная презентация — 5 900 сум\n\nВыбрать Kunlik\n\nТолько для чата: 300 ответов, до 50 в день, 1 месяц — 20 000 сум. AI-чат\n\nБез подписки: деньги не списываются автоматически. Оплата: Click, Payme.\n\nЗа неиспользованные единицы вернём деньги по заявлению в течение 14 дней после оплаты.\n\nПубличная оферта\n\nМои презентации и покупки\n\nРезультат сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.",
+        "height": 1380
+      }
+    },
+    {
+      "locale": "ru",
+      "width": 360,
+      "height": 640,
+      "blocked": [
+        "/api/studio/event"
+      ],
+      "layout": {
+        "card": {
+          "x": 31,
+          "y": -160,
+          "w": 298,
+          "h": 698,
+          "bottom": 538
+        },
+        "topic": {
+          "x": 65,
+          "y": -59,
+          "w": 230,
+          "h": 50,
+          "bottom": -9
+        },
+        "composer": {
+          "x": 16,
+          "y": 558,
+          "w": 328,
+          "h": 74,
+          "bottom": 632
+        },
+        "create": {
+          "y": 287,
+          "h": 52,
+          "bottom": 339,
+          "text": "Сделать презентацию"
+        },
+        "headerBuy": "Купить пакет",
+        "horizontalOverflow": false,
+        "scrollContainers": [
+          {
+            "tag": "DIV",
+            "class": "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overs",
+            "viewport": 498,
+            "content": 726
+          }
+        ]
+      },
+      "screenshot": "ru-360-initial.png",
+      "fullFormat": {
+        "text": "Презентация в этом чате\nТема презентации\n\nОт 3 до 200 символов\n\nДля кого\nШкольник\nСтудент\nДля всех\nЧисло слайдов\n12\n11\n10\n9\n8\n7\n6\nВид презентации\nБесплатная\nдо 6 слайдов, до 2 картинок\nПолная\nдо 12 слайдов, до 8 картинок, текст выступления\nОформление\nСветлая\nТёмная\nПесочная\n\nЭто полная презентация: спишется 1 единица (осталось: 0)\n\nСделать полную презентацию\n\nБесплатно: 1 презентация в день, до 6 слайдов, до 2 картинок. Без регистрации.\n\nТарифы\n\nБесплатно: 1 презентация в день (6 слайдов, 2 картинки).\n\n1 месяц: 10 полных презентаций — 39 900 сум\n\nВыбрать Oylik\n\nНужно только сегодня? 24 часа: 1 полная презентация — 5 900 сум\n\nВыбрать Kunlik\n\nТолько для чата: 300 ответов, до 50 в день, 1 месяц — 20 000 сум. AI-чат\n\nБез подписки: деньги не списываются автоматически. Оплата: Click, Payme.\n\nЗа неиспользованные единицы вернём деньги по заявлению в течение 14 дней после оплаты.\n\nПубличная оферта\n\nМои презентации и покупки\n\nРезультат сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.",
+        "height": 1452
+      }
+    },
+    {
+      "locale": "uz",
+      "width": 320,
+      "height": 700,
+      "blocked": [
+        "/api/studio/event"
+      ],
+      "layout": {
+        "card": {
+          "x": 31,
+          "y": -191,
+          "w": 258,
+          "h": 773,
+          "bottom": 582
+        },
+        "topic": {
+          "x": 65,
+          "y": -90,
+          "w": 190,
+          "h": 50,
+          "bottom": -40
+        },
+        "composer": {
+          "x": 16,
+          "y": 602,
+          "w": 288,
+          "h": 90,
+          "bottom": 692
+        },
+        "create": {
+          "y": 289,
+          "h": 52,
+          "bottom": 341,
+          "text": "Taqdimot tayyorlash"
+        },
+        "headerBuy": "Paket olish",
+        "horizontalOverflow": false,
+        "scrollContainers": [
+          {
+            "tag": "DIV",
+            "class": "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overs",
+            "viewport": 542,
+            "content": 801
+          }
+        ]
+      },
+      "screenshot": "uz-320-initial.png",
+      "fullFormat": {
+        "text": "Shu chatda taqdimot\nTaqdimot mavzusi\n\n3 tadan 200 tagacha belgi\n\nKim uchun\nO‘quvchi\nTalaba\nHamma uchun\nSlaydlar soni\n12\n11\n10\n9\n8\n7\n6\nTaqdimot turi\nBepul\n6 slaydgacha, 2 tagacha rasm\nTo‘liq\n12 slaydgacha, 8 tagacha rasm, qisqa ma’ruza matni\nRanglar\nOq\nTun\nQum\n\nBu to‘liq taqdimot: 1 ta birlik yechiladi (qoldi: 0)\n\nTo‘liq taqdimot tayyorlash\n\nBepul: kuniga 1 ta taqdimot, 6 slaydgacha, 2 tagacha rasm. Ro‘yxatdan o‘tish shart emas.\n\nTariflar\n\nBepul: kuniga 1 ta taqdimot (6 slayd, 2 rasm).\n\n1 oy: 10 ta to‘liq taqdimot — 39 900 so‘m\n\nOylikni tanlash\n\nFaqat bugun kerakmi? 24 soat: 1 ta to‘liq taqdimot — 5 900 so‘m\n\nKunlikni tanlash\n\nFaqat chat uchun: 300 javob, kuniga 50 tagacha, 1 oy — 20 000 so‘m. AI chat\n\nObunasiz: pul avtomatik yechilmaydi. To‘lov: Click, Payme.\n\nIshlatilmagan birliklar uchun pulni to‘lovdan keyin 14 kun ichida so‘rov bo‘yicha qaytaramiz.\n\nOmmaviy oferta\n\nTaqdimotlarim va xaridlarim\n\nNatija shu brauzerda saqlanadi. Ma’lumotlarni tozalashdan oldin PPTXni yuklab oling.",
+        "height": 1585
+      }
+    }
+  ]
+}

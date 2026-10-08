@@ -75,7 +75,7 @@ export async function sendChat(
       sessionId: params.sessionId,
       message: params.message,
       locale: params.locale,
-      history: params.history.filter(m => m.kind !== 'presentation').map((m) => ({ role: m.role, content: m.content })),
+      history: params.history.filter((m) => !m.kind).map((m) => ({ role: m.role, content: m.content })),
       turnstileToken: params.turnstileToken,
     });
   } catch {
@@ -164,7 +164,7 @@ export async function sendChatStream(
         sessionId: params.sessionId,
         message: params.message,
         locale: params.locale,
-        history: params.history.filter(m => m.kind !== 'presentation').map((m) => ({ role: m.role, content: m.content })),
+        history: params.history.filter(m => !m.kind).map((m) => ({ role: m.role, content: m.content })),
         turnstileToken: params.turnstileToken,
         stream: true,
       }),

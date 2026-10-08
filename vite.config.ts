@@ -63,6 +63,12 @@ export default defineConfig({
       },
       output: {
         manualChunks(id) {
+          // Billing dialogs and the editor share a small runtime, never each
+          // other's UI. Keep that dependency out of the chat entry and avoid
+          // lazy checkout importing the entire presentation workspace.
+          if (/\/apps\/studio\/src\/(?:api|config|analytics|identity|attribution)\.ts$/.test(id)
+            || /\/apps\/studio\/src\/billing\/(?:runtime|hint|providers)\.ts$/.test(id)) return 'studio-runtime'
+          if (/\/apps\/studio\/src\/pptx\/(?:fit|layouts|palettes)\.ts$/.test(id)) return 'studio-slides'
           if (id.includes('node_modules')) {
             // react-router deliberately NOT here: only the lazy admin chunk
             // uses it, so it must stay out of the landing-critical vendor.

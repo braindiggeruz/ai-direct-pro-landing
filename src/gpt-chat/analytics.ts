@@ -82,7 +82,7 @@ export function trackMetaChatEngaged(locale: 'ru' | 'uz'): void {
 
 /** Only a deliberate pack opening, not a return from payment or login. */
 export function trackMetaPackView(from: string, locale: 'ru' | 'uz'): void {
-  if (from !== 'header' && from !== 'limit_card' && from !== 'low_limit' && from !== 'account_check') return;
+  if (from !== 'header' && from !== 'limit_card' && from !== 'low_limit' && from !== 'account_check' && from !== 'after_value') return;
   metaTrackOnce(`pack_view_${locale}`, 'track', 'ViewContent', {
     content_ids: ['ai_paket_300'],
     content_type: 'product',
@@ -223,6 +223,9 @@ export const EV = {
   limitHit: 'limit_hit',
   /** The account / pack window opened; `from` says which button opened it. */
   packViewed: 'pack_viewed',
+  packPromptViewed: 'pack_prompt_viewed',
+  packPromptClicked: 'pack_prompt_clicked',
+  packPromptDismissed: 'pack_prompt_dismissed',
   loginStarted: 'login_started',
   loginResult: 'login_result',
   /** `resume` true when an existing invoice is reopened, not a new purchase. */

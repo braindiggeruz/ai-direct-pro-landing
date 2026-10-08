@@ -1,0 +1,108 @@
+{
+  "scenarios": [
+    {
+      "locale": "ru",
+      "width": 320,
+      "geometry": {
+        "width": 320,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505
+    },
+    {
+      "locale": "ru",
+      "width": 360,
+      "geometry": {
+        "width": 360,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 2,
+      "checkouts": 1,
+      "bytes": 98505
+    },
+    {
+      "locale": "ru",
+      "width": 390,
+      "geometry": {
+        "width": 390,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505
+    },
+    {
+      "locale": "ru",
+      "width": 1366,
+      "geometry": {
+        "width": 825,
+        "overflow": false,
+        "footerBottom": 900,
+        "height": 900
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505
+    },
+    {
+      "locale": "uz",
+      "width": 320,
+      "geometry": {
+        "width": 320,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757
+    },
+    {
+      "locale": "uz",
+      "width": 360,
+      "geometry": {
+        "width": 360,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 2,
+      "checkouts": 1,
+      "bytes": 98757
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "geometry": {
+        "width": 390,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757
+    },
+    {
+      "locale": "uz",
+      "width": 1366,
+      "geometry": {
+        "width": 825,
+        "overflow": false,
+        "footerBottom": 900,
+        "height": 900
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757
+    }
+  ]
+}

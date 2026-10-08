@@ -1370,3 +1370,16 @@ AEO lives in the existing modular monolith and admin-tools shell. It reuses JWT,
 ## D-AEO-002 - 2026-09-05: review workflow and model answers
 
 Keep immutable analysis separate from org-scoped versioned review decisions. Carry saved briefs into the existing editor as local form patches; no automatic publication. Compare up to three server-allowlisted free models with independent errors and idempotent recovery. Display exact answers, actual model and source provenance; literal brand mention is not endorsement. Additive migration 0063 and repeatable bootstrap. Fixture evidence is not a live provider or usability result. See docs/aeo/UX-IMPLEMENTATION-2026-09-05.md.
+
+
+## D-CHAT-001 — одна сессия документа и две адаптивные поверхности (08.10.2026)
+
+Controller owner/artifact извлечён из Studio Form, переиспользуется обеими поверхностями. Desktop: разговор рядом с документом; mobile: Chat/Slides. Видимость не задаёт жизненный цикл job. Старую карточку раскрывает только явное действие, язык никогда не выводит историю в активный режим.
+
+## D-CHAT-002 — реальные bounded правки и явный новый платный запуск (08.10.2026)
+
+Локальные действия выполняются закрытым deterministic parser и входят в PPTX; исходные server task/job/MAC не переписываются. Историю действий не отправлять LLM и не считать AI-ответами. Upgrade использует отдельное подтверждение и текущие server rights, с синхронным double-click guard. Версия без изменения не создаётся. SVG использует layout/fit/palette экспортера, но не обещает pixel identity.
+
+## D-CHAT-003 — предложение после ценности, честные условия и измеримая воронка (08.10.2026)
+
+Вместо порога десяти ответов предложение после первого полезного ответа/у лимита. Цена и состав — из account view, прямой существующий checkout, без нового шага оферты. Не показывать paid/off/Studio и параллельно business offer; разрешить скрыть на текущий UTC-день. View >=50% видимости; закрытые qualifiers без текстов и order IDs. Не обещать окупаемость; сравнивать реальную конверсию и расходы за совпадающие периоды.

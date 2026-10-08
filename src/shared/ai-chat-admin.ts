@@ -112,6 +112,10 @@ export interface AiChatWeek {
   /** The pack window's server funnel (gpt_ui_events); null before its first event. */
   funnel: {
     packViewed: number;
+    /** Optional for older servers; null before contextual offers were observed that week. */
+    promptViewed?: number | null;
+    promptDismissed?: number | null;
+    afterValueOpened?: number | null;
     loginStarted: number;
     loginDone: number;
     checkoutStarted: number;

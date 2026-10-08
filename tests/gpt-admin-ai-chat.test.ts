@@ -308,9 +308,27 @@ test("2. a week starts on Monday 00:00 in Tashkent: Sunday 19:30Z is the next we
   assert.equal(empty.outcomes, null);
   assert.equal(empty.limitHits, null);
   // The funnel exists from its first event on.
-  assert.deepEqual(current.funnel, { packViewed: 1, loginStarted: 0, loginDone: 0, checkoutStarted: 0, checkoutPaid: 0 });
+  assert.deepEqual(current.funnel, { packViewed: 1, promptViewed: null, promptDismissed: null, afterValueOpened: null, loginStarted: 0, loginDone: 0, checkoutStarted: 0, checkoutPaid: 0 });
   assert.equal(previous.funnel, null);
   assert.deepEqual(current.orders, { created: 0, paid: 0, refunded: 0 });
+});
+
+test('contextual purchase steps are visible in the owner funnel, isolated by org, and never counted as paid orders', async()=>{
+  const f=await adminFixture(), now=Date.parse('2026-10-08T10:00:00Z');
+  const insert=(org:string,type:string,detail:string)=>f.db.prepare('INSERT INTO gpt_ui_events(org_id,id,type,view_id,detail,created_at) VALUES(?,?,?,?,?,?)').bind(org,randomUUID(),type,null,detail,now-1000).runSync();
+  insert(BILLING_ORG,'pack_prompt_viewed','after_answer');
+  insert(BILLING_ORG,'pack_prompt_viewed','near_limit');
+  insert(BILLING_ORG,'pack_prompt_dismissed','after_answer');
+  insert(BILLING_ORG,'pack_viewed','after_value');
+  insert('other-org','pack_prompt_viewed','after_answer');
+  const {weeks}=await new AiChatAdminStore(f.binding).overview(BILLING_ORG,{now,weeks:8,capUsd:1});
+  assert.ok(weeks.ok);
+  const current=weeks.data.at(-1)!;
+  assert.equal(current.funnel?.promptViewed,2);
+  assert.equal(current.funnel?.promptDismissed,1);
+  assert.equal(current.funnel?.afterValueOpened,1);
+  assert.equal(current.funnel?.checkoutPaid,0);
+  assert.equal(current.orders?.paid,0,'client telemetry is not financial proof');
 });
 
 test("3. privacy: no message, contact, IP hash, subject, session or account id reaches any answer; the store names no text column", async () => {

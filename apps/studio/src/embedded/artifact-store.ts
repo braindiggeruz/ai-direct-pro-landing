@@ -8,6 +8,9 @@ export interface PresentationResult {
   readonly aiLabel: boolean;
   readonly shape: DeckShapeName;
   readonly regenOf?: string;
+  readonly revision?: number;
+  /** Local export appearance; the immutable server task remains unchanged for regeneration. */
+  readonly exportPalette?: number;
 }
 export interface PresentationDraft {
   readonly topic: string;
@@ -68,9 +71,13 @@ export function validateSnapshot(value: unknown): PresentationSnapshot | null {
       slides.push({ index: i + 1, title: slide.title, bullets: [...slide.bullets] as string[], layout: slide.layout as Deck['slides'][number]['layout'], ...(typeof slide.notes === 'string' ? { notes: slide.notes } : {}) });
     }
     if (r.regenOf !== undefined && (typeof r.regenOf !== 'string' || !JOB_ID.test(r.regenOf))) return null;
+    if (r.revision !== undefined && !integer(r.revision, 0, 9999)) return null;
+    if (r.exportPalette !== undefined && (!integer(r.exportPalette, 1, 3) || r.shape !== 'full')) return null;
     result = {
       job: { jobId: j.jobId, source: j.source, shape: { slides: s.slides, images: s.images, notes: s.notes, palette: s.palette, parts: s.parts }, next: j.next, expiresAt: j.expiresAt },
       task: { topic: t.topic, locale: value.locale, audience: t.audience, slides: s.slides, palette: s.palette },
+      ...(typeof r.revision === 'number' ? { revision: r.revision } : {}),
+      ...(typeof r.exportPalette === 'number' ? { exportPalette: r.exportPalette } : {}),
       deck: { title: deck.title, subtitle: deck.subtitle, slides }, shape: r.shape, aiLabel: r.aiLabel,
       ...(typeof r.regenOf === 'string' ? { regenOf: r.regenOf } : {}),
     };

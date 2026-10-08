@@ -61,10 +61,12 @@ export function AiChatMessageList({
   onVersion,
   children,
   ownerKey = 'guest',
+  onPresentationOpen,
 }: {
   /** What ends the thread after the last message (the limit card, the low-allowance line): inside the scroller's content, before its spacer. */
   children?: ReactNode;
   ownerKey?: string;
+  onPresentationOpen?: (id: string) => void;
   messages: ChatMessage[];
   t: ChatStrings;
   locale?: Locale;
@@ -83,7 +85,7 @@ export function AiChatMessageList({
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
-      if (messages[i].role === "assistant" && messages[i].kind !== 'presentation') return i;
+      if (messages[i].role === "assistant" && !messages[i].kind) return i;
     return -1;
   })();
   // The last question has no answer and none is on its way: the tab was
@@ -168,9 +170,9 @@ export function AiChatMessageList({
         <MessageScrollerItem key={i} messageId={String(i)} scrollAnchor={m.role === "user"} className={i === lastAssistant ? "gpt-item-menu" : m.role === "user" ? "gpt-turn-user" : undefined}>
         {m.kind === 'presentation' && m.artifactId ? (
           <LazyPart part={presentationPart} fallback={<p role="status">{t.thinking}</p>} failed={<PartFailed message={t.partFailed} reload={t.partReload} />}>
-            {({ ChatPresentation }) => <ChatPresentation key={`${ownerKey}:${m.artifactId}`} locale={locale} ownerKey={ownerKey} artifactId={m.artifactId!} topic={m.content} />}
+            {({ ChatPresentation }) => <ChatPresentation key={`${ownerKey}:${m.artifactId}`} locale={locale} ownerKey={ownerKey} artifactId={m.artifactId!} topic={m.content} onOpen={onPresentationOpen} />}
           </LazyPart>
-        ) : m.role === "user" ? (
+        ) : m.kind === 'artifact-action' ? <div className={m.role === 'user' ? 'gpt-user' : 'gpt-answer'}><PlainAnswer content={m.content} /></div> : m.role === "user" ? (
           // dir="auto": an Arabic or mixed question aligns by its own first letters.
           <div className="gpt-user-message" dir="auto">{m.content}</div>
         ) : m.error ? (

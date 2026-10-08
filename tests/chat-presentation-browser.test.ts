@@ -15,7 +15,7 @@ const paths = { ru: '/ru/gpt-chat/', uz: '/uz/gpt-uzbek-tilida/' };
 const orderId = 'stu_' + 'a'.repeat(32);
 const jobId = 'sj_' + 'b'.repeat(32);
 
-test('built RU/UZ chat: lazy tool, free flow, valid download, reload, inline checkout and exact payment return', { skip: !browserPath || !fs.existsSync(path.join(DIST, 'ru/gpt-chat/index.html')) }, async () => {
+test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mobile focus and exact payment return', { skip: !browserPath || !fs.existsSync(path.join(DIST, 'ru/gpt-chat/index.html')) }, async () => {
   const types: Record<string, string> = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
   const server = createServer((req, res) => {
     const pathname = new URL(req.url ?? '/', 'http://local').pathname;
@@ -32,14 +32,14 @@ test('built RU/UZ chat: lazy tool, free flow, valid download, reload, inline che
   const edition = Object.keys(TERMS_PLAN)[0];
   try {
     for (const locale of ['ru', 'uz'] as const) for (const width of [320, 360, 390, 1366]) {
-      const ctx = await browser.newContext({ viewport: { width, height: width < 640 ? 740 : 900 }, acceptDownloads: true });
+      const ctx = await browser.newContext({ viewport: { width, height: width < 640 ? 740 : 900 }, acceptDownloads: true, reducedMotion: width===390?'reduce':'no-preference' });
       const page = await ctx.newPage();
       const errors: string[] = [], requests: string[] = [], unexpected: string[] = [];
-      let created = 0, checkouts = 0, paid = false, returnPath = '';
+      let created = 0, fullCreated = 0, requestedSlides = 6, checkouts = 0, paid = false, returnPath = '';
       page.on('pageerror', error => errors.push(error.message));
       await ctx.addInitScript({ content: "window.turnstile = { render: function(el, options) { setTimeout(function() { options.callback('offline-fixture'); }, 0); return 'test-widget'; }, remove: function() {}, reset: function() {} };" });
       const me = () => ({ ok: true, identity: true, free: { presentation: { left: 1 - created, limit: 1 }, photo: { left: 0, limit: 0 }, resetsAt: '2026-10-08T00:00:00Z' }, account: { signedIn: paid },
-        entitlements: paid ? [{ id: 'fixture', orderId, plan: 'kunlik', startsAt: '2026-10-07T00:00:00Z', endsAt: '2026-10-08T00:00:00Z', presentationsLeft: 1, presentationsLimit: 1, photosLeft: 0, photosLimit: 0, regenAvailable: [] }] : [],
+        entitlements: paid ? [{ id: 'fixture', orderId, plan: 'kunlik', startsAt: '2026-10-07T00:00:00Z', endsAt: '2026-10-08T00:00:00Z', presentationsLeft: 1-fullCreated, presentationsLimit: 1, photosLeft: 0, photosLimit: 0, regenAvailable: [] }] : [],
         latestOrder: checkouts ? { id: orderId, state: paid ? 'paid' : 'pending', plan: 'kunlik', provider: locale === 'ru' ? 'click' : 'payme', amountUzs: 5900, createdAt: '2026-10-07T00:00:00Z', paidAt: paid ? '2026-10-07T01:00:00Z' : null, paymentNumber: null, cancellable: !paid } : null, receipts: [] });
       await ctx.route('**/*', async route => {
         const url = new URL(route.request().url());
@@ -58,9 +58,21 @@ test('built RU/UZ chat: lazy tool, free flow, valid download, reload, inline che
         if (url.pathname === '/api/studio/me') return json(me());
         if (url.pathname === '/api/studio/presentations') {
           created++;
+          const body=route.request().postDataJSON();
+          requestedSlides=body.slides;
+          if(body.shape==='full') {
+            assert.ok(paid,'paid generation requires server-issued rights');
+            fullCreated++;
+            return json({ok:true,jobId:'sj_'+'c'.repeat(32),source:'entitlement',shape:{slides:requestedSlides,images:0,notes:true,palette:body.palette,parts:4},next:'outline',expiresAt:'2026-10-10T00:00:00Z'});
+          }
           return json({ ok: true, jobId, source: 'free', shape: { slides: 6, images: 0, notes: false, palette: 1, parts: 1 }, next: 'slides', expiresAt: '2026-10-08T00:00:00Z' });
         }
-        if (url.pathname.endsWith('/slides')) return json({ ok: true, deck: { title: 'Offline Space', subtitle: 'Fixture', slides: Array.from({ length: 6 }, (_, i) => ({ index: i + 1, title: `Slide ${i + 1}`, bullets: ['One test fact', 'Another fact'], layout: 'title-bullets' })) }, images: [] });
+        if(url.pathname.endsWith('/outline')) return json({ok:true,outline:{title:'Full Space',subtitle:'Fixture',slides:Array.from({length:requestedSlides},(_,i)=>({index:i+1,title:`Slide ${i+1}`,point:'A fact'}))},sig:'fixture-outline-signature',images:[],parts:4});
+        if(url.pathname.endsWith('/slides') && route.request().postDataJSON().part){
+          const part=route.request().postDataJSON().part;
+          return json({ok:true,part,deck:{title:'Full Space',subtitle:'Fixture',slides:Array.from({length:requestedSlides},(_,i)=>({index:i+1,title:`Slide ${i+1}`,bullets:['One fact','Another fact'],notes:'Speaker note fixture',layout:'title-bullets'})).slice((part-1)*3,part*3)},images:[],done:true});
+        }
+        if (url.pathname.endsWith('/slides')) return json({ ok: true, deck: { title: 'Offline Space', subtitle: 'Fixture', slides: Array.from({ length: 6 }, (_, i) => ({ index: i + 1, title: `Slide ${i + 1}`, bullets: ['One test fact', 'Another fact', 'Third fact'], layout: 'title-bullets' })) }, images: [] });
         if (url.pathname === '/api/studio/checkout') {
           checkouts++;
           const body = route.request().postDataJSON();
@@ -75,67 +87,129 @@ test('built RU/UZ chat: lazy tool, free flow, valid download, reload, inline che
       await page.locator('[data-chat-presentation-open]:not(:disabled)').waitFor();
       assert.equal(requests.some(url => /chat-presentation|pptxgen|\/api\/studio/.test(url)), false, 'ordinary chat downloads no tool, export or Studio data');
       await page.locator('[data-chat-presentation-open]').first().click();
-      const card = page.locator('[data-chat-presentation]');
-      await card.locator('input[name="topic"]').fill('Space and planets');
-      await card.locator('form button[type="submit"]').click();
-      try { await card.locator('[data-studio-preview]').waitFor({ timeout: 10000 }); }
-      catch { assert.fail(JSON.stringify({ step: 'free-result', locale, width, created, errors, unexpected, requests, text: await card.innerText() })); }
-      assert.equal(created, 1);
-      assert.equal(await card.locator('[data-slide]').count(), 6);
-      const download = page.waitForEvent('download');
+      await page.locator('[data-chat-artifact]').waitFor();
+      const card = page.locator('[data-chat-presentation]:visible');
+      const input = page.locator('.gpt-input-surface textarea');
+      const tabs = page.locator('.gpt-presentation-tabs');
+      await input.fill('Space and planets');
+      await page.locator('.gpt-send-button').click();
+      await card.locator('.gpt-draft-topic', {hasText:'Space and planets'}).waitFor();
+      assert.equal(created,0,'topic confirmation does not start or charge generation');
+      await card.locator('.gpt-workspace-footer > .gpt-workspace-primary').click();
+      try { await card.locator('.gpt-slide-canvas').waitFor({timeout:10000}); }
+      catch { assert.fail(JSON.stringify({step:'free-result',locale,width,created,errors,unexpected,requests,text:await page.locator('[data-chat-presentation]').innerText()})); }
+      assert.equal(created,1);
+      assert.equal(await card.locator('.gpt-slide-filmstrip button').count(),8,'six content slides, cover, AI label');
+      assert.equal(await page.locator('[data-testid="ai-console"]').getAttribute('data-presentation-view'),'slides');
+      if(width<1180) assert.equal(await input.isVisible(),false,'no competing composer in Slides');
+      else assert.equal(await input.isVisible(),true,'desktop has chat beside document');
+      assert.equal(await page.locator('.gpt-account-trigger').isVisible(),false,'text-chat purchase cannot masquerade as Studio');
+      // The actual title changes in preview, persisted result and the ZIP export.
+      await card.locator('.gpt-slide-navigation .gpt-workspace-button').click();
+      const sheet=page.locator('dialog[open].gpt-presentation-sheet');
+      await sheet.locator('input').fill('Edited Space');
+      await sheet.locator('form button').click();
+      await card.locator('h2',{hasText:'Edited Space'}).waitFor();
+      await page.waitForFunction(()=>document.activeElement===document.querySelector('[data-chat-presentation]:not([hidden]) .gpt-slide-navigation .gpt-workspace-button'));
+      assert.equal(created,1,'local edit makes no provider call');
+      const download=page.waitForEvent('download');
       await card.locator('[data-studio-download] button').click();
-      const downloaded = await download;
-      const file = await downloaded.path();
+      const downloaded=await download, file=await downloaded.path();
       assert.ok(file);
-      const bytes = fs.readFileSync(file);
-      assert.equal(bytes.subarray(0, 2).toString(), 'PK', 'real PPTX ZIP from the browser');
-      assert.ok(bytes.length > 10000);
-      await page.reload();
-      await page.locator('[data-studio-preview]').waitFor();
-      assert.equal(await card.locator('input[name="topic"]').inputValue(), 'Space and planets');
-      assert.equal(created, 1, 'reload never regenerates/spends another unit');
-      const geometry = await card.evaluate(el => {
-        const r = el.getBoundingClientRect();
-        const form = el.querySelector('[data-studio-tool]')!;
-        const style = getComputedStyle(form);
-        return { width: r.width, overflow: document.documentElement.scrollWidth > innerWidth, padding: style.padding, color: style.color };
+      const bytes=fs.readFileSync(file);
+      assert.equal(bytes.subarray(0,2).toString(),'PK');
+      assert.ok(bytes.length>10000,'real PPTX ZIP from the built browser application');
+      const { default: JSZip }=await import('../apps/studio/node_modules/jszip/lib/index.js');
+      const zip=await JSZip.loadAsync(bytes);
+      assert.match(await zip.file('ppt/slides/slide1.xml')!.async('string'),/Edited Space/);
+      const geometry=await card.evaluate(el=>{
+        const r=el.getBoundingClientRect(),footer=el.querySelector('.gpt-workspace-footer')!.getBoundingClientRect();
+        return {width:r.width,overflow:document.documentElement.scrollWidth>innerWidth,footerBottom:footer.bottom,height:innerHeight};
       });
-      assert.equal(geometry.overflow, false, `${locale}/${width}: no horizontal overflow`);
-      assert.notEqual(geometry.padding, '0px', 'prefixed Studio CSS was compiled');
-      if (width === 360) {
-        const shots = 'F:/Claude/gptbot-tools/chat-embedded-shots';
-        fs.mkdirSync(shots, { recursive: true });
-        await page.locator('.gpt-thread-scroll').evaluate(el => { el.scrollTop = 0; });
-        await page.screenshot({ path: `${shots}/${locale}-360.png` });
+      assert.equal(geometry.overflow,false,`${locale}/${width}: no horizontal document overflow`);
+      assert.ok(geometry.footerBottom<=geometry.height+1,`${locale}/${width}: primary action fits viewport`);
+      if(width<1180){
+        const h=await tabs.locator('button').first().evaluate(el=>el.getBoundingClientRect().height);
+        assert.ok(h>=44,'mobile tabs have 44px touch targets');
+        await tabs.locator('button').first().click();
       }
-      if (width === 360) {
-        await card.locator('input[value="full"]').evaluate(el => (el as HTMLInputElement).click());
-        await card.locator('[data-studio-slot="limit"] [data-studio-plan="kunlik"] button').click();
-        if (locale === 'uz') await card.locator('[data-studio-checkout] input[value="payme"]').check();
-        const navigation = page.waitForURL('**/*pay=return*');
-        await card.locator('[data-studio-checkout] button[type="submit"]').click();
-        await navigation;
+      await input.fill(locale==='ru'?'сократи слайд 3':'3 slaydni qisqartir');
+      await page.locator('.gpt-send-button').click();
+      await page.waitForFunction(()=>document.querySelector('[data-chat-artifact] small')?.textContent?.includes('3'));
+      assert.equal(created,1,'document command neither spends a generation nor a chat response');
+      if(width<1180) await tabs.locator('button').last().click();
+      // Closing and reload restore references, never automatically expand old forms.
+      await card.locator('.gpt-workspace-header .gpt-workspace-icon').click();
+      assert.equal(await input.isVisible(),true);
+      await page.reload();
+      await page.locator('[data-chat-artifact]').waitFor();
+      assert.equal(await page.locator('[data-testid="ai-console"]').getAttribute('data-presentation'),null);
+      assert.equal(await page.locator('[data-chat-presentation]:visible').count(),0);
+      await page.locator('[data-chat-artifact]').first().click();
+      await card.locator('h2',{hasText:'Edited Space'}).waitFor();
+      await card.locator('.gpt-slide-canvas').waitFor();
+      assert.equal(created,1,'reload never regenerates or consumes an additional unit');
+      if(width===360 || width===1366){
+        const shots=path.join(ROOT,'reports/chat-studio-workspace-20261008');
+        fs.mkdirSync(shots,{recursive:true});
+        await page.screenshot({path:path.join(shots,`${locale}-${width}.png`)});
+      }
+      if(width===360){
+        await page.locator('[data-testid="studio-account-trigger"]').click();
+        await sheet.locator('[data-studio-plan="kunlik"]').click();
+        if(locale==='uz') await sheet.locator('[data-studio-checkout] input[value="payme"]').check();
+        const navigation=page.waitForURL('**/*pay=return*');
+        await sheet.locator('[data-studio-checkout] button[type="submit"]').click();
+        try { await navigation; }
+        catch { assert.fail(JSON.stringify({step:'checkout-return',locale,width,checkouts,errors,unexpected,text:await sheet.innerText()})); }
         await page.locator('[data-studio-pay-return="paid"]').waitFor();
-        assert.equal(returnPath, paths[locale]);
-        assert.equal(await page.locator('[data-studio-preview]').count(), 1, 'same local result survived payment navigation');
-        await page.locator('[data-studio-units="1"]').waitFor();
-        assert.equal(await page.locator('input[name="topic"]').inputValue(), 'Space and planets');
-        assert.equal(checkouts, 1);
+        assert.equal(returnPath,paths[locale]);
+        await card.locator('h2',{hasText:'Edited Space'}).waitFor();
+        await page.locator('[data-testid="studio-account-trigger"]',{hasText:locale==='ru'?'Презентации: 1':'Taqdimotlar: 1'}).waitFor();
+        assert.equal(checkouts,1);
+        assert.equal(created,1,'return restores the file without an automatic paid launch');
+        // Rights unlock an explicit upgrade confirmation, never a second checkout.
+        await card.locator('.gpt-workspace-footer > .gpt-workspace-button').click();
+        await sheet.locator('[data-studio-upgrade-confirm]').waitFor();
+        assert.equal(created,1);
+        assert.equal(checkouts,1);
+        await sheet.locator('[data-studio-upgrade-confirm]').evaluate(el=>{(el as HTMLButtonElement).click();(el as HTMLButtonElement).click();});
+        await card.locator('h2',{hasText:'Full Space'}).waitFor();
+        assert.equal(fullCreated,1,'double click cannot create two paid jobs');
+        assert.equal(created,2,'one free and one explicitly confirmed paid launch');
+        assert.equal(await card.locator('.gpt-slide-filmstrip button').count(),14);
+        const fullDownload=page.waitForEvent('download');
+        await card.locator('[data-studio-download] button').click();
+        const fullZip=await JSZip.loadAsync(fs.readFileSync((await (await fullDownload).path())!));
+        assert.match(await fullZip.file('ppt/notesSlides/notesSlide2.xml')!.async('string'),/Speaker note fixture/);
       }
-      assert.deepEqual(unexpected, []);
-      assert.deepEqual(errors, []);
-      assert.equal(requests.some(url => url === '/api/gpt/chat'), false, 'presentation action spends no text-chat response');
-      if (width === 390) {
-        await page.goto(origin + paths[locale] + '?tool=presentation');
-        await page.waitForFunction(() => document.querySelectorAll('[data-chat-presentation]').length === 2);
-        assert.equal(created, 1, 'advertising entry opens a draft and never auto-generates');
+      if(width===390){
+        await page.goto(origin+paths[locale]+'?tool=presentation');
+        await page.waitForFunction(()=>document.querySelectorAll('[data-chat-artifact]').length===2);
+        if(width<1180) await page.locator('.gpt-presentation-tabs button').last().click();
+        await page.locator('[data-chat-presentation]:visible').waitFor();
+        assert.equal(await page.locator('[data-chat-presentation]:visible').count(),1,'one selected editor, two compact references');
+        assert.equal(created,1,'advertising entry only opens a draft');
       }
+      // Actual language links both ways with populated presentation history.
+      const other=locale==='ru'?'uz':'ru';
+      await page.locator(`.gpt-header a[href="${paths[other]}"]`).click();
+      await page.locator('[data-chat-presentation-open]:not(:disabled)').waitFor();
+      assert.equal(new URL(page.url()).pathname,paths[other]);
+      assert.equal(await page.locator('[data-testid="ai-console"]').getAttribute('data-presentation'),null);
+      assert.equal(await page.locator('[data-chat-presentation]:visible').count(),0,'language switch opens ordinary chat');
+      await page.locator(`.gpt-header a[href="${paths[locale]}"]`).click();
+      await page.locator('[data-chat-artifact]').first().waitFor();
+      assert.equal(await page.locator('[data-chat-presentation]:visible').count(),0,'returning to locale leaves saved artifacts collapsed');
+      assert.deepEqual(unexpected,[]);
+      assert.deepEqual(errors,[]);
+      assert.equal(requests.includes('/api/gpt/chat'),false,'presentation operations use no ordinary text model');
       evidence.push({ locale, width, geometry, created, checkouts, bytes: bytes.length });
       await ctx.close();
     }
   } finally {
-    fs.mkdirSync(path.join(ROOT, 'reports/chat-studio-local'), { recursive: true });
-    fs.writeFileSync(path.join(ROOT, 'reports/chat-studio-local/browser.json'), JSON.stringify({ scenarios: evidence }, null, 2));
+    fs.mkdirSync(path.join(ROOT, 'reports/chat-studio-workspace-20261008'), { recursive: true });
+    fs.writeFileSync(path.join(ROOT, 'reports/chat-studio-workspace-20261008/browser.json'), JSON.stringify({ scenarios: evidence }, null, 2));
     await browser.close();
     await new Promise<void>(resolve => server.close(() => resolve()));
   }

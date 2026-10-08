@@ -11,13 +11,15 @@ import type { BusinessTopic } from './business-intent';
 
 /** Which button opened the pack window: GA4's `from` of pack_viewed and the counter's qualifier. */
 export const PACK_FROM = [
-  'header', 'limit_card', 'low_limit', 'after_10', 'account_check', 'login_failed', 'login_resume', 'pay_return',
+  'header', 'limit_card', 'low_limit', 'after_10', 'after_value', 'account_check', 'login_failed', 'login_resume', 'pay_return',
 ] as const;
 export type PackFrom = (typeof PACK_FROM)[number];
 
 /** The steps, with the qualifiers functions/lib/gpt-chat/ui-event-store.ts accepts. */
 export interface UiEventDetails {
   pack_viewed: PackFrom;
+  pack_prompt_viewed: 'after_answer'|'near_limit';
+  pack_prompt_dismissed: 'after_answer'|'near_limit';
   login_started: 'bot' | 'oidc';
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Sparkles, X } from 'lucide-react';
 import type { Locale, PaymentProvider } from "../types";
 import type { ChatStrings } from "../i18n";
 import { showsAccountPill, type AccountView } from "../types";
@@ -189,7 +188,7 @@ export function AiAccountPanel({
           onClick={() => openPack("header")}
           data-testid="ai-account-trigger"
         >
-          {data?.access && <Sparkles data-icon="inline-start" />}
+          {data?.access && <svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3zM20 1v4m-2-2h4"/></svg>}
           <span className="gpt-account-label">{data?.access ? t.premium.accountActive : t.premium.buyPack}</span>
         </Button>
         </DialogTrigger>
@@ -199,14 +198,14 @@ export function AiAccountPanel({
         className="gpt-account-dialog ym-hide-content"
       >
         <div className="gpt-panel-top">
-          <Badge variant="secondary"><Sparkles data-icon="inline-start" /> {t.brand}</Badge>
+          <Badge variant="secondary"><svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3zM20 1v4m-2-2h4"/></svg> {t.brand}</Badge>
           <Button variant="ghost" size="icon-lg"
             type="button"
             className="gpt-icon-button"
             onClick={close}
             aria-label={t.premium.close}
           >
-            <X data-icon="inline-start" />
+            <svg data-icon="inline-start" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg>
           </Button>
         </div>
         <LazyPart

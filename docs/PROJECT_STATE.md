@@ -1,4 +1,13 @@
-# GPTBot.uz — актуальное состояние, 07.10.2026
+# GPTBot.uz — актуальное состояние, 08.10.2026
+
+## Текущий этап: рабочее пространство и покупка, локально
+
+Новый UX реализован в `F:/Claude/gptbot-codex-integration-20261007`: desktop чат рядом со слайдами; mobile Чат/Слайды; реальные правки/PPTX; безопасное восстановление/paid upgrade; смена RU/UZ открывает ordinary chat. Контекстная карточка AI-пакета появляется после первого ответа/у лимита с direct Click/Payme и честной ценой; скрывается на день, исключает paid/off/Studio. 339 regressions PASS; browser/typecheck/lint evidence и финальная сборка — `CHAT_STUDIO_WORKSPACE_IMPLEMENTATION_20261008.md` и `reports/chat-studio-workspace-20261008/`.
+
+**Новая версия ещё не опубликована.** Live marker всё ещё `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. Следующий этап — guarded release по команде владельца. Реальная оплата/генерация/PPTX/чек и измерение ROI остаются отдельной приёмкой. Тарифы и backend прежние; photo off. Не повторять Claude reconstruction и не путать локальный preview с production.
+
+## История опубликованного состояния до этого этапа
+
 
 Рабочее дерево: `F:/Claude/gptbot-codex-integration-20261007`, ветка `codex/continuation-20261007`.
 Production: `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`, deployment https://4842b403.ai-direct-pro-landing.pages.dev. Встроенные презентации опубликованы по прямой команде владельца; полный build/guard/deploy и независимый live readback PASS. Код интеграции `8ebb3d30`; квитанция `reports/chat-studio-local/production.json`. Последующие docs-only commits runtime не меняют. Реальных списаний этот этап не выполнял.

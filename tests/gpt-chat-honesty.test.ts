@@ -216,7 +216,7 @@ test('no price and no pack button while a pack cannot be bought (F4, F6)', () =>
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
   assert.match(panel, /const reachable = showsAccountPill\(data\);/);
   assert.match(panel, /\{reachable && \(\s*<DialogTrigger asChild>/);
-  assert.match(panel, /\{data\?\.access \? t\.premium\.accountActive : t\.premium\.account\}/);
+  assert.match(panel, /\{data\?\.access \? t\.premium\.accountActive : t\.premium\.buyPack\}/);
   const window = read('src/gpt-chat/account/AccountDialog.tsx');
   // The price card for a guest and the pay step for an account, only while a
   // pack can be bought, with the numbers the server states.
@@ -245,7 +245,7 @@ test('with the pack button in the header, the Russian chat’s switch is never c
   // by 5px and was clipped. While the button shows, the code comes back below
   // 390px, as it does for everyone below 375px.
   const css = read('src/gpt-chat/premium.css');
-  const rule = css.match(/@media \(max-width: 389px\) \{([^@]*)\}/);
+  const rule = css.match(/@media \(max-width: 479px\) \{([^@]*)\}/);
   assert.ok(rule, 'a 389px rule exists');
   // The word gives way to «UZ» below 390px, never cut.
   assert.match(rule[1], /\.gpt-header:has\(\.gpt-account-trigger\) \.gpt-lang-full \{ display: none; \}/);
@@ -560,7 +560,7 @@ test('«‹ 1/2 ›»: the versions «Qayta yozish» made, at most 3, kept in th
   // Showing another version spends nothing and is refused during a turn.
   assert.match(consoleSource, /if \(busy \|\| !shown\) return;\s*persist\(messages\.map\(\(x, i\) => \(i === index \? \{ \.\.\.x, \.\.\.shown, version \} : x\)\)\);/);
   // The server gets the shown text only.
-  assert.match(read('src/gpt-chat/api.ts'), /history: params\.history\.map\(\(m\) => \(\{ role: m\.role, content: m\.content \}\)\),/);
+  assert.match(read('src/gpt-chat/api.ts'), /history: params\.history\.filter\(\(m\) => !m\.kind\)\.map\(\(m\) => \(\{ role: m\.role, content: m\.content \}\)\),/);
   for (const locale of LOCALES) for (const line of [answerStrings(locale).versions, answerStrings(locale).versionBack, answerStrings(locale).versionNext]) assert.doesNotMatch(line, DISHONEST);
 });
 

@@ -413,7 +413,7 @@ test('one report per ended payment: checkout_result always, a purchase for real 
 
 test('the way back: ?pay=return opens the window, leaves the address, and the browser keeps the question', () => {
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
-  assert.match(panel, /useState\(\(\) => new URLSearchParams\(window\.location\.search\)\.get\("pay"\) === "return"\)/);
+  assert.match(panel, /return query\.get\("pay"\) === "return" && query\.get\('product'\) !== 'studio'/);
   assert.match(panel, /loadCheckout\(\) \?\? \(payReturn \? \{ provider: null, flow: "redirect"/);
   assert.match(panel, /url\.searchParams\.delete\("pay"\);\s*window\.history\.replaceState\(null, "", url\.href\);/);
   assert.match(panel, /\} else if \(checkout\) openPack\("pay_return"\);/);

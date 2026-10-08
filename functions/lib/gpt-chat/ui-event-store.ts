@@ -19,12 +19,15 @@ export const UI_EVENTS = {
     "limit_card",
     "low_limit",
     "after_10",
+    "after_value",
     "account_check",
     "login_failed",
     "login_resume",
     "pay_return",
   ],
   login_started: ["bot", "oidc"],
+  pack_prompt_viewed: ["after_answer", "near_limit"],
+  pack_prompt_dismissed: ["after_answer", "near_limit"],
   login_result: ["done", "rejected", "expired", "failed"],
   /** A checkout began with this provider: its page opened, its app code showed, or a test order. */
   checkout_started: ["click", "uzum", "payme"],
@@ -45,6 +48,8 @@ export type UiEventType = keyof typeof UI_EVENTS;
  */
 export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>([
   "pack_viewed",
+  "pack_prompt_viewed",
+  "pack_prompt_dismissed",
   "login_started",
   "login_result",
   "checkout_started",

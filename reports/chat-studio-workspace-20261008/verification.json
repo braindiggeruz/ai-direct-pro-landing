@@ -1,0 +1,213 @@
+{
+  "checkedAt": "2026-10-08T00:27:22.311332+00:00",
+  "status": "LOCAL_CHECKS_PASS_PRODUCTION_BUILD_PENDING",
+  "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
+  "regressions": {
+    "tests": 339,
+    "pass": 339,
+    "fail": 0,
+    "skipped": 0
+  },
+  "protectionAndExport": {
+    "tests": 119,
+    "pass": 119,
+    "fail": 0,
+    "skipped": 0
+  },
+  "ownerAdminFunnel": {
+    "tests": 15,
+    "pass": 15,
+    "fail": 0,
+    "skipped": 0
+  },
+  "actualBuiltBrowser": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0
+  },
+  "workspaceScenarios": 8,
+  "conversionScenarios": 5,
+  "typecheck": {
+    "root": 0,
+    "functions": 0,
+    "leadRadar": 0,
+    "studio": 0
+  },
+  "scopedLint": 0,
+  "protectedSeoContracts": {
+    "pass": 10,
+    "fail": 0
+  },
+  "scopedSecretScan": {
+    "status": "PASS",
+    "valuesPrinted": false
+  },
+  "bundle": {
+    "startJsBrotli": 109539,
+    "startCssBrotli": 6764,
+    "pageCssBrotli": 26970,
+    "gate": "PASS",
+    "limitsChanged": false
+  },
+  "layout": {
+    "runs": 52,
+    "geometryFailures": 0,
+    "contrastFailures": 0,
+    "overlapFailures": 0,
+    "overflowFailures": 0,
+    "initialCombinedGate": false,
+    "initialNote": "geometry PASS; initial 390px UZ LCP 2564ms exceeded 2500ms; repeat isolated performance gate PASS; raw initial report retained"
+  },
+  "repeatedPerformance": {
+    "ok": true,
+    "samples": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "cls": 0.002,
+        "lcp": {
+          "t": 2468,
+          "size": 6020,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2468,
+            "size": 6020,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "cls": 0.002,
+        "lcp": {
+          "t": 3088,
+          "size": 6405,
+          "el": "h1.gpt-kicker"
+        },
+        "candidates": [
+          {
+            "t": 2344,
+            "size": 6335,
+            "el": "h1.gpt-kicker"
+          },
+          {
+            "t": 3088,
+            "size": 6405,
+            "el": "h1.gpt-kicker"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2460,
+          "size": 6845,
+          "el": null
+        },
+        "candidates": [
+          {
+            "t": 2460,
+            "size": 6845,
+            "el": null
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2316,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2316,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2224,
+          "size": 6845,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2224,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2160,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2160,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2324,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2324,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "ru",
+        "cls": 0.0051,
+        "lcp": {
+          "t": 2312,
+          "size": 8323,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2312,
+            "size": 8323,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      }
+    ]
+  },
+  "productionBuild": "PENDING committed source",
+  "published": false,
+  "realPaymentAcceptance": "NOT_PERFORMED",
+  "data": "All browser APIs, AI, subscriptions and payments were offline fixtures. No real order, grant or charge.",
+  "preview": "http://127.0.0.1:19129/ru/gpt-chat/; offline fixtures, local example only"
+}

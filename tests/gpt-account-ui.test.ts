@@ -336,7 +336,7 @@ test('a turn stores when and where the account view says at that moment, also wh
   // Every write of a turn asks storeRef when it writes; none uses the render the tap happened in.
   assert.match(source, /const store = \(save: \(scope\?: string\) => void\) => \{\s*const s = storeRef\.current;\s*if \(s\.ready\) save\(s\.scope\);\s*\};/);
   const turn = source.slice(source.indexOf('const store = ('), source.indexOf('const onStop ='));
-  assert.doesNotMatch(turn, /accountReady|storageScope/);
+  assert.doesNotMatch(turn.slice(0,turn.indexOf('const doSend')), /accountReady|storageScope/); // Tool availability may check readiness; writes must use storeRef.
   assert.match(turn, /const keepSession = \(id: string\) => \{\s*sessionIdRef\.current = id;\s*setSessionId\(id\);\s*store\(\(scope\) => saveSessionId\(id, config\.locale, scope\)\);\s*\};/);
   assert.match(turn, /const keepRemaining = \(n: number\) => \{\s*setRemaining\(n\);\s*store\(\(scope\) => saveRemaining\(n, scope\)\);\s*\};/);
   assert.match(turn, /const persist = \(next: ChatMessage\[\]\) => \{\s*setMessages\(next\);\s*store\(\(scope\) => saveHistory\(next, config\.locale, scope\)\);\s*\};/);
@@ -375,7 +375,7 @@ test('a pack is buyable only with a mode and a provider; every opening of its wi
   assert.match(panel, /onOpenChange=\{\(next\) => \{ if \(!next\) close\(\); \}\}/, 'the Dialog itself only closes');
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   const froms = [...new Set([...chat.matchAll(/openAccount\("(\w+)"(?:, provider)?\)/g)].map((m) => m[1]))].sort();
-  assert.deepEqual(froms, ['account_check', 'after_10', 'limit_card', 'low_limit']);
+  assert.deepEqual(froms, ['account_check', 'after_value', 'limit_card', 'low_limit']);
   assert.doesNotMatch(chat, /setAccountOpen\(\(n\) => n \+ 1\)/);
 });
 
