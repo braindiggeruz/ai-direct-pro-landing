@@ -29,10 +29,16 @@ export function track(event: string, data: Record<string, unknown> = {}): void {
       fbq?: (...args: unknown[]) => void;
     };
     try {
-      if (typeof w.gtag === 'function') w.gtag('event', event, data);
+      // UI origin is not campaign attribution. Keep caller/Meta fields intact.
+      const googleData = { ...data };
+      if ('source' in googleData) {
+        if (!('ui_source' in googleData)) googleData.ui_source = googleData.source;
+        delete googleData.source;
+      }
+      if (typeof w.gtag === 'function') w.gtag('event', event, googleData);
       else {
         if (!w.dataLayer) w.dataLayer = [];
-        w.dataLayer.push({ event, ...data });
+        w.dataLayer.push({ event, ...googleData });
       }
     } catch {
       /* Google analytics must not block the independent Meta route. */

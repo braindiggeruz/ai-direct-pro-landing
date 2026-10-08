@@ -1,0 +1,133 @@
+{
+  "scope": "Current authored source, old generator vs shared max-date policy; no dates edited by R6",
+  "changes": [
+    {
+      "url": "/uz/gpt-chat-qollanma/",
+      "file": "content/pages\\uz\\gpt-chat-qollanma.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/uz/gpt-uzbek-tilida/",
+      "file": "content/pages\\uz\\gpt-uzbek-tilida.json",
+      "lastReviewedAt": "2026-10-05",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-05",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/uz/oferta/",
+      "file": "content/pages\\uz\\oferta.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/uz/maxfiylik-siyosati/",
+      "file": "content/pages\\uz\\maxfiylik-siyosati.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/uz/samarqandda-chat-bot/",
+      "file": "content/pages\\uz\\samarqandda-chat-bot.json",
+      "lastReviewedAt": "2026-06-25",
+      "updatedAt": "2026-07-30",
+      "previousModified": "2026-06-25",
+      "correctedModified": "2026-07-30"
+    },
+    {
+      "url": "/uz/sotuvchi/",
+      "file": "content/pages\\uz\\sotuvchi.json",
+      "lastReviewedAt": "2026-08-01",
+      "updatedAt": "2026-08-20",
+      "previousModified": "2026-08-01",
+      "correctedModified": "2026-08-20"
+    },
+    {
+      "url": "/ru/ai-bot-dlya-nishi/",
+      "file": "content/pages\\ru\\ai-bot-dlya-nishi.json",
+      "lastReviewedAt": "2026-06-25",
+      "updatedAt": "2026-07-30",
+      "previousModified": "2026-06-25",
+      "correctedModified": "2026-07-30"
+    },
+    {
+      "url": "/ru/ai-chat-dlya-sayta/",
+      "file": "content/pages\\ru\\ai-chat-dlya-sayta.json",
+      "lastReviewedAt": "2026-07-11",
+      "updatedAt": "2026-07-14",
+      "previousModified": "2026-07-11",
+      "correctedModified": "2026-07-14"
+    },
+    {
+      "url": "/ru/ai-prodavec/",
+      "file": "content/pages\\ru\\ai-prodavec.json",
+      "lastReviewedAt": "2026-06-25",
+      "updatedAt": "2026-07-30",
+      "previousModified": "2026-06-25",
+      "correctedModified": "2026-07-30"
+    },
+    {
+      "url": "/ru/chat-bot-v-samarkande/",
+      "file": "content/pages\\ru\\chat-bot-v-samarkande.json",
+      "lastReviewedAt": "2026-06-25",
+      "updatedAt": "2026-07-30",
+      "previousModified": "2026-06-25",
+      "correctedModified": "2026-07-30"
+    },
+    {
+      "url": "/ru/tarify-ai-chat/",
+      "file": "content/pages\\ru\\tarify-ai-chat.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/ru/sayt-s-ai-botom/",
+      "file": "content/pages\\ru\\sayt-s-ai-botom.json",
+      "lastReviewedAt": "2026-07-10",
+      "updatedAt": "2026-07-14",
+      "previousModified": "2026-07-10",
+      "correctedModified": "2026-07-14"
+    },
+    {
+      "url": "/ru/sayt-dlya-zayavok/",
+      "file": "content/pages\\ru\\sayt-dlya-zayavok.json",
+      "lastReviewedAt": "2026-07-10",
+      "updatedAt": "2026-07-14",
+      "previousModified": "2026-07-10",
+      "correctedModified": "2026-07-14"
+    },
+    {
+      "url": "/ru/politika-konfidentsialnosti/",
+      "file": "content/pages\\ru\\politika-konfidentsialnosti.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/ru/oferta/",
+      "file": "content/pages\\ru\\oferta.json",
+      "lastReviewedAt": "2026-10-07",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-07",
+      "correctedModified": "2026-10-08"
+    },
+    {
+      "url": "/ru/gpt-chat/",
+      "file": "content/pages\\ru\\gpt-chat.json",
+      "lastReviewedAt": "2026-10-05",
+      "updatedAt": "2026-10-08",
+      "previousModified": "2026-10-05",
+      "correctedModified": "2026-10-08"
+    }
+  ]
+}

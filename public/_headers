@@ -62,6 +62,14 @@
 # — Vite's hashed bundles and the admin panel's hashed chunks. No document is
 # served from either, so no HTML gains a long edge TTL from this.
 
+# Only the project alias and its previews are excluded, never the custom domain.
+# Mirrored in scripts/generate-robots.ts; Functions use their own middleware.
+https://ai-direct-pro-landing.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.ai-direct-pro-landing.pages.dev/*
+  X-Robots-Tag: noindex
+
 # Bormi Admin (owner control center): the shell's headers are NOT here.
 # `_headers` merges matching blocks instead of letting the specific one win, so
 # a /admin/* block would be appended to the global one above and produce a

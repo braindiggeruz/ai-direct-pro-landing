@@ -1,4 +1,45 @@
 {
+  "seo_recovery_20261008": {
+    "status": "LOCAL_CHECKS_PASSED_DEPLOY_AUTHORIZED",
+    "sourceBaseHead": "e2280e4494ccc272cc0838e91a77c0a20eb8ef19",
+    "productionBaseline": "a80dfcbd13212246fb650daa877dd295044bc298",
+    "sourceCommit": null,
+    "scope": [
+      "R1",
+      "R2",
+      "R3",
+      "R5",
+      "R6",
+      "R7",
+      "R9",
+      "GA4 attribution boundaries"
+    ],
+    "report": "docs/seo/implementation/2026-10-08-recovery/IMPLEMENTATION_REPORT.md",
+    "protectedRevision": "docs/seo/evidence/2026-10-08-recovery/reviewed-protected-pages.json",
+    "checks": {
+      "buildFast": 0,
+      "adminBuild": 0,
+      "studioBuild": 0,
+      "typecheck": 0,
+      "functionsTypecheck": 0,
+      "scopedLint": 0,
+      "effectiveRegressionPass": 284,
+      "historicalSkipped": 4,
+      "repairSuitePass": 14,
+      "bundleBudget": "PASS"
+    },
+    "deployment": null,
+    "postDeployDiscovery": "Owner explicitly requested IndexNow and fast Google recrawl submission after deployment",
+    "deferredPreviousNextStage": "Внешняя денежная приёмка: Merchant readback Click/ОФД и подтверждённая покупка Studio → права → PPTX → receipt",
+    "openItems": [
+      "Post-deployment live readback",
+      "Google URL request if browser available",
+      "Mature post-recrawl CTR windows",
+      "Insufficient field CWV data",
+      "Native Uzbek editorial signoff",
+      "Today GA4 first-user/hourly report unavailable through current tools"
+    ]
+  },
   "seo_traffic_20261007": {
     "status": "committed_not_deployed",
     "branch": "seo/traffic-20261007 (worktree F:/Claude/gptbot-seo-traffic-20261007)",
@@ -1469,10 +1510,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Production trial 3 / Studio опубликованы; legacy cache исправлен; real live проверки пройдены",
-  "stage_status": "complete",
-  "last_completed_stage": "Опубликованы chat workspace, монетизация Studio, lifetime trial3 и legacy cache fix; live проверки завершены, внешняя денежная приёмка отдельно",
-  "next_stage": "Внешняя денежная приёмка: Merchant readback Click/ОФД и подтверждённая покупка Studio → права → PPTX → receipt",
+  "current_stage": "SEO recovery local candidate checked; guarded deployment authorized",
+  "stage_status": "in_progress",
+  "last_completed_stage": "SEO recovery code and local regression checks",
+  "next_stage": "Guarded recovery deployment, production readback and IndexNow/GSC submission",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1805,7 +1846,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-08T01:15:57.954566+00:00",
+  "updated_at": "2026-10-08T13:35:45.137891+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [],

@@ -24,7 +24,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Qisqa javob: rezyume — ish beruvchiga yuboriladigan 1–2 sahifalik hujjat: ism va aloqa ma’lumotlari, o‘zingiz haqingizda 2–3 gap, tajriba (natijalar bilan), ta’lim, ko‘nikmalar va tillar. GPTBot.uz AI chati tajribangizni aniq bandlarga aylantiradi va vakansiyaga moslaydi, lekin faqat matn yozadi: Word, PDF yoki shablon bermaydi. Pasport ma’lumotlari, telefon raqami va manzilni chatga yozmang."
+      "text": "Qisqa javob: rezyume — ish beruvchiga yuboriladigan 1–2 sahifalik hujjat: ism va aloqa ma’lumotlari, o‘zingiz haqingizda 2–3 gap, tajriba (natijalar bilan), ta’lim, ko‘nikmalar va tillar. GPTBot.uz AI chati tajribangizni aniq bandlarga aylantiradi va vakansiyaga moslaydi, lekin rezyume uchun matn qoralamasini beradi: Word, PDF yoki shablon faylini yaratmaydi. Pasport ma’lumotlari, telefon raqami va manzilni chatga yozmang."
     },
     {
       "type": "linkp",
@@ -160,7 +160,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, undan bepul limit (kunlik va soatlik) doirasida foydalanish mumkin. U xato qilishi yoki tajribangizni bo‘rttirib yozishi mumkin, shuning uchun har bir bandni o‘zingiz tekshiring."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, unda jami 3 ta bepul sinov javobi bor. Sinov har kuni yoki yangi chatda yangilanmaydi; keyin davom etish uchun AI paket kerak. U xato qilishi yoki tajribangizni bo‘rttirib yozishi mumkin, shuning uchun har bir bandni o‘zingiz tekshiring."
     },
     {
       "type": "h2",
@@ -377,7 +377,7 @@
     },
     {
       "q": "Rezyumeni bepul qayerda tayyorlash mumkin?",
-      "a": "Matnni GPTBot.uz AI chatida bepul limit (kunlik va soatlik) doirasida tayyorlash mumkin: chat tuzilma beradi, tajribangizni bandlarga aylantiradi va xatolarni ko‘rsatadi. Faylni esa Word, Google Docs yoki rezyume konstruktorida o‘zingiz tayyorlaysiz — chat fayl yoki shablon bermaydi."
+      "a": "Matnni GPTBot.uz AI chatida jami 3 ta bepul sinov javobi doirasida tayyorlash mumkin; keyin AI paket kerak. Sinov har kuni yangilanmaydi: chat tuzilma beradi, tajribangizni bandlarga aylantiradi va xatolarni ko‘rsatadi. Faylni esa Word, Google Docs yoki rezyume konstruktorida o‘zingiz tayyorlaysiz — chat rezyume fayli yoki shablonini bermaydi."
     },
     {
       "q": "Rezyume PDF’da yuboriladimi yoki Word’da?",
@@ -437,7 +437,7 @@
   "breadcrumbLabel": "Rezyume tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-10-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -452,6 +452,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-08",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

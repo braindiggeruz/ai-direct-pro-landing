@@ -24,7 +24,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Qisqa javob: referat odatda olti qismdan iborat — titul varaq, reja, kirish, asosiy qism, xulosa va adabiyotlar ro‘yxati. Mustaqil ish ham ko‘pincha shu shaklda topshiriladi. GPTBot.uz AI chati reja va tahrirda yordam beradi, lekin faqat matn yozadi: .docx yoki PDF fayl bermaydi — ishni Word yoki Google Docs’da o‘zingiz rasmiylashtirasiz."
+      "text": "Qisqa javob: referat odatda olti qismdan iborat — titul varaq, reja, kirish, asosiy qism, xulosa va adabiyotlar ro‘yxati. Mustaqil ish ham ko‘pincha shu shaklda topshiriladi. GPTBot.uz AI chati reja va tahrirda yordam beradi, lekin referat uchun matn qoralamasini beradi: .docx yoki PDF fayl yaratmaydi — ishni Word yoki Google Docs’da o‘zingiz rasmiylashtirasiz."
     },
     {
       "type": "linkp",
@@ -141,12 +141,12 @@
         "3. Manbalar. Darslik, kutubxona yoki ishonchli saytdan manbalarni o‘zingiz toping. AI’dan faqat qaysi turdagi manba kerakligini so‘rang: u mavjud bo‘lmagan kitob yoki maqola nomini «topib» berishi mumkin.",
         "4. O‘z matningiz. Har bir bandni manbani o‘qib, o‘z so‘zlaringiz bilan yozing. Tushunmagan joyingizni AI’dan sodda tilda tushuntirib berishni so‘rang.",
         "5. Tahrir. Yozganingizni AI’ga berib, imlo xatolari, takrorlar va mantiqiy uzilishlarni ko‘rsatishni so‘rang — ma’noni o‘zgartirmasin. Matn uzun bo‘lsa, uni bo‘limlarga bo‘lib yuboring: bitta xabar hajmi cheklangan.",
-        "6. Rasmiylashtirish. Matnni Word yoki Google Docs’ga ko‘chiring, titul varaq, reja va adabiyotlar ro‘yxatini talab bo‘yicha rasmiylashtiring. Chat fayl bermaydi — faylni o‘zingiz tayyorlaysiz."
+        "6. Rasmiylashtirish. Matnni Word yoki Google Docs’ga ko‘chiring, titul varaq, reja va adabiyotlar ro‘yxatini talab bo‘yicha rasmiylashtiring. Chat referat uchun Word yoki PDF fayl bermaydi — hujjatni o‘zingiz tayyorlaysiz."
       ]
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, undan bepul limit (kunlik va soatlik) doirasida foydalanish mumkin. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana va iqtiboslarni manbadan tekshiring."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi, unda jami 3 ta bepul sinov javobi bor. Sinov har kuni yoki yangi chatda yangilanmaydi; keyin davom etish uchun AI paket kerak. Har qanday til modeli kabi u ham xato qilishi mumkin, shuning uchun fakt, sana va iqtiboslarni manbadan tekshiring."
     },
     {
       "type": "h2",
@@ -443,7 +443,7 @@
   "breadcrumbLabel": "Referat va mustaqil ish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-10-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -463,6 +463,6 @@
       "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-08",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

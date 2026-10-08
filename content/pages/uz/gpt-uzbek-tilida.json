@@ -34,19 +34,19 @@
   "searchIntent": "transactional",
   "h1": "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil",
   "title": "ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish",
-  "description": "O‘zbek tilida bepul AI chat: ro‘yxatsiz, shu sahifada yozing — matn, reja, g‘oyalar. Kunlik limit bilan. GPTBot.uz — mustaqil servis, OpenAI emas.",
+  "description": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Matn, reja va g‘oyalar. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "ogTitle": "ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish",
-  "ogDescription": "O‘zbek tilida bepul AI chat: ro‘yxatsiz, shu sahifada yozing — matn, reja, g‘oyalar. Kunlik limit bilan. GPTBot.uz — mustaqil servis, OpenAI emas.",
+  "ogDescription": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Matn, reja va g‘oyalar. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
   "heroTitle": "O‘zbek tilida AI chat online",
-  "heroSubtitle": "O‘zbek tilida bepul AI chat: ro‘yxatsiz, shu sahifada yozing. GPTBot.uz — mustaqil servis, OpenAI emas.",
+  "heroSubtitle": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
   "ctaSecondaryLabel": "Biznes uchun AI-bot",
@@ -54,7 +54,7 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "GPTBot.uz AI chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn yordamchi, ChatGPT’ga o‘zbekcha muqobil. Shu sahifada bepul, ro‘yxatdan o‘tmasdan, brauzer orqali savol berish mumkin: alohida APK yoki dastur yuklash shart emas. AI matn yozadi va tahrirlaydi, konspekt, reja, reklama g‘oyasi va mijozga javob qoralamasini tayyorlashga yordam beradi."
+      "text": "GPTBot.uz AI chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn yordamchi, ChatGPT’ga o‘zbekcha muqobil. Shu sahifada brauzer orqali ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi olish mumkin; keyin davom etish uchun AI paket kerak: alohida APK yoki dastur yuklash shart emas. AI matn yozadi va tahrirlaydi, konspekt, reja, reklama g‘oyasi va mijozga javob qoralamasini tayyorlashga yordam beradi."
     },
     {
       "type": "p",
@@ -78,7 +78,7 @@
     },
     {
       "type": "p",
-      "text": "Rasmiy ChatGPT’ga kirish uchun brauzerda chatgpt.com manzilini oching va Log in (hisob bo‘lsa) yoki Sign up (yangi hisob) tugmasini bosing — Google, Apple, telefon raqami yoki e-mail orqali. Hisobsiz ham sinab ko‘rish mumkin, lekin suhbatlar tarixi, rasm yaratish va fayl biriktirish uchun hisobga kirish kerak. 04.10.2026 holatiga O‘zbekiston OpenAI’ning ChatGPT ishlaydigan davlatlar ro‘yxatida bor, shuning uchun oddiy kirishda VPN kerak emas. Ro‘yxatdan o‘tmasdan o‘zbekcha savol berish kerak bo‘lsa, shu sahifadagi chatga yozing: bu GPTBot.uz’ning mustaqil AI chati, OpenAI mahsuloti emas; kunlik va soatlik limit bor."
+      "text": "Rasmiy ChatGPT’ga kirish uchun brauzerda chatgpt.com manzilini oching va Log in (hisob bo‘lsa) yoki Sign up (yangi hisob) tugmasini bosing — Google, Apple, telefon raqami yoki e-mail orqali. Hisobsiz ham sinab ko‘rish mumkin, lekin suhbatlar tarixi, rasm yaratish va fayl biriktirish uchun hisobga kirish kerak. 04.10.2026 holatiga O‘zbekiston OpenAI’ning ChatGPT ishlaydigan davlatlar ro‘yxatida bor, shuning uchun oddiy kirishda VPN kerak emas. Ro‘yxatdan o‘tmasdan o‘zbekcha savol berish kerak bo‘lsa, shu sahifadagi chatga yozing: bu GPTBot.uz’ning mustaqil AI chati, OpenAI mahsuloti emas; jami 3 ta bepul sinov javobi bor, keyin AI paket kerak."
     },
     {
       "type": "linkp",
@@ -98,11 +98,11 @@
     },
     {
       "type": "p",
-      "text": "Ikki usul bor. Birinchisi — rasmiy ChatGPT: chatgpt.com’ni yoki OpenAI ilovasini oching, savol maydoniga vazifani o‘zbekcha yozing va yuboring; suhbatlar saqlanib qolishi uchun hisobga kiring. Ikkinchisi — shu sahifadagi GPTBot.uz chati: yuqoridagi «Xabar yozing…» maydoniga savolni yozing va yuborish tugmasini bosing — ro‘yxatdan o‘tish shart emas. Bu ChatGPT emas, mustaqil servis; javoblari faqat matn ko‘rinishida, lekin matn yozish, reja tuzish, mavzuni tushuntirish va g‘oya topishda yordam beradi."
+      "text": "Ikki usul bor. Birinchisi — rasmiy ChatGPT: chatgpt.com’ni yoki OpenAI ilovasini oching, savol maydoniga vazifani o‘zbekcha yozing va yuboring; suhbatlar saqlanib qolishi uchun hisobga kiring. Ikkinchisi — shu sahifadagi GPTBot.uz chati: yuqoridagi «Xabar yozing…» maydoniga savolni yozing va yuborish tugmasini bosing — ro‘yxatdan o‘tish shart emas. Bu ChatGPT emas, mustaqil servis; oddiy chat matn yozish, reja tuzish, mavzuni tushuntirish va g‘oya topishda yordam beradi. PPTX kerak bo‘lsa, shu ish maydonida alohida taqdimot rejimini oching; uning limiti va paketlari chat javoblaridan alohida."
     },
     {
       "type": "p",
-      "text": "ChatGPT o‘zbek tilida bormi? Ha, chatgpt.com o‘zbekcha javob beradi; bu sahifa esa — unga mustaqil muqobil. Rasmiy ChatGPT’da menyu o‘zbekcha emas, lekin savolni o‘zbek tilida yozsangiz, javob odatda o‘zbekcha keladi. Bu yerdagi chatni OpenAI emas, GPTBot.uz yuritadi: hisob kerak emas, lekin kunlik va soatlik limit bor."
+      "text": "ChatGPT o‘zbek tilida bormi? Ha, chatgpt.com o‘zbekcha javob beradi; bu sahifa esa — unga mustaqil muqobil. Rasmiy ChatGPT’da menyu o‘zbekcha emas, lekin savolni o‘zbek tilida yozsangiz, javob odatda o‘zbekcha keladi. Bu yerdagi chatni OpenAI emas, GPTBot.uz yuritadi: jami 3 ta bepul sinov javobi uchun hisob kerak emas; keyin AI paket kerak."
     },
     {
       "type": "p",
@@ -180,9 +180,9 @@
       "items": [
         "Bepul chat uchun ro‘yxatdan o‘tish, karta va telefon raqami so‘ralmaydi.",
         "Javob odatda so‘rov tilida keladi: o‘zbekcha yozsangiz — o‘zbekcha, ruscha yozsangiz — ruscha. Boshqa tilda kelsa, «faqat o‘zbekcha javob ber» deb yozing.",
-        "Kunlik va soatlik limit bor; ular tugaganda chat buni aniq aytadi.",
-        "Bepul limit IP-manzil bo‘yicha hisoblanadi: umumiy tarmoqda (ofis, o‘qish joyi, mobil operator) u tezroq tugashi mumkin.",
-        "Bepul chatdan foydalanish uchun to‘lov shart emas. Pullik AI paket ixtiyoriy: u mavjud bo‘lganda, shartlari chatning o‘zida ko‘rsatiladi.",
+        "Jami 3 ta muvaffaqiyatli sinov javobi bepul. Yangi kun, yangi chat yoki tilni almashtirish limitni yangilamaydi.",
+        "Sinov limiti brauzerga bog‘langan; hisobga kirilganda shu hisobning ishlatilgan sinovi ham hisobga olinadi.",
+        "Uchta sinov javobi uchun to‘lov kerak emas. Keyin yangi javob olish uchun AI paket kerak; amaldagi narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Oldingi javoblarni o‘qish bepul qoladi.",
         "Savollar javob olish uchun serverimizga va xorijdagi AI-provayderlarga yuboriladi — parol, karta va boshqa maxfiy ma’lumotni yozmang."
       ]
     },
@@ -234,7 +234,7 @@
     },
     {
       "type": "p",
-      "text": "Manba: chatgpt.com/pricing. Tekshirilgan sana: 04.10.2026. Jadval rasmiy ChatGPT haqida. Shu sahifadagi GPTBot.uz chati — alohida servis: bepul, lekin kunlik va soatlik limit bilan; shartlari yuqorida, «Shu sahifadagi AI chat: shartlari» bo‘limida."
+      "text": "Manba: chatgpt.com/pricing. Tekshirilgan sana: 04.10.2026. Jadval rasmiy ChatGPT haqida. Shu sahifadagi GPTBot.uz chati — alohida servis: jami 3 ta bepul sinov javobi, keyin AI paket; shartlari yuqorida, «Shu sahifadagi AI chat: shartlari» bo‘limida."
     },
     {
       "type": "h2",
@@ -428,7 +428,7 @@
         ],
         [
           "Bepul limit",
-          "Kuniga 15 tagacha, soatiga 5 tagacha xabar (IP-manzil bo‘yicha)",
+          "Jami 3 ta sinov javobi; har kuni yangilanmaydi, keyin AI paket kerak",
           "Free tarifi: matnli suhbatlar cheklanmagan (qoidalar doirasida); fayl, rasm va ovoz — cheklangan"
         ],
         [
@@ -438,7 +438,7 @@
         ],
         [
           "Nima qila oladi",
-          "Faqat matnli javob",
+          "Matnli javoblar; alohida taqdimot rejimida PPTX, o‘z limiti va paketlari bilan",
           "Matnli javob, shuningdek fayl, rasm va ovoz bilan ishlash"
         ],
         [
@@ -492,7 +492,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘qish uchun alohida yo‘riqnomalar bor: {slayd} (chat reja va slayd matnini yozadi, lekin .pptx fayl yaratmaydi), {referat}, {esse} hamda ishga hujjat topshirish uchun {rezyume}.",
+      "text": "O‘qish uchun alohida yo‘riqnomalar bor: {slayd} (oddiy chat reja va slayd matnini yozadi; PPTX alohida taqdimot rejimida, o‘z limiti va paketlari bilan yaratiladi), {referat}, {esse} hamda ishga hujjat topshirish uchun {rezyume}.",
       "links": [
         {
           "token": "slayd",
@@ -785,9 +785,11 @@
       "name": "GPTBot.uz AI chat",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "description": "O‘zbek va rus tilida mustaqil AI chat. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.",
+      "description": "O‘zbek va rus tilida mustaqil AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Taqdimot rejimida PPTX uchun alohida limit va paketlar bor. OpenAI, ChatGPT yoki NVIDIA’ning rasmiy mahsuloti emas.",
       "offers": {
         "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Jami 3 ta muvaffaqiyatli sinov javobi; har kuni yangilanmaydi. Keyin chatni davom ettirish uchun AI paket kerak. Taqdimot limiti alohida.",
         "price": "0",
         "priceCurrency": "UZS"
       },

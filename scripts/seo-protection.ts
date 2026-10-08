@@ -122,7 +122,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Owner's 08.10 product decision: 3 lifetime trial replies. Only two chat
 // body fingerprints change; all ten metadata/link contracts stay unchanged.
 // Previous revisions remain immutable; comparison records the reviewed diff.
-export const BASELINE = 'docs/seo/evidence/2026-10-08-chat-trial/reviewed-protected-pages.json';
+// Recovery 08.10 corrects the two chat descriptions and bodies to the already
+// released lifetime trial, separates PPTX mode and uses actual authored dates.
+// All ten titles/H1s, canonical/robots/hreflang and link contracts stay. The
+// new review records the predecessor hash; the comparator is unchanged.
+export const BASELINE = 'docs/seo/evidence/2026-10-08-recovery/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

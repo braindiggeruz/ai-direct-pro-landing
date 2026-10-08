@@ -16,6 +16,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 
 import { gptChatNavLinks } from '../scripts/gpt-chat-nav';
 import { ENTRIES, entryScript, readViteManifest, type ViteManifest } from '../scripts/vite-manifest';
@@ -192,33 +193,28 @@ test('the gpt-chat summary shows its FAQ, every marked-up question and the updat
       .flatMap((m) => (JSON.parse(m[1])['@graph'] || []) as Array<Record<string, unknown>>);
     const faqPage = ld.find((node) => node['@type'] === 'FAQPage') as { mainEntity: Array<{ name: string }> } | undefined;
     assert.deepEqual(faqPage?.mainEntity.map((q) => q.name), (page.faq || []).map((f) => f.q), `${url}: FAQPage = the visible questions`);
-    const iso = new Date(page.lastReviewedAt || page.updatedAt || '').toISOString().slice(0, 10);
+    const iso = [page.lastReviewedAt, page.updatedAt].filter(Boolean).map((date) => new Date(date!).toISOString().slice(0, 10)).sort().at(-1)!;
     assert.ok(summary.includes(`<time datetime="${iso}">${iso.split('-').reverse().join('.')}</time>`), `${url}: visible update date`);
   }
 });
 
-// The numbers in the text must be the chat server's own, or a changed limit
-// would leave the pages silently wrong (roadmap 2.1/2.2: «15 in a day, 5 an
-// hour» after checking the live configuration).
-const configSource = fs.readFileSync(path.join(ROOT, 'functions', 'lib', 'gpt-chat', 'config.ts'), 'utf8');
-const freeDefault = (name: string) => Number(configSource.match(new RegExp(`num\\(env\\.${name}, (\\d+)\\)`))?.[1]);
-
-test('both chat pages and llms.txt state the free limits the chat server applies', () => {
-  const daily = freeDefault('GPT_FREE_DAILY_LIMIT');
-  const hourly = freeDefault('GPT_FREE_HOURLY_LIMIT');
-  assert.ok(daily > 0 && hourly > 0, 'config.ts defaults found');
-  // No deployment setting overrides the defaults.
-  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8'), /GPT_FREE_(DAILY|HOURLY)_LIMIT/);
+// The released lifetime trial supersedes legacy config.ts daily/hourly
+// defaults. Bind public copy to the durable server allowance, not dead defaults.
+test('both chat pages and llms.txt state the durable trial allowance', () => {
+  assert.equal(FREE_TRIAL_LIMIT, 3);
   const text = (url: string) => JSON.stringify(PAGES.find(({ page }) => page.url === url)!.page);
   const uz = text('/uz/gpt-uzbek-tilida/');
   const ru = text('/ru/gpt-chat/');
-  assert.match(uz, new RegExp(`kuniga ${daily} tagacha,? (va )?soatiga ${hourly} tagacha`, 'i'));
-  assert.match(ru, new RegExp(`до ${daily} сообщений в день и (до )?${hourly} в час`, 'i'));
+  assert.match(uz, new RegExp(`jami ${FREE_TRIAL_LIMIT} ta (?:bepul )?sinov javobi`, 'i'));
+  assert.match(ru, new RegExp(`${FREE_TRIAL_LIMIT} бесплатных пробных ответа`, 'i'));
+  assert.doesNotMatch(uz, /kuniga 15|soatiga 5|kunlik va soatlik/);
+  assert.doesNotMatch(ru, /до 15 сообщений в день|дневной и часовой лимит/);
   for (const [url, body] of [['/uz/gpt-uzbek-tilida/', uz], ['/ru/gpt-chat/', ru]] as const) {
     assert.doesNotMatch(body, /raqam yozmaymiz|Конкретных чисел/, `${url}: no «we publish no numbers» line`);
   }
   const llms = fs.readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8');
-  assert.match(llms, new RegExp(`up to ${daily} messages a day and up to ${hourly} an hour`));
+  assert.match(llms, new RegExp(`${FREE_TRIAL_LIMIT} successful lifetime trial replies`));
+  assert.doesNotMatch(llms, /up to 15 messages a day|up to 5 an hour/);
 });
 
 // A line or a link in the other language names its language (R-S1 review,

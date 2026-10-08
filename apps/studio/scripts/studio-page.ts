@@ -362,7 +362,7 @@ export function renderIsland(tool: StudioTool, locale: StudioLocale): string {
   if (tool === 'tariffs') return renderTariffs(locale, tariffPlans(), tariffTerms(locale));
   return tool === 'photo' ? renderPhotoForm(locale) : renderForm(locale);
 }
-const tariffTerms = (locale: StudioLocale) => `https://gptbot.uz/${locale}/${locale === 'uz' ? 'ommaviy-oferta' : 'oferta'}/`;
+const tariffTerms = (locale: StudioLocale) => `https://gptbot.uz/${locale}/oferta/`;
 const tariffPlans = () => publicPlans(Object.keys(TERMS_PLAN)[0]);
 
 /** The whole page, e-mail addresses already behind <!--email_off-->. */

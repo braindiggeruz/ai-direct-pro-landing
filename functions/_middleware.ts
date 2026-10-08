@@ -212,6 +212,14 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
     }
   }
   headers.set('Alt-Svc', 'clear');
+  // Static pages use the equivalent host-specific _headers rules. Keep the
+  // alias/preview callable for release checks without indexing duplicate hosts.
+  // Do not redirect API/auth traffic or apply this to gptbot.uz and other apps.
+  const isPagesAlias = url.hostname === 'ai-direct-pro-landing.pages.dev'
+    || /^[^.]+\.ai-direct-pro-landing\.pages\.dev$/.test(url.hostname);
+  if (isPagesAlias && !/(?:^|,)\s*noindex\s*(?:,|$)/i.test(headers.get('X-Robots-Tag') || '')) {
+    headers.append('X-Robots-Tag', 'noindex');
+  }
   // Security headers for every response (not only API routes).
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('X-Frame-Options', 'DENY');

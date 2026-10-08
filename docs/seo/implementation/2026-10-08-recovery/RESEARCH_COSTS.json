@@ -1,0 +1,13 @@
+{
+  "stage": "implementation supplemental competitor research",
+  "creditsStart": 17067,
+  "creditsEnd": 16965,
+  "observedDelta": 102,
+  "perCallCharges": "Not exposed consistently; do not allocate observed balance delta per call",
+  "ga4Calls": "RAW/ga4-tool-ledger.json; declared 0 credits; 31 calls",
+  "previousAudit": {
+    "observedDelta": 234,
+    "separate": true
+  },
+  "purchaseOrSubscriptionChange": false
+}

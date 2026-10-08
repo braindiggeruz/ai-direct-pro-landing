@@ -1036,7 +1036,7 @@
       "id": "C34-uz-chat-vs-chat-manual",
       "commercial": {
         "url": "/uz/gpt-uzbek-tilida/",
-        "owns": "use the Uzbek AI chat itself — the product surface with its own terms stated where it is used: the four steps «GPTBot.uz AI chatidan qanday foydalaniladi?», the free limits (15 a day, 5 an hour) and the visible FAQ that roadmap 2.1 requires",
+        "owns": "use the Uzbek AI chat itself — the product surface with its own terms stated where it is used: the four steps «GPTBot.uz AI chatidan qanday foydalaniladi?», the three successful lifetime trial replies (browser/account, no daily renewal), followed by the paid AI chat pack and the visible FAQ that roadmap 2.1 requires",
         "mustNotTarget": [
           "ai chat imkoniyatlari",
           "ai chat limitlari",
@@ -1486,8 +1486,8 @@
       "counterpart": "/ru/gpt-chat/",
       "decision": "KEEP_DIFFERENT_INTENT_NO_PAIR",
       "decidedAt": "2026-10-07",
-      "evidence": "The Russian studio tool (content/studio/pages/ru/prezentatsiya-ai.json, release R-ST1) makes a .pptx from a topic and declares «презентация ии», «нейросеть для презентаций», «сделать презентацию нейросетью» and «ии для презентаций»; no other document declares them (tests/studio-prerender.test.ts). The protected /ru/gpt-chat/ has a «План и текст презентации» row in its use-case table, says that the chat makes no presentation file, and declares none of the tool's keys.",
-      "note": "An architecture decision, not a pair: a pair requires its informational side to link the commercial one (tests/seo-intent-manifest.test.ts), and /ru/gpt-chat/ is one of the ten protected pages, which link no studio page before the January 2027 reviewed revision (STUDIO-SPEC §11.7). The tool links the chat for a plan and speaker text; /ru/gpt-dlya-ucheby/ links the tool. Reconsider when the protected chat may link the tool, or when Search Console shows the two URLs on the same queries."
+      "evidence": "The Russian studio tool (content/studio/pages/ru/prezentatsiya-ai.json, release R-ST1) makes a .pptx from a topic and declares «презентация ии», «нейросеть для презентаций», «сделать презентацию нейросетью» and «ии для презентаций»; no other document declares them (tests/studio-prerender.test.ts). The protected /ru/gpt-chat/ has a «План и текст презентации» row in its use-case table and declares none of the tool's keys. Since the 2026-10-08 workspace release it can also open a separate presentation mode that exports PPTX; the ordinary chat answer remains text. Presentation quotas and plans are separate from chat replies. The recovery review corrects the outdated no-PPTX copy without moving keyword ownership.",
+      "note": "An architecture decision, not a pair: a pair requires an informational and a commercial side (tests/seo-intent-manifest.test.ts), while these are distinct product entry points. The standalone tool retains presentation-intent ownership; the protected chat retains use-now chat intent. Their shared workspace is not a reason to merge URLs, canonicalise one to the other or claim that the chat cannot export PPTX. The tool links the chat for ordinary text work; /ru/gpt-dlya-ucheby/ links the tool. Any future change to protected chat links needs a reviewed SEO revision. Reconsider the boundary only with mature query-page and task-completion evidence."
     }
   ]
 }

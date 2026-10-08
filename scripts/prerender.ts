@@ -25,6 +25,7 @@ import { withEmailOff } from './email-off';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
+import { pageModifiedDate } from './content-dates';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -326,8 +327,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   const graph: Record<string, unknown>[] = [];
   const types = new Set<SchemaType>(page.schemaTypes || []);
   const fullUrl = `${global.siteUrl}${page.url}`;
-  const dateModified = page.lastReviewedAt || page.updatedAt;
-  const dateModifiedIso = dateModified ? new Date(dateModified).toISOString().slice(0, 10) : undefined;
+  const dateModifiedIso = pageModifiedDate(page);
 
   // Always emit Organization + WebSite when the page declares Organization or
   // WebSite in its schemaTypes — they are the entity backbone and the rest of
@@ -436,10 +436,9 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const appLabel = uz ? 'AI-chat ilovasi' : 'Приложение AI-чата';
   const navLabel = uz ? 'Foydali sahifalar' : 'Полезные страницы';
   const links = gptChatNavLinks(page);
-  // The visible «Yangilangan / Обновлено» line: the same human-curated date as
-  // dateModified in the JSON-LD (release R-S1). It moves only with a real edit.
-  const rawUpdated = page.lastReviewedAt || page.updatedAt || '';
-  const updatedIso = rawUpdated ? new Date(rawUpdated).toISOString().slice(0, 10) : '';
+  // The visible update date agrees with JSON-LD and sitemap. A later edit must
+  // not be hidden by an older review; no build timestamp or invented review.
+  const updatedIso = pageModifiedDate(page) || '';
 
   // NAP: gpt-chat pages deliberately get no big footer (see the footer branch
   // further down), so the compact footer in this template is the ONLY place the
@@ -887,12 +886,9 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
   const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
 
-  // Freshness layer: prefer lastReviewedAt (human-curated) over updatedAt
-  // (auto-touched by every admin save). Falls back gracefully to nothing if
-  // neither is present. Used by both the visible "Обновлено" badge and the
-  // dateModified property in Service JSON-LD.
-  const rawModified = page.lastReviewedAt || page.updatedAt || '';
-  const modifiedIso = rawModified ? new Date(rawModified).toISOString().slice(0, 10) : '';
+  // Same authored modification date as JSON-LD and sitemap. The source review
+  // date remains separate and is not advanced when a page is merely rebuilt.
+  const modifiedIso = pageModifiedDate(page) || '';
   const modifiedLabel = page.locale === 'uz' ? 'Yangilangan' : 'Обновлено';
   // The public offer states its edition and the day it took effect instead
   // (scripts/legal-entity.ts); the live gate reads the edition back.

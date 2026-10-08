@@ -165,10 +165,14 @@ test('R3-6: the «Talaba…» section links the referat and résumé guides; the
   }
   assert.ok(uzChat.secondaryKeywords?.includes('chatgpt tarjima'));
   assert.ok(!uzChat.secondaryKeywords?.includes('chatgpt o‘zbekcha tarjima'));
-  // Snippet fields stay (R3-2 and R3-1 are not in this revision).
+  // Titles still stay. The old R3-6 description is asserted against its
+  // immutable revision: recovery 08.10 corrects the daily-limit product claim.
   assert.equal(uzChat.title, 'ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish');
   assert.equal(uzChat.h1, 'O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil');
-  assert.equal(uzChat.description, 'O‘zbek tilida bepul AI chat: ro‘yxatsiz, shu sahifada yozing — matn, reja, g‘oyalar. Kunlik limit bilan. GPTBot.uz — mustaqil servis, OpenAI emas.');
+  const historical = json<{ pages: Array<{ pathname: string; contract: { description: string[] } }> }>('docs/seo/evidence/2026-10-06-seo-push/reviewed-protected-pages.json');
+  assert.deepEqual(historical.pages.find((page) => page.pathname === UZ_CHAT)!.contract.description, ['O‘zbek tilida bepul AI chat: ro‘yxatsiz, shu sahifada yozing — matn, reja, g‘oyalar. Kunlik limit bilan. GPTBot.uz — mustaqil servis, OpenAI emas.']);
+  assert.match(uzChat.description, /3 ta bepul sinov javobi/);
+  assert.doesNotMatch(uzChat.description, /Kunlik limit/);
   assert.equal(uzChat.lastReviewedAt, '2026-10-05', 'no visible date change in this revision');
 });
 

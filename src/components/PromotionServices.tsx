@@ -1,5 +1,6 @@
 import type { Lang } from '../i18n';
 import { track } from '../lib/cta';
+import HomeResources from './HomeResources';
 
 type Props = { lang: Lang };
 type Service = { href: string; title: string; text: string };
@@ -24,7 +25,7 @@ const RU_SERVICES: Service[] = [
 
 const UZ_SERVICES: Service[] = [
   { href: '/uz/internet-reklama-toshkent/', title: 'Toshkentda internet reklama', text: 'Kanallar, byudjet, ishga tushirish va arizalar hisobi bitta rejada.' },
-  { href: '/uz/internet-reklama-toshkent/#target', title: 'Target reklama', text: 'Instagram va Facebook: auditoriya, kreativ va arizagacha yo‘l.' },
+  { href: '/uz/instagram-target-yoqish/', title: 'Instagram target yoqish', text: 'Instagram va Facebook: auditoriya, kreativ va arizagacha yo‘l.' },
   { href: '/uz/internet-reklama-toshkent/#kontekst', title: 'Kontekst reklama', text: 'Google va Yandex: xizmatni qidirayotgan odamlarga e’lon.' },
   { href: '/uz/telegram-reklama/', title: 'Telegram reklama', text: 'Telegram Ads va kanallarda post, media byudjet smetada alohida.' },
   { href: '/uz/smm-xizmatlari/', title: 'SMM xizmatlari', text: 'Kontent, Instagram yuritish va reklama bitta paketda.' },
@@ -35,7 +36,7 @@ const UZ_SERVICES: Service[] = [
 // The homepage switches language on the client, so each mode also links the
 // other language's pages as plain, crawlable anchors.
 const OTHER_LANG = {
-  ru: { title: 'O‘zbek tilida', hreflang: 'uz', services: UZ_SERVICES.filter((s) => !s.href.includes('#')).slice(0, 5) },
+  ru: { title: 'O‘zbek tilida', hreflang: 'uz', services: UZ_SERVICES.filter((s) => !s.href.includes('#')) },
   uz: { title: 'На русском', hreflang: 'ru', services: RU_SERVICES.slice(0, 5) },
 } as const;
 
@@ -45,62 +46,65 @@ export default function PromotionServices({ lang }: Props) {
   const other = OTHER_LANG[isUz ? 'uz' : 'ru'];
 
   return (
-    <section
-      id="promotion-services"
-      data-testid="promotion-services"
-      aria-labelledby="promotion-services-heading"
-      className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-10 sm:mb-14 max-w-3xl">
-          <div className="text-xs uppercase tracking-[0.2em] text-brand-cyan/80 mb-3">
-            {isUz ? 'XIZMATLAR' : 'УСЛУГИ'}
-          </div>
-          <h2
-            id="promotion-services-heading"
-            className="font-display text-3xl sm:text-4xl lg:text-5xl text-white leading-tight"
-          >
-            {isUz ? 'Reklama va targ‘ibot — arizalar uchun' : 'Реклама и продвижение под заявки'}
-          </h2>
-          <p className="text-white/65 mt-4 text-base sm:text-lg">
-            {isUz
-              ? 'Reklama, SEO va SMM: kanal tanlashdan murojaat narxi bo‘yicha hisobotgacha. Media byudjet jamoa ishidan alohida hisoblanadi.'
-              : 'Реклама, SEO и SMM: от выбора канала до отчёта о стоимости обращения. Медиабюджет считается отдельно от работы команды.'}
-          </p>
-        </div>
-
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-5">
-          {services.map((s) => (
-            <li key={s.href}>
-              <a
-                href={s.href}
-                onClick={() => track('click_promotion_service_homepage', { href: s.href })}
-                className="pressable-card group block h-full bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl px-4 py-3.5 sm:p-6"
-              >
-                <h3 className="font-display text-base sm:text-xl text-white leading-snug sm:mb-2 group-hover:text-brand-cyan transition-colors">
-                  {s.title}
-                </h3>
-                <p className="hidden sm:block text-sm text-white/65 leading-relaxed">{s.text}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm" lang={other.hreflang}>
-          <span className="text-white/45 uppercase tracking-wider text-xs">{other.title}</span>
-          {other.services.map((s) => (
-            <a
-              key={s.href}
-              href={s.href}
-              hrefLang={other.hreflang}
-              onClick={() => track('click_promotion_service_homepage', { href: s.href })}
-              className="text-white/70 hover:text-brand-cyan underline-offset-4 hover:underline transition-colors"
+    <>
+      <section
+        id="promotion-services"
+        data-testid="promotion-services"
+        aria-labelledby="promotion-services-heading"
+        className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 sm:mb-14 max-w-3xl">
+            <div className="text-xs uppercase tracking-[0.2em] text-brand-cyan/80 mb-3">
+              {isUz ? 'XIZMATLAR' : 'УСЛУГИ'}
+            </div>
+            <h2
+              id="promotion-services-heading"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl text-white leading-tight"
             >
-              {s.title}
-            </a>
-          ))}
+              {isUz ? 'Reklama va targ‘ibot — arizalar uchun' : 'Реклама и продвижение под заявки'}
+            </h2>
+            <p className="text-white/65 mt-4 text-base sm:text-lg">
+              {isUz
+                ? 'Reklama, SEO va SMM: kanal tanlashdan murojaat narxi bo‘yicha hisobotgacha. Media byudjet jamoa ishidan alohida hisoblanadi.'
+                : 'Реклама, SEO и SMM: от выбора канала до отчёта о стоимости обращения. Медиабюджет считается отдельно от работы команды.'}
+            </p>
+          </div>
+
+          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-5">
+            {services.map((s) => (
+              <li key={s.href}>
+                <a
+                  href={s.href}
+                  onClick={() => track('click_promotion_service_homepage', { href: s.href })}
+                  className="pressable-card group block h-full bg-white/[0.03] hover:bg-white/[0.05] border border-white/10 hover:border-brand-cyan/40 rounded-2xl px-4 py-3.5 sm:p-6"
+                >
+                  <h3 className="font-display text-base sm:text-xl text-white leading-snug sm:mb-2 group-hover:text-brand-cyan transition-colors">
+                    {s.title}
+                  </h3>
+                  <p className="hidden sm:block text-sm text-white/65 leading-relaxed">{s.text}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm" lang={other.hreflang}>
+            <span className="text-white/45 uppercase tracking-wider text-xs">{other.title}</span>
+            {other.services.map((s) => (
+              <a
+                key={s.href}
+                href={s.href}
+                hrefLang={other.hreflang}
+                onClick={() => track('click_promotion_service_homepage', { href: s.href })}
+                className="text-white/70 hover:text-brand-cyan underline-offset-4 hover:underline transition-colors"
+              >
+                {s.title}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <HomeResources lang={lang} />
+    </>
   );
 }

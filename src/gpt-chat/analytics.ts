@@ -4,8 +4,10 @@ type Payload = Record<string, unknown>;
 
 // GA4 parameters, snake_case (map 03 §8.1). Funnel metadata only: which
 // surface, which slug, which outcome — never anything a visitor typed.
+// `source` remains an accepted caller field, but is emitted as `ui_source`.
+// Internal UI labels must not share a name with traffic-source attribution.
 export const GA4_PARAMS: ReadonlySet<string> = new Set([
-  'route', 'lang', 'locale', 'tool', 'template_id', 'role_id', 'status', 'source',
+  'route', 'lang', 'locale', 'tool', 'template_id', 'role_id', 'status', 'source', 'ui_source',
   'from', 'mode', 'channel', 'preset_id', 'reason', 'code', 'model', 'surface',
   'message_number', 'anonymous', 'chip_id', 'method', 'intent',
   'with_session', 'provider', 'finish', 'resume', 'entry', 'topic', 'in_app',
@@ -114,7 +116,9 @@ function safePayload(data: Payload): Payload {
   const clean: Payload = { route, lang };
   for (const [key, value] of Object.entries(data)) {
     if (!GA4_PARAMS.has(key)) continue;
-    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') clean[key] = value;
+    if (key === 'source' && data.ui_source !== undefined) continue;
+    const outputKey = key === 'source' ? 'ui_source' : key;
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') clean[outputKey] = value;
   }
   return clean;
 }

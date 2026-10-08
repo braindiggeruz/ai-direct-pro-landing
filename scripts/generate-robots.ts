@@ -219,6 +219,15 @@ headers.push('  Cross-Origin-Opener-Policy: same-origin');
 headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests");
 headers.push('');
 
+// Absolute host rules affect only this Pages alias and its preview versions.
+// Public custom-domain HTML stays indexable; Functions set the same host policy
+// in middleware because Cloudflare does not apply _headers to their responses.
+headers.push('https://ai-direct-pro-landing.pages.dev/*');
+headers.push('  X-Robots-Tag: noindex');
+headers.push('https://:version.ai-direct-pro-landing.pages.dev/*');
+headers.push('  X-Robots-Tag: noindex');
+headers.push('');
+
 headers.push('# ─── Admin SPA — never cache the shell ───');
 headers.push('# `must-revalidate` + `no-store` guarantees that every reload');
 headers.push('# of /admin-tools/* fetches a fresh index.html, so a deploy is');

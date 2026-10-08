@@ -20,7 +20,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Qisqa javob: tushuntirish xati va ariza bir xil tartibda yoziladi — yuqori o‘ng burchakda kimga va kimdan, o‘rtada sarlavha, so‘ng asosiy matn, pastda sana va imzo. Tushuntirish xatida nima bo‘lgani, qachon va nima sababdan bo‘lgani yoziladi, arizada esa nima so‘ralayotgani. GPTBot.uz AI chati qoralama yozishga yordam beradi, lekin faqat matn yozadi: .docx yoki PDF fayl bermaydi."
+      "text": "Qisqa javob: tushuntirish xati va arizada odatda kimga va kimdan yozilayotgani, sarlavha, asosiy matn, sana va imzo bo‘ladi. Aniq shaklni hujjat topshiriladigan tashkilotdan tekshiring. Tushuntirish xatida nima bo‘lgani, qachon va nima sababdan bo‘lgani yoziladi, arizada esa nima so‘ralayotgani. GPTBot.uz AI chati ushbu hujjatlar uchun matnli qoralama tayyorlashga yordam beradi; ariza yoki tushuntirish xatini .docx yoki PDF fayl sifatida bermaydi."
     },
     {
       "type": "linkp",
@@ -196,8 +196,15 @@
       ]
     },
     {
-      "type": "p",
-      "text": "Muhim: ko‘p tashkilotlarda ariza shakli tayyor bo‘ladi — kadrlar bo‘limi, dekanat yoki qabulxona uni beradi. Davlat idoralari va xizmatlari uchun ularning rasmiy shakli va topshirish tartibi har doim ustun: bunday arizani bu maqoladagi shablon bo‘yicha emas, idora bergan shakl bo‘yicha to‘ldiring. Shuning uchun yozishdan oldin so‘rang: «Arizaning sizda shakli bormi va u kimning nomiga yoziladi?»"
+      "type": "linkp",
+      "text": "Muhim: ko‘p tashkilotlarda ariza shakli tayyor bo‘ladi — kadrlar bo‘limi, dekanat yoki qabulxona uni beradi. Davlat idoralari va xizmatlari uchun ularning rasmiy shakli va topshirish tartibi ustun. {arizaSource} sahifasi jismoniy va yuridik shaxslarga oid arizalar hamda iltimosnomalar namunalariga yo‘naltiradi. Kerakli shaklni o‘sha manbadan va hujjatni qabul qiluvchi tashkilotdan tekshiring; quyidagi shartli misollar rasmiy shakl o‘rnini bosmaydi.",
+      "links": [
+        {
+          "target": "https://gov.uz/oz/advice/600/document/2638",
+          "anchor": "Gov.uz — Ariza namunalari",
+          "token": "arizaSource"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -295,7 +302,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va bepul limit doirasida (jami 3 ta sinov javobi) foydalanish mumkin. U faqat matn yozadi: .docx, PDF yoki imzolangan hujjat bermaydi. Har qanday til modeli kabi u ham xato qilishi yoki faktni o‘zidan qo‘shishi mumkin, shuning uchun har bir sana va dalilni o‘zingiz tekshiring."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi; akkauntsiz sinab ko‘rishda ushbu brauzer uchun jami 3 ta muvaffaqiyatli javob beriladi, limit har kuni yangilanmaydi. Ariza va tushuntirish xati uchun u matnli qoralama beradi, .docx, PDF yoki imzolangan hujjat bermaydi. Har qanday til modeli kabi u ham xato qilishi yoki faktni o‘zidan qo‘shishi mumkin, shuning uchun har bir sana va dalilni o‘zingiz tekshiring."
     },
     {
       "type": "p",
@@ -460,6 +467,11 @@
     "FAQPage"
   ],
   "sources": [
+    {
+      "title": "Gov.uz — Ariza namunalari",
+      "url": "https://gov.uz/oz/advice/600/document/2638",
+      "note": "O‘zbekiston hukumat portalining ariza va iltimosnoma namunalari bo‘yicha yo‘naltiruvchi sahifasi; 2026-10-08 kuni tekshirildi. Maqoladagi shartli misollarni tasdiqlangan rasmiy shakl deb ko‘rsatmaydi."
+    },
     {
       "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
       "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",

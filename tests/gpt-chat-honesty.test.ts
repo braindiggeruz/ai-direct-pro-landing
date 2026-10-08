@@ -739,7 +739,7 @@ test('track() keeps catalogued snake_case parameters and drops anything else', (
   assert.equal(event, 'message_sent');
   assert.deepEqual(
     Object.fromEntries(Object.entries(payload).filter(([key]) => key !== 'route' && key !== 'lang')),
-    { message_number: 2, source: 'composer', anonymous: true },
+    { message_number: 2, ui_source: 'composer', anonymous: true },
   );
 });
 

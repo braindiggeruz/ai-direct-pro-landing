@@ -1,0 +1,72 @@
+{
+  "scope": "Final TypeScript and scoped ESLint verification; no build or full test suite.",
+  "head": "e2280e4494ccc272cc0838e91a77c0a20eb8ef19",
+  "checks": [
+    {
+      "check": "typescript",
+      "command": "npx.cmd tsc -b",
+      "cwd": "F:\\Claude\\gptbot-codex-integration-20261007",
+      "nodeOptions": "--max-old-space-size=768",
+      "startedAtUtc": "2026-10-08T13:29:10.834569Z",
+      "completedAtUtc": "2026-10-08T13:30:07.2180974Z",
+      "freePhysicalMemoryMbAtStart": 1040.0,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "F:\\Claude\\gptbot-codex-integration-20261007\\docs\\seo\\implementation\\2026-10-08-recovery\\final-typecheck.log",
+      "files": []
+    },
+    {
+      "check": "functions",
+      "command": "npm.cmd run typecheck:functions",
+      "cwd": "F:\\Claude\\gptbot-codex-integration-20261007",
+      "nodeOptions": "--max-old-space-size=768",
+      "startedAtUtc": "2026-10-08T13:30:40.4069973Z",
+      "completedAtUtc": "2026-10-08T13:31:10.1565059Z",
+      "freePhysicalMemoryMbAtStart": 1486.0,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "F:\\Claude\\gptbot-codex-integration-20261007\\docs\\seo\\implementation\\2026-10-08-recovery\\final-typecheck-functions.log",
+      "files": []
+    },
+    {
+      "check": "eslint",
+      "command": "npx.cmd eslint --max-warnings=0 apps/studio/scripts/studio-page.ts apps/studio/src/analytics.ts docs/seo/implementation/2026-10-08-recovery/review-candidate.ts functions/_middleware.ts functions/api/auth/login.ts functions/api/auth/me.ts functions/lib/private-response.ts scripts/chat-entry-cta.ts scripts/content-dates.ts scripts/generate-robots.ts scripts/generate-sitemap.ts scripts/prerender.ts scripts/seo-protection.ts src/components/HomeResources.tsx src/components/PromotionServices.tsx src/gpt-chat/analytics.ts src/lib/cta.ts tests/ai-chat-guide-schema.test.ts tests/ga4-attribution-boundary.test.ts tests/gpt-chat-honesty.test.ts tests/gpt-chat-prerender-links.test.ts tests/home-resources.test.ts tests/seo-business-ai-claims.test.ts tests/seo-push-revision.test.ts tests/seo-recovery-technical.test.ts tests/seo-trial-product-truth.test.ts",
+      "cwd": "F:\\Claude\\gptbot-codex-integration-20261007",
+      "nodeOptions": "--max-old-space-size=768",
+      "startedAtUtc": "2026-10-08T13:31:35.0019218Z",
+      "completedAtUtc": "2026-10-08T13:31:59.7243718Z",
+      "freePhysicalMemoryMbAtStart": 1848.0,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "F:\\Claude\\gptbot-codex-integration-20261007\\docs\\seo\\implementation\\2026-10-08-recovery\\final-eslint.log",
+      "files": [
+        "apps/studio/scripts/studio-page.ts",
+        "apps/studio/src/analytics.ts",
+        "docs/seo/implementation/2026-10-08-recovery/review-candidate.ts",
+        "functions/_middleware.ts",
+        "functions/api/auth/login.ts",
+        "functions/api/auth/me.ts",
+        "functions/lib/private-response.ts",
+        "scripts/chat-entry-cta.ts",
+        "scripts/content-dates.ts",
+        "scripts/generate-robots.ts",
+        "scripts/generate-sitemap.ts",
+        "scripts/prerender.ts",
+        "scripts/seo-protection.ts",
+        "src/components/HomeResources.tsx",
+        "src/components/PromotionServices.tsx",
+        "src/gpt-chat/analytics.ts",
+        "src/lib/cta.ts",
+        "tests/ai-chat-guide-schema.test.ts",
+        "tests/ga4-attribution-boundary.test.ts",
+        "tests/gpt-chat-honesty.test.ts",
+        "tests/gpt-chat-prerender-links.test.ts",
+        "tests/home-resources.test.ts",
+        "tests/seo-business-ai-claims.test.ts",
+        "tests/seo-push-revision.test.ts",
+        "tests/seo-recovery-technical.test.ts",
+        "tests/seo-trial-product-truth.test.ts"
+      ]
+    }
+  ]
+}

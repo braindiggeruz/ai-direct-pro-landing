@@ -201,7 +201,7 @@
     },
     {
       "type": "linkp",
-      "text": "Har kuni bepul xabar limiti bor, ro‘yxatdan o‘tish shart emas. Ko‘proq javob kerak bo‘lsa — AI paket: bir oyga 300 ta javob, 20 000 so‘m, avtomatik to‘lovsiz. Kompaniyalar uchun — alohida AI-bot joriy etish: {tariffs}.",
+      "text": "Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor; sinov har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak: bir oyga 300 ta javob, kuniga 50 tagacha, 20 000 so‘m, avtomatik to‘lovsiz. Kompaniyalar uchun — alohida AI-bot joriy etish: {tariffs}.",
       "links": [
         {
           "token": "tariffs",
@@ -268,7 +268,7 @@
       "items": [
         "GPT o‘zbek tilida so‘rovlarni tushunib, o‘zbek tilida javob beradi.",
         "Matn, g‘oya, o‘qish va ish vazifalari uchun yordamchi.",
-        "Bazaviy foydalanish bepul, murakkab ro‘yxatdan o‘tishsiz.",
+        "Jami 3 ta bepul sinov javobi, ro‘yxatdan o‘tishsiz; keyin AI paket kerak.",
         "Javob sifati so‘rov aniqligiga bog‘liq.",
         "Biznes uchun xuddi shu dvigatel bot sifatida joriy etiladi."
       ]
@@ -286,11 +286,11 @@
     },
     {
       "q": "AI chat bepulmi?",
-      "a": "Ha, har kuni bepul xabar limiti bor, ro‘yxatdan o‘tish shart emas. Ko‘proq kerak bo‘lsa — AI paket: bir oyga 300 ta javob."
+      "a": "Ha, ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor; ular har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak: bir oyga 300 ta javob, kuniga 50 tagacha."
     },
     {
       "q": "Qanday limitlar bor?",
-      "a": "Bepul chatda kunlik va soatlik xabar limiti amal qiladi. Aniq qiymatlar chatda ko‘rsatiladi. AI paket bir oyga 300 ta javob beradi, kuniga 50 tagacha."
+      "a": "Bepul sinov — jami 3 ta muvaffaqiyatli javob. Limit brauzerga bog‘langan; hisobga kirilganda oldin ishlatilgan sinov ham hisobga olinadi. Yangi kun, chat yoki til uni yangilamaydi. AI paket bir oyga 300 ta javob beradi, kuniga 50 tagacha. Taqdimot rejimining limit va paketlari alohida."
     },
     {
       "q": "O‘zbek tilida yozsa bo‘ladimi?",
@@ -380,5 +380,5 @@
   ],
   "lastReviewedAt": "2026-10-07",
   "createdAt": "2026-07-16T00:00:00Z",
-  "updatedAt": "2026-10-07"
+  "updatedAt": "2026-10-08"
 }

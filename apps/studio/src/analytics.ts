@@ -63,9 +63,9 @@ export const STUDIO_GA4_EVENTS = {
 export type StudioGa4Event = (typeof STUDIO_GA4_EVENTS)[keyof typeof STUDIO_GA4_EVENTS];
 const GA4_EVENTS: ReadonlySet<string> = new Set(Object.values(STUDIO_GA4_EVENTS));
 
-/** GA4 parameters the studio may send; anything else is dropped. Funnel metadata only. */
+/** Accepted funnel fields; legacy `source` is emitted to GA4 as `ui_source`. */
 export const STUDIO_GA4_PARAMS: ReadonlySet<string> = new Set([
-  'tool', 'source', 'shape', 'slides', 'audience', 'images', 'code', 'where', 'plan', 'status', 'inapp', 'seconds',
+  'tool', 'source', 'ui_source', 'shape', 'slides', 'audience', 'images', 'code', 'where', 'plan', 'status', 'inapp', 'seconds',
 ]);
 
 type Params = Record<string, string | number | boolean | null | undefined>;
@@ -85,9 +85,11 @@ export function cleanGa4Params(params: Params): Record<string, string | number |
   if (typeof document !== 'undefined' && document.documentElement?.lang) clean.lang = document.documentElement.lang.slice(0, 2);
   for (const [key, value] of Object.entries(params)) {
     if (!STUDIO_GA4_PARAMS.has(key)) continue;
-    if (typeof value === 'string') clean[key] = value.slice(0, 40);
-    else if (typeof value === 'number' && Number.isFinite(value)) clean[key] = value;
-    else if (typeof value === 'boolean') clean[key] = value;
+    if (key === 'source' && params.ui_source !== undefined) continue;
+    const outputKey = key === 'source' ? 'ui_source' : key;
+    if (typeof value === 'string') clean[outputKey] = value.slice(0, 40);
+    else if (typeof value === 'number' && Number.isFinite(value)) clean[outputKey] = value;
+    else if (typeof value === 'boolean') clean[outputKey] = value;
   }
   return clean;
 }

@@ -3,9 +3,10 @@ import { signToken } from '../../lib/jwt';
 import { verifyPassword } from '../../lib/password';
 import { attemptKey, isLocked, registerFailure, clearFailures } from '../../lib/lockout';
 import { verifyTurnstile } from '../../lib/turnstile';
+import { withPrivateResponseHeaders } from '../../lib/private-response';
 
 function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
+  return withPrivateResponseHeaders(new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } }));
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {

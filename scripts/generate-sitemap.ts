@@ -8,6 +8,7 @@ import fg from 'fast-glob';
 import type { Page, BlogArticle } from '../src/shared/types';
 import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
 import { studioSitemapEntries } from '../apps/studio/shared/published-urls';
+import { dateOnly, latestDate, pageModifiedDate } from './content-dates';
 
 // `--root <dir>` reads <dir>/content and writes <dir>/dist; only the studio
 // sitemap test passes it, to compare the output with and without studio pages.
@@ -31,16 +32,6 @@ const eligibleArticles = articles.filter((a) => a.status === 'published' && a.ro
 
 const ruArticles = eligibleArticles.filter((a) => (a.locale === 'uz' ? 'uz' : 'ru') === 'ru');
 const uzArticles = eligibleArticles.filter((a) => a.locale === 'uz');
-
-function dateOnly(value?: string): string | undefined {
-  if (!value) return undefined;
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.valueOf()) ? undefined : parsed.toISOString().split('T')[0];
-}
-
-function latestDate(values: Array<string | undefined>): string | undefined {
-  return values.map(dateOnly).filter((value): value is string => !!value).sort().at(-1);
-}
 
 // --- image helpers ----------------------------------------------------------
 //
@@ -118,7 +109,7 @@ function hreflangLinks(alt: Alternates): string {
 // ----------------------------------------------------------------------------
 
 const latestSiteChange = latestDate([
-  ...eligible.map((p) => latestDate([p.lastReviewedAt, p.updatedAt]) || p.createdAt),
+  ...eligible.map((p) => pageModifiedDate(p) || p.createdAt),
   ...eligibleArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt),
 ]);
 const latestRuArticle = latestDate(ruArticles.map((a) => a.dateModified || a.updatedAt || a.datePublished || a.createdAt));
@@ -150,7 +141,7 @@ const entries: Entry[] = [
     url: p.url,
     // An editorial review date must not hide a later substantive content edit.
     // These are curated content dates, never the build or submission timestamp.
-    lastmod: latestDate([p.lastReviewedAt, p.updatedAt]) || dateOnly(p.createdAt),
+    lastmod: pageModifiedDate(p) || dateOnly(p.createdAt),
     alternates: alternatesOf(p),
   })),
   // Blog articles — same, when an RU↔UZ pair exists.

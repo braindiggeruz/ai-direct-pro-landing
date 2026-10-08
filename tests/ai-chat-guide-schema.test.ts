@@ -7,6 +7,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
 import type { GlobalSEO, Page } from '../src/shared/types';
+import { pageModifiedDate } from '../scripts/content-dates';
 
 const ROOT = process.cwd();
 const global = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/global/site.json'), 'utf8')) as GlobalSEO;
@@ -41,9 +42,8 @@ for (const { page, file } of guides) {
     assert.equal(article.inLanguage, page.locale);
     assert.ok(page.createdAt, 'publication date must come from the authored guide');
     assert.equal(article.datePublished, page.createdAt.slice(0, 10));
-    const rawModified = page.lastReviewedAt || page.updatedAt;
-    assert.ok(rawModified, 'modified date must come from the authored guide');
-    const modified = rawModified.slice(0, 10);
+    const modified = pageModifiedDate(page);
+    assert.ok(modified, 'modified date must come from the authored guide');
     assert.equal(article.dateModified, modified);
     assert.ok(html.includes(`<time datetime="${modified}">${modified}</time>`), 'the schema date must also be visible on the guide');
 
