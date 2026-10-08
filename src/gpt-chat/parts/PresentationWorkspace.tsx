@@ -5,19 +5,24 @@ import { Download } from '../../../apps/studio/src/tools/presentation/Download';
 import { Progress, FULL_PROGRESS_STEPS } from '../../../apps/studio/src/tools/presentation/Progress';
 import { PartsProgress } from '../../../apps/studio/src/tools/presentation/PartsProgress';
 import { registerSession, unregisterSession, sessionKey } from './presentation-session';
+import type { StudioPlanId } from '../../../apps/studio/src/api';
+import { billingRuntime } from '../../../apps/studio/src/billing/runtime';
 
 const PresentationSheets = lazy(() => import('./PresentationSheets').then(m => ({default:m.PresentationSheets})));
 const SlideCanvas = lazy(() => import('../../../apps/studio/src/embedded/SlideCanvas').then(m => ({default:m.SlideCanvas})));
+const StudioOffer = lazy(() => import('./StudioOffer').then(m => ({default:m.StudioOffer})));
 
 export interface WorkspaceProps {
   session: PresentationSession; artifactId: string; ownerKey: string; active: boolean;
   beforeNavigate: () => Promise<void>; reveal: () => void; onClose: () => void; focusInput: () => void;
+  repeatProject?: boolean;
 }
 
-export function PresentationWorkspace({ session: s, artifactId, ownerKey, active, beforeNavigate, reveal, onClose, focusInput }: WorkspaceProps) {
+export function PresentationWorkspace({ session: s, artifactId, ownerKey, active, beforeNavigate, reveal, onClose, focusInput, repeatProject = false }: WorkspaceProps) {
   const ru = s.locale === 'ru';
   const [selected, setSelected] = useState(0);
   const [sheet, setSheet] = useState<PresentationSheet|null>(null);
+  const [offerPlan, setOfferPlan] = useState<StudioPlanId|null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement|null>(null);
   const lastJob = useRef<string|null>(null);
@@ -25,10 +30,11 @@ export function PresentationWorkspace({ session: s, artifactId, ownerKey, active
   const total = s.result ? s.result.deck.slides.length + 1 + Number(s.result.aiLabel) : 0;
   const slide = s.result?.deck.slides[selected - 1];
   const closeSheet = () => { dialog.current?.close(); setSheet(null); };
-  const openSheet = (next: NonNullable<typeof sheet>) => { opener.current = document.activeElement as HTMLElement|null; setSheet(next); };
+  const openSheet = (next: NonNullable<typeof sheet>, plan: StudioPlanId|null = null) => { opener.current = document.activeElement as HTMLElement|null; setOfferPlan(plan); setSheet(next); };
 
   useLayoutEffect(() => { registerSession(key, { session: s, selected, reveal, purchase: () => { reveal(); openSheet(s.unitsLeft && s.unitsLeft > 0 ? 'pack' : 'billing'); } }); });
   useEffect(() => () => unregisterSession(key), [key]);
+  useEffect(() => { if(active) billingRuntime().funnel.modeEntered(); },[active]);
   useEffect(() => {
     const el = dialog.current;
     if (!el) return;
@@ -71,6 +77,7 @@ export function PresentationWorkspace({ session: s, artifactId, ownerKey, active
         <p className="gpt-workspace-message" role="status" data-studio-message={s.status.kind === 'message' ? s.status.code : s.status.kind === 'interrupted' ? 'interrupted' : ''}>{s.message}</p>
         <p className="sr-only" role="status">{s.announce}</p>
         {s.status.kind === 'working' && <Progress texts={s.texts} step={s.status.step} startedAt={s.status.startedAt} steps={s.status.full ? FULL_PROGRESS_STEPS : undefined} note={s.status.full ? s.full.progressNote : undefined} detail={s.parts ? <PartsProgress done={s.parts.partsDone} total={s.parts.parts} label={s.full.parts}/> : undefined}/>}
+        {active && s.config && !s.working && s.result?.shape !== 'full' && <Suspense fallback={null}><StudioOffer config={s.config} locale={s.locale} result={!!s.result} repeat={repeatProject} units={s.unitsLeft} onChoose={plan => openSheet('billing',plan)}/></Suspense>}
         <p className="gpt-workspace-note">{ru ? 'Сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.' : 'Shu brauzerda saqlanadi. Ma’lumotlarni tozalashdan oldin PPTXni yuklab oling.'}</p>
       </div>
       <footer className="gpt-workspace-footer">
@@ -80,7 +87,7 @@ export function PresentationWorkspace({ session: s, artifactId, ownerKey, active
       </footer>
       <dialog ref={dialog} className="gpt-presentation-sheet ym-hide-content" aria-labelledby={`${artifactId}-sheet-title`} onCancel={() => setSheet(null)} onClose={() => { opener.current?.focus(); }}>
         <div className="gpt-sheet-header"><h2 id={`${artifactId}-sheet-title`}>{sheet === 'upgrade' ? (ru ? 'Создать полную версию' : 'To‘liq versiyani yaratish') : sheet === 'billing' ? (ru ? 'Полные презентации' : 'To‘liq taqdimotlar') : sheet === 'pack' ? (ru ? 'Мои покупки' : 'Xaridlarim') : sheet === 'edit' ? (ru ? 'Править слайд' : 'Slaydni tahrirlash') : (ru ? 'Параметры' : 'Parametrlar')}</h2><button type="button" className="gpt-workspace-icon" aria-label={ru ? 'Закрыть' : 'Yopish'} onClick={closeSheet}>×</button></div>
-        {sheet && <Suspense fallback={<p role="status">{ru ? 'Открываем…' : 'Ochilmoqda…'}</p>}><PresentationSheets key={`${sheet}:${selected}`} session={s} sheet={sheet} selected={selected} closeSheet={closeSheet} setSheet={setSheet} beforeNavigate={beforeNavigate}/></Suspense>}
+        {sheet && <Suspense fallback={<p role="status">{ru ? 'Открываем…' : 'Ochilmoqda…'}</p>}><PresentationSheets key={`${sheet}:${selected}:${offerPlan}`} session={s} sheet={sheet} selected={selected} closeSheet={closeSheet} setSheet={setSheet} beforeNavigate={beforeNavigate} initialPlan={offerPlan} repeatProject={repeatProject}/></Suspense>}
       </dialog>
     </section>
   </>;

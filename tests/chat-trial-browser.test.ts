@@ -19,7 +19,7 @@ test('trial UI: third answer finishes before paywall; close, reload, locale, dra
   await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
   const origin = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
   const browser = await chromium.launch({ executablePath, headless: true, args: ['--disable-gpu'] });
-  const reports = path.join(root, 'reports/chat-lifetime-trial-20261008'); fs.mkdirSync(reports, { recursive: true });
+  const reports = process.env.GPTBOT_BROWSER_REPORT_DIR || path.join(root, 'reports/chat-lifetime-trial-20261008'); fs.mkdirSync(reports, { recursive: true });
   try {
     for (const [locale, width] of [['ru', 1366], ['uz', 390], ['ru', 320]] as const) {
       const context = await browser.newContext({ viewport: { width, height: 844 } });

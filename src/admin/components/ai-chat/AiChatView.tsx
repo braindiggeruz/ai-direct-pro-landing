@@ -7,6 +7,8 @@ import { WeeksCard } from './WeeksCard';
 import { ModelsCard } from './ModelsCard';
 import { PaymentsCard } from './PaymentsCard';
 import { VisitorsCard } from './VisitorsCard';
+import { StudioMonetizationCard } from './StudioMonetizationCard';
+import type { StudioMonetizationReport } from '../../../shared/studio-admin';
 import { dateTime } from './format';
 import type { AiChatPaymentsFilter } from '../../lib/ai-chat-api';
 import type { OwnerApiError } from '../../lib/owner-api';
@@ -20,6 +22,9 @@ import type {
 } from '../../../shared/ai-chat-admin';
 
 export interface AiChatViewProps {
+  studio?: StudioMonetizationReport | null;
+  studioDays?: number;
+  onStudioDays?: (days:number)=>void;
   overview: AiChatOverview | null;
   /** The last answers of the lists (null while they load); a failed query shows their request id. */
   payments: AiChatPayments | null;
@@ -86,6 +91,7 @@ export function AiChatView(props: AiChatViewProps) {
         onRecord={props.onRecordRefund}
       />
       <VisitorsCard section={props.visitors?.visitors ?? null} requestId={props.visitors?.request_id} days={props.days} onDays={props.onDays}/>
+      {props.onStudioDays && <StudioMonetizationCard report={props.studio??null} days={props.studioDays??7} onDays={props.onStudioDays}/>}
     </div>
   );
 }

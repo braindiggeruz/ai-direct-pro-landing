@@ -40,6 +40,9 @@ const YM_GOALS: ReadonlySet<string> = new Set(Object.values(STUDIO_YM_GOALS));
 
 /** The studio's GA4 browser events: closed. No `purchase` here, ever. */
 export const STUDIO_GA4_EVENTS = {
+  modeEntered: 'studio_mode_entered',
+  upgradeViewed: 'studio_upgrade_viewed',
+  upgradeSelected: 'studio_upgrade_selected',
   toolStarted: 'studio_tool_started',
   resultReady: 'studio_result_ready',
   /**
@@ -137,6 +140,9 @@ export function randomId(): string {
 export type Tool = 'presentation' | 'photo';
 
 export interface Funnel {
+  modeEntered(): void;
+  upgradeViewed(repeat: boolean): void;
+  upgradeSelected(plan: 'kunlik' | 'oylik'): void;
   toolStarted(tool: Tool, params?: Params): void;
   resultReady(tool: Tool, source: 'free' | 'paid', params?: Params): void;
   tariffsViewed(where: 'after_result' | 'limit'): void;
@@ -167,6 +173,16 @@ export function createFunnel(send: (body: EventBody) => void, viewId: string = r
     return true;
   };
   return {
+    modeEntered() {
+      if (server('studio_mode_entered', 'presentation')) trackGa4(STUDIO_GA4_EVENTS.modeEntered, { tool: 'presentation' });
+    },
+    upgradeViewed(repeat) {
+      if (server('studio_upgrade_viewed', repeat ? 'repeat' : 'single')) trackGa4(STUDIO_GA4_EVENTS.upgradeViewed, { where: repeat ? 'repeat' : 'single' });
+    },
+    upgradeSelected(plan) {
+      trackGa4(STUDIO_GA4_EVENTS.upgradeSelected, { plan });
+      server('studio_upgrade_selected', plan);
+    },
     toolStarted(tool, params = {}) {
       trackGa4(STUDIO_GA4_EVENTS.toolStarted, { ...params, tool });
       if (server('studio_tool_started', tool)) reachStudioGoal(STUDIO_YM_GOALS.toolStarted);
@@ -189,6 +205,7 @@ export function createFunnel(send: (body: EventBody) => void, viewId: string = r
     },
     download(tool, images, inapp) {
       trackGa4(STUDIO_GA4_EVENTS.download, { tool, images, inapp });
+      server('studio_download_clicked', tool);
     },
     limitHit(code) {
       trackGa4(STUDIO_GA4_EVENTS.limitHit, { code });

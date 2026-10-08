@@ -3,3 +3,5 @@
 // is on screen; until it is here an answer shows as plain text. Loaded
 // through lazy-part.tsx only.
 export { AnswerBody, MessageActions } from '../components/AiAnswer';
+// The optional business offer is evaluated only when an answer is requested.
+export { businessLineTopic } from '../business-intent';

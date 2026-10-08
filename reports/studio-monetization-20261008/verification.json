@@ -1,0 +1,109 @@
+{
+  "status": "reviewed_local_candidate_not_deployed",
+  "sourceBefore": "321f149bad60fcb3e139f8cb4e66e667c4fe34a3",
+  "branch": "codex/continuation-20261007",
+  "unitRegression": {
+    "source": "tests-pass.log",
+    "tests": 233,
+    "pass": 233,
+    "fail": 0,
+    "skipped": 0
+  },
+  "focusedLedger": {
+    "source": "ledger-final.log",
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "source": "browser-pass.log",
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skipped": 0,
+    "presentationScenarios": 8,
+    "actualPptx": true,
+    "providerMode": "offline fixtures; no real charge"
+  },
+  "layout": {
+    "source": "layout.json",
+    "ok": true,
+    "runs": 446,
+    "failures": 0,
+    "captureCount": 302,
+    "pngFiles": 300,
+    "thresholdsUnchanged": true
+  },
+  "bundle": {
+    "startBrBytes": 109129,
+    "startCssBrBytes": 6764,
+    "pageCssBrBytes": 26919,
+    "capsRaised": false,
+    "source": "bundle.log"
+  },
+  "typecheck": {
+    "root": {
+      "exitCode": 0,
+      "source": "tsc-final.log"
+    },
+    "functions": {
+      "exitCode": 0,
+      "source": "functions-tsc-final.log"
+    }
+  },
+  "lint": {
+    "exitCode": 0,
+    "source": "lint-final.log",
+    "files": 21,
+    "followups": [
+      "lint-stores.log",
+      "lint-admin-final.log"
+    ]
+  },
+  "seo": {
+    "source": "seo.log",
+    "protectedContracts": 10,
+    "changed": 0,
+    "baseline": "docs/seo/evidence/2026-10-08-chat-trial/reviewed-protected-pages.json"
+  },
+  "secrets": {
+    "source": "secrets-final.log",
+    "exitCode": 0,
+    "files": 42
+  },
+  "fiscal": {
+    "source": "fiscal-readonly.json",
+    "pendingLivePaidChat": 1,
+    "attempts": 8,
+    "lastError": "payment_id:click_-12",
+    "ownSubmitAck": false,
+    "providerReceipt": "unknown",
+    "merchantReadProfileAvailable": false,
+    "fixed": false
+  },
+  "build": {
+    "status": "main/admin/studio built; pre-commit stamp correctly rejects dirty runtime",
+    "source": "build-reviewed.log"
+  },
+  "externalWrites": {
+    "deployment": false,
+    "productionMigration": false,
+    "realPurchase": false,
+    "providerFiscalSubmit": false,
+    "manualTelegramSend": false
+  },
+  "externalAcceptance": {
+    "P4": "pending real owner purchase/refund/receipt after release",
+    "Click": "pending Merchant readback or Click support confirmation"
+  },
+  "priorEvidencePreserved": true,
+  "initialFailures": [
+    "repeat intent did not include restored history, fixed",
+    "low caption contrast and plan wrapping, fixed",
+    "browser helper __name transform, fixed",
+    "source contracts updated to lazy optional detector",
+    "lint regex escape, fixed",
+    "startup budget before lazy split, fixed; caps unchanged"
+  ]
+}

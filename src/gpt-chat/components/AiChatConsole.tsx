@@ -51,7 +51,7 @@ import type { AccountCause } from "../use-account";
 import { archiveChat, keepsComposer, keepsShownConversation, loadChats, type SavedChat } from "../storage";
 import { LazyPart, PartFailed, PartLoading, answerPart, leadPart, limitPart, rolePart, toolsPart, turnstilePart, presentationPart, conversionPart } from "../lazy-part";
 import { preloadsBusinessCard } from "../preload";
-import { businessLineTopic, type BusinessTopic } from "../business-intent";
+import type { BusinessTopic } from "../business-intent";
 import { useKeyboardOpen } from "../keyboard";
 
 /** The server's GPT_MAX_INPUT_CHARS: the question with its role and language lines. */
@@ -366,6 +366,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // that make the AI write a new one cost one each (map 03 §3.6). Gone with
   // the next message.
   const fewLeft = !paid && ((remaining >= 0 && remaining <= 3) || (hourShown !== null && hourShown <= 2));
+  const dayWarning = remaining >= 0 && remaining <= DAY_WARNING_AT;
+  const controlsDisabled = busy || !accountReady;
+  const canShowOffer = !activePresentation && !paid && billingAvailable && !!packTerms && !!payOffer && !busy;
   const [costNote, setCostNote] = useState(false);
   useEffect(() => {
     if (fewLeft && onceThisSession("gptchat_cost_note")) setCostNote(true);
@@ -563,16 +566,22 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     const messageNumber = history.filter((m) => m.role === "user").length + 1;
     // Read here, in the browser, and never sent: only the topic is counted,
     // and only once the line shows (AiBusinessLine).
-    const lineTopic = businessLineTopic({
-      text: trimmed,
-      messageNumber,
-      tool: meta.tool || activeTool,
-      typed: !meta.templateId && !meta.answerAction && !meta.retry,
-      spent: offerDismissed || loadBusinessLineShown(),
-    });
-    if (lineTopic) leadPart.preload();
+    let readyTopic: BusinessTopic | null = null;
+    // Optional classifier never delays the AI request or propagates asset errors.
+    void answerPart.load().then(({ businessLineTopic }) => {
+      const lineTopic = businessLineTopic({
+        text: trimmed,
+        messageNumber,
+        tool: meta.tool || activeTool,
+        typed: !meta.templateId && !meta.answerAction && !meta.retry,
+        spent: offerDismissed || loadBusinessLineShown(),
+      });
+      if (lineTopic) leadPart.preload();
+      readyTopic = lineTopic;
+    }).catch(() => undefined);
     // Once the answer is complete, never during the stream; once per browser session.
     const revealLine = () => {
+      const lineTopic = readyTopic;
       if (!lineTopic) return;
       saveBusinessLineShown();
       setBusinessLine({ topic: lineTopic, open: false });
@@ -844,7 +853,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   };
 
   function openPresentation(topic = '', artifactId: string = crypto.randomUUID()) {
-    if (busy || !accountReady) return;
+    if (controlsDisabled) return;
     dock();
     const artifact = messages.find(m => m.kind === 'presentation' && m.artifactId === artifactId) ?? { role: 'assistant' as const, kind: 'presentation' as const, artifactId, content: topic.slice(0, 2000) };
     const next: ChatMessage[] = messages.includes(artifact) ? messages : [...messages, artifact];
@@ -905,7 +914,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // "New chat": clears the visible conversation + stored history, but keeps
   // the server session and remaining quota — limits must survive a reset.
   const onNewChat = () => {
-    if (busy || !accountReady) return;
+    if (controlsDisabled) return;
     dock();
     setPresentationState(previous => previous ? {...previous,active:null} : null);
     setSavedChats(archiveChat(messages, config.locale, storageScope));
@@ -1389,7 +1398,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     onPick={onChipPick}
                     disabled={busy || limitBlocked}
                     label={t.emptyPrompt}
-                    presentation={import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' ? { label: uz ? 'Taqdimot' : 'Презентация', onOpen: () => openPresentation(input), disabled: busy || !accountReady } : undefined}
+                    presentation={import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' ? { label: uz ? 'Taqdimot' : 'Презентация', onOpen: () => openPresentation(input), disabled: controlsDisabled } : undefined}
                   />
                 )}
               </div>
@@ -1443,12 +1452,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </LazyPart>
                 )}
-                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && !limit && !busy && assistantCount >= 1 && !businessLine && !showOffer && freeLimits?.lifetime !== 3 && (
+                {canShowOffer && packTerms && payOffer && !limit && assistantCount >= 1 && !businessLine && !showOffer && freeLimits?.lifetime !== 3 && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
                     {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
                   </LazyPart>
                 )}
-                {!activePresentation && !paid && billingAvailable && packTerms && payOffer && limit?.reason === 'trial' && !busy && !accountOpen && (
+                {canShowOffer && packTerms && payOffer && limit?.reason === 'trial' && !accountOpen && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
                     {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={provider=>openAccount('limit_card',provider)}/>}
                   </LazyPart>
@@ -1456,7 +1465,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 {/* The free allowance running low, at the end of the thread: one
                     saffron line, the one warm colour of this palette, the same one
                     the header's count turns. */}
-                {!limit && !paid && remaining >= 0 && remaining <= DAY_WARNING_AT && (
+                {!limit && !paid && dayWarning && (
                   <div className="gpt-low-line" role="status">
                     <span>{freeLimits?.lifetime === 3 ? usage?.text : t.lowWarning(remaining)}</span>
                     {/* The pack only while it can really be bought (F6). */}
@@ -1471,7 +1480,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </div>
                 )}
-                {!limit && !paid && !(remaining >= 0 && remaining <= DAY_WARNING_AT) &&
+                {!limit && !paid && !dayWarning &&
                   hourShown !== null && hourShown > 0 && hourShown <= HOUR_WARNING_AT && (
                   // The hourly cap is the one people meet (about twice a day):
                   // said before the refusal, in the same quiet line.
@@ -1530,7 +1539,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             )}
             {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
             <AiChatInput
-              actions={(!empty || limitBlocked) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={busy || !accountReady} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
+              actions={(!empty || limitBlocked) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={controlsDisabled} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
               value={input}
               onChange={setInput}
               onSend={() => doSend(input)}
@@ -1548,7 +1557,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         </div>
       </div>
       {studio && <LazyPart part={presentationPart} fallback={null} failed={<PartFailed message={t.partFailed} reload={t.partReload}/>}>
-        {({PresentationWorkspaceHost}) => <PresentationWorkspaceHost key={ownerKey} locale={config.locale} ownerKey={ownerKey} activeId={activePresentation} artifacts={studio.artifacts} onClose={()=>setPresentationState(previous=>previous?{...previous,active:null}:null)} focusInput={focusInput}/>}
+        {({PresentationWorkspaceHost}) => <PresentationWorkspaceHost key={ownerKey} locale={config.locale} ownerKey={ownerKey} activeId={activePresentation} artifacts={studio.artifacts} history={messages} onClose={()=>setPresentationState(previous=>previous?{...previous,active:null}:null)} focusInput={focusInput}/>}
       </LazyPart>}
       </div>
     </div>

@@ -188,7 +188,8 @@ export interface UrgentLine {
 }
 
 /** One plain-text Telegram message for a batch of urgent codes. */
-export function renderAlertMessage(urgent: UrgentLine[], background: string[]): string {
+export function renderAlertMessage(urgent: UrgentLine[], background: string[], fiscal: readonly string[] = []): string {
+  const financial = (code:string) => /fiscal|receipt|^(?:click|uzum|payme|studio_click|studio_payme)_/.test(code);
   const lines = urgent.map(({ code, count }) => {
     const text = ALERT_TEXT[code];
     return `• ${code}${count > 1 ? ` ×${count}` : ""}${text ? ` — ${text}` : ""}`;
@@ -197,6 +198,9 @@ export function renderAlertMessage(urgent: UrgentLine[], background: string[]): 
     "GPTBot.uz AI-чат: срочно",
     ...lines,
     ...(background.length ? [`Фон за час: ${background.join(", ")}`] : []),
-    "Проверьте Workers logs, модели и баланс OpenRouter.",
+    ...fiscal,
+    ...(urgent.some(row => /fiscal|receipt/.test(row.code)) ? ['Чеки: проверьте Merchant API / кабинет платёжного провайдера и ОФД. Сверьте существующий чек перед повторной отправкой.'] : []),
+    ...(urgent.some(row => financial(row.code) && !/fiscal|receipt/.test(row.code)) ? ['Оплата: сверьте заказ и кабинет платёжного провайдера; не повторяйте списание вслепую.'] : []),
+    ...(urgent.some(row => !financial(row.code)) ? ['Проверьте Workers logs, настройки и баланс соответствующего AI-провайдера.'] : []),
   ].join("\n");
 }

@@ -1469,10 +1469,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Монетизация веб-чата: всего 3 пробных ответа и banner; roadmap Studio и Click/ОФД",
+  "current_stage": "Монетизация Studio в основном чате: покупка под задачу, owner-воронка, Click/ОФД диагностика; локально",
   "stage_status": "local_verified_release_pending",
   "last_completed_stage": "Локальный P0–P4 chat workspace и контекстная воронка покупки (не опубликовано)",
-  "next_stage": "Read-only диагностика click_fiscal_failed, затем reviewed migration и guarded release по команде владельца",
+  "next_stage": "Внешняя сверка Merchant API/Click чека; reviewed migration 0078 и guarded release по команде владельца, затем реальная денежная приёмка P4",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2305,5 +2305,37 @@
     },
     "remaining_acceptance": "Read-only причина Click/ОФД, reviewed production backup/migration, guarded release по команде владельца, live readback и контрольная покупка."
   },
-  "state_commit": "HEAD"
+  "state_commit": "HEAD",
+  "studio_monetization_20261008": {
+    "status": "implemented_locally_not_deployed",
+    "source_roadmap": "docs/MONETIZATION_ROADMAP_20261008.md",
+    "implementation": "docs/STUDIO_MONETIZATION_IMPLEMENTATION_20261008.md",
+    "evidence": "reports/studio-monetization-20261008/verification.json",
+    "features": [
+      "server-config capability comparison",
+      "Kunlik first for single project; Oylik for repeated projects including reloaded history",
+      "explicit plan opens existing Checkout",
+      "real SlideCanvas example, no AI call",
+      "free PPTX and prior edits retained",
+      "owner-only read-only 1..30-day aggregate with org isolation",
+      "actual live money/refunds vs observed client actions; AI estimate and owner expenses",
+      "fiscal coarse error/product/count/attempts in alerts and owner report"
+    ],
+    "fiscal": {
+      "live_paid_chat_queued": 1,
+      "attempts": 8,
+      "last_error": "payment_id:click_-12",
+      "own_submit_ack": false,
+      "merchant_read_access": false,
+      "receipt_issued_externally": "unknown",
+      "fixed": false,
+      "source": "reports/studio-monetization-20261008/fiscal-readonly.json"
+    },
+    "external_acceptance": "P4 real purchase/refund/receipt pending",
+    "deployment": false,
+    "remote_mutations": 0,
+    "new_migrations": [],
+    "previous_trial_migration_pending": "0078_gpt_lifetime_trial.sql",
+    "policy": "trial=3 lifetime; Studio free/day and PPTX unchanged; preview-only experiment unimplemented"
+  }
 }

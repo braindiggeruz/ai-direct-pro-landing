@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AiChatView, type AiChatViewProps } from '../components/ai-chat/AiChatView';
 import { aiChatApi, type AiChatPaymentsFilter } from '../lib/ai-chat-api';
 import type { OwnerApiError } from '../lib/owner-api';
+import type { StudioMonetizationReport } from '../../shared/studio-admin';
 import {
   AI_CHAT_VISITOR_DAYS,
   type AiChatOverview,
@@ -15,6 +16,9 @@ import {
 } from '../../shared/ai-chat-admin';
 
 export default function AiChat() {
+  const [studio,setStudio]=useState<StudioMonetizationReport|null>(null);
+  const [studioDays,setStudioDays]=useState(7);
+  const studioTicket=useRef(0);
   const [overview, setOverview] = useState<AiChatOverview | null>(null);
   const [payments, setPayments] = useState<AiChatPayments | null>(null);
   const [visitors, setVisitors] = useState<AiChatVisitors | null>(null);
@@ -54,16 +58,22 @@ export default function AiChat() {
     }
   }, [fail]);
 
-  const refresh = useCallback(async (current: { filter: AiChatPaymentsFilter; days: number }) => {
+  const loadStudio=useCallback(async (n:number)=>{
+    const ticket=++studioTicket.current;setStudio(null);
+    try { const answer=await aiChatApi.studio(n); if(ticket===studioTicket.current) setStudio(answer); }
+    catch(error) { if(ticket===studioTicket.current) { fail(error);setStudio({request_id:(error as Partial<OwnerApiError>).requestId??'unknown',studio:{ok:false,error:'query_failed',data:null}}); } }
+  },[fail]);
+  const refresh = useCallback(async (current: { filter: AiChatPaymentsFilter; days: number; studioDays?:number }) => {
     setRefreshing(true);
     setFailures([]);
     await Promise.all([
       aiChatApi.overview().then(setOverview, fail),
       loadPayments(current.filter),
       loadVisitors(current.days),
+      loadStudio(current.studioDays??7),
     ]);
     setRefreshing(false);
-  }, [fail, loadPayments, loadVisitors]);
+  }, [fail, loadPayments, loadVisitors, loadStudio]);
 
   // Once when the page opens; after that only the button reads again.
   const opened = useRef(false);
@@ -99,6 +109,7 @@ export default function AiChat() {
 
   return (
     <AiChatView
+      studio={studio} studioDays={studioDays} onStudioDays={n=>{setStudioDays(n);void loadStudio(n);}}
       overview={overview}
       payments={payments}
       visitors={visitors}
@@ -107,7 +118,7 @@ export default function AiChat() {
       filter={filter}
       days={days}
       loadingMore={loadingMore}
-      onRefresh={() => void refresh({ filter, days })}
+      onRefresh={() => void refresh({ filter, days, studioDays })}
       onFilter={(next) => { setFilter(next); void loadPayments(next); }}
       onMore={() => void more()}
       onDays={(n) => { setDays(n); void loadVisitors(n); }}

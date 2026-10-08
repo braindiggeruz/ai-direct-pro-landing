@@ -140,7 +140,8 @@ test('the chat form asks for an optional budget from the closed list and sends i
 test('the console: detected at send time, shown once the answer is complete, gone at the next message', () => {
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(chat, /const lineTopic = businessLineTopic\(\{\s*text: trimmed,\s*messageNumber,\s*tool: meta\.tool \|\| activeTool,\s*typed: !meta\.templateId && !meta\.answerAction && !meta\.retry,\s*spent: offerDismissed \|\| loadBusinessLineShown\(\),\s*\}\);\s*if \(lineTopic\) leadPart\.preload\(\);/);
-  assert.match(chat, /const revealLine = \(\) => \{\s*if \(!lineTopic\) return;\s*saveBusinessLineShown\(\);\s*setBusinessLine\(\{ topic: lineTopic, open: false \}\);\s*\};/);
+  assert.match(chat, /const revealLine = \(\) => \{\s*const lineTopic = readyTopic;\s*if \(!lineTopic\) return;\s*saveBusinessLineShown\(\);\s*setBusinessLine\(\{ topic: lineTopic, open: false \}\);\s*\};/);
+  assert.match(chat,/void answerPart\.load\(\)\.then/,'optional detector stays lazy and does not block the AI request');
   // Exactly the two complete answers (JSON and stream), after they are stored; never a stop, an error or a limit.
   const reveals = [...chat.matchAll(/revealLine\(\);\n\s*track\(EV\.aiResponseSuccess/g)];
   assert.equal(reveals.length, 2);

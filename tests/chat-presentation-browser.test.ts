@@ -36,6 +36,7 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
       const page = await ctx.newPage();
       const errors: string[] = [], requests: string[] = [], unexpected: string[] = [];
       let created = 0, fullCreated = 0, requestedSlides = 6, checkouts = 0, paid = false, returnPath = '';
+      const events:Record<string,unknown>[]=[];
       page.on('pageerror', error => errors.push(error.message));
       await ctx.addInitScript({ content: "window.turnstile = { render: function(el, options) { setTimeout(function() { options.callback('offline-fixture'); }, 0); return 'test-widget'; }, remove: function() {}, reset: function() {} };" });
       const me = () => ({ ok: true, identity: true, free: { presentation: { left: 1 - created, limit: 1 }, photo: { left: 0, limit: 0 }, resetsAt: '2026-10-08T00:00:00Z' }, account: { signedIn: paid },
@@ -53,7 +54,7 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
         if (!url.pathname.startsWith('/api/')) return route.continue();
         if (url.pathname === '/api/gpt/account') return json({ ok: true, loginAvailable: false, mode: null, providers: [], user: null, terms: { ru: null, uz: null }, termsVersion: null, freeLimits: { daily: 15, hourly: 5 }, botHandoff: false });
         if (url.pathname === '/api/auth/config') return json({ turnstileRequired: false });
-        if (url.pathname.endsWith('/event')) return json({ ok: true });
+        if (url.pathname.endsWith('/event')) { if(url.pathname==='/api/studio/event') events.push(route.request().postDataJSON());return json({ ok: true }); }
         if (url.pathname === '/api/studio/config') return json({ ok: true, tools: { freeDeck: true, fullDeck: true, photo: false }, free: { presentation: 1, photo: 0, resetsAt: '2026-10-08T00:00:00Z' }, shapes: { free: { minSlides: 4, maxSlides: 6, images: 2, notes: false, palettes: 1 }, full: { minSlides: 6, maxSlides: 12, images: 8, notes: true, palettes: 3 } }, payments: { mode: 'live', providers: ['click', 'payme'] }, plans: publicPlans(edition), termsVersion: edition, terms: { ru: '/ru/oferta/', uz: '/uz/oferta/' }, aiLabel: true, turnstileSiteKey: 'fixture' });
         if (url.pathname === '/api/studio/me') return json(me());
         if (url.pathname === '/api/studio/presentations') {
@@ -95,6 +96,35 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
       await page.locator('.gpt-send-button').click();
       await card.locator('.gpt-draft-topic', {hasText:'Space and planets'}).waitFor();
       assert.equal(created,0,'topic confirmation does not start or charge generation');
+      const offer=card.locator('[data-studio-offer]');
+      await offer.locator('[data-offer-plan="kunlik"] button').waitFor();
+      assert.equal(await offer.locator('[data-offer-plan]').first().getAttribute('data-offer-plan'),'kunlik','single-task offer starts with daily price');
+      assert.match(await offer.innerText(),/5[\s\u00a0]*900/);
+      assert.match(await offer.innerText(),/3[\s\u00a0]*990/);
+      await offer.locator('[data-offer-plan="kunlik"] button').click();
+      const purchaseSheet=page.locator('dialog[open].gpt-presentation-sheet');
+      await purchaseSheet.locator('[data-studio-checkout]').waitFor();
+      assert.equal(await purchaseSheet.locator('[data-studio-plan="kunlik"]').getAttribute('aria-pressed'),'true','explicit CTA selects the intended package');
+      assert.equal(await purchaseSheet.evaluate(el=>el.scrollWidth>el.clientWidth+1),false,'pricing sheet has no horizontal overflow');
+      assert.equal(checkouts,0,'offer viewing and selection do not create an order');
+      await purchaseSheet.locator('.gpt-sheet-header .gpt-workspace-icon').click();
+      await offer.locator('[aria-expanded]').click();
+      await offer.locator('.gpt-offer-example .gpt-slide-canvas').waitFor();
+      assert.equal(await offer.locator('.gpt-offer-palettes button').count(),3);
+      await offer.locator('.gpt-offer-palettes button').last().click();
+      assert.equal(created,0,'example and palette comparison call no AI');
+      const offerGeometry=await offer.evaluate(el=>({overflow:el.scrollWidth>el.clientWidth+1,buttons:[...el.querySelectorAll('.gpt-offer-buy,.gpt-offer-secondary,.gpt-offer-palettes button')].map(button=>button.getBoundingClientRect().height)}));
+      assert.equal(offerGeometry.overflow,false);assert.ok(offerGeometry.buttons.every(height=>height>=44));
+      const contrast=await offer.locator('.gpt-offer-comparison small').first().evaluate(el=>{
+        const values=[getComputedStyle(el).color,getComputedStyle(el.parentElement!).backgroundColor].map(color=>{
+          const rgb=(color.match(/[\d.]+/g)??[]).slice(0,3).map(Number).map(n=>{const x=n/255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4;});
+          return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+        });
+        return (Math.max(...values)+.05)/(Math.min(...values)+.05);
+      });
+      assert.ok(contrast>=4.5,`caption contrast ${contrast} >= WCAG AA`);
+      if(width===360||width===1366) { const shotDir=path.join(ROOT,'reports/studio-monetization-20261008');fs.mkdirSync(shotDir,{recursive:true});await offer.locator('.gpt-offer-purchases').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(shotDir,`offer-${locale}-${width}.png`)}); }
+      await offer.locator('[aria-expanded]').click();
       await card.locator('.gpt-workspace-footer > .gpt-workspace-primary').click();
       try { await card.locator('.gpt-slide-canvas').waitFor({timeout:10000}); }
       catch { assert.fail(JSON.stringify({step:'free-result',locale,width,created,errors,unexpected,requests,text:await page.locator('[data-chat-presentation]').innerText()})); }
@@ -150,7 +180,7 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
       await card.locator('.gpt-slide-canvas').waitFor();
       assert.equal(created,1,'reload never regenerates or consumes an additional unit');
       if(width===360 || width===1366){
-        const shots=path.join(ROOT,'reports/chat-studio-workspace-20261008');
+        const shots=path.join(ROOT,'reports/studio-monetization-20261008');
         fs.mkdirSync(shots,{recursive:true});
         await page.screenshot({path:path.join(shots,`${locale}-${width}.png`)});
       }
@@ -190,6 +220,9 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
         await page.locator('[data-chat-presentation]:visible').waitFor();
         assert.equal(await page.locator('[data-chat-presentation]:visible').count(),1,'one selected editor, two compact references');
         assert.equal(created,1,'advertising entry only opens a draft');
+        const repeatedOffer=page.locator('[data-chat-presentation]:visible [data-studio-offer]');
+        await repeatedOffer.locator('[data-offer-plan]').first().waitFor();
+        assert.equal(await repeatedOffer.locator('[data-offer-plan]').first().getAttribute('data-offer-plan'),'oylik','repeat-project intent recommends monthly');
       }
       // Actual language links both ways with populated presentation history.
       const other=locale==='ru'?'uz':'ru';
@@ -204,12 +237,17 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
       assert.deepEqual(unexpected,[]);
       assert.deepEqual(errors,[]);
       assert.equal(requests.includes('/api/gpt/chat'),false,'presentation operations use no ordinary text model');
-      evidence.push({ locale, width, geometry, created, checkouts, bytes: bytes.length });
+      assert.ok(events.some(event=>event.type==='studio_mode_entered'));
+      assert.ok(events.some(event=>event.type==='studio_upgrade_selected'&&event.detail==='kunlik'));
+      assert.ok(events.some(event=>event.type==='studio_upgrade_viewed'));
+      assert.ok(events.some(event=>event.type==='studio_download_clicked'));
+      assert.equal(events.some(event=>'topic' in event||'userId' in event),false);
+      evidence.push({ locale, width, geometry, offerGeometry, created, checkouts, bytes: bytes.length, eventTypes:[...new Set(events.map(event=>event.type))] });
       await ctx.close();
     }
   } finally {
-    fs.mkdirSync(path.join(ROOT, 'reports/chat-studio-workspace-20261008'), { recursive: true });
-    fs.writeFileSync(path.join(ROOT, 'reports/chat-studio-workspace-20261008/browser.json'), JSON.stringify({ scenarios: evidence }, null, 2));
+    fs.mkdirSync(path.join(ROOT, 'reports/studio-monetization-20261008'), { recursive: true });
+    fs.writeFileSync(path.join(ROOT, 'reports/studio-monetization-20261008/browser.json'), JSON.stringify({ scenarios: evidence }, null, 2));
     await browser.close();
     await new Promise<void>(resolve => server.close(() => resolve()));
   }

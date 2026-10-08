@@ -32,6 +32,10 @@ function islandSources(): Map<string, string> {
     if (!/\.tsx?$/.test(file) || file.replace(/\\/g, '/') === 'analytics.ts') continue;
     files.set(`apps/studio/src/${file.replace(/\\/g, '/')}`, fs.readFileSync(path.join(SRC, file), 'utf8'));
   }
+  for(const file of fs.readdirSync(path.join(ROOT,'src/gpt-chat/parts'))) {
+    if(!/\.tsx?$/.test(file)) continue;
+    files.set(`src/gpt-chat/parts/${file}`,fs.readFileSync(path.join(ROOT,'src/gpt-chat/parts',file),'utf8'));
+  }
   return files;
 }
 
@@ -93,6 +97,9 @@ test('metrika: a goal carries its name only; an unknown name is dropped; a missi
 const LATER_STEPS = new Set<keyof Funnel>([]);
 
 const STEP_GOALS: Record<keyof Funnel, string | null> = {
+  modeEntered:null,
+  upgradeViewed:null,
+  upgradeSelected:null,
   toolStarted: 'studio_tool_started',
   resultReady: 'studio_result',
   tariffsViewed: 'studio_tariffs_viewed',
@@ -105,6 +112,9 @@ const STEP_GOALS: Record<keyof Funnel, string | null> = {
 
 function fireStep(funnel: Funnel, step: keyof Funnel): void {
   switch (step) {
+    case 'modeEntered': return funnel.modeEntered();
+    case 'upgradeViewed': return funnel.upgradeViewed(false);
+    case 'upgradeSelected': return funnel.upgradeSelected('kunlik');
     case 'toolStarted': return funnel.toolStarted('presentation');
     case 'resultReady': return funnel.resultReady('presentation', 'free');
     case 'tariffsViewed': return funnel.tariffsViewed('limit');
@@ -161,6 +171,9 @@ test('server: every event the funnel sends is one the server accepts; one view i
   funnel.checkoutResult('cancelled');
   funnel.resultReady('presentation', 'paid');
   funnel.toolStarted('photo');
+  funnel.upgradeViewed(true);
+  funnel.upgradeSelected('oylik');
+  funnel.download('photo',0,'none');
   assert.ok(sent.length >= 10);
   const kinds = new Set<string>();
   for (const body of sent) {
@@ -174,7 +187,7 @@ test('server: every event the funnel sends is one the server accepts; one view i
   for (const [type, details] of Object.entries(STUDIO_UI_EVENTS)) {
     for (const detail of details) assert.ok(kinds.has(`${type}:${detail}`), `${type}:${detail}`);
   }
-  // download, limitHit and error are GA4 only.
+  // Only the closed catalogue reaches the server; no arbitrary error payloads.
   assert.ok(!sent.some((body) => !(body.type in STUDIO_UI_EVENTS)));
 });
 

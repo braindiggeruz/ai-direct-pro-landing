@@ -64,7 +64,8 @@ test('contextual purchase: first useful answer, real provider intent, dismissal,
         assert.match(await card.innerText(),/300/);assert.match(await card.innerText(),/50/);
         assert.equal(await card.locator('input[type="checkbox"]').count(),0);
         assert.equal(await card.locator('[data-provider]').count(),2);
-        await page.screenshot({path:path.join(root,'reports/chat-studio-workspace-20261008',`conversion-${locale}${mode==='near'?'-near':''}.png`)});
+        const reportDir=process.env.GPTBOT_BROWSER_REPORT_DIR||path.join(root,'reports/chat-studio-workspace-20261008');fs.mkdirSync(reportDir,{recursive:true});
+        await page.screenshot({path:path.join(reportDir,`conversion-${locale}${mode==='near'?'-near':''}.png`)});
         const provider=locale==='ru'?'click':'payme';
         await card.locator(`[data-provider="${provider}"]`).click();
         for(let i=0;i<60 && !subscribes.length;i++)await page.waitForTimeout(50);
@@ -90,8 +91,8 @@ test('contextual purchase: first useful answer, real provider intent, dismissal,
       await ctx.close();
     }
   }finally{
-    fs.mkdirSync(path.join(root,'reports/chat-studio-workspace-20261008'),{recursive:true});
-    fs.writeFileSync(path.join(root,'reports/chat-studio-workspace-20261008/conversion.json'),JSON.stringify({scenarios:evidence},null,2));
+    const reportDir=process.env.GPTBOT_BROWSER_REPORT_DIR||path.join(root,'reports/chat-studio-workspace-20261008');fs.mkdirSync(reportDir,{recursive:true});
+    fs.writeFileSync(path.join(reportDir,'conversion.json'),JSON.stringify({scenarios:evidence},null,2));
     await browser.close();await new Promise<void>(resolve=>server.close(()=>resolve()));
   }
 });

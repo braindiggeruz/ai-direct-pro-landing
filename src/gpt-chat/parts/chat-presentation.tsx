@@ -52,24 +52,25 @@ export function ChatPresentation({ locale, artifactId, ownerKey, topic, onOpen }
   </button>;
 }
 
-interface HostProps { locale: Locale; ownerKey: string; activeId: string | null; artifacts: ChatMessage[]; onClose: () => void; focusInput: () => void }
-export function PresentationWorkspaceHost({ locale, ownerKey, activeId, artifacts, onClose, focusInput }: HostProps) {
+interface HostProps { locale: Locale; ownerKey: string; activeId: string | null; artifacts: ChatMessage[]; history: ChatMessage[]; onClose: () => void; focusInput: () => void }
+export function PresentationWorkspaceHost({ locale, ownerKey, activeId, artifacts, history, onClose, focusInput }: HostProps) {
   const [view, setView] = useState<'chat' | 'slides'>('chat');
   const summary = useSummary(ownerKey, activeId ?? '');
   useLayoutEffect(() => { const root = document.querySelector<HTMLElement>('[data-testid="ai-console"]'); if (root) root.dataset.presentationView = view; }, [view]);
   const header = document.getElementById('gpt-presentation-header'), tabs = document.getElementById('gpt-presentation-tabs'), scope = document.getElementById('gpt-presentation-scope');
   const ru = locale === 'ru', reveal = () => setView('slides');
+  const repeatProject = history.filter(m=>m.kind==='presentation').length > 1 || artifacts.length > 1;
   return <>
     {activeId && scope && createPortal(<div className="gpt-presentation-scope"><span>{ru ? 'Презентация · команды для этого файла' : 'Taqdimot · shu fayl uchun'}</span><button type="button" onClick={onClose}>{ru ? 'Обычный чат' : 'Oddiy chat'}</button></div>, scope)}
     {activeId && header && createPortal(<button type="button" className="gpt-studio-header-cta" data-testid="studio-account-trigger" onClick={() => purchasePresentation(sessionKey(ownerKey, activeId))}>{summary?.units != null && summary.units > 0 ? (ru ? `Презентации: ${summary.units}` : `Taqdimotlar: ${summary.units}`) : (ru ? 'Пакет презентаций' : 'Taqdimot paketi')}</button>, header)}
     {activeId && tabs && createPortal(<nav className="gpt-presentation-tabs" aria-label={ru ? 'Представление задачи' : 'Vazifa ko‘rinishi'}>{(['chat', 'slides'] as const).map(v => <button type="button" key={v} aria-pressed={view === v} onClick={() => setView(v)}>{v === 'chat' ? (ru ? 'Чат' : 'Chat') : (ru ? 'Слайды' : 'Slaydlar')}</button>)}</nav>, tabs)}
     <aside className="gpt-presentation-host" hidden={!activeId} aria-label={ru ? 'Редактор презентации' : 'Taqdimot muharriri'}>
-      {artifacts.filter((m,i) => i >= artifacts.length - 12 || m.artifactId === activeId || (m.artifactId && artifactSummary(sessionKey(ownerKey,m.artifactId))?.working)).map(m => m.artifactId && <OwnedWorkspace key={`${ownerKey}:${m.artifactId}`} locale={locale} artifactId={m.artifactId} ownerKey={ownerKey} topic={m.content} active={activeId === m.artifactId} reveal={reveal} onClose={onClose} focusInput={() => { setView('chat'); focusInput(); }} />)}
+      {artifacts.filter((m,i) => i >= artifacts.length - 12 || m.artifactId === activeId || (m.artifactId && artifactSummary(sessionKey(ownerKey,m.artifactId))?.working)).map(m => m.artifactId && <OwnedWorkspace key={`${ownerKey}:${m.artifactId}`} locale={locale} artifactId={m.artifactId} ownerKey={ownerKey} topic={m.content} active={activeId === m.artifactId} reveal={reveal} onClose={onClose} focusInput={() => { setView('chat'); focusInput(); }} repeatProject={repeatProject} />)}
     </aside>
   </>;
 }
 
-function OwnedWorkspace({ locale, artifactId, ownerKey, topic, active, reveal, onClose, focusInput }: { locale: Locale; artifactId: string; ownerKey: string; topic: string; active: boolean; reveal: () => void; onClose: () => void; focusInput: () => void }) {
+function OwnedWorkspace({ locale, artifactId, ownerKey, topic, active, reveal, onClose, focusInput, repeatProject }: { locale: Locale; artifactId: string; ownerKey: string; topic: string; active: boolean; reveal: () => void; onClose: () => void; focusInput: () => void; repeatProject: boolean }) {
   const [returning] = useState(() => {
     try {
       const query = new URLSearchParams(window.location.search);
@@ -87,6 +88,6 @@ function OwnedWorkspace({ locale, artifactId, ownerKey, topic, active, reveal, o
   };
   return <div hidden={!active} className="gpt-owned-workspace">
     <Suspense fallback={null}>{returning && <PayReturn locale={locale} />}</Suspense>
-    <PresentationCard locale={locale} artifactId={artifactId} ownerKey={ownerKey} initialTopic={presentationTopic(topic)} returning={returning} render={session => <PresentationWorkspace session={session} ownerKey={ownerKey} artifactId={artifactId} active={active} beforeNavigate={beforeNavigate} reveal={reveal} onClose={onClose} focusInput={focusInput} />} />
+    <PresentationCard locale={locale} artifactId={artifactId} ownerKey={ownerKey} initialTopic={presentationTopic(topic)} returning={returning} render={session => <PresentationWorkspace session={session} ownerKey={ownerKey} artifactId={artifactId} active={active} beforeNavigate={beforeNavigate} reveal={reveal} onClose={onClose} focusInput={focusInput} repeatProject={repeatProject} />} />
   </div>;
 }

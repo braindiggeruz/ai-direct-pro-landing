@@ -1,0 +1,101 @@
+{
+  "scenarios": [
+    {
+      "locale": "ru",
+      "width": 390,
+      "mode": "live",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "587e8a7c-cead-47cd-94a8-9976ff021b09",
+          "type": "pack_prompt_viewed",
+          "detail": "after_answer",
+          "view": "bc386c98-3bf7-498b-9470-1cb6b9ba5db4"
+        },
+        {
+          "id": "6b58e958-d142-4746-983c-a5098d915e47",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "bc386c98-3bf7-498b-9470-1cb6b9ba5db4"
+        },
+        {
+          "id": "6586a102-aafa-4811-ab27-dad4b7bfdb45",
+          "type": "pack_prompt_dismissed",
+          "detail": "after_answer",
+          "view": "bc386c98-3bf7-498b-9470-1cb6b9ba5db4"
+        }
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "live",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "df10f0ab-bd99-48a5-8606-ccfc75ff91a5",
+          "type": "pack_prompt_viewed",
+          "detail": "after_answer",
+          "view": "eb43b1a6-bc60-4ee8-83d7-b81eccf8fce8"
+        },
+        {
+          "id": "30fe8d36-3cff-4de9-bba4-75fc08a12364",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "eb43b1a6-bc60-4ee8-83d7-b81eccf8fce8"
+        },
+        {
+          "id": "62ac40de-a184-4148-ba9b-86ca935c1495",
+          "type": "pack_prompt_dismissed",
+          "detail": "after_answer",
+          "view": "eb43b1a6-bc60-4ee8-83d7-b81eccf8fce8"
+        }
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "near",
+      "answers": 1,
+      "subscribes": 1,
+      "events": [
+        {
+          "id": "044b7292-83e4-429a-a07b-145846cec074",
+          "type": "pack_prompt_viewed",
+          "detail": "near_limit",
+          "view": "7d4826b6-81c4-4df1-8cd8-50f5e6815dfa"
+        },
+        {
+          "id": "e6ed6535-11e8-435a-aed0-edeb87bdd8b1",
+          "type": "pack_viewed",
+          "detail": "after_value",
+          "view": "7d4826b6-81c4-4df1-8cd8-50f5e6815dfa"
+        },
+        {
+          "id": "71262cfb-2cc5-45a0-b66f-b0c53e5c279c",
+          "type": "pack_prompt_dismissed",
+          "detail": "near_limit",
+          "view": "7d4826b6-81c4-4df1-8cd8-50f5e6815dfa"
+        }
+      ]
+    },
+    {
+      "locale": "ru",
+      "width": 1366,
+      "mode": "paid",
+      "answers": 1,
+      "subscribes": 0,
+      "events": []
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "mode": "off",
+      "answers": 1,
+      "subscribes": 0,
+      "events": []
+    }
+  ]
+}

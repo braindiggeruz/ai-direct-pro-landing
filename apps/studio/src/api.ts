@@ -230,6 +230,10 @@ export interface FreeSlides {
 }
 
 export type EventType =
+  | 'studio_mode_entered'
+  | 'studio_upgrade_viewed'
+  | 'studio_upgrade_selected'
+  | 'studio_download_clicked'
   | 'studio_tool_started'
   | 'studio_result_ready'
   | 'studio_tariffs_viewed'

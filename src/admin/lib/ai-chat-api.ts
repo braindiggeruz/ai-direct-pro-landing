@@ -2,6 +2,7 @@
 // the same Bearer call and closed error codes as the Owner Control Center.
 // Nothing here polls; the page calls it when opened and on its refresh button.
 import { ownerCall } from './owner-api';
+import type { StudioMonetizationReport } from '../../shared/studio-admin';
 import type {
   AiChatMode,
   AiChatOrderState,
@@ -30,6 +31,7 @@ function search(params: Record<string, string | number | null | undefined>): str
 }
 
 export const aiChatApi = {
+  studio: (days = 7) => ownerCall<StudioMonetizationReport>('GET', `/api/admin/ai-chat/studio${search({ days })}`),
   overview: (weeks?: number) =>
     ownerCall<AiChatOverview>('GET', `/api/admin/ai-chat/overview${search({ weeks })}`),
 

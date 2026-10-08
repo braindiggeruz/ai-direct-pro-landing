@@ -432,7 +432,7 @@ test("only urgent codes page; background codes ride along and stay undelivered",
       "• catalogue_model_unavailable ×2 — модель цепочки пропала из OpenRouter или вышла за потолок цены; она выключена на час",
       "• chat_degraded — за час ответ получили меньше половины ходов",
       "Фон за час: chat_rate_limit, chat_timeout",
-      "Проверьте Workers logs, модели и баланс OpenRouter.",
+      "Проверьте Workers logs, настройки и баланс соответствующего AI-провайдера.",
     ].join("\n"),
   );
   assert.equal(

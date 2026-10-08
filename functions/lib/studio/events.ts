@@ -8,6 +8,10 @@ import { STUDIO_ORG } from "./schema";
 
 /** Every studio event type and the qualifiers it may carry (spec §10.2). */
 export const STUDIO_UI_EVENTS = {
+  studio_mode_entered: ['presentation'],
+  studio_upgrade_viewed: ['single', 'repeat'],
+  studio_upgrade_selected: ['kunlik', 'oylik'],
+  studio_download_clicked: ['presentation', 'photo'],
   /** The person submitted a tool's form. */
   studio_tool_started: ["presentation", "photo"],
   /** A result was shown in full. */
