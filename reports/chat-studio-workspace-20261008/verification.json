@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-08T00:27:22.311332+00:00",
-  "status": "LOCAL_CHECKS_PASS_PRODUCTION_BUILD_PENDING",
+  "checkedAt": "2026-10-08T01:15:57.944902+00:00",
+  "status": "LOCAL_VERIFIED_NOT_DEPLOYED",
   "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2",
   "regressions": {
     "tests": 339,
@@ -205,9 +205,249 @@
       }
     ]
   },
-  "productionBuild": "PENDING committed source",
+  "productionBuild": {
+    "exitCode": 0,
+    "commit": "432608408d11fa0119da33c3a627df9d9f11bc39",
+    "fileCount": 998,
+    "artifactSha256": "816070f4edfb6268e5e24aead1631f544a84ddde3f94cd3fbf2187d9ffbcb61c"
+  },
   "published": false,
   "realPaymentAcceptance": "NOT_PERFORMED",
   "data": "All browser APIs, AI, subscriptions and payments were offline fixtures. No real order, grant or charge.",
-  "preview": "http://127.0.0.1:19129/ru/gpt-chat/; offline fixtures, local example only"
+  "preview": "http://127.0.0.1:19129/ru/gpt-chat/; offline fixtures, local example only",
+  "codeCommit": "432608408d11fa0119da33c3a627df9d9f11bc39",
+  "productionLineageGuard": {
+    "exitCode": 0,
+    "previousProductionCommit": "c4cd8c701d383f1139486c91b30cd5c2bf7f46e2"
+  },
+  "finalFullLayout": {
+    "ok": true,
+    "runs": 446,
+    "source": "reports/chat-studio-workspace-20261008/chat-layout-final.json",
+    "geometryFailures": 0
+  },
+  "releaseRegressions": {
+    "tests": 46,
+    "pass": 42,
+    "fail": 0,
+    "skipped": 4
+  },
+  "layoutRetestHistory": {
+    "runtimeCodeCommit": "432608408d11fa0119da33c3a627df9d9f11bc39",
+    "firstFull": {
+      "ok": false,
+      "runs": 446,
+      "geometryFailures": 0,
+      "source": "reports/chat-studio-workspace-20261008/chat-layout-first-full.json",
+      "exceededGatedPerformance": [
+        {
+          "size": "390x844",
+          "locale": "uz",
+          "cls": 0.0009,
+          "lcp": {
+            "t": 2524,
+            "size": 6845,
+            "el": null
+          },
+          "candidates": [
+            {
+              "t": 2524,
+              "size": 6845,
+              "el": null
+            }
+          ]
+        }
+      ]
+    },
+    "secondFull": {
+      "ok": false,
+      "runs": 446,
+      "geometryFailures": 0,
+      "source": "reports/chat-studio-workspace-20261008/chat-layout-second-full.json",
+      "exceededGatedPerformance": [
+        {
+          "size": "1366x768",
+          "locale": "uz",
+          "cls": 0.1292,
+          "lcp": {
+            "t": 2260,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 1852,
+              "size": 2805,
+              "el": "::after."
+            },
+            {
+              "t": 2260,
+              "size": 9116,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        }
+      ]
+    },
+    "independentPerformanceRepeat": {
+      "ok": true,
+      "source": "reports/chat-studio-workspace-20261008/chat-performance-final.json",
+      "measurements": [
+        {
+          "size": "320x568",
+          "locale": "uz",
+          "cls": 0.002,
+          "lcp": {
+            "t": 2412,
+            "size": 6020,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 1932,
+              "size": 2416,
+              "el": "::after."
+            },
+            {
+              "t": 2412,
+              "size": 6020,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "320x568",
+          "locale": "ru",
+          "cls": 0.002,
+          "lcp": {
+            "t": 2972,
+            "size": 6405,
+            "el": "h1.gpt-kicker"
+          },
+          "candidates": [
+            {
+              "t": 2144,
+              "size": 6335,
+              "el": "h1.gpt-kicker"
+            },
+            {
+              "t": 2972,
+              "size": 6405,
+              "el": "h1.gpt-kicker"
+            }
+          ]
+        },
+        {
+          "size": "360x612",
+          "locale": "uz",
+          "cls": 0.0018,
+          "lcp": {
+            "t": 2032,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2032,
+              "size": 6845,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "360x612",
+          "locale": "ru",
+          "cls": 0.0018,
+          "lcp": {
+            "t": 2220,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2220,
+              "size": 6372,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "390x844",
+          "locale": "uz",
+          "cls": 0.0009,
+          "lcp": {
+            "t": 2196,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2196,
+              "size": 6845,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "390x844",
+          "locale": "ru",
+          "cls": 0.0009,
+          "lcp": {
+            "t": 2272,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2272,
+              "size": 6372,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "1366x768",
+          "locale": "uz",
+          "cls": 0.0053,
+          "lcp": {
+            "t": 2304,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2304,
+              "size": 9116,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        },
+        {
+          "size": "1366x768",
+          "locale": "ru",
+          "cls": 0.0051,
+          "lcp": {
+            "t": 2096,
+            "size": 8323,
+            "el": "p.gpt-greet gpt-shell-greet"
+          },
+          "candidates": [
+            {
+              "t": 2096,
+              "size": 8323,
+              "el": "p.gpt-greet gpt-shell-greet"
+            }
+          ]
+        }
+      ]
+    },
+    "desktopTrace": {
+      "ok": true,
+      "navigations": 8,
+      "source": "reports/chat-studio-workspace-20261008/chat-performance-trace.json"
+    },
+    "budgetsChanged": false,
+    "rawReportsModified": false,
+    "checkerChange": "capture layout-shift sources and time only; no change to thresholds, throttling or acceptance"
+  }
 }

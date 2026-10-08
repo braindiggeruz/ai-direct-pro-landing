@@ -1,0 +1,203 @@
+{
+  "checkedAt": "2026-10-08T00:46:52.118Z",
+  "dist": "F:\\Claude\\gptbot-codex-integration-20261007\\dist",
+  "shotsDir": "F:\\Claude\\gptbot-tools\\tmp\\workspace-perf-final-shots",
+  "ok": true,
+  "summary": {
+    "pages": [
+      "/uz/gpt-uzbek-tilida/",
+      "/ru/gpt-chat/"
+    ],
+    "runs": 0,
+    "sizes": [],
+    "states": [],
+    "textUnderComposer": 0,
+    "textOverlaps": 0,
+    "controlOverlaps": 0,
+    "smallTargets": 0,
+    "contrastFails": 0,
+    "honesty": 0,
+    "horizontalOverflowRuns": 0,
+    "threadBelowComposerTop": 0,
+    "headerSpill": 0,
+    "composerOffScreen": 0,
+    "composerNotInFlowOrNotOpaque": 0,
+    "subtitleCut": [],
+    "answerFormat": 0,
+    "sidebarStyle": 0,
+    "composition": {
+      "failures": 0,
+      "byCheck": {}
+    },
+    "limitCardOutOfSight": [],
+    "menuUnreachable": [],
+    "menuDirections": {
+      "below": 0,
+      "above": 0
+    },
+    "zoom": [],
+    "billing": [],
+    "frameVsMounted": [],
+    "transition": [],
+    "classicScrollbars": [],
+    "lightRendersDark": {
+      "compared": 0,
+      "different": []
+    },
+    "keyboardNotDetected": 0,
+    "unexpectedApiCalls": [],
+    "negativeControl": null,
+    "negativeControls": [],
+    "heights": {},
+    "perf": [
+      {
+        "size": "320x568",
+        "locale": "uz",
+        "cls": 0.002,
+        "lcp": {
+          "t": 2412,
+          "size": 6020,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 1932,
+            "size": 2416,
+            "el": "::after."
+          },
+          {
+            "t": 2412,
+            "size": 6020,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "320x568",
+        "locale": "ru",
+        "cls": 0.002,
+        "lcp": {
+          "t": 2972,
+          "size": 6405,
+          "el": "h1.gpt-kicker"
+        },
+        "candidates": [
+          {
+            "t": 2144,
+            "size": 6335,
+            "el": "h1.gpt-kicker"
+          },
+          {
+            "t": 2972,
+            "size": 6405,
+            "el": "h1.gpt-kicker"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "uz",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2032,
+          "size": 6845,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2032,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "360x612",
+        "locale": "ru",
+        "cls": 0.0018,
+        "lcp": {
+          "t": 2220,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2220,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "uz",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2196,
+          "size": 6845,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2196,
+            "size": 6845,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "390x844",
+        "locale": "ru",
+        "cls": 0.0009,
+        "lcp": {
+          "t": 2272,
+          "size": 6372,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2272,
+            "size": 6372,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2304,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2304,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "ru",
+        "cls": 0.0051,
+        "lcp": {
+          "t": 2096,
+          "size": 8323,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2096,
+            "size": 8323,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ]
+      }
+    ]
+  },
+  "failures": [],
+  "shots": []
+}

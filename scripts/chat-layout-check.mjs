@@ -1260,8 +1260,17 @@ if (!PERF_ONLY) {
 const PERF_GATED = ['360x612', '390x844', '1366x768'];
 const perf = [];
 const OBSERVE = () => {
-  window.__cls = 0; window.__lcp = null;
-  new PerformanceObserver((list) => { for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true });
+  window.__cls = 0; window.__lcp = null; window.__shifts = [];
+  new PerformanceObserver((list) => {
+    for (const e of list.getEntries()) if (!e.hadRecentInput) {
+      window.__cls += e.value;
+      // Keep the measured sources so an intermittent gate failure can be
+      // investigated without replacing it with a passing sample. No text/PII.
+      window.__shifts.push({ at: Math.round(e.startTime), value: e.value,
+        sources: (e.sources || []).map(s => ({ node: `${s.node?.tagName || ''}.${String(s.node?.className || '')}`,
+          previous: s.previousRect.toJSON(), current: s.currentRect.toJSON() })) });
+    }
+  }).observe({ type: 'layout-shift', buffered: true });
   window.__lcps = [];
   new PerformanceObserver((list) => { for (const e of list.getEntries()) { window.__lcp = { t: Math.round(e.startTime), size: e.size, el: e.element ? e.element.tagName.toLowerCase() + '.' + (e.element.className || '') : null }; window.__lcps.push(window.__lcp); } }).observe({ type: 'largest-contentful-paint', buffered: true });
 };
@@ -1284,7 +1293,7 @@ for (const size of [SIZES[0], SIZES[1], SIZES[3], SIZES[6]]) for (const locale o
   await page.waitForSelector('[data-testid="ai-console"]', { timeout: 60_000 });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(3_000);
-  perf.push({ size: sizeName(size), locale, ...(await page.evaluate(() => ({ cls: +window.__cls.toFixed(4), lcp: window.__lcp, candidates: window.__lcps }))) });
+  perf.push({ size: sizeName(size), locale, ...(await page.evaluate(() => ({ cls: +window.__cls.toFixed(4), lcp: window.__lcp, candidates: window.__lcps, shifts: window.__shifts }))) });
   await ctx.close();
 }
 await browser.close();

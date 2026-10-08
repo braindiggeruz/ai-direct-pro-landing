@@ -6,7 +6,7 @@ import test from 'node:test';
 import { assertSeoProtection, BASELINE } from '../scripts/seo-protection';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const REPORT = path.join(ROOT, 'docs/seo/evidence/2026-10-07-chat-ui/layout-report.json');
+const REPORT = path.join(ROOT, 'reports/chat-studio-workspace-20261008/chat-layout-final.json');
 const read = (file: string) => fs.readFileSync(path.join(ROOT, file), 'utf8');
 type Report = {
   checkedAt: string; ok: boolean; dist: string;

@@ -1,0 +1,5334 @@
+{
+  "checkedAt": "2026-10-08T01:01:52.370Z",
+  "dist": "F:\\Claude\\gptbot-codex-integration-20261007\\dist",
+  "shotsDir": "F:\\Claude\\gptbot-tools\\tmp\\workspace-perf-trace-shots",
+  "ok": true,
+  "summary": {
+    "pages": [
+      "/uz/gpt-uzbek-tilida/",
+      "/ru/gpt-chat/"
+    ],
+    "runs": 0,
+    "sizes": [],
+    "states": [],
+    "textUnderComposer": 0,
+    "textOverlaps": 0,
+    "controlOverlaps": 0,
+    "smallTargets": 0,
+    "contrastFails": 0,
+    "honesty": 0,
+    "horizontalOverflowRuns": 0,
+    "threadBelowComposerTop": 0,
+    "headerSpill": 0,
+    "composerOffScreen": 0,
+    "composerNotInFlowOrNotOpaque": 0,
+    "subtitleCut": [],
+    "answerFormat": 0,
+    "sidebarStyle": 0,
+    "composition": {
+      "failures": 0,
+      "byCheck": {}
+    },
+    "limitCardOutOfSight": [],
+    "menuUnreachable": [],
+    "menuDirections": {
+      "below": 0,
+      "above": 0
+    },
+    "zoom": [],
+    "billing": [],
+    "frameVsMounted": [],
+    "transition": [],
+    "classicScrollbars": [],
+    "lightRendersDark": {
+      "compared": 0,
+      "different": []
+    },
+    "keyboardNotDetected": 0,
+    "unexpectedApiCalls": [],
+    "negativeControl": null,
+    "negativeControls": [],
+    "heights": {},
+    "perf": [
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2372,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2372,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2541,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3628,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1244,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1642,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2369,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2686,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2693,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3190,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3668,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2116,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2116,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2369,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3339,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1246,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1653,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2396,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2463,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2706,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3152,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4438,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 5312,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2172,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2172,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2389,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3401,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1237,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1643,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2414,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2482,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2758,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3141,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4308,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 5594,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2452,
+          "size": 9116,
+          "el": null
+        },
+        "candidates": [
+          {
+            "t": 2452,
+            "size": 9116,
+            "el": null
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2623,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3535,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1240,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1656,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2418,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2504,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2658,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3234,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3964,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2384,
+          "size": 9116,
+          "el": null
+        },
+        "candidates": [
+          {
+            "t": 2384,
+            "size": 9116,
+            "el": null
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2567,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3480,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1258,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1655,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2353,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2431,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2871,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3158,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4089,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 6242,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2376,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2376,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2471,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3432,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1251,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1654,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2347,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2552,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2809,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3146,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4242,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 5979,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2248,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2248,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2370,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3453,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1208,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1615,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2204,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2507,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2831,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3121,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4061,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "size": "1366x768",
+        "locale": "uz",
+        "cls": 0.0053,
+        "lcp": {
+          "t": 2016,
+          "size": 9116,
+          "el": "p.gpt-greet gpt-shell-greet"
+        },
+        "candidates": [
+          {
+            "t": 2016,
+            "size": 9116,
+            "el": "p.gpt-greet gpt-shell-greet"
+          }
+        ],
+        "shifts": [
+          {
+            "at": 2233,
+            "value": 0.00018323382223375045,
+            "sources": []
+          },
+          {
+            "at": 3301,
+            "value": 0.005094837277781469,
+            "sources": [
+              {
+                "node": "NAV.",
+                "previous": {
+                  "x": 8,
+                  "y": 480,
+                  "width": 243,
+                  "height": 248,
+                  "top": 480,
+                  "right": 251,
+                  "bottom": 728,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 570.5,
+                  "width": 243,
+                  "height": 197.5,
+                  "top": 570.5,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                }
+              },
+              {
+                "node": "A.flex min-h-11 w-full items-center gap-3 rounded-xl text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan mt-auto border border-brand-cyan/25 bg-brand-cyan/[0.06] px-2.5 font-medium text-brand-cyan hover:bg-brand-cyan/[0.12]",
+                "previous": {
+                  "x": 8,
+                  "y": 416,
+                  "width": 243,
+                  "height": 44,
+                  "top": 416,
+                  "right": 251,
+                  "bottom": 460,
+                  "left": 8
+                },
+                "current": {
+                  "x": 8,
+                  "y": 506.5,
+                  "width": 243,
+                  "height": 44,
+                  "top": 506.5,
+                  "right": 251,
+                  "bottom": 550.5,
+                  "left": 8
+                }
+              },
+              {
+                "node": "P.gpt-official",
+                "previous": {
+                  "x": 8,
+                  "y": 748,
+                  "width": 243,
+                  "height": 20,
+                  "top": 748,
+                  "right": 251,
+                  "bottom": 768,
+                  "left": 8
+                },
+                "current": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rects": [
+          {
+            "at": 1194,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 1617,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "display": null
+              },
+              {
+                "selector": ".gpt-header",
+                "display": null
+              },
+              {
+                "selector": ".gpt-hello",
+                "display": null
+              },
+              {
+                "selector": ".gpt-composer",
+                "display": null
+              },
+              {
+                "selector": ".gpt-greet",
+                "display": null
+              },
+              {
+                "selector": ".gpt-meta",
+                "display": null
+              }
+            ]
+          },
+          {
+            "at": 2266,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2374,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 2643,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 3245,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4599,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          },
+          {
+            "at": 4631,
+            "nodes": [
+              {
+                "selector": ".gpt-main",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 768,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 768,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-header",
+                "rect": {
+                  "x": 260,
+                  "y": 0,
+                  "width": 1106,
+                  "height": 56,
+                  "top": 0,
+                  "right": 1366,
+                  "bottom": 56,
+                  "left": 260
+                },
+                "display": "flex"
+              },
+              {
+                "selector": ".gpt-hello",
+                "rect": {
+                  "x": 429,
+                  "y": 211,
+                  "width": 768,
+                  "height": 208,
+                  "top": 211,
+                  "right": 1197,
+                  "bottom": 419,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-composer",
+                "rect": {
+                  "x": 260,
+                  "y": 483,
+                  "width": 1106,
+                  "height": 90,
+                  "top": 483,
+                  "right": 1366,
+                  "bottom": 573,
+                  "left": 260
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-greet",
+                "rect": {
+                  "x": 429,
+                  "y": 295,
+                  "width": 768,
+                  "height": 40,
+                  "top": 295,
+                  "right": 1197,
+                  "bottom": 335,
+                  "left": 429
+                },
+                "display": "block"
+              },
+              {
+                "selector": ".gpt-meta",
+                "rect": {
+                  "x": 429,
+                  "y": 347,
+                  "width": 768,
+                  "height": 42,
+                  "top": 347,
+                  "right": 1197,
+                  "bottom": 389,
+                  "left": 429
+                },
+                "display": "block"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "failures": [],
+  "shots": []
+}

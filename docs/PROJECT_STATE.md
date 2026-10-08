@@ -6,6 +6,8 @@
 
 **Новая версия ещё не опубликована.** Live marker всё ещё `c4cd8c701d383f1139486c91b30cd5c2bf7f46e2`. Следующий этап — guarded release по команде владельца. Реальная оплата/генерация/PPTX/чек и измерение ROI остаются отдельной приёмкой. Тарифы и backend прежние; photo off. Не повторять Claude reconstruction и не путать локальный preview с production.
 
+Код `432608408d11fa0119da33c3a627df9d9f11bc39` сохранён в Git. Combined production build/stamp/guard PASS, 998 файлов; финальный полный layout 446 сценариев PASS. Оба прежних FAIL по LCP/CLS сохранены: причина редкого большого CLS не подтверждена, это остаётся риском проверки загрузки. Release tests 42 PASS / 4 ожидаемых skip. Проверки и ограничения: `reports/chat-studio-workspace-20261008/verification.json`. Actual-build preview: http://127.0.0.1:19129/ru/gpt-chat/ — локальные примеры, AI/оплата offline.
+
 ## История опубликованного состояния до этого этапа
 
 
