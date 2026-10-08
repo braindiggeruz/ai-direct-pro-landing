@@ -1,7 +1,7 @@
 # HANDOFF — Click fiscal incident · 08.10.2026
 
 ## 1. Состояние
-F:/Claude/gptbot-codex-integration-20261007; branch codex/continuation-20261007. Предыдущий production source 5de9e3850468e1915d99729e4930b8750adcf433. Код защиты чеков проверен, deployment pending. Владелец ранее разрешил деплой после проверок.
+F:/Claude/gptbot-codex-integration-20261007; branch codex/continuation-20261007. Предыдущий production source 5de9e3850468e1915d99729e4930b8750adcf433. Код защиты чеков выкачен: source4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd, deployment https://08260196.ai-direct-pro-landing.pages.dev. Exact live manifest PASS. Этот metadata relay не требует нового deployment.
 
 ## 2. Что сделано
 Независимая SELECT-only проверка production D1 и GET-only проверка Click. Исправлены повторный submit после неясного ответа, атомарная резервация по lease и вводящие в заблуждение алерты. Очередь и backoff сохранены.
@@ -13,16 +13,16 @@ reports/click-fiscal-incident-20261008/: INCIDENT.md, fiscal-readonly.json, merc
 Сохранённый operation_id навсегда блокирует автоматический повтор submit_items; даже 404/empty после потери ответа не доказывает отсутствие чека. Только сверка и эскалация. Stale lease не резервирует отправку. Никаких выдуманных успешных статусов.
 
 ## 5. Внешние действия
-Только SELECT и GET. Ни одного нового фискального POST, платежа, возврата, изменения credentials или production D1. Кабинет Click требует вход владельца. Никаких сообщений поддержке/покупателю не отправлено.
+Guarded Pages deploy по ранее выданному разрешению, Functions bundle загружен. Диагностика — только SELECT и GET. Ни одного нового фискального POST, платежа, возврата, изменения credentials или production D1. Кабинет Click требует вход владельца. Никаких сообщений поддержке/покупателю не отправлено.
 
 ## 6. Проверки
-99/99 targeted tests PASS; tsc-b и Functions typecheck PASS; ESLint шести изменённых TS PASS. Независимый статический review: новых P1/P2 нет. Build/guarded release/readback ещё должны быть зафиксированы в RELEASE.json.
+99/99 targeted tests PASS; tsc-b и Functions typecheck PASS; ESLint шести изменённых TS PASS. Независимый статический review: новых P1/P2 нет. Build:production, guard, deploy и exact custom-domain manifest PASS: RELEASE.json. Static artifact SHA совпадает с предыдущим SEO release; postdeploy D1 всё ещё показывает один pending -12 без submit.
 
 ## 7. Ограничения
 Один live chat заказ на 20 000 сум paid, fiscal queue attempts10, payment_id:click_-12. Нашего submit не было; чек у Click/OFD UNKNOWN. GET с локальным owner profile вернул «Неверные данные поставщика». Production secret opaque; равенство его локальному профилю не доказано. Нельзя назвать конкретный неверный реквизит без кабинета.
 
 ## 8. Следующий этап
-После выката — восстановить проверенный доступ Click Merchant API и сверить существующий чек. Вход владельца запрошен в открытом https://mc.click.uz/. Пароли и SMS не просить в чате. SEO browser/measurement задачи сохранены в STATE, повторный IndexNow/GSC для этого backend patch не нужен.
+Восстановить проверенный доступ Click Merchant API и сверить существующий чек. Вход владельца запрошен в открытом https://mc.click.uz/. Пароли и SMS не просить в чате. SEO browser/measurement задачи сохранены в STATE, повторный IndexNow/GSC для этого backend patch не нужен.
 
 ## 9. Acceptance
 Authoritative реквизиты сервиса107654; успешный read-only lookup; сверка существующего чека; нормальная очередь сохраняет подтверждённую ссылку ОФД, покупатель открывает корректный чек. До этого business acceptance blocked.

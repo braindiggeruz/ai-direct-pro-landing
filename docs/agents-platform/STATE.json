@@ -1,6 +1,6 @@
 {
   "click_fiscal_incident_20261008": {
-    "status": "CODE_VERIFIED_MERCHANT_ACCESS_BLOCKED_DEPLOY_PENDING",
+    "status": "CODE_DEPLOYED_VERIFIED_MERCHANT_ACCESS_BLOCKED",
     "evidence": "reports/click-fiscal-incident-20261008/INCIDENT.md",
     "baselineSource": "5de9e3850468e1915d99729e4930b8750adcf433",
     "verifiedFailure": "GET status_by_mti: HTTP200, error_code -12, supplier data rejected; queued before any application fiscal submission",
@@ -17,7 +17,30 @@
       "security": "58 staged files secret scan clean; global unchanged test-placeholder false positive recorded",
       "production": "300/300 crawl and10/10 protected contracts; exact manifest; private/alias headers PASS",
       "limits": "Browser acceptance partial; no indexing, ranking, traffic recovery or today GA4 claim"
-    }
+    },
+    "sourceCommit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
+    "deployment": {
+      "checkedAt": "2026-10-08T14:54:54.843284+00:00",
+      "sourceCommit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
+      "productionUrl": "https://gptbot.uz/",
+      "deploymentUrl": "https://08260196.ai-direct-pro-landing.pages.dev",
+      "manifestExactMatch": true,
+      "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+      "fileCount": 1002,
+      "staticArtifactUnchangedFromSeoRelease": true,
+      "guardedDeploy": "deployed_and_verified",
+      "functionsBundleUploaded": true,
+      "readOnlyAccountProbeStatus": 401,
+      "testsPassed": 99,
+      "typecheck": "app and functions PASS",
+      "lint": "6 changed TS files PASS",
+      "build": "build:production PASS",
+      "fiscalBusinessAcceptance": "BLOCKED: supplier refusal -12; owner Click login required; receipt existence UNKNOWN",
+      "financialMutationsDuringIncident": 0,
+      "credentialChanges": 0,
+      "gitPush": false
+    },
+    "postdeployQueue": "One paid live Click row remains pending -12; no application submission; provider receipt UNKNOWN"
   },
   "seo_recovery_20261008": {
     "status": "DEPLOYED_HTTP_VERIFIED_DISCOVERY_SUBMITTED_BROWSER_PARTIAL",
@@ -1554,9 +1577,9 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Click fiscal incident: safe reconciliation fix verified; Merchant API supplier access unresolved",
+  "current_stage": "Click fiscal code fix deployed and verified; Merchant API supplier access and receipt acceptance blocked",
   "stage_status": "blocked",
-  "last_completed_stage": "SEO recovery implementation, guarded production deployment and discovery submissions",
+  "last_completed_stage": "Click fiscal reconciliation safety fix, 99 passing tests and guarded production deployment",
   "next_stage": "Restore verified Click Merchant API access and reconcile the existing paid order receipt",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
@@ -1825,9 +1848,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Code mitigation approved for guarded deployment by prior owner instruction. Business acceptance requires owner Click cabinet login and authoritative API identity/access. Preserve SEO follow-up in seo_recovery_20261008; no duplicate fiscal submission or manual success patch.",
+  "next_stage_note": "Runtime fix deployed and exact live manifest verified. Owner Click cabinet login is required to verify authoritative Merchant API identity/access and the existing receipt. Preserve deferred SEO follow-up; no redeploy or duplicate fiscal POST without new evidence.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "5de9e3850468e1915d99729e4930b8750adcf433",
+  "last_commit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1890,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-08T14:47:25.883003+00:00",
+  "updated_at": "2026-10-08T14:56:52.348653+00:00",
   "blocked": true,
   "blocked_stage": "Click Merchant API access and receipt acceptance",
   "blockers": [
@@ -1993,15 +2016,16 @@
     "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "sourceCommit": "5de9e3850468e1915d99729e4930b8750adcf433",
+    "sourceCommit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
     "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
-    "build": "build:fast, admin, Studio and stamp exit0; guarded release passed",
-    "tests": "284 effective relevant tests passed; 4 historical R-ST1 skips; see FINAL_STATIC_VALIDATION.json",
-    "typecheck": "tsc-b and functions exit0",
-    "lint": "26 changed TS/TSX files clean",
-    "security": "58 staged files secret scan clean; global unchanged test-placeholder false positive recorded",
-    "production": "300/300 crawl and10/10 protected contracts; exact manifest; private/alias headers PASS",
-    "limits": "Browser acceptance partial; no indexing, ranking, traffic recovery or today GA4 claim"
+    "deploymentUrl": "https://08260196.ai-direct-pro-landing.pages.dev",
+    "build": "build:production PASS; Functions bundle uploaded; guard and exact live manifest PASS",
+    "tests": "99/99 targeted PASS",
+    "typecheck": "tsc-b and Functions PASS",
+    "lint": "six changed TS files PASS",
+    "security": "staged secret-pattern scan clean; no credentials or financial mutations",
+    "production": "same static artifact as prior SEO release; unauthenticated account GET401; one pending Click receipt unchanged",
+    "limits": "Merchant API -12 unresolved; owner login required; actual provider receipt UNKNOWN; SEO browser/measurement follow-up preserved"
   },
   "n8n_disposition": {
     "value": "RETIRED",

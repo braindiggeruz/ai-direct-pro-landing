@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-08T14:54:54.843284+00:00",
+  "sourceCommit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
+  "productionUrl": "https://gptbot.uz/",
+  "deploymentUrl": "https://08260196.ai-direct-pro-landing.pages.dev",
+  "manifestExactMatch": true,
+  "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
+  "fileCount": 1002,
+  "staticArtifactUnchangedFromSeoRelease": true,
+  "guardedDeploy": "deployed_and_verified",
+  "functionsBundleUploaded": true,
+  "readOnlyAccountProbeStatus": 401,
+  "testsPassed": 99,
+  "typecheck": "app and functions PASS",
+  "lint": "6 changed TS files PASS",
+  "build": "build:production PASS",
+  "fiscalBusinessAcceptance": "BLOCKED: supplier refusal -12; owner Click login required; receipt existence UNKNOWN",
+  "financialMutationsDuringIncident": 0,
+  "credentialChanges": 0,
+  "gitPush": false
+}

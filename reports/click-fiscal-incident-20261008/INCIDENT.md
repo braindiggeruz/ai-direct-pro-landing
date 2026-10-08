@@ -1,6 +1,6 @@
 # Click fiscal incident — 2026-10-08
 
-Status: code mitigation verified; Merchant API access and the actual receipt remain unresolved. No new payment, refund, fiscal POST, secret change or production D1 mutation was performed during diagnosis.
+Status: code mitigation deployed and production manifest verified; Merchant API access and the actual receipt remain unresolved. No new payment, refund, fiscal POST, secret change or production D1 mutation was performed during diagnosis.
 
 ## Confirmed evidence
 
@@ -34,3 +34,7 @@ Validation: 99/99 targeted tests passed (Click fiscal and Studio Click, monetiza
 4. Confirm the queued row is resolved and the buyer can open the correct receipt. Until then, fiscal business acceptance is blocked even if the code deploy succeeds.
 
 No IndexNow/GSC resubmission is needed for this backend-only patch. Previous SEO release and its open measurement/browser tasks are preserved in STATE.seo_recovery_20261008.
+
+## Verified release
+
+Source `4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd`; deployment https://08260196.ai-direct-pro-landing.pages.dev. `build:production`, guard and upload passed; Functions bundle uploaded. Live https://gptbot.uz/gptbot-release.json exactly matches the committed local artifact. Static artifact SHA is unchanged from the prior SEO release. Read-only post-deploy D1 still shows one pending supplier-refused lookup, with no application fiscal submission. See RELEASE.json and postdeploy-fiscal-readonly.json. No Google resubmission or Git push performed.
