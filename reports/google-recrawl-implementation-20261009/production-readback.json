@@ -1,0 +1,201 @@
+{
+  "checkedAt": "2026-10-09T02:42:58.988Z",
+  "manifest": {
+    "schema": 1,
+    "commit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
+    "artifactSha256": "ce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00",
+    "fileCount": 1004,
+    "features": [
+      "audience_directory",
+      "mobile_username_selection",
+      "bridge_pairing",
+      "sending_readiness",
+      "campaign_preflight",
+      "async_media_check",
+      "ai_chat_admin"
+    ],
+    "probes": [
+      {
+        "path": "assets/AdminRoot-Dfs7lPWC.js",
+        "sha256": "6e63acd5d1e22d2073ddcafa2faa125523ed4f22a75ff6cd64b957cc26f59be7"
+      },
+      {
+        "path": "assets/ui-CH_3xdyd.js",
+        "sha256": "46ade24e188120908995aeee9a9be79dfc48885b09d685ff981ca317aec022ce"
+      },
+      {
+        "path": "assets/AiChat-ZQcJi_dL.js",
+        "sha256": "92d62fbf96d23525802f6e68d8ca54c600d8e0a2b9813bf809fb89382d4c002c"
+      },
+      {
+        "path": "index.html",
+        "sha256": "457b513c5a8fe70e78f3ef69a6f6ae8db1e191d050214af96d23db4e8a3910bf"
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "7bdafe8870fc15d5f68048f83abca3e68363494cffc8d4982c58d1e71ebe9c4b"
+      },
+      {
+        "path": "uz/internet-reklama-toshkent/index.html",
+        "sha256": "464d0ad707592accccfeb4bbf1939b99774454beee4aa9c22cceccb580e563ca"
+      },
+      {
+        "path": "ru/internet-reklama-tashkent/index.html",
+        "sha256": "7b866a59adf4eeb648371d7ca6c220c2b62a57533558e4fa0006d897232f1b54"
+      },
+      {
+        "path": "ru/prezentatsiya-ai/index.html",
+        "sha256": "3171a2f7078c38be22dbcb8bbff46cb4810ece0a877488ec026d8716c75f491e"
+      },
+      {
+        "path": "uz/taqdimot-ai/index.html",
+        "sha256": "7a3e3f2934b121cc03d2c8a3eb996c8bdac6b7704668078f7e6a6770b37ec2be"
+      },
+      {
+        "path": "uz/tariflar/index.html",
+        "sha256": "0a609da584defbb8b570f7aac6bc2b9b29f4336667c2096379e17ee8a63c3b9a"
+      }
+    ]
+  },
+  "manifestExactMatch": true,
+  "discoveryFiles": [
+    {
+      "path": "/ru/blog/feed.xml",
+      "status": 200,
+      "sha256": "e8983ec66e7d29df68b0d79291e54ea64fa39a9e8ab46092a00979d1b1907184",
+      "etag": "W/\"fe0245fa7fa33428ff2149261ca8de80\"",
+      "cacheControl": "public, max-age=0, s-maxage=300, must-revalidate",
+      "contentType": "application/rss+xml; charset=utf-8",
+      "oldEtagStatus": 200
+    },
+    {
+      "path": "/uz/blog/feed.xml",
+      "status": 200,
+      "sha256": "a3b85305bab8e75a505aac3215c56402dc234bc52881f8ff2b78baf000004fcd",
+      "etag": "W/\"86a1bbe38e9cc2dc09c3d90843e7011b\"",
+      "cacheControl": "public, max-age=0, s-maxage=300, must-revalidate",
+      "contentType": "application/rss+xml; charset=utf-8",
+      "oldEtagStatus": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "sha256": "f15ce345196fce9e310caaba523802a9955bf58992a602fe00de847eee64ece4",
+      "etag": "W/\"f8699c555f60eb82ead73f638a57de7b\"",
+      "cacheControl": "public, max-age=0, s-maxage=300, must-revalidate",
+      "contentType": "application/xml; charset=utf-8",
+      "oldEtagStatus": 200
+    },
+    {
+      "path": "/sitemap-updates.xml",
+      "status": 200,
+      "sha256": "85e71a08b64e0b332a1f041fec210ae9e8af7d90031b9ccd0c93e33e61367e57",
+      "etag": "W/\"06ba0d528b42939c5fe3ae07d474c502\"",
+      "cacheControl": "public, max-age=0, s-maxage=300, must-revalidate",
+      "contentType": "application/xml; charset=utf-8",
+      "oldEtagStatus": 200
+    },
+    {
+      "path": "/updates/atom.xml",
+      "status": 200,
+      "sha256": "355f7798ff6b113efa694dd73c3c2b578cdaadaaeeb0f11254d780038692b4e4",
+      "etag": "\"b2813be0c4443602d40e36a21f46c1e3\"",
+      "cacheControl": "public, max-age=0, s-maxage=300, must-revalidate",
+      "contentType": "application/atom+xml; charset=utf-8",
+      "oldEtagStatus": null
+    }
+  ],
+  "htmlPages": [
+    {
+      "path": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/razrabotka-telegram-bota-tashkent/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/stoimost-chat-bota/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/telegram-bot-biznes-uchun/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/chat-bot-narxi/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/razrabotka-saytov-tashkent/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/sayt-yaratish/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/arizalarni-avtomatlashtirish/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-ili-mini-app/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    },
+    {
+      "path": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "status": 200,
+      "canonical": true,
+      "indexable": true
+    }
+  ],
+  "googleRecrawlConfirmed": false
+}

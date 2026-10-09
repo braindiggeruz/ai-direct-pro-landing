@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Commercial lead cluster deployed and verified; post-release measurement",
-  "stage_status": "in_progress",
+  "current_stage": "Google discovery feeds deployed and verified; scheduled read-only recrawl checks",
+  "stage_status": "complete",
   "last_completed_stage": "Commercial Telegram lead cluster with guarded deployment, browser acceptance and search discovery",
-  "next_stage": "Guarded release and production verification of discovery feeds",
+  "next_stage": "Read-only OpenSEO/GSC recrawl checkpoints on 2026-10-12, 2026-10-16, 2026-10-23; then mature commercial traffic and lead outcome measurement",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1850,7 +1850,7 @@
   },
   "next_stage_note": "Use completed equal GSC final windows, Uzbekistan andRU/UZ separately. Keep marketplace drafts pending a separate publication action. Economics requires actual execution costs. Preserve separate Click Merchant access blocker.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "21dca8fc821ea975c54e8b9059589e04e14c3fcc",
+  "last_commit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-09T01:25:01.981072+00:00",
+  "updated_at": "2026-10-09T02:55:04.429738+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2016,16 +2016,16 @@
     "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
-    "artifactSha256": "47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c",
-    "deploymentUrl": "https://3958a695.ai-direct-pro-landing.pages.dev",
+    "sourceCommit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
+    "artifactSha256": "ce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00",
+    "deploymentUrl": "https://c8af4baa.ai-direct-pro-landing.pages.dev",
     "build": "build:production PASS",
-    "tests": "174/174 targeted PASS",
-    "typecheck": "app/functions PASS",
+    "tests": "73/73 targeted PASS; final10/10 subset PASS (not additive)",
+    "typecheck": "app/functions/targeted scripts PASS",
     "lint": "scoped PASS",
-    "security": "45files clean",
-    "production": "exact manifest;12/12commercial/browser;10/10protected",
-    "limits": "Ranking/revenue and manualGoogleRequest pending; fiscal receipt acceptance external blocker preserved"
+    "security": "24 runtime commit files clean",
+    "production": "exact manifest;5/5discovery files;15/15HTML;3/3browser articles at320/1280;10/10protected",
+    "limits": "Post-release Google recrawl and ranking/revenue effects not yet confirmed; existing fiscal blocker preserved"
   },
   "n8n_disposition": {
     "value": "RETIRED",
@@ -2572,13 +2572,35 @@
     "measurementStatus": "Mature organic qualification/revenue data pending"
   },
   "google_recrawl_20261009": {
-    "status": "LOCALLY_VERIFIED_AWAITING_GUARDED_RELEASE",
+    "status": "DEPLOYED_VERIFIED_DISCOVERY_ACCEPTED",
     "baselineSource": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
     "report": "reports/google-recrawl-implementation-20261009/IMPLEMENTATION.md",
     "scope": "RSS freshness, canonical Atom200, short cache, verified postdeploy WebSub, three educational article sections and commercial links",
-    "validation": "73 targeted pass; final discovery subset10pass; app/functions/scripts types and scopedlint pass; browser3/3; protected10/10",
-    "productionWritesThisStage": false,
+    "validation": "73/73 tests; typecheck/lint/build:production PASS; exact production manifest;5discovery files;15HTML;3browser articles;10protected",
+    "productionWritesThisStage": true,
     "googleRecrawlConfirmed": false,
-    "previousNextStage": "Measure mature commercial query/page traffic and actual lead qualification/proposal/payment outcomes"
+    "previousNextStage": "Measure mature commercial query/page traffic and actual lead qualification/proposal/payment outcomes",
+    "sourceCommit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
+    "deploymentUrl": "https://c8af4baa.ai-direct-pro-landing.pages.dev",
+    "artifactSha256": "ce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00",
+    "releaseEvidence": "reports/google-recrawl-implementation-20261009/RELEASE.json",
+    "discovery": "WebSub3/3 HTTP204; GSC5/5 accepted pending; IndexNow5URLs HTTP200",
+    "openSeo": "9/9 indexed, all last crawls before release",
+    "monitoring": {
+      "automationId": "gptbot-google",
+      "name": "GPTBot: проверить переобход Google",
+      "kind": "heartbeat",
+      "status": "ACTIVE",
+      "targetThreadId": "01a11b47-047a-7733-ac64-e5a987381ed9",
+      "checkpointsLocal": [
+        "2026-10-12T12:00:00+05:00",
+        "2026-10-16T12:00:00+05:00",
+        "2026-10-23T12:00:00+05:00"
+      ],
+      "verifiedFrom": "automation tool and saved automation.toml",
+      "scope": "Read-only OpenSEO/GSC: nine URLs and five sitemap/feed files; lastCrawlTime versus release; mature final data windows only",
+      "notificationPolicy": "Meaningful change, failure or user action only; final checkpoint report; quiet when unchanged",
+      "automaticResubmission": false
+    }
   }
 }

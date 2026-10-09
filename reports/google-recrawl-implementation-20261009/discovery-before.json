@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-09T02:36:36.250Z",
+  "rows": [
+    {
+      "path": "/ru/blog/feed.xml",
+      "status": 200,
+      "etag": "W/\"f694bb712cbf46ba7ad97055a8cbc85b\"",
+      "cacheControl": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300",
+      "sha256": "b29386fbfbec3d85d4260e16465134d7b2363abb815a00aeeff18a1b3cc9bb0a"
+    },
+    {
+      "path": "/uz/blog/feed.xml",
+      "status": 200,
+      "etag": "W/\"a55ce3712da05dee3cb20ba07af5d850\"",
+      "cacheControl": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300",
+      "sha256": "eba1483a2bce704109db80ea4661101344ba1297fb016def513b306fd09b8cf4"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "etag": "W/\"cf58bafbc908889e4db921699e34dde2\"",
+      "cacheControl": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300",
+      "sha256": "d12583157462e9995ccfeab6fc91cd867c4bbbf1c2ddce4e28c3bd25553f205b"
+    },
+    {
+      "path": "/sitemap-updates.xml",
+      "status": 200,
+      "etag": "W/\"a488ccb71c8d770a0ca29b29edb2f866\"",
+      "cacheControl": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400, public, max-age=300",
+      "sha256": "c00088b3283fdf4569bb25928f817dfbf28b247d99c30e00200d802c3b2ab37c"
+    }
+  ]
+}

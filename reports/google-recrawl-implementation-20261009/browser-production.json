@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-09T02:43:08.389Z",
+  "mode": "production",
+  "rows": [
+    {
+      "url": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+      "status": 200,
+      "widths": [
+        320,
+        1280
+      ],
+      "demoLinks": [
+        "/ru/razrabotka-telegram-bota-tashkent/#lead-demo"
+      ],
+      "scriptErrors": []
+    },
+    {
+      "url": "/ru/blog/telegram-bot-ili-mini-app/",
+      "status": 200,
+      "widths": [
+        320,
+        1280
+      ],
+      "demoLinks": [
+        "/ru/razrabotka-telegram-bota-tashkent/#lead-demo"
+      ],
+      "scriptErrors": []
+    },
+    {
+      "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "status": 200,
+      "widths": [
+        320,
+        1280
+      ],
+      "demoLinks": [
+        "/uz/arizalarni-qabul-qiluvchi-bot/#lead-demo"
+      ],
+      "scriptErrors": []
+    }
+  ],
+  "externalWrites": 0,
+  "pass": true
+}

@@ -21,7 +21,7 @@
 
 ## Проверки до релиза
 
-73/73 targeted tests PASS; после нормализации порядка cache directives — повторно 10/10 discovery tests PASS (подмножество, не 83 уникальных теста). TypeScript app/functions и targeted scripts PASS, scoped ESLint PASS, build:fast PASS, SEO audit без critical/orphans/broken links, protected SEO10/10. Browser3/3 при320/1280: HTTP200, selfcanonical, один H1, демо-ссылки, без pageerror и overflow документа. Таблицы используют существующий горизонтальный скролл контейнера. Production-проверки добавляются после выпуска.
+73/73 targeted tests PASS; после нормализации порядка cache directives — повторно 10/10 discovery tests PASS (подмножество, не 83 уникальных теста). TypeScript app/functions и targeted scripts PASS, scoped ESLint PASS, build:fast PASS, SEO audit без critical/orphans/broken links, protected SEO10/10. Browser3/3 при320/1280: HTTP200, selfcanonical, один H1, демо-ссылки, без pageerror и overflow документа. Таблицы используют существующий горизонтальный скролл контейнера. Production-проверки завершены; результаты ниже.
 
 ## Выпуск и восстановление
 
@@ -44,3 +44,14 @@ Rollback при реальной регрессии: адресный revert cod
 - Google recrawl timing: https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
 - Исследование до реализации: ../google-recrawl-roadmap-20261009/ROADMAP.md и EVIDENCE.json.
 - Локальные данные: content-changes.json, cache-local.json, browser-local.json; verify-artifact.py и verify-browser.mjs воспроизводят проверки.
+
+
+## Фактический результат выпуска
+
+09.10.2026 production выпущен и проверен: source `55957ebde61beece51db71cb117bd6d45a17ffb5`, deployment `c8af4baa`, 1004 файла. Точный manifest совпадает; пять sitemap/feed файлов совпадают с построенными байтами и имеют корректный Content-Type/cache. Четыре запроса с прежним ETag вернули HTTP200 и новые данные. Все 15 HTML-страниц доступны, self-canonical и индексируемы; защищённые SEO-контракты 10/10. Три изменённые статьи проверены в production-браузере на 320/1280: без JS ошибок и переполнения документа.
+
+Atom содержит 200 canonical/indexable записей; RSS — по 50 статей. Все семь ранее пропускаемых обновлённых RU-статей вернулись в ленту. Шесть основных коммерческих страниц доступны по HTML-ссылкам с главной за один переход и имеют ссылки из статей.
+
+WebSub принял три уведомления (HTTP204), GSC — пять sitemap/feed файлов (пока pending), IndexNow — пять изменённых URL (HTTP200). Повторных отправок не выполнялось. OpenSEO подтвердил 9/9 контрольных страниц в индексе, но все даты последнего обхода предшествуют этому релизу. Новый обход, рост позиций, трафика и заявок пока не подтверждены. Подробности и receipts: RELEASE.json, google-evidence.json, indexnow.json и ../websub-receipts/2026-10-09T02-41-31-765Z_91f6c338.json.
+
+Создана и проверена heartbeat automation `gptbot-google`: контроль OpenSEO/GSC 12, 16 и 23 октября в 12:00 UTC+5. Только чтение, без повторных отправок; уведомление о значимом изменении/ошибке и итог на последней точке. Данные automation — monitoring.json. Git push, финансовые операции и изменения доступа не выполнялись. Существующий Click Merchant blocker не затронут.

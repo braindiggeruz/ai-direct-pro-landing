@@ -1,0 +1,438 @@
+{
+  "inspection": {
+    "ok": true,
+    "siteUrl": "sc-domain:gptbot.uz",
+    "results": [
+      {
+        "url": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=by_oTBMs0r8UMJKDkvm2Nw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-20T07:37:32Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+            "userCanonical": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=O-3SteIMXHIbtuW3OBlSYA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-10-03T13:50:28Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+            "userCanonical": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/ru/stoimost-chat-bota/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=CwtLP5bOZ-Hh6BdphLzZvg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-23T15:41:32Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/ru/stoimost-chat-bota/",
+            "userCanonical": "https://gptbot.uz/ru/stoimost-chat-bota/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/uz/chat-bot-narxi/",
+              "https://www.gptbot.uz/uz/chat-bot-narxi/",
+              "https://gptbot.uz/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=iBQscaNgp2SuKDqJmwyVzg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-25T06:47:38Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+            "userCanonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://www.gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+              "https://gptbot.uz/uz/chat-bot-biznes-uchun/",
+              "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=wtT9Mp3mow2CJfqxufXUNg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-24T17:45:58Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+            "userCanonical": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+              "https://gptbot.uz/uz/",
+              "https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=Roxpml3thzmU0VxveqngOA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-19T13:19:38Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+            "userCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/ru/stoimost-chat-bota/",
+              "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
+              "https://www.gptbot.uz/uz/chat-bot-narxi/",
+              "https://gptbot.uz/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=sqLVNREaecZwDie_D6mBAQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-10-04T20:01:33Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+            "userCanonical": "https://gptbot.uz/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=_EpxoMsXXQahoeQhyda1Xg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-10-04T07:05:40Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+            "userCanonical": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+            "sitemap": [
+              "https://gptbot.uz/ru/blog/feed.xml",
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/ru/blog/telegram-mini-app-chto-eto/",
+              "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "url": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "result": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=brs-FZoFSogiI6e4UK700Q&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-23T14:40:41Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+            "userCanonical": "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+            "sitemap": [
+              "https://gptbot.uz/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://gptbot.uz/",
+              "https://gptbot.uz/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          },
+          "richResultsResult": {
+            "verdict": "PASS",
+            "detectedItems": [
+              {
+                "richResultType": "Breadcrumbs",
+                "items": [
+                  {
+                    "name": "Unnamed item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "meta": {
+      "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+      "url": "https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7/settings/integrations"
+    }
+  },
+  "gsc": {
+    "siteUrl": "sc-domain:gptbot.uz",
+    "attempted": 5,
+    "submitted": 5,
+    "failed": 0,
+    "results": [
+      {
+        "sitemapUrl": "https://gptbot.uz/updates/atom.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-09T02:43:57.781Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/ru/blog/feed.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-09T02:43:57.925Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/uz/blog/feed.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-09T02:43:58.092Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/sitemap.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-09T02:43:58.153Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "warnings": "0",
+        "errors": "0"
+      },
+      {
+        "sitemapUrl": "https://gptbot.uz/sitemap-updates.xml",
+        "accepted": true,
+        "confirmed": true,
+        "lastSubmitted": "2026-10-09T02:43:58.377Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "warnings": "0",
+        "errors": "0"
+      }
+    ],
+    "message": "Submitted 5 of 5 sitemap(s) to Search Console for sc-domain:gptbot.uz. Submitting queues a download; it does not index the URLs.",
+    "actions": [
+      "Re-check list_sitemaps in a few hours: warnings, errors and indexed counts appear only after Google has downloaded the sitemap."
+    ]
+  }
+}

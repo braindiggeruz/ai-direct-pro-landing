@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-09T02:39:00.426386+00:00",
+  "sitemapUrls": 300,
+  "atomEntries": 200,
+  "rssCounts": {
+    "ru": 50,
+    "uz": 50
+  },
+  "previouslyExcludedRuArticlesRestored": 7,
+  "allAtomEntriesCanonicalSitemapMembers": true,
+  "allAtomDatesMatchSitemap": true,
+  "commercialLinkGraph": [
+    {
+      "url": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "incomingPages": 9,
+      "blogDonors": 2,
+      "distanceFromHome": 1
+    },
+    {
+      "url": "/ru/razrabotka-telegram-bota-tashkent/",
+      "incomingPages": 37,
+      "blogDonors": 21,
+      "distanceFromHome": 1
+    },
+    {
+      "url": "/ru/stoimost-chat-bota/",
+      "incomingPages": 83,
+      "blogDonors": 11,
+      "distanceFromHome": 1
+    },
+    {
+      "url": "/uz/telegram-bot-biznes-uchun/",
+      "incomingPages": 50,
+      "blogDonors": 17,
+      "distanceFromHome": 1
+    },
+    {
+      "url": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "incomingPages": 7,
+      "blogDonors": 2,
+      "distanceFromHome": 1
+    },
+    {
+      "url": "/uz/chat-bot-narxi/",
+      "incomingPages": 60,
+      "blogDonors": 10,
+      "distanceFromHome": 1
+    }
+  ],
+  "changedArticlesMetadataAndFragments": "PASS"
+}

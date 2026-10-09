@@ -1,0 +1,16 @@
+{
+  "automationId": "gptbot-google",
+  "name": "GPTBot: проверить переобход Google",
+  "kind": "heartbeat",
+  "status": "ACTIVE",
+  "targetThreadId": "01a11b47-047a-7733-ac64-e5a987381ed9",
+  "checkpointsLocal": [
+    "2026-10-12T12:00:00+05:00",
+    "2026-10-16T12:00:00+05:00",
+    "2026-10-23T12:00:00+05:00"
+  ],
+  "verifiedFrom": "automation tool and saved automation.toml",
+  "scope": "Read-only OpenSEO/GSC: nine URLs and five sitemap/feed files; lastCrawlTime versus release; mature final data windows only",
+  "notificationPolicy": "Meaningful change, failure or user action only; final checkpoint report; quiet when unchanged",
+  "automaticResubmission": false
+}
