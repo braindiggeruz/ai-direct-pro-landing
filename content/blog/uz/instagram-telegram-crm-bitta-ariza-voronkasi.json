@@ -30,6 +30,79 @@
     },
     {
       "type": "h2",
+      "id": "handoff-example",
+      "text": "O‘quv misoli: ariza qabul qilindi, lekin hali sotuv emas"
+    },
+    {
+      "type": "p",
+      "text": "Ta’mirlash ustaxonasi misolida jarayonni ko‘rib chiqamiz. Bu GPTBot.uz mijozining natijasi emas, loyiha talablari uchun o‘quv namunasidir. Foydalanuvchi xizmatni va qulay vaqtni tanlaydi; menejer esa tafsilotlarni kelishadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Holat",
+        "Nima tasdiqlangan",
+        "Keyingi qadam"
+      ],
+      "rows": [
+        [
+          "Ariza saqlandi",
+          "Tizim murojaatni qabul qildi",
+          "Mas’ul menejerga yetkazish"
+        ],
+        [
+          "Menejerga yetkazildi",
+          "Xabarnoma belgilangan manzilga yetib bordi",
+          "Menejer mijoz bilan bog‘lanadi"
+        ],
+        [
+          "Vaqt kelishildi",
+          "Mijoz va menejer vaqtni tasdiqladi",
+          "Xizmat shartlarini kelishish"
+        ],
+        [
+          "To‘lov tasdiqlandi",
+          "To‘lov manbasida haqiqiy tasdiq mavjud",
+          "Buyurtmani bajarish"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xabar yuborilishi sotuv bo‘lganini anglatmaydi. CRM ulanishi uchun maydonlar, kirish huquqlari va xatolarni qayta ishlash tartibi oldindan kelishiladi. Integratsiya tayyor bo‘lmasa, ariza menejerga kelishilgan kanal orqali uzatiladi; CRMda saqlangani haqida yolg‘on tasdiq berilmaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir tugma ikki marta bosilganda takroriy ariza paydo bo‘lmasligini tekshiring.",
+        "Yuborilgandan keyin internet uzilsa, foydalanuvchi saqlash holatini tushunsin.",
+        "Menejerga yetkazish xatosi ariza saqlanmagan degan xulosaga olib kelmasin.",
+        "Shaxsiy ma’lumotlarni umumiy statistika hodisalariga yozmang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{demo} kontakt yubormasdan ishlaydi va haqiqiy bron yaratmaydi. Xizmat tarkibi uchun {service}, xarajatlar uchun {price} sahifasini ko‘ring.",
+      "links": [
+        {
+          "token": "demo",
+          "target": "/uz/arizalarni-qabul-qiluvchi-bot/#lead-demo",
+          "anchor": "Ariza kartasining o‘quv demosi"
+        },
+        {
+          "token": "service",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "biznes boti imkoniyatlari"
+        },
+        {
+          "token": "price",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "paketlar va alohida xarajatlar"
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "text": "Muammo lead kamligida emas"
     },
     {
@@ -216,7 +289,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-01-06",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-10-09",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -224,7 +297,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-08-23T00:00:00.000Z",
+  "updatedAt": "2026-10-09T00:00:00.000Z",
   "createdAt": "2026-01-06T00:00:00.000Z",
   "sources": [
     {

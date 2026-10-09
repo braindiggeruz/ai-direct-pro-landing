@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-09T02:22:52.4740702Z",
+  "url": "http://127.0.0.1:8897/sitemap.xml",
+  "status": 200,
+  "cache": [
+    "public, must-revalidate, max-age=0, s-maxage=300"
+  ],
+  "contentType": [
+    "application/xml; charset=utf-8"
+  ],
+  "note": "Real Wrangler/Miniflare response: inherited header removed and replacement preserved; directive order normalized by provider."
+}

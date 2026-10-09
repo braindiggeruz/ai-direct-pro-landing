@@ -1,0 +1,23 @@
+[
+  {
+    "path": "content/blog/ru/telegram-bot-dlya-zapisi-klientov.json",
+    "url": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+    "beforeSha256": "2a2f652cd6e08e7a21a6a8fddbb1a4f0ff6e8a499957e824b05285f852ae9042",
+    "addedBlocks": 5,
+    "publishedUnchanged": "2026-07-13"
+  },
+  {
+    "path": "content/blog/ru/telegram-bot-ili-mini-app.json",
+    "url": "/ru/blog/telegram-bot-ili-mini-app/",
+    "beforeSha256": "5b343b821a73c8cadb190e1f0ed9e43a74d1f973e65d0e502ba803a690cbf150",
+    "addedBlocks": 5,
+    "publishedUnchanged": "2026-08-04T00:00:00.000Z"
+  },
+  {
+    "path": "content/blog/uz/instagram-telegram-crm-bitta-ariza-voronkasi.json",
+    "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+    "beforeSha256": "4fce43d5e2429787ef49a6dc33c052874c026cf34b6a054ed7061d1f112efaf2",
+    "addedBlocks": 6,
+    "publishedUnchanged": "2026-01-06"
+  }
+]

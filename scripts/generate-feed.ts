@@ -10,7 +10,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import fg from 'fast-glob';
-import type { BlogArticle, GlobalSEO } from '../src/shared/types';
+import type { BlogArticle, GlobalSEO, Page } from '../src/shared/types';
+import { articleUpdated, authoredDate, byUpdatedThenUrl, canonicalContent, escapeXml, WEBSUB_HUB } from './feed-data';
+import { buildUpdatesFeed } from './generate-updates-feed';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -21,10 +23,10 @@ export const FEED_ITEM_LIMIT = 50;
 // Declaring a hub lets subscribers be pushed an update instead of polling for
 // one. Publishing the link is half of WebSub; scripts/websub-ping.ts is the
 // other half and must run after a deploy, or the hub never learns there is
-// something to fetch. The hub is Google-operated and free; whether Google
-// Search itself acts on it is not documented, so this is a cheap extra channel,
-// not a replacement for the sitemap or Search Console.
-export const WEBSUB_HUB = 'https://pubsubhubbub.appspot.com/';
+// something to fetch. Google documents RSS/Atom + WebSub for discovery:
+// https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+// Acceptance is not proof of a crawl, indexing or ranking improvement.
+export { WEBSUB_HUB } from './feed-data';
 export type FeedLocale = 'ru' | 'uz';
 
 const CHANNEL: Record<FeedLocale, { title: string; description: string; language: string }> = {
@@ -40,10 +42,6 @@ const CHANNEL: Record<FeedLocale, { title: string; description: string; language
   },
 };
 
-function escapeXml(s: string): string {
-  return (s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]!));
-}
-
 function rfc822(iso: string | undefined): string | null {
   if (!iso) return null;
   const date = new Date(iso);
@@ -52,8 +50,8 @@ function rfc822(iso: string | undefined): string | null {
 
 export function feedArticles(articles: BlogArticle[], locale: FeedLocale): BlogArticle[] {
   return articles
-    .filter((a) => a.status === 'published' && a.robotsIndex !== false && (a.locale === 'uz' ? 'uz' : 'ru') === locale)
-    .sort((x, y) => (y.datePublished || '').localeCompare(x.datePublished || ''))
+    .filter((a) => canonicalContent(a) && (a.locale === 'uz' ? 'uz' : 'ru') === locale)
+    .sort((x, y) => byUpdatedThenUrl({ updated: articleUpdated(x), url: x.url }, { updated: articleUpdated(y), url: y.url }))
     .slice(0, FEED_ITEM_LIMIT);
 }
 
@@ -61,23 +59,24 @@ export function buildFeed(articles: BlogArticle[], locale: FeedLocale, global: P
   const channel = CHANNEL[locale];
   const items = feedArticles(articles, locale);
   const feedUrl = `${global.siteUrl}/${locale}/blog/feed.xml`;
-  const newest = items.map((a) => a.dateModified || a.datePublished || '').sort().pop();
-  const lastBuild = rfc822(newest);
+  const lastBuild = rfc822(items.map(articleUpdated).filter(Boolean).sort((a, b) => Date.parse(b!) - Date.parse(a!))[0]);
   const body = items.map((a) => {
     const link = `${global.siteUrl}${a.url}`;
-    const pubDate = rfc822(a.datePublished);
+    const published = authoredDate(a.datePublished);
+    const pubDate = rfc822(published);
     // RSS alone cannot say "this item changed": title, link and description stay
     // identical when an article is edited, so a consumer diffing the feed sees
     // nothing. atom:updated carries the edit date, which is what makes an update
     // (not just a new post) visible to the hub's subscribers.
-    const updated = a.dateModified && a.dateModified !== a.datePublished ? a.dateModified : null;
+    const modified = articleUpdated(a);
+    const updated = modified && published && Date.parse(modified) > Date.parse(published) ? modified : null;
     return [
       '    <item>',
       `      <title>${escapeXml(a.title)}</title>`,
       `      <link>${escapeXml(link)}</link>`,
       `      <guid isPermaLink="true">${escapeXml(link)}</guid>`,
       pubDate ? `      <pubDate>${pubDate}</pubDate>` : '',
-      updated ? `      <atom:updated>${escapeXml(`${updated}T00:00:00Z`)}</atom:updated>` : '',
+      updated ? `      <atom:updated>${escapeXml(updated)}</atom:updated>` : '',
       `      <description>${escapeXml(a.description)}</description>`,
       '    </item>',
     ].filter(Boolean).join('\n');
@@ -110,6 +109,12 @@ function main(): void {
     fs.writeFileSync(out, buildFeed(articles, locale, global), 'utf-8');
     console.log(`RSS feed → dist/${locale}/blog/feed.xml (${feedArticles(articles, locale).length} items)`);
   }
+  const pages = fg.sync('pages/**/*.json', { cwd: CONTENT_DIR, absolute: true })
+    .map((f) => JSON.parse(fs.readFileSync(f, 'utf-8')) as Page);
+  const updatesPath = path.join(DIST_DIR, 'updates', 'atom.xml');
+  fs.mkdirSync(path.dirname(updatesPath), { recursive: true });
+  fs.writeFileSync(updatesPath, buildUpdatesFeed(pages, articles, global), 'utf8');
+  console.log('Site updates → dist/updates/atom.xml');
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();

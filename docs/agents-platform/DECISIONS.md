@@ -1,5 +1,9 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-DISCOVERY-20261009 — authored feeds and verified notification
+
+RSS freshness follows actual authored updates, keeping publication dates and canonical IDs. A200entry Atom feed includes existing eligible services and articles, using their descriptions without inventing a change history. Detach the inherited HTML cache policy for discovery files. Guarded Pages release verifies the exact custom-domain manifest and feed bytes before WebSub. The shared Git directory holds hash dedupe and a publisher lock; accepted hashes and ambiguous writes are not automatically resent. Explicit429/5xx may retry once later after5minutes. Notification failure never causes upload retry or rollback. No unsupported Google Indexing API, fake jobs/live streams, or build-time date changes.
+
 ## D-COMMERCIAL-20261009 — existing pages, local demo and truthful lead acknowledgements
 
 Keep the six core Telegram lead pages and supporting CRM/Mini App/site pages at their existing URLs. Commercial cluster ownership is modelled separately from informational blog coverage. A local teaching demo sends no network request and no conversion. Lead conversion is gated by a server acknowledgement and bounded opaque-key dedupe; contacts and task text never enter analytics. A changed task on an earlier contact is not silently claimed as saved: preserve the form and explain the direct-contact path. Reuse the existing outbox and maintenance route, draining at most one pending lead with a four-second transport budget and its existing lease; no new scheduler or schema. Delivery remains at least once and is distinct from qualification or revenue.

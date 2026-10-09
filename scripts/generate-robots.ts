@@ -13,6 +13,7 @@ import type { Page, Redirect } from '../src/shared/types';
 import { SITE_URL } from '../src/shared/site-config';
 import { buildRobotsTxt } from '../src/shared/robots-policy';
 import { buildDirectWwwLegacyRules } from './redirect-rules';
+import { DISCOVERY_CACHE_CONTROL, DISCOVERY_FEEDS } from './feed-data';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -273,14 +274,16 @@ headers.push('  Cache-Control: public, max-age=31536000, immutable');
 headers.push('');
 
 headers.push('# ─── SEO files — short cache ───');
-headers.push('/sitemap.xml');
-headers.push('  Cache-Control: public, max-age=300');
-headers.push('  Content-Type: application/xml; charset=utf-8');
-headers.push('/sitemap-updates.xml');
-headers.push('  Cache-Control: public, max-age=300');
-headers.push('  Content-Type: application/xml; charset=utf-8');
+// Detach the inherited policy: Pages merges every matching rule.
+for (const file of ['/sitemap.xml', '/sitemap-updates.xml']) {
+  headers.push(file);
+  headers.push('  ! Cache-Control');
+  headers.push(`  Cache-Control: ${DISCOVERY_CACHE_CONTROL}`);
+  headers.push('  Content-Type: application/xml; charset=utf-8');
+}
 headers.push('/robots.txt');
-headers.push('  Cache-Control: public, max-age=300');
+headers.push('  ! Cache-Control');
+headers.push(`  Cache-Control: ${DISCOVERY_CACHE_CONTROL}`);
 headers.push('/llms.txt');
 headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
@@ -289,10 +292,11 @@ headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
 // RSS feeds of the two blogs (scripts/generate-feed.ts): a real feed media
 // type so readers and crawlers parse them, short cache so new articles show.
-for (const locale of ['ru', 'uz']) {
-  headers.push(`/${locale}/blog/feed.xml`);
-  headers.push('  Cache-Control: public, max-age=300');
-  headers.push('  Content-Type: application/rss+xml; charset=utf-8');
+for (const feed of DISCOVERY_FEEDS) {
+  headers.push(feed.path);
+  headers.push('  ! Cache-Control');
+  headers.push(`  Cache-Control: ${DISCOVERY_CACHE_CONTROL}`);
+  headers.push(`  Content-Type: ${feed.type}; charset=utf-8`);
 }
 // Markdown twins for LLM agents: correct content-type + noindex so search
 // engines never treat them as duplicate HTML pages (anti-cannibalisation).

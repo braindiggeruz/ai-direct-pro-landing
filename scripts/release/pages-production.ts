@@ -11,6 +11,7 @@ import { assertChatBundleBudget } from '../chat-bundle-budget';
 import { assertLiveGate, loadLiveGateInput } from './live-gate';
 import { assertStudioLiveGate } from './studio-live-gate';
 import { publishedStudioUrls } from '../../apps/studio/shared/published-urls';
+import { notifyAfterDeployment, verifyLiveRelease } from '../websub-ping';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PROJECT = 'ai-direct-pro-landing';
@@ -265,13 +266,9 @@ async function deploy(root: string, dist: string, release: PagesRelease): Promis
     if (exitCode !== 0) throw new Error(`Wrangler deployment failed (${exitCode}).`);
     if (await productionCommit() !== release.commit) throw new Error('Production changed during publication; investigate competing deployment.');
     // Read back the actual custom domain, not only Wrangler's upload result.
-    const response = await fetch(`https://gptbot.uz/${MANIFEST}?release=${release.commit}`, {
-      cache: 'no-store', signal: AbortSignal.timeout(30_000),
-    });
-    if (!response.ok || JSON.stringify(await response.json()) !== JSON.stringify(release)) {
-      throw new Error('Custom domain does not serve the expected release manifest. Verify CDN/deployment state.');
-    }
+    await verifyLiveRelease(release);
     console.log(JSON.stringify({ status: 'deployed_and_verified', commit: release.commit, features: release.features }));
+    await notifyAfterDeployment(root, release);
   } finally {
     fs.closeSync(lock);
     fs.unlinkSync(lockPath);

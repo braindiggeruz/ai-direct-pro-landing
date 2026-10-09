@@ -1578,9 +1578,9 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "Commercial lead cluster deployed and verified; post-release measurement",
-  "stage_status": "complete",
+  "stage_status": "in_progress",
   "last_completed_stage": "Commercial Telegram lead cluster with guarded deployment, browser acceptance and search discovery",
-  "next_stage": "Measure mature commercial query/page traffic and actual lead qualification/proposal/payment outcomes",
+  "next_stage": "Guarded release and production verification of discovery feeds",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1850,7 +1850,7 @@
   },
   "next_stage_note": "Use completed equal GSC final windows, Uzbekistan andRU/UZ separately. Keep marketplace drafts pending a separate publication action. Economics requires actual execution costs. Preserve separate Click Merchant access blocker.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+  "last_commit": "21dca8fc821ea975c54e8b9059589e04e14c3fcc",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2570,5 +2570,15 @@
     ],
     "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
     "measurementStatus": "Mature organic qualification/revenue data pending"
+  },
+  "google_recrawl_20261009": {
+    "status": "LOCALLY_VERIFIED_AWAITING_GUARDED_RELEASE",
+    "baselineSource": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+    "report": "reports/google-recrawl-implementation-20261009/IMPLEMENTATION.md",
+    "scope": "RSS freshness, canonical Atom200, short cache, verified postdeploy WebSub, three educational article sections and commercial links",
+    "validation": "73 targeted pass; final discovery subset10pass; app/functions/scripts types and scopedlint pass; browser3/3; protected10/10",
+    "productionWritesThisStage": false,
+    "googleRecrawlConfirmed": false,
+    "previousNextStage": "Measure mature commercial query/page traffic and actual lead qualification/proposal/payment outcomes"
   }
 }

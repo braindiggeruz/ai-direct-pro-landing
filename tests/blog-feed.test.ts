@@ -63,6 +63,27 @@ test('the feed is capped at the newest items', () => {
   assert.equal((buildFeed(many, 'ru', SITE).match(/<item>/g) || []).length, FEED_ITEM_LIMIT);
 });
 
+test('an old article edited today survives the cap without changing publication date or GUID', () => {
+  const old = article({ url: '/ru/blog/edited/', datePublished: '2025-01-01', dateModified: '2026-10-09T09:15:00+05:00' });
+  const newer = Array.from({ length: 55 }, (_, i) => article({ url: `/ru/blog/new-${i}/`, datePublished: '2026-10-01' }));
+  const xml = buildFeed([...newer, old], 'ru', SITE);
+  assert.equal(feedArticles([...newer, old], 'ru')[0], old);
+  assert.match(xml, /<pubDate>Wed, 01 Jan 2025 00:00:00 GMT<\/pubDate>/);
+  assert.match(xml, /<atom:updated>2026-10-09T04:15:00Z<\/atom:updated>/);
+  assert.match(xml, /<guid isPermaLink="true">https:\/\/gptbot.uz\/ru\/blog\/edited\/<\/guid>/);
+  assert.equal(xml, buildFeed([old, ...newer].reverse(), 'ru', SITE), 'input/build order cannot churn the feed');
+});
+
+test('RSS does not announce canonical aliases or corrupt source dates', () => {
+  const xml = buildFeed([
+    article({ title: 'alias', canonical: '/ru/blog/another/' }),
+    article({ dateModified: '2026-02-30' }),
+  ], 'ru', SITE);
+  assert.ok(!xml.includes('<title>alias</title>'));
+  assert.ok(!xml.includes('Invalid Date'));
+  assert.ok(!xml.includes('<atom:updated>'));
+});
+
 test('the real content produces two well-formed feeds whose items are published articles', () => {
   const dir = path.join(process.cwd(), 'content', 'blog');
   const articles: BlogArticle[] = [];
