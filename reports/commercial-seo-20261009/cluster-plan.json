@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "reportDate": "2026-10-09",
+  "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+  "status": "research_only",
+  "recommendation": "Усилить существующий кластер Telegram-ботов для заявок/запроса на запись; Mini App как расширение.",
+  "confidence": "medium",
+  "pageScope": "10 выбранных страниц основной карты, не полный инвентарь сайта",
+  "market": {
+    "reportDate": "2026-10-09",
+    "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+    "projectUrl": "https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7",
+    "market": "Uzbekistan",
+    "locationCode": 2860,
+    "serpDevice": "mobile",
+    "serpLanguages": [
+      "ru",
+      "uz"
+    ],
+    "serpRuns": 26,
+    "distinctSerpKeywords": 25,
+    "keywordMetricInputs": 64,
+    "researchSeedCount": 5,
+    "researchRowsBeforeDedup": 457,
+    "volumeSource": "Google Ads through OpenSEO; Uzbekistan metrics queried with supported ru language, Uzbek phrase volumes are a proxy, not a native uz dataset",
+    "latestMonthlyVolume": "2026-08",
+    "keywordDifficultyAvailable": false,
+    "paidCompetitionIsNotSeoDifficulty": true,
+    "gsc": {
+      "property": "sc-domain:gptbot.uz",
+      "start": "2026-09-08",
+      "end": "2026-10-05",
+      "dataState": "final",
+      "country": "uzb",
+      "timezone": "America/Los_Angeles",
+      "pageRows": 111,
+      "hasMore": false
+    },
+    "ga4": {
+      "property": "540129731",
+      "timezone": "Asia/Tashkent",
+      "keyEventsConfigured": 4,
+      "organicKeyEventRows": 0,
+      "noRevenueInference": true
+    },
+    "credits": {
+      "before": 16965,
+      "after": 16211,
+      "balanceDecrease": 754
+    },
+    "scope": "Research and roadmap only; no website deployment, paid tracking, advertising, outreach, or shared context mutations"
+  },
+  "pages": [
+    {
+      "id": "pillar",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Заказать разработку Telegram-бота",
+      "priority": "P1",
+      "keywords": [
+        "разработка телеграм ботов ташкент",
+        "чат бот на заказ ташкент"
+      ],
+      "brief": "Демо, границы пакета, подтверждение доставки заявки, форма."
+    },
+    {
+      "id": "choose",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Сравнить разработчиков",
+      "priority": "P0",
+      "keywords": [
+        "разработка телеграм ботов ташкент"
+      ],
+      "brief": "Сохранить сравнение; прозрачное собственное предложение и критерии; ссылка на демо и цену."
+    },
+    {
+      "id": "price",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/stoimost-chat-bota/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Узнать состав и стоимость",
+      "priority": "P1",
+      "keywords": [
+        "стоимость разработки телеграм бота"
+      ],
+      "brief": "Статические условия и регулярные расходы; не смешивать с персональным калькулятором."
+    },
+    {
+      "id": "calculator",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Оценить свой состав",
+      "priority": "P2",
+      "keywords": [],
+      "brief": "Сохранить персональный расчёт; уточнить допущения и передачу брифа."
+    },
+    {
+      "id": "uz-business",
+      "language": "uz",
+      "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Заказать Telegram-бота на узбекском",
+      "priority": "P1",
+      "keywords": [
+        "telegram bot yaratish xizmati",
+        "telegram bot buyurtma qilish"
+      ],
+      "brief": "Коммерческая услуга, демо и CTA на естественном узбекском."
+    },
+    {
+      "id": "uz-price",
+      "language": "uz",
+      "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Узнать цену Telegram-бота",
+      "priority": "P1",
+      "keywords": [
+        "telegram bot yaratish narxi",
+        "telegram bot narxi"
+      ],
+      "brief": "Уже существующий владелец ценовых фраз. Проверить состав опубликованного минимума 990000 UZS; без новой price page."
+    },
+    {
+      "id": "uz-leads",
+      "language": "uz",
+      "url": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Решить задачу приёма заявок",
+      "priority": "P1",
+      "keywords": [],
+      "brief": "Демонстрация передачи менеджеру, проверяемая форма, ограничения записи."
+    },
+    {
+      "id": "crm",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Подключить обработку заявок к CRM",
+      "priority": "P2",
+      "keywords": [],
+      "brief": "Доказать поддерживаемый коннектор, дедупликацию и восстановление."
+    },
+    {
+      "id": "mini-app",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Заказать Mini App",
+      "priority": "P2",
+      "keywords": [
+        "разработка telegram mini app"
+      ],
+      "brief": "Демо каталога/кабинета; самостоятельный коммерческий интент."
+    },
+    {
+      "id": "comparison",
+      "language": "ru",
+      "url": "https://gptbot.uz/ru/blog/telegram-bot-ili-mini-app/",
+      "status": "existing",
+      "action": "improve",
+      "intent": "Выбрать бот или Mini App",
+      "priority": "P2",
+      "keywords": [],
+      "brief": "Критерии выбора и ссылки на соответствующие услуги."
+    }
+  ],
+  "links": [
+    {
+      "from": "pillar",
+      "to": "choose",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "price",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "calculator",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "uz-business",
+      "bidirectional": true,
+      "type": "cross_language_visible_navigation",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "uz-price",
+      "bidirectional": true,
+      "type": "cross_language_visible_navigation",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "uz-leads",
+      "bidirectional": true,
+      "type": "cross_language_visible_navigation",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "crm",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "mini-app",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "pillar",
+      "to": "comparison",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "uz-business",
+      "to": "uz-price",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "uz-business",
+      "to": "uz-leads",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "choose",
+      "to": "price",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    },
+    {
+      "from": "mini-app",
+      "to": "comparison",
+      "bidirectional": true,
+      "type": "contextual",
+      "status": "proposed"
+    }
+  ],
+  "serpOverlap": [
+    {
+      "a": "разработка мобильных приложений ташкент",
+      "b": "mobil ilova yaratish",
+      "sharedUrls": [],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "mobil ilova yaratish",
+      "b": "ilova yaratish",
+      "sharedUrls": [
+        "mohirdev.uz/blog/qanday-qilib-mobil-ilova-yaratish-mumkin-spoyler-buning-uchun-kod-yozish-shart-emas",
+        "yarat.uz/?p=4563",
+        "programmer.uz/course/kodular",
+        "eson.uz/mobil-ilovalar-yaratish",
+        "scribd.com/document/946028918/Mobil-Ilovalar-Yaratish",
+        "fido.studio/uz/app-development",
+        "uniwork.buxdu.uz/resurs/35151_2_A3F61596D3686AC39C795ED7D6479BDC298462A2.pdf",
+        "mimsoft.uz/xizmatlar/mobil-ilova-yaratish.html"
+      ],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "telegram bot yaratish narxi",
+      "b": "telegram bot yaratish xizmati",
+      "sharedUrls": [
+        "uzfor.net/view.php?act=post&id=44326",
+        "soff.uz/service/telegram-botlar-yaratib-berish-xizmati"
+      ],
+      "countA": 10,
+      "countB": 9
+    },
+    {
+      "a": "telegram bot yaratish xizmati",
+      "b": "telegram bot yaratish",
+      "sharedUrls": [],
+      "countA": 9,
+      "countB": 8
+    },
+    {
+      "a": "разработка телеграм ботов ташкент",
+      "b": "чат бот на заказ ташкент",
+      "sharedUrls": [
+        "sanjardev.uz/ru/services/usluga-razrabotki-telegram-botov-v-tashkente-i-uzbekistane",
+        "kelyanmedia.uz/service/telegram-bot",
+        "facebook.com/tbotuz",
+        "md.uz/services/razrabotka-telegram-botov"
+      ],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "разработка телеграм ботов ташкент",
+      "b": "разработка чат ботов ташкент",
+      "sharedUrls": [
+        "sanjardev.uz/ru/services/usluga-razrabotki-telegram-botov-v-tashkente-i-uzbekistane",
+        "kelyanmedia.uz/service/telegram-bot",
+        "sanjardev.uz/ru/blog/razrabotka-moschnyh-telegram-botov-dlya-biznesa-v-tashkente",
+        "codenovaevolution.uz/ru/services/razrabotka-telegram-botov"
+      ],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "чат бот на заказ ташкент",
+      "b": "разработка чат ботов ташкент",
+      "sharedUrls": [
+        "sanjardev.uz/ru/services/usluga-razrabotki-telegram-botov-v-tashkente-i-uzbekistane",
+        "kelyanmedia.uz/service/telegram-bot"
+      ],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "разработка telegram mini app",
+      "b": "telegram mini app yaratish",
+      "sharedUrls": [],
+      "countA": 9,
+      "countB": 10
+    },
+    {
+      "a": "разработка telegram mini app",
+      "b": "telegram mini app",
+      "sharedUrls": [],
+      "countA": 9,
+      "countB": 10
+    },
+    {
+      "a": "sayt yaratish xizmati",
+      "b": "sayt yaratish narxi",
+      "sharedUrls": [],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "sayt yaratish xizmati",
+      "b": "internet do'kon yaratish",
+      "sharedUrls": [],
+      "countA": 10,
+      "countB": 10
+    },
+    {
+      "a": "создание сайтов ташкент",
+      "b": "разработка сайтов в ташкенте цены",
+      "sharedUrls": [],
+      "countA": 10,
+      "countB": 10
+    }
+  ],
+  "indexInspections": [
+    {
+      "url": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-20T07:37:32Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "userCanonical": "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "sitemap": [
+        "https://gptbot.uz/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://gptbot.uz/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-19T13:19:38Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+      "userCanonical": "https://gptbot.uz/uz/chat-bot-narxi/",
+      "sitemap": [
+        "https://gptbot.uz/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://gptbot.uz/ru/stoimost-chat-bota/",
+        "https://gptbot.uz/uz/yurist-uchun-ai-bot/",
+        "https://www.gptbot.uz/uz/chat-bot-narxi/",
+        "https://gptbot.uz/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-25T06:47:38Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "userCanonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "referringUrls": [
+        "https://www.gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+        "https://gptbot.uz/uz/chat-bot-biznes-uchun/",
+        "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-24T17:45:58Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "userCanonical": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "sitemap": [
+        "https://gptbot.uz/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://gptbot.uz/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "https://gptbot.uz/uz/",
+        "https://gptbot.uz/ru/bot-dlya-obrabotki-zayavok/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-24T03:18:52Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+      "userCanonical": "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/",
+      "sitemap": [
+        "https://gptbot.uz/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://gptbot.uz/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://gptbot.uz/uz/sayt-yaratish/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-10-02T05:46:42Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://gptbot.uz/uz/sayt-yaratish/",
+      "userCanonical": "https://gptbot.uz/uz/sayt-yaratish/",
+      "crawledAs": "MOBILE"
+    }
+  ],
+  "newPagesRequiredForInitialExperiment": 0,
+  "deliveryGates": [
+    "Подтверждённый приём и доставка заявки",
+    "Состав и экономика опубликованной цены",
+    "Демо и реальные доказательства",
+    "Отдельная приёмка CRM/платёжных интеграций",
+    "SEO regression checks до deployment"
+  ],
+  "measurement": {
+    "configuredEvents": [
+      "generate_lead",
+      "qualify_lead",
+      "close_convert_lead",
+      "purchase"
+    ],
+    "organicKeyEventRowsObserved": 0,
+    "interpretation": "Органическая воронка B2B не доказана; отсутствие событий не доказывает отсутствие клиентов.",
+    "primaryOutcome": "Квалифицированные заявки, предложения и оплаты по исходной посадочной и источнику"
+  },
+  "prohibitedInferences": [
+    "Обещание топа/срока продажи",
+    "Google Ads competition как KD",
+    "Сумма вариантов частотности как размер рынка",
+    "Наличие в индексе как гарантия свежего обхода",
+    "Отсутствие query-строк как отсутствие индекса",
+    "Одна позиция 3 как стабильный топ кластера"
+  ],
+  "nextCandidates": [
+    "Ограниченный тест существующего UZ сайта",
+    "CRM после проверки интеграции",
+    "Native только после доказательства delivery и покупательского спроса"
+  ]
+}

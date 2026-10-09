@@ -2,7 +2,7 @@
 
 ## Commercial lead cluster — 2026-10-09
 
-171 targeted tests passed, including demo, maintenance, lead clients/templates, commercial SEO and protected contracts. The final edited-task fix adds3cases: page-template suite41/41PASS. Root and Functions typecheck, fresh build:fast, SEO audit and chat bundle budget PASS. Browser12/12 pages at320/1280 with lead POST intercepted, no real messages. Protected SEO10/10 unchanged. New suites are registered in npm test. Full production release/readback evidence: reports/commercial-seo-implementation-20261009/. Earlier worker regression sets: maintenance/channel/Telegram146PASS and lead/bridge/calculator49PASS; these overlap and are not summed as unique tests.
+Final combined174/174targeted tests passed, including demo, maintenance, lead clients/templates, commercial SEO, protected contracts and3new edited-task cases. Page-template suite41/41PASS. Root and Functions typecheck, fresh build:fast, SEO audit and chat bundle budget PASS. Local and production browser12/12 pages at320/1280 with lead POST intercepted, no real messages. Protected SEO10/10 unchanged. New suites are registered in npm test. Full production release/readback evidence: reports/commercial-seo-implementation-20261009/. Earlier worker regression sets: maintenance/channel/Telegram146PASS and lead/bridge/calculator49PASS; these overlap and are not summed as unique tests.
 
 ## Lead capture and attribution — calculator, page form, first touch (2026-09-29, full-audit fixes)
 

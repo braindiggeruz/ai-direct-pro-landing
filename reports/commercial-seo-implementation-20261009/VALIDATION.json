@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-10-09T01:25:01.981072+00:00",
+  "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+  "targetedTests": {
+    "pass": 174,
+    "fail": 0,
+    "skip": 0,
+    "log": "tests-final.txt"
+  },
+  "typecheckApp": 0,
+  "typecheckFunctions": 0,
+  "scopedLint": 0,
+  "security": {
+    "files": 45,
+    "findings": 0
+  },
+  "seoAudit": 0,
+  "chatBundleBudget": {
+    "pass": true,
+    "startBrotliBytes": 109193,
+    "capBytes": 110000
+  },
+  "protectedLocal": {
+    "pass": 10,
+    "total": 10
+  },
+  "protectedLive": {
+    "pass": 10,
+    "total": 10
+  },
+  "browserLocal": {
+    "pass": 12,
+    "total": 12,
+    "widths": [
+      320,
+      1280
+    ]
+  },
+  "browserProduction": {
+    "pass": 12,
+    "total": 12,
+    "widths": [
+      320,
+      1280
+    ],
+    "leadPostIntercepted": true
+  },
+  "independentReview": "Final edited-task duplicate fix PASS; no new P1/P2",
+  "realLeadDeliveryBaseline": "2 saved page_form leads,2sent; read-only aggregate; source/outcomes not inferred"
+}

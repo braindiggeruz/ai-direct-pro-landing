@@ -1,0 +1,83 @@
+{
+  "submittedAt": "2026-10-09T01:20:04.347154+00:00",
+  "manifest": {
+    "schema": 1,
+    "commit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+    "artifactSha256": "47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c",
+    "fileCount": 1003,
+    "features": [
+      "audience_directory",
+      "mobile_username_selection",
+      "bridge_pairing",
+      "sending_readiness",
+      "campaign_preflight",
+      "async_media_check",
+      "ai_chat_admin"
+    ],
+    "probes": [
+      {
+        "path": "assets/AdminRoot-Dfs7lPWC.js",
+        "sha256": "6e63acd5d1e22d2073ddcafa2faa125523ed4f22a75ff6cd64b957cc26f59be7"
+      },
+      {
+        "path": "assets/ui-CH_3xdyd.js",
+        "sha256": "46ade24e188120908995aeee9a9be79dfc48885b09d685ff981ca317aec022ce"
+      },
+      {
+        "path": "assets/AiChat-ZQcJi_dL.js",
+        "sha256": "92d62fbf96d23525802f6e68d8ca54c600d8e0a2b9813bf809fb89382d4c002c"
+      },
+      {
+        "path": "index.html",
+        "sha256": "457b513c5a8fe70e78f3ef69a6f6ae8db1e191d050214af96d23db4e8a3910bf"
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "7bdafe8870fc15d5f68048f83abca3e68363494cffc8d4982c58d1e71ebe9c4b"
+      },
+      {
+        "path": "uz/internet-reklama-toshkent/index.html",
+        "sha256": "464d0ad707592accccfeb4bbf1939b99774454beee4aa9c22cceccb580e563ca"
+      },
+      {
+        "path": "ru/internet-reklama-tashkent/index.html",
+        "sha256": "7b866a59adf4eeb648371d7ca6c220c2b62a57533558e4fa0006d897232f1b54"
+      },
+      {
+        "path": "ru/prezentatsiya-ai/index.html",
+        "sha256": "3171a2f7078c38be22dbcb8bbff46cb4810ece0a877488ec026d8716c75f491e"
+      },
+      {
+        "path": "uz/taqdimot-ai/index.html",
+        "sha256": "7a3e3f2934b121cc03d2c8a3eb996c8bdac6b7704668078f7e6a6770b37ec2be"
+      },
+      {
+        "path": "uz/tariflar/index.html",
+        "sha256": "0a609da584defbb8b570f7aac6bc2b9b29f4336667c2096379e17ee8a63c3b9a"
+      }
+    ]
+  },
+  "endpoint": "https://yandex.com/indexnow",
+  "urls": [
+    "https://gptbot.uz/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+    "https://gptbot.uz/ru/stoimost-chat-bota/",
+    "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+    "https://gptbot.uz/uz/chat-bot-narxi/",
+    "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+    "https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/",
+    "https://gptbot.uz/uz/amocrm-bitrix24-bilan-ai-bot/",
+    "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+    "https://gptbot.uz/uz/sayt-yaratish/",
+    "https://gptbot.uz/uz/arizalarni-avtomatlashtirish/",
+    "https://gptbot.uz/ru/razrabotka-telegram-mini-app-tashkent/"
+  ],
+  "keyFileVerified": true,
+  "keySha256": "27e93936cbdcc8d8fd5a556b47508b26558707c92cb6546a12e64e37932954dc",
+  "googleNotifiedByIndexNow": false,
+  "indexingConfirmed": false,
+  "status": "accepted",
+  "httpStatus": 200,
+  "keyValidationPending": false,
+  "responseExcerpt": "{\n  \"success\":true\n}"
+}

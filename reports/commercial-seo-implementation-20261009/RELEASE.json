@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-09T01:25:01.981072+00:00",
+  "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+  "productionUrl": "https://gptbot.uz/",
+  "deploymentUrl": "https://3958a695.ai-direct-pro-landing.pages.dev",
+  "artifactSha256": "47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c",
+  "fileCount": 1003,
+  "manifestExactMatch": true,
+  "guardedDeploy": "uploaded_then_independently_verified",
+  "deployCommandExit": 1,
+  "deployCommandLimitation": "Upload and Functions bundle succeeded. Immediate custom-domain guard failed; later exact live manifest,12pages and browser verification recovered without another deploy.",
+  "functionsBundleUploaded": true,
+  "testsPassed": 174,
+  "testsSkipped": 0,
+  "typecheck": "app and Functions PASS",
+  "lint": "changed TypeScript/TSX and new files PASS",
+  "security": "45 staged files clean; Telegram credential-shaped patterns0",
+  "build": "build:production PASS including admin and Studio",
+  "browserPagesPassed": 12,
+  "protectedContractsPassed": 10,
+  "indexnow": {
+    "httpStatus": 200,
+    "urls": 12,
+    "keyValidated": true,
+    "indexingConfirmed": false
+  },
+  "gscSitemaps": {
+    "confirmed": 2,
+    "pending": true,
+    "recrawlConfirmed": false
+  },
+  "googleManualRequest": {
+    "completed": false,
+    "reason": "Chrome blocks automation while another extension UI is open; connector sitemap submission succeeded."
+  },
+  "productionTestLeadWrites": 0,
+  "manualExternalMessages": 0,
+  "credentialChanges": 0,
+  "newMigrations": 0,
+  "gitPush": false,
+  "fiscalIncident": "Separate Click Merchant access/receipt acceptance remains externally blocked; no fiscal POST initiated by this work",
+  "businessEffect": "New ranking, organic qualified lead or revenue impact not yet measured"
+}

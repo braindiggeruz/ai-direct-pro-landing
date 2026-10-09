@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-09T01:21:47.195890+00:00",
+  "readOnly": true,
+  "databaseVerified": true,
+  "externalMessages": 0,
+  "last30Days": [
+    {
+      "source": "page_form",
+      "leads": 2,
+      "with_attribution": 2
+    }
+  ],
+  "delivery": [
+    {
+      "status": "sent",
+      "count": 2,
+      "oldest": "2026-10-06T15:56:59.854Z",
+      "latest_update": "2026-10-08T12:59:26.601Z"
+    }
+  ],
+  "pendingCodes": [],
+  "recentSafeEvents": [
+    {
+      "event_name": "GPTChatLeadNotified",
+      "count": 2,
+      "latest": "2026-10-08T12:59:27.402Z"
+    },
+    {
+      "event_name": "GPTChatLeadSubmitted",
+      "count": 2,
+      "latest": "2026-10-08T12:59:25.871Z"
+    }
+  ],
+  "credentialPresence": {
+    "GPTBOT_INTERNAL_API_SECRET": true,
+    "GPT_BILLING_MAINTENANCE_SECRET": true
+  }
+}

@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Commercial Telegram lead cluster implementation and guarded release",
-  "stage_status": "validated_release_pending",
-  "last_completed_stage": "Commercial content, demos and lead capture validated locally",
-  "next_stage": "Guarded commercial cluster release, production acceptance and discovery submission",
+  "current_stage": "Commercial lead cluster deployed and verified; post-release measurement",
+  "stage_status": "complete",
+  "last_completed_stage": "Commercial Telegram lead cluster with guarded deployment, browser acceptance and search discovery",
+  "next_stage": "Measure mature commercial query/page traffic and actual lead qualification/proposal/payment outcomes",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1848,9 +1848,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Explicit owner request authorizes this commercial task and deployment. Preserve separate Click fiscal access blocker; never resubmit uncertain receipts.",
+  "next_stage_note": "Use completed equal GSC final windows, Uzbekistan andRU/UZ separately. Keep marketplace drafts pending a separate publication action. Economics requires actual execution costs. Preserve separate Click Merchant access blocker.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "42635a4d49852c573bd91301bf12b10cb2fae10f",
+  "last_commit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-09T01:01:49.924586+00:00",
+  "updated_at": "2026-10-09T01:25:01.981072+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2016,16 +2016,16 @@
     "remote_d1_table_accounting": "64 application tables from migrations 0001-0024 + d1_migrations + _cf_KV + sqlite_sequence"
   },
   "baseline": {
-    "sourceCommit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
-    "artifactSha256": "2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b",
-    "deploymentUrl": "https://08260196.ai-direct-pro-landing.pages.dev",
-    "build": "build:production PASS; Functions bundle uploaded; guard and exact live manifest PASS",
-    "tests": "99/99 targeted PASS",
-    "typecheck": "tsc-b and Functions PASS",
-    "lint": "six changed TS files PASS",
-    "security": "staged secret-pattern scan clean; no credentials or financial mutations",
-    "production": "same static artifact as prior SEO release; unauthenticated account GET401; one pending Click receipt unchanged",
-    "limits": "Merchant API -12 unresolved; owner login required; actual provider receipt UNKNOWN; SEO browser/measurement follow-up preserved"
+    "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+    "artifactSha256": "47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c",
+    "deploymentUrl": "https://3958a695.ai-direct-pro-landing.pages.dev",
+    "build": "build:production PASS",
+    "tests": "174/174 targeted PASS",
+    "typecheck": "app/functions PASS",
+    "lint": "scoped PASS",
+    "security": "45files clean",
+    "production": "exact manifest;12/12commercial/browser;10/10protected",
+    "limits": "Ranking/revenue and manualGoogleRequest pending; fiscal receipt acceptance external blocker preserved"
   },
   "n8n_disposition": {
     "value": "RETIRED",
@@ -2507,15 +2507,57 @@
     "deployment_url": "https://12460835.ai-direct-pro-landing.pages.dev"
   },
   "commercial_seo_20261009": {
-    "status": "IMPLEMENTED_VALIDATED_RELEASE_PENDING",
+    "status": "DEPLOYED_VERIFIED_DISCOVERY_SUBMITTED",
     "research": "reports/commercial-seo-20261009/cluster-plan.md",
     "implementation": "reports/commercial-seo-implementation-20261009/IMPLEMENTATION.md",
     "baselineHead": "42635a4d49852c573bd91301bf12b10cb2fae10f",
     "baselineProductionSource": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
     "scope": "12 existing commercial pages, six local RU/UZ teaching demos, six new form locations, lead acknowledgement/attribution/deduplication and bounded maintenance delivery",
     "baselineLeadReadback": "last30days: 2 page_form leads, both delivered and attributed; organic source and commercial outcomes not inferred",
-    "validation": "171 suite tests + 41 final page-form tests PASS; app/functions typechecks; 12 local browser pages; protected10/10; bundle and SEO audit PASS",
-    "release": "PENDING guarded deployment and exact manifest/browser readback",
+    "validation": "174/174PASS; typechecks/lint/security/build PASS; browser local/live12/12; protected local/live10/10",
+    "release": {
+      "checkedAt": "2026-10-09T01:25:01.981072+00:00",
+      "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+      "productionUrl": "https://gptbot.uz/",
+      "deploymentUrl": "https://3958a695.ai-direct-pro-landing.pages.dev",
+      "artifactSha256": "47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c",
+      "fileCount": 1003,
+      "manifestExactMatch": true,
+      "guardedDeploy": "uploaded_then_independently_verified",
+      "deployCommandExit": 1,
+      "deployCommandLimitation": "Upload and Functions bundle succeeded. Immediate custom-domain guard failed; later exact live manifest,12pages and browser verification recovered without another deploy.",
+      "functionsBundleUploaded": true,
+      "testsPassed": 174,
+      "testsSkipped": 0,
+      "typecheck": "app and Functions PASS",
+      "lint": "changed TypeScript/TSX and new files PASS",
+      "security": "45 staged files clean; Telegram credential-shaped patterns0",
+      "build": "build:production PASS including admin and Studio",
+      "browserPagesPassed": 12,
+      "protectedContractsPassed": 10,
+      "indexnow": {
+        "httpStatus": 200,
+        "urls": 12,
+        "keyValidated": true,
+        "indexingConfirmed": false
+      },
+      "gscSitemaps": {
+        "confirmed": 2,
+        "pending": true,
+        "recrawlConfirmed": false
+      },
+      "googleManualRequest": {
+        "completed": false,
+        "reason": "Chrome blocks automation while another extension UI is open; connector sitemap submission succeeded."
+      },
+      "productionTestLeadWrites": 0,
+      "manualExternalMessages": 0,
+      "credentialChanges": 0,
+      "newMigrations": 0,
+      "gitPush": false,
+      "fiscalIncident": "Separate Click Merchant access/receipt acceptance remains externally blocked; no fiscal POST initiated by this work",
+      "businessEffect": "New ranking, organic qualified lead or revenue impact not yet measured"
+    },
     "acceptanceLimits": [
       "Demo is local teaching UI, not a customer case or live Telegram integration",
       "No live test lead or owner message sent",
@@ -2525,6 +2567,8 @@
     ],
     "externalFiscalBlockerPreserved": [
       "Merchant API lookup rejects supplier data (-12); Click cabinet requires owner login. Receipt existence at provider is unknown."
-    ]
+    ],
+    "sourceCommit": "63e9cee37c9a6acf45356c3494c511bb98f8b22f",
+    "measurementStatus": "Mature organic qualification/revenue data pending"
   }
 }

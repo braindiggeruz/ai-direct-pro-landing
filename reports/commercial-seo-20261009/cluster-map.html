@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>План коммерческого кластера — GPTBot.uz</title>
+  <style>
+    :root{--bg:#f4f6fa;--surface:#fff;--ink:#172337;--muted:#526178;--border:#d6deea;--nav:#6f48a3;--context:#28746a;--focus:#164cdc;--hub:#193950;--selected:#e8efff}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}header,main,footer{max-width:1440px;margin:auto;padding:24px}header{padding-bottom:16px}.eyebrow{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase}h1{font-size:clamp(25px,3vw,39px);line-height:1.18;margin:10px 0 14px;max-width:950px}p{margin:10px 0}.intro{max-width:1050px;color:var(--muted)}.notice{margin-top:20px;padding:14px 18px;border-left:4px solid var(--nav);background:var(--surface);border-radius:0 12px 12px 0}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 18px;flex:1;min-width:150px}.stat strong{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}main{padding-top:0}.layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;align-items:start}.map-card,.details,.pages{background:var(--surface);border:1px solid var(--border);border-radius:18px}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:16px;border-bottom:1px solid var(--border)}button,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:9px 12px;cursor:pointer}select{max-width:100%}button:hover{background:var(--selected)}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.map-scroll{overflow-x:auto;padding:8px}svg{display:block;width:100%;min-width:680px;height:auto}.link-line{stroke-width:2;fill:none;stroke-dasharray:6 5;transition:opacity .15s}.link-line.context{stroke:var(--context)}.link-line.navigation{stroke:var(--nav)}.link-line.dimmed{opacity:.09}.link-line.highlighted{stroke-width:3.3}.node{cursor:pointer}.node rect{fill:var(--surface);stroke-width:2}.node:hover rect,.node.selected rect{fill:var(--selected);stroke-width:3}.node:focus{outline:none}.node:focus-visible rect{stroke:var(--focus);stroke-width:4}.node text{fill:var(--ink);font-size:14px;text-anchor:middle;pointer-events:none}.node .small{font-size:11px;fill:var(--muted)}.node.hub rect{fill:var(--hub);stroke:var(--hub)}.node.hub text{fill:#fff}.node.hub .small{fill:#dce8f6}.node.hub:focus-visible rect{stroke:var(--focus);stroke-width:5}.group-title{fill:var(--muted);font-size:14px;font-weight:700;text-anchor:middle}.legend{display:flex;flex-wrap:wrap;gap:10px 18px;padding:14px 18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}.legend span{display:flex;align-items:center;gap:7px}.dot{width:12px;height:12px;border:2px solid var(--context);border-radius:3px;display:inline-block}.line{width:25px;border-top:2px dashed var(--context);display:inline-block}.line.nav{border-color:var(--nav)}.details{padding:20px;position:sticky;top:16px}.details h2{font-size:22px;line-height:1.3;margin:10px 0}.tag{display:inline-block;font-size:12px;border-radius:6px;padding:3px 7px;background:var(--selected)}a{color:var(--focus)}.url{display:block;font-size:12px;overflow-wrap:anywhere;margin:13px 0}.details h3{font-size:15px;margin-top:20px}.details ul{padding-left:20px;font-size:14px}.details li{margin-bottom:9px}.muted{color:var(--muted);font-size:13px}.pages{margin-top:20px;padding:20px}.pages h2{font-size:20px;margin:0 0 6px}.page-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.page-group h3{font-size:16px;margin:18px 0 10px}.page-group button{width:100%;display:block;text-align:left;margin:8px 0;font-size:14px}.page-group button[aria-pressed="true"]{background:var(--selected);border-color:var(--focus)}.page-group .lang{display:block;color:var(--muted);font-size:12px}footer{font-size:13px;color:var(--muted);padding-top:0}noscript p{padding:16px;background:var(--surface)}
+    @media(max-width:1080px){.layout{grid-template-columns:1fr}.details{position:static}.page-grid{grid-template-columns:1fr}.stat strong{font-size:20px}header,main,footer{padding-left:16px;padding-right:16px}.toolbar{align-items:stretch}.toolbar label{display:block;width:100%}}
+    @media(prefers-color-scheme:dark){:root{--bg:#101823;--surface:#182331;--ink:#edf2f9;--muted:#b0bfd1;--border:#394b61;--nav:#b69ee3;--context:#67c1b0;--focus:#99b6ff;--hub:#255473;--selected:#263a55}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+    @media print{.toolbar{display:none}.layout{display:block}.details{position:static;margin-top:20px}.map-scroll{overflow:visible}svg{min-width:0}.page-grid{grid-template-columns:repeat(3,1fr)}.pages,.details,.map-card{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">GPTBot.uz · коммерческое SEO · план</div>
+    <h1>Telegram-боты: от выбора подрядчика до заявки</h1>
+    <p class="intro">Один основной коммерческий URL и три группы существующих страниц. Карта показывает предлагаемую навигацию и контекстные переходы, которые помогают посетителю выбрать решение, понять стоимость и обсудить проект.</p>
+    <div class="notice"><strong>Все страницы уже существуют. Все линии на карте — предложения.</strong> Карта не подтверждает, что эти ссылки внедрены. Группы — редакционная архитектура для roadmap, а не результат полного попарного сравнения выдачи.</div>
+    <div class="stats" aria-label="Охват исследования">
+      <div class="stat"><strong>10</strong><span>существующих URL в плане</span></div>
+      <div class="stat"><strong id="stat-links">13</strong><span id="stat-links-label">пар связей ↔ · 26 предлагаемых ссылок</span></div>
+      <div class="stat"><strong>64</strong><span>ключевые фразы в исследовании</span></div>
+      <div class="stat"><strong>26</strong><span>срезов поисковой выдачи</span></div>
+      <div class="stat"><strong>09.10.2026</strong><span>Google · mobile · Узбекистан</span></div>
+    </div>
+  </header>
+  <main>
+    <div class="layout">
+      <section class="map-card" aria-label="Интерактивная карта предложенных связей">
+        <div class="toolbar">
+          <label for="group-filter">Показать связи: <select id="group-filter"><option value="all">Все группы</option><option value="0">Выбор и цена</option><option value="1">Узбекский коммерческий вход</option><option value="2">Расширения</option></select></label>
+          <button type="button" id="reset">Сбросить выбор</button>
+        </div>
+        <div class="map-scroll"><svg id="cluster-svg" viewBox="0 0 980 680" aria-labelledby="svg-title svg-desc"><title id="svg-title">План связей коммерческого кластера Telegram-ботов</title><desc id="svg-desc">Выберите страницу мышью либо клавишей Tab и Enter. Карточка справа показывает URL, задачу страницы и предложенные переходы. На мобильном карту можно прокрутить; ниже доступен список всех страниц.</desc></svg></div>
+        <div class="legend" aria-label="Условные обозначения"><span><i class="dot" aria-hidden="true"></i>Узел: существующая страница</span><span><i class="line" aria-hidden="true"></i>План: контекстные ссылки в обе стороны</span><span><i class="line nav" aria-hidden="true"></i>План: видимая навигация между языками</span></div>
+      </section>
+      <aside class="details" aria-labelledby="detail-title">
+        <span class="tag" id="detail-group">Основная услуга</span>
+        <h2 id="detail-title">Разработка Telegram-бота</h2>
+        <a class="url" id="detail-url" href="https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/" target="_blank" rel="noopener noreferrer">https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/</a>
+        <p id="detail-brief"></p>
+        <h3>Предложенные переходы</h3>
+        <ul id="detail-links"></ul>
+        <p class="muted" id="detail-note"></p>
+        <p class="muted">Открытие URL — отдельное действие по ссылке. Выбор узла не отправляет запрос на сайт.</p>
+        <div id="selection-status" class="muted" role="status" aria-live="polite"></div>
+      </aside>
+    </div>
+    <section class="pages" aria-labelledby="pages-title"><h2 id="pages-title">Все страницы и задачи</h2><p class="muted">Альтернативное управление картой: кнопки доступны с клавиатуры и на узком экране. Фильтр меняет линии карты; полный список остаётся доступным.</p><div id="page-list" class="page-grid"></div></section>
+    <noscript><p>Для взаимодействия нужен JavaScript. План: основной URL разработки Telegram-бота связывается с тремя группами — выбор и цена, коммерческие страницы на узбекском и расширения. Все связи предлагаются к внедрению; готовых результатов индексации карта не утверждает.</p></noscript>
+  </main>
+  <footer><p>Источник охвата: исследование OpenSEO от 09.10.2026, 64 ключевые фразы и 26 срезов mobile Google Uzbekistan. Эти значения относятся ко всему исследованию, не к частотности страниц на карте. Частотность, прогноз трафика и сроки выхода в топ здесь не рассчитаны.</p><p>Межъязыковые связи — только видимые ссылки с понятной подписью. Карта не предлагает объявлять разные по смыслу страницы переводами через hreflang. Внешние ресурсы, аналитика и сетевые запросы при открытии этого файла отсутствуют.</p></footer>
+  <script>
+    // Adapted from claude-seo seo-cluster/templates/cluster-map.html.
+    // Existing URLs; proposed editorial connections only. No network calls.
+    const CLUSTER_DATA = {
+      pillar: {id:"pillar",title:"Разработка Telegram-бота",label:["Разработка Telegram-бота","Основная коммерческая услуга"],language:"RU",url:"/ru/razrabotka-telegram-bota-tashkent/",brief:"Объяснить стартовый пакет: заявки, запись и передача менеджеру. Показать работающий сценарий, состав и ограничения, подтверждённые примеры и путь к обсуждению проекта."},
+      clusters:[
+        {name:"Выбор и цена",color:"#448477",posts:[
+          {id:"choose",title:"Выбор разработчика",label:["Выбор разработчика","Критерии и доказательства"],language:"RU",url:"/ru/luchshie-razrabotchiki-chat-botov-tashkent/",brief:"Помочь сравнить подрядчиков по проверяемым критериям: реальные работы, тестовое демо, договор, доступы и поддержка. Собственное предложение выделять прозрачно, без выдуманного рейтинга."},
+          {id:"price",title:"Стоимость чат-бота",label:["Стоимость чат-бота","Состав и границы сметы"],language:"RU",url:"/ru/stoimost-chat-bota/",brief:"Показать, из чего складывается стоимость и какие функции оплачиваются отдельно. Опубликованные цены и сроки должны соответствовать реальному составу работ и возможностям команды."},
+          {id:"calculator",title:"Калькулятор стоимости",label:["Калькулятор стоимости","От оценки к брифу"],language:"RU",url:"/ru/kalkulyator-stoimosti-telegram-bota/",brief:"Помочь собрать состав проекта и получить предварительную оценку. Объяснить допущения расчёта, затем предложить передать выбранный сценарий для уточнения сметы."}
+        ]},
+        {name:"Узбекский коммерческий вход",color:"#9677b2",posts:[
+          {id:"uz-business",title:"Telegram-бот для бизнеса — UZ",label:["Telegram-бот для бизнеса","Коммерческий вход · UZ"],language:"UZ",url:"/uz/telegram-bot-biznes-uchun/",brief:"Раскрыть покупательский сценарий на естественном узбекском: что получает бизнес, как работает бот и как заказать демо. Не ограничиваться инструкцией по самостоятельному созданию."},
+          {id:"uz-price",title:"Цена чат-бота — UZ",label:["Цена чат-бота","Состав предложения · UZ"],language:"UZ",url:"/uz/chat-bot-narxi/",brief:"Объяснить на узбекском состав цены, ограничения пакета и следующий шаг. Согласовать коммерческие условия с фактическими предложениями команды."},
+          {id:"uz-leads",title:"Бот для приёма заявок — UZ",label:["Бот для приёма заявок","Демонстрация сценария · UZ"],language:"UZ",url:"/uz/arizalarni-qabul-qiluvchi-bot/",brief:"Показать конкретный путь: вопрос клиента, уточнение, контакт и передача менеджеру. Дать доступное демо без обещания результата, который ещё не измерен."}
+        ]},
+        {name:"Расширения",color:"#507fa5",posts:[
+          {id:"crm",title:"AI-бот с CRM",label:["AI-бот с CRM","Учёт и передача заявок"],language:"RU",url:"/ru/ai-bot-s-crm-amocrm-bitrix24/",brief:"Объяснить передачу заявки в CRM: поля, источники, ответственность менеджера и ограничения. Указывать только действительно поддерживаемые подключения."},
+          {id:"mini-app",title:"Разработка Telegram Mini App",label:["Разработка Mini App","Каталог и интерфейс"],language:"RU",url:"/ru/razrabotka-telegram-mini-app-tashkent/",brief:"Предлагать расширение для задач, которым нужен интерфейс: каталог, выбор или личный кабинет. Показать пример и условия проекта, не заменять им простой бот без необходимости."},
+          {id:"comparison",title:"Telegram-бот или Mini App",label:["Бот или Mini App","Выбор подходящего формата"],language:"RU",url:"/ru/blog/telegram-bot-ili-mini-app/",brief:"Помочь выбрать формат по реальной задаче, сложности интерфейса и поддержке. Вести к соответствующей услуге, а не обещать, что более сложный продукт всегда лучше."}
+        ]}
+      ],
+      meta:{date:"09.10.2026",keywords:64,serps:26,engine:"Google",device:"mobile",country:"Uzbekistan",linkStatus:"proposed"}
+    };
+    const nodes = new Map([[CLUSTER_DATA.pillar.id,CLUSTER_DATA.pillar]]);
+    CLUSTER_DATA.clusters.forEach((group,index)=>group.posts.forEach(page=>nodes.set(page.id,{...page,group:index})));
+    const links = [
+      ...[...nodes.values()].filter(page=>page.id!=="pillar").map(page=>({from:"pillar",to:page.id,type:page.language==="UZ"?"navigation":"context",bidirectional:true,status:"proposed"})),
+      ...[["uz-business","uz-price"],["uz-business","uz-leads"],["choose","price"],["mini-app","comparison"]].map(([from,to])=>({from,to,type:"context",bidirectional:true,status:"proposed"}))
+    ];
+    document.getElementById("stat-links").textContent=String(links.length);
+    document.getElementById("stat-links-label").textContent="пар связей ↔ · "+links.reduce((count,link)=>count+(link.bidirectional?2:1),0)+" предлагаемых ссылок";
+    const svg = document.getElementById("cluster-svg");
+    const ns = "http://www.w3.org/2000/svg";
+    let selected = "pillar";
+    let groupFilter = "all";
+    function element(tag,attributes,text){const item=document.createElementNS(ns,tag);Object.entries(attributes||{}).forEach(([key,value])=>item.setAttribute(key,String(value)));if(text!==undefined)item.textContent=text;return item;}
+    const defs = element("defs");
+    ["context","navigation"].forEach(type=>{const marker=element("marker",{id:"arrow-"+type,viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:5,markerHeight:5,orient:"auto-start-reverse"});marker.append(element("path",{d:"M 0 0 L 10 5 L 0 10 z",fill:type==="context"?"var(--context)":"var(--nav)"}));defs.append(marker);});
+    svg.append(defs);
+    const positions = {pillar:{x:490,y:80,width:300,height:84}};
+    CLUSTER_DATA.clusters.forEach((group,ci)=>group.posts.forEach((post,pi)=>{positions[post.id]={x:168+ci*322,y:285+pi*142,width:270,height:76};}));
+    const linkLayer = element("g",{"aria-hidden":"true"});
+    function linkPath(link){
+      const from=positions[link.from],to=positions[link.to];
+      if(link.from==="pillar"||link.to==="pillar"){
+        const hub=link.from==="pillar"?from:to,spoke=link.from==="pillar"?to:from;
+        const startX=hub.x+(spoke.x-hub.x)*.19;
+        return `M ${startX} ${hub.y+hub.height/2+4} C ${startX} 170, ${spoke.x} 176, ${spoke.x} ${spoke.y-spoke.height/2-7}`;
+      }
+      if(from.x===to.x){
+        const startX=from.x+from.width/2+6,endX=to.x+to.width/2+6;
+        const lane=Math.max(startX,endX)+12+(Math.abs(from.y-to.y)>200?12:0);
+        return `M ${startX} ${from.y} C ${lane} ${from.y}, ${lane} ${to.y}, ${endX} ${to.y}`;
+      }
+      const direction=Math.sign(to.x-from.x),startX=from.x+direction*(from.width/2+6),endX=to.x-direction*(to.width/2+6),middle=(startX+endX)/2;
+      return `M ${startX} ${from.y} C ${middle} ${from.y}, ${middle} ${to.y}, ${endX} ${to.y}`;
+    }
+    links.forEach(link=>{const path=element("path",{d:linkPath(link),class:"link-line "+link.type,"data-from":link.from,"data-to":link.to,"marker-start":"url(#arrow-"+link.type+")","marker-end":"url(#arrow-"+link.type+")"});linkLayer.append(path);});svg.append(linkLayer);
+    CLUSTER_DATA.clusters.forEach((group,ci)=>svg.append(element("text",{x:168+ci*322,y:210,class:"group-title"},group.name)));
+    nodes.forEach((page,id)=>{
+      const pos=positions[id],group=page.group===undefined?null:CLUSTER_DATA.clusters[page.group];
+      const node=element("g",{class:"node"+(id==="pillar"?" hub":""),"data-node":id,tabindex:0,role:"button","aria-label":page.title+". Показать URL и задачу страницы.","aria-pressed":id===selected});
+      node.append(element("rect",{x:pos.x-pos.width/2,y:pos.y-pos.height/2,width:pos.width,height:pos.height,rx:13,stroke:group?group.color:"var(--hub)"}));
+      node.append(element("text",{x:pos.x,y:pos.y-3},page.label[0]));
+      node.append(element("text",{x:pos.x,y:pos.y+19,class:"small"},page.label[1]));
+      node.addEventListener("click",()=>selectNode(id));
+      node.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();selectNode(id);}if(event.key==="Escape")selectNode("pillar");});
+      svg.append(node);
+    });
+    const list=document.getElementById("page-list");
+    CLUSTER_DATA.clusters.forEach(group=>{const section=document.createElement("div");section.className="page-group";const heading=document.createElement("h3");heading.textContent=group.name;section.append(heading);group.posts.forEach(page=>{const button=document.createElement("button");button.type="button";button.dataset.page=page.id;button.setAttribute("aria-pressed","false");button.textContent=page.title;const label=document.createElement("span");label.className="lang";label.textContent="Существующий URL · "+page.language;button.append(label);button.addEventListener("click",()=>selectNode(page.id));section.append(button);});list.append(section);});
+    function refreshLines(){
+      document.querySelectorAll(".link-line").forEach(line=>{const from=nodes.get(line.dataset.from),to=nodes.get(line.dataset.to);const inFilter=groupFilter==="all"||String(from.group)===groupFilter||String(to.group)===groupFilter;const related=selected==="pillar"||line.dataset.from===selected||line.dataset.to===selected;line.style.display=inFilter?"":"none";line.classList.toggle("dimmed",!related);line.classList.toggle("highlighted",related&&selected!=="pillar");});
+      document.querySelectorAll("[data-node]").forEach(node=>{const isSelected=node.dataset.node===selected;node.classList.toggle("selected",isSelected);node.setAttribute("aria-pressed",String(isSelected));});
+      document.querySelectorAll("[data-page]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.page===selected)));
+    }
+    function selectNode(id){
+      const page=nodes.get(id);if(!page)return;selected=id;
+      if(page.group!==undefined&&groupFilter!=="all"&&String(page.group)!==groupFilter){groupFilter=String(page.group);document.getElementById("group-filter").value=groupFilter;}
+      document.getElementById("detail-title").textContent=page.title;
+      document.getElementById("detail-group").textContent=page.group===undefined?"Основная услуга · RU":CLUSTER_DATA.clusters[page.group].name+" · "+page.language;
+      const url=document.getElementById("detail-url");url.href="https://gptbot.uz"+page.url;url.textContent=url.href;
+      document.getElementById("detail-brief").textContent=page.brief;
+      const targets=document.getElementById("detail-links");targets.replaceChildren();
+      links.filter(link=>link.from===id||link.to===id).forEach(link=>{const target=nodes.get(link.from===id?link.to:link.from);const li=document.createElement("li");li.textContent="↔ "+target.title+" — "+(link.type==="navigation"?"предложена видимая навигация между языками; не hreflang.":"предложены контекстные ссылки в обе стороны.");targets.append(li);});
+      document.getElementById("detail-note").textContent=page.language==="UZ"?"Русская основная услуга и эта страница не объявляются точными переводами. Подпись перехода должна сообщать язык и содержание целевой страницы.":"Ссылку добавлять там, где она помогает следующему шагу пользователя. Наличие страницы не доказывает готовность коммерческого предложения или внедрение ссылки.";
+      document.getElementById("selection-status").textContent="Выбрано: "+page.title+".";
+      refreshLines();
+    }
+    document.getElementById("group-filter").addEventListener("change",event=>{groupFilter=event.target.value;selectNode("pillar");});
+    document.getElementById("reset").addEventListener("click",()=>{groupFilter="all";document.getElementById("group-filter").value="all";selectNode("pillar");});
+    selectNode("pillar");
+  </script>
+</body>
+</html>
