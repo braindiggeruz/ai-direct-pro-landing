@@ -1,0 +1,153 @@
+{
+  "checkedAt": "2026-10-09T01:01:54.827Z",
+  "mode": "local-build",
+  "productionLeadWrites": 0,
+  "externalAnalyticsRequests": 0,
+  "rows": [
+    {
+      "pathname": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/ru/razrabotka-telegram-bota-tashkent/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/ru/stoimost-chat-bota/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/telegram-bot-biznes-uchun/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/chat-bot-narxi/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": 200,
+      "demo": true,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/ru/razrabotka-saytov-tashkent/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/sayt-yaratish/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/uz/arizalarni-avtomatlashtirish/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    },
+    {
+      "pathname": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "status": 200,
+      "demo": false,
+      "formAcceptedInStub": true,
+      "checkedWidths": [
+        320,
+        1280
+      ],
+      "missingFragments": [],
+      "productionWrites": 0
+    }
+  ],
+  "pass": true
+}

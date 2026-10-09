@@ -8,6 +8,8 @@ import { reachYandexGoal, YANDEX_GOALS } from '../../lib/analytics/yandexMetrika
 import { parseContact, studioQuickContact, type StudioQuickContact } from '../contact';
 import { STUDIO_CONTACT_PROPS } from '../../shared/studio-contact';
 import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS, isLeadBudget } from '../../shared/lead-budget';
+import { shouldTrackLead } from '../../shared/lead-conversion';
+import { readFirstTouch, leadAttribution, leadUtm } from '../../shared/lead-attribution';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
@@ -65,6 +67,7 @@ export function AiLeadForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const copy = leadStrings(locale);
+  const service = ({ business_site: 'website-development', business_crm: 'crm-integration', business_ads: 'internet-reklama' } as Record<string, string>)[intent] || 'ai-bot';
   const budgetField = LEAD_BUDGET_FIELD[locale];
   const quick = studioQuickContact(locale);
   const quickLink =
@@ -93,6 +96,7 @@ export function AiLeadForm({
     setConsentError(false);
     setStatus('sending');
     requestIdRef.current ??= `lead_${crypto.randomUUID().replace(/-/g, '')}`;
+    const firstTouch = readFirstTouch();
     const res = await sendLead(apiBase, {
       requestId: requestIdRef.current,
       turnstileToken: turnstileToken || undefined,
@@ -105,6 +109,10 @@ export function AiLeadForm({
       sessionId,
       consent: true,
       source,
+      service,
+      locale,
+      attribution: leadAttribution(firstTouch),
+      utm: leadUtm(firstTouch),
       budget: isLeadBudget(budget) ? budget : undefined,
       // Path only — a query string can carry personal data into the record.
       pageUrl: typeof location === 'undefined' ? undefined : location.pathname,
@@ -114,9 +122,11 @@ export function AiLeadForm({
       // After the server acknowledged the write, never on the click. The
       // goals are bare names: chat_lead_success says where the lead came
       // from, lead_form_success counts it with the site's other forms.
-      track(EV.generateLead, { method, source, mode: parsed.type, intent, locale });
-      reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
-      reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
+      if (shouldTrackLead(res, requestIdRef.current)) {
+        track(EV.generateLead, { method, source, mode: parsed.type, intent, locale });
+        reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
+        reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
+      }
     } else {
       if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
         setTurnstileRequired(true);
@@ -179,7 +189,7 @@ export function AiLeadForm({
       <input
         id={`${uid}-contact`}
         value={contact}
-        onChange={(event) => { setContact(event.target.value); if (contactError) setContactError(false); }}
+        onChange={(event) => { setContact(event.target.value); requestIdRef.current = null; if (contactError) setContactError(false); }}
         autoComplete="tel"
         maxLength={200}
         placeholder={copy.leadContactPlaceholder}
@@ -232,7 +242,7 @@ export function AiLeadForm({
       </label>
       {/* Exactly what leaves the browser, in plain words. The payload below is
           name + one contact + the budget if chosen + the intent slug + the
-          source + this session's id + the page path — never the conversation
+          source + first-touch attribution + this session's id + the page path — never the conversation
           itself. */}
       <p className="mt-2 pl-8 text-[12px] leading-relaxed text-white/35">{copy.leadConsentDetail}</p>
       {consentError && (

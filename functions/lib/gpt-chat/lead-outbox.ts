@@ -1,5 +1,5 @@
 import { genId } from './http';
-import { buildLeadAlert, buildMutedNotice, loadTranscript, sendOwnerAlert, type LeadAlert } from './notify';
+import { buildLeadAlert, buildMutedNotice, loadTranscript, sendOwnerAlert, type LeadAlert, type OwnerNotifyDeliveryOptions } from './notify';
 import { consumeRateLimit, HOUR_MS } from './rate-limit';
 import type { BridgeEnv } from './bridge-env';
 import { normalizeLeadBudget, normalizeLeadService } from './validate';
@@ -87,6 +87,7 @@ export async function deliverLeadOutboxItem(
   outboxId: string,
   alertsPerHour: number,
   now = new Date(),
+  delivery?: OwnerNotifyDeliveryOptions,
 ): Promise<LeadDeliveryOutcome> {
   const nowIso = now.toISOString();
   const staleBefore = new Date(now.getTime() - 5 * 60_000).toISOString();
@@ -129,7 +130,7 @@ export async function deliverLeadOutboxItem(
     const availableAt = new Date(now.getTime() + ceiling.retryAfterSeconds * 1000).toISOString();
     await release(db, outboxId, 'pending', availableAt, 'muted', nowIso);
     if (ceiling.count === alertsPerHour + 1) {
-      await sendOwnerAlert(env, buildMutedNotice(ceiling.count, alertsPerHour));
+      await sendOwnerAlert(env, buildMutedNotice(ceiling.count, alertsPerHour), delivery);
     }
     await record(db, row, 'GPTChatLeadNotifySkipped', { leadId: row.lead_id, reason: 'muted' });
     return 'pending';
@@ -155,7 +156,7 @@ export async function deliverLeadOutboxItem(
     service: serviceFromUtmJson(row.utm_json),
     budget: normalizeLeadBudget(row.budget),
   };
-  const result = await sendOwnerAlert(env, buildLeadAlert(alert));
+  const result = await sendOwnerAlert(env, buildLeadAlert(alert), delivery);
   if (result.status === 'sent') {
     await db.prepare(
       `UPDATE gpt_lead_outbox
@@ -197,6 +198,7 @@ export async function drainLeadOutbox(
   alertsPerHour: number,
   limit = 10,
   now = new Date(),
+  delivery?: OwnerNotifyDeliveryOptions,
 ): Promise<{ attempted: number; sent: number; pending: number; blocked: number }> {
   const rows = await db.prepare(
     `SELECT id FROM gpt_lead_outbox
@@ -207,7 +209,7 @@ export async function drainLeadOutbox(
   let pending = 0;
   let blocked = 0;
   for (const row of rows.results ?? []) {
-    const outcome = await deliverLeadOutboxItem(env, db, row.id, alertsPerHour, now);
+    const outcome = await deliverLeadOutboxItem(env, db, row.id, alertsPerHour, now, delivery);
     if (outcome === 'sent') sent += 1;
     else if (outcome === 'blocked') blocked += 1;
     else if (outcome === 'pending') pending += 1;

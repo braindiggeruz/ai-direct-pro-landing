@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Click fiscal code fix deployed and verified; Merchant API supplier access and receipt acceptance blocked",
-  "stage_status": "blocked",
-  "last_completed_stage": "Click fiscal reconciliation safety fix, 99 passing tests and guarded production deployment",
-  "next_stage": "Restore verified Click Merchant API access and reconcile the existing paid order receipt",
+  "current_stage": "Commercial Telegram lead cluster implementation and guarded release",
+  "stage_status": "validated_release_pending",
+  "last_completed_stage": "Commercial content, demos and lead capture validated locally",
+  "next_stage": "Guarded commercial cluster release, production acceptance and discovery submission",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1848,9 +1848,9 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Runtime fix deployed and exact live manifest verified. Owner Click cabinet login is required to verify authoritative Merchant API identity/access and the existing receipt. Preserve deferred SEO follow-up; no redeploy or duplicate fiscal POST without new evidence.",
+  "next_stage_note": "Explicit owner request authorizes this commercial task and deployment. Preserve separate Click fiscal access blocker; never resubmit uncertain receipts.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
+  "last_commit": "42635a4d49852c573bd91301bf12b10cb2fae10f",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -1913,9 +1913,9 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-08T14:56:52.348653+00:00",
-  "blocked": true,
-  "blocked_stage": "Click Merchant API access and receipt acceptance",
+  "updated_at": "2026-10-09T01:01:49.924586+00:00",
+  "blocked": false,
+  "blocked_stage": null,
   "blockers": [
     "Merchant API lookup rejects supplier data (-12); Click cabinet requires owner login. Receipt existence at provider is unknown."
   ],
@@ -2505,5 +2505,26 @@
       "evidence": "reports/chat-trial-production-20261008/live-browser-final.json"
     },
     "deployment_url": "https://12460835.ai-direct-pro-landing.pages.dev"
+  },
+  "commercial_seo_20261009": {
+    "status": "IMPLEMENTED_VALIDATED_RELEASE_PENDING",
+    "research": "reports/commercial-seo-20261009/cluster-plan.md",
+    "implementation": "reports/commercial-seo-implementation-20261009/IMPLEMENTATION.md",
+    "baselineHead": "42635a4d49852c573bd91301bf12b10cb2fae10f",
+    "baselineProductionSource": "4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd",
+    "scope": "12 existing commercial pages, six local RU/UZ teaching demos, six new form locations, lead acknowledgement/attribution/deduplication and bounded maintenance delivery",
+    "baselineLeadReadback": "last30days: 2 page_form leads, both delivered and attributed; organic source and commercial outcomes not inferred",
+    "validation": "171 suite tests + 41 final page-form tests PASS; app/functions typechecks; 12 local browser pages; protected10/10; bundle and SEO audit PASS",
+    "release": "PENDING guarded deployment and exact manifest/browser readback",
+    "acceptanceLimits": [
+      "Demo is local teaching UI, not a customer case or live Telegram integration",
+      "No live test lead or owner message sent",
+      "Ranking/revenue impact requires mature post-release data",
+      "Actual unit costs, qualification, proposals and payments require owner records",
+      "Marketplace profile drafts prepared, not published"
+    ],
+    "externalFiscalBlockerPreserved": [
+      "Merchant API lookup rejects supplier data (-12); Click cabinet requires owner login. Receipt existence at provider is unknown."
+    ]
   }
 }

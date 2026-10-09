@@ -1,5 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
+import { shouldTrackLead, type LeadAcknowledgement } from '../shared/lead-conversion';
+import { readFirstTouch, leadAttribution, leadUtm } from '../shared/lead-attribution';
 import { STUDIO_CONTACT_PROPS, STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
@@ -14,10 +16,6 @@ import {
   type CalculatorSelection,
   type FeatureId,
 } from './pricing';
-
-const FIRST_TOUCH_KEY = 'gptbot_ft_v1';
-const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
-const CLICK_ID_KEYS = ['gclid', 'yclid', 'fbclid'] as const;
 
 type LeadError = 'form' | 'contact' | 'turnstile' | 'rate_limited' | 'failed';
 
@@ -52,77 +50,6 @@ function leadErrorFor(code: string): LeadError {
   if (code === 'turnstile_required' || code === 'turnstile_failed') return 'turnstile';
   if (code === 'rate_limited') return 'rate_limited';
   return 'failed';
-}
-
-function safeUtm(): Record<string, string> {
-  const params = new URLSearchParams(window.location.search);
-  const result: Record<string, string> = { tool: 'telegram_cost_calculator' };
-  for (const key of UTM_KEYS) {
-    const value = params.get(key);
-    if (value) result[key] = value.slice(0, 120);
-  }
-  return result;
-}
-
-/**
- * The first-touch record the site keeps in localStorage. Storage can be
- * blocked (private mode, disabled site data), so every access is guarded and a
- * missing or malformed record is simply an empty one.
- */
-function readFirstTouch(): Record<string, string> {
-  try {
-    const raw = window.localStorage.getItem(FIRST_TOUCH_KEY);
-    if (!raw) return {};
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    const result: Record<string, string> = {};
-    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
-      if (typeof value === 'string' && value) result[key] = value.slice(0, 200);
-    }
-    return result;
-  } catch {
-    return {};
-  }
-}
-
-/**
- * First-touch attribution for the lead. When the site never managed to store
- * a record, the current visit is the best evidence there is: this page, an
- * external referrer host and any click id in the address. The server
- * re-validates every key and drops what does not fit.
- */
-function leadAttribution(firstTouch: Record<string, string>): Record<string, string> | undefined {
-  const result: Record<string, string> = {};
-  if (firstTouch.landing) {
-    for (const key of ['landing', 'referrerHost', ...CLICK_ID_KEYS, 'firstSeenAt']) {
-      if (firstTouch[key]) result[key] = firstTouch[key];
-    }
-  } else {
-    try {
-      result.landing = window.location.pathname;
-      const params = new URLSearchParams(window.location.search);
-      for (const key of CLICK_ID_KEYS) {
-        const value = params.get(key);
-        if (value) result[key] = value.slice(0, 200);
-      }
-      const referrerHost = document.referrer ? new URL(document.referrer).hostname : '';
-      if (referrerHost && referrerHost !== window.location.hostname) result.referrerHost = referrerHost;
-    } catch {
-      /* an unparsable referrer is simply not recorded */
-    }
-  }
-  return Object.keys(result).length ? result : undefined;
-}
-
-/** UTM tags of this visit; without any, the ones from the first touch. */
-function leadUtm(firstTouch: Record<string, string>): Record<string, string> {
-  const current = safeUtm();
-  if (UTM_KEYS.some((key) => current[key])) return current;
-  const result = { ...current };
-  for (const key of UTM_KEYS) {
-    if (firstTouch[key]) result[key] = firstTouch[key].slice(0, 120);
-  }
-  return result;
 }
 
 /** Idempotency key accepted by the endpoint: [A-Za-z0-9_-]{16,80}. */
@@ -263,6 +190,7 @@ export default function CalculatorApp() {
           attribution: leadAttribution(firstTouch),
           utm: {
             ...leadUtm(firstTouch),
+            tool: 'telegram_cost_calculator',
             goal: selection.goalId,
             features: selection.featureIds.join(','),
             volume: selection.volumeId,
@@ -274,30 +202,26 @@ export default function CalculatorApp() {
       });
       // The endpoint answers { ok:false, code } for a rejected or unstored lead,
       // so only a literal ok:true is a lead. The server's message is never shown.
-      const body = await response.json() as { ok?: unknown; code?: unknown };
+      const body = await response.json() as LeadAcknowledgement & { code?: unknown };
       if (body.ok !== true) {
         code = typeof body.code === 'string' ? body.code : 'rejected';
         throw new Error('lead rejected');
       }
       setFormStatus('success');
-      track('calculator_lead_submitted', {
-        goal: selection.goalId,
-        feature_count: selection.featureIds.length,
-      });
-      // The server acknowledged the request. No typed contact, name, estimate
-      // summary or attribution identifiers belong in the analytics event.
-      track('generate_lead', {
-        lead_source: 'calculator',
-        service_slug: 'telegram-bot',
-        page_path: window.location.pathname,
-      });
-      // Only after the server accepted the lead — a submit click is not a lead.
-      // The goal carries a name and no parameters, so nothing typed above it
-      // can reach Metrika.
-      reachYandexGoal(YANDEX_GOALS.leadFormSubmitSuccess);
-      // The same event under its source-specific name, so the calculator can be
-      // told apart from the page form and the chat in Metrika.
-      reachYandexGoal(YANDEX_GOALS.calculatorLeadSuccess);
+      if (shouldTrackLead(body, requestIdRef.current)) {
+        track('calculator_lead_submitted', {
+          goal: selection.goalId,
+          feature_count: selection.featureIds.length,
+        });
+        // No contact, name, summary, receipt id or attribution identifiers in analytics.
+        track('generate_lead', {
+          lead_source: 'calculator',
+          service_slug: 'telegram-bot',
+          page_path: window.location.pathname,
+        });
+        reachYandexGoal(YANDEX_GOALS.leadFormSubmitSuccess);
+        reachYandexGoal(YANDEX_GOALS.calculatorLeadSuccess);
+      }
     } catch {
       setLeadError(leadErrorFor(code));
       setFormStatus('error');

@@ -16,6 +16,13 @@ interface TelegramCallOptions {
   maxRetries?: number;
 }
 
+export interface TelegramSendOptions extends TelegramCallOptions {
+  keyboard?: InlineKeyboard;
+  parseMode?: 'HTML';
+  /** Total budget across chunks. A durable caller retries later, not in this call. */
+  budgetMs?: number;
+}
+
 export interface TgResult<T = unknown> {
   ok: boolean;
   result?: T;
@@ -179,10 +186,14 @@ export class TelegramClient {
   /** Send text, auto-splitting past Telegram's 4096-char limit. Plain text by
    *  default — AI output is NEVER given a parse_mode, so it cannot inject
    *  markup. Returns the last message result. */
-  async sendMessage(chatId: number, text: string, opts: { keyboard?: InlineKeyboard; parseMode?: 'HTML' } = {}) {
+  async sendMessage(chatId: number, text: string, opts: TelegramSendOptions = {}) {
     const chunks = splitMessage(text);
+    const deadline = Number.isFinite(opts.budgetMs) ? Date.now() + boundedTimeout(opts.budgetMs) : null;
     let last: TgResult<TelegramMessage> = { ok: false };
     for (let i = 0; i < chunks.length; i++) {
+      const remaining = deadline === null ? null : deadline - Date.now();
+      // call() clamps timeouts to 250 ms. Do not start a chunk that cannot fit.
+      if (remaining !== null && remaining < 250) return { ok: false, error_code: 0 };
       const isLast = i === chunks.length - 1;
       last = await this.call<TelegramMessage>('sendMessage', {
         chat_id: chatId,
@@ -190,7 +201,11 @@ export class TelegramClient {
         disable_web_page_preview: true,
         ...(opts.parseMode ? { parse_mode: opts.parseMode } : {}),
         ...(isLast && opts.keyboard ? { reply_markup: { inline_keyboard: opts.keyboard } } : {}),
+      }, {
+        timeoutMs: remaining === null ? opts.timeoutMs : Math.min(boundedTimeout(opts.timeoutMs), remaining),
+        maxRetries: deadline === null ? opts.maxRetries : 0,
       });
+      if (deadline !== null && !last.ok) return last;
     }
     return last;
   }

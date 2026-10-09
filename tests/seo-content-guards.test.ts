@@ -129,10 +129,10 @@ test('only bots declare 24/7 availability; team services follow office hours', (
 // Service node must match the regex prerender.ts uses.
 test('every lead-form page of a team service is excluded from 24/7 availability', () => {
   const prerender = fs.readFileSync('scripts/prerender.ts', 'utf8');
-  const literal = prerender.match(/const TEAM_SERVICE_URL_RE = \/(.+)\/;\n/);
+  const literal = prerender.match(/const TEAM_SERVICE_URL_RE = \/(.+)\/;\r?\n/);
   assert.ok(literal, 'TEAM_SERVICE_URL_RE not found in scripts/prerender.ts');
   const teamService = new RegExp(literal[1]);
-  const botServices = new Set(['telegram-bot', 'chat-bot', 'telegram-mini-app', 'ai-bot']);
+  const botServices = new Set(['telegram-bot', 'chat-bot', 'telegram-mini-app', 'ai-bot', 'lead-bot']);
   const byUrl = new Map(pageFiles.map(file => read<Page>(file)).map(page => [page.url, page]));
   const checked: string[] = [];
   for (const [url, service] of Object.entries(LEAD_FORM_PAGES)) {

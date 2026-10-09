@@ -28,18 +28,38 @@
   "breadcrumbLabel": "AmoCRM va Bitrix24 bilan AI bot",
   "heroTitle": "AmoCRM va Bitrix24 bilan integratsiyalashgan AI bot",
   "heroSubtitle": "AI-bot dastlabki dialogni olib boradi, kelishilgan maydonlarni yig‘adi va kontekstni CRM’ga uzatadi. Ishga tushirishdan oldin bitim yaratish, deduplikatsiya, qayta urinish, monitoring va qo‘lda tiklash qoidalarini belgilaymiz.",
-  "ctaPrimaryLabel": "CRM bilan integratsiyani muhokama qilish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryLabel": "CRM ulanishini muhokama qilish",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Buyurtma asosidagi integratsiya CRM, tarif, API va kirish huquqlarini tekshirishdan boshlanadi. Bu sahifa har qanday akkaunt uchun tayyor universal konnektorni emas, kelishiladigan xizmatni tasvirlaydi. Ishga tushirishdan oldin natija mijozning sinov voronkasida ko‘rsatilishi kerak."
+    },
+    {
+      "type": "linkp",
+      "text": "Hozir faqat menejerga ariza kerak bo‘lsa, {bot} va {demo} bilan boshlash mumkin. O‘quv namunasi maydonlarni yig‘ishni ko‘rsatadi, lekin amoCRM yoki Bitrix24 bilan amaldagi ulanishni tasdiqlamaydi.",
+      "links": [
+        {
+          "token": "bot",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram bot"
+        },
+        {
+          "token": "demo",
+          "target": "/uz/telegram-bot-biznes-uchun/#lead-demo",
+          "anchor": "ariza namunasi"
+        }
+      ]
+    },
     {
       "type": "h2",
       "text": "AI bot + AmoCRM yoki Bitrix24 nima beradi"
     },
     {
       "type": "p",
-      "text": "AI bot Telegram, Instagram Direct va WhatsApp’da birinchi kontaktni yopadi: bir necha soniyada javob beradi, saralashni olib boradi, ism va telefonni yig‘adi. Lid tasdiqlangach, bot AmoCRM yoki Bitrix24'da bitim yaratadi va mijoz kartochkasiga yozishmalar tarixi, teglar, manba va to‘ldirilgan maydonlarni biriktiradi. Menejer CRM’ni ochadi va darhol kim ekanligini, nima xohlayotganini va qayerdan kelganini ko‘radi — xabarlarni qo‘lda ko‘chirmasdan."
+      "text": "Bot tanlangan kanalda kelishilgan ma’lumotlarni yig‘adi. Ariza tasdiqlangach, integratsiya CRM’da yozuv yaratish yoki yangilashga, ruxsat etilgan maydon va manbani uzatishga harakat qiladi. Muvaffaqiyat API javobiga ko‘ra qayd etiladi; tasdiqlanmagan yetkazish mas’ul xodimga ko‘rinishi kerak."
     },
     {
       "type": "p",
@@ -53,7 +73,7 @@
       "type": "list",
       "items": [
         "Arizalar Telegram va Instagram’ga keladi, lekin CRM’ga faqat bir qismi tushadi — yozishmalarni hech kim ko‘chirmaydi",
-        "Menejerlar mijoz kartochkasini qo‘lda to‘ldirishadi, har bir lidga 5–10 daqiqa sarflashadi",
+        "Menejerlar yozishmadagi ma’lumotlarni mijoz kartochkasiga qayta kiritadi",
         "Dublikatlar: bitta mijoz WhatsApp va Telegram’ga yozadi — CRM’da ikkita kartochka paydo bo‘ladi",
         "Ariza manbai yo‘qoladi — qaysi kanal va qaysi reklama maqsadli mijoz beryotganini tushunish imkonsiz",
         "Voronka menejer boshida yashaydi, CRM’da emas — hisobotlar haqiqatni aks ettirmaydi",
@@ -81,7 +101,7 @@
     },
     {
       "type": "p",
-      "text": "Agar sizda hamma narsaga bitta menejer bo‘lsa va haftalik ariza oqimi 5–10 ta bo‘lsa — CRM umuman shart emas, va AI botning Telegram bildirishnomalari bilan asosiy bog‘lanishi yetarli. Shuningdek, kanalni hali sinab ko‘rayotgan va sotuv regulamentini aniqlamagan bo‘lsangiz — avval jarayonni qurib oling, keyin CRM’ni ulang."
+      "text": "Kichik oqimni bitta menejer boshqarsa va tartibli ariza yetarli bo‘lsa, Telegram bildirishnomalaridan boshlash mumkin. Bitim bosqichlari, taqsimot va tarix kerak bo‘lganda CRM qo‘shiladi. Tanlov faqat arizalar soniga emas, jarayonga bog‘liq."
     },
     {
       "type": "h2",
@@ -103,7 +123,7 @@
         "Manba: UTM, e’lon, reklama, tavsiya",
         "Suhbat tili: rus yoki o‘zbek",
         "Nish/xizmat tegi va saralash maydonlari (byudjet, xizmat, tuman, ob’ekt turi va h.k.)",
-        "Bot bilan to‘liq yozishmalar tarixi",
+        "Faqat ma’lumot siyosati va API ruxsat bergan kelishilgan kontekst yoki yozishmalar",
         "Lid holati: issiq / iliq / nomaqsadli"
       ]
     },
@@ -132,7 +152,7 @@
         "2-qadam. Bot qanday ma’lumot yig‘ishi va qayerga joylashi kerakligini kelishamiz",
         "3-qadam. Saralash ssenariysi va menejerga eskalatsiya regulamenti",
         "4-qadam. AmoCRM yoki Bitrix24 bilan API integratsiyasini sozlash, maydonlarni moslashtirish",
-        "5-qadam. Haqiqiy suhbatlarda sinov, CRM’da kartochkalarni tekshirish",
+        "5-qadam. Belgilangan sinov ma’lumotlarida yangi yozuv, takroriy so‘rov, API xatosi va tiklashni tekshirish",
         "6-qadam. Ishga tushirish, lidlar sifatini monitoring va ssenariyni nuqtali tuzatish"
       ]
     },
@@ -229,7 +249,7 @@
     },
     {
       "type": "h2",
-      "text": "O‘zbekistondagi biznes uchun ssenariylar"
+      "text": "Biznes uchun muhokama qilinadigan ssenariylar"
     },
     {
       "type": "list",
@@ -255,40 +275,80 @@
         "Noaniq moslik va xato uchun qo‘lda ishlash yo‘li bo‘lishi kerak.",
         "CRM bo‘lmasa, Telegram bildirishnomasi yoki jadvaldan ularning cheklovlarini hisobga olib boshlash mumkin."
       ]
+    },
+    {
+      "type": "h2",
+      "text": "Ishga tushirishdan oldingi qabul sinovi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ssenariy",
+        "Nima ko‘rsatiladi"
+      ],
+      "rows": [
+        [
+          "Birinchi ariza",
+          "Kelishilgan voronkada sinov yozuvi, to‘g‘ri maydonlar va mas’ul shaxs"
+        ],
+        [
+          "Bir arizaning takrori",
+          "Identifikator qoidasi bitta mantiqiy bitim qayta yaratilishini nazorat qiladi"
+        ],
+        [
+          "API ishlamasligi",
+          "Xato ko‘rinadi; tasdiqlanmagan yetkazish muvaffaqiyat deb ko‘rsatilmaydi"
+        ],
+        [
+          "Tiklash",
+          "Holat tekshirilgach ariza xavfsiz uzatiladi yoki qo‘lda qayta ishlashga beriladi"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "CRM litsenziyasi, voronka sozlamalari, hosting, AI/API va qo‘llab-quvvatlash smetada ajratiladi. CRM’siz boshlang‘ich variant bilan {price} sahifasida solishtiring.",
+      "links": [
+        {
+          "token": "price",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "chat-bot narxi"
+        }
+      ]
     }
   ],
   "faq": [
     {
       "q": "AI bot uchun AmoCRM va Bitrix24 o‘rtasida qanday farq bor?",
-      "a": "Integratsiya nuqtai nazaridan — ikkala CRM ham AI botdan lidlarni ishonchli qabul qilishga imkon beradi. AmoCRM sotuvda oddiyroq va tezroq, Bitrix24 — vazifalar, hujjatlar va portali bilan kompleks platforma. Tanlov sizning jarayoningizga bog‘liq, bot ikkalasi bilan ham to‘g‘ri ishlaydi."
+      "a": "Tanlov mavjud voronka, API, tarif va kerakli amallarga bog‘liq. Smetadan oldin aniq akkaunt va maydonlar tekshiriladi. Bir xil CRM nomi barcha tariflarda bir xil huquq va imkoniyat borligini anglatmaydi."
     },
     {
       "q": "Bot bitim yoki kontakt yaratadimi?",
-      "a": "Standart sozlamada — ikkalasini ham. Agar kontakt CRM’da allaqachon bo‘lsa (masalan, mijoz oldinroq yozgan), bot yangi bitimni mavjud kartochkaga bog‘laydi. Agar kontakt yangi bo‘lsa — kontakt ham, bitim ham yaratadi va manbani belgilaydi."
+      "a": "Integratsiya xaritasida kelishiladi: kontakt, bitim, lid yoki vazifa. Noaniq moslik qo‘lda tekshiriladi. Qabul sinovida yangi yozuv va o‘sha so‘rovning takrori ko‘rsatiladi."
     },
     {
       "q": "Suhbatdan keyin mijoz kartochkasiga nima tushadi?",
-      "a": "Ism, telefon, murojaat kanali, manba va UTM, suhbat tili, saralash maydonlari (masalan, byudjet yoki tuman), bot bilan to‘liq yozishmalar tarixi va lid holati (issiq / iliq / nomaqsadli)."
+      "a": "Faqat kelishilgan va ruxsat etilgan ma’lumot: kontakt, xizmat, til, manba va kontekst. Yozishmalar API va ma’lumot siyosati doirasida uzatiladi; keraksiz ma’lumot yig‘ilmaydi."
     },
     {
       "q": "Lidlarni menejerlar o‘rtasida avtomatik taqsimlash mumkinmi?",
-      "a": "Ha. Taqsimlash qoidalarini sozlaymiz: nish, smena, yuklama, manba ustuvorligi bo‘yicha. Lid sizning regulamentingizga ko‘ra bo‘sh yoki mas’ul menejerga tushadi."
+      "a": "API va kirish huquqlari imkon bersa, filial, smena yoki ariza turi bo‘yicha qoidalar tuziladi. Istisnolar va xatodagi mas’ul shaxs ishga tushirishdan oldin belgilanadi."
     },
     {
       "q": "Bot faqat Telegram bilan ishlaydimi?",
-      "a": "Yo‘q. Bitta AI bot Telegram, Instagram Direct va WhatsApp’ga bir vaqtda xizmat ko‘rsatishi mumkin — barcha lidlar bitta CRM’ga kanal belgisi bilan tushadi. Har bir kanal mijoz kartochkasida o‘z yozishmalar tarixini olib boradi."
+      "a": "Har bir kanal alohida ulanadi va tekshiriladi. Telegram, Instagram Direct va WhatsApp turli ruxsat va cheklovlarga ega; ko‘p kanallilik bitta boshlang‘ich narxga avtomatik kirmaydi."
     },
     {
       "q": "AmoCRM yoki Bitrix24 vaqtincha ishlamasa nima bo‘ladi?",
-      "a": "Bot suhbatni davom ettiradi va mijoz ma’lumotini o‘zida saqlaydi. CRM bilan aloqa tiklangach, bitim avtomatik ravishda yaratiladi. Lidlar yo‘qolmaydi."
+      "a": "Holat oldindan kelishilib sinovdan o‘tadi: ishonchli navbat, cheklangan qayta urinish, mas’ulga xabar va qo‘lda tiklash. Tekshirilgan mexanizmsiz xatodan keyin avtomatik yetkazish va’da qilinmaydi."
     },
     {
       "q": "Integratsiya qancha turadi?",
-      "a": "Narx CRM turiga, voronkani sozlash chuqurligiga, maydonlar soniga va kanallar soniga bog‘liq. +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling yoki ceo@gptbot.uz manziliga yozing — voronkangizni ko‘rib chiqamiz va smeta yuboramiz."
+      "a": "Narx tekshirilgan API, maydonlar, yozuv qoidalari, kanallar va tiklashga bog‘liq. CRM litsenziyasi va muntazam qo‘llab-quvvatlash alohida ko‘rsatiladi. CRM nomi va vazifani formada yozing."
     },
     {
       "q": "Bizda 1C yoki shaxsiy CRM bo‘lsa-chi?",
-      "a": "1C va shaxsiy tizimlar bilan API orqali integratsiyani qo‘llab-quvvatlaymiz. Shartlar va muddatlar individual muhokama qilinadi — tizim API hujjatlarini yuboring."
+      "a": "Avval API, avtorizatsiya, limitlar va sinov muhiti o‘rganiladi. 1C yoki shaxsiy tizimga integratsiya imkoniyati, tarkibi va muddati shu tekshiruvdan so‘ng tasdiqlanadi."
     }
   ],
   "internalLinks": [
@@ -363,6 +423,12 @@
       "anchor": "Telegram botni AmoCRM yoki Bitrix24 ga ulash",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "chat-bot narxi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -372,9 +438,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-10-09",
   "createdAt": "2026-06-24T00:00:00Z",
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-10-09",
   "heroTrust": [
     "Maydon va status oldindan",
     "Idempotent uzatish",

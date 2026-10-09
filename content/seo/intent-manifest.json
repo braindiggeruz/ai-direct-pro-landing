@@ -1,7 +1,37 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-07",
+  "updatedAt": "2026-10-09",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
+  "commercialClusters": [
+    {
+      "id": "telegram-leads-ru",
+      "hub": "/ru/razrabotka-telegram-bota-tashkent/",
+      "hubIntent": "commercial — commission custom Telegram bot development; enquiries and booking requests with human confirmation",
+      "hubKeywords": ["разработка телеграм ботов ташкент", "разработка Telegram-бота в Ташкенте"],
+      "spokes": [
+        {"url": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/", "ownsIntent": "compare developers using disclosed criteria; GPTBot.uz is an interested provider, not an independent ranking", "primaryKeyword": "разработчики чат-ботов Ташкент"},
+        {"url": "/ru/stoimost-chat-bota/", "ownsIntent": "published starting prices, scope and separate running costs", "primaryKeyword": "стоимость чат-бота"},
+        {"url": "/ru/kalkulyator-stoimosti-telegram-bota/", "ownsIntent": "estimate a specific project configuration; not another static price landing", "primaryKeyword": "калькулятор стоимости Telegram-бота"},
+        {"url": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "ownsIntent": "scope a bot-to-CRM integration and its acceptance; not a claim of a ready connector", "primaryKeyword": "AI-бот с CRM"}
+      ],
+      "evidence": "reports/commercial-seo-20261009/cluster-plan.md and RAW/overlap.json",
+      "note": "2026-10-09 Uzbekistan mobile SERP: comparison organic #3 on one custom-development phrase, not a stable cluster rank. Keep comparison and ordering intents distinct; no redirect or forced reassignment based on one snapshot. Existing /ru/telegram-bot-dlya-biznesa/ remains the product/capability page (pair C8); Mini App keeps its own cluster. Links and an illustrative demo support the buyer journey without new generic pages."
+    },
+    {
+      "id": "telegram-leads-uz",
+      "hub": "/uz/telegram-bot-biznes-uchun/",
+      "hubIntent": "commercial — order a Telegram bot for a business, not a programming tutorial",
+      "hubKeywords": ["telegram bot yaratish xizmati", "telegram bot buyurtma qilish"],
+      "spokes": [
+        {"url": "/uz/chat-bot-narxi/", "ownsIntent": "Telegram/chat bot price, package boundaries and running costs; keep the existing price owner", "primaryKeyword": "telegram bot yaratish narxi"},
+        {"url": "/uz/arizalarni-qabul-qiluvchi-bot/", "ownsIntent": "a specific enquiry intake and manager handoff scenario; a booking request is not a reserved slot", "primaryKeyword": "arizalarni qabul qiluvchi bot"},
+        {"url": "/uz/amocrm-bitrix24-bilan-ai-bot/", "ownsIntent": "bot-to-CRM integration requirements and acceptance", "primaryKeyword": "CRM bilan AI bot"}
+      ],
+      "evidence": "reports/commercial-seo-20261009/cluster-plan.md and RAW/overlap.json",
+      "note": "Price and service queries share only 2 unique top-ten organic URLs in the observed SERP, so retain distinct existing pages. /uz/biznes-uchun-ai-bot/ owns broader AI-bot selection (C19); /uz/chat-bot-biznes-uchun/ describes business chatbot capabilities across channels; /uz/arizalarni-avtomatlashtirish/ owns the handling process. Similar topics do not prove cannibalization. No new price URL, mass redirect, hreflang reassignment or keyword-volume summation."
+    }
+  ],
+  "commercialClusterPolicy": "commercialClusters records existing service, comparison, pricing and calculator owners. These are not new informational blog spokes: preserve their own page types, published prices and explicit cross-language navigation. clusters below keeps its existing informational-article quality contract.",
   "clusters": [
     {
       "id": "webdev-uz",

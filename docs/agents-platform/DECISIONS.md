@@ -1,5 +1,9 @@
 # DECISIONS — журнал принятых архитектурных решений
 
+## D-COMMERCIAL-20261009 — existing pages, local demo and truthful lead acknowledgements
+
+Keep the six core Telegram lead pages and supporting CRM/Mini App/site pages at their existing URLs. Commercial cluster ownership is modelled separately from informational blog coverage. A local teaching demo sends no network request and no conversion. Lead conversion is gated by a server acknowledgement and bounded opaque-key dedupe; contacts and task text never enter analytics. A changed task on an earlier contact is not silently claimed as saved: preserve the form and explain the direct-contact path. Reuse the existing outbox and maintenance route, draining at most one pending lead with a four-second transport budget and its existing lease; no new scheduler or schema. Delivery remains at least once and is distinct from qualification or revenue.
+
 ## D-SEO-ADS-20260928 — factual advertising content and opt-in conversion layout
 
 Preserve existing URLs, titles, H1, canonical, publication dates and the ten protected SEO contracts. Refresh 15 advertising documents in place. Own tariffs are not market benchmarks; illustrative calculations are not client results. SMM scope must agree between landing, article and FAQ. Direct Telegram Ads rules must not be confused with reseller conditions or post placements.

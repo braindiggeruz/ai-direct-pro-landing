@@ -20,7 +20,7 @@
 //     unset the send is skipped, logged once per isolate, and the lead is
 //     still stored and still answered `ok` — a notification that cannot be
 //     delivered must never cost the studio the enquiry itself.
-import { TelegramClient, escapeHtml, type InlineKeyboard } from '../../channels/telegram/api';
+import { TelegramClient, escapeHtml, type InlineKeyboard, type TelegramSendOptions } from '../../channels/telegram/api';
 import { LEAD_BUDGET_LABELS } from '../../../src/shared/lead-budget';
 import type { BridgeEnv } from './bridge-env';
 
@@ -223,6 +223,9 @@ export interface NotifyResult {
   source: OwnerNotifyConfig['source'];
 }
 
+/** Opt-in bounds for a durable retry caller; ordinary delivery keeps its defaults. */
+export type OwnerNotifyDeliveryOptions = Pick<TelegramSendOptions, 'timeoutMs' | 'maxRetries' | 'budgetMs'>;
+
 // One warning per isolate, not one per lead: a permanently unset secret must
 // not turn every enquiry into a log line.
 let warnedUnconfigured = false;
@@ -236,7 +239,7 @@ export function _resetNotifyWarning(): void {
  * Deliver one owner alert. Never throws: the caller is a lead endpoint that
  * has already stored the row and must answer `ok` regardless.
  */
-export async function sendOwnerAlert(env: BridgeEnv, rendered: RenderedAlert): Promise<NotifyResult> {
+export async function sendOwnerAlert(env: BridgeEnv, rendered: RenderedAlert, options: OwnerNotifyDeliveryOptions = {}): Promise<NotifyResult> {
   const cfg = resolveOwnerNotify(env);
   if (!cfg.configured) {
     if (!warnedUnconfigured) {
@@ -256,6 +259,9 @@ export async function sendOwnerAlert(env: BridgeEnv, rendered: RenderedAlert): P
     const res = await client.sendMessage(chatId, rendered.text, {
       parseMode: 'HTML',
       ...(rendered.keyboard ? { keyboard: rendered.keyboard } : {}),
+      timeoutMs: options.timeoutMs,
+      maxRetries: options.maxRetries,
+      budgetMs: options.budgetMs,
     });
     if (res.ok) return { status: 'sent', source: cfg.source };
     return { status: 'failed', errorCode: res.error_code, source: cfg.source };

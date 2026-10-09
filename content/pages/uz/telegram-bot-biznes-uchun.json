@@ -16,105 +16,83 @@
   "searchIntent": "commercial",
   "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
   "title": "Telegram bot yaratish Toshkentda — 990 000 so‘mdan | GPTBot.uz",
-  "description": "Toshkentda biznes uchun Telegram bot yaratish: arizalar, yozilish, katalog, Payme/Click to‘lovi, CRM va 24/7 AI-javoblar. Tariflar 990 000 so‘mdan, 3 kundan.",
+  "description": "Biznes uchun Telegram bot: ariza va yozilish so‘rovlarini yig‘ish, menejerga uzatish. 990 000 so‘mdan. Demo, ish tarkibi va alohida integratsiyalar.",
   "canonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
   "hreflangRu": "/ru/telegram-bot-dlya-biznesa/",
   "hreflangUz": "/uz/telegram-bot-biznes-uchun/",
   "ogTitle": "Telegram bot yaratish Toshkentda — 990 000 so‘mdan | GPTBot.uz",
-  "ogDescription": "Toshkentda biznes uchun Telegram bot yaratish: arizalar, yozilish, katalog, Payme/Click to‘lovi, CRM va 24/7 AI-javoblar. Tariflar 990 000 so‘mdan, 3 kundan.",
+  "ogDescription": "Biznes uchun Telegram bot: ariza va yozilish so‘rovlarini yig‘ish, menejerga uzatish. 990 000 so‘mdan. Demo, ish tarkibi va alohida integratsiyalar.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram bot biznes uchun",
   "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
-  "heroSubtitle": "Buyurtmalarni qabul qiladi, 24/7 javob beradi, xabarlar yuboradi va lidlarni CRM’ga uzatadi.",
+  "heroSubtitle": "Mijoz xizmatni tanlaydi, kontakt va yozilish so‘rovini qoldiradi. Bot arizani menejerga uzatish uchun yig‘adi; uchrashuv vaqtini menejer tasdiqlaydi. Tarkib va narx ish boshlanishidan oldin kelishiladi.",
   "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
   "ctaPrimaryHref": "#lead-form",
-  "ctaSecondaryLabel": "Bu qanday ishlaydi",
-  "ctaSecondaryHref": "#how",
+  "ctaSecondaryLabel": "Ariza namunasini ko‘rish",
+  "ctaSecondaryHref": "#lead-demo",
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Telegram bot biznes uchun — bu Telegram ichida savollarga javob beradigan, kontakt yig‘adigan va arizani menejerga uzatadigan tizim."
+      "text": "Biznes uchun Telegram bot xizmat tanlash, kontakt yig‘ish va arizani mas’ul menejerga uzatish jarayonini tartibga soladi. Birinchi versiyada bitta aniq vazifadan boshlash mumkin: maslahat, buyurtma yoki yozilish uchun so‘rov."
     },
     {
       "type": "h2",
-      "text": "Biznesga Telegram bot nega kerak"
+      "text": "Telegram bot orqali ariza qanday yig‘iladi",
+      "id": "how"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz xizmat yoki murojaat turini tanlaydi.",
+        "Ism, kontakt, izoh va kerak bo‘lsa qulay vaqtni qoldiradi.",
+        "Yuborishdan oldin ma’lumotni tekshiradi va qayta ishlash shartlariga rozilik beradi.",
+        "Server arizani qabul qilgach, mijozga qabul holati ko‘rsatiladi.",
+        "Kelishilgan kanal orqali menejerga xabar yuboriladi; menejer tafsilot va vaqtni tasdiqlaydi."
+      ]
     },
     {
       "type": "p",
-      "text": "O‘zbekistonda Telegram — savdo va mijozlar bilan muloqotning asosiy kanallaridan biri. Telegram bot messenjerni to‘laqonli vositaga aylantiradi: buyurtma va ariza qabuli, 24/7 javoblar, baza bo‘yicha tarqatma va to‘lovni qabul qilish — barchasi mijozlaringiz allaqachon bo‘lgan bitta ilova ichida."
+      "text": "Ariza qabul qilingani — uchrashuv bron qilingani emas. Bo‘sh vaqtni avtomatik band qilish uchun amaldagi jadval, bandlikni tekshirish va takroriy so‘rovdan himoya alohida ulanadi. Bunday integratsiyasiz yozilishni menejer tasdiqlaydi."
     },
     {
-      "type": "p",
-      "text": "Bu sahifa aynan Telegram xususiyatlari haqida. «Aqlli» dvigatel muhim bo‘lsa — GPT bot biznes uchun; kanallar bo‘yicha umumiy manzara — biznes uchun AI bot; Instagram haqida — Instagram bot."
+      "type": "linkp",
+      "text": "{demo}: bu interaktiv o‘quv namunasi, mijozning ishlayotgan botiga ulanmagan. Yuborish va menejer uchun ariza ko‘rinishini sinab ko‘rish mumkin. Alohida jarayon tavsifi — {intake}.",
+      "links": [
+        {
+          "token": "demo",
+          "target": "#lead-demo",
+          "anchor": "Ariza namunasini ko‘ring"
+        },
+        {
+          "token": "intake",
+          "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+          "anchor": "arizalarni qabul qiluvchi bot"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Birinchi versiyada nimani kelishamiz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta Telegram kanali, tugmalar va savollar ketma-ketligi.",
+        "Xizmat, ism, kontakt, vaqt va izoh kabi zarur maydonlar.",
+        "Tasdiqlangan FAQ javoblari, tillar va menejerga murojaat yo‘li.",
+        "Menejer xabari, arizani saqlash muddati va kim ko‘ra olishi.",
+        "Yuborish xatosi, takroriy bosish va tiklash tartibi."
+      ]
     },
     {
       "type": "h2",
       "text": "Telegram bot nimani uddalaydi"
     },
     {
-      "type": "list",
-      "items": [
-        "Buyurtma va arizalarni 24/7 qabul qiladi",
-        "Mijozlar savollariga darhol javob beradi",
-        "Baza bo‘yicha ommaviy va segmentli tarqatma qiladi",
-        "To‘lovni to‘g‘ridan-to‘g‘ri Telegram’da qabul qiladi",
-        "Katalogli bot-vitrina sifatida ishlaydi",
-        "Ariza va buyurtmalarni CRM’ga uzatadi"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Telegram’da tarqatma"
-    },
-    {
       "type": "p",
-      "text": "Bot obunachilar bazasini saqlaydi va ularga aksiya, yangilik va eslatmalarni — ommaviy yoki segment bo‘yicha — yuborish imkonini beradi. Bu reklama xarajatlarisiz mijozlarni qaytaradi va takroriy savdoni oshiradi. Tarqatma botga o‘zi yozganlar bo‘yicha qilinadi, bu akkaunt obro‘sini asraydi."
-    },
-    {
-      "type": "h2",
-      "text": "Telegram bot orqali O‘zbekistonda buyurtma qabul qilish"
-    },
-    {
-      "type": "p",
-      "text": "Telegram bot buyurtma jarayonini O‘zbekiston biznesi uchun bitta oqimga yig‘adi: mijoz katalog yoki xizmatni tanlaydi, kontakt va yetkazib berish ma’lumotini tasdiqlaydi, kerak bo‘lsa to‘lovga o‘tadi. Bot buyurtmani raqam bilan qayd etib, menejer yoki CRM’ga uzatadi; internet-do‘kon, yetkazib berish va xizmatlar uchun mos."
-    },
-    {
-      "type": "h2",
-      "text": "Telegram botsiz nega arizalar yo‘qoladi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Ish vaqtidan tashqari xabarlar javobsiz qoladi",
-        "Menejer cho‘qqida javob berishga ulgurmaydi",
-        "Tarqatma uchun baza yo‘q — takroriy savdo yo‘qoladi",
-        "Buyurtmalar qo‘lda qayd etiladi va yozishmada yo‘qoladi",
-        "Mijoz tezroq javob berib to‘lovni qabul qilgan joyga ketadi"
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "Telegram bot qanday ishlaydi"
-    },
-    {
-      "type": "p",
-      "text": "Mijoz Telegram’da botingizni ochadi → bot javob beradi, katalogni ko‘rsatadi yoki arizani qabul qiladi → ism, telefon va buyurtma tafsilotlarini yig‘adi → kerak bo‘lsa to‘lovni qabul qiladi → buyurtmani menejer yoki CRM’ga uzatadi. Bir vaqtda bot kelajakdagi tarqatmalar uchun baza yig‘adi."
-    },
-    {
-      "type": "h2",
-      "text": "Biznes nima oladi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Bitta kanalda 24/7 buyurtma va to‘lov qabuli",
-        "Tarqatma hisobiga takroriy savdoning o‘sishi",
-        "Menejerlarning qo‘l mehnati kamayadi",
-        "Buyurtma va arizalar avtomatik CRM’ga tushadi",
-        "Yagona kanal: savdo, qo‘llab-quvvatlov va to‘lov"
-      ]
+      "text": "Kelishilgan ssenariy bo‘yicha bot savollarga javob berishi, katalogni ko‘rsatishi va buyurtma yig‘ishi mumkin. AI erkin savollarga javob berish uchun alohida bilim bazasi talab qiladi. CRM, katalog, ikkinchi kanal, to‘lov va Mini App boshlang‘ich ariza ssenariysiga avtomatik kirmaydi."
     },
     {
       "type": "h2",
@@ -122,10 +100,10 @@
     },
     {
       "type": "p",
-      "text": "Narx funksiyalar to‘plamiga bog‘liq: arizalar uchun oddiy bot katalog, to‘lov va tarqatmali bot-do‘kondan arzonroq. CRM bilan integratsiya alohida hisoblanadi. Ariza qoldiring — funksiya va smetani biznesingizga qarab muhokama qilamiz."
+      "text": "E’lon qilingan boshlang‘ich tarif — 990 000 so‘mdan: tugmali ssenariy, ariza qabuli, FAQ va menejerga Telegram orqali uzatish. Quyidagi raqamlar mavjud tarif yo‘nalishlari; yakuniy tarkib, muddat va xarajatlar smetada tasdiqlanadi."
     },
     {
-      "type": "h3",
+      "type": "h2",
       "text": "Telegram bot tariflari"
     },
     {
@@ -165,78 +143,99 @@
     },
     {
       "type": "p",
-      "text": "«Dan» narxi faqat qatorda ko‘rsatilgan tarkibga tegishli. Ikkinchi kanal, CRM, to‘lov, ma’lumotlarni ko‘chirish, tashqi platformalar va AI-model tariflari smetada alohida qatorlar bilan hisoblanadi; muddat ruxsatlar va materiallar olingandan keyin boshlanadi. Smeta ishga tushirishdan oldin qayd etiladi; qoplanish bitta narx bilan kafolatlanmaydi — avval baseline va metrikalar belgilanadi."
+      "text": "Jadvaldagi muddatlar kelishilgan tarkib, tayyor materiallar va kerakli kirish huquqlari uchun boshlang‘ich reja. Tashqi servis tasdig‘i va qo‘shimcha integratsiya muddati alohida kelishiladi. AI-model, hosting, CRM litsenziyasi, to‘lov provayderi va davomiy qo‘llab-quvvatlash xarajatlari smetada alohida ko‘rsatiladi."
     },
     {
       "type": "linkp",
-      "text": "Shuningdek {t} ko‘ring — unda smeta nimadan tashkil topishi va ishga tushirishdan oldin nimani qayd etishimiz tushuntirilgan.",
+      "text": "To‘liq {price} paketlar chegarasi va muntazam xarajatlarni tushuntiradi. Telegram bot yaratish narxi faqat funksiyalar soniga emas, ma’lumot manbai, integratsiya va qabul mezonlariga ham bog‘liq.",
       "links": [
         {
-          "token": "t",
+          "token": "price",
           "target": "/uz/chat-bot-narxi/",
-          "anchor": "chat-bot tariflari jadvalini"
+          "anchor": "chat-bot narxi sahifasi"
         }
       ]
-    },
-    {
-      "type": "linkp",
-      "text": "Telegram bot alohida o‘yinchoq bo‘lib qolmay, platformaning bir qismiga aylanganda nima bo‘lishi {c} da ko‘rsatilgan (rus tilida).",
-      "links": [
-        {
-          "token": "c",
-          "target": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
-          "anchor": "Cake City loyihasi"
-        }
-      ]
-    },
-    {
-      "type": "cta",
-      "text": "Telegram bot so‘rash",
-      "href": "#lead-form"
     },
     {
       "type": "h2",
-      "text": "Asosiy xulosalar"
+      "text": "CRM, to‘lov yoki Mini App qachon kerak"
+    },
+    {
+      "type": "linkp",
+      "text": "Arizani mavjud voronkaga uzatish kerak bo‘lsa, {crm} uchun API, maydonlar va xatodan keyingi tiklashni tekshiramiz. Katalog, filtrlar yoki shaxsiy kabinet zarur bo‘lsa, {mini} alohida loyiha sifatida baholanadi; sahifa rus tilida.",
+      "links": [
+        {
+          "token": "crm",
+          "target": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+          "anchor": "AmoCRM yoki Bitrix24 integratsiyasi"
+        },
+        {
+          "token": "mini",
+          "target": "/ru/razrabotka-telegram-mini-app-tashkent/",
+          "anchor": "Telegram Mini App"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Payme yoki Click ulashdan oldin provayder shartlari, hisob, ruxsat va sinov muhiti tekshiriladi. To‘lov holati, qaytarish va kerakli fiskal jarayon alohida qabul qilinadi. Ariza botini to‘lov integratsiyasini kutmasdan loyihalash mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Telegram’da tarqatma"
+    },
+    {
+      "type": "p",
+      "text": "Xabarlar faqat tegishli rozilik va kanal qoidalari asosida rejalashtiriladi. Obunadan chiqish, chastota va xarajatlar kelishiladi. Tarqatma qo‘shimcha modul bo‘lib, takroriy sotuv o‘sishini kafolatlamaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Ishni qanday qabul qilamiz"
     },
     {
       "type": "list",
       "items": [
-        "Telegram bot biznes uchun — Telegram ichida ariza qabul qiluvchi tizim.",
-        "Savollarga javob berib, kontaktni yig‘adi va menejerga uzatadi.",
-        "24/7 ishlaydi, tunda va dam olish kunlari yo‘qotmaydi.",
-        "Oddiy bot, AI-bot yoki gibrid qilish mumkin.",
-        "Rus va o‘zbek tilida ishlaydi."
+        "Oddiy ariza kelishilgan maydonlar bilan saqlanadi va mas’ul menejer uni ko‘radi.",
+        "Takroriy yuborish qoidasi tekshiriladi; bitta bosish qayta yuborilganda yangi ariza qanday ajratilishi kelishiladi.",
+        "Tarmoq yoki tashqi servis xatosida yolg‘on muvaffaqiyat ko‘rsatilmaydi.",
+        "Yozilish so‘rovi va menejer tasdig‘i alohida holatlar sifatida ko‘rinadi.",
+        "Ko‘rsatma, kirish huquqlari va qo‘llab-quvvatlash shartlari topshiriladi."
       ]
+    },
+    {
+      "type": "cta",
+      "text": "Telegram bot uchun smeta olish",
+      "href": "#lead-form"
     }
   ],
   "faq": [
     {
-      "q": "Telegram bot biznes uchun AI botdan nimasi bilan farq qiladi?",
-      "a": "AI bot — istalgan kanallar uchun umumiy yechim. Telegram bot — aynan Telegram xususiyati: tarqatma, chatda to‘lov qabuli, katalogli bot-vitrina. Ichida o‘sha GPT-dvigatel ishlashi mumkin."
+      "q": "Telegram bot buyurtma qilish uchun nima kerak?",
+      "a": "Xizmatlar ro‘yxati, ariza maydonlari, tillar, mas’ul menejer va kerakli integratsiyalarni yozing. Shundan keyin tarkib, narx va muddatni kelishamiz."
     },
     {
-      "q": "Telegram bot orqali tarqatma qilish mumkinmi?",
-      "a": "Ha. Bot obuna bo‘lgan foydalanuvchilar bazasini yig‘adi va ularga aksiya hamda yangiliklarni — ommaviy yoki segment bo‘yicha — yuborishga imkon beradi. Tarqatma botga o‘zi yozganlar bo‘yicha boradi."
+      "q": "Telegram bot yaratish narxi qancha?",
+      "a": "E’lon qilingan Telegram Start tarifi 990 000 so‘mdan: tugmali ssenariy, ariza, FAQ va menejerga uzatish. AI, CRM, to‘lov, katalog va Mini App uchun tarkib hamda tashqi xarajatlar alohida baholanadi."
+    },
+    {
+      "q": "Bot mijozni avtomatik yozib qo‘yadimi?",
+      "a": "Asosiy ssenariy qulay vaqt bo‘yicha yozilish so‘rovini yig‘adi; vaqtni menejer tasdiqlaydi. Avtomatik bron uchun amaldagi jadval bilan integratsiya va alohida sinov kerak."
     },
     {
       "q": "Bot to‘lovni qabul qila oladimi?",
-      "a": "Ha, Telegram chat ichida to‘lovni qo‘llab-quvvatlaydi. Mijoz buyurtmani rasmiylashtirib, messenjerdan chiqmasdan to‘lovni amalga oshiradi, bot esa buyurtmani qayd etadi."
-    },
-    {
-      "q": "Bu katalogli bot-do‘konmi?",
-      "a": "Shunday ham bo‘lishi mumkin: bot mahsulot katalogini ko‘rsatadi, buyurtma va to‘lovni qabul qiladi. Internet-do‘kon, yetkazib berish va xizmatlar uchun mos."
+      "a": "To‘lov alohida integratsiya. Provayder ruxsati, biznes shartlari, status, qaytarish va zarur fiskal jarayon tekshirilgandan keyin ulash imkoniyati va narxi kelishiladi."
     },
     {
       "q": "CRM ulash mumkinmi?",
-      "a": "Ha. Telegram’dagi buyurtma va arizalar AmoCRM, Bitrix24 yoki boshqa tizimga uzatiladi, hech narsa yo‘qolmaydi."
+      "a": "AmoCRM yoki Bitrix24 bilan ishlashdan oldin API ruxsati, maydonlar va voronka tekshiriladi. Sinovda yozuv yaratilishi, takroriy so‘rov, xato va tiklash ko‘rsatiladi; integratsiya alohida smetaga kiradi."
+    },
+    {
+      "q": "Bu sahifadagi demo haqiqiy mijoz botimi?",
+      "a": "Yo‘q. Bu ariza oqimini ko‘rsatadigan interaktiv o‘quv namunasi. U real mijoz botiga, CRM yoki to‘lov tizimiga ulanmagan."
     },
     {
       "q": "Mijozlar Instagram’ga yozsa-chi?",
-      "a": "U holda Instagram Direct bot yoki ko‘p kanalli yechim kerak. Telegram bot aynan Telegram’ni yopadi, lekin kanallarni birlashtirsa bo‘ladi."
-    },
-    {
-      "q": "Bot erkin savollarni tushunadimi?",
-      "a": "Savollar ko‘p bo‘lsa, biz GPT-dvigatel qo‘yamiz va bot tabiiy tilni tushunadi. Batafsil — GPT bot biznes uchun sahifasida."
+      "a": "Instagram Direct alohida kanal va uning ruxsatlari hamda qoidalari bilan baholanadi. Telegram uchun boshlang‘ich narx ko‘p kanalli tizimning narxi emas."
     }
   ],
   "internalLinks": [
@@ -300,6 +299,18 @@
       "locale": "uz",
       "type": "contextual",
       "reason": "Published case study — evidence next to the commercial decision."
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "anchor": "Telegram Mini App (rus tilida)",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -309,13 +320,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-10-09",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-10-09",
   "heroTrust": [
     "990 000 so‘mdan",
-    "3 kundan",
-    "Payme / Click",
-    "AmoCRM / Bitrix24"
+    "Tarkib oldindan kelishiladi",
+    "Rus va o‘zbek tillari",
+    "Yozilishni menejer tasdiqlaydi"
   ]
 }

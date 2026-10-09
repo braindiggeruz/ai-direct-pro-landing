@@ -76,7 +76,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   if (!perHour.allowed || !perDay.allowed) {
     return fail(
       'rate_limited',
-      'Мы уже получили вашу заявку и ответим в рабочее время.',
+      'Слишком много попыток. Эта заявка не сохранена. Попробуйте позже или свяжитесь с нами напрямую.',
       429,
       { retryAfterSeconds: perHour.allowed ? perDay.retryAfterSeconds : perHour.retryAfterSeconds },
     );
@@ -142,7 +142,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
         genId('evt'),
         sessionId,
         'GPTChatLeadSubmitted',
-        JSON.stringify({ intent: lead.intent, locale, shareConversation: lead.shareConversation, source: lead.source }),
+        JSON.stringify({ service: lead.service, locale, shareConversation: lead.shareConversation, source: lead.source }),
         nowIso,
       ),
       db.prepare(

@@ -307,11 +307,12 @@ test('the rendered form is labelled, 44 px, and links the privacy policy of its 
     assert.equal((html.match(/<form\b/g) ?? []).length, 1);
     assert.equal((html.match(/<input\b/g) ?? []).length, 3, 'name, contact, consent');
     assert.equal((html.match(/<select\b/g) ?? []).length, 1, 'the budget');
-    assert.equal((html.match(/<label\b/g) ?? []).length, 4, 'every field sits in a label');
+    assert.equal((html.match(/<label\b/g) ?? []).length, 5, 'every field sits in a label');
+    assert.match(html, /<textarea name="task" rows="3" maxlength="420"/);
     assert.match(html, /name="contact"[^>]*required/);
     assert.match(html, /name="consent" type="checkbox" required/);
     assert.match(html, /role="status" aria-live="polite"/);
-    assert.equal((html.match(/min-h-\[44px\]/g) ?? []).length, 5, 'three fields, the consent row and the button');
+    assert.equal((html.match(/min-h-\[44px\]/g) ?? []).length, 6, 'four fields, the consent row and the button');
     // The budget: optional (an empty first option, no required), the closed list in the page's language.
     const select = html.match(/<select name="budget"[^>]*>([\s\S]*?)<\/select>/);
     assert.ok(select, url);
@@ -326,7 +327,7 @@ test('the rendered form is labelled, 44 px, and links the privacy policy of its 
     assert.ok(html.includes(`data-fallback-text="${CALL[locale]}"`), url);
     assert.ok(!/contactType/.test(html + LEAD_FORM_SCRIPT), 'the form must let the server detect the contact type');
   }
-  assert.equal(renderLeadForm(PAGES.get('/uz/sayt-yaratish/')!), '', 'a page outside the allowlist renders no form');
+  assert.equal(renderLeadForm(PAGES.get('/ru/otzyvy/')!), '', 'a page outside the allowlist renders no form');
   assert.equal(renderLeadForm(PAGES.get('/ru/kalkulyator-stoimosti-telegram-bota/')!), '');
 });
 
@@ -411,12 +412,13 @@ function formHarness(options: {
   const name = element({ value: '' });
   const consent = element({ checked: false });
   const budget = element({ value: '' });
+  const task = element({ value: '' });
   const button = element({ disabled: true }); // as rendered: the script enables it
   const status = statusElement();
   const listeners: Record<string, (event: unknown) => void> = {};
   const section = { querySelector: (s: string) => (s === '[data-lead-form-status]' ? status : null) };
   const controls: Record<string, FakeElement> = {
-    'button[type=submit]': button, '[name=contact]': contact, '[name=name]': name, '[name=consent]': consent, '[name=budget]': budget,
+    'button[type=submit]': button, '[name=contact]': contact, '[name=name]': name, '[name=consent]': consent, '[name=budget]': budget, '[name=task]': task,
   };
   const form = {
     hidden: false,
@@ -452,7 +454,7 @@ function formHarness(options: {
     listeners.submit({ preventDefault() {} });
     for (let i = 0; i < 5; i += 1) await new Promise((resolve) => setTimeout(resolve, 0));
   };
-  return { contact, name, consent, budget, button, status, form, requests, ymCalls, window, submit };
+  return { contact, name, consent, budget, task, button, status, form, requests, ymCalls, window, submit };
 }
 
 const FIRST_TOUCH = {
@@ -463,6 +465,106 @@ const FIRST_TOUCH = {
   utm_source: 'google',
   utm_medium: 'cpc',
 };
+
+test('the six conversion gaps now have real forms without changing protected exclusions', () => {
+  for (const url of ['/uz/arizalarni-qabul-qiluvchi-bot/', '/uz/arizalarni-avtomatlashtirish/', '/ru/ai-bot-s-crm-amocrm-bitrix24/', '/uz/amocrm-bitrix24-bilan-ai-bot/', '/ru/razrabotka-saytov-tashkent/', '/uz/sayt-yaratish/']) {
+    assert.ok(leadFormServiceFor(PAGES.get(url)!), url);
+    assert.match(renderLeadForm(PAGES.get(url)!), /<form data-lead-form method="post"/);
+  }
+});
+
+test('page-form contact duplicates stay successful without counting a second conversion', async () => {
+  const h = formHarness({ response: { ok: true, id: 'lead_duplicate', duplicate: true } });
+  h.contact.value = '901234567'; h.consent.checked = true;
+  await h.submit();
+  assert.equal(h.form.hidden, true);
+  assert.match(String(h.status.textContent), /Заявка получена/);
+  assert.deepEqual(h.window.dataLayer, []);
+  assert.deepEqual(h.ymCalls, []);
+});
+
+test('page-form idempotent acknowledgement recovers a lost response once, across reloads', async () => {
+  const storage = memoryStorage();
+  const response = { ok: true, id: 'lead_retry', duplicate: true, idempotent: true };
+  for (let load = 0; load < 2; load++) {
+    const h = formHarness({ response, storage });
+    h.contact.value = '901234567'; h.consent.checked = true;
+    await h.submit();
+    assert.equal(h.form.hidden, true);
+    assert.equal(h.window.dataLayer.length, load === 0 ? 1 : 0);
+    assert.equal(h.ymCalls.length, load === 0 ? 1 : 0);
+    assert.doesNotMatch(JSON.stringify(h.window.dataLayer), /lead_retry|901234567/);
+  }
+});
+
+test('optional task goes only in the lead, never in browser analytics', async () => {
+  const h = formHarness();
+  h.contact.value = '901234567'; h.consent.checked = true;
+  h.task.value = 'Private project: call Ali +998901234567 before Friday';
+  await h.submit();
+  const body = JSON.parse(h.requests[0].init.body) as LeadInput;
+  assert.match(String(body.intent), /Private project/);
+  assert.ok(String(body.intent).length <= 500);
+  assert.doesNotMatch(JSON.stringify([...h.window.dataLayer, ...h.ymCalls]), /Private project|Ali|901234567/);
+});
+
+for (const locale of ['ru', 'uz'] as const) {
+  test(`${locale}: a stored lead with a lost response never acknowledges edited task details`, async () => {
+    const h = formHarness({ locale });
+    const db = new SqliteD1();
+    let attempt = 0, uuid = 0;
+    h.window.crypto.randomUUID = () => `123e4567-e89b-12d3-a456-${String(++uuid).padStart(12, '0')}`;
+    h.window.fetch = async (url, init) => {
+      h.requests.push({ url, init });
+      const pending: Promise<unknown>[] = [];
+      const response = await leadPost({
+        request: new Request(`https://gptbot.uz${url}`, { ...init, headers: { ...init.headers, 'CF-Connecting-IP': '203.0.113.12' } }),
+        env: { GPTBOT_DRAFTS_DB: db.asD1(), GPT_HASH_SALT: 'fixture-salt' },
+        waitUntil: (promise: Promise<unknown>) => pending.push(promise),
+      } as never);
+      await Promise.all(pending);
+      if (++attempt === 1) throw new Error('response lost after durable write');
+      return response;
+    };
+    h.contact.value = '901234567'; h.consent.checked = true;
+    h.task.value = 'Original private task';
+    await h.submit();
+    assert.equal(h.form.hidden, false);
+    assert.match(String(db.value('SELECT intent FROM gpt_leads')), /Original private task/);
+    h.task.value = 'Edited private task';
+    await h.submit();
+    const sent = h.requests.map((request) => JSON.parse(request.init.body) as { requestId: string; intent: string });
+    assert.equal(sent.length, 2);
+    assert.notEqual(sent[0].requestId, sent[1].requestId, 'editing a task starts a different request');
+    assert.match(sent[1].intent, /Edited private task/);
+    assert.equal(db.value('SELECT COUNT(*) FROM gpt_leads'), 1, 'contact dedupe still holds');
+    assert.match(String(db.value('SELECT intent FROM gpt_leads')), /Original private task/);
+    assert.equal(h.form.hidden, false, 'the new unsent details must stay available');
+    assert.equal(h.task.value, 'Edited private task');
+    assert.equal(h.button.disabled, false);
+    assert.match(String(h.status.textContent), locale === 'ru' ? /Новые детали не отправлены/ : /Yangi tafsilotlar yuborilmadi/);
+    const fallback = h.status.children.find((node) => (node as { href?: string }).href) as { href: string };
+    assert.equal(fallback.href, `tel:${STUDIO_PHONE}`);
+    assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 0);
+    assert.deepEqual(h.ymCalls, []);
+    assert.doesNotMatch(JSON.stringify(h.window.dataLayer), /private task|901234567/);
+  });
+}
+
+test('an unchanged task after a lost response reuses the request and acknowledges it once', async () => {
+  const options = { rejectFetch: true, response: { ok: true, id: 'lead_task_retry', duplicate: true, idempotent: true } };
+  const h = formHarness(options);
+  h.contact.value = '901234567'; h.consent.checked = true; h.task.value = 'Same task';
+  await h.submit();
+  options.rejectFetch = false;
+  await h.submit();
+  const ids = h.requests.map((request) => JSON.parse(request.init.body).requestId);
+  assert.equal(ids[0], ids[1]);
+  assert.equal(h.form.hidden, true);
+  assert.match(String(h.status.textContent), /Заявка получена/);
+  assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 1);
+  assert.equal(h.ymCalls.length, 1);
+});
 
 test('the page form posts the shared lead contract and the server accepts it as page_form', async () => {
   const h = formHarness({ storage: memoryStorage({ [FIRST_TOUCH_STORAGE_KEY]: JSON.stringify(FIRST_TOUCH) }) });
@@ -602,12 +704,13 @@ test('GA4 never receives generate_lead on a failed request or HTTP 200 without l
   }
 });
 
-test('a rejected lead shows the server message and the studio phone', async () => {
+test('a rate-limited lead never claims acceptance, even from an older server message', async () => {
   const ru = formHarness({ response: { ok: false, code: 'rate_limited', message: 'Мы уже получили вашу заявку и ответим в рабочее время.' } });
   ru.contact.value = '901234567';
   ru.consent.checked = true;
   await ru.submit();
-  assert.match(String(ru.status.textContent), /Мы уже получили вашу заявку/);
+  assert.match(String(ru.status.textContent), /Эта заявка не сохранена/);
+  assert.doesNotMatch(String(ru.status.textContent), /уже получили/);
   const link = ru.status.children.find((c) => (c as FakeElement).attrs !== undefined) as FakeElement & { href?: string; target?: string; textContent?: string };
   assert.ok(link, 'no contact link after an error');
   assert.equal(link.href, `tel:${STUDIO_PHONE}`);

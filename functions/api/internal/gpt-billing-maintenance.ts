@@ -19,6 +19,8 @@
 //                Uzum, too slow for a slice of their own. Alerts wait for
 //                both, so click_fiscal_failed and the uzum_* codes go out this
 //                tick.
+//   leadDelivery one due owner notification, alongside providers/fiscal/uzum;
+//                Telegram gets a 4 s total budget with no immediate retry.
 //   alerts       deliver urgent service alerts to the owner
 //   maintenance  retention sweeps; the payment outbox in live mode
 //   rekey        after GPT_HASH_SALT_SINCE, one batch of legacy hashes per
@@ -53,6 +55,8 @@ import { purgeChatMessages } from "../../lib/gpt-chat/retention-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { maintainUzum } from "../../lib/gpt-chat/uzum-maintenance";
 import { maintainStudio } from "../../lib/studio/maintenance";
+import { drainLeadOutbox } from "../../lib/gpt-chat/lead-outbox";
+import { resolveBridgeLimits, type BridgeEnv } from "../../lib/gpt-chat/bridge-env";
 
 // 19 s together, under the Worker's 20 s timeout: fiscal and uzum run beside
 // providers + watchdog (8 s each), then alerts and the rest follow one by one.
@@ -61,6 +65,7 @@ const STEP_BUDGET_MS = {
   watchdog: 2_000,
   fiscal: 8_000,
   uzum: 8_000,
+  leadDelivery: 8_000,
   alerts: 4_500,
   maintenance: 2_500,
   rekey: 2_000,
@@ -93,6 +98,7 @@ async function withBudget<T>(run: () => Promise<T>, ms: number): Promise<T> {
 export const onRequestPost: PagesFunction<BillingEnv> = async ({
   request,
   env,
+  waitUntil,
 }) => {
   if (!internalAuthorized(request, env.GPT_BILLING_MAINTENANCE_SECRET))
     return fail("forbidden", "Forbidden", 403);
@@ -142,10 +148,26 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     fiscalizeDue(env, { budgetMs: FISCAL_RUN_MS }),
   );
   const uzumRun = step("uzum", () => maintainUzum(env, { budgetMs: FISCAL_RUN_MS }));
+  const leadRun = step("leadDelivery", () => {
+    const bridgeEnv = env as BridgeEnv;
+    const delivery = drainLeadOutbox(
+      bridgeEnv,
+      env.GPTBOT_DRAFTS_DB!,
+      resolveBridgeLimits(bridgeEnv).ownerAlertsPerHour,
+      1,
+      new Date(),
+      { budgetMs: 4_000, timeoutMs: 4_000, maxRetries: 0 },
+    );
+    // Promise.race does not cancel D1 or fetch. Preserve completion after a
+    // step timeout; never clear/reclaim an active outbox lease here.
+    waitUntil(delivery.catch(() => undefined));
+    return delivery;
+  });
   const providers = await step("providers", () => checkBillingProviders(env));
   const watchdog = await step("watchdog", () => runWatchdog(env));
   const fiscal = await fiscalRun;
   const uzum = await uzumRun;
+  const leadDelivery = await leadRun;
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const [maintenance, studio] = await Promise.all([
     step("maintenance", () => maintainBilling(env)),
@@ -162,6 +184,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       watchdog,
       fiscal,
       uzum,
+      leadDelivery,
       alerts,
       ...maintenance,
       studio,

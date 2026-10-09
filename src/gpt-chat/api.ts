@@ -256,12 +256,19 @@ export interface LeadPayload {
   budget?: LeadBudget;
   /** Structured, non-message business context accepted by the existing lead endpoint. */
   utm?: Record<string, string>;
+  service?: string;
+  attribution?: Record<string, string>;
+  locale?: Locale;
 }
 
 export type ChatLeadSource = 'gpt_chat' | 'chat_b2b';
 
 export interface LeadResult {
   ok: boolean;
+  id?: string;
+  duplicate?: boolean;
+  idempotent?: boolean;
+  delivery?: 'pending';
   /** 'network' | 'invalid_lead' | 'store_failed' | 'bad_json' | … */
   code?: string;
 }
@@ -271,8 +278,14 @@ export interface LeadResult {
 // returned: like every other failure in this island the UI shows curated copy.
 export async function sendLead(apiBase: string, payload: LeadPayload): Promise<LeadResult> {
   try {
-    const res = await postJson<{ ok?: unknown; code?: unknown }>(`${apiBase}/api/gpt/lead`, payload);
-    if (res.ok === true) return { ok: true };
+    const res = await postJson<{ ok?: unknown; code?: unknown; id?: unknown; duplicate?: unknown; idempotent?: unknown; delivery?: unknown }>(`${apiBase}/api/gpt/lead`, payload);
+    if (res.ok === true) return {
+      ok: true,
+      ...(typeof res.id === 'string' ? { id: res.id } : {}),
+      ...(res.duplicate === true ? { duplicate: true } : {}),
+      ...(res.idempotent === true ? { idempotent: true } : {}),
+      ...(res.delivery === 'pending' ? { delivery: 'pending' as const } : {}),
+    };
     return { ok: false, code: typeof res.code === 'string' ? res.code : 'rejected' };
   } catch {
     return { ok: false, code: 'network' };

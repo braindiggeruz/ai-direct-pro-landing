@@ -17,6 +17,7 @@ import { PROTECTED_PATHS } from './seo-protection';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS } from '../src/shared/lead-budget';
+import { shouldTrackLead } from '../src/shared/lead-conversion';
 
 /**
  * Explicit allowlist: page URL → service slug sent with the lead
@@ -58,6 +59,8 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/telegram-bot-biznes-uchun/': 'telegram-bot',
   '/uz/chat-bot-biznes-uchun/': 'chat-bot',
   '/uz/chat-bot-narxi/': 'chat-bot',
+  '/uz/arizalarni-qabul-qiluvchi-bot/': 'lead-bot',
+  '/uz/arizalarni-avtomatlashtirish/': 'lead-automation',
   '/uz/ozbekiston-boylab-chat-bot/': 'chat-bot',
   '/uz/samarqandda-chat-bot/': 'chat-bot',
   // The agency page, both locales
@@ -70,6 +73,10 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/biznes-uchun-ai-bot/': 'ai-bot',
   '/ru/gpt-dlya-biznesa/': 'ai-bot',
   '/ru/luchshie-razrabotchiki-chat-botov-tashkent/': 'chat-bot',
+  '/ru/ai-bot-s-crm-amocrm-bitrix24/': 'crm-integration',
+  '/uz/amocrm-bitrix24-bilan-ai-bot/': 'crm-integration',
+  '/ru/razrabotka-saytov-tashkent/': 'website-development',
+  '/uz/sayt-yaratish/': 'website-development',
 };
 
 /** Pages that must never carry the form, whatever the allowlist says. */
@@ -109,8 +116,10 @@ const COPY = {
     name: 'Имя',
     optional: '(необязательно)',
     contact: 'Телефон или Telegram',
+    task: 'Задача и желаемый срок',
+    taskPlaceholder: 'Например: принимать заявки на запись и передавать менеджеру',
     placeholder: '+998 90 123 45 67 или @username',
-    consentBefore: 'Согласен на обработку контакта для ответа на заявку по ',
+    consentBefore: 'Согласен на обработку данных заявки для ответа по ',
     consentLink: 'политике конфиденциальности',
     consentAfter: '.',
     submit: 'Отправить заявку',
@@ -122,8 +131,10 @@ const COPY = {
     name: 'Ism',
     optional: '(ixtiyoriy)',
     contact: 'Telefon yoki Telegram',
+    task: 'Vazifa va kerakli muddat',
+    taskPlaceholder: 'Masalan: yozilish arizalarini qabul qilib, menejerga uzatish',
     placeholder: '+998 90 123 45 67 yoki @username',
-    consentBefore: 'Arizaga javob berish uchun kontaktimni ',
+    consentBefore: 'Arizaga javob berish uchun arizamdagi ma’lumotlarni ',
     consentLink: 'maxfiylik siyosati',
     consentAfter: ' asosida qayta ishlashga roziman.',
     submit: 'Ariza yuborish',
@@ -137,7 +148,9 @@ const CLIENT_COPY = {
     consent: 'Отметьте согласие — без него мы не можем ответить на заявку.',
     sending: 'Отправляем…',
     success: 'Спасибо! Заявка получена. Ответим в рабочее время, Пн–Сб 10:00–19:00.',
+    duplicateDetails: 'Предыдущая заявка уже сохранена. Новые детали не отправлены. Чтобы уточнить задачу, свяжитесь с нами напрямую.',
     turnstile: 'Форма просит дополнительную проверку. Свяжитесь с нами напрямую.',
+    rateLimited: 'Слишком много попыток. Эта заявка не сохранена. Попробуйте позже или свяжитесь с нами напрямую.',
     failed: 'Не удалось отправить заявку. Свяжитесь с нами напрямую.',
   },
   uz: {
@@ -145,8 +158,9 @@ const CLIENT_COPY = {
     consent: 'Roziligingizni belgilang — busiz arizaga javob bera olmaymiz.',
     sending: 'Yuborilmoqda…',
     success: 'Rahmat! Ariza qabul qilindi. Ish vaqtida javob beramiz: Du–Sha 10:00–19:00.',
+    duplicateDetails: 'Avvalgi arizangiz saqlangan. Yangi tafsilotlar yuborilmadi. Vazifani aniqlashtirish uchun biz bilan bevosita bog‘laning.',
     turnstile: 'Bu yerda qo‘shimcha tekshiruv talab qilinmoqda. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
-    rateLimited: 'Arizangiz allaqachon qabul qilingan. Shoshilinch bo‘lsa, biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
+    rateLimited: 'Urinishlar juda ko‘p. Bu ariza saqlanmadi. Keyinroq qayta urinib ko‘ring yoki biz bilan bevosita bog‘laning.',
     failed: 'Arizani yuborib bo‘lmadi. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
   },
 } as const;
@@ -226,6 +240,10 @@ export function renderLeadForm(page: LeadFormPage): string {
           </label>
         </div>
         <label class="grid gap-2 text-sm text-white/80">
+          <span>${escapeText(t.task)} <span class="text-white/45">${escapeText(t.optional)}</span></span>
+          <textarea name="task" rows="3" maxlength="420" placeholder="${escapeAttr(t.taskPlaceholder)}" class="${INPUT_CLASS}"></textarea>
+        </label>
+        <label class="grid gap-2 text-sm text-white/80">
           <span>${escapeText(budget.label)} <span class="text-white/45">${escapeText(budget.optional)}</span></span>
           <select name="budget" class="${INPUT_CLASS}">
             <option value="">${escapeText(budget.empty)}</option>${LEAD_BUDGETS.map((value) => `
@@ -245,8 +263,8 @@ export function renderLeadForm(page: LeadFormPage): string {
     </section>`;
 }
 
-// The client half. Plain ES5 in a String.raw template (regexes stay readable),
-// no dependencies, one form per page. It reads storage and input values —
+// The client half, with the shared acknowledgement guard embedded at build time:
+// no runtime dependencies, one form per page. It reads storage and input values —
 // which is why it is its own block and never part of the analytics snippets.
 // Success is only a literal { ok: true } from the endpoint; only then do
 // generate_lead (Google tag, with a dataLayer fallback) and the Metrika goal
@@ -255,11 +273,12 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
 (function(){
   var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;
   var COPY=${JSON.stringify(CLIENT_COPY)};
+  var shouldTrackLead=${shouldTrackLead.toString()};
   var uz=form.getAttribute('data-locale')==='uz',T=uz?COPY.uz:COPY.ru;
   var service=form.getAttribute('data-service')||'',label=form.getAttribute('data-label')||'';
   var fbHref=form.getAttribute('data-fallback')||'',fbText=form.getAttribute('data-fallback-text')||'';
   var section=form.parentNode,status=section&&section.querySelector('[data-lead-form-status]');
-  var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]'),budgetEl=form.querySelector('[name=budget]');
+  var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]'),budgetEl=form.querySelector('[name=budget]'),taskEl=form.querySelector('[name=task]');
   var UTM=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],CLICK=['gclid','yclid','fbclid'];
   var busy=false,rid='',ridFor='';
   function newId(){
@@ -323,13 +342,22 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     busy=false;
     if(button){button.disabled=false;button.removeAttribute('aria-busy');}
   }
-  function success(){
+  function success(result,task){
+    // Contact dedupe acknowledges the earlier row, not the new task text.
+    // Keep that text available to copy when clarifying via the direct contact.
+    if(result.duplicate===true&&result.idempotent!==true&&task){
+      done();say(T.duplicateDetails,true);
+      try{if(status)status.focus();}catch(e){}
+      return;
+    }
     // hidden alone loses to the form's display:grid utility class.
     busy=false;form.hidden=true;try{form.style.display='none';}catch(e){}
     say(T.success,false);
     try{if(status)status.focus();}catch(e){}
-    track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname});
-    try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}
+    if(shouldTrackLead(result,rid,window)){
+      track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname});
+      try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}
+    }
   }
   // Russian server messages that read well to a visitor. Anything else (a
   // validation detail, an English protocol error) gets the local line instead.
@@ -339,7 +367,8 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     var text;
     if(code==='invalid_lead'){text=T.contact;if(contactEl)contactEl.setAttribute('aria-invalid','true');}
     else if(code==='turnstile_required'||code==='turnstile_failed')text=T.turnstile;
-    else if(uz)text=code==='rate_limited'?T.rateLimited:T.failed;
+    else if(code==='rate_limited')text=T.rateLimited;
+    else if(uz)text=T.failed;
     else text=SERVER_TEXT[code]===1&&message?message:T.failed;
     say(text,code!=='invalid_lead');
     track({event:'lead_form_failed',lead_source:'page_form',service_slug:service,error_code:String(code).slice(0,40)});
@@ -347,27 +376,29 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   form.addEventListener('submit',function(e){
     if(e&&e.preventDefault)e.preventDefault();
     if(busy)return;
-    var contact=((contactEl&&contactEl.value)||'').trim(),name=((nameEl&&nameEl.value)||'').trim();
+    var contact=((contactEl&&contactEl.value)||'').trim(),name=((nameEl&&nameEl.value)||'').trim(),task=((taskEl&&taskEl.value)||'').trim();
     if(!looksLikeContact(contact)){
       if(contactEl){contactEl.setAttribute('aria-invalid','true');try{contactEl.focus();}catch(err){}}
       say(T.contact,false);return;
     }
     if(contactEl)contactEl.removeAttribute('aria-invalid');
     if(!consentEl||!consentEl.checked){say(T.consent,false);try{consentEl.focus();}catch(err){}return;}
-    if(ridFor!==contact){rid=newId();ridFor=contact;}
+    var requestFor=contact+'\n'+task;
+    if(ridFor!==requestFor){rid=newId();ridFor=requestFor;}
     busy=true;
     if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
     say(T.sending,false);
     var ft=readFt();
     var body={consent:true,contactValue:contact,source:'page_form',service:service,intent:label,pageUrl:window.location.pathname,locale:uz?'uz':'ru',requestId:rid,utm:utm(ft),attribution:attribution(ft)};
     if(name)body.name=name.slice(0,80);
+    if(task)body.intent=(label+' — '+task.slice(0,420)).slice(0,500);
     if(budgetEl&&budgetEl.value)body.budget=budgetEl.value;
     var request;
     try{request=window.fetch('/api/gpt/lead',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(body)});}
     catch(err){fail('network','');return;}
     request.then(function(r){return r.json().then(null,function(){return {};});})
       .then(function(d){
-        if(d&&d.ok===true){success();return;}
+        if(d&&d.ok===true){success(d,task);return;}
         fail(d&&typeof d.code==='string'?d.code:'rejected',d&&typeof d.message==='string'?d.message:'');
       },function(){fail('network','');});
   });

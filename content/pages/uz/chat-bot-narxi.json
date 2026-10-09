@@ -29,8 +29,8 @@
   "heroSubtitle": "Boshlang‘ich narx aniq cheklangan ish hajmiga tegishli. Ishga tushirishdan oldin kanal, ssenariy, integratsiya, cheklov, qo‘llab-quvvatlash va tashqi xarajatlarni qayd etamiz.",
   "ctaPrimaryLabel": "Narxni bilish",
   "ctaPrimaryHref": "#lead-form",
-  "ctaSecondaryLabel": "Qanday ishlaydi",
-  "ctaSecondaryHref": "#how",
+  "ctaSecondaryLabel": "Ariza namunasini ko‘rish",
+  "ctaSecondaryHref": "#lead-demo",
   "bodyBlocks": [
     {
       "type": "p",
@@ -39,6 +39,59 @@
     {
       "type": "p",
       "text": "Qisqacha: e’lon qilingan tarif jadvalida bazaviy Telegram-bot 990 000 so‘mdan, Instagram Direct bot 1 190 000 so‘mdan, bazaviy AI-voronka 1 990 000 so‘mdan boshlanadi. Bu ko‘rsatilgan tarkib uchun boshlang‘ich narx bo‘lib, CRM, to‘lov, bir nechta kanal va qo‘llab-quvvatlash bilan to‘liq tizim va’dasi emas. Yakuniy smetada kiritilgan va kiritilmagan ishlar alohida yoziladi."
+    },
+    {
+      "type": "linkp",
+      "text": "{demo} boshlang‘ich ssenariyni ko‘rsatadi: kontakt va qulay vaqt bo‘yicha menejerga so‘rov. Bu interaktiv o‘quv namunasi, ishlayotgan mijoz botiga ulanmagan. Xizmat tarkibi — {service}.",
+      "links": [
+        {
+          "token": "demo",
+          "target": "#lead-demo",
+          "anchor": "Ariza namunasi"
+        },
+        {
+          "token": "service",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram bot yaratish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Smeta tarkibi namunasi: ariza va yozilish so‘rovlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qator",
+        "To‘lovdan oldin nima kelishiladi"
+      ],
+      "rows": [
+        [
+          "Bir martalik ishlab chiqish",
+          "Telegram, tugmalar, FAQ, ariza maydonlari, menejerga uzatish va qabul sinovi"
+        ],
+        [
+          "Yozilish",
+          "Vaqt so‘rovini inson tasdiqlaydi; avtomatik bron alohida integratsiya"
+        ],
+        [
+          "CRM / AI / Mini App",
+          "Faqat tanlangan va tekshirilgan qo‘shimchalar, har biri alohida hajm bilan"
+        ],
+        [
+          "Muntazam xarajatlar",
+          "Hosting, AI/API, CRM litsenziyasi va qo‘llab-quvvatlash ishlab chiqishdan alohida"
+        ],
+        [
+          "To‘lov va OFD",
+          "Shartnoma, ruxsatlar, status, qaytarish va kerakli fiskal jarayon alohida tekshiriladi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu smeta tuzilishi namunasi, yangi narx yoki tayyor integratsiya va’dasi emas. Yakuniy summa aniq tarkib tanlangach hisoblanadi."
     },
     {
       "type": "h2",
@@ -71,7 +124,7 @@
       "headers": [
         "Xizmat",
         "Tavsif",
-        "Muddat",
+        "Muddat mo‘ljali",
         "Narx (so‘m)"
       ],
       "rows": [
@@ -150,8 +203,12 @@
       ]
     },
     {
+      "type": "p",
+      "text": "Jadvaldagi muddatlar material va kirish huquqlari tayyor bo‘lgan kelishilgan tarkib uchun mo‘ljal. CRM yoki to‘lov provayderining tashqi tasdiqlari alohida baholanadi. Topshirish sanasi va qabul mezonlari smetada qayd etiladi."
+    },
+    {
       "type": "linkp",
-      "text": "Bu qatorlar tayyor loyihada qanday ko‘rinishini {c} da ko‘rish mumkin: sayt, katalog, Telegram bot, Mini App va CRM — nima aynan topshirilgani ro‘yxati bilan (material rus tilida).",
+      "text": "{c} da loyiha tarkibi va arxitekturasi tasvirlangan (rus tilida). Bu barcha modullar boshlang‘ich tarifga kiradi yoki sizning tizimingizga ulangan degani emas.",
       "links": [
         {
           "token": "c",
@@ -170,7 +227,7 @@
     },
     {
       "type": "p",
-      "text": "Bitta kanal uchun bazaviy chat-bot (Telegram yoki Instagram): arizalarni qabul qilish, ssenariy bo‘yicha tipik savollarga javob, ism va telefonni yig‘ish, arizani menejerga uzatish. Murojaatlarni yo‘qotishni tez to‘xtatish uchun mos."
+      "text": "Birinchi versiyada bitta kanal va kelishilgan ssenariy tanlanadi: xizmat, kontakt, FAQ va menejerga uzatish. Jadvalda Telegram va Instagram alohida narx qatorlariga ega. Yozilish so‘rovini menejer tasdiqlaydi; avtomatik bron uchun jadval integratsiyasi kerak."
     },
     {
       "type": "h3",
@@ -178,7 +235,7 @@
     },
     {
       "type": "p",
-      "text": "Ko‘p kanalli bot (Telegram + Instagram), erkin savollarni tushunadigan GPT-dvigatel, kengaytirilgan ssenariy, sohangizga moslangan bilim bazasi, arizalarni Telegram’ga uzatish va bazaviy tahlil."
+      "text": "AI-javoblar va CRM uchun bilim bazasi, kanallar, maydonlar hamda voronka amallari belgilanadi. Telegram «Biznes» va AI bot «Biznes» jadvaldagi turli qatorlar; cheksiz kanalli bitta paket emas. Ulanish imkoniyati yakuniy smetadan oldin tekshiriladi."
     },
     {
       "type": "h3",
@@ -186,7 +243,7 @@
     },
     {
       "type": "p",
-      "text": "To‘laqonli yechim: bir necha kanal, GPT-bot, AmoCRM yoki Bitrix24 bilan integratsiya, to‘lov qabuli, tarqatma, katalogli bot-vitrina, arizalarni yo‘naltirish va manbalar bo‘yicha kengaytirilgan tahlil."
+      "text": "Katalog, to‘lov yoki Mini App bilan murakkab ssenariy ma’lumot manbai va provayderlar tekshirilgach baholanadi. Smetada ekranlar, rollar, integratsiyalar, qabul sinovi va istisnolar yoziladi. Eng past narx cheklanmagan Mini App yoki tayyor to‘lov tizimi degani emas."
     },
     {
       "type": "h2",
@@ -239,6 +296,17 @@
       "type": "cta",
       "text": "Narxni bilish",
       "href": "#lead-form"
+    },
+    {
+      "type": "linkp",
+      "text": "Narxni vazifaga bog‘lash uchun {intake} sahifasidagi bosqichlarni ko‘ring: ariza qabuli, menejerga uzatish va yozilishni tasdiqlash.",
+      "links": [
+        {
+          "token": "intake",
+          "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+          "anchor": "arizalarni qabul qilish ssenariysi"
+        }
+      ]
     }
   ],
   "faq": [
@@ -252,7 +320,7 @@
     },
     {
       "q": "Toshkentda chat-bot yasash qancha turadi?",
-      "a": "Toshkentda bazaviy Telegram-bot 990 000 so‘mdan, sotuv voronkasi va CRM integratsiyasi bilan Telegram-bot 2 490 000 so‘mdan, Telegram va Instagram uchun AI-voronka esa 1 990 000 so‘mdan turadi. To‘liq ro‘yxat tariflar jadvalida; yakuniy narx kanallar, dvigatel va integratsiyalarga bog‘liq va startdan oldin qayd etiladi."
+      "a": "Telegram Start e’lon qilingan jadvalda 990 000 so‘mdan boshlanadi. Boshqa qatorlar o‘z tarkibiga ega. Kanallar, AI, CRM, to‘lov va muntazam xarajatlar ish boshlanishidan oldin smetada aniqlanadi."
     },
     {
       "q": "Chat-bot narxi nimaga bog‘liq?",
@@ -272,7 +340,7 @@
     },
     {
       "q": "Qo‘llab-quvvatlash narxga kiradimi?",
-      "a": "Ha, ishga tushirgandan keyin sozlash va kuzatishda yordam beramiz. Qo‘llab-quvvatlash shartlari smeta bilan birga qayd etiladi."
+      "a": "Smetada loyiha topshirilishi, kelishilgan xatolarni tuzatish davri va keyingi pullik qo‘llab-quvvatlash alohida yoziladi. Hosting, litsenziyalar va yangi funksiyalar avtomatik ravishda kiritilmaydi."
     }
   ],
   "internalLinks": [
@@ -330,6 +398,12 @@
       "locale": "uz",
       "type": "contextual",
       "reason": "Published case study — evidence next to the commercial decision."
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -339,9 +413,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-18",
+  "lastReviewedAt": "2026-10-09",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-10-09",
   "heroTrust": [
     "Boshlang‘ich narx ≠ to‘liq loyiha",
     "To‘lovdan oldin scope",

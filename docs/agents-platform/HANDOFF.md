@@ -1,37 +1,37 @@
-# HANDOFF — Click fiscal incident · 08.10.2026
+# HANDOFF — Commercial Telegram lead cluster · 09.10.2026
 
 ## 1. Состояние
-F:/Claude/gptbot-codex-integration-20261007; branch codex/continuation-20261007. Предыдущий production source 5de9e3850468e1915d99729e4930b8750adcf433. Код защиты чеков выкачен: source4e12c12c0a1180dcdc88889aed6c9b99bc01f4fd, deployment https://08260196.ai-direct-pro-landing.pages.dev. Exact live manifest PASS. Этот metadata relay не требует нового deployment.
+F:/Claude/gptbot-codex-integration-20261007, codex/continuation-20261007. Owner approved implementation and deployment. Baseline HEAD42635a4d; production source4e12c12c. Local validation complete; guarded release pending. Exact final source/artifact go in RELEASE.json after live readback.
 
 ## 2. Что сделано
-Независимая SELECT-only проверка production D1 и GET-only проверка Click. Исправлены повторный submit после неясного ответа, атомарная резервация по lease и вводящие в заблуждение алерты. Очередь и backoff сохранены.
+Twelve existing commercial pages revised; six RU/UZ local teaching demos; six new form locations. Preserved URL/title/H1/canonical and protected10pages. Clarified scope, prices, booking confirmation and CRM dependencies; added reciprocal commercial links. Fixed lead acknowledgement conversion dedupe, chat attribution, truthful429 and edited-task duplicate feedback. Existing maintenance now drains one pending lead with bounded transport time.
 
 ## 3. Файлы и доказательства
-reports/click-fiscal-incident-20261008/: INCIDENT.md, fiscal-readonly.json, merchant-readonly.json, локальные test/typecheck/lint logs. functions/lib/gpt-chat/{fiscal-store,fiscal-health-store,alert-policy,billing-maintenance-store}.ts; tests/gpt-click-fiscal.test.ts, studio-monetization.test.ts. Runbook: docs/paid-chat/CLICK-FISCAL-RU.md.
+reports/commercial-seo-20261009/cluster-plan.md and OpenSEO report are the research baseline. reports/commercial-seo-implementation-20261009/: IMPLEMENTATION.md, LAUNCH-KIT.md, tests.txt, duplicate-details-tests.txt, browser-local.json, lead-production-baseline.json. Runtime files limited to content, prerender/form/demo, lead clients/API and existing notification maintenance.
 
 ## 4. Решения
-Сохранённый operation_id навсегда блокирует автоматический повтор submit_items; даже 404/empty после потери ответа не доказывает отсутствие чека. Только сверка и эскалация. Stale lease не резервирует отправку. Никаких выдуманных успешных статусов.
+Use existing pages and lead/outbox tables; no new backend or migrations. Demo creates only an educational local card and never sends a lead/conversion. A saved lead is not a sale or delivered notification. Contact duplicate does not acknowledge newly edited details. All free task text stays out of analytics/audit events. Commercial cluster ownership is separate from informational blog clusters.
 
 ## 5. Внешние действия
-Guarded Pages deploy по ранее выданному разрешению, Functions bundle загружен. Диагностика — только SELECT и GET. Ни одного нового фискального POST, платежа, возврата, изменения credentials или production D1. Кабинет Click требует вход владельца. Никаких сообщений поддержке/покупателю не отправлено.
+Read-only aggregate production D1 audit; no contacts or lead texts exported. No real test leads, owner/customer messages, ad budget, public marketplace posts or Git push. Deployment and search discovery are already owner-authorized and are next after the commit/build guard.
 
 ## 6. Проверки
-99/99 targeted tests PASS; tsc-b и Functions typecheck PASS; ESLint шести изменённых TS PASS. Независимый статический review: новых P1/P2 нет. Build:production, guard, deploy и exact custom-domain manifest PASS: RELEASE.json. Static artifact SHA совпадает с предыдущим SEO release; postdeploy D1 всё ещё показывает один pending -12 без submit.
+171 targeted tests passed, plus 41 final page-form tests including real SQLite lost-response/edited-task regressions. App and Functions TypeScript passed; SEO audit, bundle budget and protected10/10 passed. Built-page browser acceptance12/12 at320/1280, intercepted submissions only. Scoped lint/security and final release checks recorded with the release.
 
 ## 7. Ограничения
-Один live chat заказ на 20 000 сум paid, fiscal queue attempts10, payment_id:click_-12. Нашего submit не было; чек у Click/OFD UNKNOWN. GET с локальным owner profile вернул «Неверные данные поставщика». Production secret opaque; равенство его локальному профилю не доказано. Нельзя назвать конкретный неверный реквизит без кабинета.
+Organic rankings, qualified leads and revenue after this release are not measured yet. Local demo is not an implemented customer bot. Starting prices are existing published offers; cost/margin calculations await actual delivery inputs. The older Click Merchant API -12/receipt UNKNOWN incident remains externally blocked, unchanged.
 
 ## 8. Следующий этап
-Восстановить проверенный доступ Click Merchant API и сверить существующий чек. Вход владельца запрошен в открытом https://mc.click.uz/. Пароли и SMS не просить в чате. SEO browser/measurement задачи сохранены в STATE, повторный IndexNow/GSC для этого backend patch не нужен.
+Finish guarded production release and live readback, submit changed URLs to IndexNow and refreshed sitemaps to GSC. Then compare completed GSC windows and real lead outcomes at7/14/30days. Do not create many new pages or publish marketplace drafts automatically.
 
 ## 9. Acceptance
-Authoritative реквизиты сервиса107654; успешный read-only lookup; сверка существующего чека; нормальная очередь сохраняет подтверждённую ссылку ОФД, покупатель открывает корректный чек. До этого business acceptance blocked.
+Exact source/artifact manifest; commercial pages200/selfcanonical/indexable; demos and forms render on mobile, no false success or duplicate conversions in acceptance stubs; protected10/10 unchanged. Separate business acceptance: real qualified inquiry→proposal→payment with actual source and costs.
 
 ## 10. Старт
-STATE/HANDOFF, INCIDENT.md, git status/log и live gptbot-release.json. Для deployment npm run build:production; DR_ROOT задавать этому repo; только F:/Claude/gptbot-tools/deploy_runner.py check|deploy. После потери ответа сначала readback, не слепой повтор.
+Read STATE/HANDOFF, implementation report, git status and live manifest. Build with NODE_OPTIONS=--max-old-space-size=1400, npm run build:production. DR_ROOT must be this repo. Only python F:/Claude/gptbot-tools/deploy_runner.py check|deploy; verify after any ambiguous write before retrying.
 
 ## 11. Риски
-Не очищать operation_id/submitted_at, не менять статус на success/manual ради алерта. Не подменять merchant_user_id значением merchant_id; не угадывать реквизиты. Не трогать lead webhook/секреты/чужой WIP. API error -12 существовал до SEO release.
+Browser-disabled storage limits cross-reload conversion dedupe. Telegram delivery is at least once; a response lost after send cannot prove non-delivery. Maintenance uses existing5minute lease, max1item and4second transport budget. Do not modify lead bot webhook/secrets or clear fiscal operation_id. No ranking/deadline guarantees.
 
 ## 12. Rollback
-Предыдущий production b50a8d04, artifact2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b. Адресный revert и guarded release только после оценки риска возврата повторного fiscal POST. D1/credentials не изменялись; их rollback не нужен. Без reset/clean/force push.
+Addressed git revert of this release followed by guarded build/deploy if required; never reset/clean/force push. Baseline production4e12c12c, deployment08260196, artifact2693d3e182097ffc21916522ab1e140697523474e25e3a14806df96ca9e8244b. No migrations or credential changes. Preserve fiscal safety patch when reverting commercial work.

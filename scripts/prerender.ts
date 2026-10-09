@@ -15,6 +15,7 @@ import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
+import { renderLeadDemo } from './lead-demo';
 import { CONTACT_ANCHOR, CONTACT_CTA_LABEL, renderContactCard, studioFooterLinks } from './contact-card';
 import { renderRequisites, renderTermsEdition } from './legal-entity';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
@@ -731,7 +732,7 @@ const DIGITAL_COMMAND_STYLES = `<style>
 
 // Services the team delivers in office hours: they get the organisation's hours,
 // not the 24/7 availability that only an AI bot can honestly declare.
-const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|instagram-target|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish)/;
+const TEAM_SERVICE_URL_RE = /^\/(ru|uz)\/(internet-reklama|kontekstnaya-reklama|targetirovannaya-reklama|instagram-target|telegram-ads|telegram-reklama|smm-|marketingovyi-audit|performance-marketing|digital-marketing|digital-strategiya|seo-prodvizhenie|seo-xizmati|lokalnoe-seo|razrabotka-saytov|sozdanie-sayta|sayt-yaratish|ai-bot-s-crm-amocrm-bitrix24|amocrm-bitrix24-bilan-ai-bot|arizalarni-avtomatlashtirish)/;
 // Absolute links to our own host are internal: no nofollow, no new tab.
 const isExternalHref = (href: string): boolean => /^https?:\/\//i.test(href) && !/^https:\/\/gptbot\.uz(\/|$)/i.test(href);
 
@@ -919,7 +920,21 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
 
   // Derive the in-page anchor id from ctaSecondaryHref (e.g. "#how" / "#chto-umeet")
   // so the secondary CTA scrolls to the main content article instead of a dead fragment.
-  const contentAnchor = (page.ctaSecondaryHref || '').startsWith('#')
+  // These explicit commercial entry points share an illustrative, local demo.
+  // Do not attach it to protected chat pages or the general template by default.
+  const leadDemoPages = new Set([
+    '/ru/luchshie-razrabotchiki-chat-botov-tashkent/',
+    '/ru/razrabotka-telegram-bota-tashkent/',
+    '/ru/stoimost-chat-bota/',
+    '/uz/telegram-bot-biznes-uchun/',
+    '/uz/chat-bot-narxi/',
+    '/uz/arizalarni-qabul-qiluvchi-bot/',
+  ]);
+  const leadDemo = leadDemoPages.has(page.url)
+    ? renderLeadDemo(page.locale === 'uz' ? 'uz' : 'ru')
+    : '';
+  const componentAnchor = Boolean(leadDemo) && ['#lead-demo', '#lead-form'].includes(page.ctaSecondaryHref || '');
+  const contentAnchor = !componentAnchor && (page.ctaSecondaryHref || '').startsWith('#')
     ? page.ctaSecondaryHref.slice(1).trim()
     : '';
   const calculatorHtml = page.interactiveTool === 'telegram-cost-calculator'
@@ -1053,6 +1068,7 @@ ${marketVariant
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
   </div>`}
 
+  ${leadDemo}
   ${calculatorHtml}
   ${renderGrowthTool(page)}
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
