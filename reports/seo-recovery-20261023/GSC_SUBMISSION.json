@@ -1,0 +1,11 @@
+{
+  "checkedOn": "2026-10-23",
+  "property": "sc-domain:gptbot.uz",
+  "tool": "GSC Wizard list_sitemaps",
+  "status": "blocked_subscription_required",
+  "response": "payment_required: trial ended or no active subscription; all tool calls refused",
+  "submissionAttempted": false,
+  "retryAttempted": false,
+  "alternative": "Published sitemap and feeds remain discoverable through robots.txt and existing registrations; verified post-release WebSub and IndexNow are handled separately. IndexNow does not submit to Google.",
+  "manualPriorityList": "reports/seo-recovery-20261023/REINDEX_PRIORITY.txt"
+}

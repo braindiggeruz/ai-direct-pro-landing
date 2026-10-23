@@ -1,0 +1,24 @@
+account set: True | token set: True
+--- npm run deploy:pages:production (exit 0)
+
+> app@0.0.0 deploy:pages:production
+> tsx scripts/release/pages-production.ts deploy
+
+
+ ⛅️ wrangler 4.118.0 (update available 4.152.0)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (929/1004)
+Uploading... (954/1004)
+Uploading... (979/1004)
+Uploading... (1004/1004)
+✨ Success! Uploaded 75 files (929 already uploaded) (3.71 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+✨ Uploading _routes.json
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://caac9729.ai-direct-pro-landing.pages.dev
+{"status":"deployed_and_verified","commit":"b5ad3d935a3ecfdcdfef0bb11811710e68658bb3","features":["audience_directory","mobile_username_selection","bridge_pairing","sending_readiness","campaign_preflight","async_media_check","ai_chat_admin"]}
+[websub] {"productionVerified":true,"results":[{"feed":"https://gptbot.uz/ru/blog/feed.xml","hash":"eeeeacfaf405a61666c25b111c9bb2b1ad21686ff2ce5bbf8d177f4365150296","attempts":1,"updatedAt":"2026-10-23T14:19:34.050Z","status":"accepted","httpStatus":204,"action":"posted"},{"feed":"https://gptbot.uz/uz/blog/feed.xml","hash":"2b748ae98c0d41ef8c4ede51ec24a20f02ba1594e548d2604268d143b59d7624","attempts":1,"updatedAt":"2026-10-23T14:19:35.933Z","status":"accepted","httpStatus":204,"action":"posted"},{"feed":"https://gptbot.uz/updates/atom.xml","hash":"748a67992f2334182fc5bd4e2d6dbf06a5970dfa4b78d28e4b0c75ed90df1c28","attempts":1,"updatedAt":"2026-10-23T14:19:37.397Z","status":"accepted","httpStatus":204,"action":"posted"}],"receiptPath":"F:\\Claude\\gptbot-codex-integration-20261007\\reports\\websub-receipts\\2026-10-23T14-19-27-460Z_5220c264.json"}

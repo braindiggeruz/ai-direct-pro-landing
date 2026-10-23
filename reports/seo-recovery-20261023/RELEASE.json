@@ -1,0 +1,101 @@
+{
+  "recordedAt": "2026-10-23T14:23:59.891Z",
+  "sourceCommit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+  "previousProductionCommit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
+  "artifactSha256": "78b4b6c4273e91c4da53effa4bab7f0794c3222546717cc990ef91518151a9c8",
+  "fileCount": 1006,
+  "guardedDeployment": "verified",
+  "deploymentUrl": "https://caac9729.ai-direct-pro-landing.pages.dev",
+  "livePagesChecked": 25,
+  "liveFilesChecked": 8,
+  "allLiveContractsMatch": true,
+  "webSub": [
+    {
+      "receipt": "reports/websub-receipts/2026-10-23T14-19-27-460Z_5220c264.json",
+      "submittedAt": "2026-10-23T14:19:27.460Z",
+      "commit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+      "artifactSha256": "78b4b6c4273e91c4da53effa4bab7f0794c3222546717cc990ef91518151a9c8",
+      "hub": "https://pubsubhubbub.appspot.com/",
+      "productionVerified": true,
+      "results": [
+        {
+          "feed": "https://gptbot.uz/ru/blog/feed.xml",
+          "hash": "eeeeacfaf405a61666c25b111c9bb2b1ad21686ff2ce5bbf8d177f4365150296",
+          "attempts": 1,
+          "updatedAt": "2026-10-23T14:19:34.050Z",
+          "status": "accepted",
+          "httpStatus": 204,
+          "action": "posted"
+        },
+        {
+          "feed": "https://gptbot.uz/uz/blog/feed.xml",
+          "hash": "2b748ae98c0d41ef8c4ede51ec24a20f02ba1594e548d2604268d143b59d7624",
+          "attempts": 1,
+          "updatedAt": "2026-10-23T14:19:35.933Z",
+          "status": "accepted",
+          "httpStatus": 204,
+          "action": "posted"
+        },
+        {
+          "feed": "https://gptbot.uz/updates/atom.xml",
+          "hash": "748a67992f2334182fc5bd4e2d6dbf06a5970dfa4b78d28e4b0c75ed90df1c28",
+          "attempts": 1,
+          "updatedAt": "2026-10-23T14:19:37.397Z",
+          "status": "accepted",
+          "httpStatus": 204,
+          "action": "posted"
+        }
+      ],
+      "googleRecrawlConfirmed": false
+    }
+  ],
+  "indexNow": {
+    "attemptedAt": "2026-10-23T14:21:03.861Z",
+    "release": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+    "urls": [
+      "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+      "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+      "https://gptbot.uz/ru/gpt-na-russkom/",
+      "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+      "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+      "https://gptbot.uz/ru/stoimost-chat-bota/",
+      "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+      "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "https://gptbot.uz/uz/chat-bot-narxi/",
+      "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "https://gptbot.uz/ru/blog/",
+      "https://gptbot.uz/uz/blog/"
+    ],
+    "keyValidated": true,
+    "keySha256": "27e93936cbdcc8d8fd5a556b47508b26558707c92cb6546a12e64e37932954dc",
+    "status": "accepted",
+    "googleRecrawlConfirmed": false,
+    "httpStatus": 202,
+    "pendingKeyValidation": true,
+    "response": "{\n  \"success\":true\n}"
+  },
+  "gscSubmission": {
+    "checkedOn": "2026-10-23",
+    "property": "sc-domain:gptbot.uz",
+    "tool": "GSC Wizard list_sitemaps",
+    "status": "blocked_subscription_required",
+    "response": "payment_required: trial ended or no active subscription; all tool calls refused",
+    "submissionAttempted": false,
+    "retryAttempted": false,
+    "alternative": "Published sitemap and feeds remain discoverable through robots.txt and existing registrations; verified post-release WebSub and IndexNow are handled separately. IndexNow does not submit to Google.",
+    "manualPriorityList": "reports/seo-recovery-20261023/REINDEX_PRIORITY.txt"
+  },
+  "browserEvidence": "reports/seo-recovery-20261023/production-browser.json",
+  "businessOutcomes": {
+    "googleRecrawlConfirmed": false,
+    "rankingUpliftConfirmed": false,
+    "qualifiedLeadUpliftConfirmed": false
+  },
+  "rollback": "Targeted revert of sourceCommit then guarded build/check/deploy; no DB migration; preserve unrelated WIP and WebSub ledger."
+}

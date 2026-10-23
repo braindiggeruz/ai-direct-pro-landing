@@ -1,0 +1,394 @@
+{
+  "checkedAt": "2026-10-23T14:20:28.409Z",
+  "sourceCommit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+  "manifestStatus": 200,
+  "manifestMatches": true,
+  "artifactSha256": "78b4b6c4273e91c4da53effa4bab7f0794c3222546717cc990ef91518151a9c8",
+  "fileCount": 1006,
+  "pass": true,
+  "rows": [
+    {
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "1482499e53875e589d8408049b87069b9a1a1103189cd70d7fd2f3a5fc25e1c6",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "72f3e55347edfc16fe78e679c1377fd732da6a45b9b4115bb1811c459579c3f1",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "fd1d3f29528de316df3a1f78a64694ef278f25dac4673aff74e3a2f068aba6c1",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "7a0a789bf54b18104bb1228e9f51847ae7ea8a026bd99207f1d537d8b8a48d25",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "cf43d9ea3cf3966e13aad504e85636fccea057af4ffcd457c2f2707b42069bfb",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "05d7b3c9794a3bf2f08e91f7f28859643caa328876d5f75f647ce1612f0593eb",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/gpt-na-russkom/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/gpt-na-russkom/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "0445da3fd68d4d5139c25fef781f805bb4ef494a6ee9154ffa3a333a70fc39b0",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "9478cf4249870c782f8a5fa9a293e200e979df0e0fd3681814fa970b046070e5",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "1e7e53455ae6f013d5bb656c94e27bb3dc5dc0e25501d0ef7ecc739372b2e820",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/stoimost-chat-bota/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/stoimost-chat-bota/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "8ae953b61c343c47f9e8c9d6e93359cecd22e778b86db266fbbaff5b92430744",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "f780591c9b15746730d4de66346f47df9f87ec9882e01352ae0d25eb2a7241dd",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "d3eaf5195e070835e8935938e42e6f99b58e0cc2c49928192d08b8678b22fe6a",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/chat-bot-narxi/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/chat-bot-narxi/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "64f603ab0cc0e05f3fdeb029bbd49fcb002c26b39e94e1ebc1dcf0198d1cd5bb",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "25095a46bf518240afa1861308dbdcfe88a1bde87735a22ea355716afe1c5236",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/telegram-bot-biznes-uchun/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "1435abdf3d1765176d0751e5cbe268f0bf7f0a9300f9d57d077a479257314809",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "83f608f44361decd3018cc054113d403e758eb9ab36278bcfee4a64026decaba",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "824c0277ec46fe5bb14762628aaa08d1ba37c6ea104457d33f0bba118ad64ff3",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "846ce94192052aaa398a00caea7853ff951c00b2d7b8342d4090eb1171757932",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/gpt-chat/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/gpt-chat/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "3ca98dfa9c19528fc4aa88aa33b2a34e6cfbb2760a726a9675f47d33e462cd19",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "afa753622e1b68ba158671ec75d29847770ee9b69a203c5308825541fae1b63a",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "bda2e0e6f5bd8af5e2f5bec0a46b63ed9268915bb851a4c1e0fc65fc68ed606f",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "5895b76d4234cd7d82f56985d005338875400482706bc4c08809f12a77adfc2a",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "22ea46d9bcb8e9de4d5ccaa9943b6c73d2b0a8814908d334d6e333e92c7791b0",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "8bd885b61161642aaf73d6dcef2651bb3706d9c3052f6cadf8ae9fc4984e24df",
+      "indexable": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "contractMatches": true,
+      "canonical": [
+        "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+      ],
+      "emailProtectionLinks": 0,
+      "htmlSha256": "420846019587c5d3b567f6a6db989ed363c184ac31e99fcc063e0e8950999823",
+      "indexable": true
+    }
+  ],
+  "files": [
+    {
+      "pathname": "/robots.txt",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "a420f2a74fab5176dea7d65e3a023fb658ad2ec1a34941b7e292f91914d3b815"
+    },
+    {
+      "pathname": "/sitemap.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "f3e05caf8dbd0635cdf1717480272453a02fb9dff4d3fff41f251603b2e76e54"
+    },
+    {
+      "pathname": "/sitemap-updates.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "895f1686166168a7ef665aec24503d1ffef9a4808525b27d6dfde347e085fe5a"
+    },
+    {
+      "pathname": "/updates/atom.xml",
+      "status": 200,
+      "contentType": "application/atom+xml; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "748a67992f2334182fc5bd4e2d6dbf06a5970dfa4b78d28e4b0c75ed90df1c28"
+    },
+    {
+      "pathname": "/ru/blog/feed.xml",
+      "status": 200,
+      "contentType": "application/rss+xml; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "eeeeacfaf405a61666c25b111c9bb2b1ad21686ff2ce5bbf8d177f4365150296"
+    },
+    {
+      "pathname": "/uz/blog/feed.xml",
+      "status": 200,
+      "contentType": "application/rss+xml; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "2b748ae98c0d41ef8c4ede51ec24a20f02ba1594e548d2604268d143b59d7624"
+    },
+    {
+      "pathname": "/downloads/seo-20261023/telegram-bot-brief-ru.txt",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "9e321f0f89c25a883da86cdecb632850a10dd0a8f9d9458e0cb1ded8032f8d72"
+    },
+    {
+      "pathname": "/downloads/seo-20261023/telegram-bot-brif-uz.txt",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bodyMatches": true,
+      "sha256": "71764adc665e4000e4caa0a71677ff6c3afe91757a26f24bbcedddee8af20f7c"
+    }
+  ]
+}

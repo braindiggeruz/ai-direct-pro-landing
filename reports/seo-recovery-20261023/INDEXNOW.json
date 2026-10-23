@@ -1,0 +1,31 @@
+{
+  "attemptedAt": "2026-10-23T14:21:03.861Z",
+  "release": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+  "urls": [
+    "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+    "https://gptbot.uz/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+    "https://gptbot.uz/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+    "https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+    "https://gptbot.uz/ru/gpt-na-russkom/",
+    "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/",
+    "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+    "https://gptbot.uz/ru/stoimost-chat-bota/",
+    "https://gptbot.uz/ru/telegram-bot-dlya-biznesa/",
+    "https://gptbot.uz/uz/arizalarni-qabul-qiluvchi-bot/",
+    "https://gptbot.uz/uz/chat-bot-narxi/",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+    "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "https://gptbot.uz/ru/blog/",
+    "https://gptbot.uz/uz/blog/"
+  ],
+  "keyValidated": true,
+  "keySha256": "27e93936cbdcc8d8fd5a556b47508b26558707c92cb6546a12e64e37932954dc",
+  "status": "accepted",
+  "googleRecrawlConfirmed": false,
+  "httpStatus": 202,
+  "pendingKeyValidation": true,
+  "response": "{\n  \"success\":true\n}"
+}

@@ -1,7 +1,7 @@
 # HANDOFF — SEO recovery · 23.10.2026
 
 ## 1. Состояние
-Source validated; guarded production deployment pending this source commit. Branch codex/continuation-20261007; initial HEAD 41c61c53287fb1af13248931326aee3372e85344; previous live 55957ebde61beece51db71cb117bd6d45a17ffb5. See reports/seo-recovery-20261023/RELEASE.json for subsequent actual release, not a stale status sentence.
+Deployment COMPLETE: source b5ad3d935a3ecfdcdfef0bb11811710e68658bb3, artifact 78b4b6c4273e91c4da53effa4bab7f0794c3222546717cc990ef91518151a9c8, 1006files; 25live HTML contracts and 8discovery/brief files PASS. Branch codex/continuation-20261007; initial HEAD 41c61c53287fb1af13248931326aee3372e85344; previous live 55957ebde61beece51db71cb117bd6d45a17ffb5. See reports/seo-recovery-20261023/RELEASE.json for subsequent actual release, not a stale status sentence.
 
 ## 2. Что сделано
 9landing pages,6articles,2downloadable briefs. Truthful prices/scope, separated login/product intent, reliable lead attempts/timeouts/duplicate acknowledgement, remaining Cloudflare email-obfuscation crawler-link fix. See IMPLEMENTATION.md for evidence and exact limits.
@@ -16,13 +16,13 @@ Existing modular monolith, price configuration, API and durable outbox reused. N
 No new doorway pages, invented cases, blanket metadata rewrite, winner-content rewrite, fake Indexing API, live test leads, financial operations, migrations, secrets/webhook changes or Git push. No guaranteed rankings or revenue.
 
 ## 6. Проверки
-Consolidated node tests217pass/0fail/0skip; app/functions TypeScript exit0; scopedlint exit0; SEOaudit exit0; publicbuild/prerender exit0. Localbrowser and fullrelease evidence must be read in this report directory; do not infer deployment from a passing build.
+Consolidated node tests217pass/0fail/0skip; app/functions TypeScript exit0; scopedlint exit0; SEOaudit exit0; publicbuild/prerender exit0. Full build/stamp/check/deploy exit0; localbrowser21/21 plus2leadflows and3chatchecks. Productionbrowser evidence is in reports/seo-recovery-20261023/production-browser.json. Live readback25HTML and8files PASS.
 
 ## 7. Известные проблемы
-Existing Click Merchant -12/receipt UNKNOWN external blocker remains. Native Uzbek human sign-off and actual customer outcome data unavailable. Google post-release recrawl/traffic/qualified-lead uplift unconfirmed. PowerShell hung; cmd.exe login:false works; cap Node1400MB and runheavychecks serially.
+Existing Click Merchant -12/receipt UNKNOWN external blocker remains. Native Uzbek human sign-off and actual customer outcome data unavailable. Google post-release recrawl/traffic/qualified-lead uplift unconfirmed. GSC Wizard subscription expired: no sitemap submission attempted. IndexNow accepted 18URLs; WebSub receipts recorded. PowerShell hung; cmd.exe login:false works; cap Node1400MB and runheavychecks serially.
 
 ## 8. Следующая задача
-Guarded production build/deployment and exact live acceptance for SEO recovery 2026-10-23. User already authorized it; no repeated confirmation. After release, next task is comparable final GSC and qualified-lead measurement.
+Measure completed equal final GSC windows and qualified-lead outcomes for the 2026-10-23 release. Use OpenSEO for read-only GSC; GSC Wizard is blocked by inactive subscription. No repeated submissions of unchanged feeds.
 
 ## 9. Acceptance criteria
 Full production build/stamp/check PASS; exact live source/artifact; changed pages and protected10 healthy/selfcanonical/indexable; live feeds/brief bytes match. Browser submissions mocked only. Discovery acceptance separate from crawl and business acceptance.

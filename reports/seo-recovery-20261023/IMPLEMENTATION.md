@@ -1,6 +1,6 @@
 # SEO recovery implementation — 23 October 2026
 
-Status: source and local checks completed; guarded full production build, deployment and live acceptance follow this source commit. Read RELEASE.json and PRODUCTION_READBACK.json for actual deployment state; this sentence is not deployment proof.
+Status: DEPLOYED AND VERIFIED. Source b5ad3d935a3ecfdcdfef0bb11811710e68658bb3, artifact 78b4b6c4273e91c4da53effa4bab7f0794c3222546717cc990ef91518151a9c8, 1006files. Exact public readback passed 25HTML URLs and 8discovery/brief files. See RELEASE.json and PRODUCTION_READBACK.json.
 
 ## Evidence and prioritisation
 Owner authorized implementation, deployment and indexing notifications. Initial checkout 41c61c53287fb1af13248931326aee3372e85344; verified previous production 55957ebde61beece51db71cb117bd6d45a17ffb5, artifact ce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00, 1004 files. Initial tracked WIP reports/commercial-seo-20261009/cluster-map.html and historical untracked reports remain untouched and unstaged.
@@ -52,3 +52,7 @@ Changed content:
 Code: scripts/lead-form.ts, scripts/email-off.ts, scripts/seo-protection.ts, src/shared/lead-client.ts, src/gpt-chat/api.ts, src/gpt-chat/components/AiLeadForm.tsx, src/gpt-chat/lead-strings.ts, src/calculator/CalculatorApp.tsx. Evidence: reviewed-protected-pages.json, tests.txt, browser-qa.json, build-production.txt, RELEASE.json, PRODUCTION_READBACK.json, INDEXNOW.json. Refer to STAGED_FILES.json for exact commit scope.
 
 Rollback: targeted revert of this source commit, guarded rebuild/check/deploy. No database migration. Preserve uncommitted user work and prior release lineage; never reset/clean. Do not submit unchanged discovery notifications on rollback without checking durable state.
+
+## Final release evidence
+
+Full build:production and guarded check/deploy exit0. Local browser21/21 +2/2lead flows, supplementalchat3/3; production browsersee production-browser.json. IndexNow accepted for 18changed URLs (HTTP202). WebSub receipts saved in RELEASE.json; do not resend accepted hashes. GSC Wizard list_sitemaps refused because subscription ended; no sitemap write attempted and no automatic purchase. Existing registered sitemap/Atom/RSS URLs remain published and linked. Manual request priorities are in REINDEX_PRIORITY.txt. Google recrawl and commercial outcomes remain unconfirmed.

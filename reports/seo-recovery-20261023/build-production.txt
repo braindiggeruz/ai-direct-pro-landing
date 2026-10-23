@@ -1,0 +1,481 @@
+
+> app@0.0.0 build:production
+> npm run build:fast && npm --prefix apps/bormi-admin run build && npm run build:studio && npm run release:pages:stamp
+
+
+> app@0.0.0 prebuild:fast
+> npm run studio:deps
+
+
+> app@0.0.0 studio:deps
+> tsx scripts/ensure-studio-deps.ts
+
+
+> app@0.0.0 build:fast
+> vite build && tsx scripts/prerender.ts && tsx scripts/prerender-blog.ts && tsx scripts/prerender-home.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts && tsx scripts/generate-llm-markdown.ts && tsx scripts/generate-feed.ts
+
+vite v8.2.0 building client environment for production...
+[2Ktransforming...✓ 2265 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/.vite/manifest.json                             16.56 kB │ gzip:   2.20 kB
+dist/index.html                                      32.26 kB │ gzip:  10.56 kB
+dist/assets/studio-offer-DLDYLigD.css                 2.11 kB │ gzip:   0.77 kB
+dist/assets/chat-conversion-S4jrnnSe.css              3.11 kB │ gzip:   0.97 kB
+dist/assets/AdminRoot-CvebJVFP.css                   14.04 kB │ gzip:   3.44 kB
+dist/assets/gpt-chat-CNoiPl9O.css                    34.21 kB │ gzip:   7.67 kB
+dist/assets/chat-presentation-D10ffSTH.css           35.25 kB │ gzip:   6.94 kB
+dist/assets/index-B7Z1XlOc.css                      129.23 kB │ gzip:  25.26 kB
+dist/assets/chat-turnstile-D6mGbcRV.js                0.08 kB │ gzip:   0.08 kB
+dist/assets/__vite-browser-external-BnHmDH7I.js       0.11 kB │ gzip:   0.12 kB
+dist/assets/studio-offer-BqGAjZFG.js                  0.24 kB │ gzip:   0.22 kB
+dist/assets/serpHandoff-D-zWqJ-f.js                   0.29 kB │ gzip:   0.20 kB
+dist/assets/studio-contact-DPWqCbMc.js                0.48 kB │ gzip:   0.34 kB
+dist/assets/cta-McC50xOP.js                           0.58 kB │ gzip:   0.34 kB
+dist/assets/turnstile-DGTrsUyL.js                     0.72 kB │ gzip:   0.43 kB
+dist/assets/chat-limit-B5RQaoXo.js                    0.76 kB │ gzip:   0.44 kB
+dist/assets/rolldown-runtime-kjsH4l9N.js              1.10 kB │ gzip:   0.62 kB
+dist/assets/AiTelegramCta-CUjwwY26.js                 1.14 kB │ gzip:   0.70 kB
+dist/assets/TurnstileChallenge-CZz7fA6f.js            1.33 kB │ gzip:   0.72 kB
+dist/assets/yandexMetrika-DEM7BaDp.js                 1.60 kB │ gzip:   0.89 kB
+dist/assets/PayReturn-V6gxs86F.js                     1.66 kB │ gzip:   0.90 kB
+dist/assets/StickyCTA-CPTxgUR-.js                     1.94 kB │ gzip:   1.04 kB
+dist/assets/lead-attribution-DmPMcd4F.js              2.08 kB │ gzip:   0.95 kB
+dist/assets/FAQ-DwkJ_zKv.js                           2.21 kB │ gzip:   1.03 kB
+dist/assets/FinalCTA-DFseQKMs.js                      2.30 kB │ gzip:   0.83 kB
+dist/assets/StudioOfferExample-D2g-XyeY.js            2.31 kB │ gzip:   1.39 kB
+dist/assets/studio-slides-Bkr96jQK.js                 2.35 kB │ gzip:   1.13 kB
+dist/assets/SlideCanvas-DwUYDVPk.js                   2.43 kB │ gzip:   1.26 kB
+dist/assets/Offer-Y_e9qkMx.js                         2.68 kB │ gzip:   1.28 kB
+dist/assets/MyPack-_mQLZHyu.js                        2.83 kB │ gzip:   1.16 kB
+dist/assets/chat-role-CcX-95Cc.js                     3.22 kB │ gzip:   1.49 kB
+dist/assets/Solution-C1XpcLmO.js                      4.36 kB │ gzip:   1.36 kB
+dist/assets/SolutionsGrid-1RiH7wIb.js                 4.38 kB │ gzip:   1.95 kB
+dist/assets/Niches-D4GsXZip.js                        4.38 kB │ gzip:   1.80 kB
+dist/assets/build-GBRo4Qzw.js                         4.61 kB │ gzip:   2.29 kB
+dist/assets/StudioOffer-beTwsTys.js                   5.03 kB │ gzip:   2.37 kB
+dist/assets/BlogTeaser-CejjcMS5.js                    5.26 kB │ gzip:   2.44 kB
+dist/assets/Checkout-CnHfWGLK.js                      5.38 kB │ gzip:   2.34 kB
+dist/assets/chat-conversion-BtK5gE5d.js               5.89 kB │ gzip:   2.45 kB
+dist/assets/DemoChat-Ce-W7vKk.js                      6.59 kB │ gzip:   2.32 kB
+dist/assets/PresentationSheets-_az8cXEI.js            7.21 kB │ gzip:   2.94 kB
+dist/assets/PromotionServices-dy6RC-ye.js             8.89 kB │ gzip:   3.37 kB
+dist/assets/SerpIntelligenceTab-CwNpgazH.js           9.05 kB │ gzip:   2.66 kB
+dist/assets/texts-CAhLiqYI.js                        10.32 kB │ gzip:   4.01 kB
+dist/assets/Footer-DtBfCgWm.js                       10.70 kB │ gzip:   3.14 kB
+dist/assets/studio-runtime-DVuGjhti.js               12.53 kB │ gzip:   4.85 kB
+dist/assets/chat-lead-DemPqw3-.js                    18.68 kB │ gzip:   6.48 kB
+dist/assets/chat-answer-BlYguuYV.js                  19.15 kB │ gzip:   8.62 kB
+dist/assets/chat-tools-CBGoSeKy.js                   19.49 kB │ gzip:   7.20 kB
+dist/assets/telegram-cost-calculator-DOgW3gg2.js     23.11 kB │ gzip:   7.39 kB
+dist/assets/ui-CH_3xdyd.js                           24.80 kB │ gzip:   7.71 kB
+dist/assets/AiAutopilotTab-DEi0HLjz.js               26.35 kB │ gzip:   9.49 kB
+dist/assets/preload-helper-BVgr1GO9.js               28.75 kB │ gzip:   9.41 kB
+dist/assets/index-yHEMBDvB.js                        34.32 kB │ gzip:  11.75 kB
+dist/assets/chat-account-BTfnCz3u.js                 39.41 kB │ gzip:  12.57 kB
+dist/assets/AiChat-ZQcJi_dL.js                       44.81 kB │ gzip:  12.89 kB
+dist/assets/chat-presentation-CmTesHAT.js            64.78 kB │ gzip:  22.29 kB
+dist/assets/gpt-chat-DXmrgoYc.js                    147.55 kB │ gzip:  50.73 kB
+dist/assets/vendor-DSTW_80r.js                      210.82 kB │ gzip:  66.86 kB
+dist/assets/pptxgen.es-Br1QqE94.js                  373.18 kB │ gzip: 126.84 kB
+dist/assets/AdminRoot-Dfs7lPWC.js                 1,130.11 kB │ gzip: 294.12 kB
+
+✓ built in 20.11s
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[33m[PLUGIN_TIMINGS] [0mYour build spent 75% of 20.1s inside plugin hooks (15.1s).
+Measured inside the callback, so queue time is excluded and time the callback itself awaited is not:
+  - vite:prepare-out-dir renderStart (15%, 3.0s, 1 call)
+Those rows are 15% of the build; the rest of the 75% is below.
+Not measurable — 3 hooks whose calls overlap, so elapsed time covers work other calls were doing. Profile with `node --cpu-prof`:
+  - vite:esbuild-transpile renderChunk (53 calls)
+  - embedded-studio-styles transform (2265 calls)
+  - vite:css transform (13 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+  + dist\ru\ai-bot-dlya-agentstva-nedvizhimosti\index.html
+  + dist\ru\ai-bot-dlya-avtosalona\index.html
+  + dist\ru\ai-bot-dlya-biznesa\index.html
+  + dist\ru\ai-bot-dlya-dostavki-edy\index.html
+  + dist\ru\ai-bot-dlya-fitnes-kluba\index.html
+  + dist\ru\ai-bot-dlya-horeca\index.html
+  + dist\ru\ai-bot-dlya-kliniki\index.html
+  + dist\ru\ai-bot-dlya-magazina\index.html
+  + dist\ru\ai-bot-dlya-nishi\index.html
+  + dist\ru\ai-bot-dlya-salona-krasoty\index.html
+  + dist\ru\ai-bot-dlya-sayta\index.html
+  + dist\ru\ai-bot-dlya-uchebnogo-tsentra\index.html
+  + dist\ru\ai-bot-dlya-yurista\index.html
+  + dist\ru\ai-bot-ili-menedzher\index.html
+  + dist\ru\ai-bot-s-crm-amocrm-bitrix24\index.html
+  + dist\ru\ai-chat-dlya-sayta-polzovatel-zayavki\index.html
+  + dist\ru\ai-chat-dlya-sayta\index.html
+  + dist\ru\ai-menedzher-dlya-instagram\index.html
+  + dist\ru\ai-prodavec\index.html
+  + dist\ru\avtomatizatsiya-prodazh\index.html
+  + dist\ru\avtomatizatsiya-zayavok\index.html
+  + dist\ru\avtor-boris-gerasimov\index.html
+  + dist\boss-digital\index.html
+  + dist\ru\chat-bot-dlya-biznesa\index.html
+  + dist\ru\chat-bot-po-uzbekistanu\index.html
+  + dist\ru\chat-bot-v-samarkande\index.html
+  + dist\ru\chto-takoe-gpt-i-kak-polzovatsya\index.html
+  + dist\ru\digital-marketing-tashkent\index.html
+  + dist\ru\digital-strategiya-dlya-biznesa\index.html
+  + dist\ru\gde-polzovatsya-gpt-besplatno\index.html
+  + dist\ru\gpt-bot-ili-obychnyy-chat-bot\index.html
+  + dist\ru\gpt-chat-guide\index.html
+  + dist\ru\gpt-chat\index.html
+  + dist\ru\gpt-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\gpt-dlya-biznesa\index.html
+  + dist\ru\gpt-dlya-ucheby\index.html
+  + dist\ru\gpt-na-russkom\index.html
+  + dist\ru\gpt-v-marketinge-smm\index.html
+  + dist\ru\gpt-vs-chatgpt-sravnenie\index.html
+  + dist\ru\instagram-direct-bot\index.html
+  + dist\ru\internet-reklama-tashkent\index.html
+  + dist\ru\javob\index.html
+  + dist\ru\kak-sdelat-ai-bota-telegram-instagram\index.html
+  + dist\ru\kalkulyator-stoimosti-telegram-bota\index.html
+  + dist\ru\komanda\index.html
+  + dist\ru\kontekstnaya-reklama-tashkent\index.html
+  + dist\ru\lokalnoe-seo-tashkent\index.html
+  + dist\ru\luchshie-razrabotchiki-chat-botov-tashkent\index.html
+  + dist\ru\market-doverie\index.html
+  + dist\ru\marketingovyi-audit-tashkent\index.html
+  + dist\ru\o-kompanii\index.html
+  + dist\ru\oferta\index.html
+  + dist\ru\okupaemost-chat-bota\index.html
+  + dist\ru\otzyvy\index.html
+  + dist\ru\performance-marketing-tashkent\index.html
+  + dist\ru\pochemu-biznes-teryaet-zayavki\index.html
+  + dist\ru\politika-konfidentsialnosti\index.html
+  + dist\ru\promty-gpt-chatgpt-50-primerov\index.html
+  + dist\ru\razrabotka-saytov-tashkent\index.html
+  + dist\ru\razrabotka-telegram-bota-tashkent\index.html
+  + dist\ru\razrabotka-telegram-mini-app-tashkent\index.html
+  + dist\ru\sayt-dlya-zayavok\index.html
+  + dist\ru\sayt-s-ai-botom\index.html
+  + dist\ru\seo-prodvizhenie-saytov-tashkent\index.html
+  + dist\ru\smm-prodvizhenie-tashkent\index.html
+  + dist\ru\sotuvchi\index.html
+  + dist\ru\sozdanie-sayta-dlya-biznesa\index.html
+  + dist\ru\stoimost-chat-bota\index.html
+  + dist\ru\targetirovannaya-reklama-tashkent\index.html
+  + dist\ru\tarify-ai-chat\index.html
+  + dist\ru\telegram-ads-uzbekistan\index.html
+  + dist\ru\telegram-bot-dlya-biznesa\index.html
+  + dist\ru\whatsapp-bot-dlya-biznesa\index.html
+  + dist\uz\ai-bot-yoki-menejer\index.html
+  + dist\uz\ai-sotuvchi\index.html
+  + dist\uz\amocrm-bitrix24-bilan-ai-bot\index.html
+  + dist\uz\arizalarni-avtomatlashtirish\index.html
+  + dist\uz\arizalarni-qabul-qiluvchi-bot\index.html
+  + dist\uz\avtosalon-uchun-ai-bot\index.html
+  + dist\uz\biz-haqimizda\index.html
+  + dist\uz\biznes-nega-arizalarni-yoqotadi\index.html
+  + dist\uz\biznes-uchun-ai-bot\index.html
+  + dist\uz\boss-digital\index.html
+  + dist\uz\chat-bot-biznes-uchun\index.html
+  + dist\uz\chat-bot-narxi\index.html
+  + dist\uz\dokon-uchun-ai-bot\index.html
+  + dist\uz\fitnes-klub-uchun-ai-bot\index.html
+  + dist\uz\gpt-bot-biznes-uchun\index.html
+  + dist\uz\gpt-bot-yoki-oddiy-chat-bot\index.html
+  + dist\uz\gpt-chat-qollanma\index.html
+  + dist\uz\gpt-telegram-instagram-ideya\index.html
+  + dist\uz\gpt-uzbek-tilida-ai-chat\index.html
+  + dist\uz\gpt-uzbek-tilida\index.html
+  + dist\uz\horeca-uchun-ai-bot\index.html
+  + dist\uz\index.html
+  + dist\uz\instagram-bot-biznes-uchun\index.html
+  + dist\uz\instagram-target-yoqish\index.html
+  + dist\uz\instagram-uchun-ai-menejer\index.html
+  + dist\uz\internet-reklama-toshkent\index.html
+  + dist\uz\jamoa\index.html
+  + dist\uz\javob\index.html
+  + dist\uz\klinika-uchun-ai-bot\index.html
+  + dist\uz\kochmas-mulk-agentligi-uchun-ai-bot\index.html
+  + dist\uz\market-ishonch\index.html
+  + dist\uz\maxfiylik-siyosati\index.html
+  + dist\uz\muallif-boris-gerasimov\index.html
+  + dist\uz\oferta\index.html
+  + dist\uz\oquv-markazi-uchun-ai-bot\index.html
+  + dist\uz\ozbekiston-boylab-chat-bot\index.html
+  + dist\uz\salon-uchun-ai-bot\index.html
+  + dist\uz\samarqandda-chat-bot\index.html
+  + dist\uz\savdoni-avtomatlashtirish\index.html
+  + dist\uz\sayt-uchun-ai-bot\index.html
+  + dist\uz\sayt-yaratish\index.html
+  + dist\uz\seo-xizmati\index.html
+  + dist\uz\sharhlar\index.html
+  + dist\uz\smm-xizmatlari\index.html
+  + dist\uz\sotuvchi\index.html
+  + dist\uz\suniy-intellekt\index.html
+  + dist\uz\telegram-bot-biznes-uchun\index.html
+  + dist\uz\telegram-reklama\index.html
+  + dist\uz\whatsapp-bot-biznes-uchun\index.html
+  + dist\uz\yetkazib-berish-uchun-ai-bot\index.html
+  + dist\uz\yurist-uchun-ai-bot\index.html
+Prerendered 124 page(s), skipped 0 draft(s).
+  + dist\ru\blog\7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7\index.html
+  + dist\ru\blog\agentstvo-ili-birzha-frilansa-uzbekistan\index.html
+  + dist\ru\blog\agentstvo-ili-frilanser-uzbekistan\index.html
+  + dist\ru\blog\ai-agent-ili-chat-bot\index.html
+  + dist\ru\blog\ai-bot-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\ai-bot-dlya-internet-magazina-zadachi\index.html
+  + dist\ru\blog\ai-bot-dlya-kliniki-zadachi\index.html
+  + dist\ru\blog\ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya\index.html
+  + dist\ru\blog\ai-bot-dlya-salona-krasoty-zadachi\index.html
+  + dist\ru\blog\ai-bot-dlya-uchebnogo-tsentra-rukovodstvo\index.html
+  + dist\ru\blog\ai-bot-dlya-uchebnogo-tsentra-zadachi\index.html
+  + dist\ru\blog\ai-bot-uzbekskiy-yazyk-kak-rabotaet\index.html
+  + dist\ru\blog\ai-menedzher-dlya-instagram\index.html
+  + dist\ru\blog\ai-prodavec-i-otdel-prodazh\index.html
+  + dist\ru\blog\analogi-chatgpt-kotorye-rabotayut-v-uzbekistane\index.html
+  + dist\ru\blog\audit-kartochki-kompanii-na-kartah\index.html
+  + dist\ru\blog\avtomatizatsiya-zayavok-instruktsiya\index.html
+  + dist\ru\blog\besplatnyy-chat-bot-chto-realno-besplatno\index.html
+  + dist\ru\blog\biznes-teryaet-zayavki-nochyu\index.html
+  + dist\ru\blog\bot-dlya-otvetov-roditelyam-uchebnogo-centra\index.html
+  + dist\ru\blog\bot-dlya-zayavok\index.html
+  + dist\ru\blog\chat-bot-chto-eto-vidy-i-kak-vybrat\index.html
+  + dist\ru\blog\chat-bot-dlya-biznesa-v-samarkande\index.html
+  + dist\ru\blog\chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal\index.html
+  + dist\ru\blog\chat-bot-dlya-kliniki-s-filiakami\index.html
+  + dist\ru\blog\chat-bot-dlya-sayta\index.html
+  + dist\ru\blog\chat-gpt-na-russkom\index.html
+  + dist\ru\blog\chat-gpt-online\index.html
+  + dist\ru\blog\chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom\index.html
+  + dist\ru\blog\chatgpt-i-claude-v-uzbekistane\index.html
+  + dist\ru\blog\chatgpt-ili-ai-bot-dlya-biznesa\index.html
+  + dist\ru\blog\chto-takoe-ai-bot-dlya-biznesa\index.html
+  + dist\ru\blog\chto-takoe-ai-menedzher-i-kak-on-rabotaet\index.html
+  + dist\ru\blog\chto-takoe-lid-v-marketinge\index.html
+  + dist\ru\blog\chto-takoe-marketing-kit\index.html
+  + dist\ru\blog\chto-takoe-seo-prodvizhenie\index.html
+  + dist\ru\blog\chto-takoe-smm-prodvizhenie\index.html
+  + dist\ru\blog\chto-vhodit-v-uslugi-smm-specialista\index.html
+  + dist\ru\blog\cpa-cpm-cpc-cpl-v-reklame\index.html
+  + dist\ru\blog\digital-strategiya-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\dogovor-na-okazanie-smm-uslug-v-uzbekistane\index.html
+  + dist\ru\blog\etapy-razrabotki-telegram-bota\index.html
+  + dist\ru\blog\golosovoy-chat-s-ii-dlya-biznesa\index.html
+  + dist\ru\blog\google-ads-ili-yandeks-direkt-uzbekistan\index.html
+  + dist\ru\blog\google-maps-yandex-2gis-dlya-biznesa\index.html
+  + dist\ru\blog\gpt-bot-vs-chat-bot\index.html
+  + dist\ru\blog\gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet\index.html
+  + dist\ru\blog\gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana\index.html
+  + dist\ru\blog\hosting-dlya-telegram-bota\index.html
+  + dist\ru\blog\ii-chat-na-russkom-chto-eto-i-kakie-byvayut\index.html
+  + dist\ru\blog\instagram-direct-bot-kak-rabotaet\index.html
+  + dist\ru\blog\instagram-telegram-crm-odna-voronka-zayavok\index.html
+  + dist\ru\blog\kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy\index.html
+  + dist\ru\blog\kak-oplatit-chatgpt-v-uzbekistane\index.html
+  + dist\ru\blog\kak-podgotovit-biznes-k-zapusku-gpt-bota\index.html
+  + dist\ru\blog\kak-podklyuchit-chatgpt-k-telegram-botu\index.html
+  + dist\ru\blog\kak-proverit-podryadchika-reklama-sayt-uzbekistan\index.html
+  + dist\ru\blog\kak-provesti-audit-digital-marketinga\index.html
+  + dist\ru\blog\kak-sozdat-telegram-bota\index.html
+  + dist\ru\blog\kak-vybrat-ai-bota-dlya-biznesa\index.html
+  + dist\ru\blog\kak-vybrat-digital-agentstvo-v-tashkente\index.html
+  + dist\ru\blog\kak-vybrat-razrabotchika-sayta-v-tashkente\index.html
+  + dist\ru\blog\kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane\index.html
+  + dist\ru\blog\keys-cake-city-platforma-kondirterskoy\index.html
+  + dist\ru\blog\keys-graver-studio-seo-sayt-b2b\index.html
+  + dist\ru\blog\lending-korporativnyy-sayt-ili-internet-magazin\index.html
+  + dist\ru\blog\marketingovye-terminy-slovar\index.html
+  + dist\ru\blog\neyroseti-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\okupaemost-chat-bota-dlya-biznesa\index.html
+  + dist\ru\blog\otvety-klientam-24-7-bez-rasshireniya-otdela\index.html
+  + dist\ru\blog\plan-digital-marketinga-na-90-dney\index.html
+  + dist\ru\blog\pochemu-biznes-teryaet-zayavki-iz-instagram-telegram\index.html
+  + dist\ru\blog\pochemu-reklama-v-instagram-ne-prinosit-zayavki\index.html
+  + dist\ru\blog\pochemu-sayt-ne-prinosit-zayavki\index.html
+  + dist\ru\blog\podderzhka-telegram-bota-posle-zapuska\index.html
+  + dist\ru\blog\priem-oplaty-payme-click-v-telegram-bote\index.html
+  + dist\ru\blog\prodvizhenie-sayta-v-google-uzbekistan\index.html
+  + dist\ru\blog\prodvizhenie-sayta-v-yandekse-uzbekistan\index.html
+  + dist\ru\blog\razrabotka-chat-bota\index.html
+  + dist\ru\blog\reklamnyy-byudzhet-skolko-protsentov-ot-oborota\index.html
+  + dist\ru\blog\seo-audit-sayta-chek-list\index.html
+  + dist\ru\blog\seo-ili-google-ads-chto-vybrat\index.html
+  + dist\ru\blog\skolko-stoit-internet-magazin-tashkent-2026\index.html
+  + dist\ru\blog\skolko-stoit-internet-reklama-uzbekistan-2026\index.html
+  + dist\ru\blog\skolko-stoit-kontekstnaya-reklama-tashkent-2026\index.html
+  + dist\ru\blog\skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan\index.html
+  + dist\ru\blog\skolko-stoit-razrabotka-sayta-v-tashkente\index.html
+  + dist\ru\blog\skolko-stoit-razrabotka-telegram-bota-v-tashkente\index.html
+  + dist\ru\blog\skolko-stoit-seo-prodvizhenie-uzbekistan-2026\index.html
+  + dist\ru\blog\skolko-stoit-smm-i-vedenie-instagram-uzbekistan\index.html
+  + dist\ru\blog\skolko-stoit-sozdat-sayt-tashkent-2026\index.html
+  + dist\ru\blog\skolko-zayavok-teryaet-biznes-bez-ai-bota\index.html
+  + dist\ru\blog\stoimost-digital-marketinga-v-tashkente\index.html
+  + dist\ru\blog\stoimost-i-pakety-smm-uslug-v-tashkente\index.html
+  + dist\ru\blog\stoimost-lokalnogo-seo-v-tashkente\index.html
+  + dist\ru\blog\stoimost-seo-prodvizheniya-v-tashkente\index.html
+  + dist\ru\blog\stoimost-telegram-bota-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\stoimost-telegram-mini-app-v-uzbekistane\index.html
+  + dist\ru\blog\tehnicheskoe-zadanie-na-telegram-bota\index.html
+  + dist\ru\blog\telegram-ads-ili-posevy-v-kanalah\index.html
+  + dist\ru\blog\telegram-ads-stoimost-i-zapusk-uzbekistan\index.html
+  + dist\ru\blog\telegram-bot-crm-ili-menedzher\index.html
+  + dist\ru\blog\telegram-bot-dlya-biznesa\index.html
+  + dist\ru\blog\telegram-bot-dlya-zapisi-klientov\index.html
+  + dist\ru\blog\telegram-bot-dlya-zayavok\index.html
+  + dist\ru\blog\telegram-bot-ili-mini-app\index.html
+  + dist\ru\blog\telegram-bot-na-python\index.html
+  + dist\ru\blog\telegram-bot-s-oplatoy-payme-click\index.html
+  + dist\ru\blog\telegram-mini-app-chto-eto\index.html
+  + dist\ru\blog\testirovanie-telegram-bota-pered-zapuskom\index.html
+  + dist\ru\blog\tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\whatsapp-bot-dlya-biznesa-v-uzbekistane\index.html
+  + dist\ru\blog\zakazat-telegram-bota\index.html
+  + dist\uz\blog\agentlik-frilanser-yoki-birja-ozbekiston\index.html
+  + dist\uz\blog\ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi\index.html
+  + dist\uz\blog\ai-bot-narxlari-va-tariflari-b2c-uchun\index.html
+  + dist\uz\blog\ai-bot-okupaemost-roi-qanday-hisoblash\index.html
+  + dist\uz\blog\ai-botni-biznes-uchun-qanday-tanlash\index.html
+  + dist\uz\blog\ai-chat-nima-va-qanday-turlari-bor\index.html
+  + dist\uz\blog\ai-menejer-nima-va-u-qanday-ishlaydi\index.html
+  + dist\uz\blog\amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam\index.html
+  + dist\uz\blog\bepul-sayt-yaratish-yoki-buyurtma\index.html
+  + dist\uz\blog\biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi\index.html
+  + dist\uz\blog\biznes-reja-tuzish\index.html
+  + dist\uz\blog\biznes-sayti-koproq-ariza-olishi-uchun\index.html
+  + dist\uz\blog\biznes-uchun-ai-bot-nima-oddiy-tushuntirish\index.html
+  + dist\uz\blog\biznes-uchun-qanday-sayt-kerak\index.html
+  + dist\uz\blog\chat-bot-nima-turlari-va-qanday-tanlash\index.html
+  + dist\uz\blog\chat-gpt-uzbek-biznes-uchun\index.html
+  + dist\uz\blog\chatgpt-claude-gemini-ozbekistonda\index.html
+  + dist\uz\blog\chatgpt-ozbekistonda-vpnsiz-ishlaydimi\index.html
+  + dist\uz\blog\chatgpt-talabalar-uchun\index.html
+  + dist\uz\blog\chatgpt-telefon-va-kompyuterga-yuklab-olish\index.html
+  + dist\uz\blog\chatgpt-uzbek-tilida-promptlar\index.html
+  + dist\uz\blog\chatgptga-qanday-kirish-mumkin\index.html
+  + dist\uz\blog\domen-va-hosting-qanday-tanlanadi\index.html
+  + dist\uz\blog\gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash\index.html
+  + dist\uz\blog\gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash\index.html
+  + dist\uz\blog\gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun\index.html
+  + dist\uz\blog\insho-yozish-suniy-intellekt-bilan\index.html
+  + dist\uz\blog\instagram-direct-ai-bot-qanday-ishlaydi\index.html
+  + dist\uz\blog\instagram-telegram-crm-bitta-ariza-voronkasi\index.html
+  + dist\uz\blog\internet-dokon-yaratish-narxi-toshkent\index.html
+  + dist\uz\blog\internet-reklama-narxi-ozbekiston-2026\index.html
+  + dist\uz\blog\klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish\index.html
+  + dist\uz\blog\kontekst-reklama-narxi-toshkent-2026\index.html
+  + dist\uz\blog\kurs-ishi-yozish\index.html
+  + dist\uz\blog\marketing-nima\index.html
+  + dist\uz\blog\oquv-markazi-uchun-ai-bot-ota-onalarga-javob\index.html
+  + dist\uz\blog\qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda\index.html
+  + dist\uz\blog\referat-va-mustaqil-ish\index.html
+  + dist\uz\blog\reklama-byudjeti-qancha-bolishi-kerak\index.html
+  + dist\uz\blog\rezyume-tayyorlash\index.html
+  + dist\uz\blog\salon-uchun-ai-bot-yozilish-va-eslatmalar\index.html
+  + dist\uz\blog\samarqandda-biznes-uchun-chat-bot\index.html
+  + dist\uz\blog\sayt-buyurtma-qilishdan-oldin-nimalar-kerak\index.html
+  + dist\uz\blog\sayt-yaratish-narxi-nimaga-bogliq\index.html
+  + dist\uz\blog\sayt-yaratish-narxi-toshkent-2026\index.html
+  + dist\uz\blog\seo-xizmati-narxi-ozbekiston-2026\index.html
+  + dist\uz\blog\slayd-tayyorlash\index.html
+  + dist\uz\blog\smm-nima\index.html
+  + dist\uz\blog\smm-xizmati-narxi-ozbekiston-2026\index.html
+  + dist\uz\blog\target-reklama-nima\index.html
+  + dist\uz\blog\telegram-bot-biznes-uchun-narxi-uzbekistonda\index.html
+  + dist\uz\blog\telegram-bot-crm-yoki-menejer\index.html
+  + dist\uz\blog\telegram-botda-payme-click-humo-tolovlarini-qabul-qilish\index.html
+  + dist\uz\blog\toshkentda-biznes-uchun-chat-bot-qaysi-kanal\index.html
+  + dist\uz\blog\tushuntirish-xati-va-ariza-yozish\index.html
+  + dist\uz\blog\veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash\index.html
+  + dist\uz\blog\whatsapp-bot-biznes-uchun-ozbekistonda\index.html
+  + dist/ru/blog/index.html (113 cards)
+  + dist/uz/blog/index.html (57 cards)
+Prerendered 170 article(s), skipped 19 draft(s).
+Homepage SEO shell injected: 72 money links + 113 blog links. JSON-LD upgraded to @graph(Organization+WebSite+WebPage+Service).
+Sitemap written with 300 entries (124 pages + 170 articles), 154 with hreflang alternates, 140 with 140 images → dist/sitemap.xml
+Recent-changes sitemap written with 28 entries (lastmod >= 2026-10-09) → dist/sitemap-updates.xml
+robots.txt → dist/robots.txt (AI-open, shared policy)
+_redirects → dist/_redirects (26 user redirects, 12 draft 404s)
+_headers → dist/_headers (Alt-Svc: clear globally; admin no-store; /assets/* immutable)
+LLM Markdown twins: 28 written, 0 missing → dist/<url>index.html.md
+RSS feed → dist/ru/blog/feed.xml (50 items)
+RSS feed → dist/uz/blog/feed.xml (50 items)
+Site updates → dist/updates/atom.xml
+
+> bormi-admin@0.1.0 build
+> tsc -b && vite build
+
+vite v8.2.0 building client environment for production...
+[2Ktransforming...✓ 498 modules transformed.
+rendering chunks...
+computing gzip size...
+../../dist/admin/index.html                             1.70 kB │ gzip:  0.78 kB
+../../dist/admin/assets/index-BOamqxkt.css             32.43 kB │ gzip:  7.24 kB
+../../dist/admin/assets/queues-BeYobr5F.js              0.20 kB │ gzip:  0.17 kB
+../../dist/admin/assets/rolldown-runtime-B0Z9INg1.js    0.90 kB │ gzip:  0.51 kB
+../../dist/admin/assets/Categories-CV43yMSh.js          5.10 kB │ gzip:  1.89 kB
+../../dist/admin/assets/OrderDetail-DGoKrHFT.js         5.46 kB │ gzip:  2.04 kB
+../../dist/admin/assets/QuestionDetail-W_IE8in0.js      5.53 kB │ gzip:  1.99 kB
+../../dist/admin/assets/Audit-5_p06uVM.js               5.68 kB │ gzip:  2.35 kB
+../../dist/admin/assets/System-h_J8EbJJ.js              6.65 kB │ gzip:  2.51 kB
+../../dist/admin/assets/Moderation-7JENLRRb.js          9.13 kB │ gzip:  2.90 kB
+../../dist/admin/assets/Reports-AAw9lfBi.js            10.99 kB │ gzip:  3.53 kB
+../../dist/admin/assets/Overview-DTTYY_-M.js           12.28 kB │ gzip:  4.11 kB
+../../dist/admin/assets/text-WvUhmdZM.js               12.52 kB │ gzip:  4.30 kB
+../../dist/admin/assets/Access-C5wHtQoe.js             12.93 kB │ gzip:  3.89 kB
+../../dist/admin/assets/Listings-EzRKFodz.js           13.05 kB │ gzip:  4.05 kB
+../../dist/admin/assets/Operations-DBWJTEj9.js         14.60 kB │ gzip:  3.57 kB
+../../dist/admin/assets/ListingDetail-Hy6GObbI.js      14.77 kB │ gzip:  4.77 kB
+../../dist/admin/assets/ModerationDetail-Ch1tvg0x.js   17.13 kB │ gzip:  5.47 kB
+../../dist/admin/assets/ui-BeFJxyKe.js                 23.11 kB │ gzip:  7.44 kB
+../../dist/admin/assets/lib-LCQ189EZ.js                37.23 kB │ gzip: 13.46 kB
+../../dist/admin/assets/premium-D6GhNn3i.js           135.03 kB │ gzip: 43.78 kB
+../../dist/admin/assets/index-CUKuif58.js             203.84 kB │ gzip: 63.89 kB
+
+✓ built in 10.60s
+[33m[PLUGIN_TIMINGS] [0mYour build spent 41% of 10.4s inside plugin hooks (4.2s).
+Measured inside the callback, so queue time is excluded and time the callback itself awaited is not:
+  - vite:css transform (33%, 3.5s, 1 call)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+
+> app@0.0.0 build:studio
+> npm --prefix apps/studio ci && npm --prefix apps/studio run build && tsx apps/studio/scripts/prerender-studio.ts
+
+
+added 60 packages in 13s
+
+12 packages are looking for funding
+  run `npm fund` for details
+
+> gptbot-studio@0.1.0 build
+> tsc -b && vite build
+
+vite v8.2.0 building client environment for production...
+transforming...
+✓ 56 modules transformed.
+rendering chunks...
+computing gzip size...
+../../dist/assets/studio/.vite/manifest.json                    2.48 kB │ gzip:   0.54 kB
+../../dist/assets/studio/studio-7APZNV-Z.css                   23.32 kB │ gzip:   4.42 kB
+../../dist/assets/studio/__vite-browser-external-QhCs1atf.js    0.10 kB │ gzip:   0.11 kB
+../../dist/assets/studio/rolldown-runtime-W7wSyTde.js           0.97 kB │ gzip:   0.56 kB
+../../dist/assets/studio/PayReturn-DxF3jk8T.js                  1.54 kB │ gzip:   0.85 kB
+../../dist/assets/studio/MyPack-C25Cn_xL.js                     2.71 kB │ gzip:   1.10 kB
+../../dist/assets/studio/build-D7MDyMWs.js                      5.92 kB │ gzip:   2.72 kB
+../../dist/assets/studio/texts-CdwNOYTe.js                     10.36 kB │ gzip:   3.99 kB
+../../dist/assets/studio/Tariffs-ZkTQyY0C.js                   10.67 kB │ gzip:   3.91 kB
+../../dist/assets/studio/Island-DpArkcY8.js                    30.21 kB │ gzip:  10.52 kB
+../../dist/assets/studio/studio-D67Ss1oZ.js                   253.58 kB │ gzip:  80.63 kB
+../../dist/assets/studio/pptxgen.es-DZNDYrhK.js               368.45 kB │ gzip: 123.26 kB
+
+✓ built in 2.86s
+{"status":"studio-prerendered","written":["/ru/prezentatsiya-ai/","/uz/taqdimot-ai/","/uz/tariflar/"],"drafts":["/uz/rasmdan-yechim/"],"words":{"/ru/prezentatsiya-ai/":786,"/uz/taqdimot-ai/":763,"/uz/tariflar/":961},"firstLoadGzip":84557,"lazyFiles":["assets/studio/__vite-browser-external-QhCs1atf.js","assets/studio/texts-CdwNOYTe.js","assets/studio/pptxgen.es-DZNDYrhK.js","assets/studio/MyPack-C25Cn_xL.js","assets/studio/PayReturn-DxF3jk8T.js","assets/studio/Tariffs-ZkTQyY0C.js","assets/studio/build-D7MDyMWs.js","assets/studio/Island-DpArkcY8.js"],"budget":90000}
+
+> app@0.0.0 release:pages:stamp
+> tsx scripts/release/pages-production.ts stamp
+
+{"status":"stamped","commit":"b5ad3d935a3ecfdcdfef0bb11811710e68658bb3","files":1006,"features":["audience_directory","mobile_username_selection","bridge_pairing","sending_readiness","campaign_preflight","async_media_check","ai_chat_admin"]}

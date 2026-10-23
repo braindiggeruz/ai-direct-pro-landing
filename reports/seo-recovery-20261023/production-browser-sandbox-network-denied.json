@@ -1,0 +1,118 @@
+{
+  "startedAt": "2026-10-23T14:20:13.971Z",
+  "scope": "Production public HTML/assets, anonymous Chrome, GET only on https://gptbot.uz; all API calls, mutations and external requests blocked. No clicks or submissions.",
+  "executablePath": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+  "widths": [
+    390,
+    1280
+  ],
+  "pages": [
+    {
+      "id": "ru-telegram-service",
+      "pathname": "/ru/razrabotka-telegram-bota-tashkent/",
+      "width": 390,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\ru-telegram-service-390-failure.png"
+    },
+    {
+      "id": "uz-bot-price",
+      "pathname": "/uz/chat-bot-narxi/",
+      "width": 390,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/uz/chat-bot-narxi/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/uz/chat-bot-narxi/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\uz-bot-price-390-failure.png"
+    },
+    {
+      "id": "ru-calculator",
+      "pathname": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "width": 390,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\ru-calculator-390-failure.png"
+    },
+    {
+      "id": "ru-telegram-service",
+      "pathname": "/ru/razrabotka-telegram-bota-tashkent/",
+      "width": 1280,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshotError": "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+    },
+    {
+      "id": "uz-bot-price",
+      "pathname": "/uz/chat-bot-narxi/",
+      "width": 1280,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/uz/chat-bot-narxi/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/uz/chat-bot-narxi/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshotError": "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+    },
+    {
+      "id": "ru-calculator",
+      "pathname": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "width": 1280,
+      "passed": false,
+      "pageErrors": [],
+      "assetErrors": [],
+      "allowedGetCount": 1,
+      "blockedApi": [],
+      "blockedMutations": [],
+      "blockedExternalOrigins": [],
+      "error": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "screenshotError": "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+    }
+  ],
+  "failures": [
+    "ru-telegram-service @ 390: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "uz-bot-price @ 390: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/uz/chat-bot-narxi/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/uz/chat-bot-narxi/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "ru-calculator @ 390: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "ru-telegram-service @ 1280: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "uz-bot-price @ 1280: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/uz/chat-bot-narxi/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/uz/chat-bot-narxi/\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "ru-calculator @ 1280: page.goto: net::ERR_NETWORK_ACCESS_DENIED at https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\nCall log:\n\u001b[2m  - navigating to \"https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+  ],
+  "screenshots": [
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\ru-telegram-service-390-failure.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\uz-bot-price-390-failure.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\production-browser-screenshots\\ru-calculator-390-failure.png"
+  ],
+  "finishedAt": "2026-10-23T14:20:45.181Z",
+  "summary": {
+    "pagesPassed": 0,
+    "pagesTotal": 6,
+    "pageErrors": 0,
+    "assetErrors": 0,
+    "blockedApiRequests": 0,
+    "blockedMutationRequests": 0,
+    "failures": 6
+  }
+}

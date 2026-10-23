@@ -1,0 +1,7 @@
+account set: True | token set: True
+--- npm run release:pages:check (exit 0)
+
+> app@0.0.0 release:pages:check
+> tsx scripts/release/pages-production.ts check-production
+
+{"status":"pass","commit":"b5ad3d935a3ecfdcdfef0bb11811710e68658bb3","files":1006,"previousProductionCommit":"55957ebde61beece51db71cb117bd6d45a17ffb5"}

@@ -1,0 +1,27 @@
+✔ production rejects both one-sided branches and unknown production metadata (2.1572ms)
+✔ old admin build is rejected even with a valid public SEO site (38.0065ms)
+✔ unused new chunks cannot conceal a regressed entry point (25.5869ms)
+✔ each released capability and both SEO footers are mandatory (143.5559ms)
+✔ stamp binds the entire artifact to its reviewed source commit (69.9966ms)
+✔ an uncommitted migration blocks the release like uncommitted code (1988.9691ms)
+✔ release rejects public HTML with admin CSS even when every asset returns 200 (19.0925ms)
+✔ top-level Lead Radar still composes directory, account and readiness controls (27.1461ms)
+✔ public styles follow the built entry, never alphabetic AdminRoot or an old hash (12.0711ms)
+✔ multiple entry styles preserve cascade order and ignore comments, preload and duplicates (5.8383ms)
+✔ missing entry, absent stylesheet or empty CSS fails the build instead of emitting naked HTML (9.8929ms)
+✔ entry cannot make the builder reference paths outside the asset directory (9.1704ms)
+✔ artifact guard checks chat, blog and static pages while allowing explicit redirects (49.0538ms)
+✔ verified feed hashes publish once, survive process state reload and changed hash alone publishes again (73.4845ms)
+✔ stale manifest or any feed, conflicting cache and concurrent release block all POSTs (39.8019ms)
+✔ ambiguous network outcome is recorded and never automatically retried (28.8889ms)
+✔ explicit transient rejection allows only one later retry, never a tight loop (60.4806ms)
+✔ shared lock is never removed or bypassed by another notification run (6.4459ms)
+✔ custom-domain propagation retries only reads and stops after three attempts (1.0644ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3920.0451

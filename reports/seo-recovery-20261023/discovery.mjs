@@ -28,6 +28,7 @@ fs.writeFileSync(receiptPath,JSON.stringify(record,null,2)+'\n',{flag:'wx'});
 try {
  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({host:'gptbot.uz',key,keyLocation:'https://gptbot.uz/'+key+'.txt',urlList:urls}),signal:AbortSignal.timeout(40000)});
  record.httpStatus=response.status;
+ record.pendingKeyValidation=response.status===202;
  record.status=[200,202].includes(response.status)?'accepted':'rejected';
  record.response=(await response.text()).slice(0,300);
 } catch(error){record.error=error.message;}
