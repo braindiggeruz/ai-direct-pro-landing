@@ -26,7 +26,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Chat-bot narxi",
   "heroTitle": "Biznes uchun chat-bot narxi",
-  "heroSubtitle": "Boshlang‘ich narx aniq cheklangan ish hajmiga tegishli. Ishga tushirishdan oldin kanal, ssenariy, integratsiya, cheklov, qo‘llab-quvvatlash va tashqi xarajatlarni qayd etamiz.",
+  "heroSubtitle": "Telegram bot — 990 000 so‘mdan, bitta kanal uchun AI bot — 1 990 000 so‘mdan. Quyida paket tarkibi, muddatlar va ishga tushirgandan keyingi alohida xarajatlar keltirilgan.",
   "ctaPrimaryLabel": "Narxni bilish",
   "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Ariza namunasini ko‘rish",
@@ -34,11 +34,117 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Chat-bot narxi — bu aniq vazifa ostidagi smeta: u stsenariylar, integratsiyalar, AI-funksiyalar va CRM mavjudligiga bog‘liq."
+      "text": "Kerakli natijani tanlab, mos paketlarni solishtiring. Bu GPTBot.uz xizmatlarining ko‘rsatilgan tarkib uchun boshlang‘ich narxlari; aniq ish hajmi, muddat va summa brifdan keyin kelishiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Chat-bot tariflari jadvali 2026"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Xizmat",
+        "Tavsif",
+        "Muddat mo‘ljali",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Telegram bot Start",
+          "Tugmali ssenariy, FAQ, arizalar; bitta tanlangan til",
+          "3 kun",
+          "990 000 dan"
+        ],
+        [
+          "Telegram bot Biznes",
+          "Savdo voronkasi, AI-javoblar, CRM",
+          "7 kun",
+          "2 490 000 dan"
+        ],
+        [
+          "Telegram bot Pro",
+          "AI + CRM + Payme/Click + vitrina yoki Mini App",
+          "14 kun",
+          "4 900 000 dan"
+        ],
+        [
+          "Instagram Direct bot",
+          "Avtojavoblar, Instagram voronkasi",
+          "5 kun",
+          "1 190 000 dan"
+        ],
+        [
+          "Instagram AI-menejer",
+          "AI-javoblar, izohlar, stories, kvalifikatsiya",
+          "10 kun",
+          "2 900 000 dan"
+        ],
+        [
+          "WhatsApp bot Start",
+          "Avtojavoblar, WhatsApp’da lid yig‘ish",
+          "5 kun",
+          "1 490 000 dan"
+        ],
+        [
+          "AI bot Start",
+          "Bitta kanal, bilimlar bazasi, UZ + RU",
+          "5 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "AI bot Biznes",
+          "Telegram + Instagram, bilimlar bazasi, CRM",
+          "10 kun",
+          "3 900 000 dan"
+        ],
+        [
+          "AI bot Pro",
+          "Uchta kanal, to‘lov, tarqatma, analitika",
+          "21 kun",
+          "6 900 000 dan"
+        ],
+        [
+          "AmoCRM/Bitrix24 integratsiyasi",
+          "Bitim va vazifalarni avtomatik yaratish",
+          "2 kun",
+          "790 000 dan"
+        ],
+        [
+          "Soha uchun AI bot",
+          "Klinika, o‘quv markazi, salon, do‘kon, HoReCa",
+          "7–14 kun",
+          "1 990 000 dan"
+        ],
+        [
+          "Ishga tushirgandan keyingi qo‘llab-quvvatlash",
+          "Monitoring, ssenariy tuzatishlari, bazani yangilash",
+          "oyiga",
+          "290 000 dan"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "Qisqacha: e’lon qilingan tarif jadvalida bazaviy Telegram-bot 990 000 so‘mdan, Instagram Direct bot 1 190 000 so‘mdan, bazaviy AI-voronka 1 990 000 so‘mdan boshlanadi. Bu ko‘rsatilgan tarkib uchun boshlang‘ich narx bo‘lib, CRM, to‘lov, bir nechta kanal va qo‘llab-quvvatlash bilan to‘liq tizim va’dasi emas. Yakuniy smetada kiritilgan va kiritilmagan ishlar alohida yoziladi."
+      "text": "Telegram Start uchun bitta til tanlanadi: o‘zbek yoki rus tili. Ikkinchi til alohida baholanadi. Tarkibida RU + UZ ko‘rsatilgan paketda ikki til kelishilgan hajmga kiradi; til moduli ikkinchi marta qo‘shilmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi muddatlar material va kirish huquqlari tayyor bo‘lgan kelishilgan tarkib uchun mo‘ljal. CRM yoki to‘lov provayderining tashqi tasdiqlari alohida baholanadi. Topshirish sanasi va qabul mezonlari smetada qayd etiladi."
+    },
+    {
+      "type": "p",
+      "text": "Bir martalik ishlab chiqish va keyingi foydalanish alohida hisoblanadi. Smetada infratuzilma, tanlangan litsenziyalar va AI/API ko‘rsatiladi; oyiga 290 000 so‘mdan qo‘llab-quvvatlash alohida xizmat tarkibiga ega."
+    },
+    {
+      "type": "linkp",
+      "text": "{brief} faylini ochib, javoblarni arizangizga qo‘shing. Unda birinchi versiya, xarajatlar, kirish huquqlari egasi va qabul sinovlari uchun savollar bor.",
+      "links": [
+        {
+          "token": "brief",
+          "target": "https://gptbot.uz/downloads/seo-20261023/telegram-bot-brif-uz.txt",
+          "anchor": "Telegram bot uchun brif (TXT)"
+        }
+      ]
     },
     {
       "type": "linkp",
@@ -116,97 +222,6 @@
       ]
     },
     {
-      "type": "h2",
-      "text": "Chat-bot tariflari jadvali 2026"
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Xizmat",
-        "Tavsif",
-        "Muddat mo‘ljali",
-        "Narx (so‘m)"
-      ],
-      "rows": [
-        [
-          "Telegram bot Start",
-          "Tugmali ssenariy, arizalar, FAQ",
-          "3 kun",
-          "990 000 dan"
-        ],
-        [
-          "Telegram bot Biznes",
-          "Savdo voronkasi, AI-javoblar, CRM",
-          "7 kun",
-          "2 490 000 dan"
-        ],
-        [
-          "Telegram bot Pro",
-          "AI + CRM + Payme/Click + vitrina yoki Mini App",
-          "14 kun",
-          "4 900 000 dan"
-        ],
-        [
-          "Instagram Direct bot",
-          "Avtojavoblar, Instagram voronkasi",
-          "5 kun",
-          "1 190 000 dan"
-        ],
-        [
-          "Instagram AI-menejer",
-          "AI-javoblar, izohlar, stories, kvalifikatsiya",
-          "10 kun",
-          "2 900 000 dan"
-        ],
-        [
-          "WhatsApp bot Start",
-          "Avtojavoblar, WhatsApp’da lid yig‘ish",
-          "5 kun",
-          "1 490 000 dan"
-        ],
-        [
-          "AI bot Start",
-          "Bitta kanal, bilimlar bazasi, UZ + RU",
-          "5 kun",
-          "1 990 000 dan"
-        ],
-        [
-          "AI bot Biznes",
-          "Telegram + Instagram, bilimlar bazasi, CRM",
-          "10 kun",
-          "3 900 000 dan"
-        ],
-        [
-          "AI bot Pro",
-          "Uchta kanal, to‘lov, tarqatma, analitika",
-          "21 kun",
-          "6 900 000 dan"
-        ],
-        [
-          "AmoCRM/Bitrix24 integratsiyasi",
-          "Bitim va vazifalarni avtomatik yaratish",
-          "2 kun",
-          "790 000 dan"
-        ],
-        [
-          "Soha uchun AI bot",
-          "Klinika, o‘quv markazi, salon, do‘kon, HoReCa",
-          "7–14 kun",
-          "1 990 000 dan"
-        ],
-        [
-          "Ishga tushirgandan keyingi qo‘llab-quvvatlash",
-          "Monitoring, ssenariy tuzatishlari, bazani yangilash",
-          "oyiga",
-          "290 000 dan"
-        ]
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Jadvaldagi muddatlar material va kirish huquqlari tayyor bo‘lgan kelishilgan tarkib uchun mo‘ljal. CRM yoki to‘lov provayderining tashqi tasdiqlari alohida baholanadi. Topshirish sanasi va qabul mezonlari smetada qayd etiladi."
-    },
-    {
       "type": "linkp",
       "text": "{c} da loyiha tarkibi va arxitekturasi tasvirlangan (rus tilida). Bu barcha modullar boshlang‘ich tarifga kiradi yoki sizning tizimingizga ulangan degani emas.",
       "links": [
@@ -272,7 +287,7 @@
         "Integratsiya, maydon, hodisa, deduplikatsiya qoidasi va insonga uzatish nuqtalari.",
         "Sinovlar to‘plami va loyihani qabul qilish mezonlari.",
         "Ishga tushgandan keyingi qo‘llab-quvvatlash davri va kritik xatoga javob vaqti.",
-        "Kiritilmagan ishlar: tashqi tarif, kontent, CRM litsenziyasi va scope o‘zgargandan keyingi qo‘shimcha ish."
+        "Kiritilmagan ishlar: tashqi tarif, kontent, CRM litsenziyasi va ish hajmi o‘zgargandan keyingi qo‘shimcha ish."
       ]
     },
     {
@@ -340,7 +355,7 @@
     },
     {
       "q": "Qo‘llab-quvvatlash narxga kiradimi?",
-      "a": "Smetada loyiha topshirilishi, kelishilgan xatolarni tuzatish davri va keyingi pullik qo‘llab-quvvatlash alohida yoziladi. Hosting, litsenziyalar va yangi funksiyalar avtomatik ravishda kiritilmaydi."
+      "a": "Smetada loyihani topshirish, kelishilgan xatolarni tuzatish va keyingi qo‘llab-quvvatlash alohida yoziladi. Qo‘llab-quvvatlashning e’lon qilingan narxi oyiga 290 000 so‘mdan. Infratuzilma, litsenziyalar va yangi funksiyalar avtomatik kiritilmaydi."
     }
   ],
   "internalLinks": [
@@ -413,13 +428,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-09",
+  "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-23",
   "heroTrust": [
-    "Boshlang‘ich narx ≠ to‘liq loyiha",
-    "To‘lovdan oldin scope",
-    "Xarajatlar alohida",
-    "Qoplanish kafolatisiz"
+    "Narx va paket tarkibi",
+    "Telegram Start — bitta til",
+    "Ishdan oldin smeta",
+    "Ko‘mak xarajati alohida"
   ]
 }

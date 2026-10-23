@@ -391,6 +391,7 @@ function formHarness(options: {
   locale?: 'ru' | 'uz';
   response?: unknown;
   rejectFetch?: boolean;
+  timeoutMs?: number;
   gtag?: (...args: unknown[]) => void;
   storage?: unknown;
   search?: string;
@@ -430,10 +431,11 @@ function formHarness(options: {
   };
   const requests: Array<{ url: string; init: { method: string; headers: Record<string, string>; body: string } }> = [];
   const ymCalls: unknown[][] = [];
+  let uuid = 0;
   const window = {
     location: { pathname, search: options.search ?? '', hostname: 'gptbot.uz' },
     localStorage: options.storage ?? memoryStorage(),
-    crypto: { randomUUID: () => '123e4567-e89b-12d3-a456-426614174000' },
+    crypto: { randomUUID: () => `123e4567-e89b-12d3-a456-${String(++uuid).padStart(12, '0')}` },
     dataLayer: [] as Array<Record<string, unknown>>,
     gtag: options.gtag,
     ym: (...args: unknown[]) => { ymCalls.push(args); },
@@ -449,7 +451,9 @@ function formHarness(options: {
     createElement: () => element(),
     createTextNode: (text: string) => ({ text }),
   };
-  new Function('window', 'document', scriptBody(LEAD_FORM_SCRIPT))(window, document);
+  new Function('window', 'document', 'crypto', 'setTimeout', scriptBody(LEAD_FORM_SCRIPT))(
+    window, document, window.crypto, (callback: () => void, ms: number) => setTimeout(callback, options.timeoutMs ?? ms),
+  );
   const submit = async () => {
     listeners.submit({ preventDefault() {} });
     for (let i = 0; i < 5; i += 1) await new Promise((resolve) => setTimeout(resolve, 0));
@@ -473,12 +477,14 @@ test('the six conversion gaps now have real forms without changing protected exc
   }
 });
 
-test('page-form contact duplicates stay successful without counting a second conversion', async () => {
+test('page-form contact duplicates acknowledge only the previous lead and preserve editable details', async () => {
   const h = formHarness({ response: { ok: true, id: 'lead_duplicate', duplicate: true } });
   h.contact.value = '901234567'; h.consent.checked = true;
   await h.submit();
-  assert.equal(h.form.hidden, true);
-  assert.match(String(h.status.textContent), /Заявка получена/);
+  assert.equal(h.form.hidden, false);
+  assert.equal(h.contact.value, '901234567');
+  assert.equal(h.button.disabled, false);
+  assert.match(String(h.status.textContent), /Предыдущая заявка уже сохранена/);
   assert.deepEqual(h.window.dataLayer, []);
   assert.deepEqual(h.ymCalls, []);
 });
@@ -564,6 +570,49 @@ test('an unchanged task after a lost response reuses the request and acknowledge
   assert.match(String(h.status.textContent), /Заявка получена/);
   assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 1);
   assert.equal(h.ymCalls.length, 1);
+});
+
+test('page form starts new requests for edited name or budget and keeps those fields on contact dedupe', async () => {
+  const options = { rejectFetch: true, response: { ok: true, id: 'lead_existing', duplicate: true } };
+  const h = formHarness(options);
+  h.contact.value = '901234567'; h.consent.checked = true;
+  await h.submit();
+  h.name.value = 'Updated private name';
+  await h.submit();
+  h.budget.value = '2-5m';
+  options.rejectFetch = false;
+  await h.submit();
+  const ids = h.requests.map((request) => JSON.parse(request.init.body).requestId);
+  assert.equal(new Set(ids).size, 3);
+  assert.equal(h.form.hidden, false);
+  assert.equal(h.name.value, 'Updated private name');
+  assert.equal(h.budget.value, '2-5m');
+  assert.equal(h.name.disabled, false);
+  assert.equal(h.budget.disabled, false);
+  assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 0);
+  assert.doesNotMatch(JSON.stringify(h.window.dataLayer), /Updated private name|901234567/);
+});
+
+test('page form times out honestly, ignores late acknowledgement and retries the same request', async () => {
+  let resolve!: (value: unknown) => void;
+  const options = { response: new Promise((done) => { resolve = done; }) as unknown, timeoutMs: 10 };
+  const h = formHarness(options);
+  h.contact.value = '901234567'; h.consent.checked = true;
+  await h.submit();
+  await new Promise((done) => setTimeout(done, 20));
+  assert.equal(h.form.hidden, false);
+  assert.equal(h.button.disabled, false);
+  assert.equal(h.contact.disabled, false);
+  assert.match(String(h.status.textContent), /Она могла сохраниться/);
+  resolve({ ok: true, id: 'lead_timeout' });
+  await new Promise((done) => setTimeout(done, 0));
+  assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 0);
+  options.response = { ok: true, id: 'lead_timeout', duplicate: true, idempotent: true };
+  await h.submit();
+  const ids = h.requests.map((request) => JSON.parse(request.init.body).requestId);
+  assert.equal(ids[0], ids[1]);
+  assert.equal(h.form.hidden, true);
+  assert.equal(h.window.dataLayer.filter((event) => event.event === 'generate_lead').length, 1);
 });
 
 test('the page form posts the shared lead contract and the server accepts it as page_form', async () => {
@@ -731,7 +780,7 @@ test('a rate-limited lead never claims acceptance, even from an older server mes
   offline.contact.value = '901234567';
   offline.consent.checked = true;
   await offline.submit();
-  assert.match(String(offline.status.textContent), /Не удалось отправить заявку/);
+  assert.match(String(offline.status.textContent), /Она могла сохраниться/);
   assert.equal(offline.button.disabled, false);
 });
 

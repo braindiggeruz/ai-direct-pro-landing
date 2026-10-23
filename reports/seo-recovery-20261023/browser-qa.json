@@ -1,0 +1,1589 @@
+{
+  "startedAt": "2026-10-23T14:10:02.874Z",
+  "executablePath": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+  "scope": "Local built dist; one sequential browser; external requests blocked; every API mocked.",
+  "widths": [
+    320,
+    390,
+    1280
+  ],
+  "pages": [
+    {
+      "id": "ru-telegram-service",
+      "url": "/ru/razrabotka-telegram-bota-tashkent/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "Разработка и создание Telegram-ботов в Ташкенте для бизнеса"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Отправить заявку",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "LI",
+            "id": "",
+            "class": "",
+            "width": 65.34375
+          },
+          {
+            "tag": "A",
+            "id": "",
+            "class": "inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:t",
+            "width": 65.34375
+          },
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 429.46875
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 148.265625
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 148.265625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 148.265625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-telegram-service-320.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-bot-price",
+      "url": "/uz/chat-bot-narxi/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "O‘zbekistonda biznes uchun chat-bot narxi"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/chat-bot-narxi/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Ariza yuborish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "LI",
+            "id": "",
+            "class": "",
+            "width": 131.109375
+          },
+          {
+            "tag": "A",
+            "id": "",
+            "class": "inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:t",
+            "width": 131.109375
+          },
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 447.8125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 101.296875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 80.46875
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 447.8125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 101.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 80.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 447.8125
+          }
+        ]
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-site-price-article",
+      "url": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "Сколько стоит создать сайт в Ташкенте: сметы 2026"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/ru/razrabotka-saytov-tashkent/\"]",
+        "text": "разработки сайтов",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 456.296875
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 166.375
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 151.6875
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 166.375
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 151.6875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 166.375
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 151.6875
+          }
+        ]
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-site-price-article",
+      "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "Sayt yaratish narxi Toshkent 2026: smetalar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/uz/sayt-yaratish/\"]",
+        "text": "sayt yaratish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 354.625
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 354.625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 354.625
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 120.515625
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 354.625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 354.625
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 120.515625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 354.625
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 120.515625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 354.625
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 120.515625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 354.625
+          }
+        ]
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 374.453125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 126.078125
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-320.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    },
+    {
+      "id": "uz-login-guide",
+      "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"https://chatgpt.com/\"]",
+        "text": "chatgpt.com",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 317.953125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 317.953125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 317.953125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 122.328125
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 317.953125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 317.953125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 122.328125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 317.953125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 122.328125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 317.953125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 122.328125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 317.953125
+          }
+        ]
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-calculator",
+      "url": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "Калькулятор стоимости Telegram-бота"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+      ],
+      "cta": {
+        "selector": "#telegram-cost-calculator-root button.btn-primary",
+        "text": "Продолжить→",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "LI",
+            "id": "",
+            "class": "",
+            "width": 65.34375
+          },
+          {
+            "tag": "A",
+            "id": "",
+            "class": "inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:t",
+            "width": 65.34375
+          },
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 470.234375
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 130.46875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 87.84375
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 470.234375
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 130.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 87.84375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 470.234375
+          }
+        ]
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-telegram-service",
+      "url": "/ru/razrabotka-telegram-bota-tashkent/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "Разработка и создание Telegram-ботов в Ташкенте для бизнеса"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Отправить заявку",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 429.46875
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 148.265625
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 429.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 148.265625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 148.265625
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 429.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 148.265625
+          },
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 449.34375
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-telegram-service-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-bot-price",
+      "url": "/uz/chat-bot-narxi/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "O‘zbekistonda biznes uchun chat-bot narxi"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/chat-bot-narxi/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Ariza yuborish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "LI",
+            "id": "",
+            "class": "",
+            "width": 131.109375
+          },
+          {
+            "tag": "A",
+            "id": "",
+            "class": "inline-flex min-h-[44px] items-center rounded-lg px-2 sm:px-3 text-white/70 hover:bg-white/5 hover:t",
+            "width": 131.109375
+          },
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 447.8125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 80.46875
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 447.8125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 447.8125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 80.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 447.8125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 80.46875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 447.8125
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-bot-price-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-site-price-article",
+      "url": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "Сколько стоит создать сайт в Ташкенте: сметы 2026"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/ru/razrabotka-saytov-tashkent/\"]",
+        "text": "разработки сайтов",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 456.296875
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 151.6875
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 456.296875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 151.6875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 151.6875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 151.6875
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 456.296875
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-site-price-article-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-site-price-article",
+      "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "Sayt yaratish narxi Toshkent 2026: smetalar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/uz/sayt-yaratish/\"]",
+        "text": "sayt yaratish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": []
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-site-price-article-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 374.453125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 126.078125
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    },
+    {
+      "id": "uz-login-guide",
+      "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"https://chatgpt.com/\"]",
+        "text": "chatgpt.com",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": []
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-login-guide-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-calculator",
+      "url": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "Калькулятор стоимости Telegram-бота"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+      ],
+      "cta": {
+        "selector": "#telegram-cost-calculator-root button.btn-primary",
+        "text": "Продолжить→",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 470.234375
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 130.46875
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 87.84375
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 470.234375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 470.234375
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 130.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 87.84375
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 470.234375
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 130.46875
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 87.84375
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-calculator-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-telegram-service",
+      "url": "/ru/razrabotka-telegram-bota-tashkent/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "Разработка и создание Telegram-ботов в Ташкенте для бизнеса"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Отправить заявку",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-bot-price",
+      "url": "/uz/chat-bot-narxi/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "O‘zbekistonda biznes uchun chat-bot narxi"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/chat-bot-narxi/"
+      ],
+      "cta": {
+        "selector": "[data-lead-form] button[type=submit]",
+        "text": "Ariza yuborish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-site-price-article",
+      "url": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "Сколько стоит создать сайт в Ташкенте: сметы 2026"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/ru/razrabotka-saytov-tashkent/\"]",
+        "text": "разработки сайтов",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-site-price-article",
+      "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "Sayt yaratish narxi Toshkent 2026: smetalar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/sayt-yaratish-narxi-toshkent-2026/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"/uz/sayt-yaratish/\"]",
+        "text": "sayt yaratish",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    },
+    {
+      "id": "uz-login-guide",
+      "url": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+      ],
+      "cta": {
+        "selector": "main a[href=\"https://chatgpt.com/\"]",
+        "text": "chatgpt.com",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    },
+    {
+      "id": "ru-calculator",
+      "url": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "Калькулятор стоимости Telegram-бота"
+      ],
+      "canonical": [
+        "https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/"
+      ],
+      "cta": {
+        "selector": "#telegram-cost-calculator-root button.btn-primary",
+        "text": "Продолжить→",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {}
+    }
+  ],
+  "leadFlows": [
+    {
+      "kind": "page",
+      "passed": true,
+      "retryKeyReused": true,
+      "editedNameNewKey": true,
+      "editedBudgetOrEstimateNewKey": true,
+      "duplicateKeepsDetails": true,
+      "requests": [
+        {
+          "requestId": "pf_5e6450ed979c499a9060c5dee880e7bc",
+          "source": "page_form",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture"
+        },
+        {
+          "requestId": "pf_5e6450ed979c499a9060c5dee880e7bc",
+          "source": "page_form",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture"
+        },
+        {
+          "requestId": "pf_800afb378e1d42409562c40b70b28288",
+          "source": "page_form",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture"
+        },
+        {
+          "requestId": "pf_6d8ae01e53e346edbe6506796b33e8f4",
+          "source": "page_form",
+          "service": "telegram-bot",
+          "fixtureName": "Edited local QA fixture"
+        },
+        {
+          "requestId": "pf_cc5ec37c4e674c7c8c2fad272ebe17e1",
+          "source": "page_form",
+          "service": "telegram-bot",
+          "budget": "2-5m",
+          "fixtureName": "Edited local QA fixture"
+        }
+      ],
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\lead-page-duplicate-390.png",
+      "pageErrors": [],
+      "requestCount": 5
+    },
+    {
+      "kind": "calculator",
+      "passed": true,
+      "retryKeyReused": true,
+      "editedNameNewKey": true,
+      "editedBudgetOrEstimateNewKey": true,
+      "duplicateKeepsDetails": true,
+      "requests": [
+        {
+          "requestId": "calc_858ba2cee539493693ff256c41f0c472",
+          "source": "calculator",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture",
+          "estimateMin": "990000"
+        },
+        {
+          "requestId": "calc_858ba2cee539493693ff256c41f0c472",
+          "source": "calculator",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture",
+          "estimateMin": "990000"
+        },
+        {
+          "requestId": "calc_60fb31ee8d674ad3b12807c7e5b1b856",
+          "source": "calculator",
+          "service": "telegram-bot",
+          "fixtureName": "Local QA fixture",
+          "estimateMin": "990000"
+        },
+        {
+          "requestId": "calc_5cfd6fdf96aa407fac63e3d702a81fc9",
+          "source": "calculator",
+          "service": "telegram-bot",
+          "fixtureName": "Edited local QA fixture",
+          "estimateMin": "990000"
+        },
+        {
+          "requestId": "calc_302d98f2ba014550a9f13aef9f4e8bc6",
+          "source": "calculator",
+          "service": "telegram-bot",
+          "fixtureName": "Edited local QA fixture",
+          "estimateMin": "990000"
+        }
+      ],
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\lead-calculator-duplicate-390.png",
+      "pageErrors": [],
+      "requestCount": 5
+    }
+  ],
+  "screenshots": [
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-telegram-service-320.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-320.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-telegram-service-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-bot-price-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-site-price-article-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-site-price-article-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-login-guide-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\ru-calculator-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\lead-page-duplicate-390.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\lead-calculator-duplicate-390.png"
+  ],
+  "failures": [],
+  "finishedAt": "2026-10-23T14:10:34.243Z",
+  "summary": {
+    "pagesPassed": 21,
+    "pagesTotal": 21,
+    "leadFlowsPassed": 2,
+    "leadFlowsTotal": 2,
+    "failures": 0
+  }
+}

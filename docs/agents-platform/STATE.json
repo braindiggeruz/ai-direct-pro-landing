@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Google discovery feeds deployed and verified; scheduled read-only recrawl checks",
-  "stage_status": "complete",
+  "current_stage": "SEO recovery: content intent, commercial qualification and reliable lead submissions",
+  "stage_status": "validated_pending_deployment",
   "last_completed_stage": "Commercial Telegram lead cluster with guarded deployment, browser acceptance and search discovery",
-  "next_stage": "Read-only OpenSEO/GSC recrawl checkpoints on 2026-10-12, 2026-10-16, 2026-10-23; then mature commercial traffic and lead outcome measurement",
+  "next_stage": "Guarded production build/deployment and exact live acceptance for SEO recovery 2026-10-23",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1848,7 +1848,7 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Use completed equal GSC final windows, Uzbekistan andRU/UZ separately. Keep marketplace drafts pending a separate publication action. Economics requires actual execution costs. Preserve separate Click Merchant access blocker.",
+  "next_stage_note": "Owner already authorized deployment and post-release discovery notifications. Preserve legacy WIP, protected SEO snapshots and pending fiscal incident.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "55957ebde61beece51db71cb117bd6d45a17ffb5",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-09T02:55:04.429738+00:00",
+  "updated_at": "2026-10-23T14:11:37.137Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2602,5 +2602,22 @@
       "notificationPolicy": "Meaningful change, failure or user action only; final checkpoint report; quiet when unchanged",
       "automaticResubmission": false
     }
+  },
+  "seo_recovery_20261023": {
+    "status": "validated_pending_deployment",
+    "initialHead": "41c61c53287fb1af13248931326aee3372e85344",
+    "previousProduction": "55957ebde61beece51db71cb117bd6d45a17ffb5",
+    "report": "reports/seo-recovery-20261023/IMPLEMENTATION.md",
+    "auditReport": "https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7/reports/832da499-6c1f-41f2-8959-8c8ee4d001ca",
+    "pages": 9,
+    "articles": 6,
+    "downloadBriefs": 2,
+    "protectedBaseline": "docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json",
+    "targetedTests": {
+      "pass": 217,
+      "fail": 0,
+      "skip": 0
+    },
+    "businessOutcomes": "Unmeasured: no ranking, traffic, customer or revenue guarantee; browser leads are mocked."
   }
 }

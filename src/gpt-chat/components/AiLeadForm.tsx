@@ -9,13 +9,14 @@ import { parseContact, studioQuickContact, type StudioQuickContact } from '../co
 import { STUDIO_CONTACT_PROPS } from '../../shared/studio-contact';
 import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS, isLeadBudget } from '../../shared/lead-budget';
 import { shouldTrackLead } from '../../shared/lead-conversion';
+import { prepareLeadRequest, type LeadRequestAttempt } from '../../shared/lead-client';
 import { readFirstTouch, leadAttribution, leadUtm } from '../../shared/lead-attribution';
 import { TurnstileChallenge, type TurnstileChallengeHandle } from './TurnstileChallenge';
 
 /** Which surface produced the lead. Also the GA4 `method` parameter. */
 export type LeadMethod = 'offer_b2b' | 'chat_b2b_line';
 
-type Status = 'idle' | 'sending' | 'sent' | 'failed';
+type Status = 'idle' | 'sending' | 'sent' | 'duplicate' | 'failed' | 'uncertain';
 
 /**
  * The chat's lead capture: name, one contact, an optional budget and a
@@ -61,7 +62,8 @@ export function AiLeadForm({
   const [consentError, setConsentError] = useState(false);
   const uid = useId();
   const firstFieldRef = useRef<HTMLInputElement>(null);
-  const requestIdRef = useRef<string | null>(null);
+  const requestRef = useRef<LeadRequestAttempt | null>(null);
+  const busyRef = useRef(false);
   const turnstileRef = useRef<TurnstileChallengeHandle>(null);
   const [turnstileSiteKey, setTurnstileSiteKey] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -85,7 +87,7 @@ export function AiLeadForm({
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (status === 'sending') return;
+    if (busyRef.current) return;
     const parsed = parseContact(contact);
     if (!parsed || !consent || (turnstileRequired && !turnstileToken)) {
       setContactError(!parsed);
@@ -94,11 +96,8 @@ export function AiLeadForm({
     }
     setContactError(false);
     setConsentError(false);
-    setStatus('sending');
-    requestIdRef.current ??= `lead_${crypto.randomUUID().replace(/-/g, '')}`;
     const firstTouch = readFirstTouch();
-    const res = await sendLead(apiBase, {
-      requestId: requestIdRef.current,
+    const payload = {
       turnstileToken: turnstileToken || undefined,
       name: name.trim() || undefined,
       contactType: parsed.type,
@@ -116,33 +115,42 @@ export function AiLeadForm({
       budget: isLeadBudget(budget) ? budget : undefined,
       // Path only — a query string can carry personal data into the record.
       pageUrl: typeof location === 'undefined' ? undefined : location.pathname,
-    });
-    if (res.ok) {
-      setStatus('sent');
-      // After the server acknowledged the write, never on the click. The
-      // goals are bare names: chat_lead_success says where the lead came
-      // from, lead_form_success counts it with the site's other forms.
-      if (shouldTrackLead(res, requestIdRef.current)) {
-        track(EV.generateLead, { method, source, mode: parsed.type, intent, locale });
-        reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
-        reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
-      }
-    } else {
-      if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
-        setTurnstileRequired(true);
-        setTurnstileToken(null);
-        turnstileRef.current?.reset();
-        try {
-          const config = await fetchTurnstileConfig(apiBase);
-          setTurnstileSiteKey(config.siteKey);
-        } catch {
-          setTurnstileSiteKey(null);
+    };
+    const request = prepareLeadRequest(payload, requestRef.current, 'lead');
+    requestRef.current = request;
+    busyRef.current = true;
+    setStatus('sending');
+    try {
+      const res = await sendLead(apiBase, { ...payload, requestId: request.requestId });
+      if (res.ok) {
+        // A contact duplicate confirms the previous row, not these edited details.
+        // Keep all fields available so the person can copy them or contact us.
+        setStatus(res.duplicate === true && res.idempotent !== true ? 'duplicate' : 'sent');
+        // After the server acknowledged the write, never on the click. The
+        // goals are bare names: chat_lead_success says where the lead came
+        // from, lead_form_success counts it with the site's other forms.
+        if (shouldTrackLead(res, request.requestId)) {
+          track(EV.generateLead, { method, source, mode: parsed.type, intent, locale });
+          reachYandexGoal(YANDEX_GOALS.chatLeadSuccess);
+          reachYandexGoal(YANDEX_GOALS.leadFormSuccess);
         }
-        setStatus('idle');
-        return;
+      } else {
+        if (res.code === 'turnstile_required' || res.code === 'turnstile_failed') {
+          setTurnstileRequired(true);
+          setTurnstileToken(null);
+          turnstileRef.current?.reset();
+          setStatus('idle');
+          void fetchTurnstileConfig(apiBase).then(
+            (config) => setTurnstileSiteKey(config.siteKey),
+            () => setTurnstileSiteKey(null),
+          );
+          return;
+        }
+        setStatus(res.code === 'network' || res.code === 'timeout' ? 'uncertain' : 'failed');
+        track(EV.leadFormFailed, { method, source, intent, code: res.code, locale });
       }
-      setStatus('failed');
-      track(EV.leadFormFailed, { method, source, intent, code: res.code, locale });
+    } finally {
+      busyRef.current = false;
     }
   };
 
@@ -175,6 +183,7 @@ export function AiLeadForm({
         id={`${uid}-name`}
         ref={firstFieldRef}
         value={name}
+        disabled={status === 'sending'}
         onChange={(event) => setName(event.target.value)}
         autoComplete="name"
         maxLength={120}
@@ -189,7 +198,8 @@ export function AiLeadForm({
       <input
         id={`${uid}-contact`}
         value={contact}
-        onChange={(event) => { setContact(event.target.value); requestIdRef.current = null; if (contactError) setContactError(false); }}
+        disabled={status === 'sending'}
+        onChange={(event) => { setContact(event.target.value); if (contactError) setContactError(false); }}
         autoComplete="tel"
         maxLength={200}
         placeholder={copy.leadContactPlaceholder}
@@ -216,6 +226,7 @@ export function AiLeadForm({
         id={`${uid}-budget`}
         name="budget"
         value={budget}
+        disabled={status === 'sending'}
         onChange={(event) => setBudget(event.target.value)}
         className="mt-1.5 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-[15px] text-white outline-none transition-colors focus:border-brand-cyan/50 focus-visible:ring-2 focus-visible:ring-brand-cyan/30"
       >
@@ -229,6 +240,7 @@ export function AiLeadForm({
         <input
           type="checkbox"
           checked={consent}
+          disabled={status === 'sending'}
           onChange={(event) => { setConsent(event.target.checked); if (consentError) setConsentError(false); }}
           aria-invalid={consentError}
           className="mt-0.5 h-5 w-5 shrink-0 accent-[#2FE6D1]"
@@ -275,9 +287,9 @@ export function AiLeadForm({
         {status === 'sending' ? copy.leadSending : copy.leadSubmit}
       </button>
 
-      {status === 'failed' && (
+      {(status === 'failed' || status === 'uncertain' || status === 'duplicate') && (
         <p role="alert" className="mt-3 text-[13px] leading-relaxed text-red-200">
-          {copy.leadError}{' '}
+          {status === 'duplicate' ? copy.leadDuplicate : status === 'uncertain' ? copy.leadUnknown : copy.leadError}{' '}
           <QuickContactLink quick={quick} from="lead_error" locale={locale} className={quickLink} />
         </p>
       )}

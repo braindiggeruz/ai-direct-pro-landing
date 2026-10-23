@@ -73,6 +73,22 @@ const sha256 = (s: string | Buffer) => createHash('sha256').update(s).digest('he
 const PAID_CHAT = 'docs/seo/evidence/2026-10-01-paid-chat-honesty/reviewed-protected-pages.json';
 const GSC_DRIVEN = 'docs/seo/evidence/2026-09-30-gsc-driven/reviewed-protected-pages.json';
 
+test('October recovery preserves search metadata and the download winner while separating login intent', () => {
+  const current = readRevision('docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json');
+  const previous = readRevision('docs/seo/evidence/2026-10-08-recovery/reviewed-protected-pages.json');
+  assert.deepEqual(current.reviewedChanges.map(c => [c.pathname, [...c.fields].sort()]), [
+    ['/uz/gpt-uzbek-tilida/', ['bodyTextSha256']],
+    ['/uz/blog/chatgptga-qanday-kirish-mumkin/', ['bodyTextSha256', 'internalLinks']],
+  ]);
+  for (const page of current.pages) {
+    const before = previous.pages.find(p => p.pathname === page.pathname)!;
+    for (const field of ['title', 'h1', 'description', 'canonical', 'robots', 'googlebot', 'hreflang']) {
+      assert.deepEqual(page.contract[field], before.contract[field], `${page.pathname}: ${field}`);
+    }
+  }
+  assert.deepEqual(current.pages[0].contract, previous.pages[0].contract);
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

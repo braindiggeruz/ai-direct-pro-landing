@@ -23,7 +23,7 @@
     "chatgpt rasmiy sayt",
     "chatgpt hisob xavfsizligi"
   ],
-  "intro": "ChatGPT’ga kirishni chatgpt.com saytidan boshlang. Hisobga kirish uchun Log in, yangi hisob ochish uchun Sign up tugmasi ishlatiladi; hisobsiz sinash imkoniyati ham taklif etilishi mumkin. 04.10.2026 holatiga O‘zbekiston ChatGPT qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida. Quyida kirish usuli, tasdiqlash kodi va sayt ochilmasa tekshiriladigan qadamlar bor.",
+  "intro": "ChatGPT’ga kirishni chatgpt.com saytidan boshlang. Mavjud hisob uchun Log in, yangi hisob uchun Sign up tugmasini tanlang; hisobsiz sinash imkoniyati ham taklif etilishi mumkin. 23.10.2026 kuni tekshirilgan rasmiy ro‘yxatda O‘zbekiston bor. Bu yo‘riqnoma OpenAI hisobiga kirish, kod kelmasligi va brauzer xatolarini hal qilish uchun; GPTBot.uz chati alohida mustaqil xizmat.",
   "body": [
     {
       "type": "quote",
@@ -120,7 +120,7 @@
     },
     {
       "type": "linkp",
-      "text": "Ochilmasa yoki kod kelmasa — quyidagi «ChatGPT ochilmasa nima qilish kerak?» bo‘limiga qarang. O‘zbek tilida darhol, ro‘yxatdan o‘tmasdan savol berish kerak bo‘lsa — GPTBot.uz’ning mustaqil {uzchat} bor (OpenAI mahsuloti emas).",
+      "text": "Ochilmasa yoki kod kelmasa — quyidagi «ChatGPT ochilmasa nima qilish kerak?» bo‘limiga qarang. Alohida xizmatni sinamoqchi bo‘lsangiz, GPTBot.uz’ning mustaqil {uzchat}da jami 3 ta bepul sinov javobi bor, keyin AI paket kerak. Bu OpenAI mahsuloti emas va ChatGPT hisobingizga kirishni tiklamaydi.",
       "links": [
         {
           "token": "uzchat",
@@ -171,7 +171,7 @@
     },
     {
       "type": "p",
-      "text": "Oddiy foydalanuvchi kirishi uchun VPN odatda kerak emas: 04.10.2026 holatiga O‘zbekiston OpenAI qo‘llab-quvvatlaydigan mamlakatlar ro‘yxatida. Agar sayt ochilmasa, avval internet, DNS, brauzer kengaytmalari, korporativ tarmoq cheklovi yoki vaqtinchalik servis muammosini tekshiring. VPNni birinchi yechim sifatida ishlatish shart emas: kirishda muammo bo‘lsa, OpenAI yordam markazi aksincha VPNni o‘chirib ko‘rishni maslahat beradi."
+      "text": "O‘zbekiston 23.10.2026 kuni tekshirilgan OpenAI ro‘yxatida bor: mamlakatning o‘zi ChatGPT’ga kirish uchun VPN talab qilmaydi. Sayt ochilmasa, internet, brauzer yoki vaqtinchalik servis muammosi ham sabab bo‘lishi mumkin. Shaxsiy VPN ishlatayotgan bo‘lsangiz, uni vaqtincha o‘chirib tekshiring. Ishxona qurilmasi yoki tarmog‘ida sozlamalarni o‘zgartirishdan oldin IT mas’uliga murojaat qiling."
     },
     {
       "type": "linkp",
@@ -204,6 +204,14 @@
         [
           "«Wrong authentication method»",
           "Ro‘yxatdan o‘tgan usulingizni tanlang. Apple’da Hide My Email ishlatilgan bo‘lsa, o‘sha Apple hisobi bilan kiring."
+        ],
+        [
+          "«This user already exists»",
+          "Yangi hisob yaratishni takrorlamang: Log in orqali avvalgi kirish usulingizni sinang. Ro‘yxatdan o‘tish oldin boshlangan, lekin tugallanmagan bo‘lishi mumkin."
+        ],
+        [
+          "Kirdim, lekin eski suhbatlar yoki obuna ko‘rinmayapti",
+          "Settings → Account ichidagi emailni va tanlangan Google, Apple yoki Microsoft hisobini tekshiring. Boshqa hisobga kirgan bo‘lishingiz mumkin; hisoblar avtomatik birlashmaydi."
         ],
         [
           "Kod kelmadi yoki eskirdi",
@@ -312,42 +320,15 @@
     },
     {
       "type": "h2",
-      "text": "Shaxsiy ChatGPT va biznes AI-bot farqi"
+      "text": "Mijozlar uchun alohida bot kerak bo‘lsa"
     },
     {
       "type": "p",
-      "text": "Shaxsiy ChatGPT sizga matn, reja yoki javob qoralamasi beradi. Biznes AI-bot esa sayt, Telegram yoki Instagramdan kelgan mijozni kutib oladi, savol beradi, kontakt yig‘adi va arizani menejerga yuboradi. Agar maqsad mijozlarni yo‘qotmaslik bo‘lsa, faqat ChatGPTga kirish emas, biznes jarayonini ulash kerak."
+      "text": "Shaxsiy ChatGPT hisobiga kirish mijozlar uchun bot yaratmaydi. Saytingiz yoki Telegramingizdagi savollarga sizning xizmatlaringiz asosida javob berish va arizani menejerga uzatish uchun alohida loyiha kerak bo‘ladi."
     },
     {
       "type": "linkp",
-      "text": "ChatGPT’ni biznes jarayoniga ulash kerak bo‘lsa, {call} yoki {mail}: vazifani eshitamiz va qaysi yechim mosligini aytamiz.",
-      "links": [
-        {
-          "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "Qo‘ng‘iroq qilish"
-        },
-        {
-          "token": "mail",
-          "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail yozish"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "Biznesingiz uchun alohida veb-sayt ham kerak bo‘lsa, {sayt} xizmatini ko‘ring.",
-      "links": [
-        {
-          "token": "sayt",
-          "target": "/uz/sayt-yaratish/",
-          "anchor": "sayt yaratish"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "Buning uchun {sitebot}, {tg} yoki {lead} sahifalarini ko‘ring.",
+      "text": "Shunday vazifa uchun {sitebot}, {tg} yoki {lead} yechimlarining imkoniyatlarini ko‘ring. Kirishdagi xato bo‘yicha esa yuqoridagi rasmiy OpenAI yordam manbalaridan foydalaning.",
       "links": [
         {
           "token": "sitebot",
@@ -368,7 +349,7 @@
     },
     {
       "type": "cta",
-      "text": "O‘zbek tilida AI chatni ochish",
+      "text": "GPTBot.uz AI chati: 3 ta sinov javobi",
       "href": "/uz/gpt-uzbek-tilida/"
     }
   ],
@@ -383,7 +364,7 @@
     },
     {
       "q": "O‘zbekistonda ChatGPT VPNsiz ochiladimi?",
-      "a": "Ha, odatda ochiladi: 04.10.2026 holatiga O‘zbekiston ChatGPT qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida bor, shuning uchun VPN kerak emas. Sayt ochilmasa, tarmoq va brauzerni hamda rasmiy servis holatini tekshiring."
+      "a": "O‘zbekiston 23.10.2026 kuni tekshirilgan rasmiy ro‘yxatda bor. Mamlakatning o‘zi kirish uchun VPN talab qilmaydi. Sayt ochilmasa, tarmoq, brauzer va rasmiy servis holatini tekshiring; ishxona tarmog‘i bo‘lsa, IT mas’uliga murojaat qiling."
     },
     {
       "q": "ChatGPTga telefon raqamsiz kirsa bo‘ladimi?",
@@ -407,7 +388,7 @@
     }
   ],
   "cta": {
-    "label": "AI chatni o‘zbek tilida ochish",
+    "label": "GPTBot.uz AI chati: 3 ta sinov javobi",
     "href": "/uz/gpt-uzbek-tilida/"
   },
   "internalLinks": [
@@ -459,13 +440,6 @@
       "locale": "uz",
       "type": "block",
       "priority": 6
-    },
-    {
-      "target": "/uz/sayt-yaratish/",
-      "anchor": "sayt yaratish",
-      "locale": "uz",
-      "type": "contextual",
-      "priority": 2
     }
   ],
   "ogTitle": "ChatGPT kirish (login): chatgpt.com, 3 qadam (2026)",
@@ -477,7 +451,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-05",
+  "dateModified": "2026-10-23",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -489,7 +463,7 @@
     {
       "title": "OpenAI Help Center — ChatGPT Supported Countries",
       "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
-      "note": "04.10.2026 holatiga O‘zbekiston ChatGPT web va mobil ilovasi qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida."
+      "note": "23.10.2026 kuni tekshirildi: O‘zbekiston ChatGPT web va mobil ilovasi qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida."
     },
     {
       "title": "OpenAI Help Center — What is ChatGPT: FAQ",
@@ -504,7 +478,7 @@
     {
       "title": "OpenAI Help Center — Why can’t I log in to ChatGPT?",
       "url": "https://help.openai.com/en/articles/7426629-why-cant-i-log-in-to-chatgpt",
-      "note": "Kirish usuli, «Checking your browser…» oynasi, VPNni o‘chirish va boshqa tarmoq, kod xatlari uchun noreply@openai.com manzilini ishonchli ro‘yxatga qo‘shish, status.openai.com (04.10.2026 holatiga)."
+      "note": "23.10.2026 kuni tekshirildi: kirish usuli, boshqa hisobga kirib qolish, tugallanmagan ro‘yxatdan o‘tish va brauzer tekshiruvi xatolari. Boshqariladigan ish qurilmalarida IT mas’uli bilan maslahatlashish kerak."
     },
     {
       "title": "OpenAI Help Center — The ChatGPT home page",
@@ -537,6 +511,6 @@
       "note": "Ikki bosqichli himoya ChatGPT sozlamalarida: Settings → Security and login (04.10.2026 holatiga)."
     }
   ],
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-23",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

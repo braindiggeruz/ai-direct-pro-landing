@@ -1,0 +1,80 @@
+GPTBot.uz — Telegram bot uchun brif va qabul tekshiruvi
+Tahrir: 2026-yil 23-oktabr
+
+Maydonlarni o‘z so‘zlaringiz bilan to‘ldiring. Bu talablar namunasi, shartnoma yoki smeta emas. Parol, token, API kaliti yoki haqiqiy mijoz ma’lumotlarini kiritmang. Sinov misollaridan foydalaning.
+
+1. BIZNES VA NATIJA
+Kompaniya / loyiha: ____________________
+Bitta asosiy vazifa: ____________________
+Bu vazifa hozir qanday bajariladi: ____________________
+Ishga tushgach nima o‘zgarishi kerak: ____________________
+Qaror qabul qiluvchi va arizalarni oluvchi xodim: ____________________
+
+2. BIRINCHI VERSIYA
+Kanal: Telegram / boshqa: ____________________
+Til: o‘zbek / rus / ikkala til (tarkibini yozing): ____________________
+Mijoz qayerdan keladi: ____________________
+Xizmatlar yoki mahsulotlar: ____________________
+Ariza maydonlari va ularning maqsadi: ____________________
+Mijozning aniq qadamlari: ____________________
+Vaqtni / buyurtmani kim tasdiqlaydi: ____________________
+Birinchi versiyaga kirmaydigan ishlar: ____________________
+
+3. MATERIALLAR
+Narxlar, xizmatlar va FAQ tayyormi: ____________________
+O‘zbek va rus matnlarini kim tekshiradi: ____________________
+Tasdiqlangan ma’lumot qayerda saqlanadi: ____________________
+Qaysi savollar menejerga uzatiladi: ____________________
+
+4. INTEGRATSIYALAR
+Ariza qayerga uzatiladi: ____________________
+CRM, savdo bosqichi, maydonlar va mas’ul: ____________________
+Ochiq API hujjati havolasi (maxfiy ma’lumotsiz): ____________________
+Jadval, katalog, to‘lov yoki AI kerakmi: ____________________
+Tizim vaqtincha ishlamasa nima bo‘ladi: ____________________
+Bir so‘rov takrori va yangi murojaat qanday farqlanadi: ____________________
+
+5. MA’LUMOT VA KIRISH HUQUQLARI
+Bot, kod, hosting va CRM egasi: ____________________
+Arizalarni kim ko‘radi, sozlamalarni kim o‘zgartiradi: ____________________
+Ma’lumotlarni saqlash muddati va o‘chirish tartibi: ____________________
+Ma’lumotlar bo‘yicha foydalanuvchi qayerga murojaat qiladi: ____________________
+Kirish huquqlarini xavfsiz berish usuli: ____________________
+
+6. SMETA: XARAJATLARNI ALOHIDA YOZING
+Bir martalik ishlab chiqish / tarkib / summa: ____________________
+Infratuzilma / yuklama / oyiga: ____________________
+Qo‘llab-quvvatlash / ishlar / oyiga: ____________________
+CRM va boshqa litsenziyalar: ____________________
+AI/API va limitlar: ____________________
+To‘lov provayderi va tashqi shartlar: ____________________
+Kiritilgan tillar: ____________________
+Kiritilmagan ishlar: ____________________
+Materiallar va kirish huquqlari tayyor bo‘ladigan sana: ____________________
+Rejalashtirilgan topshirish / tashqi bog‘liqliklar: ____________________
+
+E’lon qilingan narxlarni tekshiring: https://gptbot.uz/uz/chat-bot-narxi/
+Individual hisob modeli (rus tilida): https://gptbot.uz/ru/kalkulyator-stoimosti-telegram-bota/
+Paket va modullar yig‘indisi — turli hisob usullari. Kiritilgan funksiyani ikkinchi marta qo‘shmang.
+
+7. QABUL TEKSHIRUVI
+Har bir band uchun: sana / sinov ma’lumoti / kutilgan natija / haqiqiy natija / mas’ul.
+[ ] Oddiy ariza saqlangan, menejer kelishilgan maydonlarni ko‘radi.
+[ ] Noto‘g‘ri kiritish tushuntirilgan, oldingi javoblar saqlangan.
+[ ] Bir so‘rov takrori yangi ariza yaratmaydi; yangi murojaat alohida ruxsat etiladi.
+[ ] Tarmoq xatosi yolg‘on muvaffaqiyat holatini ko‘rsatmaydi.
+[ ] Integratsiya ishlamasa, holat, mas’ul va tiklash yo‘li tushunarli.
+[ ] Yozilish so‘rovi tasdiqlangan bron sifatida ko‘rsatilmagan.
+[ ] Barcha tanlangan tillar va ular orasida o‘tish tekshirilgan.
+[ ] AI tanlansa, manbada javobi yo‘q savol menejerga uzatiladi.
+[ ] To‘lov tanlansa, provayder va holatlar alohida tekshirilgan.
+[ ] Buyurtmachi kirish huquqlari, ko‘rsatma va ko‘mak shartlarini olgan.
+
+8. ISHGA TUSHGANDAN KEYIN
+Murojaat / malakali ariza / tasdiqlangan yozilish / to‘lov alohida hisoblanadi.
+Boshlang‘ich ko‘rsatkichlar va davr: ____________________
+Solishtirish davri va mas’ul: ____________________
+Yangi xarajatlar qanday hisoblanadi: ____________________
+
+O‘quv demo: https://gptbot.uz/uz/telegram-bot-biznes-uchun/#lead-demo
+Smeta haqida: https://gptbot.uz/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/

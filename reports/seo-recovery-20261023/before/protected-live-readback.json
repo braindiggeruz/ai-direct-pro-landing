@@ -1,0 +1,780 @@
+{
+  "capturedAt": "2026-10-23T13:55:32.477Z",
+  "baseline": "docs/seo/evidence/2026-10-08-recovery/reviewed-protected-pages.json",
+  "pages": [
+    {
+      "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "5f50f5eb5a1776b34c63a14b3354534b76f915b400328629cab51d9fb6aa7393",
+      "contract": {
+        "title": [
+          "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)"
+        ],
+        "h1": [
+          "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish"
+        ],
+        "description": [
+          "ChatGPT yuklab olish o‘zbek tilida: Android, iPhone va kompyuterga — 3 usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+        ],
+        "hreflang": [],
+        "internalLinks": [
+          "/cdn-cgi/l/email-protection#066563694661767264697228737c",
+          "/cdn-cgi/l/email-protection#6f0c0a002f081f1b0d001b411a15",
+          "/cdn-cgi/l/email-protection#f596909ab5928581979a81db808f",
+          "/uz/",
+          "/uz/biznes-uchun-ai-bot/",
+          "/uz/blog/",
+          "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "/uz/blog/marketing-nima/",
+          "/uz/blog/smm-nima/",
+          "/uz/chat-bot-narxi/",
+          "/uz/gpt-uzbek-tilida-ai-chat/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/gpt-uzbek-tilida/#entry=download",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/sayt-uchun-ai-bot/",
+          "/uz/sayt-yaratish/"
+        ],
+        "bodyTextSha256": "fddecf340f1d388d6c5effddb498abb45b7f26a063786af05b7a79ec76981332"
+      },
+      "changes": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "emailProtectionLinks": 3
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "655d8accd1ae05b7c5574f660e55d75f2e5df795a9d9268277d3f6e2eabb33b4",
+      "contract": {
+        "title": [
+          "ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish"
+        ],
+        "h1": [
+          "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+        ],
+        "description": [
+          "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Matn, reja va g‘oyalar. GPTBot.uz — mustaqil servis, OpenAI emas."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+        ],
+        "hreflang": [
+          "ru https://gptbot.uz/ru/gpt-chat/",
+          "uz https://gptbot.uz/uz/gpt-uzbek-tilida/",
+          "x-default https://gptbot.uz/uz/gpt-uzbek-tilida/"
+        ],
+        "internalLinks": [
+          "/ru/gpt-chat/",
+          "/ru/gpt-na-russkom/",
+          "/ru/tarify-ai-chat/",
+          "/uz/arizalarni-avtomatlashtirish/",
+          "/uz/biznes-uchun-ai-bot/",
+          "/uz/blog/",
+          "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/chatgpt-talabalar-uchun/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "/uz/blog/referat-va-mustaqil-ish/",
+          "/uz/blog/rezyume-tayyorlash/",
+          "/uz/blog/slayd-tayyorlash/",
+          "/uz/chat-bot-narxi/",
+          "/uz/gpt-chat-qollanma/",
+          "/uz/gpt-telegram-instagram-ideya/",
+          "/uz/gpt-uzbek-tilida-ai-chat/",
+          "/uz/javob/",
+          "/uz/maxfiylik-siyosati/",
+          "/uz/sayt-uchun-ai-bot/",
+          "/uz/sayt-yaratish/",
+          "/uz/smm-xizmatlari/",
+          "/uz/telegram-bot-biznes-uchun/"
+        ],
+        "bodyTextSha256": "8ef49bbd2a5c2d47dfc3d0a2be2fa57cea013db6a2c1253fcbfac58a2aadcdb4"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "f02242efb9b802959545db9193711f6c4f5e74155991f4dea0da88aca2f73234",
+      "contract": {
+        "title": [
+          "Аналог ChatGPT онлайн бесплатно — без регистрации"
+        ],
+        "h1": [
+          "ИИ-чат онлайн — бесплатный аналог ChatGPT"
+        ],
+        "description": [
+          "AI-чат на русском и узбекском: 3 бесплатных пробных ответа без регистрации, затем AI-пакет. GPTBot.uz — независимый сервис, не OpenAI и не ChatGPT."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/ru/gpt-chat/"
+        ],
+        "hreflang": [
+          "ru https://gptbot.uz/ru/gpt-chat/",
+          "uz https://gptbot.uz/uz/gpt-uzbek-tilida/",
+          "x-default https://gptbot.uz/uz/gpt-uzbek-tilida/"
+        ],
+        "internalLinks": [
+          "/ru/blog/",
+          "/ru/blog/chat-gpt-na-russkom/",
+          "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+          "/ru/gpt-chat-guide/",
+          "/ru/gpt-dlya-biznesa/",
+          "/ru/gpt-dlya-ucheby/",
+          "/ru/gpt-na-russkom/",
+          "/ru/gpt-vs-chatgpt-sravnenie/",
+          "/ru/javob/",
+          "/ru/politika-konfidentsialnosti/",
+          "/ru/promty-gpt-chatgpt-50-primerov/",
+          "/ru/razrabotka-saytov-tashkent/",
+          "/ru/stoimost-chat-bota/",
+          "/ru/tarify-ai-chat/",
+          "/ru/telegram-bot-dlya-biznesa/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/gpt-uzbek-tilida/"
+        ],
+        "bodyTextSha256": "ac62437c83718aa1e364fe331ca96755db51276f1325abfcaebc8f741ebbb417"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "afa753622e1b68ba158671ec75d29847770ee9b69a203c5308825541fae1b63a",
+      "contract": {
+        "title": [
+          "ChatGPT и Claude в Узбекистане 2026: доступ, оплата, сравнение"
+        ],
+        "h1": [
+          "ChatGPT и Claude в Узбекистане: доступ, оплата и сравнение"
+        ],
+        "description": [
+          "ChatGPT и Claude в Узбекистане: работают ли без VPN, как зайти, оплатить и выбрать сервис. Сравнение с Gemini и правила безопасности."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+        ],
+        "hreflang": [],
+        "internalLinks": [
+          "/",
+          "/ru/ai-bot-dlya-biznesa/",
+          "/ru/blog/",
+          "/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+          "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+          "/ru/blog/gpt-bot-vs-chat-bot/",
+          "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+          "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+          "/ru/gpt-chat/",
+          "/ru/gpt-chat/#entry=compare-ru",
+          "/uz/sayt-uchun-ai-bot/",
+          "https://gptbot.uz/ru/avtor-boris-gerasimov/"
+        ],
+        "bodyTextSha256": "dbf10b5797a912b30e8404492d4521a18f079f112c1f1493bb51d32d0ee8895b"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "bda2e0e6f5bd8af5e2f5bec0a46b63ed9268915bb851a4c1e0fc65fc68ed606f",
+      "contract": {
+        "title": [
+          "Как оплатить ChatGPT в Узбекистане в 2026 году"
+        ],
+        "h1": [
+          "Как оплатить ChatGPT в Узбекистане: карты, приложения и ошибки платежа"
+        ],
+        "description": [
+          "Как оплачивать ChatGPT Plus в Узбекистане: официальный checkout, банковская карта, App Store и Google Play, ошибки платежа и защита от посредников."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/"
+        ],
+        "hreflang": [],
+        "internalLinks": [
+          "/",
+          "/ru/ai-bot-dlya-biznesa/",
+          "/ru/blog/",
+          "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+          "/ru/gpt-chat/",
+          "/ru/gpt-chat/#entry=payment-ru",
+          "/ru/tarify-ai-chat/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/sayt-uchun-ai-bot/",
+          "https://gptbot.uz/ru/avtor-boris-gerasimov/"
+        ],
+        "bodyTextSha256": "c73a7fefbace9b866321f3e92a8d19b20e35d23b1de981ca47e48feba1826ec6"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "ff3ced76f912647a4f09b857b404aa6d6ad7174d94ad1bbd33278b9265f33cf9",
+      "contract": {
+        "title": [
+          "ChatGPT kirish (login): chatgpt.com, 3 qadam (2026)"
+        ],
+        "h1": [
+          "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar"
+        ],
+        "description": [
+          "ChatGPT’ga kirish: chatgpt.com’ni oching, Log in yoki Sign up — 3 qadam, odatda VPNsiz. Kod kelmasa nima qilish. Muqobil: GPTBot.uz AI chati."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+        ],
+        "hreflang": [],
+        "internalLinks": [
+          "/uz/",
+          "/uz/arizalarni-avtomatlashtirish/",
+          "/uz/blog/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "/uz/chat-bot-narxi/",
+          "/uz/gpt-chat-qollanma/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/gpt-uzbek-tilida/#entry=login",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/sayt-uchun-ai-bot/",
+          "/uz/sayt-yaratish/",
+          "/uz/telegram-bot-biznes-uchun/"
+        ],
+        "bodyTextSha256": "f1d6503ec70e1c2bb7602e25795c7a4d23d7be87e9c6038d7e52d2442613c1f9"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "5895b76d4234cd7d82f56985d005338875400482706bc4c08809f12a77adfc2a",
+      "contract": {
+        "title": [
+          "ChatGPT uchun o‘zbek tilida 50 ta tayyor prompt"
+        ],
+        "h1": [
+          "ChatGPT uchun o‘zbek tilida 50 ta tayyor prompt"
+        ],
+        "description": [
+          "O‘qish, ish, marketing, savdo va kundalik vazifalar uchun o‘zbek tilida 50 ta tayyor ChatGPT prompt. Nusxalang, moslang va aniqroq javob oling."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+        ],
+        "hreflang": [
+          "ru https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/",
+          "uz https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "x-default https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/"
+        ],
+        "internalLinks": [
+          "/uz/",
+          "/uz/biznes-uchun-ai-bot/",
+          "/uz/blog/",
+          "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "/uz/blog/chatgpt-talabalar-uchun/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "/uz/gpt-uzbek-tilida-ai-chat/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/gpt-uzbek-tilida/#entry=prompts",
+          "/uz/instagram-uchun-ai-menejer/",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/smm-xizmatlari/",
+          "/uz/suniy-intellekt/"
+        ],
+        "bodyTextSha256": "2e7ff71ed9807dee316f29f63583213c64cbd172cbe7adc7fa61d574ea541281"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "22ea46d9bcb8e9de4d5ccaa9943b6c73d2b0a8814908d334d6e333e92c7791b0",
+      "contract": {
+        "title": [
+          "GPTBot.uz — AI-бот для бизнеса в Узбекистане | Telegram"
+        ],
+        "h1": [
+          "GPTBot.uz — AI-бот для бизнеса в Узбекистане, который не теряет заявки"
+        ],
+        "description": [
+          "GPTBot.uz — AI/GPT-менеджер для Instagram и Telegram. Отвечает клиентам 24/7, собирает имя, телефон и передаёт горячие заявки менеджеру."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/"
+        ],
+        "hreflang": [
+          "ru https://gptbot.uz/",
+          "uz https://gptbot.uz/uz/",
+          "x-default https://gptbot.uz/"
+        ],
+        "internalLinks": [
+          "/",
+          "/boss-digital/",
+          "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+          "/ru/ai-bot-dlya-avtosalona/",
+          "/ru/ai-bot-dlya-biznesa/",
+          "/ru/ai-bot-dlya-dostavki-edy/",
+          "/ru/ai-bot-dlya-fitnes-kluba/",
+          "/ru/ai-bot-dlya-horeca/",
+          "/ru/ai-bot-dlya-kliniki/",
+          "/ru/ai-bot-dlya-magazina/",
+          "/ru/ai-bot-dlya-nishi/",
+          "/ru/ai-bot-dlya-salona-krasoty/",
+          "/ru/ai-bot-dlya-sayta/",
+          "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+          "/ru/ai-bot-dlya-yurista/",
+          "/ru/ai-bot-ili-menedzher/",
+          "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+          "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+          "/ru/ai-chat-dlya-sayta/",
+          "/ru/ai-menedzher-dlya-instagram/",
+          "/ru/ai-prodavec/",
+          "/ru/avtomatizatsiya-prodazh/",
+          "/ru/avtomatizatsiya-zayavok/",
+          "/ru/avtor-boris-gerasimov/",
+          "/ru/blog/",
+          "/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+          "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+          "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+          "/ru/blog/ai-agent-ili-chat-bot/",
+          "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+          "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+          "/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+          "/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+          "/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+          "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+          "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+          "/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+          "/ru/blog/ai-menedzher-dlya-instagram/",
+          "/ru/blog/ai-prodavec-i-otdel-prodazh/",
+          "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+          "/ru/blog/audit-kartochki-kompanii-na-kartah/",
+          "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+          "/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
+          "/ru/blog/biznes-teryaet-zayavki-nochyu/",
+          "/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+          "/ru/blog/bot-dlya-zayavok/",
+          "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+          "/ru/blog/chat-bot-dlya-biznesa-v-samarkande/",
+          "/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/",
+          "/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+          "/ru/blog/chat-bot-dlya-sayta/",
+          "/ru/blog/chat-gpt-na-russkom/",
+          "/ru/blog/chat-gpt-online/",
+          "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+          "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+          "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+          "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+          "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+          "/ru/blog/chto-takoe-lid-v-marketinge/",
+          "/ru/blog/chto-takoe-marketing-kit/",
+          "/ru/blog/chto-takoe-seo-prodvizhenie/",
+          "/ru/blog/chto-takoe-smm-prodvizhenie/",
+          "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+          "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+          "/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+          "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+          "/ru/blog/etapy-razrabotki-telegram-bota/",
+          "/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+          "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+          "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+          "/ru/blog/gpt-bot-vs-chat-bot/",
+          "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+          "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
+          "/ru/blog/hosting-dlya-telegram-bota/",
+          "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+          "/ru/blog/instagram-direct-bot-kak-rabotaet/",
+          "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+          "/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
+          "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+          "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+          "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+          "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+          "/ru/blog/kak-provesti-audit-digital-marketinga/",
+          "/ru/blog/kak-sozdat-telegram-bota/",
+          "/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
+          "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+          "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+          "/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+          "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+          "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+          "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+          "/ru/blog/marketingovye-terminy-slovar/",
+          "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+          "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+          "/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
+          "/ru/blog/plan-digital-marketinga-na-90-dney/",
+          "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+          "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+          "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+          "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+          "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+          "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+          "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+          "/ru/blog/razrabotka-chat-bota/",
+          "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+          "/ru/blog/seo-audit-sayta-chek-list/",
+          "/ru/blog/seo-ili-google-ads-chto-vybrat/",
+          "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+          "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+          "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+          "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+          "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+          "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+          "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+          "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+          "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+          "/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
+          "/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+          "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+          "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+          "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+          "/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+          "/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+          "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+          "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+          "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+          "/ru/blog/telegram-bot-crm-ili-menedzher/",
+          "/ru/blog/telegram-bot-dlya-biznesa/",
+          "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+          "/ru/blog/telegram-bot-dlya-zayavok/",
+          "/ru/blog/telegram-bot-ili-mini-app/",
+          "/ru/blog/telegram-bot-na-python/",
+          "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+          "/ru/blog/telegram-mini-app-chto-eto/",
+          "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+          "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+          "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+          "/ru/blog/zakazat-telegram-bota/",
+          "/ru/chat-bot-dlya-biznesa/",
+          "/ru/chat-bot-po-uzbekistanu/",
+          "/ru/chat-bot-v-samarkande/",
+          "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+          "/ru/digital-marketing-tashkent/",
+          "/ru/digital-strategiya-dlya-biznesa/",
+          "/ru/gde-polzovatsya-gpt-besplatno/",
+          "/ru/gpt-bot-ili-obychnyy-chat-bot/",
+          "/ru/gpt-chat-guide/",
+          "/ru/gpt-chat/",
+          "/ru/gpt-dlya-biznesa-v-uzbekistane/",
+          "/ru/gpt-dlya-biznesa/",
+          "/ru/gpt-dlya-ucheby/",
+          "/ru/gpt-na-russkom/",
+          "/ru/gpt-v-marketinge-smm/",
+          "/ru/gpt-vs-chatgpt-sravnenie/",
+          "/ru/instagram-direct-bot/",
+          "/ru/internet-reklama-tashkent/",
+          "/ru/javob/",
+          "/ru/kak-sdelat-ai-bota-telegram-instagram/",
+          "/ru/kalkulyator-stoimosti-telegram-bota/",
+          "/ru/komanda/",
+          "/ru/kontekstnaya-reklama-tashkent/",
+          "/ru/lokalnoe-seo-tashkent/",
+          "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+          "/ru/market-doverie/",
+          "/ru/marketingovyi-audit-tashkent/",
+          "/ru/o-kompanii/",
+          "/ru/okupaemost-chat-bota/",
+          "/ru/otzyvy/",
+          "/ru/performance-marketing-tashkent/",
+          "/ru/pochemu-biznes-teryaet-zayavki/",
+          "/ru/politika-konfidentsialnosti/",
+          "/ru/promty-gpt-chatgpt-50-primerov/",
+          "/ru/razrabotka-saytov-tashkent/",
+          "/ru/razrabotka-telegram-bota-tashkent/",
+          "/ru/razrabotka-telegram-mini-app-tashkent/",
+          "/ru/sayt-dlya-zayavok/",
+          "/ru/sayt-s-ai-botom/",
+          "/ru/seo-prodvizhenie-saytov-tashkent/",
+          "/ru/smm-prodvizhenie-tashkent/",
+          "/ru/sotuvchi/",
+          "/ru/sozdanie-sayta-dlya-biznesa/",
+          "/ru/stoimost-chat-bota/",
+          "/ru/targetirovannaya-reklama-tashkent/",
+          "/ru/tarify-ai-chat/",
+          "/ru/telegram-ads-uzbekistan/",
+          "/ru/telegram-bot-dlya-biznesa/",
+          "/ru/whatsapp-bot-dlya-biznesa/",
+          "/uz/",
+          "/uz/ai-bot-yoki-menejer/",
+          "/uz/ai-sotuvchi/",
+          "/uz/amocrm-bitrix24-bilan-ai-bot/",
+          "/uz/arizalarni-avtomatlashtirish/",
+          "/uz/arizalarni-qabul-qiluvchi-bot/",
+          "/uz/avtosalon-uchun-ai-bot/",
+          "/uz/biz-haqimizda/",
+          "/uz/biznes-nega-arizalarni-yoqotadi/",
+          "/uz/biznes-uchun-ai-bot/",
+          "/uz/blog/",
+          "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+          "/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+          "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+          "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+          "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+          "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+          "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+          "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+          "/uz/blog/biznes-reja-tuzish/",
+          "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+          "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+          "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+          "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+          "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/chatgpt-talabalar-uchun/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+          "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+          "/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+          "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
+          "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+          "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+          "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+          "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+          "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+          "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+          "/uz/blog/kurs-ishi-yozish/",
+          "/uz/blog/marketing-nima/",
+          "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+          "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+          "/uz/blog/referat-va-mustaqil-ish/",
+          "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+          "/uz/blog/rezyume-tayyorlash/",
+          "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+          "/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+          "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+          "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+          "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+          "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+          "/uz/blog/slayd-tayyorlash/",
+          "/uz/blog/smm-nima/",
+          "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+          "/uz/blog/target-reklama-nima/",
+          "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+          "/uz/blog/telegram-bot-crm-yoki-menejer/",
+          "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+          "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+          "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+          "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+          "/uz/boss-digital/",
+          "/uz/chat-bot-biznes-uchun/",
+          "/uz/chat-bot-narxi/",
+          "/uz/dokon-uchun-ai-bot/",
+          "/uz/fitnes-klub-uchun-ai-bot/",
+          "/uz/gpt-bot-biznes-uchun/",
+          "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+          "/uz/gpt-chat-qollanma/",
+          "/uz/gpt-telegram-instagram-ideya/",
+          "/uz/gpt-uzbek-tilida-ai-chat/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/horeca-uchun-ai-bot/",
+          "/uz/instagram-bot-biznes-uchun/",
+          "/uz/instagram-target-yoqish/",
+          "/uz/instagram-uchun-ai-menejer/",
+          "/uz/internet-reklama-toshkent/",
+          "/uz/jamoa/",
+          "/uz/javob/",
+          "/uz/klinika-uchun-ai-bot/",
+          "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+          "/uz/market-ishonch/",
+          "/uz/maxfiylik-siyosati/",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/oquv-markazi-uchun-ai-bot/",
+          "/uz/ozbekiston-boylab-chat-bot/",
+          "/uz/salon-uchun-ai-bot/",
+          "/uz/samarqandda-chat-bot/",
+          "/uz/savdoni-avtomatlashtirish/",
+          "/uz/sayt-uchun-ai-bot/",
+          "/uz/sayt-yaratish/",
+          "/uz/seo-xizmati/",
+          "/uz/sharhlar/",
+          "/uz/smm-xizmatlari/",
+          "/uz/sotuvchi/",
+          "/uz/suniy-intellekt/",
+          "/uz/telegram-bot-biznes-uchun/",
+          "/uz/telegram-reklama/",
+          "/uz/whatsapp-bot-biznes-uchun/",
+          "/uz/yetkazib-berish-uchun-ai-bot/",
+          "/uz/yurist-uchun-ai-bot/"
+        ],
+        "bodyTextSha256": "cb1b24065b1bd57cb278272ecba0d9c42aae1f134e9775b0cacca6f0fb0d4099"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "8bd885b61161642aaf73d6dcef2651bb3706d9c3052f6cadf8ae9fc4984e24df",
+      "contract": {
+        "title": [
+          "ChatGPT O‘zbekistonda ishlaydimi? VPNsiz va rasmiy usul (2026)"
+        ],
+        "h1": [
+          "ChatGPT O‘zbekistonda: ishlaydimi, VPN kerakmi va rasmiy usul"
+        ],
+        "description": [
+          "ChatGPT O‘zbekistonda rasman ishlaydimi, VPN kerakmi, OpenAI ro‘yxatda bormi, kartadan to‘lash mumkinmi — 2026 holati bo‘yicha tekshirilgan javoblar va manbalar."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+        ],
+        "hreflang": [],
+        "internalLinks": [
+          "/uz/",
+          "/uz/arizalarni-avtomatlashtirish/",
+          "/uz/blog/",
+          "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+          "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+          "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+          "/uz/blog/marketing-nima/",
+          "/uz/chat-bot-narxi/",
+          "/uz/gpt-bot-biznes-uchun/",
+          "/uz/gpt-chat-qollanma/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/gpt-uzbek-tilida/#entry=access",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/sayt-yaratish/",
+          "/uz/telegram-bot-biznes-uchun/"
+        ],
+        "bodyTextSha256": "68c278fe2fe9ea7d886e65b9ccd3068ebcedb3b8f7127aeebf19ccf84e801272"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    },
+    {
+      "pathname": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "xRobotsTag": null,
+      "sha256": "420846019587c5d3b567f6a6db989ed363c184ac31e99fcc063e0e8950999823",
+      "contract": {
+        "title": [
+          "AI-chat nima: turlari, vazifalari va tanlash mezonlari"
+        ],
+        "h1": [
+          "AI-chat nima va qanday turlari bor"
+        ],
+        "description": [
+          "AI-chat qanday ishlaydi, uning asosiy turlari nimasi bilan farq qiladi va O‘zbekistondagi biznes uchun mos variantni qanday tanlash kerak."
+        ],
+        "robots": [
+          "index, follow, max-image-preview:large"
+        ],
+        "googlebot": [],
+        "canonical": [
+          "https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+        ],
+        "hreflang": [
+          "ru https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+          "uz https://gptbot.uz/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+          "x-default https://gptbot.uz/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/"
+        ],
+        "internalLinks": [
+          "/uz/",
+          "/uz/blog/",
+          "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+          "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+          "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+          "/uz/blog/smm-nima/",
+          "/uz/gpt-bot-biznes-uchun/",
+          "/uz/gpt-uzbek-tilida/",
+          "/uz/muallif-boris-gerasimov/",
+          "/uz/yetkazib-berish-uchun-ai-bot/"
+        ],
+        "bodyTextSha256": "187454ba1e62819046eacfae9bc5fac6efc861c18bdfc5aac307b17392d99982"
+      },
+      "changes": [],
+      "emailProtectionLinks": 0
+    }
+  ]
+}

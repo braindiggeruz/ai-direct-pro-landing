@@ -1,37 +1,37 @@
-# HANDOFF — Google discovery release · 09.10.2026
+# HANDOFF — SEO recovery · 23.10.2026
 
 ## 1. Состояние
-Implementation and authorized production deployment COMPLETE. Source55957ebde61beece51db71cb117bd6d45a17ffb5, deploymentc8af4baa, artifactce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00,1004files. Checkout F:/Claude/gptbot-codex-integration-20261007, branch codex/continuation-20261007. Current docs-only record requires no redeploy.
+Source validated; guarded production deployment pending this source commit. Branch codex/continuation-20261007; initial HEAD 41c61c53287fb1af13248931326aee3372e85344; previous live 55957ebde61beece51db71cb117bd6d45a17ffb5. See reports/seo-recovery-20261023/RELEASE.json for subsequent actual release, not a stale status sentence.
 
 ## 2. Что сделано
-RSS selects authored updates; Atom200includes canonical services and articles. Short discovery cache; verified postdeploy WebSub with durable hash dedupe. Three real article improvements and contextual commercial links. Seven omitted updated RU articles restored to RSS.
+9landing pages,6articles,2downloadable briefs. Truthful prices/scope, separated login/product intent, reliable lead attempts/timeouts/duplicate acknowledgement, remaining Cloudflare email-obfuscation crawler-link fix. See IMPLEMENTATION.md for evidence and exact limits.
 
-## 3. Файлы и доказательства
-reports/google-recrawl-implementation-20261009/IMPLEMENTATION.md and RELEASE.json; production-readback.json, artifact-acceptance.json, browser-production.json, PROTECTED_LIVE_READBACK.json, google-evidence.json, indexnow.json. WebSub receipt reports/websub-receipts/2026-10-09T02-41-31-765Z_91f6c338.json.
+## 3. Изменённые файлы
+reports/seo-recovery-20261023/STAGED_FILES.json is the scoped manifest. Runtime changes only content, public briefs, lead UI/helper, email wrapper and SEO baseline. Initial cluster-map WIP and historical untracked reports preserved.
 
-## 4. Решения
-Deterministic authored dates; no unsupported Google Indexing API. Shared Git directory WebSub ledger; accepted hashes skipped, unknown outcomes never blindly retried. Live manifest and feed byte checks before notification; existing release guards retained.
+## 4. Архитектурные решения
+Existing modular monolith, price configuration, API and durable outbox reused. No new backend or architectural decision. Semantic attempt identity is client-side; backend's requestId/contact contracts unchanged. Protected comparator unchanged; new immutable reviewed revision.
 
-## 5. Внешние действия
-Guarded production deployment verified. WebSub3/3HTTP204; GSC5/5accepted, pending processing; IndexNow5URLs HTTP200. OpenSEO readonly9/9indexed; every lastCrawlTime precedes release. No live lead/messages, financial operations, migrations, credentials/webhook changes or Git push.
+## 5. Что сознательно не сделано
+No new doorway pages, invented cases, blanket metadata rewrite, winner-content rewrite, fake Indexing API, live test leads, financial operations, migrations, secrets/webhook changes or Git push. No guaranteed rankings or revenue.
 
 ## 6. Проверки
-73/73targeted tests; final10/10subset is not additive. App/functions/scripts TypeScript, scoped lint, build:production and SEO audit PASS. Exact live manifest;5discovery files match;15HTML200/selfcanonical/indexable;protected10/10. Browser3articles at320/1280 without JS errors/document overflow. Four old-ETag checks returned current bytes with200.
+Consolidated node tests217pass/0fail/0skip; app/functions TypeScript exit0; scopedlint exit0; SEOaudit exit0; publicbuild/prerender exit0. Localbrowser and fullrelease evidence must be read in this report directory; do not infer deployment from a passing build.
 
-## 7. Проблемы
-Existing Click Merchant -12/receipt UNKNOWN remains an external blocker. Post-release Google crawl and commercial effect unconfirmed. Durable WebSub state is local to this shared Git repository; preserve it when changing release host.
+## 7. Известные проблемы
+Existing Click Merchant -12/receipt UNKNOWN external blocker remains. Native Uzbek human sign-off and actual customer outcome data unavailable. Google post-release recrawl/traffic/qualified-lead uplift unconfirmed. PowerShell hung; cmd.exe login:false works; cap Node1400MB and runheavychecks serially.
 
 ## 8. Следующая задача
-Read-only heartbeat gptbot-google checks on12/16/23October at12:00UTC+5. Inspect nine URLs and five sitemap/feed files, compare lastCrawlTime against2026-10-09T02:41:31.765Z. Notify meaningful changes/errors; final checkpoint report. Do not resubmit unchanged content. Evaluate commercial metrics only with mature completed windows and note later releases as confounders.
+Guarded production build/deployment and exact live acceptance for SEO recovery 2026-10-23. User already authorized it; no repeated confirmation. After release, next task is comparable final GSC and qualified-lead measurement.
 
-## 9. Acceptance
-Implementation, guarded deployment and discovery notification acceptance PASS. Google recrawl after this release, ranking growth and actual qualified leads/payment are separate, unconfirmed outcomes. Atom200canonical sitemap members; six priority service pages reachable from homepage in one HTML hop with blog donors.
+## 9. Acceptance criteria
+Full production build/stamp/check PASS; exact live source/artifact; changed pages and protected10 healthy/selfcanonical/indexable; live feeds/brief bytes match. Browser submissions mocked only. Discovery acceptance separate from crawl and business acceptance.
 
-## 10. Команды
-Future releases only: NODE_OPTIONS=--max-old-space-size=1400; npm run build:production; DR_ROOT=this checkout; python F:/Claude/gptbot-tools/deploy_runner.py check then deploy. Do not redeploy this docs-only record. npm run websub:ping checks stamped/live release and durable state; no reset of pending/unknown state.
+## 10. Команды для старта
+git status --short; git log -5 --oneline; read STATE and this handoff. NODE_OPTIONS=--max-old-space-size=1400; npm run build:production; DR_ROOT=F:/Claude/gptbot-codex-integration-20261007; python F:/Claude/gptbot-tools/deploy_runner.py check then deploy. Never rawwrangler. verify-release.ts checks public artifact; discovery.mjs refuses duplicate attempt.
 
 ## 11. Риски
-Accepted hub/GSC submissions do not prove Google crawl or rankings. No fake JobPosting/BroadcastEvent, build-time date inflation or notification spam. Preserve protected10, commercial lead contracts and fiscal safety. No guaranteed indexing timeline.
+Do not overwrite unrelated WIP or old snapshots. Keep previous production ancestry. No template-wide content/date inflation. Public notification receipts are not indexation proof. Preserve WebSub ledger. Do not conflate cross-network attribution with paid spend.
 
 ## 12. Rollback
-If a verified runtime regression occurs, targeted revert of55957ebd and guarded build/deploy; preserve WebSub ledger. Previous source63e9cee37c9a6acf45356c3494c511bb98f8b22f/deployment3958a695/artifact47d71f3eef4a5ae0126cfaa55d42d188104222d7e7d5220fde3d010322a7e51c. No DB migration.
+Targeted revert of SEO source commit then existing guarded build/check/deploy; no DB rollback. Prior source 55957ebde61beece51db71cb117bd6d45a17ffb5, prior artifact ce3d836a6544740766d776840805997af0bca9e8b3c350a452db76463e21bc00. Preserve legacy reports and fiscal incident.

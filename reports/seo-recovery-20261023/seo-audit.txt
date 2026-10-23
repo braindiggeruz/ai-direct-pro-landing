@@ -1,0 +1,27 @@
+========================================
+  SEO AUDIT REPORT
+========================================
+Total pages:        124
+Published:          124
+Drafts:             0
+Noindex:            0
+In sitemap:         124
+---
+Missing title:      0
+Missing description:0
+Missing H1:         0
+Missing canonical:  0
+Duplicate title:    0
+Duplicate desc:     0
+Missing hreflang:   0
+Missing OG:         0
+Mojibake pages:     0
+Orphan pages:       0
+Broken intl. links: 0
+Links via redirect: 0
+RU/UZ pairs OK:     46 / broken 0 / single-locale 27
+Avg money score:    97/100
+Avg blog score:     97/100
+========================================
+
+ OK: no critical SEO issues. Build can proceed.

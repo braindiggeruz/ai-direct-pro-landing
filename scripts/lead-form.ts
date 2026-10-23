@@ -18,6 +18,7 @@ import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
 import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS } from '../src/shared/lead-budget';
 import { shouldTrackLead } from '../src/shared/lead-conversion';
+import { prepareLeadRequest, postLeadJson } from '../src/shared/lead-client';
 
 /**
  * Explicit allowlist: page URL → service slug sent with the lead
@@ -152,6 +153,7 @@ const CLIENT_COPY = {
     turnstile: 'Форма просит дополнительную проверку. Свяжитесь с нами напрямую.',
     rateLimited: 'Слишком много попыток. Эта заявка не сохранена. Попробуйте позже или свяжитесь с нами напрямую.',
     failed: 'Не удалось отправить заявку. Свяжитесь с нами напрямую.',
+    uncertain: 'Не удалось подтвердить получение заявки. Она могла сохраниться. Повторите отправку без изменения данных — повторную заявку мы не создадим. Или свяжитесь с нами напрямую.',
   },
   uz: {
     contact: 'Telefon raqami (masalan, +998 90 123 45 67) yoki Telegram (@username) kiriting.',
@@ -162,6 +164,7 @@ const CLIENT_COPY = {
     turnstile: 'Bu yerda qo‘shimcha tekshiruv talab qilinmoqda. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
     rateLimited: 'Urinishlar juda ko‘p. Bu ariza saqlanmadi. Keyinroq qayta urinib ko‘ring yoki biz bilan bevosita bog‘laning.',
     failed: 'Arizani yuborib bo‘lmadi. Biz bilan to‘g‘ridan-to‘g‘ri bog‘laning.',
+    uncertain: 'Ariza qabul qilinganini tasdiqlab bo‘lmadi. U saqlangan bo‘lishi mumkin. Ma’lumotlarni o‘zgartirmay yana yuboring — takroriy ariza yaratilmaydi. Yoki biz bilan bevosita bog‘laning.',
   },
 } as const;
 
@@ -274,17 +277,16 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;
   var COPY=${JSON.stringify(CLIENT_COPY)};
   var shouldTrackLead=${shouldTrackLead.toString()};
+  var prepareLeadRequest=${prepareLeadRequest.toString()},postLeadJson=${postLeadJson.toString()};
   var uz=form.getAttribute('data-locale')==='uz',T=uz?COPY.uz:COPY.ru;
   var service=form.getAttribute('data-service')||'',label=form.getAttribute('data-label')||'';
   var fbHref=form.getAttribute('data-fallback')||'',fbText=form.getAttribute('data-fallback-text')||'';
   var section=form.parentNode,status=section&&section.querySelector('[data-lead-form-status]');
   var button=form.querySelector('button[type=submit]'),contactEl=form.querySelector('[name=contact]'),nameEl=form.querySelector('[name=name]'),consentEl=form.querySelector('[name=consent]'),budgetEl=form.querySelector('[name=budget]'),taskEl=form.querySelector('[name=task]');
   var UTM=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],CLICK=['gclid','yclid','fbclid'];
-  var busy=false,rid='',ridFor='';
-  function newId(){
-    try{if(window.crypto&&typeof window.crypto.randomUUID==='function')return 'pf_'+window.crypto.randomUUID().replace(/-/g,'');}catch(e){}
-    var r='';while(r.length<24)r+=Math.random().toString(36).slice(2);
-    return ('pf_'+Date.now().toString(36)+r).replace(/[^A-Za-z0-9_]/g,'').slice(0,60);
+  var busy=false,attempt=null;
+  function lockFields(disabled){
+    [nameEl,contactEl,taskEl,budgetEl,consentEl].forEach(function(field){if(field)field.disabled=disabled;});
   }
   function readFt(){
     try{var raw=window.localStorage.getItem('gptbot_ft_v1');var o=raw?JSON.parse(raw):null;return o&&typeof o==='object'&&!(o instanceof Array)?o:{};}catch(e){return {};}
@@ -340,12 +342,13 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   }
   function done(){
     busy=false;
+    lockFields(false);
     if(button){button.disabled=false;button.removeAttribute('aria-busy');}
   }
-  function success(result,task){
+  function success(result){
     // Contact dedupe acknowledges the earlier row, not the new task text.
     // Keep that text available to copy when clarifying via the direct contact.
-    if(result.duplicate===true&&result.idempotent!==true&&task){
+    if(result.duplicate===true&&result.idempotent!==true){
       done();say(T.duplicateDetails,true);
       try{if(status)status.focus();}catch(e){}
       return;
@@ -354,7 +357,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     busy=false;form.hidden=true;try{form.style.display='none';}catch(e){}
     say(T.success,false);
     try{if(status)status.focus();}catch(e){}
-    if(shouldTrackLead(result,rid,window)){
+    if(shouldTrackLead(result,attempt.requestId,window)){
       track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname});
       try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}
     }
@@ -368,6 +371,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     if(code==='invalid_lead'){text=T.contact;if(contactEl)contactEl.setAttribute('aria-invalid','true');}
     else if(code==='turnstile_required'||code==='turnstile_failed')text=T.turnstile;
     else if(code==='rate_limited')text=T.rateLimited;
+    else if(code==='network'||code==='timeout')text=T.uncertain;
     else if(uz)text=T.failed;
     else text=SERVER_TEXT[code]===1&&message?message:T.failed;
     say(text,code!=='invalid_lead');
@@ -383,24 +387,21 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     }
     if(contactEl)contactEl.removeAttribute('aria-invalid');
     if(!consentEl||!consentEl.checked){say(T.consent,false);try{consentEl.focus();}catch(err){}return;}
-    var requestFor=contact+'\n'+task;
-    if(ridFor!==requestFor){rid=newId();ridFor=requestFor;}
     busy=true;
+    lockFields(true);
     if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
     say(T.sending,false);
     var ft=readFt();
-    var body={consent:true,contactValue:contact,source:'page_form',service:service,intent:label,pageUrl:window.location.pathname,locale:uz?'uz':'ru',requestId:rid,utm:utm(ft),attribution:attribution(ft)};
+    var body={consent:true,contactValue:contact,source:'page_form',service:service,intent:label,pageUrl:window.location.pathname,locale:uz?'uz':'ru',utm:utm(ft),attribution:attribution(ft)};
     if(name)body.name=name.slice(0,80);
     if(task)body.intent=(label+' — '+task.slice(0,420)).slice(0,500);
     if(budgetEl&&budgetEl.value)body.budget=budgetEl.value;
-    var request;
-    try{request=window.fetch('/api/gpt/lead',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify(body)});}
-    catch(err){fail('network','');return;}
-    request.then(function(r){return r.json().then(null,function(){return {};});})
+    attempt=prepareLeadRequest(body,attempt,'pf');body.requestId=attempt.requestId;
+    postLeadJson('/api/gpt/lead',body,window.fetch.bind(window))
       .then(function(d){
-        if(d&&d.ok===true){success(d,task);return;}
+        if(d&&d.ok===true){success(d);return;}
         fail(d&&typeof d.code==='string'?d.code:'rejected',d&&typeof d.message==='string'?d.message:'');
-      },function(){fail('network','');});
+      },function(error){fail(error&&error.name==='LeadTimeoutError'?'timeout':'network','');});
   });
   // The button ships disabled so the form can never submit natively; it goes
   // live only now that the handler above is bound.

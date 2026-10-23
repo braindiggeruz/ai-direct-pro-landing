@@ -24,12 +24,31 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Arizalarni qabul qiluvchi bot",
   "heroTitle": "Arizalarni qabul qiluvchi bot — Telegram va Instagram’da 24/7",
-  "heroSubtitle": "Xizmat, kontakt va qulay vaqtni bitta arizaga yig‘ing. Menejer so‘rovni tekshiradi, mijoz bilan bog‘lanadi va yozilish vaqtini tasdiqlaydi.",
+  "heroSubtitle": "Telegram’da ariza yig‘ish — 990 000 so‘mdan: xizmat, kontakt va menejerga uzatish. Start uchun bitta til tanlanadi. Yozilish vaqtini menejer tasdiqlaydi; Instagram va CRM alohida baholanadi.",
   "ctaPrimaryLabel": "Demo so‘rash",
   "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Ariza namunasini ko‘rish",
   "ctaSecondaryHref": "#lead-demo",
   "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Birinchi versiyada bitta vazifani hal qilamiz: mijoz xizmatni tanlaydi, kontakt qoldiradi va menejer tekshiradigan ariza shakllanadi. Telegram Start 990 000 so‘mdan; qo‘shimcha kanal, avtomatik bron va to‘lov alohida tanlanadi."
+    },
+    {
+      "type": "p",
+      "text": "Telegram Start uchun bitta til tanlanadi: o‘zbek yoki rus tili. Ikkinchi til alohida baholanadi. Tarkibida RU + UZ ko‘rsatilgan paketda ikki til kelishilgan hajmga kiradi; til moduli ikkinchi marta qo‘shilmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "{brief} faylini ochib, javoblarni arizangizga qo‘shing. Unda birinchi versiya, xarajatlar, kirish huquqlari egasi va qabul sinovlari uchun savollar bor.",
+      "links": [
+        {
+          "token": "brief",
+          "target": "https://gptbot.uz/downloads/seo-20261023/telegram-bot-brif-uz.txt",
+          "anchor": "Telegram bot uchun brif (TXT)"
+        }
+      ]
+    },
     {
       "type": "h2",
       "text": "Arizalarni qabul qiluvchi bot nima qiladi",
@@ -173,6 +192,43 @@
       "type": "cta",
       "text": "Ariza ssenariysini muhokama qilish",
       "href": "#lead-form"
+    },
+    {
+      "type": "h2",
+      "text": "Menejer arizani qanday qabul qiladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Maydon",
+        "O‘quv namunasi"
+      ],
+      "rows": [
+        [
+          "Xizmat",
+          "Sinov darsi"
+        ],
+        [
+          "Kontakt",
+          "Mijoz rozilik bilan kiritgan aloqa ma’lumoti"
+        ],
+        [
+          "Qulay vaqt",
+          "Kechki vaqt — mijoz istagi, tasdiqlangan bron emas"
+        ],
+        [
+          "Holat",
+          "Menejer bilan vaqtni kelishish kutilmoqda"
+        ],
+        [
+          "Keyingi harakat",
+          "Mas’ul xodim jadvalni tekshiradi va mijozga javob beradi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu namunada haqiqiy mijoz ma’lumoti yo‘q. Ishga tushirishda menejer test arizasini o‘z ish kanalida ko‘rishi, takroriy yuborish va xato holatlari tekshirilishi kerak."
     }
   ],
   "faq": [
@@ -252,7 +308,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-09",
+  "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-06-03T00:00:00Z",
-  "updatedAt": "2026-10-09"
+  "updatedAt": "2026-10-23"
 }

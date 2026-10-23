@@ -27,7 +27,7 @@
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram bot biznes uchun",
   "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
-  "heroSubtitle": "Mijoz xizmatni tanlaydi, kontakt va yozilish so‘rovini qoldiradi. Bot arizani menejerga uzatish uchun yig‘adi; uchrashuv vaqtini menejer tasdiqlaydi. Tarkib va narx ish boshlanishidan oldin kelishiladi.",
+  "heroSubtitle": "990 000 so‘mdan: Telegram’da tugmali ssenariy, FAQ, kontakt va arizani menejerga uzatish. Start uchun bitta til tanlanadi. Qo‘shimcha funksiyalar va muntazam xarajatlar smetada alohida yoziladi.",
   "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
   "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Ariza namunasini ko‘rish",
@@ -36,6 +36,64 @@
     {
       "type": "p",
       "text": "Biznes uchun Telegram bot xizmat tanlash, kontakt yig‘ish va arizani mas’ul menejerga uzatish jarayonini tartibga soladi. Birinchi versiyada bitta aniq vazifadan boshlash mumkin: maslahat, buyurtma yoki yozilish uchun so‘rov."
+    },
+    {
+      "type": "h2",
+      "text": "Telegram bot tariflari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Paket",
+        "Nima kiradi",
+        "Muddat",
+        "Narx (so‘m)"
+      ],
+      "rows": [
+        [
+          "Start",
+          "Bitta tilda tugmali ssenariy, FAQ, ariza va menejerga Telegram orqali uzatish",
+          "3 kun",
+          "990 000 dan"
+        ],
+        [
+          "Biznes",
+          "Savdo voronkasi, bilimlar bazasi asosida AI-javoblar, RU + UZ, AmoCRM/Bitrix24 integratsiyasi",
+          "7 kun",
+          "2 490 000 dan"
+        ],
+        [
+          "Pro",
+          "AI + CRM + Payme/Click to‘lovi + bot-vitrina yoki Mini App, manbalar bo‘yicha analitika",
+          "14 kun",
+          "4 900 000 dan"
+        ],
+        [
+          "Qo‘llab-quvvatlash",
+          "Monitoring, ssenariy tuzatishlari, bilimlar bazasini yangilash",
+          "har oy",
+          "290 000 dan / oy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Telegram Start uchun bitta til tanlanadi: o‘zbek yoki rus tili. Ikkinchi til alohida baholanadi. Tarkibida RU + UZ ko‘rsatilgan paketda ikki til kelishilgan hajmga kiradi; til moduli ikkinchi marta qo‘shilmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi muddat materiallar, kirish huquqlari va ish tarkibi tayyor bo‘lgandagi mo‘ljal. Hosting, AI/API, CRM litsenziyasi hamda tanlangan qo‘llab-quvvatlash xarajati ishlab chiqish narxidan alohida hisoblanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "{brief} faylini ochib, javoblarni arizangizga qo‘shing. Unda birinchi versiya, xarajatlar, kirish huquqlari egasi va qabul sinovlari uchun savollar bor.",
+      "links": [
+        {
+          "token": "brief",
+          "target": "https://gptbot.uz/downloads/seo-20261023/telegram-bot-brif-uz.txt",
+          "anchor": "Telegram bot uchun brif (TXT)"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -101,49 +159,6 @@
     {
       "type": "p",
       "text": "E’lon qilingan boshlang‘ich tarif — 990 000 so‘mdan: tugmali ssenariy, ariza qabuli, FAQ va menejerga Telegram orqali uzatish. Quyidagi raqamlar mavjud tarif yo‘nalishlari; yakuniy tarkib, muddat va xarajatlar smetada tasdiqlanadi."
-    },
-    {
-      "type": "h2",
-      "text": "Telegram bot tariflari"
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Paket",
-        "Nima kiradi",
-        "Muddat",
-        "Narx (so‘m)"
-      ],
-      "rows": [
-        [
-          "Start",
-          "Tugmali ssenariy, ariza qabul qilish, FAQ, menejerga Telegram orqali uzatish",
-          "3 kun",
-          "990 000 dan"
-        ],
-        [
-          "Biznes",
-          "Savdo voronkasi, bilimlar bazasi asosida AI-javoblar, RU + UZ, AmoCRM/Bitrix24 integratsiyasi",
-          "7 kun",
-          "2 490 000 dan"
-        ],
-        [
-          "Pro",
-          "AI + CRM + Payme/Click to‘lovi + bot-vitrina yoki Mini App, manbalar bo‘yicha analitika",
-          "14 kun",
-          "4 900 000 dan"
-        ],
-        [
-          "Qo‘llab-quvvatlash",
-          "Monitoring, ssenariy tuzatishlari, bilimlar bazasini yangilash",
-          "har oy",
-          "290 000 dan / oy"
-        ]
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Jadvaldagi muddatlar kelishilgan tarkib, tayyor materiallar va kerakli kirish huquqlari uchun boshlang‘ich reja. Tashqi servis tasdig‘i va qo‘shimcha integratsiya muddati alohida kelishiladi. AI-model, hosting, CRM litsenziyasi, to‘lov provayderi va davomiy qo‘llab-quvvatlash xarajatlari smetada alohida ko‘rsatiladi."
     },
     {
       "type": "linkp",
@@ -320,13 +335,13 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-09",
+  "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-23",
   "heroTrust": [
     "990 000 so‘mdan",
-    "Tarkib oldindan kelishiladi",
-    "Rus va o‘zbek tillari",
-    "Yozilishni menejer tasdiqlaydi"
+    "Start — bitta til",
+    "O‘quv demo",
+    "Ishdan oldin aniq smeta"
   ]
 }

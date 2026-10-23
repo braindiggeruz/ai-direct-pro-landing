@@ -5,11 +5,12 @@ import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 
 const read = (file: string) => fs.readFileSync(file, 'utf8');
 const chatFiles = ['content/pages/ru/gpt-chat.json', 'content/pages/uz/gpt-uzbek-tilida.json'];
-const trialFiles = [...chatFiles, 'content/pages/uz/gpt-chat-qollanma.json',
+const acquisitionFiles = [...chatFiles, 'content/pages/ru/gpt-na-russkom.json'];
+const trialFiles = [...acquisitionFiles, 'content/pages/uz/gpt-chat-qollanma.json',
   'content/blog/uz/referat-va-mustaqil-ish.json', 'content/blog/uz/rezyume-tayyorlash.json'];
 
 test('chat acquisition copy and zero-price structured offers disclose the actual lifetime trial', () => {
-  for (const file of chatFiles) {
+  for (const file of acquisitionFiles) {
     const page = JSON.parse(read(file));
     for (const field of ['description', 'ogDescription', 'heroSubtitle']) {
       assert.match(page[field], new RegExp(String(FREE_TRIAL_LIMIT)), `${file}: ${field} must disclose the trial size`);
@@ -17,6 +18,7 @@ test('chat acquisition copy and zero-price structured offers disclose the actual
     }
     const app = page.extraJsonLd.find((item: { '@type': string }) => item['@type'] === 'SoftwareApplication');
     assert.equal(app.offers.price, '0');
+    assert.equal(app.offers.priceCurrency, 'UZS', `${file}: the zero offer describes the local trial`);
     assert.match(app.offers.name, new RegExp(String(FREE_TRIAL_LIMIT)));
     assert.match(app.offers.description, /yangilanmaydi|без ежедневного обновления/);
     assert.match(app.offers.description, /AI.paket|AI-пакет/);
@@ -26,7 +28,7 @@ test('chat acquisition copy and zero-price structured offers disclose the actual
 test('web chat and its linked guides cannot republish daily/hourly or shared-IP trial terms', () => {
   for (const file of trialFiles) {
     const source = read(file);
-    assert.doesNotMatch(source, /kunlik va soatlik|kunlik,? soatlik|har kuni bepul xabar|kuniga 15|soatiga 5|дневной и часовой лимит|[Лл]имит считается по IP|[Bb]epul limit IP-manzil/iu, file);
+    assert.doesNotMatch(source, /kunlik va soatlik|kunlik,? soatlik|har kuni bepul xabar|kuniga 15|soatiga 5|дневной и часовой лимит|бесплатный дневной лимит|[Лл]имит считается по IP|[Bb]epul limit IP-manzil/iu, file);
     assert.match(source, /3 ta (?:bepul )?sinov|3 (?:бесплатных )?пробных/, file);
     assert.match(source, /yangilanmaydi|не обновляют|не обновляются/, file);
   }
@@ -36,11 +38,24 @@ test('web chat and its linked guides cannot republish daily/hourly or shared-IP 
 });
 
 test('chat and AI-source descriptions keep presentation export separate from ordinary chat replies', () => {
-  for (const file of [...chatFiles, 'public/llms.txt', 'public/llms-full.txt']) {
+  for (const file of [...acquisitionFiles, 'public/llms.txt', 'public/llms-full.txt']) {
     const source = read(file);
-    assert.doesNotMatch(source, /independent, text-only|works with text only|ИИ-чат[^\n]*только текстовые ответы|"Только текстовые ответы"|"Faqat matnli javob"|\.pptx fayl yaratmaydi|makes no \.pptx|файл презентации чат не создаёт/iu, file);
+    assert.doesNotMatch(source, /independent, text-only|works with text only|он работает только с текстом|ИИ-чат[^\n]*только текстовые ответы|"Только текстовые ответы"|"Faqat matnli javob"|\.pptx fayl yaratmaydi|makes no \.pptx|файл презентации чат не создаёт/iu, file);
     assert.match(source, /PPTX/);
     assert.match(source, /alohida taqdimot|режим(?:е|а)? презентаций|separate presentation mode/, file);
     assert.match(source, /o‘z limiti va paketlari|отдельными лимитами и пакетами|own limits and plans/, file);
   }
+});
+
+test('official login help keeps the official destination first and identifies the limited independent trial', () => {
+  const article = JSON.parse(read('content/blog/uz/chatgptga-qanday-kirish-mumkin.json'));
+  const body = JSON.stringify(article.body);
+  const official = body.indexOf('https://chatgpt.com/');
+  const alternative = body.indexOf('/uz/gpt-uzbek-tilida/');
+  assert.ok(official >= 0 && alternative > official, 'solve official account access before offering another service');
+  assert.match(body, /3 ta bepul sinov javobi/);
+  assert.match(body, /keyin AI paket/);
+  assert.match(body, /hisobingizga kirishni tiklamaydi/);
+  assert.equal(article.datePublished, '2026-09-01', 'a substantive refresh must not invent a new publication date');
+  assert.equal(article.canonical, 'https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/');
 });

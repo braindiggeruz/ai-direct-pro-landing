@@ -1,6 +1,7 @@
 // Thin client for the /api/gpt/* endpoints. All calls are same-origin.
 import type { ChatApiResponse, ChatMessage, Locale } from './types';
 import type { LeadBudget } from '../shared/lead-budget';
+import { postLeadJson } from '../shared/lead-client';
 
 async function postJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
@@ -278,7 +279,7 @@ export interface LeadResult {
 // returned: like every other failure in this island the UI shows curated copy.
 export async function sendLead(apiBase: string, payload: LeadPayload): Promise<LeadResult> {
   try {
-    const res = await postJson<{ ok?: unknown; code?: unknown; id?: unknown; duplicate?: unknown; idempotent?: unknown; delivery?: unknown }>(`${apiBase}/api/gpt/lead`, payload);
+    const res = await postLeadJson<{ ok?: unknown; code?: unknown; id?: unknown; duplicate?: unknown; idempotent?: unknown; delivery?: unknown }>(`${apiBase}/api/gpt/lead`, payload);
     if (res.ok === true) return {
       ok: true,
       ...(typeof res.id === 'string' ? { id: res.id } : {}),
@@ -287,7 +288,7 @@ export async function sendLead(apiBase: string, payload: LeadPayload): Promise<L
       ...(res.delivery === 'pending' ? { delivery: 'pending' as const } : {}),
     };
     return { ok: false, code: typeof res.code === 'string' ? res.code : 'rejected' };
-  } catch {
-    return { ok: false, code: 'network' };
+  } catch (error) {
+    return { ok: false, code: error instanceof Error && error.name === 'LeadTimeoutError' ? 'timeout' : 'network' };
   }
 }

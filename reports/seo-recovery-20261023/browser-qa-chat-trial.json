@@ -1,0 +1,265 @@
+{
+  "startedAt": "2026-10-23T14:11:51.042Z",
+  "executablePath": "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+  "scope": "Local built dist; one sequential browser; external requests blocked; every API mocked.",
+  "accountFixture": "Synthetic available lifetime trial of 3; live-mode UI with Click/Payme buttons; no purchase calls permitted.",
+  "widths": [
+    320,
+    390,
+    1280
+  ],
+  "pages": [
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 320,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 320,
+        "scrollWidth": 320,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 374.453125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 126.078125
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-320.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    },
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 390,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 390,
+        "scrollWidth": 390,
+        "overflow": [
+          {
+            "tag": "TABLE",
+            "id": "",
+            "class": "w-full",
+            "width": 374.453125
+          },
+          {
+            "tag": "THEAD",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TH",
+            "id": "",
+            "class": "px-4 py-3 text-left text-brand-cyan font-semibold text-sm uppercase tracking-wider border-b border-w",
+            "width": 126.078125
+          },
+          {
+            "tag": "TBODY",
+            "id": "",
+            "class": "",
+            "width": 374.453125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": "bg-white/[0.02] hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          },
+          {
+            "tag": "TD",
+            "id": "",
+            "class": "px-4 py-3 text-white/80 text-sm border-b border-white/5",
+            "width": 126.078125
+          },
+          {
+            "tag": "TR",
+            "id": "",
+            "class": " hover:bg-white/[0.05] transition-colors",
+            "width": 374.453125
+          }
+        ]
+      },
+      "screenshot": "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-390.png",
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    },
+    {
+      "id": "uz-chat",
+      "url": "/uz/gpt-uzbek-tilida/",
+      "width": 1280,
+      "passed": true,
+      "h1": [
+        "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+      ],
+      "canonical": [
+        "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+      ],
+      "cta": {
+        "selector": ".gpt-input-surface textarea",
+        "text": "",
+        "visible": true,
+        "enabled": true
+      },
+      "layout": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "overflow": []
+      },
+      "pageErrors": [],
+      "local404": [],
+      "blockedExternalOrigins": [],
+      "mockedApis": {
+        "/api/auth/config": 1,
+        "/api/gpt/account": 1
+      }
+    }
+  ],
+  "leadFlows": [],
+  "screenshots": [
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-320.png",
+    "F:\\Claude\\gptbot-codex-integration-20261007\\reports\\seo-recovery-20261023\\browser-screenshots\\uz-chat-390.png"
+  ],
+  "failures": [],
+  "finishedAt": "2026-10-23T14:11:55.791Z",
+  "summary": {
+    "pagesPassed": 3,
+    "pagesTotal": 3,
+    "leadFlowsPassed": 0,
+    "leadFlowsTotal": 0,
+    "failures": 0
+  }
+}

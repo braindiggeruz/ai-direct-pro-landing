@@ -40,6 +40,8 @@ export interface LeadStrings {
   leadSuccessFaster: string;
   leadIntro: string;
   leadError: string;
+  leadUnknown: string;
+  leadDuplicate: string;
 }
 
 const RU: LeadStrings = {
@@ -70,6 +72,8 @@ const RU: LeadStrings = {
   leadSuccessFaster: 'Если нужно быстрее, свяжитесь с нами:',
   leadIntro: 'Нужен такой AI-чат на сайт, в Telegram или CRM? Оставьте контакт.',
   leadError: 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с нами:',
+  leadUnknown: 'Не удалось подтвердить получение заявки. Она могла сохраниться. Повторите отправку без изменения данных — повторную заявку мы не создадим. Или свяжитесь с нами:',
+  leadDuplicate: 'Предыдущая заявка с этим контактом уже сохранена. Новые данные не добавлены. Поля оставлены здесь, чтобы вы могли скопировать их и передать нам напрямую:',
 };
 
 const UZ: LeadStrings = {
@@ -100,6 +104,8 @@ const UZ: LeadStrings = {
   leadSuccessFaster: 'Tezroq kerak bo‘lsa, biz bilan bog‘laning:',
   leadIntro: 'Shunday AI-chat sayt, Telegram yoki CRM uchun kerakmi? Kontakt qoldiring.',
   leadError: 'Ariza yuborilmadi. Yana urinib ko‘ring yoki biz bilan bog‘laning:',
+  leadUnknown: 'Ariza qabul qilinganini tasdiqlab bo‘lmadi. U saqlangan bo‘lishi mumkin. Ma’lumotlarni o‘zgartirmay yana yuboring — takroriy ariza yaratilmaydi. Yoki biz bilan bog‘laning:',
+  leadDuplicate: 'Bu kontakt bilan avvalgi ariza saqlangan. Yangi ma’lumotlar qo‘shilmadi. Ularni nusxalab bizga bevosita yuborishingiz uchun maydonlar saqlandi:',
 };
 
 export function leadStrings(locale: Locale): LeadStrings {

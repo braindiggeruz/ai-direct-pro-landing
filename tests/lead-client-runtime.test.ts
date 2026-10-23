@@ -21,7 +21,7 @@ function memoryStorage() {
   const data = new Map<string, string>();
   return { getItem: (key: string) => data.get(key) ?? null, setItem: (key: string, value: string) => { data.set(key, value); } };
 }
-async function harness(surface: 'chat' | 'calculator', response: unknown, local = memoryStorage()) {
+async function harness(surface: 'chat' | 'calculator', response: unknown, local = memoryStorage(), timeoutMs?: number) {
   const values: unknown[] = [];
   let cursor = 0, uuid = 0;
   const events: unknown[][] = [], goals: unknown[][] = [], requests: Array<Record<string, unknown>> = [];
@@ -44,7 +44,8 @@ async function harness(surface: 'chat' | 'calculator', response: unknown, local 
   const window = { location, localStorage: local, sessionStorage: memoryStorage(), gtag: (...args: unknown[]) => events.push(args), ym: (...args: unknown[]) => goals.push(args) };
   const module = { exports: {} as Record<string, (props?: unknown) => unknown> };
   const context = vm.createContext({
-    module, exports: module.exports, window, location, URL, URLSearchParams, Date,
+    module, exports: module.exports, window, location, URL, URLSearchParams, Date, AbortController,
+    setTimeout: (callback: () => void, ms: number) => setTimeout(callback, timeoutMs ?? ms), clearTimeout,
     crypto: { randomUUID: () => `${++uuid}23e4567-e89b-12d3-a456-426614174000` },
     document: { referrer: '', documentElement: { lang: 'ru' }, getElementById: () => null },
     requestAnimationFrame: (fn: () => void) => fn(),
@@ -82,9 +83,16 @@ async function harness(surface: 'chat' | 'calculator', response: unknown, local 
   return {
     events, goals, requests, local,
     changeContact,
+    changeName: (value: string) => invoke(tree.find((node) => String(node.props.id).endsWith('-name')), 'onChange', { target: { value } }),
+    changeBudget: (value: string) => invoke(tree.find((node) => node.type === 'select'), 'onChange', { target: { value } }),
+    changeEstimate: () => invoke(tree.find((node) => node.props.name === 'volume' && !node.props.checked), 'onChange'),
     submit: () => invoke(tree.find((node) => node.type === 'form'), 'onSubmit', { preventDefault() {} }),
     setResponse: (value: unknown) => { response = value; },
     successful: () => tree.some((node) => node.props['data-testid'] === 'ai-lead-success' || (surface === 'calculator' && node.props.role === 'status' && String(node.props.children).includes('Заявка принята'))),
+    visibleForm: () => tree.some((node) => node.type === 'form'),
+    text: () => tree.flatMap((node) => [node.props.children].flat().filter((value) => typeof value === 'string')).join(' '),
+    fieldValue: (suffix: string) => tree.find((node) => String(node.props.id).endsWith(suffix))?.props.value,
+    contactDisabled: () => tree.find((node) => String(node.props.id).endsWith('-contact'))?.props.disabled,
   };
 }
 
@@ -93,7 +101,12 @@ for (const surface of ['chat', 'calculator'] as const) {
     for (const [response, expected] of [[{ ok: true, id: 'lead_new', delivery: 'pending' }, 1], [{ ok: true }, 1], [{ ok: true, id: 'lead_duplicate', duplicate: true }, 0]] as const) {
       const h = await harness(surface, response);
       await h.submit();
-      assert.equal(h.successful(), true);
+      assert.equal(h.successful(), expected === 1);
+      if (expected === 0) {
+        assert.equal(h.visibleForm(), true);
+        assert.match(h.text(), /Предыдущая заявка/);
+        assert.equal(h.fieldValue('-contact'), '@fixture_contact');
+      }
       assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, expected);
       assert.equal(h.goals.length, expected * 2);
       assert.doesNotMatch(JSON.stringify([...h.events, ...h.goals]), /fixture_contact|lead_new|lead_duplicate/);
@@ -128,7 +141,72 @@ for (const surface of ['chat', 'calculator'] as const) {
     await h.submit();
     assert.notEqual(h.requests[0].requestId, h.requests[1].requestId);
   });
+
+  test(`${surface}: name and ${surface === 'chat' ? 'budget' : 'estimate'} edits cannot be mistaken for an idempotent replay`, async () => {
+    const h = await harness(surface, new Error('lost response'));
+    await h.submit();
+    assert.match(h.text(), /могла сохраниться/);
+    await h.changeName('Edited fixture');
+    await h.submit();
+    assert.notEqual(h.requests[0].requestId, h.requests[1].requestId);
+    if (surface === 'chat') await h.changeBudget('2-5m');
+    else await h.changeEstimate();
+    h.setResponse({ ok: true, duplicate: true, id: 'lead_existing' });
+    await h.submit();
+    assert.notEqual(h.requests[1].requestId, h.requests[2].requestId);
+    assert.equal(h.successful(), false);
+    assert.equal(h.fieldValue('-name'), 'Edited fixture');
+    assert.match(h.text(), /Предыдущая заявка/);
+    assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, 0);
+    assert.doesNotMatch(JSON.stringify(h.events), /Edited fixture|fixture_contact/);
+  });
+
+  test(`${surface}: rapid double submit sends once and pending input is locked`, async () => {
+    let resolve!: (value: unknown) => void;
+    const pending = new Promise((done) => { resolve = done; });
+    const h = await harness(surface, pending);
+    const first = h.submit();
+    const second = h.submit();
+    assert.equal(h.requests.length, 1);
+    await second;
+    assert.equal(h.contactDisabled(), true);
+    resolve({ ok: true, id: 'lead_double' });
+    await Promise.all([first, second]);
+    assert.equal(h.successful(), true);
+    assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, 1);
+  });
+
+  test(`${surface}: deadline releases form, late success is ignored, unchanged retry keeps key`, async () => {
+    let resolve!: (value: unknown) => void;
+    const pending = new Promise((done) => { resolve = done; });
+    const h = await harness(surface, pending, memoryStorage(), 10);
+    await h.submit();
+    assert.equal(h.successful(), false);
+    assert.match(h.text(), /могла сохраниться/);
+    resolve({ ok: true, id: 'lead_delayed' });
+    await new Promise((done) => setTimeout(done, 0));
+    assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, 0);
+    h.setResponse({ ok: true, id: 'lead_delayed', duplicate: true, idempotent: true });
+    await h.submit();
+    assert.equal(h.requests[0].requestId, h.requests[1].requestId);
+    assert.equal(h.successful(), true);
+    assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, 1);
+  });
 }
+
+test('calculator acknowledgement does not claim a subsequently edited estimate was stored', async () => {
+  const h = await harness('calculator', { ok: true, id: 'lead_original_estimate' });
+  await h.submit();
+  assert.equal(h.successful(), true);
+  await h.changeEstimate();
+  assert.equal(h.successful(), false);
+  assert.equal(h.fieldValue('-contact'), '@fixture_contact');
+  h.setResponse({ ok: true, id: 'lead_original_estimate', duplicate: true });
+  await h.submit();
+  assert.notEqual(h.requests[0].requestId, h.requests[1].requestId);
+  assert.match(h.text(), /Новый расчёт и новые данные не добавлены/);
+  assert.equal(h.events.filter((event) => event[1] === 'generate_lead').length, 1);
+});
 
 test('chat submit handler forwards first touch, locale and the service corresponding to the topic', async () => {
   const local = memoryStorage();

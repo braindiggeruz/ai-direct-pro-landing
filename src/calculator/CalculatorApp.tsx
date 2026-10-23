@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { track } from '../lib/cta';
 import { shouldTrackLead, type LeadAcknowledgement } from '../shared/lead-conversion';
+import { prepareLeadRequest, postLeadJson, type LeadRequestAttempt } from '../shared/lead-client';
 import { readFirstTouch, leadAttribution, leadUtm } from '../shared/lead-attribution';
 import { STUDIO_CONTACT_PROPS, STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
@@ -17,7 +18,7 @@ import {
   type FeatureId,
 } from './pricing';
 
-type LeadError = 'form' | 'contact' | 'turnstile' | 'rate_limited' | 'failed';
+type LeadError = 'form' | 'contact' | 'turnstile' | 'rate_limited' | 'failed' | 'uncertain';
 
 /**
  * How the estimate reaches the studio without the form: the studio's work
@@ -42,6 +43,7 @@ const LEAD_ERROR_TEXT: Record<LeadError, string> = {
   turnstile: `Форма временно просит дополнительную проверку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
   rate_limited: `Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, позвоните: ${STUDIO_PHONE_DISPLAY}.`,
   failed: `Не удалось отправить заявку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
+  uncertain: `Не удалось подтвердить получение заявки. Она могла сохраниться. Повторите отправку без изменения данных — повторную заявку мы не создадим. Или отправьте расчёт напрямую: ${SEND_HOW}.`,
 };
 
 /** Server codes from /api/gpt/lead mapped to what the visitor can do about them. */
@@ -49,17 +51,8 @@ function leadErrorFor(code: string): LeadError {
   if (code === 'invalid_lead') return 'contact';
   if (code === 'turnstile_required' || code === 'turnstile_failed') return 'turnstile';
   if (code === 'rate_limited') return 'rate_limited';
+  if (code === 'network' || code === 'timeout') return 'uncertain';
   return 'failed';
-}
-
-/** Idempotency key accepted by the endpoint: [A-Za-z0-9_-]{16,80}. */
-function newRequestId(): string {
-  try {
-    return `calc_${crypto.randomUUID().replace(/-/g, '')}`;
-  } catch {
-    const random = `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`;
-    return `calc_${random.replace(/[^a-z0-9]/g, '')}`.padEnd(24, '0').slice(0, 60);
-  }
 }
 
 async function copyText(text: string): Promise<boolean> {
@@ -86,6 +79,7 @@ function ChoiceCard({
   title,
   description,
   onChange,
+  disabled,
 }: {
   checked: boolean;
   name: string;
@@ -93,6 +87,7 @@ function ChoiceCard({
   title: string;
   description: string;
   onChange: () => void;
+  disabled: boolean;
 }) {
   return (
     <label className={`block cursor-pointer rounded-2xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-brand-cyan focus-within:ring-offset-2 focus-within:ring-offset-[#05070D] ${
@@ -100,7 +95,7 @@ function ChoiceCard({
         ? 'border-brand-cyan/70 bg-brand-cyan/[0.09]'
         : 'border-white/10 bg-white/[0.025] hover:border-white/25'
     }`}>
-      <input className="sr-only" type="radio" name={name} value={value} checked={checked} onChange={onChange} />
+      <input className="sr-only" type="radio" name={name} value={value} checked={checked} onChange={onChange} disabled={disabled} />
       <span className="flex items-start gap-3">
         <span aria-hidden="true" className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
           checked ? 'border-brand-cyan bg-brand-cyan text-[#04101A]' : 'border-white/30'
@@ -122,16 +117,22 @@ export default function CalculatorApp() {
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [consent, setConsent] = useState(false);
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'duplicate' | 'error'>('idle');
   const [leadError, setLeadError] = useState<LeadError>('form');
-  // One key per contact: a retry after a lost response is deduplicated by the
-  // server, and editing the contact starts a new request instead of a conflict.
-  const requestIdRef = useRef<string | null>(null);
+  const requestRef = useRef<LeadRequestAttempt | null>(null);
+  const busyRef = useRef(false);
   const result = useMemo(() => calculateEstimate(selection), [selection]);
   const summary = useMemo(() => buildEstimateSummary(result), [result]);
 
+  const updateSelection = (update: (current: CalculatorSelection) => CalculatorSelection) => {
+    if (busyRef.current) return;
+    setSelection(update);
+    // An acknowledgement belongs to the submitted estimate, not a later edit.
+    if (formStatus === 'success' || formStatus === 'duplicate') setFormStatus('idle');
+  };
+
   const toggleFeature = (id: FeatureId) => {
-    setSelection((current) => ({
+    updateSelection((current) => ({
       ...current,
       featureIds: current.featureIds.includes(id)
         ? current.featureIds.filter((item) => item !== id)
@@ -161,54 +162,51 @@ export default function CalculatorApp() {
 
   const submitLead = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (formStatus === 'sending') return;
+    if (busyRef.current) return;
     if (!contact.trim() || !consent) {
       setLeadError('form');
       setFormStatus('error');
       return;
     }
     setFormStatus('sending');
-    requestIdRef.current ??= newRequestId();
+    busyRef.current = true;
     const firstTouch = readFirstTouch();
     // Stays 'network' unless the server answered with its own code.
     let code = 'network';
     try {
-      const response = await fetch('/api/gpt/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          requestId: requestIdRef.current,
-          source: 'calculator',
-          service: 'telegram-bot',
-          name: name.trim() || undefined,
-          // No contactType: the server recognises a phone, an @handle or an
-          // e-mail by itself, and a type it does not know rejects the lead.
-          contactValue: contact.trim(),
-          consent: true,
-          intent: summary.slice(0, 500),
-          pageUrl: window.location.pathname,
-          attribution: leadAttribution(firstTouch),
-          utm: {
-            ...leadUtm(firstTouch),
-            tool: 'telegram_cost_calculator',
-            goal: selection.goalId,
-            features: selection.featureIds.join(','),
-            volume: selection.volumeId,
-            readiness: selection.readinessId,
-            estimate_min: String(result.implementationMin),
-            estimate_max: String(result.implementationMax),
-          },
-        }),
-      });
+      const payload = {
+        source: 'calculator',
+        service: 'telegram-bot',
+        name: name.trim() || undefined,
+        // No contactType: the server recognises a phone, an @handle or an
+        // e-mail by itself, and a type it does not know rejects the lead.
+        contactValue: contact.trim(),
+        consent: true,
+        intent: summary.slice(0, 500),
+        pageUrl: window.location.pathname,
+        attribution: leadAttribution(firstTouch),
+        utm: {
+          ...leadUtm(firstTouch),
+          tool: 'telegram_cost_calculator',
+          goal: selection.goalId,
+          features: selection.featureIds.join(','),
+          volume: selection.volumeId,
+          readiness: selection.readinessId,
+          estimate_min: String(result.implementationMin),
+          estimate_max: String(result.implementationMax),
+        },
+      };
+      const request = prepareLeadRequest(payload, requestRef.current, 'calc');
+      requestRef.current = request;
+      const body = await postLeadJson<LeadAcknowledgement & { code?: unknown }>('/api/gpt/lead', { ...payload, requestId: request.requestId });
       // The endpoint answers { ok:false, code } for a rejected or unstored lead,
       // so only a literal ok:true is a lead. The server's message is never shown.
-      const body = await response.json() as LeadAcknowledgement & { code?: unknown };
       if (body.ok !== true) {
         code = typeof body.code === 'string' ? body.code : 'rejected';
         throw new Error('lead rejected');
       }
-      setFormStatus('success');
-      if (shouldTrackLead(body, requestIdRef.current)) {
+      setFormStatus(body.duplicate === true && body.idempotent !== true ? 'duplicate' : 'success');
+      if (shouldTrackLead(body, request.requestId)) {
         track('calculator_lead_submitted', {
           goal: selection.goalId,
           feature_count: selection.featureIds.length,
@@ -222,10 +220,13 @@ export default function CalculatorApp() {
         reachYandexGoal(YANDEX_GOALS.leadFormSubmitSuccess);
         reachYandexGoal(YANDEX_GOALS.calculatorLeadSuccess);
       }
-    } catch {
+    } catch (error) {
+      if (error instanceof Error && error.name === 'LeadTimeoutError') code = 'timeout';
       setLeadError(leadErrorFor(code));
       setFormStatus('error');
       track('calculator_lead_failed', { goal: selection.goalId, code: code.slice(0, 40) });
+    } finally {
+      busyRef.current = false;
     }
   };
 
@@ -261,12 +262,13 @@ export default function CalculatorApp() {
                 {GOALS.map((goal) => (
                   <ChoiceCard
                     key={goal.id}
+                    disabled={formStatus === 'sending'}
                     checked={selection.goalId === goal.id}
                     name="goal"
                     value={goal.id}
                     title={goal.label}
                     description={goal.description}
-                    onChange={() => setSelection((current) => ({ ...current, goalId: goal.id }))}
+                    onChange={() => updateSelection((current) => ({ ...current, goalId: goal.id }))}
                   />
                 ))}
               </div>
@@ -286,7 +288,7 @@ export default function CalculatorApp() {
                         ? 'border-brand-violet/70 bg-brand-violet/[0.10]'
                         : 'border-white/10 bg-white/[0.025] hover:border-white/25'
                     }`}>
-                      <input className="sr-only" type="checkbox" checked={checked} onChange={() => toggleFeature(feature.id)} />
+                      <input className="sr-only" type="checkbox" checked={checked} disabled={formStatus === 'sending'} onChange={() => toggleFeature(feature.id)} />
                       <span className="flex items-start gap-3">
                         <span aria-hidden="true" className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${
                           checked ? 'border-[#a78bfa] bg-[#8b5cf6] text-white' : 'border-white/30'
@@ -311,12 +313,13 @@ export default function CalculatorApp() {
                   {VOLUMES.map((volume) => (
                     <ChoiceCard
                       key={volume.id}
+                      disabled={formStatus === 'sending'}
                       checked={selection.volumeId === volume.id}
                       name="volume"
                       value={volume.id}
                       title={volume.label}
                       description={volume.description}
-                      onChange={() => setSelection((current) => ({ ...current, volumeId: volume.id }))}
+                      onChange={() => updateSelection((current) => ({ ...current, volumeId: volume.id }))}
                     />
                   ))}
                 </div>
@@ -327,12 +330,13 @@ export default function CalculatorApp() {
                   {CONTENT_READINESS.map((readiness) => (
                     <ChoiceCard
                       key={readiness.id}
+                      disabled={formStatus === 'sending'}
                       checked={selection.readinessId === readiness.id}
                       name="readiness"
                       value={readiness.id}
                       title={readiness.label}
                       description={readiness.description}
-                      onChange={() => setSelection((current) => ({ ...current, readinessId: readiness.id }))}
+                      onChange={() => updateSelection((current) => ({ ...current, readinessId: readiness.id }))}
                     />
                   ))}
                 </div>
@@ -344,12 +348,12 @@ export default function CalculatorApp() {
             <button
               type="button"
               onClick={() => setStep((value) => Math.max(0, value - 1))}
-              disabled={step === 0}
+              disabled={step === 0 || formStatus === 'sending'}
               className="min-h-12 rounded-2xl border border-white/10 px-6 py-3 font-medium text-white transition-colors hover:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-40"
             >
               Назад
             </button>
-            <button type="button" onClick={next} className="btn-primary min-h-12 text-base">
+            <button type="button" onClick={next} disabled={formStatus === 'sending'} className="btn-primary min-h-12 text-base">
               {step === 2 ? 'Показать расчёт' : 'Продолжить'}
               <span aria-hidden="true">→</span>
             </button>
@@ -425,6 +429,7 @@ export default function CalculatorApp() {
                   <input
                     id="calculator-name"
                     value={name}
+                    disabled={formStatus === 'sending'}
                     onChange={(event) => setName(event.target.value)}
                     autoComplete="name"
                     // ym-disable-keys: a visitor's name is never recorded.
@@ -436,7 +441,8 @@ export default function CalculatorApp() {
                   <input
                     id="calculator-contact"
                     value={contact}
-                    onChange={(event) => { setContact(event.target.value); requestIdRef.current = null; if (formStatus === 'error') setFormStatus('idle'); }}
+                    disabled={formStatus === 'sending'}
+                    onChange={(event) => { setContact(event.target.value); if (formStatus === 'error') setFormStatus('idle'); }}
                     autoComplete="tel"
                     // ym-disable-keys: phone / Telegram handle is never recorded.
                     className="mt-2 min-h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 text-base text-white outline-none placeholder:text-white/30 focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 ym-disable-keys"
@@ -449,11 +455,23 @@ export default function CalculatorApp() {
                     <input
                       type="checkbox"
                       checked={consent}
+                      disabled={formStatus === 'sending'}
                       onChange={(event) => { setConsent(event.target.checked); if (formStatus === 'error') setFormStatus('idle'); }}
                       className="mt-0.5 h-5 w-5 shrink-0 accent-[#2FE6D1]"
                     />
                     <span>Согласен на обработку данных для связи по расчёту. <a href="/ru/politika-konfidentsialnosti/" className="text-brand-cyan hover:underline">Политика конфиденциальности</a>.</span>
                   </label>
+                  {formStatus === 'duplicate' && (
+                    <div className="mt-3 text-sm leading-relaxed text-amber-100" role="status">
+                      <p>Предыдущая заявка с этим контактом уже сохранена. Новый расчёт и новые данные не добавлены. Расчёт и поля остались на странице: скопируйте мини-ТЗ и передайте уточнения напрямую.</p>
+                      <a
+                        href={sendHref}
+                        {...(SEND_BY_TELEGRAM ? { ...STUDIO_CONTACT_PROPS, target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
+                        onClick={() => sendEstimate('lead_error')}
+                        className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
+                      >{SEND_LABEL}</a>
+                    </div>
+                  )}
                   {formStatus === 'error' && (
                     <div className="mt-3 text-sm leading-relaxed text-rose-200" role="alert">
                       <p>{LEAD_ERROR_TEXT[leadError]}</p>

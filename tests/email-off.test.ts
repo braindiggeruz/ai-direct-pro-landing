@@ -1,6 +1,6 @@
 // scripts/email-off.ts: what Cloudflare Email Address Obfuscation would
-// rewrite is wrapped in <!--email_off-->, nothing else moves, and the download
-// guide is held back until R-S2 (roadmap R-S1 item 2.6).
+// rewrite is wrapped in <!--email_off-->, including the download guide after
+// the authorized 2026-10-23 recovery. Text and SEO metadata do not move.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -42,11 +42,18 @@ test('a Telegram handle is not an address', () => {
   assert.equal(withEmailOff(html, '/uz/'), html);
 });
 
-test('the download guide is held back and comes back unchanged', () => {
-  assert.ok(EMAIL_OFF_EXCLUDED_PATHS.has(DOWNLOAD_GUIDE));
-  assert.equal(EMAIL_OFF_EXCLUDED_PATHS.size, 1);
-  const html = page('<a href="mailto:ceo@gptbot.uz">ceo@gptbot.uz</a>');
-  assert.equal(withEmailOff(html, DOWNLOAD_GUIDE), html);
+test('the download guide is wrapped without changing text, metadata or its SEO contract', () => {
+  assert.equal(EMAIL_OFF_EXCLUDED_PATHS.has(DOWNLOAD_GUIDE), false);
+  assert.equal(EMAIL_OFF_EXCLUDED_PATHS.size, 0);
+  const html = page(
+    '<main><h1>ChatGPT yuklab olish</h1><p>Yozing: <a href="mailto:ceo@gptbot.uz">ceo@gptbot.uz</a>.</p><p>ceo@gptbot.uz</p></main>',
+    `<title>ChatGPT yuklab olish | GPTBot.uz</title><meta name="description" content="Yuklab olish qo‘llanmasi"><link rel="canonical" href="https://gptbot.uz${DOWNLOAD_GUIDE}">`,
+  );
+  const wrapped = withEmailOff(html, DOWNLOAD_GUIDE);
+  assert.ok(wrapped.includes(`${EMAIL_OFF}<a href="mailto:ceo@gptbot.uz">ceo@gptbot.uz</a>${EMAIL_ON}`));
+  assert.deepEqual(addressesLeftForTheEdge(wrapped), []);
+  assert.equal(wrapped.split(EMAIL_OFF).join('').split(EMAIL_ON).join(''), html, 'only wrapper comments may change');
+  assert.deepEqual(seoContract(wrapped), seoContract(html));
 });
 
 test('the protected-page gate does not see the wrapper (comments are stripped before the fingerprint)', () => {
@@ -66,8 +73,8 @@ test('the checker sees exactly what the edge would still rewrite', () => {
   assert.deepEqual(addressesLeftForTheEdge(withEmailOff(html, '/uz/')), []);
 });
 
-// Build output (skipped without dist/): only the download guide keeps an
-// address for the edge until R-S2, and the login guide's own facts — the OTP
+// Build output (skipped without dist/): no page keeps an exposed address for
+// the edge, and the login guide's own facts — the OTP
 // sender addresses and noreply@openai.com in its error table and FAQ — reach
 // readers as text, never as «[email protected]». Those sentences ship only
 // together with withEmailOff; never revert email_off on that page alone.
@@ -88,7 +95,7 @@ const pathnameOf = (file: string) => {
   return rel.endsWith('index.html') ? `/${rel.slice(0, -'index.html'.length)}` : `/${rel}`;
 };
 
-test('in the build, every page but the download guide leaves nothing for the edge', {
+test('in the build, every page including the download guide leaves nothing for the edge', {
   skip: !hasBuild && 'run the public build first',
 }, () => {
   const left = builtPages()
@@ -97,7 +104,8 @@ test('in the build, every page but the download guide leaves nothing for the edg
     .filter((p) => p.left.length > 0);
   assert.deepEqual(left, []);
   const download = fs.readFileSync(path.join(DIST, `${DOWNLOAD_GUIDE.slice(1)}index.html`), 'utf8');
-  assert.ok(!download.includes(EMAIL_OFF), 'the download guide is not wrapped before R-S2');
+  assert.ok(download.includes(EMAIL_OFF), 'the download guide must receive the same opt-out as every other page');
+  assert.deepEqual(addressesLeftForTheEdge(download), []);
 });
 
 test('in the build, the login guide shows its code-sender addresses as wrapped text', {

@@ -24,16 +24,15 @@
 // HTML, so every page they reach is a release of that page (roadmap R-S1,
 // item 2.6; CHANGE_LOG lists it under invisibleToGate).
 //
-// EMAIL_OFF_EXCLUDED_PATHS: pages whose HTML must not change in this release.
-// The download guide has its own P-CTR window open (release 30.09/01.10, read
-// ≈06–10.11); any byte of HTML there, this wrapper included, would leave that
-// reading without a verdict. It keeps the obfuscated links until R-S2
-// (≈16.11), which removes it from this set in the same revision.
+// EMAIL_OFF_EXCLUDED_PATHS: explicit holds, if a later release needs one.
+// The download guide's former experiment hold was lifted by the authorized
+// recovery release on 2026-10-23: its three obfuscated links still pointed at
+// the crawler's 404 endpoint. It now gets the same documented opt-out as all
+// other pages. Only wrapper comments change; text and SEO metadata stay intact.
+// Historical snapshots and the earlier experiment record remain unchanged.
 import { PROTECTED_PATHS } from './seo-protection';
 
-export const EMAIL_OFF_EXCLUDED_PATHS: ReadonlySet<string> = new Set([
-  '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
-]);
+export const EMAIL_OFF_EXCLUDED_PATHS: ReadonlySet<string> = new Set();
 
 for (const excluded of EMAIL_OFF_EXCLUDED_PATHS) {
   if (!(PROTECTED_PATHS as readonly string[]).includes(excluded)) {

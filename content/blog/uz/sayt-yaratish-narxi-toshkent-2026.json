@@ -4,7 +4,7 @@
   "slug": "sayt-yaratish-narxi-toshkent-2026",
   "url": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
   "title": "Sayt yaratish narxi Toshkent 2026: smetalar",
-  "description": "Toshkentda sayt narxlari 2026: landing 2–4 mln, korporativ 4–8 mln, do‘kon 8–15 mln so‘m. Muddat, narxga nima kirmaydi, birja/frilanser/studiya solishtiruvi.",
+  "description": "Toshkentda sayt smetasini qanday tekshirish: ishlar tarkibi, tillar, ariza shakli, integratsiyalar, oylik xarajatlar va qabul qilish mezonlari.",
   "h1": "Sayt yaratish narxi Toshkent 2026: smetalar",
   "topicCluster": "sayt-narxi",
   "targetMoneyPage": "/uz/sayt-yaratish/",
@@ -15,253 +15,252 @@
     "sayt yaratish qancha turadi",
     "Toshkentda sayt buyurtma"
   ],
-  "intro": "Sayt turlari bo'yicha aniq smetalar, real muddatlar va ishlar tarkibi bilan. Shuningdek, aytilgan narxga deyarli hech qachon kirmaydigan narsalar va pudratchini to'lovdan oldin qanday tekshirish.",
+  "intro": "Bir xil sayt uchun ikki taklifning narxi turlicha chiqishi mumkin. Sababni tushunish uchun faqat yakuniy summani emas, ishlar tarkibini solishtiring. Ushbu qo‘llanma smeta, doimiy xarajatlar va tayyor saytni tekshirishga yordam beradi.",
   "body": [
     {
-      "type": "toc",
-      "text": "Maqolada navigatsiya",
+      "type": "h2",
+      "id": "javob",
+      "text": "Qisqa javob: aynan sizning saytingiz qancha turadi?"
+    },
+    {
+      "type": "linkp",
+      "text": "GPTBot.uz xizmatida landing yaratishning e’lon qilingan boshlang‘ich narxi — 2 990 000 so‘mdan. Bu butun bozorning o‘rtacha narxi emas, muayyan xizmat taklifi. Amaldagi tarkib va shartlarni {service} sahifasidan tekshiring; qo‘shimcha til, kontent va integratsiyalar alohida aniqlanadi.",
       "links": [
         {
-          "anchor": "Qisqa javob",
-          "target": "#javob"
-        },
-        {
-          "anchor": "Sayt turlari bo'yicha narxlar",
-          "target": "#narxlar"
-        },
-        {
-          "anchor": "Narxga nima kirmaydi",
-          "target": "#kirmaydi"
-        },
-        {
-          "anchor": "Birja, frilanser yoki studiya",
-          "target": "#solishtirish"
-        },
-        {
-          "anchor": "Smetani qanday tekshirish",
-          "target": "#tekshirish"
+          "token": "service",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
         }
       ]
     },
     {
-      "type": "h2",
-      "id": "javob",
-      "text": "Qisqa javob"
-    },
-    {
       "type": "p",
-      "text": "2026 yilda Toshkentda biznes uchun sayt 2 dan 15 million so'mgacha turadi. Yetti barobar farq dizaynda emas, ishlar tarkibida: shablondagi landing va to'lov hamda CRM bilan internet-do'kon — bu turli loyihalar. Quyida turlar bo'yicha aniq taqsimot."
+      "text": "Aniq smeta uchun sayt maqsadi, sahifalar va foydalanuvchi harakatlari kerak: ariza qoldirish, yozilish, xarid qilish yoki kabinetga kirish. Faqat sahifalar soni ish hajmini ko‘rsatmaydi. Katalog, qidiruv va to‘lovga ega do‘kon oddiy ariza sahifasidan farq qiladi."
     },
     {
       "type": "h2",
       "id": "narxlar",
-      "text": "Sayt turlari bo'yicha narxlar"
+      "text": "Smetada qaysi ishlar alohida ko‘rsatiladi?"
     },
     {
       "type": "table",
       "headers": [
-        "Sayt turi",
-        "Narxi",
-        "Muddati",
-        "Nimalar kiradi"
+        "Ish",
+        "Nimani kelishish kerak",
+        "Natijani tekshirish"
       ],
       "rows": [
         [
-          "Landing (1–3 sahifa, shablon)",
-          "2–4 million so'm",
-          "5–8 kun",
-          "Dizayn, vjorstka, ariza formasi"
+          "Tuzilma va prototip",
+          "Sahifalar hamda asosiy foydalanuvchi yo‘li",
+          "Sahifalar xaritasi va asosiy ssenariy tasdiqlangan"
         ],
         [
-          "Korporativ sayt (5–10 sahifa)",
-          "4–8 million so'm",
-          "2–3 hafta",
-          "Struktura, matnlar, SEO bazasi"
+          "Dizayn va moslashuv",
+          "Shablonlar, telefon va kompyuterdagi ko‘rinish",
+          "Matn o‘qiladi, tugmalar va shakl qulay ishlaydi"
         ],
         [
-          "Internet-do'kon",
-          "8–15 million so'm",
-          "3–5 hafta",
-          "Katalog, savatcha, to'lov"
+          "Kontent va tillar",
+          "Matnni kim yozadi, tarjima qiladi va joylaydi",
+          "Narxlar, matnlar va til juftliklari tekshirilgan"
         ],
         [
-          "Sayt + AI-bot (arizalar uchun)",
-          "12 million so'mdan",
-          "4–6 hafta",
-          "Sayt, bot, CRM, analitika"
+          "Ariza va integratsiya",
+          "Maydonlar, saqlash, xabar berish, xatolar va takrorlar",
+          "Sinov arizasi bir marta saqlanadi; xato muvaffaqiyat sifatida ko‘rsatilmaydi"
+        ],
+        [
+          "Texnik SEO",
+          "URL, sarlavha, sitemap va eski manzillar",
+          "Ochiq sahifalar ochiladi, muhim eski URL yo‘qolmagan"
+        ],
+        [
+          "Topshirish va xizmat",
+          "Hisoblar, zaxira nusxa, yo‘riqnoma, xatolarni tuzatish",
+          "Biznes egasi kelishilgan kirish huquqlarini olgan"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Muddatlar kontent (matnlar, foto) o'z vaqtida taqdim etilganda amal qiladi. Amalda loyiha aynan kontentda to'xtaydi, vjorstkada emas: materiallar tayyor bo'lmasa, muddatga ikki-uch hafta qo'shing."
+      "text": "Har bir band uchun hajm, natija, narx, muddat va kirmaydigan ishlarni so‘rang. Bitta umumiy summa bo‘lishi mumkin, agar uning tarkibi ilovada tushunarli yozilgan bo‘lsa. Muhimi — kelishilgan pul evaziga nima qabul qilinishini bilish."
     },
     {
       "type": "h2",
       "id": "kirmaydi",
-      "text": "Narxga odatda nima kirmaydi"
-    },
-    {
-      "type": "list",
-      "items": [
-        ".uz zonasidagi domen — yiliga taxminan 80 000 so'm.",
-        "Xosting — yuklamaga qarab oyiga 50 000 dan 300 000 so'mgacha.",
-        "Kontent: matnlar, fotolar, suratga olish — alohida smeta.",
-        "Ishga tushgandan keyingi o'zgartirishlar — ko'pincha pullik va kafolatga kirmaydi."
-      ]
-    },
-    {
-      "type": "quote",
-      "text": "Domen, xosting va kontent «ichida» bo'lgan smeta deyarli har doim shablon va matnlarsiz degani. Buni imzolashdan oldin, ishga tushgandan keyin emas, tekshiring."
-    },
-    {
-      "type": "h2",
-      "id": "solishtirish",
-      "text": "Birja, frilanser yoki studiya"
+      "text": "Bir martalik va muntazam xarajatlar"
     },
     {
       "type": "table",
       "headers": [
-        "Mezon",
-        "Birja",
-        "Frilanser",
-        "Studiya"
+        "Bir martalik ish",
+        "Keyingi xarajat",
+        "Oldindan beriladigan savol"
       ],
       "rows": [
         [
-          "Landing",
-          "$30–150",
-          "1,5–3 million so'm",
-          "2–4 million so'm"
+          "Dizayn, sahifalarni yig‘ish va sozlash",
+          "Domen va xosting",
+          "Hisob kimga tegishli, qancha muddat to‘langan va uzaytirish qanday?"
         ],
         [
-          "Internet-do'kon",
-          "Xavfli",
-          "4–8 million so'm",
-          "8–15 million so'm"
+          "CRM yoki to‘lovni ulash",
+          "Servis tarifi va uning komissiyasi",
+          "Qaysi to‘lov ijrochiga, qaysisi provayderga qilinadi?"
         ],
         [
-          "Kafolat va qo'llab-quvvatlash",
-          "Yo'q",
-          "Kelishuv bo'yicha",
-          "Shartnoma bo'yicha"
+          "Boshlang‘ich kontent",
+          "Yangi sahifalar, tarjima va tahrir",
+          "Nechta material kiradi va faktlarni kim tasdiqlaydi?"
         ],
         [
-          "Manba kodlarini topshirish",
-          "Bahsli",
-          "Ko'pincha bahsli",
-          "Belgilanadi"
-        ],
-        [
-          "Reklama va CRM bilan bog'lash",
-          "Yo'q",
-          "Yo'q",
-          "Bor"
+          "Analitikani sozlash",
+          "Qo‘llab-quvvatlash va rivojlantirish",
+          "Xatoni tuzatish bilan yangi funksiya qanday ajratiladi?"
         ]
       ]
     },
     {
-      "type": "linkp",
-      "text": "Frilanser bilan ishlashda alohida xavf — kirish huquqlari. Agar domen, xosting va kabinetlar ijrochiga rasmiylashtirilgan bo'lsa, ajralganda siz faqat saytni emas, tarixini ham yo'qotasiz. Batafsil: {tanlash}.",
-      "links": [
-        {
-          "token": "tanlash",
-          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
-          "anchor": "agentlik, frilanser yoki birja: qanday tanlash"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "{tanlash} — har bir variant qayerda yaxshiroq va sxema qayerda sinadi.",
-      "links": [
-        {
-          "token": "tanlash",
-          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
-          "anchor": "agentlik, frilanser yoki birja"
-        }
-      ]
+      "type": "p",
+      "text": "Domen, xosting va matnlar paketga kirishi ham, alohida hisoblanishi ham mumkin. Buning o‘zi sifatni isbotlamaydi. Paketga kiradigan xarajatlar, foydalanish muddati va uzaytirish shartlarini yozib oling. Tashqi servis tarifini smeta tuzilgan sanada provayderdan tekshiring."
     },
     {
       "type": "h2",
-      "id": "tekshirish",
-      "text": "Smetani to'lovdan oldin qanday tekshirish"
+      "id": "solishtirish",
+      "text": "Frilanser, birja yoki studiyani qanday solishtirish kerak?"
+    },
+    {
+      "type": "p",
+      "text": "Jamoa turi CRM, kafolat yoki qo‘llab-quvvatlash borligini avtomatik belgilamaydi. Frilanserdan ham, studiyadan ham mos loyiha, ishlaydigan ssenariy, integratsiya uchun mas’ul shaxs va natijani topshirish tartibini so‘rang."
     },
     {
       "type": "list",
       "items": [
-        "Domen, xosting va manba kodlari sizda bo'lishi kerak — bu whois va shartnoma bo'yicha bir daqiqada tekshiriladi.",
-        "Smetada dizayn, vjorstka, to'ldirish, integratsiyalar alohida ko'rsatilgan. Bitta raqam — xavf belgisi.",
-        "Tuzatishlar soni va nima tuzatish, nima yangi vazifa ekanligi ko'rsatilgan.",
-        "Shartnomada bekor qilinganda manba kodlari va kirish huquqlarini topshirish tartibi yozilgan."
+        "Bir xil tillar, sahifalar, kontent va integratsiyalarni solishtiring.",
+        "Faqat chiroyli rasmni emas, arizaning qanday ishlashini ko‘ring.",
+        "Ijrochi o‘zi qiladigan va tashqi servisga bog‘liq ishlarni ajrating.",
+        "Domen, xosting va kodga kirish huquqlarini kelishib oling.",
+        "Qo‘llab-quvvatlash hajmi va istisnolarini yozma belgilang."
       ]
     },
     {
-      "type": "linkp",
-      "text": "Agar sayt vizitka emas, arizalar vositasi sifatida kerak bo'lsa, darhol murojaatlarni qayta ishlash bilan bog'lashni rejalashtirish mantiqan to'g'ri. Biz {sayt} qilamiz va {bot} ulaymiz — ariza sovib qolmasligi uchun.",
-      "links": [
-        {
-          "token": "sayt",
-          "target": "/uz/sayt-yaratish/",
-          "anchor": "biznes uchun saytlar"
-        },
-        {
-          "token": "bot",
-          "target": "/uz/sayt-uchun-ai-bot/",
-          "anchor": "sayt uchun AI-bot"
-        }
-      ]
+      "type": "h2",
+      "id": "misol",
+      "text": "O‘quv misoli: bitta xizmat uchun ariza sayti"
     },
     {
-      "type": "linkp",
-      "text": "{sayt} va {bot} birgalikda — vazifangiz bo'yicha smetani hisoblab beramiz.",
-      "links": [
-        {
-          "token": "sayt",
-          "target": "/uz/sayt-yaratish/",
-          "anchor": "sayt yaratish"
-        },
-        {
-          "token": "bot",
-          "target": "/uz/sayt-uchun-ai-bot/",
-          "anchor": "sayt uchun AI-bot"
-        }
+      "type": "p",
+      "text": "Bu haqiqiy mijoz natijasi yoki tayyor smeta emas, vazifa tuzish misoli. Toshkentdagi kompaniya bitta xizmatni taklif qiladi. Mehmon xizmat tarkibini bilib, aloqa ma’lumotini qoldiradi. Menejer ariza va uning qaysi sahifadan kelganini oladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Birinchi bosqich",
+        "Zarurat bo‘lsa alohida"
+      ],
+      "rows": [
+        [
+          "Xizmat, haqiqiy shartlar va aloqa ma’lumotlari",
+          "To‘liq tahrir qilingan ikkinchi til"
+        ],
+        [
+          "Saqlanganini to‘g‘ri bildiradigan ariza shakli",
+          "CRM va menejerlar o‘rtasida taqsimlash"
+        ],
+        [
+          "Telefon uchun qulay ko‘rinish va yuborilgan arizalarni analitikada hisoblash",
+          "Kalkulyator, katalog, kabinet yoki to‘lov"
+        ],
+        [
+          "Texnik SEO va muhim eski URL saqlanishi",
+          "Muntazam kontent, reklama va xizmat"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "Boss Digital — Toshkentda AI-botlar va internet-reklama. Telefon +998 50 587 07 20. E-mail: ceo@gptbot.uz. Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent."
+      "text": "Har bir ariza saytiga AI-bot shart emas. Takroriy savollar, tasdiqlangan javoblar bazasi va odamga topshirish jarayoni bo‘lsa, bot foydali bo‘lishi mumkin. Faqat telefon qoldirish kerak bo‘lsa, to‘g‘ri ishlaydigan oddiy shakl yetarli bo‘lishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish",
+      "text": "Ishga tushirishdan oldingi tekshiruv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Asosiy harakatni telefon va kompyuterda bajaring.",
+        "Kelishilgan sinov arizasi saqlanganini va mas’ulga yetganini tekshiring.",
+        "Takroriy yuborish va internet uzilishini tekshiring: dubl va yolg‘on muvaffaqiyat bo‘lmasin.",
+        "Matn, narx, aloqa va til versiyalarini solishtiring.",
+        "Eski sayt bo‘lsa, muhim manzillarni tekshiring.",
+        "Analitika tugma bosilishini emas, muvaffaqiyatli harakatni hisoblashini tekshiring.",
+        "Kirish huquqlari, kelishilgan kod va yo‘riqnomani oling.",
+        "Qolgan kamchiliklar va mas’ullar ro‘yxatini tuzing."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "SEO talablarini tuzilma bosqichida hisobga olish foydali. Sayt ishga tushgandan keyin ham uni yaxshilash mumkin. Qayta ishlash hajmi mavjud xatolarga bog‘liq; hammaga bir xil 2–3 barobar koeffitsiyent yoki qidiruvda birinchi o‘rin kafolati yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "brif",
+      "text": "Dastlabki hisob uchun nimalarni yuborish kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznes yo‘nalishi va foydalanuvchidan kutilayotgan asosiy harakat.",
+        "Birinchi versiyadagi sahifalar va tillar.",
+        "Tayyor matnlar, rasmlar, tasdiqlangan narxlar va eski sayt.",
+        "Ariza qayerga borishi va kim uni ko‘rib chiqishi.",
+        "Mavjud CRM, katalog yoki to‘lov servislari.",
+        "Muddat, taxminiy byudjet va keyinga qoldirish mumkin bo‘lgan funksiyalar."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizni {service} sahifasidagi murojaatda yozing. Ish boshlanishidan oldin tarkib, istisnolar va muddatni aniqlashtiramiz.",
+      "links": [
+        {
+          "token": "service",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish xizmati"
+        }
+      ]
     },
     {
       "type": "cta",
-      "text": "Sayt yaratish tarkibi va narxini ko‘rish",
+      "text": "Xizmat tarkibini ko‘rish va vazifani yuborish",
       "href": "/uz/sayt-yaratish/"
     }
   ],
   "faq": [
     {
       "q": "Toshkentda sayt yaratish qancha turadi?",
-      "a": "2 dan 15 million so'mgacha. Shablondagi landing — 2–4 million, 5–10 sahifali korporativ sayt — 4–8 million, katalog va to'lov bilan internet-do'kon — 8–15 million. Arizalarni qayta ishlash uchun AI-bot bilan sayt — 12 million so'mdan. Narxga odatda domen (.uz yiliga 80 000 so'm), xosting (oyiga 50–300 ming) va kontent kirmaydi."
+      "a": "GPTBot.uz landing xizmatining e’lon qilingan boshlang‘ich narxi 2 990 000 so‘mdan. Aniq smeta sahifalar, tillar, materiallar va integratsiyalarga bog‘liq. Amaldagi tarkibni xizmat sahifasidan tekshiring."
     },
     {
       "q": "Sayt yaratish qancha vaqt oladi?",
-      "a": "Landing — 5–8 kun, korporativ sayt — 2–3 hafta, internet-do'kon — 3–5 hafta. AI-bot va CRM bilan sayt — 4–6 hafta. Agar matnlar va fotolar tayyor bo'lmasa, muddatga 2–3 hafta qo'shing: loyihalar aynan kontentda to'xtaydi."
+      "a": "Muddat ish hajmi, kontentning tayyorligi va tashqi servislarga bog‘liqlik aniqlangandan keyin kelishiladi. Har bir bosqichning natijasi va muddat o‘zgarishi shartlari yoziladi."
     },
     {
-      "q": "Birjada buyurtma berish arzonmi yoki studiyada?",
-      "a": "Birjada landing $30–150 turadi — studiyadan 3–5 barobar arzon. Lekin birjada kafolat, qo'llab-quvvatlash va reklama hamda CRM bilan bog'lash uchun javobgarlik yo'q. Internet-do'kon va arizalarni qayta ishlash muhim bo'lgan har qanday loyiha uchun birja — xavf."
+      "q": "Frilanser CRM ulay oladimi?",
+      "a": "Tegishli tajribasi bo‘lsa, ha. Jamoa nomini emas, amaliy ssenariy, xatolarni qayta ishlash, mas’uliyat va kirish huquqlarini tekshiring."
     },
     {
-      "q": "Nega SEO ni sayt yaratilgandan keyin qilish mumkin emas?",
-      "a": "Chunki qayta qilish, strukturani ishlab chiqish bosqichida qo'yishdan 2–3 barobar qimmat. To'g'ri pudratchi struktura, semantik yadro va schema.org ni poydevorga qo'yadi — bu tayyor saytni qidiruv ostida qayta qilishdan arzonroq."
+      "q": "SEO ni ishga tushgandan keyin yaxshilash mumkinmi?",
+      "a": "Ha. Ish hajmi tuzilma, kontent va texnik holatga bog‘liq. Asosiy talablarni oldindan hisobga olish foydali, lekin umumiy qayta ishlash narxi yoki top kafolati yo‘q."
     },
     {
-      "q": "Saytga AI-bot kerakmi?",
-      "a": "Agar sayt arizalar olib kelishi kerak bo'lsa — ha. Darhol javob olmagan tashrif buyuruvchi ko‘pincha raqobatchiga o‘tadi, murojaatlarning bir qismi esa kechqurun, menejerlar ishlamaydigan paytda keladi. AI-bot darhol va 24/7 javob beradi."
+      "q": "Har bir saytga AI-bot kerakmi?",
+      "a": "Yo‘q. Bu tashrif buyuruvchilarning savollari va arizalarni qayta ishlash jarayoniga bog‘liq. Oddiy aloqa yig‘ish uchun shakl yetarli bo‘lishi mumkin."
     },
     {
-      "q": "Manba kodlari menga topshirilishini qanday tekshirish mumkin?",
-      "a": "To'lovdan oldin ikki narsani tekshiring: domen (whois) va xosting kimga rasmiylashtirilgan, shartnomada manba kodlari va kirish huquqlarini topshirish tartibi yozilganmi. Agar domen va xosting ijrochida bo'lsa, ajralganda saytni tarixi bilan yo'qotasiz."
+      "q": "Domen va xosting narxga kiradimi?",
+      "a": "Paketga bog‘liq. Kim to‘lashi, qancha muddatga kirishi, uzaytirish va hisobga egalik shartlarini yozma belgilang."
     }
   ],
   "cta": {
@@ -306,21 +305,21 @@
     },
     {
       "target": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
-      "anchor": "sayt narxi Toshkent",
+      "anchor": "SEO xizmati narxi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9
     },
     {
       "target": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
-      "anchor": "sayt yaratish narxi",
+      "anchor": "internet-do‘kon yaratish narxi",
       "locale": "uz",
       "type": "contextual",
       "priority": 9
     }
   ],
   "ogTitle": "Sayt yaratish narxi Toshkent 2026: smetalar",
-  "ogDescription": "Toshkentda sayt narxlari 2026: landing 2–4 mln, korporativ 4–8 mln, do‘kon 8–15 mln so‘m. Muddat, narxga nima kirmaydi, birja/frilanser/studiya solishtiruvi.",
+  "ogDescription": "Toshkentda sayt smetasini qanday tekshirish: ishlar tarkibi, tillar, ariza shakli, integratsiyalar, oylik xarajatlar va qabul qilish mezonlari.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "canonical": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
   "hreflangRu": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
@@ -329,12 +328,24 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-09-02",
-  "dateModified": "2026-09-28",
+  "dateModified": "2026-10-23",
   "schemaTypes": [
     "Article",
     "FAQPage",
     "BreadcrumbList"
   ],
   "createdAt": "2026-09-02T00:00:00Z",
-  "updatedAt": "2026-09-28T00:00:00.000Z"
+  "updatedAt": "2026-10-23T00:00:00.000Z",
+  "sources": [
+    {
+      "title": "GPTBot.uz: sayt yaratish tarkibi va boshlang‘ich narxi",
+      "url": "https://gptbot.uz/uz/sayt-yaratish/",
+      "note": "2026-10-23"
+    },
+    {
+      "title": "Google Search Central: SEO Starter Guide",
+      "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+      "note": "2026-10-23"
+    }
+  ]
 }

@@ -126,7 +126,13 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // released lifetime trial, separates PPTX mode and uses actual authored dates.
 // All ten titles/H1s, canonical/robots/hreflang and link contracts stay. The
 // new review records the predecessor hash; the comparator is unchanged.
-export const BASELINE = 'docs/seo/evidence/2026-10-08-recovery/reviewed-protected-pages.json';
+// Recovery 23.10 separates the UZ product quick start from the official-login
+// guide: only their body text and the guide's unrelated sales link change.
+// All ten search metadata contracts and the download guide stay unchanged.
+// The download guide now receives email_off comments, preventing the live
+// edge from replacing contacts with crawler-facing 404 links. The new review
+// records that technical intervention separately; old revisions stay immutable.
+export const BASELINE = 'docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

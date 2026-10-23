@@ -54,7 +54,20 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "GPTBot.uz AI chati — O‘zbekiston uchun o‘zbek va rus tillarida ishlaydigan mustaqil onlayn yordamchi, ChatGPT’ga o‘zbekcha muqobil. Shu sahifada brauzer orqali ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi olish mumkin; keyin davom etish uchun AI paket kerak: alohida APK yoki dastur yuklash shart emas. AI matn yozadi va tahrirlaydi, konspekt, reja, reklama g‘oyasi va mijozga javob qoralamasini tayyorlashga yordam beradi."
+      "text": "Savolingizni shu sahifadagi «Xabar yozing…» maydoniga o‘zbekcha yozing: GPTBot.uz matn, tarjima, reja yoki tushuntirish tayyorlashga yordam beradi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi olasiz; keyin yangi javoblar uchun AI paket kerak. Ilova o‘rnatish shart emas. Bu OpenAI’ning ChatGPT xizmati emas, o‘zbek va rus tillarida ishlaydigan mustaqil AI chat."
+    },
+    {
+      "type": "h2",
+      "id": "tez-boshlash",
+      "text": "O‘zbekcha savol bering: boshlash uchun 3 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yuqoridagi chatga bitta vazifani yozing: nima kerak, kim uchun va qanday hajmda.",
+        "Yuborish tugmasini bosing. Masalan: «Fotosintezni 7-sinf o‘quvchisiga 5 gapda tushuntir, so‘ng tekshirish uchun 3 savol ber».",
+        "Javobni tekshiring. Kerak bo‘lsa, «soddaroq yoz» yoki «lotin yozuvida javob ber» deb aniqlashtiring; har bir muvaffaqiyatli sinov javobi umumiy 3 ta javob limitidan olinadi."
+      ]
     },
     {
       "type": "p",
@@ -78,7 +91,7 @@
     },
     {
       "type": "p",
-      "text": "Rasmiy ChatGPT’ga kirish uchun brauzerda chatgpt.com manzilini oching va Log in (hisob bo‘lsa) yoki Sign up (yangi hisob) tugmasini bosing — Google, Apple, telefon raqami yoki e-mail orqali. Hisobsiz ham sinab ko‘rish mumkin, lekin suhbatlar tarixi, rasm yaratish va fayl biriktirish uchun hisobga kirish kerak. 04.10.2026 holatiga O‘zbekiston OpenAI’ning ChatGPT ishlaydigan davlatlar ro‘yxatida bor, shuning uchun oddiy kirishda VPN kerak emas. Ro‘yxatdan o‘tmasdan o‘zbekcha savol berish kerak bo‘lsa, shu sahifadagi chatga yozing: bu GPTBot.uz’ning mustaqil AI chati, OpenAI mahsuloti emas; jami 3 ta bepul sinov javobi bor, keyin AI paket kerak."
+      "text": "Rasmiy OpenAI hisobingizga kirish kerak bo‘lsa, chatgpt.com saytini oching; login va kod bilan bog‘liq muammolar uchun yuqoridagi yo‘riqnomadan foydalaning. Shu yerda mustaqil o‘zbekcha AI chatni sinamoqchi bo‘lsangiz, sahifa yuqorisidagi xabar maydoniga yozing: OpenAI paroli kerak emas. GPTBot.uz’dagi sinov, hisob va paketlar ChatGPT hisobingizdan alohida."
     },
     {
       "type": "linkp",
@@ -234,7 +247,18 @@
     },
     {
       "type": "p",
-      "text": "Manba: chatgpt.com/pricing. Tekshirilgan sana: 04.10.2026. Jadval rasmiy ChatGPT haqida. Shu sahifadagi GPTBot.uz chati — alohida servis: jami 3 ta bepul sinov javobi, keyin AI paket; shartlari yuqorida, «Shu sahifadagi AI chat: shartlari» bo‘limida."
+      "text": "Jadval rasmiy ChatGPT haqida. Shu sahifadagi GPTBot.uz chati — alohida servis: jami 3 ta bepul sinov javobi, keyin AI paket; shartlari yuqorida, «Shu sahifadagi AI chat: shartlari» bo‘limida."
+    },
+    {
+      "type": "linkp",
+      "text": "OpenAI’ning {freeHelp} sahifasi 23.10.2026 kuni tekshirildi: oddiy matnli suhbatlar suiiste’moldan himoya qoidalari doirasida cheklanmagan, vositalarning o‘z limitlari bor. Amaldagi limit yoki uni yangilash vaqti rasmiy ChatGPT ichida ko‘rsatiladi.",
+      "links": [
+        {
+          "token": "freeHelp",
+          "target": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq",
+          "anchor": "ChatGPT Free tarifi haqidagi rasmiy izohi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -320,19 +344,6 @@
     {
       "type": "p",
       "text": "AI-chat matn qoralamasini tayyorlash, mavzuni tushuntirish, hujjat tuzilmasini yaratish, mijozga javob variantlarini taklif qilish yoki kodni tahlil qilishda yordam beradi. Maqsad, kontekst, format va cheklovlarni aniq yozsangiz, natija foydaliroq bo‘ladi. Biznes so‘rovlarida parol, to‘lov ma’lumoti, tibbiy ma’lumot va boshqa maxfiy axborotni yubormang."
-    },
-    {
-      "type": "h2",
-      "text": "GPTBot.uz AI chatidan qanday foydalaniladi?"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Sahifa yuqorisidagi «Xabar yozing…» maydoniga savolingizni o‘zbekcha (lotin yozuvida) yoki ruscha yozing.",
-        "Yuborish tugmasini bosing; har bir javob ostida uni qaysi model yozgani ko‘rsatiladi.",
-        "Kerak bo‘lsa, aniqlashtiruvchi savol bilan davom eting.",
-        "Limit tugasa, chat qachon yana yozish mumkinligini ko‘rsatadi."
-      ]
     },
     {
       "type": "linkp",
@@ -800,7 +811,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-10-05",
+  "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-08"
+  "updatedAt": "2026-10-23"
 }
