@@ -1577,8 +1577,8 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Chat snippets: R-S1 freeze lifted by owner, new title/description on both chats",
-  "stage_status": "validated_pending_deployment",
+  "current_stage": "Chat snippets deployed (d0264730); SEO growth audit and further autonomous waves per owner order 24.10",
+  "stage_status": "in_progress",
   "last_completed_stage": "SEO recovery deployed and verified; content quality and reliable lead submissions",
   "next_stage": "Guarded production deployment of chat snippets on owner command, live readback, recrawl request, 28-day Uzbekistan CTR read",
   "r0_4_progress": {
@@ -2629,7 +2629,10 @@
     "gscSitemapSubmission": "blocked_subscription_required"
   },
   "seo_chat_snippets_20261024": {
-    "status": "validated_pending_deployment",
+    "status": "deployed_and_verified",
+    "deployment": "d0264730-fd47-432d-9b03-13bc4e7683ef",
+    "sourceCommit": "d54d5b61bf25685b0228886a8d6a2608ffb9766b",
+    "releaseEvidence": "reports/chat-snippets-20261024/RELEASE.md",
     "ownerOrder": "2026-10-24: lift R-S1 freeze; rewrite title/description of /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/; prepare RU-UZ translator page in parallel",
     "branch": "seo/chat-snippets-translator-20261024",
     "baseCommit": "c0da2ecb",
