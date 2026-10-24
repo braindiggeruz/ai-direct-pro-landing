@@ -1,5 +1,6 @@
 // Shared types for the AI-chat island.
 import { receiptHost, UZUM_HOST } from '../shared/payment-hosts';
+import type { ChatRolePreset } from '../shared/types';
 
 export type Locale = "ru" | "uz";
 
@@ -288,6 +289,10 @@ export interface MountConfig {
   turnstileSiteKey?: string;
   /** The page's H1 (data-h1 on #gpt-chat-root, from the page JSON): the resting screen's heading. */
   h1?: string;
+  /** The role the page opens with (data-chat-role, allowlisted in main.tsx); absent on the two main chats. */
+  role?: ChatRolePreset;
+  /** The paired page in the other language (data-alt-href), for the language links; absent on the two main chats. */
+  altHref?: string;
 }
 
 export interface ChatApiResponse {

@@ -95,6 +95,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // Present on the Russian chat only: most of its search impressions are
   // Uzbek-language queries, and the only switch used to be an 11px «UZ».
   const uzEntry = uz ? undefined : t.uzEntry;
+  // On a translator page the language links lead to its pair, not to the
+  // other main chat (an href spread after the default overrides it).
+  const altLink = config.altHref ? { href: config.altHref } : {};
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [storageScope, setStorageScope] = useState<string | undefined>();
   const [presentationState, setPresentationState] = useState<{owner: string; active: string|null; artifacts: ChatMessage[]} | null>(null);
@@ -145,7 +148,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // The business line under a first answer (plan WP-20); `open` once its form is.
   const [businessLine, setBusinessLine] = useState<{ topic: BusinessTopic; open: boolean } | null>(null);
   const [activeTool, setActiveTool] = useState<AiToolId>("chat");
-  const [role, setRole] = useState<RoleId>("general");
+  // A translator page opens in the translator role (MountConfig.role); the
+  // sidebar can still change it.
+  const [role, setRole] = useState<RoleId>(config.role ?? "general");
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [turnstileConfig, setTurnstileConfig] = useState<{
@@ -1295,6 +1300,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               data-testid="lang-uz"
               onClick={() => onLocaleSwitch("header")}
               className="gpt-header-button gpt-lang-switch min-h-11 min-w-11"
+              {...altLink}
             >
               <span className="gpt-lang-full">{uzEntry.nav}</span>
               <span className="gpt-lang-short">UZ</span>
@@ -1307,6 +1313,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               lang="ru"
               data-testid="lang-ru"
               className="gpt-header-button gpt-lang-switch min-h-11 min-w-11"
+              {...altLink}
             >
               RU
             </a>
@@ -1384,6 +1391,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                           lang="uz"
                           data-testid="gpt-uz-entry"
                           onClick={() => onLocaleSwitch("empty")}
+                          {...altLink}
                         >
                           {uzEntry.page}
                         </a>

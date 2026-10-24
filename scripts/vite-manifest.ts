@@ -28,6 +28,7 @@ export const ENTRIES = {
   landing: 'index.html',
   chat: 'src/gpt-chat/main.tsx',
   calculator: 'src/calculator/main.tsx',
+  translit: 'src/uz-translit/main.ts',
 } as const;
 
 export function readViteManifest(dist: string): ViteManifest {

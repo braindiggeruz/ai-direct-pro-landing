@@ -6,11 +6,15 @@ import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 const read = (file: string) => fs.readFileSync(file, 'utf8');
 const chatFiles = ['content/pages/ru/gpt-chat.json', 'content/pages/uz/gpt-uzbek-tilida.json'];
 const acquisitionFiles = [...chatFiles, 'content/pages/ru/gpt-na-russkom.json'];
-const trialFiles = [...acquisitionFiles, 'content/pages/uz/gpt-chat-qollanma.json',
+// The RU↔UZ translator pages (drafts, chatRole translator): the same chat and
+// the same 3 lifetime trial replies, so the same disclosure; they make no
+// presentation claim, so the PPTX test below does not apply to them.
+const translatorFiles = ['content/pages/ru/russko-uzbekskiy-perevodchik.json', 'content/pages/uz/rus-ozbek-tarjimon.json'];
+const trialFiles = [...acquisitionFiles, ...translatorFiles, 'content/pages/uz/gpt-chat-qollanma.json',
   'content/blog/uz/referat-va-mustaqil-ish.json', 'content/blog/uz/rezyume-tayyorlash.json'];
 
 test('chat acquisition copy and zero-price structured offers disclose the actual lifetime trial', () => {
-  for (const file of acquisitionFiles) {
+  for (const file of [...acquisitionFiles, ...translatorFiles]) {
     const page = JSON.parse(read(file));
     for (const field of ['description', 'ogDescription', 'heroSubtitle']) {
       assert.match(page[field], new RegExp(String(FREE_TRIAL_LIMIT)), `${file}: ${field} must disclose the trial size`);

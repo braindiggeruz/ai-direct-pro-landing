@@ -4,7 +4,8 @@
 //
 // Pages with status === 'published' are written normally.
 // Pages with status === 'noindex' are written but include <meta name=robots noindex>.
-// Pages with status === 'draft' are skipped.
+// Pages with status === 'draft' are skipped, except the drafts a local preview
+// names in PREVIEW_DRAFTS (scripts/preview-drafts.ts): written noindex,nofollow.
 import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
@@ -27,6 +28,8 @@ import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
+import { chatRoleAttributes, pageChatRole, renderUzTranslitBlock } from './translator-page';
+import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -478,7 +481,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
        chat renders inside this element is either what the visitor typed or what
        the model answered. The mount point carries the class so the masking
        survives React replacing its children. -->
-  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}" class="h-full ym-hide-content">
+  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}"${chatRoleAttributes(page)} class="h-full ym-hide-content">
     <div class="gpt-premium gpt-app gpt-shell" data-state="empty" style="color-scheme:dark">
       <div class="gpt-shell-aside" aria-hidden="true"></div>
       <div class="gpt-main">
@@ -515,7 +518,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 
 <section id="seo-summary" data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-    ${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
+    ${renderUzTranslitBlock(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
       ${renderBlocks(page.bodyBlocks || [])}
     </div>
@@ -843,7 +846,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
 </div>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = []): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = [], translitHref: string | null = null): string {
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -1112,7 +1115,7 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
 
 ${marketVariant ? '' : stickyCtaHtml}
 ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
-${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}
+${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}${pageChatRole(page) && translitHref ? `\n<script type="module" src="${translitHref}"></script>` : ''}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
 ${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${LEAD_FORM_SCRIPT}` : ''}
@@ -1143,12 +1146,18 @@ async function main() {
   const chatStyles = entryStyles(manifest, ENTRIES.chat);
   if (!chatStyles.length) throw new Error('The chat entry has no stylesheet; refusing to render the chat pages unstyled.');
   const calculatorHref = entryScript(manifest, ENTRIES.calculator);
+  // The Uzbek Cyrillic ↔ Latin converter, loaded only on a gpt-chat page with a chatRole.
+  const translitHref = entryScript(manifest, ENTRIES.translit);
+  // Local preview only: the drafts PREVIEW_DRAFTS names are written noindex,nofollow.
+  const previews = previewDraftUrls(process.env.PREVIEW_DRAFTS, pages);
+  if (previews.size) console.warn(`  ! PREVIEW_DRAFTS: rendering draft(s) ${[...previews].join(', ')} as noindex for a local preview; never release this dist.`);
   let written = 0, skipped = 0;
-  for (const page of pages) {
-    if (page.status === 'draft') { skipped++; continue; }
+  for (const source of pages) {
+    if (source.status === 'draft' && !previews.has(source.url)) { skipped++; continue; }
+    const page = source.status === 'draft' ? asPreviewPage(source) : source;
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles);
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles, translitHref);
     // Every bare studio-contact link gets a prefilled first message naming the
     // service and the page; protected pages come back unchanged. Then every
     // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).

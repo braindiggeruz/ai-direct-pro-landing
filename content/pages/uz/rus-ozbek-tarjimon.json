@@ -1,0 +1,270 @@
+{
+  "status": "draft",
+  "locale": "uz",
+  "url": "/uz/rus-ozbek-tarjimon/",
+  "slug": "rus-ozbek-tarjimon",
+  "pageType": "gpt-chat",
+  "chatRole": "translator",
+  "primaryKeyword": "rus o‘zbek tarjimon",
+  "secondaryKeywords": [
+    "rus uzbek tarjimon",
+    "rus ozbek tarjimon",
+    "tarjimon rus uzbek",
+    "ruschadan o‘zbekchaga tarjima",
+    "o‘zbekchadan ruschaga tarjima",
+    "o‘zbekcha ruscha tarjimon",
+    "ruscha tarjimon",
+    "onlayn tarjimon",
+    "ai tarjimon",
+    "русча узбекча таржимон",
+    "русча узбекча таржима"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Ruscha-o‘zbekcha AI tarjimon: izohli tarjima",
+  "title": "Rus-o‘zbek tarjimon onlayn — AI tarjima, lotin va kirill",
+  "description": "Ruschadan o‘zbekchaga va aksincha AI tarjima: lotin yoki kirill, kerakli uslub, izoh bilan. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "canonical": "https://gptbot.uz/uz/rus-ozbek-tarjimon/",
+  "hreflangRu": "/ru/russko-uzbekskiy-perevodchik/",
+  "hreflangUz": "/uz/rus-ozbek-tarjimon/",
+  "hreflangXDefault": "/uz/rus-ozbek-tarjimon/",
+  "ogTitle": "Rus-o‘zbek tarjimon onlayn — AI tarjima, lotin va kirill",
+  "ogDescription": "Ruschadan o‘zbekchaga va aksincha AI tarjima: lotin yoki kirill, kerakli uslub, izoh bilan. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Rus-o‘zbek tarjimon",
+  "heroTitle": "Ruscha-o‘zbekcha AI tarjimon: izohli tarjima",
+  "heroSubtitle": "Ruschadan o‘zbekchaga va o‘zbekchadan ruschaga tarjima: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Matnni shu sahifadagi chatga yozing yoki qo‘ying: chat «Tarjimon» rolida ochiladi. Ruscha matn o‘zbek tiliga (lotin yozuvida), o‘zbekcha matn esa rus tiliga tarjima qilinadi. So‘rovda matn kim uchun ekanini, kerakli uslub va yozuvni ko‘rsatishingiz mumkin. Faqat yozuvni almashtirish kerak bo‘lsa, tarjimasiz, yuqoridagi {translit}dan foydalaning: u AI’siz va limitsiz ishlaydi.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "#kirill-lotin",
+          "anchor": "kirill ↔ lotin konvertori"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tarjimon — o‘sha GPTBot.uz AI chati, faqat oldindan tanlangan rol bilan. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham, Google Tarjimon ham emas; javoblarni boshqa kompaniyalarning til modellari API orqali beradi. Shartlar AI chat bilan umumiy: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi. Keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Sinov javoblarini AI chatda ishlatib bo‘lgan bo‘lsangiz, bu yerda ular qayta berilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-tarjima-qilish",
+      "text": "Matnni 3 qadamda tarjima qilish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Matnni chat maydoniga qo‘ying va qaysi tilga kerakligini yozing: «o‘zbekchaga» yoki «ruschaga». Ko‘rsatilmasa, ruscha matn o‘zbekchaga (lotin yozuvida), o‘zbekcha matn esa ruschaga tarjima qilinadi.",
+        "Kontekst qo‘shing: matn kim uchun va qaysi uslubda kerak — «Siz» bilan rasmiy xat, mijozga xabar, Telegram post yoki «sen» bilan oddiy gap. Kirill yozuvi kerak bo‘lsa, buni ham yozing.",
+        "Yuboring va javobni tekshiring: ism, summa, sana va atamalar o‘zgarmaganini ko‘ring. Tushunarsiz so‘zni izohlab berishni, ikki variantni yoki qisqaroq matnni so‘rashingiz mumkin. Har bir javob, aniqlashtirish ham, limitdan bitta javob oladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "lotin-yoki-kirill",
+      "text": "Lotin yoki kirill: qaysi yozuvni tanlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbek tilining rasmiy alifbosi — lotin yozuvi: u 1993-yilda joriy etilgan, alifboning amaldagi tahriri 1995-yilda qabul qilingan. Shunga qaramay, ko‘pchilik, ayniqsa katta yoshdagilar, hali ham kirillda yozadi, shuning uchun yozishmalarda ikkala yozuv ham uchraydi. Ikkilansangiz, qabul qiluvchi qaysi yozuvda yozsa, o‘sha yozuvda javob bering."
+    },
+    {
+      "type": "p",
+      "text": "Lotin yozuvida o‘ va g‘ harflari ‘ belgisi bilan yoziladi, tutuq belgisi esa boshqa belgi: ’ (санъат → san’at, маъно → ma’no). Chat va shu sahifadagi konvertor bu belgilarni aynan shunday yozadi; konvertor oddiy ' apostrofni ham qabul qiladi va kerakli belgiga almashtiradi."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Русча-ўзбекча таржимон: матнни кирилл ёки лотин ёзувида юборинг. Ўзбекча таржима одатда лотин ёзувида келади; кирилл керак бўлса, буни сўровда ёзинг ёки юқоридаги конвертордан фойдаланинг."
+    },
+    {
+      "type": "h2",
+      "id": "ai-va-lugat",
+      "text": "AI tarjima lug‘at va oddiy onlayn tarjimondan nimasi bilan farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Lug‘at alohida so‘zlarni tarjima qiladi, Google Tarjimon yoki Yandex Tarjimon kabi onlayn tarjimonlar esa butun matnni tez tarjima qiladi. AI chatga esa vazifani so‘z bilan tushuntirish mumkin: soliq idorasiga xatni «Siz» bilan rasmiy uslubda tarjima qilishni, mijozga javobni soddaroq yozishni, nega aynan shu so‘z tanlanganini tushuntirishni yoki tayyor tarjimani tuzatishni so‘rash mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Cheklovlar ham bor. Model atama, ism yoki raqamda xato qilishi mumkin va so‘rovda yo‘q kontekstni bilmaydi. Bu chat rasm va ovozni tarjima qilmaydi, oflayn ham ishlamaydi: buning uchun Google va Yandex ilovalari bor. Muhim matnni yuborishdan oldin o‘zingiz o‘qib chiqing yoki tilni yaxshi biladigan odamga ko‘rsating."
+    },
+    {
+      "type": "h2",
+      "id": "jonli-tarjimon",
+      "text": "Qachon jonli tarjimon kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Davlat idoralari, notarius, sud yoki konsullik uchun hujjatlar: ularga tarjimon imzosi yoki notarial tasdiq bilan tarjima kerak, AI tarjima uning o‘rnini bosmaydi.",
+        "Shartnoma, tibbiy xulosa va yo‘riqnomalar: ulardagi xato pul yoki sog‘liqqa zarar yetkazishi mumkin.",
+        "Kompaniya o‘z nomidan e’lon qiladigan matnlar: sayt, reklama, qadoq. Ularni tilni yaxshi biladigan muharrir o‘qib chiqsin."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bunday vazifalarda AI tarjima ma’noni tez tushunish uchun qoralama sifatida yaraydi, lekin yakuniy hujjat sifatida emas."
+    },
+    {
+      "type": "linkp",
+      "text": "Biznesingiz uchun shunday AI tarjimon yoki yordamchi kerakmi — saytda, Telegramda yoki CRMda? {call} yoki {mail}; paketlar va muddatlar {narx} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        },
+        {
+          "token": "narx",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "Biznes uchun AI-bot"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa vazifalar uchun {chat}ni oching; bu sahifaning ruscha varianti — {ru}. So‘rovni qanday yozish kerakligi {guide}da, AI paket shartlari esa {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "ru",
+          "target": "/ru/russko-uzbekskiy-perevodchik/",
+          "anchor": "Русско-узбекский переводчик",
+          "lang": "ru"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-uzbek-tilida-ai-chat/",
+          "anchor": "GPT o‘zbek tilida qo‘llanmasi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI, ChatGPT, Google yoki Yandex’ning rasmiy mahsuloti emas. Chatga parol, karta raqami, pasport ma’lumotlari va boshqa maxfiy ma’lumotlarni yubormang: so‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tarjimon bepulmi?",
+      "a": "Qisman. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor — butun sayt bo‘yicha, AI chat bilan umumiy; ular har kuni yangilanmaydi. Keyin yangi tarjimalar uchun AI paket kerak: narx, javoblar soni va muddat chatda ko‘rsatiladi. Shu sahifadagi kirill ↔ lotin konvertori esa bepul va limitsiz, chunki u AI’siz ishlaydi."
+    },
+    {
+      "q": "Bir martada qancha matn tarjima qilsa bo‘ladi?",
+      "a": "Bitta so‘rovga taxminan 2 700 belgigacha matn sig‘adi: rol ko‘rsatmasi bilan birga so‘rov limiti — 3 000 belgi, ortiqchasini kiritish maydoni qabul qilmaydi. Uzun hujjatni qismlarga bo‘ling; har bir qism — alohida javob."
+    },
+    {
+      "q": "O‘zbekcha tarjima lotinda keladimi yoki kirillda?",
+      "a": "Odatda o‘zbekcha matn lotin yozuvida yoziladi. Kirill kerak bo‘lsa, buni so‘rovda yozing yoki tayyor lotin matnni shu sahifadagi konvertor bilan kirillga o‘giring."
+    },
+    {
+      "q": "Hujjatlarni tarjima qilsa bo‘ladimi?",
+      "a": "Hujjat matnini — ha, uni chatga qo‘ysangiz bo‘ladi: chat fayl va rasm qabul qilmaydi. Davlat idorasi, notarius yoki sud uchun tarjimon imzosi yoki notarial tasdiqli tarjima kerak, AI tarjima uning o‘rnini bosmaydi."
+    },
+    {
+      "q": "Bu Google Tarjimon yoki ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: Google ham, OpenAI ham, ChatGPT ham emas. Tarjimani boshqa kompaniyaning til modeli qiladi; qaysi model javob bergani har bir javob ostida yozilgan."
+    },
+    {
+      "q": "Matnlarim saqlanadimi?",
+      "a": "Yozishmani qaytib ko‘rishingiz uchun u brauzeringizda saqlanadi; so‘rovlar serverimizda va AI-provayderlarda qayta ishlanadi. Ma’lumotlar qanday saqlanishi va o‘chirilishi Maxfiylik siyosatida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/russko-uzbekskiy-perevodchik/",
+      "anchor": "Русско-узбекский переводчик",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida-ai-chat/",
+      "anchor": "GPT o‘zbek tilida qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz rus-o‘zbek AI tarjimon",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "Ruschadan o‘zbekchaga va aksincha mustaqil AI tarjimon, GPTBot.uz chatida: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. Kirill ↔ lotin konvertori AI’siz ishlaydi. OpenAI, ChatGPT yoki Google’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/rus-ozbek-tarjimon/",
+      "inLanguage": [
+        "uz",
+        "ru"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-24T00:00:00Z",
+  "updatedAt": "2026-10-24"
+}

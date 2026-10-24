@@ -100,13 +100,15 @@ test('prerendered gpt-chat HTML contains every declared internal link', { skip: 
 });
 
 test('prerendered gpt-chat HTML stays structurally valid', { skip: built.length === 0 && 'no dist/ build present' }, () => {
-  for (const { file, url } of built) {
+  for (const { file, url, page } of built) {
     const html = fs.readFileSync(file, 'utf8');
     assert.equal((html.match(/<h1/g) || []).length, 1, `${url} must render exactly one <h1>`);
     assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `${url} must render exactly one canonical`);
     assert.equal((html.match(/<main/g) || []).length, 1, `${url} must render exactly one <main>`);
     assert.equal((html.match(/<nav aria-label/g) || []).length, 1, `${url} must render exactly one summary nav`);
-    assert.ok(!/name="robots"[^>]*noindex/.test(html), `${url} must not be noindex`);
+    // A draft reaches dist only in a local PREVIEW_DRAFTS build, and there it is noindex (scripts/preview-drafts.ts).
+    if (page.status === 'draft') assert.ok(/name="robots" content="noindex, nofollow/.test(html), `${url} is a draft preview and must be noindex`);
+    else assert.ok(!/name="robots"[^>]*noindex/.test(html), `${url} must not be noindex`);
     assert.ok(html.includes('data-testid="seo-summary"'), `${url} lost its indexable summary section`);
   }
 });

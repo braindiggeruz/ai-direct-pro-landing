@@ -351,6 +351,38 @@
       "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (gptbot.uz-audit/raw/seo-traffic-2026-10-07/02-raw/keywords/metrics_call01_compact.json)",
       "measuredAt": "2026-10-07",
       "note": "Google Ads competition index 0.04; December 2025 170. Same owner as «biznes reja»; the sample is a conditional plan for an invented neutral business."
+    },
+    {
+      "keyword": "переводчик с русского на узбекский",
+      "volumePerMonth": 90500,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (docs/seo/research/2026-10-24-snippets-translator/translator-market.json, commit d54d5b61 on branch seo/chat-snippets-translator-20261024)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0, CPC 0.19 USD. One bucket with «перевод с русского на узбекский»: the 90 500 is shared, not additive. Draft owner /ru/russko-uzbekskiy-perevodchik/ (pageType gpt-chat, outside this gate's scope; recorded for the publication review, intent-manifest A8). SERP: tool pages, Google Translate in the top 10, AI Overview at rank 1."
+    },
+    {
+      "keyword": "переводчик с узбекского на русский",
+      "volumePerMonth": 49500,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, languageCode ru (docs/seo/research/2026-10-24-snippets-translator/translator-market.json, commit d54d5b61 on branch seo/chat-snippets-translator-20261024)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0, CPC 0.23 USD. A secondary of the draft /ru/russko-uzbekskiy-perevodchik/ (intent-manifest A8); the most open of the five SERPs measured (four small independent sites in the top 10)."
+    },
+    {
+      "keyword": "rus uzbek tarjimon",
+      "volumePerMonth": 12100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, project language ru; OpenSEO rejects languageCode uz and the U+2018 spelling (docs/seo/research/2026-10-24-snippets-translator/translator-market.json, commit d54d5b61 on branch seo/chat-snippets-translator-20261024)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0. One bucket with «uzbek rus tarjimon». The draft owner /uz/rus-ozbek-tarjimon/ declares «rus o‘zbek tarjimon» (site apostrophe convention) as primary and this spelling as a secondary; the U+2018 and ASCII-apostrophe spellings returned no Ads bucket, which means no separate measurement, not zero demand (intent-manifest A8)."
+    },
+    {
+      "keyword": "rus ozbek tarjimon",
+      "volumePerMonth": 1300,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, project language ru (docs/seo/research/2026-10-24-snippets-translator/translator-market.json, commit d54d5b61 on branch seo/chat-snippets-translator-20261024)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0. The apostrophe-less spelling of «rus o‘zbek tarjimon», a secondary of the draft /uz/rus-ozbek-tarjimon/ (intent-manifest A8)."
     }
   ],
   "qualityRequirements": {
