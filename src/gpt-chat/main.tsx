@@ -6,6 +6,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AiChatConsole } from './components/AiChatConsole';
 import type { Locale, MountConfig } from './types';
+import { chatRolePreset } from '../shared/types';
 // The chat's own stylesheet (chat design 2026-10-06): Vite emits it beside
 // this entry and scripts/prerender.ts links it on the two chat pages only, so
 // no other page downloads the chat's rules. The site's sheet comes first.
@@ -13,13 +14,23 @@ import './premium.css';
 import './account/account.css';
 import './article.css';
 
+/** A same-site page of the other language: /ru/<slug>/ or /uz/<slug>/, nothing else. */
+const ALT_HREF = /^\/(?:ru|uz)\/[a-z0-9-]+\/$/;
+
 function readConfig(el: HTMLElement): MountConfig {
   const locale = (el.dataset.locale === 'uz' ? 'uz' : 'ru') as Locale;
+  // The translator pages open in the translator role (Page.chatRole). Only a
+  // value on the closed list is taken; the two main chats carry neither
+  // attribute and open as before.
+  const role = chatRolePreset(el.dataset.chatRole);
+  const altHref = role && ALT_HREF.test(el.dataset.altHref || '') ? el.dataset.altHref : undefined;
   return {
     locale,
     apiBase: el.dataset.apiBase || '',
     turnstileSiteKey: el.dataset.turnstileSitekey || undefined,
     h1: el.dataset.h1 || undefined,
+    ...(role ? { role } : {}),
+    ...(altHref ? { altHref } : {}),
   };
 }
 

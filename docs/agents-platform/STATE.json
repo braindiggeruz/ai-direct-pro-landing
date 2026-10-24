@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Chat snippets deployed (d0264730); SEO growth audit and further autonomous waves per owner order 24.10",
+  "current_stage": "SEO growth waves per owner order 24.10: chat snippets deployed (d0264730); translator drafts merged for publication in wave 1",
   "stage_status": "in_progress",
-  "last_completed_stage": "SEO recovery deployed and verified; content quality and reliable lead submissions",
-  "next_stage": "Guarded production deployment of chat snippets on owner command, live readback, recrawl request, 28-day Uzbekistan CTR read",
+  "last_completed_stage": "Chat snippets deployed and verified (d0264730, d54d5b61)",
+  "next_stage": "Wave 1: publish RU-UZ translator pages and growth-audit fixes via guarded release; then wave 2",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1848,7 +1848,7 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Use OpenSEO for connected GSC reads; GSC Wizard subscription is inactive. Separate Uzbekistan/device/query cohorts, preserve download winner and record subsequent releases. No repeated unchanged discovery notifications. Fiscal incident remains separate.",
+  "next_stage_note": "Still open from 2026-10-23: measure completed equal final GSC windows and qualified-lead outcomes for that release (OpenSEO for GSC; GSC Wizard subscription inactive). Branch seo/translator-ru-uz-20261024 is based on c0da2ecb and is not merged with seo/chat-snippets-translator-20261024 (d54d5b61, chat snippet revision); HANDOFF.md, STATE.json and CHANGE_LOG_2026-10.md conflict on merge and must be combined by hand. Nothing pushed or deployed.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-24T13:00:00.000Z",
+  "updated_at": "2026-10-24T13:17:35.335Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2642,5 +2642,62 @@
     "changedFields": ["/ru/gpt-chat/: title, description", "/uz/gpt-uzbek-tilida/: title, description"],
     "translatorBranch": "seo/translator-ru-uz-20261024 (draft, unpublished; gates: native-speaker blind check, free-quota decision)",
     "businessOutcomes": "Unmeasured: 28-day Uzbekistan CTR read after confirmed recrawl; no ranking or traffic guarantee."
+  },
+  "translator_ru_uz_20261024": {
+    "status": "drafts_prepared_not_published",
+    "branch": "seo/translator-ru-uz-20261024",
+    "base": "c0da2ecb0d10d162ecb13bf9dc708e0ff5dd8b0b",
+    "pages": [
+      "/ru/russko-uzbekskiy-perevodchik/",
+      "/uz/rus-ozbek-tarjimon/"
+    ],
+    "pageStatus": "draft",
+    "chatRole": "translator",
+    "research": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (commit d54d5b61, branch seo/chat-snippets-translator-20261024)",
+    "intentManifest": "A8-ru-uz-translator-pages-2026-10-24",
+    "blindCheckKit": "docs/seo/research/2026-10-24-translator-blind-check/",
+    "blindCheck": "not run; translation must not be advertised until a native-speaker blind check scores ≥4/5",
+    "converter": "src/shared/uz-translit.ts (deterministic, browser-only, no model call), Vite entry uz-translit",
+    "backend": "unchanged: /api/gpt/chat has no mode field; the role prefix travels inside the message as with the sidebar role",
+    "preview": "PREVIEW_DRAFTS='/ru/russko-uzbekskiy-perevodchik/,/uz/rus-ozbek-tarjimon/' npm run build:fast; npx vite preview (noindex; chat cannot answer without /api)",
+    "protectedPages": "seo-protection check 10/10 unchanged; 298/301 dist files byte-identical to the c0da2ecb build; the two chats differ only by the gpt-chat-*.js name; _redirects gains two draft 404 lines",
+    "targetedTests": {
+      "files": 28,
+      "pass": 400,
+      "fail": 10,
+      "skip": 4,
+      "failNote": "all 10 failures are identical (names and messages) on the untouched c0da2ecb tree",
+      "new": {
+        "tests/uz-translit.test.ts": 90,
+        "tests/translator-pages.test.ts": 12
+      }
+    },
+    "preExistingFailuresOnBase": [
+      "tests/gpt-chat.test.ts: chat first screen: links, tap targets and events are wired",
+      "tests/studio-contact.test.ts: 2 (#lead-form/#contact card, article #contact card)",
+      "tests/seo-push-revision.test.ts: R3-6, R3-9",
+      "tests/react-router-v8-migration.test.ts: 3 of 26 (v8 Router imports, route baseline, sitemap baseline)",
+      "tests/gpt-chat-rev-design.test.ts: §5.3/§5.4 composer row",
+      "tests/chat-ui-revision.test.ts: browser acceptance"
+    ],
+    "ownerDecisions": [
+      "free quota: A separate translation quota, B short texts free, C chat with honest 3-reply terms (drafts are written for C), D free converter (built)",
+      "blind check and native proofreading of both pages",
+      "server-owned mode:translate with an injection shield (AGENTS.md §5) before translation is advertised",
+      "whether to measure translator sessions with createSession source gpt_translator"
+    ],
+    "productionChanges": "none: no push, no deploy, production chat API not called",
+    "review": {
+      "reviewedCommit": "d51fa925d5a26ceadac2c8d9f0271d047c15dc9a",
+      "fixCommit": "fix(seo): review fixes for translator draft (the commit after d51fa925)",
+      "fixes": [
+        "storage FAQ on both pages now says question and answer texts are kept on the server until deletion is requested (privacy policy), not only in the browser",
+        "converter: a quote closing a word that ends in g is kept ('miting' -> 'митинг'), not read as g‘",
+        "converter: a Latin word with c or w stays Latin whole (WhatsApp, Coca-Cola) instead of coming out half Cyrillic; page note reworded",
+        "converter: links and e-mail addresses are left unconverted"
+      ],
+      "uzTranslitTests": 94,
+      "openForNativeCheck": "ъ before е in Russian loanwords: объект -> ob’yekt, съезд -> s’yezd (round-trips); the 1995 spelling may be obyekt / syezd"
+    }
   }
 }

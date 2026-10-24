@@ -4,6 +4,13 @@
 export type Locale = 'ru' | 'uz';
 export type Status = 'draft' | 'published' | 'noindex';
 export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal' | 'gpt-chat';
+/** The chat roles a gpt-chat page may open with (Page.chatRole). */
+export const CHAT_ROLE_PRESETS = ['translator'] as const;
+export type ChatRolePreset = typeof CHAT_ROLE_PRESETS[number];
+/** A value from the page (data-chat-role) if it is on the list, else undefined. */
+export function chatRolePreset(value: unknown): ChatRolePreset | undefined {
+  return CHAT_ROLE_PRESETS.find((role) => role === value);
+}
 
 export interface FaqItem {
   q: string;
@@ -146,6 +153,14 @@ export interface Page {
   growthTool?: 'channel-selector' | 'cpl-calculator' | 'creative-matrix' | 'telegram-funnel' | 'audit-heatmap';
   /** Optional client-side island injected only on the page that declares it. */
   interactiveTool?: 'telegram-cost-calculator';
+  /**
+   * gpt-chat pages only: the chat role the page opens with (a closed list).
+   * scripts/prerender.ts emits data-chat-role and data-alt-href, plus the
+   * Uzbek Cyrillic ↔ Latin converter, only when it is set, so the two chat
+   * pages without it keep their HTML; src/gpt-chat/main.tsx reads it against
+   * the same list.
+   */
+  chatRole?: ChatRolePreset;
 
   bodyBlocks: BodyBlock[];
   faq: FaqItem[];

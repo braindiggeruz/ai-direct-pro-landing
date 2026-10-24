@@ -49,17 +49,20 @@ export default defineConfig({
     manifest: true,
     minify: 'esbuild',
     rollupOptions: {
-      // Three entries:
+      // Four entries:
       //   index     → landing SPA (index.html), chunk stays "index-[hash].js"
       //   gpt-chat  → standalone AI-chat island, emitted as
       //               "assets/gpt-chat-[hash].js" and injected ONLY on
       //               pageType === 'gpt-chat' pages by scripts/prerender.ts.
       //   telegram-cost-calculator → isolated lead-magnet tool, injected ONLY
       //               on the money page that opts in via interactiveTool.
+      //   uz-translit → the Uzbek Cyrillic ↔ Latin converter, injected ONLY
+      //               on a gpt-chat page that declares chatRole (translator).
       input: {
         index: here('./index.html'),
         'gpt-chat': here('./src/gpt-chat/main.tsx'),
         'telegram-cost-calculator': here('./src/calculator/main.tsx'),
+        'uz-translit': here('./src/uz-translit/main.ts'),
       },
       output: {
         manualChunks(id) {
