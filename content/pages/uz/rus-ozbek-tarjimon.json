@@ -192,7 +192,7 @@
     },
     {
       "q": "Matnlarim saqlanadimi?",
-      "a": "Yozishmani qaytib ko‘rishingiz uchun u brauzeringizda saqlanadi; so‘rovlar serverimizda va AI-provayderlarda qayta ishlanadi. Ma’lumotlar qanday saqlanishi va o‘chirilishi Maxfiylik siyosatida yozilgan."
+      "a": "Ha. Savol va javoblar matni serverimizda til, vaqt va model nomi bilan birga, siz o‘chirishni so‘ramaguningizcha saqlanadi; suhbatlar ro‘yxati brauzeringizda saqlanadi. So‘rovlarni AI-provayderlar ham qayta ishlaydi. Ma’lumotlarni qanday o‘chirish mumkinligi Maxfiylik siyosatida yozilgan."
     }
   ],
   "internalLinks": [

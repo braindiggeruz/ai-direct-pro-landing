@@ -141,10 +141,54 @@ test('Russian-only letters: щ → sh, ы → i, and the page is told', () => {
   assert.deepEqual(scriptNotes('Тошкент', 'latin'), []);
 });
 
-test('c and w are not Uzbek letters: they stay Latin, and the page is told', () => {
-  assert.equal(toCyrillic('Coca-Cola va WhatsApp'), 'Cоcа-Cола ва WҳатсАпп');
+test('c and w are not Uzbek letters: a word with one stays Latin whole, and the page is told', () => {
+  assert.equal(toCyrillic('Coca-Cola va WhatsApp'), 'Coca-Cola ва WhatsApp');
   assert.deepEqual(scriptNotes('Coca-Cola', 'cyrillic'), ['foreign-latin']);
   assert.deepEqual(scriptNotes('choy ichamiz', 'cyrillic'), []);
+});
+
+// Review 2026-10-24: inputs chosen to break the rules above.
+test('review: names, the state name and loanwords, Cyrillic → Latin', () => {
+  assert.equal(toLatin('Ўзбекистон Республикаси'), `O${Q}zbekiston Respublikasi`);
+  assert.equal(toLatin('ЎЗБЕКИСТОН РЕСПУБЛИКАСИ'), `O${Q}ZBEKISTON RESPUBLIKASI`);
+  assert.equal(toLatin('ЦЕНТР'), 'SENTR');
+  assert.equal(toLatin('цирк'), 'sirk');
+  assert.equal(toLatin('Москва'), 'Moskva');
+  assert.equal(toLatin('шаҳар'), 'shahar');
+  assert.equal(toLatin('Шаҳноза'), 'Shahnoza');
+  assert.equal(toLatin('маъно'), `ma${T}no`);
+  assert.equal(toLatin('ёз'), 'yoz');
+  assert.equal(toLatin('Ёзув'), 'Yozuv');
+  assert.equal(toLatin('сентябр'), 'sentyabr');
+  assert.equal(toLatin('сентябрь'), 'sentyabr');
+  assert.equal(toLatin('ИСҲОҚ'), `IS${T}HOQ`);
+  assert.equal(toLatin('Қўқон'), `Qo${Q}qon`);
+  assert.equal(toLatin('шеър'), `she${T}r`);
+});
+
+test('review: Latin → Cyrillic with any apostrophe, capitals and s’h', () => {
+  assert.equal(toCyrillic(`G${Q}ulom`), 'Ғулом');
+  assert.equal(toCyrillic("G'ulom"), 'Ғулом');
+  assert.equal(toCyrillic(`Is${T}hoq`), 'Исҳоқ');
+  assert.equal(toCyrillic("Is'hoq"), 'Исҳоқ');
+  assert.equal(toCyrillic(`IS${T}HOQ`), 'ИСҲОҚ');
+  assert.equal(toCyrillic("O'zbekiston Respublikasi"), 'Ўзбекистон Республикаси');
+  assert.equal(toCyrillic('Shahnoza'), 'Шаҳноза');
+  assert.equal(toCyrillic(`YO${Q}L`), 'ЙЎЛ');
+  assert.equal(toCyrillic("tog'"), 'тоғ');
+});
+
+test('review: a quote closing a word that ends in g is kept, not read as g‘', () => {
+  assert.equal(toCyrillic("'miting'"), "'митинг'");
+  assert.equal(toCyrillic('‘marketing’ kerak'), '‘маркетинг’ керак');
+  assert.equal(toCyrillic("'tog' va bog'"), "'тог' ва боғ");
+  assert.equal(normalizeLatin("'miting' tog' bog'i"), `'miting' tog${Q} bog${Q}i`);
+});
+
+test('review: links and e-mail addresses are not converted', () => {
+  assert.equal(toCyrillic('Sayt: https://gptbot.uz/uz/ yoki www.gptbot.uz, pochta ceo@gptbot.uz.'), 'Сайт: https://gptbot.uz/uz/ ёки www.gptbot.uz, почта ceo@gptbot.uz.');
+  assert.equal(normalizeLatin("https://example.uz/o'z ma'no"), `https://example.uz/o'z ma${T}no`);
+  assert.deepEqual(scriptNotes('www.gptbot.uz', 'cyrillic'), []);
 });
 
 test('yo before o‘ is й + ў, not ё', () => {

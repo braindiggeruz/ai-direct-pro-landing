@@ -36,13 +36,20 @@
 //   e → э at the start of a word and after a vowel (poeziya → поэзия), else е;
 //   s’h → сҳ; any other apostrophe between two letters → ъ (ma’no → маъно);
 //   q қ, h ҳ, x х, and the remaining letters one to one.
+//   A g at the end of a word that opened with a quote keeps the quote
+//   ('miting' → 'митинг'), while tog' with no opening quote is тоғ.
+//   Links and e-mail addresses (https://…, www.…, name@host) stay as they are.
 //   ts and ng stay тс and нг. Known ambiguities, left as written because a
 //   letter-by-letter tool cannot know the word:
 //     - ц: Latin writes Russian ц as s or ts, so militsiya → милитсия, not
 //       милиция, and sirk → сирк, not цирк;
 //     - й + о: rayon → раён, not район (Latin yo is always ё here);
 //     - ъ/ь in loanwords: obyekt → обект, premyer → премер, mo‘jiza → мўжиза;
-//     - c and w are not Uzbek letters (brands, English words) and stay Latin.
+//     - a quoted word ending in g‘ written with a plain apostrophe ('tog')
+//       reads as a quote: 'тог';
+//     - c and w are not Uzbek letters (brands, English words): a word that
+//       has one stays Latin as a whole (WhatsApp, Coca-Cola), so no word comes
+//       out half Latin, half Cyrillic.
 //   scriptNotes() reports c and w for the page.
 
 /** o‘ and g‘ (U+2018 LEFT SINGLE QUOTATION MARK, site convention). */
@@ -134,8 +141,52 @@ function startsLatinWord(chars: string[], i: number): boolean {
   return !(isApostrophe(prev) && isLat(chars[i - 2]));
 }
 
+/** Where the Latin word that starts at i ends: letters, and apostrophes between two letters. */
+function latinWordEnd(chars: string[], i: number): number {
+  let j = i;
+  while (isLat(chars[j]) || (isApostrophe(chars[j]) && isLat(chars[j - 1]) && isLat(chars[j + 1]))) j++;
+  return j;
+}
+
+/**
+ * The apostrophe at k, after a word's last letter, closes a quote that opened
+ * right before the word ('miting'), so it is not the mark of g‘.
+ */
+function closesQuote(chars: string[], k: number): boolean {
+  if (isLat(chars[k + 1])) return false;
+  let start = k - 1;
+  while (isLat(chars[start - 1]) || (isApostrophe(chars[start - 1]) && isLat(chars[start - 2]) && isLat(chars[start]))) start--;
+  return isApostrophe(chars[start - 1]);
+}
+
+/** g at i with an apostrophe after it that makes it g‘. */
+const isGMark = (chars: string[], i: number): boolean =>
+  lower(chars[i]) === 'g' && isApostrophe(chars[i + 1]) && !closesQuote(chars, i + 1);
+
+/** Links and e-mail addresses, which no conversion touches. */
+const LINK = /(?:https?:\/\/|www\.)[^\s<>«»"“”]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+/gi;
+
+/** convert() applied to the text between links and e-mail addresses. */
+function outsideLinks(text: string, convert: (part: string) => string): string {
+  let out = '';
+  let last = 0;
+  for (const match of text.matchAll(LINK)) {
+    const at = match.index ?? last;
+    out += convert(text.slice(last, at)) + match[0];
+    last = at + match[0].length;
+  }
+  return out + convert(text.slice(last));
+}
+
+/** c (outside ch) or w: not Uzbek letters, so the word is a brand or a foreign word. */
+const FOREIGN_LATIN = /c(?!h)|w/i;
+
 /** Uzbek Latin to Uzbek Cyrillic. Anything that is not an Uzbek Latin letter passes through. */
 export function toCyrillic(text: string): string {
+  return outsideLinks(text, cyrillicPart);
+}
+
+function cyrillicPart(text: string): string {
   const chars = [...text];
   let out = '';
   let i = 0;
@@ -151,6 +202,12 @@ export function toCyrillic(text: string): string {
       continue;
     }
     if (!isLat(ch)) { out += ch; i += 1; continue; }
+    if (startsLatinWord(chars, i)) {
+      // A word with c or w (WhatsApp, Coca-Cola) stays Latin as a whole.
+      const end = latinWordEnd(chars, i);
+      const word = chars.slice(i, end).join('');
+      if (FOREIGN_LATIN.test(word)) { out += word; i = end; continue; }
+    }
     if (c === 's' && next === 'h') { out += caseCyr('ш', up); i += 2; continue; }
     if (c === 's' && isApostrophe(chars[i + 1]) && lower(chars[i + 2]) === 'h') {
       out += caseCyr('с', up) + caseCyr('ҳ', isUpper(chars[i + 2]));
@@ -159,7 +216,7 @@ export function toCyrillic(text: string): string {
     }
     if (c === 'c' && next === 'h') { out += caseCyr('ч', up); i += 2; continue; }
     if (isOMark(chars, i)) { out += caseCyr('ў', up); i += 2; continue; }
-    if (c === 'g' && isApostrophe(chars[i + 1])) { out += caseCyr('ғ', up); i += 2; continue; }
+    if (isGMark(chars, i)) { out += caseCyr('ғ', up); i += 2; continue; }
     if (c === 'y') {
       if (next === 'o' && isOMark(chars, i + 1)) { out += caseCyr('й', up); i += 1; continue; }
       if (IOTATED[next]) { out += caseCyr(IOTATED[next], up); i += 2; continue; }
@@ -183,11 +240,15 @@ export function toCyrillic(text: string): string {
  * between two letters with U+2019. Letters are not touched.
  */
 export function normalizeLatin(text: string): string {
+  return outsideLinks(text, normalizePart);
+}
+
+function normalizePart(text: string): string {
   const chars = [...text];
   let out = '';
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i];
-    if (isOMark(chars, i) || (lower(ch) === 'g' && isApostrophe(chars[i + 1]))) {
+    if (isOMark(chars, i) || isGMark(chars, i)) {
       out += ch + UZ_LETTER_MARK;
       i += 1;
       continue;
@@ -216,9 +277,10 @@ export type ScriptNote = 'russian-letters' | 'foreign-latin';
 
 /**
  * What the visitor should know about this input: Russian-only letters going to
- * Latin (щ, ы), or c / w going to Cyrillic (not Uzbek letters; they stay).
+ * Latin (щ, ы), or c / w going to Cyrillic (not Uzbek letters; words with
+ * them stay Latin). Links and e-mail addresses do not count.
  */
 export function scriptNotes(text: string, to: 'latin' | 'cyrillic'): ScriptNote[] {
   if (to === 'latin') return /[щыЩЫ]/.test(text) ? ['russian-letters'] : [];
-  return /c(?!h)|w/i.test(text) ? ['foreign-latin'] : [];
+  return FOREIGN_LATIN.test(text.replace(LINK, '')) ? ['foreign-latin'] : [];
 }

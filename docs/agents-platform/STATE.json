@@ -2671,6 +2671,18 @@
       "server-owned mode:translate with an injection shield (AGENTS.md §5) before translation is advertised",
       "whether to measure translator sessions with createSession source gpt_translator"
     ],
-    "productionChanges": "none: no push, no deploy, production chat API not called"
+    "productionChanges": "none: no push, no deploy, production chat API not called",
+    "review": {
+      "reviewedCommit": "d51fa925d5a26ceadac2c8d9f0271d047c15dc9a",
+      "fixCommit": "fix(seo): review fixes for translator draft (the commit after d51fa925)",
+      "fixes": [
+        "storage FAQ on both pages now says question and answer texts are kept on the server until deletion is requested (privacy policy), not only in the browser",
+        "converter: a quote closing a word that ends in g is kept ('miting' -> 'митинг'), not read as g‘",
+        "converter: a Latin word with c or w stays Latin whole (WhatsApp, Coca-Cola) instead of coming out half Cyrillic; page note reworded",
+        "converter: links and e-mail addresses are left unconverted"
+      ],
+      "uzTranslitTests": 94,
+      "openForNativeCheck": "ъ before е in Russian loanwords: объект -> ob’yekt, съезд -> s’yezd (round-trips); the 1995 spelling may be obyekt / syezd"
+    }
   }
 }
