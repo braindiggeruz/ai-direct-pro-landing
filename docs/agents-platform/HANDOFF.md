@@ -1,7 +1,7 @@
 # HANDOFF — SEO growth wave 1 + RU-UZ translator publication · 24.10.2026
 
 ## 1. Состояние
-Wave 1 of the 2026-10-24 growth backlog is committed on branch seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024) on top of 1a773ee2 (production d54d5b61 + merged translator drafts). Not pushed, not deployed: production is still d54d5b61 (deployment d0264730, chat snippets). The RU-UZ translator pages are published in source. New immutable protected revision docs/seo/evidence/2026-10-24-wave1/ (previous 2026-10-24-chat-snippets). STATE.json block: seo_wave1_20261024.
+Wave 1 of the 2026-10-24 growth backlog is committed on branch seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024) on top of 1a773ee2 (production d54d5b61 + merged translator drafts). DEPLOYED 24.10: deployment a1f56a62 from f97295b5 (reports/wave1-20261024/RELEASE.md); IndexNow 23 URLs 200; WebSub 204. The RU-UZ translator pages are published in source. New immutable protected revision docs/seo/evidence/2026-10-24-wave1/ (previous 2026-10-24-chat-snippets). STATE.json block: seo_wave1_20261024.
 
 ## 2. Что сделано
 Owner order 24.10: implement the verified growth backlog autonomously and deploy. Backlog docs/seo/research/2026-10-24-growth-audit/ (BACKLOG.md, backlog.json, verdicts in workflow-result.json and verify-W1-*.md); every item uses the verifier's corrected action.

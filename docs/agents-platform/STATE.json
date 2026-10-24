@@ -2702,7 +2702,11 @@
     }
   },
   "seo_wave1_20261024": {
-    "status": "committed_not_deployed",
+    "status": "deployed_and_verified",
+    "deployment": "a1f56a62",
+    "sourceCommit": "f97295b5225bf68e8f94d35265a161bfa56fdf47",
+    "releaseEvidence": "reports/wave1-20261024/RELEASE.md",
+    "indexNow": "23 URLs, HTTP 200",
     "ownerOrder": "2026-10-24: implement the verified growth backlog autonomously and deploy",
     "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-24-wave1/)",
     "base": "1a773ee256f2c85225db94e033af71d0791a49fb",
