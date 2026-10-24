@@ -89,6 +89,46 @@ test('October recovery preserves search metadata and the download winner while s
   assert.deepEqual(current.pages[0].contract, previous.pages[0].contract);
 });
 
+test('the chat-snippets revision changes only the two chats\' title and description, honestly', () => {
+  const current = readRevision('docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json');
+  const previous = readRevision('docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json');
+  assert.equal(current.previousRevision, 'docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json');
+  assert.deepEqual(current.reviewedChanges.map(c => [c.pathname, [...c.fields].sort()]), [
+    ['/uz/gpt-uzbek-tilida/', ['description', 'title']],
+    ['/ru/gpt-chat/', ['description', 'title']],
+  ]);
+  for (const page of current.pages) {
+    const before = previous.pages.find(p => p.pathname === page.pathname)!;
+    for (const field of ['h1', 'canonical', 'robots', 'googlebot', 'hreflang', 'internalLinks', 'bodyTextSha256']) {
+      assert.deepEqual(page.contract[field], before.contract[field], `${page.pathname}: ${field}`);
+    }
+    if (!['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(page.pathname)) assert.deepEqual(page.contract, before.contract, page.pathname);
+  }
+  const contract = (p: string) => current.pages.find(page => page.pathname === p)!.contract as { title: string[]; description: string[] };
+  const uz = contract('/uz/gpt-uzbek-tilida/');
+  const ru = contract('/ru/gpt-chat/');
+  assert.deepEqual(uz.title, ['ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat']);
+  assert.deepEqual(uz.description, ['O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.']);
+  assert.deepEqual(ru.title, ['Аналог ChatGPT онлайн в Узбекистане — без регистрации']);
+  assert.deepEqual(ru.description, ['ИИ-чат на русском и узбекском в браузере, без установки: 3 бесплатных пробных ответа, затем AI-пакет. GPTBot.uz — независимый сервис, не OpenAI и не ChatGPT.']);
+  for (const text of [...uz.title, ...uz.description, ...ru.title, ...ru.description]) {
+    assert.doesNotMatch(text, /rasmiy|официальн|official|GPT-4|GPT-5|tarjima|перевод/i, text);
+  }
+  assert.match(uz.title[0], /muqobil/);
+  assert.match(ru.title[0], /Аналог/);
+  assert.match(uz.description[0], /mustaqil servis, OpenAI emas/);
+  assert.match(ru.description[0], /независимый сервис, не OpenAI и не ChatGPT/);
+  for (const [title, description] of [[uz.title[0], uz.description[0]], [ru.title[0], ru.description[0]]]) {
+    assert.ok(title.length <= 60, `${title}: ${title.length}`);
+    assert.ok(description.length >= 120 && description.length <= 160, `${description}: ${description.length}`);
+  }
+  for (const file of ['content/pages/uz/gpt-uzbek-tilida.json', 'content/pages/ru/gpt-chat.json']) {
+    const page = JSON.parse(fs.readFileSync(path.join(REPO, file), 'utf8')) as Page;
+    assert.equal(page.ogTitle, page.title, file);
+    assert.equal(page.ogDescription, page.description, file);
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');
@@ -236,8 +276,9 @@ test('the chat design revision changes one field, the UZ chat title; no text on 
   assert.deepEqual(uz.contract.h1, ['O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil'], 'the H1 is an honesty element and stays');
   assert.doesNotMatch((uz.contract.title as string[])[0], /rasmiy|official|GPT-4|GPT-5/i);
   assert.match((uz.contract.title as string[])[0], /Muqobil/);
+  // The content file has moved on (2026-10-24-chat-snippets); this revision's
+  // title is pinned by its own contract above, and og:title still follows it.
   const page = JSON.parse(fs.readFileSync(path.join(REPO, 'content/pages/uz/gpt-uzbek-tilida.json'), 'utf8')) as Page;
-  assert.equal(page.title, 'ChatGPT o‘zbek tilida? Muqobil AI chat, bepul kirish');
   assert.equal(page.ogTitle, page.title);
   // The RU chat keeps its R-S1 title.
   assert.deepEqual(current.pages.find((p) => p.pathname === '/ru/gpt-chat/')!.contract.title, ['Аналог ChatGPT онлайн бесплатно — без регистрации']);

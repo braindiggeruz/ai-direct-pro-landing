@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO recovery deployed and verified; content quality and reliable lead submissions",
-  "stage_status": "complete",
+  "current_stage": "Chat snippets: R-S1 freeze lifted by owner, new title/description on both chats",
+  "stage_status": "validated_pending_deployment",
   "last_completed_stage": "SEO recovery deployed and verified; content quality and reliable lead submissions",
-  "next_stage": "Measure completed equal final GSC windows and qualified-lead outcomes for the 2026-10-23 release",
+  "next_stage": "Guarded production deployment of chat snippets on owner command, live readback, recrawl request, 28-day Uzbekistan CTR read",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-23T14:23:59.922Z",
+  "updated_at": "2026-10-24T13:00:00.000Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2627,5 +2627,17 @@
     "browserEvidence": "reports/seo-recovery-20261023/production-browser.json",
     "indexNowStatus": "accepted",
     "gscSitemapSubmission": "blocked_subscription_required"
+  },
+  "seo_chat_snippets_20261024": {
+    "status": "validated_pending_deployment",
+    "ownerOrder": "2026-10-24: lift R-S1 freeze; rewrite title/description of /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/; prepare RU-UZ translator page in parallel",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "baseCommit": "c0da2ecb",
+    "previousProduction": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+    "protectedBaseline": "docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json",
+    "research": "docs/seo/research/2026-10-24-snippets-translator/",
+    "changedFields": ["/ru/gpt-chat/: title, description", "/uz/gpt-uzbek-tilida/: title, description"],
+    "translatorBranch": "seo/translator-ru-uz-20261024 (draft, unpublished; gates: native-speaker blind check, free-quota decision)",
+    "businessOutcomes": "Unmeasured: 28-day Uzbekistan CTR read after confirmed recrawl; no ranking or traffic guarantee."
   }
 }

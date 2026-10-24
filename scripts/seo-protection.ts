@@ -132,7 +132,16 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // The download guide now receives email_off comments, preventing the live
 // edge from replacing contacts with crawler-facing 404 links. The new review
 // records that technical intervention separately; old revisions stay immutable.
-export const BASELINE = 'docs/seo/evidence/2026-10-23-recovery/reviewed-protected-pages.json';
+// The 2026-10-24-chat-snippets revision (owner order of 24.10: the R-S1 freeze
+// is lifted for the two chats) changes four contract fields: title and
+// description of /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/. GSC showed that R-S1
+// broadened RU impressions to KGZ/KAZ/TJK and misspellings at ~0.1% CTR and
+// that the UZ chat lost its Uzbek-language queries; the RU title brings back
+// «в Узбекистане», the UZ title leads with «ChatGPT uzbekcha». Both keep the
+// trial terms and the independence clause. Body text, H1, links, dates and the
+// other eight pages are unchanged; og/twitter tags, the WebPage JSON-LD and the
+// Atom summary follow outside the gate.
+export const BASELINE = 'docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
