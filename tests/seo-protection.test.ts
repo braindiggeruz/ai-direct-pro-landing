@@ -129,6 +129,60 @@ test('the chat-snippets revision changes only the two chats\' title and descript
   }
 });
 
+test('the wave-1 revision changes only the homepage list: the two published translator pages, nothing else on the ten', () => {
+  type Wave1 = Revision & {
+    reviewedChanges: Array<{ pathname: string; fields: string[]; reason: string; htmlSha256: string }>;
+    invisibleToGate: Array<{ change: string; pages?: string[]; htmlSha256?: Record<string, string> }>;
+    measurement: string;
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const CHAT_SNIPPETS = 'docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json';
+  const current = readRevision('docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json') as Wave1;
+  const previous = readRevision(CHAT_SNIPPETS) as Wave1;
+  assert.equal(current.previousRevision, CHAT_SNIPPETS);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/', ['bodyTextSha256', 'internalLinks']]]);
+  const translators = ['/ru/russko-uzbekskiy-perevodchik/', '/uz/rus-ozbek-tarjimon/'];
+  const labels = ['Русско-узбекский AI-переводчик: перевод с пояснениями', 'Ruscha-o‘zbekcha AI tarjimon: izohli tarjima'];
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    if (page.pathname === '/') continue;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+    // The seven protected articles keep their HTML byte for byte (download guide P-CTR, chat windows).
+    if (!['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(page.pathname)) assert.equal(page.htmlSha256, before.htmlSha256, page.pathname);
+  }
+  const home = current.pages.find((p) => p.pathname === '/')!;
+  const homeBefore = previous.pages.find((p) => p.pathname === '/')!;
+  const links = (p: typeof home) => p.contract.internalLinks as string[];
+  assert.deepEqual(links(home).filter((l) => !links(homeBefore).includes(l)), translators);
+  assert.deepEqual(links(homeBefore).filter((l) => !links(home).includes(l)), []);
+  for (const key of ['title', 'h1', 'description', 'canonical', 'robots', 'googlebot', 'hreflang']) {
+    assert.deepEqual(home.contract[key], homeBefore.contract[key], `/: ${key}`);
+  }
+  // The two H1 labels are the whole text change, each in its money list.
+  let text = home.bodyText;
+  for (const label of labels) {
+    assert.equal(text.split(`${label} `).length, 2, label);
+    text = text.replace(`${label} `, '');
+  }
+  assert.equal(text, homeBefore.bodyText);
+  // Honest labels: no ChatGPT, official or model claim on the homepage entries.
+  for (const label of labels) assert.doesNotMatch(label, /chatgpt|rasmiy|официальн|official|GPT-4|GPT-5|Google/i, label);
+  // The chats' HTML changes by the bundle name only, with hashes before and after; the record names what it reviews.
+  const chats = current.invisibleToGate.find((c) => JSON.stringify(c.pages) === JSON.stringify(['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/']))!;
+  assert.match(chats.change, /\/assets\/gpt-chat-[\w-]+\.js → \/assets\/gpt-chat-[\w-]+\.js/);
+  assert.deepEqual(Object.keys(chats.htmlSha256!), ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/']);
+  for (const value of Object.values(chats.htmlSha256!)) assert.match(value, /^[0-9a-f]{64} → [0-9a-f]{64}$/);
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /BreadcrumbList/);
+  assert.match(invisible, /Clean-param/);
+  assert.match(invisible, /! Cache-Control/);
+  assert.match(current.measurement, /28-day window/);
+  for (const text of [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

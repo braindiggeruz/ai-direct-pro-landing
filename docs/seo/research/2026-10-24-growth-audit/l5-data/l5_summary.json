@@ -1,0 +1,18 @@
+{
+ "served_pages": 300,
+ "indexable_pages": 300,
+ "sitemap_urls": 300,
+ "sitemap_not_served": [],
+ "indexable_not_in_sitemap": [],
+ "edges_distinct": 4581,
+ "links_via_redirect": [],
+ "links_via_redirect_count": 0,
+ "broken": [],
+ "broken_count": 0,
+ "gsc_paths_not_in_dist": [
+  "/ru/",
+  "/uz/blog/target-reklama-nima-va-u-ozbekistonda-qanday-ishlaydi/"
+ ],
+ "unreachable_from_home_all": [],
+ "unreachable_from_home_content": []
+}

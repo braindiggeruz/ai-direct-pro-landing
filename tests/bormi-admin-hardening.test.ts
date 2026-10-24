@@ -183,6 +183,11 @@ test('hardening: robots.txt disallows /admin/ for every crawler class', async ()
   // The public site is still open: the disallow list is three paths, not four.
   assert.doesNotMatch(robots, /Disallow: \/$/m);
   assert.match(robots, /Sitemap: https:\/\/gptbot\.uz\/sitemap\.xml/);
+  // W1-12 (growth audit 2026-10-24): Yandex folds tracking-parameter duplicates.
+  // One inter-sectional line, no separate Yandex group.
+  assert.match(robots, /^Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&ysclid$/m);
+  assert.equal((robots.match(/^Clean-param:/gm) ?? []).length, 1);
+  assert.doesNotMatch(robots, /^User-agent: Yandex/m);
 });
 
 test('hardening: the /public robots.txt fallback agrees', async () => {

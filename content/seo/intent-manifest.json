@@ -1442,6 +1442,107 @@
       "gscNote": "New studio URL (content/studio/pages/uz/taqdimot-ai.json, release R-ST1) with no Search Console history. In the same release the guide gave up «slayd yaratish» and its first screen, table, figure caption and FAQ say that the chat writes text and a ready .pptx draft is on the Taqdimot AI page (one body link, anchor «Taqdimot AI»). The hybrids «prezentatsiya tayyorlash ai» and «slayd tayyorlash sun’iy intellekt» stay with the guide and the tool declares neither; Search Console decides them together with «slayd tayyorlash bot» (STUDIO-SPEC §11.5, §15). The guide's keys are printed on no protected page.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-07"
+    },
+    {
+      "id": "C46-ru-gpt-decoding-vs-gpt-explainer",
+      "commercial": {
+        "url": "/ru/gpt-vs-chatgpt-sravnenie/",
+        "owns": "the decoding and the difference — «gpt расшифровка», «расшифровка gpt», «как расшифровывается gpt», «chat gpt расшифровка», «как расшифровывается chatgpt», «gpt аббревиатура», «generative pre-trained transformer», «gpt и chatgpt разница», «чем gpt отличается от chatgpt»; since 2026-10-24 a hero answer, an H2 «Как расшифровывается ChatGPT» (Chat + GPT, Russian spellings, GPTBot.uz is not ChatGPT) and two FAQ; it links the explainer for how GPT works",
+        "mustNotTarget": [
+          "что такое gpt",
+          "что такое gpt простыми словами",
+          "что значит gpt",
+          "что означает gpt",
+          "как работает gpt",
+          "генеративный предварительно обученный трансформер"
+        ]
+      },
+      "informational": {
+        "url": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+        "owns": "what GPT is and how it works — «что такое gpt (простыми словами)», «что значит gpt», «что означает gpt», «как работает gpt» and, as in L2-01, the Russian phrase «генеративный предварительно обученный трансформер»: tokens, context, transformer, training and limits; it links the comparison for the detailed decoding and the difference",
+        "mustNotTarget": [
+          "gpt расшифровка",
+          "расшифровка gpt",
+          "как расшифровывается gpt",
+          "chat gpt расшифровка",
+          "как расшифровывается chatgpt",
+          "gpt аббревиатура",
+          "generative pre-trained transformer",
+          "gpt и chatgpt разница",
+          "чем gpt отличается от chatgpt",
+          "gpt vs chatgpt"
+        ]
+      },
+      "gscNote": "Found 2026-10-24 (growth audit L2-01, adversarial check verify-W1-03). Google already gives the «расшифр» family to the comparison: 438 impressions / 2 clicks at position 8.2 against 26 for the explainer in 2026-10-07..10-21, after the comparison's title revision of 2026-09-30 and description revision of 2026-10-06; ChatGPT variants («chat gpt расшифровка» and similar) had 149 impressions / 0 clicks on the comparison (2026-09-24..10-21). The Russian phrase «генеративный предварительно обученный трансформер» showed on the explainer (84 impressions, position 10.1), so the explainer keeps it; the comparison keeps that translation in its body and FAQ as a translation, not a target. Until this pair both pages declared «generative pre-trained transformer» and «gpt и chatgpt разница»; the explainer dropped them together with «расшифровка gpt». Keywords are not printed in the HTML (no meta keywords, no JSON-LD keywords), so this pair is manifest bookkeeping; what Google sees is the comparison's new hero answer, H2 and two FAQ. The explainer's H2 «Что означает GPT: расшифровка трёх слов» and FAQ «Как расшифровывается GPT?» stay on purpose. The pages link each other. Measurement base for the comparison: 2026-10-07..10-21, 438 / 2, position 8.2.",
+      "evidence": "docs/seo/research/2026-10-24-growth-audit/L2-striking-distance.md §4 L2-01; verify-W1-03.md; backlog W1-03",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C47-uz-chat-vs-rus-ozbek-tarjimon",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat for any task — «chatgpt uzbekcha», «chatgpt uzbek tilida», «bepul ai chat», and «chatgpt tarjima» with its spellings (C6), which Google routes to the chat",
+        "mustNotTarget": [
+          "rus o‘zbek tarjimon",
+          "rus uzbek tarjimon",
+          "rus ozbek tarjimon",
+          "ruschadan o‘zbekchaga tarjima",
+          "o‘zbekchadan ruschaga tarjima",
+          "русча узбекча таржимон",
+          "русча узбекча таржима"
+        ]
+      },
+      "informational": {
+        "url": "/uz/rus-ozbek-tarjimon/",
+        "owns": "translate Russian ↔ Uzbek now, for Uzbek searchers — primary «rus o‘zbek tarjimon»; «rus uzbek tarjimon», «ruschadan o‘zbekchaga tarjima», «o‘zbekchadan ruschaga tarjima» and the Cyrillic «русча узбекча таржимон/таржима»: the same chat opened in the translator role, plus the free Cyrillic ↔ Latin converter; it links the chat",
+        "mustNotTarget": [
+          "chatgpt tarjima",
+          "chatgpt tarjimon",
+          "chatgpt o‘zbekcha tarjima",
+          "chatgpt uzbekcha tarjimon",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat",
+          "sun’iy intellekt chat"
+        ]
+      },
+      "gscNote": "Published 2026-10-24 by the owner's order of that day, which lifted the A8 draft gate (see A8). No Search Console history: 2026-07-21..2026-10-21 shows no impressions for any RU↔UZ translator query, and the only translation family the site is shown for is «chatgpt tarjima/tarjimon» (853 impressions, 836 on /uz/gpt-uzbek-tilida/), which stays the chat's. Side labels follow tests/seo-intent-manifest.test.ts, where the informational side is the one that links its counterpart: both URLs are product entry points (compare A5), the translator is the narrower task page and links the chat, and the protected chat does not link the translator (a link from it needs a reviewed protected revision). Keywords are not printed in the HTML, so this pair is manifest bookkeeping; anchors to either URL are checked against both lists by tests/seo-anchor-intent.test.ts.",
+      "evidence": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (Google Ads, location 2860, 2026-10-24: «rus uzbek tarjimon» 12 100, «rus ozbek tarjimon» 1 300, «русча узбекча таржима» 6 600; competition 0); intent-manifest A8",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C48-ru-chat-vs-russko-uzbekskiy-perevodchik",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — «ии чат», «чат гпт онлайн» and its spellings, «аналог chatgpt онлайн» (C23–C27, C33, C38)",
+        "mustNotTarget": [
+          "переводчик с русского на узбекский",
+          "перевод с русского на узбекский",
+          "перевод с узбекского на русский",
+          "переводчик с узбекского на русский",
+          "узбекско русский переводчик",
+          "русско узбекский переводчик"
+        ]
+      },
+      "informational": {
+        "url": "/ru/russko-uzbekskiy-perevodchik/",
+        "owns": "translate Russian ↔ Uzbek now, in a tool on the page — primary «переводчик с русского на узбекский»; the reverse direction, «узбекско/русско узбекский переводчик», «перевод рус узбек» and the Latin-script modifier: the same chat opened in the translator role, plus the free Cyrillic ↔ Latin converter; it links the chat",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн",
+          "chatgpt переводчик"
+        ]
+      },
+      "gscNote": "Published 2026-10-24 by the owner's order of that day, which lifted the A8 draft gate (see A8). No Search Console history: no impressions for any RU↔UZ translator query in 2026-07-21..2026-10-21. Side labels as in C47: the translator links the chat, the protected RU chat does not link the translator. The RU chat declares none of the translator's keys and the translator declares none of the chat's; keywords are not printed in the HTML.",
+      "evidence": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (Google Ads, location 2860, 2026-10-24: «перевод/переводчик с русского на узбекский» 90 500, «перевод с узбекского на русский» 60 500, «переводчик с узбекского на русский» 49 500, «узбекско русский переводчик» 27 100, «русско узбекский переводчик» 22 200; competition 0); intent-manifest A8",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-24"
     }
   ],
   "architectureDecisions": [
@@ -1523,9 +1624,14 @@
       "id": "A8-ru-uz-translator-pages-2026-10-24",
       "url": "/ru/russko-uzbekskiy-perevodchik/",
       "counterpart": "/uz/rus-ozbek-tarjimon/",
-      "decision": "NEW_CLUSTER_DRAFT_PENDING_BLIND_CHECK",
+      "decision": "PUBLISHED_AS_PAIRS_C47_C48",
       "decidedAt": "2026-10-24",
-      "status": "draft",
+      "status": "published",
+      "publishedAt": "2026-10-24",
+      "pairs": [
+        "C47-uz-chat-vs-rus-ozbek-tarjimon",
+        "C48-ru-chat-vs-russko-uzbekskiy-perevodchik"
+      ],
       "ownsIntent": {
         "/ru/russko-uzbekskiy-perevodchik/": "translate Russian ↔ Uzbek now, in a tool on the page (primary «переводчик с русского на узбекский»; the reverse direction, «узбекско/русско узбекский переводчик», «перевод рус узбек» and the Latin-script modifier are its secondaries)",
         "/uz/rus-ozbek-tarjimon/": "the same task for Uzbek searchers (primary «rus o‘zbek tarjimon»; «rus uzbek tarjimon», «ruschadan o‘zbekchaga tarjima», «o‘zbekchadan ruschaga tarjima» and the Cyrillic «русча узбекча таржимон/таржима» are its secondaries)"
@@ -1545,7 +1651,8 @@
         "голосовой переводчик с узбекского на русский"
       ],
       "evidence": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (commit d54d5b61, branch seo/chat-snippets-translator-20261024; Google Ads data, location 2860, measured 2026-10-24): «перевод/переводчик с русского на узбекский» 90 500/mo (one bucket), «перевод с узбекского на русский» 60 500, «переводчик с узбекского на русский» 49 500, «узбекско русский переводчик» 27 100, «русско узбекский переводчик» 22 200, «rus uzbek tarjimon» 12 100 (one bucket with «uzbek rus tarjimon»; spellings with U+2018 have no Ads bucket), «rus ozbek tarjimon» 1 300, «русча узбекча таржима» 6 600; competition 0 throughout. Search Console 2026-07-21..2026-10-21: no impressions for any RU↔UZ translator query; the only translation family the site is shown for is «chatgpt tarjima/tarjimon» (853 impressions, 836 on /uz/gpt-uzbek-tilida/), which pair C6 already fences to the Uzbek chat. Head terms («tarjimon» 1 220 000, «таржимон», «переводчик») are navigational searches for Google and Yandex and are not targets. Photo and voice translation have demand but the chat accepts no images or audio (functions/api/gpt/chat.ts), so the pages do not claim them.",
-      "note": "Recorded as an architecture decision, not as a cluster or a pair, because both pages are drafts: tests/seo-intent-manifest.test.ts and tests/seo-cluster-quality.test.ts require every pair and cluster URL to be published. The two pages are one RU↔UZ hreflang pair (x-default the Uzbek member, as for the chat pair), pageType gpt-chat with chatRole translator: the same chat, endpoint and 3 lifetime trial replies (shared site-wide, then the AI pack), opened in the translator role, plus a deterministic Uzbek Cyrillic ↔ Latin converter with no model call. The Uzbek chat keeps «chatgpt tarjima» and its spellings (C6); neither translator page declares them (tests/translator-pages.test.ts). Publication gate (owner): a native-speaker blind check of the translator role scoring 4/5 or better (docs/seo/research/2026-10-24-translator-blind-check/), the free-quota decision (options A–D in translator-market.md §4.3) and native proofreading of both pages. At publication: status → published, turn this entry into a pair or cluster entry, add both URLs to APPROVED_STATIC_ROUTE_ADDITIONS (tests/react-router-v8-migration.test.ts), write the protected revision for / (the homepage lists every published page), add at least two inbound links from unprotected pages, and add the pages to scripts/chat-layout-check.mjs."
+      "publicationNote": "Published 2026-10-24 by the owner's order of that day (growth backlog release), which overrides the draft gate below. The native-speaker blind check and the native proofreading have NOT been done, so both pages say in the second paragraph under the converter that AI translation is a beta and that important and official texts must be checked by a person (RU «бета», UZ «beta»); they make no quality claim (tests/translator-pages.test.ts). Free quota: option C + D of translator-market.md §4.3 — the chat's 3 lifetime trial replies, shared site-wide, then the AI pack, plus the free Cyrillic ↔ Latin converter that calls no model; a separate translation quota (options A and B) stays an open owner decision. The chat-vs-translator fences now live in pairs C47 (UZ) and C48 (RU); this entry keeps fencing both translator URLs from the navigational heads, the chatgpt family and the photo and voice phrases, for keywords and for anchors (tests/seo-anchor-intent.test.ts). Release steps done with the publication: status published, both URLs in APPROVED_STATIC_ROUTE_ADDITIONS (tests/react-router-v8-migration.test.ts), contextual inbound links from unprotected pages only (RU: /ru/gpt-chat-guide/, /ru/gpt-dlya-ucheby/, /ru/promty-gpt-chatgpt-50-primerov/; UZ: /uz/gpt-chat-qollanma/, /uz/gpt-uzbek-tilida-ai-chat/, /uz/blog/chatgpt-talabalar-uchun/), entries in public/llms.txt and public/llms-full.txt, and scripts/chat-layout-check.mjs --translator for their chat frame. Sitemap, hreflang and the updates feed follow from the status. The homepage (protected) lists every published page by its H1, so the release also needs a reviewed protected revision for / (internalLinks and bodyTextSha256), written from the build.",
+      "note": "Draft record of 2026-10-24, kept as written: recorded as an architecture decision, not as a cluster or a pair, because both pages are drafts: tests/seo-intent-manifest.test.ts and tests/seo-cluster-quality.test.ts require every pair and cluster URL to be published. The two pages are one RU↔UZ hreflang pair (x-default the Uzbek member, as for the chat pair), pageType gpt-chat with chatRole translator: the same chat, endpoint and 3 lifetime trial replies (shared site-wide, then the AI pack), opened in the translator role, plus a deterministic Uzbek Cyrillic ↔ Latin converter with no model call. The Uzbek chat keeps «chatgpt tarjima» and its spellings (C6); neither translator page declares them (tests/translator-pages.test.ts). Publication gate (owner): a native-speaker blind check of the translator role scoring 4/5 or better (docs/seo/research/2026-10-24-translator-blind-check/), the free-quota decision (options A–D in translator-market.md §4.3) and native proofreading of both pages. At publication: status → published, turn this entry into a pair or cluster entry, add both URLs to APPROVED_STATIC_ROUTE_ADDITIONS (tests/react-router-v8-migration.test.ts), write the protected revision for / (the homepage lists every published page), add at least two inbound links from unprotected pages, and add the pages to scripts/chat-layout-check.mjs."
     }
   ]
 }

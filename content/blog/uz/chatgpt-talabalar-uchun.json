@@ -107,6 +107,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Ruscha matnni o‘zbekchaga yoki o‘zbekcha matnni ruschaga o‘girish kerak bo‘lsa, mustaqil GPTBot.uz servisidagi {tarjimon} sahifasini sinab ko‘ring: u ChatGPT emas, chat u yerda «Tarjimon» rolida ochiladi. AI tarjima hozircha beta rejimida, shuning uchun atamalarni o‘zingiz tekshiring.",
+      "links": [
+        {
+          "token": "tarjimon",
+          "target": "/uz/rus-ozbek-tarjimon/",
+          "anchor": "ruschadan o‘zbekchaga tarjima"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "prompt",
       "text": "O‘qish uchun tayyor promptlar"
@@ -167,8 +178,15 @@
       "text": "AI javobidagi faktni qanday tekshirish kerak?"
     },
     {
-      "type": "p",
-      "text": "Model aytgan ism, sana, formula, qonun yoki tadqiqotni birlamchi manbadan toping. Havola ochilmasa yoki maqola nomi qidiruvda yo‘q bo‘lsa, uni dalil sifatida ishlatmang. «Manba ber» deyishning o‘zi yetarli emas — manbaning mavjudligi va gapni haqiqatan qo‘llashini tekshirish kerak."
+      "type": "linkp",
+      "text": "Model aytgan ism, sana, formula, qonun yoki tadqiqotni birlamchi manbadan toping. Havola ochilmasa yoki maqola nomi qidiruvda yo‘q bo‘lsa, uni dalil sifatida ishlatmang. «Manba ber» deyishning o‘zi yetarli emas — manbaning mavjudligi va gapni haqiqatan qo‘llashini tekshirish kerak. Model nega ishonarli, lekin noto‘g‘ri javob berishi mumkin? U fakt bazasi emas, balki ehtimollik asosida javob hisoblaydi: {si} ekani va u qanday ishlashi alohida sahifada oddiy tilda tushuntirilgan.",
+      "links": [
+        {
+          "token": "si",
+          "target": "/uz/suniy-intellekt/",
+          "anchor": "sun’iy intellekt nima"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -229,7 +247,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor; mavzudan tayyor .pptx qoralamasini esa {taqdimot} kuniga 1 marta bepul yig‘ib beradi. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor; mavzudan tayyor .pptx qoralamasini esa {taqdimot} kuniga 1 marta bepul yig‘ib beradi. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing; ariza yoki tushuntirish xati kerak bo‘lsa — {ariza} qo‘llanmasiga qarang.",
       "links": [
         {
           "token": "chat",
@@ -265,6 +283,11 @@
           "token": "rezyume",
           "target": "/uz/blog/rezyume-tayyorlash/",
           "anchor": "rezyume tayyorlash"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "ariza va tushuntirish xati yozish"
         }
       ]
     },

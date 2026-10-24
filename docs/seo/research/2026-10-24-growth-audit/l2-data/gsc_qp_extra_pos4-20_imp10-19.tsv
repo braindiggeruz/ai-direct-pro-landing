@@ -1,0 +1,30 @@
+# Source: OpenSEO get_search_console_performance, project 7534113b-f748-4f98-ac39-9e3782d3d9e7, sc-domain:gptbot.uz
+# [query,page], 2026-09-24..2026-10-21, pos 4-20, minImpressions 10, all countries, resultId fb528e5e-82f6-4112-9220-8adc3ee718fa
+# filters (AND): page notContains /ru/gpt-chat/, /uz/gpt-uzbek-tilida/, yuklab-olish, qanday-kirish, chat-gpt-online
+# Only the rows with 10-19 impressions are listed here (rows with >=20 are in gsc_qp_nonchat_pos4-20_imp20.tsv). Transcribed verbatim.
+query	page	clicks	impressions	ctr	position
+direct nima degani	/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/	1	14	0.0714	5.1
+ai продавец	/ru/blog/ai-prodavec-i-otdel-prodazh/	0	11	0	12.7
+ai67096	/	0	10	0	4.5
+chat gpt на узбекском языке	/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/	0	17	0	6.6
+chatgpt savol javob	/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	10	0	7.4
+chatgpt uchun prompt	/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	16	0	8.4
+chatgpt uzb	/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/	0	15	0	8.2
+gpt значение	/ru/gpt-vs-chatgpt-sravnenie/	0	11	0	8.5
+insho yozib ber	/uz/blog/insho-yozish-suniy-intellekt-bilan/	0	17	0	5
+mustaqil ish rejasi	/uz/blog/referat-va-mustaqil-ish/	0	11	0	8.4
+o'zbekistonda biznes uchun ai bot	/uz/	0	11	0	8.2
+payme telegram bot	/ru/blog/telegram-bot-s-oplatoy-payme-click/	0	17	0	5.9
+prompt nima? siz sun'iy intellektli chat botga kiritadigan matn ... (long quiz query)	/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	11	0	10.1
+seo продвижение сайта цена	/ru/seo-prodvizhenie-saytov-tashkent/	0	13	0	8.3
+автоматизация instagram direct	/ru/instagram-direct-bot/	0	11	0	14
+гпт расшифровка	/ru/gpt-vs-chatgpt-sravnenie/	0	17	0	9.4
+как расшифровать gpt	/ru/gpt-vs-chatgpt-sravnenie/	0	17	0	9.6
+как расшифровывается chat gpt	/ru/gpt-vs-chatgpt-sravnenie/	0	14	0	8.6
+как расшифровывается chatgpt	/ru/gpt-vs-chatgpt-sravnenie/	0	18	0	6.3
+как расшифровывается чат gpt	/ru/gpt-vs-chatgpt-sravnenie/	0	17	0	9.1
+лид	/ru/blog/chto-takoe-lid-v-marketinge/	0	16	0	19
+обсудить с ии	/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/	0	11	0	8.6
+продвижение сайта цена	/ru/seo-prodvizhenie-saytov-tashkent/	0	13	0	7.9
+смм продвижение цена	/ru/smm-prodvizhenie-tashkent/	0	10	0	12.2
+стоимость смм услуг	/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/	0	10	0	19.1

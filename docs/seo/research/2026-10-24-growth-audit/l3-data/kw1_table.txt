@@ -1,0 +1,310 @@
+ 1500000 | gemini | cpc=0.4 comp=0 | oct25=450000 nov25=550000 aug26=1830000 sep26=2740000 | min=450000 max=2740000
+  450000 | gemini ai | cpc=0.42 comp=0 | oct25=135000 nov25=110000 aug26=450000 sep26=673000 | min=110000 max=673000
+  135000 | claude ai | cpc=0.75 comp=0.06 | oct25=18100 nov25=27100 aug26=201000 sep26=246000 | min=18100 max=301000
+  110000 | claude | cpc=0.76 comp=0.03 | oct25=14800 nov25=18100 aug26=165000 sep26=201000 | min=14800 max=201000
+  110000 | гемини | cpc=0.41 comp=0 | oct25=40500 nov25=40500 aug26=135000 sep26=201000 | min=40500 max=201000
+   90500 | deepseek | cpc=0.55 comp=0.16 | oct25=110000 nov25=110000 aug26=49500 sep26=60500 | min=49500 max=110000
+   74000 | grok | cpc=0.74 comp=0 | oct25=49500 nov25=74000 aug26=33100 sep26=40500 | min=33100 max=135000
+   74000 | chatgpt 4 | cpc=0.03 comp=0.05 | oct25=135000 nov25=110000 aug26=27100 sep26=40500 | min=27100 max=135000
+   60500 | chatgpt 5 | cpc=0.03 comp=0.07 | oct25=74000 nov25=74000 aug26=33100 sep26=49500 | min=33100 max=90500
+   60500 | ии | cpc=0.43 comp=0.01 | oct25=27100 nov25=33100 aug26=74000 sep26=90500 | min=27100 max=90500
+   49500 | google gemini | cpc=0.48 comp=0.01 | oct25=27100 nov25=27100 aug26=40500 sep26=49500 | min=27100 max=74000
+   40500 | english uzbek translator | cpc=None comp=0 | oct25=49500 nov25=49500 aug26=22200 sep26=22200 | min=22200 max=49500
+   33100 | grok ai | cpc=0.83 comp=0.12 | oct25=14800 nov25=18100 aug26=14800 sep26=22200 | min=14800 max=60500
+   33100 | amocrm | cpc=0.34 comp=0.12 | oct25=33100 nov25=33100 aug26=40500 sep26=33100 | min=33100 max=40500
+   27100 | matematika test | cpc=0.53 comp=0 | oct25=2900 nov25=2900 aug26=27100 sep26=40500 | min=2900 max=49500
+   22200 | rasm chizish | cpc=None comp=0 | oct25=27100 nov25=27100 aug26=9900 sep26=18100 | min=9900 max=33100
+   22200 | copilot | cpc=0.93 comp=0.02 | oct25=27100 nov25=27100 aug26=8100 sep26=9900 | min=8100 max=27100
+   18100 | matematika misollar | cpc=0.9 comp=0 | oct25=480 nov25=880 aug26=12100 sep26=49500 | min=480 max=49500
+   18100 | dtm test | cpc=None comp=0 | oct25=3600 nov25=2900 aug26=12100 sep26=33100 | min=2900 max=49500
+   18100 | milliy sertifikat | cpc=None comp=0 | oct25=12100 nov25=12100 aug26=14800 sep26=18100 | min=8100 max=27100
+   14800 | python | cpc=0.66 comp=0.09 | oct25=22200 nov25=14800 aug26=9900 sep26=18100 | min=9900 max=22200
+   14800 | ingliz tili test | cpc=0.18 comp=0 | oct25=1900 nov25=1900 aug26=12100 sep26=22200 | min=1900 max=27100
+   12100 | test savollari | cpc=None comp=0 | oct25=140 nov25=480 aug26=8100 sep26=33100 | min=140 max=33100
+   12100 | ingliz uzbek tarjimon | cpc=None comp=0 | oct25=33100 nov25=22200 aug26=2900 sep26=3600 | min=2900 max=33100
+   12100 | perplexity | cpc=0.67 comp=0.07 | oct25=14800 nov25=14800 aug26=6600 sep26=8100 | min=6600 max=14800
+    9900 | chat gpt 5 | cpc=0.04 comp=0.09 | oct25=18100 nov25=18100 aug26=5400 sep26=6600 | min=5400 max=18100
+    9900 | грок | cpc=0.46 comp=0.03 | oct25=4400 nov25=6600 aug26=6600 sep26=6600 | min=4400 max=12100
+    9900 | чат гпт 5 | cpc=0.03 comp=0.08 | oct25=9900 nov25=12100 aug26=6600 sep26=6600 | min=6600 max=12100
+    9900 | she'rlar | cpc=None comp=0 | oct25=14800 nov25=14800 aug26=4400 sep26=8100 | min=4400 max=14800
+    9900 | topishmoqlar | cpc=None comp=0 | oct25=12100 nov25=14800 aug26=3600 sep26=5400 | min=3600 max=14800
+    8100 | suniy intellekt | cpc=0.4 comp=0.1 | oct25=1000 nov25=1300 aug26=8100 sep26=8100 | min=1000 max=14800
+    8100 | ingliz tili | cpc=0.29 comp=0 | oct25=9900 nov25=8100 aug26=4400 sep26=9900 | min=4400 max=9900
+    8100 | xulosa yozish | cpc=None comp=0 | oct25=480 nov25=480 aug26=4400 sep26=18100 | min=480 max=18100
+    8100 | дипсик | cpc=0.44 comp=0.02 | oct25=8100 nov25=8100 aug26=5400 sep26=6600 | min=5400 max=9900
+    8100 | bitrix24 | cpc=0.67 comp=0.33 | oct25=6600 nov25=6600 aug26=9900 sep26=8100 | min=5400 max=9900
+    8100 | maqollar | cpc=None comp=0 | oct25=22200 nov25=12100 aug26=1300 sep26=6600 | min=1300 max=22200
+    6600 | sun'iy intellekt | cpc=0.4 comp=0.08 | oct25=14800 nov25=14800 aug26=1600 sep26=3600 | min=1600 max=14800
+    6600 | sun iy intellekt | cpc=0.4 comp=0.08 | oct25=14800 nov25=14800 aug26=1600 sep26=3600 | min=1600 max=14800
+    6600 | sher | cpc=8.79 comp=0 | oct25=8100 nov25=8100 aug26=4400 sep26=6600 | min=3600 max=8100
+    6600 | переводчик с английского на узбекский | cpc=0.26 comp=0 | oct25=9900 nov25=9900 aug26=4400 sep26=5400 | min=4400 max=9900
+    6600 | искусственный интеллект | cpc=0.37 comp=0.11 | oct25=6600 nov25=6600 aug26=6600 sep26=5400 | min=4400 max=9900
+    6600 | dissertatsiya | cpc=None comp=0 | oct25=720 nov25=720 aug26=27100 sep26=12100 | min=590 max=27100
+    5400 | imlo | cpc=None comp=0 | oct25=6600 nov25=4400 aug26=2400 sep26=5400 | min=2400 max=9900
+    5400 | meta ai | cpc=0.55 comp=0.01 | oct25=720 nov25=2400 aug26=5400 sep26=6600 | min=720 max=6600
+    5400 | qwen | cpc=0.88 comp=0.08 | oct25=5400 nov25=6600 aug26=4400 sep26=4400 | min=3600 max=6600
+    4400 | diktant | cpc=None comp=0 | oct25=5400 nov25=4400 aug26=2900 sep26=5400 | min=2400 max=8100
+    4400 | esse | cpc=None comp=0 | oct25=4400 nov25=4400 aug26=2400 sep26=6600 | min=1600 max=9900
+    3600 | xat yozish | cpc=None comp=0 | oct25=140 nov25=210 aug26=1900 sep26=6600 | min=140 max=9900
+    3600 | gpt 5 | cpc=0.13 comp=0.23 | oct25=6600 nov25=4400 aug26=2400 sep26=1900 | min=1900 max=6600
+    2900 | referat | cpc=None comp=0 | oct25=4400 nov25=5400 aug26=320 sep26=1000 | min=320 max=5400
+    2900 | maqola | cpc=None comp=0 | oct25=2900 nov25=3600 aug26=2400 sep26=2400 | min=880 max=8100
+    2900 | deep seek | cpc=0.44 comp=0.17 | oct25=2900 nov25=2900 aug26=1300 sep26=1900 | min=1300 max=4400
+    2900 | prompt | cpc=0.37 comp=0.03 | oct25=2400 nov25=2900 aug26=2900 sep26=4400 | min=2400 max=6600
+    2900 | esse yozish | cpc=None comp=0 | oct25=3600 nov25=2400 aug26=880 sep26=5400 | min=590 max=5400
+    2900 | referat namuna | cpc=None comp=0 | oct25=3600 nov25=6600 aug26=210 sep26=880 | min=210 max=6600
+    2900 | ariza yozish | cpc=None comp=0 | oct25=5400 nov25=5400 aug26=1000 sep26=2400 | min=880 max=5400
+    2900 | tush ta'biri | cpc=None comp=0 | oct25=1600 nov25=1600 aug26=2900 sep26=2900 | min=1600 max=4400
+    2900 | tarix test | cpc=None comp=0 | oct25=1000 nov25=720 aug26=2400 sep26=5400 | min=720 max=6600
+    1900 | реферат | cpc=None comp=0 | oct25=3600 nov25=2900 aug26=260 sep26=1300 | min=260 max=3600
+    1900 | mustaqil ish | cpc=None comp=0 | oct25=2400 nov25=3600 aug26=210 sep26=880 | min=210 max=3600
+    1600 | сунъий интеллект | cpc=0.29 comp=0.1 | oct25=590 nov25=880 aug26=1300 sep26=1300 | min=590 max=2400
+    1600 | клод | cpc=0.81 comp=0.09 | oct25=110 nov25=170 aug26=3600 sep26=4400 | min=110 max=4400
+    1600 | rezyume | cpc=0.22 comp=0.23 | oct25=1300 nov25=1300 aug26=1300 sep26=1300 | min=1300 max=2400
+    1600 | tushuntirish xati | cpc=None comp=0 | oct25=2400 nov25=2400 aug26=480 sep26=1600 | min=480 max=2400
+    1600 | ona tili test | cpc=None comp=0 | oct25=1000 nov25=590 aug26=720 sep26=2900 | min=590 max=2900
+    1300 | suniy intellekt nima | cpc=None comp=0 | oct25=1300 nov25=2900 aug26=590 sep26=1300 | min=590 max=2900
+    1300 | insho | cpc=None comp=0 | oct25=2900 nov25=1600 aug26=390 sep26=1600 | min=390 max=2900
+    1300 | tugilgan kun tabriklari | cpc=None comp=0 | oct25=1300 nov25=1000 aug26=1000 sep26=1300 | min=880 max=1900
+    1300 | testlar | cpc=None comp=0 | oct25=1300 nov25=1300 aug26=880 sep26=1000 | min=880 max=1600
+    1300 | dasturlash | cpc=0.51 comp=0.03 | oct25=1600 nov25=1300 aug26=720 sep26=1600 | min=720 max=1600
+    1300 | chatgpt bepul | cpc=0.05 comp=0.06 | oct25=880 nov25=1000 aug26=1300 sep26=4400 | min=590 max=4400
+    1300 | сунъий интеллект нима | cpc=0.18 comp=0 | oct25=1600 nov25=1300 aug26=880 sep26=1000 | min=880 max=1600
+    1300 | нейросеть | cpc=0.41 comp=0.23 | oct25=1600 nov25=1300 aug26=880 sep26=1000 | min=880 max=1900
+    1300 | нейросети | cpc=0.41 comp=0.23 | oct25=1600 nov25=1300 aug26=880 sep26=1000 | min=880 max=1900
+    1300 | prezentatsiya | cpc=0.29 comp=0.08 | oct25=2400 nov25=2400 aug26=260 sep26=880 | min=260 max=2400
+    1300 | kurs ishi | cpc=None comp=0 | oct25=1000 nov25=1300 aug26=90 sep26=210 | min=90 max=3600
+    1300 | sevgi she'rlari | cpc=None comp=0 | oct25=1600 nov25=1600 aug26=880 sep26=880 | min=880 max=1600
+    1000 | sun'iy intellekt nima | cpc=None comp=0 | oct25=1900 nov25=2400 aug26=170 sep26=390 | min=170 max=2400
+    1000 | rasmni tiniqlashtirish | cpc=0.13 comp=0.1 | oct25=1300 nov25=1000 aug26=590 sep26=590 | min=590 max=1300
+    1000 | tabriklar | cpc=None comp=0 | oct25=1300 nov25=1300 aug26=720 sep26=590 | min=590 max=1600
+    1000 | crm система | cpc=1.77 comp=0.59 | oct25=1000 nov25=1000 aug26=880 sep26=880 | min=880 max=1000
+    1000 | taqdimot | cpc=0.18 comp=0.01 | oct25=1000 nov25=1600 aug26=320 sep26=880 | min=320 max=1900
+    1000 | obyektivka | cpc=None comp=0 | oct25=1300 nov25=720 aug26=1300 sep26=3600 | min=720 max=3600
+    1000 | biznes reja | cpc=0.92 comp=0.13 | oct25=1600 nov25=1300 aug26=260 sep26=320 | min=260 max=1600
+    1000 | hikmatli so'zlar | cpc=None comp=0 | oct25=1900 nov25=1600 aug26=590 sep26=880 | min=480 max=1900
+    1000 | inglizcha so'zlar | cpc=None comp=0 | oct25=260 nov25=260 aug26=1000 sep26=1300 | min=260 max=1600
+     880 | insho yozish | cpc=None comp=0 | oct25=1900 nov25=1600 aug26=210 sep26=880 | min=210 max=1900
+     880 | misol yechish | cpc=0.15 comp=0.01 | oct25=1000 nov25=880 aug26=170 sep26=720 | min=170 max=1000
+     880 | masala yechish | cpc=0.08 comp=0 | oct25=720 nov25=590 aug26=320 sep26=1600 | min=320 max=1600
+     880 | imlo tekshirish | cpc=None comp=0 | oct25=1300 nov25=1000 aug26=590 sep26=880 | min=480 max=1300
+     880 | chat bot | cpc=0.85 comp=0.31 | oct25=1000 nov25=1000 aug26=590 sep26=880 | min=590 max=1300
+     720 | logo yaratish | cpc=0.08 comp=0.06 | oct25=590 nov25=720 aug26=720 sep26=880 | min=590 max=1300
+     720 | koreyscha o'zbekcha tarjima | cpc=None comp=0 | oct25=1000 nov25=880 aug26=590 sep26=390 | min=390 max=1000
+     720 | chatgpt plus | cpc=0.83 comp=0.27 | oct25=1000 nov25=720 aug26=390 sep26=590 | min=390 max=1000
+     720 | сочинение | cpc=None comp=0 | oct25=1000 nov25=880 aug26=210 sep26=1300 | min=210 max=1300
+     720 | prompt nima | cpc=None comp=0 | oct25=140 nov25=1900 aug26=320 sep26=260 | min=140 max=1900
+     590 | bayon yozish | cpc=None comp=0 | oct25=390 nov25=480 aug26=320 sep26=720 | min=320 max=880
+     590 | arabcha tarjima | cpc=None comp=0 | oct25=320 nov25=390 aug26=480 sep26=320 | min=320 max=880
+     590 | табриклар | cpc=None comp=0 | oct25=390 nov25=320 aug26=720 sep26=590 | min=320 max=880
+     590 | gigachat | cpc=0.32 comp=0.05 | oct25=590 nov25=720 aug26=390 sep26=480 | min=390 max=1000
+     590 | перефразировать текст | cpc=0.46 comp=0.24 | oct25=880 nov25=1000 aug26=170 sep26=260 | min=170 max=1000
+     590 | slayd yaratish | cpc=0.24 comp=0.11 | oct25=880 nov25=1000 aug26=50 sep26=320 | min=50 max=1000
+     590 | slayd ai | cpc=0.45 comp=0.39 | oct25=720 nov25=720 aug26=90 sep26=480 | min=90 max=1300
+     590 | latifalar | cpc=None comp=0 | oct25=590 nov25=880 aug26=480 sep26=590 | min=320 max=1300
+     480 | suniy intellekt rasm | cpc=0.12 comp=0.04 | oct25=110 nov25=320 aug26=210 sep26=390 | min=110 max=1000
+     480 | maqola yozish | cpc=None comp=0 | oct25=720 nov25=590 aug26=90 sep26=480 | min=90 max=1300
+     480 | matn yozish | cpc=None comp=0 | oct25=1000 nov25=720 aug26=170 sep26=720 | min=110 max=1000
+     480 | табрик | cpc=None comp=0 | oct25=390 nov25=480 aug26=390 sep26=390 | min=320 max=720
+     480 | ии для презентаций | cpc=0.47 comp=0.5 | oct25=720 nov25=480 aug26=140 sep26=390 | min=140 max=880
+     480 | шедеврум | cpc=0.23 comp=0.06 | oct25=590 nov25=720 aug26=390 sep26=390 | min=390 max=720
+     480 | проверка орфографии | cpc=None comp=0 | oct25=590 nov25=590 aug26=390 sep26=320 | min=320 max=590
+     480 | bot yaratish | cpc=0.55 comp=0.01 | oct25=140 nov25=140 aug26=480 sep26=880 | min=140 max=880
+     480 | презентация онлайн | cpc=0.26 comp=0.25 | oct25=880 nov25=720 aug26=90 sep26=320 | min=90 max=880
+     390 | bayon | cpc=None comp=0.01 | oct25=720 nov25=480 aug26=170 sep26=480 | min=140 max=720
+     390 | bitiruv malakaviy ishi | cpc=None comp=0 | oct25=210 nov25=320 aug26=90 sep26=320 | min=90 max=720
+     390 | attestatsiya test | cpc=None comp=0 | oct25=720 nov25=390 aug26=480 sep26=590 | min=110 max=720
+     320 | rasmni jonlantirish | cpc=0.15 comp=0.13 | oct25=260 nov25=1000 aug26=110 sep26=70 | min=70 max=1000
+     320 | matnni ovozga aylantirish | cpc=0.3 comp=0.27 | oct25=390 nov25=260 aug26=210 sep26=170 | min=140 max=480
+     320 | referat yozish | cpc=None comp=0 | oct25=390 nov25=590 aug26=50 sep26=170 | min=50 max=720
+     320 | chatgpt pro | cpc=1.19 comp=0.16 | oct25=390 nov25=260 aug26=210 sep26=320 | min=210 max=590
+     320 | суний интеллект | cpc=0.19 comp=0.17 | oct25=1300 nov25=1600 aug26=170 sep26=260 | min=90 max=1600
+     320 | чат гпт узбекча | cpc=0.15 comp=0.01 | oct25=320 nov25=390 aug26=170 sep26=210 | min=170 max=390
+     320 | гигачат | cpc=0.83 comp=0 | oct25=320 nov25=390 aug26=260 sep26=320 | min=260 max=390
+     320 | сделать презентацию | cpc=0.35 comp=0.18 | oct25=480 nov25=320 aug26=20 sep26=210 | min=20 max=480
+     320 | diplom ishi | cpc=None comp=0 | oct25=210 nov25=210 aug26=170 sep26=320 | min=110 max=590
+     320 | ism ma'nosi | cpc=None comp=0 | oct25=320 nov25=320 aug26=140 sep26=140 | min=140 max=1300
+     320 | ismlar ma'nosi | cpc=None comp=0 | oct25=320 nov25=320 aug26=140 sep26=140 | min=140 max=1300
+     260 | ai rasm yaratish | cpc=0.15 comp=0.14 | oct25=70 nov25=140 aug26=210 sep26=260 | min=70 max=480
+     260 | ovozni matnga aylantirish | cpc=0.08 comp=0.26 | oct25=320 nov25=320 aug26=110 sep26=140 | min=110 max=390
+     260 | hikoya yozish | cpc=None comp=0 | oct25=320 nov25=110 aug26=30 sep26=210 | min=30 max=1600
+     260 | сопроводительное письмо | cpc=None comp=0.01 | oct25=320 nov25=260 aug26=260 sep26=260 | min=210 max=320
+     260 | бизнес план | cpc=0.95 comp=0.2 | oct25=320 nov25=390 aug26=90 sep26=140 | min=90 max=390
+     260 | crm nima | cpc=0.69 comp=0.06 | oct25=260 nov25=320 aug26=210 sep26=210 | min=210 max=320
+     260 | annotatsiya yozish | cpc=None comp=0 | oct25=50 nov25=90 aug26=110 sep26=260 | min=50 max=880
+     210 | gpt 4o | cpc=0.6 comp=0.45 | oct25=320 nov25=260 aug26=90 sep26=90 | min=70 max=720
+     210 | deepseek на русском | cpc=0.53 comp=0.25 | oct25=480 nov25=320 aug26=50 sep26=50 | min=50 max=480
+     210 | ai nima | cpc=None comp=0 | oct25=170 nov25=260 aug26=210 sep26=260 | min=170 max=320
+     210 | слайд тайёрлаш | cpc=0.17 comp=0.16 | oct25=320 nov25=390 aug26=20 sep26=50 | min=20 max=390
+     170 | rasm yaratish | cpc=0.1 comp=0.11 | oct25=210 nov25=170 aug26=90 sep26=170 | min=90 max=260
+     170 | rasm sifatini oshirish | cpc=0.2 comp=0.18 | oct25=260 nov25=210 aug26=110 sep26=90 | min=90 max=260
+     170 | ai bot | cpc=1.29 comp=0.14 | oct25=90 nov25=110 aug26=170 sep26=210 | min=90 max=210
+     140 | suniy intellekt rasm yaratish | cpc=0.23 comp=0.24 | oct25=140 nov25=140 aug26=110 sep26=140 | min=90 max=140
+     140 | uy vazifasi | cpc=None comp=0 | oct25=210 nov25=210 aug26=20 sep26=140 | min=20 max=260
+     140 | konspekt | cpc=None comp=0 | oct25=320 nov25=260 aug26=40 sep26=260 | min=40 max=320
+     140 | yandexgpt | cpc=0.43 comp=0.04 | oct25=210 nov25=140 aug26=90 sep26=70 | min=70 max=210
+     140 | chatgpt nima | cpc=None comp=0.01 | oct25=260 nov25=260 aug26=50 sep26=110 | min=50 max=260
+     110 | ai rasm | cpc=0.13 comp=0.05 | oct25=90 nov25=90 aug26=140 sep26=140 | min=70 max=170
+     110 | test savollari javoblari bilan | cpc=None comp=0 | oct25=140 nov25=70 aug26=30 sep26=30 | min=30 max=170
+     110 | test tuzish | cpc=None comp=0 | oct25=110 nov25=170 aug26=20 sep26=50 | min=20 max=170
+     110 | matn tarjima | cpc=None comp=0 | oct25=110 nov25=110 aug26=70 sep26=90 | min=70 max=210
+     110 | нейросеть для презентаций | cpc=0.19 comp=0.32 | oct25=210 nov25=170 aug26=20 sep26=70 | min=10 max=210
+     110 | проверка текста на ошибки | cpc=0.27 comp=0.02 | oct25=140 nov25=110 aug26=110 sep26=90 | min=90 max=140
+     110 | tezis yozish | cpc=None comp=0 | oct25=210 nov25=170 aug26=10 sep26=70 | min=10 max=210
+      90 | kod yozish | cpc=0.8 comp=0.08 | oct25=110 nov25=90 aug26=20 sep26=90 | min=20 max=110
+      90 | matnni tekshirish | cpc=None comp=0 | oct25=720 nov25=70 aug26=20 sep26=30 | min=20 max=720
+      90 | gemini uzbek | cpc=None comp=0 | oct25=0 nov25=0 aug26=50 sep26=90 | min=0 max=210
+      90 | ии агент | cpc=1.07 comp=0.42 | oct25=40 nov25=40 aug26=110 sep26=110 | min=40 max=140
+      90 | suniy intellekt kurslari | cpc=0.47 comp=0.16 | oct25=10 nov25=30 aug26=110 sep26=90 | min=10 max=140
+      90 | презентация нейросеть | cpc=0.41 comp=0.19 | oct25=210 nov25=170 aug26=10 sep26=30 | min=10 max=210
+      70 | rasmni video qilish | cpc=0.12 comp=0.33 | oct25=70 nov25=140 aug26=70 sep26=50 | min=50 max=140
+      70 | sher yozish | cpc=None comp=0 | oct25=90 nov25=70 aug26=20 sep26=70 | min=20 max=90
+      70 | test yaratish | cpc=0.39 comp=0.01 | oct25=30 nov25=50 aug26=10 sep26=50 | min=10 max=110
+      70 | иншо | cpc=None comp=0 | oct25=140 nov25=110 aug26=30 sep26=70 | min=30 max=140
+      70 | crm tizimi | cpc=0.81 comp=0.2 | oct25=90 nov25=50 aug26=40 sep26=50 | min=40 max=90
+      70 | promptlar | cpc=0.6 comp=0.01 | oct25=20 nov25=30 aug26=70 sep26=70 | min=20 max=140
+      70 | slayd qilish | cpc=0.41 comp=0.08 | oct25=140 nov25=90 aug26=10 sep26=50 | min=10 max=140
+      50 | neyroset | cpc=0.57 comp=0.12 | oct25=90 nov25=70 aug26=20 sep26=40 | min=20 max=110
+      50 | referat ai | cpc=0.12 comp=0.32 | oct25=50 nov25=70 aug26=10 sep26=10 | min=10 max=140
+      50 | тест саволлари | cpc=None comp=0 | oct25=40 nov25=70 aug26=30 sep26=20 | min=20 max=70
+      50 | пересказ текста | cpc=None comp=0 | oct25=30 nov25=70 aug26=30 sep26=50 | min=30 max=70
+      50 | генератор текста | cpc=0.5 comp=0.03 | oct25=50 nov25=50 aug26=30 sep26=90 | min=30 max=90
+      50 | что такое нейросеть | cpc=None comp=0.02 | oct25=70 nov25=110 aug26=30 sep26=40 | min=30 max=110
+      50 | презентация тайёрлаш | cpc=0.2 comp=0.25 | oct25=90 nov25=70 aug26=10 sep26=50 | min=10 max=90
+      40 | suniy intellekt haqida | cpc=None comp=0 | oct25=40 nov25=40 aug26=20 sep26=50 | min=10 max=140
+      40 | автоматизация бизнеса | cpc=1.21 comp=0.65 | oct25=30 nov25=50 aug26=40 sep26=40 | min=20 max=110
+      40 | нейросеть для создания презентаций | cpc=0.7 comp=0.31 | oct25=90 nov25=40 aug26=10 sep26=30 | min=10 max=90
+      30 | ai ovoz | cpc=0.42 comp=0.15 | oct25=0 nov25=0 aug26=40 sep26=40 | min=0 max=50
+      30 | ertak yozish | cpc=None comp=0 | oct25=50 nov25=30 aug26=10 sep26=30 | min=10 max=70
+      30 | нейросеть для написания текста | cpc=None comp=0.04 | oct25=50 nov25=70 aug26=10 sep26=10 | min=10 max=70
+      30 | нейросеть онлайн бесплатно | cpc=0.21 comp=0.25 | oct25=50 nov25=30 aug26=10 sep26=20 | min=10 max=50
+      30 | нейросеть бесплатно | cpc=0.33 comp=0.4 | oct25=40 nov25=30 aug26=40 sep26=30 | min=20 max=50
+      30 | рерайт текста | cpc=None comp=0.17 | oct25=40 nov25=40 aug26=10 sep26=10 | min=10 max=50
+      30 | ai kurslari | cpc=0.5 comp=0.27 | oct25=10 nov25=10 aug26=50 sep26=40 | min=10 max=50
+      30 | prezentatsiya qilish | cpc=0.32 comp=0.22 | oct25=50 nov25=30 aug26=10 sep26=40 | min=10 max=70
+      20 | suniy intellekt bilan gaplashish | cpc=0.45 comp=0.03 | oct25=40 nov25=20 aug26=20 sep26=10 | min=10 max=40
+      20 | ai uzbek tilida | cpc=0.43 comp=0.05 | oct25=20 nov25=10 aug26=20 sep26=40 | min=10 max=40
+      20 | ai video yaratish | cpc=0.39 comp=0.43 | oct25=0 nov25=0 aug26=50 sep26=70 | min=0 max=70
+      20 | suniy intellekt video | cpc=0.17 comp=0.27 | oct25=0 nov25=0 aug26=20 sep26=20 | min=0 max=40
+      20 | tabrik yozish | cpc=None comp=0 | oct25=10 nov25=20 aug26=20 sep26=20 | min=10 max=40
+      20 | matematika masala yechish | cpc=None comp=0.01 | oct25=40 nov25=10 aug26=20 sep26=10 | min=10 max=40
+      20 | иншо ёзиш | cpc=None comp=0 | oct25=30 nov25=20 aug26=10 sep26=10 | min=10 max=30
+      20 | нейросеть для видео | cpc=0.75 comp=0.71 | oct25=30 nov25=20 aug26=20 sep26=10 | min=10 max=30
+      20 | сократить текст | cpc=None comp=0 | oct25=30 nov25=30 aug26=10 sep26=20 | min=10 max=30
+      20 | генератор стихов | cpc=None comp=0.01 | oct25=30 nov25=20 aug26=10 sep26=10 | min=10 max=50
+      20 | написать резюме | cpc=0.85 comp=0.43 | oct25=30 nov25=20 aug26=10 sep26=10 | min=10 max=30
+      20 | telegram bot yaratish narxi | cpc=0.04 comp=0.04 | oct25=10 nov25=30 aug26=10 sep26=10 | min=10 max=30
+      20 | bot yasash | cpc=None comp=0.04 | oct25=10 nov25=10 aug26=10 sep26=90 | min=10 max=90
+      20 | создание телеграм бота | cpc=1.87 comp=0.4 | oct25=40 nov25=30 aug26=20 sep26=20 | min=20 max=40
+      20 | ai агент | cpc=0.85 comp=0.35 | oct25=10 nov25=10 aug26=20 sep26=20 | min=10 max=40
+      20 | amocrm узбекистан | cpc=0.38 comp=0.51 | oct25=30 nov25=30 aug26=10 sep26=10 | min=10 max=30
+      20 | eng yaxshi ai | cpc=0.36 comp=0.29 | oct25=0 nov25=0 aug26=20 sep26=50 | min=0 max=50
+      20 | лучшие нейросети | cpc=None comp=0.19 | oct25=20 nov25=20 aug26=20 sep26=20 | min=20 max=30
+      10 | ai uzbek | cpc=0.81 comp=0.07 | oct25=0 nov25=0 aug26=10 sep26=20 | min=0 max=30
+      10 | ai sayt | cpc=0.86 comp=0.43 | oct25=0 nov25=0 aug26=10 sep26=10 | min=0 max=20
+      10 | ai saytlar | cpc=0.65 comp=0.34 | oct25=0 nov25=0 aug26=10 sep26=40 | min=0 max=40
+      10 | rasm yaratish ai | cpc=0.15 comp=0.33 | oct25=0 nov25=0 aug26=20 sep26=20 | min=0 max=20
+      10 | she'r yozish | cpc=None comp=0 | oct25=10 nov25=20 aug26=10 sep26=10 | min=0 max=20
+      10 | fizika masala yechish | cpc=None comp=0 | oct25=30 nov25=10 aug26=10 sep26=10 | min=10 max=30
+      10 | реферат намуна | cpc=None comp=0 | oct25=30 nov25=20 aug26=10 sep26=10 | min=0 max=30
+      10 | нейросеть для учебы | cpc=None comp=0.52 | oct25=10 nov25=10 aug26=10 sep26=10 | min=0 max=10
+      10 | нейросеть для текста | cpc=None comp=None | oct25=10 nov25=10 aug26=10 sep26=0 | min=0 max=10
+      10 | нейросеть для рисования | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть картинки | cpc=None comp=0 | oct25=20 nov25=20 aug26=10 sep26=10 | min=10 max=20
+      10 | нейросеть для фото | cpc=0.13 comp=0.39 | oct25=30 nov25=20 aug26=10 sep26=10 | min=10 max=30
+      10 | нейросеть для реферата | cpc=None comp=None | oct25=10 nov25=10 aug26=0 sep26=0 | min=0 max=20
+      10 | написать реферат нейросеть | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для эссе | cpc=None comp=None | oct25=10 nov25=10 aug26=0 sep26=0 | min=0 max=20
+      10 | нейросеть для сочинения | cpc=None comp=0 | oct25=10 nov25=0 aug26=0 sep26=10 | min=0 max=10
+      10 | нейросеть для решения задач | cpc=None comp=None | oct25=10 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | решить задачу нейросеть | cpc=None comp=0.14 | oct25=0 nov25=10 aug26=0 sep26=10 | min=0 max=10
+      10 | нейросеть для кода | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для программирования | cpc=1.9 comp=0.81 | oct25=10 nov25=0 aug26=10 sep26=10 | min=0 max=10
+      10 | нейросеть для перевода | cpc=None comp=None | oct25=0 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для диплома | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для курсовой | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для доклада | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для резюме | cpc=None comp=None | oct25=0 nov25=0 aug26=10 sep26=0 | min=0 max=10
+      10 | нейросеть для логотипа | cpc=0.27 comp=0.86 | oct25=10 nov25=10 aug26=10 sep26=10 | min=10 max=10
+      10 | нейросеть стихи | cpc=None comp=None | oct25=10 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | ии для учебы | cpc=0.32 comp=0.32 | oct25=20 nov25=20 aug26=10 sep26=10 | min=10 max=20
+      10 | нейросеть для домашнего задания | cpc=None comp=None | oct25=0 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть для математики | cpc=None comp=0 | oct25=10 nov25=10 aug26=10 sep26=10 | min=0 max=10
+      10 | нейросеть для тестов | cpc=None comp=None | oct25=10 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | нейросеть отвечающая на вопросы | cpc=None comp=0 | oct25=0 nov25=0 aug26=0 sep26=10 | min=0 max=10
+      10 | нейросеть на русском | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | генератор поздравлений | cpc=None comp=0 | oct25=0 nov25=10 aug26=0 sep26=10 | min=0 max=10
+      10 | telegram bot ochish | cpc=None comp=0.13 | oct25=10 nov25=10 aug26=10 sep26=10 | min=10 max=10
+      10 | телеграм бот цена | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | разработка чат бота | cpc=None comp=0 | oct25=0 nov25=0 aug26=0 sep26=10 | min=0 max=10
+      10 | чат бот для бизнеса | cpc=None comp=0 | oct25=10 nov25=10 aug26=10 sep26=10 | min=0 max=10
+      10 | ии для бизнеса | cpc=1.28 comp=0.81 | oct25=10 nov25=0 aug26=10 sep26=10 | min=0 max=10
+      10 | создание ии агента | cpc=3.05 comp=0.57 | oct25=10 nov25=0 aug26=10 sep26=10 | min=0 max=10
+      10 | интеграция crm | cpc=None comp=0.86 | oct25=0 nov25=0 aug26=0 sep26=10 | min=0 max=10
+      10 | голосовой бот | cpc=None comp=0 | oct25=10 nov25=10 aug26=10 sep26=10 | min=10 max=10
+      10 | ai ассистент | cpc=None comp=0.27 | oct25=10 nov25=10 aug26=10 sep26=10 | min=10 max=20
+      10 | ai консультант | cpc=None comp=None | oct25=10 nov25=0 aug26=0 sep26=0 | min=0 max=10
+      10 | chatgpt promptlar | cpc=None comp=0 | oct25=10 nov25=10 aug26=10 sep26=10 | min=0 max=10
+      10 | нейросеть чат | cpc=None comp=0.08 | oct25=10 nov25=10 aug26=10 sep26=10 | min=10 max=10
+      10 | нейросеть для студентов | cpc=None comp=None | oct25=0 nov25=10 aug26=0 sep26=0 | min=0 max=10
+      10 | chatgpt для студентов | cpc=None comp=0 | oct25=10 nov25=10 aug26=0 sep26=10 | min=0 max=10
+      10 | sms tabrik | cpc=None comp=None | oct25=10 nov25=10 aug26=10 sep26=0 | min=0 max=10
+       0 | suniy intellekt sayti | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt bilan suhbat | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt dasturi | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt bepul | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt uzbek tilida | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai uzbekcha | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai chat uzbek | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai dasturlar | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai rasm chizish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | rasm chizish ai | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt rasm chizish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | rasm fonini o'chirish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | video yaratish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt video yaratish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ovoz yaratish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai ovoz o'zgartirish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | referat yozib berish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ilmiy maqola yozish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | maqola yozish namuna | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | matn yozish ai | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | tug'ilgan kun tabrik | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | uy vazifasi yordam | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | uy vazifasi ai | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | misol yechib beradigan sayt | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | rasmdan masala yechish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ingliz tili o'rganish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai bilan kod yozish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | o'zbek tili imlo | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | imlo xatolarini tekshirish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ingliz o'zbek tarjima | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | inglizcha o'zbekcha tarjima | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ingliz tilidan o'zbek tiliga tarjima | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | turkcha o'zbekcha tarjima | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | deepseek uzbek | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | deepseek kirish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | chatgpt narxi | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | chatgpt obuna | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | расм яратиш | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | реферат ёзиш | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | мақола ёзиш | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | макола езиш | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | чатгпт узбекча | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | уй вазифаси | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | шеър ёзиш | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | нейросеть решает задачи по фото | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=0
+       0 | нейросеть поздравление | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=0
+       0 | гдз нейросеть | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=0
+       0 | эссе | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | доклад | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | курсовая работа | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | telegram bot narxi | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | telegram bot yaratish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | chat bot yaratish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai bot biznes uchun | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | telegram bot qilish | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | crm integratsiya | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | ai bilan pul ishlash | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | suniy intellekt ilovalari | cpc=None comp=None | oct25=None nov25=None aug26=None sep26=None | min=None max=None
+       0 | нейросеть для школьников | cpc=None comp=None | oct25=0 nov25=0 aug26=0 sep26=0 | min=0 max=0

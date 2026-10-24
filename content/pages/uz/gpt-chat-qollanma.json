@@ -74,8 +74,15 @@
       "text": "AI chat nima qila oladi"
     },
     {
-      "type": "p",
-      "text": "GPTBot.uz AI chati — brauzeringizda ishlaydigan mustaqil yordamchi. U matn yozadi va tahrirlaydi, g‘oya o‘ylaydi, ijtimoiy tarmoqlar uchun kontent tayyorlaydi, o‘qish va rezyumega yordam beradi, savollarga javob beradi hamda rus va o‘zbek tillari o‘rtasida tarjima qiladi."
+      "type": "linkp",
+      "text": "GPTBot.uz AI chati — brauzeringizda ishlaydigan mustaqil yordamchi. U matn yozadi va tahrirlaydi, g‘oya o‘ylaydi, ijtimoiy tarmoqlar uchun kontent tayyorlaydi, o‘qish va rezyumega yordam beradi, savollarga javob beradi hamda rus va o‘zbek tillari o‘rtasida tarjima qiladi. Faqat tarjima kerak bo‘lsa, {tarjimon} sahifasini oching: u yerda shu chat «Tarjimon» rolida ochiladi, chat ostida esa AI’siz ishlaydigan kirill ↔ lotin konvertori bor.",
+      "links": [
+        {
+          "token": "tarjimon",
+          "target": "/uz/rus-ozbek-tarjimon/",
+          "anchor": "ruscha-o‘zbekcha AI tarjimon"
+        }
+      ]
     },
     {
       "type": "list",
@@ -92,7 +99,7 @@
     },
     {
       "type": "linkp",
-      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} hamda {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}.",
+      "text": "Bu vazifalarning ba’zilari uchun alohida qo‘llanmalar bor: {slayd}, {referat}, {kurs}, {insho}, {rezyume}, {ariza} hamda {biznes}. AI-chat umuman nima ekani va qaysi turlari borligi alohida maqolada tushuntirilgan: {aichat}. Texnologiyaning o‘zi haqida umumiy tushuncha kerak bo‘lsa, {si} — tarixi, turlari va cheklovlari bilan — alohida sahifada jamlangan.",
       "links": [
         {
           "token": "slayd",
@@ -133,6 +140,11 @@
           "token": "biznes",
           "target": "/uz/blog/biznes-reja-tuzish/",
           "anchor": "biznes reja qoralamasi"
+        },
+        {
+          "token": "si",
+          "target": "/uz/suniy-intellekt/",
+          "anchor": "sun’iy intellekt haqida ma’lumot"
         }
       ]
     },
@@ -201,12 +213,17 @@
     },
     {
       "type": "linkp",
-      "text": "Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor; sinov har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak: bir oyga 300 ta javob, kuniga 50 tagacha, 20 000 so‘m, avtomatik to‘lovsiz. Kompaniyalar uchun — alohida AI-bot joriy etish: {tariffs}.",
+      "text": "Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor; sinov har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak: bir oyga 300 ta javob, kuniga 50 tagacha, 20 000 so‘m, avtomatik to‘lovsiz. AI paket taqdimotlarni o‘z ichiga olmaydi: .pptx uchun alohida {studio} bor. Kompaniyalar uchun — alohida AI-bot joriy etish: {tariffs}.",
       "links": [
         {
           "token": "tariffs",
           "target": "/uz/chat-bot-narxi/",
           "anchor": "biznes bot narxlari"
+        },
+        {
+          "token": "studio",
+          "target": "/uz/tariflar/",
+          "anchor": "Studio tariflari (taqdimot uchun)"
         }
       ]
     },

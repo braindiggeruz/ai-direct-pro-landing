@@ -1,0 +1,19 @@
+{
+  "tool": "get_serp_results",
+  "resultId": "9d652680-c648-4d70-a43c-d9e6d7f875a4",
+  "date": "2026-10-24",
+  "params": {"locationCode": 2860, "device": "mobile", "depth": 50},
+  "credits": {"whoami_before": 23172, "whoami_after": 23142, "spent": 30},
+  "keywords": [
+    {"keyword": "slayd ai", "languageCode": "uz", "volume_l3": 590, "gptbot_uz_in_top50": false,
+     "organic_top10_domains": ["chatslide.ai", "wonderslide.com", "powerpoint.cloud.microsoft", "canva.com", "slidesgo.com", "slides.bot", "beautiful.ai", "slidegen.net", "slide.com.ai", "smallppt.com"],
+     "serp_features": ["ai_overview", "app", "people_also_search"]},
+    {"keyword": "prezentatsiya ai", "languageCode": "uz", "volume_l3": 720, "gptbot_uz_in_top50": false,
+     "organic_top10_domains": ["chatslide.ai", "slidespilot.com", "presentations.ai", "ppt.ai", "microsoft.com", "workspace.google.com", "presentsimple.ai", "ppt.ai", "pixazo.ai", "piktochart.com"],
+     "uz_domains_in_top50": ["ai.mediadesign.uz (organic 24)", "gamma.app/uz (organic 23)", "livingslide.com/uz (organic 26)"],
+     "serp_features": ["ai_overview", "people_also_search"]},
+    {"keyword": "ии для презентаций", "languageCode": "ru", "volume_l3": 480, "gptbot_uz_in_top50": false,
+     "organic_top10_note": "RU listicles (express.ms, yudaevschool, tomoru, habr x2, slidepoint, productlab) + tools (invideo, slidespilot, kampus.ai, prezi)",
+     "serp_features": ["ai_overview", "app", "people_also_search"]}
+  ]
+}

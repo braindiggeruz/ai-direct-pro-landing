@@ -1,0 +1,13 @@
+exists before: /ru/gpt-vs-chatgpt-sravnenie/ -> /ru/blog/kak-oplatit-chatgpt-v-uzbekistane/ False
+exists before: /ru/gpt-vs-chatgpt-sravnenie/ -> /ru/blog/chatgpt-i-claude-v-uzbekistane/ False
+exists before: /ru/chto-takoe-gpt-i-kak-polzovatsya/ -> /ru/blog/chatgpt-i-claude-v-uzbekistane/ False
+exists before: /ru/gde-polzovatsya-gpt-besplatno/ -> /ru/blog/chatgpt-i-claude-v-uzbekistane/ False
+exists before: /ru/blog/chat-gpt-na-russkom/ -> /ru/blog/chatgpt-i-claude-v-uzbekistane/ False
+/ru/blog/chatgpt-i-claude-v-uzbekistane/	PR 0.00112 -> 0.00152 (+36.3%)	rank 232 -> 171
+/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/	PR 0.00125 -> 0.00133 (+6.2%)	rank 210 -> 201
+/ru/blog/chat-gpt-na-russkom/	PR 0.00324 -> 0.00322 (-0.6%)	rank 59 -> 61
+/ru/gpt-vs-chatgpt-sravnenie/	PR 0.00251 -> 0.00249 (-0.9%)	rank 88 -> 88
+/ru/chto-takoe-gpt-i-kak-polzovatsya/	PR 0.00259 -> 0.00258 (-0.5%)	rank 84 -> 84
+/ru/gde-polzovatsya-gpt-besplatno/	PR 0.00106 -> 0.00104 (-2.1%)	rank 244 -> 248
+/ru/gpt-chat/	PR 0.03018 -> 0.03016 (-0.0%)	rank 1 -> 1
+nodes 300 median PR 0.0016921779662684626

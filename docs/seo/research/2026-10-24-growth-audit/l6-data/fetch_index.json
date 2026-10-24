@@ -1,0 +1,540 @@
+[
+ {
+  "q": "q1",
+  "url": "https://chatgpt.com/fa-IR/download/",
+  "file": "a66591e87c01.html",
+  "status": 200,
+  "final_url": "https://chatgpt.com/fa-IR/download/",
+  "ttfb_s": 0.584,
+  "total_s": 0.747,
+  "transfer_bytes": 115033,
+  "html_bytes": 620908,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "link": "</cdn/assets/root-k2d5c7ya.css>; rel=preload; as=style, </cdn/assets/root-lelxp0l2.css#>; rel=preload; as=style, </cdn/assets/conversation-small-dsvvgcyq.css#>; rel=preload; as=style, </cdn/assets/global-modals-dxg9ukpk.css#>; rel=preload; as=style, </cdn/assets/adc16802-o9gz2uz3jmoui4k8.js>; rel=modulepreload",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q1",
+  "url": "https://skillbox.ru/media/code/kak-skachat-chatgpt-na-android/",
+  "file": "0e8f024e97a5.html",
+  "status": 200,
+  "final_url": "https://skillbox.ru/media/code/kak-skachat-chatgpt-na-android/",
+  "ttfb_s": 0.451,
+  "total_s": 0.768,
+  "transfer_bytes": 254949,
+  "html_bytes": 254949,
+  "headers": {
+   "Server": "QRATOR",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Cache-Control": "no-store, no-cache, must-revalidate",
+   "Last-Modified": "Tue, 14 Jul 2026 07:22:02 GMT"
+  }
+ },
+ {
+  "q": "q1",
+  "url": "https://chatgpt-chat-with-ai.softonic.ru/android",
+  "file": "8d9ea1b070b1.html",
+  "status": 200,
+  "final_url": "https://chatgpt-chat-with-ai.softonic.ru/android",
+  "ttfb_s": 0.417,
+  "total_s": 0.534,
+  "transfer_bytes": 68687,
+  "html_bytes": 386424,
+  "headers": {
+   "cache-control": "public,max-age=86400,stale-while-revalidate=600,stale-if-error=31536000",
+   "content-type": "text/html;charset=utf-8",
+   "content-encoding": "gzip",
+   "Age": "4403"
+  }
+ },
+ {
+  "q": "q1",
+  "url": "https://chatgpt.uptodown.com/android",
+  "file": "35a7cc73e643.html",
+  "status": 200,
+  "final_url": "https://chatgpt.uptodown.com/android",
+  "ttfb_s": 1.208,
+  "total_s": 1.238,
+  "transfer_bytes": 31202,
+  "html_bytes": 169097,
+  "headers": {
+   "content-type": "text/html;charset=UTF-8",
+   "cache-control": "max-age=14400, no-cache, public",
+   "x-robots-tag": "index,follow",
+   "content-encoding": "gzip",
+   "Age": "0"
+  }
+ },
+ {
+  "q": "q2",
+  "url": "https://chatgpt.uz/",
+  "file": "bb79513b3362.html",
+  "status": 200,
+  "final_url": "https://chatgpt.uz/",
+  "ttfb_s": 0.535,
+  "total_s": 0.535,
+  "transfer_bytes": 3558,
+  "html_bytes": 11996,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "s-maxage=31536000, stale-while-revalidate",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q2",
+  "url": "https://textie.ai/uz/chat-gpt",
+  "file": "50529dc0e97a.html",
+  "status": 200,
+  "final_url": "https://textie.ai/uz/chat-gpt",
+  "ttfb_s": 0.555,
+  "total_s": 0.62,
+  "transfer_bytes": 43773,
+  "html_bytes": 317189,
+  "headers": {
+   "Content-Type": "text/html",
+   "Server": "AmazonS3",
+   "Last-Modified": "Tue, 04 Aug 2026 18:51:57 GMT",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q2",
+  "url": "https://www.giti.ai/uz",
+  "file": "b1df9b6fc474.html",
+  "status": 200,
+  "final_url": "https://www.giti.ai/uz",
+  "ttfb_s": 0.921,
+  "total_s": 0.922,
+  "transfer_bytes": 22255,
+  "html_bytes": 350523,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Content-Encoding": "gzip",
+   "Cache-Control": "private, no-cache, no-store, max-age=0, must-revalidate"
+  }
+ },
+ {
+  "q": "q2",
+  "url": "https://chatgpt.uz/ai/",
+  "file": "a7080ed4656a.html",
+  "status": 200,
+  "final_url": "https://chatgpt.uz/ai/",
+  "ttfb_s": 0.726,
+  "total_s": 0.726,
+  "transfer_bytes": 8924,
+  "html_bytes": 42785,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "max-age=86400, private, must-revalidate",
+   "Last-Modified": "Sat, 08 Mar 2025 12:56:30 +0500 GMT",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q3",
+  "url": "https://salom-ai.uz/",
+  "file": "e1cd49c27e58.html",
+  "status": 200,
+  "final_url": "https://salom-ai.uz/",
+  "ttfb_s": 0.432,
+  "total_s": 0.433,
+  "transfer_bytes": 5683,
+  "html_bytes": 18078,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, must-revalidate",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q3",
+  "url": "https://uz.wikipedia.org/wiki/Sun%CA%BCiy_intellekt",
+  "file": "894e3d11be76.html",
+  "status": 200,
+  "final_url": "https://uz.wikipedia.org/wiki/Sun%CA%BCiy_intellekt",
+  "ttfb_s": 1.039,
+  "total_s": 1.318,
+  "transfer_bytes": 42442,
+  "html_bytes": 207840,
+  "headers": {
+   "server": "mw-web.eqiad.main-dccb7c848-d7xvv",
+   "last-modified": "Sat, 17 Oct 2026 21:34:06 GMT",
+   "content-type": "text/html; charset=UTF-8",
+   "content-encoding": "gzip",
+   "age": "0",
+   "cache-control": "private, s-maxage=0, max-age=0, must-revalidate, no-transform"
+  }
+ },
+ {
+  "q": "q3",
+  "url": "https://minjusttraining.uz/news/suniy-intellekt-va-uning-kundalik-hayotdagi-ahamiyati",
+  "file": "ffae73991900.html",
+  "status": 200,
+  "final_url": "https://minjusttraining.uz/news/suniy-intellekt-va-uning-kundalik-hayotdagi-ahamiyati",
+  "ttfb_s": 0.304,
+  "total_s": 0.304,
+  "transfer_bytes": 10333,
+  "html_bytes": 41524,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Cache-Control": "no-store, no-cache, must-revalidate",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q3",
+  "url": "https://mohirdev.uz/blog/SI-nima-SI-haqida-batafsil/",
+  "file": "936a6aa6d464.html",
+  "status": 200,
+  "final_url": "https://mohirdev.uz/blog/SI-nima-SI-haqida-batafsil/",
+  "ttfb_s": 0.382,
+  "total_s": 0.402,
+  "transfer_bytes": 46852,
+  "html_bytes": 254076,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "CF-Cache-Status": "DYNAMIC",
+   "Cache-Control": "public, max-age=0, must-revalidate",
+   "Link": "</llms.txt>; rel=\"service-doc\"; type=\"text/plain\", </.well-known/api-catalog>; rel=\"api-catalog\", </.well-known/webmcp.json>; rel=\"service-desc\",   </.well-known/mcp/server-card.json>; rel=\"service-desc\"",
+   "Server": "cloudflare",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q4",
+  "url": "https://ai.mitup.ru/chatgpt-free",
+  "file": "565a5fbc5178.html",
+  "status": 200,
+  "final_url": "https://ai.mitup.ru/chatgpt-free",
+  "ttfb_s": 0.355,
+  "total_s": 0.406,
+  "transfer_bytes": 22909,
+  "html_bytes": 94666,
+  "headers": {
+   "Server": "nginx/1.24.0 (Ubuntu)",
+   "Content-Type": "text/html; charset=utf-8",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q4",
+  "url": "https://deepai.org/chat/gpt-chat",
+  "file": "5e5d02be7383.html",
+  "status": 200,
+  "final_url": "https://deepai.org/chat/gpt-chat",
+  "ttfb_s": 0.314,
+  "total_s": 0.476,
+  "transfer_bytes": 178946,
+  "html_bytes": 707905,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Server": "nginx + Phusion Passenger(R)",
+   "Content-Encoding": "gzip",
+   "Age": "41202"
+  }
+ },
+ {
+  "q": "q4",
+  "url": "https://tochkagpt.ru/",
+  "file": "f5ba2f23e59d.html",
+  "status": 200,
+  "final_url": "https://tochkagpt.ru/",
+  "ttfb_s": 0.621,
+  "total_s": 0.621,
+  "transfer_bytes": 8701,
+  "html_bytes": 45122,
+  "headers": {
+   "Server": "nginx/1.18.0 (Ubuntu)",
+   "Content-Type": "text/html; charset=utf-8",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q4",
+  "url": "https://geekbot.ru/",
+  "file": "a6edd05381bd.html",
+  "status": 200,
+  "final_url": "https://geekbot.ru/",
+  "ttfb_s": 0.459,
+  "total_s": 0.46,
+  "transfer_bytes": 6575,
+  "html_bytes": 24877,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Cache-Control": "public, max-age=10800",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q5",
+  "url": "https://dcamp.io/telegram_bot",
+  "file": "e0fa90c41324.html",
+  "status": 200,
+  "final_url": "https://dcamp.io/telegram_bot",
+  "ttfb_s": 0.708,
+  "total_s": 0.835,
+  "transfer_bytes": 41825,
+  "html_bytes": 352969,
+  "headers": {
+   "content-type": "text/html; charset=UTF-8",
+   "last-modified": "Sat, 30 Mar 2024 07:22:17 GMT",
+   "content-encoding": "gzip"
+  }
+ },
+ {
+  "q": "q5",
+  "url": "https://yoqubov.uz/bloglar/telegram-botlar/132-pythonda-telegrambot-yaratish.html",
+  "file": "1d5dba8cabb5.html",
+  "status": 200,
+  "final_url": "https://yoqubov.uz/bloglar/telegram-botlar/132-pythonda-telegrambot-yaratish.html",
+  "ttfb_s": 0.782,
+  "total_s": 0.782,
+  "transfer_bytes": 9461,
+  "html_bytes": 45668,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "no-store, no-cache, must-revalidate",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q5",
+  "url": "https://soff.uz/service/telegram-bot-yaratish-7",
+  "file": "522dc8d8879c.html",
+  "status": 200,
+  "final_url": "https://soff.uz/service/telegram-bot-yaratish-7",
+  "ttfb_s": 0.33,
+  "total_s": 0.331,
+  "transfer_bytes": 24496,
+  "html_bytes": 161453,
+  "headers": {
+   "Server": "nginx/1.24.0 (Ubuntu)",
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=60, s-maxage=120, stale-while-revalidate=59",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q5",
+  "url": "https://sayt-yaratish-xizmati.uz/telegram-bot-yaratish",
+  "file": "7b1f8661e817.html",
+  "status": 200,
+  "final_url": "https://sayt-yaratish-xizmati.uz/telegram-bot-yaratish",
+  "ttfb_s": 0.633,
+  "total_s": 0.633,
+  "transfer_bytes": 6173,
+  "html_bytes": 18253,
+  "headers": {
+   "Server": "nginx",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q5",
+  "url": "https://alfalab.uz/uz/xizmatlar/telegram-bot-yaratish",
+  "file": "1ad7f818689b.html",
+  "status": 200,
+  "final_url": "https://alfalab.uz/uz/xizmatlar/telegram-bot-yaratish",
+  "ttfb_s": 1.56,
+  "total_s": 1.698,
+  "transfer_bytes": 47711,
+  "html_bytes": 211641,
+  "headers": {
+   "Age": "1478663",
+   "Cache-Control": "public, max-age=0, must-revalidate",
+   "Content-Encoding": "gzip",
+   "Content-Type": "text/html; charset=utf-8",
+   "Server": "Vercel"
+  }
+ },
+ {
+  "q": "q6",
+  "url": "https://oe.uz/razrabotka-botov-facebook-telegram/",
+  "file": "f11244eb9698.html",
+  "status": 200,
+  "final_url": "https://oe.uz/razrabotka-botov-facebook-telegram/",
+  "ttfb_s": 0.564,
+  "total_s": 0.564,
+  "transfer_bytes": 14052,
+  "html_bytes": 63346,
+  "headers": {
+   "Server": "nginx/1.18.0 (Ubuntu)",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Cache-Control": "no-store, no-cache, must-revalidate",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q6",
+  "url": "https://mediasolutions.uz/telegram-bot/",
+  "file": "3ba02345bd9d.html",
+  "status": 200,
+  "final_url": "https://mediasolutions.uz/telegram-bot/",
+  "ttfb_s": 1.193,
+  "total_s": 1.261,
+  "transfer_bytes": 42636,
+  "html_bytes": 200659,
+  "headers": {
+   "Server": "nginx-reuseport/1.21.1",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Link": "<https://mediasolutions.uz/?p=22>; rel=shortlink",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q6",
+  "url": "https://bothelp.io/ru/blog/luchshie-chat-boty-dlya-biznesa",
+  "file": "ef0951197bc3.html",
+  "status": 200,
+  "final_url": "https://bothelp.io/ru/blog/luchshie-chat-boty-dlya-biznesa",
+  "ttfb_s": 0.701,
+  "total_s": 0.701,
+  "transfer_bytes": 31424,
+  "html_bytes": 146142,
+  "headers": {
+   "Server": "Angie/1.12.2",
+   "Content-Type": "text/html; charset=UTF-8",
+   "Link": "<https://bothelp.io?p=10322>; rel=shortlink",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q6",
+  "url": "https://uzneo.uz/uslugi/telegram-bot-dlya-biznesa-tashkent",
+  "file": "6ae1aa25c016.html",
+  "status": 200,
+  "final_url": "https://uzneo.uz/uslugi/telegram-bot-dlya-biznesa-tashkent",
+  "ttfb_s": 0.153,
+  "total_s": 0.178,
+  "transfer_bytes": 73484,
+  "html_bytes": 388702,
+  "headers": {
+   "Server": "nginx/1.18.0 (Ubuntu)",
+   "Content-Type": "text/html; charset=utf-8",
+   "link": "</_next/static/media/095187fd2eb7a468-s.p.2bnqhhlne77zx.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/316b6682b406c2db.p.1_k7aq_c5drf2.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/5e4d537aaa9e154b.p.1ewykk74tw0il.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/a43a16b011ff1e5d-s.p.3tkh29uluqhlc.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", </_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\", <https://flagcdn.com/w20/ru.png>; rel=preload; as=\"image\", </splash.png>; rel=preload; as=\"image\"",
+   "Cache-Control": "private, no-cache, no-store, max-age=0, must-revalidate",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "q6",
+  "url": "https://alfalab.uz/services/telegram-bot",
+  "file": "611acfec2da6.html",
+  "status": 200,
+  "final_url": "https://alfalab.uz/services/telegram-bot",
+  "ttfb_s": 0.791,
+  "total_s": 0.918,
+  "transfer_bytes": 49736,
+  "html_bytes": 223416,
+  "headers": {
+   "Age": "1797838",
+   "Cache-Control": "public, max-age=0, must-revalidate",
+   "Content-Encoding": "gzip",
+   "Content-Type": "text/html; charset=utf-8",
+   "Server": "Vercel"
+  }
+ },
+ {
+  "q": "own",
+  "url": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "file": "d89ffe92e70d.html",
+  "status": 200,
+  "final_url": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "ttfb_s": 0.284,
+  "total_s": 0.285,
+  "transfer_bytes": 17426,
+  "html_bytes": 71374,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "own",
+  "url": "https://gptbot.uz/uz/suniy-intellekt/",
+  "file": "dd8beecf43ce.html",
+  "status": 200,
+  "final_url": "https://gptbot.uz/uz/suniy-intellekt/",
+  "ttfb_s": 0.28,
+  "total_s": 0.283,
+  "transfer_bytes": 16555,
+  "html_bytes": 63823,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "own",
+  "url": "https://gptbot.uz/ru/gpt-na-russkom/",
+  "file": "502f0fbced96.html",
+  "status": 200,
+  "final_url": "https://gptbot.uz/ru/gpt-na-russkom/",
+  "ttfb_s": 0.308,
+  "total_s": 0.308,
+  "transfer_bytes": 15915,
+  "html_bytes": 60159,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "own",
+  "url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+  "file": "55892ad4d161.html",
+  "status": 200,
+  "final_url": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
+  "ttfb_s": 0.282,
+  "total_s": 0.288,
+  "transfer_bytes": 25426,
+  "html_bytes": 94145,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ },
+ {
+  "q": "own",
+  "url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+  "file": "1a1cefb36a0a.html",
+  "status": 200,
+  "final_url": "https://gptbot.uz/ru/razrabotka-telegram-bota-tashkent/",
+  "ttfb_s": 0.319,
+  "total_s": 0.332,
+  "transfer_bytes": 42056,
+  "html_bytes": 210887,
+  "headers": {
+   "Content-Type": "text/html; charset=utf-8",
+   "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+   "Server": "cloudflare",
+   "cf-cache-status": "DYNAMIC",
+   "Content-Encoding": "gzip"
+  }
+ }
+]

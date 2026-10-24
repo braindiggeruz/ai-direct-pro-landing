@@ -8,12 +8,9 @@
   "secondaryKeywords": [
     "что означает GPT",
     "как работает GPT",
-    "расшифровка GPT",
     "языковая модель",
     "токены GPT",
-    "контекстное окно",
-    "Generative Pre-trained Transformer",
-    "GPT и ChatGPT разница"
+    "контекстное окно"
   ],
   "searchIntent": "informational",
   "h1": "Что такое GPT простыми словами и как он работает",
@@ -214,9 +211,10 @@
     },
     {
       "type": "linkp",
-      "text": "Подробное сопоставление терминов смотрите в материале {comparison}.",
+      "text": "Подробное сопоставление терминов смотрите в материале {comparison}. Как сами ChatGPT и Claude работают для пользователей из Узбекистана, разобрано в статье {claude}.",
       "links": [
-        { "token": "comparison", "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "GPT и ChatGPT: в чём разница" }
+        { "token": "comparison", "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "GPT и ChatGPT: в чём разница" },
+        { "token": "claude", "target": "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "anchor": "ChatGPT и Claude в Узбекистане" }
       ]
     },
     {

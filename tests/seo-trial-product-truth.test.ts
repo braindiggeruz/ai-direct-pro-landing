@@ -6,12 +6,19 @@ import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 const read = (file: string) => fs.readFileSync(file, 'utf8');
 const chatFiles = ['content/pages/ru/gpt-chat.json', 'content/pages/uz/gpt-uzbek-tilida.json'];
 const acquisitionFiles = [...chatFiles, 'content/pages/ru/gpt-na-russkom.json'];
-// The RU↔UZ translator pages (drafts, chatRole translator): the same chat and
+// The RU↔UZ translator pages (published 2026-10-24, chatRole translator): the same chat and
 // the same 3 lifetime trial replies, so the same disclosure; they make no
 // presentation claim, so the PPTX test below does not apply to them.
 const translatorFiles = ['content/pages/ru/russko-uzbekskiy-perevodchik.json', 'content/pages/uz/rus-ozbek-tarjimon.json'];
 const trialFiles = [...acquisitionFiles, ...translatorFiles, 'content/pages/uz/gpt-chat-qollanma.json',
-  'content/blog/uz/referat-va-mustaqil-ish.json', 'content/blog/uz/rezyume-tayyorlash.json'];
+  'content/blog/uz/referat-va-mustaqil-ish.json', 'content/blog/uz/rezyume-tayyorlash.json',
+  // Unprotected RU funnel pages that describe the free chat (growth backlog
+  // W1-01, 2026-10-24). chat-gpt-online leaves this list when its C23 301 ships.
+  'content/pages/ru/gde-polzovatsya-gpt-besplatno.json', 'content/pages/ru/gpt-chat-guide.json',
+  'content/pages/ru/promty-gpt-chatgpt-50-primerov.json', 'content/blog/ru/chat-gpt-na-russkom.json',
+  'content/blog/ru/chat-gpt-online.json',
+  // The UZ explainer that now states the trial terms next to its chat link (W1-02).
+  'content/pages/uz/suniy-intellekt.json'];
 
 test('chat acquisition copy and zero-price structured offers disclose the actual lifetime trial', () => {
   for (const file of [...acquisitionFiles, ...translatorFiles]) {
@@ -32,7 +39,7 @@ test('chat acquisition copy and zero-price structured offers disclose the actual
 test('web chat and its linked guides cannot republish daily/hourly or shared-IP trial terms', () => {
   for (const file of trialFiles) {
     const source = read(file);
-    assert.doesNotMatch(source, /kunlik va soatlik|kunlik,? soatlik|har kuni bepul xabar|kuniga 15|soatiga 5|дневной и часовой лимит|бесплатный дневной лимит|[Лл]имит считается по IP|[Bb]epul limit IP-manzil/iu, file);
+    assert.doesNotMatch(source, /kunlik va soatlik|kunlik,? soatlik|har kuni bepul xabar|kuniga 15|soatiga 5|дневной и часовой лимит|бесплатный дневной лимит|лимит сообщений в день|в рамках дневного лимита|[Бб]азов\S* (?:бесплатн\S* )?доступ|[Лл]имит считается по IP|[Bb]epul limit IP-manzil/iu, file);
     assert.match(source, /3 ta (?:bepul )?sinov|3 (?:бесплатных )?пробных/, file);
     assert.match(source, /yangilanmaydi|не обновляют|не обновляются/, file);
   }

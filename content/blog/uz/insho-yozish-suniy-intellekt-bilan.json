@@ -99,23 +99,36 @@
       ]
     },
     {
+      "type": "h3",
+      "id": "murakkab-reja-namunasi",
+      "text": "Murakkab reja namunasi: 3 ta mavzu"
+    },
+    {
       "type": "p",
-      "text": "Sodda reja faqat asosiy qismlarni ko‘rsatadi, murakkab rejada asosiy qism kichik bandlarga bo‘linadi. Qaysi biri kerakligini o‘qituvchi aytadi. Quyidagi namuna — tuzilma, tayyor matn emas:"
+      "text": "Sodda reja faqat asosiy qismlarni ko‘rsatadi, murakkab rejada asosiy qism kichik bandlarga bo‘linadi. Qaysi biri kerakligini o‘qituvchi aytadi. Quyidagi namunalar — tuzilma, tayyor matn emas:"
     },
     {
       "type": "table",
       "headers": [
-        "Reja turi",
-        "Namuna: «Ona tabiatni asraylik»"
+        "Mavzu",
+        "Sodda reja",
+        "Murakkab reja"
       ],
       "rows": [
         [
-          "Sodda reja",
-          "1. Kirish. 2. Tabiat — hayot manbai. 3. Xulosa."
+          "«Ona tabiatni asraylik»",
+          "1. Kirish. 2. Tabiat — hayot manbai. 3. Xulosa.",
+          "1. Kirish. 2. Asosiy qism: a) toza suv va havo; b) daraxt ekish; d) chiqindini kamaytirish. 3. Xulosa."
         ],
         [
-          "Murakkab reja",
-          "1. Kirish. 2. Asosiy qism: a) toza suv va havo; b) daraxt ekish; d) chiqindini kamaytirish. 3. Xulosa."
+          "«Kitob — bilim bulog‘i»",
+          "1. Kirish. 2. Kitob — inson hayotidagi bilim manbai. 3. Xulosa.",
+          "1. Kirish. 2. Asosiy qism: a) kitob — bilim va tajriba manbai; b) o‘qish odatini qanday shakllantirish mumkin; d) qog‘oz va elektron kitob. 3. Xulosa."
+        ],
+        [
+          "«Mening kelajakdagi kasbim»",
+          "1. Kirish. 2. Men tanlagan kasb va uning ahamiyati. 3. Xulosa.",
+          "1. Kirish. 2. Asosiy qism: a) kasbni tanlash sababi; b) kerakli bilim va ko‘nikmalar; d) kasbning jamiyatga foydasi. 3. Xulosa."
         ]
       ]
     },
@@ -264,6 +277,17 @@
           "Tahrir",
           "«Quyidagi matndagi takror so‘zlarni va zaif bog‘lovchilarni ko‘rsat, ma’noni o‘zgartirma: …»"
         ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "So‘rovni o‘zingiz tuzmoqchi bo‘lsangiz, rol, vazifa, kontekst, format va cheklov qanday yozilishi {formula} qo‘llanmasida misollar bilan ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "formula",
+          "target": "/uz/gpt-uzbek-tilida-ai-chat/",
+          "anchor": "o‘zbek tilida prompt yozish formulasi"
+        }
       ]
     },
     {
@@ -493,7 +517,7 @@
   "breadcrumbLabel": "Insho va esse yozish",
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-05",
+  "dateModified": "2026-10-24",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -508,6 +532,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-05T00:00:00.000Z",
+  "updatedAt": "2026-10-24T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

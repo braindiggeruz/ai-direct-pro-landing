@@ -192,6 +192,17 @@
     },
     {
       "type": "linkp",
+      "text": "Mavzuni toraytirishga misol: «Sun’iy intellekt» bitta ish uchun juda keng mavzu, shuning uchun uning bitta jihatini tanlang — turlari, tarixi yoki ta’limda qo‘llanishi. Boshlang‘ich tushuncha olish uchun {si} va asosiy sanalar jamlangan sahifani o‘qing, lekin ishda har bir sana va faktni birlamchi manbadan tekshiring.",
+      "links": [
+        {
+          "token": "si",
+          "target": "/uz/suniy-intellekt/",
+          "anchor": "sun’iy intellekt tarixi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Boshqa o‘quv vazifalari uchun shablonlar «{prompts}» sahifasida, o‘qishda AI’dan halol foydalanish qoidalari «{students}» maqolasida.",
       "links": [
         {

@@ -141,7 +141,16 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // trial terms and the independence clause. Body text, H1, links, dates and the
 // other eight pages are unchanged; og/twitter tags, the WebPage JSON-LD and the
 // Atom summary follow outside the gate.
-export const BASELINE = 'docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json';
+// The 2026-10-24-wave1 revision (owner order of 24.10: growth backlog wave 1
+// and the publication of the RU↔UZ translator pages) changes two contract
+// fields on one page: the homepage shell lists the two published translator
+// pages by H1 (internalLinks +2, body text by those two labels only; the HTML
+// is otherwise byte for byte the predecessor's). Wave 1 edits no protected
+// content file; the seven protected articles are byte-identical, and the two
+// chats differ only by the chat bundle's name (translator merge 1a773ee2).
+// BreadcrumbList names (W1-14), Clean-param (W1-12) and the llms/md
+// Cache-Control detach (W1-13) stay outside the gate; invisibleToGate lists them.
+export const BASELINE = 'docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

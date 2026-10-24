@@ -59,6 +59,19 @@ export const ALL_AI_USER_AGENTS = [
  */
 export const DISALLOWED_PATHS = ['/admin/', '/admin-tools/', '/api/'] as const;
 
+/**
+ * Yandex-only directive (growth audit 2026-10-24, W1-12): the Yandex indexer
+ * treats URLs that differ only in these tracking parameters as one URL, so its
+ * robot stops crawling parameterised duplicates (Meta ads carry utm, the chat's
+ * Telegram share button adds utm_source=telegram&utm_medium=share, Yandex
+ * appends ysclid). Inter-sectional: valid anywhere in the file, so it needs no
+ * `User-agent: Yandex` group (which would make Yandex ignore the `*` group).
+ * Google and Bing ignore the line. It does not touch what visitors send:
+ * src/shared/lead-attribution.ts still reads every one of these parameters.
+ */
+export const YANDEX_CLEAN_PARAM =
+  'Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&ysclid';
+
 function agentBlock(agents: readonly string[]): string {
   const disallow = DISALLOWED_PATHS.map((path) => `Disallow: ${path}`).join('\n');
   return agents
@@ -93,6 +106,9 @@ ${DISALLOWED_PATHS.map((path) => `Disallow: ${path}`).join('\n')}
 
 # Sitemap (canonical, indexable URLs only).
 Sitemap: ${siteUrl}/sitemap.xml
+
+# Yandex: strip tracking params (inter-sectional)
+${YANDEX_CLEAN_PARAM}
 
 # AI / LLM grounding manifest (https://llmstxt.org).
 # X-LLM-Grounding: ${siteUrl}/llms.txt

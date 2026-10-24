@@ -1,0 +1,90 @@
+== 1 | Один релиз сейчас: только незащищённые страницы, шаблоны и тесты; assertSeoProtection проходит с текущим BASELINE 2026-10-24-chat-snippets. Ожидание ≈5–29 кликов за 28 дней (0,3–1,8 % от 1 584).
+   W1-01 | Честность пробного доступа: убрать «базовый бесплатный доступ» на трёх RU-страницах и ответить на «G || ≈0 (метод L2-03: ≈60 показов × (2 % − 1,7 %) = 0…+
+   W1-02 | /uz/suniy-intellekt/: ответить на все интенты «sun’iy intellekt» (nima, turlari, tarixi, xizmatlar)  || ожид. ≈1–6 за первые 28 дней (K = 0,04 × диапазон 
+   W1-03 | GPT/ChatGPT: ответить на «как расшифровывается ChatGPT» и развести sravnenie и chto-takoe (пара C46) || ожид. ≈2–6 (50 % от L2-01 +4…+11; ≈690 показов × (
+   W1-04 | RU: пять контекстных ссылок на гайд по оплате и статью «ChatGPT и Claude» || ожид. ≈1–4 (10–20 % потолка L5: оплата +4…+24, Cla
+   W1-05 | Студия презентаций: контекстные ссылки с незащищённых B2C-страниц (без CGO) || ожид. 0–2. Спрос по ключам A5/C40 не измерен; за 3
+   W1-06 | UZ: три контекстные ссылки с незащищённых статей (Direct, A-4, tushuntirish/ariza) || ожид. ≈0–2 (10–20 % потолка L5 ≈+7). Уверенность н
+   W1-07 | «Prompt nima» на узбекском гайде по промптам (A-4) || ожид. ≈0–1 за первые 28 дней (K = 0,04 × L3-07 2…2
+   W1-08 | Insho: образцы «murakkab reja» на три темы || ожид. ≈0–2 (50 % от L2-02 +1…+3). Уверенность сред
+   W1-09 | RU-маркетинг: ссылка на спицу «стоимость SMM» и пара ссылок «лид ↔ CPL» || ожид. ≈1–3 (10–20 % потолка L5 ≈+16). Почти все по
+   W1-10 | Анкор H-3: убрать чужую фразу «Chat GPT на русском» из ссылки zakazat-telegram-bota || 0 — гигиена интентов.
+   W1-11 | Тест-ограждение: анкор не равен фразе из mustNotTarget цели || 0 — защита от регресса.
+   W1-12 | robots.txt: Clean-param для Яндекса (utm/yclid/gclid/fbclid) || Для Яндекса не оценить без Вебмастера (O-02). Для 
+   W1-13 | Техгигиена: /?lang=ru одним шагом, Cache-Control у llms/md, бренд в title 404 || 0 — гигиена.
+   W1-14 | BreadcrumbList: свойство name и без самоссылки на /uz/ || 0 — только подпись в GSC.
+   W1-15 | Повторная подача /uz/blog/slayd-tayyorlash/ (Crawled – not indexed) и IndexNow для всех правленых UR || ожид. ≈0–2 за 28 дней после индексации (K = 0,04 ×
+== 2 | Новые страницы и защищённые ревизии в ноябрьских окнах: R-S1b после чтения R-S1 (≈08.11), ревизия «/» с тремя новыми UZ-гайдами (≈08–14.11, tabrik до 15.11), R-S2 гайда по скачиванию (16.11). Ожидание
+   W2-01 | Ревизия R-S1b: перекрёстные ссылки «оплата ↔ Claude», promptlar → ariza и анкор H-5 | PROT| ожид. ≈1–3; потолок общий с W1-04, складывать нель
+   W2-02 | Ревизия R-S2 гайда по скачиванию: ochish/yuklash/tortish/skachat, проверенная справка о приложении,  | PROT| ожид. ≈10–30. L2-04: 50 % диапазона +5…+35 (≈3–18)
+   W2-03 | Ревизия «/» + новый гайд «Tavsifnoma namunasi» | PROT| ожид. ≈0–3 за первые 28 дней (K = 0,04 × L3-03 8…7
+   W2-04 | Новый гайд «Rasmiy xat yozish» (в той же ревизии «/») | PROT| ожид. ≈0–2 (K = 0,04 × L3-09 13…36). Уверенность н
+   W2-05 | Новый гайд «Tabrik yozish» к декабрьскому пику (в той же ревизии «/», не позже 15.11) | PROT| ожид. ≈0–4 (K = 0,04 × L3-08 13…109; верх — декабр
+   W2-06 | UZ-хаб Telegram: H1 с «yaratish» и блок «сам или на заказ» (в той же ревизии «/») | PROT| ожид. ≈0–1 (L6-06 даёт +2…+5 только при входе в то
+   W2-07 | llms-full.txt как надмножество llms.txt || 0 кликов GSC; влияние на цитирование AI не измерен
+== 3 | После чтений обоих чатов (≈21–25.11) и длинные проекты: вернуть «chatgpt kirish uzbek tilida» UZ-чату, исполнить C23, поставить чат на /ru/gpt-na-russkom/, переводчик EN↔UZ, скорость. Ожидание ≈22–83 
+   W3-01 | Ревизия гайда по входу: вернуть «chatgpt kirish uzbek tilida» UZ-чату, title/description под свой ло | PROT| ожид. ≈12–30: L1-01 p ≈ 0,5 × (+22…+50) (маршрут у
+   W3-02 | Исполнить C23: 301 /ru/blog/chat-gpt-online/ → /ru/gpt-chat/ и вычистить анкоры H-1, H-2, H-4 | PROT| ожид. ≈0, диапазон −14…+15 (L2-06). Исполнение C23
+   W3-03 | RU-чат: ссылки на гайд по оплате и «ChatGPT и Claude» (в ревизии W3-02) | PROT| ожид. ≈0–3; потолок общий с W1-04 и W2-01. Уверенн
+   W3-04 | UZ-чат: ссылки на kurs ishi, ariza/tushuntirish xati и biznes reja | PROT| Не измерено. Ожидание ≈2–6 при допущении, что K га
+   W3-05 | /ru/gpt-na-russkom/: поставить на страницу сам чат и точную фразу «чат ГПТ на русском» | PROT| ожид. ≈1–4 (p ≈ 0,25 выйти на поз. 6–8 × L6-01 +6…
+   W3-06 | Пара страниц переводчика EN↔UZ на шаблоне переводчика (роль translator_en) | PROT| ожид. ≈4–20 за первые 28 дней (K = 0,04 × L3-01 98
+   W3-07 | LCP чатов: убрать второй H1-кандидат, который рисует React | PROT| Не оценить без полевых CWV.
+   W3-08 | Облегчить HTML: инлайн-аналитику в один кэшируемый файл, B2B-формы — отложенно || Не оценить без полевых CWV.
+   W3-09 | Генератор примеров по математике для 1–4 классов (страница-инструмент студийного типа) || ожид. ≈3–19 (K = 0,04 × L3-06 82…468), сезонно, пи
+   W3-10 | Следующие языковые пары TR/KO/AR↔UZ | PROT| ожид. ≈0–1 (K = 0,04 × L3-10 8…22). Уверенность ни
+== owner_only
+   O-01. GSC: Request indexing для /uz/blog/slayd-tayyorlash/ и удалить устаревший sitemap-new.xml
+   O-02. Яндекс.Вебмастер: подтвердить сайт, sitemap, регион «Ташкент/Узбекистан», сверить «Страницы в поиске» с 300 URL
+   O-03. Ключ Google API для PageSpeed Insights и CrUX (или выгрузка GSC → Core Web Vitals)
+   O-04. Фото-решатель задач: включить STUDIO_PHOTO и перенацелить черновик rasmdan-yechim на «misollar yechish»
+   O-05. Отдельная страница «Obyektivka (ma’lumotnoma) namunasi»
+   O-06. Видео: 4 скринкаста и YouTube-канал GPTBot.uz
+   O-07. Опубликовать кейсы Deutschexperte и Haier Shop про Telegram-ботов
+   O-08. Реальные оценки пользователей в чате → aggregateRating у SoftwareApplication
+   O-09. Гейты публикации переводчиков: слепая проверка носителем ≥4/5 и решение по бесплатной квоте (A–D)
+== rejected
+   Новые title/description и правки тела /ru/gpt-chat/ и /uz/gpt-uzbek-tilida/ сейчас
+   Перестановка hreflang пар site-chat и Telegram-хабов (L4-10)
+   «в Ташкенте» в title /ru/chat-bot-dlya-biznesa/ и новые ссылки с неё (L6-05 п.3)
+   Ссылки на B2B-ниши yurista и dostavki-edy, дополнение хаба ai-bot-dlya-nishi (L5 W1-06/W1-07)
+   Удалить «не по теме» ссылки sayt/marketing/SMM с гайда по скачиванию (опция L5)
+   Ссылки на CGO, GCB, блоги про AI-менеджера, Payme/Click, chat-bot-dlya-sayta, /uz/gpt-bot-biznes-uchun/
+   Правки «/» ради глубины и замена B2B-футера на B2C-страницах (L5 §7)
+   Страницы под другие ИИ-бренды, генерацию картинок/видео/голоса, банки тестов, архивы, словари, maktub/xulosa (L3)
+   Новые B2B-страницы и RU-страницы «нейросеть для X» (L3, L6)
+   Приёмы конкурентов: «rasmiy sayti», GPT-5/6 в title, AggregateRating без отзывов, каталоги APK-клонов (L6 §7)
+   Упоминать перевод в режимах /ru/gpt-na-russkom/ до гейта G5 (часть L6-01)
+   Отдельный ранний релиз L1-02 (title гайда по входу)
+   Новые школьные и документные UZ-страницы сверх трёх из волны 2 до 8-недельного чтения (≈01.12)
+== verdicts
+   W1-01 ok | I could not refute this item. The evidence checks out and the action is honest. But the edit list is incomplete: it skips the most false sentence on the page, and the test change as written will fail.  What I checked: 1) Search Console, free call, 2026-09-24..
+      FIX: Keep everything in the item and widen it as follows. 1) gde-polzovatsya-gpt-besplatno.json: - :36 replace «регистрация не нужна, есть дневной и часовой лимит» with «регистрация не нужна; бесплатно — 3 пробных ответа всего, они не обновляются, затем AI-пакет». - :31 heroTrust: replace «Базовый доступ
+   W1-02 ok | Not refuted: every figure re-pulls exactly. Four factual defects in the spec, plus an inflated estimate, must be fixed before implementation. Report: F:\Claude\gptbot-snippets-translator-20261024\docs\seo\research\2026-10-24-growth-audit\verify-W1-02.md (SERP 
+      FIX: content/pages/uz/suniy-intellekt.json: (1) Change the apostrophes in primaryKeyword and secondaryKeywords to U+2019. Add «suniy intellekt nima», «suniy intellekt turlari», «sun’iy intellekt haqida ma’lumot», «сунъий интеллект нима». (2) title «Sun’iy intellekt nima: turlari, tarixi, o‘zbekcha misoll
+   W1-03 ok | Не опровергнуто: доказательства держатся, но к пункту есть поправки. Перепроверка через бесплатные вызовы GSC, окно 2026-09-24..10-21: - sravnenie, запросы с «расшифр»: 509 показов / 2 клика, поз. 8,3 (ee576598). Вместе с «аббревиатура»: 538 / 4. - ChatGPT-вар
+      FIX: 1) content/pages/ru/gpt-vs-chatgpt-sravnenie.json, heroSubtitle → «Короткий ответ: GPT расшифровывается как Generative Pre-trained Transformer — это технология. ChatGPT = Chat + GPT: чат-сервис OpenAI, где с моделями GPT общаются в диалоге.» Русскую фразу «генеративный предварительно обученный транс
+   W1-04 ok | Not refuted, but the impact estimate is overstated and one evidence sentence is wrong. Full report: F:\Claude\gptbot-snippets-translator-20261024\docs\seo\research\2026-10-24-growth-audit\verify-W1-04.md.  WHAT HOLDS - Target numbers match exactly (GSC a15b616
+      FIX: 1. Insert W1-01…W1-05 verbatim from l5-data/l5_link_plan.json, in the same pass as backlog W1-01, W1-03 and W1-05:    - sravnenie: new linkp right after the paragraph under the H2 with id "dostup" (indexes shift after W1-03). It holds the payment link and the Claude link.    - chto-takoe: append the
+   W1-05 REFUTED | I re-pulled every number and they match. The inbound counts from my own crawl of dist/ (301 pages) are 2 for /ru/prezentatsiya-ai/, 5 for /uz/taqdimot-ai/ and 2 for /uz/tariflar/, at depths 2, 2 and 3. The RU chat has 190 inbound links, but only 29 of them com
+      FIX: Reclassify W1-05 as UX and honesty hygiene, not SEO growth. Do it in the same file passes as the other items, about 20 minutes. 1) content/pages/ru/tarify-ai-chat.json, the p block after the h2 «Studio: отдельные тарифы презентаций». Turn it into a linkp. Replace the raw «/uz/tariflar/» with {studio
+   W1-06 ok | Not refuted, but two corrections are needed. I re-checked everything myself: free GSC calls with window 2026-09-24..10-21, the dist/ build, and a live GET of the three source pages. Report: F:\Claude\gptbot-snippets-translator-20261024\docs\seo\research\2026-1
+      FIX: Wave 1, protected=false, effort S, risk low. (a) content/blog/uz/target-reklama-nima.json: add a new linkp after body[30], before the closing linkp body[31]. Use this rewritten text, not L5's: «Agar e’lon Direct’ga yozishga chaqirsa, javob tezligi ham natijaga ta’sir qiladi — bu haqda {direct} maqol
+   W1-07 REFUTED | Refuted. The "gap" the item is built on does not exist. A-4 (/uz/gpt-uzbek-tilida-ai-chat/) already carries everything the item proposes to add: - H2 «Prompt nima va nega muhim?» (id prompt-nima-va-nega-muhim) with a 3-sentence definition (bodyBlocks[18–19]). 
+      FIX: Drop W1-07 as a content change. - Do NOT add the H2 «Prompt nima?» or the FAQ «Prompt nima va u nima uchun kerak?». They duplicate bodyBlocks[18–19], bodyBlocks[23–25] and faq[6] in content/pages/uz/gpt-uzbek-tilida-ai-chat.json. - Optional bookkeeping, only if A-4 is already being edited in the sam
+   W1-08 ok | I re-pulled the GSC numbers for /uz/blog/insho-yozish-suniy-intellekt-bilan/ (2026-09-24..10-21, resultId fea968e2) and they match exactly: «murakkab reja namuna» 91 impressions, 1 click, position 7.8; «…namunasi» 7 impressions, position 8.3; «insho yozib ber»
+      FIX: File content/blog/uz/insho-yozish-suniy-intellekt-bilan.json: (1) Insert {"type":"h3","text":"Murakkab reja namunasi: 3 ta mavzu"} BEFORE the paragraph «Sodda reja faqat…», not between it and the table. In that paragraph change «Quyidagi namuna — tuzilma, tayyor matn emas:» to «Quyidagi namunalar — 
+   W1-09 REFUTED | The numbers match GSC. What fails is the impact estimate and the verbatim action. Report: F:\Claude\gptbot-snippets-translator-20261024\docs\seo\research\2026-10-24-growth-audit\verify-W1-09.md. Raw GSC rows: verify-data\W1-09_gsc.json.  (1) Evidence checks ou
+      FIX: Do not insert W1-08. Keep the existing hub→skolko-stoit card. If a contextual link is wanted for UX, do not repeat the hub's own prices. Example: «Как сравнивать сметы разных подрядчиков и что прислать для расчёта — в статье {insta}» after bodyBlocks[39] (section «Как сравнить SMM-пакеты»), not afte
+   W1-10 ok | The evidence holds and matches. In content/blog/ru/zakazat-telegram-bota.json, internalLinks[7] is {target:/ru/blog/chat-gpt-na-russkom/, anchor:"Chat GPT на русском"}. The dist HTML renders it as an article-related-link card with that text, and a live GET (20
+      FIX: As proposed: in content/blog/ru/zakazat-telegram-bota.json, change internalLinks[7].anchor from "Chat GPT на русском" to "Как пользоваться AI-чатом на русском". Keep the target /ru/blog/chat-gpt-na-russkom/ unchanged. Leave internalLinks[6] and body[34] (H-4) for W3-02. Do not bump dateModified, sin
+   W1-11 ok | The gap is real and the violations are live in prod. Not refuted, but the spec needs corrections.  (1) What the current tests check: - tests/seo-content-guards.test.ts:48-80 loops over pageFiles only and compares the anchor with the SOURCE's own primaryKeyword
+      FIX: Create tests/seo-anchor-intent.test.ts.  1. Build the mustNotTarget map per target URL as the union of both sides of every intent-manifest pair, plus architectureDecisions[] entries that have url/counterpart and mustNotTarget (today A8, translator pages, 12 phrases). 2. For every internalLinks[] ite
+   W1-12 ok | I re-pulled the evidence and it holds. GA4 properties/540129731, source/medium, 2026-09-26..10-23: Yandex rows add up to 589 sessions (yandex.uz 434, yandex.ru 101, yandex/organic 15, yandex.com.tr 13, ya.ru 9, yandex.kz 9, yandex.by 8). google/organic is 1251
+      FIX: In buildRobotsTxt() (src/shared/robots-policy.ts:69), add one line after the 'Sitemap:' line, preceded by the comment '# Yandex: strip tracking params (inter-sectional)': 'Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&ysclid'. Adding ysclid is optional but h
+   W1-13 ok | Not refuted: all three evidence facts reproduce. Part (a) of the action targets a file that cannot fix it and needs correcting. Write-up: F:\Claude\gptbot-snippets-translator-20261024\docs\seo\research\2026-10-24-growth-audit\verify-W1-13.md.  (a) The two-hop 
+      FIX: (b) scripts/generate-robots.ts: add headers.push('  ! Cache-Control'); before the Cache-Control line in the /llms.txt (line 288), /llms-full.txt (291) and /*.md (306) blocks. After build:production, check live that each response sends exactly one Cache-Control value.  (c) public/404.html:8: change t
+   W1-14 ok | The evidence holds. Re-scanning dist (the d54d5b61 prod build) with verify-data/W1-14_bc_scan.py: of 300 indexable pages, 299 have a BreadcrumbList and none of the 299 has a top-level name. Only / has no BreadcrumbList. There are no duplicate lists, and the la
+      FIX: 1) /uz/, now (the page is not protected): remove "BreadcrumbList" from schemaTypes in content/pages/uz/hub.json:430, with no special case in prerender.ts. /uz/ is not a cluster hub (it has no Service schema), so tests/seo-cluster-quality.test.ts:300 does not apply. 2) Change scripts/jsonld-helpers.t
+   W1-15 REFUTED | The facts in the item check out, but the action cannot produce the result claimed for it. Facts re-pulled 2026-10-24: - inspect_urls: "Crawled - currently not indexed", lastCrawl 2026-10-08T02:01Z, fetch SUCCESSFUL, canonical is self. - demand-policy.json:156-
+      FIX: Drop W1-15 as a separate item. - Keep "IndexNow for changed URLs only" inside the post-deploy step (BACKLOG.md:208), run through F:/Claude/gptbot-tools/indexnow_list.py with an explicit list. Do not run indexnow-ping.ts with the full sitemap. - Google, where the page is missing:   - (a) Owner O-01, 

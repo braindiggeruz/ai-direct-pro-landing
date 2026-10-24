@@ -1,0 +1,33 @@
+# GSC get_search_console_performance, project 7534113b-f748-4f98-ac39-9e3782d3d9e7, sc-domain:gptbot.uz
+# dimensions=['page'], dateRange=last_28_days (2026-09-24..2026-10-21), no country filter, minImpressions 100, rowLimit 1000
+# resultId 887e609d-e5c2-4295-9443-001e65d4c8e6, rowCount 29, hasMore false. Transcribed verbatim (host prefix stripped).
+page	clicks	impressions	ctr	position
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	557	23438	0.0238	4.7
+/uz/gpt-uzbek-tilida/	489	74002	0.0066	6.7
+/ru/gpt-chat/	280	94001	0.003	6.9
+/uz/blog/chatgptga-qanday-kirish-mumkin/	50	11707	0.0043	7
+/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/	45	745	0.0604	4.5
+/ru/blog/chatgpt-i-claude-v-uzbekistane/	38	958	0.0397	4.1
+/ru/blog/chat-gpt-online/	20	1966	0.0102	6.4
+/uz/blog/chatgpt-uzbek-tilida-promptlar/	16	857	0.0187	6.7
+/ru/gpt-vs-chatgpt-sravnenie/	12	2334	0.0051	7
+/	6	320	0.0188	6.6
+/ru/gde-polzovatsya-gpt-besplatno/	6	308	0.0195	9.4
+/ru/promty-gpt-chatgpt-50-primerov/	3	214	0.014	8.4
+/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/	2	125	0.016	7.8
+/ru/razrabotka-saytov-tashkent/	2	324	0.0062	35
+/uz/blog/target-reklama-nima/	2	185	0.0108	6.8
+/ru/blog/chat-bot-dlya-sayta/	1	174	0.0057	75.7
+/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/	1	333	0.003	8.6
+/ru/blog/chto-takoe-lid-v-marketinge/	1	376	0.0027	19.9
+/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/	1	226	0.0044	9.5
+/ru/blog/telegram-bot-s-oplatoy-payme-click/	1	105	0.0095	7.3
+/ru/seo-prodvizhenie-saytov-tashkent/	1	500	0.002	26.2
+/ru/smm-prodvizhenie-tashkent/	1	112	0.0089	24.7
+/uz/blog/insho-yozish-suniy-intellekt-bilan/	1	309	0.0032	6.8
+/uz/blog/referat-va-mustaqil-ish/	1	100	0.01	6.5
+/ru/blog/chat-gpt-na-russkom/	0	517	0	7.7
+/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/	0	100	0	16.2
+/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/	0	101	0	9
+/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	391	0	8.6
+/ru/instagram-direct-bot/	0	115	0	9.7

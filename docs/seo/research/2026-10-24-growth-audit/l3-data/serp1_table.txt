@@ -1,0 +1,210 @@
+===  english uzbek translator True ru desktop
+  ai_overview r1 oNone |  | 
+  organic r2 o1 | https://translate.yandex.ru/translator/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0 | Переводчик с английского на узбекский и словарь онлайн
+  organic r3 o2 | https://play.google.com/store/apps/details?id=com.translator.uz&hl=bs | English - Uzbek Translator - Aplikacije na Google Playu
+  organic r4 o3 | https://imtranslator.net/translation/english-united-kingdom/to-uzbek/translation/ | English United Kingdom - Uzbek Translation
+  organic r5 o4 | https://translate.google.com/?hl=ru&sl=es&tl=en&op=translate | Переводчик
+  organic r6 o5 | https://translation2.paralink.com/Uzbek-English-Translation/ | Uzbek - English Translation
+  organic r7 o6 | https://translatiz.com/translation/english-to-uzbek | FREE English to Uzbek translation online for Free
+  organic r8 o7 | https://play.google.com/store/apps/details?id=ai.translator.english_uzbek&hl=af | English-Uzbek translator
+  organic r9 o8 | https://translate.yandex.com/uz/dictionary/Ingliz-Rus/translation | Translation – ingliz tilidan rus tiliga tarjimasi
+  organic r10 o9 | https://www.getmerlin.in/ai-translate/english-to-uzbek | English to Uzbek Translator
+  related_sear r11 oNone |  | 
+  organic r12 o10 | https://glosbe.com/en/uz/Translate | Translation of "Translate" into Uzbek
+  organic r13 o11 | https://play.google.com/store/apps/details?id=com.raincontinues.transenuz | Uzbek English Translator - Apps on Google Play
+  organic r14 o12 | https://translate.google.com/?hl=bn | Google Translate
+  organic r15 o13 | https://play.google.com/store/apps/details?id=com.translator.uz&hl=ne | English - Uzbek Translator - Google Play मा एपहरू
+  organic r16 o14 | https://translate.google.com/?hl=ru&sl=ru&tl=en&tex | Переводчик
+  organic r17 o15 | https://play.google.com/store/apps/details?id=com.translator.uz&hl=is | English - Uzbek Translator – Leikir á Google Play
+  organic r18 o16 | https://imtranslator.net/translation/uzbek/translation/ | Uzbek - English Translation
+  organic r19 o17 | https://www.all-translation.com/translation/uzbek/ | Free English to Uzbek translation
+  organic r20 o18 | https://play.google.com/store/apps/details?id=com.translate_uz_en&hl=bs | Uzbek - English Translator - Aplikacije na Google Playu
+===  ingliz uzbek tarjimon True ru desktop
+  organic r1 o1 | https://translate.google.com/?hl=uz&sl=en&tl=uz&op=translate | Google Tarjima
+  ai_overview r2 oNone |  | 
+  organic r3 o2 | https://translate.google.co.uz/ | Google Tarjima
+  organic r4 o3 | https://play.google.com/store/apps/details?id=com.sourcecodetrans.uzbekenglish&hl=uz | O'zbek Ingliz Tarjimon
+  organic r5 o4 | https://translate.yandex.com/uz/translator/Ingliz-O'zbek | Yandex Tarjimon: ingliz tilidan o'zbek tiliga tarjimon va onlayn ...
+  organic r6 o5 | https://verbly.uz/tools/translate | Ingliz-o'zbek tarjimon — bepul onlayn tarjima (Eng ↔ Uzb)
+  organic r7 o6 | https://lingvanex.com/translation/ozbekcha-ingliz | O'zbek tilidan Ingliz ga tarjimon – tez va bepul onlayn
+  organic r8 o7 | https://play.google.com/store/apps/details?id=com.jstranslateapp.uzbekenglish&hl=ru | Приложения в Google Play – Translate English to Uzbek
+  organic r9 o8 | https://translate.yandex.uz/ | Yandex Tarjimon: Ingliz, rus, nemis, fransuz, ukrain va boshqa ...
+  organic r10 o9 | https://play.google.com/store/apps/details?id=com.amaltranslator.uzbekenglish&hl=uz | Inglizcha O'zbekcha Tarjimon
+  related_sear r11 oNone |  | 
+  organic r12 o10 | https://www.youtube.com/watch?v=0Kq3ZPwjYjs | Ingliz tilini o`rganish - eng oson tarjima qilish usuli (9-dars)
+  organic r13 o11 | https://translate.yandex.com/uz/dictionary/Ingliz-Rus/translation | Translation – ingliz tilidan rus tiliga tarjimasi
+  organic r14 o12 | https://translate.google.co.uz/?hl=ru&tab=rT&sl=uz&tl=en&op=translate | Переводчик
+  organic r15 o13 | https://opentran.net/uz/ingliz-ozbek-tarjima | Ingliz - O'zbek tarjimon
+  organic r16 o14 | https://www.translate.com/english-uzbek | English to Uzbek Translation
+  organic r17 o15 | https://play.google.com/store/apps/details?id=com.linguaapps.translator.english.uz&hl=ru | O'zbek Ingliz Tarjimon
+  organic r18 o16 | https://glosbe.com/ru/uz/%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9 | Translation of "английский" into Uzbek
+  organic r19 o17 | https://www.youtube.com/watch?v=kE5qrOoJTNA | English Uzbek Translator
+  organic r20 o18 | https://translate.yandex.com/uz/ocr | Fotosuratdagi matnni internet orqali ingliz tilidan boshqa ...
+===  obyektivka namuna True ru desktop
+  images r1 oNone |  | obyektivka-namuna.docx
+  organic r2 o1 | https://tez-hujjat.uz/gen/obyektivka | Obyektivka (Ma'lumotnoma) - Tez Hujjat
+  organic r3 o2 | https://resum.uz/oz/obyektivka/ | Объективка намунаси 2026 - тўлдириш қоидаси ва PDF
+  organic r4 o3 | https://v1.obyektivka.uz/ | Obyektivka.uz - Tez va oson obyektivka yaratish
+  organic r5 o4 | https://www.slideshare.net/slideshow/obyektivkanamunadocx/261673897 | obyektivka-namuna.docx
+  ai_overview r6 oNone |  | 
+  organic r7 o5 | https://tsuos.uz/talabalar-uchun-ishga-joylashishga-kerak-boladigan-hujjatdan-namuna/ | TALABALAR UCHUN ISHGA JOYLASHISHGA KERAK BO ...
+  organic r8 o6 | https://urdu.uz/user_files/user_45/Rus%20%D0%AD%D0%B3%D0%B0%D0%BC%D0%B1%D0%B5%D1%80%D0%B4% | Объективка
+  organic r9 o7 | https://soff.uz/product/malumotlar-bazasi-obyektivka-namuna-obyektivka-namunalari-ishga-ki | Ishga kirishda kerak bo'ladigan obyektivka shakli Ma' ...
+  organic r10 o8 | https://obyektivkalar.uz/ | Ma'lumotnoma || Объективка
+  related_sear r11 oNone |  | 
+  organic r12 o9 | https://www.scribd.com/document/878934751/Namuna-Grant-Uchun-Talabalarga-Obyektivka-Fotoal | Namuna Grant Uchun Talabalarga Obyektivka+Fotoalbom
+  organic r13 o10 | https://www.pinterest.com/pin/rezyume-namuna-rezyume-uzbek-obyektivka-cvboxuz-in-2024--876 | Rezyume namuna, Rezyume uzbek, obyektivka (cvbox.uz)
+  organic r14 o11 | https://bekabadcement.uz/admin/adminfiles/yakovlev_bio.pdf | ОБЪЕКТИВКА
+  organic r15 o12 | https://www.scribd.com/document/921640134/Obyektivka-namunasi | Obyektivka Namunasi | PDF
+  organic r16 o13 | https://www.youtube.com/shorts/BPMzNV5u3BY | OBYEKTIVKA TAYYORLASH
+  organic r17 o14 | https://kursishlari.uz/product/mehnat-obyektivka-namuna | Obyektivka namuna
+  organic r18 o15 | https://uzoffice.uz/hujjat-namunalari/cv?culture=uz-Cyrl-UZ | Маълумотнома (объективка) намунаси — бўш шаблон ...
+  organic r19 o16 | https://edu.sudya.uz/media/templates/obyektivka-namuna.doc | obyektivka-namuna.doc
+  organic r20 o17 | https://soff.uz/search-page?keyword=(obyektivka) | “(obyektivka)”
+===  tavsifnoma namuna True ru desktop
+  images r1 oNone |  | Tavsifnoma
+  organic r2 o1 | https://oriftolib.uz/amaliyotchi-talaba-uchun-tavsifnoma/ | Amaliyotchi talaba uchun tavsifnoma
+  organic r3 o2 | https://www.facebook.com/manaviyat.uz/videos/davlat-tilida-ish-yuritish-qoidalaritavsifnom | Davlat tilida ish yuritish qoidalari Tavsifnoma va tavsiyanoma ...
+  organic r4 o3 | https://ro.scribd.com/document/737322541/Tavsifnoma-Namunali-Oquvchi-Uchun | Tavsifnoma Namunali Oquvchi Uchun | PDF
+  organic r5 o4 | https://kursishlari.uz/product/pedagogika-oqituvchilarga-tavsifnoma-namunasi | O'qituvchilarga tavsifnoma namunasi
+  organic r6 o5 | https://uzoffice.uz/hujjat-namunalari/tavsifnoma | Tavsifnoma namunasi — bo'sh shablon va to'ldirilgan ...
+  organic r7 o6 | https://www.scribd.com/document/821842563/Tavsifnoma | Tavsifnoma | PDF
+  organic r8 o7 | https://www.scribd.com/document/894916843/Copy-Tavsifnoma-Uzb-1 | Copy Tavsifnoma Uzb 1 | PDF
+  ai_overview r9 oNone |  | 
+  organic r10 o8 | https://www.scribd.com/document/660894932/Tavsifnoma | Tavsifnoma | PDF
+  related_sear r11 oNone |  | 
+  organic r12 o9 | https://www.facebook.com/manaviyat.uz/videos/davlat-tilida-ish-yuritish-qoidalaritavsifnom | Davlat tilida ish yuritish qoidalari Tavsifnoma va tavsiyanoma ...
+  organic r13 o10 | https://www.scribd.com/document/660894932/Tavsifnoma | Tavsifnoma | PDF
+  organic r14 o11 | https://www.youtube.com/watch?v=a4iG0ex4xj8 | tavsifnoma va tavsiyanoma
+  organic r15 o12 | https://www.scribd.com/document/570538310/Document-13 | Tavsifnoma | PDF
+  organic r16 o13 | https://soff.uz/product/kiberxavfsizlik-tavsifnoma | Tavsifnoma
+  organic r17 o14 | https://ilmboy.uz/tag/tavsifnoma-namunasi/?lang=ru | tavsifnoma namunasi - Ilm va faktlar
+  organic r18 o15 | https://www.youtube.com/watch?v=fx9O2oRMtGQ | Davlat tilida ish yuritish fanidan “Tavsifnoma va tavsiyanoma” ...
+  organic r19 o16 | https://www.scribd.com/document/737042316/tavsifnoma-2-2 | Tavsifnoma | PDF
+  organic r20 o17 | https://toolbase.uz/blog/tavsifnoma-qanday-yoziladi/ | Tavsifnoma qanday yoziladi
+===  xulosa yozish True ru desktop
+  images r1 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnsr8wBZED20h | Картинки
+  organic r2 o1 | https://uz.wikipedia.org/wiki/Xulosa_chiqarish | Xulosa chiqarish
+  organic r3 o2 | https://arxiv.uz/uz/documents/slaydlar/falsafa/xulosa | Xulosa - Falsafa - Slaydlar
+  ai_overview r4 oNone |  | 
+  organic r5 o3 | https://staff.tiiame.uz/storage/users/435/presentations/oKiAJYBV4Od5AtwhU61Zl5dcnYRIDuktfu | xulosa chiqarish
+  organic r6 o4 | https://diplomishi.uz/product/taqdimotlar-adabiyot-xulosa-yozish-usullari | Xulosa yozish usullari
+  organic r7 o5 | https://uz.wikipedia.org/wiki/Mantiqiy_xulosa | Mantiqiy xulosa
+  organic r8 o6 | https://soff.uz/product/falsafa-xulosa-chiqarishning-tuzilishi | Xulosa chiqarishning tuzilishi
+  organic r9 o7 | https://savodxon.uz/izoh?xulosa | xulosa
+  organic r10 o8 | https://www.scribd.com/document/945759479/Mantiq-xulosa-chiqarish-1 | Mantiq Xulosa Chiqarish | PDF
+  related_sear r11 oNone |  | 
+  organic r12 o9 | https://www.youtube.com/watch?v=MLY7aiKndOo | Mulohaza. Xulosa chiqarish
+  images r13 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQnv4iN5m | Картинки
+  organic r14 o10 | https://blog.plag.ai/uz/how-to-write-a-conclusion-for-an-essay | Insho uchun xulosa qanday yoziladi
+  organic r15 o11 | https://lingvanex.com/uz/technologies/summarization-tool/ | Xulosa qilish vositasi
+  organic r16 o12 | https://www.hufocw.org/Download/file/5271 | 11.Mavzu.Induktiv va deduktiv xulosa chiqarish. Reja
+  organic r17 o13 | https://soff.uz/search-page?keyword=xulosa | “xulosa”
+  organic r18 o14 | https://ilmiyhujjat.uz/product/amaliy-ishlar-adabiyot-xulosa-yozish-tamoyillari | Xulosa yozish tamoyillari
+  organic r19 o15 | https://uzexam.uz/q/5765/ | Falsafa: Xulosa chiqarish nima?
+  organic r20 o16 | https://kursishlari.uz/product/falsafa-xulosa-chiqarish | XULOSA CHIQARISH
+===  maktub yozish True ru desktop
+  images r1 oNone |  | Qo'qon shahar 11-umumiy o'rta ta'lim maktabida "Ustozlarga ...
+  ai_overview r2 oNone |  | 
+  organic r3 o1 | https://plus.cq.com/doc/govdoc-6317409 | https://plus.cq.com/doc/govdoc-6317409
+  organic r4 o2 | https://www.facebook.com/maktublar.uz/ | Maktublar.uz
+  organic r5 o3 | https://hukumat.uz/oz/advice/784/document/4221 | https://hukumat.uz/oz/advice/784/document/4221
+  organic r6 o4 | https://youtu.be/I9xZOpmU5kg?si=XrntQMwwM1eL1Q3U | 5 yoshli bola nomiga avtomashina sotib olish mumkinmi? ...
+  organic r7 o5 | https://www.uzbekistan.uz/ru/advice/64/document/3364 | https://www.uzbekistan.uz/ru/advice/64/document/3364
+  organic r8 o6 | https://www.digital.gov.uz/ru/advice/73/document/156 | https://www.digital.gov.uz/ru/advice/73/document/156
+  organic r9 o7 | https://nixa.uz/shablonlar/maktub | Maktub — elektron to'y taklifnomasi shabloni - Nixa.uz
+  organic r10 o8 | https://ixyt.info/ru/blog/53-delovoe-pismo-pravila-sostavleniya-i-oformleniya | https://ixyt.info/ru/blog/53-delovoe-pismo-pravila...
+  organic r11 o9 | https://www.wikiwand.com/az/articles/M%C9%99ktub | https://www.wikiwand.com/az/articles/Məktub
+  organic r12 o10 | http://moyugolok.livejournal.com/155035.html | http://moyugolok.livejournal.com/155035.html
+  organic r13 o11 | https://ky.wiktionary.org/wiki/m%C9%99ktub | məktub
+  organic r14 o12 | https://toolbase.uz/lugat/maktubini/ | Maktubini (мактубини) — qanday yoziladi?
+  organic r15 o13 | https://www.instagram.com/p/C6jhMWmIqVP/ | Bir məktub hədiyəlik, yaxınlarınıza söz ünvanlamaq, xoş ...
+  organic r16 o14 | https://www.facebook.com/61559062025394/videos/bir-m%C9%99ktub-n%C9%99dir-bir-m%C9%99ktub- | •Bir Məktub nədir ? Bir məktub hədiyəlik, yaxınlarınıza söz ...
+  organic r17 o15 | https://hit.az/az/maraqli/285537/mektub-yazmaq-tarix-olub/ | Məktub yazmaq tarix olub...
+  organic r18 o16 | https://www.instagram.com/reel/C6t4RctrwIF/ | Bir məktub hədiyəlik, yaxınlarınıza söz ünvanlamaq, xoş ...
+  organic r19 o17 | https://prezi.com/p/43uraj3o1uhx/mktub-yazma-snti/ | Məktub Yazma sənəti
+  organic r20 o18 | https://teleqraf.az/news/yazarlar/21712.html | Məktub
+===  matn yaratish True ru desktop
+  images r1 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnvXdqXff0Bsg | Картинки
+  organic r2 o1 | https://uz.wikipedia.org/wiki/Matn | Matn
+  ai_overview r3 oNone |  | 
+  organic r4 o2 | https://www.in-academy.uz/index.php/ZDTF/article/view/19764 | MATN YARATİSH VA MATN USTİDA İSHLASHNİNG ...
+  video r5 oNone |  | 
+  organic r6 o3 | https://matn.uz/ | Matn.uz: Tahrir
+  organic r7 o4 | https://journal.fledu.uz/uz/matn-yaratish-usullari/ | Матн яратиш усуллари - JOURNAL.FLEDU.UZ
+  organic r8 o5 | https://www.scribd.com/document/697211122/Matn-Tavsifi-Va-Matn-Tiplari | Matn Tavsifi Va Matn Tiplari | PDF
+  organic r9 o6 | https://n.ziyouz.com/books/uzbek_adabiy_tili/Matn%20yaratish%20texnologiyasi%20(T.Ziyodova | МАТН ЯРАТИШ ТЕХНОЛОГИЯСИ
+  organic r10 o7 | https://interspp.com/index.php/ijis/article/download/593/495/929 | kichik maktab yoshidagi o'quvchilarda matn yaratish
+  related_sear r11 oNone |  | 
+  organic r12 o8 | https://webiston.uz/tools/lorem-ipsum | Lorem Ipsum — o'zbekcha va klassik matn
+  organic r13 o9 | https://textie.ai/uz/matn-yaratish | Sun'iy intellekt bilan matn generatori
+  organic r14 o10 | https://dimaker.app/uz/help/redactor/blocks/format/ | Matnni formatlash - Hujjatlar - DiMaker
+  organic r15 o11 | https://staff.tiiame.uz/storage/users/124/presentations/IYIrK2UpfUde3GkBG0xvLCCOW61wkq6p0d | 2-laboratoriya ishi. Matn muxarrirlarida matnlar kiritish, ...
+  organic r16 o12 | https://www.uzresearchers.com/index.php/ijrs/article/download/597/548/1111 | ONA TILI DARSLARIDA MATN YARATISH KOʻNIKMALARINI ...
+  organic r17 o13 | https://aisha.group/uz/blog/matndan-tasvirni-yaratish-bu-judayam-oddiy-text-to-image-qanda | Matn asosida rasm yaratish: Text-to-Image qanday ishlaydi?
+  organic r18 o14 | https://ulkan.uz/guidance/vidjetlar/ixtiyoriy-matn-vidjeti | Ixtoriy matn vidjeti – Ulkanda sayt yaratish qo'llanmasi
+  organic r19 o15 | https://library.dtpi.uz/uz/adabiyotlar/monografiya/matn-yaratish-texnologiyasi | Matn yaratish texnologiyasi
+  organic r20 o16 | https://homiwork.com/uz/app/create/text | Matn
+===  misollar yechish True ru desktop
+  video r1 oNone |  | 
+  organic r2 o1 | https://play.google.com/store/apps/details?id=com.formula.algebra&hl=uz | Math Formulas Algebra
+  organic r3 o2 | https://www.scribd.com/document/792335178/Matematik-Misollarni-Yechuvchi-Ilovalar | Matematik Misollarni Yechuvchi Ilovalar | PDF
+  images r4 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnsitgKE4Hfek | Картинки
+  organic r5 o3 | https://aniq.uz/uz/yangiliklar/matematika-masalalarini-surat-orqali-echish-imkonini-beradi | Matematika masalalarini surat orqali yechish imkonini ...
+  organic r6 o4 | https://jdpu.uz/wp-content/uploads/2019/12/3.01-%D0%BC%D0%B0%D1%82%D0%BC%D0%B0%D1%82%D0%B8 | OLIY VA C
+  organic r7 o5 | https://uz.khanacademy.org/math/algebra/one-variable-linear-equations | Tenglamalarni yechish | Algebra I | Matematika
+  ai_overview r8 oNone |  | 
+  organic r9 o6 | https://play.google.com/store/apps/details/Photomath?id=com.microblink.photomath&hl=uz | Photomath – Google Play ilovalari
+  organic r10 o7 | https://www.youtube.com/watch?v=T1cgY0Vl0o0 | Matematikadan 500 ta misol: Bir kunda ustuncha usulini o' ...
+  related_sear r11 oNone |  | 
+  organic r12 o8 | https://arxiv.uz/uz/documents/slaydlar/algebra/4-sinf-matematika-misollar-yechish | 4-sinf matematika. misollar yechish - Algebra - Slaydlar
+  organic r13 o9 | https://www.youtube.com/watch?v=LcScR814e1Y | Matematika misollar Logarifm hisoblashga doir mavzusi va bazi ...
+  organic r14 o10 | https://daryo.uz/2014/10/23/smartfonda-suratga-olingan-matematik-misollarni-ishlab-beradig | Smartfonda suratga olingan matematik misollarni ishlab ...
+  images r15 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQnthgVwh | Картинки
+  organic r16 o11 | https://n.ziyouz.com/books/kollej_va_otm_darsliklari/matematika/Oliy%20matematikadan%20mas | ОЛИЙ МАТЕМАТИКАДАН МАСАЛАЛАР ЕЧИШ
+  organic r17 o12 | https://uz.khanacademy.org/math/algebra | Voy. Nimadir xato ketdi. Qayta urinib ko'ring.
+  organic r18 o13 | https://www.scribd.com/document/973094452/Matematikadan-Misol-Va-Masalalar-Yechish | Matematikadan Misol Va Masalalar Yechish | PDF
+  organic r19 o14 | https://openstudy.marble.oci.softex.uz/razrabotka-urokov/5-sinf/matematika/81503-misollar- | Misollar yechish
+  organic r20 o15 | http://masofa.sammoi.uz/course/view.php?id=448 | 2.5. Matematikadan misol va masalalar yechish
+===  matematika misollar True ru desktop
+  organic r1 o1 | https://www.scribd.com/document/906420542/1 | Matematik Misollar va Yechimlar | PDF
+  organic r2 o2 | https://ustoz.ai/ru/courses/matematika-bepul-tekin-5-sinf_matematika-5c4521a1-a529-4a80-9c | 5-sinf Matematika: Qiziqarli Misollar, Masalalarni O'rganing
+  images r3 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnthtA5VcO7a_ | Картинки
+  video r4 oNone |  | 
+  organic r5 o3 | https://yangiasr.uz/files/books/2024-02-27-10-46-50_0ee2ec88deb52ba4e2736b1b8907c17c.pdf | OLIY MATEMATIKA MISOL YA MASALALARDA
+  organic r6 o4 | https://jdpu.uz/wp-content/uploads/2019/12/3.01-%D0%BC%D0%B0%D1%82%D0%BC%D0%B0%D1%82%D0%B8 | OLIY VA C
+  organic r7 o5 | https://www.youtube.com/playlist?list=PLRpYl4diP_TZxTqurGEoZwlY6rUas-8_A | Matematika fanidan misollar yechimi (DTM variantlar)
+  organic r8 o6 | https://arxiv.uz/uz/documents/slaydlar/algebra/4-sinf-matematika-misollar-yechish | 4-sinf matematika. misollar yechish - Algebra - Slaydlar
+  ai_overview r9 oNone |  | 
+  organic r10 o7 | https://soff.uz/product/matematika-matematikadan-misollar | Matematikadan misollar
+  related_sear r11 oNone |  | 
+  organic r12 o8 | https://yandex.kz/images/search?text=%D0%BC%D0%B8%D1%81%D0%BE%D0%BB%D0%BB%D0%B0%D1%80%201% | Мисоллар 1 синфлар учун математика
+  organic r13 o9 | https://staff.tiiame.uz/storage/users/821/books/wnmiE9n7uZSjhZxYjh6Ax2vhJF2l9KUzPeumABzR.p | MATEMATIKA
+  organic r14 o10 | https://mathnet.uz/index.html | Milliy matematika
+  images r15 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQnsXqrEC | Картинки
+  organic r16 o11 | https://uz.wikipedia.org/wiki/Matematika | Matematika
+  organic r17 o12 | https://asaxiy.uz/product/bahodir-erkinov-matematika-misollar-9-10-yosh-20-hil | Bahodir Erkinov: Matematika misollar 9-10 yosh (10 xil)
+  organic r18 o13 | https://baxtiyor.uz/matematika-fanidan-100-ta-qiyin-misollar-va-masalalar-yechimi-bilan/ | Matematika fanidan 100 ta qiyin misollar va masalalar ...
+  organic r19 o14 | https://www.youtube.com/watch?v=chv1GTQlUu0 | O'YLA! IZLA! TOP! | Bolalar uchun misollar | Matematika
+  organic r20 o15 | https://www.scribd.com/document/877077172/Kitob-Matem-terilgan-misollar | Matematik Qiziqarli Masalalar va Yechimlar | PDF
+===  test savollari True ru desktop
+  ai_overview r1 oNone |  | 
+  organic r2 o1 | https://qnb.uz/questions/testlar | So'ngi savollar bu Testlar
+  organic r3 o2 | https://test.ziyonet.uz/uz | ZiyoNET › Testlar
+  organic r4 o3 | https://play.google.com/store/apps/details?id=uz.javohir.avtotestuz&hl=zh | Avto Test: Imtihon savollari - Google Play 上的应用
+  images r5 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnvi2KBNdJ8Oe | Картинки
+  organic r6 o4 | https://play.google.com/store/apps/details?id=com.jaloliddinabdullaev.abiturient2021&hl=vi | Imtihon Savollari - Testone - Ứng dụng trên Google Play
+  organic r7 o5 | https://infotest.uz/ | infotest.uz
+  organic r8 o6 | https://qnb.uz/testlar | Ohirgi savol javoblar Testlar
+  organic r9 o7 | https://www.youtube.com/watch?v=eiyzajew_7g | Siz kim bo'lasiz Qiziqarli psixolgik test
+  organic r10 o8 | https://service.sdvunf.uz/test/6test/6test.html | TEST
+  related_sear r11 oNone |  | 
+  organic r12 o9 | https://tezz.uz/test.html?srsltid=AYCX9vLw3TjQA8CCW34j-M8lkYpmiwS1ApCV-PCP-e2ZkpiBSSBsgjpM | this is the test
+  organic r13 o10 | https://app.testdome.com/screening/challenge/250 | https://app.testdome.com/screening/challenge/250
+  organic r14 o11 | https://tass.ru/tests | https://tass.ru/tests
+  images r15 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQnv8VUpo | Картинки
+  organic r16 o12 | https://dvanadva.ru/ | Магазин ракеток для падела в Москве — «Два на два»
+  organic r17 o13 | https://dtm-test.uz/ | DTM Test Sinovi — DTM ga bepul tayyorgarlik
+  organic r18 o14 | https://kep.uz/practice/tests/test/153 | Tests
+  organic r19 o15 | https://mylab.pearson.com/Student/PlayerTest.aspx?testid=252499 | https://mylab.pearson.com/Student/PlayerTest.aspx?...
+  organic r20 o16 | https://www.youtube.com/watch?v=b7YNmsvsYcs | TEST 3. LISTENING PART 4. MULTI-LEVEL MASTER MOCK ...

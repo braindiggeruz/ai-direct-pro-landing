@@ -1,0 +1,59 @@
+{
+  "item": "W1-07",
+  "pulledAt": "2026-10-24",
+  "tool": "OpenSEO get_search_console_performance (sc-domain:gptbot.uz, project 7534113b-f748-4f98-ac39-9e3782d3d9e7)",
+  "calls": [
+    {
+      "resultId": "e556c915-d831-4330-b5dd-44051ef7cc06",
+      "window": "2026-07-21..2026-10-21",
+      "dimensions": ["query", "page"],
+      "filter": "query contains 'prompt'",
+      "rows": [
+        ["chat gpt uchun prompt", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 1, 21, 3.3],
+        ["chatgpt uchun prompt", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 1, 87, 7.4],
+        ["chatgpt promptlari", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 0, 1, 5.0],
+        ["prompt nima? siz sun'iy intellektli chat botga kiritadigan matn ... chat gpt ning asosiy sozlamasi", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 0, 11, 10.1]
+      ],
+      "rowFormat": ["query", "page", "clicks", "impressions", "position"]
+    },
+    {
+      "resultId": "67573f95-9b4d-46a3-b914-9a0859a180e5",
+      "window": "2026-07-21..2026-10-21",
+      "filter": "query contains 'promt'",
+      "rows": [["chat gpt promtlar", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 0, 5, 2.6]]
+    },
+    {
+      "resultId": "9bf11d87-5537-412b-8bf1-5076a8c88aa8",
+      "window": "last_16_months (2025-06-24..2026-10-21)",
+      "filter": "query contains 'nima' AND query contains 'prom'",
+      "rows": [["prompt nima? siz sun'iy intellektli chat botga kiritadigan matn ... chat gpt ning asosiy sozlamasi", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", 0, 11, 10.1]]
+    },
+    {
+      "resultId": "4bdc9145-7f56-4bcb-b41b-fa343032bebb",
+      "window": "2026-07-21..2026-10-21",
+      "filter": "page equals https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+      "dimensions": ["query"],
+      "rows": [
+        ["chat gpt kodlari", 0, 2, 6.5],
+        ["chat gpt uzbek tilida", 0, 2, 9.0],
+        ["chatgpt oʻzbek tilida", 0, 1, 8.0],
+        ["chatgpt uzbek", 0, 1, 28.0],
+        ["chatgpt uzbek tilida", 0, 3, 31.0],
+        ["chatgpt yozish", 0, 7, 10.1],
+        ["chatgpt yuklab olish uzbek tilida", 0, 1, 42.0],
+        ["ha yordam ber", 0, 1, 25.0],
+        ["oddiy so'rov uzbek tilida", 0, 11, 11.2],
+        ["ozbekcha malumot ber", 0, 1, 5.0],
+        ["чат gpt узбек тилида", 0, 1, 8.0]
+      ],
+      "rowFormat": ["query", "clicks", "impressions", "position"]
+    },
+    {
+      "resultId": "f5672df1-a376-4937-9501-ec5a78f9bf5e",
+      "window": "2026-09-24..2026-10-21",
+      "filter": "page contains /uz/gpt-uzbek-tilida-ai-chat/",
+      "dimensions": ["page"],
+      "rows": [["https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/", 0, 96, 7.6]]
+    }
+  ]
+}

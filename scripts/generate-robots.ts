@@ -284,10 +284,14 @@ for (const file of ['/sitemap.xml', '/sitemap-updates.xml']) {
 headers.push('/robots.txt');
 headers.push('  ! Cache-Control');
 headers.push(`  Cache-Control: ${DISCOVERY_CACHE_CONTROL}`);
+// The LLM manifests and Markdown twins detach the inherited `/*` policy too;
+// without it the edge sent two policies glued into one header (W1-13).
 headers.push('/llms.txt');
+headers.push('  ! Cache-Control');
 headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
 headers.push('/llms-full.txt');
+headers.push('  ! Cache-Control');
 headers.push('  Cache-Control: public, max-age=21600');
 headers.push('  Content-Type: text/plain; charset=utf-8');
 // RSS feeds of the two blogs (scripts/generate-feed.ts): a real feed media
@@ -303,6 +307,7 @@ for (const feed of DISCOVERY_FEEDS) {
 headers.push('/*.md');
 headers.push('  Content-Type: text/markdown; charset=utf-8');
 headers.push('  X-Robots-Tag: noindex, follow');
+headers.push('  ! Cache-Control');
 headers.push('  Cache-Control: public, max-age=3600');
 headers.push('/_redirects');
 headers.push('  Cache-Control: no-store');

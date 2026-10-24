@@ -1,0 +1,1918 @@
+{
+ "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+  "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+  "all": {
+   "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "clicks": 50,
+   "impressions": 11707,
+   "ctr": 0.0043,
+   "position": 7.0
+  },
+  "uzb": {
+   "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "clicks": 34,
+   "impressions": 10626,
+   "ctr": 0.0032,
+   "position": 7.1
+  },
+  "A": {
+   "bucket": 7,
+   "curve": 0.0054132082280765065,
+   "curve_clicks": 375,
+   "curve_impr": 69275,
+   "thin": false,
+   "cur": 0.003199698851872765,
+   "ratio": 0.5910910345692955,
+   "gap": 23.52075063154096
+  },
+  "B": {
+   "bucket": 7,
+   "curve": 0.01079136690647482,
+   "curve_clicks": 3,
+   "curve_impr": 278,
+   "thin": true,
+   "cur": 0.003199698851872765,
+   "ratio": 0.29650542694020954,
+   "gap": 80.66906474820145
+  },
+  "C": {
+   "bucket": 7,
+   "curve": 0.009263657957244655,
+   "curve_clicks": 39,
+   "curve_impr": 4210,
+   "thin": false,
+   "cur": 0.004270949004868882,
+   "ratio": 0.46104346949994857,
+   "gap": 58.449643705463174
+  },
+  "Q": {
+   "actual": 34,
+   "expected": 68.6,
+   "impr": 10626,
+   "ratio": 0.495807324743461,
+   "gap": 34.6,
+   "thin_share": 0.008658008658008658,
+   "top": [
+    [
+     "chatgpt kirish",
+     25,
+     7030,
+     6.8,
+     0.48
+    ],
+    [
+     "chatgpt kirish uzbek tilida",
+     4,
+     2527,
+     8.2,
+     1.02
+    ],
+    [
+     "chatgpt kirish login",
+     2,
+     275,
+     6.8,
+     0.48
+    ],
+    [
+     "chatgptga kirish",
+     1,
+     202,
+     5.3,
+     0.9
+    ],
+    [
+     "chatgpt ochish uzbek tilida",
+     0,
+     199,
+     7.6,
+     1.02
+    ],
+    [
+     "chatgpt yozish",
+     0,
+     130,
+     5.3,
+     0.9
+    ],
+    [
+     "chatgpt ochish",
+     0,
+     61,
+     9.4,
+     0.86
+    ],
+    [
+     "chatgpt kirish login parol",
+     1,
+     60,
+     4.5,
+     0.9
+    ]
+   ]
+  }
+ },
+ "/ru/gpt-vs-chatgpt-sravnenie/": {
+  "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+  "all": {
+   "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+   "clicks": 12,
+   "impressions": 2334,
+   "ctr": 0.0051,
+   "position": 7.0
+  },
+  "uzb": {
+   "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+   "clicks": 1,
+   "impressions": 52,
+   "ctr": 0.0192,
+   "position": 6.6
+  },
+  "A": {
+   "bucket": 7,
+   "curve": 0.005109644453906749,
+   "curve_clicks": 408,
+   "curve_impr": 79849,
+   "thin": false,
+   "cur": 0.019230769230769232,
+   "ratio": 3.763621794871795,
+   "gap": -0.7342984883968491
+  },
+  "B": {
+   "bucket": 7,
+   "curve": 0.003317360855141909,
+   "curve_clicks": 36,
+   "curve_impr": 10852,
+   "thin": false,
+   "cur": 0.019230769230769232,
+   "ratio": 5.797008547008548,
+   "gap": -0.8274972355326207
+  },
+  "C": {
+   "bucket": 7,
+   "curve": 0.005668850769344033,
+   "curve_clicks": 77,
+   "curve_impr": 13583,
+   "thin": false,
+   "cur": 0.005141388174807198,
+   "ratio": 0.906954228290989,
+   "gap": 1.2310976956489748
+  },
+  "Q": {
+   "actual": 1,
+   "expected": 0.6,
+   "impr": 52,
+   "ratio": 1.6576230270877967,
+   "gap": -0.4,
+   "thin_share": 0.38461538461538464,
+   "top": [
+    [
+     "gpt расшифровка",
+     0,
+     13,
+     5.8,
+     1.05
+    ],
+    [
+     "chatgpt расшифровка",
+     0,
+     4,
+     5.5,
+     1.05
+    ],
+    [
+     "как расшифровывается chatgpt",
+     0,
+     4,
+     7.5,
+     0.69
+    ],
+    [
+     "chat gpt расшифровка",
+     0,
+     3,
+     5.7,
+     1.05
+    ],
+    [
+     "как расшифровывается чат gpt",
+     0,
+     3,
+     8.7,
+     0.76
+    ],
+    [
+     "как расшифровывается gpt",
+     1,
+     2,
+     6,
+     1.05
+    ],
+    [
+     "гпь",
+     0,
+     2,
+     10,
+     0.0
+    ],
+    [
+     "fark gpt",
+     0,
+     1,
+     10,
+     0.0
+    ]
+   ]
+  }
+ },
+ "/ru/blog/chat-gpt-online/": {
+  "page": "/ru/blog/chat-gpt-online/",
+  "all": {
+   "page": "/ru/blog/chat-gpt-online/",
+   "clicks": 20,
+   "impressions": 1966,
+   "ctr": 0.0102,
+   "position": 6.4
+  },
+  "uzb": {
+   "page": "/ru/blog/chat-gpt-online/",
+   "clicks": 14,
+   "impressions": 1517,
+   "ctr": 0.0092,
+   "position": 5.7
+  },
+  "A": {
+   "bucket": 6,
+   "curve": 0.003361256269530737,
+   "curve_clicks": 128,
+   "curve_impr": 38081,
+   "thin": false,
+   "cur": 0.00922874093605801,
+   "ratio": 2.745622528015821,
+   "gap": -8.900974239121872
+  },
+  "B": {
+   "bucket": 6,
+   "curve": 0.005917159763313609,
+   "curve_clicks": 1,
+   "curve_impr": 169,
+   "thin": true,
+   "cur": 0.00922874093605801,
+   "ratio": 1.5596572181938038,
+   "gap": -5.0236686390532554
+  },
+  "C": {
+   "bucket": 6,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.01017293997965412,
+   "ratio": null,
+   "gap": null
+  },
+  "Q": {
+   "actual": 14,
+   "expected": 19.3,
+   "impr": 1517,
+   "ratio": 0.7255466851413289,
+   "gap": 5.3,
+   "thin_share": 0.4904416611733685,
+   "top": [
+    [
+     "чат gpt онлайн бесплатно",
+     10,
+     557,
+     5.8,
+     0.7
+    ],
+    [
+     "чат gpt онлайн",
+     0,
+     404,
+     4.4,
+     2.6
+    ],
+    [
+     "чат gpt онлайн бесплатно на русском",
+     4,
+     135,
+     9.1,
+     0.19
+    ],
+    [
+     "онлайн чат gpt",
+     0,
+     72,
+     6.6,
+     0.39
+    ],
+    [
+     "chatgpt uz",
+     0,
+     34,
+     7.2,
+     0.39
+    ],
+    [
+     "чат гпт онлайн",
+     0,
+     34,
+     4.5,
+     0.89
+    ],
+    [
+     "gpt чат онлайн",
+     0,
+     32,
+     5.1,
+     0.89
+    ],
+    [
+     "chat gpt uzb",
+     0,
+     26,
+     3.1,
+     3.62
+    ]
+   ]
+  }
+ },
+ "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+  "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+  "all": {
+   "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "clicks": 16,
+   "impressions": 857,
+   "ctr": 0.0187,
+   "position": 6.7
+  },
+  "uzb": {
+   "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "clicks": 0,
+   "impressions": 355,
+   "ctr": 0.0,
+   "position": 8.2
+  },
+  "A": {
+   "bucket": 8,
+   "curve": 0.0027472527472527475,
+   "curve_clicks": 1,
+   "curve_impr": 364,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.9752747252747254
+  },
+  "B": {
+   "bucket": 8,
+   "curve": 0.0027472527472527475,
+   "curve_clicks": 1,
+   "curve_impr": 364,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.9752747252747254
+  },
+  "C": {
+   "bucket": 7,
+   "curve": 0.004847277556440903,
+   "curve_clicks": 73,
+   "curve_impr": 15060,
+   "thin": false,
+   "cur": 0.01866977829638273,
+   "ratio": 3.851600837582519,
+   "gap": -11.845883134130144
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 3.3,
+   "impr": 355,
+   "ratio": 0.0,
+   "gap": 3.3,
+   "thin_share": 0.571830985915493,
+   "top": [
+    [
+     "chatgpt uzbek tilida gaplashish",
+     0,
+     175,
+     8.6,
+     1.05
+    ],
+    [
+     "chatgpt uzbek tilida",
+     0,
+     115,
+     8.0,
+     0.7
+    ],
+    [
+     "chatgpt uchun prompt",
+     0,
+     15,
+     8.7,
+     1.05
+    ],
+    [
+     "prompt nima? siz sun'iy intellektli chat botga kiritadigan matn siz sun'iy intellektli chat botdan oladigan natija tez kiritilgan matn chat gpt ning asosiy sozlamasi",
+     0,
+     11,
+     10.1,
+     0.0
+    ],
+    [
+     "chatgpt savol javob",
+     0,
+     10,
+     7.4,
+     0.38
+    ],
+    [
+     "chatgpt o'zbek tilida",
+     0,
+     9,
+     4.9,
+     0.87
+    ],
+    [
+     "chat gpt uchun prompt",
+     0,
+     4,
+     3.8,
+     2.18
+    ],
+    [
+     "chatgpt kirish uzbek tilida",
+     0,
+     4,
+     8.0,
+     0.7
+    ]
+   ]
+  }
+ },
+ "/ru/blog/chat-gpt-na-russkom/": {
+  "page": "/ru/blog/chat-gpt-na-russkom/",
+  "all": {
+   "page": "/ru/blog/chat-gpt-na-russkom/",
+   "clicks": 0,
+   "impressions": 517,
+   "ctr": 0.0,
+   "position": 7.7
+  },
+  "uzb": {
+   "page": "/ru/blog/chat-gpt-na-russkom/",
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0.0,
+   "position": 7.5
+  },
+  "A": {
+   "bucket": 8,
+   "curve": 0.0013986013986013986,
+   "curve_clicks": 1,
+   "curve_impr": 715,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.005594405594405594
+  },
+  "B": {
+   "bucket": 8,
+   "curve": 0.0013986013986013986,
+   "curve_clicks": 1,
+   "curve_impr": 715,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.005594405594405594
+  },
+  "C": {
+   "bucket": 8,
+   "curve": 0.014749262536873156,
+   "curve_clicks": 5,
+   "curve_impr": 339,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 7.625368731563421
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.0,
+   "impr": 4,
+   "ratio": 0.0,
+   "gap": 0.0,
+   "thin_share": 0.25,
+   "top": [
+    [
+     "ты помогаешь мне импортировать контекст из одного ии-помощника в другого. твоя задача – проанализировать наши предыдущие чаты и обобщить информацию обо мне. в ответе не должно быть местоимений первого лица (я, мой, мне, мое, меня) и второго лица (ты, твой, тебе, твое, тебя). называй человека, информацию о котором ты изучил, \"пользователь\" или используй нейтральные обращения. по возможности сохраняй слова пользователя без изменений, особенно в инструкциях и описаниях предпочтений. категории (указывай сведения в том же порядке): 1. демографическая информация: предпочитаемые имена, профессия, образование и место жительства. 2. интересы и предпочтения: не просто собственность или разовые покупки пользователя, а то, с чем он часто взаимодействует. 3. отношения: подтвержденные и постоянные. 4. мероприятия, проекты и планы по датам: список недавних важных дел. 5. инструкции: правила, которые я прошу тебя соблюдать, например что нужно и нельзя делать, а также исправления в твоем поведении. включи правила только из сохраненных записей, а не из чатов. формат: создай разделы для каждой указанной выше категории. постарайся включить точные цитаты из моих запросов, которые подтверждают сведения. для каждого пункта используй приведенный ниже формат. пользователя зовут <имя>. - доказательство: пользователь сказал \"зови меня <имя>\". дата: [дд.мм.гггг]. результат: - укажи в ответе только запрошенную информацию без слов-паразитов, вводного текста и подписей. в конце добавь \"импортировано из <название>\", подставив вместо названия chatgpt, claude, grok или другой ии. это должно быть последнее предложение в тексте.",
+     0,
+     2,
+     6,
+     1.11
+    ],
+    [
+     "как перевести чат gpt на русский",
+     0,
+     1,
+     10,
+     0.0
+    ],
+    [
+     "как сказать чату gpt",
+     0,
+     1,
+     8,
+     0.68
+    ]
+   ]
+  }
+ },
+ "/ru/chto-takoe-gpt-i-kak-polzovatsya/": {
+  "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+  "all": {
+   "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+   "clicks": 0,
+   "impressions": 391,
+   "ctr": 0.0,
+   "position": 8.6
+  },
+  "uzb": {
+   "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+   "clicks": 0,
+   "impressions": 29,
+   "ctr": 0.0,
+   "position": 7.5
+  },
+  "A": {
+   "bucket": 8,
+   "curve": 0.0014492753623188406,
+   "curve_clicks": 1,
+   "curve_impr": 690,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.042028985507246375
+  },
+  "B": {
+   "bucket": 8,
+   "curve": 0.0014492753623188406,
+   "curve_clicks": 1,
+   "curve_impr": 690,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.042028985507246375
+  },
+  "C": {
+   "bucket": 9,
+   "curve": 0.009433962264150943,
+   "curve_clicks": 7,
+   "curve_impr": 742,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 3.688679245283019
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.3,
+   "impr": 29,
+   "ratio": 0.0,
+   "gap": 0.3,
+   "thin_share": 0.6206896551724138,
+   "top": [
+    [
+     "генеративный предварительно обученный трансформер",
+     0,
+     10,
+     8.7,
+     0.77
+    ],
+    [
+     "gpt расшифровка",
+     0,
+     5,
+     4.8,
+     0.87
+    ],
+    [
+     "что такое gpt",
+     0,
+     4,
+     8.5,
+     0.77
+    ],
+    [
+     "gpt как расшифровывается",
+     0,
+     3,
+     8,
+     0.68
+    ],
+    [
+     "gpt значение",
+     0,
+     1,
+     9,
+     0.77
+    ],
+    [
+     "gpt расшифровка на русском",
+     0,
+     1,
+     1,
+     2.15
+    ],
+    [
+     "gpt это",
+     0,
+     1,
+     11,
+     2.63
+    ],
+    [
+     "gpt это простыми словами",
+     0,
+     1,
+     6,
+     1.11
+    ]
+   ]
+  }
+ },
+ "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/": {
+  "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+  "all": {
+   "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+   "clicks": 1,
+   "impressions": 333,
+   "ctr": 0.003,
+   "position": 8.6
+  },
+  "uzb": {
+   "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+   "clicks": 0,
+   "impressions": 28,
+   "ctr": 0.0,
+   "position": 7.1
+  },
+  "A": {
+   "bucket": 7,
+   "curve": 0.005120628998535175,
+   "curve_clicks": 409,
+   "curve_impr": 79873,
+   "thin": false,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.1433776119589849
+  },
+  "B": {
+   "bucket": 7,
+   "curve": 0.00340198602427363,
+   "curve_clicks": 37,
+   "curve_impr": 10876,
+   "thin": false,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.09525560867966164
+  },
+  "C": {
+   "bucket": 9,
+   "curve": 0.0075,
+   "curve_clicks": 6,
+   "curve_impr": 800,
+   "thin": true,
+   "cur": 0.003003003003003003,
+   "ratio": 0.4004004004004004,
+   "gap": 1.4974999999999998
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.3,
+   "impr": 28,
+   "ratio": 0.0,
+   "gap": 0.3,
+   "thin_share": 0.4642857142857143,
+   "top": [
+    [
+     "хочу пообщаться с искусственным интеллектом",
+     0,
+     9,
+     6.1,
+     1.11
+    ],
+    [
+     "поговорить с ии",
+     0,
+     6,
+     8.8,
+     0.76
+    ],
+    [
+     "пообщаться с ии",
+     0,
+     3,
+     9,
+     0.76
+    ],
+    [
+     "хочу поговорить с ии",
+     0,
+     2,
+     6,
+     1.11
+    ],
+    [
+     "ii chat",
+     0,
+     1,
+     10,
+     0.0
+    ],
+    [
+     "в гугле",
+     0,
+     1,
+     12,
+     0.0
+    ],
+    [
+     "ии где",
+     0,
+     1,
+     6,
+     1.11
+    ],
+    [
+     "как связаться с искусственным интеллектом",
+     0,
+     1,
+     1,
+     2.15
+    ]
+   ]
+  }
+ },
+ "/uz/blog/insho-yozish-suniy-intellekt-bilan/": {
+  "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+  "all": {
+   "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+   "clicks": 1,
+   "impressions": 309,
+   "ctr": 0.0032,
+   "position": 6.8
+  },
+  "uzb": {
+   "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+   "clicks": 1,
+   "impressions": 132,
+   "ctr": 0.0076,
+   "position": 7.4
+  },
+  "A": {
+   "bucket": 7,
+   "curve": 0.005114768895184846,
+   "curve_clicks": 408,
+   "curve_impr": 79769,
+   "thin": false,
+   "cur": 0.007575757575757576,
+   "ratio": 1.4811534462269758,
+   "gap": -0.3248505058356004
+  },
+  "B": {
+   "bucket": 7,
+   "curve": 0.0033419977720014855,
+   "curve_clicks": 36,
+   "curve_impr": 10772,
+   "thin": false,
+   "cur": 0.007575757575757576,
+   "ratio": 2.266835016835017,
+   "gap": -0.558856294095804
+  },
+  "C": {
+   "bucket": 7,
+   "curve": 0.005638134290107637,
+   "curve_clicks": 88,
+   "curve_impr": 15608,
+   "thin": false,
+   "cur": 0.003236245954692557,
+   "ratio": 0.5739923506913799,
+   "gap": 0.7421834956432598
+  },
+  "Q": {
+   "actual": 1,
+   "expected": 1.0,
+   "impr": 132,
+   "ratio": 1.0241083679323268,
+   "gap": -0.0,
+   "thin_share": 0.007575757575757576,
+   "top": [
+    [
+     "murakkab reja namuna",
+     1,
+     91,
+     7.8,
+     0.68
+    ],
+    [
+     "insho yozib ber",
+     0,
+     16,
+     5.3,
+     0.87
+    ],
+    [
+     "murakkab reja namunasi",
+     0,
+     7,
+     8.3,
+     0.68
+    ],
+    [
+     "insho namuna",
+     0,
+     4,
+     7.8,
+     0.68
+    ],
+    [
+     "эссе иншо",
+     0,
+     4,
+     6.8,
+     0.38
+    ],
+    [
+     "esse tuzib ber",
+     0,
+     2,
+     5.0,
+     0.87
+    ],
+    [
+     "insho qanday yoziladi",
+     0,
+     2,
+     5.5,
+     1.11
+    ],
+    [
+     "insho yozish namunasi",
+     0,
+     2,
+     7.0,
+     0.38
+    ]
+   ]
+  }
+ },
+ "/ru/gde-polzovatsya-gpt-besplatno/": {
+  "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+  "all": {
+   "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+   "clicks": 6,
+   "impressions": 308,
+   "ctr": 0.0195,
+   "position": 9.4
+  },
+  "uzb": {
+   "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+   "clicks": 1,
+   "impressions": 56,
+   "ctr": 0.0179,
+   "position": 7.1
+  },
+  "A": {
+   "bucket": 7,
+   "curve": 0.005109900432087169,
+   "curve_clicks": 408,
+   "curve_impr": 79845,
+   "thin": false,
+   "cur": 0.017857142857142856,
+   "ratio": 3.4946165966386555,
+   "gap": -0.7138455758031185
+  },
+  "B": {
+   "bucket": 7,
+   "curve": 0.00331858407079646,
+   "curve_clicks": 36,
+   "curve_impr": 10848,
+   "thin": false,
+   "cur": 0.017857142857142856,
+   "ratio": 5.3809523809523805,
+   "gap": -0.8141592920353982
+  },
+  "C": {
+   "bucket": 9,
+   "curve": 0.0012121212121212121,
+   "curve_clicks": 1,
+   "curve_impr": 825,
+   "thin": true,
+   "cur": 0.01948051948051948,
+   "ratio": 16.07142857142857,
+   "gap": -5.626666666666666
+  },
+  "Q": {
+   "actual": 1,
+   "expected": 0.2,
+   "impr": 56,
+   "ratio": 4.031548561417952,
+   "gap": -0.8,
+   "thin_share": 0.03571428571428571,
+   "top": [
+    [
+     "бесплатный чат gpt без ограничений",
+     1,
+     45,
+     7,
+     0.37
+    ],
+    [
+     "какой чат gpt лучше бесплатный",
+     0,
+     3,
+     7.7,
+     0.69
+    ],
+    [
+     "чат gpt без ограничений бесплатно",
+     0,
+     3,
+     7.7,
+     0.69
+    ],
+    [
+     "gpt без ограничений",
+     0,
+     1,
+     7,
+     0.37
+    ],
+    [
+     "бесплатно чат gpt",
+     0,
+     1,
+     8,
+     0.69
+    ],
+    [
+     "войти в чат gpt без регистрации",
+     0,
+     1,
+     8,
+     0.69
+    ],
+    [
+     "как пользоваться gpt бесплатно",
+     0,
+     1,
+     1,
+     2.15
+    ],
+    [
+     "как пользоваться чатом gpt без ограничений",
+     0,
+     1,
+     10,
+     0.0
+    ]
+   ]
+  }
+ },
+ "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/": {
+  "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+  "all": {
+   "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+   "clicks": 1,
+   "impressions": 226,
+   "ctr": 0.0044,
+   "position": 9.5
+  },
+  "uzb": {
+   "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+   "clicks": 0,
+   "impressions": 76,
+   "ctr": 0.0,
+   "position": 5.9
+  },
+  "A": {
+   "bucket": 6,
+   "curve": 0.003592935580183189,
+   "curve_clicks": 142,
+   "curve_impr": 39522,
+   "thin": false,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.27306310409392237
+  },
+  "B": {
+   "bucket": 6,
+   "curve": 0.009316770186335404,
+   "curve_clicks": 15,
+   "curve_impr": 1610,
+   "thin": false,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.7080745341614907
+  },
+  "C": {
+   "bucket": 10,
+   "curve": 0.0,
+   "curve_clicks": 0,
+   "curve_impr": 115,
+   "thin": true,
+   "cur": 0.004424778761061947,
+   "ratio": null,
+   "gap": -1.0
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.7,
+   "impr": 76,
+   "ratio": 0.0,
+   "gap": 0.7,
+   "thin_share": 0.06578947368421052,
+   "top": [
+    [
+     "chat gpt uzb",
+     0,
+     22,
+     4.5,
+     0.87
+    ],
+    [
+     "чат гпт на узбекском",
+     0,
+     19,
+     5.6,
+     1.12
+    ],
+    [
+     "chat gpt на узбекском языке",
+     0,
+     17,
+     6.6,
+     0.38
+    ],
+    [
+     "чат gpt на узбекском",
+     0,
+     6,
+     7.5,
+     0.69
+    ],
+    [
+     "чат джипити на узбекском языке",
+     0,
+     5,
+     6.4,
+     1.12
+    ],
+    [
+     "chatgpt на узбекском",
+     0,
+     4,
+     8.5,
+     0.76
+    ],
+    [
+     "chat gpt uz",
+     0,
+     1,
+     3,
+     3.59
+    ],
+    [
+     "gpt чат",
+     0,
+     1,
+     5,
+     0.87
+    ]
+   ]
+  }
+ },
+ "/ru/promty-gpt-chatgpt-50-primerov/": {
+  "page": "/ru/promty-gpt-chatgpt-50-primerov/",
+  "all": {
+   "page": "/ru/promty-gpt-chatgpt-50-primerov/",
+   "clicks": 3,
+   "impressions": 214,
+   "ctr": 0.014,
+   "position": 8.4
+  },
+  "uzb": null,
+  "C": {
+   "bucket": 8,
+   "curve": 0.003115264797507788,
+   "curve_clicks": 2,
+   "curve_impr": 642,
+   "thin": true,
+   "cur": 0.014018691588785047,
+   "ratio": 4.5,
+   "gap": -2.333333333333333
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.0,
+   "impr": 0,
+   "ratio": null,
+   "gap": 0.0,
+   "thin_share": null,
+   "top": []
+  }
+ },
+ "/": {
+  "page": "/",
+  "all": {
+   "page": "/",
+   "clicks": 6,
+   "impressions": 320,
+   "ctr": 0.0188,
+   "position": 6.6
+  },
+  "uzb": {
+   "page": "/",
+   "clicks": 1,
+   "impressions": 164,
+   "ctr": 0.0061,
+   "position": 7.7
+  },
+  "A": {
+   "bucket": 8,
+   "curve": 0.0,
+   "curve_clicks": 0,
+   "curve_impr": 555,
+   "thin": true,
+   "cur": 0.006097560975609756,
+   "ratio": null,
+   "gap": -1.0
+  },
+  "B": {
+   "bucket": 8,
+   "curve": 0.0,
+   "curve_clicks": 0,
+   "curve_impr": 555,
+   "thin": true,
+   "cur": 0.006097560975609756,
+   "ratio": null,
+   "gap": -1.0
+  },
+  "C": {
+   "bucket": 7,
+   "curve": 0.0053215361928576005,
+   "curve_clicks": 83,
+   "curve_impr": 15597,
+   "thin": false,
+   "cur": 0.01875,
+   "ratio": 3.5234186746987954,
+   "gap": -4.297108418285568
+  },
+  "Q": {
+   "actual": 1,
+   "expected": 1.8,
+   "impr": 164,
+   "ratio": 0.5542932315398152,
+   "gap": 0.8,
+   "thin_share": 0.34146341463414637,
+   "top": [
+    [
+     "gpt bot",
+     1,
+     17,
+     1.1,
+     1.3
+    ],
+    [
+     "ai67096",
+     0,
+     10,
+     4.5,
+     0.87
+    ],
+    [
+     "ai67905",
+     0,
+     8,
+     7.1,
+     0.38
+    ],
+    [
+     "ai67090",
+     0,
+     7,
+     5.4,
+     0.87
+    ],
+    [
+     "gpt uz",
+     0,
+     6,
+     3.5,
+     2.2
+    ],
+    [
+     "ai66903",
+     0,
+     5,
+     8.2,
+     0.69
+    ],
+    [
+     "ai67097",
+     0,
+     5,
+     5,
+     0.87
+    ],
+    [
+     "ai67169",
+     0,
+     5,
+     9.8,
+     0.0
+    ]
+   ]
+  }
+ },
+ "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+  "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+  "all": {
+   "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "clicks": 38,
+   "impressions": 958,
+   "ctr": 0.0397,
+   "position": 4.1
+  },
+  "uzb": {
+   "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "clicks": 2,
+   "impressions": 78,
+   "ctr": 0.0256,
+   "position": 4.2
+  },
+  "A": {
+   "bucket": 4,
+   "curve": 0.0,
+   "curve_clicks": 0,
+   "curve_impr": 27,
+   "thin": true,
+   "cur": 0.02564102564102564,
+   "ratio": null,
+   "gap": -2.0
+  },
+  "B": {
+   "bucket": 4,
+   "curve": 0.0,
+   "curve_clicks": 0,
+   "curve_impr": 27,
+   "thin": true,
+   "cur": 0.02564102564102564,
+   "ratio": null,
+   "gap": -2.0
+  },
+  "C": {
+   "bucket": 4,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.03966597077244259,
+   "ratio": null,
+   "gap": null
+  },
+  "Q": {
+   "actual": 2,
+   "expected": 2.2,
+   "impr": 78,
+   "ratio": 0.9287707262269521,
+   "gap": 0.2,
+   "thin_share": 0.1282051282051282,
+   "top": [
+    [
+     "как оплатить чат gpt в узбекистане",
+     2,
+     32,
+     2.8,
+     3.59
+    ],
+    [
+     "clauduz ru",
+     0,
+     6,
+     3.2,
+     3.59
+    ],
+    [
+     "узбекистан",
+     0,
+     6,
+     6.3,
+     1.11
+    ],
+    [
+     "chatgpt uzbekistan",
+     0,
+     3,
+     6,
+     1.11
+    ],
+    [
+     "chatgpt uzb",
+     0,
+     2,
+     2,
+     8.79
+    ],
+    [
+     "uzb",
+     0,
+     2,
+     3.5,
+     2.18
+    ],
+    [
+     "в узбекистане",
+     0,
+     2,
+     6,
+     1.11
+    ],
+    [
+     "я живу в узбекистане",
+     0,
+     2,
+     9,
+     0.75
+    ]
+   ]
+  }
+ },
+ "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+  "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+  "all": {
+   "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "clicks": 45,
+   "impressions": 745,
+   "ctr": 0.0604,
+   "position": 4.5
+  },
+  "uzb": {
+   "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "clicks": 9,
+   "impressions": 183,
+   "ctr": 0.0492,
+   "position": 4.7
+  },
+  "A": {
+   "bucket": 5,
+   "curve": 0.023153473020953143,
+   "curve_clicks": 463,
+   "curve_impr": 19997,
+   "thin": false,
+   "cur": 0.04918032786885246,
+   "ratio": 2.124101547286053,
+   "gap": -4.762914437165574
+  },
+  "B": {
+   "bucket": 5,
+   "curve": 0.023153473020953143,
+   "curve_clicks": 463,
+   "curve_impr": 19997,
+   "thin": false,
+   "cur": 0.04918032786885246,
+   "ratio": 2.124101547286053,
+   "gap": -4.762914437165574
+  },
+  "C": {
+   "bucket": 5,
+   "curve": 0.023764826350371193,
+   "curve_clicks": 557,
+   "curve_impr": 23438,
+   "thin": false,
+   "cur": 0.06040268456375839,
+   "ratio": 2.541684238429747,
+   "gap": -27.29520436897346
+  },
+  "Q": {
+   "actual": 9,
+   "expected": 2.7,
+   "impr": 183,
+   "ratio": 3.2928202259587946,
+   "gap": -6.3,
+   "thin_share": 0.28415300546448086,
+   "top": [
+    [
+     "chatgpt uzbekistan",
+     0,
+     74,
+     5.8,
+     1.1
+    ],
+    [
+     "как оплатить чат gpt в узбекистане",
+     5,
+     32,
+     1.7,
+     2.08
+    ],
+    [
+     "chatgpt uzb",
+     0,
+     15,
+     8.2,
+     0.69
+    ],
+    [
+     "оплата chatgpt",
+     0,
+     5,
+     1.8,
+     2.08
+    ],
+    [
+     "узбекистан",
+     0,
+     5,
+     6.4,
+     1.1
+    ],
+    [
+     "купить подписку chatgpt",
+     0,
+     4,
+     6.8,
+     0.38
+    ],
+    [
+     "chatgpt uz",
+     0,
+     3,
+     7.3,
+     0.38
+    ],
+    [
+     "оплатить гпт",
+     1,
+     2,
+     1,
+     1.12
+    ]
+   ]
+  }
+ },
+ "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+  "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "all": {
+   "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "clicks": 557,
+   "impressions": 23438,
+   "ctr": 0.0238,
+   "position": 4.7
+  },
+  "uzb": {
+   "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "clicks": 463,
+   "impressions": 19948,
+   "ctr": 0.0232,
+   "position": 4.5
+  },
+  "A": {
+   "bucket": 5,
+   "curve": 0.03879310344827586,
+   "curve_clicks": 9,
+   "curve_impr": 232,
+   "thin": true,
+   "cur": 0.023210346901945057,
+   "ratio": 0.5983111645834726,
+   "gap": 310.8448275862069
+  },
+  "B": {
+   "bucket": 5,
+   "curve": 0.03879310344827586,
+   "curve_clicks": 9,
+   "curve_impr": 232,
+   "thin": true,
+   "cur": 0.023210346901945057,
+   "ratio": 0.5983111645834726,
+   "gap": 310.8448275862069
+  },
+  "C": {
+   "bucket": 5,
+   "curve": 0.06040268456375839,
+   "curve_clicks": 45,
+   "curve_impr": 745,
+   "thin": true,
+   "cur": 0.023764826350371193,
+   "ratio": 0.39343990291170083,
+   "gap": 858.7181208053692
+  },
+  "Q": {
+   "actual": 463,
+   "expected": 179.9,
+   "impr": 19948,
+   "ratio": 2.5731954353815487,
+   "gap": -283.1,
+   "thin_share": 0.7845899338279527,
+   "top": [
+    [
+     "chatgpt yuklab olish uzbek tilida",
+     311,
+     8557,
+     2.5,
+     1.62
+    ],
+    [
+     "chatgpt ochish",
+     25,
+     3638,
+     5.4,
+     0.46
+    ],
+    [
+     "chatgpt yuklab olish",
+     41,
+     3347,
+     7.7,
+     0.19
+    ],
+    [
+     "chatgpt ilovasini yuklab olish",
+     47,
+     1878,
+     4,
+     0.0
+    ],
+    [
+     "chat gpt yuklash",
+     2,
+     376,
+     6.3,
+     1.46
+    ],
+    [
+     "chatgpt yuklash",
+     1,
+     282,
+     6.7,
+     0.36
+    ],
+    [
+     "chatgpt skachat uzbek tilida",
+     10,
+     193,
+     2.6,
+     1.62
+    ],
+    [
+     "chatgpt скачать uzbek tilida",
+     4,
+     178,
+     4.9,
+     0.46
+    ]
+   ]
+  }
+ },
+ "/ru/blog/chto-takoe-lid-v-marketinge/": {
+  "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+  "all": {
+   "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+   "clicks": 1,
+   "impressions": 376,
+   "ctr": 0.0027,
+   "position": 19.9
+  },
+  "uzb": {
+   "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+   "clicks": 0,
+   "impressions": 19,
+   "ctr": 0.0,
+   "position": 7.9
+  },
+  "A": {
+   "bucket": 8,
+   "curve": 0.0014285714285714286,
+   "curve_clicks": 1,
+   "curve_impr": 700,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.027142857142857142
+  },
+  "B": {
+   "bucket": 8,
+   "curve": 0.0014285714285714286,
+   "curve_clicks": 1,
+   "curve_impr": 700,
+   "thin": true,
+   "cur": 0.0,
+   "ratio": 0.0,
+   "gap": 0.027142857142857142
+  },
+  "C": {
+   "bucket": 20,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.0026595744680851063,
+   "ratio": null,
+   "gap": null
+  },
+  "Q": {
+   "actual": 0,
+   "expected": 0.2,
+   "impr": 19,
+   "ratio": 0.0,
+   "gap": 0.2,
+   "thin_share": 0.42105263157894735,
+   "top": [
+    [
+     "lid",
+     0,
+     9,
+     7.7,
+     0.69
+    ],
+    [
+     "что такое лид",
+     0,
+     2,
+     10,
+     0.0
+    ],
+    [
+     "lid.",
+     0,
+     1,
+     5,
+     0.87
+    ],
+    [
+     "manba ber",
+     0,
+     1,
+     3,
+     3.59
+    ],
+    [
+     "лид расшифровка",
+     0,
+     1,
+     1,
+     2.15
+    ],
+    [
+     "лид это",
+     0,
+     1,
+     11,
+     2.67
+    ],
+    [
+     "лид это в маркетинге",
+     0,
+     1,
+     11,
+     2.67
+    ],
+    [
+     "что означает лид",
+     0,
+     1,
+     10,
+     0.0
+    ]
+   ]
+  }
+ },
+ "/ru/seo-prodvizhenie-saytov-tashkent/": {
+  "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+  "all": {
+   "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+   "clicks": 1,
+   "impressions": 500,
+   "ctr": 0.002,
+   "position": 26.2
+  },
+  "uzb": {
+   "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+   "clicks": 1,
+   "impressions": 464,
+   "ctr": 0.0022,
+   "position": 27.2
+  },
+  "A": {
+   "bucket": 27,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.0021551724137931034,
+   "ratio": null,
+   "gap": null
+  },
+  "B": {
+   "bucket": 27,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.0021551724137931034,
+   "ratio": null,
+   "gap": null
+  },
+  "C": {
+   "bucket": 26,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.002,
+   "ratio": null,
+   "gap": null
+  },
+  "Q": {
+   "actual": 1,
+   "expected": 2.3,
+   "impr": 464,
+   "ratio": 0.42827421334955235,
+   "gap": 1.3,
+   "thin_share": 0.9094827586206896,
+   "top": [
+    [
+     "продвижение сайтов",
+     0,
+     83,
+     17.3,
+     0.0
+    ],
+    [
+     "seo продвижение ташкент",
+     0,
+     47,
+     20.2,
+     0.0
+    ],
+    [
+     "seo ташкент",
+     0,
+     44,
+     54.6,
+     0.0
+    ],
+    [
+     "продвижение сайтов ташкент",
+     0,
+     43,
+     41.1,
+     0.0
+    ],
+    [
+     "продвижение сайтов в ташкенте",
+     0,
+     39,
+     38.7,
+     0.0
+    ],
+    [
+     "seo оптимизация ташкент",
+     0,
+     38,
+     65.2,
+     0.0
+    ],
+    [
+     "seo продвижение сайта цена",
+     0,
+     13,
+     8.3,
+     0.69
+    ],
+    [
+     "продвижение сайта цена",
+     0,
+     13,
+     7.9,
+     0.69
+    ]
+   ]
+  }
+ },
+ "/ru/razrabotka-saytov-tashkent/": {
+  "page": "/ru/razrabotka-saytov-tashkent/",
+  "all": {
+   "page": "/ru/razrabotka-saytov-tashkent/",
+   "clicks": 2,
+   "impressions": 324,
+   "ctr": 0.0062,
+   "position": 35.0
+  },
+  "uzb": {
+   "page": "/ru/razrabotka-saytov-tashkent/",
+   "clicks": 2,
+   "impressions": 293,
+   "ctr": 0.0068,
+   "position": 36.6
+  },
+  "A": {
+   "bucket": 37,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.006825938566552901,
+   "ratio": null,
+   "gap": null
+  },
+  "B": {
+   "bucket": 37,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.006825938566552901,
+   "ratio": null,
+   "gap": null
+  },
+  "C": {
+   "bucket": 35,
+   "curve": null,
+   "curve_clicks": 0,
+   "curve_impr": 0,
+   "thin": true,
+   "cur": 0.006172839506172839,
+   "ratio": null,
+   "gap": null
+  },
+  "Q": {
+   "actual": 2,
+   "expected": 0.0,
+   "impr": 293,
+   "ratio": 44.688295343308624,
+   "gap": -2.0,
+   "thin_share": 0.9931740614334471,
+   "top": [
+    [
+     "разработка сайтов",
+     0,
+     64,
+     40.4,
+     0.0
+    ],
+    [
+     "разработка сайтов в ташкенте",
+     0,
+     59,
+     40.5,
+     0.0
+    ],
+    [
+     "разработка сайтов ташкент",
+     0,
+     58,
+     41,
+     0.0
+    ],
+    [
+     "разработка сайта в ташкенте",
+     0,
+     36,
+     43.4,
+     0.0
+    ],
+    [
+     "разработка сайтов в ташкенте цены",
+     2,
+     35,
+     10.6,
+     0.0
+    ],
+    [
+     "разработка сайтов узбекистан",
+     0,
+     11,
+     44.4,
+     0.0
+    ],
+    [
+     "разработка сайта ташкент",
+     0,
+     4,
+     45.8,
+     0.0
+    ],
+    [
+     "заказать разработку сайта",
+     0,
+     3,
+     21.7,
+     0.0
+    ]
+   ]
+  }
+ }
+}

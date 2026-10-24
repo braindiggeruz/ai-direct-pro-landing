@@ -6,6 +6,7 @@ import { onRequest as middlewareRequest } from '../functions/_middleware';
 import { onRequest as ruBlogIndexRequest } from '../functions/ru/blog/index';
 import { onRequest as uzBlogIndexRequest } from '../functions/uz/blog/index';
 import { HREFLANG_PAIRS, MONEY_PAGES } from '../src/shared/site-config';
+import { buildRobotsTxt } from '../src/shared/robots-policy';
 
 const ROOT = process.cwd();
 const RETIRED = ['/ru/gpt-bot-dlya-biznesa/', '/ru/bot-dlya-obrabotki-zayavok/'];
@@ -160,6 +161,32 @@ test('unknown private-looking routes remain true noindex 404s instead of homepag
     assert.ok(!redirects.some((item) => item.from === route || item.from === route + '/'), route);
   }
   assert.match(read('public/404.html'), /name="robots" content="noindex, nofollow"/);
+});
+
+// Growth audit 2026-10-24, W1-12 and W1-13 (docs/seo/research/2026-10-24-growth-audit/).
+test('robots.txt folds tracking parameters for Yandex in one inter-sectional line', () => {
+  const robots = buildRobotsTxt('https://gptbot.uz');
+  assert.match(robots, /^Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&ysclid$/m);
+  assert.equal((robots.match(/^Clean-param:/gm) ?? []).length, 1);
+  // A `User-agent: Yandex` group would make Yandex ignore the `*` group.
+  assert.doesNotMatch(robots, /^User-agent: Yandex/m);
+});
+
+test('LLM manifests and Markdown twins send one Cache-Control, the 404 title carries the brand', () => {
+  const generator = read('scripts/generate-robots.ts');
+  for (const file of ['/llms.txt', '/llms-full.txt', '/*.md']) {
+    const start = generator.indexOf(`headers.push('${file}');`);
+    assert.ok(start > -1, `${file} block missing in scripts/generate-robots.ts`);
+    const rest = generator.slice(start + 1);
+    const next = rest.search(/headers\.push\('\//);
+    const block = next === -1 ? rest : rest.slice(0, next);
+    const detach = block.indexOf("headers.push('  ! Cache-Control');");
+    const policy = block.indexOf("headers.push('  Cache-Control:");
+    assert.ok(policy > -1, `${file} has no Cache-Control`);
+    // Pages merges every matching rule: without the detach the global `/*` policy is glued on.
+    assert.ok(detach > -1 && detach < policy, `${file} must detach the inherited Cache-Control first`);
+  }
+  assert.match(read('public/404.html'), /<title>404 — Страница не найдена \| GPTBot\.uz<\/title>/);
 });
 
 test('the Telegram country legacy URL consolidates into a geographically explicit owner', () => {

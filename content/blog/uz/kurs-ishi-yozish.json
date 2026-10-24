@@ -325,12 +325,17 @@
     },
     {
       "type": "linkp",
-      "text": "Ko‘p oliygohlarda kurs ishi himoya qilinadi: qisqa ma’ruza va komissiya savollari; ma’ruza vaqtini kafedra belgilaydi. Slaydlarda mavzu, maqsad va vazifalar, ish tuzilishi, asosiy natijalar va takliflar bo‘ladi; matnni slaydga ko‘chirmang, faqat asosiy fikrni qoldiring. Slayd va ma’ruza matnini tayyorlash tartibi {slayd} qo‘llanmasida. Himoyadan oldin har bir bob bo‘yicha 2–3 savolga og‘zaki javob berib ko‘ring.",
+      "text": "Ko‘p oliygohlarda kurs ishi himoya qilinadi: qisqa ma’ruza va komissiya savollari; ma’ruza vaqtini kafedra belgilaydi. Slaydlarda mavzu, maqsad va vazifalar, ish tuzilishi, asosiy natijalar va takliflar bo‘ladi; matnni slaydga ko‘chirmang, faqat asosiy fikrni qoldiring. Slayd va ma’ruza matnini tayyorlash tartibi {slayd} qo‘llanmasida. Tayyor .pptx qoralama kerak bo‘lsa, {taqdimot} sahifasida mavzudan 6 slaydgacha bepul namuna olish mumkin; to‘liq taqdimot — alohida Studio tarifida. Himoyadan oldin har bir bob bo‘yicha 2–3 savolga og‘zaki javob berib ko‘ring.",
       "links": [
         {
           "token": "slayd",
           "target": "/uz/blog/slayd-tayyorlash/",
           "anchor": "slayd tayyorlash"
+        },
+        {
+          "token": "taqdimot",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "taqdimot yaratish"
         }
       ]
     },

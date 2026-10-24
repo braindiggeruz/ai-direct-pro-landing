@@ -2,6 +2,83 @@
 
 Что и когда менялось на страницах gptbot.uz в октябре 2026. Правила те же, что в `CHANGE_LOG_2026-09.md`. Шаблонные правки (`scripts/`, `src/`, `index.html`, `content/global/site.json`) меняют сразу много страниц, поэтому у каждого коммита они перечислены словами. **[P]** — одна из десяти защищённых страниц (`PROTECTED_PATHS` в `scripts/seo-protection.ts`).
 
+## Волна 1 роста 24.10: честный пробный доступ, `/uz/suniy-intellekt/`, расшифровка ChatGPT, перелинковка, техгигиена и публикация RU↔UZ переводчика — ревизия `2026-10-24-wave1` (24.10, не выкачено)
+
+**Основание.** Распоряжение владельца 24.10: исполнить проверенный бэклог роста автономно и выкатить. Бэклог — `docs/seo/research/2026-10-24-growth-audit/BACKLOG.md` и `backlog.json`; вердикты состязательной проверки — `workflow-result.json` → `verdicts[]` и `verify-W1-*.md`. Везде исполнен исправленный вариант проверяющего. Ветка `seo/chat-snippets-translator-20261024`, база `1a773ee2` (прод `d54d5b61` + слитые черновики переводчика). Ни один контент-файл десяти защищённых страниц не тронут. Из защищённых меняется только `/`: в её списке появились два переводчика.
+
+| URL | Отметка | Что изменилось | Сниппет/H1 |
+|---|---|---|---|
+| `/` **[P]** | P | Оболочка главной перечисляет опубликованные переводчики по H1: в RU-списке «Русско-узбекский AI-переводчик: перевод с пояснениями», в UZ-списке «Ruscha-o‘zbekcha AI tarjimon: izohli tarjima». internalLinks 295 → 297, в тексте прибавились только эти две строки, весь остальной HTML побайтно прежний. lastmod в sitemap 2026-10-23 → 2026-10-24 | title, H1, description прежние |
+| `/ru/russko-uzbekskiy-perevodchik/` | — | **Опубликована** (`draft` → `published`): попала в sitemap с парой hreflang (x-default — узбекская), на главную, в `llms.txt` и `llms-full.txt`. Второй блок — новая заметка: AI-перевод работает как бета, важные и официальные тексты нужно проверить у человека. Слепая проверка носителем и вычитка **не проведены** (A8 `publicationNote`). Пара C48 с RU-чатом. `updatedAt` прежний | title `Переводчик с русского на узбекский и обратно — AI онлайн`; H1 `Русско-узбекский AI-переводчик: перевод с пояснениями` |
+| `/uz/rus-ozbek-tarjimon/` | — | **Опубликована**, всё то же на узбекском, заметка «beta rejimida». Пара C47 с UZ-чатом | title `Rus-o‘zbek tarjimon onlayn — AI tarjima, lotin va kirill`; H1 `Ruscha-o‘zbekcha AI tarjimon: izohli tarjima` |
+| `/uz/suniy-intellekt/` | — | W1-02. Ключи с U+2019 и 4 новых написания; блок про чат заменён на H2 «Sun’iy intellekt bilan o‘zbekcha gaplashib ko‘ring» с условиями пробного доступа и строкой «не OpenAI»; вложенность SI ⊃ ML ⊃ DL ⊃ LLM списком; виды ИИ по возможностям (ANI/AGI/ASI) и по функциям; H2 «tarixi» — таблица 1950–2022; H2 «Mashhur … xizmatlari» — 4 строки по официальным описаниям, GPTBot.uz абзацем под таблицей; «afzalliklari va xavflari»; план эссе/реферата; H2 о кириллице с абзацем `lang="uz-Cyrl"`; 2 новых FAQ; 10 источников. Три ссылки на гайды перенесены в блок плана (дублей нет). `lastReviewedAt`/`updatedAt` → 2026-10-24 | title «Sun’iy intellekt nima — oddiy tushuntirish va qo‘llanish» → «Sun’iy intellekt nima: turlari, tarixi, o‘zbekcha misollar» (58); H1 и description прежние |
+| `/ru/gpt-vs-chatgpt-sravnenie/` | — | W1-03: heroSubtitle с расшифровкой GPT и «ChatGPT = Chat + GPT», пункт оглавления и H2 «Как расшифровывается ChatGPT» (3 абзаца, последний: GPTBot.uz — не ChatGPT), 2 FAQ. W1-04: абзац со ссылками на оплату («как оплатить ChatGPT Plus из Узбекистана») и на статью о ChatGPT и Claude. Даты → 2026-10-24 | title, H1, description прежние |
+| `/ru/chto-takoe-gpt-i-kak-polzovatsya/` | — | W1-03: из secondaryKeywords убраны «расшифровка GPT», «Generative Pre-trained Transformer», «GPT и ChatGPT разница» (в HTML не выводятся). W1-04: ссылка «ChatGPT и Claude в Узбекистане». Даты прежние | нет |
+| `/ru/gde-polzovatsya-gpt-besplatno/` | — | W1-01: heroTrust «3 пробных ответа без регистрации»; «дневной и часовой лимит» и «базовый бесплатный доступ» заменены условиями: 3 пробных ответа всего, не обновляются, затем AI-пакет; FAQ «Можно ли пользоваться GPT бесплатно без ограничений?» (ChatGPT Free — по chatgpt.com/pricing на 24.10.2026, без названия модели). W1-04: ссылка «сравнение ChatGPT и Claude в Узбекистане». Даты → 2026-10-24 | title, H1, description прежние |
+| `/ru/gpt-chat-guide/` | — | W1-01: метка «3 пробных ответа», абзац тарифа, сводка и 2 FAQ (AI-пакет: 300 в месяц, до 50 в день). Ссылка «русско-узбекский AI-переводчик». Даты прежние | нет |
+| `/ru/promty-gpt-chatgpt-50-primerov/` | — | W1-01: FAQ о регистрации — 3 пробных ответа. После запросов 42–43 — ссылка «переводчик с русского на узбекский». Даты прежние (`lastReviewedAt` закреплён тестом) | нет |
+| `/ru/gpt-dlya-ucheby/` | — | Ссылка «AI-переводчик GPTBot.uz» (перевод — бета) | нет |
+| `/ru/tarify-ai-chat/` | — | W1-05: абзац о Studio — вместо голого «/uz/tariflar/» ссылки «тарифов Studio» → `/uz/tariflar/` и «ИИ для презентаций» → `/ru/prezentatsiya-ai/` | нет |
+| `/ru/blog/chat-gpt-na-russkom/` | — | W1-01: в тексте, сводке и FAQ вместо «в рамках дневного лимита» — 3 пробных ответа. W1-04: ссылка «руководстве по ChatGPT и Claude в Узбекистане». Даты прежние | нет |
+| `/ru/blog/chat-gpt-online/` | — | W1-01: правка только текста (тело, сводка, FAQ). Ссылки, анкоры, ключи и даты прежние, 301 по C23 — в W3-02 | нет |
+| `/ru/blog/zakazat-telegram-bota/` | — | W1-10 (H-3): анкор internalLinks[7] «Chat GPT на русском» → «Как пользоваться AI-чатом на русском», цель прежняя. Даты прежние | нет |
+| `/uz/` | — | W1-14: из schemaTypes убран BreadcrumbList, который ссылался сам на себя | нет (только JSON-LD) |
+| `/uz/gpt-chat-qollanma/` | — | Ссылка «ruscha-o‘zbekcha AI tarjimon». W1-02 — донор, анкор «sun’iy intellekt haqida ma’lumot». W1-05: «Studio tariflari (taqdimot uchun)» → `/uz/tariflar/`, с оговоркой, что AI-пакет не включает презентации | нет |
+| `/uz/gpt-uzbek-tilida-ai-chat/` | — | W1-02 — донор, «sun’iy intellekt turlari». Абзац «ChatGPT tarjima» стал linkp со ссылкой «Rus-o‘zbek tarjimon». W1-05: «slayd AI» → `/uz/taqdimot-ai/` | нет |
+| `/uz/blog/chatgpt-claude-gemini-ozbekistonda/` | — | W1-02 — донор, «sun’iy intellekt nima va turlari» | нет |
+| `/uz/blog/chatgpt-talabalar-uchun/` | — | Новый linkp «ruschadan o‘zbekchaga tarjima» с оговоркой про бету. W1-02 — донор: абзац о проверке фактов стал linkp, анкор «sun’iy intellekt nima». W1-06(c): «ariza va tushuntirish xati yozish» | нет |
+| `/uz/blog/insho-yozish-suniy-intellekt-bilan/` | — | W1-08: H3 «Murakkab reja namunasi: 3 ta mavzu», таблица — по строке на тему (3 темы). W1-06(b): linkp «o‘zbek tilida prompt yozish formulasi» → `/uz/gpt-uzbek-tilida-ai-chat/`. dateModified/updatedAt 2026-10-05 → 2026-10-24 | title, H1, description, ключи прежние (C30) |
+| `/uz/blog/kurs-ishi-yozish/` | — | W1-05: предложение о .pptx-черновике, ссылка «taqdimot yaratish» → `/uz/taqdimot-ai/` | нет |
+| `/uz/blog/referat-va-mustaqil-ish/` | — | W1-02 — донор: пример сужения темы, анкор «sun’iy intellekt tarixi» | нет |
+| `/uz/blog/target-reklama-nima/` | — | W1-06(a): linkp «Instagram Direct nima va AI-bot qanday ishlaydi» | нет |
+| `/ru/gpt-chat/` **[P]**, `/uz/gpt-uzbek-tilida/` **[P]** | P | HTML отличается только именем `gpt-chat-*.js` (`DXmrgoYc` → `qKkuHbSa`; бандл изменился при слиянии переводчика `1a773ee2`). Контракт, текст и ссылки прежние | нет |
+| 7 защищённых статей **[P]** | — | Побайтно равны сборке `d54d5b61` | нет |
+
+**Шаблон и общие файлы.**
+- **W1-14, `scripts/jsonld-helpers.ts`.** У BreadcrumbList появился `name` верхнего уровня (последняя крошка) на всех страницах вне `PROTECTED_PATHS`. В сборке `build:fast` таких 288, у 9 защищённых список остался без имени, у 2 (`/` и `/uz/`) списка нет. Защищённые исключены сознательно: ради П-CTR гайда по скачиванию и окна чатов. Тест — `tests/seo-breadcrumb-ld.test.ts`. Поэтому HTML ≈290 незащищённых страниц изменился только в JSON-LD.
+- **W1-12.** `robots.txt` — одна межсекционная строка `Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&ysclid`, без группы `User-agent: Yandex` (`src/shared/robots-policy.ts`).
+- **W1-13 (b, c).** В `_headers` у `/llms.txt`, `/llms-full.txt` и `/*.md` перед своей политикой стоит `! Cache-Control`. У `public/404.html` title «… | GPTBot.uz». Пункт (a) (`/?lang=ru` одним 301) — правило Page Rule в зоне Cloudflare, не в репозитории; не сделано.
+- **`llms.txt`, `llms-full.txt`.** Записи двух переводчиков: бета, 3 пробных ответа общие с чатом, бесплатный конвертер без модели, нет перевода фото и голоса, не Google Translate и не ChatGPT. «Last updated» → 2026-10-24.
+- **Карта интентов (`content/seo/intent-manifest.json`).**
+  - Новая пара C46: sravnenie ↔ chto-takoe, расшифровка против «что такое».
+  - Новые пары C47 (UZ-чат ↔ `/uz/rus-ozbek-tarjimon/`) и C48 (RU-чат ↔ `/ru/russko-uzbekskiy-perevodchik/`).
+  - A8 → `PUBLISHED_AS_PAIRS_C47_C48` с `publicationNote`. `content/seo/demand-policy.json` — только примечания.
+- **Тесты.**
+  - Новые: `seo-anchor-intent` (W1-11, анкор ≠ `mustNotTarget` цели; исключения H-1, H-2, H-4a до W3-02 ≈25.11) и `seo-breadcrumb-ld`; оба добавлены в `npm test`.
+  - Изменённые:
+    - `seo-trial-product-truth`: +6 файлов и шире запретный regex.
+    - `translator-pages`: проверки после публикации.
+    - `gsc-indexation-hygiene` и `bormi-admin-hardening`: W1-12 и W1-13.
+    - `react-router-v8-migration`: +2 одобренных маршрута.
+    - `seo-protection`: проверка ревизии wave1.
+- **`scripts/chat-layout-check.mjs --translator`.** Проверка раскладки переводчиков. Не запускалась: нужен браузер.
+
+**Защищённая ревизия.** `docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json`, `previousRevision` — `2026-10-24-chat-snippets` (sha256 `fbcd73d9…`). Генератор `docs/seo/implementation/2026-10-24-wave1/review-candidate.ts` не пишет файл, если не выполнено хоть одно условие:
+- у `/` изменились только internalLinks (+2 переводчика, ничего не убрано) и текст (+2 метки);
+- HTML `/` без двух `<li>` равен предшественнику байт в байт;
+- HTML обоих чатов со старым именем бандла равен предшественнику;
+- 7 статей побайтно прежние.
+
+До ревизии гейт падал ровно на `/`: internalLinks и bodyTextSha256. После — 10/10.
+
+**Замер.** Равные 28-дневные окна от подтверждённого переобхода, Узбекистан и остальные страны раздельно (BACKLOG §10.6).
+- **W1-03.** База sravnenie по семье «расшифр»: 2026-10-07..10-21, 438 показов / 2 клика, поз. 8,2. Окно 09-24..10-21 не годится: оно смешивает состояние до и после ревизий 30.09 и 06.10.
+- **W1-01.** Семья «без ограничений» ≈58 показов на поз. ≈7,2; «бесплатный чат gpt без ограничений» → gde-polzovatsya: 49 / 1. Главная польза — страницы воронки перестали обещать дневной лимит.
+- **W1-02.** База `/uz/suniy-intellekt/`: 32 показа за 3 месяца, поз. 13,6; основные запросы на поз. 58–77.
+- **W1-04.** Ссылки на две защищённые цели (оплата, ChatGPT и Claude) — внешний сигнал для их замеров: дату выката записать в «Выкаты». Если по «как оплатить чат gpt в узбекистане» статья о Claude обойдёт страницу оплаты (владелец A6), перенести W2-01 в R-S1b раньше.
+- **Переводчики.** Истории в GSC нет; первое чтение — через 28 дней после переобхода. Если URL переводчика появится по запросу чата, записать это как помеху окну чатов.
+
+Окно чатов (ревизия `2026-10-24-chat-snippets`) и П-CTR гайда по скачиванию не затронуты.
+
+**Проверка (24.10).** `build:fast` — exit 0. `seo-protection check` — 10/10. Полный прогон `tests/*.test.ts`: 4548 тестов. Новым было одно падение — R3-10 на сборке: у переводчиков, как у чатов, нет шапки сайта; тест поправлен. Остальные 30 падений те же, что на чистом `1a773ee2`. `tsc -b` и `typecheck:functions` — 0, eslint по изменённым файлам — 0, `seo-audit` — без критичных. `scan:secrets` — только старая находка `tests/telegram-assistant.test.ts:639`. Скан апострофов в добавленных узбекских строках: 0 ASCII, U+02BB и U+02BC.
+
+**Не сделано и почему.**
+- **W1-07, W1-09** опровергнуты проверяющим. Необязательную UX-ссылку из W1-09 не ставили.
+- **W1-13(a)** — изменение зоны Cloudflare.
+- **W1-15** — после выката: IndexNow по явному списку, повторный inspect через 14 дней.
+- **W1-02(9)** — рисунка SI ⊃ ML ⊃ DL ⊃ LLM нет, вместо него вложенный список.
+- **Правки доказательной базы** в `backlog.json` и `BACKLOG.md` (W1-04 п.2, W1-05 п.6) остаются только в `verify-*.md`.
+
 ## Сниппеты двух чатов: заморозка R-S1 снята — ревизия `2026-10-24-chat-snippets` (24.10, не выкачено)
 
 **Основание.** Распоряжение владельца 24.10: «снимаем заморозку R-S1, начинай с title/description /ru/gpt-chat/ и /uz/gpt-uzbek-tilida/». Данные — `docs/seo/research/2026-10-24-snippets-translator/snippet-data.md` (GSC 24.09–21.10, окна до R-S1, R-S1 и после 08.10; срез выдачи 24.10, 6 запросов). Коротко:

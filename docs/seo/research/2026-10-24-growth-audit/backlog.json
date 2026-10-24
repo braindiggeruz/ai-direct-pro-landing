@@ -1,0 +1,383 @@
+{
+  "schema": "gptbot-growth-backlog/1",
+  "createdAt": "2026-10-24",
+  "branch": "seo/chat-snippets-translator-20261024",
+  "production": "d54d5b61",
+  "sources": {
+    "lenses": ["L1-ctr.md", "L2-striking-distance.md", "L3-demand-gaps.md", "L4-technical.md", "L5-internal-linking.md", "L6-competitor-gap.md"],
+    "calibration": "synth-data/calibration.py -> synth-data/calibration.json",
+    "intentManifest": "content/seo/intent-manifest.json (updatedAt 2026-10-24)",
+    "protection": "scripts/seo-protection.ts (PROTECTED_PATHS, BASELINE 2026-10-24-chat-snippets)",
+    "windows": "docs/seo/CHANGE_LOG_2026-10.md (chat snippets 24.10), C11/C22 notes, implementation-map.md G4/G5/G8"
+  },
+  "estimationRules": {
+    "K_new": {
+      "value": 0.04,
+      "meaning": "realised clicks / demand-based low bound (demand x 0.38% x 0.92) for UZ guides in their first weeks",
+      "evidence": "7 UZ guides (insho 01.09; slayd, referat, rezyume 05.10; kurs ishi, tushuntirish, biznes reja 07.10): 3 clicks vs 75.4 predicted, impression share 2.2% (synth-data/calibration.json, GSC resultId 7081b224-e5bf-4560-b04f-ac32f2a86aff, demand-policy.json)",
+      "appliesTo": "new pages and existing pages without rankings for the target family"
+    },
+    "ctrGapClosure": "text/snippet fixes on pages that already rank: 50% of the lens range",
+    "rerouting": "query that Google moved between our URLs: p = 0.5 of the lens range",
+    "internalLinks": "10-20% of the L5 ceiling (impressions x 3.59% - clicks); no site evidence for link effect",
+    "positionGain": "p = 0.2-0.25 that a page gains the lens' target position within 28 days"
+  },
+  "windows": [
+    {"id": "chat-snippets-2026-10-24", "pages": ["/ru/gpt-chat/", "/uz/gpt-uzbek-tilida/"], "read": "rollback check ~14 days after recrawl (~07-10.11); final ~21-24.11", "source": "docs/seo/CHANGE_LOG_2026-10.md, section Zamer"},
+    {"id": "R-S1-p-ctr", "pages": ["/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/", "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "/uz/blog/chatgpt-uzbek-tilida-promptlar/", "/uz/blog/chatgptga-qanday-kirish-mumkin/"], "read": "~05-07.11 (void for the two chats)", "source": "intent-manifest C22 observedOwnerNote; CHANGE_LOG_2026-10"},
+    {"id": "download-guide-p-ctr", "pages": ["/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"], "read": "~06-10.11; revision R-S2 2026-11-16", "source": "src/shared/site-chat-nav.ts:16-29; intent-manifest C11"},
+    {"id": "recovery-2026-10-23", "pages": ["/uz/blog/chatgptga-qanday-kirish-mumkin/", "/uz/gpt-uzbek-tilida/"], "read": "~20.11", "source": "scripts/seo-protection.ts header; L5 sec.5"},
+    {"id": "school-cohort-2026-10", "pages": ["7 UZ guides"], "read": "8 weeks ~01.12", "source": "synth-data/calibration.json"}
+  ],
+  "waves": [
+    {
+      "wave": "1",
+      "goal": "Один релиз сейчас: только незащищённые страницы, шаблоны и тесты; assertSeoProtection проходит с текущим BASELINE 2026-10-24-chat-snippets. Ожидание ≈5–29 кликов за 28 дней (0,3–1,8 % от 1 584).",
+      "gate": "none; ship now",
+      "items": [
+        {
+          "id": "W1-01", "title": "Честность пробного доступа: убрать «базовый бесплатный доступ» на трёх RU-страницах и ответить на «GPT бесплатно без ограничений»",
+          "pages": ["/ru/gde-polzovatsya-gpt-besplatno/", "/ru/gpt-chat-guide/", "/ru/promty-gpt-chatgpt-50-primerov/"],
+          "files": ["content/pages/ru/gde-polzovatsya-gpt-besplatno.json", "content/pages/ru/gpt-chat-guide.json", "content/pages/ru/promty-gpt-chatgpt-50-primerov.json", "tests/seo-trial-product-truth.test.ts"],
+          "action": "1) gde-polzovatsya: все формулировки «базовый (бесплатный) доступ», «Базовый доступ бесплатный» (bodyBlocks около строк 71, 74, 93; faq 100, 102) заменить на «3 пробных ответа без регистрации — всего, без ежедневного обновления; затем AI-пакет». Цену «300 ответов на месяц за 20 000 сум, без автосписаний» оставить: она совпадает с content/pages/ru/oferta.json:16,64,66. 2) FAQ «Бесплатно — это без ограничений?» переименовать в «Можно ли пользоваться GPT бесплатно без ограничений?» (свой ключ «GPT бесплатно» по C27; формулировку «бесплатный чат GPT» не брать — семья «чат … бесплатно» принадлежит RU-чату). Ответ: у ChatGPT Free текстовые чаты без жёсткого лимита в рамках защиты от злоупотреблений, файлы/картинки/голос ограничены (chatgpt.com/pricing, дата проверки в день правки); у GPTBot.uz — 3 пробных ответа всего, затем AI-пакет. 3) gpt-chat-guide.json:181 и promty-gpt-chatgpt-50-primerov.json:175 — та же замена. 4) Добавить три файла в trialFiles теста seo-trial-product-truth. Title, H1 не менять.",
+          "evidence": "L2-03: GSC 28 дн. resultId f9de731a — «бесплатный чат gpt без ограничений» 49 показов, 1 клик, поз. 7,2. oferta.json:92 — «Без AI-пакета доступны всего 3 пробных ответа». grep 2026-10-24 нашёл «Базовый доступ…» ещё в gpt-chat-guide.json:181 и promty…json:175; эти файлы не входят в trialFiles (tests/seo-trial-product-truth.test.ts:8-14).",
+          "impact_clicks_28d": "≈0 (метод L2-03: ≈60 показов × (2 % − 1,7 %) = 0…+1). Цель — честность и доверие на входе в воронку. Уверенность: высокая в правке, клики не ожидаются.",
+          "expected_low": 0, "expected_high": 1, "confidence": "high", "effort": "S", "risk": "low", "protected": false, "lens": ["L2-03", "synthesis grep"]
+        },
+        {
+          "id": "W1-02", "title": "/uz/suniy-intellekt/: ответить на все интенты «sun’iy intellekt» (nima, turlari, tarixi, xizmatlar) и связать с UZ-кластером",
+          "pages": ["/uz/suniy-intellekt/", "/uz/blog/chatgpt-talabalar-uchun/", "/uz/gpt-chat-qollanma/", "/uz/gpt-uzbek-tilida-ai-chat/", "/uz/blog/referat-va-mustaqil-ish/", "/uz/blog/chatgpt-claude-gemini-ozbekistonda/"],
+          "files": ["content/pages/uz/suniy-intellekt.json", "content/blog/uz/chatgpt-talabalar-uchun.json", "content/pages/uz/gpt-chat-qollanma.json", "content/pages/uz/gpt-uzbek-tilida-ai-chat.json", "content/blog/uz/referat-va-mustaqil-ish.json", "content/blog/uz/chatgpt-claude-gemini-ozbekistonda.json", "tests/seo-trial-product-truth.test.ts"],
+          "action": "1) primaryKeyword «sun'iy intellekt» и «sun'iy intellekt nima» — ASCII-апостроф заменить на U+2019. secondaryKeywords + «suniy intellekt nima», «suniy intellekt turlari», «sun’iy intellekt haqida ma’lumot», «сунъий интеллект нима». 2) title → «Sun’iy intellekt nima: turlari, tarixi, o‘zbekcha misollar» (58 знаков). H1 не менять: по нему страница стоит в списке «/» (G4). 3) После вступления: фраза о написании «suniy intellekt» без апострофа. Затем H2 «Sun’iy intellekt bilan o‘zbekcha gaplashib ko‘ring»: «GPTBot.uz — mustaqil o‘zbekcha AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.» Ссылка с анкором «sun’iy intellekt chat (o‘zbek tilida)» → /uz/gpt-uzbek-tilida/; ключ уже объявлен чатом (gpt-uzbek-tilida.json:17). 4) H2 «Sun’iy intellekt tarixi: Tyuring testidan ChatGPT’gacha»: 1950, 1956, 1997, 2012, 2017, ноябрь 2022, у каждой даты источник в sources. 5) H2 «Mashhur sun’iy intellekt xizmatlari: qaysi biri nimaga?» — таблица на 5 строк: ChatGPT/OpenAI, Gemini/Google, Claude/Anthropic, DeepSeek, GPTBot.uz (mustaqil). Колонки: разработчик, сильная сторона по официальному описанию, ссылка. Лимиты и цены не писать — «rasmiy saytda tekshiring». Ссылка на /uz/blog/chatgpt-claude-gemini-ozbekistonda/. 6) Блоки «Afzalliklari va xavflari» и «Sun’iy intellekt haqida esse yoki referat uchun reja» со ссылками на гайды insho, referat, slayd и на /uz/taqdimot-ai/; короткий кириллический блок «Сунъий интеллект нима?». Бизнес-раздел перенести ниже, не удалять. 7) FAQ +3: «Sun’iy intellekt o‘zbek tilida ishlaydimi?», «Eng mashhur sun’iy intellekt xizmatlari qaysilar?», «Sun’iy intellektdan bepul foydalanish mumkinmi?» (с раскрытием 3 пробных ответов). 8) Один figure: схема SI → ML → DL → LLM, alt на узбекском. 9) Из пяти доноров — по одной контекстной ссылке с анкорами «sun’iy intellekt nima», «sun’iy intellekt turlari», «sun’iy intellekt haqida ma’lumot». В анкорах не должно быть chatgpt, kirish, referat. 10) Файл добавить в trialFiles. Ссылку с защищённой /uz/blog/ai-chat-nima-va-qanday-turlari-bor/ сейчас не ставить.",
+          "evidence": "L3-02 (kw1/kw2, loc 2860): suniy intellekt 8 100, sun’iy intellekt 6 600, сунъий интеллект 1 600, семья «nima» ≈4 290. GSC 3 мес.: 32 показа, поз. 13,6, 0 кликов (94f1deab…); запросы на поз. 58–77 (f02ac1b4); inspect_urls: в индексе, обход 2026-10-11; 7 входящих. L6-02 (SERP 59a6e29e, 8a84033f): №1 salom-ai.uz (10 слов в HTML), Википедия с «Tarixi», статьи на 723 и 768 слов; у нас 990 слов без истории, сравнения сервисов и входа в продукт. GSC 28 дн.: 0 кликов / 14 показов, поз. 20,1 (l5-data/gsc_page_28d_all.tsv).",
+          "impact_clicks_28d": "ожид. ≈1–6 за первые 28 дней (K = 0,04 × диапазон L3-02 15–155; synth-data/calibration.json). Потолок линзы — 15–155 при поз. 6–9. Уверенность низкая.",
+          "expected_low": 1, "expected_high": 6, "confidence": "low", "effort": "M", "risk": "low", "protected": false, "lens": ["L3-02", "L6-02"]
+        },
+        {
+          "id": "W1-03", "title": "GPT/ChatGPT: ответить на «как расшифровывается ChatGPT» и развести sravnenie и chto-takoe (пара C46)",
+          "pages": ["/ru/gpt-vs-chatgpt-sravnenie/", "/ru/chto-takoe-gpt-i-kak-polzovatsya/"],
+          "files": ["content/pages/ru/gpt-vs-chatgpt-sravnenie.json", "content/pages/ru/chto-takoe-gpt-i-kak-polzovatsya.json", "content/seo/intent-manifest.json", "docs/seo/CHANGE_LOG_2026-10.md"],
+          "action": "1) sravnenie: heroSubtitle → «Короткий ответ: GPT расшифровывается как Generative Pre-trained Transformer — «генеративный предварительно обученный трансформер»; это технология. ChatGPT — чат-сервис OpenAI на её основе.» После секции «Расшифровка терминов» — H2 «Как расшифровывается ChatGPT»: ChatGPT = Chat + GPT; написания «ГПТ», «чат гпт», «чат джипити»; GPTBot.uz — не ChatGPT, а независимый ИИ-чат. FAQ +2: «Как расшифровывается ChatGPT?», «GPT — это аббревиатура чего?». 2) chto-takoe: из secondaryKeywords убрать «расшифровка GPT», «Generative Pre-trained Transformer», «GPT и ChatGPT разница». Тело не трогать. 3) intent-manifest: пара C46-ru-gpt-decoding-vs-gpt-explainer (DIFFERENTIATE). sravnenie владеет расшифровкой, аббревиатурой, «как расшифровывается gpt/chatgpt» и разницей. chto-takoe владеет «что такое gpt (простыми словами)», «что значит gpt», «как работает gpt». mustNotTarget взаимные. Страницы уже ссылаются друг на друга (по 2 ссылки), поэтому тест seo-intent-manifest пройдёт. Title и H1 не меняются, «/» не затронута.",
+          "evidence": "L2-01, GSC 28 дн. (ee142421, fb528e5e): на sravnenie семья «расшифровка» — ≈496 показов, 3 клика, поз. 6,3–9,6; из них ChatGPT-варианты — 103 показа, 0 кликов. «gpt аббревиатура» 25, «гпт расшифровка» 17. На chto-takoe ≈193 показа, 0 кликов. «gpt расшифровка» делится 229 : 26 в пользу sravnenie. Разбора «Chat» в HTML dist нет.",
+          "impact_clicks_28d": "ожид. ≈2–6 (50 % от диапазона L2-01 +4…+11; ≈690 показов × (1,0–2,0 % − 0,4 %)). 93–99 % показов приходят не из Узбекистана (L1). Уверенность средняя.",
+          "expected_low": 2, "expected_high": 6, "confidence": "medium", "effort": "S", "risk": "low", "protected": false, "lens": ["L2-01"]
+        },
+        {
+          "id": "W1-04", "title": "RU: пять контекстных ссылок на гайд по оплате и статью «ChatGPT и Claude»",
+          "pages": ["/ru/gpt-vs-chatgpt-sravnenie/", "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "/ru/gde-polzovatsya-gpt-besplatno/", "/ru/blog/chat-gpt-na-russkom/", "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/", "/ru/blog/chatgpt-i-claude-v-uzbekistane/"],
+          "files": ["content/pages/ru/gpt-vs-chatgpt-sravnenie.json", "content/pages/ru/chto-takoe-gpt-i-kak-polzovatsya.json", "content/pages/ru/gde-polzovatsya-gpt-besplatno.json", "content/blog/ru/chat-gpt-na-russkom.json"],
+          "action": "Вставить W1-01…W1-05 из L5 §5 дословно: тексты и анкоры — в l5-data/l5_link_plan.json. Делать в том же проходе по файлам, что W1-01, W1-03 и W1-05. Цели защищены, но их контракт не меняется: ссылки входят только в контракт источника. Обновить dateModified правленых документов.",
+          "evidence": "L5-01, GSC 7081b224: статья про Claude — 958 показов, 38 кликов, поз. 4,1, 2 входящих из текста, 232-е место по PageRank из 300. Оплата — 745 / 45 / 4,5, CTR 6,04 %, 210-е место. Ни один из четырёх источников на них сейчас не ведёт.",
+          "impact_clicks_28d": "ожид. ≈1–4 (10–20 % потолка L5: по оплате +4…+24, по Claude не оценить). Уверенность низкая.",
+          "expected_low": 1, "expected_high": 4, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L5-01"]
+        },
+        {
+          "id": "W1-05", "title": "Студия презентаций: контекстные ссылки с незащищённых B2C-страниц (без CGO)",
+          "pages": ["/ru/prezentatsiya-ai/", "/uz/taqdimot-ai/", "/uz/tariflar/", "/ru/gpt-vs-chatgpt-sravnenie/", "/ru/blog/chat-gpt-na-russkom/", "/ru/chto-takoe-gpt-i-kak-polzovatsya/", "/ru/gde-polzovatsya-gpt-besplatno/", "/ru/tarify-ai-chat/", "/uz/blog/insho-yozish-suniy-intellekt-bilan/", "/uz/gpt-uzbek-tilida-ai-chat/", "/uz/blog/kurs-ishi-yozish/", "/uz/gpt-chat-qollanma/"],
+          "files": ["content/pages/ru/gpt-vs-chatgpt-sravnenie.json", "content/blog/ru/chat-gpt-na-russkom.json", "content/pages/ru/chto-takoe-gpt-i-kak-polzovatsya.json", "content/pages/ru/gde-polzovatsya-gpt-besplatno.json", "content/pages/ru/tarify-ai-chat.json", "content/blog/uz/insho-yozish-suniy-intellekt-bilan.json", "content/pages/uz/gpt-uzbek-tilida-ai-chat.json", "content/blog/uz/kurs-ishi-yozish.json", "content/pages/uz/gpt-chat-qollanma.json"],
+          "action": "По одной ссылке в тексте каждого источника. RU → /ru/prezentatsiya-ai/, анкоры из A5: «презентация ИИ», «нейросеть для презентаций». UZ → /uz/taqdimot-ai/, анкоры из C40: «slayd AI», «taqdimot yaratish». /uz/gpt-chat-qollanma/ → /uz/tariflar/. Один анкор — не больше 60 %. Описание честное: инструмент делает черновик .pptx, квоты студии отдельные от чата (A5). /ru/blog/chat-gpt-online/ из списка источников исключить: по C23 и L5 он не получает и не отдаёт ссылок до 301 (W3-02). После правки — prerender, seo-audit, тесты seo-link-graph и seo-cluster-quality.",
+          "evidence": "L4-05, граф dist (l4-data/internal-link-graph.json): у /ru/prezentatsiya-ai/ 2 входящих, глубина 2; у /uz/taqdimot-ai/ 5; у /uz/tariflar/ 2, глубина 3. Для сравнения: у /ru/gpt-chat/ 190. GSC 28 дн.: prezentatsiya-ai — 0 кликов / 4 показа, поз. 30; taqdimot-ai — 1 / 18, поз. 6,6.",
+          "impact_clicks_28d": "ожид. 0–2. Спрос по ключам A5/C40 не измерен; за 3 месяца по презентациям у сайта 0–5 показов (L4-05). Польза — путь к платной студии. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 2, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L4-05"]
+        },
+        {
+          "id": "W1-06", "title": "UZ: три контекстные ссылки с незащищённых статей (Direct, A-4, tushuntirish/ariza)",
+          "pages": ["/uz/blog/target-reklama-nima/", "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/", "/uz/blog/insho-yozish-suniy-intellekt-bilan/", "/uz/gpt-uzbek-tilida-ai-chat/", "/uz/blog/chatgpt-talabalar-uchun/", "/uz/blog/tushuntirish-xati-va-ariza-yozish/"],
+          "files": ["content/blog/uz/target-reklama-nima.json", "content/blog/uz/insho-yozish-suniy-intellekt-bilan.json", "content/blog/uz/chatgpt-talabalar-uchun.json"],
+          "action": "Вставить W1-11, W1-12, W1-13 из L5 §5 дословно (новый linkp после body[30] в target-reklama-nima; после body[19] в insho с анкором «o‘zbek tilida prompt yozish formulasi» — по C28 эта фраза принадлежит A-4; последнее предложение body[16] в talabalar с анкором «ariza va tushuntirish xati yozish»). Апострофы: U+2018/U+2019.",
+          "evidence": "L5-04: у Direct-статьи 94 показа, 1 клик, поз. 5,4, ссылок из текста 0. У A-4 — 96 / 0 / 7,6, из текста 2. У tushuntirish-xati — 26 / 0 / 5,1, из текста 3. Анкоры сверены с mustNotTarget (l5_anchor_check.py).",
+          "impact_clicks_28d": "ожид. ≈0–2 (10–20 % потолка L5 ≈+7). Уверенность низкая.",
+          "expected_low": 0, "expected_high": 2, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L5-04"]
+        },
+        {
+          "id": "W1-07", "title": "«Prompt nima» на узбекском гайде по промптам (A-4)",
+          "pages": ["/uz/gpt-uzbek-tilida-ai-chat/"],
+          "files": ["content/pages/uz/gpt-uzbek-tilida-ai-chat.json", "content/seo/intent-manifest.json"],
+          "action": "H2 «Prompt nima?»: определение в 2–3 предложения и пример «плохой → хороший промпт». FAQ «Prompt nima va u nima uchun kerak?». В secondaryKeywords — «prompt nima». В C28 дописать «prompt nima» в informational owns. Защищённую библиотеку /uz/blog/chatgpt-uzbek-tilida-promptlar/ не трогать.",
+          "evidence": "L3-07, kw1: «prompt nima» 720 в месяц (пик в ноябре 2025 — 1 900). GSC b350fd61: тестовый запрос «prompt nima? …» — 11 показов, поз. 10,1, на защищённой библиотеке, которая этот ключ не объявляет. SERP 7aa3bce8: узбекские блоги и курсы.",
+          "impact_clicks_28d": "ожид. ≈0–1 за первые 28 дней (K = 0,04 × 2…24 из L3-07). Сезонный пик — ноябрь. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 1, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L3-07"]
+        },
+        {
+          "id": "W1-08", "title": "Insho: образцы «murakkab reja» на три темы",
+          "pages": ["/uz/blog/insho-yozish-suniy-intellekt-bilan/"],
+          "files": ["content/blog/uz/insho-yozish-suniy-intellekt-bilan.json"],
+          "action": "В table после абзаца «Sodda reja faqat…» добавить две колонки-темы: «Kitob — bilim bulog‘i» и «Mening kelajakdagi kasbim». Для обеих — строки «Murakkab reja» и «Sodda reja» (тексты в L2-02). Перед таблицей — H3 «Murakkab reja namunasi: 3 ta mavzu». Ключи и topicCluster не трогать (C30). Тот же проход по файлу, что W1-05 и W1-06.",
+          "evidence": "L2-02, GSC 1ce1e51a: «murakkab reja namuna» — 91 показ, 1 клик, поз. 7,8; «murakkab reja namunasi» — 7 показов; «insho yozib ber» — 17 показов, поз. 5,0. В таблице сейчас одна тема.",
+          "impact_clicks_28d": "ожид. ≈0–2 (50 % от L2-02 +1…+3). Уверенность средняя.",
+          "expected_low": 0, "expected_high": 2, "confidence": "medium", "effort": "S", "risk": "low", "protected": false, "lens": ["L2-02"]
+        },
+        {
+          "id": "W1-09", "title": "RU-маркетинг: ссылка на спицу «стоимость SMM» и пара ссылок «лид ↔ CPL»",
+          "pages": ["/ru/smm-prodvizhenie-tashkent/", "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/", "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/", "/ru/blog/chto-takoe-lid-v-marketinge/"],
+          "files": ["content/pages/ru/smm-prodvizhenie-tashkent.json", "content/blog/ru/cpa-cpm-cpc-cpl-v-reklame.json", "content/blog/ru/chto-takoe-lid-v-marketinge.json"],
+          "action": "Вставить W1-08, W1-09, W1-10 из L5 §5 дословно. Хаб smm-ru ведёт на цену ведения Instagram. Разбор CPA/CPM/CPC/CPL ведёт на «что такое лид», и обратно. W1-06 и W1-07 (ниши B2B-ботов) не ставить — см. rejected.",
+          "evidence": "L5-05: у «что такое лид» 376 показов, 1 клик, поз. 19,9, из текста 1 ссылка. У cpa-cpm — 61 / 0 / 9,9. У цены SMM — 125 / 2 / 7,8, из текста 0. Доля Узбекистана у целей низкая: у лида 5 %, у cpa 0 %.",
+          "impact_clicks_28d": "ожид. ≈1–3 (10–20 % потолка L5 ≈+16). Почти все показы — не из Узбекистана. Уверенность низкая.",
+          "expected_low": 1, "expected_high": 3, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L5-05"]
+        },
+        {
+          "id": "W1-10", "title": "Анкор H-3: убрать чужую фразу «Chat GPT на русском» из ссылки zakazat-telegram-bota",
+          "pages": ["/ru/blog/zakazat-telegram-bota/"],
+          "files": ["content/blog/ru/zakazat-telegram-bota.json"],
+          "action": "internalLinks[7] → /ru/blog/chat-gpt-na-russkom/: анкор «Chat GPT на русском» заменить на «Как пользоваться AI-чатом на русском». H-1, H-2 и H-4 (ссылки на CGO или из CGO) сейчас не трогать: они входят в релиз 301 (W3-02), чтобы во время замера RU-чата не менять сигналы его запросов.",
+          "evidence": "L5 §4, H-3. C10: «chat gpt на русском» стоит в mustNotTarget статьи /ru/blog/chat-gpt-na-russkom/; K6.",
+          "impact_clicks_28d": "0 — гигиена интентов.",
+          "expected_low": 0, "expected_high": 0, "confidence": "high", "effort": "S", "risk": "low", "protected": false, "lens": ["L5-06"]
+        },
+        {
+          "id": "W1-11", "title": "Тест-ограждение: анкор не равен фразе из mustNotTarget цели",
+          "pages": ["sitewide"],
+          "files": ["tests/seo-anchor-intent.test.ts", "content/seo/intent-manifest.json"],
+          "action": "Новый тест по логике l5-data/l5_anchor_check.py. Для всех internalLinks и linkp опубликованных JSON анкор после нормализации (регистр, апострофы U+2018/U+2019/U+02BB/ASCII) не должен совпадать с фразой из mustNotTarget цели (обе стороны пар). Список исключений — ровно H-1, H-2, H-4 (до W3-02) и H-5 (до W2-01), у каждого комментарий с ID и плановой датой. Новое нарушение роняет тест. По желанию: перенести список DO NOT LINK из 04_TARGET_URLS.csv в intent-manifest (doNotLink[]) и проверять и его.",
+          "evidence": "L5-07: все нарушения из L5 §4 прошли текущие тесты. tests/seo-content-guards.test.ts:48 проверяет только primaryKeyword источника, tests/seo-cluster-quality.test.ts:173 — только долю одного анкора на хабе.",
+          "impact_clicks_28d": "0 — защита от регресса.",
+          "expected_low": 0, "expected_high": 0, "confidence": "high", "effort": "S", "risk": "low", "protected": false, "lens": ["L5-07"]
+        },
+        {
+          "id": "W1-12", "title": "robots.txt: Clean-param для Яндекса (utm/yclid/gclid/fbclid)",
+          "pages": ["/robots.txt"],
+          "files": ["src/shared/robots-policy.ts"],
+          "action": "В buildRobotsTxt() (строка 69) добавить межсекционную строку «Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid». Если есть тест или снапшот robots — обновить. После выката сверить живой /robots.txt (отдаёт functions/robots.txt.ts).",
+          "evidence": "L4-02, GA4 2026-09-26..10-23: Яндекс — 589 сессий, это 31,5 % поисковых (google/organic — 1 251). ig/paid — 182 сессии, fb/paid — 22, обе с utm. grep 2026-10-24: в src/shared/robots-policy.ts строки Clean-param нет.",
+          "impact_clicks_28d": "Для Яндекса не оценить: данных Вебмастера нет (O-02). Для Google — 0.",
+          "expected_low": 0, "expected_high": 0, "confidence": "medium", "effort": "S", "risk": "low", "protected": false, "lens": ["L4-02"]
+        },
+        {
+          "id": "W1-13", "title": "Техгигиена: /?lang=ru одним шагом, Cache-Control у llms/md, бренд в title 404",
+          "pages": ["/?lang=ru", "/llms.txt", "/llms-full.txt", "/*.md", "/404.html"],
+          "files": ["functions/index.ts", "scripts/generate-robots.ts", "public/404.html"],
+          "action": "(a) Если lang=ru и путь «/», «/ru» или «/ru/» — сразу 301 на https://gptbot.uz/. Сначала выяснить, какой слой отдаёт текущий 301: Pages Function или Redirect Rule, и править его. (b) В scripts/generate-robots.ts (≈287–303) перед Cache-Control у /llms.txt, /llms-full.txt и /*.md добавить «  ! Cache-Control». (c) public/404.html:8: «| GPTBot» заменить на «| GPTBot.uz» (AGENTS.md §2).",
+          "evidence": "L4-07, live: /?lang=ru → 301 /ru/ → 301 / (два шага). Cache-Control у llms*.txt склеен из двух значений. public/404.html:8 — «404 — Страница не найдена | GPTBot» (проверено grep 2026-10-24).",
+          "impact_clicks_28d": "0 — гигиена.",
+          "expected_low": 0, "expected_high": 0, "confidence": "high", "effort": "S", "risk": "low", "protected": false, "lens": ["L4-07"]
+        },
+        {
+          "id": "W1-14", "title": "BreadcrumbList: свойство name и без самоссылки на /uz/",
+          "pages": ["sitewide (299 страниц)", "/uz/"],
+          "files": ["scripts/jsonld-helpers.ts", "scripts/prerender.ts", "scripts/prerender-blog.ts", "apps/studio/scripts/studio-page.ts"],
+          "action": "buildBreadcrumbLd(items, name?): добавить name, по умолчанию — items.at(-1).name. Передать его во всех четырёх вызовах (prerender.ts:345-350, prerender-blog.ts:284 и 565, studio-page.ts:347). На главной локали (/uz/) BreadcrumbList не строить. JSON-LD не входит в seoContract (scripts/seo-protection.ts:166-185 вырезает script), поэтому BASELINE не меняется. Записать в CHANGE_LOG как шаблонную правку.",
+          "evidence": "L4-06: у 299 из 299 BreadcrumbList нет name верхнего уровня. GSC inspect: 56 из 56 — PASS, подпись «Unnamed item». На /uz/ крошка 2 ведёт на саму /uz/.",
+          "impact_clicks_28d": "0 — только подпись в GSC.",
+          "expected_low": 0, "expected_high": 0, "confidence": "high", "effort": "S", "risk": "low", "protected": false, "lens": ["L4-06"]
+        },
+        {
+          "id": "W1-15", "title": "Повторная подача /uz/blog/slayd-tayyorlash/ (Crawled – not indexed) и IndexNow для всех правленых URL",
+          "pages": ["/uz/blog/slayd-tayyorlash/", "все URL волны 1"],
+          "files": ["scripts/indexnow-ping.ts"],
+          "action": "После деплоя — IndexNow для slayd-tayyorlash и всех URL волны 1 (scripts/indexnow-ping.ts или бесплатный OpenSEO submit_indexnow_urls). Через 14 дней повторить inspect_urls. Если статус «Crawled – currently not indexed» останется, проверить качество и уникальность страницы отдельной задачей. Request indexing в интерфейсе GSC делает владелец (O-01).",
+          "evidence": "L4-01, inspect_urls 2026-10-24: «Crawled - currently not indexed», последний обход 2026-10-08, fetch SUCCESSFUL. Спрос (C29, demand-policy): slayd tayyorlash 5 400, prezentatsiya tayyorlash 1 900, taqdimot tayyorlash 1 000. У страницы 14 входящих, глубина 1, пересечение шинглов ≤5,1 %.",
+          "impact_clicks_28d": "ожид. ≈0–2 за первые 28 дней после индексации (K = 0,04 × 8 300 × 0,38 % × 0,92 ≈ 1,2). Потолок L4-01 — ≈85. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 2, "confidence": "low", "effort": "S", "risk": "low", "protected": false, "lens": ["L4-01"]
+        }
+      ]
+    },
+    {
+      "wave": "2",
+      "goal": "Новые страницы и защищённые ревизии в ноябрьских окнах: R-S1b после чтения R-S1 (≈08.11), ревизия «/» с тремя новыми UZ-гайдами (≈08–14.11, tabrik до 15.11), R-S2 гайда по скачиванию (16.11). Ожидание ≈11–43 кликов за 28 дней; главное — R-S2.",
+      "gate": "R-S1 read ≈07.11; download guide P-CTR read ≈06-10.11",
+      "items": [
+        {
+          "id": "W2-01", "title": "Ревизия R-S1b: перекрёстные ссылки «оплата ↔ Claude», promptlar → ariza и анкор H-5",
+          "pages": ["/ru/blog/chatgpt-i-claude-v-uzbekistane/", "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/", "/uz/blog/chatgpt-uzbek-tilida-promptlar/"],
+          "files": ["content/blog/ru/chatgpt-i-claude-v-uzbekistane.json", "content/blog/ru/kak-oplatit-chatgpt-v-uzbekistane.json", "content/blog/uz/chatgpt-uzbek-tilida-promptlar.json", "docs/seo/evidence/<date>-r-s1b/reviewed-protected-pages.json", "scripts/seo-protection.ts", "content/seo/intent-manifest.json", "tests/seo-anchor-intent.test.ts", "docs/seo/CHANGE_LOG_2026-11.md"],
+          "action": "После чтения П-CTR R-S1 (≈05–07.11): W2-01, W2-02 и W2-06 из L5 §5 дословно. H-5: в promptlar анкор «insho va referat yozish» заменить на «insho va esse yozish». C30 разрешает делать это внутри любой ревизии promptlar («never in a release of its own») — дописать в C30 датированную заметку. С promptlar не ставить ссылку на rezyume (C36). Меняются только internalLinks и bodyTextSha256; title, H1 и description — нет. Новая ревизия с хешем предшественника, BASELINE перевести на неё. Исключение H-5 убрать из теста W1-11.",
+          "evidence": "L5-02/L5-03. GSC 7081b224: оплата 745/45, Claude 958/38, promptlar 16/857. В статье про Claude есть H2 «Как оплатить» (body[13]), но ссылки на гайд по оплате нет. C30, известный остаток H-5.",
+          "impact_clicks_28d": "ожид. ≈1–3; потолок общий с W1-04, складывать нельзя. Уверенность низкая.",
+          "expected_low": 1, "expected_high": 3, "confidence": "low", "effort": "M", "risk": "medium", "protected": true, "lens": ["L5-02", "L5-03", "L5-06"]
+        },
+        {
+          "id": "W2-02", "title": "Ревизия R-S2 гайда по скачиванию: ochish/yuklash/tortish/skachat, проверенная справка о приложении, скриншоты, APK-клоны, ссылки на школьные гайды",
+          "pages": ["/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"],
+          "files": ["content/blog/uz/chatgpt-telefon-va-kompyuterga-yuklab-olish.json", "public/assets/blog/", "docs/seo/evidence/<date>-r-s2/reviewed-protected-pages.json", "scripts/seo-protection.ts", "src/shared/site-chat-nav.ts", "content/seo/intent-manifest.json", "docs/seo/CHANGE_LOG_2026-11.md"],
+          "action": "16.11, после чтения П-CTR (≈06–10.11). 1) L2-04: H2 (json:178) → «ChatGPT ochish: yuklamasdan brauzerda ishlatish». Новый FAQ «ChatGPT yuklash, tortish va skachat qilish — farqi bormi?». FAQ :382 → «ChatGPT yuklash APK: faylni yuklab olsa bo‘ladimi?». Плюс уже запланированный в C11 FAQ «ChatGPT uzbekcha skachat (скачать)». 2) L6-03: таблица «Rasmiy ChatGPT ilovasi: tekshirilgan ma’lumotlar (YYYY-MM-DD)». Строки: издатель в Google Play и App Store, com.openai.chatgpt, минимальные версии ОС, ПК — через chatgpt.com/download (Microsoft Store — только если это подтверждает официальная страница), «bepul, ixtiyoriy pullik tariflar». Значения копировать из магазинов в день правки; номера версий приложения не писать. 4–6 figure с настоящими скриншотами: карточка Google Play с издателем OpenAI, App Store, chatgpt.com/download, пример клона в APK-каталоге с размытым названием. Alt на узбекском, WebP с width/height, lazy, файлы в public/assets/blog/. H3 «APK saytlaridagi “Chat GPT” ilovalari» — как проверить по package name и издателю. 3) L5 W2-03 и W2-04: linkp после body[27] → /uz/blog/chatgpt-talabalar-uchun/ и /uz/blog/tushuntirish-xati-va-ariza-yozish/ (тексты в L5 §5). Title, H1 и description не трогать: правило отката C11 остаётся действующим. Анкоры yuklab/skachat на UZ-чат не ставить (cannibalization.md §0 п.5). Окно П-CTR перезапустить (site-chat-nav.ts) и записать новое T0.",
+          "evidence": "L2-04 (57d6be57, 37b8d579): «chatgpt ochish» — 3 833 показа, CTR 0,70 %, поз. 5,4. Варианты yuklash/tortish/skachat — 1 139 показов, CTR 0,53 %, против 1,42 % у «chatgpt yuklab olish». L6-03: «chatgpt yuklab olish» — 57 кликов / 4 002 показа, поз. 7,5 (64c9b0df); мобильные 3 219, поз. 7,4 (e21ece02); по дням 4,8–9,0 (14f24c06). У skillbox 18 подписанных скриншотов, у нас 1 картинка. При hl=ru 13 из 18 мест — apkpure-клоны с чужими package name (serp_l6_hlru.json). C11: R-S2 на 2026-11-16.",
+          "impact_clicks_28d": "ожид. ≈10–30. Из них L2-04: 50 % диапазона +5…+35 (≈3–18). L6-03: p ≈ 0,2 подъёма до поз. 3–4 × (+30…+87) (≈6–17). Самый крупный пункт волны; уверенность средняя/низкая.",
+          "expected_low": 10, "expected_high": 30, "confidence": "medium", "effort": "M", "risk": "medium", "protected": true, "lens": ["L2-04", "L6-03", "L5-03"]
+        },
+        {
+          "id": "W2-03", "title": "Ревизия «/» + новый гайд «Tavsifnoma namunasi»",
+          "pages": ["/uz/blog/tavsifnoma-namuna/ (new)", "/"],
+          "files": ["content/blog/uz/tavsifnoma-namuna.json", "content/seo/intent-manifest.json", "docs/seo/evidence/<date>-home-new-guides/reviewed-protected-pages.json", "scripts/seo-protection.ts", "docs/seo/CHANGE_LOG_2026-11.md"],
+          "action": "Title «Tavsifnoma namunasi: o‘quvchi, talaba va xodim uchun (2026)», H1 «Tavsifnoma qanday yoziladi: tuzilma, shartli namunalar va AI bilan qoralama». Ключи: tavsifnoma namuna, tavsifnoma, tavsifnoma yozish. Содержание: чем tavsifnoma отличается от tavsiyanoma; три шаблона с выдуманными данными-заполнителями (o‘quvchi, amaliyotchi talaba, xodim); как попросить у чата черновик по своим фактам (подписывающий проверяет, это не юридическая консультация); ≥4 FAQ. Ссылки на /uz/blog/tushuntirish-xati-va-ariza-yozish/, /uz/blog/rezyume-tayyorlash/ и UZ-чат (анкор брендовый). Пара в манифесте по образцу C41/C42: коммерческая сторона /uz/gpt-uzbek-tilida/, только запись в манифесте, HTML чата не меняется. Публиковать одной ревизией «/» вместе с W2-04, W2-05 и W2-06 после ≈07.11.",
+          "evidence": "L3-03 (kw2): tavsifnoma namuna — 1 600, tavsifnoma — 720. В GSC строк нет. SERP 48e0cfbe: блог oriftolib, видео Facebook, шесть PDF на Scribd, страницы тегов — самая слабая из проверенных выдач.",
+          "impact_clicks_28d": "ожид. ≈0–3 за первые 28 дней (K = 0,04 × 8…77 из L3-03). Потолок при поз. 3–4 — ≈47–77. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 3, "confidence": "low", "effort": "S", "risk": "low", "protected": true, "lens": ["L3-03"]
+        },
+        {
+          "id": "W2-04", "title": "Новый гайд «Rasmiy xat yozish» (в той же ревизии «/»)",
+          "pages": ["/uz/blog/rasmiy-xat-yozish/ (new)", "/uz/blog/tushuntirish-xati-va-ariza-yozish/"],
+          "files": ["content/blog/uz/rasmiy-xat-yozish.json", "content/blog/uz/tushuntirish-xati-va-ariza-yozish.json", "content/seo/intent-manifest.json"],
+          "action": "Title «Rasmiy xat yozish: tuzilma, namuna va AI bilan qoralama». Ключи: xat yozish, rasmiy xat yozish, xizmat xati namuna. Типы писем (so‘rov, kafolat, da’vo xati) и шаблоны-заполнители. Взаимные ссылки с /uz/blog/tushuntirish-xati-va-ariza-yozish/. Пара в манифесте с UZ-чатом; ключи ariza и tushuntirish — в mustNotTarget нового гайда.",
+          "evidence": "L3-09 (kw1): xat yozish — 3 600 (в октябре 2025 было 140, в сентябре 2026 — 6 600). SERP 3b60d615: интент смешанный; на №9 — AI-генератор promli.com.",
+          "impact_clicks_28d": "ожид. ≈0–2 (K = 0,04 × 13…36). Уверенность низкая.",
+          "expected_low": 0, "expected_high": 2, "confidence": "low", "effort": "S", "risk": "medium", "protected": true, "lens": ["L3-09"]
+        },
+        {
+          "id": "W2-05", "title": "Новый гайд «Tabrik yozish» к декабрьскому пику (в той же ревизии «/», не позже 15.11)",
+          "pages": ["/uz/blog/tabrik-yozish/ (new)"],
+          "files": ["content/blog/uz/tabrik-yozish.json", "content/seo/intent-manifest.json"],
+          "action": "Title «Tug‘ilgan kun tabriklari va yangi yil tabriklari: AI bilan shaxsiy tabrik», H1 «Tabrik yozish: namunalar va AI bilan shaxsiy tabrik». Только оригинальные образцы (≤30, из архивов не копировать). Раздел о том, как попросить чат персонализировать поздравление, и брендовая ссылка на чат. Пара в манифесте с UZ-чатом. Опубликовать до ≈15.11.",
+          "evidence": "L3-08 (kw1/kw2): tugilgan kun tabriklari — 1 300, tabriklar — 1 000, yangi yil tabriklari — 880 (в декабре максимум 9 900), табриклар — 590. SERP 7aa3bce8: архивы поздравлений на слабых доменах.",
+          "impact_clicks_28d": "ожид. ≈0–4 (K = 0,04 × 13…109; верх — декабрь). Уверенность низкая.",
+          "expected_low": 0, "expected_high": 4, "confidence": "low", "effort": "S", "risk": "medium", "protected": true, "lens": ["L3-08"]
+        },
+        {
+          "id": "W2-06", "title": "UZ-хаб Telegram: H1 с «yaratish» и блок «сам или на заказ» (в той же ревизии «/»)",
+          "pages": ["/uz/telegram-bot-biznes-uchun/", "/"],
+          "files": ["content/pages/uz/telegram-bot-biznes-uchun.json"],
+          "action": "h1 → «Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish». Новый H2 «O‘zingiz yaratasizmi yoki buyurtma qilasizmi: BotFather, konstruktor yoki dasturchi» с таблицей на 3 строки, где честно сказано, когда хватит своими силами. Ссылка на /ru/blog/kak-sozdat-telegram-bota/. 2 FAQ: «Telegram botni o‘zim bepul yarata olamanmi?», «Konstruktor qachon yetmaydi?». hubKeywords кластера telegram-leads-uz не менять. H1 стоит в списке «/» (G4), поэтому пункт входит в ревизию «/». Прогнать seo-cluster-quality.",
+          "evidence": "L6-06, SERP 59a6e29e/8a84033f: в выдаче обучение и «сделай сам»; единственная коммерческая страница в обеих выдачах — sayt-yaratish-xizmati.uz с H1 «Telegram bot yaratish» и H2 «Konstruktor yoki dasturlash». GSC 4e9ca0ce: по «telegram bot yaratish» 0 показов за 3 месяца. «bot yaratish» — 480 (в сентябре 2026 — 880).",
+          "impact_clicks_28d": "ожид. ≈0–1. L6-06 даёт +2…+5 только при входе в топ-8; сейчас по этой семье страница не показывается. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 1, "confidence": "low", "effort": "S", "risk": "low", "protected": true, "lens": ["L6-06"]
+        },
+        {
+          "id": "W2-07", "title": "llms-full.txt как надмножество llms.txt",
+          "pages": ["/llms-full.txt", "/llms.txt"],
+          "files": ["scripts/generate-llm-markdown.ts", "public/llms-full.txt", "tests/seo-trial-product-truth.test.ts"],
+          "action": "llms-full.txt собирать как llms.txt плюс тела 28 index.html.md ключевых B2C/B2B-страниц. Формулировки сохранить: независимый сервис, не OpenAI, 3 пробных ответа. Тест: llms-full.txt больше llms.txt, все URL в нём есть в dist, раскрытие пробного лимита на месте (тест уже читает public/llms-full.txt).",
+          "evidence": "L4-08, dist: llms.txt — 34 822 Б, llms-full.txt — 18 774 Б. GA4 за 28 дней: сессий из AI-ассистентов 39 (chatgpt.com 30, gemini 4, copilot 3, perplexity 2).",
+          "impact_clicks_28d": "0 кликов GSC. Влияние на цитирование AI не измерено (база — 39 сессий за 28 дней).",
+          "expected_low": 0, "expected_high": 0, "confidence": "low", "effort": "M", "risk": "low", "protected": false, "lens": ["L4-08"]
+        }
+      ]
+    },
+    {
+      "wave": "3",
+      "goal": "После чтений обоих чатов (≈21–25.11) и длинные проекты: вернуть «chatgpt kirish uzbek tilida» UZ-чату, исполнить C23, поставить чат на /ru/gpt-na-russkom/, переводчик EN↔UZ, скорость. Ожидание ≈22–83 кликов за 28 дней (плюс-минус 14 по CGO).",
+      "gate": "chat snippet reads ≈21-25.11; recovery 23.10 read ≈20.11; translator release gates; field CWV",
+      "items": [
+        {
+          "id": "W3-01", "title": "Ревизия гайда по входу: вернуть «chatgpt kirish uzbek tilida» UZ-чату, title/description под свой логин-хвост, FAQ о пароле, ссылка на talabalar",
+          "pages": ["/uz/blog/chatgptga-qanday-kirish-mumkin/", "/uz/gpt-uzbek-tilida/", "/"],
+          "files": ["content/blog/uz/chatgptga-qanday-kirish-mumkin.json", "docs/seo/evidence/<date>-login-routing/reviewed-protected-pages.json", "scripts/seo-protection.ts", "content/seo/intent-manifest.json", "docs/seo/CHANGE_LOG_2026-11.md"],
+          "action": "Гейт: после 28-дневного чтения UZ-чата (≈21–24.11) и чтения правки 23.10 (≈20.11). Перед выкатом повторить срез «запрос × дата» и выкатывать, только если гайд всё ещё держит «chatgpt kirish uzbek tilida» на поз. ≈8. 1) L1-01: body[21..23] (H2 #uzbek, абзац, таблица промптов) заменить одной фразой «Menyu o‘zbek tilida yo‘q, lekin savolni o‘zbekcha yozish mumkin». Ссылка на /uz/gpt-uzbek-tilida/ с брендовым анкором «GPTBot.uz o‘zbekcha AI chati»: в анкоре нет kirish/login/ochish/chatgpt, как требует cannibalization.md §0 п.1. Из toc убрать «uzbek». faq[5] удалить или свести к одной фразе со ссылкой. В body[8] убрать повтор «O‘zbek tilida…». 2) L1-02: title и ogTitle → «ChatGPT kirish (login): Google, telefon, kod kelmasa (2026)» (префикс C22 сохранён). description и ogDescription — текст L1-02 (155 знаков, тутук U+2019, без «o‘zbek»). H1 не менять. 3) L2-05: FAQ «ChatGPT kirish: login va parolni unutsam nima qilaman?». Шаги сверить с help.openai.com, источник добавить в «Birlamchi manbalar». 4) L5 W2-05: в body[24] ссылка на /uz/blog/chatgpt-talabalar-uchun/. Блоги на «/» перечислены по title, поэтому ревизия включает и «/». В C22 — датированная заметка.",
+          "evidence": "L1-01, resultId 7b4ad81e: 24.09–04.10 — 22 клика / 1 732 показа (CTR 1,27 %, поз. 4,97); 05.10–21.10 — 6 / 2 871 (0,21 %, поз. 7,52); 10.10–21.10 — 0 / 1 825. cd701cb0: у UZ-чата 24 / 2 313 (1,04 %), у гайда 4 / 2 533 (0,16 %). Запрос стоит в mustNotTarget гайда (C22). L1-02: в UZ гайд даёт 34 / 10 626, CTR 0,32 % при leave-one-out 0,54 %. L2-05: «login parol» — 63 показа, CTR 3,17 %, поз. 4,5; «kirish login» — 289, 0,69 %, поз. 6,8.",
+          "impact_clicks_28d": "ожид. ≈12–30. Из них L1-01: p ≈ 0,5 × (+22…+50); маршрут Google уже один раз переключился 05.10. L1-02: ≤+5 × 0,5. L2-05: (+2…+5) × 0,5. Уверенность средняя.",
+          "expected_low": 12, "expected_high": 30, "confidence": "medium", "effort": "M", "risk": "medium", "protected": true, "lens": ["L1-01", "L1-02", "L2-05", "L5-03"]
+        },
+        {
+          "id": "W3-02", "title": "Исполнить C23: 301 /ru/blog/chat-gpt-online/ → /ru/gpt-chat/ и вычистить анкоры H-1, H-2, H-4",
+          "pages": ["/ru/blog/chat-gpt-online/", "/ru/gpt-chat/", "/ru/blog/chat-gpt-na-russkom/", "/ru/blog/zakazat-telegram-bota/", "/"],
+          "files": ["content/blog/ru/chat-gpt-online.json", "content/seo/redirects.json", "content/blog/ru/chat-gpt-na-russkom.json", "content/blog/ru/zakazat-telegram-bota.json", "content/seo/intent-manifest.json", "tests/seo-anchor-intent.test.ts", "docs/seo/evidence/<date>-ru-post-read/reviewed-protected-pages.json", "scripts/seo-protection.ts", "docs/seo/CHANGE_LOG_2026-11.md"],
+          "action": "Гейт: после 28-дневного чтения RU-чата (≈21–25.11). Снять статью с публикации и добавить точный 301 в content/seo/redirects.json (из него генерируется public/_redirects). Убрать URL из sitemap-файлов и списков статей. H-1: удалить internalLinks[1] в chat-gpt-na-russkom.json. H-4: в zakazat-telegram-bota.json body[34] перевести ссылку на /ru/gpt-chat/ с анкором «ИИ-чат GPTBot.uz», internalLinks[6] удалить. H-2 уходит вместе со статьёй. Исключения H-1/H-2/H-4 убрать из теста W1-11. Тест «нет ссылок через редирект» должен остаться зелёным. В C23 записать решение REDIRECT с датой и доказательствами. Ревизия «/» (список статей), затем IndexNow. Правило отката: если за 28 дней после переобхода клики RU-чата по семье «чат gpt онлайн (бесплатно)» ниже 14, а позиция не лучше 6,0 — вернуть URL.",
+          "evidence": "L1-03, 02b848b7: по «чат gpt онлайн» статья — 0 кликов / 444 показа, поз. 4,9; RU-чат — 1 / 110, поз. 6,3. L2-06: в зоне 4–20 — 1 400 показов, 14 кликов. По C23 своих запросов вне запретного списка у статьи нет; решение просрочено с 19.10. cannibalization.md §0 п.3: на статью приходится 95 % показов «чат gpt онлайн бесплатно».",
+          "impact_clicks_28d": "ожид. ≈0, диапазон −14…+15 (L2-06). Делается ради исполнения C23 и консолидации сигнала на RU-чате. Уверенность низкая.",
+          "expected_low": -14, "expected_high": 15, "confidence": "low", "effort": "M", "risk": "medium", "protected": true, "lens": ["L1-03", "L2-06", "L5-06"]
+        },
+        {
+          "id": "W3-03", "title": "RU-чат: ссылки на гайд по оплате и «ChatGPT и Claude» (в ревизии W3-02)",
+          "pages": ["/ru/gpt-chat/"],
+          "files": ["content/pages/ru/gpt-chat.json"],
+          "action": "W3-04 и W3-05 из L5 §5: дописать в bodyBlocks[1] «Подписку ChatGPT оформляют в аккаунте OpenAI: как оплатить её из Узбекистана — {pay}; что доступно в ChatGPT и Claude в регионе — {claude}.» Title, H1 и description не трогать. Выпускать той же ревизией, что W3-02.",
+          "evidence": "L5-02: у RU-чата 94 001 показ и 14 целей в тексте; ни оплаты, ни Claude среди них нет.",
+          "impact_clicks_28d": "ожид. ≈0–3; потолок общий с W1-04 и W2-01. Уверенность низкая.",
+          "expected_low": 0, "expected_high": 3, "confidence": "low", "effort": "S", "risk": "medium", "protected": true, "lens": ["L5-02"]
+        },
+        {
+          "id": "W3-04", "title": "UZ-чат: ссылки на kurs ishi, ariza/tushuntirish xati и biznes reja",
+          "pages": ["/uz/gpt-uzbek-tilida/"],
+          "files": ["content/pages/uz/gpt-uzbek-tilida.json", "content/seo/intent-manifest.json", "docs/seo/evidence/<date>-uz-post-read/reviewed-protected-pages.json", "scripts/seo-protection.ts"],
+          "action": "После 28-дневного чтения UZ-чата: W3-01, W3-02 и W3-03 из L5 §5 в bodyBlocks[52] («Talaba…»). Анкоры: «kurs ishi tuzilmasi va namunasi», «ariza va tushuntirish xati», «biznes reja tuzish tartibi». В C41, C42 и C44 — датированные заметки (эти записи сами откладывали правку до будущей ревизии). Можно объединить с W3-01 в одну UZ-ревизию.",
+          "evidence": "L5-03: у UZ-чата 74 002 показа, но в bodyBlocks[52] только slayd, referat, esse и rezyume. Спрос (demand-policy): tushuntirish xati 1 600, ariza yozish 3 600, kurs ishi 1 300 + namuna 1 900, biznes reja 1 000. Показы гайдов за 28 дней: 26, 19, 5.",
+          "impact_clicks_28d": "Не измерено. Ожидание ≈2–6 при допущении, что K гайдов вырастет с 0,04 до 0,1–0,2 (на базе ≈37 кликов/28 дн. по нижней границе спроса). Потолок L5 по спросу — 342. Уверенность низкая.",
+          "expected_low": 2, "expected_high": 6, "confidence": "low", "effort": "S", "risk": "medium", "protected": true, "lens": ["L5-03"]
+        },
+        {
+          "id": "W3-05", "title": "/ru/gpt-na-russkom/: поставить на страницу сам чат и точную фразу «чат ГПТ на русском»",
+          "pages": ["/ru/gpt-na-russkom/", "/"],
+          "files": ["content/pages/ru/gpt-na-russkom.json", "scripts/gpt-chat-nav.ts", "tests/seo-trial-product-truth.test.ts", "docs/seo/evidence/<date>-ru-post-read/reviewed-protected-pages.json"],
+          "action": "Гейт: после чтения RU-чата; можно в той же ревизии «/», что W3-02. pageType «niche» → «gpt-chat», роль по умолчанию. Title «Чат ГПТ на русском — независимый AI-чат | GPTBot.uz». H1 «Чат ГПТ на русском: AI-чат без установки» — он печатается на «/» (G4), поэтому страница идёт в ревизию «/». Description — текст L6-01 (3 пробных ответа, затем AI-пакет; не OpenAI). В title и H1 не ставить «онлайн», «бесплатно» и «аналог ChatGPT»: это головы RU-чата (C23, C27). mustNotTarget C10 («чат жпт», «чат джипити») не нарушать. FAQ «Чем этот чат отличается от официального ChatGPT?» с честным ответом. H2 «Режимы»: сейчас только презентации (A5); перевод — только после гейта G5 и релиза переводчика. Проверить, что scripts/gpt-chat-nav.ts подхватывает пятую страницу чата и на живой странице один H1 и один gpt-chat-root.",
+          "evidence": "L6-01: страница за 28 дней — 95 показов, 0 кликов, поз. 16,2 (31af0e35); самого запроса в её строках за 3 месяца нет (23554aa8). SERP 59a6e29e/8a84033f: №1 — ai.mitup.ru, где чат стоит прямо в HTML; 12 из 17 мест у chatgpt.com/openai. Спрос 1 600 (DEMAND_REALITY_CHECK §3). C10 называет страницу «the product surface».",
+          "impact_clicks_28d": "ожид. ≈1–4 (p ≈ 0,25 выйти на поз. 6–8 × L6-01 +6…+16). Уверенность низкая.",
+          "expected_low": 1, "expected_high": 4, "confidence": "low", "effort": "M", "risk": "medium", "protected": true, "lens": ["L6-01"]
+        },
+        {
+          "id": "W3-06", "title": "Пара страниц переводчика EN↔UZ на шаблоне переводчика (роль translator_en)",
+          "pages": ["/uz/ingliz-ozbek-tarjimon/ (new)", "/ru/perevodchik-s-angliyskogo-na-uzbekskiy/ (new)", "/"],
+          "files": ["src/gpt-chat/roles.ts", "src/shared/types.ts", "scripts/prerender.ts", "src/gpt-chat/main.tsx", "content/pages/uz/ingliz-ozbek-tarjimon.json", "content/pages/ru/perevodchik-s-angliyskogo-na-uzbekskiy.json", "content/seo/intent-manifest.json", "content/seo/demand-policy.json", "tests/translator-pages.test.ts", "tests/seo-trial-product-truth.test.ts"],
+          "action": "Сначала собрать как draft, по образцу RU↔UZ (коммит d51fa925). Публиковать только после трёх условий: 1) RU↔UZ-переводчик выпущен со своими гейтами — слепая проверка носителем ≥4/5, решение по квоте A–D, вычитка (CHANGE_LOG 24.10); 2) пройдена своя слепая проверка EN↔UZ ≥4/5 на 30 примерах (G5); 3) есть первые 28 дней GSC по RU↔UZ как калибровка. Дальше — по L3-01: RoleId translator_en, allowlist data-chat-role, title и H1 из L3-01. На страницах честно: только текст, лимит ввода, 3 пробных ответа общие с чатом, без фото, голоса и файлов. В манифесте — решение A9 по образцу A8: ключи пары EN; в mustNotTarget — ключи RU↔UZ и «chatgpt tarjima». Ссылки с /uz/gpt-chat-qollanma/, /ru/gpt-chat-guide/, /uz/blog/chatgpt-talabalar-uchun/ и /ru/gpt-dlya-ucheby/.",
+          "evidence": "L3-01 (kw1/kw2, loc 2860): английский узбекский переводчик — 18 100, ingliz uzbek tarjimon — 12 100, inglizcha tarjima — 8 100, переводчик с английского на узбекский — 6 600, ingliz tarjima — 2 400. SERP 48e0cfbe/7aa3bce8/3b60d615: verbly.uz на №5–7. Роль переводчика сейчас только RU↔UZ (roles.ts:17,26). Гейт G5 — implementation-map.md.",
+          "impact_clicks_28d": "ожид. ≈4–20 за первые 28 дней (K = 0,04 × L3-01 98…495). Потолок при поз. 6–8 — 98–495. Уверенность низкая.",
+          "expected_low": 4, "expected_high": 20, "confidence": "low", "effort": "L", "risk": "medium", "protected": true, "lens": ["L3-01"]
+        },
+        {
+          "id": "W3-07", "title": "LCP чатов: убрать второй H1-кандидат, который рисует React",
+          "pages": ["/ru/gpt-chat/", "/uz/gpt-uzbek-tilida/"],
+          "files": ["scripts/prerender.ts", "src/gpt-chat/main.tsx", "src/gpt-chat/components/AiChatConsole.tsx", "scripts/chat-layout-check.mjs"],
+          "action": "Гейт: после чтений обоих чатов и после полевых CWV (O-03). Если поле покажет LCP <2,5 с, приоритет снизить. Вынести H1 (и приветствие, если оно LCP) из #gpt-chat-root в шаблоне (scripts/prerender.ts:484) и не рисовать второй H1 в AiChatConsole (1353, 1370) — либо перейти на hydrateRoot с идентичной разметкой. seoContract (h1, bodyText) не должен меняться, иначе нужна ревизия. Проверка: scripts/chat-layout-check.mjs perf — у RU 320×568 нет второго LCP-кандидата, LCP ≤2,5 с.",
+          "evidence": "L4-04: docs/seo/evidence/2026-10-07-chat-ui/layout-report.json — RU 320×568, LCP h1.gpt-kicker 2 204 → 3 100 мс (второй кандидат), UZ 2 304 мс. main.tsx:44 createRoot заменяет пререндер. Мобильные — 77,7 % кликов (GSC device, 28 дней).",
+          "impact_clicks_28d": "Не оценить без полевых CWV.",
+          "expected_low": 0, "expected_high": 0, "confidence": "low", "effort": "M", "risk": "medium", "protected": true, "lens": ["L4-04"]
+        },
+        {
+          "id": "W3-08", "title": "Облегчить HTML: инлайн-аналитику в один кэшируемый файл, B2B-формы — отложенно",
+          "pages": ["sitewide", "/ru/razrabotka-telegram-bota-tashkent/"],
+          "files": ["scripts/analytics-snippet.ts", "scripts/analytics-metrika.ts", "scripts/prerender.ts"],
+          "action": "Только если поле (O-03) покажет проблему LCP или INP. Вынести 4 инлайн-загрузчика в хешированный файл в /assets с годовым кэшем, сохранив порядок и задержки загрузки. На /ru/razrabotka-telegram-bota-tashkent/ грузить lead-form и lead-demo отложенно. До и после проверить, что события GA4, Метрики и GTM фиксируются. Script не входит в seoContract, но меняет замеры аналитики.",
+          "evidence": "L4-09: на каждой странице ≈17,5 КБ инлайн-скриптов (ga 10 031 Б, ym 5 587 Б, gtm 1 059 Б, first-touch 796 Б); 37 из 300 HTML тяжелее 100 КБ, максимум 210 553 Б. L6 §4.7: мы уже быстрее конкурентов — TTFB 0,28 с против 0,57 с, HTML 70 КБ против 181 КБ.",
+          "impact_clicks_28d": "Не оценить без полевых CWV.",
+          "expected_low": 0, "expected_high": 0, "confidence": "low", "effort": "M", "risk": "medium", "protected": false, "lens": ["L4-09"]
+        },
+        {
+          "id": "W3-09", "title": "Генератор примеров по математике для 1–4 классов (страница-инструмент студийного типа)",
+          "pages": ["/uz/matematika-misollar/ (new)"],
+          "files": ["content/studio/pages/uz/matematika-misollar.json", "apps/studio/"],
+          "action": "Гейт: 8-недельное чтение школьной когорты (≈01.12) — если K не вырос выше 0,05, не строить. Клиентский генератор: qo‘shish, ayirish, ko‘paytirish, bo‘lish, karra jadvali; сложность и количество; печатный лист и ответы. Ссылка «yechimni AI tushuntiradi» ведёт в чат (роль teacher). Тексты на узбекском, U+2018/U+2019, ≥4 FAQ. Делать страницей студийного типа, чтобы не менять «/».",
+          "evidence": "L3-06 (kw2): matematika misollar — 18 100 (в октябре 2025 было 480, в сентябре 2026 — 49 500), karra jadvali — 2 900, misollar — 1 600. SERP 48e0cfbe: PDF, курсы, видео — всё слабое. GSC «misol» — 0 строк (7518cd52).",
+          "impact_clicks_28d": "ожид. ≈3–19 (K = 0,04 × L3-06 82…468); сезонно, пик сентябрь–ноябрь. Уверенность низкая.",
+          "expected_low": 3, "expected_high": 19, "confidence": "low", "effort": "L", "risk": "medium", "protected": false, "lens": ["L3-06"]
+        },
+        {
+          "id": "W3-10", "title": "Следующие языковые пары TR/KO/AR↔UZ",
+          "pages": ["/uz/turkcha-ozbekcha-tarjimon/ (new, later)", "/uz/koreyscha-ozbekcha-tarjimon/ (new, later)"],
+          "files": ["src/gpt-chat/roles.ts", "content/pages/uz/"],
+          "action": "Только если у W3-06 за 28 дней GSC подтвердит ранжирование. Обобщить translator_en до роли с закрытым списком языковых пар. По одной UZ-странице на каждую пару со спросом ≥500. Тот же честный текст, те же гейты и тот же шаблон манифеста.",
+          "evidence": "L3-10: turkcha o‘zbekcha tarjimon — 880, koreyscha o‘zbekcha tarjima — 720, arabcha tarjima — 590 (kw1/kw2). SERP не проверялся.",
+          "impact_clicks_28d": "ожид. ≈0–1 (K = 0,04 × 8…22). Уверенность низкая.",
+          "expected_low": 0, "expected_high": 1, "confidence": "low", "effort": "S", "risk": "low", "protected": true, "lens": ["L3-10"]
+        }
+      ]
+    }
+  ],
+  "owner_only": [
+    {"id": "O-01", "title": "GSC: Request indexing для /uz/blog/slayd-tayyorlash/ и удалить устаревший sitemap-new.xml", "why": "Обе операции делаются только в интерфейсе Search Console под аккаунтом владельца, API их не даёт. Страница отвечает за slayd tayyorlash 5 400 + 1 900 + 1 000 в месяц и не в индексе с 08.10 (L4-01). sitemap-new.xml отдаёт 404 (L4-07). ≈2 минуты.", "lens": ["L4-01", "L4-07"]},
+    {"id": "O-02", "title": "Яндекс.Вебмастер: подтвердить сайт, добавить sitemap, регион «Ташкент/Узбекистан», сверить «Страницы в поиске» с 300 URL", "why": "Это внешний аккаунт. По GA4 на Яндекс приходится 589 сессий, или 31,5 % поисковых (L4-02), а GSC его не видит. Без Вебмастера индексацию и позиции в Яндексе не оценить.", "lens": ["L4-02"]},
+    {"id": "O-03", "title": "Ключ Google API для PageSpeed Insights и CrUX (или выгрузка GSC → Core Web Vitals)", "why": "Нужен проект Google Cloud владельца. Без ключа PSI отвечал 429, полевых CWV нет. Это гейт для W3-07 и W3-08; мобильные дают 77,7 % кликов (L4-03).", "lens": ["L4-03"]},
+    {"id": "O-04", "title": "Фото-решатель задач: включить STUDIO_PHOTO и перенацелить черновик rasmdan-yechim на «misollar yechish»", "why": "Это платная vision-функция с бесплатными фото в день и расходом на модель, то есть политика квот и бюджета. Спрос: misollar yechish 4 400 и ещё 4 530 по смежным (L3-05); wrangler.toml:167 STUDIO_PHOTO = false.", "lens": ["L3-05"]},
+    {"id": "O-05", "title": "Отдельная страница «Obyektivka (ma’lumotnoma) namunasi»", "why": "C32 прямо называет её решением владельца и считает честной только тогда, когда сайт сможет дать саму официальную форму. Спрос ≈5 000 в месяц (L3-04); топ-3 выдачи держат генераторы формы.", "lens": ["L3-04"]},
+    {"id": "O-06", "title": "Видео: 4 скринкаста и YouTube-канал GPTBot.uz", "why": "Нужны запись, голос и аккаунт на внешнем сайте. Видеоблок есть в 4 из 6 выдач, у сайта видео нет совсем (L6-04). После загрузки блок video с фасадом без iframe до клика и VideoObject делаются автономно.", "lens": ["L6-04"]},
+    {"id": "O-07", "title": "Опубликовать кейсы Deutschexperte и Haier Shop про Telegram-ботов", "why": "Это реальные кейсы: нужны проверка каждой цифры и согласие клиентов, у Haier — ещё сверка формулировки «официальный магазин». Блок кейсов или отзывов есть у 5 из 7 B2B-конкурентов (L6-05). По кликам эффект ≈0, ценность — в конверсии.", "lens": ["L6-05"]},
+    {"id": "O-08", "title": "Реальные оценки пользователей в чате → aggregateRating у SoftwareApplication", "why": "Это продуктовое решение о сборе, хранении, приватности и модерации оценок, и оно меняет живой чат, который сейчас на замере. Рейтинг без реальных оценок недопустим (L6-07).", "lens": ["L6-07"]},
+    {"id": "O-09", "title": "Гейты публикации переводчиков: слепая проверка носителем ≥4/5 и решение по бесплатной квоте (варианты A–D)", "why": "CHANGE_LOG 24.10 записывает эти гейты как решения владельца, и тест G5 запрещает рекламировать перевод до проверки. От них зависят RU↔UZ-релиз в другой ветке и W3-06.", "lens": ["L3-01", "L6-01"]}
+  ],
+  "rejected": [
+    {"title": "Новые title/description и правки тела /ru/gpt-chat/ и /uz/gpt-uzbek-tilida/ сейчас", "why": "Идёт 28-дневный замер сниппетов от 24.10 (CHANGE_LOG_2026-10.md, «Замер»), и задача прямо это запрещает. L2 тоже не рекомендует: правка смешает замер."},
+    {"title": "Переставить hreflang пар site-chat и Telegram-хабов (L4-10)", "why": "intent-manifest (telegram-leads-uz) запрещает «hreflang reassignment» без решения. B2B даёт 0–2 клика на URL за 28 дней, эффект в пределах шума."},
+    {"title": "«в Ташкенте» в title /ru/chat-bot-dlya-biznesa/ и новые ссылки с неё (L6-05 п.3)", "why": "Страница конкурирует с хабом кластера telegram-leads-ru, у которого «ташкент» в ключах (L5 §3/§7, 04_TARGET_URLS — DO NOT LINK). Спрос «чат бот для бизнеса» — 10 в месяц, кластер bot-services заморожен."},
+    {"title": "Ссылки на B2B-ниши yurista и dostavki-edy, дополнение хаба ai-bot-dlya-nishi (L5 W1-06, W1-07)", "why": "Кластер bot-services заморожен (demand-policy frozenClusters: 0–30 в месяц). У целей 0 % показов из Узбекистана, потолок ≈+2."},
+    {"title": "Удалить «не по теме» ссылки sayt/marketing/SMM из гайда по скачиванию (опция L5 W2-04)", "why": "A1: «removing links has no proven upside». Страница в окне П-CTR, а изменение без доказанной пользы."},
+    {"title": "Ссылки на CGO, GCB, блоги про AI-менеджера, пару Payme/Click, chat-bot-dlya-sayta, /uz/gpt-bot-biznes-uchun/", "why": "Эти страницы конкурируют с владельцами интентов (L5 §3/§7, cannibalization.md, 04_TARGET_URLS DO NOT LINK)."},
+    {"title": "Правки «/» ради глубины и замена B2B-футера на B2C-страницах (L5 §7)", "why": "У 294 страниц глубина уже 1, «/» защищена, выгоду не измерить."},
+    {"title": "Страницы под другие ИИ-бренды, генерацию картинок/видео/голоса, банки тестов, архивы стихов и пословиц, орфографические словари, maktub/xulosa (L3)", "why": "Запросы навигационные, такой функции в продукте нет (чат работает на провайдере zai), либо выдачу держит другой интент (imlo.uz)."},
+    {"title": "Новые B2B-страницы и RU-страницы «нейросеть для X» (L3, L6)", "why": "Измеренный спрос — 0–30 в месяц, кластер bot-services заморожен."},
+    {"title": "Копировать приёмы конкурентов: «rasmiy sayti», модели GPT-5/6 в title, AggregateRating без видимых отзывов, каталоги APK-клонов (L6 §7)", "why": "Ложная претензия на официальность или модель, фальшивый рейтинг, вред пользователю — нарушает правила честности."},
+    {"title": "Упоминать перевод в режимах /ru/gpt-na-russkom/ до гейта G5 (часть L6-01)", "why": "implementation-map G5: чат не рекламирует перевод до слепой проверки ≥4/5, и тест это фиксирует."},
+    {"title": "Отдельный релиз L1-02 (title гайда по входу) раньше чтения", "why": "По cannibalization.md §0 п.1 правки title/H1 гайда — только после CTR-чтения. Эффект ≤+5, поэтому L1-02 объединён с W3-01."},
+    {"title": "Новые школьные и документные UZ-страницы сверх трёх из волны 2 до 8-недельного чтения", "why": "Калибровка: октябрьская когорта из 7 гайдов дала 3 клика при прогнозе 75,4 (K = 0,04, доля показов 2,2 %). Масштабировать до чтения ≈01.12 — без доказательств."}
+  ],
+  "dedupMap": {
+    "L1-01": "W3-01", "L1-02": "W3-01", "L1-03": "W3-02",
+    "L2-01": "W1-03", "L2-02": "W1-08", "L2-03": "W1-01", "L2-04": "W2-02", "L2-05": "W3-01", "L2-06": "W3-02",
+    "L3-01": "W3-06", "L3-02": "W1-02", "L3-03": "W2-03", "L3-04": "O-05", "L3-05": "O-04", "L3-06": "W3-09", "L3-07": "W1-07", "L3-08": "W2-05", "L3-09": "W2-04", "L3-10": "W3-10",
+    "L4-01": "W1-15 + O-01", "L4-02": "W1-12 + O-02", "L4-03": "O-03", "L4-04": "W3-07", "L4-05": "W1-05", "L4-06": "W1-14", "L4-07": "W1-13 + O-01", "L4-08": "W2-07", "L4-09": "W3-08", "L4-10": "rejected",
+    "L5-01": "W1-04", "L5-02": "W2-01 + W3-03", "L5-03": "W2-01 + W2-02 + W3-01 + W3-04", "L5-04": "W1-06", "L5-05": "W1-09 (W1-06/W1-07 rejected)", "L5-06": "W1-10 (H-3) + W2-01 (H-5) + W3-02 (H-1, H-2, H-4)", "L5-07": "W1-11",
+    "L6-01": "W3-05", "L6-02": "W1-02", "L6-03": "W2-02", "L6-04": "O-06", "L6-05": "O-07 + rejected (п.3)", "L6-06": "W2-06", "L6-07": "O-08"
+  },
+  "totals": {
+    "wave1_expected_clicks_28d": "5-29",
+    "wave2_expected_clicks_28d": "11-43",
+    "wave3_expected_clicks_28d": "22-83 (CGO -14..+15 not included)",
+    "all": "38-155 (2.4-9.8% of 1 584), each counted in the first 28 days after its own release"
+  }
+}

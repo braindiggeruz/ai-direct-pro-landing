@@ -1,0 +1,97 @@
+{
+ "pages": [
+  {
+   "page": "insho-yozish-suniy-intellekt-bilan",
+   "published": "2026-09-01",
+   "days_in_window": 28,
+   "demand_month": 7500,
+   "searches_in_window": 6908,
+   "impressions": 309,
+   "impression_share_pct": 4.47,
+   "clicks": 1,
+   "pred_low_clicks": 24.2,
+   "K": 0.041
+  },
+  {
+   "page": "slayd-tayyorlash",
+   "published": "2026-10-05",
+   "days_in_window": 17,
+   "demand_month": 8300,
+   "searches_in_window": 4641,
+   "impressions": 1,
+   "impression_share_pct": 0.02,
+   "clicks": 0,
+   "pred_low_clicks": 16.2,
+   "K": 0.0
+  },
+  {
+   "page": "referat-va-mustaqil-ish",
+   "published": "2026-10-05",
+   "days_in_window": 17,
+   "demand_month": 5120,
+   "searches_in_window": 2863,
+   "impressions": 100,
+   "impression_share_pct": 3.49,
+   "clicks": 1,
+   "pred_low_clicks": 10.0,
+   "K": 0.1
+  },
+  {
+   "page": "rezyume-tayyorlash",
+   "published": "2026-10-05",
+   "days_in_window": 17,
+   "demand_month": 3500,
+   "searches_in_window": 1957,
+   "impressions": 14,
+   "impression_share_pct": 0.72,
+   "clicks": 0,
+   "pred_low_clicks": 6.8,
+   "K": 0.0
+  },
+  {
+   "page": "kurs-ishi-yozish",
+   "published": "2026-10-07",
+   "days_in_window": 15,
+   "demand_month": 3410,
+   "searches_in_window": 1683,
+   "impressions": 19,
+   "impression_share_pct": 1.13,
+   "clicks": 1,
+   "pred_low_clicks": 5.9,
+   "K": 0.17
+  },
+  {
+   "page": "tushuntirish-xati-va-ariza-yozish",
+   "published": "2026-10-07",
+   "days_in_window": 15,
+   "demand_month": 5790,
+   "searches_in_window": 2857,
+   "impressions": 26,
+   "impression_share_pct": 0.91,
+   "clicks": 0,
+   "pred_low_clicks": 10.0,
+   "K": 0.0
+  },
+  {
+   "page": "biznes-reja-tuzish",
+   "published": "2026-10-07",
+   "days_in_window": 15,
+   "demand_month": 1350,
+   "searches_in_window": 666,
+   "impressions": 5,
+   "impression_share_pct": 0.75,
+   "clicks": 0,
+   "pred_low_clicks": 2.3,
+   "K": 0.0
+  }
+ ],
+ "total": {
+  "demand": 34970,
+  "pred_low_exposed": 75.4,
+  "clicks": 3,
+  "impr": 474,
+  "searches_exposed": 21575,
+  "K_all": 0.04,
+  "impression_share_pct_all": 2.2
+ }
+}

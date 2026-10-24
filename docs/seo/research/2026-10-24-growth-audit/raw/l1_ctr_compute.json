@@ -1,0 +1,6286 @@
+{
+ "row_counts": {
+  "all_pq": 1820,
+  "all_pq_p0_meta": 1000,
+  "all_pq_p1_meta": 820,
+  "uzb_pq": 1352,
+  "uzb_pq_p0_meta": 1000,
+  "uzb_pq_p1": 352,
+  "uzb_page": 132,
+  "all_page_min100": 29
+ },
+ "sums": {
+  "all_pq": {
+   "clicks": 1207,
+   "impressions": 202251
+  },
+  "uzb_pq": {
+   "clicks": 1031,
+   "impressions": 142189
+  },
+  "uzb_page": {
+   "clicks": 1031,
+   "impressions": 142189
+  },
+  "all_page_min100": {
+   "clicks": 1537,
+   "impressions": 214943
+  }
+ },
+ "curve_page_uzb_all": {
+  "1": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/ai-prodavec-i-otdel-prodazh/",
+     0,
+     1
+    ],
+    [
+     "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+     0,
+     1
+    ],
+    [
+     "/uz/internet-reklama-toshkent/",
+     0,
+     1
+    ]
+   ]
+  },
+  "2": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/instagram-bot-biznes-uchun/",
+     0,
+     2
+    ],
+    [
+     "/ru/blog/kak-provesti-audit-digital-marketinga/",
+     0,
+     1
+    ],
+    [
+     "/ru/performance-marketing-tashkent/",
+     0,
+     1
+    ]
+   ]
+  },
+  "3": {
+   "clicks": 1,
+   "impressions": 41,
+   "n": 3,
+   "ctr": 0.024390243902439025,
+   "top": [
+    [
+     "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+     1,
+     39
+    ],
+    [
+     "/ru/ai-prodavec/",
+     0,
+     1
+    ],
+    [
+     "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+     0,
+     1
+    ]
+   ]
+  },
+  "4": {
+   "clicks": 2,
+   "impressions": 105,
+   "n": 3,
+   "ctr": 0.01904761904761905,
+   "top": [
+    [
+     "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     2,
+     78
+    ],
+    [
+     "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+     0,
+     26
+    ],
+    [
+     "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+     0,
+     1
+    ]
+   ]
+  },
+  "5": {
+   "clicks": 472,
+   "impressions": 20180,
+   "n": 6,
+   "ctr": 0.023389494549058473,
+   "top": [
+    [
+     "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     463,
+     19948
+    ],
+    [
+     "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     9,
+     183
+    ],
+    [
+     "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+     0,
+     20
+    ],
+    [
+     "/ru/oferta/",
+     0,
+     18
+    ]
+   ]
+  },
+  "6": {
+   "clicks": 142,
+   "impressions": 39598,
+   "n": 11,
+   "ctr": 0.003586039698974696,
+   "top": [
+    [
+     "/ru/gpt-chat/",
+     127,
+     37912
+    ],
+    [
+     "/ru/blog/chat-gpt-online/",
+     14,
+     1517
+    ],
+    [
+     "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     0,
+     76
+    ],
+    [
+     "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+     1,
+     48
+    ]
+   ]
+  },
+  "7": {
+   "clicks": 409,
+   "impressions": 79901,
+   "n": 10,
+   "ctr": 0.005118834557765234,
+   "top": [
+    [
+     "/uz/gpt-uzbek-tilida/",
+     372,
+     68997
+    ],
+    [
+     "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     34,
+     10626
+    ],
+    [
+     "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     1,
+     132
+    ],
+    [
+     "/ru/gde-polzovatsya-gpt-besplatno/",
+     1,
+     56
+    ]
+   ]
+  },
+  "8": {
+   "clicks": 1,
+   "impressions": 719,
+   "n": 10,
+   "ctr": 0.0013908205841446453,
+   "top": [
+    [
+     "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     0,
+     355
+    ],
+    [
+     "/",
+     1,
+     164
+    ],
+    [
+     "/uz/blog/target-reklama-nima/",
+     0,
+     105
+    ],
+    [
+     "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     0,
+     29
+    ]
+   ]
+  },
+  "9": {
+   "clicks": 0,
+   "impressions": 112,
+   "n": 9,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/gpt-bot-biznes-uchun/",
+     0,
+     55
+    ],
+    [
+     "/uz/blog/referat-va-mustaqil-ish/",
+     0,
+     29
+    ],
+    [
+     "/ru/gpt-na-russkom/",
+     0,
+     13
+    ],
+    [
+     "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+     0,
+     6
+    ]
+   ]
+  },
+  "10": {
+   "clicks": 0,
+   "impressions": 44,
+   "n": 7,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/targetirovannaya-reklama-tashkent/",
+     0,
+     20
+    ],
+    [
+     "/uz/gpt-uzbek-tilida-ai-chat/",
+     0,
+     13
+    ],
+    [
+     "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+     0,
+     4
+    ],
+    [
+     "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+     0,
+     3
+    ]
+   ]
+  },
+  "11": {
+   "clicks": 0,
+   "impressions": 40,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chto-takoe-smm-prodvizhenie/",
+     0,
+     22
+    ],
+    [
+     "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+     0,
+     15
+    ],
+    [
+     "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+     0,
+     3
+    ]
+   ]
+  },
+  "12": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+     0,
+     1
+    ]
+   ]
+  },
+  "13": {
+   "clicks": 0,
+   "impressions": 17,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+     0,
+     14
+    ],
+    [
+     "/ru/internet-reklama-tashkent/",
+     0,
+     3
+    ]
+   ]
+  },
+  "14": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/marketing-nima/",
+     0,
+     4
+    ]
+   ]
+  },
+  "15": {
+   "clicks": 0,
+   "impressions": 30,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/",
+     0,
+     26
+    ],
+    [
+     "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+     0,
+     3
+    ],
+    [
+     "/ru/blog/hosting-dlya-telegram-bota/",
+     0,
+     1
+    ]
+   ]
+  },
+  "16": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+     0,
+     7
+    ],
+    [
+     "/uz/blog/chatgpt-talabalar-uchun/",
+     0,
+     1
+    ]
+   ]
+  },
+  "17": {
+   "clicks": 1,
+   "impressions": 28,
+   "n": 3,
+   "ctr": 0.03571428571428571,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+     1,
+     19
+    ],
+    [
+     "/ru/avtomatizatsiya-prodazh/",
+     0,
+     8
+    ],
+    [
+     "/ru/blog/ai-agent-ili-chat-bot/",
+     0,
+     1
+    ]
+   ]
+  },
+  "18": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+     0,
+     9
+    ],
+    [
+     "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+     0,
+     3
+    ]
+   ]
+  },
+  "19": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+     0,
+     7
+    ]
+   ]
+  },
+  "21": {
+   "clicks": 0,
+   "impressions": 22,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+     0,
+     22
+    ]
+   ]
+  },
+  "22": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+     0,
+     6
+    ],
+    [
+     "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+     0,
+     1
+    ]
+   ]
+  },
+  "24": {
+   "clicks": 0,
+   "impressions": 16,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/",
+     0,
+     14
+    ],
+    [
+     "/ru/sozdanie-sayta-dlya-biznesa/",
+     0,
+     2
+    ]
+   ]
+  },
+  "26": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+     0,
+     5
+    ]
+   ]
+  },
+  "27": {
+   "clicks": 1,
+   "impressions": 464,
+   "n": 1,
+   "ctr": 0.0021551724137931034,
+   "top": [
+    [
+     "/ru/seo-prodvizhenie-saytov-tashkent/",
+     1,
+     464
+    ]
+   ]
+  },
+  "28": {
+   "clicks": 0,
+   "impressions": 74,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/smm-prodvizhenie-tashkent/",
+     0,
+     74
+    ]
+   ]
+  },
+  "29": {
+   "clicks": 0,
+   "impressions": 81,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/sayt-yaratish/",
+     0,
+     57
+    ],
+    [
+     "/ru/stoimost-chat-bota/",
+     0,
+     18
+    ],
+    [
+     "/uz/suniy-intellekt/",
+     0,
+     6
+    ]
+   ]
+  },
+  "32": {
+   "clicks": 0,
+   "impressions": 20,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+     0,
+     20
+    ]
+   ]
+  },
+  "36": {
+   "clicks": 0,
+   "impressions": 113,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/kontekstnaya-reklama-tashkent/",
+     0,
+     89
+    ],
+    [
+     "/ru/chat-bot-dlya-biznesa/",
+     0,
+     24
+    ]
+   ]
+  },
+  "37": {
+   "clicks": 2,
+   "impressions": 293,
+   "n": 1,
+   "ctr": 0.006825938566552901,
+   "top": [
+    [
+     "/ru/razrabotka-saytov-tashkent/",
+     2,
+     293
+    ]
+   ]
+  },
+  "39": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+     0,
+     6
+    ]
+   ]
+  },
+  "42": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/telegram-bot-biznes-uchun/",
+     0,
+     2
+    ]
+   ]
+  },
+  "46": {
+   "clicks": 0,
+   "impressions": 42,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/seo-xizmati/",
+     0,
+     41
+    ],
+    [
+     "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+     0,
+     1
+    ]
+   ]
+  },
+  "48": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/o-kompanii/",
+     0,
+     2
+    ]
+   ]
+  },
+  "51": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/biznes-uchun-ai-bot/",
+     0,
+     2
+    ]
+   ]
+  },
+  "52": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/lokalnoe-seo-tashkent/",
+     0,
+     13
+    ]
+   ]
+  },
+  "53": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+     0,
+     12
+    ]
+   ]
+  },
+  "54": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/chat-bot-po-uzbekistanu/",
+     0,
+     3
+    ]
+   ]
+  },
+  "55": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+     0,
+     4
+    ]
+   ]
+  },
+  "56": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+     0,
+     1
+    ]
+   ]
+  },
+  "58": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+     0,
+     1
+    ],
+    [
+     "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+     0,
+     1
+    ]
+   ]
+  },
+  "60": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+     0,
+     19
+    ]
+   ]
+  },
+  "62": {
+   "clicks": 0,
+   "impressions": 14,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/ai-bot-dlya-biznesa/",
+     0,
+     8
+    ],
+    [
+     "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+     0,
+     6
+    ]
+   ]
+  },
+  "63": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/smm-nima/",
+     0,
+     5
+    ]
+   ]
+  },
+  "65": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/razrabotka-chat-bota/",
+     0,
+     5
+    ],
+    [
+     "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+     0,
+     2
+    ]
+   ]
+  },
+  "67": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/digital-marketing-tashkent/",
+     0,
+     3
+    ]
+   ]
+  },
+  "72": {
+   "clicks": 0,
+   "impressions": 35,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chat-bot-dlya-sayta/",
+     0,
+     35
+    ]
+   ]
+  },
+  "73": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/ozbekiston-boylab-chat-bot/",
+     0,
+     2
+    ],
+    [
+     "/uz/sharhlar/",
+     0,
+     2
+    ]
+   ]
+  },
+  "74": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+     0,
+     1
+    ]
+   ]
+  },
+  "75": {
+   "clicks": 0,
+   "impressions": 9,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/gpt-dlya-biznesa/",
+     0,
+     9
+    ]
+   ]
+  },
+  "76": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/whatsapp-bot-biznes-uchun/",
+     0,
+     1
+    ]
+   ]
+  },
+  "78": {
+   "clicks": 0,
+   "impressions": 33,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/smm-xizmatlari/",
+     0,
+     23
+    ],
+    [
+     "/boss-digital/",
+     0,
+     10
+    ]
+   ]
+  },
+  "80": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+     0,
+     1
+    ]
+   ]
+  },
+  "81": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/razrabotka-telegram-bota-tashkent/",
+     0,
+     11
+    ]
+   ]
+  },
+  "87": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+     0,
+     1
+    ]
+   ]
+  },
+  "90": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/",
+     0,
+     5
+    ],
+    [
+     "/ru/chat-bot-v-samarkande/",
+     0,
+     1
+    ]
+   ]
+  },
+  "97": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/telegram-bot-dlya-biznesa/",
+     0,
+     1
+    ]
+   ]
+  }
+ },
+ "curve_page_uzb_nochat": {
+  "1": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/ai-prodavec-i-otdel-prodazh/",
+     0,
+     1
+    ],
+    [
+     "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+     0,
+     1
+    ],
+    [
+     "/uz/internet-reklama-toshkent/",
+     0,
+     1
+    ]
+   ]
+  },
+  "2": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/instagram-bot-biznes-uchun/",
+     0,
+     2
+    ],
+    [
+     "/ru/blog/kak-provesti-audit-digital-marketinga/",
+     0,
+     1
+    ],
+    [
+     "/ru/performance-marketing-tashkent/",
+     0,
+     1
+    ]
+   ]
+  },
+  "3": {
+   "clicks": 1,
+   "impressions": 41,
+   "n": 3,
+   "ctr": 0.024390243902439025,
+   "top": [
+    [
+     "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+     1,
+     39
+    ],
+    [
+     "/ru/ai-prodavec/",
+     0,
+     1
+    ],
+    [
+     "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+     0,
+     1
+    ]
+   ]
+  },
+  "4": {
+   "clicks": 2,
+   "impressions": 105,
+   "n": 3,
+   "ctr": 0.01904761904761905,
+   "top": [
+    [
+     "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     2,
+     78
+    ],
+    [
+     "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+     0,
+     26
+    ],
+    [
+     "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+     0,
+     1
+    ]
+   ]
+  },
+  "5": {
+   "clicks": 472,
+   "impressions": 20180,
+   "n": 6,
+   "ctr": 0.023389494549058473,
+   "top": [
+    [
+     "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     463,
+     19948
+    ],
+    [
+     "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     9,
+     183
+    ],
+    [
+     "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+     0,
+     20
+    ],
+    [
+     "/ru/oferta/",
+     0,
+     18
+    ]
+   ]
+  },
+  "6": {
+   "clicks": 15,
+   "impressions": 1686,
+   "n": 10,
+   "ctr": 0.008896797153024912,
+   "top": [
+    [
+     "/ru/blog/chat-gpt-online/",
+     14,
+     1517
+    ],
+    [
+     "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     0,
+     76
+    ],
+    [
+     "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+     1,
+     48
+    ],
+    [
+     "/uz/instagram-target-yoqish/",
+     0,
+     19
+    ]
+   ]
+  },
+  "7": {
+   "clicks": 37,
+   "impressions": 10904,
+   "n": 9,
+   "ctr": 0.003393250183418929,
+   "top": [
+    [
+     "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     34,
+     10626
+    ],
+    [
+     "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     1,
+     132
+    ],
+    [
+     "/ru/gde-polzovatsya-gpt-besplatno/",
+     1,
+     56
+    ],
+    [
+     "/ru/gpt-vs-chatgpt-sravnenie/",
+     1,
+     52
+    ]
+   ]
+  },
+  "8": {
+   "clicks": 1,
+   "impressions": 719,
+   "n": 10,
+   "ctr": 0.0013908205841446453,
+   "top": [
+    [
+     "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     0,
+     355
+    ],
+    [
+     "/",
+     1,
+     164
+    ],
+    [
+     "/uz/blog/target-reklama-nima/",
+     0,
+     105
+    ],
+    [
+     "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     0,
+     29
+    ]
+   ]
+  },
+  "9": {
+   "clicks": 0,
+   "impressions": 112,
+   "n": 9,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/gpt-bot-biznes-uchun/",
+     0,
+     55
+    ],
+    [
+     "/uz/blog/referat-va-mustaqil-ish/",
+     0,
+     29
+    ],
+    [
+     "/ru/gpt-na-russkom/",
+     0,
+     13
+    ],
+    [
+     "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+     0,
+     6
+    ]
+   ]
+  },
+  "10": {
+   "clicks": 0,
+   "impressions": 44,
+   "n": 7,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/targetirovannaya-reklama-tashkent/",
+     0,
+     20
+    ],
+    [
+     "/uz/gpt-uzbek-tilida-ai-chat/",
+     0,
+     13
+    ],
+    [
+     "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+     0,
+     4
+    ],
+    [
+     "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+     0,
+     3
+    ]
+   ]
+  },
+  "11": {
+   "clicks": 0,
+   "impressions": 40,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chto-takoe-smm-prodvizhenie/",
+     0,
+     22
+    ],
+    [
+     "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+     0,
+     15
+    ],
+    [
+     "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+     0,
+     3
+    ]
+   ]
+  },
+  "12": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+     0,
+     1
+    ]
+   ]
+  },
+  "13": {
+   "clicks": 0,
+   "impressions": 17,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+     0,
+     14
+    ],
+    [
+     "/ru/internet-reklama-tashkent/",
+     0,
+     3
+    ]
+   ]
+  },
+  "14": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/marketing-nima/",
+     0,
+     4
+    ]
+   ]
+  },
+  "15": {
+   "clicks": 0,
+   "impressions": 30,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/",
+     0,
+     26
+    ],
+    [
+     "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+     0,
+     3
+    ],
+    [
+     "/ru/blog/hosting-dlya-telegram-bota/",
+     0,
+     1
+    ]
+   ]
+  },
+  "16": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+     0,
+     7
+    ],
+    [
+     "/uz/blog/chatgpt-talabalar-uchun/",
+     0,
+     1
+    ]
+   ]
+  },
+  "17": {
+   "clicks": 1,
+   "impressions": 28,
+   "n": 3,
+   "ctr": 0.03571428571428571,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+     1,
+     19
+    ],
+    [
+     "/ru/avtomatizatsiya-prodazh/",
+     0,
+     8
+    ],
+    [
+     "/ru/blog/ai-agent-ili-chat-bot/",
+     0,
+     1
+    ]
+   ]
+  },
+  "18": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+     0,
+     9
+    ],
+    [
+     "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+     0,
+     3
+    ]
+   ]
+  },
+  "19": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+     0,
+     7
+    ]
+   ]
+  },
+  "21": {
+   "clicks": 0,
+   "impressions": 22,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+     0,
+     22
+    ]
+   ]
+  },
+  "22": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+     0,
+     6
+    ],
+    [
+     "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+     0,
+     1
+    ]
+   ]
+  },
+  "24": {
+   "clicks": 0,
+   "impressions": 16,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/",
+     0,
+     14
+    ],
+    [
+     "/ru/sozdanie-sayta-dlya-biznesa/",
+     0,
+     2
+    ]
+   ]
+  },
+  "26": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+     0,
+     5
+    ]
+   ]
+  },
+  "27": {
+   "clicks": 1,
+   "impressions": 464,
+   "n": 1,
+   "ctr": 0.0021551724137931034,
+   "top": [
+    [
+     "/ru/seo-prodvizhenie-saytov-tashkent/",
+     1,
+     464
+    ]
+   ]
+  },
+  "28": {
+   "clicks": 0,
+   "impressions": 74,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/smm-prodvizhenie-tashkent/",
+     0,
+     74
+    ]
+   ]
+  },
+  "29": {
+   "clicks": 0,
+   "impressions": 81,
+   "n": 3,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/sayt-yaratish/",
+     0,
+     57
+    ],
+    [
+     "/ru/stoimost-chat-bota/",
+     0,
+     18
+    ],
+    [
+     "/uz/suniy-intellekt/",
+     0,
+     6
+    ]
+   ]
+  },
+  "32": {
+   "clicks": 0,
+   "impressions": 20,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+     0,
+     20
+    ]
+   ]
+  },
+  "36": {
+   "clicks": 0,
+   "impressions": 113,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/kontekstnaya-reklama-tashkent/",
+     0,
+     89
+    ],
+    [
+     "/ru/chat-bot-dlya-biznesa/",
+     0,
+     24
+    ]
+   ]
+  },
+  "37": {
+   "clicks": 2,
+   "impressions": 293,
+   "n": 1,
+   "ctr": 0.006825938566552901,
+   "top": [
+    [
+     "/ru/razrabotka-saytov-tashkent/",
+     2,
+     293
+    ]
+   ]
+  },
+  "39": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+     0,
+     6
+    ]
+   ]
+  },
+  "42": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/telegram-bot-biznes-uchun/",
+     0,
+     2
+    ]
+   ]
+  },
+  "46": {
+   "clicks": 0,
+   "impressions": 42,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/seo-xizmati/",
+     0,
+     41
+    ],
+    [
+     "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+     0,
+     1
+    ]
+   ]
+  },
+  "48": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/o-kompanii/",
+     0,
+     2
+    ]
+   ]
+  },
+  "51": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/biznes-uchun-ai-bot/",
+     0,
+     2
+    ]
+   ]
+  },
+  "52": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/lokalnoe-seo-tashkent/",
+     0,
+     13
+    ]
+   ]
+  },
+  "53": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+     0,
+     12
+    ]
+   ]
+  },
+  "54": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/chat-bot-po-uzbekistanu/",
+     0,
+     3
+    ]
+   ]
+  },
+  "55": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+     0,
+     4
+    ]
+   ]
+  },
+  "56": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+     0,
+     1
+    ]
+   ]
+  },
+  "58": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+     0,
+     1
+    ],
+    [
+     "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+     0,
+     1
+    ]
+   ]
+  },
+  "60": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+     0,
+     19
+    ]
+   ]
+  },
+  "62": {
+   "clicks": 0,
+   "impressions": 14,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/ai-bot-dlya-biznesa/",
+     0,
+     8
+    ],
+    [
+     "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+     0,
+     6
+    ]
+   ]
+  },
+  "63": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/smm-nima/",
+     0,
+     5
+    ]
+   ]
+  },
+  "65": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/razrabotka-chat-bota/",
+     0,
+     5
+    ],
+    [
+     "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+     0,
+     2
+    ]
+   ]
+  },
+  "67": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/digital-marketing-tashkent/",
+     0,
+     3
+    ]
+   ]
+  },
+  "72": {
+   "clicks": 0,
+   "impressions": 35,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/chat-bot-dlya-sayta/",
+     0,
+     35
+    ]
+   ]
+  },
+  "73": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/ozbekiston-boylab-chat-bot/",
+     0,
+     2
+    ],
+    [
+     "/uz/sharhlar/",
+     0,
+     2
+    ]
+   ]
+  },
+  "74": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+     0,
+     1
+    ]
+   ]
+  },
+  "75": {
+   "clicks": 0,
+   "impressions": 9,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/gpt-dlya-biznesa/",
+     0,
+     9
+    ]
+   ]
+  },
+  "76": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/whatsapp-bot-biznes-uchun/",
+     0,
+     1
+    ]
+   ]
+  },
+  "78": {
+   "clicks": 0,
+   "impressions": 33,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/uz/smm-xizmatlari/",
+     0,
+     23
+    ],
+    [
+     "/boss-digital/",
+     0,
+     10
+    ]
+   ]
+  },
+  "80": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+     0,
+     1
+    ]
+   ]
+  },
+  "81": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/razrabotka-telegram-bota-tashkent/",
+     0,
+     11
+    ]
+   ]
+  },
+  "87": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+     0,
+     1
+    ]
+   ]
+  },
+  "90": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 2,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/",
+     0,
+     5
+    ],
+    [
+     "/ru/chat-bot-v-samarkande/",
+     0,
+     1
+    ]
+   ]
+  },
+  "97": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": [
+    [
+     "/ru/blog/telegram-bot-dlya-biznesa/",
+     0,
+     1
+    ]
+   ]
+  }
+ },
+ "curve_query_uzb_all": {
+  "1": {
+   "clicks": 4,
+   "impressions": 103,
+   "n": 74,
+   "ctr": 0.038834951456310676,
+   "top": []
+  },
+  "2": {
+   "clicks": 9,
+   "impressions": 114,
+   "n": 46,
+   "ctr": 0.07894736842105263,
+   "top": []
+  },
+  "3": {
+   "clicks": 327,
+   "impressions": 9119,
+   "n": 63,
+   "ctr": 0.03585919508718061,
+   "top": []
+  },
+  "4": {
+   "clicks": 98,
+   "impressions": 5744,
+   "n": 97,
+   "ctr": 0.017061281337047353,
+   "top": []
+  },
+  "5": {
+   "clicks": 157,
+   "impressions": 22508,
+   "n": 152,
+   "ctr": 0.006975297671938866,
+   "top": []
+  },
+  "6": {
+   "clicks": 103,
+   "impressions": 23076,
+   "n": 185,
+   "ctr": 0.004463511873808286,
+   "top": []
+  },
+  "7": {
+   "clicks": 230,
+   "impressions": 67645,
+   "n": 153,
+   "ctr": 0.003400103481410304,
+   "top": []
+  },
+  "8": {
+   "clicks": 82,
+   "impressions": 8801,
+   "n": 158,
+   "ctr": 0.009317123054198387,
+   "top": []
+  },
+  "9": {
+   "clicks": 19,
+   "impressions": 3494,
+   "n": 100,
+   "ctr": 0.005437893531768746,
+   "top": []
+  },
+  "10": {
+   "clicks": 0,
+   "impressions": 269,
+   "n": 73,
+   "ctr": 0.0,
+   "top": []
+  },
+  "11": {
+   "clicks": 2,
+   "impressions": 80,
+   "n": 26,
+   "ctr": 0.025,
+   "top": []
+  },
+  "12": {
+   "clicks": 0,
+   "impressions": 31,
+   "n": 14,
+   "ctr": 0.0,
+   "top": []
+  },
+  "13": {
+   "clicks": 0,
+   "impressions": 15,
+   "n": 12,
+   "ctr": 0.0,
+   "top": []
+  },
+  "14": {
+   "clicks": 0,
+   "impressions": 21,
+   "n": 10,
+   "ctr": 0.0,
+   "top": []
+  },
+  "15": {
+   "clicks": 0,
+   "impressions": 27,
+   "n": 11,
+   "ctr": 0.0,
+   "top": []
+  },
+  "16": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 9,
+   "ctr": 0.0,
+   "top": []
+  },
+  "17": {
+   "clicks": 0,
+   "impressions": 98,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "18": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "19": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "20": {
+   "clicks": 0,
+   "impressions": 60,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "21": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "22": {
+   "clicks": 0,
+   "impressions": 18,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "23": {
+   "clicks": 0,
+   "impressions": 31,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "24": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "25": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "26": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "27": {
+   "clicks": 0,
+   "impressions": 57,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "28": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "29": {
+   "clicks": 0,
+   "impressions": 9,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "30": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "31": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "33": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "34": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "35": {
+   "clicks": 0,
+   "impressions": 46,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "36": {
+   "clicks": 0,
+   "impressions": 41,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "37": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "39": {
+   "clicks": 0,
+   "impressions": 45,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "40": {
+   "clicks": 0,
+   "impressions": 65,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "41": {
+   "clicks": 0,
+   "impressions": 160,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "42": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "43": {
+   "clicks": 0,
+   "impressions": 36,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "44": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "46": {
+   "clicks": 0,
+   "impressions": 48,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "47": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "49": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "50": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "51": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "53": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "55": {
+   "clicks": 0,
+   "impressions": 44,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "56": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "58": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "59": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "60": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "61": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "62": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "65": {
+   "clicks": 0,
+   "impressions": 45,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "66": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "67": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "68": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "69": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "73": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "74": {
+   "clicks": 0,
+   "impressions": 38,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "75": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "76": {
+   "clicks": 0,
+   "impressions": 18,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "77": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "80": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "81": {
+   "clicks": 0,
+   "impressions": 26,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "82": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "83": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "85": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "86": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "87": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "88": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "89": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "90": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "91": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "94": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "97": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "99": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "156": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  }
+ },
+ "curve_query_uzb_nochat": {
+  "1": {
+   "clicks": 2,
+   "impressions": 94,
+   "n": 66,
+   "ctr": 0.02127659574468085,
+   "top": []
+  },
+  "2": {
+   "clicks": 8,
+   "impressions": 94,
+   "n": 39,
+   "ctr": 0.0851063829787234,
+   "top": []
+  },
+  "3": {
+   "clicks": 324,
+   "impressions": 9018,
+   "n": 50,
+   "ctr": 0.03592814371257485,
+   "top": []
+  },
+  "4": {
+   "clicks": 55,
+   "impressions": 2524,
+   "n": 54,
+   "ctr": 0.021790808240887482,
+   "top": []
+  },
+  "5": {
+   "clicks": 41,
+   "impressions": 4721,
+   "n": 68,
+   "ctr": 0.0086846007201864,
+   "top": []
+  },
+  "6": {
+   "clicks": 16,
+   "impressions": 1448,
+   "n": 74,
+   "ctr": 0.011049723756906077,
+   "top": []
+  },
+  "7": {
+   "clicks": 32,
+   "impressions": 8351,
+   "n": 65,
+   "ctr": 0.0038318764219853908,
+   "top": []
+  },
+  "8": {
+   "clicks": 47,
+   "impressions": 6865,
+   "n": 86,
+   "ctr": 0.006846321922796795,
+   "top": []
+  },
+  "9": {
+   "clicks": 5,
+   "impressions": 666,
+   "n": 68,
+   "ctr": 0.0075075075075075074,
+   "top": []
+  },
+  "10": {
+   "clicks": 0,
+   "impressions": 189,
+   "n": 53,
+   "ctr": 0.0,
+   "top": []
+  },
+  "11": {
+   "clicks": 2,
+   "impressions": 78,
+   "n": 24,
+   "ctr": 0.02564102564102564,
+   "top": []
+  },
+  "12": {
+   "clicks": 0,
+   "impressions": 30,
+   "n": 13,
+   "ctr": 0.0,
+   "top": []
+  },
+  "13": {
+   "clicks": 0,
+   "impressions": 14,
+   "n": 11,
+   "ctr": 0.0,
+   "top": []
+  },
+  "14": {
+   "clicks": 0,
+   "impressions": 21,
+   "n": 10,
+   "ctr": 0.0,
+   "top": []
+  },
+  "15": {
+   "clicks": 0,
+   "impressions": 27,
+   "n": 11,
+   "ctr": 0.0,
+   "top": []
+  },
+  "16": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 9,
+   "ctr": 0.0,
+   "top": []
+  },
+  "17": {
+   "clicks": 0,
+   "impressions": 98,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "18": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "19": {
+   "clicks": 0,
+   "impressions": 11,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "20": {
+   "clicks": 0,
+   "impressions": 59,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "21": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "22": {
+   "clicks": 0,
+   "impressions": 18,
+   "n": 7,
+   "ctr": 0.0,
+   "top": []
+  },
+  "23": {
+   "clicks": 0,
+   "impressions": 31,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "24": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 6,
+   "ctr": 0.0,
+   "top": []
+  },
+  "25": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "26": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "27": {
+   "clicks": 0,
+   "impressions": 57,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "28": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "29": {
+   "clicks": 0,
+   "impressions": 9,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "30": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "31": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "33": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "34": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "35": {
+   "clicks": 0,
+   "impressions": 46,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "36": {
+   "clicks": 0,
+   "impressions": 41,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "37": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "39": {
+   "clicks": 0,
+   "impressions": 45,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "40": {
+   "clicks": 0,
+   "impressions": 65,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "41": {
+   "clicks": 0,
+   "impressions": 160,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "42": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "43": {
+   "clicks": 0,
+   "impressions": 36,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "44": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "46": {
+   "clicks": 0,
+   "impressions": 48,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "47": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "49": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "50": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "51": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "53": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "55": {
+   "clicks": 0,
+   "impressions": 44,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "56": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "58": {
+   "clicks": 0,
+   "impressions": 2,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "59": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "60": {
+   "clicks": 0,
+   "impressions": 13,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "61": {
+   "clicks": 0,
+   "impressions": 19,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "62": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "65": {
+   "clicks": 0,
+   "impressions": 45,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "66": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "67": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "68": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "69": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "73": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "74": {
+   "clicks": 0,
+   "impressions": 38,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "75": {
+   "clicks": 0,
+   "impressions": 5,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "76": {
+   "clicks": 0,
+   "impressions": 18,
+   "n": 5,
+   "ctr": 0.0,
+   "top": []
+  },
+  "77": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 3,
+   "ctr": 0.0,
+   "top": []
+  },
+  "80": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "81": {
+   "clicks": 0,
+   "impressions": 26,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "82": {
+   "clicks": 0,
+   "impressions": 4,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "83": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "85": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "86": {
+   "clicks": 0,
+   "impressions": 6,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "87": {
+   "clicks": 0,
+   "impressions": 7,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "88": {
+   "clicks": 0,
+   "impressions": 12,
+   "n": 4,
+   "ctr": 0.0,
+   "top": []
+  },
+  "89": {
+   "clicks": 0,
+   "impressions": 3,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "90": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "91": {
+   "clicks": 0,
+   "impressions": 8,
+   "n": 2,
+   "ctr": 0.0,
+   "top": []
+  },
+  "94": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "97": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "99": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  },
+  "156": {
+   "clicks": 0,
+   "impressions": 1,
+   "n": 1,
+   "ctr": 0.0,
+   "top": []
+  }
+ },
+ "candidates": {
+  "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+   "all": {
+    "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "clicks": 557,
+    "impressions": 23438,
+    "ctr": 0.0238,
+    "position": 4.7
+   },
+   "uzb": {
+    "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "clicks": 463,
+    "impressions": 19948,
+    "ctr": 0.0232,
+    "position": 4.5
+   },
+   "curve_uzb": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.023210346901945057,
+    "ratio": 0.9923406789857019,
+    "gap_clicks": 3.5736372646184216
+   },
+   "curve_uzb_allpages": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.023210346901945057,
+    "ratio": 0.9923406789857019,
+    "gap_clicks": 3.5736372646184216
+   },
+   "curve_on_all": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.023764826350371193,
+    "ratio": 1.0160470248951075,
+    "gap_clicks": -8.797026759167546
+   },
+   "topq_all": [
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish uzbek tilida",
+     "clicks": 318,
+     "impressions": 9003,
+     "position": 2.7
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish",
+     "clicks": 57,
+     "impressions": 4002,
+     "position": 7.5
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt ochish",
+     "clicks": 27,
+     "impressions": 3833,
+     "position": 5.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt ilovasini yuklab olish",
+     "clicks": 60,
+     "impressions": 2207,
+     "position": 4.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chat gpt yuklash",
+     "clicks": 2,
+     "impressions": 421,
+     "position": 6.5
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklash",
+     "clicks": 1,
+     "impressions": 288,
+     "position": 6.7
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt skachat uzbek tilida",
+     "clicks": 10,
+     "impressions": 198,
+     "position": 2.6
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt скачать uzbek tilida",
+     "clicks": 5,
+     "impressions": 180,
+     "position": 4.9
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish kompyuter uchun",
+     "clicks": 1,
+     "impressions": 180,
+     "position": 7.3
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt oʻrnatish",
+     "clicks": 1,
+     "impressions": 157,
+     "position": 7.8
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 61,
+    "clicks": 505,
+    "impressions": 21698
+   },
+   "topq_uzb": [
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish uzbek tilida",
+     "clicks": 311,
+     "impressions": 8557,
+     "position": 2.5
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt ochish",
+     "clicks": 25,
+     "impressions": 3638,
+     "position": 5.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish",
+     "clicks": 41,
+     "impressions": 3347,
+     "position": 7.7
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt ilovasini yuklab olish",
+     "clicks": 47,
+     "impressions": 1878,
+     "position": 4
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chat gpt yuklash",
+     "clicks": 2,
+     "impressions": 376,
+     "position": 6.3
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklash",
+     "clicks": 1,
+     "impressions": 282,
+     "position": 6.7
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt skachat uzbek tilida",
+     "clicks": 10,
+     "impressions": 193,
+     "position": 2.6
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt скачать uzbek tilida",
+     "clicks": 4,
+     "impressions": 178,
+     "position": 4.9
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt yuklab olish kompyuter uchun",
+     "clicks": 1,
+     "impressions": 176,
+     "position": 7.2
+    },
+    {
+     "page": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+     "query": "chatgpt oʻrnatish",
+     "clicks": 0,
+     "impressions": 155,
+     "position": 7.8
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 61,
+    "clicks": 463,
+    "impressions": 19948
+   }
+  },
+  "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+   "all": {
+    "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "clicks": 50,
+    "impressions": 11707,
+    "ctr": 0.0043,
+    "position": 7.0
+   },
+   "uzb": {
+    "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "clicks": 34,
+    "impressions": 10626,
+    "ctr": 0.0032,
+    "position": 7.1
+   },
+   "curve_uzb": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.003199698851872765,
+    "ratio": 0.9429598994816386,
+    "gap_clicks": 2.056676449009538
+   },
+   "curve_uzb_allpages": {
+    "bucket": 7,
+    "curve_ctr": 0.005118834557765234,
+    "cur_ctr": 0.003199698851872765,
+    "ratio": 0.6250834669033882,
+    "gap_clicks": 20.39273601081338
+   },
+   "curve_on_all": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.004270949004868882,
+    "ratio": 1.258660214840278,
+    "gap_clicks": -10.275220102714599
+   },
+   "topq_all": [
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish",
+     "clicks": 28,
+     "impressions": 7283,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish uzbek tilida",
+     "clicks": 4,
+     "impressions": 2533,
+     "position": 8.2
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish login",
+     "clicks": 2,
+     "impressions": 289,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgptga kirish",
+     "clicks": 1,
+     "impressions": 213,
+     "position": 5.4
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ochish uzbek tilida",
+     "clicks": 0,
+     "impressions": 200,
+     "position": 7.6
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt yozish",
+     "clicks": 0,
+     "impressions": 131,
+     "position": 5.3
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ochish",
+     "clicks": 0,
+     "impressions": 103,
+     "position": 8.5
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish login parol",
+     "clicks": 2,
+     "impressions": 63,
+     "position": 4.5
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ga kirish",
+     "clicks": 0,
+     "impressions": 54,
+     "position": 5.5
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chat gptga kirish",
+     "clicks": 0,
+     "impressions": 25,
+     "position": 8.6
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 25,
+    "clicks": 38,
+    "impressions": 10962
+   },
+   "topq_uzb": [
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish",
+     "clicks": 25,
+     "impressions": 7030,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish uzbek tilida",
+     "clicks": 4,
+     "impressions": 2527,
+     "position": 8.2
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish login",
+     "clicks": 2,
+     "impressions": 275,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgptga kirish",
+     "clicks": 1,
+     "impressions": 202,
+     "position": 5.3
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ochish uzbek tilida",
+     "clicks": 0,
+     "impressions": 199,
+     "position": 7.6
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt yozish",
+     "clicks": 0,
+     "impressions": 130,
+     "position": 5.3
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ochish",
+     "clicks": 0,
+     "impressions": 61,
+     "position": 9.4
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt kirish login parol",
+     "clicks": 1,
+     "impressions": 60,
+     "position": 4.5
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chatgpt ga kirish",
+     "clicks": 0,
+     "impressions": 53,
+     "position": 5.5
+    },
+    {
+     "page": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+     "query": "chat gptga kirish",
+     "clicks": 0,
+     "impressions": 25,
+     "position": 8.6
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 23,
+    "clicks": 34,
+    "impressions": 10626
+   }
+  },
+  "/ru/gpt-vs-chatgpt-sravnenie/": {
+   "all": {
+    "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "clicks": 12,
+    "impressions": 2334,
+    "ctr": 0.0051,
+    "position": 7.0
+   },
+   "uzb": {
+    "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "clicks": 1,
+    "impressions": 52,
+    "ctr": 0.0192,
+    "position": 6.6
+   },
+   "curve_uzb": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.019230769230769232,
+    "ratio": 5.667359667359667,
+    "gap_clicks": -0.8235509904622157
+   },
+   "curve_uzb_allpages": {
+    "bucket": 7,
+    "curve_ctr": 0.005118834557765234,
+    "cur_ctr": 0.019230769230769232,
+    "ratio": 3.756864773368441,
+    "gap_clicks": -0.7338206029962079
+   },
+   "curve_on_all": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.005141388174807198,
+    "ratio": 1.5151809907593967,
+    "gap_clicks": -4.080154071900219
+   },
+   "topq_all": [
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt расшифровка",
+     "clicks": 1,
+     "impressions": 229,
+     "position": 8.7
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "chat gpt расшифровка",
+     "clicks": 0,
+     "impressions": 30,
+     "position": 7.1
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt аббревиатура",
+     "clicks": 1,
+     "impressions": 25,
+     "position": 7.4
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "ии и чат джипити разница",
+     "clicks": 0,
+     "impressions": 24,
+     "position": 9.5
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "как расшифровывается gpt",
+     "clicks": 1,
+     "impressions": 23,
+     "position": 7.5
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt как расшифровывается",
+     "clicks": 0,
+     "impressions": 23,
+     "position": 9.6
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt розшифровка",
+     "clicks": 0,
+     "impressions": 23,
+     "position": 8.6
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "расшифровка gpt",
+     "clicks": 0,
+     "impressions": 23,
+     "position": 8.3
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "chatgpt расшифровка",
+     "clicks": 0,
+     "impressions": 20,
+     "position": 6.8
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "как расшифровывается chatgpt",
+     "clicks": 0,
+     "impressions": 18,
+     "position": 6.3
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 86,
+    "clicks": 5,
+    "impressions": 699
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt расшифровка",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 5.8
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "chatgpt расшифровка",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 5.5
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "как расшифровывается chatgpt",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 7.5
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "chat gpt расшифровка",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 5.7
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "как расшифровывается чат gpt",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8.7
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "как расшифровывается gpt",
+     "clicks": 1,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "гпь",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 10
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "fark gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt b",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 6
+    },
+    {
+     "page": "/ru/gpt-vs-chatgpt-sravnenie/",
+     "query": "gpt значение",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 28,
+    "clicks": 1,
+    "impressions": 52
+   }
+  },
+  "/ru/blog/chat-gpt-online/": {
+   "all": {
+    "page": "/ru/blog/chat-gpt-online/",
+    "clicks": 20,
+    "impressions": 1966,
+    "ctr": 0.0102,
+    "position": 6.4
+   },
+   "uzb": {
+    "page": "/ru/blog/chat-gpt-online/",
+    "clicks": 14,
+    "impressions": 1517,
+    "ctr": 0.0092,
+    "position": 5.7
+   },
+   "curve_uzb": {
+    "bucket": 6,
+    "curve_ctr": 0.008896797153024912,
+    "cur_ctr": 0.00922874093605801,
+    "ratio": 1.0373104812129201,
+    "gap_clicks": -0.5035587188612095
+   },
+   "curve_uzb_allpages": {
+    "bucket": 6,
+    "curve_ctr": 0.003586039698974696,
+    "cur_ctr": 0.00922874093605801,
+    "ratio": 2.573518898493134,
+    "gap_clicks": -8.559977776655387
+   },
+   "curve_on_all": {
+    "bucket": 6,
+    "curve_ctr": 0.008896797153024912,
+    "cur_ctr": 0.01017293997965412,
+    "ratio": 1.143438453713123,
+    "gap_clicks": -2.5088967971530245
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн бесплатно",
+     "clicks": 10,
+     "impressions": 569,
+     "position": 5.9
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн",
+     "clicks": 0,
+     "impressions": 444,
+     "position": 4.9
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн бесплатно на русском",
+     "clicks": 4,
+     "impressions": 136,
+     "position": 9.1
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "онлайн чат gpt",
+     "clicks": 0,
+     "impressions": 82,
+     "position": 6.8
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "gpt чат онлайн",
+     "clicks": 0,
+     "impressions": 44,
+     "position": 6.7
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат гпт онлайн",
+     "clicks": 0,
+     "impressions": 39,
+     "position": 5
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "chatgpt uz",
+     "clicks": 0,
+     "impressions": 34,
+     "position": 7.2
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн официальный сайт",
+     "clicks": 0,
+     "impressions": 27,
+     "position": 7.5
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "chat gpt uzb",
+     "clicks": 0,
+     "impressions": 26,
+     "position": 3.1
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt",
+     "clicks": 0,
+     "impressions": 25,
+     "position": 5.1
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 62,
+    "clicks": 14,
+    "impressions": 1628
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн бесплатно",
+     "clicks": 10,
+     "impressions": 557,
+     "position": 5.8
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн",
+     "clicks": 0,
+     "impressions": 404,
+     "position": 4.4
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн бесплатно на русском",
+     "clicks": 4,
+     "impressions": 135,
+     "position": 9.1
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "онлайн чат gpt",
+     "clicks": 0,
+     "impressions": 72,
+     "position": 6.6
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "chatgpt uz",
+     "clicks": 0,
+     "impressions": 34,
+     "position": 7.2
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат гпт онлайн",
+     "clicks": 0,
+     "impressions": 34,
+     "position": 4.5
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "gpt чат онлайн",
+     "clicks": 0,
+     "impressions": 32,
+     "position": 5.1
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "chat gpt uzb",
+     "clicks": 0,
+     "impressions": 26,
+     "position": 3.1
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt",
+     "clicks": 0,
+     "impressions": 23,
+     "position": 5
+    },
+    {
+     "page": "/ru/blog/chat-gpt-online/",
+     "query": "чат gpt онлайн официальный сайт",
+     "clicks": 0,
+     "impressions": 22,
+     "position": 7.3
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 51,
+    "clicks": 14,
+    "impressions": 1517
+   }
+  },
+  "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+   "all": {
+    "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+    "clicks": 38,
+    "impressions": 958,
+    "ctr": 0.0397,
+    "position": 4.1
+   },
+   "uzb": {
+    "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+    "clicks": 2,
+    "impressions": 78,
+    "ctr": 0.0256,
+    "position": 4.2
+   },
+   "curve_uzb": {
+    "bucket": 4,
+    "curve_ctr": 0.01904761904761905,
+    "cur_ctr": 0.02564102564102564,
+    "ratio": 1.346153846153846,
+    "gap_clicks": -0.5142857142857141
+   },
+   "curve_uzb_allpages": {
+    "bucket": 4,
+    "curve_ctr": 0.01904761904761905,
+    "cur_ctr": 0.02564102564102564,
+    "ratio": 1.346153846153846,
+    "gap_clicks": -0.5142857142857141
+   },
+   "curve_on_all": {
+    "bucket": 4,
+    "curve_ctr": 0.01904761904761905,
+    "cur_ctr": 0.03966597077244259,
+    "ratio": 2.0824634655532357,
+    "gap_clicks": -19.752380952380953
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "как оплатить чат gpt в узбекистане",
+     "clicks": 2,
+     "impressions": 32,
+     "position": 2.8
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "узбекистан",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 6.1
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "clauduz ru",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 3.2
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt uzbekistan",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt uzb",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 2
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "uzb",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 3.5
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "в узбекистане",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "я живу в узбекистане",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 9
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chat gpt цена подписки",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt pro",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 31,
+    "clicks": 2,
+    "impressions": 80
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "как оплатить чат gpt в узбекистане",
+     "clicks": 2,
+     "impressions": 32,
+     "position": 2.8
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "clauduz ru",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 3.2
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "узбекистан",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 6.3
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt uzbekistan",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt uzb",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 2
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "uzb",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 3.5
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "в узбекистане",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "я живу в узбекистане",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 9
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chat gpt цена подписки",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+     "query": "chatgpt pro",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 31,
+    "clicks": 2,
+    "impressions": 78
+   }
+  },
+  "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+   "all": {
+    "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "clicks": 16,
+    "impressions": 857,
+    "ctr": 0.0187,
+    "position": 6.7
+   },
+   "uzb": {
+    "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "clicks": 0,
+    "impressions": 355,
+    "ctr": 0.0,
+    "position": 8.2
+   },
+   "curve_uzb": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.4937413073713491
+   },
+   "curve_uzb_allpages": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.4937413073713491
+   },
+   "curve_on_all": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.01866977829638273,
+    "ratio": 5.50203412280425,
+    "gap_clicks": -13.091984592809975
+   },
+   "topq_all": [
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek tilida gaplashish",
+     "clicks": 0,
+     "impressions": 175,
+     "position": 8.6
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek tilida",
+     "clicks": 0,
+     "impressions": 116,
+     "position": 8
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uchun prompt",
+     "clicks": 0,
+     "impressions": 16,
+     "position": 8.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "prompt nima? siz sun'iy intellektli chat botga kiritadigan matn siz sun'iy intellektli chat botdan oladigan natija tez kiritilgan matn chat gpt ning asosiy sozlamasi",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 10.1
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt savol javob",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 7.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt o'zbek tilida",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 4.9
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chat gpt uchun prompt",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 4
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt kirish uzbek tilida",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 8
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 3
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "чат gpt узбек тилида",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 15,
+    "clicks": 0,
+    "impressions": 358
+   },
+   "topq_uzb": [
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek tilida gaplashish",
+     "clicks": 0,
+     "impressions": 175,
+     "position": 8.6
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek tilida",
+     "clicks": 0,
+     "impressions": 115,
+     "position": 8.0
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uchun prompt",
+     "clicks": 0,
+     "impressions": 15,
+     "position": 8.7
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "prompt nima? siz sun'iy intellektli chat botga kiritadigan matn siz sun'iy intellektli chat botdan oladigan natija tez kiritilgan matn chat gpt ning asosiy sozlamasi",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 10.1
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt savol javob",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 7.4
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt o'zbek tilida",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 4.9
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chat gpt uchun prompt",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 3.8
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt kirish uzbek tilida",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 8.0
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "chatgpt uzbek",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 3.0
+    },
+    {
+     "page": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+     "query": "чат gpt узбек тилида",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8.0
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 15,
+    "clicks": 0,
+    "impressions": 355
+   }
+  },
+  "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+   "all": {
+    "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "clicks": 45,
+    "impressions": 745,
+    "ctr": 0.0604,
+    "position": 4.5
+   },
+   "uzb": {
+    "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "clicks": 9,
+    "impressions": 183,
+    "ctr": 0.0492,
+    "position": 4.7
+   },
+   "curve_uzb": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.04918032786885246,
+    "ratio": 2.102667407613226,
+    "gap_clicks": -4.7197224975223
+   },
+   "curve_uzb_allpages": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.04918032786885246,
+    "ratio": 2.102667407613226,
+    "gap_clicks": -4.7197224975223
+   },
+   "curve_on_all": {
+    "bucket": 5,
+    "curve_ctr": 0.023389494549058473,
+    "cur_ctr": 0.06040268456375839,
+    "ratio": 2.5824707086793315,
+    "gap_clicks": -27.574826560951443
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uzbekistan",
+     "clicks": 0,
+     "impressions": 74,
+     "position": 5.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "как оплатить чат gpt в узбекистане",
+     "clicks": 5,
+     "impressions": 32,
+     "position": 1.7
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uzb",
+     "clicks": 0,
+     "impressions": 15,
+     "position": 8.2
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "узбекистан",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 6.3
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "оплата chatgpt",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 1.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "купить подписку chatgpt",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 6.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uz",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.3
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "оплатить гпт",
+     "clicks": 1,
+     "impressions": 2,
+     "position": 1
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chat gpt",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "как заплатить за чат gpt",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 2.5
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 45,
+    "clicks": 9,
+    "impressions": 185
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uzbekistan",
+     "clicks": 0,
+     "impressions": 74,
+     "position": 5.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "как оплатить чат gpt в узбекистане",
+     "clicks": 5,
+     "impressions": 32,
+     "position": 1.7
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uzb",
+     "clicks": 0,
+     "impressions": 15,
+     "position": 8.2
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "оплата chatgpt",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 1.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "узбекистан",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 6.4
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "купить подписку chatgpt",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 6.8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chatgpt uz",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.3
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "оплатить гпт",
+     "clicks": 1,
+     "impressions": 2,
+     "position": 1
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "chat gpt",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 8
+    },
+    {
+     "page": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+     "query": "как заплатить за чат gpt",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 2.5
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 45,
+    "clicks": 9,
+    "impressions": 183
+   }
+  },
+  "/ru/blog/chat-gpt-na-russkom/": {
+   "all": {
+    "page": "/ru/blog/chat-gpt-na-russkom/",
+    "clicks": 0,
+    "impressions": 517,
+    "ctr": 0.0,
+    "position": 7.7
+   },
+   "uzb": {
+    "page": "/ru/blog/chat-gpt-na-russkom/",
+    "clicks": 0,
+    "impressions": 4,
+    "ctr": 0.0,
+    "position": 7.5
+   },
+   "curve_uzb": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.005563282336578581
+   },
+   "curve_uzb_allpages": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.005563282336578581
+   },
+   "curve_on_all": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.7190542420027816
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "ты помогаешь мне импортировать контекст из одного ии-помощника в другого. твоя задача – проанализировать наши предыдущие чаты и обобщить информацию обо мне. в ответе не должно быть местоимений первого лица (я, мой, мне, мое, меня) и второго лица (ты, твой, тебе, твое, тебя). называй человека, информацию о котором ты изучил, \"пользователь\" или используй нейтральные обращения. по возможности сохраняй слова пользователя без изменений, особенно в инструкциях и описаниях предпочтений. категории (указывай сведения в том же порядке): 1. демографическая информация: предпочитаемые имена, профессия, образование и место жительства. 2. интересы и предпочтения: не просто собственность или разовые покупки пользователя, а то, с чем он часто взаимодействует. 3. отношения: подтвержденные и постоянные. 4. мероприятия, проекты и планы по датам: список недавних важных дел. 5. инструкции: правила, которые я прошу тебя соблюдать, например что нужно и нельзя делать, а также исправления в твоем поведении. включи правила только из сохраненных записей, а не из чатов. формат: создай разделы для каждой указанной выше категории. постарайся включить точные цитаты из моих запросов, которые подтверждают сведения. для каждого пункта используй приведенный ниже формат. пользователя зовут <имя>. - доказательство: пользователь сказал \"зови меня <имя>\". дата: [дд.мм.гггг]. результат: - укажи в ответе только запрошенную информацию без слов-паразитов, вводного текста и подписей. в конце добавь \"импортировано из <название>\", подставив вместо названия chatgpt, claude, grok или другой ии. это должно быть последнее предложение в тексте.",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 6.7
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "gpt chat на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 20
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "а что это такое",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 2
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "как перевести чат gpt на русский",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "как сказать чату gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "русский gpt чат",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 19
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "телефон",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 4
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "чат гпт на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 7
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 8,
+    "clicks": 0,
+    "impressions": 10
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "ты помогаешь мне импортировать контекст из одного ии-помощника в другого. твоя задача – проанализировать наши предыдущие чаты и обобщить информацию обо мне. в ответе не должно быть местоимений первого лица (я, мой, мне, мое, меня) и второго лица (ты, твой, тебе, твое, тебя). называй человека, информацию о котором ты изучил, \"пользователь\" или используй нейтральные обращения. по возможности сохраняй слова пользователя без изменений, особенно в инструкциях и описаниях предпочтений. категории (указывай сведения в том же порядке): 1. демографическая информация: предпочитаемые имена, профессия, образование и место жительства. 2. интересы и предпочтения: не просто собственность или разовые покупки пользователя, а то, с чем он часто взаимодействует. 3. отношения: подтвержденные и постоянные. 4. мероприятия, проекты и планы по датам: список недавних важных дел. 5. инструкции: правила, которые я прошу тебя соблюдать, например что нужно и нельзя делать, а также исправления в твоем поведении. включи правила только из сохраненных записей, а не из чатов. формат: создай разделы для каждой указанной выше категории. постарайся включить точные цитаты из моих запросов, которые подтверждают сведения. для каждого пункта используй приведенный ниже формат. пользователя зовут <имя>. - доказательство: пользователь сказал \"зови меня <имя>\". дата: [дд.мм.гггг]. результат: - укажи в ответе только запрошенную информацию без слов-паразитов, вводного текста и подписей. в конце добавь \"импортировано из <название>\", подставив вместо названия chatgpt, claude, grok или другой ии. это должно быть последнее предложение в тексте.",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "как перевести чат gpt на русский",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chat-gpt-na-russkom/",
+     "query": "как сказать чату gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 3,
+    "clicks": 0,
+    "impressions": 4
+   }
+  },
+  "/ru/seo-prodvizhenie-saytov-tashkent/": {
+   "all": {
+    "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+    "clicks": 1,
+    "impressions": 500,
+    "ctr": 0.002,
+    "position": 26.2
+   },
+   "uzb": {
+    "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+    "clicks": 1,
+    "impressions": 464,
+    "ctr": 0.0022,
+    "position": 27.2
+   },
+   "curve_uzb": {
+    "bucket": 27,
+    "curve_ctr": 0.0021551724137931034,
+    "cur_ctr": 0.0021551724137931034,
+    "ratio": 1.0,
+    "gap_clicks": 0.0
+   },
+   "curve_uzb_allpages": {
+    "bucket": 27,
+    "curve_ctr": 0.0021551724137931034,
+    "cur_ctr": 0.0021551724137931034,
+    "ratio": 1.0,
+    "gap_clicks": 0.0
+   },
+   "curve_on_all": {
+    "bucket": 26,
+    "curve_ctr": 0.0,
+    "cur_ctr": 0.002,
+    "ratio": null,
+    "gap_clicks": -1.0
+   },
+   "topq_all": [
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов",
+     "clicks": 0,
+     "impressions": 83,
+     "position": 17.3
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение ташкент",
+     "clicks": 0,
+     "impressions": 49,
+     "position": 20
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов ташкент",
+     "clicks": 0,
+     "impressions": 45,
+     "position": 40.2
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo ташкент",
+     "clicks": 0,
+     "impressions": 44,
+     "position": 54.6
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo оптимизация ташкент",
+     "clicks": 0,
+     "impressions": 39,
+     "position": 64.2
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов в ташкенте",
+     "clicks": 0,
+     "impressions": 39,
+     "position": 38.7
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение сайта цена",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 8.3
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайта цена",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 7.9
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение в ташкенте",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 22.1
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo в ташкенте",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 19.7
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 92,
+    "clicks": 1,
+    "impressions": 476
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов",
+     "clicks": 0,
+     "impressions": 83,
+     "position": 17.3
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение ташкент",
+     "clicks": 0,
+     "impressions": 47,
+     "position": 20.2
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo ташкент",
+     "clicks": 0,
+     "impressions": 44,
+     "position": 54.6
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов ташкент",
+     "clicks": 0,
+     "impressions": 43,
+     "position": 41.1
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайтов в ташкенте",
+     "clicks": 0,
+     "impressions": 39,
+     "position": 38.7
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo оптимизация ташкент",
+     "clicks": 0,
+     "impressions": 38,
+     "position": 65.2
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение сайта цена",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 8.3
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "продвижение сайта цена",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 7.9
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo продвижение в ташкенте",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 22.1
+    },
+    {
+     "page": "/ru/seo-prodvizhenie-saytov-tashkent/",
+     "query": "seo в ташкенте",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 19.7
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 90,
+    "clicks": 1,
+    "impressions": 464
+   }
+  },
+  "/ru/chto-takoe-gpt-i-kak-polzovatsya/": {
+   "all": {
+    "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "clicks": 0,
+    "impressions": 391,
+    "ctr": 0.0,
+    "position": 8.6
+   },
+   "uzb": {
+    "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "clicks": 0,
+    "impressions": 29,
+    "ctr": 0.0,
+    "position": 7.5
+   },
+   "curve_uzb": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.04033379694019471
+   },
+   "curve_uzb_allpages": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.04033379694019471
+   },
+   "curve_on_all": {
+    "bucket": 9,
+    "curve_ctr": 0.0,
+    "cur_ctr": 0.0,
+    "ratio": null,
+    "gap_clicks": 0.0
+   },
+   "topq_all": [
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "генеративный предварительно обученный трансформер",
+     "clicks": 0,
+     "impressions": 84,
+     "position": 10.1
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что такое gpt",
+     "clicks": 0,
+     "impressions": 37,
+     "position": 9.3
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt расшифровка",
+     "clicks": 0,
+     "impressions": 26,
+     "position": 8.2
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что значит gpt",
+     "clicks": 0,
+     "impressions": 25,
+     "position": 8.1
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt как расшифровывается",
+     "clicks": 0,
+     "impressions": 21,
+     "position": 10.3
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt это простыми словами",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 8.1
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что означает gpt",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 8.1
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt что значит",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 7.5
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "гппт",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 5.7
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что такое gpt простыми словами",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 11
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 29,
+    "clicks": 0,
+    "impressions": 256
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "генеративный предварительно обученный трансформер",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 8.7
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt расшифровка",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 4.8
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что такое gpt",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 8.5
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt как расшифровывается",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt значение",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 9
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt расшифровка на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt это",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "gpt это простыми словами",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 6
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "расшифровка gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+     "query": "что значит гпт",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 7
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 11,
+    "clicks": 0,
+    "impressions": 29
+   }
+  },
+  "/ru/blog/chto-takoe-lid-v-marketinge/": {
+   "all": {
+    "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+    "clicks": 1,
+    "impressions": 376,
+    "ctr": 0.0027,
+    "position": 19.9
+   },
+   "uzb": {
+    "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+    "clicks": 0,
+    "impressions": 19,
+    "ctr": 0.0,
+    "position": 7.9
+   },
+   "curve_uzb": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.02642559109874826
+   },
+   "curve_uzb_allpages": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.02642559109874826
+   },
+   "curve_on_all": {
+    "bucket": 20,
+    "curve_ctr": null,
+    "cur_ctr": 0.0026595744680851063,
+    "ratio": null,
+    "gap_clicks": null
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид",
+     "clicks": 0,
+     "impressions": 16,
+     "position": 19
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид это в маркетинге",
+     "clicks": 0,
+     "impressions": 15,
+     "position": 26.4
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "продвижение сайта по лидам что это",
+     "clicks": 0,
+     "impressions": 14,
+     "position": 28.7
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид это",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 35.1
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "продвижение лиды",
+     "clicks": 0,
+     "impressions": 13,
+     "position": 3.5
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид в рекламе это",
+     "clicks": 0,
+     "impressions": 12,
+     "position": 24.5
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид это в рекламе",
+     "clicks": 0,
+     "impressions": 12,
+     "position": 23.5
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "что такое лид",
+     "clicks": 0,
+     "impressions": 12,
+     "position": 22.8
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "lid",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "кто такой лид",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 26.3
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 80,
+    "clicks": 0,
+    "impressions": 263
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "lid",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "что такое лид",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "lid.",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 5
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "manba ber",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид расшифровка",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид это",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "лид это в маркетинге",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "что означает лид",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "что такое лид менеджер",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chto-takoe-lid-v-marketinge/",
+     "query": "что такое лиды",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 10,
+    "clicks": 0,
+    "impressions": 19
+   }
+  },
+  "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/": {
+   "all": {
+    "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "clicks": 1,
+    "impressions": 333,
+    "ctr": 0.003,
+    "position": 8.6
+   },
+   "uzb": {
+    "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "clicks": 0,
+    "impressions": 28,
+    "ctr": 0.0,
+    "position": 7.1
+   },
+   "curve_uzb": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.09501100513573
+   },
+   "curve_uzb_allpages": {
+    "bucket": 7,
+    "curve_ctr": 0.005118834557765234,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.14332736761742657
+   },
+   "curve_on_all": {
+    "bucket": 9,
+    "curve_ctr": 0.0,
+    "cur_ctr": 0.003003003003003003,
+    "ratio": null,
+    "gap_clicks": -1.0
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "ии давай пообщаемся",
+     "clicks": 0,
+     "impressions": 25,
+     "position": 8.8
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "обсудить с ии",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 8.6
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "чаты с ии доступны не всем",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 7.6
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "хочу пообщаться с искусственным интеллектом",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 6.1
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "пообщаться с ии",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 8
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "общение с ии",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 29.2
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "поговорить с ии",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 8.8
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "ии где",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 2.3
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "как найти диалог с ии",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 10.5
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "ии пообщаемся",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 12
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 30,
+    "clicks": 0,
+    "impressions": 113
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "хочу пообщаться с искусственным интеллектом",
+     "clicks": 0,
+     "impressions": 9,
+     "position": 6.1
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "поговорить с ии",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 8.8
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "пообщаться с ии",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 9
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "хочу поговорить с ии",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "ii chat",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "в гугле",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 12
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "ии где",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "как связаться с искусственным интеллектом",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "мои чаты с ии",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 4
+    },
+    {
+     "page": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+     "query": "общатся с ии",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 12,
+    "clicks": 0,
+    "impressions": 28
+   }
+  },
+  "/ru/razrabotka-saytov-tashkent/": {
+   "all": {
+    "page": "/ru/razrabotka-saytov-tashkent/",
+    "clicks": 2,
+    "impressions": 324,
+    "ctr": 0.0062,
+    "position": 35.0
+   },
+   "uzb": {
+    "page": "/ru/razrabotka-saytov-tashkent/",
+    "clicks": 2,
+    "impressions": 293,
+    "ctr": 0.0068,
+    "position": 36.6
+   },
+   "curve_uzb": {
+    "bucket": 37,
+    "curve_ctr": 0.006825938566552901,
+    "cur_ctr": 0.006825938566552901,
+    "ratio": 1.0,
+    "gap_clicks": 0.0
+   },
+   "curve_uzb_allpages": {
+    "bucket": 37,
+    "curve_ctr": 0.006825938566552901,
+    "cur_ctr": 0.006825938566552901,
+    "ratio": 1.0,
+    "gap_clicks": 0.0
+   },
+   "curve_on_all": {
+    "bucket": 35,
+    "curve_ctr": null,
+    "cur_ctr": 0.006172839506172839,
+    "ratio": null,
+    "gap_clicks": null
+   },
+   "topq_all": [
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов",
+     "clicks": 0,
+     "impressions": 64,
+     "position": 40.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов в ташкенте",
+     "clicks": 0,
+     "impressions": 62,
+     "position": 40
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов ташкент",
+     "clicks": 0,
+     "impressions": 58,
+     "position": 41
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта в ташкенте",
+     "clicks": 0,
+     "impressions": 36,
+     "position": 43.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов в ташкенте цены",
+     "clicks": 2,
+     "impressions": 35,
+     "position": 10.6
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов узбекистан",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 44.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта ташкент",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 45.8
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "заказать разработку сайта",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 21.7
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 34
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработчики сайтов",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8.7
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 21,
+    "clicks": 2,
+    "impressions": 296
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов",
+     "clicks": 0,
+     "impressions": 64,
+     "position": 40.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов в ташкенте",
+     "clicks": 0,
+     "impressions": 59,
+     "position": 40.5
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов ташкент",
+     "clicks": 0,
+     "impressions": 58,
+     "position": 41
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта в ташкенте",
+     "clicks": 0,
+     "impressions": 36,
+     "position": 43.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов в ташкенте цены",
+     "clicks": 2,
+     "impressions": 35,
+     "position": 10.6
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайтов узбекистан",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 44.4
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта ташкент",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 45.8
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "заказать разработку сайта",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 21.7
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработка сайта",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 34
+    },
+    {
+     "page": "/ru/razrabotka-saytov-tashkent/",
+     "query": "разработчики сайтов",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 8.7
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 21,
+    "clicks": 2,
+    "impressions": 293
+   }
+  },
+  "/": {
+   "all": {
+    "page": "/",
+    "clicks": 6,
+    "impressions": 320,
+    "ctr": 0.0188,
+    "position": 6.6
+   },
+   "uzb": {
+    "page": "/",
+    "clicks": 1,
+    "impressions": 164,
+    "ctr": 0.0061,
+    "position": 7.7
+   },
+   "curve_uzb": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.006097560975609756,
+    "ratio": 4.384146341463415,
+    "gap_clicks": -0.7719054242002783
+   },
+   "curve_uzb_allpages": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.006097560975609756,
+    "ratio": 4.384146341463415,
+    "gap_clicks": -0.7719054242002783
+   },
+   "curve_on_all": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.01875,
+    "ratio": 5.525675675675675,
+    "gap_clicks": -4.914159941305942
+   },
+   "topq_all": [
+    {
+     "page": "/",
+     "query": "gpt bot",
+     "clicks": 1,
+     "impressions": 17,
+     "position": 1.1
+    },
+    {
+     "page": "/",
+     "query": "ai67096",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 4.5
+    },
+    {
+     "page": "/",
+     "query": "ai67905",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 7.1
+    },
+    {
+     "page": "/",
+     "query": "ai67090",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 5.4
+    },
+    {
+     "page": "/",
+     "query": "gpt uz",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 3.5
+    },
+    {
+     "page": "/",
+     "query": "ai66903",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 8.2
+    },
+    {
+     "page": "/",
+     "query": "ai67097",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 5
+    },
+    {
+     "page": "/",
+     "query": "ai67169",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 9.8
+    },
+    {
+     "page": "/",
+     "query": "ai67966",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 8
+    },
+    {
+     "page": "/",
+     "query": "уз чат-бот телеграм",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 9.8
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 68,
+    "clicks": 1,
+    "impressions": 164
+   },
+   "topq_uzb": [
+    {
+     "page": "/",
+     "query": "gpt bot",
+     "clicks": 1,
+     "impressions": 17,
+     "position": 1.1
+    },
+    {
+     "page": "/",
+     "query": "ai67096",
+     "clicks": 0,
+     "impressions": 10,
+     "position": 4.5
+    },
+    {
+     "page": "/",
+     "query": "ai67905",
+     "clicks": 0,
+     "impressions": 8,
+     "position": 7.1
+    },
+    {
+     "page": "/",
+     "query": "ai67090",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 5.4
+    },
+    {
+     "page": "/",
+     "query": "gpt uz",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 3.5
+    },
+    {
+     "page": "/",
+     "query": "ai66903",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 8.2
+    },
+    {
+     "page": "/",
+     "query": "ai67097",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 5
+    },
+    {
+     "page": "/",
+     "query": "ai67169",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 9.8
+    },
+    {
+     "page": "/",
+     "query": "ai67966",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 8
+    },
+    {
+     "page": "/",
+     "query": "уз чат-бот телеграм",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 9.8
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 68,
+    "clicks": 1,
+    "impressions": 164
+   }
+  },
+  "/uz/blog/insho-yozish-suniy-intellekt-bilan/": {
+   "all": {
+    "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "clicks": 1,
+    "impressions": 309,
+    "ctr": 0.0032,
+    "position": 6.8
+   },
+   "uzb": {
+    "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "clicks": 1,
+    "impressions": 132,
+    "ctr": 0.0076,
+    "position": 7.4
+   },
+   "curve_uzb": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.007575757575757576,
+    "ratio": 2.2325962325962325,
+    "gap_clicks": -0.5520909757887014
+   },
+   "curve_uzb_allpages": {
+    "bucket": 7,
+    "curve_ctr": 0.005118834557765234,
+    "cur_ctr": 0.007575757575757576,
+    "ratio": 1.4799770319330223,
+    "gap_clicks": -0.3243138383749891
+   },
+   "curve_on_all": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.003236245954692557,
+    "ratio": 0.9537304294585848,
+    "gap_clicks": 0.04851430667644899
+   },
+   "topq_all": [
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "murakkab reja namuna",
+     "clicks": 1,
+     "impressions": 91,
+     "position": 7.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozib ber",
+     "clicks": 0,
+     "impressions": 17,
+     "position": 5
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "murakkab reja namunasi",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 8.3
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho namuna",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 7.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "эссе иншо",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "esse tuzib ber",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 5
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho qanday yoziladi",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 5.5
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozish namunasi",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 7
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "esse nima",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozish",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 13
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 12,
+    "clicks": 1,
+    "impressions": 133
+   },
+   "topq_uzb": [
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "murakkab reja namuna",
+     "clicks": 1,
+     "impressions": 91,
+     "position": 7.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozib ber",
+     "clicks": 0,
+     "impressions": 16,
+     "position": 5.3
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "murakkab reja namunasi",
+     "clicks": 0,
+     "impressions": 7,
+     "position": 8.3
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho namuna",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 7.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "эссе иншо",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 6.8
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "esse tuzib ber",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 5.0
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho qanday yoziladi",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 5.5
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozish namunasi",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 7.0
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "esse nima",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3.0
+    },
+    {
+     "page": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+     "query": "insho yozish",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 13.0
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 12,
+    "clicks": 1,
+    "impressions": 132
+   }
+  },
+  "/ru/gde-polzovatsya-gpt-besplatno/": {
+   "all": {
+    "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "clicks": 6,
+    "impressions": 308,
+    "ctr": 0.0195,
+    "position": 9.4
+   },
+   "uzb": {
+    "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "clicks": 1,
+    "impressions": 56,
+    "ctr": 0.0179,
+    "position": 7.1
+   },
+   "curve_uzb": {
+    "bucket": 7,
+    "curve_ctr": 0.003393250183418929,
+    "cur_ctr": 0.017857142857142856,
+    "ratio": 5.262548262548262,
+    "gap_clicks": -0.8099779897285398
+   },
+   "curve_uzb_allpages": {
+    "bucket": 7,
+    "curve_ctr": 0.005118834557765234,
+    "cur_ctr": 0.017857142857142856,
+    "ratio": 3.4885172895564094,
+    "gap_clicks": -0.7133452647651468
+   },
+   "curve_on_all": {
+    "bucket": 9,
+    "curve_ctr": 0.0,
+    "cur_ctr": 0.01948051948051948,
+    "ratio": null,
+    "gap_clicks": -6.0
+   },
+   "topq_all": [
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "бесплатный чат gpt без ограничений",
+     "clicks": 1,
+     "impressions": 49,
+     "position": 7.2
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "gpt без ограничений",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 7.3
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "какой чат gpt лучше бесплатный",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "чат gpt без ограничений бесплатно",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "каким чатом gpt можно пользоваться бесплатно",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 6
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "бесплатно чат gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "бесплатный ии без ограничений",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 82
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "войти в чат gpt без регистрации",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "как пользоваться gpt бесплатно",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "как пользоваться гпт бесплатно",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 7
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 16,
+    "clicks": 1,
+    "impressions": 72
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "бесплатный чат gpt без ограничений",
+     "clicks": 1,
+     "impressions": 45,
+     "position": 7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "какой чат gpt лучше бесплатный",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "чат gpt без ограничений бесплатно",
+     "clicks": 0,
+     "impressions": 3,
+     "position": 7.7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "gpt без ограничений",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 7
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "бесплатно чат gpt",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "войти в чат gpt без регистрации",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 8
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "как пользоваться gpt бесплатно",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 1
+    },
+    {
+     "page": "/ru/gde-polzovatsya-gpt-besplatno/",
+     "query": "как пользоваться чатом gpt без ограничений",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 10
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 8,
+    "clicks": 1,
+    "impressions": 56
+   }
+  },
+  "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/": {
+   "all": {
+    "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+    "clicks": 1,
+    "impressions": 226,
+    "ctr": 0.0044,
+    "position": 9.5
+   },
+   "uzb": {
+    "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+    "clicks": 0,
+    "impressions": 76,
+    "ctr": 0.0,
+    "position": 5.9
+   },
+   "curve_uzb": {
+    "bucket": 6,
+    "curve_ctr": 0.008896797153024912,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.6761565836298933
+   },
+   "curve_uzb_allpages": {
+    "bucket": 6,
+    "curve_ctr": 0.003586039698974696,
+    "cur_ctr": 0.0,
+    "ratio": 0.0,
+    "gap_clicks": 0.2725390171220769
+   },
+   "curve_on_all": {
+    "bucket": 10,
+    "curve_ctr": 0.0,
+    "cur_ctr": 0.004424778761061947,
+    "ratio": null,
+    "gap_clicks": -1.0
+   },
+   "topq_all": [
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат гпт на узбекском",
+     "clicks": 0,
+     "impressions": 24,
+     "position": 6
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt uzb",
+     "clicks": 0,
+     "impressions": 22,
+     "position": 4.5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt на узбекском языке",
+     "clicks": 0,
+     "impressions": 17,
+     "position": 6.6
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат gpt на узбекском",
+     "clicks": 0,
+     "impressions": 11,
+     "position": 9
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат джипити на узбекском языке",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 6.4
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chatgpt на узбекском",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 8.5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt uz",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "gpt на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 16
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "gpt чат",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "gpt чат на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 11,
+    "clicks": 0,
+    "impressions": 88
+   },
+   "topq_uzb": [
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt uzb",
+     "clicks": 0,
+     "impressions": 22,
+     "position": 4.5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат гпт на узбекском",
+     "clicks": 0,
+     "impressions": 19,
+     "position": 5.6
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt на узбекском языке",
+     "clicks": 0,
+     "impressions": 17,
+     "position": 6.6
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат gpt на узбекском",
+     "clicks": 0,
+     "impressions": 6,
+     "position": 7.5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "чат джипити на узбекском языке",
+     "clicks": 0,
+     "impressions": 5,
+     "position": 6.4
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chatgpt на узбекском",
+     "clicks": 0,
+     "impressions": 4,
+     "position": 8.5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "chat gpt uz",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 3
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "gpt чат",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 5
+    },
+    {
+     "page": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+     "query": "gpt чат на русском",
+     "clicks": 0,
+     "impressions": 1,
+     "position": 11
+    }
+   ],
+   "topq_uzb_sum": {
+    "rows": 9,
+    "clicks": 0,
+    "impressions": 76
+   }
+  },
+  "/ru/promty-gpt-chatgpt-50-primerov/": {
+   "all": {
+    "page": "/ru/promty-gpt-chatgpt-50-primerov/",
+    "clicks": 3,
+    "impressions": 214,
+    "ctr": 0.014,
+    "position": 8.4
+   },
+   "uzb": null,
+   "curve_on_all": {
+    "bucket": 8,
+    "curve_ctr": 0.0013908205841446453,
+    "cur_ctr": 0.014018691588785047,
+    "ratio": 10.07943925233645,
+    "gap_clicks": -2.702364394993046
+   },
+   "topq_all": [
+    {
+     "page": "/ru/promty-gpt-chatgpt-50-primerov/",
+     "query": "запрос для чата gpt",
+     "clicks": 0,
+     "impressions": 2,
+     "position": 5.5
+    }
+   ],
+   "topq_all_sum": {
+    "rows": 1,
+    "clicks": 0,
+    "impressions": 2
+   },
+   "topq_uzb": [],
+   "topq_uzb_sum": {
+    "rows": 0,
+    "clicks": 0,
+    "impressions": 0
+   }
+  }
+ }
+}

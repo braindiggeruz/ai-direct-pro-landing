@@ -1,0 +1,33 @@
+{
+ "indexable_pages": 300,
+ "pages_with_bc": 299,
+ "bc_noname": 299,
+ "bc_withname": 0,
+ "multi": [],
+ "selfdup": [
+  [
+   "/uz/",
+   [
+    [
+     "GPTBot.uz",
+     "https://gptbot.uz/uz/"
+    ],
+    [
+     "O‘zbekcha bo‘lim",
+     "https://gptbot.uz/uz/"
+    ]
+   ]
+  ]
+ ],
+ "n_lastnotcanon": 0,
+ "lastnotcanon": [],
+ "parse_err": [],
+ "n_nobc": 1,
+ "nobc": [
+  "/"
+ ],
+ "n_noindex": 1,
+ "noindex": [
+  "/admin/"
+ ]
+}

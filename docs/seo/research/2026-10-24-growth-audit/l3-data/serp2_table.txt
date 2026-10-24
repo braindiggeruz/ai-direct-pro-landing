@@ -1,0 +1,168 @@
+resultId 7aa3bce8-96b9-4fc6-8b13-3e04a661a7f5
+===  suniy intellekt True ru desktop
+  ai_overview r1 oNone |  | 
+  organic r2 o1 | https://www.facebook.com/LGUzbekistan/videos/suniy-intellekt-hayotingiz-qismiga-aylanishin | Suniy intellekt hayotingiz qismiga aylanishini ko'rishga ...
+  organic r3 o2 | https://www.youtube.com/watch?v=7OG_LL6oisA | Sun'iy Intellekt nima? | IDU
+  images r4 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnsdCa4e2uEei | Картинки
+  organic r5 o3 | https://yuz.uz/uz/news/suniy-intellekt-va-kelajak-talimi | Sun'iy intellekt va kelajak ta'limi - Yuz.uz
+  video r6 oNone |  | 
+  organic r7 o4 | https://www.youtube.com/watch?v=gnZ3LXiBLFQ | Sun'iy intellekt hayotimizni qanday o'zgartiradi?
+  organic r8 o5 | https://www.gazeta.uz/oz/tag/sun%E2%80%99iy%20intellekt/ | sun'iy intellekt» tegli maqolalar | Sahifa 1
+  organic r9 o6 | https://prezi.com/p/kkaqxs-ucpus/suniy-intelekt/ | Suniy intelekt
+  organic r10 o7 | https://play.google.com/store/apps/details?id=com.voicejournal.pro&hl=uz | Suni AI
+  related_sear r11 oNone |  | 
+  images r12 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQnsiO4cq | Картинки
+  organic r13 o8 | https://www.youtube.com/watch?v=1M_LmxlavII | Sun'iy intellekt o'zi nima?
+  organic r14 o9 | https://zukko.ai/uz/blog/suniy-intellekt-nima | Sunʼiy intellekt nima: taʼrifi va turlari
+  organic r15 o10 | https://akam.uz/xususiy-universitetlar/japan-digital-university/suniy-intellekt-ai | Sun'iy intellekt (AI)
+  organic r16 o11 | https://www.lex.uz/uz/docs/-8083233 | 3787-сон 14.03.2026. Сунъий интеллектга асосланган ...
+  organic r17 o12 | https://www.youtube.com/watch?v=VCcZJNt5SoM | Namunaviy esse — 2 | Sunʼiy intellekt haqida
+  organic r18 o13 | https://gov.uz/oz/toshbuloq/activity_page/sun-iy-intellekt | Sun'iy intellekt
+  organic r19 o14 | https://www.youtube.com/watch?v=l4MBTxrpWr8 | Sun'iy intellekt nima va unga qanday munosabatda bo'lish kerak?
+  organic r20 o15 | https://oz.sputniknews.uz/category_suniy-intellekt/ | sun'iy intellekt - Mavzu bo'yicha so'nggi yangiliklar
+===  deepseek True ru desktop
+  organic r1 o1 | https://www.deepseek.com/ | DeepSeek | Into the Unknown
+  organic r2 o2 | https://play.google.com/store/apps/details?id=com.deepseek.chat | DeepSeek - AI Assistant - Apps on Google Play
+  ai_overview r3 oNone |  | 
+  organic r4 o3 | https://en.wikipedia.org/wiki/DeepSeek | DeepSeek
+  organic r5 o4 | https://www.bbc.com/news/articles/c5yv5976z9po | DeepSeek: The Chinese AI app that has the world talking
+  organic r6 o5 | https://huggingface.co/deepseek-ai | deepseek-ai (DeepSeek)
+  organic r7 o6 | https://github.com/deepseek-ai/deepseek-coder | DeepSeek Coder: Let the Code Write Itself
+  related_sear r8 oNone |  | 
+  organic r9 o7 | https://www.revechat.com/blog/what-is-deepseek/ | What is DeepSeek & How Does It Work? Benefits & Use ...
+  organic r10 o8 | https://deepseekcoder.github.io/ | DeepSeek Coder
+  organic r11 o9 | https://www.together.ai/models-providers/deepseek | DeepSeek models
+  organic r12 o10 | https://www.linkedin.com/company/deepseek-ai/ | DeepSeek AI
+  organic r13 o11 | https://www.facebook.com/groups/aideepseek/ | DeepSeek AI (Deep Seek)
+  organic r14 o12 | https://ru.wikipedia.org/wiki/DeepSeek | DeepSeek
+  organic r15 o13 | https://x.com/deepseek_ai | DeepSeek (@deepseek_ai) / X
+  organic r16 o14 | https://apps.microsoft.com/detail/xpffxg0g03wn69?hl=ru-RU&gl=CN | DeepSeek — скачайте и установите в Windows
+  organic r17 o15 | https://build.nvidia.com/deepseek-ai | AI Models by DeepSeek AI | Try NVIDIA NIM APIs
+  organic r18 o16 | https://www.techtarget.com/whatis/feature/DeepSeek-explained-Everything-you-need-to-know | DeepSeek explained: Everything you need to know
+  related_sear r19 oNone |  | 
+===  imlo tekshirish True ru desktop
+  organic r1 o1 | https://uztrj.uz/wp-content/uploads/2025/02/O%E2%80%98ZBEK-TILINING-KATTA-IMLO-LUG%E2%80%9 | o'zbek tilining katta imlo lug'ati
+  ai_overview r2 oNone |  | 
+  organic r3 o2 | https://play.google.com/store/apps/details?id=com.u2b3k.lotinkirill | Muharrir - Apps on Google Play
+  organic r4 o3 | https://storage.academy.uz/source/1/nashrlar/IMLO%20katta%20lug'at%2011.pdf | katta imlo lug'ati
+  organic r5 o4 | https://imlo.uz/uz | Ўзбек тилининг имло луғати
+  organic r6 o5 | https://www.scribd.com/document/909513122/Imlo-lug-ati-770011350 | Imlo Lug'ati - 770011350 | PDF
+  organic r7 o6 | https://savodxon.uz/izoh?Shirinobod | Shirinobod
+  organic r8 o7 | https://savodxon.uz/izoh?o%CA%BBt | oʻt
+  organic r9 o8 | https://izoh.uz/ | Izoh.uz — O'zbek tilining izohli lug'ati
+  organic r10 o9 | https://savodxon.uz/izoh?Ulken | Ulken
+  related_sear r11 oNone |  | 
+  organic r12 o10 | https://lotin.uz/ | O'zbek kirill lotin translit va yangi alifbo (ş, ç, ö, ğ) konvertori ...
+  organic r13 o11 | https://savodxon.uz/izoh?Dilnazir | Dilnazir - Savodxon
+  organic r14 o12 | https://library.samdpi.uz/ebooks/view?id=26565 | O'zbek tilining imlo lug'ati
+  organic r15 o13 | https://izoh.uz/word/tekshirish | tekshirish — Izoh.uz — O'zbek tilining izohli lug'ati
+  organic r16 o14 | http://dilib.tsuos.uz/ru/resources/01KJYSNZQTTM2C1QN427R0JCAP | O'zbek tilining katta imlo lug'ati
+  organic r17 o15 | https://izoh.uz/word/imlo | imlo — Izoh.uz — O'zbek tilining izohli lug'ati
+  organic r18 o16 | https://imlo.uz/collections/matn-yozyapsizmi | Matn yozyapsizmi... — Imlo.uz — O'zbek tilining imlo lug'ati
+  organic r19 o17 | https://toolbase.uz/lugat/uylari/ | Uylari (уйлари) — qanday yoziladi?
+  organic r20 o18 | https://t.me/s/imlo_uz?before=18 | Imlo.uz — Ўзбек тилининг имло луғати
+===  tugilgan kun tabriklari True ru desktop
+  organic r1 o1 | https://askinfo.uz/2209/tugilgan-kun-tabrik-sozlar | Tug'ilgan kun tabrik so'zlar
+  organic r2 o2 | https://bilimmarkazi.uz/sherlar-toplami/tugilgan-kun-tabriklari/ | Tug'ilgan kun tabriklari.
+  images r3 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQntgQa0_wIiEf | Картинки
+  ai_overview r4 oNone |  | 
+  organic r5 o3 | https://t.me/s/Tugulgan_kun_tabriklar?before=320 | Tugʻilgan kun Tabriklar
+  organic r6 o4 | https://www.youtube.com/playlist?list=PLAxg13WskxWa1uoixQINkpTpXHlHYJXNE | ТУГИЛГАН КУН ТАБРИКЛАРИ | Tug'ilgan Kun Tabrigi..!
+  video r7 oNone |  | 
+  organic r8 o5 | https://play.google.com/store/apps/details?id=com.softtech.tugilgankuntabrigi&hl=ru | Приложения в Google Play – Tug'ilgan kun tabriklari
+  organic r9 o6 | https://qogozcha.uz/tugilgan-kun-tabriklari | Tug'ilgan kun tabriklari — Minimalist to'plam - Qog'ozcha
+  organic r10 o7 | https://www.instagram.com/tugilgan_kun_tabriklari_/ | 🎊 𝐓𝐮𝐠'𝐢𝐥𝐠𝐚𝐧 𝐊𝐮𝐧 𝐓𝐚𝐛𝐫𝐢𝐤𝐥𝐚𝐫𝐢 🎉 ...
+  related_sear r11 oNone |  | 
+  organic r12 o8 | https://insho.uz/tugilgan-kun-tabrik-sozlar/ | Tug'ilgan kun tabrik so'zlar - insho.uz
+  organic r13 o9 | https://sherlari.ru/uzbekskie-stihi/tugilgan-kun-haqida-tabrik-sms-sherlar/ | Tug'ilgan Kun Haqida Tabrik SMS Sherlar
+  organic r14 o10 | https://ok.ru/group/52551948173453/topic/65112451817613 | Bugun hayotim mazmuni sevgilimning tug'ilgan kuni ...
+  organic r15 o11 | https://yandex.ru/video/preview/7202990601317404930 | Тугилган кун табриклари/tug'ilgan kun tabrigi..!
+  images r16 oNone | https://www.google.com/search?sa=N&hl=ru&gl=UZ&sca_esv=2a5db33bad1934b5&sxsrf=APpeQntg4_AB | Картинки
+  organic r17 o12 | https://www.pinterest.com/ideas/tug%CA%BBilgan-kun-tabriklari/951383257457/ | Tugʻilgan Kun Tabriklari
+  organic r18 o13 | https://abituriyentlar.uz/sherlar-toplami/tugilgan-kun-uchun-samimiy-tilaklar-tabriklar/ | Tug'ilgan kun uchun samimiy tilaklar, tabriklar
+  organic r19 o14 | https://qwert.uz/category/taklifnomalar-va-tabriklar-matni/tugilgan-kun-uchun-matn-2/ | Tug'ilgan kun uchun (matn)
+  organic r20 o15 | https://tavsiyalar.uz/tugilgan-kun-tabrik-sherlari-tilaklari/ | Tug'ilgan kun sara tabrik sherlari tilaklari, sms sherlar to'plami
+===  dalolatnoma namuna True ru desktop
+  images r1 oNone |  | Dalolatnoma yozish qoidalari va namuna
+  organic r2 o1 | https://soff.uz/product/maktabgacha-va-boshlangich-talim-maktab-xodimiga-dalolatnoma-shabl | Maktab xodimiga Dalolatnoma shabloni
+  organic r3 o2 | https://www.youtube.com/watch?v=uMUMqHoba8I | TAYYOR DALOLAT NOMA PDF YUKLAB OLING  Bitiruvchilar ...
+  ai_overview r4 oNone |  | 
+  organic r5 o3 | https://www.scribd.com/document/813181709/Amaliyot-dalolatnoma | Amaliyot Dalolatnoma | PDF
+  organic r6 o4 | https://arxiv.uz/uz/documents/referatlar/tilshunoslik/yangi-alifboda-hujjatlar-tayyorlash- | Yangi alifboda hujjatlar tayyorlash ariza buyruq ...
+  organic r7 o5 | https://www.scribd.com/document/881717974/dalolatnoma | Dalolatnoma | PDF
+  organic r8 o6 | https://lex.uz/docs/-1526872 | 2018-сон 14.10.2009. Fuqarolik holati dalolatnoma ...
+  organic r9 o7 | https://www.scribd.com/document/850623781/Imtihon-bayonnomasi-dalolatnomasi-11 | Imtihon Bayonnomasi Dalolatnomasi | PDF
+  organic r10 o8 | https://www.scribd.com/document/998580317/Dalolatnoma | Dalolatnoma | PDF
+  related_sear r11 oNone |  | 
+  organic r12 o9 | https://www.bss.uz/article/2520-solishtirma-dalolatnoma-u-nima-anday-amalga-oshiriladi-202 | Солиштирма далолатномасини қандай яратиш керак
+  organic r13 o10 | https://lex.uz/docs/-2074877?ONDATE=11.05.2018%2000 | 2397-сон 23.10.2012. Fuqarolik holati dalolatnoma ...
+  organic r14 o11 | https://www.scribd.com/document/1055636021/Uqituvchiga-hujjat-Dalolatnoma-3 | @uqituvchiga - Hujjat Dalolatnoma | PDF
+  organic r15 o12 | https://lex.uz/uz/docs/-2074877?ONDATE=01.10.2022 | 2397-сон 23.10.2012. Fuqarolik holati dalolatnoma ...
+  organic r16 o13 | https://yurxizmat.uz/uz/category/corporate-acts | Далолатномалар ва баённомалар
+  organic r17 o14 | https://www.scribd.com/document/979226678/Dalolatnoma-shablon | Dalolatnoma Shablon | PDF
+  organic r18 o15 | https://lex.uz/mact/-2074877?ONDATE=01.10.2022%2000 | 2397-сон 23.10.2012. Fuqarolik holati dalolatnoma ...
+  organic r19 o16 | https://lex.uz/docs/-3064981?ONDATE=27.08.2020%2000 | 387-сон 14.11.2016. Fuqarolik holati dalolatnomalarini ...
+  organic r20 o17 | https://www.scribd.com/document/735369357/Dalolatnoma-uz | Dalolatnoma Uz | PDF
+===  prompt nima True ru desktop
+  ai_overview r1 oNone |  | 
+  organic r2 o1 | https://mohirdev.uz/blog/neyrotarmoqlar-uchun-promptlar-chatgpt-va-boshqa-neyron-tarmoqlar | Promptlar: ChatGPT va boshqa neyron tarmoqlar uchun
+  video r3 oNone |  | 
+  organic r4 o2 | https://mediadesign.uz/topics/prompt-muhandisligi-suniy-intellektga-togri-prompt-yozish-ke | Prompt muhandisligi. Sun'iy intellektga to'g ... - MediaDesign.uz
+  organic r5 o3 | https://prompter.uz/prompt/prompt-asoslari | 1-dars. Prompt engineering nima va nega muhim?
+  organic r6 o4 | https://mohirdev.uz/kurslar/prompt | Prompt Engineering - (Sun'iy intellektdan to'g'ri foydalanish)
+  images r7 oNone | https://www.google.com/search?sca_esv=2a5db33bad1934b5&hl=ru&gl=UZ&sxsrf=APpeQnsnPw3ZfhTJH | Картинки
+  organic r8 o5 | https://www.instagram.com/p/DUQa2Wwjow0/ | Prompt nima? Prompt — bu sun'iy intellektga beriladigan ...
+  organic r9 o6 | https://najottalim.uz/blog/togri-prompt-yozish-sidan-samarali-foydalanish-qollanmasi?srslt | To'g'ri prompt yozish: SI'dan samarali foydalanish qo'llanmasi
+  organic r10 o7 | https://www.scribd.com/presentation/851499324/Promt-Inijineringi-Sorovlar-Muhandisligi | Promt Inijineringi Sorovlar Muhandisligi | PDF
+  related_sear r11 oNone |  | 
+  organic r12 o8 | https://neuralwriter.com/uz/prompt-tool/ | ChatGPT Prompt Generatori » Bepul AI ...
+  organic r13 o9 | https://mohirdev.uz/blog/Prompt-Engineering-nega-kerak | Prompt engineering: TOP tavsiyalar
+  organic r14 o10 | https://learnprompting.uz/docs/basics/prompt_engineering/page | 🟢 Prompt Engineering | Learn Prompting: Your Guide to ...
+  organic r15 o11 | https://prompter.uz/ | Prompt Engineering
+  organic r16 o12 | https://www.instagram.com/reel/DUdXu9oCOnU/ | Prompt — bu sun'iy intellektga beriladigan topshiriq. Ya'ni siz AI ...
+  organic r17 o13 | https://ifazo.uz/prompt-nima-chatgptdan-yaxshi-javob-olishning-7-siri/ | Prompt nima? ChatGPT'dan yaxshi javob olishning 7 siri
+  organic r18 o14 | https://www.instagram.com/reel/DPG9d5piBBG/ | #Foydali PROMPT O'ZI NIMA❓ Kurslar haqida toʻliq ...
+  organic r19 o15 | https://ai-smm.uz/uz/blog/prompt-nima | Prompt nima va u qanday tuziladi - AI-SMM
+  organic r20 o16 | https://jarayon.uz/9943/ | Sunʼiy intellektga toʻgʻri prompt qanday yoziladi?
+===  переводчик с английского на узбекский True ru desktop
+  organic r1 o1 | https://translate.google.com/?hl=ru&sl=en&tl=uz&o | Переводчик
+  ai_overview r2 oNone |  | 
+  organic r3 o2 | https://play.google.com/store/apps/details?id=com.amaltranslator.uzbekenglish&hl=ru | Приложения в Google Play – Inglizcha O'zbekcha Tarjimon
+  organic r4 o3 | https://translate.google.co.uz/?hl=ru&tab=rT&sl=uz&tl=en&op=translate | Переводчик
+  organic r5 o4 | https://www.translate.ru/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/%D0%B0%D0%BD%D0%B3%D0% | Онлайн-переводчик с английского на узбекский
+  organic r6 o5 | https://translate.yandex.ru/translator/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0 | Переводчик с английского на узбекский и словарь онлайн
+  organic r7 o6 | https://play.google.com/store/apps/details?id=com.englishtoUzbek.languagestranslate&hl=ru | Приложения в Google Play – английский на узбекский
+  organic r8 o7 | https://www.webtran.ru/translate/uzbek/to-english/ | Переводчик с узбекского на английский онлайн бесплатно
+  organic r9 o8 | https://www.onlinedoctranslator.com/ru/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%B5%D1%81%D1%82%D0 | Получите быстрый перевод с английский на узбекский
+  organic r10 o9 | https://lingua.direct/ru/voice-translator/english-to-uzbek/ | Голосовой переводчик с Английский на Узбекский
+  related_sear r11 oNone |  | 
+  organic r12 o10 | https://play.google.com/store/apps/details?id=com.dragoma.uzen&hl=ru | Приложения в Google Play – Англо-узбекский словарь
+  organic r13 o11 | https://www.zemith.com/ru/app/tools/ai-translate/english-to-uzbek | Перевести с Английский на Узбекский | ИИ-переводчик
+  organic r14 o12 | https://translation2.paralink.com/RU/English-Uzbek-Translation/ | Английский - Узбекский Перевод
+  organic r15 o13 | https://tilmoch.ai/ru/ | Качественный перевод
+  organic r16 o14 | https://www.gosuslugi.uz/ru/translate/ | Узбекско – русский онлайн переводчик ... - gosuslugi.uz
+  organic r17 o15 | https://imtranslator.net/translation/ru/english/to-uzbek/translation/ | Английский - Узбекский Перевод
+  organic r18 o16 | https://translate.google.co.uz/ | Google Tarjima
+  organic r19 o17 | https://www.webtran.ru/translate/english/to-uzbek/ | Переводчик с английского на узбекский онлайн бесплатно
+  organic r20 o18 | https://selecttranslate.com/ru/text/english-to-uzbek | Перевод с английский на узбекский
+===  english to uzbek True ru desktop
+  ai_overview r1 oNone |  | 
+  organic r2 o1 | https://translate.yandex.ru/translator/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0 | Переводчик с английского на узбекский и словарь онлайн
+  organic r3 o2 | https://www.freetranslations.org/translate-english-to-uzbek/ | Translate English to Uzbek
+  organic r4 o3 | https://play.google.com/store/apps/details?id=com.jstranslateapp.uzbekenglish&hl=eu | Translate English to Uzbek - Google Play-ko aplikazioak
+  organic r5 o4 | https://www.bing.com/translator?from=en&to=uz | Microsoft Translator - Translate from English to Uzbek (Latin)
+  organic r6 o5 | https://play.google.com/store/apps/details?id=com.jstranslateapp.uzbekenglish&hl=lv | Translate English to Uzbek — Lietotnes pakalpojumā ...
+  organic r7 o6 | https://imtranslator.net/translation/pt/english/to-uzbek/translation/ | Inglês - Uzbeque Tradução
+  organic r8 o7 | https://elearning.asc.edu.ag/translate-english-uzbek-language | Translate English To Uzbek Language
+  organic r9 o8 | https://selecttranslate.com/en/text/english-to-uzbek | Translate English to Uzbek - Free Online AI ...
+  organic r10 o9 | https://translate.google.com/?hl=ru&sl=en&tl=uz&o | Переводчик
+  related_sear r11 oNone |  | 
+  organic r12 o10 | https://play.google.com/store/apps/details?id=com.jstranslateapp.uzbekenglish&hl=af | Translate English to Uzbek
+  organic r13 o11 | https://translate.yandex.com/en/dictionary/English-Uzbek/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0 | Перевод - online English to Uzbek translation
+  organic r14 o12 | https://www.getmerlin.in/ai-translate/english-to-uzbek | English to Uzbek Translator
+  organic r15 o13 | https://play.google.com/store/apps/details?id=com.englishtoUzbek.languagestranslate&hl=ln | English To Uzbekistan – Applications sur ...
+  organic r16 o14 | https://www.online-translator.com/translation/english-uzbek | Online translator from English to Uzbek — text and word ...
+  organic r17 o15 | https://play.google.com/store/apps/details?id=com.divy.englishtouzbek&hl=bs | English To Uzbek Converter - Aplikacije na Google Playu
+  organic r18 o16 | https://translate.yandex.ru/translator/%D0%A3%D0%B7%D0%B1%D0%B5%D0%BA%D1%81%D0%BA%D0%B8%D0 | Переводчик с узбекского на английский и словарь онлайн
+  organic r19 o17 | https://translate.google.com/?hl=ru | Google Переводчик
+  organic r20 o18 | https://translate.yandex.com/uz/translator/O'zbek-Ingliz | o'zbek tilidan ingliz tiliga tarjimon va onlayn lug'at

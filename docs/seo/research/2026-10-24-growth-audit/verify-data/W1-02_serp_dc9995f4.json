@@ -1,0 +1,19 @@
+{
+ "tool": "OpenSEO get_serp_results, 1 call, 2 keywords, locationCode 2860, languageCode uz, device mobile, depth 20",
+ "resultId": "dc9995f4-3e99-4b36-a613-dac1964f8b56",
+ "fetchedAt": "2026-10-24",
+ "credits": "whoami 23185 -> 23172 (13)",
+ "rows_format": "[organicRank, domain, title (shortened)]",
+ "keywords": {
+  "suniy intellekt nima|uz|mobile": {
+   "features": ["ai_overview #1", "video #2", "people_also_search #3/#12/#15", "images #20"],
+   "organic": [[1,"inlibrary.uz","SUN'IY INTELLEKT VA UNING KELAJAGI (PDF)"],[2,"youtube.com","Namunaviy esse - Sun'iy intellekt haqida | Milliy sertifikat"],[3,"platina.uz","Sun'iy intellekt haqida ... o'nta haqiqat"],[4,"cyberleninka.ru","SUN'IY INTELLEKT VA UNING INSONIYAT FAOLIYATIDA ..."],[5,"jadid.uz","MENKIM, SUN'IY INTELLEKT"],[6,"infocom.uz","Sun'iy intellekt (AI) yechimlari nima?"],[7,"youtube.com","Sun'iy intellekt muhandislari nima ish qiladi?"],[8,"youtube.com","Sun'iy intellekt nima? Robotlar ..."],[9,"scribd.com","Suniy Intellekt | PDF"],[10,"slideshare.net","Suniy intellekt (Artificial Intelegence).pptx"],[11,"inlibrary.uz","O'ZBEK TILIDA SUN'IY INTELLEKT BILAN BOG'LIQ ..."],[12,"zukko.ai","Sun'iy intellekt nima: ta'rifi va turlari"],[13,"youtube.com","Sun'iy intellekt hayotimizni qanday o'zgartiradi?"],[14,"akam.uz","Sun'iy intellekt (AI)"]],
+   "gptbot": "absent in 14 organic"
+  },
+  "suniy intellekt turlari|uz|mobile": {
+   "features": ["ai_overview #2", "people_also_search #3/#12/#14", "video #4", "images #18"],
+   "organic": [[1,"infocom.uz","Eng mashhur 4 ta sun'iy intellekt: Qaysi birini tanlash kerak?"],[2,"salom-ai.uz","Sun'iy intellekt turlari - to'liq qo'llanma (ANI, AGI, ASI)"],[3,"infocom.uz","Sun'iy intellekt turlari"],[4,"mohirdev.uz","... tor SI, umumiy SI va super SI"],[5,"raqamlitalim.trm.uz","Sun'iy intellekt tushunchasi (PDF): Tor (Narrow) SI ..."],[6,"info-dars.uz","13-dars. SUN'IY INTELLEKT TURLARI VA TARMOQLARI (PDF): Reaktiv mashinalar"],[7,"oqila.uz","Sun'iy intellekt - ChatGPT va boshqalar haqida"],[8,"mechauz.uz","SUN'IY INTELLEKT ASOSLARI (PDF)"],[9,"uz.wikipedia.org","Sun'iy intellekt"],[10,"slideshare.net","Sun'iy intellektga kirish ... Turing testi ... turlari"],[11,"zukko.ai","Sun'iy intellekt nima: ta'rifi va turlari (25-avg, 2026)"],[12,"soff.uz","Suniy Intellekt Turlari va Tarmoqlari"],[13,"erus.uz","SUN'IY INTELLEKT, UNING TARIXI, AHAMIYATI, IJOBIY VA SALBIY ..."],[14,"facebook.com","TOP 5 sun'iy intellektlar (video)"]],
+   "gptbot": "absent in 14 organic"
+  }
+ }
+}

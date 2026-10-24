@@ -299,6 +299,17 @@
     },
     {
       "type": "linkp",
+      "text": "Agar e’lon Direct’ga yozishga chaqirsa, javob tezligi ham natijaga ta’sir qiladi — bu haqda {direct} maqolasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "direct",
+          "target": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+          "anchor": "Instagram Direct nima va AI-bot qanday ishlaydi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kanalni tanlash, byudjet va o‘lchash tartibi {ads} sahifasida. Pullik reklamadan tashqari muntazam ish — {smm} — alohida xizmat sifatida yuritiladi.",
       "links": [
         {

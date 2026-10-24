@@ -1,7 +1,7 @@
 // The chat pages' layout, alignment and overlap check (chat design 2026-10-06
 // §9.1; chat UI 2026-10-07 §11, gptbot.uz-audit/raw/chat-openai-2026-10-07/DESIGN-SPEC.md).
 //
-//   npm run check:chat-layout -- [--dist dist] [--shots <dir>] [--report <file>] [--quick] [--perf-only]
+//   npm run check:chat-layout -- [--dist dist] [--shots <dir>] [--report <file>] [--quick] [--perf-only] [--translator]
 //
 // Serves the built dist/ on 127.0.0.1, opens /uz/gpt-uzbek-tilida/ and
 // /ru/gpt-chat/ in Chromium (playwright-core) at the sizes the chat is used at
@@ -73,9 +73,15 @@ const arg = (name, fallback) => {
 };
 const DIST = resolve(ROOT, arg('dist', 'dist'));
 const SHOTS = resolve(arg('shots', join(tmpdir(), 'gptbot-chat-layout-shots')));
+// --translator checks the RU↔UZ translator pages (chatRole translator, published
+// 2026-10-24) instead of the two main chats: the same chat frame and mount,
+// with the converter under the chat. Its report goes to a file of its own.
+const TRANSLATOR = process.argv.includes('--translator');
 // The default report belongs to the current reviewed revision (scripts/seo-protection.ts BASELINE);
 // an older revision's report is never rewritten.
-const REPORT = resolve(ROOT, arg('report', 'docs/seo/evidence/2026-10-07-chat-ui/layout-report.json'));
+const REPORT = resolve(ROOT, arg('report', TRANSLATOR
+  ? 'docs/seo/evidence/2026-10-24-translator-pages/layout-report.json'
+  : 'docs/seo/evidence/2026-10-07-chat-ui/layout-report.json'));
 const QUICK = process.argv.includes('--quick');
 // Only CLS and LCP, e.g. on another build (--dist) to compare with.
 const PERF_ONLY = process.argv.includes('--perf-only');
@@ -121,7 +127,10 @@ const EXPECT = {
   '412x530': { kb: [157, 153] },
   '768x690': { kb: [237, 233] },
 };
-const PAGES = { uz: '/uz/gpt-uzbek-tilida/', ru: '/ru/gpt-chat/' };
+const PAGES = TRANSLATOR
+  ? { uz: '/uz/rus-ozbek-tarjimon/', ru: '/ru/russko-uzbekskiy-perevodchik/' }
+  : { uz: '/uz/gpt-uzbek-tilida/', ru: '/ru/gpt-chat/' };
+if (TRANSLATOR && !Object.values(PAGES).every((p) => existsSync(join(DIST, p, 'index.html')))) throw new Error(`No translator pages in ${DIST}: build after their publication.`);
 const THEMES = QUICK ? ['dark'] : ['dark', 'light'];
 const sizeName = (s) => `${s.w}x${s.h}`;
 

@@ -26,6 +26,7 @@
 // inside <script type="application/ld+json">.
 
 import type { GlobalSEO } from '../src/shared/types';
+import { PROTECTED_PATHS } from './seo-protection';
 
 const TASHKENT_TIMEZONE = 'Asia/Tashkent';
 
@@ -191,9 +192,35 @@ export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
   };
 }
 
-export function buildBreadcrumbLd(items: Array<{ name: string; item: string }>): Record<string, unknown> {
+const PROTECTED_PAGES: ReadonlySet<string> = new Set(PROTECTED_PATHS);
+
+function pathnameOf(url: string): string {
+  try {
+    return new URL(url).pathname;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * BreadcrumbList with a top-level `name` (growth audit 2026-10-24, W1-14):
+ * Search Console lists a nameless list as «Unnamed item». The name defaults to
+ * the last crumb, i.e. the page itself.
+ *
+ * The protected pages (scripts/seo-protection.ts PROTECTED_PATHS) keep the
+ * nameless list they were reviewed with. seoContract() strips <script>, so the
+ * gate would not fail, but their HTML is held byte for byte while their
+ * measurement windows are open (the download guide's P-CTR read ≈06–10.11,
+ * the two chats' 28-day window from 24.10). Drop this exclusion only in the
+ * next reviewed protected-pages revision, with an invisibleToGate line
+ * «BreadcrumbList gains top-level name on 9 protected pages».
+ */
+export function buildBreadcrumbLd(items: Array<{ name: string; item: string }>, name?: string): Record<string, unknown> {
+  const last = items[items.length - 1];
+  const listName = last && PROTECTED_PAGES.has(pathnameOf(last.item)) ? undefined : (name ?? last?.name);
   return {
     '@type': 'BreadcrumbList',
+    ...(listName ? { name: listName } : {}),
     itemListElement: items.map((it, i) => ({
       '@type': 'ListItem',
       position: i + 1,

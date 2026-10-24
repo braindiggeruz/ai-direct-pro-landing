@@ -3,7 +3,7 @@
 > GPTBot.uz is an independent AI chat in Uzbek and Russian with 3 free trial replies and a separate presentation mode, not ChatGPT and not an OpenAI product: https://gptbot.uz/uz/gpt-uzbek-tilida/ (Uzbek), https://gptbot.uz/ru/gpt-chat/ (Russian).
 > It is also a Tashkent team (Yahyo Gulyamov ko‘chasi 35) that works for businesses in Uzbekistan: SMM and Instagram / Telegram management, Instagram and Facebook targeted ads, websites, SEO, AI bots, Telegram bots, CRM integrations and lead automation.
 
-Last updated: 2026-10-08. The curated map with key facts and the AI crawler policy is https://gptbot.uz/llms.txt.
+Last updated: 2026-10-24. The curated map with key facts and the AI crawler policy is https://gptbot.uz/llms.txt.
 
 ## AI chat in Uzbek and Russian
 
@@ -12,6 +12,8 @@ The chat works in the browser and answers in the language of the question (Uzbek
 Pages:
 - https://gptbot.uz/uz/gpt-uzbek-tilida/ — the AI chat in Uzbek
 - https://gptbot.uz/ru/gpt-chat/ — the AI chat in Russian
+- https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/ — Russian ↔ Uzbek AI translator: the same chat opened in the translator role (a beta; the chat's 3 lifetime trial replies, shared site-wide, then the AI pack), plus a free Uzbek Cyrillic ↔ Latin converter that calls no model; no photo, voice or offline translation
+- https://gptbot.uz/uz/rus-ozbek-tarjimon/ — the same translator page in Uzbek
 - https://gptbot.uz/uz/gpt-chat-qollanma/ — the chat's own manual in Uzbek: features, limits, safety
 - https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/ — how to write prompts in Uzbek
 - https://gptbot.uz/ru/gpt-na-russkom/ — an AI chat in Russian: what it can do and how to write a request
@@ -139,6 +141,8 @@ Pages with a Markdown twin (<url>index.html.md, text/markdown, noindex) are list
 - "аналоги chatgpt" -> https://gptbot.uz/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/ (a comparison of ChatGPT alternatives that work in Uzbekistan)
 - "чат жпт" / "чат джипити" -> https://gptbot.uz/ru/gpt-chat/#chat-zhpt (colloquial Russian names for ChatGPT; the section says that ChatGPT is at chatgpt.com and that this page is an independent AI chat, not OpenAI)
 - "чат гпт на узбекском" / "chatgpt на узбекском" -> https://gptbot.uz/ru/gpt-chat/ (an independent AI chat that answers in the language of the question, Uzbek included; not ChatGPT)
+- "переводчик с русского на узбекский" / "перевод с узбекского на русский" / "русско узбекский переводчик" -> https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/ (the independent GPTBot.uz AI chat opened in the translator role, a beta: 3 lifetime trial replies shared with the chat, then the AI pack; plus a free Uzbek Cyrillic ↔ Latin converter that calls no model; no photo or voice translation; not Google Translate and not ChatGPT)
+- "rus o‘zbek tarjimon" / "rus uzbek tarjimon" / "ruschadan o‘zbekchaga tarjima" -> https://gptbot.uz/uz/rus-ozbek-tarjimon/ (the same translator page in Uzbek)
 - "ChatGPT rasmiy sayti" / "официальный сайт ChatGPT" -> https://chatgpt.com (ChatGPT's official site; GPTBot.uz is not the official ChatGPT site. How to tell the official site from clones: https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/)
 - "как писать промпты на узбекском" / "o‘zbek tilida prompt yozish" -> https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/
 - "slayd tayyorlash" / "prezentatsiya tayyorlash" -> https://gptbot.uz/uz/blog/slayd-tayyorlash/ (how to prepare slides; ordinary chat replies provide a plan and slide text, while the separate presentation mode exports PPTX under its own limits and plans. Tool: https://gptbot.uz/uz/taqdimot-ai/)

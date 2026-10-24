@@ -28,6 +28,7 @@ const json = <T>(relative: string) => JSON.parse(read(relative)) as T;
 const DOWNLOAD = '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/';
 const UZ_CHAT = '/uz/gpt-uzbek-tilida/';
 const RU_CHAT = '/ru/gpt-chat/';
+const TRANSLATOR_PAGES = ['/ru/russko-uzbekskiy-perevodchik/', '/uz/rus-ozbek-tarjimon/'];
 const LOGIN = '/uz/blog/chatgptga-qanday-kirish-mumkin/';
 const BORMI = 'ChatGPT o‘zbek tilida bormi? Ha, chatgpt.com o‘zbekcha javob beradi; bu sahifa esa — unga mustaqil muqobil.';
 const CLONE = 'Domen nomida «chatgpt» so‘zi borligi sayt rasmiy degani emas: ChatGPT’ning rasmiy manzili — chatgpt.com.';
@@ -112,7 +113,8 @@ test('R3-10 on the build: every site header links its chat once, the download gu
     const url = `/${path.relative(DIST, path.dirname(file)).split(path.sep).join('/')}/`.replace(/^\/\/$/, '/');
     const html = fs.readFileSync(file, 'utf8');
     const header = html.match(/<header\b[\s\S]*?<\/header>(?:\s*<div class="border-b border-white\/5 bg-bg-base">[\s\S]*?<\/nav>\s*<\/div>\s*<\/div>)?/)?.[0];
-    if (url === UZ_CHAT || url === RU_CHAT) { assert.equal(header, undefined, `${url}: the chat has no site header`); continue; }
+    // The RU↔UZ translator pages (published 2026-10-24) are the same chat template in the translator role.
+    if ([UZ_CHAT, RU_CHAT, ...TRANSLATOR_PAGES].includes(url)) { assert.equal(header, undefined, `${url}: the chat has no site header`); continue; }
     assert.ok(header, `${url}: no header`);
     if (url === DOWNLOAD) { assert.ok(!header.includes('/uz/gpt-uzbek-tilida/"'), 'the download guide keeps its header'); continue; }
     const locale = /^\/uz\//.test(url) ? 'uz' : 'ru';

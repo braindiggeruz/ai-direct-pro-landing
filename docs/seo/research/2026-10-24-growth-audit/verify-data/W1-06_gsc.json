@@ -1,0 +1,18 @@
+{
+  "item": "W1-06",
+  "pulledAt": "2026-10-24",
+  "window": "2026-09-24..2026-10-21, web, all countries unless noted",
+  "calls": [
+    {"resultId": "692e32e9-6f29-4cb4-8d71-78907bff98c5", "dims": ["page"], "filter": "page contains instagram-direct-ai-bot", "rows": [["/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/", 1, 94, 5.4]]},
+    {"resultId": "51bc9842-0e50-4205-9231-45ad5512f5d9", "dims": ["page"], "filter": "page contains gpt-uzbek-tilida-ai-chat", "rows": [["/uz/gpt-uzbek-tilida-ai-chat/", 0, 96, 7.6]]},
+    {"resultId": "604d7c54-aaa5-4061-b141-9c29519d0727", "dims": ["page"], "filter": "page contains tushuntirish-xati", "rows": [["/uz/blog/tushuntirish-xati-va-ariza-yozish/", 0, 26, 5.1]]},
+    {"resultId": "e70f3980-631c-409f-88c1-1caa137937fb", "dims": ["query"], "filter": "page = A-4", "rows": [["chat gpt uzbek tilida",0,2,9],["chatgpt oʻzbek tilida",0,1,8],["chatgpt uzbek",0,1,28],["chatgpt yozish",0,7,10.1],["ha yordam ber",0,1,25],["ozbekcha malumot ber",0,1,5],["чат gpt узбек тилида",0,1,8]], "note": "14 of 96 impressions visible; 0 queries with 'prompt'"},
+    {"resultId": "8fa2c09d-e9db-45d3-bcb4-2c9158a802b1", "dims": ["query"], "filter": "page = Direct", "rows": [["direct nima degani",1,14,5.1],["bu nima",0,1,2],["dayrekt nima",0,1,5],["direct nima",0,8,6.9],["instagram direct nima",0,25,6.6]], "note": "49 of 94 impressions visible"},
+    {"resultId": "5b381cad-6104-4638-baab-e063091787de", "dims": ["query"], "filter": "page = tushuntirish", "rows": [], "note": "all 26 impressions anonymised"},
+    {"resultId": "8c63f62f-ec12-4f0b-a67d-4a493825ae2e", "dims": ["query","page"], "filter": "query = chat gpt uzbek tilida", "rows": [["/ru/gpt-chat/",0,1,9],["/uz/gpt-uzbek-tilida-ai-chat/",0,2,9],["/uz/gpt-uzbek-tilida/",0,37,5.8]]},
+    {"resultId": "2a4c534b-51f8-4b30-87f7-f523d1c45fc3", "dims": ["query","page"], "filter": "query contains prompt", "rows": [["chat gpt uchun prompt","/uz/blog/chatgpt-uzbek-tilida-promptlar/",0,5,4],["chatgpt uchun prompt","/uz/blog/chatgpt-uzbek-tilida-promptlar/",0,16,8.4],["prompt nima? siz sun'iy intellektli ... (long)","/uz/blog/chatgpt-uzbek-tilida-promptlar/",0,11,10.1]], "note": "no prompt query routes to A-4"},
+    {"resultId": "02e7cdb5-9b30-46b7-a064-d38181bad799", "dims": ["page"], "filter": "page contains /uz/blog/", "rowsUsed": [["target-reklama-nima",2,185,6.8],["insho-yozish-suniy-intellekt-bilan",1,309,6.8],["chatgpt-talabalar-uchun",2,47,7.0]]},
+    {"resultId": "815b8603-7c14-4997-b9af-1800cb3f27c7", "dims": ["page","country"], "filter": "Direct", "rows": [["uzb",1,48,6.1],["rus",0,1,7]]},
+    {"resultId": "b81785b3-5e8d-41b9-8044-f444c89f7667", "dims": ["page","country"], "filter": "A-4", "rows": [["rus",0,1,28],["uzb",0,13,10.4]]}
+  ]
+}

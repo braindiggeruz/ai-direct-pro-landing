@@ -1,5 +1,5 @@
 {
-  "status": "draft",
+  "status": "published",
   "locale": "uz",
   "url": "/uz/rus-ozbek-tarjimon/",
   "slug": "rus-ozbek-tarjimon",
@@ -50,6 +50,10 @@
           "anchor": "kirill ↔ lotin konvertori"
         }
       ]
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi AI tarjima hozircha beta rejimida ishlaydi. Muhim va rasmiy matnlarni — hujjat, shartnoma, davlat idorasiga xatni — yuborishdan oldin ikkala tilni yaxshi biladigan odamga yoki professional tarjimonga ko‘rsating."
     },
     {
       "type": "p",

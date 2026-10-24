@@ -427,7 +427,6 @@
   "schemaTypes": [
     "Organization",
     "WebSite",
-    "BreadcrumbList",
     "FAQPage"
   ],
   "lastReviewedAt": "2026-10-07",

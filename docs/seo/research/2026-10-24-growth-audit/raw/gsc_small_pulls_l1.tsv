@@ -1,0 +1,161 @@
+# Small GSC pulls for lens L1, transcribed verbatim from get_search_console_performance (project 7534113b-f748-4f98-ac39-9e3782d3d9e7, sc-domain:gptbot.uz, type web, dataState all). Host prefix https://gptbot.uz stripped.
+
+## S1  dimensions=['date'], last_28_days 2026-09-24..2026-10-21, filter page equals /uz/blog/chatgptga-qanday-kirish-mumkin/  resultId de299f77-efaa-47b9-9504-439e3fa53a51
+date	clicks	impressions	ctr	position
+2026-09-24	0	509	0	7.4
+2026-09-25	3	393	0.0076	7.6
+2026-09-26	0	388	0	8
+2026-09-27	4	583	0.0069	8.3
+2026-09-28	2	611	0.0033	8.8
+2026-09-29	5	195	0.0256	7.8
+2026-09-30	4	641	0.0062	6.8
+2026-10-01	5	1636	0.0031	6.4
+2026-10-02	6	1374	0.0044	5.9
+2026-10-03	5	555	0.009	6.6
+2026-10-04	0	53	0	6.1
+2026-10-05	3	298	0.0101	7.6
+2026-10-06	2	339	0.0059	7.3
+2026-10-07	1	252	0.004	7.6
+2026-10-08	0	167	0	6
+2026-10-09	3	181	0.0166	7.1
+2026-10-10	1	209	0.0048	7.2
+2026-10-11	2	248	0.0081	7.1
+2026-10-12	0	268	0	6.6
+2026-10-13	1	323	0.0031	7
+2026-10-14	0	185	0	7.6
+2026-10-15	0	197	0	7.3
+2026-10-16	0	198	0	7.2
+2026-10-17	0	131	0	7.6
+2026-10-18	0	237	0	7.3
+2026-10-19	0	384	0	7.1
+2026-10-20	3	567	0.0053	6.6
+2026-10-21	0	585	0	7.1
+
+## S2  dimensions=['query'], 2026-10-08..2026-10-21, filter page equals /uz/blog/chatgptga-qanday-kirish-mumkin/  resultId 03956ead-1fa2-4d41-b714-50588a2a270c (17 rows)
+query	clicks	impressions	ctr	position
+chatgpt kirish uzbek tilida	3	1716	0.0017	8.2
+chatgpt kirish	2	1191	0.0017	6.2
+chatgpt kirish login	1	218	0.0046	6.9
+chatgpt kirish login parol	1	45	0.0222	5
+ai tizimiga kirish	0	1	0	1
+chat gpt kirish	0	7	0	6.3
+chat gptga kirish	0	22	0	8.6
+chatbot chatgpt kirish	0	8	0	3.9
+chatgpt ga kirish	0	31	0	4.4
+chatgpt kirish uzbek	0	2	0	6
+chatgpt ochish	0	4	0	8.5
+chatgpt ochish uzbek tilida	0	84	0	7
+chatgpt rasmiy sayti	0	1	0	2
+chatgpt tizimiga kirish	0	14	0	7.7
+chatgpt yozish	0	131	0	5.3
+chatgptga kirish	0	113	0	5.3
+site.help.openai.com "why am i being asked to verify my login"	0	2	0	9
+
+## S3  dimensions=['query'], 2026-09-24..2026-10-07, filter page equals /uz/blog/chatgptga-qanday-kirish-mumkin/  resultId 97ef0ce8-a392-4217-9916-149ca5f76775 (19 rows)
+query	clicks	impressions	ctr	position
+chatgpt kirish	26	6092	0.0043	7
+chat gpt kirish	1	12	0.0833	8.7
+chatgpt kirish login	1	71	0.0141	6.5
+chatgpt kirish login parol	1	18	0.0556	3.3
+chatgpt kirish uzbek tilida	1	817	0.0012	8.3
+chatgptga kirish	1	100	0.01	5.5
+chat gpt ochish	0	2	0	15.5
+chat gptga kirish	0	3	0	8.7
+chatbot chatgpt kirish	0	1	0	5
+chatgpt bepul kirish	0	1	0	5
+chatgpt ga kirish	0	23	0	7
+chatgpt google orqali kirish	0	1	0	7
+chatgpt ochish	0	99	0	8.5
+chatgpt ochish uzbek tilida	0	116	0	8
+chatgpt online kirish	0	8	0	7.8
+chatgpt saytiga kirish	0	4	0	6
+chatgpt yuklab olish	0	2	0	13
+faqat kodni botga kiriting	0	1	0	7
+ха	0	1	0	5
+
+## S4  dimensions=['page'], last_28_days, filter query equals «chatgpt kirish»  resultId 44c39f30-8dd9-4547-8bd4-718eec7c1d9f
+page	clicks	impressions	ctr	position
+/uz/gpt-uzbek-tilida/	157	39221	0.004	7.2
+/uz/blog/chatgptga-qanday-kirish-mumkin/	28	7283	0.0038	6.8
+/ru/gpt-chat/	20	10544	0.0019	7
+/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/	0	6	0	4.8
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	1	0	4
+
+## S5  dimensions=['page'], last_28_days, filter query equals «chatgpt kirish uzbek tilida»  resultId cd701cb0-e7f7-448a-8661-46aeeb4fe7c4
+page	clicks	impressions	ctr	position
+/uz/gpt-uzbek-tilida/	24	2313	0.0104	5.1
+/uz/blog/chatgptga-qanday-kirish-mumkin/	4	2533	0.0016	8.2
+http://gptbot.uz/	0	1	0	7
+/ru/gpt-chat/	0	1	0	8
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	83	0	9.9
+/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	4	0	8
+
+## S6  dimensions=['query','date'], last_28_days, filter query equals «chatgpt kirish uzbek tilida»  resultId 7b4ad81e-b972-4b1c-9b4d-173885b642b2 (all URLs combined)
+date	clicks	impressions	ctr	position
+2026-09-24	1	153	0.0065	5.8
+2026-09-25	1	132	0.0076	5.8
+2026-09-26	0	120	0	5.7
+2026-09-27	2	228	0.0088	5
+2026-09-28	3	203	0.0148	4.5
+2026-09-29	4	210	0.019	4.1
+2026-09-30	3	89	0.0337	4.2
+2026-10-01	5	171	0.0292	4.4
+2026-10-02	3	149	0.0201	4.8
+2026-10-03	0	108	0	5.6
+2026-10-04	0	169	0	5.4
+2026-10-05	1	221	0.0045	7.4
+2026-10-06	0	229	0	7.5
+2026-10-07	0	220	0	7.5
+2026-10-08	1	218	0.0046	5.1
+2026-10-09	4	158	0.0253	6.2
+2026-10-10	0	124	0	8.3
+2026-10-11	0	176	0	7.8
+2026-10-12	0	203	0	6.9
+2026-10-13	0	178	0	8
+2026-10-14	0	138	0	8
+2026-10-15	0	132	0	7.9
+2026-10-16	0	119	0	7.8
+2026-10-17	0	91	0	8.1
+2026-10-18	0	113	0	8.4
+2026-10-19	0	146	0	8.5
+2026-10-20	0	169	0	8.1
+2026-10-21	0	236	0	8
+
+## S7  dimensions=['page'], last_28_days, filter query equals «чат gpt онлайн»  resultId 02b848b7-03e7-4a47-bb36-a5422038d656
+page	clicks	impressions	ctr	position
+/ru/gpt-chat/	1	110	0.0091	6.3
+/ru/blog/chat-gpt-online/	0	444	0	4.9
+
+## S8  dimensions=['page','country'], last_28_days, minImpressions 30  resultId 44d4466a-1f5a-4b64-a0d2-87884ac3d7e5 (83 rows; rows for L1 candidates only)
+page	country	clicks	impressions	ctr	position
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	uzb	463	19948	0.0232	4.5
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	rus	32	1315	0.0243	6.8
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	tjk	2	107	0.0187	5.8
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	kgz	1	61	0.0164	5.6
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	kaz	0	53	0	6.1
+/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	tur	1	40	0.025	6
+/uz/blog/chatgptga-qanday-kirish-mumkin/	uzb	34	10626	0.0032	7.1
+/uz/blog/chatgptga-qanday-kirish-mumkin/	rus	2	201	0.01	6.7
+/uz/blog/chatgptga-qanday-kirish-mumkin/	tur	0	30	0	6.9
+/ru/blog/chat-gpt-online/	uzb	14	1517	0.0092	5.7
+/ru/blog/chat-gpt-online/	ukr	0	42	0	9
+/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/	uzb	9	183	0.0492	4.7
+/ru/blog/chatgpt-i-claude-v-uzbekistane/	uzb	2	78	0.0256	4.2
+/ru/gpt-vs-chatgpt-sravnenie/	rus	2	141	0.0142	9.3
+/ru/gpt-vs-chatgpt-sravnenie/	uzb	1	52	0.0192	6.6
+/ru/gpt-vs-chatgpt-sravnenie/	ukr	0	96	0	8.6
+/ru/gpt-vs-chatgpt-sravnenie/	blr	0	64	0	9
+/ru/gpt-vs-chatgpt-sravnenie/	kaz	0	53	0	9
+/ru/gpt-vs-chatgpt-sravnenie/	deu	0	41	0	7
+/ru/gpt-vs-chatgpt-sravnenie/	nld	0	30	0	7.5
+/ru/chto-takoe-gpt-i-kak-polzovatsya/	rus	0	35	0	10.6
+/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/	rus	0	30	0	14.1
+/ru/blog/chto-takoe-lid-v-marketinge/	rus	0	130	0	29.3
+/ru/blog/chto-takoe-lid-v-marketinge/	ukr	0	66	0	21.4
+/uz/blog/chatgpt-uzbek-tilida-promptlar/	uzb	0	355	0	8.2
+/uz/blog/insho-yozish-suniy-intellekt-bilan/	uzb	1	132	0.0076	7.4
+/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/	uzb	0	76	0	5.9
+/	uzb	1	164	0.0061	7.7
+/ru/seo-prodvizhenie-saytov-tashkent/	uzb	1	464	0.0022	27.2
+/ru/razrabotka-saytov-tashkent/	uzb	2	293	0.0068	36.6
+/uz/blog/target-reklama-nima/	uzb	0	105	0	7.9

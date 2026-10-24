@@ -1,0 +1,7 @@
+research_keywords 2026-10-24, location 2860, seeds: deepseek, gemini, grok, suniy intellekt, chatgpt 5 (source google_ads)
+deepseek: 1 row (deepseek 90500)
+gemini: 9 rows (gemini 1500000; гемини 110000; gemini официальный сайт 320; gemini сайт 30; gemini цена 10; rest 0/null crypto-exchange noise)
+grok: 1 row (grok 74000)
+suniy intellekt: 1 row (suniy intellekt 8100)
+chatgpt 5: 2 rows (chatgpt 5 60500; chat gpt 3 5 140)
+Credits: whoami 23979 before -> 23459 after (delta 520, may include parallel lenses). Yield too thin; no further research_keywords calls.

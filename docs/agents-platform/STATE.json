@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO growth waves per owner order 24.10: chat snippets deployed (d0264730); translator drafts merged for publication in wave 1",
+  "current_stage": "SEO growth waves per owner order 24.10: wave 1 committed in source (growth fixes W1-01..W1-14, RU-UZ translator pages published, protected revision 2026-10-24-wave1); guarded release pending",
   "stage_status": "in_progress",
-  "last_completed_stage": "Chat snippets deployed and verified (d0264730, d54d5b61)",
-  "next_stage": "Wave 1: publish RU-UZ translator pages and growth-audit fixes via guarded release; then wave 2",
+  "last_completed_stage": "Wave 1 source commit on seo/chat-snippets-translator-20261024 (see seo_wave1_20261024); chat snippets deployed and verified before it (d0264730, d54d5b61)",
+  "next_stage": "Wave 1 guarded release on owner command: build:production, deploy_runner.py check|deploy with DR_ROOT=this worktree, live readback, IndexNow for the changed URLs, URL Inspection; then wave 2 (BACKLOG.md §5)",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1848,7 +1848,7 @@
     "design_system": "Bormi semantic light/dark tokens, 8px rhythm, 44px targets, accessible focus and Telegram safe areas; UX/UI Pro Max and adapted 21.dev interaction patterns",
     "next_gate": "close the existing WebView, send a fresh /start and use only the newest button for an exact v8 native Telegram owner canary in @BormiMarketBot; do not claim the launch incident closed until this succeeds"
   },
-  "next_stage_note": "Still open from 2026-10-23: measure completed equal final GSC windows and qualified-lead outcomes for that release (OpenSEO for GSC; GSC Wizard subscription inactive). Branch seo/translator-ru-uz-20261024 is based on c0da2ecb and is not merged with seo/chat-snippets-translator-20261024 (d54d5b61, chat snippet revision); HANDOFF.md, STATE.json and CHANGE_LOG_2026-10.md conflict on merge and must be combined by hand. Nothing pushed or deployed.",
+  "next_stage_note": "Still open from 2026-10-23: measure completed equal final GSC windows and qualified-lead outcomes for that release (OpenSEO for GSC; GSC Wizard subscription inactive). The translator branch is merged (1a773ee2); wave 1 is committed on seo/chat-snippets-translator-20261024 on top of it. Nothing pushed; wave 1 not deployed (production is still d54d5b61, deployment d0264730).",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
   "last_commit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-24T13:17:35.335Z",
+  "updated_at": "2026-10-24T19:30:00.000Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2644,14 +2644,15 @@
     "businessOutcomes": "Unmeasured: 28-day Uzbekistan CTR read after confirmed recrawl; no ranking or traffic guarantee."
   },
   "translator_ru_uz_20261024": {
-    "status": "drafts_prepared_not_published",
+    "status": "published_in_source_not_deployed",
+    "publishedBy": "owner order 2026-10-24 (growth backlog wave 1), overriding the blind-check gate; both pages carry a visible beta note; see seo_wave1_20261024 and intent-manifest A8 publicationNote",
     "branch": "seo/translator-ru-uz-20261024",
     "base": "c0da2ecb0d10d162ecb13bf9dc708e0ff5dd8b0b",
     "pages": [
       "/ru/russko-uzbekskiy-perevodchik/",
       "/uz/rus-ozbek-tarjimon/"
     ],
-    "pageStatus": "draft",
+    "pageStatus": "published",
     "chatRole": "translator",
     "research": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (commit d54d5b61, branch seo/chat-snippets-translator-20261024)",
     "intentManifest": "A8-ru-uz-translator-pages-2026-10-24",
@@ -2699,5 +2700,41 @@
       "uzTranslitTests": 94,
       "openForNativeCheck": "ъ before е in Russian loanwords: объект -> ob’yekt, съезд -> s’yezd (round-trips); the 1995 spelling may be obyekt / syezd"
     }
+  },
+  "seo_wave1_20261024": {
+    "status": "committed_not_deployed",
+    "ownerOrder": "2026-10-24: implement the verified growth backlog autonomously and deploy",
+    "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-24-wave1/)",
+    "base": "1a773ee256f2c85225db94e033af71d0791a49fb",
+    "production": "d54d5b61bf25685b0228886a8d6a2608ffb9766b (deployment d0264730)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "backlog": "docs/seo/research/2026-10-24-growth-audit/BACKLOG.md, backlog.json; verdicts in workflow-result.json and verify-W1-*.md (corrected actions implemented)",
+    "items": {
+      "W1-01": "done: trial honesty on 5 unprotected RU pages (3 lifetime trial replies, then AI pack); trialFiles + regex",
+      "W1-02": "done: /uz/suniy-intellekt/ rework + 5 donor links; figure (9) not made (nested list instead)",
+      "W1-03": "done: ChatGPT decoding on sravnenie, chto-takoe keywords, pair C46",
+      "W1-04": "done: 5 links to the payment and ChatGPT-and-Claude articles",
+      "W1-05": "done as UX hygiene (verifier): 5 Studio links in 4 files",
+      "W1-06": "done: 3 UZ links",
+      "W1-07": "skipped: refuted",
+      "W1-08": "done: insho murakkab reja, 3 topics",
+      "W1-09": "skipped: refuted (optional UX link not added)",
+      "W1-10": "done: H-3 anchor",
+      "W1-11": "done: tests/seo-anchor-intent.test.ts",
+      "W1-12": "done: robots.txt Clean-param",
+      "W1-13": "(b) llms/md Cache-Control detach and (c) 404 title done; (a) is a Cloudflare zone Page Rule, not done",
+      "W1-14": "done: BreadcrumbList name outside PROTECTED_PATHS; /uz/ self-loop removed",
+      "W1-15": "post-deploy: IndexNow with an explicit URL list, inspect after 14 days"
+    },
+    "translatorPublication": ["/ru/russko-uzbekskiy-perevodchik/", "/uz/rus-ozbek-tarjimon/"],
+    "protectedBaseline": "docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json",
+    "protectedPreviousRevision": "docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json",
+    "protectedChange": "/ only: internalLinks 295 -> 297 and body text (+2 translator H1 labels); HTML otherwise byte for byte; 7 protected articles byte-identical; both chats differ only by the gpt-chat bundle name (translator merge)",
+    "protectionCheck": "before revision: / internalLinks + bodyTextSha256 only; after: 10/10",
+    "build": "build:fast exit 0 (302 sitemap entries, 170 articles); build:production not run",
+    "tests": "full suite node --test tests/*.test.ts: 4548 tests, 30 fail after the R3-10 test fix, all pre-existing (identical names on a clean 1a773ee2 export; n8n-dependency-inventory lists only pre-existing tracked files); tsc -b and typecheck:functions exit 0; eslint on 15 changed TS/JS files 0; seo-audit no critical; scan:secrets only the pre-existing tests/telegram-assistant.test.ts:639",
+    "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «Волна 1 роста 24.10»",
+    "postDeploy": "live readback of both translator pages, / and /uz/suniy-intellekt/; robots.txt?v=<ts> Clean-param; llms.txt single Cache-Control; IndexNow for the 23 changed URLs; inspect_urls on 2-3 non-protected URLs for the BreadcrumbList name",
+    "businessOutcomes": "Unmeasured: equal 28-day windows from confirmed recrawl, Uzbekistan and other countries apart; no ranking or traffic guarantee."
   }
 }

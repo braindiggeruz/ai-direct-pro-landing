@@ -1,0 +1,84 @@
+# Source: OpenSEO get_search_console_performance, project 7534113b-f748-4f98-ac39-9e3782d3d9e7, sc-domain:gptbot.uz
+# dimensions [query,page], last_28_days = 2026-09-24..2026-10-21, minPosition 4, maxPosition 20, minImpressions 20, all countries
+# filters: page notContains /ru/gpt-chat/ AND page notContains /uz/gpt-uzbek-tilida/
+# resultIds 37b8d579-fb23-4140-b481-17481c0002b3 (startRow 0, 69 rows) + 38d18616-52ce-4a50-8033-c0bc710f2fd2 (startRow 1000, 9 rows)
+# Pulled 2026-10-24. Transcribed verbatim. P = page is in PROTECTED_PATHS (scripts/seo-protection.ts:145-154)
+query	page	clicks	impressions	ctr	position	protected
+chatgpt ilovasini yuklab olish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	60	2207	0.0272	4.4	P
+chatgpt yuklab olish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	57	4002	0.0142	7.5	P
+chatgpt kirish	/uz/blog/chatgptga-qanday-kirish-mumkin/	28	7283	0.0038	6.8	P
+chatgpt ochish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	27	3833	0.007	5.4	P
+чат gpt онлайн бесплатно	/ru/blog/chat-gpt-online/	10	569	0.0176	5.9
+chatgpt o'rnatish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	5	72	0.0694	4.8	P
+chatgpt скачать uzbek tilida	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	5	180	0.0278	4.9	P
+chatgpt ilovasi	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	4	81	0.0494	4.7	P
+chatgpt kirish uzbek tilida	/uz/blog/chatgptga-qanday-kirish-mumkin/	4	2533	0.0016	8.2	P
+чат gpt онлайн бесплатно на русском	/ru/blog/chat-gpt-online/	4	136	0.0294	9.1
+chatgpt uzbekcha скачать	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	3	59	0.0508	4.8	P
+chat gpt yuklash	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	2	421	0.0048	6.5	P
+chatgpt kirish login	/uz/blog/chatgptga-qanday-kirish-mumkin/	2	289	0.0069	6.8	P
+chatgpt kirish login parol	/uz/blog/chatgptga-qanday-kirish-mumkin/	2	63	0.0317	4.5	P
+разработка сайтов в ташкенте цены	/ru/razrabotka-saytov-tashkent/	2	35	0.0571	10.6
+chat gpt tortish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	30	0.0333	5.7	P
+chat gpt yuklab olish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	31	0.0323	5.2	P
+chatgpt oʻrnatish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	157	0.0064	7.8	P
+chatgpt skachat qilish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	67	0.0149	8.5	P
+chatgpt yuklab olish kompyuter uchun	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	180	0.0056	7.3	P
+chatgpt yuklash	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	288	0.0035	6.7	P
+chatgpt yuklash apk	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	1	145	0.0069	7.1	P
+chatgptga kirish	/uz/blog/chatgptga-qanday-kirish-mumkin/	1	213	0.0047	5.4	P
+gpt аббревиатура	/ru/gpt-vs-chatgpt-sravnenie/	1	25	0.04	7.4
+gpt расшифровка	/ru/gpt-vs-chatgpt-sravnenie/	1	229	0.0044	8.7
+murakkab reja namuna	/uz/blog/insho-yozish-suniy-intellekt-bilan/	1	91	0.011	7.8
+бесплатный чат gpt без ограничений	/ru/gde-polzovatsya-gpt-besplatno/	1	49	0.0204	7.2
+как расшифровывается gpt	/ru/gpt-vs-chatgpt-sravnenie/	1	23	0.0435	7.5
+chachipiti yuklash	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	24	0	6.6	P
+chat gpt uzb	/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/	0	22	0	4.5
+chat gpt расшифровка	/ru/gpt-vs-chatgpt-sravnenie/	0	30	0	7.1
+chat gptga kirish	/uz/blog/chatgptga-qanday-kirish-mumkin/	0	25	0	8.6	P
+chatgpt 4 uzbek tilida skachat	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	56	0	8.1	P
+chatgpt bepul versiyasi	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	24	0	6	P
+chatgpt ga kirish	/uz/blog/chatgptga-qanday-kirish-mumkin/	0	54	0	5.5	P
+chatgpt kirish uzbek tilida	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	83	0	9.9	P
+chatgpt ochish	/uz/blog/chatgptga-qanday-kirish-mumkin/	0	103	0	8.5	P
+chatgpt ochish uzbek tilida	/uz/blog/chatgptga-qanday-kirish-mumkin/	0	200	0	7.6	P
+chatgpt ornatish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	22	0	8	P
+chatgpt tortish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	65	0	5.5	P
+chatgpt uz	/ru/blog/chat-gpt-online/	0	34	0	7.2
+chatgpt uz	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	20	0	4.9	P
+chatgpt uzbek tilida	/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	116	0	8	P
+chatgpt uzbek tilida gaplashish	/uz/blog/chatgpt-uzbek-tilida-promptlar/	0	175	0	8.6	P
+chatgpt uzbek tilida skachat	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	43	0	4.7	P
+chatgpt uzbekistan	/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/	0	74	0	5.8	P
+chatgpt yozish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	66	0	5.4	P
+chatgpt yozish	/uz/blog/chatgptga-qanday-kirish-mumkin/	0	131	0	5.3	P
+chatgpt расшифровка	/ru/gpt-vs-chatgpt-sravnenie/	0	20	0	6.8
+gpt как расшифровывается	/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	21	0	10.3
+gpt как расшифровывается	/ru/gpt-vs-chatgpt-sravnenie/	0	23	0	9.6
+gpt расшифровка	/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	26	0	8.2
+gpt розшифровка	/ru/gpt-vs-chatgpt-sravnenie/	0	23	0	8.6
+gpt чат онлайн	/ru/blog/chat-gpt-online/	0	44	0	6.7
+instagram direct nima	/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/	0	25	0	6.6
+kompyuterga ilova yuklab olish	/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/	0	24	0	7.6	P
+savollarga javoblar beruvchi bot	/uz/gpt-bot-biznes-uchun/	0	53	0	8.4
+smm продвижение	/ru/blog/chto-takoe-smm-prodvizhenie/	0	20	0	16.4
+target nima	/uz/blog/target-reklama-nima/	0	57	0	8.5
+аудит digital маркетинга	/ru/blog/kak-provesti-audit-digital-marketinga/	0	34	0	6.8
+бот instagram direct	/ru/instagram-direct-bot/	0	48	0	5.3
+бот для инстаграм директ	/ru/instagram-direct-bot/	0	26	0	17.7
+генеративный предварительно обученный трансформер	/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	84	0	10.1
+ии давай пообщаемся	/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/	0	25	0	8.8
+ии и чат джипити разница	/ru/gpt-vs-chatgpt-sravnenie/	0	24	0	9.5
+онлайн чат gpt	/ru/blog/chat-gpt-online/	0	82	0	6.8
+продвижение сайтов	/ru/seo-prodvizhenie-saytov-tashkent/	0	83	0	17.3
+процент рекламы телеграм от общего рынка рекламы узбекистан	/ru/telegram-ads-uzbekistan/	0	22	0	8.8
+расшифровка gpt	/ru/gpt-vs-chatgpt-sravnenie/	0	23	0	8.3
+средний доход от рекламы за просмотр 2026 cpa cpm	/ru/blog/cpa-cpm-cpc-cpl-v-reklame/	0	40	0	7.4
+таргет нима	/uz/blog/target-reklama-nima/	0	46	0	6.7
+чат gpt	/ru/blog/chat-gpt-online/	0	25	0	5.1
+чат gpt онлайн	/ru/blog/chat-gpt-online/	0	444	0	4.9
+чат gpt онлайн официальный сайт	/ru/blog/chat-gpt-online/	0	27	0	7.5
+чат гпт на узбекском	/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/	0	24	0	6
+чат гпт онлайн	/ru/blog/chat-gpt-online/	0	39	0	5
+что значит gpt	/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	25	0	8.1
+что такое gpt	/ru/chto-takoe-gpt-i-kak-polzovatsya/	0	37	0	9.3

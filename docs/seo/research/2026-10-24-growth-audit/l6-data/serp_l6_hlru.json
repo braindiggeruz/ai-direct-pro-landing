@@ -1,0 +1,71 @@
+{
+  "tool": "OpenSEO get_serp_results, 1 call, 4 keywords, locationCode 2860, languageCode ru (Russian Google interface — common in Uzbekistan), depth 20",
+  "resultId": "8a84033f-3fe4-47a6-a8df-2b5b42a4deef",
+  "fetchedAt": "2026-10-24",
+  "credits": "whoami 23205 -> 23185 (20 credits). Lens total: 23235 -> 23185 = 50 of 600 cap",
+  "purpose": "control: does the interface language change who ranks / whether gptbot.uz appears",
+  "rows_format": "[rank, organicRank|null, type, url, title]",
+  "keywords": {
+    "chatgpt yuklab olish|ru|mobile": {
+      "gptbot": "absent in 18 organic",
+      "summary": "app pack #1, AI overview #3; 18 organic = softonic fr #1, apkpure.com/.net clone-APK pages x13, play.google search, softonic.ru clone, apk.ldplayer. No official chatgpt.com, no how-to article.",
+      "rows": [
+        [1, null, "app", null, null],
+        [2, 1, "organic", "https://chatgpt.fr.softonic.com/android/telecharger", "Télécharger ChatGPT APK pour Android"],
+        [3, null, "ai_overview", null, null],
+        [4, 2, "organic", "https://apkpure.com/ru/chat-gpt-chat-with-ai/com.samlam.chatgpt/amp", "Скачать Chat GPT - Chat with AI APK для Android (3 янв. 2023)"],
+        [5, 3, "organic", "https://play.google.com/store/search?q=ChatGPT&c=apps&hl=fr", "(URL as title)"],
+        [6, 4, "organic", "https://apkpure.net/ru/chat-gpt-chat-with-gpt-ai/com.chatwithgptai.chatgpt/amp", "Скачать Chat GPT - Chat with GPT AI APK"],
+        [7, 5, "organic", "https://apkpure.net/ru/chat-gpt/com.chatgpt.chatbot.hya/download", "Скачать Chat GPT 1.0 APK"],
+        [8, 6, "organic", "https://m.apkpure.com/ru/chat-gpt-ai-chatbot-app/com.chatgpt.ai.chatbot.voice.chat.gpt/download", "Скачать Chat GPT - AI Chatbot App 3.4"],
+        ["9-20", "7-18", "organic", "apkpure x9 more, chat-gpt-app-ai.softonic.ru, apk.ldplayer.net", "third-party 'Chat GPT' APKs with package names other than com.openai.chatgpt"]
+      ]
+    },
+    "sun'iy intellekt|ru|mobile": {
+      "gptbot": "absent in 15 organic",
+      "summary": "AI overview #1, video block #5; organic: uzinfocom.uz (RU service page) #1, YouTube x4 (#2,#3,#8,#12), prezi #4, iais.uz #5, gov.uz x2 (#6,#13), review.uz (2022) #7, mover.uz tag/video x2, akam.uz, researchgate PDF, ivi.ru film list. No strong explainer article and no product page in top-15.",
+      "rows": [
+        [2, 1, "organic", "https://uzinfocom.uz/services/technologies/iskusstvennyi-intellekt-ru-3", "Искусственный интеллект от UZINFOCOM"],
+        [3, 2, "organic", "https://www.youtube.com/watch?v=y9oj7QY1d6s", "Sun'iy intellektni ishlatish usullari (ChatGPT, Bing, Midjourney)"],
+        [6, 3, "organic", "https://www.youtube.com/watch?v=1M_LmxlavII", "Sun'iy intellekt o'zi nima?"],
+        [7, 4, "organic", "https://prezi.com/p/kkaqxs-ucpus/suniy-intelekt/", "Suniy intelekt"],
+        [8, 5, "organic", "https://iais.uz/uz/outputnew/ai-unveiled-exploring-its-social-impacts", "Sun'iy intellekt: uning ijtimoiy ta'sirini o'rganish"],
+        [9, 6, "organic", "https://gov.uz/oz/olmaliq/pages/sun-iy-intellekt", "Sun'iy intellekt (AI) dan foydalanish (13 июл. 2026)"],
+        [10, 7, "organic", "https://review.uz/uz/post/suniy-intellekt-kecha-bugun-va-ertaga", "Sun'iy intellekt: kecha, bugun va ertaga (2022)"],
+        [11, 8, "organic", "https://www.youtube.com/watch?v=Lwggmk5U3qc", "Sun'iy intellektdan to‘g‘ri foydalanish | 1-dars (mohirdev)"],
+        [13, 9, "organic", "https://mover.uz/video/tag/suniy%20intellekt", "Видео с тегом suniy intellekt"],
+        [14, 10, "organic", "https://akam.uz/.../suniy-intellekt-ai", "Sun'iy intellekt (AI)"],
+        [16, 11, "organic", "https://www.researchgate.net/publication/368788546_...", "(PDF) SUN'IY INTELLEKT VA UNING RIVOJLANISH TARIXI"],
+        [17, 12, "organic", "https://www.youtube.com/watch?v=v7oVyQ1gx8U", "Sunʼiy intellekt yolg'on gapirishni boshladi"],
+        [18, 13, "organic", "https://gov.uz/oz/toshbuloq/activity_page/sun-iy-intellekt", "Sun'iy intellekt (6 нояб. 2025)"],
+        [19, 14, "organic", "https://www.ivi.ru/uz/collections/movies-artificial-intelligence", "Sun'iy intellekt haqida filmlar"],
+        [20, 15, "organic", "https://mover.uz/watch/KVOqMUSF", "Sun'iy intellekt orol haqida"]
+      ]
+    },
+    "telegram bot yaratish|ru|mobile": {
+      "gptbot": "absent in 18 organic",
+      "summary": "AI overview #1, video block #4; organic: YouTube x6 (playlists/courses), yoqubov.uz Python tutorial #2, mover.uz tag #3, soff.uz freelancer x2, dcamp.io course x2, sayt-yaratish-xizmati.uz service page #7 and #15, qnb.uz forum, softmedia.uz copy, birbir.uz ad #18.",
+      "rows": [
+        [2, 1, "organic", "https://www.youtube.com/playlist?list=PLY4N-4FJdZQBWySck4Mhv3jFHWV69s3aj", "Telegramda bot yaratish Videokurs"],
+        [3, 2, "organic", "https://yoqubov.uz/bloglar/telegram-botlar/132-pythonda-telegrambot-yaratish.html", "Python'da TelegramBoT yaratish"],
+        [5, 3, "organic", "https://mover.uz/video/tag/telegramda%20bot%20yaratish", "Видео с тегом telegramda bot yaratish"],
+        [6, 4, "organic", "https://soff.uz/service/istalgan-turdagi-mukammal-telegram-botlar-yaratish", "Istalgan turdagi mukammal telegram botlar yaratish"],
+        [7, 5, "organic", "https://dcamp.io/telegram_bot", "Telegram bot yaratishni o'rganing - Digital Camp"],
+        [8, 6, "organic", "https://www.youtube.com/watch?v=D5Ar950NlEA", "Telegramda bot yaratish - Php Master videokursi"],
+        [9, 7, "organic", "https://sayt-yaratish-xizmati.uz/telegram-bot-yaratish", "Telegram bot yaratish Toshkentda — buyurtma boti 1,2 mln so'mdan"]
+      ]
+    },
+    "чат гпт на русском|ru|desktop": {
+      "gptbot": "absent in 18 organic",
+      "summary": "mitup #1 (also #1 on mobile), AI overview #2, openai-gpt.ru #3, deepai #4, chatgpt.com/openai pages x12, tochkagpt #14, geekbot #15, talkchatgpt #18.",
+      "rows": [
+        [1, 1, "organic", "https://ai.mitup.ru/chatgpt-free", "ChatGPT на русском онлайн — Чат ГПТ 4, 5 от ... - Mitup AI"],
+        [4, 3, "organic", "https://openai-gpt.ru/", "GPT Chat- нейросеть с искусственным интеллектом на ..."],
+        [5, 4, "organic", "https://deepai.org/chat/gpt-chat", "GPT Chat"],
+        [16, 14, "organic", "https://tochkagpt.ru/", "ChatGPT"],
+        [17, 15, "organic", "http://geekbot.ru/", "GeekBot: Онлайн Chat GPT | Нейросеть бот | Чат ГПТ с ..."],
+        [20, 18, "organic", "https://talkchatgpt.com/", "Общайся с чат gpt на русском языке"]
+      ]
+    }
+  }
+}
