@@ -1,6 +1,7 @@
 # HANDOFF — SEO growth wave 1b (three Uzbek guides, Telegram hub, llms-full) · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 25.10: wave 1b deployment 97f56ab5 from 62d8fdb0 (reports/wave1b-20261025/RELEASE.md), IndexNow 8 URLs 200. Production line = branch seo/chat-snippets-translator-20261024; merge it into codex/continuation-20261007 before any deploy from there. Next dated releases: docs/seo/research/2026-10-24-growth-audit/NEXT_RELEASES.md.
 Wave 1b of the 2026-10-24 growth backlog (W2-03..W2-07) is committed on branch seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024) on top of 13d2da1f (production f97295b5, deployment a1f56a62, plus its release record). NOT deployed, not pushed. New immutable protected revision docs/seo/evidence/2026-10-24-wave1b/ (previous 2026-10-24-wave1); BASELINE points to it. STATE.json block: seo_wave1b_20261024 (status committed_not_deployed). Wave 1 itself was deployed 24.10 (reports/wave1-20261024/RELEASE.md; block seo_wave1_20261024).
 
 ## 2. Что сделано

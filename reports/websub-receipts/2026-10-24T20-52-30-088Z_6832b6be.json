@@ -1,0 +1,37 @@
+{
+  "submittedAt": "2026-10-24T20:52:30.088Z",
+  "commit": "62d8fdb0071364a3b6a1687fafcb9bd5142e0ed2",
+  "artifactSha256": "b3256d842e796aec0f178c9e37d46e4ef2bb1b76a3bf6731227fa33fbf7cb454",
+  "hub": "https://pubsubhubbub.appspot.com/",
+  "productionVerified": true,
+  "results": [
+    {
+      "feed": "https://gptbot.uz/ru/blog/feed.xml",
+      "hash": "eeeeacfaf405a61666c25b111c9bb2b1ad21686ff2ce5bbf8d177f4365150296",
+      "attempts": 1,
+      "updatedAt": "2026-10-23T14:19:34.050Z",
+      "status": "accepted",
+      "httpStatus": 204,
+      "action": "skipped"
+    },
+    {
+      "feed": "https://gptbot.uz/uz/blog/feed.xml",
+      "hash": "63556cedc87b642fb9814580520291d1f084c65c24a1f6baab455b6e590fceed",
+      "attempts": 1,
+      "updatedAt": "2026-10-24T20:52:32.653Z",
+      "status": "accepted",
+      "httpStatus": 204,
+      "action": "posted"
+    },
+    {
+      "feed": "https://gptbot.uz/updates/atom.xml",
+      "hash": "75933f029ddab35b1bb940817d0205660e0f5e32b2811c5a33b1448fd868f992",
+      "attempts": 1,
+      "updatedAt": "2026-10-24T20:52:33.567Z",
+      "status": "accepted",
+      "httpStatus": 204,
+      "action": "posted"
+    }
+  ],
+  "googleRecrawlConfirmed": false
+}

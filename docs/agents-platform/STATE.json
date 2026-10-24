@@ -1578,7 +1578,7 @@
   },
   "architecture_version": "2026-07-17",
   "current_stage": "SEO growth waves per owner order 24.10: wave 1 deployed (a1f56a62, f97295b5); wave 1b committed in source (three Uzbek guides tavsifnoma / rasmiy xat / tabrik, UZ Telegram hub H1 + BotFather/constructor/developer section, llms-full superset; protected revision 2026-10-24-wave1b); guarded release pending",
-  "stage_status": "in_progress",
+  "stage_status": "complete",
   "last_completed_stage": "Wave 1b source commit on seo/chat-snippets-translator-20261024 (see seo_wave1b_20261024); wave 1 deployed and verified before it (a1f56a62, f97295b5)",
   "next_stage": "Wave 1b guarded release on owner command: build:production, deploy_runner.py check|deploy with DR_ROOT=this worktree, live readback of the three guides, the hub and /, IndexNow for the changed URLs, URL Inspection; then the remaining wave 2 items (NEXT_RELEASES.md dates)",
   "r0_4_progress": {
@@ -2742,7 +2742,11 @@
     "businessOutcomes": "Unmeasured: equal 28-day windows from confirmed recrawl, Uzbekistan and other countries apart; no ranking or traffic guarantee."
   },
   "seo_wave1b_20261024": {
-    "status": "committed_not_deployed",
+    "status": "deployed_and_verified",
+    "deployment": "97f56ab5",
+    "sourceCommit": "62d8fdb0071364a3b6a1687fafcb9bd5142e0ed2",
+    "releaseEvidence": "reports/wave1b-20261025/RELEASE.md",
+    "nextReleases": "docs/seo/research/2026-10-24-growth-audit/NEXT_RELEASES.md",
     "ownerOrder": "2026-10-24: implement the growth backlog autonomously and deploy; publish wave 1b now (tabrik live well before the December peak) instead of after ≈07.11",
     "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-24-wave1b/)",
     "base": "13d2da1f (production f97295b5 + its release record)",
