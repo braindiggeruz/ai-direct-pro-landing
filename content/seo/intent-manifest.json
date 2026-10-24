@@ -1543,6 +1543,120 @@
       "evidence": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (Google Ads, location 2860, 2026-10-24: «перевод/переводчик с русского на узбекский» 90 500, «перевод с узбекского на русский» 60 500, «переводчик с узбекского на русский» 49 500, «узбекско русский переводчик» 27 100, «русско узбекский переводчик» 22 200; competition 0); intent-manifest A8",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C49-uz-chat-vs-tavsifnoma-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; a reader may ask it to draft a tavsifnoma from their own facts, but the chat page does not answer «tavsifnoma» or «tavsifnoma namuna». The chat page does not link the guide (protected; its 28-day snippet window from 2026-10-24 is open)",
+        "mustNotTarget": [
+          "tavsifnoma",
+          "tavsifnoma namuna",
+          "tavsifnoma namunasi",
+          "tavsifnoma yozish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tavsifnoma-namuna/",
+        "owns": "how to write a tavsifnoma (character reference) — «tavsifnoma namuna», «tavsifnoma namunasi», «tavsifnoma», «tavsifnoma yozish»: how it differs from a tavsiyanoma, its structure, three conditional samples with placeholders only (o‘quvchi, amaliyotchi talaba, xodim) and a pre-signing checklist; says the organisation's requirements come first, the signer checks the text and answers for it, it is not legal advice, the chat writes text only (no .docx, letterhead, signature or stamp) and personal data stays out of the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "tushuntirish xati",
+          "ariza yozish",
+          "rasmiy xat yozish",
+          "rezyume tayyorlash"
+        ]
+      },
+      "gscNote": "New URL of wave 1b of the growth backlog (W2-03, owner order of 2026-10-24), no Search Console history; no page of the site declared a tavsifnoma key before it (repository grep 2026-10-25). Demand (demand-policy rows of 2026-10-24): tavsifnoma namuna 1 600/mo (October 2025 1 900, August 2026 390), tavsifnoma 720/mo; seasonal with the school year. The SERP of 2026-10-24 (48e0cfbe) is one school blog, a Facebook video, Scribd PDFs and document archives, no AI site. Same read as C41: at least 100 Uzbekistan impressions within 21 days of indexation means the page works.",
+      "evidence": "docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-03; l3-data/kw2_table.txt; backlog W2-03",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C50-uz-chat-vs-rasmiy-xat-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it to draft a business letter from their own facts, but the chat page does not answer «xat yozish» or «rasmiy xat yozish». The chat page does not link the guide (protected; its 28-day snippet window from 2026-10-24 is open)",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "how to write an official letter from one organisation to another — «rasmiy xat yozish», «xat yozish», «xizmat xati namuna», «rasmiy xat namunasi», «xat yozish namunasi»: requisites, outgoing number and date, addressee, subject, body, enclosures, signature; the request, guarantee, claim and thank-you letter with conditional samples (placeholders only); one FAQ answers the school assignment of the same name; says it is not legal advice, that the organisation's requirements come first, that the signer checks the final text and that the chat writes text only (no letterhead or .docx)",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida"
+        ]
+      },
+      "gscNote": "New URL of wave 1b of the growth backlog (W2-04, owner order of 2026-10-24), no Search Console history. Demand (demand-policy rows of 2026-10-24): xat yozish 3 600/mo (October 2025 140, September 2026 6 600: rising and mixed — school assignment and business correspondence), xizmat xati namuna 10/mo, xat yozish namunasi 10/mo; «rasmiy xat yozish» returned no Ads bucket, which means no separate measurement, not zero demand. The SERP of 2026-10-24 (3b60d615) is mixed, with an AI text generator at 9. The guide's fence against the explanatory-letter and application guide is pair C52.",
+      "evidence": "docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-09; l3-data/kw1_table.txt and kw2_table.txt; backlog W2-04",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C51-uz-chat-vs-tabrik-guide",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it for a personal greeting, but the chat page does not answer «tabriklar» or «tug‘ilgan kun tabriklari». The chat page does not link the guide (protected; its 28-day snippet window from 2026-10-24 is open)",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "tabriklar",
+          "yangi yil tabriklari",
+          "tabrik yozish",
+          "табриклар"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tabrik-yozish/",
+        "owns": "how to write a greeting and ready samples — «tug‘ilgan kun tabriklari» (and the measured apostrophe-less spelling), «tabriklar», «yangi yil tabriklari», «tabrik yozish» and the Cyrillic «табриклар»: 30 greetings written for the page (birthday by addressee, New Year, 8 March) with placeholders, a structure and tone table, and how to ask the chat to personalise one; says the chat writes text only (no card, image or voice greeting) and that other people's personal data stays out of the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of wave 1b of the growth backlog (W2-05, owner order of 2026-10-24: live well before the December peak), no Search Console history. Demand (demand-policy rows of 2026-10-24): tugilgan kun tabriklari 1 300/mo (the U+2018 spelling has no Ads bucket), tabriklar 1 000/mo, yangi yil tabriklari 880/mo (December up to 9 900), табриклар 590/mo, tabrik yozish 20/mo. The SERP of 2026-10-24 (7aa3bce8) is greeting archives on weak domains. Read the New Year terms in December–January, not in a 21-day window from October.",
+      "evidence": "docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-08; l3-data/kw1_table.txt and kw2_table.txt; backlog W2-05",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C52-uz-tushuntirish-ariza-vs-rasmiy-xat-guide",
+      "commercial": {
+        "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "owns": "a text a person writes in their own name to their own organisation — the explanatory letter and the application (see C41); since 2026-10-24 one paragraph of its «Ariza» section says that a letter from one organisation to another is a service letter and links the new guide (anchor «rasmiy xat yozish»); it declares none of that guide's keys",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "rasmiy xat namunasi",
+          "xizmat xati namuna",
+          "xat yozish",
+          "tavsifnoma",
+          "tavsifnoma namuna"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "a letter one organisation writes to another (see C50); it links the explanatory-letter and application guide for a text written in one's own name",
+        "mustNotTarget": [
+          "tushuntirish xati",
+          "tushuntirish xati namunasi",
+          "ariza yozish",
+          "ariza namunasi",
+          "tavsifnoma",
+          "tavsifnoma namuna"
+        ]
+      },
+      "gscNote": "No measured overlap yet: the official-letter guide is new (2026-10-24) and the explanatory-letter guide never declared a «xat yozish» key. The two are neighbours in the «hujjat-va-xatlar» topic, and «xat» sits in both heads, so the pair records who owns which head before Search Console can mix them; both also keep off the tavsifnoma keys, which C49 gives to /uz/blog/tavsifnoma-namuna/. The pages link each other.",
+      "evidence": "backlog W2-04 (the new guide's mustNotTarget takes the ariza and tushuntirish keys); docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-09",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-24"
     }
   ],
   "architectureDecisions": [

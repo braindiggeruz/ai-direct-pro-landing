@@ -1,0 +1,406 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tavsifnoma-namuna",
+  "url": "/uz/blog/tavsifnoma-namuna/",
+  "title": "Tavsifnoma namunasi: o‘quvchi, talaba va xodim uchun (2026)",
+  "description": "Tavsifnoma qanday yoziladi: tuzilma, tavsiyanomadan farqi, o‘quvchi, amaliyotchi talaba va xodim uchun shartli namunalar va AI chatda qoralama.",
+  "h1": "Tavsifnoma qanday yoziladi: tuzilma, shartli namunalar va AI bilan qoralama",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "tavsifnoma namuna",
+    "tavsifnoma namunasi",
+    "tavsifnoma",
+    "tavsifnoma yozish"
+  ],
+  "intro": "Tavsifnoma — o‘quvchi, talaba yoki xodimning o‘qishi, ishi va fazilatlari haqida tashkilot nomidan yoziladigan rasmiy hujjat. Uni odatda boshqa tashkilotga taqdim etish uchun maktab, talaba amaliyot o‘tagan tashkilot yoki ish beruvchi beradi. Quyida tavsifnomaning tuzilmasi, tavsiyanomadan farqi, uchta shartli namuna, AI chat uchun so‘rovlar va imzolashdan oldingi tekshiruv ro‘yxati berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: tavsifnoma uchinchi shaxsda yoziladi va odatda sarlavha, kim haqida ekani, o‘qish yoki ish faoliyati, natijalar va fazilatlar, qayerga taqdim etish uchun berilgani, sana, imzo va ko‘pincha muhrdan iborat bo‘ladi. Aniq shaklni hujjatni so‘ragan tashkilot belgilaydi. Mazmun uchun imzolovchi javob beradi, shuning uchun yakuniy matnni uning o‘zi tekshiradi. Bu maqola yuridik maslahat emas."
+    },
+    {
+      "type": "linkp",
+      "text": "Qoralamani {chat} yordamida o‘z faktlaringizdan tayyorlash mumkin. Masalan: «Xodim uchun tavsifnoma qoralamasini yoz. Faktlar: [lavozim], [yil]-yildan beri ishlaydi, vazifalari — [ro‘yxat], natijalari — [ro‘yxat]. Uchinchi shaxsda, rasmiy uslubda, 8–10 gap. Men yozmagan sifat va yutuqlarni qo‘shma. Ism va sanalar o‘rniga kvadrat qavsda belgi qoldir.» Haqiqiy ism, tug‘ilgan sana va hujjat raqamlarini chatga yozmang.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Tavsifnoma nima va qachon so‘raladi"
+    },
+    {
+      "type": "p",
+      "text": "Tavsifnoma (ruscha «характеристика») — kishining muayyan davrdagi o‘qishi yoki ishi, bilim va ko‘nikmalari, intizomi va jamoadagi munosabatlari haqida tashkilot nomidan berilgan baho. Bu kishining o‘zi haqida yozgan matni emas: hujjatni rahbar, sinf rahbari yoki amaliyot rahbari imzolaydi va shu bilan undagi gaplarni tasdiqlaydi."
+    },
+    {
+      "type": "p",
+      "text": "Tavsifnoma odatda boshqa tashkilot so‘raganda beriladi. Ko‘p uchraydigan holatlar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘quvchi boshqa maktabga, litsey yoki kollejga o‘tganda yoki o‘qishga hujjat topshirganda.",
+        "Talaba amaliyotni tugatganda: amaliyot o‘tagan tashkilot o‘quv yurti uchun tavsifnoma beradi.",
+        "Xodim yangi ishga, tanlovga yoki boshqa lavozimga hujjat topshirganda.",
+        "Mukofot, grant yoki o‘qishga tavsiya qilinganda — bunda ko‘pincha tavsiyanoma ham so‘raladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Amalda ba’zan rahbar yoki sinf rahbari tavsifnoma qoralamasini kishining o‘zidan yoki kadrlar bo‘limidan so‘raydi. Bunday holatda ham matn tashkilot nomidan yoziladi: unda faqat imzolovchi tasdiqlay oladigan faktlar bo‘lishi kerak."
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Tavsifnoma va tavsiyanoma: farqi nimada"
+    },
+    {
+      "type": "p",
+      "text": "Ikki hujjatning nomi o‘xshash, shuning uchun ular tez-tez chalkashtiriladi. Tavsifnoma kishini tasvirlaydi va «u qanday o‘qigan yoki ishlagan?» degan savolga javob beradi. Tavsiyanoma esa uni biror ishga, o‘qishga yoki dasturga tavsiya qiladi va «nega aynan uni tanlash kerak?» degan savolga javob beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Tavsifnoma",
+        "Tavsiyanoma"
+      ],
+      "rows": [
+        [
+          "Maqsadi",
+          "Kishining o‘qishi yoki ishini xolis tasvirlash",
+          "Kishini aniq lavozim, o‘qish yoki dasturga tavsiya qilish"
+        ],
+        [
+          "Kim nomidan",
+          "Tashkilot nomidan; rahbar yoki mas’ul shaxs imzolaydi",
+          "Odatda tavsiya beruvchining o‘z nomidan: rahbar, o‘qituvchi yoki ilmiy rahbar"
+        ],
+        [
+          "Qaysi shaxsda",
+          "Uchinchi shaxsda: «[F.I.Sh.] … ishlaydi»",
+          "Ko‘pincha birinchi shaxsda: «[F.I.Sh.]ni … tavsiya etaman»"
+        ],
+        [
+          "Oxirgi gap",
+          "«Tavsifnoma [qayerga] taqdim etish uchun berildi»",
+          "Aniq tavsiya: kimni, nimaga va nima uchun"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qaysi biri kerakligi aniq aytilmagan bo‘lsa, hujjatni so‘ragan tashkilotdan so‘rang: ba’zan ikkalasi birga talab qilinadi."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Tavsifnoma tuzilmasi: sarlavhadan imzogacha"
+    },
+    {
+      "type": "p",
+      "text": "Tashkilotning o‘z shakli bo‘lmasa, tavsifnoma ko‘pincha quyidagi tartibda yoziladi. Bu keng tarqalgan ko‘rinish, majburiy me’yor emas: so‘rov yuborgan tashkilot boshqa tartib yoki qo‘shimcha band talab qilsa, o‘shanga amal qiling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Rekvizitlar",
+          "Tashkilot blankasi yoki nomi; kerak bo‘lsa, chiqish raqami va sana"
+        ],
+        [
+          "Sarlavha",
+          "«Tavsifnoma» — sahifa o‘rtasida, alohida qatorda"
+        ],
+        [
+          "Kim haqida",
+          "F.I.Sh. va tug‘ilgan yili; o‘quvchi uchun maktab va sinf, talaba uchun fakultet, kurs va yo‘nalish, xodim uchun lavozim va qachondan beri ishlayotgani"
+        ],
+        [
+          "Asosiy qism",
+          "O‘qish yoki ish faoliyati, vazifalar va natijalar, bilim va ko‘nikmalar, intizom, jamoadagi munosabatlar, ijtimoiy faollik"
+        ],
+        [
+          "Xulosa",
+          "Qisqa umumiy baho va «Tavsifnoma [qayerga] taqdim etish uchun berildi» degan gap"
+        ],
+        [
+          "Imzo",
+          "Imzolovchining lavozimi, imzosi va F.I.Sh., sana; tashkilotda qabul qilingan bo‘lsa, muhr"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Yozish uslubi: faktlar va xolis baho"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Uchinchi shaxsda yozing: «U …», «[F.I.Sh.] …».",
+        "Har bir sifatni aniq misol bilan asoslang: «mas’uliyatli» deyish o‘rniga nimada mas’uliyat ko‘rsatganini yozing.",
+        "Faqat imzolovchi biladigan va tasdiqlay oladigan faktlarni kiriting: sanalar, lavozimlar, tadbirlar, natijalar.",
+        "Tavsifnoma maqtov xati emas: kamchilik bo‘lsa, uni xolis va hurmat bilan yozing.",
+        "Sog‘liq, oilaviy ahvol va boshqa shaxsiy ma’lumotlarni so‘rov talab qilmasa, kiritmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "namuna-oquvchi",
+      "text": "Tavsifnoma namunasi: o‘quvchi uchun (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi uchta namuna shartli: kvadrat qavsdagi joylarga haqiqiy ma’lumot qo‘yiladi, fazilat va yutuqlar esa faqat haqiqatda bo‘lganlari bilan almashtiriladi. Qatorlar «·» belgisi bilan ajratilgan: qog‘ozda har biri alohida qatorda turadi, «M.O‘.» esa muhr o‘rnini bildiradi."
+    },
+    {
+      "type": "quote",
+      "text": "TAVSIFNOMA · [Maktab nomi] [sinf]-sinf o‘quvchisi [F.I.Sh.], [yil]-yilda tug‘ilgan. · [F.I.Sh.] ushbu maktabda [yil]-yildan beri o‘qiydi. [Fanlar] fanlariga alohida qiziqadi, o‘zlashtirishi: [qisqacha]. [Tanlov yoki olimpiada nomi]da qatnashgan. Darslarga muntazam keladi, uy vazifalarini o‘z vaqtida bajaradi. Sinfdoshlari bilan do‘stona munosabatda, sinf tadbirlarini tayyorlashda faol. · Tavsifnoma [qayerga] taqdim etish uchun berildi. · Sinf rahbari: [imzo] [F.I.Sh.] · Maktab direktori: [imzo] [F.I.Sh.] · [sana] · M.O‘."
+    },
+    {
+      "type": "p",
+      "text": "O‘quvchiga tavsifnomani odatda sinf rahbari yozadi, maktab rahbariyati imzolaydi. Matnni ota-ona yoki o‘quvchining o‘zi yozib kelishi so‘ralsa ham, uni sinf rahbari tekshiradi va o‘zgartirishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "namuna-talaba",
+      "text": "Amaliyotchi talaba uchun tavsifnoma namunasi (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Amaliyot tugaganda tavsifnomani talaba amaliyot o‘tagan tashkilot beradi va uni amaliyot rahbari imzolaydi. Ba’zi oliy ta’lim muassasalari amaliyot kundaligi yoki hisobot bilan birga o‘z shaklini beradi — bunday shakl bo‘lsa, faqat uni to‘ldiring."
+    },
+    {
+      "type": "quote",
+      "text": "TAVSIFNOMA · [Oliy ta’lim muassasasi] [fakultet] [kurs]-kurs talabasi [F.I.Sh.] [sana]dan [sana]gacha [tashkilot nomi]ning [bo‘lim nomi] bo‘limida [amaliyot turi] amaliyotini o‘tadi. · Amaliyot davomida [vazifa 1], [vazifa 2] va [vazifa 3] bilan shug‘ullandi. [Dastur yoki hujjat turi] bilan ishlashni o‘zlashtirdi, topshiriqlarni belgilangan muddatda bajardi. Ichki mehnat tartibiga rioya qildi, savol tug‘ilganda mutaxassislardan maslahat so‘radi. · Amaliyot natijasi: [o‘quv yurti talab qilsa, tashkilot bahosi]. · Tavsifnoma [oliy ta’lim muassasasi nomi]ga taqdim etish uchun berildi. · Amaliyot rahbari: [lavozim] [imzo] [F.I.Sh.] · [sana] · M.O‘."
+    },
+    {
+      "type": "h2",
+      "id": "namuna-xodim",
+      "text": "Xodim uchun tavsifnoma namunasi (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Xodimga tavsifnomani ish beruvchi beradi: odatda bevosita rahbar yoki kadrlar bo‘limi tayyorlaydi, tashkilot rahbari imzolaydi."
+    },
+    {
+      "type": "quote",
+      "text": "TAVSIFNOMA · [F.I.Sh.], [yil]-yilda tug‘ilgan, ma’lumoti: [ma’lumoti]. [Tashkilot nomi]da [yil]-yildan beri [lavozim] lavozimida ishlaydi. · Vazifalariga [vazifa 1], [vazifa 2] va [vazifa 3] kiradi. Ish davomida [aniq natija: nima qilingani va qachon]. O‘z sohasini yaxshi biladi, yangi topshiriqlarni tez o‘zlashtiradi. Mehnat intizomiga rioya qiladi, hamkasblari bilan hurmat asosida ishlaydi, yangi xodimlarga ish tartibini o‘rgatishda yordam beradi. · Tavsifnoma [qayerga] taqdim etish uchun berildi. · [Rahbar lavozimi] [imzo] [F.I.Sh.] · [sana] · M.O‘."
+    },
+    {
+      "type": "p",
+      "text": "Namunalardagi sifatlar — faqat misol. «Tez o‘zlashtiradi», «faol» kabi so‘zlarni imzolovchi tasdiqlay olmasa, olib tashlang yoki aniq fakt bilan almashtiring. O‘zingizga tavsifnoma qoralamasini yozayotgan bo‘lsangiz, o‘zingizni ortiqcha maqtamang: imzolovchi bunday matnni baribir qayta yozishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "ai-bilan",
+      "text": "AI chat bilan qoralama: o‘z faktlaringizdan"
+    },
+    {
+      "type": "p",
+      "text": "AI chat xom faktlarni rasmiy uslubdagi tartibli matnga aylantiradi, qisqartiradi yoki ohangini o‘zgartiradi. Lekin u kishini tanimaydi: qancha aniq fakt bersangiz, qoralama shuncha haqqoniy chiqadi. Chatdagi «Matn yozish» tugmasini bosing yoki quyidagi so‘rovlardan birini yuboring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "O‘quvchi uchun",
+          "«O‘quvchi uchun tavsifnoma qoralamasini yoz. Faktlar: [sinf], [yil]-yildan beri shu maktabda, qiziqqan fanlari — [fanlar], qatnashgan tadbirlari — [ro‘yxat]. Uchinchi shaxsda, 6–8 gap. Men yozmagan sifat yoki yutuq qo‘shma, ism va sanalar o‘rniga belgi qoldir.»"
+        ],
+        [
+          "Amaliyotchi talaba uchun",
+          "«Amaliyotchi talabaga tavsifnoma yoz. Amaliyot: [muddat], [bo‘lim]. Bajargan ishlari: [ro‘yxat]. O‘rgangan dasturlari: [ro‘yxat]. Oxirida «… taqdim etish uchun berildi» degan gap bo‘lsin. Faqat men bergan faktlardan foydalan.»"
+        ],
+        [
+          "Xodim uchun",
+          "«Xodimga tavsifnoma yoz: lavozimi [lavozim], [yil]-yildan beri ishlaydi, vazifalari [ro‘yxat], natijalari [ro‘yxat]. Uchinchi shaxsda, 8–10 gap, maqtov so‘zlarini ko‘paytirma, raqam o‘ylab topma.»"
+        ],
+        [
+          "Tavsiyanomaga aylantirish",
+          "«Quyidagi tavsifnoma asosida [lavozim yoki dastur] uchun tavsiyanoma yoz: tavsiya beruvchi nomidan, birinchi shaxsda, oxirida aniq tavsiya bo‘lsin. Yangi fakt qo‘shma: [matn]»"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi: ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor, ular har kuni yangilanmaydi, keyin davom etish uchun AI paket kerak. Chat matnli qoralama beradi — .docx fayl, blanka, imzo yoki muhr bermaydi. U xato qilishi yoki siz aytmagan fazilatni qo‘shishi mumkin, shuning uchun har bir gapni tekshiring."
+    },
+    {
+      "type": "p",
+      "text": "Shaxsiy ma’lumotni chatga yozmang. Savol GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun tug‘ilgan sana, pasport ma’lumotlari, JShShIR, telefon, manzil va oila haqidagi ma’lumot o‘rniga [F.I.Sh.], [sana], [sinf] kabi belgilardan foydalaning. Tavsifnoma boshqa odam haqida bo‘lsa, bu qoida ayniqsa muhim."
+    },
+    {
+      "type": "linkp",
+      "text": "Chat limitlari va xavfsizlik qoidalari {qollanma} sahifasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "chatdan foydalanish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Imzolashdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hujjat to‘g‘ri nomlanganmi: so‘ralgani tavsifnomami yoki tavsiyanomami?",
+        "F.I.Sh., sinf, kurs, lavozim va sanalar hujjatlar bilan mosmi?",
+        "Har bir sifat yoki yutuq imzolovchi tasdiqlay oladigan faktga asoslanganmi?",
+        "Kvadrat qavsdagi barcha belgilar almashtirilganmi, AI qo‘shgan ortiqcha gap qolmadimi?",
+        "Tavsifnoma qayerga taqdim etilishi oxirgi gapda yozilganmi?",
+        "So‘rov yuborgan tashkilotning shakli yoki qo‘shimcha talabi bo‘lsa, matn unga moslanganmi?",
+        "Imzolovchining lavozimi, imzosi, sana va kerak bo‘lsa muhr bormi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mumkin-emas",
+      "text": "Nimalar mumkin emas va AI nimani qila olmaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bo‘lmagan yutuq, tadbir yoki natijani yozish. Matnni AI yozgan bo‘lsa ham, imzolovchi undagi har bir gap uchun javob beradi.",
+        "Imzolovchi o‘rniga imzo qo‘yish yoki tashkilot blankasidan ruxsatsiz foydalanish.",
+        "Haqoratli yoki kamsituvchi so‘zlar ishlatish: kamchilik bo‘lsa, uni xolis fakt bilan yozing."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "AI chat tashkilotingiz talablarini, kishining haqiqiy ishini va hujjatni qaysi idora qabul qilishini bilmaydi. U hujjatni imzolamaydi, muhr qo‘ymaydi va hech qayerga yubormaydi. Tavsifnoma sud yoki boshqa davlat idorasi uchun so‘ralgan bo‘lsa, talablarni o‘sha idoradan yoki yuristdan aniqlang."
+    },
+    {
+      "type": "linkp",
+      "text": "Tavsifnoma bilan birga ko‘pincha boshqa hujjatlar ham so‘raladi: ariza va tushuntirish xatining tuzilmasi {ariza} qo‘llanmasida, ishga hujjat topshirayotganlar uchun rezyume namunasi esa {rezyume}da berilgan.",
+      "links": [
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "tushuntirish xati va ariza yozish"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Tavsifnoma qoralamasini AI chatda yozish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tavsifnoma qanday yoziladi?",
+      "a": "Sahifa o‘rtasiga «Tavsifnoma» sarlavhasi qo‘yiladi, so‘ng kim haqida ekani yoziladi: F.I.Sh., tug‘ilgan yili, sinfi, kursi yoki lavozimi. Asosiy qismda o‘qish yoki ish faoliyati, natijalar, bilim va fazilatlar uchinchi shaxsda, aniq faktlar bilan bayon qilinadi. Oxirida qayerga taqdim etish uchun berilgani, sana, imzolovchining lavozimi va imzosi, kerak bo‘lsa muhr bo‘ladi. Tashkilotning o‘z shakli bo‘lsa, o‘sha shakl ustun."
+    },
+    {
+      "q": "Tavsifnoma va tavsiyanomaning farqi nima?",
+      "a": "Tavsifnoma kishining o‘qishi yoki ishini tashkilot nomidan xolis tasvirlaydi va uchinchi shaxsda yoziladi. Tavsiyanoma esa uni aniq lavozim, o‘qish yoki dasturga tavsiya qiladi: uni odatda tavsiya beruvchi o‘z nomidan, ko‘pincha birinchi shaxsda yozadi va oxirida aniq tavsiya bo‘ladi. Qaysi biri kerakligini hujjatni so‘ragan tashkilotdan aniqlang."
+    },
+    {
+      "q": "Tavsifnomani kim yozadi va kim imzolaydi?",
+      "a": "O‘quvchiga odatda sinf rahbari yozadi, maktab rahbariyati imzolaydi. Amaliyotchi talabaga — u amaliyot o‘tagan tashkilotdagi amaliyot rahbari. Xodimga bevosita rahbar yoki kadrlar bo‘limi tayyorlaydi, tashkilot rahbari imzolaydi. Qoralamani kim yozganidan qat’i nazar, mazmun uchun imzolovchi javob beradi."
+    },
+    {
+      "q": "Tavsifnomaga muhr qo‘yiladimi?",
+      "a": "Ko‘p tashkilotlar tavsifnomani blankada beradi va imzoni muhr bilan tasdiqlaydi, lekin bu talab hamma joyda bir xil emas. Hujjatni qabul qiladigan tashkilotdan muhr, chiqish raqami yoki boshqa rekvizit kerakmi — oldindan so‘rang."
+    },
+    {
+      "q": "AI yozgan tavsifnomani ishlatsa bo‘ladimi?",
+      "a": "AI qoralama yozishga yordam beradi, lekin imzolovchi uni o‘qib chiqishi, faktlarni tekshirishi va o‘z bahosiga moslashi kerak: imzo qo‘ygan odam mazmun uchun javob beradi. GPTBot.uz chati faqat matn yozadi — .docx fayl, blanka, imzo yoki muhr bermaydi. Bu maqola yuridik maslahat emas."
+    },
+    {
+      "q": "Tavsifnoma ruscha qanday ataladi?",
+      "a": "Rus tilida tavsifnoma «характеристика», tavsiyanoma esa «рекомендательное письмо» deb ataladi. Hujjat qaysi tilda kerakligini uni qabul qiladigan tashkilot belgilaydi. AI chat qoralamani o‘zbek yoki rus tilida yozib beradi, tarjimani esa shu tilni yaxshi biladigan odam bilan tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda tavsifnoma qoralamasi",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: tavsifnoma qoralamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "anchor": "Tushuntirish xati va ariza: shartli namunalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume: tuzilma, namuna va AI bilan tekshiruv",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "Chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Tavsifnoma namunasi: tuzilma va uchta shartli namuna",
+  "ogDescription": "Tavsifnoma va tavsiyanoma farqi, o‘quvchi, amaliyotchi talaba va xodim uchun shartli namunalar, AI chatda qoralama va imzolashdan oldingi tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+  "hreflangUz": "/uz/blog/tavsifnoma-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Pupils, students, employees and the managers who sign references in Uzbekistan"
+  },
+  "breadcrumbLabel": "Tavsifnoma namunasi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-24",
+  "dateModified": "2026-10-24",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tavsifnomada bu siz aytmagan fazilat yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-10-24T00:00:00.000Z",
+  "createdAt": "2026-10-24T00:00:00.000Z"
+}

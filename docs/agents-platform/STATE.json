@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO growth waves per owner order 24.10: wave 1 committed in source (growth fixes W1-01..W1-14, RU-UZ translator pages published, protected revision 2026-10-24-wave1); guarded release pending",
+  "current_stage": "SEO growth waves per owner order 24.10: wave 1 deployed (a1f56a62, f97295b5); wave 1b committed in source (three Uzbek guides tavsifnoma / rasmiy xat / tabrik, UZ Telegram hub H1 + BotFather/constructor/developer section, llms-full superset; protected revision 2026-10-24-wave1b); guarded release pending",
   "stage_status": "in_progress",
-  "last_completed_stage": "Wave 1 source commit on seo/chat-snippets-translator-20261024 (see seo_wave1_20261024); chat snippets deployed and verified before it (d0264730, d54d5b61)",
-  "next_stage": "Wave 1 guarded release on owner command: build:production, deploy_runner.py check|deploy with DR_ROOT=this worktree, live readback, IndexNow for the changed URLs, URL Inspection; then wave 2 (BACKLOG.md §5)",
+  "last_completed_stage": "Wave 1b source commit on seo/chat-snippets-translator-20261024 (see seo_wave1b_20261024); wave 1 deployed and verified before it (a1f56a62, f97295b5)",
+  "next_stage": "Wave 1b guarded release on owner command: build:production, deploy_runner.py check|deploy with DR_ROOT=this worktree, live readback of the three guides, the hub and /, IndexNow for the changed URLs, URL Inspection; then the remaining wave 2 items (NEXT_RELEASES.md dates)",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-24T19:30:00.000Z",
+  "updated_at": "2026-10-25T12:00:00.000Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2740,5 +2740,34 @@
     "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «Волна 1 роста 24.10»",
     "postDeploy": "live readback of both translator pages, / and /uz/suniy-intellekt/; robots.txt?v=<ts> Clean-param; llms.txt single Cache-Control; IndexNow for the 23 changed URLs; inspect_urls on 2-3 non-protected URLs for the BreadcrumbList name",
     "businessOutcomes": "Unmeasured: equal 28-day windows from confirmed recrawl, Uzbekistan and other countries apart; no ranking or traffic guarantee."
+  },
+  "seo_wave1b_20261024": {
+    "status": "committed_not_deployed",
+    "ownerOrder": "2026-10-24: implement the growth backlog autonomously and deploy; publish wave 1b now (tabrik live well before the December peak) instead of after ≈07.11",
+    "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-24-wave1b/)",
+    "base": "13d2da1f (production f97295b5 + its release record)",
+    "production": "f97295b5225bf68e8f94d35265a161bfa56fdf47 (deployment a1f56a62)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "backlog": "docs/seo/research/2026-10-24-growth-audit/backlog.json W2-03..W2-07; lenses L3-demand-gaps.md, L6-competitor-gap.md, L4-technical.md, l3-data/",
+    "items": {
+      "W2-03": "done: new /uz/blog/tavsifnoma-namuna/ (pair C49); placeholders only; not-legal-advice and signer notes",
+      "W2-04": "done: new /uz/blog/rasmiy-xat-yozish/ (pairs C50, C52) + one linkp from /uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "W2-05": "done: new /uz/blog/tabrik-yozish/ (pair C51), 30 original greetings; specified title 73 chars shortened to 59 keeping both exact phrases",
+      "W2-06": "done: /uz/telegram-bot-biznes-uchun/ H1 «Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish», BotFather / no-code constructor / developer section with a 3-row table, link to /ru/blog/kak-sozdat-telegram-bota/, 2 FAQ; title, description, keywords, prices unchanged",
+      "W2-07": "done: dist/llms-full.txt = cluster notes + llms.txt verbatim + index and bodies of the 28 Markdown twins (≈586 KB); twins drop links to unpublished articles; llms.txt +3 intent lines"
+    },
+    "newUrls": ["/uz/blog/tavsifnoma-namuna/", "/uz/blog/rasmiy-xat-yozish/", "/uz/blog/tabrik-yozish/"],
+    "intentManifest": "pairs C49, C50, C51 (UZ chat as commercial side, manifest only) and C52 (tushuntirish/ariza guide vs rasmiy xat guide, DIFFERENTIATE)",
+    "demandPolicy": "11 rows from l3-data (Google Ads, location 2860, 2026-10-24); «rasmiy xat yozish» recorded as 0 / UNMEASURED (no Ads bucket)",
+    "protectedBaseline": "docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json",
+    "protectedPreviousRevision": "docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json",
+    "protectedChange": "/ only: internalLinks 297 -> 300 and body text (+3 guide titles, hub label replaced by its new H1); HTML otherwise byte for byte; the other 9 protected pages byte-identical, both chats included",
+    "protectionCheck": "before revision: / internalLinks + bodyTextSha256 only; after: 10/10",
+    "tailwindTrap": "Tailwind scans scripts/**: a new identifier in scripts/generate-llm-markdown.ts emitted one extra utility and renamed the shared index-*.css on every page; renamed, the shared CSS is index-B7Z1XlOc.css as in production",
+    "build": "build:fast exit 0 (305 sitemap entries, 173 articles); build:production not run (llms-full warns about /uz/taqdimot-ai/, a studio page that only build:production builds)",
+    "tests": "33 SEO/content files: no new failures; only the known seo-push-revision R3-6/R3-9, react-router-v8-migration 3/26 and seo-revenue-claims pricing free limits fail. tsc -b and typecheck:functions exit 0; eslint on changed TS 0; seo-audit no critical; scan:secrets only the pre-existing tests/telegram-assistant.test.ts:639",
+    "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «Волна 1b 24.10»",
+    "postDeploy": "live readback of the three guides (200, index, self-canonical, in sitemap), /uz/telegram-bot-biznes-uchun/ H1, / list, /llms-full.txt size; IndexNow for the 6 changed pages (/, the 3 guides, the hub, the tushuntirish guide); URL Inspection request for the 3 guides",
+    "businessOutcomes": "Unmeasured: guides read like C41 (>= 100 Uzbekistan impressions within 21 days of a confirmed recrawl); «yangi yil tabriklari» read in December–January; no ranking or traffic guarantee."
   }
 }

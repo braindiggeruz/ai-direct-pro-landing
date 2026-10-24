@@ -207,6 +207,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Xat shaxs nomidan emas, tashkilot nomidan boshqa tashkilotga yozilsa — masalan, narx so‘rash, to‘lovni kafolatlash yoki shartnoma bo‘yicha e’tiroz bildirish uchun — bu ariza emas, rasmiy xizmat xati bo‘ladi. Uning rekvizitlari va shartli namunalari {rasmiyXat} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "rasmiyXat",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "rasmiy xat yozish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "namuna-tatil",
       "text": "Ariza namunasi: ta’til so‘rash (shartli)"

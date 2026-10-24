@@ -183,6 +183,64 @@ test('the wave-1 revision changes only the homepage list: the two published tran
   }
 });
 
+test('the wave-1b revision changes only the homepage list: three new guides and the Telegram hub\'s H1, nothing else on the ten', () => {
+  type Wave1b = Revision & {
+    reviewedChanges: Array<{ pathname: string; fields: string[]; reason: string; htmlSha256: string }>;
+    invisibleToGate: Array<{ change: string }>;
+    measurement: string;
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const WAVE1 = 'docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json';
+  const current = readRevision('docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json') as Wave1b;
+  const previous = readRevision(WAVE1) as Wave1b;
+  assert.equal(current.previousRevision, WAVE1);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/', ['bodyTextSha256', 'internalLinks']]]);
+  // The nine other protected pages, both chats included, keep their HTML byte for byte
+  // (chat snippet window from 24.10, download guide P-CTR ≈06–10.11).
+  for (const page of current.pages) {
+    if (page.pathname === '/') continue;
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+    assert.equal(page.htmlSha256, before.htmlSha256, page.pathname);
+  }
+  const guides = ['/uz/blog/rasmiy-xat-yozish/', '/uz/blog/tabrik-yozish/', '/uz/blog/tavsifnoma-namuna/'];
+  const home = current.pages.find((p) => p.pathname === '/')!;
+  const homeBefore = previous.pages.find((p) => p.pathname === '/')!;
+  const links = (p: typeof home) => p.contract.internalLinks as string[];
+  assert.deepEqual(links(home).filter((l) => !links(homeBefore).includes(l)), guides);
+  assert.deepEqual(links(homeBefore).filter((l) => !links(home).includes(l)), []);
+  for (const key of ['title', 'h1', 'description', 'canonical', 'robots', 'googlebot', 'hreflang']) {
+    assert.deepEqual(home.contract[key], homeBefore.contract[key], `/: ${key}`);
+  }
+  // The three guide titles (from content/, as the shell prints them) and the hub's new H1 are the whole text change.
+  const doc = (file: string) => JSON.parse(fs.readFileSync(path.join(REPO, file), 'utf8')) as BlogArticle & Page;
+  const titles = ['tavsifnoma-namuna', 'rasmiy-xat-yozish', 'tabrik-yozish'].map((slug) => doc(`content/blog/uz/${slug}.json`).title);
+  const hub = doc('content/pages/uz/telegram-bot-biznes-uchun.json');
+  assert.equal(hub.h1, 'Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish');
+  let text = home.bodyText;
+  for (const title of titles) {
+    assert.equal(text.split(`${title} `).length, 2, title);
+    text = text.replace(`${title} `, '');
+  }
+  assert.equal(text.split(hub.h1).length, 2, hub.h1);
+  assert.equal(text.replace(hub.h1, 'Telegram bot biznes uchun: savdoni avtomatlashtirish'), homeBefore.bodyText);
+  // Honest labels: no ChatGPT, official or model claim on the homepage entries.
+  for (const label of [...titles, hub.h1]) assert.doesNotMatch(label, /chatgpt|rasmiy sayt|официальн|official|GPT-4|GPT-5|OpenAI/i, label);
+  assert.match(home.htmlSha256, /^[0-9a-f]{64}$/);
+  assert.notEqual(home.htmlSha256, homeBefore.htmlSha256);
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /byte-identical/);
+  assert.match(invisible, /llms-full\.txt is built as a superset of llms\.txt/);
+  assert.match(invisible, /Markdown twin/);
+  assert.match(invisible, /sitemap lastmod of \/ moves/);
+  assert.match(current.measurement, /28-day window/);
+  assert.match(current.measurement, /C49–C51/);
+  for (const text of [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

@@ -150,7 +150,16 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // chats differ only by the chat bundle's name (translator merge 1a773ee2).
 // BreadcrumbList names (W1-14), Clean-param (W1-12) and the llms/md
 // Cache-Control detach (W1-13) stay outside the gate; invisibleToGate lists them.
-export const BASELINE = 'docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json';
+// The 2026-10-24-wave1b revision (owner order of 24.10: growth backlog wave 1b,
+// published now instead of after ≈07.11) changes the same two fields on the
+// same page: the homepage shell lists the three new Uzbek guides (tavsifnoma,
+// rasmiy xat, tabrik; by title, newest first) and the new H1 of
+// /uz/telegram-bot-biznes-uchun/ (same href). internalLinks +3, body text by
+// those four labels only; the HTML is otherwise the predecessor's byte for
+// byte. The other nine protected pages are byte-identical. The llms-full
+// superset (W2-07) and the dropped draft link in one Markdown twin stay outside
+// the gate; invisibleToGate lists them.
+export const BASELINE = 'docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

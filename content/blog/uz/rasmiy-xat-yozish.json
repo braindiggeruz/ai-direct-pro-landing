@@ -1,0 +1,418 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "rasmiy-xat-yozish",
+  "url": "/uz/blog/rasmiy-xat-yozish/",
+  "title": "Rasmiy xat yozish: tuzilma, namuna va AI bilan qoralama",
+  "description": "Rasmiy xat qanday yoziladi: rekvizitlar, sana va raqam, murojaat, asosiy qism, imzo. So‘rov, kafolat va da’vo xati namunalari, AI bilan qoralama.",
+  "h1": "Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "rasmiy xat yozish",
+    "xat yozish",
+    "xizmat xati namuna",
+    "rasmiy xat namunasi",
+    "xat yozish namunasi"
+  ],
+  "intro": "Rasmiy xat (xizmat xati) — tashkilot nomidan boshqa tashkilotga, idoraga yoki mansabdor shaxsga yoziladigan hujjat: unda biror narsa so‘raladi, kafolat beriladi, e’tiroz bildiriladi yoki minnatdorchilik izhor etiladi. Quyida rasmiy xat tuzilmasi (rekvizitlar, sana va raqam, murojaat, asosiy qism, imzo), to‘rt turdagi xat uchun shartli namunalar, AI chat uchun tayyor so‘rovlar va yuborishdan oldingi tekshiruv ro‘yxati berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: rasmiy xat tashkilot blankasida yoziladi va odatda quyidagi tartibda bo‘ladi: rekvizitlar, sana va chiquvchi raqam, adresat, mavzu, murojaat, asosiy qism, ilovalar va imzo. Matn tashkilot nomidan, vazmin ohangda yoziladi; bitta xatda bitta masala ko‘riladi. Aniq talablar tashkilotning ish yuritish tartibiga bog‘liq. GPTBot.uz AI chati matnli qoralama tayyorlashga yordam beradi, lekin blanka, .docx fayl yoki imzolangan hujjat bermaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Qoralamani hoziroq {chat} yordamida yozib ko‘ring, ro‘yxatdan o‘tish shart emas. Masalan: «Mebel ishlab chiqaruvchi korxona nomidan yetkazib beruvchiga rasmiy so‘rov xati yoz: 200 dona eshik tutqichi uchun narx taklifi va yetkazib berish muddati kerak, javobni 10 kun ichida so‘raymiz. Tashkilot nomi, F.I.Sh. va sana o‘rniga kvadrat qavsda belgi qoldir.» Haqiqiy rekvizitlar, hisob raqami va xodimlarning ismlarini chatga yozmang.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Rasmiy xat nima va qachon kerak bo‘ladi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy xat — tashkilotlar o‘rtasidagi yozishmaning asosiy shakli. Uni korxona, maktab yoki idora nomidan rahbar yoki vakolatli xodim imzolaydi. Og‘zaki kelishuvdan farqli o‘laroq, xat ro‘yxatga olinadi va keyinchalik nima so‘ralgani yoki va’da qilinganini ko‘rsatuvchi yozma iz bo‘lib qoladi. Shuning uchun undagi har bir sana, summa va shartnoma raqami aniq bo‘lishi kerak."
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy xat ko‘pincha quyidagi vaziyatlarda yoziladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Boshqa tashkilotdan ma’lumot, hujjat, narx taklifi yoki ruxsat so‘rash.",
+        "To‘lov, ishni bajarish yoki hujjatni keyinroq topshirish bo‘yicha kafolat berish.",
+        "Shartnoma shartlari bajarilmagani haqida e’tiroz bildirish va talab qo‘yish.",
+        "Hamkor yoki mijozga hamkorlik uchun rahmat aytish.",
+        "Kelgan xatga javob berish yoki rekvizitlar o‘zgargani haqida xabar qilish."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ariza va tushuntirish xati ham rasmiy hujjat, lekin ular odatda shaxs nomidan o‘z rahbariga yoki o‘qish joyiga yoziladi va tuzilmasi boshqacha. Ularning namunalari alohida qo‘llanmada: {ariza}. Do‘stga yoki yaqiningizga yoziladigan shaxsiy xat esa erkin janr — bu maqola faqat rasmiy yozishmalar haqida.",
+      "links": [
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "tushuntirish xati va ariza yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Rasmiy xat tuzilmasi: rekvizitlardan imzogacha"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi jadvalda xizmat xatining keng tarqalgan tuzilmasi berilgan. Bu majburiy me’yor emas: ko‘p tashkilotlarda tayyor blanka va ish yuritish bo‘yicha ichki yo‘riqnoma bo‘ladi, ular bilan farq bo‘lsa, tashkilotingiz talabiga amal qiling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Qayerda turadi"
+      ],
+      "rows": [
+        [
+          "Rekvizitlar",
+          "Tashkilot nomi, manzili, telefoni va e-mail manzili; kerak bo‘lsa — STIR va bank rekvizitlari",
+          "Yuqorida; odatda blankada tayyor bo‘ladi"
+        ],
+        [
+          "Sana va chiquvchi raqam",
+          "Xat yozilgan sana va yozishmalar jurnalidagi raqam; javob xatida — qaysi xatga javob ekani (uning sanasi va raqami)",
+          "Rekvizitlar ostida, chap tomonda"
+        ],
+        [
+          "Adresat",
+          "Qabul qiluvchi tashkilot, rahbarning lavozimi va F.I.Sh. — «… direktori [F.I.Sh.]ga» shaklida",
+          "Yuqori o‘ng tomonda"
+        ],
+        [
+          "Mavzu",
+          "Xat nima haqida ekani, bir qatorda: «[mahsulot] yetkazib berish muddati haqida»",
+          "Matndan oldin, chap tomonda"
+        ],
+        [
+          "Murojaat",
+          "«Hurmatli [Ism va otasining ismi]!»",
+          "Matn boshida, alohida qatorda"
+        ],
+        [
+          "Asosiy qism",
+          "Asos (xat nima sababdan yozilayotgani), mazmun (fakt, so‘rov yoki taklif) va xulosa (nima kutilmoqda, qaysi muddatgacha)",
+          "Murojaatdan keyin"
+        ],
+        [
+          "Ilovalar",
+          "Ilova qilingan hujjatlar nomi va varaqlar soni",
+          "Asosiy matndan keyin"
+        ],
+        [
+          "Imzo",
+          "Rahbarning lavozimi, imzosi va F.I.Sh.; tashkilotda talab bo‘lsa — muhr",
+          "Pastda"
+        ],
+        [
+          "Ijrochi",
+          "Xatni tayyorlagan xodimning F.I.Sh. va telefoni — savol tug‘ilsa, kim bilan bog‘lanish kerakligi",
+          "Eng pastda, kichik shriftda"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Uslub: rasmiy, lekin tushunarli"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tashkilot nomidan ko‘plikda yozing: «so‘raymiz», «ma’lum qilamiz», «kafolatlaymiz».",
+        "Adresatga «Siz» deb murojaat qiling; rasmiy xatda bu so‘z odatda bosh harf bilan yoziladi.",
+        "Birinchi gapdayoq xat nima uchun yozilganini ayting.",
+        "«Tez orada» o‘rniga aniq sana va muddat yozing; raqamlarni xotiradan emas, hujjatdan ko‘chiring.",
+        "Hajmi odatda bir sahifadan oshmaydi; tafsilotlarni ilovaga chiqaring.",
+        "Da’vo xatida ham hissiyot va ayblovlarsiz, faqat faktlar bilan yozing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turlari",
+      "text": "Rasmiy xat turlari: so‘rov, kafolat, da’vo va minnatdorchilik xati"
+    },
+    {
+      "type": "p",
+      "text": "Xizmat xatlari maqsadiga ko‘ra bir necha turga bo‘linadi. Tuzilmasi deyarli bir xil, faqat asosiy qismning mazmuni o‘zgaradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Xat turi",
+        "Qachon yoziladi",
+        "Asosiy qismda nima bo‘ladi"
+      ],
+      "rows": [
+        [
+          "So‘rov xati",
+          "Boshqa tashkilotdan ma’lumot, hujjat, narx taklifi yoki ruxsat kerak bo‘lganda",
+          "Nima kerakligi, nima uchun kerakligi va javobni qaysi muddatgacha, qayerga yuborish kerakligi"
+        ],
+        [
+          "Kafolat xati",
+          "Tashkilot biror majburiyatni o‘z zimmasiga olganda: to‘lov, ishni bajarish, hujjatni keyinroq topshirish",
+          "Aniq majburiyat, summa yoki hajm, muddat va asos bo‘lgan shartnoma"
+        ],
+        [
+          "Da’vo xati",
+          "Shartnoma shartlari bajarilmaganda: muddat o‘tib ketgani, nuqsonli mahsulot, to‘lanmagan qarz",
+          "Shartnoma raqami va sanasi, nima buzilgani, talab va javob muddati"
+        ],
+        [
+          "Minnatdorchilik xati",
+          "Hamkor, mijoz yoki boshqa tashkilot xodimiga rahmat aytish uchun",
+          "Aniq nima uchun rahmat aytilayotgani va uning natijasi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kafolat va da’vo xatlari keyinchalik huquqiy ahamiyatga ega bo‘lishi mumkin. Shartnomada talab yuborish tartibi yoki javob muddati yozilgan bo‘lsa, xatni o‘sha shartlarga moslang; summa katta yoki nizo jiddiy bo‘lsa, yurist bilan maslahatlashing. Bu maqola yuridik maslahat emas: talablar tashkilotga va vaziyatga qarab farq qiladi, yakuniy matnni esa xatni imzolaydigan shaxs tekshiradi."
+    },
+    {
+      "type": "h2",
+      "id": "namunalar",
+      "text": "Xizmat xati namunalari (shartli)"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi namunalar — shartli. Kvadrat qavsdagi joylarga o‘z ma’lumotlaringizni qo‘yasiz, summa, muddat va shartnoma bandlarini esa hujjatlaringizdan olasiz. Qatorlar «·» belgisi bilan ajratilgan: qog‘ozda har biri alohida qatorda turadi."
+    },
+    {
+      "type": "h3",
+      "text": "So‘rov xati namunasi"
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot nomi], [manzil], [telefon] · [sana] № [raqam] · [Qabul qiluvchi tashkilot] direktori [F.I.Sh.]ga · Narx taklifi haqida · Hurmatli [Ism va otasining ismi]! · [Tashkilot nomi] [mahsulot yoki xizmat] xarid qilishni rejalashtirmoqda. Sizdan [miqdor] [mahsulot] uchun narx taklifini va yetkazib berish muddatlarini [sana]gacha yuborishingizni so‘raymiz. Taklifni [e-mail] manziliga yuborishingiz mumkin. · Hurmat bilan, · [lavozim] [imzo] [F.I.Sh.] · Ijrochi: [F.I.Sh.], [telefon]"
+    },
+    {
+      "type": "h3",
+      "text": "Kafolat xati namunasi"
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot rekvizitlari] · [sana] № [raqam] · [Qabul qiluvchi tashkilot] direktori [F.I.Sh.]ga · To‘lov kafolati haqida · Hurmatli [Ism va otasining ismi]! · [Tashkilot nomi] [sana]dagi [raqam]-sonli shartnoma bo‘yicha [summa] miqdoridagi to‘lovni [sana]gacha amalga oshirishni kafolatlaydi. To‘lov shartnomada ko‘rsatilgan hisob raqamiga o‘tkaziladi. · Hurmat bilan, · Direktor [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "p",
+      "text": "To‘lov kafolatida ba’zi tashkilotlar rahbar bilan birga bosh buxgalter imzosini ham so‘raydi. Buni xatni qabul qiladigan tomondan oldindan aniqlang va faqat tashkilotingiz haqiqatan bajara oladigan majburiyatni yozing."
+    },
+    {
+      "type": "h3",
+      "text": "Da’vo xati namunasi"
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot rekvizitlari] · [sana] № [raqam] · [Yetkazib beruvchi tashkilot] direktori [F.I.Sh.]ga · [sana]dagi [raqam]-sonli shartnoma shartlari bajarilmagani haqida · Hurmatli [Ism va otasining ismi]! · Shartnomaga ko‘ra [mahsulot] [sana]gacha yetkazib berilishi kerak edi. Bugungi kungacha mahsulot yetkazib berilmagan. Shartnomaning [band raqami]-bandiga muvofiq mahsulotni [sana]gacha yetkazib berishingizni so‘raymiz. Javobingizni [muddat] ichida kutamiz. · Ilova: shartnoma nusxasi, [nechta] varaq. · Hurmat bilan, · Direktor [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "h3",
+      "text": "Minnatdorchilik xati namunasi"
+    },
+    {
+      "type": "quote",
+      "text": "[Tashkilot rekvizitlari] · [sana] № [raqam] · [Hamkor tashkilot] direktori [F.I.Sh.]ga · Hurmatli [Ism va otasining ismi]! · [Tashkilot nomi] jamoasi nomidan [loyiha yoki tadbir nomi]ni o‘tkazishda ko‘rsatgan yordamingiz uchun minnatdorchilik bildiramiz. [Aniq natija: nima qilindi va nima o‘zgardi.] Kelgusida ham hamkorlikni davom ettirishga umid qilamiz. · Hurmat bilan, · [lavozim] [imzo] [F.I.Sh.]"
+    },
+    {
+      "type": "p",
+      "text": "Gaplarni so‘zma-so‘z ko‘chirish shart emas, muhimi — tuzilma: asos, mazmun va aniq xulosa."
+    },
+    {
+      "type": "h2",
+      "id": "yuborish",
+      "text": "Qog‘ozda, e-mailda yoki elektron tizimda yuborish"
+    },
+    {
+      "type": "p",
+      "text": "Odatda xat blankada chop etiladi, rahbar imzolaydi, so‘ng asl nusxa pochta orqali yoki skanerlangan nusxasi e-mail orqali yuboriladi. E-mailda xat mavzusini xabarning «Mavzu» qatoriga yozing va imzolangan xatni PDF ko‘rinishida ilova qiling. Davlat idoralari xatlarni o‘z kanallari orqali va o‘z talablari bilan qabul qilishi mumkin — ularni idoraning rasmiy saytidan yoki devonxonasidan aniqlang. Chiquvchi raqam va yuborilgan sanani jurnalga yozib qo‘ying."
+    },
+    {
+      "type": "h2",
+      "id": "ai-bilan",
+      "text": "AI chat bilan rasmiy xat qoralamasi: tayyor so‘rovlar"
+    },
+    {
+      "type": "p",
+      "text": "AI chat sizning xom faktlaringizdan rasmiy uslubdagi qoralama tuzadi, ortiqcha gaplarni qisqartiradi va ohangni yumshatadi yoki qat’iyroq qiladi. Haqiqiy nomlar, rekvizitlar va summalar o‘rniga belgi qoldiring — ularni yakuniy hujjatga o‘zingiz qo‘shasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Tayyor so‘rov"
+      ],
+      "rows": [
+        [
+          "So‘rov xati",
+          "«[Tashkilot turi] nomidan [qabul qiluvchi tashkilot turi]ga rasmiy so‘rov xati yoz: bizga [nima kerak], javob [muddat] ichida kerak. Tuzilma: sana va raqam, adresat, mavzu, murojaat, asosiy qism, imzo. Nom va rekvizitlar o‘rniga kvadrat qavsda belgi qoldir.»"
+        ],
+        [
+          "Kafolat xati",
+          "«To‘lov kafolati haqida rasmiy xat yoz: shartnoma [raqam], summa [summa], to‘lov muddati [sana]. Faqat men bergan faktlardan foydalan, o‘zingdan shart yoki majburiyat qo‘shma.»"
+        ],
+        [
+          "Da’vo xati",
+          "«Yetkazib beruvchiga vazmin va rasmiy ohangda da’vo xati yoz: shartnoma bo‘yicha [nima bajarilmagan], talabimiz — [talab], javob muddati — [muddat]. Qonun moddalarini o‘zingdan qo‘shma.»"
+        ],
+        [
+          "Tahrir",
+          "«Quyidagi xizmat xatini rasmiy uslubga keltir va takrorlarni olib tashla. Mazmun, sana va raqamlarni o‘zgartirma: [matn]»"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chat o‘zbek va rus tillarida matn bilan ishlaydi, ro‘yxatdan o‘tishni talab qilmaydi va unda jami 3 ta bepul sinov javobi bor. Sinov har kuni yangilanmaydi; keyin davom etish uchun AI paket kerak. Chat matnli qoralama beradi: blanka yoki .docx fayl yaratmaydi va xatni hech qayerga yubormaydi. U xato qilishi yoki siz aytmagan faktni qo‘shishi mumkin, shuning uchun har bir sana, summa va bandni o‘zingiz tekshiring."
+    },
+    {
+      "type": "linkp",
+      "text": "Shaxsiy ma’lumot va tijorat ma’lumotlarini chatga yozmang: savol GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi. STIR, hisob raqami, xodimlarning F.I.Sh. va telefonlari o‘rniga [STIR], [hisob raqami], [F.I.Sh.] kabi belgilardan foydalaning. Chat limitlari va xavfsizlik qoidalari {qollanma} sahifasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI chatdan foydalanish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Adresat to‘g‘rimi: tashkilot nomi, rahbarning lavozimi va F.I.Sh. aniqmi?",
+        "Sana va chiquvchi raqam qo‘yilganmi?",
+        "Asosiy qismda nima so‘ralayotgani yoki kafolatlanayotgani va qaysi muddatgacha ekani aniqmi?",
+        "Summa, sana va shartnoma raqamlari hujjatlar bilan solishtirilganmi?",
+        "Kvadrat qavsdagi har bir belgi haqiqiy ma’lumot bilan almashtirilganmi?",
+        "Ilovalar qo‘shilganmi, xatni vakolatli shaxs imzolaganmi?",
+        "Xat nusxasi va yuborilganini tasdiqlovchi belgi saqlab qo‘yilganmi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: AI nimani qila olmaydi"
+    },
+    {
+      "type": "p",
+      "text": "AI chat tashkilotingiz ish yuritish tartibini, shartnoma shartlarini va hamkor bilan oldingi yozishmalarni bilmaydi. U huquqiy oqibatlarni baholamaydi, qonun moddalarini noto‘g‘ri keltirishi mumkin, xatni imzolamaydi va ro‘yxatga olmaydi. Qoralamani to‘liq o‘qing, faktlarni hujjatlar bilan solishtiring, kafolat yoki da’vo xatida pul va muddat masalasi jiddiy bo‘lsa, yakuniy matnni yurist yoki buxgalter bilan kelishing."
+    },
+    {
+      "type": "cta",
+      "text": "Rasmiy xat qoralamasini AI chatda yozish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Rasmiy xat qanday yoziladi?",
+      "a": "Tashkilot blankasida yuqorida rekvizitlar, ularning ostida sana va chiquvchi raqam, o‘ng tomonda adresat (tashkilot, lavozim va F.I.Sh.) yoziladi. So‘ng bir qatorlik mavzu, «Hurmatli …!» murojaati, asosiy qism (asos, mazmun, xulosa), ilovalar va rahbar imzosi keladi. Tashkilotda o‘z yo‘riqnomasi yoki blankasi bo‘lsa, o‘sha ustun."
+    },
+    {
+      "q": "Xizmat xati arizadan nimasi bilan farq qiladi?",
+      "a": "Xizmat xati odatda tashkilot nomidan boshqa tashkilotga yoziladi va uni rahbar imzolaydi. Ariza esa shaxs nomidan biror narsani so‘rab, ko‘pincha o‘z rahbariga yoki o‘qish joyiga yoziladi va uni arizachining o‘zi imzolaydi. Ariza va tushuntirish xati namunalari alohida qo‘llanmada berilgan."
+    },
+    {
+      "q": "Kafolat xatini kim imzolaydi?",
+      "a": "Odatda tashkilot rahbari yoki majburiyat olishga vakolati bor shaxs. To‘lov kafolatida ba’zi tashkilotlar bosh buxgalter imzosini ham so‘raydi. Kim imzolashi kerakligini tashkilotingiz tartibidan va xatni qabul qiladigan tomondan aniqlang."
+    },
+    {
+      "q": "Da’vo xatida qanday javob muddatini ko‘rsatish kerak?",
+      "a": "Avval shartnomani o‘qing: unda talab yuborish tartibi va javob muddati yozilgan bo‘lishi mumkin — bo‘lsa, xatda o‘sha muddatni ko‘rsating. Shartnomada bunday band bo‘lmasa yoki nizo jiddiy bo‘lsa, muddat va talabni yurist bilan kelishing. Bu yuridik maslahat emas."
+    },
+    {
+      "q": "Maktabda «rasmiy xat yozish» topshirig‘i berilsa, nima qilish kerak?",
+      "a": "Tuzilma xuddi shunday: sana, adresat, murojaat, asosiy qism va imzo. Tashkilot va ismlar shartli bo‘ladi, lekin barcha qismlar joyida turishi kerak. O‘qituvchi bergan namuna yoki darslikdagi shakl bo‘lsa, o‘shanga amal qiling; AI chatdan tuzilmani tushunish va o‘z matningizni tekshirish uchun foydalaning."
+    },
+    {
+      "q": "AI yozgan rasmiy xatni yuborsa bo‘ladimi?",
+      "a": "AI qoralama tuzishda yordam beradi, lekin xat tashkilotingiz nomidan ketadi va undagi har bir fakt, summa va majburiyat uchun imzolagan shaxs javob beradi. Qoralamani o‘qing, faktlarni hujjatlar bilan solishtiring, blankaga joylang va imzolashdan oldin mas’ul shaxsga ko‘rsating."
+    },
+    {
+      "q": "Chat blanka yoki .docx fayl beradimi?",
+      "a": "Yo‘q. GPTBot.uz AI chati faqat matn yozadi: blanka, .docx yoki PDF fayl bermaydi, imzo va muhr qo‘ymaydi. Matnni tashkilotingiz blankasiga Word yoki Google Docs’da o‘zingiz joylaysiz."
+    }
+  ],
+  "cta": {
+    "label": "AI chatda xat qoralamasini yozish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: rasmiy xat qoralamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "anchor": "Tushuntirish xati va ariza: tuzilma va namuna",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Rasmiy xat yozish: tuzilma va xizmat xati namunalari",
+  "ogDescription": "Xizmat xati tuzilmasi, so‘rov, kafolat, da’vo va minnatdorchilik xati uchun shartli namunalar, AI chatda qoralama va yuborishdan oldingi tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/",
+  "hreflangUz": "/uz/blog/rasmiy-xat-yozish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Office staff, managers and students in Uzbekistan who write official letters"
+  },
+  "breadcrumbLabel": "Rasmiy xat yozish",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-10-24",
+  "dateModified": "2026-10-24",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rasmiy xatda bu noto‘g‘ri sana, summa, shartnoma bandi yoki qonun moddasi ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-10-24T00:00:00.000Z",
+  "createdAt": "2026-10-24T00:00:00.000Z"
+}

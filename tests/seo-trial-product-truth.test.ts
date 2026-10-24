@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 import test from 'node:test';
 import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
+import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
+import { DESCRIBED_REDIRECTS, buildLlmsFull, renderTwins, siteUrlPaths, type LlmTwin } from '../scripts/generate-llm-markdown';
+import { LLM_MARKDOWN_URLS } from '../scripts/llm-pages';
+import { STATIC_ROUTES } from '../src/shared/audit';
+import type { BlogArticle, Page, Redirect } from '../src/shared/types';
 
 const read = (file: string) => fs.readFileSync(file, 'utf8');
 const chatFiles = ['content/pages/ru/gpt-chat.json', 'content/pages/uz/gpt-uzbek-tilida.json'];
@@ -69,4 +75,74 @@ test('official login help keeps the official destination first and identifies th
   assert.match(body, /hisobingizga kirishni tiklamaydi/);
   assert.equal(article.datePublished, '2026-09-01', 'a substantive refresh must not invent a new publication date');
   assert.equal(article.canonical, 'https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/');
+});
+
+// Growth backlog W2-07 (2026-10-24 audit, L4-08): scripts/generate-llm-markdown.ts
+// builds dist/llms-full.txt from the cluster notes in public/llms-full.txt, all
+// of public/llms.txt and the bodies of the curated Markdown twins. These tests
+// build the same file from content/ and public/, so they need no dist.
+const lf = (text: string) => text.replace(/\r\n?/g, '\n').trim();
+let built: { twins: LlmTwin[]; full: string } | undefined;
+function llmsFull() {
+  if (!built) {
+    const { twins } = renderTwins();
+    built = { twins, full: buildLlmsFull(read('public/llms-full.txt'), read('public/llms.txt'), twins) };
+  }
+  return built;
+}
+function contentDocs<T>(dir: string): T[] {
+  return fs.readdirSync(dir, { recursive: true, encoding: 'utf8' })
+    .filter((file) => file.endsWith('.json'))
+    .map((file) => JSON.parse(read(path.join(dir, file))) as T);
+}
+
+test('llms-full.txt is a superset of llms.txt: all of it, plus the cluster notes and every twin body', () => {
+  const { twins, full } = llmsFull();
+  const llms = read('public/llms.txt');
+  const notes = read('public/llms-full.txt');
+  assert.ok(full.startsWith(lf(notes)), 'the cluster notes open the file');
+  assert.ok(full.includes(lf(llms)), 'llms.txt must appear word for word');
+  assert.ok(Buffer.byteLength(full) > Buffer.byteLength(llms), 'llms-full.txt must be larger than llms.txt');
+  assert.deepEqual(twins.map((twin) => twin.url).sort(), [...LLM_MARKDOWN_URLS].sort(), 'every curated twin is rendered');
+  for (const twin of twins) {
+    assert.ok(full.includes(`URL: https://gptbot.uz${twin.url}\n\n${lf(twin.markdown)}`), `${twin.url}: body missing`);
+  }
+  // The notes keep only what llms.txt lacks; a section in both would be printed twice.
+  const sections = (text: string) => new Set(text.split(/\r?\n/).filter((line) => line.startsWith('## ')));
+  const inLlms = sections(llms);
+  assert.deepEqual([...sections(notes)].filter((heading) => inLlms.has(heading)), []);
+});
+
+test('llms-full.txt opens with the independence clause and the lifetime trial', () => {
+  const { full } = llmsFull();
+  const opening = full.slice(0, full.indexOf('\n## '));
+  assert.match(opening, /independent AI chat/);
+  assert.match(opening, /not ChatGPT and not an OpenAI product/);
+  assert.match(opening, new RegExp(`${FREE_TRIAL_LIMIT} free trial replies`));
+  assert.match(full, new RegExp(`${FREE_TRIAL_LIMIT} successful lifetime trial replies[^\\n]*without daily renewal`));
+  assert.doesNotMatch(full, /up to 15 messages a day|up to 5 an hour/);
+  assert.doesNotMatch(full, /GPTBot\.uz is (?:an? |the )?(?:official|authori[sz]ed)/i);
+});
+
+test('every gptbot.uz URL in llms-full.txt is served by the build', () => {
+  const { twins, full } = llmsFull();
+  const served = new Set<string>([
+    ...contentDocs<Page>('content/pages').filter((page) => page.status !== 'draft').map((page) => page.url),
+    ...contentDocs<BlogArticle>('content/blog')
+      .filter((article) => article.status === 'published' && article.robotsIndex !== false).map((article) => article.url),
+    ...publishedStudioUrls(process.cwd()),
+    ...STATIC_ROUTES,
+    ...twins.map((twin) => `${twin.url}index.html.md`),
+    // Files in public/ (Vite copies them) and the files the generators of every build chain write.
+    ...fs.readdirSync('public', { recursive: true, encoding: 'utf8' }).map((file) => `/${file.replace(/\\/g, '/')}`),
+    '/robots.txt', '/sitemap.xml', '/ru/blog/feed.xml', '/uz/blog/feed.xml', '/updates/atom.xml',
+  ]);
+  const redirects = JSON.parse(read('content/seo/redirects.json')) as Redirect[];
+  for (const from of DESCRIBED_REDIRECTS) {
+    const hop = redirects.find((redirect) => redirect.from === from);
+    assert.ok(hop && served.has(hop.to), `${from} must stay a redirect to a served page`);
+  }
+  const urls = siteUrlPaths(full);
+  assert.ok(urls.length > 100, 'the URL extraction found the links');
+  assert.deepEqual(urls.filter((url) => !served.has(url) && !DESCRIBED_REDIRECTS.has(url)), []);
 });

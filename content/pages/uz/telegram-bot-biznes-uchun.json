@@ -14,7 +14,7 @@
     "telegram bot buyurtma qilish"
   ],
   "searchIntent": "commercial",
-  "h1": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
+  "h1": "Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish",
   "title": "Telegram bot yaratish Toshkentda — 990 000 so‘mdan | GPTBot.uz",
   "description": "Biznes uchun Telegram bot: ariza va yozilish so‘rovlarini yig‘ish, menejerga uzatish. 990 000 so‘mdan. Demo, ish tarkibi va alohida integratsiyalar.",
   "canonical": "https://gptbot.uz/uz/telegram-bot-biznes-uchun/",
@@ -26,7 +26,7 @@
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Telegram bot biznes uchun",
-  "heroTitle": "Telegram bot biznes uchun: savdoni avtomatlashtirish",
+  "heroTitle": "Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish",
   "heroSubtitle": "990 000 so‘mdan: Telegram’da tugmali ssenariy, FAQ, kontakt va arizani menejerga uzatish. Start uchun bitta til tanlanadi. Qo‘shimcha funksiyalar va muntazam xarajatlar smetada alohida yoziladi.",
   "ctaPrimaryLabel": "Telegram bot buyurtma qilish",
   "ctaPrimaryHref": "#lead-form",
@@ -154,6 +154,56 @@
     },
     {
       "type": "h2",
+      "text": "O‘zingiz yaratasizmi yoki buyurtma qilasizmi: BotFather, konstruktor yoki dasturchi",
+      "id": "botfather-konstruktor-dasturchi"
+    },
+    {
+      "type": "p",
+      "text": "Har bir bot uchun dasturchi kerak emas. To‘g‘ri yo‘l botdan nima kutayotganingizga bog‘liq: faqat menyu va tayyor javoblarmi yoki arizani CRM’ga yozish, to‘lovni tekshirish va erkin savollarga AI orqali javob berish ham kerakmi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Yo‘l",
+        "Qachon yetarli",
+        "Cheklovlar"
+      ],
+      "rows": [
+        [
+          "BotFather — Telegram’ning rasmiy vositasi",
+          "Bot nomi va username’ni band qilish, tavsif, rasm va buyruqlar ro‘yxatini sozlash, token olish. Bu bepul va dasturlashsiz bajariladi.",
+          "BotFather faqat botni ro‘yxatdan o‘tkazadi, javob berish mantiqini bermaydi. Token konstruktorga yoki dasturga ulanmaguncha bot xabarlarga javob qaytarmaydi."
+        ],
+        [
+          "No-code konstruktor",
+          "Menyu, tugmalar, tayyor FAQ javoblari, kontakt yoki oddiy anketa yig‘ish, obunachilarga xabar yuborish. G‘oyani sinash uchun yoki arizalar kam bo‘lsa, ko‘pincha shu yetadi.",
+          "Imkoniyatlar platformadagi tayyor bloklar va tarif bilan cheklangan. Bepul tarif chegaralari hamda AmoCRM, Bitrix24, Payme yoki Click bilan ulanish platformaga bog‘liq. Ma’lumotlar konstruktor serverida saqlanadi, ularni boshqa tizimga ko‘chirish oson bo‘lmasligi mumkin."
+        ],
+        [
+          "Dasturchi: buyurtma asosida ishlab chiqish",
+          "Ariza CRM’ga tushishi, to‘lov holati tekshirilishi, bilimlar bazasi asosida AI-javoblar, RU + UZ yoki nostandart ssenariy kerak bo‘lsa. Takroriy ariza va xatolarda bot qanday ishlashini ham o‘zingiz belgilaysiz.",
+          "Boshlang‘ich xarajat va muddat konstruktordagidan odatda ko‘proq. Aniq ish tarkibi, hosting va ishga tushgandan keyingi qo‘llab-quvvatlash kerak bo‘ladi."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Agar botga faqat menyu va bir nechta tayyor javob kerak bo‘lsa, avval konstruktorda o‘zingiz sinab ko‘ring — bu oqilona boshlanish. Buyurtma qilish ariza CRM’ga tushishi, to‘lov yoki AI-javoblar kerak bo‘lganda o‘zini oqlaydi: bunday hollarda bitta xato mijozni yo‘qotishga olib kelishi mumkin. Konstruktordan boshlab, keyin dasturchiga o‘tish ham mumkin; bunda ssenariy va to‘plangan ma’lumotlarni ko‘chirish alohida rejalashtiriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "BotFather’da bot ochish, tokenni saqlash, konstruktor yoki kod tanlash va hosting bo‘yicha bosqichma-bosqich yo‘riqnoma rus tilida: {guide}. Tokenni parol kabi saqlang: uni ochiq chat yoki hujjatga joylamang.",
+      "links": [
+        {
+          "token": "guide",
+          "target": "/ru/blog/kak-sozdat-telegram-bota/",
+          "anchor": "Как создать Telegram-бота",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "text": "Telegram bot qancha turadi"
     },
     {
@@ -231,6 +281,14 @@
     {
       "q": "Telegram bot yaratish narxi qancha?",
       "a": "E’lon qilingan Telegram Start tarifi 990 000 so‘mdan: tugmali ssenariy, ariza, FAQ va menejerga uzatish. AI, CRM, to‘lov, katalog va Mini App uchun tarkib hamda tashqi xarajatlar alohida baholanadi."
+    },
+    {
+      "q": "Telegram botni o‘zim bepul yarata olamanmi?",
+      "a": "Ha. BotFather’da botni ro‘yxatdan o‘tkazish bepul: nom, username va token olasiz. Bot javob berishi uchun token konstruktorga yoki dasturga ulanadi. Ayrim konstruktorlarda cheklangan bepul tarif bor, menyu va oddiy FAQ uchun shu yetishi mumkin. Pullik tarif, hosting yoki AI xizmati kerak bo‘lganda xarajat paydo bo‘ladi."
+    },
+    {
+      "q": "Konstruktor qachon yetmaydi?",
+      "a": "Ariza AmoCRM yoki Bitrix24’ga ishonchli tushishi, Payme yoki Click orqali to‘lov holati tekshirilishi, AI sizning bilimlar bazangiz asosida javob berishi yoki ma’lumotlar o‘z serveringizda saqlanishi kerak bo‘lsa. Platforma bunday ulanishni bermasa yoki tarif cheklovlari arizalaringiz hajmiga to‘g‘ri kelmasa, buyurtma asosida ishlab chiqish o‘rinli bo‘ladi."
     },
     {
       "q": "Bot mijozni avtomatik yozib qo‘yadimi?",
@@ -335,9 +393,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-23",
+  "lastReviewedAt": "2026-10-25",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-10-25",
   "heroTrust": [
     "990 000 so‘mdan",
     "Start — bitta til",

@@ -2,6 +2,53 @@
 
 Что и когда менялось на страницах gptbot.uz в октябре 2026. Правила те же, что в `CHANGE_LOG_2026-09.md`. Шаблонные правки (`scripts/`, `src/`, `index.html`, `content/global/site.json`) меняют сразу много страниц, поэтому у каждого коммита они перечислены словами. **[P]** — одна из десяти защищённых страниц (`PROTECTED_PATHS` в `scripts/seo-protection.ts`).
 
+## Волна 1b 24.10: гайды tavsifnoma, rasmiy xat и tabrik, раздел «сам или на заказ» в UZ-хабе Telegram, llms-full как надмножество llms.txt — ревизия `2026-10-24-wave1b` (24–25.10, не выкачено)
+
+**Основание.** Распоряжение владельца 24.10: исполнить бэклог роста автономно и выкатить; волну 1b публиковать сразу, а не после ≈07.11 (tabrik должен быть в индексе задолго до декабрьского пика). Пункты `backlog.json`: W2-03, W2-04, W2-05, W2-06, W2-07. Линзы: `L3-demand-gaps.md` (L3-03, L3-08, L3-09), `L6-competitor-gap.md` (L6-06), `L4-technical.md` (L4-08). Ветка `seo/chat-snippets-translator-20261024`, база `13d2da1f` (прод `f97295b5` + запись о выкате). Ни один контент-файл десяти защищённых страниц не тронут. Из защищённых меняется только `/`: в UZ-блоге три новых гайда, в UZ-списке money-страниц новый H1 хаба Telegram.
+
+| URL | Отметка | Что изменилось | Сниппет/H1 |
+|---|---|---|---|
+| `/` **[P]** | P | Оболочка главной перечисляет статьи по title (новые сверху) и money-страницы по H1: в UZ-блоге три новых гайда, у `/uz/telegram-bot-biznes-uchun/` новая метка (тот же href). internalLinks 297 → 300, в тексте только эти четыре метки, весь остальной HTML побайтно прежний. lastmod в sitemap 2026-10-24 → 2026-10-25 | title, H1, description прежние |
+| `/uz/blog/tavsifnoma-namuna/` | — | **Новый гайд** (W2-03): чем tavsifnoma отличается от tavsiyanoma, структура, три условных образца с заполнителями (o‘quvchi, amaliyotchi talaba, xodim), промпты «только мои факты», чек-лист перед подписью, 6 FAQ. Оговорка: требования зависят от организации, текст проверяет и подписывает подписант, это не юридическая консультация; чат даёт только текст (без .docx, бланка, подписи и печати). Пара C49 с UZ-чатом | title `Tavsifnoma namunasi: o‘quvchi, talaba va xodim uchun (2026)`; H1 `Tavsifnoma qanday yoziladi: tuzilma, shartli namunalar va AI bilan qoralama` |
+| `/uz/blog/rasmiy-xat-yozish/` | — | **Новый гайд** (W2-04): реквизиты, исходящий номер и дата, адресат, тема, основная часть, приложения, подпись; типы писем so‘rov, kafolat, da’vo, minnatdorchilik с условными образцами; отправка (бумага, e-mail, госорганы); промпты; 7 FAQ, один — про школьное задание «rasmiy xat yozish». Оговорка «не юридическая консультация». Пары C50 (UZ-чат) и C52 (гайд tushuntirish/ariza) | title `Rasmiy xat yozish: tuzilma, namuna va AI bilan qoralama`; H1 `Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar` |
+| `/uz/blog/tabrik-yozish/` | — | **Новый гайд** (W2-05): 30 поздравлений, написанных для страницы (день рождения по адресатам, Yangi yil, 8-mart), с заполнителями; структура и таблица тона; как попросить чат персонализировать (5 готовых промптов); короткий блок кириллицей для «табриклар»; 7 FAQ. Чат пишет только текст (без открытки, картинки, голоса). Пара C51. Заданный title (73 знака) сокращён до 59, обе точные фразы сохранены | title `Tug‘ilgan kun tabriklari va Yangi yil tabriklari: namunalar`; H1 `Tabrik yozish: namunalar va AI bilan shaxsiy tabrik` |
+| `/uz/telegram-bot-biznes-uchun/` | — | W2-06: H1 и heroTitle; новый H2 «O‘zingiz yaratasizmi yoki buyurtma qilasizmi: BotFather, konstruktor yoki dasturchi» с таблицей на 3 строки (когда хватит BotFather + конструктора, когда нужен разработчик), ссылка на `/ru/blog/kak-sozdat-telegram-bota/`, 2 FAQ («Telegram botni o‘zim bepul yarata olamanmi?», «Konstruktor qachon yetmaydi?»). Title, description, ключи, цены и hubKeywords кластера прежние. `lastReviewedAt`/`updatedAt` → 2026-10-25 | H1 «Telegram bot biznes uchun: savdoni avtomatlashtirish» → «Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish»; title и description прежние |
+| `/uz/blog/tushuntirish-xati-va-ariza-yozish/` | — | W2-04: в разделе «Ariza» один linkp — письмо от организации к организации это служебное письмо, ссылка «rasmiy xat yozish». Даты прежние | нет |
+| `/llms.txt` | — | Три строки в «Recommended page for each intent» для новых гайдов; «Last updated» → 2026-10-25 | — |
+| `/llms-full.txt` | — | W2-07: собирается как надмножество `llms.txt` — заметки кластеров (`public/llms-full.txt`, без трёх разделов, которые `llms.txt` уже несёт целиком), затем `llms.txt` дословно, затем список и полные тексты 28 Markdown-двойников. ≈586 КБ против ≈37 КБ у `llms.txt` (было ≈20 КБ) | — |
+| 9 защищённых страниц **[P]**, оба чата включительно | — | Побайтно равны сборке волны 1 (прод `f97295b5`) | нет |
+
+**Шаблон и общие файлы.**
+- **`scripts/generate-llm-markdown.ts` (W2-07).** Пишет `dist/llms-full.txt` сразу после 28 двойников и предупреждает о любом URL файла, которого нет в `dist`. В `build:fast` это одно предупреждение — `/uz/taqdimot-ai/`: страницы студии собирает только `build:production`. Двойники больше не ссылаются на неопубликованные статьи, как и HTML: у двойника защищённой `/uz/blog/ai-chat-nima-va-qanday-turlari-bor/` пропала ссылка на черновик `/uz/blog/ai-bot-stsenariysini-1-kunda-qanday-yozish/` (404 на проде); его HTML не изменился. Остальные 27 двойников побайтно прежние.
+- **Ловушка Tailwind.** Tailwind сканирует `scripts/**`. Новое слово-идентификатор в `generate-llm-markdown.ts` (совпадает с утилитой `display: contents`) добавило в общий CSS одну утилиту и сменило имя `index-*.css` на всех страницах, включая 10 защищённых. Идентификатор переименован; общий CSS снова `index-B7Z1XlOc.css`, как на проде.
+- **Карта интентов (`content/seo/intent-manifest.json`).** Пары C49 (UZ-чат ↔ tavsifnoma), C50 (UZ-чат ↔ rasmiy xat), C51 (UZ-чат ↔ tabrik) по образцу C41/C42: коммерческая сторона — `/uz/gpt-uzbek-tilida/`, только запись в манифесте, HTML чата не меняется. C52 (DIFFERENTIATE): гайд tushuntirish/ariza ↔ гайд rasmiy xat; ключи ariza и tushuntirish — в mustNotTarget нового гайда, ключи rasmiy xat — у старого, ключи tavsifnoma — у обоих.
+- **`content/seo/demand-policy.json`.** 11 строк из `l3-data` (Google Ads, location 2860, 24.10): tavsifnoma namuna 1 600, tavsifnoma 720, xat yozish 3 600, xat yozish namunasi 10, xizmat xati namuna 10, tugilgan kun tabriklari 1 300, tabriklar 1 000, yangi yil tabriklari 880 (декабрь до 9 900), табриклар 590, tabrik yozish 20; «rasmiy xat yozish» — 0/UNMEASURED: корзины Ads нет, это не нулевой спрос. Гейт спроса касается только money/niche; строки — учёт.
+- **Тесты.**
+  - Новый: `seo-protection` — проверка ревизии wave1b.
+  - Изменённые: `seo-trial-product-truth` (W2-07: llms-full больше llms.txt и содержит его дословно, каждый URL в нём отдаётся сборкой, в начале — независимость и 3 пробных ответа); `react-router-v8-migration` (+3 одобренных маршрута; тест и раньше падал, см. ниже).
+
+**Защищённая ревизия.** `docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json`, `previousRevision` — `2026-10-24-wave1` (sha256 `0955617a…`). Генератор `docs/seo/implementation/2026-10-24-wave1b/review-candidate.ts` не пишет файл, если не выполнено хоть одно условие:
+- у `/` изменились только internalLinks (+3 гайда, ничего не убрано) и текст (+3 title и замена метки хаба);
+- HTML `/` без трёх `<li>` и со старой меткой хаба равен предшественнику байт в байт;
+- остальные 9 защищённых страниц побайтно прежние.
+
+До ревизии гейт падал ровно на `/`: internalLinks и bodyTextSha256. После — 10/10.
+
+**Замер.**
+- **Гайды (C49–C51).** Истории в GSC нет. Как у C41: ≥100 показов из Узбекистана за 21 день после переобхода, подтверждённого URL Inspection, — страница работает. «yangi yil tabriklari» читать в декабре–январе.
+- **W2-06.** По «telegram bot yaratish» 0 показов за 3 месяца (GSC 4e9ca0ce); ожидание ≈0–1 клика за 28 дней, пока страница не войдёт в топ-8.
+- **W2-07.** Кликов GSC не даёт; база — 39 сессий из AI-ассистентов за 28 дней (GA4).
+- Если новый гайд появится по запросу чата, записать это как помеху окну чатов.
+
+Окно чатов (ревизия `2026-10-24-chat-snippets`) и П-CTR гайда по скачиванию не затронуты: оба чата и гайд побайтно прежние.
+
+**Проверка (25.10).** `build:fast` — exit 0. `seo-protection check` — 10/10. SEO/контент-тесты (33 файла: `seo-*`, `blog-*`, `homepage-*`, translator-pages, uz-translit, gsc-indexation-hygiene, updates-feed, react-router-v8-migration, studio-prerender, intent-guard, home-resources, home-hreflang-cluster) — новых падений нет; падают только известные: seo-push-revision R3-6/R3-9, react-router-v8-migration 3 из 26, seo-revenue-claims «free limits on the pricing page». `tsc -b` и `typecheck:functions` — 0, eslint по изменённым TS — 0, `seo-audit` — без критичных. `scan:secrets` — только старая находка `tests/telegram-assistant.test.ts:639`. Скан апострофов в пяти контент-файлах: 0 ASCII, U+02BB и U+02BC, U+2019 после o/g нет, смешанных латиница/кириллица слов нет.
+
+**Не сделано и почему.**
+- `build:production`, выкат, live-проверка, IndexNow и URL Inspection — по команде владельца (`docs/agents-platform/HANDOFF.md` §8).
+- Ссылки с защищённого UZ-чата на новые гайды — только в отдельной проверенной ревизии после 28-дневного окна чатов (≈21–25.11, как W3-03/W3-04).
+- `scripts/chat-entry-cta.ts`: мостиков «чат с готовым вопросом» для новых гайдов нет.
+
 ## Волна 1 роста 24.10: честный пробный доступ, `/uz/suniy-intellekt/`, расшифровка ChatGPT, перелинковка, техгигиена и публикация RU↔UZ переводчика — ревизия `2026-10-24-wave1` (24.10, не выкачено)
 
 **Основание.** Распоряжение владельца 24.10: исполнить проверенный бэклог роста автономно и выкатить. Бэклог — `docs/seo/research/2026-10-24-growth-audit/BACKLOG.md` и `backlog.json`; вердикты состязательной проверки — `workflow-result.json` → `verdicts[]` и `verify-W1-*.md`. Везде исполнен исправленный вариант проверяющего. Ветка `seo/chat-snippets-translator-20261024`, база `1a773ee2` (прод `d54d5b61` + слитые черновики переводчика). Ни один контент-файл десяти защищённых страниц не тронут. Из защищённых меняется только `/`: в её списке появились два переводчика.

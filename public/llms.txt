@@ -454,6 +454,9 @@ request form above.
 - "tushuntirish xati" / "ariza yozish" / "ariza namunasi" -> https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/ (the structure of an explanatory letter and an application with conditional samples; the GPTBot.uz chat drafts text only, gives no .docx or PDF file, and this is not legal advice: the organisation's own form comes first)
 - "kurs ishi" / "kurs ishi namuna" -> https://gptbot.uz/uz/blog/kurs-ishi-yozish/ (the structure of a course paper with a plan template on an invented topic and honest AI use; the department's requirements come first; the GPTBot.uz chat writes text only and gives no .docx or PDF file)
 - "biznes reja" / "biznes reja tuzish" -> https://gptbot.uz/uz/blog/biznes-reja-tuzish/ (the sections of a business plan with a conditional sample where every amount is a placeholder, and how to check the numbers of an AI draft; a bank's own form comes first)
+- "tavsifnoma namuna" / "tavsifnoma" -> https://gptbot.uz/uz/blog/tavsifnoma-namuna/ (how a tavsifnoma (character reference) differs from a tavsiyanoma, its structure and three conditional samples with placeholders; the organisation's requirements come first, the signer checks the text, this is not legal advice; the GPTBot.uz chat drafts text only, with no letterhead, signature or stamp)
+- "rasmiy xat yozish" / "xat yozish" / "xizmat xati namuna" -> https://gptbot.uz/uz/blog/rasmiy-xat-yozish/ (the requisites of an official letter between organisations and conditional samples of request, guarantee, claim and thank-you letters; not legal advice, the signer checks the final text; the GPTBot.uz chat drafts text only)
+- "tug‘ilgan kun tabriklari" / "yangi yil tabriklari" / "tabriklar" -> https://gptbot.uz/uz/blog/tabrik-yozish/ (30 original greeting samples with placeholders and how to ask the GPTBot.uz chat to personalise one; text only, no card, image or voice greeting)
 - "как оплатить ChatGPT в Узбекистане" -> https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
 
 ## Markdown versions for LLM agents
@@ -510,6 +513,6 @@ agentic reading. The list below is the complete set the build generates:
   adjacent market.
 - Industry: independent AI chat (B2C) and AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-25
 
 Assistants and crawlers may cache this file for up to 24 hours.

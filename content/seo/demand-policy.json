@@ -383,6 +383,94 @@
       "source": "OpenSEO/DataForSEO Google Ads, location 2860, project language ru (docs/seo/research/2026-10-24-snippets-translator/translator-market.json, commit d54d5b61 on branch seo/chat-snippets-translator-20261024)",
       "measuredAt": "2026-10-24",
       "note": "Google Ads competition index 0. The apostrophe-less spelling of «rus o‘zbek tarjimon», a secondary of /uz/rus-ozbek-tarjimon/ (published 2026-10-24; intent-manifest A8, pair C47)."
+    },
+    {
+      "keyword": "tavsifnoma namuna",
+      "volumePerMonth": 1600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_metrics.json, kw2_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0, no CPC returned; October 2025 1 900, August 2026 390, September 2026 720, 12-month range 390–2 400: follows the school year. Owned by /uz/blog/tavsifnoma-namuna/ (growth backlog W2-03, wave 1b, pair C49); in Search Console the site had no row for it. The SERP of 2026-10-24 (48e0cfbe) is a school blog, a video and Scribd PDFs; the guide gives a structure and three conditional samples with placeholders, says it is not legal advice and that the signer checks the text."
+    },
+    {
+      "keyword": "tavsifnoma",
+      "volumePerMonth": 720,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_metrics.json, kw2_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; October 2025 1 000, August 2026 210, September 2026 320. Same owner as «tavsifnoma namuna» (pair C49)."
+    },
+    {
+      "keyword": "xat yozish",
+      "volumePerMonth": 3600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0, no CPC returned; October 2025 140, August 2026 1 900, September 2026 6 600 (12-month range 140–9 900): a rising, school-season series. The intent is mixed — the school assignment and business correspondence; the SERP of 2026-10-24 (3b60d615) has an AI text generator at 9. Owned by /uz/blog/rasmiy-xat-yozish/ (growth backlog W2-04, wave 1b, pairs C50 and C52), which answers the school reading in one FAQ; /uz/blog/tushuntirish-xati-va-ariza-yozish/ links it and does not declare it."
+    },
+    {
+      "keyword": "rasmiy xat yozish",
+      "volumePerMonth": 0,
+      "competition": "UNMEASURED",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860, 2026-10-24: no Ads bucket returned (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_table.txt, ZERO/NULL line)",
+      "measuredAt": "2026-10-24",
+      "note": "No separate measurement, not zero demand: Google Ads returned no bucket for the phrase, which is the narrow formal-letter reading of «xat yozish» (3 600/mo). It leads the title and H1 of /uz/blog/rasmiy-xat-yozish/ (pairs C50 and C52). Recorded as a transparent unmeasured term, not as positive search demand."
+    },
+    {
+      "keyword": "xat yozish namunasi",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_metrics.json, kw2_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; 12-month range 10–50. A secondary of /uz/blog/rasmiy-xat-yozish/ (pair C50)."
+    },
+    {
+      "keyword": "xizmat xati namuna",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_metrics.json, kw2_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "No competition index returned; 10 a month in five of twelve months, 0 in the others. A secondary of /uz/blog/rasmiy-xat-yozish/ (pair C50), kept because «xizmat xati» is the term the guide explains, not for its volume."
+    },
+    {
+      "keyword": "tugilgan kun tabriklari",
+      "volumePerMonth": 1300,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; October 2025 1 300, August 2026 1 000, September 2026 1 300, 12-month range 880–1 900: steady all year. The spellings with an apostrophe after «g» (tested with the ASCII apostrophe, as OpenSEO rejects U+2018) returned no Ads bucket, which means no separate measurement, not zero demand. Owned by /uz/blog/tabrik-yozish/ (growth backlog W2-05, wave 1b, pair C51), which declares both this spelling and «tug‘ilgan kun tabriklari» (site apostrophe convention). The SERP of 2026-10-24 (7aa3bce8) is greeting archives on weak domains; the guide's 30 samples are written for the page."
+    },
+    {
+      "keyword": "tabriklar",
+      "volumePerMonth": 1000,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; October 2025 1 300, September 2026 590, 12-month range 590–1 600. Same owner as «tugilgan kun tabriklari» (pair C51)."
+    },
+    {
+      "keyword": "yangi yil tabriklari",
+      "volumePerMonth": 880,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw2_metrics.json, kw2_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; the 12-month average hides a one-month peak: October 2025 30, November 2025 90, December up to 9 900, August 2026 0. Same owner as «tugilgan kun tabriklari» (pair C51); the guide is published in October so that it can be crawled before the December peak. Read it in December–January."
+    },
+    {
+      "keyword": "табриклар",
+      "volumePerMonth": 590,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; October 2025 390, August 2026 720, September 2026 590. Uzbek Cyrillic; the guide answers it with one short Cyrillic block. Same owner as «tugilgan kun tabriklari» (pair C51)."
+    },
+    {
+      "keyword": "tabrik yozish",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
+      "measuredAt": "2026-10-24",
+      "note": "Google Ads competition index 0; 12-month range 10–40. The how-to phrasing behind the guide's H1; small on its own. Same owner as «tugilgan kun tabriklari» (pair C51)."
     }
   ],
   "qualityRequirements": {
